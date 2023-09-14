@@ -125,63 +125,60 @@
     };
     const treeWpObs = new IntersectionObserver(treeObsHandler, treeObsOpts);
 
-    fetchRootNode()
-      .done(rootNode => {
-        const aHref = `#tree::resource_${resourceId}`;
-        const title = rootNode.title;
-        const identifier = rootNode.identifier;
-        const firstWPData = rootNode.precomputed_waypoints[""][0];
+    treeContainer.addEventListener('click', treeClickDelegator);
 
-        const tableRootFrag = new DocumentFragment();
+    initTree();
 
-        const tableRoot = document.createElement('div');
-        tableRoot.setAttribute('role', 'list');
-        tableRoot.className = 'table root';
+    /**
+     * initTree
+     * @description - Initialize the large tree navigation sidebar with the 
+     * collection's root node and the first waypoint of its immediate children
+     */
+    function initTree() {
+      fetchRootNode()
+        .done(rootNode => {
+          const aHref = `#tree::resource_${resourceId}`;
+          const title = rootNode.title;
+          const identifier = rootNode.identifier;
+          const firstWPData = rootNode.precomputed_waypoints[""][0];
 
-        tableRoot.appendChild(rootRowMarkup(nodeTitle(rootNode)));
-        tableRoot.appendChild(rootNodeWaypointsScaffold(
-          rootNodeDivId,
-          1,
-          rootNode.waypoints
-        ));
+          const tableRootFrag = new DocumentFragment();
 
-        __populateWaypoint(
-          tableRoot.querySelector('.table-row-group'),
-          firstWPData,
-          1,
-          rootNode.waypoints > 1
-        );
+          const tableRoot = document.createElement('div');
+          tableRoot.setAttribute('role', 'list');
+          tableRoot.className = 'table root';
 
-        tableRootFrag.appendChild(tableRoot);
+          tableRoot.appendChild(rootRowMarkup(nodeTitle(rootNode)));
+          tableRoot.appendChild(rootNodeWaypointsScaffold(
+            rootNodeDivId,
+            1,
+            rootNode.waypoints
+          ));
 
-        treeContainer.appendChild(tableRootFrag);
+          __populateWaypoint(
+            tableRoot.querySelector('.table-row-group'),
+            firstWPData,
+            1,
+            rootNode.waypoints > 1
+          );
 
-        if (rootNode.waypoints > 1) {
-          // now that the above work has been added to the live DOM, start observing
-          // the middle node in order to populate the next empty waypoint
-          const obsSelector = `[data-parent-id="${rootNodeDivId}"][data-waypoint-number="0"] > [data-observe-next-wp]`;
-          const obsTarget = document.querySelector(obsSelector);
+          tableRootFrag.appendChild(tableRoot);
 
-          treeWpObs.observe(obsTarget);
-        }
-      })
-      .fail(err => {
-        console.log('root node fetch error: ', err);
-      });
-    
-    $('#tree-container').on('click', '.expandme', function(e){
-      this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
-      $(this).closest('.largetree-node').attr('data-is-expanded', this.getAttribute('aria-expanded'));
-      $(this).find('.expandme-icon').toggleClass('expanded');
+          treeContainer.appendChild(tableRootFrag);
 
-      if (this.closest('.largetree-node').getAttribute('data-has-expanded') === 'false') {
-        const nodeDivId = this.closest('.largetree-node').id;
+          if (rootNode.waypoints > 1) {
+            // now that the above work has been added to the live DOM, start observing
+            // the middle node in order to populate the next empty waypoint
+            const obsSelector = `[data-parent-id="${rootNodeDivId}"][data-waypoint-number="0"] > [data-observe-next-wp]`;
+            const obsTarget = document.querySelector(obsSelector);
 
-        initNodeChildren(nodeDivId);
-
-        this.closest('.largetree-node').setAttribute('data-has-expanded', true);
-      }
-    });
+            treeWpObs.observe(obsTarget);
+          }
+        })
+        .fail(err => {
+          console.log('root node fetch error: ', err);
+        });
+    }
 
     /**
      * __populateWaypoint
@@ -555,15 +552,93 @@
         });
     }
 
+    /**
+     * treeClickDelegator
+     * @description - Delegate click events on the tree container
+     * @param {Event} event - Click event
+     */
+    function treeClickDelegator(event) {
+      if (
+        !event.target.classList.contains('expandme') &&
+        !event.target.classList.contains('expandme-icon') &&
+        !event.target.classList.contains('record-title')
+      ) return;
+
+      if (event.target.className.includes('expandme')) {
+        treeExpandHandler(event);
+      } else if (event.target.classList.contains('record-title')) {
+        treeLinkHandler(event);
+      }
+    }
+
+    /**
+     * treeExpandHandler
+     * @description - Handle click events on expandme buttons or their child icons
+     * @param {Event} event - Click event
+     */
+    function treeExpandHandler(event) {
+      const node = event.target.closest('.largetree-node');
+      const button = event.target.className === 'expandme'
+        ? event.target
+        : event.target.closest('.expandme');
+      const icon = event.target.classList.contains('expandme-icon')
+        ? event.target
+        : event.target.querySelector('.expandme-icon');
+
+      button.setAttribute(
+        'aria-expanded',
+        button.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
+      );
+
+      icon.classList.toggle('expanded');
+
+      node.setAttribute('data-is-expanded', button.getAttribute('aria-expanded'));
+
+      if (node.getAttribute('data-has-expanded') === 'false') {
+        initNodeChildren(node.id);
+
+        node.setAttribute('data-has-expanded', true);
+      }
+    }
 
     // content infinite scroll
+    // DATA
     const WAYPOINT_SIZE = parseInt($('.infinite-scroll-container').data('waypoint-size'), 10);
     const NUM_TOTAL_RECORDS = parseInt($('.infinite-scroll-container').data('total-records'), 10);
     const NUM_TOTAL_WAYPOINTS = Math.ceil(NUM_TOTAL_RECORDS / WAYPOINT_SIZE);
-    const contentScrollContainer = document.querySelector('.infinite-scroll-container');
-    const modal = document.querySelector('[data-loading-modal]');
     const recordsWaypointUri = `${apiBase}/infinite/waypoints`;
 
+    // DOM ELEMENTS
+    const contentScrollContainer = document.querySelector('.infinite-scroll-container');
+    const modal = document.querySelector('[data-loading-modal]');
+    const showAllRecordsBtn = document.querySelector('[data-show-all-records]');
+
+    // STATE
+    let isOkToObserve = true;
+
+    // ACTIONS - observers, listeners, and function instantiation
+    const recordsWPObs = new IntersectionObserver(recordsWaypointScrollHandler, {
+      root: contentScrollContainer,
+      rootMargin: '0px 0px 0px 0px'
+    });
+
+    const contentRecordObs = new IntersectionObserver(contentRecordScrollHandler, {
+      root: document.querySelector('.infinite-scroll-container'),
+      rootMargin: '-5px 0px -95% 0px' // only the top sliver
+    });
+
+    showAllRecordsBtn.addEventListener('click', populateAllWaypoints);
+
+    contentScrollContainer.addEventListener(
+      'scrollend',
+      () => {
+        isOkToObserve = true;
+      }
+    );
+
+    initRecords(window.location.hash);
+
+    // FUNCTIONS that feed the above actions
     /**
      * __renderWaypoints
      * @description - Render the given waypoints
@@ -614,11 +689,6 @@
       });
     };
 
-    const recordsWPObs = new IntersectionObserver(recordsWaypointScrollHandler, {
-      root: contentScrollContainer,
-      rootMargin: '0px 0px 0px 0px'
-    });
-
     function contentRecordScrollHandler(entries, observer) {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
@@ -634,23 +704,6 @@
         }
       });
     };
-
-    const contentRecordObs = new IntersectionObserver(contentRecordScrollHandler, {
-      root: document.querySelector('.infinite-scroll-container'),
-      rootMargin: '-5px 0px -95% 0px' // only the top sliver
-    });
-
-    let isOkToObserve = true;
-
-    contentScrollContainer.addEventListener(
-      'scrollend',
-      () => {
-        isOkToObserve = true;
-      }
-    );
-
-
-    initRecords(window.location.hash);
 
     /**
      * initRecords
@@ -691,26 +744,17 @@
       }
     }
 
-    // need to set isOkToObserve = false, then remove the event listener
-    // so let's start by rewriting the below jquery using vanilla js
-    // $('[data-show-all-records]').on('click', () => { populateAllWaypoints(); });
-
-    const showAllRecordsBtn = document.querySelector('[data-show-all-records]');
-    showAllRecordsBtn.addEventListener('click', populateAllWaypoints);
-
-    $('#tree-container').on('click', 'a.record-title', largetreeLinkClickHandler);
-
     /**
-     * largetreeLinkClickHandler
+     * treeLinkHandler
      * @description - Handle click events on record titles in the tree by
      * scrolling to the record if it exists, or rendering the record's
      * waypoint and nearby waypoints then scrolling to the record
      * @param {Event} event - click event
      */
-    async function largetreeLinkClickHandler(event) {
+    async function treeLinkHandler(event) {
       event.preventDefault();
 
-      const targetDivId = this.href.split('#')[1];
+      const targetDivId = event.target.href.split('#')[1];
       const recordUri = treeIdToRecordUri(targetDivId);
 
       const recordSelector = `.infinite-record-record[data-uri='${recordUri}']`;
@@ -912,10 +956,18 @@
      * @param {Object[]} waypoints - array of waypoint objects as
      * returned from `fetchWaypoints()`, each of which represents one waypoint
      * with the signature: { wpNum, records}
+     * @param {boolean} [updateShouldCloseModal] - whether or not the
+     * updateShowingCurrent() call should close the loading modal, used by
+     * populateAllWaypoints(), default false
      */
-    function __populateRecordWaypoints(waypoints) {
-      console.log('__populateRecordWaypoints waypoints: ', waypoints)
-      waypoints.forEach((waypoint) => {
+    function __populateRecordWaypoints(waypoints, updateShouldCloseModal = false) {
+      console.log('__populateRecordWaypoints waypoints: ', waypoints);
+      waypoints.forEach(waypoint => {
+        if (waypoint == undefined) {
+          console.log('undefined waypoint from worker!');
+          return;
+        }
+
         const { wpNum, records } = waypoint;
         const waypointEl = document.querySelector(
           `.waypoint[data-waypoint-number='${wpNum}']:not(.populated)`
@@ -930,20 +982,25 @@
 
         uris.forEach((uri, i) => {
           const recordNumber = wpNum * WAYPOINT_SIZE + i;
-          const type = uri.split('/')[3].replace(/s+$/, "");
+          const type = uri.split('/')[3].replace(/s+$/, '');
           const id = uri.split('/')[4];
           const treeId = `tree::${type}_${id}`;
           const isEven = i > 0 && i % 2 === 0;
           const recordEl = document
-            .querySelector('#infinite-record-record-template').content.cloneNode(true);
+            .querySelector('#infinite-record-record-template')
+            .content.cloneNode(true);
 
           recordEl.querySelector('div').id = treeId;
           recordEl.querySelector('div').setAttribute('data-uri', uri);
           recordEl.querySelector('div').setAttribute('data-observe', 'record');
-          recordEl.querySelector('div').setAttribute('data-record-number', recordNumber);
+          recordEl
+            .querySelector('div')
+            .setAttribute('data-record-number', recordNumber);
 
           // The record container is all set up so inject ajax data
-          recordEl.querySelector('div').insertAdjacentHTML('beforeend', records[uri]);
+          recordEl
+            .querySelector('div')
+            .insertAdjacentHTML('beforeend', records[uri]);
 
           recordsFrag.appendChild(recordEl);
         });
@@ -959,7 +1016,7 @@
 
         clearWaypointFromDatasets(wpNum);
 
-        updateShowingCurrent();
+        updateShowingCurrent(updateShouldCloseModal);
       });
     }
 
@@ -1008,24 +1065,21 @@
       }
     }
 
-    // THIS WORKS, and works well. The large BYU resource is a real challenge for 
-    // all browsers. Firefox works best, then safari although a bit clunky.
-    // Chrome is totally messed up, erroring out on 400+ fetches from the worker
-    // every time...not sure why. Perhaps splitting the total number of empty
-    // waypoints to populate into slices of 20 or so, and run through each slice at
-    // a time, sending data to the main thread before starting the next slice???
     /**
      * populateAllWaypoints
      * @description Populate remaining empty waypoints
+     * @param {boolean} [shouldImmediatelyToggleModal = true] - Whether or not
+     * the modal should be toggled when called, default is true
      */
-    function populateAllWaypoints() {
+    function populateAllWaypoints(shouldImmediatelyToggleModal = true) {
+      if (shouldImmediatelyToggleModal) toggleModal();
+
+      recordsWPObs.disconnect();
+
       const MAX_WAYPOINTS_MAIN_THREAD = 20;
-      const resourceUri = `/repositories/${repoId}/resources/${resourceId}`;
       const waypointNums = Array
         .from(contentScrollContainer.querySelectorAll('.waypoint:not(.populated)'))
-        .map(waypoint => parseInt(waypoint.dataset.waypointNumber, 10));      
-      
-      isOkToObserve = false;
+        .map(waypoint => parseInt(waypoint.dataset.waypointNumber, 10));
 
       contentScrollContainer.removeEventListener(
         'scrollend',
@@ -1033,14 +1087,13 @@
           isOkToObserve = true;
         }
       );
-
-      toggleModal();
       
       if (waypointNums.length > 0 && waypointNums.length < MAX_WAYPOINTS_MAIN_THREAD) {
         __renderWaypoints(waypointNums);
       } else {
         const recordsWorker = new Worker("<%= javascript_path "worker_infinite.js" %>");
-        const waypointTuples = waypointNums.map((wpNum) => [
+        const resourceUri = `/repositories/${repoId}/resources/${resourceId}`;
+        const waypointTuples = waypointNums.map(wpNum => [
             wpNum,
             contentScrollContainer
             .querySelector(`.waypoint[data-waypoint-number='${wpNum}']`)
@@ -1051,15 +1104,20 @@
         recordsWorker.postMessage({ waypointTuples, resourceUri });
 
         recordsWorker.onmessage = (e) => {
-          console.log('message event from worker: ', e);
+          console.log('e.data::::::::::', e.data);
 
-          __populateRecordWaypoints(e.data);
-
-          updateShowingCurrent();
-
-          recordsWPObs.disconnect();
-
-          toggleModal();
+          if (e.data.data) {
+            __populateRecordWaypoints(e.data.data, true);
+          } else if (e.data.done) {
+            const numPresentRecords = contentScrollContainer
+              .querySelectorAll('.infinite-record-record')
+              .length;
+            
+            if (numPresentRecords < NUM_TOTAL_RECORDS) {
+              // Some records are still missing so recurse
+              populateAllWaypoints(modal.open ? false : true);
+            }
+          }
         };
       }
     }
@@ -1067,8 +1125,10 @@
     /**
      * updateShowingCurrent
      * @description Update the number of records currently showing label
+     * @param {boolean} shouldCloseModal - whether or not to close the 
+     * loading modal when all records are shown
      */
-    function updateShowingCurrent() {
+    function updateShowingCurrent(shouldCloseModal) {
       const showingCurrentEl = document.querySelector('[data-showing-current]');
       const showAllBtn = document.querySelector('[data-show-all-records]');
       const numPresentRecords = document.querySelectorAll('.infinite-record-record').length;
@@ -1085,6 +1145,8 @@
           showAllBtn.style.opacity = 0;
         }
         showAllBtn.setAttribute('disabled', true);
+
+        if (shouldCloseModal) toggleModal();
       }
     }
   });
