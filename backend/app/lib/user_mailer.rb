@@ -13,7 +13,7 @@ class UserMailer < ActionMailer::Base
 
   def headers
     delivery_method = ActionMailer::Base.delivery_method
-    { delivery_method: delivery_method, to: @user.email, from: AppConfig[:global_email_from_address], subject: I18n.t('user.recover_password') }
+    { delivery_method: delivery_method, to: @user.email, from: AppConfig[:global_email_from_address], subject: I18n.t('user.reset_password') }
   end
 
   # It's unfortunate that this is necessary, but being that the backend is not a Rails app,

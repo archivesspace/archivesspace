@@ -81,7 +81,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.post('/users/recover-password')
+  Endpoint.post('/users/reset-password')
     .description("Initiate a password reset process by sending a one-time token to the user")
     .params(["email", String, "The requestor's email address"])
     .permissions([])

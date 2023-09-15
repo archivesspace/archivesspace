@@ -267,7 +267,7 @@ describe 'User controller' do
 
     it "emails a user a token when they lose their password" do
       count = ActionMailer::Base.deliveries.count
-      post "/users/recover-password", email: user.email
+      post "/users/reset-password", email: user.email
       expect(last_response).to be_ok
       expect(ActionMailer::Base.deliveries.count).to eq(count+1)
       msg = ActionMailer::Base.deliveries.last
@@ -295,7 +295,7 @@ describe 'User controller' do
 
     it "returns a 400 error if password reset is not configured" do
       allow(AppConfig).to receive(:[]).with(:allow_password_reset).and_return(false)
-      post "/users/recover-password", email: user.email
+      post "/users/reset-password", email: user.email
       expect(last_response.status).to eq(400)
     end
   end
