@@ -1,17 +1,35 @@
 require 'action_mailer'
+require 'java'
 
 class UserMailer < ActionMailer::Base
+
+  def initialize
+    super
+    update_view_path
+  end
 
   class MailError < StandardError
   end
 
   def headers
     delivery_method = ActionMailer::Base.delivery_method
-    { delivery_method: delivery_method, to: @user.email, from: AppConfig[:global_email_from_address], subject: I18n.t('user.recover_password') }
+    { delivery_method: delivery_method, to: @user.email, from: AppConfig[:global_email_from_address], subject: I18n.t('user.reset_password') }
+  end
+
+  # It's unfortunate that this is necessary, but being that the backend is not a Rails app,
+  # ActionMailer will need help finding view templates.
+  def update_view_path
+    view_path = File.join(ASUtils.find_base_directory, 'backend', 'app', 'views')
+
+    # above method does not work when running in Jetty
+    unless File.exist?(view_path)
+      view_path = File.join('app', 'views')
+    end
+
+    self.append_view_path(view_path)
   end
 
   def send_reset_token(username, token)
-    self.append_view_path(File.join(ASUtils.find_base_directory, 'backend', 'app', 'views'))
     @user = User.first(username: username)
     @magic_link = AppConfig[:frontend_url] + "/users/#{username}/#{token}"
 
