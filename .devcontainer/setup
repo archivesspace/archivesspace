@@ -33,9 +33,6 @@ SQL
 
 gzip -dc build/mysql_db_fixtures/accessibility.sql.gz | sudo mysql -u root asdev
 
-echo "Running bundle install (enables: bundle exec rubocop)"
-bundle install --with rubocop --without default
-
 echo "Running bootstrap"
 ./build/run bootstrap
 
@@ -44,3 +41,6 @@ echo "Clearing local indexer state"
 
 echo "Running database migrations"
 ./build/run db:migrate
+
+echo "Installing development tools"
+sudo gem install --no-document debug rubocop solargraph
