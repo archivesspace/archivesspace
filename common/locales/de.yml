@@ -2105,7 +2105,6 @@ de:
     department: Abteilung
     department_tooltip: "<p>Die Abteilung des Benutzers.</p>\n"
     additional_contact: Zusätzliche Kontaktinformationen
-    recover_password: Passwort wiederherstellen
   reports:
     formats:
       json: JSON
