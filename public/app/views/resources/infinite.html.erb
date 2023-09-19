@@ -645,11 +645,19 @@
      * @param {number[]} wpNums - array of waypoint numbers to render
      * @param {string|null} [scrollToRecordUri=null] - uri of the record
      * to scroll to after the waypoints have been rendered, default null
+     * @param {boolean} [shouldOpenModal=true] - whether or not to open the
+     * loading modal, default true
+     * @param {boolean} [shouldCloseModal=true] - whether or not to close the
+     * loading modal, default true
      */
-    async function __renderWaypoints(wpNums, scrollToRecordUri = null) {
+    async function __renderWaypoints(
+      wpNums,
+      scrollToRecordUri = null,
+      shouldOpenModal = true,
+      shouldCloseModal = true) {
       isOkToObserve = false;
-      
-      toggleModal();
+
+      if (shouldOpenModal) toggleModal();
 
       const data = await _fetchWaypoints(wpNums);
 
@@ -667,7 +675,7 @@
       // Safari scroll bugs surface majorly when the next line is uncommented
       // if (!scrollToRecordUri) isOkToObserve = true;
 
-      toggleModal();
+      if (shouldCloseModal) toggleModal();
     }
 
     function recordsWaypointScrollHandler(entries, observer) {
@@ -964,6 +972,8 @@
       console.log('__populateRecordWaypoints waypoints: ', waypoints);
       waypoints.forEach(waypoint => {
         if (waypoint == undefined) {
+          // When fetches fail in the worker they still get passed to
+          // this function as undefined
           console.log('undefined waypoint from worker!');
           return;
         }
@@ -1089,9 +1099,9 @@
       );
       
       if (waypointNums.length > 0 && waypointNums.length < MAX_WAYPOINTS_MAIN_THREAD) {
-        __renderWaypoints(waypointNums);
+        __renderWaypoints(waypointNums, null, false);
       } else {
-        const recordsWorker = new Worker("<%= javascript_path "worker_infinite.js" %>");
+        const recordsWorker = new Worker('<%= javascript_path "worker_infinite.js" %>');
         const resourceUri = `/repositories/${repoId}/resources/${resourceId}`;
         const waypointTuples = waypointNums.map(wpNum => [
             wpNum,
@@ -1114,7 +1124,7 @@
               .length;
             
             if (numPresentRecords < NUM_TOTAL_RECORDS) {
-              // Some records are still missing so recurse
+              // Some records still missing (network fail?) so recurse
               populateAllWaypoints(modal.open ? false : true);
             }
           }
