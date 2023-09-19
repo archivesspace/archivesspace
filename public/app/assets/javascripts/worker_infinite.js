@@ -6,59 +6,57 @@
 // as there is less to append to the DOM each iteration).
 const MAX_FETCHES_PER_PROCESS = 300;
 
-onmessage = async e => {
-  const { waypointTuples, resourceUri } = e.data;
+onmessage = function (e) {
+  const waypointTuples = e.data.waypointTuples;
+  const resourceUri = e.data.resourceUri;
   const chunks = chunkGenerator(waypointTuples, MAX_FETCHES_PER_PROCESS);
 
   let done = false;
+  let index = 0;
 
-  for await (let chunk of chunks) {
-    postMessage({ data: chunk, done });
-  }
+  processChunks();
 
-  done = true;
-
-  postMessage({ done });
-
-  async function* chunkGenerator(arr, size) {
-    for (let i = 0; i < arr.length; i += size) {
-      yield await fetchWaypoints(arr.slice(i, i + size), resourceUri);
+  function processChunks() {
+    if (index < chunks.length) {
+      fetchChunks(chunks[index], resourceUri, data => {
+        postMessage({ data, done });
+        index++;
+        setTimeout(processChunks, 0);
+      });
+    } else {
+      done = true;
+      postMessage({ done });
     }
   }
 };
 
-/**
- * fetchWaypoints
- * @description Fetch one or more waypoints of records
- * @param {string} resourceUri - The uri of the collection resource,
- * ie: /repositories/18/resources/11861
- * @param {[wpNum, uris]} waypointTuples - Array of tuples of waypoint metadata
- * @typedef {number} wpNum - The waypoint number
- * @typedef {string[]} uris - Array of record uris belonging to the waypoint
- * @returns {Promise} - A Promise that resolves to an array of waypoint
- * objects, each with the signature: `{ wpNum, records }`
- */
-async function fetchWaypoints(waypointTuples, resourceUri) {
-  const promises = waypointTuples.map(tuple =>
-    fetchWaypoint(...tuple, resourceUri)
-  );
+function chunkGenerator(arr, size) {
+  let i = 0;
+  const chunks = [];
 
-  return await Promise.all(promises).catch(err => {
-    console.error(err);
-  });
+  while (i < arr.length) {
+    chunks.push(arr.slice(i, i + size));
+    i += size;
+  }
+
+  return chunks;
 }
 
-/**
- * fetchWaypoint
- * @description Fetch a waypoint of records
- * @param {number} wpNum - the waypoint number to fetch
- * @param {string[]} uris - Array of record uris belonging to the waypoint
- * @param {string} resourceUri - The uri of the collection resource,
- * ie: /repositories/18/resources/11861
- * @returns {Promise} - Promise that resolves with the waypoint object made up of
- * keys of record uris and values of record markup
- */
-async function fetchWaypoint(wpNum, uris, resourceUri) {
+function fetchChunks(chunk, resourceUri, callback) {
+  const promises = chunk.map(waypointTuple =>
+    fetchWaypoint(waypointTuple[0], waypointTuple[1], resourceUri)
+  );
+
+  Promise.all(promises)
+    .then(results => {
+      callback(results);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
+function fetchWaypoint(wpNum, uris, resourceUri) {
   const origin = self.location.origin;
   const query = new URLSearchParams();
 
@@ -68,12 +66,10 @@ async function fetchWaypoint(wpNum, uris, resourceUri) {
 
   const url = `${origin}${resourceUri}/infinite/waypoints?${query}`;
 
-  try {
-    const response = await fetch(url);
-    const records = await response.json();
-
-    return { wpNum, records };
-  } catch (err) {
-    console.error(err);
-  }
+  return fetch(url)
+    .then(response => response.json())
+    .then(records => ({ wpNum, records }))
+    .catch(err => {
+      console.error(err);
+    });
 }
