@@ -610,7 +610,7 @@
 
     // DOM ELEMENTS
     const contentScrollContainer = document.querySelector('.infinite-scroll-container');
-    const modal = document.querySelector('[data-loading-modal]');
+    const Modal = new ModalManager(document.querySelector('[data-loading-modal]'))
     const showAllRecordsBtn = document.querySelector('[data-show-all-records]');
 
     // STATE
@@ -657,7 +657,7 @@
       shouldCloseModal = true) {
       isOkToObserve = false;
 
-      if (shouldOpenModal) toggleModal();
+      if (shouldOpenModal) Modal.toggle();
 
       const data = await _fetchWaypoints(wpNums);
 
@@ -675,7 +675,7 @@
       // Safari scroll bugs surface majorly when the next line is uncommented
       // if (!scrollToRecordUri) isOkToObserve = true;
 
-      if (shouldCloseModal) toggleModal();
+      if (shouldCloseModal) Modal.toggle();
     }
 
     function recordsWaypointScrollHandler(entries, observer) {
@@ -1064,25 +1064,13 @@
     }
 
     /**
-     * toggleModal
-     * @description Show spinner loading modal when fetching data
-     */
-    function toggleModal() {
-      if (modal.open) {
-        modal.close();
-      } else {
-        modal.showModal();
-      }
-    }
-
-    /**
      * populateAllWaypoints
      * @description Populate remaining empty waypoints
      * @param {boolean} [shouldImmediatelyToggleModal = true] - Whether or not
      * the modal should be toggled when called, default is true
      */
     function populateAllWaypoints(shouldImmediatelyToggleModal = true) {
-      if (shouldImmediatelyToggleModal) toggleModal();
+      if (shouldImmediatelyToggleModal) Modal.toggle();
 
       recordsWPObs.disconnect();
 
@@ -1125,7 +1113,7 @@
             
             if (numPresentRecords < NUM_TOTAL_RECORDS) {
               // Some records still missing (network fail?) so recurse
-              populateAllWaypoints(modal.open ? false : true);
+              populateAllWaypoints(Modal.isOpen ? false : true);
             }
           }
         };
@@ -1156,7 +1144,7 @@
         }
         showAllBtn.setAttribute('disabled', true);
 
-        if (shouldCloseModal) toggleModal();
+        if (shouldCloseModal) Modal.toggle();
       }
     }
   });
