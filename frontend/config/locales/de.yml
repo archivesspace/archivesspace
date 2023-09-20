@@ -194,6 +194,9 @@ de:
     collapse_tree: Baum einklappen
     expand_tree_mode_on: Alle automatisch Ausklappen
     expand_tree_mode_off: Automatisches Ausklappen deaktivieren
+    drop_before: Davor einfügen
+    drop_into: Als Kind-Element einfügen
+    drop_after: Danach einfügen
   search_results:
     filtered_by: Gefiltert durch
     title: Suchergebnisse
@@ -503,7 +506,7 @@ de:
       title: Begriffe
       publish: Veröffentlicht
       audit_info: Prüfinformation
-      user_mtime: Bearbeitet
+      user_mtime: Geändert
       create_time: Erstellt
       desc: Absteigend
       asc: Aufsteigend
@@ -776,6 +779,23 @@ de:
     password_placeholder: Passwort
     username_aria_label: Benutzername des Benutzers
     password_aria_label: Passwort des Benutzers
+    confirm_password: Passwort bestätigen
+    lost_password: Passwort vergessen?
+    reset_password: Passwort zurücksetzen
+    recover_password: Passwort wiederherstellen
+    email_placeholder: E-Mail-Adresse
+    reset_form_instructions: Geben Sie die E-Mail-Adresse für Ihr Benutzerkonto ein.
+      Wenn ein Konto zu dieser E-Mail-Adresse existiert, bekommen Sie einen Link [oder
+      Bestätigungscode] zum Rücksetzen Ihres Passworts an Ihre E-Mail-Adresse zugeschickt.
+    new_password: Neues Passwort
+    new_password_instructions: Erstellen Sie mit dem Formular ein neues Passwort für
+      den Nutzer %{user} und melden Sie sich danach erneut an.
+    password_mismatch_error: Die Passwörter stimmen nicht überein.
+    password_update_success: Das Passwort wurde erfolgreich aktualisiert.
+    password_update_error: Das Passwort konnte nicht aktualisiert werden. Versuchen
+      Sie es noch einmal oder wenden Sie sich an einen Administrator.
+    password_too_simple: Dieses Passwort kann leicht erraten werden. Versuchen Sie
+      Wörter hinzuzufügen oder einen Generator für zufällige Passwörter zu verwenden.
   save_changes_modal:
     body: Sie haben offene Änderungen. Bitte speichern oder verwerfen Sie diese Änderungen
       um fortzufahren.
@@ -1470,6 +1490,14 @@ de:
         deleted: Benutzer gelöscht
         error_update: Benutzer nicht gespeichert
         error_create: Benutzer nicht gespeichert
+        error_not_found: Es wurde kein Benutzerkonto für %{email} gefunden. Fragen
+          Sie Ihren Administrator um Hilfe.
+        password_recovery_not_allowed: Die Passwortwiederherstellung ist nicht erlaubt.
+          Kontaktieren Sie Ihren Administrator.
+        password_recovery_fail: Die Passwortwiederherstellung ist fehlgeschlagen.
+          Kontaktieren Sie Ihren Administrator.
+        password_recovery_email_sent: Eine E-Mail mit Anweisungen zur Wiederherstellung
+          Ihres Passworts wurde an %{email} gesendet
       section:
         manage_access: Benutzerzugriff verwalten
         edit_account_submit: Benutzerkonto aktualisieren
@@ -2084,7 +2112,7 @@ de:
       action:
         create: Behältnis-Profil erstellen
         save: Behältnis-Profil speichern
-        edit: Behältnis-Profil speichern
+        edit: Behältnis-Profil bearbeiten
         space_calculator: Platz-Rechner
       bulk_operations:
         merge: Behältnis-Profile zusammenführen
