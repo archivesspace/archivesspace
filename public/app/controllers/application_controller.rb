@@ -59,7 +59,6 @@ class ApplicationController < ActionController::Base
   end
 
   def process_slug_or_id(params)
-
     # we may have an id param. If so, use it. Short circuit processing to come.
     if params[:id]
       true # do nothing
