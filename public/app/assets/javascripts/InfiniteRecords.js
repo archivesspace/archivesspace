@@ -13,11 +13,12 @@
     currentRecordObserver;
 
     /**
-     * constructor
+     * @constructor
      * @param {String} resourceUri - The URI of the root resource, e.g.
      * /repositories/2/resources/1234
      * @param {String} js_path - The path to the js directory as returned
      * from Rails `javascript_path` helper
+     * @returns {InfiniteRecords} - InfiniteRecords instance
      */
     constructor(resourceUri, js_path) {
       this.container = document.querySelector('.infinite-scroll-container');
@@ -45,7 +46,7 @@
       this.isOkToObserve = true;
 
       this.waypointObserver = new IntersectionObserver(
-        // pass anonymous arrow fn to preserve `this` context
+        // Wrap handler in arrow fn to preserve `this` context
         (entries, observer) => {
           this.waypointScrollHandler(entries, observer);
         },

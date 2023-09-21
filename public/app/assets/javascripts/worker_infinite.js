@@ -1,8 +1,9 @@
 // Chrome seems to have a max of 1350 fetches per process, anything more and
 // it throws a `net::ERR_INSUFFICIENT_RESOURCES` error. Here we use an
-// async generator to fetch waypoints in batches. Don't go over 1350 batch size,
-// 1000 takes a while, use a smaller number for more frequent feedback to the
-// user about loading progress (lower number probably helps with memory usage too
+// ES5 pattern w/ custom state to mimic ES6 async generator to fetch waypoints
+// in batches. Don't go over 1350 batch size, 1000 takes a while,
+// use a smaller number for more frequent feedback to the user about
+// loading progress (lower number probably helps with memory usage too
 // as there is less to append to the DOM each iteration).
 const MAX_FETCHES_PER_PROCESS = 300;
 
