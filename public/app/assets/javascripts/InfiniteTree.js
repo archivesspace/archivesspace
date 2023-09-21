@@ -1,16 +1,17 @@
 (function (exports) {
   class InfiniteTree {
-    NAV_WAYPOINT_SIZE;
-    resourceUri;
-    i18n;
-    repoId;
-    resourceId;
-    baseUri;
-    rootUri;
-    nodeUri;
-    waypointUri;
-    container;
-    waypointObserver;
+    // Comment out for dockercloud CI failure
+    // WAYPOINT_SIZE;
+    // resourceUri;
+    // i18n;
+    // repoId;
+    // resourceId;
+    // baseUri;
+    // rootUri;
+    // nodeUri;
+    // waypointUri;
+    // container;
+    // waypointObserver;
 
     // TODO:
     // - refactor to async/await w/ fetch
@@ -29,7 +30,7 @@
       identifier_separator,
       date_type_bulk
     ) {
-      this.NAV_WAYPOINT_SIZE = waypointSize;
+      this.WAYPOINT_SIZE = waypointSize;
       this.resourceUri = resourceUri;
       this.repoId = this.resourceUri.split('/')[2];
       this.resourceId = this.resourceUri.split('/')[4];
@@ -272,7 +273,7 @@
       nodes.forEach((node, i) => {
         // observe the middle node if there is a next empty waypoint
         const observeThisNode =
-          i == Math.floor(this.NAV_WAYPOINT_SIZE / 2) - 1 && hasNextEmptyWP;
+          i == Math.floor(this.WAYPOINT_SIZE / 2) - 1 && hasNextEmptyWP;
         const markupArgs = [node, level, observeThisNode];
 
         if (observeThisNode) {

@@ -1,16 +1,17 @@
 (function (exports) {
   class InfiniteRecords {
-    container;
-    WAYPOINT_SIZE;
-    NUM_TOTAL_RECORDS;
-    NUM_TOTAL_WAYPOINTS;
-    resourceUri;
-    js_path;
-    modal;
-    showAllRecordsBtn;
-    isOkToObserve;
-    waypointObserver;
-    currentRecordObserver;
+    // Comment out for dockercloud CI failure
+    // container;
+    // WAYPOINT_SIZE;
+    // NUM_TOTAL_RECORDS;
+    // NUM_TOTAL_WAYPOINTS;
+    // resourceUri;
+    // js_path;
+    // modal;
+    // showAllRecordsBtn;
+    // isOkToObserve;
+    // waypointObserver;
+    // currentRecordObserver;
 
     /**
      * @constructor
