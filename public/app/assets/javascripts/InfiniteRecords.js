@@ -1,17 +1,37 @@
 (function (exports) {
   class InfiniteRecords {
-    // Comment out for dockercloud CI failure
-    // container;
-    // WAYPOINT_SIZE;
-    // NUM_TOTAL_RECORDS;
-    // NUM_TOTAL_WAYPOINTS;
-    // resourceUri;
-    // js_path;
-    // modal;
-    // showAllRecordsBtn;
-    // isOkToObserve;
-    // waypointObserver;
-    // currentRecordObserver;
+    container = document.querySelector('.infinite-scroll-container');
+
+    WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
+    NUM_TOTAL_RECORDS = parseInt(this.container.dataset.totalRecords, 10);
+    NUM_TOTAL_WAYPOINTS = Math.ceil(
+      this.NUM_TOTAL_RECORDS / this.WAYPOINT_SIZE
+    );
+
+    modal = new ModalManager(document.querySelector('[data-loading-modal]'));
+
+    showAllRecordsBtn = document.querySelector('[data-show-all-records]');
+
+    isOkToObserve = true;
+
+    waypointObserver = new IntersectionObserver(
+      // Wrap handler in arrow fn to preserve `this` context
+      (entries, observer) => {
+        this.waypointScrollHandler(entries, observer);
+      },
+      {
+        root: this.container,
+        rootMargin: '0px 0px 0px 0px',
+      }
+    );
+
+    currentRecordObserver = new IntersectionObserver(
+      this.currentRecordScrollHandler,
+      {
+        root: this.container,
+        rootMargin: '-5px 0px -95% 0px', // only the top sliver
+      }
+    );
 
     /**
      * @constructor
@@ -22,51 +42,13 @@
      * @returns {InfiniteRecords} - InfiniteRecords instance
      */
     constructor(resourceUri, js_path) {
-      this.container = document.querySelector('.infinite-scroll-container');
-
-      this.WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
-      this.NUM_TOTAL_RECORDS = parseInt(
-        this.container.dataset.totalRecords,
-        10
-      );
-      this.NUM_TOTAL_WAYPOINTS = Math.ceil(
-        this.NUM_TOTAL_RECORDS / this.WAYPOINT_SIZE
-      );
-
       this.resourceUri = resourceUri;
       this.js_path = js_path;
-
-      this.modal = new ModalManager(
-        document.querySelector('[data-loading-modal]')
-      );
-
-      this.showAllRecordsBtn = document.querySelector(
-        '[data-show-all-records]'
-      );
-
-      this.isOkToObserve = true;
-
-      this.waypointObserver = new IntersectionObserver(
-        // Wrap handler in arrow fn to preserve `this` context
-        (entries, observer) => {
-          this.waypointScrollHandler(entries, observer);
-        },
-        {
-          root: this.container,
-          rootMargin: '0px 0px 0px 0px',
-        }
-      );
-      this.currentRecordObserver = new IntersectionObserver(
-        this.currentRecordScrollHandler,
-        {
-          root: this.container,
-          rootMargin: '-5px 0px -95% 0px', // only the top sliver
-        }
-      );
 
       this.container.addEventListener('scrollend', () => {
         this.isOkToObserve = true;
       });
+
       this.showAllRecordsBtn.addEventListener('click', () => {
         this.populateAllWaypoints();
       });

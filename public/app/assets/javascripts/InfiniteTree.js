@@ -1,17 +1,17 @@
 (function (exports) {
   class InfiniteTree {
-    // Comment out for dockercloud CI failure
-    // WAYPOINT_SIZE;
-    // resourceUri;
-    // i18n;
-    // repoId;
-    // resourceId;
-    // baseUri;
-    // rootUri;
-    // nodeUri;
-    // waypointUri;
-    // container;
-    // waypointObserver;
+    container = document.querySelector('#tree-container');
+
+    waypointObserver = new IntersectionObserver(
+      // Wrap handler in arrow fn to preserve `this` context
+      (entries, observer) => {
+        this.waypointScrollHandler(entries, observer);
+      },
+      {
+        root: this.container,
+        rootMargin: '-30% 0px -30% 0px',
+      }
+    );
 
     // TODO:
     // - refactor to async/await w/ fetch
@@ -39,19 +39,6 @@
       this.nodeUri = `${this.baseUri}/node`;
       this.waypointUri = `${this.baseUri}/waypoint`;
       this.i18n = { sep: identifier_separator, bulk: date_type_bulk };
-
-      this.container = document.querySelector('#tree-container');
-
-      this.waypointObserver = new IntersectionObserver(
-        // Wrap handler in arrow fn to preserve `this` context
-        (entries, observer) => {
-          this.waypointScrollHandler(entries, observer);
-        },
-        {
-          root: this.container,
-          rootMargin: '-30% 0px -30% 0px',
-        }
-      );
 
       this.initTree();
     }
