@@ -146,8 +146,8 @@
      * fetchWaypoints
      * @description Fetch one or more waypoints of records
      * @param {number[]} wpNums - array of the waypoint numbers to fetch
-     * @returns {Promise} - A Promise that resolves to an array of waypoint
-     * objects, each with the signature: `{ wpNum, records }`
+     * @returns {Array} - An array of waypoint objects as returned from
+     * fetchWaypoint(), each with the signature: `{ wpNum, records }`
      */
     async fetchWaypoints(wpNums) {
       console.log('wpNums:', wpNums);
@@ -160,14 +160,9 @@
           promises.push(this.fetchWaypoint(wpNum));
         });
 
-        return Promise.all(promises)
-          .then(responses => {
-            console.log('responses:', responses);
-            return responses;
-          })
-          .catch(err => {
-            console.error(err);
-          });
+        return await Promise.all(promises).catch(err => {
+          console.error(err);
+        });
       }
     }
 
@@ -175,10 +170,11 @@
      * fetchWaypoint
      * @description Fetch a waypoint of records
      * @param {number} wpNum - the waypoint number to fetch
-     * @returns {Promise} - Promise that resolves with the waypoint object made up of
-     * keys of record uris and values of record markup
+     * @returns {Object} - Waypoint object with the shape
+     * { wpNum, records } comprised of the waypoint number and an
+     * object of records markup keyed by uri
      */
-    fetchWaypoint(wpNum) {
+    async fetchWaypoint(wpNum) {
       const waypoint = document.querySelector(
         `.waypoint[data-waypoint-number='${wpNum}']:not(.populated)`
       );
@@ -190,12 +186,13 @@
 
       const url = `${this.resourceUri}/infinite/waypoints?${query}`;
 
-      return fetch(url)
-        .then(response => response.json())
-        .then(records => ({ wpNum, records }))
-        .catch(err => {
-          console.error(err);
-        });
+      try {
+        const response = await fetch(url);
+        const records = await response.json();
+        return { wpNum, records };
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     /**
