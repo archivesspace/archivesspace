@@ -31,7 +31,7 @@ class UserMailer < ActionMailer::Base
 
   def send_reset_token(username, token)
     @user = User.first(username: username)
-    @magic_link = AppConfig[:frontend_url] + "/users/#{username}/#{token}"
+    @magic_link = AppConfig[:frontend_proxy_url] + "/users/#{username}/#{token}"
 
     begin
       msg = mail headers do |format|
