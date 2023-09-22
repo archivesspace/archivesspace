@@ -150,7 +150,7 @@
      * fetchWaypoint(), each with the signature: `{ wpNum, records }`
      */
     async fetchWaypoints(wpNums) {
-      console.log('wpNums:', wpNums);
+      console.log('records.fetchWaypoints() wpNums: ', wpNums);
       if (wpNums.length === 1) {
         return [await this.fetchWaypoint(wpNums[0])];
       } else if (wpNums.length > 1) {
@@ -209,7 +209,7 @@
      * populateAllWaypoints(), default false
      */
     populateWaypoints(waypoints, updateShouldCloseModal = false) {
-      console.log('populateWaypoints waypoints: ', waypoints);
+      console.log('records.populateWaypoints() waypoints: ', waypoints);
       waypoints.forEach(waypoint => {
         if (waypoint == undefined) {
           // Failed fetches from worker get passed as undefined

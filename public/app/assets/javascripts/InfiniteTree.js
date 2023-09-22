@@ -49,6 +49,7 @@
      */
     async initTree() {
       const rootNode = await this.fetchRootNode();
+      console.log('tree.fetchRootnode(): ', rootNode);
       const rootNodeDivId = `resource_${this.resourceId}`;
       const firstWPData = rootNode.precomputed_waypoints[''][0];
 
@@ -481,8 +482,9 @@
 
       try {
         const response = await fetch(`${this.waypointUri}?${query}`);
-
-        return await response.json();
+        const waypoint = await response.json();
+        console.log('tree.fetchWaypoint(): ', waypoint);
+        return waypoint;
       } catch (err) {
         console.error(err);
       }
@@ -497,6 +499,7 @@
     async initNodeChildren(nodeDivId) {
       const nodeId = nodeDivId.split('_')[2];
       const node = await this.fetchNode(nodeId);
+      console.log('tree.fetchNode(): ', node);
       const nodeLevel = parseInt(
         document
           .querySelector(`#${nodeDivId}`)
