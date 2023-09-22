@@ -466,7 +466,6 @@
      * @param {IntersectionObserverEntry[]} entries - array of entries
      */
     currentRecordScrollHandler(entries) {
-      // NEEDS TWEAKING TO AVOID THE CONSOLE ERROR MESSAGES
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const uri = entry.target.dataset.uri;
@@ -481,7 +480,9 @@
             old.classList.remove('current');
           }
 
-          _new.classList.add('current');
+          if (_new) {
+            _new.classList.add('current');
+          }
         }
       });
     }
