@@ -1,38 +1,5 @@
 (function (exports) {
   class InfiniteRecords {
-    container = document.querySelector('.infinite-scroll-container');
-
-    WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
-    NUM_TOTAL_RECORDS = parseInt(this.container.dataset.totalRecords, 10);
-    NUM_TOTAL_WAYPOINTS = Math.ceil(
-      this.NUM_TOTAL_RECORDS / this.WAYPOINT_SIZE
-    );
-
-    modal = new ModalManager(document.querySelector('[data-loading-modal]'));
-
-    showAllRecordsBtn = document.querySelector('[data-show-all-records]');
-
-    isOkToObserve = true;
-
-    waypointObserver = new IntersectionObserver(
-      // Wrap handler in arrow fn to preserve `this` context
-      (entries, observer) => {
-        this.waypointScrollHandler(entries, observer);
-      },
-      {
-        root: this.container,
-        rootMargin: '0px 0px 0px 0px',
-      }
-    );
-
-    currentRecordObserver = new IntersectionObserver(
-      this.currentRecordScrollHandler,
-      {
-        root: this.container,
-        rootMargin: '-5px 0px -95% 0px', // only the top sliver
-      }
-    );
-
     /**
      * @constructor
      * @param {String} resourceUri - The URI of the root resource, e.g.
@@ -42,8 +9,48 @@
      * @returns {InfiniteRecords} - InfiniteRecords instance
      */
     constructor(resourceUri, js_path) {
+      this.container = document.querySelector('.infinite-scroll-container');
+
+      this.WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
+      this.NUM_TOTAL_RECORDS = parseInt(
+        this.container.dataset.totalRecords,
+        10
+      );
+      this.NUM_TOTAL_WAYPOINTS = Math.ceil(
+        this.NUM_TOTAL_RECORDS / this.WAYPOINT_SIZE
+      );
+
       this.resourceUri = resourceUri;
       this.js_path = js_path;
+
+      this.isOkToObserve = true;
+
+      this.modal = new ModalManager(
+        document.querySelector('[data-loading-modal]')
+      );
+
+      this.showAllRecordsBtn = document.querySelector(
+        '[data-show-all-records]'
+      );
+
+      this.waypointObserver = new IntersectionObserver(
+        // Wrap handler in arrow fn to preserve `this` context
+        (entries, observer) => {
+          this.waypointScrollHandler(entries, observer);
+        },
+        {
+          root: this.container,
+          rootMargin: '0px 0px 0px 0px',
+        }
+      );
+
+      this.currentRecordObserver = new IntersectionObserver(
+        this.currentRecordScrollHandler,
+        {
+          root: this.container,
+          rootMargin: '-5px 0px -95% 0px', // only the top sliver
+        }
+      );
 
       this.container.addEventListener('scrollend', () => {
         this.isOkToObserve = true;

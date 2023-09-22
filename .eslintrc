@@ -6,7 +6,7 @@
     "jquery": true
   },
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": 12
   },
   "extends": ["eslint:recommended", "prettier"],
   "globals": {
