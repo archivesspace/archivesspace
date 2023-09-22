@@ -36,5 +36,12 @@ class AgentPerson < Sequel::Model(:agent_person)
                   end
                 }
 
+  def delete
+    if User.filter(:agent_record_id => self.id).count > 0
+      raise ConflictException.new("linked_to_user")
+    else
+      super
+    end
+  end
 
 end

@@ -765,7 +765,7 @@ fr:
     merge_different_types: Les agents sélectionnés pour la fusion détaillée doivent
       être du même type.
     linked_to_assessment: Notice impossible à supprimer, car liée à une évaluation
-
+    linked_to_user: Notice impossible à supprimer, car liée à un utilisateur
     merge_denied_relationship: Ces agents ont une relation. Supprimez la relation
       avant de procéder à la fusion.
     cannot_delete_repository_agent: Cet agent est lié à un référentiel et ne peut
