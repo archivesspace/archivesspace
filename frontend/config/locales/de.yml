@@ -785,8 +785,7 @@ de:
     recover_password: Passwort wiederherstellen
     email_placeholder: E-Mail-Adresse
     reset_form_instructions: Geben Sie die E-Mail-Adresse für Ihr Benutzerkonto ein.
-      Wenn ein Konto zu dieser E-Mail-Adresse existiert, bekommen Sie einen Link [oder
-      Bestätigungscode] zum Rücksetzen Ihres Passworts an Ihre E-Mail-Adresse zugeschickt.
+      Wenn ein Konto zu dieser E-Mail-Adresse existiert, bekommen Sie einen Link zum Rücksetzen Ihres Passworts an Ihre E-Mail-Adresse zugeschickt.
     new_password: Neues Passwort
     new_password_instructions: Erstellen Sie mit dem Formular ein neues Passwort für
       den Nutzer %{user} und melden Sie sich danach erneut an.

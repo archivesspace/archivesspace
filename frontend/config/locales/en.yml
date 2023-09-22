@@ -651,7 +651,7 @@ en:
     reset_password: Reset Password
     recover_password: Recover Password
     email_placeholder: Email Address
-    reset_form_instructions: Enter the email associated with your user account. If an account exists for that email address, a link [or verification code] to reset your password will be sent to that email address.
+    reset_form_instructions: Enter the email associated with your user account. If an account exists for that email address, a link to reset your password will be sent to that email address.
     new_password: New Password
     new_password_instructions: Create a new password for %{user} using the form, then login again.
     password_mismatch_error: Passwords do not match.
