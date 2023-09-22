@@ -1,6 +1,7 @@
 (function (exports) {
   class ModalManager {
     /**
+     * @constructor
      * @param {Element} modal - The modal DOM element
      */
     constructor(modal) {

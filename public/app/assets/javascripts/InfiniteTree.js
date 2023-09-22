@@ -1,7 +1,5 @@
 (function (exports) {
   class InfiniteTree {
-    // TODO:
-    // - add a public field object for the tree templates: { root: '', node: '' }
     /**
      * @constructor
      * @param {number} waypointSize - The number of nodes per waypoint
@@ -44,7 +42,7 @@
 
     /**
      * initTree
-     * @description - Initialize the large tree navigation sidebar with the
+     * @description Initialize the large tree navigation sidebar with the
      * collection's root node and the first waypoint of its immediate children
      */
     async initTree() {
@@ -86,6 +84,47 @@
     }
 
     /**
+     * initNodeChildren
+     * @description Build a parent node's waypoint scaffold and populate the first
+     * waypoint. This is called when any parent is expanded for the first time, then
+     * the waypointObserver takes over to populate any next empty waypoints.
+     * @param {string} nodeDivId - div#id of the parent node, ie: 'archival_object_18028'
+     */
+    async initNodeChildren(nodeDivId) {
+      const nodeId = nodeDivId.split('_')[2];
+      const node = await this.fetchNode(nodeId);
+      console.log('tree.fetchNode(): ', node);
+      const nodeLevel = parseInt(
+        document
+          .querySelector(`#${nodeDivId}`)
+          .closest('.table-row-group')
+          .getAttribute('data-waypoint-level'),
+        10
+      );
+      const nodeWpCount = node.waypoints;
+      const nodeUri = `/repositories/${this.repoId}/archival_objects/${nodeId}`;
+
+      this.nodeWaypointsScaffold(nodeDivId, nodeLevel + 1, nodeWpCount);
+
+      const firstWP = document.querySelector(
+        `[data-parent-id="${nodeDivId}"][data-waypoint-number="0"]`
+      );
+
+      this.populateWaypoint(
+        firstWP,
+        node.precomputed_waypoints[nodeUri][0],
+        nodeLevel + 1,
+        nodeWpCount > 1
+      );
+
+      if (nodeWpCount > 1) {
+        this.waypointObserver.observe(
+          firstWP.querySelector('[data-observe-next-wp]')
+        );
+      }
+    }
+
+    /**
      * fetchRootNode
      * @description Fetch the root node of the tree
      * @returns {object} - Root node object as returned from the server
@@ -95,6 +134,54 @@
         const response = await fetch(this.rootUri);
 
         return await response.json();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    /**
+     * fetchNode
+     * @description Fetch the tree of the node with the given id
+     * @param {number} nodeId - id of the node, ie: 18028
+     * @returns {Object} - Node object as returned from the server
+     */
+    async fetchNode(nodeId) {
+      const query = new URLSearchParams();
+
+      query.append(
+        'node',
+        `/repositories/${this.repoId}/archival_objects/${nodeId}`
+      );
+
+      try {
+        const response = await fetch(`${this.nodeUri}?${query}`);
+
+        return await response.json();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    /**
+     * fetchWaypoint
+     * @description Fetch the next waypoint of the given node
+     * @param {Object} params - object of params for the ajax call with the signature:
+     * @param {string} params.node - node url param in the form of '' or '/repositories/X/archival_objects/Y'
+     * @param {number} params.offset - offset url param
+     * @returns {array} - Array of waypoint objects as returned from the server
+     */
+    async fetchWaypoint(params) {
+      const query = new URLSearchParams();
+
+      for (const key in params) {
+        query.append(key, params[key]);
+      }
+
+      try {
+        const response = await fetch(`${this.waypointUri}?${query}`);
+        const waypoint = await response.json();
+        console.log('tree.fetchWaypoint(): ', waypoint);
+        return waypoint;
       } catch (err) {
         console.error(err);
       }
@@ -128,54 +215,8 @@
     }
 
     /**
-     * nodeTitle
-     * @description - Build the title of a node
-     * @param {Object} node - node data
-     * @returns {string} - title of the node
-     */
-    nodeTitle(node) {
-      const title = [];
-
-      if (SHOW_IDENTIFIERS_IN_TREE && node.identifier && node.parsed_title) {
-        title.push(`${node.identifier}${this.i18n.sep} ${node.parsed_title}`);
-      } else if (node.parsed_title) {
-        title.push(node.parsed_title);
-      }
-
-      if (node.label) {
-        title.push(node.label);
-      }
-
-      if (node.dates && node.dates.length > 0) {
-        node.dates.forEach(date => {
-          if (date.expression) {
-            if (date.type === 'bulk') {
-              title.push(`${this.i18n.bulk}: ${date.expression}`);
-            } else {
-              title.push(date.expression);
-            }
-          } else if (date.begin && date.end) {
-            if (date.type === 'bulk') {
-              title.push(`${this.i18n.bulk}: ${date.begin}-${date.end}`);
-            } else {
-              title.push(`${date.begin}-${date.end}`);
-            }
-          } else if (date.begin) {
-            if (date.type === 'bulk') {
-              title.push(`${this.i18n.bulk}: ${date.begin}`);
-            } else {
-              title.push(date.begin);
-            }
-          }
-        });
-      }
-
-      return title.join(', ');
-    }
-
-    /**
      * rootNodeWaypointsScaffold
-     * @description - Build the waypoints of a node and populate the first waypoint
+     * @description Build the waypoints of a node and populate the first waypoint
      * @param {number} nodeId - div id of the parent node whose waypoints
      * are being scaffolded
      * @param {number} level - level of the waypoints
@@ -205,84 +246,8 @@
     }
 
     /**
-     * nodeWaypointsScaffold
-     * @description - Append the empty set of waypoint containers belonging to a node
-     * after the node element; append elements manually because insertAdjacentElement()
-     * @param {number} nodeId - div id of the parent node whose waypoints
-     * are being scaffolded
-     * @param {number} level - level of the waypoints
-     * @param {number} numWPs - number of waypoints to create
-     * @todo - refactor to use DocumentFragment and <template>
-     */
-    nodeWaypointsScaffold(nodeId, level, numWPs) {
-      for (let i = 0; i < numWPs; i++) {
-        const prevSibling =
-          i === 0
-            ? document.querySelector(`#${nodeId}`)
-            : document.querySelector(
-                `[data-parent-id="${nodeId}"][data-waypoint-number="${i - 1}"]`
-              );
-
-        const tableRowGroup = document.createElement('div');
-        tableRowGroup.className = 'table-row-group';
-        tableRowGroup.setAttribute('data-parent-id', nodeId);
-        tableRowGroup.setAttribute('data-waypoint-number', i);
-        tableRowGroup.setAttribute('data-waypoint-level', level);
-        tableRowGroup.setAttribute('role', 'list');
-
-        const tableRow = document.createElement('div');
-        tableRow.className = `table-row waypoint indent-level-${level}`;
-
-        prevSibling.insertAdjacentElement('afterend', tableRowGroup);
-
-        const liveTableRowGroup = document.querySelector(
-          `[data-parent-id="${nodeId}"][data-waypoint-number="${i}"]`
-        );
-
-        liveTableRowGroup.appendChild(tableRow);
-      }
-    }
-
-    /**
-     * populateWaypoint
-     * @description - Populate the first waypoint of a newly created
-     * rootNodeWaypointsScaffold
-     * @param {HTMLElement} waypoint - the empty waypoint to populate
-     * @param {array} nodes - array of node objects to populate the waypoint with
-     * @param {number} level - level of the waypoint
-     * @param {boolean} hasNextEmptyWP - whether or not there is a next empty waypoint
-     */
-    populateWaypoint(waypoint, nodes, level, hasNextEmptyWP) {
-      const waypointMarker = waypoint.querySelector('.waypoint');
-      const nodeRowsFrag = new DocumentFragment();
-
-      waypointMarker.classList.add('populated');
-
-      nodes.forEach((node, i) => {
-        // observe the middle node if there is a next empty waypoint
-        const observeThisNode =
-          i == Math.floor(this.WAYPOINT_SIZE / 2) - 1 && hasNextEmptyWP;
-        const markupArgs = [node, level, observeThisNode];
-
-        if (observeThisNode) {
-          const nodeParentId = waypoint.getAttribute('data-parent-id');
-          const nodeWpNum = parseInt(
-            waypoint.getAttribute('data-waypoint-number'),
-            10
-          );
-
-          markupArgs.push(nodeParentId, nodeWpNum + 1);
-        }
-
-        nodeRowsFrag.appendChild(this.nodeRowMarkup(...markupArgs));
-      });
-
-      waypoint.appendChild(nodeRowsFrag);
-    }
-
-    /**
      * nodeRowMarkup
-     * @description - Build the markup for a node row
+     * @description Build the markup for a node row
      * @param {Object} node - node data
      * @param {number} level - indent level of the node
      * @param {boolean} shouldObserve - whether or not to observe the node
@@ -365,8 +330,83 @@
     }
 
     /**
+     * nodeWaypointsScaffold
+     * @description Append the empty set of waypoint containers belonging to a node
+     * after the node element; append elements manually because insertAdjacentElement()
+     * @param {number} nodeId - div id of the parent node whose waypoints
+     * are being scaffolded
+     * @param {number} level - level of the waypoints
+     * @param {number} numWPs - number of waypoints to create
+     * @todo - refactor to use DocumentFragment and <template>
+     */
+    nodeWaypointsScaffold(nodeId, level, numWPs) {
+      for (let i = 0; i < numWPs; i++) {
+        const prevSibling =
+          i === 0
+            ? document.querySelector(`#${nodeId}`)
+            : document.querySelector(
+                `[data-parent-id="${nodeId}"][data-waypoint-number="${i - 1}"]`
+              );
+
+        const tableRowGroup = document.createElement('div');
+        tableRowGroup.className = 'table-row-group';
+        tableRowGroup.setAttribute('data-parent-id', nodeId);
+        tableRowGroup.setAttribute('data-waypoint-number', i);
+        tableRowGroup.setAttribute('data-waypoint-level', level);
+        tableRowGroup.setAttribute('role', 'list');
+
+        const tableRow = document.createElement('div');
+        tableRow.className = `table-row waypoint indent-level-${level}`;
+
+        prevSibling.insertAdjacentElement('afterend', tableRowGroup);
+
+        const liveTableRowGroup = document.querySelector(
+          `[data-parent-id="${nodeId}"][data-waypoint-number="${i}"]`
+        );
+
+        liveTableRowGroup.appendChild(tableRow);
+      }
+    }
+
+    /**
+     * populateWaypoint
+     * @description Populate an empty waypoint with nodes
+     * @param {HTMLElement} waypoint - the empty waypoint to populate
+     * @param {array} nodes - array of node objects to populate the waypoint with
+     * @param {number} level - level of the waypoint
+     * @param {boolean} hasNextEmptyWP - whether or not there is a next empty waypoint
+     */
+    populateWaypoint(waypoint, nodes, level, hasNextEmptyWP) {
+      const waypointMarker = waypoint.querySelector('.waypoint');
+      const nodeRowsFrag = new DocumentFragment();
+
+      waypointMarker.classList.add('populated');
+
+      nodes.forEach((node, i) => {
+        // observe the middle node if there is a next empty waypoint
+        const observeThisNode =
+          i == Math.floor(this.WAYPOINT_SIZE / 2) - 1 && hasNextEmptyWP;
+        const markupArgs = [node, level, observeThisNode];
+
+        if (observeThisNode) {
+          const nodeParentId = waypoint.getAttribute('data-parent-id');
+          const nodeWpNum = parseInt(
+            waypoint.getAttribute('data-waypoint-number'),
+            10
+          );
+
+          markupArgs.push(nodeParentId, nodeWpNum + 1);
+        }
+
+        nodeRowsFrag.appendChild(this.nodeRowMarkup(...markupArgs));
+      });
+
+      waypoint.appendChild(nodeRowsFrag);
+    }
+
+    /**
      * waypointScrollHandler
-     * @description - IntersectionObserver callback for populating the next
+     * @description IntersectionObserver callback for populating the next
      * empty waypoint
      * @param {array} entries - array of IntersectionObserverEntry objects
      * @param {IntersectionObserver} observer - the IntersectionObserver instance
@@ -410,7 +450,7 @@
      * nextSiblingIsNextWaypoint
      * @description Determine if the next sibling of the given waypoint is
      * the next empty waypoint of the same parent
-     * @param {HTMLElement} waypoint - waypoint to check
+     * @param {HTMLElement} waypoint - The waypoint with a possible next sibling
      * @returns {boolean} - true if the next sibling is the next empty waypoint
      * of the same parent
      */
@@ -443,96 +483,8 @@
     }
 
     /**
-     * fetchNode
-     * @description Fetch the tree of the node with the given id
-     * @param {number} nodeId - id of the node, ie: 18028
-     * @returns {Object} - Node object as returned from the server
-     */
-    async fetchNode(nodeId) {
-      const query = new URLSearchParams();
-
-      query.append(
-        'node',
-        `/repositories/${this.repoId}/archival_objects/${nodeId}`
-      );
-
-      try {
-        const response = await fetch(`${this.nodeUri}?${query}`);
-
-        return await response.json();
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    /**
-     * fetchWaypoint
-     * @description Fetch the next waypoint of the given node
-     * @param {Object} params - object of params for the ajax call with the signature:
-     * @param {string} params.node - node url param in the form of '' or '/repositories/X/archival_objects/Y'
-     * @param {number} params.offset - offset url param
-     * @returns {array} - Array of waypoint objects as returned from the server
-     */
-    async fetchWaypoint(params) {
-      const query = new URLSearchParams();
-
-      for (const key in params) {
-        query.append(key, params[key]);
-      }
-
-      try {
-        const response = await fetch(`${this.waypointUri}?${query}`);
-        const waypoint = await response.json();
-        console.log('tree.fetchWaypoint(): ', waypoint);
-        return waypoint;
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    /**
-     * initNodeChildren
-     * @description Build a parent node's waypoint scaffold and populate the first
-     * waypoint
-     * @param {string} nodeDivId - div#id of the parent node, ie: 'archival_object_18028'
-     */
-    async initNodeChildren(nodeDivId) {
-      const nodeId = nodeDivId.split('_')[2];
-      const node = await this.fetchNode(nodeId);
-      console.log('tree.fetchNode(): ', node);
-      const nodeLevel = parseInt(
-        document
-          .querySelector(`#${nodeDivId}`)
-          .closest('.table-row-group')
-          .getAttribute('data-waypoint-level'),
-        10
-      );
-      const nodeWpCount = node.waypoints;
-      const nodeUri = `/repositories/${this.repoId}/archival_objects/${nodeId}`;
-
-      this.nodeWaypointsScaffold(nodeDivId, nodeLevel + 1, nodeWpCount);
-
-      const firstWP = document.querySelector(
-        `[data-parent-id="${nodeDivId}"][data-waypoint-number="0"]`
-      );
-
-      this.populateWaypoint(
-        firstWP,
-        node.precomputed_waypoints[nodeUri][0],
-        nodeLevel + 1,
-        nodeWpCount > 1
-      );
-
-      if (nodeWpCount > 1) {
-        this.waypointObserver.observe(
-          firstWP.querySelector('[data-observe-next-wp]')
-        );
-      }
-    }
-
-    /**
      * expandHandler
-     * @description - Handle click events on expandme buttons or their child icons
+     * @description Handle click events on expandme buttons or their child icons
      * @param {Event} event - Click event
      */
     expandHandler(event) {
@@ -562,6 +514,52 @@
 
         node.setAttribute('data-has-expanded', true);
       }
+    }
+
+    /**
+     * nodeTitle
+     * @description Build the title of a node
+     * @param {Object} node - node data
+     * @returns {string} - title of the node
+     */
+    nodeTitle(node) {
+      const title = [];
+
+      if (SHOW_IDENTIFIERS_IN_TREE && node.identifier && node.parsed_title) {
+        title.push(`${node.identifier}${this.i18n.sep} ${node.parsed_title}`);
+      } else if (node.parsed_title) {
+        title.push(node.parsed_title);
+      }
+
+      if (node.label) {
+        title.push(node.label);
+      }
+
+      if (node.dates && node.dates.length > 0) {
+        node.dates.forEach(date => {
+          if (date.expression) {
+            if (date.type === 'bulk') {
+              title.push(`${this.i18n.bulk}: ${date.expression}`);
+            } else {
+              title.push(date.expression);
+            }
+          } else if (date.begin && date.end) {
+            if (date.type === 'bulk') {
+              title.push(`${this.i18n.bulk}: ${date.begin}-${date.end}`);
+            } else {
+              title.push(`${date.begin}-${date.end}`);
+            }
+          } else if (date.begin) {
+            if (date.type === 'bulk') {
+              title.push(`${this.i18n.bulk}: ${date.begin}`);
+            } else {
+              title.push(date.begin);
+            }
+          }
+        });
+      }
+
+      return title.join(', ');
     }
   }
 
