@@ -308,33 +308,33 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   Endpoint.get('/repositories/:repo_id/find_by_id/top_containers')
-          .description("Find Top Containers by their indicators or barcodes")
-          .example("shell") do
-    <<~SHELL
+    .description("Find Top Containers by their indicators or barcodes")
+    .example("shell") do
+      <<~SHELL
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         # Replace "admin" with your password and "http://localhost:8089/users/admin/login" with your ASpace API URL
         # followed by "/users/{your_username}/login"
-  
+    
         set SESSION="session_id"
         # If using Git Bash, replace set with export
-  
+    
         curl -H "X-ArchivesSpace-Session: $SESSION" //
         "http://localhost:8089/repositories/:repo_id:/find_by_id/top_containers?indicator[]=123;resolve[]=top_containers"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # "123" with the indicator you are searching for, and only add 
         # "resolve[]=top_containers" if you want the JSON for the returned record - otherwise, it will return the 
         # record URI only
-
+    
         curl -H "X-ArchivesSpace-Session: $SESSION" //
         "http://localhost:8089/repositories/:repo_id:/find_by_id/top_containers?barcode[]=123456789;resolve[]=top_containers"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # "123456789" with the barcode you are searching for, and only add 
         # "resolve[]=top_containers" if you want the JSON for the returned record - otherwise, it will return the 
         # record URI only
-    SHELL
-  end
+      SHELL
+    end
     .example("python") do
-    <<~PYTHON
+      <<~PYTHON
         from asnake.client import ASnakeClient  # import the ArchivesSnake client
   
         client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
@@ -351,7 +351,7 @@ class ArchivesSpaceService < Sinatra::Base
   
         print(find_tc.json())
         # Output (dict): {'top_containers': [{'ref': '/repositories/2/top_containers/9876', '_resolved':...}]}
-
+  
         find_tc = client.get("repositories/:repo_id:/find_by_id/top_containers", 
                              params={"barcode[]": "123456789", 
                                      "resolve[]": "top_containers"})
@@ -361,8 +361,8 @@ class ArchivesSpaceService < Sinatra::Base
   
         print(find_tc.json())
         # Output (dict): {'top_containers': [{'ref': '/repositories/2/top_containers/9876', '_resolved':...}]}
-    PYTHON
-  end
+      PYTHON
+    end
     .params(["repo_id", :repo_id],
             ["indicator", [String], "A top container's indicator (param may be repeated)", :optional => true],
             ["barcode", [String], "A top container's barcode (param may be repeated)", :optional => true],
@@ -373,6 +373,5 @@ class ArchivesSpaceService < Sinatra::Base
     refs = IDLookup.new.find_by_ids(TopContainer, params)
     json_response(resolve_references({'top_containers' => refs}, params[:resolve]))
   end
-
 
 end
