@@ -1,5 +1,17 @@
 (function (exports) {
   class InfiniteRecords {
+    container;
+    WAYPOINT_SIZE;
+    NUM_TOTAL_RECORDS;
+    NUM_TOTAL_WAYPOINTS;
+    resourceUri;
+    js_path;
+    isOkToObserve;
+    modal;
+    showAllRecordsBtn;
+    waypointObserver;
+    currentRecordObserver;
+
     /**
      * @constructor
      * @param {String} resourceUri - The URI of the root resource, e.g.
@@ -79,10 +91,6 @@
 
         this.renderWaypoints(initialWaypoints);
       } else {
-        // there is a hash, so let's scroll to that record, but first we have
-        // to get the waypoint numbers of the record and any of its WP neighbors
-        // we get the record by parsing the hash, then we get its waypoint number.
-        // then we check if there are empty neighbors before and after this waypoint.
         const recordUri = this.treeIdToRecordUri(hash);
         const recordWaypointNum = this.treeIdtoWaypointNumber(hash);
 
