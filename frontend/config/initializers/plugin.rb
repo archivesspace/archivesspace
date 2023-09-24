@@ -14,7 +14,8 @@ module Plugins
       if File.exist?(config_path)
         cfg = YAML.load_file config_path
         # If "agent" has been specified in config.yml as a "parent", expand that to all agent-types
-        if agent_parent = cfg['parents']['agent']
+        if cfg.dig('parents', 'agent')
+          agent_parent = cfg['parents']['agent']
           cfg['parents']['agent_person'] ||= agent_parent
           cfg['parents']['agent_family'] ||= agent_parent
           cfg['parents']['agent_corporate_entity'] ||= agent_parent
