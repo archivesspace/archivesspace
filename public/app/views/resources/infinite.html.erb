@@ -104,47 +104,44 @@
 </template>
 
 <script>
-  $(document).ready(function () {
-    const resourceUri = '<%= @result["uri"] %>';
-    const treeWaypointSize = '<%= sidebar_waypoint_size %>';
-    const identifier_separator = '<%= I18n.t("resource.identifier_separator") %>';
-    const date_type_bulk = '<%= I18n.t("date_type_bulk.bulk") %>';
-    const js_path = '<%= javascript_path(self).split(".")[0] %>'; // IS THERE A BETTER WAY?!
+const resourceUri = '<%= @result["uri"] %>';
+const treeWaypointSize = '<%= sidebar_waypoint_size %>';
+const identifier_separator = '<%= I18n.t("resource.identifier_separator") %>';
+const date_type_bulk = '<%= I18n.t("date_type_bulk.bulk") %>';
+const js_path = '<%= javascript_path(self).split(".")[0] %>'; // IS THERE A BETTER WAY?!
 
-    const infiniteRecords = new InfiniteRecords(resourceUri, js_path);
+const infiniteRecords = new InfiniteRecords(resourceUri, js_path);
+const infiniteTree = new InfiniteTree(
+  treeWaypointSize,
+  resourceUri,
+  identifier_separator,
+  date_type_bulk
+);
 
-    const infiniteTree = new InfiniteTree(
-      treeWaypointSize,
-      resourceUri,
-      identifier_separator,
-      date_type_bulk 
-    );
+infiniteTree.container.addEventListener('click', (e) => {
+  treeClickDelegator(e, infiniteTree, infiniteRecords);
+});
 
-    infiniteTree.container.addEventListener('click', (e) => {
-      treeClickDelegator(e, infiniteTree, infiniteRecords);
-    });
+/**
+ * treeClickDelegator
+ * @description - Delegate click events on the InfiniteTree container
+ * @param {Event} event - Click event
+ * @param {InfiniteTree} tree - InfiniteTree instance
+ * @param {InfiniteRecords} records - InfiniteRecords instance
+ */
+function treeClickDelegator(event, tree, records) {
+  if (
+    !event.target.classList.contains('expandme') &&
+    !event.target.classList.contains('expandme-icon') &&
+    !event.target.classList.contains('record-title')
+  ) return;
 
-    /**
-     * treeClickDelegator
-     * @description - Delegate click events on the InfiniteTree container
-     * @param {Event} event - Click event
-     * @param {InfiniteTree} tree - InfiniteTree instance
-     * @param {InfiniteRecords} records - InfiniteRecords instance
-     */
-    function treeClickDelegator(event, tree, records) {
-      if (
-        !event.target.classList.contains('expandme') &&
-        !event.target.classList.contains('expandme-icon') &&
-        !event.target.classList.contains('record-title')
-      ) return;
-
-      if (event.target.className.includes('expandme')) {
-        tree.expandHandler(event);
-      } else if (event.target.classList.contains('record-title')) {
-        records.treeLinkHandler(event);
-      }
-    }
-  });
+  if (event.target.className.includes('expandme')) {
+    tree.expandHandler(event);
+  } else if (event.target.classList.contains('record-title')) {
+    records.treeLinkHandler(event);
+  }
+}
 </script>
 
 <%= render partial: 'shared/modal_actions' %>

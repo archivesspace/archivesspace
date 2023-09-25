@@ -1,17 +1,5 @@
 (function (exports) {
   class InfiniteRecords {
-    container;
-    WAYPOINT_SIZE;
-    NUM_TOTAL_RECORDS;
-    NUM_TOTAL_WAYPOINTS;
-    resourceUri;
-    js_path;
-    isOkToObserve;
-    modal;
-    showAllRecordsBtn;
-    waypointObserver;
-    currentRecordObserver;
-
     /**
      * @constructor
      * @param {String} resourceUri - The URI of the root resource, e.g.
@@ -46,7 +34,6 @@
       );
 
       this.waypointObserver = new IntersectionObserver(
-        // Wrap handler in arrow fn to preserve `this` context
         (entries, observer) => {
           this.waypointScrollHandler(entries, observer);
         },
@@ -79,7 +66,7 @@
      * initRecords
      * @description - Append one or more waypoints to the DOM depending
      * on window.location.hash
-     * @param {Location} hash - Location hash string
+     * @param {string} hash - Location hash string
      */
     async initRecords(hash) {
       const initialWaypoints = [];
