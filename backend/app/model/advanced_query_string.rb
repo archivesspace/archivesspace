@@ -3,7 +3,7 @@ require 'time'
 class AdvancedQueryString
   def initialize(query, use_literal)
     @query = query.transform_keys { |k| k.to_s }
-    @use_literal = use_literal
+    @use_literal = use_literal || AdvancedSearch.use_literal?(@query['field'])
   end
 
   def to_solr_s

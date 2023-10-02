@@ -25,6 +25,16 @@ class AdvancedSearch
   end
 
 
+  def self.use_literal?(field)
+    load_definitions
+    field = @fields.fetch(field.to_s) do
+      return field
+    end
+
+    field.always_literal == true
+  end
+
+
   def self.load_definitions
     unless @loaded
       require 'search_definitions'
@@ -51,7 +61,7 @@ class AdvancedSearch
   end
 
 
-  AdvancedSearchField = Struct.new(:name, :type, :visibility, :solr_field, :is_default) do
+  AdvancedSearchField = Struct.new(:name, :type, :visibility, :solr_field, :is_default, :always_literal) do
 
     def initialize(opts)
       opts.each do |k, v|
