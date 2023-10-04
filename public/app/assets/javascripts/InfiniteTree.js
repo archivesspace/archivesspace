@@ -41,13 +41,11 @@
     }
 
     /**
-     * initTree
-     * @description Initialize the large tree navigation sidebar with the
-     * collection's root node and the first waypoint of its immediate children
+     * Initialize the large tree navigation sidebar with the collection's
+     * root node and the first waypoint of its immediate children
      */
     async initTree() {
       const rootNode = await this.fetchRootNode();
-      console.log('tree.fetchRootnode(): ', rootNode);
       const rootNodeDivId = `resource_${this.resourceId}`;
       const firstWPData = rootNode.precomputed_waypoints[''][0];
 
@@ -74,7 +72,7 @@
       this.container.appendChild(tableRootFrag);
 
       if (rootNode.waypoints > 1) {
-        // now that the above work has been added to the live DOM, start observing
+        // Now that the above work has been added to the live DOM, start observing
         // the middle node in order to populate the next empty waypoint
         const obsSelector = `[data-parent-id="${rootNodeDivId}"][data-waypoint-number="0"] > [data-observe-next-wp]`;
         const obsTarget = document.querySelector(obsSelector);
@@ -84,16 +82,15 @@
     }
 
     /**
-     * initNodeChildren
-     * @description Build a parent node's waypoint scaffold and populate the first
-     * waypoint. This is called when any parent is expanded for the first time, then
+     * Build a parent node's waypoint scaffold and populate the first waypoint.
+     * This is called when any parent is expanded for the first time, then
      * the waypointObserver takes over to populate any next empty waypoints.
-     * @param {string} nodeDivId - div#id of the parent node, ie: 'archival_object_18028'
+     * @param {string} nodeDivId - Div id of the parent node,
+     * ie: 'archival_object_18028'
      */
     async initNodeChildren(nodeDivId) {
       const nodeId = nodeDivId.split('_')[2];
       const node = await this.fetchNode(nodeId);
-      console.log('tree.fetchNode(): ', node);
       const nodeLevel = parseInt(
         document
           .querySelector(`#${nodeDivId}`)
@@ -125,9 +122,8 @@
     }
 
     /**
-     * fetchRootNode
-     * @description Fetch the root node of the tree
-     * @returns {object} - Root node object as returned from the server
+     * Fetch the root node of the tree
+     * @returns {Object} - Root node object as returned from the server
      */
     async fetchRootNode() {
       try {
@@ -140,9 +136,8 @@
     }
 
     /**
-     * fetchNode
-     * @description Fetch the tree of the node with the given id
-     * @param {number} nodeId - id of the node, ie: 18028
+     * Fetch the tree of the node with the given id
+     * @param {number} nodeId - ID of the node, ie: 18028
      * @returns {Object} - Node object as returned from the server
      */
     async fetchNode(nodeId) {
@@ -163,11 +158,11 @@
     }
 
     /**
-     * fetchWaypoint
-     * @description Fetch the next waypoint of the given node
-     * @param {Object} params - object of params for the ajax call with the signature:
-     * @param {string} params.node - node url param in the form of '' or '/repositories/X/archival_objects/Y'
-     * @param {number} params.offset - offset url param
+     * Fetch the next waypoint of the given node
+     * @param {Object} params - Object of params for the ajax call with the signature:
+     * @param {string} params.node - Node URL param in the form of '' or
+     * '/repositories/X/archival_objects/Y'
+     * @param {number} params.offset - Offset URL param
      * @returns {array} - Array of waypoint objects as returned from the server
      */
     async fetchWaypoint(params) {
@@ -180,7 +175,7 @@
       try {
         const response = await fetch(`${this.waypointUri}?${query}`);
         const waypoint = await response.json();
-        console.log('tree.fetchWaypoint(): ', waypoint);
+
         return waypoint;
       } catch (err) {
         console.error(err);
@@ -188,9 +183,8 @@
     }
 
     /**
-     * rootRowMarkup
-     * @description Append the root row to the tree container
-     * @param {string} title - title of the root node
+     * Append the root row to the tree container
+     * @param {string} title - Title of the root node
      * @returns {DocumentFragment} - DocumentFragment containing the root row
      */
     rootRowMarkup(title) {
@@ -215,12 +209,11 @@
     }
 
     /**
-     * rootNodeWaypointsScaffold
-     * @description Build the waypoints of a node and populate the first waypoint
-     * @param {number} nodeId - div id of the parent node whose waypoints
+     * Build the waypoints of a node and populate its first waypoint
+     * @param {number} nodeId - Div id of the parent node whose waypoints
      * are being scaffolded
-     * @param {number} level - level of the waypoints
-     * @param {number} numWPs - number of waypoints to create
+     * @param {number} level - Level of the waypoints
+     * @param {number} numWPs - Number of waypoints to create
      * @returns {DocumentFragment} - DocumentFragment containing the waypoint
      */
     rootNodeWaypointsScaffold(nodeId, level, numWPs) {
@@ -246,15 +239,14 @@
     }
 
     /**
-     * nodeRowMarkup
-     * @description Build the markup for a node row
-     * @param {Object} node - node data
-     * @param {number} level - indent level of the node
-     * @param {boolean} shouldObserve - whether or not to observe the node
+     * Build the markup for a node row
+     * @param {Object} node - Node data
+     * @param {number} level - Indent level of the node
+     * @param {boolean} shouldObserve - Whether or not to observe the node
      * in order to populate the next empty waypoint
-     * @param {number} [parentId=null] - optional ID of the node's parent; if null
+     * @param {number} [parentId=null] - Optional ID of the node's parent; if null
      * then parent is assumed to be the root resource
-     * @param {number} [offset=null] - optional offset of the next waypoint to
+     * @param {number} [offset=null] - Optional offset of the next waypoint to
      * populate; required if `shouldObserve` is true
      * @returns {DocumentFragment} - DocumentFragment containing the node row
      */
@@ -297,7 +289,6 @@
       nodeRow.querySelector('.title').setAttribute('title', aoTitle);
 
       if (node.child_count == 0) {
-        // Left over as legacy from the old tree; if hidden let's not include it
         nodeRow.querySelector('.expandme').style.visibility = 'hidden';
         nodeRow.querySelector('.expandme').setAttribute('aria-hidden', 'true');
       } else if (node.child_count > 0) {
@@ -330,13 +321,12 @@
     }
 
     /**
-     * nodeWaypointsScaffold
-     * @description Append the empty set of waypoint containers belonging to a node
-     * after the node element; append elements manually because insertAdjacentElement()
-     * @param {number} nodeId - div id of the parent node whose waypoints
+     * Append the empty set of waypoint containers belonging to a node after
+     * the node element; append elements manually because `insertAdjacentElement()`
+     * @param {number} nodeId - Div id of the parent node whose waypoints
      * are being scaffolded
-     * @param {number} level - level of the waypoints
-     * @param {number} numWPs - number of waypoints to create
+     * @param {number} level - Level of the waypoints
+     * @param {number} numWPs - Number of waypoints to create
      * @todo - refactor to use DocumentFragment and <template>
      */
     nodeWaypointsScaffold(nodeId, level, numWPs) {
@@ -369,12 +359,11 @@
     }
 
     /**
-     * populateWaypoint
-     * @description Populate an empty waypoint with nodes
-     * @param {HTMLElement} waypoint - the empty waypoint to populate
-     * @param {array} nodes - array of node objects to populate the waypoint with
-     * @param {number} level - level of the waypoint
-     * @param {boolean} hasNextEmptyWP - whether or not there is a next empty waypoint
+     * Populate an empty waypoint with nodes
+     * @param {HTMLElement} waypoint - The empty waypoint to populate
+     * @param {array} nodes - Array of node objects to populate the waypoint with
+     * @param {number} level - Level of the waypoint
+     * @param {boolean} hasNextEmptyWP - Whether or not there is a next empty waypoint
      */
     populateWaypoint(waypoint, nodes, level, hasNextEmptyWP) {
       const waypointMarker = waypoint.querySelector('.waypoint');
@@ -405,11 +394,9 @@
     }
 
     /**
-     * waypointScrollHandler
-     * @description IntersectionObserver callback for populating the next
-     * empty waypoint
-     * @param {array} entries - array of IntersectionObserverEntry objects
-     * @param {IntersectionObserver} observer - the IntersectionObserver instance
+     * IntersectionObserver callback for populating the next empty waypoint
+     * @param {IntersectionObserverEntry[]} entries - Array of entries
+     * @param {IntersectionObserver} observer - The observer instance
      */
     waypointScrollHandler(entries, observer) {
       entries.forEach(async entry => {
@@ -447,11 +434,10 @@
     }
 
     /**
-     * nextSiblingIsNextWaypoint
-     * @description Determine if the next sibling of the given waypoint is
-     * the next empty waypoint of the same parent
+     * Determine if the next sibling of the given waypoint is the next
+     * empty waypoint of the same parent
      * @param {HTMLElement} waypoint - The waypoint with a possible next sibling
-     * @returns {boolean} - true if the next sibling is the next empty waypoint
+     * @returns {boolean} - True if the next sibling is the next empty waypoint
      * of the same parent
      */
     nextSiblingIsNextWaypoint(waypoint) {
@@ -483,19 +469,18 @@
     }
 
     /**
-     * expandHandler
-     * @description Handle click events on expandme buttons or their child icons
-     * @param {Event} event - Click event
+     * Handle click events on expandme buttons or their child icons
+     * @param {Event} e - Click event
      */
-    expandHandler(event) {
-      const node = event.target.closest('.largetree-node');
+    expandHandler(e) {
+      const node = e.target.closest('.largetree-node');
       const button =
-        event.target.className === 'expandme'
-          ? event.target
-          : event.target.closest('.expandme');
-      const icon = event.target.classList.contains('expandme-icon')
-        ? event.target
-        : event.target.querySelector('.expandme-icon');
+        e.target.className === 'expandme'
+          ? e.target
+          : e.target.closest('.expandme');
+      const icon = e.target.classList.contains('expandme-icon')
+        ? e.target
+        : e.target.querySelector('.expandme-icon');
 
       button.setAttribute(
         'aria-expanded',
@@ -517,10 +502,9 @@
     }
 
     /**
-     * nodeTitle
-     * @description Build the title of a node
-     * @param {Object} node - node data
-     * @returns {string} - title of the node
+     * Build the title of a node
+     * @param {Object} node - Node data
+     * @returns {string} - Title of the node
      */
     nodeTitle(node) {
       const title = [];
