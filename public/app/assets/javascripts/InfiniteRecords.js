@@ -23,6 +23,8 @@
       this.resourceUri = resourceUri;
       this.js_path = js_path;
 
+      this.wpQueue = [];
+      this.wpQueueIsEmpty = () => this.wpQueue.length === 0;
       this.isOkToObserve = true;
 
       this.modal = new ModalManager(
@@ -96,6 +98,25 @@
     }
 
     /**
+     * processWaypointQueue
+     * @description - Process the queue of waypoint numbers to render
+     */
+    processWaypointQueue() {
+      let count = 0;
+
+      while (!this.wpQueueIsEmpty()) {
+        const openModal = count === 0;
+        const closeModal = this.wpQueue.length === 1;
+
+        this.renderWaypoints([this.wpQueue[0]], null, openModal, closeModal);
+
+        this.wpQueue.shift();
+
+        count++;
+      }
+    }
+
+    /**
      * renderWaypoints
      * @description - Render the given waypoints, watch for any empty neighbors,
      * and scroll to the given record if provided
@@ -113,8 +134,6 @@
       shouldOpenModal = true,
       shouldCloseModal = true
     ) {
-      this.isOkToObserve = false;
-
       if (shouldOpenModal) this.modal.toggle();
 
       const data = await this.fetchWaypoints(wpNums);
@@ -128,11 +147,12 @@
           `.infinite-record-record[data-uri="${scrollToRecordUri}"]`
         );
 
+        // scrollIntoView will trigger the waypoint observer along the way
+        // and create jank so temporarily disable the observer action
+        this.isOkToObserve = false;
+
         targetRecord.scrollIntoView({ behavior: 'smooth' });
       }
-
-      // Safari scroll bugs surface majorly when the next line is uncommented
-      // if (!scrollToRecordUri) isOkToObserve = true;
 
       if (shouldCloseModal) this.modal.toggle();
     }
@@ -375,31 +395,6 @@
     }
 
     /**
-     * waypointScrollHandler
-     * @description - IntersectionObserver callback for waypoint observer
-     * @param {IntersectionObserverEntry[]} entries - array of entries
-     * @param {IntersectionObserver} observer - the observer
-     */
-    waypointScrollHandler(entries, observer) {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && this.isOkToObserve) {
-          const emptyWaypointNums = entry.target.dataset.observeForWaypoints;
-          const observingTargets = document.querySelectorAll(
-            `[data-observe-for-waypoints="${emptyWaypointNums}"]`
-          );
-
-          this.renderWaypoints(JSON.parse(emptyWaypointNums));
-
-          observingTargets.forEach(target => {
-            target.removeAttribute('data-observe-for-waypoints');
-
-            observer.unobserve(target);
-          });
-        }
-      });
-    }
-
-    /**
      * populateAllWaypoints
      * @description Populate the remaining empty waypoints
      * @param {boolean} [shouldImmediatelyToggleModal = true] - Whether or not
@@ -453,6 +448,42 @@
           }
         };
       }
+    }
+
+    /**
+     * waypointScrollHandler
+     * @description - IntersectionObserver callback for the waypoint observer;
+     * pushes unique empty waypoint numbers to the queue and starts processing
+     * the queue if needed
+     * @param {IntersectionObserverEntry[]} entries - array of entries
+     * @param {IntersectionObserver} observer - the observer
+     */
+    waypointScrollHandler(entries, observer) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && this.isOkToObserve) {
+          const queueWasEmptyAtStart = this.wpQueueIsEmpty();
+          const emptyWaypoints = entry.target.dataset.observeForWaypoints;
+          const observingTargets = document.querySelectorAll(
+            `[data-observe-for-waypoints="${emptyWaypoints}"]`
+          );
+
+          JSON.parse(emptyWaypoints).forEach(wpNum => {
+            if (!this.wpQueue.includes(wpNum)) {
+              this.wpQueue.push(wpNum);
+            }
+          });
+
+          if (queueWasEmptyAtStart && !this.wpQueueIsEmpty()) {
+            this.processWaypointQueue();
+          }
+
+          observingTargets.forEach(target => {
+            target.removeAttribute('data-observe-for-waypoints');
+
+            observer.unobserve(target);
+          });
+        }
+      });
     }
 
     /**
