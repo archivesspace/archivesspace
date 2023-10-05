@@ -102,21 +102,29 @@ $indent-width: 20px;
   display: contents;
 }
 
-.infinite-scroll-container {
+.infinite-records-container {
   position: relative;
   height: 600px;
   overflow-y: auto;
   scroll-behavior: smooth;
 }
 
-.infinite-scroll-container .root {
+.infinite-records-container .root {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* allow the final record to be scrolled to the top */
-.infinite-scroll-container .waypoint:last-of-type {
+.infinite-records-container .waypoint:not(.populated) {
+  height: 0;
+}
+
+.infinite-records-container .waypoint.populated {
+  height: auto;
+}
+
+/* Allow the final record to be scrolled to the top to highlight it in the tree */
+.infinite-records-container .waypoint:last-of-type {
   padding-bottom: 550px;
 }
 

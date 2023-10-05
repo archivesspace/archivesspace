@@ -9,7 +9,7 @@
      * @returns {InfiniteRecords} - InfiniteRecords instance
      */
     constructor(resourceUri, js_path) {
-      this.container = document.querySelector('.infinite-scroll-container');
+      this.container = document.querySelector('.infinite-records-container');
 
       this.WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
       this.NUM_TOTAL_RECORDS = parseInt(
