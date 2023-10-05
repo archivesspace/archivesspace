@@ -27,7 +27,7 @@
     <tr class="sortable-columns">
       <th><% if multiselect %><label for="select_all" class="sr-only"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all" %><% end %></th>
       <% @pref_cols.each do |field| %>
-        <th><%= t("search.top_container.#{field}") %></th>
+        <th><%= t("search.top_container_mgmt.#{field}") %></th>
       <% end %>
       <% if show_edit_actions %>
         <th class="col actions"><span class="sr-only"><%= I18n.t("search_results.actions") %></span><!-- Actions --></th>
@@ -49,41 +49,63 @@
           <% end %>
         </td>
         <% @pref_cols.each do |field| %>
-          <% if field == 'context' %>
+          <% if field == 'resource_accession'%>
             <td class="top-container-collection">
-              <% if doc['collection_identifier_stored_u_sstr'] %>
-                <ul class="linked-records-listing count-<%= Array(doc['collection_identifier_stored_u_sstr']).length %>">
-                  <% Array(doc['collection_identifier_stored_u_sstr']).zip(Array(doc['collection_display_string_u_sstr'])).each do |identifier, display| %>
-                    <li><span class="collection-identifier"><%= identifier %></span>, <span class="collection-display-string"><%= display %></span></li>
+              <% if container_json['collection'].present? %>
+                <% 
+                # Previously, this pattern of array-wrapping container field values was used, presumably to handle
+                # cases where the value came back as a scalar. I haven't seen that in my testing (single values were
+                # already in an array), but we'll continue to follow that pattern just in case.
+                %>
+                <ul class="linked-records-listing count-<%= Array(container_json['collection']).length %>">
+                  <% Array(container_json['collection']).each do |c| %>
+                    <li>
+                      <span class="collection-identifier"><%= c['identifier'] %></span>, 
+                      <span class="collection-display-string"><%= c['display_string'] %></span>
+                    </li>
                   <% end %>
                 </ul>
               <% end %>
             </td>
-          <% elsif field == 'series_level_u_sstr' %>
+          <% elsif field == 'series' %>
             <td class="top-container-series">
-              <% if doc['series_level_u_sstr'] %>
-                <ul class="linked-records-listing count-<%= Array(doc['series_level_u_sstr']).length %>">
-                  <% Array(doc['series_level_u_sstr']).zip(Array(doc['series_identifier_stored_u_sstr'])).each do |level, identifier| %>
-                    <li><span class="series-level"><%= level %></span> <span class="series-identifier"><%= identifier %></span></li>
+              <% if container_json['series'].present? %>
+                <ul class="linked-records-listing count-<%= Array(container_json['series']).length %>">
+                  <% Array(container_json['series']).each do |s| %>
+                    <li>
+                      <span class="series-identifier"><%= s['identifier'] %></span>
+                    </li>
                   <% end %>
                 </ul>
               <% end %>
             </td>
-          <% elsif field == 'location_display_string_u_sstr' %>
+          <% elsif field == 'container_profile' %>
+            <td class="top-container-profile">
+              <% if container_json['container_profile'].present? %>
+                <%= container_json['container_profile']['_resolved']['display_string'] %>
+              <% end %>
+            </td>
+          <% elsif field == 'location' %>
             <td class="top-container-current-location">
-              <% if doc['location_display_string_u_sstr'] %>
-                <ul class="linked-records-listing count-<%= Array(doc['location_uri_u_sstr']).length %>">
-                  <% Array(doc['location_display_string_u_sstr']).each do |location| %>
-                    <li><span class="collection-location"><%= location %></span></li>
+              <% if container_json['container_locations'].present? %>
+                <ul class="linked-records-listing count-<%= Array(container_json['container_locations']).length %>">
+                  <% Array(container_json['container_locations']).each do |location| %>
+                    <li><span class="collection-location"><%= location['_resolved']['title'] %></span></li>
                   <% end %>
                 </ul>
               <% end %>
             </td>
           <% elsif field == 'exported_to_ils' %>
             <% if container_json['exported_to_ils'].blank? %>
-              <td><%= I18n.t("top_container.not_exported") %></td>
+              <td><%= t('top_container_mgmt.not_exported') %></td>
             <% else %>
-              <td><%= container_json['exported_to_ils'] %></td>
+              <td><%= t('top_container_mgmt.exported_to_ils') %></td>
+            <% end %>
+          <% elsif field == 'restricted' %>
+            <% if container_json['restricted'] %>
+              <td><%= t('top_container_management.restricted') %></td>
+            <% else %>
+              <td><%= t('top_container_management.not_restricted') %></td>
             <% end %>
           <% else %>
               <td class="top-container-<%=field%>"> <%= container_json[field] %> </td>

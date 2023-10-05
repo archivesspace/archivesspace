@@ -448,6 +448,22 @@ en:
       collection_identifier_stored_u_sstr: Collection
       ils_holding_id: ILS Holding ID
       exported_to_ils: Exported to ILS
+    top_container_mgmt:
+      resource_accession: Resource/Accession
+      series: Series
+      container_profile: Container Profile
+      type: Type
+      indicator: Indicator
+      barcode: Barcode
+      internal_note: Internal Note
+      location: Location
+      restricted: Restricted
+      not_restricted: Not Restricted
+      ils_holding_id: ILS Holding ID
+      exported_to_ils: Exported to ILS
+      not_exported_to_ils: Not Exported
+      asc: Ascending
+      desc: Descending
     container_profile:
       score: Relevance
       title: Title

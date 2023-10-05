@@ -2407,6 +2407,7 @@ en:
     event_browse_section: Event Browse Columns
     collection_management_browse_section: Collection Management Browse Columns
     top_container_browse_section: Top Container Browse Columns
+    top_container_mgmt_browse_section: Top Container Management Browse Columns
     classification_browse_section: Classification Browse Columns
     assessment_browse_section: Assessment Browse Columns
     repositories_browse_section: Repository Browse Columns
