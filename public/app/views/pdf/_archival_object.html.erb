@@ -42,10 +42,8 @@ end
 
     <% if is_parent %>
        <table class="collection-inventory-header">
-            <tr>
-              <td class="title">Title/Description</td>
-              <td class="instance">Instances</td>
-            </tr>
+          <td class="title">Title/Description</td>
+          <td class="instance">Instances</td>
        </table>
 
     <% end %>
@@ -57,7 +55,15 @@ end
                          instance['sub_container']['top_container'] &&
                          instance['sub_container']['top_container']['_resolved'] &&
                          instance['sub_container']['top_container']['_resolved']['display_string']
-                        box_string = instance['sub_container']['top_container']['_resolved']['display_string']
+
+                        tc_display_string = instance['sub_container']['top_container']['_resolved']['display_string'].split(':')[0]
+
+                        if tc_display_string =~ /:/
+                          box_string = tc_display_string.split(':')[0]
+                        else
+                          box_string = tc_display_string
+                        end
+
                       else
                         box_string = ""
                       end
