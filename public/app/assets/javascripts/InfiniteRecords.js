@@ -96,24 +96,6 @@
     }
 
     /**
-     * Process the queue of waypoint numbers to render
-     */
-    processWaypointQueue() {
-      let count = 0;
-
-      while (!this.wpQueueIsEmpty()) {
-        const openModal = count === 0;
-        const closeModal = this.wpQueue.length === 1;
-
-        this.renderWaypoints([this.wpQueue[0]], null, openModal, closeModal);
-
-        this.wpQueue.shift();
-
-        count++;
-      }
-    }
-
-    /**
      * Render the given waypoints, watch for any empty neighbors, and
      * conditionally scroll to a given record and handle the modal
      * @param {number[]} wpNums - Array of waypoint numbers to render
@@ -467,6 +449,24 @@
           });
         }
       });
+    }
+
+    /**
+     * Process the queue of waypoint numbers to render
+     */
+    processWaypointQueue() {
+      let count = 0;
+
+      while (!this.wpQueueIsEmpty()) {
+        const openModal = count === 0;
+        const closeModal = this.wpQueue.length === 1;
+
+        this.renderWaypoints([this.wpQueue[0]], null, openModal, closeModal);
+
+        this.wpQueue.shift();
+
+        count++;
+      }
     }
 
     /**
