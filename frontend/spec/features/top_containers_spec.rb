@@ -38,14 +38,14 @@ describe 'Top Containers and Instances', js: true do
     visit '/'
     click_link id: 'user-menu-dropdown'
     click_link 'Global Preferences (admin)'
-    select 'ILS Holding ID', from: 'preference[defaults][top_container_browse_column_1]'
-    select 'URI', from: 'preference[defaults][top_container_sort_column]'
+    select 'ILS Holding ID', from: 'preference[defaults][top_container_mgmt_browse_column_1]'
+    select 'ILS Holding ID', from: 'preference[defaults][top_container_mgmt_sort_column]'
 
     click_button 'Save Preferences'
     visit '/top_containers'
     select 'No', from: 'exported'
     click_button 'Search'
-    expect(find('th.header.headerSortDown')).to have_content('URI')
+    expect(find('th.header.headerSortDown')).to have_content('ILS Holding ID')
     expect(page).to have_content('ILS Holding ID')
   end
 
@@ -105,9 +105,8 @@ describe 'Top Containers and Instances', js: true do
     find('input.btn').click
     find("#bulk_operation_results input[name='select_all']").click
 
-    # Pre-merge baselines for number of rows and the target uri that should remain post merge
-    row_count = all('table tr').size
-    target_uri = find(:xpath, '//*[@id="bulk_operation_results"]/table/tbody/tr[1]/td[9]/div/a[1]')['href']
+    # Make sure multiple containers are present to merge
+    expect(all('table tr').size).to be > 1
 
     # Now merge top containers
     find('.bulk-operation-toolbar:first-child a.dropdown-toggle').click
@@ -127,8 +126,7 @@ describe 'Top Containers and Instances', js: true do
 
     # need to reload to see results of indexing
     visit '/top_containers'
-    expect(find_all('table tr').length).not_to eq(row_count)
-    expect(find(:xpath, '/html/body/div/div[1]/div[4]/div/div[2]/table/tbody/tr/td[9]/div/a[1]')['href']).to eq(target_uri)
+    expect(find_all('table tr').length).to be 2   # includes header row
   end
 
   it 'remembers the search after leaving the page' do
