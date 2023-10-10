@@ -246,13 +246,22 @@ module SearchAndBrowseColumnConfig
       "type" => {:field => "type", :sortable => true, :sort_by => "type_u_ssort"},
       "indicator" => {:field => "indicator", :sortable => true, :sort_by => "indicator_u_icusort"},
       "barcode" => {:field => "barcode", :sortable => true, :sort_by => "barcode_u_icusort"},
-      "context" => {:field => "context", :sortable => true, :sort_by => "collection_identifier_stored_u_sstr"},
+      "context" => {:field => "context"},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]},
-      "uri" => {:field => "uri", :sortable => true},
-      "collection_identifier_stored_u_sstr" => {:field => "collection"},
-      "series_level_u_sstr" => {:field => "series_level_u_sstr", :sortable => true},
-      "ils_holding_id" => {:field => "ils_holding_id"},
-      "exported_to_ils" => {:field => "exported_to_ils"}
+      "uri" => {:field => "uri", :sortable => true}
+    },
+    "top_container_mgmt" => {
+      "resource_accession" => {:field => "context", :sortable => true},
+      "series" => {:field => "series_level_u_sstr", :sortable => true},
+      "container_profile" => {:field => ":container_profile_display_string", :sortable => true},
+      "type" => {:field => "type", :sortable => true},
+      "indicator" => {:field => "indicator", :sortable => true},
+      "barcode" => {:field => "barcode", :sortable => true},
+      "internal_note" => {:field => "internal_note", :sortable => true},
+      "location" => {:field => "location", :sortable => true},
+      "restricted" => {:field => "restricted", :sortable => true},
+      "ils_holding_id" => {:field => "ils_holding_id", :sortable => true},
+      "exported_to_ils" => {:field => "exported_to_ils", :sortable => true},
     },
     "job" => {
       "status" => {:field => "status", :sortable => true},
