@@ -50,8 +50,16 @@ ResizableSidebar.prototype.bind_events = function () {
       var new_content_width = Math.max(self.$row.width() - right_offset, 300);
 
       self.$sidebar.css('width', 0);
-      self.$content_pane.css('width', new_content_width);
-      self.$sidebar.css('width', self.$row.width() - new_content_width - 20);
+      self.$content_pane.css('max-width', new_content_width);
+      self.$content_pane.css('flex-basis', new_content_width);
+      self.$sidebar.css(
+        'max-width',
+        self.$row.width() - new_content_width - 20
+      );
+      self.$sidebar.css(
+        'flex-basis',
+        self.$row.width() - new_content_width - 20
+      );
 
       // position the infinite scrollbar too, if it's about
       if ($('.infinite-record-scrollbar').length > 0) {
@@ -65,7 +73,7 @@ ResizableSidebar.prototype.bind_events = function () {
       self.isResizing = false;
     });
 
-  // ANW-1316: Make resizable input slider work with keyboard commands alone
+  // ANW-1323: Make resizable input slider work with keyboard commands alone
   $(document)
     .on('keydown', function (e) {
       if (!self.isResizing) {
@@ -83,8 +91,10 @@ ResizableSidebar.prototype.bind_events = function () {
       var new_content_width = Math.max(self.$row.width() - right_offset, 300);
 
       self.$sidebar.css('width', 0);
-      self.$content_pane.css('width', new_content_width);
-      self.$sidebar.css('width', self.$row.width() - new_content_width);
+      self.$content_pane.css('max-width', new_content_width);
+      self.$content_pane.css('flex-basis', new_content_width);
+      self.$sidebar.css('max-width', self.$row.width() - new_content_width);
+      self.$sidebar.css('flex-basis', self.$row.width() - new_content_width);
 
       // position the infinite scrollbar too, if it's about
       if ($('.infinite-record-scrollbar').length > 0) {

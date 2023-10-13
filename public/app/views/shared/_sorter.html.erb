@@ -2,7 +2,7 @@
 <% if defined?(@sort) && defined?(@sort_opts) && defined?(@base_search) %>
 
 
-<div class="col-sm-4 text-right sorter d-flex align-items-center justify-content-end">
+<div class="sorter d-flex align-items-center justify-content-end">
  <%= form_tag(app_prefix("#{@base_search}"), method: 'get', :class=> "form-horizontal d-flex align-items-center justify-content-end") do %>
    <%= render partial: 'shared/hidden_params' %>
    <%= label_tag(:sort, "#{t('search_sorting.sort_by')}", :class=>'sr-only') %>

@@ -1,18 +1,18 @@
-<section class="panel panel-default mt15px">
-  <header class="panel-heading">
-    <h3 class="panel-title"><%= I18n.t("actions.cite_item") %></h3>
+<section class="card">
+  <header class="card-header">
+    <h3 class="card-title mb-0"><%= I18n.t("actions.cite_item") %></h3>
   </header>
-  <div class="panel-body flex align-items-center">
-    <p id="item_citation" class="flex-grow-1 mr15px mb0"><%= item %></p>
-    <button type="button" id="copy_item_citation" class="btn btn-primary clip-btn" data-clipboard-target="#item_citation" aria-label="<%= I18n.t("actions.cilpboard_cite_item") %>"><%= I18n.t("actions.clipboard") %></button>
+  <div class="card-body d-flex align-items-center gap-x-3">
+    <p id="item_citation" class="flex-grow-1 mb-0"><%= item %></p>
+    <button type="button" id="copy_item_citation" class="btn btn-primary flex-shrink-0 clip-btn" data-clipboard-target="#item_citation" aria-label="<%= I18n.t("actions.cilpboard_cite_item") %>"><%= I18n.t("actions.clipboard") %></button>
   </div>
 </section>
-<section class="panel panel-default">
-  <header class="panel-heading">
-    <h3 class="panel-title"><%= I18n.t("actions.cite_item_description") %></h3>
+<section class="card mt-3">
+  <header class="card-header">
+    <h3 class="card-title mb-0"><%= I18n.t("actions.cite_item_description") %></h3>
   </header>
-  <div class="panel-body flex align-items-center">
-    <p id="item_description_citation" class="flex-grow-1 mr15px mb0"><%= description %></p>
-    <button type="button" id="copy_item_description_citation" class="btn btn-primary clip-btn" data-clipboard-target="#item_description_citation" aria-label="<%= I18n.t("actions.cilpboard_cite_item_description") %>"><%= I18n.t("actions.clipboard") %></button>
+  <div class="card-body d-flex align-items-center gap-x-3">
+    <p id="item_description_citation" class="flex-grow-1 mb-0"><%= description %></p>
+    <button type="button" id="copy_item_description_citation" class="btn btn-primary flex-shrink-0 clip-btn" data-clipboard-target="#item_description_citation" aria-label="<%= I18n.t("actions.cilpboard_cite_item_description") %>"><%= I18n.t("actions.clipboard") %></button>
   </div>
 </section>

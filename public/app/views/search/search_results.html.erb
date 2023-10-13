@@ -63,10 +63,16 @@
   <div class="col-sm-9">
     <a name="main" title="<%= t('internal_links.main') %>"></a>
     <div class="row my-3">
-      <div class="col-sm-8">
-        <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+      <div class="w-100 px-bs d-flex flex-wrap justify-content-end gap-2">
+        <% unless @pager.last_page == 1 %>
+          <div class="flex-grow-1">
+            <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+          </div>
+        <% end %>
+        <div>
+          <%= render partial: 'shared/sorter' %>
+        </div>
       </div>
-      <%= render partial: 'shared/sorter' %>
     </div>
     <div class="row search-results"><div class="col-sm-12">
 
@@ -76,7 +82,7 @@
       <%= render partial: 'shared/result', locals: {:result => result, :props => (@result_props || {}).merge({:full => false})} %>
     <% end %>
     </div></div>
-    <div class="row"><div class="col-sm-9">
+    <div class="row mt-2"><div class="col-sm-12">
     <%= render partial: 'shared/pagination', locals: {:pager  => @pager, :pager_id => 'paging_bottom'}  %>
     </div></div>
   </div>

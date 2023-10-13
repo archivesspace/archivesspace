@@ -13,7 +13,7 @@
     <% end %>
 
     <% unless @result.dates.blank? %>
-      <h2 class="pt-4"><%= t('resource._public.dates') %></h2>
+      <h2><%= t('resource._public.dates') %></h2>
       <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
     <% end %>
 
@@ -30,7 +30,7 @@
     <% end %>
 
     <% unless @result.extents.blank? %>
-      <h2 class="pt-4"><%= t('resource._public.extent') %></h2>
+      <h2><%= t('resource._public.extent') %></h2>
        <% @result.extents.each do |ext| %>
         <p class="extent"><%= inheritance(ext['_inherited']).html_safe %>
 	  <%= ext['display']%>
@@ -60,7 +60,7 @@
 </div>
 
     <div class="acc_holder clear" >
-      <div id="res_accordion">
+      <div id="res_accordion" class="accordion">
 	<% x = render partial: 'shared/multi_notes', locals: {:types => folder} %>
 	<% unless x.blank? %>
 	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'),

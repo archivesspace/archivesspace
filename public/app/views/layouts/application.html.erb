@@ -40,7 +40,7 @@
 <![endif]-->
 </head>
 
-<body>
+<body class="min-h-screen d-flex flex-column">
 
 	<% ASUtils.find_local_directories('public/views/body_top.html.erb').each do |template| %>
 		<% if File.exists?(template) %>
@@ -57,7 +57,7 @@
 		<%= render partial: 'shared/navigation' %>
 	</div>
 
-	<section id="content" class="container-fluid mt-2 pt-2">
+	<section id="content" class="container-fluid mt-2 pt-2 flex-grow-1">
 		<a name="maincontent" id="maincontent"></a>
 		<%= flash_messages %>
 		<%= yield %>
