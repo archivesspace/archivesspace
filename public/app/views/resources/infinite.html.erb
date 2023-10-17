@@ -15,72 +15,133 @@
 
 <%= render partial: 'resources/resource_alltabs' %>
 
-<%= javascript_include_tag 'treesync' %>
-<%= javascript_include_tag 'infinite_scroll' %>
-<%= javascript_include_tag 'largetree' %>
-<%= javascript_include_tag 'tree_renderer' %>
-
+<%
+  content_waypoint_size = 20
+  sidebar_waypoint_size = 200
+  num_records = @ordered_records.count
+%>
 <div class="row">
-  <div class="infinite-record-wrapper col-sm-9">
-      <div class="infinite-record-container">
-          <div class="root">
-              <% waypoint_size = 20 %>
-              <% @ordered_records.each_slice(waypoint_size).each_with_index do |refs, i| %>
-                  <div class="waypoint" data-waypoint-number="<%= i %>" data-waypoint-size=<%= waypoint_size %> data-uris="<%= refs.map {|r| r['ref']}.join(';') %>">&nbsp;</div>
-              <% end %>
-          </div>
-      </div>
+  <div class="col-sm-9 records-progress-container">
+    <p class="records-progress-label">
+      <span style="padding: .15rem;" data-showing-current>&nbsp;&nbsp;&nbsp;</span>
+      of
+      <span style="padding: .15rem;" data-showing-total><%= num_records %></span>
+      records in this collection have loaded onto the page below so far. Scroll down to load more, or click the <strong>&nbsp;Load all records&nbsp;</strong> button.
+    </p>
+    <button class="btn btn-primary records-progress-button" data-show-all-records>Load all records</button>
   </div>
-
-  <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar infinite-tree-sidebar">
-  <% if AppConfig[:pui_search_collection_from_collection_organization] %>
-    <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => t('actions.search_in', :type => t('resource._singular'))} %>
-  <% end %>
-  <div class="infinite-tree-view largetree-container" id='tree-container'></div>
+  <div class="col-sm-3">
   </div>
 </div>
 
+<div class="row" style="overflow: hidden;">
+  <div
+    class="infinite-records-container col-sm-9"
+    data-waypoint-size="<%= content_waypoint_size %>"
+    data-total-records="<%= num_records %>">
+    <div class="root">
+      <% @ordered_records.each_slice(content_waypoint_size).each_with_index do |refs, i| %>
+        <div
+          class="waypoint"
+          data-waypoint-number="<%= i %>"
+          data-uris="<%= refs.map {|r| r['ref']}.join(';') %>"
+        >&nbsp;</div>
+      <% end %>
+    </div>
+  </div>
+  <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar infinite-tree-sidebar">
+    <% if AppConfig[:pui_search_collection_from_collection_organization] %>
+      <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => t('actions.search_in', :type => t('resource._singular'))} %>
+    <% end %>
+
+    <div
+      class="infinite-tree-view largetree-container"
+      id="tree-container"
+      data-waypoint-size="<%= sidebar_waypoint_size %>"
+      data-repo-id="<%= @result['uri'].split('/')[2] %>"
+      data-resource-id="<%= @result['uri'].split('/')[4] %>"
+    >
+    </div>
+  </div>
+</div>
+
+<dialog data-loading-modal>
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</dialog>
+
+<template id="root-row-template">
+  <div id="" class="table-row root-row" role="listitem" data-uri="">
+    <div class="table-cell title">
+      <a class="record-title" href=""></a>
+    </div>
+  </div>
+</template>
+
+<template id="node-row-template">
+  <div id="" class="table-row largetree-node" role="listitem" data-uri="">
+    <div class="table-cell title" title="">
+      <span class="indentor">
+        <button class="expandme" aria-expanded="false">
+          <i class="expandme-icon glyphicon glyphicon-chevron-right"></i>
+          <span class="sr-only"></span>
+        </button>
+      </span>
+      <a class="record-title" href=""></a>
+    </div>
+  </div>
+</template>
+
+<template id="infinite-record-record-template">
+  <div
+    class="infinite-record-record"
+    id
+    data-uri
+    data-record-number
+    data-observe
+  ></div>
+</template>
+
 <script>
+const resourceUri = '<%= @result["uri"] %>';
+const treeWaypointSize = '<%= sidebar_waypoint_size %>';
+const identifier_separator = '<%= I18n.t("resource.identifier_separator") %>';
+const date_type_bulk = '<%= I18n.t("date_type_bulk.bulk") %>';
+const js_path = '<%= javascript_path(self).split(".")[0] %>'; // IS THERE A BETTER WAY?!
 
- var syncer = new TreeSync('<%= params[:rid]%>');
- window.syncer = syncer;
+const infiniteRecords = new InfiniteRecords(resourceUri, js_path);
+const infiniteTree = new InfiniteTree(
+  treeWaypointSize,
+  resourceUri,
+  identifier_separator,
+  date_type_bulk
+);
 
- var scroll = new InfiniteScroll('<%= url_for(:action => :show) %>/infinite',
-                                 $('.infinite-record-wrapper'),
-                                 <%= @ordered_records.length %>,
-                                 function() {
-                                     syncer.infiniteScrollIsReady(scroll);
-                                 });
+infiniteTree.container.addEventListener('click', (e) => {
+  treeClickDelegator(e, infiniteTree, infiniteRecords);
+});
 
- /* NOTE: This just here for debugging... */
- window.scroller = scroll;
+/**
+ * treeClickDelegator
+ * @description - Delegate click events on the InfiniteTree container
+ * @param {Event} event - Click event
+ * @param {InfiniteTree} tree - InfiniteTree instance
+ * @param {InfiniteRecords} records - InfiniteRecords instance
+ */
+function treeClickDelegator(event, tree, records) {
+  if (
+    !event.target.classList.contains('expandme') &&
+    !event.target.classList.contains('expandme-icon') &&
+    !event.target.classList.contains('record-title')
+  ) return;
 
- var tree = new LargeTree(new TreeDataSource('<%= url_for(:action => :show) %>/tree'),
-                          $('.infinite-tree-view'),
-                          '<%= @root_uri %>',
-                          true,
-                          new SimpleRenderer(),
-                          function() {
-                              syncer.treeIsReady(tree);
-                          },
-                          function(current_node, tree) {
-                            tree.expandNode(current_node);
-                          });
-
-window.tree = tree;
-</script>
-
-<script>
-  // handle clicks on tree items
-  $('.infinite-record-wrapper').on('click', '.infinite-record-record a.record-title', function(event) {
-      // update the hash so browser-back returns user to the record they clicked
-      var $record = $(this).closest('.infinite-record-record');
-      var uri = $record.data('uri');
-      var tree_id = TreeIds.uri_to_tree_id(uri);
-      location.hash = '#tree::'+tree_id;
-
-      return true;
-  });
+  if (event.target.className.includes('expandme')) {
+    tree.expandHandler(event);
+  } else if (event.target.classList.contains('record-title')) {
+    records.treeLinkHandler(event);
+  }
+}
 </script>
 
 <%= render partial: 'shared/modal_actions' %>
