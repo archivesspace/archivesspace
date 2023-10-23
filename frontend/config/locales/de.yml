@@ -671,6 +671,10 @@ de:
       location_display_string_u_sstr: Standort
       create_time: Erstellt
       uri: URI
+      exported_to_ils: Exportiert ins IBS
+      series_level_u_sstr: Serie
+      ils_holding_id: IBS Bestands-ID
+      collection_identifier_stored_u_sstr: Sammlung
     container_profile:
       score: Relevanz
       title: Titel
@@ -785,7 +789,8 @@ de:
     recover_password: Passwort wiederherstellen
     email_placeholder: E-Mail-Adresse
     reset_form_instructions: Geben Sie die E-Mail-Adresse für Ihr Benutzerkonto ein.
-      Wenn ein Konto zu dieser E-Mail-Adresse existiert, bekommen Sie einen Link zum Rücksetzen Ihres Passworts an Ihre E-Mail-Adresse zugeschickt.
+      Wenn ein Konto zu dieser E-Mail-Adresse existiert, bekommen Sie einen Link zum
+      Rücksetzen Ihres Passworts an Ihre E-Mail-Adresse zugeschickt.
     new_password: Neues Passwort
     new_password_instructions: Erstellen Sie mit dem Formular ein neues Passwort für
       den Nutzer %{user} und melden Sie sich danach erneut an.
@@ -878,7 +883,8 @@ de:
       Beziehung bevor Sie mit dem Zusammenführen fortfahren.
     linked_to_assessment: Die Aufzeichnung kann nicht gelöscht werden, weil Sie mit
       einem Eingang verknüpft ist
-    linked_to_user: Die Aufzeichnung kann nicht gelöscht werden, weil Sie mit einem Benutzer verknüpft ist
+    linked_to_user: Die Aufzeichnung kann nicht gelöscht werden, weil Sie mit einem
+      Benutzer verknüpft ist
     cannot_delete_repository_agent: Dieser Akteur ist mit einem Aufbewahrungsort verknüpft
       und kann nicht entfernt werden.
     error_403_message: Die aufgerufene Seite könnte nicht mehr existieren oder Sie
@@ -1498,6 +1504,12 @@ de:
           Kontaktieren Sie Ihren Administrator.
         password_recovery_email_sent: Eine E-Mail mit Anweisungen zur Wiederherstellung
           Ihres Passworts wurde an %{email} gesendet
+        password_reset_email_sent: Wenn ein Konto für %{email} existiert, wird eine
+          E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts gesendet.
+        password_reset_fail: Das Zurücksetzen des Passworts ist fehlgeschlagen. Kontaktieren
+          Sie Ihren Administrator.
+        password_reset_not_allowed: Das Zurücksetzen des Passworts ist nicht erlaubt.
+          Kontaktieren Sie Ihren Administrator.
       section:
         manage_access: Benutzerzugriff verwalten
         edit_account_submit: Benutzerkonto aktualisieren
