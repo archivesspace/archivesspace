@@ -325,7 +325,8 @@ module SearchHelper
     params.has_key?("deleted_uri") and Array(params["deleted_uri"]).include?(record["id"])
   end
 
-  def get_ancestor_title(field, titles)
+  def get_ancestor_title(field)
+    titles = @ancestor_titles
     return titles[field] if titles.key? field
 
     begin
