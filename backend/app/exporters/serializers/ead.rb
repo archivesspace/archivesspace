@@ -834,7 +834,13 @@ class EADSerializer < ASpaceExport::Serializer
       eadid_url = current_ark
     end
 
-    eadheader_atts = {:findaidstatus => data.finding_aid_status,
+    if @include_unpublished || data.is_finding_aid_status_published
+      finding_aid_status = data.finding_aid_status
+    else
+      finding_aid_status = ""
+    end
+
+    eadheader_atts = {:findaidstatus => finding_aid_status,
                       :repositoryencoding => "iso15511",
                       :countryencoding => "iso3166-1",
                       :dateencoding => "iso8601",

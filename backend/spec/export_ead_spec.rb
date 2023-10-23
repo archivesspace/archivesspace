@@ -96,7 +96,9 @@ describe "EAD export mappings" do
                       :metadata_rights_declarations => [build(:json_metadata_rights_declaration)]
                       )
 
+
     @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
+
     @archival_objects = {}
 
     10.times {
@@ -1340,6 +1342,8 @@ describe "EAD export mappings" do
 
           unpublished_resource = create(:json_resource,
                                         :publish => false,
+                                        :finding_aid_status => 'in_progress',
+                                        :is_finding_aid_status_published => false,
                                         :linked_agents => [{
                                           :ref => @unpublished_agent.uri,
                                           :role => 'creator'
@@ -1387,6 +1391,9 @@ describe "EAD export mappings" do
       expect(@xml_including_unpublished.xpath('//c').length).to eq(2)
       expect(@xml_including_unpublished.xpath("//c[@id='aspace_#{@published_archival_object.ref_id}'][not(@audience='internal')]").length).to eq(1)
       expect(@xml_including_unpublished.xpath("//c[@id='aspace_#{@unpublished_archival_object.ref_id}'][@audience='internal']").length).to eq(1)
+
+      header = @xml_including_unpublished.xpath('//eadheader')
+      expect(header).to have_attribute('findaidstatus')
     end
 
     it "does not include unpublished items when include_unpublished option is false" do
@@ -1395,6 +1402,9 @@ describe "EAD export mappings" do
 
       item = items.first
       expect(item).not_to have_attribute('audience', 'internal')
+
+      header = @xml_not_including_unpublished.xpath('//eadheader')
+      expect(item).not_to have_attribute('findaidstatus')
     end
 
     it "include the unpublished agent with audience internal when include_unpublished is true" do
