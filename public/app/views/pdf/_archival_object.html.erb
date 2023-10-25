@@ -11,9 +11,12 @@ format_container = lambda do |type, indicator|
     [type, indicator].compact.join(' ')
 end
 %>
+<%
+  is_heading = is_parent && (record.level == "series" || record.level == "subseries" || record.level == "collection") 
+%>
 
 <div class="avoid-break">
-    <div class="print-record-border print-record level-<%= level %> <%= is_parent ? "first-post" : "" %>">
+    <div class="print-record-border print-record level-<%= level %> <%= is_heading ? "first-post" : "" %>">
       <% if level == 1 %>
         <div class="ao-summary">
       <% end %>
@@ -40,7 +43,7 @@ end
       </div>
     <% end %>
 
-    <% if is_parent %>
+    <% if is_heading %>
        <table class="collection-inventory-header">
           <td class="title">Title/Description</td>
           <td class="instance">Instances</td>
