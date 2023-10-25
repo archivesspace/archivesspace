@@ -109,17 +109,6 @@ class FindingAidPDF
     writer.write(renderer.render_to_string partial: 'footer', layout: false, :locals => {:record => @resource})
     out_html.close
 
-     STDERR.puts "++++++++++++++++++++++++++++++"
-    sample = File.open("/home/manny/Desktop/pdf.html", "w")
-    out_html.open
-    out_html.each_line do |line|
-      sample.write(line)
-    end
-    out_html.close
-    sample.close
-
-    STDERR.puts out_html
-
     out_html
   end
 
