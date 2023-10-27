@@ -1,10 +1,15 @@
-<% order = %w(title subtitle author date description_rules language script language_note sponsor edition_statement series statement) %>
+<% order = %w(subtitle author date description_rules language script language_note sponsor edition_statement series statement) %>
 
 <% unless @result.finding_aid.blank? %>
   <% if @result.finding_aid.size > 1 || @result.finding_aid['revisions'].blank? %>
     <dl class="dl-horizontal-fa">
+      
+      <% unless @result.finding_aid['title'].blank? %>
+        <dt><%= t("resource._public.finding_aid.title") %></dt>
+        <dd><%= @result.finding_aid['title'] %></dd>
+      <% end %>
 
-        <%# ANW-312: finding aid status has a separate toggle that determines whether it is displayed %>
+       <%# ANW-312: finding aid status has a separate toggle that determines whether it is displayed %>
 
       <% unless @result.finding_aid['status'].blank? %>
         <% if @result.json['is_finding_aid_status_published'] %>
