@@ -1,15 +1,17 @@
 <a name="main" title="<%= t('internal_links.main') %>"></a>
 <div id="main-content" class="row">
-  <div id="info_row">
-  <% unless defined?(@no_statement) || !defined?(@search) %>
-  <div class="searchstatement"><%= @search[:search_statement].html_safe %></div>
-  <% end %>
-  </div>
-    <div class="information col-12 col-lg-6">
+  <div id="info_row" class="col-12">
+    <% unless defined?(@no_statement) || !defined?(@search) %>
+      <div class="searchstatement"><%= @search[:search_statement].html_safe %></div>
+    <% end %>
+    <div class="d-flex flex-column flex-md-row">
+      <div class="information flex-grow-1">
         <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+      </div>
+      <div class="page_actions">
+        <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
+      </div>
     </div>
-  <div class="page_actions col-12 col-lg-6">
-    <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
   </div>
 </div>
 <div class="row">
@@ -18,8 +20,8 @@
 
 <%= render partial: 'resources/resource_alltabs' %>
 
-<div class="row mt-5" id="notes_row">
-  <div class="resizable-content-pane">
+<div class="row mt-5 flex-column flex-lg-row" id="notes_row">
+  <div class="col-12 col-lg-9 px-3 resizable-content-pane">
     <%= render partial: 'shared/digital', locals: {
       :dig_objs => @dig,
       record: @result,
@@ -27,7 +29,7 @@
     } %>
     <%= render partial: 'shared/record_innards' %>
   </div>
-  <div id="sidebar" class="col-sm-3 sidebar sidebar-container resizable-sidebar" <% unless @has_children %>style="display: none"<% end %>>
+  <div id="sidebar" class="h-max col-12 col-lg-3 sidebar sidebar-container resizable-sidebar" <% unless @has_children %>style="display: none"<% end %>>
     <% if defined?(@filters) && defined?(@search) %>
     <%= render partial: 'shared/facets' %>
    <% end %>

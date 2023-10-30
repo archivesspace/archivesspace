@@ -18,7 +18,7 @@ function initialize_accordion(what, ex_text, col_text, expand_all) {
       $(what)
         .parents('.acc_holder')
         .prepend(
-          "<a  class='btn btn-primary btn-sm acc_button' role='button' ></a>"
+          "<a  class='btn btn-primary acc_button mb-2' role='button' ></a>"
         );
     }
     expandAllByDefault(what, expand_all);

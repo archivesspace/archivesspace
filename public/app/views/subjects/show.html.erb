@@ -7,7 +7,7 @@
       <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
     </div>
   </div>
-  <div class="row">
+  <div class="row align-items-start">
     <div class="information col-sm-9">
       <div class="clear">
         <span class="inline-label clear"><%= t('enumeration_names.subject_source') %>: </span><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %>

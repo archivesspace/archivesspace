@@ -1,8 +1,7 @@
 <% pager_id ||= 'paging' %>
 <% if pager && pager.pages.last > 1 %>
-<div id="<%= pager_id %>">
-  
-  <ul class="pagination mb-0">
+<nav id="<%= pager_id %>" class="d-flex">
+  <ul class="pagination flex-wrap mb-0">
     <% if pager.need_prev %>
       <li class="previous page-item"><a class="page-link" href="<%= app_prefix(pager.link) %>&page=<%= pager.prev %>"><span aria-hidden="true">&larr;</span> <%= t 'actions.previous' %></a></li>
     <% end %>
@@ -20,6 +19,6 @@
     <% if pager.need_next %>
       <li class="next page-item"><a class="page-link"  href="<%= app_prefix(pager.link) %>&page=<%= pager.next %>"><%= t 'actions.next' %> <span aria-hidden="true">&rarr;</span></a></li>
     <% end %>
-</ul>
-</div>
+  </ul>
+</nav>
 <% end %>

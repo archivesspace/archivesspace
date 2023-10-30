@@ -154,7 +154,7 @@ describe ResourcesController, type: :controller do
       page.find(:css, 'figure[data-rep-file-version-wrapper] figcaption') do |fc|
         expect(fc.text).to have_content(@fv_caption)
       end
-      expect(response.body).to have_css(".objectimage a[class='view-all']")
+      expect(response.body).to have_css(".objectimage a[data-view-all-digital-objects]")
     end
   end
 

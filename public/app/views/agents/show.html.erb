@@ -2,15 +2,14 @@
 
 <div id="main-content" class="agents">
 
-  <div class="row" id="info_row">
-    <div class="information col-sm-7">
+  <div class="d-flex" id="info_row">
+    <div class="information flex-grow-1">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     </div>
-    <div class="page_actions col-sm-5 right">
+    <div class="page_actions">
       <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
     </div>
   </div>
-
 
 <div class="row">
   <div class="col-sm-9">
@@ -33,8 +32,9 @@
     <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
   </div>
 
+  <div class="col-sm-3 align-self-start">
   <% if show_agents_sidebar?(@result) %>
-    <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+    <div id="sidebar" class="sidebar sidebar-container">
       <h3><%= t('more_about') %> '<%= @result.display_string %>'</h3>
       <div class="acc_holder clear" >
         <div class="panel-group" id="agent_accordion">
@@ -71,5 +71,6 @@
   <% if !@facets.blank? || !@filters.blank? %>
     <%= render partial: 'shared/facets' %>
   <% end %>
+  </div>
   </div>
 </div>

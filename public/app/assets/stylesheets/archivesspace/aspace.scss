@@ -108,7 +108,6 @@ a img {
 
 .tabbing.nav-pills > li > a {
   margin-bottom: 0;
-  margin-left: -10px;
   margin-right: 0;
   background-color: $secondary-color;
   color: $white;
@@ -140,10 +139,12 @@ a img {
   border-top-left-radius: 0;
 }
 
-.tabbing.nav-pills > li > a.disabled-nav-pill:hover {
-  color: #333;
-  background-color: transparent;
-  cursor: default;
+.tabbing.nav-pills > li.nav-item.disabled > a.nav-link:hover,
+.tabbing.nav-pills > li.nav-item.disabled > a.nav-link:focus {
+  color:#777;
+  text-decoration:none;
+  background-color:transparent;
+  cursor:not-allowed;
 }
 
 /* this enables customization of the nav bar. h/t to zessx (http://stackoverflow.com/users/1238019/zessx)
@@ -258,11 +259,6 @@ a img {
   &.small-8 {
     padding-right: rem-calc(20);
   }
-}
-
-#main-content.accessions,
-#main-content.objects {
-  padding: 0 1em;
 }
 
 #sidebar {
@@ -383,7 +379,8 @@ a img {
 .recordrow {
   padding: rem-calc(10);
   border: 1px solid $border;
-  margin-bottom: rem-calc(10);
+  border-radius: var(--bootstrap-rounded-border-radius);
+  margin-bottom: 1rem;
 
   &.featured {
     background-color: $row-background;
@@ -787,8 +784,6 @@ i.giant {
   display: block;
   min-width: 200px;
   max-width: 100%;
-  border-top-right-radius: var(--bootstrap-rounded-corner-radius);
-  border-top-left-radius: var(--bootstrap-rounded-corner-radius);
 }
 .objectimage figcaption,
 .additional-file-version figcaption {
@@ -797,9 +792,6 @@ i.giant {
 .objectimage button[type='submit'] {
   width: 100%;
   white-space: normal;
-}
-.objectimage a.view-all {
-  padding-left: 0.5rem;
 }
 
 @media (min-width: 500px) {
@@ -826,7 +818,7 @@ i.giant {
   margin-bottom: 20px;
   padding: var(--bootstrap-horizontal-white-space-unit);
   border: 1px solid $lightblue;
-  border-radius: var(--bootstrap-rounded-corner-radius);
+  border-radius: var(--bootstrap-rounded-border-radius);
   background-color: #fff;
   text-align: center;
 }
@@ -841,7 +833,7 @@ i.giant {
   margin-bottom: 0;
   padding: 6px 12px;
   border: 1px solid $lightblue;
-  border-radius: var(--bootstrap-rounded-corner-radius);
+  border-radius: var(--bootstrap-rounded-border-radius);
   font-size: 14px;
   font-family: var(--bootstrap-sans);
   font-weight: normal;
@@ -891,6 +883,7 @@ span.head {
 }
 
 .breadcrumb > li + li::before {
+  padding-left: .625rem;
   color: $darkest;
   content: '\007C\00a0';
 }
@@ -922,11 +915,6 @@ span.head {
   padding-left: 20px;
 }
 
-#sidebar form {
-  max-width: 85%;
-  margin: 0 auto;
-}
-
 .panel-heading {
   word-break: break-word;
   white-space: normal;
@@ -950,7 +938,7 @@ span.head {
 @media (min-width: 992px) {
   #sidebar.resizable-sidebar {
     position: relative;
-    padding-left: 12px;
+    padding-left: 18px; // margin-right (10) + handle width (8)
 
     .resizable-sidebar-handle {
       background-color: #eee;
@@ -1043,7 +1031,7 @@ span.head {
     width: 25%;
   }
   .resizable-content-pane {
-    width: 75%;
+    width: 100%;
     @media (min-width: 992px) {
       flex: 1;
     }
