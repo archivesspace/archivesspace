@@ -80,7 +80,7 @@ AppConfig[:mysql_binlog] = false
 #      "ps" => 0,
 #    }
 # For more information about solr parameters, please consult the solr documentation
-# here: https://lucene.apache.org/solr/
+# here: https://solr.apache.org/guide/solr/latest/query-guide/dismax-query-parser.html
 # Configuring search operator to be AND by default - ANW-427
 AppConfig[:solr_params] = { 'q.op' => 'AND' }
 AppConfig[:solr_verify_checksums] = true
