@@ -192,8 +192,13 @@
         <p><%= contacts['address_1'] %></p>
         <p><%= contacts['address_2'] %></p>
         <p><%= contacts['address_3'] %></p>
-        <p><%= "#{contacts['city']}, #{contacts['region']} #{contacts['post_code']}"  %></p>
-              
+
+        <% address_string = "" %>
+        <% address_string += contacts['city'] if contacts['city'] %>
+        <% address_string += ", #{contacts['region']}" if contacts['region'] %>
+        <% address_string += " #{contacts['post_code']}" if contacts['post_code'] %>
+
+        <p><%= address_string %></p>
     </div>
   <% end %>
 </div>
