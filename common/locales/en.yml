@@ -158,7 +158,7 @@ en:
   location: &location_attributes
     title: Location
     temporary_question: Temporary?
-    temporary: Temporary
+    temporary: Temporary Type
     temporary_tooltip: |
         <p>Used to indicate if this Location is a specific type of temporary location (e.g. an exhibition area).</p>
     building: Building
