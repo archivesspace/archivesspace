@@ -253,7 +253,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_is_global_admin?
-    session['user'] and session['user'] == "admin"
+    session['user'] and user_can? 'administer_system'
   end
 
 

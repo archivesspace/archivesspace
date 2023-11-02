@@ -9,6 +9,11 @@ describe 'System Information' do
 
     @archivist_user = create_user(@repo => ['repository-archivists'])
     @driver = Driver.get
+
+    @other_admin_user = create_user
+    group = create(:json_group,
+                     member_usernames: [@other_admin_user.username],
+                     grants_permissions: ["administer_system"])
   end
 
   after(:all) do
@@ -28,6 +33,16 @@ describe 'System Information' do
 
   it 'should let the admin see this' do
     @driver.login_to_repo($admin, @repo)
+
+    @driver.find_element(:link, 'System').click
+    @driver.find_element(:link, 'System Information').click
+    assert(5) do
+      expect(@driver.find_element(css: 'h3.subrecord-form-heading').text).to eq('Frontend System Information')
+    end
+  end
+
+  it 'should let users with admin privs see this' do
+    @driver.login_to_repo(@other_admin_user, @repo)
 
     @driver.find_element(:link, 'System').click
     @driver.find_element(:link, 'System Information').click
