@@ -11,9 +11,12 @@ format_container = lambda do |type, indicator|
     [type, indicator].compact.join(' ')
 end
 %>
+<%
+  is_heading = is_parent && (record.level == "series" || record.level == "subseries" || record.level == "collection") 
+%>
 
 <div class="avoid-break">
-    <div class="print-record-border print-record level-<%= level %>">
+    <div class="print-record-border print-record level-<%= level %> <%= is_heading ? "first-post" : "" %>">
       <% if level == 1 %>
         <div class="ao-summary">
       <% end %>
@@ -38,35 +41,50 @@ end
 
     <% if level == 1 %>
       </div>
+    <% end %>
 
-  <table class="collection-inventory-header">
-    <tr>
-      <td class="title">Title/Description</td>
-      <td class="instance">Instances</td>
-    </tr>
-  </table>
+    <% if is_heading %>
+       <table class="collection-inventory-header">
+          <td class="title">Title/Description</td>
+          <td class="instance">Instances</td>
+       </table>
 
     <% end %>
         <% Array(record.instances).each do |instance| %>
             <% if instance['sub_container'] %>
                 <div class="container-information">
                     <%
-                    container_string = [
-                        format_container.call(instance['sub_container']['top_container']['_resolved']['type'],
-                                              instance['sub_container']['top_container']['_resolved']['indicator']),
-                        format_container.call(instance['sub_container']['type_2'],
-                                              instance['sub_container']['indicator_2']),
-                        format_container.call(instance['sub_container']['type_3'],
-                                              instance['sub_container']['indicator_3'])
-                    ].reject(&:empty?).join('; ')
+                      if instance['sub_container'] &&
+                         instance['sub_container']['top_container'] &&
+                         instance['sub_container']['top_container']['_resolved'] &&
+                         instance['sub_container']['top_container']['_resolved']['display_string']
+
+                        tc_display_string = instance['sub_container']['top_container']['_resolved']['display_string'].split(':')[0]
+
+                        if tc_display_string =~ /:/
+                          box_string = tc_display_string.split(':')[0]
+                        else
+                          box_string = tc_display_string
+                        end
+
+                      else
+                        box_string = ""
+                      end
+
+                      if instance['sub_container'] &&
+                         instance['sub_container']['type_2'] &&
+                         instance['sub_container']['indicator_2']
+                        folder_string = instance['sub_container']['type_2'] + " " + instance['sub_container']['indicator_2']
+                      else
+                        folder_string = ""
+                      end
                     %>
 
-                    <% unless container_string.empty? %>
-                        <%= container_string %>
-                        <% if instance['instance_type'] %>
-                            (<%= I18n.t("enumerations.instance_instance_type.#{instance['instance_type']}",
-                                        :default => instance['instance_type']) %>)
-                        <% end %>
+                    <% unless box_string.empty? || folder_string.empty? %>
+                      <div class='box-area'>
+                        <div class='box-string'><%= box_string.downcase %></div>
+                        <div class='folder-string'><%= folder_string.downcase %></div>
+                      </div>
                     <% end %>
                 </div>
             <% end %>
@@ -91,17 +109,6 @@ end
             <% end %>
 
             <dl>
-                <% unless record.direct_component_id.empty? %>
-                    <dt><%= I18n.t('resource._public.finding_aid.identifier') %></dt><dd><%= record.direct_component_id %></dd>
-                <% end %>
-
-                <% if false %>
-                <% record.dates.each do |date| %>
-                    <% next if date['_inherited'] %>
-                    <dt><%= I18n.t('resource._public.finding_aid.date') %></dt><dd><%= date['final_expression'] %></dd>
-                <% end %>
-                <% end %>
-
                 <% record.extents.each do |extent| %>
                     <% next if extent['_inherited'] %>
                     <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%= extent['display'] %></dd>

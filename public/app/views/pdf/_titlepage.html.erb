@@ -1,19 +1,25 @@
 <div class="title-page">
     <div class="logo"><%= image_tag( record.resolved_repository['image_url'] || asset_path("ArchivesSpaceLogo_for_pdf.png") ) %></div>
     <div class="title-block">
-    <% if record.finding_aid['title'] %>
-        <h1 class="title"><%== process_mixed_content(record.finding_aid['title'], :preserve_newlines => true) %></h1>
-        <h4 class="subtitle"><%== if record.finding_aid['subtitle'] then process_mixed_content(record.finding_aid['subtitle'], :preserve_newlines => true) end %></h4>
-    <% else %>
-        <h1 class="title"><%== process_mixed_content(record.display_string, :preserve_newlines => true) %></h1>
+
+    <% if record.finding_aid['title'] %> 
+      <% title_string = record.finding_aid['title'] %>
+    <% elsif record.finding_aid['filing_title'] %>
+      <% title_string = record.finding_aid['filing_title'] %>
+    <% else %> 
+      <% title_string = record.display_string %>
     <% end %>
+
+    <h1 class="title"><%== process_mixed_content(title_string, :preserve_newlines => true) %></h1>
+    <h4 class="subtitle"><%== if record.finding_aid['subtitle'] then process_mixed_content(record.finding_aid['subtitle'], :preserve_newlines => true) end %></h4>
+
     <hr />
     </div>
 
     <div class="title-text-block">
-    <p><%= I18n.t('pdf_reports.finding_aid_date_prefix') %> <%= Date.today.strftime("%B %d, %Y") %></p>
+    <p><%= I18n.t('pdf_reports.finding_aid_date_prefix') %> <%= Date.today.strftime("%B %d, %Y") + "." %></p>
     <% if record.finding_aid['language'] %>
-        <p><%= t('enumerations.language_iso639_2.' + record.finding_aid['language']) %></p>
+        <p><%= "Description is written in: " + t('enumerations.language_iso639_2.' + record.finding_aid['language']) + "." %></p>
     <% end %>
 
     <% if record.finding_aid['description_rules'] %>
@@ -23,17 +29,44 @@
     <p><%= record.finding_aid['edition_statement'] %></p>
     </div>
     
-    <div class="repository-name">
-
-    </div>
-
     <% ASUtils.find_local_directories('public/views/_pdf_titlepage.html.erb').each do |template| %>
         <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>
     <% end %>
 
-    <%= render(:partial => 'publication_statement', :locals => {
-        :repository_name => record.resolved_repository,
-        :repository_information => record.repository_information
-    })
-    %>
+    <% if record.resolved_repository && 
+          record.resolved_repository['agent_representation'].any? &&
+          record.resolved_repository['agent_representation']['_resolved'].any? &&
+          record.resolved_repository['agent_representation']['_resolved']['agent_contacts'].any? %>
+        <% contacts = record.resolved_repository['agent_representation']['_resolved']['agent_contacts'].first %>
+    <% else %>
+        <% contacts = nil %>
+    <% end %>
+
+    <div class="repository-information">
+      <div class="repository-name"><%= record.resolved_repository['name'] %></div>
+
+      <% if contacts %>
+        <div class="repository-address">
+            <p><%= contacts['address_1'] %></p>
+            <p><%= contacts['address_2'] %></p>
+            <p><%= contacts['address_3'] %></p>
+
+            <% address_string = "" %>
+            <% address_string += contacts['city'] if contacts['city'] %>
+            <% address_string += ", #{contacts['region']}" if contacts['region'] %>
+            <% address_string += " #{contacts['post_code']}" if contacts['post_code'] %>
+
+            <p><%= address_string %></p>
+        </div>
+      <% end %>
+
+      <% if record.repository_information['email'] %>
+          <div class="repository-email"><a href="mailto:<%= record.repository_information['email'] %>"><%= record.repository_information['email'] %></a></div>
+      <% end %>
+      <% if record.repository_information['top']['url'] %>
+          <div class="repository-url">
+              URL: <a href="<%= record.repository_information['top']['url'] %>"><%= record.repository_information['top']['url'] %></a>
+          </div>
+      <% end %>
+    </div>
 </div>

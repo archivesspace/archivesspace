@@ -2,41 +2,49 @@
 <h3><%= I18n.t('pdf_reports.summary_information') %></h3>
 
 <dl>
-    <dt><%= I18n.t('repository._singular') %></dt>
+    <dt><%= I18n.t('repository._singular') %>:</dt>
     <dd><%= record.resolved_repository['name'] %></dd>
 
     <% if record.agents %>
         <% record.agents.each do |role, relationships| %>
             <% relationships.each do |relationship| %>
-                <dt><%= I18n.t("enumerations.linked_agent_role.#{role}", :default => role) %></dt>
-                <dd><%= relationship['_resolved']['title'] %></dd>
+                <% if role != "subject" %>
+                  <dt><%= I18n.t('enumerations.linked_agent_role.' + role.to_s) %></dt>
+                  <dd><%= relationship['_resolved']['title'] %></dd>
+                <% end %>
             <% end %>
         <% end %>
     <% end %>
 
-    <dt><%= I18n.t('resource._public.finding_aid.title') %></dt><dd><%== process_mixed_content(record.display_string) %></dd>
+    <dt><%= I18n.t('resource._public.finding_aid.title') %>:</dt><dd><%== process_mixed_content(record.display_string) %></dd>
 
-    <dt><%= I18n.t('resource._public.identifier') %></dt><dd><%= record.identifier %></dd>
+    <dt><%= I18n.t('resource._public.identifier_pdf') %>:</dt><dd><%= record.identifier %></dd>
 
-    <dt><%= I18n.t('resource._public.uri') %></dt>
+    <% if record['ark_name'] %> 
+      <dt><%= I18n.t('resource._public.identifier_ark') %>:</dt><dd><%= record['ark_name'].first %></dd>
+
+    <% end %> 
+
+    <dt><%= I18n.t('resource._public.uri') %>:</dt>
     <dd><%= record['uri'] %></dd>
 
     <% record.dates.each do |date| %>
-        <dt><%= I18n.t('resource._public.finding_aid.date') %></dt><dd><%= date['final_expression'] %></dd>
+        <dt><%= I18n.t('resource._public.finding_aid.date') + " [#{date['date_type']}]" %>:</dt><dd><%= date['final_expression'].split(':')[1].chomp %></dd>
     <% end %>
 
+
     <% record.extents.each do |extent| %>
-        <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%= extent['display'] %></dd>
+        <dt><%= I18n.t('resource._public.physdesc') %>:</dt><dd><%= extent['display'] %></dd>
     <% end %>
 
 
     <% unless record.finding_aid['language_note'].nil? %>
-      <dt><%= I18n.t('resource._public.lang') %></dt>
+      <dt><%= I18n.t('resource._public.lang') %>:</dt>
       <dd><%= record.finding_aid['language_note'] %></dd>
     <% end %>
 
     <% unless record.notes.include?('langmaterial') || record.lang_materials.blank? %>
-        <dt><%= t('resource._public.lang') %></dt>
+        <dt><%= t('resource._public.lang_pdf') %>:</dt>
         <% record.lang_materials.each do |lang_material| %>
             <dd><%= t('enumerations.language_iso639_2.' + lang_material['language'])%></dd>
         <% end %>
@@ -46,7 +54,16 @@
         <% if note_type == 'physdesc' %>
             <a id="note-<%= note_type %>"></a>
             <% note.each do |n| %>
-              <dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%== process_mixed_content(n['note_text']) %></dd>
+              <dt><%= n['label'] ? n['label'] : I18n.t("enumerations._note_types.#{note_type}") %>:</dt><dd><%== process_mixed_content(n['note_text']) %></dd>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <% record.notes.each do |note_type, note| %>
+        <% if note_type == 'physloc' %>
+            <a id="note-<%= note_type %>"></a>
+            <% note.each do |n| %>
+              <dt><%= n['label'] ? n['label'] : I18n.t("enumerations._note_types.#{note_type}") %>:</dt><dd><%== process_mixed_content(n['note_text']) %></dd>
             <% end %>
         <% end %>
     <% end %>
@@ -55,7 +72,7 @@
         <% if note_type == 'abstract' %>
             <a id="note-<%= note_type %>"></a>
             <% note.each do |n| %>
-              <dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%== process_mixed_content(n['note_text']) %></dd>
+              <dt><%= n['label'] ? n['label'] : I18n.t("enumerations._note_types.#{note_type}") %>:</dt><dd><%== process_mixed_content(n['note_text']) %></dd>
             <% end %>
         <% end %>
     <% end %>
@@ -70,20 +87,23 @@
     <% end %>
 
     <% if record.container_display && !record.container_display.empty? %>
-        <dt><%= I18n.t('resource._public.storage') %></dt><dd><%= record.container_display.join(', ') %></dd>
+        <dt><%= I18n.t('resource._public.storage') %>:</dt><dd><%= record.container_display.join(', ') %></dd>
     <% end %>
 
     <%= render(:partial => 'digital_object_links', :locals => {
         :instances => record.instances
     }) %>
+
 </dl>
+
+    <a href="#toc">Return to Table of Contents</a>
 
     <% record.notes.each do |note_type, note| %>
         <% if note_type == 'prefercite' %>
             <a id="note-<%= note_type %>"></a>
             <% note.each do |n| %>
               <div id="note-prefercite">
-                <dl><dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%== process_mixed_content(n['note_text']) %></dd></dl>
+                <dl><dt><%= n['label'] ? n['label'] : I18n.t("enumerations._note_types.#{note_type}") %>:</dt><dd><%== process_mixed_content(n['note_text']) %></dd></dl>
               </div>
             <% end %>
         <% end %>
@@ -104,6 +124,8 @@
       <p><%= n['note_text'].html_safe %></p>
     <% end %>
   <% end %>
+
+  <a href="#toc">Return to Table of Contents</a>
 </div>
 
 
@@ -120,6 +142,8 @@
     </h3>
     <p><%== process_mixed_content(n['note_text']) %></p>
   <% end %>
+
+  <a href="#toc">Return to Table of Contents</a>
 <% end %>
 
 <a id="note-arrangement"></a>
@@ -135,6 +159,8 @@
     </h3>
     <p><%== process_mixed_content(n['note_text']) %></p>
   <% end %>
+
+  <a href="#toc">Return to Table of Contents</a>
 <% end %>
 
 
@@ -146,6 +172,57 @@
     :repository_name => record.resolved_repository['name'],
     :repository_information => record.repository_information
 }) %>
+
+<%# FIXME: duplicated from title page because this code doesn't work in a partial for some reason %>
+<% if record.resolved_repository && 
+      record.resolved_repository['agent_representation'].any? &&
+      record.resolved_repository['agent_representation']['_resolved'].any? &&
+      record.resolved_repository['agent_representation']['_resolved']['agent_contacts'].any? %>
+    <% contacts = record.resolved_repository['agent_representation']['_resolved']['agent_contacts'].first %>
+<% else %>
+    <% contacts = nil %>
+<% end %>
+
+<br />
+<div class="repository-information">
+  <div class="repository-address"><%= record.resolved_repository['name'] %></div>
+  
+  <% if contacts %>
+    <div class="repository-address">
+        <p><%= contacts['address_1'] %></p>
+        <p><%= contacts['address_2'] %></p>
+        <p><%= contacts['address_3'] %></p>
+
+        <% address_string = "" %>
+        <% address_string += contacts['city'] if contacts['city'] %>
+        <% address_string += ", #{contacts['region']}" if contacts['region'] %>
+        <% address_string += " #{contacts['post_code']}" if contacts['post_code'] %>
+
+        <p><%= address_string %></p>
+    </div>
+  <% end %>
+</div>
+<br />
+
+<% unless record.notes['acqinfo'].nil? %>
+  <h4><%= I18n.t('pdf_reports.acqinfo') %></h4>
+  <% record.notes['acqinfo'].each do |acqinfo| %>
+      <% acqinfo['subnotes'].each do |sn| %>
+      <p><%= sn['content'] %></p>
+      <% end %>
+  <% end %>
+<% end %>
+
+
+<% unless record.notes['accruals'].nil? %>
+  <h4><%= I18n.t('pdf_reports.accruals') %></h4>
+  <% record.notes['accruals'].each do |accruals| %>
+      <% accruals['subnotes'].each do |sn| %>
+      <p><%= sn['content'] %></p>
+      <% end %>
+  <% end %>
+<% end %>
+
 
 <% unless record.notes['accessrestrict'].nil? %>
   <h4><%= I18n.t('pdf_reports.accessrestrict') %></h4>
@@ -164,6 +241,8 @@
       <% end %>
   <% end %>
 <% end %>
+
+<a href="#toc">Return to Table of Contents</a>
 
 <a id="note-relatedmaterial"></a>
 
@@ -186,10 +265,24 @@
   <h3><%= I18n.t('pdf_reports.controlled_access_headings') %></h3>
 
   <ul>
-  <% Array(record.subjects).each do |subject| %>
-      <li><%= subject['title'] %></li>
-  <% end %>
+    <% Array(record.subjects).each do |subject| %>
+        <li><%= subject['title'] %></li>
+    <% end %>
+
+    <% if record.agents %>
+        <% record.agents.each do |role, relationships| %>
+            <% relationships.each do |relationship| %>
+                <% if role == "subject" %>
+                  <li><%= relationship['_resolved']['title'] %></li>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+
+
   </ul>
+
+  <a href="#toc">Return to Table of Contents</a>
 <% end %>
 
 <% ASUtils.find_local_directories('public/views/_pdf_resource.html.erb').each do |template| %>
@@ -200,4 +293,9 @@
 <% if has_children %>
     <a id="collection-inventory"></a>
     <h3><%= I18n.t('pdf_reports.collection_inventory') %></h3>
+    <table class="collection-inventory-header">
+      <td class="title">Title/Description</td>
+      <td class="instance">Instances</td>
+    </table> 
+
 <% end %>

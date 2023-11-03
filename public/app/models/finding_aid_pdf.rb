@@ -78,10 +78,31 @@ class FindingAidPDF
       uri_set = entry_set.map(&:uri)
       record_set = archivesspace.search_records(uri_set, {}, true).records
 
-      record_set.zip(entry_set).each do |record, entry|
+
+      unprocessed_record_list = record_set.zip(entry_set)
+      ao_list = []
+
+      # tuple looks like [ArchivalObject, Entry]
+      unprocessed_record_list.each_with_index do |tuple, i|
+        record = tuple[0]
+        next_record = unprocessed_record_list[i + 1][0] rescue nil
+
         next unless record.is_a?(ArchivalObject)
 
-        writer.write(renderer.render_to_string partial: 'archival_object', layout: false, :locals => {:record => record, :level => entry.depth})
+        if next_record && record.uri == next_record.parent_for_md_mapping
+          has_children = true
+        else
+          has_children = false
+        end
+
+        tuple[2] = has_children
+
+        ao_list.push(tuple)
+      end
+
+
+      ao_list.each do |record, entry, is_parent|
+        writer.write(renderer.render_to_string partial: 'archival_object', layout: false, :locals => {:record => record, :level => entry.depth, :is_parent => is_parent})
       end
     end
 
@@ -108,12 +129,26 @@ class FindingAidPDF
       font_path = Rails.root.to_s + "/../plugins/custom-pui-pdf-font/public/app/assets/fonts/#{AppConfig[:pui_pdf_font_file]}"
     else
       font_path = Rails.root.to_s + "/app/assets/fonts/#{AppConfig[:pui_pdf_font_file]}"
+      bold_font_path = Rails.root.to_s + "/app/assets/fonts/#{AppConfig[:pui_pdf_bold_font_file]}"
+      italic_font_path = Rails.root.to_s + "/app/assets/fonts/#{AppConfig[:pui_pdf_italic_font_file]}"
     end
 
     resolver.addFont(
-      font_path,
-      "Identity-H",
-      true
+     font_path,
+     "Identity-H",
+     true
+    );
+
+    resolver.addFont(
+     bold_font_path,
+     "Identity-H",
+     true
+    );
+
+    resolver.addFont(
+     italic_font_path,
+     "Identity-H",
+     true
     );
 
     renderer.set_document(java.io.File.new(out_html.path))
