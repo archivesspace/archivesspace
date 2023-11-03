@@ -3,8 +3,9 @@ require 'ashttp'
 require 'spec/lib/jsonmodel_factories'
 require 'vcr'
 require 'webmock/rspec'
+require 'test_utils'
 
-AppConfig[:backend_url] = ENV['ASPACE_TEST_BACKEND_URL']
+AppConfig[:backend_url] = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{TestUtils::free_port_from(3636)}"
 
 # VCR allows the tests to be self-contained - there is no need
 # to spin up a backend in a CI environment or in development environment
