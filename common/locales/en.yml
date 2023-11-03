@@ -1895,45 +1895,41 @@ en:
       basic_data_entry: "Basic Data Entry users of the %{repo_code} repository"
       repository_viewers: "Viewers of the %{repo_code} repository"
     permission_types:
-      manage_repository: manage this repository (change groups and other settings)
-      update_location_record: create/modify/delete location records in this repository
-      update_subject_record: create/update subject records
-      update_agent_record: create/update agent records
-      view_agent_contact_record: view contact details for agent records
-      show_full_agents: work with agents in full mode
-      update_vocabulary_record: create/update vocabulary records
-      update_accession_record: create/update accessions in this repository
-      update_resource_record: create/update resources in this repository
-      update_digital_object_record: create/update digital objects in this repository
-      update_event_record: create/update event records in this repository
-      view_repository: view the records in this repository
-      view_suppressed: view suppressed records in this repository
-      suppress_archival_record: suppress the major record types in this repository
-      delete_archival_record: delete the major record types in this repository
-      delete_event_record: delete event records in this repository
-      update_classification_record: create/update classifications and classification terms
-      delete_classification_record: delete classifications and classification terms
-      merge_agents_and_subjects: merge agent/subject records
-      merge_archival_record: merge the major record types in this repository
-      manage_rde_templates: manage RDE templates
-      transfer_repository: transfer the entire contents of a repository
-      transfer_archival_record: transfer major record types between repositories
-      manage_subject_record: create/update/delete subject records
-      manage_agent_record: create/update/delete agent records
-      manage_vocabulary_record: create/update/delete vocabulary records
-      import_records: initiate import jobs
-      cancel_importer_job: cancel an import job
-      update_container_record: create/update top container records
-      manage_container_record: delete/bulk update top container records
-      manage_container_profile_record: create/update/delete container profile records
-      manage_location_profile_record: create/update/delete location profile records
-      create_job: create and run a background job
-      cancel_job: cancel a background job
-      update_assessment_record: create/update assessment records
-      delete_assessment_record: delete assessment records
-      manage_assessment_attributes: create/update/delete repository assessment attributes definitions
-      manage_enumeration_record: create/update/delete controlled value records
-      manage_custom_report_templates: manage custom report templates
+      manage_repository: assign <b>users</b> to groups (in this repository)<br/>set <b>group</b> permissions (in this repository)<br/>set <b>repository preferences</b> (in this repository)<br/>configure <b>required fields and default values</b> (in this repository)<br/>create and run <b>batch find and replace jobs</b> (in this repository)<br/>create/update/delete <b>locations</b> (system-wide) # required fields can only be set in staff interface for agents, and despite being global records the fields set as required only apply when user is in the same repository. there is also a preference that must be set before a user will get default values
+      view_agent_contact_record: edit/view contact details section of <b>agents</b> (in this repository)
+      show_full_agents: edit additional sections of <b>agents</b> enabled by full mode (in this repository)
+      update_accession_record: create/update <b>accessions</b> (in this repository)
+      update_resource_record: create/update <b>resources</b> (in this repository)
+      update_digital_object_record: create/update <b>digital objects</b> (in this repository)
+      update_event_record: create/update <b>events</b> (in this repository)
+      view_repository: view <b>all records</b> (in this repository)<br/>view <b>agents</b> (system-wide)<br/>view <b>subjects</b> (system-wide)
+      view_suppressed: view <b>suppressed records</b> (in this repository)
+      suppress_archival_record: suppress <b>accessions, archival objects and resources</b> (in this repository)
+      delete_archival_record: delete <b>accessions, archival objects, digital objects and resources</b> (in this repository)
+      delete_event_record: delete <b>events</b> (in this repository)
+      update_classification_record: create/update <b>classifications</b> (in this repository)
+      delete_classification_record: delete <b>classifications</b> (in this repository)
+      merge_agents_and_subjects: merge <b>agents</b> (system-wide)<br/>merge <b>subjects</b> (system-wide)
+      merge_archival_record: merge <b>digital objects</b> (in this repository)</br>merge <b>resources</b> (in this repository)
+      manage_rde_templates: create/delete <b>rapid data entry templates</b> (in this repository)
+      transfer_repository: transfer <b>the entire contents of this repository</b> to another repository (must also have the same permission in the destination repository)
+      transfer_archival_record: transfer individual <b>accessions, digital objects and resources</b> to another repository (must also have permission to create/update records of the type being transferred in both repositories)
+      manage_subject_record: create/update/delete <b>subjects</b> (system-wide)
+      manage_agent_record: create/update/delete <b>agents</b> (system-wide)
+      manage_vocabulary_record: create/update/delete <b>vocabularies</b> (system-wide)
+      import_records: create/run <b>import jobs</b> (in this repository)
+      cancel_importer_job: cancel <b>import jobs</b> (in this repository)
+      update_container_record: create/update <b>top containers</b> (in this repository)
+      manage_container_record: delete/bulk-update <b>top containers</b> (in this repository)
+      manage_container_profile_record: create/update/delete <b>container profiles</b> (system-wide)
+      manage_location_profile_record: create/update/delete <b>location profiles</b> (system-wide)
+      create_job: create/run <b>background jobs</b> (in this repository)
+      cancel_job: cancel <b>background jobs</b> (in this repository)
+      update_assessment_record: create/update <b>assessments</b> (in this repository)
+      delete_assessment_record: delete <b>assessments</b> (in this repository)
+      manage_assessment_attributes: create/update/delete <b>repository assessment attributes definitions</b> (in this repository)
+      manage_enumeration_record: create/update/delete <b>controlled values</b> (system-wide)
+      manage_custom_report_templates: create/update/delete <b>custom report templates</b> (in this repository)
     _singular: Group
     _plural: Groups
 
