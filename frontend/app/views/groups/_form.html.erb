@@ -40,7 +40,7 @@
             <% end %>
                    value="<%= permission.permission_code %>" />
           </span>
-          <label class="form-control" for="<%= permission.permission_code %>" disabled>
+          <label class="form-control permission-label" for="<%= permission.permission_code %>" disabled>
             <%= I18n.t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code) %>
           </label>
         </div>
