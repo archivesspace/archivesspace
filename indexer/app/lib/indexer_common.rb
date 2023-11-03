@@ -121,12 +121,17 @@ class IndexerCommon
   end
 
 
-  def self.extract_string_values(doc)
+  def self.extract_string_values(doc, *opts)
+    return doc if doc.is_a? String
     queue = [doc]
     strings = []
 
     while !queue.empty?
       doc = queue.pop
+
+      if opts.include? :exclude_unpublished
+        next if (doc.has_key?("publish") && !doc["publish"])
+      end
 
       doc.each do |key, val|
         if IndexerCommonConfig.fullrecord_excludes.include?(key) || key =~ /_enum_s$/
@@ -151,8 +156,8 @@ class IndexerCommon
   end
 
 
-  def self.build_fullrecord(record)
-    fullrecord = IndexerCommon.extract_string_values(record)
+  def self.build_fullrecord(record, *opts)
+    fullrecord = IndexerCommon.extract_string_values(record, *opts)
     %w(finding_aid_subtitle finding_aid_author).each do |field|
       if record['record'].has_key?(field)
         fullrecord << " #{record['record'][field]}"
@@ -161,7 +166,7 @@ class IndexerCommon
 
     if record['record'].has_key?('names')
       fullrecord << " " + record['record']['names'].map {|name|
-        IndexerCommon.extract_string_values(name)
+        IndexerCommon.extract_string_values(name, *opts)
       }.join(" ")
     end
     fullrecord.strip
@@ -250,11 +255,8 @@ class IndexerCommon
 
   def add_notes(doc, record)
     if record['record']['notes']
-      if record['record']['notes'].respond_to?(:map)
-        doc['notes'] = record['record']['notes'].map {|note| IndexerCommon.extract_string_values(note) }.join(" ");
-      else
-        doc['notes'] = record['record']['notes']
-      end
+      doc['notes'] = [record['record']['notes']].flatten.map {|note| IndexerCommon.extract_string_values(note) }.join(" ")
+      doc['notes_published'] = [record['record']['notes']].flatten.map {|note| IndexerCommon.extract_string_values(note, :exclude_unpublished) }.join(" ");
     end
   end
 
@@ -846,6 +848,10 @@ class IndexerCommon
       doc['fullrecord'] << IndexerCommon.build_fullrecord(record)
     }
 
+    add_document_prepare_hook { |doc, record|
+      doc['fullrecord_published'] ||= ''
+      doc['fullrecord_published'] << IndexerCommon.build_fullrecord(record, :exclude_unpublished)
+    }
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'location_profile'

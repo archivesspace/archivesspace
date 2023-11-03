@@ -615,7 +615,7 @@
   <target name="indexer:coverage" depends="set-classpath, indexer:test" description="Generate coverage reports for the indexer">
   </target>
 
-  <target name="indexer:test" depends="set-classpath, setup-integration" description="Run the unit test suite for the indexer">
+  <target name="indexer:test" depends="set-classpath" description="Run the unit test suite for the indexer">
     <property name="spec" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
