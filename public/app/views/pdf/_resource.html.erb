@@ -77,15 +77,6 @@
         <% end %>
     <% end %>
 
-    <% record.notes.each do |note_type, note| %>
-        <% if note_type == 'physloc' %>
-            <a id="note-<%= note_type %>"></a>
-            <% note.each do |n| %>
-              <dt><%= n['label'] ? n['label'] : I18n.t("enumerations._note_types.#{note_type}") %>:</dt><dd><%== process_mixed_content(n['note_text']) %></dd>
-            <% end %>
-        <% end %>
-    <% end %>
-
     <% if record.container_display && !record.container_display.empty? %>
         <dt><%= I18n.t('resource._public.storage') %>:</dt><dd><%= record.container_display.join(', ') %></dd>
     <% end %>
