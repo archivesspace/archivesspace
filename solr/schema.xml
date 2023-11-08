@@ -82,6 +82,7 @@
     <field name="classification_uris" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="location_uris" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="linked_record_uris" type="string" indexed="true" stored="true" multiValued="true" />
+    <field name="linked_record_titles" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="digital_object_uris" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="linked_instance_uris" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="related_accession_uris" type="string" indexed="true" stored="true" multiValued="true" />

@@ -557,6 +557,31 @@ class IndexerCommon
         doc['title'] = record['record']['event_type'] # adding this for emedded searches
         doc['outcome'] = record['record']['outcome']
         doc['linked_record_uris'] = record['record']['linked_records'].map { |c| c['ref'] }
+
+        # ANW-1635: index linked record titles/display names so they are available in CSV output
+        doc['linked_record_titles'] = record['record']['linked_records'].map do |rec|
+          if    rec['_resolved']['jsonmodel_type'] == "agent_person"
+            rec['_resolved']['display_name']['sort_name']
+          elsif rec['_resolved']['jsonmodel_type'] == "agent_family"
+            rec['_resolved']['display_name']['sort_name']
+          elsif rec['_resolved']['jsonmodel_type'] == "agent_corporate_entity"
+            rec['_resolved']['display_name']['sort_name']
+          elsif rec['_resolved']['jsonmodel_type'] == "agent_software"
+            rec['_resolved']['display_name']['sort_name']
+          elsif rec['_resolved']['jsonmodel_type'] == "accession"
+            rec['_resolved']['title']
+          elsif rec['_resolved']['jsonmodel_type'] == "resource"
+            rec['_resolved']['title']
+          elsif rec['_resolved']['jsonmodel_type'] == "digital_object"
+            rec['_resolved']['title']
+          elsif rec['_resolved']['jsonmodel_type'] == "digital_object_component"
+            rec['_resolved']['title']
+          elsif rec['_resolved']['jsonmodel_type'] == "archival_object"
+            rec['_resolved']['display_string']
+          else
+            "not_found"
+          end
+        end
       end
     }
 
