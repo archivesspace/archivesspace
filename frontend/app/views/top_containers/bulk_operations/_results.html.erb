@@ -27,6 +27,7 @@
     <tr class="sortable-columns">
       <th><% if multiselect %><label for="select_all" class="sr-only"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all" %><% end %></th>
       <% @pref_cols.each do |field| %>
+        <% next if field == 'no_value' %>
         <th><%= t("search.top_container_mgmt.#{field}") %></th>
       <% end %>
       <% if show_edit_actions %>
@@ -49,6 +50,7 @@
           <% end %>
         </td>
         <% @pref_cols.each do |field| %>
+          <% next if field == 'no_value' %>
           <% if field == 'resource_accession'%>
             <td class="top-container-collection">
               <% if container_json['collection'].present? %>

@@ -23,6 +23,9 @@ column_opts.keys.each do |type|
   }
 end
 
+# this one is a special case
+browse_columns['top_container_mgmt_sort_column']['enum'].delete('score')
+
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
