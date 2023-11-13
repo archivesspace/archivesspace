@@ -104,9 +104,19 @@ class PUIIndexer < PeriodicIndexer
             end
           end
         end
-        doc['fullrecord'] = IndexerCommon.build_fullrecord(record)
+        build_fullrecord(doc, record)
       end
     }
+  end
+
+  def build_fullrecord(doc, record)
+    doc['fullrecord_published'] = IndexerCommon.extract_string_values(record['record'], :published_only)
+  end
+
+  def add_notes(doc, record)
+    if record['record']['notes']
+      doc['notes_published'] = IndexerCommon.extract_string_values(record['record']['notes'], :published_only)
+    end
   end
 
   def add_infscroll_docs(resource_uris, batch)

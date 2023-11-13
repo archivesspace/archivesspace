@@ -122,54 +122,75 @@ class IndexerCommon
 
 
   def self.extract_string_values(doc, *opts)
-    return doc if doc.is_a? String
-    queue = [doc]
-    strings = []
+    return doc, doc if doc.is_a?(String)
 
-    while !queue.empty?
-      doc = queue.pop
+    if doc.is_a?(Array)
+      published_queue = doc.flatten
+    else
+      published_queue = [doc]
+    end
 
-      if opts.include? :exclude_unpublished
-        next if (doc.has_key?("publish") && !doc["publish"])
-      end
+    extract_unpublished = !opts.include?(:published_only)
 
-      doc.each do |key, val|
-        if IndexerCommonConfig.fullrecord_excludes.include?(key) || key =~ /_enum_s$/
-          next # ignored
-        elsif val.is_a?(String)
-          strings.push(val)
-        elsif val.is_a?(Hash)
-          queue.push(val)
-        elsif val.is_a?(Array)
-          val.each do |v|
-            if v.is_a?(String)
-              strings.push(v)
-            elsif v.is_a?(Hash)
-              queue.push(v)
+    unpublished_queue = []
+    published_strings = []
+    unpublished_strings = []
+    published_done = false
+
+    [
+      [published_queue, published_strings],
+      [unpublished_queue, unpublished_strings]
+    ].each do |queue, strings|
+
+      while !queue.empty?
+        doc = queue.pop
+
+        if (!published_done && doc.has_key?("publish") && !doc["publish"])
+          if extract_unpublished
+            unpublished_queue.push(doc)
+          end
+          next
+        end
+
+        doc.each do |key, val|
+          if IndexerCommonConfig.fullrecord_excludes.include?(key) || key =~ /_enum_s$/
+            next # ignored
+          elsif val.is_a?(String)
+            strings.push(val)
+          elsif val.is_a?(Hash)
+            queue.push(val)
+          elsif val.is_a?(Array)
+            val.flatten.each do |v|
+              if v.is_a?(String)
+                strings.push(v)
+              elsif v.is_a?(Hash)
+                queue.push(v)
+              end
             end
           end
         end
       end
+
+      if extract_unpublished
+        published_done = true
+      else
+        break
+      end
+
     end
 
-    strings.join(' ').strip
+    if extract_unpublished
+      return published_strings, unpublished_strings
+    else
+      return published_strings
+    end
   end
 
 
-  def self.build_fullrecord(record, *opts)
-    fullrecord = IndexerCommon.extract_string_values(record, *opts)
-    %w(finding_aid_subtitle finding_aid_author).each do |field|
-      if record['record'].has_key?(field)
-        fullrecord << " #{record['record'][field]}"
-      end
-    end
-
-    if record['record'].has_key?('names')
-      fullrecord << " " + record['record']['names'].map {|name|
-        IndexerCommon.extract_string_values(name, *opts)
-      }.join(" ")
-    end
-    fullrecord.strip
+  def build_fullrecord(doc, record)
+    # 'fullrecord' only contains unpublished text at this stage, but 'fullrecord_published'
+    # will be merged into it by Solr using copyField
+    doc['fullrecord_published'], doc['fullrecord'] = IndexerCommon.extract_string_values(record['record'])
   end
 
   # There's a problem with how translation paths get loaded when selenium tests are run
@@ -255,8 +276,9 @@ class IndexerCommon
 
   def add_notes(doc, record)
     if record['record']['notes']
-      doc['notes'] = [record['record']['notes']].flatten.map {|note| IndexerCommon.extract_string_values(note) }.join(" ")
-      doc['notes_published'] = [record['record']['notes']].flatten.map {|note| IndexerCommon.extract_string_values(note, :exclude_unpublished) }.join(" ");
+      # 'notes' only contains unpublished notes at this stage, but 'notes_published'
+      # will be merged into it by Solr using copyField
+      doc['notes_published'], doc['notes'] = IndexerCommon.extract_string_values(record['record']['notes'])
     end
   end
 
@@ -844,13 +866,10 @@ class IndexerCommon
 
 
     add_document_prepare_hook { |doc, record|
-      doc['fullrecord'] ||= ''
-      doc['fullrecord'] << IndexerCommon.build_fullrecord(record)
-    }
-
-    add_document_prepare_hook { |doc, record|
-      doc['fullrecord_published'] ||= ''
-      doc['fullrecord_published'] << IndexerCommon.build_fullrecord(record, :exclude_unpublished)
+      if !self.instance_of?(PUIIndexer)
+        # The PUI indexer makes its own call to build_fullrecord, so only call it here for realtime and periodic
+        build_fullrecord(doc, record)
+      end
     }
 
     add_document_prepare_hook {|doc, record|
