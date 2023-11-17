@@ -37,12 +37,6 @@
         <dt><%= I18n.t('resource._public.physdesc') %>:</dt><dd><%= extent['display'] %></dd>
     <% end %>
 
-
-    <% unless record.finding_aid['language_note'].nil? %>
-      <dt><%= I18n.t('resource._public.lang') %>:</dt>
-      <dd><%= record.finding_aid['language_note'] %></dd>
-    <% end %>
-
     <% unless record.notes.include?('langmaterial') || record.lang_materials.blank? %>
         <dt><%= t('resource._public.lang_pdf') %>:</dt>
         <% record.lang_materials.each do |lang_material| %>
@@ -174,6 +168,7 @@
     <% contacts = nil %>
 <% end %>
 
+
 <br />
 <div class="repository-information">
   <div class="repository-address"><%= record.resolved_repository['name'] %></div>
@@ -194,6 +189,32 @@
   <% end %>
 </div>
 <br />
+
+<% if record.finding_aid['revision'].length > 0 %>
+  <h4><%= I18n.t('revision_statement.description') %></h4>
+  <% record.finding_aid['revision'].each do |rev| %>
+    <p><%= rev['desc'] %></p>
+  <% end %>
+<% end %>
+
+<% unless record.notes['custodhist'].nil? %>
+  <h4><%= I18n.t('enumerations._note_types.custodhist') %></h4>
+  <% record.notes['custodhist'].each do |custodhist| %>
+      <% custodhist['subnotes'].each do |sn| %>
+      <p><%= sn['content'] %></p>
+      <% end %>
+  <% end %>
+<% end %>
+
+<% unless record.notes['processinfo'].nil? %>
+  <h4><%= I18n.t('enumerations._note_types.processinfo') %></h4>
+  <% record.notes['processinfo'].each do |processinfo| %>
+      <% processinfo['subnotes'].each do |sn| %>
+      <p><%= sn['content'] %></p>
+      <% end %>
+  <% end %>
+<% end %>
+
 
 <% unless record.notes['acqinfo'].nil? %>
   <h4><%= I18n.t('pdf_reports.acqinfo') %></h4>
@@ -275,6 +296,23 @@
 
   <a href="#toc">Return to Table of Contents</a>
 <% end %>
+
+
+<% unless record.notes['odd'].nil? %>
+  <% record.notes['odd'].each do |n| %>
+    <h3>
+      <% if n['label'] %>
+          <%== process_mixed_content(n['label']) %>
+      <% else %>
+          <%= I18n.t("enumerations._note_types.odd") %>
+      <% end %>
+    </h3>
+    <p><%== process_mixed_content(n['note_text']) %></p>
+  <% end %>
+
+  <a href="#toc">Return to Table of Contents</a>
+<% end %>
+
 
 <% ASUtils.find_local_directories('public/views/_pdf_resource.html.erb').each do |template| %>
     <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>
