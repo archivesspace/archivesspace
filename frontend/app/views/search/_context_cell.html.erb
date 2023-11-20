@@ -1,10 +1,9 @@
 <%
   ancestors = context_ancestor(record)
-  ancestor_titles = {}
 %>
 <% if ancestors != nil && ancestors != [''] %>
   <% ancestors.reverse.each_with_index do |ancestor, i| %>
-    <% title = get_ancestor_title(ancestor, ancestor_titles) %>
+    <% title = get_ancestor_title(ancestor) %>
     <% unless title.nil? %>
       <% if params['listing_only'] %>
         <%= title %>

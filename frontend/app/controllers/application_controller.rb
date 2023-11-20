@@ -31,6 +31,8 @@ class ApplicationController < ActionController::Base
 
   before_action :unauthorised_access
 
+  before_action :init_ancestor_titles
+
   around_action :set_locale
 
   def self.permission_mappings
@@ -506,6 +508,11 @@ class ApplicationController < ActionController::Base
   def render_aspace_partial(args)
     defaults = {:formats => [:html], :handlers => [:erb]}
     return render(defaults.merge(args))
+  end
+
+
+  def init_ancestor_titles
+    @ancestor_titles = {}
   end
 
 
