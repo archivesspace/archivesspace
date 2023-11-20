@@ -30,19 +30,19 @@ describe "indexer common" do
       allow(IndexBatch).to receive(:new) { [] }
 
       allow(indexer).to receive(:index_batch) do |batch, timing = IndexerTiming.new, opts = {}|
-        fullrecord = batch.first['fullrecord']
-        expect(fullrecord).to include("5 wives")
+        fullrecord = batch.first['fullrecord'].join(' ')
+        expect(fullrecord).not_to include("5 wives")
         expect(fullrecord).to include("12 mistresses")
 
-        fullrecord_published = batch.first['fullrecord_published']
+        fullrecord_published = batch.first['fullrecord_published'].join(' ')
         expect(fullrecord_published).to include("5 wives")
         expect(fullrecord_published).not_to include("12 mistresses")
 
-        notes = batch.first['notes']
-        expect(notes).to include("5 wives")
+        notes = batch.first['notes'].join(' ')
+        expect(notes).not_to include("5 wives")
         expect(notes).to include("12 mistresses")
 
-        notes_published = batch.first['notes_published']
+        notes_published = batch.first['notes_published'].join(' ')
         expect(notes_published).to include("5 wives")
         expect(notes_published).not_to include("12 mistresses")
       end
@@ -63,7 +63,7 @@ describe "indexer common" do
     allow(IndexBatch).to receive(:new) { [] }
 
     allow(indexer).to receive(:index_batch) do |batch, timing = IndexerTiming.new, opts = {}|
-      fullrecord = batch.first['fullrecord']
+      fullrecord = (batch.first['fullrecord_published'] + batch.first['fullrecord']).join(' ')
       expect(fullrecord).to include(container_profile.notes)
     end
 

@@ -12,8 +12,9 @@
     <field name="types" type="string" indexed="true" stored="true" multiValued="true" />
     <field name="primary_type" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="repository" type="string" indexed="true" stored="true" multiValued="false" />
-    <field name="fullrecord" type="text_general" indexed="true" stored="false" multiValued="false" />
-    <field name="fullrecord_published" type="text_general" indexed="true" stored="false" multiValued="false" />
+    <field name="fullrecord" type="text_general" indexed="true" stored="false" multiValued="true" />
+    <field name="fullrecord_published" type="text_general" indexed="true" stored="false" multiValued="true" />
+    <copyField source="fullrecord_published" dest="fullrecord" />
     <field name="suppressed" type="boolean" indexed="true" stored="true" multiValued="false" />
     <field name="publish" type="boolean" indexed="true" stored="true" multiValued="false" />
     <field name="external_id" type="string" indexed="true" stored="true" multiValued="true" />
@@ -30,8 +31,9 @@
     <field name="related_agent_uris" type="string" indexed="true" stored="true" multiValued="true" />
     <!-- why are notes stored? (public app gets them from json for display) probably to support highlighting a long time ago -->
     <!-- https://github.com/archivesspace/archivesspace/commit/87b7270f11456e0db329c45404333a1ce68419b8 -->
-    <field name="notes" type="text_general" indexed="true" stored="true" multiValued="false" />
-    <field name="notes_published" type="text_general" indexed="true" stored="true" multiValued="false" />
+    <field name="notes" type="text_general" indexed="true" stored="true" multiValued="true" />
+    <field name="notes_published" type="text_general" indexed="true" stored="true" multiValued="true" />
+    <copyField source="notes_published" dest="notes" />
     <field name="years" type="int" indexed="true" stored="false" multiValued="true" />
     <field name="year_sort" type="sort_string" indexed="true" stored="false" multiValued="false" />
     <field name="dates" type="text_general" indexed="true" stored="true" multiValued="true" />
