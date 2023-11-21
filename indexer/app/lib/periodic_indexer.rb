@@ -165,7 +165,7 @@ class PeriodicIndexer < IndexerCommon
     # them. Also, in case a repository has just been unpublished, delete PUI-only records
     if !updated_repositories.empty?
       index_records(updated_repositories)
-      delete_pui_only_documents(updated_repositories)
+      repositories_updated_action(updated_repositories)
       send_commit
     end
 

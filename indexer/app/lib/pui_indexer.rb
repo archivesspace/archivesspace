@@ -214,11 +214,13 @@ class PUIIndexer < PeriodicIndexer
     @unpublished_records.add(doc_id) if doc_id =~ /#pui$/
   end
 
-  def delete_pui_only_documents(updated_repositories)
+  def repositories_updated_action(updated_repositories)
 
     updated_repositories.each do |repository|
 
       if !repository['record']['publish']
+
+        # Delete PUI-only Solr documents in case this is the first index run after the repository has been unpublished
         req = Net::HTTP::Post.new("#{solr_url.path}/update")
         req['Content-Type'] = 'application/json'
         delete_request = {:delete => {'query' => "repository:\"#{repository['uri']}\" AND types:pui_only"}}
@@ -229,6 +231,7 @@ class PUIIndexer < PeriodicIndexer
         else
           Log.error "SolrIndexerError when deleting PUI-only records in private repository #{repository['record']['repo_code']}: #{response.body}"
         end
+
       end
 
     end
