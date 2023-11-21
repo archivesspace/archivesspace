@@ -252,7 +252,7 @@ class PeriodicIndexer < IndexerCommon
     # Give subclasses a place to hang custom behavior.
   end
 
-  def delete_pui_only_documents(updated_repositories)
+  def repositories_updated_action(updated_repositories)
     # Give subclasses a place to hang custom behavior.
   end
 
