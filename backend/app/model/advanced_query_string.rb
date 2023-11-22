@@ -3,7 +3,7 @@ require 'time'
 class AdvancedQueryString
   def initialize(query, use_literal: false, protect_unpublished: false)
     @query = query.transform_keys { |k| k.to_s }
-    @use_literal = use_literal || AdvancedSearch.use_literal?(@query['field'])
+    @use_literal = use_literal || AdvancedSearch.always_literal?(@query['field'])
     @protect_unpublished = protect_unpublished
   end
 

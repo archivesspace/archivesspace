@@ -29,10 +29,10 @@ class AdvancedSearch
   end
 
 
-  def self.use_literal?(field)
+  def self.always_literal?(field)
     load_definitions
     field = @fields.fetch(field.to_s) do
-      return field
+      return false
     end
 
     field.always_literal == true
