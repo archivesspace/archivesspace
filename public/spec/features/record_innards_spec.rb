@@ -8,9 +8,9 @@ describe 'Record innards', js: true do
     visit(resource['href'])
     click_link 'Collection Organization'
     finished_all_ajax_requests?
-    res = first("div[id='record-number-0']")
+    res = first("div[data-record-number='0']")
     res_href = res.first("a")['href']
-    first_ao = first("div[id='record-number-1']")
+    first_ao = first("div[data-record-number='1']")
     first_ao_href = first_ao.first("a")['href']
     # Resource with scope note should not be prepended with "From the"
     visit(res_href)

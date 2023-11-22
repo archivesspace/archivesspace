@@ -11,7 +11,7 @@ class Search
     query = if params[:q]
               Solr::Query.create_keyword_search(params[:q])
             elsif params[:aq] && params[:aq]['query']
-              Solr::Query.create_advanced_search(params[:aq])
+              Solr::Query.create_advanced_search(params[:aq], protect_unpublished: show_published_only)
             else
               Solr::Query.create_match_all_query
             end

@@ -14,6 +14,7 @@ require 'nokogiri'
 require 'axe-rspec'
 require 'jsonmodel'
 
+require_relative '../../indexer/app/lib/pui_indexer'
 require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
 

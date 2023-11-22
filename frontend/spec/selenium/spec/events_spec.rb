@@ -129,4 +129,14 @@ describe 'Events' do
     @driver.find_element(:link, 'Event').click
     assert(5) { @driver.find_element_with_text('//h3', /Search Results/) }
   end
+
+  it 'can export a csv of browse list Events that includes record link names' do
+    @driver.find_element(link: 'Browse').click
+    @driver.click_and_wait_until_gone(link: 'Events')
+
+    el = @driver.find_element(link: 'Download CSV')
+    @driver.download_file(el)
+    sleep(1)
+    assert(5) { IO.read(Dir.glob(File.join(Dir.tmpdir, '*.csv')).first).include?('Geddy') }
+  end
 end

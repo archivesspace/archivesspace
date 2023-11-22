@@ -8,7 +8,7 @@
      font-family: <%= AppConfig[:pui_pdf_font_name] %>;
  }
 
- .title-page {
+.title-page {
      page-break-after: always;
      position: relative;
      height: 58em;
@@ -20,7 +20,9 @@
 
 span.title {
   font-style: italic;
-  font-variant: small-caps;
+}
+
+.title {
 }
 
  div.logo {
@@ -65,14 +67,34 @@ span.title {
 
  a.record-title {
      color: black;
-     text-decoration: none;
-     font-size: 17px;
      font-weight: bold;
  }
 
  div.ao-summary {
+    /* float: left;
+    text-align: left;
+    width: 700px; */
+ }
+ .ao-summary a.record-title {
+     color: black;
+     font-weight: normal; 
+     font-size: 100%;
+ }
+
+ .container-information {
+     font-size: 75%;
+     text-align: right;
+     color: black;
+ }
+
+ .first-post .container-information {
+    margin-top: 30px;
+    margin-bottom: 20px;
     background-color: #eee;
-    padding: 5px;
+ }
+
+ .container-information .box-area {
+    float: right;
  }
 
  h3 {
@@ -95,10 +117,16 @@ span.title {
  table.collection-inventory-header {
     background-color: #fafafa;
     font-weight: bold;  
-    width: 100%;
-    margin-top: 10px;
+    width: 102%;
+    margin-top: 20px;
+    margin-bottom: -10px;
+    margin-left: -10px;
+    margin-right: -10px;
     border-top: 1px solid #aaa;
     border-bottom: 1px solid #aaa;
+    font-size: 75%;
+    padding-left: 5px;
+    padding-right: 10px;
  }
 
  table.collection-inventory-header td.title {
@@ -151,7 +179,6 @@ span.title {
      bottom: 0;
      width: 95%;
      padding: 1em;
-
  }
 
  .repository-information > * {
@@ -163,7 +190,7 @@ span.title {
  }
 
  .repository-address {
-     margin: 1em, 0;
+    line-height: 5px;
  }
 
  h2 {
@@ -179,11 +206,13 @@ span.title {
 
  .print-record-border {
      padding-left: 0.5em;
-     margin: 0;
+     /* border: 1px solid #f00; */
+     /* margin: 0; /*
 
      /* Get rid of annoying vertical whitespace */
-     margin-top: -8px;
-     padding-top: 8px;
+     /* margin-top: -8px; */
+     /* padding-top: 8px; */
+     /* padding-bottom: 10px !important; */
  }
 
  .avoid-break {
@@ -194,28 +223,29 @@ span.title {
 
  .print-record {
      margin-bottom: 1em;
+     display: block;
      border-top: solid 1px #dedede;
  }
 
  .print-record-border.print-record.level-1 { padding-top: 0; margin-top: 1em; }
 
- .print-record-border.level-1 { margin-left: 1em; }
- .print-record-border.level-2 { margin-left: 1em }
- .print-record-border.level-3 { margin-left: 1em; }
- .print-record-border.level-4 { margin-left: 1em; }
- .print-record-border.level-5 { margin-left: 1em; }
- .print-record-border.level-6 { margin-left: 1em; }
- .print-record-border.level-7 { margin-left: 1em; }
- .print-record-border.level-8 { margin-left: 1em; }
- .print-record-border.level-9 { margin-left: 1em; }
- .print-record-border.level-10 { margin-left: 1em; }
+ .print-record-border.level-1 { margin-left: 1em; display: block; margin: 5px; }
+ .print-record-border.level-2 { margin-left: 1em; display: block; margin: 5px; }
+ .print-record-border.level-3 { margin-left: 1em; display: block; margin: 5px; }
+ .print-record-border.level-4 { margin-left: 1em; display: block; margin: 5px; }
+ .print-record-border.level-5 { margin-left: 1em; display: block; margin: 5px; }
+ .print-record-border.level-6 { margin-left: 1em; display: block; margin: 5px; }
+ .print-record-border.level-7 { margin-left: 1em; display: block; margin: 5px; }
+ .print-record-border.level-8 { margin-left: 1em; display: block; margin: 5px; }
+ .print-record-border.level-9 { margin-left: 1em; display: block; margin: 5px; }
+ .print-record-border.level-10 { margin-left: 1em; display: block; margin: 5px; }
 
  .print-record h3 {
      margin: 0;
  }
 
  .print-record h4 {
-     margin: 0.25em 0 0.25em 0;
+     margin: 1em 0 1em 0;
  }
 
  .print-record p {
@@ -226,11 +256,6 @@ span.title {
      margin: 0 0 0.5em 0;
  }
 
- .container-information {
-     font-size: 90%;
-     text-align: right;
-     color: black;
- }
 
  .italic {
      font-style: italic;
@@ -238,6 +263,57 @@ span.title {
 
  .inherit {
      font-style: italic;
+ }
+
+ .print-record-border a.record-title {
+     color: black;
+     font-weight: normal; 
+ }
+
+ .box-area {
+    /* margin-top: 5px; */
+    display: block;
+    width: 250px;
+ }
+
+ .box-string {
+    float: left;
+    text-align: left;
+    margin-right: 10px;
+    overflow: scroll;
+ }
+
+ .folder-string {
+    float: right;
+    margin-left: 10px;
+    overflow: scroll;
+ }
+ .first-post {
+    background-color: #eee;
+    padding-top: 10px;
+    padding-bottom: 10px;
+ }
+
+ .print-record-border.first-post a.record-title {
+    font-weight: bold !important;
+ }
+
+ .indented dl {
+    margin-top: 10px;
+    font-weight: normal !important;
+    font-size: 75% !important;
+ }
+
+ .indented dt {
+    font-weight: normal !important;
+    text-decoration: underline;
+ }
+
+ .indented a {
+    font-weight: normal !important;
+    font-size: 75% !important;
+ }
+
  }
 
  <%# Don't show headers/footers on the titlepage %>

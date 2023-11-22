@@ -43,7 +43,7 @@ ArchivesSpace::Application.routes.draw do
     match 'users/:id/delete' => 'users#delete', :via => [:post]
     match('/users/:id/activate' => 'users#activate', :via => [:get], :as => :user_activate)
     match('/users/:id/deactivate' => 'users#deactivate', :via => [:get], :as => :user_deactivate)
-    match 'users/:username/:token' => 'session#token_login', :via => [:get]
+    match 'users/:username/:token' => 'session#token_login', :via => [:get], constraints: { username: /[^\/]+/ }
 
     resources :users
 

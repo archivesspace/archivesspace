@@ -71,8 +71,8 @@ class ApplicationController < ActionController::Base
         params[:rid] = params[:repo_slug]
       end
 
-    # if it looks like a slug, send it to the backend to resolve ids and other params we need.
-    else
+    # if it looks like a slug, and slugs are enabled, send it to the backend to resolve ids and other params we need.
+    elsif AppConfig[:use_human_readable_urls]
       added_params = resolve_ids_with_slugs(params)
 
       params.merge!(added_params)

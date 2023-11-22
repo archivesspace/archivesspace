@@ -94,3 +94,117 @@ $indent-width: 20px;
     }
   }
 }
+
+.table-row.largetree-node[data-is-expanded='false'] + .table-row-group {
+  display: none;
+}
+.table-row.largetree-node[data-is-expanded='true'] + .table-row-group {
+  display: contents;
+}
+
+.infinite-records-container {
+  position: relative;
+  height: 600px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.infinite-records-container .root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.infinite-records-container .waypoint:not(.populated) {
+  height: 0;
+}
+
+.infinite-records-container .waypoint.populated {
+  height: auto;
+}
+
+/* Allow the final record to be scrolled to the top to highlight it in the tree */
+.infinite-records-container .waypoint:last-of-type {
+  padding-bottom: 550px;
+}
+
+@keyframes yellow-fade {
+  from {
+    background: yellow;
+  }
+  to {
+    background: transparent;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.item-highlight {
+  animation: yellow-fade 2s;
+}
+.item-fadeout {
+  animation: fadeout 0.5s;
+}
+
+.spinner-border {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: -0.125em;
+  border: 0.25em solid currentcolor;
+  border-right-color: currentcolor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  -webkit-animation: 0.75s linear infinite spinner-border;
+  animation: 0.75s linear infinite spinner-border;
+}
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.visually-hidden,
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.records-progress-container {
+  position: sticky;
+  top: 0;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 0.5rem;
+  background: white;
+}
+
+.records-progress-label {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-style: italic;
+}
+
+.records-progress-button {
+  margin-left: -1px;
+  cursor: default;
+}

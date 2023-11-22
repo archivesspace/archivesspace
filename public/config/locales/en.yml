@@ -310,9 +310,13 @@ en:
     identifier_separator: ":"
     _public:
       identifier: Identifier
+      identifier_pdf: ID
+      identifier_ark: "ID [ark]"
+      ark_link_name: "Archival Resource Key"
       extent: Extent
       dates: Dates
       lang: Language of Materials
+      lang_pdf: Language of the Material
       script: Script
       digital_object: Digital Object
       physdesc: Physical Description
@@ -463,6 +467,8 @@ en:
     your_finding_aid_is_attached: The finding aid you requested is attached.
     accessrestrict: Conditions Governing Access
     userestrict: Conditions Governing Use
+    accruals: Accruals
+    acqinfo: Immediate Source of Acquisition
 
   readmore:
     see_more: See more

@@ -120,6 +120,8 @@ def setup_test_data
 
   resource = create(:resource, title: "Published Resource",
                     publish: true,
+                    is_finding_aid_status_published: false,
+                    finding_aid_status: "in_progress",
                     instances: [build(:instance_digital)],
                     subjects: [{'ref' => subject.uri}])
 
@@ -172,7 +174,6 @@ def setup_test_data
                     publish: true,
                     instances: [build(:instance_digital)],
                     subjects: [{'ref' => subject2.uri}])
-
 
   resource_with_scope = create(:resource_with_scope, title: "Resource with scope note", publish: true)
   aos = (0..5).map do

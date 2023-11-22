@@ -74,6 +74,8 @@
           <%= form.label_and_textarea "finding_aid_edition_statement" %>
           <%= form.label_and_textarea "finding_aid_series_statement" %>
           <%= form.label_and_select "finding_aid_status", form.possible_options_for("finding_aid_status", true) %>
+          <%= form.label_and_boolean "is_finding_aid_status_published", {}, user_prefs['publish'] %>
+
           <%= form.label_and_textarea "finding_aid_note" %>
         </fieldset>
       </div>

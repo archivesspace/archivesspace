@@ -10,18 +10,26 @@
 <% define_template "rights_restriction", jsonmodel_definition(:rights_restriction) do |form| %>
   <%= form.label_and_date("begin") %>
   <%= form.label_and_date("end") %>
-  <div class="control-group">
-    <%= form.label("local_access_restriction_type") %>
-    <div class="controls">
-      <% if form.readonly? %>
-        <ul>
-          <% Array.wrap(form.obj['local_access_restriction_type']).
-                   map{|type| I18n.t("enumerations.restriction_type.#{type}",type)}.
-                   sort.each do |type| %>
-            <li><%= type %></li>
-          <% end %>
-        </ul>
-      <% else %>
+  <% if form.readonly? %>
+    <%# ANW-1426: don't display local access restriction type if empty to prevent it from showing for conditions governing use notes, where it is inappropriate %>
+    <% if form.obj['local_access_restriction_type'] && form.obj['local_access_restriction_type'].present? %>
+      <div class="control-group">
+        <%= form.label("local_access_restriction_type") %>
+        <div class="controls">
+          <ul>
+            <% Array.wrap(form.obj['local_access_restriction_type']).
+                     map{|type| I18n.t("enumerations.restriction_type.#{type}",type)}.
+                     sort.each do |type| %>
+              <li><%= type %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="control-group">
+      <%= form.label("local_access_restriction_type") %>
+      <div class="controls">
         <%= select_tag(form.path("local_access_restriction_type[]"),
                        options_for_select(local_access_restriction_types_for_options, form.obj['local_access_restriction_type']),
                        {
@@ -32,9 +40,10 @@
                        })
         %>
         <span class="help-inline"><%= I18n.t("rights_restriction.local_access_restriction_type_inline_help") %></span>
-      <% end %>
+
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
 
 <%

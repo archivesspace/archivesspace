@@ -1,11 +1,14 @@
-<% ancestors = context_ancestor(record) %>
+<%
+  ancestors = context_ancestor(record)
+%>
 <% if ancestors != nil && ancestors != [''] %>
   <% ancestors.reverse.each_with_index do |ancestor, i| %>
-    <% unless get_ancestor_title(ancestor) == nil %>
+    <% title = get_ancestor_title(ancestor) %>
+    <% unless title.nil? %>
       <% if params['listing_only'] %>
-        <%= get_ancestor_title(ancestor) %>
+        <%= title %>
       <% else %>
-        <%= resolve_readonly_link_to((get_ancestor_title(ancestor).html_safe), ancestor) %>
+        <%= resolve_readonly_link_to((title.html_safe), ancestor) %>
       <% end %>
       <% if i < ancestors.length - 1 %>
         <%= context_separator(record) %>

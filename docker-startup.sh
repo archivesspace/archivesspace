@@ -30,10 +30,12 @@ fi
 # clear out tmp pre-startup as it can build up if persisted
 rm -rf $DATA_TMP_DIR/*
 
-/archivesspace/scripts/setup-database.sh
-if [[ "$?" != 0 ]]; then
-  echo "Error running the database setup script."
-  exit 1
+if [ "$ASPACE_DB_MIGRATE" = true ]; then
+  /archivesspace/scripts/setup-database.sh
+  if [[ "$?" != 0 ]]; then
+    echo "Error running the database setup script."
+    exit 1
+  fi
 fi
 
 exec /archivesspace/archivesspace.sh

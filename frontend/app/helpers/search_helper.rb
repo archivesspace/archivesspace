@@ -326,6 +326,9 @@ module SearchHelper
   end
 
   def get_ancestor_title(field)
+    titles = @ancestor_titles
+    return titles[field] if titles.key? field
+
     begin
       field_json = JSONModel::HTTP.get_json(field)
     # one record might be "found in" another that is suppressed
@@ -333,13 +336,15 @@ module SearchHelper
     rescue RecordNotFound
       return nil
     end
-    unless field_json.nil?
-      if field.include?('resources') || field.include?('digital_objects')
-        clean_mixed_content(field_json['title'])
-      else
-        clean_mixed_content(field_json['display_string'])
-      end
+    return if field_json.nil?
+
+    if field.include?('resources') || field.include?('digital_objects')
+      titles[field] = clean_mixed_content(field_json['title'])
+    else
+      titles[field] = clean_mixed_content(field_json['display_string'])
     end
+
+    titles[field]
   end
 
   def context_separator(result)
