@@ -65,7 +65,6 @@ class AdvancedSearch
   end
 
 
-  AdvancedSearchField = Struct.new(:name, :type, :visibility, :solr_field, :is_default, :always_literal) do
   AdvancedSearchField = Struct.new(:name, :type, :visibility, :solr_field, :is_default, :protects_unpublished, :always_literal) do
 
     def initialize(opts)
