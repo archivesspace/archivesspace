@@ -588,7 +588,7 @@ de:
   location: &location_attributes
     title: Standort
     temporary_question: Vorübergehend?
-    temporary: Vorübergehend
+    temporary: Temporärer Typ
     building: Gebäude
     floor: Stockwerk
     temporary_tooltip: "<p>Verwendet, um anzugeben, ob es sich bei diesem Standort um eine bestimmte Art
@@ -1852,6 +1852,8 @@ de:
       und Simon</li>\n</ul>\n"
     finding_aid_language_note_tooltip: "<p>Anmerkungen zu den Sprachen, die in dem aus der Ressourcenbeschreibung
       erzeugten Findmittel enthalten sind.</p>\n"
+    is_finding_aid_status_published: Status des Findmittels veröffentlicht?
+    is_finding_aid_status_published_tooltip: "<p>Beschreibt, ob der Findmittel-Status öffentlich aufscheint.</p>\n"
   revision_statement:
     publish: Veröffentlichen?
     _singlular: Überarbeitungs-Erklärung
@@ -1934,6 +1936,7 @@ de:
     default_values: Datensätze vorbefüllen?
     digital_object_spawn: Beschreibung für Instanzen des digitalen Objekts von verknüpfter Aufzeichnung
       ableiten
+    top_container_mgmt_browse_section: Spalten der Haupt-Behältnis-Verwaltung beim Blättern
   agent_relationship_family:
     _singular: Familiäre Beziehung
   advanced_search:
@@ -2376,7 +2379,7 @@ de:
     _plural: Begutachtungen
     finding_aid_word: Findmittel (Textdokument)
     finding_aid_spreadsheet: Findmittel (Tabelle)
-    id: ICH WÜRDE
+    id: ID
     inactive: Inaktiv?
     survey_begin: Beginndatum der Erhebung
     monetary_value_note: Anmerkung zum Geldwert
