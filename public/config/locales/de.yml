@@ -261,6 +261,10 @@ de:
         accessions: Eingangs-Aufzeichnung
         deaccessions: Abgangs-Aufzeichnung
       uri: ID [aspace_uri]
+      ark_link_name: Archival Resource Key
+      lang_pdf: Sprache des Archivguts
+      identifier_pdf: ID
+      identifier_ark: ID [ark]
     _plural: Sammlungen
     identifier_separator: ':'
     _singular: Sammlung
@@ -387,6 +391,8 @@ de:
     administrative_information: Administrative Informationen
     accessrestrict: Bedingungen für den Zugang
     userestrict: Bedingungen für die Nutzung
+    accruals: Erwerbungen
+    acqinfo: Direkte Quelle der Beschaffung
   readmore:
     see_more: Mehr anzeigen
     see_less: Weniger anzeigen
