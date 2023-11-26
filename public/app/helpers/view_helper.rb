@@ -199,4 +199,18 @@ module ViewHelper
 
     return url
   end
+
+  def referrer_search_terms(ref)
+    ref.include?('?q[]=') ? ref.split('&').select{ |r| r if r.include?('?') }[0].split('?q[]=').last.split('+') : nil
+  end
+
+  def highlights(keyword, text)
+    if text.include?(keyword.capitalize)
+      text.gsub!(/#{keyword.capitalize}/, "<span class=\"searchterm\">#{keyword.capitalize}<\/span>")
+    elsif text.include?(keyword)
+      text.gsub!(/#{keyword}/, "<span class=\"searchterm\">#{keyword}<\/span>")
+    end
+
+    return text
+  end
 end

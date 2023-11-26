@@ -14,7 +14,9 @@ class ArchivesSpaceClient
 
   DEFAULT_SEARCH_OPTS = {
     'publish' => true,
-    'page_size' => AppConfig[:pui_search_results_page_size] }
+    'page_size' => AppConfig[:pui_search_results_page_size],
+    'hl' => true
+   }
 
   def self.init
     @instance = self.new

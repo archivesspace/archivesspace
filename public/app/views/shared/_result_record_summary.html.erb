@@ -1,3 +1,5 @@
+<% ref = request.env['HTTP_REFERER'].empty? ? request.referrer : request.env['HTTP_REFERER']  %>
+<% rr = ((@search.nil? || @search[:q].empty?) && !ref.nil?) ? referrer_search_terms(ref) : nil %>
 <div class="recordsummary" style="clear:both">
   <% if !result['parent_institution_name'].blank? %>
     <div>
@@ -13,6 +15,18 @@
     end
 	  if !note_struct['note_text'].blank?
   %>
+  <% if rr.nil? %>
+    <% @search[:q].each do |q| %>
+      <% q.split(' ').each do |k| %>
+        <% note_struct['note_text'] = highlights(k, note_struct['note_text']) %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% rr.each do |k| %>
+      <% note_struct['note_text'] = highlights(k, note_struct['note_text']) %>
+    <% end %>
+  <% end %>
+
     <div class="abstract single_note">
       <span class='inline-label'><%= note_struct['label'] %></span>
       <% unless note_struct['is_inherited'].blank? %>
@@ -21,7 +35,7 @@
       <% if note_struct['note_text'].length > AppConfig[:abstract_note_length] %>
         <% truncated_note = note_struct['note_text'][0..AppConfig[:abstract_note_length]-1] %>
         <% end_index = truncated_note.rindex(' ') || AppConfig[:abstract_note_length]-1 %>
-        <%= (strip_tags(truncated_note[0..end_index - 1]) + '...').html_safe %>
+        <%= (truncated_note[0..end_index - 1]+ ' ...').html_safe %>
       <% else %>
         <%= note_struct['note_text'].html_safe %>
       <% end %>
@@ -52,6 +66,28 @@
     </div>
   <% end %>
 
+  <% unless result.highlights.empty? %>
+    <div class="highlights">
+      <% unless result.highlights.reject{ |k,v| k.include?('title') || k.include?('notes') || k.include?('types') || v.join(' ').split("\/").count > 2 }.count == 0 %>
+        <br/>
+        <span class='inline-label'>Search Terms in Context</span>
+        <br/>
+        <% end %>
+      <% result.highlights.each do |k,v| %>
+        <% unless k.include?('title') || k.include?('notes') || k.include?('types') || v.join(' ').split("\/").count > 2 %>
+          <span class='inline-label'><%= t("#{k.split('_')[0]}:") %></span>
+          <% if result[k].length > v.join(" ").length %>
+            <% v << ' ...' %>
+          <% end %>
+          <% v.each do |e| %>
+            <%== e.gsub(/<em>/, '<span class="searchterm">').gsub(/<\/em>/, '</span>') %>
+          <% end %>
+          <br/>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="staff-hidden hide">
     <% if result['json']['restricted'] %>
       <p><h4 class='restricted'><%= I18n.t('top_container.restricted') %></h4></p>
@@ -78,4 +114,5 @@
       <div class="classification-subgroups-tree largetree-container" style="display: none;"></div>
     </div>
   <% end %>
+
 </div>

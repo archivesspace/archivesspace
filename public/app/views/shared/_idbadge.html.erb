@@ -1,3 +1,5 @@
+<% ref = request.env['HTTP_REFERER'].empty? ? request.referrer : request.env['HTTP_REFERER']  %>
+<% rr = ((@search.nil? || @search[:q].empty?) && !ref.nil?) ? referrer_search_terms(ref) : nil %>
 <%
 if result.level
     if result.primary_type =~ /digital_object/
@@ -11,6 +13,7 @@ else
     badge_label = t("#{result.primary_type}._singular")
 end
 %>
+
 
 <%# build URL with slugs depending on the primary type %>
 <% case result.primary_type %>
@@ -41,8 +44,22 @@ end
 <%= (props.fetch(:full,false)? '<h1>' : '<h3>').html_safe %>
   <% if !props.fetch(:full,false) %>
     <a class="record-title" href="<%= app_prefix(url) %>">
-      <%== props.fetch(:infinite_item, false) ? result.parse_full_title(true) : result.display_string %>
-    </a>
+      <% if !rr.nil? %>
+        <% rr.each do |k| %>
+          <% highlights(k, result["title"]) %>
+        <% end %>
+        <%= result["title"].html_safe %>
+      <% elsif !@search.nil? %>
+        <% @search[:q].each do |q| %>
+          <% q.split(' ').each do |k| %>
+            <% highlights(k, result["title"]) %>
+          <% end %>
+        <% end %>
+        <%= result["title"].html_safe %>
+      <% else %>
+        <%== props.fetch(:infinite_item, false) ? result.parse_full_title(true) : result.display_string %>
+      <% end %>
+      </a>
   <% else %>
     <%== result.display_string %>
   <% end %>

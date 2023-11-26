@@ -32,7 +32,9 @@ class SolrResults
   def parse_record(result, full)
     record = record_for_type(result, full)
     record.criteria = @search_opts
-
+    unless @raw['highlighting'][result['id']].nil?
+      record.highlights = @raw['highlighting'][result['id']]
+    end
     record
   end
 end
