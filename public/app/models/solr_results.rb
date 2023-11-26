@@ -34,7 +34,6 @@ class SolrResults
     record.criteria = @search_opts
     unless @raw['highlighting'][result['id']].nil?
       record.highlights = @raw['highlighting'][result['id']]
-      record['title'][0..record.highlights["title"][0].length] = record.highlights["title"][0] unless record.highlights["title"].nil?
     end
     record
   end
