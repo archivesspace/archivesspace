@@ -44,22 +44,22 @@ end
 <%= (props.fetch(:full,false)? '<h1>' : '<h3>').html_safe %>
   <% if !props.fetch(:full,false) %>
     <a class="record-title" href="<%= app_prefix(url) %>">
-      <% if !rr.nil? %>
+      <% if !result.highlights.empty? && !result.highlights["title"].nil? %>
+        <%== result["title"].gsub(/<em>/, '<span class="searchterm">').gsub(/<\/em>/, '</span>') %>
+      <% elsif !rr.nil? %>
         <% rr.each do |k| %>
           <% highlights(k, result["title"]) %>
-        <% end %>
-        <%= result["title"].html_safe %>
-      <% elsif !@search.nil? %>
-        <% @search[:q].each do |q| %>
-          <% q.split(' ').each do |k| %>
-            <% highlights(k, result["title"]) %>
-          <% end %>
         <% end %>
         <%= result["title"].html_safe %>
       <% else %>
         <%== props.fetch(:infinite_item, false) ? result.parse_full_title(true) : result.display_string %>
       <% end %>
       </a>
+  <% elsif !rr.nil? %>
+    <% rr.each do |k| %>
+      <% highlights(k, result.display_string) %>
+    <% end %>
+    <%= result.display_string.html_safe %>
   <% else %>
     <%== result.display_string %>
   <% end %>
