@@ -1,3 +1,5 @@
+<% ref = request.env['HTTP_REFERER'].empty? ? request.referrer : request.env['HTTP_REFERER']  %>
+<% rr = ((@search.nil? || @search[:q].empty?) && !ref.nil?) ? referrer_search_terms(ref) : nil %>
 <%
    heading_size = 'h2' if heading_size.blank?
    sub_heading_size = 'h3' if sub_heading_size.blank?
@@ -10,6 +12,17 @@
      <% end %>
      <% if note_struct.has_key?('subnotes') %>
        <% note_struct['subnotes'].each do |subnote| %>
+        <% if !rr.nil? %>
+          <% rr.each do |k| %>
+            <% highlights(k, subnote['_text']) %>
+          <% end %>
+        <% elsif !@search[:q].empty? %>
+          <% @search[:q].each do |q| %>
+            <% q.split(' ').each do |k| %>
+              <% highlights(k, subnote['_text']) %>
+            <% end %>
+          <% end %>
+        <% end %>
          <div class="subnote <%= 'well' if subnote['jsonmodel_type'] == 'note_citation' %>">
            <% if subnote['jsonmodel_type'] == 'note_citation' %>
              <<%= sub_heading_size %>><%= t('actions.cite') %></<%= sub_heading_size %>>
@@ -27,6 +40,17 @@
          </div>
        <% end %>
      <% else %>
+      <% if !rr.nil? %>
+        <% rr.each do |k| %>
+          <% highlights(k, note_struct['note_text']) %>
+        <% end %>
+      <% elsif !@search[:q].empty? %>
+        <% @search[:q].each do |q| %>
+          <% q.split(' ').each do |k| %>
+            <% highlights(k, note_struct['note_text']) %>
+          <% end %>
+        <% end %>
+      <% end %>
        <div class="note-content">
          <% unless note_struct['is_inherited'].blank? %>
            <%= inheritance(note_struct['is_inherited']).html_safe %>
