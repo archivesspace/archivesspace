@@ -742,6 +742,22 @@ de:
       representative_file_version: Vorschaubild
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Aufbewahrungsort
+    top_container_mgmt:
+      not_exported_to_ils: Nicht exportiert
+      restricted: Eingeschränkt
+      indicator: Kennzeichnung
+      series: Serie
+      asc: Aufsteigend
+      desc: Absteigend
+      ils_holding_id: IBS Bestands-ID
+      not_restricted: Nicht eingeschränkt
+      barcode: Strichcode
+      exported_to_ils: Exportiert ins IBS
+      container_profile: Behältnis-Profil
+      internal_note: Interne Anmerkung
+      location: Standort
+      type: Typ
+      resource_accession: Ressource/Eingang
   become-user:
     success: Benutzer erfolgreich gewechselt
     become-user: Als Benutzer ausgeben
@@ -1949,8 +1965,8 @@ de:
       digitale Objekte zu erstellen. Das XLSX-Format ist für jene geeignet, die Zugang
       zu Microsoft Excel haben.
     aspace_subject_import_template_csv: Neue Themen-Aufzeichnungen erstellen. Beachten
-      Sie, dass diese Vorlage zum Erstellen der Standort-Aufzeichnungen selbst und
-      nicht zum Verknüpfen mit anderen Aufzeichnungen gedacht ist.
+      Sie, dass diese Vorlage zum Erstellen der Themen-Aufzeichnungen selbst und nicht
+      zum Verknüpfen mit anderen Aufzeichnungen gedacht ist.
   top_container:
     restricted: Eingeschränkt?
     managed_container_2_indicator_tooltip: "<p>Ein alphanumerischer Ausdruck, um den
@@ -2076,7 +2092,7 @@ de:
     container_profile: Behältnis-Profil
     container_profile_tooltip: "<p>Eine Beschreibung verschiedener Eigenschaften einer
       speziellen Art von Behältnis inklusive Dimensionen.</p>\n"
-    indicator: Kennzeichner
+    indicator: Kennzeichnung
     barcode: Strichcode
     barcode_tooltip: "<p>Wird verwendet, um den Strichcode anzugeben, welcher das
       Haupt-Behältnis eindeutig identifiziert.</p>\n"
