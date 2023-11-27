@@ -68,13 +68,13 @@
 
   <% unless result.highlights.empty? %>
     <div class="highlights">
-      <% unless result.highlights.reject{ |k,v| k.include?('title') || k.include?('notes') || k.include?('types') || v.join(' ').split("\/").count > 2 }.count == 0 %>
+      <% unless result.highlights.reject{ |k,v| k.include?('title') ||  k =~ (/^notes$/) || k.include?('types') || v.join(' ').split("\/").count > 2 }.count == 0 %>
         <br/>
         <span class='inline-label'>Search Terms in Context</span>
         <br/>
         <% end %>
       <% result.highlights.each do |k,v| %>
-        <% unless k.include?('title') || k.include?('notes') || k.include?('types') || v.join(' ').split("\/").count > 2 %>
+        <% unless k.include?('title') || k =~ (/^notes$/) || k.include?('types') || v.join(' ').split("\/").count > 2 %>
           <span class='inline-label'><%= t("#{k.split('_')[0]}:") %></span>
           <% if result[k].length > v.join(" ").length %>
             <% v << ' ...' %>
