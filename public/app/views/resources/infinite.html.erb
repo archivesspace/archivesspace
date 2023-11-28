@@ -20,20 +20,6 @@
   sidebar_waypoint_size = 200
   num_records = @ordered_records.count
 %>
-<div class="row">
-  <div class="col-sm-9 records-progress-container">
-    <p class="records-progress-label">
-      <span style="padding: .15rem;" data-showing-current>&nbsp;&nbsp;&nbsp;</span>
-      of
-      <span style="padding: .15rem;" data-showing-total><%= num_records %></span>
-      records in this collection have loaded onto the page below so far. Scroll down to load more, or click the <strong>&nbsp;Load all records&nbsp;</strong> button.
-    </p>
-    <button class="btn btn-primary records-progress-button" data-show-all-records>Load all records</button>
-  </div>
-  <div class="col-sm-3">
-  </div>
-</div>
-
 <div class="row" style="overflow: hidden;">
   <div
     class="infinite-records-container col-sm-9"
