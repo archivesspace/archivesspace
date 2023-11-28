@@ -64,7 +64,7 @@ class User < JSONModel(:user)
 
 
   def self.recover_password(email)
-    uri = JSONModel(:user).uri_for("recover-password")
+    uri = JSONModel(:user).uri_for("reset-password")
 
     begin
       response = JSONModel::HTTP.post_form(uri, email: email)
@@ -72,19 +72,18 @@ class User < JSONModel(:user)
       if response.code == '200'
         return {status: :success}
       else
-        msg = case message['error']
-              when "UserMailer::MailError"
-                I18n.t("user._frontend.messages.password_recovery_fail")
-              when "NotFoundException"
-                I18n.t("user._frontend.messages.error_not_found", email: email)
-              else
-                message['error']
-              end
-        return { status: :error, error: msg }
+        case message['error']
+        when "UserMailer::MailError"
+          return {status: :error, message: I18n.t("user._frontend.messages.password_reset_fail")}
+        when "NotFoundException"
+          return {status: :not_found, message: I18n.t("user._frontend.messages.error_not_found", email: email)}
+        else
+          return {status: :error, message: message['error']}
+        end
       end
     rescue Exception => e
       Rails.logger.error(e)
-      return { status: :error, error: I18n.t("user._frontend.messages.password_recovery_fail") }
+      return { status: :error, error: I18n.t("user._frontend.messages.password_reset_fail") }
     end
   end
 

@@ -5,6 +5,7 @@ describe 'ID Lookup controller' do
   let (:archival_objects) {(0..5).map {|_| create(:json_archival_object, :component_id => SecureRandom.hex)}}
   let (:resources) {(0..5).map {|_| create(:json_resource, :id_0 => SecureRandom.hex)}}
   let (:digital_object_components) {(0..5).map {|_| create(:json_digital_object_component, :component_id => SecureRandom.hex)}}
+  let (:top_containers) {(0..5).map {|_| create(:json_top_container, :indicator => _.to_s, :barcode => SecureRandom.hex)}}
 
   it "lets you find archival objects by ref_id or component_id" do
     ['ref_id', 'component_id'].each do |id_field|
@@ -46,6 +47,16 @@ describe 'ID Lookup controller' do
       res_lookup = ASUtils.json_parse(last_response.body)
 
       expect(res_lookup['resources'].count).to eq(1)
+    end
+  end
+
+  it "lets you find top containers by indicator or barcode" do
+    ['indicator', 'barcode'].each do |id_field|
+      get "#{$repo}/find_by_id/top_containers", {"#{id_field}[]" => top_containers.map {|tc| tc[id_field]}}
+      expect(last_response).to be_ok
+      tc_lookup = ASUtils.json_parse(last_response.body)
+
+      expect(tc_lookup['top_containers'].length).to eq(top_containers.length), "Failed lookup by #{id_field}"
     end
   end
 

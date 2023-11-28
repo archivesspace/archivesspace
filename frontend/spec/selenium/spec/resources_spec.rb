@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../spec_helper'
+require 'pry'
 
 describe 'Resources and archival objects' do
   before(:all) do
@@ -166,6 +167,8 @@ describe 'Resources and archival objects' do
     add_instance_fields_area.find_element(css: '.btn.btn-default.dropdown-toggle.last').click
     @driver.wait_for_dropdown
     @driver.find_elements(:link, 'Browse')[1].click
+
+    sleep 1
 
     expect(@driver.find_element(css: '.modal-content').find_elements(css: 'tr').length).to eq(2)
 
@@ -337,6 +340,7 @@ describe 'Resources and archival objects' do
     @driver.find_element(css: '#resource_instances_ .subrecord-form-heading .btn[data-instance-type="digital-instance"]').click
 
     # Wait for the linker to initialise to make sure the dropdown click events are bound
+    sleep 1
     @driver.find_hidden_element(css: '#resource_instances__0__digital_object__ref_.initialised')
 
     elt = @driver.find_element(css: "div[data-id-path='resource_instances__0__digital_object_']")

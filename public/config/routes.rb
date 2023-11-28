@@ -13,8 +13,10 @@ Rails.application.routes.draw do
     post '/cite', to: 'cite#show'
 
     # RESOURCES
-    get "resources/:slug_or_id" => 'resources#show'
-    get "repositories/:repo_slug/resources/:slug_or_id" => 'resources#show'
+    if AppConfig[:use_human_readable_urls]
+      get "resources/:slug_or_id" => 'resources#show'
+      get "repositories/:repo_slug/resources/:slug_or_id" => 'resources#show'
+    end
 
     get  'repositories/resources' => 'resources#index'
     get  "repositories/:repo_id/resources/:id/search" => 'resources#search'
@@ -32,8 +34,10 @@ Rails.application.routes.draw do
     get  "repositories/:rid/resources/:id/tree/node_from_root" => 'resources#tree_node_from_root'
 
     #ACCESSIONS
-    get "accessions/:slug_or_id" => 'accessions#show'
-    get "repositories/:repo_slug/accessions/:slug_or_id" => 'accessions#show'
+    if AppConfig[:use_human_readable_urls]
+      get "accessions/:slug_or_id" => 'accessions#show'
+      get "repositories/:repo_slug/accessions/:slug_or_id" => 'accessions#show'
+    end
 
     get  'accessions/search' => 'accessions#search'
     get  'accessions' => 'accessions#index'
@@ -48,8 +52,10 @@ Rails.application.routes.draw do
     get "repositories/:rid/digital_objects/:id/tree/node_from_root" => 'digital_objects#tree_node_from_root'
 
     #CLASSIFICATIONS
-    get "classifications/:slug_or_id" => 'classifications#show'
-    get "repositories/:repo_slug/classifications/:slug_or_id" => 'classifications#show'
+    if AppConfig[:use_human_readable_urls]
+      get "classifications/:slug_or_id" => 'classifications#show'
+      get "repositories/:repo_slug/classifications/:slug_or_id" => 'classifications#show'
+    end
 
     get 'classifications/search' => 'classifications#search'
     get 'classifications' => 'classifications#index'
@@ -62,8 +68,10 @@ Rails.application.routes.draw do
     get "repositories/:rid/classifications/:id/tree/node_from_root" => 'classifications#tree_node_from_root'
 
     #CLASSIFICATION TERMS
-    get  "repositories/:repo_slug/classification_terms/:slug_or_id" => 'classifications#term'
-    get  "classification_terms/:slug_or_id" => 'classifications#term'
+    get "repositories/:repo_slug/classification_terms/:slug_or_id" => 'classifications#term'
+    if AppConfig[:use_human_readable_urls]
+      get "classification_terms/:slug_or_id" => 'classifications#term'
+    end
 
     #SUBJECTS
     get "subjects/:slug_or_id" => 'subjects#show'
@@ -72,7 +80,9 @@ Rails.application.routes.draw do
     get "repositories/:rid/subjects" => 'subjects#index'
 
     #AGENTS
-    get "agents/:slug_or_id" => 'agents#show'
+    if AppConfig[:use_human_readable_urls]
+      get "agents/:slug_or_id" => 'agents#show'
+    end
 
     get 'agents/search' => 'agents#search'
     get "agents/:eid/:id" => 'agents#show'
@@ -88,8 +98,10 @@ Rails.application.routes.draw do
     get "repositories/:rid/top_containers/:id" => 'containers#show'
 
     # SLUGGED OBJECTS (# ARCHIVAL OBJECTS, DIGITAL OBJECTS, DIGITAL OBJECT COMPONENTS)
-    get ":obj_type/:slug_or_id" => 'objects#show'
-    get "repositories/:repo_slug/:obj_type/:slug_or_id" => 'objects#show'
+    if AppConfig[:use_human_readable_urls]
+      get ":obj_type/:slug_or_id" => 'objects#show'
+      get "repositories/:repo_slug/:obj_type/:slug_or_id" => 'objects#show'
+    end
 
     #OBJECTS (generic, pass in the object_type as a param)
     get 'objects/search' => 'objects#search'

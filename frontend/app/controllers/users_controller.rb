@@ -217,11 +217,11 @@ class UsersController < ApplicationController
 
   def recover_password
     if !AppConfig[:allow_password_reset]
-      flash[:error] = I18n.t("user._frontend.messages.password_recovery_not_allowed", email: params.fetch(:email))
+      flash[:error] = I18n.t("user._frontend.messages.password_reset_not_allowed", email: params.fetch(:email))
     else
       result = User.recover_password(params.fetch(:email, nil))
-      if result[:status] == :success
-        flash[:success] = I18n.t("user._frontend.messages.password_recovery_email_sent", email: params.fetch(:email))
+      if result[:status] == :success || result[:status] == :not_found
+        flash[:success] = I18n.t("user._frontend.messages.password_reset_email_sent", email: params.fetch(:email))
       else
         flash[:error] = result[:error]
       end

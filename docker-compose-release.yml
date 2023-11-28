@@ -34,7 +34,7 @@ services:
     container_name: as_release_proxy
     build:
       args:
-        default: default.conf.release
+        DEFAULT_CFG: default.conf.release
       context: ./proxy
     image: archivesspace/proxy-release:1.21
     ports:

@@ -12,7 +12,17 @@ module Plugins
 
       config_path = File.join(plugin_dir, 'config.yml')
       if File.exist?(config_path)
-        @config[:plugin][plugin] = cfg = YAML.load_file config_path
+        cfg = YAML.load_file config_path
+        # If "agent" has been specified in config.yml as a "parent", expand that to all agent-types
+        if cfg.dig('parents', 'agent')
+          agent_parent = cfg['parents']['agent']
+          cfg['parents']['agent_person'] ||= agent_parent
+          cfg['parents']['agent_family'] ||= agent_parent
+          cfg['parents']['agent_corporate_entity'] ||= agent_parent
+          cfg['parents']['agent_software'] ||= agent_parent
+          cfg['parents'].delete('agent')
+        end
+        @config[:plugin][plugin] = cfg
         @config[:system_menu_items] << cfg['system_menu_controller'] if cfg['system_menu_controller']
         @config[:repository_menu_items] << cfg['repository_menu_controller'] if cfg['repository_menu_controller']
         (cfg['parents'] || {}).keys.each do |parent|

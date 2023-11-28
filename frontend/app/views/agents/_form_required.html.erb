@@ -65,6 +65,6 @@
 
   <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_resources", help_topic: "agent_resources", type: :agent_resource, field_names: ["linked_agent_role", "linked_resource", "linked_resource_description", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute",  "last_verified_date"] } %>
 
-  <%= form_plugins_for("agent", form) %>
+  <%= form_plugins_for(@agent.agent_type.to_s, form) %>
 
 </fieldset>

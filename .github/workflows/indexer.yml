@@ -16,22 +16,6 @@ jobs:
       matrix:
         java: [ 8, 11 ]
 
-    services:
-      db:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: archivesspace
-          MYSQL_USER: as
-          MYSQL_PASSWORD: as123
-        ports:
-          - 3307:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      solr:
-        image: solr:8.11
-        ports:
-          - 8984:8983
-
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-java@v3
@@ -45,26 +29,8 @@ jobs:
         public: true
         indexer: true
 
-    - name: Allow ArchivesSpace functions for app db user
-      env:
-        DB_PORT: "3307"
-      run: |
-        mysql --host 127.0.0.1 --port $DB_PORT -uroot -proot -e "SET GLOBAL log_bin_trust_function_creators = 1;"
-
-    - name: Copy solr config from workspace to solr service
-      env:
-        SOLR_ID: ${{ job.services.solr.id }}
-      run: |
-        docker cp solr $SOLR_ID:/solr_conf_from_repo
-
-    - name: Create ArchivesSpace Solr core
-      env:
-        SOLR_ID: ${{ job.services.solr.id }}
-      run: |
-        docker exec --tty $SOLR_ID solr create_core -p 8983 -c archivesspace -d /solr_conf_from_repo
-
-    # also run pui tests because it's particularly dependent on the index
     - name: Run Indexer tests
+      env:
+        ASPACE_TEST_BACKEND_URL: http://localhost:9999
       run: |
         ./build/run indexer:test
-        ./build/run public:test

@@ -49,7 +49,8 @@ module PluginHelper
 
       result << render_aspace_partial(:partial => "shared/subrecord_form",
                        :locals => {:form => context, :name => parent['name'],
-                         :cardinality => parent['cardinality'].intern, :plugin => true})
+                         :cardinality => parent['cardinality'].intern, :plugin => true,
+                                   :section_id => "#{jsonmodel_type}_#{parent['name']}_"})
 
     end
 

@@ -80,7 +80,7 @@ AppConfig[:mysql_binlog] = false
 #      "ps" => 0,
 #    }
 # For more information about solr parameters, please consult the solr documentation
-# here: https://lucene.apache.org/solr/
+# here: https://solr.apache.org/guide/solr/latest/query-guide/dismax-query-parser.html
 # Configuring search operator to be AND by default - ANW-427
 AppConfig[:solr_params] = { 'q.op' => 'AND' }
 AppConfig[:solr_verify_checksums] = true
@@ -731,6 +731,9 @@ AppConfig[:pui_repositories_sort] = :display_string
 
 # Set the font used to generate PDFs in the PUI
 AppConfig[:pui_pdf_font_file] = "NotoSerif-Regular.ttf"
+AppConfig[:pui_pdf_bold_font_file] = "NotoSerif-Bold.ttf"
+AppConfig[:pui_pdf_italic_font_file] = "NotoSerif-Italic.ttf"
+
 AppConfig[:pui_pdf_font_name] = "Noto Serif"
 
 # Password recovery - requires email configuration

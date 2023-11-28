@@ -1,15 +1,30 @@
-<% order = %w(title subtitle status author date description_rules language script language_note sponsor edition_statement series statement) %>
+<% order = %w(subtitle author date description_rules language script language_note sponsor edition_statement series statement) %>
 
 <% unless @result.finding_aid.blank? %>
   <% if @result.finding_aid.size > 1 || @result.finding_aid['revisions'].blank? %>
     <dl class="dl-horizontal-fa">
+      
+      <% unless @result.finding_aid['title'].blank? %>
+        <dt><%= t("resource._public.finding_aid.title") %></dt>
+        <dd><%= @result.finding_aid['title'] %></dd>
+      <% end %>
+
+       <%# ANW-312: finding aid status has a separate toggle that determines whether it is displayed %>
+
+      <% unless @result.finding_aid['status'].blank? %>
+        <% if @result.json['is_finding_aid_status_published'] %>
+          <dt><%= t("resource._public.finding_aid.status") %></dt>
+          <dd>
+              <%= t("resource_finding_aid_status.#{@result.finding_aid['status']}") %>
+        </dd>
+        <% end %>
+      <% end %>
+
       <% order.each do |item| %>
         <% unless @result.finding_aid[item].blank? %>
           <dt><%= t("resource._public.finding_aid.#{item}") %></dt>
-      	  <dd>
-            <% if item == "status" %>
-              <%= t("resource_finding_aid_status.#{@result.finding_aid[item]}") %>
-            <% elsif item == "language" %>
+          <dd>
+            <% if item == "language" %>
               <%= t("enumerations.language_iso639_2.#{@result.finding_aid[item]}") %>
             <% elsif item == "script" %>
               <%= t("enumerations.script_iso15924.#{@result.finding_aid[item]}") %>

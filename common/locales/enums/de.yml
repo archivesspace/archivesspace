@@ -260,7 +260,7 @@ de:
       grb: Grebo
       goh: Althochdeutsch
       grc: Altgriechisch
-      gre: Griechisch
+      gre: Griechisch, Modern (1453-)
       grn: Guaraní
       gsw: Schweizerdeutsch
       guj: Gujarati
@@ -436,7 +436,7 @@ de:
       srp: Serbisch
       swa: Swahili
       swe: Schwedisch
-      syc: Syrisch
+      syc: Klassisches Syrisch
       syr: Nordost-Neuaramäisch
       tah: Tahitianisch, Tahitisch
       tai: Tai-Sprachen
@@ -522,7 +522,7 @@ de:
       fnd: Geldgeber
       gis: Spezialist für Geoinformation
       grt: Grafiker
-      ins: Graveur
+      ins: Beschrifter
       inv: Erfinder
       itr: Instrumentalist
       isb: Ausstellende Stelle
@@ -772,7 +772,7 @@ de:
       uvp: Studienplatz
       vac: Synchronsprecher
       vdg: Videofilmer
-      voc: Sänger
+      voc: Vokalist
       wac: Verfasser des zusätzlichen Kommentars
       wdc: Holzfäller
       wde: Holzschnitzer
@@ -816,7 +816,7 @@ de:
       deleted_merged: Gelöscht-Zusammengeführt
     _note_types: &note_type_definitions
       phystech: Physische Eigenschaften und technische Anforderungen
-      appraisal: Bewertung
+      appraisal: Beurteilung
       arrangement: Anordnung
       bibliography: Bibliografie
       bioghist: Biografisch / Historisch
@@ -942,8 +942,8 @@ de:
       ean: Internationale Artikelnummer
       bdusc: Biographical Directory of the United States Congress (United States Congress)
       fast: 'Faceted Application of Subject Terminology (Dublin, Ohio: OCLC)'
-      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur\
-        \ (ABES))"
+      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur
+        (ABES))"
       cantic: CANTIC (Catàleg d'autoritats de noms i títols de Catalunya) (Biblioteca de Catalunya)
       doi: Digital Object Identifier
       gnis: Geographic Names Information System (GNIS) (United States Geological Survey, Board on Geographic
@@ -1101,7 +1101,7 @@ de:
       Deva: Devanagari
       Egyh: Hieratisch
       Geok: Chutsuri
-      Geor: Georgisch
+      Geor: Georgisch (Mchedruli und Asomtawruli)
       Glag: Glagolitisch
       Gujr: Gujarati
       Hung: Altungarisch
@@ -1728,7 +1728,7 @@ de:
       agreement_sent: Vereinbarung gesendet
       collection: Sammlung
       agreement_signed: Vereinbarung unterzeichnet
-      appraisal: Bewertung
+      appraisal: Beurteilung
       assessment: Begutachtung
       capture: Erfassung
       cataloged: Katalogisiert

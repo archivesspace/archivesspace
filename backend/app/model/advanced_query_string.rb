@@ -1,9 +1,10 @@
 require 'time'
 
 class AdvancedQueryString
-  def initialize(query, use_literal)
+  def initialize(query, use_literal: false, protect_unpublished: false)
     @query = query.transform_keys { |k| k.to_s }
     @use_literal = use_literal
+    @protect_unpublished = protect_unpublished
   end
 
   def to_solr_s
@@ -38,7 +39,7 @@ class AdvancedQueryString
   end
 
   def field
-    AdvancedSearch.solr_field_for(@query['field'])
+    AdvancedSearch.solr_field_for(@query['field'], protect_unpublished: @protect_unpublished)
   end
 
   def value

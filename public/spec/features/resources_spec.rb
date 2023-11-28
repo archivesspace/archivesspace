@@ -72,4 +72,11 @@ describe 'Resources', js: true do
     expect(page).to have_css('#agent_list', text: 'Linked Agent 2')
     expect(page).to_not have_css('#agent_list', text: 'Linked Agent 1')
   end
+
+  it "Does not display finding aid status if unpublished" do
+    visit('/')
+    click_link 'Collections'
+    click_link 'Published Resource'
+    expect(page).to_not have_content('In Progress')
+  end
 end

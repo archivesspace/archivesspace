@@ -194,6 +194,9 @@ de:
     collapse_tree: Baum einklappen
     expand_tree_mode_on: Alle automatisch Ausklappen
     expand_tree_mode_off: Automatisches Ausklappen deaktivieren
+    drop_before: Davor einfügen
+    drop_into: Als Kind-Element einfügen
+    drop_after: Danach einfügen
   search_results:
     filtered_by: Gefiltert durch
     title: Suchergebnisse
@@ -503,7 +506,7 @@ de:
       title: Begriffe
       publish: Veröffentlicht
       audit_info: Prüfinformation
-      user_mtime: Bearbeitet
+      user_mtime: Geändert
       create_time: Erstellt
       desc: Absteigend
       asc: Aufsteigend
@@ -668,6 +671,10 @@ de:
       location_display_string_u_sstr: Standort
       create_time: Erstellt
       uri: URI
+      exported_to_ils: Exportiert ins IBS
+      series_level_u_sstr: Serie
+      ils_holding_id: IBS Bestands-ID
+      collection_identifier_stored_u_sstr: Sammlung
     container_profile:
       score: Relevanz
       title: Titel
@@ -735,6 +742,22 @@ de:
       representative_file_version: Vorschaubild
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Aufbewahrungsort
+    top_container_mgmt:
+      not_exported_to_ils: Nicht exportiert
+      restricted: Eingeschränkt
+      indicator: Kennzeichnung
+      series: Serie
+      asc: Aufsteigend
+      desc: Absteigend
+      ils_holding_id: IBS Bestands-ID
+      not_restricted: Nicht eingeschränkt
+      barcode: Strichcode
+      exported_to_ils: Exportiert ins IBS
+      container_profile: Behältnis-Profil
+      internal_note: Interne Anmerkung
+      location: Standort
+      type: Typ
+      resource_accession: Ressource/Eingang
   become-user:
     success: Benutzer erfolgreich gewechselt
     become-user: Als Benutzer ausgeben
@@ -776,6 +799,23 @@ de:
     password_placeholder: Passwort
     username_aria_label: Benutzername des Benutzers
     password_aria_label: Passwort des Benutzers
+    confirm_password: Passwort bestätigen
+    lost_password: Passwort vergessen?
+    reset_password: Passwort zurücksetzen
+    recover_password: Passwort wiederherstellen
+    email_placeholder: E-Mail-Adresse
+    reset_form_instructions: Geben Sie die E-Mail-Adresse für Ihr Benutzerkonto ein.
+      Wenn ein Konto zu dieser E-Mail-Adresse existiert, bekommen Sie einen Link zum
+      Rücksetzen Ihres Passworts an Ihre E-Mail-Adresse zugeschickt.
+    new_password: Neues Passwort
+    new_password_instructions: Erstellen Sie mit dem Formular ein neues Passwort für
+      den Nutzer %{user} und melden Sie sich danach erneut an.
+    password_mismatch_error: Die Passwörter stimmen nicht überein.
+    password_update_success: Das Passwort wurde erfolgreich aktualisiert.
+    password_update_error: Das Passwort konnte nicht aktualisiert werden. Versuchen
+      Sie es noch einmal oder wenden Sie sich an einen Administrator.
+    password_too_simple: Dieses Passwort kann leicht erraten werden. Versuchen Sie
+      Wörter hinzuzufügen oder einen Generator für zufällige Passwörter zu verwenden.
   save_changes_modal:
     body: Sie haben offene Änderungen. Bitte speichern oder verwerfen Sie diese Änderungen
       um fortzufahren.
@@ -859,6 +899,8 @@ de:
       Beziehung bevor Sie mit dem Zusammenführen fortfahren.
     linked_to_assessment: Die Aufzeichnung kann nicht gelöscht werden, weil Sie mit
       einem Eingang verknüpft ist
+    linked_to_user: Die Aufzeichnung kann nicht gelöscht werden, weil Sie mit einem
+      Benutzer verknüpft ist
     cannot_delete_repository_agent: Dieser Akteur ist mit einem Aufbewahrungsort verknüpft
       und kann nicht entfernt werden.
     error_403_message: Die aufgerufene Seite könnte nicht mehr existieren oder Sie
@@ -1470,6 +1512,20 @@ de:
         deleted: Benutzer gelöscht
         error_update: Benutzer nicht gespeichert
         error_create: Benutzer nicht gespeichert
+        error_not_found: Es wurde kein Benutzerkonto für %{email} gefunden. Fragen
+          Sie Ihren Administrator um Hilfe.
+        password_recovery_not_allowed: Die Passwortwiederherstellung ist nicht erlaubt.
+          Kontaktieren Sie Ihren Administrator.
+        password_recovery_fail: Die Passwortwiederherstellung ist fehlgeschlagen.
+          Kontaktieren Sie Ihren Administrator.
+        password_recovery_email_sent: Eine E-Mail mit Anweisungen zur Wiederherstellung
+          Ihres Passworts wurde an %{email} gesendet
+        password_reset_email_sent: Wenn ein Konto für %{email} existiert, wird eine
+          E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts gesendet.
+        password_reset_fail: Das Zurücksetzen des Passworts ist fehlgeschlagen. Kontaktieren
+          Sie Ihren Administrator.
+        password_reset_not_allowed: Das Zurücksetzen des Passworts ist nicht erlaubt.
+          Kontaktieren Sie Ihren Administrator.
       section:
         manage_access: Benutzerzugriff verwalten
         edit_account_submit: Benutzerkonto aktualisieren
@@ -1909,8 +1965,8 @@ de:
       digitale Objekte zu erstellen. Das XLSX-Format ist für jene geeignet, die Zugang
       zu Microsoft Excel haben.
     aspace_subject_import_template_csv: Neue Themen-Aufzeichnungen erstellen. Beachten
-      Sie, dass diese Vorlage zum Erstellen der Standort-Aufzeichnungen selbst und
-      nicht zum Verknüpfen mit anderen Aufzeichnungen gedacht ist.
+      Sie, dass diese Vorlage zum Erstellen der Themen-Aufzeichnungen selbst und nicht
+      zum Verknüpfen mit anderen Aufzeichnungen gedacht ist.
   top_container:
     restricted: Eingeschränkt?
     managed_container_2_indicator_tooltip: "<p>Ein alphanumerischer Ausdruck, um den
@@ -2036,7 +2092,7 @@ de:
     container_profile: Behältnis-Profil
     container_profile_tooltip: "<p>Eine Beschreibung verschiedener Eigenschaften einer
       speziellen Art von Behältnis inklusive Dimensionen.</p>\n"
-    indicator: Kennzeichner
+    indicator: Kennzeichnung
     barcode: Strichcode
     barcode_tooltip: "<p>Wird verwendet, um den Strichcode anzugeben, welcher das
       Haupt-Behältnis eindeutig identifiziert.</p>\n"
@@ -2084,7 +2140,7 @@ de:
       action:
         create: Behältnis-Profil erstellen
         save: Behältnis-Profil speichern
-        edit: Behältnis-Profil speichern
+        edit: Behältnis-Profil bearbeiten
         space_calculator: Platz-Rechner
       bulk_operations:
         merge: Behältnis-Profile zusammenführen

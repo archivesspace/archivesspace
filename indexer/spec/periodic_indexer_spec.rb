@@ -90,7 +90,9 @@ describe "periodic indexer" do
                    },
                  },
                  'publish' => true,
-                 'has_unpublished_ancestor' => true)
+                 'has_unpublished_ancestor' => true,
+                 'instances' => [],
+                 'resource' => "/repositories/5/resources/1")
 
       indexer.prepare_docs([ao])
 
@@ -116,7 +118,8 @@ describe "periodic indexer" do
                        'id_0' => '0',
                        'id_1' => '1',
                        'id_2' => '2',
-                       'id_3' => '3')
+                       'id_3' => '3',
+                       'instances' => [])
       end
 
       indexer.prepare_docs(records)
@@ -131,6 +134,7 @@ describe "periodic indexer" do
       records = []
 
       ['archival_object', 'digital_object_component'].each do |t|
+        parent_type = (t == 'archival_object') ? 'resource' : 'digital_object'
         records << build(:"json_#{t}",
                        'uri' => "/repositories/2/#{t}s/1",
                        'title' => "Test #{t}",
@@ -140,7 +144,8 @@ describe "periodic indexer" do
                            'repo_code' => 'test',
                          },
                        },
-                       'component_id' => '0123')
+                       'component_id' => '0123',
+                       "#{parent_type}" => "/repositories/2/#{parent_type}s/1")
       end
 
       indexer.prepare_docs(records)

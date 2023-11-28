@@ -43,7 +43,10 @@ module ASpaceExport
         results = []
         linked = self.linked_agents || []
         linked.each_with_index do |link, i|
-          next if link['role'] == 'creator' || (link['_resolved']['publish'] == false && !include_unpublished)
+          if link['role'] == 'creator' || (link['_resolved']['publish'] == false && !include_unpublished)
+            results << {}
+            next
+          end
           role = link['relator'] ? link['relator'] : (link['role'] == 'source' ? 'fmo' : nil)
 
           agent = link['_resolved'].dup

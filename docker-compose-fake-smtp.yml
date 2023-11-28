@@ -1,0 +1,25 @@
+# Run a fake smtp server:
+# docker-compose -f docker-compose-fake-smtp.yml up --detach
+
+# Config for fake smtp:
+
+# AppConfig[:email_delivery_method] = :smtp
+# AppConfig[:email_smtp_settings] = {
+#      address:              'localhost',
+#      port:                 1025,
+#      domain:               'foobar.com',
+#      user_name:            'hello',
+#      password:             'goodbye',
+#      openssl_verify_mode:  'none'
+# }
+# AppConfig[:email_perform_deliveries] = true
+# AppConfig[:email_raise_delivery_errors] = true
+# AppConfig[:allow_password_reset] = true
+
+services:
+  mail:
+    container_name: fake_smtp_server
+    image: reachfive/fake-smtp-server
+    ports:
+      - "1025:1025"
+      - "1080:1080"

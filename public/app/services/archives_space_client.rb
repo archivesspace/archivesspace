@@ -147,8 +147,7 @@ class ArchivesSpaceClient
       Rails.logger.debug("POST Search url: #{url} ")
     end
     response = do_http_request(request)
-    if response.code != '200'
-      Rails.logger.debug("Code: #{response.code}")
+    if response.code.to_s != '200'
       raise RequestFailedException.new("#{response.code}: #{response.body}")
     end
     results = ASUtils.json_parse(response.body)

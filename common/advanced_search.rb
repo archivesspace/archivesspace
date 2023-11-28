@@ -15,13 +15,17 @@ class AdvancedSearch
   end
 
 
-  def self.solr_field_for(field)
+  def self.solr_field_for(field, protect_unpublished: false)
     load_definitions
     field = @fields.fetch(field.to_s) do
       return field
     end
 
-    field.solr_field
+    if protect_unpublished && field[:protects_unpublished]
+      "#{field.solr_field}_published"
+    else
+      field.solr_field
+    end
   end
 
 
@@ -51,7 +55,7 @@ class AdvancedSearch
   end
 
 
-  AdvancedSearchField = Struct.new(:name, :type, :visibility, :solr_field, :is_default) do
+  AdvancedSearchField = Struct.new(:name, :type, :visibility, :solr_field, :is_default, :protects_unpublished) do
 
     def initialize(opts)
       opts.each do |k, v|

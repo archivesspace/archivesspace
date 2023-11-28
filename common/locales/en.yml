@@ -158,7 +158,7 @@ en:
   location: &location_attributes
     title: Location
     temporary_question: Temporary?
-    temporary: Temporary
+    temporary: Temporary Type
     temporary_tooltip: |
         <p>Used to indicate if this Location is a specific type of temporary location (e.g. an exhibition area).</p>
     building: Building
@@ -2046,6 +2046,10 @@ en:
     finding_aid_status: Finding Aid Status
     finding_aid_status_tooltip: |
         <p>Indicates the status of the finding aid.</p>
+
+    is_finding_aid_status_published: Finding Aid Status Published?
+    is_finding_aid_status_published_tooltip: |
+        <p>Determines whether Finding Aid Status is exposed publically.</p>
     finding_aid_note: Finding Aid Note
     finding_aid_note_tooltip: |
         <p>For recording any additional information about the finding aid (not the described Resource) not covered by the other finding aid data elements.</p>
@@ -2249,7 +2253,7 @@ en:
     admin: Administrator
     _singular: User
     _plural: Users
-    recover_password: Recover Password
+    reset_password: Reset Password
 
   collection_management: &collection_management_attributes
     cataloged_note: Cataloged Note
@@ -2407,6 +2411,7 @@ en:
     event_browse_section: Event Browse Columns
     collection_management_browse_section: Collection Management Browse Columns
     top_container_browse_section: Top Container Browse Columns
+    top_container_mgmt_browse_section: Top Container Management Browse Columns
     classification_browse_section: Classification Browse Columns
     assessment_browse_section: Assessment Browse Columns
     repositories_browse_section: Repository Browse Columns

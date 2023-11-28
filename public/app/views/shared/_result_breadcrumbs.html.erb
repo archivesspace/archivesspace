@@ -27,7 +27,7 @@
         <%= render partial: 'shared/result_breadcrumbs_ancestor', locals: {
           :span_class => "#{ancestor_type}_name",
           :badge_type => ancestor_type,
-          :body => ancestor.fetch('title'),
+          :body => ancestor.fetch('title', ancestor['display_string']),
           :url => app_prefix(ancestor.fetch('uri')) } %>
       <% end %>
     <% end %>

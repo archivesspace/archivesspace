@@ -173,6 +173,8 @@ class DigitalObjectConverter < Converter
       'file_version_file_size_bytes' => 'file_version.file_size_bytes',
       'file_version_checksum' => 'file_version.checksum',
       'file_version_checksum_method' => 'file_version.checksum_method',
+      'file_version_is_representative' => [normalize_boolean, 'file_version.is_representative'],
+      'file_version_caption' => 'file_version.caption',
 
       # 2. Define data handlers
       #    :record_type of the schema (if other than the handler key)

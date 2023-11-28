@@ -37,7 +37,6 @@
       <int name="rows">10</int>
       <str name="df">fullrecord</str>
       <str name="pf">four_part_id^50</str>
-      <str name="qf">title^25 four_part_id^50 fullrecord</str>
       <str name="bq">primary_type:resource^100</str>
       <str name="bq">primary_type:accession^100</str>
       <str name="bq">primary_type:subject^50</str>

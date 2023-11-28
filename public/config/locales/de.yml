@@ -170,6 +170,7 @@ de:
     backend_down: Konnte nicht mit der Datenbank verbinden
     unexpected_error: Ihre Anfrage konnte wegen einem unerwartetem Fehler nicht abgeschlossen werden
     error_404: '%{type} Aufzeichnung nicht gefunden'
+    invalid_search_params: Ungültiger Suchparameter '%{value}' für Feld '%{field}'
   boolean:
     "true": Ja
     "false": Nein
@@ -259,6 +260,11 @@ de:
       related_accessions:
         accessions: Eingangs-Aufzeichnung
         deaccessions: Abgangs-Aufzeichnung
+      uri: ID [aspace_uri]
+      ark_link_name: Archival Resource Key
+      lang_pdf: Sprache des Archivguts
+      identifier_pdf: ID
+      identifier_ark: ID [ark]
     _plural: Sammlungen
     identifier_separator: ':'
     _singular: Sammlung
@@ -298,7 +304,7 @@ de:
   digital_object:
     _singular: Digitale Aufzeichnung
     _public:
-      thumbnail: Vorschaubild
+      thumbnail: Vorschau
       link: Verweis zu digitalem Objekt
       badge_label: Digital %{level}
       go: Gehen Sie zur Datei
@@ -383,6 +389,10 @@ de:
     your_finding_aid_pdf: Ihr Findmittel PDF für "%{title}"
     your_finding_aid_is_attached: Das angeforderte Findmittel ist angehängt.
     administrative_information: Administrative Informationen
+    accessrestrict: Bedingungen für den Zugang
+    userestrict: Bedingungen für die Nutzung
+    accruals: Erwerbungen
+    acqinfo: Direkte Quelle der Beschaffung
   readmore:
     see_more: Mehr anzeigen
     see_less: Weniger anzeigen

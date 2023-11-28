@@ -137,6 +137,6 @@
     </section>
   <% end %>
 
-  <%= form_plugins_for("agent", form) %>
+  <%= form_plugins_for(@agent.agent_type.to_s, form) %>
 
 </fieldset>

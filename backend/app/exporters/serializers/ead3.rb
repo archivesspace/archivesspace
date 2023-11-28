@@ -794,10 +794,16 @@ class EAD3Serializer < EADSerializer
         }
       end
 
-      unless data.finding_aid_status.nil?
+      if @include_unpublished || data.is_finding_aid_status_published
+        finding_aid_status = data.finding_aid_status
+      else
+        finding_aid_status = nil
+      end
+
+      unless finding_aid_status.nil?
         xml.localcontrol( { localtype: 'findaidstatus'} ) {
           xml.term() {
-            xml.text(data.finding_aid_status)
+            xml.text(finding_aid_status)
           }
         }
       end
@@ -1121,6 +1127,7 @@ class EAD3Serializer < EADSerializer
           xml.send(node_name, atts) {
             xml.part() {
               sanitize_mixed_content(sort_name, xml, fragments )
+              EAD3Serializer.run_serialize_step(agent, xml, fragments, node_name.to_sym)
             }
           }
         }
@@ -1256,10 +1263,10 @@ class EAD3Serializer < EADSerializer
 
 
   def serialize_controlaccess(data, xml, fragments)
-    if (data.controlaccess_subjects.length + data.controlaccess_linked_agents(@include_unpublished).length) > 0
+    if (data.controlaccess_subjects.length + data.controlaccess_linked_agents(@include_unpublished).reject {|x| x.empty?}.length) > 0
       xml.controlaccess {
 
-        data.controlaccess_subjects.each do |node_data|
+        data.controlaccess_subjects.zip(data.subjects).each do |node_data, subject|
 
           if node_data[:atts]['authfilenumber']
             node_data[:atts]['identifier'] = node_data[:atts]['authfilenumber'].clone
@@ -1269,11 +1276,14 @@ class EAD3Serializer < EADSerializer
           xml.send(node_data[:node_name], node_data[:atts]) {
             xml.part() {
               sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
+              EAD3Serializer.run_serialize_step(subject['_resolved'], xml, fragments, node_data[:node_name].to_sym)
             }
           }
         end
 
-        data.controlaccess_linked_agents(@include_unpublished).each do |node_data|
+        data.controlaccess_linked_agents(@include_unpublished).zip(data.linked_agents).each do |node_data, agent|
+
+          next if node_data.empty?
 
           if node_data[:atts][:role]
             node_data[:atts][:relator] = node_data[:atts][:role]
@@ -1288,6 +1298,7 @@ class EAD3Serializer < EADSerializer
           xml.send(node_data[:node_name], node_data[:atts]) {
             xml.part() {
               sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
+              EAD3Serializer.run_serialize_step(agent['_resolved'], xml, fragments, node_data[:node_name].to_sym)
             }
           }
         end

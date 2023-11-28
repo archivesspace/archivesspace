@@ -1,6 +1,6 @@
 # docker-compose -f docker-compose-dist.yml build
-# docker-compose -f docker-compose-dist.yml up -d db solr app # allow the migrations to run 1st or trouble
-# docker-compose -f docker-compose-dist.yml up # bring up everything else
+# docker-compose -f docker-compose-dist.yml up
+# docker compose -f docker-compose-dist.yml restart app2 # post migration restart app2 (or wait for healthcheck failure to kick in)
 
 version: '3.8'
 services:
@@ -10,6 +10,8 @@ services:
     depends_on:
       - db
       - solr
+    environment:
+      ASPACE_DB_MIGRATE: true
     env_file:
       - .env.docker.release
   app2:
@@ -18,6 +20,8 @@ services:
     depends_on:
       - db
       - solr
+    environment:
+      ASPACE_DB_MIGRATE: false # only run db migrations via app1
     env_file:
       - .env.docker.release
   db:
@@ -40,7 +44,7 @@ services:
     container_name: as_dist_proxy
     build:
       args:
-        default: default.conf.dist
+        DEFAULT_CFG: default.conf.dist
       context: ./proxy
     image: archivesspace/proxy-dist:1.21
     ports:

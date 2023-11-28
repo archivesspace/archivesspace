@@ -15,6 +15,10 @@ require 'axe-rspec'
 require 'jsonmodel'
 require 'aspace_logger'
 
+require_relative '../../indexer/app/lib/pui_indexer'
+require_relative '../../indexer/app/lib/realtime_indexer'
+require_relative '../../indexer/app/lib/periodic_indexer'
+
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
   ASpaceCoverage.start('frontend:test', 'rails')
@@ -87,6 +91,9 @@ RSpec.configure do |config|
                     :priority => :high)
 
     require_relative 'factories'
+
+    $indexer = RealtimeIndexer.new(AppConfig[:backend_url], nil)
+    $period = PeriodicIndexer.new($backend, nil, 'periodic_indexer', false)
 
     Factories.init
     $repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
