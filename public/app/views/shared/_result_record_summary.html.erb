@@ -15,15 +15,17 @@
     end
 	  if !note_struct['note_text'].blank?
   %>
-  <% if rr.nil? %>
-    <% @search[:q].each do |q| %>
-      <% q.split(' ').each do |k| %>
+  <% unless @search[:q][0] == '*' %>
+    <% if rr.nil? %>
+      <% @search[:q].each do |q| %>
+        <% q.split(' ').each do |k| %>
+          <% note_struct['note_text'] = highlights(k, note_struct['note_text']) %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <% rr.each do |k| %>
         <% note_struct['note_text'] = highlights(k, note_struct['note_text']) %>
       <% end %>
-    <% end %>
-  <% else %>
-    <% rr.each do |k| %>
-      <% note_struct['note_text'] = highlights(k, note_struct['note_text']) %>
     <% end %>
   <% end %>
 

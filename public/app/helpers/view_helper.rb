@@ -201,8 +201,8 @@ module ViewHelper
   end
 
   def referrer_search_terms(ref)
-    ans = ref.split('q').last.split('&')[0]
-    return ans.nil? ? nil : ans.split('=')[1].split('+')
+    terms = ref.split('q').last.split('&')[0]
+    return (terms.nil? || terms.split('=').count <= 1) ? nil : terms.split('=')[1].split('+')
   end
 
   def highlights(keyword, text)
