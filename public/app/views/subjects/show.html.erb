@@ -18,26 +18,26 @@
       <%# FOUND IN SECTION %>
       <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
     </div>
-    <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-      <h3><%= t('more_about') %> '<%= strip_tags(@result.display_string) %>'</h3>
-      <div class="acc_holder clear" >
-        <div class="panel-group" id="res_accordion">
-          <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
-            <% x = render partial: 'subjects/terms', locals: {:terms =>  terms, :list_clss => 'terms'} %>
-            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('subject_term_type'), :p_id => 'subject_terms', :p_body => x} %>
-          <% end %>
-          <% unless @result.external_documents.blank? %>
-            <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
-            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
-          <% end %>
-        </div>
+  </div>
+  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+    <h3><%= t('more_about') %> '<%= strip_tags(@result.display_string) %>'</h3>
+    <div class="acc_holder clear" >
+      <div class="panel-group" id="res_accordion">
+        <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
+          <% x = render partial: 'subjects/terms', locals: {:terms =>  terms, :list_clss => 'terms'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('subject_term_type'), :p_id => 'subject_terms', :p_body => x} %>
+        <% end %>
+        <% unless @result.external_documents.blank? %>
+          <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
+        <% end %>
       </div>
-      <script type="text/javascript" >
-        initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>", <%= AppConfig[:pui_expand_all] %>);
-      </script>
-      <% unless @results.blank? || @results['total_hits'] == 0 %>
-        <%= render partial: 'shared/facets' %>
-      <% end %>
     </div>
+    <script type="text/javascript" >
+      initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>", <%= AppConfig[:pui_expand_all] %>);
+    </script>
+    <% unless @results.blank? || @results['total_hits'] == 0 %>
+      <%= render partial: 'shared/facets' %>
+    <% end %>
   </div>
 </div>
