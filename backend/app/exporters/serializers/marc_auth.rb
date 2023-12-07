@@ -307,7 +307,12 @@ class MARCAuthSerializer < ASpaceExport::Serializer
   end
 
   def names(json, xml)
-    primary = json['names'].select { |n| n['authorized'] == true }.first
+    # ANW-504: look for an agent marked primary first
+    primary = nil
+    primary = json['names'].select { |n| n['is_primary'] == true }.first
+
+    # otherwise, simply grab the first one
+    primary = json['names'].select { |n| n['authorized'] == true }.first unless primary
     not_primary = json['names'].select { |n| n['authorized'] == false }
 
     parallel_names = []

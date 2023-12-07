@@ -335,7 +335,13 @@ class MARCModel < ASpaceExport::ExportModel
 
 
   def handle_primary_creator(linked_agents)
-    link = linked_agents.find {|a| a['role'] == 'creator'}
+    # ANW-504: get look for primary flag to find primary agent
+    link = nil 
+    link = linked_agents.find {|a| a['is_primary']}
+
+    # otherwise, use first found with role = creator
+    link = linked_agents.find {|a| a['role'] == 'creator'} unless link
+
     return nil unless link
     return nil unless link["_resolved"]["publish"] || @include_unpublished
 
@@ -376,11 +382,16 @@ class MARCModel < ASpaceExport::ExportModel
   # TODO: DRY this up
   # this method is very similair to handle_primary_creator and handle_agents
   def handle_other_creators(linked_agents)
-    creators = linked_agents.select {|a| a['role'] == 'creator'}[1..-1] || []
+    creators = linked_agents.select {|a| a['role'] == 'creator'} || []
     creators = creators + linked_agents.select {|a| a['role'] == 'source'}
+
+    STDERR.puts "++++++++++++++++++++====="
+    STDERR.puts creators.length
+    STDERR.puts creators.inspect
 
     creators.each_with_index do |link, i|
       next unless link["_resolved"]["publish"] || @include_unpublished
+      next if link['is_primary']
 
       creator = link['_resolved']
       name = creator['display_name']
