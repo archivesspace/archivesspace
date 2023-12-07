@@ -94,7 +94,6 @@
         <% end %>
     <% end %>
 
-
 <div class='bioghist'>
   <a id="note-bioghist"></a>
   <% unless record.notes['bioghist'].nil? %>
@@ -169,22 +168,31 @@
 <% end %>
 
 
-<br />
 <div class="repository-information">
   <div class="repository-address"><%= record.resolved_repository['name'] %></div>
   
   <% if contacts %>
     <div class="repository-address">
+      <% if contacts['address_1'] %> 
         <p><%= contacts['address_1'] %></p>
+      <% end %>
+
+      <% if contacts['address_2'] %> 
         <p><%= contacts['address_2'] %></p>
+      <% end %>
+
+      <% if contacts['address_3'] %> 
         <p><%= contacts['address_3'] %></p>
+      <% end %>
 
-        <% address_string = "" %>
-        <% address_string += contacts['city'] if contacts['city'] %>
-        <% address_string += ", #{contacts['region']}" if contacts['region'] %>
-        <% address_string += " #{contacts['post_code']}" if contacts['post_code'] %>
+      <% address_string = "" %>
+      <% address_string += contacts['city'] if contacts['city'] %>
+      <% address_string += ", #{contacts['region']}" if contacts['region'] %>
+      <% address_string += " #{contacts['post_code']}" if contacts['post_code'] %>
 
+      <% unless address_string.empty? %> 
         <p><%= address_string %></p>
+      <% end %>
     </div>
   <% end %>
 </div>
@@ -197,60 +205,18 @@
   <% end %>
 <% end %>
 
-<% unless record.notes['custodhist'].nil? %>
-  <h4><%= I18n.t('enumerations._note_types.custodhist') %></h4>
-  <% record.notes['custodhist'].each do |custodhist| %>
-      <% custodhist['subnotes'].each do |sn| %>
+<%# display all notes %>
+<% record.notes.each do |note_type, note| %>
+  <% next if note_type == "bioghist" %> 
+  <% next if note_type == "scopecontent" %> 
+  <% next if note_type == "relatedmaterial" %> 
+  <% next if note_type == "odd" %> 
+
+  <h4><%= I18n.t("enumerations._note_types.#{note_type}") %></h4>
+  <% record.notes[note_type].each do |n| %>
+    <% n['subnotes'].each do |sn| %>
       <p><%= sn['content'] %></p>
-      <% end %>
-  <% end %>
-<% end %>
-
-<% unless record.notes['processinfo'].nil? %>
-  <h4><%= I18n.t('enumerations._note_types.processinfo') %></h4>
-  <% record.notes['processinfo'].each do |processinfo| %>
-      <% processinfo['subnotes'].each do |sn| %>
-      <p><%= sn['content'] %></p>
-      <% end %>
-  <% end %>
-<% end %>
-
-
-<% unless record.notes['acqinfo'].nil? %>
-  <h4><%= I18n.t('pdf_reports.acqinfo') %></h4>
-  <% record.notes['acqinfo'].each do |acqinfo| %>
-      <% acqinfo['subnotes'].each do |sn| %>
-      <p><%= sn['content'] %></p>
-      <% end %>
-  <% end %>
-<% end %>
-
-
-<% unless record.notes['accruals'].nil? %>
-  <h4><%= I18n.t('pdf_reports.accruals') %></h4>
-  <% record.notes['accruals'].each do |accruals| %>
-      <% accruals['subnotes'].each do |sn| %>
-      <p><%= sn['content'] %></p>
-      <% end %>
-  <% end %>
-<% end %>
-
-
-<% unless record.notes['accessrestrict'].nil? %>
-  <h4><%= I18n.t('pdf_reports.accessrestrict') %></h4>
-  <% record.notes['accessrestrict'].each do |accessrestrict| %>
-      <% accessrestrict['subnotes'].each do |sn| %>
-      <p><%= sn['content'] %></p>
-      <% end %>
-  <% end %>
-<% end %>
-
-<% unless record.notes['userestrict'].nil? %>
-  <h4><%= I18n.t('pdf_reports.userestrict') %></h4>
-  <% record.notes['userestrict'].each do |userestrict| %>
-      <% userestrict['subnotes'].each do |sn| %>
-      <p><%= sn['content'] %></p>
-      <% end %>
+    <% end %>
   <% end %>
 <% end %>
 
