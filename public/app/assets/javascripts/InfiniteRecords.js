@@ -31,10 +31,6 @@
         document.querySelector('[data-loading-modal]')
       );
 
-      this.showAllRecordsBtn = document.querySelector(
-        '[data-show-all-records]'
-      );
-
       this.waypointObserver = new IntersectionObserver(
         (entries, observer) => {
           this.waypointScrollHandler(entries, observer);
@@ -55,10 +51,6 @@
 
       this.container.addEventListener('scrollend', () => {
         this.isOkToObserve = true;
-      });
-
-      this.showAllRecordsBtn.addEventListener('click', () => {
-        this.populateAllWaypoints();
       });
 
       this.initRecords(window.location.hash);
@@ -185,22 +177,14 @@
 
     /**
      * Append records markup to one or more waypoints, start observing
-     * each record via `contentRecordObs`, run `updateShowingCurrent()`,
-     * and clear the waypoint number(s) from any data attributes
+     * each record via `contentRecordObs`, and clear the waypoint number(s)
+     * from any data attributes
      * @param {Object[]} waypoints - Array of waypoint objects as
      * returned from `fetchWaypoints()`, each of which represents one waypoint
      * with the signature `{ wpNum, records}`
-     * @param {boolean} [updateShouldCloseModal=false] - Whether or not the
-     * `updateShowingCurrent()` call should close the loading modal, used by
-     * `populateAllWaypoints()`, default false
      */
-    populateWaypoints(waypoints, updateShouldCloseModal = false) {
+    populateWaypoints(waypoints) {
       waypoints.forEach(waypoint => {
-        if (waypoint == undefined) {
-          // Failed fetches from worker get passed as undefined
-          return;
-        }
-
         const { wpNum, records } = waypoint;
         const waypointEl = document.querySelector(
           `.waypoint[data-waypoint-number='${wpNum}']:not(.populated)`
@@ -249,8 +233,6 @@
         waypointEl.classList.add('populated');
 
         this.clearWaypointFromDatasets(wpNum);
-
-        this.updateShowingCurrent(updateShouldCloseModal);
       });
     }
 
@@ -331,89 +313,6 @@
           this.waypointObserver.unobserve(record);
         }
       });
-    }
-
-    /**
-     * Update the text for the number of records currently showing
-     * @param {boolean} shouldCloseModal - Whether or not to close the
-     * loading modal when all records are shown
-     */
-    updateShowingCurrent(shouldCloseModal) {
-      const showingCurrentEl = document.querySelector('[data-showing-current]');
-      const numPresentRecords = this.container.querySelectorAll(
-        '.infinite-record-record'
-      ).length;
-
-      showingCurrentEl.classList.add('item-highlight');
-      showingCurrentEl.textContent = numPresentRecords;
-      showingCurrentEl.onanimationend = () => {
-        showingCurrentEl.classList.remove('item-highlight');
-      };
-
-      if (numPresentRecords === this.NUM_TOTAL_RECORDS) {
-        this.showAllRecordsBtn.classList.add('item-fadeout');
-        this.showAllRecordsBtn.onanimationend = () => {
-          this.showAllRecordsBtn.style.opacity = 0;
-        };
-        this.showAllRecordsBtn.setAttribute('disabled', true);
-
-        if (shouldCloseModal) this.modal.toggle();
-      }
-    }
-
-    /**
-     * Populate the remaining empty waypoints
-     * @param {boolean} [shouldImmediatelyToggleModal=true] - Whether or not
-     * the modal should be toggled when called, default is true
-     */
-    populateAllWaypoints(shouldImmediatelyToggleModal = true) {
-      if (shouldImmediatelyToggleModal) this.modal.toggle();
-
-      this.waypointObserver.disconnect();
-
-      const MAX_WAYPOINTS_MAIN_THREAD = 20;
-      const waypointNums = Array.from(
-        this.container.querySelectorAll('.waypoint:not(.populated)')
-      ).map(waypoint => parseInt(waypoint.dataset.waypointNumber, 10));
-
-      this.container.removeEventListener('scrollend', () => {
-        this.isOkToObserve = true;
-      });
-
-      if (
-        waypointNums.length > 0 &&
-        waypointNums.length < MAX_WAYPOINTS_MAIN_THREAD
-      ) {
-        this.renderWaypoints(waypointNums, null, false);
-      } else {
-        const worker = new Worker(`${this.js_path}worker_infinite.js`);
-        const waypointTuples = waypointNums.map(wpNum => [
-          wpNum,
-          this.container
-            .querySelector(`.waypoint[data-waypoint-number='${wpNum}']`)
-            .dataset.uris.split(';'),
-        ]);
-
-        worker.postMessage({
-          waypointTuples,
-          resourceUri: this.resourceUri,
-        });
-
-        worker.onmessage = e => {
-          if (e.data.data) {
-            this.populateWaypoints(e.data.data, true);
-          } else if (e.data.done) {
-            const numPresentRecords = this.container.querySelectorAll(
-              '.infinite-record-record'
-            ).length;
-
-            if (numPresentRecords < this.NUM_TOTAL_RECORDS) {
-              // Some records still missing (network fail?) so recurse
-              this.populateAllWaypoints(this.modal.isOpen ? false : true);
-            }
-          }
-        };
-      }
     }
 
     /**
