@@ -99,7 +99,8 @@ module MarcXMLBibBaseMap
           :role => agent['_role'] || 'subject',
           :terms => agent['_terms'] || [],
           :relator => agent['_relator'],
-          :ref => agent.uri
+          :ref => agent.uri,
+          :is_primary => agent['_is_primary']
         }
       },
       :map => {
@@ -309,8 +310,51 @@ module MarcXMLBibBaseMap
   end
 
 
-  # agents from 100 and 700 field are creators or sources
-  def creators_and_sources
+  # agents from 100 field are creators
+  # this is the same map as #sources below, with the exception of adding the is_primary flag by default
+  # TODO: remove source stuff from #creator and creator stuff from #source, not confident in changing this at this time
+  def creators
+    {
+      :map => {
+        "subfield[@code='d']" => :dates,
+        "subfield[@code='e']" => -> agent, node {
+          agent['_role'] = case
+                           when ['Auctioneer (auc)',
+                                 'Bookseller (bsl)',
+                                 'Collector (col)',
+                                 'Depositor (dpt)',
+                                 'Donor (dnr)',
+                                 'Former owner (fmo)',
+                                 'Funder (fnd)',
+                                 'Owner (own)'].include?(node.inner_text)
+
+                             'source'
+                           else
+                             'creator'
+                           end
+        },
+        "self::datafield" => {
+          :map => {
+            "@ind1" => sets_name_order_from_ind1,
+            "subfield[@code='v']" => adds_prefixed_qualifier('Form subdivision'),
+            "subfield[@code='x']" => adds_prefixed_qualifier('General subdivision'),
+            "subfield[@code='y']" => adds_prefixed_qualifier('Chronological subdivision'),
+            "subfield[@code='z']" => adds_prefixed_qualifier('Geographic subdivision'),
+          },
+          :defaults => {
+            :source => 'ingest',
+          }
+        }
+      },
+      :defaults => {
+        '_role' => 'creator',
+        '_is_primary' => true,
+      }
+    }
+  end
+
+  # agents from 700 field are sources
+  def sources
     {
       :map => {
         "subfield[@code='d']" => :dates,
@@ -348,6 +392,7 @@ module MarcXMLBibBaseMap
       }
     }
   end
+
 
   # agents derived from 600 fields
   def agent_as_subject
@@ -1252,19 +1297,23 @@ module MarcXMLBibBaseMap
         "datafield[starts-with(@tag, '59')]" => multipart_note('odd', 'Local Note'),
 
         # LINKED AGENTS (PERSON)
-        "datafield[@tag='100' or @tag='700'][@ind1='0' or @ind1='1']" => mix(person_template, creators_and_sources),
+        "datafield[@tag='100'][@ind1='0' or @ind1='1']" => mix(person_template, creators),
+        "datafield[@tag='700'][@ind1='0' or @ind1='1']" => mix(person_template, sources),
 
         "datafield[@tag='600'][@ind1='0' or @ind1='1']" => mix(person_template, agent_as_subject),
 
         # LINKED AGENTS (FAMILY)
-        "datafield[@tag='100' or @tag='700'][@ind1='3']" => mix(family_template, creators_and_sources),
+        "datafield[@tag='100'][@ind1='3']" => mix(family_template, creators),
+        "datafield[@tag='700'][@ind1='3']" => mix(family_template, sources),
 
         "datafield[@tag='600'][@ind1='3']" => mix(family_template, agent_as_subject),
 
         # LINKED AGENTS (CORPORATE)
-        "datafield[@tag='110' or @tag='710']" => mix(corp_template, creators_and_sources),
+        "datafield[@tag='110']" => mix(corp_template, creators),
+        "datafield[@tag='710']" => mix(corp_template, sources),
 
-        "datafield[@tag='111' or @tag='711']" => mix(corp_template, creators_and_sources, corp_variation),
+        "datafield[@tag='111']" => mix(corp_template, creators, corp_variation),
+        "datafield[@tag='711']" => mix(corp_template, sources, corp_variation),
 
         "datafield[@tag='610']" => mix(corp_template, agent_as_subject),
 
