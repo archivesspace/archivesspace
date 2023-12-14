@@ -212,9 +212,11 @@
   <% next if note_type == "relatedmaterial" %> 
   <% next if note_type == "odd" %> 
 
-  <h4><%= I18n.t("enumerations._note_types.#{note_type}") %></h4>
   <% record.notes[note_type].each do |n| %>
+    <% next unless n['subnotes'] %>
     <% n['subnotes'].each do |sn| %>
+      <% next unless sn['content'] %>
+      <h4><%= I18n.t("enumerations._note_types.#{note_type}") %></h4>
       <p><%= sn['content'] %></p>
     <% end %>
   <% end %>
