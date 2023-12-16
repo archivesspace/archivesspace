@@ -87,7 +87,6 @@ class Solr
 
   def self.verify_checksums!
     verify_checksum!(Solr::Schema.new(AppConfig[:solr_url]))
-    verify_checksum!(Solr::Solrconfig.new(AppConfig[:solr_url]))
   end
 
   def self.verify_checksum!(config)

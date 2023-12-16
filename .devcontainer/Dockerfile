@@ -35,7 +35,7 @@ RUN apt-get update && \
         wget && \
     gem install bundler && \
     # DOWNLOAD & INSTALL SOLR
-    wget https://dlcdn.apache.org/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz && \
+    wget https://archive.apache.org/dist/solr/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz && \
     tar xzf solr-$SOLR_VERSION.tgz solr-$SOLR_VERSION/bin/install_solr_service.sh --strip-components=2 && \
     ./install_solr_service.sh solr-$SOLR_VERSION.tgz && \
     # DOWNLOAD GECKODRIVER
