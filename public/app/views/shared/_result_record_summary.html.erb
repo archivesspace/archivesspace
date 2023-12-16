@@ -1,5 +1,5 @@
 <% ref = request.env['HTTP_REFERER'].empty? ? request.referrer : request.env['HTTP_REFERER']  %>
-<% rr = ((@search.nil? || @search[:q].empty?) && !ref.nil?) ? referrer_search_terms(ref) : nil %>
+<% ref_search_terms = ((@search.nil? || @search[:q].empty?) && !ref.nil?) ? referrer_search_terms(ref) : nil %>
 <div class="recordsummary" style="clear:both">
   <% if !result['parent_institution_name'].blank? %>
     <div>
@@ -16,15 +16,15 @@
 	  if !note_struct['note_text'].blank?
   %>
   <% unless @search[:q][0] == '*' %>
-    <% if rr.nil? %>
+    <% if ref_search_terms.nil? %>
       <% @search[:q].each do |q| %>
         <% q.split(' ').each do |k| %>
-          <% note_struct['note_text'] = highlights(k, note_struct['note_text']) %>
+          <% highlights(k, note_struct['note_text']) %>
         <% end %>
       <% end %>
     <% else %>
-      <% rr.each do |k| %>
-        <% note_struct['note_text'] = highlights(k, note_struct['note_text']) %>
+      <% ref_search_terms.each do |k| %>
+        <% highlights(k, note_struct['note_text']) %>
       <% end %>
     <% end %>
   <% end %>

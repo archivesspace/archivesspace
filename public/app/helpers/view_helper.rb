@@ -201,8 +201,7 @@ module ViewHelper
   end
 
   def referrer_search_terms(ref)
-    terms = ref.split('q').last.split('&')[0]
-    return (terms.nil? || terms.split('=').count <= 1) ? nil : terms.split('=')[1].split('+')
+    (URI(ref).query).nil? ? nil : CGI::parse(URI(ref).query)["q[]"]
   end
 
   def highlights(keyword, text)

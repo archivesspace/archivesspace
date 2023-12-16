@@ -20,7 +20,7 @@
     </div>
   </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-    <h3><%= t('more_about') %> '<%= strip_tags(@result.display_string) %>'</h3>
+    <h3><%= t('more_about') %> '<%= @result.display_string %>'</h3>
     <div class="acc_holder clear" >
       <div class="panel-group" id="res_accordion">
         <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
