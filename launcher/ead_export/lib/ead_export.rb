@@ -2,7 +2,7 @@ require_relative '../../launcher_init'
 require_relative '../../request_handler'
 require 'config/config-distribution'
 require 'tempfile'
-require 'zip/zip'
+require 'zip'
 
 class ArchivesSpaceEadExporter
 
