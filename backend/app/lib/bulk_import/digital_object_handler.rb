@@ -15,12 +15,10 @@ class DigitalObjectHandler < Handler
     ret = ret.nil?
   end
 
-  def create(title, thumb, link, id, publish, archival_object, report, link_publish=nil,
-             thumb_publish=nil, is_representative=nil)
+  def create(title, id, publish, archival_object, report,
+             representative_file_version = nil, non_representative_file_version = nil)
     dig_o = nil
     dig_instance = nil
-    link_publish = publish if link_publish.nil?
-    thumb_publish = publish if thumb_publish.nil?
 
     # might as well check the dig_id first
     if @validate_only
@@ -41,25 +39,11 @@ class DigitalObjectHandler < Handler
       raise BulkImportException.new(I18n.t("bulk_import.error.dig_obj_unique", :id => osn))
       #      end
     end
+
     files = []
-    if !link.nil? && link.start_with?("http")
-      fv = JSONModel(:file_version).new._always_valid!
-      fv.file_uri = link
-      fv.publish = link_publish
-      fv.xlink_actuate_attribute = "onRequest"
-      fv.xlink_show_attribute = "new"
-      fv.is_representative = is_representative ? true : false
-      files.push fv
-    end
-    if !thumb.nil? && thumb.start_with?("http")
-      fv = JSONModel(:file_version).new._always_valid!
-      fv.file_uri = thumb
-      fv.publish = thumb_publish
-      fv.xlink_actuate_attribute = "onLoad"
-      fv.xlink_show_attribute = "embed"
-      fv.is_representative = thumb_publish || is_representative
-      files.push fv
-    end
+    files.push JSONModel(:file_version).from_hash(representative_file_version) if representative_file_version
+    files.push JSONModel(:file_version).from_hash(non_representative_file_version) if non_representative_file_version
+
     dig_o = JSONModel(:digital_object).new._always_valid!
     dig_o.title = title.nil? ? archival_object.display_string : title
     dig_o.digital_object_id = osn
