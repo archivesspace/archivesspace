@@ -56,7 +56,7 @@
       <% form.emit_template(item["jsonmodel_type"]) %>
     <% else %>
       <div class="subrecord-form-fields">
-        <div class="form-group row required">
+        <div class="zelip form-group row required py-2">
           <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
           <div class="col-sm-4">
             <select class="form-control top-level-note-type">
@@ -136,14 +136,14 @@
 <% define_template "content_items" do |form, opts = {}| %>
   <div class="form-group <% if opts[:required] %>required<% end %>">
     <label class="control-label"><%= t("content_items.content") %></label>
-    <div class="controls content-list">
+    <div class="controls content-list townes">
       <% content_array = form["content"] || [""] %>
       <% content_array << '' if content_array.empty? %>
       <%= form.list_for(content_array, "content[]") do |item| %>
         <% form.emit_template("content_item", item) %>
       <% end %>
       <% if not form.readonly? %>
-        <button class="btn btn-xs btn-default add-content-item-btn"><%= t("note._frontend.action.add_content_item") %></button>
+        <button class="mt-3 btn btn-sm btn-default add-content-item-btn"><%= t("note._frontend.action.add_content_item") %></button>
       <% end %>
     </div>
   </div>
@@ -191,7 +191,7 @@
             <% form.emit_template("orderedlist_item", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-xs btn-default add-item-btn"><%= t("note._frontend.action.add_note_orderedlist") %></button>
+            <button class="btn btn-sm btn-default add-item-btn"><%= t("note._frontend.action.add_note_orderedlist") %></button>
           <% end %>
         </div>
       </div>
@@ -261,7 +261,7 @@
         <h4 class="subrecord-form-heading">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
-            <button class="btn btn-sm btn-default add-sub-note-btn ml-auto bg-white border"><%= t("note._frontend.action.add_sub_note") %></button>
+            <button class="btn btn-sm btn-default add-sub-note-btn ml-auto"><%= t("note._frontend.action.add_sub_note") %></button>
           <% end %>
         </h4>
         <div class="subrecord-form-container">
@@ -646,8 +646,8 @@
       <% if not form.readonly? %>
         <div class="subrecord-form-heading">
           <div class="btn-group note_outline_level_btns">
-            <button class="btn btn-xs btn-default add-sub-item-btn"><%= t("note._frontend.action.add_note_outline_level_item") %></button>
-            <button class="btn btn-xs btn-default add-sub-level-btn"><%= t("note._frontend.action.add_note_outline_level_level") %></button>
+            <button class="btn btn-sm btn-default add-sub-item-btn"><%= t("note._frontend.action.add_note_outline_level_item") %></button>
+            <button class="btn btn-sm btn-default add-sub-level-btn"><%= t("note._frontend.action.add_note_outline_level_level") %></button>
           </div>
         </div>
       <% end %>
@@ -687,7 +687,7 @@
             <% form.emit_template("note_outline_level", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-xs btn-default add-level-btn"><%= t("note._frontend.action.add_note_outline_level_level") %></button>
+            <button class="btn btn-sm btn-default add-level-btn"><%= t("note._frontend.action.add_note_outline_level_level") %></button>
           <% end %>
         </div>
       </div>
@@ -715,7 +715,7 @@
           <% end %>
         </div>
         <% if not form.readonly? %>
-          <button class="btn btn-xs btn-default add-item-btn add-item-btn-bottom"><%= t("note._frontend.action.note_definedlist_item") %></button>
+          <button class="btn btn-sm btn-default add-item-btn add-item-btn-bottom"><%= t("note._frontend.action.note_definedlist_item") %></button>
         <% end %>
       </section>
     </div>
@@ -744,7 +744,7 @@
         <h4 class="subrecord-form-heading">
           <%= t("note_index.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-xs btn-default ml-auto add-item-btn"><%= t("note._frontend.action.add_note_index_item") %></button>
+            <button class="btn btn-sm btn-default ml-auto add-item-btn"><%= t("note._frontend.action.add_note_index_item") %></button>
           <% end %>
         </h4>
         <div class="subrecord-form-container">
@@ -780,7 +780,7 @@
         <h4 class="subrecord-form-heading">
           <%= t("note_chronology.items") %>
           <% if not form.readonly? %>
-            <button class="btn btn-xs btn-default ml-auto add-item-btn"><%= t("note._frontend.action.add_note_chronology_item") %></button>
+            <button class="btn btn-sm btn-default ml-auto add-item-btn"><%= t("note._frontend.action.add_note_chronology_item") %></button>
           <% end %>
         </h4>
         <div class="subrecord-form-container">
@@ -801,7 +801,7 @@
       <h5 class="subrecord-form-heading">
         <%= t("chronology_item.events") %>
         <% if not form.readonly? %>
-          <button class="btn btn-xs btn-default ml-auto add-event-btn"><%= t("note._frontend.action.add_event") %></button>
+          <button class="btn btn-sm btn-default ml-auto add-event-btn"><%= t("note._frontend.action.add_event") %></button>
         <% end %>
       </h5>
       <div class="controls chronology_item_list">
@@ -844,7 +844,7 @@
             <% form.emit_template("bib_item", item) %>
           <% end %>
           <% if not form.readonly? %>
-            <button class="btn btn-xs btn-default add-item-btn"><%= t("note._frontend.action.add_note_bibliography_item") %></button>
+            <button class="btn btn-sm btn-default add-item-btn"><%= t("note._frontend.action.add_note_bibliography_item") %></button>
           <% end %>
         </div>
       </div>
@@ -885,7 +885,7 @@
 %>
 
 <% define_template "note_langmaterial", jsonmodel_definition(:note_langmaterial) do |form| %>
-  <div class="subrecord-form-fields" data-type="note_langmaterial">
+  <div class="fuck-note_langmaterial subrecord-form-fields" data-type="note_langmaterial">
     <h3 class="subrecord-form-heading">
       <%= t("note.note_langmaterial") %>
     </h3>

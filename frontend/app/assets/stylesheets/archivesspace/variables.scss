@@ -35,8 +35,11 @@ $grayDarker: #222;
 $grayDark: #333;
 $gray: #555;
 $grayLight: #999;
-$grayLighter: #eee;
+$grayLighter: #e7e7e7;
 $white: #fff;
+$bsFormControlBorderColor: #ced4da;
+$bsCoolGray: #e9ecef;
+$asFormHeadingBg: #f6f6f6;
 
 // Accent colors
 // -------------------------
@@ -51,3 +54,9 @@ $purple: #7a43b6;
 
 // override bootstrap for accessibility
 $info: #60c2ef;
+
+/* Can't take it anymore
+   so am forking the incumbent approach for sanity and expediency */
+:root {
+  --bs-text-body: #212529;
+}

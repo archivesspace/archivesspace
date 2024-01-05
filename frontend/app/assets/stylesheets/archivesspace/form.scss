@@ -194,16 +194,16 @@ form .form-group {
   /* padding-bottom: 10px; */
 }
 
-.record-pane section h3 .btn.ml-auto,
+// .record-pane section h3 .btn.ml-auto,
 .modal section h3 .btn.ml-auto {
   margin: 6px 6px 6px 0;
   font-weight: normal;
 }
 
-.record-pane section section h4 .btn.ml-auto {
-  margin: 2px 6px 0 0;
-  font-weight: normal;
-}
+// .record-pane section section h4 .btn.ml-auto {
+//   margin: 2px 6px 0 0;
+//   font-weight: normal;
+// }
 
 .subrecord-form.error {
   > .subrecord-form-heading {
@@ -391,17 +391,15 @@ ul.subrecord-form-list {
   }
   .drag-handle {
     position: absolute;
-    left: 1%;
-    top: 5px;
-    height: 30px;
-    width: 30px;
-    background-image: asset-url('archivesspace/drag_handle_btn.png');
-    background-repeat: no-repeat;
+    left: .5rem;
+    top: .5rem;
+    display: flex;
+    align-items: start;
     cursor: move;
 
-    &.inline {
-      top: 0;
-    }
+    // &.inline {
+    //   top: 0;
+    // }
   }
 
   .sort-enabled > .subrecord-form-fields > .subrecord-form-heading,
@@ -492,7 +490,7 @@ ul.subrecord-form-list {
   // #font {
   //   @include shorthand($baseFontSize,normal,$baseLineHeight);
   // }
-
+  position:relative;
   margin-bottom: 9px;
   font-size: $baseFontSize;
   line-height: $baseLineHeight;
@@ -509,11 +507,22 @@ ul.subrecord-form-list {
     height: 100px;
     overflow: auto;
   }
+  
+  // LEFTOFF - SOMETHING IS WRONG WITH THE TRANSLATION OF THE STYLES RELATED
+  // TO THE CURSOR. The math that figures out the cursor position is off
+  // in frontend/vendor/assets/javascripts/codemirror/codemirror.js
+  // pre.CodeMirror-cursor {
+  //   z-index: 10;
+  //   position: absolute;
+  //   visibility: visible;
+  //   width: 0;
+  //   border-left: 1px solid black;
+  //   border-right: none;
+  // }
 
   .mixed-content-wrapper {
     font-size: 0.9em;
     z-index: 10;
-    min-width: 336px;
     display: none;
     font-family: $baseFontFamily;
     .arrow {
@@ -533,7 +542,7 @@ ul.subrecord-form-list {
 
 .content-list {
   .drag-handle.inline {
-    top: 5px !important;
+    top: .5rem !important;
   }
 
   .add-content-item-btn {

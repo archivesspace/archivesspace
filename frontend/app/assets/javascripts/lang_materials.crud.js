@@ -14,6 +14,7 @@ $(function () {
       callback
     ) {
       if (object_name === 'lang_material') {
+        console.log('lang_material!!!');
         var formEl;
         if (add_button_data.langmaterialType === 'language_note') {
           formEl = $(AS.renderTemplate('template_language_notes', index_data));

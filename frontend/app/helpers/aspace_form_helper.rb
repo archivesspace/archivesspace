@@ -155,7 +155,7 @@ module AspaceFormHelper
 
       ("<div data-name-path=\"#{set_index(self.path(context_name), '${index}')}\" " +
         " data-id-path=\"#{id_for(set_index(self.path(context_name), '${index}'), false)}\" " +
-        " class=\"subrecord-form-fields-for #{extra_classes}\">#{result}</div>").html_safe
+        " class=\"subrecord-form-fields-for mt-1 #{extra_classes}\">#{result}</div>").html_safe
     end
 
 
@@ -559,7 +559,7 @@ module AspaceFormHelper
     def button_with_tooltip(tooltip, content, div_classes = [], button_classes = [], use_default_btn_classes = true)
       div_classes = div_classes + ["btn-with-tooltip"]
 
-      button_classes = use_default_btn_classes ? button_classes + ["btn", "btn-small"] : button_classes
+      button_classes = use_default_btn_classes ? button_classes + ["btn", "btn-sm"] : button_classes
 
       div_options = {:class => div_classes.join(' ')}
       add_tooltip_options(tooltip, div_options)
@@ -743,14 +743,15 @@ module AspaceFormHelper
     def label_with_field(name, field_html, opts = {})
       opts[:label_opts] ||= {}
       opts[:label_opts][:plugin] = opts[:plugin]
+      opts[:label_opts][:classes] ||= ''
       opts[:col_size] ||= 9
 
       control_group_classes,
       label_classes,
-      controls_classes = %w(form-group row), [], []
+      controls_classes = %w(form-group row w-100), [], []
 
       unless opts[:layout] && opts[:layout] == 'stacked'
-        label_classes << "col-sm-#{opts[:label_opts].fetch(:col_size, 2)}"
+        label_classes << "col-sm-#{opts[:label_opts].fetch(:col_size, 2)} #{opts[:label_opts][:classes]}"
         controls_classes << "col-sm-#{opts[:col_size]}"
       end
       # There must be a better way to say this...

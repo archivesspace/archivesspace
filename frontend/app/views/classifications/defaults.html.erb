@@ -2,7 +2,7 @@
 
 <%= form_for @classification, :as => "classification", :url => {:action => :update_defaults}, :html => {:class => 'form-horizontal aspace-record-form', :id => "classification_form"} do |f| %>
   <%= form_context :classification, @classification do |form| %>
-    <div class="row">
+    <div class="d-flex">
        <div class="col-md-3">
           <%= render_aspace_partial :partial => "classifications/sidebar" %>
        </div> <!-- col-md-3 -->

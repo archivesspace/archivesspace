@@ -39,7 +39,7 @@
     <% @types = SearchAndBrowseColumnConfig.columns.keys.sort_by{|k| t "defaults.#{k}_browse_section"} %>
     <% @types.delete('repositories') if !user_can?('create_repository') %>
 
-    <div class="row">
+    <div class="d-flex fuck">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar", :locals => {:form => form, :types => @types} %>
       </div>

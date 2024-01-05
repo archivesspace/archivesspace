@@ -2,7 +2,7 @@
 
 <%= form_for @location_batch, :as => "location_batch", :url => {:action => :batch_create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :location_batch, @location_batch do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "locations/sidebar_batch" %>
       </div>

@@ -1,15 +1,14 @@
 <%= setup_context(:title => t("custom_report_template._plural")) %>
 
-<div class="row">
+<div class="d-flex">
 	<div class="col-md-3"></div>
 	<div class="col-md-9">
 
-		<div class="record-toolbar d-flex align-items-center">
-			<div class="btn-group ml-auto bg-white border rounded">
-				<%= link_to I18n.t("custom_report_template._frontend.action.create"), {:controller => :custom_report_templates, :action => :new}, :class => "btn btn-sm" %>
+		<div class="record-toolbar d-flex justify-content-end">
+			<div class="btn-group">
+				<%= link_to I18n.t("custom_report_template._frontend.action.create"), {:controller => :custom_report_templates, :action => :new}, :class => "btn btn-sm btn-primary" %>
 				<%= link_to_help :topic => "accession_basic_information" %>
 			</div>
-			<br style="clear:both" /> <!-- So dirty! -->
 		</div>
 
 		<div class="record-pane">

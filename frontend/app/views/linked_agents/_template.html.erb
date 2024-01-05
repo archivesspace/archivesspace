@@ -13,7 +13,7 @@
 
     <div class="subrecord-form-fields agent_links">
       <h3 class="subrecord-form-heading">
-       <%= form.button_with_tooltip(I18n.t("linked_agent._frontend.action.make_primary_tooltip"), I18n.t("linked_agent.is_primary"), [], ["badge badge-info is-representative-label"], false) %>
+       <%= form.button_with_tooltip(I18n.t("linked_agent._frontend.action.make_primary_tooltip"), I18n.t("linked_agent.is_primary"), [], ["badge badge-pill badge-primary fs-14px is-representative-label"], false) %>
        <%= form.button_with_tooltip(I18n.t("linked_agent._frontend.action.make_primary_tooltip"), I18n.t("linked_agent._frontend.action.make_primary"), [], ["is-representative-toggle"]) %>
       </h3>
       <% if defn[:role] %>

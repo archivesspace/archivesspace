@@ -13,12 +13,12 @@
 
 %>
 <div class="form-group row required">
-   <label class="control-label text-right <%= layout != 'stacked' ? 'col-sm-4' : '' %>"
+   <label class="control-label text-right <%= layout != 'stacked' ? 'col-sm-2' : '' %>"
           id="<%= form.id_for("ref") %>_label"
           for="<%= form.id_for("ref") %>_combobox">
      <%= field_label %>
    </label>
-   <div class="controls <%= layout != 'stacked' ? 'col-sm-6' : ''%>"
+   <div class="controls <%= layout != 'stacked' ? 'col-sm-10' : ''%>"
         role="combobox"
         aria-owns="<%= form.id_for("ref") %>_listbox"
         aria-expanded="false"
@@ -56,8 +56,8 @@
               value="<%= form.obj["ref"] %>" />
 
          <% end %>
-         <div class="input-group-btn">
-           <a class="btn btn-default dropdown-toggle last border-dark border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>" aria-expanded="false" aria-label="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>"></a>
+         <div class="input-group-append">
+           <a class="btn btn-default dropdown-toggle d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>" aria-expanded="false" aria-label="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>"></a>
            <ul class="dropdown-menu">
              <li class='dropdown-item'><a href="javascript:void(0);" class="linker-browse-btn"><%= t("top_container._frontend.bulk_operations.collection_resource_linker.browse") %></a></li>
            </ul>

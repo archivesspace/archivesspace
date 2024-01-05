@@ -176,7 +176,7 @@ $(function () {
 
       // ANW-170, ANW-490: Opt-in to datepicker
       var $datepickerToggle = $(`
-        <span class="input-group-btn">
+        <div class="input-group-append">
           <button
             class="btn btn-default"
             type="button"
@@ -184,7 +184,7 @@ $(function () {
           >
             <i class='glyphicon glyphicon-calendar'></i>
           </button>
-        </span>
+        </div>
       `);
 
       $dateInput.after($datepickerToggle);
@@ -782,7 +782,16 @@ AS.initSubRecordSorting = function ($list) {
     $list.children('li').each(function () {
       var $child = $(this);
       if (!$child.hasClass('sort-enabled')) {
-        var $handle = $("<div class='drag-handle'></div>");
+        // Manually duplicate frontend/app/views/shared/_fa_grip_svg.html.erb here
+        // instead of renaming this file .erb
+        const fa_grip_svg = `
+<svg xmlns="http://www.w3.org/2000/svg" height="16" width="10" viewBox="0 0 320 512"><path d="M40 352l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zm192 0l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 320c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 192l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 160c-22.1 0-40-17.9-40-40L0 72C0 49.9 17.9 32 40 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40z"/></svg>
+`;
+        // LEFT OFF IMPROVING THE drag handle here used on record edit sub forms
+        // My question is does this change have any unintended impacts elsewhere?
+        // Perhaps not given the css for this drag-handle nested under a subform class:
+        // `ul.subrecord-form-list .drag-handle`
+        var $handle = $(`<div class='drag-handle'>${fa_grip_svg}</div>`);
         if ($list.parent().hasClass('controls')) {
           $handle.addClass('inline');
         }

@@ -1,0 +1,9 @@
+// ANW-1821 Use of the deprecated Glyphicons, combined with hardcoding
+// an import from cdn of an older version (3.0.0) than icons used in markup (v3.3.0),
+// has lead to this inefficient and temporary solution of importing
+// Fontawesome via a cdn to pass the buck to future larger refactoring to remove
+// Glyphicons from the stack completely.
+
+// TODO Remove Glyphicons and handle Fontawesome import in a more efficient way
+
+@import url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css');

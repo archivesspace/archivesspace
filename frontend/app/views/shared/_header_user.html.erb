@@ -2,9 +2,9 @@
 
 <% if session[:user] %>
   <% if @repositories.length > 0 %>
-    <li class="dropdown select-a-repository px-4">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t("repository._frontend.action.select") %> <b class="caret"></b></a>
-      <ul class="dropdown-menu" style="padding: 15px;">
+    <li class="dropdown select-a-repository">
+      <button class="dropdown-toggle btn" style="padding: .875rem;" data-toggle="dropdown"><%= t("repository._frontend.action.select") %> <b class="caret"></b></button>
+      <ul class="dropdown-menu dropdown-menu-right" style="padding: 15px;">
         <li class='dropdown-item'>
           <%= form_tag({:controller => :repositories, :action => :select}) do |f| %>
             <fieldset>
@@ -18,8 +18,8 @@
       </ul>
     </li>
   <% end %>
-  <li class="dropdown system-menu px-4">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t("navbar.global_admin") %> <b class="caret"></b></a>
+  <li class="dropdown system-menu">
+    <button class="dropdown-toggle btn" style="padding: .875rem;" data-toggle="dropdown"><%= t("navbar.global_admin") %> <b class="caret"></b></button>
     <ul class="dropdown-menu dropdown-menu-right">
       <% if user_can?('update_enumeration_record') %>
         <li class='dropdown-item'><%= link_to t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
@@ -57,7 +57,7 @@
 
   <% if Plugins.system_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
     <li class="dropdown plugin-container">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t("navbar.plugins") %> <b class="caret"></b></a>
+      <button class="dropdown-toggle btn" style="padding: .875rem;" data-toggle="dropdown"><%= t("navbar.plugins") %> <b class="caret"></b></button>
       <ul class="dropdown-menu dropdown-menu-right">
         <% Plugins.system_menu_items.each do |plugin| %>
           <% if has_permission_for_controller?(session, plugin) %>
@@ -68,11 +68,11 @@
     </li>
   <% end %>
 
-  <li class="user-container px-4">
-    <div class="btn-group bg-white align-items-center border rounded">
+  <li class="user-container d-flex align-items-center">
+    <div class="btn-group align-items-center">
       <% link_content = "<span class='glyphicon glyphicon-user'></span>&nbsp;<span class='user-label'>#{session[:user]}</span>" %>
-      <%= link_to(link_content.html_safe, {:controller => :users, :action => :edit_self}, {:class => 'btn navbar-btn'}) %>
-      <a class="btn btn-default navbar-btn border-left dropdown-toggle last" id="user-menu-dropdown" data-toggle="dropdown" href="#" title="<%= t("navbar.global_settings") %>" aria-label="<%= t("navbar.global_settings") %>"><span class="caret"></span></a>
+      <%= link_to(link_content.html_safe, {:controller => :users, :action => :edit_self}, {:class => 'btn btn-default'}) %>
+      <button class="btn btn-default dropdown-toggle last" id="user-menu-dropdown" data-toggle="dropdown" title="<%= t("navbar.global_settings") %>" aria-label="<%= t("navbar.global_settings") %>"><span class="caret"></span></button>
       <ul class="dropdown-menu dropdown-menu-right float-xs-right">
         <li class='dropdown-item'><%= link_to t("navbar.global_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
         <li class='dropdown-item'><%= link_to t("navbar.user_repo_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0 %></li>

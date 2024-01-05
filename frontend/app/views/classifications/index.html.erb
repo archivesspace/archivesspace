@@ -4,7 +4,7 @@
    @show_multiselect_column = user_can?("delete_classification_record")
 %>
 
-<div class="row">
+<div class="d-flex">
    <div class="col-md-3">
      <div class="sidebar">
        <%= render_aspace_partial :partial => "search/filter" %>
@@ -25,13 +25,12 @@
                 </ul>
               </div>
             <% end %>
-            <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport", class: "btn btn-sm btn-info" %>
+            <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport", class: "btn btn-sm btn-primary" %>
             <%= link_to I18n.t("classification._frontend.action.create"), {:controller => :classifications, :action => :new}, :class => "btn btn-sm btn-default" %>
             <% if user_can?("delete_classification_record") %>
               <%= button_delete_multiple_action(:classifications) %>
             <% end %>
           </div>
-         <br style="clear:both" /> <!-- So dirty! -->
        </div>
      <% end %>
 

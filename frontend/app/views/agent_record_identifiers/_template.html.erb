@@ -2,7 +2,7 @@
   <div class="subrecord-form-fields agent_record_identifier_form">
     <h3 class="subrecord-form-heading d-flex align-items-center justify-content-end">
       <span class="badge badge-info is-primary-label m-2"><%= t("agent_record_identifiers.is_primary") %></span>
-      <%= form.button_with_tooltip(t("name._frontend.action.make_primary_tooltip"), t("name._frontend.action.make_primary"), [], ["btn","btn-small", "bg-white", "btn-primary-id-toggle", "m-2"]) %>
+      <%= form.button_with_tooltip(t("name._frontend.action.make_primary_tooltip"), t("name._frontend.action.make_primary"), [], ["btn","btn-sm", "btn-default", "btn-primary-id-toggle", "m-2"]) %>
       <%= form.hidden_input "primary_identifier", form["primary_identifier"] ? 1 : 0 %>
     </h3>
 

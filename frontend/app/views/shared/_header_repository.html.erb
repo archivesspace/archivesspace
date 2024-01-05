@@ -1,16 +1,16 @@
-<div class="repository-header py-2">
-  <nav class="navbar navbar-expand-md navbar-light bg-light mt-2">
+<div class="repository-header">
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="navbar-collapse collapse" id="navbarContent">
+    <div class="navbar-collapse collapse flex-column" id="navbarContent">
       <% if session[:user] and session[:repo_id] %>
-        <ul class="nav navbar-nav w-100">
-          <li class="px-4"<% if controller_name === "welcome" %>class="active px-4"<% end %>>
-            <%= link_to raw('<span class="glyphicon glyphicon-home"></span><span class="sr-only">' + t("breadcrumb.home") + '</span>'), :controller => :welcome, :action => :index %>
+        <ul class="nav navbar-nav w-100 px-3 border-bottom">
+          <li class="d-flex<%= (controller_name === "welcome" ? ' bg-bsCoolGray' : '') %>">
+            <%= link_to raw('<span class="glyphicon glyphicon-home"></span><span class="sr-only">' + t("breadcrumb.home") + '</span>'), { :controller => :welcome, :action => :index }, class: 'p-3' %>
           </li>
-          <li class="dropdown browse-container px-4">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t("actions.browse") %> <b class="caret"></b></a>
+          <li class="d-flex align-self-stretch align-items-center dropdown browse-container">
+            <button class="btn h-100 d-flex align-items-center rounded-0 hover-bsCoolGray dropdown-toggle" data-toggle="dropdown"><%= t("actions.browse") %> <b class="caret"></b></button>
             <ul class="dropdown-menu">
               <li class='dropdown-item'><%= link_to t("accession._plural"), :controller => :accessions, :action => :index %></li>
               <li class='dropdown-item'><%= link_to t("resource._plural"), :controller => :resources, :action => :index %></li>
@@ -31,8 +31,8 @@
           <% if ['update_accession_record', 'update_resource_record', 'update_digital_object_record',
                   'update_subject_record', 'update_event_record',
                   'update_agent_record', 'update_location_record', 'update_container_profile'].find {|p| user_can?(p)} %>
-            <li class="dropdown create-container px-4">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t("navbar.create") %> <b class="caret"></b></a>
+            <li class="d-flex align-self-stretch align-items-center dropdown create-container">
+              <button class="btn h-100 d-flex align-items-center rounded-0 hover-bsCoolGray dropdown-toggle" data-toggle="dropdown"><%= t("navbar.create") %> <b class="caret"></b></button>
               <ul class="dropdown-menu">
                 <% if ['update_accession_record', 'update_resource_record', 'update_digital_object_record'].find {|p| user_can?(p)} %>
                   <% if user_can?('update_accession_record') %>
@@ -110,19 +110,20 @@
           <% end %>
           <li class="px-4">
             <%= form_tag(url_for(:controller => :search, :action => :do_search), :method => :get, :class => "navbar-form pull-left") do %>
-              <div class="input-group bg-white border rounded">
+              <div class="input-group bg-white">
                 <label for="global-search-box" class="sr-only sr-only-focusable"><%= t("navbar.search_placeholder") %></label>
-                <input id="global-search-box" type="text" class="form-control border-left-0 border-top-0 border-bottom-0" placeholder="<%= t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
+                <input id="global-search-box" type="text" class="form-control rounded-left" placeholder="<%= t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
                 <div class="input-group-append">
                   <button id="global-search-button" class="btn btn-default" title="<%= t("navbar.search_button_title") %>" aria-label="<%= t("navbar.search_button_title") %>"><span class="glyphicon glyphicon-search"></span></button>
-                  <button class="btn btn-default search-switcher last border-left" title="<%= t("navbar.show_advanced_search_button_title") %>" aria-label="<%= t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class='glyphicon glyphicon-chevron-down'></span></button>
+                  <button class="btn btn-default search-switcher last" title="<%= t("navbar.show_advanced_search_button_title") %>" aria-label="<%= t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class='glyphicon glyphicon-chevron-down'></span></button>
                 </div>
               </div>
             <% end %>
           </li>
-            <ul class="nav navbar-nav ml-auto">
-            <li class="repo-container">
-              <div class="btn-group bg-white border rounded align-items-center">
+          <li class="ml-auto">
+            <ul class="nav navbar-nav gap-x-2">
+              <li class="repo-container">
+              <div class="btn-group align-items-center" role="group">
                 <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-default navbar-btn">
                   <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="bottom" data-html='true' data-toggle='popover' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
                     <span class="icomoon icon-repository"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
@@ -131,8 +132,8 @@
                     <% end %>
                   </span>
                 </a>
-                <div class="btn-group border-left">
-                  <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="<%= t("navbar.repository_settings") %>" aria-label="<%= t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
+                <div class="btn-group">
+                  <button class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" title="<%= t("navbar.repository_settings") %>" aria-label="<%= t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></button>
                   <ul class="dropdown-menu dropdown-menu-right">
                     <% found_an_item = false %>
                     <% if user_can?('manage_repository') %>
@@ -180,17 +181,18 @@
                   </ul>
                 </div>
               </div>
-            </li>
-            <% if ArchivesSpaceHelp.enabled? %>
-              <li><%= link_to_help %></li>
-            <% end %>
-          </ul>
-          <li class="px-4 w-100 mt-3">
-            <div class="advanced-search-container" <% if params["advanced"].blank? or params["advanced"]  === 'false' %>style="display: none"<% end %>>
-              <%= render_aspace_partial :partial => "shared/advanced_search" %>
-            </div>
+              </li>
+              <% if ArchivesSpaceHelp.enabled? %>
+                <li><%= link_to_help %></li>
+              <% end %>
+            </ul>
           </li>
         </ul>
+        <section class="w-100 bg-grayLighter">
+          <div class="advanced-search-container" <% if params["advanced"].blank? or params["advanced"]  === 'false' %>style="display: none"<% end %>>
+            <%= render_aspace_partial :partial => "shared/advanced_search" %>
+          </div>
+        </section>
       <% end %>
     </div>
   </nav>

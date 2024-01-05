@@ -116,7 +116,7 @@
 
         <% if show_edit_actions %>
         <td>
-          <div class="btn-group ml-auto bg-white border rounded">
+          <div class="btn-group">
             <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]}, :class => "btn" %>
             <% if can_edit %>
               <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]}, :class => "btn btn-primary" %>

@@ -6,7 +6,7 @@
 
 <%= form_for @event, :as => "event", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@event)) do |f| %>
   <%= form_context :event, @event do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>

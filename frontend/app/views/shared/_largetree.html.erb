@@ -2,7 +2,7 @@
    read_only = false if read_only.blank?
 %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-12">
     <div style="display: none" id="tree-unexpected-failure" class="alert alert-warning"><%= t('tree.unexpected_failure') %></div>
     <div id="tree-toolbar" class="btn-toolbar"></div>
@@ -13,7 +13,7 @@
 <div id="object_container"></div>
 
 <div id="tree_toolbar_transfer_action"><!--
-  <a class="btn btn-xs btn-default transfer-node" onclick="$('.tree-transfer-form').toggle()" href="#" title="<%= t "actions.transfer" %>">
+  <a class="btn btn-sm btn-default transfer-node" onclick="$('.tree-transfer-form').toggle()" href="#" title="<%= t "actions.transfer" %>">
     <%= t "actions.transfer" %> <span class="caret"></span>
   </a>
   <ul class="dropdown-menu tree-transfer-form">

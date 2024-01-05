@@ -2,7 +2,7 @@
   <div class="subrecord-form-fields">
     <h3 class="subrecord-form-heading">
       <%= form.button_with_tooltip(t("file_version._frontend.action.make_representative_tooltip"), t("file_version.is_representative"), [], ["badge badge-info is-representative-label"], false) %>
-      <%= form.button_with_tooltip(t("file_version._frontend.action.make_representative_tooltip"), t("file_version._frontend.action.make_representative"), [], ["btn", "btn-small", "is-representative-toggle", "bg-white", "border"]) %>
+      <%= form.button_with_tooltip(t("file_version._frontend.action.make_representative_tooltip"), t("file_version._frontend.action.make_representative"), [], ["btn", "btn-sm", "btn-default", "is-representative-toggle"]) %>
     </h3>
     <%= form.label_and_textarea("file_uri") %>
     <%= form.label_and_boolean("publish", {:class => "js-file-version-publish"}, user_prefs["publish"]) %>

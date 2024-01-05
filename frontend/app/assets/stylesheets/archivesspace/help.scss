@@ -1,11 +1,12 @@
 /* Context Help related styles */
 .context-help {
-  font-size: 14px;
+  font-size: 1rem;
   @include transition(color 0.5s);
 
   color: #595959;
   position: static !important;
-  padding: 0 15px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 
   .context-help-icon {
     color: #595959;
@@ -18,15 +19,15 @@
     }
   }
 }
-h3 > .context-help {
-  float: right;
-  margin: 6px 6px 0 0;
-}
+// h3 > .context-help {
+//   float: right;
+//   margin: 6px 6px 0 0;
+// }
 
-h4 > .context-help {
-  float: right;
-  margin: 2px 6px 0 0;
-}
+// h4 > .context-help {
+//   float: right;
+//   margin: 2px 6px 0 0;
+// }
 
 .record-pane > .context-help {
   float: right;

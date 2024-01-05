@@ -4,7 +4,7 @@
    other_repositories = @repositories.reject {|r| r['uri'] == session[:repo]}.map {|r| [r['repo_code'], r['uri']]}
 %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3"> </div>
   <div class="col-md-9">
     <div class="record-pane">

@@ -62,7 +62,7 @@
       background-color: #196076;
       border: 1px solid transparent;
       text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-      box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.1),
+      box-shadow: inset 1px 0 0 rgba(236, 128, 128, 0.1),
         inset -1px 0 0 rgba(0, 0, 0, 0.1);
 
       &:hover,
@@ -179,6 +179,16 @@
   position: fixed;
   top: auto;
   bottom: 75px;
+}
+
+/* ANW-1821 Copy `li.active > a` above for Bootstrap 4 `.active` placement */
+.as-nav-list > li > a.active {
+  color: #fff;
+  background-color: #196076;
+  border: 1px solid transparent;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 1px 0 0 rgba(236, 128, 128, 0.1),
+    inset -1px 0 0 rgba(0, 0, 0, 0.1);
 }
 
 /* Desktop large

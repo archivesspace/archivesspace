@@ -1,6 +1,6 @@
 <%= setup_context :title => t("digital_object._plural") %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/components_switch" %>
@@ -10,10 +10,10 @@
   <div class="col-md-9">
     <% if user_can?('update_digital_object_record') %>
       <div class="record-toolbar d-flex">
-        <div class="btn-group ml-auto ml-auto align-items-center">
+        <div class="btn-group ml-auto">
           <% if user_can?('manage_repository') %>
-            <div class="btn-group border">
-              <a class="btn btn-sm dropdown-toggle bg-white" data-toggle="dropdown" href="javascript:void(0);">
+            <div class="btn-group">
+              <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                 <%= t("actions.edit_default_values") %>
                 <span class="caret"></span>
               </a>
@@ -23,17 +23,14 @@
               </ul>
             </div>
           <% end %>
-          <div class='btn-group bg-white border rounded'>
-            <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
-              fields}
-                ), id: "searchExport",  class:  "btn btn-sm btn-info" %>
-            <%= link_to t("digital_object._frontend.action.create"), {:controller => :digital_objects, :action => :new}, :class => "btn btn-sm btn-default" %>
-            <% if user_can?("delete_archival_record") %>
-              <%= button_delete_multiple_action(:archival_records) %>
-            <% end %>
-          </div>
+          <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
+            fields}
+              ), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
+          <%= link_to t("digital_object._frontend.action.create"), {:controller => :digital_objects, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <% if user_can?("delete_archival_record") %>
+            <%= button_delete_multiple_action(:archival_records) %>
+          <% end %>
         </div>
-        <br style="clear:both" /> <!-- So dirty! -->
       </div>
     <% end %>
 

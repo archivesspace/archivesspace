@@ -1,6 +1,6 @@
 <%= setup_context(:title => t("repository._plural")) %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
@@ -8,14 +8,13 @@
   </div>
   <div class="col-md-9">
     <% if user_can?('create_repository') %>
-      <div class="record-toolbar">
-        <div class="btn-group ml-auto">
+      <div class="record-toolbar d-flex justify-content-end">
+        <div class="btn-group" role="group">
           <% if user_can?('administer_system') %>
-            <%= link_to t("repository._frontend.action.order_for_pui"), {:controller => :repositories, :action => :reorder}, :class => "btn btn-sm btn-light btn-default" %>
+            <%= link_to t("repository._frontend.action.order_for_pui"), {:controller => :repositories, :action => :reorder}, :class => "btn btn-sm btn-default" %>
           <% end %>
-          <%= link_to t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-light btn-default" %>
+          <%= link_to t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-default" %>
         </div>
-        <br style="clear:both" /> <!-- So dirty! -->
       </div>
     <% end %>
 

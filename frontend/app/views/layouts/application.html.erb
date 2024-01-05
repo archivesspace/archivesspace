@@ -43,14 +43,14 @@
     <% end %>
   <% end %>
 </head>
-<body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20" class="action-<%= controller.action_name %>">
+<body data-spy="scroll" data-target="#archivesSpaceSidebar" class="action-<%= controller.action_name %>">
 
-  <div class="container-fluid center-block">
+  <div class="container-fluid center-block"><!-- this could be deleted -->
     <header>
       <%= render "shared/header_global" %>
     </header>
 
-   <div class="content-pane container-fluid">
+   <div class="content-pane">
      <% if current_repo %>
          <%= render "shared/header_repository" %>
      <% end %>

@@ -2,7 +2,7 @@
 
 <%= form_for @accession, :as => "accession", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "accession_form"}.merge(update_monitor_params(@accession)) do |f| %>
   <%= form_context :accession, @accession do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>

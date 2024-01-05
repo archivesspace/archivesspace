@@ -2,7 +2,7 @@
 
 <%= form_for @container_profile, :as => "container_profile", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@container_profile)) do |f| %>
   <%= form_context :container_profile, @container_profile do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>

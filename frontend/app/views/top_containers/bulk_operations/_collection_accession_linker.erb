@@ -23,8 +23,8 @@
          data-multiplicity="one"
          data-types='<%= ['accession'].to_json %>'
   />
-  <div class="input-group-btn">
-    <a class="btn btn-default dropdown-toggle last border-dark bg-white border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= t("top_container._frontend.bulk_operations.collection_accession_linker.link_title") %>" aria-label="<%= t("top_container._frontend.bulk_operations.collection_accession_linker.link_title") %>"></a>
+  <div class="input-group-append">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="<%= t("top_container._frontend.bulk_operations.collection_accession_linker.link_title") %>" aria-label="<%= t("top_container._frontend.bulk_operations.collection_accession_linker.link_title") %>"></button>
     <ul class="dropdown-menu">
       <li class='dropdown-item'><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
     </ul>

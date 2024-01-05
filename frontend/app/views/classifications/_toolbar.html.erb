@@ -1,7 +1,7 @@
 <% if user_can?('update_classification_record') %>
   <div class="record-toolbar d-flex align-items-center">
     <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
-      <div class="btn-group bg-white border">
+      <div class="btn-group">
         <%= link_to t("actions.edit"), {:controller => :classifications, :action => :edit, :id => @classification.id, :anchor => "classification_#{@classification.id}"}, :class => "btn btn-sm btn-primary" %>
       </div>
     <% end %>
@@ -11,8 +11,8 @@
       </div>
     <% end %>
     <% if ['edit', 'update'].include?(controller.action_name) %>
-      <div class="revert-changes">
-        <%= link_to t("actions.revert"), {:controller => :classifications, :action => :edit, :id => @classification.id}, :class => "btn btn-sm btn-default bg-white border" %>
+      <div class="revert-changes fuck">
+        <%= link_to t("actions.revert"), {:controller => :classifications, :action => :edit, :id => @classification.id}, :class => "btn btn-sm btn-default" %>
         <%= t("actions.toolbar_disabled_message") %>
       </div>
     <% end %>

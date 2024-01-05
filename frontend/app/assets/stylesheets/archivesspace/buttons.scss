@@ -1,4 +1,4 @@
-.btn.btn-xs {
+.btn.btn-sm {
   [class^='icon-'],
   [class*=' icon-'] {
     margin-top: -1px;
@@ -31,7 +31,7 @@
   }
 }
 
-.btn-group > .btn-xs {
+.btn-group > .btn-sm {
   &.disabled,
   &[disabled] {
     color: #000;

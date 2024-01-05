@@ -11,21 +11,16 @@
       </div>
     <% end %>
 
-    <div class="btn-toolbar ml-auto bg-white border">
+    <div class="btn-toolbar ml-auto">
       <div class="btn-group align-items-center">
         <% if edit_mode? && full_mode? %>
-          <div class="border-right">
-            <%= render_aspace_partial :partial => "shared/lightmode_toggle", :locals => {:type => 'agents'} %>
-          </div>
+          <%= render_aspace_partial :partial => "shared/lightmode_toggle", :locals => {:type => 'agents'} %>
         <% end %>
 
         <% if user_can?('update_event_record')  %>
-          <div class="btn-group border-right">
-            <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @agent} %>
-          </div>
+          <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @agent} %>
         <% end %>
 
-        <div class="btn-group right border-right">
           <%= button_confirm_action(t("actions.publish"),
                       url_for({:action => :publish, :id => @agent.id}),
                       {
@@ -35,22 +30,14 @@
                         :"data-confirm-btn-label" => "#{t("actions.publish")}",
                         :"data-confirm-btn-class" => "btn-primary",
                       }) %>
-        </div>
 
         <% if AppConfig[:enable_public] %>
-          <div class="border-right">
-            <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @agent} %>
-          </div>
+          <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @agent} %>
         <% end %>
 
         <% unless @agent.agent_type.to_s == "agent_software" %>
-          <div class="btn btn-inline-form border-right">
             <%= link_to t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.  agent_type}, :class => "btn btn-sm btn-default" %>
-          </div>
-
-          <div class="btn btn-inline-form border-right">
             <%= link_to t("actions.export_marc_auth"), {:controller => :exports, :action => :download_marc_auth, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
-          </div>
         <% end %>
 
 
@@ -66,9 +53,7 @@
           %>
         <% end %>
         <% if user_can?('delete_agent_record') %>
-          <div class="btn p-0">
-            <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id), { :"data-title" => t("actions.delete_confirm_title", :title => @agent.title) } %>
-          </div>
+          <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id), { :"data-title" => t("actions.delete_confirm_title", :title => @agent.title) } %>
         <% end %>
       </div>
     </div>

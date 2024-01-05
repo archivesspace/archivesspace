@@ -21,13 +21,13 @@
     linker_label = (multiplicity === "many") ? t("agent._plural") : t("agent._singular")
   end
 %>
-<div class="form-group <% if required %> required <% end %> row">
-  <label class="control-label col-sm-4 text-right"
+<div class="form-group d-flex<% if required %> required<% end %>">
+  <label class="col-sm-2 control-label text-right"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
     <%= wrap_with_tooltip(linker_label, "related_agent.related_agent_tooltip", "control-label initialised") %>
   </label>
-  <div class="controls col-sm-6">
+  <div class="controls col-sm-9">
     <div class="input-group linker-wrapper"
          role="combobox"
          aria-owns="<%= form.id_for("ref") %>_listbox"
@@ -69,8 +69,8 @@
 
       <% end %>
 
-      <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last border-dark border-left-0 d-flex align-items-center justify-content-center" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Link to subject" id="dropdownMenuAgentsToggle">
+      <div class="input-group-append">
+        <a class="btn btn-default dropdown-toggle d-flex align-items-center" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Link to subject" id="dropdownMenuAgentsToggle">
         </a>
         <ul class="dropdown-menu dropdown-menu-right" id='dropdownMenuAgents' aria-labelledby="#dropdownMenuAgents">
           <li class='dropdown-item'>

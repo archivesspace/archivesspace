@@ -26,3 +26,4 @@
 //= require bootstrap_overrides
 //= require bootstrap3-typeahead
 //= require jquery.matchHeight
+//= require zelip

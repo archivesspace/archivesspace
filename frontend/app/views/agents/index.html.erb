@@ -1,6 +1,6 @@
 <%= setup_context(:title => t("agent._plural")) %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
@@ -9,9 +9,9 @@
   <div class="col-md-9">
     <% if user_can?('update_agent_record') %>
       <div class="record-toolbar d-flex align-items-center">
-        <div class="btn-group ml-auto bg-white border">
+        <div class="btn-group ml-auto">
           <% if user_can?('manage_repository') %>
-            <div class="btn-group border-right">
+            <div class="btn-group">
               <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
                 <%= t("actions.edit_required_fields") %>
               </a>
@@ -36,8 +36,8 @@
             </div>
           <% end %>
 
+          <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
           <div class="btn-group">
-            <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
             <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
               <%= t("agent._frontend.action.create") %>
             </a>
@@ -67,7 +67,6 @@
             %>
           <%# end %>
         </div>
-        <br style="clear:both" />
       </div>
     <% end %>
     <div class="record-pane">
