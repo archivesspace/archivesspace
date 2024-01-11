@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'rails_helper'
-require 'pry'
 
 describe 'Resources', js: true do
   it 'should be able to see all published resources in a repository' do
