@@ -474,8 +474,8 @@
     hasEmptyPrevWP(wpNum) {
       return wpNum > 0
         ? !this.container
-          .querySelector(`.waypoint[data-waypoint-number='${wpNum - 1}']`)
-          .classList.contains('populated')
+            .querySelector(`.waypoint[data-waypoint-number='${wpNum - 1}']`)
+            .classList.contains('populated')
         : false;
     }
 
@@ -487,8 +487,8 @@
     hasEmptyNextWP(wpNum) {
       return wpNum <= this.NUM_TOTAL_WAYPOINTS - 2
         ? !this.container
-          .querySelector(`.waypoint[data-waypoint-number='${wpNum + 1}']`)
-          .classList.contains('populated')
+            .querySelector(`.waypoint[data-waypoint-number='${wpNum + 1}']`)
+            .classList.contains('populated')
         : false;
     }
   }

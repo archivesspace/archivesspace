@@ -141,10 +141,10 @@ a img {
 
 .tabbing.nav-pills > li.nav-item.disabled > a.nav-link:hover,
 .tabbing.nav-pills > li.nav-item.disabled > a.nav-link:focus {
-  color:#777;
-  text-decoration:none;
-  background-color:transparent;
-  cursor:not-allowed;
+  color: #777;
+  text-decoration: none;
+  background-color: transparent;
+  cursor: not-allowed;
 }
 
 /* this enables customization of the nav bar. h/t to zessx (http://stackoverflow.com/users/1238019/zessx)
@@ -883,7 +883,7 @@ span.head {
 }
 
 .breadcrumb > li + li::before {
-  padding-left: .625rem;
+  padding-left: 0.625rem;
   color: $darkest;
   content: '\007C\00a0';
 }
