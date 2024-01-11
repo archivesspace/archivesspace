@@ -88,7 +88,11 @@
         <% end %>
 
         <% ordered_aos.each do |entry| %>
-            <li class="level-<%= entry.depth + 1 %>"><a href="#<%= entry.uri %>"><%== process_mixed_content(entry.display_string) %></a></li>
+            <%# ANW-258: remove dates from toc items, to match Staff PDF Stripping them out here instead of omitting them at the source as they might be needed elsewhere %>
+            <% title_arry = entry.display_string.split(',') %>
+            <% title_no_date_str = title_arry[0] %>
+
+            <li class="level-<%= entry.depth + 1 %>"><a href="#<%= entry.uri %>"><%== process_mixed_content(title_no_date_str) %></a></li>
         <% end %>
     </ul>
 </div>
