@@ -80,6 +80,10 @@ body {
   vertical-align: 0;
 }
 
+.dropdown-toggle.no-caret::after {
+  display: none;
+}
+
 .combobox-container.combobox-selected .dropdown-toggle::after {
   border: none;
 }

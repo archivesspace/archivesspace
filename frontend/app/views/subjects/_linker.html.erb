@@ -40,7 +40,7 @@
   data_url = url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.SUBJECT_FACETS).to_s + term_type_filter_query
 %>
 
-<div class="form-group row required">
+<div class="form-group d-flex align-items-center required">
   <% if !name.blank? %>
     <%= wrap_with_tooltip(linker_label, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label control-label col-sm-4 text-right") %>
     <label class="sr-only"
@@ -49,7 +49,7 @@
       <%= linker_label %>
     </label>
   <% else %>
-    <label class="control-label col-sm-4 text-right"
+    <label class="control-label col-sm-2 mb-0 text-right"
             id="<%= form.id_for(data_name) %>_label"
             for="<%= form.id_for(data_name) %>">
       <%= linker_label %>
