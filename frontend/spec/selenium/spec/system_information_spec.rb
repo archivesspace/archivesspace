@@ -41,7 +41,9 @@ describe 'System Information' do
     end
   end
 
-  it 'should let users with admin privs see this' do
+  it 'should let users with admin privs see this if AppConfig flag is set' do
+    AppConfig[:allow_other_admins_access_to_system_info] = true
+
     @driver.login_to_repo(@other_admin_user, @repo)
 
     @driver.find_element(:link, 'System').click
