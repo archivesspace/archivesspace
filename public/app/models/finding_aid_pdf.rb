@@ -109,6 +109,18 @@ class FindingAidPDF
     writer.write(renderer.render_to_string partial: 'footer', layout: false, :locals => {:record => @resource})
     out_html.close
 
+
+       STDERR.puts "++++++++++++++++++++++++++++++"
+    sample = File.open("/home/manny/Desktop/pdf.html", "w")
+    out_html.open
+    out_html.each_line do |line|
+      sample.write(line)
+    end
+    out_html.close
+    sample.close
+
+    STDERR.puts out_html
+
     out_html
   end
 
@@ -128,28 +140,24 @@ class FindingAidPDF
     if AppConfig[:plugins].include?("custom-pui-pdf-font")
       font_path = Rails.root.to_s + "/../plugins/custom-pui-pdf-font/public/app/assets/fonts/#{AppConfig[:pui_pdf_font_file]}"
     else
-      font_path = Rails.root.to_s + "/app/assets/fonts/#{AppConfig[:pui_pdf_font_file]}"
-      bold_font_path = Rails.root.to_s + "/app/assets/fonts/#{AppConfig[:pui_pdf_bold_font_file]}"
-      italic_font_path = Rails.root.to_s + "/app/assets/fonts/#{AppConfig[:pui_pdf_italic_font_file]}"
+      font_paths = AppConfig[:pui_pdf_font_files].map do |font|
+        Rails.root.to_s + "/app/assets/fonts/#{font}"
+      end
     end
 
-    resolver.addFont(
-     font_path,
-     "Identity-H",
-     true
-    );
+    STDERR.puts "++++++++++++++++++++"
+    STDERR.puts "++++++++++++++++++++"
+    STDERR.puts "++++++++++++++++++++"
+    STDERR.puts "++++++++++++++++++++"
+    STDERR.puts font_paths.inspect
 
-    resolver.addFont(
-     bold_font_path,
-     "Identity-H",
-     true
-    );
-
-    resolver.addFont(
-     italic_font_path,
-     "Identity-H",
-     true
-    );
+    font_paths.each do |font_path|
+      resolver.addFont(
+        font_path,
+        "Identity-H",
+        true
+      );
+    end
 
     renderer.set_document(java.io.File.new(out_html.path))
 
