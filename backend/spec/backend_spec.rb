@@ -12,8 +12,7 @@ describe 'The ArchivesSpaceService app' do
     get '/', nil, {'HTTP_ACCEPT' => "application/json"}
     expect(last_response).to be_ok
     json = JSON.parse(last_response.body)
-    expect(( json.keys - [ "databaseProductName", "databaseProductVersion", "ruby_version",
-                    "host_os", "host_cpu", "build", "archivesSpaceVersion"] ).empty?).to be_truthy
+    expect(( json.keys - DB.sysinfo.keys).empty?).to be_truthy
   end
 
 end

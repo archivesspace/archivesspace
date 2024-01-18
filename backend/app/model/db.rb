@@ -268,7 +268,7 @@ class DB
     end
 
     def sysinfo
-      jdbc_metadata.merge(system_metadata)
+      jdbc_metadata.merge(system_metadata).merge({ "archivesSpaceVersion" => ASConstants.VERSION})
     end
 
 
