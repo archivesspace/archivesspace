@@ -109,18 +109,6 @@ class FindingAidPDF
     writer.write(renderer.render_to_string partial: 'footer', layout: false, :locals => {:record => @resource})
     out_html.close
 
-
-       STDERR.puts "++++++++++++++++++++++++++++++"
-    sample = File.open("/home/manny/Desktop/pdf.html", "w")
-    out_html.open
-    out_html.each_line do |line|
-      sample.write(line)
-    end
-    out_html.close
-    sample.close
-
-    STDERR.puts out_html
-
     out_html
   end
 
@@ -134,22 +122,18 @@ class FindingAidPDF
     renderer = org.xhtmlrenderer.pdf.ITextRenderer.new
     resolver = renderer.getFontResolver
 
-    # ANW-1075: Use Noto Serif by defaults for open source compatibility and Unicode support for Latin, Cyrillic and Greek alphabets
+    # ANW-1075: Use Kurinto, followed by Noto Serif by defaults for open source compatibility and Unicode support for Latin, Cyrillic and Greek alphabets
     # Additional fonts can be specified via config file and added via plugin
 
     if AppConfig[:plugins].include?("custom-pui-pdf-font")
-      font_path = Rails.root.to_s + "/../plugins/custom-pui-pdf-font/public/app/assets/fonts/#{AppConfig[:pui_pdf_font_file]}"
+      font_paths = AppConfig[:pui_pdf_font_files].map do |font|
+        Rails.root.to_s + "/../plugins/custom-pui-pdf-font/public/app/assets/fonts/#{font}"
+      end
     else
       font_paths = AppConfig[:pui_pdf_font_files].map do |font|
         Rails.root.to_s + "/app/assets/fonts/#{font}"
       end
     end
-
-    STDERR.puts "++++++++++++++++++++"
-    STDERR.puts "++++++++++++++++++++"
-    STDERR.puts "++++++++++++++++++++"
-    STDERR.puts "++++++++++++++++++++"
-    STDERR.puts font_paths.inspect
 
     font_paths.each do |font_path|
       resolver.addFont(
