@@ -748,9 +748,10 @@ module AspaceFormHelper
 
       control_group_classes,
       label_classes,
-      controls_classes = %w(form-group row w-100), [], []
+      controls_classes = %w(form-group w-100), [], []
 
       unless opts[:layout] && opts[:layout] == 'stacked'
+        control_group_classes.insert(-1, 'row')
         label_classes << "col-sm-#{opts[:label_opts].fetch(:col_size, 2)} #{opts[:label_opts][:classes]}"
         controls_classes << "col-sm-#{opts[:col_size]}"
       end

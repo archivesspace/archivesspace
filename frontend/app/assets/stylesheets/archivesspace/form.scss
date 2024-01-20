@@ -106,6 +106,7 @@ fieldset {
 form .form-group {
   &.conditionally-required {
     > .control-label {
+      align-self: flex-start;
       background-image: asset-url('archivesspace/conditionally_required.png');
       background-repeat: no-repeat;
       background-position: right center;
@@ -114,11 +115,13 @@ form .form-group {
   }
   &.conditionally-required.error {
     > .control-label {
+      align-self: flex-start;
       background-image: asset-url('archivesspace/required_loud.png');
     }
   }
   &.required {
     > .control-label {
+      align-self: flex-start;
       font-weight: bold;
       background-image: asset-url('archivesspace/required_quiet.png');
       background-repeat: no-repeat;

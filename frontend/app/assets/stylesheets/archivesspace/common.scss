@@ -216,6 +216,10 @@ td .btn-group {
   }
 }
 
+.lh-1p2 {
+  line-height: 1.2;
+}
+
 .hover-color-dark:hover {
   color: var(--dark) !important;
 }
@@ -267,12 +271,16 @@ td .btn-group {
   text-decoration: none;
 }
 
+.fs-12px {
+  font-size: 12px; // .75rem
+}
+
 .fs-14px {
-  font-size: 14px;
+  font-size: 14px; // .875rem
 }
 
 .form-control-border {
-  border: 1px solid var(--secondary);
+  border: 1px solid var(--secondary) !important;
 }
 
 .table-align-middle th,
