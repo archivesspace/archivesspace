@@ -55,10 +55,31 @@ body {
 .dropdown-toggle {
   color: #212529;
 }
+
+.dropdown-divider {
+  border-top-color: $gray-500;
+}
+
+.dropdown-item {
+  color: #212529;
+  
+  &:hover,
+  &.focus {
+    color: #212529;
+    text-decoration: none;
+    background-color: $gray-400;
+  }
+
+  a {
+    color: #212529;
+  }
+}
+
 .dropdown-item {
   &:active,
   &.active {
-    background-color: $gray-200;
+    color: #212529;
+    background-color: $gray-400;
   }
   a {
     color: #212529;

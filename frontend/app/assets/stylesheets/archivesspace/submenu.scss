@@ -2,7 +2,7 @@
   position: relative;
 
   fieldset {
-    padding-left: 25px;
+    padding: 0.25rem 1.5rem;
   }
 }
 .dropdown-submenu > .dropdown-menu {
@@ -10,10 +10,14 @@
   left: 100%;
   margin-top: -6px;
   margin-left: 0;
-  @include border-radius(0 6px 6px 6px);
+  border-radius: 4px;
 }
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
+}
+.dropdown-submenu > .dropdown-menu > fieldset > label:last-of-type {
+  // Used in record toolbar Export dropdown
+  margin-bottom: 0;
 }
 .dropdown-submenu > a::after {
   display: block;
@@ -24,12 +28,9 @@
   border-color: transparent;
   border-style: solid;
   border-width: 5px 0 5px 5px;
-  border-left-color: #ccc;
+  border-left-color: var(--secondary);
   margin-top: 5px;
   margin-right: -10px;
-}
-.dropdown-submenu:hover > a::after {
-  border-left-color: #fff;
 }
 .dropdown-submenu.pull-left {
   float: none;

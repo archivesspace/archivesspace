@@ -4,13 +4,13 @@
 
   <% unless content_for?(:exports) %>
     <% content_for :exports do %>
-      <li class="dropdown-submenu" id="download-ead-dropdown" data-download-ead-url="<%= url_for(:controller => :exports,
+      <li class="dropdown-item dropdown-submenu" id="download-ead-dropdown" data-download-ead-url="<%= url_for(:controller => :exports,
         :action => :download_ead, :id => @resource.id, :include_unpublished => "${include_unpublished}",
         :include_daos => "${include_daos}", :numbered_cs => "${numbered_cs}", :print_pdf => "${print_pdf}",
         :ead3 => "${ead3}" )%>">
         <a href="#" data-toggle="dropdown" class="menu-with-options download-ead-action" title="<%= t("actions.export_ead") %>"><%= t("actions.export_ead") %></a>
         <div class="dropdown-menu" id="form_download_ead">
-          <fieldset>
+          <fieldset class="d-flex flex-column">
             <input type="hidden" name="id", value="<%= @resource.id %>" />
             <label class="checkbox" for="include-unpublished">
               <input type="checkbox" id="include-unpublished" name="include_unpublished" <% if pref_include_unpublished %> checked="checked" <% end %>/>
@@ -34,7 +34,7 @@
         </div>
       </li>
 
-      <li class="dropdown-submenu" id="download-marc-dropdown" data-download-marc-url="<%= url_for(:controller => :exports, :action => :download_marc, :id => @resource.id, :include_unpublished_marc => "${include_unpublished_marc}")%>">
+      <li class="dropdown-item dropdown-submenu" id="download-marc-dropdown" data-download-marc-url="<%= url_for(:controller => :exports, :action => :download_marc, :id => @resource.id, :include_unpublished_marc => "${include_unpublished_marc}")%>">
         <a href="#" data-toggle="dropdown" class="menu-with-options download-marc-action" title="<%= t("actions.export_marc") %>"><%= t("actions.export_marc") %></a>
         <div class="dropdown-menu" id="form_download_marc">
           <fieldset>
@@ -49,12 +49,12 @@
       </li>
 
 
-      <li><%= link_to t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @resource.id}, :id => 'container-labels-link', :target => "_blank" %></li>
-      <li><%= link_to t("actions.container_template"), {:controller => :exports, :action => :container_template, :id => @resource.id}, :id => 'container-template-link', :target => "_self" %></li>
+      <li class="dropdown-item"><%= link_to t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @resource.id}, :id => 'container-labels-link', :target => "_blank" %></li>
+      <li class="dropdown-item"><%= link_to t("actions.container_template"), {:controller => :exports, :action => :container_template, :id => @resource.id}, :id => 'container-template-link', :target => "_self" %></li>
       <% if user_can?('create_job') %>
         <% if job_types['print_to_pdf_job']['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
 
-          <li class="dropdown-submenu">
+          <li class="dropdown-item dropdown-submenu">
             <%= link_to t("actions.print_to_pdf"), {:controller => :exports,  :action => :print_to_pdf, :id => @resource.id, :include_unpublished => false }, :id => 'print-to-pdf-link', :target => "_blank" %>
             <div class="dropdown-menu">
               <fieldset>

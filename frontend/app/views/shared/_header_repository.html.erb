@@ -10,29 +10,29 @@
             <%= link_to raw('<span class="glyphicon glyphicon-home"></span><span class="sr-only">' + t("breadcrumb.home") + '</span>'), { :controller => :welcome, :action => :index }, class: 'p-3' %>
           </li>
           <li class="d-flex align-self-stretch align-items-center dropdown browse-container">
-            <button class="btn h-100 d-flex align-items-center rounded-0 hover-bsCoolGray dropdown-toggle" data-toggle="dropdown"><%= t("actions.browse") %> <b class="caret"></b></button>
+            <button class="btn h-100 d-flex align-items-center gap-x-1 rounded-0 hover-bsCoolGray dropdown-toggle" data-toggle="dropdown"><%= t("actions.browse") %> <b class="caret"></b></button>
             <ul class="dropdown-menu">
-              <li class='dropdown-item'><%= link_to t("accession._plural"), :controller => :accessions, :action => :index %></li>
-              <li class='dropdown-item'><%= link_to t("resource._plural"), :controller => :resources, :action => :index %></li>
-              <li class='dropdown-item'><%= link_to t("digital_object._plural"), :controller => :digital_objects, :action => :index %></li>
-              <li class="divider"></li>
-              <li class='dropdown-item'><%= link_to t("subject._plural"), :controller => :subjects, :action => :index %></li>
-              <li class='dropdown-item'><%= link_to t("agent._plural"), :controller => :agents, :action => :index %></li>
-              <li class='dropdown-item'><%= link_to t("container_profile._plural"), :controller => :container_profiles, :action => :index %></li>
-              <li class='dropdown-item'><%= link_to t("location._plural"), :controller => :locations, :action => :index %></li>
-              <li class='dropdown-item'><%= link_to t("event._plural"), :controller => :events, :action => :index %></li>
-              <li class='dropdown-item'><%= link_to t("collection_management._plural"), :controller => :collection_management, :action => :index %></li>
-              <li class='dropdown-item'><%= link_to t("classification._plural"), :controller => :classifications, :action => :index %></li>
-              <li class='dropdown-item'><%= link_to t("assessment._plural"), :controller => :assessments, :action => :index %></li>
-              <li class="divider"></li>
-              <li class='dropdown-item'><%= link_to t("job._plural"), :controller => :jobs, :action => :index %></li>
+              <li><%= link_to t("accession._plural"), {:controller => :accessions, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("resource._plural"), {:controller => :resources, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("digital_object._plural"), {:controller => :digital_objects, :action => :index}, :class => "dropdown-item" %></li>
+              <li class="dropdown-divider"></li>
+              <li><%= link_to t("subject._plural"), {:controller => :subjects, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("agent._plural"), {:controller => :agents, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("container_profile._plural"), {:controller => :container_profiles, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("location._plural"), {:controller => :locations, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("event._plural"), {:controller => :events, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("collection_management._plural"), {:controller => :collection_management, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("classification._plural"), {:controller => :classifications, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("assessment._plural"), {:controller => :assessments, :action => :index}, :class => "dropdown-item" %></li>
+              <li class="dropdown-divider"></li>
+              <li><%= link_to t("job._plural"), {:controller => :jobs, :action => :index}, :class => "dropdown-item" %></li>
             </ul>
           </li>
           <% if ['update_accession_record', 'update_resource_record', 'update_digital_object_record',
                   'update_subject_record', 'update_event_record',
                   'update_agent_record', 'update_location_record', 'update_container_profile'].find {|p| user_can?(p)} %>
             <li class="d-flex align-self-stretch align-items-center dropdown create-container">
-              <button class="btn h-100 d-flex align-items-center rounded-0 hover-bsCoolGray dropdown-toggle" data-toggle="dropdown"><%= t("navbar.create") %> <b class="caret"></b></button>
+              <button class="btn h-100 d-flex align-items-center gap-x-1 rounded-0 hover-bsCoolGray dropdown-toggle" data-toggle="dropdown"><%= t("navbar.create") %></button>
               <ul class="dropdown-menu">
                 <% if ['update_accession_record', 'update_resource_record', 'update_digital_object_record'].find {|p| user_can?(p)} %>
                   <% if user_can?('update_accession_record') %>

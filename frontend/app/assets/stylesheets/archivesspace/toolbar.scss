@@ -43,6 +43,17 @@
   }
 }
 
+#record-toolbar-alert {
+  margin-right: -15px; // because Bootstrap
+  display: none;
+  background-color: #f3f3f3;
+  box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.record-toolbar.formchanged + #record-toolbar-alert {
+  display: block;
+}
+
 // force dropdown menu items to be text aligned left
 .dropdown-menu > li {
   text-align: left;
