@@ -120,6 +120,8 @@ module ApplicationHelper
 
     x_padding = session[:user].nil? ? "px-4" : "px-3"
 
+    klass = (opts.has_key? :class) ? opts[:class] : ""
+
     style = (opts.has_key? :style) ? opts[:style] : ""
 
     link_to(
@@ -128,7 +130,7 @@ module ApplicationHelper
             {
               :target => "_blank",
               :title => title,
-              :class => "context-help has-tooltip #{x_padding}",
+              :class => "context-help has-tooltip #{x_padding} #{klass}",
               :style => style,
               "data-placement" => "bottom",
               "data-toggle" => "tooltip",

@@ -3,19 +3,19 @@
   font-size: 1rem;
   @include transition(color 0.5s);
 
-  color: #595959;
+  color: var(--bs-text-body);
   position: static !important;
   padding-top: 1rem;
   padding-bottom: 1rem;
 
   .context-help-icon {
-    color: #595959;
+    color: var(--bs-text-body);
   }
 
   &:hover {
-    color: #595959;
+    color: var(--bs-text-body);
     .context-help-icon {
-      color: #595959;
+      color: var(--bs-text-body);
     }
   }
 }
