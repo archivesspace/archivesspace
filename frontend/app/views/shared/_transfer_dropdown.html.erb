@@ -10,7 +10,7 @@
     <button class="btn btn-sm btn-default d-flex align-items-center gap-x-1 dropdown-toggle transfer-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= t("actions.transfer") %>">
       <%= t("actions.transfer") %>
     </button>
-    <ul class="dropdown-menu dropdown-menu-right transfer-form">
+    <ul class="dropdown-menu dropdown-menu-right transfer-form" role="none">
       <li><!-- no .dropdown-item like elsewhere because css -->
         <p class="mb-0"><%= t("#{singular}._frontend.messages.transfer_description") %></p>
         <%= form_context :transfer, {} do |form| %>
