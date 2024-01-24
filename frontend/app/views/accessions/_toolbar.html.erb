@@ -62,9 +62,9 @@
               </button>
 
               <ul class="dropdown-menu">
-                <li class='dropdown-item'><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => @accession} %></li>
+                <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => @accession} %></li>
                 <% if user_can?('update_assessment_record') %>
-                  <li class='dropdown-item'><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => @accession.uri} %></li>
+                  <li><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => @accession.uri}, :class => "dropdown-item" %></li>
                 <% end %>
               </ul>
             </div>

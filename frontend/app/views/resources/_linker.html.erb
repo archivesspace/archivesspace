@@ -18,7 +18,7 @@
           for="<%= form.id_for("ref") %>_combobox">
      <%= field_label %>
    </label>
-   <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : ''%>"
+   <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>"
         role="combobox"
         aria-owns="<%= form.id_for("ref") %>_listbox"
         aria-expanded="false"
@@ -57,10 +57,13 @@
 
          <% end %>
          <div class="input-group-append">
-           <a class="btn btn-default dropdown-toggle d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>" aria-expanded="false" aria-label="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>"></a>
-           <ul class="dropdown-menu">
-             <li class='dropdown-item'><a href="javascript:void(0);" class="linker-browse-btn"><%= t("top_container._frontend.bulk_operations.collection_resource_linker.browse") %></a></li>
-           </ul>
+          <%# Bootstrap dropdown is overriden here via frontend/app/assets/javascripts/merge_dropdown.js.erb %>
+           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"></button>
+            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-start">
+              <button type="button" class="dropdown-item linker-browse-btn">
+                <%= t("top_container._frontend.bulk_operations.collection_resource_linker.browse") %>
+              </button>
+            </div>
          </div>
        </div>
    </div>

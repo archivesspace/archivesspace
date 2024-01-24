@@ -11,27 +11,27 @@
       <%= t("actions.transfer") %>
     </button>
     <ul class="dropdown-menu dropdown-menu-right transfer-form" role="none">
-      <li><!-- no .dropdown-item like elsewhere because css -->
+      <li>
         <p class="mb-0"><%= t("#{singular}._frontend.messages.transfer_description") %></p>
         <%= form_context :transfer, {} do |form| %>
-        <fieldset class="my-3 border form-control-border rounded bg-gray-200">
+        <fieldset class="mt-3 mb-4 p-0">
           <legend class="sr-only">Transfer to this repository:</legend>
           <div class="alert alert-danger missing-ref-message" style="display: none;"><%= t "#{singular}._frontend.messages.transfer_target" %></div>
-          <%= form.label_and_select "ref", other_repositories, :layout => 'stacked' %>
+          <%= form.label_and_select "ref", other_repositories, :layout => 'stacked', :label_opts => {:class => 'font-weight-bold'} %>
         </fieldset>
         <section class="pl-0 py-1 d-flex justify-content-between form-actions">
           <%=
              button_confirm_action(t("actions.transfer"),
                                    url_for({:controller => controller, :action => :transfer, :id => record.id}.merge(extra_params)),
                                    {
-                                     :class => "btn btn-default transfer-button",
+                                     :class => "btn btn-primary transfer-button",
                                      :"data-title" => confirmation_title,
                                      :"data-message" => confirmation_msg,
                                      :"data-confirm-btn-label" => "#{t("actions.transfer")}",
                                      :"data-confirm-btn-class" => "btn"
                                    })
           %>
-          <a class="btn ml-auto btn-default btn-cancel" href="#"><%= t("actions.cancel") %></a>
+          <button type="button" class="btn ml-auto btn-default btn-cancel"><%= t("actions.cancel") %></button>
         </section>
         <% end %>
       </li>

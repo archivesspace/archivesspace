@@ -1,5 +1,5 @@
 <section class="d-flex flex-column">
-  <div class="record-toolbar d-flex align-items-center gap-x-2">
+  <div class="d-flex align-items-center gap-x-2 record-toolbar" role="toolbar">
     <% if !record.suppressed %>
       <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
         <div class="btn-group">
@@ -18,13 +18,11 @@
       </div>
     <% end %>
     <div class="d-flex gap-x-2 flex-shrink-0 ml-auto" data-allow-disabled>
-      <div class="btn-group">
+      <div class="btn-group" role="group">
         <% if user_can?('update_event_record') && !record.suppressed %>
-          <div class="border d-flex">
-            <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
-          </div>
+          <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
         <% end %>
-        <div class="btn-group border">
+        <div class="btn-group">
           <%= button_confirm_action(t("actions.publish"),
                       url_for({:action => :publish, :id => record.id}),
                       {
@@ -36,25 +34,21 @@
                       }) %>
         </div>
         <% if ['resource'].include?(record_type) %>
-          <div class="btn-group border">
-            <%= button_confirm_action(t("actions.unpublish"),
-                                      url_for({:action => :unpublish, :id => record.id}),
-                                      {
-                                        :class => "btn btn-sm btn-default",
-                                        :"data-title" => t("actions.unpublish_confirm_title"),
-                                        :"data-message" => t("actions.unpublish_confirm_message"),
-                                        :"data-confirm-btn-label" => "#{t("actions.unpublish")}",
-                                        :"data-confirm-btn-class" => "btn-primary",
-                                      }) %>
-          </div>
+          <%= button_confirm_action(t("actions.unpublish"),
+                                    url_for({:action => :unpublish, :id => record.id}),
+                                    {
+                                      :class => "btn btn-sm btn-default",
+                                      :"data-title" => t("actions.unpublish_confirm_title"),
+                                      :"data-message" => t("actions.unpublish_confirm_message"),
+                                      :"data-confirm-btn-label" => "#{t("actions.unpublish")}",
+                                      :"data-confirm-btn-class" => "btn-primary",
+                                    }) %>
         <% end %>
         <% if AppConfig[:enable_public] %>
-          <div class="border d-flex">
-            <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
-          </div>
+          <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
         <% end %>
         <div class="btn-group">
-          <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+          <button type="button" class="btn btn-sm btn-default d-flex align-items-center gap-x-1 dropdown-toggle" data-toggle="dropdown">
             <%= t("actions.export") %>
           </button>
           <ul class="dropdown-menu dropdown-menu-right">
@@ -62,20 +56,17 @@
           </ul>
         </div>
         <% if user_can?('merge_archival_record') %>
-          <div class="border d-flex">
-            <%=
-                render_aspace_partial :partial => "shared/merge_dropdown",
-                      :locals => {:record => record,
-                                  :multiplicity => "one",
-                                  :controller => controller.controller_name,
-                                  :confirmation_title => t("actions.merge_confirm_title"),
-                                  :confirmation_msg => t("actions.merge_resource_confirm_message",
-                                                              :source => record.title)}
-            %>
-          </div>
+          <%=
+              render_aspace_partial :partial => "shared/merge_dropdown",
+                    :locals => {:record => record,
+                                :multiplicity => "one",
+                                :controller => controller.controller_name,
+                                :confirmation_title => t("actions.merge_confirm_title"),
+                                :confirmation_msg => t("actions.merge_resource_confirm_message",
+                                                            :source => record.title)}
+          %>
         <% end %>
         <% if user_can?('transfer_archival_record') %>
-          <div class="border d-flex">
           <%=
             render_aspace_partial :partial => "shared/transfer_dropdown",
                     :locals => {:record => record,
@@ -84,44 +75,44 @@
                                 :confirmation_msg => t("actions.transfer_confirm_message",
                                                             :target => record.title)}
           %>
-          </div>
         <% end %>
-        <div class="btn-group dropdown border" id="other-dropdown" style="display: none">
-          <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <div class="btn-group dropdown" id="other-dropdown" style="display: none">
+          <button class="btn btn-sm btn-default d-flex align-items-center gap-x-1 dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <%= t('actions.more') %>
-            <span class="caret"></span>
           </button>
 
           <% other_shown = false %>
           <ul class="dropdown-menu">
             <% if ['resource', 'archival_object'].include?(record_type) %>
               <% other_shown = true %>
-              <li class="dropdown-item"><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record} %></li>
-              <li class="dropdown-item"><%= render_aspace_partial :partial => "date_calculator/toolbar_button", :locals => {:record => record} %></li>
+              <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record}, :class => "dropdown-item" %></li>
+              <li><%= render_aspace_partial :partial => "date_calculator/toolbar_button", :locals => {:record => record}, :class => "dropdown-item" %></li>
             <% end %>
             <% if ['resource', 'digital_object'].include?(record_type) %>
               <% if user_can?('update_assessment_record') %>
                 <% other_shown = true %>
-                <li class="dropdown-item"><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => record.uri} %></li>
+                <li><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => record.uri}, :class => "dropdown-item" %></li>
               <% end %>
             <% end %>
 
             <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
-              <li class="dropdown-item"><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %></li>
+              <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %></li>
             <% end %>
 
           </ul>
 
           <% if other_shown %><script>$('#other-dropdown').show();</script><% end %>
         </div>
+      </div>
 
+      <div class="btn-group" role="group">
         <% if user_can?('suppress_archival_record') %>
 
           <% if record.suppressed %>
             <%= button_confirm_action t("actions.unsuppress"),
             url_for(:action => :unsuppress, :id => record.id),
               {
-              :class => "btn btn-sm btn-default borderunsuppress-record",
+              :class => "btn btn-sm btn-default unsuppress-record",
                 :"data-title" => t("actions.unsuppress_confirm_title"),
                 :"data-message" => t("actions.unsuppress_confirm_message"),
                 :"data-confirm-btn-label" => "#{t("actions.unsuppress")}"
@@ -150,7 +141,7 @@
 
   <% if ['edit', 'update'].include?(controller.action_name) %>
     <div id="record-toolbar-alert">
-      <p class="mb-0 p-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+      <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
     </div>
   <% end %>
 </section>
