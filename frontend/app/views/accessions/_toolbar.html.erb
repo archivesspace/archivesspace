@@ -1,107 +1,110 @@
 <% if user_can?('update_accession_record') %>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="record-toolbar d-flex align-items-center gap-x-2">
-        <% if not @accession.suppressed %>
-          <% if !['edit', 'update'].include?(controller.action_name) %>
-            <div class="btn-group align-items-center">
-              <%= link_to t("actions.edit"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-sm btn-primary" %>
-            </div>
-          <% end %>
-        <% end %>
-        <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-          <div class="save-changes">
-            <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
-          </div>
-        <% end %>
-        <% if ['edit', 'update'].include?(controller.action_name) %>
-          <div class="align-items-center gap-x-1 revert-changes">
-            <%= link_to t("actions.revert"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-sm btn-default flex-shrink-0" %>
-            <p class="mb-0 fs-12px lh-1p2"><%= t("actions.toolbar_disabled_message") %></p>
-          </div>
-        <% end %>
-        <div class="d-flex gap-x-2 flex-shrink-0 ml-auto" data-allow-disabled>
+  <section class="d-flex flex-column">
+    <div class="d-flex align-items-center gap-x-2 record-toolbar" role="toolbar">
+      <% if not @accession.suppressed %>
+        <% if !['edit', 'update'].include?(controller.action_name) %>
           <div class="btn-group">
-            <% if AppConfig[:enable_public] %>
-              <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @accession} %>
-            <% end %>
-            <% if user_can?('update_event_record') && !@accession.suppressed %>
-              <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @accession } %>
-            <% end %>
-            <% if not @accession.suppressed %>
-              <div id="spawn-dropdown" class="btn-group">
-                <button type="button" class="btn btn-sm btn-default d-flex align-items-center gap-x-1 dropdown-toggle" data-toggle="dropdown">
-                  <%= t "actions.spawn" %>
-                </button>
-                <ul class="dropdown-menu">
-                  <li class='dropdown-item'>
-                    <%= link_to "<span class='icomoon icon-accession'></span> #{t("accession._singular")}".html_safe, :controller => :accessions, :action => :new, :accession_id => @accession.id %>
-                  </li>
-                  <li class='dropdown-item'>
-                    <%= link_to "<span class='icomoon icon-resource'></span> #{t("resource._singular")}".html_safe, :controller => :resources, :action => :new, :accession_id => @accession.id %>
-                  </li>
-                  <li class="dropdown-item">
-                      <%= link_to "<span class='asicon icon-archival_object'></span> #{t("archival_object._singular")}".html_safe, :controller => :archival_objects, :action => :new, :accession_id => @accession.id %>
-                  </li>
-                </ul>
-              </div>
-            <% end %>
-            <% if user_can?('transfer_archival_record') %>
-              <%=
-                render_aspace_partial :partial => "shared/transfer_dropdown",
-                        :locals => {:record => @accession,
-                                    :controller => controller.controller_name,
-                                    :confirmation_title => t("actions.transfer_confirm_title"),
-                                    :confirmation_msg => t("actions.transfer_confirm_message",
-                                                                :target => @accession.title)}
-              %>
-            <% end %>
-            <div class="btn-group" id="other-dropdown">
-              <button class="btn btn-sm btn-default d-flex align-items-center gap-x-1 dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <%= t('actions.more') %>
+            <%= link_to t("actions.edit"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-sm btn-primary" %>
+          </div>
+        <% end %>
+      <% end %>
+      <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+        <div class="save-changes">
+          <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
+        </div>
+      <% end %>
+      <% if ['edit', 'update'].include?(controller.action_name) %>
+        <div class="align-items-center revert-changes">
+          <%= link_to t("actions.revert"), {:controller => :accessions, :action => :edit, :id => @accession.id}, :class => "btn btn-sm btn-default flex-shrink-0" %>
+        </div>
+      <% end %>
+      <div class="d-flex gap-x-2 flex-shrink-0 ml-auto" data-allow-disabled>
+        <div class="btn-group" role="group">
+          <% if AppConfig[:enable_public] %>
+            <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @accession} %>
+          <% end %>
+          <% if user_can?('update_event_record') && !@accession.suppressed %>
+            <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @accession } %>
+          <% end %>
+          <% if not @accession.suppressed %>
+            <div id="spawn-dropdown" class="btn-group">
+              <button type="button" class="btn btn-sm btn-default d-flex align-items-center gap-x-1 dropdown-toggle" data-toggle="dropdown">
+                <%= t "actions.spawn" %>
               </button>
-
               <ul class="dropdown-menu">
-                <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => @accession} %></li>
-                <% if user_can?('update_assessment_record') %>
-                  <li><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => @accession.uri}, :class => "dropdown-item" %></li>
-                <% end %>
+                <li>
+                  <%= link_to "<span class='icomoon icon-accession'></span> #{t("accession._singular")}".html_safe, {:controller => :accessions, :action => :new, :accession_id => @accession.id}, :class => "dropdown-item" %>
+                </li>
+                <li>
+                  <%= link_to "<span class='icomoon icon-resource'></span> #{t("resource._singular")}".html_safe, {:controller => :resources, :action => :new, :accession_id => @accession.id}, :class => "dropdown-item" %>
+                </li>
+                <li>
+                    <%= link_to "<span class='asicon icon-archival_object'></span> #{t("archival_object._singular")}".html_safe, {:controller => :archival_objects, :action => :new, :accession_id => @accession.id}, :class => "dropdown-item" %>
+                </li>
               </ul>
             </div>
-          </div><!-- btn-group -->
-          <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>
-            <div class="btn-group">
-              <% if user_can?('suppress_archival_record') %>
-                <% if @accession.suppressed %>
-                  <%= button_confirm_action t("actions.unsuppress"),
-                                            url_for(:controller => :accessions, :action => :unsuppress, :id => @accession.id),
+          <% end %>
+          <% if user_can?('transfer_archival_record') %>
+            <%=
+              render_aspace_partial :partial => "shared/transfer_dropdown",
+                      :locals => {:record => @accession,
+                                  :controller => controller.controller_name,
+                                  :confirmation_title => t("actions.transfer_confirm_title"),
+                                  :confirmation_msg => t("actions.transfer_confirm_message",
+                                                              :target => @accession.title)}
+            %>
+          <% end %>
+          <div class="btn-group" id="other-dropdown">
+            <button class="btn btn-sm btn-default d-flex align-items-center gap-x-1 dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <%= t('actions.more') %>
+            </button>
+
+            <ul class="dropdown-menu">
+              <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => @accession} %></li>
+              <% if user_can?('update_assessment_record') %>
+                <li><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => @accession.uri}, :class => "dropdown-item" %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div><!-- btn-group -->
+        <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>
+          <div class="btn-group">
+            <% if user_can?('suppress_archival_record') %>
+              <% if @accession.suppressed %>
+                <%= button_confirm_action t("actions.unsuppress"),
+                                          url_for(:controller => :accessions, :action => :unsuppress, :id => @accession.id),
+                                          {
+                                            :class => "btn btn-sm btn-default unsuppress-record",
+                                            :"data-title" => t("actions.unsuppress_confirm_title"),
+                                            :"data-message" => t("actions.unsuppress_confirm_message"),
+                                            :"data-confirm-btn-label" => "#{t("actions.unsuppress")}"
+                                          }
+                %>
+              <% else %>
+                <%= button_confirm_action t("actions.suppress"),
+                                            url_for(:controller => :accessions, :action => :suppress, :id => @accession.id),
                                             {
-                                              :class => "btn btn-sm btn-default unsuppress-record",
-                                              :"data-title" => t("actions.unsuppress_confirm_title"),
-                                              :"data-message" => t("actions.unsuppress_confirm_message"),
-                                              :"data-confirm-btn-label" => "#{t("actions.unsuppress")}"
+                                              :class => "btn btn-sm btn-warning suppress-record",
+                                              :"data-title" => t("actions.suppress_confirm_title"),
+                                              :"data-message" => t("actions.suppress_confirm_message"),
+                                              :"data-confirm-btn-label" => "#{t("actions.suppress")}",
+                                              :"data-confirm-btn-class" => "btn-warning"
                                             }
                   %>
-                <% else %>
-                  <%= button_confirm_action t("actions.suppress"),
-                                              url_for(:controller => :accessions, :action => :suppress, :id => @accession.id),
-                                              {
-                                                :class => "btn btn-sm btn-warning suppress-record",
-                                                :"data-title" => t("actions.suppress_confirm_title"),
-                                                :"data-message" => t("actions.suppress_confirm_message"),
-                                                :"data-confirm-btn-label" => "#{t("actions.suppress")}",
-                                                :"data-confirm-btn-class" => "btn-warning"
-                                              }
-                    %>
-                <% end %>
               <% end %>
-              <% if user_can?('delete_archival_record') %>
-                <%= button_delete_action url_for(:controller => :accessions, :action => :delete, :id => @accession.id), { :"data-title" => t("actions.delete_confirm_title", :title => @accession.title) } %>
-              <% end %>
-            </div>
-          <% end %>
-        </div><!-- btn-toolbar ml-auto -->
-      </div><!-- record-toolbar -->
-    </div><!-- col-md-12 -->
-  </div><!-- row -->
+            <% end %>
+            <% if user_can?('delete_archival_record') %>
+              <%= button_delete_action url_for(:controller => :accessions, :action => :delete, :id => @accession.id), { :"data-title" => t("actions.delete_confirm_title", :title => @accession.title) } %>
+            <% end %>
+          </div>
+        <% end %>
+      </div><!-- btn-toolbar ml-auto -->
+    </div><!-- record-toolbar -->
+
+    <% if ['edit', 'update'].include?(controller.action_name) %>
+      <div id="record-toolbar-alert">
+        <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+      </div>
+    <% end %>
+  </section>
 <% end %>
