@@ -45,7 +45,7 @@
 </head>
 <body data-spy="scroll" data-target="#archivesSpaceSidebar" class="action-<%= controller.action_name %>">
 
-  <div class="container-fluid center-block"><!-- this could be deleted -->
+  <div class="min-vh-100 d-flex flex-column container-fluid center-block"><!-- this could be deleted -->
     <header>
       <%= render "shared/header_global" %>
     </header>
@@ -57,7 +57,7 @@
      <%= yield %>
    </div>
 
-   <footer>
+   <footer class="mt-auto">
       <%= render "site/footer" %>
    </footer>
 
