@@ -12,40 +12,40 @@
         <div class="btn-group ml-auto">
           <% if user_can?('manage_repository') %>
             <div class="btn-group">
-              <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+              <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
                 <%= t("actions.edit_required_fields") %>
-              </a>
+              </button>
               <ul class="dropdown-menu">
-                <li class="dropdown-item"><%= link_to t("agent_person._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_person} %></li>
-                <li class="dropdown-item"><%= link_to t("agent_family._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_family} %></li>
-                <li class="dropdown-item"><%= link_to t("agent_corporate_entity._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_corporate_entity} %></li>
-                <li class="dropdown-item"><%= link_to t("agent_software._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_software} %></li>
+                <li><%= link_to t("agent_person._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_person}, :class => "dropdown-item" %></li>
+                <li><%= link_to t("agent_family._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_family}, :class => "dropdown-item" %></li>
+                <li><%= link_to t("agent_corporate_entity._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_corporate_entity}, :class => "dropdown-item" %></li>
+                <li><%= link_to t("agent_software._singular"), {:controller => :agents, :action => :required, :agent_type => :agent_software}, :class => "dropdown-item" %></li>
 
               </ul>
             </div>
             <div class="btn-group">
-              <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+              <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
                 <%= t("actions.edit_default_values") %>
-              </a>
+              </button>
               <ul class="dropdown-menu">
-                <li class="dropdown-item"><%= link_to t("agent_person._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_person} %></li>
-                <li class="dropdown-item"><%= link_to t("agent_family._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_family} %></li>
-                <li class="dropdown-item"><%= link_to t("agent_corporate_entity._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_corporate_entity} %></li>
-                <li class="dropdown-item"><%= link_to t("agent_software._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_software} %></li>
+                <li><%= link_to t("agent_person._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_person}, :class => "dropdown-item" %></li>
+                <li><%= link_to t("agent_family._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_family}, :class => "dropdown-item" %></li>
+                <li><%= link_to t("agent_corporate_entity._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_corporate_entity}, :class => "dropdown-item" %></li>
+                <li><%= link_to t("agent_software._singular"), {:controller => :agents, :action => :defaults, :agent_type => :agent_software}, :class => "dropdown-item" %></li>
               </ul>
             </div>
           <% end %>
 
           <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
           <div class="btn-group">
-            <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
               <%= t("agent._frontend.action.create") %>
-            </a>
+            </button>
             <ul class="dropdown-menu">
-              <li class="dropdown-item"><%= link_to t("agent_person._singular"), :controller => :agents, :action => :new, :agent_type => :agent_person %></li>
-              <li class="dropdown-item"><%= link_to t("agent_family._singular"), :controller => :agents, :action => :new, :agent_type => :agent_family %></li>
-              <li class="dropdown-item"><%= link_to t("agent_corporate_entity._singular"), :controller => :agents, :action => :new, :agent_type => :agent_corporate_entity %></li>
-              <li class="dropdown-item"><%= link_to t("agent_software._singular"), :controller => :agents, :action => :new, :agent_type => :agent_software %></li>
+              <li><%= link_to t("agent_person._singular"), {:controller => :agents, :action => :new, :agent_type => :agent_person}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("agent_family._singular"), {:controller => :agents, :action => :new, :agent_type => :agent_family}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("agent_corporate_entity._singular"), {:controller => :agents, :action => :new, :agent_type => :agent_corporate_entity}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("agent_software._singular"), {:controller => :agents, :action => :new, :agent_type => :agent_software}, :class => "dropdown-item" %></li>
             </ul>
           </div>
 
