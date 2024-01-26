@@ -31,12 +31,6 @@ $(function () {
       }
     });
 
-    // add back the bootstrap show class for the merge-actions dropdown inside the subjects  merge dropdown
-    $("#dropdownMenuSubjectsToggle").on("click", function(event) {
-      var element = document.getElementById("dropdownMenuSubjects");
-      element.classList.toggle("show");
-    });
-
     $("#dropdownMenuSubjects li a").on("click", function(event) {
       var element = document.getElementById("dropdownMenuSubjects");
       element.classList.toggle("show");

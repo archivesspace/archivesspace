@@ -24,6 +24,8 @@
 
   term_type_filter = "" if term_type_filter.blank?
 
+  layout ||= "horizontal"
+
   if !defined?(linker_label)
     linker_label = (multiplicity === "many") ? t("subject._plural") : t("subject._singular")
   end
@@ -40,7 +42,7 @@
   data_url = url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.SUBJECT_FACETS).to_s + term_type_filter_query
 %>
 
-<div class="form-group d-flex align-items-center required">
+<div class="form-group row required">
   <% if !name.blank? %>
     <%= wrap_with_tooltip(linker_label, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label control-label col-sm-4 text-right") %>
     <label class="sr-only"
@@ -49,13 +51,13 @@
       <%= linker_label %>
     </label>
   <% else %>
-    <label class="control-label col-sm-2 mb-0 text-right"
+    <label class="control-label text-right <%= layout != 'stacked' ? 'col-sm-2' : '' %>"
             id="<%= form.id_for(data_name) %>_label"
             for="<%= form.id_for(data_name) %>">
       <%= linker_label %>
     </label>
   <% end %>
-  <div class="controls col-sm-9">
+  <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>">
     <div class="input-group linker-wrapper"
       role="combobox"
       aria-owns="<%= form.id_for(data_name) %>_listbox"
@@ -97,18 +99,17 @@
       <% end %>
           
     <div class="input-group-append">
-        <a class="btn btn-default d-flex align-items-center dropdown-toggle"  href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Link to subject" id="dropdownMenuSubjectsToggle">
-      </a>
-        <ul class="dropdown-menu dropdown-menu-right" id='dropdownMenuSubjects' aria-labelledby="#dropdownMenuSubjects">
-            <li class='dropdown-item'>
-            <a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a>
-          </li>
-        <% if !hide_create && user_can?('update_subject_record') %>
-          <li class='dropdown-item'>
-            <a href="javascript:void(0);" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true, :term_type => term_type_filter %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a>
-          </li>
-        <% end %>
-        </ul>
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="Link to subject" id="dropdownMenuSubjectsToggle"></button>
+      <ul class="dropdown-menu dropdown-menu-right" id='dropdownMenuSubjects' aria-labelledby="#dropdownMenuSubjects">
+        <li>
+          <button type="button" class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"><%= I18n.t("actions.browse") %></button>
+        </li>
+      <% if !hide_create && user_can?('update_subject_record') %>
+        <li>
+          <button type="button" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true, :term_type => term_type_filter %>" class="btn btn-sm rounded-0 dropdown-item linker-create-btn"><%= I18n.t("actions.create") %></a>
+        </li>
+      <% end %>
+      </ul>
     </div>
   </div>
 </div>
