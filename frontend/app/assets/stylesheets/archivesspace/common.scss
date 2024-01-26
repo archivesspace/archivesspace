@@ -95,7 +95,8 @@ h2 > .label {
 
 .suppress-record.disabled,
 .unsuppress-record.disabled,
-.delete-record.disabled {
+.delete-record.disabled,
+.btn-danger[disabled="disabled"] {
   border-color: var(--secondary);
 }
 

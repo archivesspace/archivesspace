@@ -28,7 +28,7 @@
           <% end %>
           <% if not @accession.suppressed %>
             <div id="spawn-dropdown" class="btn-group">
-              <button type="button" class="btn btn-sm btn-default d-flex align-items-center gap-x-1 dropdown-toggle" data-toggle="dropdown">
+              <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
                 <%= t "actions.spawn" %>
               </button>
               <ul class="dropdown-menu">
@@ -55,7 +55,7 @@
             %>
           <% end %>
           <div class="btn-group" id="other-dropdown">
-            <button class="btn btn-sm btn-default d-flex align-items-center gap-x-1 dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               <%= t('actions.more') %>
             </button>
 

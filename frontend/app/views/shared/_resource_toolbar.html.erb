@@ -48,7 +48,7 @@
           <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
         <% end %>
         <div class="btn-group">
-          <button type="button" class="btn btn-sm btn-default d-flex align-items-center gap-x-1 dropdown-toggle" data-toggle="dropdown">
+          <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
             <%= t("actions.export") %>
           </button>
           <ul class="dropdown-menu dropdown-menu-right">
@@ -77,7 +77,7 @@
           %>
         <% end %>
         <div class="btn-group dropdown" id="other-dropdown" style="display: none">
-          <button class="btn btn-sm btn-default d-flex align-items-center gap-x-1 dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <%= t('actions.more') %>
           </button>
 

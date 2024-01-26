@@ -92,15 +92,15 @@
 --></div>
 
 <div id="confirmation_modal_template"><!--
-   <div class="modal-body">
-      {if defined('message') && message.length > 0}
-        ${message}
-      {/if}
-   </div>
-   <div class="modal-footer justify-content-between">
-      <button id="confirmButton" class="btn btn-primary {if defined('confirm_class') && confirm_class} ${confirm_class}{/if}">{if defined('confirm_label') && confirm_label}${confirm_label}{else}<%= I18n.t "actions.confirm" %>{/if}</button>
-      <button class="btn btn-default btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
-   </div>
+  {if defined('message') && message.length > 0}
+    <div class="modal-body border-top border-bottom">
+      ${message}
+    </div>
+  {/if}
+  <div class="modal-footer justify-content-between">
+    <button id="confirmButton" class="btn btn-primary {if defined('confirm_class') && confirm_class} ${confirm_class}{/if}">{if defined('confirm_label') && confirm_label}${confirm_label}{else}<%= I18n.t "actions.confirm" %>{/if}</button>
+    <button class="btn btn-default btn-cancel" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+  </div>
 --></div>
 
 <div id="modal_content_loading_template"><!--

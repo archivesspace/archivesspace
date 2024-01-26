@@ -13,13 +13,12 @@
         <div class="btn-group ml-auto">
           <% if user_can?('manage_repository') %>
             <div class="btn-group">
-              <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+              <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
                 <%= t("actions.edit_default_values") %>
-                <span class="caret"></span>
-              </a>
+              </button>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li class='dropdown-item'><%= link_to t("digital_object._singular"), {:controller => :digital_objects, :action => :defaults} %></li>
-                <li class='dropdown-item'> <%= link_to t("digital_object_component._singular"), {:controller => :digital_object_components, :action => :defaults} %></li>
+                <li><%= link_to t("digital_object._singular"), {:controller => :digital_objects, :action => :defaults}, :class => "dropdown-item" %></li>
+                <li> <%= link_to t("digital_object_component._singular"), {:controller => :digital_object_components, :action => :defaults}, :class => "dropdown-item" %></li>
               </ul>
             </div>
           <% end %>
