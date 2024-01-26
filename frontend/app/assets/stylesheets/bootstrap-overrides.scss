@@ -114,6 +114,11 @@ body {
   overflow-y: auto;
 }
 
+// ANW-1821 Override positioning of modal action buttons
+.modal-footer {
+  justify-content: space-between;
+}
+
 // ANW-1821 Rectify Bootstrap v4's deprecation of internal popover styles
 // with the lack up upgrading CodeMirror (and our legacy Codemirror's
 // reliance on BS popover styles)
