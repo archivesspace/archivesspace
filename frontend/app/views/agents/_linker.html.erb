@@ -16,18 +16,19 @@
   linkable_types = defined?(allowed_types) ? allowed_types : ["agent"]
   creatable_types = defined?(allowed_types) ? allowed_types : ["agent_person", "agent_family", "agent_corporate_entity", "agent_software"]
   hide_create = false if hide_create.blank?
+  layout ||= 'horizontal'
 
   if !defined?(linker_label)
     linker_label = (multiplicity === "many") ? t("agent._plural") : t("agent._singular")
   end
 %>
-<div class="form-group d-flex<% if required %> required<% end %>">
-  <label class="col-sm-2 control-label text-right"
+<div class="form-group row<% if required %> required<% end %>">
+  <label class="control-label text-right <%= layout != 'stacked' ? 'col-sm-2' : '' %>"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
     <%= wrap_with_tooltip(linker_label, "related_agent.related_agent_tooltip", "control-label initialised") %>
   </label>
-  <div class="controls col-sm-9">
+  <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>">
     <div class="input-group linker-wrapper"
          role="combobox"
          aria-owns="<%= form.id_for("ref") %>_listbox"
@@ -70,13 +71,13 @@
       <% end %>
 
       <div class="input-group-append">
-        <a class="btn btn-default dropdown-toggle d-flex align-items-center" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Link to subject" id="dropdownMenuAgentsToggle">
-        </a>
+        <button type="button" class="btn btn-default dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Link to subject" id="dropdownMenuAgentsToggle">
+        </button>
         <ul class="dropdown-menu dropdown-menu-right" id='dropdownMenuAgents' aria-labelledby="#dropdownMenuAgents">
-          <li class='dropdown-item'>
-            <a href="javascript:void(0);" class="linker-browse-btn">
+          <li>
+            <button type="button" class="dropdown-item linker-browse-btn">
               <%= t("actions.browse") %>
-            </a>
+            </button>
           </li>
           <% if user_can?('update_agent_record') && !hide_create && user_can?('update_agent_record') %>
             <li class="dropdown-submenu dropdown-item">

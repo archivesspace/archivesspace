@@ -36,12 +36,6 @@ $(function () {
       element.classList.toggle("show");
     });
 
-    // add back the bootstrap show class for the merge-actions dropdown inside the agents merge dropdown
-    $("#dropdownMenuAgentsToggle").on("click", function(event) {
-      var element = document.getElementById("dropdownMenuAgents");
-      element.classList.toggle("show");
-    });
-
     $("#dropdownMenuAgents li a").on("click", function(event) {
       var element = document.getElementById("dropdownMenuAgents");
       element.classList.toggle("show");

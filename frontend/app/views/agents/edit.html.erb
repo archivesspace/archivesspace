@@ -2,7 +2,7 @@
 
 <%= form_for @agent, :as => "agent", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"}.merge(update_monitor_params(@agent)) do |f| %>
   <%= form_context :agent, @agent do |form| %>
-    <div class="d-flex fuck">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar", :locals => {:form => form} %>
       </div>

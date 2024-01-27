@@ -1,18 +1,22 @@
 <% if user_can?('update_agent_record') %>
-  <div class="record-toolbar d-flex align-items-center flex-wrap">
+<section class="d-flex flex-column">
+  <div class="d-flex align-items-center gap-x-2 record-toolbar" role="toolbar">
     <% if !edit_mode? %>
-      <div class="btn-group">
-        <%= link_to t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-sm btn-primary" %>
-      </div>
+      <%= link_to t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-sm btn-primary" %>
     <% end %>
     <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
       <div class="save-changes">
         <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
       </div>
     <% end %>
+    <% if edit_mode? %>
+      <div class="align-items-center revert-changes">
+        <%= link_to t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-sm btn-default" %>
+      </div>
+    <% end %>
 
-    <div class="btn-toolbar ml-auto">
-      <div class="btn-group align-items-center">
+    <div class="d-flex gap-x-2 flex-shrink-0 ml-auto" data-allow-disabled>
+      <div class="btn-group" role="group">
         <% if edit_mode? && full_mode? %>
           <%= render_aspace_partial :partial => "shared/lightmode_toggle", :locals => {:type => 'agents'} %>
         <% end %>
@@ -52,17 +56,17 @@
                                                   :source => @agent.title)}
           %>
         <% end %>
-        <% if user_can?('delete_agent_record') %>
-          <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id), { :"data-title" => t("actions.delete_confirm_title", :title => @agent.title) } %>
-        <% end %>
       </div>
+      <% if user_can?('delete_agent_record') %>
+        <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id), { :"data-title" => t("actions.delete_confirm_title", :title => @agent.title) } %>
+      <% end %>
     </div>
-
-    <% if edit_mode? %>
-      <div class="revert-changes">
-        <%= link_to t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-sm btn-default border bg-white" %>
-        <%= t("actions.toolbar_disabled_message") %>
-      </div>
-    <% end %>
   </div>
+
+  <% if edit_mode? %>
+    <div id="record-toolbar-alert">
+      <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+    </div>
+  <% end %>
+</section>
 <% end %>

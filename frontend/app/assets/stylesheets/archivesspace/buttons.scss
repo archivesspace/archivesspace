@@ -39,6 +39,15 @@
   }
 }
 
+.suppress-record.disabled,
+.unsuppress-record.disabled,
+.delete-record.disabled,
+.btn-danger.disabled {
+  color: #000;
+  background-color: #aaa;
+  border-color: var(--secondary);
+}
+
 .btn.busy .btn-busy-label {
   display: inline;
 }
