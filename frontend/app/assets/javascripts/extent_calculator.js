@@ -3,6 +3,17 @@ $(function () {
 
   ExtentCalculatorForm.prototype.init_form = function () {
     $('.create-extent-btn').on('click', function (event) {
+      if (
+        !(
+          $('#extent_portion_').val() &&
+          $('#extent_number_').val() &&
+          $('#extent_extent_type_').val()
+        )
+      ) {
+        alert('Please ensure that all required fields contain a value.');
+        return;
+      }
+
       var parent_id = '';
       if ($('#resource_extents_').length) {
         parent_id = '#resource_extents_';
