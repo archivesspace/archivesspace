@@ -1624,6 +1624,7 @@ ja:
     calculate_extent: エクステントの計算
     create_extent_record_message: エクステント電卓を編集モードで実行すると、レポートに基づいてエクステント・レコードを作成するオプションがあります。
     waiting_for_report_message: エクステントの計算...
+    required_fields_alert_message: 必須のフィールドを入力してください
     container_summary_type:
       _singular: コンテナ
       _plural: コンテナ

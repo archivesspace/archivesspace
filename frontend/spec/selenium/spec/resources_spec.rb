@@ -788,6 +788,9 @@ describe 'Resources and archival objects' do
     sleep 1
 
     expect { @driver.switch_to.alert }.not_to raise_error
+
+    #make sure to close it so as not to interfere with other tests
+    @driver.switch_to.alert.accept
   end
 
 end

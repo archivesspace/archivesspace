@@ -10,7 +10,7 @@ $(function () {
           $('#extent_extent_type_').val()
         )
       ) {
-        alert('Please ensure that all required fields contain a value.');
+        alert($('#required_fields_alert_message').attr('message'));
         return;
       }
 

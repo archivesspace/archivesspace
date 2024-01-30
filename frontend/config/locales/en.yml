@@ -1839,6 +1839,7 @@ en:
     calculate_extent: Calculate Extent
     create_extent_record_message: Run the Extent Calculator in edit mode to have the option of creating an extent record based on the report.
     waiting_for_report_message: Calculating extent ...
+    required_fields_alert_message: Please ensure that all required fields contain a value.
     container_summary_type:
       _singular: container
       _plural: containers
