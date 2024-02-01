@@ -360,7 +360,7 @@ en:
       additional: Additional File Versions
       url_encoded_data: URL-encoded data
       browse_number_digital_objects_in_collection: Browse %{num} digital objects in collection
-      
+
   subject:
     _singular: Subject
     _plural: Subjects
