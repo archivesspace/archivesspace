@@ -6,6 +6,8 @@
 
  body {
      font-family: <%= AppConfig[:pui_pdf_font_name] %>;
+     line-height: <%= AppConfig[:pui_pdf_paragraph_line_height] %>;
+     line-height: 125%;
  }
 
 .title-page {
@@ -23,6 +25,12 @@ span.title {
 }
 
 .title {
+  line-height: 140%;
+  line-height: <%= AppConfig[:pui_pdf_title_line_height] %>;
+}
+
+li {
+  list-style-type: lower-alpha;    
 }
 
  div.logo {

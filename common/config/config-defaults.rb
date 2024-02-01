@@ -748,6 +748,10 @@ AppConfig[:pui_pdf_font_files] = ["KurintoText-Rg.ttf",
 
 AppConfig[:pui_pdf_font_name] = "Kurinto Text,Kurinto Text JP,Kurinto Text KR,Kurinto Text SC,Noto Serif"
 
+
+AppConfig[:pui_pdf_paragraph_line_height] = "125%"
+AppConfig[:pui_pdf_title_line_height] = "140%"
+
 # Password recovery - requires email configuration
 # See example email configuration above
 AppConfig[:allow_password_reset] = false
