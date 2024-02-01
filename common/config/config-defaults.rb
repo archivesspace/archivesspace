@@ -70,7 +70,7 @@ AppConfig[:db_debug_log] = false
 # Set to true if you have enabled MySQL binary logging
 AppConfig[:mysql_binlog] = false
 
-# add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { 'mm' => '100%' }
+# Add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { 'mm' => '100%' }
 # Another example below sets the boost query value (bq) to boost the relevancy for the query string in the title,
 # sets the phrase fields parameter (pf) to boost the relevancy for the title when the query terms are in close proximity to
 # each other, and sets the phrase slop (ps) parameter for the pf parameter to indicate how close the proximity should be
