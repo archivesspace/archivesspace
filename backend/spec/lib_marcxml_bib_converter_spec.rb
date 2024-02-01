@@ -515,6 +515,11 @@ describe 'MARCXML Bib converter' do
 
         expect(has_qualifier).to eq(5)
       end
+
+      it "maps creator (1xx) as the primary agent link" do
+        primary = @resource['linked_agents'].select {|a| a['is_primary'] == true }
+        expect(primary.length).to eq(1)
+      end
     end
 
     describe "MARC import mappings, call number identifiers" do

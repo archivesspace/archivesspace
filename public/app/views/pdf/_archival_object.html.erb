@@ -61,6 +61,7 @@ end
 
                         tc_display_string = instance['sub_container']['top_container']['_resolved']['display_string'].split(':')[0]
 
+
                         if tc_display_string =~ /:/
                           box_string = tc_display_string.split(':')[0]
                         else
@@ -80,10 +81,15 @@ end
                       end
                     %>
 
-                    <% unless box_string.empty? || folder_string.empty? %>
+                    <% unless box_string.empty? && folder_string.empty? %>
                       <div class='box-area'>
-                        <div class='box-string'><%= box_string.downcase %></div>
-                        <div class='folder-string'><%= folder_string.downcase %></div>
+                        <% unless box_string.empty? %>
+                          <div class='box-string'><%= box_string.downcase %></div>
+                        <% end %>
+
+                        <% unless folder_string.empty? %>
+                          <div class='folder-string'><%= folder_string.downcase %></div>
+                        <% end %>
                       </div>
                     <% end %>
                 </div>
@@ -153,10 +159,11 @@ end
                 <% end %>
 
             </dl>
-
         </div>
     </div>
 </div>
 <% (level - 1).times do |previous_level| %>
+
     </div>
 <% end %>
+

@@ -18,8 +18,18 @@
 
     <div class="title-text-block">
     <p><%= I18n.t('pdf_reports.finding_aid_date_prefix') %> <%= Date.today.strftime("%B %d, %Y") + "." %></p>
-    <% if record.finding_aid['language'] %>
-        <p><%= "Description is written in: " + t('enumerations.language_iso639_2.' + record.finding_aid['language']) + "." %></p>
+
+    <% if record.finding_aid['script'] %>
+      <% script_declaration = " (#{t('enumerations.script_iso15924.' + record.finding_aid['script'])})" %>
+    <% else %>
+      <% script_declaration = "" %>
+    <% end %>
+
+
+    <% if record.finding_aid['language_note'] %>
+      <p><%= record.finding_aid['language_note'] %></p>
+    <% elsif record.finding_aid['language'] %>
+        <p><%= "Description is written in: " + t('enumerations.language_iso639_2.' + record.finding_aid['language']) + script_declaration + "." %></p>
     <% end %>
 
     <% if record.finding_aid['description_rules'] %>

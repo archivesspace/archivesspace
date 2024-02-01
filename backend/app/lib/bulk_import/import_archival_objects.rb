@@ -212,20 +212,20 @@ class ImportArchivalObjects < BulkImportParser
 
     ao.instances = create_top_container_instances
     dig_instance = nil
-    unless [@row_hash["digital_object_title"], @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"]].reject(&:nil?).empty?
+    unless [@row_hash["digital_object_title"], @row_hash["rep_file_uri"], @row_hash["nonrep_file_uri"],
+            @row_hash["digital_object_id"]].reject(&:nil?).empty?
+
       begin
-        normalize_publish_column(@row_hash, 'digital_object_link_publish')
-        normalize_publish_column(@row_hash, 'thumbnail_publish')
         normalize_publish_column(@row_hash, 'digital_object_publish')
+        normalize_publish_column(@row_hash, 'nonrep_publish')
         dig_instance = @doh.create(
           @row_hash["digital_object_title"],
-          @row_hash["thumbnail"], @row_hash["digital_object_link"],
-          @row_hash["digital_object_id"], @row_hash["digital_object_publish"],
+          @row_hash["digital_object_id"],
+          @row_hash["digital_object_publish"],
           ao,
           @report,
-          @row_hash['digital_object_link_publish'],
-          @row_hash['thumbnail_publish'],
-          @row_hash['is_representative'])
+          representative_file_version,
+          non_representative_file_version)
       rescue Exception => e
         @report.add_errors(e.message)
       end
@@ -237,6 +237,7 @@ class ImportArchivalObjects < BulkImportParser
       else
         @report.add_errors(I18n.t("bulk_import.error.dig_validation", :err => ""))
       end
+
     end
     subjs = process_subjects
     subjs.each { |subj| ao.subjects.push({ "ref" => subj.uri }) } unless subjs.empty?
@@ -398,4 +399,5 @@ class ImportArchivalObjects < BulkImportParser
     end
     ret_subjs
   end
+
 end
