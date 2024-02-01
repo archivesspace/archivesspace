@@ -1,5 +1,5 @@
 $(function () {
-  function ExtentCalculatorForm() {}
+  function ExtentCalculatorForm() { }
 
   ExtentCalculatorForm.prototype.init_form = function () {
     $('.create-extent-btn').on('click', function (event) {
