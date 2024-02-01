@@ -263,8 +263,8 @@ en:
   context: Found in
   context_delimiter: "/"
   bulk:
-    _singular: "Majority of material found in %{dates}"
-    _plural: "Majority of material found within %{dates}"
+    _singular: "%{dates}"
+    _plural: "%{dates}"
 
   archive:
     _singular: The Archive
