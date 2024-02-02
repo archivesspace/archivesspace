@@ -1,27 +1,26 @@
 <div id="main-content" class="classifications">
-  <div class="row">
-    <div class="information col-sm-7">
+  <div class="d-flex">
+    <div class="information flex-grow-1">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     </div>
-    <div class="page_actions col-sm-5 right">
+    <div class="page_actions">
       <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
     </div>
   </div>
-    <div class="row">
-      <div class="information col-sm-12">
+  <div class="row">
+    <div class="information w-100">
       <%= render partial: 'shared/breadcrumbs' %>
-      <div class="description"><%= @result.description %></div>
+      <div class="description px-3"><%= @result.description %></div>
       <% if @result.creator %>
-      <div class="creator clear">
-        <span class="inline-label clear">
-          <%= t('classification.creator') %>: </span>
+        <div class="creator clear">
+          <span class="inline-label clear"><%= t('classification.creator') %>: </span>
           <%= link_to @result.creator.display_string, app_prefix(@result.creator.uri) %>
-      </div>
+        </div>
       <% end %>
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-9">
+    <div class="col-sm-9<%= (@has_children ? ' resizable-content-pane' : '') %>">
       <% unless @results.blank? || @results['total_hits'] == 0 %>
         <h2><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h2>
         <% @results.records.each do |result| %>

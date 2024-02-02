@@ -3,11 +3,11 @@
 <% define_template("location_profile", jsonmodel_definition(:location_profile)) do |form| %>
   <% if action_name != "show" ||
     ["depth", "height", "width", "dimension_units"].any? { |attr| form.obj[attr].nil? } %>
-    <div class="alert alert-info"><%= I18n.t("location_profile._frontend.messages.fields_required_for_calculator") %></div>
+    <div class="alert alert-info"><%= t("location_profile._frontend.messages.fields_required_for_calculator") %></div>
   <% end %>
   <section id="basic_information">
     <h3>
-      <%= I18n.t("location_profile._frontend.section.basic_information") %>
+      <%= t("location_profile._frontend.section.basic_information") %>
       <%= link_to_help :topic => "location_profile_basic_information" %>
     </h3>
     <fieldset>

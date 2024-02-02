@@ -5,7 +5,7 @@
                              :form => form,
                              :record => @top_container) %>
   <% form.push("container_profile", form.obj["container_profile"] || {}) do %>
-      <%= render_aspace_partial :partial => "container_profiles/linker", :locals => {:form => form, :label => I18n.t("container_profile._singular"), :required => false} %>
+      <%= render_aspace_partial :partial => "container_profiles/linker", :locals => {:form => form, :label => t("container_profile._singular"), :required => false} %>
   <% end %>
   
   <%= form.label_and_select "type", form.possible_options_for('type', true) %>
@@ -14,14 +14,14 @@
   <%= form.label_and_textfield("barcode") %>
   <div class="controls label-only">
       <span class='help-inline'>
-          <%= I18n.t("top_container.barcode_length_for_this_repository") %> <%= barcode_length_range %> <%= I18n.t("top_container.characters") %>
+          <%= t("top_container.barcode_length_for_this_repository") %> <%= barcode_length_range %> <%= t("top_container.characters") %>
       </span>
   </div>
 
   <%= form.label_and_textfield("ils_holding_id") %>
   <%= form.label_and_readonly("ils_item_id") %>
   <%= form.hidden_input("ils_item_id") %>
-  <%= form.label_and_readonly("exported_to_ils", I18n.t("top_container.not_exported")) %>
+  <%= form.label_and_readonly("exported_to_ils", t("top_container.not_exported")) %>
   <%= form.hidden_input("exported_to_ils") %>
   <%= form.label_and_textarea("internal_note") %>
 

@@ -15,7 +15,7 @@
               <span class="glyphicon"></span>
             </div>
             <div class="col-md-6">
-              <%= I18n.t("enumerations.linked_agent_role.#{agent_resource['linked_agent_role']}", :default => agent_resource['linked_agent_role']) %>
+              <%= t("enumerations.linked_agent_role.#{agent_resource['linked_agent_role']}", :default => agent_resource['linked_agent_role']) %>
               :&nbsp;
               <%= agent_resource['linked_resource'] %>
             </div>
@@ -27,11 +27,11 @@
           <%= render_aspace_partial :partial => "agent_resources/show_fields", :locals => { :agent_resource => agent_resource } %>
 
           <% if agent_resource["places"].length > 0 %>
-            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_resource['places'], :section_id => "agent_resource_places_", :section_title => I18n.t("agent_resource.places"), :heading_size => "h4"} %>
+            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_resource['places'], :section_id => "agent_resource_places_", :section_title => t("agent_resource.places"), :heading_size => "h4"} %>
           <% end %>
 
           <% if agent_resource["dates"].length > 0 %>
-            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => agent_resource['dates'], :section_id => "agent_resource_dates", :section_title => I18n.t("agent_resource.dates"), :heading_size => "h4"} %>
+            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => agent_resource['dates'], :section_id => "agent_resource_dates", :section_title => t("agent_resource.dates"), :heading_size => "h4"} %>
           <% end %>
         </div>
       </div>

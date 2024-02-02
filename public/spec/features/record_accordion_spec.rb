@@ -18,7 +18,7 @@ describe 'Accordion of additional record information blocks', js: true do
 
   it 'should have all panels expanded by default' do
     $panels.each do |panel|
-      expect(panel).to have_css('.note_panel[aria-expanded="true"]', visible: true)
+      expect(panel).to have_css('.note_panel.show')
     end
 
   end
@@ -28,13 +28,13 @@ describe 'Accordion of additional record information blocks', js: true do
     accordion_toggle_btn.click
 
     $panels.each do |panel|
-      expect(panel).to have_css('.note_panel[aria-expanded="false"]', visible: :hidden)
+      expect(panel).to_not have_css('.note_panel.show', visible: :hidden)
     end
 
     accordion_toggle_btn.click
 
     $panels.each do |panel|
-      expect(panel).to have_css('.note_panel[aria-expanded="true"]', visible: true)
+      expect(panel).to have_css('.note_panel.show', visible: true)
     end
 
   end

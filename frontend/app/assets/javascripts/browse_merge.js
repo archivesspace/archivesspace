@@ -15,9 +15,9 @@ get_selection = function () {
 };
 
 function activateBtn(event) {
-  var merge_btn = document.getElementsByClassName('merge-button')[0];
+  var merge_btn = $('.merge-button');
   if ($(':input:checked').length > 0) {
-    merge_btn.removeAttribute('disabled');
+    merge_btn.attr('disabled', null);
   } else {
     merge_btn.attr('disabled', 'disabled');
   }

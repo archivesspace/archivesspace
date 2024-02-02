@@ -4,15 +4,15 @@
 %>
 
 <section id="<%= section_id %>" class="subrecord-form-dummy">
-  <h3><%= I18n.t("linked_agent._plural") %></h3>
+  <h3><%= t("linked_agent._plural") %></h3>
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields">
       <table class="table table-striped table-bordered table-condensed table-hover token-list">
         <thead>
           <tr>
-            <td class="col-md-2"><%= I18n.t("linked_agent.role") %></td>
-            <td class="col-md-2"><%= I18n.t("linked_agent.relator") %></td>
-            <td class="col-md-4"><%= I18n.t("linked_agent.ref") %></td>
+            <td class="col-md-2"><%= t("linked_agent.role") %></td>
+            <td class="col-md-2"><%= t("linked_agent.relator") %></td>
+            <td class="col-md-4"><%= t("linked_agent.ref") %></td>
             <td class="col-md-4"></td>
           </tr>
         </thead>
@@ -21,12 +21,12 @@
             <tr>
               <td>
                 <% if link["role"] %>
-                  <%= I18n.t("enumerations.linked_agent_role.#{link["role"]}", :default => link["role"])%>
+                  <%= t("enumerations.linked_agent_role.#{link["role"]}", :default => link["role"])%>
                 <% end %>
               </td>
               <td>
                 <% if link["relator"] %>
-                  <%= I18n.t("enumerations.#{relator_enumeration}.#{link["relator"]}", :default => link["relator"])%>
+                  <%= t("enumerations.#{relator_enumeration}.#{link["relator"]}", :default => link["relator"])%>
                 <% end %>
               </td>
               <td class="token-list">
@@ -38,17 +38,17 @@
               <td>
                 <dl>
                   <% if !ASUtils.wrap(link['terms']).empty? %>
-                    <dt><%= I18n.t("linked_agent.terms") %></dt>
+                    <dt><%= t("linked_agent.terms") %></dt>
 
                     <% ASUtils.wrap(link['terms']).each do |term| %>
-                      <dd class="label label-info" title="<%= I18n.t("enumerations.subject_term_type.#{term["term_type"]}") %>">
+                      <dd class="label label-info" title="<%= t("enumerations.subject_term_type.#{term["term_type"]}") %>">
                         <%= term['term'] %>
                       </dd>
                     <% end %>
                   <% end %>
 
                   <% if link['title'] %>
-                    <dt><%= I18n.t("linked_agent.title") %></dt>
+                    <dt><%= t("linked_agent.title") %></dt>
                     <dd><%= link['title'] %></dd>
                   <% end %>
                 </dl>

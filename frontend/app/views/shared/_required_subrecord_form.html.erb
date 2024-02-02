@@ -4,7 +4,7 @@
   singular = name.singularize if singular.blank?
   action_button_override = singular if action_button_override.blank?
   heading_size = "h3" if heading_size.blank?
-  heading_text = I18n.t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
+  heading_text = t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
 
   section_classes = []
   if defined?(section_class)
@@ -25,14 +25,14 @@
   <% form_name = "agent[#{property}][0][jsonmodel_type]" %>
   <div class="subrecord-form-container">
     <div class="form-group">
-      <label class="col-sm-2 control-label"><%= I18n.t("actions.require_subrecord") %></label>
+      <label class="col-sm-2 control-label"><%= t("actions.require_subrecord") %></label>
         <div class="col-sm-1 req_checkbox">
           <input id="required_fields__<%= property %>" type="hidden" name="<%= form_name %>" value="<%= type %>" >
           <input id="required_fields__<%= property %>__required" type="checkbox" name="agent[<%= property %>][0][required]" value="true" <%= @required_fields.required?(property, type) ? " checked=checked" : "" %>>
         </div>
     </div>
     <% field_names.each do |field_name| %>
-      <% label = I18n.t("#{i18n_type}.#{field_name}") %>
+      <% label = t("#{i18n_type}.#{field_name}") %>
       <% form_name = "agent[#{property}][0][#{field_name}]" %>
       <div class="form-group">
         <label class="col-sm-2 control-label" for="agent_record_identifier_" plugin=""><%=  label %></label>

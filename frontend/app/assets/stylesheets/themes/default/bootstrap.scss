@@ -1,0 +1,7 @@
+// override icon paths
+@import '../../bootstrap/variables';
+$icon-font-path: '../../../';
+@import '../../bootstrap';
+
+@import 'archivesspace/variables';
+@import 'archivesspace/mixins';

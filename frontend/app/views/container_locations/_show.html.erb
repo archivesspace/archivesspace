@@ -1,5 +1,5 @@
 <section>
-  <h3><%= I18n.t("container_location._plural") %></h3>
+  <h3><%= t("container_location._plural") %></h3>
 
   <div class="container-subrecord">
     <% container_locations.each_with_index do |container_location, index| %>
@@ -9,7 +9,7 @@
       <%= read_only_view(container_location, :label_css => "col-md-4") %>
       <% if container_location['_resolved'] %>
         <div class="form-group">
-          <div class="control-label col-sm-2"><%= I18n.t("container_location.location") %></div>
+          <div class="control-label col-sm-2"><%= t("container_location.location") %></div>
           <div class="controls token-list col-sm-8">
             <%= render_token :object => container_location['_resolved'],
                              :label => container_location['_resolved']['title'],

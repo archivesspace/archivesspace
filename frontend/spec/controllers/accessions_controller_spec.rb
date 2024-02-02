@@ -12,6 +12,7 @@ describe AccessionsController, type: :controller do
       session = User.login('admin', 'admin')
       User.establish_session(controller, session, 'admin')
       controller.session[:repo_id] = JSONModel.repository
+      allow(AppConfig).to receive(:[]).with(:allow_mixed_content_title_fields) { true }
       allow(AppConfig).to receive(:[]).and_call_original
     end
 

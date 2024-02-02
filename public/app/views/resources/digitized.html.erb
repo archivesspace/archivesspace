@@ -15,7 +15,7 @@
 
 <%= render partial: 'resources/resource_alltabs' %>
 
-<div class="row">
+<div class="row mt-3">
   <div class="col-sm-9">
     <% unless @results.blank? || @results['total_hits'] == 0 %>
       <% @results.records.each do |result| %>

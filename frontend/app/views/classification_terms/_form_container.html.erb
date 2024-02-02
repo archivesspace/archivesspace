@@ -1,8 +1,8 @@
 <%= link_to_help :topic => "classification_term" %>
 
 <h2>
-  <%= @form_title ? @form_title : @classification_term.title.blank? ? I18n.t("classification_term._singular") : @classification_term.title %>
-  <span class="label label-info"><%= I18n.t("classification_term._singular") %></span>
+  <%= @form_title ? @form_title : @classification_term.title.blank? ? t("classification_term._singular") : @classification_term.title %>
+  <span class="label label-info badge"><%= t("classification_term._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -18,7 +18,7 @@
 
   <% define_template("classification_term", jsonmodel_definition(:classification_term)) do |form| %>
     <section id="basic_information">
-      <h3><%= I18n.t("classification_term._frontend.section.basic_information") %></h3>
+      <h3><%= t("classification_term._frontend.section.basic_information") %></h3>
 
       <%= render_plugin_partials("top_of_basic_information_classification_term",
                                  :form => form,
@@ -36,7 +36,7 @@
                                  :record => @classification_term) %>
 
       <% form.push("creator", form["creator"] || {}) do %>
-        <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification_term.creator"), :optional => true, :multiplicity => "one"} %>
+        <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => t("classification_term.creator"), :optional => true, :multiplicity => "one"} %>
       <% end %>
 
       <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>

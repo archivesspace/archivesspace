@@ -3,7 +3,7 @@
     <hr/>
 
     <% form.push("top_container", form.obj["top_container"] || {}) do %>
-      <%= render_aspace_partial :partial => "top_containers/linker", :locals => {:form => form, :label => I18n.t("top_container._singular")} %>
+      <%= render_aspace_partial :partial => "top_containers/linker", :locals => {:form => form, :label => t("top_container._singular")} %>
     <% end %>
 
     <hr/>

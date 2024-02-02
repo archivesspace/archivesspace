@@ -1,0 +1,624 @@
+---
+<%# Note: Do not modify the indentation/white space in this file.  It matters! %>
+
+<%# hateful hack to get additional highlighter tabs %>
+<% hilighters = @endpoints.each.map do |e| e[:examples].keys.reject(&->(k) {k == 'shell'}) end.flatten.to_set.to_a.sort %>
+
+title: API Reference
+
+language_tabs:
+  - shell
+<% hilighters.each do |hl| %>
+  - <%= hl %>
+<% end %>
+toc_footers:
+  - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
+
+includes:
+  - errors
+
+search: true
+---
+
+# Introduction
+
+This is the documentation for the ArchivesSpace RESTful API. This documents the endpoints that are used by the backend server to edit records in the application.
+
+Since not all backend/API end points require authentication, it is best to restrict access to port 8089 to only IP addresses you trust. Your firewall should be used to specify a range of IP addresses that are allowed to call your ArchivesSpace API endpoint. This is commonly called whitelisting or allowlisting.
+
+This example API documentation page was created with [Slate](http://github.com/tripit/slate).
+
+# Authentication
+
+> Example Authentication Request:
+
+```shell
+# With shell, you can pass the correct header with each request
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+```
+
+```python
+# Using the ArchivesSnake library
+from asnake.client import ASnakeClient
+
+client = ASnakeClient(baseurl="http://localhost:8089",
+                      username="admin",
+                      password="admin")
+client.authorize()
+```
+
+> Example Response:
+
+```json
+{
+   "session":"9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e",
+   "user":{
+      "lock_version":6,
+      "username":"admin",
+      "name":"Administrator",
+      "is_system_user":true,
+      "create_time":"2015-05-08T13:10:06Z",
+      "system_mtime":"2015-07-07T10:21:53Z",
+      "user_mtime":"2015-07-07T10:21:53Z",
+      "jsonmodel_type":"user",
+      "groups":[
+
+      ],
+      "is_admin":true,
+      "uri":"/users/1",
+      "agent_record":{
+         "ref":"/agents/people/1"
+      },
+      "permissions":{
+         "/repositories/1":[
+            "update_location_record",
+            "delete_vocabulary_record",
+            "update_subject_record",
+            "delete_subject_record",
+            "update_agent_record",
+            "delete_agent_record",
+            "update_vocabulary_record",
+            "merge_subject_record",
+            "merge_agent_record",
+            "administer_system",
+            "become_user",
+            "cancel_importer_job",
+            "create_repository",
+            "delete_archival_record",
+            "delete_classification_record",
+            "delete_event_record",
+            "delete_repository",
+            "import_records",
+            "index_system",
+            "manage_agent_record",
+            "manage_repository",
+            "manage_subject_record",
+            "manage_users",
+            "manage_vocabulary_record",
+            "mediate_edits",
+            "merge_agents_and_subjects",
+            "merge_archival_record",
+            "suppress_archival_record",
+            "system_config",
+            "transfer_archival_record",
+            "transfer_repository",
+            "update_accession_record",
+            "update_classification_record",
+            "update_digital_object_record",
+            "update_event_record",
+            "update_resource_record",
+            "view_all_records",
+            "view_repository",
+            "view_suppressed"
+         ],
+         "_archivesspace":[
+            "administer_system",
+            "become_user",
+            "cancel_importer_job",
+            "create_repository",
+            "delete_archival_record",
+            "delete_classification_record",
+            "delete_event_record",
+            "delete_repository",
+            "import_records",
+            "index_system",
+            "manage_agent_record",
+            "manage_repository",
+            "manage_subject_record",
+            "manage_users",
+            "manage_vocabulary_record",
+            "mediate_edits",
+            "merge_agents_and_subjects",
+            "merge_archival_record",
+            "suppress_archival_record",
+            "system_config",
+            "transfer_archival_record",
+            "transfer_repository",
+            "update_accession_record",
+            "update_classification_record",
+            "update_digital_object_record",
+            "update_event_record",
+            "update_resource_record",
+            "view_all_records",
+            "view_repository",
+            "view_suppressed",
+            "update_location_record",
+            "delete_vocabulary_record",
+            "update_subject_record",
+            "delete_subject_record",
+            "update_agent_record",
+            "delete_agent_record",
+            "update_vocabulary_record",
+            "merge_subject_record",
+            "merge_agent_record"
+         ]
+      }
+   }
+}
+```
+
+> It's a good idea to save the session key since this will be used for later requests:
+
+```shell
+# Mac/Unix terminal
+export SESSION="9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e"
+
+# Windows Command Prompt
+set SESSION="9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e"
+
+# Windows PowerShell
+$env:SESSION="9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e"
+```
+
+```python
+# Handled by ArchivesSnake library
+# For more information, see:
+# https://github.com/archivesspace-labs/ArchivesSnake/#low-level-api
+```
+
+Most requests to the ArchivesSpace backend require a user to be authenticated. Since not all requests to the backend require authentication it is important to restrict access to only trusted IP addresses.  Authentication can be done with a POST request to the /users/:user_name/login endpoint, with :user_name and :password parameters being supplied.
+
+The JSON that is returned will have a session key, which can be stored and used for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.
+
+# Common Route Categories and Parameters
+
+As you use the ArchivesSpace API, you may start to notice similarities between different endpoints, and arguments that repeatedly show up in URLs or parameter lists.  Some of the most general bear special description.
+
+## Create/Read/Update/Destroy (CRUD) Endpoints
+
+The simplest types of endpoints conceptually, these are endpoints that allow you to create new resources, fetch and update existing known resources, get all the resources of a particular type, and remove resources from the system.  Almost every kind of object in the system has routes of this type: here are the routes for `agent_corporate_entity` records.
+
+Example routes:
+- **Create:** [POST /agents/corporate_entities](#create-a-corporate-entity-agent)
+- **Read (Index route):** [GET /agents/corporate_entities](#list-all-corporate-entity-agents)
+- **Read (Single Record):** [GET /agents/corporate_entities/42](#get-a-corporate-entity-by-id)
+- **Update:** [POST /agents/corporate_entities/42](#update-a-corporate-entity-agent)
+- **Destroy:** [DELETE /agents/corporate_entities/42](#delete-a-corporate-entity-agent)
+
+## Paginated Endpoints
+
+Endpoints that represent groups of objects, rather than single objects, tend to be paginated.   Paginated endpoints are called out in the documentation as special, with some version of the following content appearing:
+
+<aside class="notice">
+  This endpoint is paginated. :page, :id_set, or :all_ids is required
+  <ul>
+    <li>Integer page &ndash; The page set to be returned</li>
+    <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+    <li>Comma separated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+    <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+  </ul>
+</aside>
+
+These endpoints support some or all of the following:
+
+- paged access to objects (via :page)
+- listing all matching ids (via :all_ids)
+- fetching specific known objects via their database ids (via :id_set)
+
+
+## Search routes
+
+A number of routes in the ArchivesSpace API are designed to search for content across all or part of the records in the application.  These routes make use of [Solr](https://lucene.apache.org/solr/), a component bundled with ArchivesSpace and used to provide full text search over records.
+
+The search routes present in the application as of this time are:
+
+- [Search this archive](#search-this-archive)
+- [Search across repositories](#search-across-repositories)
+- [Search this repository](#search-this-repository)
+- [Search across subjects](#search-across-subjects)
+- [Search for top containers](#search-for-top-containers)
+- [Search across location profiles](#search-across-location-profiles)
+
+Search routes take quite a few different parameters, most of which correspond directly to Solr query parameters.  The most important parameter to understand is `q`, which is the query sent to Solr. This query is made in Lucene query syntax.  The relevant docs are located [here](https://lucene.apache.org/solr/guide/6_6/the-standard-query-parser.html#the-standard-query-parser).
+
+To limit a search to records of a particular type or set of types, you can use the 'type' parameter.  This is only relevant for search endpoints that aren't limited to specific types.  Note that type is expected to be a *list* of types, even if there is only one type you care about.
+
+```python
+from asnake.client import ASnakeClient
+
+client = ASnakeClient()
+client.authorize()
+
+# Search repository for records of any type with the word "pearlescent" in any field
+client.get('repositories/2/search', params={'q': 'pearlescent', 'page': 1}).json()
+
+# Search repository wth ID 24 for archival objects with "dragon" in their title field
+client.get('repositories/2/search', params={'q': 'title:dragon', 'type': ['archival_object'], 'page': 1}).json()
+
+```
+
+### Notes on search routes and results
+
+ArchivesSpace represents records as JSONModel Objects - this is what you get from and send to the system.
+
+SOLR takes these records, and stores "documents" BASED ON these JSONModel objects in a searchable index.
+
+Search routes query these documents, NOT the records themselves as stored in the database and represented by JSONModel.
+
+JSONModel objects and SOLR documents are similar in some ways:
+
+- both SOLR documents and JSONModel Objects are expressed in JSON
+- in general, documents will always contain some subset of the JSONModel object they represent
+
+But they also differ in quite a few important ways:
+
+- SOLR documents don't necessarily have all fields from a JSONModel object
+- SOLR documents do not automatically contain nested JSONModel Objects
+- SOLR documents can have fields defined that are arbitrary "search representations" of fields in associated records, or combinations of fields in a record
+- SOLR documents don't have a `jsonmodel_type` field - the `jsonmodel_type` of the record is stored as `primary_type` in SOLR
+
+### How do I get the actual JSONModel from a search document?
+
+In ArchivesSpace, SOLR documents all have a field `json`, which contains the JSONModel Object the document represents as a string.  You can use a JSON library to parse this string from the field, for example the json library in Python.
+
+```python
+import json
+search_results = client.get('repositories/2/search', params={'q': 'title:dragon', 'type': ['archival_object']}).json()['results']
+
+# get JSONModel from first search document in results
+my_record = json.loads(search_results[0]['json'])
+```
+
+## refs and :resolve
+
+```shell
+
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+"http://localhost:8089/repositories/24/top_container?resolve[]=repository"
+
+# JSON Output: Some keys have been left out in order to make the example shorter and clearer
+
+{
+  "lock_version": 11,
+  "indicator": "1",
+  "created_by": "admin",
+  "last_modified_by": "admin",
+  "type": "box",
+  "jsonmodel_type": "top_container",
+  "uri": "/repositories/24/top_containers/24470",
+  "repository": {
+    "ref": "/repositories/24",
+    "_resolved": {
+      "lock_version": 1,
+      "repo_code": "HOU",
+      "name": "Houghton Library",
+      "org_code": "MH-H",
+      "url": "http://nrs.harvard.edu/urn-3:hul.ois:HOU",
+      "image_url": "http://nrs.harvard.edu/urn-3:HUL.OIS:fas_shield",
+      "created_by": "admin",
+      "last_modified_by": "admin",
+      "publish": true,
+      "jsonmodel_type": "repository",
+      "uri": "/repositories/24",
+      "display_string": "Houghton Library (HOU)",
+      "agent_representation": {
+        "ref": "/agents/corporate_entities/1511"
+      }
+    }
+  },
+  "restricted": false,
+  "is_linked_to_published_record": true,
+  "display_string": "Box 1: Series pfMS Am 21",
+  "long_display_string": "MS Am 21, MS Am 21.5, MCZ 118, Series pfMS Am 21, Box 1"
+}
+```
+
+```python
+from asnake.client import ASnakeClient
+
+client = ASnakeClient()
+client.authorize()
+
+client.get('repositories/24/top_container', params={'resolve': ['repository']}).json()
+
+# JSON Output: Some keys have been left out in order to make the example shorter.
+
+{
+  "lock_version": 11,
+  "indicator": "1",
+  "created_by": "admin",
+  "last_modified_by": "admin",
+  "type": "box",
+  "jsonmodel_type": "top_container",
+  "uri": "/repositories/24/top_containers/24470",
+  "repository": {
+    "ref": "/repositories/24",
+    "_resolved": {
+      "lock_version": 1,
+      "repo_code": "HOU",
+      "name": "Houghton Library",
+      "org_code": "MH-H",
+      "url": "http://nrs.harvard.edu/urn-3:hul.ois:HOU",
+      "image_url": "http://nrs.harvard.edu/urn-3:HUL.OIS:fas_shield",
+      "created_by": "admin",
+      "last_modified_by": "admin",
+      "publish": True,
+      "jsonmodel_type": "repository",
+      "uri": "/repositories/24",
+      "display_string": "Houghton Library (HOU)",
+      "agent_representation": {"ref": "/agents/corporate_entities/1511"}}},
+  "restricted": False,
+  "is_linked_to_published_record": True,
+  "display_string": "Box 1: Series pfMS Am 21",
+  "long_display_string": "MS Am 21, MS Am 21.5, MCZ 118, Series pfMS Am 21, Box 1"
+}
+```
+
+
+In ArchivesSpace's JSONModel schema, a `ref` is a link to another object.  They take the general form of a JSON object with a `ref` key, containing the URI of an object in ArchivesSpace, and optionally other attributes. For example, a ref to a `resource` might look like this:
+
+<code>
+{'ref': '/repositories/13/resources/155'}
+</code>
+
+The :resolve parameter is a way to tell ArchivesSpace to attach the full object to these refs; it is passed in as an array of keys to "prefetch" in the returned JSON.  The object is included in the ref under a `_resolved` key.
+
+# ArchivesSpace REST API
+As of <%= @time.inspect %> the following REST endpoints exist in the master branch of the development repository:
+
+<% @endpoints.each do | e | %>
+
+## <%= e[:description]%>
+
+<% example = @examples[e[:uri]][e[:method].to_s] %>
+
+<% if example %>
+
+<% tmp = [] %>
+<% e[:params].each do |p| %>
+  <% if p.is_a? String %>
+    <% tmp << p %>
+  <% else %>
+    <% tmp << p[0] unless (e[:uri].include?("/:#{p[0]}") or (p[3] or {})[:body] or p[1] == :body_stream or ["repo_id", "id"].include?(p[0])) %>
+  <% end %>
+<% end %>
+<% url_params = tmp.compact %>
+<% request_uri = "http://localhost:8089#{e[:uri].gsub(":repo_id", "2").gsub(":id", "1").gsub(/(?<=\/)(:.*?)(?=\/)/, "1").gsub(/(?<=\/):.*?$/, "1")}" %>
+<% if !url_params.empty? && !e[:paginated] %>
+  <% url_param_examples = [] %>
+  <% url_params.each do |param| %>
+    <% if param == "resolve" %>
+      <% url_param_examples << "#{param}[]=record_type_to_resolve" %>
+    <% elsif example[param] || example["#{param}[]"] %>
+      <% if example[param] == "BooleanParam" %>
+        <% url_param_examples << "#{param}=true" %>
+      <% elsif ep = example["#{param}[]"] %>
+        <% url_param_examples << "#{param}[]=#{ep}" %>
+      <% else %>
+        <% url_param_examples << "#{param}=#{example[param]}" %>
+      <% end %>
+    <% elsif param.is_a? String %>
+      <% url_param_examples << "#{param}=#{param}" %>
+    <% end %>
+  <% end %>
+  <% request_uri += "?#{url_param_examples.join("&")}" %>
+<% end %>
+
+<% tmp = [] %>
+<% e[:params].each do |p| %>
+  <% if p.is_a? String %>
+    <% tmp << p %>
+  <% else %>
+    <% tmp << p[0] if ((p[3] or {})[:body] or p[1] == :body_stream) %>
+  <% end %>
+<% end %>
+<% data_params = tmp.compact %>
+<% if !data_params.empty? %>
+  <% data_param = data_params[0] %>
+  <% data_example = example[data_param] ? example[data_param].to_json.gsub("{", "{ ").gsub(",", ",\n") : "Example Missing" %>
+<% else %>
+  <% data_example = "Example Missing" %>
+<% end %>
+<% if e[:examples]['shell'] %>
+  <%= e[:examples]['shell'] %>
+<% else %>
+```shell
+<% if e[:method] == [:get] %>
+<% if e[:paginated] %>
+# return first 10 records
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>?page=1&page_size=10"
+# return first 5 records in the Fibonacci sequence
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>?id_set=1,2,3,5,8"
+# return an array of all the ids
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>?all_ids=true"
+<% elsif e[:paged] %>
+# return first 10 records
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>?page=1&page_size=10"
+<% else %>
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>"
+<% end %>
+<% elsif e[:method] == [:post] && e[:no_data] %>
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>"
+<% elsif e[:method] == [:post] %>
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '<%= data_example %>' \
+  "<%= request_uri %>"
+<% elsif e[:method] == [:delete] %>
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -X DELETE \
+  "<%= request_uri %>"
+<% else %>
+<% example.each_pair do |k,v| %>
+  <% next if e[:uri].include?("/:#{k}") %>
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -d '<%= v.to_json.gsub("{", "{ ").gsub(",", ",\n") %>' \
+  "<%= request_uri %>"
+  <% end %>
+<% end %>
+
+```
+<% end %>
+
+<%= e[:examples].reject do |k,v| k == 'shell' end.to_h.values.join("\n\n") %>
+
+<% end %>
+
+__Endpoint__
+
+```<%= e[:method].map &:upcase %> <%= e[:uri]%> ```
+
+<% if e[:deprecated] %>
+<aside class="warning">
+  This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
+  <% if e[:deprecated_description] %>
+    <p><%= e[:deprecated_description] %></p>
+  <% end %>
+</aside>
+<% end %>
+
+__Description__
+
+<%= e[:description] + "." %>
+
+<% if e[:documentation] %>
+<br>
+<br>
+<%= e[:documentation] %>
+<% end %>
+
+__Permissions__
+
+<% if e[:permissions] == [] %>
+  <p>This endpoint does not require authentication.</p>
+<% else %>
+  <p>This endpoint requires an authenticated user with at least one of the following permissions:</p>
+  <% e[:permissions].each do |perm| %>
+  <ul>
+    <li><%= perm %></li>
+  </ul>
+  <% end %>
+<% end %>
+
+<% @payload = [] %>
+<% e[:params].each do |p| %>
+  <% next if p.is_a? String %>
+  <% @payload << p if ((p[3] or {})[:body] or p[1] == :body_stream) %>
+<% end %>
+<% params = e[:params] - @payload %>
+
+<% if e[:paginated] || e[:paged] || params.any? %>
+
+__Parameters__
+<% if e[:paginated] %>
+<aside class="notice">
+This endpoint is paginated. :page, :id_set, or :all_ids is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+  <li>Comma separated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>
+</aside>
+
+<% elsif e[:paged]%>
+<aside class="notice">
+This endpoint is paginated. :page is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
+</ul>
+</aside>
+<% end %>
+
+<% if params.any? %>
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">Parameter</th>
+      <th style="width: 45%;">Description</th>
+      <th style="width: 20%;">Type</th>
+      <th style="width: 10%;">Optional?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% params.each do |param| %>
+        <% if param.is_a? String %>
+          <% opts = {} %>
+        <% else %>
+          <% opts = (param[3] or {}) %>
+        <% end %>
+
+        <% unless opts.empty? %>
+        <% vs = opts[:validation] %>
+        <% optional = opts[:optional] %>
+        <% end %>
+        
+      <tr>      
+        <td><code><%= param[0] %></code></td>
+        <td style="word-break: break-word;">
+            <%= param[2] %>
+            <% if !vs.nil? %>
+            <br>
+            <b><%= "Note: " %></b> <%= vs[0] %>
+            <% end %>
+        </td>
+        <td><%= param[1] %></td>
+        <td><%= optional %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+<% end %>
+
+<% if @payload.any? %>
+__Accepts Payload of Type__
+
+<%= @payload.flatten[1] %>
+
+<% end %>
+
+__Returns__
+
+<% e[:returns].each do |ret| %>
+  <%= "\t#{ret[0]} -- #{ret[1]}\n" %>
+<% end %>
+
+<% end %>
+
+# Routes by URI
+
+<p>An index of routes available in the ArchivesSpace API, alphabetically by URI.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Route</th> <th>Method(s)</th> <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @endpoints.sort_by do |ep| ep[:uri] end.each do |ep| %>
+      <tr>
+        <td><a href="#<%= ep[:description].downcase.gsub(/[^[:alnum:]]/, '-').sub(/-+\z/, '') %>"><%= ep[:uri] %></a></td>
+        <td><%= ep[:method].map(&:upcase).join(", ") %></td>
+        <td><%= ep[:description] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,7 +1,7 @@
-<div class="container-fluid panel-footer">
+<div class="container-fluid panel-footer p-3 bg-lightgray border-top-default">
   <div class="row">
      <div class="col-md-12">
-       <p class="footer-items"><%= I18n.t("footer.staff_interface", staff_url: AppConfig[:frontend_proxy_url]).html_safe %>
+       <p class="footer-items mb-0"><%= I18n.t("footer.staff_interface", staff_url: AppConfig[:frontend_proxy_url]).html_safe %>
          | <%= I18n.t("footer.archivesspace_home").html_safe %>
          | <%= ASConstants.VERSION %>
          <% if AppConfig[:feedback_url] && !AppConfig[:feedback_url].blank? %> | <%= I18n.t("footer.feedback", :feedback_url => AppConfig[:feedback_url]).html_safe %><% end %></p>

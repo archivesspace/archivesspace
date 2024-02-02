@@ -17,7 +17,7 @@ class SubjectsController < ApplicationController
         search_params = params_for_backend_search.merge({ "facet[]" => SearchResultData.SUBJECT_FACETS})
         search_params["type[]"] = "subject"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('subject._plural').downcase}." )
+        csv_response( uri, Search.build_filters(search_params), "#{t('subject._plural').downcase}." )
       }
     end
   end
@@ -61,14 +61,14 @@ class SubjectsController < ApplicationController
                   if inline?
                     render :json => @subject.to_hash if inline?
                   else
-                    flash[:success] = I18n.t("subject._frontend.messages.created")
+                    flash[:success] = t("subject._frontend.messages.created")
 
                     if @subject["is_slug_auto"] == false &&
                        @subject["slug"] == nil &&
                        params["subject"] &&
                        params["subject"]["is_slug_auto"] == "1"
 
-                      flash[:warning] = I18n.t("slug.autogen_disabled")
+                      flash[:warning] = t("slug.autogen_disabled")
                     end
 
                     return redirect_to :controller => :subjects, :action => :new if params.has_key?(:plus_one)
@@ -83,14 +83,14 @@ class SubjectsController < ApplicationController
                 :obj => JSONModel(:subject).find(params[:id]),
                 :on_invalid => ->() { return render :action => :edit },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("subject._frontend.messages.updated")
+                  flash[:success] = t("subject._frontend.messages.updated")
 
                   if @subject["is_slug_auto"] == false &&
                      @subject["slug"] == nil &&
                      params["subject"] &&
                      params["subject"]["is_slug_auto"] == "1"
 
-                    flash[:warning] = I18n.t("slug.autogen_disabled")
+                    flash[:warning] = t("slug.autogen_disabled")
                   end
 
                   redirect_to :controller => :subjects, :action => :edit, :id => id
@@ -117,7 +117,7 @@ class SubjectsController < ApplicationController
                                                                         JSONModel(:subject).schema)
                               }).save
 
-      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+      flash[:success] = t("default_values.messages.defaults_updated")
       redirect_to :controller => :subjects, :action => :defaults
     rescue Exception => e
       flash[:error] = e.message
@@ -135,7 +135,7 @@ class SubjectsController < ApplicationController
 
         return render :json => results.map {|term|
           term["_translated"] = {}
-          term["_translated"]["term_type"] = I18n.t("enumerations.subject_term_type.#{term["term_type"]}")
+          term["_translated"]["term_type"] = t("enumerations.subject_term_type.#{term["term_type"]}")
           term
         }
       rescue
@@ -158,11 +158,11 @@ class SubjectsController < ApplicationController
     begin
       subject.delete
     rescue ConflictException => e
-      flash[:error] = I18n.t("subject._frontend.messages.delete_conflict", :error => I18n.t("errors.#{e.conflicts}", :default => e.message))
+      flash[:error] = t("subject._frontend.messages.delete_conflict", :error => t("errors.#{e.conflicts}", :default => e.message))
       return redirect_to(:controller => :subjects, :action => :show, :id => subject.id)
     end
 
-    flash[:success] = I18n.t("subject._frontend.messages.deleted", JSONModelI18nWrapper.new(:subject => subject))
+    flash[:success] = t("subject._frontend.messages.deleted")
     redirect_to(:controller => :subjects, :action => :index, :deleted_uri => subject.uri)
   end
 

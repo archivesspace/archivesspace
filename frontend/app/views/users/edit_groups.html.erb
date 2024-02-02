@@ -1,10 +1,10 @@
-<%= setup_context :trail => [[I18n.t("user._frontend.section.manage_access"), {:controller => :users, :action => :manage_access}]], :title => @user.username %>
+<%= setup_context :trail => [[t("user._frontend.section.manage_access"), {:controller => :users, :action => :manage_access}]], :title => @user.username %>
 
 <div class="row">
   <div class="col-md-12">
     <div class="record-pane">
       <%= link_to_help :topic => "repository_users" %>
-      <h2><%= I18n.t("user._frontend.section.manage_access") %></h2>
+      <h2><%= t("user._frontend.section.manage_access") %></h2>
       <%= form_for @user, :as => "update_groups", :url => {:action => :update_groups}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
 
         <%= readonly_context :user, @user do |readonly| %>
@@ -15,7 +15,7 @@
         <%= form_context :user, @user do |form| %>
           <% if user_can?('manage_repository') %>
             <section id="groups" class="subrecord-form-dummy">
-              <h3><%= I18n.t("group._plural") %></h3>
+              <h3><%= t("group._plural") %></h3>
               <div class="subrecord-form-container">
                 <div class="subrecord-form-fields">
                   <table class="table table-striped table-bordered table-condensed">
@@ -33,8 +33,8 @@
           <% end %>
 
           <div class="form-actions">
-            <button id="create_account" type="submit" class="btn btn-primary"><%= I18n.t("user._frontend.section.edit_account_submit") %></button>
-            <%= link_to I18n.t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel btn-default" %>
+            <button id="create_account" type="submit" class="btn btn-primary"><%= t("user._frontend.section.edit_account_submit") %></button>
+            <%= link_to t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel btn-default" %>
           </div>
         <% end %>
       <% end %>

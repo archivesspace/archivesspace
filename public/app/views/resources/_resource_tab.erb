@@ -1,6 +1,6 @@
 <% active = (action.to_s == controller.action_name) %>
 <% unless hidden && !active %>
-  <li <% unless enabled %>class="disabled"<% end %>>
+  <li class="<%= enabled ? 'nav-item' : 'nav-item disabled' %>">
   	<% case action
   		 when :show
          url = app_prefix("/repositories/#{params[:rid]}/resources/#{params[:id]}")
@@ -14,9 +14,9 @@
   	%>
 
     <%=
-      link_to_unless active || !enabled, text, url  do
-        link_to_if active, text, '#', :class => "active", :'aria-current' => 'page' do
-          link_to text, "#"
+      link_to_unless active || !enabled, text, url, :class => "nav-link"  do
+        link_to_if active, text, '#', :class => "active nav-link", :'aria-current' => 'page' do
+          link_to text, "#", :class => "nav-link"
         end
       end
     %>

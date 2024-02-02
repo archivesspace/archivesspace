@@ -1,35 +1,35 @@
 <%# the "badges" for resources, records, etc.  Expects one local: type[ of badge]. @sublist_action, @counts, and @result carry through %>
 
-<li class="large-badge align-center <%= type %>">
+<div class="large-badge align-center <%= type %> border p-2 my-2 mx-2 ml-sm-0 mr-sm-4">
   <form action="<%= app_prefix(@sublist_action) %><%= type %>s" method="get">
     <button type="submit" class="btn btn-default <%= type %>" <%= @counts[type] == 0 ? 'disabled="disabled"' : '' %>  >
-     <% case type %>
-     <% when 'resource' %>
-      <i class="fa fa-archive fa-4x"></i>
-     <% when 'record' %>
-      <input type="hidden" name="limit" value="archival_object" />
-      <i class="fa fa-files-o fa-4x"></i>
-     <% when 'digital_object' %>
-      <input type="hidden" name="limit" value="digital_object" />
-      <i class="fa fa-file-image-o fa-4x"></i>
-     <% when 'accession' %>
-      <i class="fa fa-file-text-o fa-4x"></i>
-     <% when 'subject' %>
-      <i class="fa fa-tags fa-4x"></i>
-     <% when 'agent' %>
-     <span class="fa-stack fa-2x">
-       <i class="fa fa-institution fa-stack-2x"></i>
-       <i class="fa fa-users fa-stack-1x fa-inverse"></i>
-     </span>
-     <% when 'classification' %>
-      <i class="fa fa-share-alt fa-4x"></i>
-     <% end %>
-    <br />
-    <% if AppConfig[:pui_repos].dig(@result['repo_code'].downcase, :hide, :counts).nil? ?  AppConfig[:pui_hide][:counts] :  AppConfig[:pui_repos][@result['repo_code'].downcase][:hide][:counts] %>
-      <%= t("#{type}._plural") %>
-    <% else %>
-      <%= @counts[type] %> <%= (@counts['type'] != 1 ? t("#{type}._plural") : t("#{type}._singular")) %>
-    <% end %>
-     </button>
+      <% case type %>
+      <% when 'resource' %>
+        <i class="fa fa-archive fa-4x"></i>
+      <% when 'record' %>
+        <input type="hidden" name="limit" value="archival_object" />
+        <i class="fa fa-files-o fa-4x"></i>
+      <% when 'digital_object' %>
+        <input type="hidden" name="limit" value="digital_object" />
+        <i class="fa fa-file-image-o fa-4x"></i>
+      <% when 'accession' %>
+        <i class="fa fa-file-text-o fa-4x"></i>
+      <% when 'subject' %>
+        <i class="fa fa-tags fa-4x"></i>
+      <% when 'agent' %>
+      <span class="fa-stack fa-2x">
+        <i class="fa fa-institution fa-stack-2x"></i>
+        <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+      </span>
+      <% when 'classification' %>
+        <i class="fa fa-share-alt fa-4x"></i>
+      <% end %>
+      <br />
+      <% if AppConfig[:pui_repos].dig(@result['repo_code'].downcase, :hide, :counts).nil? ?  AppConfig[:pui_hide][:counts] :  AppConfig[:pui_repos][@result['repo_code'].downcase][:hide][:counts] %>
+        <%= t("#{type}._plural") %>
+      <% else %>
+        <%= @counts[type] %> <%= (@counts['type'] != 1 ? t("#{type}._plural") : t("#{type}._singular")) %>
+      <% end %>
+    </button>
   </form>
-</li>
+</div>

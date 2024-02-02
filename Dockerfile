@@ -16,6 +16,7 @@ RUN apt-get update && \
       openjdk-11-jre-headless \
       shared-mime-info \
       wget \
+      nodejs \
       unzip
 
 COPY . /source
@@ -54,6 +55,7 @@ RUN apt-get update && \
       netbase \
       shared-mime-info \
       wget \
+      nodejs \
       unzip && \
     rm -rf /var/lib/apt/lists/* && \
     groupadd -g 1000 archivesspace && \

@@ -1,15 +1,15 @@
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-  	<%= I18n.t("agent_resources.linked_agent_role") %>
+  	<%= t("agent_resources.linked_agent_role") %>
   </div>
   <div class='label-only col-sm-8'>
-    <%= I18n.t("enumerations.linked_agent_role.#{agent_resource['linked_agent_role']}", :default => agent_resource['linked_agent_role']) %>
+    <%= t("enumerations.linked_agent_role.#{agent_resource['linked_agent_role']}", :default => agent_resource['linked_agent_role']) %>
  	</div>
 </div>
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_resources.linked_resource") %>
+    <%= t("agent_resources.linked_resource") %>
   </div>
   <div class='label-only col-sm-8'>
     <%= agent_resource['linked_resource'] %>
@@ -18,7 +18,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_resources.linked_resource_description") %>
+    <%= t("agent_resources.linked_resource_description") %>
   </div>
   <div class='label-only col-sm-8'>
     <%= agent_resource['linked_resource_description'] %>
@@ -27,7 +27,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_resources.file_uri") %>
+    <%= t("agent_resources.file_uri") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_resource['file_uri'] %>
@@ -38,7 +38,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_resources.file_version_xlink_actuate_attribute") %>
+    <%= t("agent_resources.file_version_xlink_actuate_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
     <%= agent_resource['file_version_xlink_actuate_attribute'] %>
@@ -47,7 +47,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_resources.file_version_xlink_show_attribute") %>
+    <%= t("agent_resources.file_version_xlink_show_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
     <%= agent_resource['file_version_xlink_show_attribute'] %>
@@ -57,7 +57,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_resources.xlink_title_attribute") %>
+    <%= t("agent_resources.xlink_title_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_resource['xlink_title_attribute'] %>
@@ -68,7 +68,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_resources.xlink_role_attribute") %>
+    <%= t("agent_resources.xlink_role_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_resource['xlink_role_attribute'] %>
@@ -79,7 +79,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_resources.xlink_arcrole_attribute") %>
+    <%= t("agent_resources.xlink_arcrole_attribute") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_resource['xlink_arcrole_attribute'] %>
@@ -90,7 +90,7 @@
 
 <div class='form-group'>
   <div class='control-label col-sm-2'>
-    <%= I18n.t("agent_resources.last_verified_date") %>
+    <%= t("agent_resources.last_verified_date") %>
   </div>
   <div class='label-only col-sm-8'>
     <% if agent_resource['last_verified_date'] %>

@@ -23,18 +23,13 @@ $(function () {
     .done(function (data) {
       if (data === true) {
         var staff = $('#staff-link');
-        link =
-          FRONTEND_URL +
-          '/resolve/' +
-          STAFF_LINK_MODE +
-          '?uri=' +
-          RECORD_URI +
-          '&autoselect_repo=true';
+        const link = `${FRONTEND_URL}/resolve/${STAFF_LINK_MODE}?uri=${RECORD_URI}&autoselect_repo=true`;
         staff.attr('href', link);
-        staff.removeClass('hide');
+        staff.removeClass('d-none');
 
+        // staff-hidden aka hidden from non-staff users
         var staff_hidden = $('.staff-hidden');
-        staff_hidden.removeClass('hide');
+        staff_hidden.removeClass('d-none');
       }
     })
     .fail(function () {

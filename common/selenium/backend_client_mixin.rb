@@ -8,10 +8,16 @@ module BackendClientMethods
     attr_reader :username
     attr_reader :password
 
-    def initialize(username, password)
+    def initialize(username, password, json = nil)
       @username = username
       @password = password
+      @json = json
     end
+
+    def id
+      @json['id']
+    end
+
   end
 
 
@@ -79,17 +85,16 @@ module BackendClientMethods
     req['Content-Type'] = 'text/json'
     req.body = "{\"username\": \"#{user}\", \"name\": \"#{user}\", \"is_active_user\": #{active}}"
 
-    admin_backend_request(req)
-
+    res = admin_backend_request(req)
     roles.each do |repo, repo_roles|
       repo = repo.uri if repo.respond_to?(:uri)
       repo_roles.each do |rr|
         add_user_to_group(user, repo, rr)
       end
     end
+    json = JSON.parse(res.body)
 
-
-    ASpaceUser.new(user, pass)
+    ASpaceUser.new(user, pass, json)
   end
 
   def create_subjects

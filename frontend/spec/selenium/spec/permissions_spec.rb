@@ -18,10 +18,13 @@ describe 'Permissions' do
   it 'allows archivists to edit major record types by default' do
     @driver.login_to_repo(@archivist, @repo)
     @driver.find_element(link: 'Create').click
+    @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(link: 'Accession')
     @driver.find_element(link: 'Create').click
+    @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(link: 'Resource')
     @driver.find_element(link: 'Create').click
+    @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(link: 'Digital Object')
     @driver.logout
   end

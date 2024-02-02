@@ -42,7 +42,7 @@ class PreferencesController < ApplicationController
                   return render action: "edit"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("preference._frontend.messages.updated",
+                  flash[:success] = t("preference._frontend.messages.updated",
                                            JSONModelI18nWrapper.new(:preference => @preference))
                   redirect_to(:controller => :preferences,
                               :action => :edit,
@@ -70,10 +70,10 @@ class PreferencesController < ApplicationController
       preference.update({:defaults => {}})
       preference.save(opts)
 
-      flash[:success] = I18n.t("preference._frontend.messages.reset")
+      flash[:success] = t("preference._frontend.messages.reset")
       redirect_to(redirect_params)
     rescue Exception => e
-      flash[:error] = I18n.t("preference._frontend.messages.reset_error", :exception => e)
+      flash[:error] = t("preference._frontend.messages.reset_error", :exception => e)
       redirect_to(redirect_params)
       return
     end

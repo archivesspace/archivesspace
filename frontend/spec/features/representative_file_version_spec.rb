@@ -38,7 +38,7 @@ describe 'Representative File Version', js: true do
         ]
       )
 
-      $index.run_index_round
+      run_indexer
     end
 
     before(:each) do

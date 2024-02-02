@@ -80,7 +80,7 @@ $(function() {
 
   $("#group_member_usernames_").change(function (e) {
     if ($(':selected', e.target).length > 0) {
-      $("#remove-member").removeAttr("disabled");
+      $("#remove-member").attr('disabled', null);
     } else {
       $("#remove-member").attr("disabled","disabled");
     }

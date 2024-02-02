@@ -25,17 +25,17 @@ class AssessmentAttributesController < ApplicationController
     begin
       @assessment_attribute_definitions.save
       @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
-      flash.now[:success] = I18n.t('assessment_attribute_definitions._frontend.messages.updated')
+      flash.now[:success] = t('assessment_attribute_definitions._frontend.messages.updated')
     rescue ConflictException => e
       if "RECORD_IN_USE" == e.conflicts
-        flash.now[:error] = I18n.t('assessment_attribute_definitions._frontend.messages.attribute_in_use')
+        flash.now[:error] = t('assessment_attribute_definitions._frontend.messages.attribute_in_use')
 
         # Add back anything that was deleted
         @assessment_attribute_definitions.repo_formats = revert_deletions(@assessment_attribute_definitions.repo_formats, original_repo_formats)
         @assessment_attribute_definitions.repo_ratings = revert_deletions(@assessment_attribute_definitions.repo_ratings, original_repo_ratings)
         @assessment_attribute_definitions.repo_conservation_issues = revert_deletions(@assessment_attribute_definitions.repo_conservation_issues, original_repo_conservation_issues)
       else
-        flash.now[:error] = I18n.t('assessment_attribute_definitions._frontend.messages.conflict',
+        flash.now[:error] = t('assessment_attribute_definitions._frontend.messages.conflict',
                                    :conflicts => e.conflicts.join('; '))
       end
     end

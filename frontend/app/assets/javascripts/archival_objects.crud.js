@@ -21,7 +21,7 @@ function ParentPickingRenderer() {
   this.nodeTemplate = $(
     '<div class="table-row"> ' +
       '  <div class="table-cell no-drag-handle"></div>' +
-      '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
+      '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"></i></button></span> </div>' +
       '  <div class="table-cell resource-level"></div>' +
       '  <div class="table-cell resource-type"></div>' +
       '  <div class="table-cell resource-container"></div>' +
@@ -32,7 +32,7 @@ function ParentPickingRenderer() {
   this.newNodeTemplate = $(
     '<div class="table-row"> ' +
       '  <div class="table-cell no-drag-handle"></div>' +
-      '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </div>' +
+      '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"></i></button></span> </div>' +
       '  <div class="table-cell resource-level"></div>' +
       '  <div class="table-cell resource-type"></div>' +
       '  <div class="table-cell resource-container"></div>' +
@@ -117,21 +117,21 @@ function TreeLinkingModal(config) {
         self.menu = $('<ul>').addClass('dropdown-menu largetree-dropdown-menu');
         self.menu.append(
           $(
-            '<li><a href="javascript:void(0)" class="add-items-before">' +
+            '<li class="dropdown-item"><a href="javascript:void(0)" class="add-items-before">' +
               SPAWN_MENU_ITEMS.before +
               '</a></li>'
           )
         );
         self.menu.append(
           $(
-            '<li><a href="javascript:void(0)" class="add-items-as-children">' +
+            '<li class="dropdown-item"><a href="javascript:void(0)" class="add-items-as-children">' +
               SPAWN_MENU_ITEMS.child +
               '</a></li>'
           )
         );
         self.menu.append(
           $(
-            '<li><a href="javascript:void(0)" class="add-items-after">' +
+            '<li class="dropdown-item"><a href="javascript:void(0)" class="add-items-after">' +
               SPAWN_MENU_ITEMS.after +
               '</a></li>'
           )
@@ -487,7 +487,7 @@ function validateResourceAndParent() {
         $('#archival_object_form')
           .find(':submit')
           .removeClass('disabled')
-          .removeAttr('disabled');
+          .attr('disabled', null);
         validateResourceAndParent();
       },
     });
@@ -560,7 +560,7 @@ $(function () {
 
       var handleLevelChange = function (initialising) {
         if ($levelSelect.val() === 'otherlevel') {
-          $otherLevel.removeAttr('disabled');
+          $otherLevel.attr('disabled', null);
           if (initialising === true) {
             $otherLevel.closest('.form-group').show();
           } else {

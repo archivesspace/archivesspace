@@ -24,6 +24,10 @@ jobs:
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'
+      with:
+        backend: true
+        public: true
+        indexer: true
 
     - name: Run Indexer tests
       env:

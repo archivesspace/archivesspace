@@ -46,6 +46,7 @@ class ActiveEdit < Sequel::Model(:active_edit)
       parsed = JSONModel.parse_reference(uri)
 
       next if !parsed
+      next if parsed[:type].to_s == 'repository_with_agent'
 
       model = Kernel.const_get(parsed[:type].to_s.camelize)
 

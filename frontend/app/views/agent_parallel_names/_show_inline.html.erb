@@ -6,7 +6,7 @@
 %>
 
 <section id="<%= section_title + rand(1000000).to_s %>">
-  <h4><%= I18n.t("agent_parallel_name._plural") %></h4>
+  <h4><%= t("agent_parallel_name._plural") %></h4>
   <div class="panel-group details" id="agent_parallel_name_accordion_<%= parent_index %>">
     <% names.each_with_index do | name, index | %>
       <div class="panel panel-default">

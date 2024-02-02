@@ -3,11 +3,20 @@
  */
 :root {
   --bootstrap-horizontal-white-space-unit: 15px;
-  --bootstrap-rounded-corner-radius: 4px;
+  --bootstrap-rounded-border-radius: 0.25rem;
   --bootstrap-sans: 'Helvetica Neue', helvetica, arial, sans-serif;
   --bootstrap-default-white-hover: #eee;
   --bootstrap-default-card-heading-bg-color: #f5f5f5;
+  --bootstrap-4-col-horizontal-padding: 15px;
   --default-border-color: #ccc;
+}
+
+.min-h-screen {
+  min-height: 100dvh;
+}
+
+.h-max {
+  height: max-content;
 }
 
 .flex {
@@ -46,11 +55,28 @@
   padding-bottom: 0.5rem;
 }
 
+.px-bs {
+  padding-right: var(--bootstrap-4-col-horizontal-padding);
+  padding-left: var(--bootstrap-horizontal-white-space-unit);
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-x-3 {
+  column-gap: 1rem;
+}
+
 .rounded-bottom {
-  border-bottom-left-radius: var(--bootstrap-rounded-corner-radius);
-  border-bottom-right-radius: var(--bootstrap-rounded-corner-radius);
+  border-bottom-left-radius: var(--bootstrap-rounded-border-radius);
+  border-bottom-right-radius: var(--bootstrap-rounded-border-radius);
 }
 
 .bg-lightgray {
   background-color: var(--bootstrap-default-card-heading-bg-color);
+}
+
+.border-top-default {
+  border-top: 1px solid var(--default-border-color);
 }

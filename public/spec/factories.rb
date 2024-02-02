@@ -9,12 +9,32 @@ include JSONModel
 
 module AspaceFactories
 
+  def self.login_backend
+    url = URI.parse(AppConfig[:backend_url] + "/users/admin/login")
+    request = Net::HTTP::Post.new(url.request_uri)
+    request.set_form_data("expiring" => "false",
+                          "password" => "admin")
+    response = do_http_request(url, request)
+
+    if response.code == '200'
+      auth = ASUtils.json_parse(response.body)
+      JSONModel::HTTP.current_backend_session = auth['session']
+    else
+      raise "Authentication to backend failed: #{response.body}"
+    end
+  end
+
   def self.init
     @@inited ||= false
 
     if @@inited
       return true
     end
+
+    # This actually needs to happen regardless of whether a factory is used, as some test suites skip fixture creation,
+    # yet still require a backend session because they at least run the indexer.
+    puts "ASpaceFactories: logging in to backend..."
+    login_backend
 
     FactoryBot.define do
 
@@ -24,21 +44,10 @@ module AspaceFactories
           instance.save
         rescue Exception => e
           if e.class.name == "AccessDeniedException" && try_again
+            puts "FactoryBot: backend access denied while saving instance; will attempt login and try again"
             try_again = false
-            url = URI.parse(AppConfig[:backend_url] + "/users/admin/login")
-            request = Net::HTTP::Post.new(url.request_uri)
-            request.set_form_data("expiring" => "false",
-                                  "password" => "admin")
-            response = do_http_request(url, request)
-
-            if response.code == '200'
-              auth = ASUtils.json_parse(response.body)
-
-              JSONModel::HTTP.current_backend_session = auth['session']
-              retry
-            else
-              raise "Authentication to backend failed: #{response.body}"
-            end
+            login_backend
+            retry
           else
             raise e
           end

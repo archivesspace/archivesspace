@@ -1,0 +1,71 @@
+# docker-compose -f docker-compose-release.yml build
+# docker-compose -f docker-compose-release.yml up
+
+version: '3.8'
+
+x-app: &app
+
+volumes:
+  build:
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dev.dockerfile
+    # command: bash -l -c "tail -f /dev/null"
+    depends_on:
+      - db
+      - solr
+      - db-test
+      - solr-test
+    env_file:
+      - .env.docker.dev
+    volumes:
+      - .:/archivesspace
+      - build:/archivesspace/build
+    ports:
+      - 3000:3000
+      - 3001:3001
+      - 4567:4567
+
+  db:
+    image: mysql:8.0-oracle
+    command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
+    ports:
+      - "3308:3306"
+    env_file:
+      - .env.docker.db
+  solr:
+    build:
+      context: ./solr
+    image: archivesspace/solr:latest
+    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    ports:
+      - "8985:8983"
+#  web:
+#    build:
+#      args:
+#        default: default.conf.release
+#      context: ./proxy
+#    image: archivesspace/proxy-release:1.21
+#    ports:
+#      - "8080:80"
+#    depends_on:
+#      - app
+
+  db-test:
+    image: mysql:8.0-oracle
+    command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
+    ports:
+      - "3307:3306"
+    env_file:
+      - .env.docker.db
+
+  solr-test:
+    build:
+      context: ./solr
+    image: archivesspace/solr:latest
+    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    ports:
+      - "8984:8983"

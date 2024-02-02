@@ -18,7 +18,7 @@ class SessionController < ApplicationController
 
 
   def login_inline
-    render_aspace_partial :partial => "shared/modal", :locals => {:title => I18n.t("session.inline_login_title"), :partial => "shared/login", :id => "inlineLoginModal", :klass => "inline-login-modal"}
+    render_aspace_partial :partial => "shared/modal", :locals => {:title => t("session.inline_login_title"), :partial => "shared/login", :id => "inlineLoginModal", :klass => "inline-login-modal"}
   end
 
 
@@ -28,10 +28,10 @@ class SessionController < ApplicationController
 
   def become_user
     if User.become_user(self, params[:username])
-      flash[:success] = I18n.t("become-user.success")
+      flash[:success] = t("become-user.success")
       redirect_to :controller => :welcome, :action => :index
     else
-      flash[:error] = I18n.t("become-user.failed")
+      flash[:error] = t("become-user.failed")
       redirect_to :controller => :session, :action => :select_user
     end
   end

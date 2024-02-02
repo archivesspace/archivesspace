@@ -3,28 +3,28 @@
 <% if results['min_begin'].blank? %>
   <div class="alert alert-warning">
     <% if results['label'].blank? %>
-      <%= I18n.t('date_calculator.no_dates') %>
+      <%= t('date_calculator.no_dates') %>
     <% else %>
-      <%= I18n.t('date_calculator.no_dates_for_label', :label => I18n.t("enumerations.date_label.#{results['label']}", :default => results['label'])) %>
+      <%= t('date_calculator.no_dates_for_label', :label => t("enumerations.date_label.#{results['label']}", :default => results['label'])) %>
     <% end %>
   </div>
 <% else %>
 
   <h3>
     <%= results.fetch('object').fetch('title') %>
-    <span class="label label-info">
-      <%= I18n.t("#{results.fetch('object').fetch('jsonmodel_type')}._singular") %>
+    <span class="label label-info badge">
+      <%= t("#{results.fetch('object').fetch('jsonmodel_type')}._singular") %>
     </span>
   </h3>
 
-  <h3><%= I18n.t('date_calculator.results_title') %></h3>
+  <h3><%= t('date_calculator.results_title') %></h3>
 
   <div id="createError" class="alert alert-danger" aria-hidden="true" style="display: none;">
-    <%= I18n.t('date_calculator.generic_create_error') %>
+    <%= t('date_calculator.generic_create_error') %>
   </div>
 
   <div id="createSuccess" class="alert alert-success" aria-hidden="true" style="display: none;">
-    <%= I18n.t('date_calculator.create_success') %>
+    <%= t('date_calculator.create_success') %>
   </div>
 
   <%= form_tag url_for(:controller => :date_calculator, :action => :create_date), :id => 'date_calculator_create_date_form', :class => 'form-horizontal' do %>

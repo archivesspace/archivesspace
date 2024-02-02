@@ -1,5 +1,3 @@
-require 'pry'
-
 
 def clean_slug(slug)
   if slug

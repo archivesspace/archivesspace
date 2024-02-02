@@ -277,7 +277,10 @@ module ASpaceImport
       end
 
 
-      def att(attribute)
+      def att(attribute, namespace = nil)
+        if namespace && @namespace_mappings && @namespace_mappings[namespace]
+          attribute = "#{@namespace_mappings[namespace]}:#{attribute}"
+        end
         att_pair = @node.attributes.find {|a| a[0] == attribute}
         if att_pair.nil?
           nil

@@ -1,4 +1,4 @@
 <% (record['extents'] || []).each do |extent| %>
 	<% number, type = extent.split(' --- ', 2) %>
-	<%= "#{number} #{I18n.t("enumerations.extent_extent_type.#{type}", :default => type)}" %>
+	<%= "#{number} #{t("enumerations.extent_extent_type.#{type}", :default => type)}" %>
 <% end %>

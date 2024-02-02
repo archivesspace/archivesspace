@@ -12,8 +12,6 @@ require 'securerandom'
 require 'axe-rspec'
 require 'nokogiri'
 
-require_relative '../../indexer/app/lib/pui_indexer'
-
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
   ASpaceCoverage.start('public:test', 'rails')
@@ -28,7 +26,8 @@ AppConfig[:db_url] = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:solr_url] = ENV['ASPACE_TEST_SOLR_URL'] || AppConfig[:solr_url]
 AppConfig[:pui_hide][:record_badge] = false
 AppConfig[:arks_enabled] = true
-
+app_logfile = File.join(ASUtils.find_base_directory, "ci_logs", "public_app_log.out")
+AppConfig[:pui_log] = app_logfile
 
 $backend_start_fn = proc {
   TestUtils::start_backend(URI(AppConfig[:backend_url]).port,
@@ -39,20 +38,13 @@ $backend_start_fn = proc {
                            })
 }
 
-module IndexTestRunner
-  def run_indexers
-    @@period ||= PeriodicIndexer.new(AppConfig[:backend_url])
-    @@pui ||= PUIIndexer.new(AppConfig[:backend_url])
-    @@period.run_index_round
-    @@pui.run_index_round
-  end
-end
+
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 include FactoryBot::Syntax::Methods
-include IndexTestRunner
+include TestUtils::SpecIndexing::Methods
 
 def setup_test_data
   repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
@@ -211,12 +203,11 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include BackendClientMethods
-  config.include IndexTestRunner
+  config.include TestUtils::SpecIndexing::Methods
 
   # show retry status in spec process
   config.verbose_retry = true
-  # Try thrice (retry twice)
-  config.default_retry_count = ENV['ASPACE_TEST_RETRY_COUNT'] || 3
+  config.default_retry_count = ENV['ASPACE_TEST_RETRY_COUNT'] || 1
 
   [:controller, :view, :request].each do |type|
     config.include ::Rails::Controller::Testing::TestProcess, :type => type

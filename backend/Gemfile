@@ -7,7 +7,7 @@ gem 'bcrypt', '3.1.7'
 gem 'childprocess', '~> 3.0', '< 4.0'
 gem 'jdbc-derby', '10.12.1.1'
 gem 'jdbc-mysql', '>=8.0', group: :development
-gem 'jruby-jars', '= 9.2.20.1'
+gem 'jruby-jars', '= 9.3.4.0'
 gem 'json'
 gem 'json-schema', '1.0.10'
 gem 'net-ldap', '~> 0.16.0'
@@ -17,7 +17,7 @@ gem 'rufus-scheduler', '~> 2.0.24'
 gem 'rubyXL', '~> 3.4', '>= 3.4.9'
 gem 'saxerator', '= 0.9.2'
 gem 'saxon-rb', '~> 0.8.3'
-gem 'sequel', '~> 5.9.0'
+gem 'sequel', '~> 5.28.0'
 gem 'sinatra', '~> 2.2', require: false
 gem 'sinatra-contrib', '~> 2.2', require: false
 gem 'tzinfo'
@@ -38,10 +38,13 @@ group :test do
   gem 'simplecov'
 end
 
-group :development, :test do
+group :development do
   gem 'pry'
   gem 'pry-debugger-jruby'
   gem 'pry-nav'
+end
+
+group :development, :test do
   gem 'mizuno-aspace'
 end
 

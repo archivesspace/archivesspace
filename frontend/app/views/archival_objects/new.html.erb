@@ -11,7 +11,7 @@
       translations[enumeration_name] ||= {}
 
       JSONModel.enum_values(enumeration_name).each do |enumeration_value|
-        translations[enumeration_name][enumeration_value] = I18n.t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
+        translations[enumeration_name][enumeration_value] = t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
       end
     end
   %>
@@ -31,15 +31,15 @@
     }
   };
 
- const SPAWN_PLACEHOLDER_TEXT = <%== I18n.t("archival_object._frontend.messages.spawn_placeholder").to_json %>;
+ const SPAWN_PLACEHOLDER_TEXT = <%== t("archival_object._frontend.messages.spawn_placeholder").to_json %>;
 
  const RESOURCES_URL = '<%= url_for(:controller => :resources, :action => :index) %>';
 
  <%
  spawn_menu = {
-     before: I18n.t("archival_object._frontend.messages.spawn_menu_before"),
-     child: I18n.t("archival_object._frontend.messages.spawn_menu_child"),
-     after: I18n.t("archival_object._frontend.messages.spawn_menu_after")
+     before: t("archival_object._frontend.messages.spawn_menu_before"),
+     child: t("archival_object._frontend.messages.spawn_menu_child"),
+     after: t("archival_object._frontend.messages.spawn_menu_after")
  }
  %>
  var SPAWN_MENU_ITEMS = <%== spawn_menu.to_json %>
@@ -62,8 +62,8 @@
              <%= render_aspace_partial :partial => "archival_objects/form_container", :locals => {:form => form} %>
 
              <div class="form-actions">
-                <button type="submit" class="btn btn-primary"><%= I18n.t("archival_object._frontend.action.save") %></button>
-                <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+                <button type="submit" class="btn btn-primary"><%= t("archival_object._frontend.action.save") %></button>
+                <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
              </div>
            </div>
          </div>

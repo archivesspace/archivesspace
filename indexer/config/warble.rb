@@ -1,3 +1,20 @@
+# https://github.com/jruby/warbler/issues/508
+class Warbler::Traits::War::WebxmlOpenStruct
+  def new_ostruct_member(name)
+    unless @table.key?(name) || is_method_protected!(name)
+      getter_proc = Proc.new { @table[name] }
+      setter_proc = Proc.new {|x| @table[name] = x}
+      if defined?(::Ractor)
+        ::Ractor.make_shareable(getter_proc)
+        ::Ractor.make_shareable(setter_proc)
+      end
+      define_singleton_method!(name, &getter_proc)
+      define_singleton_method!("#{name}=", &setter_proc)
+    end
+  end
+end
+
+
 # Disable Rake-environment-task framework detection by uncommenting/setting to false
 # Warbler.framework_detection = false
 
@@ -114,6 +131,7 @@ Warbler::Config.new do |config|
 
   # Application booter to use, one of :rack, :rails, or :merb (autodetected by default)
   # config.webxml.booter = :rails
+  config.webxml.booter = :rack
 
   # Set JRuby to run in 1.9 mode.
   # config.webxml.jruby.compat.version = "1.9"

@@ -14,7 +14,7 @@ describe 'Relationships' do
 
   before(:each) do
     ## Some minimal JSONModel instances
-    JSONModel.stub(:schema_src).with('apple').and_return('{
+    allow(JSONModel).to receive(:schema_src).with('apple').and_return('{
       :schema => {
         "$schema" => "http://www.archivesspace.org/archivesspace.json",
         "type" => "object",
@@ -35,7 +35,7 @@ describe 'Relationships' do
       },
     }')
 
-    JSONModel.stub(:schema_src).with('banana').and_return('{
+    allow(JSONModel).to receive(:schema_src).with('banana').and_return('{
       :schema => {
         "$schema" => "http://www.archivesspace.org/archivesspace.json",
         "type" => "object",
@@ -69,7 +69,7 @@ describe 'Relationships' do
     }')
 
 
-    JSONModel.stub(:schema_src).with('cherry').and_return('{
+    allow(JSONModel).to receive(:schema_src).with('cherry').and_return('{
       :schema => {
         "$schema" => "http://www.archivesspace.org/archivesspace.json",
         "type" => "object",
@@ -295,7 +295,7 @@ describe 'Relationships' do
     expect(banana.my_relationships(:friends).first.suppressed).to eq(1)
   end
 
-  it "will raise a exception if the optisitmic locking fails" do
+  it "will raise a exception if the optimistic locking fails" do
     # this is supposed to replicate when a relationship is attempted to be
     # made, but the Sequel throws an optimisitcLocking error
     allow(DB).to receive(:increase_lock_version_or_fail).and_raise(Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah"))

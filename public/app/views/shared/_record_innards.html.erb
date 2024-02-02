@@ -60,7 +60,7 @@
 </div>
 
     <div class="acc_holder clear" >
-      <div class="panel-group" id="res_accordion">
+      <div id="res_accordion" class="accordion">
 	<% x = render partial: 'shared/multi_notes', locals: {:types => folder} %>
 	<% unless x.blank? %>
 	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'),

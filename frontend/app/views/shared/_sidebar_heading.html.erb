@@ -3,8 +3,8 @@
      anchor = (property == :none) ? subrecord_type : "#{record_type}_#{property}_"
    end
    if !defined?(title)
-      title = I18n.t("#{record_type}._frontend.section.#{subrecord_type}",
-                     :default => I18n.t("#{subrecord_type}._plural"))
+      title = t("#{record_type}._frontend.section.#{subrecord_type}",
+                     :default => t("#{subrecord_type}._plural"))
    end
    subentry = nil if !defined?(subentry)
 %>

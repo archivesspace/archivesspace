@@ -1,18 +1,18 @@
 <%
-  heading_text = I18n.t("term._plural") if heading_text.blank?
+  heading_text = t("term._plural") if heading_text.blank?
 %>
 <section id="terms" class="subrecord-form-dummy">
   <h3><%= heading_text %></h3>
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields">
       <div class="row">
-        <div class="col-md-6"><strong><%= I18n.t("term.term") %></strong></div>
-        <div class="col-md-6"><strong><%= I18n.t("term.term_type") %></strong></div>
+        <div class="col-md-6"><strong><%= t("term.term") %></strong></div>
+        <div class="col-md-6"><strong><%= t("term.term_type") %></strong></div>
       </div>
       <% terms.each do | term | %>
         <div class="row">
           <div class="col-md-6"><%= term["term"] %></div>
-          <div class="col-md-6"><%= I18n.t("enumerations.subject_term_type.#{term["term_type"]}", :default => term["term_type"]) %></div>
+          <div class="col-md-6"><%= t("enumerations.subject_term_type.#{term["term_type"]}", :default => term["term_type"]) %></div>
         </div>
       <% end %>
     </div>

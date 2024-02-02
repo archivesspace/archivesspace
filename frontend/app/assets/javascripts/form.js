@@ -19,7 +19,7 @@ $(function () {
               event.preventDefault();
               event.stopImmediatePropagation();
 
-              $(":input[type='submit']", $form).removeAttr('disabled');
+              $(":input[type='submit']", $form).attr('disabled', null);
 
               // we might have gotten logged out while trying to save some data in a modal,
               // e.g., a linker
@@ -62,7 +62,7 @@ $(function () {
             }
           },
           error: function () {
-            $(":input[type='submit']", $form).removeAttr('disabled');
+            $(":input[type='submit']", $form).attr('disabled', null);
             return true;
           },
         });
@@ -121,12 +121,12 @@ $(function () {
       $this.data('changedDetectionEnabled', true);
 
       // this is the overlay we can use to lock the form.
-      $('> .form-context > .row > .col-md-9', $this).prepend(
-        '<div id="archives_form_overlay"><div class="modal-backdrop in form-overlay"></div></div>'
-      );
-      $('> .form-context > .row > .col-md-3 .form-actions', $this).prepend(
-        '<div id="archives_form_actions_overlay" class="modal-backdrop in form-overlay"></div>'
-      );
+      // $('> .form-context > .row > .col-md-9', $this).prepend(
+      //   '<div id="archives_form_overlay"><div class="modal-backdrop in form-overlay"></div></div>'
+      // );
+      // $('> .form-context > .row > .col-md-3 .form-actions', $this).prepend(
+      //   '<div id="archives_form_actions_overlay" class="modal-backdrop in form-overlay"></div>'
+      // );
 
       var onFormElementChange = function (event) {
         if (

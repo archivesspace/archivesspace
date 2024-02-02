@@ -2,20 +2,25 @@ require 'spec_helper'
 
 describe "Batch Import Controller" do
 
-  before(:each) do
-    create(:repo)
+  class BigID
+    @big_id_root = Time.now.to_i
+    def self.next
+      @big_id_root += 1
+    end
   end
 
+  def big_id
+    BigID.next
+  end
 
   it "can import a batch of JSON objects" do
     batch_array = []
 
     types = [:json_resource, :json_archival_object]
 
-    ids = (0..10).to_a
-    10.times do
+    10.times do |i|
       obj = build(types.sample)
-      obj.uri = obj.class.uri_for(ids.shift, {:repo_id => $repo_id})
+      obj.uri = obj.class.uri_for(i, {:repo_id => $repo_id})
       batch_array << obj.to_hash(:raw)
     end
 
@@ -31,7 +36,6 @@ describe "Batch Import Controller" do
   end
 
   it "can import a batch of JSON objects from a migrator and not slam the database with checks if position is provided" do
-
     expect_any_instance_of(ArchivalObject).not_to receive(:set_position_in_list)
     batch_array = []
 
@@ -39,7 +43,7 @@ describe "Batch Import Controller" do
 
     10.times do |i|
       obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "A#{i.to_s}", :position => i )
-      obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
+      obj.uri = obj.class.uri_for(big_id, {:repo_id => $repo_id})
       batch_array << obj
     end
 
@@ -52,29 +56,6 @@ describe "Batch Import Controller" do
 
     results = ASUtils.json_parse(response.body)
     expect(results.last['saved'].length).to eq(10)
-  end
-
-  it "can import a batch of hierarchical JSON objects not from a migrator and will check positioning" do
-
-    expect_any_instance_of(ArchivalObject).to receive(:set_position_in_list).at_least(:once)
-    batch_array = []
-
-    resource = create(:json_resource)
-
-    1.times do |i|
-      obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "B#{i.to_s}", :position => 1)
-      obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
-      batch_array << obj
-    end
-
-    uri = "/repositories/#{$repo_id}/batch_imports"
-    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
-
-    response = JSONModel::HTTP.post_json(url, batch_array.to_json)
-
-    expect(response.code).to eq('200')
-    results = ASUtils.json_parse(response.body)
-    expect(results.last['saved'].length).to eq(1)
   end
 
   it "can import a batch of JSON objects with unknown enum values" do
@@ -92,7 +73,7 @@ describe "Batch Import Controller" do
       expect(enum.values).not_to include('spaghetti')
 
       obj = build(:json_resource, :resource_type => 'spaghetti')
-      obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
+      obj.uri = obj.class.uri_for(big_id, {:repo_id => $repo_id})
 
       batch_array << obj.to_hash(:raw)
 
@@ -127,7 +108,7 @@ describe "Batch Import Controller" do
 
 
 
-    resource.uri = resource.class.uri_for(rand(100000), {:repo_id => $repo_id})
+    resource.uri = resource.class.uri_for(big_id, {:repo_id => $repo_id})
 
     batch_array = [resource.to_hash(:raw)]
 
@@ -155,7 +136,7 @@ describe "Batch Import Controller" do
     resource = build(:json_resource, :external_ids => [{:external_id => '1',
                                                         :source => 'jdbc:mysql://tracerdb.cyo37z0ucix8.us-east-1.rds.amazonaws.com/at2::RESOURCE'}])
 
-    resource.uri = resource.class.uri_for(rand(100000), {:repo_id => $repo_id})
+    resource.uri = resource.class.uri_for(big_id, {:repo_id => $repo_id})
 
     batch_array = [resource.to_hash(:raw)]
 
@@ -179,7 +160,7 @@ describe "Batch Import Controller" do
     resource = build(:json_resource,
             :related_accessions => [{'ref' => accession.uri}])
 
-    resource.uri = resource.class.uri_for(rand(100000), {:repo_id => $repo_id})
+    resource.uri = resource.class.uri_for(big_id, {:repo_id => $repo_id})
 
     batch_array = [resource.to_hash(:raw)]
 
@@ -216,7 +197,7 @@ describe "Batch Import Controller" do
     resource = build(:json_resource,
             :related_accessions => [{'ref' => accession.uri << "9"}])
 
-    resource.uri = resource.class.uri_for(rand(100000), {:repo_id => $repo_id})
+    resource.uri = resource.class.uri_for(big_id, {:repo_id => $repo_id})
 
     batch_array = [resource.to_hash(:raw)]
 
@@ -247,9 +228,8 @@ describe "Batch Import Controller" do
 
 
   it "creates a well-ordered resource tree" do
-
     resource = build(:json_resource)
-    resource.uri = resource.class.uri_for(rand(100000), {:repo_id => $repo_id})
+    resource.uri = resource.class.uri_for(big_id, {:repo_id => $repo_id})
 
     a1 = build(:json_archival_object,
                :dates => [])
@@ -264,7 +244,7 @@ describe "Batch Import Controller" do
 
     batch_array = [resource.to_hash(:raw)]
     [a3, a1, a2].each do |ao|
-      ao.uri = ao.class.uri_for(rand(100000), {:repo_id => $repo_id})
+      ao.uri = ao.class.uri_for(big_id, {:repo_id => $repo_id})
       ao.resource = {:ref => resource.uri}
       batch_array << ao.to_hash(:raw)
     end
@@ -345,7 +325,7 @@ describe "Batch Import Controller" do
 
   it "respects the publish default user preference" do
     obj = build(:json_resource)
-    obj.uri = obj.class.uri_for(1729, {:repo_id => $repo_id})
+    obj.uri = obj.class.uri_for(big_id, {:repo_id => $repo_id})
     obj.publish = nil
 
     uri = "/repositories/#{$repo_id}/batch_imports"

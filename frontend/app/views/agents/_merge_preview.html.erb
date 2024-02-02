@@ -5,21 +5,21 @@
    <div class="col">
     <div class="record-pane">
      <%= readonly_context @agent.agent_type.intern, @agent do |readonly| %>
-        <h2><%= @agent.title %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+        <h2><%= @agent.title %>  <span class="label label-info badge"><%= t("agent._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
 
         <section id="basic_information">
-          <h3><%= I18n.t("agent._frontend.section.basic_information") %></h3>
+          <h3><%= t("agent._frontend.section.basic_information") %></h3>
 
           <%= render_plugin_partials("top_of_basic_information_#{@agent.agent_type}",
                                      :form => readonly,
                                      :record => @agent) %>
 
           <div class="form-group">
-            <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
-            <div class="col-sm-9 label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
+            <label class="col-sm-2 control-label"><%= t("agent.type") %></label>
+            <div class="col-sm-9 label-only"><%= t("agent.agent_type.#{@agent.agent_type}") %></div>
           </div>
           <%= readonly.label_and_boolean "publish" %>
 
@@ -65,7 +65,7 @@
         <%= render_aspace_partial :partial => "agent_names/show", :locals => { :agent => @agent} %>
 
         <% if @agent.dates_of_existence.length > 0 %>
-          <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :section_id => "#{@agent.agent_type}_dates_of_existence"} %>
+          <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => t("agent.dates_of_existence"), :section_id => "#{@agent.agent_type}_dates_of_existence"} %>
         <% end %>
 
         <% if @agent_type == :agent_person && @agent.agent_genders.length > 0 %>

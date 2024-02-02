@@ -16,7 +16,7 @@ describe 'Tree toolbar import help link', js: true do
            :parent => {'ref' => parent.uri},
            :title => "Child 1")
 
-    $index.run_index_round
+    run_indexer
   end
 
   before(:each) do

@@ -176,7 +176,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
         expect(page).to have_xpath("//label[@for='to_year0']")
         expect(page).to have_xpath("//input[@id='to_year0']")
 
-        first('.btn-default').click
+        first('.btn.btn-light.border').click
 
         expect(page).to have_xpath("//label[@for='op1']")
         expect(page).to have_xpath("//select[@id='op1']")

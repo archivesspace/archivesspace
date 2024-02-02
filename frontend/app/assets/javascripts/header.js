@@ -189,7 +189,7 @@ $(function () {
 
   var enableAdvancedSearch = function () {
     $advancedSearchForm.off('submit');
-    $('.btn-primary', $advancedSearchContainer).removeAttr('disabled');
+    $('.btn-primary', $advancedSearchContainer).attr('disabled', null);
   };
 
   var addAdvancedSearchRow = function (index, type, first, query, label) {

@@ -4,8 +4,8 @@
 
     <%= form.record_level_merge_controls(form, "name_software", true, !disable_replace) %>
     
-    <% if form.obj['authorized'] %><span class="badge"><%= I18n.t("name_software.authorized") %></span><% end %>
-    <% if form.obj['is_display_name'] %><span class="badge badge-info"><%= I18n.t("name_software.is_display_name") %></span><% end %>
+    <% if form.obj['authorized'] %><span class="badge"><%= t("name_software.authorized") %></span><% end %>
+    <% if form.obj['is_display_name'] %><span class="badge badge-info"><%= t("name_software.is_display_name") %></span><% end %>
 
     <%= render_aspace_partial :partial => "agents/name_forms/authority_fields_merge", :locals => {:form => form} %>
 
@@ -22,7 +22,7 @@
     <%= form.label_and_merge_select("qualifier", "", {:disable_replace => disable_replace}) %>
     <%= form.label_and_readonly("sort_name") %>
     
-    <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["use_dates"], :section_title => I18n.t("agent_name.use_dates"), :section_id => "victim_name_use_dates", :heading_size => "h4"} %>
+    <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["use_dates"], :section_title => t("agent_name.use_dates"), :section_id => "victim_name_use_dates", :heading_size => "h4"} %>
 
     <%= render_aspace_partial :partial => "agent_parallel_names/show_inline", :locals => { :names => form.obj['parallel_names'], :section_id => "victim_parallel_names"} %>
   </div>

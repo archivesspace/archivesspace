@@ -19,7 +19,7 @@ class AccessionsController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.ACCESSION_FACETS})
         search_params["type[]"] = "accession"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('accession._plural').downcase}." )
+        csv_response( uri, Search.build_filters(search_params), "#{t('accession._plural').downcase}." )
       }
     end
   end
@@ -33,9 +33,9 @@ class AccessionsController < ApplicationController
     excludes = event_hits > AppConfig[:max_linked_events_to_resolve] ? ['linked_events', 'linked_events::linked_records'] : []
     @accession = fetch_resolved(:accession, params[:id], excludes: excludes)
 
-    @accession['accession_date'] = I18n.t('accession.accession_date_unknown') if @accession['accession_date'] == "9999-12-31"
+    @accession['accession_date'] = t('accession.accession_date_unknown') if @accession['accession_date'] == "9999-12-31"
 
-    flash[:info] = I18n.t("accession._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:accession => @accession)) if @accession.suppressed
+    flash[:info] = t("accession._frontend.messages.suppressed_info") if @accession.suppressed
   end
 
   def new
@@ -48,7 +48,7 @@ class AccessionsController < ApplicationController
 
       if acc
         @accession.populate_from_accession(acc)
-        flash.now[:info] = I18n.t("accession._frontend.messages.spawned", JSONModelI18nWrapper.new(:accession => acc))
+        flash.now[:info] = t("accession._frontend.messages.spawned", accession_display_string: acc.title)
         flash[:spawned_from_accession] = acc.id
       end
     end
@@ -77,7 +77,7 @@ class AccessionsController < ApplicationController
                                                                         )
                               }).save
 
-      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+      flash[:success] = t("default_values.messages.defaults_updated")
 
       redirect_to :controller => :accessions, :action => :defaults
     rescue Exception => e
@@ -111,13 +111,13 @@ class AccessionsController < ApplicationController
                 :model => Accession,
                 :on_invalid => ->() { render action: "new" },
                 :on_valid => ->(id) {
-                    flash[:success] = I18n.t("accession._frontend.messages.created", JSONModelI18nWrapper.new(:accession => @accession))
+                    flash[:success] = t("accession._frontend.messages.created", accession_display_string: @accession.title)
                     if @accession["is_slug_auto"] == false &&
                        @accession["slug"] == nil &&
                        params["accession"] &&
                        params["accession"]["is_slug_auto"] == "1"
 
-                      flash[:warning] = I18n.t("slug.autogen_disabled")
+                      flash[:warning] = t("slug.autogen_disabled")
                     end
                     redirect_to(:controller => :accessions,
                                 :action => :edit,
@@ -132,13 +132,13 @@ class AccessionsController < ApplicationController
                   return render action: "edit"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("accession._frontend.messages.updated", JSONModelI18nWrapper.new(:accession => @accession))
+                  flash[:success] = t("accession._frontend.messages.updated", accession_display_string: @accession.title)
                   if @accession["is_slug_auto"] == false &&
                      @accession["slug"] == nil &&
                      params["accession"] &&
                      params["accession"]["is_slug_auto"] == "1"
 
-                    flash[:warning] = I18n.t("slug.autogen_disabled")
+                    flash[:warning] = t("slug.autogen_disabled")
                   end
 
                   redirect_to :controller => :accessions, :action => :edit, :id => id
@@ -149,7 +149,7 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.set_suppressed(true)
 
-    flash[:success] = I18n.t("accession._frontend.messages.suppressed", JSONModelI18nWrapper.new(:accession => accession))
+    flash[:success] = t("accession._frontend.messages.suppressed", accession_display_string: accession.title)
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
@@ -158,7 +158,7 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.set_suppressed(false)
 
-    flash[:success] = I18n.t("accession._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:accession => accession))
+    flash[:success] = t("accession._frontend.messages.unsuppressed", accession_display_string: accession.title)
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
@@ -168,11 +168,11 @@ class AccessionsController < ApplicationController
     begin
       accession.delete
     rescue ConflictException => e
-      flash[:error] = I18n.t("accession._frontend.messages.delete_conflict", :error => I18n.t("errors.#{e.conflicts}", :default => e.message))
+      flash[:error] = t("accession._frontend.messages.delete_conflict", :error => t("errors.#{e.conflicts}", :default => e.message))
       return redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
     end
 
-    flash[:success] = I18n.t("accession._frontend.messages.deleted", JSONModelI18nWrapper.new(:accession => accession))
+    flash[:success] = t("accession._frontend.messages.deleted", accession_display_string: accession.title)
     redirect_to(:controller => :accessions, :action => :index, :deleted_uri => accession.uri)
   end
 

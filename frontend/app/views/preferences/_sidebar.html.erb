@@ -6,11 +6,11 @@
              :types => @types
            }) do |sidebar| %>
 
-    <%= sidebar.render_for_view_and_edit(:title=> I18n.t('defaults.general_section'),:property => :none, :subrecord_type => :defaults, :anchor => 'general') %>
-    <%= sidebar.render_for_view_and_edit(:title=> I18n.t('defaults.note_order_section'),:property => :none, :subrecord_type => :defaults, :anchor => 'noteorder') %>
-    <%= sidebar.render_for_view_and_edit(:title=> I18n.t('defaults.search_browse_columns'), :property => :none,:subrecord_type => :defaults, :anchor => 'search_browse_columns') %>
+    <%= sidebar.render_for_view_and_edit(:title=> t('defaults.general_section'),:property => :none, :subrecord_type => :defaults, :anchor => 'general') %>
+    <%= sidebar.render_for_view_and_edit(:title=> t('defaults.note_order_section'),:property => :none, :subrecord_type => :defaults, :anchor => 'noteorder') %>
+    <%= sidebar.render_for_view_and_edit(:title=> t('defaults.search_browse_columns'), :property => :none,:subrecord_type => :defaults, :anchor => 'search_browse_columns') %>
     <% @types.each do |type| %>
-        <%= sidebar.render_for_view_and_edit(:title=> I18n.t("defaults.#{type}_browse_section"),:property => :none, :subrecord_type => :defaults, :anchor => "#{type}_browse_section", :subentry => true) %>
+        <%= sidebar.render_for_view_and_edit(:title=> t("defaults.#{type}_browse_section"),:property => :none, :subrecord_type => :defaults, :anchor => "#{type}_browse_section", :subentry => true) %>
     <% end %>
 
 <% end %>

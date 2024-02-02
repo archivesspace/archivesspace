@@ -1,29 +1,29 @@
 <%= form_tag(app_prefix("fill_request"), method: 'post', :id => 'request_form') do %>
   <%= render partial: 'shared/request_hiddens' %>
-  <div  id="request">
-    <div class="form-group required ">
+  <div id="request">
+    <div class="form-group required">
       <%= label_tag(:user_name, "#{t('request.user_name')} #{t('request.required')}" ,  :class => 'sr-only') %>
       <div class="input-group">
         <%= text_field_tag :user_name, nil, :placeholder => t('request.user_name'), :class => "form-control"%>
-        <div class="input-group-addon">
-          <span class="required aria-hidden"><%= t('request.required') %></span>
+        <div class="input-group-append">
+          <span class="input-group-text required"><%= t('request.required') %></span>
         </div>
       </div>
     </div>
-    <div class="form-group required ">
+    <div class="form-group required">
       <%= label_tag(:user_email, "#{t('request.user_email')} #{t('request.required')}",  :class => 'sr-only') %>
       <div class="input-group">
         <%= text_field_tag :user_email, nil, :type => 'email', :placeholder => t('request.user_email'), :class => 'form-control' %>
-        <div class="input-group-addon">
-          <span class="required aria-hidden"><%= t('request.required') %></span>
+        <div class="input-group-append">
+          <span class="input-group-text required"><%= t('request.required') %></span>
         </div>
       </div>
     </div>
-    <div class="form-group ">
+    <div class="form-group">
       <%= label_tag(:date, t('request.date'),  :class => 'sr-only') %>
       <%= text_field_tag :date, nil, :placeholder => t('request.date'), :class => 'form-control' %>
     </div>
-    <div class="form-group ">
+    <div class="form-group">
       <%= label_tag(:note, t('request.note'),  :class => 'sr-only') %>
       <%= text_area_tag :note, nil, :rows=> "3", :cols => "25", :placeholder => t('request.note'), :class => 'form-control' %>
     </div>

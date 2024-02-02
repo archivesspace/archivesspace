@@ -1,20 +1,20 @@
-<div class="record-toolbar">
-  <div class="btn-group pull-left">
-    <div class="pull-left save-changes">
-      <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
+<div class="record-toolbar d-flex align-items-center">
+  <div class="btn-group">
+    <div class="save-changes">
+      <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
     </div>
   </div>
 
-  <div class="btn-toolbar pull-right">
+  <div class="btn-toolbar ml-auto bg-white border rounded">
     <div class="btn-group">
       <div class="btn btn-inline-form">
-        <%= button_confirm_action I18n.t("actions.reset"),
+        <%= button_confirm_action t("actions.reset"),
                                   url_for(:action => :reset, :id => @preference.id, :global => params['global'], :repo => params['repo']),
                                   {
                                     :class => "btn btn-danger reset-prefs",
-                                    :"data-title" => I18n.t("actions.reset_confirm_title", :preftype => @title),
-                                    :"data-message" => I18n.t("actions.reset_confirm_message"),
-                                    :"data-confirm-btn-label" => "#{I18n.t("actions.reset")}",
+                                    :"data-title" => t("actions.reset_confirm_title", :preftype => @title),
+                                    :"data-message" => t("actions.reset_confirm_message"),
+                                    :"data-confirm-btn-label" => "#{t("actions.reset")}",
                                     :"data-confirm-btn-class" => "btn-danger"
                                   }
         %>

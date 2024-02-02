@@ -1,4 +1,7 @@
 frontend/app/assets/javascripts/twitter/
+frontend/app/assets/javascripts/bootstrap.js
+frontend/app/assets/javascripts/bootstrap.min.js
+frontend/app/assets/javascripts/bootstrap/tooltip.js
 frontend/vendor/
 public/app/assets/javascripts/bootstrap-accessibility/
 public/vendor/assets/javascripts/

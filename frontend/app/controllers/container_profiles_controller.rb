@@ -21,7 +21,7 @@ class ContainerProfilesController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.CONTAINER_PROFILE_FACETS})
         search_params["type[]"] = "container_profile"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('container_profile._plural').downcase}." )
+        csv_response( uri, Search.build_filters(search_params), "#{t('container_profile._plural').downcase}." )
       }
     end
   end
@@ -52,7 +52,7 @@ class ContainerProfilesController < ApplicationController
                     @container_profile.refetch
                     render :json => @container_profile.to_hash if inline?
                   else
-                    flash[:success] = I18n.t("container_profile._frontend.messages.created")
+                    flash[:success] = t("container_profile._frontend.messages.created")
                     return redirect_to :controller => :container_profiles, :action => :new if params.has_key?(:plus_one)
                     redirect_to(:controller => :container_profiles, :action => :show, :id => id)
                   end

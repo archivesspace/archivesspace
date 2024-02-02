@@ -1,8 +1,8 @@
 <% if not inline? %>
-  <%= setup_context :title => I18n.t("errors.error_404") %>
+  <%= setup_context :title => t("errors.error_404") %>
 <% end %>
 
 <div class="alert alert-danger">
-  <h2><%= I18n.t("errors.error_404") %></h2>
-  <p><%= I18n.t("errors.error_404_message") %></p>
+  <h2><%= t("errors.error_404") %></h2>
+  <p><%= t("errors.error_404_message") %></p>
 </div>

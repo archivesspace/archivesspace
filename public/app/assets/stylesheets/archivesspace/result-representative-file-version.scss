@@ -25,6 +25,7 @@
   width: var(--result-repfv-figure-width);
   margin-right: 1rem;
   border: 1px solid var(--default-border-color);
+  border-radius: var(--bootstrap-rounded-border-radius);
 }
 
 .result-repfv__img {
@@ -38,5 +39,6 @@
   padding: 0.5rem;
   font-size: 12px;
   background-color: var(--bootstrap-default-card-heading-bg-color);
+  border-radius: var(--bootstrap-rounded-border-radius);
   overflow: hidden;
 }

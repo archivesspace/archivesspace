@@ -1,7 +1,7 @@
 module JSONModelI18nMixin
 
   def t(*args)
-    JSONModel::init_args[:i18n_source].t(*args)
+    JSONModel::init_args[:i18n_source].t(args&.[](0), **(args&.[](1) || {}))
   end
 
   def _exceptions

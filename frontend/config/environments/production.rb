@@ -79,23 +79,6 @@ ArchivesSpace::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  # Precompile all fonts and top-level javascript files (included with `javascript_include_tag`)
-  config.assets.precompile << proc {|filename, path|
-    path =~ /app\/assets\/javascripts\/[^\/]+\z/
-  }
-
-  config.assets.precompile << /\.(?:svg|eot|woff|woff2|ttf)\z/
-  config.assets.precompile << /\.(?:crud.js|index.js|show.js|batch.js)\z/
-  config.assets.precompile << 'html5shiv.js'
-  config.assets.precompile << 'codemirror/codemirror.less'
-  config.assets.precompile << 'codemirror/util/simple-hint.less'
-  config.assets.precompile << 'css-spinners/spinner'
-  config.assets.precompile << 'bootstrap-select/bootstrap-select'
-  config.assets.precompile << /jquery.kiketable/
-  config.assets.precompile << /jquery.tablesorter/
-  config.assets.precompile << 'tablesorter/bootstrap'
-  config.assets.precompile << '\.(gif|png|jpg)\z/'
-
 end
 
 
@@ -105,22 +88,28 @@ if defined?(ExecJS) && system('which node >/dev/null 2>/dev/null')
   ExecJS.runtime = ExecJS::Runtimes::Node
 end
 
-
-if AppConfig[:frontend_proxy_prefix] != "/"
+# until RoR capitulates to our very normal use case
+# we will have to continue doing stuff like this
+if (AppConfig[:frontend_proxy_prefix].length > 1)
   require 'action_dispatch/middleware/static'
-
-  # The default file handler doesn't know about asset prefixes and returns a 404.  Make it strip the prefix before looking for the path on disk.
   module ActionDispatch
     class FileHandler
-      alias :match_orig :match?
-      def match?(path)
+      private
+
+      def find_file(path_info, accept_encoding:)
         prefix = AppConfig[:frontend_proxy_prefix]
-        modified_path = path.gsub(/^#{Regexp.quote(prefix)}/, "/")
-        match_orig(modified_path)
+        each_candidate_filepath(path_info) do |filepath, content_type|
+          filepath = filepath.gsub(/^#{Regexp.quote(prefix)}/, "/")
+          if response = try_files(filepath, content_type, accept_encoding: accept_encoding)
+            return response
+          end
+        end
       end
     end
   end
 end
+
+
 
 if AppConfig[:frontend_proxy_prefix] && AppConfig[:frontend_proxy_prefix].length > 1
   AssetPathRewriter.new.rewrite(AppConfig[:frontend_proxy_prefix], File.dirname(__FILE__))

@@ -21,15 +21,15 @@
         </div>
         <div id="<%= section_id %>_agent_topic_<%= index %>" class="panel-collapse collapse">
           <% if agent_topic["subjects"].length > 0 %>
-            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_topic['subjects'], :section_id => "agent_topic_subjects_", :section_title => I18n.t("agent_topic.subjects"), :heading_size => "h4"} %>
+            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_topic['subjects'], :section_id => "agent_topic_subjects_", :section_title => t("agent_topic.subjects"), :heading_size => "h4"} %>
           <% end %>
 
           <% if agent_topic["places"].length > 0 %>
-            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_topic['places'], :section_id => "agent_topic_places_", :section_title => I18n.t("agent_topic.places"), :heading_size => "h4"} %>
+            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_topic['places'], :section_id => "agent_topic_places_", :section_title => t("agent_topic.places"), :heading_size => "h4"} %>
           <% end %>
 
           <% if agent_topic["dates"].length > 0 %>
-            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => agent_topic['dates'], :section_id => "agent_topic_dates", :section_title => I18n.t("agent_topic.dates"), :heading_size => "h4"} %>
+            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => agent_topic['dates'], :section_id => "agent_topic_dates", :section_title => t("agent_topic.dates"), :heading_size => "h4"} %>
           <% end %>
 
           <% if agent_topic["notes"].length > 0 %>

@@ -22,10 +22,10 @@
         <div id="<%= section_id %>_agent_place_<%= index %>" class="panel-collapse collapse">
           <%= read_only_view(agent_place, :exclude => ["publish"]) %>
 
-          <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_place['subjects'], :role => agent_place['place_role_enum'], :section_id => "agent_place_subjects_", :section_title => I18n.t("agent_place.subjects"), :heading_size => "h4"} %>
+          <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_place['subjects'], :role => agent_place['place_role_enum'], :section_id => "agent_place_subjects_", :section_title => t("agent_place.subjects"), :heading_size => "h4"} %>
 
           <% if agent_place["dates"].length > 0 %>
-            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => agent_place['dates'], :section_id => "agent_place_dates", :section_title => I18n.t("agent_place.dates"), :heading_size => "h4"} %>
+            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => agent_place['dates'], :section_id => "agent_place_dates", :section_title => t("agent_place.dates"), :heading_size => "h4"} %>
           <% end %>
 
           <% if agent_place["notes"].length > 0 %>

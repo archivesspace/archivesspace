@@ -1,6 +1,7 @@
 //= require trimpath-template-1.0.38
 //= require bootstrap-datepicker
 //= require bootstrap-combobox
+//= require bootstrap-tagsinput
 
 var AS = {}; // eslint-disable-line
 
@@ -65,7 +66,7 @@ $(function () {
             ) {
               $(this).attr('disabled', 'disabled');
             } else {
-              $(this).removeAttr('disabled');
+              $(this).attr('disabled', null);
             }
           });
       }
@@ -124,15 +125,6 @@ $(function () {
 
   var initSidebar = function () {
     $('#archivesSpaceSidebar:not(.initialised)').each(function () {
-      $(this).affix({
-        offset: {
-          top: function () {
-            return $('#archivesSpaceSidebar').parent().offset().top;
-          },
-          bottom: 100,
-        },
-      });
-
       $('a', $(this)).click(function (e) {
         clearSelected();
         $(this).parent().attr('aria-selected', 'true');
@@ -264,7 +256,7 @@ $(function () {
       // right after the triggering element.
       var popoverOptions = {
         delay: { show: 0, hide: 200 }, // if the popover contains a link, allow a few moments for that click to count
-        container: $this,
+        container: 'body',
       };
       $this.popover(popoverOptions).addClass('initialised');
 

@@ -19,7 +19,7 @@
       <section id="bulk_import_filename_">
         <label class="btn btn-success btn-sm fileinput-button bulkbtn">
           <span class="glyphicon glyphicon-plus icon-white"></span>
-          <%= I18n.t("bulk_import._frontend.actions.add_file")%>
+          <%= t("bulk_import._frontend.actions.add_file")%>
           <input name="files[]" type="file" id="excel_file"/>
           <input name="job[content_type]" id="file_type" type="hidden"/>
           <input name="job[filename]" id="job_filename" type="hidden"/>
@@ -33,16 +33,16 @@
           <div id="jobLoadTypeToggleButtons" class="btn-group" data-toggle="buttons">
             <label class="btn btn-default bulktypebtn active" style="border-radius:4px;">
               <input type="radio" value="ao" name="job[load_type]" checked="true"/>
-              <%= I18n.t('bulk_import._frontend.actions.add_archival_objects') %>
+              <%= t('bulk_import._frontend.actions.add_archival_objects') %>
             </label>
             <label class="btn btn-default bulktypebtn">
               <input type="radio" value="digital" name="job[load_type]"/>
-              <%= I18n.t('bulk_import._frontend.actions.add_digital_objects') %>
+              <%= t('bulk_import._frontend.actions.add_digital_objects') %>
             </label>
             <% if type == 'resource' %>
               <label class="btn btn-default bulktypebtn">
                 <input type="radio" value="top_container_linker_job" name="job[load_type]"/>
-                <%= I18n.t('bulk_import._frontend.actions.link_top_containers') %>
+                <%= t('bulk_import._frontend.actions.link_top_containers') %>
               </label>
             <% end %>
           </div>
@@ -50,7 +50,7 @@
         <div>
           <label>
             <input class="checkbox-inline" type="checkbox" name="job[only_validate]" id="only_validate" value="true"/>
-            <%= I18n.t('bulk_import._frontend.actions.only_validate') %>
+            <%= t('bulk_import._frontend.actions.only_validate') %>
           </label>
         </div>
       </div>
@@ -58,8 +58,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button id="bulkFileButton" class="btn btn-primary bulkbtn"><%= I18n.t('bulk_import._frontend.actions.import') %></button>
-      <button class="btn btn-cancel btn-default bulkbtn" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+      <button id="bulkFileButton" class="btn btn-primary bulkbtn"><%= t('bulk_import._frontend.actions.import') %></button>
+      <button class="btn btn-cancel btn-default bulkbtn" data-dismiss="modal"><%= t "actions.cancel" %></button>
     </div>
    <% end %>
   </div>

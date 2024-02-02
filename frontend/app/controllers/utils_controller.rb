@@ -21,7 +21,7 @@ class UtilsController < ApplicationController
       next if params['editable'] && defn['readonly']
       next if params['type'] && defn['type'] != params['type']
 
-      list << [name, I18n.t("#{resource_type}.#{name}")]
+      list << [name, t("#{resource_type}.#{name}")]
     end
 
     render :json => list
@@ -29,7 +29,7 @@ class UtilsController < ApplicationController
 
 
   def shortcuts
-    render_aspace_partial :partial => "shared/modal", :locals => {:title => I18n.t("shortcuts.quick_reference_window"), :partial => "shared/shortcuts", :large => true}
+    render_aspace_partial :partial => "shared/modal", :locals => {:title => t("shortcuts.quick_reference_window"), :partial => "shared/shortcuts", :large => true}
   end
 
   def note_order

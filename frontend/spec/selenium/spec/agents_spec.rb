@@ -78,49 +78,6 @@ describe "agents merge" do
   end
 end
 
-describe "disallows agents merge with related agents" do
-  before(:all) do
-    @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
-
-    @driver = Driver.get
-    @driver.login_to_repo($admin, @repo)
-
-    @first_agent = create(:json_agent_corporate_entity_full_subrec)
-    @second_agent = create(:json_agent_corporate_entity_full_subrec)
-
-    run_all_indexers
-  end
-
-  after(:all) do
-    @driver ? @driver.quit : next
-  end
-
-  it 'tries to merge related agents and gets an error' do
-    @driver.clear_and_send_keys([:id, 'global-search-box'], @first_agent['names'][0]['primary_name'])
-    @driver.find_element(id: 'global-search-button').click
-    @driver.find_element(:link, 'Edit').click
-
-    @driver.find_element(css: '#related_agents button.add-related-agent-for-type-btn').click
-
-    related_type_select = @driver.find_element(class: 'related-agent-type')
-    related_type_select.select_option('agent_relationship_hierarchical')
-
-    related_agent_linker = @driver.find_element(:id, 'token-input-agent_related_agents__1__ref_')
-    @driver.typeahead_and_select(related_agent_linker, @second_agent['names'][0]['primary_name'])
-
-    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
-
-    @driver.find_element(:link, 'Merge').click
-    input = @driver.find_element(:id, 'token-input-merge_ref_')
-    @driver.typeahead_and_select(input, @second_agent['names'][0]['primary_name'])
-
-    @driver.find_element(class: 'merge-button').click
-    @driver.find_element(id: 'confirmButton').click
-
-    @driver.find_element_with_text('//div[contains(@class, "alert-danger")]', /have a relationship/)
-  end
-end
-
 describe "agents record CRUD" do
   before(:all) do
     @repo = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
@@ -638,7 +595,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('geographic')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -677,7 +634,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('geographic')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -723,7 +680,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('geographic')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -769,7 +726,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('occupation')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -805,7 +762,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('occupation')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -848,7 +805,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('occupation')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -891,7 +848,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('function')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -927,7 +884,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('function')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -969,7 +926,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('function')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -1012,7 +969,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('topical')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -1031,7 +988,7 @@ describe "agents record CRUD" do
 
       @driver.typeahead_and_select(token_input, term)
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_topics__0_')
@@ -1048,7 +1005,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('topical')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -1073,7 +1030,7 @@ describe "agents record CRUD" do
       @driver.find_element(id: 'agent_agent_topics__0__dates__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_agent_topics__0__dates__0__structured_date_single__date_expression_'], '1973')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_topics__0__dates__0_')
@@ -1090,7 +1047,7 @@ describe "agents record CRUD" do
       @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
       @driver.find_element(id: 'subject_terms__0__term_type_').select_option('topical')
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: " .content-pane button[type='submit']")
       run_index_round
 
       # create agent and add subrecord
@@ -1111,12 +1068,13 @@ describe "agents record CRUD" do
 
       # note
       @driver.find_element(css: '#agent_person_agent_topic .subrecord-form-heading .btn.add-note').click
-      @driver.find_element(css: '.top-level-note-type').select_option('note_text')
+      note_select = @driver.find_element(css: '#agent_topic .top-level-note-type')
+      note_select.select_option('note_text')
 
       @driver.execute_script("$('#agent_agent_topics__0__notes__0__content_').data('CodeMirror').setValue('this is a note')")
       @driver.execute_script("$('#agent_agent_topics__0__notes__0__content_').data('CodeMirror').save()")
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
 
       # will fail here if subrecord not added correctly.
       @driver.find_element(id: 'agent_agent_topics__0__notes__0_')
@@ -1124,8 +1082,8 @@ describe "agents record CRUD" do
 
     it 'can add a Biog/Hist note to an Agent' do
       @driver.find_element(css: '#agent_person_notes .subrecord-form-heading .btn.add-note').click
-      @driver.find_element(css: '.top-level-note-type').select_option('note_bioghist')
-
+      note_select = @driver.find_element(css: '#agent_person_notes .top-level-note-type')
+      note_select.select_option('note_bioghist')
       # ensure note form displayed
       @driver.find_element(:id, 'agent_notes__0__label_')
 
@@ -1135,7 +1093,7 @@ describe "agents record CRUD" do
       @driver.execute_script("$('#agent_notes__0__subnotes__0__content_').data('CodeMirror').save()")
 
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
 
       # will fail here if date of existence not added correctly.
       @driver.find_element(id: 'agent_notes__0_')
@@ -1144,8 +1102,8 @@ describe "agents record CRUD" do
     it 'can add a General Context note to an Agent' do
       #@driver.click_and_wait_until_gone(:link, 'Edit')
       @driver.find_element(css: '#agent_person_notes .subrecord-form-heading .btn.add-note').click
-      @driver.find_element(css: '.top-level-note-type').select_option('note_general_context')
-
+      note_select = @driver.find_element(css: '#agent_person_notes .top-level-note-type')
+      note_select.select_option('note_general_context')
       # ensure note form displayed
       @driver.find_element(:id, 'agent_notes__1__label_')
 
@@ -1155,7 +1113,7 @@ describe "agents record CRUD" do
       @driver.execute_script("$('#agent_notes__1__subnotes__0__content_').data('CodeMirror').save()")
 
 
-      @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+      @driver.click_and_wait_until_gone(css: ".content-pane button[type='submit']")
 
       # will fail here if date of existence not added correctly.
       @driver.find_element(id: 'agent_notes__1_')

@@ -7,13 +7,13 @@
        <%= render_aspace_partial :partial => "toolbar" %>
        <div class="record-pane">
          <%= link_to_help :topic => "user" %>
-         <h2><%= I18n.t("user._frontend.section.edit_account") %></h2>
+         <h2><%= t("user._frontend.section.edit_account") %></h2>
          <%= form_context :user, @user do |form| %>
            <%= render_aspace_partial :partial => "users/form", :locals => {:form => form} %>
 
            <div class="form-actions">
-             <button id="create_account" type="submit" class="btn btn-primary"><%= I18n.t("user._frontend.section.edit_account_submit") %></button>
-             <%= link_to I18n.t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel btn-default" %>
+             <button id="create_account" type="submit" class="btn btn-primary"><%= t("user._frontend.section.edit_account_submit") %></button>
+             <%= link_to t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel btn-default" %>
            </div>
          <% end %>
        </div>

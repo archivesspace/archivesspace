@@ -1,34 +1,46 @@
 <% if !full %>
-   <div class="recordrow">
+<div class="recordrow">
 <% end %>
 
-<%= (full ? '<h1>' : '<h2>').html_safe %>
+	<%= (full ? '<h1 class="text-center text-sm-left">' : '<h2 class="text-center text-sm-left">').html_safe %>
 
-<% if !full %><a class="record-title" href="<%= app_prefix(repository_base_url(result)) %>"><% end %><%= result['name']%>
-<% if !full %></a><% end %>
-	<% if result.has_key?('image_url') %>
-		<%= link_to image_tag(result['image_url'], :alt => "#{t('repository._singular')}: #{result['name']}"), app_prefix(result['uri']), {:class => 'repository-logo'} %>
-	<% end %>
-<%= (full ? '</h1>' : '</h2>').html_safe %>
-
-      <div class="badge-and-identifier">
-        <div class="record-type-badge repository">
-          <i class="fa fa-home"></i>&#160;<%= t('repository._singular') %>
-        </div>
-
-	<div class="<%= (full ? 'clear' : 'recordsummary') %>">
-	  <% if result['parent_institution_name'].present? %>
-	  <div><strong><%= t('parent_inst') %>:</strong>
-	    <%= result['parent_institution_name'] %>
-	  </div>
-	  <% end %>
-	  <% if full %>
-	  <%= render partial: 'repositories/full_repo', locals: {:info => result['repo_info'], :url => result['url']} %>
-	 <% else %>
-	 <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
-	 <% end %>
+	<% if !full %><a class="record-title" href="<%= app_prefix(repository_base_url(result)) %>"><% end %><%= result['name']%>
+	<% if !full %></a><% end %>
+	<div class='d-none d-sm-block'>
+		<% if result.has_key?('image_url') %>
+			<%= link_to image_tag(result['image_url'], :alt => "#{t('repository._singular')}: #{result['name']}"), app_prefix(result['uri']), {:class => 'repository-logo'} %>
+		<% end %>
 	</div>
-      </div>
+	<%= (full ? '</h1>' : '</h2>').html_safe %>
+	<div class="row mx-0">
+		<div class="badge-and-identifier text-center text-sm-left">
+			<div class="d-flex flex-wrap">
+				<div class="record-type-badge repository col-12">
+					<i class="fa fa-home"></i>&#160;<%= t('repository._singular') %>
+				</div>
+				<div class="d-flex d-sm-none justify-content-center col-12">
+					<% if result.has_key?('image_url') %>
+						<%= link_to image_tag(result['image_url'], :alt => "#{t('repository._singular')}: #{result['name']}"), app_prefix(result['uri']), {:class => 'repository-logo'} %>
+					<% end %>
+				</div>
+			</div>
+			<div class="<%= (full ? 'clear' : 'recordsummary') %>">
+				<% if result['parent_institution_name'].present? %>
+					<div>
+						<strong><%= t('parent_inst') %>:</strong>
+						<%= result['parent_institution_name'] %>
+					</div>
+				<% end %>
+				<% if full %>
+					<%= render partial: 'repositories/full_repo', locals: {:info => result['repo_info'], :url => result['url']} %>
+				<% else %>
+					<div>
+						<strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
 <% if !full %>
-   </div>
+</div>
 <% end %>

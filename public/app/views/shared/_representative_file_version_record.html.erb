@@ -1,15 +1,23 @@
-<figure data-rep-file-version-wrapper>
+<% add_figcaption = !caption.blank? || !dig_materials_link.blank? %>
+<figure class="mb-0" data-rep-file-version-wrapper>
   <% if a_uri %>
     <a href="<%= a_uri %>" target="new" title="<%= t('digital_object._public.link')%>">
   <% end %>
     <img
-      class="<%= caption.blank? ? 'rounded-bottom' : '' %>"
+      class="<%= add_figcaption ? '' : 'rounded-bottom' %>"
       src="<%= img_uri %>"
       alt="<%= caption.blank? ? '' : caption %>">
   <% if a_uri %>
     </a>
   <% end %>
-  <% unless caption.blank? %>
-    <figcaption class="bg-lightgray rounded-bottom"><%= caption %></figcaption>
+  <% if add_figcaption %>
+    <figcaption class="bg-lightgray rounded-bottom">
+      <% unless caption.blank? %>
+        <p class="mb-0"><%= caption %></p>
+      <% end %>
+      <% unless dig_materials_link.blank? %>
+        <p class="mb-0"><%= dig_materials_link %></p>
+      <% end %>
+    </figcaption>
   <% end %>
 </figure>

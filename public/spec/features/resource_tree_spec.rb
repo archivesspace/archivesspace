@@ -22,17 +22,22 @@ describe 'Resource Tree', js: true do
   it "shows the record id in the tree if configured to do so" do
     allow(AppConfig).to receive(:[]).with(:pui_display_identifiers_in_resource_tree) { true }
     visit @resource.uri
-    node_titles = find_all('.sidebar .record-title').map { |node| node.text }
-    expect(node_titles[0]).to match /^1-2-3-4:/
-    expect(node_titles[1]).to match /^abc:/
+    # don't do this! Capybara will wait for the first title to show up, the proceed and 'abc' will fail!
+    #node_titles = find_all('.sidebar .record-title').map { |node| node.text }
+    node_title_one = find('#tree-container .table-row:nth-child(1) .record-title').text
+    node_title_two = find('#tree-container .table-row:nth-child(2) .record-title').text
+    expect(node_title_one).to match /^1-2-3-4:/
+    expect(node_title_two).to match /^abc:/
   end
 
   it "does not show the record id in the tree if not configured to do so" do
     allow(AppConfig).to receive(:[]).with(:pui_display_identifiers_in_resource_tree) { false }
     visit @resource.uri
-    node_titles = find_all('.sidebar .record-title').map { |node| node.text }
-    expect(node_titles[0]).not_to match /^1-2-3-4:/
-    expect(node_titles[1]).not_to match /^abc:/
+
+    node_title_one = find('#tree-container .table-row:nth-child(1) .record-title').text
+    node_title_two = find('#tree-container .table-row:nth-child(2) .record-title').text
+    expect(node_title_one).not_to match /^1-2-3-4:/
+    expect(node_title_two).not_to match /^abc:/
   end
 
 end

@@ -8,14 +8,14 @@
 
       <% if AppConfig[:use_human_readable_urls] && !record['slug'].nil? && !record['slug'].empty? %>
         <% if ['agent_person', 'agent_family', 'agent_corporate_entity', 'agent_software'].include?(record_type) %>
-          <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], 'agents', @agent['slug']).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
+          <%= link_to t("actions.view_published"), File.join(AppConfig[:public_proxy_url], 'agents', @agent['slug']).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
         <% elsif AppConfig[:repo_name_in_slugs] %>
-          <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], 'repositories', session[:repo_slug], "#{record_type}" + 's', record['slug']).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
+          <%= link_to t("actions.view_published"), File.join(AppConfig[:public_proxy_url], 'repositories', session[:repo_slug], "#{record_type}" + 's', record['slug']).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
         <% else %>
-          <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], "#{record_type}" + 's', record['slug']).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
+          <%= link_to t("actions.view_published"), File.join(AppConfig[:public_proxy_url], "#{record_type}" + 's', record['slug']).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
         <% end %>
       <% else %>
-        <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], record.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
+        <%= link_to t("actions.view_published"), File.join(AppConfig[:public_proxy_url], record.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
       <% end %>
 
     </div>

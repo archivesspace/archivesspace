@@ -83,6 +83,13 @@ class EADConverter < Converter
         :finding_aid_language => 'und',
         :finding_aid_script => 'Zyyy'
       }
+
+      @namespace_mappings ||= {}
+      @node.attributes.select {|a| a =~ /^xmlns:/}.each do |k, v|
+        if v == 'http://www.w3.org/1999/xlink'
+          @namespace_mappings[:xlink] = k.sub("xmlns:", "")
+        end
+      end
     end
 
     ignore "titlepage"
@@ -955,17 +962,16 @@ class EADConverter < Converter
         set ancestor(:resource, :archival_object), :instances, instance
       end
 
-
       make :digital_object, {
              :digital_object_id => SecureRandom.uuid,
              :publish => att('audience') != 'internal',
-             :title => att('title')
+             :title => att('title', :xlink)
            } do |obj|
         obj.file_versions << {
-          :use_statement => att('role'),
-          :file_uri => att('href'),
-          :xlink_actuate_attribute => att('actuate'),
-          :xlink_show_attribute => att('show'),
+          :use_statement => att('role', :xlink),
+          :file_uri => att('href', :xlink),
+          :xlink_actuate_attribute => att('actuate', :xlink),
+          :xlink_show_attribute => att('show', :xlink),
           :publish => att('audience') != 'internal',
         }
         set ancestor(:instance), :digital_object, obj

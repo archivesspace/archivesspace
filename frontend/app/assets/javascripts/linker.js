@@ -58,7 +58,7 @@ $(function () {
 
         var initCreateForm = function (formEl) {
           $('.linker-container', $modal).html(formEl);
-          $('#createAndLinkButton', $modal).removeAttr('disabled');
+          $('#createAndLinkButton', $modal).attr('disabled', null);
           $('form', $modal).ajaxForm({
             data: {
               inline: true,
@@ -84,7 +84,7 @@ $(function () {
               }
             },
             error: function (obj, errorText, errorDesc) {
-              $('#createAndLinkButton', $modal).removeAttr('disabled');
+              $('#createAndLinkButton', $modal).attr('disabled', null);
             },
           });
 
@@ -592,7 +592,7 @@ $(function () {
           // containers modal when opened from the edit resource or archival object pages.
           // If this setTimeout is for the last linker in the modal, only then is it safe to execute the search
           let lastLinker = $('.modal-dialog').find('.linker').last();
-          let isLastLinker = lastLinker.attr('id') === $this.context.id;
+          let isLastLinker = lastLinker.attr('id') === $this.attr('id');
           let onResource = $('.label.label-info').text() === 'Resource';
           let onArchivalObject =
             $('.label.label-info').text() === 'Archival Object';

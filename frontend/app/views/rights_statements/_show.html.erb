@@ -3,7 +3,7 @@
 %>
 
 <section id="<%= section_id %>">
-  <h3><%= I18n.t("rights_statement._plural") %></h3>
+  <h3><%= t("rights_statement._plural") %></h3>
   <div class="accordion details" id="rights_statements_accordion">
     <% rights_statements.each_with_index do | rights_statement, index | %>
       <div class="panel panel-default">
@@ -13,11 +13,11 @@
               <span class="glyphicon"></span>
             </div>
             <div class="col-md-2">
-              <%= I18n.t("enumerations.rights_statement_rights_type.#{rights_statement['rights_type']}", :default => rights_statement['rights_type']) %>
+              <%= t("enumerations.rights_statement_rights_type.#{rights_statement['rights_type']}", :default => rights_statement['rights_type']) %>
             </div>
             <div class="col-md-4">
               <% if rights_statement['status'] %>
-                <%= I18n.t("enumerations.rights_statement_ip_status.#{rights_statement['status']}", :default => rights_statement['ip_status']) %>
+                <%= t("enumerations.rights_statement_ip_status.#{rights_statement['status']}", :default => rights_statement['ip_status']) %>
               <% end %>
             </div>
             <div class="col-md-4">

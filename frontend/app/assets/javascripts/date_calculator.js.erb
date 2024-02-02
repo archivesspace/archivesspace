@@ -17,12 +17,12 @@ $(function () {
           self.$form.find(":submit").addClass("disabled").attr("disabled","disabled");
         },
         success: function(html) {
-          self.$form.find(":submit").removeClass("disabled").removeAttr("disabled");
+          self.$form.find(":submit").removeClass("disabled").attr('disabled', null);
           self.setup_create_form(html);
         },
         error: function(jqXHR, textStatus, errorThrown) {
           // FIXME ERRORS
-          self.$form.find(":submit").removeClass("disabled").removeAttr("disabled");
+          self.$form.find(":submit").removeClass("disabled").attr('disabled', null);
         }
       });
   };
@@ -47,13 +47,13 @@ $(function () {
         $createButton.addClass("disabled").attr("disabled","disabled");
       },
       success: function(html) {
-        $createSuccessMessage.show().removeAttr('aria-hidden');
+        $createSuccessMessage.show().attr('disabled', null);
         $createForm.hide();
         location.reload();
       },
       error: function(jqXHR, textStatus, errorThrown) {
         $createErrorMessage.show().removeAttr('aria-hidden');
-        $createButton.removeClass("disabled").removeAttr("disabled");
+        $createButton.removeClass("disabled").attr('disabled', null);
       }
     });
 

@@ -1,6 +1,6 @@
 <section id="header">
-  <div class="row">
-    <div class="col-sm-8">
+  <div class="d-flex row align-items-center px-4">
+    <div class="col-sm-9">
       <h1>
         <% unless request.original_fullpath == '/' %>
           <a title="<%=t('brand.title_link_text') %>" href="<%= AppConfig[:public_proxy_url] %>">
@@ -11,6 +11,6 @@
         <% end %>
       </h1>
     </div>
-    <div class="col-sm-4 hidden-xs"><img class="logo" src="<%= asset_path(AppConfig[:pui_branding_img]) %>" alt="<%= AppConfig[:pui_branding_img_alt_text] %>" /></div>
+    <div class="col-sm-3 d-none d-md-block"><img class="logo" src="<%= asset_path(AppConfig[:pui_branding_img]) %>" alt="<%= AppConfig[:pui_branding_img_alt_text] %>" /></div>
   </div>
 </section>

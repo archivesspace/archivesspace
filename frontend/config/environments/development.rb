@@ -40,4 +40,5 @@ ArchivesSpace::Application.configure do
   # right spot.  NOTE: Don't enable this for production, as it's handled
   # differently there due to precompilation.
   config.assets.prefix = AppConfig[:frontend_proxy_prefix] + "assets"
+
 end

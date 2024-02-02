@@ -66,7 +66,6 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
       end
     end
 
-
     if types == 'object' && data.is_a?(Hash) && data.has_key?('ref') && current_schema.schema['subtype'] != 'ref'
       # Provide a helpful warning about potentially missing subtype definitions
       $stderr.puts("WARNING: Schema #{current_schema.inspect} appears to be missing a subtype definition of 'ref'")

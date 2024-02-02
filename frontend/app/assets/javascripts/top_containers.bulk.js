@@ -142,7 +142,7 @@ BulkContainerSearch.prototype.update_button_state = function () {
     delete_btn.data('form-data', {
       record_uris: selected_records,
     });
-    delete_btn.removeClass('disabled').removeAttr('disabled');
+    delete_btn.removeClass('disabled').attr('disabled', null);
   } else {
     delete_btn.data('form-data', {});
     delete_btn.addClass('disabled').attr('disabled', 'disabled');
@@ -558,7 +558,7 @@ BulkActionMultipleLocationUpdate.prototype.setup_update_form = function (
           .addClass('form-group')
           .addClass('error');
       }
-      $form.find(':submit').removeClass('disabled').removeAttr('disabled');
+      $form.find(':submit').removeClass('disabled').attr('disabled', null);
     },
   });
 };
@@ -681,7 +681,7 @@ BulkActionBarcodeRapidEntry.prototype.setup_form_submission = function (
           .addClass('form-group')
           .addClass('error');
       }
-      $form.find(':submit').removeClass('disabled').removeAttr('disabled');
+      $form.find(':submit').removeClass('disabled').attr('disabled', null);
     },
   });
 };
@@ -776,7 +776,7 @@ BulkActionIndicatorRapidEntry.prototype.setup_form_submission = function (
           .addClass('form-group')
           .addClass('error');
       }
-      $form.find(':submit').removeClass('disabled').removeAttr('disabled');
+      $form.find(':submit').removeClass('disabled').attr('disabled', null);
     },
   });
 };
@@ -787,9 +787,9 @@ BulkActionIndicatorRapidEntry.prototype.setup_form_submission = function (
  */
 
 function activateBtn(event) {
-  var merge_btn = document.getElementsByClassName('merge-button')[0];
+  var merge_btn = $('.merge-button');
   if ($('input:checked').length > 0) {
-    merge_btn.removeAttribute('disabled');
+    merge_btn.attr('disabled', null);
   } else {
     merge_btn.attr('disabled', 'disabled');
   }

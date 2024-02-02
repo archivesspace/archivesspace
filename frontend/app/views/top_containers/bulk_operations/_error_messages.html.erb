@@ -4,7 +4,7 @@
       <div class="errors-for-attribute">
         <% messages.each do |msg| %>
           <div class="error">
-            <%= I18n.t("#{jsonmodel}.#{attr}") %> - <%= msg %>
+            <%= t("#{jsonmodel}.#{attr}") %> - <%= msg %>
           </div>
         <% end %>
       </div>

@@ -3,13 +3,13 @@
 <div class='row record-pane'>
   <section id="logs" class="subrecord-form-dummy" data-status-poll-interval="4000" data-poll-url="<%= url_for(:controller => :system_info, :action => :stream_log, :app_context => @app_context) %>">
     <h3 class="subrecord-form-heading">
-      <%= I18n.t("system_info.#{@app_context}") %>
-        <div class="btn-group pull-right">
-          <button class="btn btn-sm active btn-follow-log"><%= I18n.t("job._frontend.actions.follow_log") %></button>
+      <%= t("system_info.#{@app_context}") %>
+        <div class="btn-group ml-auto">
+          <button class="btn btn-sm active btn-follow-log"><%= t("job._frontend.actions.follow_log") %></button>
         </div>
     </h3>
     <div class="subrecord-form-container">
-      <div class="alert alert-info"><%= I18n.t("actions.loading") %></div>
+      <div class="alert alert-info"><%= t("actions.loading") %></div>
       <pre id="logSpool" style="display: none"></pre>
     </div>
   </section>

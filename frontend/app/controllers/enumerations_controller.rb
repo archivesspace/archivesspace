@@ -38,9 +38,9 @@ class EnumerationsController < ApplicationController
       @enumeration = JSONModel(:enumeration).find(params[:id])
       @enumeration['default_value'] = params[:value]
       @enumeration.save
-      flash[:success] = I18n.t("enumeration._frontend.messages.default_set")
+      flash[:success] = t("enumeration._frontend.messages.default_set")
     rescue
-      flash.now[:error] = I18n.t("enumeration._frontend.messages.default_set_error")
+      flash.now[:error] = t("enumeration._frontend.messages.default_set_error")
     end
 
     redirect_to(:controller => :enumerations, :action => :index, :id => params[:id])
@@ -61,9 +61,9 @@ class EnumerationsController < ApplicationController
         JSONModel::HTTP.post_form("#{@enumeration_value.uri}/position", :position => params[:position])
       end
 
-      flash[:success] = I18n.t("enumeration._frontend.messages.value_updated")
+      flash[:success] = t("enumeration._frontend.messages.value_updated")
     rescue
-      flash.now[:error] = I18n.t("enumeration._frontend.messages.value_update_error")
+      flash.now[:error] = t("enumeration._frontend.messages.value_update_error")
     end
 
     redirect_to(:controller => :enumerations, :action => :index, :id => params[:id])
@@ -83,15 +83,15 @@ class EnumerationsController < ApplicationController
       @enumeration.values -= [@value]
       @enumeration.save
 
-      flash[:success] = I18n.t("enumeration._frontend.messages.deleted")
+      flash[:success] = t("enumeration._frontend.messages.deleted")
       render :plain => "Success"
     rescue ConflictException
-      flash.now[:error] = I18n.t("enumeration._frontend.messages.delete_conflict")
-      flash.now[:info] = I18n.t("enumeration._frontend.messages.merge_tip")
+      flash.now[:error] = t("enumeration._frontend.messages.delete_conflict")
+      flash.now[:info] = t("enumeration._frontend.messages.merge_tip")
 
       render_aspace_partial :partial => "merge"
     rescue
-      flash.now[:error] = I18n.t("enumeration._frontend.messages.delete_error")
+      flash.now[:error] = t("enumeration._frontend.messages.delete_error")
       render_aspace_partial :partial => "delete"
     end
   end
@@ -103,10 +103,10 @@ class EnumerationsController < ApplicationController
     @merge = params["merge_into"]
 
     if @merge.blank?
-      flash.now[:error] = "#{I18n.t("enumeration.merge_into")} - is required"
+      flash.now[:error] = "#{t("enumeration.merge_into")} - is required"
       return render_aspace_partial :partial => "merge"
     elsif @value.blank?
-      flash.now[:error] = "#{I18n.t("enumeration.value")} - is required"
+      flash.now[:error] = "#{t("enumeration.value")} - is required"
       return render_aspace_partial :partial => "merge"
     end
 
@@ -116,10 +116,10 @@ class EnumerationsController < ApplicationController
                                                             :to => @merge)
       request.save
 
-      flash[:success] = I18n.t("enumeration._frontend.messages.merged")
+      flash[:success] = t("enumeration._frontend.messages.merged")
       render :plain => "Success"
     rescue
-      flash.now[:error] = I18n.t("enumeration._frontend.messages.merge_error")
+      flash.now[:error] = t("enumeration._frontend.messages.merge_error")
       render_aspace_partial :partial => "merge"
     end
   end
@@ -128,7 +128,7 @@ class EnumerationsController < ApplicationController
     @enumeration = JSONModel(:enumeration).find(params[:id])
 
     if params[:enumeration].blank? or params[:enumeration][:value].blank?
-      flash.now[:error] = "#{I18n.t("enumeration.value")} is required"
+      flash.now[:error] = "#{t("enumeration.value")} is required"
       return render_aspace_partial :partial => "new"
     end
 
@@ -136,10 +136,10 @@ class EnumerationsController < ApplicationController
       @enumeration.values += [params[:enumeration][:value]]
       @enumeration.save
 
-      flash[:success] = I18n.t("enumeration._frontend.messages.created")
+      flash[:success] = t("enumeration._frontend.messages.created")
       render :plain => "Success"
     rescue
-      flash.now[:error] = I18n.t("enumeration._frontend.messages.create_error")
+      flash.now[:error] = t("enumeration._frontend.messages.create_error")
       render_aspace_partial :partial => "new"
     end
   end

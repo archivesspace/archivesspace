@@ -2,7 +2,7 @@
            :locals => {
              :record_type => 'agent',
              :record => @agent,
-             :save_button_text => I18n.t("#{@agent.agent_type}._frontend.action.save")
+             :save_button_text => t("#{@agent.agent_type}._frontend.action.save")
            }) do |sidebar| %>
 
 
@@ -49,7 +49,7 @@
 
     <%= sidebar.render_for_view_only(:subrecord_type => 'search_embedded', :property => :none, :anchor => 'search_embedded') %>
     <% if @agent.agent_type == 'agent_person' %>
-      <%= sidebar.render_for_view_only(:title => I18n.t('assessment._frontend.linked_records.linked_via_assessment_surveyed_by'), :subrecord_type => 'assessment', :property => :none, :anchor => 'linked_assessments_surveyed_by') %>
-      <%= sidebar.render_for_view_only(:title => I18n.t('assessment._frontend.linked_records.linked_via_assessment_reviewer'), :subrecord_type => 'assessment', :property => :none, :anchor => 'linked_assessments_reviewer') %>
+      <%= sidebar.render_for_view_only(:title => t('assessment._frontend.linked_records.linked_via_assessment_surveyed_by'), :subrecord_type => 'assessment', :property => :none, :anchor => 'linked_assessments_surveyed_by') %>
+      <%= sidebar.render_for_view_only(:title => t('assessment._frontend.linked_records.linked_via_assessment_reviewer'), :subrecord_type => 'assessment', :property => :none, :anchor => 'linked_assessments_reviewer') %>
     <% end %>
 <% end %>

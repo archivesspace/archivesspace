@@ -16,7 +16,7 @@ class ClassificationsController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.CLASSIFICATION_FACETS})
         search_params["type[]"] = "classification"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('classification._plural').downcase}." )
+        csv_response( uri, Search.build_filters(search_params), "#{t('classification._plural').downcase}." )
       }
     end
   end
@@ -37,7 +37,7 @@ class ClassificationsController < ApplicationController
   end
 
   def new
-    @classification = JSONModel(:classification).new(:title => I18n.t("classification.title_default", :default => ""))._always_valid!
+    @classification = JSONModel(:classification).new(:title => t("classification.title_default", :default => ""))._always_valid!
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'classification'
@@ -70,14 +70,14 @@ class ClassificationsController < ApplicationController
     },
       :on_valid => ->(id) {
 
-      flash[:success] = I18n.t("classification._frontend.messages.created", JSONModelI18nWrapper.new(:classification => @classification))
+      flash[:success] = t("classification._frontend.messages.created", classification_title: @classification.title)
 
       if @classification["is_slug_auto"] == false &&
           @classification["slug"] == nil &&
           params["classification"] &&
           params["classification"]["is_slug_auto"] == "1"
 
-        flash[:warning] = I18n.t("slug.autogen_disabled")
+        flash[:warning] = t("slug.autogen_disabled")
       end
 
       redirect_to({
@@ -96,14 +96,14 @@ class ClassificationsController < ApplicationController
       render_aspace_partial :partial => "edit_inline"
     },
       :on_valid => ->(id) {
-      flash.now[:success] = I18n.t("classification._frontend.messages.updated", JSONModelI18nWrapper.new(:classification => @classification))
+      flash.now[:success] = t("classification._frontend.messages.updated", classification_title: @classification.title)
 
       if @classification["is_slug_auto"] == false &&
           @classification["slug"] == nil &&
           params["classification"] &&
           params["classification"]["is_slug_auto"] == "1"
 
-        flash.now[:warning] = I18n.t("slug.autogen_disabled")
+        flash.now[:warning] = t("slug.autogen_disabled")
       end
 
       render_aspace_partial :partial => "edit_inline"
@@ -115,7 +115,7 @@ class ClassificationsController < ApplicationController
     classification = JSONModel(:classification).find(params[:id])
     classification.delete
 
-    flash[:success] = I18n.t("classification._frontend.messages.deleted", JSONModelI18nWrapper.new(:classification => classification))
+    flash[:success] = t("classification._frontend.messages.deleted", classification_title: classification.title)
     redirect_to(:controller => :classifications, :action => :index, :deleted_uri => classification.uri)
   end
 
@@ -126,7 +126,7 @@ class ClassificationsController < ApplicationController
     values = defaults ? defaults.form_values : {}
 
     @classification = JSONModel(:classification).new(values)._always_valid!
-    @form_title = I18n.t("default_values.form_title.classification")
+    @form_title = t("default_values.form_title.classification")
 
     render "defaults"
   end
@@ -141,7 +141,7 @@ class ClassificationsController < ApplicationController
                                                                         JSONModel(:classification).schema)
                               }).save
 
-      flash[:success] = I18n.t("default_values.messages.defaults_updated")
+      flash[:success] = t("default_values.messages.defaults_updated")
       redirect_to :controller => :classifications, :action => :defaults
     rescue Exception => e
       flash[:error] = e.message

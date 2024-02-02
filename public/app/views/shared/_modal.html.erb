@@ -1,16 +1,22 @@
 <%# handles modals.  Requires: modal_id, title, modal_body %>
+<%
+  size_variant = ''
+  if local_assigns.has_key? :modal_size_class
+    size_variant = " #{modal_size_class}"
+  end
+%>
 <div class="modal fade" id="<%=modal_id %>" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="<%= modal_id%>Label">
-  <div class="modal-dialog">
+  <div class="modal-dialog<%= size_variant %>">
     <div class="modal-content">
       <header class="modal-header">
-        <button type="button" class="close" id="<%= modal_id %>_header_close" data-dismiss="modal" aria-label="<%= I18n.t("actions.close") %>">&times;</button>
         <h2 class="modal-title h3" id="<%= modal_id %>Label"><%= title %></h2>
+        <button type="button" class="close" id="<%= modal_id %>_header_close" data-dismiss="modal" aria-label="<%= I18n.t("actions.close") %>">&times;</button>
       </header>
       <div class="modal-body">
         <%= modal_body %>
       </div>
       <footer class="modal-footer">
-        <button type="button" class="btn btn-default" id="<%= modal_id %>_footer_close" data-dismiss="modal" aria-label="<%= I18n.t("actions.close") %>"><%= I18n.t("actions.close") %></button>
+        <button type="button" class="btn btn-secondary" id="<%= modal_id %>_footer_close" data-dismiss="modal" aria-label="<%= I18n.t("actions.close") %>"><%= I18n.t("actions.close") %></button>
         <% if title != t('actions.cite') %>
           <button type="button" class="btn btn-primary action-btn"></button>
         <% end %>

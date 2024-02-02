@@ -1,6 +1,6 @@
 <%# Adding the check for uri as a semi-hacky way to differntiate between a brand new record and an existing record for which a slug has not been set %>
 <% if !form.obj.has_key?('slug') && !form.obj.has_key?('uri') %>
-  <%= form.label_and_readonly "public_url",  "<em>#{I18n.t("archival_object.ref_id_auto_generation_message")}</em>" %>
+  <%= form.label_and_readonly "public_url",  "<em>#{t("archival_object.ref_id_auto_generation_message")}</em>" %>
 <% else %>
   <% pub_url = "#{File.join(AppConfig[:public_proxy_url], form.slug_url_field("slug", session[:repo_slug], AppConfig[:repo_name_in_slugs]).to_s)}" %>
   <%= form.label_with_field "public_url", form.hidden_input("public_url") + "<span class='identifier-display'><span class='identifier-display-part'>#{link_to(pub_url, pub_url, {:target => "_blank"})}</span></span>".html_safe %>

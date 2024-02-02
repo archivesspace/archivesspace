@@ -43,6 +43,9 @@ jobs:
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'
+      with:
+        backend: true
+        indexer: true
 
     - name: Allow ArchivesSpace functions for app db user
       env:

@@ -8,6 +8,6 @@
 
 
   <% reports.each do |report| %>
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => report, :property => :none, :anchor => report, :title => I18n.t("reports.#{report}.title")) %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => report, :property => :none, :anchor => report, :title => t("reports.#{report}.title")) %>
   <% end %>
 <% end %>

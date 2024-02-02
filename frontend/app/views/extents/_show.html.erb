@@ -2,19 +2,19 @@
    section_id = "extents" if section_id.blank?
 %>
 
-<section id="<%= section_id %>">
+<section id="<%= section_id %>" class='py-3'>
   <h3><%= I18n.t("extent._plural") %></h3>
-  <div class="panel-group details" id="<%= section_id %>_accordion">
+  <div class="details" id="<%= section_id %>_accordion">
     <% extents.each_with_index do | extent, index | %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card">
+        <div class="panel-heading card-header">
           <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_extent_<%= index %>">
             <div class="col-md-1">
               <span class="glyphicon"></span>
             </div>
             <div class="col-md-4">
               <%= extent['number'] %> 
-              <%= I18n.t('enumerations.extent_extent_type.'+extent['extent_type'], :default => extent['extent_type']) %>
+              <%= t('enumerations.extent_extent_type.'+extent['extent_type'], :default => extent['extent_type']) %>
             </div>
             <div class="col-md-7">
               <%= extent['container_summary'] %>

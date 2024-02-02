@@ -97,9 +97,7 @@ describe 'RDE Templates' do
     @driver.find_element(css: "button[data-id='rde_select_template']").click
     @driver.wait_for_ajax
 
-    expect do
-      @driver.find_element_with_text('//span', /MY TEMPLATE/)
-    end.not_to raise_error
+    expect(@driver.find_elements(css: 'span.text').map {|e| e.attribute('innerHTML')}).to include('MY TEMPLATE')
   end
 
   it 'can load an RDE template' do
@@ -111,6 +109,10 @@ describe 'RDE Templates' do
 
     @driver.find_element(css: "button[data-id='rde_select_template']").click
     @driver.wait_for_ajax
+
+    template_span = @driver.find_elements(css: 'span.text').detect {|e| e.attribute('innerHTML') == @template.name}
+    template_span.click
+
     @driver.find_element_with_text('//span', /#{@template.name}/).click
     @driver.wait_for_ajax
 

@@ -1,0 +1,63 @@
+div.modal-dialog.modal-jumbo {
+  width: 98%;
+  max-width: 98%;
+}
+
+.modal {
+  > form {
+    margin-bottom: 0;
+  }
+
+  &.container {
+    .modal-body {
+      max-height: none;
+    }
+  }
+
+  &.full {
+    width: 98%;
+    margin: 0 !important;
+    left: 1%;
+    top: 1%;
+    height: 98%;
+
+    .modal-body {
+      max-height: none;
+    }
+  }
+
+  .modal-footer {
+    text-align: left;
+
+    .btn-cancel {
+      float: right;
+    }
+  }
+}
+
+.modal-body {
+  overflow: auto;
+}
+
+.modal-header {
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  .modal {
+    &.container {
+      width: 92% !important;
+    }
+  }
+}
+@media (max-width: 767px) {
+  .modal {
+    &.container {
+      width: 92% !important;
+      margin-left: auto !important;
+    }
+  }
+}

@@ -1,27 +1,27 @@
-<div class="record-toolbar">
+<div class="record-toolbar d-flex align-items-center">
   <% if controller.action_name == 'show' %>
-    <div class="btn-group pull-left">
-      <%= link_to I18n.t("actions.edit"), {:controller => :custom_report_templates, :action => :edit, :id => @custom_report_template.id}, :class => "btn btn-sm btn-primary" %>
+    <div class="btn-group">
+      <%= link_to t("actions.edit"), {:controller => :custom_report_templates, :action => :edit, :id => @custom_report_template.id}, :class => "btn btn-sm btn-primary" %>
     </div>
   <% end %>
   <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-    <div class="pull-left save-changes">
-    <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
+    <div class="save-changes">
+    <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
     </div>
   <% end %>
   <% if ['edit', 'update'].include?(controller.action_name) %>
-    <div class="pull-left revert-changes">
-    <%= link_to I18n.t("actions.revert"), {:controller => :custom_report_templates, :action => :edit, :id => @custom_report_template.id}, :class => "btn btn-sm btn-default" %>
-    <%= I18n.t("actions.toolbar_disabled_message") %>
+    <div class="revert-changes">
+    <%= link_to t("actions.revert"), {:controller => :custom_report_templates, :action => :edit, :id => @custom_report_template.id}, :class => "btn btn-sm btn-default bg-white border" %>
+    <%= t("actions.toolbar_disabled_message") %>
     </div>
   <% end %>
-    <div class="btn-toolbar pull-right">
+    <div class="btn-toolbar ml-auto">
       <div class="btn-group">
         <% if ['edit', 'update', 'new', 'create'].include?(controller.action_name) %>
-          <button class="btn btn-sm btn-success no-change-tracking" type="button" id="check_all" data-checked="<%= I18n.t("actions.check_all") %>" data-unchecked="<%= I18n.t("actions.uncheck_all") %>"><%= I18n.t("actions.check_all") %></button>
+          <button class="btn btn-sm border btn-success no-change-tracking" type="button" id="check_all" data-checked="<%= t("actions.check_all") %>" data-unchecked="<%= t("actions.uncheck_all") %>"><%= t("actions.check_all") %></button>
         <% end %>
         <% if controller.action_name == 'edit' %>
-          <%= link_to I18n.t("actions.run"),
+          <%= link_to t("actions.run"),
             new_job_path(
               :job_type => 'report_job',
               :report_type => 'custom_report',
@@ -31,8 +31,8 @@
           %>
         <% end %>
         <% if ['edit', 'update'].include?(controller.action_name) %>
-          <%= link_to I18n.t("actions.copy"), {:controller => :custom_report_templates, :action => :copy, :id =>  @custom_report_template.id}, :class => "btn btn-sm btn-default" %>
-          <%= button_delete_action url_for(:controller => :custom_report_templates, :action => :delete, :id => @custom_report_template.id ), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => @custom_report_template.name) } unless @custom_report_template.id.nil? %>
+          <%= link_to t("actions.copy"), {:controller => :custom_report_templates, :action => :copy, :id =>  @custom_report_template.id}, :class => "btn btn-sm btn-default" %>
+          <%= button_delete_action url_for(:controller => :custom_report_templates, :action => :delete, :id => @custom_report_template.id ), { :"data-title" => t("actions.delete_confirm_title", :title => @custom_report_template.name) } unless @custom_report_template.id.nil? %>
         <% end %>
       </div>
     </div>

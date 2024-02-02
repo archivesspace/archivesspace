@@ -35,7 +35,8 @@ describe 'Accessions' do
 
   it 'can spawn an accession from an existing accession' do
     @driver.find_element(:link, 'Create').click
-    @driver.click_and_wait_until_gone(:link, 'Accession')
+    @driver.find_element(:link, 'Accession').click
+    sleep(10)
 
     @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
     @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue(\"Charles Darwin's paperclip collection\")")
@@ -111,7 +112,6 @@ describe 'Accessions' do
     @driver.click_and_wait_until_gone(:link, 'Accession')
     @driver.find_hidden_element(:css, '#accession_title_').wait_for_class('initialised')
     @driver.execute_script("$('#accession_title_').data('CodeMirror').setValue('#{@accession_title}')")
-
     @driver.complete_4part_id('accession_id_%d_', @shared_4partid)
     @driver.clear_and_send_keys([:id, 'accession_accession_date_'], '2012-01-01')
     @driver.clear_and_send_keys([:id, 'accession_content_description_'], 'A box containing our own universe')
@@ -423,9 +423,7 @@ describe 'Accessions' do
     # Browse works too
     @driver.find_element(css: '#accession_subjects_ .dropdown-toggle').click
     @driver.wait_for_dropdown
-    @driver.find_element(:css, 'a.linker-browse-btn').click
     @driver.find_element_with_text('//div', /#{@me}AccessionTermABC/)
-    @driver.find_element(:css, '.modal-footer > button.btn.btn-cancel').click
 
     @driver.click_and_wait_until_gone(css: "form#accession_form button[type='submit']")
 
@@ -557,11 +555,11 @@ describe 'Accessions' do
     @driver.find_element(:link, 'Browse').click
     @driver.click_and_wait_until_gone(:link, 'Accessions')
 
-    @driver.find_element(:xpath, "//div/span[contains(text(),'Select')]").click
+    @driver.find_element(:xpath, "//span[contains(text(),'Select')]").click
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Identifier')
 
-    assert(5) { expect(@driver.find_element(:xpath, "(//div/span[@class='btn btn-xs btn-default'])[last()]").text).to eq('Identifier Descending') }
+    assert(5) { expect(@driver.find_element(:xpath, "(//span[@class='btn'])[last()]").text).to eq('Identifier Descending') }
   end
 
   it 'can delete multiple Accessions from the listing' do

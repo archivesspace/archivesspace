@@ -1,16 +1,16 @@
 <div id="main-content" class="containers">
-<div class="row">
-  <div class="information col-sm-7">
+<div class="d-flex">
+  <div class="information flex-grow-1">
     <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
   </div>
-  <div class="page_actions col-sm-5 right">
+  <div class="page_actions">
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
   </div>
 </div>
 <div class="row">
   <div class="col-sm-9">
 
-    <div class="staff-hidden hide">
+    <div class="staff-hidden d-none">
       <% if @result['json']['restricted'] %>
         <p><h4 class='restricted'><%= I18n.t('top_container.restricted') %></h4></p>
       <% end %>

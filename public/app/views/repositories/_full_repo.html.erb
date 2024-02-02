@@ -5,8 +5,8 @@
 <% end %>
 
 <% if info["top"]["description"].present? %>
-<div class="description">
-  <p><strong><%= t('description') %>: </strong> <br/><%= simple_format(info["top"]["description"]) %></p>
+<div class="description py-4">
+  <strong><%= t('description') %>: </strong> <br/><%= simple_format(info["top"]["description"], {}, wrapper_tag: "div")%>
 </div>
 <% end %>
 

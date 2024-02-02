@@ -10,10 +10,10 @@
 					param = ext.blank? ? nil : "?ext=#{ext}"
 					link  = param ? URI.join(url, path, param) : URI.join(url, path)
 				%>
-				<%= I18n.t("job.#{type}") %>: <a href="<%= link.to_s %>"><%= filename %></a>
+				<%= t("job.#{type}") %>: <a href="<%= link.to_s %>"><%= filename %></a>
 			<% else %>
 				<% param, value = data.split(' --- ', 2) %>
-				<%= I18n.t("#{record['job_type']}.#{param}") %>:
+				<%= t("#{record['job_type']}.#{param}") %>:
 				<%= value =~ /repositories\/\d+\/resources\/\d+/ ? link_to(
 					value, link_for_resource(value)
 				) : value %>

@@ -1,12 +1,10 @@
 <div class="row">
-<div class="col-sm-9">
-<h2><%= @search_data['total_hits'] %> <%= (@search_data['total_hits'] == 1 ? t('repository._singular'): t('repository._plural')) %></h2>
-
-<%= render partial: 'shared/pagination', locals: {:pager => @pager} %>
-<% @json.each do |result| %>
-<%= render partial: 'repositories/repository', locals: {:result => result, :full => false} %>
-
-<% end %>
-<%= render partial: 'shared/pagination', locals: {:pager => @pager} %>
-</div>
+  <div class="col-sm-9">
+    <h2><%= @search_data['total_hits'] %> <%= (@search_data['total_hits'] == 1 ? t('repository._singular'): t('repository._plural')) %></h2>
+    <%= render partial: 'shared/pagination', locals: {:pager => @pager} %>
+    <% @json.each do |result| %>
+      <%= render partial: 'repositories/repository', locals: {:result => result, :full => false} %>
+    <% end %>
+    <%= render partial: 'shared/pagination', locals: {:pager => @pager} %>
+  </div>
 </div>

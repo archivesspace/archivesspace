@@ -153,6 +153,9 @@ FactoryBot.define do
   sequence(:date_type) { sample(JSONModel(:date).schema['properties']['date_type']) }
   sequence(:date_label) { sample(JSONModel(:date).schema['properties']['label']) }
 
+  # Digital Object Component
+  sequence(:digital_object_component_id) { |n| "component_#{n}" }
+
   # Event
   sequence(:agent_role) { sample(JSONModel(:event).schema['properties']['linked_agents']['items']['properties']['role']) }
   sequence(:record_role) { sample(JSONModel(:event).schema['properties']['linked_records']['items']['properties']['role']) }
@@ -674,11 +677,11 @@ FactoryBot.define do
   end
 
   factory :json_digital_object_component, class: JSONModel(:digital_object_component) do
-    component_id { generate(:alphanumstr) }
+    component_id { generate(:digital_object_component_id) }
     title { "Digital Object Component #{generate(:generic_title)}" }
     digital_object { {'ref' => create(:json_digital_object).uri} }
     position { generate(:integer) }
-    has_unpublished_ancestor { rand(2) == 0 }
+    has_unpublished_ancestor { false }
   end
 
   factory :json_digital_object_tree, class: JSONModel(:digital_object_tree) do

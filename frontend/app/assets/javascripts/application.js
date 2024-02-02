@@ -10,19 +10,19 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
+//= require jquery3
+//= require jquery-migrate
 //= require jquery-ui
 //= require jquery_ujs
 //= require jquery.browser
-//= require twitter/bootstrap
-//= require bootstrap_overrides
 //= require jquery.form
 //= require jquery.scrollto
 //= require jquery.hotkeys
+//= require popper
 //= require utils
 //= require header
 //= require linker
-//= require bootstrap-select
+//= require bootstrap-sprockets
+//= require bootstrap_overrides
 //= require bootstrap3-typeahead
-//= require bootstrap-tagsinput
 //= require jquery.matchHeight

@@ -1,8 +1,8 @@
 <div class="job-status">
 	<span class="<%= badge_class_for_status(record["status"]) %>">
-		<%= I18n.t("job.status_#{record["status"]}", :default => record["status"]) %>
+		<%= t("job.status_#{record["status"]}", :default => record["status"]) %>
 		<% if record["status"] === "queued" %>
-			- <%= I18n.t("job.queue_position", :position => (record["queue_position"].to_i + 1)) %>
+			- <%= t("job.queue_position", :position => (record["queue_position"].to_i + 1)) %>
 		<% end %>
 	</span>
 </div>

@@ -10,7 +10,7 @@ class ResolverController < ApplicationController
       if params.has_key?(:autoselect_repo) && resolver.repository && resolver.repository != session[:repo]
         self.class.session_repo(session, resolver.repository)
         selected = JSONModel(:repository).find(session[:repo_id])
-        flash[:success] = I18n.t("repository._frontend.messages.changed", JSONModelI18nWrapper.new(:repository => selected))
+        flash[:success] = t("repository._frontend.messages.changed")
       end
       redirect_to resolver.edit_uri
     else
@@ -26,7 +26,7 @@ class ResolverController < ApplicationController
       if params.has_key?(:autoselect_repo) && resolver.repository && resolver.repository != session[:repo]
         self.class.session_repo(session, resolver.repository)
         selected = JSONModel(:repository).find(session[:repo_id])
-        flash[:success] = I18n.t("repository._frontend.messages.changed", JSONModelI18nWrapper.new(:repository => selected))
+        flash[:success] = t("repository._frontend.messages.changed")
       end
       redirect_to resolver.view_uri
     else

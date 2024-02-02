@@ -1,7 +1,7 @@
 <%
    subjects ||= []
    section_id = "subjects" if section_id.blank?
-   section_title = I18n.t("subject._plural") if section_title.blank?
+   section_title = t("subject._plural") if section_title.blank?
    heading_size = "h3" if heading_size.blank?
    auth_present = subjects.inject(false) {|memo, s| !s['_resolved']["authority_id"].blank? || memo }
 %>
@@ -9,15 +9,12 @@
 <section id="<%= section_id %>" class="subrecord-form-dummy">
   <<%= heading_size %>><%= section_title %></<%= heading_size %>>
   <div class="subrecord-form-container">
-    <div class="subrecord-form-fields">
-      <div class="row">
+    <div class="subrecord-form-fields overflow-auto">
         <% if auth_present %>
-          <div class="col-md-3"><strong><%= I18n.t("subject.authority_id") %></strong></div>
-          <div class="col-md-8"><strong><%= I18n.t("subject.heading") %></strong></div>
+          <div class="col-md-3"><strong><%= t("subject.authority_id") %></strong></div>
+          <div class="col-md-8"><strong><%= t("subject.heading") %></strong></div>
         <% end %>
-      </div>
       <% subjects.each_with_index do | subject, index | %>
-        <div class="row">
           <% if auth_present %>
             <div class="col-md-3 pull1">
               <% if subject['_resolved']["authority_id"] %>
@@ -27,7 +24,7 @@
               <% end %>
             </div>
           <% end %>
-          <div class="col-md-8 token-list">
+          <div class="token-list">
             <% if subject['_resolved'] %>
               <%= render_token :object => subject['_resolved'],
                                :label => subject['_resolved']['title'],
@@ -39,7 +36,6 @@
               <p><%= subject.inspect %></p>
             <% end %>
           </div>
-        </div>
       <% end %>
     </div>
   </div>

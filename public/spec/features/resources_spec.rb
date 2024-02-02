@@ -29,7 +29,6 @@ describe 'Resources', js: true do
     expect(current_path).to eq (first_href)
     click_link 'Collection Organization'
     expect(current_path).to eq ("#{first_href}/collection_organization")
-    finished_all_ajax_requests?
     page.go_back
     expect(current_path).to eq (first_href)
     finished_all_ajax_requests?

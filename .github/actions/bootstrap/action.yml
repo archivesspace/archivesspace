@@ -5,9 +5,40 @@ inputs:
     description: 'URL for mysql connector'
     required: true
     default: 'https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar'
+  backend:
+    description: "install backend gems"
+    default: false
+  frontend:
+    description: "install frontend gems"
+    default: false
+  public:
+    description: "install public gems"
+    default: false
+  indexer:
+    description: "install indexer gems"
+    default: false
+  oai:
+    description: "install oai gems"
+    default: false
+
+
 runs:
   using: "composite"
   steps:
+    - name: Cache JRuby
+      id: cache-jruby
+      uses: actions/cache@v3
+      with:
+        key: ${{ runner.os }}-java${{ matrix.java }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        path: |
+          ./build/jruby*.jar
+
+    - name: Download JRuby
+      id: download-jruby
+      shell: bash
+      run: |
+        ./build/run bootstrap-jruby
+
     - name: Cache gems directory
       id: cache-gems
       uses: actions/cache@v3
@@ -24,8 +55,37 @@ runs:
         path: |
           ./common/lib/mysql*.jar
 
-    - name: Bootstrap ArchivesSpace
+    - name: Download mysql connector
       shell: bash
       run: |
-        ./build/run bootstrap
         wget -P ./common/lib ${{ inputs.mysql-connector-url }}
+
+    - name: Install backend gems
+      if: ${{ inputs.backend == 'true' }}
+      shell: bash
+      run: |
+        ./build/run bundler -Dexcluded-gem-groups="development doc" -Dgemfile="../backend/Gemfile"
+
+    - name: Install frontend gems
+      if: ${{ inputs.frontend == 'true' }}
+      shell: bash
+      run: |
+        ./build/run bundler -Dexcluded-gem-groups="development doc" -Dgemfile="../frontend/Gemfile"
+
+    - name: Install public gems
+      if: ${{ inputs.public == 'true' }}
+      shell: bash
+      run: |
+        ./build/run bundler -Dexcluded-gem-groups="development doc" -Dgemfile="../public/Gemfile"
+
+    - name: Install indexer gems
+      if: ${{ inputs.indexer == 'true' }}
+      shell: bash
+      run: |
+        ./build/run bundler -Dexcluded-gem-groups="development doc" -Dgemfile="../indexer/Gemfile"
+
+    - name: Install oai gems
+      if: ${{ inputs.oai == 'true' }}
+      shell: bash
+      run: |
+        ./build/run bundler -Dexcluded-gem-groups="development doc" -Dgemfile="../oai/Gemfile"

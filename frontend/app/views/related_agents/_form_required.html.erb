@@ -5,9 +5,9 @@
 
 <section id="<%= @agent_type %>_related_agents" class="subrecord-form related-agents-form">
   <h3 class="subrecord-form-heading">
-    <%= I18n.t("related_agent._plural") %>
+    <%= t("related_agent._plural") %>
     <%= link_to_help :topic => "#{@agent_type}_related_agents" %>
-    <button class="btn btn-sm btn-default add-related-agent-for-type-btn pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("related_agent._singular") %></button>
+    <button class="btn btn-sm btn-default float-right add-related-agent-for-type-btn ml-auto border bg-white mx-1 mt-1"><%= I18n.t("actions.add") %> <%= I18n.t("related_agent._singular") %></button>
   </h3>
 
   <div id="related-agents-container" class="subrecord-form-container">

@@ -125,7 +125,7 @@ describe 'Search Listing' do
       sortable_columns = @driver.find_elements(:css, "th.sortable")
       @driver.find_element_with_text('//span', /Relevance/).click
       @driver.wait_for_dropdown
-      sort_opts = @driver.find_element(:css, "ul.sort-opts")
+      sort_opts = @driver.find_element(:css, "ul.dropdown-menu")
       expect do
         sortable_columns.each do |col|
           sort_opts.find_element(:link, col.text)

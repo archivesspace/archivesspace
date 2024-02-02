@@ -3,7 +3,7 @@
 <fieldset>
   <% define_template("repository", jsonmodel_definition(:repository)) do |form| %>
     <section id="all_fields">
-      <h3><%= I18n.t("repository._frontend.section.all_fields") %></h3>
+      <h3><%= t("repository._frontend.section.all_fields") %></h3>
       <%= form.label_and_textfield "repo_code", :field_opts => {:size => 10} %>
       <%= form.label_and_textarea "name" %>
 
@@ -29,13 +29,13 @@
 
   <% define_template("repository_oai", jsonmodel_definition(:repository)) do |form| %>
     <section id="oai_fields" class="subrecord-form">
-      <h3><%= I18n.t("repository._frontend.section.oai_fields") %></h3>
+      <h3><%= t("repository._frontend.section.oai_fields") %></h3>
       <% if params[:action] == "edit" %>
         <a name="oai_settings"></a>
         <div class='form-actions'>
           <br />
-          <p><%= I18n.t("oai_config.oai_leave_repo_form") %></p>
-          <a class="btn btn-warning" href="<%= url_for(:controller => :oai_config, :action => :edit) %>"><%= I18n.t("actions.edit_global_oai") %></a>
+          <p><%= t("oai_config.oai_leave_repo_form") %></p>
+          <a class="btn btn-warning" href="<%= url_for(:controller => :oai_config, :action => :edit) %>"><%= t("actions.edit_global_oai") %></a>
         </div>
         <hr />
       <% end %>

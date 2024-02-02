@@ -23,7 +23,7 @@
     <tbody>
       <% cuts.each do |cut| %>
         <tr>
-          <td><%= I18n.t("shortcuts.actions.#{cut.shift}") %></td>
+          <td><%= t("shortcuts.actions.#{cut.shift}") %></td>
           <td><%= cut.join(" then "); %></td>
         </tr>
       <% end %>

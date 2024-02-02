@@ -38,7 +38,7 @@ class CustomReportTemplatesController < ApplicationController
                   render :action => :edit
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("custom_report_template._frontend.messages.copied")
+                  flash[:success] = t("custom_report_template._frontend.messages.copied")
                   return redirect_to :controller => :custom_report_templates, :action => :new if params.has_key?(:plus_one)
                   redirect_to(:controller => :custom_report_templates, :action => :edit, :id => id)
                 })
@@ -52,7 +52,7 @@ class CustomReportTemplatesController < ApplicationController
                   render :action => "new"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("custom_report_template._frontend.messages.created")
+                  flash[:success] = t("custom_report_template._frontend.messages.created")
                   return redirect_to :controller => :custom_report_templates, :action => :new if params.has_key?(:plus_one)
                   redirect_to(:controller => :custom_report_templates, :action => :index)
                 })
@@ -68,7 +68,7 @@ class CustomReportTemplatesController < ApplicationController
                   render :action => :edit
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("custom_report_template._frontend.messages.updated")
+                  flash[:success] = t("custom_report_template._frontend.messages.updated")
                   return redirect_to :controller => :custom_report_templates, :action => :new if params.has_key?(:plus_one)
                   redirect_to(:controller => :custom_report_templates, :action => :index)
                 })

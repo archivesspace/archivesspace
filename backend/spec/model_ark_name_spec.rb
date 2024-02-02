@@ -17,11 +17,9 @@ describe 'ArkName model' do
 
 
   describe "with ARKs disabled" do
-    around(:all) do |all|
-      arks_enabled = AppConfig[:arks_enabled]
-      AppConfig[:arks_enabled] = false
-      all.run
-      AppConfig[:arks_enabled] = arks_enabled
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:arks_enabled) { false }
     end
 
     it "does not create ARKs" do
@@ -35,11 +33,9 @@ describe 'ArkName model' do
 
 
   describe "with ARKs enabled" do
-    around(:all) do |all|
-      arks_enabled = AppConfig[:arks_enabled]
-      AppConfig[:arks_enabled] = true
-      all.run
-      AppConfig[:arks_enabled] = arks_enabled
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:arks_enabled) { true }
     end
 
     it "mints an ARK when a resource is created" do
@@ -111,19 +107,13 @@ describe 'ArkName model' do
 
 
     describe('using the ArchivesSpace minter') do
-      around(:all) do |all|
-        minter = AppConfig[:ark_minter]
-        AppConfig[:ark_minter] = :archivesspace_ark_minter
-        all.run
-        AppConfig[:ark_minter] = minter
+      before(:each) do
+        allow(AppConfig).to receive(:[]).with(:ark_minter) { :archivesspace_ark_minter }
       end
 
       describe('with ARK shoulders disabled') do
-        around(:all) do |all|
-          shoulder = AppConfig[:ark_enable_repository_shoulder]
-          AppConfig[:ark_enable_repository_shoulder] = false
-          all.run
-          AppConfig[:ark_enable_repository_shoulder] = shoulder
+        before(:each) do
+          allow(AppConfig).to receive(:[]).with(:ark_enable_repository_shoulder) { false }
         end
 
         it "mints an ARK using the ark_name id and honoring url prefix and naan" do
@@ -136,11 +126,8 @@ describe 'ArkName model' do
       end
 
       describe('with ARK shoulders enabled') do
-        around(:all) do |all|
-          shoulder = AppConfig[:ark_enable_repository_shoulder]
-          AppConfig[:ark_enable_repository_shoulder] = true
-          all.run
-          AppConfig[:ark_enable_repository_shoulder] = shoulder
+        before(:each) do
+          allow(AppConfig).to receive(:[]).with(:ark_enable_repository_shoulder) { true }
         end
 
         it "mints an ARK including a shoulder set on the repo" do
@@ -158,11 +145,8 @@ describe 'ArkName model' do
         end
 
         describe('with a shoulder delimiter specified') do
-          around(:all) do |all|
-            delimiter = AppConfig[:ark_shoulder_delimiter]
-            AppConfig[:ark_shoulder_delimiter] = '---'
-            all.run
-            AppConfig[:ark_shoulder_delimiter] = delimiter
+          before(:each) do
+            allow(AppConfig).to receive(:[]).with(:ark_shoulder_delimiter) { '---' }
           end
 
           it "mints an ARK including a shoulder set on the repo" do
@@ -184,19 +168,13 @@ describe 'ArkName model' do
 
 
     describe('using the Smithsonian minter') do
-      around(:all) do |all|
-        minter = AppConfig[:ark_minter]
-        AppConfig[:ark_minter] = :smithsonian_ark_minter
-        all.run
-        AppConfig[:ark_minter] = minter
+      before(:each) do
+        allow(AppConfig).to receive(:[]).with(:ark_minter) { :smithsonian_ark_minter }
       end
 
       describe('with ARK shoulders disabled') do
-        around(:all) do |all|
-          shoulder = AppConfig[:ark_enable_repository_shoulder]
-          AppConfig[:ark_enable_repository_shoulder] = false
-          all.run
-          AppConfig[:ark_enable_repository_shoulder] = shoulder
+        before(:each) do
+          allow(AppConfig).to receive(:[]).with(:ark_enable_repository_shoulder) { false }
         end
 
         it "mints an ARK using a UUID and honoring url prefix and naan" do
@@ -208,11 +186,8 @@ describe 'ArkName model' do
       end
 
       describe('with ARK shoulders enabled') do
-        around(:all) do |all|
-          shoulder = AppConfig[:ark_enable_repository_shoulder]
-          AppConfig[:ark_enable_repository_shoulder] = true
-          all.run
-          AppConfig[:ark_enable_repository_shoulder] = shoulder
+        before(:each) do
+          allow(AppConfig).to receive(:[]).with(:ark_enable_repository_shoulder) { true }
         end
 
         it "mints an ARK including a shoulder set on the repo" do
@@ -230,11 +205,8 @@ describe 'ArkName model' do
         end
 
         describe('with a shoulder delimiter specified') do
-          around(:all) do |all|
-            delimiter = AppConfig[:ark_shoulder_delimiter]
-            AppConfig[:ark_shoulder_delimiter] = '---'
-            all.run
-            AppConfig[:ark_shoulder_delimiter] = delimiter
+          before(:each) do
+            allow(AppConfig).to receive(:[]).with(:ark_shoulder_delimiter) { '---' }
           end
 
           it "mints an ARK including a shoulder set on the repo" do
@@ -256,11 +228,8 @@ describe 'ArkName model' do
 
 
     describe('with external ARKs disabled') do
-      around(:all) do |all|
-        arks_allow_external_arks = AppConfig[:arks_allow_external_arks]
-        AppConfig[:arks_allow_external_arks] = false
-        all.run
-        AppConfig[:arks_allow_external_arks] = arks_allow_external_arks
+      before(:each) do
+        allow(AppConfig).to receive(:[]).with(:arks_allow_external_arks) { false }
       end
 
       it "ignores external_ark_url if given" do
@@ -278,11 +247,8 @@ describe 'ArkName model' do
 
 
     describe('with external ARKs enabled') do
-      around(:all) do |all|
-        arks_allow_external_arks = AppConfig[:arks_allow_external_arks]
-        AppConfig[:arks_allow_external_arks] = true
-        all.run
-        AppConfig[:arks_allow_external_arks] = arks_allow_external_arks
+      before(:each) do
+        allow(AppConfig).to receive(:[]).with(:arks_allow_external_arks) { true }
       end
 
       it "external_ark_url applies if defined" do
