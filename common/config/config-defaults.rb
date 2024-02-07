@@ -18,6 +18,7 @@ AppConfig[:db_url] = proc { AppConfig.demo_db_url }
 # Set the maximum number of database connections used by the application.
 # Default is derived from the number of indexer threads.
 AppConfig[:db_max_connections] = proc { 20 + (AppConfig[:indexer_thread_count] * 2) }
+AppConfig[:db_pool_timeout] = 5 # number of seconds to wait before raising a PoolTimeout error
 
 # The ArchivesSpace backend listens on port 8089 by default.  You can set it to
 # something else below.
