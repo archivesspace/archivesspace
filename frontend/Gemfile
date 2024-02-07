@@ -42,9 +42,9 @@ group :test do
   # selenium stuff
   gem 'factory_bot_rails'
   gem 'mechanize'
-  gem 'parallel_tests', '~> 2.14.0'
+  gem 'parallel_tests'
   gem 'rspec-retry'
-  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
+  gem 'selenium-webdriver'
 
   gem 'capybara'
   # need access to ActiveSupport for helpers
