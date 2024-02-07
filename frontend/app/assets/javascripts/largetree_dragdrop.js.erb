@@ -229,6 +229,8 @@
         });
 
         $(largetree.elt).on('mousedown', '.table-row.largetree-node', function (event) {
+            if (!$(largetree.elt).hasClass('drag-enabled')) return;
+
             // ANW-1024, ANW-625 make whole row draggable not just .drag-handle
             
             // Allow expanding/collapsing a tree while rows are selected
