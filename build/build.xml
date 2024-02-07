@@ -429,6 +429,27 @@
     </java>
   </target>
 
+  <target name="bundle:update" depends="set-classpath" description="Update a bundled gem to latest possible version against a gemfile">
+    <property name="build.home" location="."/>
+    <property name="excluded-gem-groups" value="" />
+    <property name="included-gem-groups" value="" />
+    <condition property="bundle-without-option" value="--without '${excluded-gem-groups}'" else="">
+      <matches pattern="^.+$" string="${excluded-gem-groups}"/>
+    </condition>
+    <condition property="bundle-with-option" value="--with '${included-gem-groups}'" else="">
+      <matches pattern="^.+$" string="${included-gem-groups}"/>
+    </condition>
+    <echo message="Fetching gems for ${gemfile}" />
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/bundle update '${gem}' --jobs=8 --gemfile='${gemfile}' ${bundle-without-option} ${bundle-with-option}" />
+    </java>
+  </target>
+
   <!-- RSPEC -->
   <target name="rspec" depends="set-classpath" description="Run rspec">
     <property name="dir" value="../build/null"/><!--must be set by caller -->
