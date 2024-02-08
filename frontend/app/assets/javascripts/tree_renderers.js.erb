@@ -297,18 +297,18 @@ function dragHandleMarkup() {
   const rows = [8, 12, 16, 20, 24, 28];
   const cols = [10, 14, 18];
 
-  return `
-    <span class="drag-handle__span">
-      <svg role="presentation" viewBox="7 4 28 28">
-        <g fill="currentcolor" fill-rule="evenodd">
-          ${rows.reduce((acc, y) => {
-            cols.forEach((x) => {
-              acc += `<circle cx="${x}" cy="${y}" r="1"></circle>`;
-            });
-            return acc;
-          }, ``)}
-        </g>
-      </svg>
-    </span>
+  const bs4Gray700 = '#495057'; // Bootstrap 4's $gray-700
+  const faGripVertical = `
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="${bs4Gray700}"
+      width="40%"
+      role="presentation"
+      viewBox="0 0 320 512">
+      <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+      <path d="M40 352l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zm192 0l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 320c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 192l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 160c-22.1 0-40-17.9-40-40L0 72C0 49.9 17.9 32 40 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40z"/>
+    </svg>
   `;
+
+  return `<span class="pl-1">${faGripVertical}</span>`;
 }
