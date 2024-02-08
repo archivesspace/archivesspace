@@ -622,6 +622,8 @@ ja:
     no_results: 一致する結果はありません。 「ブラウズ」を試みてください。
     searching: 検索中...
     delete: "×"
+    components:
+      browse: コンポーネントを参照する
 
   mixed_content:
     wrap_prefix: ラップ：

@@ -691,6 +691,8 @@ en:
     no_results: No matching results.  Try 'Browse'.
     searching: Searching...
     delete: "&times;"
+    components:
+      browse: Browse Components
 
   mixed_content:
     wrap_prefix: "Wrap with:"

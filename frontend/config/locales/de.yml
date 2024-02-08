@@ -829,6 +829,8 @@ de:
     delete: '&times;'
     no_results: Keine passenden Ergebnisse.  Versuchen Sie 'Blättern'.
     searching: Suche...
+    components:
+      browse: Komponenten durchsuchen
   mixed_content:
     wrap_prefix: 'Umschließen mit:'
     help: Gemischter Inhalt aktiviert&#160;&#160;--&#160;&#160;Tippen Sie '<', um

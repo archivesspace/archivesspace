@@ -684,6 +684,8 @@ fr:
     no_results: Pas de résultats correspondants.  Essayez 'Parcourir'.
     searching: Recherche en cours...
     delete: "&times;"
+    components:
+      browse: Parcourir les composants
 
   mixed_content:
     wrap_prefix: "Mettre en forme avec:"

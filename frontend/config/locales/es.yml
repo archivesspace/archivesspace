@@ -672,6 +672,8 @@ es:
     no_results: No hay resultados coincidentes.  Trate de 'Examinar'.
     searching: Buscando...
     delete: "x"
+    components:
+      browse: Explorar componentes
 
   mixed_content:
     wrap_prefix: "Envolver con"
