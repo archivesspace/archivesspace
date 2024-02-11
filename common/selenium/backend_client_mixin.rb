@@ -36,11 +36,23 @@ module BackendClientMethods
   end
 
   def run_index_round
+    if ENV['ASPACE_TEST_BACKEND_URL']
+      puts "Skipping indexer, while running against backend: #{ENV['ASPACE_TEST_BACKEND_URL']}"
+
+      return
+    end
+
     $last_sequence ||= 0
     $last_sequence = $indexer.run_index_round($last_sequence)
   end
 
   def run_periodic_index
+    if ENV['ASPACE_TEST_BACKEND_URL']
+      puts "Skipping indexer, while running against backend: #{ENV['ASPACE_TEST_BACKEND_URL']}"
+
+      return
+    end
+
     $period.run_index_round
   end
 
