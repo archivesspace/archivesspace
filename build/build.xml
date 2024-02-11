@@ -698,7 +698,7 @@
     <record name="frontend_test_log.out" action="stop" />
   </target>
 
-  <target name="frontend:selenium" depends="set-classpath, frontend:clean, setup-integration" description="Run the Selenium tests">
+  <target name="frontend:selenium" depends="set-classpath" description="Run the Selenium tests">
     <dirset id="plugins" dir="../plugins">
       <include name="**/selenium"/>
     </dirset>
@@ -711,7 +711,16 @@
     </antcall>
   </target>
 
-  <target name="frontend:test" depends="set-classpath, frontend:clean, setup-integration" description="Run the non-Selenium unit test suite">
+  <target name="frontend:test" depends="set-classpath" description="Run the non-Selenium unit test suite">
+    <if>
+      <not>
+        <isset property="env.ASPACE_TEST_BACKEND_URL"/>
+      </not>
+      <then>
+        <antcall target="frontend:clean"/>
+        <antcall target="setup-integration"/>
+      </then>
+    </if>
     <property name="tag" value="~db"/>
     <antcall target="rspec">
       <param name="dir" value="../frontend" />
