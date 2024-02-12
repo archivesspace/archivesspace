@@ -1167,7 +1167,9 @@ es:
         add: Agregar un formulario de nombre
         make_authorized: Convertir en nombre autorizado
         make_display_name: Convertir en nombre a presentar en pantalla
-        make_primary: Hacer primaria
+        make_primary: Hacer primaria |
+            <p>Se utiliza para indicar qué autoridad vinculado al registro es el autoridad primaria. Solo se puede designar un autoridad vinculado como primaria.</p> 
+            <p>En la exportación MARCXML, el autoridad primaria será el valor 1XX.</p>
 
   note:
     _frontend:
