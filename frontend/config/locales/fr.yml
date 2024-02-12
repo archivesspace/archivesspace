@@ -1184,6 +1184,9 @@ fr:
         make_authorized: Convertir en nom normatif
         make_display_name: Convertir en nom d'affichage
         make_primary: Rendre primaire
+        make_primary_tooltip: |
+            <p>Permet d'indiquer quel agent lié à l'enregistrement est l'agent principal. Un seul agent lié peut être désigné comme principal.</p>
+            <p>Dans l'export MARCXML, l'agent principal sera la valeur 1XX.</p>
 
   note:
     _frontend:

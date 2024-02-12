@@ -1332,7 +1332,9 @@ de:
           sind.
         make_authorized_tooltip: Verwenden Sie diese Option, um diese Namensform zum
           autoritativen Namen zu machen.
-        make_primary_tooltip: Zur Primär-Info machen
+        make_primary_tooltip: |
+            <p>Wird verwendet, um anzugeben, welcher mit dem Datensatz verknüpfte Akteur der primäre Akteur ist. Es kann nur ein verknüpfter Akteur als primärer Akteur festgelegt werden.</p> 
+            <p>Beim MARCXML Export ist der primäre Akteur der 1XX-Wert.</p>
   note:
     _frontend:
       preview:
