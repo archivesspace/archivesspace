@@ -489,6 +489,9 @@ AS.openCustomModal = function (
   if (modalSize === 'large') {
     templateData.dialogClass = 'modal-lg';
     templateData.fill = false;
+  } else if (modalSize == 'xl') {
+    templateData.dialogClass = 'modal-xl';
+    templateData.fill = false;
   } else if (modalSize == 'full') {
     templateData.dialogClass = 'modal-jumbo';
     templateData.fill = false;

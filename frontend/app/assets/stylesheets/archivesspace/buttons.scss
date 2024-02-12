@@ -39,10 +39,16 @@
   }
 }
 
+.record-toolbar .suppress-record {
+  border-color: var(--secondary);
+}
+
 .suppress-record.disabled,
 .unsuppress-record.disabled,
 .delete-record.disabled,
-.btn-danger.disabled {
+.btn-danger.disabled,
+.btn-danger[disabled="disabled"],
+[data-allow-disabled] .btn.disabled {
   color: #000;
   background-color: #aaa;
   border-color: var(--secondary);

@@ -83,13 +83,9 @@
   <section>
     <header class="mb-3 d-flex align-items-center justify-content-between">
       <h4><%= t("extent_calculator.extent_record_header") %></h4>
-      <button type="button" class="btn btn-cancel" data-dismiss="modal"><%= t("actions.close") %></button>
+      <button type="button" class="btn btn-default" data-dismiss="modal"><%= t("actions.close") %></button>
     </header>
-    <div class="d-flex justify-content-center">
-      <div class="col-md-9">
-        <p><%= t("extent_calculator.create_extent_record_message") %></p>
-      </div>
-    </div>
+    <p class="alert alert-info"><%= t("extent_calculator.create_extent_record_message") %></p>
   </section>
 <% end %>
 </div>

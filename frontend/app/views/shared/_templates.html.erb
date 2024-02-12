@@ -28,8 +28,8 @@
   <%= form_tag({:controller => :container_profiles}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
     <div class="modal-body">
       <p class="alert alert-info" id="alertBucket"><%= t("container_profile._frontend.bulk_operations.merge_instructions") %></p>
-      <div class="selected-record-list well" id="mergeList">
-        <div role="radiogroup" aria-labelledby="mergeList">
+      <div class="selected-record-list card" id="mergeList">
+        <div class="card-body" role="radiogroup" aria-labelledby="mergeList">
           {for item in selection}
             <% item_uri = "${item.uri}" %>
             <div id="chkPref" role="radio" tabindex="0">

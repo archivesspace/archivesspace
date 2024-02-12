@@ -1,0 +1,11 @@
+<%
+  size = local_assigns[:size] || 16
+  circle_color = local_assigns[:circle_color] || "#ffc40d" # BSv4 var(--warning)
+  xmark_color = local_assigns[:xmark_color] || "black"
+  xmark_stroke_width = local_assigns[:xmark_stroke_width] || 8
+%>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="<%= size %>" height="<%= size %>">
+  <circle cx="25" cy="25" r="25" fill="<%= circle_color %>" />
+  <line x1="15" y1="15" x2="35" y2="35" stroke="<%= xmark_color %>" stroke-width="<%= xmark_stroke_width %>"/>
+  <line x1="35" y1="15" x2="15" y2="35" stroke="<%= xmark_color %>" stroke-width="<%= xmark_stroke_width %>"/>
+</svg>
