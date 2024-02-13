@@ -1001,9 +1001,14 @@ ja:
     _plural: 言語
 
   linked_agent:
+    is_primary: 主要な
     _frontend:
       action:
         add: エージェントリンクを追加
+        make_primary: プライマリにする
+        make_primary_tooltip: |
+            <p>レコードにリンクされているエージェントがプライマリ エージェントであることを示すために使用します。 リンクされたエージェントは 1 つだけプライマリとして指定できます。</p>
+            <p>MARCXML エクスポートでは、プライマリ エージェントは 1XX 値になります。</p>
 
   linked_record:
     _frontend:
@@ -1061,11 +1066,7 @@ ja:
         add: 名前フォームを追加
         make_authorized: 権限のある名前を作る
         make_display_name: 表示名を作る
-        make_primary: プライマリにする
-        make_primary_tooltip: |
-            <p>レコードにリンクされているエージェントがプライマリ エージェントであることを示すために使用します。 リンクされたエージェントは 1 つだけプライマリとして指定できます。</p>
-            <p>MARCXML エクスポートでは、プライマリ エージェントは 1XX 値になります。</p>
-
+        
   note:
     _frontend:
       preview:
