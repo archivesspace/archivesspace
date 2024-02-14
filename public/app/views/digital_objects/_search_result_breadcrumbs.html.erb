@@ -11,7 +11,7 @@
       <% if ['accession', 'resource'].include? instance_record.primary_type %>
         <%
           type = instance_record.primary_type
-          body = type == 'accession' ? 
+          body = type == 'accession' ?
             instance_record.display_string :
             instance_record.breadcrumb[0][:crumb]
         %>
@@ -34,6 +34,7 @@
   </div>
 
 <% else %>
+  <% require 'mixed_content_parser' %>
 
   <div class="flex result_context">
     <strong class="flex-shrink-0"><%= t('context') %>: </strong>
@@ -61,7 +62,9 @@
                 <%= render partial: 'shared/result_breadcrumbs_ancestor', locals: {
                   :span_class => "#{crumb[:type]}_name",
                   :badge_type => crumb[:type],
-                  :body => crumb[:crumb],
+                  :body => crumb[:crumb].include?('<emph') ?
+                    MixedContentParser.parse(crumb[:crumb], '/') :
+                    crumb[:crumb],
                   :url => i != num_crumbs - 1 ? app_prefix(crumb[:uri]) : app_prefix(uri),
                   :hide_delimiter => i == 0 ? true : false } %>
               <% end %>
