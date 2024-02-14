@@ -4,13 +4,39 @@
         <li>
           <% record.breadcrumb.each do |crumb| %>
             <% next if crumb[:uri].blank? %>
-            <%= badge_for_type(crumb[:type]) %> <%= link_to crumb[:crumb], app_prefix(crumb[:uri]) %> | 
+            <%= badge_for_type(crumb[:type]) %>
+            <%
+            if crumb[:crumb].include? '<emph'
+              title = MixedContentParser.parse(crumb[:crumb], '/')
+              tag = Nokogiri::HTML::DocumentFragment.parse(title)
+            %>
+              <span class="<%= tag.css('span').attr('class') %>"> <%= link_to tag.content, app_prefix(crumb[:uri]) %> </span>
+            <% else %>
+              <%= link_to crumb[:crumb], app_prefix(crumb[:uri]) %>
+            <% end %>
+            |
           <% end %>
-          <%= badge_for_type(record.primary_type) %> <strong><%= link_to record.display_string, app_prefix(uri) %></strong>
+          <%= badge_for_type(record.primary_type) %>
+          <strong>
+          <% if record.display_string.include? '<span' %>
+            <% tag = Nokogiri::HTML::DocumentFragment.parse(record.display_string) %>
+            <span class="<%= tag.css('span').attr('class') %>"> <%= link_to tag.content, app_prefix(uri) %> </span>
+          <% else %>
+            <%= link_to record.display_string, app_prefix(uri) %>
+          <% end %>
+          </strong>
         </li>
     <% else %>
         <li>
-          <%= badge_for_type(record.primary_type) %> <strong><%= link_to record.display_string, app_prefix(uri) %></strong>
+          <%= badge_for_type(record.primary_type) %>
+          <strong>
+          <% if record.display_string.include? '<span' %>
+            <% tag = Nokogiri::HTML::DocumentFragment.parse(record.display_string) %>
+            <span class="<%= tag.css('span').attr('class') %>"> <%= link_to tag.content, app_prefix(uri) %> </span>
+          <% else %>
+            <%= link_to record.display_string, app_prefix(uri) %>
+          <% end %>
+          </strong>
         </li>
     <% end %>
   <% end %>
