@@ -145,7 +145,7 @@ class Solr
       @pagination = nil
       @solr_params = []
       @facet_fields = []
-      @highlighting = false
+      highlighting(true)
 
       @show_suppressed = false
       @show_published_only = false
@@ -326,9 +326,7 @@ class Solr
 
       if @highlighting
         add_solr_param(:hl, "true")
-        if @query_type == :standard
-          add_solr_param(:"hl.fl", "*")
-        end
+        add_solr_param(:"hl.fl", "*")
       end
 
       unless @show_suppressed
