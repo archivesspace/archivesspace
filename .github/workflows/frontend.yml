@@ -68,3 +68,9 @@ jobs:
         ./build/run frontend:test
       env:
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
+
+    - uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: failed_spec_screenshots_${{ vars.GITHUB_RUN_ID }}_${{ vars.GITHUB_RUN_NUMBER}}
+        path: 'frontend/tmp/capybara'

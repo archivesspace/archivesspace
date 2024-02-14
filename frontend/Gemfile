@@ -47,6 +47,7 @@ group :test do
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
 
   gem 'capybara'
+  gem 'capybara-screenshot'
   # need access to ActiveSupport for helpers
   gem 'activesupport'
   # if the indexer requires it, our test suite requires it
