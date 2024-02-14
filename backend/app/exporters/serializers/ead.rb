@@ -210,12 +210,12 @@ class EADSerializer < ASpaceExport::Serializer
             end
 
             EADSerializer.run_serialize_step(data, xml, @fragments, :did)
-            
+
             if @include_daos
               data.instances_with_digital_objects.each do |instance|
                 serialize_digital_object(instance['digital_object']['_resolved'], xml, @fragments)
               end
-          end
+            end
 
           }# </did>
 
