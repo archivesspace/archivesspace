@@ -30,7 +30,15 @@ span.title {
 }
 
 li {
-  list-style-type: lower-alpha;    
+  list-style-type: none;    
+  position: relative;
+}
+
+li::before {
+    content: '•';
+    position: absolute;
+    left: -0.8em;          /* Adjust this value so that it appears where you want. */
+    font-size: 1.1em;      /* Adjust this value so that it appears what size you want. */
 }
 
  div.logo {
