@@ -160,6 +160,7 @@ class PUIIndexer < PeriodicIndexer
 
     start = Time.now
     checkpoints = []
+    update_mtimes = false
 
     tree_uris = []
 
@@ -200,6 +201,7 @@ class PUIIndexer < PeriodicIndexer
 
       index_batch(batch, nil, :parent_id_field => 'pui_parent_id')
       send_commit
+      update_mtimes = true
     end
 
     if tree_indexer.deletes.length > 0
@@ -215,7 +217,7 @@ class PUIIndexer < PeriodicIndexer
     @unpublished_records.clear()
 
     checkpoints.each do |repository, type, start|
-      @state.set_last_mtime(repository.id, type, start)
+      @state.set_last_mtime(repository.id, type, start) if update_mtimes
     end
 
   end
