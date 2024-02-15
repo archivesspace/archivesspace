@@ -21,7 +21,7 @@
     <dt><%= I18n.t('resource._public.identifier_pdf') %>:</dt><dd><%= record.identifier %></dd>
 
     <% if record['ark_name'] %> 
-      <dt><%= I18n.t('resource._public.identifier_ark') %>:</dt><dd><%= record['ark_name'].first %></dd>
+      <dt><%= I18n.t('resource._public.identifier_ark') %>:</dt><dd><a href='<%= record['ark_name'].first %>'>Archival Resource Key</a></dd>
 
     <% end %> 
 
@@ -35,12 +35,6 @@
 
     <% record.extents.each do |extent| %>
         <dt><%= I18n.t('resource._public.physdesc') %>:</dt><dd><%= extent['display'] %></dd>
-    <% end %>
-
-
-    <% unless record.finding_aid['language_note'].nil? %>
-      <dt><%= I18n.t('resource._public.lang') %>:</dt>
-      <dd><%= record.finding_aid['language_note'] %></dd>
     <% end %>
 
     <% unless record.notes.include?('langmaterial') || record.lang_materials.blank? %>
@@ -60,6 +54,15 @@
     <% end %>
 
     <% record.notes.each do |note_type, note| %>
+        <% if note_type == 'langmaterial' %>
+            <a id="note-<%= note_type %>"></a>
+            <% note.each do |n| %>
+              <dt><%= n['label'] ? n['label'] : I18n.t("enumerations._note_types.#{note_type}") %>:</dt><dd><%== process_mixed_content(n['note_text']) %></dd>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <% record.notes.each do |note_type, note| %>
         <% if note_type == 'physloc' %>
             <a id="note-<%= note_type %>"></a>
             <% note.each do |n| %>
@@ -70,15 +73,6 @@
 
     <% record.notes.each do |note_type, note| %>
         <% if note_type == 'abstract' %>
-            <a id="note-<%= note_type %>"></a>
-            <% note.each do |n| %>
-              <dt><%= n['label'] ? n['label'] : I18n.t("enumerations._note_types.#{note_type}") %>:</dt><dd><%== process_mixed_content(n['note_text']) %></dd>
-            <% end %>
-        <% end %>
-    <% end %>
-
-    <% record.notes.each do |note_type, note| %>
-        <% if note_type == 'physloc' %>
             <a id="note-<%= note_type %>"></a>
             <% note.each do |n| %>
               <dt><%= n['label'] ? n['label'] : I18n.t("enumerations._note_types.#{note_type}") %>:</dt><dd><%== process_mixed_content(n['note_text']) %></dd>
@@ -108,7 +102,6 @@
             <% end %>
         <% end %>
     <% end %>
-
 
 <div class='bioghist'>
   <a id="note-bioghist"></a>
@@ -183,62 +176,60 @@
     <% contacts = nil %>
 <% end %>
 
-<br />
+
 <div class="repository-information">
   <div class="repository-address"><%= record.resolved_repository['name'] %></div>
   
   <% if contacts %>
     <div class="repository-address">
+      <% if contacts['address_1'] %> 
         <p><%= contacts['address_1'] %></p>
+      <% end %>
+
+      <% if contacts['address_2'] %> 
         <p><%= contacts['address_2'] %></p>
+      <% end %>
+
+      <% if contacts['address_3'] %> 
         <p><%= contacts['address_3'] %></p>
+      <% end %>
 
-        <% address_string = "" %>
-        <% address_string += contacts['city'] if contacts['city'] %>
-        <% address_string += ", #{contacts['region']}" if contacts['region'] %>
-        <% address_string += " #{contacts['post_code']}" if contacts['post_code'] %>
+      <% address_string = "" %>
+      <% address_string += contacts['city'] if contacts['city'] %>
+      <% address_string += ", #{contacts['region']}" if contacts['region'] %>
+      <% address_string += " #{contacts['post_code']}" if contacts['post_code'] %>
 
+      <% unless address_string.empty? %> 
         <p><%= address_string %></p>
+      <% end %>
     </div>
   <% end %>
 </div>
 <br />
 
-<% unless record.notes['acqinfo'].nil? %>
-  <h4><%= I18n.t('pdf_reports.acqinfo') %></h4>
-  <% record.notes['acqinfo'].each do |acqinfo| %>
-      <% acqinfo['subnotes'].each do |sn| %>
-      <p><%= sn['content'] %></p>
-      <% end %>
+<% if record.finding_aid['revision'].length > 0 %>
+  <h4><%= I18n.t('revision_statement.description') %></h4>
+  <% record.finding_aid['revision'].each do |rev| %>
+    <p><%= rev['desc'] %></p>
   <% end %>
 <% end %>
 
+<%# display all notes %>
+<% record.notes.each do |note_type, note| %>
+  <% next if note_type == "bioghist" %> 
+  <% next if note_type == "scopecontent" %> 
+  <% next if note_type == "relatedmaterial" %> 
+  <% next if note_type == "odd" %> 
+  <% next if note_type == "arrangement" %> 
+  <% next if note_type == "prefercite" %> 
 
-<% unless record.notes['accruals'].nil? %>
-  <h4><%= I18n.t('pdf_reports.accruals') %></h4>
-  <% record.notes['accruals'].each do |accruals| %>
-      <% accruals['subnotes'].each do |sn| %>
-      <p><%= sn['content'] %></p>
-      <% end %>
-  <% end %>
-<% end %>
-
-
-<% unless record.notes['accessrestrict'].nil? %>
-  <h4><%= I18n.t('pdf_reports.accessrestrict') %></h4>
-  <% record.notes['accessrestrict'].each do |accessrestrict| %>
-      <% accessrestrict['subnotes'].each do |sn| %>
-      <p><%= sn['content'] %></p>
-      <% end %>
-  <% end %>
-<% end %>
-
-<% unless record.notes['userestrict'].nil? %>
-  <h4><%= I18n.t('pdf_reports.userestrict') %></h4>
-  <% record.notes['userestrict'].each do |userestrict| %>
-      <% userestrict['subnotes'].each do |sn| %>
-      <p><%= sn['content'] %></p>
-      <% end %>
+  <% record.notes[note_type].each do |n| %>
+    <% next unless n['subnotes'] %>
+    <% n['subnotes'].each do |sn| %>
+      <% next unless sn['content'] %>
+      <h4><%= I18n.t("enumerations._note_types.#{note_type}") %></h4>
+      <p><%= simple_format(sn['content']) %></p>
+    <% end %>
   <% end %>
 <% end %>
 
@@ -284,6 +275,23 @@
 
   <a href="#toc">Return to Table of Contents</a>
 <% end %>
+
+
+<% unless record.notes['odd'].nil? %>
+  <% record.notes['odd'].each do |n| %>
+    <h3>
+      <% if n['label'] %>
+          <%== process_mixed_content(n['label']) %>
+      <% else %>
+          <%= I18n.t("enumerations._note_types.odd") %>
+      <% end %>
+    </h3>
+    <p><%== process_mixed_content(n['note_text']) %></p>
+  <% end %>
+
+  <a href="#toc">Return to Table of Contents</a>
+<% end %>
+
 
 <% ASUtils.find_local_directories('public/views/_pdf_resource.html.erb').each do |template| %>
     <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>

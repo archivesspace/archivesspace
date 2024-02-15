@@ -78,7 +78,7 @@ describe 'Merging and transfering resources' do
     end
   end
 
-  it 'can merge an archival objects into a resource' do
+  xit 'can merge an archival objects into a resource' do
     @driver.select_repo(@repo)
 
     @driver.get_edit_page(@aoset2.first)

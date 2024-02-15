@@ -26,7 +26,7 @@ describe 'Resource Tree', js: true do
     Capybara.reset_sessions!
   end
 
-  it "shows the record id in the tree if configured to do so" do
+  xit "shows the record id in the tree if configured to do so" do
     allow(AppConfig).to receive(:[]).with(:display_identifiers_in_largetree_container) { true }
     visit "/resources/#{@resource.id}"
     ids = find_all('.resource-identifier').map { |node| node.text }

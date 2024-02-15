@@ -762,10 +762,35 @@ describe 'Resources and archival objects' do
     @driver.find_element(:link, 'Calculate Extent').click
     sleep 1
 
+    @driver.find_element(id: 'extent_portion_').select_option('whole')
+    @driver.find_element(id: 'extent_number_').send_keys('1')
+    @driver.find_element(id: 'extent_extent_type_').select_option('linear_feet')
+
     @driver.find_element(:link, 'Create Extent').click
     sleep 1
 
     @driver.find_element(xpath: '//section[@id="resource_extents_"]//li[@data-index="1"]')
 
   end
+
+  it 'enforces required fields in extent calculator' do
+    @driver.get_edit_page(@resource)
+
+    @driver.find_element(id: 'other-dropdown').click
+    @driver.wait_for_dropdown
+
+    @driver.find_element(:link, 'Calculate Extent').click
+    sleep 1
+
+    @driver.find_element(id: 'extent_number_').clear
+
+    @driver.find_element(:link, 'Create Extent').click
+    sleep 1
+
+    expect { @driver.switch_to.alert }.not_to raise_error
+
+    #make sure to close it so as not to interfere with other tests
+    @driver.switch_to.alert.accept
+  end
+
 end

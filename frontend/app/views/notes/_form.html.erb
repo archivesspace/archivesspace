@@ -23,7 +23,9 @@
     <% if show_apply_note_order_action %>
       <button class="btn btn-sm btn-default pull-right apply-note-order" disabled="disabled"><%= I18n.t("note._frontend.action.apply_note_order") %></button>
     <% end %>
-    <button class="btn btn-sm btn-default pull-right add-note"><%= I18n.t(add_button_text) %></button>
+    <% unless form.readonly? %>
+      <button class="btn btn-sm btn-default pull-right add-note"><%= I18n.t(add_button_text) %></button>
+    <% end %>
 
   </<%= header_size%>>
   <div class="subrecord-form-container mixed-content-anchor">

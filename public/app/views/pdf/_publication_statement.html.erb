@@ -1,9 +1,9 @@
 <div class="repository-information">
-    <div class="repository-name"><%= repository_name['name'] %></div>
-    <div class="repository-address">
-        
-    </div>
-
+    <% if repository_name['name'] %>
+      <div class="repository-name"><%= repository_name['name'] %></div>
+        <div class="repository-address">
+      </div>
+    <% end %>
     <% if repository_information['email'] %>
         <div class="repository-email"><a href="mailto:<%= repository_information['email'] %>"><%= repository_information['email'] %></a></div>
     <% end %>

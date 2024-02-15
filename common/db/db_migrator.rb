@@ -300,9 +300,16 @@ EOF
 
   def self.nuke_database(db)
     $db_type = db.database_type
-    PLUGIN_MIGRATIONS.reverse.each { |plugin| Sequel::Migrator.run(db, PLUGIN_MIGRATION_DIRS[plugin],
-                                                                     :table => "#{plugin}_schema_info", :target => 0) }
-    Sequel::Migrator.run(db, MIGRATIONS_DIR, :target => 0)
+
+    if $db_type == :mysql
+      db.run('SET foreign_key_checks = 0;')
+      db.drop_table?(*db.tables)
+      db.run('SET foreign_key_checks = 1;')
+    else
+      PLUGIN_MIGRATIONS.reverse.each { |plugin| Sequel::Migrator.run(db, PLUGIN_MIGRATION_DIRS[plugin],
+        :table => "#{plugin}_schema_info", :target => 0) }
+      Sequel::Migrator.run(db, MIGRATIONS_DIR, :target => 0)
+    end
   end
 
   def self.needs_updating?(db)

@@ -24,10 +24,11 @@ class DB
   class DBPool
     DATABASE_READ_ONLY_REGEX = /is read only|server is running with the --read-only option/
 
-    attr_reader :pool_size
+    attr_reader :pool_size, :pool_timeout
 
-    def initialize(pool_size = AppConfig[:db_max_connections], opts = {})
+    def initialize(pool_size = AppConfig[:db_max_connections], pool_timeout = AppConfig[:db_pool_timeout], opts = {})
       @pool_size = pool_size
+      @pool_timeout = pool_timeout
       @opts = opts
 
       @lock = Mutex.new
@@ -44,6 +45,7 @@ class DB
           Log.info("Connecting to database: #{AppConfig[:db_url_redacted]}. Max connections: #{pool_size}")
           pool = Sequel.connect(AppConfig[:db_url],
                                 :max_connections => pool_size,
+                                :pool_timeout => pool_timeout,
                                 :test => true,
                                 :loggers => (AppConfig[:db_debug_log] ? [Logger.new($stderr)] : [])
                                )

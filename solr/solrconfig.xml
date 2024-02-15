@@ -56,4 +56,7 @@
     <defaultQuery>*:*</defaultQuery>
   </admin>
   <requestHandler name="/admin/luke" class="org.apache.solr.handler.admin.LukeRequestHandler" />
+  <indexConfig>
+    <lockType>${solr.lock.type:native}</lockType>
+  </indexConfig>
 </config>

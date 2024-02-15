@@ -14,8 +14,8 @@
     <div class="input-group linker-wrapper">
       <input type="text" class="linker"
              id="<%= linker_id %>"
-             data-label="<%= I18n.t "accession.component_link" %>"
-             data-label_plural="<%= I18n.t "accession.component_links" %>"
+             data-label_link="<%= I18n.t "linker.link" %>"
+             data-label_browse="<%= I18n.t "linker.components.browse" %>"
              data-path="<%= form.path %>"
              data-name="ref"
              data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
