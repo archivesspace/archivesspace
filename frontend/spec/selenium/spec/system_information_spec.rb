@@ -10,10 +10,10 @@ describe 'System Information' do
     @archivist_user = create_user(@repo => ['repository-archivists'])
     @driver = Driver.get
 
-    @other_admin_user = create_user
-    group = create(:json_group,
-                     member_usernames: [@other_admin_user.username],
-                     grants_permissions: ["administer_system"])
+    @other_admin_user = create_user(@repo => ['administer_system'])
+   # group = create(:json_group,
+   #                  member_usernames: [@other_admin_user.username],
+   #                  grants_permissions: ["administer_system"])
   end
 
   after(:all) do
