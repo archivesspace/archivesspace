@@ -15,8 +15,8 @@ describe 'DatepickerPlugin', js: true do
       click_button "Sign In"
     end
 
-    page.has_no_xpath? '//input[@id="login"]'
-    page.has_css? 'button[title="Show Advanced Search"]'
+    expect(page).not_to have_xpath('//input[@id="login"]')
+    expect(page).to have_css('button[title="Show Advanced Search"]')
     first('button[title="Show Advanced Search"]').click
     first('.advanced-search-add-row-dropdown').click
     first('.advanced-search-add-date-row').click
