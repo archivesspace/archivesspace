@@ -3,6 +3,6 @@
 docker build \
   --build-arg GECKODRIVER_VERSION=0.29.1 \
   --build-arg MYSQL_CONNECTOR_VERSION=8.0.23 \
-  --build-arg SOLR_VERSION=8.11.2 \
+  --build-arg SOLR_VERSION=9.4.1 \
   -f ./Dockerfile \
   -t archivesspace/devcontainer:latest ..
