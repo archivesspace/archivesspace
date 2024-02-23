@@ -270,7 +270,7 @@ class DB
     end
 
     def sysinfo
-      jdbc_metadata.merge(system_metadata)
+      jdbc_metadata.merge(system_metadata).merge({ "archivesSpaceVersion" => ASConstants.VERSION})
     end
 
 
@@ -282,7 +282,10 @@ class DB
 
     def system_metadata
       RbConfig.const_get("CONFIG").select { |key| ['host_os', 'host_cpu',
-                                                   'build', 'ruby_version'].include? key }
+                                                   'build', 'ruby_version'].include? key }.merge({
+                                                      'java.runtime.name' => java.lang.System.getProperty('java.runtime.name'),
+                                                      'java.version' => java.lang.System.getProperty('java.version')
+                                                    })
     end
 
     def needs_savepoint?
