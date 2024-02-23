@@ -47,9 +47,9 @@
               <span class="btn-busy-label"><%= t("location_batch._frontend.action.creating") %></span>
             </button>
             <% if !@is_batch_update %> 
-              <button type="button" class="btn preview-locations border"><%= I18n.t("location_batch._frontend.action.preview") %></button>
+              <button type="button" class="btn btn-default preview-locations"><%= I18n.t("location_batch._frontend.action.preview") %></button>
             <% end %>   
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default border" %>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

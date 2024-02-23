@@ -3,7 +3,7 @@
      <div class="modal-dialog {if dialogClass} ${dialogClass}{/if}">
        <div class="modal-content">
          {if defined("title") && title.length > 0}
-           <div class="modal-header align-items-center justify-content-between">
+           <div class="modal-header align-items-start justify-content-between">
              <h3>${title|h}</h3>
              <button type="button" class="btn close" data-dismiss="modal">×</button>
            </div>
@@ -123,9 +123,9 @@
      {/if}
      {if defined('must_select') && must_select}
      {elseif defined('cancel_button_text')}
-     <button class="btn btn-cancel btn-default border" data-dismiss="modal">${cancel_button_text}</button>
+     <button class="btn btn-cancel btn-default" data-dismiss="modal">${cancel_button_text}</button>
      {else}
-     <button class="btn btn-cancel btn-default border" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+     <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
      {/if}
    </div>
 --></div>

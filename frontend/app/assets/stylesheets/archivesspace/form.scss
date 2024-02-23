@@ -183,9 +183,7 @@ form .form-group {
 
 .record-pane h3 {
   background-color: #f6f6f6;
-  #gradient {
-    @include vertical(#f3f3f3, #ededed);
-  }
+  @include vertical(#f3f3f3, #ededed);
 
   border-bottom: 1px solid #ddd;
   padding-left: 10px;
@@ -216,9 +214,8 @@ form .form-group {
 
 .record-pane section section h4 {
   background-color: #f6f6f6;
-  #gradient {
-    @include vertical(#f3f3f3, #ededed);
-  }
+
+  @include vertical(#f3f3f3, #ededed);
 
   border-bottom: 1px solid #ddd;
   padding-left: 10px;
@@ -257,9 +254,8 @@ form .form-group {
 
   .subrecord-form-heading {
     background-color: #f6f6f6;
-    #gradient {
-      @include vertical(#f3f3f3, #ededed);
-    }
+
+    @include vertical(#f3f3f3, #ededed);
 
     padding: 0 10px;
     min-height: 1.4em;
@@ -641,9 +637,8 @@ ul.subrecord-form-list {
       @include transition(background-color linear 0.1s);
 
       background-color: $btnBackgroundHighlight;
-      #gradient {
-        @include vertical($btnBackground, $btnBackgroundHighlight);
-      }
+
+      @include vertical($btnBackground, $btnBackgroundHighlight);
     }
 
     &:active {

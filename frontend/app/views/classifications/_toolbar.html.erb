@@ -16,15 +16,10 @@
         <%= t("actions.toolbar_disabled_message") %>
       </div>
     <% end %>
-    <div class="btn-toolbar ml-auto">
-      <% if user_can?('delete_classification_record') %>
-        <div class="btn-group">
-          <div class="btn btn-inline-form">
-            <%= button_delete_action url_for(:controller => :classifications, :action => :delete, :id => @classification.id), { :"data-title" => t("actions.delete_confirm_title", :title => @classification.title) } %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    <div class="clearfix"></div>
+    <% if user_can?('delete_classification_record') %>
+      <div class="btn-toolbar ml-auto">
+        <%= button_delete_action url_for(:controller => :classifications, :action => :delete, :id => @classification.id), { :"data-title" => t("actions.delete_confirm_title", :title => @classification.title) } %>
+      </div>
+    <% end %>
   </div>
 <% end %>

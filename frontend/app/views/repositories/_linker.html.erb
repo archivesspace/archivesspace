@@ -13,8 +13,8 @@
 
   linkable_types = ["repository"]
 %>
-<div class="form-group <% if required %>required<% end %>">
-  <label class="control-label col-sm-2"
+<div class="d-flex form-group <% if required %>required<% end %>">
+  <label class="control-label col-sm-2 text-right"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
     <%= t("repository._singular") %>

@@ -106,9 +106,7 @@ li.token-input-token {
   }
 
   &:hover {
-    #gradient {
-      @include vertical(#a4e3ff, #77d5ff);
-    }
+    @include vertical(#a4e3ff, #77d5ff);
     @include transition('linear .2s');
   }
 }
