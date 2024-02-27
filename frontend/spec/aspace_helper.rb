@@ -42,6 +42,7 @@ module ASpaceHelpers
   end
 
   def select_repository(repo)
+    page.has_xpath?("//a[contains(text(), 'Select Repository')]")
     click_link 'Select Repository'
     if repo.respond_to? :repo_code
       select repo.repo_code, from: 'id'
