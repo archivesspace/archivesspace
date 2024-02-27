@@ -100,9 +100,15 @@ describe 'Collection Management', js: true do
   it 'can export a list of jobs to CSV' do
     visit 'collection_management'
 
-    click_on 'Download CSV'
-    files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+    # Delete any existing CSV files
+    csv_files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+    csv_files.each do |file|
+      File.delete(file)
+    end
 
-    expect(files.length).to eq(1)
+    click_on 'Download CSV'
+
+    csv_files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+    expect(csv_files.length).to eq(1)
   end
 end
