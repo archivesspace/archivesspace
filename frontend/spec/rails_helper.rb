@@ -56,7 +56,7 @@ Capybara::Screenshot.register_driver(:firefox) do |driver, path|
 end
 
 # keep the last 30 screenshots / pages of capybara spec failures
-Capybara::Screenshot.prune_strategy = { keep: 30 }
+Capybara::Screenshot.prune_strategy = :keep_last_run
 
 
 RSpec.configure do |config|
