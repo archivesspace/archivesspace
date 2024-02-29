@@ -756,3 +756,8 @@ AppConfig[:pui_pdf_title_line_height] = "140%"
 # Password recovery - requires email configuration
 # See example email configuration above
 AppConfig[:allow_password_reset] = false
+
+# Allow users with the 'administer_system' role to view the system_info route (e.g., FRONTEND_BASE_URL/system_info)
+# By default, this route is only accessible to the 'admin' user, and no other admins.
+
+AppConfig[:allow_other_admins_access_to_system_info] = false
