@@ -19,7 +19,8 @@ class IndexState
       fh.puts(time.to_i)
     end
 
-    File.rename("#{path}.tmp", "#{path}.dat")
+    # check file exists for multi-instance deployment race condition
+    File.rename("#{path}.tmp", "#{path}.dat") if File.exist?("#{path}.tmp")
   end
 
 

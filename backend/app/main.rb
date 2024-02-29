@@ -343,7 +343,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   get '/' do
-    sys_info = DB.sysinfo.merge({ "archivesSpaceVersion" => ASConstants.VERSION})
+    sys_info = DB.sysinfo
 
     request.accept.each do |type|
       case type

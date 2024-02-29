@@ -3,6 +3,7 @@ require 'exceptions'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rails'
+require 'capybara-screenshot/rspec'
 require 'rails-controller-testing'
 require 'selenium-webdriver'
 require_relative 'selenium/common/webdriver'
@@ -41,6 +42,21 @@ end
 # This should change once the app gets to a point where it's not just throwing
 # tons of errors...
 Capybara.raise_server_errors = false
+
+# Html pages saved after Capybara spec failures will reference this to load assets
+# so running a local dev server will help displaying the page correctly in a browser
+Capybara.asset_host = 'http://localhost:3000/'
+
+Capybara::Screenshot.register_driver(:chrome) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
+
+Capybara::Screenshot.register_driver(:firefox) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
+
+# keep the last 30 screenshots / pages of capybara spec failures
+Capybara::Screenshot.prune_strategy = :keep_last_run
 
 
 RSpec.configure do |config|

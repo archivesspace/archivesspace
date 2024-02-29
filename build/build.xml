@@ -48,8 +48,11 @@
   <property name="env.ASPACE_TEST_SOLR_URL" value="${aspace.solr_url.test}" />
   <property name="env.ASPACE_TEST_DATA_DIRECTORY" value="${aspace.data_directory.test}" />
 
+  <condition property="java_version_compatibility"  value="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED" else="">
+    <javaversion atleast="17"/>
+  </condition>
 
-  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Dfile.encoding=UTF-8 -Djavax.accessibility.assistive_technologies='' -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver" />
+  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Dfile.encoding=UTF-8 -Djavax.accessibility.assistive_technologies='' -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver ${java_version_compatibility}" />
 
   <!-- TASKS -->
   <!-- Build tasks invoked using `./build/run [$task]` from the aspace directory -->

@@ -22,7 +22,12 @@ class UsersController < ApplicationController
   end
 
   def manage_access
-    @search_data = JSONModel(:user).all(:page => selected_page)
+    @search_data = JSONModel(:user).all(
+      page: selected_page,
+      page_size: 50,
+      sort_field: params.fetch(:sort, :username),
+      sort_direction: params.fetch(:direction, :asc)
+    )
     @manage_access = true
     render :action => "index"
   end

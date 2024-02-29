@@ -829,6 +829,8 @@ de:
     delete: '&times;'
     no_results: Keine passenden Ergebnisse.  Versuchen Sie 'Blättern'.
     searching: Suche...
+    components:
+      browse: Komponenten durchsuchen
   mixed_content:
     wrap_prefix: 'Umschließen mit:'
     help: Gemischter Inhalt aktiviert&#160;&#160;--&#160;&#160;Tippen Sie '<', um
@@ -1323,14 +1325,13 @@ de:
       action:
         add: Namensform hinzufügen
         make_authorized: Zum autoritativen Namen machen
-        make_display_name: Zum Anzeigenamen machen
-        make_primary: Zum Primärnamen machen
+        make_display_name: Zum Anzeigenamen machen        
         make_display_name_tooltip: Verwenden Sie diese Option, um diese Namensform
           anzuzeigen, wenn der Akteur-Aufzeichnung mehrere Namensformen zugeordnet
           sind.
         make_authorized_tooltip: Verwenden Sie diese Option, um diese Namensform zum
           autoritativen Namen zu machen.
-        make_primary_tooltip: Zur Primär-Info machen
+        
   note:
     _frontend:
       preview:
@@ -1908,7 +1909,10 @@ de:
     _frontend:
       action:
         add: Akteur-Verknüpfung hinzufügen
-        make_primary_tooltip: Zum primären Akteur machen
+        make_primary_tooltip: |
+            <p>Zum primären Akteur machen</p>
+            <p>Wird verwendet, um anzugeben, welcher mit dem Datensatz verknüpfte Akteur der primäre Akteur ist. Es kann nur ein verknüpfter Akteur als primärer Akteur festgelegt werden.</p> 
+            <p>Beim MARCXML Export ist der primäre Akteur der 1XX-Wert.</p>
         make_primary: Primär machen
     is_primary: Primär
   linked_record:

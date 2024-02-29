@@ -29,13 +29,15 @@ jobs:
           - 3307:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       solr:
-        image: solr:8.11
+        image: solr:9.4.1
+        env:
+          SOLR_MODULES: analysis-extras
         ports:
           - 8984:8983
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-java@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
       with:
         java-version: ${{ matrix.java }}
         distribution: temurin

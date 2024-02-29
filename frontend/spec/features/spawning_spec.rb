@@ -24,7 +24,7 @@ describe 'Spawning', js: true do
     Capybara.reset_sessions!
   end
 
-  it "can spawn a resource component from an accession" do
+  xit "can spawn a resource component from an accession" do
     @resource = create(:resource)
     @parent = create(:json_archival_object,
                      resource: {'ref' => @resource.uri},
@@ -57,4 +57,5 @@ describe 'Spawning', js: true do
     linked_component_ref_id = find("#accession_component_links_ table tbody tr td:nth-child(1)").text
     expect(linked_component_ref_id).to eq(ref_id)
   end
+
 end

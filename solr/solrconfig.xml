@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-  <lib dir="${solr.install.dir}/dist/" regex="solr-analysis-extras.*\.jar" />
-  <lib dir="${solr.install.dir}/contrib/analysis-extras/lucene-libs" regex="lucene-analyzers-icu-.*\.jar" />
-  <lib dir="${solr.install.dir}/contrib/analysis-extras/lib/" regex="icu4j-*.*\.jar" />
   <schemaFactory class="ClassicIndexSchemaFactory"/>
-  <luceneMatchVersion>8.10</luceneMatchVersion>
+  <luceneMatchVersion>LATEST</luceneMatchVersion>
   <dataDir>${solr.data.dir:}</dataDir>
   <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}" />
   <updateHandler class="solr.DirectUpdateHandler2">
@@ -17,9 +14,9 @@
   </updateHandler>
   <query>
     <maxBooleanClauses>1024</maxBooleanClauses>
-    <filterCache class="solr.FastLRUCache" size="512" initialSize="512" autowarmCount="0" />
-    <queryResultCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="0" />
-    <documentCache class="solr.LRUCache" size="512" initialSize="512" autowarmCount="0" />
+    <filterCache class="solr.CaffeineCache" size="1024" initialSize="512" autowarmCount="0" async="true" />
+    <queryResultCache class="solr.CaffeineCache" size="512" initialSize="512" autowarmCount="128" />
+    <documentCache class="solr.CaffeineCache" size="512" initialSize="512" autowarmCount="0" />
     <enableLazyFieldLoading>true</enableLazyFieldLoading>
     <queryResultWindowSize>20</queryResultWindowSize>
     <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
