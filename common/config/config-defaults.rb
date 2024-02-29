@@ -731,11 +731,27 @@ AppConfig[:allow_pui_language_selection] = true
 AppConfig[:pui_repositories_sort] = :display_string
 
 # Set the font used to generate PDFs in the PUI
-AppConfig[:pui_pdf_font_file] = "NotoSerif-Regular.ttf"
-AppConfig[:pui_pdf_bold_font_file] = "NotoSerif-Bold.ttf"
-AppConfig[:pui_pdf_italic_font_file] = "NotoSerif-Italic.ttf"
+AppConfig[:pui_pdf_font_files] = ["KurintoText-Rg.ttf",
+                                  "KurintoText-Bd.ttf",
+                                  "KurintoText-It.ttf",
+                                  "KurintoTextJP-Rg.ttf",
+                                  "KurintoTextJP-Bd.ttf",
+                                  "KurintoTextJP-It.ttf",
+                                  "KurintoTextKR-Rg.ttf",
+                                  "KurintoTextKR-Bd.ttf",
+                                  "KurintoTextKR-It.ttf",
+                                  "KurintoTextSC-Rg.ttf",
+                                  "KurintoTextSC-Bd.ttf",
+                                  "KurintoTextSC-It.ttf",
+                                  "NotoSerif-Regular.ttf",
+                                  "NotoSerif-Bold.ttf",
+                                  "NotoSerif-Italic.ttf"]
 
-AppConfig[:pui_pdf_font_name] = "Noto Serif"
+AppConfig[:pui_pdf_font_name] = "Kurinto Text,Kurinto Text JP,Kurinto Text KR,Kurinto Text SC,Noto Serif"
+
+
+AppConfig[:pui_pdf_paragraph_line_height] = "125%"
+AppConfig[:pui_pdf_title_line_height] = "140%"
 
 # Password recovery - requires email configuration
 # See example email configuration above
