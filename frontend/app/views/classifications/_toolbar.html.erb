@@ -1,25 +1,32 @@
 <% if user_can?('update_classification_record') %>
-  <div class="record-toolbar d-flex align-items-center">
-    <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
-      <div class="btn-group">
-        <%= link_to t("actions.edit"), {:controller => :classifications, :action => :edit, :id => @classification.id, :anchor => "classification_#{@classification.id}"}, :class => "btn btn-sm btn-primary" %>
-      </div>
-    <% end %>
-    <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-      <div class="save-changes">
-        <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
-      </div>
-    <% end %>
+  <section class="d-flex flex-column">
+    <div class="record-toolbar d-flex align-items-center gap-x-2" role="toolbar">
+      <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
+        <div class="btn-group">
+          <%= link_to t("actions.edit"), {:controller => :classifications, :action => :edit, :id => @classification.id, :anchor => "classification_#{@classification.id}"}, :class => "btn btn-sm btn-primary" %>
+        </div>
+      <% end %>
+      <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+        <div class="save-changes">
+          <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
+        </div>
+      <% end %>
+      <% if ['edit', 'update'].include?(controller.action_name) %>
+        <div class="revert-changes">
+          <%= link_to t("actions.revert"), {:controller => :classifications, :action => :edit, :id => @classification.id}, :class => "btn btn-sm btn-default" %>
+        </div>
+      <% end %>
+      <% if user_can?('delete_classification_record') %>
+        <div class="ml-auto btn-group" data-allow-disabled>
+          <%= button_delete_action url_for(:controller => :classifications, :action => :delete, :id => @classification.id), { :"data-title" => t("actions.delete_confirm_title", :title => @classification.title) } %>
+        </div>
+      <% end %>
+    </div>
+
     <% if ['edit', 'update'].include?(controller.action_name) %>
-      <div class="revert-changes fuck">
-        <%= link_to t("actions.revert"), {:controller => :classifications, :action => :edit, :id => @classification.id}, :class => "btn btn-sm btn-default" %>
-        <%= t("actions.toolbar_disabled_message") %>
+      <div id="record-toolbar-alert">
+        <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
       </div>
     <% end %>
-    <% if user_can?('delete_classification_record') %>
-      <div class="btn-toolbar ml-auto">
-        <%= button_delete_action url_for(:controller => :classifications, :action => :delete, :id => @classification.id), { :"data-title" => t("actions.delete_confirm_title", :title => @classification.title) } %>
-      </div>
-    <% end %>
-  </div>
+  </section>
 <% end %>

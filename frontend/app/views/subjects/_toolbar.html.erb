@@ -15,7 +15,7 @@
         </div>
       <% end %>
 
-      <div class="d-flex gap-x-2 flex-shrink-0 ml-auto" data-allow-disabled>
+      <div class="ml-auto btn-group" data-allow-disabled>
         <% if user_can?('merge_subject_record') %>
           <%=
           render_aspace_partial :partial => "shared/merge_dropdown",

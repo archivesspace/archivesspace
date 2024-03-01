@@ -20,7 +20,7 @@
       <% if !['new', 'create'].include?(controller.action_name) %>
         <button
           id="showSpaceCalculator"
-          class="btn btn-sm btn-default"
+          class="btn btn-sm btn-default no-change-tracking"
           data-calculator-url="<%= url_for :controller => :space_calculator, :action => :show, :inline => true %>"
           data-modal-content="<%= t("space_calculator.modal_loading") %>"
           data-selectable="false"
