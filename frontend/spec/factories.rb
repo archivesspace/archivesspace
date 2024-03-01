@@ -81,6 +81,7 @@ module Factories
         content_description { '9 guinea pigs' }
         condition_description { 'furious' }
         accession_date { '1990-01-01' }
+        lang_materials { [build(:json_lang_material)] }
       end
 
       factory :resource, class: JSONModel(:resource) do
@@ -112,6 +113,7 @@ module Factories
       factory :archival_object, class: JSONModel(:archival_object) do
         ref_id { generate(:ref_id) }
         level { 'item' }
+        lang_materials { [build(:json_lang_material)] }
       end
 
       factory :digital_object, class: JSONModel(:digital_object) do
