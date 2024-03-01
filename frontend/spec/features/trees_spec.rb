@@ -43,9 +43,8 @@ describe 'Tree UI', js: true do
 
     expect(page).to have_text 'Archival Object'
     expect(page).to have_text 'Basic Information'
-    expect(page).to have_text 'Basic Information'
-    element = find('#archival_object_title_')
-    element = find('#archival_object_level_')
+    expect(page).to have_css("#archival_object_title_")
+    expect(page).to have_css('#archival_object_level_')
 
     fill_in 'Title', with: "Sibling #{@now}"
     select 'Item', from: 'Level of Description'
@@ -66,6 +65,18 @@ describe 'Tree UI', js: true do
 
     elements = all('.largetree-node')
     expect(elements.length).to eq(5)
+  end
+
+  xit 'can retain location hash when sidebar items are clicked' do
+    click_link "Archival Object Title 1 #{@now}"
+
+    url_hash = current_url.split('#').last
+    expect(url_hash).to eq("tree::archival_object_#{@archival_object_1.id}")
+
+    find('.sidebar-entry-notes a').click
+
+    url_hash = current_url.split('#').last
+    expect(url_hash).to eq("tree::archival_object_#{@archival_object_1.id}")
   end
 
   it 'shows the suppressed tag only for suppressed records' do
