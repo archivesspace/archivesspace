@@ -51,7 +51,7 @@ describe 'Representative File Version', js: true do
       click_button('Save')
     end
 
-    xit 'is shown when a supported image format is available' do
+    it 'is shown when a supported image format is available' do
       visit '/digital_objects'
       expect(page).to have_css("#tabledSearchResults .representative_file_version > img[src='#{@good_img}']", visible: :visible)
     end
