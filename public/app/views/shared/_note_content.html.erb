@@ -1,0 +1,35 @@
+<%
+  content_length = content.length
+  max_chars = AppConfig[:pui_readmore_max_characters]
+%>
+
+<div class="d-flex flex-column align-items-start wrap-anywhere note-content">
+  <% unless is_inherited.blank? %>
+    <%= inheritance(is_inherited).html_safe %>
+  <% end %>
+
+  <% if (calling_partial != 'record_innards' || content_length <= max_chars) %>
+    <%= content.html_safe %>
+  <% else %>
+    <% state_id = "#{type}_readmore_#{SecureRandom.uuid}" %>
+    <div class="position-relative mb-3 d-flex flex-column align-items-start" data-js="readmore">
+      <input
+        type="checkbox"
+        id="<%= state_id %>"
+        class="readmore__state order-1 bottom-0 visually-hidden"
+        aria-expanded="false"
+        aria-controls="<%= type %>_readmore_content"
+      />
+      <label for="<%= state_id %>" class="readmore__more-label order-1" tabindex="0"><%= t('readmore.see_more') %> <i class="fa fa-chevron-down"></i></label>
+      <label for="<%= state_id %>" class="readmore__less-label order-1" tabindex="0"><%= t('readmore.see_less') %> <i class="fa fa-chevron-up"></i></label>
+      <section
+        id="<%= type %>_readmore_content"
+        class="readmore__content order-0"
+        role="region"
+        aria-labelledby="<%= state_id %>"
+      >
+        <%= content.html_safe %>
+      </section>
+    </div>
+  <% end %>
+</div>

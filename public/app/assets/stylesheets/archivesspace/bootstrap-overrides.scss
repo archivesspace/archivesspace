@@ -1,0 +1,10 @@
+// Overrides after upgrading Bootstrap from v3 to v4
+
+.card {
+  border: var(--default-border);
+}
+
+.accordion > .card:first-of-type:last-of-type {
+  border-bottom: var(--default-border);
+  border-radius: 4px;
+}

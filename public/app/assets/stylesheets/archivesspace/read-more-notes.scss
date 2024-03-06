@@ -1,0 +1,53 @@
+.readmore__more-label,
+.readmore__less-label {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border: 1px solid $primary-color;
+  border-radius: 0.2rem;
+  text-align: center;
+  color: $primary-color;
+  transition: border-color 0.2s ease, background-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    border-color: $secondary-color;
+    background-color: $lightshade;
+    color: $secondary-color;
+  }
+}
+
+.readmore__more-label {
+  display: inline-block;
+}
+
+.readmore__less-label {
+  display: none;
+}
+
+.readmore__state:checked ~ .readmore__more-label {
+  display: none;
+}
+
+.readmore__state:checked ~ .readmore__less-label {
+  display: inline-block;
+}
+
+.readmore__content {
+  max-height: 112px; /* ~4.5 lines of text at 1.5 line-height */
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  background: linear-gradient(0deg, #fff 0%, rgba(18, 18, 18, 0.93) 55%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent; /* Prefix required */
+}
+
+.readmore__state:checked ~ .readmore__content {
+  max-height: fit-content;
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+.readmore__content > p {
+  /* TODO change the db content wrapper from <p> to <div> */
+  margin-bottom: 0;
+}

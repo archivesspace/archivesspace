@@ -41,5 +41,10 @@
     </div>
    <% end %>
   </div>
- <%= render partial: 'shared/modal_actions' %>
+  <script>
+    document.querySelectorAll("[data-js='readmore']").forEach((el) => {
+      new ReadMoreNotes(el);
+    });
+  </script>
+  <%= render partial: 'shared/modal_actions' %>
 </div>

@@ -9,7 +9,7 @@
 
     end %>
     <% unless over.blank? %>
-      <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over} %>
+      <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => over, :calling_partial => 'record_innards'} %>
     <% end %>
 
     <% unless @result.dates.blank? %>
@@ -24,7 +24,7 @@
     <% non_folder.each do |type| %>
       <% (@result.notes[type] || []).each do |note_struct| %>
        <% unless note_struct['note_text'].blank? %>
-        <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => note_struct}   %>
+        <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => note_struct, :calling_partial => 'record_innards'} %>
        <% end %>
       <% end %>
     <% end %>
@@ -59,7 +59,7 @@
     <% end %>
 </div>
 
-    <div class="acc_holder clear" >
+    <div class="acc_holder" >
       <div id="res_accordion" class="accordion">
 	<% x = render partial: 'shared/multi_notes', locals: {:types => folder} %>
 	<% unless x.blank? %>
@@ -129,7 +129,7 @@
 	<% unless @repo_info.blank? || @repo_info['top']['name'].blank? %>
            <% x= render partial: 'repositories/repository_details' %>
 	    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('repository.details'),
-	    :p_id => 'repo_deets', :p_body => x} %>
+	    :p_id => 'repo_details', :p_body => x} %>
         <% end %>
         <% if @result.kind_of?(Resource) && !@result.related_accessions.blank? %>
           <% x = render partial: 'resources/related_accessions', locals: {:accessions => @result.related_accessions} %>
