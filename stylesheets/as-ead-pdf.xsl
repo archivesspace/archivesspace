@@ -192,7 +192,7 @@
                     <fo:block text-align="center" font-size="10pt" color="dimgray">
                         <xsl:text>- Page </xsl:text>
                         <fo:page-number/>
-                        <xsl:text>- </xsl:text>
+                        <xsl:text> -</xsl:text>
                     </fo:block>
                 </fo:static-content>
                 <!-- Content of page -->
