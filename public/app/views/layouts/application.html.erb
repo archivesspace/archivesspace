@@ -63,10 +63,6 @@
 		<%= yield %>
 	</section>
 
-	<script  type="text/javascript" >
-		$(".upper-record-details .note-content").each(function(index, element){$(this).readmore(<%= AppConfig[:pui_readmore_max_characters] %>)});
-	</script>
-
 	<%= render partial: 'shared/footer' %>
 
 	<% if AppConfig[:pui_enable_staff_link] %>

@@ -13,7 +13,7 @@
 
   <% scopecontent_note = @result.note('scopecontent') %>
   <% if scopecontent_note && !inherited?(scopecontent_note) %>
-    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true} %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true, :calling_partial => 'infinite_item'} %>
   <% end %>
 
   <dl class="row">
@@ -22,7 +22,7 @@
     <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? && !inherited?(accessrestrict_note) %>
       <dt class="col-sm-3"><%= accessrestrict_note['label'] %></dt>
       <dd class="col-sm-9">
-        <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true} %>
+        <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true, :calling_partial => 'infinite_item'} %>
       </dd>
     <% end %>
 

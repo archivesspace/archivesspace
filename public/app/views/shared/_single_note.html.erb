@@ -18,21 +18,11 @@
            <% elsif subnote['_inline_label'] %>
              <span class='inline-label'><%= subnote['_inline_label'] %></span>
            <% end %>
-           <span class="note-content">
-             <% unless note_struct['is_inherited'].blank? %>
-               <%= inheritance(note_struct['is_inherited']).html_safe %>
-             <% end %>
-             <%= subnote['_text'].html_safe %>
-           </span>
+           <%= render partial: 'shared/note_content', locals: { :content => subnote['_text'], :is_inherited => note_struct['is_inherited'], :type => type, :calling_partial => calling_partial } %>
          </div>
        <% end %>
      <% else %>
-       <div class="note-content">
-         <% unless note_struct['is_inherited'].blank? %>
-           <%= inheritance(note_struct['is_inherited']).html_safe %>
-         <% end %>
-         <%= note_struct['note_text'].html_safe %>
-       </div>
+        <%= render partial: 'shared/note_content', locals: { :content => note_struct['note_text'], :is_inherited => note_struct['is_inherited'], :type => type, :calling_partial => calling_partial } %>
      <% end %>
-     </div>
+    </div>
 <% end %>

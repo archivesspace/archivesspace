@@ -74,23 +74,6 @@ a img {
   font-style: italic;
 }
 
-/* handling of more/less */
-.readmore .more {
-  visibility: hidden;
-  display: none;
-}
-.readmore.expanded .more {
-  visibility: visible;
-  display: block;
-}
-.readmore.expanded .elipses {
-  visibility: hidden;
-  width: 0;
-}
-.readmore .expander .fa {
-  font-size: 0.8em;
-}
-
 /* for the "tabbing" effect */
 .tabbing.navbar-default {
   background-color: $white;

@@ -515,7 +515,7 @@ AppConfig[:pui_display_deaccessions] = true
 AppConfig[:pui_display_identifiers_in_resource_tree] = false
 
 #The number of characters to truncate before showing the 'Read More' link on notes
-AppConfig[:pui_readmore_max_characters] = 450
+AppConfig[:pui_readmore_max_characters] = 1000
 
 # Whether to expand all additional information blocks at the bottom of record pages by default. `true` expands all blocks, `false` collapses all blocks.
 AppConfig[:pui_expand_all] = true

@@ -21,6 +21,7 @@
 @import 'archivesspace/variables';
 
 @import 'bootstrap';
+@import 'archivesspace/bootstrap-overrides';
 
 // font-awesome
 @import 'font-awesome-sprockets';
@@ -37,6 +38,7 @@
 @import 'archivesspace/infinite-scroll';
 @import 'archivesspace/largetree';
 @import 'archivesspace/mixed-content';
+@import 'archivesspace/read-more-notes';
 
 @import 'archivesspace/helpers.scss';
 
