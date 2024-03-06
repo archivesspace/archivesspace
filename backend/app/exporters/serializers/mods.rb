@@ -13,7 +13,7 @@ class MODSSerializer < ASpaceExport::Serializer
 
   def serialize_mods(mods, xml)
     root_args = {'version' => '3.4'}
-    root_args['xmlns'] = 'http://www.loc.gov/mods/v3'
+    root_args['xmlns'] = 'https://www.loc.gov/mods/v3'
 
     xml.mods(root_args) {
       serialize_mods_inner(mods, xml)
