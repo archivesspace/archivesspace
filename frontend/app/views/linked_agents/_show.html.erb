@@ -10,15 +10,21 @@
       <table class="table table-striped table-bordered table-condensed table-hover token-list">
         <thead>
           <tr>
+            <td class="col-md-1"><%= I18n.t("linked_agent.is_primary") %></td>
             <td class="col-md-2"><%= I18n.t("linked_agent.role") %></td>
             <td class="col-md-2"><%= I18n.t("linked_agent.relator") %></td>
             <td class="col-md-4"><%= I18n.t("linked_agent.ref") %></td>
-            <td class="col-md-4"></td>
+            <td class="col-md-3"></td>
           </tr>
         </thead>
         <tbody>
           <% linked_agents.each_with_index do | link, index | %>
             <tr>
+              <td>
+                <% if link['is_primary'] %>
+                  <span class='badge badge-info'>Primary</span>
+                <% end %>
+              </td>
               <td>
                 <% if link["role"] %>
                   <%= I18n.t("enumerations.linked_agent_role.#{link["role"]}", :default => link["role"])%>
