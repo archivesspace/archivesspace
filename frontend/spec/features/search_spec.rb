@@ -287,8 +287,8 @@ describe 'Advanced Search', js: true do
     find('.advanced-search-add-row-dropdown').click
     find('.advanced-search-add-bool-row').click
 
-    find('#v1')
-    find('#v2')
+    expect(page).to have_css('#v1')
+    expect(page).to have_css('#v2')
   end
 
   it 'filters records based on a boolean search' do
