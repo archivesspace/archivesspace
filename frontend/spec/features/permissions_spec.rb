@@ -29,6 +29,10 @@ describe 'Resources and archival objects', js: true do
   end
 
   it 'supports denying permission to edit Resources' do
+    now = Time.now.to_i
+    resource = create(:resource, title: "Resource #{now}")
+    run_index_round
+
     login_user(admin)
     select_repository(repository)
 
@@ -51,9 +55,20 @@ describe 'Resources and archival objects', js: true do
     element = find('button', text: 'Save', match: :first)
     element.click
 
+    visit 'logout'
+    login_user(archivist)
+    select_repository(repository)
+
     click_on 'Create'
-    click_on 'Resource'
-    element = find('h2')
-    expect(element.text).to eq('New Resource Resource')
+    expect(page).to_not have_css('a', text: 'Resouce')
+
+    visit 'resources/new'
+    element = find('.alert.alert-danger.with-hide-alert')
+    expect(element.text).to eq "Unable to Access Page\nThe page you've tried to access may no longer exist or you may not have permission to view it."
+
+    visit '/'
+    visit "resources/#{resource.id}/edit"
+    element = find('.alert.alert-danger.with-hide-alert')
+    expect(element.text).to eq "Unable to Access Page\nThe page you've tried to access may no longer exist or you may not have permission to view it."
   end
 end
