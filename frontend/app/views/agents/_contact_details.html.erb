@@ -6,7 +6,7 @@
   <div class="subrecord-form-fields" <%= 'style="display: none;"'.html_safe if @repository && !form['is_representative'] %>>
     <% unless @repository %>
     <h3 class="subrecord-form-heading">
-      <button type="button" class="badge badge-info is-representative-label"><%= t("agent_contact.is_representative") %></button>
+      <button type="button" class="badge badge-pill badge-primary fs-14px is-representative-label"><%= t("agent_contact.is_representative") %></button>
       <button type="button" class="btn btn-sm btn-default is-representative-toggle"><%= t("agent_contact._frontend.action.make_representative") %></button>
     </h3>
     <% end %>

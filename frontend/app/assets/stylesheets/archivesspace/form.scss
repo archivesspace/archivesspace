@@ -189,22 +189,12 @@ form .form-group {
   padding-left: 10px;
   line-height: 1.4;
   overflow: auto;
-
-  /* padding-top: 10px; */
-
-  /* padding-bottom: 10px; */
 }
 
-// .record-pane section h3 .btn.ml-auto,
 .modal section h3 .btn.ml-auto {
   margin: 6px 6px 6px 0;
   font-weight: normal;
 }
-
-// .record-pane section section h4 .btn.ml-auto {
-//   margin: 2px 6px 0 0;
-//   font-weight: normal;
-// }
 
 .subrecord-form.error {
   > .subrecord-form-heading {
@@ -270,7 +260,7 @@ form .form-group {
     .subrecord-form-heading-label {
       &.has-tooltip {
         cursor: pointer;
-        border-bottom: 1px dotted #ddd;
+        border-bottom: 1px dotted var(--secondary);
       }
     }
   }
@@ -395,10 +385,6 @@ ul.subrecord-form-list {
     display: flex;
     align-items: start;
     cursor: move;
-
-    // &.inline {
-    //   top: 0;
-    // }
   }
 
   .sort-enabled > .subrecord-form-fields > .subrecord-form-heading,
@@ -424,7 +410,6 @@ ul.subrecord-form-list {
   }
 }
 
-.subrecord-form textarea,
 .controls textarea {
   width: 90%;
 }
@@ -507,18 +492,6 @@ ul.subrecord-form-list {
     overflow: auto;
   }
   
-  // LEFTOFF - SOMETHING IS WRONG WITH THE TRANSLATION OF THE STYLES RELATED
-  // TO THE CURSOR. The math that figures out the cursor position is off
-  // in frontend/vendor/assets/javascripts/codemirror/codemirror.js
-  // pre.CodeMirror-cursor {
-  //   z-index: 10;
-  //   position: absolute;
-  //   visibility: visible;
-  //   width: 0;
-  //   border-left: 1px solid black;
-  //   border-right: none;
-  // }
-
   .mixed-content-wrapper {
     font-size: 0.9em;
     z-index: 10;
@@ -536,6 +509,131 @@ ul.subrecord-form-list {
     font-size: 0.9em;
     border-top: 1px solid #ccc;
     font-family: $baseFontFamily;
+  }
+
+  // ANW-1821 Rectify Bootstrap v4's deprecation of internal popover styles
+  // with the lack up upgrading CodeMirror (and our legacy Codemirror's
+  // reliance on BS popover styles).
+  .popover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1060;
+    display: none;
+    max-width: 276px;
+    padding: 1px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: left;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    white-space: normal;
+  }
+  .popover.top {
+    margin-top: -10px;
+  }
+  .popover.right {
+    margin-left: 10px;
+  }
+  .popover.bottom {
+    margin-top: 10px;
+  }
+  .popover.left {
+    margin-left: -10px;
+  }
+  .popover-title {
+    margin: 0;
+    padding: 8px 14px;
+    font-size: 14px;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ebebeb;
+    border-radius: 5px 5px 0 0;
+  }
+  .popover-content {
+    padding: 9px 14px;
+  }
+  .popover > .arrow,
+  .popover > .arrow::after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
+  .popover > .arrow {
+    border-width: 11px;
+  }
+  .popover > .arrow::after {
+    border-width: 10px;
+    content: '';
+  }
+  .popover.top > .arrow {
+    left: 50%;
+    margin-left: -11px;
+    border-bottom-width: 0;
+    border-top-color: #999;
+    border-top-color: rgba(0, 0, 0, 0.25);
+    bottom: -11px;
+  }
+  .popover.top > .arrow::after {
+    content: ' ';
+    bottom: 1px;
+    margin-left: -10px;
+    border-bottom-width: 0;
+    border-top-color: #fff;
+  }
+  .popover.right > .arrow {
+    top: 50%;
+    left: -11px;
+    margin-top: -11px;
+    border-left-width: 0;
+    border-right-color: #999;
+    border-right-color: rgba(0, 0, 0, 0.25);
+  }
+  .popover.right > .arrow::after {
+    content: ' ';
+    left: 1px;
+    bottom: -10px;
+    border-left-width: 0;
+    border-right-color: #fff;
+  }
+  .popover.bottom > .arrow {
+    left: 50%;
+    margin-left: -11px;
+    border-top-width: 0;
+    border-bottom-color: #999;
+    border-bottom-color: rgba(0, 0, 0, 0.25);
+    top: -11px;
+  }
+  .popover.bottom > .arrow::after {
+    content: ' ';
+    top: 1px;
+    margin-left: -10px;
+    border-top-width: 0;
+    border-bottom-color: #fff;
+  }
+  .popover.left > .arrow {
+    top: 50%;
+    right: -11px;
+    margin-top: -11px;
+    border-right-width: 0;
+    border-left-color: #999;
+    border-left-color: rgba(0, 0, 0, 0.25);
+  }
+  .popover.left > .arrow::after {
+    content: ' ';
+    right: 1px;
+    border-right-width: 0;
+    border-left-color: #fff;
+    bottom: -10px;
   }
 }
 
@@ -561,10 +659,10 @@ ul.subrecord-form-list {
 }
 
 .CodeMirror-completions {
-  @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
-
+  position: absolute;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
+  @include box-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
 }
 
 /* Filter fields */

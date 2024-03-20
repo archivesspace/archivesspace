@@ -6,12 +6,12 @@
    end
 %>
 <div class="form-group row required">
-  <label class="control-label col-sm-3 text-right"
+  <label class="control-label col-sm-2 text-right"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
     <%= t("linked_record.ref") %>
   </label>
-  <div class="controls col-sm-8">
+  <div class="controls col-sm-9">
     <div class="input-group linker-wrapper"
          role="combobox"
          aria-owns="<%= form.id_for("ref") %>_listbox"
@@ -50,9 +50,20 @@
       <% end %>
 
       <div class="input-group-append">
-        <a class="btn btn-default d-flex align-items-center dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" aria-label="<%= I18n.t("linked_record.linker_ref.link_title") %>"><span class="caret"></span></a>
+        <button
+          type="button"
+          class="btn btn-default dropdown-toggle"
+          data-toggle="dropdown"
+          aria-expanded="false"
+          aria-label="<%= I18n.t("linked_record.linker_ref.link_title") %>"
+        ></button>
         <ul class="dropdown-menu">
-          <li class="dropdown-item"><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"
+            ><%= t("actions.browse") %></button>
+          </li>
         </ul>
       </div>
 

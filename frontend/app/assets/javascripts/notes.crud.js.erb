@@ -183,7 +183,7 @@ $(function () {
                 $('.subrecord-form-list:first', $this).children('li').length < 2
               ) {
                 $(
-                  '.subrecord-form-heading:first .btn.apply-note-order',
+                  '[data-action="apply note order"]',
                   $this
                 ).attr('disabled', 'disabled');
               }
@@ -570,7 +570,7 @@ $(function () {
 
         if ($target_subrecord_list.children('li').length > 1) {
           $(
-            '.subrecord-form-heading:first .btn.apply-note-order',
+            '[data-action="apply note order"]',
             $this
           ).attr('disabled', null);
         }
@@ -607,27 +607,23 @@ $(function () {
         }
       };
 
-      $('.subrecord-form-heading:first .btn.add-note', $this).click(
-        createTopLevelNote
-      );
+      $('[data-action="add notes"]', $this).click(createTopLevelNote);
       $this.filter('#lang_material_notes').each(function () {
         if ($('li', $this).length == 0) {
           $(
-            '.subrecord-form-heading:first .btn.add-note',
+            '[data-action="add notes"]',
             $this
           ).triggerHandler('click');
         }
       });
 
-      $('.subrecord-form-heading:first .btn.apply-note-order', $this).click(
-        applyNoteOrder
-      );
+      $('[data-action="apply note order"]', $this).click(applyNoteOrder);
 
       var $target_subrecord_list = $('.subrecord-form-list:first', $this);
 
       if ($target_subrecord_list.children('li').length > 1) {
         $(
-          '.subrecord-form-heading:first .btn.apply-note-order',
+          '[data-action="apply note order"]',
           $this
         ).attr('disabled', null);
       }
@@ -691,7 +687,5 @@ $(function () {
         ).init_notes_form();
       }
     );
-
-    // $("section.notes-form.subrecord-form:not(.initialised)").init_notes_form();
   });
 });

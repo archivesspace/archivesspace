@@ -71,23 +71,30 @@
       <% end %>
 
       <div class="input-group-append">
-        <button type="button" class="btn btn-default dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Link to subject" id="dropdownMenuAgentsToggle">
-        </button>
+        <button
+          id="dropdownMenuAgentsToggle"
+          type="button"
+          class="btn btn-default dropdown-toggle"
+          data-toggle="dropdown"
+          aria-expanded="false"
+        ></button>
         <ul class="dropdown-menu dropdown-menu-right" id='dropdownMenuAgents' aria-labelledby="#dropdownMenuAgents">
           <li>
-            <button type="button" class="dropdown-item linker-browse-btn">
+            <button type="button" class="btn btn-sm rounded-0 dropdown-item linker-browse-btn">
               <%= t("actions.browse") %>
             </button>
           </li>
           <% if user_can?('update_agent_record') && !hide_create && user_can?('update_agent_record') %>
-            <li class="dropdown-submenu dropdown-item">
-              <a href="javascript:void(0);"><%= t("actions.create") %></a>
+            <li class="dropdown-submenu dropdown-item p-0">
+              <div class="btn btn-sm rounded-0 dropdown-item linker-create-btn"><%= t("actions.create") %></div>
               <ul class="dropdown-menu">
                 <% creatable_types.each do |agent_type| %>
-                  <li class="dropdown-item">
-                    <a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :agent_type => agent_type.intern, :inline => true %>" class="linker-create-btn">
-                      <%= t("#{agent_type}._singular") %>
-                    </a>
+                  <li>
+                    <button
+                      type="button"
+                      data-target="<%= url_for :controller => :agents, :action => :new, :agent_type => agent_type.intern, :inline => true %>"
+                      class="btn btn-sm rounded-0 dropdown-item linker-create-btn"
+                    ><%= t("#{agent_type}._singular") %></button>
                   </li>
                 <% end %>
               </ul>

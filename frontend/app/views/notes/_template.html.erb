@@ -56,7 +56,7 @@
       <% form.emit_template(item["jsonmodel_type"]) %>
     <% else %>
       <div class="subrecord-form-fields">
-        <div class="zelip form-group row required py-2">
+        <div class="form-group row required py-2">
           <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
           <div class="col-sm-4">
             <select class="form-control top-level-note-type">
@@ -103,7 +103,7 @@
   <div class="inline-subform">
     <div class="form-group">
       <div class="control-label"></div>
-      <div class="controls"><%= t("note._frontend.messages.select_a_note_type") %></div>
+      <div class="controls pl-3"><%= t("note._frontend.messages.select_a_note_type") %></div>
     </div>
   </div>
 <% end %>
@@ -258,7 +258,7 @@
       </section>
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
-        <h4 class="subrecord-form-heading">
+        <h4 class="subrecord-form-heading d-flex align-items-center">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <button class="btn btn-sm btn-default add-sub-note-btn ml-auto"><%= t("note._frontend.action.add_sub_note") %></button>
@@ -315,7 +315,7 @@
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
-        <h4 class="subrecord-form-heading">
+        <h4 class="subrecord-form-heading d-flex align-items-center">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <div class="btn-group ml-auto">
@@ -371,7 +371,7 @@
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
-        <h4 class="subrecord-form-heading">
+        <h4 class="subrecord-form-heading d-flex align-items-center">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <div class="btn-group ml-auto">
@@ -426,7 +426,7 @@
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
-        <h4 class="subrecord-form-heading">
+        <h4 class="subrecord-form-heading d-flex align-items-center">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <div class="btn-group ml-auto">
@@ -497,7 +497,7 @@
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
-        <h4 class="subrecord-form-heading">
+        <h4 class="subrecord-form-heading d-flex align-items-center">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <div class="btn-group ml-auto">
@@ -552,7 +552,7 @@
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
-        <h4 class="subrecord-form-heading">
+        <h4 class="subrecord-form-heading d-flex align-items-center">
           <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <div class="btn-group ml-auto">
@@ -885,7 +885,7 @@
 %>
 
 <% define_template "note_langmaterial", jsonmodel_definition(:note_langmaterial) do |form| %>
-  <div class="fuck-note_langmaterial subrecord-form-fields" data-type="note_langmaterial">
+  <div class="subrecord-form-fields" data-type="note_langmaterial">
     <h3 class="subrecord-form-heading">
       <%= t("note.note_langmaterial") %>
     </h3>

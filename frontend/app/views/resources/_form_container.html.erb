@@ -13,7 +13,7 @@
   <% define_template("resource", jsonmodel_definition(:resource)) do |form| %>
 
   <section id="basic_information">
-    <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+    <div class="w-100 d-flex align-items-center border-bottom bg-asFormHeadingBg">
       <h3 class="flex-grow-1 mb-0 border-0">
         <%= t("resource._frontend.section.basic_information") %>
       </h3>
@@ -51,10 +51,12 @@
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
   <section id="finding_aid" class="subrecord-form-dummy">
-    <h3>
-      <%= t("resource._frontend.section.finding_aid") %>
+    <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+      <h3 class="flex-grow-1 mb-0 border-0">
+        <%= t("resource._frontend.section.finding_aid") %>
+      </h3>
       <%= link_to_help :topic => "resource_finding_aid" %>
-    </h3>
+    </div>
     <div class="subrecord-form-container">
       <div class="subrecord-form-fields">
         <fieldset>

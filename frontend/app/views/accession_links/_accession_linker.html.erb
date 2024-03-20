@@ -29,9 +29,20 @@
       />
 
       <div class="input-group-append">
-        <button type="button" class="btn btn-default d-flex align-items-center dropdown-toggle" data-toggle="dropdown" aria-label="Link to record"></button>
+        <button
+          type="button"
+          class="btn btn-default dropdown-toggle"
+          data-toggle="dropdown"
+          aria-expanded="false"
+          aria-label="<%= I18n.t("actions.link_to_record") %>"
+        ></button>
         <ul class="dropdown-menu">
-          <li class="dropdown-item"><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"
+            ><%= t("actions.browse") %></button>
+          </li>
         </ul>
       </div>
     </div>

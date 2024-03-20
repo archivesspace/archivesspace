@@ -253,6 +253,7 @@ td .btn-group {
 
 .bg-asFormHeadingBg{
   background-color: $asFormHeadingBg;
+  @include vertical(#f3f3f3, #ededed);
 }
 
 .hover-grayLighter:hover {

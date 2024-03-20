@@ -44,7 +44,7 @@
 
 <div class="form-group row required">
   <% if !name.blank? %>
-    <%= wrap_with_tooltip(linker_label, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label control-label col-sm-4 text-right") %>
+    <%= wrap_with_tooltip(linker_label, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label control-label col-sm-2 text-right") %>
     <label class="sr-only"
             id="<%= form.id_for(data_name) %>_label"
             for="<%= form.id_for(data_name) %>">

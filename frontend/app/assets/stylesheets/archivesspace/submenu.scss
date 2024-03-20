@@ -19,7 +19,9 @@
   // Used in record toolbar Export dropdown
   margin-bottom: 0;
 }
-.dropdown-submenu > a::after {
+.dropdown-submenu > a::after,
+.dropdown-submenu > button::after,
+.dropdown-submenu > .linker-create-btn::after {
   display: block;
   content: ' ';
   float: right;
