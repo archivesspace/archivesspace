@@ -135,13 +135,24 @@ describe 'Accessions', js: true do
   end
 
   it 'reports errors when updating an accession with invalid data' do
-    create(:accession)
+    now = Time.now.to_i
+    create(:accession, title: "Accession Title #{now}")
     run_index_round
 
     click_on('Browse')
     click_on('Accessions')
-    first(:link, 'Edit').click
-    fill_in('Identifier', with: '')
+
+    element = find(:xpath, "//tr[contains(., 'Accession Title #{now}')]")
+    within element do
+      click_on 'Edit'
+    end
+
+    element = find('h2')
+    expect(element.text).to eq "Accession Title #{now} Accession"
+
+    element = find('#accession_id_0_')
+    element.fill_in with: ''
+
     click_on('Save')
     expect(find(:xpath, '//div[contains(@class, "error")]', match: :first)).to have_text('Identifier - Property is required but was missing')
   end
@@ -515,8 +526,12 @@ describe 'Accessions', js: true do
       click_on('Browse')
       click_on('Accessions')
 
+      element = find('h2')
+      expect(element.text).to eq 'Accessions'
+
       # Sort by descending accession date
-      within '#tabledSearchResults' do
+      element = find('#tabledSearchResults')
+      within element do
         click_link 'Accession Date'
         click_link 'Accession Date'
       end
@@ -542,6 +557,9 @@ describe 'Accessions', js: true do
     fill_in("Identifier", with: "test_#{Time.now}")
     click_on('Save')
 
+    element = find('.alert.alert-success.with-hide-alert')
+    expect(element.text).to eq "Accession #{accession_title} created"
+
     agent = create(
       :agent_person,
       names: [build(:name_person,
@@ -554,7 +572,8 @@ describe 'Accessions', js: true do
     run_index_round
 
     click_on('Add Agent Link')
-    select 'Creator', from: 'Role'
+    element = find('#accession_linked_agents__0__role_')
+    element.select 'Creator'
 
     # Find agent by AJAX and select the first
     element = find('#token-input-accession_linked_agents__0__ref_')
