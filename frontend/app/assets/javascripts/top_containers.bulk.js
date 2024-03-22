@@ -64,7 +64,10 @@ BulkContainerSearch.prototype.setup_form = function () {
 BulkContainerSearch.prototype.perform_search = function (data) {
   var self = this;
 
-  self.$results_container.closest('.row').show();
+  self.$results_container
+    .closest('[data-results-wrapper]')
+    .removeClass('d-none')
+    .addClass('d-flex');
   self.$results_container.html(
     AS.renderTemplate('template_bulk_operation_loading')
   );

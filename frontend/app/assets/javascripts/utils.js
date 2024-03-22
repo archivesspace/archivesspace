@@ -671,7 +671,7 @@ AS.initAddAsYouGoActions = function ($form, $list) {
     }
 
     var btnsToReplicate = $(
-      '.subrecord-form-heading:first > .btn, .subrecord-form-heading:first > .custom-action > .btn',
+      'button[data-action], .subrecord-form-heading:first > .btn, .subrecord-form-heading:first > .custom-action > .btn',
       $form
     );
     btnsToReplicate = btnsToReplicate.map(function () {

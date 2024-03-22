@@ -117,9 +117,9 @@
         <% if show_edit_actions %>
         <td>
           <div class="btn-group">
-            <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]}, :class => "btn" %>
+            <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]}, :class => "btn btn-sm btn-default" %>
             <% if can_edit %>
-              <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]}, :class => "btn btn-primary" %>
+              <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]}, :class => "btn btn-sm btn-primary" %>
             <% end %>
           </div>
         </td>

@@ -28,10 +28,17 @@
       type="button" 
       class="btn btn-default dropdown-toggle"
       data-toggle="dropdown"
+      aria-expanded="false"
       title="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>"
-      aria-label="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>"></button>
+      aria-label="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>"
+    ></button>
     <ul class="dropdown-menu">
-      <li class='dropdown-item'><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
+      <li>
+        <button
+          type="button"
+          class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"
+        ><%= t("actions.browse") %></button>
+      </li>
     </ul>
   </div>
 </div>

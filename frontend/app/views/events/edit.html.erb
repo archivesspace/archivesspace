@@ -17,7 +17,7 @@
           <h2><%= record_title %>  <span class="label label-info badge"><%= I18n.t("event._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "events/form", :locals => {:form => form} %>
-          <div class="form-actions">
+          <div class="form-actions pl-0">
             <button type="submit" class="btn btn-primary"><%= t("event._frontend.action.save") %></button>
             <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>

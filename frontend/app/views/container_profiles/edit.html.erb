@@ -13,7 +13,7 @@
           <h2><%= @container_profile.name %>  <span class="label label-info badge"><%= t("container_profile._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "container_profiles/form", :locals => {:form => form} %>
-          <div class="form-actions">
+          <div class="form-actions pl-0">
             <button type="submit" class="btn btn-primary"><%= t("container_profile._frontend.action.save") %></button>
             <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
