@@ -7,6 +7,10 @@
 @import 'bootstrap/variables';
 @import 'bootstrap/mixins';
 
+html {
+  font-size: 100%;
+}
+
 .navbar {
   padding: 0;
   align-items: stretch;
@@ -51,13 +55,66 @@ body {
 .dropdown-toggle {
   color: #212529;
 }
+
+.dropdown-divider {
+  border-top-color: $gray-500;
+}
+
+.dropdown-item {
+  color: #212529;
+  
+  &:hover,
+  &.focus {
+    color: #212529;
+    text-decoration: none;
+    background-color: $gray-400;
+  }
+
+  a {
+    color: #212529;
+  }
+}
+
 .dropdown-item {
   &:active,
   &.active {
-    background-color: $gray-200;
+    color: #212529;
+    background-color: $gray-400;
   }
   a {
     color: #212529;
     padding: 0;
   }
+}
+
+.form-control {
+  border-color: var(--secondary);
+}
+
+// ANW-1821 Rectify bootstrap-combobox.js v1.1.6 with Bootstrap v4
+.combobox-container:not(.combobox-selected) .glyphicon-remove {
+  display: none;
+}
+
+.dropdown-toggle::after {
+  margin-left: 0;
+  vertical-align: 4px;
+}
+
+.dropdown-toggle.no-caret::after {
+  display: none;
+}
+
+.combobox-container.combobox-selected .dropdown-toggle::after {
+  border: none;
+}
+
+.typeahead-long {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+// ANW-1821 Override positioning of modal action buttons
+.modal-footer {
+  justify-content: space-between;
 }

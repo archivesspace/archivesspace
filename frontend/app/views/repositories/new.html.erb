@@ -2,7 +2,7 @@
 
 <%= form_for @repository, :as => "repository", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :repository, @repository do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "repositories/sidebar" %>
       </div>
@@ -18,7 +18,7 @@
               <button type="submit" class="btn btn-primary"><%= t("repository._frontend.action.save") %></button>
               <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= t("actions.save_plus_one") %></button>
             </div>
-            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default border" %>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

@@ -6,15 +6,10 @@
       </div>
     <% end %>
     <% if !['new', 'create'].include?(controller.action_name) %>
-      <div class="btn-toolbar bg-white rounded border ml-auto">
-        <div class="btn-group">
-          <div class="btn btn-inline-form">
-            <%= button_delete_action url_for(:controller => :location_profiles, :action => :delete, :id => @location_profile.id), { :"data-title" => t("actions.delete_confirm_title", :title => @location_profile.name) } unless @location_profile.id.nil? %>
-          </div>
-        </div>
+      <div class="btn-toolbar ml-auto">
+        <%= button_delete_action url_for(:controller => :location_profiles, :action => :delete, :id => @location_profile.id), { :"data-title" => t("actions.delete_confirm_title", :title => @location_profile.name) } unless @location_profile.id.nil? %>
       </div>
     <% end %>
-    <div class="clearfix"></div>
   </div>
 
 <% end %>

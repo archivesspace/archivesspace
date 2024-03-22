@@ -7,9 +7,7 @@
   padding: 10px 0 10px 0;
   position: relative;
   background-color: #f3f3f3;
-  #gradient {
-    @include vertical(#f3f3f3, #ededed);
-  }
+  @include vertical(#f3f3f3, #ededed);
 
   border-top: 1px solid #eee;
   border-bottom: 1px solid #fff;

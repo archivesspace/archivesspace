@@ -1,5 +1,5 @@
 <% subjects.each_with_index do | subject, index | %>
-  <button class="btn btn-xs btn-info token">
+  <button class="btn btn-sm btn-info token">
     <span class='icon-token <%= get_subject_icon_class(subject) %>'></span>
     <% if subject['_resolved'] %>
     	<%= subject['_resolved']['title'] %>

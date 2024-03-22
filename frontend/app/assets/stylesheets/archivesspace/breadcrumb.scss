@@ -1,8 +1,5 @@
 .breadcrumb {
-  @include border-radius(0);
-
   border-bottom: 1px solid white;
-  margin: 0 -15px 10px -15px;
 
   // patch to fix inline-block issue in IE8
   // https://github.com/twitter/bootstrap/issues/5455

@@ -1,6 +1,6 @@
 <%= setup_context :object => JSONModel(:repository).from_hash(@repository['repository']), :title => @repository.repository['name'] %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <%= render_aspace_partial :partial => "repositories/sidebar" %>
   </div>

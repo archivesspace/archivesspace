@@ -3,6 +3,7 @@ ul.token-input-list {
   height: auto !important;
   height: 1%;
   width: 80%;
+  flex-grow: 1;
   cursor: text;
   font-size: 12px;
   font-family: Verdana, sans-serif;
@@ -105,9 +106,7 @@ li.token-input-token {
   }
 
   &:hover {
-    #gradient {
-      @include vertical(#a4e3ff, #77d5ff);
-    }
+    @include vertical(#a4e3ff, #77d5ff);
     @include transition('linear .2s');
   }
 }
@@ -286,11 +285,11 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
   }
 
   .agent_software .icon-token::before {
-    content: '\e136';
+    content: '\1f527'; // ANW-1821 use wrench from bootstrap-glyphicons.css
   }
 
   .agent_corporate_entity .icon-token::before {
-    content: '\e139';
+    content: '\1f4bc'; // ANW-1821 use briefcase from bootstrap-glyphicons.css
   }
 
   .agent_family .icon-token::before {
@@ -346,7 +345,7 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
   }
 
   .subject .subject_type_occupation::before {
-    content: '\e139';
+    content: '\1f4bc'; // ANW-1821 use briefcase from bootstrap-glyphicons.css
   }
 
   .subject .subject_type_style_period::before {
@@ -354,7 +353,7 @@ div.token-input-dropdown ul li.token-input-selected-dropdown-item {
   }
 
   .subject .subject_type_technique::before {
-    content: '\e233';
+    content: '\e041'; // ANW-1821 use tag as used elsewhere in this file
   }
 
   .subject .subject_type_temporal::before {

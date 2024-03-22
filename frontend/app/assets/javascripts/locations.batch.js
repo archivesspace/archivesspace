@@ -7,7 +7,7 @@ $(function () {
       'batchPreviewModal',
       $(this).text(),
       "<div class='alert alert-info'>Loading...</div>",
-      'container',
+      'lg',
       {},
       this
     );

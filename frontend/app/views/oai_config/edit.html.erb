@@ -3,7 +3,7 @@
 <%= form_for @oai_config, :as => "oai_config", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
 
   <% form_context :oai_config, @oai_config do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
 
         <%= render(:layout => '/shared/sidebar',
@@ -38,9 +38,8 @@
 
           <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @oai_config, :form => form} %>
 
-          <fieldset>
-              <section id="oai_config">
-                <a name='basic_information'></a>
+          <fieldset id="oai_config">
+              <section id="basic_information" class="mb-4">
                 <h3><%= t("oai_config.general_section") %></h3>
                 <%= form.label_and_textfield "oai_record_prefix", :required => true %>
                 <%= form.label_and_textfield "oai_admin_email", :required => true %>
@@ -49,9 +48,8 @@
                 <div class="form-actions">
                   <button type="submit" class="btn btn-primary"><%= t("oai_config._frontend.action.create") %></button>
                 </div>
-
-                <hr/>
-                <a name='repository_set'></a>
+              </section>
+              <section id="repository_set" class="mb-4">
                 <h3><%= t("oai_config.repo_set_section") %></h3>
                 <p><%= t("oai_config.repo_set_desc") %></p>
                 <%= form.label_and_textfield "repo_set_name" %>
@@ -62,43 +60,43 @@
                 <div class="form-actions">
                   <button type="submit" class="btn btn-primary"><%= t("oai_config._frontend.action.create") %></button>
                 </div>
-
-                <hr/>
-                <a name='sponsor_set'></a>
+              </section>
+              <section id="sponsor_set" class="mb-4">
                 <h3><%= t("oai_config.sponsor_set_section") %></h3>
                 <p><%= t("oai_config.sponsor_set_desc") %></p>
                 <%= form.label_and_textfield "sponsor_set_name" %>
                 <%= form.oai_config_sponsor_set_names_field @oai_config['sponsor_set_names'] %>
                 <%= form.label_and_textarea "sponsor_set_description" %>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary"><%= t("oai_config._frontend.action.create") %></button>
+                </div>
               </section>
           </fieldset>
 
-
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= t("oai_config._frontend.action.create") %></button>
-          </div>
-
           <hr />
-          <a name='repo_settings'></a>
-          <h2><%= I18n.t("oai_config.title_repo_section") %></h2>
-          <table class="table table-striped table-bordered table-sm">
-            <thead>
-              <th>Name</th>
-              <th><span class="sr-only"><%= t('search_results.actions') %></span></th>
-            </thead>
-            <tbody>
-              <% @repositories.each do |r| %>
-                <tr>
-                  <td><%= r[:name] %>
-                  <td class="table-record-actions">
-                    <div class="btn-group">
-                      <a class="btn btn-xs btn-primary" href="<%= AppConfig[:frontend_proxy_url] + r[:uri] + "/edit#oai_settings" %>" ><%= I18n.t('actions.edit_oai') %></a>
-                    </div>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
+
+          <section id="repo_settings" class="mt-4">
+            <h2><%= I18n.t("oai_config.title_repo_section") %></h2>
+            <table class="table table-striped table-bordered table-sm">
+              <thead>
+                <th>Name</th>
+                <th><span class="sr-only"><%= t('search_results.actions') %></span></th>
+              </thead>
+              <tbody>
+                <% @repositories.each do |r| %>
+                  <tr>
+                    <td><%= r[:name] %>
+                    <td class="table-record-actions">
+                      <div class="btn-group">
+                        <a class="btn btn-sm btn-primary" href="<%= AppConfig[:frontend_proxy_url] + r[:uri] + "/edit#oai_settings" %>" ><%= I18n.t('actions.edit_oai') %></a>
+                      </div>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </section>
         </div>
       </div>
     </div>

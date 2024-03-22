@@ -1,6 +1,6 @@
 <%= setup_context(:title => t("subject._plural")) %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
@@ -8,19 +8,18 @@
   </div>
   <div class="col-md-9">
     <% if user_can?('update_subject_record') %>
-      <div class="record-toolbar d-flex align-items-center">
-        <div class="btn-group ml-auto bg-white border rounded">
+      <div class="record-toolbar d-flex justify-content-end">
+        <div class="btn-group ">
           <% if user_can?('manage_repository') %>
               <%= link_to t("actions.edit_default_values"), {:controller => :subjects, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>
           <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv,
-            :fields => fields}), id: "searchExport", class: "btn btn-sm btn-info" %>
+            :fields => fields}), id: "searchExport", class: "btn btn-sm btn-primary" %>
           <%= link_to t("subject._frontend.action.create"), {:controller => :subjects, :action => :new}, :class => "btn btn-sm btn-default" %>
           <% if user_can?('delete_subject_record') %>
             <%= button_delete_multiple_action(:subjects) %>
           <% end %>
         </div>
-        <br style="clear:both" />
       </div>
     <% end %>
 

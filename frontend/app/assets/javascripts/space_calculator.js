@@ -68,10 +68,10 @@ function SpaceCalculatorModal(options) {
   self.$modal = AS.openCustomModal(
     'spaceCalculatorModal',
     null,
-    "<div class='alert alert-info'>" +
+    "<div class='mb-0 alert alert-info'>" +
       self.options.modalInitialContent +
       '</div>',
-    'large',
+    'full',
     {},
     this
   );

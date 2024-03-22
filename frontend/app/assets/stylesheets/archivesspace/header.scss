@@ -6,7 +6,22 @@
   }
   .navbar-default {
     @include border-radius(0 0 4px 4px);
-    @include box-shadow(0 1px 4px rgba(0, 0, 0, 0.065));
+    @include box-shadow(0 1px 4px rgba(0, 0, 0, 0.15));
+  }
+}
+
+.global-header-nav {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: start;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .global-header-nav {
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
 
@@ -16,7 +31,6 @@
   display: flex;
   padding: 1rem;
   background-color: $gray-100;
-  height: 50%;
 }
 
 .navbar-nav {
@@ -25,13 +39,8 @@
   }
 }
 
-.navbar-branding {
-  padding-left: 15px;
-}
-
 .header-logo {
   max-width: 300px;
-  padding: 1rem;
 }
 
 .navbar .navbar-brand {

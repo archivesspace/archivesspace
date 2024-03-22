@@ -8,8 +8,8 @@
   <h3><%= t("deaccession._plural") %></h3>
   <div class="accordion details" id="deaccessions_accordion">
     <%= context.list_for(context["deaccessions"], "deaccessions[]") do |deaccession, index| %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card">
+        <div class="card-header panel-heading">
           <div class="row collapsed accordion-toggle" data-toggle="collapse" data-parent="#deaccessions_accordion" href="#deaccession_<%= index %>">
             <div class="col-md-1">
               <span class="glyphicon"></span>

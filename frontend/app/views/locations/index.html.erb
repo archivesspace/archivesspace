@@ -1,6 +1,6 @@
 <%= setup_context(:title => t("location._plural")) %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
@@ -8,14 +8,14 @@
   </div>
   <div class="col-md-9">
     <% if user_can?('update_location_record') %>
-      <div class="record-toolbar d-flex align-items-center">
-        <div class="btn-group ml-auto bg-white border rounded">
+      <div class="record-toolbar d-flex justify-content-end">
+        <div class="btn-group">
           <% if user_can?('manage_repository') %>
-              <%= link_to I18n.t("actions.edit_default_values"), {:controller => :locations, :action => :defaults}, :class => "btn btn-sm" %>
+              <%= link_to I18n.t("actions.edit_default_values"), {:controller => :locations, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>
-          <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
-          <%= link_to I18n.t("location._frontend.action.create"), {:controller => :locations, :action => :new}, :class => "btn btn-sm border-right" %>
-          <%= link_to I18n.t("location._frontend.action.batch"), {:controller => :locations, :action => :batch}, :class => "btn btn-sm border-right" %>
+          <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
+          <%= link_to I18n.t("location._frontend.action.create"), {:controller => :locations, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <%= link_to I18n.t("location._frontend.action.batch"), {:controller => :locations, :action => :batch}, :class => "btn btn-sm btn-default" %>
           <%= button_edit_multiple_action(:locations) %>
           <% if user_can?("administer_system") %>
              <%= button_delete_multiple_action(:locations) %>

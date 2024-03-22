@@ -1,6 +1,6 @@
 <%= setup_context :title => I18n.t("repository._frontend.action.order_for_pui"), :trail => [[I18n.t("repository._plural"), {:controller => :repositories, :action => :index}]] %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-12">
     <div class="record-toolbar">
       <div class="clearfix"></div>
@@ -31,14 +31,14 @@
                   <% unless i == 0 %>
                     <%= link_to( { :controller => :repositories, :action => :reorder,
                         :id => JSONModel(:repository).id_for(repository["uri"]),
-                        :position => @repositories[i-1]["position"] } , :method => :post , :class=> "btn btn-xs btn-default position-up") do %>
+                        :position => @repositories[i-1]["position"] } , :method => :post , :class=> "btn btn-sm btn-default position-up") do %>
                       <span class='glyphicon glyphicon-arrow-up' />
                     <% end %>
                   <% end %>
                   <% unless i  == @repositories.length - 1 %>
                     <%= link_to({ :controller => :repositories, :action => :reorder,
                         :id => JSONModel(:repository).id_for(repository["uri"]),
-                        :position => @repositories[i+1]["position"] } , :method => :post, :class=> "btn btn-xs btn-default position-down") do %>
+                        :position => @repositories[i+1]["position"] } , :method => :post, :class=> "btn btn-sm btn-default position-down") do %>
                       <span class='glyphicon glyphicon-arrow-down' />
                     <% end %>
                   <% end %>

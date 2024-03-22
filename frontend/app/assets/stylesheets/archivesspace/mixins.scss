@@ -106,7 +106,7 @@
 }
 
 @mixin vertical($primaryColor, $secondaryColor) {
-  background-image: linear-gradient(to right, $primaryColor, $secondaryColor);
+  background-image: linear-gradient(to bottom, $primaryColor, $secondaryColor);
 }
 
 // Gradient Bar Colors for buttons and alerts
@@ -119,9 +119,7 @@
 ) {
   color: $textColor;
   text-shadow: $textShadow;
-  #gradient {
-    @include vertical($primaryColor, $secondaryColor);
-  }
+  @include vertical($primaryColor, $secondaryColor);
 
   border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1)

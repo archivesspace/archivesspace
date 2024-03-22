@@ -1,6 +1,6 @@
 <%= setup_context(:title => t("accession._plural")) %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
@@ -8,14 +8,14 @@
   </div>
   <div class="col-md-9">
     <% if user_can?('update_accession_record') %>
-      <div class="record-toolbar d-flex align-items-center">
-        <div class="btn-group ml-auto border bg-white">
+      <div class="record-toolbar d-flex justify-content-end">
+        <div class="btn-group">
           <% if user_can?('manage_repository') %>
               <%= link_to t("actions.edit_default_values"), {:controller => :accessions, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>
           <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv,
             :fields => fields}
-            ), id: "searchExport",  class:  "btn btn-sm btn-info" %>
+            ), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
           <%= link_to t("accession._frontend.action.create"), {:controller => :accessions, :action => :new}, :class => "btn btn-sm btn-default" %>
           <% if user_can?("delete_archival_record") %>
             <%= button_delete_multiple_action(:archival_records) %>

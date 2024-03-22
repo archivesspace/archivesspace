@@ -43,7 +43,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
       page.has_no_css? ".datepicker"
 
-      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
       datepicker_toggle.click
 
       page.has_css? ".datepicker"
@@ -62,7 +62,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
       page.has_no_css? ".datepicker"
 
-      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
       datepicker_toggle.click
 
       page.has_css? ".datepicker"
@@ -90,7 +90,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
       page.has_no_css? ".datepicker"
 
-      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
       datepicker_toggle.native.send_keys(:return)
 
       page.has_css? ".datepicker"
@@ -281,7 +281,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     it "has acceptable color contrast in the datepicker" do
       visit "/resources/1/edit"
 
-      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
       datepicker_toggle.click
 
       expect(page).to be_axe_clean.checking_only :'color-contrast'

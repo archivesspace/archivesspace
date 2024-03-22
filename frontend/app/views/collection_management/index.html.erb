@@ -1,6 +1,6 @@
 <%= setup_context(:title => t("collection_management._plural")) %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <%= render_aspace_partial :partial => "search/filter" %>
   </div>
@@ -9,7 +9,7 @@
       <div class="btn-group pull-right">
        <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv,
          :fields => fields}
-           ), id: "searchExport",  class:  "btn btn-sm btn-info" %>
+           ), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
       </div>
       <br style="clear:both" />
     </div>

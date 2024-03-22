@@ -181,7 +181,30 @@
       if (this.options.bsVersion == '2') {
         return '<div class="combobox-container"><input type="hidden" /> <div class="input-append"> <input type="text" autocomplete="off" /> <span class="add-on dropdown-toggle" data-dropdown="dropdown"> <span class="caret"/> <i class="icon-remove"/> </span> </div> </div>'
       } else {
-        return '<div class="combobox-container"> <input type="hidden" /> <div class="input-group"> <input type="text" autocomplete="off" role="combobox" aria-autocomplete="both" aria-haspopup="true" aria-controls="' + this.$source.attr('id') + '_list' + '" /> <span class="input-group-append btn-group align-items-center rounded-right dropdown-toggle px-2 border" data-dropdown="dropdown" role="button"> <span class="caret" /> <span class="glyphicon glyphicon-remove btn pt-1 border-right" /> </span> </div> </div>'
+        // ANW-1821 Accommodate Bootstrap v4 .input-group's built-in caret icon,
+        // see also frontend/app/assets/stylesheets/bootstrap-overrides.scss
+        const templ = `
+<div class="combobox-container">
+  <input type="hidden" />
+  <div class="input-group">
+    <input
+      type="text"
+      autocomplete="off"
+      role="combobox"
+      aria-autocomplete="both"
+      aria-haspopup="true"
+      aria-controls="${this.$source.attr('id')}_list"
+    />
+    <div class="input-group-append">
+      <button class="btn btn-default dropdown-toggle d-flex align-items-center" type="button" data-toggle="dropdown" aria-expanded="false">
+        <span class="glyphicon glyphicon-remove mb-1"></span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+        return templ;
       }
     }
 
@@ -433,7 +456,7 @@
 
   $.fn.combobox.defaults = {
     bsVersion: '3'
-  , menu: '<ul class="typeahead typeahead-long dropdown-menu" role="listbox" ></ul>'
+  , menu: '<ul class="typeahead typeahead-long dropdown-menu form-control-border" role="listbox" ></ul>'
   , item: '<li role="option" class="dropdown-item"><a href="#"></a></li>'
   };
 

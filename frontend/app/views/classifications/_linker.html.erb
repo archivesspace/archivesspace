@@ -66,12 +66,23 @@
 
           <% end %>
           
-        <div class="input-group-btn">
-           <a class="btn btn-default dropdown-toggle last border-dark border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("classification.linker.link_title") %>" aria-label="<%= I18n.t("classification.linker.link_title") %>"><span class="caret"></span></a>
-           <ul class="dropdown-menu">
-             <li><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
-           </ul>
-         </div>
-       </div>
-   </div>
+        <div class="input-group-append">
+          <button
+            type="button"
+            class="btn btn-default dropdown-toggle"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            aria-label="<%= I18n.t("classification.linker.link_title") %>"
+          ></button>
+          <ul class="dropdown-menu">
+            <li>
+              <button
+                type="button"
+                class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"
+              ><%= t("actions.browse") %></button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
 </div>

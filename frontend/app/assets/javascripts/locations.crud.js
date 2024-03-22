@@ -6,12 +6,12 @@ $(function () {
     var $form = $(form);
 
     var newSelector = '#location';
-    if ($form.selector === '#new_location_batch') {
+    if ($form.attr('id') === 'new_location_batch') {
       newSelector = '#location_batch';
     }
 
-    $temporary = $(newSelector + '_temporary_', $form);
-    $temporaryQuestion = $(newSelector + '_temporary_question_', $form);
+    let $temporary = $(newSelector + '_temporary_', $form);
+    let $temporaryQuestion = $(newSelector + '_temporary_question_', $form);
 
     if ($temporary.val() != '') {
       $temporaryQuestion.prop('checked', true);

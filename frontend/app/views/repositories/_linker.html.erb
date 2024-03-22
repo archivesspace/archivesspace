@@ -13,8 +13,8 @@
 
   linkable_types = ["repository"]
 %>
-<div class="form-group <% if required %>required<% end %>">
-  <label class="control-label col-sm-2"
+<div class="d-flex form-group <% if required %>required<% end %>">
+  <label class="control-label col-sm-2 text-right"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
     <%= t("repository._singular") %>
@@ -43,10 +43,21 @@
              data-types='<%= linkable_types.to_json %>'
              data-exclude='<%= exclude_ids.to_json %>'
       />
-      <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last border-dark border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" aria-label="<%= t("repository.linker.link_title") %>"><span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="javascript:void(0);" class="linker-browse-btn dropdown-item"><%= t("actions.browse") %></a></li>
+      <div class="input-group-append">
+        <button
+          type="button"
+          class="btn btn-default d-flex align-items-center dropdown-toggle"
+          data-toggle="dropdown"
+          aria-label="<%= t("repository.linker.link_title") %>"
+          aria-expanded="false"
+        ></button>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li>
+            <button
+              type="button"
+              class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"
+            ><%= t("actions.browse") %></button>
+          </li>
         </ul>
       </div>
     </div>

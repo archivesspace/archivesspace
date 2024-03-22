@@ -4,10 +4,10 @@
 
 <section id="<%= section_id %>" class="py-3">
   <h3><%= I18n.t("collection_management._singular") %></h3>
-  <div class="accordion details my-3" id="<%= section_id %>_accordian">
+  <div class="details my-3" id="<%= section_id %>_accordion">
     <div class="card">
       <div class="card-header panel-heading">
-        <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_collection_management">
+        <div class="row collapsed accordion-toggle" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" data-target="#<%= section_id %>_collection_management" aria-expanded="false" aria-controls="<%= section_id %>_collection_management">
           <div class="col-md-1">
             <span class="glyphicon"></span>
           </div>
@@ -24,7 +24,7 @@
           </div>
         </div>
       </div>
-      <div id="<%= section_id %>_collection_management" class="accordion-body collapse">
+      <div id="<%= section_id %>_collection_management" class="collapse">
         <%= read_only_view(collection_management) %>
         <% if ASUtils.wrap(collection_management["external_ids"]).length > 0 && show_external_ids? %>
           <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => collection_management["external_ids"], :section_id => "collection_management_external_ids_" } %>

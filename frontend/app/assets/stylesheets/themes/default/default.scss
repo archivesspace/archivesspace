@@ -12,9 +12,7 @@ body {
 }
 
 .breadcrumb {
-  #gradient {
-    @include vertical(#e9e9e9, #f1f1f1);
-  }
+  @include vertical(#e9e9e9, #f1f1f1);
 }
 
 .record-pane {

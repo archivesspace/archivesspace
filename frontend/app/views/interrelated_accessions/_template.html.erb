@@ -1,9 +1,9 @@
 <% define_template "interrelated_accessions" do |form| %>
   <% if form.obj['jsonmodel_type'] == 'accession' %>
     <div class="interrelated-accessions-form subrecord-form-fields">
-      <div class="form-group">
-        <label class="control-label col-sm-2"><%= t("interrelated_accession.relationship_type") %></label>
-        <div class="controls col-sm-8">
+      <div class="form-group d-flex align-items-center">
+        <label class="control-label col-sm-4 mb-0 text-right"><%= t("interrelated_accession.relationship_type") %></label>
+        <div class="controls col-sm-4 px-0">
           <select class="related-accession-type form-control">
             <option value="related_accessions_type_nil"></option>
             <% jsonmodel_definition(:accession).allowable_types_for("related_accessions").sort_by {|type| t("#{type}._singular")}.each do |type| %>

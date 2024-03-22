@@ -127,7 +127,7 @@
 <% define_template "content_items" do |form, opts = {}| %>
   <div class="form-group <% if opts[:required] %>required<% end %>">
     <label class="control-label"><%= t("content_items.content") %></label>
-    <div class="controls content-list">
+    <div class="controls content-list macio">
       <%= form.list_for((form["content"] || [""]), "content[]") do |item| %>
         <% form.emit_template("content_item", item) %>
       <% end %>
