@@ -208,6 +208,11 @@ GEM
       jruby-rack (>= 1.1.1, < 1.3)
       rake (>= 10.1.0)
       rubyzip (~> 1.0, < 1.4)
+    write_xlsx (1.01.0)
+      rubyzip (>= 1.0.0)
+      zip-zip
+    zip-zip (0.3)
+      rubyzip (>= 1.0.0)
 
 PLATFORMS
   java
@@ -251,6 +256,7 @@ DEPENDENCIES
   tzinfo
   tzinfo-data
   warbler (= 2.0.5)
+  write_xlsx (= 1.01.0)
 
 BUNDLED WITH
    2.1.4

@@ -57,3 +57,4 @@ require 'asutils'
 ASUtils.load_plugin_gems(self)
 
 gem "actionmailer", "~> 5.2"
+gem "write_xlsx", "1.01.0"
