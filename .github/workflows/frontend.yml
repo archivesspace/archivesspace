@@ -3,7 +3,7 @@ name: Frontend Testing
 on:
   pull_request:
     paths:
-      - '.github/workflows/frontend.*'
+      - '\.github/workflows/**'
       - 'frontend/**'
       - 'common/**'
       - 'solr/**'
