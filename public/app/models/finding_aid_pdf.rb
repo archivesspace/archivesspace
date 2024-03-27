@@ -35,81 +35,108 @@ class FindingAidPDF
   end
 
   def source_file
-    # We'll use the original controller so we can find and render the PDF
-    # partials, but just for its ERB rendering.
-    renderer = PdfController.new
-    start_time = Time.now
+    begin
+      # We'll use the original controller so we can find and render the PDF
+      # partials, but just for its ERB rendering.
+      renderer = PdfController.new
+      start_time = Time.now
 
-    @repo_code = @resource.repository_information.fetch('top').fetch('repo_code')
+      @repo_code = @resource.repository_information.fetch('top').fetch('repo_code')
 
-    # .length == 1 would be just the resource itself.
-    has_children = @ordered_records.entries.length > 1
+      # .length == 1 would be just the resource itself.
+      has_children = @ordered_records.entries.length > 1
 
-    out_html = Tempfile.new
+      out_html = Tempfile.new
 
-    # Use a NokogiriPushParser-based
-    writer = Nokogiri::XML::SAX::PushParser.new(XMLCleaner.new(out_html))
-    writer.write(renderer.render_to_string partial: 'header', layout: false, :locals => {:record => @resource})
+      # Use a NokogiriPushParser-based
+      writer = Nokogiri::XML::SAX::PushParser.new(XMLCleaner.new(out_html))
+      writer.write(renderer.render_to_string partial: 'header', layout: false, :locals => {:record => @resource})
 
-    writer.write(renderer.render_to_string partial: 'titlepage', layout: false, :locals => {:record => @resource})
+      writer.write(renderer.render_to_string partial: 'titlepage', layout: false, :locals => {:record => @resource})
 
-    # Drop the resource and filter the AOs
-    toc_aos = @ordered_records.entries.drop(1).select {|entry|
-      if entry.depth == 1
-        DEPTH_1_LEVELS.include?(entry.level)
-      elsif entry.depth == 2
-        DEPTH_2_LEVELS.include?(entry.level)
-      else
-        false
-      end
-    }
-
-    writer.write(renderer.render_to_string partial: 'toc', layout: false, :locals => {:resource => @resource, :has_children => has_children, :ordered_aos => toc_aos})
-
-    writer.write(renderer.render_to_string partial: 'resource', layout: false, :locals => {:record => @resource, :has_children => has_children})
-
-    page_size = 50
-
-    @ordered_records.entries.drop(1).each_slice(page_size) do |entry_set|
-      if AppConfig[:pui_pdf_timeout] && AppConfig[:pui_pdf_timeout] > 0 && (Time.now.to_i - start_time.to_i) >= AppConfig[:pui_pdf_timeout]
-        raise TimeoutError.new("PDF generation timed out.  Sorry!")
-      end
-
-      uri_set = entry_set.map(&:uri)
-      record_set = archivesspace.search_records(uri_set, {}, true).records
-
-
-      unprocessed_record_list = record_set.zip(entry_set)
-      ao_list = []
-
-      # tuple looks like [ArchivalObject, Entry]
-      unprocessed_record_list.each_with_index do |tuple, i|
-        record = tuple[0]
-        next_record = unprocessed_record_list[i + 1][0] rescue nil
-
-        next unless record.is_a?(ArchivalObject)
-
-        if next_record && record.uri == next_record.parent_for_md_mapping
-          has_children = true
+      # Drop the resource and filter the AOs
+      toc_aos = @ordered_records.entries.drop(1).select {|entry|
+        if entry.depth == 1
+          DEPTH_1_LEVELS.include?(entry.level)
+        elsif entry.depth == 2
+          DEPTH_2_LEVELS.include?(entry.level)
         else
-          has_children = false
+          false
+        end
+      }
+
+      writer.write(renderer.render_to_string partial: 'toc', layout: false, :locals => {:resource => @resource, :has_children => has_children, :ordered_aos => toc_aos})
+
+      writer.write(renderer.render_to_string partial: 'resource', layout: false, :locals => {:record => @resource, :has_children => has_children})
+
+      page_size = 50
+
+      @ordered_records.entries.drop(1).each_slice(page_size) do |entry_set|
+        if AppConfig[:pui_pdf_timeout] && AppConfig[:pui_pdf_timeout] > 0 && (Time.now.to_i - start_time.to_i) >= AppConfig[:pui_pdf_timeout]
+          raise TimeoutError.new("PDF generation timed out.  Sorry!")
         end
 
-        tuple[2] = has_children
+        uri_set = entry_set.map(&:uri)
+        record_set = archivesspace.search_records(uri_set, {}, true).records
 
-        ao_list.push(tuple)
+
+        unprocessed_record_list = record_set.zip(entry_set)
+        ao_list = []
+
+        # tuple looks like [ArchivalObject, Entry]
+        unprocessed_record_list.each_with_index do |tuple, i|
+          record = tuple[0]
+          next_record = unprocessed_record_list[i + 1][0] rescue nil
+
+          next unless record.is_a?(ArchivalObject)
+
+          if next_record && record.uri == next_record.parent_for_md_mapping
+            has_children = true
+          else
+            has_children = false
+          end
+
+          tuple[2] = has_children
+
+          ao_list.push(tuple)
+        end
+
+
+        ao_list.each do |record, entry, is_parent|
+          writer.write(renderer.render_to_string partial: 'archival_object', layout: false, :locals => {:record => record, :level => entry.depth, :is_parent => is_parent})
+        end
       end
 
+      writer.write(renderer.render_to_string partial: 'footer', layout: false, :locals => {:record => @resource})
+      out_html.close
 
-      ao_list.each do |record, entry, is_parent|
-        writer.write(renderer.render_to_string partial: 'archival_object', layout: false, :locals => {:record => record, :level => entry.depth, :is_parent => is_parent})
+      out_html
+    rescue => e
+      out_html = Tempfile.new
+
+      writer = Nokogiri::XML::SAX::PushParser.new(XMLCleaner.new(out_html))
+
+      location = nil
+      e.backtrace_locations.each do |bl|
+        if bl =~ /finding_aid_pdf\.rb\:70/
+          location = "line seventy"
+        end
       end
+
+      error_html = ""
+      error_html += "<body>"
+      error_html += "<p>There was an error generating the PDF.</p>"
+      error_html += "<p>#{e.message}</p>"
+      error_html += "<p>#{e.class.to_s}</p>"
+      error_html += "<p>#{location}</p>" if location
+      error_html += "</body>"
+
+      writer.write(error_html)
+
+      out_html.close
+
+      out_html
     end
-
-    writer.write(renderer.render_to_string partial: 'footer', layout: false, :locals => {:record => @resource})
-    out_html.close
-
-    out_html
   end
 
   def generate
