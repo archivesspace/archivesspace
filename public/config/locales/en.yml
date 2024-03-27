@@ -565,3 +565,21 @@ en:
     fr: French
     de: German
     ja: Japanese
+
+  pdf_error:
+    title: There was an error generating this PDF.
+    description: "We're sorry, there was an error generating this PDF finding aid. Here is some diagnostic information to help determine what went wrong." 
+    headings:
+      location: Error Location
+      message: Error Message
+      type: Error Type
+      additional_info: Additional Information
+    location:
+      location_header: "The error occurred while generating the header."
+      location_title_page: "The error occurred while generating the title page."
+      location_toc: "The error occurred while generating the table of contents."
+      location_resource: "The error occurred while generating sections relating to the Resource record, which includes Summary Information, Controlled Access Headings, and the Notes sections."
+      location_archival_object: "The error occurred while generating the Collection Inventory."
+      location_footer: "The error occurred while generating the footer."
+    additional_info:
+      invalid_markup: "This error can result from invalid markup present in a note or subrecord."
