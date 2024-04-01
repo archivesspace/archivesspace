@@ -29,10 +29,9 @@
   <fieldset>
     <legend class="control-label col-xs-2"><%= I18n.t("group.permissions") %></legend>
     <div class="col-xs-10">
-      <%
-        JSONModel(:permission).all(:level => "repository").map { |permission|
-          [permission.permission_code, I18n.t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code)]
-        }.sort_by {|a| a[1]}.each do |permission_code, permission_label|
+      <% JSONModel(:permission).all(:level => "repository").map { |permission|
+        [permission.permission_code, I18n.t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code)]
+      }.sort_by { |a| a[1] }.each do |permission_code, permission_label|
       %>
         <div class="input-group">
           <span class="input-group-addon">
