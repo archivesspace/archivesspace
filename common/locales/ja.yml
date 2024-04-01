@@ -1108,44 +1108,41 @@ ja:
     member_usernames_tooltip: "<p>このグループのメンバーであるメンバー。 </p>"
     permissions: メンバーは：
     permission_types:
-      show_full_agents: フルモードでエージェントを操作する
-      manage_repository: このリポジトリを管理する（グループやその他の設定を変更する）
-      update_location_record: このリポジトリ内のロケーションレコードの作成/変更/削除
-      update_subject_record: 件名レコードの作成/更新
-      update_agent_record: エージェントレコードの作成/更新
-      view_agent_contact_record: エージェントレコードの連絡先詳細の表示
-      update_vocabulary_record: ボキャブラリーレコードの作成/更新
-      update_accession_record: このリポジトリ内のアクセス権の作成/更新
-      update_resource_record: このリポジトリ内のリソースを作成/更新する
-      update_digital_object_record: このリポジトリ内のデジタルオブジェクトの作成/更新
-      update_event_record: このリポジトリにイベントレコードを作成/更新する
-      view_repository: このリポジトリ内のレコードを表示する
-      view_suppressed: このリポジトリ内の抑制されたレコードを表示する
-      suppress_archival_record: このリポジトリ内の主要レコードタイプを抑制する
-      delete_archival_record: このリポジトリ内の主要レコードタイプを削除する
-      delete_event_record: このリポジトリ内のイベントレコードを削除する
-      update_classification_record: 分類と分類用語の作成/更新
-      delete_classification_record: 分類と分類用語を削除する
-      merge_agents_and_subjects: マージエージェント/件名レコード
-      merge_archival_record: このリポジトリ内の主要レコードタイプをマージする
-      manage_rde_templates: RDEテンプレートを管理する
-      transfer_repository: リポジトリの内容全体を転送する
-      transfer_archival_record: リポジトリ間で主要レコードタイプを転送する
-      manage_subject_record: 件名レコードの作成/更新/削除
-      manage_agent_record: エージェントレコードの作成/更新/削除
-      manage_vocabulary_record: ボキャブラリーレコードの作成/更新/削除
-      import_records: インポートジョブを開始する
-      cancel_importer_job: インポートジョブをキャンセルする
-      update_container_record: トップコンテナレコードの作成/更新
-      manage_container_record: トップコンテナレコードの削除/一括更新
-      manage_container_profile_record: コンテナプロファイルレコードの作成/更新/削除
-      manage_location_profile_record: ロケーションプロファイルレコードの作成/更新/削除
-      create_job: バックグラウンドジョブを作成して実行する
-      cancel_job: バックグラウンドジョブをキャンセルする
-      update_assessment_record: アセスメントレコードの作成/更新
-      delete_assessment_record: 評価記録を削除する
-      manage_assessment_attributes: リポジトリ評価属性定義の作成/更新/削除
-      manage_enumeration_record: 制御値レコードの作成/更新/削除
+      manage_repository: <b>ユーザー</b> をグループ (このリポジトリ内) に割り当てる<br/><b>グループ</b> 権限を設定する (このリポジトリ内)<br/><b>リポジトリ設定</b> を設定する ( このリポジトリ内)<br/><b>必須フィールドとデフォルト値</b>を構成する(このリポジトリ内)<br/><b>バッチ検索および置換ジョブ</b>を作成して実行する(このリポジトリ内) <br/><b>ロケーション</b>の作成/更新/削除 (システム全体)
+      view_agent_contact_record: <b>エージェント</b> の連絡先詳細セクションを編集/表示します (このリポジトリ内)
+      show_full_agents: フル モードで有効になっている <b>エージェント</b> の追加セクションを編集します (このリポジトリ内)
+      update_accession_record: <b>アクセス</b> を作成/更新します (このリポジトリ内)
+      update_resource_record: <b>リソース</b> を作成/更新します (このリポジトリ内)
+      update_digital_object_record: <b>デジタル オブジェクト</b> を作成/更新します (このリポジトリ内)
+      update_event_record: <b>イベント</b> を作成/更新します (このリポジトリ内)
+      view_repository: <b>すべてのレコード</b> を表示 (このリポジトリ内)<br/><b>エージェント</b> を表示 (システム全体)<br/><b>サブジェクト</b> を表示 (システム全体)
+      view_suppressed: <b>抑制されたレコード</b> を表示します (このリポジトリ内)
+      suppress_archival_record: (このリポジトリ内の)<b>アクセス、アーカイブ オブジェクト、およびリソース</b>を抑制します。
+      delete_archival_record: (このリポジトリ内の) <b>アクセス、アーカイブ オブジェクト、デジタル オブジェクトおよびリソース</b> を削除します。
+      delete_event_record: (このリポジトリ内の) <b>イベント</b> を削除します
+      update_classification_record: <b>分類</b> を作成/更新します (このリポジトリ内)
+      delete_classification_record: (このリポジトリ内の) <b>分類</b> を削除します
+      merge_agents_and_subjects: <b>エージェント</b> をマージする (システム全体)<br/><b>サブジェクト</b> をマージする (システム全体)
+      merge_archival_record: <b>デジタル オブジェクト</b> (このリポジトリ内) をマージします<br><b>リソース</b> (このリポジトリ内) をマージします
+      manage_rde_templates: <b>高速データ入力テンプレート</b>を作成/削除します（このリポジトリ内）
+      transfer_repository: <b>このリポジトリのコンテンツ全体</b>を別のリポジトリに転送します (宛先リポジトリでも同じ権限が必要です)
+      transfer_archival_record: 個々の<b>アクセス、デジタル オブジェクト、 リソース</b>を別のリポジトリに転送します (両方のリポジトリで転送されるタイプのレコードを作成/更新する権限も必要です)
+      manage_subject_record: <b>サブジェクト</b>の作成/更新/削除 (システム全体)
+      manage_agent_record: <b>エージェント</b> の作成/更新/削除 (システム全体)
+      manage_vocabulary_record: <b>語彙</b>の作成/更新/削除 (システム全体)
+      import_records: <b>インポート ジョブ</b> を作成/実行します (このリポジトリ内)
+      cancel_importer_job: (このリポジトリ内の) <b>インポート ジョブ</b> をキャンセルします
+      update_container_record: <b>上位コンテナ</b> を作成/更新します (このリポジトリ内)
+      manage_container_record: (このリポジトリ内の) <b>上位コンテナ</b> を削除/一括更新します
+      manage_container_profile_record: <b>コンテナプロファイル</b>の作成/更新/削除 (システム全体)
+      manage_location_profile_record: <b>位置プロファイル</b>の作成/更新/削除 (システム全体)
+      create_job: <b>バックグラウンド ジョブ</b> (このリポジトリ内) を作成/実行します
+      cancel_job: (このリポジトリ内の) <b>バックグラウンド ジョブ</b>をキャンセルします
+      update_assessment_record: <b>評価</b> を作成/更新します (このリポジトリ内)
+      delete_assessment_record: (このリポジトリ内の) <b>評価</b> を削除します
+      manage_assessment_attributes: (このリポジトリ内) <b>リポジトリ評価属性定義</b>を作成/更新/削除します。
+      manage_enumeration_record: <b>制御値</b>の作成/更新/削除 (システム全体)
+      manage_custom_report_templates: <b>カスタム レポート テンプレート</b>の作成/更新/削除 (このリポジトリ内)
     _singular: グループ
     _plural: グループ
 

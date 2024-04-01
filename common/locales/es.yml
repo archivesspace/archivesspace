@@ -1538,45 +1538,41 @@ es:
       <p>Los miembros que forman parte de este grupo.</p>
     permissions: "Los miembros pueden:"
     permission_types:
-      show_full_agents: trabajar con agentes en modo completo
-      manage_repository: "gestionar repositorio"
-      update_location_record: crear/modificar/borrar location records en este repositorio
-      update_subject_record: crear/modificar registros de subject
-      update_agent_record: crear/modificar registros de autoridad
-      view_agent_contact_record: ver los detalles de contacto de los registros del agente
-      update_vocabulary_record: crear/modificar registros de vocabulary
-      update_accession_record: crear/modificar registros de entradas en este repositorio
-      update_resource_record: crear/modificar resources en este repositorio
-      update_digital_object_record: crear/modificar objetos digitales en este repositorio
-      update_event_record: crear/modificar event records en este repositorio
-      view_repository: ver los registros en este repositorio
-      view_suppressed: ver registros suprimidos en este repositorio
-      suppress_archival_record: suprimir los principales tipos de registro en este repositorio
-      delete_archival_record: eliminar los principales tipos de registro en este repositorio
-      delete_event_record: eliminar registros de eventos en este repositorio
-      update_classification_record: crear/modificar clasificaciones y términos de clasificación
-      delete_classification_record: eliminar clasificaciones y términos de clasificación
-      merge_agents_and_subjects: merge agent/subject records
-      merge_archival_record: fusionar los principales tipos de registro en este repositorio
-      manage_rde_templates: administrar plantillas RDE
-      transfer_repository: Transferir todo el contenido de un repositorio.
-      transfer_archival_record: transferir los principales tipos de registro entre repositorios
-      manage_subject_record: crear/modificar/borrar subject records
-      manage_agent_record: crear/modificar/borrar agent records
-      manage_vocabulary_record: crear/modificar/borrar vocabulary records
-      import_records: iniciar trabajos de importación
-      cancel_importer_job: cancelar un trabajo de importación
-      update_container_record: crear/modificar top container records
-      manage_container_record: eliminar/actualizar de forma masiva los registros del contenedor superior
-      manage_container_profile_record: crear/modificar/borrar container profile records
-      manage_location_profile_record: crear/modificar/borrar location profile records
-      create_job: crear y ejecutar un trabajo en segundo plano
-      cancel_job: cancelar un trabajo de fondo
-      update_assessment_record: crear/actualizar registros de evaluación
-      delete_assessment_record: eliminar registros de evaluación
-      manage_assessment_attributes: Crear/actualizar/eliminar definiciones de atributos de evaluación
-        de repositorio
-      manage_enumeration_record: Crear/actualizar/eliminar registros de valores controlados
+      show_full_agents: editar secciones adicionales de <b>agentes</b> habilitados por el modo completo (en este repositorio)
+      manage_repository: asignar <b>usuarios</b> a grupos (en este repositorio)<br/>establecer permisos de <b>grupo</b> (en este repositorio)<br/>establecer <b>preferencias del repositorio</b> ( en este repositorio)<br/>configurar <b>campos obligatorios y valores predeterminados</b> (en este repositorio)<br/>crear y ejecutar <b>buscar y reemplazar trabajos por lotes</b> (en este repositorio) <br/>crear/actualizar/eliminar <b>ubicaciones</b> (en todo el sistema)
+      view_agent_contact_record: editar/ver la sección de detalles de contacto de <b>agentes</b> (en este repositorio)
+      update_accession_record: crear/actualizar <b>accesiones</b> (en este repositorio)
+      update_resource_record: <b>Ressourcen</b> erstellen/aktualisieren (en este repositorio)
+      update_digital_object_record: crear/actualizar <b>objetos digitales</b> (en este repositorio)
+      update_event_record: crear/actualizar <b>eventos</b> (en este repositorio)
+      view_repository: ver <b>todos los registros</b> (en este repositorio)<br/>ver <b>agentes</b> (en todo el sistema)<br/>ver <b>temas</b> (en todo el sistema)
+      view_suppressed: ver <b>registros suprimidos</b> (en este repositorio)
+      suppress_archival_record: suprimir <b>accesiones, objetos y recursos de archivo</b> (en este repositorio)
+      delete_archival_record: eliminar <b>accesiones, objetos de archivo, objetos y recursos digitales</b> (en este repositorio)
+      delete_event_record: eliminar <b>eventos</b> (en este repositorio)
+      update_classification_record: crear/actualizar <b>clasificaciones</b> (en este repositorio)
+      delete_classification_record: eliminar <b>clasificaciones</b> (en este repositorio)
+      merge_agents_and_subjects: fusionar <b>agentes</b> (en todo el sistema)<br/>fusionar <b>temas</b> (en todo el sistema)
+      merge_archival_record: fusionar <b>objetos digitales</b> (en este repositorio)</br>fusionar <b>recursos</b> (en este repositorio)
+      manage_rde_templates: crear/eliminar <b>plantillas de entrada rápida de datos</b> (en este repositorio)
+      transfer_repository: transferir <b>todo el contenido de este repositorio</b> a otro repositorio (también debe tener el mismo permiso en el repositorio de destino)
+      transfer_archival_record: transferir <b>accesiones, objetos digitales y recursos</b> individuales a otro repositorio (también debe tener permiso para crear/actualizar registros del tipo que se transfiere en ambos repositorios)
+      manage_subject_record: crear/actualizar/eliminar <b>temas</b> (en todo el sistema)
+      manage_agent_record: crear/actualizar/eliminar <b>agentes</b> (en todo el sistema)
+      manage_vocabulary_record: crear/actualizar/eliminar <b>vocabularios</b> (en todo el sistema)
+      import_records: crear/ejecutar <b>trabajos de importación</b> (en este repositorio)
+      cancel_importer_job: cancelar <b>importar trabajos</b> (en este repositorio)
+      update_container_record: crear/actualizar <b>contenedores principales</b> (en este repositorio)
+      manage_container_record: eliminar/actualizar en masa los <b>contenedores principales</b> (en este repositorio)
+      manage_container_profile_record: crear/actualizar/eliminar <b>perfiles de contenedor</b> (en todo el sistema)
+      manage_location_profile_record: crear/actualizar/eliminar <b>perfiles de ubicación</b> (en todo el sistema)
+      create_job: crear/ejecutar <b>trabajos en segundo plano</b> (en este repositorio)
+      cancel_job: cancelar <b>trabajos en segundo plano</b> (en este repositorio)
+      update_assessment_record: crear/actualizar <b>evaluaciones</b> (en este repositorio)
+      delete_assessment_record: eliminar <b>evaluaciones</b> (en este repositorio)
+      manage_assessment_attributes: crear/actualizar/eliminar <b>definiciones de atributos de evaluación del repositorio</b> (en este repositorio)
+      manage_enumeration_record: crear/actualizar/eliminar <b>valores controlados</b> (en todo el sistema)
+      manage_custom_report_templates: crear/actualizar/eliminar <b>plantillas de informes personalizados</b> (en este repositorio)
     _singular: Grupo
     _plural: Los grupos
 
