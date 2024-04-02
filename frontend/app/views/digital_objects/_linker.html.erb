@@ -9,12 +9,12 @@
    layout ||= "horizontal"
 %>
 <div class="form-group row required">
-  <label class="control-label text-right <%= layout != 'stacked' ? 'col-sm-3' : '' %>"
+  <label class="control-label text-right <%= layout != 'stacked' ? 'col-sm-2' : '' %>"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
     <%= t("digital_object._singular") %>
   </label>
-  <div class="controls <%= layout != 'stacked' ? 'col-sm-8' : 'w-100'%>">
+  <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>">
     <div class="input-group linker-wrapper"
          role="combobox"
          aria-owns="<%= form.id_for("ref") %>_listbox"
@@ -63,9 +63,9 @@
             <li>
             <% if (user_prefs['digital_object_spawn'] && @accession) %>
               <%# accessions can spawn DOs directly via backend %>
-              <button type="button" class="btn btn-sm rounded-0 dropdown-item" data-target="<%= url_for :controller => :digital_objects, :action => :new, :inline => true, :spawn_from_accession_id => @accession.id %>" class="linker-create-btn"><%= t("actions.create") %></button>
+              <button type="button" class="btn btn-sm rounded-0 dropdown-item linker-create-btn" data-target="<%= url_for :controller => :digital_objects, :action => :new, :inline => true, :spawn_from_accession_id => @accession.id %>"><%= t("actions.create") %></button>
             <% else %>
-              <button type="button" class="btn btn-sm rounded-0 dropdown-item" data-target="<%= url_for :controller => :digital_objects, :action => :new, :inline => true %>" class="linker-create-btn"><%= t("actions.create") %></button>
+              <button type="button" class="btn btn-sm rounded-0 dropdown-item linker-create-btn" data-target="<%= url_for :controller => :digital_objects, :action => :new, :inline => true %>"><%= t("actions.create") %></button>
             <% end %>
             </li>
           <% end %>

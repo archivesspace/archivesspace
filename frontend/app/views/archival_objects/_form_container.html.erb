@@ -21,10 +21,12 @@
 
   <% define_template("archival_object", jsonmodel_definition(:archival_object)) do |form| %>
     <section id="basic_information">
-      <h3>
-        <%= t("archival_object._frontend.section.basic_information") %>
+      <header class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+        <h3 class="flex-grow-1 mb-0 border-0">
+          <%= t("archival_object._frontend.section.basic_information") %>
+        </h3>
         <%= link_to_help :topic => "archival_object_basic_information" %>
-      </h3>
+      </header>
 
       <fieldset>
         <%= render_plugin_partials("top_of_basic_information_archival_object",

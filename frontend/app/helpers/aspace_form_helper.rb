@@ -1320,8 +1320,8 @@ module AspaceFormHelper
         next unless value.is_a?(String)
       end
 
-      html << "<div class='form-group row'>"
-      html << "<div class='control-label col-sm-2'>"
+      html << "<div class='form-group d-flex'>"
+      html << "<div class='control-label col-sm-2 text-right'>"
       html << I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")
       html << "</div>"
       html << "<div class='col-sm-8'>#{value}</div>"
