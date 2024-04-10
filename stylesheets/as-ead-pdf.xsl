@@ -278,7 +278,7 @@
       <fo:block-container max-width="6.5in" max-height="4in">
         <fo:block text-align="left">
             <fo:external-graphic content-width="scale-down-to-fit"
-              content-height="scale-down-to-fit" width="100%" height="100%"
+              content-height="scale-down-to-fit" width="200px"
               scaling="uniform">
               <xsl:attribute name="src"><xsl:value-of select="$pdf_image"/></xsl:attribute>
             </fo:external-graphic>
@@ -1290,22 +1290,22 @@
     <!-- Collection Inventory (dsc) templates -->
     <xsl:template match="ead:archdesc/ead:dsc">
         <xsl:if test="count(child::*) >= 1">
-		<fo:block xsl:use-attribute-sets="section">
-		    <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
-		    <fo:table table-layout="fixed" space-after="12pt" width="100%" font-size="10pt">
-			<fo:table-column column-number="1" column-width="4in"/>
-			<fo:table-column column-number="2" column-width="1in"/>
-			<fo:table-column column-number="3" column-width="1in"/>
-			<fo:table-column column-number="4" column-width="1in"/>
-			<fo:table-body>
-			    <xsl:if test="child::*[@level][1][@level='item' or @level='file' or @level='otherlevel']">
-				<xsl:call-template name="tableHeaders"/>
-			    </xsl:if>
-			    <xsl:apply-templates select="*[not(self::ead:head)]"/>
-			</fo:table-body>
-		    </fo:table>
-		</fo:block>
-	</xsl:if>
+    <fo:block xsl:use-attribute-sets="section">
+        <fo:block xsl:use-attribute-sets="h2ID"><xsl:value-of select="local:tagName(.)"/></fo:block>
+        <fo:table table-layout="fixed" space-after="12pt" width="100%" font-size="10pt">
+      <fo:table-column column-number="1" column-width="4in"/>
+      <fo:table-column column-number="2" column-width="1in"/>
+      <fo:table-column column-number="3" column-width="1in"/>
+      <fo:table-column column-number="4" column-width="1in"/>
+      <fo:table-body>
+          <xsl:if test="child::*[@level][1][@level='item' or @level='file' or @level='otherlevel']">
+        <xsl:call-template name="tableHeaders"/>
+          </xsl:if>
+          <xsl:apply-templates select="*[not(self::ead:head)]"/>
+      </fo:table-body>
+        </fo:table>
+    </fo:block>
+  </xsl:if>
     </xsl:template>
 
     <!--
@@ -1510,7 +1510,7 @@
             <xsl:for-each select="ead:unitdate">
               <xsl:apply-templates select="." mode="did"/>
               <xsl:if test="position()!=last()">
-				            <xsl:text>, </xsl:text>
+                    <xsl:text>, </xsl:text>
               </xsl:if>
             </xsl:for-each>
         </fo:block>
@@ -1541,7 +1541,7 @@
             <xsl:for-each select="ead:unitdate">
               <xsl:apply-templates select="." mode="did"/>
               <xsl:if test="position()!=last()">
-				            <xsl:text>, </xsl:text>
+                    <xsl:text>, </xsl:text>
               </xsl:if>
             </xsl:for-each>
         </fo:block>
