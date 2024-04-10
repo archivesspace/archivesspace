@@ -696,7 +696,7 @@
       <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost:3000" />
       <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost:3001" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
-      <arg line="script/rails s mizuno -b 0.0.0.0 --port=${aspace.frontend.port}" />
+      <arg line="script/rails s puma -b 0.0.0.0 --port=${aspace.frontend.port}" />
     </java>
     <record name="frontend_test_log.out" action="stop" />
   </target>
@@ -812,7 +812,7 @@
       <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost:3000" />
       <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost:3001" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
-      <arg line="bin/rails s mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
+      <arg line="bin/rails s puma -b 0.0.0.0 --port=${aspace.public.port}" />
     </java>
   </target>
 
