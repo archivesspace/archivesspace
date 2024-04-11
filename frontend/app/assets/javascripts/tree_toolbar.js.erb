@@ -1,4 +1,5 @@
 var SHARED_TOOLBAR_ACTIONS = [
+    // Enable Reorder Mode
     {
         label: '<%= I18n.t('actions.enable_reorder') %>',
         cssClasses: 'btn-default drag-toggle',
@@ -13,7 +14,7 @@ var SHARED_TOOLBAR_ACTIONS = [
         },
         onToolbarRendered: function(btn, toolbarRenderer) {
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
-                $('.btn:not(.drag-toggle,.finish-editing,.cut-selection,.paste-selection,.move-node)',toolbarRenderer.container).hide();
+                $('.btn:not(.drag-toggle,.finish-editing,[data-radio-btn],.cut-selection,.paste-selection,.move-node)',toolbarRenderer.container).parent().hide();
                 $('.cut-selection',toolbarRenderer.container).removeClass('disabled');
                 if ($('.cut', tree.large_tree.elt).length > 0) {
                     $('.paste-selection',toolbarRenderer.container).removeClass('disabled');
@@ -30,8 +31,8 @@ var SHARED_TOOLBAR_ACTIONS = [
                 tree.ajax_tree.hide_form();
                 $.scrollTo(0);
                 tree.resizer.maximize(DRAGDROP_HOTSPOT_HEIGHT);
-                $('.btn:not(.drag-toggle,.finish-editing)',toolbarRenderer.container).hide();
-                $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).show();
+                $('.btn:not(.drag-toggle,.finish-editing,[data-radio-btn],.cut-selection,.paste-selection,.move-node)',toolbarRenderer.container).parent().hide();
+                $('.cut-selection,.paste-selection,.move-node', toolbarRenderer.container).parent().show();
                 $('.cut-selection,.move-node',toolbarRenderer.container).removeClass('disabled');
                 $('[data-radio-group="drop-behavior"]', toolbarRenderer.container).css('display', 'flex');
             } else {
@@ -61,12 +62,13 @@ var SHARED_TOOLBAR_ACTIONS = [
         },
     },
     [
+        // Cut
         {
             label: '<%= I18n.t("actions.cut") %>',
             cssClasses: 'btn-default cut-selection',
             onRender: function(btn, node, tree, toolbarRenderer) {
                 if (!$(tree.large_tree.elt).is('.drag-enabled')) {
-                    btn.hide();
+                    btn.parent().hide();
                 }
             },
             onClick: function(event, btn, node, tree, toolbarRenderer) {
@@ -100,12 +102,13 @@ var SHARED_TOOLBAR_ACTIONS = [
                 return !tree.large_tree.read_only && tree.dragdrop;
             }
         },
+        // Paste
         {
             label: '<%= I18n.t("actions.paste") %>',
             cssClasses: 'btn-default paste-selection',
             onRender: function(btn, node, tree, toolbarRenderer) {
                 if (!$(tree.large_tree.elt).is('.drag-enabled')) {
-                    btn.hide();
+                    btn.parent().hide();
                 } else if ($('.cut', $(tree.large_tree.elt)).length == 0) {
                     btn.addClass('disabled');
                 }
@@ -136,6 +139,7 @@ var SHARED_TOOLBAR_ACTIONS = [
         },
     ],
     [
+        // Drop Before
         {
             radio: {
                 name: 'drop-behavior',
@@ -150,6 +154,7 @@ var SHARED_TOOLBAR_ACTIONS = [
                 return !tree.large_tree.read_only && tree.dragdrop;
             }
         },
+        // Drop Into
         {
             radio: {
                 name: 'drop-behavior',
@@ -164,6 +169,7 @@ var SHARED_TOOLBAR_ACTIONS = [
                 return !tree.large_tree.read_only && tree.dragdrop;
             }
         },
+        // Drop After
         {
             radio: {
                 name: 'drop-behavior',
@@ -179,13 +185,14 @@ var SHARED_TOOLBAR_ACTIONS = [
             }
         },
     ],
+    // Move
     {
-        label: '<%= I18n.t "actions.move" %> <span class="caret"></span>',
-        cssClasses: 'btn-default dropdown-toggle move-node',
+        label: '<%= I18n.t "actions.move" %> ',
+        cssClasses: 'btn-default dropdown-toggle cursor-default move-node',
         groupCssClasses: 'dropdown',
         onRender: function(btn, node, tree, toolbarRenderer) {
             if (!$(tree.large_tree.elt).is('.drag-enabled')) {
-                btn.hide();
+                btn.parent().hide();
             }
             var level = node.data('level');
             var position = node.data('position');
@@ -193,11 +200,7 @@ var SHARED_TOOLBAR_ACTIONS = [
             var $options = $('<ul>').addClass('dropdown-menu ');
             // move up a level
             if (level > 1) {
-                var $li = $('<li>');
-                $li.append($('<a>').attr('href', 'javascript:void(0);').
-                                    addClass('move-node move-node-up-level').
-                                    text('<%= I18n.t('actions.move_up_a_level') %>'));
-                $options.append($li);
+                $options.append(item('move-node-up-level', '<%= I18n.t('actions.move_up_a_level') %>'));
             }
 
             var $prevAtLevel = node.prevAll('.largetree-node.indent-level-'+level+':first');
@@ -205,29 +208,37 @@ var SHARED_TOOLBAR_ACTIONS = [
 
             // move up on same level
             if ($prevAtLevel.length > 0) {
-                var $li = $('<li>');
-                $li.append($('<a>').attr('href', 'javascript:void(0);')
-                                   .addClass('move-node move-node-up')
-                                   .text('<%= I18n.t('actions.move_up') %>'));
-                $options.append($li);
+                $options.append(item('move-node-up', '<%= I18n.t('actions.move_up') %>'));
             }
             // move down on same level
             if ($nextAtLevel.length > 0) {
-                var $li = $('<li>');
-                $li.append($('<a>').attr('href', 'javascript:void(0);')
-                                   .addClass('move-node move-node-down')
-                                   .text('<%= I18n.t('actions.move_down') %>'));
-                $options.append($li);
+                $options.append(item('move-node-down', '<%= I18n.t('actions.move_down') %>'));
             }
             // move down into sibling
             if ($prevAtLevel.length > 0 || $nextAtLevel.length > 0) {
-                var $li = $('<li>').addClass('dropdown-submenu');
-                $li.append($('<a>').attr('href', 'javascript:void(0);')
-                    .text('<%= I18n.t('actions.move_down_into') %>'));
-                $options.append($li);
+                $options.append(siblingsSubMenu('<%= I18n.t('actions.move_down_into') %>', getSiblings()));
+            }
 
-                var $siblingsMenu = $('<ul>').addClass('dropdown-menu').addClass('move-node-into-menu');
+            /**
+             * @param {string} btnClass
+             * @param {string} btnText
+             * @returns {HTMLstring} Template list item for the $options list
+             */
+            function item(btnClass, btnText) {
+                return `
+                    <li>
+                        <button
+                            type="button"
+                            class="btn btn-sm rounded-0 dropdown-item cursor-default move-node ${btnClass}"
+                        >${btnText}</button>
+                    </li>
+                `;
+            }
 
+            /**
+             * @returns {array} Array of sibling DOM nodes for the for siblingsSubMenu()
+             */
+            function getSiblings() {
                 var $siblingsAbove = $.makeArray(node.prevAll('.largetree-node.indent-level-'+level));
                 var $siblingsBelow = $.makeArray(node.nextAll('.largetree-node.indent-level-'+level));
 
@@ -247,19 +258,43 @@ var SHARED_TOOLBAR_ACTIONS = [
                     $siblingsToAddToMenu = $.merge($siblingsAbove.reverse(), $siblingsBelow);
                 }
 
-                for (var i = 0; i < $siblingsToAddToMenu.length; i++) {
-                    var $sibling = $($siblingsToAddToMenu[i]);
-                    var $subli = $('<li>');
-                    $subli.append($('<a>').attr('href', 'javascript:void(0);')
-                        .addClass('move-node move-node-down-into')
-                        .attr('data-uri', $sibling.data('uri'))
-                        .attr('data-tree_id', $sibling.attr('id'))
-                        .text($sibling.find('.record-title').text().trim()));
-                    $siblingsMenu.append($subli);
-                }
-
-                $siblingsMenu.appendTo($li);
+                return $siblingsToAddToMenu;
             }
+
+            /**
+             * @param {string} btnText
+             * @param {array} siblings - Array of sibling DOM nodes
+             * @returns {HTMLstring} Template list item for the move-node-into-menu list
+             */
+            function siblingsSubMenu(btnText, siblings) {
+                return `
+                    <li class="dropdown-submenu dropdown-item p-0">
+                        <button
+                            type="button"
+                            class="btn btn-sm rounded-0 dropdown-item cursor-default move-node move-node-down-into"
+                            data-toggle="dropdown"
+                            aria-expanded="false"
+                        >${btnText}</button>
+                        <ul class="dropdown-menu move-node-into-menu">
+                            ${siblings.map(sibling => {
+                                const $sibling = $(sibling);
+
+                                return `
+                                    <li>
+                                        <button
+                                            type="button"
+                                            class="btn btn-sm rounded-0 dropdown-item cursor-default move-node move-node-down-into"
+                                            data-uri="${$sibling.data('uri')}" 
+                                            data-tree_id="${$sibling.attr('id')}"
+                                        >${$sibling.find('.record-title').text().trim()}</button>
+                                    </li>
+                                `}
+                            ).join('')}
+                        </ul>
+                    </li>
+                `;
+            }
+
             $options.appendTo(btn.closest('.btn-group'));
 
             if ($options.is(':empty')) {
@@ -312,10 +347,11 @@ var SHARED_TOOLBAR_ACTIONS = [
     },
 
     // go back to the read only page
+    // Close Record
     {
         label: '<%= I18n.t("actions.finish_editing") %>',
         cssClasses: 'btn-success finish-editing',
-        groupCssClasses: 'ml-auto',
+        groupCssClasses: 'ml-auto order-1',
         onRender: function(btn, node, tree, toolbarRenderer) {
             var readonlyPath = location.pathname.replace(/\/edit$/, '');
             btn.attr('href', readonlyPath + location.hash);
@@ -330,176 +366,185 @@ var SHARED_TOOLBAR_ACTIONS = [
 ];
 
 var EXPAND_MODE_ACTIONS = [
-    // enable auto-expanding of the tree
-    {
-        label: '<%= I18n.t('actions.expand_tree_mode_on') %>',
-        cssClasses: 'btn-default btn-expand-tree-mode',
-        onClick: function(event, btn, node, tree, toolbarRenderer) {
-            $(tree.large_tree.elt).toggleClass('expand-all');
-            $(event.target).toggleClass('btn-success');
+    [
+        // enable auto-expanding of the tree
+        // Auto-Expand All
+        {
+            label: '<%= I18n.t('actions.expand_tree_mode_on') %>',
+            cssClasses: 'btn-default btn-expand-tree-mode',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                $(tree.large_tree.elt).toggleClass('expand-all');
+                $(event.target).toggleClass('btn-success');
 
-            if ($(tree.large_tree.elt).is('.expand-all')) {
-                $(btn).text('<%= I18n.t('actions.expand_tree_mode_off') %>');
-                $('.expandme').addClass('disabled').attr('disabled', 'disabled').attr('aria-disabled', 'true');
-                $(btn).blur();
-                $(btn).addClass('disabled').attr('disabled', 'disabled').attr('aria-disabled', 'true');
-                tree.large_tree.considerExpandingRow(() => {
-                    setTimeout(() => $(btn).removeClass('disabled').removeAttr('disabled').removeAttr('aria-disabled'), 100);
-                });
+                if ($(tree.large_tree.elt).is('.expand-all')) {
+                    $(btn).text('<%= I18n.t('actions.expand_tree_mode_off') %>');
+                    $('.expandme').addClass('disabled').attr('disabled', 'disabled').attr('aria-disabled', 'true');
+                    $(btn).blur();
+                    $(btn).addClass('disabled').attr('disabled', 'disabled').attr('aria-disabled', 'true');
+                    tree.large_tree.considerExpandingRow(() => {
+                        setTimeout(() => $(btn).removeClass('disabled').removeAttr('disabled').removeAttr('aria-disabled'), 100);
+                    });
 
-            } else {
-                $(btn).text('<%= I18n.t('actions.expand_tree_mode_on') %>');
-                $('.expandme').removeAttr('disabled').removeAttr('aria-disabled').removeClass('disabled');
-                $(btn).blur();
-            }
+                } else {
+                    $(btn).text('<%= I18n.t('actions.expand_tree_mode_on') %>');
+                    $('.expandme').removeAttr('disabled').removeAttr('aria-disabled').removeClass('disabled');
+                    $(btn).blur();
+                }
 
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormChanged: function(btn, form, tree, toolbarRenderer) {
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+            },
         },
-        isEnabled: function(node, tree, toolbarRenderer) {
-            return true;
-        },
-        isVisible: function(node, tree, toolbarRenderer) {
-            return !tree.large_tree.read_only;
-        },
-        onFormChanged: function(btn, form, tree, toolbarRenderer) {
-        },
-        onFormLoaded: function(btn, form, tree, toolbarRenderer) {
-        },
-    },
 
-    // collapse all open nodes and turn off expand mode
-    {
-        label: '<%= I18n.t('actions.collapse_tree') %>',
-        cssClasses: 'btn-default',
-        onClick: function(event, btn, node, tree, toolbarRenderer) {
-            if ($(tree.large_tree.elt).is('.expand-all')) {
-                // turn off expand mode if it is on
-                $('.btn-expand-tree-mode', '#tree-toolbar').trigger('click');
-                $('.btn-expand-tree-mode', '#tree-toolbar').blur();
-                $('.btn-expand-tree-mode', '#tree-toolbar').removeClass('active');
-            }
-
-            $(btn).blur();
-            // tree needs to be collapsed from bottom up;
-            const collapsibles = tree.large_tree.elt.find('.expandme')
-                                   .not('[aria-hidden="true"]')
-                                   .not(':not([aria-expanded="true"])')
-            let count = collapsibles.length;
-
-            if (count == 0) {
-                return;
-            }
-            $('.btn-expand-tree-mode', '#tree-toolbar').addClass('disabled').attr('disabled', 'disabled').attr('aria-disabled', 'true');
-
-            const ticker = (() => {
-                count = count - 1
-                if (count == 0) {
-                    $('.btn-expand-tree-mode', '#tree-toolbar').removeClass('disabled').removeAttr('disabled').removeAttr('aria-disabled');
+        // collapse all open nodes and turn off expand mode
+        // Collapse Tree
+        {
+            label: '<%= I18n.t('actions.collapse_tree') %>',
+            cssClasses: 'btn-default',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                if ($(tree.large_tree.elt).is('.expand-all')) {
+                    // turn off expand mode if it is on
+                    $('.btn-expand-tree-mode', '#tree-toolbar').trigger('click');
                     $('.btn-expand-tree-mode', '#tree-toolbar').blur();
                     $('.btn-expand-tree-mode', '#tree-toolbar').removeClass('active');
                 }
-            });
 
-            collapsibles.toArray().forEach((collapsible) => {
-                let row = $(collapsible.closest('.table-row'));
-                let timeout = 600 - (50 * row.data('level'));
-                setTimeout(() => {
-                    $(collapsible).trigger("click");
-                    ticker();
-                    }, timeout)
-            });
+                $(btn).blur();
+                // tree needs to be collapsed from bottom up;
+                const collapsibles = tree.large_tree.elt.find('.expandme')
+                                    .not('[aria-hidden="true"]')
+                                    .not(':not([aria-expanded="true"])')
+                let count = collapsibles.length;
 
+                if (count == 0) {
+                    return;
+                }
+                $('.btn-expand-tree-mode', '#tree-toolbar').addClass('disabled').attr('disabled', 'disabled').attr('aria-disabled', 'true');
+
+                const ticker = (() => {
+                    count = count - 1
+                    if (count == 0) {
+                        $('.btn-expand-tree-mode', '#tree-toolbar').removeClass('disabled').removeAttr('disabled').removeAttr('aria-disabled');
+                        $('.btn-expand-tree-mode', '#tree-toolbar').blur();
+                        $('.btn-expand-tree-mode', '#tree-toolbar').removeClass('active');
+                    }
+                });
+
+                collapsibles.toArray().forEach((collapsible) => {
+                    let row = $(collapsible.closest('.table-row'));
+                    let timeout = 600 - (50 * row.data('level'));
+                    setTimeout(() => {
+                        $(collapsible).trigger("click");
+                        ticker();
+                        }, timeout)
+                });
+
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormChanged: function(btn, form, tree, toolbarRenderer) {
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+            },
         },
-        isEnabled: function(node, tree, toolbarRenderer) {
-            return true;
-        },
-        isVisible: function(node, tree, toolbarRenderer) {
-            return !tree.large_tree.read_only;
-        },
-        onFormChanged: function(btn, form, tree, toolbarRenderer) {
-        },
-        onFormLoaded: function(btn, form, tree, toolbarRenderer) {
-        },
-    },
+    ]
 ];
 
 
 var TreeToolbarConfiguration = {
     resource: [].concat(SHARED_TOOLBAR_ACTIONS).concat(EXPAND_MODE_ACTIONS).concat([
-        {
-            label: '<%= I18n.t("resource._frontend.action.add_child") %>',
-            cssClasses: 'btn-default',
-            onClick: function(event, btn, node, tree, toolbarRenderer) {
-                tree.ajax_tree.add_new_after(node, node.data('level') + 1);
+        [
+            // Add Child
+            {
+                label: '<%= I18n.t("resource._frontend.action.add_child") %>',
+                cssClasses: 'btn-default',
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
+                    tree.ajax_tree.add_new_after(node, node.data('level') + 1);
+                },
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
             },
-            isEnabled: function(node, tree, toolbarRenderer) {
-                return true;
-            },
-            isVisible: function(node, tree, toolbarRenderer) {
-                return !tree.large_tree.read_only;
-            },
-            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
-                $(btn).removeClass('disabled');
-            },
-            onToolbarRendered: function(btn, toolbarRenderer) {
-                $(btn).addClass('disabled');
-            },
-        },
-        {
-            label: '<%= I18n.t("resource._frontend.action.load_bulk") %>',
-            cssClasses: 'btn-default',
-            onClick: function(event, btn, node, tree, toolbarRenderer) {
-                file_modal_html = '';
-			    bulkFileSelection();
-            },
-            isEnabled: function(node, tree, toolbarRenderer) {
-                return true;
-            },
-            isVisible: function(node, tree, toolbarRenderer) {
-                return !tree.large_tree.read_only;
-            },
-            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
-                $(btn).removeClass('disabled');
-            },
-            onToolbarRendered: function(btn, toolbarRenderer) {
-                $(btn).addClass('disabled');
+            // Load via Spreadsheet
+            {
+                label: '<%= I18n.t("resource._frontend.action.load_bulk") %>',
+                cssClasses: 'btn-default',
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
+                    file_modal_html = '';
+                    bulkFileSelection();
+                },
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
 
-                const inReorderMode = $('#tree-container').hasClass('drag-enabled');
+                    const inReorderMode = $('#tree-container').hasClass('drag-enabled');
 
-                if (!inReorderMode) {
-                  $(btn).after(AS.renderTemplate('template_load_via_spreadsheet_help_icon'));
+                    if (!inReorderMode) {
+                    $(btn).after(AS.renderTemplate('template_load_via_spreadsheet_help_icon'));
 
-                  const helpLinkID = '#load_via_spreadsheet_help_icon';
-                  $(helpLinkID).hover(
-                    () => $(helpLinkID).tooltip('show'),
-                    () => $(helpLinkID).tooltip('hide')
-                  );
-                }
+                    const helpLinkID = '#load_via_spreadsheet_help_icon';
+                    $(helpLinkID).hover(
+                        () => $(helpLinkID).tooltip('show'),
+                        () => $(helpLinkID).tooltip('hide')
+                    );
+                    }
+                },
             },
-        },
-        // RDE
-        {
-            label: '<%= I18n.t("actions.rapid_data_entry") %>',
-            cssClasses: 'btn-default add-children',
-            onClick: function(event, btn, node, tree, toolbarRenderer) {
-                $(document).triggerHandler("rdeshow.aspace", [node, btn]);
-            },
-            isEnabled: function(node, tree, toolbarRenderer) {
-                return true;
-            },
-            isVisible: function(node, tree, toolbarRenderer) {
-                return !tree.large_tree.read_only;
-            },
-            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
-                $(btn).removeClass('disabled');
-            },
-            onToolbarRendered: function(btn, toolbarRenderer) {
-                $(btn).addClass('disabled');
-            },
-        }
+            // RDE
+            {
+                label: '<%= I18n.t("actions.rapid_data_entry") %>',
+                cssClasses: 'btn-default add-children',
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
+                    $(document).triggerHandler("rdeshow.aspace", [node, btn]);
+                },
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
+            }
+        ],
     ]),
 
     archival_object: [].concat(SHARED_TOOLBAR_ACTIONS).concat(EXPAND_MODE_ACTIONS).concat([
         [
+            // Add Child
             {
                 label: '<%= I18n.t("archival_object._frontend.action.add_child") %>',
                 cssClasses: 'btn-default',
@@ -519,6 +564,7 @@ var TreeToolbarConfiguration = {
                     $(btn).addClass('disabled');
                 },
             },
+            // Add Sibling
             {
                 label: '<%= I18n.t("archival_object._frontend.action.add_sibling") %>',
                 cssClasses: 'btn-default',
@@ -538,40 +584,61 @@ var TreeToolbarConfiguration = {
                     $(btn).addClass('disabled');
                 },
             },
+            // Load via Spreadsheet
+            {
+                label: '<%= I18n.t("resource._frontend.action.load_bulk") %>',
+                cssClasses: 'btn-default border-right-0',
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
+                    file_modal_html = '';
+                    bulkFileSelection();
+                },
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
 
-        {
-            label: '<%= I18n.t("resource._frontend.action.load_bulk") %>',
-            cssClasses: 'btn-default',
-            onClick: function(event, btn, node, tree, toolbarRenderer) {
-                file_modal_html = '';
-			    bulkFileSelection();
-            },
-            isEnabled: function(node, tree, toolbarRenderer) {
-                return true;
-            },
-            isVisible: function(node, tree, toolbarRenderer) {
-                return !tree.large_tree.read_only;
-            },
-            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
-                $(btn).removeClass('disabled');
-            },
-            onToolbarRendered: function(btn, toolbarRenderer) {
-                $(btn).addClass('disabled');
+                    const inReorderMode = $('#tree-container').hasClass('drag-enabled');
 
-                const inReorderMode = $('#tree-container').hasClass('drag-enabled');
+                    if (!inReorderMode) {
+                    $(btn).after(AS.renderTemplate('template_load_via_spreadsheet_help_icon'));
 
-                if (!inReorderMode) {
-                  $(btn).after(AS.renderTemplate('template_load_via_spreadsheet_help_icon'));
-
-                  const helpLinkID = '#load_via_spreadsheet_help_icon';
-                  $(helpLinkID).hover(
-                    () => $(helpLinkID).tooltip('show'),
-                    () => $(helpLinkID).tooltip('hide')
-                  );
-                }
+                    const helpLinkID = '#load_via_spreadsheet_help_icon';
+                    $(helpLinkID).hover(
+                        () => $(helpLinkID).tooltip('show'),
+                        () => $(helpLinkID).tooltip('hide')
+                    );
+                    }
+                },
             },
-        }
+            // RDE
+            {
+                label: '<%= I18n.t("actions.rapid_data_entry") %>',
+                cssClasses: 'btn-default add-children',
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
+                    $(document).triggerHandler("rdeshow.aspace", [node, btn]);
+                },
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
+            }
         ],
+        // Transfer
         {
             label: '<%= I18n.t("actions.transfer") %>',
             cssClasses: 'btn-default dropdown-toggle transfer-node',
@@ -603,7 +670,14 @@ var TreeToolbarConfiguration = {
                     event.stopPropagation();
                 }).on("click", ".dropdown-toggle", function(event) {
                     event.stopPropagation();
-                    $(this).parent().toggleClass("open");
+                    $(this).parent().toggleClass("show");
+                    $(this).siblings('.dropdown-menu').toggleClass("show");
+                    $(this).attr('aria-expanded', ($(this).parent().hasClass("show") ? 'true' : 'false'));
+                }).on('click', '[data-resource-linker-browse-btn]', function(event) {
+                    $(this).closest('.dropdown-menu.show').removeClass('show');
+                    $(this).closest('.input-group-append.show').removeClass('show');
+                    $(this).closest('.dropdown-toggle[aria-expanded="true"]')
+                        .attr('aria-expanded', 'false');
                 });
                 $li.on('shown.bs.dropdown', function() {
                     $("#token-input-transfer_ref_", $form).focus();
@@ -613,72 +687,56 @@ var TreeToolbarConfiguration = {
                 return !tree.large_tree.read_only;
             },
         },
-        // RDE
-        {
-            label: '<%= I18n.t("actions.rapid_data_entry") %>',
-            cssClasses: 'btn-default add-children',
-            onClick: function(event, btn, node, tree, toolbarRenderer) {
-                $(document).triggerHandler("rdeshow.aspace", [node, btn]);
-            },
-            isEnabled: function(node, tree, toolbarRenderer) {
-                return true;
-            },
-            isVisible: function(node, tree, toolbarRenderer) {
-                return !tree.large_tree.read_only;
-            },
-            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
-                $(btn).removeClass('disabled');
-            },
-            onToolbarRendered: function(btn, toolbarRenderer) {
-                $(btn).addClass('disabled');
-            },
-        }
     ]),
 
     digital_object: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
-        {
-            label: '<%= I18n.t("digital_object._frontend.action.add_child") %>',
-            cssClasses: 'btn-default',
-            onClick: function(event, btn, node, tree, toolbarRenderer) {
-                tree.ajax_tree.add_new_after(node, node.data('level') + 1);
+        [
+            // Add Child
+            {
+                label: '<%= I18n.t("digital_object._frontend.action.add_child") %>',
+                cssClasses: 'btn-default',
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
+                    tree.ajax_tree.add_new_after(node, node.data('level') + 1);
+                },
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
             },
-            isEnabled: function(node, tree, toolbarRenderer) {
-                return true;
-            },
-            isVisible: function(node, tree, toolbarRenderer) {
-                return !tree.large_tree.read_only;
-            },
-            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
-                $(btn).removeClass('disabled');
-            },
-            onToolbarRendered: function(btn, toolbarRenderer) {
-                $(btn).addClass('disabled');
-            },
-        },
-        // RDE
-        {
-            label: '<%= I18n.t("actions.rapid_data_entry") %>',
-            cssClasses: 'btn-default add-children',
-            onClick: function(event, btn, node, tree, toolbarRenderer) {
-                $(document).triggerHandler("rdeshow.aspace", [node, btn]);
-            },
-            isEnabled: function(node, tree, toolbarRenderer) {
-                return true;
-            },
-            isVisible: function(node, tree, toolbarRenderer) {
-                return !tree.large_tree.read_only;
-            },
-            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
-                $(btn).removeClass('disabled');
-            },
-            onToolbarRendered: function(btn, toolbarRenderer) {
-                $(btn).addClass('disabled');
-            },
-        }
+            // RDE
+            {
+                label: '<%= I18n.t("actions.rapid_data_entry") %>',
+                cssClasses: 'btn-default add-children',
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
+                    $(document).triggerHandler("rdeshow.aspace", [node, btn]);
+                },
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
+            }
+        ]
     ]),
 
     digital_object_component: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
         [
+            // Add Child
             {
                 label: '<%= I18n.t("digital_object_component._frontend.action.add_child") %>',
                 cssClasses: 'btn-default',
@@ -698,6 +756,7 @@ var TreeToolbarConfiguration = {
                     $(btn).addClass('disabled');
                 },
             },
+            // Add Sibling
             {
                 label: '<%= I18n.t("digital_object_component._frontend.action.add_sibling") %>',
                 cssClasses: 'btn-default',
@@ -741,6 +800,7 @@ var TreeToolbarConfiguration = {
     ]),
 
     classification: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
+        // Add Child
         {
             label: '<%= I18n.t("classification._frontend.action.add_child") %>',
             cssClasses: 'btn-default',
@@ -764,6 +824,7 @@ var TreeToolbarConfiguration = {
 
     classification_term: [].concat(SHARED_TOOLBAR_ACTIONS).concat([
         [
+            // Add Child
             {
                 label: '<%= I18n.t("classification_term._frontend.action.add_child") %>',
                 cssClasses: 'btn-default',
@@ -783,6 +844,7 @@ var TreeToolbarConfiguration = {
                     $(btn).addClass('disabled');
                 },
             },
+            // Add Sibling
             {
                 label: '<%= I18n.t("classification_term._frontend.action.add_sibling") %>',
                 cssClasses: 'btn-default',
@@ -872,9 +934,11 @@ TreeToolbarRenderer.prototype.render = function(node) {
                             ${isChecked ? "checked" : ''} />
                     `;
                     const labelHtml = `
-                        <label for="${action.radio.id}">
-                            ${action.label}
-                        </label>
+                        <label
+                            class="mb-0 btn btn-sm btn-default ${action.radio.id}"
+                            data-radio-btn
+                            for="${action.radio.id}"
+                        >${action.label}</label>
                     `;
 
                     $btn = $(`
@@ -883,6 +947,7 @@ TreeToolbarRenderer.prototype.render = function(node) {
                             ${labelHtml}
                         </li>
                     `);
+                    // $btn.addClass('btn btn-sm btn-default');
                 } else {
                     $btn = $('<a>').addClass('btn btn-sm');
                     $btn.html(action.label).addClass(action.cssClasses).attr('href', 'javascript:void(0)');
@@ -957,43 +1022,3 @@ TreeToolbarRenderer.prototype.notify_form_loaded = function(form) {
         callback(form);
     });
 };
-
-function initialDropBehavior () {
-    const _default = 'before'
-    const dropBehavior = localStorage.getItem('AS_Drop_Behavior')
-    if (dropBehavior) {
-        return dropBehavior
-    } else {
-        if (storageAvailable()) localStorage.setItem('AS_Drop_Behavior', _default)
-        return _default
-    }
-}
-
-/**
- * @author https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API#testing_for_availability
- * @returns {boolean}
- */
-function storageAvailable() {
-  try {
-    const x = '__storage_test__';
-    window.localStorage.setItem(x, x);
-    window.localStorage.removeItem(x);
-    return true;
-  } catch (e) {
-    return (
-      e instanceof DOMException &&
-      // everything except Firefox
-      (e.code === 22 ||
-        // Firefox
-        e.code === 1014 ||
-        // test name field too, because code might not be present
-        // everything except Firefox
-        e.name === 'QuotaExceededError' ||
-        // Firefox
-        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-      // acknowledge QuotaExceededError only if there's something already stored
-      window.localStorage &&
-      window.localStorage.length !== 0
-    );
-  }
-}

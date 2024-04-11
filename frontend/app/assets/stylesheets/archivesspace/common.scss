@@ -291,6 +291,10 @@ td .btn-group {
   vertical-align: middle;
 }
 
+.cursor-default {
+  cursor: default !important;
+}
+
 /* Bootstrap v4 removed .btn-default but they were all kept in ArchivesSpace
    and not patched. Let's recreate them with an ArchivesSpace slant. */
 .btn-default {
