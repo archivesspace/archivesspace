@@ -249,9 +249,11 @@ RSpec.configure do |config|
     $server_pids.each do |pid|
       TestUtils::kill(pid)
     end
-    # For some reason we have to manually shutdown mizuno for the test suite to
-    # quit.
-    Rack::Handler.get('mizuno').instance_variable_get(:@server) ? Rack::Handler.get('mizuno').instance_variable_get(:@server).stop : next
+    begin
+      $puma.halt
+    rescue
+      # we do not care about exceptions while shutting down puma at this point
+    end
   end
 end
 

@@ -40,12 +40,23 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 end
 
-# We use the Mizuno server.
-Capybara.register_server :mizuno do |app, port, host|
-  require 'rack/handler/mizuno'
-  Rack::Handler.get('mizuno').run(app, port: port, host: host)
+# Puma server
+$puma = nil
+Capybara.register_server :as_puma do |app, port, host|
+  require 'rack/handler/puma'
+  options = { Host: host, Port: port, Threads: '1:8', workers: 0, daemon: false }
+  conf = Rack::Handler::Puma.config(app, options)
+  $puma = Puma::Server.new(
+    conf.app,
+    nil,
+    conf.options
+  ).tap do |s|
+    s.binder.parse conf.options[:binds], (s.log_writer rescue s.events) # rubocop:disable Style/RescueModifier
+    s.min_threads, s.max_threads = conf.options[:min_threads], conf.options[:max_threads] if s.respond_to? :min_threads=
+  end
+  $puma.run.join
 end
-Capybara.server = :mizuno
+Capybara.server = :as_puma
 
 def finished_all_ajax_requests?
   request_count = page.evaluate_script('$.active').to_i
