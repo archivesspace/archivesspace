@@ -4,13 +4,11 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Resources and archival objects', js: true do
-  let!(:repository) { create(:repo, repo_code: "permissions_test_#{Time.now.to_i}") }
-  let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
-  let(:archivist) { create_user(repository => ['repository-archivists']) }
-
   it 'allows archivists to edit major record types by default' do
+    repository = create(:repo, repo_code: "permissions_test_#{Time.now.to_i}")
+    set_repo(repository)
+    archivist = create_user(repository => ['repository-archivists'])
     login_user(archivist)
-    select_repository(repository)
 
     click_on 'Create'
     click_on 'Accession'
@@ -29,11 +27,14 @@ describe 'Resources and archival objects', js: true do
   end
 
   it 'supports denying permission to edit Resources' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource #{now}")
+    repository = create(:repo, repo_code: "permissions_test_#{Time.now.to_i}")
+    set_repo(repository)
+    archivist = create_user(repository => ['repository-archivists'])
+
+    resource = create(:resource, title: "Resource #{Time.now.to_i}")
     run_index_round
 
-    login_user(admin)
+    login_admin
     select_repository(repository)
 
     find('.repo-container .btn.dropdown-toggle').click
