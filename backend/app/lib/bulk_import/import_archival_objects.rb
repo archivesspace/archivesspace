@@ -216,12 +216,20 @@ class ImportArchivalObjects < BulkImportParser
             @row_hash["digital_object_id"]].reject(&:nil?).empty?
 
       begin
-        normalize_publish_column(@row_hash, 'digital_object_publish')
-        normalize_publish_column(@row_hash, 'nonrep_publish')
+        normalize_boolean_column(@row_hash, 'digital_object_publish')
+        normalize_boolean_column(@row_hash, 'nonrep_publish')
         dig_instance = @doh.create(
           @row_hash["digital_object_title"],
           @row_hash["digital_object_id"],
           @row_hash["digital_object_publish"],
+          nil, # level
+          nil, # digital_object_type
+          nil, # restrictions
+          [],  # dates
+          [],  # notes
+          [],  # extents
+          [],  # subjects
+          [],  # linked_agents
           ao,
           @report,
           representative_file_version,
