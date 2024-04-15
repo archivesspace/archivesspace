@@ -118,14 +118,23 @@ module ApplicationHelper
 
     title = (opts.has_key? :topic) ? I18n.t("help.topics.#{opts[:topic]}", :default => I18n.t("help.default_tooltip", :default => "")) : I18n.t("help.default_tooltip", :default => "")
 
+    x_padding = session[:user].nil? ? "px-4" : "px-3"
+
+    klass = (opts.has_key? :class) ? opts[:class] : ""
+
+    style = (opts.has_key? :style) ? opts[:style] : ""
+
     link_to(
             label.html_safe + label_text.html_safe,
             href,
             {
               :target => "_blank",
               :title => title,
-              :class => "context-help has-tooltip",
+              :class => "context-help has-tooltip #{x_padding} #{klass}",
+              :style => style,
               "data-placement" => "bottom",
+              "data-toggle" => "tooltip",
+              "data-boundary" => "viewport"
             }.merge(opts[:link_opts] || {})
            )
   end

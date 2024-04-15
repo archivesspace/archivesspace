@@ -5,17 +5,17 @@
   end
 %>
 
-<div id="archivesSpaceSidebar" class="sidebar d-flex">
-  <ul role='tablist' class="nav list-group as-nav-list position-fixed">
+<div id="archivesSpaceSidebar" class="sidebar d-flex position-sticky top-1rem">
+  <ul role='tablist' class="nav as-nav-list d-flex flex-column">
     <% if @exceptions %>
       <li class="<% if @exceptions.has_key?(:errors)%>alert-danger<% end %>">
-        <a href="#form_messages"><%= t("errors.sidebar_label") %>  <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <a class="nav-link" href="#form_messages"><%= t("errors.sidebar_label") %>  <span class="glyphicon glyphicon-chevron-right"></span></a>
       </li>
     <% end %>
 
     <% unless defined?(suppress_basic_information) && suppress_basic_information %>
       <li role='tab' aria-selected="false">
-        <a href="#basic_information">
+        <a class="nav-link" href="#basic_information">
           <%= t("#{record_type}._frontend.section.basic_information") %>
           <span class="glyphicon glyphicon-chevron-right"></span>
         </a>
@@ -37,7 +37,6 @@
           <% else %>
             <button type="submit" class="btn btn-primary"><%= save_button_text %></button>
           <% end %>
-          <br style="clear:both" /> <!-- So dirty! -->
         </li>
       <% end %>
     <% end %>

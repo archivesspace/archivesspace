@@ -9,5 +9,25 @@
         display: none;
       }
     }
+    tr {
+      &.has-space:nth-of-type(odd) {
+        background-color: rgba(57, 132, 57, .2);
+        &:hover {
+          background-color: rgba(57, 132, 57, .4);
+        }
+      }
+      &.no-space:nth-of-type(odd) {
+        background-color: rgba(255, 196, 13, .2);
+        &:hover {
+          background-color: rgba(255, 196, 13, .4);
+        }
+      }
+      &.errored:nth-of-type(odd) {
+        background-color: rgba(157, 38, 29, .2);
+        &:hover {
+          background-color: rgba(157, 38, 29, .4);
+        }
+      }
+    }
   }
 }

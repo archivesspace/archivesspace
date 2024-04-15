@@ -111,7 +111,7 @@
             control_file deed_of_gift finding_aid_ead finding_aid_online
             finding_aid_paper finding_aid_word finding_aid_spreadsheet
             related_eac_records).select { |ed| form[ed] } : nil %>
-      <div class="form-group">
+      <div class="form-group d-flex">
         <% unless form.readonly? && existing_descriptions.empty? %>
           <div class="control-label col-sm-2"><%= t("assessment._frontend.section.existing_description") %></div>
         <% end %>
@@ -263,14 +263,14 @@
             <table id="rating_attributes_table" class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th class="col-sm-5"><span class="sr-only">Condition</span></th>
+                  <th class="col-sm-4"><span class="sr-only">Condition</span></th>
                   <th class="col-sm-1 text-center"><%= t('assessment.rating_attributes_value.rating_none') %></th>
                   <th class="col-sm-1 text-center"><%= t('assessment.rating_attributes_value.rating_1') %></th>
                   <th class="col-sm-1 text-center"><%= t('assessment.rating_attributes_value.rating_2') %></th>
                   <th class="col-sm-1 text-center"><%= t('assessment.rating_attributes_value.rating_3') %></th>
                   <th class="col-sm-1 text-center"><%= t('assessment.rating_attributes_value.rating_4') %></th>
                   <th class="col-sm-1 text-center"><%= t('assessment.rating_attributes_value.rating_5') %></th>
-                  <th><span class="sr-only">Add attribute note?</span></th>
+                  <th class="col-sm-2"><span class="sr-only">Add attribute note?</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -334,8 +334,10 @@
                           </label>
                         </td>
                         <td>
-                          <button class="btn btn-xs assessment-add-rating-note border"><%= t('assessment._frontend.action.add_rating_note') %></button>
-                          <button class="btn btn-xs assessment-remove-rating-note border" style="display:none;" aria-hidden="true"><%= t('assessment._frontend.action.remove_rating_note') %></button>
+                          <div class="d-flex justify-content-center">
+                            <button class="btn btn-sm btn-default assessment-add-rating-note"><%= t('assessment._frontend.action.add_rating_note') %></button>
+                            <button class="btn btn-sm btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= t('assessment._frontend.action.remove_rating_note') %></button>
+                          </div>
                         </td>
                     </tr>
                     <tr style="display:none">
@@ -441,8 +443,10 @@
                             </label>
                           </td>
                           <td>
-                            <button class="btn btn-xs btn-default assessment-add-rating-note"><%= t('assessment._frontend.action.add_rating_note') %></button>
-                            <button class="btn btn-xs btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= t('assessment._frontend.action.remove_rating_note') %></button>
+                            <div class="d-flex justify-content-center">
+                              <button class="btn btn-sm btn-default assessment-add-rating-note"><%= t('assessment._frontend.action.add_rating_note') %></button>
+                              <button class="btn btn-sm btn-default assessment-remove-rating-note" style="display:none;" aria-hidden="true"><%= t('assessment._frontend.action.remove_rating_note') %></button>
+                            </div>
                           </td>
                       </tr>
                       <tr style="display:none">
@@ -511,6 +515,7 @@
             <% end %>
           <% else %>
 
+            <div class="mb-3 d-flex">
             <% formats_index = 0 %>
             <% @assessment_attribute_definitions.global_formats.sort{|a, b|
               if a.fetch('label') == 'Other'
@@ -521,13 +526,13 @@
                 i18n_format(a.fetch('label')) <=> i18n_format(b.fetch('label'))
               end
             }.each_slice((@assessment_attribute_definitions.global_formats.length.to_f / 2).ceil).each do |group| %>
-              <div class="col-md-8">
+              <div class="col-md-6">
                 <% group.each do |format| %>
                   <% form.push(form.set_index("formats[]", formats_index), ASUtils.wrap(form.obj['formats']).find{|r| r['definition_id'] == format['id']} || {}) do %>
-                    <div class="form-group row">
+                    <div class="form-group d-flex">
                       <%= form.hidden_input('definition_id', format.fetch('id'), :disabled => form.obj['value'].nil?) %>
-                      <%= label_tag form.id_for('value'), i18n_format(format.fetch('label')), :class => 'col-10 control-label' %>
-                      <div class="col-2 checkbox">
+                      <%= label_tag form.id_for('value'), i18n_format(format.fetch('label')), :class => 'col-6 control-label text-right' %>
+                      <div class="col-1 checkbox">
                         <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
                       </div>
                     </div>
@@ -536,6 +541,7 @@
                 <% end %>
               </div>
             <% end %>
+            </div>
 
             <div class="row">
               <div class="col-md-12">
@@ -612,7 +618,7 @@
               </ul>
             <% end %>
           <% else %>
-            <div class="row">
+            <div class="mb-3 d-flex">
               <% conservation_issues_index = 0 %>
               <% @assessment_attribute_definitions.global_conservation_issues.sort{|a, b|
                 i18n_conservation_issue(a.fetch('label')) <=> i18n_conservation_issue(b.fetch('label'))
@@ -620,9 +626,9 @@
                 <div class="col-md-6">
                   <% group.each do |conservation_issue| %>
                     <% form.push(form.set_index("conservation_issues[]", conservation_issues_index), ASUtils.wrap(form.obj['conservation_issues']).find{|r| r['definition_id'] == conservation_issue['id']} || {}) do %>
-                      <div class="form-group">
+                      <div class="form-group d-flex">
                         <%= form.hidden_input('definition_id', conservation_issue.fetch('id'), :disabled => form.obj['value'].nil?) %>
-                        <%= label_tag form.id_for('value'), i18n_conservation_issue(conservation_issue.fetch('label')), :class => 'col-sm-6 control-label' %>
+                        <%= label_tag form.id_for('value'), i18n_conservation_issue(conservation_issue.fetch('label')), :class => 'col-sm-6 control-label text-right' %>
                         <div class="col-sm-1 checkbox">
                           <%= form.checkbox('value', {:value => 'true'}, false, form.obj['value'] == 'true') %>
                         </div>

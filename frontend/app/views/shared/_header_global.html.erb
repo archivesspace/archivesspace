@@ -4,17 +4,14 @@
       <%= t("header.staff_interface") %>
     </h1>
   </span>
-  <nav class="navbar mb-5 mb-md-2">
+  <nav class="global-header-nav">
     <%= render "site/branding" %>
-    <div class='navbar-wrapper navbar-default'>
-      <div class="navbar-collapse nav-global-collapse navbar-right">
-        <ul class="nav float-xs-right navbar-nav navbar-login">
-          <%= render "shared/header_user" %>
-          <% if ArchivesSpaceHelp.enabled? %>
-            <li class="xs-py15px"><%= link_to_help %></li>
-          <% end %>
-        </ul>
-      </div><!-- nav-collapse -->
-    </div>
+    <ul class="list-unstyled ml-auto d-flex gap-x-2 bg-light rounded-bottom shadow-sm">
+      <%= render "shared/header_user" %>
+      <% if ArchivesSpaceHelp.enabled? %>
+        <li class="d-flex align-items-center<%= (session[:user] ? ' mr-3' : '') %>"><%= link_to_help %></li>
+        <%# .mr-3 used above to align link_to_help with the other below it %>
+      <% end %>
+    </ul>
   </nav>
 </div>

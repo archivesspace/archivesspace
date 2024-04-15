@@ -1,6 +1,6 @@
 <%= setup_context(:title => t("assessment._plural")) %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
@@ -9,9 +9,9 @@
   <div class="col-md-9">
     <% if user_can?('update_assessment_record') %>
       <div class="record-toolbar d-flex align-items-center">
-        <div class="btn-group ml-auto bg-white border">
+        <div class="btn-group ml-auto">
           <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv,
-            :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
+            :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
           <% if user_can?("update_assessment_record") %>
             <%= link_to t("assessment._frontend.action.create"), {:controller => :assessments, :action => :new}, :class => "btn btn-sm btn-default" %>
           <% end %>
@@ -19,7 +19,6 @@
             <%= button_delete_multiple_action(:assessments) %>
           <% end %>
         </div>
-        <br style="clear:both" />
       </div>
     <% end %>
     <div class="record-pane">

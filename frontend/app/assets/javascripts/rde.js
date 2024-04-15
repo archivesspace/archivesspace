@@ -1255,7 +1255,7 @@ $(function () {
           return isVisible($colHeader.attr('id'));
         });
         $select.multiselect({
-          buttonClass: 'btn btn-small btn-default',
+          buttonClass: 'btn btn-sm btn-default',
           buttonWidth: 'auto',
           maxHeight: 300,
           buttonContainer: '<div class="btn-group" id="multiselect_btn"/>',

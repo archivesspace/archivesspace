@@ -2,10 +2,12 @@
 
 <% define_template("event", jsonmodel_definition(:event)) do |form| %>
   <section id="basic_information">
-    <h3>
-      <%= t("event._frontend.section.basic_information") %>
+    <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+      <h3 class="flex-grow-1 mb-0 border-0">
+        <%= t "event._frontend.section.basic_information" %>
+      </h3>
       <%= link_to_help :topic => "event_basic_information" %>
-    </h3>
+    </div>
     <fieldset>
       <%= render_plugin_partials("top_of_basic_information_event",
                                  :form => form,
@@ -25,10 +27,12 @@
 <% form.emit_template("event") %>
 
 <section id="event_date">
-  <h3>
-    <%= t("event._frontend.section.date") %>
+  <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+    <h3 class="flex-grow-1 mb-0 border-0">
+      <%= t("event._frontend.section.date") %>
+    </h3>
     <%= link_to_help :topic => "event_date" %>
-  </h3>
+  </div>
   <% if form.readonly? %>
     <% if form["timestamp"] %>
       <%= form.label_and_textfield "timestamp" %>

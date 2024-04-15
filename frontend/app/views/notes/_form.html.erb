@@ -10,22 +10,43 @@
   all_note_types ||= nil
 
   add_button_text ||= "note._frontend.action.add"
+
+  add_note_class = 'add-note btn btn-sm btn-default ml-auto'
+  help_link = link_to_help :topic => "#{form['jsonmodel_type']}_notes"
+  add_note_class += ' mt-3 mr-3 mb-3' if help_link.nil?
 %>
 <%= render_aspace_partial :partial => "notes/template", :locals =>  { :all_note_types => all_note_types, :form_note_type => section_id, :nested_in_jsonmodel => nested_in_jsonmodel } %>
 
 <section id="<%= section_id %>"
          class="subrecord-form notes-form <%= "note-inline" if inline? %>"
          <%= "data-template=template_#{nested_note_jsonmodel}_note_type_selector_inline" if nested_note_jsonmodel %>>
-  <<%= header_size%> class="subrecord-form-heading d-flex">
-    <%= wrap_with_tooltip(t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>
-    <%= link_to_help :topic => "#{form['jsonmodel_type']}_notes" %>
+  <div class="w-100 d-flex align-items-center border-bottom bg-asFormHeadingBg">
+    <<%= header_size%> class="subrecord-form-heading flex-grow-1 mb-0 border-0">
+      <%= wrap_with_tooltip(t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>
+    </<%= header_size%>>
 
     <% if show_apply_note_order_action %>
-      <button class="btn btn-sm btn-default ml-auto border bg-white mx-1 mt-1 apply-note-order" disabled="disabled"><%= I18n.t("note._frontend.action.apply_note_order") %></button>
+      <div class="btn-group ml-auto">
     <% end %>
-    <button class="btn btn-sm btn-default ml-auto border bg-white mx-1 mt-1 add-note"><%= I18n.t(add_button_text) %></button>
 
-  </<%= header_size%>>
+    <button
+      class="<%= add_note_class %>"
+      type="button"
+      data-action="add notes"
+    ><%= I18n.t(add_button_text) %></button>
+
+    <% if show_apply_note_order_action %>
+        <button
+          class="btn btn-sm btn-default ml-auto apply-note-order"
+          disabled="disabled"
+          type="button"
+          data-action="apply note order"
+        ><%= I18n.t("note._frontend.action.apply_note_order") %></button>
+      </div>
+    <% end %>
+
+    <%= help_link %>
+  </div>
   <div class="subrecord-form-container mixed-content-anchor">
     <%= form.list_for(form["notes"], "notes[]") do |note| %>
       <% form.emit_template(note["jsonmodel_type"]) %>

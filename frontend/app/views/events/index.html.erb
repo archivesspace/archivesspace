@@ -1,6 +1,6 @@
 <%= setup_context(:title => t("event._plural")) %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
@@ -9,16 +9,15 @@
   <div class="col-md-9">
     <% if user_can?('update_event_record') %>
       <div class="record-toolbar d-flex align-items-center">
-        <div class="btn-group ml-auto bg-white border">
+        <div class="btn-group ml-auto">
           <% if user_can?('manage_repository') %>
-              <%= link_to I18n.t("actions.edit_default_values"), {:controller => :events, :action => :defaults}, :class => "btn btn-sm" %>
+              <%= link_to I18n.t("actions.edit_default_values"), {:controller => :events, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>
           <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
             fields
-            }), id: "searchExport",  class:  "btn btn-sm btn-info" %>
+            }), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
           <%= link_to t("event._frontend.action.create"), {:controller => :events, :action => :new}, :class => "btn btn-sm btn-default" %>
         </div>
-        <br style="clear:both" /> <!-- So dirty! -->
       </div>
     <% end %>
 

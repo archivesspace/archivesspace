@@ -44,6 +44,7 @@ en:
     more: More
     lightmode_toggle: Light Mode
     link_to: Link To
+    link_to_record: Link To record
     add_prefix: Add
     merge_replace: Replace
     merge_add: Add
@@ -117,7 +118,7 @@ en:
     finish_editing: Close Record
     merge: Merge
     form_changes_message: "<small><span class='muted'>You have unsaved changes</span></small>"
-    toolbar_disabled_message: "<small><span class='muted small'>You have unsaved changes - Save or Revert to access toolbar and record tree</span></small>"
+    toolbar_disabled_message: You have unsaved changes - Save or Revert to access the toolbar and record tree
     publish: Publish All
     publish_confirm_title: Publish?
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
@@ -888,6 +889,7 @@ en:
         created_with_parent: Archival Object <strong>%{archival_object_display_string}</strong> created as child of <strong>%{parent_display_string}</strong> on Resource <strong>%{resource_title}</strong>
         updated: Archival Object <strong>%{archival_object_display_string}</strong> updated
         updated_with_parent: Archival Object <strong>%{archival_object_display_string}</strong> updated
+        transfer_description: Select a resource to transfer this archival object into
         please_select_a_resource_for_transfer: Please choose a Resource
         transfer_success: Successfully transferred Archival Object <strong>%{archival_object_display_string}</strong> to Resource <strong>%{resource_title}</strong>
         transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
@@ -1334,6 +1336,7 @@ en:
       browse:
         Browse Resources
       link_title: Browse
+      link_to: Link to Resource
 
   preference:
     _frontend:

@@ -1,12 +1,9 @@
 <%= setup_context :title => t("enumeration._plural") %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-12">
-    <div class="record-toolbar d-flex align-items-center">
-      <div class="ml-auto btn-light btn-group">
-        <%= link_to t('enumeration._frontend.action.download_csv'), {:controller => 'enumerations', :action => 'csv'}, :class => 'btn btn-sm' %>
-      </div>
-      <div class="clearfix"></div>
+    <div class="record-toolbar d-flex justify-content-end">
+      <%= link_to t('enumeration._frontend.action.download_csv'), {:controller => 'enumerations', :action => 'csv'}, :class => 'btn btn-sm btn-default' %>
     </div>
 
     <div class="record-pane">

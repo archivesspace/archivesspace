@@ -13,12 +13,12 @@
 
 %>
 <div class="form-group row required">
-   <label class="control-label text-right <%= layout != 'stacked' ? 'col-sm-4' : '' %>"
+   <label class="control-label text-right <%= layout != 'stacked' ? 'col-sm-2' : '' %>"
           id="<%= form.id_for("ref") %>_label"
           for="<%= form.id_for("ref") %>_combobox">
      <%= field_label %>
    </label>
-   <div class="controls <%= layout != 'stacked' ? 'col-sm-6' : ''%>"
+   <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>"
         role="combobox"
         aria-owns="<%= form.id_for("ref") %>_listbox"
         aria-expanded="false"
@@ -56,11 +56,29 @@
               value="<%= form.obj["ref"] %>" />
 
          <% end %>
-         <div class="input-group-btn">
-           <a class="btn btn-default dropdown-toggle last border-dark border-left-0 d-flex align-items-center" data-toggle="dropdown" href="javascript:void(0);" title="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>" aria-expanded="false" aria-label="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.link_title") %>"></a>
-           <ul class="dropdown-menu">
-             <li class='dropdown-item'><a href="javascript:void(0);" class="linker-browse-btn"><%= t("top_container._frontend.bulk_operations.collection_resource_linker.browse") %></a></li>
-           </ul>
+         <div class="input-group-append">
+          <%# 
+            This dropdown toggle used in various views is overriden by at least:
+            - frontend/app/assets/javascripts/merge_dropdown.js.erb
+            - frontend/app/assets/javascripts/tree_toolbar.js.erb
+          %>
+          <button
+            type="button"
+            class="btn btn-default dropdown-toggle"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            aria-label="<%= t("resource.linker.link_to") %>"
+            title="<%= t("resource.linker.link_to") %>"
+          ></button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li>
+              <button
+                type="button"
+                class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"
+                data-resource-linker-browse-btn
+              ><%= t("actions.browse") %></button>
+            </li>
+          </ul>
          </div>
        </div>
    </div>

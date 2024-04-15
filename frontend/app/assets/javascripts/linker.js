@@ -111,7 +111,7 @@ $(function () {
           config.modal_id,
           config.label_create,
           AS.renderTemplate('linker_createmodal_template', config),
-          'large',
+          'xl',
           {},
           this
         );
@@ -266,7 +266,7 @@ $(function () {
           config.modal_id,
           config.label_browse,
           AS.renderTemplate('linker_browsemodal_template', config),
-          'large',
+          'xl',
           {},
           this
         );

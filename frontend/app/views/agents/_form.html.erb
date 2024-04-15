@@ -19,8 +19,8 @@
                                :form => form,
                                :record => @agent) %>
 
-    <div class="form-group">
-      <label class="col-sm-2 control-label"><%= t("agent.type") %></label>
+    <div class="form-group w-100 row">
+      <label class="col-sm-2 control-label text-right"><%= t("agent.type") %></label>
       <div class="col-sm-9 label-only">
         <%= form.hidden_input "agent_type", @agent.agent_type %>
         <strong><%= t("agent.agent_type.#{@agent.agent_type}") %></strong>

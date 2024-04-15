@@ -31,20 +31,8 @@ $(function () {
       }
     });
 
-    // add back the bootstrap show class for the merge-actions dropdown inside the subjects  merge dropdown
-    $("#dropdownMenuSubjectsToggle").on("click", function(event) {
-      var element = document.getElementById("dropdownMenuSubjects");
-      element.classList.toggle("show");
-    });
-
     $("#dropdownMenuSubjects li a").on("click", function(event) {
       var element = document.getElementById("dropdownMenuSubjects");
-      element.classList.toggle("show");
-    });
-
-    // add back the bootstrap show class for the merge-actions dropdown inside the agents merge dropdown
-    $("#dropdownMenuAgentsToggle").on("click", function(event) {
-      var element = document.getElementById("dropdownMenuAgents");
       element.classList.toggle("show");
     });
 
@@ -61,10 +49,13 @@ $(function () {
 
     $(".merge-form .linker-wrapper .dropdown-toggle").on("click", function(event) {
       event.stopPropagation();
-      $(this).parent().toggleClass("open");
+      $(this).parent().toggleClass("show");
+      if (!$(this).next().hasClass("dropdown-menu")) {
+        throw new Error("Expected sibling element to be a dropdown menu");
+      }
+      $(this).next().toggleClass("show");
 
-
-      if($(this).parent().hasClass("open")) {
+      if($(this).parent().hasClass("show")) {
         $(this).attr('aria-expanded', true);
       } 
       else {

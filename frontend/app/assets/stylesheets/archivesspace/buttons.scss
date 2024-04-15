@@ -1,4 +1,4 @@
-.btn.btn-xs {
+.btn.btn-sm {
   [class^='icon-'],
   [class*=' icon-'] {
     margin-top: -1px;
@@ -31,12 +31,27 @@
   }
 }
 
-.btn-group > .btn-xs {
+.btn-group > .btn-sm {
   &.disabled,
   &[disabled] {
     color: #000;
     background-color: #aaa;
   }
+}
+
+.record-toolbar .suppress-record {
+  border-color: var(--secondary);
+}
+
+.suppress-record.disabled,
+.unsuppress-record.disabled,
+.delete-record.disabled,
+.btn-danger.disabled,
+.btn-danger[disabled="disabled"],
+[data-allow-disabled] .btn.disabled {
+  color: #000;
+  background-color: #aaa;
+  border-color: var(--secondary);
 }
 
 .btn.busy .btn-busy-label {

@@ -16,18 +16,19 @@
   linkable_types = defined?(allowed_types) ? allowed_types : ["agent"]
   creatable_types = defined?(allowed_types) ? allowed_types : ["agent_person", "agent_family", "agent_corporate_entity", "agent_software"]
   hide_create = false if hide_create.blank?
+  layout ||= 'horizontal'
 
   if !defined?(linker_label)
     linker_label = (multiplicity === "many") ? t("agent._plural") : t("agent._singular")
   end
 %>
-<div class="form-group <% if required %> required <% end %> row">
-  <label class="control-label col-sm-4 text-right"
+<div class="form-group row<% if required %> required<% end %>">
+  <label class="control-label text-right <%= layout != 'stacked' ? 'col-sm-2' : '' %>"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
     <%= wrap_with_tooltip(linker_label, "related_agent.related_agent_tooltip", "control-label initialised") %>
   </label>
-  <div class="controls col-sm-6">
+  <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>">
     <div class="input-group linker-wrapper"
          role="combobox"
          aria-owns="<%= form.id_for("ref") %>_listbox"
@@ -69,24 +70,31 @@
 
       <% end %>
 
-      <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last border-dark border-left-0 d-flex align-items-center justify-content-center" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Link to subject" id="dropdownMenuAgentsToggle">
-        </a>
+      <div class="input-group-append">
+        <button
+          id="dropdownMenuAgentsToggle"
+          type="button"
+          class="btn btn-default dropdown-toggle"
+          data-toggle="dropdown"
+          aria-expanded="false"
+        ></button>
         <ul class="dropdown-menu dropdown-menu-right" id='dropdownMenuAgents' aria-labelledby="#dropdownMenuAgents">
-          <li class='dropdown-item'>
-            <a href="javascript:void(0);" class="linker-browse-btn">
+          <li>
+            <button type="button" class="btn btn-sm rounded-0 dropdown-item linker-browse-btn">
               <%= t("actions.browse") %>
-            </a>
+            </button>
           </li>
           <% if user_can?('update_agent_record') && !hide_create && user_can?('update_agent_record') %>
-            <li class="dropdown-submenu dropdown-item">
-              <a href="javascript:void(0);"><%= t("actions.create") %></a>
+            <li class="dropdown-submenu dropdown-item p-0">
+              <div class="btn btn-sm rounded-0 dropdown-item linker-create-btn"><%= t("actions.create") %></div>
               <ul class="dropdown-menu">
                 <% creatable_types.each do |agent_type| %>
-                  <li class="dropdown-item">
-                    <a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :agent_type => agent_type.intern, :inline => true %>" class="linker-create-btn">
-                      <%= t("#{agent_type}._singular") %>
-                    </a>
+                  <li>
+                    <button
+                      type="button"
+                      data-target="<%= url_for :controller => :agents, :action => :new, :agent_type => agent_type.intern, :inline => true %>"
+                      class="btn btn-sm rounded-0 dropdown-item linker-create-btn"
+                    ><%= t("#{agent_type}._singular") %></button>
                   </li>
                 <% end %>
               </ul>

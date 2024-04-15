@@ -79,8 +79,8 @@ h2 > .label {
   }
   .hide-alert {
     position: absolute;
-    top: 8px;
-    right: 10px;
+    top: 13px;
+    right: 20px;
 
     .icon {
       @include opacity(25);
@@ -159,19 +159,49 @@ td .btn-group {
 }
 
 // Atomic/utility classes
+.top-1rem {
+  top: 1rem;
+}
+
+.x-auto {
+  right: auto;
+  left: auto;
+}
+
 .mt0 {
   margin-top: 0;
+}
+
+.mr-15px {
+  margin-right: 15px; // because bootstrap `.row`s
+}
+
+.p-12px {
+  padding: 12px;
 }
 
 .p30px {
   padding: 30px;
 }
 
-@media (max-width: 767px) {
-  .xs-py15px {
-    padding-right: 15px;
-    padding-left: 15px;
-  }
+.pl-40px {
+  padding-left: 40px !important;
+}
+
+.gap-x-1 {
+  column-gap: 0.25rem;
+}
+
+.gap-x-2 {
+  column-gap: 0.5rem;
+}
+
+.gap-x-3 {
+  column-gap: 1rem;
+}
+
+.gap-bs-x-15px {
+  column-gap: 15px; // because bootstrap `.row`s
 }
 
 @media (min-width: 992px) {
@@ -184,4 +214,111 @@ td .btn-group {
   .lg-min-w-450px {
     min-width: 450px;
   }
+}
+
+.lh-1p2 {
+  line-height: 1.2;
+}
+
+.hover-color-dark:hover {
+  color: var(--dark) !important;
+}
+
+.bg-grayLighter {
+  background-color: $grayLighter;
+}
+
+.bg-gray-200,
+.bg-bsCoolGray {
+  background-color: $gray-200;
+}
+
+.bg-gray-400 {
+  background-color: $gray-400;
+}
+
+.border-gray-400 {
+  border-color: $gray-400;
+}
+
+.bg-gray-600,
+.bg-gray--secondary {
+  background-color: $gray-600;
+}
+
+.border-gray-600,
+.border-gray--secondary {
+  border-color: $gray-600;
+}
+
+.bg-asFormHeadingBg{
+  background-color: $asFormHeadingBg;
+  @include vertical(#f3f3f3, #ededed);
+}
+
+.hover-grayLighter:hover {
+  background-color: $grayLighter;
+}
+
+.hover-bsCoolGray:hover {
+  background-color: $bsCoolGray
+}
+
+.hover-bg-dark:hover {
+  background-color: var(--dark);
+}
+
+.hover-no-underline:hover {
+  text-decoration: none;
+}
+
+.fs-12px {
+  font-size: 12px; // .75rem
+}
+
+.fs-14px {
+  font-size: 14px; // .875rem
+}
+
+.form-control-border {
+  border: 1px solid var(--secondary) !important;
+}
+
+.table-align-middle th,
+.table-align-middle td {
+  /* Bootstrap aligns to top by default, so provide a cascade for middle alignment
+     instead of using Bootstrap's `.align-middle` per element */
+  vertical-align: middle;
+}
+
+.cursor-default {
+  cursor: default !important;
+}
+
+/* Bootstrap v4 removed .btn-default but they were all kept in ArchivesSpace
+   and not patched. Let's recreate them with an ArchivesSpace slant. */
+.btn-default {
+  color: var(--bs-text-body);
+  background-color: var(--white);
+  border-color: var(--secondary);
+}
+
+.btn-default:hover {
+  color: var(--bs-text-body);
+  background-color: $gray-200;
+  // border-color: var(--dark);
+}
+
+.btn-default:focus,
+.btn-default.focus {
+  /* .form-control:focus */
+  border-color: #1cbeff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 111, 155, 0.25);
+}
+
+.btn-default.disabled,
+.btn-default:disabled {
+  color: var(--bs-text-body);
+  background-color: var(--light);
 }

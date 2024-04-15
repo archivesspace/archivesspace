@@ -22,10 +22,12 @@
 
   <% define_template("digital_object_component", jsonmodel_definition(:digital_object_component)) do |form| %>
     <section id="basic_information">
-      <h3>
-        <%= t("digital_object_component._frontend.section.basic_information") %>
+      <header class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+        <h3 class="flex-grow-1 mb-0 border-0">
+          <%= t("digital_object_component._frontend.section.basic_information") %>
+        </h3>
         <%= link_to_help :topic => "digital_object_component_basic_information" %>
-      </h3>
+      </header>
 
       <%= render_plugin_partials("top_of_basic_information_digital_object_component",
                                  :form => form,

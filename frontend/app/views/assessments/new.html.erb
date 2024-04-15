@@ -3,7 +3,7 @@
 <%= form_for @assessment, :as => "assessment", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "assessment_form"} do |f| %>
 
   <%= form_context :assessment, @assessment do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
