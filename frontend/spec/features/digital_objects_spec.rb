@@ -26,22 +26,11 @@ describe 'Digital Objects', js: true do
     element = find('h2')
     expect(element.text).to eq 'New Digital Object Digital Object'
 
-    fill_in 'digital_object_title_', with: "Digital Object Title #{now}"
-    fill_in 'digital_object_digital_object_id_', with: "Digital Object Identifier #{now}"
-    select 'Mixed Materials', from: 'digital_object_digital_object_type_'
-
-    click_on 'Add File Version'
-    fill_in 'digital_object_file_versions__0__file_uri_', with: "File Version URI #{now}"
-    element = find('#digital_object_file_versions__0__file_size_bytes_')
-    element.fill_in with: '100'
-
     # Click on save
     find('button', text: 'Save Digital Object', match: :first).click
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Digital Object Title #{now} Created"
-    element = find('.table-row.root-row .title')
-    expect(element.text).to eq "Digital Object Title #{now}"
+    element = find('.alert.alert-danger.with-hide-alert')
+    expect(element.text).to eq "Title - Property is required but was missing\nIdentifier - Property is required but was missing"
   end
 
   it 'can handle multiple file versions and file system and network path types' do
@@ -56,20 +45,20 @@ describe 'Digital Objects', js: true do
     fill_in 'digital_object_digital_object_id_', with: "Digital Object Identifier #{now}"
     select 'Mixed Materials', from: 'digital_object_digital_object_type_'
 
-    click_on 'Add File Version'
-    fill_in 'digital_object_file_versions__0__file_uri_', with: "File Version URI 1 #{now}"
+    find('button', text: 'Add File Version', match: :first).click
+    fill_in 'digital_object_file_versions__0__file_uri_', with: '/root/top_secret.txt'
     element = find('#digital_object_file_versions__0__file_size_bytes_')
     element.fill_in with: '100'
 
-    # Click on save
-    element = find('button', text: 'Save Digital Object', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Digital Object Title #{now} Created"
-
-    click_on 'Add File Version'
-    fill_in 'digital_object_file_versions__1__file_uri_', with: "File Version URI 2 #{now}"
+    find('button', text: 'Add File Version', match: :first).click
+    fill_in 'digital_object_file_versions__1__file_uri_', with: 'C:\Program Files\windows.exe'
     element = find('#digital_object_file_versions__1__file_size_bytes_')
     element.fill_in with: '200'
+
+    find('button', text: 'Add File Version', match: :first).click
+    fill_in 'digital_object_file_versions__2__file_uri_', with: '\\\\NetworkPath\Network\location.bat'
+    element = find('#digital_object_file_versions__2__file_size_bytes_')
+    element.fill_in with: '300'
 
     # Click on save
     element = find('button', text: 'Save Digital Object', match: :first).click
@@ -80,7 +69,7 @@ describe 'Digital Objects', js: true do
     end
 
     element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Digital Object Title #{now} Updated"
+    expect(element.text).to eq "Digital Object Digital Object Title #{now} Created"
 
     click_on 'Close Record'
 
@@ -88,10 +77,11 @@ describe 'Digital Objects', js: true do
     expect(element.text).to eq "Digital Object Title #{now} Digital Object"
     expect(page).to have_css 'h3', text: 'File Versions'
     elements = all('#digital_object_file_versions__accordion .panel.panel-default')
-    expect(elements.length).to eq 2
+    expect(elements.length).to eq 3
 
-    expect(elements[0]).to have_text "File Version URI 1 #{now}"
-    expect(elements[1]).to have_text "File Version URI 2 #{now}"
+    expect(elements[0]).to have_text '/root/top_secret.txt'
+    expect(elements[1]).to have_text 'C:\Program Files\windows.exe'
+    expect(elements[2]).to have_text '\\\\NetworkPath\Network\location.bat'
   end
 
   it "make representative is disabled unless published is checked, and vice versa" do
