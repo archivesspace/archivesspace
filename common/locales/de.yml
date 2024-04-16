@@ -1712,24 +1712,36 @@ de:
       basic_data_entry: "Basis-Dateneingabe-Benutzer des Aufbewahrungsorts %{repo_code}"
       repository_viewers: "Betrachter des Aufbewahrungsorts %{repo_code}"
     permission_types:
-      manage_repository: Weisen Sie <b>Benutzer</b> Gruppen zu (in diesem Repository)<br/>Legen Sie <b>Gruppen</b>-Berechtigungen fest (in diesem Repository)<br/>Legen Sie <b>Repository-Einstellungen</b> fest ( in diesem Repository)<br/>konfigurieren Sie <b>erforderliche Felder und Standardwerte</b> (in diesem Repository)<br/>erstellen und führen Sie <b>Batch-Jobs zum Suchen und Ersetzen</b> aus (in diesem Repository) <br/><b>Standorte</b> erstellen/aktualisieren/löschen (systemweit)
-      view_agent_contact_record: Bearbeiten/Anzeigen des Abschnitts „Kontaktdetails“ von <b>Agenten</b> (in diesem Repository)
-      show_full_agents: Bearbeiten Sie zusätzliche Abschnitte von <b>Agenten</b>, die im Vollmodus aktiviert sind (in diesem Repository).
-      update_vocabulary_record: <b>Zugänge</b> erstellen/aktualisieren (in diesem Repository)
+      manage_repository: Weisen Sie <b>Benutzer</b> Gruppen zu (in diesem Repository)<br/>Legen Sie <b>Gruppen</b>-Berechtigungen
+        fest (in diesem Repository)<br/>Legen Sie <b>Repository-Einstellungen</b> fest ( in diesem Repository)<br/>konfigurieren
+        Sie <b>erforderliche Felder und Standardwerte</b> (in diesem Repository)<br/>erstellen und führen
+        Sie <b>Batch-Jobs zum Suchen und Ersetzen</b> aus (in diesem Repository) <br/><b>Standorte</b>
+        erstellen/aktualisieren/löschen (systemweit)
+      view_agent_contact_record: Bearbeiten/Anzeigen des Abschnitts „Kontaktdetails“ von <b>Agenten</b>
+        (in diesem Repository)
+      show_full_agents: Bearbeiten Sie zusätzliche Abschnitte von <b>Agenten</b>, die im Vollmodus aktiviert
+        sind (in diesem Repository).
       update_accession_record: <b>Zugänge</b> erstellen/aktualisieren (in diesem Repository)
       update_resource_record: <b>Ressourcen</b> erstellen/aktualisieren (in diesem Repository)
       update_digital_object_record: <b>Digitale Objekte</b> erstellen/aktualisieren (in diesem Repository)
       update_event_record: <b>Ereignisse</b> erstellen/aktualisieren (in diesem Repository)
-      view_repository: <b>alle Datensätze</b> anzeigen (in diesem Repository)<br/><b>Agenten</b> anzeigen (systemweit)<br/><b>Themen</b> anzeigen (systemweit). )
+      view_repository: <b>alle Datensätze</b> anzeigen (in diesem Repository)<br/><b>Agenten</b> anzeigen
+        (systemweit)<br/><b>Themen</b> anzeigen (systemweit). )
       view_suppressed: <b>unterdrückte Datensätze</b> anzeigen (in diesem Repository)
       suppress_archival_record: <b>Zugänge, Archivobjekte und Ressourcen</b> unterdrücken (in diesem Repository)
-      delete_archival_record: <b>Zugänge, Archivobjekte, digitale Objekte und Ressourcen</b> löschen (in diesem Repository)
+      delete_archival_record: <b>Zugänge, Archivobjekte, digitale Objekte und Ressourcen</b> löschen (in
+        diesem Repository)
       delete_event_record: <b>Ereignisse</b> löschen (in diesem Repository)
       update_classification_record: <b>Klassifizierungen</b> erstellen/aktualisieren (in diesem Repository)
-      merge_agents_and_subjects: <b>Agenten</b> zusammenführen (systemweit)<br/> <b>Subjekte</b> zusammenführen (systemweit)
-      merge_archival_record: <b>digitale Objekte</b> zusammenführen (in diesem Repository)</br><b>Ressourcen</b> zusammenführen (in diesem Repository)
-      transfer_repository: <b>den gesamten Inhalt dieses Repositorys</b> in ein anderes Repository übertragen (muss auch im Ziel-Repository über die gleiche Berechtigung verfügen)
-      transfer_archival_record: Übertragen Sie einzelne <b>Zugänge, digitale Objekte und Ressourcen</b> in ein anderes Repository (Sie müssen außerdem über die Berechtigung verfügen, Datensätze des zu übertragenden Typs in beiden Repositorys zu erstellen/aktualisieren).
+      merge_agents_and_subjects: <b>Agenten</b> zusammenführen (systemweit)<br/> <b>Subjekte</b> zusammenführen
+        (systemweit)
+      merge_archival_record: <b>digitale Objekte</b> zusammenführen (in diesem Repository)</br><b>Ressourcen</b>
+        zusammenführen (in diesem Repository)
+      transfer_repository: <b>den gesamten Inhalt dieses Repositorys</b> in ein anderes Repository übertragen
+        (muss auch im Ziel-Repository über die gleiche Berechtigung verfügen)
+      transfer_archival_record: Übertragen Sie einzelne <b>Zugänge, digitale Objekte und Ressourcen</b>
+        in ein anderes Repository (Sie müssen außerdem über die Berechtigung verfügen, Datensätze des
+        zu übertragenden Typs in beiden Repositorys zu erstellen/aktualisieren).
       manage_subject_record: <b>Themen</b> erstellen/aktualisieren/löschen (systemweit)
       manage_agent_record: <b>Agenten</b> erstellen/aktualisieren/löschen (systemweit)
       manage_vocabulary_record: <b>Vokabular</b> erstellen/aktualisieren/löschen (systemweit)
@@ -1740,14 +1752,16 @@ de:
       manage_location_profile_record: <b>Standortprofile</b> erstellen/aktualisieren/löschen (systemweit)
       update_assessment_record: <b>Bewertungen</b> erstellen/aktualisieren (in diesem Repository)
       delete_assessment_record: <b>Bewertungen</b> löschen (in diesem Repository)
-      manage_assessment_attributes: Erstellen/Aktualisieren/Löschen von <b>Repository-Bewertungsattributdefinitionen</b> (in diesem Repository)
+      manage_assessment_attributes: Erstellen/Aktualisieren/Löschen von <b>Repository-Bewertungsattributdefinitionen</b>
+        (in diesem Repository)
       delete_classification_record: <b>Klassifizierungen</b> löschen (in diesem Repository)
       cancel_job: <b>Hintergrundjobs</b> abbrechen (in diesem Repository)
       create_job: <b>Hintergrundjobs</b> erstellen/ausführen (in diesem Repository)
       manage_enumeration_record: <b>gesteuerte Werte</b> erstellen/aktualisieren/löschen (systemweit)
       manage_rde_templates: Erstellen/Löschen von <b>Schnelldateneingabevorlagen</b> (in diesem Repository)
       update_container_record: <b>Top-Container</b> erstellen/aktualisieren (in diesem Repository)
-      manage_custom_report_templates: <b>benutzerdefinierte Berichtsvorlagen</b> erstellen/aktualisieren/löschen (in diesem Repository)
+      manage_custom_report_templates: <b>benutzerdefinierte Berichtsvorlagen</b> erstellen/aktualisieren/löschen
+        (in diesem Repository)
     _singular: Gruppe
     _plural: Gruppen
     description_tooltip: "<p>Eine kurze textliche Beschreibung der Gruppe.</p>\n<p>Beispiele:\n<ul>\n
