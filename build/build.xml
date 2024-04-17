@@ -675,7 +675,7 @@
 
   <!-- Note: Selenium tests for frontend are not currently included
    in coverage reports -->
-  <target name="frontend:coverage" depends="set-classpath, frontend:clean, frontend:test:part_a, frontend:test:part_b" description="Generate coverage reports for the frontend">
+  <target name="frontend:coverage" depends="set-classpath, frontend:clean, frontend:test" description="Generate coverage reports for the frontend">
   </target>
 
   <target name="frontend:devserver" depends="set-classpath, frontend:clean, frontend:copy:templates" description="Start an instance of the ArchivesSpace frontend development server">
@@ -719,24 +719,6 @@
     <antcall target="rspec">
       <param name="dir" value="../frontend" />
       <param name="pattern" value="spec/*/*_spec.rb" />
-      <param name="tag" value="${tag}" />
-    </antcall>
-  </target>
-
-  <target name="frontend:test:part_a" depends="set-classpath, frontend:clean, setup-integration" description="Run all spec files starting with [a-h] from the non-Selenium unit test suite (used in CI)">
-    <property name="tag" value="~db"/>
-    <antcall target="rspec">
-      <param name="dir" value="../frontend" />
-      <param name="pattern" value="spec/*/[a-h]*_spec.rb" />
-      <param name="tag" value="${tag}" />
-    </antcall>
-  </target>
-
-  <target name="frontend:test:part_b" depends="set-classpath, frontend:clean, setup-integration" description="Run all spec files starting with [i-z] from the non-Selenium unit test suite (used in CI)">
-    <property name="tag" value="~db"/>
-    <antcall target="rspec">
-      <param name="dir" value="../frontend" />
-      <param name="pattern" value="spec/*/[i-z]*_spec.rb" />
       <param name="tag" value="${tag}" />
     </antcall>
   </target>
