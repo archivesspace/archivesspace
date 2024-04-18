@@ -1494,26 +1494,28 @@ en:
       error_summary_header: "Errors in row:"
       select_prompt: Apply an RDE Template
     help:
-      keyboard_shortcuts: |
-                  <div><strong>Keyboard Shortcuts</strong></div>
-                  <div class="row"><small><span class="span3">Jump from cell to cell:</span>SHIFT + Arrow Keys</small></div>
-                  <div class="row"><small><span class="span3">Create a new row (from last row):</span> SHIFT + Return</small></div>
-      sticky_columns: |
-                  <div><strong>Sticky Columns</strong></div>
-                  <div><small>Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading.</small></div>
-                  <div><small>Clicking <strong>Add Row</strong> will copy values from the last row; The row's <strong>+</strong> button will copy values from the currently focused row.</small></div>
-      fill_column: |
-                  <div><strong>Fill Column - Basic</strong></div>
-                  <div><small>To fill a column with a single value, click <strong>Fill Column</strong> and under the <strong>Basic</strong> tab select the target <strong>Column</strong>, enter the desired <strong>Fill Value</strong> and click <strong>Apply Fill</strong>.</small></div>
-                  <br/>
-                  <div><strong>Fill Column - Sequence</strong></div>
-                  <div><small>To apply a sequence to a column, click <strong>Fill Column</strong> and under the <strong>Sequence</strong> tab select the target <strong>Column</strong> and complete the <strong>Fill Value</strong> fields to generate the sequence you desire.  A warning will be displayed if the sequence generated will not fulfil the number of rows in the form.</small></div>
-      resize_and_reorder_columns: |
-                  <div><strong>Reorder Columns</strong></div>
-                  <div><small>Click <strong>Reorder columns</strong>, select the row(s) you wish to reorder and use the up/down arrow buttons to change their position in the list. When happy with your new ordering, click <strong>Apply Column Order</strong></small></div>
-      reset: |
-                  <div><strong>Reset Form</strong></div>
-                  <div><small>Click <strong>Reset</strong> to clear the form and revert the sticky, visible and order of the columns to the default values.</small></div>
+      keyboard_shortcuts:
+        title: Keyboard Shortcuts
+        shift: SHIFT
+        arrow_keys: Arrow Keys
+        return: Return
+        move_term: Jump from cell to cell
+        new_term: "Create a new row (from last row)"
+      sticky_columns:
+        title: Sticky Columns
+        p_one: "Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading."
+        p_two: "Clicking <strong>Add Row</strong> will copy values from the last row. The row's <strong>+</strong> button will copy values from the currently focused row."
+      fill_column:
+        basic_title: Fill Column - Basic
+        basic_description: To fill a column with a single value, click <strong>Fill Column</strong> and under the <strong>Basic</strong> tab select the target <strong>Column</strong>, enter the desired <strong>Fill Value</strong> and click <strong>Apply Fill</strong>.
+        sequence_title: Fill Column - Sequence
+        sequence_description: To apply a sequence to a column, click <strong>Fill Column</strong> and under the <strong>Sequence</strong> tab select the target <strong>Column</strong> and complete the <strong>Fill Value</strong> fields to generate the sequence you desire.  A warning will be displayed if the sequence generated will not fulfil the number of rows in the form.
+      reorder_columns:
+        title: Reorder Columns
+        description: "Click <strong>Reorder columns</strong>, select the row(s) you wish to reorder and use the up/down arrow buttons to change their position in the list. When happy with your new ordering, click <strong>Apply Column Order</strong>."
+      reset:
+        title: Reset Form
+        description: "Click <strong>Reset</strong> to clear the form and revert the sticky, visible and order of the columns to the default values."
   update_monitor:
     save_failed: <strong>Failed to save your changes</strong>
     stale_record: This record has been updated by another user. Please refresh the page to access the latest version.

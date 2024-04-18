@@ -11,7 +11,7 @@
 
   add_button_text ||= "note._frontend.action.add"
 
-  add_note_class = 'add-note btn btn-sm btn-default ml-auto'
+  add_note_class = 'add-note btn btn-sm btn-default'
   help_link = link_to_help :topic => "#{form['jsonmodel_type']}_notes"
   add_note_class += ' mt-3 mr-3 mb-3' if help_link.nil?
 %>
@@ -26,7 +26,7 @@
     </<%= header_size%>>
 
     <% if show_apply_note_order_action %>
-      <div class="btn-group ml-auto">
+      <div class="btn-group">
     <% end %>
 
     <% unless form.readonly? %>
@@ -39,7 +39,7 @@
 
     <% if show_apply_note_order_action %>
         <button
-          class="btn btn-sm btn-default ml-auto apply-note-order"
+          class="btn btn-sm btn-default apply-note-order"
           disabled="disabled"
           type="button"
           data-action="apply note order"

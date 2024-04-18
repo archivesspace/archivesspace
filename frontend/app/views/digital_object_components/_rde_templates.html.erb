@@ -104,7 +104,7 @@
 <% define_template "rde_digital_object_component_row", jsonmodel_definition(:digital_object_component) do |form, digital_object_component| %>
   <% first_row = form.current_context.first == "children[0]" %>
   <tr data-index="">
-    <td data-col="status" class="status">
+    <td data-col="status" class="status p-1">
       <span class="glyphicon glyphicon-exclamation-sign invalid"></span>
       <span class="glyphicon glyphicon-ok valid"></span>
       <div class="error-summary">
@@ -345,11 +345,10 @@
       <% end %>
     </td>
 
-    <td data-col="actions" class="form-group">
-      <div class="btn-group">
-        <button class="btn btn-success add-row"><span class="glyphicon glyphicon-plus icon-white"></span></button>
-        <% if !first_row %><button class="btn remove-row"><span class="glyphicon glyphicon-remove"></span></button><% end %>
-      </div>
+    <td data-col="actions" class="form-group px-1">
+      <% if !first_row %><div class="btn-group"><% end %>
+      <button class="btn btn-success add-row"><span class="glyphicon glyphicon-plus icon-white"></span></button>
+      <% if !first_row %><button class="btn remove-row btn-default"><span class="glyphicon glyphicon-remove"></span></button></div><% end %>
     </td>
   </tr>
 <% end %>

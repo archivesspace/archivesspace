@@ -200,6 +200,10 @@ td .btn-group {
   column-gap: 1rem;
 }
 
+.gap-x-4 {
+  column-gap: 1.5rem;
+}
+
 .gap-bs-x-15px {
   column-gap: 15px; // because bootstrap `.row`s
 }
@@ -321,4 +325,8 @@ td .btn-group {
 .btn-default:disabled {
   color: var(--bs-text-body);
   background-color: var(--light);
+}
+
+.colon-after::after {
+  content: ':';
 }

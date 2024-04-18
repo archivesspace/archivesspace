@@ -139,10 +139,17 @@
 
     // Templates.
     templates: {
-      button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"></button>',
+      // ANW-2001/ANW-1821: Improve semantics and rectify styles after Bootstrap v4 upgrade
+      button: `
+      <button
+        type="button"
+        class="multiselect dropdown-toggle"
+        data-toggle="dropdown"
+        aria-expanded="false"
+      ></button>`,
       ul: '<ul class="multiselect-container dropdown-menu"></ul>',
       filter: '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text"></div>',
-      li: '<li><a href="javascript:void(0);"><label></label></a></li>',
+      li: '<li class="dropdown-item"><label></label></li>',
       liGroup: '<li><label class="multiselect-group"></label></li>'
     },
 
