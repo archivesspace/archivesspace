@@ -29,6 +29,12 @@
   <property name="aspace.public.port" value="3001" />
   <property name="aspace.db_url.dev" value="jdbc:mysql://127.0.0.1:3306/archivesspace?useUnicode=true&amp;characterEncoding=UTF-8&amp;user=as&amp;password=as123&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
   <property name="aspace.db_url.test" value="jdbc:mysql://127.0.0.1:3307/archivesspace?useUnicode=true&amp;characterEncoding=UTF-8&amp;user=as&amp;password=as123&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
+  <property name="aspace.db_host.test" value="127.0.0.1" />
+  <property name="aspace.db_port.test" value="3307" />
+  <property name="aspace.db_name.test" value="archivesspace" />
+  <property name="aspace.db_user.test" value="as" />
+  <property name="aspace.db_password.test" value="as123" />
+  <property name="aspace.db_root_password.test" value="123456" />
   <property name="aspace.solr_url.dev" value="http://127.0.0.1:8983/solr/archivesspace" />
   <property name="aspace.solr_url.test" value="http://127.0.0.1:8984/solr/archivesspace" />
   <property name="aspace.data_directory.dev" value="${basedir}/../build/dev" />
@@ -544,6 +550,18 @@
     </java>
   </target>
 
+  <target name="db:dump:test" description="Create a new dump of the test database">
+    <exec dir="${basedir}" executable="mysqldump"  newenvironment="false" failonerror="true" logError="true" output="../frontend/spec/fixtures/archivesspace-test.sql">
+      <arg line="--host='${aspace.db_host.test}' --port='${aspace.db_port.test}' -u root -p${aspace.db_root_password.test} ${aspace.db_name.test}"/>
+    </exec>
+  </target>
+
+  <target name="db:load:test" description="Create a new dump of the test database">
+    <exec dir="${basedir}" executable="mysql"  newenvironment="false" failonerror="true" input="../frontend/spec/fixtures/archivesspace-test.sql">
+      <arg line="--host='${aspace.db_host.test}' --port='${aspace.db_port.test}' -u ${aspace.db_user.test} -p${aspace.db_password.test} ${aspace.db_name.test}"/>
+    </exec>
+  </target>
+
   <!-- DOCS -->
   <target name="doc:api" depends="set-classpath, bootstrap-jruby" description="Generate markdown for API documentation">
     <antcall target="bundler">
@@ -675,7 +693,7 @@
 
   <!-- Note: Selenium tests for frontend are not currently included
    in coverage reports -->
-  <target name="frontend:coverage" depends="set-classpath, frontend:clean, frontend:test:part_a, frontend:test:part_b" description="Generate coverage reports for the frontend">
+  <target name="frontend:coverage" depends="set-classpath, frontend:clean, frontend:test" description="Generate coverage reports for the frontend">
   </target>
 
   <target name="frontend:devserver" depends="set-classpath, frontend:clean, frontend:copy:templates" description="Start an instance of the ArchivesSpace frontend development server">
@@ -719,24 +737,6 @@
     <antcall target="rspec">
       <param name="dir" value="../frontend" />
       <param name="pattern" value="spec/*/*_spec.rb" />
-      <param name="tag" value="${tag}" />
-    </antcall>
-  </target>
-
-  <target name="frontend:test:part_a" depends="set-classpath, frontend:clean, setup-integration" description="Run all spec files starting with [a-h] from the non-Selenium unit test suite (used in CI)">
-    <property name="tag" value="~db"/>
-    <antcall target="rspec">
-      <param name="dir" value="../frontend" />
-      <param name="pattern" value="spec/*/[a-h]*_spec.rb" />
-      <param name="tag" value="${tag}" />
-    </antcall>
-  </target>
-
-  <target name="frontend:test:part_b" depends="set-classpath, frontend:clean, setup-integration" description="Run all spec files starting with [i-z] from the non-Selenium unit test suite (used in CI)">
-    <property name="tag" value="~db"/>
-    <antcall target="rspec">
-      <param name="dir" value="../frontend" />
-      <param name="pattern" value="spec/*/[i-z]*_spec.rb" />
       <param name="tag" value="${tag}" />
     </antcall>
   </target>
@@ -873,7 +873,7 @@
   </target>
 
   <!-- Prepares all tests to be run -->
-  <target name="setup-integration" depends="db:nuke:test, db:migrate:test, solr:reset:test" description="Prepare to run integration tests">
+  <target name="setup-integration" depends="db:nuke:test, db:load:test, db:migrate:test, solr:reset:test" description="Prepare to run integration tests">
   </target>
 
   <target name="solr:reset" description="Delete all documents from Solr">

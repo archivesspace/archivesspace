@@ -9,40 +9,38 @@ on:
       - 'solr/**'
 
 jobs:
-  frontend_part_a_and_selenium_java_8:
+  frontend_part_a:
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:selenium
-        ./build/run frontend:test:part_a
-      name: part_a_and_selenium
-      java-version: 8
-
-  frontend_part_b_java_8:
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:test:part_b
-      name: part_b
-      java-version: 8
-
-  frontend_part_a_and_selenium_java_11:
-    uses: ./.github/workflows/common-frontend.yml
-    secrets: inherit
-    with:
-      run-cmd: |
-        ./build/run frontend:selenium
-        ./build/run frontend:test:part_a
-      name: part_a_and_selenium
+        ./build/run frontend:test -Dpattern="spec/features/[a-c]*_spec.rb"
+      name: part_a
       java-version: 11
 
-  frontend_part_b_java_11:
+  frontend_part_b:
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:test:part_b
+        ./build/run frontend:test -Dpattern="spec/features/[d-j]*_spec.rb"
       name: part_b
+      java-version: 11
+
+  frontend_part_c:
+    uses: ./.github/workflows/common-frontend.yml
+    secrets: inherit
+    with:
+      run-cmd: |
+        ./build/run frontend:test -Dpattern="spec/features/[k-r]*_spec.rb"
+      name: part_c
+      java-version: 11
+
+  frontend_part_d:
+    uses: ./.github/workflows/common-frontend.yml
+    secrets: inherit
+    with:
+      run-cmd: |
+        ./build/run frontend:test -Dpattern="spec/features/[s-z]*_spec.rb"
+      name: part_d
       java-version: 11
