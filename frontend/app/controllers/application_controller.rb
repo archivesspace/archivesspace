@@ -253,7 +253,11 @@ class ApplicationController < ActionController::Base
   end
 
   def user_is_global_admin?
-    session['user'] and session['user'] == "admin"
+    if AppConfig[:allow_other_admins_access_to_system_info]
+      session['user'] and user_can? 'administer_system'
+    else
+      session['user'] and session['user'] == "admin"
+    end
   end
 
 
