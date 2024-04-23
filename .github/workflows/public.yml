@@ -1,6 +1,25 @@
 name: Public Testing
 
 on:
+  workflow_dispatch:
+    inputs:
+      java-version:
+        description: Java version to run specs on
+        required: true
+        type: choice
+        options:
+          - '8'
+          - '11'
+        default: '11'
+
+  workflow_call:
+    inputs:
+      java-version:
+        description: Java version to run specs on
+        required: true
+        type: string
+        default: '11'
+
   pull_request:
     paths:
       - '.github/workflows/public.yml'
@@ -9,17 +28,11 @@ on:
       - 'solr/**'
       - 'indexer/**'
 
-
 jobs:
   public:
-    name: Public
+    name: Public_Java_v${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
-
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [ 11 ]
 
     services:
       db:
@@ -43,7 +56,7 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-java@v4
       with:
-        java-version: ${{ matrix.java }}
+        java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }} # https://github.com/actions/runner/issues/2372
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'

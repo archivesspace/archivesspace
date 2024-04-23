@@ -1,0 +1,50 @@
+name: Trigger all specs
+
+on:
+  workflow_dispatch:
+    inputs:
+      java-version:
+        description: Java version to run specs on
+        required: true
+        type: choice
+        options:
+          - '8'
+          - '11'
+        default: '11'
+
+jobs:
+  codescan:
+    uses: ./.github/workflows/codescan.yml
+    secrets: inherit
+    with:
+      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+
+  frontend:
+    uses: ./.github/workflows/frontend.yml
+    secrets: inherit
+    with:
+      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+
+  backend:
+    uses: ./.github/workflows/backend.yml
+    secrets: inherit
+    with:
+      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+
+  accessibility:
+    uses: ./.github/workflows/accessibility.yml
+    secrets: inherit
+    with:
+      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+
+  indexer:
+    uses: ./.github/workflows/indexer.yml
+    secrets: inherit
+    with:
+      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+
+  public:
+    uses: ./.github/workflows/public.yml
+    secrets: inherit
+    with:
+      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
