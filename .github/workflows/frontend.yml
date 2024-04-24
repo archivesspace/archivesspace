@@ -44,7 +44,7 @@ jobs:
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[d-j]*_spec.rb"
+        ./build/run frontend:test -Dpattern="spec/features/[d-l]*_spec.rb"
       name: part_b
       java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
 
@@ -54,7 +54,7 @@ jobs:
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[k-r]*_spec.rb"
+        ./build/run frontend:test -Dpattern="spec/features/[m-r]*_spec.rb"
       name: part_c
       java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
 
