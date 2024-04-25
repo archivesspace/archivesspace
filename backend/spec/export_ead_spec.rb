@@ -247,8 +247,8 @@ describe "EAD export mappings" do
 
         as_test_user("admin", true) do
           load_export_fixtures
-          @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
-          @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
+          @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true&include_uri_unitids=true")
+          @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true&include_uri_unitids=true")
 
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
@@ -1319,7 +1319,7 @@ describe "EAD export mappings" do
     def get_xml_doc(include_unpublished = false)
       as_test_user("admin") do
         DB.open(true) do
-          doc_for_unpublished_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@unpublished_resource_jsonmodel.id}.xml?include_unpublished=#{include_unpublished}&include_daos=true", true)
+          doc_for_unpublished_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@unpublished_resource_jsonmodel.id}.xml?include_unpublished=#{include_unpublished}&include_daos=true&include_uri_unitids=true", true)
 
           doc_nsless_for_unpublished_resource = Nokogiri::XML::Document.parse(doc_for_unpublished_resource)
           doc_nsless_for_unpublished_resource.remove_namespaces!
@@ -1454,7 +1454,7 @@ describe "EAD export mappings" do
     def get_xml_doc
       as_test_user("admin") do
         DB.open(true) do
-          doc_for_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource_jsonmodel.id}.xml?include_unpublished=true&include_daos=true", true)
+          doc_for_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource_jsonmodel.id}.xml?include_unpublished=true&include_daos=true&include_uri_unitids=true", true)
 
           doc_nsless_for_resource = Nokogiri::XML::Document.parse(doc_for_resource)
           doc_nsless_for_resource.remove_namespaces!
@@ -1533,7 +1533,7 @@ describe "EAD export mappings" do
     def get_xml_doc
       as_test_user("admin") do
         DB.open(true) do
-          doc_for_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true", true)
+          doc_for_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true&include_uri_unitids=true", true)
 
           doc_nsless_for_resource = Nokogiri::XML::Document.parse(doc_for_resource)
           doc_nsless_for_resource.remove_namespaces!

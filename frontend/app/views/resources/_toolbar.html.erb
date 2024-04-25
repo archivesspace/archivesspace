@@ -6,7 +6,7 @@
     <% content_for :exports do %>
       <li class="dropdown-submenu" id="download-ead-dropdown" data-download-ead-url="<%= url_for(:controller => :exports,
         :action => :download_ead, :id => @resource.id, :include_unpublished => "${include_unpublished}",
-        :include_daos => "${include_daos}", :numbered_cs => "${numbered_cs}", :print_pdf => "${print_pdf}",
+        :include_daos => "${include_daos}", :include_uri_unitids => "${include_uri_unitids}", :numbered_cs => "${numbered_cs}", :print_pdf => "${print_pdf}",
         :ead3 => "${ead3}" )%>">
         <a href="#" data-toggle="dropdown" class="menu-with-options download-ead-action" title="<%= I18n.t("actions.export_ead") %>"><%= I18n.t("actions.export_ead") %></a>
         <div class="dropdown-menu" id="form_download_ead">
@@ -19,6 +19,10 @@
             <label class="checkbox" for="include-daos">
               <input type="checkbox" id="include-daos" name="include_daos" checked="checked"/>
               <%= I18n.t("export_options.include_daos") %>&#160;
+            </label>
+            <label class="checkbox" for="include-uri-unitids">
+              <input type="checkbox" id="include-uri-unitids" name="include_uri_unitids" checked="checked"/>
+              <%= I18n.t("export_options.include_uri_unitids") %>&#160;
             </label>
             <label class="checkbox" for="numbered-cs">
               <input type="checkbox" id="numbered-cs" name="numbered_cs" />

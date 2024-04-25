@@ -143,6 +143,7 @@ class EADSerializer < ASpaceExport::Serializer
     @fragments = ASpaceExport::RawXMLHandler.new
     @include_unpublished = data.include_unpublished?
     @include_daos = data.include_daos?
+    @include_uri_unitids = data.include_uri_unitids?
     @use_numbered_c_tags = data.use_numbered_c_tags?
     @id_prefix = I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')
 
@@ -193,7 +194,9 @@ class EADSerializer < ASpaceExport::Serializer
 
             handle_arks(data, xml)
 
-            serialize_aspace_uri(data, xml)
+            if @include_uri_unitids
+              serialize_aspace_uri(data, xml)
+            end
 
             serialize_extents(data, xml, @fragments)
 
@@ -321,7 +324,9 @@ class EADSerializer < ASpaceExport::Serializer
 
         handle_arks(data, xml)
 
-        serialize_aspace_uri(data, xml)
+        if @include_uri_unitids
+          serialize_aspace_uri(data, xml)
+        end
 
         if @include_unpublished
           data.external_ids.each do |exid|

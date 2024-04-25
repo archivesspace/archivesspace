@@ -169,6 +169,10 @@ class EADModel < ASpaceExport::ExportModel
     @include_daos
   end
 
+  def include_uri_unitids?
+    @include_uri_unitids
+  end
+
 
   def use_numbered_c_tags?
     @use_numbered_c_tags

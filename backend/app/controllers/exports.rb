@@ -317,7 +317,7 @@ class ArchivesSpaceService < Sinatra::Base
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
         curl -H "X-ArchivesSpace-Session: $SESSION" \\
-        "http://localhost:8089/repositories/2/resource_descriptions/577.xml?include_unpublished=false&include_daos=true&numbered_cs=true&print_pdf=false&ead3=false" //
+        "http://localhost:8089/repositories/2/resource_descriptions/577.xml?include_unpublished=false&include_daos=true&include_uri_unitids=true&numbered_cs=true&print_pdf=false&ead3=false" //
         --output ead.xml
       SHELL
     end
@@ -351,6 +351,8 @@ class ArchivesSpaceService < Sinatra::Base
              "Include unpublished records", :optional => true],
             ["include_daos", BooleanParam,
              "Include digital objects in dao tags", :optional => true],
+            ["include_uri_unitids", BooleanParam,
+             "Include unitid tags containing ArchivesSpace URIs", :optional => true],
             ["numbered_cs", BooleanParam,
              "Use numbered <c> tags in ead", :optional => true],
             ["print_pdf", BooleanParam,
@@ -367,6 +369,7 @@ class ArchivesSpaceService < Sinatra::Base
     ead_stream = generate_ead(params[:id],
                               (params[:include_unpublished] || false),
                               (params[:include_daos] || false),
+                              (params[:include_uri_unitids] || false),
                               (params[:numbered_cs] || false),
                               (params[:ead3] || false))
     stream_response(ead_stream)
@@ -379,7 +382,7 @@ class ArchivesSpaceService < Sinatra::Base
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
         curl -H "X-ArchivesSpace-Session: $SESSION" \\
-        "http://localhost:8089/repositories/2/resource_descriptions/577.pdf?include_unpublished=false&include_daos=true&numbered_cs=true&print_pdf=false&ead3=false" //
+        "http://localhost:8089/repositories/2/resource_descriptions/577.pdf?include_unpublished=false&include_daos=true&include_uri_unitids=true&numbered_cs=true&print_pdf=false&ead3=false" //
         --output ead.pdf
       SHELL
     end
@@ -413,6 +416,8 @@ class ArchivesSpaceService < Sinatra::Base
              "Include unpublished records", :optional => true],
             ["include_daos", BooleanParam,
              "Include digital objects in dao tags", :optional => true],
+            ["include_uri_unitids", BooleanParam,
+             "Include unitid tags containing ArchivesSpace URIs", :optional => true],
             ["numbered_cs", BooleanParam,
              "Use numbered <c> tags in ead", :optional => true],
             ["print_pdf", BooleanParam,
@@ -426,6 +431,7 @@ class ArchivesSpaceService < Sinatra::Base
     ead_stream = generate_ead(params[:id],
                               (params[:include_unpublished] || false),
                               (params[:include_daos] || false),
+                              (params[:include_uri_unitids] || false),
                               (params[:numbered_cs] || false),
                               (params[:ead3] || false))
 
