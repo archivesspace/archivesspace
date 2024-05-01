@@ -100,7 +100,7 @@ AppConfig[:job_thread_count] = 2
 
 AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
 
-AppConfig[:oai_ead_options] = {}
+AppConfig[:oai_ead_options] = { :include_uri_unitids => true }
 # alternate example:  AppConfig[:oai_ead_options] = { :include_daos => true, :use_numbered_c_tags => true }
 
 ##
