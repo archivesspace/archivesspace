@@ -6,7 +6,6 @@ require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'rails-controller-testing'
 require 'selenium-webdriver'
-require_relative 'common/webdriver'
 require 'aspace_helper'
 
 CHROME_OPTS  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=1920x1080,--no-sandbox,--disable-dev-shm-usage,--remote-debugging-port=9222').split(',')
@@ -21,7 +20,7 @@ Capybara.register_driver(:chrome) do |app|
     app,
     browser: :chrome,
     options: Selenium::WebDriver::Chrome::Options.new(args: CHROME_OPTS)
-  ).extend DriverMixin
+  )
 end
 
 # Firefox
@@ -40,7 +39,7 @@ Capybara.register_driver :firefox do |app|
     app,
     browser: :firefox,
     options: options
-  ).extend DriverMixin
+  )
 end
 
 if ENV['SELENIUM_CHROME']
