@@ -6,7 +6,7 @@ require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'rails-controller-testing'
 require 'selenium-webdriver'
-require_relative 'selenium/common/webdriver'
+require_relative 'common/webdriver'
 require 'aspace_helper'
 
 CHROME_OPTS  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=1920x1080,--no-sandbox,--disable-dev-shm-usage,--remote-debugging-port=9222').split(',')
