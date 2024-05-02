@@ -12,7 +12,7 @@
           <%= link_to_help :topic => "#{@agent.agent_type}" %>
           <h2><%= "#{t("agent.new_title.#{@agent.agent_type}")}" %>  <span class="label label-info badge"><%= t("agent._singular") %></span></h2>
           <%= render_aspace_partial :partial => "agents/form", :locals => {:form => form} %>
-          <div class="form-actions">
+          <div class="form-actions pl-0">
             <div class="btn-group">
               <button type="submit" class="btn btn-primary"><%= t("#{@agent.agent_type}._frontend.action.save") %></button>
               <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= t("actions.save_plus_one") %></button>

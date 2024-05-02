@@ -183,7 +183,8 @@ module ApplicationHelper
       options["data-html"] = true
       options["data-delay"] = 500
       options["data-trigger"] = "manual"
-      options["data-template"] = '<div class="tooltip archivesspace-help"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+      options["data-boundary"] = "viewport"
+      options["data-template"] = '<div class="tooltip archivesspace-help"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
       options[:class] = " has-tooltip #{classes}"
 
       content_tag(:span, text, options)
