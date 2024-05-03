@@ -17,34 +17,34 @@ jobs:
     uses: ./.github/workflows/codescan.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+      java-version: ${{ inputs.java-version || 11 }}
 
   frontend:
     uses: ./.github/workflows/frontend.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+      java-version: ${{ inputs.java-version || 11 }}
 
   backend:
     uses: ./.github/workflows/backend.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+      java-version: ${{ inputs.java-version || 11 }}
 
   accessibility:
     uses: ./.github/workflows/accessibility.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+      java-version: ${{ inputs.java-version || 11 }}
 
   indexer:
     uses: ./.github/workflows/indexer.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+      java-version: ${{ inputs.java-version || 11 }}
 
   public:
     uses: ./.github/workflows/public.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+      java-version: ${{ inputs.java-version || 11 }}

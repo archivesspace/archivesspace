@@ -29,7 +29,7 @@ on:
 
 jobs:
   backend:
-    name: Backend_Java_v${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+    name: Backend_Java_v${{ inputs.java-version || 11 }}
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
@@ -56,7 +56,7 @@ jobs:
 
     - uses: actions/setup-java@v4
       with:
-        java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+        java-version: ${{ inputs.java-version || 11 }}
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'
