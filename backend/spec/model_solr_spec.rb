@@ -218,7 +218,7 @@ describe 'Solr model' do
 
     it 'will be valid when the internal and external checksums match' do
       allow(response).to receive(:code).and_return('200')
-      allow(response).to receive(:body).and_return(solrfile('schema.xml'), solrfile('solrconfig.xml'))
+      allow(response).to receive(:body).and_return(solrfile('schema.xml'))
       allow(Net::HTTP).to receive(:get_response).and_return(response)
       expect { Solr.verify_checksums! }.not_to raise_error
     end
@@ -226,15 +226,7 @@ describe 'Solr model' do
     it 'will be invalid when the schema checksum does not match' do
       allow(response).to receive(:code).and_return('200')
       bad_schema = solrfile('schema.xml').sub('archivesspace', 'example')
-      allow(response).to receive(:body).and_return(bad_schema, solrfile('solrconfig.xml'))
-      allow(Net::HTTP).to receive(:get_response).and_return(response)
-      expect { Solr.verify_checksums! }.to raise_error(Solr::ChecksumMismatchError)
-    end
-
-    it 'will be invalid when the config checksum does not match' do
-      allow(response).to receive(:code).and_return('200')
-      bad_config = solrfile('solrconfig.xml').sub('solr', 'foobar')
-      allow(response).to receive(:body).and_return(solrfile('schema.xml'), bad_config)
+      allow(response).to receive(:body).and_return(bad_schema)
       allow(Net::HTTP).to receive(:get_response).and_return(response)
       expect { Solr.verify_checksums! }.to raise_error(Solr::ChecksumMismatchError)
     end

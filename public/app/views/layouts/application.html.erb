@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= AppConfig[:locale] %>">
+<html lang="<%= session[:locale] ? session[:locale] : AppConfig[:locale] %>">
 <head>
 	<%# mdc: new stuff, to address IE 10 and earlier issues with Bootstrap %>
 	<meta charset="utf-8"/>

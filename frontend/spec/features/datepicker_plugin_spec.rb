@@ -5,9 +5,18 @@ require 'rails_helper.rb'
 describe 'DatepickerPlugin', js: true do
 
   before(:each) do
-    login_admin
-    await_jquery
-    page.has_css? 'button[title="Show Advanced Search"]'
+    visit '/'
+    page.has_xpath? '//input[@id="login"]'
+
+    within "form.login" do
+      fill_in "username", with: "admin"
+      fill_in "password", with: "admin"
+
+      click_button "Sign In"
+    end
+
+    expect(page).not_to have_xpath('//input[@id="login"]')
+    expect(page).to have_css('button[title="Show Advanced Search"]')
     first('button[title="Show Advanced Search"]').click
     first('.advanced-search-add-row-dropdown').click
     first('.advanced-search-add-date-row').click

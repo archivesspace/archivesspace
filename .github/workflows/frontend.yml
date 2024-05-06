@@ -1,6 +1,25 @@
 name: Frontend Testing
 
 on:
+  workflow_dispatch:
+    inputs:
+      java-version:
+        description: Java version to run specs on
+        required: true
+        type: choice
+        options:
+          - '8'
+          - '11'
+        default: '11'
+
+  workflow_call:
+    inputs:
+      java-version:
+        description: Java version to run specs on
+        required: true
+        type: string
+        default: '11'
+
   pull_request:
     paths:
       - '.github/workflows/frontend.yml'
@@ -12,82 +31,42 @@ on:
       - '*___frontend'
 
 jobs:
+  frontend_part_a:
+    name: part_a_Java_v${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+    uses: ./.github/workflows/common-frontend.yml
+    secrets: inherit
+    with:
+      run-cmd: |
+        ./build/run frontend:test -Dpattern="spec/features/[a-c]*_spec.rb"
+      name: part_a
+      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
 
-  frontend-tests:
-    name: Frontend Tests
-    runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+  frontend_part_b:
+    name: part_b_Java_v${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+    uses: ./.github/workflows/common-frontend.yml
+    secrets: inherit
+    with:
+      run-cmd: |
+        ./build/run frontend:test -Dpattern="spec/features/[d-l]*_spec.rb"
+      name: part_b
+      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
 
-    strategy:
-      matrix:
-        java: [ 8, 11 ]
+  frontend_part_c:
+    name: part_c_Java_v${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+    uses: ./.github/workflows/common-frontend.yml
+    secrets: inherit
+    with:
+      run-cmd: |
+        ./build/run frontend:test -Dpattern="spec/features/[m-r]*_spec.rb"
+      name: part_c
+      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
 
-    services:
-      db:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: archivesspace
-          MYSQL_USER: as
-          MYSQL_PASSWORD: as123
-        ports:
-          - 3307:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      solr:
-        image: solr:8.11
-        ports:
-          - 8984:8983
-
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-java@v3
-      with:
-        java-version: ${{ matrix.java }}
-        distribution: temurin
-
-    - uses: './.github/actions/bootstrap'
-      with:
-        backend: true
-        frontend: true
-        indexer: true
-
-    - name: Copy solr config from workspace to solr service
-      env:
-        SOLR_ID: ${{ job.services.solr.id }}
-      run: |
-        docker cp solr $SOLR_ID:/solr_conf_from_repo
-
-    - name: Create ArchivesSpace Solr core
-      env:
-        SOLR_ID: ${{ job.services.solr.id }}
-      run: |
-        docker exec --tty $SOLR_ID solr create_core -p 8983 -c archivesspace -d /solr_conf_from_repo
-
-    - name: Run Frontend tests
-      run: |
-        ./build/run frontend:test -Dpattern="spec/features/datepicker_plugin_spec.rb"
-      env:
-        ARCHIVESSPACE_VERSION: ${{ github.ref }}
-        CAPYBARA_DEFAULT_MAX_WAIT_TIME: 10
-        RSPEC_RETRIES: 3
-        TEST_MODE: 1
-
-    # - name: Run deprecated tests
-    #   run: |
-    #     ./build/run frontend:selenium
-    #   env:
-    #     ARCHIVESSPACE_VERSION: ${{ github.ref }}
-
-    - name: Dump the test database
-      if: failure()
-      env:
-        DB_PORT: "3307"
-      run: |
-        mysqldump --host 127.0.0.1 --port $DB_PORT -uroot -proot archivesspace | gzip > ci_logs/archivesspace.sql.gz
-
-    - name: Upload the ci logs
-      if: failure()
-      uses: actions/upload-artifact@v3
-      with:
-        name: ci_logs
-        path: ci_logs/*
+  frontend_part_d:
+    name: part_d_Java_v${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+    uses: ./.github/workflows/common-frontend.yml
+    secrets: inherit
+    with:
+      run-cmd: |
+        ./build/run frontend:test -Dpattern="spec/features/[s-z]*_spec.rb"
+      name: part_d
+      java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}

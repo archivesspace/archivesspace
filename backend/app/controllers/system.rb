@@ -7,7 +7,7 @@ class ArchivesSpaceService < Sinatra::Base
            [403, "Access Denied"]) \
   do
     sys_info = ASUtils.get_diagnostics.reject { |k, v| k == :exception }
-    sys_info[:db_info]= DB.sysinfo.merge({ "archivesSpaceVersion" => ASConstants.VERSION})
+    sys_info[:db_info]= DB.sysinfo
 
     schema = Solr::Schema.new(AppConfig[:solr_url])
     config = Solr::Solrconfig.new(AppConfig[:solr_url])

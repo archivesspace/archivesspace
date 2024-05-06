@@ -110,6 +110,7 @@ RSpec.configure do |config|
     begin
       $puma.halt
     rescue
+      # we do not care about exceptions while shutting down puma at this point
     end
   end
 

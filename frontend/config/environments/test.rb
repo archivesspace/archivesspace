@@ -36,4 +36,6 @@ ArchivesSpace::Application.configure do
   config.hosts.clear
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  config.assets.prefix = AppConfig[:frontend_proxy_prefix] + "assets"
 end

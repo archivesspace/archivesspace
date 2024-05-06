@@ -51,6 +51,7 @@ module ASpaceHelpers
     # a repo that has been just created...
     MemoryLeak::Resources.refresh(:repository)
     visit "/"
+    page.has_xpath?("//a[contains(text(), 'Select Repository')]")
     click_link 'Select Repository'
     await_jquery
     find 'ul.dropdown-menu.show'

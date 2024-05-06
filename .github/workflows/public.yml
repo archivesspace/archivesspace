@@ -1,6 +1,25 @@
 name: Public Testing
 
 on:
+  workflow_dispatch:
+    inputs:
+      java-version:
+        description: Java version to run specs on
+        required: true
+        type: choice
+        options:
+          - '8'
+          - '11'
+        default: '11'
+
+  workflow_call:
+    inputs:
+      java-version:
+        description: Java version to run specs on
+        required: true
+        type: string
+        default: '11'
+
   pull_request:
     paths:
       - '.github/workflows/public.yml'
@@ -8,20 +27,12 @@ on:
       - 'common/**'
       - 'solr/**'
       - 'indexer/**'
-  push:
-    branches:
-      - '*___public'
 
 jobs:
-
-  public-tests:
-    name: Public Tests
+  public:
+    name: Public_Java_v${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
-
-    strategy:
-      matrix:
-        java: [ 8, 11 ]
 
     services:
       db:
@@ -35,15 +46,17 @@ jobs:
           - 3307:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       solr:
-        image: solr:8.11
+        image: solr:9.4.1
+        env:
+          SOLR_MODULES: analysis-extras
         ports:
           - 8984:8983
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-java@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
       with:
-        java-version: ${{ matrix.java }}
+        java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }} # https://github.com/actions/runner/issues/2372
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'

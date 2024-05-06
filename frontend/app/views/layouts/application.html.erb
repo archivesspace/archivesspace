@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= AppConfig[:locale] %>">
+<html lang="<%= session[:preferences]&.[]('locale') ? session[:preferences]['locale'] : AppConfig[:locale] %>">
 <head>
   <title><%= t("navbar.brand") %> | <% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -692,6 +692,8 @@ en:
     no_results: No matching results.  Try 'Browse'.
     searching: Searching...
     delete: "&times;"
+    components:
+      browse: Browse Components
 
   mixed_content:
     wrap_prefix: "Wrap with:"
@@ -1147,7 +1149,9 @@ en:
     _frontend:
       action:
         add: Add Agent Link
-        make_primary_tooltip: Make Primary Agent
+        make_primary_tooltip: |
+            <p>Use to indicate which agent linked to the record is the primary agent. Only one linked agent can be designated as primary.</p> 
+            <p>In the MARCXML export, the primary agent will be the 1XX value.</p> 
         make_primary: Make Primary
 
   linked_record:
@@ -1842,6 +1846,7 @@ en:
     calculate_extent: Calculate Extent
     create_extent_record_message: Run the Extent Calculator in edit mode to have the option of creating an extent record based on the report.
     waiting_for_report_message: Calculating extent ...
+    required_fields_alert_message: Please ensure that all required fields contain a value.
     container_summary_type:
       _singular: container
       _plural: containers

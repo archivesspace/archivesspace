@@ -12,10 +12,10 @@ describe JobsController, type: :controller do
   it "only shows modified records section if there are modified records" do
     allow(controller).to receive(:user_must_have).and_return(true)
 
+    allow(JSONModel::HTTP).to receive(:get_json).and_call_original
     allow(JSONModel::HTTP).to receive(:get_json).with(/output_files/).and_return([1, 2, 3])
     allow(JSONModel::HTTP).to receive(:get_json).with("/job_types").and_return({report_job: {cancel_permissions: [], create_permissions: []}})
     allow(JSONModel::HTTP).to receive(:get_json).with("/notifications").and_call_original
-
 
     allow(JSONModel(:job)).to receive(:find).with("1", "resolve[]" => "repository").and_return(mod_job)
     allow(mod_job).to receive(:id).and_return 1

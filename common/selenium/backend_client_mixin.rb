@@ -102,7 +102,7 @@ module BackendClientMethods
       params = { 'lock_version' => '1',
                  'title' => term,
                  'vocabulary' => '/vocabularies/1',
-                 'authority_id' => rand(10_000).to_s,
+                 'authority_id' => SecureRandom.uuid,
                  'source' => 'local',
                  'scope_note' => 'Test',
                  'terms' => [

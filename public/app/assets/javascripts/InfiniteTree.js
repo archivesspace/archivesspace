@@ -188,6 +188,7 @@
      * @returns {DocumentFragment} - DocumentFragment containing the root row
      */
     rootRowMarkup(title) {
+      const titleContent = new MixedContent(title);
       const rootRowFrag = new DocumentFragment();
       const rootRow = document
         .querySelector('#root-row-template')
@@ -198,10 +199,22 @@
         .querySelector('.table-row')
         .setAttribute('data-uri', this.resourceUri);
 
+      rootRow
+        .querySelector('.title')
+        .setAttribute(
+          'title',
+          titleContent.isMixed ? titleContent.derivedString : titleContent.input
+        );
+
       rootRow.querySelector(
         '.record-title'
       ).href = `#tree::resource_${this.resourceId}`;
-      rootRow.querySelector('.record-title').innerHTML = title;
+
+      if (titleContent.isMixed) {
+        rootRow.querySelector('.record-title').innerHTML = titleContent.input;
+      } else {
+        rootRow.querySelector('.record-title').textContent = titleContent.input;
+      }
 
       rootRowFrag.appendChild(rootRow);
 
@@ -253,7 +266,7 @@
     nodeRowMarkup(node, level, shouldObserve, parentId = null, offset = null) {
       const aoId = node.uri.split('/')[4];
       const divId = `archival_object_${aoId}`;
-      const aoTitle = this.nodeTitle(node);
+      const titleContent = new MixedContent(this.nodeTitle(node));
       const aHref = `#tree::${divId}`;
 
       const nodeRowFrag = new DocumentFragment();
@@ -286,7 +299,12 @@
           .setAttribute('data-observe-offset', offset);
       }
 
-      nodeRow.querySelector('.title').setAttribute('title', aoTitle);
+      nodeRow
+        .querySelector('.title')
+        .setAttribute(
+          'title',
+          titleContent.isMixed ? titleContent.derivedString : titleContent.input
+        );
 
       if (node.child_count == 0) {
         nodeRow.querySelector('.expandme').style.visibility = 'hidden';
@@ -303,7 +321,9 @@
           .setAttribute('aria-expanded', 'false');
       }
 
-      nodeRow.querySelector('.sr-only').textContent = aoTitle;
+      nodeRow.querySelector('.sr-only').textContent = titleContent.isMixed
+        ? titleContent.derivedString
+        : titleContent.input;
 
       if (node.has_digital_instance) {
         const iconHtml = `<i class="has_digital_instance fa fa-file-image-o" aria-hidden="true"></i>`;
@@ -313,7 +333,12 @@
       }
 
       nodeRow.querySelector('.record-title').setAttribute('href', aHref);
-      nodeRow.querySelector('.record-title').textContent = aoTitle;
+
+      if (titleContent.isMixed) {
+        nodeRow.querySelector('.record-title').innerHTML = titleContent.input;
+      } else {
+        nodeRow.querySelector('.record-title').textContent = titleContent.input;
+      }
 
       nodeRowFrag.appendChild(nodeRow);
 

@@ -3,11 +3,24 @@ $(function () {
 
   ExtentCalculatorForm.prototype.init_form = function () {
     $('.create-extent-btn').on('click', function (event) {
+      if (
+        !(
+          $('#extent_portion_').val() &&
+          $('#extent_number_').val() &&
+          $('#extent_extent_type_').val()
+        )
+      ) {
+        alert($('#required_fields_alert_message').attr('message'));
+        return;
+      }
+
       var parent_id = '';
       if ($('#resource_extents_').length) {
         parent_id = '#resource_extents_';
       } else if ($('#accession_extents_').length) {
         parent_id = '#accession_extents_';
+      } else if ($('#archival_object_extents_').length) {
+        parent_id = '#archival_object_extents_';
       }
       $(parent_id + ' .subrecord-form-heading .btn').click();
 

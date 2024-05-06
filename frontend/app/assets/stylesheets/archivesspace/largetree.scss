@@ -90,11 +90,6 @@
     .drag-handle {
       width: 2em;
     }
-    .drag-handle__span {
-      position: absolute;
-      height: 2em;
-      width: 2em;
-    }
     .drag-handle.drag-disabled {
       visibility: hidden;
     }

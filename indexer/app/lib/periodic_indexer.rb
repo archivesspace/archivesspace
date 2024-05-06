@@ -167,9 +167,8 @@ class PeriodicIndexer < IndexerCommon
       index_records(updated_repositories)
       repositories_updated_action(updated_repositories)
       send_commit
+      @state.set_last_mtime('repositories', 'repositories', start)
     end
-
-    @state.set_last_mtime('repositories', 'repositories', start)
 
     # And any records in any repositories
     repositories.each_with_index do |repository, i|
@@ -279,9 +278,8 @@ class PeriodicIndexer < IndexerCommon
 
     if did_something
       send_commit
+      @state.set_last_mtime('_deletes', 'deletes', start)
     end
-
-    @state.set_last_mtime('_deletes', 'deletes', start)
   end
 
   def run

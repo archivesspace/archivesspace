@@ -4,11 +4,11 @@
       # ANW-1722 additional file version display rules
       data_url_text = t('digital_object._public.url_encoded_data')
       uri_text = fv['file_uri'].starts_with?('data:') ? data_url_text : fv['file_uri']
-      fv_markup = "<a href='#{fv['file_uri']}'>#{uri_text}</a>"
+      fv_markup = "<a href='#{fv['file_uri']}' target='new' title='Link to digital object'>#{uri_text}</a>"
       if fv['caption'] && !fv['caption'].empty?
-        fv_markup = "<a href='#{fv['file_uri']}'>#{fv['caption']}</a>"
+        fv_markup = "<a href='#{fv['file_uri']}' target='new' title='Link to digital object'>#{fv['caption']}</a>"
       elsif fv['use_statement'] && !fv['use_statement'].empty?
-        fv_markup = "<a href='#{fv['file_uri']}'>#{fv['use_statement']}</a>"
+        fv_markup = "<a href='#{fv['file_uri']}' target='new' title='Link to digital object'>#{fv['use_statement']}</a>"
       end
     %>
     <li data-additional-file-version>

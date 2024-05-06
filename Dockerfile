@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 as build_release
+FROM ubuntu:22.04 as build_release
 
 # Please note: Docker is not supported as an install method.
 # Docker configuration is being used for internal purposes only.
@@ -7,43 +7,47 @@ FROM ubuntu:20.04 as build_release
 # warning or presence in release notes.
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    TZ=UTC
+  JDK_JAVA_OPTIONS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED" \
+  TZ=UTC
 
 RUN apt-get update && \
-    apt-get -y install --no-install-recommends \
-      build-essential \
-      git \
-      openjdk-11-jre-headless \
-      shared-mime-info \
-      wget \
-      nodejs \
-      unzip
+  apt-get -y install --no-install-recommends \
+  build-essential \
+  git \
+  nodejs \
+  openjdk-17-jre-headless \
+  shared-mime-info \
+  wget \
+  unzip
 
 COPY . /source
 
 RUN cd /source && \
-    ARCHIVESSPACE_VERSION=${SOURCE_BRANCH:-`git symbolic-ref -q --short HEAD || git describe --tags --match v*`} && \
-    ARCHIVESSPACE_VERSION=${ARCHIVESSPACE_VERSION#"heads/"} && \
-    echo "Using version: $ARCHIVESSPACE_VERSION" && \
-    ./build/run bootstrap && \
-    ./scripts/build_release $ARCHIVESSPACE_VERSION && \
-    mv ./*.zip / && \
-    cd / && \
-    unzip /*.zip -d / && \
-    wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar && \
-    cp /mysql-connector-java-8.0.23.jar /archivesspace/lib/
+  ARCHIVESSPACE_VERSION=${SOURCE_BRANCH:-`git symbolic-ref -q --short HEAD || git describe --tags --match v*`} && \
+  ARCHIVESSPACE_VERSION=${ARCHIVESSPACE_VERSION#"heads/"} && \
+  echo "Using version: $ARCHIVESSPACE_VERSION" && \
+  ./build/run bootstrap && \
+  ./scripts/build_release $ARCHIVESSPACE_VERSION && \
+  mv ./*.zip / && \
+  cd / && \
+  unzip /*.zip -d / && \
+  wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar && \
+  cp /mysql-connector-java-8.0.23.jar /archivesspace/lib/
 
 ADD docker-startup.sh /archivesspace/startup.sh
 RUN chmod u+x /archivesspace/startup.sh
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
-    DEBIAN_FRONTEND=noninteractive \
-    LANG=C.UTF-8 \
-    TZ=UTC
+  ASPACE_GC_OPTS="-XX:+UseG1GC -XX:NewRatio=1" \
+  DEBIAN_FRONTEND=noninteractive \
+  JDK_JAVA_OPTIONS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED" \
+  LANG=C.UTF-8 \
+  LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2 \
+  TZ=UTC
 
 COPY --from=build_release /archivesspace /archivesspace
 
@@ -51,7 +55,8 @@ RUN apt-get update && \
     apt-get -y install --no-install-recommends \
       ca-certificates \
       git \
-      openjdk-11-jre-headless \
+      libjemalloc-dev \
+      openjdk-17-jre-headless \
       netbase \
       shared-mime-info \
       wget \

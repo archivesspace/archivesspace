@@ -191,11 +191,6 @@ GEM
     mime-types-data (3.2023.0218.1)
     mini_mime (1.1.2)
     minitest (5.18.0)
-    mizuno-aspace (9.4.44)
-      childprocess (>= 0.2.6)
-      choice (>= 0.1.0)
-      ffi (>= 1.0.0)
-      rack (>= 1.0.0)
     multi_json (1.15.0)
     multipart-post (1.2.0)
     net-http-digest_auth (1.4.1)
@@ -229,7 +224,7 @@ GEM
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     public_suffix (5.0.1)
-    puma (6.3.0-java)
+    puma (6.4.2-java)
       nio4r (~> 2.0)
     racc (1.7.0-java)
     rack (2.2.7)
@@ -369,7 +364,7 @@ DEPENDENCIES
   bootstrap (~> 4.3.0)
   capybara
   capybara-screenshot
-  coffee-rails
+  coffee-rails (= 4.2.2)
   coffee-script
   coffee-script-source
   dumb_delegator
@@ -384,7 +379,6 @@ DEPENDENCIES
   json-schema (= 1.0.10)
   loofah
   mechanize
-  mizuno-aspace
   multi_json (~> 1.15.0)
   multipart-post (= 1.2.0)
   net-http-persistent (>= 4.0.1)

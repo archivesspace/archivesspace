@@ -3,5 +3,12 @@
 <% end %>
 <span class="<%= span_class %>">
   <%= badge_for_type badge_type %>
-  <%= link_to body, url %>
+
+  <% # there could be styling on this title and we can't have it inside the anchor tag %>
+  <% if body.include? '<span' %>
+    <% tag = Nokogiri::HTML::DocumentFragment.parse(body) %>
+    <span class="<%= tag.css('span').attr('class') %>"> <%= link_to tag.content, url %> </span>
+  <% else %>
+    <%= link_to body, url %>
+  <% end %>
 </span>

@@ -1,0 +1,132 @@
+name: Frontend Testing
+
+on:
+  workflow_call:
+    inputs:
+      run-cmd:
+        required: true
+        type: string
+      name:
+        required: true
+        type: string
+      java-version:
+        required: true
+        type: string
+        default: 11
+
+jobs:
+  start-runner:
+    name: Start self-hosted EC2 runner
+    runs-on: ubuntu-latest
+    outputs:
+      label: ${{ steps.start-ec2-runner.outputs.label }}
+      ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      - name: Start EC2 runner
+        id: start-ec2-runner
+        uses: esteve/ec2-github-runner@07e593ad9fd5b91a5acf02359214b0e955d5990e
+        with:
+          mode: start # this calls /home/ubuntu/actions-runner/svc.sh that has been patched in our AMI to always start the service as user ubuntu
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          ec2-image-id: ami-0b9db2ac21c1e7e6e
+          ec2-instance-type: m5.xlarge
+          subnet-id: subnet-09ac54ce4d96a9039
+          security-group-id: sg-0aaee00f05df87e50
+          run-runner-as-user: 'ubuntu'
+          aws-resource-tags: > # optional, requires additional permissions
+            [
+              {"Key": "Name", "Value": "ec2-github-runner"},
+              {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
+            ]
+
+  stop-runner:
+    name: Stop self-hosted EC2 runner
+    needs:
+      - start-runner # to get output from the start-runner job
+      - frontend # required to wait when the main job of running the specs is done
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      - name: Stop EC2 runner
+        uses: esteve/ec2-github-runner@07e593ad9fd5b91a5acf02359214b0e955d5990e
+        with:
+          mode: stop
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          label: ${{ needs.start-runner.outputs.label }}
+          ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
+
+  frontend:
+    name: Frontend specs ${{ inputs.name }} on Java ${{ inputs.java-version }}
+    needs:
+      - start-runner
+    runs-on: ${{ needs.start-runner.outputs.label }}
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    services:
+      db:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: archivesspace
+          MYSQL_USER: as
+          MYSQL_PASSWORD: as123
+        ports:
+          - 3307:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=9s --health-retries=10
+      solr:
+        image: solr:9.4.1
+        env:
+          SOLR_MODULES: analysis-extras
+        ports:
+          - 8984:8983
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        java-version: ${{ inputs.java-version || vars.DEFAULT_JAVA_VERSION }}
+        distribution: temurin
+
+    - uses: './.github/actions/bootstrap'
+
+    - name: Allow ArchivesSpace functions for app db user
+      env:
+        DB_PORT: "3307"
+      run: |
+        mysql --host 127.0.0.1 --port $DB_PORT -uroot -proot -e 'SET GLOBAL log_bin_trust_function_creators = 1;'
+
+    - name: Copy solr config from workspace to solr service
+      env:
+        SOLR_ID: ${{ job.services.solr.id }}
+      run: |
+        docker cp solr $SOLR_ID:/solr_conf_from_repo
+
+    - name: Create ArchivesSpace Solr core
+      env:
+        SOLR_ID: ${{ job.services.solr.id }}
+      run: |
+        docker exec --tty $SOLR_ID solr create_core -p 8983 -c archivesspace -d /solr_conf_from_repo
+
+    - name: Run Frontend tests
+      run: ${{ inputs.run-cmd }}
+      env:
+        ARCHIVESSPACE_VERSION: ${{ github.ref }}
+        HOME: "/home/ubuntu"
+
+    - uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: failed_spec_saved_pages(${{ inputs.name }})_Java_${{ inputs.java-version }}
+        path: 'frontend/tmp/capybara'

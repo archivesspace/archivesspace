@@ -6,7 +6,6 @@ require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'rails-controller-testing'
 require 'selenium-webdriver'
-require_relative 'selenium/common/webdriver'
 require 'aspace_helper'
 
 CHROME_OPTS  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=1920x1080,--no-sandbox,--disable-dev-shm-usage,--remote-debugging-port=9222').split(',')
@@ -26,10 +25,20 @@ end
 
 # Firefox
 Capybara.register_driver :firefox do |app|
+  profile = Selenium::WebDriver::Firefox::Profile.new
+  profile['webdriver.log.level'] = 'ALL'
+  profile['browser.download.dir'] = Dir.tmpdir
+  profile['browser.download.folderList'] = 2
+  profile['browser.helperApps.alwaysAsk.force'] = false
+  profile['browser.helperApps.neverAsk.saveToDisk'] = 'application/msword, application/csv, application/pdf, application/xml,  application/ris, text/csv, image/png, application/pdf, text/html, text/plain, application/zip, application/x-zip, application/x-zip-compressed'
+  profile['pdfjs.disabled'] = true
+  options = Selenium::WebDriver::Firefox::Options.new(args: FIREFOX_OPTS)
+  options.profile = profile
+
   Capybara::Selenium::Driver.new(
     app,
     browser: :firefox,
-    options: Selenium::WebDriver::Firefox::Options.new(args: FIREFOX_OPTS)
+    options: options
   )
 end
 
@@ -39,7 +48,25 @@ else
   Capybara.javascript_driver = :firefox
 end
 
-Capybara.raise_server_errors = true
+# This should change once the app gets to a point where it's not just throwing
+# tons of errors...
+Capybara.raise_server_errors = false
+
+# Html pages saved after Capybara spec failures will reference this to load assets
+# so running a local dev server will help displaying the page correctly in a browser
+Capybara.asset_host = 'http://localhost:3000/'
+
+Capybara::Screenshot.register_driver(:chrome) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
+
+Capybara::Screenshot.register_driver(:firefox) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
+
+# keep the last 30 screenshots / pages of capybara spec failures
+Capybara::Screenshot.prune_strategy = :keep_last_run
+
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
@@ -48,12 +75,25 @@ RSpec.configure do |config|
   config.include ASpaceHelpers
 end
 
-# We use the Mizuno server.
-# Capybara.register_server :mizuno do |app, port, host|
-#   require 'rack/handler/mizuno'
-#   Rack::Handler.get('mizuno').run(app, port: port, host: host)
-# end
-# Capybara.server = :mizuno
+# Puma server
+$puma = nil
+Capybara.register_server :as_puma do |app, port, host|
+  require 'rack/handler/puma'
+  options = { Host: host, Port: port, Threads: '1:8', workers: 0, daemon: false }
+  conf = Rack::Handler::Puma.config(app, options)
+  $puma = Puma::Server.new(
+    conf.app,
+    nil,
+    conf.options
+  ).tap do |s|
+    s.binder.parse conf.options[:binds], (s.log_writer rescue s.events) # rubocop:disable Style/RescueModifier
+    s.min_threads, s.max_threads = conf.options[:min_threads], conf.options[:max_threads] if s.respond_to? :min_threads=
+  end
+  $puma.run.join
+end
+Capybara.server = :as_puma
+
+Capybara.default_max_wait_time = 10
 
 # Puma server
 $puma = nil

@@ -21,7 +21,7 @@
     <dt><%= I18n.t('resource._public.identifier_pdf') %>:</dt><dd><%= record.identifier %></dd>
 
     <% if record['ark_name'] %> 
-      <dt><%= I18n.t('resource._public.identifier_ark') %>:</dt><dd><%= record['ark_name'].first %></dd>
+      <dt><%= I18n.t('resource._public.identifier_ark') %>:</dt><dd><a href='<%= record['ark_name'].first %>'>Archival Resource Key</a></dd>
 
     <% end %> 
 
@@ -46,6 +46,15 @@
 
     <% record.notes.each do |note_type, note| %>
         <% if note_type == 'physdesc' %>
+            <a id="note-<%= note_type %>"></a>
+            <% note.each do |n| %>
+              <dt><%= n['label'] ? n['label'] : I18n.t("enumerations._note_types.#{note_type}") %>:</dt><dd><%== process_mixed_content(n['note_text']) %></dd>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <% record.notes.each do |note_type, note| %>
+        <% if note_type == 'langmaterial' %>
             <a id="note-<%= note_type %>"></a>
             <% note.each do |n| %>
               <dt><%= n['label'] ? n['label'] : I18n.t("enumerations._note_types.#{note_type}") %>:</dt><dd><%== process_mixed_content(n['note_text']) %></dd>
@@ -211,13 +220,15 @@
   <% next if note_type == "scopecontent" %> 
   <% next if note_type == "relatedmaterial" %> 
   <% next if note_type == "odd" %> 
+  <% next if note_type == "arrangement" %> 
+  <% next if note_type == "prefercite" %> 
 
   <% record.notes[note_type].each do |n| %>
     <% next unless n['subnotes'] %>
     <% n['subnotes'].each do |sn| %>
       <% next unless sn['content'] %>
       <h4><%= I18n.t("enumerations._note_types.#{note_type}") %></h4>
-      <p><%= sn['content'] %></p>
+      <p><%= simple_format(sn['content']) %></p>
     <% end %>
   <% end %>
 <% end %>

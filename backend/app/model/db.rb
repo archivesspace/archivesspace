@@ -24,10 +24,11 @@ class DB
   class DBPool
     DATABASE_READ_ONLY_REGEX = /is read only|server is running with the --read-only option/
 
-    attr_reader :pool_size
+    attr_reader :pool_size, :pool_timeout
 
-    def initialize(pool_size = AppConfig[:db_max_connections], opts = {})
+    def initialize(pool_size = AppConfig[:db_max_connections], pool_timeout = AppConfig[:db_pool_timeout], opts = {})
       @pool_size = pool_size
+      @pool_timeout = pool_timeout
       @opts = opts
 
       @lock = Mutex.new
@@ -44,6 +45,7 @@ class DB
           Log.info("Connecting to database: #{AppConfig[:db_url_redacted]}. Max connections: #{pool_size}")
           pool = Sequel.connect(AppConfig[:db_url],
                                 :max_connections => pool_size,
+                                :pool_timeout => pool_timeout,
                                 :test => true,
                                 :loggers => (AppConfig[:db_debug_log] ? [Logger.new($stderr)] : [])
                                )
@@ -268,7 +270,7 @@ class DB
     end
 
     def sysinfo
-      jdbc_metadata.merge(system_metadata)
+      jdbc_metadata.merge(system_metadata).merge({ "archivesSpaceVersion" => ASConstants.VERSION})
     end
 
 
@@ -280,7 +282,10 @@ class DB
 
     def system_metadata
       RbConfig.const_get("CONFIG").select { |key| ['host_os', 'host_cpu',
-                                                   'build', 'ruby_version'].include? key }
+                                                   'build', 'ruby_version'].include? key }.merge({
+                                                      'java.runtime.name' => java.lang.System.getProperty('java.runtime.name'),
+                                                      'java.version' => java.lang.System.getProperty('java.version')
+                                                    })
     end
 
     def needs_savepoint?

@@ -79,14 +79,6 @@ Capybara.register_server :as_puma do |app, port, host|
 end
 Capybara.server = :as_puma
 
-# We use the Mizuno server.
-# Capybara.register_server :mizuno do |app, port, host|
-#   require 'rack/handler/mizuno'
-#   Rack::Handler.get('mizuno').run(app, port: port, host: host)
-# end
-# Capybara.server = :mizuno
-
-
 def finished_all_ajax_requests?
   request_count = page.evaluate_script('$.active').to_i
   request_count && request_count.zero?

@@ -55,7 +55,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'mizuno-aspace'
+  gem 'puma'
 end
 
 group :test do
