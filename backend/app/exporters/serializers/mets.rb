@@ -24,12 +24,12 @@ class METSSerializer < ASpaceExport::Serializer
   private
 
   def mets(data, xml, dmd = "mods")
-    xml.mets('xmlns' => 'https://www.loc.gov/METS/',
-             'xmlns:mods' => 'https://www.loc.gov/mods/v3',
-             'xmlns:dc' => 'https://purl.org/dc/elements/1.1/',
-             'xmlns:xlink' => 'https://www.w3.org/1999/xlink',
-             'xmlns:xsi' => "https://www.w3.org/2001/XMLSchema-instance",
-             'xsi:schemaLocation' => "https://www.loc.gov/METS/ https://www.loc.gov/standards/mets/mets.xsd") {
+    xml.mets('xmlns' => 'http://www.loc.gov/METS/',
+             'xmlns:mods' => 'http://www.loc.gov/mods/v3',
+             'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
+             'xmlns:xlink' => 'http://www.w3.org/1999/xlink',
+             'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
+             'xsi:schemaLocation' => "http://www.loc.gov/METS/ https://www.loc.gov/standards/mets/mets.xsd") {
       xml.metsHdr(:CREATEDATE => Time.now.iso8601) {
         xml.agent(:ROLE => data.header_agent_role, :TYPE => data.header_agent_type) {
           xml.name data.header_agent_name
