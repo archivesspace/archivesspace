@@ -15,10 +15,10 @@ class MARCAuthSerializer < ASpaceExport::Serializer
   def _marc(obj, xml)
     json = obj.json
     xml.collection(
-      'xmlns' => 'https://www.loc.gov/MARC21/slim',
-      'xmlns:marc' => 'https://www.loc.gov/MARC21/slim',
-      'xmlns:xsi' => 'https://www.w3.org/2001/XMLSchema-instance',
-      'xsi:schemaLocation' => 'https://www.loc.gov/MARC21/slim https://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd'
+      'xmlns' => 'http://www.loc.gov/MARC21/slim',
+      'xmlns:marc' => 'http://www.loc.gov/MARC21/slim',
+      'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+      'xsi:schemaLocation' => 'http://www.loc.gov/MARC21/slim https://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd'
     ) do
       xml.record do
         _leader(json, xml)

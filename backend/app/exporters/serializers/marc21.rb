@@ -33,10 +33,10 @@ class MARCSerializer < ASpaceExport::Serializer
   private
 
   def _root(marc, xml)
-    xml.collection('xmlns'              => 'https://www.loc.gov/MARC21/slim',
-                   'xmlns:marc'         => 'https://www.loc.gov/MARC21/slim',
-                   'xmlns:xsi'          => 'https://www.w3.org/2001/XMLSchema-instance',
-                   'xsi:schemaLocation' => 'https://www.loc.gov/MARC21/slim https://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd') {
+    xml.collection('xmlns'              => 'http://www.loc.gov/MARC21/slim',
+                   'xmlns:marc'         => 'http://www.loc.gov/MARC21/slim',
+                   'xmlns:xsi'          => 'http://www.w3.org/2001/XMLSchema-instance',
+                   'xsi:schemaLocation' => 'http://www.loc.gov/MARC21/slim https://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd') {
 
       xml.record {
 
