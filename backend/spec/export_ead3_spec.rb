@@ -212,7 +212,8 @@ describe "EAD3 export mappings" do
         @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true&include_uri_unitids=true&ead3=true")
         @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
         @doc_nsless.remove_namespaces!
-        @doc_no_uri = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true&include_uri_unitids=false")
+        @doc_uri_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true&include_uri_unitids=false")
+        @doc_no_uri_param_present = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
 
         raise Sequel::Rollback
       end
@@ -422,7 +423,11 @@ describe "EAD3 export mappings" do
     end
 
     it "does not map {archival_object}.uri to {desc_path}/did/unitid[@type='aspace_uri'] if flag disabled" do
-      expect(@doc_no_uri).not_to have_node(desc_path + "/did/unitid[@type='aspace_uri']")
+      expect(@doc_uri_disabled).not_to have_node(desc_path + "/did/unitid[@type='aspace_uri']")
+    end
+
+    it "does maps {archival_object}.uri to {desc_path}/did/unitid[@type='aspace_uri'] if flag not present" do
+      expect(@doc_no_uri_param_present).to have_node(desc_path + "/did/unitid[@type='aspace_uri']")
     end
 
     it "maps {archival_object}.(id_[0-3]|component_id) to {desc_path}/did/unitid" do
