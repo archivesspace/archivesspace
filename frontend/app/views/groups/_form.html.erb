@@ -29,19 +29,22 @@
   <fieldset>
     <legend class="control-label col-xs-2"><%= I18n.t("group.permissions") %></legend>
     <div class="col-xs-10">
-      <% JSONModel(:permission).all(:level => "repository").each do |permission| %>
+      <% JSONModel(:permission).all(:level => "repository").map { |permission|
+        [permission.permission_code, I18n.t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code)]
+      }.sort_by { |a| a[1] }.each do |permission_code, permission_label|
+      %>
         <div class="input-group">
           <span class="input-group-addon">
-            <input id="<%= permission.permission_code %>"
-                   name="group[grants_permissions][]"
-                   type="checkbox"
-            <% if @group.grants_permissions.include?(permission.permission_code) %>
-                   checked="checked"
-            <% end %>
-                   value="<%= permission.permission_code %>" />
+            <input id="<%= permission_code %>"
+               name="group[grants_permissions][]"
+               type="checkbox"
+               <% if @group.grants_permissions.include?(permission_code) %>
+                 checked="checked"
+               <% end %>
+               value="<%= permission_code %>" />
           </span>
-          <label class="form-control" for="<%= permission.permission_code %>" disabled>
-            <%= I18n.t("group.permission_types.#{permission.permission_code}", :default => permission.permission_code) %>
+          <label class="form-control permission-label" for="<%= permission_code %>" disabled>
+            <%= permission_label %>
           </label>
         </div>
       <% end %>

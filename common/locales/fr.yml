@@ -1571,46 +1571,41 @@ fr:
       <p>Membres appartenant à ce groupe.</p>
     permissions: "Les membres peuvent:"
     permission_types:
-      show_full_agents: travailler avec des agents en mode complet
-      manage_repository: gérer ce service d'archives (modifier groupes et autres préférences)
-      update_location_record: créer/modifier/supprimer des notices de localisations dans ce service d'archives
-      update_subject_record: créer/actualiser des notices matières
-      update_agent_record: créer/actualiser des notices agents
-      view_agent_contact_record: afficher les coordonnées des enregistrements d'agent
-      update_vocabulary_record: créer/actualiser des notices de vocabulaire
-      update_accession_record: créer/actualiser des entrées dans ce service d'archives
-      update_resource_record: créer/actualiser des ressources dans ce service d'archives
-      update_digital_object_record: créer/actualiser des objets numériques dans ce service d'archives
-      update_event_record: créer/actualiser des notices événements dans ce service d'archives
-      view_repository: voir les notices dans ce service d'archives
-      view_suppressed: voir les notices bloquées dans ce service d'archives
-      suppress_archival_record: bloquer les principaux types de notices dans ce service d'archives
-      delete_archival_record: supprimer les principaux types de notices dans ce service d'archives
-      delete_event_record: supprimer des notices événements dans ce service d'archives
-      update_classification_record: créer/actualiser des classements et termes de classements
-      delete_classification_record: supprimer des classements et termes de classements
-      merge_agents_and_subjects: fusionner des notices agent/matière
-      merge_archival_record: fusionner les principaux types de notices dans ce service d'archives
-      manage_rde_templates: gérer les modèles RDE
-      transfer_repository: transférer le contenu entier d'un service d'archives
-      transfer_archival_record: transférer les principaux types de notices d'un service d'archives vers
-        un autre
-      manage_subject_record: créer/actualiser/supprimer des notices matières
-      manage_agent_record: créer/actualiser/supprimer des notices agents
-      manage_vocabulary_record: créer/actualiser/supprimer des notices vocabulaire
-      import_records: lancer des tâches d'import
-      cancel_importer_job: annuler une tâche d'import
-      update_container_record: créer/actualiser des notices de conditionnements
-      manage_container_record: supprimer/actualiser en masse des notices de conditionnements
-      manage_container_profile_record: créer/actualiser/supprimer des notices de profils de conditionnements
-      manage_location_profile_record: créer/actualiser/supprimer des notices de profils localisations
-      create_job: créer et lancer une tâche d'arrière-plan
-      cancel_job: annuler une tâche d'arrière-plan
-      update_assessment_record: créer/actualiser des notices d'évaluation
-      delete_assessment_record: supprimer des notices d'évaluation
-      manage_assessment_attributes: créer/mettre à jour/supprimer des définitions d'attributs d'évaluation
-        du service
-      manage_enumeration_record: créer/mettre à jour/supprimer des notices de valeurs contrôlées
+      manage_repository: attribuer des <b>utilisateurs</b> à des groupes (dans ce référentiel)<br/>définir les autorisations <b>de groupe</b> (dans ce référentiel)<br/>définir les <b>préférences du référentiel</b> ( dans ce référentiel)<br/>configurer les <b>champs obligatoires et les valeurs par défaut</b> (dans ce référentiel)<br/>créer et exécuter des <b>tâches de recherche et de remplacement par lots</b> (dans ce référentiel) <br/>créer/mettre à jour/supprimer des <b>emplacements</b> (à l'échelle du système)
+      view_agent_contact_record: modifier/afficher la section des coordonnées des <b>agents</b> (dans ce référentiel)
+      show_full_agents: modifier des sections supplémentaires des <b>agents</b> activés en mode complet (dans ce référentiel)
+      update_accession_record: créer/mettre à jour les <b>adhésions</b> (dans ce référentiel)
+      update_resource_record: créer/mettre à jour des <b>ressources</b> (dans ce référentiel)
+      update_digital_object_record: créer/mettre à jour des <b>objets numériques</b> (dans ce référentiel)
+      update_event_record: créer/mettre à jour des <b>événements</b> (dans ce référentiel)
+      view_repository: afficher <b>tous les enregistrements</b> (dans ce référentiel)<br/>afficher les <b>agents</b> (à l'échelle du système)<br/>afficher les <b>sujets</b> (à l'échelle du système)
+      view_suppressed: afficher les <b>enregistrements supprimés</b> (dans ce référentiel)
+      suppress_archival_record: supprimer les <b>adhésions, objets d'archives et ressources</b> (dans ce référentiel)
+      delete_archival_record: supprimer les <b>adhésions, objets d'archives, objets et ressources numériques</b> (dans ce référentiel)
+      delete_event_record: supprimer les <b>événements</b> (dans ce référentiel)
+      update_classification_record: créer/mettre à jour des <b>classifications</b> (dans ce référentiel)
+      delete_classification_record: supprimer les <b>classifications</b> (dans ce référentiel)
+      merge_agents_and_subjects: fusionner les <b>agents</b> (à l'échelle du système)<br/>fusionner les <b>sujets</b> (à l'échelle du système)
+      merge_archival_record: fusionner des <b>objets numériques</b> (dans ce référentiel)</br>fusionner des <b>ressources</b> (dans ce référentiel)
+      manage_rde_templates: créer/supprimer des <b>modèles de saisie rapide de données</b> (dans ce référentiel)
+      transfer_repository: transférer <b>l'intégralité du contenu de ce référentiel</b> vers un autre référentiel (doit également avoir la même autorisation dans le référentiel de destination)
+      transfer_archival_record: transférer des <b>entrées, objets numériques et ressources</b> individuels vers un autre référentiel (doit également avoir l'autorisation de créer/mettre à jour des enregistrements du type transféré dans les deux référentiels)
+      manage_subject_record: créer/mettre à jour/supprimer des <b>sujets</b> (à l'échelle du système)
+      manage_agent_record: créer/mettre à jour/supprimer des <b>agents</b> (à l'échelle du système)
+      manage_vocabulary_record: créer/mettre à jour/supprimer des <b>vocabulaires</b> (à l'échelle du système)
+      import_records: créer/exécuter des <b>tâches d'importation</b> (dans ce référentiel)
+      cancel_importer_job: annuler les <b>tâches d'importation</b> (dans ce référentiel)
+      update_container_record: créer/mettre à jour les <b>top conteneurs</b> (dans ce référentiel)
+      manage_container_record: supprimer/mettre à jour en masse les <b>principaux conteneurs</b> (dans ce référentiel)
+      manage_container_profile_record: créer/mettre à jour/supprimer des <b>profils de conteneur</b> (à l'échelle du système)
+      manage_location_profile_record: créer/mettre à jour/supprimer des <b>profils d'emplacement</b> (à l'échelle du système)
+      create_job: créer/exécuter des <b>tâches en arrière-plan</b> (dans ce référentiel)
+      cancel_job: annuler les <b>tâches en arrière-plan</b> (dans ce référentiel)
+      update_assessment_record: créer/mettre à jour des <b>évaluations</b> (dans ce référentiel)
+      delete_assessment_record: supprimer les <b>évaluations</b> (dans ce référentiel)
+      manage_assessment_attributes: créer/mettre à jour/supprimer des <b>définitions d'attributs d'évaluation du référentiel</b> (dans ce référentiel)
+      manage_enumeration_record: créer/mettre à jour/supprimer des <b>valeurs contrôlées</b> (à l'échelle du système)
+      manage_custom_report_templates: créer/mettre à jour/supprimer des <b>modèles de rapport personnalisés</b> (dans ce référentiel)
     _singular: Groupe
     _plural: Groupes
 

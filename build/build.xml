@@ -29,6 +29,12 @@
   <property name="aspace.public.port" value="3001" />
   <property name="aspace.db_url.dev" value="jdbc:mysql://127.0.0.1:3306/archivesspace?useUnicode=true&amp;characterEncoding=UTF-8&amp;user=as&amp;password=as123&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
   <property name="aspace.db_url.test" value="jdbc:mysql://127.0.0.1:3307/archivesspace?useUnicode=true&amp;characterEncoding=UTF-8&amp;user=as&amp;password=as123&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
+  <property name="aspace.db_host.test" value="127.0.0.1" />
+  <property name="aspace.db_port.test" value="3307" />
+  <property name="aspace.db_name.test" value="archivesspace" />
+  <property name="aspace.db_user.test" value="as" />
+  <property name="aspace.db_password.test" value="as123" />
+  <property name="aspace.db_root_password.test" value="123456" />
   <property name="aspace.solr_url.dev" value="http://127.0.0.1:8983/solr/archivesspace" />
   <property name="aspace.solr_url.test" value="http://127.0.0.1:8984/solr/archivesspace" />
   <property name="aspace.data_directory.dev" value="${basedir}/../build/dev" />
@@ -544,6 +550,18 @@
     </java>
   </target>
 
+  <target name="db:dump:test" description="Create a new dump of the test database">
+    <exec dir="${basedir}" executable="mysqldump"  newenvironment="false" failonerror="true" logError="true" output="../frontend/spec/fixtures/archivesspace-test.sql">
+      <arg line="--host='${aspace.db_host.test}' --port='${aspace.db_port.test}' -u root -p${aspace.db_root_password.test} ${aspace.db_name.test}"/>
+    </exec>
+  </target>
+
+  <target name="db:load:test" description="Create a new dump of the test database">
+    <exec dir="${basedir}" executable="mysql"  newenvironment="false" failonerror="true" input="../frontend/spec/fixtures/archivesspace-test.sql">
+      <arg line="--host='${aspace.db_host.test}' --port='${aspace.db_port.test}' -u ${aspace.db_user.test} -p${aspace.db_password.test} ${aspace.db_name.test}"/>
+    </exec>
+  </target>
+
   <!-- DOCS -->
   <target name="doc:api" depends="set-classpath, bootstrap-jruby" description="Generate markdown for API documentation">
     <antcall target="bundler">
@@ -673,8 +691,6 @@
     </java>
   </target>
 
-  <!-- Note: Selenium tests for frontend are not currently included
-   in coverage reports -->
   <target name="frontend:coverage" depends="set-classpath, frontend:clean, frontend:test" description="Generate coverage reports for the frontend">
   </target>
 
@@ -696,25 +712,12 @@
       <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost:3000" />
       <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost:3001" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
-      <arg line="script/rails s mizuno -b 0.0.0.0 --port=${aspace.frontend.port}" />
+      <arg line="script/rails s puma -b 0.0.0.0 --port=${aspace.frontend.port}" />
     </java>
     <record name="frontend_test_log.out" action="stop" />
   </target>
 
-  <target name="frontend:selenium" depends="set-classpath, frontend:clean, setup-integration" description="Run the Selenium tests">
-    <dirset id="plugins" dir="../plugins">
-      <include name="**/selenium"/>
-    </dirset>
-    <pathconvert pathsep=" " property="plugin-selenium-dirs" refid="plugins"/>
-    <antcall target="rspec">
-      <param name="dir" value="../frontend" />
-      <param name="spec" value="selenium/spec" />
-      <param name="order" value="defined" />
-      <param name="extra-spec-paths" value="${plugin-selenium-dirs}"/>
-    </antcall>
-  </target>
-
-  <target name="frontend:test" depends="set-classpath, frontend:clean, setup-integration" description="Run the non-Selenium unit test suite">
+  <target name="frontend:test" depends="set-classpath, frontend:clean, setup-integration" description="Run the non-capybara unit test suite">
     <property name="tag" value="~db"/>
     <antcall target="rspec">
       <param name="dir" value="../frontend" />
@@ -812,7 +815,7 @@
       <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost:3000" />
       <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost:3001" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
-      <arg line="bin/rails s mizuno -b 0.0.0.0 --port=${aspace.public.port}" />
+      <arg line="bin/rails s puma -b 0.0.0.0 --port=${aspace.public.port}" />
     </java>
   </target>
 
@@ -855,7 +858,7 @@
   </target>
 
   <!-- Prepares all tests to be run -->
-  <target name="setup-integration" depends="db:nuke:test, db:migrate:test, solr:reset:test" description="Prepare to run integration tests">
+  <target name="setup-integration" depends="db:nuke:test, db:load:test, db:migrate:test, solr:reset:test" description="Prepare to run integration tests">
   </target>
 
   <target name="solr:reset" description="Delete all documents from Solr">

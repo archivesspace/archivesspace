@@ -6,7 +6,6 @@ require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'rails-controller-testing'
 require 'selenium-webdriver'
-require_relative 'selenium/common/webdriver'
 require 'aspace_helper'
 
 CHROME_OPTS  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=1920x1080,--no-sandbox,--disable-dev-shm-usage,--remote-debugging-port=9222').split(',')
@@ -21,7 +20,7 @@ Capybara.register_driver(:chrome) do |app|
     app,
     browser: :chrome,
     options: Selenium::WebDriver::Chrome::Options.new(args: CHROME_OPTS)
-  ).extend DriverMixin
+  )
 end
 
 # Firefox
@@ -40,7 +39,7 @@ Capybara.register_driver :firefox do |app|
     app,
     browser: :firefox,
     options: options
-  ).extend DriverMixin
+  )
 end
 
 if ENV['SELENIUM_CHROME']
@@ -91,12 +90,24 @@ RSpec.configure do |config|
   config.include ASpaceHelpers
 end
 
-# We use the Mizuno server.
-Capybara.register_server :mizuno do |app, port, host|
-  require 'rack/handler/mizuno'
-  Rack::Handler.get('mizuno').run(app, port: port, host: host)
+# Puma server
+$puma = nil
+Capybara.register_server :as_puma do |app, port, host|
+  require 'rack/handler/puma'
+  options = { Host: host, Port: port, Threads: '1:8', workers: 0, daemon: false }
+  conf = Rack::Handler::Puma.config(app, options)
+  $puma = Puma::Server.new(
+    conf.app,
+    nil,
+    conf.options
+  ).tap do |s|
+    s.binder.parse conf.options[:binds], (s.log_writer rescue s.events) # rubocop:disable Style/RescueModifier
+    s.min_threads, s.max_threads = conf.options[:min_threads], conf.options[:max_threads] if s.respond_to? :min_threads=
+  end
+  $puma.run.join
 end
-Capybara.server = :mizuno
+Capybara.server = :as_puma
+
 Capybara.default_max_wait_time = 10
 
 ActionController::Base.logger.level = Logger::ERROR

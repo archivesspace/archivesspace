@@ -1,6 +1,25 @@
 name: Backend Testing
 
 on:
+  workflow_dispatch:
+    inputs:
+      java-version:
+        description: Java version to run specs on
+        required: true
+        type: choice
+        options:
+          - '8'
+          - '11'
+        default: '11'
+
+  workflow_call:
+    inputs:
+      java-version:
+        description: Java version to run specs on
+        required: true
+        type: string
+        default: '11'
+
   pull_request:
     paths:
       - '.github/workflows/backend.yml'
@@ -10,13 +29,9 @@ on:
 
 jobs:
   backend:
-    name: Backend
+    name: Backend_Java_v${{ inputs.java-version || 11 }}
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
-
-    strategy:
-      matrix:
-        java: [ 8, 11 ]
 
     services:
       db:
@@ -41,7 +56,7 @@ jobs:
 
     - uses: actions/setup-java@v4
       with:
-        java-version: ${{ matrix.java }}
+        java-version: ${{ inputs.java-version || 11 }}
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'

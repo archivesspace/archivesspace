@@ -1,6 +1,6 @@
 # Custom PUI PDF Fonts
 
-This plugins enables the use of custom fonts in the PDF finding aids generated in the PUI.
+This plugin enables the use of custom fonts in the PDF finding aids generated in the PUI.
 
 To use, copy your TTF font files in the public/app/assets/fonts/ directory in the plugin.
 
