@@ -52,16 +52,14 @@ module ASpaceHelpers
     MemoryLeak::Resources.refresh(:repository)
     visit "/"
     page.has_xpath?("//a[contains(text(), 'Select Repository')]")
-    click_link 'Select Repository'
     await_jquery
-    find 'ul.dropdown-menu.show'
+    click_button 'Select Repository'
+
     if repo.respond_to? :repo_code
       select repo.repo_code, from: 'id'
     else
       select repo, from: 'id'
     end
-
-    click_button 'Select Repository'
   end
 
   def wait_for_ajax

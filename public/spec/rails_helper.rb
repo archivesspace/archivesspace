@@ -61,20 +61,23 @@ end
 $puma = nil
 Capybara.register_server :as_puma do |app, port, host|
   require 'rack/handler/puma'
-  options = { Host: host, Port: port, Threads: '1:8', workers: 0, daemon: false }
-  conf = Rack::Handler::Puma.config(app, options)
-  events_handler = Puma::Events.new(
+
+  log_writer = Puma::LogWriter.new(
     File.open(File.join(ASUtils.find_base_directory, "ci_logs", "puma.out"), 'w'),
     File.open(File.join(ASUtils.find_base_directory, "ci_logs", "puma_err.out"), 'w')
   )
+  options = { Host: host, Port: port, Threads: '1:8', workers: 0, daemon: false, log_writer: log_writer }
+  conf = Rack::Handler::Puma.config(app, options)
+
   $puma = Puma::Server.new(
     conf.app,
-    events_handler,
+    nil,
     conf.options
   ).tap do |s|
     s.binder.parse conf.options[:binds], (s.log_writer rescue s.events) # rubocop:disable Style/RescueModifier
     s.min_threads, s.max_threads = conf.options[:min_threads], conf.options[:max_threads] if s.respond_to? :min_threads=
   end
+
   $puma.run.join
 end
 Capybara.server = :as_puma

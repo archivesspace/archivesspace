@@ -53,7 +53,6 @@ group :test do
   gem 'activesupport'
   # if the indexer requires it, our test suite requires it
   gem 'fog-aws', '2.0.0', require: false
-  gem 'puma', '> 6.0'
 end
 
 group :development, :test do
