@@ -26,9 +26,6 @@ on:
       - 'frontend/**'
       - 'common/**'
       - 'solr/**'
-  push:
-    branches:
-      - '*___frontend'
 
 jobs:
   frontend_part_a:
