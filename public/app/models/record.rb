@@ -12,7 +12,7 @@ class Record
               :identifier, :classifications, :level, :other_level, :linked_digital_objects,
               :container_titles_and_uris
 
-  attr_accessor :criteria
+  attr_accessor :criteria, :highlights
 
   ABSTRACT = %w(abstract scopecontent)
 
@@ -51,6 +51,7 @@ class Record
     @classifications = parse_classifications
     @agents = parse_agents(subjects)
     @extents = parse_extents
+    @highlights = raw['highlighting']
   end
 
   def [](k)
