@@ -441,17 +441,9 @@
     </java>
   </target>
 
-    <target name="bundler:update" depends="set-classpath" description="Run bundler against a gemfile">
+  <target name="bundler:update" depends="set-classpath" description="Run bundler update against a gemfile for all or just one specific gem">
     <property name="build.home" location="."/>
-    <property name="excluded-gem-groups" value="" />
-    <property name="included-gem-groups" value="" />
     <property name="only-gem" value="" />
-    <condition property="bundle-without-option" value="--without '${excluded-gem-groups}'" else="">
-      <matches pattern="^.+$" string="${excluded-gem-groups}"/>
-    </condition>
-    <condition property="bundle-with-option" value="--with '${included-gem-groups}'" else="">
-      <matches pattern="^.+$" string="${included-gem-groups}"/>
-    </condition>
     <echo message="Fetching gems for ${gemfile}" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -459,7 +451,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="gems/bin/bundle update --jobs=8 --gemfile='${gemfile}' ${bundle-without-option} ${bundle-with-option} ${only-gem}" />
+      <arg line="gems/bin/bundle update --jobs=8 --gemfile='${gemfile}' ${only-gem}" />
     </java>
   </target>
 
