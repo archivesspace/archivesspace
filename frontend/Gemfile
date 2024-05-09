@@ -63,9 +63,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'pry-debugger-jruby', '>= 1.2.2'
-  gem 'pry-nav'
-  gem 'pry-rails'
   gem 'web-console'
 end
 
