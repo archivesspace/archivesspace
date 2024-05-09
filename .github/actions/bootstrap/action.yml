@@ -20,7 +20,11 @@ inputs:
   oai:
     description: "install oai gems"
     default: false
-
+  java-version:
+    description: Java version to install
+    required: true
+    type: string
+    default: '11'
 
 runs:
   using: "composite"
@@ -29,7 +33,7 @@ runs:
       id: cache-jruby
       uses: actions/cache@v3
       with:
-        key: ${{ runner.os }}-java${{ matrix.java }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-java${{ inputs.java-version || 11 }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         path: |
           ./build/jruby*.jar
 
@@ -43,7 +47,7 @@ runs:
       id: cache-gems
       uses: actions/cache@v4
       with:
-        key: ${{ runner.os }}-java${{ matrix.java }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-java${{ inputs.java-version || 11 }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         path: |
           ./build/gems/jruby
 

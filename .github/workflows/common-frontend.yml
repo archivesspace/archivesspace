@@ -68,7 +68,7 @@ jobs:
           ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
 
   frontend:
-    name: Frontend specs ${{ inputs.name }} on Java ${{ inputs.java-version }}
+    name: Frontend specs ${{ inputs.name }} on Java ${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
     needs:
       - start-runner
     runs-on: ${{ needs.start-runner.outputs.label }}
@@ -100,6 +100,10 @@ jobs:
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'
+      with:
+        backend: true
+        frontend: true
+        indexer: true
 
     - name: Allow ArchivesSpace functions for app db user
       env:
@@ -128,5 +132,5 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: failure()
       with:
-        name: failed_spec_saved_pages(${{ inputs.name }})_Java_${{ inputs.java-version }}
+        name: failed_spec_saved_pages(${{ inputs.name }})_Java_${{ inputs.java-version || 11 }}
         path: 'frontend/tmp/capybara'

@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '11' # https://archivesspace.atlassian.net/browse/ANW-2022
 
       - name: Prepare Release Metadata
         id: release_metadata
