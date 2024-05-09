@@ -194,7 +194,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
         # #merge-dropdown a.dropdown-toggle is inside the merge menu, so we need to drop that down first so the target element is visible
         find("#merge-dropdown button.merge-action").click
 
-        dropdown_ctrl = find("#merge-dropdown a.dropdown-toggle")
+        dropdown_ctrl = find("#merge-dropdown #form_merge .dropdown-toggle")
 
         expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='false']")
         dropdown_ctrl.click
@@ -294,10 +294,10 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       find(".sidebar-entry-resource_linked_agents_ a").click
       within "#resource_linked_agents_" do
         find(".alert-too-many").click
-        click_link "Add Agent Link"
+        click_button "Add Agent Link"
         agent_subrecords = find_all("li.linked_agent_initialised")
         within agent_subrecords.last do
-          dropdown_button = find(".input-group-btn a")
+          dropdown_button = find(".linker-wrapper .input-group-append > .dropdown-toggle")
           dropdown_button.click
           expect(page).to be_axe_clean.checking_only :'color-contrast'
         end

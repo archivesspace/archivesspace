@@ -380,8 +380,8 @@ ul.subrecord-form-list {
   }
   .drag-handle {
     position: absolute;
-    left: .5rem;
-    top: .5rem;
+    left: 0.5rem;
+    top: 0.5rem;
     display: flex;
     align-items: start;
     cursor: move;
@@ -474,7 +474,7 @@ ul.subrecord-form-list {
   // #font {
   //   @include shorthand($baseFontSize,normal,$baseLineHeight);
   // }
-  position:relative;
+  position: relative;
   margin-bottom: 9px;
   font-size: $baseFontSize;
   line-height: $baseLineHeight;
@@ -491,7 +491,7 @@ ul.subrecord-form-list {
     height: 100px;
     overflow: auto;
   }
-  
+
   .mixed-content-wrapper {
     font-size: 0.9em;
     z-index: 10;
@@ -525,7 +525,7 @@ ul.subrecord-form-list {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: normal;
-    line-height: 1.42857143;
+    line-height: 1.4286;
     text-align: left;
     background-color: #fff;
     background-clip: padding-box;
@@ -639,7 +639,7 @@ ul.subrecord-form-list {
 
 .content-list {
   .drag-handle.inline {
-    top: .5rem !important;
+    top: 0.5rem !important;
   }
 
   .add-content-item-btn {

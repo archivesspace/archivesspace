@@ -251,7 +251,7 @@ td .btn-group {
   border-color: $gray-600;
 }
 
-.bg-asFormHeadingBg{
+.bg-asFormHeadingBg {
   background-color: $asFormHeadingBg;
   @include vertical(#f3f3f3, #ededed);
 }
@@ -261,7 +261,7 @@ td .btn-group {
 }
 
 .hover-bsCoolGray:hover {
-  background-color: $bsCoolGray
+  background-color: $bsCoolGray;
 }
 
 .hover-bg-dark:hover {
