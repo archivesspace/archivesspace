@@ -753,7 +753,7 @@
     <record name="frontend_test_log.out" action="stop" />
   </target>
 
-  <target name="frontend:test" depends="set-classpath, frontend:clean, setup-integration" description="Run the non-capybara unit test suite">
+  <target name="frontend:test" depends="set-classpath, frontend:clean, setup-integration" description="Run the frontend capybara tests">
     <property name="tag" value="~db"/>
     <antcall target="rspec">
       <param name="dir" value="../frontend" />
