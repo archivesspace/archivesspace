@@ -133,4 +133,4 @@ jobs:
       if: failure()
       with:
         name: failed_spec_saved_pages(${{ inputs.name }})_Java_${{ inputs.java-version || 11 }}
-        path: 'frontend/tmp/capybara'
+        path: 'ci_logs'
