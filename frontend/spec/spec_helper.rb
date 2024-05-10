@@ -116,5 +116,5 @@ RSpec.configure do |config|
 
   config.verbose_retry = true
   config.default_retry_count = ENV['ASPACE_TEST_RETRY_COUNT'] || 1
-  config.fail_fast = true
+  config.fail_fast = false
 end

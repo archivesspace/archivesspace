@@ -54,7 +54,7 @@ RSpec.configure do |config|
     Capybara.reset_sessions!
   end
 
-  config.fail_fast = true
+  config.fail_fast = false
 end
 
 # Puma server
