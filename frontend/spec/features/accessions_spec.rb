@@ -289,10 +289,8 @@ describe 'Accessions', js: true do
     dropdown_items = all('#accession_linked_agents__0__ref__listbox li')
     dropdown_items.first.click
 
-    element.send_keys(:tab)
-    element.send_keys(:enter)
-
     click_button('Add Term/Subdivision')
+
     fill_in('accession_linked_agents__0__terms__0__term_', with: 'Term 1')
     select('Function', from: 'accession_linked_agents__0__terms__0__term_type_')
 
