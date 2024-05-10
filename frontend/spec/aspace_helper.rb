@@ -47,18 +47,16 @@ module ASpaceHelpers
   end
 
   def select_repository(repo)
-    # we might get tripped up trying to select
-    # a repo that has been just created...
-    MemoryLeak::Resources.refresh(:repository)
-    visit "/"
-    page.has_xpath?("//a[contains(text(), 'Select Repository')]")
-    await_jquery
     click_button 'Select Repository'
 
     if repo.respond_to? :repo_code
       select repo.repo_code, from: 'id'
     else
       select repo, from: 'id'
+    end
+
+    within "form[action='/repositories/select']" do
+      click_button 'Select Repository'
     end
   end
 
