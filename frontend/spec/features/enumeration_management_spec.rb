@@ -183,7 +183,7 @@ describe 'Enumeration Management', js: true do
 
     find('a', text: "Accession Title #{now}").click
 
-    element = find('#accession_collection_management__accordian')
+    element = find('#accession_collection_management__accordion')
     expect(element).to have_text "enumaration_value_#{now}"
   end
 

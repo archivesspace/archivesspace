@@ -21,9 +21,9 @@ describe 'Jobs', js: true do
 
     sleep 5.seconds
 
-    click_link('Repository settings')
+    click_button('Repository settings')
     click_link('Background Jobs')
-    click_link('Create Job')
+    click_button('Create Job')
     within('.dropdown-menu') do
       click_link('Batch Find and Replace (Beta)')
     end
@@ -47,9 +47,9 @@ describe 'Jobs', js: true do
 
     run_indexer
 
-    click_link('Repository settings')
+    click_button('Repository settings')
     click_link('Background Jobs')
-    click_link('Create Job')
+    click_button('Create Job')
     within('.dropdown-menu') do
       click_link('Generate PDF')
     end
@@ -64,9 +64,9 @@ describe 'Jobs', js: true do
   end
 
   it 'can create a report job' do
-    click_link('Repository settings')
+    click_button('Repository settings')
     click_link('Background Jobs')
-    click_link('Create Job')
+    click_button('Create Job')
     within('.dropdown-menu') do
       click_link('Create Report')
     end
@@ -84,9 +84,9 @@ describe 'Jobs', js: true do
 
   it 'can display a list of background jobs' do
     # first make sure there is at least a job to populate the list with
-    click_link('Repository settings')
+    click_button('Repository settings')
     click_link('Background Jobs')
-    click_link('Create Job')
+    click_button('Create Job')
     within('.dropdown-menu') do
       click_link('Create Report')
     end
@@ -109,9 +109,9 @@ describe 'Jobs', js: true do
     template_file = File.expand_path(
       '../../../../backend/spec/examples/aspace_accession_import_template.csv', __FILE__)
 
-    click_link('Repository settings')
+    click_button('Repository settings')
     click_link('Background Jobs')
-    click_link('Create Job')
+    click_button('Create Job')
     within('.dropdown-menu') do
       click_link('Import Data')
     end

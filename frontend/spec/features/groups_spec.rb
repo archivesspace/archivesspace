@@ -180,7 +180,7 @@ describe 'Groups', js: true do
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq "The Repository #{@repository_to_manage.repo_code} is now active"
 
-    expect(page).to have_css('a', text: 'Create')
+    expect(page).to have_css('button', text: 'Create')
   end
 
   it "can modify the user's groups for a repository via the Manage Access listing and hides create from user" do
