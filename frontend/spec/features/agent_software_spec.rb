@@ -37,7 +37,7 @@ describe 'AgentSoftware', js: true do
       # use the merge dropdown section
       find('div[id="merge-dropdown"]').click
       find('#token-input-merge_ref_').send_keys(name2)
-      await_jquery
+      sleep 0.5 # delay for autocomplete selection to appear
       find('#token-input-merge_ref_').send_keys :enter
       find('button.merge-button').click
 
