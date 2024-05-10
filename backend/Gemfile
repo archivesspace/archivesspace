@@ -60,3 +60,6 @@ require 'asutils'
 ASUtils.load_plugin_gems(self)
 
 gem "actionmailer", "~> 5.2"
+gem "write_xlsx", "1.01.0"
+
+gem 'xlsx_streaming_reader', git: 'https://github.com/hudmol/xlsx_streaming_reader.git'
