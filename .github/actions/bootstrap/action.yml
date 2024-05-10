@@ -31,7 +31,7 @@ runs:
   steps:
     - name: Cache JRuby
       id: cache-jruby
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         key: ${{ runner.os }}-java${{ inputs.java-version || 11 }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         path: |
