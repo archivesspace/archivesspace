@@ -22,7 +22,7 @@ describe 'Record Lifecycle', js: true do
     accession = create(:accession, title: "Accession Title #{now}")
     run_index_round
 
-    find('.user-container .btn.dropdown-toggle.last').click
+    find('#user-menu-dropdown').click
     click_on 'Default Repository Preferences'
 
     expect(page).to have_text "Edit these values to set preferences for all users in the current repository. These values can be overridden by a user's own preferences."
@@ -62,7 +62,7 @@ describe 'Record Lifecycle', js: true do
     accession = create(:accession, title: "Accession Title #{now}")
     run_index_round
 
-    find('.user-container .btn.dropdown-toggle.last').click
+    find('#user-menu-dropdown').click
     click_on 'Default Repository Preferences'
 
     expect(page).to have_text "Edit these values to set preferences for all users in the current repository. These values can be overridden by a user's own preferences."
@@ -114,15 +114,17 @@ describe 'Record Lifecycle', js: true do
 
   it 'can unsuppress an Accession' do
     now = Time.now.to_i
+    set_repo @repository
     accession = create(:accession, title: "Accession Title #{now}")
     run_index_round
 
-    find('.user-container .btn.dropdown-toggle.last').click
+    find('#user-menu-dropdown').click
     click_on 'Default Repository Preferences'
 
     expect(page).to have_text "Edit these values to set preferences for all users in the current repository. These values can be overridden by a user's own preferences."
 
-    find('#preference_defaults__show_suppressed_').click
+    element = find('#preference_defaults__show_suppressed_')
+    element.click  if !element.checked?
 
     # Click on save
     find('button', text: 'Save Preferences', match: :first).click
@@ -187,15 +189,17 @@ describe 'Record Lifecycle', js: true do
 
   it 'can suppress a Digital Object' do
     now = Time.now.to_i
+    set_repo @repository
     digital_object = create(:digital_object, title: "Digital Object Title #{now}")
     run_index_round
 
-    find('.user-container .btn.dropdown-toggle.last').click
+    find('#user-menu-dropdown').click
     click_on 'Default Repository Preferences'
 
     expect(page).to have_text "Edit these values to set preferences for all users in the current repository. These values can be overridden by a user's own preferences."
 
-    find('#preference_defaults__show_suppressed_').click
+    element = find('#preference_defaults__show_suppressed_')
+    element.click  if !element.checked?
 
     # Click on save
     find('button', text: 'Save Preferences', match: :first).click

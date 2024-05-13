@@ -35,12 +35,6 @@ describe 'Resources', js: true do
     select 'Collection', from: 'Level of Description'
 
     expect(page).to have_css('#resource_lang_materials__0__language_and_script__language_.initialised')
-    element = find('#resource_lang_materials__0__language_and_script__language_')
-    element.set('')
-    element.click
-    element.send_keys('AU')
-    expect(page).to have_text 'Australian languages'
-    element.send_keys(:tab)
 
     element = find('#resource_finding_aid_language_')
     element.click
@@ -49,7 +43,7 @@ describe 'Resources', js: true do
 
     element = find('#resource_finding_aid_script_')
     element.click
-    element.send_keys('Latn')
+    element.send_keys('Latin')
     element.send_keys(:tab)
 
     # no collection managment
@@ -132,7 +126,7 @@ describe 'Resources', js: true do
     select 'Text', from: 'resource_instances__0__instance_type_'
     element = find('#resource_instances__0__container_')
     within element do
-      find('.btn.btn-default.dropdown-toggle.last').click
+      find('button.dropdown-toggle[aria-label="Link to top container"]').click
       click_on 'Browse'
     end
 
@@ -170,7 +164,7 @@ describe 'Resources', js: true do
     run_periodic_index
 
     within '#resource_instances__0__container_' do
-      find('.btn.btn-default.dropdown-toggle.last').click
+      find('[aria-label="Link to top container"]').click
       click_on 'Browse'
     end
 
@@ -251,7 +245,7 @@ describe 'Resources', js: true do
 
     element = find('#resource_finding_aid_script_')
     element.click
-    element.send_keys('Latn')
+    element.send_keys('Latin')
     element.send_keys(:tab)
 
     select 'Single', from: 'resource_dates__0__date_type_'
@@ -397,10 +391,9 @@ describe 'Resources', js: true do
     click_on 'Agent Links'
     click_on 'Add Agent Link'
 
-    find('#resource_linked_agents_ .linker-wrapper .input-group-btn a').click
-    find('#resource_linked_agents_ .linker-browse-btn').click
+    find('#resource_linked_agents_ #dropdownMenuAgentsToggle').click
+    find('#resource_linked_agents_ #dropdownMenuAgents .linker-browse-btn').click
 
-    # element = find('#resource_linked_agents__0__ref__modal')
     element = find('.linker-container')
     expect(element).to have_text 'Filter by text'
 
@@ -482,7 +475,7 @@ describe 'Resources', js: true do
 
     element = find("div[data-id-path='resource_instances__0__digital_object_']")
     within element do
-      find('a.dropdown-toggle').click
+      find('.dropdown-toggle').click
       click_on 'Create'
     end
 

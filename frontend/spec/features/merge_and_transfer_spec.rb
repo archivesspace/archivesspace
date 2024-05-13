@@ -28,7 +28,7 @@ describe 'Merging and transfering resources', js: true do
     find('#transfer-dropdown button').click
     select @repository_target.repo_code, from: 'transfer_ref_'
 
-    within '.dropdown-menu.open-aligned-right.transfer-form' do
+    within '.dropdown-menu.transfer-form' do
       click_on 'Transfer'
     end
 
@@ -57,6 +57,7 @@ describe 'Merging and transfering resources', js: true do
 
     select_repository(@repository_source)
 
+    set_repo @repository_source
     resource_source = create(:resource)
     resource_target = create(:resource)
 
@@ -77,7 +78,7 @@ describe 'Merging and transfering resources', js: true do
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
-    within '.dropdown-menu.merge-form.open-aligned-right' do
+    within '.dropdown-menu.merge-form' do
       click_on 'Merge'
     end
 
@@ -127,10 +128,11 @@ describe 'Merging and transfering resources', js: true do
   it 'can merge a digital object into a digital object' do
     now = Time.now.to_i
 
-    select_repository(@repository_source)
-
+    set_repo @repository_source
     digital_object_source = create(:digital_object, title: "Digital Object Source Title #{now}")
     digital_object_target = create(:digital_object, title: "Digital Object Target Title #{now}")
+
+    select_repository(@repository_source)
 
     run_index_round
 
@@ -141,8 +143,7 @@ describe 'Merging and transfering resources', js: true do
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
-
-    within '.dropdown-menu.merge-form.open-aligned-right' do
+    within '.dropdown-menu.merge-form' do
       click_on 'Merge'
     end
 

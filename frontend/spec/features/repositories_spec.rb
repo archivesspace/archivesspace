@@ -25,7 +25,7 @@ describe 'Repositories', js: true do
   end
 
   before(:each) do
-    login
+    login_admin
   end
 
   after(:all) do
@@ -33,7 +33,7 @@ describe 'Repositories', js: true do
   end
 
   it 'flags errors when creating a repository with missing fields' do
-    click_link('System')
+    click_button('System')
     click_link('Manage Repositories')
     click_link('Create Repository')
     fill_in(id: 'repository_repository__name_', with: 'missing field test')
@@ -44,7 +44,7 @@ describe 'Repositories', js: true do
   end
 
   it 'can create a repository' do
-    click_link('System')
+    click_button('System')
     click_link('Manage Repositories')
     click_link('Create Repository')
     fill_in(id: 'repository_repository__repo_code_', with: @test_repo_code_1)
@@ -191,7 +191,7 @@ describe 'Repositories', js: true do
     repo = create(:repo)
     MemoryLeak::Resources.refresh(:repository)
     page.refresh
-    click_link('Select Repository')
+    click_button('Select Repository')
     expect(find('select', id: 'id')).to have_content(repo.repo_code)
   end
 

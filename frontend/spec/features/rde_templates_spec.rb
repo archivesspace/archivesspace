@@ -179,9 +179,9 @@ describe 'RDE Templates', js: true do
     element = find("button[data-id='rde_select_template']")
     element.click
 
-    first = find(".dropdown-menu.open ul li:nth-child(2) span").text
-    second = find(".dropdown-menu.open ul li:nth-child(3) span").text
-    third = find(".dropdown-menu.open ul li:nth-child(4) span").text
+    first = find(".dropdown-menu.open ul li:nth-child(2) span:first-of-type").text
+    second = find(".dropdown-menu.open ul li:nth-child(3) span:first-of-type").text
+    third = find(".dropdown-menu.open ul li:nth-child(4) span:first-of-type").text
 
     expect(first).to eq "AAA #{now}"
     expect(second).to eq "BBB #{now}"

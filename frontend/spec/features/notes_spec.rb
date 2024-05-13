@@ -235,7 +235,7 @@ describe 'Notes', js: true do
 
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
     expect(find('#resource_notes__0__label_').value).to eq "Top-level Bibliography Label #{now}"
-    expect(find('#resource_notes__0__content__0_').text).to include "Content\nTop-level Bibliography Content #{now}"
+    expect(find('#resource_notes__0__content__0_ .CodeMirror').text).to include "Top-level Bibliography Content #{now}"
     expect(find('input#resource_notes__0__items__0_').value).to eq "Top-level bibliography item 1 #{now}"
     expect(find('input#resource_notes__0__items__1_').value).to eq "Top-level bibliography item 2 #{now}"
   end
@@ -328,7 +328,7 @@ describe 'Notes', js: true do
 
     click_on 'Add Rights Statement'
 
-    within '#rights_statement_notes .subrecord-form-heading' do
+    within '#rights_statement_notes' do
       click_on 'Add Note'
     end
 
@@ -367,7 +367,7 @@ describe 'Notes', js: true do
     expect(find('#resource_rights_statements__0__notes__0__type_').value).to eq 'additional_information'
     expect(find('#resource_rights_statements__0__acts__0__notes__0__type_').value).to eq 'additional_information'
 
-    find('#rights_statement_notes .subrecord-form-heading .add-note').click
+    find('#rights_statement_notes .add-note').click
 
     # Ensure option values are only note_rights_statement
     elements = all('#rights_statement_notes .top-level-note-type option')
@@ -422,7 +422,7 @@ describe 'Notes', js: true do
 
     element = find('#resource_finding_aid_script_')
     element.click
-    element.fill_in with: 'Latn'
+    element.fill_in with: 'Latin'
     element.send_keys(:tab)
 
     # Click on save
@@ -435,11 +435,9 @@ describe 'Notes', js: true do
     fill_in 'archival_object_title_', with: "Archival Object Title #{now}"
     select 'Item', from: 'archival_object_level_'
 
-    element = find('#notes .subrecord-form-heading')
-    within element do
-      click_on 'Add Note'
-      click_on 'Add Note'
-      click_on 'Add Note'
+    element = find('#notes .add-note')
+    3.times do
+      element.click
     end
 
     element = find('#notes [data-index="0"] select.form-control.top-level-note-type')
@@ -463,7 +461,7 @@ describe 'Notes', js: true do
     fill_in 'digital_object_title_', with: "Resource Title #{now}"
     fill_in 'digital_object_digital_object_id_', with: "Identifier #{now}"
 
-    within '#digital_object_notes .subrecord-form-heading' do
+    within '#digital_object_notes' do
       click_on 'Add Note'
     end
 
@@ -496,9 +494,7 @@ describe 'Notes', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    within '#resource_notes_ .subrecord-form-heading' do
-      click_on 'Add Note'
-    end
+    find('#resource_notes_ > div .add-note').click
 
     element = find('#resource_notes_ select.top-level-note-type')
     element.select 'Abstract'
