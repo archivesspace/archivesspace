@@ -23,47 +23,48 @@ on:
   pull_request:
     paths:
       - '.github/workflows/frontend.yml'
+      - '.github/workflows/common-frontend.yml'
       - 'frontend/**'
       - 'common/**'
       - 'solr/**'
 
 jobs:
-  frontend_part_a:
-    name: part_a_Java_v${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+  frontend_a-c:
+    name: a-c_Java_v${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/features/[a-c]*_spec.rb"
-      name: part_a
+      name: a-c
       java-version: ${{ inputs.java-version || 11 }}
 
-  frontend_part_b:
-    name: part_b_Java_v${{ inputs.java-version || 11 }}
+  frontend_d-l:
+    name: d-l_Java_v${{ inputs.java-version || 11 }}
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/features/[d-l]*_spec.rb"
-      name: part_b
+      name: d-l
       java-version: ${{ inputs.java-version || 11 }}
 
-  frontend_part_c:
-    name: part_c_Java_v${{ inputs.java-version || 11 }}
+  frontend_m-r:
+    name: m-r_Java_v${{ inputs.java-version || 11 }}
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/features/[m-r]*_spec.rb"
-      name: part_c
+      name: m-r
       java-version: ${{ inputs.java-version || 11 }}
 
-  frontend_part_d:
-    name: part_d_Java_v${{ inputs.java-version || 11 }}
+  frontend_s-z:
+    name: s-z_Java_v${{ inputs.java-version || 11 }}
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/features/[s-z]*_spec.rb"
-      name: part_d
+      name: s-z
       java-version: ${{ inputs.java-version || 11 }}
