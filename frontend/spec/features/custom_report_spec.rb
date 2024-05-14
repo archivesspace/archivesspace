@@ -6,7 +6,7 @@ require 'rails_helper'
 describe 'Custom Reports', js: true do
 
   before(:each) do
-    login
+    login_admin
   end
 
   context 'Index' do
