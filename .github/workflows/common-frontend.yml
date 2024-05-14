@@ -34,7 +34,7 @@ jobs:
         with:
           mode: start # this calls /home/ubuntu/actions-runner/svc.sh that has been patched in our AMI to always start the service as user ubuntu
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          ec2-image-id: ami-0b9db2ac21c1e7e6e
+          ec2-image-id: ‎ami-0f2b239a1569f1a11‎
           ec2-instance-type: m5.xlarge
           subnet-id: subnet-09ac54ce4d96a9039
           security-group-id: sg-0aaee00f05df87e50
