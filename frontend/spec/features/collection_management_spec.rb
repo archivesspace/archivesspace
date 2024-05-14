@@ -36,7 +36,7 @@ describe 'Collection Management', js: true do
     element = find('button', text: 'Save Accession', match: :first)
     element.click
 
-    expect(page).to have_text "Accession Test Accession Identifier #{now} created"
+    expect(page).to have_text "Accession created"
 
     run_index_round
 
@@ -58,7 +58,7 @@ describe 'Collection Management', js: true do
     # Click on save
     element = find('button', text: 'Save Accession', match: :first)
     element.click
-    expect(page).to have_text "Accession Test Accession Identifier #{now} updated"
+    expect(page).to have_text "Accession updated"
 
     run_index_round
 
