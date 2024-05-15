@@ -9,7 +9,7 @@
       <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
         <%= @search_data.sorted_by_label %>
       </button>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu sort-opts">
         <% @search_data.sort_fields.each do |field, label| %>
           <% next if field == 'score' && @search_data.sorted_by?(field) %>
           <li class="dropdown-submenu dropdown-item">

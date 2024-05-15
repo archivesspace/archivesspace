@@ -61,8 +61,7 @@ describe 'Space Calculator', js: true do
 
     expect(page).to have_text 'Total number of spaces available for this container type: 20'
     expect(page).to have_text 'Total number of containers of this type found at these locations: 0'
-    expect(page).to have_text 'Locations with space available: 1'
-
+    expect(page).to have_text 'Locations with space available: 1', normalize_ws: true
     elements = all('#tabledSearchResults tbody tr td')
     expect(elements[1]).to have_text @location.title
     expect(elements[2]).to have_text @location_profile.name
@@ -107,7 +106,7 @@ describe 'Space Calculator', js: true do
 
     expect(page).to have_text 'Total number of spaces available for this container type: 20'
     expect(page).to have_text 'Total number of containers of this type found at these locations: 0'
-    expect(page).to have_text 'Locations with space available: 1'
+    expect(page).to have_text 'Locations with space available: 1', normalize_ws: true
 
     elements = all('#tabledSearchResults tbody tr td')
     expect(elements[1]).to have_text @location.title
