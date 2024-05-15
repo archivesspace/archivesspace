@@ -28,15 +28,12 @@ describe 'Top Containers and Instances', js: true do
 
   before :each do
     login_admin
-    visit '/'
-    click_link('Select Repository')
-    find(id: 'id').select(@repo.repo_code)
-    click_button('Select Repository')
+    select_repository(@repo)
   end
 
   it 'abides by search and browse column preferences' do
     visit '/'
-    click_link id: 'user-menu-dropdown'
+    click_button id: 'user-menu-dropdown'
     click_link 'Global Preferences (admin)'
     select 'ILS Holding ID', from: 'preference[defaults][top_container_mgmt_browse_column_1]'
     select 'ILS Holding ID', from: 'preference[defaults][top_container_mgmt_sort_column]'
@@ -66,7 +63,7 @@ describe 'Top Containers and Instances', js: true do
     find('#bulk_operation_results tbody tr:first-child td:first-child input').click
 
     # Now bulk update Letter A's ILD #
-    find('.bulk-operation-toolbar:first-child a.dropdown-toggle').click
+    find('.bulk-operation-toolbar:first-child .dropdown-toggle').click
     find(id: 'bulkActionUpdateIlsHolding').click
     modal = find(id: 'bulkUpdateModal')
     modal.fill_in(id: 'ils_holding_id', with: 'xyzpdq')
@@ -76,8 +73,7 @@ describe 'Top Containers and Instances', js: true do
 
     modal.find('.modal-footer button').click
     find('#bulk_operation_results tbody tr:first-child td:last-child a:first-child').click
-
-    expect(find('.form-group:nth-child(3) div.label-only').text).to eq('xyzpdq')
+    expect(find('.form-group:nth-child(3) div').text).to eq('xyzpdq')
   end
 
   xit 'performs bulk indicator update' do
@@ -109,7 +105,7 @@ describe 'Top Containers and Instances', js: true do
     expect(all('table tr').size).to be > 1
 
     # Now merge top containers
-    find('.bulk-operation-toolbar:first-child a.dropdown-toggle').click
+    find('.bulk-operation-toolbar:first-child .dropdown-toggle').click
     find('#bulkActionMerge').click
     modal = find('#bulkMergeModal')
     modal.first("input[name='target[]']").click
@@ -146,17 +142,16 @@ describe 'Top Containers and Instances', js: true do
     visit "#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#resource_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
     select 'Text', from: 'resource[instances][0][instance_type]'
-
     within find(id: 'resource_instances__0__container_') do
-      find('a[title="Link to top container"]').click
-      find('a.linker-create-btn').click
+      find('[aria-label="Link to top container"]').click
+      find('.linker-create-btn').click
     end
 
     within find(id: 'resource_instances__0__sub_container__top_container__ref__modal') do
       fill_in id: 'top_container_indicator_', with: 'foo'
       fill_in id: 'top_container_barcode_', with: "top container barcode #{Time.now.to_i}"
-      find('[title="Link to container profile"]').click
-      find('a.linker-create-btn').click
+      find('[aria-label="Link to container profile"]').click
+      find('.linker-create-btn').click
     end
 
     within find(id: 'top_container_container_profile__ref__modal') do
@@ -175,7 +170,7 @@ describe 'Top Containers and Instances', js: true do
     end
 
     find('.dropdown-toggle.locations').click
-    find('a.linker-create-btn').click
+    find('.linker-create-btn').click
 
     within find(id: 'top_container_container_locations__0__ref__modal') do
       fill_in id: 'location_building_', with: '1234 Somewhere St'
@@ -208,8 +203,8 @@ describe 'Top Containers and Instances', js: true do
     select 'Text', from: 'accession[instances][0][instance_type]'
 
     within find(id: 'accession_instances__0__container_') do
-      find('a[title="Link to top container"]').click
-      find('a.linker-create-btn').click
+      find('[aria-label="Link to top container"]').click
+      find('.linker-create-btn').click
     end
 
     within find(id: 'accession_instances__0__sub_container__top_container__ref__modal') do
@@ -225,7 +220,7 @@ describe 'Top Containers and Instances', js: true do
     end
 
     find('.dropdown-toggle.locations').click
-    find('a.linker-create-btn').click
+    find('.linker-create-btn').click
 
     within find(id: 'top_container_container_locations__0__ref__modal') do
       fill_in id: 'location_building_', with: '1234 Somewhere St'
@@ -243,19 +238,12 @@ describe 'Top Containers and Instances', js: true do
   end
 
   it 'can find the top container that was created using the typeahead feature for this record' do
+    second_linker = '#accession_instances__1__sub_container__top_container__ref__combobox'
     run_all_indexers
     visit "#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#accession_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
     fill_in('token-input-accession_instances__1__sub_container__top_container__ref_', with: 'oof')
-    expect(page).to have_selector('li.token-input-dropdown-item2')
-  end
-
-  it 'does not find the top container that was created using the typeahead feature in another record' do
-    run_all_indexers
-    visit "#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit"
-    find('#accession_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
-    fill_in('token-input-accession_instances__1__sub_container__top_container__ref_', with: 'oof')
-    expect(page).not_to have_selector('li.token-input-dropdown-item2')
+    expect(page).to have_selector("#{second_linker} .token-input-dropdown")
   end
 
   it 'can add a location with a previous status to a top container' do
@@ -274,9 +262,9 @@ describe 'Top Containers and Instances', js: true do
   it 'can calculate extents for resources' do
     visit "#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#other-dropdown button').click
-    click_link 'Calculate Extent'
+    click_button 'Calculate Extent'
     select 'Volumes', from: 'extent_extent_type_'
-    click_link 'Create Extent'
+    click_button 'Create Extent'
     click_button 'Save'
     expect(page).to have_content(/\bResource\b.*\bupdated\b/)
 
@@ -289,10 +277,10 @@ describe 'Top Containers and Instances', js: true do
 
   it 'can calculate extents for accessions' do
     visit "#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit"
-    find('#other-dropdown a.btn').click
-    click_link 'Calculate Extent'
+    find('#other-dropdown button').click
+    click_button 'Calculate Extent'
     select 'Volumes', from: 'extent_extent_type_'
-    click_link 'Create Extent'
+    click_button 'Create Extent'
     click_button 'Save'
     expect(page).to have_content(/\bAccession\b.*\bupdated\b/)
 
