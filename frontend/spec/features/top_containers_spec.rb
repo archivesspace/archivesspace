@@ -234,7 +234,7 @@ describe 'Top Containers and Instances', js: true do
     fill_in id: 'accession_instances__0__sub_container__barcode_2_', with: 'test_child_container_barcode'
     click_button("Save Accession", match: :first).click
 
-    expect(page).to have_content(/Accession .+ updated/)
+    expect(page).to have_content('Accession updated')
   end
 
   it 'can find the top container that was created using the typeahead feature for this record' do
@@ -251,7 +251,8 @@ describe 'Top Containers and Instances', js: true do
     click_button 'Add Location'
     find(id: 'top_container_container_locations__1__status_').select 'Previous'
     fill_in 'token-input-top_container_container_locations__1__ref_', with: @location_b.building
-    find(:xpath, '/HTML/BODY[1]/DIV[1]/DIV[1]/FORM[1]/DIV[1]/DIV[1]/DIV[2]/DIV[3]/DIV[11]/SECTION[1]/DIV[1]/UL[1]/LI[2]/DIV[1]/DIV[5]/DIV[1]/DIV[1]/SECTION[1]/DIV[1]/UL[1]/LI[1]').click
+    dropdown_items = all('#top_container_container_locations__1__ref__listbox li')
+    dropdown_items.first.click
     find('form .record-pane button[type="submit"]').click
     expect(find('div.record-pane div.error')).to have_content(/End Date.*Status.*Previous.*/)
     fill_in 'top_container_container_locations__1__end_date_', with: '2015-01-02'
