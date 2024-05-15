@@ -4,6 +4,7 @@ require 'spec_helper.rb'
 require 'rails_helper.rb'
 
 describe 'Bulk Import', js: true do
+  let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
 
   before(:all) do
     @repo = create(:repo, repo_code: "bulk_import_test_#{Time.now.to_i}")
@@ -17,7 +18,9 @@ describe 'Bulk Import', js: true do
   end
 
   it 'can create a bulk import (load spreadsheet) job' do
-    login repo: @repo
+    login_user(admin)
+    select_repository(@repo)
+
     edit_resource(@resource)
     page.has_css? "form#resource_form"
     within "form#resource_form" do
