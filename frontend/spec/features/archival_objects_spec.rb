@@ -218,8 +218,10 @@ describe 'Archival objects', js: true do
       click_on 'Add Subject'
     end
 
-    find('#archival_object_subjects_ .linker-wrapper a.btn').click
-    find('#archival_object_subjects_ a.linker-create-btn').click
+    find('#archival_object_subjects_ #dropdownMenuSubjectsToggle').click
+    within '#dropdownMenuSubjects' do
+      click_on 'Create'
+    end
 
     within '#archival_object_subjects__0__ref__modal' do
       find('button', text: 'Add Term/Subdivision', match: :first).click
