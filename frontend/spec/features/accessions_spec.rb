@@ -362,7 +362,7 @@ describe 'Accessions', js: true do
       element.click
     end
 
-    element = find('#rights_statement_0')
+    element = find('#rights_statements_accordion')
     expect(element).to have_text('2012-01-01')
     expect(element).to have_text('Copyright')
     expect(element).to have_text('Austria')
@@ -378,8 +378,11 @@ describe 'Accessions', js: true do
     click_on('Add Subject')
     element = find('#accession_subjects_ .dropdown-toggle')
     element.click
-    element = find('a.linker-create-btn')
-    element.click
+
+    within '#dropdownMenuSubjects' do
+      click_on 'Create'
+    end
+
     select 'Library of Congress Subject Headings', from: 'Source'
     fill_in("Term", with: "Test subject term #{Time.now.to_i}")
     select 'Function', from: 'Type'
@@ -392,8 +395,10 @@ describe 'Accessions', js: true do
     expect(element.length).to eq(2)
     second_dropdown_toggle = element[1]
     second_dropdown_toggle.click
-    element = find('a.linker-browse-btn')
-    element.click
+
+    within '#dropdownMenuSubjects' do
+      click_on 'Browse'
+    end
 
     element = find('#linker-item', match: :first)
     element.click
