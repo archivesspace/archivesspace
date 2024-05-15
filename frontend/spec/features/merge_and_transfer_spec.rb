@@ -20,7 +20,7 @@ describe 'Merging and transfering resources', js: true do
 
   it 'can transfer a resource to another repository and open it for editing' do
     select_repository(@repository_source)
-
+    set_repo @repository_source
     resource = create(:resource)
     run_index_round
 
