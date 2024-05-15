@@ -5,12 +5,14 @@ require 'rails_helper.rb'
 describe 'AdvancedSearchDates', js: true do
 
   before(:all) do
-    @repo = create(:repo, repo_code: "advanced_search_dates_test_#{Time.now.to_i}")
-    set_repo(@repo)
+    @repository = create(:repo, repo_code: "advanced_search_dates_test_#{Time.now.to_i}")
+    set_repo(@repository)
+
+    @user = create_user(@repository => ['repository-archivists'])
   end
 
   before(:each) do
-    login
+    login_user(@user)
     # Open the dropdown only if its not already open
     if !page.has_css?('.advanced-search-add-row-dropdown')
       first('button[title="Show Advanced Search"]').click
