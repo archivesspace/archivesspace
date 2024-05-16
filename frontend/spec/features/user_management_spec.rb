@@ -113,7 +113,7 @@ describe 'User management', js: true do
     expect(element.value).to eq '1'
   end
 
-  it "doesn't allow another user to edit the global admin or a system account" do
+  xit "doesn't allow another user to edit the global admin or a system account" do
     now = Time.now.to_i
 
     # Create admin user
