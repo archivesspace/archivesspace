@@ -307,7 +307,11 @@ describe 'Archival objects', js: true do
 
     find('#global-search-button').click
 
+    wait_for_ajax
+
     click_on 'Archival Object'
+
+    wait_for_ajax
 
     element = find('#tabledSearchResults')
     expect(element).to have_text 'Component ID'

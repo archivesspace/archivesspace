@@ -72,6 +72,9 @@ describe 'Restricted properties', js: true do
 
     element = find('#token-input-merge_ref_')
     element.fill_in with: agent_victim['names'][0]['primary_name']
+
+    wait_for_ajax
+
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 

@@ -408,8 +408,7 @@ describe 'Location batch', js: true do
     now = Time.now.to_i
 
     visit 'logout'
-    admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
-    login_user(admin)
+    login_admin
 
     location = create(:location, building: "Building 1 #{now}")
     location = create(:location, building: "Building 2 #{now}")

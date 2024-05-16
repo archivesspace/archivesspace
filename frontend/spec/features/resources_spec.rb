@@ -130,20 +130,19 @@ describe 'Resources', js: true do
       click_on 'Browse'
     end
 
+    wait_for_ajax
+
     within '#resource_instances__0__sub_container__top_container__ref__modal' do
       expect(page).to have_text 'Browse Top Containers'
       element = find("#_repositories_#{@repository.id}_resources_#{resource.id}")
       expect(element).to have_text resource.title
       expect(element).to have_css '.token-input-delete-token'
-
-      sleep 4
-
       find('.token-input-delete-token').click
       fill_in 'Keyword', with: '*'
 
       click_on 'Search'
 
-      sleep 2
+      wait_for_ajax
 
       row = find(:xpath, "//tr[contains(., '#{container.indicator}')]")
 
@@ -167,6 +166,8 @@ describe 'Resources', js: true do
       find('[aria-label="Link to top container"]').click
       click_on 'Browse'
     end
+
+    wait_for_ajax
 
     within '#resource_instances__0__sub_container__top_container__ref__modal' do
       elements = all('tr')
