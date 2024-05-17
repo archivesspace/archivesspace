@@ -11,11 +11,6 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     login_admin
   end
 
-  after(:each) do
-    wait_for_ajax
-    Capybara.reset_sessions!
-  end
-
   it 'sets the selected state on sidebar elements' do
     visit "/resources/1"
 

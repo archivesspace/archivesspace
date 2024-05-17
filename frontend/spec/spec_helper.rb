@@ -114,6 +114,10 @@ RSpec.configure do |config|
     end
   end
 
+  config.append_after(:each, js: true) do
+    Capybara.reset_sessions!
+  end
+
   config.verbose_retry = true
   config.default_retry_count = ENV['ASPACE_TEST_RETRY_COUNT'] || 1
   config.fail_fast = false

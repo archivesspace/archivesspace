@@ -19,11 +19,6 @@ describe 'Spawning', js: true do
     select_repository(@repo)
   end
 
-  after(:each) do
-    wait_for_ajax
-    Capybara.reset_sessions!
-  end
-
   xit "can spawn a resource component from an accession" do
     # PUNTING ON THIS...there's a bug in the code for this two-modal step process
     # where the first modal doesnot get removed before the second modal is appended,
