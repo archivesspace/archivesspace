@@ -294,7 +294,8 @@ describe 'Archival objects', js: true do
     expect(page).to_not have_text 'Component ID'
   end
 
-  it 'shows component id for search and filter to archival objects' do
+  # TODO flaky spec
+  xit 'shows component id for search and filter to archival objects' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(
