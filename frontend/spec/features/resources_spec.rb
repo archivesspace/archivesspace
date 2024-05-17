@@ -117,7 +117,7 @@ describe 'Resources', js: true do
     location = create(:location)
     container_location = build(:container_location, ref: location.uri)
     container = create(:top_container, indicator: "Container #{now}", container_locations: [container_location])
-    run_index_round
+    run_all_indexers
 
     visit "resources/#{resource.id}/edit"
 
@@ -179,8 +179,9 @@ describe 'Resources', js: true do
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
-    click_on 'Browse'
-    click_on 'Resources'
+    fill_in 'global-search-box', with: resource.title
+    find('#global-search-button').click
+
     row = find(:xpath, "//tr[contains(., '#{resource.title}')]")
 
     within row do
