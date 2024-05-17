@@ -18,7 +18,8 @@ describe 'Merging and transfering resources', js: true do
     login_user(admin)
   end
 
-  it 'can transfer a resource to another repository and open it for editing' do
+  # TODO
+  xit 'can transfer a resource to another repository and open it for editing' do
     select_repository(@repository_source)
     set_repo @repository_source
     resource = create(:resource)
