@@ -20,9 +20,9 @@ describe 'Spawning', js: true do
   end
 
   xit "can spawn a resource component from an accession" do
-    # PUNTING ON THIS...there's a bug in the code for this two-modal step process
-    # where the first modal doesnot get removed before the second modal is appended,
-    # resulting in two `button#addSelectedButton`, which makes this test fail.
+    # TODO this example was ignored to get the Softserv updates merged into master
+    # There's a bug in the code for this two-modal step process which makes this
+    # test fail, see https://archivesspace.atlassian.net/browse/ANW-2030.
     set_repo(@repo)
     @resource = create(:resource)
     @parent = create(:json_archival_object,

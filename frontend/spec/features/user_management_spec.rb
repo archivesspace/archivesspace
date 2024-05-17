@@ -114,6 +114,8 @@ describe 'User management', js: true do
   end
 
   xit "doesn't allow another user to edit the global admin or a system account" do
+    # TODO this example was ignored to get the Softserv updates merged into master;
+    # the cause for this failing remotely but not locally is as yet unknown
     now = Time.now.to_i
 
     # Create admin user

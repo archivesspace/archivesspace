@@ -238,6 +238,8 @@ describe 'Top Containers and Instances', js: true do
   end
 
   xit 'can find the top container that was created using the typeahead feature for this record' do
+    # TODO this example was ignored to get the Softserv updates merged into master;
+    # the cause for this failing remotely but not locally is as yet unknown
     second_linker = '#accession_instances__1__sub_container__top_container__ref__combobox'
     run_all_indexers
     visit "#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit"
