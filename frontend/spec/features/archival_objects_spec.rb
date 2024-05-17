@@ -294,7 +294,7 @@ describe 'Archival objects', js: true do
     expect(page).to_not have_text 'Component ID'
   end
 
-  # TODO flaky spec
+  # TODO flaky spec it seems that the `tr` with text `archival_object.component_id` is on page 2 of the search results so the test doesn’t find it on page 1 which it is looking at.
   xit 'shows component id for search and filter to archival objects' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
