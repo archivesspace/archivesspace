@@ -5,7 +5,13 @@ require 'rails_helper'
 
 describe 'Accessions', js: true do
   let(:accession_title) { 'Test accession title' }
-  let(:user) { create_user(repo => ['repository-archivists']) }
+  let(:user) do
+    user = create_user(repo => ['repository-archivists'])
+    run_index_round
+
+    user
+  end
+
   let(:repo) { create(:repo, repo_code: "accession_test_#{Time.now.to_i}") }
 
   before(:each) do
@@ -507,7 +513,12 @@ describe 'Accessions', js: true do
   end
 
   context 'when user is a repository manager of the current repo' do
-    let(:user) { create_user(repo => ['repository-managers']) }
+    let(:user) do
+      user = create_user(repo => ['repository-managers'])
+      run_index_round
+
+      user
+    end
 
     it 'can delete multiple accessions from the listing' do
       now = Time.now.to_i
