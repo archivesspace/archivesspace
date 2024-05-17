@@ -16,6 +16,7 @@ describe 'DatepickerPlugin', js: true do
     end
 
     expect(page).not_to have_xpath('//input[@id="login"]')
+    wait_for_ajax
     expect(page).to have_css('button[title="Show Advanced Search"]')
     first('button[title="Show Advanced Search"]').click
     first('.advanced-search-add-row-dropdown').click
