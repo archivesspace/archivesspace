@@ -8,7 +8,7 @@ describe 'Spreadsheet Builder model' do
                           :extents => extents, 
                           :dates => dates,
                           :notes => notes) }
-  let(:ao) { create(:json_archival_object, :resource => {:ref => resource.uri}) }
+  let(:ao) { create(:json_archival_object, :resource => {:ref => resource.uri}, :dates => dates) }
   let(:min_subrecords) { 0 }
   let(:extra_subrecords) { 0 }
   let(:min_notes) { 0 }
@@ -41,12 +41,18 @@ describe 'Spreadsheet Builder model' do
     expect(spreadsheet.instance_variable_get(:@selected_columns)).to eq(selected_columns + SpreadsheetBuilder::ALWAYS_FIELDS)
   end
 
-  it "selected? returns false for unselected column" do
-    expect(spreadsheet.selected?('unselected_column')).to be false
-  end
+  describe "#selected?" do
+    context "Unselected Column" do
+      it "returns false" do
+        expect(spreadsheet.selected?('unselected_column')).to be false
+      end
+    end
 
-  it "selected? returns true for selected column" do
-    expect(spreadsheet.selected?(selected_columns[0])).to be true
+    context "Selected Column" do
+      it "returns true" do
+        expect(spreadsheet.selected?(selected_columns[0])).to be true
+      end
+    end
   end
 
   it "computes the correct column reference" do
