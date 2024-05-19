@@ -206,7 +206,7 @@ class SpreadsheetBuilder
       EnumColumn.new(:language_and_script, :script, 'script_iso15924', :i18n => 'Script')
     ],
     :note_langmaterial => [
-      StringColumn.new(:note_langmaterial, :content, :width => 30, :i18n_proc => proc{|col| "Language Note - #{col.index} - Content"})
+      StringColumn.new(:note_langmaterial, :content, :width => 30, :i18n_proc => proc {|col| "Language Note - #{col.index} - Content"})
     ],
   }
 
@@ -232,37 +232,37 @@ class SpreadsheetBuilder
   EXTRA_NOTE_FIELDS = {
     :_all_ => [
       StringColumn.new(:note, :label,
-                       :i18n_proc => proc{|col|
+                       :i18n_proc => proc {|col|
                          "#{I18n.t('note._singular')} #{I18n.t("enumerations.note_multipart_type.#{col.jsonmodel}", :default => I18n.t("enumerations.note_singlepart_type.#{col.jsonmodel}"))} - #{col.index + 1} - Label"
                        },
-                       :path_proc => proc{|col|
+                       :path_proc => proc {|col|
                          ['note', col.jsonmodel.to_s, col.index.to_s, col.name.to_s].join('/')
                        }),
     ],
     :accessrestrict => [
       DateStringColumn.new(:accessrestrict, :begin, :width => 10,
                            :property_name => :rights_restriction,
-                           :i18n_proc => proc{|col|
+                           :i18n_proc => proc {|col|
                              "#{I18n.t('note._singular')} #{I18n.t("enumerations.note_multipart_type.accessrestrict")} - #{col.index + 1} - Begin"
                            },
-                           :path_proc => proc{|col|
+                           :path_proc => proc {|col|
                              ['note', col.jsonmodel.to_s, col.index.to_s, col.name.to_s].join('/')
                            }),
       DateStringColumn.new(:accessrestrict, :end, :width => 10,
                            :property_name => :rights_restriction,
-                           :i18n_proc => proc{|col|
+                           :i18n_proc => proc {|col|
                              "#{I18n.t('note._singular')} #{I18n.t("enumerations.note_multipart_type.accessrestrict")} - #{col.index + 1} - End"
                            },
-                           :path_proc => proc{|col|
+                           :path_proc => proc {|col|
                              ['note', col.jsonmodel.to_s, col.index.to_s, col.name.to_s].join('/')
                            }),
       EnumColumn.new(:accessrestrict, :local_access_restriction_type, 'restriction_type',
                      :width => 15,
                      :property_name => :rights_restriction,
-                     :i18n_proc => proc{|col|
+                     :i18n_proc => proc {|col|
                        "#{I18n.t('note._singular')} #{I18n.t("enumerations.note_multipart_type.accessrestrict")} - #{col.index + 1} - Type"
                      },
-                     :path_proc => proc{|col|
+                     :path_proc => proc {|col|
                        ['note', col.jsonmodel.to_s, col.index.to_s, col.name.to_s].join('/')
                      }),
     ]
@@ -307,7 +307,7 @@ class SpreadsheetBuilder
                                   .group_and_count(:archival_object_id)
                                   .max(:count) || 0
 
-         results[:related_accession] = [related_accession_max, 1].max
+        results[:related_accession] = [related_accession_max, 1].max
       end
 
       # Ok... lang_material are their own kind of special too:
@@ -411,11 +411,11 @@ class SpreadsheetBuilder
   end
 
   def human_readable_headers
-    all_columns.map{|col| col.header_label}
+    all_columns.map {|col| col.header_label}
   end
 
   def machine_readable_headers
-    all_columns.map{|col| col.path}
+    all_columns.map {|col| col.path}
   end
 
   def selected?(column_group)
@@ -522,7 +522,7 @@ class SpreadsheetBuilder
   def dataset_iterator(&block)
     DB.open do |db|
       @ao_ids.each_slice(BATCH_SIZE) do |batch|
-        base_fields = [:id, :lock_version] + FIELDS_OF_INTEREST.fetch(:archival_object).map{|field| field.column}
+        base_fields = [:id, :lock_version] + FIELDS_OF_INTEREST.fetch(:archival_object).map {|field| field.column}
         base = ArchivalObject
                 .filter(:id => batch)
                 .order(Sequel.lit("FIELD(id, #{batch.join(',')})"))
@@ -532,7 +532,7 @@ class SpreadsheetBuilder
         SUBRECORDS_OF_INTEREST.each do |subrecord|
           next unless selected?(subrecord.to_s)
 
-          subrecord_fields = [:archival_object_id] + FIELDS_OF_INTEREST.fetch(subrecord).map{|field| field.column}
+          subrecord_fields = [:archival_object_id] + FIELDS_OF_INTEREST.fetch(subrecord).map {|field| field.column}
 
           subrecord_datasets[subrecord] = {}
 
@@ -541,7 +541,7 @@ class SpreadsheetBuilder
             .select(*subrecord_fields)
             .each do |row|
             subrecord_datasets[subrecord][row[:archival_object_id]] ||= []
-            subrecord_datasets[subrecord][row[:archival_object_id]] << FIELDS_OF_INTEREST.fetch(subrecord).map{|field| [field.name, field.value_for(row[field.column])]}.to_h
+            subrecord_datasets[subrecord][row[:archival_object_id]] << FIELDS_OF_INTEREST.fetch(subrecord).map {|field| [field.name, field.value_for(row[field.column])]}.to_h
           end
         end
 
@@ -695,7 +695,7 @@ class SpreadsheetBuilder
           note_data = {}
 
           if MULTIPART_NOTES_OF_INTEREST.include?(note_type)
-            text_subnote = Array(note_json['subnotes']).detect{|subnote| subnote['jsonmodel_type'] == 'note_text'}
+            text_subnote = Array(note_json['subnotes']).detect {|subnote| subnote['jsonmodel_type'] == 'note_text'}
 
             note_data[:content] = text_subnote ? text_subnote['content'] : nil
           elsif SINGLEPART_NOTES_OF_INTEREST.include?(note_type)
@@ -704,7 +704,7 @@ class SpreadsheetBuilder
 
           self.class.extra_note_fields_for_type(note_type).each do |extra_column|
             target_record = extra_column.property_name.to_s == 'note' ? note_json : note_json.fetch(extra_column.property_name.to_s, {})
-            value =  Array(target_record.fetch(extra_column.name.to_s, nil)).first
+            value = Array(target_record.fetch(extra_column.name.to_s, nil)).first
 
             if extra_column.is_a?(EnumColumn)
               note_data[extra_column.name] = EnumMapper.enum_to_spreadsheet_value(value, extra_column.enum_name)
@@ -779,7 +779,7 @@ class SpreadsheetBuilder
     human_header_format.set_size(12)
 
     sheet = wb.add_worksheet(SHEET_NAME)
-    sheet.freeze_panes(1,3)
+    sheet.freeze_panes(1, 3)
 
     # protect the sheet to ensure `locked` formatting work
     # and allow a few other basic formatting things
@@ -825,9 +825,9 @@ class SpreadsheetBuilder
       if column.is_a?(EnumColumn)
         enum_sheet.write(0, col_index, column.enum_name)
         enum_values = BackendEnumSource.values_for(column.enum_name)
-        enum_values.reject!{|value| column.skip_values.include?(value)}
+        enum_values.reject! {|value| column.skip_values.include?(value)}
         enum_values
-          .map{|value| EnumMapper.enum_to_spreadsheet_value(value, column.enum_name)}
+          .map {|value| EnumMapper.enum_to_spreadsheet_value(value, column.enum_name)}
           .sort_by {|value| value.downcase}
           .each_with_index do |enum, enum_index|
           enum_sheet.write_string(enum_index+1, col_index, enum)
@@ -889,7 +889,7 @@ class SpreadsheetBuilder
       column = if field == :content
                  NoteContentColumn.new(:note, note_type, note_jsonmodel)
                else
-                 extra_note_fields_for_type(note_type).detect{|col| col.name.intern == field}
+                 extra_note_fields_for_type(note_type).detect {|col| col.name.intern == field}
                end
 
       raise "Column definition not found for #{path}" unless column
@@ -902,7 +902,7 @@ class SpreadsheetBuilder
       index = Integer($2)
       field = $3.intern
 
-      column = FIELDS_OF_INTEREST.values.flatten.find{|col| col.name.intern == field && col.property_name.intern == property_name}
+      column = FIELDS_OF_INTEREST.values.flatten.find {|col| col.name.intern == field && col.property_name.intern == property_name}
 
       raise "Column definition not found for #{path}" if column.nil?
 
@@ -911,7 +911,7 @@ class SpreadsheetBuilder
 
       column
     else
-      column = FIELDS_OF_INTEREST.fetch(:archival_object).find{|col| col.name == path.intern}
+      column = FIELDS_OF_INTEREST.fetch(:archival_object).find {|col| col.name == path.intern}
 
       raise "Column definition not found for #{path}" if column.nil?
 
@@ -941,8 +941,7 @@ class SpreadsheetBuilder
 
       if spreadsheet_value.to_s =~ /\[(.*)\]$/
         $1
-      elsif
-        raise "Could not parse enumeration value from: #{spreadsheet_value}"
+      elsif raise "Could not parse enumeration value from: #{spreadsheet_value}"
       end
     end
   end

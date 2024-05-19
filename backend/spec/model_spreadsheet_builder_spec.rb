@@ -4,8 +4,8 @@ describe 'Spreadsheet Builder model' do
   let(:dates) { [build(:json_date)] }
   let(:notes) { [build(:json_note_singlepart), build(:json_note_multipart)] }
   let(:extents) { [build(:json_extent, {:portion => generate(:portion)})] }
-  let(:resource) { create(:json_resource, 
-                          :extents => extents, 
+  let(:resource) { create(:json_resource,
+                          :extents => extents,
                           :dates => dates,
                           :notes => notes) }
   let(:ao) { create(:json_archival_object, :resource => {:ref => resource.uri}, :dates => dates) }
@@ -14,7 +14,7 @@ describe 'Spreadsheet Builder model' do
   let(:min_notes) { 0 }
   let(:selected_columns) { ['level', 'component_id'] }
 
-  let(:spreadsheet) { SpreadsheetBuilder.new(resource.uri,[ao.uri],min_subrecords,extra_subrecords,min_notes,selected_columns) }
+  let(:spreadsheet) { SpreadsheetBuilder.new(resource.uri, [ao.uri], min_subrecords, extra_subrecords, min_notes, selected_columns) }
   let(:subrecord_counts) { spreadsheet.calculate_subrecord_counts(min_subrecords, extra_subrecords, min_notes) }
 
   it "creates file name" do
@@ -28,7 +28,7 @@ describe 'Spreadsheet Builder model' do
   it "determines human_readable_headers correctly" do
     header_labels = []
     SpreadsheetBuilder::FIELDS_OF_INTEREST.keys.each do |k|
-      header_labels << SpreadsheetBuilder::FIELDS_OF_INTEREST[k.to_sym].map{|e| e.header_label}
+      header_labels << SpreadsheetBuilder::FIELDS_OF_INTEREST[k.to_sym].map {|e| e.header_label}
     end
     expect(spreadsheet.human_readable_headers - header_labels.flatten!).to eq([])
   end
