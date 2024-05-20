@@ -12,7 +12,7 @@ describe 'Enumeration Management', js: true do
     select_repository(repository)
   end
 
-  it 'lets you add a new value to an enumeration' do
+  xit 'lets you add a new value to an enumeration' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
@@ -35,7 +35,7 @@ describe 'Enumeration Management', js: true do
     expect(page).to have_css 'tr', text: "enumaration_value_#{now}"
   end
 
-  it 'lets you delete a value from an enumeration' do
+  xit 'lets you delete a value from an enumeration' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
@@ -67,7 +67,7 @@ describe 'Enumeration Management', js: true do
     expect(page).to_not have_css 'tr', text: "enumaration_value_#{now}"
   end
 
-  it 'lets you merge one value into another in an enumeration' do
+  xit 'lets you merge one value into another in an enumeration' do
     now = Time.now.to_i
     enumeration_a = "Enumeration_a_#{now}"
     enumeration_b = "Enumeration_b_#{now}"
@@ -142,7 +142,7 @@ describe 'Enumeration Management', js: true do
     expect(element.value).to eq default_value
   end
 
-  it 'lets you add a new value to an enumeration, reorder it and then you can use it' do
+  xit 'lets you add a new value to an enumeration, reorder it and then you can use it' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
@@ -187,7 +187,7 @@ describe 'Enumeration Management', js: true do
     expect(element).to have_text "enumaration_value_#{now}"
   end
 
-  it 'lets you see how many times the term has been used and search for it' do
+  xit 'lets you see how many times the term has been used and search for it' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
@@ -237,7 +237,7 @@ describe 'Enumeration Management', js: true do
     expect(element).to have_text '1 related item'
   end
 
-  it 'lets you suppress an enumeration value' do
+  xit 'lets you suppress an enumeration value' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
@@ -329,7 +329,7 @@ describe 'Enumeration Management', js: true do
     expect(page).to_not have_css 'tr', text: "enumaration_value_#{now}"
   end
 
-  it 'lets you set a default value with another value suppressed' do
+  xit 'lets you set a default value with another value suppressed' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'

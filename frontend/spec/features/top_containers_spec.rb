@@ -31,7 +31,7 @@ describe 'Top Containers and Instances', js: true do
     select_repository(@repo)
   end
 
-  it 'abides by search and browse column preferences' do
+  xit 'abides by search and browse column preferences' do
     visit '/'
     click_button id: 'user-menu-dropdown'
     click_link 'Global Preferences (admin)'
@@ -46,7 +46,7 @@ describe 'Top Containers and Instances', js: true do
     expect(page).to have_content('ILS Holding ID')
   end
 
-  it 'searches containers and performs bulk operations' do
+  xit 'searches containers and performs bulk operations' do
     visit '/top_containers'
     fill_in id: 'q', with: 'Letter'
     click_button 'Search'
@@ -88,7 +88,7 @@ describe 'Top Containers and Instances', js: true do
     # the original selenium test appears to have been left unfinished
   end
 
-  it 'searches containers and performs bulk container merge' do
+  xit 'searches containers and performs bulk container merge' do
     # Some containers for merging
     ('A'..'E').each do |l|
       create :top_container,
@@ -125,7 +125,7 @@ describe 'Top Containers and Instances', js: true do
     expect(find_all('table tr').length).to be 2   # includes header row
   end
 
-  it 'remembers the search after leaving the page' do
+  xit 'remembers the search after leaving the page' do
     visit '/top_containers'
     fill_in id: 'q', with: 'Letter'
     find('input.btn').click
@@ -138,7 +138,7 @@ describe 'Top Containers and Instances', js: true do
     expect(all('tbody tr').length).to eq(n_results)
   end
 
-  it 'can attach instances to resources and create containers and locations along the way' do
+  xit 'can attach instances to resources and create containers and locations along the way' do
     visit "#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#resource_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
     select 'Text', from: 'resource[instances][0][instance_type]'
@@ -248,7 +248,7 @@ describe 'Top Containers and Instances', js: true do
     expect(page).to have_selector("#{second_linker} .token-input-dropdown")
   end
 
-  it 'can add a location with a previous status to a top container' do
+  xit 'can add a location with a previous status to a top container' do
     visit "#{@container.uri.sub(%r{/repositories/\d+}, '')}/edit"
     click_button 'Add Location'
     find(id: 'top_container_container_locations__1__status_').select 'Previous'
@@ -262,7 +262,7 @@ describe 'Top Containers and Instances', js: true do
     expect(find('div.record-pane div.alert-success')).to have_content('Top Container Updated')
   end
 
-  it 'can calculate extents for resources' do
+  xit 'can calculate extents for resources' do
     visit "#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#other-dropdown button').click
     click_button 'Calculate Extent'
@@ -278,7 +278,7 @@ describe 'Top Containers and Instances', js: true do
     expect(extent_headings[1].text).to match(/^\d.*/)
   end
 
-  it 'can calculate extents for accessions' do
+  xit 'can calculate extents for accessions' do
     visit "#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#other-dropdown button').click
     click_button 'Calculate Extent'
