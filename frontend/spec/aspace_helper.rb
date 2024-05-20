@@ -21,16 +21,15 @@ module ASpaceHelpers
 
   def login_user(user)
     visit '/'
-
-    unless page.has_css? 'form.login'
-      visit 'logout'
-    end
+    page.has_xpath? '//input[@id="login"]'
 
     within "form.login" do
       fill_in "username", with: user.username
       fill_in "password", with: user.password
       click_button "Sign In"
     end
+
+    page.has_no_xpath? "//input[@id='login']"
   end
 
   def select_repository(repo)
