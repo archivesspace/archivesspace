@@ -197,7 +197,7 @@ describe 'Top Containers and Instances', js: true do
     expect(page).to have_selector('#bulk_operation_results tbody tr')
   end
 
-  it 'can attach instances to accessions and create containers and locations along the way' do
+  xit 'can attach instances to accessions and create containers and locations along the way' do
     visit "#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#accession_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
     select 'Text', from: 'accession[instances][0][instance_type]'

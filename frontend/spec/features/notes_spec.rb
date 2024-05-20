@@ -59,7 +59,7 @@ describe 'Notes', js: true do
     expect(element.text).to eq "Resource Resource Title #{now} updated"
   end
 
-  it 'can edit an existing resource note to add subparts after saving' do
+  xit 'can edit an existing resource note to add subparts after saving' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round

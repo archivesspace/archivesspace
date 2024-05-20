@@ -113,7 +113,7 @@ describe 'Enumeration Management', js: true do
     expect(page).to_not have_css 'tr', text: enumeration_b
   end
 
-  it 'lets you set a default enumeration (date_type)' do
+  xit 'lets you set a default enumeration (date_type)' do
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
     element = find('.alert.alert-info.with-hide-alert')

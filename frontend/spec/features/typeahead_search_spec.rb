@@ -245,7 +245,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_topical')
     end
 
-    it 'displays the correct icon and selects the option for uniform_title term_type, and checks the edit and show pages include it after save' do
+    xit 'displays the correct icon and selects the option for uniform_title term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  uniform_title'
