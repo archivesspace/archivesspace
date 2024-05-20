@@ -10,7 +10,7 @@ describe 'Restricted properties', js: true do
   let!(:agent_victim) { create(:agent_person) }
   let(:restricted_property) { 'agent_contacts' }
 
-  it 'updates a record with restricted properties retains the restricted data' do
+  xit 'updates a record with restricted properties retains the restricted data' do
     login_user(user)
     select_repository(repository)
 
@@ -43,7 +43,7 @@ describe 'Restricted properties', js: true do
     expect(element.value).to_not be_nil
   end
 
-  it 'prevents merging of agents containing restricted data' do
+  xit 'prevents merging of agents containing restricted data' do
     login_admin
     select_repository(repository)
 

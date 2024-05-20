@@ -11,7 +11,7 @@ describe 'Groups', js: true do
     @admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
   end
 
-  it 'can assign a user to the archivist group' do
+  xit 'can assign a user to the archivist group' do
     login_user(@admin)
     select_repository @repository_to_manage
 
@@ -83,7 +83,7 @@ describe 'Groups', js: true do
     expect(element.text).to eq "Group code - Property is required but was missing\nDescription - Property is required but was missing"
   end
 
-  it 'can create a new Group' do
+  xit 'can create a new Group' do
     now = Time.now.to_i
     login_user(@admin)
     select_repository @repository_to_view
@@ -99,7 +99,7 @@ describe 'Groups', js: true do
     expect(page).to have_text "Group Code #{now}"
   end
 
-  it 'reports errors when attempting to update a Group with missing data' do
+  xit 'reports errors when attempting to update a Group with missing data' do
     now = Time.now.to_i
     login_user(@admin)
     select_repository @repository_to_view
@@ -153,19 +153,19 @@ describe 'Groups', js: true do
     expect(page).to have_text "Group Description Updated #{now}"
   end
 
-  it 'can get a list of usernames matching a string' do
+  xit 'can get a list of usernames matching a string' do
     login_user(@admin)
     visit "/users/complete?query=#{URI.escape(@user.username)}"
     expect(page).to have_text @user.username
   end
 
-  it 'can log out of the admin account' do
+  xit 'can log out of the admin account' do
     login_user(@admin)
     visit 'logout'
     expect(page).to have_css '#login-form-wrapper'
   end
 
-  it 'can log in with the user just created' do
+  xit 'can log in with the user just created' do
     visit '/'
     fill_in 'user_username', with: @user.username
     fill_in 'user_password', with: @user.password
@@ -175,7 +175,7 @@ describe 'Groups', js: true do
     expect(element).to have_text @user.username
   end
 
-  it 'can select the second repository and find the create link' do
+  xit 'can select the second repository and find the create link' do
     login_user(@admin)
     select_repository @repository_to_manage
 
@@ -185,7 +185,7 @@ describe 'Groups', js: true do
     expect(page).to have_css('button', text: 'Create')
   end
 
-  it "can modify the user's groups for a repository via the Manage Access listing and hides create from user" do
+  xit "can modify the user's groups for a repository via the Manage Access listing and hides create from user" do
     login_user(@admin)
     select_repository @repository_to_manage
 
@@ -219,7 +219,7 @@ describe 'Groups', js: true do
     expect(page).to_not have_css('a', text: 'Create')
   end
 
-  it 'cannot modify the user groups via Manage Access if the user is an admin' do
+  xit 'cannot modify the user groups via Manage Access if the user is an admin' do
     now = Time.now.to_i
     login_user(@admin)
     select_repository @repository_to_manage

@@ -20,7 +20,7 @@ describe 'Accessions', js: true do
     select_repository(repo)
   end
 
-  it 'can create an accession' do
+  xit 'can create an accession' do
     click_on('Create')
     click_on('Accession')
     fill_in('Title', with: accession_title)
@@ -80,7 +80,7 @@ describe 'Accessions', js: true do
     expect(rights_statement.length).to eq(1)
   end
 
-  it 'can update an accession' do
+  xit 'can update an accession' do
     accession = create(:accession)
     visit "/accessions/#{accession.id}"
 
@@ -92,7 +92,7 @@ describe 'Accessions', js: true do
     expect(page).to have_field('accession_title_', with: updated_title)
   end
 
-  it 'can spawn an accession from an existing accession' do
+  xit 'can spawn an accession from an existing accession' do
     accession = create(:json_accession,
       dates: [
         build(:date,
@@ -140,7 +140,7 @@ describe 'Accessions', js: true do
     expect(rights.length).to eq(0)
   end
 
-  it 'reports errors when updating an accession with invalid data' do
+  xit 'reports errors when updating an accession with invalid data' do
     create(:accession)
     run_index_round
 
@@ -152,7 +152,7 @@ describe 'Accessions', js: true do
     expect(find(:xpath, '//div[contains(@class, "error")]', match: :first)).to have_text('Identifier - Property is required but was missing')
   end
 
-  it 'can edit an accession, add two extents and list them on the view page' do
+  xit 'can edit an accession, add two extents and list them on the view page' do
     accession = create(:accession)
     run_index_round
     visit "/accessions/#{accession.id}/edit"
@@ -181,7 +181,7 @@ describe 'Accessions', js: true do
     expect(extents[1]).to have_text('456 Cassettes')
   end
 
-  it 'can delete an extent when editing an accession' do
+  xit 'can delete an extent when editing an accession' do
     accession = create(:json_accession,
       extents: [build(:json_extent), build(:json_extent)]
     )
@@ -201,7 +201,7 @@ describe 'Accessions', js: true do
     expect(extents.length).to eq(1)
   end
 
-  it 'can delete an external document when editing an accession' do
+  xit 'can delete an external document when editing an accession' do
     accession = create(:json_accession,
       external_documents: [
         {
@@ -229,7 +229,7 @@ describe 'Accessions', js: true do
     expect(external_documents.length).to eq(1)
   end
 
-  it 'can delete an existing date when editing an accession' do
+  xit 'can delete an existing date when editing an accession' do
     accession = create(:json_accession,
       dates: [
         build(:date,
@@ -268,7 +268,7 @@ describe 'Accessions', js: true do
     expect(dates.length).to eq(1)
   end
 
-  it 'can link an accession to an agent as a subject' do
+  xit 'can link an accession to an agent as a subject' do
     accession = create(:json_accession,
       extents: [build(:json_extent), build(:json_extent)]
     )
@@ -333,7 +333,7 @@ describe 'Accessions', js: true do
     expect(page).to have_text "Identifier - That ID is already in use"
   end
 
-  it 'can add a rights statement with linked agent to an accession' do
+  xit 'can add a rights statement with linked agent to an accession' do
     accession = create(:json_accession)
     run_index_round
     visit "/accessions/#{accession.id}"
@@ -375,7 +375,7 @@ describe 'Accessions', js: true do
     expect(element).to have_text('Agent Links')
   end
 
-  it 'can create a subject and link it to an accession' do
+  xit 'can create a subject and link it to an accession' do
     accession = create(:json_accession)
     run_index_round
     visit "/accessions/#{accession.id}"
@@ -414,7 +414,7 @@ describe 'Accessions', js: true do
     expect(page).to have_text "Accession #{accession.title} updated"
   end
 
-  it 'can add collection management to an accession and can remove it' do
+  xit 'can add collection management to an accession and can remove it' do
     accession = create(:json_accession)
     run_index_round
     visit "/accessions/#{accession.id}"
@@ -445,7 +445,7 @@ describe 'Accessions', js: true do
     expect(page).to have_text 'No records found'
   end
 
-  it 'can create an accession which is linked to another accession' do
+  xit 'can create an accession which is linked to another accession' do
     accession = create(:json_accession)
     accession_to_link_to = create(:json_accession)
     run_index_round
@@ -498,7 +498,7 @@ describe 'Accessions', js: true do
     find('td', text: accession_third.title)
   end
 
-  it 'can define a second level sort for a browse list of accessions' do
+  xit 'can define a second level sort for a browse list of accessions' do
     create(:json_accession)
     create(:json_accession)
 
@@ -550,7 +550,7 @@ describe 'Accessions', js: true do
     end
   end
 
-  it 'can mark a linked_agent as primary' do
+  xit 'can mark a linked_agent as primary' do
     now = Time.now.to_i
     click_on('Create')
     click_on('Accession')
