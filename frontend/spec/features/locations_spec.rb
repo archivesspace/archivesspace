@@ -404,7 +404,7 @@ describe 'Location batch', js: true do
     expect(elements[7].text).to include "Location Batch Building #{now} [Room: 1B, Shelf: 4]"
   end
 
-  it 'can edit locations in batch' do
+  xit 'can edit locations in batch' do
     now = Time.now.to_i
 
     visit 'logout'

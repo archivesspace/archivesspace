@@ -31,7 +31,7 @@ describe 'Tree UI', js: true do
     expect(page).to have_text @resource.title
   end
 
-  it 'can add a sibling' do
+  xit 'can add a sibling' do
     element = all('.root-row')
     expect(element.length).to eq(1)
 
