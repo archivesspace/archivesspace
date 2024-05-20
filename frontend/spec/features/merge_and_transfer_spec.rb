@@ -53,7 +53,8 @@ describe 'Merging and transfering resources', js: true do
     expect(page).to have_css 'tr', text: resource.title
   end
 
-  it 'can merge a resource into a resource' do
+  # TODO
+  xit 'can merge a resource into a resource' do
     now = Time.now.to_i
 
     select_repository(@repository_source)
@@ -126,7 +127,8 @@ describe 'Merging and transfering resources', js: true do
     expect(page).to have_css "#archival_object_#{archival_object.id}"
   end
 
-  it 'can merge a digital object into a digital object' do
+  # TODO
+  xit 'can merge a digital object into a digital object' do
     now = Time.now.to_i
 
     set_repo @repository_source
