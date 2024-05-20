@@ -1,0 +1,60 @@
+// bootstrap 3.4 variables not available in 4.2+
+$headings-font-weight: 500 !default;
+
+// updated vars
+$white: white;
+$input-border: #878787;
+$btn-default-border: $input-border;
+
+// deprecated bootstrap 2.x vars
+// lets phase these out
+
+$navbarBackgroundHighlight: #fff;
+$navbarBackground: darken($navbarBackgroundHighlight, 5%);
+$errorBackground: #f2dede;
+$successBackground: #dff0d8;
+$errorText: #b94a48;
+$infoText: #3a87ad;
+$successText: #468847;
+$warningText: #c09853;
+$inputBackground: $white;
+$btnBackground: $white;
+$btnBackgroundHighlight: darken($white, 10%);
+$linkColor: #08c;
+$btnPrimaryBackground: $linkColor;
+$tableBackgroundHover: #f5f5f5; // for hover
+$baseLineHeight: 20px;
+$baseFontSize: 14px;
+$sansFontFamily: 'Helvetica Neue', helvetica, arial, sans-serif;
+$baseFontFamily: $sansFontFamily;
+
+// Grays
+// -------------------------
+$black: #000;
+$grayDarker: #222;
+$grayDark: #333;
+$gray: #555;
+$grayLight: #999;
+$grayLighter: #e7e7e7;
+$white: #fff;
+$bsFormControlBorderColor: #ced4da;
+$bsCoolGray: #e9ecef;
+$asFormHeadingBg: #f6f6f6;
+
+// Accent colors
+// -------------------------
+$blue: #006f9b;
+$blueDark: #0064cd;
+$green: #398439;
+$red: #9d261d;
+$yellow: #ffc40d;
+$orange: #f89406;
+$pink: #c3325f;
+$purple: #7a43b6;
+
+// override bootstrap for accessibility
+$info: #60c2ef;
+
+:root {
+  --bs-text-body: #212529;
+}

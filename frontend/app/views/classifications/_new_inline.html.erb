@@ -1,6 +1,6 @@
 <%= form_for @classification, :as => "classification", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "classification_form"} do |f| %>
   <%= form_context :classification, @classification do |form| %>
-    <div class="row">
+    <div class="mt-3 d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "classifications/sidebar" %>
       </div>
@@ -8,8 +8,8 @@
         <div class="record-pane">
           <%= render_aspace_partial :partial => "classifications/form_container", :locals => {:form => form} %>
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("classification._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+            <button type="submit" class="btn btn-primary"><%= t("classification._frontend.action.save") %></button>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

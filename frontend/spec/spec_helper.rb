@@ -13,6 +13,7 @@ require 'securerandom'
 require 'nokogiri'
 require 'axe-rspec'
 require 'jsonmodel'
+require 'aspace_logger'
 
 require_relative '../../indexer/app/lib/pui_indexer'
 require_relative '../../indexer/app/lib/realtime_indexer'
@@ -24,14 +25,20 @@ if ENV['COVERAGE_REPORTS'] == 'true'
 end
 AppConfig[:frontend_cookie_secret] = "shhhhh"
 AppConfig[:enable_custom_reports] = true
+app_logfile = File.join(ASUtils.find_base_directory, "ci_logs", "frontend_app_log.out")
+AppConfig[:frontend_log] = app_logfile
 
 backend_port = TestUtils.free_port_from(3636)
 $backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
 test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:backend_url] = $backend
 
+$logger = ASpaceLogger.new(File.join(ASUtils.find_base_directory, "ci_logs", "frontend_test_log.out"))
+$logger.level = :debug
+
 require 'factory_bot'
 include FactoryBot::Syntax::Methods
+include TestUtils::SpecIndexing::Methods
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -89,12 +96,11 @@ RSpec.configure do |config|
     $period = PeriodicIndexer.new($backend, nil, 'periodic_indexer', false)
 
     Factories.init
-
     $repo = create(:repo, :repo_code => "test_#{Time.now.to_i}", publish: true)
     set_repo $repo
     create(:accession)
     create(:resource)
-    run_index_round
+    run_indexer
   end
 
   config.after(:suite) do
@@ -108,8 +114,11 @@ RSpec.configure do |config|
     end
   end
 
-  config.verbose_retry = true
-  config.around :each, :js do |ex|
-    ex.run_with_retry retry: 3
+  config.append_after(:each, js: true) do
+    Capybara.reset_sessions!
   end
+
+  config.verbose_retry = true
+  config.default_retry_count = ENV['ASPACE_TEST_RETRY_COUNT'] || 1
+  config.fail_fast = false
 end

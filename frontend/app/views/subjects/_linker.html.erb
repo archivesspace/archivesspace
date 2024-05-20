@@ -1,9 +1,10 @@
+
 <%
   plugin = false if plugin.blank?
   name = "" if name.nil?
   singular = name.singularize if singular.blank?
   i18n_prefix = plugin ? 'plugins.' : ''
-  heading_text = I18n.t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
+  heading_text = t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
 
   # Allow multiple subjects to be linked if it's an empty linker
   multiplicity = "many" if multiplicity.blank?
@@ -23,8 +24,10 @@
 
   term_type_filter = "" if term_type_filter.blank?
 
+  layout ||= "horizontal"
+
   if !defined?(linker_label)
-    linker_label = (multiplicity === "many") ? I18n.t("subject._plural") : I18n.t("subject._singular")
+    linker_label = (multiplicity === "many") ? t("subject._plural") : t("subject._singular")
   end
 
   # ANW-429: For certain forms, we want to restrict the list of subjects to certain term types. This URL-encoded URL snippet gets appended to the generated URL so that the query used to generate terms to browse is limited to that scope.
@@ -39,71 +42,74 @@
   data_url = url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.SUBJECT_FACETS).to_s + term_type_filter_query
 %>
 
-<div class="form-group required">
-   <% if !name.blank? %>
-     <%= wrap_with_tooltip(linker_label, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label control-label col-sm-2") %>
-     <label class="sr-only"
+<div class="form-group row required">
+  <% if !name.blank? %>
+    <%= wrap_with_tooltip(linker_label, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label control-label col-sm-2 text-right") %>
+    <label class="sr-only"
             id="<%= form.id_for(data_name) %>_label"
             for="<%= form.id_for(data_name) %>">
-        <%= linker_label %>
-      </label>
-   <% else %>
-     <label class="control-label col-sm-2"
+      <%= linker_label %>
+    </label>
+  <% else %>
+    <label class="control-label text-right <%= layout != 'stacked' ? 'col-sm-2' : '' %>"
             id="<%= form.id_for(data_name) %>_label"
             for="<%= form.id_for(data_name) %>">
-        <%= linker_label %>
-      </label>
-   <% end %>
-   <div class="controls col-sm-8">
-       <div class="input-group linker-wrapper"
-            role="combobox"
-            aria-owns="<%= form.id_for(data_name) %>_listbox"
-            id="<%= form.id_for(data_name) %>_combobox">
-          <input type="text" class="linker"
-            id="<%= form.id_for(data_name) %>"
-            aria-autocomplete="both"
-            aria-controls="<%= form.id_for(data_name) %>_listbox"
-            aria-labelledby="<%= form.id_for(data_name) %>_label"
-            data-label_create="<%= I18n.t("subject.linker.create") %>"
-            data-label_browse="<%= I18n.t("subject.linker.browse") %>"
-            data-label_link="<%= I18n.t("linker.link") %>"
-            data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
-            data-path="<%= data_path %>"
-            data-name="<%= data_name %>"
-            data-url="<%= data_url %>"
-            data-browse-url="<%= browse_url %>"
-            data-selected="<%= selected_json %>"
-            data-format_template="title"
-            data-multiplicity="<%= multiplicity %>"
-            <% if multiplicity === "many" %>data-sortable="true"<% end %>
-            data-types='["subject"]'
-            data-exclude='<%= exclude_ids.to_json %>'
-            data-span-class='<%= get_subject_icon_class(form.obj)%>'
-          />
+      <%= linker_label %>
+    </label>
+  <% end %>
+  <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>">
+    <div class="input-group linker-wrapper"
+      role="combobox"
+      aria-owns="<%= form.id_for(data_name) %>_listbox"
+      id="<%= form.id_for(data_name) %>_combobox">
+      <input type="text" class="linker"
+        id="<%= form.id_for(data_name) %>"
+        aria-autocomplete="both"
+        aria-controls="<%= form.id_for(data_name) %>_listbox"
+        aria-labelledby="<%= form.id_for(data_name) %>_label"
+        data-label_create="<%= t("subject.linker.create") %>"
+        data-label_browse="<%= t("subject.linker.browse") %>"
+        data-label_link="<%= t("linker.link") %>"
+        data-label_create_and_link="<%= t("linker.create_and_link") %>"
+        data-path="<%= data_path %>"
+        data-name="<%= data_name %>"
+        data-url="<%= data_url %>"
+        data-browse-url="<%= browse_url %>"
+        data-selected="<%= selected_json %>"
+        data-format_template="title"
+        data-multiplicity="<%= multiplicity %>"
+        <% if multiplicity === "many" %>data-sortable="true"<% end %>
+        data-types='["subject"]'
+        data-exclude='<%= exclude_ids.to_json %>'
+        data-span-class='<%= get_subject_icon_class(form.obj)%>'
+      />
+    
+      <% if form.obj.has_key?('_resolved') %>
+      
+        <input type="text" 
+          class='prelinker' 
+          name="<%= form.path %>[_resolved]"
+          value="<%= selected_json %>" />
           
-          <% if form.obj.has_key?('_resolved') %>
-          
-            <input type="text" 
-              class='prelinker' 
-              name="<%= form.path %>[_resolved]"
-              value="<%= selected_json %>" />
-              
-            <input type="text" 
-              class='prelinker' 
-              name="<%= form.path %>[ref]"
-              value="<%= form.obj["ref"] %>" />
+        <input type="text" 
+          class='prelinker' 
+          name="<%= form.path %>[ref]"
+          value="<%= form.obj["ref"] %>" />
 
-          <% end %>
+      <% end %>
           
-          <div class="input-group-btn">
-             <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("subject.linker.link_title") %>" aria-label="<%= I18n.t("subject.linker.link_title") %>"><span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                 <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
-              <% if !hide_create && user_can?('update_subject_record') %>
-                 <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true, :term_type => term_type_filter %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
-              <% end %>
-              </ul>
-          </div>
-       </div>
-   </div>
+    <div class="input-group-append">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="Link to subject" id="dropdownMenuSubjectsToggle"></button>
+      <ul class="dropdown-menu dropdown-menu-right" id='dropdownMenuSubjects' aria-labelledby="#dropdownMenuSubjects">
+        <li>
+          <button type="button" class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"><%= I18n.t("actions.browse") %></button>
+        </li>
+      <% if !hide_create && user_can?('update_subject_record') %>
+        <li>
+          <button type="button" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true, :term_type => term_type_filter %>" class="btn btn-sm rounded-0 dropdown-item linker-create-btn"><%= I18n.t("actions.create") %></a>
+        </li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
 </div>

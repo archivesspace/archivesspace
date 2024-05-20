@@ -53,7 +53,7 @@ $(function () {
 
       var initRemoveActionForSubRecord = function ($subform) {
         var removeBtn = $(
-          "<a href='javascript:void(0)' class='btn btn-default btn-xs pull-right subrecord-form-remove' title='<%= I18n.t('resource._frontend.remove_subrecord') %>' aria-label='<%= I18n.t('resource._frontend.remove_subrecord') %>'><span class='glyphicon glyphicon-remove'></span></a>"
+          "<a href='javascript:void(0)' class='btn btn-sm btn-default detroit subrecord-form-remove float-right' title='<%= I18n.t('resource._frontend.remove_subrecord') %>' aria-label='<%= I18n.t('resource._frontend.remove_subrecord') %>'><span class='glyphicon glyphicon-remove'></span></a>"
         );
         $subform.prepend(removeBtn);
         removeBtn.on('click', function () {

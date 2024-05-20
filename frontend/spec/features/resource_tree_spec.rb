@@ -21,11 +21,6 @@ describe 'Resource Tree', js: true do
     allow(AppConfig).to receive(:[]).and_call_original
   end
 
-  after(:each) do
-    wait_for_ajax
-    Capybara.reset_sessions!
-  end
-
   xit "shows the record id in the tree if configured to do so" do
     allow(AppConfig).to receive(:[]).with(:display_identifiers_in_largetree_container) { true }
     visit "/resources/#{@resource.id}"

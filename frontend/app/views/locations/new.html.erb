@@ -2,24 +2,24 @@
 
 <%= form_for @location, :as => "location", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :location, @location do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "locations/sidebar" %>
       </div>
       <div class="col-md-9">
         <div class="record-pane">
           <%= link_to_help :topic => "location" %>
-          <h2><%= I18n.t("location.new_title") %>  <span class="label label-info"><%= I18n.t("location._singular") %></span></h2>
+          <h2><%= I18n.t("location.new_title") %>  <span class="label label-info badge"><%= I18n.t("location._singular") %></span></h2>
           <br/>
 
           <%= render_aspace_partial :partial => "locations/form", :locals => {:form => form} %>
 
-          <div class="form-actions">
+          <div class="form-actions pl-0">
             <div class="btn-group">
-              <button type="submit" class="btn btn-primary"><%= I18n.t("location._frontend.action.save") %></button>
-              <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= I18n.t("actions.save_plus_one") %></button>
+              <button type="submit" class="btn btn-primary"><%= t("location._frontend.action.save") %></button>
+              <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= t("actions.save_plus_one") %></button>
             </div>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

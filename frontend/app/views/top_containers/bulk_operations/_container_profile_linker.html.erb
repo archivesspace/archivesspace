@@ -14,10 +14,10 @@
 <div class="input-group linker-wrapper">
   <input type="text" class="linker"
          id="container_profile"
-         data-label_create="<%= I18n.t("container_profile.linker.create") %>"
-         data-label_browse="<%= I18n.t("container_profile.linker.browse") %>"
-         data-label_link="<%= I18n.t("linker.link") %>"
-         data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
+         data-label_create="<%= t("container_profile.linker.create") %>"
+         data-label_browse="<%= t("container_profile.linker.browse") %>"
+         data-label_link="<%= t("linker.link") %>"
+         data-label_create_and_link="<%= t("linker.create_and_link") %>"
          data-name="ref"
          data-path="container_profile"
          data-url="<%= url_for  :controller => :search, :action => :do_search, :format => :json %>"
@@ -26,12 +26,30 @@
          data-multiplicity="one"
          data-types='<%= linkable_types.to_json %>'
   />
-  <div class="input-group-btn">
-    <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("container_profile.linker.link_title") %>" aria-label="<%= I18n.t("container_profile.linker.link_title") %>"><span class="caret"></span></a>
+  <div class="input-group-append">
+    <button
+      type="button"
+      class="btn btn-default dropdown-toggle"
+      data-toggle="dropdown"
+      aria-expanded="false"
+      title="<%= I18n.t("container_profile.linker.link_title") %>"
+      aria-label="<%= I18n.t("container_profile.linker.link_title") %>"
+    ></button>
     <ul class="dropdown-menu">
-      <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+      <li>
+        <button
+          type="button"
+          class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"
+        ><%= I18n.t("actions.browse") %></button>
+      </li>
       <% if show_create_link && user_can?('update_container_profile_record') %>
-        <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :container_profiles, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
+        <li>
+          <button
+            type="button"
+            class="btn btn-sm rounded-0 dropdown-item linker-create-btn"
+            data-target="<%= url_for :controller => :container_profiles, :action => :new, :inline => true %>"
+          ><%= I18n.t("actions.create") %></button>
+        </li>
       <% end %>
     </ul>
   </div>

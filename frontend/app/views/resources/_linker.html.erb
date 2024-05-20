@@ -8,17 +8,17 @@
    exclude_ids = [] if exclude_ids.blank?
    record_types ||= "resource"
    data_types = record_types == "resource" ? ["resource"] : ["resource", "archival_object"]
-   field_label ||= I18n.t("#{record_types}._singular")
+   field_label ||= t("#{record_types}._singular")
    layout ||= "horizontal"
 
 %>
-<div class="form-group required">
-   <label class="control-label <%= layout != 'stacked' ? 'col-sm-2' : '' %>"
+<div class="form-group row required">
+   <label class="control-label text-right <%= layout != 'stacked' ? 'col-sm-2' : '' %>"
           id="<%= form.id_for("ref") %>_label"
           for="<%= form.id_for("ref") %>_combobox">
      <%= field_label %>
    </label>
-   <div class="controls <%= layout != 'stacked' ? 'col-sm-8' : ''%>"
+   <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>"
         role="combobox"
         aria-owns="<%= form.id_for("ref") %>_listbox"
         aria-expanded="false"
@@ -28,10 +28,10 @@
             class="linker"
             id="<%= form.id_for("ref") %>"
             aria-autocomplete="both"
-            data-label_create="<%= I18n.t("#{record_types}.linker.create") %>"
-            data-label_browse="<%= I18n.t("#{record_types}.linker.browse") %>"
-            data-label_link="<%= I18n.t("linker.link") %>"
-            data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
+            data-label_create="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.create") %>"
+            data-label_browse="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.browse") %>"
+            data-label_link="<%= t("linker.link") %>"
+            data-label_create_and_link="<%= t("linker.create_and_link") %>"
             data-path="<%= form.path %>"
             data-name="ref"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json, :linker => true %>"
@@ -56,11 +56,29 @@
               value="<%= form.obj["ref"] %>" />
 
          <% end %>
-         <div class="input-group-btn">
-           <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("#{record_types}.linker.link_title") %>" aria-expanded="false" aria-label="<%= I18n.t("#{record_types}.linker.link_title") %>"><span class="caret"></span></a>
-           <ul class="dropdown-menu">
-             <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
-           </ul>
+         <div class="input-group-append">
+          <%# 
+            This dropdown toggle used in various views is overriden by at least:
+            - frontend/app/assets/javascripts/merge_dropdown.js.erb
+            - frontend/app/assets/javascripts/tree_toolbar.js.erb
+          %>
+          <button
+            type="button"
+            class="btn btn-default dropdown-toggle"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            aria-label="<%= t("resource.linker.link_to") %>"
+            title="<%= t("resource.linker.link_to") %>"
+          ></button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li>
+              <button
+                type="button"
+                class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"
+                data-resource-linker-browse-btn
+              ><%= t("actions.browse") %></button>
+            </li>
+          </ul>
          </div>
        </div>
    </div>

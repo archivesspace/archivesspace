@@ -1,9 +1,9 @@
-<%= setup_context :object => @digital_object, :title => I18n.t("actions.defaults") %>
+<%= setup_context :object => @digital_object, :title => t("actions.defaults") %>
 
 <div id="object_container">
   <%= form_for @digital_object, :as => "digital_object", :url => {:action => :update_defaults}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
     <%= form_context :digital_object, @digital_object do |form| %>
-      <div class="row">
+      <div class="d-flex">
          <div class="col-md-3">
             <%= render_aspace_partial :partial => "digital_objects/sidebar" %>
          </div> <!-- col-md-3 -->
@@ -12,15 +12,15 @@
           <div class="record-pane" id="object_container">
             <%= link_to_help :topic => "digital_object" %>
             <h2>
-              <%= @form_title ? @form_title : @digital_object.title.blank? ? I18n.t("digital_object._singular") : @digital_object.title %>
-              <span class="label label-info"><%= I18n.t("digital_object._singular") %></span>
+              <%= @form_title ? @form_title : @digital_object.title.blank? ? t("digital_object._singular") : @digital_object.title %>
+              <span class="label label-info badge"><%= t("digital_object._singular") %></span>
             </h2>
 
              <%= render_aspace_partial :partial => "digital_objects/form_container", :locals => {:form => form} %>
 
              <div class="form-actions">
-               <button type="submit" class="btn btn-primary"><%= I18n.t("digital_object._frontend.action.save") %></button>
-                <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+               <button type="submit" class="btn btn-primary"><%= t("digital_object._frontend.action.save") %></button>
+                <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
              </div>
            </div>
          </div>

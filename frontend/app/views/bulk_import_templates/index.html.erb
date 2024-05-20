@@ -1,14 +1,14 @@
-<%= setup_context(:title => I18n.t("bulk_import_template._plural")) %>
+<%= setup_context(:title => t("bulk_import_template._plural")) %>
 
-<div class="row">
+<div class="d-flex">
     <div class="col-md-3"></div>
     <div class="col-md-9">
 
         <div class="record-pane">
             <%= link_to_help :topic => "bulk_import_templates" %>
 
-            <h2><%= I18n.t("bulk_import_template._plural") %></h2>
-            <%=  I18n.t("bulk_import_templates.overview") %>
+            <h2><%= t("bulk_import_template._plural") %></h2>
+            <%=  t("bulk_import_templates.overview") %>
             <%= render_aspace_partial :partial => "listing" %>
         </div>
     </div>

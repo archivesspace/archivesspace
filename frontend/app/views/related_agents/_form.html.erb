@@ -6,11 +6,16 @@
 <% define_template "related_agents_#{@agent_type}", jsonmodel_definition(@agent_type.intern) do |form|  %>
 
 <section id="related_agents" class="subrecord-form related-agents-form">
-  <h3 class="subrecord-form-heading">
-    <%= wrap_with_tooltip(I18n.t("related_agent._plural"), "agent.related_agent_tooltip", "subrecord-form-heading-label") %>
+  <header class="d-flex py-2 px-3 align-items-center border-bottom bg-asFormHeadingBg">
+    <h3 class="subrecord-form-heading px-0 border-bottom-0">
+      <%= wrap_with_tooltip(t("related_agent._plural"), "agent.related_agent_tooltip", "subrecord-form-heading-label") %>
+    </h3>
+    <button
+      data-action="add-related-agent-for-type"
+      class="btn btn-sm btn-default add-related-agent-for-type-btn ml-auto"
+    ><%= I18n.t("actions.add") %> <%= I18n.t("related_agent._singular") %></button>
     <%= link_to_help :topic => "agent_related_agents" %>
-    <button class="btn btn-sm btn-default add-related-agent-for-type-btn pull-right"><%= I18n.t("actions.add") %> <%= I18n.t("related_agent._singular") %></button>
-  </h3>
+  </header>
 
   <div id="related-agents-container" class="subrecord-form-container">
     <%= form.list_for(form["related_agents"], "related_agents[]") do |related_agent| %>

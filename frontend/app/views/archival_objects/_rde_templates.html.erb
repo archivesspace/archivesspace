@@ -1,63 +1,63 @@
 <% define_template "rde_archival_object_sections" do |form| %>
-  <th data-id="basic" class="section-basic" colspan="5"><%= I18n.t("rde.sections.basic_information") %></th>
-  <th data-id="language" class="section-language" colspan="2"><%= I18n.t("rde.sections.language") %></th>
-  <th data-id="date" class="section-date" colspan="5" class="conditionally-required"><%= I18n.t("rde.sections.date") %></th>
-  <th data-id="extent" class="section-extent" colspan="6" class="conditionally-required"><%= I18n.t("rde.sections.extent") %></th>
-  <th data-id="instance" class="section-instance" colspan="6"><%= I18n.t("rde.sections.instance") %></th>
-  <th data-id="note" class="section-note" colspan="21"><%= I18n.t("rde.sections.notes") %></th>
+  <th data-id="basic" class="section-basic" colspan="5"><%= t("rde.sections.basic_information") %></th>
+  <th data-id="language" class="section-language" colspan="2"><%= t("rde.sections.language") %></th>
+  <th data-id="date" class="section-date" colspan="5" class="conditionally-required"><%= t("rde.sections.date") %></th>
+  <th data-id="extent" class="section-extent" colspan="6" class="conditionally-required"><%= t("rde.sections.extent") %></th>
+  <th data-id="instance" class="section-instance" colspan="6"><%= t("rde.sections.instance") %></th>
+  <th data-id="note" class="section-note" colspan="21"><%= t("rde.sections.notes") %></th>
 <% end %>
 
 <% define_template "rde_archival_object_headers" do |form| %>
-  <th id="colLevel" class="fieldset-label required sticky" data-section="basic"><%= I18n.t("archival_object.level") %></th>
-  <th id="colOtherLevel" class="fieldset-label sticky" data-section="basic"><%= I18n.t("archival_object.other_level") %></th>
-  <th id="colPublish" class="fieldset-label sticky" data-section="basic"><%= I18n.t("archival_object.publish") %></th>
-  <th id="colTitle" class="fieldset-label conditionally-required" data-section="basic"><%= I18n.t("archival_object.title") %></th>
-  <th id="colCompId" class="fieldset-label" data-section="basic"><%= I18n.t("archival_object.component_id") %></th>
+  <th id="colLevel" class="fieldset-label required sticky" data-section="basic"><%= t("archival_object.level") %></th>
+  <th id="colOtherLevel" class="fieldset-label sticky" data-section="basic"><%= t("archival_object.other_level") %></th>
+  <th id="colPublish" class="fieldset-label sticky" data-section="basic"><%= t("archival_object.publish") %></th>
+  <th id="colTitle" class="fieldset-label conditionally-required" data-section="basic"><%= t("archival_object.title") %></th>
+  <th id="colCompId" class="fieldset-label" data-section="basic"><%= t("archival_object.component_id") %></th>
 
-  <th id="colLanguage" class="fieldset-label sticky" data-section="language"><%= I18n.t("language_and_script.language") %></th>
-  <th id="colScript" class="fieldset-label sticky" data-section="language"><%= I18n.t("language_and_script.script") %></th>
+  <th id="colLanguage" class="fieldset-label sticky" data-section="language"><%= t("language_and_script.language") %></th>
+  <th id="colScript" class="fieldset-label sticky" data-section="language"><%= t("language_and_script.script") %></th>
 
-  <th id="colExpr" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.expression") %></th>
-  <th id="colDType" class="fieldset-label sticky" data-section="date"><%= I18n.t("rde.date_type") %></th>
-  <th id="colDLabel" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.label") %></th>
-  <th id="colDBegin" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.begin") %></th>
-  <th id="colDEnd" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.end") %></th>
+  <th id="colExpr" class="fieldset-label sticky" data-section="date"><%= t("date.expression") %></th>
+  <th id="colDType" class="fieldset-label sticky" data-section="date"><%= t("rde.date_type") %></th>
+  <th id="colDLabel" class="fieldset-label sticky" data-section="date"><%= t("date.label") %></th>
+  <th id="colDBegin" class="fieldset-label sticky" data-section="date"><%= t("date.begin") %></th>
+  <th id="colDEnd" class="fieldset-label sticky" data-section="date"><%= t("date.end") %></th>
 
-  <th id="colEPortion" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.portion") %></th>
-  <th id="colENumber" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.number") %></th>
-  <th id="colEType" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.extent_type") %></th>
-  <th id="colEContainer" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.container_summary") %></th>
-  <th id="colEPhysical" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.physical_details") %></th>
-  <th id="colEDimensions" class="fieldset-label sticky" data-section="extent"><%= I18n.t("extent.dimensions") %></th>
+  <th id="colEPortion" class="fieldset-label sticky" data-section="extent"><%= t("extent.portion") %></th>
+  <th id="colENumber" class="fieldset-label sticky" data-section="extent"><%= t("extent.number") %></th>
+  <th id="colEType" class="fieldset-label sticky" data-section="extent"><%= t("extent.extent_type") %></th>
+  <th id="colEContainer" class="fieldset-label sticky" data-section="extent"><%= t("extent.container_summary") %></th>
+  <th id="colEPhysical" class="fieldset-label sticky" data-section="extent"><%= t("extent.physical_details") %></th>
+  <th id="colEDimensions" class="fieldset-label sticky" data-section="extent"><%= t("extent.dimensions") %></th>
 
-  <th id="colIType" class="fieldset-label sticky" data-section="instance"><%= I18n.t("rde.instance_type") %></th>
-  <th id="colCTop" class="fieldset-label sticky" data-section="instance"><%= I18n.t("top_container._singular") %></th>
-  <th id="colCType2" class="fieldset-label" data-section="instance"><%= I18n.t("sub_container.type_2") %></th>
-  <th id="colCInd2" class="fieldset-label" data-section="instance"><%= I18n.t("sub_container.indicator_2") %></th>
-  <th id="colCType3" class="fieldset-label" data-section="instance"><%= I18n.t("sub_container.type_3") %></th>
-  <th id="colCInd3" class="fieldset-label" data-section="instance"><%= I18n.t("sub_container.indicator_3") %></th>
+  <th id="colIType" class="fieldset-label sticky" data-section="instance"><%= t("rde.instance_type") %></th>
+  <th id="colCTop" class="fieldset-label sticky" data-section="instance"><%= t("top_container._singular") %></th>
+  <th id="colCType2" class="fieldset-label" data-section="instance"><%= t("sub_container.type_2") %></th>
+  <th id="colCInd2" class="fieldset-label" data-section="instance"><%= t("sub_container.indicator_2") %></th>
+  <th id="colCType3" class="fieldset-label" data-section="instance"><%= t("sub_container.type_3") %></th>
+  <th id="colCInd3" class="fieldset-label" data-section="instance"><%= t("sub_container.indicator_3") %></th>
 
-  <th id="colNType1" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 1</th>
-  <th id="colNLabel1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 1</th>
-  <th id="colNBeginRestriction1" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.begin") %> 1</th>
-  <th id="colNEndRestriction1" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.end") %> 1</th>
-  <th id="colNRestrictionType1" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.local_access_restriction_type") %> 1</th>
-  <th id="colNCont1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 1</th>
-  <th id="colNPub1" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.publish") %> 1</th>
-  <th id="colNType2" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 2</th>
-  <th id="colNLabel2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 2</th>
-  <th id="colNBeginRestriction2" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.begin") %> 2</th>
-  <th id="colNEndRestriction2" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.end") %> 2</th>
-  <th id="colNRestrictionType2" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.local_access_restriction_type") %> 2</th>
-  <th id="colNCont2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 2</th>
-  <th id="colNPub2" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.publish") %> 2</th>
-  <th id="colNType3" class="fieldset-label" data-section="note"><%= I18n.t("note._singular") %> 3</th>
-  <th id="colNLabel3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.label") %> 3</th>
-  <th id="colNBeginRestriction3" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.begin") %> 3</th>
-  <th id="colNEndRestriction3" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.end") %> 3</th>
-  <th id="colNRestrictionType3" class="fieldset-label" data-section="note"><%= I18n.t("rights_restriction.local_access_restriction_type") %> 3</th>
-  <th id="colNCont3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.content") %> 3</th>
-  <th id="colNPub3" class="fieldset-label" data-section="note"><%= I18n.t("note_attributes.publish") %> 3</th>
+  <th id="colNType1" class="fieldset-label" data-section="note"><%= t("note._singular") %> 1</th>
+  <th id="colNLabel1" class="fieldset-label" data-section="note"><%= t("note_attributes.label") %> 1</th>
+  <th id="colNBeginRestriction1" class="fieldset-label" data-section="note"><%= t("rights_restriction.begin") %> 1</th>
+  <th id="colNEndRestriction1" class="fieldset-label" data-section="note"><%= t("rights_restriction.end") %> 1</th>
+  <th id="colNRestrictionType1" class="fieldset-label" data-section="note"><%= t("rights_restriction.local_access_restriction_type") %> 1</th>
+  <th id="colNCont1" class="fieldset-label" data-section="note"><%= t("note_attributes.content") %> 1</th>
+  <th id="colNPub1" class="fieldset-label" data-section="note"><%= t("note_attributes.publish") %> 1</th>
+  <th id="colNType2" class="fieldset-label" data-section="note"><%= t("note._singular") %> 2</th>
+  <th id="colNLabel2" class="fieldset-label" data-section="note"><%= t("note_attributes.label") %> 2</th>
+  <th id="colNBeginRestriction2" class="fieldset-label" data-section="note"><%= t("rights_restriction.begin") %> 2</th>
+  <th id="colNEndRestriction2" class="fieldset-label" data-section="note"><%= t("rights_restriction.end") %> 2</th>
+  <th id="colNRestrictionType2" class="fieldset-label" data-section="note"><%= t("rights_restriction.local_access_restriction_type") %> 2</th>
+  <th id="colNCont2" class="fieldset-label" data-section="note"><%= t("note_attributes.content") %> 2</th>
+  <th id="colNPub2" class="fieldset-label" data-section="note"><%= t("note_attributes.publish") %> 2</th>
+  <th id="colNType3" class="fieldset-label" data-section="note"><%= t("note._singular") %> 3</th>
+  <th id="colNLabel3" class="fieldset-label" data-section="note"><%= t("note_attributes.label") %> 3</th>
+  <th id="colNBeginRestriction3" class="fieldset-label" data-section="note"><%= t("rights_restriction.begin") %> 3</th>
+  <th id="colNEndRestriction3" class="fieldset-label" data-section="note"><%= t("rights_restriction.end") %> 3</th>
+  <th id="colNRestrictionType3" class="fieldset-label" data-section="note"><%= t("rights_restriction.local_access_restriction_type") %> 3</th>
+  <th id="colNCont3" class="fieldset-label" data-section="note"><%= t("note_attributes.content") %> 3</th>
+  <th id="colNPub3" class="fieldset-label" data-section="note"><%= t("note_attributes.publish") %> 3</th>
 <% end %>
 
 <% define_template "rde_archival_object_cols" do |form| %>
@@ -116,7 +116,7 @@
       <span class="glyphicon glyphicon-ok valid"></span>
       <div class="error-summary">
         <div class="error-summary-header">
-          <span class="error-summary-header-text"><%= I18n.t("rde.messages.error_summary_header") %></span>
+          <span class="error-summary-header-text"><%= t("rde.messages.error_summary_header") %></span>
           <a href="javascript:void(0);" class="hide-error-summary"><span class='glyphicon glyphicon-chevron-up'></span></a>
           <a href="javascript:void(0);" class="show-error-summary"><span class='glyphicon glyphicon-chevron-down'></span></a>
         </div>
@@ -282,7 +282,7 @@
         <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
           <%=
           form.select("local_access_restriction_type[]",
-                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [I18n.t("enumerations.restriction_type.#{value}", value), value] },
+                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [t("enumerations.restriction_type.#{value}"), value] },
                       :default => form['local_access_restriction_type'])
           %>
         <% end %>
@@ -338,7 +338,7 @@
         <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
           <%=
           form.select("local_access_restriction_type[]",
-                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [I18n.t("enumerations.restriction_type.#{value}", value), value] },
+                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [t("enumerations.restriction_type.#{value}"), value] },
                       :default => form['local_access_restriction_type'])
           %>
         <% end %>
@@ -394,7 +394,7 @@
         <% form.push("rights_restriction", form["rights_restriction"] || {}) do %>
           <%=
           form.select("local_access_restriction_type[]",
-                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [I18n.t("enumerations.restriction_type.#{value}", value), value] },
+                      [["", ""]] + JSONModel.enum_values('restriction_type').map {|value| [t("enumerations.restriction_type.#{value}"), value] },
                       :default => form['local_access_restriction_type'])
           %>
         <% end %>

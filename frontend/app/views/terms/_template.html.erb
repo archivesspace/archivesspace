@@ -1,11 +1,7 @@
 <% define_template "term", jsonmodel_definition(:term) do |form| %>
-  <div class="subrecord-form-inline subrecord-form-fields">
-    <div class="row">
-      <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
-
-        <%= form.label_and_textfield "term", :field_opts => {:autocomplete => "off"}, :col_size => 6 %>
-
-      <%= form.label_and_select "term_type", form.possible_options_for("term_type", true) %>
-    </div>
+  <div class="subrecord-form-inline subrecord-form-fields container">
+    <%= form.hidden_input "vocabulary", current_vocabulary['uri'] %>
+    <%= form.label_and_textfield "term", :field_opts => {:autocomplete => "off"}, :col_size => 9 %>
+    <%= form.label_and_select "term_type", form.possible_options_for("term_type", true) %>
   </div>
 <% end %>

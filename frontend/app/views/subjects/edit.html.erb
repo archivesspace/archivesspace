@@ -2,7 +2,7 @@
 
 <%= form_for @subject, :as => "subject", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@subject)) do |f| %>
   <%= form_context :subject, @subject do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
@@ -10,10 +10,10 @@
         <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "subject" %>
-          <h2><%= @subject.title %>  <span class="label label-info"><%= I18n.t("subject._singular") %></span></h2>
+          <h2><%= @subject.title %>  <span class="label label-info badge"><%= I18n.t("subject._singular") %></span></h2>
           <br/>
           <%= render_aspace_partial :partial => "subjects/form", :locals => {:form => form} %>
-          <div class="form-actions">
+          <div class="pl-0 form-actions">
             <button type="submit" class="btn btn-primary"><%= I18n.t("subject._frontend.action.save") %></button>
             <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>

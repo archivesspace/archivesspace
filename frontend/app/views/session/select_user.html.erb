@@ -1,16 +1,21 @@
-<div class="row">
+<div class="d-flex">
    <div class="col-md-3">
    </div>
 
    <div class="col-md-9">
     <div class="record-pane">
-      <h2><%= I18n.t("navbar.become-user") %></h2>
+      <h2><%= t("navbar.become-user") %></h2>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
-      <%= form_tag({:action => :become_user}, {:class => 'form-horizontal', :id => 'new_become_user'}) do |f| %>
-        <input id="select-user" name="username" class="input-medium" type="text" autocomplete="off" placeholder="<%= I18n.t("become-user.username") %>" />
-        <input class="btn btn-primary" type="submit" value="<%= I18n.t("become-user.become-user") %>"/>
+      <%= form_tag({:action => :become_user}, {:class => 'form-inline', :id => 'new_become_user'}) do |f| %>
+        <label for="select-user" class="sr-only"><%= t("become-user.username") %></label>
+        <div class="input-group">
+          <input id="select-user" name="username" class="form-control" type="text" autocomplete="off" placeholder="<%= t("become-user.username") %>" />
+          <div class="input-group-append">
+            <input class="btn btn-primary" type="submit" value="<%= t("become-user.become-user") %>"/>
+          </div>
+        </div>
       <% end %>
     </div>
    </div>

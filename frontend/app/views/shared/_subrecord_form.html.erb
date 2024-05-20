@@ -5,7 +5,7 @@
   action_button_override = singular if action_button_override.blank?
   section_id = form.id_for(name) if section_id.blank?
   heading_size = "h3" if heading_size.blank?
-  heading_text = I18n.t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
+  heading_text = t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
   template = singular if template.blank?
   template_erb = "#{name.to_s}/template" if template_erb.blank?
   js_template_name = "template_#{template}" if js_template_name.blank?
@@ -35,16 +35,16 @@
 
 <section id="<%= section_id %>" class="<%= section_classes.reject(&:blank?).join(' ') %><% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>" <% if remove_disabled %>data-remove="disabled" <% end %>>
   <% unless hidden %>
-  <<%= heading_size %> class="subrecord-form-heading">
+  <<%= heading_size %> class="subrecord-form-heading d-flex py-2 align-items-center">
     <%= wrap_with_tooltip(heading_text, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
 
     <% if !form.readonly? %>
-     <%= link_to_help :topic => help_topic %>
      <% if custom_action_template %>
        <%= render :partial => custom_action_template %>
      <% else %>
-       <button class="btn btn-sm btn-default pull-right"><%= I18n.t("#{i18n_prefix}#{action_button_override}._frontend.action.add") %></button>
+       <button class="btn btn-sm btn-default ml-auto"><%= t("#{i18n_prefix}#{action_button_override}._frontend.action.add") %></button>
      <% end %>
+     <%= link_to_help :topic => help_topic %>
     <% end %>
 
   </<%= heading_size %>>

@@ -5,11 +5,11 @@
 		<thead>
 			<tr>
 				<th>
-					<%= link_to I18n.t("custom_report_template._singular"), sort: :name, direction: sort_direction(:name, params, 'asc') %>
+					<%= link_to t("custom_report_template._singular"), sort: :name, direction: sort_direction(:name, params, 'asc') %>
 					<%= sort_pointer(:name, params, '&#x25B2;').html_safe %>
 				</th>
-				<th><%= I18n.t("custom_report_template.description") %></th>
-				<th width="70px"><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
+				<th><%= t("custom_report_template.description") %></th>
+				<th width="70px"><span class="sr-only"><%= t('search_results.actions') %></span></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -19,18 +19,18 @@
 					<td><%= template.description %></td>
 					<td>
 						<div class="btn-group" style="float: right">
-							<%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => template["uri"]}, :class => "btn btn-xs btn-default" %>
-							<%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => template["uri"]}, :class => "btn btn-xs btn-primary" %>
-							<%= link_to I18n.t("actions.run"),
+							<%= link_to t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => template["uri"]}, :class => "btn btn-sm btn-default" %>
+							<%= link_to t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => template["uri"]}, :class => "btn btn-sm btn-primary" %>
+							<%= link_to t("actions.run"),
 								new_job_path(
 									:job_type => 'report_job',
 									:report_type => 'custom_report',
 									:template => template.name,
 								),
-								:class => "btn btn-xs btn-info"
+								:class => "btn btn-sm btn-info"
 							%>
-							<%= link_to I18n.t("actions.copy"), {:controller => :custom_report_templates, :action => :copy, :id => template.id}, :class => "btn btn-xs btn-default" %>
-							<%= link_to I18n.t("actions.delete"), {:controller => :custom_report_templates, :action => :delete, :id => template.id}, :"data-confirmation" => true, :"data-title" => I18n.t("actions.delete_confirm_title", :title => template.name), :"data-message" => I18n.t("actions.delete_confirm_message"), :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}", :"data-confirm-btn-class" => "btn-danger", :class => "btn btn-xs btn-danger", :"data-authenticity_token" => form_authenticity_token %>
+							<%= link_to t("actions.copy"), {:controller => :custom_report_templates, :action => :copy, :id => template.id}, :class => "btn btn-sm btn-default" %>
+							<%= link_to t("actions.delete"), {:controller => :custom_report_templates, :action => :delete, :id => template.id}, :"data-confirmation" => true, :"data-title" => t("actions.delete_confirm_title", :title => template.name), :"data-message" => t("actions.delete_confirm_message"), :"data-confirm-btn-label" => "#{t("actions.delete")}", :"data-confirm-btn-class" => "btn-danger", :class => "btn btn-sm btn-danger", :"data-authenticity_token" => form_authenticity_token %>
 						</div>
 					</td>
 				</tr>

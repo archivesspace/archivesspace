@@ -1,8 +1,8 @@
-<%= setup_context :object => @agent, :controller => :agents,  :agent_type => @agent.agent_type, :title => "#{I18n.t("actions.required")} #{I18n.t("agent.agent_type.#{@agent.agent_type}")}" %>
+<%= setup_context :object => @agent, :controller => :agents,  :agent_type => @agent.agent_type, :title => "#{t("actions.required")} #{t("agent.agent_type.#{@agent.agent_type}")}" %>
 
 <%= form_for @agent, :as => "agent", :url => {:action => :update_required}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"} do |f| %>
   <%= form_context :agent, @agent do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "required_sidebar", :locals => {:form => form} %>
       </div>
@@ -10,14 +10,14 @@
         <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= link_to_help :topic => "agent_required" %>
-          <h2><%= "#{I18n.t("required_fields.form_title.#{@agent.agent_type}")}" %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+          <h2><%= "#{t("required_fields.form_title.#{@agent.agent_type}")}" %>  <span class="label label-info badge"><%= t("agent._singular") %></span></h2>
           <%= render_aspace_partial :partial => "agents/form_required", :locals => {:form => form} %>
           <div class="form-actions">
             <div class="btn-group">
-              <button type="submit" class="btn btn-primary"><%= I18n.t("#{@agent.agent_type}._frontend.action.save") %></button>
-              <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= I18n.t("actions.save_plus_one") %></button>
+              <button type="submit" class="btn btn-primary"><%= t("#{@agent.agent_type}._frontend.action.save") %></button>
+              <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= t("actions.save_plus_one") %></button>
             </div>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

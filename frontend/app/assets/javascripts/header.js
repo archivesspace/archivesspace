@@ -117,7 +117,7 @@ $(function () {
       event.stopPropagation();
       event.preventDefault();
 
-      $(this).closest('.row').remove();
+      $(this).closest('fieldset').remove();
 
       // Ensure first row operator select only offers "NOT" value
       var $firstOpSelect = $(
@@ -189,7 +189,7 @@ $(function () {
 
   var enableAdvancedSearch = function () {
     $advancedSearchForm.off('submit');
-    $('.btn-primary', $advancedSearchContainer).removeAttr('disabled');
+    $('.btn-primary', $advancedSearchContainer).attr('disabled', null);
   };
 
   var addAdvancedSearchRow = function (index, type, first, query, label) {

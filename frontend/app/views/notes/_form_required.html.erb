@@ -15,13 +15,13 @@
          class="subrecord-form notes-form  <%= "note-inline" if inline? %>"
          <%= "data-template=template_#{nested_note_jsonmodel}_note_type_selector_inline" if nested_note_jsonmodel %>>
   <<%= header_size%> class="subrecord-form-heading">
-    <%= wrap_with_tooltip(I18n.t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>
+    <%= wrap_with_tooltip(t("note._plural"), "#{form.i18n_for('notes')}_tooltip", "subrecord-form-heading-label") %>
     <%= link_to_help :topic => "#{form['jsonmodel_type']}_notes" %>
 
     <% if show_apply_note_order_action %>
-      <button class="btn btn-sm btn-default pull-right apply-note-order" disabled="disabled"><%= I18n.t("note._frontend.action.apply_note_order") %></button>
+      <button class="btn btn-sm btn-default ml-auto border bg-white mx-1 mt-1 apply-note-order" disabled="disabled"><%= I18n.t("note._frontend.action.apply_note_order") %></button>
     <% end %>
-    <button class="btn btn-sm btn-default pull-right add-note"><%= I18n.t("note._frontend.action.add") %></button>
+    <button class="btn btn-sm btn-default border bg-white mx-1 mt-1 ml-auto add-note"><%= I18n.t("note._frontend.action.add") %></button>
 
   </<%= header_size%>>
   <div class="subrecord-form-container mixed-content-anchor">

@@ -1,11 +1,13 @@
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @accession, :form => form} %>
 
 <% define_template("accession", jsonmodel_definition(:accession)) do |form| %>
-  <section id="basic_information">
-    <h3>
-      <%= I18n.t "accession._frontend.section.basic_information" %>
+  <section id="basic_information" class="d-flex flex-column w-100">
+    <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+      <h3 class="flex-grow-1 mb-0 border-0">
+        <%= t "accession._frontend.section.basic_information" %>
+      </h3>
       <%= link_to_help :topic => "accession_basic_information" %>
-    </h3>
+    </div>
     <fieldset>
       <%= render_plugin_partials("top_of_basic_information_accession",
                                  :form => form,
@@ -29,8 +31,8 @@
        <%= form.label_and_textarea "general_note" %>
        <%= form.label_and_select "acquisition_type", form.possible_options_for("acquisition_type", true) %>
        <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
-       <%= form.label_and_select("language", form.possible_options_for("language", true)) %>
-       <%= form.label_and_select("script", form.possible_options_for("script", true)) %>
+       <%= form.label_and_select("language", form.possible_options_for("language", true), {:label_opts => {:classes => 'mb-0'}}) %>
+       <%= form.label_and_select("script", form.possible_options_for("script", true), {:label_opts => {:classes => 'mb-0'}}) %>
        <%= form.label_and_boolean "restrictions_apply", {}, form.default_for("restrictions_apply") %>
        <%= form.label_and_boolean "access_restrictions", {}, form.default_for("access_restrictions") %>
        <%= form.label_and_textarea "access_restrictions_note" %>
@@ -69,7 +71,7 @@
 
 <%= form_plugins_for("accession", form) %>
 
-<div class="form-actions">
-  <button type="submit" class="btn btn-primary"><%= I18n.t("accession._frontend.action.save") %></button>
-  <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+<div class="form-actions pl-0">
+  <button type="submit" class="btn btn-primary"><%= t("accession._frontend.action.save") %></button>
+  <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
 </div>

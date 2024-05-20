@@ -1,35 +1,34 @@
-<%= setup_context(:title => I18n.t("container_profile._plural")) %>
+<%= setup_context(:title => t("container_profile._plural")) %>
 
 <%
    @show_multiselect_column = user_can?("update_container_profile_record")
 %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
     </div>
   </div>
   <div class="col-md-9">
-    <div class="record-toolbar">
-      <div class="btn-group pull-right">
-        <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
-          fields }), id: "searchExport", class: "btn btn-sm btn-info" %>
+    <div class="record-toolbar d-flex justify-content-end">
+      <div class="btn-group">
+        <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
+          fields }), id: "searchExport", class: "btn btn-sm btn-primary" %>
         <% if user_can?('update_container_profile_record') %>
-          <%= link_to I18n.t("container_profile._frontend.action.create"), {:controller => :container_profiles, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <%= link_to t("container_profile._frontend.action.create"), {:controller => :container_profiles, :action => :new}, :class => "btn btn-sm btn-default" %>
         <% end %>
         <% if user_can?('manage_container_profile_record') %>
-          <button id="batchMerge" class="btn btn-sm btn-default multiselect-enabled" disabled="disabled" data-multiselect="#tabledSearchResults"><%= I18n.t("actions.merge")%></button>
+          <button id="batchMerge" class="btn btn-sm btn-default multiselect-enabled" disabled="disabled" data-multiselect="#tabledSearchResults"><%= t("actions.merge")%></button>
         <% end %>
        <% if user_can?("manage_container_profile_record") %>
          <%= button_delete_multiple_action(:container_profiles) %>
        <% end %>
       </div>
-      <br style="clear:both" />
     </div>
     <div class="record-pane">
 
-      <h2><%= I18n.t("container_profile._plural") %></h2>
+      <h2><%= t("container_profile._plural") %></h2>
 
       <%= render_aspace_partial :partial => "search/listing" %>
 

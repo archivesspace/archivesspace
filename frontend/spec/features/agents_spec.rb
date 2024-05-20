@@ -659,7 +659,7 @@ describe 'System Information', js: true do
         click_on 'Agents'
         element = find('#filter-text')
         element.fill_in with: "Agent Name #{now}"
-        find('.input-group.search-filter button .glyphicon.glyphicon-search').click
+        find('button[title="Filter by text"]').click
         element = find(:css, "tr", text: "Agent Name #{now}")
         expect(element).to have_text 'Local sources'
       end
@@ -754,7 +754,7 @@ describe 'System Information', js: true do
 
         element = find('#filter-text')
         element.fill_in with: "Agent Name #{now}"
-        find('.input-group.search-filter button .glyphicon.glyphicon-search').click
+        find('button[title="Filter by text"]').click
         element = find(:css, "tr", text: "Agent Name #{now}")
         expect(element).to have_text 'Local rules'
       end

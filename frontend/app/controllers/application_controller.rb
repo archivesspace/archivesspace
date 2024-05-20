@@ -4,6 +4,7 @@ require 'search'
 require 'zlib'
 
 class ApplicationController < ActionController::Base
+  include ActionView::Helpers::TranslationHelper
   protect_from_forgery with: :exception
 
   helper :all
@@ -166,7 +167,7 @@ class ApplicationController < ActionController::Base
     begin
       request.save(:record_type => merge_type)
 
-      flash[:success] = I18n.t("#{merge_type}._frontend.messages.merged")
+      flash[:success] = t("#{merge_type}._frontend.messages.merged")
 
       if merge_type == 'top_container'
         redirect_to(:controller => :top_containers, :action => :index)
@@ -178,10 +179,10 @@ class ApplicationController < ActionController::Base
       flash[:error] = e.errors.to_s
       redirect_to({:action => :show, :id => id}.merge(extra_params))
     rescue ConflictException => e
-      flash[:error] = I18n.t("errors.merge_conflict", :message => e.conflicts)
+      flash[:error] = t("errors.merge_conflict", :message => e.conflicts)
       redirect_to({:action => :show, :id => id}.merge(extra_params))
     rescue RecordNotFound => e
-      flash[:error] = I18n.t("errors.error_404")
+      flash[:error] = t("errors.error_404")
       redirect_to({:action => :show, :id => id}.merge(extra_params))
     end
   end
@@ -317,7 +318,7 @@ class ApplicationController < ActionController::Base
   # replace the untranslatable text with a generic message
   # untranslatable messages have a reference to an array index, like record/0/subrecord. We'll look for anything that has an error that matches to /d+/ and replace it with something generic that we can translate.
   def clean_exceptions(ex)
-    generic_error = I18n.t("validation_errors.generic_validation_error")
+    generic_error = t("validation_errors.generic_validation_error")
     regex = /\/\d+\//
 
     ex.each do |key, exception|
@@ -683,12 +684,12 @@ class ApplicationController < ActionController::Base
                                          "target_repo" => params[:ref])
 
     if response.code == '200'
-      flash[:success] = I18n.t("actions.transfer_successful")
+      flash[:success] = t("actions.transfer_successful")
     elsif response.code == '409'
     # Transfer failed for a known reason
       raise ArchivesSpace::TransferConflictException.new(ASUtils.json_parse(response.body).fetch('error'))
     else
-      flash[:error] = I18n.t("actions.transfer_failed") + ": " + response.body
+      flash[:error] = t("actions.transfer_failed") + ": " + response.body
     end
 
     redirect_to(:action => :index, :deleted_uri => old_uri)

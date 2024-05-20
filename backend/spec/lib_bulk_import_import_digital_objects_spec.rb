@@ -49,7 +49,7 @@ describe "Import Digital Objects" do
     csv_data = CSV.read(csv_template_path)
     expect(csv_data.count).to eq 2
     columns = csv_data[0] # CSV headers
-    column_explenations = csv_data[1] # CSV header explanations
+    column_explanations = csv_data[1] # CSV header explanations
 
     subject = create(:json_subject)
 
@@ -86,7 +86,7 @@ describe "Import Digital Objects" do
 
     csv_string = CSV.generate(col_sep: ',') do |csv|
       csv << columns
-      csv << column_explenations
+      csv << column_explanations
       csv << digital_object_row.values
     end
 
@@ -154,7 +154,7 @@ describe "Import Digital Objects" do
     csv_data = CSV.read(csv_template_path)
     expect(csv_data.count).to eq 2
     columns = csv_data[0] # CSV headers
-    column_explenations = csv_data[1] # CSV header explanations
+    column_explanations = csv_data[1] # CSV header explanations
 
     subject = create(:json_subject)
 
@@ -183,7 +183,7 @@ describe "Import Digital Objects" do
 
     csv_string = CSV.generate(col_sep: ',') do |csv|
       csv << columns
-      csv << column_explenations
+      csv << column_explanations
       csv << digital_object_row.values
     end
 
@@ -236,7 +236,7 @@ describe "Import Digital Objects" do
     csv_data = CSV.read(csv_template_path)
     expect(csv_data.count).to eq 2
     columns = csv_data[0] # CSV headers
-    column_explenations = csv_data[1] # CSV header explanations
+    column_explanations = csv_data[1] # CSV header explanations
 
     agent_person = nil
     expect do
@@ -283,7 +283,7 @@ describe "Import Digital Objects" do
 
     csv_string = CSV.generate(col_sep: ',') do |csv|
       csv << columns
-      csv << column_explenations
+      csv << column_explanations
       csv << digital_object_row.values
     end
 
@@ -349,7 +349,7 @@ describe "Import Digital Objects" do
     csv_data = CSV.read(csv_template_path)
     expect(csv_data.count).to eq 2
     columns = csv_data[0] # CSV headers
-    column_explenations = csv_data[1] # CSV header explanations
+    column_explanations = csv_data[1] # CSV header explanations
 
     # Assign data to csv row, in the same a way user would write them
     digital_object_row = {}
@@ -373,7 +373,7 @@ describe "Import Digital Objects" do
 
     csv_string = CSV.generate(col_sep: ',') do |csv|
       csv << columns
-      csv << column_explenations
+      csv << column_explanations
       csv << digital_object_row.values
     end
 
@@ -432,7 +432,7 @@ describe "Import Digital Objects" do
     csv_data = CSV.read(csv_template_path)
     expect(csv_data.count).to eq 2
     columns = csv_data[0] # CSV headers
-    column_explenations = csv_data[1] # CSV header explanations
+    column_explanations = csv_data[1] # CSV header explanations
 
     # Assign data to csv row, in the same a way user would write them
     digital_object_row = {}
@@ -458,7 +458,7 @@ describe "Import Digital Objects" do
 
     csv_string = CSV.generate(col_sep: ',') do |csv|
       csv << columns
-      csv << column_explenations
+      csv << column_explanations
       csv << digital_object_row.values
     end
 
@@ -525,7 +525,7 @@ describe "Import Digital Objects" do
     expect(csv_data.count).to eq 2
 
     columns = csv_data[0] # CSV headers
-    column_explenations = csv_data[1] # CSV header explanation
+    column_explanations = csv_data[1] # CSV header explanation
 
     # Assign data to csv row, in the same a way user would write them
     digital_object_row = {}
@@ -542,7 +542,7 @@ describe "Import Digital Objects" do
 
     csv_string = CSV.generate(col_sep: ',') do |csv|
       csv << columns
-      csv << column_explenations
+      csv << column_explanations
       csv << digital_object_row.values
     end
 

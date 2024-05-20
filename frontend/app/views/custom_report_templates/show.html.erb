@@ -1,6 +1,6 @@
 <%= setup_context :object => @custom_report_template, :title => @custom_report_template['name'] %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <%= render_aspace_partial :partial => "sidebar" %>
   </div>
@@ -18,7 +18,7 @@
           <% record_types = [data['custom_record_type']] %>
 
           <div id="template_information">
-            <h3><%= I18n.t "custom_report_template._frontend.section.template_information" %></h3>
+            <h3><%= t "custom_report_template._frontend.section.template_information" %></h3>
 
             <%= readonly.label_and_textarea "name", :required => true %>
             <%= readonly.label_and_textarea "description" %>
@@ -27,7 +27,7 @@
             <div class="form-group">
               <%= readonly.label 'record_type', :class => "col-sm-2 control-label" %>
               <div class="col-sm-9 label-only">
-                <%= I18n.t("#{data['custom_record_type']}._plural") %>
+                <%= t("#{data['custom_record_type']}._plural") %>
               </div>
             </div>
           </div>
@@ -44,7 +44,7 @@
 
               <div id="<%= record_type %>_basic_information_fields">
 
-                <h3><%= I18n.t "custom_report_template._frontend.section.basic_information_fields" %></h3>
+                <h3><%= t "custom_report_template._frontend.section.basic_information_fields" %></h3>
 
                 <% fields.each do |field| %>
                   <div class="panel panel-default">
@@ -52,9 +52,9 @@
                     <div class="panel-heading">
                       <% if field[0] == 'created_by' || field[0] == 'last_modified_by' ||
                             field[0] == 'create_time' || field[0] == 'user_mtime' %>
-                            <%= I18n.t("#{field[0]}") %>
+                            <%= t("#{field[0]}") %>
                       <% else %>
-                        <%= I18n.t("#{record_type}.#{field[0]}", :default => "#{field[0]}") %>
+                        <%= t("#{record_type}.#{field[0]}", :default => "#{field[0]}") %>
                       <% end %>
                     </div>
 
@@ -64,9 +64,9 @@
                         <div class="col-sm-9 label-only">
                           <% if field[1]['include'] == '1' %>
                             <% display = true %>
-                            <%= I18n.t("boolean.true") %>
+                            <%= t("boolean.true") %>
                           <% else %>
-                            <%= I18n.t("boolean.false") %>
+                            <%= t("boolean.false") %>
                           <% end %>
                         </div>
                       </div>
@@ -106,7 +106,7 @@
                         <div class="form-group">
                           <%= readonly.label "value", :class => "col-sm-2 control-label" %>
                           <div class="col-sm-9 label-only">
-                            <%= I18n.t("custom_report_template.#{field[1]['value']}") %>
+                            <%= t("custom_report_template.#{field[1]['value']}") %>
                           </div>
                         </div>
                       <% end %>
@@ -118,7 +118,7 @@
                             <div class="col-sm-9 label-only">
                               <% val_array = [] %>
                               <% field[1]['values'].each do |f_val| %>
-                                <% val_array.push(I18n.t("#{record_type}.#{record_type}_#{field[0]}.#{f_val}")) %>
+                                <% val_array.push(t("#{record_type}.#{record_type}_#{field[0]}.#{f_val}")) %>
                               <% end %>
                               <% val_array.each do |v| %>
                                 <%= v %><br/>
@@ -139,7 +139,7 @@
                               <% val_array = [] %>
                               <% field[1]['values'].each do |f_val| %>
                                 <% val = enum['enumeration_values'].find { |h| h['id'] == f_val.to_i } if enum %>
-                                <% val_array.push(I18n.t("enumerations.#{enum_name}.#{val['value']}")) if val %>
+                                <% val_array.push(t("enumerations.#{enum_name}.#{val['value']}")) if val %>
                               <% end %>
                               <% val_array.each do |v| %>
                                 <%= v %><br/>
@@ -154,20 +154,20 @@
               </div>
 
               <div id="<%= record_type %>_linked_records">
-                <h3><%= I18n.t "custom_report_template._frontend.section.linked_records" %></h3>
+                <h3><%= t "custom_report_template._frontend.section.linked_records" %></h3>
                 <% record_data.fetch('subreports', []).each do |subreport| %>
                   <% translation = "#{subreport[0]}._plural" %>
                   <div class="panel panel-default">
 
                     <div class="panel-heading">
-                      <%= I18n.t(translation) %>
+                      <%= t(translation) %>
                     </div>
 
                     <div style="padding-bottom: 10px;">
                       <div class="form-group">
                         <%= readonly.label 'include', :class => "col-sm-2 control-label" %>
                         <div class="col-sm-9 label-only">
-                          <%= I18n.t("boolean.true") %>
+                          <%= t("boolean.true") %>
                         </div>
                       </div>
 
@@ -177,13 +177,13 @@
               </div>
 
               <div id="<%= record_type %>_sort_by">
-                <h3><%= I18n.t "custom_report_template._frontend.section.sort_by" %></h3>
+                <h3><%= t "custom_report_template._frontend.section.sort_by" %></h3>
                 <div style="padding-bottom: 10px;" class="col-sm-2 control-label">
                   <% if data['sort_by'] == 'created_by' || data['sort_by'] == 'last_modified_by' ||
                         data['sort_by'] == 'create_time' || data['sort_by'] == 'user_mtime' %>
-                    <%= I18n.t("#{data['sort_by']}") %>
+                    <%= t("#{data['sort_by']}") %>
                   <% else %>
-                    <%= I18n.t("#{record_type}.#{data['sort_by']}", :default => "#{data['sort_by']}") %>
+                    <%= t("#{record_type}.#{data['sort_by']}", :default => "#{data['sort_by']}") %>
                   <% end %>
                 </div>
               </div>

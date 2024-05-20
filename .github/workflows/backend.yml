@@ -29,7 +29,7 @@ on:
 
 jobs:
   backend:
-    name: Backend_Java_v${{ inputs.java-version || 11 }}
+    name: Backend_Java_v${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
@@ -56,10 +56,13 @@ jobs:
 
     - uses: actions/setup-java@v4
       with:
-        java-version: ${{ inputs.java-version || 11 }}
+        java-version: ${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'
+      with:
+        backend: true
+        indexer: true
 
     - name: Allow ArchivesSpace functions for app db user
       env:

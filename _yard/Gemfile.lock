@@ -4,16 +4,14 @@ GEM
     kramdown (2.4.0)
       rexml
     rexml (3.2.5)
-    webrick (1.7.0)
-    yard (0.9.28)
-      webrick (~> 1.7.0)
+    yard (0.9.34)
 
 PLATFORMS
-  java
+  universal-java-1.8
 
 DEPENDENCIES
   kramdown
   yard (>= 0.9.20)
 
 BUNDLED WITH
-   2.1.4
+   2.3.15

@@ -48,7 +48,7 @@ class TopContainersController < ApplicationController
         csv_response(
           "/repositories/#{session[:repo_id]}/search",
           prepare_search.merge('facet[]' => SearchResultData.TOP_CONTAINER_FACETS),
-          "#{I18n.t('top_container._plural').downcase}."
+          "#{t('top_container._plural').downcase}."
         )
       }
     end
@@ -80,7 +80,7 @@ class TopContainersController < ApplicationController
                     @top_container.refetch
                     render :json => @top_container.to_hash if inline?
                   else
-                    flash[:success] = I18n.t('top_container._frontend.messages.created')
+                    flash[:success] = t('top_container._frontend.messages.created')
                     redirect_to :controller => :top_containers, :action => :show, :id => id
                   end
                 })
@@ -110,7 +110,7 @@ class TopContainersController < ApplicationController
                   return render action: 'edit'
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t('top_container._frontend.messages.updated')
+                  flash[:success] = t('top_container._frontend.messages.updated')
                   redirect_to :controller => :top_containers, :action => :show, :id => id
                 })
   end
@@ -139,11 +139,11 @@ class TopContainersController < ApplicationController
                                          )
 
     if response.code === '200'
-      flash[:success] = I18n.t('top_container.batch_delete.success')
+      flash[:success] = t('top_container.batch_delete.success')
       deleted_uri_param = params[:record_uris].map {|uri| "deleted_uri[]=#{uri}"}.join('&')
       redirect_to "#{request.referrer}?#{deleted_uri_param}"
     else
-      flash[:error] = "#{I18n.t("top_container.batch_delete.error")}<br/> #{ASUtils.json_parse(response.body)["error"]["failures"].map {|err| "#{err["response"]} [#{err["uri"]}]"}.join("<br/>")}".html_safe
+      flash[:error] = "#{t("top_container.batch_delete.error")}<br/> #{ASUtils.json_parse(response.body)["error"]["failures"].map {|err| "#{err["response"]} [#{err["uri"]}]"}.join("<br/>")}".html_safe
       redirect_to request.referrer
     end
   end
@@ -209,7 +209,7 @@ class TopContainersController < ApplicationController
     begin
       results = perform_search
     rescue MissingFilterException
-      return render :plain => I18n.t('top_container._frontend.messages.filter_required'), :status => 500
+      return render :plain => t('top_container._frontend.messages.filter_required'), :status => 500
     end
 
     get_browse_col_prefs
@@ -223,7 +223,7 @@ class TopContainersController < ApplicationController
     begin
       results = perform_search if params.has_key?('q')
     rescue MissingFilterException
-      flash[:error] = I18n.t('top_container._frontend.messages.filter_required')
+      flash[:error] = t('top_container._frontend.messages.filter_required')
     end
 
     get_browse_col_prefs

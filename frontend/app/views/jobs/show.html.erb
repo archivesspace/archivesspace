@@ -2,7 +2,7 @@
 
 <%= render_aspace_partial :partial => "jobs/show_templates" %>
 
-<div class="row job-status-<%= @job.status %>">
+<div class="d-flex job-status-<%= @job.status %>">
   <div class="col-md-3">
     <%= render_aspace_partial :partial => "sidebar" %>
   </div>
@@ -10,7 +10,7 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :job, @job do |readonly| %>
-        <h2><%= I18n.t("#{@job['job_type']}._singular", :default => @job["job_type"]) %> [<%= @job.id %>] <span class="label label-info"><%= I18n.t("job._singular") %></span></h2>
+        <h2><%= I18n.t("#{@job['job_type']}._singular", :default => @job["job_type"]) %> [<%= @job.id %>] <span class="label label-info badge"><%= I18n.t("job._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
@@ -25,7 +25,7 @@
           <% unless @files.empty? %>
             <section id="job_files" class="subrecord-form-dummy" >
               <h3 class="subrecord-form-heading">
-                <%= I18n.t("job._frontend.section.files") %>
+                <%= t("job._frontend.section.files") %>
               </h3>
               <div class="subrecord-form-container">
                 <ul>
@@ -45,15 +45,15 @@
         <% if !["queued"].include?(@job.status) %>
           <section id="logs" class="subrecord-form-dummy" data-poll-url="<%= url_for(:controller => :jobs, :action => :log, :id => @job.id) %>">
             <h3 class="subrecord-form-heading">
-              <%= I18n.t("job._frontend.section.logs") %>
+              <%= t("job._frontend.section.logs") %>
               <% if @job.status === "running" %>
-                <div class="btn-group pull-right">
-                  <button class="btn btn-sm active btn-follow-log"><%= I18n.t("job._frontend.actions.follow_log") %></button>
+                <div class="btn-group ml-auto">
+                  <button class="btn btn-sm active btn-follow-log"><%= t("job._frontend.actions.follow_log") %></button>
                 </div>
               <% end %>
             </h3>
             <div class="subrecord-form-container">
-              <div class="alert alert-info"><%= I18n.t("actions.loading") %></div>
+              <div class="alert alert-info"><%= t("actions.loading") %></div>
               <pre id="logSpool" style="display: none"></pre>
             </div>
           </section>
@@ -61,10 +61,10 @@
 
         <% if @job.status === "completed" && @job.has_modified_records %>
           <section id="generated_uris" class="subrecord-form-dummy" data-url="<%= url_for(:controller => :jobs, :action => :records, :id => @job.id, :page => 1) %>">
-            <h3 class="subrecord-form-heading"><%= I18n.t("job._frontend.section.generated_uris") %></h3>
+            <h3 class="subrecord-form-heading"><%= t("job._frontend.section.generated_uris") %></h3>
             <div class="subrecord-form-container">
               <div id="jobRecordsSpool">
-                <div class="alert alert-info"><%= I18n.t("actions.loading") %></div>
+                <div class="alert alert-info"><%= t("actions.loading") %></div>
               </div>
             </div>
           </section>

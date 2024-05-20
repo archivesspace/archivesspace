@@ -1,6 +1,6 @@
 <%= setup_context :object => @agent, :controller => :agents, :agent_type => @agent.agent_type, :title => @agent.title %>
 
-<div class="row">
+<div class="d-flex">
    <div class="col-md-3">
       <%= render_aspace_partial :partial => "agents/sidebar" %>
    </div>
@@ -8,21 +8,21 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
      <%= readonly_context @agent.agent_type.intern, @agent do |readonly| %>
-        <h2><%= @agent.title %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+        <h2><%= @agent.title %>  <span class="label label-info badge"><%= t("agent._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
 
         <section id="basic_information">
-          <h3><%= I18n.t("agent._frontend.section.basic_information") %></h3>
+          <h3><%= t("agent._frontend.section.basic_information") %></h3>
 
           <%= render_plugin_partials("top_of_basic_information_#{@agent.agent_type}",
                                      :form => readonly,
                                      :record => @agent) %>
 
           <div class="form-group">
-            <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
-            <div class="col-sm-9 label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
+            <label class="col-sm-2 control-label"><%= t("agent.type") %></label>
+            <div class="col-sm-9 label-only"><%= t("agent.agent_type.#{@agent.agent_type}") %></div>
           </div>
 
           <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_urls] %>
@@ -36,14 +36,15 @@
           <%= render_plugin_partials("basic_information_#{@agent.agent_type}",
                                      :form => readonly,
                                      :record => @agent) %>
-
-          <%= display_audit_info(@agent) %>
+          <div class="py-4">
+            <%= display_audit_info(@agent) %>
+          </div>
         </section>
 
         <% if ![:agent_record_identifiers, :agent_record_controls, :agent_other_agency_codes, :agent_conventions_declarations, :agent_maintenance_histories, :agent_sources, :agent_alternate_sets, :metadata_rights_declarations].map {|k| @agent[k]}.flatten.compact.blank? %>
           <section id="record_control_information" class="agents-subsection">
             <h3>
-              <%= I18n.t("agent._frontend.section.record_control_information") %>
+              <%= t("agent._frontend.section.record_control_information") %>
             </h3>
 
             <% if @agent.agent_record_identifiers.length > 0 %>
@@ -83,7 +84,7 @@
 
         <section id="identity_information" class="agents-subsection">
           <h3>
-            <%= I18n.t("agent._frontend.section.identity_information") %>
+            <%= t("agent._frontend.section.identity_information") %>
           </h3>
 
           <% if @agent.agent_identifiers.length > 0 %>
@@ -97,11 +98,11 @@
         <% if ![:dates_of_existence, :agent_genders, :agent_places, :agent_occupations, :agent_functions, :agent_topics, :used_languages, :agent_contacts, :notes, :external_documents].map {|k| @agent[k]}.flatten.compact.blank? %>
           <section id="description_information"  class="agents-subsection">
             <h3>
-              <%= I18n.t("agent._frontend.section.description_information") %>
+              <%= t("agent._frontend.section.description_information") %>
             </h3>
 
             <% if @agent.dates_of_existence.length > 0 %>
-              <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :section_id => "#{@agent.agent_type}_dates_of_existence"} %>
+              <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => t("agent.dates_of_existence"), :section_id => "#{@agent.agent_type}_dates_of_existence"} %>
             <% end %>
 
             <% if @agent_type == :agent_person && @agent.agent_genders.length > 0 %>
@@ -146,7 +147,7 @@
         <% if ![:agent_resources, :related_agents].map {|k| @agent[k]}.flatten.compact.blank? %>
           <section id="relation_information" class="agents-subsection">
             <h3>
-              <%= I18n.t("agent._frontend.section.relation_information") %>
+              <%= t("agent._frontend.section.relation_information") %>
             </h3>
 
             <% if @agent.agent_resources.length > 0 %>
@@ -164,26 +165,26 @@
         <%= render_aspace_partial :partial => "search/embedded", :locals => {
           :filter_term => {"agent_uris" => @agent.uri}.to_json,
           :section_id => "linked_agents",
-          :heading_text => I18n.t("agent._frontend.section.search_embedded")
+          :heading_text => t("agent._frontend.section.search_embedded")
         } %>
 
         <%= render_aspace_partial :partial => "search/embedded", :locals => {
           :filter_term => {"rights_statement_agent_uris" => @agent.uri}.to_json,
           :section_id => "linked_via_rights_statements",
-          :heading_text => I18n.t("agent._frontend.section.linked_via_rights_statement")
+          :heading_text => t("agent._frontend.section.linked_via_rights_statement")
         } %>
 
         <%= render_aspace_partial :partial => "search/embedded", :locals => {
           :record => @agent,
           :filter_term => {"linked_record_uris" => @agent.uri}.to_json,
           :section_id => "events",
-          :heading_text => I18n.t("event._plural")
+          :heading_text => t("event._plural")
         } %>
 
         <% if @agent.agent_type == 'agent_person' %>
-          <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_surveyor_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_surveyed_by"), :section_id => 'linked_assessments_surveyed_by'} %>
+          <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_surveyor_uris" => @agent.uri}.to_json, :heading_text => t("assessment._frontend.linked_records.linked_via_assessment_surveyed_by"), :section_id => 'linked_assessments_surveyed_by'} %>
 
-          <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_reviewer_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_reviewer"), :section_id => 'linked_assessments_reviewer'} %>
+          <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_reviewer_uris" => @agent.uri}.to_json, :heading_text => t("assessment._frontend.linked_records.linked_via_assessment_reviewer"), :section_id => 'linked_assessments_reviewer'} %>
         <% end %>
 
         <%= show_plugins_for(@agent, readonly) %>

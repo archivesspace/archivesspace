@@ -2,20 +2,20 @@
 <%
   if params['global']
     if params['repo']
-      title = I18n.t('preference.global')
-      message = I18n.t('preference.global_message')
+      title = t('preference.global')
+      message = t('preference.global_message')
     else
-      title = I18n.t('preference.user_global')
-      message = I18n.t('preference.user_global_message')
+      title = t('preference.user_global')
+      message = t('preference.user_global_message')
     end
     title += " (#{username})"
   else
     if params['repo']
-      title = I18n.t('navbar.repo_preferences')
-      message = I18n.t('preference.repo_message')
+      title = t('navbar.repo_preferences')
+      message = t('preference.repo_message')
     else
-      title = I18n.t('navbar.user_repo_preferences')
-      message = I18n.t('preference.user_repo_message')
+      title = t('navbar.user_repo_preferences')
+      message = t('preference.user_repo_message')
       title += " (#{username})"
     end
     title += " -- #{current_repo['repo_code']}"
@@ -36,10 +36,10 @@
   <% end %>
 
   <%= form_context :preference, @preference do |form| %>
-    <% @types = SearchAndBrowseColumnConfig.columns.keys.sort_by{|k| I18n.t "defaults.#{k}_browse_section"} %>
+    <% @types = SearchAndBrowseColumnConfig.columns.keys.sort_by{|k| t "defaults.#{k}_browse_section"} %>
     <% @types.delete('repositories') if !user_can?('create_repository') %>
 
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar", :locals => {:form => form, :types => @types} %>
       </div>

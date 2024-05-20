@@ -1,15 +1,15 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="record-toolbar">
+    <div class="record-toolbar d-flex align-items-center">
       <%  if user_can?('create_repository') && !['edit', 'update'].include?(controller.action_name) %>
         <div class="btn-group pull-left">
-          <%= link_to I18n.t("actions.edit"), {:controller => :repositories, :action => :edit, :id => @repository.id}, :class => "btn btn-sm btn-primary" %>
+          <%= link_to t("actions.edit"), {:controller => :repositories, :action => :edit, :id => @repository.id}, :class => "btn btn-sm btn-primary" %>
         </div>
       <% end %>
-      <div class="pull-right">
+      <div class="ml-auto">
         <% if session[:repo_id] != @repository.id and @repositories.any?{|r| r['uri'] === @repository.uri} %>
           <%= form_for @repository, :as => "repository", :url => {:action => :select}, :html => {:style => "display: inline;"} do |f| %>
-            <button type="submit" class="btn btn-sm btn-success"><%= I18n.t("repository._frontend.action.select") %></button>
+            <button type="submit" class="btn btn-sm btn-success"><%= t("repository._frontend.action.select") %></button>
           <% end %>
         <% end %>
         <% if user_can?('delete_repository') && @repository.id != session[:repo_id] && controller.action_name == 'edit'   %>
@@ -18,13 +18,12 @@
               <%= button_delete_action url_for(:controller => :repositories, :action => :delete, :id => @repository.id), 
                 {   :class => "btn btn-sm btn-danger delete-record delete-repository", 
                     :"data-confirm-btn-class" => "btn-danger repo-delete", 
-                    :"data-title" => I18n.t("actions.delete_repository_confirm_title", :name => @repository["repository"]["name"]),
-                    :"data-message" => I18n.t("actions.delete_repository_confirm_message", :repository => @repository["repository"]["repo_code"].gsub("'", "").gsub('"', '') ) } %>
+                    :"data-title" => t("actions.delete_repository_confirm_title", :name => @repository["repository"]["name"]),
+                    :"data-message" => t("actions.delete_repository_confirm_message", :repository => @repository["repository"]["repo_code"].gsub("'", "").gsub('"', '') ) } %>
             </div>
           </div>
         <% end %>
       </div>
-      <div class="clearfix"></div>
     </div>
   </div>
 </div>

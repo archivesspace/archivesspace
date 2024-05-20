@@ -2,10 +2,12 @@
 
 <% define_template("event", jsonmodel_definition(:event)) do |form| %>
   <section id="basic_information">
-    <h3>
-      <%= I18n.t("event._frontend.section.basic_information") %>
+    <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+      <h3 class="flex-grow-1 mb-0 border-0">
+        <%= t "event._frontend.section.basic_information" %>
+      </h3>
       <%= link_to_help :topic => "event_basic_information" %>
-    </h3>
+    </div>
     <fieldset>
       <%= render_plugin_partials("top_of_basic_information_event",
                                  :form => form,
@@ -25,10 +27,12 @@
 <% form.emit_template("event") %>
 
 <section id="event_date">
-  <h3>
-    <%= I18n.t("event._frontend.section.date") %>
+  <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+    <h3 class="flex-grow-1 mb-0 border-0">
+      <%= t("event._frontend.section.date") %>
+    </h3>
     <%= link_to_help :topic => "event_date" %>
-  </h3>
+  </div>
   <% if form.readonly? %>
     <% if form["timestamp"] %>
       <%= form.label_and_textfield "timestamp" %>
@@ -39,7 +43,7 @@
       <% end %>
     <% end %>
   <% else %>
-    <%= form.label_and_select "chronotype_label", ['subrecord', 'timestamp'].map{|t| [I18n.t("event.chronotype.#{t}"), t]}, 'required' => true %>
+    <%= form.label_and_select "chronotype_label", ['subrecord', 'timestamp'].map{|t| [t("event.chronotype.#{t}"), t]}, 'required' => true %>
     <div id="chronotype_timestamp" class="chronotype_form">
       <%= form.label_and_textfield "timestamp", :required => true %>
     </div>
@@ -54,10 +58,10 @@
 
 <% if form.readonly? %>
   <section id="event_linked_agents_">
-    <h3><%= I18n.t("linked_agent._plural") %></h3>
+    <h3><%= t("linked_agent._plural") %></h3>
 
-    <div class="form-group">
-      <div class="control-label col-sm-2"><%= I18n.t("linked_agent._plural") %></div>
+    <div class="form-group row">
+      <div class="control-label col-sm-2 text-right"><%= I18n.t("linked_agent._plural") %></div>
       <div class="controls token-list col-sm-4">
         <% form['linked_agents'].each do |linked_agent| %>
           <%= render_token :object => linked_agent['_resolved'],
@@ -76,10 +80,10 @@
 
 <% if form.readonly? %>
   <section id="event_linked_records_">
-    <h3><%= I18n.t("linked_record._plural") %></h3>
+    <h3><%= t("linked_record._plural") %></h3>
 
-    <div class="form-group">
-      <div class="control-label col-sm-2"><%= I18n.t("linked_record._plural") %></div>
+    <div class="form-group row">
+      <div class="control-label col-sm-2 text-right"><%= I18n.t("linked_record._plural") %></div>
       <div class="controls token-list col-sm-4">
         <% form['linked_records'].each do |linked_record| %>
           <%= render_token :object => linked_record['_resolved'],

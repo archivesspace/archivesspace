@@ -1,27 +1,22 @@
 <% if user_can?('update_container_record') || user_can?('manage_container_record') %>
-  <div class="record-toolbar">
+  <div class="record-toolbar d-flex align-items-center">
     <% if !['edit', 'update', 'new'].include?(controller.action_name) %>
       <% if user_can?('update_container_record') %>
-        <div class="btn-group pull-left">
-          <%= link_to I18n.t("actions.edit"), {:controller => :top_containers, :action => :edit, :id => @top_container.id}, :class => "btn btn-small btn-primary" %>
+        <div class="btn-group">
+          <%= link_to I18n.t("actions.edit"), {:controller => :top_containers, :action => :edit, :id => @top_container.id}, :class => "btn btn-sm btn-primary" %>
         </div>
       <% end %>
     <% end %>
     <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-      <div class="pull-left save-changes">
-        <button type="submit" class="btn btn-primary btn-small"><%= I18n.t("actions.save_prefix") %></button>
+      <div class="save-changes">
+        <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
       </div>
     <% end %>
     <% if !['new'].include?(controller.action_name) && user_can?('manage_container_record') %>
-      <div class="btn-toolbar pull-right">
-        <div class="btn-group">
-          <div class="btn btn-inline-form">
-            <%= button_delete_action url_for(:controller => :top_containers, :action => :delete, :id => @top_container.id ), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => @top_container.display_string) } unless @top_container.id.nil? %> 
-          </div>
-        </div>
+      <div class="btn-toolbar ml-auto">
+        <%= button_delete_action url_for(:controller => :top_containers, :action => :delete, :id => @top_container.id ), { :"data-title" => t("actions.delete_confirm_title", :title => @top_container.display_string) } unless @top_container.id.nil? %> 
       </div>
     <% end %>
-    <div class="clearfix"></div>
   </div>
 
 <% end %>

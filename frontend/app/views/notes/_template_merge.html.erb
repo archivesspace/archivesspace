@@ -1,7 +1,7 @@
 <%
   def local_access_restriction_types_for_options
     JSONModel.enum_values("restriction_type").map {|type|
-      [I18n.t("enumerations.restriction_type.#{type}", :default => type), type]
+      [t("enumerations.restriction_type.#{type}", :default => type), type]
     }.sort_by(&:first)
   end
 %>
@@ -16,7 +16,7 @@
       <% if form.readonly? %>
         <ul>
           <% Array.wrap(form.obj['local_access_restriction_type']).
-                   map{|type| I18n.t("enumerations.restriction_type.#{type}",type)}.
+                   map{|type| t("enumerations.restriction_type.#{type}",type)}.
                    sort.each do |type| %>
             <li><%= type %></li>
           <% end %>
@@ -31,7 +31,7 @@
                          :size => local_access_restriction_types_for_options.length
                        })
         %>
-        <span class="help-inline"><%= I18n.t("rights_restriction.local_access_restriction_type_inline_help") %></span>
+        <span class="help-inline"><%= t("rights_restriction.local_access_restriction_type_inline_help") %></span>
       <% end %>
     </div>
   </div>
@@ -48,8 +48,8 @@
       <% form.emit_template(item["jsonmodel_type"]) %>
     <% else %>
       <div class="subrecord-form-fields">
-        <div class="form-group required">
-          <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+        <div class="form-group row required">
+          <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
           <div class="col-sm-4">
             <select class="form-control top-level-note-type">
               <option></option>
@@ -73,8 +73,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="form-group required">
-        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+      <div class="form-group row required">
+        <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
         <div class="col-sm-4">
           <select class="form-control top-level-note-type">
             <option></option>
@@ -95,7 +95,7 @@
   <div class="inline-subform">
     <div class="form-group">
       <div class="control-label"></div>
-      <div class="controls"><%= I18n.t("note._frontend.messages.select_a_note_type") %></div>
+      <div class="controls"><%= t("note._frontend.messages.select_a_note_type") %></div>
     </div>
   </div>
 <% end %>
@@ -113,8 +113,8 @@
         </div>
       </div>
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#<%= form.id_for("item") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
-        <li><a href="#<%= form.id_for("item") %>_parsed" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
+        <li class="active nav-item"><a class="nav-link" href="#<%= form.id_for("item") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
+        <li class="nav-item"><a class="nav-link" href="#<%= form.id_for("item") %>_parsed" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
       </ul>
     </div>
   <% else %>
@@ -126,8 +126,8 @@
 
 <% define_template "content_items" do |form, opts = {}| %>
   <div class="form-group <% if opts[:required] %>required<% end %>">
-    <label class="control-label"><%= I18n.t("content_items.content") %></label>
-    <div class="controls content-list">
+    <label class="control-label"><%= t("content_items.content") %></label>
+    <div class="controls content-list macio">
       <%= form.list_for((form["content"] || [""]), "content[]") do |item| %>
         <% form.emit_template("content_item", item) %>
       <% end %>
@@ -140,9 +140,9 @@
   <div class="subrecord-form-fields" data-type="note_singlepart">
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("enumerations.note_singlepart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= t("enumerations.note_singlepart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
-        <%= I18n.t("note.note_singlepart") %>
+        <%= t("note.note_singlepart") %>
       <% end %>
     </h4>
     <div class="subrecord-form-container">
@@ -162,7 +162,7 @@
 
 <% define_template "note_orderedlist", jsonmodel_definition(:note_orderedlist) do |form| %>
   <div class="subrecord-form-fields" data-type="note_orderedlist">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_orderedlist") %></h4>
+    <h4 class="subrecord-form-heading"><%= t("note.note_orderedlist") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_orderedlist") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -171,7 +171,7 @@
       <%= form.label_and_readonly("publish") %>
 
       <div class="form-group">
-        <label class="control-label"><%= I18n.t("note_orderedlist.items") %></label>
+        <label class="control-label"><%= t("note_orderedlist.items") %></label>
         <div class="controls">
           <%= form.list_for(form["items"], "items[]") do |item| %>
             <% form.emit_template("orderedlist_item", item) %>
@@ -193,8 +193,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="form-group required">
-        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+      <div class="form-group row required">
+        <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
         <div class="controls col-sm-4">
           <select class="form-control multipart-note-type">
             <option></option>
@@ -215,9 +215,9 @@
   <div class="subrecord-form-fields" data-type="note_multipart">
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("enumerations.note_multipart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= t("enumerations.note_multipart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
-        <%= I18n.t("note.note_multipart") %>
+        <%= t("note.note_multipart") %>
       <% end %>
     </h4>
     <div class="subrecord-form-container">
@@ -242,9 +242,9 @@
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">
-          <%= I18n.t("note_multipart.sub_notes") %>
+          <%= t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
-            <button class="btn btn-sm btn-default add-sub-note-btn pull-right"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
+            <button class="btn btn-sm btn-default add-sub-note-btn ml-auto bg-white border"><%= t("note._frontend.action.add_sub_note") %></button>
           <% end %>
         </h5>
         <div class="subrecord-form-container">
@@ -266,8 +266,8 @@
     <% form.emit_template(item["jsonmodel_type"]) %>
   <% else %>
     <div class="subrecord-form-fields">
-      <div class="form-group required">
-        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+      <div class="form-group row required">
+        <label class="control-label col-sm-4 text-right"><%= t("note.note_type") %></label>
         <div class="controls col-sm-4">
           <select class="form-control bioghist-note-type">
             <option></option>
@@ -301,7 +301,7 @@
 
 <% define_template "note_citation", jsonmodel_definition(:note_citation) do |form| %>
   <div class="subrecord-form-fields" data-type="note_citation">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_citation") %></h4>
+    <h4 class="subrecord-form-heading"><%= t("note.note_citation") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_citation") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -312,7 +312,7 @@
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
       <section class="subrecord-form">
-        <h5 class="subrecord-form-heading"><%= I18n.t("note_citation.xlink") %></h5>
+        <h5 class="subrecord-form-heading"><%= t("note_citation.xlink") %></h5>
         <div class="subrecord-form-container">
           <div class="subrecord-form-fields">
             <% form.emit_template "note_citation_xlink" %>
@@ -326,7 +326,7 @@
 
 <% define_template "note_abstract", jsonmodel_definition(:note_abstract) do |form| %>
   <div class="subrecord-form-fields" data-type="note_abstract">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_abstract") %></h4>
+    <h4 class="subrecord-form-heading"><%= t("note.note_abstract") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_abstract") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -365,14 +365,14 @@
 
 <% define_template "note_outline", jsonmodel_definition(:note_outline) do |form| %>
   <div class="subrecord-form-fields" data-type="note_outline">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_outline") %></h4>
+    <h4 class="subrecord-form-heading"><%= t("note.note_outline") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_outline") %>
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_readonly("publish") %>
 
       <div class="form-group">
-        <label class="control-label"><%= I18n.t("note_outline.levels") %></label>
+        <label class="control-label"><%= t("note_outline.levels") %></label>
         <div class="controls note-outline-levels">
           <%= form.list_for((form["levels"] || []), "levels[]") do |item| %>
             <% form.emit_template("note_outline_level", item) %>
@@ -386,7 +386,7 @@
 
 <% define_template "note_definedlist", jsonmodel_definition(:note_definedlist) do |form| %>
   <div class="subrecord-form-fields" data-type="note_definedlist">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_definedlist") %></h4>
+    <h4 class="subrecord-form-heading"><%= t("note.note_definedlist") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_definedlist") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -395,7 +395,7 @@
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
-          <%= I18n.t("note_definedlist.items") %>
+          <%= t("note_definedlist.items") %>
         </h5>
         <div class="subrecord-form-container">
           <%= form.list_for(form["items"], "items[]") do |item| %>
@@ -416,7 +416,7 @@
 
 <% define_template "note_index", jsonmodel_definition(:note_index) do |form| %>
   <div class="subrecord-form-fields" data-type="note_index">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_index") %></h4>
+    <h4 class="subrecord-form-heading"><%= t("note.note_index") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_index") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -427,7 +427,7 @@
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
-          <%= I18n.t("note_index.items") %>
+          <%= t("note_index.items") %>
         </h5>
         <div class="subrecord-form-container">
           <%= form.list_for(form["items"], "items[]") do |item| %>
@@ -451,7 +451,7 @@
 
 <% define_template "note_chronology", jsonmodel_definition(:note_chronology) do |form| %>
   <div class="subrecord-form-fields" data-type="note_chronology">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_chronology") %></h4>
+    <h4 class="subrecord-form-heading"><%= t("note.note_chronology") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_chronology") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -460,7 +460,7 @@
 
       <section class="subrecord-form">
         <h5 class="subrecord-form-heading">
-          <%= I18n.t("note_chronology.items") %>
+          <%= t("note_chronology.items") %>
         </h5>
         <div class="subrecord-form-container">
           <%= form.list_for(form["items"], "items[]") do |item| %>
@@ -476,7 +476,7 @@
   <div class="subrecord-form-fields" data-type="chronology_item">
     <%= form.label_and_readonly("event_date") %>
     <div class="form-group">
-      <label class="control-label"><%= I18n.t("chronology_item.events") %></label>
+      <label class="control-label"><%= t("chronology_item.events") %></label>
       <div class="controls">
         <%= form.list_for(form["events"], "events[]") do |event| %>
           <% form.emit_template("chronology_item_event", event) %>
@@ -496,7 +496,7 @@
 
 <% define_template "note_bibliography", jsonmodel_definition(:note_bibliography) do |form| %>
   <div class="subrecord-form-fields" data-type="note_bibliography">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_bibliography") %></h4>
+    <h4 class="subrecord-form-heading"><%= t("note.note_bibliography") %></h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_bibliography") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -509,7 +509,7 @@
       <hr/>
 
       <div class="form-group">
-        <label class="control-label"><%= I18n.t("note_bibliography.items") %></label>
+        <label class="control-label"><%= t("note_bibliography.items") %></label>
         <div class="controls">
           <%= form.list_for(form["items"], "items[]") do |item| %>
             <% form.emit_template("bib_item", item) %>
@@ -529,9 +529,9 @@
   <div class="subrecord-form-fields" data-type="note_digital_object">
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("enumerations.note_digital_object_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= t("enumerations.note_digital_object_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
-        <%= I18n.t("note.note_digital_object") %>
+        <%= t("note.note_digital_object") %>
       <% end %>
     </h4>
     <div class="subrecord-form-container">
@@ -550,7 +550,7 @@
 
 <% define_template "note_text", jsonmodel_definition(:note_text) do |form| %>
   <div class="subrecord-form-fields" data-type="note_text">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_text") %></h4>
+    <h4 class="subrecord-form-heading"><%= t("note.note_text") %></h4>
     <div class="subrecord-form-container">
       <% if form.readonly? %>
         <div class="subrecord-form-fields notes-readonly">
@@ -564,8 +564,8 @@
               </div>
             </div>
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#<%= form.id_for("content") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
-              <li><a href="#<%= form.id_for("content") %>_parsed" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
+              <li class="active nav-item"><a class='nav-link' href="#<%= form.id_for("content") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
+              <li class="nav-item"><a href="#<%= form.id_for("content") %>_parsed" class='nav-link' data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
             </ul>
           </div>
         </div>
@@ -590,9 +590,9 @@
   <div class="subrecord-form-fields" data-type="note_rights_statement">
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("enumerations.note_rights_statement_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= t("enumerations.note_rights_statement_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
-        <%= I18n.t("note.note_rights_statement") %>
+        <%= t("note.note_rights_statement") %>
       <% end %>
     </h4>
     <div class="subrecord-form-container">
@@ -612,9 +612,9 @@
   <div class="subrecord-form-fields" data-type="note_rights_statement_act">
     <h4 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("enumerations.note_rights_statement_act_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= t("enumerations.note_rights_statement_act_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
-        <%= I18n.t("note.note_rights_statement_act") %>
+        <%= t("note.note_rights_statement_act") %>
       <% end %>
     </h4>
     <div class="subrecord-form-container">
@@ -633,8 +633,8 @@
 <% define_template "note_agent_rights_statement", jsonmodel_definition(:note_agent_rights_statement) do |form| %>
   <div class="subrecord-form-fields" data-type="note_agent_rights_statement">
     <h4 class="subrecord-form-heading">
-      <%= I18n.t("note.note_agent_rights_statement") %>
-      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= I18n.t("actions.merge_add") %></small></label>
+      <%= t("note.note_agent_rights_statement") %>
+      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= t("actions.merge_add") %></small></label>
     </h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_agent_rights_statement") %>
@@ -651,8 +651,8 @@
 <% define_template "note_bioghist", jsonmodel_definition(:note_bioghist) do |form| %>
   <div class="subrecord-form-fields" data-type="note_bioghist">
     <h4 class="subrecord-form-heading">
-      <%= I18n.t("note.note_bioghist") %>
-      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= I18n.t("actions.merge_add") %></small></label>
+      <%= t("note.note_bioghist") %>
+      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= t("actions.merge_add") %></small></label>
     </h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_bioghist") %>
@@ -663,7 +663,7 @@
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">
-          <%= I18n.t("note_multipart.sub_notes") %>
+          <%= t("note_multipart.sub_notes") %>
         </h5>
         <div class="subrecord-form-container">
           <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
@@ -678,8 +678,8 @@
 <% define_template "note_general_context", jsonmodel_definition(:note_general_context) do |form| %>
   <div class="subrecord-form-fields" data-type="note_general_context">
     <h4 class="subrecord-form-heading">
-      <%= I18n.t("note.note_general_context") %>
-      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= I18n.t("actions.merge_add") %></small></label>
+      <%= t("note.note_general_context") %>
+      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= t("actions.merge_add") %></small></label>
     </h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_general_context") %>
@@ -690,7 +690,7 @@
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">
-          <%= I18n.t("note_multipart.sub_notes") %>
+          <%= t("note_multipart.sub_notes") %>
         </h5>
         <div class="subrecord-form-container">
           <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
@@ -705,8 +705,8 @@
 <% define_template "note_mandate", jsonmodel_definition(:note_mandate) do |form| %>
   <div class="subrecord-form-fields" data-type="note_mandate">
     <h4 class="subrecord-form-heading">
-      <%= I18n.t("note.note_mandate") %>
-      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= I18n.t("actions.merge_add") %></small></label>
+      <%= t("note.note_mandate") %>
+      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= t("actions.merge_add") %></small></label>
     </h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_mandate") %>
@@ -717,7 +717,7 @@
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">
-          <%= I18n.t("note_multipart.sub_notes") %>
+          <%= t("note_multipart.sub_notes") %>
         </h5>
         <div class="subrecord-form-container">
           <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
@@ -732,8 +732,8 @@
 <% define_template "note_legal_status", jsonmodel_definition(:note_legal_status) do |form| %>
   <div class="subrecord-form-fields" data-type="note_legal_status">
     <h4 class="subrecord-form-heading">
-      <%= I18n.t("note.note_legal_status") %>
-      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= I18n.t("actions.merge_add") %></small></label>
+      <%= t("note.note_legal_status") %>
+      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= t("actions.merge_add") %></small></label>
     </h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_legal_status") %>
@@ -744,7 +744,7 @@
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">
-          <%= I18n.t("note_multipart.sub_notes") %>
+          <%= t("note_multipart.sub_notes") %>
         </h5>
         <div class="subrecord-form-container">
           <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
@@ -759,8 +759,8 @@
 <% define_template "note_structure_or_genealogy", jsonmodel_definition(:note_structure_or_genealogy) do |form| %>
   <div class="subrecord-form-fields" data-type="note_structure_or_genealogy">
     <h4 class="subrecord-form-heading">
-      <%= I18n.t("note.note_structure_or_genealogy") %>
-      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= I18n.t("actions.merge_add") %></small></label>
+      <%= t("note.note_structure_or_genealogy") %>
+      <label class="append-control"><%= form.merge_checkbox('append') %><small><%= t("actions.merge_add") %></small></label>
     </h4>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_structure_or_genealogy") %>
@@ -771,7 +771,7 @@
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
         <h5 class="subrecord-form-heading">
-          <%= I18n.t("note_multipart.sub_notes") %>
+          <%= t("note_multipart.sub_notes") %>
         </h5>
         <div class="subrecord-form-container">
           <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>

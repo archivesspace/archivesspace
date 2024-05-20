@@ -1,0 +1,33 @@
+#spaceCalculatorResults {
+  #spaceCalculatorToolbar {
+    margin-bottom: 4px;
+  }
+  #tabledSearchResults {
+    tr {
+      &.filtered-by-search,
+      &.filtered-by-toggle {
+        display: none;
+      }
+    }
+    tr {
+      &.has-space:nth-of-type(odd) {
+        background-color: rgba(57, 132, 57, 0.2);
+        &:hover {
+          background-color: rgba(57, 132, 57, 0.4);
+        }
+      }
+      &.no-space:nth-of-type(odd) {
+        background-color: rgba(255, 196, 13, 0.2);
+        &:hover {
+          background-color: rgba(255, 196, 13, 0.4);
+        }
+      }
+      &.errored:nth-of-type(odd) {
+        background-color: rgba(157, 38, 29, 0.2);
+        &:hover {
+          background-color: rgba(157, 38, 29, 0.4);
+        }
+      }
+    }
+  }
+}

@@ -1,12 +1,12 @@
 <% define_template("container_labels_job", jsonmodel_definition(:container_labels_job)) do |form| %>
 
   <%= form.hidden_input :source, :class => 'translation-placeholder' %>
-  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => I18n.t("actions.container_labels") }%>
+  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => t("actions.container_labels") }%>
 
 <% end %>
 
 <% define_template("find_and_replace_job", jsonmodel_definition(:find_and_replace_job)) do |form| %>
-    <p><%= I18n.t("job._frontend.messages.find_and_replace_instructions") %></p>
+    <p><%= t("job._frontend.messages.find_and_replace_instructions") %></p>
 
   <%= form.hidden_input :base_record_uri, :class => 'translation-placeholder' %>
 
@@ -21,14 +21,14 @@
 <% end %>
 
 <% define_template("bulk_import_job", jsonmodel_definition(:bulk_import_job)) do |form| %>
-  <div class="alert alert-danger"><%= I18n.t("bulk_import_job.not_direct") %></div>
+  <div class="alert alert-danger"><%= t("bulk_import_job.not_direct") %></div>
 <% end %>
 
 <% define_template("print_to_pdf_job", jsonmodel_definition(:print_to_pdf_job)) do |form| %>
 
   <%= form.hidden_input :source, :class => 'translation-placeholder' %>
 
-  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => I18n.t("actions.resource_to_pdf") }%>
+  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => t("actions.resource_to_pdf") }%>
   <%= form.label_and_boolean "include_unpublished" %>
 
 <% end %>
@@ -36,11 +36,11 @@
 <% define_template("fileupload") do |form| %>
   <span class="btn btn-success btn-sm fileinput-button">
     <span class="glyphicon glyphicon-plus icon-white"></span>
-    <span><%= I18n.t("job._frontend.actions.add_file") %></span>
+    <span><%= t("job._frontend.actions.add_file") %></span>
     <input type="file" name="files[]" multiple="multiple">
   </span>
   <div id="files">
-    <div class="hint"><span class="plus">+</span> <%= I18n.t("job._frontend.messages.drag_and_drop_hint") %></div>
+    <div class="hint"><span class="plus">+</span> <%= t("job._frontend.messages.drag_and_drop_hint") %></div>
   </div>
 <% end %>
 
@@ -70,24 +70,24 @@
   <br/>
 
     <div class="alert alert-danger">
-      <p> <%= I18n.t("job._frontend.messages.slug_lost_warning") %>
+      <p> <%= t("job._frontend.messages.slug_lost_warning") %>
     </div>
     <br/>
-    <p><%= I18n.t("job._frontend.messages.slug_generation") %></p>
+    <p><%= t("job._frontend.messages.slug_generation") %></p>
     <br/>
-    <p><%= I18n.t("job._frontend.messages.slug_config_msg") %></p>
+    <p><%= t("job._frontend.messages.slug_config_msg") %></p>
     <% if AppConfig[:auto_generate_slugs_with_id] %>
-      <p><%= I18n.t("job._frontend.messages.slug_config_id") %></p>
+      <p><%= t("job._frontend.messages.slug_config_id") %></p>
 
       <% if AppConfig[:generate_resource_slugs_with_eadid] %>
-        <p><%= I18n.t("job._frontend.messages.slug_config_eadid") %></p>
+        <p><%= t("job._frontend.messages.slug_config_eadid") %></p>
       <% end %>
 
       <% if AppConfig[:generate_archival_object_slugs_with_cuid] %>
-        <p><%= I18n.t("job._frontend.messages.slug_config_cuid") %></p>
+        <p><%= t("job._frontend.messages.slug_config_cuid") %></p>
       <% end %>
     <% else %>
-      <p><%= I18n.t("job._frontend.messages.slug_config_title") %></p>
+      <p><%= t("job._frontend.messages.slug_config_title") %></p>
     <% end %>
 
 <% end %>
@@ -96,12 +96,12 @@
   <hr/>
   <br/>
   <br/>
-  <p><%= I18n.t("job._frontend.messages.ark_generation") %></p>
+  <p><%= t("job._frontend.messages.ark_generation") %></p>
   <br/>
 <% end %>
 
 <% define_template("ns2_remover_job", jsonmodel_definition(:ns2_remover_job)) do |form| %>
-  <p><%= I18n.t("ns2_remover_job.description") %></p>
+  <p><%= t("ns2_remover_job.description") %></p>
 
   <div class="col-sm-9 checkbox">
     <%= form.label_and_boolean "dry_run" %>
@@ -127,10 +127,10 @@
 
     <% report_params.each do | param | %>
       <div class="form-group">
-        <label class="col-sm-2 control-label"><%= I18n.t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
+        <label class="col-sm-2 control-label"><%= t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
         <div class="col-sm-9">
           <% if param[1] === "Date" %>
-            <%= form.textfield param[0], nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :"data-label" => I18n.t("actions.date_picker_toggle") %>
+            <%= form.textfield param[0], nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :"data-label" => t("actions.date_picker_toggle") %>
           <% elsif param[1] === "Boolean" %>
             <%= form.checkbox param[0] %>
           <% else %>
@@ -151,21 +151,21 @@
 
   <div class="report-list">
 
-    <% @report_data['reports'].sort_by { |code, report| I18n.t("reports.#{code}.title") }.each do |code, report| %>
+    <% @report_data['reports'].sort_by { |code, report| t("reports.#{code}.title") }.each do |code, report| %>
       <div class="report-listing" id="<%= code %>">
-        <div class="heading">
+        <div class="heading d-flex">
           <button class="report-title btn btn-link" for="<%= code %>" type="button">
-            <%= I18n.t("reports.#{code}.title") %>
+            <%= t("reports.#{code}.title") %>
           </button>
 
-          <button class="pull-right btn btn-primary select-report" for="<%= code %>" type="button">
+          <button class="ml-auto btn btn-primary btn-sm select-report mt-0" for="<%= code %>" type="button">
             <%= I18n.t("reports.translation_defaults.select") %>
           </button>
-          <div class="btn-group pull-right">
+          <div class="btn-group unselect-report-group">
             <% if code === "custom_report" && user_can?('manage_custom_report_templates') %>
-              <%= link_to I18n.t("custom_report_template._frontend.action.create"), {:controller => :custom_report_templates, :action => :new}, :class => "btn btn-default create-report-template" %>
+              <%= link_to I18n.t("custom_report_template._frontend.action.create"), {:controller => :custom_report_templates, :action => :new}, :class => "btn btn-default create-report-template mt-0" %>
             <% end %>
-            <button class="pull-right btn btn-primary unselect-report" for="<%= code %>" type="button">
+            <button class="btn btn-primary unselect-report mt-0" for="<%= code %>" type="button">
             <%= I18n.t("reports.translation_defaults.back") %>
             </button>
           </div>
@@ -173,7 +173,7 @@
         </div>
 
         <div class="report-description" for="<%= code %>">
-          <%= I18n.t("reports.#{report["code"]}.description", :default => code) %>
+          <%= t("reports.#{report["code"]}.description", :default => code) %>
         </div>
 
       </div>
@@ -187,7 +187,7 @@
 
   <div id="format">
     <% formats = @report_data["formats"] || %w{ json csv html pdf } %>
-    <%= form.label_and_select :format, formats.collect{|format| [I18n.t("reports.formats.#{format}", :default => format), format]} %>
+    <%= form.label_and_select :format, formats.collect{|format| [t("reports.formats.#{format}", :default => format), format]} %>
     <div class="form-group csv_options" hidden="true">
       <label class="col-sm-2 control-label">Linked Records in JSON</label>
       <div class="col-sm-9 checkbox">
@@ -208,7 +208,7 @@
       <%= render_aspace_partial :partial => "#{type}/form", :locals => {:object => @job, :form => form} %>
     <% rescue ActionView::MissingTemplate %>
       <%# don't require plugins to provide a form %>
-      <p><%= I18n.t("#{type}.description", :default => '') %></p>
+      <p><%= t("#{type}.description", :default => '') %></p>
     <% end %>
 
   <% end %>
@@ -228,31 +228,31 @@
 <div id="template_import_file"><!--
   <div class="import-file">
     <span class="import-filename">${filename}</span>
-    <span class="btn btn-xs btn-remove-file"><span class="glyphicon glyphicon-trash"></span></span>
+    <span class="btn btn-sm btn-remove-file"><span class="glyphicon glyphicon-trash"></span></span>
   </div>
 --></div>
 
 
 <div id="template_find_and_replace_warning"><!--
   <hr/>
-  <div class="alert alert-danger"><%= I18n.t("job._frontend.messages.find_and_replace_warning") %></div>
+  <div class="alert alert-danger"><%= t("job._frontend.messages.find_and_replace_warning") %></div>
   <hr/>
 --></div>
 
 <div id="template_report_instructions"><!--
   <hr/>
-  <div class="alert alert-success"><%= I18n.t("job._frontend.messages.report_instructions") %></div>
+  <div class="alert alert-success"><%= t("job._frontend.messages.report_instructions") %></div>
   <hr/>
 --></div>
 
 <div id="template_uploading_message"><!--
   <hr/>
-  <div class="alert alert-info"><%= I18n.t("job._frontend.messages.uploading") %></div>
+  <div class="alert alert-info"><%= t("job._frontend.messages.uploading") %></div>
   <hr/>
 --></div>
 
 <div id="template_success_message"><!--
   <hr/>
-  <div class="alert alert-success"><%= I18n.t("job._frontend.messages.upload_successful") %></div>
+  <div class="alert alert-success"><%= t("job._frontend.messages.upload_successful") %></div>
   <hr/>
 --></div>

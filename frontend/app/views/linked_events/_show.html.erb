@@ -1,27 +1,27 @@
 <% unless linked_events.blank? %>
   <section id="<%= section_id %>" class="subrecord-form-dummy">
-    <h3><%= I18n.t("event._plural") %></h3>
+    <h3><%= t("event._plural") %></h3>
 
     <div class="subrecord-form-container">
       <div class="subrecord-form-fields">
 
         <table class="table table-striped table-bordered table-condensed">
           <tr>
-            <th><%= I18n.t("event.event_type") %></th>
-            <th><%= I18n.t("event.outcome") %></th>
-            <th><%= I18n.t("linked_agent._plural") %></th>
-            <th><%= I18n.t("linked_record._plural") %></th>
+            <th><%= t("event.event_type") %></th>
+            <th><%= t("event.outcome") %></th>
+            <th><%= t("linked_agent._plural") %></th>
+            <th><%= t("linked_record._plural") %></th>
             <th><span class="sr-only">Audit information</span></th>
-            <th><span class="sr-only"><%= I18n.t("search_results.actions") %></span></th>
+            <th><span class="sr-only"><%= t("search_results.actions") %></span></th>
           </tr>
           <% linked_events.each do |event| %>
             <% record = event['_resolved'] %>
             <tr>
-              <td><%= I18n.t("enumerations.event_event_type.#{record['event_type']}", :default => record['event_type']) %></td>
-              <td><%= record['outcome'] ? I18n.t("enumerations.event_outcome.#{record['outcome']}", :default => record['outcome']) : '' %></td>
+              <td><%= t("enumerations.event_event_type.#{record['event_type']}", :default => record['event_type']) %></td>
+              <td><%= record['outcome'] ? t("enumerations.event_outcome.#{record['outcome']}", :default => record['outcome']) : '' %></td>
               <td>
                 <% record['linked_agents'].each do |link| %>
-                  <div><%= I18n.t("enumerations.linked_agent_event_roles.#{link['role']}", :default => link['role']) %>:
+                  <div><%= t("enumerations.linked_agent_event_roles.#{link['role']}", :default => link['role']) %>:
                     <%= link['_resolved']['title'] %>
                   </div>
                 <% end %>
@@ -29,17 +29,17 @@
               <td>
                 <% record['linked_records'].each do |link| %>
                   <div>
-                    <%= I18n.t("enumerations.linked_event_archival_record_roles.#{link['role']}", :default => link['role']) %><% if link['_resolved'] %>:
+                    <%= t("enumerations.linked_event_archival_record_roles.#{link['role']}", :default => link['role']) %><% if link['_resolved'] %>:
                     <%= link['_resolved']['display_string'] || link['_resolved']['title'] %><% end %>
                   <div>
                 <% end %>
               </td>
               <td><%= display_audit_info(record, :format => 'compact') %></td>
               <td class="table-record-actions">
-                <div class="btn-group pull-right">
-                  <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => event['ref']}, :class => "btn btn-xs btn-default" %>
+                <div class="btn-group ml-auto">
+                  <%= link_to t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => event['ref']}, :class => "btn btn-sm btn-default" %>
                   <% if !event['_resolved']['suppressed'] %>
-                    <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => event['ref']}, :class => "btn btn-xs btn-primary" %>
+                    <%= link_to t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => event['ref']}, :class => "btn btn-sm btn-primary" %>
                   <% end %>
                 </div>
               </td>

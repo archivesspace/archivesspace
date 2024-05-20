@@ -2,12 +2,12 @@
 <% if defined?(@sort) && defined?(@sort_opts) && defined?(@base_search) %>
 
 
-<div class="col-sm-4 text-right sorter">
- <%= form_tag(app_prefix("#{@base_search}"), method: 'get', :class=> "form-horizontal") do %>
+<div class="sorter d-flex align-items-center justify-content-end">
+ <%= form_tag(app_prefix("#{@base_search}"), method: 'get', :class=> "form-horizontal d-flex align-items-center justify-content-end") do %>
    <%= render partial: 'shared/hidden_params' %>
    <%= label_tag(:sort, "#{t('search_sorting.sort_by')}", :class=>'sr-only') %>
-   <%= select_tag(:sort, options_for_select(@sort_opts,@sort)) %>
-   <%= submit_tag(t('search_sorting.sort'), :class=>'btn btn-primary btn-sm') %>
+   <%= select_tag(:sort, options_for_select(@sort_opts,@sort), :class=>'custom-select') %>
+   <%= submit_tag(t('search_sorting.sort'), :class=>'btn btn-primary ml-2') %>
  <% end %>
 </div>
 <% end %>

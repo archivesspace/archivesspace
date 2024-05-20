@@ -1,4 +1,4 @@
-<div class="row">
+<div class="mt-3 d-flex">
   <div class="col-md-3">
     <%= render_aspace_partial :partial => "classifications/sidebar" %>
   </div>
@@ -6,11 +6,11 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :classification, @classification do |readonly| %>
-        <h2><%= @classification.title %> <span class="label label-info"><%= I18n.t("classification._singular") %></span></h2>
+        <h2><%= @classification.title %> <span class="label label-info badge"><%= t("classification._singular") %></span></h2>
 
         <% define_template "classification", jsonmodel_definition(:classification) do |form, classification| %>
           <section id="basic_information">
-            <h3><%= I18n.t("classification._frontend.section.basic_information") %></h3>
+            <h3><%= t("classification._frontend.section.basic_information") %></h3>
 
             <%= render_plugin_partials("top_of_basic_information_classification",
                                        :form => form,
@@ -41,7 +41,7 @@
 
         <% readonly.emit_template("classification", @classification) %>
 
-        <%= render_aspace_partial :partial => "search/embedded", :locals => {:section_id => "classifications", :filter_term => {"classification_uris" => @classification.uri}.to_json, :heading_text => I18n.t("classification._frontend.section.search_embedded")} %>
+        <%= render_aspace_partial :partial => "search/embedded", :locals => {:section_id => "classifications", :filter_term => {"classification_uris" => @classification.uri}.to_json, :heading_text => t("classification._frontend.section.search_embedded")} %>
 
       <% end %>
     </div>

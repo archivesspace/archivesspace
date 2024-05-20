@@ -13,7 +13,7 @@ AS.LoginHelper = {
       var handleError = function () {
         $('.form-group', $form).addClass('has-error');
         $('.alert-danger', $form).show();
-        $('#login', $form).removeAttr('disabled');
+        $('#login', $form).attr('disabled', null);
 
         $form.trigger('loginerror.aspace');
       };

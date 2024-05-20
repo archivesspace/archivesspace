@@ -8,9 +8,9 @@
 <fieldset>
   <section id="basic_information" class="subrecord-form-section">
     <h3 class='subrecord-form-heading-label'>
-      <% tooltip = I18n.t("section_headings.basic_information_tooltip") %>
+      <% tooltip = t("section_headings.basic_information_tooltip") %>
       <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
-        <%= I18n.t("agent._frontend.section.basic_information") %>
+        <%= t("agent._frontend.section.basic_information") %>
       </span>
       <%= link_to_help :topic => "#{@agent.agent_type}_basic_information" %>
     </h3>
@@ -19,11 +19,11 @@
                                :form => form,
                                :record => @agent) %>
 
-    <div class="form-group">
-      <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
+    <div class="form-group w-100 row">
+      <label class="col-sm-2 control-label text-right"><%= t("agent.type") %></label>
       <div class="col-sm-9 label-only">
         <%= form.hidden_input "agent_type", @agent.agent_type %>
-        <strong><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></strong>
+        <strong><%= t("agent.agent_type.#{@agent.agent_type}") %></strong>
       </div>
     </div>
 
@@ -45,9 +45,9 @@
   <% unless @agent.agent_type.to_s == "agent_software" %>
     <section id="record_control_information" class="agents-subsection subrecord-form-section">
       <h3 class='subrecord-form-heading-label'>
-        <% tooltip = I18n.t("section_headings.record_control_information_tooltip") %>
+        <% tooltip = t("section_headings.record_control_information_tooltip") %>
         <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
-          <%= I18n.t("agent._frontend.section.record_control_information") %>
+          <%= t("agent._frontend.section.record_control_information") %>
         </span>
       </h3>
 
@@ -71,9 +71,9 @@
 
   <section id="identity_information" class="agents-subsection subrecord-form-section">
     <h3 class='subrecord-form-heading-label'>
-      <% tooltip = I18n.t("section_headings.identity_information_tooltip") %>
+      <% tooltip = t("section_headings.identity_information_tooltip") %>
       <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
-        <%= I18n.t("agent._frontend.section.identity_information") %>
+        <%= t("agent._frontend.section.identity_information") %>
       </span>
     </h3>
 
@@ -84,14 +84,14 @@
 
   <section id="description_information"  class="agents-subsection subrecord-form-section">
     <h3 class='subrecord-form-heading-label'>
-      <% tooltip = I18n.t("section_headings.description_information_tooltip") %>
+      <% tooltip = t("section_headings.description_information_tooltip") %>
       <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
-        <%= I18n.t("agent._frontend.section.description_information") %>
+        <%= t("agent._frontend.section.description_information") %>
       </span>
     </h3>
 
 
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template", :template => "structured_date_label_existence", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :template_overrides => {"date_label" => "agents/date_labels"}, :help_topic => "#{@agent.agent_type}_dates_of_existence", :invisible => false, :lightmode_toggle => false, :section_class => "agent_dates_of_existence"} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template", :template => "structured_date_label_existence", :heading_text => t("agent._frontend.section.dates_of_existence"), :template_overrides => {"date_label" => "agents/date_labels"}, :help_topic => "#{@agent.agent_type}_dates_of_existence", :invisible => false, :lightmode_toggle => false, :section_class => "agent_dates_of_existence"} %>
 
 
      <% if @agent.agent_type.to_s == "agent_person" %>
@@ -123,9 +123,9 @@
   <% unless @agent.agent_type.to_s == "agent_software" %>
     <section id="relation_information" class="agents-subsection subrecord-form-section">
       <h3 class='subrecord-form-heading-label'>
-        <% tooltip = I18n.t("section_headings.relation_information_tooltip") %>
+        <% tooltip = t("section_headings.relation_information_tooltip") %>
         <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
-          <%= I18n.t("agent._frontend.section.relation_information") %>
+          <%= t("agent._frontend.section.relation_information") %>
         </span>
       </h3>
 

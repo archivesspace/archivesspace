@@ -1,12 +1,12 @@
 <%
-  record_title = "#{I18n.t("enumerations.event_event_type.#{@event.event_type}")} (#{@event.id})"
+  record_title = "#{t("enumerations.event_event_type.#{@event.event_type}")} (#{@event.id})"
 %>
 
 <%= setup_context :object => @event, :title => record_title %>
 
 <%= form_for @event, :as => "event", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@event)) do |f| %>
   <%= form_context :event, @event do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
@@ -14,12 +14,12 @@
         <%= render_aspace_partial :partial => "toolbar", :locals => { :record_title => record_title } %>
         <div class="record-pane">
           <%= link_to_help :topic => "event" %>
-          <h2><%= record_title %>  <span class="label label-info"><%= I18n.t("event._singular") %></span></h2>
+          <h2><%= record_title %>  <span class="label label-info badge"><%= I18n.t("event._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "events/form", :locals => {:form => form} %>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("event._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+          <div class="form-actions pl-0">
+            <button type="submit" class="btn btn-primary"><%= t("event._frontend.action.save") %></button>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

@@ -170,7 +170,7 @@ $(function () {
 
       var initRemoveActionForSubRecord = function ($subform) {
         var removeBtn = $(
-          "<a href='javascript:void(0)' class='btn btn-default btn-xs pull-right subrecord-form-remove' title='<%= I18n.t('resource._frontend.remove_subrecord') %>' aria-label='<%= I18n.t('resource._frontend.remove_subrecord') %>'><span class='glyphicon glyphicon-remove'></span></a>"
+          "<a href='javascript:void(0)' class='btn btn-sm btn-default float-right m-2 subrecord-form-remove' title='<%= I18n.t('resource._frontend.remove_subrecord') %>' aria-label='<%= I18n.t('resource._frontend.remove_subrecord') %>'><span class='glyphicon glyphicon-remove'></span></a>"
         );
         $subform.prepend(removeBtn);
         removeBtn.on('click', function () {
@@ -183,7 +183,7 @@ $(function () {
                 $('.subrecord-form-list:first', $this).children('li').length < 2
               ) {
                 $(
-                  '.subrecord-form-heading:first .btn.apply-note-order',
+                  '[data-action="apply note order"]',
                   $this
                 ).attr('disabled', 'disabled');
               }
@@ -570,9 +570,9 @@ $(function () {
 
         if ($target_subrecord_list.children('li').length > 1) {
           $(
-            '.subrecord-form-heading:first .btn.apply-note-order',
+            '[data-action="apply note order"]',
             $this
-          ).removeAttr('disabled');
+          ).attr('disabled', null);
         }
 
         $(document).triggerHandler('subrecordcreated.aspace', [
@@ -607,29 +607,25 @@ $(function () {
         }
       };
 
-      $('.subrecord-form-heading:first .btn.add-note', $this).click(
-        createTopLevelNote
-      );
+      $('[data-action="add notes"]', $this).click(createTopLevelNote);
       $this.filter('#lang_material_notes').each(function () {
         if ($('li', $this).length == 0) {
           $(
-            '.subrecord-form-heading:first .btn.add-note',
+            '[data-action="add notes"]',
             $this
           ).triggerHandler('click');
         }
       });
 
-      $('.subrecord-form-heading:first .btn.apply-note-order', $this).click(
-        applyNoteOrder
-      );
+      $('[data-action="apply note order"]', $this).click(applyNoteOrder);
 
       var $target_subrecord_list = $('.subrecord-form-list:first', $this);
 
       if ($target_subrecord_list.children('li').length > 1) {
         $(
-          '.subrecord-form-heading:first .btn.apply-note-order',
+          '[data-action="apply note order"]',
           $this
-        ).removeAttr('disabled');
+        ).attr('disabled', null);
       }
 
       var initRemoveActions = function () {
@@ -691,7 +687,5 @@ $(function () {
         ).init_notes_form();
       }
     );
-
-    // $("section.notes-form.subrecord-form:not(.initialised)").init_notes_form();
   });
 });

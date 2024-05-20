@@ -1,15 +1,19 @@
-<div id="main-content" class="row accessions">
+<div id="main-content" class="accessions">
 
-  <div class="row" id="info_row">
-    <div class="information col-sm-7">
+  <div class="d-flex" id="info_row">
+    <section class="information flex-grow-1">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
-    </div>
-    <div class="page_actions col-sm-5 right">
+    </section>
+    <section class="page_actions">
       <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
-    </div>
+    </section>
   </div>
 
-  <%= render partial: 'shared/breadcrumbs' %>
+  <section class="row">
+    <div class="information w-100">
+      <%= render partial: 'shared/breadcrumbs' %>
+    </div>
+  </section>
 
   <div class="col-sm-9">
 

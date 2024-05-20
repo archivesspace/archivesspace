@@ -15,7 +15,7 @@ class AssessmentsController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.ASSESSMENT_FACETS})
         search_params["type[]"] = "assessment"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('assessment._plural').downcase}." )
+        csv_response( uri, Search.build_filters(search_params), "#{t('assessment._plural').downcase}." )
       }
     end
   end
@@ -65,7 +65,7 @@ class AssessmentsController < ApplicationController
                   render action: "new"
                 },
                 :on_valid => ->(id) {
-                    flash[:success] = I18n.t("assessment._frontend.messages.created", JSONModelI18nWrapper.new(:assessment => @assessment))
+                    flash[:success] = t("assessment._frontend.messages.created")
                     redirect_to(:controller => :assessments,
                                 :action => :edit,
                                 :id => id) })
@@ -82,7 +82,7 @@ class AssessmentsController < ApplicationController
                   return render action: "edit"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = I18n.t("assessment._frontend.messages.updated", JSONModelI18nWrapper.new(:assessment => @assessment))
+                  flash[:success] = t("assessment._frontend.messages.updated")
                   redirect_to :controller => :assessments, :action => :edit, :id => id
                 })
   end
@@ -92,7 +92,7 @@ class AssessmentsController < ApplicationController
     assessment = JSONModel(:assessment).find(params[:id])
     assessment.delete
 
-    flash[:success] = I18n.t("assessment._frontend.messages.deleted", JSONModelI18nWrapper.new(:assessment => assessment))
+    flash[:success] = t("assessment._frontend.messages.deleted")
     redirect_to(:controller => :assessments, :action => :index, :deleted_uri => assessment.uri)
   end
 

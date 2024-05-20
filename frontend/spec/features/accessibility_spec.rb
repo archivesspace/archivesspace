@@ -4,16 +4,11 @@ require 'rails_helper'
 describe 'Accessibility', js: true, db: 'accessibility' do
 
   before(:all) do
-    PeriodicIndexer.new.run_index_round
+    run_indexer
   end
 
   before(:each) do
     login_admin
-  end
-
-  after(:each) do
-    wait_for_ajax
-    Capybara.reset_sessions!
   end
 
   it 'sets the selected state on sidebar elements' do
@@ -43,7 +38,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
       page.has_no_css? ".datepicker"
 
-      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
       datepicker_toggle.click
 
       page.has_css? ".datepicker"
@@ -62,7 +57,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
       page.has_no_css? ".datepicker"
 
-      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
       datepicker_toggle.click
 
       page.has_css? ".datepicker"
@@ -90,7 +85,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
       page.has_no_css? ".datepicker"
 
-      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
       datepicker_toggle.native.send_keys(:return)
 
       page.has_css? ".datepicker"
@@ -128,7 +123,8 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
         # Expand advanced search and tab into it
         switcher.click
-        switcher.send_keys :tab
+        last_button_in_navbar = find "a.context-help"
+        last_button_in_navbar.send_keys :tab
 
         expect(page.evaluate_script("document.activeElement.classList[0]")).to include("advanced-search-row-op-input")
       end
@@ -151,13 +147,13 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       page.has_css? "div.repository-header"
 
       within "div.repository-header" do
-        expect(page).not_to have_xpath("*//div[starts-with(@id,'popover')]")
+        expect(page).not_to have_xpath("*//span[starts-with(@aria-describedby,'popover')]")
         repo = find "span.repository-label"
         repo.send_keys ''
-        expect(page).to have_xpath("*//div[starts-with(@id,'popover')]")
+        expect(page).to have_xpath("*//span[starts-with(@aria-describedby,'popover')]")
 
         repo.send_keys :escape
-        expect(page).not_to have_xpath("*//div[starts-with(@id,'popover')]")
+        expect(page).not_to have_xpath("*//span[starts-with(@aria-describedby,'popover')]")
       end
     end
   end
@@ -180,18 +176,20 @@ describe 'Accessibility', js: true, db: 'accessibility' do
         ["#add-event-dropdown button.add-event-action",
          "#merge-dropdown button.merge-action",
          "#transfer-dropdown button.transfer-action"].each do |css|
-          dropdown_ctrl = find(css)
-          expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='false']")
-          dropdown_ctrl.click
-          expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='true']")
-          dropdown_ctrl.click
-          expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='false']")
+          eval("expect(page).to have_css(\"#{css}[aria-expanded='false']\")")
+          sleep(1)
+          find(css).click
+          find("#{css}[aria-expanded='true']")
+          eval("expect(page).to have_css(\"#{css}[aria-expanded='true']\")")
+          find(css).click
+          find("#{css}[aria-expanded='false']")
+          eval("expect(page).to have_css(\"#{css}[aria-expanded='false']\")")
         end
 
         # #merge-dropdown a.dropdown-toggle is inside the merge menu, so we need to drop that down first so the target element is visible
         find("#merge-dropdown button.merge-action").click
 
-        dropdown_ctrl = find("#merge-dropdown a.dropdown-toggle")
+        dropdown_ctrl = find("#merge-dropdown #form_merge .dropdown-toggle")
 
         expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='false']")
         dropdown_ctrl.click
@@ -277,7 +275,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     it "has acceptable color contrast in the datepicker" do
       visit "/resources/1/edit"
 
-      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-btn button"
+      datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
       datepicker_toggle.click
 
       expect(page).to be_axe_clean.checking_only :'color-contrast'
@@ -290,10 +288,10 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       find(".sidebar-entry-resource_linked_agents_ a").click
       within "#resource_linked_agents_" do
         find(".alert-too-many").click
-        click_link "Add Agent Link"
+        click_button "Add Agent Link"
         agent_subrecords = find_all("li.linked_agent_initialised")
         within agent_subrecords.last do
-          dropdown_button = find(".input-group-btn a")
+          dropdown_button = find(".linker-wrapper .input-group-append > .dropdown-toggle")
           dropdown_button.click
           expect(page).to be_axe_clean.checking_only :'color-contrast'
         end

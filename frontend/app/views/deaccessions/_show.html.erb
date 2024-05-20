@@ -5,17 +5,17 @@
 <%= render_aspace_partial :partial => "deaccessions/template" %>
 
 <section id="<%= section_id %>">
-  <h3><%= I18n.t("deaccession._plural") %></h3>
+  <h3><%= t("deaccession._plural") %></h3>
   <div class="accordion details" id="deaccessions_accordion">
     <%= context.list_for(context["deaccessions"], "deaccessions[]") do |deaccession, index| %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card">
+        <div class="card-header panel-heading">
           <div class="row collapsed accordion-toggle" data-toggle="collapse" data-parent="#deaccessions_accordion" href="#deaccession_<%= index %>">
             <div class="col-md-1">
               <span class="glyphicon"></span>
             </div>
             <div class="col-md-1">
-              <%= I18n.t("enumerations.deaccession_scope.#{deaccession["scope"]}", :default => deaccession["scope"]) %>
+              <%= t("enumerations.deaccession_scope.#{deaccession["scope"]}", :default => deaccession["scope"]) %>
             </div>
             <div class="col-md-3">
               <% if deaccession["date"]['date_type'] === "expression" %>
@@ -29,7 +29,7 @@
             <div class="col-md-7">
               <% if !deaccession["extents"].blank? %>
                 <%= deaccession["extents"][0]['number'] %>
-                <%= I18n.t('enumerations.extent_extent_type.'+deaccession["extents"][0]['extent_type'], :default => deaccession["extents"][0]['extent_type']) %>
+                <%= t('enumerations.extent_extent_type.'+deaccession["extents"][0]['extent_type'], :default => deaccession["extents"][0]['extent_type']) %>
               <% end %>
             </div>
           </div>
@@ -38,7 +38,7 @@
           <div class="accordion-inner"> 
             <div class="subrecord-form-container">
               <%= read_only_view(deaccession) %>
-              <%= render_aspace_partial :partial => "dates/show", :locals => { :dates =>[deaccession["date"]], :section_id => "deaccession_#{index}_date_", :section_title => I18n.t("deaccession.dates") } %>
+              <%= render_aspace_partial :partial => "dates/show", :locals => { :dates =>[deaccession["date"]], :section_id => "deaccession_#{index}_date_", :section_title => t("deaccession.dates") } %>
               <% if !deaccession["extents"].blank? %>
                 <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => deaccession["extents"], :section_id => "deaccession_#{index}_extents_" } %>
               <% end %>

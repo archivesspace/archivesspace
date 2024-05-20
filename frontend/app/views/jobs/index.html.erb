@@ -1,6 +1,6 @@
-<%= setup_context(:title => I18n.t("job._plural")) %>
+<%= setup_context(:title => t("job._plural")) %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
@@ -8,40 +8,32 @@
   </div>
   <div class="col-md-9">
     <% if user_can?('create_job') %>
-      <div class="record-toolbar">
- 
-        <div class="pull-right">
-          <div class="btn-group">
-            <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv,
-         :fields => fields}
-           ), id: "searchExport",  class:  "btn btn-sm btn-info" %>
-            <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-              <%= I18n.t("job._frontend.actions.create") %>
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu open-aligned-right">
-              <% job_types.each do |type, perms| %>
-                <% next if type == 'generate_slugs_job' && !AppConfig[:use_human_readable_urls] %>
-                <% next if type == 'generate_arks_job' && !AppConfig[:arks_enabled] %>
-                <%# We only want to trigger bulk imports from within a resource record %>
-                <% next if type == 'bulk_import_job' %>
-                <% if perms['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
-                  <li>
-                    <%= link_to I18n.t("job.types.#{type}", :default => type), :controller => :jobs, :action => :new, :job_type => type %>
-                  </li>
-                <% end %>
+      <div class="record-toolbar d-flex justify-content-end">
+        <div class="btn-group">
+          <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
+          <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+            <%= I18n.t("job._frontend.actions.create") %>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <% job_types.each do |type, perms| %>
+              <% next if type == 'generate_slugs_job' && !AppConfig[:use_human_readable_urls] %>
+              <% next if type == 'generate_arks_job' && !AppConfig[:arks_enabled] %>
+              <%# We only want to trigger bulk imports from within a resource record %>
+              <% next if type == 'bulk_import_job' %>
+              <% if perms['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
+                <li>
+                  <%= link_to I18n.t("job.types.#{type}", :default => type), {:controller => :jobs, :action => :new, :job_type => type}, :class => "dropdown-item" %>
+                </li>
               <% end %>
-            </ul>
-          </div>
+            <% end %>
+          </ul>
         </div>
-        <div class="clearfix"></div>
-
       </div>
     <% end %>
     <div class="record-pane">
       <%= link_to_help :topic => "search" %>
 
-      <h2><%= I18n.t("job._plural") %></h2>
+      <h2><%= t("job._plural") %></h2>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

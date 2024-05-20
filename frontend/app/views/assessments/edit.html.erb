@@ -2,7 +2,7 @@
 
 <%= form_for @assessment, :as => "assessment", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "assessment_form"}.merge(update_monitor_params(@assessment)) do |f| %>
   <%= form_context :assessment, @assessment do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
@@ -11,13 +11,13 @@
         <%= render_aspace_partial :partial => "assessments/toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "assessment" %>
-          <h2><%= I18n.t('assessment._frontend.form_header', :display_string => @assessment.display_string) %> <span class="label label-info"><%= I18n.t("assessment._singular") %></span></h2>
+          <h2><%= t('assessment._frontend.form_header', :display_string => @assessment.display_string) %> <span class="label label-info badge"><%= t("assessment._singular") %></span></h2>
           <input type="hidden" name="_method" value="put" />
           <%= render_aspace_partial :partial => "assessments/form", :locals => {:form => form} %>
 
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("assessment._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+          <div class="form-actions pl-0">
+            <button type="submit" class="btn btn-primary"><%= t("assessment._frontend.action.save") %></button>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
 
         </div>

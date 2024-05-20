@@ -1,0 +1,158 @@
+// bootstrap <= 3 mixins that were being utilized, but have been removed in the new version of Bootstrap
+// Border Radius
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+@mixin serif() {
+  font-family: $serifFontFamily;
+}
+@mixin sans-serif-fam() {
+  font-family: $sansFontFamily;
+}
+@mixin monospace() {
+  font-family: $monoFontFamily;
+}
+@mixin shorthand(
+  $size: $baseFontSize,
+  $weight: normal,
+  $lineHeight: $baseLineHeight
+) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $lineHeight;
+}
+@mixin sans-serif(
+  $size: $baseFontSize,
+  $weight: normal,
+  $lineHeight: $baseLineHeight
+) {
+  #font > #family {
+    @include sans-serif-fam;
+  }
+  #font {
+    @include shorthand($size, $weight, $lineHeight);
+  }
+}
+
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+// Opacity
+
+@mixin opacity($opacity) {
+  $opacity-ie: ($opacity * 100); // IE8 filter
+
+  filter: alpha(opacity=$opacity-ie);
+  opacity: $opacity;
+}
+
+// Transitions
+
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}
+@mixin transition-property($transition-property...) {
+  -webkit-transition-property: $transition-property;
+  transition-property: $transition-property;
+}
+@mixin transition-delay($transition-delay) {
+  -webkit-transition-delay: $transition-delay;
+  transition-delay: $transition-delay;
+}
+@mixin transition-duration($transition-duration...) {
+  -webkit-transition-duration: $transition-duration;
+  transition-duration: $transition-duration;
+}
+@mixin transition-timing-function($timing-function) {
+  -webkit-transition-timing-function: $timing-function;
+  transition-timing-function: $timing-function;
+}
+@mixin transition-transform($transition...) {
+  -webkit-transition: -webkit-transform $transition;
+  -moz-transition: -moz-transform $transition;
+  -o-transition: -o-transform $transition;
+  transition: transform $transition;
+}
+
+// END bootstrap related mixins from 3.4.1
+
+@mixin icon($fontFamily: 'Glyphicons Halflings') {
+  font-family: $fontFamily;
+  float: left;
+  @include opacity(75);
+
+  margin: 2px 4px 0 0;
+}
+
+@mixin alt-icomoon() {
+  font-family: icomoon;
+  margin: 0 4px 0 0;
+}
+
+/* Below just catches TBS 2.x definitions  cruft that */
+
+/* break ASpace if they are removed. Goal is to clear these  */
+
+/* out at some point */
+
+@mixin ie7-restore-right-whitespace() {
+  *margin-right: 0.3em;
+}
+
+@mixin vertical($primaryColor, $secondaryColor) {
+  background-image: linear-gradient(to bottom, $primaryColor, $secondaryColor);
+}
+
+// Gradient Bar Colors for buttons and alerts
+/* stylelint-disable scss/at-mixin-pattern */
+@mixin gradientBar(
+  $primaryColor,
+  $secondaryColor,
+  $textColor: #fff,
+  $textShadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+) {
+  color: $textColor;
+  text-shadow: $textShadow;
+  @include vertical($primaryColor, $secondaryColor);
+
+  border-color: $secondaryColor $secondaryColor darken($secondaryColor, 15%);
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1)
+    fadein(rgba(0, 0, 0, 0.1), 15%);
+}
+@mixin buttonBackground(
+  $startColor,
+  $endColor,
+  $textColor: #fff,
+  $textShadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+) {
+  // gradientBar will set the background to a pleasing blend of these, to support IE<=9
+  @include gradientBar($startColor, $endColor, $textColor, $textShadow);
+
+  *background-color: $endColor; /* Darken IE7 buttons by default so they stand out more given they won\'t have borders */
+  @include reset-filter;
+
+  // in these cases the gradient won\'t cover the background, so we override
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  &.disabled,
+  &[disabled] {
+    color: $textColor;
+    background-color: $endColor;
+    *background-color: darken($endColor, 5%);
+  }
+
+  // IE 7 + 8 can\'t handle box-shadow to show active, so we darken a bit ourselves
+  &:active,
+  &.active {
+    background-color: darken($endColor, 10%) e('\9');
+  }
+}
+/* stylelint-enable scss/at-mixin-pattern */

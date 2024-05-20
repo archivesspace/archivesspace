@@ -3,7 +3,7 @@
 <%= form_for @accession, :as => "accession", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form', :id => "accession_form"} do |f| %>
 
   <%= form_context :accession, @accession do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
@@ -11,7 +11,7 @@
         <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= link_to_help :topic => "accession" %>
-          <h2><%= I18n.t("accession.new_title") %> <span class="label label-info"><%= I18n.t("accession._singular") %></span></h2>
+          <h2><%= t("accession.new_title") %> <span class="label label-info badge"><%= t("accession._singular") %></span></h2>
           <%= render_aspace_partial :partial => "accessions/form", :locals => {:form => form} %>
         </div>
       </div>

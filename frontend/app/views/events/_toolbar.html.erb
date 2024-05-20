@@ -1,20 +1,31 @@
 <% if user_can?('delete_event_record') %>
-  <div class="record-toolbar">
-    <% if not @event.suppressed %>
-      <% if !['edit', 'update'].include?(controller.action_name) %>
-        <div class="btn-group pull-left">
+  <section class="d-flex flex-column">
+    <div class="record-toolbar d-flex align-items-center gap-x-2" role="toolbar">
+      <% if not @event.suppressed %>
+        <% if !['edit', 'update'].include?(controller.action_name) %>
           <%= link_to I18n.t("actions.edit"), {:controller => :events, :action => :edit, :id => @event.id}, :class => "btn btn-sm btn-primary" %>
-        </div>
-      <% end %>
-    <% end %>
+        <% else %>
+          <div class="save-changes">
+            <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
+          </div>
+        <% end %>
 
-    <div class="btn-toolbar pull-right">
-      <div class="btn-group">
-        <div class="btn btn-inline-form">
-          <%= button_delete_action url_for(:controller => :events, :action => :delete, :id => @event.id), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => record_title) } %>
-        </div>
+        <% if ['edit', 'update'].include?(controller.action_name) %>
+          <div class="align-items-center revert-changes">
+            <%= link_to I18n.t("actions.revert"), {:controller => :events, :action => :edit, :id => @event.id}, :class => "btn btn-sm btn-default flex-shrink-0" %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <div class="ml-auto btn-group" data-allow-disabled>
+        <%= button_delete_action url_for(:controller => :events, :action => :delete, :id => @event.id), { :"data-title" => t("actions.delete_confirm_title", :title => record_title) } %>
       </div>
     </div>
-    <div class="clearfix"></div>
-  </div>
+
+    <% if ['edit', 'update'].include?(controller.action_name) %>
+      <div id="record-toolbar-alert">
+        <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+      </div>
+    <% end %>
+  </section>
 <% end %>

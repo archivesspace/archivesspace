@@ -2,7 +2,7 @@
 
 <%= form_for @container_profile, :as => "container_profile", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@container_profile)) do |f| %>
   <%= form_context :container_profile, @container_profile do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
@@ -10,12 +10,12 @@
         <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "container_profile" %>
-          <h2><%= @container_profile.name %>  <span class="label label-info"><%= I18n.t("container_profile._singular") %></span></h2>
+          <h2><%= @container_profile.name %>  <span class="label label-info badge"><%= t("container_profile._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "container_profiles/form", :locals => {:form => form} %>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("container_profile._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+          <div class="form-actions pl-0">
+            <button type="submit" class="btn btn-primary"><%= t("container_profile._frontend.action.save") %></button>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

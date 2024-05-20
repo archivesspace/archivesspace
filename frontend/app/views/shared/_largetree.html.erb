@@ -2,9 +2,9 @@
    read_only = false if read_only.blank?
 %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-12">
-    <div style="display: none" id="tree-unexpected-failure" class="alert alert-warning"><%= I18n.t('tree.unexpected_failure') %></div>
+    <div style="display: none" id="tree-unexpected-failure" class="alert alert-warning"><%= t('tree.unexpected_failure') %></div>
     <div id="tree-toolbar" class="btn-toolbar"></div>
     <div id="tree-container" class="largetree-container"></div>
   </div>
@@ -13,21 +13,27 @@
 <div id="object_container"></div>
 
 <div id="tree_toolbar_transfer_action"><!--
-  <a class="btn btn-xs btn-default transfer-node" onclick="$('.tree-transfer-form').toggle()" href="#" title="<%= I18n.t "actions.transfer" %>">
-    <%= I18n.t "actions.transfer" %> <span class="caret"></span>
-  </a>
+  <button
+    type="button"
+    class="btn btn-sm btn-default dropdown-toggle transfer-node"
+    onclick="$('.tree-transfer-form').toggle()"
+    data-toggle="dropdown"
+    aria-expanded="false"
+    title="<%= t "actions.transfer" %>"
+  ><%= t "actions.transfer" %> </button>
   <ul class="dropdown-menu tree-transfer-form">
     <li class="col-sm-12">
+      <p class="mb-0"><%= t "archival_object._frontend.messages.transfer_description" %></p>
       <%= form_tag(archival_objects_path + "/${node_id}/transfer") do |f| %>
         <%= form_context :transfer, {} do |form| %>
           <fieldset>
             <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
-            <div class="alert alert-danger missing-ref-message" style="display: none;"><%= I18n.t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
+            <div class="alert alert-danger missing-ref-message" style="display: none;"><%= t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
             <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [root_record.id], :layout => "stacked" }%>
           </fieldset>
-          <div class="form-actions">
-            <button class="btn btn-default btn-primary pull-left transfer-button"><%= I18n.t("actions.transfer") %></button>
-            <a class="btn btn-default btn-cancel pull-right" onclick="$('.tree-transfer-form').toggle()" href="#"><%= I18n.t("actions.cancel") %></a>
+          <div class="pl-0 d-flex justify-content-between form-actions">
+            <button class="btn btn-primary pull-left transfer-button"><%= t("actions.transfer") %></button>
+            <a class="btn btn-default btn-cancel ml-auto" onclick="$('.tree-transfer-form').toggle()" href="#"><%= t("actions.cancel") %></a>
           </div>
         <% end %>
       <% end %>
@@ -45,7 +51,7 @@
       translations[enumeration_name] ||= {}
 
       JSONModel.enum_values(enumeration_name).each do |enumeration_value|
-        translations[enumeration_name][enumeration_value] = I18n.t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
+        translations[enumeration_name][enumeration_value] = t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
       end
     end
   %>

@@ -1,10 +1,10 @@
 <a name="main" title="<%= t('internal_links.main') %>"></a>
 
 <div id="main-content" class="row">
-  <div class="information col-sm-7">
+  <div class="information col-12 col-lg-6">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
   </div>
-  <div class="page_actions col-sm-5 right">
+  <div class="page_actions col-12 col-lg-6">
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
   </div>
 </div>
@@ -15,7 +15,7 @@
 
 <%= render partial: 'resources/resource_alltabs' %>
 
-<div class="row">
+<div class="row mt-3">
   <div class="col-sm-9">
     <% unless @results.blank? || @results['total_hits'] == 0 %>
       <% @results.records.each do |result| %>

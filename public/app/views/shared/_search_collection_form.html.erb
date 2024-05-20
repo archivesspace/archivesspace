@@ -1,9 +1,9 @@
 <a name="search" title="<%= t('internal_links.search_collection') %>"></a>
 <div class="search">
 
-  <%= form_tag(app_prefix("#{resource_uri}/search"), method: 'get', :class=> "form-horizontal") do %>
+  <%= form_tag(app_prefix("#{resource_uri}/search"), method: 'get', :class=> "form-horizontal container mx-0 mb-5") do %>
 
-    <div class="form-group">
+    <div class="form-group row">
       <%= label_tag('filter_q0',
                     "#{t('actions.search_in',
                     :type => t('resource._singular'))}",
@@ -15,13 +15,13 @@
                          :class=> "form-control") %>
     </div>
 
-    <div class="form-group">
+    <div class="form-group row gap-x-3">
       <%= hidden_field_tag('op[]','') %>
       <%= hidden_field_tag('field[]','') %>
       <%= hidden_field_tag('limit','') %>
       <%= hidden_field_tag('q[]','*') %>
 
-      <div class="col-md-6 year_from">
+      <div class="year_from p-0 flex-grow-1">
         <%= label_tag('filter_from_year', 
                       "#{t('search_results.filter.from_year')}", 
                       :class => 'sr-only') %>
@@ -34,7 +34,7 @@
                            :class=>"form-control") %>
       </div>
 
-      <div class="col-md-6 year_to">
+      <div class="year_to p-0 flex-grow-1">
         <%= label_tag('filter_to_year', 
                       "#{t('search_results.filter.to_year')}",
                       :class=> 'sr-only') %>
@@ -49,7 +49,9 @@
 
     </div>
 
-    <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary btn-sm') %>
+    <div class="form-group row">
+      <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary') %>
+    </div>
 
   <% end %>
 

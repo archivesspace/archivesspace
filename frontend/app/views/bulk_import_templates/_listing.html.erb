@@ -1,22 +1,22 @@
 <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
 <% if @template_files.length %>
-    <table class="table table-striped table-bordered table-condensed">
+    <table class="table table-striped table-bordered table-align-middle">
         <thead>
             <tr>
-                <th><%= I18n.t("bulk_import_template._singular") %></th>
+                <th><%= t("bulk_import_template._singular") %></th>
                 <th></th>
-                <th width="70px"><span class="sr-only"><%= I18n.t('actions.download') %></span></th>
+                <th width="70px"><span class="sr-only"><%= t('actions.download') %></span></th>
             </tr>
         </thead>
         <tbody>
             <% @template_files.each do |template| %>
                 <tr>
                     <td><%= template[:name] %></td>
-                    <td><%= I18n.t("bulk_import_templates.#{template[:filename].sub('.', '_')}") %></td>
+                    <td><%= t("bulk_import_templates.#{template[:filename].sub('.', '_')}") %></td>
                     <td>
                         <div class="btn-group" style="float: right">
-                            <%= link_to I18n.t("actions.download"), {:controller => :bulk_import_templates, :action => :download, :filename => template[:filename]}, :class => "btn btn-xs btn-default" %>
+                            <%= link_to t("actions.download"), {:controller => :bulk_import_templates, :action => :download, :filename => template[:filename]}, :class => "btn btn-primary btn-sm" %>
                         </div>
                     </td>
                 </tr>

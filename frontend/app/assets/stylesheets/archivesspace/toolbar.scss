@@ -1,0 +1,106 @@
+.btn-toolbar > .btn-group + .btn-group {
+  margin-left: -1px;
+}
+
+.btn-toolbar > .btn-group {
+  padding-left: 1%;
+}
+
+.btn-toolbar > .btn-group:first-child {
+  padding-left: 0;
+}
+
+.record-toolbar {
+  margin-right: -15px;
+  padding: 4px 5px;
+  position: relative;
+  background-color: #f3f3f3;
+  @include vertical(#f3f3f3, #ededed);
+  @include box-shadow(-1px -1px 2px rgba(0, 0, 0, 0.2));
+
+  min-height: 2em;
+
+  @include border-radius(4px 0 0 0);
+
+  &.formchanged {
+    overflow: hidden;
+  }
+
+  .btn-toolbar {
+    margin: 0;
+  }
+
+  .revert-changes {
+    display: none;
+  }
+
+  &.formchanged {
+    .revert-changes {
+      display: flex;
+    }
+  }
+
+  &.formchanged + #record-toolbar-alert {
+    display: block;
+  }
+}
+
+#record-toolbar-alert {
+  margin-right: -15px; // because Bootstrap
+  display: none;
+  background-color: #f3f3f3;
+  box-shadow: -1px -1px 2px rgba(0, 0, 0, 0.2);
+}
+
+// force dropdown menu items to be text aligned left
+.dropdown-menu > li {
+  text-align: left;
+}
+
+.toolbar-spacer {
+  width: 1em;
+  height: 1em;
+}
+
+// ANW-625 radio button inputs for Tree Toolbar
+ol.btn-group.btn-group__radio {
+  display: none; // Sets to flex via tree_toolbar.js.erb
+  align-items: center;
+  margin-bottom: 0;
+}
+
+ol.btn-group.btn-group__radio > li {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+ol.btn-group.btn-group__radio > li > input[type='radio'] {
+  position: absolute;
+  margin: 0;
+  opacity: 0;
+  cursor: default;
+}
+
+ol.btn-group.btn-group__radio > li > label {
+  z-index: 1; // Maintains hover bg color when input is hovered
+  cursor: default;
+}
+ol.btn-group.btn-group__radio > li > label.drop-before {
+  border-right-width: 0;
+  border-radius: 3px 0 0 3px;
+}
+ol.btn-group.btn-group__radio > li > label.drop-into {
+  border-radius: 0;
+}
+ol.btn-group.btn-group__radio > li > label.drop-after {
+  border-left-width: 0;
+  border-radius: 0 3px 3px 0;
+}
+ol.btn-group.btn-group__radio > li > input[type='radio']:checked + label {
+  background-color: #e9ecef;
+  box-shadow: inset 0 3px 4px 2px rgba(0, 0, 0, 0.125);
+  transition: all 0.3s;
+}

@@ -44,7 +44,7 @@ $(function () {
 
           var addRemoveButton = function () {
             var removeBtn = $(
-              "<a href='javascript:void(0)' class='btn btn-default btn-xs pull-right subrecord-form-remove' title='<%= I18n.t('resource._frontend.remove_subrecord') %>' aria-label='<%= I18n.t('resource._frontend.remove_subrecord') %>'><span class='glyphicon glyphicon-remove'></span></a>"
+              "<a href='javascript:void(0)' class='btn btn-sm btn-default float-right m-2 subrecord-form-remove' title='<%= I18n.t('resource._frontend.remove_subrecord') %>' aria-label='<%= I18n.t('resource._frontend.remove_subrecord') %>'><span class='glyphicon glyphicon-remove'></span></a>"
             );
             $subform.prepend(removeBtn);
             removeBtn.on('click', function () {
@@ -52,9 +52,7 @@ $(function () {
                 $subform.remove();
                 // if cardinality is zero_to_one, disabled the button if there's already an entry
                 if ($this.data('cardinality') === 'zero_to_one') {
-                  $('> .subrecord-form-heading > .btn', $this).removeAttr(
-                    'disabled'
-                  );
+                  $('> .subrecord-form-heading > .btn', $this).attr('disabled', null);
                 }
                 $this
                   .parents('form:first')

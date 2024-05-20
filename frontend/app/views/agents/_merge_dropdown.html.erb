@@ -5,16 +5,16 @@
 %>
 
   <div id="merge-dropdown" class="btn-group dropdown" data-no-change-tracking="true">
-    <a class="btn btn-sm btn-default dropdown-toggle merge-action" data-toggle="dropdown" href="#" title="<%= I18n.t("actions.merge") %>">
-      <%= I18n.t("actions.merge") %> <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu merge-form open-aligned-right">
+    <button type="button" class="btn btn-sm btn-default dropdown-toggle merge-action" data-toggle="dropdown" title="<%= t("actions.merge") %>">
+      <%= t("actions.merge") %> <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu merge-form dropdown-menu-right">
       <li>
-      <p><%= I18n.t("#{singular}._frontend.messages.merge_description") %>   <%= record.title %></p>
+        <p class="mb-0"><%= t("#{singular}._frontend.messages.merge_description") %> <%= record.title %></p>
         <%= form_context :merge, {} do |form| %>
 
-        <fieldset>
-          <div class="alert alert-danger missing-ref-message" style="display: none;"><%= I18n.t "#{singular}._frontend.messages.please_select_a_#{singular}_to_merge" %></div>
+        <fieldset class="mt-3 mb-4 p-0">
+          <div class="alert alert-danger missing-ref-message" style="display: none;"><%= t "#{singular}._frontend.messages.please_select_a_#{singular}_to_merge" %></div>
           <%= render_aspace_partial :partial => "#{controller}/linker",
                                     :locals => {
                                       :form => form,
@@ -24,19 +24,19 @@
                                       :multiplicity => multiplicity,
                                       :layout => 'stacked' }%>
         </fieldset>
-        <div class="form-actions">
+        <div class="pl-0 form-actions d-flex justify-content-between">
           <%=
-             button_get_selector(I18n.t("actions.merge"),
+             button_get_selector(t("actions.merge"),
                                    url_for(:controller => controller, :action => :merge_selector, :id => record.id),
                                    {
-                                     :class => "btn pull-left merge-button btn-default",
+                                     :class => "btn btn-primary merge-button",
                                      :"data-title" => confirmation_title,
                                      :"data-message" => confirmation_msg,
-                                     :"data-confirm-btn-label" => "#{I18n.t("actions.merge_agent_compare_agent_details")}",
-                                     :"data-confirm-btn-class" => "btn btn-default"
+                                     :"data-confirm-btn-label" => "#{t("actions.merge_agent_compare_agent_details")}",
+                                     :"data-confirm-btn-class" => "btn btn-primary"
                                    })
           %>
-          <a class="btn btn-cancel btn-default pull-right" href="#"><%= I18n.t("actions.cancel") %></a>
+          <a class="btn btn-default btn-cancel" href="#"><%= t("actions.cancel") %></a>
         </div>
         <% end %>
       </li>

@@ -16,6 +16,7 @@ describe 'DatepickerPlugin', js: true do
     end
 
     expect(page).not_to have_xpath('//input[@id="login"]')
+    wait_for_ajax
     expect(page).to have_css('button[title="Show Advanced Search"]')
     first('button[title="Show Advanced Search"]').click
     first('.advanced-search-add-row-dropdown').click
@@ -33,10 +34,14 @@ describe 'DatepickerPlugin', js: true do
   end
 
   it 'accepts a pasted year date in yyyy format' do
-    execute_script("navigator.clipboard.writeText('1999').catch(err => err);")
-
     @date_field.click
-    if page.driver.browser.capabilities.platform == 'mac'
+    # warning - this can throw a NotAllowedError if the user is inactive for too long.
+    execute_script("navigator.clipboard.writeText('1999').catch(err => { TEST_MESSAGES.append(err); });")
+    # js debug message will appear in ci_logs/frontend_test_log.out
+    js_debug_messages = page.evaluate_script("TEST_MESSAGES.textContent");
+    $logger.debug(js_debug_messages);
+
+    if page.driver.browser.capabilities.platform =~ /^mac/
       @date_field.send_keys([:command, 'v'])
     else
       @date_field.send_keys([:control, 'v'])
@@ -46,10 +51,9 @@ describe 'DatepickerPlugin', js: true do
   end
 
   it 'accepts a pasted month date in yyyy-mm format' do
-    execute_script("navigator.clipboard.writeText('1999-12').catch(err => err);")
-
     @date_field.click
-    if page.driver.browser.capabilities.platform == 'mac'
+    execute_script("navigator.clipboard.writeText('1999-12').catch(err => { TEST_MESSAGES.append(err); });")
+    if page.driver.browser.capabilities.platform =~ /^mac/
       @date_field.send_keys([:command, 'v'])
     else
       @date_field.send_keys([:control, 'v'])
@@ -59,9 +63,8 @@ describe 'DatepickerPlugin', js: true do
   end
 
   it 'accepts a pasted day date in yyyy-mm-dd format' do
-    execute_script("navigator.clipboard.writeText('1999-12-31').catch(err => err);")
-
     @date_field.click
+    execute_script("navigator.clipboard.writeText('1999-12-31').catch(err => { TEST_MESSAGES.append(err); });")
     if page.driver.browser.capabilities.platform == 'mac'
       @date_field.send_keys([:command, 'v'])
     else

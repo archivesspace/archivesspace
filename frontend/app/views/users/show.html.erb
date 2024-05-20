@@ -1,13 +1,13 @@
 <%= setup_context :object => @user, :title => @user.username %>
 
-<div class="row">
+<div class="d-flex">
    <div class="col-md-3">
 
    </div>
    <div class="col-md-9">
     <div class="record-pane">
      <%= readonly_context :user, @user do |readonly| %>
-      <h2><%= @user.name %>  <span class="label label-info"><%= I18n.t("user._singular") %></span></h2>
+      <h2><%= @user.name %>  <span class="label label-info badge"><%= t("user._singular") %></span></h2>
 
       <section id="basic_information">
         <h3>Profile</h3>

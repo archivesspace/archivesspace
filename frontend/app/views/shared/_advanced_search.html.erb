@@ -6,15 +6,15 @@
 
   [:text, :boolean, :date, :enum].each do |type|
     values_for[type] = AdvancedSearch.fields_matching(:type => type, :visibility => :staff).map {|field|
-      OpenStruct.new(:label => I18n.t("advanced_search.#{type}.#{field.name}"),
+      OpenStruct.new(:label => t("advanced_search.#{type}.#{field.name}"),
                      :field => field.name,
                      :is_default => field.is_default)
     }.sort_by(&:label)
   end
 
   options_for_enums = Hash[values_for[:enum].map {|op|
-    options = JSONModel.enum_values(op.field).map {|value| [I18n.t("enumerations.#{op.field}.#{value}"), value]}
-    options << [I18n.t("advanced_search.enum_field.empty"), '']
+    options = JSONModel.enum_values(op.field).map {|value| [t("enumerations.#{op.field}.#{value}"), value]}
+    options << [t("advanced_search.enum_field.empty"), '']
     [op.field, options]
   }]
 
@@ -127,30 +127,25 @@
   });
 </script>
 
-
-
-
 <div id="template_advanced_search_row"><!--
-  <div class="row">
-    <fieldset>
-      <div class="col-md-1">
-        <legend><%= I18n.t "advanced_search.search_terms", :number => "${field_data.index + 1}"%></legend>
-      </div>
-      <div class="col-md-2">
-        <%= hidden_field_tag "t${field_data.index}", "${field_data.type}" %>
-        ${AS.renderTemplate("template_advanced_search_op_select", field_data)}
-      </div>
-      ${AS.renderTemplate("template_advanced_search_"+field_data.type+"_fields", field_data)}
-      <div class="col-md-1">
-        <button class="btn btn-danger advanced-search-remove-row" title="<%= I18n.t "advanced_search.remove_row", :number => "${field_data.index + 1}"%>" aria-label="<%= I18n.t "advanced_search.remove_row", :number => "${field_data.index + 1}"%>"><span class="glyphicon glyphicon-trash glyphicon-white"></span></button>
-      </div>
-    </fieldset>
-  </div>
+  <fieldset class="d-flex align-items-center p-3">
+    <div class="col-md-1">
+      <legend class="mb-0 h6 font-weight-normal"><%= t "advanced_search.search_terms", :number => "${field_data.index + 1}"%></legend>
+    </div>
+    <div class="col-md-2">
+      <%= hidden_field_tag "t${field_data.index}", "${field_data.type}" %>
+      ${AS.renderTemplate("template_advanced_search_op_select", field_data)}
+    </div>
+    ${AS.renderTemplate("template_advanced_search_"+field_data.type+"_fields", field_data)}
+    <div class="col-md-1 d-flex justify-content-center">
+      <button class="btn btn-danger advanced-search-remove-row" title="<%= t "advanced_search.remove_row", :number => "${field_data.index + 1}"%>" aria-label="<%= t "advanced_search.remove_row", :number => "${field_data.index + 1}"%>"><span class="glyphicon glyphicon-trash"></span></button>
+    </div>
+  </fieldset>
 --></div>
 
 <div id="template_advanced_search_op_select"><!--
   {if label}
-  <label for="op${index}"><%= I18n.t "advanced_search.operator.operator" %></label>
+  <label for="op${index}"><%= t "advanced_search.operator.operator" %></label>
   {/if}
   {if first}
   <select name="op${index}" id="op${index}" class="advanced-search-row-op-input form-control"%>">
@@ -167,7 +162,7 @@
 
 <div id="template_advanced_search_text_fields"><!--
   <div class="col-md-3">
-    <label for="f${index}"><%= I18n.t "advanced_search.search_field" %></label>
+    <label for="f${index}"><%= t "advanced_search.search_field" %></label>
     <select name="f${index}" id="f${index}" class="form-control" <% if values_for[:text].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
       <% values_for[:text].each do |op| %>
         <%= emit_option(op) %>
@@ -175,15 +170,15 @@
     </select>
   </div>
   <div class="col-md-5">
-    <div class="input-group search-group">
-      <div class="input-group-addon search-comparator">
-        <label for="top${index}"><%= I18n.t "advanced_search.text_operator.comparator" %></label>
-        <select name="top${index}" id="top${index}">
-          <option value="contains" {if query.comparator == "contains" || query.comparator == null}selected{/if}><%= I18n.t("advanced_search.text_operator.contains") %></option>
-          <option value="empty" {if query.empty}selected{/if}><%= I18n.t("advanced_search.text_operator.empty") %></option>
+    <div class="input-group search-group gap-x-2 border border-dark rounded p-2">
+      <div class="form-group search-comparator flex-shrink-0">
+        <label for="top${index}"><%= t "advanced_search.text_operator.comparator" %></label>
+        <select name="top${index}" id="top${index}" class="form-control">
+          <option value="contains" {if query.comparator == "contains" || query.comparator == null}selected{/if}><%= t("advanced_search.text_operator.contains") %></option>
+          <option value="empty" {if query.empty}selected{/if}><%= t("advanced_search.text_operator.empty") %></option>
         </select>
       </div>
-      <div class="input-group-addon search-value">
+      <div class="form-group search-value flex-grow-1">
         <label for="v${index}"><%= I18n.t "advanced_search.search_text" %></label>
         <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => 'form-control', :onkeydown => "return processKey(event)" %>
       </div>
@@ -193,7 +188,7 @@
 
 <div id="template_advanced_search_date_fields"><!--
   <div class="col-md-3">
-    <label for="f${index}"><%= I18n.t "advanced_search.search_field" %></label>
+    <label for="f${index}"><%= t "advanced_search.search_field" %></label>
     <select name="f${index}" id="f${index}" class="form-control" <% if values_for[:date].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
       <% values_for[:date].each do |op| %>
         <%= emit_option(op) %>
@@ -201,18 +196,18 @@
     </select>
   </div>
   <div class="col-md-5 advanced-search-date-fields">
-    <div class="input-group search-group">
-      <div class="input-group-addon search-comparator">
-        <label for="dop${index}"><%= I18n.t "advanced_search.date_operator.comparator" %></label>
-        <select name="dop${index}" id="dop${index}">
+    <div class="input-group search-group gap-x-2 border border-dark rounded p-2">
+      <div class="form-group search-comparator flex-shrink-0">
+        <label for="dop${index}"><%= t "advanced_search.date_operator.comparator" %></label>
+        <select name="dop${index}" id="dop${index}" class="form-control">
           <% values_for_date_comparators.each do |op| %>
             <option value="<%= op[1] %>" {if query.comparator == "<%= op[1] %>"}selected{/if}><%= op[0] %></option>
           <% end %>
         </select>
       </div>
-      <div class="input-group-addon search-value">
+      <div class="form-group search-value">
         <label for="v${index}"><%= I18n.t "advanced_search.search_date" %></label>
-                                                    <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => "date-field form-control", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d'), :"data-label" => I18n.t("actions.date_picker_toggle"), :"data-force-parse" => false %>
+                                                    <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => "date-field form-control", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d'), :"data-label" => t("actions.date_picker_toggle"), :"data-force-parse" => false %>
       </div>
     </div>
   </div>
@@ -220,7 +215,7 @@
 
 <div id="template_advanced_search_boolean_fields"><!--
   <div class="col-md-3">
-    <label for="f${index}"><%= I18n.t "advanced_search.search_field" %></label>
+    <label for="f${index}"><%= t "advanced_search.search_field" %></label>
     <select name="f${index}" id="f${index}" class="form-control"<% if values_for[:boolean].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %>  data-combobox="true"<% end %>>
       <% values_for[:boolean].each do |op| %>
         <%= emit_option(op) %>
@@ -229,18 +224,17 @@
   </div>
   <% bool_default = JSONModel(:boolean_field_query).schema['properties']['value']['default'] %>
   <div class="col-md-5 advanced-search-boolean-field">
-    <label for="v${index}"><%= I18n.t "advanced_search.boolean_field.boolean" %></label>
+    <label for="v${index}"><%= t "advanced_search.boolean_field.boolean" %></label>
     <select name="v${index}" id="v${index}" class="form-control">
-      <option value="true" {if query.value <% if bool_default %>|| query.value == null<% end %>}selected{/if}><%= I18n.t("advanced_search.boolean_field.true_value") %></option>
-      <option value="false" {if query.value == false <% if !bool_default %>|| query.value == null<% end %>}selected{/if}><%= I18n.t("advanced_search.boolean_field.false_value") %></option>
+      <option value="true" {if query.value <% if bool_default %>|| query.value == null<% end %>}selected{/if}><%= t("advanced_search.boolean_field.true_value") %></option>
+      <option value="false" {if query.value == false <% if !bool_default %>|| query.value == null<% end %>}selected{/if}><%= t("advanced_search.boolean_field.false_value") %></option>
     </select>
   </div>
 --></div>
 
-
 <div id="template_advanced_search_enum_fields"><!--
   <div class="col-md-3">
-    <label for="f${index}"><%= I18n.t("advanced_search.enum_field.label") %></label>
+    <label for="f${index}"><%= t("advanced_search.enum_field.label") %></label>
     <select name="f${index}" id="f${index}" class="form-control" <% if values_for[:enum].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
       <% values_for[:enum].each do |op| %>
         <%= emit_option(op) %>
@@ -258,46 +252,34 @@
 
   <div class="advanced-search-row-container" data-queries='<%= advanced_search_queries.to_json %>'></div>
 
-  <div class="row">
-    <div class="col-md-11">
+  <div class="d-flex align-items-center p-3">
+    <div class="flex-grow-1">
       <hr />
     </div>
     <div class="col-md-1">
-      <div>
-        <button class="btn btn-success advanced-search-add-row-dropdown" data-toggle="dropdown" title="<%= I18n.t("advanced_search.add_row") %>" aria-label="<%= I18n.t("advanced_search.add_row") %>">
-          <span class="glyphicon glyphicon-plus glyphicon-white"></span>
-          <span class="caret"></span>
+      <div class="d-flex justify-content-center dropdown">
+        <button class="btn btn-success dropdown-toggle text-white advanced-search-add-row-dropdown" data-toggle="dropdown" title="<%= t("advanced_search.add_row") %>" aria-label="<%= t("advanced_search.add_row") %>">
+          <span class="glyphicon glyphicon-plus"></span>
         </button>
-        <ul class="dropdown-menu pull-right">
-          <li><%= link_to I18n.t("advanced_search.type.text"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-text-row", "data-type" => "text" %></li>
-          <li><%= link_to I18n.t("advanced_search.type.date"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-date-row", "data-type" => "date" %></li>
-          <li><%= link_to I18n.t("advanced_search.type.boolean"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-bool-row", "data-type" => "boolean" %></li>
+        <div class="dropdown-menu x-auto">
+          <button class="advanced-search-add-row advanced-search-add-text-row dropdown-item" type="button" data-type="text"><%= t("advanced_search.type.text") %></button>
+          <button class="advanced-search-add-row advanced-search-add-date-row dropdown-item" type="button" data-type="date"><%= t("advanced_search.type.date") %></button>
+          <button class="advanced-search-add-row advanced-search-add-bool-row dropdown-item" type="button" data-type="boolean"><%= t("advanced_search.type.boolean") %></button>
           <% if !values_for[:enum].empty? %>
-            <li><%= link_to I18n.t("advanced_search.type.controlled_value"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-enum-row", "data-type" => "enum" %></li>
+            <button class="advanced-search-add-row advanced-search-add-enum-row dropdown-item" type="button" data-type="enum"><%= t("advanced_search.type.controlled_value") %></button>
           <% end %>
-        </ul>
+        </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-6">
-      <%= link_to I18n.t("advanced_search.index_switcher.hide"), { :advanced => nil }, {:class => "search-switcher-hide"} %>
-    </div>
-    <% if current_page?(root_url) %>
-      <div class="col-md-2"></div>
-      <div class="col-md-3">
-        <button class="btn btn-primary" id="advanced-search-btn"><%= I18n.t("advanced_search.button_text") %></button>
-      </div>
-      <div class="col-md-1"></div>
-    <% else %>
-      <div class="col-md-4">
-        <%= link_to I18n.t("advanced_search.reset"), {:controller => :search, :action => :do_search, :advanced => true}, :class => "btn btn-default reset-advanced-search pull-right pull-right" %>
-      </div>
-      <div class="col-md-1">
-        <button class="btn btn-primary pull-right" id="advanced-search-btn"><%= I18n.t("advanced_search.button_text") %></button>
-      </div>
-      <div class="col-md-1"></div>
+  <div class="p-3 d-flex align-items-center justify-content-end gap-x-2">
+    <button class="btn btn-link search-switcher-hide" type="button"><%= t("advanced_search.index_switcher.hide") %></button>
+    <% unless current_page?(root_url) %>
+      <%= link_to t("advanced_search.reset"), {:controller => :search, :action => :do_search, :advanced => true}, :class => "btn btn-link reset-advanced-search" %>
     <% end %>
+    <div class="col-md-1 d-flex justify-content-center">
+      <!-- .col-md-1 wrapper to align button with +/- buttons above -->
+      <button class="btn btn-primary" id="advanced-search-btn"><%= t("advanced_search.button_text") %></button>
+    </div>
   </div>
-  <div class="clearfix"></div>
 <% end %>

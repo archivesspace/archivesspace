@@ -1,6 +1,6 @@
-<%= setup_context(:title => I18n.t("event._plural")) %>
+<%= setup_context(:title => t("event._plural")) %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
@@ -8,24 +8,23 @@
   </div>
   <div class="col-md-9">
     <% if user_can?('update_event_record') %>
-      <div class="record-toolbar">
-        <div class="btn-group pull-right">
+      <div class="record-toolbar d-flex align-items-center">
+        <div class="btn-group ml-auto">
           <% if user_can?('manage_repository') %>
               <%= link_to I18n.t("actions.edit_default_values"), {:controller => :events, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>
-          <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
+          <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
             fields
-            }), id: "searchExport",  class:  "btn btn-sm btn-info" %>
-          <%= link_to I18n.t("event._frontend.action.create"), {:controller => :events, :action => :new}, :class => "btn btn-sm btn-default" %>
+            }), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
+          <%= link_to t("event._frontend.action.create"), {:controller => :events, :action => :new}, :class => "btn btn-sm btn-default" %>
         </div>
-        <br style="clear:both" /> <!-- So dirty! -->
       </div>
     <% end %>
 
     <div class="record-pane">
       <%= link_to_help :topic => "search" %>
 
-      <h2><%= I18n.t("event._plural") %></h2>
+      <h2><%= t("event._plural") %></h2>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

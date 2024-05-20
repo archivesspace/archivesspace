@@ -10,45 +10,48 @@
 <% if @search_data %>
 
   <div class="pagination-centered">
-    <ul class="pagination pagination-sm">
+    <ul class="pagination pagination-sm justify-content-center align-items-center">
       <% if not page_range.cover?(1) %>
-        <li>
-            <%= link_to_merge_params I18n.t("pagination.first"), :page => 1 %>
+        <li class='page-item px-2'>
+            <%= link_to_merge_params t("pagination.first"), :page => 1, :class => 'page-link' %>
         </li>
       <% end %>
 
       <% if @search_data['this_page'] > 1 %>
-        <li>
-            <%= link_to_merge_params(I18n.t("pagination.previous").html_safe,
+        <li class='page-item'>
+            <%= link_to_merge_params(t("pagination.previous").html_safe,
                                      {:page => @search_data['this_page'] - 1},
-                                     {:title => I18n.t("pagination.previous_label")}) %>
+                                     {:title => t("pagination.previous_label"), :class => 'page-link'}) %>
         </li>
       <% else  %>
-        <li class="disabled"><a href="#"><%= I18n.t("pagination.previous").html_safe %></a></li>
+        <li class="disabled page-item"><a href="#" class='page-link'><%= t("pagination.previous").html_safe %></a></li>
       <% end %>
 
       <% page_range.each do |i| %>
         <% if @search_data['this_page'] === i %>
-          <li class="active"><a href="#"><%= i %></a></li>
+          <li class="active page-item"><a href="#" class='page-link'><%= i %></a></li>
         <% else %>
-          <li>
-            <%= link_to_merge_params i, :page => i %>
+          <li class='page-item'>
+            <%= link_to_merge_params(i, 
+                                    {:page => i},
+                                    {:class => 'page-link'}) %>
           </li>
         <% end %>
       <% end %>
 
       <% if @search_data['this_page'] != @search_data['last_page'] %>
-        <li>
-            <%= link_to_merge_params(I18n.t("pagination.next").html_safe,
+        <li class='page-item'>
+            <%= link_to_merge_params(t("pagination.next").html_safe,
                                      {:page => @search_data['this_page'] + 1},
-                                     {:title => I18n.t("pagination.next_label")}) %>
+                                     {:title => t("pagination.next_label"), 
+                                      :class => 'page-link'}) %>
         </li>
       <% else %>
-        <li class="disabled"><a href="#"><%= I18n.t("pagination.next").html_safe %></a></li>
+        <li class="disabled page-item"><a href="#" class='page-link'><%= t("pagination.next").html_safe %></a></li>
       <% end %>
       <% if not page_range.cover?(@search_data['last_page']) %>
-        <li>
-            <%= link_to_merge_params I18n.t("pagination.last"), :page => @search_data['last_page'] %>
+        <li class='page-item px-2'>
+            <%= link_to_merge_params t("pagination.last"), :page => @search_data['last_page'], :class => 'page-link' %>
         </li>
       <% end %>
     </ul>

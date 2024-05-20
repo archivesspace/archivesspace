@@ -356,7 +356,7 @@
           header +
           searchbox +
           actionsbox +
-          '<ul class="dropdown-menu inner" role="menu">' +
+          '<ul class="dropdown-menu-inner" role="menu">' +
           '</ul>' +
           donebutton +
           '</div>' +

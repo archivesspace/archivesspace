@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="<%= session[:preferences]&.[]('locale') ? session[:preferences]['locale'] : AppConfig[:locale] %>">
 <head>
-  <title><%= I18n.t("navbar.brand") %> | <% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
+  <title><%= t("navbar.brand") %> | <% if @title %><%= @title %><% else %><%= controller.class.name %> >> <%= controller.action_name %><% end %></title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="<%= asset_path('favicon.ico') %>" rel="shortcut icon" type="image/x-icon" />
-  <%= include_theme_css %>
+  <%# TODO broken? = include_theme_css %>
   <%= csrf_meta_tags %>
 
   <% if ENV["TEST_MODE"] %>
     <script>
       TEST_MODE = true;
       TEST_ERRORS = [];
+      TEST_MESSAGES = document.createElement("div");
+      TEST_MESSAGES.append("START JS LOG\n");
+      TEST_MESSAGES.append("-----------\n");
       window.onerror = function(errorMsg, url, lineNo) {
         TEST_ERRORS.push({
           message: errorMsg,
@@ -28,12 +31,9 @@
     SHOW_IDENTIFIERS_IN_TREE = <%= AppConfig[:display_identifiers_in_largetree_container] %>;
   </script>
 
+	<%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag "application" %>
   <%= include_controller_js %>
-
-  <!--[if lt IE 9]>
-  <%= javascript_include_tag "html5shiv" %>
-  <![endif]-->
 
   <% ASUtils.order_plugins(ASUtils.find_local_directories('frontend/views/layout_head.html.erb')).each do |layout| %>
     <% if File.exist?(layout) %>
@@ -43,24 +43,21 @@
     <% end %>
   <% end %>
 </head>
-<body data-spy="scroll" data-target="#archivesSpaceSidebar" data-offset="20" class="action-<%= controller.action_name %>">
+<body data-spy="scroll" data-target="#archivesSpaceSidebar" class="action-<%= controller.action_name %>">
 
-  <div class="container-fluid center-block">
+  <div class="min-vh-100 d-flex flex-column container-fluid center-block"><!-- this could be deleted -->
     <header>
       <%= render "shared/header_global" %>
-      <%= render "site/branding" %>
     </header>
 
-   <div class="content-pane container-fluid">
+   <div class="content-pane">
      <% if current_repo %>
-       <div class="row">
          <%= render "shared/header_repository" %>
-       </div>
      <% end %>
      <%= yield %>
    </div>
 
-   <footer>
+   <footer class="mt-auto">
       <%= render "site/footer" %>
    </footer>
 

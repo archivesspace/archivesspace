@@ -27,7 +27,7 @@ on:
 
 jobs:
   indexer:
-    name: indexer_Java_v${{ inputs.java-version || 11 }}
+    name: indexer_Java_v${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
@@ -39,6 +39,10 @@ jobs:
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'
+      with:
+        backend: true
+        public: true
+        indexer: true
 
     - name: Run Indexer tests
       env:

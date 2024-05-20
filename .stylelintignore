@@ -1,2 +1,4 @@
+frontend/app/assets/stylesheets/vendor
 frontend/vendor/
 public/app/assets/stylesheets/foundation
+public/vendor/

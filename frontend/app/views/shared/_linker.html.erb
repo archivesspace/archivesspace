@@ -20,13 +20,13 @@
   hide_create = false if hide_create.blank?
 
   if !defined?(linker_label)
-    linker_label = (multiplicity === "many") ? I18n.t("agent._plural") : I18n.t("agent._singular")
+    linker_label = (multiplicity === "many") ? t("agent._plural") : t("agent._singular")
   end
   input_atts = {}
 
   input_atts['id'] = form.id_for("ref")
-  input_atts['data-label_create'] = I18n.t("agent.linker.create")
-  input_atts['data-label_browse'] = I18n.t("agent.linker.browse")
+  input_atts['data-label_create'] = t("agent.linker.create")
+  input_atts['data-label_browse'] = t("agent.linker.browse")
   input_atts['data-label_link'] = "link"
   input_atts['data-label_create_and_link'] = "create and link"
   input_atts['data-path'] = form.path
@@ -40,7 +40,7 @@
 
 
 <div class="form-group <% if required %> required <% end %>">
-  <label class="control-label col-sm-2"
+  <label class="control-label col-sm-3 text-right"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
     <%= linker_label %>
@@ -55,10 +55,10 @@
              aria-autocomplete="both"
              aria-controls="<%= form.id_for("ref") %>_listbox"
              aria-labelledby="<%= form.id_for("ref") %>_label"
-             data-label_create="<%= I18n.t("agent.linker.create") %>"
-             data-label_browse="<%= I18n.t("agent.linker.browse") %>"
-             data-label_link="<%= I18n.t("linker.link") %>"
-             data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
+             data-label_create="<%= t("agent.linker.create") %>"
+             data-label_browse="<%= t("agent.linker.browse") %>"
+             data-label_link="<%= t("linker.link") %>"
+             data-label_create_and_link="<%= t("linker.create_and_link") %>"
              data-name="ref"
              data-path="<%= form.path %>"
              data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
@@ -68,7 +68,7 @@
              <% if multiplicity === "many" %>data-sortable="true"<% end %>
              data-types='<%= linkable_types.to_json %>'
              data-exclude='<%= exclude_ids.to_json %>'
-             aria-label="<%= I18n.t("agent.linker.link_title") %>"
+             aria-label="<%= t("agent.linker.link_title") %>"
       />
 
       <% if form.obj.has_key?('_resolved') %>
@@ -85,18 +85,18 @@
 
       <% end %>
 
-      <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="<%= I18n.t("agent.linker.link_title") %>"><span class="caret"></span></a>
+      <div class="input-group-append">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-label="<%= t("agent.linker.link_title") %>"></button>
         <ul class="dropdown-menu">
-          <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+          <li class="dropdown-item"><a href="javascript:void(0);" class="linker-browse-btn"><%= t("actions.browse") %></a></li>
           <% if user_can?('update_agent_record') %>
-            <li class="dropdown-submenu pull-left">
+            <li class="dropdown-submenu pull-left dropdown-item">
               <% if !hide_create && user_can?('update_agent_record') %>
-              <a href="javascript:void(0);"><%= I18n.t("actions.create") %></a>
+              <a href="javascript:void(0);"><%= t("actions.create") %></a>
               <% end %>
               <ul class="dropdown-menu">
                 <% creatable_types.each do |agent_type| %>
-                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :agent_type => agent_type.intern, :inline => true %>" class="linker-create-btn"><%= I18n.t("#{agent_type}._singular") %></a></li>
+                <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :agents, :action => :new, :agent_type => agent_type.intern, :inline => true %>" class="linker-create-btn"><%= t("#{agent_type}._singular") %></a></li>
                 <% end %>
               </ul>
             </li>

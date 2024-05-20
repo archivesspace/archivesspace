@@ -10,12 +10,12 @@
         <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "location_profile" %>
-          <h2><%= @location_profile.name %>  <span class="label label-info"><%= I18n.t("location_profile._singular") %></span></h2>
+          <h2><%= @location_profile.name %>  <span class="label label-info badge"><%= t("location_profile._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "location_profiles/form", :locals => {:form => form} %>
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("location_profile._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+            <button type="submit" class="btn btn-primary"><%= t("location_profile._frontend.action.save") %></button>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

@@ -1,79 +1,69 @@
 <% if user_can?('update_agent_record') %>
-  <div class="record-toolbar">
+<section class="d-flex flex-column">
+  <div class="d-flex align-items-center gap-x-2 record-toolbar" role="toolbar">
     <% if !edit_mode? %>
-      <div class="btn-group pull-left">
-        <%= link_to I18n.t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-sm btn-primary" %>
-      </div>
+      <%= link_to t("actions.edit"), {:controller => :agents, :action => :edit, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-sm btn-primary" %>
     <% end %>
     <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-      <div class="pull-left save-changes">
-        <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
+      <div class="save-changes">
+        <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
       </div>
     <% end %>
-
     <% if edit_mode? %>
-      <div class="pull-left revert-changes">
-        <%= link_to I18n.t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-sm btn-default" %>
-        <%= I18n.t("actions.toolbar_disabled_message") %>
+      <div class="align-items-center revert-changes">
+        <%= link_to t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-sm btn-default" %>
       </div>
     <% end %>
 
-    <div class="btn-toolbar pull-right">
-      <div class="btn-group">
-        <% if edit_mode? && full_mode? %>
-          <%= render_aspace_partial :partial => "shared/lightmode_toggle", :locals => {:type => 'agents'} %>
-        <% end %>
+    <div class="ml-auto btn-group" data-allow-disabled>
+      <% if edit_mode? && full_mode? %>
+        <%= render_aspace_partial :partial => "shared/lightmode_toggle", :locals => {:type => 'agents'} %>
+      <% end %>
 
-        <% if user_can?('update_event_record')  %>
-            <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @agent} %>
-        <% end %>
+      <% if user_can?('update_event_record')  %>
+        <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @agent} %>
+      <% end %>
 
-        <div class="btn-group">
-          <%= button_confirm_action(I18n.t("actions.publish"),
-                      url_for({:action => :publish, :id => @agent.id}),
-                      {
-                        :class => "btn btn-sm btn-default",
-                        :"data-title" => I18n.t("actions.publish_confirm_title"),
-                        :"data-message" => I18n.t("actions.publish_confirm_message"),
-                        :"data-confirm-btn-label" => "#{I18n.t("actions.publish")}",
-                        :"data-confirm-btn-class" => "btn-primary",
-                      }) %>
-        </div>
+      <%= button_confirm_action(t("actions.publish"),
+                  url_for({:action => :publish, :id => @agent.id}),
+                  {
+                    :class => "btn btn-sm btn-default",
+                    :"data-title" => t("actions.publish_confirm_title"),
+                    :"data-message" => t("actions.publish_confirm_message"),
+                    :"data-confirm-btn-label" => "#{t("actions.publish")}",
+                    :"data-confirm-btn-class" => "btn-primary",
+                  }) %>
 
-        <% if AppConfig[:enable_public] %>
-          <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @agent} %>
-        <% end %>
+      <% if AppConfig[:enable_public] %>
+        <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @agent} %>
+      <% end %>
 
+      <% unless @agent.agent_type.to_s == "agent_software" %>
+        <%= link_to t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.  agent_type}, :class => "btn btn-sm btn-default" %>
+        <%= link_to t("actions.export_marc_auth"), {:controller => :exports, :action => :download_marc_auth, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
+      <% end %>
 
-        <% unless @agent.agent_type.to_s == "agent_software" %>
-          <div class="btn btn-inline-form">
-            <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.  agent_type}, :class => "btn btn-sm btn-default" %>
-          </div>
-
-          <div class="btn btn-inline-form">
-            <%= link_to I18n.t("actions.export_marc_auth"), {:controller => :exports, :action => :download_marc_auth, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
-          </div>
-        <% end %>
-
-
-        <% if user_can?('merge_agent_record') %>
-          <%=
-          render_aspace_partial :partial => "agents/merge_dropdown",
-          :locals => {:record => @agent,
-                      :extra_params => {:agent_type => @agent.agent_type},
-                      :controller => :agents,
-                      :confirmation_title => I18n.t("actions.merge_confirm_title"),
-                      :confirmation_msg => I18n.t("actions.merge_agent_confirm_message",
-                                                  :source => @agent.title)}
-          %>
-        <% end %>
-        <% if user_can?('delete_agent_record') %>
-          <div class="btn btn-inline-form">
-            <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => @agent.title) } %>
-          </div>
-        <% end %>
-      </div>
+      <% if user_can?('merge_agent_record') %>
+        <%=
+        render_aspace_partial :partial => "agents/merge_dropdown",
+        :locals => {:record => @agent,
+                    :extra_params => {:agent_type => @agent.agent_type},
+                    :controller => :agents,
+                    :confirmation_title => t("actions.merge_confirm_title"),
+                    :confirmation_msg => t("actions.merge_agent_confirm_message",
+                                                :source => @agent.title)}
+        %>
+      <% end %>
+      <% if user_can?('delete_agent_record') %>
+        <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id), { :"data-title" => t("actions.delete_confirm_title", :title => @agent.title) } %>
+      <% end %>
     </div>
-    <div class="clearfix"></div>
   </div>
+
+  <% if edit_mode? %>
+    <div id="record-toolbar-alert">
+      <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+    </div>
+  <% end %>
+</section>
 <% end %>

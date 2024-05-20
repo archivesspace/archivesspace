@@ -1,25 +1,26 @@
-<div class="record-toolbar bulk-operation-toolbar">
-  <div class="btn-toolbar pull-right">
+<div class="record-toolbar bulk-operation-toolbar d-flex justify-content-end">
+  <div class="btn-group">
     <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
-        fields }), class: "searchExport btn btn-sm btn-info pull-right" %>
-    <div class="bulk-actions pull-right" class="btn-group">
-      <% if user_can?('manage_container_record') %>
-      <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
-        <%= I18n.t("top_container._frontend.bulk_operations.title") %>
-        <span class="caret"></span>
-      </a>
-      <ul class="dropdown-menu pull-right">
-        <li><a id="bulkActionUpdateIlsHolding" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_ils_holding_ids")%></a></li>
-        <li><a id="bulkActionUpdateContainerProfile" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_container_profiles")%></a></li>
-        <li><a id="bulkActionUpdateLocation" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_locations_singular")%></a></li>
-        <li><a id="bulkActionUpdateMultipleLocation" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.update_locations_multiple")%></a></li>
-        <li><a id="showBulkActionRapidBarcodeEntry" href="javascript:void(0);"><%= I18n.t("top_container._frontend.bulk_operations.rapid_barcode_entry")%></a></li>
-        <li><a id="showBulkActionRapidIndicatorEntry" href="javascript:void(0);"><%= I18n.t("top_container._frontend.bulk_operations.rapid_indicator_entry")%></a></li>
-        <li><a id="bulkActionMerge" href="javascript:void(0)"><%= I18n.t("top_container._frontend.bulk_operations.batch_merge")%></a></li>
-        <li><a id="bulkActionDelete" href="javascript:void(0)"><span class="text-error"><%= I18n.t("top_container._frontend.bulk_operations.batch_delete")%></a></li>
-      </ul>
-      <% end %>
-    </div>
+        fields }), class: "searchExport btn btn-sm btn-primary" %>
+    <% if user_can?('manage_container_record') %>
+      <div class="btn-group dropdown" role="group">
+        <button
+          type="button"
+          class="btn btn-sm btn-default dropdown-toggle"
+          data-toggle="dropdown"
+          aria-expanded="false"
+        ><%= t("top_container._frontend.bulk_operations.title") %></button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <button type="button" class="btn rounded-0 dropdown-item" id="bulkActionUpdateIlsHolding"><%= I18n.t("top_container._frontend.bulk_operations.update_ils_holding_ids")%></button>
+          <button type="button" class="btn rounded-0 dropdown-item" id="bulkActionUpdateContainerProfile"><%= I18n.t("top_container._frontend.bulk_operations.update_container_profiles")%></button>
+          <button type="button" class="btn rounded-0 dropdown-item" id="bulkActionUpdateLocation"><%= I18n.t("top_container._frontend.bulk_operations.update_locations_singular")%></button>
+          <button type="button" class="btn rounded-0 dropdown-item" id="bulkActionUpdateMultipleLocation"><%= I18n.t("top_container._frontend.bulk_operations.update_locations_multiple")%></button>
+          <button type="button" class="btn rounded-0 dropdown-item" id="showBulkActionRapidBarcodeEntry"><%= I18n.t("top_container._frontend.bulk_operations.rapid_barcode_entry")%></button>
+          <button type="button" class="btn rounded-0 dropdown-item" id="showBulkActionRapidIndicatorEntry"><%= I18n.t("top_container._frontend.bulk_operations.rapid_indicator_entry")%></button>
+          <button type="button" class="btn rounded-0 dropdown-item" id="bulkActionMerge"><%= I18n.t("top_container._frontend.bulk_operations.batch_merge")%></button>
+          <button type="button" class="btn rounded-0 dropdown-item" id="bulkActionDelete"><span class="text-error"><%= I18n.t("top_container._frontend.bulk_operations.batch_delete")%></button>
+        </div>
+      </div>
+    <% end %>
   </div>
-  <div class="clearfix"></div>
 </div>

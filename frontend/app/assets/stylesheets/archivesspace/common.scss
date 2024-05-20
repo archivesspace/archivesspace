@@ -1,0 +1,324 @@
+@import 'mixins';
+
+body {
+  position: relative;
+}
+
+h2 > .label {
+  margin-top: $baseLineHeight / 2;
+  vertical-align: top;
+  font-size: 40%;
+  &.badge {
+    margin-top: 0;
+    color: white;
+  }
+}
+
+.tab-content {
+  overflow: visible;
+}
+
+.record-pane {
+  margin-right: -15px;
+  padding: 10px;
+  border-top: none;
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+.action-show {
+  section section {
+    margin: 0 20px;
+  }
+}
+
+.table {
+  margin-bottom: 5px;
+}
+
+/* Tooltip overrides */
+.tooltip {
+  .tooltip-inner {
+    text-align: left;
+    line-height: $baseLineHeight;
+    font-weight: normal;
+
+    .tooltip-close {
+      float: right;
+      margin-left: 5px;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
+  }
+}
+.record-pane {
+  .tooltip {
+    &.left {
+      margin-left: 5px !important;
+    }
+  }
+}
+.navbar-nav {
+  .tooltip {
+    &.left {
+      margin-left: 10px !important;
+    }
+  }
+}
+
+.locked .alert {
+  display: none;
+}
+
+.alert {
+  &.with-hide-alert {
+    position: relative;
+    padding-right: 3rem;
+  }
+  .hide-alert {
+    position: absolute;
+    top: 13px;
+    right: 20px;
+
+    .icon {
+      @include opacity(25);
+    }
+    &:hover {
+      .icon {
+        @include opacity(50);
+      }
+    }
+  }
+}
+
+td .btn-group {
+  display: flex;
+  white-space: nowrap;
+}
+// parsed content <emph> becomes <span class='emph ...'>...
+.emph {
+  &.render-none {
+    font-style: italic;
+  }
+  &.render-bold,
+  &.render-bolddoublequote,
+  &.render-bolditalic,
+  &.render-boldsinglequote,
+  &.render-boldsmcaps,
+  &.render-boldunderline {
+    font-weight: bold;
+  }
+  &.render-italic,
+  &.render-bolditalic {
+    font-style: italic;
+  }
+  &.render-smcaps,
+  &.render-boldsmcaps {
+    font-variant: small-caps;
+  }
+  &.render-sub {
+    vertical-align: sub;
+    font-size: 80%;
+  }
+  &.render-super {
+    vertical-align: super;
+    font-size: 80%;
+  }
+  &.render-underline {
+    text-decoration: underline;
+  }
+  &.render-nonproport {
+    color: #666;
+  }
+  &.render-doublequote::before,
+  &.render-bolddoublequote::before {
+    content: '"';
+  }
+  &.render-doublequote::after,
+  &.render-bolddoublequote::after {
+    content: '"';
+  }
+  &.render-singlequote::before,
+  &.render-boldsinglequote::before {
+    content: "'";
+  }
+  &.render-singlequote::after,
+  &.render-boldsinglequote::after {
+    content: "'";
+  }
+}
+
+.agents-subsection {
+  background-color: #fafafa;
+  section {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
+
+// Atomic/utility classes
+.top-1rem {
+  top: 1rem;
+}
+
+.x-auto {
+  right: auto;
+  left: auto;
+}
+
+.mt0 {
+  margin-top: 0;
+}
+
+.mr-15px {
+  margin-right: 15px; // because bootstrap `.row`s
+}
+
+.p-12px {
+  padding: 12px;
+}
+
+.p30px {
+  padding: 30px;
+}
+
+.pl-40px {
+  padding-left: 40px !important;
+}
+
+.gap-x-1 {
+  column-gap: 0.25rem;
+}
+
+.gap-x-2 {
+  column-gap: 0.5rem;
+}
+
+.gap-x-3 {
+  column-gap: 1rem;
+}
+
+.gap-bs-x-15px {
+  column-gap: 15px; // because bootstrap `.row`s
+}
+
+@media (min-width: 992px) {
+  .md-mt20px {
+    margin-top: 20px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .lg-min-w-450px {
+    min-width: 450px;
+  }
+}
+
+.lh-1p2 {
+  line-height: 1.2;
+}
+
+.hover-color-dark:hover {
+  color: var(--dark) !important;
+}
+
+.bg-grayLighter {
+  background-color: $grayLighter;
+}
+
+.bg-gray-200,
+.bg-bsCoolGray {
+  background-color: $gray-200;
+}
+
+.bg-gray-400 {
+  background-color: $gray-400;
+}
+
+.border-gray-400 {
+  border-color: $gray-400;
+}
+
+.bg-gray-600,
+.bg-gray--secondary {
+  background-color: $gray-600;
+}
+
+.border-gray-600,
+.border-gray--secondary {
+  border-color: $gray-600;
+}
+
+.bg-asFormHeadingBg {
+  background-color: $asFormHeadingBg;
+  @include vertical(#f3f3f3, #ededed);
+}
+
+.hover-grayLighter:hover {
+  background-color: $grayLighter;
+}
+
+.hover-bsCoolGray:hover {
+  background-color: $bsCoolGray;
+}
+
+.hover-bg-dark:hover {
+  background-color: var(--dark);
+}
+
+.hover-no-underline:hover {
+  text-decoration: none;
+}
+
+.fs-12px {
+  font-size: 12px; // .75rem
+}
+
+.fs-14px {
+  font-size: 14px; // .875rem
+}
+
+.form-control-border {
+  border: 1px solid var(--secondary) !important;
+}
+
+.table-align-middle th,
+.table-align-middle td {
+  /* Bootstrap aligns to top by default, so provide a cascade for middle alignment
+     instead of using Bootstrap's `.align-middle` per element */
+  vertical-align: middle;
+}
+
+.cursor-default {
+  cursor: default !important;
+}
+
+/* Bootstrap v4 removed .btn-default but they were all kept in ArchivesSpace
+   and not patched. Let's recreate them with an ArchivesSpace slant. */
+.btn-default {
+  color: var(--bs-text-body);
+  background-color: var(--white);
+  border-color: var(--secondary);
+}
+
+.btn-default:hover {
+  color: var(--bs-text-body);
+  background-color: $gray-200;
+  // border-color: var(--dark);
+}
+
+.btn-default:focus,
+.btn-default.focus {
+  /* .form-control:focus */
+  border-color: #1cbeff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 111, 155, 0.25);
+}
+
+.btn-default.disabled,
+.btn-default:disabled {
+  color: var(--bs-text-body);
+  background-color: var(--light);
+}

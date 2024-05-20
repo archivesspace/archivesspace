@@ -2,24 +2,24 @@
 
 <%= form_for @job, :as => "job", :url => {:action => :create}, :html => {:id => "job_form", :class => 'form-horizontal aspace-record-form', :multipart => true} do |f| %>
   <%= form_context :job, @job do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <% if params[:job_type] == 'report_job' %>
-          <%= render_aspace_partial :partial => "report_sidebar", :locals => {:reports => @report_data['reports'].keys.sort_by { |code| I18n.t("reports.#{code}.title") }} %>
+          <%= render_aspace_partial :partial => "report_sidebar", :locals => {:reports => @report_data['reports'].keys.sort_by { |code| t("reports.#{code}.title") }} %>
         <% end %>
       </div>
 
       <div class="col-md-9">
         <div class="record-pane">
           <%= link_to_help :topic => "job" %>
-          <h2><%= I18n.t("job._frontend.actions.new") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type]) %> <span class="label label-info"><%= I18n.t("job._singular") %></span></h2>
+          <h2><%= I18n.t("job._frontend.actions.new") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type]) %> <span class="label label-info badge"><%= I18n.t("job._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "form", :locals => {:form => form} %>
 
           <br/>
           <div class="form-actions">
             <div class="btn-group">
-              <button type="submit" class="btn btn-primary"><%= I18n.t("job._frontend.actions.save") %></button>
+              <button type="submit" class="btn btn-primary btn-sm"><%= t("job._frontend.actions.save") %></button>
             </div>
             <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>

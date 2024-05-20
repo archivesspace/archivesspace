@@ -1,6 +1,6 @@
-<%= setup_context :title => I18n.t("resource._plural") %>
+<%= setup_context :title => t("resource._plural") %>
 
-<div class="row">
+<div class="d-flex">
    <div class="col-md-3">
      <div class="sidebar">
        <%= render_aspace_partial :partial => "search/components_switch" %>
@@ -9,36 +9,34 @@
    </div>
    <div class="col-md-9">
      <% if user_can?('update_resource_record') %>
-       <div class="record-toolbar">
-         <div class="btn-group pull-right">
+       <div class="record-toolbar d-flex align-items-center">
+         <div class="btn-group ml-auto">
           <% if user_can?('manage_repository') %>
             <div class="btn-group">
-              <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-                <%= I18n.t("actions.edit_default_values") %>
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu open-aligned-right">
-                <li><%= link_to I18n.t("resource._singular"), {:controller => :resources, :action => :defaults} %></li>
-                <li> <%= link_to I18n.t("resource_component._singular"), {:controller => :archival_objects, :action => :defaults} %></li>
+              <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                <%= t("actions.edit_default_values") %>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><%= link_to t("resource._singular"), {:controller => :resources, :action => :defaults}, :class => "dropdown-item" %></li>
+                <li> <%= link_to t("resource_component._singular"), {:controller => :archival_objects, :action => :defaults}, :class => "dropdown-item" %></li>
               </ul>
             </div>
           <% end %>
-          <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv,
+          <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv,
             :fields => fields}
-              ), id: "searchExport",  class:  "btn btn-sm btn-info" %>
-           <%= link_to I18n.t("resource._frontend.action.create"), {:controller => :resources, :action => :new}, :class => "btn btn-sm btn-default" %>
+              ), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
+           <%= link_to t("resource._frontend.action.create"), {:controller => :resources, :action => :new}, :class => "btn btn-sm btn-default" %>
            <% if user_can?("delete_archival_record") %>
              <%= button_delete_multiple_action(:archival_records) %>
            <% end %>
-         </div>
-         <br style="clear:both" />
+         </div> 
        </div>
      <% end %>
 
      <div class="record-pane">
        <%= link_to_help :topic => "search" %>
 
-       <h2><%= I18n.t("resource._plural") %></h2>
+       <h2><%= t("resource._plural") %></h2>
 
        <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

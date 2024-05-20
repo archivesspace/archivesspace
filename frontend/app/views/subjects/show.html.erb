@@ -1,6 +1,6 @@
 <%= setup_context :object => @subject, :title => @subject.title %>
 
-<div class="row">
+<div class="d-flex">
    <div class="col-md-3">
       <%= render_aspace_partial :partial => "sidebar" %>
    </div>
@@ -8,13 +8,13 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
      <%= readonly_context :subject, @subject do |readonly| %>
-      <h2><%= @subject.title %>  <span class="label label-info"><%= I18n.t("subject._singular") %></span></h2>
+      <h2><%= @subject.title %>  <span class="badge badge-info label"><%= I18n.t("subject._singular") %></span></h2>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
       <% define_template "subject", jsonmodel_definition(:subject) do |form, subject| %>
         <section id="basic_information">
-          <h3><%= I18n.t("subject._frontend.section.basic_information") %></h3>
+          <h3><%= t("subject._frontend.section.basic_information") %></h3>
 
           <%= render_plugin_partials("top_of_basic_information_subject",
                                      :form => form,
@@ -36,13 +36,13 @@
 
       <%= readonly.emit_template "subject" %>
 
-      <%= render_aspace_partial :partial => "terms/show", :locals => { :terms => @subject.terms, :heading_text => I18n.t("subject._frontend.section.terms")} %>
+      <%= render_aspace_partial :partial => "terms/show", :locals => { :terms => @subject.terms, :heading_text => t("subject._frontend.section.terms")} %>
 
       <% if @subject.external_documents.length > 0 %>
         <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @subject.external_documents, :section_id => "subject_external_documents_" } %>
       <% end %>
 
-      <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @subject, :section_id => "linked_records", :filter_term => {"subject_uris" => @subject.uri}.to_json, :heading_text => I18n.t("subject._frontend.section.search_embedded")} %>
+      <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @subject, :section_id => "linked_records", :filter_term => {"subject_uris" => @subject.uri}.to_json, :heading_text => t("subject._frontend.section.search_embedded")} %>
 
       <% if @subject.external_ids.length > 0 && show_external_ids? %>
         <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => @subject.external_ids, :section_id => "subject_external_ids_" } %>

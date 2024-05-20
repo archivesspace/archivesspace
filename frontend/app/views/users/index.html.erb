@@ -1,60 +1,60 @@
-<%= setup_context :title => @manage_access ? I18n.t("user._frontend.section.manage_access") : I18n.t("user._plural") %>
+<%= setup_context :title => @manage_access ? t("user._frontend.section.manage_access") : t("user._plural") %>
 
-<div class="row">
+<div class="d-flex">
    <div class="col-md-12">
-     <div class="record-toolbar">
-       <div class="btn-group pull-right">
+     <div class="record-toolbar d-flex align-items-center">
+       <div class="btn-group ml-auto">
          <% unless @manage_access %>
            <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-default" %>
          <% end %>
        </div>
-       <br style="clear:both" /> <!-- So dirty! -->
      </div>
 
 
     <div class="record-pane">
       <% if @manage_access %>
         <%= link_to_help :topic => "repository_users" %>
-        <h2><%= I18n.t("user._frontend.section.manage_access") %></h2>
+        <h2><%= t("user._frontend.section.manage_access") %></h2>
       <% else %>
         <%= link_to_help :topic => "user" %>
-        <h2><%= I18n.t("user._plural") %></h2>
+        <h2><%= t("user._plural") %></h2>
       <% end %>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
      <% if @search_data['results'].length %>
+      <div class="table-responsive">
        <table class="table table-striped table-bordered table-condensed">
          <thead>
            <tr>
              <th>
-              <%= link_to I18n.t("user.username"), sort: :username, direction: sort_direction(:username, params, 'asc') %>
+              <%= link_to t("user.username"), sort: :username, direction: sort_direction(:username, params, 'asc') %>
               <%= sort_pointer(:username, params, '&#x25B2;').html_safe %>
              </th>
-             <th><%= I18n.t("user.name") %></th>
+             <th><%= t("user.name") %></th>
              <% unless @manage_access %>
                <th>
-                <%= link_to I18n.t("user.create_time"), sort: :create_time, direction: sort_direction(:create_time, params, 'asc') %>
+                <%= link_to t("user.create_time"), sort: :create_time, direction: sort_direction(:create_time, params, 'asc') %>
                 <%= sort_pointer(:create_time, params, '').html_safe %>
                </th>
                <th>
-                <%= link_to I18n.t("user.user_mtime"), sort: :user_mtime, direction: sort_direction(:user_mtime, params, 'desc') %>
+                <%= link_to t("user.user_mtime"), sort: :user_mtime, direction: sort_direction(:user_mtime, params, 'desc') %>
                 <%= sort_pointer(:user_mtime, params, '').html_safe %>
                </th>
-               <th><%= I18n.t("user.admin") %></th>
-               <th><%= I18n.t("user.is_active_user") %></th>
-               <th><%= I18n.t("user.source") %></th>
+               <th><%= t("user.admin") %></th>
+               <th><%= t("user.is_active_user") %></th>
+               <th><%= t("user.source") %></th>
              <% end %>
-             <th width="70px"><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
+             <th width="70px"><span class="sr-only"><%= t('search_results.actions') %></span></th>
            </tr>
          </thead>
          <tbody>
            <% @search_data['results'].each do |user| %>
              <% if user.is_active_user %>
-               <% active = I18n.t("user.active") %>
+               <% active = t("user.active") %>
                <% display_class = '' %>
              <% else %>
-               <% active = I18n.t("user.inactive") %>
+               <% active = t("user.inactive") %>
                <% display_class = 'inactive' %>
              <% end %>
              <tr class='<%= display_class %>'>
@@ -74,15 +74,15 @@
                    <% disabled = (user.is_admin || user.is_system_user) ? " disabled" : "" %>
 
                    <% if @manage_access %>
-                     <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-xs btn-default".concat(disabled) %>
+                     <%= link_to t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-sm btn-default".concat(disabled) %>
 
                    <% else %>
-                     <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-xs btn-primary", :id => "edit_#{user.username}" %>
+                     <%= link_to t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-sm btn-primary", :id => "edit_#{user.username}" %>
 
                      <% if !user.is_active_user %>
-                        <%= link_to I18n.t("user._frontend.action.activate_user"), user_activate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-xs btn-success", :id => "activate_#{user.username}" %>
+                        <%= link_to t("user._frontend.action.activate_user"), user_activate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-sm btn-success", :id => "activate_#{user.username}" %>
                      <% else %>
-                       <%= link_to I18n.t("user._frontend.action.deactivate_user"), user_deactivate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-xs btn-danger".concat(disabled), :id => "deactivate_#{user.username}" %>
+                       <%= link_to t("user._frontend.action.deactivate_user"), user_deactivate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-sm btn-danger".concat(disabled), :id => "deactivate_#{user.username}" %>
                      <% end %>
                    <% end %>
                  </div>
@@ -91,6 +91,7 @@
            <% end %>
          </tbody>
        </table>
+      </div>
        <%= render_aspace_partial :partial => "shared/pagination" %>
      <% else %>
        <p class="alert alert-info">

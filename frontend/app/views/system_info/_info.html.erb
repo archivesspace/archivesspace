@@ -1,16 +1,16 @@
-<div class='row record-pane'>
+<div class='py-3 d-flex bg-white record-pane mr-0'>
   <div class='col-md-3'>
-    <div id='archivesSpaceSidebar'>
-      <ul class='nav nav-list as-nav-list affix-top'>
+    <div id='archivesSpaceSidebar' class="sidebar d-flex position-sticky top-1rem">
+      <ul class='nav as-nav-list d-flex flex-column'>
         <% @info.keys.each do |key|  %>
-          <li><a href="#<%= key %>"><%= key.upcase %></a></li>
+          <li><a class="nav-link" href="#<%= key %>"><%= key.upcase %></a></li>
         <% end %>
       </ul>
     </div>
   </div>
   <div class='col-md-9'>
     <h3 class="subrecord-form-heading">
-      <%= I18n.t("system_info.#{@app_context}") %>
+      <%= t("system_info.#{@app_context}") %>
     </h3>
     <% @info.keys.each do |key| %>
       <section id="<%= key %>" class="subrecord-form-dummy" >
@@ -35,5 +35,4 @@
       </section>
     <% end %>
   </div>
-<div>
-
+</div>

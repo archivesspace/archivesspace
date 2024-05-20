@@ -6,10 +6,12 @@
 
   <% define_template "subject", jsonmodel_definition(:subject) do |form| %>
     <section id="basic_information">
-      <h3>
-        <%= I18n.t("subject._frontend.section.basic_information") %>
-        <%= link_to_help :topic => "subject_basic_information" %>
+    <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+      <h3 class="flex-grow-1 mb-0 border-0">
+        <%= t("subject._frontend.section.basic_information") %>
       </h3>
+      <%= link_to_help :topic => "subject_basic_information" %>
+    </div>
 
       <%= render_plugin_partials("top_of_basic_information_subject",
                                  :form => form,
@@ -28,7 +30,7 @@
   <% end %>
 
   <% form.emit_template("subject") %>
-
+  
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :required => true, :heading_text => I18n.t("subject._frontend.section.terms")} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
   <%= render_aspace_partial :partial => "external_ids/edit", :locals => {:form => form, :section_id => "external_ids"} %>

@@ -26,7 +26,7 @@ on:
 
 jobs:
   rubocop:
-    name: Rubocop_Java_v${{ inputs.java-version || 11 }}
+    name: Rubocop_Java_v${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
     runs-on: ubuntu-latest
 
     steps:

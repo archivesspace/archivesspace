@@ -13,13 +13,13 @@
 
   linkable_types = ["container_profile"]
 %>
-<div class="form-group <% if required %>required<% end %>">
-  <label class="control-label col-sm-2"
+<div class="form-group row <% if required %>required<% end %>">
+  <label class="control-label col-sm-2 text-right"
          id="<%= form.id_for("ref") %>_label"
          for="<%= form.id_for("ref") %>">
-    <%= I18n.t("container_profile._singular") %>
+    <%= t("container_profile._singular") %>
   </label>
-  <div class="controls col-sm-8">
+  <div class="controls col-sm-9">
     <div class="input-group linker-wrapper"
          role="combobox"
          aria-owns="<%= form.id_for("ref") %>_listbox"
@@ -29,10 +29,10 @@
              aria-autocomplete="both"
              aria-controls="<%= form.id_for("ref") %>_listbox"
              aria-labelledby="<%= form.id_for("ref") %>_label"
-             data-label_create="<%= I18n.t("container_profile.linker.create") %>"
-             data-label_browse="<%= I18n.t("container_profile.linker.browse") %>"
-             data-label_link="<%= I18n.t("linker.link") %>"
-             data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
+             data-label_create="<%= t("container_profile.linker.create") %>"
+             data-label_browse="<%= t("container_profile.linker.browse") %>"
+             data-label_link="<%= t("linker.link") %>"
+             data-label_create_and_link="<%= t("linker.create_and_link") %>"
              data-name="ref"
              data-path="<%= form.path %>"
              data-url="<%= url_for :controller => :container_profiles, :action => :typeahead, :format => :json %>"
@@ -42,13 +42,22 @@
              data-types='<%= linkable_types.to_json %>'
              data-exclude='<%= exclude_ids.to_json %>'
       />
-      <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t("container_profile.linker.link_title") %>" aria-label="<%= I18n.t("container_profile.linker.link_title") %>"><span class="caret"></span></a>
+      <div class="input-group-append">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="<%= t("container_profile.linker.link_title") %>" aria-label="<%= t("container_profile.linker.link_title") %>"></button>
         <ul class="dropdown-menu">
-          <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"
+            ><%= t("actions.browse") %></button>
+          </li>
           <% if allow_create && user_can?('update_container_profile_record') %>
             <li>
-              <a data-target="<%= url_for :controller => :container_profiles, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a>
+              <button
+                type="button"
+                class="btn btn-sm rounded-0 dropdown-item linker-create-btn"
+                data-target="<%= url_for :controller => :container_profiles, :action => :new, :inline => true %>"
+              ><%= t("actions.create") %></button>
             </li>
           <% end %>
         </ul>

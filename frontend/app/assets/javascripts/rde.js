@@ -1,6 +1,7 @@
 //= require jquery.event.drag-1.4.min
 //= require jquery.kiketable.colsizable-1.1
 //= require jquery.columnmanager.min
+//= require bootstrap-select
 //= require bootstrap-multiselect
 //= require linker
 
@@ -588,7 +589,7 @@ $(function () {
             ).clone();
             $input.attr('name', '').attr('id', 'basicFillValue');
             $('.fill-value-container', $form).html($input);
-            $btnFill.removeAttr('disabled').removeClass('disabled');
+            $btnFill.attr('disabled', null).removeClass('disabled');
           });
 
           $btnFill.click(function (event) {
@@ -642,7 +643,7 @@ $(function () {
 
           $inputTargetColumn.change(function () {
             $('.empty', this).remove();
-            $btnFill.removeAttr('disabled').removeClass('disabled');
+            $btnFill.attr('disabled', null).removeClass('disabled');
           });
 
           $('button.preview-sequence', $form).click(function (event) {
@@ -904,7 +905,7 @@ $(function () {
 
         $input.on('change keyup paste', function () {
           if ($(this).val().length > 0) {
-            $btnSave.removeAttr('disabled').removeClass('disabled');
+            $btnSave.attr('disabled', null).removeClass('disabled');
           } else {
             $btnSave.prop('disabled', true);
           }
@@ -1169,7 +1170,7 @@ $(function () {
               $options.last().next().after($options);
             }
           }
-          $btnApplyOrder.removeAttr('disabled').removeClass('disabled');
+          $btnApplyOrder.attr('disabled', null).removeClass('disabled');
         };
 
         var resetForm = function () {
@@ -1254,7 +1255,7 @@ $(function () {
           return isVisible($colHeader.attr('id'));
         });
         $select.multiselect({
-          buttonClass: 'btn btn-small btn-default',
+          buttonClass: 'btn btn-sm btn-default',
           buttonWidth: 'auto',
           maxHeight: 300,
           buttonContainer: '<div class="btn-group" id="multiselect_btn"/>',
@@ -1447,7 +1448,7 @@ $(function () {
         var cell = $("td[data-col='" + colId + "']", row);
 
         cell.removeClass('disabled');
-        $('input', cell).removeAttr('disabled');
+        $('input', cell).attr('disabled', null);
       };
 
       var disableCell = function (colId, rowIndex) {

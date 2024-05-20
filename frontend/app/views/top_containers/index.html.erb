@@ -1,8 +1,8 @@
-<%= setup_context(:title => I18n.t("top_container._plural")) %>
+<%= setup_context(:title => t("top_container._plural")) %>
 
 <%= render_aspace_partial :partial => "top_containers/bulk_operations/search_criteria" %>
 <br/>
-<div class="row" style="display: none">
+<div class="d-none" data-results-wrapper>
   <div class="col-md-12">
     <%= render_aspace_partial :partial => "top_containers/bulk_operations/toolbar" %>
     <div id="bulk_operation_results" class="record-pane"></div>

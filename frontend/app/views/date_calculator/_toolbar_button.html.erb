@@ -1,4 +1,4 @@
 <%= render_aspace_partial :partial => "date_calculator/template", :locals => {:record => record} %>
-<a href="javascript:void(0);" class="date-calculator-btn" data-record-type="<%= record.jsonmodel_type %>" data-record-id="<%= record.id %>">
-  <%= I18n.t("date_calculator.toolbar_button") %>
-</a>
+<button type="button" class="btn rounded-0 dropdown-item date-calculator-btn" data-record-type="<%= record.jsonmodel_type %>" data-record-id="<%= record.id %>">
+  <%= t("date_calculator.toolbar_button") %>
+</button>

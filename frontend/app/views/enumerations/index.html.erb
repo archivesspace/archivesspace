@@ -1,12 +1,9 @@
-<%= setup_context :title => I18n.t("enumeration._plural") %>
+<%= setup_context :title => t("enumeration._plural") %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-12">
-    <div class="record-toolbar">
-      <div class="pull-right btn-group">
-        <%= link_to I18n.t('enumeration._frontend.action.download_csv'), {:controller => 'enumerations', :action => 'csv'}, :class => 'btn btn-default btn-sm' %>
-      </div>
-      <div class="clearfix"></div>
+    <div class="record-toolbar d-flex justify-content-end">
+      <%= link_to t('enumeration._frontend.action.download_csv'), {:controller => 'enumerations', :action => 'csv'}, :class => 'btn btn-sm btn-default' %>
     </div>
 
     <div class="record-pane">
@@ -14,14 +11,14 @@
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
-      <div class="form-horizontal">
+      <div>
         <fieldset>
-          <div class="form-group required">
-            <label class="control-label col-md-3" for="enum_selector"><%= I18n.t("enumeration._frontend.messages.name_selector") %></label>
+          <div class="form-group row required">
+            <label class="col-form-label col-md-3 text-right" for="enum_selector"><%= t("enumeration._frontend.messages.name_selector") %></label>
             <div class="controls">
               <%
                 enum_options = @enumerations.map {|e|
-                  [sprintf("%s (%s)", I18n.t("enumeration_names.#{e['name']}"), e['name']),
+                  [sprintf("%s (%s)", t("enumeration_names.#{e['name']}"), e['name']),
                    JSONModel(:enumeration).id_for(e["uri"])]
                 }.sort {|a, b| a[0] <=> b[0]}
               %>

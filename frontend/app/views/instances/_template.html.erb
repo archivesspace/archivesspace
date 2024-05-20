@@ -23,8 +23,8 @@
 <% define_template "instance_digital_object", jsonmodel_definition(:instance) do |form| %>
   <div class="subrecord-form-fields">
     <h3 class="subrecord-form-heading">
-      <button type="button" class="badge badge-info is-representative-label"><%= I18n.t("file_version.is_representative") %></button>
-      <button type="button" class="btn btn-small is-representative-toggle"><%= I18n.t("file_version._frontend.action.make_representative") %></button>
+      <button type="button" class="badge badge-pill badge-primary fs-14px is-representative-label"><%= t("file_version.is_representative") %></button>
+      <button type="button" class="btn btn-sm btn-default is-representative-toggle"><%= t("file_version._frontend.action.make_representative") %></button>
     </h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input "instance_type", "digital_object" %>
@@ -38,7 +38,7 @@
 
 
 <% define_template "instance_empty" do |form| %>
-  <div class="alert alert-warning"><%= I18n.t("instance._frontend.messages.select_a_type")%></div>
+  <div class="alert alert-warning"><%= t("instance._frontend.messages.select_a_type")%></div>
 <% end %>
 
 

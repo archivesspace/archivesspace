@@ -1,13 +1,13 @@
 <%= setup_context :object => @location, :title => @location.title %>
 
-<div class="row">
+<div class="d-flex">
    <div class="col-md-3">
      <%= render_aspace_partial :partial => "locations/sidebar" %>
    </div>
   <div class="col-md-9">
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
-      <h2><%= @location.title %>  <span class="label label-info"><%= I18n.t("location._singular") %></span></h2>
+      <h2><%= @location.title %>  <span class="label label-info badge"><%= I18n.t("location._singular") %></span></h2>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
@@ -16,7 +16,7 @@
       <% if @location['location_profile'] %>
         <div class="form-horizontal">
           <div class="form-group token-list">
-            <div class="control-label col-sm-2"><%= I18n.t("location_profile._singular") %></div>
+            <div class="control-label col-sm-2"><%= t("location_profile._singular") %></div>
             <div class="label-only col-sm-8">
               <%= render_token :object => @location["location_profile"]["_resolved"],
                                :label => @location["location_profile"]["_resolved"]["display_string"],
@@ -30,7 +30,7 @@
       <% if @location['owner_repo'] %>
         <div class="form-horizontal">
           <div class="form-group token-list">
-            <div class="control-label col-sm-2"><%= I18n.t("repository._singular") %></div>
+            <div class="control-label col-sm-2"><%= t("repository._singular") %></div>
             <div class="label-only col-sm-8">
               <%= render_token :object => @location["owner_repo"]["_resolved"],
                                :label => @location["owner_repo"]["_resolved"]["display_string"],
@@ -55,7 +55,7 @@
       <%= render_aspace_partial :partial => "search/embedded", :locals => {
         :record => @location,
         :filter_term => {"location_uris" => @location.uri, 'primary_type' => 'top_container'}.to_json,
-        :heading_text => I18n.t("location._frontend.section.search_embedded"),
+        :heading_text => t("location._frontend.section.search_embedded"),
         :section_id => 'location_containers'} %>
 
       <%= readonly_context :location, @location do |readonly| %>

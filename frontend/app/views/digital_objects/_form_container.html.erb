@@ -6,11 +6,12 @@
 
   <% define_template "digital_object", jsonmodel_definition(:digital_object) do |form| %>
     <section id="basic_information">
-      <h3>
-        <%= I18n.t("digital_object._frontend.section.basic_information") %>
+      <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+        <h3 class="flex-grow-1 mb-0 border-0">
+          <%= t("digital_object._frontend.section.basic_information") %>
+        </h3>
         <%= link_to_help :topic => "digital_object_basic_information" %>
-      </h3>
-
+      </div>
       <%= render_plugin_partials("top_of_basic_information_digital_object",
                                  :form => form,
                                  :record => @digital_object) %>

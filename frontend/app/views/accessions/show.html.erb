@@ -2,7 +2,7 @@
 
 <%= render_aspace_partial :partial => "transfer/transfer_failures", :locals => { :transfer_errors => @transfer_errors } %>
 
-<div class="row">
+<div class="d-flex">
    <div class="col-md-3">
       <%= render_aspace_partial :partial => "sidebar" %>
    </div>
@@ -10,13 +10,13 @@
     <%= render_aspace_partial :partial => "accessions/toolbar" %>
     <div class="record-pane">
       <%= readonly_context :accession, @accession do |readonly| %>
-          <h2><%= clean_mixed_content(@accession.display_string) %> <span class="label label-info label-default"><%= I18n.t("accession._singular") %></span></h2>
+          <h2 class='my-3'><%= clean_mixed_content(@accession.display_string) %> <span class="badge label"><%= t("accession._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
           <% define_template "accession", jsonmodel_definition(:accession) do |form| %>
-          <section id="basic_information">
-            <h3><%= I18n.t "accession._frontend.section.basic_information" %></h3>
+          <section id="basic_information" class="py-3">
+            <h3><%= t("accession._frontend.section.basic_information") %></h3>
 
             <%= render_plugin_partials("top_of_basic_information_accession",
                                        :form => readonly,
@@ -128,7 +128,7 @@
           <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => @accession.external_ids, :context => readonly, :section_id => "accession_external_ids_" } %>
         <% end %>
 
-        <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @accession, :filter_term => {"assessment_record_uris" => @accession.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_records")} %>
+        <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @accession, :filter_term => {"assessment_record_uris" => @accession.uri}.to_json, :heading_text => t("assessment._frontend.linked_records.linked_via_assessment_records")} %>
 
          <%= show_plugins_for(@accession, readonly) %>
 

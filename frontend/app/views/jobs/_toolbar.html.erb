@@ -1,14 +1,13 @@
 <% if user_can?('cancel_job') && ["queued", "running"].include?(@job.status) && "true" == AppConfig[:jobs_cancelable].to_s %>
   <% if job_types[@job.job_type] && job_types[@job.job_type]['cancel_permissions'].reject{|perm| user_can?(perm)}.empty? %>
-    <div class="record-toolbar">
-      <div class="btn-group btn-toolbar pull-right">
+    <div class="record-toolbar d-flex align-items-center">
+      <div class="btn-group btn-toolbar ml-auto bg-white">
         <div class="btn btn-inline-form">
-          <%= button_confirm_action I18n.t("job._frontend.actions.cancel"), url_for(:controller => :jobs, :action => :cancel, :id => @job.id), {
+          <%= button_confirm_action t("job._frontend.actions.cancel"), url_for(:controller => :jobs, :action => :cancel, :id => @job.id), {
             :class => "btn btn-sm btn-danger"
               } %>
         </div>
       </div>
-      <div class="clearfix"></div>
     </div>
   <% end %>
 <% end %>

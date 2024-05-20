@@ -2,32 +2,31 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.2'
-gem 'i18n', '< 1.0'
+gem 'rails', '6.1.6'
 
 # For handling HTML enities when processing exports as XML
-gem 'htmlentities', '~> 4.3', '>= 4.3.4'
+gem 'htmlentities'
+gem 'i18n'
 
-gem 'nokogiri', '>= 1.10.8'
+gem 'nokogiri'
 
-gem 'sprockets-rails', '2.3.3'
+gem 'sprockets-rails'
 
 gem 'atomic', '= 1.0.1'
 
-# use bootstrap's sass - lockdown to pre-sassc version
-# because https://github.com/rails/rails/issues/38492
-gem 'bootstrap-sass', '= 3.3.7'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0', '>= 5.0.6'
+gem 'sass-rails'
+# use bootstrap's sass
+gem 'bootstrap','~> 4.3.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
 # Use font-awesome icons
 gem 'font-awesome-sass', '4.7.0'
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '4.2.2'
+gem 'coffee-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'therubyrhino'
+gem 'execjs'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
@@ -41,25 +40,28 @@ gem 'net-http-persistent', '>= 4.0.1'
 gem 'clipboard-rails'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
-
-# Enable support for `rails server`
-gem 'listen', group: :development
+gem 'turbolinks'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-group :development, :test do
+group :development do
+  gem 'web-console'
   gem 'pry'
   gem 'pry-nav'
   gem 'pry-rails'
   gem 'pry-debugger-jruby'
+  gem 'listen'
+end
+
+group :development, :test do
   gem 'puma'
 end
 
 group :test do
   gem 'axe-core-rspec'
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'dumb_delegator'
   gem 'factory_bot_rails'
   gem 'fog-aws', '2.0.0', require: false
@@ -68,7 +70,7 @@ group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'rspec-retry'
-  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
+  gem 'selenium-webdriver', '4.1.0'
   gem 'simplecov'
 end
 

@@ -1,19 +1,31 @@
 <% if user_can?('update_assessment_record') %>
-  <div class="record-toolbar">
-    <% if !['edit', 'update'].include?(controller.action_name) %>
-      <div class="btn-group pull-left">
-        <%= link_to I18n.t("actions.edit"), {:controller => :assessments, :action => :edit, :id => @assessment.id}, :class => "btn btn-sm btn-primary" %>
-      </div>
-    <% end %>
-    <% if user_can?('delete_assessment_record') %>
-      <div class="btn-toolbar pull-right">
-        <div class="btn-group">
-          <div class="btn btn-inline-form">
-            <%= button_delete_action url_for(:controller => :assessments, :action => :delete, :id => @assessment.id), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => @assessment.display_string) } %>
-          </div>
+  <section class="d-flex flex-column">
+    <div class="record-toolbar d-flex align-items-center gap-x-2" role="toolbar">
+      <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+        <div class="save-changes">
+          <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
         </div>
+      <% else %>
+        <%= link_to t("actions.edit"), {:controller => :assessments, :action => :edit, :id => @assessment.id}, :class => "btn btn-sm btn-primary" %>
+      <% end %>
+
+      <% if ['edit', 'update'].include?(controller.action_name) %>
+        <div class="align-items-center revert-changes">
+          <%= link_to I18n.t("actions.revert"), {:controller => :assessments, :action => :edit, :id => @assessment.id}, :class => "btn btn-sm btn-default flex-shrink-0" %>
+        </div>
+      <% end %>
+
+      <% if user_can?('delete_assessment_record') %>
+        <div class="ml-auto btn-group" data-allow-disabled>
+          <%= button_delete_action url_for(:controller => :assessments, :action => :delete, :id => @assessment.id), { :"data-title" => t("actions.delete_confirm_title", :title => @assessment.display_string) } %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if ['edit', 'update'].include?(controller.action_name) %>
+      <div id="record-toolbar-alert">
+        <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
       </div>
     <% end %>
-    <div class="clearfix"></div>
-  </div>
+  </section>
 <% end %>

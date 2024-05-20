@@ -1,19 +1,18 @@
 <%
-  title = I18n.t("search_results.title") if title.nil?
+  title = t("search_results.title") if title.nil?
 %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <%= render_aspace_partial :partial => "search/filter" %>
   </div>
   <div class="col-md-9">
-    <div class="record-toolbar">
+    <div class="record-toolbar  d-flex align-items-center">
       <% unless @hide_csv_download %>
-      <div class="btn-group pull-right">
-        <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-info" %>
-      </div>
+        <div class="btn-group ml-auto">
+          <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
+        </div>
       <% end %>
-      <br style="clear:both" />
     </div>
     <div class="record-pane">
       <%= link_to_help :topic => "search" %>

@@ -2,7 +2,7 @@
 
 <%= form_for @accession, :as => "accession", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "accession_form"}.merge(update_monitor_params(@accession)) do |f| %>
   <%= form_context :accession, @accession do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
@@ -11,7 +11,7 @@
         <%= render_aspace_partial :partial => "accessions/toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "accession" %>
-          <h2><%= clean_mixed_content(@accession.display_string) %> <span class="label label-info"><%= I18n.t("accession._singular") %></span></h2>
+          <h2><%= clean_mixed_content(@accession.display_string) %> <span class="badge label label-info"><%= t("accession._singular") %></span></h2>
           <input type="hidden" name="_method" value="put" />
           <%= render_aspace_partial :partial => "accessions/form", :locals => {:form => form} %>
         </div>

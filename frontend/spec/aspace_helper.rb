@@ -16,16 +16,7 @@ module ASpaceHelpers
   end
 
   def login_admin
-    visit '/'
-    page.has_xpath? '//input[@id="login"]'
-
-    within "form.login" do
-      fill_in "username", with: "admin"
-      fill_in "password", with: "admin"
-      click_button "Sign In"
-    end
-
-    page.has_no_xpath? "//input[@id='login']"
+    login_user(OpenStruct.new(username: 'admin', password: 'admin'))
   end
 
   def login_user(user)
@@ -42,19 +33,22 @@ module ASpaceHelpers
   end
 
   def select_repository(repo)
-    page.has_xpath?("//a[contains(text(), 'Select Repository')]")
-    click_link 'Select Repository'
+    click_button 'Select Repository'
+
     if repo.respond_to? :repo_code
       select repo.repo_code, from: 'id'
     else
       select repo, from: 'id'
     end
 
-    click_button 'Select Repository'
+    within "form[action='/repositories/select']" do
+      click_button 'Select Repository'
+    end
   end
 
   def wait_for_ajax
     Timeout.timeout(Capybara.default_max_wait_time) do
+      sleep 1
       loop until finished_all_ajax_requests?
     end
   end

@@ -1,4 +1,4 @@
-<%= setup_context :object => @event, :title => I18n.t("actions.defaults") %>
+<%= setup_context :object => @event, :title => t("actions.defaults") %>
 
 <%= form_for @event, :as => "event", :url => {:action => :update_defaults}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :event, @event do |form| %>
@@ -8,7 +8,7 @@
       <input type="hidden" name="redirect_action" value="<%= @redirect_action %>" />
     <% end %>
 
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
@@ -16,15 +16,15 @@
         <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= link_to_help :topic => "event" %>
-          <h2><%= I18n.t("default_values.form_title.event") %> <span class="label label-info"><%= I18n.t("event._singular") %></span></h2>
+          <h2><%= I18n.t("default_values.form_title.event") %> <span class="label label-info badge"><%= I18n.t("event._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "events/form", :locals => {:form => form} %>
           <div class="form-actions">
             <div class="btn-group">
-              <button type="submit" class="btn btn-primary"><%= I18n.t("event._frontend.action.save") %></button>
-              <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= I18n.t("actions.save_plus_one") %></button>
+              <button type="submit" class="btn btn-primary"><%= t("event._frontend.action.save") %></button>
+              <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= t("actions.save_plus_one") %></button>
             </div>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

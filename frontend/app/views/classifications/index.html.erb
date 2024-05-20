@@ -1,10 +1,10 @@
-<%= setup_context :title => I18n.t("classification._plural") %>
+<%= setup_context :title => t("classification._plural") %>
 
 <%
    @show_multiselect_column = user_can?("delete_classification_record")
 %>
 
-<div class="row">
+<div class="d-flex">
    <div class="col-md-3">
      <div class="sidebar">
        <%= render_aspace_partial :partial => "search/filter" %>
@@ -12,36 +12,32 @@
    </div>
    <div class="col-md-9">
      <% if user_can?('update_classification_record') %>
-       <div class="record-toolbar">
-         <div class="pull-right">
-           <div class="btn-group">
-             <% if user_can?('manage_repository') %>
-               <div class="btn-group">
-                 <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-                   <%= I18n.t("actions.edit_default_values") %>
-                   <span class="caret"></span>
-                 </a>
-                 <ul class="dropdown-menu open-aligned-right">
-                   <li><%= link_to I18n.t("classification._singular"), {:controller => :classifications, :action => :defaults} %></li>
-                   <li> <%= link_to I18n.t("classification_term._singular"), {:controller => :classification_terms, :action => :defaults} %></li>
-                 </ul>
-               </div>
-             <% end %>
-             <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport", class: "btn btn-sm btn-info" %>
-             <%= link_to I18n.t("classification._frontend.action.create"), {:controller => :classifications, :action => :new}, :class => "btn btn-sm btn-default" %>
-             <% if user_can?("delete_classification_record") %>
-               <%= button_delete_multiple_action(:classifications) %>
-             <% end %>
-           </div>
-         </div>
-         <br style="clear:both" /> <!-- So dirty! -->
+       <div class="record-toolbar d-flex align-items-center">
+          <div class="btn-group ml-auto">
+            <% if user_can?('manage_repository') %>
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                  <%= I18n.t("actions.edit_default_values") %>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><%= link_to I18n.t("classification._singular"), {:controller => :classifications, :action => :defaults}, :class => "dropdown-item" %></li>
+                  <li> <%= link_to I18n.t("classification_term._singular"), {:controller => :classification_terms, :action => :defaults}, :class => "dropdown-item" %></li>
+                </ul>
+              </div>
+            <% end %>
+            <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport", class: "btn btn-sm btn-primary" %>
+            <%= link_to I18n.t("classification._frontend.action.create"), {:controller => :classifications, :action => :new}, :class => "btn btn-sm btn-default" %>
+            <% if user_can?("delete_classification_record") %>
+              <%= button_delete_multiple_action(:classifications) %>
+            <% end %>
+          </div>
        </div>
      <% end %>
 
      <div class="record-pane">
        <%= link_to_help :topic => "search" %>
 
-       <h2><%= I18n.t("classification._plural") %></h2>
+       <h2><%= t("classification._plural") %></h2>
 
        <%= render_aspace_partial :partial => "shared/flash_messages" %>
 

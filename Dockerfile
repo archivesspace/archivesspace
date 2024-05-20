@@ -14,6 +14,7 @@ RUN apt-get update && \
   apt-get -y install --no-install-recommends \
   build-essential \
   git \
+  nodejs \
   openjdk-17-jre-headless \
   shared-mime-info \
   wget \
@@ -51,19 +52,20 @@ ENV ARCHIVESSPACE_LOGS=/dev/null \
 COPY --from=build_release /archivesspace /archivesspace
 
 RUN apt-get update && \
-  apt-get -y install --no-install-recommends \
-  ca-certificates \
-  git \
-  libjemalloc-dev \
-  openjdk-17-jre-headless \
-  netbase \
-  shared-mime-info \
-  wget \
-  unzip && \
-  rm -rf /var/lib/apt/lists/* && \
-  groupadd -g 1000 archivesspace && \
-  useradd -l -M -u 1000 -g archivesspace archivesspace && \
-  chown -R archivesspace:archivesspace /archivesspace
+    apt-get -y install --no-install-recommends \
+      ca-certificates \
+      git \
+      libjemalloc-dev \
+      openjdk-17-jre-headless \
+      netbase \
+      shared-mime-info \
+      wget \
+      nodejs \
+      unzip && \
+    rm -rf /var/lib/apt/lists/* && \
+    groupadd -g 1000 archivesspace && \
+    useradd -l -M -u 1000 -g archivesspace archivesspace && \
+    chown -R archivesspace:archivesspace /archivesspace
 
 USER archivesspace
 

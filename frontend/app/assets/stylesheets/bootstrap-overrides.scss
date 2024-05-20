@@ -1,0 +1,120 @@
+// overrides to bring frontend custom styles into alignment after bootstrap upgrade
+
+// this line imports the glyphicons from bootstrap 3
+@import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css');
+
+@import 'bootstrap/functions';
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+
+html {
+  font-size: 100%;
+}
+
+.navbar {
+  padding: 0;
+  align-items: stretch;
+}
+.navbar-nav {
+  flex-direction: row;
+  align-items: center;
+  .dropdown-menu {
+    position: absolute;
+    z-index: 1000;
+  }
+}
+
+body {
+  font-size: 16px;
+}
+
+.alert-info {
+  background-color: #d9edf7;
+  color: #31708f;
+  border-color: darken(adjust-hue(#d9edf7, -10), 7%);
+}
+
+.alert-success {
+  background-color: #dff0d8;
+  color: #3c763d;
+  border-color: darken(adjust-hue(#dff0d8, -10), 7%);
+}
+
+.alert-warning {
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+  border-color: darken(adjust-hue(#fcf8e3, -10), 7%);
+}
+
+.alert-danger {
+  background-color: #f2dede;
+  color: #a94442;
+  border-color: darken(adjust-hue(#f2dede, -10), 7%);
+}
+
+.dropdown-toggle {
+  color: #212529;
+}
+
+.dropdown-divider {
+  border-top-color: $gray-500;
+}
+
+.dropdown-item {
+  color: #212529;
+
+  &:hover,
+  &.focus {
+    color: #212529;
+    text-decoration: none;
+    background-color: $gray-400;
+  }
+
+  a {
+    color: #212529;
+  }
+}
+
+.dropdown-item {
+  &:active,
+  &.active {
+    color: #212529;
+    background-color: $gray-400;
+  }
+  a {
+    color: #212529;
+    padding: 0;
+  }
+}
+
+.form-control {
+  border-color: var(--secondary);
+}
+
+// ANW-1821 Rectify bootstrap-combobox.js v1.1.6 with Bootstrap v4
+.combobox-container:not(.combobox-selected) .glyphicon-remove {
+  display: none;
+}
+
+.dropdown-toggle::after {
+  margin-left: 0;
+  vertical-align: 4px;
+}
+
+.dropdown-toggle.no-caret::after {
+  display: none;
+}
+
+.combobox-container.combobox-selected .dropdown-toggle::after {
+  border: none;
+}
+
+.typeahead-long {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+// ANW-1821 Override positioning of modal action buttons
+.modal-footer {
+  justify-content: space-between;
+}

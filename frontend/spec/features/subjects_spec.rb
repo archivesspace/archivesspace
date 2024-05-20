@@ -3,8 +3,8 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'System Information', js: true do
-  let(:repository) { create(:repo, repo_code: "system_information_#{Time.now.to_i}") }
+describe 'Subjects', js: true do
+  let(:repository) { create(:repo, repo_code: "subjects_#{Time.now.to_i}") }
   let(:archivist_user) { create_user(repository => ['repository-archivists']) }
 
   before(:each) do
@@ -91,7 +91,7 @@ describe 'System Information', js: true do
     first_element = find('#subject_terms__0_ .drag-handle')
     second_element = find('#subject_terms__1_ .drag-handle')
 
-    first_element.drag_to(second_element)
+    second_element.drag_to(first_element)
 
     elements = all('#subject_terms_ ul li')
     expect(elements.length).to eq(2)

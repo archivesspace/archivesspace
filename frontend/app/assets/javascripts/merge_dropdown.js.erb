@@ -31,6 +31,16 @@ $(function () {
       }
     });
 
+    $("#dropdownMenuSubjects li a").on("click", function(event) {
+      var element = document.getElementById("dropdownMenuSubjects");
+      element.classList.toggle("show");
+    });
+
+    $("#dropdownMenuAgents li a").on("click", function(event) {
+      var element = document.getElementById("dropdownMenuAgents");
+      element.classList.toggle("show");
+    });
+
     // Stop the modal from being hidden by clicks within the form
     $(".merge-form").on("click", function(event) {
       event.stopPropagation();
@@ -39,10 +49,13 @@ $(function () {
 
     $(".merge-form .linker-wrapper .dropdown-toggle").on("click", function(event) {
       event.stopPropagation();
-      $(this).parent().toggleClass("open");
+      $(this).parent().toggleClass("show");
+      if (!$(this).next().hasClass("dropdown-menu")) {
+        throw new Error("Expected sibling element to be a dropdown menu");
+      }
+      $(this).next().toggleClass("show");
 
-
-      if($(this).parent().hasClass("open")) {
+      if($(this).parent().hasClass("show")) {
         $(this).attr('aria-expanded', true);
       } 
       else {

@@ -17,7 +17,7 @@ jobs:
     uses: ./.github/workflows/codescan.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 11 }}
+      java-version: ${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
 
   frontend:
     uses: ./.github/workflows/frontend.yml

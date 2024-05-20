@@ -1,13 +1,13 @@
 <%= setup_context :object => @container_profile, :title => @container_profile.name %>
 
-<div class="row">
+<div class="d-flex">
    <div class="col-md-3">
      <%= render_aspace_partial :partial => "sidebar" %>
    </div>
   <div class="col-md-9">
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
-      <h2><%= @container_profile.name %>  <span class="label label-info"><%= I18n.t("container_profile._singular") %></span></h2>
+      <h2><%= @container_profile.name %>  <span class="label label-info badge"><%= t("container_profile._singular") %></span></h2>
       <%= readonly_context :container_profile, @container_profile do |readonly| %>
         <%= render_aspace_partial :partial => "container_profiles/form", :locals => {:form => readonly} %>
       <% end %>

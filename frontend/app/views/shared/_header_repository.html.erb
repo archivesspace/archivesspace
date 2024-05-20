@@ -1,102 +1,96 @@
-<div class="col-md-12 repository-header">
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".nav-repository-collapse" aria-expanded="false">
-        <span class="sr-only"><%= I18n.t("navbar.toggle_navigation") %></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-    <div class="navbar-collapse nav-repository-collapse collapse navbar-default">
+<div class="repository-header">
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse flex-column" id="navbarContent">
       <% if session[:user] and session[:repo_id] %>
-        <ul class="nav navbar-nav">
-          <li <% if controller_name === "welcome" %>class="active"<% end %>>
-            <%= link_to raw('<span class="glyphicon glyphicon-home"></span><span class="sr-only">' + I18n.t("breadcrumb.home") + '</span>'), :controller => :welcome, :action => :index %>
+        <ul class="nav navbar-nav w-100 px-3 border-bottom">
+          <li class="d-flex<%= (controller_name === "welcome" ? ' bg-bsCoolGray' : '') %>">
+            <%= link_to raw('<span class="glyphicon glyphicon-home"></span><span class="sr-only">' + t("breadcrumb.home") + '</span>'), { :controller => :welcome, :action => :index }, class: 'p-3' %>
           </li>
-          <li class="dropdown browse-container">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("actions.browse") %> <b class="caret"></b></a>
+          <li class="d-flex align-self-stretch align-items-center dropdown browse-container">
+            <button class="btn h-100 d-flex align-items-center gap-x-1 rounded-0 hover-bsCoolGray dropdown-toggle" data-toggle="dropdown"><%= t("actions.browse") %> <b class="caret"></b></button>
             <ul class="dropdown-menu">
-              <li><%= link_to I18n.t("accession._plural"), :controller => :accessions, :action => :index %></li>
-              <li><%= link_to I18n.t("resource._plural"), :controller => :resources, :action => :index %></li>
-              <li><%= link_to I18n.t("digital_object._plural"), :controller => :digital_objects, :action => :index %></li>
-              <li class="divider"></li>
-              <li><%= link_to I18n.t("subject._plural"), :controller => :subjects, :action => :index %></li>
-              <li><%= link_to I18n.t("agent._plural"), :controller => :agents, :action => :index %></li>
-              <li><%= link_to I18n.t("container_profile._plural"), :controller => :container_profiles, :action => :index %></li>
-              <li><%= link_to I18n.t("location._plural"), :controller => :locations, :action => :index %></li>
-              <li><%= link_to I18n.t("event._plural"), :controller => :events, :action => :index %></li>
-              <li><%= link_to I18n.t("collection_management._plural"), :controller => :collection_management, :action => :index %></li>
-              <li><%= link_to I18n.t("classification._plural"), :controller => :classifications, :action => :index %></li>
-              <li><%= link_to I18n.t("assessment._plural"), :controller => :assessments, :action => :index %></li>
-              <li class="divider"></li>
-              <li><%= link_to I18n.t("job._plural"), :controller => :jobs, :action => :index %></li>
+              <li><%= link_to t("accession._plural"), {:controller => :accessions, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("resource._plural"), {:controller => :resources, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("digital_object._plural"), {:controller => :digital_objects, :action => :index}, :class => "dropdown-item" %></li>
+              <li class="dropdown-divider"></li>
+              <li><%= link_to t("subject._plural"), {:controller => :subjects, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("agent._plural"), {:controller => :agents, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("container_profile._plural"), {:controller => :container_profiles, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("location._plural"), {:controller => :locations, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("event._plural"), {:controller => :events, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("collection_management._plural"), {:controller => :collection_management, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("classification._plural"), {:controller => :classifications, :action => :index}, :class => "dropdown-item" %></li>
+              <li><%= link_to t("assessment._plural"), {:controller => :assessments, :action => :index}, :class => "dropdown-item" %></li>
+              <li class="dropdown-divider"></li>
+              <li><%= link_to t("job._plural"), {:controller => :jobs, :action => :index}, :class => "dropdown-item" %></li>
             </ul>
           </li>
           <% if ['update_accession_record', 'update_resource_record', 'update_digital_object_record',
-                 'update_subject_record', 'update_event_record',
-                 'update_agent_record', 'update_location_record', 'update_container_profile', 'create_job'].find {|p| user_can?(p)} %>
-            <li class="dropdown create-container">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.create") %> <b class="caret"></b></a>
+                  'update_subject_record', 'update_event_record',
+                  'update_agent_record', 'update_location_record', 'update_container_profile'].find {|p| user_can?(p)} %>
+            <li class="d-flex align-self-stretch align-items-center dropdown create-container">
+              <button class="btn h-100 d-flex align-items-center gap-x-1 rounded-0 hover-bsCoolGray dropdown-toggle" data-toggle="dropdown"><%= t("navbar.create") %></button>
               <ul class="dropdown-menu">
                 <% if ['update_accession_record', 'update_resource_record', 'update_digital_object_record'].find {|p| user_can?(p)} %>
                   <% if user_can?('update_accession_record') %>
-                    <li><%= link_to I18n.t("accession._singular"), :controller => :accessions, :action => :new %></li>
+                    <li><%= link_to t("accession._singular"), {:controller => :accessions, :action => :new}, :class => "dropdown-item" %></li>
                   <% end %>
                   <% if user_can?('update_resource_record') %>
-                    <li><%= link_to I18n.t("resource._singular"), :controller => :resources, :action => :new %></li>
+                    <li><%= link_to t("resource._singular"), {:controller => :resources, :action => :new}, :class => "dropdown-item" %></li>
                   <% end %>
                   <% if user_can?('update_digital_object_record') %>
-                    <li><%= link_to I18n.t("digital_object._singular"), :controller => :digital_objects, :action => :new %></li>
+                    <li><%= link_to t("digital_object._singular"), {:controller => :digital_objects, :action => :new}, :class => "dropdown-item" %></li>
                   <% end %>
 
                   <% if ['update_subject_record', 'update_event_record',
-                         'update_agent_record', 'update_location_record', 'update_container_profile'].find {|p| user_can?(p)} %>
-                    <li class="divider"></li>
+                          'update_agent_record', 'update_location_record', 'update_container_profile'].find {|p| user_can?(p)} %>
+                    <li class="dropdown-divider"></li>
                   <% end %>
                 <% end %>
                 <% if user_can?('update_subject_record') %>
-                  <li><%= link_to I18n.t("subject._singular"), :controller => :subjects, :action => :new %></li>
+                  <li><%= link_to t("subject._singular"), {:controller => :subjects, :action => :new}, :class => "dropdown-item" %></li>
                 <% end %>
                 <% if user_can?('update_agent_record') %>
                   <li class="dropdown-submenu">
-                    <a href="javascript:void(0);"><%= I18n.t("agent._singular") %></a>
+                    <a class="dropdown-item" href="javascript:void(0);"><%= t("agent._singular") %></a>
                     <ul class="dropdown-menu">
-                      <li><%= link_to I18n.t("agent_person._singular"), :controller => :agents, :action => :new, :agent_type => :agent_person %></li>
-                      <li><%= link_to I18n.t("agent_family._singular"), :controller => :agents, :action => :new, :agent_type => :agent_family %></li>
-                      <li><%= link_to I18n.t("agent_corporate_entity._singular"), :controller => :agents, :action => :new, :agent_type => :agent_corporate_entity %></li>
-                      <li><%= link_to I18n.t("agent_software._singular"), :controller => :agents, :action => :new, :agent_type => :agent_software %></li>
+                      <li><%= link_to t("agent_person._singular"), {:controller => :agents, :action => :new, :agent_type => :agent_person}, :class => "dropdown-item" %></li>
+                      <li><%= link_to t("agent_family._singular"), {:controller => :agents, :action => :new, :agent_type => :agent_family}, :class => "dropdown-item" %></li>
+                      <li><%= link_to t("agent_corporate_entity._singular"), {:controller => :agents, :action => :new, :agent_type => :agent_corporate_entity}, :class => "dropdown-item" %></li>
+                      <li><%= link_to t("agent_software._singular"), {:controller => :agents, :action => :new, :agent_type => :agent_software}, :class => "dropdown-item" %></li>
                     </ul>
                   </li>
                 <% end %>
                 <% if user_can?('update_container_profile_record') %>
-                  <li><%= link_to I18n.t("container_profile._singular"), :controller => :container_profiles, :action => :new %></li>
+                  <li><%= link_to t("container_profile._singular"), {:controller => :container_profiles, :action => :new}, :class => "dropdown-item" %></li>
                 <% end %>
                 <% if user_can?('update_location_record') %>
                   <li class="dropdown-submenu">
-                    <a href="javascript:void(0);"><%= I18n.t("location._singular") %></a>
+                    <a class="dropdown-item" href="javascript:void(0);"><%= t("location._singular") %></a>
                     <ul class="dropdown-menu">
-                      <li><%= link_to I18n.t("location._frontend.action.single"), :controller => :locations, :action => :new %></li>
-                      <li><%= link_to I18n.t("location._frontend.action.batch"), :controller => :locations, :action => :batch %></li>
+                      <li><%= link_to t("location._frontend.action.single"), {:controller => :locations, :action => :new}, :class => "dropdown-item" %></li>
+                      <li><%= link_to t("location._frontend.action.batch"), {:controller => :locations, :action => :batch}, :class => "dropdown-item" %></li>
                     </ul>
                   </li>
                 <% end %>
                 <% if user_can?('update_event_record') %>
-                  <li><%= link_to I18n.t("event._singular"), :controller => :events, :action => :new %></li>
+                  <li><%= link_to t("event._singular"), {:controller => :events, :action => :new}, :class => "dropdown-item" %></li>
                 <% end %>
                 <% if user_can?('update_classification_record') %>
-                  <li><%= link_to I18n.t("classification._singular"), :controller => :classifications, :action => :new %></li>
+                  <li><%= link_to t("classification._singular"), {:controller => :classifications, :action => :new}, :class => "dropdown-item" %></li>
                 <% end %>
                 <% if user_can?('update_assessment_record') %>
-                  <li><%= link_to I18n.t("assessment._singular"), :controller => :assessments, :action => :new %></li>
+                  <li><%= link_to t("assessment._singular"), {:controller => :assessments, :action => :new}, :class => "dropdown-item" %></li>
                 <% end %>
 
                 <% if user_can?('create_job') %>
-                  <li class="divider"></li>
+                  <li class="dropdown-divider"></li>
 
                   <li class="dropdown-submenu">
-                    <a href="javascript:void(0);"><%= I18n.t("job._singular") %></a>
+                    <a class="dropdown-item" href="javascript:void(0);"><%= t("job._singular") %></a>
                     <ul class="dropdown-menu">
                       <% job_types.each do |type, perms| %>
                         <% next if type == 'generate_slugs_job' && !AppConfig[:use_human_readable_urls] %>
@@ -104,7 +98,7 @@
                         <%# We only want to trigger bulk imports from within a resource record %>
                         <% next if type == 'bulk_import_job' %>
                         <% if perms['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
-                          <li><%= link_to I18n.t("job.types.#{type}", :default => type), :controller => :jobs, :action => :new, :job_type => type %></li>
+                          <li><%= link_to t("job.types.#{type}", :default => type), {:controller => :jobs, :action => :new, :job_type => type}, :class => "dropdown-item" %></li>
                         <% end %>
                       <% end %>
                     </ul>
@@ -114,84 +108,79 @@
               </ul>
             </li>
           <% end %>
-          <li>
+          <li class="px-4">
             <%= form_tag(url_for(:controller => :search, :action => :do_search), :method => :get, :class => "navbar-form pull-left") do %>
-              <div class="input-group">
-                <label for="global-search-box" class="sr-only sr-only-focusable"><%= I18n.t("navbar.search_placeholder") %></label>
-                <input id="global-search-box" type="text" class="col-md-2 form-control" placeholder="<%= I18n.t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
-                <div class="input-group-btn">
-                  <button id="global-search-button" class="btn btn-default" title="<%= I18n.t("navbar.search_button_title") %>" aria-label="<%= I18n.t("navbar.search_button_title") %>"><span class="glyphicon glyphicon-search"></span></button>
-                  <button class="btn btn-default search-switcher last" title="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-label="<%= I18n.t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class='glyphicon glyphicon-chevron-down'></span></button>
+              <div class="input-group bg-white">
+                <label for="global-search-box" class="sr-only sr-only-focusable"><%= t("navbar.search_placeholder") %></label>
+                <input id="global-search-box" type="text" class="form-control rounded-left" placeholder="<%= t("navbar.search_placeholder") %>" name="q" value="<%= params[:q] %>"/>
+                <div class="input-group-append">
+                  <button id="global-search-button" class="btn btn-default" title="<%= t("navbar.search_button_title") %>" aria-label="<%= t("navbar.search_button_title") %>"><span class="glyphicon glyphicon-search"></span></button>
+                  <button class="btn btn-default search-switcher last" title="<%= t("navbar.show_advanced_search_button_title") %>" aria-label="<%= t("navbar.show_advanced_search_button_title") %>" aria-expanded="false" <% if params["advanced"] %>style="display:none"<% end %>><span class='glyphicon glyphicon-chevron-down'></span></button>
                 </div>
               </div>
             <% end %>
           </li>
-          <li>
-            <div class="advanced-search-container" <% if params["advanced"].blank? or params["advanced"]  === 'false' %>style="display: none"<% end %>>
-              <%= render_aspace_partial :partial => "shared/advanced_search" %>
-            </div>
-          </li>
-          <li class="pull-right navbar-nav-right">
-            <ul class="nav navbar-nav">
+          <li class="ml-auto">
+            <ul class="nav navbar-nav gap-x-2">
               <li class="repo-container">
+              <div class="btn-group" role="group">
+                <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-default navbar-btn">
+                  <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="bottom" data-html='true' data-toggle='popover' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
+                    <span class="icomoon icon-repository"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
+                    <% unless current_repo.publish %>
+                      <span class="label label-warning"><%= t("navbar.unpublished") %></span>
+                    <% end %>
+                  </span>
+                </a>
                 <div class="btn-group">
-                  <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-default navbar-btn">
-                    <span class="repository-label has-popover" tabindex="0" data-trigger="focus hover" data-placement="bottom" data-html='true' data-toggle='popover' data-title="<span class='icomoon icon-repository'>&#160;</span><%= CGI::escapeHTML(current_repo['repo_code']) %>" data-content="<%= CGI::escapeHTML(current_repo['name']) %>">
-                      <span class="icomoon icon-repository"></span><span class="current-repository-id"><% if current_repo %><%= current_repo['repo_code'] %><% end %></span>
-                      <% unless current_repo.publish %>
-                        <span class="label label-warning"><%= I18n.t("navbar.unpublished") %></span>
-                      <% end %>
-                    </span>
-                  </a>
-                  <div class="btn-group">
-                    <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.repository_settings") %>" aria-label="<%= I18n.t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
-                    <ul class="dropdown-menu pull-right">
-                      <% found_an_item = false %>
-                      <% if user_can?('manage_repository') %>
-                        <% found_an_item = true %>
-                        <li><%= link_to I18n.t("navbar.manage_groups"), :controller => :groups, :action => :index %></li>
-                        <li><%= link_to I18n.t("user._frontend.section.manage_access"), :controller => :users, :action => :manage_access %></li>
-                      <% end %>
-                      <% if user_can?('manage_assessment_attributes') %>
-                        <li><%= link_to I18n.t("navbar.manage_assessment_attributes"), :controller => :assessment_attributes, :action => :edit %></li>
-                      <% end %>
-                      <% if user_can?('view_repository') %>
-                        <% found_an_item = true %>
-                        <li><%= link_to I18n.t("navbar.manage_top_containers"), :controller => :top_containers, :action => :index %></li>
-                      <% end %>
-                      <% if found_an_item %>
-                        <li class="divider"></li>
-                      <% end %>
-                      <% if user_can?('transfer_repository') && @repositories.length > 1 %>
-                        <li><%= link_to I18n.t("repository._frontend.section.transfer"), :controller => :repositories, :action => :transfer, :id => session[:repo_id] %></li>
-                        <li class="divider"></li>
-                      <% end %>
-                      <% if user_can?('create_job') %>
-                         <li><%= link_to I18n.t("job._plural"), :controller => :jobs, :action => :index %></li>
-                         <li><%= link_to I18n.t("bulk_import.templates"), :controller => :bulk_import_templates, :action => :index %></li>
-                        <li class="divider"></li>
-                      <% end %>
+                  <button class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" title="<%= t("navbar.repository_settings") %>" aria-label="<%= t("navbar.repository_settings") %>"><span class="glyphicon glyphicon-cog mr-1"></span></button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <% found_an_item = false %>
+                    <% if user_can?('manage_repository') %>
+                      <% found_an_item = true %>
+                      <li><%= link_to t("navbar.manage_groups"), {:controller => :groups, :action => :index}, :class => "dropdown-item" %></li>
+                      <li><%= link_to t("user._frontend.section.manage_access"), {:controller => :users, :action => :manage_access}, :class => "dropdown-item" %></li>
+                    <% end %>
+                    <% if user_can?('manage_assessment_attributes') %>
+                      <li><%= link_to t("navbar.manage_assessment_attributes"), {:controller => :assessment_attributes, :action => :edit}, :class => "dropdown-item" %></li>
+                    <% end %>
+                    <% if user_can?('view_repository') %>
+                      <% found_an_item = true %>
+                      <li><%= link_to t("navbar.manage_top_containers"), {:controller => :top_containers, :action => :index}, :class => "dropdown-item" %></li>
+                    <% end %>
+                    <% if found_an_item %>
+                      <li class="dropdown-divider"></li>
+                    <% end %>
+                    <% if user_can?('transfer_repository') && @repositories.length > 1 %>
+                      <li><%= link_to t("repository._frontend.section.transfer"), {:controller => :repositories, :action => :transfer, :id => session[:repo_id]}, :class => "dropdown-item" %></li>
+                      <li class="dropdown-divider"></li>
+                    <% end %>
+                    <% if user_can?('create_job') %>
+                        <li><%= link_to t("job._plural"), {:controller => :jobs, :action => :index}, :class => "dropdown-item" %></li>
+                        <li><%= link_to t("bulk_import.templates"), {:controller => :bulk_import_templates, :action => :index}, :class => "dropdown-item" %></li>
+                      <li class="dropdown-divider"></li>
+                    <% end %>
 
-                      <li><%= link_to I18n.t("navbar.list_reports"), :controller => :jobs, :action => :new, :job_type => 'report_job' %></li>
-                      <% if user_can?('manage_custom_report_templates') && AppConfig[:enable_custom_reports] %>
-                        <li><%= link_to I18n.t("custom_report_template._plural"), :controller => :custom_report_templates, :action => :index %></li>
-                      <% end %>
+                    <li><%= link_to t("navbar.list_reports"), {:controller => :jobs, :action => :new, :job_type => 'report_job'}, :class => "dropdown-item" %></li>
+                    <% if user_can?('manage_custom_report_templates') && AppConfig[:enable_custom_reports] %>
+                      <li><%= link_to t("custom_report_template._plural"), {:controller => :custom_report_templates, :action => :index}, :class => "dropdown-item" %></li>
+                    <% end %>
 
-                      <% if Plugins.repository_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
-                        <li class="dropdown-submenu pull-left">
-                          <a href="javascript:void(0);"><%= I18n.t("navbar.plugins") %></a>
-                          <ul class="dropdown-menu">
-                            <% Plugins.repository_menu_items.each do |plugin| %>
-                              <% if has_permission_for_controller?(session, plugin) %>
-                                <li><%= link_to I18n.t("plugins.#{plugin}.label"), :controller => plugin.intern, :action => :index %></li>
-                              <% end %>
+                    <% if Plugins.repository_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
+                      <li class="dropdown-submenu dropdown-item">
+                        <a href="javascript:void(0);"><%= t("navbar.plugins") %></a>
+                        <ul class="dropdown-menu">
+                          <% Plugins.repository_menu_items.each do |plugin| %>
+                            <% if has_permission_for_controller?(session, plugin) %>
+                              <li><%= link_to t("plugins.#{plugin}.label"), {:controller => plugin.intern, :action => :index}, :class => "dropdown-item" %></li>
                             <% end %>
-                          </ul>
-                        </li>
-                      <% end %>
-                    </ul>
-                  </div>
+                          <% end %>
+                        </ul>
+                      </li>
+                    <% end %>
+                  </ul>
                 </div>
+              </div>
               </li>
               <% if ArchivesSpaceHelp.enabled? %>
                 <li><%= link_to_help %></li>
@@ -199,9 +188,12 @@
             </ul>
           </li>
         </ul>
+        <section class="w-100 bg-grayLighter">
+          <div class="advanced-search-container" <% if params["advanced"].blank? or params["advanced"]  === 'false' %>style="display: none"<% end %>>
+            <%= render_aspace_partial :partial => "shared/advanced_search" %>
+          </div>
+        </section>
       <% end %>
     </div>
-  </div>
-</nav>
-
+  </nav>
 </div>

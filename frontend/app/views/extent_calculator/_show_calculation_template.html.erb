@@ -1,10 +1,6 @@
 <div id="extent_calculator_show_calculation_template" record_uri="<%= record.uri %>"><!--
-<div id="show_calculation_results" class="row" style="overflow-y: auto; max-height: 90%;">
-  <div class="record-pane">
-    <h3>
-      <%= I18n.t("extent_calculator.waiting_for_report_message") %>
-    </h3>
-  </div>
+<div id="show_calculation_results" class="d-flex" style="overflow-y: auto; max-height: 90%;">
+  <h3 class="my-3 px-3"><%= t("extent_calculator.waiting_for_report_message") %></h3>
 </div>
 --></div>
 <div id="template_extent_calculator_error_message"><!--

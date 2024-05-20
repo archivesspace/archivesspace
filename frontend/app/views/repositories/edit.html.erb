@@ -2,7 +2,7 @@
 
 <%= form_for @repository, :as => "repository", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@repository)) do |f| %>
   <%= form_context :repository, @repository do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "repositories/sidebar" %>
       </div>
@@ -10,14 +10,14 @@
         <%= render_aspace_partial :partial => "repositories/toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "repository" %>
-          <h2><%= @repository.repository['name'] %>  <span class="label label-info"><%= I18n.t("repository._singular") %></span></h2>
+          <h2><%= @repository.repository['name'] %>  <span class="label label-info badge"><%= t("repository._singular") %></span></h2>
           <br/>
 
           <%= render_aspace_partial :partial => "repositories/form_container", :locals => {:form => form} %>
 
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("repository._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+            <button type="submit" class="btn btn-primary"><%= t("repository._frontend.action.save") %></button>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>
       </div>

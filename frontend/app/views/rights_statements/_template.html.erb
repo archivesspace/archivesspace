@@ -37,16 +37,16 @@
 <% define_template "rights_type_nil", jsonmodel_definition(:rights_statement) do %>
   <div class="inline-subform rights-type-subform">
     <div class="form-group">
-      <div class="control-label col-sm-2"></div>
-      <div class="controls col-sm-9"><em><%= I18n.t("rights_statement.rights_type_message") %></em></div>
+      <div class="control-label col-sm-4"></div>
+      <div class="controls col-sm-6"><em><%= t("rights_statement.rights_type_message") %></em></div>
     </div>
   </div>
 <% end %>
 
 <% define_template "rights_statement", jsonmodel_definition(:rights_statement) do |form| %>
-  <div class="subrecord-form-fields">
+  <div class="subrecord-form-fields pt-5">
     <% if form.obj["identifier"].blank? %>
-      <%= form.label_and_readonly "identifier", "<em>#{I18n.t("rights_statement.identifier_auto_generate_message")}</em>" %>
+      <%= form.label_and_readonly "identifier", "<em>#{t("rights_statement.identifier_auto_generate_message")}</em>" %>
     <% else %>
       <%= form.label_with_field "identifier", form.hidden_input("identifier") + "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["identifier"]}</span></span>".html_safe %>
     <% end %>

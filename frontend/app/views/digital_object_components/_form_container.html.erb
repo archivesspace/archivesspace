@@ -2,11 +2,11 @@
 
 <h2>
   <% if @digital_object_component.display_string.blank? %>
-    <%= I18n.t("digital_object_component._singular") %>
+    <%= t("digital_object_component._singular") %>
   <% else %>
     <%= clean_mixed_content(@digital_object_component.display_string) %>
   <% end %>
-  <span class="label label-info"><%= I18n.t("digital_object_component._singular") %></span>
+  <span class="label label-info badge"><%= t("digital_object_component._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -22,10 +22,12 @@
 
   <% define_template("digital_object_component", jsonmodel_definition(:digital_object_component)) do |form| %>
     <section id="basic_information">
-      <h3>
-        <%= I18n.t("digital_object_component._frontend.section.basic_information") %>
+      <header class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+        <h3 class="flex-grow-1 mb-0 border-0">
+          <%= t("digital_object_component._frontend.section.basic_information") %>
+        </h3>
         <%= link_to_help :topic => "digital_object_component_basic_information" %>
-      </h3>
+      </header>
 
       <%= render_plugin_partials("top_of_basic_information_digital_object_component",
                                  :form => form,
@@ -44,7 +46,7 @@
         <div class="checkbox col-sm-9">
           <%= form.checkbox "publish", {}, user_prefs["publish"] %>
           <% if form.obj["has_unpublished_ancestor"] %>
-            <span class="help-inline"><span class="text-info"><%= I18n.t("digital_object_component._frontend.messages.has_unpublished_ancestor") %></span></span>
+            <span class="help-inline"><span class="text-info"><%= t("digital_object_component._frontend.messages.has_unpublished_ancestor") %></span></span>
           <% end %>
         </div>
       </div>

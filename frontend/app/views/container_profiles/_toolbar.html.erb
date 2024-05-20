@@ -1,32 +1,46 @@
-<div class="record-toolbar">
-  <% if user_can?('update_container_profile_record') %>
-    <% if !['edit', 'update', 'new', 'create'].include?(controller.action_name) %>
-      <div class="btn-group pull-left">
-        <%= link_to I18n.t("actions.edit"), {:controller => :container_profiles, :action => :edit, :id => @container_profile.id}, :class => "btn btn-sm btn-primary" %>
-      </div>
-    <% end %>
-    <% if !['new', 'create'].include?(controller.action_name) %>
-      <div class="btn-toolbar pull-right">
-        <div class="btn-group">
-          <div class="btn btn-inline-form">
-            <%= button_delete_action url_for(:controller => :container_profiles, :action => :delete, :id => @container_profile.id ), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => @container_profile.name) } unless @container_profile.id.nil? %>
-          </div>
+<section class="d-flex flex-column">
+  <div class="record-toolbar d-flex align-items-center gap-x-2" role="toolbar">
+    <% if user_can?('update_container_profile_record') %>
+      <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+        <div class="save-changes">
+          <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
         </div>
-      </div>
-    <% end %>
-  <% end %>
-  <% if !['new', 'create'].include?(controller.action_name) %>
-      <div class="btn-toolbar pull-right">
-        <div class="btn-group">
-          <button id="showSpaceCalculator" class="btn btn-sm btn-default"
-                  data-calculator-url="<%= url_for :controller => :space_calculator, :action => :show, :inline => true %>"
-                  data-modal-content="<%= I18n.t("space_calculator.modal_loading") %>"
-                  data-selectable="false"
-                  data-container-profile-uri="<%= @container_profile.uri %>">
-            <%=  I18n.t("container_profile._frontend.action.space_calculator") %>
-          </button>
+      <% else %>
+        <%= link_to t("actions.edit"), {:controller => :container_profiles, :action => :edit, :id => @container_profile.id}, :class => "btn btn-sm btn-primary" %>
+      <% end %>
+
+      <% if ['edit', 'update'].include?(controller.action_name) %>
+        <div class="align-items-center revert-changes">
+          <%= link_to I18n.t("actions.revert"), {:controller => :container_profiles, :action => :edit, :id => @container_profile.id}, :class => "btn btn-sm btn-default flex-shrink-0" %>
         </div>
-      </div>
+      <% end %>
+    <% end %>
+
+    <div class="ml-auto btn-group" data-allow-disabled>
+      <% if !['new', 'create'].include?(controller.action_name) %>
+        <button
+          id="showSpaceCalculator"
+          class="btn btn-sm btn-default no-change-tracking"
+          data-calculator-url="<%= url_for :controller => :space_calculator, :action => :show, :inline => true %>"
+          data-modal-content="<%= t("space_calculator.modal_loading") %>"
+          data-selectable="false"
+          data-container-profile-uri="<%= @container_profile.uri %>"
+        >
+          <%=  t("container_profile._frontend.action.space_calculator") %>
+        </button>
+      <% end %>
+
+      <% if user_can?('update_container_profile_record') %>
+        <% if !['new', 'create'].include?(controller.action_name) %>
+          <%= button_delete_action url_for(:controller => :container_profiles, :action => :delete, :id => @container_profile.id ), { :"data-title" => t("actions.delete_confirm_title", :title => @container_profile.name) } unless @container_profile.id.nil? %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if ['edit', 'update'].include?(controller.action_name) %>
+    <div id="record-toolbar-alert">
+      <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+    </div>
   <% end %>
-  <div class="clearfix"></div>
-</div>
+</section>

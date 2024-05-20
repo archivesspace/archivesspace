@@ -1,34 +1,32 @@
-<div title="<%= t('page_actions')%>" class="text-right">
- <ul class="list-inline">
-    <% ASUtils.wrap($RECORD_PAGE_ACTIONS[record.primary_type]).each do |page_action| %>
-      <li class="large-badge  align-center">
-        <% if page_action.has_key?('erb_partial') %>
-          <%= render :partial => page_action.fetch('erb_partial'), :locals => { :record => record } %>
-        <% else %>
-          <% label = I18n.t(page_action.fetch('label'), :default => page_action.fetch('label')) %>
-          <% icon_class = page_action.fetch('icon') %>
-          <% icon = "<i class='fa fa-3x #{icon_class}'></i>" %>
-          <% link_content = "#{icon}<br>#{label}".html_safe %>
+<div title="<%= t('page_actions')%>" class="d-flex justify-content-end">
+  <% ASUtils.wrap($RECORD_PAGE_ACTIONS[record.primary_type]).each do |page_action| %>
+    <div class="large-badge text-center resource p-1">
+      <% if page_action.has_key?('erb_partial') %>
+        <%= render :partial => page_action.fetch('erb_partial'), :locals => { :record => record } %>
+      <% else %>
+        <% label = I18n.t(page_action.fetch('label'), :default => page_action.fetch('label')) %>
+        <% icon_class = page_action.fetch('icon') %>
+        <% icon = "<i class='fa fa-3x #{icon_class}'></i>" %>
+        <% link_content = "#{icon}<br>#{label}".html_safe %>
 
-          <% if page_action.has_key?('onclick_javascript') %>
-            <% javascript = page_action.fetch('onclick_javascript') %>
-            <%= link_to link_content, 'javascript:void(0);',
+        <% if page_action.has_key?('onclick_javascript') %>
+          <% javascript = page_action.fetch('onclick_javascript') %>
+          <%= link_to link_content, 'javascript:void(0);',
+                      :class => 'btn btn-default page_action',
+                      :title => label,
+                      :'data-title' =>  record.display_string,
+                      :'data-uri' =>  record.uri,
+                      :onclick => javascript %>
+        <% elsif page_action.has_key?('url_proc') %>
+            <% proc = page_action.fetch('url_proc') %>
+            <% url = proc.call(record) %>
+            <%= link_to link_content, url,
                         :class => 'btn btn-default page_action',
-                        :title => label,
-                        :'data-title' =>  record.display_string,
-                        :'data-uri' =>  record.uri,
-                        :onclick => javascript %>
-          <% elsif page_action.has_key?('url_proc') %>
-              <% proc = page_action.fetch('url_proc') %>
-              <% url = proc.call(record) %>
-              <%= link_to link_content, url,
-                          :class => 'btn btn-default page_action',
-                          :title => label %>
-          <% else %>
-            <!-- Nothing we can do for this action -->
-          <% end %>
+                        :title => label %>
+        <% else %>
+          <!-- Nothing we can do for this action -->
         <% end %>
-      </li>
-    <% end %>
- </ul>
+      <% end %>
+    </div>
+  <% end %>
 </div>

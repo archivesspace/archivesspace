@@ -1,0 +1,39 @@
+// ANW-170, ANW-490: Opt-in to datepicker
+
+.has-error .input-group.date .form-control,
+.has-error.input-group.date .form-control,
+.has-error .input-group.date .input-group-append button,
+.has-error.input-group.date .input-group-append button {
+  /* Variant .has-error selectors b/c BS v4 changed validation behavior */
+  color: #a94442;
+  border-color: #a94442;
+  border-left-color: rgb(169, 68, 66);
+  background-color: #f2dede;
+}
+.has-error .input-group.date .form-control,
+.has-error.input-group.date .form-control {
+  background: #fff;
+}
+
+.input-group.date .datepicker-enabled button.btn {
+  color: #fff;
+  background-color: #23547e;
+  border-color: #1b4162;
+}
+
+input:invalid {
+  border: 1px solid #a94442;
+}
+
+/* ANW-1821 Bootstrap v4 updates */
+body > .datepicker {
+  padding: 0.25rem;
+}
+
+body > .datepicker table tr td,
+body > .datepicker table tr th {
+  width: 2rem;
+  height: 2rem;
+  padding: 0.25rem;
+  text-align: center;
+}

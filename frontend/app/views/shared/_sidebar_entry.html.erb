@@ -3,8 +3,8 @@
      anchor = (property == :none) ? subrecord_type : "#{record_type}_#{property}_"
    end
    if !defined?(title)
-      title = I18n.t("#{record_type}._frontend.section.#{subrecord_type}",
-                     :default => I18n.t("#{subrecord_type}._plural"))
+      title = t("#{record_type}._frontend.section.#{subrecord_type}",
+                     :default => t("#{subrecord_type}._plural"))
    end
    subentry = nil if !defined?(subentry)
    sidebar_heading = nil if !defined?(sidebar_heading)
@@ -12,7 +12,7 @@
 %>
 
 <li role="tab" aria-selected="false" class="sidebar-entry-<%= anchor %><%= " sidebar-heading" if sidebar_heading %><%= " lightmode_toggle" if lightmode_toggle %>">
-  <a href="#<%= anchor %>" style="<%= "padding-left: 25px !important;" if !subentry.nil? %>">
+  <a class="nav-link" href="#<%= anchor %>" style="<%= "padding-left: 25px !important;" if !subentry.nil? %>">
     <%= title %>
     <% if !sidebar_heading %>
       <span class="glyphicon glyphicon-chevron-right"></span>

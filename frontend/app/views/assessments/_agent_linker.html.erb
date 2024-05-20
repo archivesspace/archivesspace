@@ -7,7 +7,7 @@
     selected_json = "[]"
   end
 
-  label ||= I18n.t("assessment.surveyed_by")
+  label ||= t("assessment.surveyed_by")
   label_plural ||= label
   linker_id ||= "assessment_surveyed_by_"
 %>
@@ -17,8 +17,8 @@
            id="<%= linker_id %>"
            data-label_create="<%= label %>"
            data-label_browse="<%= label_plural %>"
-           data-label_link="<%= I18n.t("linker.link") %>"
-           data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
+           data-label_link="<%= t("linker.link") %>"
+           data-label_create_and_link="<%= t("linker.create_and_link") %>"
            data-path="<%= form.path %>"
            data-name="ref"
            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
@@ -27,13 +27,24 @@
            data-format_property="display_string"
            data-multiplicity="many"
            data-types='["agent_with_user"]'
-           aria-label="<%= I18n.t('agent.linker.link_title') %>"
+           aria-label="<%= t('agent.linker.link_title') %>"
     />
 
-    <div class="input-group-btn">
-      <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="<%= I18n.t('agent.linker.link_title') %>"><span class="caret"></span></a>
+    <div class="input-group-append">
+      <button
+        type="button"
+        class="btn btn-default dropdown-toggle"
+        data-toggle="dropdown"
+        aria-expanded="false"
+        aria-label="<%= t('agent.linker.link_title') %>"
+      ></button>
       <ul class="dropdown-menu">
-        <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+        <li>
+          <button
+            type="button"
+            class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"
+          ><%= t("actions.browse") %></button>
+        </li>
       </ul>
     </div>
   </div>

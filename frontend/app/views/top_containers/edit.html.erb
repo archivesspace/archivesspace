@@ -2,7 +2,7 @@
 
 <%= form_for @top_container, :as => "top_container", :url => {:controller => :top_containers, :action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "new_top_container_form"} do |f| %>
   <%= form_context :top_container, @top_container do |form| %>
-    <div class="row">
+    <div class="d-flex">
       <div class="col-md-3">
         <%= render_aspace_partial :partial => "sidebar" %>
       </div>
@@ -10,13 +10,13 @@
         <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
           <%= link_to_help :topic => "top_container" %>
-          <h2><%= @top_container.display_string %> <span class="label label-info"><%= I18n.t("top_container._singular") %></span></h2>
+          <h2><%= @top_container.display_string %> <span class="label label-info badge"><%= t("top_container._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "form", :locals => {:form => form} %>
 
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary"><%= I18n.t("top_container._frontend.action.save") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+          <div class="form-actions pl-0">
+            <button type="submit" class="btn btn-primary"><%= t("top_container._frontend.action.save") %></button>
+            <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
 
         </div>

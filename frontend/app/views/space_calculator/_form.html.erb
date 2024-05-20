@@ -1,104 +1,107 @@
 <% if @container_profile.blank? %>
   <div class="alert alert-danger">
-    <%= I18n.t("space_calculator.message_container_profile_required") %>
+    <%= t("space_calculator.message_container_profile_required") %>
   </div>
 <% else %>
-  <div class="modal-header">
-    <a class="close" data-dismiss="modal">×</a>
-    <h3><%= I18n.t("space_calculator.modal_title") %></h3>
-    <div class="form-group">
-      <label class="col-sm-2 control-label"><%= I18n.t("container_profile._singular") %></label>
-      <div class="col-sm-8">
-        <strong><%= @container_profile.display_string %></strong>
-      </div>
-      <div class="clearfix"></div>
+  <header class="modal-header flex-column">
+    <div class="w-100 d-flex justify-content-between">
+      <h3><%= t("space_calculator.modal_title") %></h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-  </div>
+    <dl class="mb-0 py-1 d-flex gap-x-3">
+      <dt class="font-weight-normal"><%= t("container_profile._singular") %></dt>
+      <dd class="mb-0 font-weight-bold"><%= @container_profile.display_string %></dd>
+    </dl>
+  </header>
   <div class="modal-body">
     <%= form_tag({:controller => :space_calculator, :action => :calculate}, {:class => "form-horizontal", :id => "space_calculator" }) do |f| %>
       <%= hidden_field_tag 'container_profile[ref]', @container_profile_ref %>
       <%= hidden_field_tag 'selectable', @selectable %>
-      <div class="panel-group" id="spaceCalculatorAccordion" role="tablist" aria-multiselectable="true">
+      <div class="accordion" id="spaceCalculatorAccordion" role="tablist" aria-multiselectable="true">
         <% unless @buildings.blank? %>
-          <div class="panel panel-default">
+          <section class="card">
             <script>
               AS.building_data = <%= raw(@buildings.to_json) %>;
             </script>
-            <div class="panel-heading" role="tab" id="byBuildingHeader">
-              <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#spaceCalculatorAccordion" href="#byBuilding" aria-expanded="true" aria-controls="byBuilding">
-                  <%= I18n.t("space_calculator.by_building") %>
-                </a>
+            <header class="card-header" role="tab" id="byBuildingHeader">
+              <h4 class="mb-0">
+                <button type="button" class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#byBuilding" aria-expanded="true" aria-controls="byBuilding">
+                  <%= t("space_calculator.by_building") %>
+                </button>
               </h4>
-            </div>
-            <div id="byBuilding" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="byBuildingHeader">
-              <div class="panel-body">
+            </header>
+            <div id="byBuilding" class="collapse show" data-parent="#spaceCalculatorAccordion" role="tabpanel" aria-labelledby="byBuildingHeader">
+              <div class="card-body">
                 <div class="form-group">
-                  <label class="col-sm-2 control-label"><%= I18n.t("location.building") %></label>
+                  <label class="col-sm-2 control-label"><%= t("location.building") %></label>
                   <div class="col-sm-4">
                     <%= select_tag "building", options_for_select([""].concat(@buildings.keys)), :class => "form-control" %>
                   </div>
                 </div>
                 <div class="form-group by-building-floor" style="display: none;">
-                  <label class="col-sm-2 control-label"><%= I18n.t("location.floor") %></label>
+                  <label class="col-sm-2 control-label"><%= t("location.floor") %></label>
                   <div class="col-sm-4">
                     <%= select_tag "floor", [], :class => "form-control" %>
                   </div>
                 </div>
                 <div class="form-group by-building-room" style="display: none;">
-                  <label class="col-sm-2 control-label"><%= I18n.t("location.room") %></label>
+                  <label class="col-sm-2 control-label"><%= t("location.room") %></label>
                   <div class="col-sm-4">
                     <%= select_tag "room", [], :class => "form-control" %>
                   </div>
                 </div>
                 <div class="form-group by-building-area" style="display: none;">
-                  <label class="col-sm-2 control-label"><%= I18n.t("location.area") %></label>
+                  <label class="col-sm-2 control-label"><%= t("location.area") %></label>
                   <div class="col-sm-4">
                     <%= select_tag "area", [], :class => "form-control" %>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
         <% end %>
-        <div class="panel panel-default">
-          <div class="panel-heading" role="tab" id="byLocationHeader">
-            <h4 class="panel-title">
-              <a role="button" data-toggle="collapse" data-parent="#spaceCalculatorAccordion" href="#byLocation" aria-expanded="false" aria-controls="byLocation">
-                <%= I18n.t("space_calculator.by_locations") %>
-              </a>
+        <section class="card">
+          <header class="card-header" role="tab" id="byLocationHeader">
+            <h4 class="mb-0">
+              <button type="button" class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#byLocation" aria-expanded="true" aria-controls="byLocation">
+                <%= t("space_calculator.by_locations") %>
+              </button>
             </h4>
-          </div>
-          <div id="byLocation" class="panel-collapse collapse <% if @buildings.blank? %>in<% end %>" role="tabpanel" aria-labelledby="byLocationHeader">
-            <div class="panel-body">
-              <p><%= I18n.t("space_calculator.message_select_locations") %></p>
+          </header>
+          <div id="byLocation" class="collapse <% if @buildings.blank? %>show<% end %>" data-parent="#spaceCalculatorAccordion" role="tabpanel" aria-labelledby="byLocationHeader">
+            <div class="card-body mb-5">
+              <%# ANW-1821 Margin-bottom added above because the dropdown menu visually stops at
+              the card body border, so manually give space for it to show until that bug is fixed. %>
+              <p><%= t("space_calculator.message_select_locations") %></p>
               <div class="input-group linker-wrapper">
                 <input type="text" class="linker"
-                       id="location"
-                       data-label_create="<%= I18n.t("location.linker.create") %>"
-                       data-label_browse="<%= I18n.t("location.linker.browse") %>"
-                       data-label_link="<%= I18n.t("linker.link") %>"
-                       data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
-                       data-name="ref"
-                       data-path="location[]"
-                       data-url="<%= url_for  :controller => :search, :action => :do_search, :format => :json %>"
-                       data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => [], :sort => "title_sort asc" %>"
-                       data-selected="[]"
-                       data-multiplicity="many"
-                       data-types='["location"]'
+                        id="location"
+                        data-label_create="<%= t("location.linker.create") %>"
+                        data-label_browse="<%= t("location.linker.browse") %>"
+                        data-label_link="<%= t("linker.link") %>"
+                        data-label_create_and_link="<%= t("linker.create_and_link") %>"
+                        data-name="ref"
+                        data-path="location[]"
+                        data-url="<%= url_for  :controller => :search, :action => :do_search, :format => :json %>"
+                        data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => [], :sort => "title_sort asc" %>"
+                        data-selected="[]"
+                        data-multiplicity="many"
+                        data-types='["location"]'
                 />
-                <div class="input-group-btn">
-                  <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"></button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li><button type="button" class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"><%= t("actions.browse") %></button></li>
                   </ul>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-      <button class="btn btn-primary"><%= I18n.t("space_calculator.calculate_space") %></button>
+      <button class="mt-3 btn btn-primary"><%= t("space_calculator.calculate_space") %></button>
       <hr>
     <% end %>
 
@@ -106,16 +109,16 @@
 
     <div id="spaceCalculatorLoadingTemplate"><!--
       <div class="alert alert-info">
-        <%= I18n.t("space_calculator.message_loading") %>
+        <%= t("space_calculator.message_loading") %>
       </div>
     --></div>
   </div>
   <div class="modal-footer">
     <% if @selectable %>
-      <button id="addSelectedButton" class="btn btn-primary"><%= I18n.t "linker.link_to_prefix" %> <%= I18n.t("location._singular") %></button>
-      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+      <button id="addSelectedButton" class="btn btn-primary"><%= t "linker.link_to_prefix" %> <%= t("location._singular") %></button>
+      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= t "actions.cancel" %></button>
     <% else %>
-      <button class="btn btn-primary" data-dismiss="modal"><%= I18n.t "actions.close" %></button>
+      <button class="ml-auto btn btn-default" data-dismiss="modal"><%= t "actions.close" %></button>
     <% end %>
   </div>
 <% end %>

@@ -7,9 +7,9 @@
 %>
 
 <section id="<%= section_id %>" class="subrecord-form-dummy">
-  <h3 class="subrecord-form-heading">
+  <h3 class="subrecord-form-heading d-flex align-items-center">
     <%= heading_text %>
-    <%= link_to I18n.t("actions.view_search_results"), html_search_url, :class => "btn btn-sm btn-default pull-right" %>
+    <%= link_to I18n.t("actions.view_search_results"), html_search_url, :class => "btn btn-sm btn-default ml-auto" %>
   </h3>
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields embedded-search" data-url="<%= ajax_search_url %>">

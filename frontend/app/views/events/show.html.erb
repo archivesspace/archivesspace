@@ -1,17 +1,17 @@
 <%
-  record_title = "#{I18n.t("enumerations.event_event_type.#{@event.event_type}")} (#{@event.id})"
+  record_title = "#{t("enumerations.event_event_type.#{@event.event_type}")} (#{@event.id})"
 %>
 
 <%= setup_context :object => @event, :title => record_title %>
 
-<div class="row">
+<div class="d-flex">
    <div class="col-md-3">
      <%= render_aspace_partial :partial => "events/sidebar" %>
    </div>
   <div class="col-md-9">
     <%= render_aspace_partial :partial => "toolbar", :locals => { :record_title => record_title } %>
     <div class="record-pane">
-      <h2><%= record_title %>  <span class="label label-info"><%= I18n.t("event._singular") %></span></h2>
+      <h2><%= record_title %>  <span class="badge label"><%= I18n.t("event._singular") %></span></h2>
 
       <%= readonly_context :event, @event do |readonly| %>
         <%= render_aspace_partial :partial => "events/form", :locals => {:form => readonly} %>

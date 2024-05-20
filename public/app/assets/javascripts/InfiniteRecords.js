@@ -8,7 +8,7 @@
      * from Rails `javascript_path` helper
      * @returns {InfiniteRecords} - InfiniteRecords instance
      */
-    constructor(resourceUri, js_path) {
+    constructor(resourceUri) {
       this.container = document.querySelector('.infinite-records-container');
 
       this.WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
@@ -21,7 +21,6 @@
       );
 
       this.resourceUri = resourceUri;
-      this.js_path = js_path;
 
       this.wpQueue = [];
       this.wpQueueIsEmpty = () => this.wpQueue.length === 0;

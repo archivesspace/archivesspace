@@ -3,127 +3,113 @@
    suppressible = true if suppressible.nil?
    supports_events = true if supports_events.nil?
 %>
-<div class="row">
-  <div class="col-md-12">
-    <div class="record-toolbar">
-      <% if (suppressible && !record.suppressed) || !suppressible %>
-        <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
-          <div class="btn-group pull-left">
-            <%= link_to I18n.t("actions.edit"), parent_link, :class => "btn btn-sm btn-primary" %>
-          </div>
-        <% end %>
-        <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left save-changes">
-            <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
-          </div>
-        <% end %>
-        <% if ['edit', 'update'].include?(controller.action_name) %>
-          <div class="pull-left revert-changes">
-            <%= link_to I18n.t("actions.revert"), parent_link, :class => "btn btn-sm btn-default" %>
-            <%= I18n.t("actions.toolbar_disabled_message") %>
-          </div>
+<section class="d-flex flex-column">
+  <div class="d-flex align-items-center gap-x-2 record-toolbar" role="toolbar">
+    <% if (suppressible && !record.suppressed) || !suppressible %>
+      <% if !['edit', 'update', 'create'].include?(controller.action_name) %>
+        <div class="btn-group">
+          <%= link_to t("actions.edit"), parent_link, :class => "btn btn-sm btn-primary" %>
+        </div>
+      <% end %>
+      <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
+        <div class="save-changes">
+          <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
+        </div>
+      <% end %>
+      <% if ['edit', 'update'].include?(controller.action_name) %>
+        <div class="align-items-center revert-changes">
+          <%= link_to t("actions.revert"), parent_link, :class => "btn btn-sm btn-default flex-shrink-0" %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <div class="btn-group ml-auto" data-allow-disabled>
+      <% if user_can?('update_event_record') && supports_events && ((suppressible && !record.suppressed) || !suppressible ) %>
+        <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
+      <% end %>
+      <% if ['archival_object'].include?(record.jsonmodel_type) %>
+        <%= button_confirm_action(t("actions.publish_archival_object"),
+              url_for({:action => :publish, :id => record.id}),
+              {
+                :class => "btn btn-sm btn-default",
+                :"data-title" => t("actions.publish_archival_object_confirm_title"),
+                :"data-message" => t("actions.publish_archival_object_confirm_message"),
+                :"data-confirm-btn-label" => "#{t("actions.publish_archival_object")}",
+                :"data-confirm-btn-class" => "btn-primary",
+              }) %>
+        <%= button_confirm_action(t("actions.unpublish_archival_object"),
+              url_for({:action => :unpublish, :id => record.id}),
+              {
+                :class => "btn btn-sm btn-default",
+                :"data-title" => t("actions.unpublish_archival_object_confirm_title"),
+                :"data-message" => t("actions.unpublish_archival_object_confirm_message"),
+                :"data-confirm-btn-label" => "#{t("actions.unpublish_archival_object")}",
+                :"data-confirm-btn-class" => "btn-primary",
+              }) %>
+      <% end %>
+      <% if ['archival_object', 'digital_object_component'].include?(record.jsonmodel_type) %>
+        <% if AppConfig[:enable_public] && !record.has_unpublished_ancestor %>
+          <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
         <% end %>
       <% end %>
-      <div class="btn-toolbar pull-right">
-        <div class="btn-group">
-          <% if user_can?('update_event_record') && supports_events && ((suppressible && !record.suppressed) || !suppressible ) %>
-            <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
-          <% end %>
-          <% if ['archival_object'].include?(record.jsonmodel_type) %>
-            <div class="btn-group">
-              <%= button_confirm_action(I18n.t("actions.publish_archival_object"),
-                        url_for({:action => :publish, :id => record.id}),
-                        {
-                          :class => "btn btn-sm btn-default",
-                          :"data-title" => I18n.t("actions.publish_archival_object_confirm_title"),
-                          :"data-message" => I18n.t("actions.publish_archival_object_confirm_message"),
-                          :"data-confirm-btn-label" => "#{I18n.t("actions.publish_archival_object")}",
-                          :"data-confirm-btn-class" => "btn-primary",
-                        }) %>
-            </div>
-            <div class="btn-group">
-              <%= button_confirm_action(I18n.t("actions.unpublish_archival_object"),
-                        url_for({:action => :unpublish, :id => record.id}),
-                        {
-                          :class => "btn btn-sm btn-default",
-                          :"data-title" => I18n.t("actions.unpublish_archival_object_confirm_title"),
-                          :"data-message" => I18n.t("actions.unpublish_archival_object_confirm_message"),
-                          :"data-confirm-btn-label" => "#{I18n.t("actions.unpublish_archival_object")}",
-                          :"data-confirm-btn-class" => "btn-primary",
-                        }) %>
-            </div>
-          <% end %>
-          <% if ['archival_object', 'digital_object_component'].include?(record.jsonmodel_type) %>
-            <% if AppConfig[:enable_public] && !record.has_unpublished_ancestor %>
-              <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
+
+      <% if ['archival_object'].include?(record.jsonmodel_type) %>
+        <div class="btn-group dropdown" id="other-dropdown">
+          <button
+            class="btn btn-sm btn-default dropdown-toggle"
+            type="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="true"
+          ><%= t('actions.more') %></button>
+          <ul class="dropdown-menu">
+            <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record} %></li>
+            <li><%= render_aspace_partial :partial => "date_calculator/toolbar_button", :locals => {:record => record} %></li>
+            <% if user_can?('update_assessment_record') %>
+              <li><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => record.uri}, :class => "dropdown-item" %></li>
             <% end %>
-          <% end %>
-
-          <div class="btn-group dropdown" id="other-dropdown" style="display: none">
-            <a class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-              <%= I18n.t('actions.more') %>
-              <span class="caret"></span>
-            </a>
-
-            <% other_shown = false %>
-            <ul class="dropdown-menu">
-              <% if ['archival_object'].include?(record.jsonmodel_type) %>
-                <% other_shown = true %>
-                <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record} %></li>
-                <li><%= render_aspace_partial :partial => "date_calculator/toolbar_button", :locals => {:record => record} %></li>
-                <% if user_can?('update_assessment_record') %>
-                  <li><%= link_to I18n.t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => record.uri} %></li>
-                <% end %>
-
-                <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
-                  <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %>
-                <% end %>
-
-              <% end %>
-
-            <% if other_shown %><script>$('#other-dropdown').show();</script><% end %>
-          </div>
-
-          <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>
-            <div class="btn-group">
-              <div class="toolbar-spacer" />
-            </div>
-          <% end %>
-
-          <% if suppressible && user_can?('suppress_archival_record') %>
-            <div class="btn btn-inline-form">
-              <% if record.suppressed %>
-                <%= button_confirm_action I18n.t("actions.unsuppress"),
-                                          url_for(:action => :unsuppress, :id => record.id),
-                                          {
-                                            :class => "btn btn-sm unsuppress-record",
-                                            :"data-title" => I18n.t("actions.unsuppress_confirm_title"),
-                                            :"data-message" => I18n.t("actions.unsuppress_confirm_message"),
-                                            :"data-confirm-btn-label" => "#{I18n.t("actions.unsuppress")}"
-                                          }
-                %>
-              <% else %>
-                <%= button_confirm_action I18n.t("actions.suppress"),
-                                          url_for(:action => :suppress, :id => record.id),
-                                          {
-                                            :class => "btn btn-sm btn-warning suppress-record",
-                                            :"data-title" => I18n.t("actions.suppress_confirm_title"),
-                                            :"data-message" => I18n.t("actions.suppress_confirm_message"),
-                                            :"data-confirm-btn-label" => "#{I18n.t("actions.suppress")}",
-                                            :"data-confirm-btn-class" => "btn-warning"
-                                          }
-                %>
-              <% end %>
-            </div>
-          <% end %>
-          <% if user_can?('delete_archival_record') %>
-            <div class="btn btn-inline-form">
-              <%= button_delete_action url_for(:action => :delete, :id => record.id), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => delete_action_title) } %>
-            </div>
-          <% end %>
+            <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
+              <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %>
+            <% end %>
+          </ul>
         </div>
-      </div>
-      <div class="clearfix"></div>
+      <% end %>
+
+      <% if suppressible && user_can?('suppress_archival_record') %>
+        <% if record.suppressed %>
+          <%= button_confirm_action t("actions.unsuppress"),
+                                    url_for(:action => :unsuppress, :id => record.id),
+                                    {
+                                      :class => "btn btn-sm btn-default unsuppress-record",
+                                      :"data-title" => t("actions.unsuppress_confirm_title"),
+                                      :"data-message" => t("actions.unsuppress_confirm_message"),
+                                      :"data-confirm-btn-label" => "#{t("actions.unsuppress")}"
+                                    }
+          %>
+        <% else %>
+          <%= button_confirm_action t("actions.suppress"),
+                                    url_for(:action => :suppress, :id => record.id),
+                                    {
+                                      :class => "btn btn-sm btn-warning suppress-record",
+                                      :"data-title" => t("actions.suppress_confirm_title"),
+                                      :"data-message" => t("actions.suppress_confirm_message"),
+                                      :"data-confirm-btn-label" => "#{t("actions.suppress")}",
+                                      :"data-confirm-btn-class" => "btn-warning"
+                                    }
+          %>
+        <% end %>
+      <% end %>
+      <% if user_can?('delete_archival_record') %>
+        <div class="btn btn-inline-form">
+          <%= button_delete_action url_for(:action => :delete, :id => record.id), { :"data-title" => t("actions.delete_confirm_title", :title => delete_action_title) } %>
+        </div>
+      <% end %>
     </div>
   </div>
-</div>
+
+  <% if ['edit', 'update'].include?(controller.action_name) %>
+    <div id="record-toolbar-alert">
+      <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+    </div>
+  <% end %>
+</section>

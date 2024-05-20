@@ -68,10 +68,10 @@ function SpaceCalculatorModal(options) {
   self.$modal = AS.openCustomModal(
     'spaceCalculatorModal',
     null,
-    "<div class='alert alert-info'>" +
+    "<div class='mb-0 alert alert-info'>" +
       self.options.modalInitialContent +
       '</div>',
-    'large',
+    'full',
     {},
     this
   );
@@ -210,7 +210,7 @@ SpaceCalculatorModal.prototype.setupResults = function () {
 
       $('tr.selected', $input.closest('table')).removeClass('selected');
       $input.closest('tr').addClass('selected');
-      self.$modal.find('#addSelectedButton').removeAttr('disabled');
+      self.$modal.find('#addSelectedButton').attr('disabled', null);
     });
 
     $('td', $input.closest('tr')).click(function (event) {

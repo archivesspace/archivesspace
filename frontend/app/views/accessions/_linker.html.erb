@@ -8,7 +8,7 @@
   exclude_ids = [] if exclude_ids.blank?
 
 %>
-<div class="form-group required">
+<div class="form-group required row">
     <% if form.obj.has_key?('_resolved') %>
     
       <input type="text" 
@@ -22,12 +22,12 @@
         value="<%= form.obj["ref"] %>" />
 
     <% end %>
-   <label class="control-label col-sm-2"
+   <label class="control-label text-right col-sm-2"
           id="<%= form.id_for("ref") %>_label"
           for="<%= form.id_for("ref") %>">
-     <%= I18n.t "accession._singular" %>
+     <%= t "accession._singular" %>
    </label>
-   <div class="controls col-sm-8">
+   <div class="controls col-sm-9">
        <div class="input-group linker-wrapper"
             role="combobox"
             aria-owns="<%= form.id_for("ref") %>_listbox"
@@ -38,10 +38,10 @@
             aria-autocomplete="both"
             aria-controls="<%= form.id_for("ref") %>_listbox"
             aria-labelledby="<%= form.id_for("ref") %>_label"
-            data-label_create="<%= I18n.t "accession.linker.create" %>"
-            data-label_browse="<%= I18n.t "accession.linker.browse" %>"
-            data-label_link="<%= I18n.t("linker.link") %>"
-            data-label_create_and_link="<%= I18n.t("linker.create_and_link") %>"
+            data-label_create="<%= t "accession.linker.create" %>"
+            data-label_browse="<%= t "accession.linker.browse" %>"
+            data-label_link="<%= t("linker.link") %>"
+            data-label_create_and_link="<%= t("linker.create_and_link") %>"
             data-path="<%= form.path %>"
             data-name="ref"
             data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
@@ -53,10 +53,10 @@
             data-exclude='<%= exclude_ids.to_json %>'
           />
           
-          <div class="input-group-btn">
-           <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="<%= I18n.t('accession.linker.link_title') %>" aria-label="<%= I18n.t('accession.linker.link_title') %>"><span class="caret"></span></a>
+          <div class="input-group-append">
+           <button type="button" class="btn btn-default d-flex align-items-center dropdown-toggle" data-toggle="dropdown" title="<%= t('accession.linker.link_title') %>" aria-label="<%= t('accession.linker.link_title') %>"></button>
            <ul class="dropdown-menu">
-             <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
+             <li class='dropdown-toggle no-caret'><a href="javascript:void(0);" class="linker-browse-btn dropdown-item"><%= t("actions.browse") %></a></li>
            </ul>
          </div>
          <% if form.obj.has_key?('_resolved') %>

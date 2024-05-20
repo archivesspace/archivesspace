@@ -1,10 +1,10 @@
 <% define_template "name_family", jsonmodel_definition(:name_family) do |form| %>
   <div class="subrecord-form-fields">
     <h3 class="subrecord-form-heading">
-      <span class="badge badge-info is-authoritive-label"><%= I18n.t("name_family.authorized") %></span>
-      <%= form.button_with_tooltip(I18n.t("name._frontend.action.make_authorized_tooltip"), I18n.t("name._frontend.action.make_authorized"), [], ["btn-authoritive-name-toggle"]) %>
-      <span class="badge badge-info is-display-name-label"><%= I18n.t("name_family.is_display_name") %></span>
-      <%= form.button_with_tooltip(I18n.t("name._frontend.action.make_display_name_tooltip"), I18n.t("name._frontend.action.make_display_name"), [], ["btn-display-name-toggle"]) %>
+      <span class="badge badge-pill badge-primary fs-14px is-authoritive-label"><%= t("name_family.authorized") %></span>
+      <%= form.button_with_tooltip(t("name._frontend.action.make_authorized_tooltip"), t("name._frontend.action.make_authorized"), [], ["btn btn-sm btn-default btn-authoritive-name-toggle"]) %>
+      <span class="badge badge-pill badge-primary fs-14px is-display-name-label"><%= t("name_family.is_display_name") %></span>
+      <%= form.button_with_tooltip(t("name._frontend.action.make_display_name_tooltip"), t("name._frontend.action.make_display_name"), [], ["btn btn-sm btn-default btn-display-name-toggle"]) %>
     </h3>
 
     <%= render_aspace_partial :partial => "agents/name_forms/authority_fields", :locals => {:form => form} %>
@@ -33,9 +33,9 @@
 
     <%= form.label_and_textfield "qualifier" %>
     <%= form.label_and_textfield "sort_name", {:field_opts => {:automatable => true}, :required => :conditionally}%>
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
 
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "parallel_names", :template => "parallel_name_family", :template_erb => "agents/name_forms/agent_family", :heading_text => I18n.t("name._frontend.section.parallel_names"), :heading_size => "h4"} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "parallel_names", :template => "parallel_name_family", :template_erb => "agents/name_forms/agent_family", :heading_text => t("name._frontend.section.parallel_names"), :heading_size => "h4"} %>
   </div>
 <% end %>
 
@@ -56,6 +56,6 @@
     <%= form.label_and_select "transliteration", [""] + form.possible_options_for("transliteration", false) %>
     <hr/>
 
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template", :template => "structured_date_label_usage", :heading_text => t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
   </div>
 <% end %>

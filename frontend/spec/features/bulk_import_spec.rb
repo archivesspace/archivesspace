@@ -4,19 +4,23 @@ require 'spec_helper.rb'
 require 'rails_helper.rb'
 
 describe 'Bulk Import', js: true do
+  let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
 
   before(:all) do
     @repo = create(:repo, repo_code: "bulk_import_test_#{Time.now.to_i}")
     set_repo(@repo)
     @ead_id = 'VFIRST01'
-    @valid_file = File.join(File.dirname(__FILE__), '..', '..', '..', 'backend', 'spec', 'fixtures', 'bulk_import', 'bulk_import_VFIRST01_test01.csv')
-    @invalid_file = File.join(File.dirname(__FILE__), '..', '..', '..', 'backend', 'spec', 'fixtures', 'ead_with_extents.xml')
+    @valid_file = File.expand_path(
+        File.join(File.dirname(__FILE__), '..', '..', '..', 'backend', 'spec', 'fixtures', 'bulk_import', 'bulk_import_VFIRST01_test01.csv'))
+    @invalid_file = File.expand_path(
+        File.join(File.dirname(__FILE__), '..', '..', '..', 'backend', 'spec', 'fixtures', 'ead_with_extents.xml'))
     @resource = create(:resource, ead_id: @ead_id)
   end
 
   it 'can create a bulk import (load spreadsheet) job' do
-    login_admin
+    login_user(admin)
     select_repository(@repo)
+
     edit_resource(@resource)
     page.has_css? "form#resource_form"
     within "form#resource_form" do
@@ -32,7 +36,7 @@ describe 'Bulk Import', js: true do
     expect(find(id: "bulkFileButton").disabled?).to be false
     find(id: "bulkFileButton").click
     sleep 5
-    $index.run_index_round
+    run_indexer
     sleep 5
     visit "/jobs"
     expect(page).to have_text "Load via Spreadsheet"

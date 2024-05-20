@@ -1,7 +1,7 @@
-<% def_msg = I18n.t("defaults.accept_default_message") %>
+<% def_msg = t("defaults.accept_default_message") %>
 <% define_template("defaults", jsonmodel_definition(:defaults)) do |form| %>
   <div class="subrecord-form-fields">
-      <h3 id="general"><%= I18n.t "defaults.general_section" %></h3>
+      <h3 id="general"><%= t "defaults.general_section" %></h3>
       <%= form.label_and_boolean "show_suppressed", {}, form.default_for("show_suppressed") %>
       <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
       <%= form.label_and_boolean "rde_sort_alpha", {}, form.default_for("rde_sort_alpha") %>
@@ -10,7 +10,7 @@
       <%= form.label_and_boolean "digital_object_spawn", {}, form.default_for("digital_obect_spawn_description") %>
       <%= form.label_and_select "locale", supported_locales_options, supported_locales_default %>
 
-      <h3 id="noteorder"><%= I18n.t "defaults.note_order_section" %></h3>
+      <h3 id="noteorder"><%= t "defaults.note_order_section" %></h3>
 
       <%=
         out = "<ul id='note-order-preference-list' class='list-group'>"
@@ -18,43 +18,45 @@
 
         order = order.empty? ? note_types_for(:resource).keys : order
 
+        fa_grip = render_aspace_partial :partial => "shared/fa_grip_svg"
+
         order.each do |type|
-          out  += "<li data-id='#{type}' class='list-group-item'><span class='glyphicon glyphicon-menu-hamburger'></span> #{I18n.t('enumerations._note_types.'+type)}</li>"
+          out  += "<li data-id='#{type}' class='list-group-item'><div class='d-flex align-items-center gap-x-3'>#{fa_grip}<span>#{t('enumerations._note_types.'+type)}</span></div></li>"
         end
         out += "</ul>"
         out.html_safe
       %>
 
-      <h3 id="search_browse_columns"><%= I18n.t "defaults.search_browse_columns" %></h3>
+      <h3 id="search_browse_columns"><%= t "defaults.search_browse_columns" %></h3>
       <% @types.each do |type| %>
-        <h3 id="<%= type %>_browse_section"><%= I18n.t "defaults.#{type}_browse_section" %></h3>
+        <h3 id="<%= type %>_browse_section"><%= t "defaults.#{type}_browse_section" %></h3>
         <% (1..AppConfig[:max_search_columns]).to_a.each do |n| %>
           <div class="form-group">
-            <label for="<%= form.id_for("#{type}_browse_column_#{n}") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= I18n.t("defaults.browse_column_tooltip", :num => n) %>">
-              <%= I18n.t("defaults.browse_column", :num => n) %>
+            <label for="<%= form.id_for("#{type}_browse_column_#{n}") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= t("defaults.browse_column_tooltip", :num => n) %>">
+              <%= t("defaults.browse_column", :num => n) %>
             </label>
             <div class="col-sm-9">
               <% default = @inherited_defaults["#{type}_browse_column_#{n}"] %>
-              <%= form.select("#{type}_browse_column_#{n}", form.possible_options_for("#{type}_browse_column_#{n}", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default ? I18n.t("search.#{type}.#{default}") : I18n.t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
+              <%= form.select("#{type}_browse_column_#{n}", form.possible_options_for("#{type}_browse_column_#{n}", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default ? t("search.#{type}.#{default}") : t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
             </div>
           </div>
         <% end %>
         <div class="form-group">
-          <label for="<%= form.id_for("#{type}_sort_column") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= I18n.t("defaults.sort_column_tooltip") %>">
-            <%= I18n.t("defaults.sort_column") %>
+          <label for="<%= form.id_for("#{type}_sort_column") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= t("defaults.sort_column_tooltip") %>">
+            <%= t("defaults.sort_column") %>
           </label>
           <div class="col-sm-9">
             <% default = @inherited_defaults["#{type}_sort_column"] %>
-            <%= form.select("#{type}_sort_column", form.possible_options_for("#{type}_sort_column", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default ? I18n.t("search.#{type}.#{default}") : I18n.t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
+            <%= form.select("#{type}_sort_column", form.possible_options_for("#{type}_sort_column", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default ? t("search.#{type}.#{default}") : t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
           </div>
         </div>
         <div class="form-group">
-          <label for="<%= form.id_for("#{type}_sort_direction") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= I18n.t("defaults.sort_direction_tooltip") %>">
-            <%= I18n.t("defaults.sort_direction") %>
+          <label for="<%= form.id_for("#{type}_sort_direction") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= t("defaults.sort_direction_tooltip") %>">
+            <%= t("defaults.sort_direction") %>
           </label>
           <div class="col-sm-9">
             <% default = @inherited_defaults["#{type}_sort_direction"] %>
-            <%= form.select("#{type}_sort_direction", form.possible_options_for("#{type}_sort_direction", true, {:i18n_prefix => "search_sorting", :empty_label => "#{def_msg} " + (default ? I18n.t("search.#{type}.#{default}") : I18n.t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
+            <%= form.select("#{type}_sort_direction", form.possible_options_for("#{type}_sort_direction", true, {:i18n_prefix => "search_sorting", :empty_label => "#{def_msg} " + (default ? t("search.#{type}.#{default}") : t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
           </div>
         </div>
       <% end %>

@@ -1,13 +1,13 @@
 <%= setup_context :object => JSONModel(:repository).from_hash(@repository['repository']), :title => @repository.repository['name'] %>
 
-<div class="row">
+<div class="d-flex">
   <div class="col-md-3">
     <%= render_aspace_partial :partial => "repositories/sidebar" %>
   </div>
   <div class="col-md-9">
     <%= render_aspace_partial :partial => "repositories/toolbar" %>
     <div class="record-pane">
-      <h2><%= @repository.repository['name'] %>  <span class="label label-info"><%= I18n.t("repository._singular") %></span></h2>
+      <h2><%= @repository.repository['name'] %>  <span class="label label-info badge"><%= t("repository._singular") %></span></h2>
 
       <%= readonly_context :repository, @repository do |readonly| %>
         <%= render_aspace_partial :partial => "repositories/form_container", :locals => {:form => readonly} %>

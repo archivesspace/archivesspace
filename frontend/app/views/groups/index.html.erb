@@ -1,27 +1,23 @@
-<%= setup_context :title => I18n.t("group._plural") %>
+<%= setup_context :title => t("group._plural") %>
 
-<div class="row">
-   <div class="col-md-3">
-   </div>
-
-  <div class="col-md-9">
-    <div class="record-toolbar">
-      <div class="btn-group pull-right">
+<div class="d-flex">
+  <div class="col-12">
+    <div class="record-toolbar d-flex align-items-center">
+      <div class="btn-group ml-auto">
         <%= link_to I18n.t("group._frontend.action.create"), {:controller => :groups, :action => :new}, :class => "btn btn-sm btn-default" %>
       </div>
-      <br style="clear:both" /> <!-- So dirty! -->
     </div>
 
     <div class="record-pane">
       <%= link_to_help :topic => "repository_groups" %>
 
-     <h2><%= I18n.t("group._plural") %></h2>
+     <h2><%= t("group._plural") %></h2>
 
-     <table class="table table-striped table-bordered table-condensed">
+     <table class="table table-striped table-bordered table-condensed table-responsive d-block d-md-table">
        <thead>
          <tr>
            <th><%= I18n.t('group.group_code') %></th>
-           <th width="1px"><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
+           <th><span class="sr-only"><%= I18n.t('search_results.actions') %></span></th>
          </tr>
        </thead>
        <tbody>
@@ -29,7 +25,7 @@
          <tr>
            <td><%= group.description %> <small>(<%= group.group_code %>)</small></td>
            <td>
-             <%= link_to I18n.t("actions.edit"), {:controller => :groups, :action => :edit, :id => group.id}, :class => "btn btn-xs btn-primary" %>
+             <%= link_to t("actions.edit"), {:controller => :groups, :action => :edit, :id => group.id}, :class => "btn btn-sm btn-primary" %>
            </td>
          </tr>
          <% end %>

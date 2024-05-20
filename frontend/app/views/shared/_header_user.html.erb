@@ -3,94 +3,89 @@
 <% if session[:user] %>
   <% if @repositories.length > 0 %>
     <li class="dropdown select-a-repository">
-      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("repository._frontend.action.select") %> <b class="caret"></b></a>
-      <ul class="dropdown-menu" style="padding: 15px;">
-        <li>
+      <button type="button" class="btn d-flex align-items-center gap-x-1 dropdown-toggle" style="padding: .875rem;" data-toggle="dropdown"><%= t("repository._frontend.action.select") %></button>
+      <ul class="dropdown-menu dropdown-menu-right" style="padding: 15px;">
+        <li class='dropdown-item'>
           <%= form_tag({:controller => :repositories, :action => :select}) do |f| %>
             <fieldset>
-              <label for="id" class="sr-only"><%= I18n.t('repository._frontend.action.select') %></label>
+              <label for="id" class="sr-only"><%= t('repository._frontend.action.select') %></label>
               <%= select_tag "id", options_for_select(@repositories.map {|repo| [repo.repo_code, repo.id]}, session[:repo_id]), :class=>"form-control" %>
             </fieldset>
             <br />
-            <button class="btn btn-primary pull-left"><%= I18n.t("repository._frontend.action.select") %></button>
+            <button class="btn btn-primary float-xs-left"><%= t("repository._frontend.action.select") %></button>
           <% end %>
         </li>
       </ul>
     </li>
   <% end %>
   <li class="dropdown system-menu">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.global_admin") %> <b class="caret"></b></a>
-    <ul class="dropdown-menu">
+    <button type="button" class="btn d-flex align-items-center gap-x-1 dropdown-toggle" style="padding: .875rem;" data-toggle="dropdown"><%= t("navbar.global_admin") %></button>
+    <ul class="dropdown-menu dropdown-menu-right">
       <% if user_can?('update_enumeration_record') %>
-        <li><%= link_to I18n.t("navbar.manage_enumerations"), :controller => :enumerations, :action => :index %></li>
+        <li><%= link_to t("navbar.manage_enumerations"), {:controller => :enumerations, :action => :index}, :class => "dropdown-item" %></li>
       <% end %>
       <% if user_can?('update_container_profile_record') %>
-        <li><%= link_to I18n.t("navbar.manage_container_profiles"), :controller => :container_profiles, :action => :index %></li>
+        <li><%= link_to t("navbar.manage_container_profiles"), {:controller => :container_profiles, :action => :index}, :class => "dropdown-item" %></li>
       <% end %>
       <% if user_can?('manage_location_profile_record')%>
-        <li><%= link_to I18n.t("navbar.manage_location_profiles"), :controller => :location_profiles, :action => :index %></li>
+        <li><%= link_to t("navbar.manage_location_profiles"), {:controller => :location_profiles, :action => :index}, :class => "dropdown-item" %></li>
       <% end %>
 
       <% if user_can?('update_enumeration_record') || user_can?('update_container_profile_record') || user_can?('manage_location_profile_record') %>
-        <li class="divider"></li>
+        <li class="dropdown-divider"></li>
       <% end %>
 
       <% if user_can?('create_repository') %>
-        <li><%= link_to I18n.t("navbar.repositories_manage"), {:controller => :repositories, :action => :index} %></li>
+        <li><%= link_to t("navbar.repositories_manage"), {:controller => :repositories, :action => :index}, :class => "dropdown-item" %></li>
       <% end %>
       <% if user_can?('create_repository') %>
-        <li><%= link_to I18n.t("navbar.oai_config"), {:controller => :oai_config, :action => :edit} %></li>
+        <li><%= link_to t("navbar.oai_config"), {:controller => :oai_config, :action => :edit}, :class => "dropdown-item" %></li>
       <% end %>
       <% if user_can?('manage_users') %>
-        <li><%= link_to I18n.t("navbar.manage_users"), :controller => :users, :action => :create %></li>
+        <li><%= link_to t("navbar.manage_users"), {:controller => :users, :action => :create}, :class => "dropdown-item" %></li>
       <% end %>
       <% if user_can?('create_repository') || user_can?('manage_users') %>
-        <li><%= link_to I18n.t("navbar.system_info"), :controller => :system_info, :action => :show %></li>
-        <li class="divider"></li>
+        <li><%= link_to t("navbar.system_info"), {:controller => :system_info, :action => :show}, :class => "dropdown-item" %></li>
+        <li class="dropdown-divider"></li>
       <% end %>
 
       <% if ArchivesSpaceHelp.enabled? %>
-        <li><%= link_to_help :label => I18n.t("help.help_center") %></li>
+        <li><%= link_to_help :label => t("help.help_center"), :class => 'dropdown-item', :style => 'padding: 0.25rem 1.5rem' %></li>
       <% end %>
     </ul>
   </li>
 
   <% if Plugins.system_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
     <li class="dropdown plugin-container">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.plugins") %> <b class="caret"></b></a>
-      <ul class="dropdown-menu">
+      <button type="button" class="btn d-flex align-items-center gap-x-1 dropdown-toggle" style="padding: .875rem;" data-toggle="dropdown"><%= t("navbar.plugins") %></button>
+      <ul class="dropdown-menu dropdown-menu-right">
         <% Plugins.system_menu_items.each do |plugin| %>
           <% if has_permission_for_controller?(session, plugin) %>
-            <li><%= link_to I18n.t("plugins.#{plugin}.label"), :controller => plugin.intern, :action => :index %></li>
+            <li><%= link_to t("plugins.#{plugin}.label"), {:controller => plugin.intern, :action => :index}, :class => "dropdown-item" %></li>
           <% end %>
         <% end %>
       </ul>
     </li>
   <% end %>
 
-  <li class="user-container">
-    <div class="btn-group">
-
+  <li class="user-container d-flex align-items-center">
+    <div class="btn-group align-items-center">
       <% link_content = "<span class='glyphicon glyphicon-user'></span>&nbsp;<span class='user-label'>#{session[:user]}</span>" %>
-      <%= link_to(link_content.html_safe, {:controller => :users, :action => :edit_self}, {:class => 'btn btn-default navbar-btn'}) %>
-
-      <div class="btn-group">
-        <a class="btn btn-default navbar-btn dropdown-toggle last" id="user-menu-dropdown" data-toggle="dropdown" href="#" title="<%= I18n.t("navbar.global_settings") %>" aria-label="<%= I18n.t("navbar.global_settings") %>"><span class="caret"></span></a>
-        <ul class="dropdown-menu pull-right">
-
-          <li><%= link_to I18n.t("navbar.global_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0, :global => true %></li>
-          <li><%= link_to I18n.t("navbar.user_repo_preferences") + " (#{username})", :controller => :preferences, :action => :edit, :id => 0 %></li>
-          <% if user_can?('administer_system') || user_can?('manage_repository') %>
-            <li><%= link_to I18n.t("navbar.repo_preferences"), :controller => :preferences, :action => :edit, :id => 0, :repo => true %></li>
-          <% end %>
-          <li class="divider"></li>
-          <% if user_can?('become_user') %>
-            <li><%= link_to I18n.t("navbar.become-user"), :controller => "session", :action => "select_user" %></li>
-          <% end %>
-          <li><%= link_to(I18n.t('user._frontend.action.update_self'), {:controller => :users, :action => :edit_self}) %></li>
-          <li><%= link_to I18n.t("navbar.logout"), :controller => "session",:action => "logout"%></li>
-        </ul>
-      </div>
+      <%= link_to(link_content.html_safe, {:controller => :users, :action => :edit_self}, {:class => 'btn btn-default'}) %>
+      <button type="button" class="btn btn-default dropdown-toggle" id="user-menu-dropdown" data-toggle="dropdown" title="<%= t("navbar.global_settings") %>" aria-label="<%= t("navbar.global_settings") %>"></button>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li><%= link_to t("navbar.global_preferences") + " (#{username})", {:controller => :preferences, :action => :edit, :id => 0, :global => true}, :class => "dropdown-item" %></li>
+        <li><%= link_to t("navbar.user_repo_preferences") + " (#{username})", {:controller => :preferences, :action => :edit, :id => 0}, :class => "dropdown-item" %></li>
+        <% if user_can?('administer_system') || user_can?('manage_repository') %>
+          <li><%= link_to t("navbar.repo_preferences"), {:controller => :preferences, :action => :edit, :id => 0, :repo => true}, :class => "dropdown-item" %></li>
+        <% end %>
+        <li class="dropdown-divider"></li>
+        <% if user_can?('become_user') %>
+          <li><%= link_to t("navbar.become-user"), {:controller => "session", :action => "select_user"}, :class => "dropdown-item" %></li>
+        <% end %>
+        <li><%= link_to t('user._frontend.action.update_self'), {:controller => :users, :action => :edit_self}, :class => "dropdown-item" %></li>
+        <li><%= link_to t("navbar.logout"), {:controller => "session",:action => "logout"}, :class => "dropdown-item" %></li>
+      </ul>
     </div>
   </li>
 <% end %>

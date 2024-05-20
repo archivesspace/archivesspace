@@ -1,20 +1,19 @@
-<%= setup_context(:title => I18n.t("custom_report_template._plural")) %>
+<%= setup_context(:title => t("custom_report_template._plural")) %>
 
-<div class="row">
+<div class="d-flex">
 	<div class="col-md-3"></div>
 	<div class="col-md-9">
 
-		<div class="record-toolbar">
-			<div class="btn-group pull-right">
-				<%= link_to I18n.t("custom_report_template._frontend.action.create"), {:controller => :custom_report_templates, :action => :new}, :class => "btn btn-sm btn-default" %>
+		<div class="record-toolbar d-flex justify-content-end">
+			<div class="btn-group">
+				<%= link_to I18n.t("custom_report_template._frontend.action.create"), {:controller => :custom_report_templates, :action => :new}, :class => "btn btn-sm btn-primary" %>
 				<%= link_to_help :topic => "accession_basic_information" %>
 			</div>
-			<br style="clear:both" /> <!-- So dirty! -->
 		</div>
 
 		<div class="record-pane">
 
-			<h2><%= I18n.t("custom_report_template._plural") %></h2>
+			<h2><%= t("custom_report_template._plural") %></h2>
 
 			<%= render_aspace_partial :partial => "listing" %>
 

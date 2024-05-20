@@ -118,14 +118,15 @@ module ArchivesSpace
       end
     end
 
-    config.assets.precompile += [lambda do |filename, path|
-                                   # These are our two top-level stylesheets
-                                   # that pull the other stuff in.  Precompile
-                                   # them.
-                                   (path =~ /themes\/.*?\/(application|bootstrap)\.less/ ||
-                                    path =~ /archivesspace\/rde\.less/ ||
-                                    path =~ /archivesspace\/largetree\.less/)
-                                 end]
+    # # Loading assets like this is deprecated in sprockets 4
+    # config.assets.precompile += [lambda do |filename, path|
+    #                               # These are our two top-level stylesheets
+    #                               # that pull the other stuff in.  Precompile
+    #                               # them.
+    #                               (path =~ /themes\/.*?\/(application|bootstrap)\.scss/ ||
+    #                               path =~ /archivesspace\/rde\.scss/ ||
+    #                               path =~ /archivesspace\/largetree\.scss/)
+    #                             end]
 
     if not ASUtils.find_local_directories.blank?
       ASUtils.find_local_directories.map {|local_dir| File.join(local_dir, 'frontend', 'assets')}.reject { |dir| !Dir.exist?(dir) }.each do |static_directory|
@@ -177,8 +178,4 @@ end
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
   ASpaceCoverage.start('frontend:test', 'rails')
-end
-
-if ENV['TEST_MODE']
-  AppConfig[:allow_mixed_content_title_fields] = true
 end

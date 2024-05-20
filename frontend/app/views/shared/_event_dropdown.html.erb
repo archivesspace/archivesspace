@@ -3,21 +3,21 @@
 %>
 
   <div id="add-event-dropdown" class="btn-group dropdown" data-no-change-tracking="true" data-add-event-url="<%= add_new_event_url(record)  %>">
-    <button class="btn btn-sm btn-default dropdown-toggle add-event-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= I18n.t("actions.add_event") %>">
-      <%= I18n.t("actions.add_event") %> <span class="caret"></span>
+    <button class="btn btn-sm btn-default dropdown-toggle add-event-action" data-toggle="dropdown" role="button" aria-expanded="false" title="<%= t("actions.add_event") %>">
+      <%= t("actions.add_event") %>
     </button>
-    <ul class="dropdown-menu add-event-form open-aligned-right">
+    <ul class="dropdown-menu add-event-form dropdown-menu-right">
       <li>
         <%= form_context :add_event, {} do |form| %>
-          <fieldset>
+          <fieldset class="mt-3 mb-4 p-0 d-flex gap-x-2">
             <legend class="sr-only">Add event:</legend>
-            <label for="add_event_event_type"><%=  I18n.t("actions.add_event_event_type") %></label>
-            <%= select_tag "add_event_event_type", options_for_select(event_types.map{|event_type| [I18n.t("enumerations.event_event_type.#{event_type}", :default => event_type), event_type]}), :'aria-labelledby' => "form_add_event" %>
+            <label class="mb-0 font-weight-bold" for="add_event_event_type"><%=  t("actions.add_event_event_type") %></label>
+            <%= select_tag "add_event_event_type", options_for_select(event_types.map{|event_type| [t("enumerations.event_event_type.#{event_type}", :default => event_type), event_type]}), :'aria-labelledby' => "form_add_event", :class => "form-control" %>
           </fieldset>
-          <div class="form-actions">
-            <button class="btn add-event-button btn-default"><%= I18n.t("actions.add_event") %></button>
-            <a class="btn btn-close pull-right btn-default" href="#"><%= I18n.t("actions.cancel") %></a>
-          </div>
+          <section class="pl-0 d-flex justify-content-between form-actions">
+            <button type="button" class="btn btn-primary add-event-button"><%= t("actions.add_event") %></button>
+            <button type="button" class="btn btn-default btn-close"><%= t("actions.cancel") %></button>
+          </section>
         <% end %>
       </li>
     </ul>
