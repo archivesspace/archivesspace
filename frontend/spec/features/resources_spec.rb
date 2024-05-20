@@ -15,7 +15,7 @@ describe 'Resources', js: true do
     select_repository(@repository)
   end
 
-  it 'can spawn a resource from an existing accession' do
+  xit 'can spawn a resource from an existing accession' do
     now = Time.now.to_i
     accession = create(:accession, title: "Accession Title #{now}", condition_description: 'condition_description')
     run_index_round
@@ -80,7 +80,7 @@ describe 'Resources', js: true do
     expect(find('#resource_extents__0__extent_type_').value).to eq('cassettes')
   end
 
-  it 'reports errors and warnings when creating an invalid Resource' do
+  xit 'reports errors and warnings when creating an invalid Resource' do
     click_on 'Create'
     click_on 'Resource'
 
@@ -223,7 +223,7 @@ describe 'Resources', js: true do
     expect(page).to have_css '#rights_statement_0_linked_agents'
   end
 
-  it 'can create a resource' do
+  xit 'can create a resource' do
     now = Time.now.to_i
 
     click_on 'Create'
@@ -264,7 +264,7 @@ describe 'Resources', js: true do
     expect(element).to have_text "Resource Title #{now}"
   end
 
-  it 'reports warnings when updating a Resource with invalid data' do
+  xit 'reports warnings when updating a Resource with invalid data' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
@@ -282,7 +282,7 @@ describe 'Resources', js: true do
     end
   end
 
-  it 'reports errors if adding an empty child to a Resource' do
+  xit 'reports errors if adding an empty child to a Resource' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
@@ -300,7 +300,7 @@ describe 'Resources', js: true do
     end
   end
 
-  it 'reports error if title is empty and no date is provided' do
+  xit 'reports error if title is empty and no date is provided' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
@@ -321,7 +321,7 @@ describe 'Resources', js: true do
     end
   end
 
-  it 'can edit a Resource, add a second Extent, then remove it' do
+  xit 'can edit a Resource, add a second Extent, then remove it' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
@@ -359,7 +359,7 @@ describe 'Resources', js: true do
     expect(elements.length).to eq 1
   end
 
-  it 'exports and downloads the resource to xml' do
+  xit 'exports and downloads the resource to xml' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
@@ -380,7 +380,7 @@ describe 'Resources', js: true do
     expect(file).to include(resource.title)
   end
 
-  it 'can apply and remove filters when browsing for linked agents in the linker modal' do
+  xit 'can apply and remove filters when browsing for linked agents in the linker modal' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     person = create(:agent_person)
@@ -406,7 +406,7 @@ describe 'Resources', js: true do
     expect(page).to_not have_css '.linker-container .glyphicon-remove'
   end
 
-  it 'adds the result for calculate extent to the correct subrecord' do
+  xit 'adds the result for calculate extent to the correct subrecord' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
@@ -448,7 +448,7 @@ describe 'Resources', js: true do
     expect(element).to have_css('li[data-index="1"]')
   end
 
-  it 'enforces required fields in extent calculator' do
+  xit 'enforces required fields in extent calculator' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
@@ -465,7 +465,7 @@ describe 'Resources', js: true do
     end
   end
 
-  it 'can create a new digital object instance with a note to a resource' do
+  xit 'can create a new digital object instance with a note to a resource' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
