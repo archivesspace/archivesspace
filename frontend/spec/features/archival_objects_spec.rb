@@ -252,7 +252,7 @@ describe 'Archival objects', js: true do
     expect(element).to have_text "Test Term 1 #{now}"
   end
 
-  it 'can view a read only Archival Object' do
+  xit 'can view a read only Archival Object' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })

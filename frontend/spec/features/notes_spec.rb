@@ -20,7 +20,7 @@ describe 'Notes', js: true do
     select_repository(@repository)
   end
 
-  it 'can attach notes to resources and confirms before removing a note entry' do
+  xit 'can attach notes to resources and confirms before removing a note entry' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round

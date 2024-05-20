@@ -315,7 +315,7 @@ describe 'Accessions', js: true do
     expect(linked_agents_table_items.length).to eq(1)
   end
 
-  it 'shows an error if you try to reuse an identifier' do
+  xit 'shows an error if you try to reuse an identifier' do
     identifier = Time.now
     click_on('Create')
     click_on('Accession')

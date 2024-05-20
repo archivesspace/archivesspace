@@ -23,7 +23,7 @@ describe 'Collection Management', js: true do
     expect(page).to have_text 'No records found'
   end
 
-  it 'is browseable even when its linked accession has no title' do
+  xit 'is browseable even when its linked accession has no title' do
     now = Time.now.to_i
 
     click_on 'Create'

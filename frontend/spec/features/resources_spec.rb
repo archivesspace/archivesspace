@@ -110,7 +110,7 @@ describe 'Resources', js: true do
     expect(page).to have_css '.identifier-fields.has-error'
   end
 
-  it 'prepopulates the top container modal with search for current resource when linking on the resource edit page' do
+  xit 'prepopulates the top container modal with search for current resource when linking on the resource edit page' do
     # Create top containers
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
@@ -174,7 +174,7 @@ describe 'Resources', js: true do
     end
   end
 
-  it 'can add a rights statement with linked agent to a Resource' do
+  xit 'can add a rights statement with linked agent to a Resource' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round

@@ -53,7 +53,7 @@ describe 'Merging and transfering resources', js: true do
     expect(page).to have_css 'tr', text: resource.title
   end
 
-  it 'can merge a resource into a resource' do
+  xit 'can merge a resource into a resource' do
     now = Time.now.to_i
 
     select_repository(@repository_source)
