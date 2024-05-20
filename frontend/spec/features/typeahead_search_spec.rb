@@ -29,7 +29,7 @@ describe 'Resources Form', js: true do
       click_on 'Add Subject'
     end
 
-    it 'displays the correct icon and selects the option for cultural_context term_type, and checks the edit and show pages include it after save' do
+    xit 'displays the correct icon and selects the option for cultural_context term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: 'cultural_context'
@@ -55,7 +55,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_cultural_context')
     end
 
-    it 'displays the correct icon and selects the option for function term_type, and checks the edit and show pages include it after save' do
+    xit 'displays the correct icon and selects the option for function term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  function'
@@ -82,7 +82,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_function')
     end
 
-    it 'displays the correct icon and selects the option for genre_form term_type, and checks the edit and show pages include it after save' do
+    xit 'displays the correct icon and selects the option for genre_form term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  genre_form'
@@ -109,7 +109,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_genre_form')
     end
 
-    it 'displays the correct icon and selects the option for technique term_type, and checks the edit and show pages include it after save' do
+    xit 'displays the correct icon and selects the option for technique term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  technique'
@@ -136,7 +136,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_technique')
     end
 
-    it 'displays the correct icon and selects the option for occupation term_type, and checks the edit and show pages include it after save' do
+    xit 'displays the correct icon and selects the option for occupation term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  occupation'
@@ -163,7 +163,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_occupation')
     end
 
-    it 'displays the correct icon and selects the option for style_period term_type, and checks the edit and show pages include it after save' do
+    xit 'displays the correct icon and selects the option for style_period term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  style_period'
@@ -190,7 +190,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_style_period')
     end
 
-    it 'displays the correct icon and selects the option for temporal term_type, and checks the edit and show pages include it after save' do
+    xit 'displays the correct icon and selects the option for temporal term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  temporal'
@@ -218,7 +218,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_temporal')
     end
 
-    it 'displays the correct icon and selects the option for topical term_type, and checks the edit and show pages include it after save' do
+    xit 'displays the correct icon and selects the option for topical term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  topical'

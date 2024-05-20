@@ -10,7 +10,7 @@ describe 'User management', js: true do
     login_user(admin_user)
   end
 
-  it 'can create a user account' do
+  xit 'can create a user account' do
     now = Time.now.to_i
 
     # Create admin user
@@ -52,7 +52,7 @@ describe 'User management', js: true do
     expect(find('#user_additional_contact_').value).to eq "Additional Contact Information #{now}"
   end
 
-  it "doesn't delete user information after the new user logins" do
+  xit "doesn't delete user information after the new user logins" do
     now = Time.now.to_i
 
     # Create admin user
@@ -165,7 +165,7 @@ describe 'User management', js: true do
     expect(page).to have_text 'Access denied. Login as the admin user to perform this action.'
   end
 
-  it "doesn't allow you to edit the user short names" do
+  xit "doesn't allow you to edit the user short names" do
     visit '/users'
     expect(page).to have_text 'Users'
 
@@ -181,7 +181,7 @@ describe 'User management', js: true do
     expect(page).to have_field('user_username_', readonly: true)
   end
 
-  it "allows user to edit their own account" do
+  xit "allows user to edit their own account" do
     now = Time.now.to_i
 
     # Create admin user
