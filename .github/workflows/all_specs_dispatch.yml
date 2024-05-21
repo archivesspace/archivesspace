@@ -24,6 +24,7 @@ jobs:
     secrets: inherit
     with:
       java-version: ${{ inputs.java-version || 11 }}
+      group-choice: 'all'
 
   backend:
     uses: ./.github/workflows/backend.yml

@@ -1,4 +1,4 @@
-name: Frontend Testing
+name: Frontend Testing Sub-Workflow
 
 on:
   workflow_call:
