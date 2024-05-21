@@ -11,6 +11,17 @@ on:
           - '8'
           - '11'
         default: '11'
+      group-choice:
+        description: Which group of specs to run
+        required: true
+        type: choice
+        options:
+          - 'all'
+          - 'a-c'
+          - 'd-l'
+          - 'm-r'
+          - 's-z'
+        default: 'all'
 
   workflow_call:
     inputs:
@@ -19,6 +30,10 @@ on:
         required: true
         type: string
         default: '11'
+      group-choice:
+        required: true
+        type: string
+        default: 'all'
 
   pull_request:
     paths:
@@ -30,6 +45,7 @@ on:
 
 jobs:
   frontend_a-c:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'a-c' || inputs.group-choice == '' }}
     name: a-c_Java_v${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
@@ -40,6 +56,7 @@ jobs:
       java-version: ${{ inputs.java-version || 11 }}
 
   frontend_d-l:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'd-l' || inputs.group-choice == '' }}
     name: d-l_Java_v${{ inputs.java-version || 11 }}
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
@@ -50,6 +67,7 @@ jobs:
       java-version: ${{ inputs.java-version || 11 }}
 
   frontend_m-r:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'm-r' || inputs.group-choice == '' }}
     name: m-r_Java_v${{ inputs.java-version || 11 }}
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
@@ -60,6 +78,7 @@ jobs:
       java-version: ${{ inputs.java-version || 11 }}
 
   frontend_s-z:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 's-z' || inputs.group-choice == '' }}
     name: s-z_Java_v${{ inputs.java-version || 11 }}
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
