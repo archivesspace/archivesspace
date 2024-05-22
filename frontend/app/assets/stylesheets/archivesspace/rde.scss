@@ -2,6 +2,7 @@
 @import 'archivesspace/mixins';
 @import 'bootstrap';
 @import 'bootstrap/mixins';
+@import '../jquery.kiketable.colsizable-1.1.css';
 
 #rde_form {
   .sections {
@@ -18,6 +19,7 @@
   table {
     border-collapse: separate;
     border-spacing: 0;
+    padding-right: 1rem;
   }
 
   thead tr:first-child th {
@@ -90,8 +92,7 @@
     list-style: none;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 0.25rem;
+
     a {
       &:hover {
         text-decoration: none;
@@ -144,12 +145,23 @@
     /* Fix https://archivesspace.atlassian.net/browse/AR-1211 */
     &.kiketable-th {
       height: 30px !important;
+      padding: 0.25rem;
+    }
+
+    .kiketable-th-text {
+      height: auto;
+      line-height: 30px; // Vertically center text
     }
 
     .kiketable-colsizable-handler {
-      background-image: asset-url('archivesspace/drag_handle.png');
-      border: none;
+      position: relative;
+      height: 30px;
       width: 4px;
+      right: -0.2rem;
+      float: right;
+      border: none;
+      background-image: asset-url('archivesspace/drag_handle.png');
+      cursor: e-resize;
     }
   }
   td {
@@ -250,8 +262,7 @@
     @include opacity(90);
 
     z-index: 1;
-    @include box-shadow(1px 1px 3px #aaa);
-
+    box-shadow: 1px 1px 3px #aaa;
     margin-left: -5px;
     border-top: none;
     background-color: $errorBackground;
@@ -368,4 +379,119 @@
 // Show overflow on linker <td>
 .kiketable-colsizable td.overflow-visible {
   overflow: visible;
+}
+
+// ANW-2001: Restore the Top Containers linker layout after the Bootstrap v4 upgrade
+.rde-top-containers-linker-grid {
+  display: grid;
+  grid-template-columns: minmax(auto, 1fr) minmax(max-content, auto);
+}
+.rde-top-containers-linker-grid > ul.token-input-list {
+  order: 1;
+  width: 100%;
+}
+.rde-top-containers-linker-grid > div.input-group-append {
+  order: 2;
+}
+.rde-top-containers-linker-grid > section {
+  order: 3;
+}
+
+/* ANW-2001: Restore `.btn-group > .btn.btn-default` for the Top Containers
+   linker button after the Bootstrap v4 upgrade */
+.rde-top-containers-linker {
+  position: relative;
+  margin-left: -1px;
+  flex: 1 1 auto;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-color: var(--secondary);
+  background-color: var(--white);
+  color: var(--bs-text-body);
+  cursor: pointer;
+}
+.rde-top-containers-linker:hover {
+  z-index: 1;
+  background-color: #e9ecef;
+  color: var(--bs-text-body);
+}
+
+/* ANW-2001: Restore `.btn.btn-default` styles for the footer
+   action buttons after the Bootstrap v4 upgrade */
+#rapidDataEntryModal .btn.btn-default {
+  color: var(--bs-text-body);
+  background-color: var(--white);
+  border-color: var(--secondary);
+  cursor: pointer;
+}
+#rapidDataEntryModal .btn.btn-default:hover {
+  z-index: 1;
+  background-color: #e9ecef;
+  color: var(--bs-text-body);
+}
+
+// ANW-2001: Fix the RDE form toolbar
+#rapidDataEntryModal [data-id='rde_select_template'] {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border-radius: 0.2rem;
+}
+
+// ANW-2001: Fix the RDE 'Apply RDE Template' toolbar dropdown
+// by rectifying the missing bootstrap-select.css
+#rapidDataEntryModal
+  .bootstrap-select.btn-group
+  .dropdown-menu
+  li
+  a
+  span.check-mark {
+  display: none;
+}
+
+#rapidDataEntryModal .bootstrap-select.btn-group > .disabled {
+  cursor: not-allowed;
+}
+#rapidDataEntryModal .bootstrap-select.btn-group > .disabled:focus {
+  outline: none !important;
+}
+
+#rapidDataEntryModal .bootstrap-select.btn-group ul.dropdown-menu-inner {
+  > li {
+    > a {
+      display: block;
+      padding: 3px 20px;
+      font-weight: normal;
+      line-height: 1.4286;
+      color: #333;
+      white-space: nowrap;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        color: #262626;
+        background-color: #f5f5f5;
+      }
+
+      &:hover {
+        cursor: default;
+      }
+    }
+
+    &.selected:not(.disabled) > a {
+      color: #fff;
+      text-decoration: none;
+      outline: 0;
+      background-color: #2e6ea5;
+    }
+
+    &.disabled > a,
+    &.disabled > a:hover {
+      color: #262626;
+      text-decoration: none;
+      outline: 0;
+      background-color: #fff;
+      cursor: not-allowed;
+    }
+  }
 }

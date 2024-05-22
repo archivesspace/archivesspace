@@ -21,9 +21,9 @@
 
 %>
 <div class="form-group <% if required %>required<% end %>">
-  <div class="controls col-sm-10">
-    <div class="input-group linker-wrapper">
-      <input type="text" class="linker"
+  <div class="controls">
+    <div class="input-group linker-wrapper rde-top-containers-linker-grid">
+      <input type="text" class="form-control linker"
              id="<%= form.id_for("ref") %>"
              data-label_create="<%= t("top_container.linker.create") %>"
              data-label_browse="<%= t("top_container.linker.browse") %>"
@@ -55,8 +55,12 @@
 
       <% if allow_create && user_can?('update_container_record') %>
 
-        <div class="input-group-btn">
-          <a data-target="<%= url_for :controller => :top_containers, :action => :new, :small => true, :inline => true, :created_for_collection => self.instance_variable_get(:"@resource_uri") %>" class="btn btn-default linker-create-btn"><%= t("actions.create") %></a>
+        <div class="input-group-append flex-shrink-0">
+          <button
+            type="button"
+            class="btn btn-default linker-create-btn rde-top-containers-linker"
+            data-target="<%= url_for :controller => :top_containers, :action => :new, :small => true, :inline => true, :created_for_collection => self.instance_variable_get(:"@resource_uri") %>"
+          ><%= t("actions.create") %></button>
         </div>
 
       <% end %>

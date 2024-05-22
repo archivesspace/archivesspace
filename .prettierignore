@@ -3,6 +3,7 @@
 *.yaml
 *.json
 frontend/app/assets/stylesheets/vendor/
+frontend/app/assets/stylesheets/jquery.*
 frontend/vendor/
 public/app/assets/javascripts/bootstrap-accessibility/
 public/vendor/assets/javascripts/

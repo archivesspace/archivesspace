@@ -1,0 +1,44 @@
+.kiketable-colsizable{
+	table-layout: fixed; 
+	width : 100%;
+	position: relative;
+	}
+.kiketable-colsizable td,
+.kiketable-colsizable th{
+	overflow : hidden;
+	}
+.kiketable-th{
+	/* Don't set "position: relative" in IE */
+	white-space: nowrap !important; /* Only works for THs in IE */
+	text-align: left;
+	height: 18px;		 /* value safe to change */
+	}
+.kiketable-th-text{
+	height: 100%;
+	overflow: hidden;
+	}
+.kiketable-colsizable-handler{
+	float: right;
+	cursor: e-resize;
+	height: 100%;
+	border-left:2px outset white;
+	border-right:2px inset white;
+	position: relative;
+	right: -4px;
+	}
+html > body .kiketable-colsizable-handler{
+	border-right:1px outset white;
+	}
+.kiketable-colsizable-dragLine{
+  display: none;
+	}
+.kiketable-colsizable-dragArea{
+	position: absolute;
+	cursor: e-resize;
+	background-color:red;	/* value safe to change */
+	background-color: #000;
+	}
+.kiketable-colsizable-minimized{
+	background-color: #ffd; /* value safe to change */
+	color: #bbb;			/* value safe to change */
+}
