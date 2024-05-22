@@ -50,9 +50,9 @@
         <%= form.label_and_textfield "external_ark_url" if AppConfig[:arks_enabled] && AppConfig[:arks_allow_external_arks] %>
         <%= form.label_and_select "level", form.possible_options_for("level", true) %>
         <%= form.label_and_textfield "other_level", :required => true %>
-        <div class="form-group">
+        <div class="form-group w-100 row">
           <%= form.label "publish", :class => 'control-label col-sm-2' %>
-          <div class="checkbox col-sm-9">
+          <div class="col-sm-1 checkbox">
             <%= form.checkbox "publish", {}, user_prefs["publish"] %>
             <% if form.obj["has_unpublished_ancestor"] %>
               <span class="help-inline"><span class="text-info"><%= t("archival_object._frontend.messages.has_unpublished_ancestor") %></span></span>
