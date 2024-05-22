@@ -11,7 +11,7 @@
        <%= form_context :user, @user do |form| %>
          <%= render_aspace_partial :partial => "users/form", :locals => {:form => form} %>
 
-         <div class="form-actions">
+         <div class="form-actions pl-0">
            <button id="create_account" type="submit" class="btn btn-primary"><%= t("user._frontend.action.create_account") %></button>
            <%= link_to t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel btn-default" %>
          </div>

@@ -4,7 +4,7 @@
   @include transition(color 0.5s);
 
   color: var(--bs-text-body);
-  position: static !important;
+  position: relative !important;
   padding-top: 1rem;
   padding-bottom: 1rem;
 
@@ -18,16 +18,22 @@
       color: var(--bs-text-body);
     }
   }
-}
-// h3 > .context-help {
-//   float: right;
-//   margin: 6px 6px 0 0;
-// }
 
-// h4 > .context-help {
-//   float: right;
-//   margin: 2px 6px 0 0;
-// }
+  // ANW-1977: Rectify help links that were nested inside headings before
+  // the Bootstrap 4 upgrade. After upgrade on hover the tooltip forced vertical
+  // scroll on the headings. While some nested help links elsewhere could be solved
+  // by making it a sibling to the heading and wrapping them both in a <header>,
+  // the (nested) subform action button siblings of the previously nested help links
+  // depend on rigid assumptions about the markup to perform. In lieu of changing form
+  // behavior, here's a quick hack to make siblilngs of the help link and heading.
+  &.previously-nested-help-link {
+    position: absolute !important;
+    top: 16px;
+    right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
 
 .record-pane > .context-help {
   float: right;
