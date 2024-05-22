@@ -41,9 +41,9 @@
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @digital_object_component} if AppConfig[:use_human_readable_urls] %>
 
-      <div class="form-group">
+      <div class="form-group w-100 row">
         <%= form.label "publish", :class => 'control-label col-sm-2' %>
-        <div class="checkbox col-sm-9">
+        <div class="col-sm-1 checkbox">
           <%= form.checkbox "publish", {}, user_prefs["publish"] %>
           <% if form.obj["has_unpublished_ancestor"] %>
             <span class="help-inline"><span class="text-info"><%= t("digital_object_component._frontend.messages.has_unpublished_ancestor") %></span></span>
