@@ -11,7 +11,7 @@ describe 'Groups', js: true do
     @admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
   end
 
-  xit 'can assign a user to the archivist group' do
+  it 'can assign a user to the archivist group' do
     login_user(@admin)
     select_repository @repository_to_manage
 
@@ -38,10 +38,11 @@ describe 'Groups', js: true do
 
     element = find('#group_member_usernames_')
     expect(element).to have_text @user.username
+
+    visit '/logout'
   end
 
-  xit 'can assign the test user to the viewers group of the first repository' do
-    # TODO: flaky login
+  it 'can assign the test user to the viewers group of the first repository' do
     login_user(@admin)
     select_repository @repository_to_view
     find('.repo-container .btn.dropdown-toggle').click
@@ -67,9 +68,11 @@ describe 'Groups', js: true do
 
     element = find('#group_member_usernames_')
     expect(element).to have_text @user.username
+
+    visit '/logout'
   end
 
-  xit 'reports errors when attempting to create a Group with missing data' do
+  it 'reports errors when attempting to create a Group with missing data' do
     login_user(@admin)
     select_repository @repository_to_view
 
@@ -83,7 +86,7 @@ describe 'Groups', js: true do
     expect(element.text).to eq "Group code - Property is required but was missing\nDescription - Property is required but was missing"
   end
 
-  xit 'can create a new Group' do
+  it 'can create a new Group' do
     now = Time.now.to_i
     login_user(@admin)
     select_repository @repository_to_view
@@ -97,9 +100,11 @@ describe 'Groups', js: true do
 
     find('button', text: 'Create Group', match: :first).click
     expect(page).to have_text "Group Code #{now}"
+
+    visit '/logout'
   end
 
-  xit 'reports errors when attempting to update a Group with missing data' do
+  it 'reports errors when attempting to update a Group with missing data' do
     now = Time.now.to_i
     login_user(@admin)
     select_repository @repository_to_view
@@ -124,9 +129,11 @@ describe 'Groups', js: true do
     find('button', text: 'Save', match: :first).click
     element = find('.alert.alert-danger.with-hide-alert')
     expect(element.text).to eq "Description - Property is required but was missing"
+
+    visit '/logout'
   end
 
-  xit 'can edit a Group' do
+  it 'can edit a Group' do
     # TODO: passes locally but not remotely
     now = Time.now.to_i
     login_user(@admin)
@@ -151,21 +158,25 @@ describe 'Groups', js: true do
     find('button', text: 'Save', match: :first).click
 
     expect(page).to have_text "Group Description Updated #{now}"
+
+    visit '/logout'
   end
 
-  xit 'can get a list of usernames matching a string' do
+  it 'can get a list of usernames matching a string' do
     login_user(@admin)
     visit "/users/complete?query=#{URI.escape(@user.username)}"
     expect(page).to have_text @user.username
+
+    visit '/logout'
   end
 
-  xit 'can log out of the admin account' do
+  it 'can log out of the admin account' do
     login_user(@admin)
     visit 'logout'
     expect(page).to have_css '#login-form-wrapper'
   end
 
-  xit 'can log in with the user just created' do
+  it 'can log in with the user just created' do
     visit '/'
     fill_in 'user_username', with: @user.username
     fill_in 'user_password', with: @user.password
@@ -173,9 +184,11 @@ describe 'Groups', js: true do
 
     element = find('span.user-label')
     expect(element).to have_text @user.username
+
+    visit '/logout'
   end
 
-  xit 'can select the second repository and find the create link' do
+  it 'can select the second repository and find the create link' do
     login_user(@admin)
     select_repository @repository_to_manage
 
@@ -183,9 +196,11 @@ describe 'Groups', js: true do
     expect(element.text).to eq "The Repository #{@repository_to_manage.repo_code} is now active"
 
     expect(page).to have_css('button', text: 'Create')
+
+    visit '/logout'
   end
 
-  xit "can modify the user's groups for a repository via the Manage Access listing and hides create from user" do
+  it "can modify the user's groups for a repository via the Manage Access listing and hides create from user" do
     login_user(@admin)
     select_repository @repository_to_manage
 
@@ -217,9 +232,11 @@ describe 'Groups', js: true do
     select_repository @repository_to_manage
 
     expect(page).to_not have_css('a', text: 'Create')
+
+    visit '/logout'
   end
 
-  xit 'cannot modify the user groups via Manage Access if the user is an admin' do
+  it 'cannot modify the user groups via Manage Access if the user is an admin' do
     now = Time.now.to_i
     login_user(@admin)
     select_repository @repository_to_manage
@@ -231,5 +248,7 @@ describe 'Groups', js: true do
     within element do
       expect(element).to have_css 'a.disabled', text: 'Edit Groups'
     end
+
+    visit '/logout'
   end
 end
