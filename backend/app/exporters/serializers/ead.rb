@@ -148,9 +148,9 @@ class EADSerializer < ASpaceExport::Serializer
 
     doc = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       ead_attributes = {
-        'xmlns:xsi' => 'https://www.w3.org/2001/XMLSchema-instance',
+        'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
         'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 https://www.loc.gov/ead/ead.xsd',
-        'xmlns:xlink' => 'https://www.w3.org/1999/xlink'
+        'xmlns:xlink' => 'http://www.w3.org/1999/xlink'
       }
 
       if data.publish === false

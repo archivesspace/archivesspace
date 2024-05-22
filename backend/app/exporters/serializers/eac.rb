@@ -59,9 +59,9 @@ class EACSerializer < ASpaceExport::Serializer
   def _eac(obj, xml)
     json = obj.json
     xml.send('eac-cpf', { 'xmlns' => 'urn:isbn:1-931666-33-4',
-                          'xmlns:html' => 'https://www.w3.org/1999/xhtml',
-                          'xmlns:xlink' => 'https://www.w3.org/1999/xlink',
-                          'xmlns:xsi' => 'https://www.w3.org/2001/XMLSchema-instance',
+                          'xmlns:html' => 'http://www.w3.org/1999/xhtml',
+                          'xmlns:xlink' => 'http://www.w3.org/1999/xlink',
+                          'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                           'xsi:schemaLocation' => 'urn:isbn:1-931666-33-4 https://eac.staatsbibliothek-berlin.de/schema/cpf.xsd',
                           'xml:lang' => 'eng' }) do
       _control(json, xml)
