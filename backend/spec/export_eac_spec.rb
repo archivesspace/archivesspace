@@ -158,9 +158,9 @@ describe 'EAC Export' do
     it 'exports EAC with the correct namespaces' do
       expect(@eac).to have_namespaces({
                                         'xmlns' => 'urn:isbn:1-931666-33-4',
-                                        'xmlns:html' => 'https://www.w3.org/1999/xhtml',
-                                        'xmlns:xlink' => 'https://www.w3.org/1999/xlink',
-                                        'xmlns:xsi' => 'https://www.w3.org/2001/XMLSchema-instance'
+                                        'xmlns:html' => 'http://www.w3.org/1999/xhtml',
+                                        'xmlns:xlink' => 'http://www.w3.org/1999/xlink',
+                                        'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance'
                                       })
     end
 

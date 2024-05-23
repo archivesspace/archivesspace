@@ -76,11 +76,11 @@ describe 'MARC Export' do
      end
 
      it "root node should have xmlns:xsi defined" do
-       expect(@xml).to match(/<collection.*xmlns:xsi="https:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
+       expect(@xml).to match(/<collection.*xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
      end
 
      it "root node should have xsi:schemaLocation defined" do
-       expect(@xml).to match(/<collection.*xsi:schemaLocation="https:\/\/www.loc.gov\/MARC21\/slim https:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd"/)
+       expect(@xml).to match(/<collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/MARC21\/slim https:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd"/)
      end
    end
 

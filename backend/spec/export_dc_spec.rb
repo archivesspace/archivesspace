@@ -105,16 +105,16 @@ describe "Exported Dublin Core metadata" do
 
   it "has the correct namespaces" do
     expect(@dc).to have_namespaces({
-                                   "xmlns" => "https://purl.org/dc/elements/1.1/",
-                                   "xmlns:dcterms" => "https://purl.org/dc/terms/",
-                                   "xmlns:xlink" => "https://www.w3.org/1999/xlink",
-                                   "xmlns:xsi" => "https://www.w3.org/2001/XMLSchema-instance"
+                                   "xmlns" => "http://purl.org/dc/elements/1.1/",
+                                   "xmlns:dcterms" => "http://purl.org/dc/terms/",
+                                   "xmlns:xlink" => "http://www.w3.org/1999/xlink",
+                                   "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance"
                                  })
   end
 
 
   it "points to the right schemas" do
-    schema_locations = "https://purl.org/dc/elements/1.1/ https://dublincore.org/schemas/xmls/qdc/2006/01/06/dc.xsd https://purl.org/dc/terms/ https://dublincore.org/schemas/xmls/qdc/2006/01/06/dcterms.xsd".split(" ").sort.join(" ")
+    schema_locations = "http://purl.org/dc/elements/1.1/ https://dublincore.org/schemas/xmls/qdc/2006/01/06/dc.xsd http://purl.org/dc/terms/ https://dublincore.org/schemas/xmls/qdc/2006/01/06/dcterms.xsd".split(" ").sort.join(" ")
     expect(@dc.xpath("xmlns:dc", @dc.namespaces).attr("xsi:schemaLocation").value.split(" ").sort.join(" ")).to eq(schema_locations)
   end
 
