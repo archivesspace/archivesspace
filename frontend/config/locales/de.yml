@@ -1003,6 +1003,7 @@ de:
       messages:
         created: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
           für Aufzeichnung <strong>%{resource.title}</strong> erstellt
+        duplicated: Archivobjekt dupliziert von <strong>%{archival_object_display_string}</strong>
         created_with_parent: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
           als Kind von <strong>%{parent.display_string}</strong> für Aufzeichnung
           <strong>%{resource.title}</strong> erstellt
@@ -1037,6 +1038,7 @@ de:
         spawn_menu_after: Abgeleitete Komponente danach einfügen
       action:
         add_sibling: Geschwister hinzufügen
+        add_duplicate: Erstellen Sie ein doppeltes Archivobjekt
         save: Archiv-Objekt speichern
         bulk_import: Mit Tabelle laden
         add_child: Kind hinzufügen
@@ -1046,6 +1048,7 @@ de:
         select_parent_and_position: Position der Komponente auswählen
       tree:
         new_record_title: Neues Archiv-Objekt
+        duplicated_record_title: Dupliziertes Archivobjekt
       section:
         basic_information: Grundlegende Informationen
     new_title: Neues Archiv-Objekt
