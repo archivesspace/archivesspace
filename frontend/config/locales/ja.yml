@@ -788,6 +788,7 @@ ja:
     _frontend:
       messages:
         created: リソース<strong>%{resource.title}</strong>アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>が作成されました
+        duplicated: アーカイブ オブジェクトが <strong>%{archival_object_display_string}</strong> から複製されました
         created_with_parent: リソース<strong>%{resource.title}</strong>上の<strong>%{parent.display_string}</strong>子として作成されたアーカイブオブジェクト<strong>%{archival_object.display_string}</strong>
           <strong>%{resource.title}</strong>
         updated: アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>更新されました
@@ -808,10 +809,12 @@ ja:
       action:
         add_child: 子を追加
         add_sibling: 兄弟を追加
+        add_duplicate: 重複を追加
         save: アーカイブオブジェクトを保存する
         bulk_import: スプレッドシートを介して負荷
       tree:
         new_record_title: 新しいアーカイブオブジェクト
+        duplicated_record_title: 重複したアーカイブ オブジェクトの作成
 
   classification:
     _frontend:

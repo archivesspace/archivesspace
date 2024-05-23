@@ -856,6 +856,7 @@ es:
       messages:
         created: Documento de archivo <strong>%{archival_object.display_string}</strong>
           del fondo <strong>%{resource.title}</strong> creado
+        duplicated: Objeto de archivo duplicado de <strong>%{archival_object_display_string}</strong>
         created_with_parent: Documento de archivo <strong>%{archival_object.display_string}</strong>
           creado como niño de <strong>%{parent.display_string}</strong> del fondo
           <strong>%{resource.title}</strong>
@@ -887,10 +888,12 @@ es:
       action:
         add_child: Agregar hijo
         add_sibling: Añadir hermano
+        add_duplicate: Agregar duplicado
         save: Guardar objeto de archivo
         bulk_import: Carga a través de la hoja de cálculo
       tree:
         new_record_title: Nuevo objeto de archivo
+        duplicated_record_title: Crear objeto de archivo duplicado
 
   classification:
     _frontend:

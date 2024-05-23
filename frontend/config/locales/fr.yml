@@ -865,6 +865,7 @@ fr:
       messages:
         created: Document d'archives <strong>%{archival_object.display_string}</strong>
           de la ressource <strong>%{resource.title}</strong> créé
+        duplicated: Objet d'archives dupliqué à partir de <strong>%{archival_object_display_string}</strong>
         created_with_parent: Document d'archives <strong>%{archival_object.display_string}</strong>
           créé en tant que fils de <strong>%{parent.display_string}</strong> de la
           ressource <strong>%{resource.title}</strong>
@@ -898,10 +899,12 @@ fr:
       action:
         add_child: Ajouter fils
         add_sibling: Ajouter frère
+        add_duplicate: Ajouter un doublon
         save: Sauvegarder document d'archives
         bulk_import: Charge par feuille de calcul
       tree:
         new_record_title: Nouvel objet archivistique
+        duplicated_record_title: Créer un objet d'archives en double
 
   classification:
     _frontend:
