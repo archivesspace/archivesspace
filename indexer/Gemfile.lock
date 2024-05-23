@@ -36,8 +36,8 @@ GEM
       nokogiri (>= 1.5.11, < 2.0.0)
     formatador (0.3.0)
     hashdiff (1.0.1)
-      concurrent-ruby (~> 1.0)
     i18n (1.14.1)
+      concurrent-ruby (~> 1.0)
     ipaddress (0.8.3)
     json (2.6.3-java)
     json-schema (1.0.10)
@@ -106,6 +106,7 @@ GEM
 PLATFORMS
   universal-java-1.8
   universal-java-11
+  universal-java-17
 
 DEPENDENCIES
   activesupport (< 6.0)
