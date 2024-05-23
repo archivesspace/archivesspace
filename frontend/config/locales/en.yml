@@ -888,6 +888,7 @@ en:
     _frontend:
       messages:
         created: Archival Object <strong>%{archival_object_display_string}</strong> on Resource <strong>%{resource_title}</strong> created
+        duplicated: Archival Object duplicated from <strong>%{archival_object_display_string}</strong>
         created_with_parent: Archival Object <strong>%{archival_object_display_string}</strong> created as child of <strong>%{parent_display_string}</strong> on Resource <strong>%{resource_title}</strong>
         updated: Archival Object <strong>%{archival_object_display_string}</strong> updated
         updated_with_parent: Archival Object <strong>%{archival_object_display_string}</strong> updated
@@ -913,6 +914,7 @@ en:
       action:
         add_child: Add Child
         add_sibling: Add Sibling
+        add_duplicate: Add Duplicate
         save: Save Archival Object
         bulk_import: Load via Spreadsheet
         select_resource: Select Resource
@@ -921,6 +923,7 @@ en:
 
       tree:
         new_record_title: New Archival Object
+        duplicated_record_title: Create Duplicate Archival Object
 
   classification:
     _frontend:

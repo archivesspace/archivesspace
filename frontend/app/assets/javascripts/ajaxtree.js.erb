@@ -268,9 +268,14 @@ AjaxTree.prototype.add_new_after = function(node, level, extra_params) {
     var $indentor = $('<span>').addClass('indentor');
     $indentor.append($('<span>').addClass('glyphicon glyphicon-asterisk'));
     $indentor.appendTo($titleCell);
-    $titleCell.append($('<span tabindex="0">')
-              .addClass('record-title')
-              .text(self.title_for_new_node()));
+
+    var title = self.title_for_new_node();
+    if (typeof extra_params !== 'undefined' && 'duplicate_from_archival_object' in extra_params){
+        title = "<%= I18n.t('archival_object._frontend.tree.duplicated_record_title') %>"
+    }
+
+    $titleCell.append($('<span tabindex="0">').addClass('record-title').text(title));
+
     $titleCell.appendTo($new_tr);
     $('<td>').attr('colspan', colspan).appendTo($new_tr);
     node.removeClass('current');

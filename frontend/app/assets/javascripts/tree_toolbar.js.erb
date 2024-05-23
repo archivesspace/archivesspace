@@ -584,6 +584,25 @@ var TreeToolbarConfiguration = {
                     $(btn).addClass('disabled');
                 },
             },
+            {
+                label: '<%= I18n.t("archival_object._frontend.action.add_duplicate") %>',
+                cssClasses: 'btn-default',
+                onClick: function(event, btn, node, tree, toolbarRenderer) {
+                    tree.ajax_tree.add_new_after(node, node.data('level'), { duplicate_from_archival_object: { 'uri': node.data('uri') } });
+                },
+                isEnabled: function(node, tree, toolbarRenderer) {
+                    return true;
+                },
+                isVisible: function(node, tree, toolbarRenderer) {
+                    return !tree.large_tree.read_only;
+                },
+                onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                    $(btn).removeClass('disabled');
+                },
+                onToolbarRendered: function(btn, toolbarRenderer) {
+                    $(btn).addClass('disabled');
+                },
+            },
             // Load via Spreadsheet
             {
                 label: '<%= I18n.t("resource._frontend.action.load_bulk") %>',

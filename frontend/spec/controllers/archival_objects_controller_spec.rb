@@ -88,6 +88,18 @@ describe ArchivalObjectsController, type: :controller do
       end
     end
 
+    it "can duplicate an archival object from another one using the duplicate_from_archival_object param" do
+      get :new, params: { resource_id: resource.id,
+                          duplicate_from_archival_object: { uri: archival_object.uri } }
+
+      expect(response.status).to eq 200
+      result = Capybara.string(response.body)
+
+      result.find(:css, "#archival_object_title_") do |form_input|
+        expect(form_input.value).to eq(archival_object.title)
+      end
+    end
+
     describe 'record title field' do
       before(:all) do
         @resource = create(:json_resource)
