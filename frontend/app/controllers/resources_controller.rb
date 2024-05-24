@@ -65,7 +65,6 @@ class ResourcesController < ApplicationController
     return render_aspace_partial :partial => "resources/new_inline" if params[:inline]
   end
 
-
   def defaults
     defaults = DefaultValues.get 'resource'
 

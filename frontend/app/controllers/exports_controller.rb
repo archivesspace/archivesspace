@@ -2,7 +2,7 @@ class ExportsController < ApplicationController
 
   set_access_control "view_repository" => [:container_labels, :download_marc, :download_dc, :download_mods,
                                             :download_mets, :download_ead, :download_eac, :download_marc_auth, :container_template]
-  set_access_control "create_job" => [:print_to_pdf]
+  set_access_control "create_job" => [:print_to_pdf, :resource_duplicate]
 
   include ExportHelper
 
@@ -66,6 +66,11 @@ class ExportsController < ApplicationController
   end
 
   def print_to_pdf
+    @resource = JSONModel(:resource).find(params[:id], find_opts)
+    render :layout => false
+  end
+
+  def resource_duplicate
     @resource = JSONModel(:resource).find(params[:id], find_opts)
     render :layout => false
   end

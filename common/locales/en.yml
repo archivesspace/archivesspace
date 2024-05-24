@@ -2531,6 +2531,7 @@ en:
       generate_arks_job: Generate ARKs in Bulk
       find_and_replace_job: Batch Find and Replace (Beta)
       trim_whitespace_job: Trim Whitespace
+      resource_duplicate_job: Resource Duplicate
       unknown_job_type: Unknown job type
       bulk_import_job: Load via Spreadsheet
       top_container_linker_job: Top Container Linker
@@ -2617,6 +2618,16 @@ en:
 
   trim_whitespace_job:
     description: Removes leading and trailing whitespace from titles for resources, accessions, digital objects, archival objects, and digital object components.
+
+  resource_duplicate_job:
+    going_to_duplicate_job: Going to duplicate resource with id %{resource_id}.
+    success_message: Successfully duplicated resource %{resource_source_id} to resource %{resource_duplicated_id}.
+    resource_failure_message: Failed to duplicate resource from resource with id %{resource_id}; Validation error %{message}.
+    archival_object_failure_message: Failed to duplicate archival object with id %{archival_object_id} from resource with id %{resource_id}; Validation error %{message}.
+    source_archival_object: Source archival object %{source_archival_object_inspect}.
+    success_reload_message: All done. Please click refresh to get a link to the new resource.
+    job_failed: Job Failed.
+    could_not_find_resource: Could not find provided resource with id %{resource_id}.
 
   ns2_remover_job:
       description: >

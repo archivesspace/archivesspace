@@ -23,6 +23,8 @@ es:
     date_picker: Selector de fecha abierto
     date_picker_toggle: Cambia el selector de fecha
     defaults: Valores por defecto
+    duplicate_resource: Recurso duplicado
+    duplicate_resource_confirm_message: Se creará un trabajo para duplicar este recurso con todos sus objetos de archivo. Esto puede tardar un poco según la cantidad de registros.
     edit: Editar
     edit_oai: Editar la configuración de OAI
     edit_batch: Editar en bloque
@@ -1108,7 +1110,7 @@ es:
         add: Añadir enlace autoridad
         make_primary: Hacer primario
         make_primary_tooltip: |
-            <p>Se utiliza para indicar qué autoridad vinculado al registro es el autoridad primario. Solo se puede designar un autoridad vinculado como primario.</p> 
+            <p>Se utiliza para indicar qué autoridad vinculado al registro es el autoridad primario. Solo se puede designar un autoridad vinculado como primario.</p>
             <p>En la exportación MARCXML, el autoridad primario será el valor 1XX.</p>
 
   linked_record:
@@ -1175,7 +1177,7 @@ es:
         add: Agregar un formulario de nombre
         make_authorized: Convertir en nombre autorizado
         make_display_name: Convertir en nombre a presentar en pantalla
-        
+
   note:
     _frontend:
       preview:

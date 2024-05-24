@@ -193,17 +193,15 @@ RSpec.configure do |config|
     end
   end
 
-
-#  Roll back the database after each test
+  #  Roll back the database after each test
   config.around(:each) do |example|
-
     if example.metadata[:skip_db_open]
       # Running test without opening the DB first or rolling back after!
       example.run
-
     else
+      database_transaction = !example.metadata[:disable_database_transaction]
 
-      DB.open(true) do |db|
+      DB.open(database_transaction) do |db|
         $testdb = db
         as_test_user("admin") do
           RequestContext.open do
@@ -217,7 +215,6 @@ RSpec.configure do |config|
         end
         raise Sequel::Rollback
       end
-
     end
 
     if ENV['ASPACE_TEST_DEBUG']

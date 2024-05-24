@@ -1283,6 +1283,10 @@ FactoryBot.define do
     vocabulary { create(:json_vocabulary).uri }
   end
 
+  factory :json_resource_duplicate_job, class: JSONModel(:resource_duplicate_job) do
+    source { generate(:alphanumstr) }
+  end
+
   factory :json_top_container_linker_job, class: JSONModel(:top_container_linker_job) do
     resource_id { generate(:alphanumstr) }
     filename { generate(:alphanumstr) }

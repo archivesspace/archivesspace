@@ -1565,6 +1565,7 @@ ja:
       generate_slugs_job: エンティティのスラッグを生成する
       generate_arks_job: バルクでARKを生成
       trim_whitespace_job: 空白をトリム
+      resource_duplicate_job: リソースの重複
       unknown_job_type: 不明なジョブタイプ
       bulk_import_job: スプレッドシートを介してロード
       top_container_linker_job: トップコンテナリンカー
@@ -1633,6 +1634,16 @@ ja:
 
   trim_whitespace_job:
     description: リソース、アクセッション、デジタルオブジェクト、アーカイブオブジェクト、デジタルオブジェクトコンポーネントのタイトルから先頭と末尾の空白を削除します。
+
+  resource_duplicate_job:
+    going_to_duplicate_job: ID %{resource_id} のリソースを複製します。
+    success_message: リソース %{resource_source_id} をリソース %{resource_duplicated_id} に複製しました。
+    resource_failure_message: ID %{resource_id} のリソースからリソースを複製できませんでした。 検証エラー %{メッセージ}。
+    archival_object_failure_message: ID %{resource_id} のリソースから ID %{archival_object_id} のアーカイブ オブジェクトを複製できませんでした。 検証エラー %{メッセージ}。
+    source_archival_object: ソース アーカイブ オブジェクト %{source_archival_object_inspect}。
+    success_reload_message: すべて完了。 新しいリソースへのリンクを取得するには、[更新] をクリックしてください。
+    job_failed: ジョブが失敗しました。
+    could_not_find_resource: ID %{resource_id} の提供されたリソースが見つかりませんでした。
 
   advanced_search:
     type:
