@@ -422,6 +422,8 @@ class SpreadsheetBuilder
     @selected_columns.include?(column_group.to_s)
   end
 
+  private
+
   def all_columns
     return @columns if @columns
 
