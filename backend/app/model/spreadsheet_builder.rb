@@ -206,7 +206,7 @@ class SpreadsheetBuilder
       EnumColumn.new(:language_and_script, :script, 'script_iso15924', :i18n => 'Script')
     ],
     :note_langmaterial => [
-      StringColumn.new(:note_langmaterial, :content, :width => 30, :i18n_proc => proc {|col| "Language Note - #{col.index} - Content"})
+      StringColumn.new(:note_langmaterial, :content, :width => 30, :i18n_proc => proc {|col| "Language Note - #{col.index + 1} - Content"})
     ],
   }
 
@@ -421,8 +421,6 @@ class SpreadsheetBuilder
   def selected?(column_group)
     @selected_columns.include?(column_group.to_s)
   end
-
-  private
 
   def all_columns
     return @columns if @columns
