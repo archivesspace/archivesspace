@@ -32,6 +32,7 @@ de:
     more: Mehr
     lightmode_toggle: Einfacher Modus
     link_to: Verknüpfen mit
+    link_to_record: Link zur Aufnahme
     add_prefix: Hinzufügen
     merge_replace: Ersetzen
     merge_add: Hinzufügen
@@ -104,9 +105,7 @@ de:
     loading: Lade...
     revert: Änderungen zurücksetzen
     finish_editing: Aufzeichnung schließen
-    toolbar_disabled_message: <small><span class='muted'>Sie haben ungesicherte Änderungen
-      - Speichern oder Zurücksetzen, um auf die Werkzeugleiste und Aufzeichnungs-Baum
-      zuzugreifen</span></small>
+    toolbar_disabled_message: Sie haben nicht gespeicherte Änderungen – Speichern oder Zurücksetzen, um auf die Symbolleiste und den Datensatzbaum zuzugreifen
     publish_confirm_message: <p>Dies wird die Aufzeichnung, alle Teilaufzeichnungen
       (externe Dokumente, Anmerkungen, etc) und alle Komponenten in der Hierarchie
       veröffentlichen.</p>
@@ -917,16 +916,16 @@ de:
   accession:
     _frontend:
       messages:
-        unsuppressed: Unterdrückung des Eingangs <strong>%{accession.display_string}</strong>
+        unsuppressed: Unterdrückung des Eingangs <strong>%{accession_display_string}</strong>
           aufgehoben
-        updated: Eingang <strong>%{accession.display_string}</strong> aktualisiert
+        updated: Eingang <strong>%{accession_display_string}</strong> aktualisiert
         suppressed_info: Eingang ist unterdrückt und kann nicht bearbeitet werden
-        deleted: Eingang <strong>%{accession.display_string}</strong> gelöscht
+        deleted: Eingang <strong>%{accession_display_string}</strong> gelöscht
         delete_conflict: 'Eingang konnte nicht gelöscht werden: <pre>%{error}</pre>'
         transfer_description: Diesen Eingang übertragen nach...
-        suppressed: Eingang <strong>%{accession.display_string}</strong> unterdrückt
-        created: Eingang <strong>%{accession.display_string}</strong> angelegt
-        spawned: Dieser Eingang wurde vom Eingang <strong>%{accession.display_string}</strong>
+        suppressed: Eingang <strong>%{accession_display_string}</strong> unterdrückt
+        created: Eingang <strong>%{accession_display_string}</strong> angelegt
+        spawned: Dieser Eingang wurde vom Eingang <strong>%{accession_display_string}</strong>
           abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
           auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
         transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
@@ -947,7 +946,7 @@ de:
         merge_description: Den Akteur zum Zusammenführen auswählen
         merged: Akteure zusammengeführt
         please_select_a_agent_to_merge: Bitte einen Akteur auswählen
-        published: Der Akteur <strong>%{agent.title}</strong>und seine Teilaufzeichnungen
+        published: Der Akteur <strong>%{agent_title}</strong>und seine Teilaufzeichnungen
           und Komponenten wurden veröffentlicht
       section:
         record_control_information: Aufzeichnungs-Kontrollinformation
@@ -1001,13 +1000,13 @@ de:
     external_ark_url_tooltip: Kurzinfo für Externe ARK URL
     _frontend:
       messages:
-        created: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
-          für Aufzeichnung <strong>%{resource.title}</strong> erstellt
+        created: Archiv-Objekt <strong>%{archival_object_display_string}</strong>
+          für Aufzeichnung <strong>%{resource_title}</strong> erstellt
         duplicated: Archivobjekt dupliziert von <strong>%{archival_object_display_string}</strong>
-        created_with_parent: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
+        created_with_parent: Archiv-Objekt <strong>%{archival_object_display_string}</strong>
           als Kind von <strong>%{parent.display_string}</strong> für Aufzeichnung
-          <strong>%{resource.title}</strong> erstellt
-        updated_with_parent: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
+          <strong>%{resource_title}</strong> erstellt
+        updated_with_parent: Archiv-Objekt <strong>%{archival_object_display_string}</strong>
           aktualisiert
         please_select_a_resource_for_transfer: Bitte eine Aufzeichnung auswählen
         published: Das Archiv-Objekt <strong>%{archival_object.title}</strong>, seine
@@ -1018,18 +1017,18 @@ de:
         suppressed_info: Archiv-Objekt ist unterdrückt und kann nicht bearbeitet werden
         has_unpublished_ancestor: Seien Sie sich bewusst, dass diese Aufzeichnung
           einen unveröffentlichten Vorfahren hat.
-        deleted: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
+        deleted: Archiv-Objekt <strong>%{archival_object_display_string}</strong>
           gelöscht
         delete_conflict: 'Archiv-Objekt konnte nicht gelöscht werden: <pre>%{error}</pre>'
         unpublished: Die Veröffentlichung des Archiv-Objekts <strong>%{archival_object.title}</strong>,
           seiner Kinder, Teilaufzeichnungen und Komponenten wurde aufgehoben
-        updated: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
+        updated: Archiv-Objekt <strong>%{archival_object_display_string}</strong>
           aktualisiert
         transfer_error: 'Konnte das Archiv-Objekt wegen einem Fehler oder Konflikt
           nicht übertragen: <pre>%{exception}</pre>'
-        transfer_success: Archiv-Objekt <strong>%{archival_object.display_string}</strong>
-          erfolgreich zu Aufzeichnung <strong>%{resource.title}</strong> übertragen
-        spawned: Dieses Archiv-Objekt wurde aus dem Eingang <strong>%{accession.display_string}</strong>
+        transfer_success: Archiv-Objekt <strong>%{archival_object_display_string}</strong>
+          erfolgreich zu Aufzeichnung <strong>%{resource_title}</strong> übertragen
+        spawned: Dieses Archiv-Objekt wurde aus dem Eingang <strong>%{accession_display_string}</strong>
           abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
           auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
         spawn_placeholder: <em>Abgeleitete Komponente wird hier eingefügt werden</em>
@@ -1055,9 +1054,9 @@ de:
   classification:
     _frontend:
       messages:
-        created: Klassifizierung <strong>%{classification.title}</strong> erstellt
-        updated: Klassifizierung <strong>%{classification.title}</strong> aktualisiert
-        deleted: Klassifizierung <strong>%{classification.title}</strong> gelöscht
+        created: Klassifizierung <strong>%{classification_title}</strong> erstellt
+        updated: Klassifizierung <strong>%{classification_title}</strong> aktualisiert
+        deleted: Klassifizierung <strong>%{classification_title}</strong> gelöscht
       section:
         search_embedded: Verknüpfte Aufzeichnungen
         basic_information: Grundlegende Informationen
@@ -1142,16 +1141,16 @@ de:
   digital_object:
     _frontend:
       messages:
-        created: Digitales Objekt <strong>%{digital_object.title}</strong> erstellt
-        updated: Digitales Objekt <strong>%{digital_object.title}</strong> aktualisiert
-        deleted: Digitales Objekt <strong>%{digital_object.title}</strong> gelöscht
-        published: Das digitale Objekt <strong>%{digital_object.title}</strong>, seine
+        created: Digitales Objekt <strong>%{digital_object_title}</strong> erstellt
+        updated: Digitales Objekt <strong>%{digital_object_title}</strong> aktualisiert
+        deleted: Digitales Objekt <strong>%{digital_object_title}</strong> gelöscht
+        published: Das digitale Objekt <strong>%{digital_object_title}</strong>, seine
           Teilaufzeichnungen und Komponenten wurden veröffentlicht
         merge_description: Wählen Sie digitale Objekte zum Zusammenführen unten aus
         please_select_a_digital_object_to_merge: Bitte wählen Sie ein digitales Objekt
-        unsuppressed: Unterdrückung des digitalen Objekts <strong>%{digital_object.title}</strong>
+        unsuppressed: Unterdrückung des digitalen Objekts <strong>%{digital_object_title}</strong>
           aufgehoben
-        suppressed: Digitales Objekt <strong>%{digital_object.title}</strong> unterdrückt
+        suppressed: Digitales Objekt <strong>%{digital_object_title}</strong> unterdrückt
         suppressed_info: Digitales Objekt ist unterdrückt und kann nicht bearbeitet
           werden
         delete_conflict: 'Digitales Objekt konnte nicht gelöscht werden: <pre>%{error}</pre>'
@@ -1167,20 +1166,20 @@ de:
   digital_object_component:
     _frontend:
       messages:
-        created_with_parent: Komponente des digitalen Objekts <strong>%{digital_object_component.display_string}</strong>
+        created_with_parent: Komponente des digitalen Objekts <strong>%{digital_object_component_display_string}</strong>
           wurde als Kind von <strong>%{parent.display_string}</strong> auf digitalem
-          Objekt <strong>%{digital_object.title}</strong> erstellt
-        updated_with_parent: Komponente des digitalen Objekts <strong>%{digital_object_component.display_string}</strong>
+          Objekt <strong>%{digital_object_title}</strong> erstellt
+        updated_with_parent: Komponente des digitalen Objekts <strong>%{digital_object_component_display_string}</strong>
           aktualisiert
-        updated: Komponente des digitalen Objekts <strong>%{digital_object_component.display_string}</strong>
+        updated: Komponente des digitalen Objekts <strong>%{digital_object_component_display_string}</strong>
           aktualisiert
-        deleted: Komponente des digitalen Objekts <strong>%{digital_object_component.display_string}</strong>
+        deleted: Komponente des digitalen Objekts <strong>%{digital_object_component_display_string}</strong>
           gelöscht
-        suppressed: Komponente des digitalen Objekts <strong>%{digital_object_component.display_string}</strong>
+        suppressed: Komponente des digitalen Objekts <strong>%{digital_object_component_display_string}</strong>
           unterdrückt
-        created: Komponente des digitalen Objekts <strong>%{digital_object_component.display_string}</strong>
-          wurde auf digitalem Objekt <strong>%{digital_object.title}</strong> erstellt
-        unsuppressed: Unterdrückung der Komponente des digitalen Objekts <strong>%{digital_object_component.display_string}</strong>
+        created: Komponente des digitalen Objekts <strong>%{digital_object_component_display_string}</strong>
+          wurde auf digitalem Objekt <strong>%{digital_object_title}</strong> erstellt
+        unsuppressed: Unterdrückung der Komponente des digitalen Objekts <strong>%{digital_object_component_display_string}</strong>
           aufgehoben
         suppressed_info: Komponente des digitalen Objekts ist unterdrückt und kann
           nicht bearbeitet werden
@@ -1391,7 +1390,7 @@ de:
         updated: Aufbewahrungsort gespeichert
         deleted: Aufbewahrungsort gelöscht
         selected_short: Ausgewählt
-        changed: Der Aufbewahrungsort <strong>%{repository.repo_code}</strong> ist
+        changed: Der Aufbewahrungsort <strong>%{repository_repo_code}</strong> ist
           jetzt aktiviert
         create_first_repository: Um Ihren ersten Aufbewahrungsort zu erstellen, klicken
           Sie auf das <strong>System</strong>-Menü oben und wählen dann <strong>Aufbewahrungsorte
@@ -1423,25 +1422,25 @@ de:
   resource:
     _frontend:
       messages:
-        updated: Ressource <strong>%{resource.title}</strong> aktualisiert
-        deleted: Ressource <strong>%{resource.title}</strong> gelöscht
+        updated: Ressource <strong>%{resource_title}</strong> aktualisiert
+        deleted: Ressource <strong>%{resource_title}</strong> gelöscht
         merge_description: Wählen Sie Ressourcen unten zum Zusammenführen
         please_select_a_resource_to_merge: Bitte wählen Sie eine Ressource
         merged: Ressourcen zusammengeführt
         transfer_description: Übertragen dieser Ressourcen nach...
-        unpublished: Die Veröffentlichung der Ressource <strong>%{resource.title}</strong>,
+        unpublished: Die Veröffentlichung der Ressource <strong>%{resource_title}</strong>,
           ihre Kinder, Teilaufzeichnungen und Komponenten wurde aufgehoben
-        created: Ressource <strong>%{resource.title}</strong> erstellt
+        created: Ressource <strong>%{resource_title}</strong> erstellt
         transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
         suppressed_info: Ressource ist unterdrückt und kann nicht bearbeitet werden
-        spawned: Eine neue Ressource wurde vom Eingang <strong>%{accession.display_string}</strong>
+        spawned: Eine neue Ressource wurde vom Eingang <strong>%{accession_display_string}</strong>
           abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
           auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
-        published: Die Ressource <strong>%{resource.title}</strong>, ihre Teilaufzeichnungen
+        published: Die Ressource <strong>%{resource_title}</strong>, ihre Teilaufzeichnungen
           und Komponenten wurden veröffentlicht
-        unsuppressed: Unterdrückung der Ressource <strong>%{resource.title}</strong>
+        unsuppressed: Unterdrückung der Ressource <strong>%{resource_title}</strong>
           wurde aufgehoben
-        suppressed: Ressource <strong>%{resource.title}</strong> unterdrückt
+        suppressed: Ressource <strong>%{resource_title}</strong> unterdrückt
         delete_conflict: 'Ressource konnte nicht gelöscht werden: <pre>%{error}</pre>'
       section:
         finding_aid: Findmittel-Daten
