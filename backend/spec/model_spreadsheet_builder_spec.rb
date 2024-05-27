@@ -5,7 +5,7 @@ describe 'Spreadsheet Builder model' do
   let(:notes) { [build(:json_note_singlepart), build(:json_note_multipart)] }
   let(:extents) { [build(:json_extent, {:portion => generate(:portion)})] }
   let(:accession) { create(:json_accession) }
-  let(:lang_materials) { [build(:json_lang_material_with_note)] }
+  let(:lang_materials) { [build(:json_lang_material)] }
   let(:resource) { create(:json_resource,
                           :extents => extents,
                           :dates => dates,
