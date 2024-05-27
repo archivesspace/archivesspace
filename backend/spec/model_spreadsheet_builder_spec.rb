@@ -5,7 +5,7 @@ describe 'Spreadsheet Builder model' do
   let(:notes) { [build(:json_note_singlepart), build(:json_note_multipart)] }
   let(:extents) { [build(:json_extent, {:portion => generate(:portion)})] }
   let(:accession) { create(:json_accession) }
-  let(:lang_materials) { [build(:json_lang_material)] }
+  let(:lang_materials) { [build(:json_lang_material_with_note)] }
   let(:resource) { create(:json_resource,
                           :extents => extents,
                           :dates => dates,
@@ -19,8 +19,6 @@ describe 'Spreadsheet Builder model' do
   let(:selected_columns) { ["level", "component_id", "ref_id", "repository_processing_note", "publish", "date", "extent", "instance", "digital_object", "related_accession", "langmaterial", "note_abstract", "note_accruals", "note_bioghist", "note_accessrestrict", "note_dimensions", "note_altformavail", "note_odd", "note_phystech", "note_physdesc", "note_processinfo", "note_relatedmaterial", "note_scopecontent", "note_separatedmaterial"] }
 
   let(:spreadsheet) { SpreadsheetBuilder.new(resource.uri, [ao.uri], min_subrecords, extra_subrecords, min_notes, selected_columns) }
-
-
   let(:all_cols) { spreadsheet.all_columns }
 
   it "creates file name" do
@@ -57,7 +55,7 @@ describe 'Spreadsheet Builder model' do
       end
     end
     SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:extent).each do |e|
-      (0..min_subrecords+extra_subrecords-2).each do |i|
+      (1..spreadsheet.instance_variable_get(:@subrecord_counts)[:extent]).each do |i|
         header_labels << ["Extent #{i} - #{e.instance_variable_get(:@i18n)}"]
       end
     end
@@ -90,7 +88,7 @@ describe 'Spreadsheet Builder model' do
       end
     end
     SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:extent).each do |d|
-      (0..min_subrecords+extra_subrecords-2).each do |i|
+      (0..spreadsheet.instance_variable_get(:@subrecord_counts)[:extent]-1).each do |i|
         header_labels << ["extents/#{i}/#{d.column.to_s.sub('_id', '')}"]
       end
     end
@@ -115,8 +113,51 @@ describe 'Spreadsheet Builder model' do
     end
   end
 
+  it "determines the columns correctly" do
+    json_models = all_cols.map { |e| e.jsonmodel }
+    jm = json_models.group_by(&:itself).transform_values(&:count)
+    fields = {}
+    SpreadsheetBuilder::FIELDS_OF_INTEREST.keys.each do |k|
+      if ['date', 'digital_object', 'instance'].include?(k.to_s)
+        multiplier = min_subrecords
+      elsif k.to_s == 'extent'
+        multiplier = spreadsheet.instance_variable_get(:@subrecord_counts)[:extent]
+      else
+        multiplier = 1
+      end
+      ct = SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(k).count
+      fields[k] = ct * multiplier
+    end
+    expect(jm).to include(fields)
+  end
+
   it "computes the column reference correctly" do
     expect(spreadsheet.index_to_col_reference(13)).to eq('N')
     expect(spreadsheet.index_to_col_reference(43)).to eq('AR')
+  end
+
+  it "determines correct column for a path" do
+    expect(SpreadsheetBuilder.column_for_path('note/accessrestrict/0/begin').jsonmodel).to eq(:accessrestrict)
+    expect(SpreadsheetBuilder.column_for_path('dates/0/begin').jsonmodel).to eq(:date)
+    expect(SpreadsheetBuilder.column_for_path('component_id').jsonmodel).to eq(:archival_object)
+    expect(SpreadsheetBuilder.column_for_path('note/accessrestrict/0/begin').index).to eq(0)
+    expect(SpreadsheetBuilder.column_for_path('dates/0/begin').index).to eq(0)
+    expect(SpreadsheetBuilder.column_for_path('note/accessrestrict/0/begin').column).to eq(:begin)
+    expect(SpreadsheetBuilder.column_for_path('dates/0/begin').column).to eq(:begin)
+    expect(SpreadsheetBuilder.column_for_path('component_id').column).to eq(:component_id)
+  end
+
+  it "can tell if related_accessions_enabled?" do
+    if selected_columns.include?('related_accession')
+      expect(SpreadsheetBuilder.related_accessions_enabled?).to be true
+    else
+      expect(SpreadsheetBuilder.related_accessions_enabled?).to be false
+    end
+  end
+
+  it "can determine note type" do
+    expect(SpreadsheetBuilder.note_jsonmodel_for_type('scopecontent')).to eq('note_multipart')
+    expect(SpreadsheetBuilder.note_jsonmodel_for_type('abstract')).to eq('note_singlepart')
+    expect {SpreadsheetBuilder.note_jsonmodel_for_type('fakenote')}.to raise_error(RuntimeError, /Note type not supported: fakenote/)
   end
 end
