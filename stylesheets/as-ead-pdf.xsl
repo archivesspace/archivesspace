@@ -657,10 +657,10 @@
                         <xsl:apply-templates select="ead:unitdate" mode="overview"/>
                         <xsl:apply-templates select="ead:physdesc" mode="overview"/>
                         <xsl:apply-templates select="ead:physloc" mode="overview"/>
-                        <xsl:apply-templates select="ead:dao" mode="overview"/>
-                        <xsl:apply-templates select="ead:daogrp" mode="overview"/>
                         <xsl:apply-templates select="ead:langmaterial" mode="overview"/>
                         <xsl:apply-templates select="ead:materialspec" mode="overview"/>
+                        <xsl:apply-templates select="../ead:dao" mode="overview"/>
+                        <xsl:apply-templates select="../ead:daogrp" mode="overview"/>
                         <xsl:apply-templates select="ead:container" mode="overview"/>
                         <xsl:apply-templates select="ead:abstract" mode="overview"/>
                         <xsl:apply-templates select="ead:note" mode="overview"/>
@@ -685,7 +685,7 @@
 
     <!-- Formats children of arcdesc/did -->
     <xsl:template match="ead:repository | ead:origination | ead:unittitle | ead:unitdate | ead:unitid
-        | ead:physdesc | ead:physloc | ead:dao | ead:daogrp | ead:langmaterial | ead:materialspec | ead:container
+        | ead:physdesc | ead:physloc | ead:langmaterial | ead:materialspec | ead:dao | ead:daogrp | ead:container
         | ead:abstract | ead:note" mode="overview">
         <fo:table-row>
             <fo:table-cell padding-bottom="8pt" padding-right="16pt" text-align="right" font-weight="bold">
@@ -1176,7 +1176,7 @@
             </xsl:choose>
         </fo:basic-link>
     </xsl:template>
-    <xsl:template match="ead:dao">
+    <xsl:template match="ead:dao" mode="overview">
         <xsl:variable name="linkTitle">
             <xsl:choose>
                 <xsl:when test="child::*">
@@ -1190,16 +1190,27 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <fo:basic-link external-destination="url('{@*:href}')" xsl:use-attribute-sets="ref">
-            <xsl:value-of select="$linkTitle"/>
-        </fo:basic-link>
+        <fo:table-row>
+            <fo:table-cell padding-bottom="8pt" padding-right="16pt" text-align="right" font-weight="bold">
+                <fo:block>
+                    <xsl:value-of select="local:tagName(.)"/>:
+                </fo:block>
+            </fo:table-cell>
+            <fo:table-cell>
+                <fo:block>
+                    <fo:basic-link external-destination="url('{@*:href}')" xsl:use-attribute-sets="ref">
+                        <xsl:value-of select="$linkTitle"/>
+                    </fo:basic-link>
+                </fo:block>
+            </fo:table-cell>
+        </fo:table-row>
     </xsl:template>
-    <xsl:template match="ead:daogrp">
+    <xsl:template match="ead:daogrp" mode="overview">
         <fo:block>
             <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
-    <xsl:template match="ead:daoloc">
+    <xsl:template match="ead:daoloc" mode="overview">
         <fo:basic-link external-destination="url('{@*:href}')" xsl:use-attribute-sets="ref">
             <xsl:choose>
                 <xsl:when test="text()">
