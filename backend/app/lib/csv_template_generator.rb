@@ -156,6 +156,17 @@ module CsvTemplateGenerator
         end
       end
     end
+
+    def each_hash_row(data)
+      enum = Enumerator.new do |y|
+        @headers.each do |hdr_line|
+          y.yield CSV.generate_line(hdr_line, **@csv_options)
+        end
+        data.each do |row|
+          y.yield CSV.generate_line([''] + @fields.map do |field| formatted_value(field, row[field]) end, **@csv_options)
+        end
+      end
+    end
   end
 
 
@@ -172,7 +183,7 @@ module CsvTemplateGenerator
     #   2. fetch a a dataset
     #   3. return an enumerator over CSV lines for streaming to frontend/direct download
     def csv_for_top_container_generation(resource_id)
-      tmpl = Template.new(
+      template = Template.new(
         TemplateSpec.new(
           sheet_description: "Archival Object Top Container Generation Template",
           field_name_text: "ArchivesSpace field code (please don't edit this row)",
@@ -217,7 +228,65 @@ module CsvTemplateGenerator
           ).
           order(q(:archival_object, :id))
       end
-      tmpl.each(dataset)
+
+      template.each(dataset)
+    end
+
+    # Module-level methods here are primarily what's called by consumers
+    # at the controller level.  Generally they will consist of
+    #   1. instantiate a template definition
+    #   2. fetch a a dataset
+    #   3. return an enumerator over CSV lines for streaming to frontend/direct download
+    def csv_for_digital_object_generation(resource_id)
+      template_filename = 'bulk_import_DO_template.csv'
+      templates_directory = File.join(ASUtils.find_base_directory, 'templates')
+      csv_template_path = File.join(templates_directory, template_filename)
+
+      csv = CSV.read(csv_template_path)
+
+      # Remove first entry because it's automatically prepended with `field_name_text` option in TemplateSpec below.
+      column_field_names = csv[0].drop(1) # CSV headers
+      column_explanations = csv[1].drop(1) # CSV header explanations
+
+      columns = {}
+      for x in 0..(column_field_names.length - 1)
+        columns[column_field_names[x].to_sym] = {
+          title: column_explanations[x]
+        }
+      end
+
+      template = Template.new(
+        TemplateSpec.new(
+          sheet_description: "Archival Object Digital Object Generation Template Prefilled",
+          field_name_text: "ArchivesSpace digital object import field codes (please don't edit this row)",
+          title_text: "Field Name",
+          columns: columns
+        )
+      )
+
+      resource = ::Resource.find(id: resource_id)
+
+      dataset = DB.open do |ds|
+        ds[:resource].
+          inner_join(:archival_object, :root_record_id => :id).
+          where(q(:resource, :id) => resource_id).
+          select(
+            q(:archival_object, :id).as(:archival_object_id)
+          ).
+          order(q(:archival_object, :id))
+      end
+
+      data_hash = []
+      dataset.paged_each do |row|
+        archival_object = ::ArchivalObject.find(id: row[:archival_object_id])
+
+        data_hash.push({
+          res_uri: resource.uri,
+          ao_uri: archival_object.uri,
+        })
+      end
+
+      template.each_hash_row(data_hash)
     end
   end
 end

@@ -2,6 +2,7 @@
 
 require 'spec_helper'
 require 'rails_helper'
+require 'csv'
 
 describe 'Resources', js: true do
   before(:all) do
@@ -378,6 +379,42 @@ describe 'Resources', js: true do
     expect(files.length).to eq 1
     file = File.read(files[0])
     expect(file).to include(resource.title)
+  end
+
+  it 'exports a prefilled CSV template to import digital objects to archival objects' do
+    now = Time.now.to_i
+    resource = create(:resource, title: "Resource Title #{now}")
+    archival_objects = create_list(:archival_object, 10, title: "Archival Object Title #{now}", :resource => { ref: resource.uri })
+    run_index_round
+
+    visit "resources/#{resource.id}"
+
+    files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+    files.each do |file|
+      File.delete file
+    end
+
+    click_on 'Export'
+    click_on 'Download Digital Object Template'
+
+    files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+    expect(files.length).to eq 1
+    file = File.read(files[0])
+    csv_generated = CSV.parse(file)
+
+    # Load original CSV template
+    csv_template_path = File.join(ASUtils.find_base_directory, 'templates', 'bulk_import_DO_template.csv')
+    csv_template = CSV.read(csv_template_path)
+    csv_template_columns = csv_template[0]
+    csv_template_column_explanations = csv_template[1]
+
+    expect(csv_template_columns).to eq csv_generated[1]
+    expect(csv_template_column_explanations).to eq csv_generated[2]
+
+    for x in 0..(archival_objects.length - 1)
+      expect(csv_generated[x + 3]).to include resource.uri
+      expect(csv_generated[x + 3]).to include archival_objects[x].uri
+    end
   end
 
   xit 'can apply and remove filters when browsing for linked agents in the linker modal' do

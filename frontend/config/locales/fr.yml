@@ -186,6 +186,7 @@ fr:
       liés à d'autres enregistrements de niveau supérieur dans ce référentiel et ne
       peuvent pas être transférés tant que ces liens ne sont pas rompus
     container_template: Télécharger le modèle de conteneur
+    digital_object_template: Télécharger le modèle d'objet numérique
     run: Fuite
     check_all: Vérifie tout
     uncheck_all: Tout décocher

@@ -199,6 +199,31 @@ describe 'Exports controller' do
     check_metadata("digital_objects/dublin_core/#{dig}.xml")
   end
 
+  it 'lets you download a prefilled digital object import CSV' do
+    resource = create(:json_resource)
+    archival_objects = create_list(:json_archival_object, 5, :resource => { :ref => resource.uri })
+
+    get "/repositories/#{$repo_id}/resources/#{resource.id}/templates/digital_object_creation.csv"
+
+    expect(last_response.header['Content-Type']).to include 'text/csv'
+
+    csv_output = CSV.parse(last_response.body)
+
+    # Load Digital Object CSV template file to get columns
+    csv_template_path = File.join(ASUtils.find_base_directory, 'templates', 'bulk_import_DO_template.csv')
+    csv_data = CSV.read(csv_template_path)
+    expect(csv_data.count).to eq 2
+    columns = csv_data[0] # CSV headers
+    column_explanations = csv_data[1] # CSV header explanations
+
+    expect(csv_output[1]).to eq columns
+    expect(csv_output[2]).to eq column_explanations
+
+    for x in 0..(archival_objects.length - 1)
+      expect(csv_output[x + 3]).to include resource.uri
+      expect(csv_output[x + 3]).to include archival_objects[x].uri
+    end
+  end
 
   def check_metadata(export_uri)
     get "/repositories/#{$repo_id}/#{export_uri}/metadata"
