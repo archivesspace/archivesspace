@@ -167,15 +167,17 @@
                     <% end %>
 
                     <% if Plugins.repository_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
-                      <li class="dropdown-submenu dropdown-item">
-                        <a href="javascript:void(0);"><%= t("navbar.plugins") %></a>
-                        <ul class="dropdown-menu">
-                          <% Plugins.repository_menu_items.each do |plugin| %>
-                            <% if has_permission_for_controller?(session, plugin) %>
-                              <li><%= link_to t("plugins.#{plugin}.label"), {:controller => plugin.intern, :action => :index}, :class => "dropdown-item" %></li>
+                      <li>
+                        <div class="btn-group dropdown-item dropdown-submenu dropleft px-0">
+                          <button type="button" class="btn dropdown-toggle py-0 border-0 rounded-0 text-left" data-toggle="dropdown"><%= t("navbar.plugins") %></button>
+                          <ul class="dropdown-menu">
+                            <% Plugins.repository_menu_items.each do |plugin| %>
+                              <% if has_permission_for_controller?(session, plugin) %>
+                                <li><%= link_to t("plugins.#{plugin}.label"), {:controller => plugin.intern, :action => :index}, :class => "dropdown-item px-4 py-1" %></li>
+                              <% end %>
                             <% end %>
-                          <% end %>
-                        </ul>
+                          </ul>
+                        </div>
                       </li>
                     <% end %>
                   </ul>

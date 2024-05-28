@@ -12,6 +12,12 @@
   margin-left: 0;
   border-radius: 4px;
 }
+.dropdown-submenu.dropleft > .dropdown-menu {
+  right: 100%;
+  left: auto;
+  margin-top: -9px; // Align hovered first child dropdown-item with parent dropdown-item
+  margin-right: 0;
+}
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
