@@ -7,10 +7,10 @@
 
 <section id="<%= section_title + rand(1000000).to_s %>">
   <h4><%= t("agent_parallel_name._plural") %></h4>
-  <div class="panel-group details" id="agent_parallel_name_accordion_<%= parent_index %>">
+  <div class="details my-3" id="agent_parallel_name_accordion_<%= parent_index %>">
     <% names.each_with_index do | name, index | %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card mb-3">
+        <div class="card-header panel-heading">
           <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#agent_parallel_name_accordion_<%= parent_index %>" href="#agent_parallel_name_<%= parent_index %>_<%= index %>">
             <div class="col-md-1">
               <span class="glyphicon"></span>

@@ -4,10 +4,10 @@
 
 <section id="<%= section_id %>">
   <h3><%= t("revision_statement._plural") %></h3>
-  <div class="panel-group details" id="<%= section_id %>_accordion">
+  <div class="details my-3" id="<%= section_id %>_accordion">
     <% revision_statements.each_with_index do | rs, index | %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card mb-3">
+        <div class="card-header panel-heading">
           <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_revision_statement_<%= index %>">
             <div class="col-md-1">
               <span class="glyphicon"></span>

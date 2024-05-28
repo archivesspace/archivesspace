@@ -1,14 +1,14 @@
 <%= setup_context :object => @agent, :controller => :agents,  :agent_type => @agent.agent_type, :title => "#{t("actions.merge")} #{t("agent.agent_type.#{@agent.agent_type}")}" %>
 
-<div class="form-actions row mb-3">
-  <div class='col d-flex'>
-    <button type="button" class="btn preview-merge btn bg-white border mr-2"><%= t("agent._frontend.action.preview") %></button>
+<div class="form-actions d-flex mb-3">
+  <div class='col d-flex gap-x-2'>
+    <button type="button" class="btn btn-default preview-merge"><%= t("agent._frontend.action.preview") %></button>
     <button type="button" class="btn btn-primary do-merge"><%= t("actions.merge") %></button>
-    <%= link_to t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default ml-auto bg-white border" %>
+    <%= link_to t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default ml-auto" %>
   </div>
 </div>
-<div id="merge-selector-root" class="row">
-  <div class="col-md-6">
+<div id="merge-selector-root" class="d-flex">
+  <div id="merge-target" class="col-md-6">
     <h2><%= t("agent._frontend.section.target_record") %></h2>
     <div class="record-pane">
       <%= form_for @agent, :as => "agent", :url => {:action => :merge_detail}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"} do |f| %>
@@ -224,8 +224,7 @@
       <% end %>
     </div>
   </div>
-  <%# VICTIM SIDE %>
-  <div class="col-md-6">
+  <div id="merge-victim" class="col-md-6">
     <h2>
       <%= t("agent._frontend.section.victim_record") %>
       <span class='ml-auto'>
@@ -448,8 +447,8 @@
     </div>
   </div>
 </div>
-<div class="form-actions row p-3">
-  <button type="button" class="btn preview-merge"><%= t("agent._frontend.action.preview") %></button>
+<div class="form-actions d-flex gap-x-2 p-3">
+  <button type="button" class="btn btn-default preview-merge"><%= t("agent._frontend.action.preview") %></button>
   <button type="button" class="btn btn-primary do-merge"><%= t("actions.merge") %></button>
-  <%= link_to t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default ml-auto ml-auto border bg-white" %>
+  <%= link_to t("actions.cancel"), {:controller => :agents, :action => :show, :id => @agent.id}, :class => "btn btn-cancel btn-default ml-auto" %>
 </div>

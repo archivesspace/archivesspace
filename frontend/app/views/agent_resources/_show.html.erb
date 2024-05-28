@@ -6,10 +6,10 @@
 
 <section id="<%= section_id %>">
   <h3><%= section_title %></h3>
-  <div class="panel-group details" id="<%= section_id %>_accordion">
+  <div class="details my-3" id="<%= section_id %>_accordion">
     <% agent_resources.each_with_index do | agent_resource, index | %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card mb-3">
+        <div class="card-header panel-heading">
           <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_agent_resource_<%= index %>">
             <div class="col-md-1">
               <span class="glyphicon"></span>
