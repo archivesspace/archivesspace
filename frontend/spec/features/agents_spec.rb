@@ -53,7 +53,7 @@ describe 'System Information', js: true do
 
       within '#mergePreviewModal' do
         within '#agent_corporate_entity_agent_record_identifier_accordion' do
-          elements = all('.panel.panel-default')
+          elements = all('.card')
           elements.last.click
           expect(elements.last).to have_text agent_b['agent_record_identifiers'][0]['record_identifier']
         end
@@ -101,7 +101,7 @@ describe 'System Information', js: true do
 
       within '#mergePreviewModal' do
         within '#agent_corporate_entity_agent_record_identifier_accordion' do
-          elements = all('.panel.panel-default')
+          elements = all('.card')
           elements.last.click
           expect(elements.last).to have_text agent_b['agent_record_identifiers'][0]['record_identifier']
         end
@@ -149,7 +149,7 @@ describe 'System Information', js: true do
 
       within '#mergePreviewModal' do
         within '#agent_corporate_entity_agent_place' do
-          elements = all('.panel.panel-default')
+          elements = all('.card')
           elements.last.click
           expect(elements.last).to have_text I18n.t("enumerations.place_role.#{agent_b['agent_places'][0]['place_role']}")
         end
@@ -197,7 +197,7 @@ describe 'System Information', js: true do
 
       within '#mergePreviewModal' do
         within '#agent_name_accordion' do
-          elements = all('.panel.panel-default')
+          elements = all('.card')
           elements.last.click
           expect(elements.last).to have_text agent_b['agent_places'][0]['primary_name']
         end

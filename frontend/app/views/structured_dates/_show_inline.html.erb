@@ -7,10 +7,10 @@
 
 <section id="<%= section_id %>">
   <<%= heading_size %>><%= section_title %></<%= heading_size %>>
-  <div class="panel-group details" id="<%= section_id %>_accordion">
+  <div class="details my-3" id="<%= section_id %>_accordion">
     <% dates.each_with_index do | date, index | %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
+      <div class="card mb-3">
+        <div class="card-header panel-heading">
           <div class="row">
             <div class="col-md-1">
               &nbsp;
