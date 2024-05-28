@@ -39,6 +39,7 @@ ja:
     transfer_record: 転送
     more: もっと
     link_to: リンク先
+    link_to_record: レコードへのリンク
     add_prefix: 追加
     merge_replace: 置換
     merge_add: 追加
@@ -118,7 +119,7 @@ ja:
     finish_editing: レコードを閉じる
     merge: 行きます
     form_changes_message: "<small><span class='muted'>保存していない変更があります</span></small>"
-    toolbar_disabled_message: "<small><span class='muted'>変更を保存していない - 保存または元に戻してツールバーとレコードツリーにアクセスする</span></small>"
+    toolbar_disabled_message: 未保存の変更があります - ツールバーとレコード ツリーにアクセスするには、保存するか元に戻してください
     publish: すべてを公開
     publish_confirm_title: 公開しますか？
     publish_confirm_message: "<p>このアクションを実行すると、このレコード、サブレコード（外部文書、注釈など）および階層内のすべてのコンポーネントが公開されます。\
@@ -702,15 +703,15 @@ ja:
   accession:
     _frontend:
       messages:
-        created: アクセッション<strong>%{accession.display_string}</strong>作成されました
-        unsuppressed: アクセシビリティ<strong>%{accession.display_string}</strong>抑制されていません
-        updated: アクセス権<strong>%{accession.display_string}</strong>更新されました
-        suppressed: アクセシビリティ<strong>%{accession.display_string}</strong>抑制されました
+        created: アクセッション<strong>%{accession_display_string}</strong>作成されました
+        unsuppressed: アクセシビリティ<strong>%{accession_display_string}</strong>抑制されていません
+        updated: アクセス権<strong>%{accession_display_string}</strong>更新されました
+        suppressed: アクセシビリティ<strong>%{accession_display_string}</strong>抑制されました
         suppressed_info: アクセッションは抑制され、編集できません
-        deleted: アクセッション<strong>%{accession.display_string}</strong>削除されました
+        deleted: アクセッション<strong>%{accession_display_string}</strong>削除されました
         transfer_description: このアクセス権を以下に転送します...
         transfer_target: 移行するリポジトリを選択する
-        spawned: このアクセッションはAccession <strong>%{accession.display_string}</strong>から生成されました<strong>%{accession.display_string}</strong>
+        spawned: このアクセッションはAccession <strong>%{accession_display_string}</strong>から生成されました<strong>%{accession_display_string}</strong>
         delete_conflict: アクセッションを削除できませんでした： <pre> %{error} </pre>
       section:
         basic_information: 基本情報
@@ -724,7 +725,7 @@ ja:
         created: 作成されたエージェント
         updated: エージェントが保存されました
         deleted: エージェントが削除されました
-        published: 「エージェント<strong>％{agent.title}</strong>、そのサブレコードとコンポーネントが公開されました」
+        published: 「エージェント<strong>％{agent_title}</strong>、そのサブレコードとコンポーネントが公開されました」
         delete_conflict: エージェントを削除できませんでした： <pre> %{error} </pre>
         merge_description: マージするエージェントを選択する
         merged: エージェントが結合されました
@@ -787,16 +788,16 @@ ja:
     external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
-        created: リソース<strong>%{resource.title}</strong>アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>が作成されました
+        created: リソース<strong>%{resource_title}</strong>アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>が作成されました
         duplicated: アーカイブ オブジェクトが <strong>%{archival_object_display_string}</strong> から複製されました
-        created_with_parent: リソース<strong>%{resource.title}</strong>上の<strong>%{parent.display_string}</strong>子として作成されたアーカイブオブジェクト<strong>%{archival_object.display_string}</strong>
-          <strong>%{resource.title}</strong>
-        updated: アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>更新されました
-        updated_with_parent: アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>更新されました
+        created_with_parent: リソース<strong>%{resource_title}</strong>上の<strong>%{parent.display_string}</strong>子として作成されたアーカイブオブジェクト<strong>%{archival_object_display_string}</strong>
+          <strong>%{resource_title}</strong>
+        updated: アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>更新されました
+        updated_with_parent: アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>更新されました
         please_select_a_resource_for_transfer: リソースを選択してください
-        transfer_success: アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>をリソース<strong>%{resource.title}</strong>転送しました<strong>%{resource.title}</strong>
+        transfer_success: アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>をリソース<strong>%{resource_title}</strong>転送しました<strong>%{resource_title}</strong>
         transfer_error: エラーまたは競合のためアーカイブオブジェクトを転送できません： <pre> %{exception} </pre>
-        deleted: アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>削除されました
+        deleted: アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>削除されました
         published: アーカイブオブジェクト<strong>%{archival_object.title}</strong> 、そのサブレコードとコンポーネントが公開されました
         unpublished: アーカイブオブジェクト<strong>%{archival_object.title}</strong> 、そのサブレコードとコンポーネントが非公開されました
         unsuppressed: アーカイブオブジェクト<strong>%{archival_object.title}</strong>抑制されていません
@@ -819,9 +820,9 @@ ja:
   classification:
     _frontend:
       messages:
-        created: 分類<strong>%{classification.title}</strong>作成されました
-        updated: 分類<strong>%{classification.title}</strong>更新されました
-        deleted: 分類<strong>%{classification.title}</strong>削除されました
+        created: 分類<strong>%{classification_title}</strong>作成されました
+        updated: 分類<strong>%{classification_title}</strong>更新されました
+        deleted: 分類<strong>%{classification_title}</strong>削除されました
       section:
         basic_information: 基本情報
         search_embedded: リンクされたレコード
@@ -886,17 +887,17 @@ ja:
   digital_object:
     _frontend:
       messages:
-        created: デジタルオブジェクト<strong>%{digital_object.title}</strong>作成
-        updated: デジタルオブジェクト<strong>%{digital_object.title}</strong>更新
-        deleted: デジタルオブジェクト<strong>%{digital_object.title}</strong>削除されました
-        published: デジタルオブジェクト<strong>%{digital_object.title}</strong> 、そのサブレコードとコンポーネントが公開されました
+        created: デジタルオブジェクト<strong>%{digital_object_title}</strong>作成
+        updated: デジタルオブジェクト<strong>%{digital_object_title}</strong>更新
+        deleted: デジタルオブジェクト<strong>%{digital_object_title}</strong>削除されました
+        published: デジタルオブジェクト<strong>%{digital_object_title}</strong> 、そのサブレコードとコンポーネントが公開されました
         merge_description: 以下のデジタルオブジェクトを選択してマージする
         please_select_a_digital_object_to_merge: デジタルオブジェクトを選択してください
         merged: デジタルオブジェクトが結合されました
         transfer_description: このリソースを転送する...
         transfer_target: 移行するリポジトリを選択する
-        unsuppressed: デジタルオブジェクト<strong>%{digital_object.title}</strong>抑制されていません
-        suppressed: デジタルオブジェクト<strong>%{digital_object.title}</strong>され<strong>%{digital_object.title}</strong>
+        unsuppressed: デジタルオブジェクト<strong>%{digital_object_title}</strong>抑制されていません
+        suppressed: デジタルオブジェクト<strong>%{digital_object_title}</strong>され<strong>%{digital_object_title}</strong>
         suppressed_info: デジタルオブジェクトが抑制され、編集できない
         delete_conflict: デジタルオブジェクトを削除できませんでした： <pre> %{error} </pre>
       section:
@@ -909,14 +910,14 @@ ja:
   digital_object_component:
     _frontend:
       messages:
-        created_with_parent: デジタルオブジェクト<strong>%{digital_object_component.display_string}</strong>の<strong>%{parent.display_string}</strong>子として作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object.title}</strong>
-        created: デジタルオブジェクト<strong>%{digital_object_component.display_string}</strong>作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>
-          <strong>%{digital_object.title}</strong>
-        updated_with_parent: デジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>更新されました
-        updated: デジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>更新されました
-        deleted: デジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>削除されました
-        unsuppressed: デジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>抑制されていません
-        suppressed: デジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>抑制されました
+        created_with_parent: デジタルオブジェクト<strong>%{digital_object_component_display_string}</strong>の<strong>%{parent.display_string}</strong>子として作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object_title}</strong>
+        created: デジタルオブジェクト<strong>%{digital_object_component_display_string}</strong>作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object_component_display_string}</strong>
+          <strong>%{digital_object_title}</strong>
+        updated_with_parent: デジタルオブジェクトコンポーネント<strong>%{digital_object_component_display_string}</strong>更新されました
+        updated: デジタルオブジェクトコンポーネント<strong>%{digital_object_component_display_string}</strong>更新されました
+        deleted: デジタルオブジェクトコンポーネント<strong>%{digital_object_component_display_string}</strong>削除されました
+        unsuppressed: デジタルオブジェクトコンポーネント<strong>%{digital_object_component_display_string}</strong>抑制されていません
+        suppressed: デジタルオブジェクトコンポーネント<strong>%{digital_object_component_display_string}</strong>抑制されました
         suppressed_info: デジタルオブジェクトコンポーネントは非表示で編集できません
         has_unpublished_ancestor: このレコードには未発表の祖先があることにご注意ください。
       section:
@@ -1134,7 +1135,7 @@ ja:
         deleted: リポジトリが削除されました
         selected: リポジトリは現在選択されています
         selected_short: 選択された
-        changed: リポジトリ<strong>%{repository.repo_code}</strong>がアクティブになりました
+        changed: リポジトリ<strong>%{repository_repo_code}</strong>がアクティブになりました
         create_first_repository: 最初のリポジトリを作成するには、上記の「 <strong>システム」</strong>メニューをクリックしてから、「リポジトリの管理」をクリック<strong>します</strong>
           。
         no_access_to_repositories: "<p>リポジトリにアクセスすることはできません。 </p><p>システム管理者に連絡してアクセスをリクエストしてください。\
@@ -1161,19 +1162,19 @@ ja:
   resource:
     _frontend:
       messages:
-        created: リソース<strong>%{resource.title}</strong>作成されました
-        updated: リソース<strong>%{resource.title}</strong>更新されました
-        spawned: アクセシビリティ<strong>%{accession.display_string}</strong>から新しいリソースが生成されました<strong>%{accession.display_string}</strong>
-        deleted: リソース<strong>%{resource.title}</strong>削除されました
-        published: リソース<strong>%{resource.title}</strong> 、そのサブレコードとコンポーネントが公開されました
-        unpublished: リソース<strong>%{resource.title}</strong> 、そのサブレコードとコンポーネントが非公開されました
+        created: リソース<strong>%{resource_title}</strong>作成されました
+        updated: リソース<strong>%{resource_title}</strong>更新されました
+        spawned: アクセシビリティ<strong>%{accession_display_string}</strong>から新しいリソースが生成されました<strong>%{accession_display_string}</strong>
+        deleted: リソース<strong>%{resource_title}</strong>削除されました
+        published: リソース<strong>%{resource_title}</strong> 、そのサブレコードとコンポーネントが公開されました
+        unpublished: リソース<strong>%{resource_title}</strong> 、そのサブレコードとコンポーネントが非公開されました
         merge_description: 以下のリソースを選択してマージする
         please_select_a_resource_to_merge: リソースを選択してください
         merged: 結合されたリソース
         transfer_description: このリソースを転送する...
         transfer_target: 移行するリポジトリを選択する
-        unsuppressed: リソース<strong>%{resource.title}</strong>抑制されていません
-        suppressed: リソース<strong>%{resource.title}</strong>されません
+        unsuppressed: リソース<strong>%{resource_title}</strong>抑制されていません
+        suppressed: リソース<strong>%{resource_title}</strong>されません
         suppressed_info: リソースは抑制され、編集できません
         delete_conflict: リソースを削除できませんでした： <pre> %{error} </pre>
       section:

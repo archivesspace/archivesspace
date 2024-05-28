@@ -37,6 +37,7 @@ fr:
     transfer_record: Transférer
     more: Plus
     link_to: Lier à
+    link_to_record: Lien vers l'enregistrement
     add_prefix: Ajouter
     merge_replace: Remplacer
     merge_add: Ajouter
@@ -143,9 +144,7 @@ fr:
     merge: Fusionner
     form_changes_message: "<small><span class='muted'>Vous avez des modifications\
       \ non enregistrées</span></small>"
-    toolbar_disabled_message: "<small><span class='muted'>Vous avez des modifications\
-      \ non enregistrées - Sauvegardez ou revenez à la barre d'outils Accès et à l'arborescence\
-      \ des notices</span></small>"
+    toolbar_disabled_message: Vous avez des modifications non enregistrées - Enregistrer ou Revenir pour accéder à la barre d'outils et à l'arborescence des enregistrements.
     publish: Publier tout
     publish_confirm_title: Publier?
     publish_confirm_message: "<p>Effectuer cette opération publiera cette notice,\
@@ -775,16 +774,16 @@ fr:
   accession:
     _frontend:
       messages:
-        created: Entrée <strong>%{accession.display_string}</strong> créée
-        unsuppressed: Entrée <strong>%{accession.display_string}</strong> débloquée
-        updated: Entrée <strong>%{accession.display_string}</strong> actualisée
-        suppressed: Entrée <strong>%{accession.display_string}</strong> bloquée
+        created: Entrée <strong>%{accession_display_string}</strong> créée
+        unsuppressed: Entrée <strong>%{accession_display_string}</strong> débloquée
+        updated: Entrée <strong>%{accession_display_string}</strong> actualisée
+        suppressed: Entrée <strong>%{accession_display_string}</strong> bloquée
         suppressed_info: Entrée bloquée, ne pouvant pas être éditée
-        deleted: Entrée <strong>%{accession.display_string}</strong> supprimée
+        deleted: Entrée <strong>%{accession_display_string}</strong> supprimée
         transfer_description: Transférer cette entrée vers...
         transfer_target: Sélectionnez un service d'archives vers lequel opérer le
           transfert
-        spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession.display_string}</strong>"
+        spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession_display_string}</strong>"
         delete_conflict: "Entrée impossible à supprimer: <pre>%{error}</pre>"
       section:
         basic_information: Informations de base
@@ -798,7 +797,7 @@ fr:
         created: Agent créé
         updated: Agent sauvegardé
         deleted: Agent supprimé
-        published: "L'agent <strong>%{agent.title}</strong>, ses sous-enregistrements\
+        published: "L'agent <strong>%{agent_title}</strong>, ses sous-enregistrements\
           \ et ses composants ont été publiés"
         delete_conflict: "Impossible de supprimer l'agent: <pre>%{error}</pre>"
         merge_description: Sélectionnez l'agent à fusionner
@@ -863,22 +862,22 @@ fr:
     external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
-        created: Document d'archives <strong>%{archival_object.display_string}</strong>
-          de la ressource <strong>%{resource.title}</strong> créé
+        created: Document d'archives <strong>%{archival_object_display_string}</strong>
+          de la ressource <strong>%{resource_title}</strong> créé
         duplicated: Objet d'archives dupliqué à partir de <strong>%{archival_object_display_string}</strong>
-        created_with_parent: Document d'archives <strong>%{archival_object.display_string}</strong>
+        created_with_parent: Document d'archives <strong>%{archival_object_display_string}</strong>
           créé en tant que fils de <strong>%{parent.display_string}</strong> de la
-          ressource <strong>%{resource.title}</strong>
-        updated: Document d'archives <strong>%{archival_object.display_string}</strong>
+          ressource <strong>%{resource_title}</strong>
+        updated: Document d'archives <strong>%{archival_object_display_string}</strong>
           actualisé
-        updated_with_parent: Document d'archives <strong>%{archival_object.display_string}</strong>
+        updated_with_parent: Document d'archives <strong>%{archival_object_display_string}</strong>
           actualisé
         please_select_a_resource_for_transfer: Veuillez choisir une ressource
-        transfer_success: Document d'archives <strong>%{archival_object.display_string}</strong>
-          transféré avec succès vers la ressource <strong>%{resource.title}</strong>
+        transfer_success: Document d'archives <strong>%{archival_object_display_string}</strong>
+          transféré avec succès vers la ressource <strong>%{resource_title}</strong>
         transfer_error: "Le transfert du document d'archives n'a pas pu se faire,\
           \ en raison d'une erreur ou d'un conflit: <pre>%{exception}</pre>"
-        deleted: "Document d'archives <strong>%{archival_object.display_string}</strong>\
+        deleted: "Document d'archives <strong>%{archival_object_display_string}</strong>\
           \ supprimé"
         published: "Document d'archives <strong>%{archival_object.title}</strong>,\
           \ ses sous-notices et composants situés à un niveau inférieur de la hiérarchie\
@@ -909,9 +908,9 @@ fr:
   classification:
     _frontend:
       messages:
-        created: "Classement <strong>%{classification.title}</strong> créé"
-        updated: "Classement <strong>%{classification.title}</strong> actualisé"
-        deleted: "Classement <strong>%{classification.title}</strong> supprimé"
+        created: "Classement <strong>%{classification_title}</strong> créé"
+        updated: "Classement <strong>%{classification_title}</strong> actualisé"
+        deleted: "Classement <strong>%{classification_title}</strong> supprimé"
       section:
         basic_information: Informations de base
         search_embedded: Notices liées
@@ -981,10 +980,10 @@ fr:
   digital_object:
     _frontend:
       messages:
-        created: "Objet numérique <strong>%{digital_object.title}</strong> créé"
-        updated: "Objet numérique <strong>%{digital_object.title}</strong> actualisé"
-        deleted: "Objet numérique <strong>%{digital_object.title}</strong> supprimé"
-        published: "L'objet numérique <strong>%{digital_object.title}</strong>, ses\
+        created: "Objet numérique <strong>%{digital_object_title}</strong> créé"
+        updated: "Objet numérique <strong>%{digital_object_title}</strong> actualisé"
+        deleted: "Objet numérique <strong>%{digital_object_title}</strong> supprimé"
+        published: "L'objet numérique <strong>%{digital_object_title}</strong>, ses\
           \ sous-notices et ses composants ont été publiés"
         merge_description: Sélectionnez ci-dessous des objects numériques à fusionner
           dans
@@ -992,8 +991,8 @@ fr:
         merged: Objet(s) numérique(s) fusionné(s)
         transfer_description: Transférer cette ressource dans...
         transfer_target: Sélectionnez un service d'archives cible pour le transfert
-        unsuppressed: Objet numérique <strong>%{digital_object.title}</strong> débloqué
-        suppressed: Objet numérique <strong>%{digital_object.title}</strong> bloqué
+        unsuppressed: Objet numérique <strong>%{digital_object_title}</strong> débloqué
+        suppressed: Objet numérique <strong>%{digital_object_title}</strong> bloqué
         suppressed_info: Objet numérique bloqué, ne pouvant être édité
         delete_conflict: "Impossible de supprimer l'objet numérique: <pre>%{error}</pre>"
       section:
@@ -1006,20 +1005,20 @@ fr:
   digital_object_component:
     _frontend:
       messages:
-        created_with_parent: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+        created_with_parent: Composant d'objet numérique <strong>%{digital_object_component_display_string}</strong>
           créé comme fils de <strong>%{parent.display_string}</strong> sur l'objet
-          numérique <strong>%{digital_object.title}</strong>
-        created: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
-          créé sur l'objet numérique <strong>%{digital_object.title}</strong>
-        updated_with_parent: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+          numérique <strong>%{digital_object_title}</strong>
+        created: Composant d'objet numérique <strong>%{digital_object_component_display_string}</strong>
+          créé sur l'objet numérique <strong>%{digital_object_title}</strong>
+        updated_with_parent: Composant d'objet numérique <strong>%{digital_object_component_display_string}</strong>
           actualisé
-        updated: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+        updated: Composant d'objet numérique <strong>%{digital_object_component_display_string}</strong>
           actualisé
-        deleted: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+        deleted: Composant d'objet numérique <strong>%{digital_object_component_display_string}</strong>
           supprimé
-        unsuppressed: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+        unsuppressed: Composant d'objet numérique <strong>%{digital_object_component_display_string}</strong>
           débloqué
-        suppressed: Composant d'objet numérique <strong>%{digital_object_component.display_string}</strong>
+        suppressed: Composant d'objet numérique <strong>%{digital_object_component_display_string}</strong>
           bloqué
         suppressed_info: Composant d'objet numérique bloqué, ne pouvant être édité
         has_unpublished_ancestor: Attention! Cette notice a un ancêtre non publié.
@@ -1259,7 +1258,7 @@ fr:
         deleted: Service d'archives supprimé
         selected: Service d'archives actuellement sélectionné
         selected_short: Sélectionné
-        changed: Le service d'archives <strong>%{repository.repo_code}</strong> est
+        changed: Le service d'archives <strong>%{repository_repo_code}</strong> est
           maintenant activé
         create_first_repository: "Pour créer votre premier service d'archives, cliquer\
           \ dans le menu <strong>Système</strong> ci-dessus, puis <strong>Gérer services\
@@ -1289,13 +1288,13 @@ fr:
   resource:
     _frontend:
       messages:
-        created: "Ressource <strong>%{resource.title}</strong> créée"
-        updated: "Ressource <strong>%{resource.title}</strong> actualisée"
-        spawned: "Une nouvelle ressource a été générée depuis Entrée <strong>%{accession.display_string}</strong>"
-        deleted: "Ressource <strong>%{resource.title}</strong> supprimée"
-        published: "La ressource <strong>%{resource.title}</strong>, ses sous-notices\
+        created: "Ressource <strong>%{resource_title}</strong> créée"
+        updated: "Ressource <strong>%{resource_title}</strong> actualisée"
+        spawned: "Une nouvelle ressource a été générée depuis Entrée <strong>%{accession_display_string}</strong>"
+        deleted: "Ressource <strong>%{resource_title}</strong> supprimée"
+        published: "La ressource <strong>%{resource_title}</strong>, ses sous-notices\
           \ et composants ont été publiés"
-        unpublished: "La ressource <strong>%{resource.title}</strong>, ses sous-notices\
+        unpublished: "La ressource <strong>%{resource_title}</strong>, ses sous-notices\
           \ et composants ont été dépubliés"
         merge_description: Sélectionner ci-dessous les ressources à fusionner dans
         please_select_a_resource_to_merge: Veuillez sélectionner une ressource
@@ -1303,8 +1302,8 @@ fr:
         transfer_description: Transférer cette ressource vers...
         transfer_target: Sélectionner un service d'archives vers lequel opérer le
           transfert
-        unsuppressed: Ressource <strong>%{resource.title}</strong> débloquée
-        suppressed: Ressource <strong>%{resource.title}</strong> bloquée
+        unsuppressed: Ressource <strong>%{resource_title}</strong> débloquée
+        suppressed: Ressource <strong>%{resource_title}</strong> bloquée
         suppressed_info: Ressource bloquée, non éditable
         delete_conflict: "Impossible de supprimer la ressource: <pre>%{error}</pre>"
       section:
