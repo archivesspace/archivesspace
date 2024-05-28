@@ -44,14 +44,16 @@ describe 'Spreadsheet Builder model' do
       header_labels << [start + "- Begin", start + "- End", start + "- Type"]
     end
     (1..min_subrecords).each do |i|
-      SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:date).each do |d|
-        header_labels << ["Date #{i} - #{d.column.to_s.split('_')[0].capitalize()}"]
-      end
       SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:digital_object).each do |d|
-        header_labels << ["Digital Object #{i} - #{d.instance_variable_get(:@i18n)}"]
-      end
+      header_labels << ["Digital Object #{i} - #{d.instance_variable_get(:@i18n)}"]
+    end
       SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:instance).each do |d|
         header_labels << ["Instance #{i} - #{d.instance_variable_get(:@i18n)}"]
+      end
+    end
+    SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:date).each do |d|
+      (1..spreadsheet.instance_variable_get(:@subrecord_counts)[:date]).each do |i|
+        header_labels << ["Date #{i} - #{d.column.to_s.split('_')[0].capitalize()}"]
       end
     end
     SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:extent).each do |e|
@@ -77,14 +79,16 @@ describe 'Spreadsheet Builder model' do
       end
     end
     (0..min_subrecords-1).each do |i|
-      SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:date).each do |d|
-        header_labels << ["dates/#{i}/#{d.column.to_s.split('_')[0]}"]
-      end
       SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:digital_object).each do |d|
         header_labels << ["digital_object/#{i}/#{d.column.to_s}"]
       end
       SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:instance).each do |d|
         header_labels << ["instances/#{i}/#{d.column.to_s.sub('_id', '')}"]
+      end
+    end
+    SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:date).each do |d|
+      (0..spreadsheet.instance_variable_get(:@subrecord_counts)[:date]-1).each do |i|
+        header_labels << ["dates/#{i}/#{d.column.to_s.split('_')[0]}"]
       end
     end
     SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(:extent).each do |d|
@@ -118,16 +122,27 @@ describe 'Spreadsheet Builder model' do
     jm = json_models.group_by(&:itself).transform_values(&:count)
     fields = {}
     SpreadsheetBuilder::FIELDS_OF_INTEREST.keys.each do |k|
-      if ['date', 'digital_object', 'instance'].include?(k.to_s)
+      if ['digital_object', 'instance'].include?(k.to_s)
         multiplier = min_subrecords
+      elsif k.to_s == 'date'
+        multiplier = spreadsheet.instance_variable_get(:@subrecord_counts)[:date]
       elsif k.to_s == 'extent'
         multiplier = spreadsheet.instance_variable_get(:@subrecord_counts)[:extent]
       else
         multiplier = 1
       end
-      ct = SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(k).count
-      fields[k] = ct * multiplier
+      fields[k] = SpreadsheetBuilder::FIELDS_OF_INTEREST.fetch(k).count * multiplier
     end
+    [SpreadsheetBuilder::MULTIPART_NOTES_OF_INTEREST, SpreadsheetBuilder::SINGLEPART_NOTES_OF_INTEREST].flatten.each do |k|
+      fields[k] = spreadsheet.instance_variable_get(:@subrecord_counts)[k] unless k.to_s == 'accessrestrict'
+    end
+
+    fields[:accessrestrict] = (SpreadsheetBuilder::EXTRA_NOTE_FIELDS.fetch(:_all_).count + SpreadsheetBuilder::EXTRA_NOTE_FIELDS.fetch(:accessrestrict).count) * spreadsheet.instance_variable_get(:@subrecord_counts)[:accessrestrict]
+    fields[:note] = 0
+    [SpreadsheetBuilder::MULTIPART_NOTES_OF_INTEREST, SpreadsheetBuilder::SINGLEPART_NOTES_OF_INTEREST].flatten.each do |k|
+      fields[:note] += spreadsheet.instance_variable_get(:@subrecord_counts)[k]
+    end
+
     expect(jm).to include(fields)
   end
 

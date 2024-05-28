@@ -46,6 +46,7 @@ class SpreadsheetBuilder
     def header_label
       if @header_label.nil?
         if @i18n_proc
+          @index = 0 if @index.nil?
           @header_label = @i18n_proc.call(self)
         else
           if @index.nil?
@@ -206,7 +207,7 @@ class SpreadsheetBuilder
       EnumColumn.new(:language_and_script, :script, 'script_iso15924', :i18n => 'Script')
     ],
     :note_langmaterial => [
-      StringColumn.new(:note_langmaterial, :content, :width => 30, :i18n_proc => proc {|col| "Language Note - #{col.index} - Content"})
+      StringColumn.new(:note_langmaterial, :content, :width => 30, :i18n_proc => proc {|col| "Language Note - #{col.index + 1} - Content"})
     ],
   }
 
