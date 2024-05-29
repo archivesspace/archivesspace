@@ -1,7 +1,7 @@
 class ExportsController < ApplicationController
 
   set_access_control "view_repository" => [:container_labels, :download_marc, :download_dc, :download_mods,
-                                            :download_mets, :download_ead, :download_eac, :download_marc_auth, :container_template]
+                                            :download_mets, :download_ead, :download_eac, :download_marc_auth, :container_template, :digital_object_template]
   set_access_control "create_job" => [:print_to_pdf, :resource_duplicate]
 
   include ExportHelper
@@ -78,6 +78,11 @@ class ExportsController < ApplicationController
   def container_template
     uri = "/repositories/#{JSONModel::repository}/resources/#{params[:id]}/templates/top_container_creation.csv"
     csv_response(uri)
+  end
+
+  def digital_object_template
+    uri = "/repositories/#{JSONModel::repository}/resources/#{params[:id]}/templates/digital_object_creation.csv"
+    csv_response(uri, {}, 'digital_object_template_')
   end
 
   private

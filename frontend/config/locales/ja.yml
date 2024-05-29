@@ -154,6 +154,7 @@ ja:
     add_event_event_type: タイプ
     transfer_failed_top_containers_in_use: 次の最上位コンテナは、このリポジトリ内の他の最上位レコードにリンクされており、これらのリンクが切断されるまで転送できません。
     container_template: コンテナテンプレートのダウンロード
+    digital_object_template: デジタル オブジェクト テンプレートをダウンロード
     run: 実行
     check_all: すべてチェック
     uncheck_all: すべてチェックを外します

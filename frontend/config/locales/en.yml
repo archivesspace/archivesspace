@@ -115,6 +115,7 @@ en:
     export_dc: Download DC
     export_csv: Download CSV
     container_template: Download Container Template
+    digital_object_template: Download Digital Object Template
     loading: Loading...
     revert: Revert Changes
     finish_editing: Close Record

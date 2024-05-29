@@ -186,6 +186,7 @@ es:
       están vinculados a otros registros de nivel superior en este repositorio y no
       se pueden transferir hasta que esos vínculos se corten
     container_template: Descargar plantilla de contenedor
+    digital_object_template: Descargar plantilla de objetos digitales
     run: Huir
     check_all: Comprobar todo
     uncheck_all: Desmarcar todos

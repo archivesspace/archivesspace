@@ -910,4 +910,44 @@ class ArchivesSpaceService < Sinatra::Base
     CsvTemplateGenerator.csv_for_top_container_generation(params[:id])
   end
 
+  Endpoint.get('/repositories/:repo_id/resources/:id/templates/digital_object_creation.csv')
+    .description("Get a CSV template useful for bulk-creating digitial objects for archival objects of a resource")
+    .documentation do
+      <<~DOCS
+        This method returns a spreadsheet representing all the archival objects in a resource, with the following  fields:
+
+        * Reference Fields (Non-editable):
+          * Resource URI: Resource URI
+          * Archival Object URI: Archival Object URI
+      DOCS
+    end
+    .example('shell') do
+      <<~SHELL
+        # Saves the csv to file 'resource_1_digital_object_creation.csv'
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+          "http://localhost:8089/repositories/2/resources/1/templates/digital_object_creation.csv" \\
+          > resource_1_digital_object_creation.csv
+      SHELL
+    end
+    .example('python') do
+      <<~PYTHON
+        from asnake.client import ASnakeClient
+
+        client = ASnakeClient()
+        client.authorize()
+
+        with open('resource_1_digital_object_creation.csv', 'wb') as file:
+            resp = client.get('repositories/2/resources/1/templates/digital_object_creation.csv')
+            if resp.status_code == 200:
+                file.write(resp.content)
+    PYTHON
+    end
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "The CSV template"]) \
+  do
+    attachment "resource_#{params[:id]}digital_objects.csv"
+    CsvTemplateGenerator.csv_for_digital_object_generation(params[:id])
+  end
 end

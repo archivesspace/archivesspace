@@ -58,9 +58,9 @@
         </div>
       </li>
 
-
       <li><%= link_to t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @resource.id}, :id => 'container-labels-link', :target => "_blank", :class => "dropdown-item" %></li>
       <li><%= link_to t("actions.container_template"), {:controller => :exports, :action => :container_template, :id => @resource.id}, :id => 'container-template-link', :target => "_self", :class => "dropdown-item" %></li>
+      <li><%= link_to t("actions.digital_object_template"), {:controller => :exports, :action => :digital_object_template, :id => @resource.id}, :id => 'digital-object-template-link', :target => "_self", :class => "dropdown-item" %></li>
       <% if user_can?('create_job') %>
         <% if job_types['print_to_pdf_job']['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
 

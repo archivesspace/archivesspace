@@ -160,6 +160,7 @@ de:
       nicht übertragen werden, außer die Verknüpfung wird entfernt
     publish: Alle veröffentlichen
     container_template: Behältnis-Vorlage herunterladen
+    digital_object_template: Laden Sie die Vorlage für digitale Objekte herunter
     merge: Zusammenführen
     delete_confirm_message: <p>Bitte seien Sie sich bewusst, dass Sie <strong>diese
       Aktion nicht rückgängig machen können</strong>.</p><p>Damit wird die Aufzeichnung
