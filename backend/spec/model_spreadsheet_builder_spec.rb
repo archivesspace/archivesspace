@@ -151,6 +151,15 @@ describe 'Spreadsheet Builder model' do
     expect(spreadsheet.index_to_col_reference(43)).to eq('AR')
   end
 
+  it "creates columns for extra note fields" do
+    expect(SpreadsheetBuilder.extra_note_fields_for_type('accessrestrict')[0].name).to eq(:label)
+    expect(SpreadsheetBuilder.extra_note_fields_for_type('accessrestrict')[0].jsonmodel).to eq('accessrestrict')
+    expect(SpreadsheetBuilder.extra_note_fields_for_type('accessrestrict')[0].property_name).to eq('note')
+    expect(SpreadsheetBuilder.extra_note_fields_for_type('processinfo')[0].name).to eq(:label)
+    expect(SpreadsheetBuilder.extra_note_fields_for_type('processinfo')[0].jsonmodel).to eq('processinfo')
+    expect(SpreadsheetBuilder.extra_note_fields_for_type('processinfo')[0].property_name).to eq('note')
+  end
+
   it "determines correct column for a path" do
     expect(SpreadsheetBuilder.column_for_path('note/accessrestrict/0/begin').jsonmodel).to eq(:accessrestrict)
     expect(SpreadsheetBuilder.column_for_path('dates/0/begin').jsonmodel).to eq(:date)
