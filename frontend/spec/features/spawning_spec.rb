@@ -19,10 +19,7 @@ describe 'Spawning', js: true do
     select_repository(@repo)
   end
 
-  xit "can spawn a resource component from an accession" do
-    # TODO this example was ignored to get the Softserv updates merged into master
-    # There's a bug in the code for this two-modal step process which makes this
-    # test fail, see https://archivesspace.atlassian.net/browse/ANW-2030.
+  it "can spawn a resource component from an accession" do
     set_repo(@repo)
     @resource = create(:resource)
     @parent = create(:json_archival_object,
