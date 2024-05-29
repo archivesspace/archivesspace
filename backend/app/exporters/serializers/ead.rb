@@ -381,7 +381,11 @@ class EADSerializer < ASpaceExport::Serializer
         next if !published && !@include_unpublished
 
         link['role'] == 'creator' ? role = link['role'].capitalize : role = link['role']
+
         relator = link['relator']
+        relator_translation = I18n.t("enumerations.linked_agent_archival_record_relators.#{link['relator']}")
+        relator_translation = relator if relator_translation.to_s.include?('translation missing')
+
         sort_name = agent['display_name']['sort_name']
         rules = agent['display_name']['rules']
         source = agent['display_name']['source']
@@ -396,7 +400,7 @@ class EADSerializer < ASpaceExport::Serializer
         origination_attrs = {:label => role}
         origination_attrs[:audience] = 'internal' unless published
         xml.origination(origination_attrs) {
-          atts = {:role => relator, :source => source, :rules => rules, :authfilenumber => authfilenumber}
+          atts = {:role => relator, :role_translation => relator_translation, :source => source, :rules => rules, :authfilenumber => authfilenumber}
           atts.reject! {|k, v| v.nil?}
 
           xml.send(node_name, atts) {
