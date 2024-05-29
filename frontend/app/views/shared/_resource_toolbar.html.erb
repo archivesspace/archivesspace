@@ -46,6 +46,26 @@
       <% if AppConfig[:enable_public] %>
         <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
       <% end %>
+
+      <% if @resource != nil %>
+        <div class="btn-group">
+          <%= link_to I18n.t("actions.duplicate_resource"), {
+              controller: :exports,
+              :action => :resource_duplicate,
+              :resource_id => @resource.id
+            },
+            :target => :_blank,
+            :class => "btn btn-sm btn-default",
+            :"data-confirmation" => true,
+            :"data-title" => I18n.t("actions.duplicate_resource", :title => @resource.title),
+            :"data-message" => I18n.t("actions.duplicate_resource_confirm_message"),
+            :"data-confirm-btn-label" => "#{I18n.t("actions.duplicate_resource")}",
+            :"data-authenticity_token" => form_authenticity_token,
+            :"data-confirm-btn-class" => "btn-warning"
+          %>
+        </div>
+      <% end %>
+
       <div class="btn-group">
         <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
           <%= t("actions.export") %>

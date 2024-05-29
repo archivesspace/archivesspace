@@ -887,7 +887,7 @@ module AspaceFormHelper
         if replace
           html << '<label class="replace-control">'
           html << form.merge_checkbox('replace')
-          html << '<small>'
+          html << '<small class="fs-14px">'
           html << I18n.t("actions.merge_replace").to_s
           html << '</small>'
           html << '</label>'
@@ -896,7 +896,7 @@ module AspaceFormHelper
         if append
           html << '<label class="append-control">'
           html << form.merge_checkbox('append')
-          html << '<small>'
+          html << '<small class="fs-14px">'
           html << I18n.t("actions.merge_add").to_s
           html << '</small>'
           html << '</label>'

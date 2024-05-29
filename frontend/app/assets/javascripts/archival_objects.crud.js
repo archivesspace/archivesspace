@@ -60,7 +60,7 @@ function TreeLinkingModal(config) {
     'linkResourceModal',
     config.title,
     AS.renderTemplate('linker_browsemodal_template', config),
-    'large',
+    'full',
     {},
     this
   );
@@ -240,7 +240,7 @@ function TreeLinkingModal(config) {
     // parent_uri may be undef but position should always be an int
     self.config.onLink(self.parent_uri, self.position);
     // closing this way to get proper focus back in main window
-    $('.modal-header a', self.$modal).trigger('click');
+    $('.modal-header button', self.$modal).trigger('click');
     return false;
   });
 }
@@ -258,7 +258,7 @@ function SimpleLinkingModal(config) {
     'linkResourceModal',
     self.config.title,
     AS.renderTemplate('linker_browsemodal_template', config),
-    'large',
+    'full',
     {},
     this
   );
@@ -332,7 +332,7 @@ SimpleLinkingModal.prototype.init_click_handlers = function () {
     event.preventDefault();
     if (self.currentSelected) {
       // closing this way to get proper focus back in main window
-      $('.modal-header a', self.$modal).trigger('click');
+      $('.modal-header button', self.$modal).trigger('click');
       self.config.onLink(self.currentSelected);
     }
     return false;

@@ -1,0 +1,13 @@
+<script type="text/javascript">
+	var submitJob = function() {
+		console.log("Submiting job");
+		document.getElementById("job-form").submit();
+	}
+	window.onload = submitJob;
+</script>
+
+<%= form_for :job, :url => {:controller => :jobs, :action => :create}, :html => {:id => "job-form", :style => "display: none;"} do |f| %>
+	<%= f.hidden_field :source, :value => @resource.uri %>
+	<%= f.hidden_field :jsonmodel_type, :value => "resource_duplicate_job" %>
+	<%= f.hidden_field :job_type, :value => 'resource_duplicate_job' %>
+<% end %>

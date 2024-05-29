@@ -23,6 +23,8 @@ es:
     date_picker: Selector de fecha abierto
     date_picker_toggle: Cambia el selector de fecha
     defaults: Valores por defecto
+    duplicate_resource: Recurso duplicado
+    duplicate_resource_confirm_message: Se creará un trabajo para duplicar este recurso con todos sus objetos de archivo. Esto puede tardar un poco según la cantidad de registros.
     edit: Editar
     edit_oai: Editar la configuración de OAI
     edit_batch: Editar en bloque
@@ -39,6 +41,7 @@ es:
     more: Más
     transfer_record: Transferir
     link_to: Enlazar a
+    link_to_record: Enlace para grabar
     add_prefix: Añadir
     merge_replace: Reemplazar
     merge_add: Añadir
@@ -142,8 +145,7 @@ es:
     finish_editing: Finalizar edición
     merge: Fusión
     form_changes_message: "<small><span class='muted'>Hay cambios sin guardar</span></small>"
-    toolbar_disabled_message: "<small><span class='muted'>No se han guardado los cambios\
-      \ - Guarda o vuelve atrás </span></small>"
+    toolbar_disabled_message: "Tiene cambios no guardados: guarde o revierta para acceder a la barra de herramientas y al árbol de registros."
     publish: Publicar todos
     publish_confirm_title: ¿Publicar?
     publish_confirm_message: "<p>Realizar esta acción va a publicar este documento,\
@@ -766,16 +768,16 @@ es:
   accession:
     _frontend:
       messages:
-        created: Acta de ingreso <strong>%{accession.display_string}</strong> creada
-        unsuppressed: Acta de ingreso <strong>%{accession.display_string}</strong>
+        created: Acta de ingreso <strong>%{accession_display_string}</strong> creada
+        unsuppressed: Acta de ingreso <strong>%{accession_display_string}</strong>
           desbloqueada
-        updated: Acta de ingreso <strong>%{accession.display_string}</strong> actualizada
-        suppressed: Acta de ingreso <strong>%{accession.display_string}</strong> bloqueada
+        updated: Acta de ingreso <strong>%{accession_display_string}</strong> actualizada
+        suppressed: Acta de ingreso <strong>%{accession_display_string}</strong> bloqueada
         suppressed_info: Acta de ingreso se bloquea y no se pueden editar
-        deleted: Acta de ingreso <strong>%{accession.display_string}</strong> borrada
+        deleted: Acta de ingreso <strong>%{accession_display_string}</strong> borrada
         transfer_description: Transferencia de este acta de ingreso a...
         transfer_target: Seleccione un repositorio al que transferir
-        spawned: "Este acta de ingreso ha sido generada de entrada <strong>%{accession.display_string}</strong>"
+        spawned: "Este acta de ingreso ha sido generada de entrada <strong>%{accession_display_string}</strong>"
         delete_conflict: "La adhesión no pudo ser eliminada: <pre>%{error}</pre>"
       section:
         basic_information: Información básica
@@ -789,7 +791,7 @@ es:
         created: Autoridad creada
         updated: Autoridad guardada
         deleted: Autoridad eliminada
-        published: "El Agente <strong>%{agent.title}</strong>, sus subregistros y\
+        published: "El Agente <strong>%{agent_title}</strong>, sus subregistros y\
           \ componentes se han publicado"
         delete_conflict: "El agente no pudo ser eliminado: <pre>%{error}</pre>"
         merge_description: Seleccione el agente para fusionar en
@@ -855,22 +857,22 @@ es:
     external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
-        created: Documento de archivo <strong>%{archival_object.display_string}</strong>
-          del fondo <strong>%{resource.title}</strong> creado
+        created: Documento de archivo <strong>%{archival_object_display_string}</strong>
+          del fondo <strong>%{resource_title}</strong> creado
         duplicated: Objeto de archivo duplicado de <strong>%{archival_object_display_string}</strong>
-        created_with_parent: Documento de archivo <strong>%{archival_object.display_string}</strong>
+        created_with_parent: Documento de archivo <strong>%{archival_object_display_string}</strong>
           creado como niño de <strong>%{parent.display_string}</strong> del fondo
-          <strong>%{resource.title}</strong>
-        updated: Documento de archivo <strong>{archival_object.display_string} %</strong>
+          <strong>%{resource_title}</strong>
+        updated: Documento de archivo <strong>{archival_object_display_string} %</strong>
           actualizado
-        updated_with_parent: Documento de archivo <strong>{archival_object.display_string}
+        updated_with_parent: Documento de archivo <strong>{archival_object_display_string}
           %</strong> actualizado
         please_select_a_resource_for_transfer: Por favor, elija un fondo
-        transfer_success: Transferido con éxito el objeto de archivo <strong>%{archival_object.display_string}</strong>
-          al fondo <strong>%{resource.title}</strong>
+        transfer_success: Transferido con éxito el objeto de archivo <strong>%{archival_object_display_string}</strong>
+          al fondo <strong>%{resource_title}</strong>
         transfer_error: "No se puede transferir objeto de archivo debido a un error\
           \ o conflicto"
-        deleted: "Documento de archivo <strong>{archival_object.display_string} %</strong>\
+        deleted: "Documento de archivo <strong>{archival_object_display_string} %</strong>\
           \ eliminado"
         published: "Documento de archivo <strong>{archival_object.title}</strong>,\
           \ sus subregistros y sus componentes han sido publicados"
@@ -899,9 +901,9 @@ es:
   classification:
     _frontend:
       messages:
-        created: "Clasificación <strong>%{classification.title}</strong> creada"
-        updated: "Clasificación <strong>%{classification.title}</strong> actualizada"
-        deleted: "Clasificación <strong>%{classification.title}</strong> borrada"
+        created: "Clasificación <strong>%{classification_title}</strong> creada"
+        updated: "Clasificación <strong>%{classification_title}</strong> actualizada"
+        deleted: "Clasificación <strong>%{classification_title}</strong> borrada"
       section:
         basic_information: Información básica
         search_embedded: Registros vinculados
@@ -971,18 +973,18 @@ es:
   digital_object:
     _frontend:
       messages:
-        created: "Objeto digital <strong>%{digital_object.title}</strong> creado"
-        updated: "Objeto digital <strong>%{digital_object.title}</strong> actualizado"
-        deleted: "Objeto digital <strong>%{digital_object.title}</strong> borrado"
-        published: "El objeto Digital <strong>%{digital_object.title}</strong>, sus\
+        created: "Objeto digital <strong>%{digital_object_title}</strong> creado"
+        updated: "Objeto digital <strong>%{digital_object_title}</strong> actualizado"
+        deleted: "Objeto digital <strong>%{digital_object_title}</strong> borrado"
+        published: "El objeto Digital <strong>%{digital_object_title}</strong>, sus\
           \ subregistros y sus componentes han sido publicados"
         merge_description: Seleccionar objetos digitales más abajo para fusionar en
         please_select_a_digital_object_to_merge: Por favor, seleccione un objeto digital
         merged: Objetos digitales unificados
         transfer_description: Transferencia de este fondo a...
         transfer_target: Seleccione un repositorio para transferir a
-        unsuppressed: Objetos digitales <strong>%{digital_object.title}</strong> desbloqueado
-        suppressed: Objetos digitales <strong>%{digital_object.title}</strong> bloqueado
+        unsuppressed: Objetos digitales <strong>%{digital_object_title}</strong> desbloqueado
+        suppressed: Objetos digitales <strong>%{digital_object_title}</strong> bloqueado
         suppressed_info: Objeto digital se suprime y no se pueden editar
         delete_conflict: "Objeto digital no pudo ser eliminado: <pre>%{error}</pre>"
       section:
@@ -995,19 +997,19 @@ es:
   digital_object_component:
     _frontend:
       messages:
-        created_with_parent: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
+        created_with_parent: Componente de objeto digital <strong>%{digital_object_component_display_string}</strong>
           creado como hijo de <strong>%{parent.display_string}</strong> del objeto
-          Digital <strong>%{digital_object.title}</strong>
-        created: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
-          creado el objeto Digital <strong>%{digital_object.title}</strong>
-        updated_with_parent: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
+          Digital <strong>%{digital_object_title}</strong>
+        created: Componente de objeto digital <strong>%{digital_object_component_display_string}</strong>
+          creado el objeto Digital <strong>%{digital_object_title}</strong>
+        updated_with_parent: Componente de objeto digital <strong>%{digital_object_component_display_string}</strong>
           actualizado
-        updated: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
+        updated: Componente de objeto digital <strong>%{digital_object_component_display_string}</strong>
           actualizado
-        deleted: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
+        deleted: Componente de objeto digital <strong>%{digital_object_component_display_string}</strong>
           borrado
-        unsuppressed: Desbloqueados componentes de objeto digital <strong>%{digital_object_component.display_string}</strong>
-        suppressed: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
+        unsuppressed: Desbloqueados componentes de objeto digital <strong>%{digital_object_component_display_string}</strong>
+        suppressed: Componente de objeto digital <strong>%{digital_object_component_display_string}</strong>
           bloqueado
         suppressed_info: Componente objeto digital se bloquea y no se pueden editar
         has_unpublished_ancestor: Por favor tenga en cuenta que este registro tiene
@@ -1109,7 +1111,7 @@ es:
         add: Añadir enlace autoridad
         make_primary: Hacer primario
         make_primary_tooltip: |
-            <p>Se utiliza para indicar qué autoridad vinculado al registro es el autoridad primario. Solo se puede designar un autoridad vinculado como primario.</p> 
+            <p>Se utiliza para indicar qué autoridad vinculado al registro es el autoridad primario. Solo se puede designar un autoridad vinculado como primario.</p>
             <p>En la exportación MARCXML, el autoridad primario será el valor 1XX.</p>
 
   linked_record:
@@ -1176,7 +1178,7 @@ es:
         add: Agregar un formulario de nombre
         make_authorized: Convertir en nombre autorizado
         make_display_name: Convertir en nombre a presentar en pantalla
-        
+
   note:
     _frontend:
       preview:
@@ -1243,7 +1245,7 @@ es:
         deleted: Repositorio eliminado
         selected: Repositorio seleccionado
         selected_short: Seleccionado
-        changed: Ahora está activado el repositorio <strong>%{repository.repo_code}</strong>
+        changed: Ahora está activado el repositorio <strong>%{repository_repo_code}</strong>
         create_first_repository: "Para crear su primer repositorio, haga clic en el\
           \ menú del <strong>sistema</strong> anterior y luego <strong>Gestionar repositorios</strong>."
         no_access_to_repositories: "<p>No tiene acceso a los repositorios.</p><p>Póngase\
@@ -1270,21 +1272,21 @@ es:
   resource:
     _frontend:
       messages:
-        created: "Fondo <strong>%{resource.title}</strong> creado"
-        updated: "fondo <strong>%{resource.title}</strong> actualizado"
-        spawned: "Ha sido generado un nuevo fondo de acta de ingreso <strong>%{accession.display_string}</strong>"
-        deleted: "Fondo <strong>%{resource.title}</strong> borrado"
-        published: "El fondo <strong>%{resource.title}</strong>, sus subregistros\
+        created: "Fondo <strong>%{resource_title}</strong> creado"
+        updated: "fondo <strong>%{resource_title}</strong> actualizado"
+        spawned: "Ha sido generado un nuevo fondo de acta de ingreso <strong>%{accession_display_string}</strong>"
+        deleted: "Fondo <strong>%{resource_title}</strong> borrado"
+        published: "El fondo <strong>%{resource_title}</strong>, sus subregistros\
           \ y sus componentes han sido publicados"
-        unpublished: "El fondo <strong>%{resource.title}</strong>, sus subregistros\
+        unpublished: "El fondo <strong>%{resource_title}</strong>, sus subregistros\
           \ y sus componentes han sido despublicados"
         merge_description: Seleccione los fondos abajo para fusionar en
         please_select_a_resource_to_merge: Por favor, seleccione un fondo
         merged: Los fondos se fusionaron
         transfer_description: Transferencia de este fondo para...
         transfer_target: Seleccione un repositorio para transferir a
-        unsuppressed: Fondo <strong>%{resource.title}</strong> suprimidas
-        suppressed: Fondo <strong>%{resource.title}</strong> bloqueado
+        unsuppressed: Fondo <strong>%{resource_title}</strong> suprimidas
+        suppressed: Fondo <strong>%{resource_title}</strong> bloqueado
         suppressed_info: Se suprimieron y no se pueden editar fondos
         delete_conflict: "El recurso no pudo ser eliminado: <pre>%{error}</pre>"
       section:

@@ -2212,6 +2212,7 @@ fr:
       generate_slugs_job: Générer des URL sémantiques pour les entitées
       generate_arks_job: Générer des ARK en vrac
       trim_whitespace_job: Couper les espaces
+      resource_duplicate_job: Ressource en double
       unknown_job_type: Type de tâche inconnu
       bulk_import_job: Charger via une feuille de calcul
       top_container_linker_job: Lien de conteneur supérieur
@@ -2286,6 +2287,16 @@ fr:
   trim_whitespace_job:
     description: Supprime les espaces blancs de début et de fin des titres des ressources, entrées, objets
       numériques, objets d'archivage et composants d'objet numérique.
+
+  resource_duplicate_job:
+    going_to_duplicate_job: Je vais dupliquer la ressource avec l'identifiant %{resource_id}.
+    success_message: La ressource %{resource_source_id} a été dupliquée avec succès vers la ressource %{resource_duplicate_id}.
+    resource_failure_message: Échec de la duplication de la ressource à partir de la ressource avec l'ID %{resource_id} ; Erreur de validation %{message}.
+    archival_object_failure_message: Échec de la duplication de l'objet d'archives avec l'ID %{archival_object_id} à partir de la ressource avec l'ID %{resource_id} ; Erreur de validation %{message}.
+    source_archival_object: Objet d'archives source %{source_archival_object_inspect}.
+    success_reload_message: Terminé. Veuillez cliquer sur Actualiser pour obtenir un lien vers la nouvelle ressource.
+    job_failed: Le travail a échoué.
+    could_not_find_resource: Impossible de trouver la ressource fournie avec l'ID %{resource_id}.
 
   advanced_search:
     type:

@@ -5,6 +5,8 @@ require 'rails_helper'
 require 'csv'
 
 describe 'Resources', js: true do
+  let(:admin_user) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
+
   before(:all) do
     @repository = create(:repo, repo_code: "resources_test_#{Time.now.to_i}")
     set_repo @repository
@@ -14,6 +16,69 @@ describe 'Resources', js: true do
   before(:each) do
     login_user(@user)
     select_repository(@repository)
+  end
+
+  it 'can duplicate a resource from another resource with all the archival objects' do
+    visit 'logout'
+    login_user(admin_user)
+    select_repository(@repository)
+
+    now = Time.now.to_i
+    resource = create(:resource, title: "Resource Title #{now}")
+    archival_objects = (0...10).map do |index|
+      create(
+        :archival_object,
+        title: "Archival Object Title #{index} #{now}",
+        resource: { 'ref' => resource.uri }
+      )
+    end
+
+    run_index_round
+
+    visit "resources/#{resource.id}/edit"
+
+    wait_for_ajax
+
+    click_on 'Duplicate Resource'
+    within '#confirmChangesModal' do
+      click_on 'Duplicate Resource'
+    end
+
+    element = find('h2')
+    expect(element.text).to include 'resource_duplicate_job'
+
+    job_status = ''
+    while job_status != 'completed'
+      sleep 5
+      visit current_url
+
+      element = find('#job_status')
+      job_status = element['data-current-status']
+    end
+
+    element = find('.job-status.form-group')
+    expect(element).to have_text 'Status'
+    expect(element).to have_text 'Completed'
+
+    element = find('#generated_uris')
+    expect(element).to have_text 'New & Modified Records'
+
+    links = all('#jobRecordsSpool .subrecord-form-fields a')
+    expect(links.length).to eq 1
+    expect(links[0].text).to eq "[Duplicated] #{resource.title}"
+
+    click_on "[Duplicated] #{resource.title}"
+
+    click_on 'Edit'
+    expect(find('#resource_title_').value).to eq "[Duplicated] #{resource.title}"
+    expect(find('#resource_id_0_').value).to eq "[Duplicated] #{resource.id_0}"
+    expect(find('#resource_id_1_').value).to eq "#{resource.id_1}"
+    expect(find('#resource_id_2_').value).to eq "#{resource.id_2}"
+    expect(find('#resource_id_3_').value).to eq "#{resource.id_3}"
+
+    # Archival Objects
+    elements = all('.largetree-node')
+    expect(elements.length).to eq 10
   end
 
   xit 'can spawn a resource from an existing accession' do

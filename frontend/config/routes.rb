@@ -112,7 +112,6 @@ ArchivesSpace::Application.routes.draw do
     match 'digital_object_components/:id/unsuppress' => 'digital_object_components#unsuppress', :via => [:post]
 
     match 'resources/defaults' => 'resources#defaults', :via => [:get]
-    match 'resources/defaults' => 'resources#update_defaults', :via => [:post]
     resources :resources
     match 'resources/:id/container_labels' => 'exports#container_labels', :via => [:get]
     match 'resources/:id/container_tempate' => 'exports#container_template', :via => [:get]
@@ -120,6 +119,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/:id/download_marc' => 'exports#download_marc', :via => [:get]
     match 'resources/:id/download_ead' => 'exports#download_ead', :via => [:get]
     match 'resources/:id/print_to_pdf' => 'exports#print_to_pdf', :via => [:get]
+    match 'resources/:id/resource_duplicate' => 'exports#resource_duplicate', :via => [:post]
     match 'resources/:id' => 'resources#update', :via => [:post]
     match 'resources/:id/delete' => 'resources#delete', :via => [:post]
     match 'resources/:id/rde' => 'resources#rde', :via => [:get]

@@ -26,6 +26,8 @@ en:
     drop_before: Drop Before
     drop_into: Drop as Child
     drop_after: Drop After
+    duplicate_resource: Duplicate Resource
+    duplicate_resource_confirm_message: A job is going to be created to duplicate this resource with all its archival objects. This may take a while according to the amount of records.
     edit: Edit
     edit_oai: Edit OAI Settings
     edit_batch: Edit Batch
