@@ -23,6 +23,8 @@ ja:
     date_picker: オープン日付ピッカー
     date_picker_toggle: 日付ピッカーを切り替えます
     defaults: デフォルト値
+    duplicate_resource: 重複したリソース
+    duplicate_resource_confirm_message: このリソースとそのすべてのアーカイブ オブジェクトを複製するジョブが作成されます。 レコードの量によっては時間がかかる場合があります。
     edit: 編集
     edit_oai: OAI設定を編集する
     edit_batch: バッチの編集
@@ -1070,7 +1072,7 @@ ja:
         add: 名前フォームを追加
         make_authorized: 権限のある名前を作る
         make_display_name: 表示名を作る
-        
+
   note:
     _frontend:
       preview:

@@ -21,6 +21,8 @@ fr:
     date_picker: Sélecteur de date d'ouverture
     date_picker_toggle: Basculez le sélecteur de date
     defaults: Valeurs par défaut
+    duplicate_resource: Ressource en double
+    duplicate_resource_confirm_message: Un travail va être créé pour dupliquer cette ressource avec tous ses objets d'archives. Cela peut prendre un certain temps en fonction du nombre d'enregistrements.
     edit: Editer
     edit_oai: Modifier les paramètres OAI
     edit_batch: Editer lot
@@ -1122,7 +1124,7 @@ fr:
         make_primary_tooltip: |
             <p>Permet d'indiquer quel agent lié à l'enregistrement est l'agent principal. Un seul agent lié peut être désigné comme principal.</p>
             <p>Dans l'export MARCXML, l'agent principal sera la valeur 1XX.</p>
-    
+
 
   linked_record:
     _frontend:
@@ -1191,7 +1193,7 @@ fr:
         add: Ajouter forme de nom
         make_authorized: Convertir en nom normatif
         make_display_name: Convertir en nom d'affichage
-        
+
   note:
     _frontend:
       preview:

@@ -2166,6 +2166,7 @@ es:
       generate_slugs_job: Generar Slugs para Entidades
       generate_arks_job: Generar ARKs a granel
       trim_whitespace_job: Recortar espacios en blanco
+      resource_duplicate_job: Duplicado de recursos
       unknown_job_type: Tipo de trabajo desconocido
       bulk_import_job: Cargar mediante hoja de cálculo
       top_container_linker_job: Vinculador de contenedor superior
@@ -2239,6 +2240,16 @@ es:
   trim_whitespace_job:
     description: Elimina los espacios en blanco iniciales y finales de los títulos para fondos, actas
       de ingreso, objetos digitales, objetos de archivo y componentes de objetos digitales.
+
+  resource_duplicate_job:
+    going_to_duplicate_job: Voy a duplicar el recurso con id %{resource_id}.
+    success_message: Se duplicó correctamente el recurso %{resource_source_id} al recurso %{resource_duplicated_id}.
+    resource_failure_message: No se pudo duplicar el recurso del recurso con ID %{resource_id}; Error de validación %{mensaje}.
+    archival_object_failure_message: No se pudo duplicar el objeto de archivo con ID %{archival_object_id} del recurso con ID %{resource_id}; Error de validación %{mensaje}.
+    source_archival_object: Objeto de archivo de origen %{source_archival_object_inspect}.
+    success_reload_message: Todo listo. Haga clic en actualizar para obtener un enlace al nuevo recurso.
+    job_failed: Trabajo fallido.
+    could_not_find_resource: No se pudo encontrar el recurso proporcionado con ID %{resource_id}.
 
   advanced_search:
     type:

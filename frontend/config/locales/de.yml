@@ -17,6 +17,8 @@ de:
     date_picker: Datumsauswahl öffnen
     date_picker_toggle: Schalten Sie die Datumsauswahl um
     defaults: Standardwerte
+    duplicate_resource: Doppelte Ressource
+    duplicate_resource_confirm_message: Es wird ein Job erstellt, um diese Ressource mit all ihren Archivierungsobjekten zu duplizieren. Dies kann je nach Anzahl der Datensätze eine Weile dauern.
     edit: Bearbeiten
     edit_oai: OAI Einstellungen bearbeiten
     edit_batch: Stapel bearbeiten
@@ -1327,13 +1329,13 @@ de:
       action:
         add: Namensform hinzufügen
         make_authorized: Zum autoritativen Namen machen
-        make_display_name: Zum Anzeigenamen machen        
+        make_display_name: Zum Anzeigenamen machen
         make_display_name_tooltip: Verwenden Sie diese Option, um diese Namensform
           anzuzeigen, wenn der Akteur-Aufzeichnung mehrere Namensformen zugeordnet
           sind.
         make_authorized_tooltip: Verwenden Sie diese Option, um diese Namensform zum
           autoritativen Namen zu machen.
-        
+
   note:
     _frontend:
       preview:
@@ -1913,7 +1915,7 @@ de:
         add: Akteur-Verknüpfung hinzufügen
         make_primary_tooltip: |
             <p>Zum primären Akteur machen</p>
-            <p>Wird verwendet, um anzugeben, welcher mit dem Datensatz verknüpfte Akteur der primäre Akteur ist. Es kann nur ein verknüpfter Akteur als primärer Akteur festgelegt werden.</p> 
+            <p>Wird verwendet, um anzugeben, welcher mit dem Datensatz verknüpfte Akteur der primäre Akteur ist. Es kann nur ein verknüpfter Akteur als primärer Akteur festgelegt werden.</p>
             <p>Beim MARCXML Export ist der primäre Akteur der 1XX-Wert.</p>
         make_primary: Primär machen
     is_primary: Primär
