@@ -2515,6 +2515,14 @@ en:
     filename: Spreadsheet file name
     not_direct: At this time, this job can only be created from the Resource record
 
+  bulk_update_job:
+    _singular: Spreadsheet Bulk Update Job
+    create_missing_top_containers: Create Missing Top Containers?
+
+  job:
+    types:
+      bulk_update_job: Spreadsheet Bulk Update Job
+
   note_contact_note:
     contact_notes_tooltip: |
         <p>Details about the interaction with the contact</p>
