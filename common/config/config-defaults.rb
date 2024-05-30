@@ -761,3 +761,18 @@ AppConfig[:allow_password_reset] = false
 # By default, this route is only accessible to the 'admin' user, and no other admins.
 
 AppConfig[:allow_other_admins_access_to_system_info] = false
+
+# If enabled, the importer will drop subrecords (dates, extents, instances or
+# notes) when all spreadsheet columns for that existing subrecord have no values.
+# As not all subrecord fields have a corresponding column in the spreadsheet, you
+# may unwittingly drop a subrecord which has data in other fields.
+
+AppConfig[:bulk_updater_apply_deletes] = false
+
+# By default, the importer will throw an error when it finds a top container
+# in the spreadsheet that is not attached within the current resource's hierarchy.
+# When enabled, those missing top containers are created on demand.
+# This configuration setting can be overridden by providing a
+# `create_missing_top_containers` parameter to the import job.
+
+AppConfig[:bulk_updater_create_missing_top_containers] = false

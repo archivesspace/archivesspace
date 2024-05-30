@@ -1347,8 +1347,8 @@ class BulkUpdater
   def create_missing_top_containers?
     if @job.job.has_key?('create_missing_top_containers')
       @job.job['create_missing_top_containers']
-    elsif AppConfig.has_key?(:spreadsheet_bulk_updater_create_missing_top_containers)
-      AppConfig[:spreadsheet_bulk_updater_create_missing_top_containers]
+    elsif AppConfig.has_key?(:bulk_updater_create_missing_top_containers)
+      AppConfig[:bulk_updater_create_missing_top_containers]
     else
       false
     end
