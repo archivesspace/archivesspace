@@ -70,6 +70,9 @@ class JobsController < ApplicationController
       params['job_type'] = @job_type
 
       render :new, :status => 500
+
+    rescue Exception => e
+      Rails.logger.error "An unexpected error occurred while creating a job. Please note the following for support: #{job_data}"
     end
   end
 
