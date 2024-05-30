@@ -486,7 +486,7 @@
     <condition property="tag-arg" value="--tag &quot;${tag}&quot;" else="">
       <isset property="tag"/>
     </condition>
-    <condition property="order-arg" value="--order &quot;${tag}&quot;" else="--order rand:1">
+    <condition property="order-arg" value="--order &quot;${order}&quot;" else="--order rand:1">
       <isset property="order"/>
     </condition>
     <condition property="pattern-arg" value="-P &quot;${pattern}&quot;" else="">
