@@ -33,7 +33,7 @@ gem 'jquery-rails'
 gem 'excon', '>= 0.76.0'
 gem 'json'
 gem 'json-schema', '1.0.10'
-gem 'multipart-post', '1.2.0'
+gem 'multipart-post', '~> 2.4.0'
 gem 'net-http-persistent', '>= 4.0.1'
 
 # support clipboard
@@ -63,6 +63,7 @@ group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'dumb_delegator'
+  gem 'factory_bot', '= 6.2.1'
   gem 'factory_bot_rails'
   gem 'fog-aws', '2.0.0', require: false
   gem 'launchy'

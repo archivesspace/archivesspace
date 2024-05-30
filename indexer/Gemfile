@@ -13,12 +13,12 @@ gem 'multi_json', '~> 1.15.0'
 gem 'nokogiri', '>= 1.10.8'
 gem 'sinatra', '~> 2.2', require: false
 gem 'sinatra-contrib', '~> 2.2', require: false
-gem 'multipart-post', '1.2.0'
+gem 'multipart-post', '~> 2.4'
 gem 'net-http-persistent', '>= 4.0.1'
 gem 'json-schema', '1.0.10'
 
 group :test do
-  gem 'factory_bot'
+  gem 'factory_bot', '= 6.2.1'
   gem 'ladle'
   gem 'rack-test'
   gem 'rspec'
