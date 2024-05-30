@@ -14,6 +14,8 @@ gem 'erb',  group: :docs
 gem 'cgi', '0.3.1', group: :docs
 gem 'csv', group: :docs
 
+gem 'multipart-post', '~> 2.4'
+
 backend_gemfile = File.expand_path('./backend/Gemfile', File.dirname(__FILE__))
 
 if File.exist?(backend_gemfile)
