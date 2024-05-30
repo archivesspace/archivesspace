@@ -158,4 +158,21 @@
       <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
     </div>
   <% end %>
+
+  <% if @resource && controller_name == 'resources' && ['show', 'edit'].include?(action_name) %>
+    <script type="text/template" id="bulkUpdateButtonTemplate">
+      <%= link_to "Bulk Update Spreadsheet", {:controller => :bulk_updater, :action => :download_form, :resource => @resource.uri} %>
+    </script>
+    <script>
+      $(function() {
+        $(document).on("loadedrecordform.aspace", function(event, $container) {
+            if (tree && tree.current().data('jsonmodel_type') == 'resource') {
+              $('#other-dropdown .dropdown-menu').append($('<li />').append($(AS.renderTemplate("bulkUpdateButtonTemplate"))));
+              $('#other-dropdown').show();
+            }
+        });
+      });
+    </script>
+  <% end %>
+
 </section>

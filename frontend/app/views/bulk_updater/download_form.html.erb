@@ -1,0 +1,190 @@
+<%= stylesheet_link_tag "#{AppConfig[:frontend_prefix]}assets/bulk_updater.css" %>
+<%= stylesheet_link_tag "#{AppConfig[:frontend_prefix]}assets/fattable.css" %>
+<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/fattable.js" %>
+<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/bulk_updater.js" %>
+
+<div class="record-pane">
+
+  <h1>Generate a Bulk Update Spreadsheet</h1>
+
+  <% if @spreadsheet_errors %>
+    <div class="alert alert-danger">
+      <%= @spreadsheet_errors %>
+    </div>
+  <% end %>
+
+  <p>Use the form below to select the Archival Objects you wish to bulk update.</p>
+
+  <p>
+    <strong>Selected Records:</strong> <span id="selectedCount"></span>
+  </p>
+
+  <div id='bulk_updater_table'></div>
+
+  <%= form_tag({:action => :download}, {:method => 'post', :id => "bulk_updater_form"}) do %>
+    <%= hidden_field_tag "resource", @uri %>
+    <div class="report-fields"></div>
+
+    <hr/>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <p>
+          <input id="bulk-update-toplevel-select-all" class='checkbox-select-all' type="checkbox" checked="checked">&nbsp;Column types to include in spreadsheet:
+        </p>
+
+        <table class="bulk-update-column-selector">
+          <%
+          [
+            ['update_select_level', 'archival_object.level'],
+            ['update_select_component_id', 'archival_object.component_id'],
+            ['update_select_ref_id', 'archival_object.ref_id'],
+            ['update_select_repository_processing_note', 'archival_object.repository_processing_note'],
+            ['update_select_publish', 'archival_object.publish'],
+            ['update_select_date', 'date._plural'],
+            ['update_select_extent', 'extent._plural'],
+            ['update_select_instance', 'instance._plural'],
+            ['update_select_digital_object', 'digital_object._plural'],
+            ['update_select_related_accession', 'related_accession._plural'],
+            ['update_select_langmaterial', 'lang_material._plural'],
+          ].each do |value, label_key|
+          %>
+          <tr>
+            <% no_acc_link = value == 'update_select_related_accession' && !JSONModel(:archival_object).schema.dig('properties', 'accession_links') %>
+
+            <td class="checkbox-cell">
+              <input id="<%= value %>" name="<%= value %>" type="checkbox" <%= no_acc_link ? 'disabled="disabled"' : 'checked="checked"' %>>
+            </td>
+            <td class="label-cell">
+              <label for="<%= value %>"><%= I18n.t(label_key) %></label>
+
+              <% if no_acc_link %>
+                (Requires ArchivesSpace version 3.3.0 or greater, or this <a href="https://github.com/hudmol/as_accession_links">plugin</a>)
+              <% end %>
+
+            </td>
+          </tr>
+          <% end %>
+          <tr>
+            <td class="checkbox-cell">
+              <input type="checkbox" checked="checked" id="bulk-update-select-all-notes" class="checkbox-select-all">
+            </td>
+            <td><strong>Note types:</strong></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <table>
+                <%
+                [
+                  ['update_select_note_accessrestrict', 'enumerations._note_types.accessrestrict'],
+                  ['update_select_note_scopecontent', 'enumerations._note_types.scopecontent'],
+                  ['update_select_note_bioghist', 'enumerations._note_types.bioghist'],
+                  ['update_select_note_accruals', 'enumerations._note_types.accruals'],
+                  ['update_select_note_dimensions', 'enumerations._note_types.dimensions'],
+                  ['update_select_note_altformavail', 'enumerations._note_types.altformavail'],
+                  ['update_select_note_odd', 'enumerations._note_types.odd'],
+                  ['update_select_note_phystech', 'enumerations._note_types.phystech'],
+                  ['update_select_note_processinfo', 'enumerations._note_types.processinfo'],
+                  ['update_select_note_relatedmaterial', 'enumerations._note_types.relatedmaterial'],
+                  ['update_select_note_separatedmaterial', 'enumerations._note_types.separatedmaterial'],
+                  ['update_select_note_abstract', 'enumerations._note_types.abstract'],
+                  ['update_select_note_physdesc', 'enumerations._note_types.physdesc'],
+                ]
+                .sort_by {|_, note_label_key| I18n.t(note_label_key)}
+                .each do |note_value, note_label_key| %>
+                  <tr>
+                    <td class="checkbox-cell">
+                      <input id="<%= note_value %>" name="<%= note_value %>" type="checkbox" checked="checked" class="bulk-update-note-checkbox">
+                    </td>
+                    <td class="label-cell">
+                      <label for="<%= note_value %>"><%= I18n.t(note_label_key) %></label>
+                    </td>
+                  </tr>
+                <% end %>
+              </table>
+            </td>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      bulkUpdaterHandleSelectAll($('#bulk-update-select-all-notes'), $('.bulk-update-note-checkbox'));
+      bulkUpdaterHandleSelectAll($('#bulk-update-toplevel-select-all'), $('input[type=checkbox]:not(#bulk-update-toplevel-select-all)'));
+    </script>
+
+    <hr/>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Minimum subrecords</label>
+        <div class="col-sm-1">
+          <select class="form-control" name="min_subrecords">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected="selected">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <label class="col-sm-6 help-inline">The minimum number of subrecords of each type to be included.</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Extra subrecords</label>
+        <div class="col-sm-1">
+          <select class="form-control" name="extra_subrecords">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected="selected">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <label class="col-sm-6 help-inline">
+          The number of subrecords to include in addition to the greatest number found in any of the selected records.
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Minimum notes</label>
+        <div class="col-sm-1">
+          <select class="form-control" name="min_notes">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2" selected="selected">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+        <label class="col-sm-6 help-inline">The minimum number of note subrecords of each type to be included.</label>
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="form-group">
+      <button class="btn btn-primary submit-btn" disabled>Download Spreadsheet</button>
+      <%= link_to "Cancel", :back, :class => "btn btn-default" %>
+    </div>
+
+  <% end %>
+</div>
+
+<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/bulk_updater_table.js" %>
+<script>
+  initBulkUpdaterTable(<%= ASUtils.to_json(@tree).html_safe %>);
+  new SpreadsheetBuilderForm('bulk_updater_form');
+</script>
+
+<script type="javascript/template" id="downloadPopupContent">
+  <div class="modal-body">
+    <p>Generating this spreadsheet may take a few moments.</p>
+    <button class="close-download-popup btn btn-primary pull-right" data-dismiss="modal">Done</button>
+  </div>
+</script>
