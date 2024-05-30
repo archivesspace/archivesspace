@@ -56,7 +56,7 @@ class BulkUpdaterController < ApplicationController
     end
 
     first_on_queue = queue.pop # :ok or error hash
-    if first_on_queue.kind_of?(Hash)
+    if first_on_queue.is_a?(Hash)
       @spreadsheet_errors = first_on_queue[:error]
 
       @uri = params[:resource]
@@ -69,8 +69,9 @@ class BulkUpdaterController < ApplicationController
       def self.queue=(queue)
         @queue = queue
       end
+
       def self.each(&block)
-        while(true)
+        while (true)
           chunk = @queue.pop
 
           break if chunk === :EOF
@@ -81,7 +82,6 @@ class BulkUpdaterController < ApplicationController
     end
 
     self.response_body.queue = queue
-
   end
 
 

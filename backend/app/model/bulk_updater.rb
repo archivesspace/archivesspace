@@ -2,7 +2,7 @@ class BulkUpdater
 
   extend JSONModel
 
-  attr_accessor :filename,  :job, :errors, :updated_uris
+  attr_accessor :filename, :job, :errors, :updated_uris
 
   BATCH_SIZE = 128
 
@@ -84,7 +84,7 @@ class BulkUpdater
       end
 
       batch_rows(filename) do |batch|
-        to_process = batch.map{|row| [Integer(row.fetch('id')), row]}.to_h
+        to_process = batch.map {|row| [Integer(row.fetch('id')), row]}.to_h
 
         ao_objs = ArchivalObject.filter(:id => to_process.keys).all
         ao_jsons = ArchivalObject.sequel_to_jsonmodel(ao_objs)
@@ -268,7 +268,7 @@ class BulkUpdater
 
     unless notes_by_type.has_key?(note_type)
       notes_by_type[note_type] = ao_json.notes
-                                   .select{|note| note['jsonmodel_type'] == note_jsonmodel.to_s && note['type'] == note_type.to_s}
+                                   .select {|note| note['jsonmodel_type'] == note_jsonmodel.to_s && note['type'] == note_type.to_s}
     end
 
     clean_value = column.sanitise_incoming_value(value)
@@ -289,7 +289,7 @@ class BulkUpdater
       # Apply content
       if column.is_a?(SpreadsheetBuilder::NoteContentColumn)
         first_text_note = column.multipart? ?
-                            note_to_update['subnotes'].detect{|subnote| subnote['jsonmodel_type'] == 'note_text'} :
+                            note_to_update['subnotes'].detect {|subnote| subnote['jsonmodel_type'] == 'note_text'} :
                             note_to_update['content'].first
 
         if first_text_note
@@ -331,11 +331,11 @@ class BulkUpdater
       else
         note_path_to_update = nil
         if column.property_name.to_s == 'note'
-          note_path_to_update =  note_to_update
+          note_path_to_update = note_to_update
         else
           # column property name gives the path to a nested record on the note
           note_to_update[column.property_name.to_s] ||= {}
-          note_path_to_update =  note_to_update[column.property_name.to_s]
+          note_path_to_update = note_to_update[column.property_name.to_s]
         end
 
         if column.name.to_s == 'local_access_restriction_type'
@@ -371,7 +371,7 @@ class BulkUpdater
 
       updates_by_index.each do |index, subrecord_updates|
         if (existing_subrecord = Array(ao_json[jsonmodel_property.to_s])[index])
-          if subrecord_updates.all?{|_, value| value.to_s.empty? }
+          if subrecord_updates.all? {|_, value| value.to_s.empty? }
             if BulkUpdater.apply_deletes?
               # DELETE!
               record_changed = true
@@ -386,7 +386,7 @@ class BulkUpdater
             end
           end
 
-          if subrecord_updates.any?{|property, value| existing_subrecord[property] != value}
+          if subrecord_updates.any? {|property, value| existing_subrecord[property] != value}
             record_changed = true
 
             if jsonmodel_property.to_s == 'dates'
@@ -396,7 +396,7 @@ class BulkUpdater
 
           subrecords_to_apply << existing_subrecord.merge(subrecord_updates)
         else
-          if subrecord_updates.values.all?{|v| v.to_s.empty? }
+          if subrecord_updates.values.all? {|v| v.to_s.empty? }
             # Nothing to do!
             next
           end
@@ -436,7 +436,7 @@ class BulkUpdater
       end
     end
     # - drop notes with empty subnotes
-    ao_json.notes.reject! do|note|
+    ao_json.notes.reject! do |note|
       if note['jsonmodel_type'] == 'note_multipart' && note['subnotes'].empty?
         record_changed = true
         true
@@ -451,13 +451,13 @@ class BulkUpdater
   def apply_lang_material_updates(row, ao_json, lang_material_updates_by_index)
     record_changed = false
 
-    existing_language_and_script = ao_json.lang_materials.select{|lm| lm['language_and_script'] && ASUtils.wrap(lm['notes']).empty?}
+    existing_language_and_script = ao_json.lang_materials.select {|lm| lm['language_and_script'] && ASUtils.wrap(lm['notes']).empty?}
 
     language_and_script_to_apply = []
 
     lang_material_updates_by_index[:language_and_script].each do |index, updates|
       if (existing_subrecord = existing_language_and_script.fetch(index, false))
-        if updates.all?{|_, value| value.to_s.empty? }
+        if updates.all? {|_, value| value.to_s.empty? }
           if BulkUpdater.apply_deletes?
             # DELETE!
             record_changed = true
@@ -473,7 +473,7 @@ class BulkUpdater
           next
         end
 
-        if updates.all?{|field, value| existing_subrecord.fetch('language_and_script')[field].to_s == value.to_s}
+        if updates.all? {|field, value| existing_subrecord.fetch('language_and_script')[field].to_s == value.to_s}
           # no changes
           language_and_script_to_apply << existing_subrecord
           next
@@ -484,7 +484,7 @@ class BulkUpdater
         existing_subrecord['language_and_script'] = existing_subrecord.fetch('language_and_script').merge(updates)
 
         language_and_script_to_apply << existing_subrecord
-      elsif updates.any?{|_, value| !value.to_s.strip.empty?}
+      elsif updates.any? {|_, value| !value.to_s.strip.empty?}
         record_changed = true
 
         language_and_script_to_apply << {
@@ -497,8 +497,8 @@ class BulkUpdater
     end
 
     # All langmaterial notes flattened (we only update the first `content` from each)
-    existing_note_langmaterial = ao_json.lang_materials.select{|lm| !ASUtils.wrap(lm['notes']).empty?}
-    existing_note_langmaterial_content = existing_note_langmaterial.map{|lm| lm['notes']}.flatten
+    existing_note_langmaterial = ao_json.lang_materials.select {|lm| !ASUtils.wrap(lm['notes']).empty?}
+    existing_note_langmaterial_content = existing_note_langmaterial.map {|lm| lm['notes']}.flatten
     notes_to_create = []
 
     lang_material_updates_by_index[:note_langmaterial].each do |index, value_from_spreadsheet|
@@ -547,10 +547,10 @@ class BulkUpdater
       # other content strings on the note
       existing_note_langmaterial.reject! do |lm|
         lm['notes'].each do |note|
-          note['content'].reject!{|s| s.to_s.empty?}
+          note['content'].reject! {|s| s.to_s.empty?}
         end
 
-        lm['notes'].reject!{|note| note['content'].empty?}
+        lm['notes'].reject! {|note| note['content'].empty?}
 
         lm['notes'].empty?
       end
@@ -582,7 +582,7 @@ class BulkUpdater
       if (existing_subrecord = ao_json.accession_links.fetch(index, false))
         replacement_subrecord = {}
 
-        if updates.all?{|_, value| value.to_s.empty? }
+        if updates.all? {|_, value| value.to_s.empty? }
           if BulkUpdater.apply_deletes?
             # DELETE!
             record_changed = true
@@ -627,7 +627,7 @@ class BulkUpdater
         # ready to apply
         to_apply << replacement_subrecord
       else
-        if updates.values.all?{|v| v.to_s.empty? }
+        if updates.values.all? {|v| v.to_s.empty? }
           # Nothing to do!
           next
         end
@@ -670,8 +670,8 @@ class BulkUpdater
     end
 
     # handle instance updates
-    existing_sub_container_instances = ao_json.instances.select{|instance| instance['instance_type'] != 'digital_object'}
-    existing_digital_object_instances = ao_json.instances.select{|instance| instance['instance_type'] == 'digital_object'}
+    existing_sub_container_instances = ao_json.instances.select {|instance| instance['instance_type'] != 'digital_object'}
+    existing_digital_object_instances = ao_json.instances.select {|instance| instance['instance_type'] == 'digital_object'}
     instances_to_apply = []
     instances_changed = false
 
@@ -681,7 +681,7 @@ class BulkUpdater
     else
       instance_updates_by_index.each do |index, instance_updates|
         if (existing_subrecord = existing_sub_container_instances.fetch(index, false))
-          if instance_updates.all?{|_, value| value.to_s.empty? }
+          if instance_updates.all? {|_, value| value.to_s.empty? }
             if BulkUpdater.apply_deletes?
               # DELETE!
               record_changed = true
@@ -751,7 +751,7 @@ class BulkUpdater
           # ready to apply
           instances_to_apply << existing_subrecord
         else
-          if instance_updates.values.all?{|v| v.to_s.empty? }
+          if instance_updates.values.all? {|v| v.to_s.empty? }
             # Nothing to do!
             next
           end
@@ -760,14 +760,14 @@ class BulkUpdater
           instances_changed = true
 
           instance_to_create = default_record_values('instance').merge(
-            INSTANCE_FIELD_MAPPINGS.map{|target_field, spreadsheet_field| [target_field, instance_updates[spreadsheet_field]]}.to_h
+            INSTANCE_FIELD_MAPPINGS.map {|target_field, spreadsheet_field| [target_field, instance_updates[spreadsheet_field]]}.to_h
           )
 
           last_used_index += 1
           instance_to_create['_sort_'] = last_used_index
 
           instance_to_create['sub_container'].merge!(
-            SUB_CONTAINER_FIELD_MAPPINGS.map{|target_field, spreadsheet_field| [target_field, instance_updates[spreadsheet_field]]}.to_h
+            SUB_CONTAINER_FIELD_MAPPINGS.map {|target_field, spreadsheet_field| [target_field, instance_updates[spreadsheet_field]]}.to_h
           )
 
           candidate_top_container = TopContainerCandidate.new(instance_updates['top_container_type'],
@@ -801,7 +801,7 @@ class BulkUpdater
         digital_object_id = digital_object_updates['digital_object_id']
 
         if (existing_subrecord = existing_digital_object_instances.fetch(index, false))
-          if digital_object_updates.all?{|_, value| value.to_s.empty? }
+          if digital_object_updates.all? {|_, value| value.to_s.empty? }
             if BulkUpdater.apply_deletes?
               # DELETE!
               record_changed = true
@@ -854,7 +854,7 @@ class BulkUpdater
           # ready to apply
           digital_object_instances_to_apply << existing_subrecord
         else
-          if digital_object_updates.values.all?{|v| v.to_s.empty? }
+          if digital_object_updates.values.all? {|v| v.to_s.empty? }
             # Nothing to do!
             next
           end
@@ -888,7 +888,7 @@ class BulkUpdater
     end
 
     if instances_changed
-      ao_json.instances = (instances_to_apply + digital_object_instances_to_apply).sort_by{|instance| instance['_sort_']}.map{|instance| instance.delete('_sort_'); instance}
+      ao_json.instances = (instances_to_apply + digital_object_instances_to_apply).sort_by {|instance| instance['_sort_']}.map {|instance| instance.delete('_sort_'); instance}
     end
 
     record_changed
@@ -947,11 +947,11 @@ class BulkUpdater
 
   DigitalObjectCandidate = Struct.new(:digital_object_id, :digital_object_title, :digital_object_publish, :file_version_file_uri, :file_version_caption, :file_version_publish) do
     def empty?
-      members.all?{|attr| self[attr].to_s.empty?}
+      members.all? {|attr| self[attr].to_s.empty?}
     end
 
     def link_only?
-      !self.digital_object_id.to_s.empty? && (members - [:digital_object_id]).all?{|attr| self[attr].to_s.empty?}
+      !self.digital_object_id.to_s.empty? && (members - [:digital_object_id]).all? {|attr| self[attr].to_s.empty?}
     end
 
     def to_s
@@ -1003,7 +1003,7 @@ class BulkUpdater
     #
     # Check if any of the digital objects referenced in the spreadsheet
     # already exist.
-    candidate_ids = in_sheet.keys.map{|candidate| candidate.digital_object_id}.uniq.compact
+    candidate_ids = in_sheet.keys.map {|candidate| candidate.digital_object_id}.uniq.compact
     db[:digital_object]
     .filter(:digital_object_id => candidate_ids)
     .select(:id, :repo_id, :digital_object_id)
@@ -1036,7 +1036,7 @@ class BulkUpdater
         do_json.digital_object_id = digital_object_candidate.digital_object_id
         do_json.title = digital_object_candidate.digital_object_title
         do_json.publish = digital_object_candidate.digital_object_publish
-        unless [digital_object_candidate.file_version_file_uri, digital_object_candidate.file_version_caption].all?{|v| v.to_s.empty?}
+        unless [digital_object_candidate.file_version_file_uri, digital_object_candidate.file_version_caption].all? {|v| v.to_s.empty?}
           do_json.file_versions = [{
                                      'jsonmodel_type' => 'file_version',
                                      'file_uri' => digital_object_candidate.file_version_file_uri,
@@ -1082,7 +1082,7 @@ class BulkUpdater
             changed = true
           end
 
-          has_file_version_values = ![candidate.file_version_file_uri, candidate.file_version_caption].all?{|v| v.to_s.empty?}
+          has_file_version_values = ![candidate.file_version_file_uri, candidate.file_version_caption].all? {|v| v.to_s.empty?}
           if (file_version = json.file_versions.first)
             if has_file_version_values
               # update the file version
@@ -1196,7 +1196,7 @@ class BulkUpdater
 
     # lookup URIs for candidates
     db[:accession]
-      .filter(:identifier => accessions.keys.map{|candidate| candidate.to_json})
+      .filter(:identifier => accessions.keys.map {|candidate| candidate.to_json})
       .select(:id, :repo_id, :identifier)
       .each do |row|
       bits = Identifiers.parse(row[:identifier])
@@ -1222,12 +1222,12 @@ class BulkUpdater
               Sequel.as(Sequel.qualify(:top_container, :indicator), :top_container_indicator),
               Sequel.as(Sequel.qualify(:top_container, :barcode), :top_container_barcode))
       .each do |row|
-        tc = TopContainerCandidate.new
-        tc.top_container_type = BackendEnumSource.value_for_id('container_type', row[:top_container_type_id])
-        tc.top_container_indicator = row[:top_container_indicator]
-        tc.top_container_barcode = row[:top_container_barcode]
+      tc = TopContainerCandidate.new
+      tc.top_container_type = BackendEnumSource.value_for_id('container_type', row[:top_container_type_id])
+      tc.top_container_indicator = row[:top_container_indicator]
+      tc.top_container_barcode = row[:top_container_barcode]
 
-        result[tc] = JSONModel::JSONModel(:top_container).uri_for(row[:top_container_id], :repo_id => row[:repo_id])
+      result[tc] = JSONModel::JSONModel(:top_container).uri_for(row[:top_container_id], :repo_id => row[:repo_id])
     end
 
     result
@@ -1240,7 +1240,7 @@ class BulkUpdater
       .filter(:id => ao_ids)
       .select(:root_record_id)
       .distinct(:root_record_id)
-      .map{|row| row[:root_record_id]}
+      .map {|row| row[:root_record_id]}
   end
 
   def check_sheet(filename)
@@ -1251,7 +1251,7 @@ class BulkUpdater
     existing_ao_ids = ArchivalObject
                         .filter(:id => ao_ids)
                         .select(:id)
-                        .map{|row| row[:id]}
+                        .map {|row| row[:id]}
 
     (ao_ids - existing_ao_ids).each do |missing_id|
       errors << {
@@ -1297,7 +1297,7 @@ class BulkUpdater
       else
         values = row_values(row)
 
-        next if values.all?{|v| v.nil?}
+        next if values.all? {|v| v.nil?}
 
         yield Row.new(headers.zip(values).to_h, idx + 1)
       end
@@ -1322,7 +1322,7 @@ class BulkUpdater
     end
 
     def empty?
-      values.all?{|_, v| v.to_s.strip.empty?}
+      values.all? {|_, v| v.to_s.strip.empty?}
     end
   end
 
