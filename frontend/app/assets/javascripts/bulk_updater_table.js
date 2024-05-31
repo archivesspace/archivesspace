@@ -258,13 +258,13 @@
           // if the parent is currently selected and all children are selected
           // then keep parent selected but deselect the children
           $checkbox.prop('checked', true);
-          for (var i = index + 1; i <= lastIndex; i++) {
+          for (i = index + 1; i <= lastIndex; i++) {
             flattened[i].selected = false;
           }
         } else {
           // otherwise just set them all to match
           flattened[index].selected = $checkbox.is(':checked');
-          for (var i = index + 1; i <= lastIndex; i++) {
+          for (i = index + 1; i <= lastIndex; i++) {
             flattened[i].selected = $checkbox.is(':checked');
           }
         }

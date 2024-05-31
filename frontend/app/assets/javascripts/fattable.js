@@ -197,7 +197,7 @@
     }
 
     LRUCache.prototype.has = function (k) {
-      return this.data.hasOwnProperty(k);
+      return Object.prototype.hasOwnProperty.call(this.data, k);
     };
 
     LRUCache.prototype.get = function (k) {
@@ -1207,4 +1207,4 @@
   }
 
   window.fattable = fattable;
-}).call(this);
+}.call(this));
