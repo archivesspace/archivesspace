@@ -5,9 +5,9 @@
     background-color: transparent;
     position: absolute;
     height: auto;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    bottom: 0;
+    left: 0;
+    right: 0;
     overflow-x: scroll;
     overflow-y: hidden;
 }
@@ -19,9 +19,9 @@
     position: absolute;
     background-color: transparent;
     width: auto;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
+    top: 0;
+    bottom: 0;
+    right: 0;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -76,10 +76,11 @@
 .fattable-body-container {
     position: absolute;
     overflow: hidden;
-    /* overflow-x:scroll;
-         overflow-y:scroll;*/
 
-    bottom: 0px;
+    /* overflow-x:scroll;
+         overflow-y:scroll; */
+
+    bottom: 0;
     width: 100%;
 }
 .fattable-header-container {
