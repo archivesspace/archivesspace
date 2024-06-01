@@ -12,7 +12,7 @@
       <div class="col-md-9">
         <div class="record-pane">
           <%= link_to_help :topic => "job" %>
-          <h2><%= I18n.t("job._frontend.actions.new") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type]) %> <span class="label label-info badge"><%= I18n.t("job._singular") %></span></h2>
+          <h2><%= I18n.t("job.new_title") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type]) %> <span class="label label-info badge"><%= I18n.t("job._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "form", :locals => {:form => form} %>
 
