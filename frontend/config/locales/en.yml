@@ -162,7 +162,6 @@ en:
     include_unpublished: Include unpublished
     include_daos: Include &lt;dao&gt; tags
     numbered_cs: Use numbered &lt;c&gt; tags
-    print_pdf: Print to PDF
     ead3: EAD3 schema
     use_mods: Use MODS
     use_dc: Use Dublin Core
