@@ -1,4 +1,4 @@
-<a class="edit-arks-btn" href=""><%= t('arks.edit') %></a>
+<a class="dropdown-item edit-arks-btn" href=""><%= t('arks.edit') %></a>
 
 <div id="edit_arks_modal_template" style="display: none">
     <div class="modal-body edit-arks-form">
@@ -39,7 +39,7 @@
             <tr class="previous-ark-value-template" style="display: none">
                 <td class="ark-value"></td>
                 <td class="ark-actions">
-                    <button class="btn btn-sm set-ark-current"><%= t('arks.set_current') %></button>
+                    <button class="btn btn-sm btn-default set-ark-current"><%= t('arks.set_current') %></button>
                     <button class="btn btn-sm btn-danger remove-ark"><%= t('arks.remove_ark') %></button>
                 </td>
             </tr>
@@ -60,16 +60,17 @@
         <hr>
 
         <div class="form-actions">
-            <div>
-                <div style="display: inline-block">
-                    <button class="btn btn-primary btn-save-arks"><%= t('arks.save') %></button>
-                    <div class="text-muted ark-no-changes"><small><%= t('arks.no_changes') %></small></div>
-                </div>
-
-                <button class="btn btn-default btn-cancel ml-auto"><%= t('actions.cancel') %></button>
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-primary btn-save-arks"><%= t('arks.save') %></button>
+                <button class="btn btn-default btn-cancel"><%= t('actions.cancel') %></button>
             </div>
             <div>
-                <small style="display: none" class="unsubmitted-input-msg text-muted"><%= t('arks.unsubmitted_input') %></small>
+                <div class="text-muted ark-no-changes">
+                    <small><%= t('arks.no_changes') %></small>
+                </div>
+                <div>
+                    <small style="display: none" class="unsubmitted-input-msg text-muted"><%= t('arks.unsubmitted_input') %></small>
+                </div>
             </div>
         </div>
     </div>
@@ -278,7 +279,7 @@
      event.preventDefault();
      var dialog_content = AS.renderTemplate("edit_arks_modal_template");
 
-     $modal = AS.openCustomModal("editArksModal", "<%= t('arks.modal_title') %>", dialog_content, 'large');
+     $modal = AS.openCustomModal("editArksModal", "<%= t('arks.modal_title') %>", dialog_content, 'xl');
 
      new EditArksForm($modal.find('.edit-arks-form'),
                       () => { window.location.reload(); },
