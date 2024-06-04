@@ -45,6 +45,7 @@ class ExportsController < ApplicationController
     download_export(url,
                     :include_unpublished => (params[:include_unpublished] ? params[:include_unpublished] : false),
                     :include_daos => (params[:include_daos] ? params[:include_daos] : false),
+                    :include_uris => (params[:include_uris] ? params[:include_uris] : false),
                     :numbered_cs => (params[:numbered_cs] ? params[:numbered_cs] : false),
                     :ead3 => (params[:ead3] ? params[:ead3] : false))
   end

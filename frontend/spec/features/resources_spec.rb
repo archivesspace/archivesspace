@@ -425,6 +425,20 @@ describe 'Resources', js: true do
     expect(elements.length).to eq 1
   end
 
+  it 'has the Include URIs checkbox checked by default on the EAD Export dropdown menu' do
+    now = Time.now.to_i
+    resource = create(:resource, title: "Resource Title #{now}")
+    run_index_round
+
+    visit "resources/#{resource.id}"
+
+    element = find('#form_download_ead', visible: false)
+    expect(element).to have_css '#include-uris', visible: false
+
+    element = find('#include-uris', visible: false)
+    expect(element.checked?).to eq true
+  end
+
   xit 'exports and downloads the resource to xml' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
