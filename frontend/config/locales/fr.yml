@@ -202,6 +202,7 @@ fr:
   export_options:
     include_unpublished: Inclure non publié
     include_daos: Inclure balises &lt;dao&gt;
+    include_uris: Inclure les URI
     numbered_cs: Utiliser balises numérotées &lt;c&gt;
     print_pdf: Imprimer en PDF
     ead3: Schéma EAD3

@@ -115,6 +115,40 @@ describe 'OAI handler' do
       end
     end
 
+    context 'when include_uris is provided from AppConfig[:oai_ead_options] and is set to true' do
+      before do
+        AppConfig[:oai_ead_options] = { include_uris: true }
+      end
+
+      RESOURCE_BASED_FORMATS.each do |prefix|
+        it "responds to a GetRecord request for type #{prefix}, mapping appropriately" do
+          expect {
+            check_oai_request_against_fixture("getrecord_#{prefix}",
+                                              :verb => 'GetRecord',
+                                              :identifier => 'oai:archivesspace/' + @test_resource_record,
+                                              :metadataPrefix => prefix)
+          }.not_to raise_error
+        end
+      end
+    end
+
+    context 'when include_uris is provided from AppConfig[:oai_ead_options] and is set to false' do
+      before do
+        AppConfig[:oai_ead_options] = { include_uris: false }
+      end
+
+      RESOURCE_BASED_FORMATS.each do |prefix|
+        it "responds to a GetRecord request for type #{prefix}, mapping appropriately" do
+          expect {
+            check_oai_request_against_fixture("getrecord_#{prefix}_without_uris",
+                                              :verb => 'GetRecord',
+                                              :identifier => 'oai:archivesspace/' + @test_resource_record,
+                                              :metadataPrefix => prefix)
+          }.not_to raise_error
+        end
+      end
+    end
+
     # TODO: Fix this test and fixtures
     # RESOURCE_AND_COMPONENT_BASED_FORMATS.each do |prefix|
     #  it "responds to a GetRecord request for type #{prefix}, mapping appropriately" do
