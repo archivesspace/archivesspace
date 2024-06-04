@@ -317,7 +317,7 @@ class ArchivesSpaceService < Sinatra::Base
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
         curl -H "X-ArchivesSpace-Session: $SESSION" \\
-        "http://localhost:8089/repositories/2/resource_descriptions/577.xml?include_unpublished=false&include_daos=true&numbered_cs=true&print_pdf=false&ead3=false" //
+        "http://localhost:8089/repositories/2/resource_descriptions/577.xml?include_unpublished=false&include_daos=true&numbered_cs=true&ead3=false" //
         --output ead.xml
       SHELL
     end
@@ -334,7 +334,6 @@ class ArchivesSpaceService < Sinatra::Base
                              params={"include_unpublished": False,
                                      "include_daos": True,
                                      "numbered_cs": True,
-                                     "print_pdf": False,
                                      "ead3": False})
         # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
         # set parameters to True or False
@@ -353,88 +352,18 @@ class ArchivesSpaceService < Sinatra::Base
              "Include digital objects in dao tags", :optional => true],
             ["numbered_cs", BooleanParam,
              "Use numbered <c> tags in ead", :optional => true],
-            ["print_pdf", BooleanParam,
-             "Print EAD to pdf", :optional => true],
             ["repo_id", :repo_id],
             ["ead3", BooleanParam,
              "Export using EAD3 schema", :optional => true])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    if params[:print_pdf]
-      redirect to("/repositories/#{params[:repo_id]}/resource_descriptions/#{params[:id]}.pdf?#{params.map { |k, v| "#{k}=#{v}" }.join('&')}")
-    end
     ead_stream = generate_ead(params[:id],
                               (params[:include_unpublished] || false),
                               (params[:include_daos] || false),
                               (params[:numbered_cs] || false),
                               (params[:ead3] || false))
     stream_response(ead_stream)
-  end
-
-  Endpoint.get('/repositories/:repo_id/resource_descriptions/:id.pdf')
-    .description("Get a PDF representation of a Resource")
-    .example("shell") do
-      <<~SHELL
-        curl -s -F password="admin" "http://localhost:8089/users/admin/login"
-        set SESSION="session_id"
-        curl -H "X-ArchivesSpace-Session: $SESSION" \\
-        "http://localhost:8089/repositories/2/resource_descriptions/577.pdf?include_unpublished=false&include_daos=true&numbered_cs=true&print_pdf=false&ead3=false" //
-        --output ead.pdf
-      SHELL
-    end
-    .example("python") do
-      <<~PYTHON
-        from asnake.client import ASnakeClient  # import the ArchivesSnake client
-
-        client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
-        # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
-
-        client.authorize()  # authorizes the client
-
-        ead_pdf = client.get("repositories/2/resource_descriptions/577.pdf",
-                              params={"include_unpublished": False,
-                                      "include_daos": True,
-                                      "numbered_cs": True,
-                                      "print_pdf": True,
-                                      "ead3": False})
-        # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
-        # set parameters to True or False
-
-        with open("ead.pdf", "wb") as file:  # save the file
-            file.write(ead_pdf.content)  # write the file content to our file.
-            file.close()
-
-        # For error handling, print or log the returned value of client.get with .json() - print(ead_pdf.json())
-      PYTHON
-    end
-    .params(["id", :id],
-            ["include_unpublished", BooleanParam,
-             "Include unpublished records", :optional => true],
-            ["include_daos", BooleanParam,
-             "Include digital objects in dao tags", :optional => true],
-            ["numbered_cs", BooleanParam,
-             "Use numbered <c> tags in ead", :optional => true],
-            ["print_pdf", BooleanParam,
-             "Print EAD to pdf", :optional => true],
-            ["repo_id", :repo_id],
-            ["ead3", BooleanParam,
-             "Export using EAD3 schema", :optional => true])
-    .permissions([:view_repository])
-    .returns([200, "(:resource)"]) \
-  do
-    ead_stream = generate_ead(params[:id],
-                              (params[:include_unpublished] || false),
-                              (params[:include_daos] || false),
-                              (params[:numbered_cs] || false),
-                              (params[:ead3] || false))
-
-    repo = resolve_references(Repository.get_or_die(params[:repo_id]), params[:resolve])
-
-    image_for_pdf = (repo['image_url'])
-
-    pdf = generate_pdf_from_ead(ead_stream, image_for_pdf)
-    pdf_response(pdf)
   end
 
   Endpoint.get('/repositories/:repo_id/resource_descriptions/:id.:fmt/metadata')

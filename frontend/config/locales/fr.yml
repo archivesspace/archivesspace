@@ -205,7 +205,6 @@ fr:
     include_unpublished: Inclure non publié
     include_daos: Inclure balises &lt;dao&gt;
     numbered_cs: Utiliser balises numérotées &lt;c&gt;
-    print_pdf: Imprimer en PDF
     ead3: Schéma EAD3
     use_mods: Utiliser MODS
     use_dc: Utiliser Dublin Core

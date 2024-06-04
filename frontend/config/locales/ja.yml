@@ -169,7 +169,6 @@ ja:
     include_unpublished: 未発表を含める
     include_daos: "&lt;dao&gt;タグを含める"
     numbered_cs: 番号付きの&lt;c&gt;タグを使用する
-    print_pdf: PDFへの印刷
     ead3: EAD3スキーマ
     use_mods: MODSを使用する
     use_dc: ダブリンコアを使用する

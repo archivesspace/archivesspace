@@ -203,7 +203,6 @@ es:
     include_unpublished: Incluir sin publicar
     include_daos: Incluir etiquetas &lt; dao &gt;
     numbered_cs: Utilice etiquetas numeradas &lt; c &gt;
-    print_pdf: Imprimir en PDF
     ead3: EAD3 esquema
     use_mods: Utilizar MODS
     use_dc: Utilizar Dublin Core
