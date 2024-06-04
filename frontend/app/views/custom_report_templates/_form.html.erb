@@ -4,21 +4,25 @@
 
 <% data = @custom_report_template['data'] ? ASUtils.json_parse(@custom_report_template['data']) : {} %>
 
-<fieldset>
+<fieldset class="mb-4">
 
 	<% record_types = custom_data.keys %>
 	<% record_types.delete('global') %>
 
-	<div id="template_information">
-		<h3><%= t "custom_report_template._frontend.section.template_information" %>
-		<%= link_to_help :topic => "accession_basic_information" %></h3>
+	<div id="template_information" class="mb-3">
+		<div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
+			<h3 class="flex-grow-1 mb-0 border-0">
+				<%= t "custom_report_template._frontend.section.template_information" %>
+			</h3>
+			<%= link_to_help :topic => "accession_basic_information" %>
+		</div>
 
 		<%= form.label_and_textfield "name", :required => true %>
 		<%= form.label_and_textarea "description" %>
 		<%= form.label_and_select "limit", custom_report_template_limit_options %>
 
-		<div class="form-group">
-			<%= form.label 'record_type', :class => "col-sm-2 control-label", :for => "custom_record_type" %>
+		<div class="form-group d-flex">
+			<%= form.label 'record_type', :class => "col-sm-2 control-label text-right", :for => "custom_record_type" %>
 			<div class="col-sm-9">
 				<%= select_tag "custom_report_template[data][custom_record_type]", options_for_select(record_types.collect {|record_type| [t("#{record_type}._plural"), record_type]}, data['custom_record_type']), {:id => "custom_record_type", :class => "form-control"} %>
 			</div>
@@ -48,13 +52,13 @@
 						<% {} %>
 					<% end %>
 
-					<div class="panel panel-default">
+					<div class="card mb-3">
 
-						<div class="panel-heading">
+						<div class="card-header">
 							<%= t("#{translation_scope}.#{field['alias'] || field_name}", :default => field_name) %>
 						</div>
 
-						<div style="padding-bottom: 10px;">
+						<div class="card-body">
 							<div class="form-group">
 								<%= form.label_and_boolean 'display', { :label_opts => {:for => "custom_report_template_data_#{record_type}_fields_#{field_name}_include"}, :id => "custom_report_template_data_#{record_type}_fields_#{field_name}_include", :name => "custom_report_template[data][#{record_type}][fields][#{field_name}][include]", :checked => field_data['include'] } %>
 							</div>
@@ -70,8 +74,8 @@
 							<% end %>
 
 							<% if field['data_type'] == "AgentType" %>
-								<div class="form-group">
-									<%= form.label 'values', :class => 'col-sm-2 control-label', :for => "custom_report_template_data_agent_fields_type_values" %>
+								<div class="form-group d-flex">
+									<%= form.label 'values', :class => 'col-sm-2 control-label text-right', :for => "custom_report_template_data_agent_fields_type_values" %>
 									<% agent_types = ['agent_family', 'agent_person', 'agent_corporate_entity', 'agent_software'] %>
 									<div class="col-sm-9">
 										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(agent_types.collect {|agent_type| [t("agent.agent_type.#{agent_type}"), agent_type]}, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
@@ -80,8 +84,8 @@
 							<% end %>
 
 							<% if field['data_type'] == "Boolean" %>
-								<div class="form-group">
-									<%= form.label "value", :class => "col-sm-2 control-label", :for =>  "custom_report_template_data_#{record_type}_fields_#{field_name}_value" %>
+								<div class="form-group d-flex">
+									<%= form.label "value", :class => "col-sm-2 control-label text-right", :for =>  "custom_report_template_data_#{record_type}_fields_#{field_name}_value" %>
 									<div class="col-sm-9">
 										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][value]", options_for_select([["", nil], [t('custom_report_template.true'), true], [t('custom_report_template.false'), false]], field_data['value']), :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 									</div>
@@ -94,8 +98,8 @@
 								<% if enum %>
 									<% options = enum['enumeration_values'] %>
 
-									<div class="form-group">
-										<%= form.label 'values', :class => 'col-sm-2 control-label', :for =>  "custom_report_template_data_#{record_type}_fields_#{field_name}_values" %>
+									<div class="form-group d-flex">
+										<%= form.label 'values', :class => 'col-sm-2 control-label text-right', :for =>  "custom_report_template_data_#{record_type}_fields_#{field_name}_values" %>
 										<div class="col-sm-9">
 											<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(options.collect {|value| [t("enumerations.#{enum_name}.#{value['value']}", :default => value['value']), value['id']]}, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 										</div>
@@ -104,18 +108,24 @@
 							<% end %>
 
 							<% if field['data_type'] == "User" %>
-								<div class="form-group">
-									    <%= form.label 'values', :class => 'col-sm-2 control-label', :for => "custom_report_template_data_#{record_type}_fields_#{field_name}_values" %>
-								    <div class="col-sm-9">
-									<%= text_field_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]_control", nil,  :class => 'user-field form-control', :"data-label" => User, :"autocomplete" => "off", :"aria-label" => I18n.t("custom_report_template._frontend.action.search_usernames") %>
-                                                                        <div class="textarea-with-button">
-                                                                        <%= text_area_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", array_for_textarea(field_data["values"]), :value => field_data['values'], :readonly => true %>
-                                                                            <input type="button" value="Clear" class="user-field-clear-button">
-                                                                            </div>
+								<div class="form-group d-flex">
+									<%= form.label 'values', :class => 'col-sm-2 control-label', :for => "custom_report_template_data_#{record_type}_fields_#{field_name}_values" %>
+									<div class="col-sm-9">
+										<%= text_field_tag(
+											"custom_report_template[data][#{record_type}][fields][#{field_name}][values]_control",
+											nil,
+											:class => 'user-field form-control',
+											:"data-label" => User,
+											:"autocomplete" => "off",
+											:"aria-label" => I18n.t("custom_report_template._frontend.action.search_usernames"))
+										%>
+										<div class="mt-2 d-flex flex-column align-items-start gap-2">
+											<%= text_area_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", array_for_textarea(field_data["values"]), :value => field_data['values'], :readonly => true, :class => 'border border-gray--secondary rounded', :style => "height:100px" %>
+											<input type="button" class="btn btn-default" value="Clear" class="d-block user-field-clear-button">
+										</div>
 									</div>
 								</div>
 							<% end %>
-
 						</div>
 					</div>
 				<% end %>
@@ -151,8 +161,8 @@
 					<% end %>
 				<% end %>
 
-				<div class="form-group">
-					<%= form.label 'field', :class => 'col-sm-2 control-label', :for => "sort_by_#{record_type}" %>
+				<div class="d-flex form-group">
+					<%= form.label 'field', :class => 'col-sm-2 control-label text-right', :for => "sort_by_#{record_type}" %>
 					<div class="col-sm-9">
 						<%= select_tag "custom_report_template[data][#{record_type}][sort_by]", options_for_select(sortable_fields, record_data['sort_by']), {:id => "sort_by_#{record_type}", :class => "form-control"} %>
 					</div>

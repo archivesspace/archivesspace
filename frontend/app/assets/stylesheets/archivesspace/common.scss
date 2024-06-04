@@ -180,6 +180,10 @@ td .btn-group {
   margin-right: 36px !important; // 2.25rem
 }
 
+.ml--1px {
+  margin-left: -1px;
+}
+
 .p-12px {
   padding: 12px;
 }
@@ -210,6 +214,10 @@ td .btn-group {
 
 .gap-bs-x-15px {
   column-gap: 15px; // because bootstrap `.row`s
+}
+
+.gap-2 {
+  gap: 0.5rem;
 }
 
 @media (min-width: 992px) {
@@ -256,7 +264,7 @@ td .btn-group {
 
 .border-gray-600,
 .border-gray--secondary {
-  border-color: $gray-600;
+  border-color: $gray-600 !important;
 }
 
 .bg-asFormHeadingBg {
@@ -274,6 +282,13 @@ td .btn-group {
 
 .hover-bg-dark:hover {
   background-color: var(--dark);
+}
+
+.rounded-right-only {
+  border-top-right-radius: 0.25rem !important;
+  border-bottom-right-radius: 0.25rem !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-left-radius: 0 !important;
 }
 
 .hover-no-underline:hover {
