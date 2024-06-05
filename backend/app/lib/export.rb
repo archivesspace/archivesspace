@@ -84,7 +84,7 @@ module ExportHelpers
   end
 
 
-  def generate_ead(id, include_unpublished, include_daos, use_numbered_c_tags, ead3)
+  def generate_ead(id, include_unpublished, include_daos, include_uris, use_numbered_c_tags, ead3)
     resolve = ['repository', 'linked_agents', 'subjects', 'digital_object', 'top_container', 'top_container::container_profile']
 
     resource = Resource.get_or_die(id)
@@ -94,6 +94,7 @@ module ExportHelpers
     opts = {
       :include_unpublished => include_unpublished,
       :include_daos => include_daos,
+      :include_uris => include_uris,
       :use_numbered_c_tags => use_numbered_c_tags,
       :ead3 => ead3
     }

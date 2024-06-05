@@ -202,6 +202,7 @@ es:
   export_options:
     include_unpublished: Incluir sin publicar
     include_daos: Incluir etiquetas &lt; dao &gt;
+    include_uris: Incluir URI
     numbered_cs: Utilice etiquetas numeradas &lt; c &gt;
     ead3: EAD3 esquema
     use_mods: Utilizar MODS

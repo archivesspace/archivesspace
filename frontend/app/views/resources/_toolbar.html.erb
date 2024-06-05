@@ -12,7 +12,7 @@
           for export needs that this alt approach was easiest. %>
       <li class="dropdown-item p-0 dropdown-submenu" id="download-ead-dropdown" data-download-ead-url="<%= url_for(:controller => :exports,
         :action => :download_ead, :id => @resource.id, :include_unpublished => "${include_unpublished}",
-        :include_daos => "${include_daos}", :numbered_cs => "${numbered_cs}", :ead3 => "${ead3}" )%>">
+        :include_daos => "${include_daos}", :include_uris => "${include_uris}", :numbered_cs => "${numbered_cs}", :ead3 => "${ead3}" )%>">
         <%# The following <a> triggers a download on click and shows the sub dropdown menu
             below it on hover; the sub dropdown menu repositions weirdly (via popper.js)
             after the download in the same page session, so `data-display="static"` is
@@ -28,6 +28,10 @@
             <label class="checkbox" for="include-daos">
               <input type="checkbox" id="include-daos" name="include_daos" checked="checked"/>
               <%= t("export_options.include_daos") %>&#160;
+            </label>
+            <label class="checkbox" for="include-uris">
+              <input type="checkbox" id="include-uris" name="include_uris" checked="checked"/>
+              <%= t("export_options.include_uris") %>&#160;
             </label>
             <label class="checkbox" for="numbered-cs">
               <input type="checkbox" id="numbered-cs" name="numbered_cs" />
