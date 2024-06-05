@@ -814,12 +814,13 @@ label {
 }
 
 .audit-display-wide {
+  margin: 0 auto;
+  padding: 4px;
+  display: flex;
+  justify-content: center;
+  line-height: $baseLineHeight;
   border: 1px solid #f6f6f6;
   background-color: #f1f1f1;
-  padding: 4px;
-  margin-right: 4px;
-  float: right;
-  line-height: $baseLineHeight;
 }
 
 .transfer-form,
