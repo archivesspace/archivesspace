@@ -143,7 +143,6 @@ describe "EAD export mappings" do
     end
 
     node = doc.at(path)
-    val = nil
 
     if data
       expect(doc).to have_node(path)
@@ -310,7 +309,7 @@ describe "EAD export mappings" do
       expect(@doc_include_uris_false).not_to have_node(desc_path + "/did/unitid[@type='aspace_uri']")
     end
 
-    it "does not map {archival_object}.uri to {desc_path}/did/unitid[@type='aspace_uri'] if include_uris is missing" do
+    it "does map {archival_object}.uri to {desc_path}/did/unitid[@type='aspace_uri'] if include_uris is missing" do
       expect(@doc_include_uris_missing).to have_node(desc_path + "/did/unitid[@type='aspace_uri']")
     end
 
