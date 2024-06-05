@@ -175,7 +175,7 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
-  # Defaults to true if @include_uris is not defined or it's value is nil.
+  # Defaults to true if @include_uris is not defined or its value is nil.
   def include_uris
     if instance_variable_defined?(:@include_uris)
       @include_uris = true if @include_uris.nil?
