@@ -297,6 +297,7 @@
     <mkdir dir="target/archivesspace/launcher" />
     <mkdir dir="target/archivesspace/scripts/rb" />
     <mkdir dir="target/archivesspace/stylesheets" />
+    <mkdir dir="target/archivesspace/templates" />
     <mkdir dir="target/archivesspace/plugins/cat_in_a_box" />
     <mkdir dir="target/archivesspace/plugins/newrelic" />
     <mkdir dir="target/archivesspace/plugins/refid_rules" />
@@ -387,6 +388,9 @@
     </copy>
     <copy todir="target/archivesspace/stylesheets">
       <fileset dir="../stylesheets"/>
+    </copy>
+    <copy todir="target/archivesspace/templates">
+      <fileset dir="../templates"/>
     </copy>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
