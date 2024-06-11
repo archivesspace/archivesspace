@@ -238,7 +238,7 @@ module CsvTemplateGenerator
     #   2. fetch a a dataset
     #   3. return an enumerator over CSV lines for streaming to frontend/direct download
     def csv_for_digital_object_generation(resource_id)
-      csv_template_path = File.join(File.dirname(__FILE__), '..', '..', '..', 'templates', 'bulk_import_DO_template.csv')
+      csv_template_path = File.join(ASUtils.find_base_directory, 'templates', 'bulk_import_DO_template.csv')
       csv = CSV.read(csv_template_path)
 
       # Remove first entry because it's automatically prepended with `field_name_text` option in TemplateSpec below.
