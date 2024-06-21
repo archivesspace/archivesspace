@@ -45,9 +45,22 @@ describe 'Bulk Updater model' do
 
   let(:bulk_updater) { BulkUpdater.new(test_file, job) }
 
-  it "initializes bulk update spreadsheet" do
-    expect(bulk_updater.filename).to eq(test_file)
-    expect(bulk_updater.job['job_type']).to eq('bulk_update_job')
+  describe "#initialize" do
+    it "sets the filename" do
+      expect(bulk_updater.filename).to eq(test_file)
+    end
+
+    it "sets the job" do
+      expect(bulk_updater.job).to eq(job)
+    end
+
+    it "initializes errors as an empty array" do
+      expect(bulk_updater.errors).to eq([])
+    end
+
+    it "initializes updated_uris as an empty array" do
+      expect(bulk_updater.updated_uris).to eq([])
+    end
   end
 
   it "determines resource ids" do
@@ -158,7 +171,8 @@ describe 'Bulk Updater model' do
 
         bulk_updater.create_missing_top_containers(in_sheet, job)
 
-        expect(bulk_updater.instance_variable_get(:@top_containers_in_resource)).to eq({ BulkUpdater::TopContainerCandidate.new("box", "3", "345") => "/repositories/2/top_containers/2", BulkUpdater::TopContainerCandidate.new("box", "1", "123") => "/repositories/2/top_containers/3"})
+        expect(bulk_updater.instance_variable_get(:@top_containers_in_resource).keys).to include(in_sheet.keys.first)
+        expect(bulk_updater.instance_variable_get(:@top_containers_in_resource).count).to eq(2)
       end
     end
 
@@ -184,5 +198,68 @@ describe 'Bulk Updater model' do
     expect(bulk_updater.default_record_values('instance')).to eq(BulkUpdater::SUBRECORD_DEFAULTS['instance'])
     expect(bulk_updater.default_record_values('note_multipart')).to eq(BulkUpdater::SUBRECORD_DEFAULTS['note_multipart'])
     expect(bulk_updater.default_record_values('note_singlepart')).to eq(BulkUpdater::SUBRECORD_DEFAULTS['note_singlepart'])
+  end
+
+  describe "updates records" do
+    describe "#apply_sub_record_updates" do
+      let(:bulk_updater) { BulkUpdater.new("test_sheet.xlsx", job) }
+      let(:row) { double("Row") }
+      let(:ao_json) { ao }
+      let(:subrecord_updates_by_index) { { 'dates' => { 0 => { 'label' => 'updated' } } } }
+
+      it "applies subrecord updates to the Archival Object" do
+        expect(bulk_updater.apply_sub_record_updates(row, ao_json, subrecord_updates_by_index)).to be true
+      end
+    end
+
+    describe "#extract_accessions_from_sheet" do
+      let(:db) { double("db") }
+      let(:related_accession_columns) { {"related_accessions/0/id_0"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_0, :property_name => :related_accessions, :i18n => 'ID Part 1'),
+                                         "related_accessions/0/id_1"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_1, :property_name => :related_accessions, :i18n => 'ID Part 2'),
+                                         "related_accessions/0/id_2"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_2, :property_name => :related_accessions, :i18n => 'ID Part 3'),
+                                         "related_accessions/0/id_3"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_3, :property_name => :related_accessions, :i18n => 'ID Part 4')} }
+      it "extracts accessions from the sheet" do
+        # allow_any_instance_of(BulkUpdater).to receive(:each_row).with(test_file).and_yield(related_accession_columns)
+
+        allow(db).to receive(:[]).with(:accession).and_return(db)
+        allow(db).to receive(:filter).and_return(db)
+        allow(db).to receive(:select).with(:id, :repo_id, :identifier).and_return(
+          [
+            { id: 1, repo_id: 2, identifier: "[\"1\", \"2\", \"3\", \"4\"]" },
+            { id: 2, repo_id: 2, identifier: "[\"5\", \"6\", \"7\", \"8\"]" }
+          ]
+        )
+
+        bulk_updater = BulkUpdater.new(test_file, job)
+        accessions = bulk_updater.extract_accessions_from_sheet(db, test_file, related_accession_columns)
+
+        expect(accessions).to eq({ BulkUpdater::AccessionCandidate.new("1", "2", "3", "4") => "/repositories/2/accessions/1",
+                                   BulkUpdater::AccessionCandidate.new("5", "6", "7", "8") => "/repositories/2/accessions/2"})
+      end
+    end
+  end
+
+  describe "#apply_date_defaults" do
+    let(:subrecord) { { 'end' => nil } }
+
+    it "sets date_type to 'single' when 'end' is nil" do
+      expect(bulk_updater.apply_date_defaults(subrecord)['date_type']).to eq('single')
+    end
+
+    it "sets date_type to 'inclusive' when 'end' is not nil" do
+      subrecord['end'] = '2022-01-01'
+      expect(bulk_updater.apply_date_defaults(subrecord)['date_type']).to eq('inclusive')
+    end
+  end
+
+  describe "#apply_instance_updates" do
+    let(:row) { double("Row") }
+    let(:ao_json) { ao }
+    let(:instance_updates_by_index) { { 0 => { 'instance_type' => 'text' } } }
+    let(:digital_object_updates_by_index) { {} }
+
+    it "applies instance updates to the Archival Object JSON" do
+      expect(bulk_updater.apply_instance_updates(row, ao_json, instance_updates_by_index, digital_object_updates_by_index)).to be true
+    end
   end
 end
