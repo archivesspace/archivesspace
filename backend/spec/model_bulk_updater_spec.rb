@@ -219,8 +219,6 @@ describe 'Bulk Updater model' do
                                          "related_accessions/0/id_2"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_2, :property_name => :related_accessions, :i18n => 'ID Part 3'),
                                          "related_accessions/0/id_3"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_3, :property_name => :related_accessions, :i18n => 'ID Part 4')} }
       it "extracts accessions from the sheet" do
-        # allow_any_instance_of(BulkUpdater).to receive(:each_row).with(test_file).and_yield(related_accession_columns)
-
         allow(db).to receive(:[]).with(:accession).and_return(db)
         allow(db).to receive(:filter).and_return(db)
         allow(db).to receive(:select).with(:id, :repo_id, :identifier).and_return(
@@ -258,8 +256,93 @@ describe 'Bulk Updater model' do
     let(:instance_updates_by_index) { { 0 => { 'instance_type' => 'text' } } }
     let(:digital_object_updates_by_index) { {} }
 
-    it "applies instance updates to the Archival Object JSON" do
+    it "will apply instance updates to the Archival Object" do
       expect(bulk_updater.apply_instance_updates(row, ao_json, instance_updates_by_index, digital_object_updates_by_index)).to be true
+    end
+  end
+
+  describe '#apply_lang_material_updates' do
+    let(:row) { double('Row') }
+    let(:ao_json) { ao }
+    let(:lang_material_updates_by_index) { { language_and_script: { 0 => { 'language' => 'English', 'script' => 'Latin' } }, note_langmaterial: {} } }
+
+    context 'when existing language_and_script is empty' do
+      before do
+        allow(ao_json).to receive(:lang_materials).and_return([])
+      end
+
+      it 'will add a new lang_material with the provided updates' do
+        expect(bulk_updater.apply_lang_material_updates(row, ao_json, lang_material_updates_by_index)).to be true
+      end
+    end
+
+    context 'when existing language_and_script is not empty' do
+      let(:existing_language_and_script) { { 'language' => 'Spanish', 'script' => 'Latin' } }
+
+      before do
+        allow(ao_json).to receive(:lang_materials).and_return([
+          {
+            'jsonmodel' => 'lang_material',
+            'language_and_script' => existing_language_and_script
+          }
+        ])
+      end
+
+      it 'will update the existing lang_material with the provided updates' do
+        expect(bulk_updater.apply_lang_material_updates(row, ao_json, lang_material_updates_by_index)).to be true
+      end
+    end
+  end
+
+  describe '#delete_empty_notes' do
+    it 'will delete empty notes from the Archival Object' do
+      ao_json = ao
+      ao_json["notes"][1]["subnotes"][0]["content"] = ''
+
+      expect(bulk_updater.delete_empty_notes(ao_json)).to be true
+    end
+  end
+
+  describe "#apply_notes_column" do
+    let(:row) { double("row") }
+    let(:column) { double("column") }
+    let(:value) { "New note content" }
+    let(:ao_json) { ao }
+    let(:notes_by_type) { {} }
+    let(:note_jsonmodel) { "note_singlepart" }
+    let(:note_type) { "note" }
+
+    it "will create a new note if it doesn't exist" do
+      allow(column).to receive(:sanitise_incoming_value).with(value).and_return(value)
+      allow(column).to receive(:index).at_least(:once).and_return(0)
+      allow(column).to receive(:property_name).and_return("note")
+      allow(column).to receive(:name).at_least(:once).and_return("content")
+
+      expect(bulk_updater.apply_notes_column(row, column, value, ao_json, notes_by_type, note_jsonmodel, note_type)).to be true
+    end
+
+    it "will update an existing note" do
+      existing_note = { "jsonmodel_type" => "note_singlepart", "type" => "note", "content" => ["Old note content"] }
+      notes_by_type[note_type] = { 0 => existing_note }
+
+      allow(column).to receive(:sanitise_incoming_value).with(value).and_return(value)
+      allow(column).to receive(:index).at_least(:once).and_return(0)
+      allow(column).to receive(:property_name).and_return("note")
+      allow(column).to receive(:name).at_least(:once).and_return("content")
+
+      expect(bulk_updater.apply_notes_column(row, column, value, ao_json, notes_by_type, note_jsonmodel, note_type)).to be true
+    end
+
+    it "will delete a note if the value is empty" do
+      existing_note = { "jsonmodel_type" => "note_singlepart", "type" => "note", "content" => ["Old note content"] }
+      notes_by_type[note_type] = { 0 => existing_note }
+
+      allow(column).to receive(:sanitise_incoming_value).with(value).and_return("")
+      allow(column).to receive(:index).at_least(:once).and_return(0)
+      allow(column).to receive(:property_name).and_return("note")
+      allow(column).to receive(:name).at_least(:once).and_return("content")
+
+      expect(bulk_updater.apply_notes_column(row, column, value, ao_json, notes_by_type, note_jsonmodel, note_type)).to be true
     end
   end
 end
