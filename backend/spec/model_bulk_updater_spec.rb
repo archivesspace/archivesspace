@@ -63,16 +63,18 @@ describe 'Bulk Updater model' do
     end
   end
 
-  it "determines resource ids" do
-    allow(bulk_updater).to receive(:extract_ao_ids).with(file_name).and_return([ao.id])
-    expect(bulk_updater.resource_ids_in_play(file_name)).to eq([resource.id])
+  describe "#extract_ao_ids" do
+    it "determines resource ids" do
+      allow(bulk_updater).to receive(:extract_ao_ids).with(file_name).and_return([ao.id])
+      expect(bulk_updater.resource_ids_in_play(file_name)).to eq([resource.id])
+    end
+
+    it "determines archival object ids" do
+      expect(bulk_updater.extract_ao_ids(test_file)).to eq([1, 2, 5, 6])
+    end
   end
 
-  it "determines archival object ids" do
-    expect(bulk_updater.extract_ao_ids(test_file)).to eq([1, 2, 5, 6])
-  end
-
-  describe "checks the spreadsheet" do
+  describe "#check_sheet" do
     context "spreadsheet has errors" do
       it "returns error" do
         allow(bulk_updater).to receive(:extract_ao_ids).with(file_name).and_return([ao.id])
@@ -90,7 +92,7 @@ describe 'Bulk Updater model' do
     end
   end
 
-  describe "extracts the columns" do
+  describe "#extract_columns" do
     context "spreadsheet has errors" do
       it "returns error" do
         expect {bulk_updater.extract_columns(test_file_with_errors)}.to raise_error(RuntimeError, /Column definition not found for 1/)
@@ -103,7 +105,7 @@ describe 'Bulk Updater model' do
     end
   end
 
-  describe "apply deletes" do
+  describe "#apply_deletes?" do
     context "bulk_updater_apply_deletes is false" do
       it "returns false" do
         AppConfig[:bulk_updater_apply_deletes] = false
@@ -119,12 +121,19 @@ describe 'Bulk Updater model' do
     end
   end
 
-  it "finds subrecord columns" do
-    cols = bulk_updater.extract_columns(test_file)
-    expect(bulk_updater.find_subrecord_columns(cols).count).to eq(23)
+  describe "#find_subrecord_columns" do
+    it "finds subrecord columns" do
+      cols = bulk_updater.extract_columns(test_file)
+      expect(bulk_updater.find_subrecord_columns(cols).count).to eq(23)
+    end
+
+    it "finds no subrecord columns" do
+      cols = {}
+      expect(bulk_updater.find_subrecord_columns(cols).count).to eq(0)
+    end
   end
 
-  describe "creates missing top containers check" do
+  describe "#create_missing_top_containers?" do
     context "job has key create_missing_top_containers" do
       it "returns value from job" do
         allow(bulk_updater.job.job).to receive(:has_key?).with('create_missing_top_containers').and_return(true)
@@ -192,48 +201,52 @@ describe 'Bulk Updater model' do
     end
   end
 
-  it "determines default record values" do
-    expect(bulk_updater.default_record_values('note_jsonmodel')).to eq({})
-    expect(bulk_updater.default_record_values('dates')).to eq(BulkUpdater::SUBRECORD_DEFAULTS['dates'])
-    expect(bulk_updater.default_record_values('instance')).to eq(BulkUpdater::SUBRECORD_DEFAULTS['instance'])
-    expect(bulk_updater.default_record_values('note_multipart')).to eq(BulkUpdater::SUBRECORD_DEFAULTS['note_multipart'])
-    expect(bulk_updater.default_record_values('note_singlepart')).to eq(BulkUpdater::SUBRECORD_DEFAULTS['note_singlepart'])
+  describe "#default_record_values" do
+    it "determines default record values" do
+      expect(bulk_updater.default_record_values('note_jsonmodel')).to eq({})
+      expect(bulk_updater.default_record_values('dates')).to eq(BulkUpdater::SUBRECORD_DEFAULTS['dates'])
+      expect(bulk_updater.default_record_values('instance')).to eq(BulkUpdater::SUBRECORD_DEFAULTS['instance'])
+      expect(bulk_updater.default_record_values('note_multipart')).to eq(BulkUpdater::SUBRECORD_DEFAULTS['note_multipart'])
+      expect(bulk_updater.default_record_values('note_singlepart')).to eq(BulkUpdater::SUBRECORD_DEFAULTS['note_singlepart'])
+    end
   end
 
-  describe "updates records" do
-    describe "#apply_sub_record_updates" do
-      let(:bulk_updater) { BulkUpdater.new("test_sheet.xlsx", job) }
-      let(:row) { double("Row") }
-      let(:ao_json) { ao }
-      let(:subrecord_updates_by_index) { { 'dates' => { 0 => { 'label' => 'updated' } } } }
+  describe "#apply_sub_record_updates" do
+    let(:row) { double("Row") }
+    let(:ao_json) { ao }
+    let(:subrecord_updates_by_index) { { 'dates' => { 0 => { 'label' => 'updated' } } } }
 
-      it "applies subrecord updates to the Archival Object" do
-        expect(bulk_updater.apply_sub_record_updates(row, ao_json, subrecord_updates_by_index)).to be true
-      end
+    it "determines that there are subrecord updates" do
+      expect(bulk_updater.apply_sub_record_updates(row, ao_json, subrecord_updates_by_index)).to be true
     end
 
-    describe "#extract_accessions_from_sheet" do
-      let(:db) { double("db") }
-      let(:related_accession_columns) { {"related_accessions/0/id_0"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_0, :property_name => :related_accessions, :i18n => 'ID Part 1'),
-                                         "related_accessions/0/id_1"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_1, :property_name => :related_accessions, :i18n => 'ID Part 2'),
-                                         "related_accessions/0/id_2"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_2, :property_name => :related_accessions, :i18n => 'ID Part 3'),
-                                         "related_accessions/0/id_3"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_3, :property_name => :related_accessions, :i18n => 'ID Part 4')} }
-      it "extracts accessions from the sheet" do
-        allow(db).to receive(:[]).with(:accession).and_return(db)
-        allow(db).to receive(:filter).and_return(db)
-        allow(db).to receive(:select).with(:id, :repo_id, :identifier).and_return(
-          [
-            { id: 1, repo_id: 2, identifier: "[\"1\", \"2\", \"3\", \"4\"]" },
-            { id: 2, repo_id: 2, identifier: "[\"5\", \"6\", \"7\", \"8\"]" }
-          ]
-        )
+    it "determines that there are no subrecord updates" do
+      subrecord_updates_by_index = {}
+      expect(bulk_updater.apply_sub_record_updates(row, ao_json, subrecord_updates_by_index)).to be false
+    end
+  end
 
-        bulk_updater = BulkUpdater.new(test_file, job)
-        accessions = bulk_updater.extract_accessions_from_sheet(db, test_file, related_accession_columns)
+  describe "#extract_accessions_from_sheet" do
+    let(:db) { double("db") }
+    let(:related_accession_columns) { {"related_accessions/0/id_0"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_0, :property_name => :related_accessions, :i18n => 'ID Part 1'),
+                                        "related_accessions/0/id_1"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_1, :property_name => :related_accessions, :i18n => 'ID Part 2'),
+                                        "related_accessions/0/id_2"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_2, :property_name => :related_accessions, :i18n => 'ID Part 3'),
+                                        "related_accessions/0/id_3"=>SpreadsheetBuilder::StringColumn.new(:related_accession, :id_3, :property_name => :related_accessions, :i18n => 'ID Part 4')} }
+    it "extracts accessions from the sheet" do
+      allow(db).to receive(:[]).with(:accession).and_return(db)
+      allow(db).to receive(:filter).and_return(db)
+      allow(db).to receive(:select).with(:id, :repo_id, :identifier).and_return(
+        [
+          { id: 1, repo_id: 2, identifier: "[\"1\", \"2\", \"3\", \"4\"]" },
+          { id: 2, repo_id: 2, identifier: "[\"5\", \"6\", \"7\", \"8\"]" }
+        ]
+      )
 
-        expect(accessions).to eq({ BulkUpdater::AccessionCandidate.new("1", "2", "3", "4") => "/repositories/2/accessions/1",
-                                   BulkUpdater::AccessionCandidate.new("5", "6", "7", "8") => "/repositories/2/accessions/2"})
-      end
+      bulk_updater = BulkUpdater.new(test_file, job)
+      accessions = bulk_updater.extract_accessions_from_sheet(db, test_file, related_accession_columns)
+
+      expect(accessions).to eq({ BulkUpdater::AccessionCandidate.new("1", "2", "3", "4") => "/repositories/2/accessions/1",
+                                  BulkUpdater::AccessionCandidate.new("5", "6", "7", "8") => "/repositories/2/accessions/2"})
     end
   end
 
@@ -256,12 +269,17 @@ describe 'Bulk Updater model' do
     let(:instance_updates_by_index) { { 0 => { 'instance_type' => 'text' } } }
     let(:digital_object_updates_by_index) { {} }
 
-    it "will apply instance updates to the Archival Object" do
+    it "determines there are instance updates" do
       expect(bulk_updater.apply_instance_updates(row, ao_json, instance_updates_by_index, digital_object_updates_by_index)).to be true
+    end
+
+    it "determines there are no instance updates" do
+      instance_updates_by_index = {}
+      expect(bulk_updater.apply_instance_updates(row, ao_json, instance_updates_by_index, digital_object_updates_by_index)).to be false
     end
   end
 
-  describe '#apply_lang_material_updates' do
+  describe "#apply_lang_material_updates" do
     let(:row) { double('Row') }
     let(:ao_json) { ao }
     let(:lang_material_updates_by_index) { { language_and_script: { 0 => { 'language' => 'English', 'script' => 'Latin' } }, note_langmaterial: {} } }
@@ -271,8 +289,13 @@ describe 'Bulk Updater model' do
         allow(ao_json).to receive(:lang_materials).and_return([])
       end
 
-      it 'will add a new lang_material with the provided updates' do
+      it 'determines there are lang_material updates' do
         expect(bulk_updater.apply_lang_material_updates(row, ao_json, lang_material_updates_by_index)).to be true
+      end
+
+      it 'determines there are no lang_material updates' do
+        lang_material_updates_by_index = { language_and_script: {}, note_langmaterial: {} }
+        expect(bulk_updater.apply_lang_material_updates(row, ao_json, lang_material_updates_by_index)).to be false
       end
     end
 
@@ -288,18 +311,29 @@ describe 'Bulk Updater model' do
         ])
       end
 
-      it 'will update the existing lang_material with the provided updates' do
+      it 'determines there are lang_material updates' do
         expect(bulk_updater.apply_lang_material_updates(row, ao_json, lang_material_updates_by_index)).to be true
+      end
+
+      it 'determines there are no lang_material updates' do
+        lang_material_updates_by_index = { language_and_script: {}, note_langmaterial: {} }
+        expect(bulk_updater.apply_lang_material_updates(row, ao_json, lang_material_updates_by_index)).to be false
       end
     end
   end
 
-  describe '#delete_empty_notes' do
-    it 'will delete empty notes from the Archival Object' do
+  describe "#delete_empty_notes" do
+    it 'determines there are empty notes to delete' do
       ao_json = ao
       ao_json["notes"][1]["subnotes"][0]["content"] = ''
 
       expect(bulk_updater.delete_empty_notes(ao_json)).to be true
+    end
+
+    it 'determines there are no empty notes to delete' do
+      ao_json = ao
+
+      expect(bulk_updater.delete_empty_notes(ao_json)).to be false
     end
   end
 
@@ -343,6 +377,74 @@ describe 'Bulk Updater model' do
       allow(column).to receive(:name).at_least(:once).and_return("content")
 
       expect(bulk_updater.apply_notes_column(row, column, value, ao_json, notes_by_type, note_jsonmodel, note_type)).to be true
+    end
+  end
+
+  describe "#apply_archival_object_column" do
+    let(:row) { double("row") }
+    let(:column) { double("column") }
+    let(:path) { "path" }
+    let(:clean_value) { 100 }
+    let(:value) { 1 }
+    let(:ao_json) { { "uri" => "ao_uri", "lock_version" => 1 } }
+
+    context "when the column name is :uri" do
+      before(:each) do
+        allow(column).to receive(:name).and_return(:uri)
+        allow(Integer).to receive(:call).with(value).and_return(1)
+      end
+
+      it "returns true" do
+        allow(column).to receive(:sanitise_incoming_value).with(value).and_return(clean_value)
+        expect(bulk_updater.apply_archival_object_column(row, column, path, value, ao_json)).to be true
+      end
+
+      it "returns false if the value is the same as ao_json[path]" do
+        allow(column).to receive(:sanitise_incoming_value).with(value).and_return(value)
+        ao_json[path] = value
+        expect(bulk_updater.apply_archival_object_column(row, column, path, value, ao_json)).to be false
+      end
+    end
+
+    context "when the column name is :id" do
+      before do
+        allow(column).to receive(:name).and_return(:id)
+      end
+
+      it "returns false" do
+        expect(bulk_updater.apply_archival_object_column(row, column, path, value, ao_json)).to be false
+      end
+    end
+
+    context "when the column name is :lock_version" do
+      before do
+        allow(column).to receive(:name).and_return(:lock_version)
+      end
+
+      it "returns false" do
+        expect(bulk_updater.apply_archival_object_column(row, column, path, value, ao_json)).to be false
+      end
+    end
+  end
+
+  describe '#apply_related_accession_updates' do
+    let(:row) { double('row') }
+    let(:ao_json) { ao }
+    let(:existing_subrecord) { double('existing_subrecord') }
+    let(:related_accession_updates_by_index) { { 0 => { 'id_0' => 'ACCESSION_ID0', 'id_1' => 'ACCESSION_ID1', 'id_2' => 'ACCESSION_ID2', 'id_3' => 'ACCESSION_ID3' } } }
+
+    it 'determines the record has changed and returns true' do
+      allow(ao_json).to receive(:accession_links).and_return({ 0 => { 'id_0' => 'ACCESSION_ID', 'id_1' => 'ACCESSION_ID', 'id_2' => 'ACCESSION_ID', 'id_3' => 'ACCESSION_ID', 'ref' => "/repositories/2/accessions/2" } })
+      bulk_updater.instance_variable_set(:@accessions_in_sheet, { BulkUpdater::AccessionCandidate.new("ACCESSION_ID0", "ACCESSION_ID1", "ACCESSION_ID2", "ACCESSION_ID3") => "/repositories/2/accessions/1" })
+
+      expect(bulk_updater.apply_related_accession_updates(row, ao_json, related_accession_updates_by_index)).to be true
+    end
+
+    it 'determines the record has not changed and returns false' do
+      allow(ao_json).to receive(:accession_links).and_return({ 0 => { 'id_0' => 'ACCESSION_ID', 'id_1' => 'ACCESSION_ID', 'id_2' => 'ACCESSION_ID', 'id_3' => 'ACCESSION_ID', 'ref' => "/repositories/2/accessions/1" } })
+      bulk_updater.instance_variable_set(:@accessions_in_sheet, { BulkUpdater::AccessionCandidate.new("ACCESSION_ID0", "ACCESSION_ID1", "ACCESSION_ID2", "ACCESSION_ID3") => "/repositories/2/accessions/1" })
+
+      expect(bulk_updater.apply_related_accession_updates(row, ao_json, related_accession_updates_by_index)).to be false
     end
   end
 end
