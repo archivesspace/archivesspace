@@ -242,7 +242,6 @@ describe 'Bulk Updater model' do
         ]
       )
 
-      bulk_updater = BulkUpdater.new(test_file, job)
       accessions = bulk_updater.extract_accessions_from_sheet(db, test_file, related_accession_columns)
 
       expect(accessions).to eq({ BulkUpdater::AccessionCandidate.new("1", "2", "3", "4") => "/repositories/2/accessions/1",
@@ -445,6 +444,49 @@ describe 'Bulk Updater model' do
       bulk_updater.instance_variable_set(:@accessions_in_sheet, { BulkUpdater::AccessionCandidate.new("ACCESSION_ID0", "ACCESSION_ID1", "ACCESSION_ID2", "ACCESSION_ID3") => "/repositories/2/accessions/1" })
 
       expect(bulk_updater.apply_related_accession_updates(row, ao_json, related_accession_updates_by_index)).to be false
+    end
+  end
+
+  describe '#extract_top_containers_for_resource' do
+    let(:db) { double('db') }
+    let(:resource_id) { 1 }
+    let(:top_container_id) { 1 }
+    let(:repo_id) { 1 }
+    let(:top_container_type_id) { 1 }
+    let(:top_container_indicator) { 'Box 1' }
+    let(:top_container_barcode) { '1234567890' }
+    let(:row) do
+      {
+        top_container_id: top_container_id,
+        repo_id: repo_id,
+        top_container_type_id: top_container_type_id,
+        top_container_indicator: top_container_indicator,
+        top_container_barcode: top_container_barcode
+      }
+    end
+
+    before do
+      allow(db).to receive(:[]).with(:instance).and_return(db)
+      allow(db).to receive(:join).and_return(db)
+      allow(db).to receive(:filter).and_return(db)
+      allow(db).to receive(:select).and_return([row])
+      allow(BackendEnumSource).to receive(:value_for_id).with('container_type', top_container_type_id).and_return('Box')
+      allow(JSONModel::JSONModel(:top_container)).to receive(:uri_for).with(top_container_id, repo_id: repo_id).and_return('/top_containers/1')
+    end
+
+    it 'returns a hash of top containers for the given resource' do
+      expected_result = {
+        BulkUpdater::TopContainerCandidate.new('Box', 'Box 1', '1234567890') => '/top_containers/1'
+      }
+      result = bulk_updater.extract_top_containers_for_resource(db, resource_id)
+      expect(result).to eq(expected_result)
+    end
+  end
+
+  describe '#resource_ids_in_play' do
+    it 'returns an array of resource IDs' do
+      allow(bulk_updater).to receive(:extract_ao_ids).with(file_name).and_return([ao.id])
+      expect(bulk_updater.resource_ids_in_play(file_name)).to eq([resource.id])
     end
   end
 end
