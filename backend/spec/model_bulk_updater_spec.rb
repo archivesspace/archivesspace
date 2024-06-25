@@ -566,4 +566,19 @@ describe 'Bulk Updater model' do
       expect(digital_objects).to eq({ BulkUpdater::DigitalObjectCandidate.new("DOI1", "DO Title", false, "/dig_obj/file.jpg", "File Caption", false) => nil })
     end
   end
+
+  describe "#extract_top_containers_from_sheet" do
+    let(:top_container_columns) { { "instances/0/top_container_type" => SpreadsheetBuilder::StringColumn.new(:instance, :top_container_type, :property_name => :instances, :i18n => 'Top Container Type'),
+                                    "instances/0/top_container_indicator" => SpreadsheetBuilder::StringColumn.new(:instance, :top_container_indicator, :property_name => :instances, :i18n => 'Top Container Indicator'),
+                                    "instances/0/top_container_barcode" => SpreadsheetBuilder::BooleanColumn.new(:instance, :top_container_barcode, :property_name => :instances, :i18n => 'Top Container Barcode') } }
+
+    it "extracts top containers from the sheet" do
+      top_containers = bulk_updater.extract_top_containers_from_sheet(test_file_with_top_containers, top_container_columns)
+
+      expect(top_containers).to eq({ BulkUpdater::TopContainerCandidate.new("Box [box]", "1", nil) => nil,
+                                     BulkUpdater::TopContainerCandidate.new("Box [box]", "2", nil) => nil,
+                                     BulkUpdater::TopContainerCandidate.new("Reel [reel]", "1", nil) => nil,
+                                     BulkUpdater::TopContainerCandidate.new("oversize [oversize]", "1-12", nil) => nil })
+    end
+  end
 end
