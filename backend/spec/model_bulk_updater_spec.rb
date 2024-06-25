@@ -551,4 +551,19 @@ describe 'Bulk Updater model' do
       end
     end
   end
+
+  describe "#extract_digital_objects_from_sheet" do
+    let(:digital_object_columns) { { "digital_object/0/digital_object_id" => SpreadsheetBuilder::StringColumn.new(:digital_object, :digital_object_id, :property_name => :digital_object, :i18n => 'ID'),
+                                     "digital_object/0/digital_object_title" => SpreadsheetBuilder::StringColumn.new(:digital_object, :digital_object_title, :property_name => :digital_object, :i18n => 'Title'),
+                                     "digital_object/0/digital_object_publish" => SpreadsheetBuilder::BooleanColumn.new(:digital_object, :digital_object_publish, :property_name => :digital_object, :i18n => 'Publish'),
+                                     "digital_object/0/file_version_file_uri" => SpreadsheetBuilder::StringColumn.new(:file_version, :file_version_file_uri, :property_name => :file_version, :i18n => 'File URI'),
+                                     "digital_object/0/file_version_caption" => SpreadsheetBuilder::StringColumn.new(:file_version, :file_version_caption, :property_name => :file_version, :i18n => 'Caption'),
+                                     "digital_object/0/file_version_publish" => SpreadsheetBuilder::BooleanColumn.new(:file_version, :file_version_publish, :property_name => :file_version, :i18n => 'Publish') } }
+
+    it "extracts digital objects from the sheet" do
+      digital_objects = bulk_updater.extract_digital_objects_from_sheet(test_file, digital_object_columns)
+
+      expect(digital_objects).to eq({ BulkUpdater::DigitalObjectCandidate.new("DOI1", "DO Title", false, "/dig_obj/file.jpg", "File Caption", false) => nil })
+    end
+  end
 end
