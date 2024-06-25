@@ -489,4 +489,66 @@ describe 'Bulk Updater model' do
       expect(bulk_updater.resource_ids_in_play(file_name)).to eq([resource.id])
     end
   end
+
+  describe '#apply_digital_objects_changes' do
+    let(:in_sheet) do
+      {
+        BulkUpdater::DigitalObjectCandidate.new('123', 'Digital Object 1', true, 'file_uri_1', 'Caption 1', true) => true
+      }
+    end
+
+    let(:db) { double('db') }
+
+    context 'when digital object already exists' do
+      let(:identifiers_by_digital_object_id) { [ 123 ] }
+      let(:dig_obj) do
+        build(:json_digital_object, :digital_object_id => '123', :lock_version => 1)
+      end
+
+      before do
+        allow(job).to receive(:write_output)
+        allow(db).to receive(:[]).with(:digital_object).and_return(db)
+        allow(db).to receive(:filter).and_return(db)
+        allow(db).to receive(:select).with(:id, :repo_id, :digital_object_id).and_return(
+          [
+            { id: 1, repo_id: 2, digital_object_id: "123" }
+          ]
+        )
+
+        allow(DigitalObject).to receive(:filter).with(id: [1]).and_return(double('DigitalObjectFilter', all: [DigitalObject.create_from_json(dig_obj)]))
+        allow(DigitalObject).to receive(:sequel_to_jsonmodel).and_return([dig_obj])
+      end
+
+      it 'updates the existing digital object' do
+        expect(DigitalObject).not_to receive(:create_from_json)
+        expect_any_instance_of(DigitalObject).to receive(:update_from_json)
+        bulk_updater.apply_digital_objects_changes(in_sheet, job, db)
+        expect(bulk_updater.updated_uris).to eq(['/repositories/2/digital_objects/1'])
+      end
+    end
+
+    context 'when digital object does not exist' do
+      let(:identifiers_by_digital_object_id) { {} }
+      let(:dig_obj) do
+        build(:json_digital_object, :digital_object_id => '123', :lock_version => 1)
+      end
+
+      before do
+        allow(job).to receive(:write_output)
+        allow(db).to receive(:[]).with(:digital_object).and_return(db)
+        allow(db).to receive(:filter).and_return(db)
+        allow(db).to receive(:select).with(:id, :repo_id, :digital_object_id).and_return(
+          [
+            { id: 1, repo_id: 2, digital_object_id: "DOI1" }
+          ]
+        )
+        allow(DigitalObject).to receive(:create_from_json).and_return(double('DigitalObject', uri: '/digital_objects/2', id: 2))
+      end
+
+      it 'creates a new digital object' do
+        bulk_updater.apply_digital_objects_changes(in_sheet, job, db)
+        expect(bulk_updater.updated_uris).to eq(['/digital_objects/2'])
+      end
+    end
+  end
 end
