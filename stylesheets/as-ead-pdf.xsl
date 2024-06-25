@@ -1176,6 +1176,36 @@
             </xsl:choose>
         </fo:basic-link>
     </xsl:template>
+
+    <xsl:template match="ead:langmaterial" mode="overview">
+        <fo:table-row>
+            <fo:table-cell padding-bottom="8pt" padding-right="16pt" text-align="right" font-weight="bold">
+                <fo:block>
+                    <xsl:value-of select="local:tagName(.)"/>:
+                </fo:block>
+            </fo:table-cell>
+            <fo:table-cell>
+                <fo:block>
+                    <xsl:choose>
+                        <!-- When the langmaterial does not have any notes -->
+                        <xsl:when test="child::*">
+                            <xsl:for-each select="child::*">
+                              <xsl:apply-templates select="."/>
+                              <xsl:if test="position()!=last()">
+                                    <xsl:text>, </xsl:text>
+                              </xsl:if>
+                            </xsl:for-each>
+                        </xsl:when>
+                        <!-- When the langmaterial has notes -->
+                        <xsl:otherwise>
+                            <xsl:apply-templates />
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </fo:block>
+            </fo:table-cell>
+        </fo:table-row>
+    </xsl:template>
+
     <xsl:template match="ead:dao" mode="overview">
         <xsl:variable name="linkTitle">
             <xsl:choose>
