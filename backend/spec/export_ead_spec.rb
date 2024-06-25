@@ -1322,9 +1322,153 @@ describe "EAD export mappings" do
     it "will replace MSWord-style smart quotes with ASCII characters" do
       expect(serializer.remove_smart_quotes(note_with_smart_quotes)).to eq("This note has \"smart quotes\" and \'smart apostrophes\' from MSWord.")
     end
+
+    context 'when revision statement fields contain ampersand' do
+      let(:resource) do
+        create(:json_resource,
+          :publish => true,
+          :revision_statements => [
+            {
+              :date => 'date1&date1',
+              :description => '111111111&111111111',
+              :publish => true
+            },
+            {
+              :date => 'date2 & date2',
+              :description => '222222222 & 222222222',
+              :publish => true
+            }
+          ]
+        )
+      end
+
+      it "replaces ampersand with &amp; for revsion statement" do
+        document = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{resource.id}.xml")
+        document_xml_string = document.to_xml
+
+        expect(document_xml_string).to_not include 'date1&date1'
+        expect(document_xml_string).to include 'date1&amp;date1'
+
+        expect(document_xml_string).to_not include '111111111&111111111'
+        expect(document_xml_string).to include '111111111&amp;111111111'
+
+        expect(document_xml_string).to_not include 'date2 & date2'
+        expect(document_xml_string).to include 'date2 &amp; date2'
+
+        expect(document_xml_string).to_not include '222222222 & 222222222'
+        expect(document_xml_string).to include '222222222 &amp; 222222222'
+      end
+    end
+
+    context 'when revision statement fields contain escaped ampersand in the form of &amp;' do
+      let(:resource) do
+        create(:json_resource,
+          :publish => true,
+          :revision_statements => [
+            {
+              :date => 'date1&amp;date1',
+              :description => '111111111&amp;111111111',
+              :publish => true
+            },
+            {
+              :date => 'date2 &amp; date2',
+              :description => '222222222 &amp; 222222222',
+              :publish => true
+            }
+          ]
+        )
+      end
+
+      it "does not affect the &amp; for revsion statement" do
+        document = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{resource.id}.xml")
+        document_xml_string = document.to_xml
+
+        expect(document_xml_string).to_not include 'date1&amp;amp;date1'
+        expect(document_xml_string).to include 'date1&amp;date1'
+
+        expect(document_xml_string).to_not include '111111111&amp;amp;111111111'
+        expect(document_xml_string).to include '111111111&amp;111111111'
+
+        expect(document_xml_string).to_not include 'date2 &amp;amp; date2'
+        expect(document_xml_string).to include 'date2 &amp; date2'
+
+        expect(document_xml_string).to_not include '222222222 &amp;amp; 222222222'
+        expect(document_xml_string).to include '222222222 &amp; 222222222'
+      end
+    end
+
+    context 'when finding_aid_language_note contains an ampersand character' do
+      context 'when ampersand is not surrounded with spaces' do
+        let(:resource) do
+          create(:json_resource,
+            :publish => true,
+            :finding_aid_language_note => 'finding_aid_language_note&finding_aid_language_note'
+          )
+        end
+
+        it "replaces ampersand with &amp;" do
+          document = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{resource.id}.xml")
+          document_xml_string = document.to_xml
+
+          expect(document_xml_string).to include 'finding_aid_language_note&amp;finding_aid_language_note'
+          expect(document_xml_string).to_not include 'finding_aid_language_note&finding_aid_language_note'
+        end
+      end
+
+      context 'when ampersand is surrounded with spaces' do
+        let(:resource) do
+          create(:json_resource,
+            :publish => true,
+            :finding_aid_language_note => 'finding_aid_language_note & finding_aid_language_note'
+          )
+        end
+
+        it "replaces ampersand with &amp;" do
+          document = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{resource.id}.xml")
+          document_xml_string = document.to_xml
+
+          expect(document_xml_string).to include 'finding_aid_language_note &amp; finding_aid_language_note'
+          expect(document_xml_string).to_not include 'finding_aid_language_note & finding_aid_language_note'
+        end
+      end
+    end
+
+    context 'when finding_aid_language_note contains an escaped ampersand character in the form of &amp;' do
+      context 'when &amp; is not surrounded with spaces' do
+        let(:resource) do
+          create(:json_resource,
+            :publish => true,
+            :finding_aid_language_note => 'finding_aid_language_note&amp;finding_aid_language_note'
+          )
+        end
+
+        it "does not replace ampersand with &amp;" do
+          document = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{resource.id}.xml")
+          document_xml_string = document.to_xml
+
+          expect(document_xml_string).to include 'finding_aid_language_note&amp;finding_aid_language_note'
+          expect(document_xml_string).to_not include 'finding_aid_language_note&amp;amp;finding_aid_language_note'
+        end
+      end
+
+      context 'when ampersand is surrounded with spaces' do
+        let(:resource) do
+          create(:json_resource,
+            :publish => true,
+            :finding_aid_language_note => 'finding_aid_language_note &amp; finding_aid_language_note'
+          )
+        end
+
+        it "does not replace ampersand with &amp;" do
+          document = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{resource.id}.xml")
+          document_xml_string = document.to_xml
+
+          expect(document_xml_string).to include 'finding_aid_language_note &amp; finding_aid_language_note'
+          expect(document_xml_string).to_not include 'finding_aid_language_note &amp;amp; finding_aid_language_note'
+        end
+      end
+    end
   end
-
-
 
   describe "Test unpublished record EAD exports" do
 

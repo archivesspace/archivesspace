@@ -954,7 +954,7 @@ class EADSerializer < ASpaceExport::Serializer
         xml.creation { sanitize_mixed_content( creation, xml, fragments) }
 
         if (val = data.finding_aid_language_note)
-          xml.langusage (fragments << val)
+          xml.langusage (fragments << escape_content(val))
         else
           xml.langusage() {
             xml.text(I18n.t("resource.finding_aid_langusage_label"))
@@ -977,12 +977,12 @@ class EADSerializer < ASpaceExport::Serializer
         xml.revisiondesc {
           export_rs.each do |rs|
             if rs['description'] && rs['description'].strip.start_with?('<')
-              xml.text (fragments << rs['description'] )
+              xml.text (fragments << escape_content(rs['description']) )
             else
               xml.change(rs['publish'] ? nil : {:audience => 'internal'}) {
                 rev_date = rs['date'] ? rs['date'] : ""
-                xml.date (fragments <<  rev_date )
-                xml.item (fragments << rs['description']) if rs['description']
+                xml.date (fragments <<  escape_content(rev_date))
+                xml.item (fragments << escape_content(rs['description'])) if rs['description']
               }
             end
           end
