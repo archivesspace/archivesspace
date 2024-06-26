@@ -34,6 +34,9 @@ end
 
 Capybara.raise_server_errors = false
 
+# Make sure server port used is the one AppConfig says it should be
+Capybara.server_port = URI.parse(AppConfig[:public_url]).port
+
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.include Capybara::DSL

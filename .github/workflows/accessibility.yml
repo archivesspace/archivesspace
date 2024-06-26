@@ -102,7 +102,7 @@ jobs:
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
 
       run: |
-        ./build/run rspec -Ddir="../public" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"
+        ./build/run rspec -Ddir="../public" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined" -Dtest-server-url="http://127.0.0.1:13001"
 
     - name: Run Frontend accessibility tests
       env:

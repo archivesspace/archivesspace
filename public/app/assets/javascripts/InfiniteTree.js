@@ -3,6 +3,7 @@
     /**
      * @constructor
      * @param {number} waypointSize - The number of nodes per waypoint
+     * @param {string} appUrlPrefix - The proper app prefix
      * @param {string} resourceUri - The URI of the collection resource
      * @param {string} identifier_separator - The i18n identifier separator
      * @param {string} date_type_bulk - The i18n date type bulk
@@ -10,11 +11,13 @@
      */
     constructor(
       waypointSize,
+      appUrlPrefix,
       resourceUri,
       identifier_separator,
       date_type_bulk
     ) {
       this.WAYPOINT_SIZE = waypointSize;
+      this.appUrlPrefix = appUrlPrefix;
       this.resourceUri = resourceUri;
       this.repoId = this.resourceUri.split('/')[2];
       this.resourceId = this.resourceUri.split('/')[4];
@@ -127,7 +130,7 @@
      */
     async fetchRootNode() {
       try {
-        const response = await fetch(this.rootUri);
+        const response = await fetch(this.appUrlPrefix + this.rootUri);
 
         return await response.json();
       } catch (err) {
