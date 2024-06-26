@@ -28,7 +28,7 @@ AppConfig[:db_url] = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:solr_url] = ENV['ASPACE_TEST_SOLR_URL'] || AppConfig[:solr_url]
 AppConfig[:pui_hide][:record_badge] = false
 AppConfig[:arks_enabled] = true
-
+AppConfig[:public_url] = ENV['ASPACE_TEST_APP_SERVER_URL'] || AppConfig[:public_url]
 
 $backend_start_fn = proc {
   TestUtils::start_backend(URI(AppConfig[:backend_url]).port,

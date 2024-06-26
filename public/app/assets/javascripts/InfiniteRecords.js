@@ -4,11 +4,10 @@
      * @constructor
      * @param {string} resourceUri - The URI of the root resource, e.g.
      * /repositories/2/resources/1234
-     * @param {string} js_path - The path to the js directory as returned
-     * from Rails `javascript_path` helper
+     * @param {string} appUrlPrefix - The proper app prefix
      * @returns {InfiniteRecords} - InfiniteRecords instance
      */
-    constructor(resourceUri, js_path) {
+    constructor(resourceUri, appUrlPrefix) {
       this.container = document.querySelector('.infinite-records-container');
 
       this.WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
@@ -21,7 +20,7 @@
       );
 
       this.resourceUri = resourceUri;
-      this.js_path = js_path;
+      this.appUrlPrefix = appUrlPrefix;
 
       this.wpQueue = [];
       this.wpQueueIsEmpty = () => this.wpQueue.length === 0;
@@ -164,7 +163,7 @@
         query.append('urls[]', uri);
       });
 
-      const url = `${this.resourceUri}/infinite/waypoints?${query}`;
+      const url = `${this.appUrlPrefix}/${this.resourceUri}/infinite/waypoints?${query}`;
 
       try {
         const response = await fetch(url);

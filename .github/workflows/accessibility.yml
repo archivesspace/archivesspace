@@ -75,7 +75,7 @@ jobs:
         ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:3307/accessibility?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
         ASPACE_TEST_SKIP_FIXTURES: 1
       run: |
-        ./build/run rspec -Ddir="../public" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"
+        ./build/run rspec -Ddir="../public" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined" -Dtest-server-url="http://127.0.0.1:13001"
 
     - name: Run Frontend accessibility tests
       env:

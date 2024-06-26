@@ -94,11 +94,12 @@ const resourceUri = '<%= @result["uri"] %>';
 const treeWaypointSize = '<%= sidebar_waypoint_size %>';
 const identifier_separator = '<%= I18n.t("resource.identifier_separator") %>';
 const date_type_bulk = '<%= I18n.t("date_type_bulk.bulk") %>';
-const js_path = '<%= javascript_path(self).split(".")[0] %>'; // IS THERE A BETTER WAY?!
+const appUrlPrefix = '<%= AppConfig[:public_proxy_url] %>';
 
-const infiniteRecords = new InfiniteRecords(resourceUri, js_path);
+const infiniteRecords = new InfiniteRecords(resourceUri, appUrlPrefix);
 const infiniteTree = new InfiniteTree(
   treeWaypointSize,
+  appUrlPrefix,
   resourceUri,
   identifier_separator,
   date_type_bulk

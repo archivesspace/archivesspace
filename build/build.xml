@@ -33,6 +33,7 @@
   <property name="aspace.solr_url.test" value="http://127.0.0.1:8984/solr/archivesspace" />
   <property name="aspace.data_directory.dev" value="${basedir}/../build/dev" />
   <property name="aspace.data_directory.test" value="${basedir}/../build/test" />
+  <property name="aspace.public_url.test" value="http://127.0.0.1:13001" />
 
   <property environment="env"/>
   <!--
@@ -448,7 +449,9 @@
     <condition property="pattern-arg" value="-P &quot;${pattern}&quot;" else="">
       <isset property="pattern"/>
     </condition>
-
+    <condition property="test-server-url-arg" value="${test-server-url}" else="">
+      <isset property="test-server-url"/>
+    </condition>
 
     <echo message="Running rspec" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="${dir}">
@@ -460,6 +463,7 @@
       <env key="APPCONFIG_DATA_DIRECTORY" value="${env.ASPACE_TEST_DATA_DIRECTORY}" />
       <env key="APPCONFIG_DB_URL" value="${env.ASPACE_TEST_DB_URL}" />
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
+      <env key="ASPACE_TEST_APP_SERVER_URL" value="${test-server-url-arg}" />
       <arg line="../build/gems/bin/bundler exec rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths}" />
     </java>
   </target>
@@ -818,6 +822,7 @@
     <antcall target="rspec">
       <param name="dir" value="../public" />
       <param name="tag" value="${tag}" />
+      <param name="test-server-url" value="${aspace.public_url.test}" />
     </antcall>
   </target>
 
