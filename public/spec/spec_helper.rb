@@ -28,6 +28,7 @@ AppConfig[:pui_hide][:record_badge] = false
 AppConfig[:arks_enabled] = true
 app_logfile = File.join(ASUtils.find_base_directory, "ci_logs", "public_app_log.out")
 AppConfig[:pui_log] = app_logfile
+AppConfig[:public_url] = ENV['ASPACE_TEST_APP_SERVER_URL'] || AppConfig[:public_url]
 
 $backend_start_fn = proc {
   TestUtils::start_backend(URI(AppConfig[:backend_url]).port,
