@@ -69,8 +69,8 @@ pt:
     filter_by: Filtrar por
     filtered_by: Filtrado por
     remove_filter: Remova esse filtro
-    more_facets: mais
-    fewer_facets: menos
+    more_facets: Mais
+    fewer_facets: Menos
     op:
       AND: e
       OR: ou

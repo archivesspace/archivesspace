@@ -18,29 +18,35 @@
   %>
 
   <% ordered_facet_types.each do |type| %>
-    <% facet_group = @facets.fetch(type, false) %>
-
-    <% next if facet_group.empty? %>
-    <dt class='mb-2 mt-3'><%= t("search_results.filter.#{type}") %></dt>
-    <% facet_group.each_with_index do |facet, i| %>
+    <%
+      facet_group = @facets.fetch(type, false)
+      max_facets_on_load = 5
+    %>
+    <div id="<%= t("search_results.filter.#{type}").downcase %>-facet">
+      <dt class='mb-2 mt-3'><%= t("search_results.filter.#{type}") %></dt>
+      <% if facet_group.length <= max_facets_on_load %>
+        <% facet_group.each do |facet| %>
+          <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>
+        <% end %>
+      <% else %>
+        <% facet_group.slice(0, max_facets_on_load - 1).each do |facet| %>
+          <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>
+        <% end %>
         <div class="more-facets">
-      <% if i == 5 %>
-          <span class="more btn border btn-sm">&#9663; <%= t('search_results.more_facets') %></span>
-          <div class="below-the-fold">
+          <button type="button" class="more-facets__more mb-1 btn btn-sm">
+            <%= t('search_results.more_facets') %> <i class="fa fa-chevron-down"></i>
+          </button>
+          <div class="more-facets__facets">
+            <% facet_group.slice(max_facets_on_load, facet_group.length - 1).each do |facet| %>
+              <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>
+            <% end %>
+          </div>
+          <button type="button" class="more-facets__less mb-1 btn btn-sm">
+            <%= t('search_results.fewer_facets') %> <i class="fa fa-chevron-up"></i>
+          </button>
+        </div>
       <% end %>
-      <dd>
-        <a href="<%= app_prefix("#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(facet.key)}") %>"
-           rel="nofollow"
-           title="<%= t('search_results.filter_by')%> '<%= facet.label %>'">
-          <%= facet.label %>
-        </a>
-        <span class="recordnumber"><%= facet.count %></span>
-      </dd>
-    <% end %>
-    <% if facet_group.size > 5 %>
-        <span class="less btn border btn-sm">&#9653;  <%= t('search_results.fewer_facets') %></span>
-      </div>
-    <% end %>
+    </div>
   <% end %>
 </dl>
 <% end %>

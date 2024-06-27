@@ -99,9 +99,17 @@ a img {
 
 .more-facets {
   .btn {
-    color: $accent-color;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+
+    &:hover {
+      border-color: $secondary-color;
+      background-color: $lightshade;
+      color: $secondary-color;
+    }
   }
-  .below-the-fold {
+  .more-facets__facets,
+  .more-facets__less {
     display: none;
   }
 }
@@ -562,15 +570,6 @@ ul.no-bullets {
   }
 }
 
-.recordnumber {
-  /* background-color: #ccc; */
-  padding: 0 5px;
-  font-weight: bold;
-
-  /* position: absolute; */
-
-  /* right: 20px; */
-}
 .definition {
   font-size: 0.7em;
   float: right;

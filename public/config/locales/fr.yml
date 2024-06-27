@@ -114,8 +114,8 @@ fr:
     filter_by: Filtrer par
     filtered_by: Filtré par
     remove_filter: Ôter ce filtre
-    more_facets: plus
-    fewer_facets: moins
+    more_facets: Plus
+    fewer_facets: Moins
     op:
       AND: et
       OR: ou

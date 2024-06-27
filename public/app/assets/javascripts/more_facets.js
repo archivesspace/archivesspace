@@ -7,14 +7,16 @@ function MoreFacets($more_facets_div) {
 MoreFacets.prototype.bind_events = function () {
   var self = this;
 
-  self.$more_facets_div.find('.more').on('click', function (e) {
-    $(this).siblings('.below-the-fold').show();
+  self.$more_facets_div.find('.more-facets__more').on('click', function (e) {
+    $(this).siblings('.more-facets__facets').show();
+    $(this).siblings('.more-facets__less').show();
     $(this).hide();
   });
 
-  self.$more_facets_div.find('.less').on('click', function (e) {
-    $(this).parent().hide();
-    $(this).parent().parent().find('.more').show();
+  self.$more_facets_div.find('.more-facets__less').on('click', function (e) {
+    $(this).siblings('.more-facets__facets').hide();
+    $(this).hide();
+    $(this).siblings('.more-facets__more').show();
   });
 };
 
