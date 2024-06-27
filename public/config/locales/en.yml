@@ -130,8 +130,8 @@ en:
     filter_by: Filter By
     filtered_by: Filtered By
     remove_filter: Remove this filter
-    more_facets: more
-    fewer_facets: less
+    more_facets: More
+    fewer_facets: Less
     op:
       AND: and
       OR: or

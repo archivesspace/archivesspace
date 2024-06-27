@@ -1,0 +1,8 @@
+<dd>
+  <a href="<%= app_prefix("#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(facet.key)}") %>"
+    rel="nofollow"
+    title="<%= t('search_results.filter_by')%> '<%= facet.label %>'">
+    <%= facet.label %>
+  </a>
+  <span class="badge badge-pill badge-dark"><%= facet.count %></span>
+</dd>

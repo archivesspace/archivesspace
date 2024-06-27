@@ -134,7 +134,7 @@ de:
       digital_object_type_enum_s: Typ
       extent_type_enum_s: Umfang
     creators_text_contain: der <strong>Urheber</strong> enthält <span class='searchterm'>%{kw}</span>
-    fewer_facets: weniger
+    fewer_facets: Weniger
     op:
       OR: oder
       AND: und
@@ -144,7 +144,7 @@ de:
     page_title: '%{count} Ergebnisse gefunden'
     results_head: 'Zeige %{type}: %{start} - %{end} von %{total}'
     in_repository: ' in <strong>%{name}</strong>'
-    more_facets: mehr
+    more_facets: Mehr
     remove_filter: Diesen Filter entfernen
   page_actions: Seiten-Aktionen
   search-button:
