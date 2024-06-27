@@ -581,4 +581,33 @@ describe 'Bulk Updater model' do
                                      BulkUpdater::TopContainerCandidate.new("oversize [oversize]", "1-12", nil) => nil })
     end
   end
+
+  describe "#run!" do
+    context "when the spreadsheet has errors" do
+      let(:bulk_updater) { BulkUpdater.new(test_file_with_errors, job) }
+
+      before do
+        allow(bulk_updater).to receive(:check_sheet).and_return(false)
+      end
+
+      it "raises an error" do
+        expect { bulk_updater.run! }.to raise_error(RuntimeError, /Column definition not found for 1/)
+      end
+    end
+
+    context "when the spreadsheet has no errors" do
+      let(:bulk_updater) { BulkUpdater.new(test_file, job) }
+
+      before do
+        allow(bulk_updater).to receive(:check_sheet).and_return(true)
+        allow(bulk_updater).to receive(:resource_ids_in_play).with(test_file).and_return([resource.id])
+        allow(bulk_updater).to receive(:create_missing_top_containers?).and_return(false)
+        allow(job).to receive(:write_output).and_return("")
+      end
+
+      it "returns a hash with the number of updated records and their URIs" do
+        expect(bulk_updater.run!).to eq({ :updated=>1, :updated_uris=>bulk_updater.updated_uris })
+      end
+    end
+  end
 end
