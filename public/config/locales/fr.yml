@@ -95,6 +95,16 @@ fr:
 
   pagination: {}
   search_results:
+    highlighting:
+      found_in: Trouvé dans
+      four_part_id: Identifiant
+      dates: Rendez-vous
+      subjects_text: Sujettes
+      published_agents: Agentes
+      creators_text: Créatrices
+      role_enum_s: Les rôles
+      linked_agent_roles: Rôles d'agent liés
+      notes_published: Remarques
     page_title: "%{count} résultats trouvés"
     results_head: "%{type} affichés : %{start} - %{end} de %{total}"
     result: Résultats

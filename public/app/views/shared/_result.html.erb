@@ -21,6 +21,17 @@
     <%= render partial: 'shared/result_record_summary', locals: {:result => result, :props => props } %>
   <% end %>
 
+  <% if result.highlights.present? %>
+    <div>
+      <% result.highlights.each do |key, value| %>
+        <div>
+          <strong><%= I18n.t('search_results.highlighting.found_in') %> <%= I18n.t("search_results.highlighting.#{key}") %>:</strong>&nbsp;
+          <%== value.join(" ") %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
 <% if !props.fetch(:full,false) %>
    </div>
 <% end %>

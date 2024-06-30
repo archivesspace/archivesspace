@@ -76,6 +76,16 @@ es:
 
   pagination: {}
   search_results:
+    highlighting:
+      found_in: Encontrado en
+      four_part_id: Identificador
+      dates: Fechas
+      subjects_text: Sujetas
+      published_agents: Agentes
+      creators_text: Creadoras
+      role_enum_s: Roles
+      linked_agent_roles: Roles de agente vinculada
+      notes_published: Notas
     page_title: "Encontrado %{count} resultados"
     results_head: "Mostrando %{type}: %{start} - %{end} of %{total}"
     result: Resultado

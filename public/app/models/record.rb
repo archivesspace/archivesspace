@@ -12,7 +12,7 @@ class Record
               :identifier, :classifications, :level, :other_level, :linked_digital_objects,
               :container_titles_and_uris
 
-  attr_accessor :criteria
+  attr_accessor :criteria, :highlights
 
   ABSTRACT = %w(abstract scopecontent)
 
@@ -34,7 +34,6 @@ class Record
 
     @level = raw['level']
     @other_level = json['other_level']
-
     @display_string = parse_full_title
     @container_display = parse_container_display
     @container_summary_for_badge = parse_container_summary_for_badge
@@ -51,6 +50,29 @@ class Record
     @classifications = parse_classifications
     @agents = parse_agents(subjects)
     @extents = parse_extents
+  end
+
+  def apply_highlighting
+    if highlights.key?('title') && highlights['title'].length == 1
+      @display_string = highlights['title'][0]
+    end
+
+    # Exclude any redundant fields below that are not meant to be used in the public intreface.
+    #
+    # Remove `title`. Only display string is used.
+    # Remove `notes` and `summary`. They are highlighted even when unpublished.
+    # Remove `agents` and `agents_text`. They are highlighted even when unpublished.
+    exclude_fields = [
+      'title',
+      'notes',
+      'summary',
+      'agents',
+      'agents_text',
+    ]
+
+    @highlights = highlights.reject do |key, _|
+      exclude_fields.include?(key)
+    end
   end
 
   def [](k)
