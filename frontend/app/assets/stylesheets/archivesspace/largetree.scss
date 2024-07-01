@@ -251,6 +251,7 @@
     }
     .indentor {
       .glyphicon {
+        /* .indentor .glyphicon not used in Public */
         line-height: 2em;
         margin-right: 4px;
         color: #4cae4c;
@@ -292,6 +293,7 @@
   }
 
   .tree-resize-toggle {
+    /* .tree-resize-toggle not used in Public */
     font-family: 'Glyphicons Halflings';
     position: absolute;
     border: none;
