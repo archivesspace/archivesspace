@@ -8,7 +8,7 @@ describe 'More Facets', js: true do
 
   it 'are shown when a facet type has more than 5 facets' do
     expect(page).to have_selector('#language-facet .more-facets')
-    expect(page).to_not have_selector('#repository-facet .more-facets')
+    expect(page).to_not have_selector('#subject-facet .more-facets')
   end
 
   it 'are shown/hidden on click' do
