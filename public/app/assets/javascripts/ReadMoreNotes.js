@@ -22,7 +22,7 @@
      */
     listen() {
       this.state.addEventListener('change', () => {
-        this.#setAriaExpanded(this.state.checked);
+        this.setAriaExpanded(this.state.checked);
       });
 
       this.readmore.addEventListener('keydown', e => {
@@ -32,7 +32,7 @@
           const y = window.scrollY;
 
           this.state.checked = true;
-          this.#setAriaExpanded(this.state.checked);
+          this.setAriaExpanded(this.state.checked);
 
           this.less.focus();
 
@@ -43,7 +43,7 @@
         ) {
           e.preventDefault();
           this.state.checked = false;
-          this.#setAriaExpanded(this.state.checked);
+          this.setAriaExpanded(this.state.checked);
 
           this.more.focus();
         }
@@ -51,11 +51,11 @@
     }
 
     /**
-     * @private
      * @description - Set the aria-expanded attribute on the state element
      * @param {boolean} value - The value to set the aria-expanded attribute to
+     * @todo - Make this a private method once our js asset pipeline supports es6
      */
-    #setAriaExpanded(value) {
+    setAriaExpanded(value) {
       this.state.setAttribute('aria-expanded', value);
     }
   }
