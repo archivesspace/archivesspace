@@ -86,6 +86,8 @@ es:
       role_enum_s: Roles
       linked_agent_roles: Roles de agente vinculada
       notes_published: Notas
+      finding_aid_title: Título del instrumento de descripción
+      finding_aid_filing_title: Título abreviado del instrumento de descripción
     page_title: "Encontrado %{count} resultados"
     results_head: "Mostrando %{type}: %{start} - %{end} of %{total}"
     result: Resultado

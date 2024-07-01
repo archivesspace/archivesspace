@@ -105,6 +105,8 @@ fr:
       role_enum_s: Les rôles
       linked_agent_roles: Rôles d'agent liés
       notes_published: Remarques
+      finding_aid_title: Titre de l'instrument de recherche
+      finding_aid_filing_title: Titre de classement de l'aide
     page_title: "%{count} résultats trouvés"
     results_head: "%{type} affichés : %{start} - %{end} de %{total}"
     result: Résultats

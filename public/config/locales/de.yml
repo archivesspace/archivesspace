@@ -76,6 +76,8 @@ de:
       role_enum_s: Rollen
       linked_agent_roles: Verknüpfte Agentenrollen
       notes_published: Anmerkungen
+      finding_aid_title: Titel des Findmittels
+      finding_aid_filing_title: Findmittel Ablagetitel
     result: Ergebnis
     results: Ergebnisse
     search_for: Suche %{type} wobei %{conditions}

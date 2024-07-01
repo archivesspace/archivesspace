@@ -106,6 +106,8 @@ en:
       role_enum_s: Roles
       linked_agent_roles: Linked Agent Roles
       notes_published: Notes
+      finding_aid_title: Finding Aid Title
+      finding_aid_filing_title: Finding Aid Filing Title
     page_title: "Found %{count} Results"
     results_head: "Showing %{type}: %{start} - %{end} of %{total}"
     result: Result
