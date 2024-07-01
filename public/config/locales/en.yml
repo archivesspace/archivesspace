@@ -96,6 +96,16 @@ en:
   searched-field: "searching %{field}"
 
   search_results:
+    highlighting:
+      found_in: Found in
+      four_part_id: Identifier
+      dates: Dates
+      subjects_text: Subjects
+      published_agents: Agents
+      creators_text: Creators
+      role_enum_s: Roles
+      linked_agent_roles: Linked Agent Roles
+      notes_published: Notes
     page_title: "Found %{count} Results"
     results_head: "Showing %{type}: %{start} - %{end} of %{total}"
     result: Result

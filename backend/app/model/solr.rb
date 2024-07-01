@@ -325,9 +325,9 @@ class Solr
 
       if @highlighting
         add_solr_param(:hl, "true")
-        if @query_type == :standard
-          add_solr_param(:"hl.fl", "*")
-        end
+        add_solr_param(:"hl.fl", "*")
+        add_solr_param(:"hl.simple.pre", '<span class="searchterm">')
+        add_solr_param(:"hl.simple.post", "</span>")
       end
 
       unless @show_suppressed

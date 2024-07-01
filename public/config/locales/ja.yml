@@ -68,6 +68,16 @@ ja:
   searched-field: 検索%{field}
   pagination: {}
   search_results:
+    highlighting:
+      found_in: 見つかった場所
+      four_part_id: 識別子
+      dates: 日付
+      subjects_text: 科目
+      published_agents: エージェント
+      creators_text: クリエイター
+      role_enum_s: 役割
+      linked_agent_roles: リンクされたエージェントの役割
+      notes_published: ノート
     page_title: 見つかった%{count}結果
     results_head: "%{type} ： %{start} - %{end}の%{total}"
     result: 結果

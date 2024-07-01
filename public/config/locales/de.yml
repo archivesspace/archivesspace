@@ -66,6 +66,16 @@ de:
     agent: Urheber des Inhalts
   searched-field: '%{field} suchen'
   search_results:
+    highlighting:
+      found_in: Gefunden in
+      four_part_id: Kennung
+      dates: Termine
+      subjects_text: Fächer
+      published_agents: Agentinnen
+      creators_text: Schöpfer
+      role_enum_s: Rollen
+      linked_agent_roles: Verknüpfte Agentenrollen
+      notes_published: Anmerkungen
     result: Ergebnis
     results: Ergebnisse
     search_for: Suche %{type} wobei %{conditions}
