@@ -103,7 +103,7 @@ describe 'Spreadsheet Builder model' do
     expect(spreadsheet.instance_variable_get(:@selected_columns)).to eq(selected_columns + SpreadsheetBuilder::ALWAYS_FIELDS)
   end
 
-  describe "#selected?" do
+  describe "column selected?" do
     context "Unselected Column" do
       it "returns false" do
         expect(spreadsheet.selected?('unselected_column')).to be false
