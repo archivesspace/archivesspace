@@ -1,7 +1,7 @@
 // overrides to bring frontend custom styles into alignment after bootstrap upgrade
 
-// this line imports the glyphicons from bootstrap 3
-@import url('//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css');
+// Bootstrap v3 Glyphicons (deprecated) from the Softserv updates
+@import 'vendor/glyphicons.scss';
 
 @import 'bootstrap/functions';
 @import 'bootstrap/variables';
