@@ -6,19 +6,24 @@
   <% unless @hide_sort_options %>
     <div class="d-inline-block">
       <label>,&#160;<%= t("search_sorting.sort_by") %>&#160;</label>
-      <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+      <button
+        type="button"
+        class="btn btn-sm btn-default dropdown-toggle"
+        data-toggle="dropdown"
+        aria-expanded="false"
+      >
         <%= @search_data.sorted_by_label %>
       </button>
-      <ul class="dropdown-menu sort-opts">
+      <ul class="dropdown-menu dropdown-menu-right sort-opts">
         <% @search_data.sort_fields.each do |field, label| %>
           <% next if field == 'score' && @search_data.sorted_by?(field) %>
-          <li class="dropdown-submenu dropdown-item">
-            <%= link_to label, build_search_params("sort" => @search_data.sort_filter_for(field, "desc")) %>
-            <ul class="dropdown-menu">
+          <li class="dropdown-item p-0 dropdown-submenu">
+            <%= link_to label, build_search_params("sort" => @search_data.sort_filter_for(field, "desc")), :class => 'py-1 px-4 d-block text-decoration-none menu-with-options' %>
+            <ul class="dropdown-menu" style="top: -3px;"> <%# top style for submenu alignment %>
               <% unless field == 'score' %>
-                <li class='dropdown-item'><%= link_to t("search_sorting.asc"), build_search_params("sort" => "#{field} asc") %></li>
+                <li><%= link_to t("search_sorting.asc"), build_search_params("sort" => "#{field} asc"), :class => 'dropdown-item py-1 px-4 d-block text-decoration-none' %></li>
               <% end %>
-              <li class='dropdown-item'><%= link_to t("search_sorting.desc"), build_search_params("sort" => "#{field} desc") %></li>
+              <li><%= link_to t("search_sorting.desc"), build_search_params("sort" => "#{field} desc"), :class => 'dropdown-item py-1 px-4 d-block text-decoration-none' %></li>
             </ul>
           </li>
         <% end %>
@@ -28,17 +33,22 @@
   <% if @search_data.sorted? && !@search_data.sorted_by?('score') %>
     <div class="d-inline-block">
       <label>&#160;<%= t("search_sorting.and") %>&#160;</label>
-      <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+      <button
+        type="button"
+        class="btn btn-sm btn-default dropdown-toggle"
+        data-toggle="dropdown"
+        aria-expanded="false"
+      >
         <%= @search_data.sorted_by_label(1) %>
       </button>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu dropdown-menu-right sort-opts">
         <% @search_data.sort_fields.each do |field, label| %>
           <% if !@search_data.sorted_by?(field) && field != 'score' %>
-            <li class="dropdown-submenu dropdown-item">
-              <%= link_to label, build_search_params("sort2" => @search_data.sort_filter_for(field, "desc")) %>
-              <ul class="dropdown-menu">
-                <li class='dropdown-item'><%= link_to t("search_sorting.asc"), build_search_params("sort2" => "#{field} asc") %></li>
-                <li class='dropdown-item'><%= link_to t("search_sorting.desc"), build_search_params("sort2" => "#{field} desc") %></li>
+            <li class="dropdown-item p-0 dropdown-submenu">
+              <%= link_to label, build_search_params("sort2" => @search_data.sort_filter_for(field, "desc")), :class => 'py-1 px-4 d-block text-decoration-none menu-with-options' %>
+              <ul class="dropdown-menu" style="top: -3px;">
+                <li><%= link_to t("search_sorting.asc"), build_search_params("sort2" => "#{field} asc"), :class => 'dropdown-item py-1 px-4 d-block text-decoration-none' %></li>
+                <li><%= link_to t("search_sorting.desc"), build_search_params("sort2" => "#{field} desc"), :class => 'dropdown-item py-1 px-4 d-block text-decoration-none' %></li>
               </ul>
             </li>
           <% end %>
