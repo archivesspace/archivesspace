@@ -369,6 +369,7 @@ class ArchivesSpaceService < Sinatra::Base
     ead_stream = generate_ead(params[:id],
                               (params[:include_unpublished] || false),
                               (params[:include_daos] || false),
+                              (params[:include_uris]),
                               (params[:numbered_cs] || false),
                               (params[:ead3] || false))
     stream_response(ead_stream)
@@ -428,7 +429,6 @@ class ArchivesSpaceService < Sinatra::Base
     ead_stream = generate_ead(params[:id],
                               (params[:include_unpublished] || false),
                               (params[:include_daos] || false),
-                              (params[:include_uris]),
                               (params[:numbered_cs] || false),
                               (params[:ead3] || false))
 
