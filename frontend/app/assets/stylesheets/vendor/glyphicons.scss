@@ -4,14 +4,14 @@
  */
 
 @font-face {
-  /* See public/vendor/assets/fonts */
+  /* See frontend/vendor/assets/fonts */
   font-family: 'Glyphicons Halflings';
-  src: url('/assets/glyphicons-halflings-regular.eot');
-  src: url('/assets/glyphicons-halflings-regular.eot?#iefix')
+  src: asset-url('glyphicons-halflings-regular.eot');
+  src: asset-url('glyphicons-halflings-regular.eot?#iefix')
       format('embedded-opentype'),
-    url('/assets/glyphicons-halflings-regular.woff') format('woff'),
-    url('/assets/glyphicons-halflings-regular.ttf') format('truetype'),
-    url('/assets/glyphicons-halflings-regular.svg#glyphicons-halflingsregular')
+    asset-url('glyphicons-halflings-regular.woff') format('woff'),
+    asset-url('glyphicons-halflings-regular.ttf') format('truetype'),
+    asset-url('glyphicons-halflings-regular.svg#glyphicons-halflingsregular')
       format('svg');
 }
 .glyphicon {
