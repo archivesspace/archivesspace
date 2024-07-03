@@ -17,7 +17,7 @@ gem 'rufus-scheduler', '~> 2.0.24'
 gem 'rubyXL', '~> 3.4', '>= 3.4.9'
 gem 'saxerator', '= 0.9.2'
 gem 'saxon-rb', '~> 0.8.3'
-gem 'sequel', '~> 5.28.0'
+gem 'sequel', '~> 5.82.0'
 gem 'sinatra', '~> 2.2', require: false
 gem 'sinatra-contrib', '~> 2.2', require: false
 gem 'tzinfo'
@@ -25,10 +25,12 @@ gem 'tzinfo'
 gem 'warbler', '2.0.5', group: :build
 
 gem 'activesupport', '< 6.0'
-gem 'i18n', '< 1.0'
-gem 'oai', '0.4.0'
+gem 'i18n', '~> 1.0'
+gem 'oai', '~> 1.2'
+gem 'rexml'
 
 gem 'rrtf'
+gem 'addressable'
 
 group :test do
   gem 'factory_bot', '= 6.2.1'

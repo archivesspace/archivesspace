@@ -51,8 +51,8 @@
   <% end %>
 
   <% if defined?(@results) %>
-  <h2><%= t('search_results.results_head', {:type => results_type, :start => @results['offset_first'],
-         :end => @results['offset_last'], :total => @results['total_hits'] })  %></h2>
+  <h2><%= t('search_results.results_head', :type => results_type, :start => @results['offset_first'],
+         :end => @results['offset_last'], :total => @results['total_hits'] )  %></h2>
   <% end %>
   <% end %>
   </div>
