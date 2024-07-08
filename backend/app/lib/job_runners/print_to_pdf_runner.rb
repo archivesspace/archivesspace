@@ -37,6 +37,7 @@ class PrintToPDFRunner < JobRunner
           @job.write_output("-" * 50)
         end
 
+        opts[:pdf_export] = true
         ead = ASpaceExport.model(:ead).from_resource(record, resource.tree(:all, mode = :sparse), opts)
         xml = ""
         ASpaceExport.stream(ead).each { |x| xml << x }
