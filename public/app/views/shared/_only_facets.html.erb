@@ -29,7 +29,7 @@
           <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>
         <% end %>
       <% else %>
-        <% facet_group.slice(0, max_facets_on_load - 1).each do |facet| %>
+        <% facet_group.slice(0, max_facets_on_load).each do |facet| %>
           <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>
         <% end %>
         <div class="more-facets">

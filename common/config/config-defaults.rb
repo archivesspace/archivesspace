@@ -511,10 +511,14 @@ AppConfig[:pui_hide][:container_inventory] = false
 # Whether to display linked deaccessions
 AppConfig[:pui_display_deaccessions] = true
 
+# Where to position the PUI Collection Organization sidebar
+# Options: 'left' or 'right'
+AppConfig[:pui_collection_org_sidebar_position] = 'left'
+
 # Whether to display archival record identifiers in the PUI collection organization tree
 AppConfig[:pui_display_identifiers_in_resource_tree] = false
 
-#The number of characters to truncate before showing the 'Read More' link on notes
+# The number of characters to truncate before showing the 'Read More' link on notes
 AppConfig[:pui_readmore_max_characters] = 1000
 
 # Whether to expand all additional information blocks at the bottom of record pages by default. `true` expands all blocks, `false` collapses all blocks.

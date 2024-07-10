@@ -1,5 +1,6 @@
 function ResizableSidebar($sidebar) {
   this.$sidebar = $sidebar;
+  this.position = this.$sidebar.attr('data-sidebar-position') || 'right';
 
   this.$row = $sidebar.closest('.row');
   this.$content_pane = this.$row.find('> .resizable-content-pane');
@@ -33,7 +34,7 @@ ResizableSidebar.prototype.add_handle = function () {
 ResizableSidebar.prototype.bind_events = function () {
   var self = this;
 
-  self.$handle.on('mousedown keydown', function (e) {
+  self.$handle.on('mousedown keydown', function () {
     self.isResizing = true;
   });
 
@@ -43,70 +44,76 @@ ResizableSidebar.prototype.bind_events = function () {
         return;
       }
 
-      var cursor_x = e.clientX;
-      var right_offset = self.$row.width() + self.$row.offset().left - cursor_x;
-
-      right_offset = Math.max(right_offset, 200);
-      var new_content_width = Math.max(self.$row.width() - right_offset, 300);
-
-      self.$sidebar.css('width', 0);
-      self.$content_pane.css('max-width', new_content_width);
-      self.$content_pane.css('flex-basis', new_content_width);
-      self.$sidebar.css(
-        'max-width',
-        self.$row.width() - new_content_width - 20
-      );
-      self.$sidebar.css(
-        'flex-basis',
-        self.$row.width() - new_content_width - 20
-      );
-
-      // position the infinite scrollbar too, if it's about
-      if ($('.infinite-record-scrollbar').length > 0) {
-        $('.infinite-record-scrollbar').css(
-          'left',
-          self.$row.offset().left + new_content_width - 20
-        );
-      }
+      self.resize_by_mouse(e.clientX);
     })
-    .on('mouseup', function (e) {
+    .on('mouseup', function () {
       self.isResizing = false;
     });
 
   // ANW-1323: Make resizable input slider work with keyboard commands alone
   $(document)
     .on('keydown', function (e) {
-      if (!self.isResizing) {
+      const keys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'];
+
+      if (!self.isResizing || !keys.includes(e.key)) {
         return;
       }
-      var content_width = document.getElementById('content').offsetWidth;
-      var slider = document.getElementById('accessible_slider').value;
 
-      var right_offset =
-        self.$row.width() +
-        self.$row.offset().left -
-        content_width * (slider / 100);
+      e.preventDefault();
 
-      right_offset = Math.max(right_offset, 200);
-      var new_content_width = Math.max(self.$row.width() - right_offset, 300);
-
-      self.$sidebar.css('width', 0);
-      self.$content_pane.css('max-width', new_content_width);
-      self.$content_pane.css('flex-basis', new_content_width);
-      self.$sidebar.css('max-width', self.$row.width() - new_content_width);
-      self.$sidebar.css('flex-basis', self.$row.width() - new_content_width);
-
-      // position the infinite scrollbar too, if it's about
-      if ($('.infinite-record-scrollbar').length > 0) {
-        $('.infinite-record-scrollbar').css(
-          'left',
-          self.$row.offset().left + new_content_width - 20
-        );
-      }
+      self.resize_by_key(e.key);
     })
-    .on('keyup', function (e) {
+    .on('keyup', function () {
       self.isResizing = false;
     });
+};
+
+/**
+ * @param {Number} clientX - the horizontal coordinate of the mousemove event
+ * @description Resize sidebar and content based on clientX and sidebar position
+ */
+ResizableSidebar.prototype.resize_by_mouse = function (clientX) {
+  const sidebar_width =
+    this.position === 'left'
+      ? Math.max(clientX - this.$row.offset().left, 200)
+      : Math.max(this.$row.width() + this.$row.offset().left - clientX, 200);
+  const content_width = Math.max(this.$row.width() - sidebar_width, 300);
+
+  this.$sidebar.css('width', sidebar_width);
+  this.$sidebar.css('max-width', sidebar_width);
+  this.$sidebar.css('flex-basis', sidebar_width);
+  this.$content_pane.css('width', content_width);
+  this.$content_pane.css('max-width', content_width);
+  this.$content_pane.css('flex-basis', content_width);
+};
+
+/**
+ * @param {string} key - the Arrow key pressed
+ * @description Resize sidebar and content based on Arrow keys and sidebar position
+ */
+ResizableSidebar.prototype.resize_by_key = function (key) {
+  const isIncrease = () => {
+    return (
+      key === 'ArrowUp' ||
+      (this.position === 'left' && key === 'ArrowRight') ||
+      (this.position === 'right' && key === 'ArrowLeft')
+    );
+  };
+
+  let adjustment = isIncrease() ? 10 : -10;
+
+  const sidebar_width = Math.max(
+    parseInt(this.$sidebar.css('width')) + adjustment,
+    200
+  );
+  const content_width = Math.max(this.$row.width() - sidebar_width, 300);
+
+  this.$sidebar.css('width', sidebar_width);
+  this.$sidebar.css('max-width', sidebar_width);
+  this.$sidebar.css('flex-basis', sidebar_width);
+  this.$content_pane.css('width', content_width);
+  this.$content_pane.css('max-width', content_width);
+  this.$content_pane.css('flex-basis', content_width);
 };
 
 $(function () {

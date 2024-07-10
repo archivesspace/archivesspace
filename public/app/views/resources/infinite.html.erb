@@ -20,23 +20,14 @@
   content_waypoint_size = 20
   sidebar_waypoint_size = 200
   num_records = @ordered_records.count
+  sidebar_position = AppConfig[:pui_collection_org_sidebar_position]
 %>
-<div class="row" style="overflow: hidden;">
+<div class="row overflow-hidden">
   <div
-    class="infinite-records-container col-sm-9"
-    data-waypoint-size="<%= content_waypoint_size %>"
-    data-total-records="<%= num_records %>">
-    <div class="root">
-      <% @ordered_records.each_slice(content_waypoint_size).each_with_index do |refs, i| %>
-        <div
-          class="waypoint"
-          data-waypoint-number="<%= i %>"
-          data-uris="<%= refs.map {|r| r['ref']}.join(';') %>"
-        >&nbsp;</div>
-      <% end %>
-    </div>
-  </div>
-  <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar infinite-tree-sidebar">
+    id="sidebar"
+    class="sidebar sidebar-container col-sm-3 resizable-sidebar <%= sidebar_position == 'left' ? 'resizable-sidebar-left' : 'order-1' %> infinite-tree-sidebar"
+    data-sidebar-position="<%= sidebar_position %>"
+  >
     <% if AppConfig[:pui_search_collection_from_collection_organization] %>
       <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => t('actions.search_in', :type => t('resource._singular'))} %>
     <% end %>
@@ -48,6 +39,20 @@
       data-repo-id="<%= @result['uri'].split('/')[2] %>"
       data-resource-id="<%= @result['uri'].split('/')[4] %>"
     >
+    </div>
+  </div>
+  <div
+    class="infinite-records-container col-sm-9 resizable-content-pane"
+    data-waypoint-size="<%= content_waypoint_size %>"
+    data-total-records="<%= num_records %>">
+    <div class="root">
+      <% @ordered_records.each_slice(content_waypoint_size).each_with_index do |refs, i| %>
+        <div
+          class="waypoint"
+          data-waypoint-number="<%= i %>"
+          data-uris="<%= refs.map {|r| r['ref']}.join(';') %>"
+        >&nbsp;</div>
+      <% end %>
     </div>
   </div>
 </div>
