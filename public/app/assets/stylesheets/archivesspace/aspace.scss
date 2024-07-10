@@ -749,11 +749,13 @@ i.giant {
 
 /* record details */
 .available-digital-objects {
-  float: right;
-  max-width: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: end;
 }
 
 .objectimage {
+  max-width: 50%;
   display: block;
   margin: 0 0 1em 1em;
 }
@@ -917,7 +919,19 @@ span.head {
 @media (min-width: 992px) {
   #sidebar.resizable-sidebar {
     position: relative;
-    padding-left: 18px; // margin-right (10) + handle width (8)
+    padding-left: 18px; // padding-right (10) + handle width (8)
+
+    &.resizable-sidebar-left {
+      padding-left: 0.625rem;
+      padding-right: 18px;
+
+      .resizable-sidebar-handle {
+        left: unset;
+        right: 0;
+        border-right: none;
+        border-left: 1px solid #ccc;
+      }
+    }
 
     .resizable-sidebar-handle {
       background-color: #eee;
@@ -1019,6 +1033,12 @@ span.head {
 
 @media (min-width: 992px) {
   #sidebar.resizable-sidebar {
+    &.resizable-sidebar-left {
+      .resizable-sidebar-handle {
+        left: unset;
+        right: 0;
+      }
+    }
     .resizable-sidebar-handle {
       background-color: #eee;
       position: absolute;
