@@ -170,6 +170,23 @@ class EADModel < ASpaceExport::ExportModel
   end
 
 
+  def include_uris?
+    include_uris
+  end
+
+
+  # Defaults to true if @include_uris is not defined or it's value is nil.
+  def include_uris
+    if instance_variable_defined?(:@include_uris)
+      @include_uris = true if @include_uris.nil?
+
+      return @include_uris
+    end
+
+    @include_uris = true
+  end
+
+
   def use_numbered_c_tags?
     @use_numbered_c_tags
   end

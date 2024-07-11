@@ -143,14 +143,15 @@ class EADSerializer < ASpaceExport::Serializer
     @fragments = ASpaceExport::RawXMLHandler.new
     @include_unpublished = data.include_unpublished?
     @include_daos = data.include_daos?
+    @include_uris = data.include_uris?
     @use_numbered_c_tags = data.use_numbered_c_tags?
     @id_prefix = I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')
 
     doc = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       ead_attributes = {
-        'xmlns:xsi' => 'https://www.w3.org/2001/XMLSchema-instance',
+        'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
         'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 https://www.loc.gov/ead/ead.xsd',
-        'xmlns:xlink' => 'https://www.w3.org/1999/xlink'
+        'xmlns:xlink' => 'http://www.w3.org/1999/xlink'
       }
 
       if data.publish === false
@@ -193,7 +194,9 @@ class EADSerializer < ASpaceExport::Serializer
 
             handle_arks(data, xml)
 
-            serialize_aspace_uri(data, xml)
+            if @include_uris
+              serialize_aspace_uri(data, xml)
+            end
 
             serialize_extents(data, xml, @fragments)
 
@@ -321,7 +324,9 @@ class EADSerializer < ASpaceExport::Serializer
 
         handle_arks(data, xml)
 
-        serialize_aspace_uri(data, xml)
+        if @include_uris
+          serialize_aspace_uri(data, xml)
+        end
 
         if @include_unpublished
           data.external_ids.each do |exid|

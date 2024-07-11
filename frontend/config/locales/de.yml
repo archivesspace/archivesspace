@@ -413,6 +413,7 @@ de:
   export_options:
     include_unpublished: Unveröffentlichte einschließen
     include_daos: '&lt;dao&gt; Tags einschließen'
+    include_uris: URIs einschließen
     numbered_cs: Nummerierte &lt;c&gt; Tags verwenden
     print_pdf: In PDF drucken
     ead3: EAD3 Schema

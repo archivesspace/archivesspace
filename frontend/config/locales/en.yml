@@ -157,6 +157,7 @@ en:
   export_options:
     include_unpublished: Include unpublished
     include_daos: Include &lt;dao&gt; tags
+    include_uris: Include URIs
     numbered_cs: Use numbered &lt;c&gt; tags
     print_pdf: Print to PDF
     ead3: EAD3 schema

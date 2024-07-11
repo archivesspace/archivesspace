@@ -68,17 +68,17 @@ describe "Exported METS document" do
 
   it "has the correct namespaces" do
     expect(@mets).to have_namespaces({
-                                   "xmlns" => "https://www.loc.gov/METS/",
-                                   "xmlns:mods"=> "https://www.loc.gov/mods/v3",
-                                   "xmlns:dc"=> "https://purl.org/dc/elements/1.1/",
-                                   "xmlns:xlink" => "https://www.w3.org/1999/xlink",
-                                   "xmlns:xsi" => "https://www.w3.org/2001/XMLSchema-instance"
+                                   "xmlns" => "http://www.loc.gov/METS/",
+                                   "xmlns:mods"=> "http://www.loc.gov/mods/v3",
+                                   "xmlns:dc"=> "http://purl.org/dc/elements/1.1/",
+                                   "xmlns:xlink" => "http://www.w3.org/1999/xlink",
+                                   "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance"
                                  })
   end
 
 
   it "has the correct schema location" do
-    expect(@mets).to have_schema_location "https://www.loc.gov/METS/ https://www.loc.gov/standards/mets/mets.xsd"
+    expect(@mets).to have_schema_location "http://www.loc.gov/METS/ https://www.loc.gov/standards/mets/mets.xsd"
   end
 
 
