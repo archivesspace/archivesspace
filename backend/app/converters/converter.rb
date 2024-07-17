@@ -55,6 +55,7 @@ class Converter
   def initialize(input_file)
     @input_file = input_file
     @batch = ASpaceImport::RecordBatch.new
+    @import_options = {}
   end
 
 
@@ -77,6 +78,16 @@ class Converter
         end
       end
     end
+  end
+
+
+  def import_options
+    self.class.import_options
+  end
+
+
+  def self.import_options
+    @import_options
   end
 
 
@@ -124,24 +135,14 @@ class Converter
 
       if converter
         if converter.respond_to?(:set_import_options)
-          import_events   = nil
-          import_subjects = nil
+          import_events = opts[:import_events]
+          import_subjects = opts[:import_subjects]
+          import_repository = opts[:import_repository]
 
-          if opts[:import_events]
-            import_events = true
-          else
-            import_events = false
-          end
-
-          if opts[:import_subjects]
-            import_subjects = true
-          else
-            import_subjects = false
-          end
-
-          unless import_events == nil && import_subjects == nil
+          unless [import_events, import_subjects, import_repository].all?(&:nil?)
             converter.set_import_options({:import_events   => import_events,
-                                          :import_subjects => import_subjects})
+                                          :import_subjects => import_subjects,
+                                          :import_repository => import_repository})
           end
         end
 
