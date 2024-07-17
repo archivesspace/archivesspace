@@ -110,4 +110,10 @@ Rails.application.configure do
 
     AssetPathRewriter.new.rewrite(AppConfig[:public_proxy_prefix], File.dirname(__FILE__))
   end
+
+  # Infinite Tree and Records config
+  config.infinite_tree_waypoint_size = 200
+  config.infinite_records_waypoint_size = 20
+  config.infinite_records_main_max_concurrent_waypoint_fetches = 20
+  config.infinite_records_worker_max_concurrent_waypoint_fetches = 100
 end

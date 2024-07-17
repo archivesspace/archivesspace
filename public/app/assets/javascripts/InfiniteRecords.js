@@ -5,10 +5,21 @@
      * @param {string} resourceUri - The URI of the root resource, e.g.
      * /repositories/2/resources/1234
      * @param {string} appUrlPrefix - The proper app prefix
+     * @param {string} workerPath - The path to the web worker for
+     * `populateAllWaypoints()`
+     * @param {number} mainMaxFetches - The main thread's max number of concurrent fetches
+     * @param {number} workerMaxFetches - The worker's max number of concurrent fetches
      * @returns {InfiniteRecords} - InfiniteRecords instance
      */
-    constructor(resourceUri, appUrlPrefix) {
-      this.container = document.querySelector('.infinite-records-container');
+    constructor(
+      resourceUri,
+      appUrlPrefix,
+      workerPath,
+      mainMaxFetches,
+      workerMaxFetches
+    ) {
+      this.pageHash = window.location.hash;
+      this.container = document.querySelector('#infinite-records-container');
 
       this.WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
       this.NUM_TOTAL_RECORDS = parseInt(
@@ -21,6 +32,9 @@
 
       this.resourceUri = resourceUri;
       this.appUrlPrefix = appUrlPrefix;
+      this.workerPath = workerPath;
+      this.MAIN_MAX_CONCURRENT_FETCHES = mainMaxFetches;
+      this.WORKER_MAX_CONCURRENT_FETCHES = workerMaxFetches;
 
       this.wpQueue = [];
       this.wpQueueIsEmpty = () => this.wpQueue.length === 0;
@@ -52,25 +66,82 @@
         this.isOkToObserve = true;
       });
 
-      this.initRecords(window.location.hash);
+      if (this.shouldShowLoadAll()) this.initLoadAll();
+
+      this.initRecords();
     }
 
     /**
-     * Append one or more waypoints to the DOM depending on `window.location`
-     * @param {string} hash - Location hash string
+     * Determine whether or not to show the Load All markup given that initRecords()
+     * will render up to 2 waypoints if no hash and up to 3 if hash and the hash's
+     * waypoint has 2 empty neighbors
+     * @returns {boolean} - True if Load All should be shown
      */
-    async initRecords(hash) {
+    shouldShowLoadAll() {
+      if (this.pageHash === '') {
+        return this.NUM_TOTAL_WAYPOINTS > 2;
+      } else {
+        if (this.NUM_TOTAL_WAYPOINTS > 3) return true;
+
+        if (
+          this.NUM_TOTAL_WAYPOINTS === 3 &&
+          (!this.hasEmptyPrevWP(this.treeIdToWaypointNumber(this.pageHash)) ||
+            !this.hasEmptyNextWP(this.treeIdToWaypointNumber(this.pageHash)))
+        )
+          return true;
+
+        return false;
+      }
+    }
+
+    /**
+     * Render the Load All template above this.container, listen for events
+     */
+    initLoadAll() {
+      const loadAllFrag = document
+        .querySelector('#load-all-template')
+        .content.cloneNode(true);
+
+      const containerParent = this.container.parentElement;
+
+      containerParent.parentElement.insertBefore(loadAllFrag, containerParent);
+
+      this.loadAllSection = document.querySelector('#load-all-section');
+
+      const loadAllInput = document.querySelector('#load-all-state');
+
+      loadAllInput.addEventListener('input', () => {
+        if (loadAllInput.checked) {
+          loadAllInput.disabled = true;
+
+          this.populateAllWaypoints();
+        }
+      });
+
+      loadAllInput.addEventListener('focus', () => {
+        loadAllInput.parentElement.classList.add('outline');
+      });
+
+      loadAllInput.addEventListener('blur', () => {
+        loadAllInput.parentElement.classList.remove('outline');
+      });
+    }
+
+    /**
+     * Render the initial 1, 2, or 3 waypoints according to window.location.hash
+     */
+    async initRecords() {
       const initialWaypoints = [];
 
-      if (hash === '') {
+      if (this.pageHash === '') {
         initialWaypoints.push(0);
 
         if (this.NUM_TOTAL_WAYPOINTS > 1) initialWaypoints.push(1);
 
         this.renderWaypoints(initialWaypoints);
       } else {
-        const recordUri = this.treeIdToRecordUri(hash);
-        const recordWaypointNum = this.treeIdtoWaypointNumber(hash);
+        const recordUri = this.treeIdToRecordUri(this.pageHash);
+        const recordWaypointNum = this.treeIdToWaypointNumber(this.pageHash);
 
         initialWaypoints.push(recordWaypointNum);
 
@@ -176,14 +247,22 @@
 
     /**
      * Append records markup to one or more waypoints, start observing
-     * each record via `contentRecordObs`, and clear the waypoint number(s)
-     * from any data attributes
+     * each record via `contentRecordObs`, clear the waypoint number(s)
+     * from any data attributes, and conditionally run `updateShowingPercentage()`
      * @param {Object[]} waypoints - Array of waypoint objects as
      * returned from `fetchWaypoints()`, each of which represents one waypoint
      * with the signature `{ wpNum, records}`
+     * @param {boolean} [updateShouldCloseModal=false] - Whether or not the
+     * `updateShowingPercentage()`, called by `populateAllWaypoints()`, should
+     * close the loading modal, defaults to false
      */
-    populateWaypoints(waypoints) {
+    populateWaypoints(waypoints, updateShouldCloseModal = false) {
       waypoints.forEach(waypoint => {
+        if (waypoint == undefined) {
+          // Failed fetches from worker get passed as undefined
+          return;
+        }
+
         const { wpNum, records } = waypoint;
         const waypointEl = document.querySelector(
           `.waypoint[data-waypoint-number='${wpNum}']:not(.populated)`
@@ -232,6 +311,9 @@
         waypointEl.classList.add('populated');
 
         this.clearWaypointFromDatasets(wpNum);
+
+        if (this.loadAllSection)
+          this.updateShowingPercentage(updateShouldCloseModal);
       });
     }
 
@@ -307,11 +389,89 @@
         if (newWpNums.length > 0) {
           record.dataset.observeForWaypoints = JSON.stringify(newWpNums);
         } else {
-          record.removeAttribute('data-observe-for-waypoints');
+          delete record.dataset.observeForWaypoints;
 
           this.waypointObserver.unobserve(record);
         }
       });
+    }
+
+    updateShowingPercentage(shouldCloseModal = false) {
+      const percentLabel = document.querySelector('#load-all-showing-percent');
+      const percentConvention = percentLabel.dataset.percentConvention;
+      const numPresentRecords = this.container.querySelectorAll(
+        '.infinite-record-record'
+      ).length;
+      const percentLoaded = Math.round(
+        (numPresentRecords / this.NUM_TOTAL_RECORDS) * 100
+      );
+
+      percentLabel.classList.add('item-highlight');
+      percentLabel.textContent = `${percentLoaded}${percentConvention}`;
+      percentLabel.onanimationend = () => {
+        percentLabel.classList.remove('item-highlight');
+      };
+
+      if (numPresentRecords === this.NUM_TOTAL_RECORDS) {
+        $(this.loadAllSection).fadeOut(500);
+
+        if (shouldCloseModal) this.modal.toggle();
+      }
+    }
+
+    /**
+     * Populate the remaining empty waypoints
+     * @param {boolean} [shouldImmediatelyToggleModal=true] - Whether or not
+     * the modal should be toggled when called, default is true
+     */
+    populateAllWaypoints(shouldImmediatelyToggleModal = true) {
+      if (shouldImmediatelyToggleModal) this.modal.toggle();
+
+      this.waypointObserver.disconnect();
+
+      this.container.removeEventListener('scrollend', () => {
+        this.isOkToObserve = true;
+      });
+
+      const waypointNums = Array.from(
+        this.container.querySelectorAll('.waypoint:not(.populated)')
+      ).map(waypoint => parseInt(waypoint.dataset.waypointNumber, 10));
+      const shouldUseMainThread =
+        waypointNums.length > 0 &&
+        waypointNums.length <= this.MAIN_MAX_CONCURRENT_FETCHES;
+
+      if (shouldUseMainThread) {
+        this.renderWaypoints(waypointNums, null, false);
+      } else {
+        const worker = new Worker(this.workerPath);
+        const waypointTuples = waypointNums.map(wpNum => [
+          wpNum,
+          this.container
+            .querySelector(`.waypoint[data-waypoint-number='${wpNum}']`)
+            .dataset.uris.split(';'),
+        ]);
+
+        worker.postMessage({
+          waypointTuples,
+          resourceUri: this.resourceUri,
+          MAX_CONCURRENT_FETCHES: this.WORKER_MAX_CONCURRENT_FETCHES,
+        });
+
+        worker.onmessage = e => {
+          if (e.data.data) {
+            this.populateWaypoints(e.data.data, true);
+          } else if (e.data.done) {
+            const numPresentRecords = this.container.querySelectorAll(
+              '.infinite-record-record'
+            ).length;
+
+            if (numPresentRecords < this.NUM_TOTAL_RECORDS) {
+              // Some records still missing (network fail?) so recurse
+              this.populateAllWaypoints(this.modal.isOpen ? false : true);
+            }
+          }
+        };
+      }
     }
 
     /**
@@ -376,10 +536,10 @@
         if (entry.isIntersecting) {
           const uri = entry.target.dataset.uri;
           const _new = document.querySelector(
-            `#tree-container .table-row[data-uri="${uri}"]`
+            `#infinite-tree-container .table-row[data-uri="${uri}"]`
           );
           const old = document.querySelector(
-            '#tree-container .table-row.current'
+            '#infinite-tree-container .table-row.current'
           );
 
           if (old) {
@@ -415,9 +575,9 @@
       if (record) {
         record.scrollIntoView(scrollOpts);
       } else {
-        // Record doesn't exist so render its waypoint and any
-        // empty neighbors, then scroll to the record
-        const recordWaypointNum = this.treeIdtoWaypointNumber(targetDivId);
+        // Record doesn't exist so render its waypoint and any empty neighbors,
+        // then scroll to the record
+        const recordWaypointNum = this.treeIdToWaypointNumber(targetDivId);
         const newWaypoints = [recordWaypointNum];
 
         if (this.hasEmptyPrevWP(recordWaypointNum)) {
@@ -455,7 +615,7 @@
      * eg: #tree::archival_object_123
      * @returns {number} - Waypoint number
      */
-    treeIdtoWaypointNumber(treeId) {
+    treeIdToWaypointNumber(treeId) {
       return parseInt(
         this.container
           .querySelector(

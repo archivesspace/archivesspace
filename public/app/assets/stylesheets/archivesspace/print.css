@@ -211,11 +211,8 @@
   }
 
   /* Show all infinite records, tighten whitespace */
-  .infinite-record-wrapper {
+  .infinite-records-container {
     height: auto !important;
-  }
-  .infinite-record-wrapper div.infinite-record-record:first-of-type h3 {
-    margin-top: 0 !important;
   }
 
   /* Applied by print.js */

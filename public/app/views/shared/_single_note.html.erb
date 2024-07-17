@@ -10,7 +10,7 @@
      <% end %>
      <% if note_struct.has_key?('subnotes') %>
        <% note_struct['subnotes'].each do |subnote| %>
-         <div class="subnote mr-2 <%= 'well' if subnote['jsonmodel_type'] == 'note_citation' %>">
+         <div <% unless calling_partial == 'infinite_item' %>class="subnote mr-2"<% end %>>
            <% if subnote['jsonmodel_type'] == 'note_citation' %>
              <<%= sub_heading_size %>><%= t('actions.cite') %></<%= sub_heading_size %>>
            <% elsif subnote['_title'] %>

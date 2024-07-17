@@ -139,6 +139,17 @@ pt:
   search-field: Campo de pesquisa
   searched-field: pesquisando% {campo}
 
+  resource:
+    load_records:
+      alert: "Esta coleção contém um grande número de registos"
+      showing: "A mostrar"
+      percent_convention: " %" # Portugal Portuguese, not Brazilian Portuguese ("%")
+      load: "Carregar registos"
+      load_all: "Carregar todos os registos"
+      scroll: "Ao percorrer"
+      all: "Todos de uma vez"
+      loading: Carregando
+
   digital_object:
     _singular: Registro Digital
     _plural: Materiais Digitais

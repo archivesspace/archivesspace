@@ -301,4 +301,282 @@ describe 'Collection Organization', js: true do
       expect(sidebar_left_decrease2).to be > sidebar_left_increase2
     end
   end
+
+  describe 'Load All Records' do
+    before(:all) do
+      set_repo(@repo)
+      @res_1wp = create(:resource,
+        title: 'Collection with 1 waypoint of records',
+        publish: true
+      )
+      2.times do |i|
+        instance_variable_set("@ao#{i + 1}_1wp", create(:archival_object,
+          resource: {'ref' => @res_1wp.uri},
+          title: "AO #{i + 1}",
+          publish: true
+        ))
+      end
+
+      @res_2wp = create(:resource,
+        title: 'Collection with 2 waypoints of records',
+        publish: true
+      )
+      5.times do |i|
+        instance_variable_set("@ao#{i + 1}_2wp", create(:archival_object,
+          resource: {'ref' => @res_2wp.uri},
+          title: "AO #{i + 1}",
+          publish: true
+        ))
+      end
+
+      @res_3wp = create(:resource,
+        title: 'Collection with 3 waypoints of records',
+        publish: true
+      )
+      10.times do |i|
+        instance_variable_set("@ao#{i + 1}_3wp", create(:archival_object,
+          resource: {'ref' => @res_3wp.uri},
+          title: "AO #{i + 1}",
+          publish: true
+        ))
+      end
+
+      @res_4wp = create(:resource,
+        title: 'Collection with 4 waypoints of records',
+        publish: true
+      )
+      15.times do |i|
+        instance_variable_set("@ao#{i + 1}_4wp", create(:archival_object,
+          resource: {'ref' => @res_4wp.uri},
+          title: "AO #{i + 1}",
+          publish: true
+        ))
+      end
+
+      @res_5wp = create(:resource,
+        title: 'Collection with 5 waypoints of records',
+        publish: true
+      )
+      20.times do |i|
+        instance_variable_set("@ao#{i + 1}_5wp", create(:archival_object,
+          resource: {'ref' => @res_5wp.uri},
+          title: "AO #{i + 1}",
+          publish: true
+        ))
+      end
+
+      @res_10wp = create(:resource,
+        title: 'Collection with 10 waypoints of records',
+        publish: true
+      )
+      45.times do |i|
+        instance_variable_set("@ao#{i + 1}_10wp", create(:archival_object,
+          resource: {'ref' => @res_10wp.uri},
+          title: "AO #{i + 1}",
+          publish: true
+        ))
+      end
+
+      run_indexers
+    end
+
+    # See public/config/environments/{test,production,development}.rb for config
+
+    it 'is not shown for a resource with less than 3 waypoints of records' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_1wp.id}/collection_organization"
+      expect(page).not_to have_css('#load-all-section')
+
+      visit "/repositories/#{@repo.id}/resources/#{@res_2wp.id}/collection_organization"
+      expect(page).not_to have_css('#load-all-section')
+    end
+
+    it 'is shown after page load for a resource with more than 2 waypoints of records' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization"
+      expect(page).to have_css('#load-all-section')
+    end
+
+    it 'is not shown for a resource with 3 waypoints after page load with a url fragment '\
+    'that points to a record in the second waypoint' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization#tree::archival_object_#{@ao5_3wp.id}"
+      expect(page).not_to have_css('#load-all-section')
+    end
+
+    it 'is shown for a resource with 3 waypoints after page load with a url fragment '\
+    'that points to a record in the first or third waypoint' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization#tree::archival_object_#{@ao4_3wp.id}"
+      expect(page).to have_css('#load-all-section')
+
+      visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization#tree::archival_object_#{@ao10_3wp.id}"
+      expect(page).to have_css('#load-all-section')
+    end
+
+    it 'is shown for a resource with more than 3 waypoints regardless of any url fragment' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization#tree::archival_object_#{@ao2_4wp.id}"
+      expect(page).to have_css('#load-all-section')
+
+      visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization#tree::archival_object_#{@ao7_4wp.id}"
+      expect(page).to have_css('#load-all-section')
+
+      visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization#tree::archival_object_#{@ao11_4wp.id}"
+      waypoints = page.all('#infinite-records-container .waypoint')
+      expect(page).to have_css('#load-all-section')
+
+      visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization#tree::archival_object_#{@ao15_4wp.id}"
+      expect(page).to have_css('#load-all-section')
+    end
+
+    it 'is set to download new records on scroll by default' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization"
+      expect(page).to have_css('input#load-all-state:not(:checked)')
+    end
+
+    it 'shows the total number of records in the alert message' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization"
+      total = page.find('#infinite-records-container')['data-total-records']
+      load_all = page.find('#load-all-section')
+      expect(load_all).to have_text("This collection contains a large number of records (#{total}).")
+    end
+
+    it 'shows the percentage of records that have been loaded after page load' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization"
+
+      loaded_waypoints = page.all('#infinite-records-container .waypoint.populated')
+      expect(loaded_waypoints.length).to eq 2
+
+      loaded_records = page.all('#infinite-records-container .infinite-record-record')
+      total_records = page.find('#infinite-records-container')['data-total-records']
+      percent_loaded = (loaded_records.length.to_f / total_records.to_f * 100).round
+      percent_label = page.find('#load-all-showing-percent')
+      expect(percent_label).to have_text("#{percent_loaded}%")
+    end
+
+    it 'updates the percent showing label as more waypoints are loaded' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization"
+
+      expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="0"]')
+      expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="1"]')
+      expect(page).to have_css('#infinite-records-container .waypoint:not(.populated)[data-waypoint-number="2"]')
+      percent_start = page.find('#load-all-showing-percent').text[0..-2].to_i
+
+      container = page.find('#infinite-records-container')
+      second_record = page.find('#infinite-records-container [data-record-number="1"]')
+      container.scroll_to(second_record)
+
+      expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="2"]')
+      percent_new = page.find('#load-all-showing-percent').text[0..-2].to_i
+      expect(percent_new).to be > percent_start
+    end
+
+    it 'works by clicking on the toggle switch' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization"
+
+      expect(page).to have_css('#infinite-records-container', visible: true)
+      page.find('.load-all__label-toggle').click
+      expect(page).to have_css('#infinite-records-container', visible: false)
+
+    end
+
+    it 'works by clicking on the "on scroll" and "all at once" labels' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization"
+      expect(page).to have_css('input#load-all-state:not(:checked)')
+      page.find('#load-all-section label', text: 'On scroll').click
+      expect(page).to have_css('input#load-all-state:checked')
+
+      visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization"
+      expect(page).to have_css('input#load-all-state:not(:checked)')
+      page.find('#load-all-section label', text: 'All at once').click
+      expect(page).to have_css('input#load-all-state:checked')
+    end
+
+    it 'works by keyboard' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization"
+      input = page.find('input#load-all-state:not(:checked)')
+      input.send_keys(:tab)
+      input.send_keys(:space)
+      expect(page).to have_css('input#load-all-state:checked')
+    end
+
+    it 'shows a spinner on state change and removes the spinner once all records are loaded' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
+      expect(page).to have_css('dialog[data-loading-modal]', visible: false)
+      sleep 10
+
+      # There is no dialog 'open' event so listen for 'close' which implies it was open
+      page.execute_script(<<~JS)
+        window.dialogClosed = false;
+        const dialog = document.querySelector('dialog[data-loading-modal]');
+        dialog.addEventListener('close', (e) => {
+          console.log('e!', e);
+          window.dialogClosed = true;
+        });
+      JS
+
+      expect(page.evaluate_script('window.dialogClosed')).to eq false
+      page.find('.load-all__label-toggle').click
+      sleep 10
+      expect(page.evaluate_script('window.dialogClosed')).to eq true
+    end
+
+    it 'removes itself after all records are loaded' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization"
+      expect(page).to have_css('#load-all-section', visible: true)
+      page.find('.load-all__label-toggle').click
+      sleep 10
+      expect(page).to have_css('#load-all-section', visible: false)
+    end
+
+    it 'loads all remaining records from the main thread if the number of waypoints '\
+      'does not exceed `infinite_records_main_max_concurrent_waypoint_fetches`' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_5wp.id}/collection_organization"
+      sleep 10
+      total_records = page.find('#infinite-records-container')['data-total-records']
+      num_empty_waypoints_start = page.all('#infinite-records-container .waypoint:not(.populated)').length
+      expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
+
+      # Add a wrapper function around `window.fetch()` that increments a number when
+      # the browser's main thread makes a fetch call.
+      page.execute_script(<<~JS)
+        window.loadAllFetchCount = 0;
+        window.fetch = ((originalFetch) => {
+          return (...args) => {
+            window.loadAllFetchCount++;
+            return originalFetch(...args);
+          };
+        })(window.fetch);
+      JS
+
+      expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
+      page.find('.load-all__label-toggle').click
+      sleep 10
+      expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
+      expect(page.evaluate_script('window.loadAllFetchCount')).to eq num_empty_waypoints_start
+    end
+
+    it 'loads all remaining records from a background thread if the number of waypoints '\
+      'exceeds `infinite_records_main_max_concurrent_waypoint_fetches`' do
+      visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
+      sleep 10
+      total_records = page.find('#infinite-records-container')['data-total-records']
+      expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
+
+      # Add a wrapper function around `window.fetch()` that increments a number when
+      # the browser's main thread makes a fetch call. Web workers don't have access
+      # to `window`, so its fetch calls won't be counted.
+      page.execute_script(<<~JS)
+        window.loadAllFetchCount = 0;
+        window.fetch = ((originalFetch) => {
+          return (...args) => {
+            window.loadAllFetchCount++;
+            return originalFetch(...args);
+          };
+        })(window.fetch);
+      JS
+
+      expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
+      page.find('.load-all__label-toggle').click
+      sleep 10
+      expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
+      expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
+    end
+  end
 end

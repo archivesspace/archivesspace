@@ -5,6 +5,8 @@ describe 'Digital Materials listing from a record context', js: true do
   before(:each) do
     visit('/')
     click_link 'Collections'
+    fill_in 'Search within results', with: 'Resource with digital instance'
+    click_button 'Search'
     click_link 'Resource with digital instance'
     click_link 'View Digital Material'
   end
