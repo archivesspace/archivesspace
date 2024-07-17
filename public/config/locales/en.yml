@@ -355,6 +355,15 @@ en:
       related_accessions:
         accessions: Accession Records
         deaccessions: Deaccession Records
+    load_records:
+      alert: This collection contains a large number of records
+      showing: Showing
+      percent_convention: "%"
+      load: Load records
+      load_all: Load all records
+      scroll: On scroll
+      all: All at once
+      loading: Loading
 
   top_container:
     _singular: Container

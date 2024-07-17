@@ -252,6 +252,11 @@ de:
       physdesc: Physische Beschreibung
       additional: Zusätzliche Beschreibung
       storage: Behältnis-Information
+      uri: ID [aspace_uri]
+      ark_link_name: Archival Resource Key
+      lang_pdf: Sprache des Archivguts
+      identifier_pdf: ID
+      identifier_ark: ID [ark]
       finding_aid:
         head: Findmittel & Administrative Informationen
         title: Titel
@@ -272,11 +277,15 @@ de:
       related_accessions:
         accessions: Eingangs-Aufzeichnung
         deaccessions: Abgangs-Aufzeichnung
-      uri: ID [aspace_uri]
-      ark_link_name: Archival Resource Key
-      lang_pdf: Sprache des Archivguts
-      identifier_pdf: ID
-      identifier_ark: ID [ark]
+    load_records:
+      alert: "Diese Sammlung enthält eine große Anzahl von Datensätzen"
+      showing: "Anzeigen"
+      percent_convention: " %"
+      load: "Datensätze laden"
+      load_all: "Alle Datensätze laden"
+      scroll: "Beim Scrollen"
+      all: "Alles auf einmal"
+      loading: Lädt
     _plural: Sammlungen
     identifier_separator: ':'
     _singular: Sammlung

@@ -1,0 +1,25 @@
+// pre ANW-425
+.infinite-tree-view {
+  height: 600px;
+  padding: 1em;
+
+  .resource-level,
+  .resource-type,
+  .resource-container {
+    display: none;
+  }
+}
+
+@media (max-width: 991px) {
+  .infinite-tree-sidebar {
+    display: none;
+  }
+}
+
+// ANW-425 and after
+.table-row.largetree-node[data-is-expanded='false'] + .table-row-group {
+  display: none;
+}
+.table-row.largetree-node[data-is-expanded='true'] + .table-row-group {
+  display: contents;
+}
