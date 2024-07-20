@@ -25,7 +25,7 @@
 <div class="row overflow-hidden">
   <div
     id="sidebar"
-    class="sidebar sidebar-container col-sm-3 resizable-sidebar <%= sidebar_position == 'left' ? 'resizable-sidebar-left' : 'order-1' %> infinite-tree-sidebar"
+    class="sidebar sidebar-container col-12 col-lg-3 resizable-sidebar <%= sidebar_position == 'left' ? 'resizable-sidebar-left' : 'order-1' %> infinite-tree-sidebar"
     data-sidebar-position="<%= sidebar_position %>"
   >
     <% if AppConfig[:pui_search_collection_from_collection_organization] %>
@@ -42,7 +42,7 @@
     </div>
   </div>
   <div
-    class="infinite-records-container col-sm-9 resizable-content-pane"
+    class="infinite-records-container col-12 col-lg-9 resizable-content-pane"
     data-waypoint-size="<%= content_waypoint_size %>"
     data-total-records="<%= num_records %>">
     <div class="root">

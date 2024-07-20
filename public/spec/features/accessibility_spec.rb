@@ -224,14 +224,14 @@ describe 'Accessibility', js: true, db: 'accessibility' do
         end
 
         new_sidebar_width = find('div.sidebar').evaluate_script("window.getComputedStyle(this)['width']")
-        expect(new_sidebar_width).to be > sidebar_width
+        expect(new_sidebar_width).to be < sidebar_width
 
         10.times do
           handle.native.send_keys :arrow_right
         end
 
         newest_sidebar_width = find('div.sidebar').evaluate_script("window.getComputedStyle(this)['width']")
-        expect(newest_sidebar_width).to be < sidebar_width
+        expect(newest_sidebar_width).to be > sidebar_width
       end
 
       it 'should not duplicate ids' do
