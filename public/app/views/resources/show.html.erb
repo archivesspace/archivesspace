@@ -20,7 +20,21 @@
 
 <%= render partial: 'resources/resource_alltabs' %>
 
+<% sidebar_position = AppConfig[:pui_collection_org_sidebar_position] %>
+
 <div class="row mt-5 flex-column flex-lg-row" id="notes_row">
+  <div
+    id="sidebar"
+    class="h-max col-12 col-lg-3 sidebar sidebar-container resizable-sidebar <%= sidebar_position == 'left' ? 'resizable-sidebar-left' : 'order-1' %> infinite-tree-sidebar"
+    data-sidebar-position="<%= sidebar_position %>"
+    <% unless @has_children %>style="display: none"<% end %>
+  >
+    <% if defined?(@filters) && defined?(@search) %>
+    <%= render partial: 'shared/facets' %>
+   <% end %>
+   <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => "#{t('actions.search_in', :type => t('resource._singular'))}"} %>
+   <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
+ </div>
   <div class="col-12 col-lg-9 px-3 resizable-content-pane">
     <%= render partial: 'shared/digital', locals: {
       :dig_objs => @dig,
@@ -29,13 +43,6 @@
     } %>
     <%= render partial: 'shared/record_innards' %>
   </div>
-  <div id="sidebar" class="h-max col-12 col-lg-3 sidebar sidebar-container resizable-sidebar" <% unless @has_children %>style="display: none"<% end %>>
-    <% if defined?(@filters) && defined?(@search) %>
-    <%= render partial: 'shared/facets' %>
-   <% end %>
-   <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => "#{t('actions.search_in', :type => t('resource._singular'))}"} %>
-   <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
- </div>
 </div>
 
 <script>
