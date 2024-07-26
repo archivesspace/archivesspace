@@ -235,7 +235,7 @@ describe SearchController, type: :controller do
             :q => ['foobar'],
             :op => ['OR'],
             :field => [''],
-            :from_year => [URI.encode('<script>alert("boo");</script>')]
+            :from_year => [Addressable::URI.encode('<script>alert("boo");</script>')]
           })
 
       expect(response.status).to eq(302)

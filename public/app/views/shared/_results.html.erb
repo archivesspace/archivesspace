@@ -1,5 +1,5 @@
 <% if !results.blank? && results['total_hits'] > 0 %>
-  <h2><%= t('found', {:count => results['total_hits'], :type => results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h2>
+  <h2><%= t('found', :count => results['total_hits'], :type => results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')) %>:</h2>
   <%= render partial: 'shared/pagination', locals: {:pager => pager} %>
   <% results.records.each do |result| %>
     <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>

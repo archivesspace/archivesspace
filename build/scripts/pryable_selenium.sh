@@ -1,7 +1,7 @@
 #!/bin/bash
 # This script is provided AS IS for spec debugging. It is not maintained by the project
 # and as meant as a convience and not an offical method for doing anything.
-# Please remember that the best bet when debugging a selenium spec is to move it to the 
+# Please remember that the best bet when debugging a selenium spec is to move it to the
 # much more maintainable feature specs.
 
 # Usage: ./build/scripts/pryable_selenium.sh SPEC_NAME
@@ -28,14 +28,14 @@ APPCONFIG_DB_URL="jdbc:mysql://127.0.0.1:3307/archivesspace?useUnicode=true&char
 -Dfile.encoding=UTF-8 -Djavax.accessibility.assistive_technologies= -Daspace.config.search_user_secret=devserver \
 -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true \
 -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver \
--classpath $SCRIPT_DIR/../../build/jruby-complete-9.3.4.0.jar:$SCRIPT_DIR/../../build/gems/jruby/2.6.0:$SCRIPT_DIR/../../common:$SCRIPT_DIR/../../common/lib/* \
+-classpath $SCRIPT_DIR/../../build/jruby-complete:$SCRIPT_DIR/../../build/gems/jruby/3.1.0:$SCRIPT_DIR/../../common:$SCRIPT_DIR/../../common/lib/* \
 org.jruby.Main -Iapp/lib $SCRIPT_DIR/migrate_db.rb nuke
 
 /home/ec2-user/.jabba/jdk/openjdk@1.11.0-2/bin/java -Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m \
 -Dfile.encoding=UTF-8 -Djavax.accessibility.assistive_technologies= -Daspace.config.search_user_secret=devserver \
 -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true \
 -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver \
--classpath $SCRIPT_DIR/../../build/jruby-complete-9.3.4.0.jar:$SCRIPT_DIR/../../build/gems/jruby/2.6.0:$SCRIPT_DIR/../../common:$SCRIPT_DIR/../../common/lib/* \
+-classpath $SCRIPT_DIR/../../build/jruby-complete-9.4.8.0.jar:$SCRIPT_DIR/../../build/gems/jruby/3.1.0:$SCRIPT_DIR/../../common:$SCRIPT_DIR/../../common/lib/* \
 org.jruby.Main -Iapp/lib $SCRIPT_DIR/migrate_db.rb
 
 cd $SCRIPT_DIR/../../frontend
@@ -43,5 +43,5 @@ cd $SCRIPT_DIR/../../frontend
 -Dfile.encoding=UTF-8 -Djavax.accessibility.assistive_technologies= -Daspace.config.search_user_secret=devserver \
 -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true \
 -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver \
--classpath $SCRIPT_DIR/../../build/jruby-complete-9.3.4.0.jar:$SCRIPT_DIR/../../build/gems/jruby/2.6.0:$SCRIPT_DIR/../../common:$SCRIPT_DIR/../../common/lib/* \
+-classpath $SCRIPT_DIR/../../build/jruby-complete-9.4.8.0.jar:$SCRIPT_DIR/../../build/gems/jruby/3.1.0:$SCRIPT_DIR/../../common:$SCRIPT_DIR/../../common/lib/* \
 org.jruby.Main ../build/gems/bin/bundler exec rspec -b --format d --order defined spec/selenium/spec/$1

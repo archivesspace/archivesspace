@@ -14,7 +14,7 @@ describe 'Instance model' do
 
 
   it "allows an instance to be created with a digital object link" do
-    digital_object =  create(:json_digital_object)
+    digital_object = create(:json_digital_object)
 
     json = build(:json_instance_digital, :digital_object => {:ref => digital_object.uri})
 

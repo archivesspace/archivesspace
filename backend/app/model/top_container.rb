@@ -135,7 +135,7 @@ class TopContainer < Sequel::Model(:top_container)
 
 
   def level_display_string(series)
-    series.other_level || I18n.t("enumerations.archival_record_level.#{series.level}", series.level)
+    series.other_level || I18n.t("enumerations.archival_record_level.#{series.level}")
   end
 
   def series_label
