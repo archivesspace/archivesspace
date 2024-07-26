@@ -1,6 +1,4 @@
 require 'aspace-rails/compressor'
-require 'aspace-rails/asset_path_rewriter'
-
 
 ArchivesSpace::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
@@ -88,9 +86,8 @@ if defined?(ExecJS) && system('which node >/dev/null 2>/dev/null')
   ExecJS.runtime = ExecJS::Runtimes::Node
 end
 
-# until RoR capitulates to our very normal use case
-# we will have to continue doing stuff like this
-if (AppConfig[:frontend_proxy_prefix].length > 1)
+# The default file handler doesn't know about asset prefixes and returns a 404.  Make it strip the prefix before looking for the path on disk.
+if AppConfig[:frontend_proxy_prefix] && AppConfig[:frontend_proxy_prefix].length > 1
   require 'action_dispatch/middleware/static'
   module ActionDispatch
     class FileHandler
@@ -107,12 +104,6 @@ if (AppConfig[:frontend_proxy_prefix].length > 1)
       end
     end
   end
-end
-
-
-
-if AppConfig[:frontend_proxy_prefix] && AppConfig[:frontend_proxy_prefix].length > 1
-  AssetPathRewriter.new.rewrite(AppConfig[:frontend_proxy_prefix], File.dirname(__FILE__))
 end
 
 ActiveSupport::Deprecation.silenced = true
