@@ -87,7 +87,7 @@ module I18n
       end
     end
 
-    self.translate(key, **args[1])
+    self.translate(*args)
   end
 
   def self.build_cache_key(args)

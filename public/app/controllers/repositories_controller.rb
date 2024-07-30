@@ -23,7 +23,7 @@ class RepositoriesController < ApplicationController
     # let's not include any 0-collection repositories unless specified
     # include_zero = (!params.blank? && params['include_empty'])
     # ok, page sizing is kind of complicated if not including zero counts
-    page_size = params['page_size'].to_i if !params.blank?
+    page_size =  params['page_size'].to_i if !params.blank?
     page_size = AppConfig[:pui_search_results_page_size] if page_size == 0
     query = 'primary_type:repository'
     facets = find_resource_facet
@@ -45,7 +45,7 @@ class RepositoriesController < ApplicationController
     else
       raise NoResultsError.new("No repository records found!")
     end
-    @page_title = I18n.t('list', :type => (@json.length > 1 ? I18n.t('repository._plural') : I18n.t('repository._singular')))
+    @page_title = I18n.t('list', {:type => (@json.length > 1 ? I18n.t('repository._plural') : I18n.t('repository._singular'))})
     render
   end
 

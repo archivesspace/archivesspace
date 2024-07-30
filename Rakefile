@@ -12,7 +12,7 @@ require_relative 'scripts/tasks/release_notes'
 task default: ['check:multiple_gem_versions']
 
 namespace :check do
-  GEMS_PATH = File.join(__dir__, 'build', 'gems', 'jruby', '3.1.0', 'gems', '*')
+  GEMS_PATH = File.join(__dir__, 'build', 'gems', 'jruby', '2.6.0', 'gems', '*')
   LOCALES_DIRS = [
     File.join(__dir__, 'common', 'locales'),
     File.join(__dir__, 'common', 'locales', 'enums'),

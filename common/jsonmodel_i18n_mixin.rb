@@ -28,7 +28,7 @@ module JSONModelI18nMixin
 
   def translate_exception_message(msg, path = nil)
     if path == 'conflicting_record'
-      return t("validation_errors.conflicting_record", :record_uri => msg)
+      return t("validation_errors.conflicting_record", {:record_uri => msg})
     end
 
     msg_data = case msg
