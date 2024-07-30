@@ -1,11 +1,10 @@
-<%= stylesheet_link_tag "#{AppConfig[:frontend_prefix]}assets/bulk_updater.css" %>
+<%= stylesheet_link_tag "#{AppConfig[:frontend_prefix]}assets/bulk_archival_object_updater.css" %>
 <%= stylesheet_link_tag "#{AppConfig[:frontend_prefix]}assets/fattable.css" %>
 <%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/fattable.js" %>
-<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/bulk_updater.js" %>
+<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/bulk_archival_object_updater.js" %>
 
 <div class="record-pane">
-
-  <h1>Generate a Bulk Update Spreadsheet</h1>
+  <h1><%= t('bulk_archival_object_update_spreadsheet.title') %></h1>
 
   <% if @spreadsheet_errors %>
     <div class="alert alert-danger">
@@ -13,15 +12,15 @@
     </div>
   <% end %>
 
-  <p>Use the form below to select the Archival Objects you wish to bulk update.</p>
+  <p><%= t('bulk_archival_object_update_spreadsheet.description') %></p>
 
   <p>
-    <strong>Selected Records:</strong> <span id="selectedCount"></span>
+    <strong><%= t('bulk_archival_object_update_spreadsheet.selected_records') %>:</strong> <span id="selectedCount"></span>
   </p>
 
-  <div id='bulk_updater_table'></div>
+  <div id='bulk_archival_object_updater_table'></div>
 
-  <%= form_tag({:action => :download}, {:method => 'post', :id => "bulk_updater_form"}) do %>
+  <%= form_tag({:action => :download}, {:method => 'post', :id => "bulk_archival_object_updater_form"}) do %>
     <%= hidden_field_tag "resource", @uri %>
     <div class="report-fields"></div>
 
@@ -30,10 +29,11 @@
     <div class="row">
       <div class="col-sm-12">
         <p>
-          <input id="bulk-update-toplevel-select-all" class='checkbox-select-all' type="checkbox" checked="checked">&nbsp;Column types to include in spreadsheet:
+          <input id="bulk-archival-object-updater-toplevel-select-all" class='checkbox-select-all' type="checkbox" checked="checked">&nbsp
+          <%= t('bulk_archival_object_update_spreadsheet.column_types_to_include_in_spreadsheet') %>
         </p>
 
-        <table class="bulk-update-column-selector">
+        <table class="bulk-archival-object-updater-column-selector">
           <%
           [
             ['update_select_level', 'archival_object.level'],
@@ -57,19 +57,17 @@
             </td>
             <td class="label-cell">
               <label for="<%= value %>"><%= I18n.t(label_key) %></label>
-
               <% if no_acc_link %>
-                (Requires ArchivesSpace version 3.3.0 or greater, or this <a href="https://github.com/hudmol/as_accession_links">plugin</a>)
+                (Requires ArchivesSpace version 3.3.0 or greater, or use this <a href="https://github.com/hudmol/as_accession_links">plugin</a>)
               <% end %>
-
             </td>
           </tr>
           <% end %>
           <tr>
             <td class="checkbox-cell">
-              <input type="checkbox" checked="checked" id="bulk-update-select-all-notes" class="checkbox-select-all">
+              <input type="checkbox" checked="checked" id="bulk-archival-object-updater-select-all-notes" class="checkbox-select-all">
             </td>
-            <td><strong>Note types:</strong></td>
+            <td><strong><%= t('bulk_archival_object_update_spreadsheet.note_types') %>:</strong></td>
           </tr>
           <tr>
             <td></td>
@@ -95,7 +93,7 @@
                 .each do |note_value, note_label_key| %>
                   <tr>
                     <td class="checkbox-cell">
-                      <input id="<%= note_value %>" name="<%= note_value %>" type="checkbox" checked="checked" class="bulk-update-note-checkbox">
+                      <input id="<%= note_value %>" name="<%= note_value %>" type="checkbox" checked="checked" class="bulk-archival-object-updater-note-checkbox">
                     </td>
                     <td class="label-cell">
                       <label for="<%= note_value %>"><%= I18n.t(note_label_key) %></label>
@@ -109,15 +107,15 @@
     </div>
 
     <script>
-      bulkUpdaterHandleSelectAll($('#bulk-update-select-all-notes'), $('.bulk-update-note-checkbox'));
-      bulkUpdaterHandleSelectAll($('#bulk-update-toplevel-select-all'), $('input[type=checkbox]:not(#bulk-update-toplevel-select-all)'));
+      bulkArchivalObjectUpdaterHandleSelectAll($('#bulk-archival-object-updater-select-all-notes'), $('.bulk-archival-object-updater-note-checkbox'));
+      bulkArchivalObjectUpdaterHandleSelectAll($('#bulk-archival-object-updater-toplevel-select-all'), $('input[type=checkbox]:not(#bulk-archival-object-updater-toplevel-select-all)'));
     </script>
 
     <hr/>
 
     <div class="row">
       <div class="form-group">
-        <label class="col-sm-4 control-label">Minimum subrecords</label>
+        <label class="col-sm-4 control-label"><%= t('bulk_archival_object_update_spreadsheet.minimum_subrecords') %>: </label>
         <div class="col-sm-2">
           <select class="form-control" name="min_subrecords">
             <option value="0">0</option>
@@ -128,13 +126,13 @@
             <option value="5">5</option>
           </select>
         </div>
-        <label class="col-sm-6 help-inline">The minimum number of subrecords of each type to be included.</label>
+        <label class="col-sm-6 help-inline"><%= t('bulk_archival_object_update_spreadsheet.minimum_subrecords_description')%></label>
       </div>
     </div>
 
     <div class="row">
       <div class="form-group">
-        <label class="col-sm-4 control-label">Extra subrecords</label>
+        <label class="col-sm-4 control-label"><%= t('bulk_archival_object_update_spreadsheet.extra_subrecords') %>:</label>
         <div class="col-sm-2">
           <select class="form-control" name="extra_subrecords">
             <option value="0">0</option>
@@ -146,14 +144,14 @@
           </select>
         </div>
         <label class="col-sm-6 help-inline">
-          The number of subrecords to include in addition to the greatest number found in any of the selected records.
+          <%= t('bulk_archival_object_update_spreadsheet.extra_subrecords_description') %>
         </label>
       </div>
     </div>
 
     <div class="row">
       <div class="form-group">
-        <label class="col-sm-4 control-label">Minimum notes</label>
+        <label class="col-sm-4 control-label"><%= t('bulk_archival_object_update_spreadsheet.minimum_notes') %>:</label>
         <div class="col-sm-2">
           <select class="form-control" name="min_notes">
             <option value="0">0</option>
@@ -162,29 +160,28 @@
             <option value="3">3</option>
           </select>
         </div>
-        <label class="col-sm-6 help-inline">The minimum number of note subrecords of each type to be included.</label>
+        <label class="col-sm-6 help-inline"><%= t('bulk_archival_object_update_spreadsheet.minimum_notes_description') %></label>
       </div>
     </div>
 
     <hr/>
 
     <div class="form-group">
-      <button class="btn btn-primary submit-btn" disabled>Download Spreadsheet</button>
-      <%= link_to "Cancel", :back, :class => "btn btn-default" %>
+      <button class="btn btn-primary submit-btn" disabled><%= t('bulk_archival_object_update_spreadsheet.download_spreadsheet')%></button>
+      <%= link_to t('cancel'), :back, :class => "btn btn-default" %>
     </div>
-
   <% end %>
 </div>
 
-<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/bulk_updater_table.js" %>
+<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/bulk_archival_object_updater_table.js" %>
 <script>
-  initBulkUpdaterTable(<%= ASUtils.to_json(@tree).html_safe %>);
-  new SpreadsheetBuilderForm('bulk_updater_form');
+  initBulkArchivalObjectUpdaterTable(<%= ASUtils.to_json(@tree).html_safe %>);
+  new SpreadsheetBuilderForm('bulk_archival_object_updater_form');
 </script>
 
 <script type="javascript/template" id="downloadPopupContent">
   <div class="modal-body">
-    <p>Generating this spreadsheet may take a few moments.</p>
-    <button class="close-download-popup btn btn-primary pull-right" data-dismiss="modal">Done</button>
+    <p><%= t('bulk_archival_object_update_spreadsheet.download_spreadsheet_modal_message') %></p>
+    <button class="close-download-popup btn btn-primary pull-right" data-dismiss="modal"><%= t('done') %></button>
   </div>
 </script>

@@ -2321,6 +2321,22 @@ de:
     generic_create_error: Datum ist ungültig und konnte nicht erstellt werden
     create_success: Datum erfolgreich erstellt. Aktualisiere die Seite...
     no_dates: Keine geeigneten Daten gefunden
+  bulk_archival_object_update_spreadsheet:
+    title: Tabellenkalkulation für Massenarchivierungsobjekte erstellen
+    description: Verwenden Sie das unten stehende Formular, um die Archivobjekte auszuwählen, für die Sie eine Massenaktualisierung durchführen möchten.
+    selected_records: Ausgewählte Datensätze
+    selected: Ausgewählt
+    record_title: Datensatztitel
+    column_types_to_include_in_spreadsheet: In die Tabelle aufzunehmende Spaltentypen
+    note_types: Hinweistypen
+    minimum_subrecords: Mindestanzahl an Unterdatensätzen
+    minimum_subrecords_description: Die Mindestanzahl der einzuschließenden Unterdatensätze jedes Typs
+    extra_subrecords: Zusätzliche Unterdatensätze
+    extra_subrecords_description: Die Anzahl der Unterdatensätze, die zusätzlich zur größten in einem der ausgewählten Datensätze gefundenen Zahl einbezogen werden sollen.
+    minimum_notes: Mindestnotizen
+    minimum_notes_description: Die Mindestanzahl der aufzunehmenden Notizunterdatensätze jedes Typs
+    download_spreadsheet: Tabelle herunterladen
+    download_spreadsheet_modal_message: Das Erstellen dieser Tabelle kann einige Augenblicke dauern.
   assessment:
     _frontend:
       record_types: Aufzeichnung-Typen
@@ -2674,6 +2690,11 @@ de:
     filename: Tabellen-Dateiname
     not_direct: Derzeit kann diese Aufgabe nur von der Ressourcen-Aufzeichnung erstellt
       werden
+
+  bulk_archival_object_updater_job:
+    _singular: Job zur Aktualisierung von Massenarchivierungsobjekten in Tabellenkalkulationen
+    create_missing_top_containers: Fehlende Top-Container erstellen
+
   note_contact_note:
     contact_notes_tooltip: "<p>Details zur Interaktion mit dem Kontakt</p>\n"
     date_of_contact_tooltip: "<p>Verwendet, um die spezifischen Daten oder Zeiträume

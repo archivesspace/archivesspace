@@ -2170,6 +2170,7 @@ es:
       unknown_job_type: Tipo de trabajo desconocido
       bulk_import_job: Cargar mediante hoja de cálculo
       top_container_linker_job: Vinculador de contenedor superior
+      bulk_archival_object_updater_job: Actualización masiva de objetos archivados
     status: Estado
     status_completed: Completado
     status_queued: Cola

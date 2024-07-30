@@ -575,6 +575,10 @@ FactoryBot.define do
     only_validate { generate(:alphanumstr) }
   end
 
+  factory :json_bulk_archival_object_updater_job, class: JSONModel(:bulk_archival_object_updater_job) do
+    source { generate(:alphanumstr) }
+  end
+
   factory :json_classification_term, class: JSONModel(:classification_term) do
     identifier { generate(:alphanumstr) }
     title { "Classification #{generate(:generic_title)}" }

@@ -11,6 +11,8 @@
       />
     </div>
   </div>
-  <%= form.label_and_boolean "create_missing_top_containers", {},
-          AppConfig.has_key?(:bulk_updater_create_missing_top_containers) && AppConfig[:bulk_updater_create_missing_top_containers] %>
+  <%= form.label_and_boolean "create_missing_top_containers",
+    {},
+    AppConfig.has_key?(:bulk_archival_object_updater_create_missing_top_containers) && AppConfig[:bulk_archival_object_updater_create_missing_top_containers]
+  %>
 </section>

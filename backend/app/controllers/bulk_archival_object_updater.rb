@@ -1,6 +1,5 @@
 class ArchivesSpaceService < Sinatra::Base
-
-  Endpoint.post('/bulk_updater/repositories/:repo_id/generate_spreadsheet')
+  Endpoint.post('/bulk_archival_object_updater/repositories/:repo_id/generate_spreadsheet')
     .description("Return XLSX")
     .params(["repo_id", :repo_id],
             ["uri", [String], "The uris of the records to include in the report"],
@@ -30,14 +29,13 @@ class ArchivesSpaceService < Sinatra::Base
     ]
   end
 
-  Endpoint.get('/bulk_updater/repositories/:repo_id/resources/:id/small_tree')
+  Endpoint.get('/bulk_archival_object_updater/repositories/:repo_id/resources/:id/small_tree')
           .description("Generate the archival object tree for a resource")
           .params(["repo_id", :repo_id],
                   ["id", :id])
           .permissions([:view_repository])
           .returns([200, ""]) \
   do
-    json_response(BulkUpdaterSmallTree.for_resource(params[:id]))
+    json_response(BulkArchivalObjectUpdaterSmallTree.for_resource(params[:id]))
   end
-
 end

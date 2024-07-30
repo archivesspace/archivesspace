@@ -1,7 +1,5 @@
-class BulkUpdaterController < ApplicationController
-
-  # FIXME
-  skip_before_action :unauthorised_access
+class BulkArchivalObjectUpdaterController < ApplicationController
+  set_access_control "view_repository" => [:download_form, :download]
 
   def download_form
     @uri = params[:resource]
@@ -9,7 +7,7 @@ class BulkUpdaterController < ApplicationController
   end
 
   def download
-    uri = "/bulk_updater/repositories/#{session[:repo_id]}/generate_spreadsheet"
+    uri = "/bulk_archival_object_updater/repositories/#{session[:repo_id]}/generate_spreadsheet"
     args = {
       'uri[]' => JSON.parse(params[:selected]),
       'resource_uri' => params[:resource],
@@ -33,6 +31,7 @@ class BulkUpdaterController < ApplicationController
 
     backend_session = JSONModel::HTTP::current_backend_session
 
+    # TBD: This should be probably be removed. There is no reason to wrap it in a thread.
     Thread.new do
       JSONModel::HTTP::current_backend_session = backend_session
       begin
@@ -97,7 +96,7 @@ class BulkUpdaterController < ApplicationController
 
 
   def load_tree
-    JSONModel::HTTP::get_json("/bulk_updater#{@uri}/small_tree")
+    JSONModel::HTTP::get_json("/bulk_archival_object_updater#{@uri}/small_tree")
   end
 
 

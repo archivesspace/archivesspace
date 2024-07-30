@@ -92,7 +92,7 @@
     $('#selectedCountInModal').html(selected_count);
     $('.submit-btn').prop('disabled', selected_count === 0);
 
-    $('#bulk_updater_table').empty();
+    $('#bulk_archival_object_updater_table').empty();
 
     var tableData = new fattable.SyncTableModel();
     tableData.getCellSync = function (i, j) {
@@ -108,7 +108,7 @@
         /* First column: render a checkbox */
         return {
           content:
-            "<label class='bulk-updater-checkbox-label'><input data-rowid='" +
+            "<label class='bulk-archival-object-updater-checkbox-label'><input data-rowid='" +
             i +
             "' id='item" +
             i +
@@ -122,10 +122,10 @@
       }
 
       /* Left-pad each item relative to its level */
-      var spaces = '<div class="bulk-updater-spaces">';
+      var spaces = '<div class="bulk-archival-object-updater-spaces">';
 
       for (var space = 0; space < filtered_tree[i]['level']; space++) {
-        spaces += '<span class="bulk-updater-space"></span>';
+        spaces += '<span class="bulk-archival-object-updater-space"></span>';
       }
 
       spaces += '</div>';
@@ -154,8 +154,8 @@
 
       var content =
         spaces +
-        '<div class="bulk-updater-entry">' +
-        '<div><label class="bulk-updater-label" for="item' +
+        '<div class="bulk-archival-object-updater-entry">' +
+        '<div><label class="bulk-archival-object-updater-label" for="item' +
         i +
         '">' +
         filtered_tree[i]['title'] +
@@ -167,7 +167,7 @@
 
       if (filtered_tree[i]['children']) {
         content =
-          '<span class="bulk-updater-has-children">' + content + '</span>';
+          '<span class="bulk-archival-object-updater-has-children">' + content + '</span>';
       }
 
       return {
@@ -178,9 +178,9 @@
 
     tableData.getHeaderSync = function (j) {
       if (j == 0) {
-        return 'Selected';
+        return "<%= I18n.t('bulk_archival_object_update_spreadsheet.selected') %>";
       } else if (j == 1) {
-        return 'Record Title';
+        return "<%= I18n.t('bulk_archival_object_update_spreadsheet.record_title') %>";
       } else {
         return 'Col' + j;
       }
@@ -202,7 +202,7 @@
     };
 
     var table = fattable({
-      container: '#bulk_updater_table',
+      container: '#bulk_archival_object_updater_table',
       model: tableData,
       nbRows: filtered_tree.length,
       rowHeight: TABLE_SETTINGS.row_height,
@@ -213,9 +213,9 @@
 
     var idealHeight =
       $(window).height() -
-      $('#bulk_updater_buttons').height() -
+      $('#bulk_archival_object_updater_buttons').height() -
       TABLE_SETTINGS.bottom_padding_px;
-    $('#bulk_updater_table').height(idealHeight);
+    $('#bulk_archival_object_updater_table').height(idealHeight);
 
     window.onresize = function () {
       table.setup();
@@ -224,12 +224,12 @@
     return table;
   };
 
-  exports.initBulkUpdaterTable = function (tree) {
+  exports.initBulkArchivalObjectUpdaterTable = function (tree) {
     var flattened = flattenTree(tree);
 
-    let bulkUpdaterFatTable = renderTable(flattened);
+    let bulkArchivalObjectUpdaterFatTable = renderTable(flattened);
 
-    $('#bulk_updater_table').on('click', ':input', function (event) {
+    $('#bulk_archival_object_updater_table').on('click', ':input', function (event) {
       var $checkbox = $(event.target);
 
       var rowid = parseInt($checkbox.data('rowid'));
@@ -272,33 +272,33 @@
         flattened[index].selected = $checkbox.is(':checked');
       }
 
-      var offsetTop = bulkUpdaterFatTable.scroll.scrollTop;
+      var offsetTop = bulkArchivalObjectUpdaterFatTable.scroll.scrollTop;
 
-      bulkUpdaterFatTable = renderTable(flattened);
+      bulkArchivalObjectUpdaterFatTable = renderTable(flattened);
 
       // navigate back to the row you just clicked
-      bulkUpdaterFatTable.goTo(rowid, 0);
-      bulkUpdaterFatTable.scroll.setScrollXY(0, offsetTop);
+      bulkArchivalObjectUpdaterFatTable.goTo(rowid, 0);
+      bulkArchivalObjectUpdaterFatTable.scroll.setScrollXY(0, offsetTop);
     });
 
-    $('#cancelBulkUpdater').on('click', function (event) {
+    $('#cancelBulkArchivalObjectUpdater').on('click', function (event) {
       event.preventDefault();
       $('.modal_overlay').hide();
-      $('.bulk_updater_modal').hide();
+      $('.bulk_archival_object_updater_modal').hide();
     });
 
     $('.submit-btn').on('click', function () {
       var self = $(this);
 
-      if (self.attr('id') == 'showBulkUpdaterModal') {
+      if (self.attr('id') == 'showBulkArchivalObjectUpdaterModal') {
         $('.modal_overlay').show();
-        $('.bulk_updater_modal').show();
+        $('.bulk_archival_object_updater_modal').show();
         return;
       }
 
-      if (self.attr('id') == 'downloadBulkUpdater') {
+      if (self.attr('id') == 'downloadBulkArchivalObjectUpdater') {
         $('.modal_overlay').hide();
-        $('.bulk_updater_modal').hide();
+        $('.bulk_archival_object_updater_modal').hide();
       }
 
       var extras = [];
@@ -319,7 +319,7 @@
         }
       });
 
-      var form = $('#bulk_updater_form');
+      var form = $('#bulk_archival_object_updater_form');
       var form_fields = form.find('.report-fields').empty();
 
       $(form_fields).append(

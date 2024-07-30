@@ -1709,6 +1709,23 @@ ja:
       action:
         add: 法を追加する
 
+  bulk_archival_object_update_spreadsheet:
+    title: 一括アーカイブオブジェクトスプレッドシートを生成する
+    description: 以下のフォームを使用して、一括更新するアーカイブ オブジェクトを選択します。
+    selected_records: 選択されたレコード
+    selected: 選択済み
+    record_title: レコードタイトル
+    column_types_to_include_in_spreadsheet: スプレッドシートに含める列の種類
+    note_types: ノートの種類
+    minimum_subrecords: 最小サブレコード
+    minimum_subrecords_description: 含まれる各タイプのサブレコードの最小数
+    extra_subrecords: 追加のサブレコード
+    extra_subrecords_description: 選択したレコードの最大数に加えて含めるサブレコードの数。
+    minimum_notes: 最低限の注意
+    minimum_notes_description: 含まれる各タイプのメモサブレコードの最小数
+    download_spreadsheet: スプレッドシートをダウンロード
+    download_spreadsheet_modal_message: このスプレッドシートの生成には数分かかる場合があります。
+
   assessment:
     _frontend:
       form_header: 評価%{display_string}
@@ -2910,6 +2927,9 @@ ja:
     identity_information_tooltip: "<p>このセクションは、エージェント自身に関するコア情報です。名前フォームは、エージェントレコードで必要な唯一のサブレコードです。</p>"
     description_information_tooltip: "<p>このセクションは、エージェント自身に関するコア情報です。名前フォームは、エージェントレコードで必要な唯一のサブレコードです。</p>"
     relation_information_tooltip: "<p>このセクションは、ArchivesSpaceの内外の他のエージェントまたは資料との関係を示すために使用されます。</p>"
+  bulk_archival_object_updater_job:
+    _singular: スプレッドシートの一括アーカイブ オブジェクト更新ジョブ
+    create_missing_top_containers: 不足しているトップコンテナを作成する
   note_contact_note:
     contact_notes_tooltip: "<p>連絡先とのやり取りに関する詳細</p>"
     date_of_contact_tooltip: "<p>インタラクションの特定の日付または時間枠を記録するために使用されます</p>"

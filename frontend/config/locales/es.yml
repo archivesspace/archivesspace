@@ -1912,6 +1912,24 @@ es:
     _frontend:
       action:
         add: Añadir ley
+
+  bulk_archival_object_update_spreadsheet:
+    title: Generar hoja de cálculo de objetos archivados en masa
+    description: Utilice el formulario a continuación para seleccionar los objetos de archivo que desea actualizar de forma masiva.
+    selected_records: Registros Seleccionados
+    selected: Seleccionada
+    record_title: Título del registro
+    column_types_to_include_in_spreadsheet: Tipos de columnas para incluir en la hoja de cálculo
+    note_types: Tipos de notas
+    minimum_subrecords: Subregistros mínimos
+    minimum_subrecords_description: El número mínimo de subregistros de cada tipo que se incluirán
+    extra_subrecords: Subregistros adicionales
+    extra_subrecords_description: El número de subregistros a incluir además del mayor número encontrado en cualquiera de los registros seleccionados.
+    minimum_notes: Notas mínimas
+    minimum_notes_description: El número mínimo de subregistros de notas de cada tipo que se deben incluir
+    download_spreadsheet: Descargar hoja de cálculo
+    download_spreadsheet_modal_message: Generar esta hoja de cálculo puede tardar unos minutos.
+
   assessment:
     _frontend:
       form_header: Evaluación %{display_string}
@@ -3217,6 +3235,9 @@ es:
     relation_information_tooltip: "<p>Esta sección se utiliza para indicar relaciones\
       \ con otros agentes o materiales dentro o fuera de ArchivesSpace.</p>"
 
+  bulk_archival_object_updater_job:
+    _singular: Trabajo de actualización masiva de objetos archivados en hojas de cálculo
+    create_missing_top_containers: Crear contenedores superiores faltantes
 
   note_contact_note:
     contact_notes_tooltip: "<p>Detalles sobre la interacción con el contacto</p>"

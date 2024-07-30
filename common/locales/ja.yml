@@ -1569,6 +1569,7 @@ ja:
       unknown_job_type: 不明なジョブタイプ
       bulk_import_job: スプレッドシートを介してロード
       top_container_linker_job: トップコンテナリンカー
+      bulk_archival_object_updater_job: 一括アーカイブオブジェクトの更新
     status: 状態
     status_completed: 完了しました
     status_queued: 待機中
