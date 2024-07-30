@@ -96,7 +96,7 @@ class SearchController < ApplicationController
       params[field].each do |field_item|
         next if field_item.nil? || field_item.empty?
         next if field_item.match? YEAR_FIELD_REGEX
-        field_item = CGI::escapeHTML(URI.decode_www_form_component(field_item))
+        field_item = CGI::escapeHTML(URI.decode(field_item))
         raise InvalidSearchParams.new(I18n.t('errors.invalid_search_params', value: field_item, field: I18n.t('search_results.filter.' + field)))
       end
     end

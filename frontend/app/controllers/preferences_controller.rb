@@ -31,7 +31,6 @@ class PreferencesController < ApplicationController
     prefs, global_repo_id = current_preferences
     opts = {}
     opts[:repo_id] = global_repo_id if params['global']
-
     handle_crud(:instance => :preference,
                 :model => JSONModel(:preference),
                 :obj => JSONModel(:preference).find(params['id'], opts),
@@ -44,7 +43,7 @@ class PreferencesController < ApplicationController
                 },
                 :on_valid => ->(id) {
                   flash[:success] = t("preference._frontend.messages.updated",
-                                           **JSONModelI18nWrapper.new(:preference => @preference))
+                                           JSONModelI18nWrapper.new(:preference => @preference))
                   redirect_to(:controller => :preferences,
                               :action => :edit,
                               :id => id,

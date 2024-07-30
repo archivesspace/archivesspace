@@ -6,12 +6,12 @@
     </div>
   <% end %>
 
-  <%
+  <% 
     note_struct = result.note('abstract')
-    if note_struct.blank?
+	  if note_struct.blank?
       note_struct = result.note('scopecontent')
     end
-    if !note_struct['note_text'].blank?
+	  if !note_struct['note_text'].blank?
   %>
     <div class="abstract single_note">
       <span class='inline-label'><%= note_struct['label'] %></span>
@@ -66,7 +66,7 @@
   <% end %>
 
   <% if !props.fetch(:full,false)  && result['primary_type'] == 'repository' %>
-    <div><strong><%= t('number_of', :type => t('resource._plural')) %></strong> <%= @counts[result.uri]['resource'] %></div>
+    <div><strong><%= t('number_of', { :type => t('resource._plural') }) %></strong> <%= @counts[result.uri]['resource'] %></div>
   <% end %>
 
   <% if result.primary_type == 'classification' && result.classification_terms? %>
