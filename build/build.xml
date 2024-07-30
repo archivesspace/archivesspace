@@ -19,10 +19,10 @@
   <property name="jruby_rack_file" value="jruby-rack-${jruby_rack_version}.jar" />
   <property name="jruby_rack_url" value="https://repo1.maven.org/maven2/org/jruby/rack/jruby-rack/${jruby_rack_version}/jruby-rack-${jruby_rack_version}.jar" />
 
-  <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/11.0.22/jetty-runner-11.0.22.jar" />
-  <property name="jettyrunner_file" value="jetty-runner-11.0.22.jar" />
-  <property name="jettywebapp_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-webapp/11.0.22/jetty-webapp-11.0.22.jar" />
-  <property name="jettywebapp_file" value="jetty-webapp-11.0.22.jar" />
+  <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/10.0.22/jetty-runner-10.0.22.jar" />
+  <property name="jettyrunner_file" value="jetty-runner-10.0.22.jar" />
+  <property name="jettywebapp_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-webapp/10.0.22/jetty-webapp-10.0.22.jar" />
+  <property name="jettywebapp_file" value="jetty-webapp-10.0.22.jar" />
 
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
