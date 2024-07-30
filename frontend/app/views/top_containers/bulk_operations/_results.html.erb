@@ -9,9 +9,9 @@
 %>
 <% if rows < num_found %>
   <div class="alert alert-warning"><%= t("top_container._frontend.messages.max_results_limit_reached") %></div>
-  <p><%= t("top_container._frontend.messages.max_results_limit_details", {:visible => [rows, num_found].min, :num_found => num_found}) %></p>
+  <p><%= t("top_container._frontend.messages.max_results_limit_details", :visible => [rows, num_found].min, :num_found => num_found) %></p>
 <% else %>
-  <p><%= t("top_container._frontend.messages.results_summary", {:num_found => num_found}) %></p>
+  <p><%= t("top_container._frontend.messages.results_summary", :num_found => num_found) %></p>
 <% end %>
 
 <% if multiselect == true %>
@@ -54,7 +54,7 @@
           <% if field == 'resource_accession'%>
             <td class="top-container-collection">
               <% if container_json['collection'].present? %>
-                <% 
+                <%
                 # Previously, this pattern of array-wrapping container field values was used, presumably to handle
                 # cases where the value came back as a scalar. I haven't seen that in my testing (single values were
                 # already in an array), but we'll continue to follow that pattern just in case.
@@ -62,7 +62,7 @@
                 <ul class="linked-records-listing count-<%= Array(container_json['collection']).length %>">
                   <% Array(container_json['collection']).each do |c| %>
                     <li>
-                      <span class="collection-identifier"><%= c['identifier'] %></span>, 
+                      <span class="collection-identifier"><%= c['identifier'] %></span>,
                       <span class="collection-display-string"><%= c['display_string'] %></span>
                     </li>
                   <% end %>

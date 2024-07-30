@@ -27,7 +27,7 @@ describe 'Citation dialog modal', js: true do
     cite_item_btn.click
     item_input = page.find('#tempItemInput')
     item_input.click
-    if page.driver.browser.capabilities.platform == 'mac'
+    if page.driver.browser.capabilities.platform_name =~ /^mac/
       item_input.send_keys([:command, 'v'])
     else
       item_input.send_keys([:control, 'v'])
@@ -38,7 +38,7 @@ describe 'Citation dialog modal', js: true do
     cite_item_desc_btn.click
     item_desc_input = page.find('#tempItemDescInput')
     item_desc_input.click
-    if page.driver.browser.capabilities.platform == 'mac'
+    if page.driver.browser.capabilities.platform_name =~ /^mac/
       item_desc_input.send_keys([:command, 'v'])
     else
       item_desc_input.send_keys([:control, 'v'])

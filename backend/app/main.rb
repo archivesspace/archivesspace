@@ -1,6 +1,8 @@
 require 'bundler/setup'
 Bundler.require
 
+require 'rack/utils'
+
 Rack::Utils.key_space_limit = 655360 # x10 Rack default
 Rack::Utils.param_depth_limit = 200 # x2 Rack default
 

@@ -193,19 +193,6 @@ class IndexerCommon
     doc['fullrecord_published'], doc['fullrecord'] = IndexerCommon.extract_string_values(record['record'])
   end
 
-  # There's a problem with how translation paths get loaded when selenium tests are run
-  # Call this instead of I18n.t so that it won't cause an error when selenium tests are run
-  @@selenium = Dir.getwd.end_with? 'selenium'
-  def t(*args)
-    if @@selenium
-      args[0]
-    else
-      args << {} unless args.last.is_a?(Hash)
-      args[1][:default] ||= args[0].split('.').last
-      I18n.t(*args)
-    end
-  end
-
   def add_agents(doc, record)
     if record['record']['linked_agents']
       # index all linked agents first
@@ -235,7 +222,7 @@ class IndexerCommon
         elsif seen[link['ref']] == 'subject' && link['role'] != 'creator'
           # do nothing
         else
-          relator_label = link['relator'] ? t("enumerations.linked_agent_archival_record_relators.#{link['relator']}") : ''
+          relator_label = link['relator'] ? I18n.t("enumerations.linked_agent_archival_record_relators.#{link['relator']}") : ''
 
           doc["#{link['ref'].gsub(/\//, '_')}_relator_sort"] = "#{link['role']} #{relator_label}"
           seen[link['ref']] = link['role']
@@ -440,7 +427,7 @@ class IndexerCommon
       if doc['primary_type'] == 'accession'
         date = record['record']['accession_date']
         if date == '9999-12-31'
-          unknown = t('accession.accession_date_unknown')
+          unknown = I18n.t('accession.accession_date_unknown')
           doc['accession_date'] = unknown
           doc['fullrecord'] ||= ''
           doc['fullrecord'] << unknown + ' '
@@ -710,8 +697,8 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'job'
         report_type = record['record']['job']['report_type']
-        doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) :
-          t("job.types.#{record['record']['job_type']}"))
+        doc['title'] = (report_type ? I18n.t("reports.#{report_type}.title", :default => report_type) :
+          I18n.t("job.types.#{record['record']['job_type']}"))
         doc['types'] << record['record']['job_type']
         doc['types'] << report_type
         doc['job_type'] = record['record']['job_type']

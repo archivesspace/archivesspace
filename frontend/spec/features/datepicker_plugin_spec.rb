@@ -41,7 +41,7 @@ describe 'DatepickerPlugin', js: true do
     js_debug_messages = page.evaluate_script("TEST_MESSAGES.textContent");
     $logger.debug(js_debug_messages);
 
-    if page.driver.browser.capabilities.platform =~ /^mac/
+    if page.driver.browser.capabilities.platform_name =~ /^mac/
       @date_field.send_keys([:command, 'v'])
     else
       @date_field.send_keys([:control, 'v'])
@@ -53,7 +53,7 @@ describe 'DatepickerPlugin', js: true do
   it 'accepts a pasted month date in yyyy-mm format' do
     @date_field.click
     execute_script("navigator.clipboard.writeText('1999-12').catch(err => { TEST_MESSAGES.append(err); });")
-    if page.driver.browser.capabilities.platform =~ /^mac/
+    if page.driver.browser.capabilities.platform_name =~ /^mac/
       @date_field.send_keys([:command, 'v'])
     else
       @date_field.send_keys([:control, 'v'])
@@ -65,7 +65,7 @@ describe 'DatepickerPlugin', js: true do
   it 'accepts a pasted day date in yyyy-mm-dd format' do
     @date_field.click
     execute_script("navigator.clipboard.writeText('1999-12-31').catch(err => { TEST_MESSAGES.append(err); });")
-    if page.driver.browser.capabilities.platform == 'mac'
+    if page.driver.browser.capabilities.platform_name =~ /^mac/
       @date_field.send_keys([:command, 'v'])
     else
       @date_field.send_keys([:control, 'v'])
