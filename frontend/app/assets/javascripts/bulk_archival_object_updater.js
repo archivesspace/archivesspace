@@ -1,4 +1,7 @@
-function bulkUpdaterHandleSelectAll(selectAllCheckbox, controlledCheckboxes) {
+function bulkArchivalObjectUpdaterHandleSelectAll(
+  selectAllCheckbox,
+  controlledCheckboxes
+) {
   selectAllCheckbox.on('click', function () {
     var selectAll = false;
 

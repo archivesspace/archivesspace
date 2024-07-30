@@ -1,8 +1,5 @@
-class BulkUpdater
-
-  extend JSONModel
-
-  attr_accessor :filename, :job, :errors, :updated_uris
+class BulkArchivalObjectUpdater
+  attr_reader :filename, :parameters, :errors, :info_messages, :updated_uris
 
   BATCH_SIZE = 128
 
@@ -39,33 +36,24 @@ class BulkUpdater
     ['indicator_3', 'sub_container_indicator_3']
   ]
 
-
-  def self.run(filename, job)
-    new(filename, job).run!
-  end
-
-  def initialize(filename, job)
+  def initialize(filename, parameters)
     @filename = filename
-    @job = job
+    @parameters = parameters
     @errors = []
+    @info_messages = []
     @updated_uris = []
   end
 
-  def run!
-    # Run a cursory look over the spreadsheet
+  def run
     check_sheet(filename)
 
-    # Away!
     column_by_path = extract_columns(filename)
 
-    # work out which subrecords we're dealing with
     subrecord_columns = find_subrecord_columns(column_by_path)
 
     DB.open(true) do |db|
       resource_id = resource_ids_in_play(filename).fetch(0)
 
-      # before we get too crazy, let's ensure we have all the top containers
-      # available to this resource
       @top_containers_in_resource = subrecord_columns[:top_container] ? extract_top_containers_for_resource(db, resource_id) : {}
 
       if SpreadsheetBuilder.related_accessions_enabled?
@@ -74,13 +62,12 @@ class BulkUpdater
 
       if create_missing_top_containers? && subrecord_columns[:top_container]
         top_containers_in_sheet = extract_top_containers_from_sheet(filename, subrecord_columns[:top_container])
-        create_missing_top_containers(top_containers_in_sheet, job)
+        create_missing_top_containers(top_containers_in_sheet)
       end
 
-      # let's make sure we have all the digital objects we care about
       if subrecord_columns[:digital_object]
         digital_objects_in_sheet = extract_digital_objects_from_sheet(filename, subrecord_columns[:digital_object])
-        @digital_object_id_to_uri_map = apply_digital_objects_changes(digital_objects_in_sheet, job, db)
+        @digital_object_id_to_uri_map = apply_digital_objects_changes(digital_objects_in_sheet, db)
       end
 
       batch_rows(filename) do |batch|
@@ -100,10 +87,25 @@ class BulkUpdater
     end
 
     {
-      updated: updated_uris.length,
-      updated_uris: updated_uris,
+      updated_uris: updated_uris
     }
   end
+
+  def apply_deletes?
+    AppConfig.has_key?(:bulk_archival_object_updater_apply_deletes) && AppConfig[:bulk_archival_object_updater_apply_deletes] == true
+  end
+
+  def create_missing_top_containers?
+    if parameters.has_key?(:create_missing_top_containers)
+      parameters[:create_missing_top_containers]
+    elsif AppConfig.has_key?(:bulk_archival_object_updater_create_missing_top_containers)
+      AppConfig[:bulk_archival_object_updater_create_missing_top_containers]
+    else
+      false
+    end
+  end
+
+  private
 
   def process_row(row, ao, ao_json, column_by_path, subrecord_columns)
     record_changed = false
@@ -192,7 +194,7 @@ class BulkUpdater
 
       record_changed = apply_lang_material_updates(row, ao_json, lang_material_updates_by_index) || record_changed
 
-      if BulkUpdater.apply_deletes?
+      if apply_deletes?
         record_changed = delete_empty_notes(ao_json) || record_changed
       end
 
@@ -201,7 +203,8 @@ class BulkUpdater
         ao_json['position'] = nil
         ao.update_from_json(ao_json)
 
-        job.write_output("Updated archival object #{ao.id} - #{ao_json.display_string}")
+        info_messages.push("Updated archival object #{ao.id} - #{ao_json.display_string}")
+
         updated_uris << ao_json['uri']
       end
 
@@ -297,12 +300,12 @@ class BulkUpdater
           if clean_value != current_note_value
             record_changed = true
 
-            if clean_value.to_s.empty? && !BulkUpdater.apply_deletes?
+            if clean_value.to_s.empty? && !apply_deletes?
               errors << {
                 sheet: SpreadsheetBuilder::SHEET_NAME,
                 column: column.path,
                 row: row.row_number,
-                errors: ["Deleting a note is disabled. Use AppConfig[:bulk_updater_apply_deletes] = true to enable."],
+                errors: ["Deleting a note is disabled. Use AppConfig[:bulk_archival_object_updater_apply_deletes] = true to enable."],
               }
             else
               if column.multipart?
@@ -372,7 +375,7 @@ class BulkUpdater
       updates_by_index.each do |index, subrecord_updates|
         if (existing_subrecord = Array(ao_json[jsonmodel_property.to_s])[index])
           if subrecord_updates.all? {|_, value| value.to_s.empty? }
-            if BulkUpdater.apply_deletes?
+            if apply_deletes?
               # DELETE!
               record_changed = true
               next
@@ -381,7 +384,7 @@ class BulkUpdater
                 sheet: SpreadsheetBuilder::SHEET_NAME,
                 column: "#{jsonmodel_property}/#{index}",
                 row: row.row_number,
-                errors: ["Deleting a subrecord is disabled. Use AppConfig[:bulk_updater_apply_deletes] = true to enable."],
+                errors: ["Deleting a subrecord is disabled. Use AppConfig[:bulk_archival_object_updater_apply_deletes] = true to enable."],
               }
             end
           end
@@ -458,7 +461,7 @@ class BulkUpdater
     lang_material_updates_by_index[:language_and_script].each do |index, updates|
       if (existing_subrecord = existing_language_and_script.fetch(index, false))
         if updates.all? {|_, value| value.to_s.empty? }
-          if BulkUpdater.apply_deletes?
+          if apply_deletes?
             # DELETE!
             record_changed = true
           else
@@ -466,7 +469,7 @@ class BulkUpdater
               sheet: SpreadsheetBuilder::SHEET_NAME,
               column: "language_and_script/#{index}",
               row: row.row_number,
-              errors: ["Deleting a Language is disabled. Use AppConfig[:bulk_updater_apply_deletes] = true to enable."],
+              errors: ["Deleting a Language is disabled. Use AppConfig[:bulk_archival_object_updater_apply_deletes] = true to enable."],
             }
           end
 
@@ -512,12 +515,12 @@ class BulkUpdater
 
         record_changed = true
 
-        if value_from_spreadsheet.to_s.empty? && !BulkUpdater.apply_deletes?
+        if value_from_spreadsheet.to_s.empty? && !apply_deletes?
           errors << {
             sheet: SpreadsheetBuilder::SHEET_NAME,
             column: column.path,
             row: row.row_number,
-            errors: ["Deleting a Language Note is disabled. Use AppConfig[:bulk_updater_apply_deletes] = true to enable."],
+            errors: ["Deleting a Language Note is disabled. Use AppConfig[:bulk_archival_object_updater_apply_deletes] = true to enable."],
           }
         end
 
@@ -537,7 +540,7 @@ class BulkUpdater
       end
     end
 
-    if BulkUpdater.apply_deletes?
+    if apply_deletes?
       # drop any language and script where both are empty
       language_and_script_to_apply.reject! do |lm|
         lm.fetch('language_and_script')['language'].to_s.empty? && lm.fetch('language_and_script')['script'].to_s.empty?
@@ -583,7 +586,7 @@ class BulkUpdater
         replacement_subrecord = {}
 
         if updates.all? {|_, value| value.to_s.empty? }
-          if BulkUpdater.apply_deletes?
+          if apply_deletes?
             # DELETE!
             record_changed = true
             related_accessions_changed = true
@@ -592,7 +595,7 @@ class BulkUpdater
               sheet: SpreadsheetBuilder::SHEET_NAME,
               column: "related_accessions/#{index}",
               row: row.row_number,
-              errors: ["Deleting a related accession is disabled. Use AppConfig[:bulk_updater_apply_deletes] = true to enable."],
+              errors: ["Deleting a related accession is disabled. Use AppConfig[:bulk_archival_object_updater_apply_deletes] = true to enable."],
             }
           end
 
@@ -682,7 +685,7 @@ class BulkUpdater
       instance_updates_by_index.each do |index, instance_updates|
         if (existing_subrecord = existing_sub_container_instances.fetch(index, false))
           if instance_updates.all? {|_, value| value.to_s.empty? }
-            if BulkUpdater.apply_deletes?
+            if apply_deletes?
               # DELETE!
               record_changed = true
               instances_changed = true
@@ -691,7 +694,7 @@ class BulkUpdater
                 sheet: SpreadsheetBuilder::SHEET_NAME,
                 column: "instances/#{index}",
                 row: row.row_number,
-                errors: ["Deleting an instance is disabled. Use AppConfig[:bulk_updater_apply_deletes] = true to enable."],
+                errors: ["Deleting an instance is disabled. Use AppConfig[:bulk_archival_object_updater_apply_deletes] = true to enable."],
               }
             end
 
@@ -737,7 +740,7 @@ class BulkUpdater
                 sheet: SpreadsheetBuilder::SHEET_NAME,
                 column: "instances/#{index}/top_container_indicator",
                 row: row.row_number,
-                errors: [BulkUpdater.missing_container_error(candidate_top_container, @top_containers_in_resource)],
+                errors: [missing_top_container_error_message(candidate_top_container, @top_containers_in_resource)],
               }
             end
           end
@@ -782,7 +785,7 @@ class BulkUpdater
               sheet: SpreadsheetBuilder::SHEET_NAME,
               column: "instances/#{index}/top_container_indicator",
               row: row.row_number,
-              errors: [BulkUpdater.missing_container_error(candidate_top_container, @top_containers_in_resource)],
+              errors: [missing_top_container_error_message(candidate_top_container, @top_containers_in_resource)],
             }
           end
 
@@ -802,7 +805,7 @@ class BulkUpdater
 
         if (existing_subrecord = existing_digital_object_instances.fetch(index, false))
           if digital_object_updates.all? {|_, value| value.to_s.empty? }
-            if BulkUpdater.apply_deletes?
+            if apply_deletes?
               # DELETE!
               record_changed = true
               instances_changed = true
@@ -811,7 +814,7 @@ class BulkUpdater
                 sheet: SpreadsheetBuilder::SHEET_NAME,
                 column: "instances/#{index}",
                 row: row.row_number,
-                errors: ["Deleting an digital object instance is disabled. Use AppConfig[:bulk_updater_apply_deletes] = true to enable."],
+                errors: ["Deleting an digital object instance is disabled. Use AppConfig[:bulk_archival_object_updater_apply_deletes] = true to enable."],
               }
             end
 
@@ -937,7 +940,7 @@ class BulkUpdater
     end
 
     def to_s
-      "#<BulkUpdater::TopContainerCandidate #{self.to_h.inspect}>"
+      "#<BulkArchivalObjectUpdater::TopContainerCandidate #{self.to_h.inspect}>"
     end
 
     def inspect
@@ -955,7 +958,7 @@ class BulkUpdater
     end
 
     def to_s
-      "#<BulkUpdater::DigitalObjectCandidate #{self.to_h.inspect}>"
+      "#<BulkArchivalObjectUpdater::DigitalObjectCandidate #{self.to_h.inspect}>"
     end
 
     def inspect
@@ -973,7 +976,7 @@ class BulkUpdater
     end
 
     def to_s
-      "#<BulkUpdater::AccessionCandidate #{self.to_h.inspect}>"
+      "#<BulkArchivalObjectUpdater::AccessionCandidate #{self.to_h.inspect}>"
     end
 
     def inspect
@@ -981,14 +984,14 @@ class BulkUpdater
     end
   end
 
-  def create_missing_top_containers(in_sheet, job)
+  def create_missing_top_containers(in_sheet)
     (in_sheet.keys - @top_containers_in_resource.keys).each do |candidate_to_create|
       tc_json = JSONModel::JSONModel(:top_container).new
       tc_json.indicator = candidate_to_create.top_container_indicator
       tc_json.type = candidate_to_create.top_container_type
       tc_json.barcode = candidate_to_create.top_container_barcode
 
-      job.write_output("Creating top container for type: #{candidate_to_create.top_container_type} indicator: #{candidate_to_create.top_container_indicator}")
+      info_messages.push("Creating top container for type: #{candidate_to_create.top_container_type} indicator: #{candidate_to_create.top_container_indicator}")
 
       tc = TopContainer.create_from_json(tc_json)
 
@@ -996,7 +999,7 @@ class BulkUpdater
     end
   end
 
-  def apply_digital_objects_changes(in_sheet, job, db)
+  def apply_digital_objects_changes(in_sheet, db)
     identifiers_by_digital_object_id = {}
 
     # NOTE: digital_object_id is unique within the repository!
@@ -1047,7 +1050,7 @@ class BulkUpdater
 
         obj = DigitalObject.create_from_json(do_json)
 
-        job.write_output("Created digital object #{do_json.digital_object_id} - #{do_json.title}")
+        info_messages.push("Created digital object #{do_json.digital_object_id} - #{do_json.title}")
 
         identifiers_by_digital_object_id[digital_object_candidate.digital_object_id] = {
           uri: obj.uri,
@@ -1116,7 +1119,8 @@ class BulkUpdater
 
           if changed
             obj.update_from_json(json)
-            job.write_output("Updated digital object #{json.digital_object_id} - #{json.title}")
+
+            info_messages.push("Updated digital object #{json.digital_object_id} - #{json.title}")
 
             updated_uris << obj.uri
           end
@@ -1340,26 +1344,16 @@ class BulkUpdater
     }
   end
 
-  def self.apply_deletes?
-    AppConfig.has_key?(:bulk_updater_apply_deletes) && AppConfig[:bulk_updater_apply_deletes] == true
-  end
+  def missing_top_container_error_message(container, available_top_containers)
+    message = ""
 
-  def create_missing_top_containers?
-    if @job.job.has_key?('create_missing_top_containers')
-      @job.job['create_missing_top_containers']
-    elsif AppConfig.has_key?(:bulk_updater_create_missing_top_containers)
-      AppConfig[:bulk_updater_create_missing_top_containers]
-    else
-      false
-    end
-  end
+    message += "Top container not found attached within resource: #{container.inspect}\n"
+    message += "Set 'create_missing_top_containers' to true inside AppConfig, to create Top Containers that do not exist.\n"
+    message += "The following top containers are attached within this resource:\n"
+    message += available_top_containers.map do |tc|
+      "#{ tc.inspect }\n"
+    end.join("")
 
-  def self.missing_container_error(container, available_top_containers)
-    "Top container not found attached within resource: #{container.inspect}\n" +
-      "        *** Set 'Create Missing Top Containers' to create missing Top Containers instead of seeing this error. ***\n" +
-      "\n" +
-      "The following top containers are attached within this resource:\n\n" +
-      available_top_containers.map {|tc| "  * #{tc.inspect}\n"}.join("")
+    message
   end
-
 end

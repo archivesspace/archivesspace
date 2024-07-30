@@ -257,6 +257,9 @@ ArchivesSpace::Application.routes.draw do
     match 'preferences/:id' => 'preferences#update', :via => [:post]
     match 'preferences/:id/reset' => 'preferences#reset', :via => [:post]
 
+    match('bulk_archival_object_updater/download' => 'bulk_archival_object_updater#download_form', :via => [:get])
+    match('bulk_archival_object_updater/download' => 'bulk_archival_object_updater#download', :via => [:post])
+
     resources :rde_templates
     match 'rde_templates/batch_delete' => 'rde_templates#batch_delete', :via => [:post]
 
@@ -314,8 +317,6 @@ ArchivesSpace::Application.routes.draw do
     match 'ark_update' => 'ark_update#update', :via => [:post]
     match 'bulk_import_templates' => 'bulk_import_templates#index', via: [:get]
     match 'bulk_import_templates/download' => 'bulk_import_templates#download', via: [:get]
-    match('bulk_updater/download' => 'bulk_updater#download_form', :via => [:get])
-    match('bulk_updater/download' => 'bulk_updater#download', :via => [:post])
 
 
     if Plugins.system_menu_items?

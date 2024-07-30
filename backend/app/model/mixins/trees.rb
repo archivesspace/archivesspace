@@ -301,7 +301,7 @@ module Trees
                 update(:system_mtime => Time.now)
   end
 
-  def bulk_updater_quick_tree
+  def bulk_archival_object_updater_quick_tree
     links = {}
     properties = {}
 
@@ -310,7 +310,7 @@ module Trees
 
     top_nodes = []
 
-    container_info = bulk_updater_fetch_container_info
+    container_info = bulk_archival_object_updater_fetch_container_info
 
     query = build_node_query
 
@@ -359,7 +359,7 @@ module Trees
 
   private
 
-  def bulk_updater_containers_ds
+  def bulk_archival_object_updater_containers_ds
     TopContainer.linked_instance_ds
       .join(:archival_object, :id => :instance__archival_object_id)
       .left_join(:enumeration_value___top_container_type, :id => :top_container__type_id)
@@ -377,10 +377,10 @@ module Trees
   end
 
 
-  def bulk_updater_fetch_container_info
+  def bulk_archival_object_updater_fetch_container_info
     result = {}
 
-    bulk_updater_containers_ds.each do |row|
+    bulk_archival_object_updater_containers_ds.each do |row|
       result[row[:archival_object_id]] = [
         # BoxType Indicator [Barcode]
         [row[:top_container_type],

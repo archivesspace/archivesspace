@@ -771,7 +771,7 @@ AppConfig[:allow_other_admins_access_to_system_info] = false
 # As not all subrecord fields have a corresponding column in the spreadsheet, you
 # may unwittingly drop a subrecord which has data in other fields.
 
-AppConfig[:bulk_updater_apply_deletes] = false
+AppConfig[:bulk_archival_object_updater_apply_deletes] = false
 
 # By default, the importer will throw an error when it finds a top container
 # in the spreadsheet that is not attached within the current resource's hierarchy.
@@ -779,4 +779,4 @@ AppConfig[:bulk_updater_apply_deletes] = false
 # This configuration setting can be overridden by providing a
 # `create_missing_top_containers` parameter to the import job.
 
-AppConfig[:bulk_updater_create_missing_top_containers] = false
+AppConfig[:bulk_archival_object_updater_create_missing_top_containers] = false

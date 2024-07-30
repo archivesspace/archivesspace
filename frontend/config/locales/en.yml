@@ -1930,6 +1930,23 @@ en:
       action:
         add: Add Act
 
+  bulk_archival_object_update_spreadsheet:
+    title: Generate Bulk Archival Object Spreadsheet
+    description: Use the form below to select the Archival Objects you wish to bulk update.
+    selected_records: Selected Records
+    selected: Selected
+    record_title: Record Title
+    column_types_to_include_in_spreadsheet: Column types to include in spreadsheet
+    note_types: Note Types
+    minimum_subrecords: Minimum Subrecords
+    minimum_subrecords_description: The minimum number of subrecords of each type to be included
+    extra_subrecords: Extra subrecords
+    extra_subrecords_description: The number of subrecords to include in addition to the greatest number found in any of the selected records.
+    minimum_notes: Minimum Notes
+    minimum_notes_description: The minimum number of note subrecords of each type to be included
+    download_spreadsheet: Download Spreadsheet
+    download_spreadsheet_modal_message: Generating this spreadsheet may take a few moments.
+
   assessment:
     _frontend:
       form_header: Assessment %{display_string}
@@ -2515,13 +2532,9 @@ en:
     filename: Spreadsheet file name
     not_direct: At this time, this job can only be created from the Resource record
 
-  bulk_update_job:
-    _singular: Spreadsheet Bulk Update Job
-    create_missing_top_containers: Create Missing Top Containers?
-
-  job:
-    types:
-      bulk_update_job: Spreadsheet Bulk Update Job
+  bulk_archival_object_updater_job:
+    _singular: Spreadsheet Bulk Archival Object Updater Job
+    create_missing_top_containers: Create Missing Top Containers
 
   note_contact_note:
     contact_notes_tooltip: |
