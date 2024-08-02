@@ -31,11 +31,11 @@
         <li class="form-actions">
           <% if plusone && record.id.blank? %>
             <div class="btn-group btn-submit-group">
-              <button type="submit" class="btn btn-primary"><%= save_button_text %></button>
-              <button type="#{plusone}" class="btn btn-primary btn-plus-one createPlusOneBtn"><%= t("actions.save_plus_one") %></button>
+              <button type="submit" class="btn btn-primary btn-sm"><%= save_button_text %></button>
+              <button type="#{plusone}" class="btn btn-primary btn-sm btn-plus-one createPlusOneBtn"><%= t("actions.save_plus_one") %></button>
             </div>
           <% else %>
-            <button type="submit" class="btn btn-primary"><%= save_button_text %></button>
+            <button type="submit" class="btn btn-primary btn-sm"><%= save_button_text %></button>
           <% end %>
         </li>
       <% end %>

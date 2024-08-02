@@ -23,15 +23,15 @@
 
     <li class="form-actions">
       <div class="btn-group <% if ["new", "create", "batch", "batch_create"].include?(controller.action_name) %>btn-submit-group<% end %>">
-        <button type="submit" class="btn btn-primary" style="width: 70%;"><%= t("location_batch._frontend.action.#{@action}") %></button>
+        <button type="submit" class="btn btn-primary btn-sm" style="width: 70%;"><%= t("location_batch._frontend.action.#{@action}") %></button>
         <% unless @is_batch_update %>
-          <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= t("actions.save_plus_one") %></button>
+          <button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary btn-sm createPlusOneBtn"><%= t("actions.save_plus_one") %></button>
         <% end %>
       </div>
 
-      <div class="btn-group <% if ["new", "create", "batch_create"].include?(controller.action_name) %>btn-submit-group<% end %>">
+      <div class="mt-2 btn-group <% if ["new", "create", "batch_create"].include?(controller.action_name) %>btn-submit-group<% end %>">
         <% unless @is_batch_update %>
-          <button type="button" class="btn preview-locations border bg-white" style="width: 90%;"><%= I18n.t("location_batch._frontend.action.preview_short") %></button>
+          <button type="button" class="btn btn-default btn-sm preview-locations"><%= I18n.t("location_batch._frontend.action.preview_short") %></button>
         <% end %>
       </div>
     </li>

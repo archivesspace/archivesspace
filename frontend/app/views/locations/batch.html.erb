@@ -37,7 +37,7 @@
             </section>
           <% end %>
           
-          <div class="form-actions">
+          <div class="form-actions pl-0">
             <% if !@is_batch_update  &&  !(t("location_batch._frontend.messages.warning", :default => "").blank?) %>
               <div class="alert alert-warning"><%= t("location_batch._frontend.messages.warning") %></div>
             <% end %>
