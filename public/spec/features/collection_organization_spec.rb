@@ -19,6 +19,11 @@ describe 'Collection Organization', js: true do
       title: 'This is not a mixed content title',
       publish: true
     )
+    @do = create(:digital_object, publish: true)
+    @doc = create(:digital_object_component,
+      publish: true,
+      digital_object: { ref: @do.uri }
+    )
     run_indexers
   end
 
@@ -46,7 +51,7 @@ describe 'Collection Organization', js: true do
       expect(ao2_record_title).to have_content('This is not a mixed content title')
     end
 
-    it 'is positioned on the left side of the show and infinite views ' \
+    it 'is positioned on the left side of the resource show and infinite views ' \
        'when AppConfig[:pui_collection_org_sidebar_position] is set to left' do
       allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'left' }
 
@@ -66,6 +71,35 @@ describe 'Collection Organization', js: true do
 
       sidebar = find('.infinite-tree-sidebar')
       content = find('.infinite-records-container')
+
+      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
+      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
+      content_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
+
+      expect(sidebar_left_coordinate).to be < content_left_coordinate
+      expect(sidebar_right_coordinate).to eq content_left_coordinate
+    end
+
+    it 'is positioned on the left side of the objects show view ' \
+       'when AppConfig[:pui_collection_org_sidebar_position] is set to left' do
+      allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'left' }
+
+      visit "/repositories/#{@repo.id}/digital_objects/#{@do.id}"
+
+      sidebar = find('.infinite-tree-sidebar')
+      content = find('.resizable-content-pane')
+
+      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
+      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
+      content_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
+
+      expect(sidebar_left_coordinate).to be < content_left_coordinate
+      expect(sidebar_right_coordinate).to eq content_left_coordinate
+
+      visit "/repositories/#{@repo.id}/digital_object_components/#{@doc.id}"
+
+      sidebar = find('.infinite-tree-sidebar')
+      content = find('.resizable-content-pane')
 
       sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
       sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
@@ -95,6 +129,35 @@ describe 'Collection Organization', js: true do
 
       sidebar = find('.infinite-tree-sidebar')
       content = find('.infinite-records-container')
+
+      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
+      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
+      content_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', content)
+
+      expect(sidebar_left_coordinate).to eq content_right_coordinate
+      expect(sidebar_right_coordinate).to be > content_right_coordinate
+    end
+
+    it 'is positioned on the right side of the objects show view ' \
+       'when AppConfig[:pui_collection_org_sidebar_position] is set to right' do
+      allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'right' }
+
+      visit "/repositories/#{@repo.id}/digital_objects/#{@do.id}"
+
+      sidebar = find('.infinite-tree-sidebar')
+      content = find('.resizable-content-pane')
+
+      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
+      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
+      content_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', content)
+
+      expect(sidebar_left_coordinate).to eq content_right_coordinate
+      expect(sidebar_right_coordinate).to be > content_right_coordinate
+
+      visit "/repositories/#{@repo.id}/digital_object_components/#{@doc.id}"
+
+      sidebar = find('.infinite-tree-sidebar')
+      content = find('.resizable-content-pane')
 
       sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
       sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
