@@ -69,7 +69,7 @@ module Check
 
     # get flattened set of keys from YAML
     def load_keys(file)
-      yaml = YAML.load(File.read(file))
+      yaml = YAML.load(File.read(file), aliases: true)
       return [] if yaml.values.compact.empty?
       flatten_keys(yaml[yaml.keys.first])
     end
