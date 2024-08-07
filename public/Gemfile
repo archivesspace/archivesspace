@@ -39,6 +39,8 @@ gem 'net-http-persistent', '>= 4.0.1'
 # support clipboard
 gem 'clipboard-rails'
 
+gem 'rubyzip', '< 1.4'
+
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks'
 
@@ -59,6 +61,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'childprocess'
   gem 'axe-core-rspec'
   gem 'capybara'
   gem 'capybara-screenshot'
@@ -71,7 +74,7 @@ group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'rspec-retry'
-  gem 'selenium-webdriver', '4.1.0'
+  gem 'selenium-webdriver'
   gem 'simplecov'
 end
 

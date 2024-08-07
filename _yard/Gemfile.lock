@@ -3,8 +3,10 @@ GEM
   specs:
     kramdown (2.4.0)
       rexml
-    rexml (3.2.5)
-    yard (0.9.34)
+    rexml (3.3.4)
+      strscan
+    strscan (3.1.0-java)
+    yard (0.9.36)
 
 PLATFORMS
   universal-java-1.8
@@ -16,4 +18,4 @@ DEPENDENCIES
   yard (>= 0.9.20)
 
 BUNDLED WITH
-   2.3.15
+   2.5.15

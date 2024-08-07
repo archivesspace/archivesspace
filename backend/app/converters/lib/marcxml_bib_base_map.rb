@@ -889,7 +889,7 @@ module MarcXMLBibBaseMap
                                                 Version-$s; Form subdivision-$k; Miscellaneous-$g)
                                                 |), is_fallback_resource_title),
 
-        "datafield[@tag='242']" => multipart_note('odd',  'Translation of Title', "{$a: }{$b }{[$h] }{$n, }{$p, }{$y}){ / $c}"),
+        "datafield[@tag='242']" => multipart_note('odd', 'Translation of Title', "{$a: }{$b }{[$h] }{$n, }{$p, }{$y}){ / $c}"),
 
         # TITLE
         "datafield[@tag='245']" => -> resource, node {

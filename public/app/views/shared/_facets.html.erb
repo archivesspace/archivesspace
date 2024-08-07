@@ -5,29 +5,29 @@
     <h3><%= t('search_results.filtered_by')%> </h3>
        <ul class='p-0 mt-4 mb-5'>
         <% @search.get_filter_q_arr(@page_search).each do |f_q| %>
-	  <% unless f_q['v'].blank? %>
-	   <li class="list-group-item"><span class="filter"><%= t('search_results.search_term') %>: <%= f_q['v'] %>
-	       <a href="<%= app_prefix(f_q['uri']) %>" title="<%= t('search_results.remove_filter')%>" class="delete_filter">X</a></span></li>
+    <% unless f_q['v'].blank? %>
+     <li class="list-group-item"><span class="filter"><%= t('search_results.search_term') %>: <%= f_q['v'] %>
+         <a href="<%= app_prefix(f_q['uri']) %>" title="<%= t('search_results.remove_filter')%>" class="delete_filter">X</a></span></li>
           <% end %>
         <% end %>
       <% unless @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
       <%
-	 from_year = (@search[:filter_from_year].blank? ? '' : @search[:filter_from_year] )
-	 to_year = (@search[:filter_to_year].blank? ? t('search_results.filter.year_now') : @search[:filter_to_year])
+   from_year = (@search[:filter_from_year].blank? ? '' : @search[:filter_from_year] )
+   to_year = (@search[:filter_to_year].blank? ? t('search_results.filter.year_now') : @search[:filter_to_year])
       %>
-      <li class="list-group-item"><span class="filter"><%= t('search_results.filter.from_to', {:begin=> from_year, :end => to_year  })%>
-	  <a href="<%= app_prefix(@page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}",""))%>"
-	     title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
+      <li class="list-group-item"><span class="filter"><%= t('search_results.filter.from_to', :begin=> from_year, :end => to_year)%>
+    <a href="<%= app_prefix(@page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}",""))%>"
+       title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
       </span></li>
   <% end  %>
-	<% @filters.each do |k, a| %>
-	  <% a.each do |h| %>
-		  <li class="list-group-item"><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
-			  <a href="<%= app_prefix(h['uri']) %>"
-					title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
-		  </li>
-	  <% end %>
-	<% end %>
+  <% @filters.each do |k, a| %>
+    <% a.each do |h| %>
+      <li class="list-group-item"><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
+        <a href="<%= app_prefix(h['uri']) %>"
+          title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
+      </li>
+    <% end %>
+  <% end %>
  </ul>
  <% end %>
 </div>

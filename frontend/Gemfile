@@ -28,7 +28,7 @@ gem 'json'
 gem 'json-schema', '1.0.10'
 
 gem 'atomic', '= 1.0.1'
-gem 'jruby-jars', '= 9.3.4.0'
+gem 'jruby-jars', '= 9.4.8.0'
 
 group :test do
   gem 'rails-controller-testing'
@@ -54,6 +54,8 @@ group :test do
   gem 'activesupport'
   # if the indexer requires it, our test suite requires it
   gem 'fog-aws', '2.0.0', require: false
+
+  gem 'rubyzip', '< 1.4'
 end
 
 group :development, :test do

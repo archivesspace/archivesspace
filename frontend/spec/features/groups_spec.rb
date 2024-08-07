@@ -164,7 +164,7 @@ describe 'Groups', js: true do
 
   it 'can get a list of usernames matching a string' do
     login_user(@admin)
-    visit "/users/complete?query=#{URI.escape(@user.username)}"
+    visit "/users/complete?query=#{Addressable::URI.escape(@user.username)}"
     expect(page).to have_text @user.username
 
     visit '/logout'
