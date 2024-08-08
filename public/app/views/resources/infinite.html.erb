@@ -20,8 +20,48 @@
   content_waypoint_size = 20
   sidebar_waypoint_size = 200
   num_records = @ordered_records.count
+  num_waypoints_on_page_load = 2
+  show_large_resource_alert = num_records > content_waypoint_size * num_waypoints_on_page_load
   sidebar_position = AppConfig[:pui_collection_org_sidebar_position]
 %>
+
+<% if show_large_resource_alert %>
+  <section
+    class="row mb-4 mt-3 px-3 py-2 alert alert-primary align-items-center gap-x-8 gap-y-3"
+    data-records-alert
+  >
+    <p class="mb-0">
+      <i class="fa fa-info-circle" aria-hidden="true"></i>
+      <%= "#{t('resource.load_records.alert')} (#{num_records})" %>.
+    </p>
+
+    <div class="d-flex gap-x-8">
+      <p class="align-self-center mb-0 px-2 py-1 d-flex align-items-center gap-2 bg-primary rounded">
+        <span class="text-white"><%= t('resource.load_records.showing') %></span>
+        <span class="badge badge-light" data-records-percent><%= t('resource.load_records.start_percent') %></span>
+      </p>
+
+      <form id="load-all-records-form" class="d-flex align-items-center gap-2">
+        <p class="mb-0 font-weight-bold"><%= t('resource.load_records.load') %></p>
+        <div class="load-records__toggle-container d-flex align-items-center gap-2">
+          <input
+            autocomplete="off"
+            id="load-all"
+            type="checkbox"
+            class="load-records__input visually-hidden order-1"
+            data-load-all-records
+          />
+          <div class="order-1">
+            <label class="load-records__label-toggle" for="load-all"><%= t('resource.load_records.load_all') %></label>
+          </div>
+          <label class="load-records__label-scroll mb-0 on-scroll order-0" for="load-all"><%= t('resource.load_records.scroll') %></label>
+          <label class="load-records__label-all mb-0 all-at-once order-1" for="load-all"><%= t('resource.load_records.all') %></label>
+        </div>
+      </form>
+    </div>
+  </section>
+<% end %>
+
 <div class="row overflow-hidden">
   <div
     id="sidebar"
@@ -101,8 +141,9 @@ const treeWaypointSize = '<%= sidebar_waypoint_size %>';
 const identifier_separator = '<%= I18n.t("resource.identifier_separator") %>';
 const date_type_bulk = '<%= I18n.t("date_type_bulk.bulk") %>';
 const appUrlPrefix = '<%= AppConfig[:public_proxy_url] %>';
+const workerPath = '<%= asset_path('infinite_worker.js') %>';
 
-const infiniteRecords = new InfiniteRecords(resourceUri, appUrlPrefix);
+const infiniteRecords = new InfiniteRecords(resourceUri, appUrlPrefix, workerPath);
 const infiniteTree = new InfiniteTree(
   treeWaypointSize,
   appUrlPrefix,

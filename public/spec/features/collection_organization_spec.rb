@@ -238,4 +238,38 @@ describe 'Collection Organization', js: true do
       expect(sidebar_left_decrease2).to be > sidebar_left_increase2
     end
   end
+
+  describe 'Load All Records' do
+    # Set up test data: 1) a resource with just enough records to trigger the
+    # large records alert, 2) a large resource with 27060 records (1351 waypoints to fetch, after the
+    # first 2 waypoints are fetched after page load, so 1353 total waypoints at minimum,
+    # a waypoint is comprised of 20 records, so 20 x 1353 = 27060 records to create)
+
+    # After data is created...
+
+    # Visit the /collection_organization page for the resource
+
+    # test that the large records alert is present
+
+    # scroll down towards the end of the second waypoint in order to fetch more waypoints
+
+    # test that more waypoints have loaded
+
+    # test that a spinner is present while waypoints are loading
+
+    # test that the spinner is removed after waypoints are loaded
+
+    # test that that update percentage label gets updated
+
+    # test that clicking on the toggle triggers a download all records action
+    # test that clicking on the 'all at once' label triggers a download all records action
+
+    # test that keyboard pressing on the toggle triggers the download all records action
+
+    # test that the spinner is present while all records are being downloaded
+
+    # test that the spinner is removed after all records are downloaded
+
+    # test that the large resource alert is removed after all records are downloaded
+  end
 end

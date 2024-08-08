@@ -16,65 +16,74 @@
     <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true, :calling_partial => 'infinite_item'} %>
   <% end %>
 
-  <dl class="row">
-
+  <dl class="row administrative_notes">
     <% accessrestrict_note = @result.note('accessrestrict') %>
     <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? && !inherited?(accessrestrict_note) %>
-      <dt class="col-sm-3"><%= accessrestrict_note['label'] %></dt>
-      <dd class="col-sm-9">
-        <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true, :calling_partial => 'infinite_item'} %>
-      </dd>
+      <div>
+        <dt><%= accessrestrict_note['label'] %></dt>
+        <dd>
+          <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true, :calling_partial => 'infinite_item'} %>
+        </dd>
+      </div>
     <% end %>
 
     <% unless @result.dates.blank? || all_inherited?(@result.dates) %>
-        <dt class="col-sm-3"><%= t('resource._public.dates') %></dt>
-        <dd class="col-sm-9">
+      <div>
+        <dt><%= t('resource._public.dates') %></dt>
         <% @result.dates.each do |date| %>
-          <%= inheritance(date['_inherited']).html_safe %>
-          <%= date['final_expression'] %>
-          <br>
+          <dd>
+            <%= inheritance(date['_inherited']).html_safe %>
+            <%= date['final_expression'] %>
+          </dd>
         <% end %>
-        </dd>
+      </div>
     <% end %>
 
     <% unless @result.extents.blank? || all_inherited?(@result.extents) %>
-      <dt class="col-sm-3"><%= t('resource._public.extent') %></dt>
+      <div>
+        <dt><%= t('resource._public.extent') %></dt>
         <% @result.extents.each do |extent| %>
-          <dd class="col-sm-9">
+          <dd>
             <%= inheritance(extent['_inherited']).html_safe %>
             <%= extent['display']%>
           </dd>    
         <% end %>
+      </div>
     <% end %>
 
     <% unless @result.agents.blank? || all_inherited?(@result.agents.collect(&:last).flatten) %>
-      <dt class="col-sm-3"><%= t('pui_agent.related') %></dt>
-      <dd class="col-sm-9">
+      <div>
+        <dt><%= t('pui_agent.related') %></dt>
         <% @result.agents.collect(&:last).flatten.each do |relationship| %>
-          
+          <dd>
             <%= link_to relationship.fetch('_resolved').fetch('title'), app_prefix(relationship.fetch('ref')) %>
-          
-          <br>
+          </dd>
         <% end %>
-        </dd>
+      </div>
     <% end %>
 
     <% if @result.lang_materials %>
       <% @result.lang_materials.reject { |lm| inherited?(lm) }.each do |lang_material| %>
-        <dt class="col-sm-3"><%= t('resource._public.lang')%></dt>
-        <dd class="col-sm-9"><%= t('enumerations.language_iso639_2.' + lang_material['language']) %></dd>
+        <div>
+          <dt><%= t('resource._public.lang')%></dt>
+          <dd><%= t('enumerations.language_iso639_2.' + lang_material['language']) %></dd>
+        </div>
         <% unless lang_material['script'].blank? %>
-          <dt class="col-sm-3"><%= t('resource._public.script')%></dt>
-          <dd class="col-sm-9"><%= t('enumerations.script_iso15924.' + lang_material['script']) %></dd>
+          <div>
+            <dt><%= t('resource._public.script')%></dt>
+            <dd><%= t('enumerations.script_iso15924.' + lang_material['script']) %></dd>
+          </div>
         <% end %>
       <% end %>
     <% else %>
       <% langmaterial_note = @result.note('langmaterial') %>
       <% if langmaterial_note && !langmaterial_note['note_text'].blank? && !inherited?(langmaterial_note) %>
-        <dt class="col-sm-3"><%= t('resource._public.lang')%></dt>
-        <dd class="col-sm-9">
-          <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>
-        </dd>
+        <div>
+          <dt><%= t('resource._public.lang')%></dt>
+          <dd>
+            <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>
+          </dd>
+        </div>
       <% end %>
     <% end %>
   </dl>

@@ -5,9 +5,11 @@
      * @param {string} resourceUri - The URI of the root resource, e.g.
      * /repositories/2/resources/1234
      * @param {string} appUrlPrefix - The proper app prefix
+     * @param {string} workerPath - The path to the web worker for
+     * `populateAllWaypoints()`
      * @returns {InfiniteRecords} - InfiniteRecords instance
      */
-    constructor(resourceUri, appUrlPrefix) {
+    constructor(resourceUri, appUrlPrefix, workerPath) {
       this.container = document.querySelector('.infinite-records-container');
 
       this.WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
@@ -15,12 +17,14 @@
         this.container.dataset.totalRecords,
         10
       );
+      this.NUM_WAYPOINTS_AFTER_PAGE_LOAD = 2;
       this.NUM_TOTAL_WAYPOINTS = Math.ceil(
         this.NUM_TOTAL_RECORDS / this.WAYPOINT_SIZE
       );
 
       this.resourceUri = resourceUri;
       this.appUrlPrefix = appUrlPrefix;
+      this.workerPath = workerPath;
 
       this.wpQueue = [];
       this.wpQueueIsEmpty = () => this.wpQueue.length === 0;
@@ -28,6 +32,11 @@
 
       this.modal = new ModalManager(
         document.querySelector('[data-loading-modal]')
+      );
+
+      this.loadAllRecordsAlert = document.querySelector('[data-records-alert]');
+      this.loadAllRecordsInput = document.querySelector(
+        '[data-load-all-records]'
       );
 
       this.waypointObserver = new IntersectionObserver(
@@ -51,6 +60,16 @@
       this.container.addEventListener('scrollend', () => {
         this.isOkToObserve = true;
       });
+
+      if (this.loadAllRecordsInput) {
+        this.loadAllRecordsInput.addEventListener('input', () => {
+          if (this.loadAllRecordsInput.checked) {
+            this.loadAllRecordsInput.disabled = true;
+
+            this.populateAllWaypoints();
+          }
+        });
+      }
 
       this.initRecords(window.location.hash);
     }
@@ -176,14 +195,22 @@
 
     /**
      * Append records markup to one or more waypoints, start observing
-     * each record via `contentRecordObs`, and clear the waypoint number(s)
-     * from any data attributes
+     * each record via `contentRecordObs`, clear the waypoint number(s)
+     * from any data attributes, and conditionally run `updateShowingPercentage()`
      * @param {Object[]} waypoints - Array of waypoint objects as
      * returned from `fetchWaypoints()`, each of which represents one waypoint
      * with the signature `{ wpNum, records}`
+     * @param {boolean} [updateShouldCloseModal=false] - Whether or not the
+     * `updateShowingPercentage()`, called by `populateAllWaypoints()`, should
+     * close the loading modal, defaults to false
      */
-    populateWaypoints(waypoints) {
+    populateWaypoints(waypoints, updateShouldCloseModal = false) {
       waypoints.forEach(waypoint => {
+        if (waypoint == undefined) {
+          // Failed fetches from worker get passed as undefined
+          return;
+        }
+
         const { wpNum, records } = waypoint;
         const waypointEl = document.querySelector(
           `.waypoint[data-waypoint-number='${wpNum}']:not(.populated)`
@@ -232,6 +259,9 @@
         waypointEl.classList.add('populated');
 
         this.clearWaypointFromDatasets(wpNum);
+
+        if (this.loadAllRecordsAlert)
+          this.updateShowingPercentage(updateShouldCloseModal);
       });
     }
 
@@ -312,6 +342,83 @@
           this.waypointObserver.unobserve(record);
         }
       });
+    }
+
+    updateShowingPercentage(shouldCloseModal = false) {
+      const percentLabel = document.querySelector('[data-records-percent]');
+      const numPresentRecords = this.container.querySelectorAll(
+        '.infinite-record-record'
+      ).length;
+      const percentLoaded = Math.round(
+        (numPresentRecords / this.NUM_TOTAL_RECORDS) * 100
+      );
+
+      percentLabel.classList.add('item-highlight');
+      percentLabel.textContent = `${percentLoaded}%`; // NEEDS i18n
+      percentLabel.onanimationend = () => {
+        percentLabel.classList.remove('item-highlight');
+      };
+
+      if (numPresentRecords === this.NUM_TOTAL_RECORDS) {
+        $(this.loadAllRecordsAlert).fadeOut(500);
+
+        if (shouldCloseModal) this.modal.toggle();
+      }
+    }
+
+    /**
+     * Populate the remaining empty waypoints
+     * @param {boolean} [shouldImmediatelyToggleModal=true] - Whether or not
+     * the modal should be toggled when called, default is true
+     */
+    populateAllWaypoints(shouldImmediatelyToggleModal = true) {
+      if (shouldImmediatelyToggleModal) this.modal.toggle();
+
+      this.waypointObserver.disconnect();
+
+      this.container.removeEventListener('scrollend', () => {
+        this.isOkToObserve = true;
+      });
+
+      const MAX_WAYPOINTS_MAIN_THREAD = 20;
+      const waypointNums = Array.from(
+        this.container.querySelectorAll('.waypoint:not(.populated)')
+      ).map(waypoint => parseInt(waypoint.dataset.waypointNumber, 10));
+      const shouldUseMainThread =
+        waypointNums.length > 0 &&
+        waypointNums.length <= MAX_WAYPOINTS_MAIN_THREAD;
+
+      if (shouldUseMainThread) {
+        this.renderWaypoints(waypointNums, null, false);
+      } else {
+        const worker = new Worker(this.workerPath);
+        const waypointTuples = waypointNums.map(wpNum => [
+          wpNum,
+          this.container
+            .querySelector(`.waypoint[data-waypoint-number='${wpNum}']`)
+            .dataset.uris.split(';'),
+        ]);
+
+        worker.postMessage({
+          waypointTuples,
+          resourceUri: this.resourceUri,
+        });
+
+        worker.onmessage = e => {
+          if (e.data.data) {
+            this.populateWaypoints(e.data.data, true);
+          } else if (e.data.done) {
+            const numPresentRecords = this.container.querySelectorAll(
+              '.infinite-record-record'
+            ).length;
+
+            if (numPresentRecords < this.NUM_TOTAL_RECORDS) {
+              // Some records still missing (network fail?) so recurse
+              this.populateAllWaypoints(this.modal.isOpen ? false : true);
+            }
+          }
+        };
+      }
     }
 
     /**
