@@ -2536,6 +2536,7 @@ en:
       bulk_import_job: Load via Spreadsheet
       top_container_linker_job: Top Container Linker
       ns2_remover_job: ns2 Namespace Remover
+      bulk_archival_object_updater_job: Bulk Archival Object Updater
     status: Status
     status_completed: Completed
     status_queued: Queued

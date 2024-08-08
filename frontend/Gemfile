@@ -63,6 +63,7 @@ group :development, :test do
   gem 'pry-nav'
   gem 'pry-rails'
   gem 'puma'
+  gem 'rubyXL', '~> 3.4', '>= 3.4.9'
 end
 
 group :development do

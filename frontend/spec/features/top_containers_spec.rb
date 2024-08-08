@@ -65,7 +65,7 @@ describe 'Top Containers and Instances', js: true do
     # Now bulk update Letter A's ILD #
     find('.bulk-operation-toolbar:first-child .dropdown-toggle').click
     find(id: 'bulkActionUpdateIlsHolding').click
-    modal = find(id: 'bulkUpdateModal')
+    modal = find(id: 'bulkArchivalObjectUpdaterModal')
     modal.fill_in(id: 'ils_holding_id', with: 'xyzpdq')
     modal.find("button[type='submit']").click
 

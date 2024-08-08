@@ -1939,6 +1939,23 @@ fr:
       action:
         add: Ajouter convention
 
+  bulk_archival_object_update_spreadsheet:
+    title: Générer une feuille de calcul d'objets d'archivage en masse
+    description: Utilisez le formulaire ci-dessous pour sélectionner les objets d'archives que vous souhaitez mettre à jour en masse.
+    selected_records: Enregistrements sélectionnés
+    selected: Choisie
+    record_title: Titre de l'enregistrement
+    column_types_to_include_in_spreadsheet: Types de colonnes à inclure dans la feuille de calcul
+    note_types: Types de notes
+    minimum_subrecords: Sous-enregistrements minimum
+    minimum_subrecords_description: Le nombre minimum de sous-enregistrements de chaque type à inclure
+    extra_subrecords: Sous-enregistrements supplémentaires
+    extra_subrecords_description: Le nombre de sous-enregistrements à inclure en plus du plus grand nombre trouvé dans l'un des enregistrements sélectionnés.
+    minimum_notes: Notes minimales
+    minimum_notes_description: Le nombre minimum de sous-enregistrements de notes de chaque type à inclure
+    download_spreadsheet: Télécharger la feuille de calcul
+    download_spreadsheet_modal_message: La génération de cette feuille de calcul peut prendre quelques instants.
+
   assessment:
     _frontend:
       form_header: Evaluation %{display_string}
@@ -3247,6 +3264,10 @@ fr:
     relation_information_tooltip: "<p>Cette section est utilisée pour indiquer les\
       \ relations avec d'autres agents ou matériaux à l'intérieur ou à l'extérieur\
       \ d'ArchivesSpace.</p>"
+
+  bulk_archival_object_updater_job:
+    _singular: Tâche de mise à jour d'objet d'archivage en masse de feuille de calcul
+    create_missing_top_containers: Créer les conteneurs supérieurs manquants
 
   note_contact_note:
     contact_notes_tooltip: "<p>Détails sur l'interaction avec le contact</p>\n"
