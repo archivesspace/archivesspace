@@ -163,7 +163,7 @@
         query.append('urls[]', uri);
       });
 
-      const url = `${this.appUrlPrefix}/${this.resourceUri}/infinite/waypoints?${query}`;
+      const url = `${this.appUrlPrefix}${this.resourceUri}/infinite/waypoints?${query}`;
 
       try {
         const response = await fetch(url);
