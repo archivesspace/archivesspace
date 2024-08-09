@@ -38,7 +38,7 @@
   <% ASUtils.order_plugins(ASUtils.find_local_directories('frontend/views/layout_head.html.erb')).each do |layout| %>
     <% if File.exist?(layout) %>
       <!-- Begin plugin layout -->
-      <%= render :file => layout %>
+      <%== render :file => layout %>
       <!-- End plugin layout -->
     <% end %>
   <% end %>
