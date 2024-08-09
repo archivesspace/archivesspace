@@ -114,10 +114,26 @@
             <% end %>
           <% end %>
 
+          <% if record_type == 'resource' && ['show', 'edit'].include?(controller.action_name) %>
+            <% other_shown = true %>
+            <script type="text/template" id="bulkUpdateButtonTemplate">
+              <li><%= link_to "Bulk Update Spreadsheet", {:controller => :bulk_updater, :action => :download_form, :resource => @resource.uri}, :class => "dropdown-item"  %></li>
+            </script>
+            <script>
+              $(function() {
+                $(document).on("loadedrecordform.aspace", function(event, $container) {
+                    if (tree && tree.current().data('jsonmodel_type') == 'resource') {
+                      $('#other-dropdown .dropdown-menu').append($('<li />').append($(AS.renderTemplate("bulkUpdateButtonTemplate"))));
+                      $('#other-dropdown').show();
+                    }
+                });
+              });
+            </script>
+          <% end %>
+
           <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
             <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %></li>
           <% end %>
-
         </ul>
 
         <% if other_shown %><script>$('#other-dropdown').show();</script><% end %>
@@ -158,4 +174,5 @@
       <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
     </div>
   <% end %>
+
 </section>
