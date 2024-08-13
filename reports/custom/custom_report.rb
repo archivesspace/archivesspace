@@ -67,7 +67,8 @@ class CustomReport < AbstractReport
       if (ASUtils.present?(template['fields'][field_name]['values'])) &&
         (!template['fields'][field_name]['values'].nil?)
 
-        self.send("#{field[:data_type].downcase}_narrow", template, field_name)
+        method_name = field[:data_type].downcase.gsub('agenttype', 'agent_type') + "_narrow"
+        self.send(method_name, template, field_name)
       end
 
       if (ASUtils.present?(template['fields'][field_name]['range_start'])) &&
