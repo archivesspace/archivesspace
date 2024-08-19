@@ -1,6 +1,8 @@
 # https://github.com/jruby/warbler/issues/508
 class Warbler::Traits::War::WebxmlOpenStruct
   def new_ostruct_member(name)
+    return if name.nil?
+
     unless @table.key?(name) || is_method_protected!(name)
       getter_proc = Proc.new { @table[name] }
       setter_proc = Proc.new {|x| @table[name] = x}
@@ -140,35 +142,7 @@ Warbler::Config.new do |config|
 
   config.webxml.rails.env = 'production'
 
-  # Application booter to use, one of :rack, :rails, or :merb (autodetected by default)
-  config.webxml.booter = :rails
-
-  # Set JRuby to run in 1.9 mode.
-  # config.webxml.jruby.compat.version = "1.9"
-
-  # When using the :rack booter, "Rackup" script to use.
-  # - For 'rackup.path', the value points to the location of the rackup
-  # script in the web archive file. You need to make sure this file
-  # gets included in the war, possibly by adding it to config.includes
-  # or config.webinf_files above.
-  # - For 'rackup', the rackup script you provide as an inline string
-  #   is simply embedded in web.xml.
-  # The script is evaluated in a Rack::Builder to load the application.
-  # Examples:
-  # config.webxml.rackup.path = 'WEB-INF/hello.ru'
-  # config.webxml.rackup = %{require './lib/demo'; run Rack::Adapter::Camping.new(Demo)}
-  # config.webxml.rackup = require 'cgi' && CGI::escapeHTML(File.read("config.ru"))
-
-  # Control the pool of Rails runtimes. Leaving unspecified means
-  # the pool will grow as needed to service requests. It is recommended
-  # that you fix these values when running a production server!
-  # If you're using threadsafe! mode, you probably don't want to set these values,
-  # since 1 runtime(default for threadsafe mode) will be enough.
-  config.webxml.jruby.min.runtimes = 1
-  config.webxml.jruby.max.runtimes = 1
+  # See ./web.xml for jetty configuration
 
   config.override_gem_home = true
-
-  # JNDI data source name
-  # config.webxml.jndi = 'jdbc/rails'
 end

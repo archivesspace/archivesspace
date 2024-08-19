@@ -1,6 +1,8 @@
 # https://github.com/jruby/warbler/issues/508
 class Warbler::Traits::War::WebxmlOpenStruct
   def new_ostruct_member(name)
+    return if name.nil?
+
     unless @table.key?(name) || is_method_protected!(name)
       getter_proc = Proc.new { @table[name] }
       setter_proc = Proc.new {|x| @table[name] = x}
@@ -149,16 +151,8 @@ Warbler::Config.new do |config|
   # config.webxml.rackup = %{require './lib/demo'; run Rack::Adapter::Camping.new(Demo)}
   # config.webxml.rackup = require 'cgi' && CGI::escapeHTML(File.read("config.ru"))
 
-  # Control the pool of Rails runtimes. Leaving unspecified means
-  # the pool will grow as needed to service requests. It is recommended
-  # that you fix these values when running a production server!
-  # If you're using threadsafe! mode, you probably don't want to set these values,
-  # since 1 runtime(default for threadsafe mode) will be enough.
-  config.webxml.jruby.min.runtimes = 1
-  config.webxml.jruby.max.runtimes = 1
+  # See ./web.xml for jetty configuration
 
   config.override_gem_home = true
 
-  # JNDI data source name
-  # config.webxml.jndi = 'jdbc/rails'
 end
