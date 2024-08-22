@@ -1,7 +1,7 @@
-<%= stylesheet_link_tag "#{AppConfig[:frontend_prefix]}assets/bulk_archival_object_updater.css" %>
-<%= stylesheet_link_tag "#{AppConfig[:frontend_prefix]}assets/fattable.css" %>
-<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/fattable.js" %>
-<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/bulk_archival_object_updater.js" %>
+<%= stylesheet_link_tag "archivesspace/bulk_archival_object_updater" %>
+<%= stylesheet_link_tag "archivesspace/fattable" %>
+<%= javascript_include_tag "fattable" %>
+<%= javascript_include_tag "bulk_archival_object_updater" %>
 
 <div class="record-pane">
   <h1><%= t('bulk_archival_object_update_spreadsheet.title') %></h1>
@@ -173,7 +173,7 @@
   <% end %>
 </div>
 
-<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/bulk_archival_object_updater_table.js" %>
+<%= javascript_include_tag "bulk_archival_object_updater_table" %>
 <script>
   initBulkArchivalObjectUpdaterTable(<%= ASUtils.to_json(@tree).html_safe %>);
   new SpreadsheetBuilderForm('bulk_archival_object_updater_form');
