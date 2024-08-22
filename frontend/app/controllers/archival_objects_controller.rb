@@ -15,6 +15,7 @@ class ArchivalObjectsController < ApplicationController
 
       @archival_object = JSONModel(:archival_object).find(archival_object_id, new_find_opts)
       @archival_object.ref_id = nil
+      @archival_object.instances = []
       @archival_object.position = params[:position]
 
       flash[:success] = t("archival_object._frontend.messages.duplicated", archival_object_display_string: @archival_object.display_string)
