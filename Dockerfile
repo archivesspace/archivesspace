@@ -23,7 +23,11 @@ RUN apt-get update && \
 COPY . /source
 
 RUN cd /source && \
-  ARCHIVESSPACE_VERSION=${SOURCE_BRANCH:-`git symbolic-ref -q --short HEAD || git describe --tags --match v*`} && \
+  if [ `git symbolic-ref -q --short HEAD` ]; then \
+    ARCHIVESSPACE_VERSION="$(git symbolic-ref -q --short HEAD)-$(git rev-parse --short HEAD)"; \
+  else \
+    ARCHIVESSPACE_VERSION="$(git describe --tags --match v*)" ; \
+  fi &&\
   ARCHIVESSPACE_VERSION=${ARCHIVESSPACE_VERSION#"heads/"} && \
   echo "Using version: $ARCHIVESSPACE_VERSION" && \
   ./build/run bootstrap && \

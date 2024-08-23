@@ -6,7 +6,7 @@ version=$1
 
 case $version in
 "")
-  git_version=`git rev-parse --abbrev-ref HEAD 2>/dev/null`
+  git_version=`git rev-parse --abbrev-ref HEAD 2>/dev/null`-`git rev-parse --short HEAD 2>/dev/null`
   echo Please specify a version name for the build.
   echo
   echo Usage: build_release [ -g \| -t \| version ]
@@ -17,7 +17,7 @@ case $version in
   echo The release will be packaged as archivesspace.zip in the archivesspace root
   ;;
 "-g")
-  git_version=`git rev-parse --abbrev-ref HEAD 2>/dev/null`
+  git_version=`git rev-parse --abbrev-ref HEAD 2>/dev/null`-`git rev-parse --short HEAD 2>/dev/null`
   echo Building release with version: $git_version
   ../build/run build-dist -Dversion="$git_version"
   ;;
