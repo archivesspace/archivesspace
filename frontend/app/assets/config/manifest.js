@@ -4,6 +4,8 @@
 //= link application.css
 //= link archivesspace/largetree.css
 //= link archivesspace/rde.css
+//= link archivesspace/bulk_archival_object_updater.css
+//= link archivesspace/fattable.css
 //= link_tree ../../../vendor/assets/fonts
 //= link_directory ../../../vendor/assets/javascripts
 //= link_tree ../stylesheets/themes .scss

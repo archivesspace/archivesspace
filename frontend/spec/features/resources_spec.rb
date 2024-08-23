@@ -3,6 +3,7 @@
 require 'spec_helper'
 require 'rails_helper'
 require 'csv'
+require 'rubyXL/convenience_methods/cell'
 
 describe 'Resources', js: true do
   let(:admin_user) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
@@ -16,6 +17,287 @@ describe 'Resources', js: true do
   before(:each) do
     login_user(@user)
     select_repository(@repository)
+  end
+
+  it 'has the generate bulk archival object link included in the more dropdown menu on both the show and edit pages', :skip do
+    now = Time.now.to_i
+    resource = create(:resource, title: "Resource Title #{now}")
+
+    run_index_round
+
+    visit "resources/#{resource.id}"
+    wait_for_ajax
+    click_on 'More'
+    click_on 'Generate Bulk Archival Object Spreadsheet'
+    expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
+    expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
+    expect(page).to have_text 'Selected Records: 0'
+
+    visit "resources/#{resource.id}/edit"
+    wait_for_ajax
+    click_on 'More'
+    click_on 'Generate Bulk Archival Object Spreadsheet'
+    expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
+    expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
+    expect(page).to have_text 'Selected Records: 0'
+  end
+
+  it 'successfully generates a bulk archival object spreadsheet for a resource' do
+    now = Time.now.to_i
+
+    digital_object = create(:json_digital_object)
+    accession = create(:json_accession, title: "Accession Title #{now}")
+    location = create(:location, :temporary => generate(:temporary_location_type))
+    top_container = create(:json_top_container,
+      :container_locations => [
+        {
+          'ref' => location.uri,
+          'status' => 'current',
+          'start_date' => generate(:yyyy_mm_dd),
+          'end_date' => generate(:yyyy_mm_dd)
+        }
+      ]
+    )
+
+    instances = [
+      build(:json_instance_digital, :digital_object => { :ref => digital_object.uri }),
+      build(:json_instance, :sub_container => build(:json_sub_container, :top_container => { :ref => top_container.uri }))
+    ]
+
+    resource = create(:resource, title: "Resource Title #{now}")
+
+    archival_object_1 = create(:json_archival_object,
+      :title => "Archival Object Title 1 #{now}",
+      :resource => {
+        :ref => resource.uri
+      },
+      :dates => [],
+      :notes => [],
+      :instances => instances,
+      :accession_links => [{'ref' => accession.uri}],
+      :subjects => [],
+      :linked_agents => [],
+      :rights_statements => [],
+      :external_documents => [],
+      :extents => [],
+      :lang_materials => []
+    )
+
+    archival_object_2 = create(:json_archival_object,
+      :title => "Archival Object Title 2 #{now}",
+      :resource => {
+        :ref => resource.uri
+      },
+      :dates => [],
+      :notes => [],
+      :instances => instances,
+      :accession_links => [{'ref' => accession.uri}],
+      :subjects => [],
+      :linked_agents => [],
+      :rights_statements => [],
+      :external_documents => [],
+      :extents => [],
+      :lang_materials => []
+    )
+
+    run_index_round
+
+    visit "resources/#{resource.id}/edit"
+    wait_for_ajax
+    click_on 'More'
+    click_on 'Generate Bulk Archival Object Spreadsheet'
+    expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
+    expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
+    expect(page).to have_text 'Selected Records: 0'
+
+    files = Dir.glob(File.join(Dir.tmpdir, '*.xlsx'))
+    files.each do |file|
+      File.delete file if file.include?("bulk_update.resource_")
+    end
+
+    # Select only the first archival object
+    find('#item1').click
+
+    click_on 'Download Spreadsheet'
+
+    downloaded_spreadsheet_filename = nil
+    files = Dir.glob(File.join(Dir.tmpdir, '*.xlsx'))
+    files.each do |file|
+      downloaded_spreadsheet_filename = file if file.include?("bulk_update.resource_#{resource.id}")
+    end
+
+    expect(downloaded_spreadsheet_filename).to_not be nil
+
+    spreadsheet = RubyXL::Parser.parse(downloaded_spreadsheet_filename)
+    sheet = spreadsheet['Updates']
+    column_names = sheet[1].cells.map(&:value)
+
+    expect(column_names.length).to eq 166
+
+    id_index = column_names.find_index('id')
+    title_index = column_names.find_index('title')
+
+    # First row must contain archival object 1
+    expect(sheet[2][id_index].value).to eq archival_object_1.id.to_s
+    expect(sheet[2][title_index].value).to eq archival_object_1.title
+
+    # Second row must be empty
+    expect(sheet[3]).to eq nil
+
+    column_index = column_names.find_index('related_accessions/0/id_0')
+    expect(sheet[2][column_index]).to be_a RubyXL::Cell
+    expect(sheet[2][column_index].value).to eq accession.id_0
+    column_index = column_names.find_index('related_accessions/0/id_1')
+    expect(sheet[2][column_index]).to be_a RubyXL::Cell
+    expect(sheet[2][column_index].value).to eq accession.id_1
+    column_index = column_names.find_index('related_accessions/0/id_2')
+    expect(sheet[2][column_index]).to be_a RubyXL::Cell
+    expect(sheet[2][column_index].value).to eq accession.id_2
+    column_index = column_names.find_index('related_accessions/0/id_3')
+    expect(sheet[2][column_index]).to be_a RubyXL::Cell
+    expect(sheet[2][column_index].value).to eq accession.id_3
+
+    column_index = column_names.find_index('instances/0/instance_type')
+    expect(sheet[2][column_index]).to be_a RubyXL::Cell
+
+    column_index = column_names.find_index('digital_object/0/digital_object_id')
+    expect(sheet[2][column_index]).to be_a RubyXL::Cell
+  end
+
+  it 'successfully uploads a bulk archival object spreadsheet and creates a job' do
+    visit 'logout'
+    login_user(admin_user)
+    select_repository(@repository)
+
+    now = Time.now.to_i
+
+    digital_object = create(:json_digital_object)
+    accession = create(:json_accession, title: "Accession Title #{now}")
+    location = create(:location, :temporary => generate(:temporary_location_type))
+    top_container = create(:json_top_container,
+      :container_locations => [
+        {
+          'ref' => location.uri,
+          'status' => 'current',
+          'start_date' => generate(:yyyy_mm_dd),
+          'end_date' => generate(:yyyy_mm_dd)
+        }
+      ]
+    )
+
+    instances = [
+      build(:json_instance_digital, :digital_object => { :ref => digital_object.uri }),
+      build(:json_instance, :sub_container => build(:json_sub_container, :top_container => { :ref => top_container.uri }))
+    ]
+
+    resource = create(:resource, title: "Resource Title #{now}")
+
+    archival_object_1 = create(:json_archival_object,
+      :title => "Archival Object Title 1 #{now}",
+      :resource => {
+        :ref => resource.uri
+      },
+      :dates => [],
+      :notes => [],
+      :instances => instances,
+      :accession_links => [{'ref' => accession.uri}],
+      :subjects => [],
+      :linked_agents => [],
+      :rights_statements => [],
+      :external_documents => [],
+      :extents => [],
+      :lang_materials => []
+    )
+
+    archival_object_2 = create(:json_archival_object,
+      :title => "Archival Object Title 2 #{now}",
+      :resource => {
+        :ref => resource.uri
+      },
+      :dates => [],
+      :notes => [],
+      :instances => instances,
+      :accession_links => [{'ref' => accession.uri}],
+      :subjects => [],
+      :linked_agents => [],
+      :rights_statements => [],
+      :external_documents => [],
+      :extents => [],
+      :lang_materials => []
+    )
+
+    run_index_round
+
+    visit "resources/#{resource.id}/edit"
+    wait_for_ajax
+    click_on 'More'
+    click_on 'Generate Bulk Archival Object Spreadsheet'
+    expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
+    expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
+    expect(page).to have_text 'Selected Records: 0'
+
+    files = Dir.glob(File.join(Dir.tmpdir, '*.xlsx'))
+    files.each do |file|
+      File.delete file if file.include?("bulk_update.resource_")
+    end
+
+    # Select only the first archival object
+    find('#item1').click
+    find('#item2').click
+
+    click_on 'Download Spreadsheet'
+
+    downloaded_spreadsheet_filename = nil
+    files = Dir.glob(File.join(Dir.tmpdir, '*.xlsx'))
+    files.each do |file|
+      downloaded_spreadsheet_filename = file if file.include?("bulk_update.resource_#{resource.id}")
+    end
+
+    expect(downloaded_spreadsheet_filename).to_not be nil
+
+    # Modify spreadsheet to upload
+    spreadsheet = RubyXL::Parser.parse(downloaded_spreadsheet_filename)
+    sheet = spreadsheet['Updates']
+    column_names = sheet[1].cells.map(&:value)
+
+    expect(column_names.length).to eq 166
+
+    title_index = column_names.find_index('title')
+    sheet[2][title_index].change_contents("Updated Archival Object Title 1 #{now}")
+    sheet[3][title_index].change_contents("Updated Archival Object Title 2 #{now}")
+
+    # Save excel file after updates
+    spreadsheet.write(downloaded_spreadsheet_filename)
+
+    click_on 'Done'
+
+    click_on 'Create'
+    click_on 'Background Job'
+    click_on 'Bulk Archival Object Updater'
+
+    attach_file('job_file_input', downloaded_spreadsheet_filename)
+
+    click_on 'Start Job'
+
+    expect(page).to have_text 'Spreadsheet Bulk Archival Object Updater Job'
+
+    job_status = ''
+    while job_status != 'completed'
+      sleep 5
+      visit current_url
+
+      element = find('#job_status')
+      job_status = element['data-current-status']
+    end
+
+    elements = all('#jobRecordsSpool .subrecord-form-fields a')
+    expect(elements.length).to eq 2
+
+    visit "resources/#{resource.id}/edit"
+
+    element = find('#tree-container')
+    expect(element).to have_text "Updated Archival Object Title 1 #{now}"
+    expect(element).to have_text "Updated Archival Object Title 2 #{now}"
   end
 
   it 'can duplicate a resource from another resource with all the archival objects' do

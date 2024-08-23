@@ -257,6 +257,9 @@ ArchivesSpace::Application.routes.draw do
     match 'preferences/:id' => 'preferences#update', :via => [:post]
     match 'preferences/:id/reset' => 'preferences#reset', :via => [:post]
 
+    match('bulk_archival_object_updater/download' => 'bulk_archival_object_updater#download_form', :via => [:get])
+    match('bulk_archival_object_updater/download' => 'bulk_archival_object_updater#download', :via => [:post])
+
     resources :rde_templates
     match 'rde_templates/batch_delete' => 'rde_templates#batch_delete', :via => [:post]
 

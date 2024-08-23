@@ -2216,6 +2216,7 @@ fr:
       unknown_job_type: Type de tâche inconnu
       bulk_import_job: Charger via une feuille de calcul
       top_container_linker_job: Lien de conteneur supérieur
+      bulk_archival_object_updater_job: Mise à jour en masse des objets d'archivage
     status: Statut
     status_completed: Effectuée
     status_queued: Mise en attente

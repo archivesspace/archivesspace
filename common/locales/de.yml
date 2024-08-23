@@ -2275,6 +2275,7 @@ de:
       top_container_linker_job: Haupt-Behältnis-Verknüpfer
       bulk_import_job: Mit Tabelle laden
       ns2_remover_job: ns2 Namespace-Entferner
+      bulk_archival_object_updater_job: Massenaktualisierung archivierter Objekte
     status_completed: Abgeschlossen
     time_submitted: Einreich-Zeitpunkt
     time_started: Startzeitpunkt

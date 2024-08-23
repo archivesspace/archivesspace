@@ -365,7 +365,7 @@ BulkActionIlsHoldingUpdate.prototype.show = function () {
   });
 
   var $modal = AS.openCustomModal(
-    'bulkUpdateModal',
+    'bulkArchivalObjectUpdaterModal',
     this.$menuItem[0].text,
     dialog_content,
     'full'
@@ -442,7 +442,7 @@ BulkActionContainerProfileUpdate.prototype.show = function () {
   );
 
   var $modal = AS.openCustomModal(
-    'bulkUpdateModal',
+    'bulkArchivalObjectUpdaterModal',
     this.$menuItem[0].text,
     dialog_content,
     'full'
@@ -511,7 +511,7 @@ BulkActionLocationUpdate.prototype.show = function () {
   });
 
   var $modal = AS.openCustomModal(
-    'bulkUpdateModal',
+    'bulkArchivalObjectUpdaterModal',
     this.$menuItem[0].text,
     dialog_content,
     'full'
@@ -585,7 +585,7 @@ BulkActionMultipleLocationUpdate.prototype.show = function () {
   );
 
   var $modal = AS.openCustomModal(
-    'bulkUpdateModal',
+    'bulkArchivalObjectUpdaterModal',
     this.$menuItem[0].text,
     dialog_content,
     'full'
