@@ -106,7 +106,7 @@ if [ "$ASPACE_JAVA_XSS" = "" ]; then
 fi
 
 if [ "$ASPACE_GC_OPTS" = "" ]; then
-    ASPACE_GC_OPTS="-XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1"
+    ASPACE_GC_OPTS="-XX:NewRatio=1"
 fi
 
 

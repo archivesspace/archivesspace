@@ -32,6 +32,6 @@ goto END
 :STARTUP
 
 echo Writing log file to logs\archivesspace.out
-java -Darchivesspace-daemon=yes %JAVA_OPTS% -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1 -Xss2m -Xmx1024m -Dfile.encoding=UTF-8 -cp "%GEM_HOME%\gems\jruby-rack-1.1.12\lib\*;lib\*;launcher\lib\*!JRUBY!" org.jruby.Main "launcher/launcher.rb" > "logs/archivesspace.out" 2>&1
+java -Darchivesspace-daemon=yes %JAVA_OPTS% -XX:NewRatio=1 -Xss2m -Xmx1024m -Dfile.encoding=UTF-8 -cp "%GEM_HOME%\gems\jruby-rack-1.1.12\lib\*;lib\*;launcher\lib\*!JRUBY!" org.jruby.Main "launcher/launcher.rb" > "logs/archivesspace.out" 2>&1
 
 :END

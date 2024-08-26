@@ -23,10 +23,10 @@ RUN apt-get update && \
 COPY . /source
 
 RUN cd /source && \
-  if [ `git symbolic-ref -q --short HEAD` ]; then \
+  if [ `git symbolic-ref -q --short HEAD 2>/dev/null` ]; then \
     ARCHIVESSPACE_VERSION="$(git symbolic-ref -q --short HEAD)-$(git rev-parse --short HEAD)"; \
   else \
-    ARCHIVESSPACE_VERSION="$(git describe --tags --match v*)" ; \
+    ARCHIVESSPACE_VERSION="$(git describe --tags --match v* 2>/dev/null)" ; \
   fi &&\
   ARCHIVESSPACE_VERSION=${ARCHIVESSPACE_VERSION#"heads/"} && \
   echo "Using version: $ARCHIVESSPACE_VERSION" && \

@@ -20,7 +20,7 @@ RUN echo 'Downloading Packages' && \
       mycli \
       netbase \
       npm \
-      openjdk-11-jre-headless \
+      openjdk-17-jre-headless \
       python3-pkg-resources \
       python3-setuptools \
       ruby-dev \
