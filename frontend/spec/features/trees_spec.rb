@@ -244,7 +244,7 @@ describe 'Tree UI', js: true do
       expect(rights_statements.length).to eq archival_object.rights_statements.length
 
       instances = all('#archival_object_instances_ [data-object-name="instance"]')
-      expect(instances.length).to eq archival_object.instances.length
+      expect(instances.length).to eq 0 # instances should not be duplicated
     end
   end
 
