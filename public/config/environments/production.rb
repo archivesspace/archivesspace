@@ -1,3 +1,5 @@
+require 'aspace-rails/asset_path_rewriter'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -105,6 +107,7 @@ Rails.application.configure do
         end
       end
     end
-  end
 
+    AssetPathRewriter.new.rewrite(AppConfig[:public_proxy_prefix], File.dirname(__FILE__))
+  end
 end
