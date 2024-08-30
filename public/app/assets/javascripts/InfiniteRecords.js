@@ -41,7 +41,7 @@
       this.isOkToObserve = true; // used to prevent jank via programmatic scrolling
 
       this.modal = new ModalManager(
-        document.querySelector('[data-loading-modal]')
+        document.querySelector('#records-loading-dialog')
       );
 
       this.waypointObserver = new IntersectionObserver(
@@ -455,6 +455,7 @@
           waypointTuples,
           resourceUri: this.resourceUri,
           MAX_CONCURRENT_FETCHES: this.WORKER_MAX_CONCURRENT_FETCHES,
+          appUrlPrefix: this.appUrlPrefix,
         });
 
         worker.onmessage = e => {

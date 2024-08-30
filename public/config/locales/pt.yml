@@ -143,7 +143,7 @@ pt:
     load_records:
       alert: "Esta coleção contém um grande número de registos"
       showing: "A mostrar"
-      percent_convention: " %" # Portugal Portuguese, not Brazilian Portuguese ("%")
+      percent_convention: "%" # Brazilian Portuguese, not Portugal Portuguese (" %")
       load: "Carregar registos"
       load_all: "Carregar todos os registos"
       scroll: "Ao percorrer"

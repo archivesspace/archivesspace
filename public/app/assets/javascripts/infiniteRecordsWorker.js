@@ -1,6 +1,7 @@
 // Here we use ES5 syntax (to appease Uglifier) to mimic an ES6
-// async generator that fetches waypoints in batches. The smaller the
-// batch size the more frequent the user feedback re: loading progress.
+// async generator that fetches waypoints in batches.
+
+let baseUrl = '';
 
 /**
  * @typedef {array} waypointTuple - Array containing a waypoint number and an
@@ -15,11 +16,14 @@
  * @param {array} e.data.waypointTuples - Array of waypoint tuples
  * @param {string} e.data.resourceUri - The resource URI
  * @param {number} e.data.MAX_CONCURRENT_FETCHES - Max concurrent fetches
+ * @param {string} e.data.appUrlPrefix - AppConfig[:public_proxy_url]
  */
 onmessage = function (e) {
-  const { waypointTuples, resourceUri, MAX_CONCURRENT_FETCHES } = e.data;
+  const { waypointTuples, resourceUri, MAX_CONCURRENT_FETCHES, appUrlPrefix } =
+    e.data;
   const chunks = chunkGenerator(waypointTuples, MAX_CONCURRENT_FETCHES);
 
+  baseUrl = appUrlPrefix;
   iterateChunks(chunks, resourceUri, 0);
 };
 
@@ -92,14 +96,13 @@ function fetchChunks(chunk, resourceUri, callback) {
  * a waypoint number and an object of records markup keyed by URI
  */
 function fetchWaypoint(wpNum, uris, resourceUri) {
-  const origin = self.location.origin;
   const query = new URLSearchParams();
 
   uris.forEach(uri => {
     query.append('urls[]', uri);
   });
 
-  const url = `${origin}${resourceUri}/infinite/waypoints?${query}`;
+  const url = `${baseUrl}${resourceUri}/infinite/waypoints?${query}`;
 
   return fetch(url)
     .then(response => response.json())

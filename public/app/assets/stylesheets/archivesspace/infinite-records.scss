@@ -154,13 +154,21 @@ $indent-width: 20px;
   animation: bg-yellow-to-white 1s;
 }
 
+.loading-dialog {
+  border: none;
+}
+.loading-dialog:focus,
+.loading-dialog:active {
+  outline: 3px solid $primary-color;
+}
+
 .spinner-border {
   display: inline-block;
   width: 2rem;
   height: 2rem;
   vertical-align: -0.125em;
-  border: 0.25em solid currentcolor;
-  border-right-color: currentcolor;
+  border: 3px solid $primary-color;
+  border-right-color: $primary-color;
   border-right-color: transparent;
   border-radius: 50%;
   -webkit-animation: 0.75s linear infinite spinner-border;
