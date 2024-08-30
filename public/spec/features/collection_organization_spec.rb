@@ -498,15 +498,14 @@ describe 'Collection Organization', js: true do
 
     it 'shows a spinner on state change and removes the spinner once all records are loaded' do
       visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
-      expect(page).to have_css('dialog[data-loading-modal]', visible: false)
+      expect(page).to have_css('#records-loading-dialog', visible: false)
       sleep 10
 
       # There is no dialog 'open' event so listen for 'close' which implies it was open
       page.execute_script(<<~JS)
         window.dialogClosed = false;
-        const dialog = document.querySelector('dialog[data-loading-modal]');
-        dialog.addEventListener('close', (e) => {
-          console.log('e!', e);
+        const dialog = document.querySelector('#records-loading-dialog');
+        dialog.addEventListener('close', () => {
           window.dialogClosed = true;
         });
       JS

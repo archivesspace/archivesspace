@@ -67,7 +67,7 @@ Rails.application.configure do
   config.infinite_records_waypoint_size = 20
   config.infinite_records_main_max_concurrent_waypoint_fetches = 20
   config.infinite_records_worker_max_concurrent_waypoint_fetches = 100
-  # Beware! Chromium has a limit of 1350 fetches per process, anything more and
-  # it throws a `net::ERR_INSUFFICIENT_RESOURCES` error, returning `undefined`
-  # per fetch.
+  # Beware! Don't set this number over 1350, Chromium's limit of fetches per process.
+  # Anything more and it throws `net::ERR_INSUFFICIENT_RESOURCES`, returning
+  # `undefined` per fetch.
 end
