@@ -3,9 +3,9 @@
 // Bootstrap v3 Glyphicons (deprecated) from the Softserv updates
 @import 'vendor/glyphicons.scss';
 
-@import 'bootstrap/functions';
-@import 'bootstrap/variables';
-@import 'bootstrap/mixins';
+@import './vendor/bootstrap/scss/functions.scss';
+@import './vendor/bootstrap/scss/variables.scss';
+@import './vendor/bootstrap/scss/mixins.scss';
 
 html {
   font-size: 100%;

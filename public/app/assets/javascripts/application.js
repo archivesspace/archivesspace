@@ -1,7 +1,7 @@
 //= require jquery3
 //= require jquery-migrate
 //= require jquery_ujs
-//= require bootstrap-sprockets
+//= require bootstrap/bootstrap.min.js
 //= require jquery.scrollTo/jquery.scrollTo
 //= require clipboard
 //= require resizable_sidebar
