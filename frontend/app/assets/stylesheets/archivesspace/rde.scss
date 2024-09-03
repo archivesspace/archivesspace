@@ -1,7 +1,7 @@
 @import 'archivesspace/variables';
 @import 'archivesspace/mixins';
-@import 'bootstrap';
-@import 'bootstrap/mixins';
+@import './vendor/bootstrap/scss/bootstrap.scss';
+@import './vendor/bootstrap/scss/mixins.scss';
 @import '../jquery.kiketable.colsizable-1.1.css';
 
 #rde_form {

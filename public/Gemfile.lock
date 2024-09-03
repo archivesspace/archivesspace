@@ -63,8 +63,6 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     atomic (1.0.1-java)
-    autoprefixer-rails (10.4.16.0)
-      execjs (~> 2)
     axe-core-api (4.9.1)
       dumb_delegator
       virtus
@@ -78,10 +76,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     base64 (0.2.0)
     bindex (0.8.1)
-    bootstrap (4.3.1)
-      autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
-      sassc-rails (>= 2.0.0)
     builder (3.3.0)
     capybara (3.40.0)
       addressable
@@ -191,7 +185,6 @@ GEM
     nio4r (2.7.3-java)
     nokogiri (1.16.7-java)
       racc (~> 1.4)
-    popper_js (1.16.1)
     pry (0.14.2-java)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -348,7 +341,6 @@ PLATFORMS
 DEPENDENCIES
   atomic (= 1.0.1)
   axe-core-rspec
-  bootstrap (~> 4.3.0)
   capybara
   capybara-screenshot
   childprocess
