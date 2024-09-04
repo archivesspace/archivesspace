@@ -1,4 +1,5 @@
 //= require tablesorter/jquery.tablesorter.min
+//= require proxyUrl
 
 /***************************************************************************
  * BulkContainerSearch - provides all the behaviour to the ajax search
@@ -73,7 +74,7 @@ BulkContainerSearch.prototype.perform_search = function (data) {
   );
 
   $.ajax({
-    url: AS.app_prefix('top_containers/bulk_operations/search'),
+    url: `${window.__AS__APP_URL_PREFIX}/top_containers/bulk_operations/search`,
     data: data,
     type: 'post',
     success: function (html) {
