@@ -11,19 +11,19 @@ $(function () {
       e.preventDefault();
       var url = AS.quickTemplate(decodeURIComponent($("#download-ead-dropdown").data("download-ead-url")), { testme: true,  include_unpublished: $("input#include-unpublished").is(':checked'), include_daos: $("input#include-daos").is(':checked'), include_uris: $("input#include-uris").is(':checked'), numbered_cs: $("input#numbered-cs").is(':checked'), ead3: $("input#ead3").is(':checked')});
       location.href = url;
+      $('#export-dropdown-toggle').dropdown('hide');
     });
     $('.record-toolbar').on('click', 'a.download-marc-action', function(e) {
       e.stopPropagation();
       e.preventDefault();
       var url = AS.quickTemplate(decodeURIComponent($("#download-marc-dropdown").data("download-marc-url")), {  include_unpublished_marc: $("input#include-unpublished-marc").is(':checked')});
-      console.log(url);
       location.href = url;
+      $('#export-dropdown-toggle').dropdown('hide');
     });
     $('.record-toolbar').on('click', 'a.download-mets-action', function(e) {
       e.stopPropagation();
       e.preventDefault();
       var url = AS.quickTemplate(decodeURIComponent($("#download-mets-dropdown").data("download-mets-url")), {  dmd_scheme: $("input#js-dmd_scheme_mods").is(':checked') ? "mods" : "dc"});
-      console.log(url);
       location.href = url;
     });
   });
