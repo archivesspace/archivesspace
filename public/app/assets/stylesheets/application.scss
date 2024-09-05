@@ -23,9 +23,7 @@
 @import 'bootstrap/scss/bootstrap.scss';
 @import 'archivesspace/bootstrap-overrides';
 
-// font-awesome
-@import 'font-awesome-sprockets';
-@import 'font-awesome';
+@import 'font-awesome/scss/font-awesome.scss';
 
 /* stylelint-disable-next-line scss/at-import-no-partial-leading-underscore */
 @import 'foundation/_functions.scss';
