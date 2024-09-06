@@ -1,4 +1,5 @@
 require 'aspace-rails/asset_path_rewriter'
+require 'aspace-rails/compressor'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -21,8 +22,8 @@ Rails.application.configure do
   config.public_file_server.enabled = true
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = Uglifier.new(harmony: true)
-  # config.assets.css_compressor = :sass
+  config.assets.js_compressor = ASpaceCompressor.new(:js)
+  config.assets.css_compressor = ASpaceCompressor.new(:css)
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = true

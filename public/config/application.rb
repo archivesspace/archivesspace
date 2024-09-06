@@ -20,7 +20,7 @@ require 'aspace_logger'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(*Rails.groups)
+Bundler.require(*Rails.groups(:assets => %w(development test)))
 #ASUtils.load_pry_aliases
 
 module ArchivesSpacePublic

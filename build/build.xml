@@ -345,8 +345,6 @@
       <fileset dir="gems/jruby/${jruby_build_version}">
         <exclude name="cache/**" />
         <exclude name="doc/**" />
-        <exclude name="**/jdbc-mysql-*/**" />
-        <exclude name="**/warbler-*/**" />
       </fileset>
     </copy>
     <!-- jruby rack -->
@@ -426,12 +424,38 @@
     <property name="build.home" location="."/>
     <property name="excluded-gem-groups" value="" />
     <property name="included-gem-groups" value="" />
-    <condition property="bundle-without-option" value="--without '${excluded-gem-groups}'" else="">
-      <matches pattern="^.+$" string="${excluded-gem-groups}"/>
-    </condition>
-    <condition property="bundle-with-option" value="--with '${included-gem-groups}'" else="">
-      <matches pattern="^.+$" string="${included-gem-groups}"/>
-    </condition>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/bundle config unset without" />
+    </java>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/bundle config unset with" />
+    </java>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/bundle config without ${excluded-gem-groups}" />
+    </java>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/bundle config with ${included-gem-groups}" />
+    </java>
     <echo message="Fetching gems for ${gemfile}" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -439,7 +463,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="gems/bin/bundle install --jobs=8 --gemfile='${gemfile}' ${bundle-without-option} ${bundle-with-option}" />
+      <arg line="gems/bin/bundle install --jobs=8 --gemfile='${gemfile}'" />
     </java>
   </target>
 
@@ -791,7 +815,12 @@
     </java>
   </target>
 
-  <target name="frontend:war" depends="set-classpath, frontend:clean, frontend:copy:templates" description="Deploy the frontend application as a .war file">
+  <target name="frontend:assets:precompile" depends="set-classpath, frontend:clean, frontend:copy:templates" description="Precompile the frontend application javascript and stylesheet assets">
+    <antcall target="bundler">
+      <param name="gemfile" value="../frontend/Gemfile" />
+      <param name="included-gem-groups" value="assets" />
+      <param name="excluded-gem-groups" value="test development doc build" />
+    </antcall>
     <echo message="Precompiling Rails assets (this can take a little while...)" />
     <delete failonerror="false" dir="../frontend/tmp" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../frontend">
@@ -802,6 +831,15 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="-S rake assets:precompile --trace" />
     </java>
+  </target>
+
+  <target name="frontend:war" depends="set-classpath, frontend:assets:precompile" description="Deploy the frontend application as a .war file">
+    <antcall target="bundler">
+      <param name="gemfile" value="../frontend/Gemfile" />
+      <param name="excluded-gem-groups" value="test development doc build assets" />
+      <param name="included-gem-groups" value="" />
+    </antcall>
+    <copy file="../.bundle/config" todir="../frontend/.bundle" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../frontend">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -809,6 +847,7 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="../build/${jruby_build_bin_path}/warble war" />
     </java>
+    <delete file="../frontend/.bundle/config" />
   </target>
 
   <!-- PUBLIC -->
@@ -881,7 +920,12 @@
     </antcall>
   </target>
 
-  <target name="public:war" depends="set-classpath, public:clean, public:copy-shared-resources" description="Deploy the public application as a .war file">
+  <target name="public:assets:precompile" depends="set-classpath, public:clean, public:copy-shared-resources" description="Precompile the public application javascript and stylesheet assets">
+    <antcall target="bundler">
+      <param name="gemfile" value="../public/Gemfile" />
+      <param name="included-gem-groups" value="assets" />
+      <param name="excluded-gem-groups" value="test development doc build" />
+    </antcall>
     <echo message="Precompiling Rails assets for Public (this can take a little while...)" />
     <delete dir="../public/tmp" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../public">
@@ -892,6 +936,15 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="-S rake assets:precompile --trace" />
     </java>
+  </target>
+
+  <target name="public:war" depends="set-classpath, public:assets:precompile" description="Deploy the public application as a .war file">
+    <antcall target="bundler">
+      <param name="gemfile" value="../public/Gemfile" />
+      <param name="excluded-gem-groups" value="test development doc build assets" />
+      <param name="included-gem-groups" value="" />
+    </antcall>
+    <copy file="../.bundle/config" todir="../public/.bundle" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../public">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="RAILS_ENV" value="production" />
@@ -900,6 +953,7 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="../build/${jruby_build_bin_path}/warble war" />
     </java>
+    <delete file="../public/.bundle/config" />
   </target>
 
   <!-- SETUP / SUPPORT TASKS -->
