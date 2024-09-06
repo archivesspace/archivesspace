@@ -307,8 +307,6 @@ GEM
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2024.1)
       tzinfo (>= 1.0.0)
-    uglifier (4.2.0)
-      execjs (>= 0.3.0, < 3)
     virtus (2.0.0)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -367,12 +365,12 @@ DEPENDENCIES
   rspec-retry
   rubyzip (< 1.4)
   sass-rails
+  sassc-rails
   selenium-webdriver
   simplecov
   sprockets-rails
   turbolinks
   tzinfo-data
-  uglifier
   web-console
 
 BUNDLED WITH

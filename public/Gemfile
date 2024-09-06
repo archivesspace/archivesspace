@@ -10,20 +10,23 @@ gem 'i18n'
 
 gem 'nokogiri'
 
-gem 'sprockets-rails'
+gem 'execjs'
+
+# Gems used only for assets and not required in production environments by default.
+# Assets group was deprecated with Rails 4, but we still need it as we need to avoid using gems that include
+# native extensions in production
+group :assets do
+  gem 'sprockets-rails'
+  gem 'sassc-rails'
+  gem 'sass-rails'
+end
 
 gem 'atomic', '= 1.0.1'
-
-# Use SCSS for stylesheets
-gem 'sass-rails'
-
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'execjs'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 

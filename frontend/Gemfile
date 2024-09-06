@@ -11,14 +11,16 @@ gem 'sprockets-rails'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
-# Gems used only for assets and not required
-# in production environments by default.
-gem 'coffee-rails'
-gem 'coffee-script'
-gem 'coffee-script-source'
-gem 'sass-rails'
-gem 'execjs'
-gem 'uglifier'
+# Gems used only for assets and not required in production environments by default.
+# Assets group was deprecated with Rails 4, but we still need it as we need to avoid using gems that include
+# native extensions in production
+group :assets do
+  gem 'coffee-rails'
+  gem 'coffee-script'
+  gem 'coffee-script-source'
+  gem 'sassc-rails'
+  gem 'execjs'
+end
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
