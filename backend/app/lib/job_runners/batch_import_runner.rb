@@ -114,20 +114,15 @@ class BatchImportRunner < JobRunner
     end
 
     if last_error
-
-      ticker.log("\n\n" )
-      ticker.log( "!" * 50 )
-      ticker.log( "IMPORT ERROR" )
-      ticker.log( "!" * 50 )
-      ticker.log("\n\n" )
+      ticker.log("\nIMPORT ERROR\n")
 
       if last_error.respond_to?(:errors)
-
-        ticker.log("#{last_error}") if last_error.errors.empty? # just spit it out if there's not explicit errors
-
+        ticker.log("#{last_error}") if last_error.errors.empty?
         ticker.log("The following errors were found:\n")
 
-        last_error.errors.each_pair { |k, v| ticker.log("\t#{k.to_s} : #{v.join(' -- ')}" ) }
+        last_error.errors.each_pair do |k, v|
+          ticker.log("\t#{k.to_s}: #{v.join(' -- ')}")
+        end
 
         if last_error.is_a?(Sequel::ValidationFailed)
           ticker.log("\n" )
@@ -135,7 +130,7 @@ class BatchImportRunner < JobRunner
           ticker.log("\n Full Error Message:\n #{last_error.to_s}\n\n")
         end
 
-        if ( last_error.respond_to?(:invalid_object) && last_error.invalid_object )
+        if last_error.respond_to?(:invalid_object) && last_error.invalid_object
           ticker.log("\n\n For #{ last_error.invalid_object.class }: \n #{ last_error.invalid_object.inspect }")
         end
 
@@ -145,10 +140,10 @@ class BatchImportRunner < JobRunner
         end
       else
         ticker.log("Trace:" + last_error.backtrace.inspect)
-        ticker.log("Errors: #{CGI.escapeHTML( last_error.inspect )}")
+        ticker.log("Errors: #{last_error.inspect}")
         Log.exception(last_error)
       end
-      ticker.log("!" * 50 )
+
       raise last_error
     end
   end
