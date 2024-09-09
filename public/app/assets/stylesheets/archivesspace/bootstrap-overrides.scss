@@ -8,3 +8,32 @@
   border-bottom: var(--default-border);
   border-radius: 4px;
 }
+
+/* Bootstrap v4 removed .btn-default but they were not removed or patched in
+   ArchivesSpace. frontend/ used vanilla .btn-default, but not public. Most of
+   the public .btn-defaults underwent adjustments, but not all. So here is
+   backwards compatibility with Bootstrap v3 .btn-default, but with a name change
+   so as to not override the majority of custom .btn-defaults. */
+.btn--default {
+  color: $body-color;
+  background-color: var(--white);
+  border-color: $border;
+}
+
+.btn--default:hover {
+  color: $body-color;
+  background-color: $gray-200;
+}
+
+.btn--default:focus,
+.btn--default.focus {
+  border-color: $primary-color;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 111, 155, 0.25);
+}
+
+.btn--default.disabled,
+.btn--default:disabled {
+  color: $body-color;
+  background-color: var(--light);
+}

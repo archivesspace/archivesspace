@@ -1,7 +1,7 @@
 <%= form_tag app_prefix("/cite"), :id => 'cite_sub' do |f| %>
   <%= hidden_field_tag 'uri', record.uri %>
   <%= hidden_field_tag 'cite', record.cite %>
-  <button type="submit" class="btn page_action request  btn-default">
+  <button type="submit" class="btn page_action request btn-default">
     <i class="fa fa-book fa-3x"></i><br/>
     <%= t('actions.cite') %>
   </button>
