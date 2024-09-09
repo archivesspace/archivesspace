@@ -116,6 +116,16 @@ describe "Import Archival Objects" do
     expect(tree["precomputed_waypoints"][""]["0"][0]["uri"]).to eq(report.rows[0].archival_object_id)
     subtree = JSONModel::HTTP.get_json("#{@resource.uri}/tree/node", {node_uri: report.rows[0].archival_object_id})
     expect(subtree["precomputed_waypoints"][report.rows[0].archival_object_id]["0"][0]["uri"]).to eq(report.rows[1].archival_object_id)
+
+    archival_object_id = report.rows[0]['archival_object_id'].split('/').pop
+    archival_object = ::ArchivalObject.where(id: archival_object_id).first
+    expect(archival_object.publish).to eq 1
+    expect(archival_object.restrictions_apply).to eq 1
+
+    archival_object_id = report.rows[1]['archival_object_id'].split('/').pop
+    archival_object = ::ArchivalObject.where(id: archival_object_id).first
+    expect(archival_object.publish).to eq 1
+    expect(archival_object.restrictions_apply).to eq 0
   end
 
   it "fixes ANW-1777 and ANW-1778" do

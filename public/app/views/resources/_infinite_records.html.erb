@@ -1,0 +1,33 @@
+<%# See also InfiniteRecords.js %>
+<div
+  id="infinite-records-container"
+  class="infinite-records-container col-12 col-lg-9 resizable-content-pane"
+  data-waypoint-size="<%= records_waypoint_size %>"
+  data-total-records="<%= num_records %>"
+>
+  <div class="root">
+    <% @ordered_records.each_slice(records_waypoint_size).each_with_index do |refs, i| %>
+      <div
+        class="waypoint"
+        data-waypoint-number="<%= i %>"
+        data-uris="<%= refs.map {|r| r['ref']}.join(';') %>"
+      >&nbsp;</div>
+    <% end %>
+  </div>
+</div>
+
+<dialog id="records-loading-dialog" class="loading-dialog">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden"><%= t('resource.load_records.loading') %></span>
+  </div>
+</dialog>
+
+<template id="infinite-record-record-template">
+  <div
+    class="infinite-record-record"
+    id
+    data-uri
+    data-record-number
+    data-observe
+  ></div>
+</template>

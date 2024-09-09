@@ -10,6 +10,7 @@ on:
         options:
           - '8'
           - '11'
+          - '17'
         default: '11'
 
 jobs:

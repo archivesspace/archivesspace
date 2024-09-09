@@ -17,11 +17,12 @@
 <%= render partial: 'resources/resource_alltabs' %>
 
 <%
-  content_waypoint_size = 20
-  sidebar_waypoint_size = 200
-  num_records = @ordered_records.count
   sidebar_position = AppConfig[:pui_collection_org_sidebar_position]
+  tree_waypoint_size = Rails.configuration.infinite_tree_waypoint_size
+  records_waypoint_size = Rails.configuration.infinite_records_waypoint_size
+  num_records = @ordered_records.count
 %>
+
 <div class="row overflow-hidden">
   <div
     id="sidebar"
@@ -32,77 +33,33 @@
       <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => t('actions.search_in', :type => t('resource._singular'))} %>
     <% end %>
 
-    <div
-      class="infinite-tree-view largetree-container"
-      id="tree-container"
-      data-waypoint-size="<%= sidebar_waypoint_size %>"
-      data-repo-id="<%= @result['uri'].split('/')[2] %>"
-      data-resource-id="<%= @result['uri'].split('/')[4] %>"
-    >
-    </div>
+    <%= render partial: 'shared/infinite_tree' %>
   </div>
-  <div
-    class="infinite-records-container col-12 col-lg-9 resizable-content-pane"
-    data-waypoint-size="<%= content_waypoint_size %>"
-    data-total-records="<%= num_records %>">
-    <div class="root">
-      <% @ordered_records.each_slice(content_waypoint_size).each_with_index do |refs, i| %>
-        <div
-          class="waypoint"
-          data-waypoint-number="<%= i %>"
-          data-uris="<%= refs.map {|r| r['ref']}.join(';') %>"
-        >&nbsp;</div>
-      <% end %>
-    </div>
-  </div>
+  <%= render partial: 'resources/infinite_records', locals: {
+    num_records: num_records,
+    records_waypoint_size: records_waypoint_size
+  } %>
 </div>
 
-<dialog data-loading-modal>
-  <div class="spinner-border" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</dialog>
-
-<template id="root-row-template">
-  <div id="" class="table-row root-row" role="listitem" data-uri="">
-    <div class="table-cell title" title="">
-      <a class="record-title" href=""></a>
-    </div>
-  </div>
-</template>
-
-<template id="node-row-template">
-  <div id="" class="table-row largetree-node" role="listitem" data-uri="">
-    <div class="table-cell title" title="">
-      <span class="indentor">
-        <button class="expandme" aria-expanded="false">
-          <i class="expandme-icon fa fa-chevron-right"></i>
-          <span class="sr-only"></span>
-        </button>
-      </span>
-      <a class="record-title" href=""></a>
-    </div>
-  </div>
-</template>
-
-<template id="infinite-record-record-template">
-  <div
-    class="infinite-record-record"
-    id
-    data-uri
-    data-record-number
-    data-observe
-  ></div>
-</template>
+<%= render partial: 'resources/infinite_load_all', locals: {num_records: num_records} %>
 
 <script>
 const resourceUri = '<%= @result["uri"] %>';
-const treeWaypointSize = '<%= sidebar_waypoint_size %>';
+const treeWaypointSize = '<%= tree_waypoint_size %>';
 const identifier_separator = '<%= I18n.t("resource.identifier_separator") %>';
 const date_type_bulk = '<%= I18n.t("date_type_bulk.bulk") %>';
 const appUrlPrefix = '<%= AppConfig[:public_proxy_url] %>';
+const workerPath = '<%= asset_path('infiniteRecordsWorker.js') %>';
+const mainMaxFetches = <%= Rails.configuration.infinite_records_main_max_concurrent_waypoint_fetches %>;
+const workerMaxFetches = <%= Rails.configuration.infinite_records_worker_max_concurrent_waypoint_fetches %>;
 
-const infiniteRecords = new InfiniteRecords(resourceUri, appUrlPrefix);
+const infiniteRecords = new InfiniteRecords(
+  resourceUri,
+  appUrlPrefix,
+  workerPath,
+  mainMaxFetches,
+  workerMaxFetches
+);
 const infiniteTree = new InfiniteTree(
   treeWaypointSize,
   appUrlPrefix,

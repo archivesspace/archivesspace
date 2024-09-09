@@ -73,6 +73,14 @@
   column-gap: 1rem;
 }
 
+.gap-x-8 {
+  column-gap: 2rem;
+}
+
+.gap-y-3 {
+  row-gap: 1rem;
+}
+
 .rounded-bottom {
   border-bottom-left-radius: var(--bootstrap-rounded-border-radius);
   border-bottom-right-radius: var(--bootstrap-rounded-border-radius);
@@ -92,4 +100,26 @@
 
 .clear-both {
   clear: both;
+}
+
+.visually-hidden,
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip-path: inset(50%);
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.hover-pointer:hover {
+  cursor: pointer;
+}
+
+.outline {
+  outline: 0.25rem solid $primary-color;
 }

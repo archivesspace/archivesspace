@@ -18,11 +18,10 @@
 //= require jquery.form
 //= require jquery.scrollto
 //= require jquery.hotkeys
-//= require popper
 //= require utils
 //= require header
 //= require linker
-//= require bootstrap-sprockets
+//= require bootstrap.bundle.min.js
 //= require bootstrap_overrides
 //= require bootstrap3-typeahead
 //= require jquery.matchHeight

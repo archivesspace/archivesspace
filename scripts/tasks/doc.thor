@@ -39,7 +39,7 @@ class Doc < Thor
     end
 
     git = Git.open('./')
-    log = ReleaseNotes.parse_log(git.log('a').between(previous_tag, current_tag))
+    log = ReleaseNotes.parse_log(git.log.max_count(:all).between(previous_tag, current_tag))
     log.reject! { |log_entry| log_entry[:desc].match(/^Merge pull request/) }
     pulls_page = 1
     while((log.select { |log_entry| log_entry[:pr_number].nil? }.size > 0) && (pulls_page < options[:max_pr_pages] + 1)) do

@@ -300,6 +300,15 @@ ja:
       related_accessions:
         accessions: 受付記録
         deaccessions: デアクセスレコード
+    load_records:
+      alert: "このコレクションには大量のレコードが含まれています"
+      showing: "表示中"
+      percent_convention: "%"
+      load: "レコードを読み込む"
+      load_all: "すべてのレコードを読み込む"
+      scroll: "スクロール時"
+      all: "一度にすべて"
+      loading: 読み込み中
   top_container:
     _singular: コンテナ
     _plural: コンテナ

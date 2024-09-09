@@ -78,10 +78,10 @@ class ImportArchivalObjects < BulkImportParser
     if err_arr.empty? || @validate_only
       @row_hash.each do |k, v|
         @row_hash[k] = v.strip if !v.nil?
-        if k == "publish" || k == "restrictions_flag"
-          @row_hash[k] = (v == "1")
-        end
       end
+
+      normalize_boolean_column(@row_hash, 'publish')
+      normalize_boolean_column(@row_hash, 'restrictions_flag')
     end
     err_arr.join("; ")
   end

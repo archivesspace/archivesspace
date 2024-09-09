@@ -371,7 +371,7 @@ class TopContainersController < ApplicationController
 
 
   def perform_search
-    JSONModel::HTTP::get_json("#{JSONModel(:top_container).uri_for("")}/search", prepare_search)
+    JSONModel::HTTP::get_json("#{JSONModel(:top_container).uri_for("")}search", prepare_search)
   end
 
   # Gather all parameters, used for HTML and CSV responses

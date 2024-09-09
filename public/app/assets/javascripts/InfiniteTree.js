@@ -27,7 +27,7 @@
       this.waypointUri = `${this.baseUri}/waypoint`;
       this.i18n = { sep: identifier_separator, bulk: date_type_bulk };
 
-      this.container = document.querySelector('#tree-container');
+      this.container = document.querySelector('#infinite-tree-container');
 
       this.waypointObserver = new IntersectionObserver(
         // Wrap handler in arrow fn to preserve `this` context
@@ -194,7 +194,7 @@
       const titleContent = new MixedContent(title);
       const rootRowFrag = new DocumentFragment();
       const rootRow = document
-        .querySelector('#root-row-template')
+        .querySelector('#infinite-tree-root-row-template')
         .content.cloneNode(true);
 
       rootRow.querySelector('.table-row').id = `resource_${this.resourceId}`;
@@ -275,7 +275,7 @@
       const nodeRowFrag = new DocumentFragment();
 
       const nodeRow = document
-        .querySelector('#node-row-template')
+        .querySelector('#infinite-tree-node-row-template')
         .content.cloneNode(true);
 
       nodeRow.querySelector('.table-row').id = divId;

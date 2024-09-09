@@ -43,6 +43,8 @@ describe 'Resources', js: true do
   it "displays related digital objects" do
     visit('/')
     click_link 'Collections'
+    fill_in 'Search within results', with: 'Resource with digital instance'
+    click_button 'Search'
     click_link 'Resource with digital instance'
     click_link 'View Digital Material'
     expect(page).to have_content('Digital Record')
@@ -51,6 +53,8 @@ describe 'Resources', js: true do
   it 'displays deaccessions on show page' do
     visit('/')
     click_link 'Collections'
+    fill_in 'Search within results', with: 'Resource with Deaccession'
+    click_button 'Search'
     click_link 'Resource with Deaccession'
     expect(page).to have_content('Deaccessions')
   end
@@ -65,6 +69,8 @@ describe 'Resources', js: true do
   it 'displays linked agents on show page, with creators in top section but not in related names' do
     visit('/')
     click_link 'Collections'
+    fill_in 'Search within results', with: 'Resource with Agents'
+    click_button 'Search'
     click_link 'Resource with Agents'
 
     expect(page).to have_content('Linked Agent 1')

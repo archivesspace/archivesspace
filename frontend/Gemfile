@@ -20,8 +20,6 @@ gem 'sass-rails'
 gem 'execjs'
 gem 'uglifier'
 
-gem 'bootstrap', '~> 4.3.0'
-
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'json'

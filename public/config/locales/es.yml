@@ -326,6 +326,15 @@ es:
       related_accessions:
         accessions: Registros de adhesión
         deaccessions: Registros de desa adhereción
+    load_records:
+      alert: "Esta colección contiene un gran número de registros"
+      showing: "Mostrando"
+      percent_convention: " %"
+      load: "Cargar registros"
+      load_all: "Cargar todos los registros"
+      scroll: "Al desplazarse"
+      all: "Todos a la vez"
+      loading: Cargando
 
   top_container:
     _singular: contenedor

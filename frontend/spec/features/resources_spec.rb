@@ -777,6 +777,24 @@ describe 'Resources', js: true do
     end
   end
 
+  it 'closes the export dropdown menu after Download EAD and Download MARCXML are clicked' do
+    now = Time.now.to_i
+    resource = create(:resource, title: "Resource Title #{now}")
+    run_index_round
+
+    visit "resources/#{resource.id}"
+
+    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
+    click_on 'Export'
+    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
+    click_on 'Download EAD'
+    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
+    click_on 'Export'
+    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
+    click_on 'Download MARCXML'
+    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
+  end
+
   xit 'can apply and remove filters when browsing for linked agents in the linker modal' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")

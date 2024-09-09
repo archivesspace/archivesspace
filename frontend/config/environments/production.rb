@@ -1,4 +1,5 @@
 require 'aspace-rails/compressor'
+require 'aspace-rails/asset_path_rewriter'
 
 ArchivesSpace::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
@@ -104,6 +105,8 @@ if AppConfig[:frontend_proxy_prefix] && AppConfig[:frontend_proxy_prefix].length
       end
     end
   end
+
+  AssetPathRewriter.new.rewrite(AppConfig[:frontend_proxy_prefix], File.dirname(__FILE__))
 end
 
 ActiveSupport::Deprecation.silenced = true

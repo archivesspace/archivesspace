@@ -278,6 +278,8 @@ class AccessionConverter < Converter
         :defaults => date_defaults,
         :on_row_complete => Proc.new { |queue, date|
           queue.select {|obj| obj.class.record_type == 'accession'}.each do |accession|
+            verify_date_type(date)
+
             accession.dates << date
           end
         }
@@ -290,6 +292,8 @@ class AccessionConverter < Converter
         :defaults => date_defaults,
         :on_row_complete => Proc.new { |queue, date|
           queue.select {|obj| obj.class.record_type == 'accession'}.each do |accession|
+            verify_date_type(date)
+
             accession.dates << date
           end
         }
@@ -335,6 +339,21 @@ class AccessionConverter < Converter
 
 
   private
+
+  def self.verify_date_type(date)
+    date_types = EnumerationValue.filter(
+      :enumeration_id => Enumeration.find(:name => 'date_type').values[:id],
+      :suppressed => 0,
+    ).order(:position).to_a
+    .map { |entry| entry.values[:value] }
+    .reject { |value| value == 'range' }
+
+    unless date_types.include? date['date_type']
+      error_message = "Invalid date type provided: #{date['date_type']}; must be one of: #{date_types}; Date provided: #{date.inspect};"
+
+      raise AccessionConverterInvalidDateTypeError, error_message
+    end
+  end
 
   def self.event_template(event_type)
     {
@@ -395,3 +414,5 @@ class AccessionConverter < Converter
     @normalize_boolean
   end
 end
+
+class AccessionConverterInvalidDateTypeError < StandardError; end;

@@ -61,4 +61,13 @@ Rails.application.configure do
 
   # Allow the web console to work in the browser
   config.web_console.allowed_ips = ['172.18.0.0/16', '172.27.0.0/16', '0.0.0.0/0']
+
+  # Infinite Tree and Records config
+  config.infinite_tree_waypoint_size = 200
+  config.infinite_records_waypoint_size = 20
+  config.infinite_records_main_max_concurrent_waypoint_fetches = 20
+  config.infinite_records_worker_max_concurrent_waypoint_fetches = 100
+  # Beware! Don't set this number over 1350, Chromium's limit of fetches per process.
+  # Anything more and it throws `net::ERR_INSUFFICIENT_RESOURCES`, returning
+  # `undefined` per fetch.
 end

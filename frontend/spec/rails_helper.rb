@@ -79,26 +79,6 @@ end
 $puma = nil
 Capybara.register_server :as_puma do |app, port, host|
   require 'rack/handler/puma'
-  options = { Host: host, Port: port, Threads: '1:8', workers: 0, daemon: false }
-  conf = Rack::Handler::Puma.config(app, options)
-  $puma = Puma::Server.new(
-    conf.app,
-    nil,
-    conf.options
-  ).tap do |s|
-    s.binder.parse conf.options[:binds], (s.log_writer rescue s.events) # rubocop:disable Style/RescueModifier
-    s.min_threads, s.max_threads = conf.options[:min_threads], conf.options[:max_threads] if s.respond_to? :min_threads=
-  end
-  $puma.run.join
-end
-Capybara.server = :as_puma
-
-Capybara.default_max_wait_time = 10
-
-# Puma server
-$puma = nil
-Capybara.register_server :as_puma do |app, port, host|
-  require 'rack/handler/puma'
 
   log_writer = Puma::LogWriter.new(
     File.open(File.join(ASUtils.find_base_directory, "ci_logs", "puma.out"), 'w'),

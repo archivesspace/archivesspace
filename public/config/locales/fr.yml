@@ -346,6 +346,15 @@ fr:
       related_accessions:
         accessions: Notices entrées
         deaccessions: Notices aliénations
+    load_records:
+      alert: "Cette collection contient un grand nombre d'enregistrements"
+      showing: "Affichage"
+      percent_convention: " %"
+      load: "Charger les enregistrements"
+      load_all: "Charger tous les enregistrements"
+      scroll: "Au défilement"
+      all: "Tous en une fois"
+      loading: Chargement
 
   top_container:
     _singular: Conditionnement

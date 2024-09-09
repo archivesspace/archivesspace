@@ -1,0 +1,41 @@
+<%# This is a <template> that gets rendered via InfiniteRecords.js since its presence
+  partly depends on the url fragment, or hash, which is only available client side. %>
+<template id="load-all-template">
+  <section
+    id="load-all-section"
+    class="row mb-4 mt-3 px-3 py-2 alert alert-primary align-items-center gap-x-8 gap-y-3"
+  >
+    <p class="mb-0">
+      <i class="fa fa-info-circle" aria-hidden="true"></i>
+      <%= "#{t('resource.load_records.alert')} (#{num_records})" %>.
+    </p>
+
+    <div class="d-flex gap-x-8">
+      <p class="align-self-center mb-0 px-2 py-1 d-flex align-items-center gap-2 bg-primary rounded">
+        <span class="text-white"><%= t('resource.load_records.showing') %></span>
+        <span
+          id="load-all-showing-percent"
+          class="badge badge-light"
+          data-percent-convention="<%= t('resource.load_records.percent_convention') %>"
+        >0<%= t('resource.load_records.percent_convention') %></span>
+      </p>
+
+      <div class="d-flex align-items-center gap-2">
+        <p class="mb-0 font-weight-bold"><%= t('resource.load_records.load') %></p>
+        <div class="load-all__toggle-container d-flex align-items-center gap-2">
+          <input
+            id="load-all-state"
+            class="load-all__input visually-hidden order-1"
+            type="checkbox"
+            autocomplete="off"
+          />
+          <div class="order-1">
+            <label class="load-all__label-toggle" for="load-all-state"><%= t('resource.load_records.load_all') %></label>
+          </div>
+          <label class="mb-0 order-0 hover-pointer" for="load-all-state"><%= t('resource.load_records.scroll') %></label>
+          <label class="mb-0 order-1 hover-pointer" for="load-all-state"><%= t('resource.load_records.all') %></label>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>

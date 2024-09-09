@@ -51,7 +51,7 @@
         <%= form.label_and_select "level", form.possible_options_for("level", true) %>
         <%= form.label_and_textfield "other_level", :required => true %>
         <div class="form-group w-100 row">
-          <%= form.label "publish", :class => 'control-label col-sm-2' %>
+          <%= form.label "publish", :class => 'control-label col-sm-2 text-right' %>
           <div class="col-sm-1 checkbox">
             <%= form.checkbox "publish", {}, user_prefs["publish"] %>
             <% if form.obj["has_unpublished_ancestor"] %>
