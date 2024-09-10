@@ -1323,6 +1323,33 @@ describe "EAD export mappings" do
       expect(serializer.remove_smart_quotes(note_with_smart_quotes)).to eq("This note has \"smart quotes\" and \'smart apostrophes\' from MSWord.")
     end
 
+    context 'when revision statement starts with mixed content' do
+      let(:resource) do
+        create(:json_resource,
+          :publish => true,
+          :revision_statements => [
+            {
+              :date => '1999-9-9',
+              :description => '<change><date>9/9/99</date><item>mixed content revision</item></change>',
+              :publish => true
+            },
+            {
+              :date => '1999-9-9',
+              :description => '<name>revision name</name> that made some changes',
+              :publish => true
+            }
+          ]
+        )
+      end
+
+      it "properly exports revisiondesc starting with mixed content" do
+        document = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{resource.id}.xml")
+        document.remove_namespaces!
+        
+        expect(document.xpath('//revisiondesc/change').length).to eq(2)
+      end
+    end
+
     context 'when revision statement fields contain ampersand' do
       let(:resource) do
         create(:json_resource,
