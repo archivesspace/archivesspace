@@ -179,6 +179,12 @@
   </target>
 
   <target name="backend:war" depends="set-classpath" description="Deploy the backend application as a .war file">
+    <antcall target="bundler">
+      <param name="gemfile" value="../backend/Gemfile" />
+      <param name="excluded-gem-groups" value="test development doc build" />
+      <param name="included-gem-groups" value="" />
+    </antcall>
+    <copy file="../.bundle/config" todir="../backend/.bundle" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../backend">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -186,6 +192,7 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="../build/${jruby_build_bin_path}/warble war" />
     </java>
+    <delete file="../backend/.bundle/config" />
   </target>
 
   <!-- BOOTSTRAP -->
@@ -345,6 +352,8 @@
       <fileset dir="gems/jruby/${jruby_build_version}">
         <exclude name="cache/**" />
         <exclude name="doc/**" />
+        <exclude name="**/jdbc-mysql-*/**" />
+        <exclude name="**/warbler-*/**" />
       </fileset>
     </copy>
     <!-- jruby rack -->
