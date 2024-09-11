@@ -186,7 +186,7 @@ GEM
     saxerator (0.9.2)
       nokogiri (>= 1.4.0)
     saxon-rb (0.8.3-java)
-    sequel (5.82.0)
+    sequel (5.84.0)
       bigdecimal
     simplecov (0.22.0)
       docile (~> 1.1)
@@ -267,7 +267,7 @@ DEPENDENCIES
   rufus-scheduler (~> 2.0.24)
   saxerator (= 0.9.2)
   saxon-rb (~> 0.8.3)
-  sequel (~> 5.82.0)
+  sequel (~> 5.84.0)
   simplecov
   sinatra (~> 3.2)
   sinatra-contrib (~> 3.2)
