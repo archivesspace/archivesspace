@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 as build_release
+FROM ubuntu:22.04 as build_release
 
 # Please note: Docker is not supported as an install method.
 # Docker configuration is being used for internal purposes only.
@@ -41,7 +41,7 @@ RUN cd /source && \
 ADD docker-startup.sh /archivesspace/startup.sh
 RUN chmod u+x /archivesspace/startup.sh
 
-FROM ubuntu:24.04
+FROM ubuntu:22.04
 
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
@@ -67,8 +67,8 @@ RUN apt-get update && \
       nodejs \
       unzip && \
     rm -rf /var/lib/apt/lists/* && \
-    groupadd -g 2000 archivesspace && \
-    useradd -l -M -u 2000 -g archivesspace archivesspace && \
+    groupadd -g 1000 archivesspace && \
+    useradd -l -M -u 1000 -g archivesspace archivesspace && \
     chown -R archivesspace:archivesspace /archivesspace
 
 USER archivesspace
