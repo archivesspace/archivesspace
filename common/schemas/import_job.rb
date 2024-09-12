@@ -28,6 +28,10 @@
         "type" => "string"
       },
 
+      "import_repository" => {
+        "type" => "string"
+      }
+
     }
   }
 }
