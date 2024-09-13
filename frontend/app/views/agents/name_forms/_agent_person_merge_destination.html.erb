@@ -2,13 +2,13 @@
   <div class="subrecord-form-fields agent-name-form">
 
     <%= form.record_level_merge_controls(form, "name_person", false) %>
-    
+
     <% if form.obj['authorized'] %><span class="badge"><%= t("name_person.authorized") %></span><% end %>
     <% if form.obj['is_display_name'] %><span class="badge badge-info"><%= t("name_person.is_display_name") %></span><% end %>
 
-    <%= render_aspace_partial :partial => "agents/name_forms/authority_fields_merge_target", :locals => {:form => form} %>
+    <%= render_aspace_partial :partial => "agents/name_forms/authority_fields_merge_destination", :locals => {:form => form} %>
 
-    <%= form.label_and_readonly "name_order" %>                  
+    <%= form.label_and_readonly "name_order" %>
     <%= form.label_and_readonly "prefix" %>
     <%= form.label_and_readonly "title" %>
     <%= form.label_and_readonly "primary_name" %>
@@ -23,8 +23,8 @@
     <hr/>
     <%= form.label_and_readonly "qualifier" %>
     <%= form.label_and_readonly "sort_name" %>
-    <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["use_dates"], :section_title => t("agent_name.use_dates"), :section_id => "target_name_use_dates", :heading_size => "h4"} %>
+    <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["use_dates"], :section_title => t("agent_name.use_dates"), :section_id => "merge_destination_name_use_dates", :heading_size => "h4"} %>
 
-    <%= render_aspace_partial :partial => "agent_parallel_names/show_inline", :locals => { :names => form.obj['parallel_names'], :section_id => "target_parallel_names"} %>
+    <%= render_aspace_partial :partial => "agent_parallel_names/show_inline", :locals => { :names => form.obj['parallel_names'], :section_id => "merge_destination_parallel_names"} %>
   </div>
 <% end %>

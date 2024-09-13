@@ -155,14 +155,14 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def handle_merge(victims, target_uri, merge_type, extra_params = {})
+  def handle_merge(merge_candidates, merge_destination_uri, merge_type, extra_params = {})
     request = JSONModel(:merge_request).new
-    request.target = {'ref' => target_uri}
-    request.victims = Array.wrap(victims).map { |victim| { 'ref' => victim } }
+    request.merge_destination = {'ref' => merge_destination_uri}
+    request.merge_candidates = Array.wrap(merge_candidates).map { |merge_candidate| { 'ref' => merge_candidate } }
     if params[:id]
       id = params[:id]
     else
-      id = target_uri.split('/')[-1]
+      id = merge_destination_uri.split('/')[-1]
     end
     begin
       request.save(:record_type => merge_type)
@@ -172,7 +172,7 @@ class ApplicationController < ActionController::Base
       if merge_type == 'top_container'
         redirect_to(:controller => :top_containers, :action => :index)
       else
-        resolver = Resolver.new(target_uri)
+        resolver = Resolver.new(merge_destination_uri)
         redirect_to(resolver.view_uri)
       end
     rescue ValidationException => e
@@ -188,7 +188,7 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def handle_accept_children(target_jsonmodel)
+  def handle_accept_children(merge_destination_jsonmodel)
     unless params[:children]
       # Nothing to do
       return render :json => {
@@ -196,7 +196,7 @@ class ApplicationController < ActionController::Base
                     }
     end
 
-    response = JSONModel::HTTP.post_form(target_jsonmodel.uri_for(params[:id]) + "/accept_children",
+    response = JSONModel::HTTP.post_form(merge_destination_jsonmodel.uri_for(params[:id]) + "/accept_children",
                                          "children[]" => params[:children],
                                          "position" => params[:index].to_i)
 
@@ -680,8 +680,8 @@ class ApplicationController < ActionController::Base
 
   def handle_transfer(model)
     old_uri = model.uri_for(params[:id])
-    response = JSONModel::HTTP.post_form(model.uri_for(params[:id]) + "/transfer",
-                                         "target_repo" => params[:ref])
+
+    response = JSONModel::HTTP.post_form(model.uri_for(params[:id]) + "/transfer", "target_repo" => params[:ref])
 
     if response.code == '200'
       flash[:success] = t("actions.transfer_successful")

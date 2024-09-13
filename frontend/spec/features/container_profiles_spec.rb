@@ -96,7 +96,7 @@ describe 'Container Profiles', js: true do
         find(:css, "[id='/container_profiles/#{profile_a.id}']").click
       end
 
-      click_on 'Select merge target'
+      click_on 'Select merge destination'
     end
 
     within '#bulkMergeConfirmModal' do

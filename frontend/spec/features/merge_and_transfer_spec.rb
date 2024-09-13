@@ -3,30 +3,37 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Merging and transfering resources', js: true do
+describe 'Merge and Trasnfer', js: true do
   let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
 
   before(:all) do
     now = Time.now.to_i
-    @repository_source = create(:repo, repo_code: "transfer_test_source_#{now}")
-    @repository_target = create(:repo, repo_code: "transfer_test_target_#{now}")
-
-    set_repo @repository_source
+    @repository_source = create(:repo, repo_code: "transfer_test_source_#{now}", publish: true)
+    @repository_target = create(:repo, repo_code: "transfer_test_target_#{now}", publish: true)
   end
 
   before(:each) do
     login_user(admin)
   end
 
-  # TODO
-  xit 'can transfer a resource to another repository and open it for editing' do
-    select_repository(@repository_source)
+  it 'can transfer a resource to another repository and open it for editing' do
+    now = Time.now.to_i
+
     set_repo @repository_source
-    resource = create(:resource)
+    select_repository(@repository_source)
+
+    resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    sleep 15
+
+    element = find('h2')
+    expect(element.text).to eq "#{resource.title} Resource"
+
     find('#transfer-dropdown button').click
+
     select @repository_target.repo_code, from: 'transfer_ref_'
 
     within '.dropdown-menu.transfer-form' do
@@ -53,14 +60,14 @@ describe 'Merging and transfering resources', js: true do
     expect(page).to have_css 'tr', text: resource.title
   end
 
-  xit 'can merge a resource into a resource' do
+  it 'can merge a resource into a resource' do
     now = Time.now.to_i
 
+    set_repo @repository_source
     select_repository(@repository_source)
 
-    set_repo @repository_source
-    resource_source = create(:resource)
-    resource_target = create(:resource)
+    resource_source = create(:resource, title: "Resource Title Source #{now}")
+    resource_target = create(:resource, title: "Resource Title Target #{now}")
 
     archival_objects_source = (0...10).map do |index|
       create(:archival_object, title: "Archival Object Source Title #{index} #{now}", resource: { 'ref' => resource_source.uri })
@@ -75,11 +82,14 @@ describe 'Merging and transfering resources', js: true do
     visit "resources/#{resource_target.id}/edit"
 
     find('#merge-dropdown button').click
-    fill_in 'token-input-merge_ref_', with: resource_source.title
-    dropdown_items = all('li.token-input-dropdown-item2')
-    dropdown_items.first.click
+
+    wait_for_ajax
 
     within '.dropdown-menu.merge-form' do
+      fill_in 'token-input-merge_ref_', with: resource_source.title
+      dropdown_items = all('li.token-input-dropdown-item2')
+      dropdown_items.first.click
+
       click_on 'Merge'
     end
 
@@ -140,11 +150,13 @@ describe 'Merging and transfering resources', js: true do
     visit "digital_objects/#{digital_object_source.id}/"
 
     click_on 'Merge'
-    fill_in 'token-input-merge_ref_', with: digital_object_target.title
-    dropdown_items = all('li.token-input-dropdown-item2')
-    dropdown_items.first.click
+
+    wait_for_ajax
 
     within '.dropdown-menu.merge-form' do
+      fill_in 'token-input-merge_ref_', with: digital_object_target.title
+      dropdown_items = all('li.token-input-dropdown-item2')
+      dropdown_items.first.click
       click_on 'Merge'
     end
 

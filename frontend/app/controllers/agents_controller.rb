@@ -216,48 +216,48 @@ class AgentsController < ApplicationController
 
   def merge
     merge_list = params[:record_uris]
-    target = merge_list[0]
+    merge_destination = merge_list[0]
     merge_list.shift
-    victims = merge_list
-    target_type = JSONModel.parse_reference(target)[:type]
-    handle_merge(victims,
-                 target,
+    merge_candidates = merge_list
+    merge_destination_type = JSONModel.parse_reference(merge_destination)[:type]
+    handle_merge(merge_candidates,
+                 merge_destination,
                  'agent',
-                 { agent_type: target_type })
+                 { agent_type: merge_destination_type })
   end
 
   def merge_selector
     @agent = JSONModel(@agent_type).find(params[:id], find_opts)
 
     if params[:refs].is_a?(Array)
-      flash[:error] = t('errors.merge_too_many_victims')
+      flash[:error] = t('errors.merge_too_many_merge_candidates')
       redirect_to({ action: :show, id: params[:id] })
       return
     end
 
-    victim_details = JSONModel.parse_reference(params[:refs])
-    @victim_type = victim_details[:type].to_sym
-    if @victim_type != @agent_type
+    merge_candidate_details = JSONModel.parse_reference(params[:refs])
+    @merge_candidate_type = merge_candidate_details[:type].to_sym
+    if @merge_candidate_type != @agent_type
       flash[:error] = t('errors.merge_different_types')
       redirect_to({ action: :show, id: params[:id] })
       return
     end
 
-    @victim = JSONModel(@victim_type).find(victim_details[:id], find_opts)
-    if @agent.key?('is_user') || @victim.key?('is_user')
+    @merge_candidate = JSONModel(@merge_candidate_type).find(merge_candidate_details[:id], find_opts)
+    if @agent.key?('is_user') || @merge_candidate.key?('is_user')
       flash[:error] = t('errors.merge_denied_for_system_user')
       redirect_to({ action: :show, id: params[:id] })
       return
     end
 
-    relationship_uris = @victim['related_agents'] ? @victim['related_agents'].map {|ra| ra['ref']} : []
+    relationship_uris = @merge_candidate['related_agents'] ? @merge_candidate['related_agents'].map {|ra| ra['ref']} : []
     if relationship_uris.include?(@agent['uri'])
       flash[:error] = t('errors.merge_denied_relationship')
       redirect_to({ action: :show, id: params[:id] })
       return
     end
 
-    if !user_can?('view_agent_contact_record') && (@agent.agent_contacts.any? || @victim.agent_contacts.any?)
+    if !user_can?('view_agent_contact_record') && (@agent.agent_contacts.any? || @merge_candidate.agent_contacts.any?)
       flash[:error] = t('errors.merge_restricted_contact_details')
       redirect_to({ action: :show, id: params[:id] })
       return
@@ -268,8 +268,8 @@ class AgentsController < ApplicationController
 
   def merge_detail
     request = JSONModel(:merge_request_detail).new
-    request.target = { 'ref' => JSONModel(@agent_type).uri_for(params[:id]) }
-    request.victims = Array.wrap({ 'ref' => params['victim_uri'] })
+    request.merge_destination = { 'ref' => JSONModel(@agent_type).uri_for(params[:id]) }
+    request.merge_candidates = Array.wrap({ 'ref' => params['merge_candidate_uri'] })
 
     # the backend is expecting to know how the user may have re-ordered subrecords in the merge interface. This information is encoded in the params, but will be stripped out when we clean them up unless we add them as a pseudo schema attribute.
     # add_position_to_agents_merge does exactly this.
@@ -289,7 +289,7 @@ class AgentsController < ApplicationController
         response = JSONModel::HTTP.post_json(URI(uri), request.to_json)
 
         flash[:success] = t('agent._frontend.messages.merged')
-        resolver = Resolver.new(request.target['ref'])
+        resolver = Resolver.new(request.merge_destination['ref'])
         redirect_to(resolver.view_uri)
       rescue ValidationException => e
         flash[:error] = e.errors.to_s

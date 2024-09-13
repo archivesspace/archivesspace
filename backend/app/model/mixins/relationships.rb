@@ -85,71 +85,71 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
-  # Find any relationship instances that reference 'victims' and modify them to
-  # refer to 'target' instead.
-  def self.transfer(target, victims)
-    target_columns = self.reference_columns_for(target.class)
+  # Find any relationship instances that reference 'merge_candidates' and modify them to
+  # refer to 'merge_destination' instead.
+  def self.transfer(merge_destination, merge_candidates)
+    merge_destination_columns = self.reference_columns_for(merge_destination.class)
 
-    victims_by_model = victims.reject {|v| (v.class == target.class) && (v.id == target.id)}.group_by(&:class)
+    merge_candidates_by_model = merge_candidates.reject {|v| (v.class == merge_destination.class) && (v.id == merge_destination.id)}.group_by(&:class)
 
-    # We're going to have to handle container profiles separately since victim
+    # We're going to have to handle container profiles separately since merge_candidate
     # cp relationships have to be compared against one another prior to merging.
     # We'll just use this method to store container profile relationships then
     # actually handle container profile relationships in the separate
     # `cleanup_container_profile_relationships` method below
-    victim_container_profiles = []
+    merge_candidate_container_profiles = []
 
-    victims_by_model.each do |victim_model, vics|
+    merge_candidates_by_model.each do |merge_candidate_model, vics|
 
-      confirm_accepts_target(victim_model, vics)
-      victim_columns = self.reference_columns_for(victim_model)
+      confirm_accepts_merge_destination(merge_candidate_model, vics)
+      merge_candidate_columns = self.reference_columns_for(merge_candidate_model)
 
-      victim_columns.each do |victim_col|
+      merge_candidate_columns.each do |merge_candidate_col|
 
-        vics.each do |victim|
+        vics.each do |merge_candidate|
 
-          who_participates_with(victim).each do |parent|
+          who_participates_with(merge_candidate).each do |parent|
             parent_col = reference_columns_for(parent.class).first
             # Find any relationship where the current column contains a reference to
-            # our victim
-            self.exclude(parent_col => nil).filter(victim_col => vics.map(&:id)).each do |relationship|
-              target_pre = find_by_participant(target)
+            # our merge_candidate
+            self.exclude(parent_col => nil).filter(merge_candidate_col => vics.map(&:id)).each do |relationship|
+              merge_destination_pre = find_by_participant(merge_destination)
 
-              # Remove this relationship's reference to the victim
-              relationship[victim_col] = nil
+              # Remove this relationship's reference to the merge_candidate
+              relationship[merge_candidate_col] = nil
 
               # When merging top containers, you also have to deal with the fact
               # that subcontainers and instances may also need to be deleted.  This
               # array stores records that will be deleted in cleanup_duplicates.
               dups = []
 
-              # Now add a new reference to the target (which, if the victim and
-              # target are of different types, might require updating a different
+              # Now add a new reference to the merge_destination (which, if the merge_candidate and
+              # merge_destination are of different types, might require updating a different
               # column to the one we just set to NULL)
-              target_columns.each do |target_col|
+              merge_destination_columns.each do |merge_destination_col|
 
-                if relationship[target_col]
+                if relationship[merge_destination_col]
                   # This column is already used to reference the other record in our
                   # relationship so we'll skip over it.  But while we're here, make
                   # sure we're not about to create a circular relationship.
 
-                  if relationship[target_col] == target.id
+                  if relationship[merge_destination_col] == merge_destination.id
                     raise "Transfer would create a circular relationship!"
                   end
 
-                elsif relationship.is_a?(Relationships::SubContainerTopContainerLink) && !find_by_participant(target).empty?
-                  identify_duplicate_containers(target, relationship, target_col, dups)
+                elsif relationship.is_a?(Relationships::SubContainerTopContainerLink) && !find_by_participant(merge_destination).empty?
+                  identify_duplicate_containers(merge_destination, relationship, merge_destination_col, dups)
 
                 elsif relationship.is_a?(Relationships::ContainerProfileTopContainerProfile)
-                  victim_container_profiles << relationship
+                  merge_candidate_container_profiles << relationship
 
                 else
-                  target_pre.each do |pre|
+                  merge_destination_pre.each do |pre|
                     if pre[parent_col] == relationship[parent_col]
                       dups << relationship
                     end
                   end
-                  transfer_relationship_to_target(relationship, target_col, target, true)
+                  transfer_relationship_to_merge_destination(relationship, merge_destination_col, merge_destination, true)
                   break
                 end
 
@@ -167,33 +167,33 @@ AbstractRelationship = Class.new(Sequel::Model) do
       end
     end
 
-    cleanup_container_profile_relationships(victim_container_profiles, target)
+    cleanup_container_profile_relationships(merge_candidate_container_profiles, merge_destination)
 
-    # Finally, reindex the target record for good measure (and, in the case of
+    # Finally, reindex the merge_destination record for good measure (and, in the case of
     # top containers, to update the associated collections)
-    target[:system_mtime] = Time.now
-    target[:user_mtime] = Time.now
+    merge_destination[:system_mtime] = Time.now
+    merge_destination[:user_mtime] = Time.now
 
-    target.save
+    merge_destination.save
   end
 
 
   # If we're merging a record of type A with relationship R into a record of
   # type B, type B must also support that relationship type.  If it doesn't,
   # we risk losing data through the merge and should abort.
-  def self.confirm_accepts_target(victim_model, vics)
-    unless participating_models.include?(victim_model)
-      found = self.find_by_participant_ids(victim_model, vics.map(&:id))
+  def self.confirm_accepts_merge_destination(merge_candidate_model, vics)
+    unless participating_models.include?(merge_candidate_model)
+      found = self.find_by_participant_ids(merge_candidate_model, vics.map(&:id))
 
       unless found.empty?
-        raise ReferenceError.new("#{victim_model} to be merged has data for relationship #{self}, but target record doesn't support it.")
+        raise ReferenceError.new("#{merge_candidate_model} to be merged has data for relationship #{self}, but merge_destination record doesn't support it.")
       end
     end
   end
 
 
-  def self.transfer_relationship_to_target(relationship, target_col, target, skip_refresh=false)
-    relationship[target_col] = target.id
+  def self.transfer_relationship_to_merge_destination(relationship, merge_destination_col, merge_destination, skip_refresh=false)
+    relationship[merge_destination_col] = merge_destination.id
     unless skip_refresh
       relationship[:system_mtime] = Time.now
       relationship[:user_mtime] = Time.now
@@ -213,30 +213,30 @@ AbstractRelationship = Class.new(Sequel::Model) do
   end
 
 
-  def self.identify_duplicate_containers(target, relationship, target_col, dups)
-    find_by_participant(target).each do |target_relationship|
+  def self.identify_duplicate_containers(merge_destination, relationship, merge_destination_col, dups)
+    find_by_participant(merge_destination).each do |merge_destination_relationship|
       subcontainer = SubContainer[relationship[:sub_container_id]]
-      target_subcontainer = SubContainer[target_relationship[:sub_container_id]]
+      merge_destination_subcontainer = SubContainer[merge_destination_relationship[:sub_container_id]]
       # Only proceed if the subcontainer record is empty
       if [:type_2_id, :indicator_2, :type_3_id, :indicator_3].map {|k| subcontainer[k]}.compact.empty?
         instance = Instance[subcontainer[:instance_id]]
-        target_instance = Instance[target_subcontainer[:instance_id]]
+        merge_destination_instance = Instance[merge_destination_subcontainer[:instance_id]]
         [:accession_id, :archival_object_id, :resource_id].each do |p|
           next if instance[p].nil?
           # If subcontainer is empty and if the subcontainer's instance
           # record links to the same parent record (ao, accession, or
           # resource), delete the subcontainer and the instance.
-          if instance[p] == target_instance[p]
+          if instance[p] == merge_destination_instance[p]
             dups << subcontainer
             dups << instance
             break
           else
-            transfer_relationship_to_target(relationship, target_col, target, true)
+            transfer_relationship_to_merge_destination(relationship, merge_destination_col, merge_destination, true)
             break
           end
         end
       else
-        transfer_relationship_to_target(relationship, target_col, target, true)
+        transfer_relationship_to_merge_destination(relationship, merge_destination_col, merge_destination, true)
         break
       end
     end
@@ -251,38 +251,38 @@ AbstractRelationship = Class.new(Sequel::Model) do
   # interim, this method ensures that container profile relationships are handled
   # separately from other linked record transfers and ensures only one container
   # profile (or, conditionally, no container profiles) survives the merge process.
-  def self.cleanup_container_profile_relationships(victim_container_profiles, target)
-    target_relationship = nil
-    find_by_participant(target).each do |target_rlshp|
-      if !target_rlshp.nil? && target_rlshp.is_a?(Relationships::ContainerProfileTopContainerProfile)
-        target_relationship = target_rlshp
+  def self.cleanup_container_profile_relationships(merge_candidate_container_profiles, merge_destination)
+    merge_destination_relationship = nil
+    find_by_participant(merge_destination).each do |merge_destination_rlshp|
+      if !merge_destination_rlshp.nil? && merge_destination_rlshp.is_a?(Relationships::ContainerProfileTopContainerProfile)
+        merge_destination_relationship = merge_destination_rlshp
       end
     end
-    victim_container_profiles_unique = victim_container_profiles.map {|v| v[:container_profile_id]}
-    # If the target has a linked container profile already, delete all victim
+    merge_candidate_container_profiles_unique = merge_candidate_container_profiles.map {|v| v[:container_profile_id]}
+    # If the merge_destination has a linked container profile already, delete all merge_candidate
     # container profile relationships
-    if !target_relationship.nil?
-      cleanup_duplicates(victim_container_profiles)
+    if !merge_destination_relationship.nil?
+      cleanup_duplicates(merge_candidate_container_profiles)
     else
-      # If the array of victims only has one container profile relationship
-      # transfer that relationship over to the merge target
-      if victim_container_profiles.count == 1
-        victim_container_profile = victim_container_profiles.first
-        transfer_relationship_to_target(victim_container_profile, :top_container_id, target)
-      elsif victim_container_profiles.count > 1
-        # If the array of victims has multiple container profile relationships
+      # If the array of merge_candidates only has one container profile relationship
+      # transfer that relationship over to the merge merge_destination
+      if merge_candidate_container_profiles.count == 1
+        merge_candidate_container_profile = merge_candidate_container_profiles.first
+        transfer_relationship_to_merge_destination(merge_candidate_container_profile, :top_container_id, merge_destination)
+      elsif merge_candidate_container_profiles.count > 1
+        # If the array of merge_candidates has multiple container profile relationships
         # but they all link to the same container profile, transfer the first
-        # relationship to the merge target and delete the rest
-        if victim_container_profiles_unique.uniq.count == 1
-          victim_container_profile = victim_container_profiles.first
-          transfer_relationship_to_target(victim_container_profile, :top_container_id, target)
-          victim_container_profiles.shift
-          cleanup_duplicates(victim_container_profiles)
-        # If the array of victims has multiple container profile relationships
-        # and they link to different container profiles, delete all victim
+        # relationship to the merge merge_destination and delete the rest
+        if merge_candidate_container_profiles_unique.uniq.count == 1
+          merge_candidate_container_profile = merge_candidate_container_profiles.first
+          transfer_relationship_to_merge_destination(merge_candidate_container_profile, :top_container_id, merge_destination)
+          merge_candidate_container_profiles.shift
+          cleanup_duplicates(merge_candidate_container_profiles)
+        # If the array of merge_candidates has multiple container profile relationships
+        # and they link to different container profiles, delete all merge_candidate
         # container profile relationships
         else
-          cleanup_duplicates(victim_container_profiles)
+          cleanup_duplicates(merge_candidate_container_profiles)
         end
       end
     end
@@ -562,19 +562,19 @@ module Relationships
   end
 
 
-  # Find all relationships involving the records in 'victims' and rewrite them
+  # Find all relationships involving the records in 'merge_candidates' and rewrite them
   # to refer to us instead.
-  def assimilate(victims)
-    victims = victims.reject {|v| (v.class == self.class) && (v.id == self.id)}
+  def assimilate(merge_candidates)
+    merge_candidates = merge_candidates.reject {|v| (v.class == self.class) && (v.id == self.id)}
 
     self.class.relationship_dependencies.each do |relationship, models|
       models.each do |model|
-        model.transfer(relationship, self, victims)
+        model.transfer(relationship, self, merge_candidates)
       end
     end
 
     DB.attempt {
-      victims.each(&:delete)
+      merge_candidates.each(&:delete)
     }.and_if_constraint_fails {
       raise MergeRequestFailed.new("Can't complete merge: record still in use")
     }
@@ -928,9 +928,9 @@ module Relationships
     end
 
 
-    def transfer(relationship_name, target, victims)
+    def transfer(relationship_name, merge_destination, merge_candidates)
       relationship = find_relationship(relationship_name)
-      relationship.transfer(target, victims)
+      relationship.transfer(merge_destination, merge_candidates)
     end
 
     # This notifies the current model that an instance of a related model has

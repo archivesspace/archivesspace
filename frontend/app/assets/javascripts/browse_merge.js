@@ -46,15 +46,17 @@ $(document).on('click', '#batchMerge', function () {
       };
     });
 
-    const targetEl = document.querySelector('input[name="target[]"]:checked');
+    const mergeDestinationEl = document.querySelector(
+      'input[name="merge_destination[]"]:checked'
+    );
 
-    const target = {
-      display_string: targetEl.getAttribute('aria-label'),
-      uri: targetEl.getAttribute('value'),
+    const mergeDestination = {
+      display_string: mergeDestinationEl.getAttribute('aria-label'),
+      uri: mergeDestinationEl.getAttribute('value'),
     };
 
-    const victims = mergeList.reduce(function (acc, profile) {
-      if (profile.display_string !== target.display_string) {
+    const mergeCandidates = mergeList.reduce(function (acc, profile) {
+      if (profile.display_string !== mergeDestination.display_string) {
         acc.push(profile.display_string);
       }
       return acc;
@@ -66,8 +68,8 @@ $(document).on('click', '#batchMerge', function () {
       'Confirm Merge Container Profiles',
       AS.renderTemplate('confirm_merge_container_profiles_modal', {
         mergeList,
-        target,
-        victims,
+        mergeDestination,
+        mergeCandidates,
       }),
       false
     );

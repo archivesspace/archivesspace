@@ -54,7 +54,7 @@
               :action => :resource_duplicate,
               :resource_id => @resource.id
             },
-            :target => :_blank,
+            :merge_destination => :_blank,
             :class => "btn btn-sm btn-default",
             :"data-confirmation" => true,
             :"data-title" => I18n.t("actions.duplicate_resource", :title => @resource.title),
@@ -96,8 +96,7 @@
                   :locals => {:record => record,
                               :controller => controller.controller_name,
                               :confirmation_title => t("actions.transfer_confirm_title"),
-                              :confirmation_msg => t("actions.transfer_confirm_message",
-                                                          :target => record.title)}
+                              :confirmation_msg => t("actions.transfer_confirm_message", :target => record.title)}
         %>
       <% end %>
       <div class="btn-group dropdown" id="other-dropdown" style="display: none">

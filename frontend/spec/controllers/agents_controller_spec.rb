@@ -93,17 +93,17 @@ describe AgentsController, type: :controller do
   end
 
   describe "merge agent preview" do
-    it "redirects to agent record if victim is related" do
-      victim = create(:json_agent_person)
+    it "redirects to agent record if merge_candidate is related" do
+      merge_candidate = create(:json_agent_person)
       agent = create(:json_agent_person,
                      related_agents: [
-                       JSONModel(:agent_relationship_parentchild).new({ :ref => victim.uri, :relator => 'is_child_of' }).to_hash
+                       JSONModel(:agent_relationship_parentchild).new({ :ref => merge_candidate.uri, :relator => 'is_child_of' }).to_hash
                      ])
 
       post :merge_selector, params: {
              agent_type: "agent_person",
              id: agent.id,
-             refs: victim.uri
+             refs: merge_candidate.uri
            }
 
       expect(response).to redirect_to("/agents/agent_person/#{agent.id}")

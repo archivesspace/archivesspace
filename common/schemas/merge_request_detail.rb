@@ -14,7 +14,7 @@ MERGEABLE_TYPES = [
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
-      "target" => {
+      "merge_destination" => {
         "type" => "object",
         "ifmissing" => "error",
         "subtype" => "ref",
@@ -26,7 +26,7 @@ MERGEABLE_TYPES = [
         }
       },
 
-      "victims" => {
+      "merge_candidates" => {
         "type" => "array",
         "minItems" => 1,
         "items" => {

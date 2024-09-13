@@ -76,7 +76,7 @@ de:
     unset_default: Vorgabe aufheben
     transfer: Übertragen
     transfer_confirm_title: Diese Aufzeichnung übertragen?
-    transfer_confirm_message: Die Aufzeichnung '%{target}' wird zum gewählten Aufbewahrungsort
+    transfer_confirm_message: Die Aufzeichnung '%{merge_destination}' wird zum gewählten Aufbewahrungsort
       übertragen
     transfer_failed: Übertragung fehlgeschlagen
     transfer_failed_digital_objects_linked_to_records: Dieses digitale Objekt ist
@@ -132,7 +132,7 @@ de:
     merge_subject_confirm_message: Das Thema '%{source}' wird mit den gewählten Aufzeichnungen
       zusammengeführt. Alle gewählten Aufzeichnungen werden gelöscht und jede verknüpfte
       Aufzeichnung wird neu mit diesem Thema verknüpft.
-    merge_container_profile_confirm_message: Das Behältnis-Profil '%{target}' wird
+    merge_container_profile_confirm_message: Das Behältnis-Profil '%{merge_destination}' wird
       mit den gewählten Aufzeichnungen zusammengeführt. Alle gewählten Aufzeichnungen
       werden gelöscht und jede verknüpfte Aufzeichnung wird neu mit dieser Ressource
       verknüpft.
@@ -910,7 +910,7 @@ de:
     error_403_message: Die aufgerufene Seite könnte nicht mehr existieren oder Sie
       haben keine Rechte sie anzuzeigen.
     error_404: Aufzeichnung nicht gefunden
-    merge_too_many_victims: Nur ein Akteur kann zum Zusammenführen ausgewählt werden.
+    merge_too_many_merge_candidates: Nur ein Akteur kann zum Zusammenführen ausgewählt werden.
     merge_conflict: 'Das Zusammenführen von Akteuren konnte nicht abgeschlossen werden:
       %{message}'
     merge_restricted_contact_details: Das Zusammenführen konnte nicht abgeschlossen
@@ -931,7 +931,7 @@ de:
         spawned: Dieser Eingang wurde vom Eingang <strong>%{accession_display_string}</strong>
           abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
           auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
-        transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
+        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort zum Übertragen
       action:
         create: Eingang erstellen
         save: Eingang speichern
@@ -960,8 +960,8 @@ de:
         basic_information: Grundlegende Informationen
         linked_via_rights_statement: Durch Rechteerklärung verknüpfte Aufzeichnungen
         events: Ereignisse
-        target_record: Diese Aufzeichnung wird aktualisiert
-        victim_record: Diese Aufzeichnung wird gelöscht
+        merge_destination_record: Diese Aufzeichnung wird aktualisiert
+        merge_candidate_record: Diese Aufzeichnung wird gelöscht
         structured_date_single_fields: Einzeldatum
         structured_date_range_fields: Datumsbereich
         dates_of_existence: Existenzdaten
@@ -1158,7 +1158,7 @@ de:
           werden
         delete_conflict: 'Digitales Objekt konnte nicht gelöscht werden: <pre>%{error}</pre>'
         transfer_description: Übertrage diese Aufzeichnung nach...
-        transfer_target: Wählen Sie einen Aufbewahrungsort für die Übertragung
+        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort für die Übertragung
         merged: Digitale Objekte zusammengeführt
       action:
         create: Digitales Objekt erstellen
@@ -1398,7 +1398,7 @@ de:
         create_first_repository: Um Ihren ersten Aufbewahrungsort zu erstellen, klicken
           Sie auf das <strong>System</strong>-Menü oben und wählen dann <strong>Aufbewahrungsorte
           verwalten</strong>.
-        transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen aus
+        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort zum Übertragen aus
         continue_with_transfer: Mit Übertragung fortfahren?
         transfer_failed: Übertragung konnte wegen folgender Fehler nicht abgeschlossen
           werden
@@ -1434,7 +1434,7 @@ de:
         unpublished: Die Veröffentlichung der Ressource <strong>%{resource_title}</strong>,
           ihre Kinder, Teilaufzeichnungen und Komponenten wurde aufgehoben
         created: Ressource <strong>%{resource_title}</strong> erstellt
-        transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
+        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort zum Übertragen
         suppressed_info: Ressource ist unterdrückt und kann nicht bearbeitet werden
         spawned: Eine neue Ressource wurde vom Eingang <strong>%{accession_display_string}</strong>
           abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
@@ -1671,10 +1671,10 @@ de:
   used_languages:
     <<: *used_language_attributes
 
-  used_language_merge_victim:
+  used_language_merge_candidate:
     <<: *used_language_attributes
 
-  used_language_merge_target:
+  used_language_merge_destination:
     <<: *used_language_attributes
   agent_function: &agent_function_attributes
     _singular: Funktion
@@ -1695,10 +1695,10 @@ de:
   agent_functions:
     <<: *agent_function_attributes
 
-  agent_function_merge_target:
+  agent_function_merge_destination:
     <<: *agent_function_attributes
 
-  agent_function_merge_victim:
+  agent_function_merge_candidate:
     <<: *agent_function_attributes
   agent_place: &agent_place_attributes
     _singular: Ort
@@ -1719,10 +1719,10 @@ de:
   agent_places:
     <<: *agent_place_attributes
 
-  agent_place_merge_target:
+  agent_place_merge_destination:
     <<: *agent_place_attributes
 
-  agent_place_merge_victim:
+  agent_place_merge_candidate:
     <<: *agent_place_attributes
   agent_occupation: &agent_occupation_attributes
     _singular: Beruf
@@ -1743,10 +1743,10 @@ de:
   agent_occupations:
     <<: *agent_occupation_attributes
 
-  agent_occupation_merge_target:
+  agent_occupation_merge_destination:
     <<: *agent_occupation_attributes
 
-  agent_occupation_merge_victim:
+  agent_occupation_merge_candidate:
     <<: *agent_occupation_attributes
   agent_topic: &agent_topic_attributes
     _singular: Thema
@@ -1767,10 +1767,10 @@ de:
   agent_topics:
     <<: *agent_topic_attributes
 
-  agent_topic_merge_target:
+  agent_topic_merge_destination:
     <<: *agent_topic_attributes
 
-  agent_topic_merge_victim:
+  agent_topic_merge_candidate:
     <<: *agent_topic_attributes
   agent_identifier: &agent_identifier_attributes
     identifier_type: Signatur-Typ
@@ -1786,10 +1786,10 @@ de:
   agent_identifier_required:
     <<: *agent_identifier_attributes
 
-  agent_identifier_merge_target:
+  agent_identifier_merge_destination:
     <<: *agent_identifier_attributes
 
-  agent_identifier_merge_victim:
+  agent_identifier_merge_candidate:
     <<: *agent_identifier_attributes
   agent_record_identifier: &agent_record_identifier_attributes
     source: Quelle
@@ -1808,10 +1808,10 @@ de:
   agent_record_identifier_required:
     <<: *agent_record_identifier_attributes
 
-  agent_record_identifier_merge_target:
+  agent_record_identifier_merge_destination:
     <<: *agent_record_identifier_attributes
 
-  agent_record_identifier_merge_victim:
+  agent_record_identifier_merge_candidate:
     <<: *agent_record_identifier_attributes
   metadata_rights_declaration: &metadata_rights_declaration_attributes
     _singular: Rechteerklärung von Metadaten
@@ -1834,10 +1834,10 @@ de:
   metadata_rights_declaration_required:
     <<: *metadata_rights_declaration_attributes
 
-  metadata_rights_declaration_merge_target:
+  metadata_rights_declaration_merge_destination:
     <<: *metadata_rights_declaration_attributes
 
-  metadata_rights_declaration_merge_victim:
+  metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes
   agent_gender: &agent_gender_attributes
     _singular: Geschlecht
@@ -1854,10 +1854,10 @@ de:
   agent_gender_required:
     <<: *agent_gender_attributes
 
-  agent_gender_merge_target:
+  agent_gender_merge_destination:
     <<: *agent_gender_attributes
 
-  agent_gender_merge_victim:
+  agent_gender_merge_candidate:
     <<: *agent_gender_attributes
   agent_resource: &agent_resource_attributes
     _singular: Verwandte externe Ressource
@@ -1887,10 +1887,10 @@ de:
   agent_resource_required:
     <<: *agent_resource_attributes
 
-  agent_resource_merge_victim:
+  agent_resource_merge_candidate:
     <<: *agent_resource_attributes
 
-  agent_resource_merge_target:
+  agent_resource_merge_destination:
     <<: *agent_resource_attributes
   database_warning:
     message: <p><strong>Datenbank Warnung:</strong> Sie verwenden derzeit die eingebaute
@@ -2068,10 +2068,10 @@ de:
         batch_merge_container_profile_mismatch_warning: Diese Haupt-Behältnisse haben
           verschiedene vom Ziel-Behältnis verschiedene Behältnis-Profile. Das Behältnis-Profile
           wird nicht mit dem Ziel-Behältnis zusammengeführt werden.
-        batch_merge_confirm_victims: 'Die folgenden Haupt-Behältnisse zusammenführen:'
-        batch_merge_confirm_target: 'In dieses Haupt-Behältnis:'
+        batch_merge_confirm_merge_candidates: 'Die folgenden Haupt-Behältnisse zusammenführen:'
+        batch_merge_confirm_merge_destination: 'In dieses Haupt-Behältnis:'
         batch_delete_help: Alle gewählten Behältnisse löschen.
-        select_merge_target: Ziel zum Zusammenführen wählen
+        select_merge_destination: Ziel zum Zusammenführen wählen
         merge_n_records: '%{n} Aufzeichnungen zusammenführen'
         delete_n_records: '%{n} Aufzeichnungen löschen'
         update_locations_new_location: Neuer Standort
@@ -2154,15 +2154,15 @@ de:
       bulk_operations:
         merge: Behältnis-Profile zusammenführen
         confirm_merge: Zusammenführen von Behältnis-Profilen bestätigen
-        confirm_merge_target: 'In dieses Behältnis-Profil:'
+        confirm_merge_destination: 'In dieses Behältnis-Profil:'
         merge_instructions: Wählen Sie das Behältnis-Profil mit dem alle anderen aufgeführten
           Behältnis-Profile zusammengeführt werden. Jede verknüpfte Aufzeichnung wird
           neu mit diesem Profil verknüpft und alle Informationen der anderen Behältnis-Profile
           werden gelöscht.
-        merge_select_target: Wählen Sie das Ziel zum Zusammenführen aus
+        merge_select_merge_destination: Wählen Sie das Ziel zum Zusammenführen aus
         confirm_merge_question: Sind Sie sicher, dass Sie die unten aufgeführten Behältnis-Profile
           zusammenführen möchten? Diese Aktion kann nicht rückgängig gemacht werden.
-        confirm_merge_victims: 'Zusammenführen folgender Behältnis-Profile:'
+        confirm_merge_candidates: 'Zusammenführen folgender Behältnis-Profile:'
       messages:
         created: Behältnis-Profil erstellt
         updated: Behältnis-Profil aktualisiert
@@ -2445,10 +2445,10 @@ de:
   agent_conventions_declaration_required:
     <<: *agent_conventions_declaration_attributes
 
-  agent_conventions_declaration_merge_target:
+  agent_conventions_declaration_merge_destination:
     <<: *agent_conventions_declaration_attributes
 
-  agent_conventions_declaration_merge_victim:
+  agent_conventions_declaration_merge_candidate:
     <<: *agent_conventions_declaration_attributes
   custom_report_template:
     _frontend:
@@ -2529,10 +2529,10 @@ de:
   agent_record_control_required:
     <<: *agent_record_control_attributes
 
-  agent_record_control_merge_target:
+  agent_record_control_merge_destination:
     <<: *agent_record_control_attributes
 
-  agent_record_control_merge_victim:
+  agent_record_control_merge_candidate:
     <<: *agent_record_control_attributes
   agent_alternate_set: &agent_alternate_set_attributes
     file_version_xlink_actuate_attribute: Xlink Actuate-Attribut
@@ -2555,10 +2555,10 @@ de:
   agent_alternate_set_required:
     <<: *agent_alternate_set_attributes
 
-  agent_alternate_set_merge_target:
+  agent_alternate_set_merge_destination:
     <<: *agent_alternate_set_attributes
 
-  agent_alternate_set_merge_victim:
+  agent_alternate_set_merge_candidate:
     <<: *agent_alternate_set_attributes
   agent_source: &agent_source_attributes
     _plural: Quellen
@@ -2581,10 +2581,10 @@ de:
   agent_source_required:
     <<: *agent_source_attributes
 
-  agent_source_merge_target:
+  agent_source_merge_destination:
     <<: *agent_source_attributes
 
-  agent_source_merge_victim:
+  agent_source_merge_candidate:
     <<: *agent_source_attributes
   agent_name:
     use_dates: Verwendungs-Daten
@@ -2611,10 +2611,10 @@ de:
   agent_other_agency_code_required:
     <<: *agent_other_agency_code_attributes
 
-  agent_other_agency_code_merge_target:
+  agent_other_agency_code_merge_destination:
     <<: *agent_other_agency_code_attributes
 
-  agent_other_agency_code_merge_victim:
+  agent_other_agency_code_merge_candidate:
     <<: *agent_other_agency_code_attributes
   agent_maintenance_history: &agent_maintenance_history_attributes
     _plural: Wartungsverlauf
@@ -2633,10 +2633,10 @@ de:
   agent_maintenance_history_required:
     <<: *agent_maintenance_history_attributes
 
-  agent_maintenance_history_merge_target:
+  agent_maintenance_history_merge_destination:
     <<: *agent_maintenance_history_attributes
 
-  agent_maintenance_history_merge_victim:
+  agent_maintenance_history_merge_candidate:
     <<: *agent_maintenance_history_attributes
   subsections:
     dates: Daten
@@ -2713,6 +2713,6 @@ de:
     _singular: Eingangs-Verknüpfung
   footer:
     public_interface: <a href="%{public_url}">Zum öffentlichen Katalog</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' merge_destination='_blank'>Rückmeldung
       geben oder ein Problem melden</a>
     archivesspace_home: Besuchen Sie <a href='http://archivesspace.org'>ArchivesSpace.org</a>

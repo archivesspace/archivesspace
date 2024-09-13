@@ -117,11 +117,11 @@ class TopContainersController < ApplicationController
 
 
   def batch_merge
-    merge_list = params[:victims]
-    target = params[:target]
-    victims = merge_list - target
-    handle_merge(victims,
-                  target[0],
+    merge_list = params[:merge_candidates]
+    merge_destination = params[:merge_destination]
+    merge_candidates = merge_list - merge_destination
+    handle_merge(merge_candidates,
+                  merge_destination[0],
                   'top_container')
   end
 

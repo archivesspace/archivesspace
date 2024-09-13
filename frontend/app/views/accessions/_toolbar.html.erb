@@ -49,8 +49,7 @@
                     :locals => {:record => @accession,
                                 :controller => controller.controller_name,
                                 :confirmation_title => t("actions.transfer_confirm_title"),
-                                :confirmation_msg => t("actions.transfer_confirm_message",
-                                                            :target => @accession.title)}
+                                :confirmation_msg => t("actions.transfer_confirm_message", :target => @accession.title)}
           %>
         <% end %>
         <div class="btn-group" id="other-dropdown">

@@ -53,7 +53,7 @@ ja:
       [エージェントの比較]ボタンをクリックすると、各レコードからどのフィールドとサブレコードを保持するかを選択するための画面が表示されます。
     merge_agent_from_browse_confirm_message: "選択された最初のエージェントには、後で選択されたレコードがマージされます。その後選択されたすべてのレコードは削除され、リンクされたレコードは選択された最初のエージェントに再リンクされます."
     merge_resource_confirm_message: リソース '%{source}'には、選択したレコードがマージされます。選択したすべてのレコードが削除され、リンクされたレコードはすべてこのリソースに再リンクされます。
-    merge_container_profile_confirm_message: "The container profile '%{target}' will\
+    merge_container_profile_confirm_message: "The container profile '%{merge_destination}' will\
       \ have the selected records merged into it. All selected records will be deleted\
       \ and any linked records will be re-linked to this resource."
     batch_merge: "Select the record into which all of the other listed record(s) will\
@@ -79,7 +79,7 @@ ja:
     suppress_confirm_message: 抑制されたレコードはデータベースに残っていますが、ほとんどのユーザーには表示されなくなり、ほとんどの機能では使用できなくなります。
     transfer: 転送
     transfer_confirm_title: このレコードを転送しますか？
-    transfer_confirm_message: レコード '%{target}'は選択したリポジトリに転送されます
+    transfer_confirm_message: レコード '%{merge_destination}'は選択したリポジトリに転送されます
     transfer_successful: 転送成功。インデックスの再作成中にレコードがターゲットリポジトリに表示されるまでに時間がかかることがあります。
     transfer_failed: 転送に失敗しました
     transfer_failed_records_using_digital_objects: 次のレコードは、転送されるデジタルオブジェクトにリンクしますが、そのようにすると、インスタンスリンクが破損します
@@ -697,7 +697,7 @@ ja:
     error_404_message: アクセスしようとしたレコードが存在しなくなったり、アクセス権を持っていない可能性があります。
     error_tree_pane_ajax: このフォームの読み込み中にエラーが発生しました。
     merge_conflict: エージェントをマージできませんでした： %{message}
-    merge_too_many_victims: 詳細なマージのために選択できるエージェントは1つだけです.
+    merge_too_many_merge_candidates: 詳細なマージのために選択できるエージェントは1つだけです.
     merge_different_types: 詳細なマージのために選択されたエージェントは、同じタイプでなければなりません.
     linked_to_assessment: レコードは評価にリンクされているため削除できません
     linked_to_user: レコードはユーザーにリンクされているため削除できません
@@ -713,7 +713,7 @@ ja:
         suppressed_info: アクセッションは抑制され、編集できません
         deleted: アクセッション<strong>%{accession_display_string}</strong>削除されました
         transfer_description: このアクセス権を以下に転送します...
-        transfer_target: 移行するリポジトリを選択する
+        transfer_merge_destination: 移行するリポジトリを選択する
         spawned: このアクセッションはAccession <strong>%{accession_display_string}</strong>から生成されました<strong>%{accession_display_string}</strong>
         delete_conflict: アクセッションを削除できませんでした： <pre> %{error} </pre>
       section:
@@ -747,8 +747,8 @@ ja:
         contacts: 連絡先の詳細
         search_embedded: リンクされたレコード
         linked_via_rights_statement: 権利声明によるリンクされたレコード
-        target_record: このレコードは更新されます
-        victim_record: このレコードは削除されます
+        merge_destination_record: このレコードは更新されます
+        merge_candidate_record: このレコードは削除されます
       action:
         create: エージェントを作成する
         preview: マージプレビュー
@@ -898,7 +898,7 @@ ja:
         please_select_a_digital_object_to_merge: デジタルオブジェクトを選択してください
         merged: デジタルオブジェクトが結合されました
         transfer_description: このリソースを転送する...
-        transfer_target: 移行するリポジトリを選択する
+        transfer_merge_destination: 移行するリポジトリを選択する
         unsuppressed: デジタルオブジェクト<strong>%{digital_object_title}</strong>抑制されていません
         suppressed: デジタルオブジェクト<strong>%{digital_object_title}</strong>され<strong>%{digital_object_title}</strong>
         suppressed_info: デジタルオブジェクトが抑制され、編集できない
@@ -1145,7 +1145,7 @@ ja:
           \ </p>"
         continue_with_transfer: 転送を続行しますか？
         transfer_failed: 次のエラーが原因で転送が完了できませんでした
-        transfer_target: 移行するリポジトリを選択する
+        transfer_merge_destination: 移行するリポジトリを選択する
         transfer_warning: "<strong>警告：</strong>このリポジトリを転送すると、 <strong>すべて</strong>のレコードが選択したリポジトリに移動<strong>し</strong>ます。\
           \ <strong>この操作は元に戻すことはできません</strong>"
         cannot_delete_nonempty: 削除できません - リポジトリは空ではありません
@@ -1175,7 +1175,7 @@ ja:
         please_select_a_resource_to_merge: リソースを選択してください
         merged: 結合されたリソース
         transfer_description: このリソースを転送する...
-        transfer_target: 移行するリポジトリを選択する
+        transfer_merge_destination: 移行するリポジトリを選択する
         unsuppressed: リソース<strong>%{resource_title}</strong>抑制されていません
         suppressed: リソース<strong>%{resource_title}</strong>されません
         suppressed_info: リソースは抑制され、編集できません
@@ -1547,12 +1547,12 @@ ja:
         batch_merge_confirm_question: 以下にリストされているように、最上位のコンテナーをマージしてもよろしいですか？ このアクションは元に戻せません。
         batch_merge_container_profile_too_many_warning: これらのトップコンテナが別のコンテナプロファイルを有します。これらのコンテナプロファイルはいずれも、ターゲットコンテナにマージしません。
         batch_merge_container_profile_mismatch_warning: これらのトップコンテナは、ターゲットトップ容器とは異なるコンテナプロファイルを持っています。コンテナプロファイルは、ターゲットコンテナにマージしません。
-        batch_merge_confirm_victims: "次の上位コンテナをマージします:"
-        batch_merge_confirm_target: "この一番上のコンテナに:"
+        batch_merge_confirm_merge_candidates: "次の上位コンテナをマージします:"
+        batch_merge_confirm_merge_destination: "この一番上のコンテナに:"
         batch_delete: トップコンテナの削除
         batch_delete_help: 選択したすべてのコンテナを削除します。
         update_n_records: "%{n}レコードを更新する"
-        select_merge_target: マージターゲットを選択
+        select_merge_destination: マージターゲットを選択
         merge_n_records: "%{n} 件記録"
         delete_n_records: "%{n}レコードを削除する"
         update_locations_current_location: 現在位置
@@ -1578,11 +1578,11 @@ ja:
       bulk_operations:
         merge: コンテナプロファイルのマージ
         merge_instructions: リストされている他のすべてのコンテナプロファイルがマージされるコンテナプロファイルを選択します。 リンクされたレコードはすべてこのプロファイルに再リンクされ、他のコンテナプロファイルのすべての情報が削除されます。
-        merge_select_target: マージターゲットを選択
+        merge_select_merge_destination: マージターゲットを選択
         confirm_merge: マージコンテナプロファイルの確認
         confirm_merge_question: 以下にリストされているように、コンテナープロファイルをマージしてもよろしいですか？ このアクションは元に戻せません。
-        confirm_merge_victims: "次のコンテナプロファイルをマージします:"
-        confirm_merge_target: "このコンテナプロファイルに:"
+        confirm_merge_candidates: "次のコンテナプロファイルをマージします:"
+        confirm_merge_destination: "このコンテナプロファイルに:"
     name: 名
     name_tooltip: "<p>必要なフィールド。コンテナプロファイルの名前。ジェネリックまたは特定のものがあります。 </p><p>例： </p><ul><li>ドキュメントボックス</li><li>ページ15\
       \ </li><li>小さなカードのファイルボックス</li></ul>"
@@ -1991,7 +1991,7 @@ ja:
     language: 言語
     script: 脚本
     language_note: 言語ノート
-  agent_record_control_merge_target:
+  agent_record_control_merge_destination:
     _plural: 記録情報
     _singular: 記録情報
     _frontend:
@@ -2012,7 +2012,7 @@ ja:
     language: 言語
     script: 脚本
     language_note: 言語ノート
-  agent_record_control_merge_victim:
+  agent_record_control_merge_candidate:
     _plural: 記録情報
     _singular: 記録情報
     _frontend:
@@ -2060,7 +2060,7 @@ ja:
     gender: 性別
     note: 注意
     dates: 日付
-  agent_gender_merge_target:
+  agent_gender_merge_destination:
     _plural: 性別
     _singular: 性別
     _frontend:
@@ -2069,7 +2069,7 @@ ja:
     gender: 性別
     note: 注意
     dates: 日付
-  agent_gender_merge_victim:
+  agent_gender_merge_candidate:
     _plural: 性別
     _singular: 性別
     _frontend:
@@ -2102,7 +2102,7 @@ ja:
         add: 言語を追加する
     language: 言語
     script: 脚本
-  used_language_merge_victim:
+  used_language_merge_candidate:
     _plural: 使用される言語
     _singular: 使用言語
     _frontend:
@@ -2110,7 +2110,7 @@ ja:
         add: 言語を追加する
     language: 言語
     script: 脚本
-  used_language_merge_target:
+  used_language_merge_destination:
     _plural: 使用される言語
     _singular: 使用言語
     _frontend:
@@ -2142,7 +2142,7 @@ ja:
         add: エンティティIDを追加します
     identifier_type: 識別子の種類
     entity_identifier: エンティティID
-  agent_identifier_merge_target:
+  agent_identifier_merge_destination:
     _plural: エンティティID
     _singular: 識別子
     _frontend:
@@ -2150,7 +2150,7 @@ ja:
         add: エンティティIDを追加します
     identifier_type: 識別子の種類
     entity_identifier: エンティティID
-  agent_identifier_merge_victim:
+  agent_identifier_merge_candidate:
     _plural: エンティティID
     _singular: 識別子
     _frontend:
@@ -2197,7 +2197,7 @@ ja:
     dates: 日付
     subjects: 場所
     publish: 公開済み
-  agent_place_merge_target:
+  agent_place_merge_destination:
     _frontend:
       action:
         add: 場所を追加
@@ -2210,7 +2210,7 @@ ja:
     dates: 日付
     subjects: 場所
     publish: 公開済み
-  agent_place_merge_victim:
+  agent_place_merge_candidate:
     _frontend:
       action:
         add: 場所を追加
@@ -2262,7 +2262,7 @@ ja:
     subjects: 職業
     places: 場所
     publish: 公開済み
-  agent_occupation_merge_target:
+  agent_occupation_merge_destination:
     _frontend:
       action:
         add: 職業を追加する
@@ -2275,7 +2275,7 @@ ja:
     subjects: 職業
     places: 場所
     publish: 公開済み
-  agent_occupation_merge_victim:
+  agent_occupation_merge_candidate:
     _frontend:
       action:
         add: 職業を追加する
@@ -2327,7 +2327,7 @@ ja:
     subjects: 機能
     places: 場所
     publish: 公開済み
-  agent_function_merge_target:
+  agent_function_merge_destination:
     _frontend:
       action:
         add: 機能の追加
@@ -2340,7 +2340,7 @@ ja:
     subjects: 機能
     places: 場所
     publish: 公開済み
-  agent_function_merge_victim:
+  agent_function_merge_candidate:
     _frontend:
       action:
         add: 機能の追加
@@ -2392,7 +2392,7 @@ ja:
     subjects: トピック
     places: 場所
     publish: 公開済み
-  agent_topic_merge_target:
+  agent_topic_merge_destination:
     _frontend:
       action:
         add: トピックを追加
@@ -2405,7 +2405,7 @@ ja:
     subjects: トピック
     places: 場所
     publish: 公開済み
-  agent_topic_merge_victim:
+  agent_topic_merge_candidate:
     _frontend:
       action:
         add: トピックを追加
@@ -2468,7 +2468,7 @@ ja:
     file_version_xlink_actuate_attribute: XlinkActuate属性
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
-  agent_alternate_set_merge_target:
+  agent_alternate_set_merge_destination:
     _plural: 代替セット
     _singular: 代替セット
     _frontend:
@@ -2483,7 +2483,7 @@ ja:
     file_version_xlink_actuate_attribute: XlinkActuate属性
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
-  agent_alternate_set_merge_victim:
+  agent_alternate_set_merge_candidate:
     _plural: 代替セット
     _singular: 代替セット
     _frontend:
@@ -2546,7 +2546,7 @@ ja:
     file_version_xlink_actuate_attribute: XlinkActuate属性
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
-  agent_conventions_declaration_merge_target:
+  agent_conventions_declaration_merge_destination:
     _plural: 条約宣言
     _singular: 条約宣言
     _frontend:
@@ -2562,7 +2562,7 @@ ja:
     file_version_xlink_actuate_attribute: XlinkActuate属性
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
-  agent_conventions_declaration_merge_victim:
+  agent_conventions_declaration_merge_candidate:
     _plural: 条約宣言
     _singular: 条約宣言
     _frontend:
@@ -2602,7 +2602,7 @@ ja:
         add: 代理店コードを追加
     agency_code_type: レコード管理機関のコードタイプ
     maintenance_agency: 整備庁
-  agent_other_agency_code_merge_target:
+  agent_other_agency_code_merge_destination:
     _plural: その他の機関コード
     _singular: その他の機関コード
     _frontend:
@@ -2610,7 +2610,7 @@ ja:
         add: 代理店コードを追加
     agency_code_type: レコード管理機関のコードタイプ
     maintenance_agency: 整備庁
-  agent_other_agency_code_merge_victim:
+  agent_other_agency_code_merge_candidate:
     _plural: その他の機関コード
     _singular: その他の機関コード
     _frontend:
@@ -2651,7 +2651,7 @@ ja:
     agent: エージェント
     descriptive_note: 注釈
     event_date: 開催日
-  agent_maintenance_history_merge_target:
+  agent_maintenance_history_merge_destination:
     _plural: メンテナンス履歴
     _singular: エージェントのメンテナンス履歴
     _frontend:
@@ -2662,7 +2662,7 @@ ja:
     agent: エージェント
     descriptive_note: 注釈
     event_date: 開催日
-  agent_maintenance_history_merge_victim:
+  agent_maintenance_history_merge_candidate:
     _plural: メンテナンス履歴
     _singular: エージェントのメンテナンス履歴
     _frontend:
@@ -2706,7 +2706,7 @@ ja:
     primary_identifier: 一次識別子はありますか？
     primary: プライマリ
     record_identifier: レコード識別子
-  agent_record_identifier_merge_target:
+  agent_record_identifier_merge_destination:
     _plural: レコードID
     _singular: レコードID
     _frontend:
@@ -2717,7 +2717,7 @@ ja:
     primary_identifier: 一次識別子はありますか？
     primary: プライマリ
     record_identifier: レコード識別子
-  agent_record_identifier_merge_victim:
+  agent_record_identifier_merge_candidate:
     _plural: レコードID
     _singular: レコードID
     _frontend:
@@ -2773,7 +2773,7 @@ ja:
     file_version_xlink_actuate_attribute: XlinkActuate属性
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
-  agent_source_merge_target:
+  agent_source_merge_destination:
     _plural: ソース
     _singular: エージェントソース
     _frontend:
@@ -2788,7 +2788,7 @@ ja:
     file_version_xlink_actuate_attribute: XlinkActuate属性
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
-  agent_source_merge_victim:
+  agent_source_merge_candidate:
     _plural: ソース
     _singular: エージェントソース
     _frontend:
@@ -2874,7 +2874,7 @@ ja:
     file_version_xlink_actuate_attribute: XlinkActuate属性
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
-  agent_resource_merge_victim:
+  agent_resource_merge_candidate:
     _frontend:
       action:
         add: 関連する外部リソースを追加する
@@ -2896,7 +2896,7 @@ ja:
     file_version_xlink_actuate_attribute: XlinkActuate属性
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
-  agent_resource_merge_target:
+  agent_resource_merge_destination:
     _frontend:
       action:
         add: 関連する外部リソースを追加する
@@ -2955,8 +2955,8 @@ ja:
   metadata_rights_declaration_required:
     <<: *metadata_rights_declaration_attributes
 
-  metadata_rights_declaration_merge_target:
+  metadata_rights_declaration_merge_destination:
     <<: *metadata_rights_declaration_attributes
 
-  metadata_rights_declaration_merge_victim:
+  metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes

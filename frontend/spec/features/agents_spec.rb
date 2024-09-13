@@ -8,8 +8,6 @@ describe 'Agents', js: true do
     @admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
   end
 
-  let(:repository) { create(:repo, repo_code: "agents_test_#{Time.now.to_i}") }
-
   before(:each) do
     login_user(@admin)
   end

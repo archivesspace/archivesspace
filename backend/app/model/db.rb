@@ -361,22 +361,22 @@ class DB
       if !SUPPORTED_DATABASES.any? {|db| url =~ db[:pattern]}
 
         msg = <<~eof
-          
+
           =======================================================================
           UNSUPPORTED DATABASE
           =======================================================================
-          
+
           The database listed in your configuration:
-          
+
             #{url}
-          
+
           is not officially supported by ArchivesSpace.  Although the system may
           still work, there's no guarantee that future versions will continue to
           work, or that it will be possible to upgrade without losing your data.
-          
+
           It is strongly recommended that you run ArchivesSpace against one of
           these supported databases:
-          
+
         eof
 
         SUPPORTED_DATABASES.each do |db|
@@ -385,14 +385,14 @@ class DB
 
         msg += "\n"
         msg += <<~eof
-          
+
           To ignore this (very good) advice, you can set the configuration option:
-          
+
             AppConfig[:allow_unsupported_database] = true
-          
-          
+
+
           =======================================================================
-          
+
         eof
 
         Log.error(msg)
@@ -415,9 +415,9 @@ class DB
         end
       end
 
-      victims = backups.sort.reverse.drop(AppConfig[:demo_db_backup_number_to_keep])
+      expired_backups = backups.sort.reverse.drop(AppConfig[:demo_db_backup_number_to_keep])
 
-      victims.each do |backup_dir|
+      expired_backups.each do |backup_dir|
         # Proudly paranoid
         if File.exist?(File.join(backup_dir, "archivesspace_demo_db", "BACKUP.HISTORY"))
           Log.info("Expiring old backup: #{backup_dir}")
@@ -493,23 +493,23 @@ class DB
 
       unless (non_utf8_tables.empty?)
         msg = <<~EOF
-          
+
           The following MySQL database tables are not set to use UTF-8 for their character
           encoding:
-          
+
           #{non_utf8_tables.map {|t| "  * " + t[:TABLE_NAME]}.join("\n")}
-          
+
           Please refer to README.md for instructions on configuring your database to use
           UTF-8.
-          
+
           If you want to override this restriction (not recommended!) you can set the
           following option in your config.rb file:
-          
+
             AppConfig[:allow_non_utf8_mysql_database] = true
-          
+
           But note that ArchivesSpace largely assumes that your data will be UTF-8
           encoded.  Running in a non-UTF-8 configuration is not supported.
-          
+
         EOF
 
         Log.warn(msg)

@@ -35,7 +35,7 @@
       <% disable_replace = true %>
 
       <%= form.record_level_merge_controls(form, "related_agents", true, !disable_replace) %>
-      
+
       <div class="subrecord-form-container">
         <%= form.hidden_input(:jsonmodel_type, "#{relationship_type}") %>
         <%= form.label_and_readonly("relator") %>
@@ -63,7 +63,7 @@
         <%= form.label_and_readonly("description") %>
 
         <% if !form.readonly? || !form['dates'].blank? %>
-          <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates", :template_erb => "dates/template_merge_target", :template => "date", :cardinality => :zero_to_one} %>
+          <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates", :template_erb => "dates/template_merge_destination", :template => "date", :cardinality => :zero_to_one} %>
         <% end %>
       </div>
     </div>

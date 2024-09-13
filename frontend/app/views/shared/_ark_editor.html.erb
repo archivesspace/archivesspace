@@ -243,9 +243,9 @@
      });
 
      this.rootElt.on('click', 'button.remove-ark', function () {
-         var victim = $(this).closest('tr').find('.ark-value').text();
+         var merge_candidate = $(this).closest('tr').find('.ark-value').text();
 
-         self.previousArks = self.previousArks.filter((v) => v !== victim);
+         self.previousArks = self.previousArks.filter((v) => v !== merge_candidate);
 
          self.refreshTable();
      });

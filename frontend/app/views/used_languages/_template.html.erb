@@ -12,7 +12,7 @@
   </div>
 <% end %>
 
-<% define_template "used_language_merge_target", jsonmodel_definition(:used_language) do |form| %>
+<% define_template "used_language_merge_destination", jsonmodel_definition(:used_language) do |form| %>
 
   <%= form.record_level_merge_controls(form, "used_language", false) %>
 
@@ -22,7 +22,7 @@
   <% end %>
 <% end %>
 
-<% define_template "used_language_merge_victim", jsonmodel_definition(:used_language) do |form| %>
+<% define_template "used_language_merge_candidate", jsonmodel_definition(:used_language) do |form| %>
 
   <% disable_replace = false %>
 
