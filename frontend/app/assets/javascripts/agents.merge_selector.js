@@ -47,7 +47,7 @@ $(function () {
     );
   });
 
-  // run victim side code to color replaceable items
+  // run merge_candidate side code to color replaceable items
   $(function () {
     var enableReplace = function (items) {
       items.each(function () {
@@ -89,7 +89,7 @@ $(function () {
       });
     };
 
-    // for each li element in section on left (target), enable replace and color corrsponding element in section on right (victim)
+    // for each li element in section on left (target), enable replace and color corrsponding element in section on right (merge_candidate)
     var find_replace_elements = function (section) {
       var left_group_parent_id = section.attr('id');
       var right_group_parent_id = '#'.concat(

@@ -10,7 +10,7 @@
   </div>
 <% end %>
 
-<% define_template "agent_identifier_merge_target", jsonmodel_definition(:agent_identifier) do |form| %>
+<% define_template "agent_identifier_merge_destination", jsonmodel_definition(:agent_identifier) do |form| %>
 
   <%= form.record_level_merge_controls(form, "agent_identifier", false) %>
 
@@ -20,7 +20,7 @@
   <% end %>
 <% end %>
 
-<% define_template "agent_identifier_merge_victim", jsonmodel_definition(:agent_identifier) do |form| %>
+<% define_template "agent_identifier_merge_candidate", jsonmodel_definition(:agent_identifier) do |form| %>
 
   <% disable_replace = true %>
 

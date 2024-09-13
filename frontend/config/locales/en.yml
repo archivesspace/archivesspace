@@ -57,7 +57,7 @@ en:
     merge_agent_confirm_message: "The agent '%{source}' will have the selected record merged into it. The selected record will be deleted and any linked records will be re-linked to this agent. Clicking the Compare Agents button will bring up a screen that gives you the option to choose which fields and sub-records to retain from each record."
     merge_agent_from_browse_confirm_message: "The first agent selected will have the subsequently selected records merged into it. All subsequently selected records will be deleted and any linked records will be re-linked to the first agent selected."
     merge_resource_confirm_message: "The resource '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
-    merge_container_profile_confirm_message: "The container profile '%{target}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
+    merge_container_profile_confirm_message: "The container profile '%{merge_destination}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
     batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
     merge_n_records: "Merge %{n} records"
     move: Move
@@ -80,7 +80,7 @@ en:
     transfer: Transfer
     transfer_confirm_title: Transfer this record?
     transfer_confirm_message: "The record '%{target}' will be transferred to the repository you selected"
-    transfer_successful: Transfer Successful.  Records may take a moment to appear in the target repository while re-indexing takes place.
+    transfer_successful: Transfer Successful. Records may take a moment to appear in the target repository while re-indexing takes place.
     transfer_failed: Transfer Failed
     transfer_failed_records_using_digital_objects: "The following records link to digital objects that would be transferred, but doing so would break their instance links"
     transfer_failed_digital_objects_linked_to_records: "This digital object links to other records held in this repository. To proceed with this transfer, remove the links in the following records"
@@ -764,7 +764,7 @@ en:
     error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
     error_tree_pane_ajax: An error occurred loading this form.
     merge_conflict: "Merging agent(s) could not complete: %{message}"
-    merge_too_many_victims: Only one agent may be selected for this merge.
+    merge_too_many_merge_candidates: Only one agent may be selected for this merge.
     merge_different_types: Agents selected for this merge must be of the same type.
     merge_denied_for_system_user: One or more agents is a system user.
     merge_denied_relationship: These agents have a relationship. Remove relationship before proceeding with merge.
@@ -799,7 +799,7 @@ en:
         suppressed_info: Accession is suppressed and cannot be edited
         deleted: Accession <strong>%{accession_display_string}</strong> deleted
         transfer_description: Transfer this accession to...
-        transfer_target: Select a repository to transfer into
+        transfer_merge_destination: Select a repository to transfer into
         spawned: "This Accession has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         delete_conflict: "Accession could not be deleted: <pre>%{error}</pre>"
       section:
@@ -832,8 +832,8 @@ en:
         search_embedded: Linked Records
         linked_via_rights_statement: Linked Records via Rights Statement
         events: Events
-        target_record: This record will be updated
-        victim_record: This record will be deleted
+        merge_destination_record: This record will be updated
+        merge_candidate_record: This record will be deleted
         structured_date_single_fields: Single Date
         structured_date_range_fields: Range Date
       action:
@@ -1037,7 +1037,7 @@ en:
         please_select_a_digital_object_to_merge: Please select a digital object
         merged: Digital object(s) Merged
         transfer_description: Transfer this resource to...
-        transfer_target: Select a repository to transfer into
+        transfer_merge_destination: Select a repository to transfer into
         unsuppressed: Digital Object <strong>%{digital_object_title}</strong> unsuppressed
         suppressed: Digital Object <strong>%{digital_object_title}</strong> suppressed
         suppressed_info: Digital Object is suppressed and cannot be edited
@@ -1295,7 +1295,7 @@ en:
         no_access_to_repositories: "<p>You do not have access to any Repositories.</p><p>Please contact your System Administrator to request access.</p>"
         continue_with_transfer: Continue with transfer?
         transfer_failed: Transfer could not complete due to the following errors
-        transfer_target: Select a repository to transfer into
+        transfer_merge_destination: Select a repository to transfer into
         transfer_warning: <strong>Warning:</strong> Transferring this repository will move <strong>all</strong> of its records into the repository you select.  <strong>This action cannot be reversed</strong>
         cannot_delete_nonempty: Cannot delete - repository not empty
       section:
@@ -1325,7 +1325,7 @@ en:
         please_select_a_resource_to_merge: Please select a resource
         merged: Resource(s) Merged
         transfer_description: Transfer this resource to...
-        transfer_target: Select a repository to transfer into
+        transfer_merge_destination: Select a repository to transfer into
         unsuppressed: Resource <strong>%{resource_title}</strong> unsuppressed
         suppressed: Resource <strong>%{resource_title}</strong> suppressed
         suppressed_info: Resource is suppressed and cannot be edited
@@ -1735,14 +1735,14 @@ en:
         batch_merge_instructions: Select the top container into which all of the other listed top container(s) will merge. Linked accessions, resources, resource components, and events will be re-linked to this container. Container profiles will be moved to this container only when it does not already have one. Locations and all other information for the other top container(s) will be deleted.
         batch_merge_confirm: Confirm Merge Top Containers
         batch_merge_confirm_question: Are you sure you want to merge the top containers as listed below? This action is irreversible.
-        batch_merge_container_profile_too_many_warning: These top containers have different container profiles. None of these container profiles will merge into the target container.
-        batch_merge_container_profile_mismatch_warning: These top containers have a different container profile than the target top container. The container profile will not merge into the target container.
-        batch_merge_confirm_victims: "Merge the following top container(s):"
-        batch_merge_confirm_target: "Into this top container:"
+        batch_merge_container_profile_too_many_warning: These top containers have different container profiles. None of these container profiles will merge into the merge destination container.
+        batch_merge_container_profile_mismatch_warning: These top containers have a different container profile than the merge destination top container. The container profile will not merge into the merge destination container.
+        batch_merge_confirm_merge_candidates: "Merge the following top container(s):"
+        batch_merge_confirm_merge_destination: "Into this top container:"
         batch_delete: Delete Top Containers
         batch_delete_help: Delete all selected containers.
         update_n_records: "Update %{n} records"
-        select_merge_target: Select merge target
+        select_merge_destination: Select merge destination
         merge_n_records: "Merge %{n} records"
         delete_n_records: "Delete %{n} records"
         update_locations_current_location: Current Location
@@ -1772,11 +1772,11 @@ en:
       bulk_operations:
         merge: Merge Container Profiles
         merge_instructions: Select the container profile into which all of the other listed container profile(s) will merge. Any linked records will be re-linked to this profile and all information for the other container profile(s) will be deleted.
-        merge_select_target: Select merge target
+        merge_select_merge_destination: Select merge destination
         confirm_merge: Confirm Merge Container Profiles
         confirm_merge_question: Are you sure you want to merge the container profiles as listed below? This action is irreversible.
-        confirm_merge_victims: "Merge the following container profile(s):"
-        confirm_merge_target: "Into this container profile:"
+        confirm_merge_candidates: "Merge the following container profile(s):"
+        confirm_merge_destination: "Into this container profile:"
     notes: Note
     notes_tooltip: |
       <p>A note for miscellaneous information/metadata.</p>
@@ -2108,10 +2108,10 @@ en:
   agent_record_control_required:
     <<: *agent_record_control_attributes
 
-  agent_record_control_merge_target:
+  agent_record_control_merge_destination:
     <<: *agent_record_control_attributes
 
-  agent_record_control_merge_victim:
+  agent_record_control_merge_candidate:
     <<: *agent_record_control_attributes
 
   agent_gender: &agent_gender_attributes
@@ -2130,10 +2130,10 @@ en:
   agent_gender_required:
     <<: *agent_gender_attributes
 
-  agent_gender_merge_target:
+  agent_gender_merge_destination:
     <<: *agent_gender_attributes
 
-  agent_gender_merge_victim:
+  agent_gender_merge_candidate:
     <<: *agent_gender_attributes
 
   used_language: &used_language_attributes
@@ -2151,10 +2151,10 @@ en:
   used_languages:
     <<: *used_language_attributes
 
-  used_language_merge_victim:
+  used_language_merge_candidate:
     <<: *used_language_attributes
 
-  used_language_merge_target:
+  used_language_merge_destination:
     <<: *used_language_attributes
 
   agent_identifier: &agent_identifier_attributes
@@ -2172,10 +2172,10 @@ en:
   agent_identifier_required:
     <<: *agent_identifier_attributes
 
-  agent_identifier_merge_target:
+  agent_identifier_merge_destination:
     <<: *agent_identifier_attributes
 
-  agent_identifier_merge_victim:
+  agent_identifier_merge_candidate:
     <<: *agent_identifier_attributes
 
   agent_place: &agent_place_attributes
@@ -2198,10 +2198,10 @@ en:
   agent_places:
     <<: *agent_place_attributes
 
-  agent_place_merge_target:
+  agent_place_merge_destination:
     <<: *agent_place_attributes
 
-  agent_place_merge_victim:
+  agent_place_merge_candidate:
     <<: *agent_place_attributes
 
   agent_occupation: &agent_occupation_attributes
@@ -2224,10 +2224,10 @@ en:
   agent_occupations:
     <<: *agent_occupation_attributes
 
-  agent_occupation_merge_target:
+  agent_occupation_merge_destination:
     <<: *agent_occupation_attributes
 
-  agent_occupation_merge_victim:
+  agent_occupation_merge_candidate:
     <<: *agent_occupation_attributes
 
   agent_function: &agent_function_attributes
@@ -2250,10 +2250,10 @@ en:
   agent_functions:
     <<: *agent_function_attributes
 
-  agent_function_merge_target:
+  agent_function_merge_destination:
     <<: *agent_function_attributes
 
-  agent_function_merge_victim:
+  agent_function_merge_candidate:
     <<: *agent_function_attributes
 
   agent_topic: &agent_topic_attributes
@@ -2276,10 +2276,10 @@ en:
   agent_topics:
     <<: *agent_topic_attributes
 
-  agent_topic_merge_target:
+  agent_topic_merge_destination:
     <<: *agent_topic_attributes
 
-  agent_topic_merge_victim:
+  agent_topic_merge_candidate:
     <<: *agent_topic_attributes
 
   place:
@@ -2310,10 +2310,10 @@ en:
   agent_alternate_set_required:
     <<: *agent_alternate_set_attributes
 
-  agent_alternate_set_merge_target:
+  agent_alternate_set_merge_destination:
     <<: *agent_alternate_set_attributes
 
-  agent_alternate_set_merge_victim:
+  agent_alternate_set_merge_candidate:
     <<: *agent_alternate_set_attributes
 
   agent_conventions_declaration: &agent_conventions_declaration_attributes
@@ -2339,10 +2339,10 @@ en:
   agent_conventions_declaration_required:
     <<: *agent_conventions_declaration_attributes
 
-  agent_conventions_declaration_merge_target:
+  agent_conventions_declaration_merge_destination:
     <<: *agent_conventions_declaration_attributes
 
-  agent_conventions_declaration_merge_victim:
+  agent_conventions_declaration_merge_candidate:
     <<: *agent_conventions_declaration_attributes
 
   agent_other_agency_code: &agent_other_agency_code_attributes
@@ -2360,10 +2360,10 @@ en:
   agent_other_agency_code_required:
     <<: *agent_other_agency_code_attributes
 
-  agent_other_agency_code_merge_target:
+  agent_other_agency_code_merge_destination:
     <<: *agent_other_agency_code_attributes
 
-  agent_other_agency_code_merge_victim:
+  agent_other_agency_code_merge_candidate:
     <<: *agent_other_agency_code_attributes
 
   agent_maintenance_history: &agent_maintenance_history_attributes
@@ -2384,10 +2384,10 @@ en:
   agent_maintenance_history_required:
     <<: *agent_maintenance_history_attributes
 
-  agent_maintenance_history_merge_target:
+  agent_maintenance_history_merge_destination:
     <<: *agent_maintenance_history_attributes
 
-  agent_maintenance_history_merge_victim:
+  agent_maintenance_history_merge_candidate:
     <<: *agent_maintenance_history_attributes
 
   agent_record_identifier: &agent_record_identifier_attributes
@@ -2408,10 +2408,10 @@ en:
   agent_record_identifier_required:
     <<: *agent_record_identifier_attributes
 
-  agent_record_identifier_merge_target:
+  agent_record_identifier_merge_destination:
     <<: *agent_record_identifier_attributes
 
-  agent_record_identifier_merge_victim:
+  agent_record_identifier_merge_candidate:
     <<: *agent_record_identifier_attributes
 
   agent_source: &agent_source_attributes
@@ -2436,10 +2436,10 @@ en:
   agent_source_required:
     <<: *agent_source_attributes
 
-  agent_source_merge_target:
+  agent_source_merge_destination:
     <<: *agent_source_attributes
 
-  agent_source_merge_victim:
+  agent_source_merge_candidate:
     <<: *agent_source_attributes
 
   agent_parallel_name:
@@ -2478,10 +2478,10 @@ en:
   agent_resource_required:
     <<: *agent_resource_attributes
 
-  agent_resource_merge_victim:
+  agent_resource_merge_candidate:
     <<: *agent_resource_attributes
 
-  agent_resource_merge_target:
+  agent_resource_merge_destination:
     <<: *agent_resource_attributes
 
   subsections:
@@ -2565,10 +2565,10 @@ en:
   metadata_rights_declaration_required:
     <<: *metadata_rights_declaration_attributes
 
-  metadata_rights_declaration_merge_target:
+  metadata_rights_declaration_merge_destination:
     <<: *metadata_rights_declaration_attributes
 
-  metadata_rights_declaration_merge_victim:
+  metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes
 
   bulk_import_templates:

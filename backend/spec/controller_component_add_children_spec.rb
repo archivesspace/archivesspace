@@ -47,8 +47,8 @@ describe 'Component Add Children controllers' do
     expect(tree.length).to eq(100)
 
     # let's delete a chunk
-    victims = children.slice!(19..38)
-    perform_delete(victims)
+    chunk = children.slice!(19..38)
+    perform_delete(chunk)
 
     tree = get_ao_tree(ao.id)
     expect(tree.length).to eq(80)

@@ -284,7 +284,7 @@ BulkContainerSearch.prototype.setup_table_sorter = function () {
     .bind('sortEnd', function (e) {
       //Store the sort in the session storage so it resorts the same way
       //when navigating and refreshing.
-      currentSort = e.target.config.sortList;
+      currentSort = e.mergeDestination.config.sortList;
       sessionStorage.setItem('top_container_sort', JSON.stringify(currentSort));
     });
 };
@@ -822,7 +822,7 @@ function BulkActionMerge(bulkContainerSearch) {
       e.preventDefault();
 
       // Set up data for form submission
-      const victims = self.bulkContainerSearch
+      const mergeCandidates = self.bulkContainerSearch
         .get_selection()
         .map(function (container) {
           return {
@@ -832,32 +832,38 @@ function BulkActionMerge(bulkContainerSearch) {
           };
         });
 
-      const targetEl = document.querySelector('input[name="target[]"]:checked');
+      const mergeDestinationEl = document.querySelector(
+        'input[name="merge_destination[]"]:checked'
+      );
 
-      const target = {
-        display_string: targetEl.getAttribute('aria-label'),
-        uri: targetEl.getAttribute('value'),
-        container_profile_uri: targetEl.getAttribute('container_profile_uri'),
+      const mergeDestination = {
+        display_string: mergeDestinationEl.getAttribute('aria-label'),
+        uri: mergeDestinationEl.getAttribute('value'),
+        container_profile_uri: mergeDestinationEl.getAttribute(
+          'container_profile_uri'
+        ),
       };
 
-      var victimsWithCPs = victims.filter(
-        victim =>
-          victim.container_profile_uri &&
-          victim.container_profile_uri != target.container_profile_uri
+      var mergeCandidatesWithCPs = mergeCandidates.filter(
+        mergeCandidate =>
+          mergeCandidate.container_profile_uri &&
+          mergeCandidate.container_profile_uri !=
+            mergeDestination.container_profile_uri
       );
-      var victimContainerProfiles = victimsWithCPs
+      var mergeCandidateContainerProfiles = mergeCandidatesWithCPs
         .map(function (cp) {
           return cp.container_profile_uri;
         })
         .filter((v, i, a) => a.indexOf(v) === i);
       var mergeWarn =
-        victimContainerProfiles.length === 0 ||
-        (victimContainerProfiles.length === 1 && !target.container_profile_uri)
+        mergeCandidateContainerProfiles.length === 0 ||
+        (mergeCandidateContainerProfiles.length === 1 &&
+          !mergeDestination.container_profile_uri)
           ? false
           : true;
       var warning_type =
         mergeWarn == true
-          ? victimContainerProfiles.length > 1
+          ? mergeCandidateContainerProfiles.length > 1
             ? 'too_many'
             : 'mismatch'
           : null;
@@ -871,23 +877,27 @@ function BulkActionMerge(bulkContainerSearch) {
         mismatchHidden: warning_type == 'mismatch' ? 'false' : 'true',
       };
 
-      // compute victims list for template rendering
-      const victimsNoTarget = victims.reduce(function (acc, victim) {
-        if (victim.display_string !== target.display_string) {
-          acc.push(victim.display_string);
+      // compute mergeCandidates list for template rendering
+      const mergeCandidatesNoTarget = mergeCandidates.reduce(function (
+        acc,
+        mergeCandidate
+      ) {
+        if (mergeCandidate.display_string !== mergeDestination.display_string) {
+          acc.push(mergeCandidate.display_string);
         }
         return acc;
-      }, []);
+      },
+      []);
 
       // Init modal2
       AS.openCustomModal(
         'bulkMergeConfirmModal',
         'Confirm Merge Top Containers',
         AS.renderTemplate('bulk_action_merge_confirm', {
-          victims,
-          victimsNoTarget,
+          mergeCandidates,
+          mergeCandidatesNoTarget,
           mergeWarning,
-          target,
+          mergeDestination,
         }),
         false
       );

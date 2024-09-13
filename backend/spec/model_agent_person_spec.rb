@@ -137,70 +137,70 @@ describe 'Agent model' do
 
 
   it "can merge one agent into another" do
-    victim_agent = AgentPerson.create_from_json(build(:json_agent_person))
-    target_agent = AgentPerson.create_from_json(build(:json_agent_person))
+    merge_candidate_agent = AgentPerson.create_from_json(build(:json_agent_person))
+    merge_destination_agent = AgentPerson.create_from_json(build(:json_agent_person))
 
-    # A record that uses the victim agent
+    # A record that uses the merge_candidate agent
     acc = create(:json_accession, 'linked_agents' => [{
-                                                        'ref' => victim_agent.uri,
+                                                        'ref' => merge_candidate_agent.uri,
                                                         'role' => 'source'
                                                       }])
 
-    target_agent.assimilate([victim_agent])
+    merge_destination_agent.assimilate([merge_candidate_agent])
 
-    expect(JSONModel(:accession).find(acc.id).linked_agents[0]['ref']).to eq(target_agent.uri)
+    expect(JSONModel(:accession).find(acc.id).linked_agents[0]['ref']).to eq(merge_destination_agent.uri)
 
-    expect(victim_agent.exists?).to be_falsey
+    expect(merge_candidate_agent.exists?).to be_falsey
   end
 
 
   it "handles related agents when merging" do
-    victim_agent = AgentPerson.create_from_json(build(:json_agent_person))
-    target_agent = AgentPerson.create_from_json(build(:json_agent_person))
+    merge_candidate_agent = AgentPerson.create_from_json(build(:json_agent_person))
+    merge_destination_agent = AgentPerson.create_from_json(build(:json_agent_person))
 
     relationship = JSONModel(:agent_relationship_parentchild).new
     relationship.relator = "is_child_of"
-    relationship.ref = victim_agent.uri
+    relationship.ref = merge_candidate_agent.uri
     related_agent = create(:json_agent_person, "related_agents" => [relationship.to_hash])
 
-    # Merging victim into target updates the related agent relationship too
-    target_agent.assimilate([victim_agent])
-    expect(JSONModel(:agent_person).find(related_agent.id).related_agents[0]['ref']).to eq(target_agent.uri)
+    # Merging merge_candidate into merge_destination updates the related agent relationship too
+    merge_destination_agent.assimilate([merge_candidate_agent])
+    expect(JSONModel(:agent_person).find(related_agent.id).related_agents[0]['ref']).to eq(merge_destination_agent.uri)
   end
 
 
   it "can merge different agent types into another" do
-    victim_agent = AgentFamily.create_from_json(build(:json_agent_family))
-    target_agent = AgentPerson.create_from_json(build(:json_agent_person))
+    merge_candidate_agent = AgentFamily.create_from_json(build(:json_agent_family))
+    merge_destination_agent = AgentPerson.create_from_json(build(:json_agent_person))
 
-    # A record that uses the victim agent
+    # A record that uses the merge_candidate agent
     acc = create(:json_accession, 'linked_agents' => [{
-                                                        'ref' => victim_agent.uri,
+                                                        'ref' => merge_candidate_agent.uri,
                                                         'role' => 'source'
                                                       }])
 
-    target_agent.assimilate([victim_agent])
-    expect(JSONModel(:accession).find(acc.id).linked_agents[0]['ref']).to eq(target_agent.uri)
+    merge_destination_agent.assimilate([merge_candidate_agent])
+    expect(JSONModel(:accession).find(acc.id).linked_agents[0]['ref']).to eq(merge_destination_agent.uri)
 
-    expect(victim_agent.exists?).to be_falsey
+    expect(merge_candidate_agent.exists?).to be_falsey
   end
 
 
   it "can merge different agent types into another, even if they have the same DB id" do
-    victim_agent = AgentFamily.create_from_json(build(:json_agent_family))
-    target_agent = AgentPerson.create_from_json(build(:json_agent_person))
+    merge_candidate_agent = AgentFamily.create_from_json(build(:json_agent_family))
+    merge_destination_agent = AgentPerson.create_from_json(build(:json_agent_person))
 
-    db_id = [victim_agent.id, target_agent.id].max
-    (victim_agent.id - target_agent.id).abs.times do |n|
+    db_id = [merge_candidate_agent.id, merge_destination_agent.id].max
+    (merge_candidate_agent.id - merge_destination_agent.id).abs.times do |n|
       AgentFamily.create_from_json(build(:json_agent_family))
       AgentPerson.create_from_json(build(:json_agent_person))
     end
 
-    victim_agent = AgentFamily[db_id]
-    target_agent = AgentPerson[db_id]
+    merge_candidate_agent = AgentFamily[db_id]
+    merge_destination_agent = AgentPerson[db_id]
 
-    target_agent.assimilate([victim_agent])
-    expect(victim_agent.exists?).to be_falsey
+    merge_destination_agent.assimilate([merge_candidate_agent])
+    expect(merge_candidate_agent.exists?).to be_falsey
   end
 
 

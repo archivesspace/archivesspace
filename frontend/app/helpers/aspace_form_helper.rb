@@ -910,7 +910,7 @@ module AspaceFormHelper
 
   end #of FormContext
 
-  def merge_victim_view(hash, opts = {})
+  def merge_candidate_view(hash, opts = {})
     jsonmodel_type = hash["jsonmodel_type"]
     schema = JSONModel(jsonmodel_type).schema
     prefix = opts[:plugin] ? 'plugins.' : ''

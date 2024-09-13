@@ -15,7 +15,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -H 'Content-Type: application/json' \\
             -H "X-ArchivesSpace-Session: $SESSION" \\
-            -d '{"uri": "merge_requests/subject", "target": {"ref": "/subjects/1"}, "victims": [{"ref": "/subjects/2"}]}' \\
+            -d '{"uri": "merge_requests/subject", "merge_destination": {"ref": "/subjects/1"}, "merge_candidates": [{"ref": "/subjects/2"}]}' \\
             "http://localhost:8089/merge_requests/subject"
       SHELL
     end
@@ -29,8 +29,8 @@ class ArchivesSpaceService < Sinatra::Base
         client.authorize()  # authorizes the client
         
         updated_json = {'uri': 'merge_requests/subject',
-                        'target': {'ref': subject_merge_into},
-                        'victims': [{'ref': subject_uri_to_merge}]}
+                        'merge_destination': {'ref': subject_merge_into},
+                        'merge_candidates': [{'ref': subject_uri_to_merge}]}
         # replace subject_merge_into for the URI of the subject you want to merge into and subject_uri_to_merge with the 
         # URI of the subject you want merged, i.e. subject_uri_to_merge >> subject_merge_into
         
@@ -42,13 +42,13 @@ class ArchivesSpaceService < Sinatra::Base
     end
     .returns([200, :updated]) \
   do
-    target, victims = parse_references(params[:merge_request])
+    merge_destination, merge_candidates = parse_references(params[:merge_request])
 
-    ensure_type(target, victims, 'subject')
+    ensure_type(merge_destination, merge_candidates, 'subject')
 
-    Subject.get_or_die(target[:id]).assimilate(victims.map {|v| Subject.get_or_die(v[:id])})
+    Subject.get_or_die(merge_destination[:id]).assimilate(merge_candidates.map {|v| Subject.get_or_die(v[:id])})
 
-    merged_response( target, victims )
+    merged_response( merge_destination, merge_candidates )
   end
 
   Endpoint.post('/merge_requests/container_profile')
@@ -57,7 +57,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -H 'Content-Type: application/json' \\
             -H "X-ArchivesSpace-Session: $SESSION" \\
-            -d '{"uri": "merge_requests/container_profile", "target": {"ref": "/container_profiles/1" },"victims": [{"ref": "/container_profiles/2"}]}' \\
+            -d '{"uri": "merge_requests/container_profile", "merge_destination": {"ref": "/container_profiles/1" },"merge_candidates": [{"ref": "/container_profiles/2"}]}' \\
             "http://localhost:8089/merge_requests/container_profile"
       SHELL
     end
@@ -69,10 +69,10 @@ class ArchivesSpaceService < Sinatra::Base
         client.post('/merge_requests/container_profile',
                 json={
                     'uri': 'merge_requests/container_profile',
-                    'target': {
+                    'merge_destination': {
                         'ref': '/container_profiles/1'
                       },
-                    'victims': [
+                    'merge_candidates': [
                         {
                             'ref': '/container_profiles/2'
                         }
@@ -87,13 +87,13 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:update_container_profile_record])
     .returns([200, :updated]) \
   do
-    target, victims = parse_references(params[:merge_request])
+    merge_destination, merge_candidates = parse_references(params[:merge_request])
 
-    ensure_type(target, victims, 'container_profile')
+    ensure_type(merge_destination, merge_candidates, 'container_profile')
 
-    ContainerProfile.get_or_die(target[:id]).assimilate(victims.map {|v| ContainerProfile.get_or_die(v[:id])})
+    ContainerProfile.get_or_die(merge_destination[:id]).assimilate(merge_candidates.map {|v| ContainerProfile.get_or_die(v[:id])})
 
-    merged_response( target, victims )
+    merged_response( merge_destination, merge_candidates )
   end
 
   Endpoint.post('/merge_requests/top_container')
@@ -102,7 +102,7 @@ class ArchivesSpaceService < Sinatra::Base
       <<~SHELL
         curl -H 'Content-Type: application/json' \\
             -H "X-ArchivesSpace-Session: $SESSION" \\
-            -d '{"uri": "merge_requests/top_container", "target": {"ref": "/repositories/2/top_containers/1" },"victims": [{"ref": "/repositories/2/top_containers/2"}]}' \\
+            -d '{"uri": "merge_requests/top_container", "merge_destination": {"ref": "/repositories/2/top_containers/1" },"merge_candidates": [{"ref": "/repositories/2/top_containers/2"}]}' \\
             "http://localhost:8089/merge_requests/top_container?repo_id=2"
       SHELL
     end
@@ -114,10 +114,10 @@ class ArchivesSpaceService < Sinatra::Base
         client.post('/merge_requests/top_container?repo_id=2',
                 json={
                     'uri': 'merge_requests/top_container',
-                    'target': {
+                    'merge_destination': {
                         'ref': '/repositories/2/top_containers/80'
                       },
-                    'victims': [
+                    'merge_candidates': [
                         {
                             'ref': '/repositories/2/top_containers/171'
                         }
@@ -133,14 +133,14 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:manage_container_record])
     .returns([200, :updated]) \
   do
-    target, victims = parse_references(params[:merge_request])
+    merge_destination, merge_candidates = parse_references(params[:merge_request])
 
-    check_repository(target, victims, params[:repo_id])
-    ensure_type(target, victims, 'top_container')
+    check_repository(merge_destination, merge_candidates, params[:repo_id])
+    ensure_type(merge_destination, merge_candidates, 'top_container')
 
-    TopContainer.get_or_die(target[:id]).assimilate(victims.map {|v| TopContainer.get_or_die(v[:id])})
+    TopContainer.get_or_die(merge_destination[:id]).assimilate(merge_candidates.map {|v| TopContainer.get_or_die(v[:id])})
 
-    merged_response( target, victims )
+    merged_response( merge_destination, merge_candidates )
   end
 
 
@@ -152,25 +152,25 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:merge_agent_record])
     .returns([200, :updated]) \
   do
-    target, victims = parse_references(params[:merge_request])
+    merge_destination, merge_candidates = parse_references(params[:merge_request])
 
-    if (victims.map {|r| r[:type]} + [target[:type]]).any? {|type| !AgentManager.known_agent_type?(type)}
+    if (merge_candidates.map {|r| r[:type]} + [merge_destination[:type]]).any? {|type| !AgentManager.known_agent_type?(type)}
       raise BadParamsException.new(:merge_request => ["Agent merge request can only merge agent records"])
     end
 
-    agent_model = AgentManager.model_for(target[:type])
-    agent_model.get_or_die(target[:id]).assimilate(victims.map {|v|
+    agent_model = AgentManager.model_for(merge_destination[:type])
+    agent_model.get_or_die(merge_destination[:id]).assimilate(merge_candidates.map {|v|
                                                      AgentManager.model_for(v[:type]).get_or_die(v[:id])
                                                    })
 
-    merged_response( target, victims )
+    merged_response( merge_destination, merge_candidates )
   end
 
   # Shell example for /merge_requests/agent_detail below illustrates an agent merge where:
-  # - Only the primary name field from the FIRST (position = 0) victim agent record replaces the primary name field in the target. After the merge, the rest of the victim name record is discarded
-  # - The entire FIRST (position = 0) agent_record_identifer record from the victim is added to the set of agent_record_identifier records in the target at the end (position = n + 1)
-  # - The entire SECOND (position = 1) agent_conventions_declaration from the victim replaces the FIRST (because it is at index = 0 in agent_conventions_declaration array in json below)agent_conventions_declaration record in the target
-  # - The entire FIRST (position = 0) agent_conventions_declaration from the victim replaces the SECOND (because it is at index = 1 in agent_conventions_declaration array in json below)agent_conventions_declaration record in the target
+  # - Only the primary name field from the FIRST (position = 0) merge_candidate agent record replaces the primary name field in the merge_destination. After the merge, the rest of the merge_candidate name record is discarded
+  # - The entire FIRST (position = 0) agent_record_identifer record from the merge_candidate is added to the set of agent_record_identifier records in the merge_destination at the end (position = n + 1)
+  # - The entire SECOND (position = 1) agent_conventions_declaration from the merge_candidate replaces the FIRST (because it is at index = 0 in agent_conventions_declaration array in json below)agent_conventions_declaration record in the merge_destination
+  # - The entire FIRST (position = 0) agent_conventions_declaration from the merge_candidate replaces the SECOND (because it is at index = 1 in agent_conventions_declaration array in json below)agent_conventions_declaration record in the merge_destination
   Endpoint.post('/merge_requests/agent_detail')
   .description("Carry out a detailed merge request against Agent records")
   .example('shell') do
@@ -180,8 +180,8 @@ class ArchivesSpaceService < Sinatra::Base
             -d '{"dry_run":true, \\
                  "merge_request_detail":{ \\
                    "jsonmodel_type":"merge_request_detail", \\
-                   "victims":[{"ref":"/agents/people/3"}], \\
-                   "target":{"ref":"/agents/people/4"}, \\
+                   "merge_candidates":[{"ref":"/agents/people/3"}], \\
+                   "merge_destination":{"ref":"/agents/people/4"}, \\
                    "selections":{
                      "names":[{"primary_name":"REPLACE", "position":"0"}], \\
                      "agent_record_identifiers":[{"append":"APPEND", "position":"0"}], \\
@@ -202,34 +202,34 @@ class ArchivesSpaceService < Sinatra::Base
   .permissions([:merge_agent_record])
   .returns([200, :updated]) \
   do
-    target, victims = parse_references(params[:merge_request_detail])
+    merge_destination, merge_candidates = parse_references(params[:merge_request_detail])
     selections = parse_selections(params[:merge_request_detail].selections)
 
-    if (victims.map {|r| r[:type]} + [target[:type]]).any? {|type| !AgentManager.known_agent_type?(type)}
+    if (merge_candidates.map {|r| r[:type]} + [merge_destination[:type]]).any? {|type| !AgentManager.known_agent_type?(type)}
       raise BadParamsException.new(:merge_request_detail => ["Agent merge request can only merge agent records"])
     end
-    agent_model = AgentManager.model_for(target[:type])
-    target_obj = agent_model.get_or_die(target[:id])
-    victim_obj = agent_model.get_or_die(victims[0][:id])
-    target_json = agent_model.to_jsonmodel(target_obj)
-    victim_json = agent_model.to_jsonmodel(victim_obj)
-    new_target = merge_details(target_json, victim_json, selections, params)
-    result = resolve_references(new_target, RESOLVE_LIST)
+    agent_model = AgentManager.model_for(merge_destination[:type])
+    merge_destination_obj = agent_model.get_or_die(merge_destination[:id])
+    merge_candidate_obj = agent_model.get_or_die(merge_candidates[0][:id])
+    merge_destination_json = agent_model.to_jsonmodel(merge_destination_obj)
+    merge_candidate_json = agent_model.to_jsonmodel(merge_candidate_obj)
+    new_merge_destination = merge_details(merge_destination_json, merge_candidate_json, selections, params)
+    result = resolve_references(new_merge_destination, RESOLVE_LIST)
 
     # if this is not a dry run, commit the merge.
     # otherwise, we'll send the response without saving any results.
     unless params[:dry_run]
-      target_obj.assimilate((victims.map {|v|
+      merge_destination_obj.assimilate((merge_candidates.map {|v|
                                        AgentManager.model_for(v[:type]).get_or_die(v[:id])
                                      }))
 
       #update lock version which may have happened during call to #assimilate
-      target_json_updated = agent_model.to_jsonmodel(target_obj)
-      new_target['lock_version'] = target_json_updated['lock_version']
+      merge_destination_json_updated = agent_model.to_jsonmodel(merge_destination_obj)
+      new_merge_destination['lock_version'] = merge_destination_json_updated['lock_version']
 
       if selections != {}
         begin
-          target_obj.update_from_json(new_target)
+          merge_destination_obj.update_from_json(new_merge_destination)
         rescue => e
           STDERR.puts "EXCEPTION!"
           STDERR.puts e.message
@@ -238,7 +238,7 @@ class ArchivesSpaceService < Sinatra::Base
       end
     end
 
-    merged_response(target, victims, selections, result)
+    merged_response(merge_destination, merge_candidates, selections, result)
   end
 
 
@@ -251,14 +251,14 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:merge_archival_record])
     .returns([200, :updated]) \
   do
-    target, victims = parse_references(params[:merge_request])
+    merge_destination, merge_candidates = parse_references(params[:merge_request])
 
-    check_repository(target, victims, params[:repo_id])
-    ensure_type(target, victims, 'resource')
+    check_repository(merge_destination, merge_candidates, params[:repo_id])
+    ensure_type(merge_destination, merge_candidates, 'resource')
 
-    Resource.get_or_die(target[:id]).assimilate(victims.map {|v| Resource.get_or_die(v[:id])})
+    Resource.get_or_die(merge_destination[:id]).assimilate(merge_candidates.map {|v| Resource.get_or_die(v[:id])})
 
-    merged_response( target, victims )
+    merged_response( merge_destination, merge_candidates )
   end
 
 
@@ -271,13 +271,13 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:merge_archival_record])
     .returns([200, :updated]) \
   do
-    target, victims = parse_references(params[:merge_request])
+    merge_destination, merge_candidates = parse_references(params[:merge_request])
 
-    check_repository(target, victims, params[:repo_id])
-    ensure_type(target, victims, 'digital_object')
+    check_repository(merge_destination, merge_candidates, params[:repo_id])
+    ensure_type(merge_destination, merge_candidates, 'digital_object')
 
-    DigitalObject.get_or_die(target[:id]).assimilate(victims.map {|v| DigitalObject.get_or_die(v[:id])})
+    DigitalObject.get_or_die(merge_destination[:id]).assimilate(merge_candidates.map {|v| DigitalObject.get_or_die(v[:id])})
 
-    merged_response( target, victims )
+    merged_response( merge_destination, merge_candidates )
   end
 end

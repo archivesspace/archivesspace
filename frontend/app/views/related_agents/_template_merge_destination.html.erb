@@ -59,7 +59,7 @@
         <%= form.label_and_readonly("description") %>
 
         <% if !form.readonly? || !form['dates'].blank? %>
-          <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates", :template_erb => "dates/template_merge_target", :template => "date", :cardinality => :zero_to_one} %>
+          <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates", :template_erb => "dates/template_merge_destination", :template => "date", :cardinality => :zero_to_one} %>
         <% end %>
       </div>
     </div>

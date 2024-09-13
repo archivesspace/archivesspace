@@ -61,7 +61,7 @@ fr:
     merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans\
       \ la ressource '%{source}'. Toutes les notices sélectionnées seront détruites\
       \ et toute notice liée sera réaffectée à cette ressource."
-    merge_container_profile_confirm_message: "The container profile '%{target}' will\
+    merge_container_profile_confirm_message: "The container profile '%{merge_destination}' will\
       \ have the selected records merged into it. All selected records will be deleted\
       \ and any linked records will be re-linked to this resource."
     batch_merge: "Select the record into which all of the other listed record(s) will\
@@ -89,7 +89,7 @@ fr:
       \ des fonctions."
     transfer: Transférer
     transfer_confirm_title: Transférer cette notice?
-    transfer_confirm_message: "La notice '%{target}' sera transférée vers le service\
+    transfer_confirm_message: "La notice '%{merge_destination}' sera transférée vers le service\
       \ d'archives selectionné"
     transfer_successful: Transfert réussi.  L'apparition des notices dans le service
       d'archives cible peut tarder, le temps qu'une réindexation ait lieu.
@@ -765,7 +765,7 @@ fr:
       \ ou alors vous n'avez pas la permission de la voir."
     error_tree_pane_ajax: Une erreur s'est produite en chargeant ce formulaire.
     merge_conflict: "La fusion des agents n'a pas réussi: %{message}"
-    merge_too_many_victims: Un seul agent peut être sélectionné pour une fusion détaillée.
+    merge_too_many_merge_candidates: Un seul agent peut être sélectionné pour une fusion détaillée.
     merge_different_types: Les agents sélectionnés pour la fusion détaillée doivent
       être du même type.
     linked_to_assessment: Notice impossible à supprimer, car liée à une évaluation
@@ -784,7 +784,7 @@ fr:
         suppressed_info: Entrée bloquée, ne pouvant pas être éditée
         deleted: Entrée <strong>%{accession_display_string}</strong> supprimée
         transfer_description: Transférer cette entrée vers...
-        transfer_target: Sélectionnez un service d'archives vers lequel opérer le
+        transfer_merge_destination: Sélectionnez un service d'archives vers lequel opérer le
           transfert
         spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession_display_string}</strong>"
         delete_conflict: "Entrée impossible à supprimer: <pre>%{error}</pre>"
@@ -813,8 +813,8 @@ fr:
         contacts: Détails de contact
         search_embedded: Notices liées
         linked_via_rights_statement: Notices liées via la mention de droits
-        target_record: Cet enregistrement sera mis à jour
-        victim_record: Cet enregistrement sera supprimé
+        merge_destination_record: Cet enregistrement sera mis à jour
+        merge_candidate_record: Cet enregistrement sera supprimé
         record_control_information: Enregistrer les informations de contrôle
         identity_information: Informations d'identité
         description_information: Description Information
@@ -993,7 +993,7 @@ fr:
         please_select_a_digital_object_to_merge: Veuillez sélectionner un objet numérique
         merged: Objet(s) numérique(s) fusionné(s)
         transfer_description: Transférer cette ressource dans...
-        transfer_target: Sélectionnez un service d'archives cible pour le transfert
+        transfer_merge_destination: Sélectionnez un service d'archives cible pour le transfert
         unsuppressed: Objet numérique <strong>%{digital_object_title}</strong> débloqué
         suppressed: Objet numérique <strong>%{digital_object_title}</strong> bloqué
         suppressed_info: Objet numérique bloqué, ne pouvant être édité
@@ -1270,7 +1270,7 @@ fr:
           \ contacter votre administrateur système pour une demande d'accès.</p>"
         continue_with_transfer: Continuer avec le transfert?
         transfer_failed: Le transfert n'a pu être effectué en raison des erreurs suivantes
-        transfer_target: Sélectionnez un service d'archives vers lequel transférer
+        transfer_merge_destination: Sélectionnez un service d'archives vers lequel transférer
         transfer_warning: <strong>Avertissement:</strong> transférer ce service d'archives
           va déplacer <strong>toutes</strong> ses notices dans le service d'archives
           sélectionné.  <strong>Cette opération ne peut être annulée</strong>
@@ -1303,7 +1303,7 @@ fr:
         please_select_a_resource_to_merge: Veuillez sélectionner une ressource
         merged: Ressource(s) fusionnée(s)
         transfer_description: Transférer cette ressource vers...
-        transfer_target: Sélectionner un service d'archives vers lequel opérer le
+        transfer_merge_destination: Sélectionner un service d'archives vers lequel opérer le
           transfert
         unsuppressed: Ressource <strong>%{resource_title}</strong> débloquée
         suppressed: Ressource <strong>%{resource_title}</strong> bloquée
@@ -1741,12 +1741,12 @@ fr:
         batch_merge_container_profile_mismatch_warning: Ces conteneurs supérieurs
           ont un profil différent de récipient que le récipient supérieur du cadre.
           Le profil de conteneur ne fusionnera pas dans le conteneur cible.
-        batch_merge_confirm_victims: "Fusionner les conteneurs supérieurs suivants:"
-        batch_merge_confirm_target: "Dans ce conteneur supérieur:"
+        batch_merge_confirm_merge_candidates: "Fusionner les conteneurs supérieurs suivants:"
+        batch_merge_confirm_merge_destination: "Dans ce conteneur supérieur:"
         batch_delete: Supprimer Top conditionnements
         batch_delete_help: Supprimer tous les conditionnements sélectionnés.
         update_n_records: "Actualiser %{n} notices"
-        select_merge_target: Sélectionner la cible de fusion
+        select_merge_destination: Sélectionner la cible de fusion
         merge_n_records: "Ça va %{n} enregistrements"
         delete_n_records: "Supprimer %{n} notices"
         update_locations_current_location: Localisation actuelle
@@ -1775,12 +1775,12 @@ fr:
           autres profils de conteneur répertoriés fusionneront. Tous les enregistrements
           liés seront à nouveau liés à ce profil et toutes les informations des autres
           profils de conteneur seront supprimées.
-        merge_select_target: Sélectionner la cible de fusion
+        merge_select_merge_destination: Sélectionner la cible de fusion
         confirm_merge: Confirmer les profils de conteneur de fusion
         confirm_merge_question: Voulez-vous vraiment fusionner les profils de conteneur
           comme indiqué ci-dessous? Cette action est irréversible.
-        confirm_merge_victims: "Fusionner les profils de conteneur suivants:"
-        confirm_merge_target: "Dans ce profil de conteneur:"
+        confirm_merge_candidates: "Fusionner les profils de conteneur suivants:"
+        confirm_merge_destination: "Dans ce profil de conteneur:"
     name: Nom
     name_tooltip: |
       <p>CHAMP OBLIGATOIRE. Le nom d'un profil de conditionnements. Peut être générique ou spécifique.</p>
@@ -2243,7 +2243,7 @@ fr:
     script: Scénario
     language_note: Note de langue
 
-  agent_record_control_merge_target:
+  agent_record_control_merge_destination:
     _plural: Enregistrer les informations
     _singular: Enregistrer les informations
     _frontend:
@@ -2265,7 +2265,7 @@ fr:
     script: Scénario
     language_note: Note de langue
 
-  agent_record_control_merge_victim:
+  agent_record_control_merge_candidate:
     _plural: Enregistrer les informations
     _singular: Enregistrer les informations
     _frontend:
@@ -2317,7 +2317,7 @@ fr:
     note: Noter
     dates: Rendez-vous
 
-  agent_gender_merge_target:
+  agent_gender_merge_destination:
     _plural: Les genres
     _singular: Le sexe
     _frontend:
@@ -2327,7 +2327,7 @@ fr:
     note: Noter
     dates: Rendez-vous
 
-  agent_gender_merge_victim:
+  agent_gender_merge_candidate:
     _plural: Les genres
     _singular: Le sexe
     _frontend:
@@ -2364,7 +2364,7 @@ fr:
     language: Langue
     script: Scénario
 
-  used_language_merge_victim:
+  used_language_merge_candidate:
     _plural: Langues utilisées
     _singular: Langue utilisée
     _frontend:
@@ -2373,7 +2373,7 @@ fr:
     language: Langue
     script: Scénario
 
-  used_language_merge_target:
+  used_language_merge_destination:
     _plural: Langues utilisées
     _singular: Langue utilisée
     _frontend:
@@ -2409,7 +2409,7 @@ fr:
     identifier_type: Type d'identifiant
     entity_identifier: ID d'entité
 
-  agent_identifier_merge_target:
+  agent_identifier_merge_destination:
     _plural: ID d'entité
     _singular: Identifiant
     _frontend:
@@ -2418,7 +2418,7 @@ fr:
     identifier_type: Type d'identifiant
     entity_identifier: ID d'entité
 
-  agent_identifier_merge_victim:
+  agent_identifier_merge_candidate:
     _plural: ID d'entité
     _singular: Identifiant
     _frontend:
@@ -2469,7 +2469,7 @@ fr:
     subjects: Des endroits
     publish: Publié
 
-  agent_place_merge_target:
+  agent_place_merge_destination:
     _frontend:
       action:
         add: Ajouter un lieu
@@ -2483,7 +2483,7 @@ fr:
     subjects: Des endroits
     publish: Publié
 
-  agent_place_merge_victim:
+  agent_place_merge_candidate:
     _frontend:
       action:
         add: Ajouter un lieu
@@ -2539,7 +2539,7 @@ fr:
     places: Des endroits
     publish: Publié
 
-  agent_occupation_merge_target:
+  agent_occupation_merge_destination:
     _frontend:
       action:
         add: Ajouter une profession
@@ -2553,7 +2553,7 @@ fr:
     places: Des endroits
     publish: Publié
 
-  agent_occupation_merge_victim:
+  agent_occupation_merge_candidate:
     _frontend:
       action:
         add: Ajouter une profession
@@ -2609,7 +2609,7 @@ fr:
     places: Des endroits
     publish: Publié
 
-  agent_function_merge_target:
+  agent_function_merge_destination:
     _frontend:
       action:
         add: Ajouter une fonction
@@ -2623,7 +2623,7 @@ fr:
     places: Des endroits
     publish: Publié
 
-  agent_function_merge_victim:
+  agent_function_merge_candidate:
     _frontend:
       action:
         add: Ajouter une fonction
@@ -2679,7 +2679,7 @@ fr:
     places: Des endroits
     publish: Publié
 
-  agent_topic_merge_target:
+  agent_topic_merge_destination:
     _frontend:
       action:
         add: Ajouter un sujet
@@ -2693,7 +2693,7 @@ fr:
     places: Des endroits
     publish: Publié
 
-  agent_topic_merge_victim:
+  agent_topic_merge_candidate:
     _frontend:
       action:
         add: Ajouter un sujet
@@ -2761,7 +2761,7 @@ fr:
     file_version_xlink_show_attribute: Attribut Xlink Show
     last_verified_date: Date de la dernière vérification
 
-  agent_alternate_set_merge_target:
+  agent_alternate_set_merge_destination:
     _plural: Ensembles alternatifs
     _singular: Ensemble alternatif
     _frontend:
@@ -2777,7 +2777,7 @@ fr:
     file_version_xlink_show_attribute: Attribut Xlink Show
     last_verified_date: Date de la dernière vérification
 
-  agent_alternate_set_merge_victim:
+  agent_alternate_set_merge_candidate:
     _plural: Ensembles alternatifs
     _singular: Ensemble alternatif
     _frontend:
@@ -2844,7 +2844,7 @@ fr:
     file_version_xlink_show_attribute: Attribut Xlink Show
     last_verified_date: Date de la dernière vérification
 
-  agent_conventions_declaration_merge_target:
+  agent_conventions_declaration_merge_destination:
     _plural: Déclarations de convention
     _singular: Déclaration de convention
     _frontend:
@@ -2861,7 +2861,7 @@ fr:
     file_version_xlink_show_attribute: Attribut Xlink Show
     last_verified_date: Date de la dernière vérification
 
-  agent_conventions_declaration_merge_victim:
+  agent_conventions_declaration_merge_candidate:
     _plural: Déclarations de convention
     _singular: Déclaration de convention
     _frontend:
@@ -2905,7 +2905,7 @@ fr:
     agency_code_type: Type de code d'agence de contrôle des enregistrements
     maintenance_agency: Agence de maintenance
 
-  agent_other_agency_code_merge_target:
+  agent_other_agency_code_merge_destination:
     _plural: Autres codes d'agence
     _singular: Autre code d'agence
     _frontend:
@@ -2914,7 +2914,7 @@ fr:
     agency_code_type: Type de code d'agence de contrôle des enregistrements
     maintenance_agency: Agence de maintenance
 
-  agent_other_agency_code_merge_victim:
+  agent_other_agency_code_merge_candidate:
     _plural: Autres codes d'agence
     _singular: Autre code d'agence
     _frontend:
@@ -2959,7 +2959,7 @@ fr:
     descriptive_note: Note descriptive
     event_date: Date de l'événement
 
-  agent_maintenance_history_merge_target:
+  agent_maintenance_history_merge_destination:
     _plural: Historique de la maintenance
     _singular: Historique de maintenance de l'agent
     _frontend:
@@ -2971,7 +2971,7 @@ fr:
     descriptive_note: Note descriptive
     event_date: Date de l'événement
 
-  agent_maintenance_history_merge_victim:
+  agent_maintenance_history_merge_candidate:
     _plural: Historique de la maintenance
     _singular: Historique de maintenance de l'agent
     _frontend:
@@ -3019,7 +3019,7 @@ fr:
     primary: Primaire
     record_identifier: Identificateur d'enregistrement
 
-  agent_record_identifier_merge_target:
+  agent_record_identifier_merge_destination:
     _plural: ID d'enregistrement
     _singular: ID d'enregistrement
     _frontend:
@@ -3031,7 +3031,7 @@ fr:
     primary: Primaire
     record_identifier: Identificateur d'enregistrement
 
-  agent_record_identifier_merge_victim:
+  agent_record_identifier_merge_candidate:
     _plural: ID d'enregistrement
     _singular: ID d'enregistrement
     _frontend:
@@ -3091,7 +3091,7 @@ fr:
     file_version_xlink_show_attribute: Attribut Xlink Show
     last_verified_date: Date de la dernière vérification
 
-  agent_source_merge_target:
+  agent_source_merge_destination:
     _plural: Sources
     _singular: Source de l'agent
     _frontend:
@@ -3107,7 +3107,7 @@ fr:
     file_version_xlink_show_attribute: Attribut Xlink Show
     last_verified_date: Date de la dernière vérification
 
-  agent_source_merge_victim:
+  agent_source_merge_candidate:
     _plural: Sources
     _singular: Source de l'agent
     _frontend:
@@ -3199,7 +3199,7 @@ fr:
     file_version_xlink_show_attribute: Attribut Xlink Show
     last_verified_date: Date de la dernière vérification
 
-  agent_resource_merge_victim:
+  agent_resource_merge_candidate:
     _frontend:
       action:
         add: Ajouter une ressource externe associée
@@ -3222,7 +3222,7 @@ fr:
     file_version_xlink_show_attribute: Attribut Xlink Show
     last_verified_date: Date de la dernière vérification
 
-  agent_resource_merge_target:
+  agent_resource_merge_destination:
     _frontend:
       action:
         add: Ajouter une ressource externe associée
@@ -3295,10 +3295,10 @@ fr:
   metadata_rights_declaration_required:
     <<: *metadata_rights_declaration_attributes
 
-  metadata_rights_declaration_merge_target:
+  metadata_rights_declaration_merge_destination:
     <<: *metadata_rights_declaration_attributes
 
-  metadata_rights_declaration_merge_victim:
+  metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes
   bulk_import_templates:
     aspace_accession_import_template_csv: Créez des enregistrements d'accession et
@@ -3342,6 +3342,6 @@ fr:
       des ressources, des objets d'archives ou des objets numériques existants.
   footer:
     archivesspace_home: Visitez <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' merge_destination='_blank'>Envoyer
       des commentaires ou signaler un problème</a>
     public_interface: Afficher <a href="%{public_url}">Interface publique</a>

@@ -33,7 +33,7 @@
           {for item in selection}
             <% item_uri = "${item.uri}" %>
             <div id="chkPref" role="radio" tabindex="0">
-              <%= radio_button_tag "target[]", "${item.uri}", false, :"data-object" => item_uri, :"aria-label" => "${item.display_string}", :"id" => "${item.uri}", :onclick => "activateBtn()", :onKeyPress => "activateBtn()" %>
+              <%= radio_button_tag "merge_destination[]", "${item.uri}", false, :"data-object" => item_uri, :"aria-label" => "${item.display_string}", :"id" => "${item.uri}", :onclick => "activateBtn()", :onKeyPress => "activateBtn()" %>
               <span>${item.display_string}</span>
             </div>
           {/for}
@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-primary merge-button" data-js="selectTarget" disabled="disabled"><%= t("container_profile._frontend.bulk_operations.merge_select_target") %></button>
+      <button class="btn btn-primary merge-button" data-js="selectTarget" disabled="disabled"><%= t("container_profile._frontend.bulk_operations.merge_select_merge_destination") %></button>
       <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= t("actions.cancel") %></button>
     </div>
   <% end %>
@@ -53,23 +53,23 @@
   <%= form_tag({:controller => :batch_merge, :action => controller_name}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
     <div class="modal-body">
       <p class="alert alert-danger" id="alertBucket"><%= t("container_profile._frontend.bulk_operations.confirm_merge_question") %></p>
-      <h4><%= t("container_profile._frontend.bulk_operations.confirm_merge_victims") %></h4>
+      <h4><%= t("container_profile._frontend.bulk_operations.confirm_merge_candidates") %></h4>
       <ul>
-        {for victim in victims}
-          <li>${victim}</li>
+        {for merge_candidate in mergeCandidates}
+          <li>${merge_candidate}</li>
         {/for}
       </ul>
-      <h4><%= t("container_profile._frontend.bulk_operations.confirm_merge_target") %></h4>
+      <h4><%= t("container_profile._frontend.bulk_operations.confirm_merge_destination") %></h4>
       <ul>
-        <li>${target.display_string}</li>
+        <li>${mergeDestination.display_string}</li>
       </ul>
       <div class="selected-record-list" id="mergeList">
 
         {for profile in mergeList}
-          <input type="hidden" name="victims[]" value="${profile.uri}">
+          <input type="hidden" name="merge_candidates[]" value="${profile.uri}">
         {/for}
 
-        <input type="hidden" name="target[]" value="${target.uri}">
+        <input type="hidden" name="merge_destination[]" value="${mergeDestination.uri}">
       </div>
     </div>
     <div class="modal-footer">
@@ -335,7 +335,7 @@
 --></div>
 
 <div id="template_load_via_spreadsheet_help_icon"><!--
-  <a target='_blank' class='btn btn-sm btn-default border-left-0 has-tooltip initialised' id='load_via_spreadsheet_help_icon' href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>" data-toggle="tooltip" data-placement="top" title="<%= t("help.topics.resource_load_via_spreadsheet")%>" data-container="body">
+  <a merge_destination='_blank' class='btn btn-sm btn-default border-left-0 has-tooltip initialised' id='load_via_spreadsheet_help_icon' href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>" data-toggle="tooltip" data-placement="top" title="<%= t("help.topics.resource_load_via_spreadsheet")%>" data-container="body">
     <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
   </a>
 --></div>

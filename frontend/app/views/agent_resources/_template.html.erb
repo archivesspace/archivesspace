@@ -35,7 +35,7 @@
   </div>
 <% end %>
 
-<% define_template "agent_resource_merge_target", jsonmodel_definition(:agent_resource) do |form| %>
+<% define_template "agent_resource_merge_destination", jsonmodel_definition(:agent_resource) do |form| %>
 
   <%= form.record_level_merge_controls(form, "agent_resource", false) %>
 
@@ -44,12 +44,12 @@
     <%= form.label_and_readonly field_name %>
   <% end %>
 
-  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "victim_occupation_places_", :section_title => t("agent_occupation.places"), :heading_size => "h4"} %>
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "merge_candidate_occupation_places_", :section_title => t("agent_occupation.places"), :heading_size => "h4"} %>
 
-  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => t("agent_occupation.dates"), :section_id => "victim_occupation_dates", :heading_size => "h4"} %>
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => t("agent_occupation.dates"), :section_id => "merge_candidate_occupation_dates", :heading_size => "h4"} %>
 <% end %>
 
-<% define_template "agent_resource_merge_victim", jsonmodel_definition(:agent_resource) do |form| %>
+<% define_template "agent_resource_merge_candidate", jsonmodel_definition(:agent_resource) do |form| %>
 
   <% disable_replace = false %>
 
@@ -62,7 +62,7 @@
     <%= form.label_and_readonly field_name %>
   <% end %>
 
-  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "victim_occupation_places_", :section_title => t("agent_occupation.places"), :heading_size => "h4"} %>
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "merge_candidate_occupation_places_", :section_title => t("agent_occupation.places"), :heading_size => "h4"} %>
 
-  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => t("agent_occupation.dates"), :section_id => "victim_occupation_dates", :heading_size => "h4"} %>
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => t("agent_occupation.dates"), :section_id => "merge_candidate_occupation_dates", :heading_size => "h4"} %>
 <% end %>

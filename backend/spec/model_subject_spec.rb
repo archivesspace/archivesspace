@@ -143,17 +143,17 @@ describe 'Subject model' do
 
 
   it "can merge one subject into another" do
-    victim_subject = Subject.create_from_json(build(:json_subject))
-    target_subject = Subject.create_from_json(build(:json_subject))
+    merge_candidate_subject = Subject.create_from_json(build(:json_subject))
+    merge_destination_subject = Subject.create_from_json(build(:json_subject))
 
-    # A record that uses the victim subject
-    acc = create(:json_accession, 'subjects' => [{'ref' => victim_subject.uri}])
+    # A record that uses the merge_candidate subject
+    acc = create(:json_accession, 'subjects' => [{'ref' => merge_candidate_subject.uri}])
 
-    target_subject.assimilate([victim_subject])
+    merge_destination_subject.assimilate([merge_candidate_subject])
 
-    expect(JSONModel(:accession).find(acc.id).subjects[0]['ref']).to eq(target_subject.uri)
+    expect(JSONModel(:accession).find(acc.id).subjects[0]['ref']).to eq(merge_destination_subject.uri)
 
-    expect(victim_subject.exists?).to be_falsey
+    expect(merge_candidate_subject.exists?).to be_falsey
   end
 
 

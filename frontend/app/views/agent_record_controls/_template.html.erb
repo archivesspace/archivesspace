@@ -50,7 +50,7 @@
   </div>
 <% end %>
 
-<% define_template "agent_record_control_merge_target", jsonmodel_definition(:agent_record_control) do |form| %>
+<% define_template "agent_record_control_merge_destination", jsonmodel_definition(:agent_record_control) do |form| %>
 
   <%= form.record_level_merge_controls(form, "agent_record_control", false) %>
 
@@ -60,7 +60,7 @@
   <% end %>
 <% end %>
 
-<% define_template "agent_record_control_merge_victim", jsonmodel_definition(:agent_record_control) do |form| %>
+<% define_template "agent_record_control_merge_candidate", jsonmodel_definition(:agent_record_control) do |form| %>
 
   <% disable_replace = false %>
   <% disable_append = !(@agent.agent_record_controls.length > 0) %>

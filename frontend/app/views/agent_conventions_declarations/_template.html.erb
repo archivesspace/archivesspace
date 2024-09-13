@@ -32,7 +32,7 @@
   </div>
 <% end %>
 
-<% define_template "agent_conventions_declaration_merge_target", jsonmodel_definition(:agent_conventions_declaration) do |form| %>
+<% define_template "agent_conventions_declaration_merge_destination", jsonmodel_definition(:agent_conventions_declaration) do |form| %>
 
   <%= form.record_level_merge_controls(form, "agent_conventions_declaration", false) %>
 
@@ -42,7 +42,7 @@
   <% end %>
 <% end %>
 
-<% define_template "agent_conventions_declaration_merge_victim", jsonmodel_definition(:agent_conventions_declaration) do |form| %>
+<% define_template "agent_conventions_declaration_merge_candidate", jsonmodel_definition(:agent_conventions_declaration) do |form| %>
 
   <% disable_replace = false %>
 

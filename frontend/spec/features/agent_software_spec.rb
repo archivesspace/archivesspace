@@ -2,58 +2,44 @@ require 'spec_helper.rb'
 require 'rails_helper.rb'
 
 describe 'AgentSoftware', js: true do
+  let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
 
-  # TODO: before suite (everything needs to login, right?)
   before(:each) do
-    visit '/'
-    page.has_xpath? '//input[@id="login"]'
-
-    within "form.login" do
-      fill_in "username", with: "admin"
-      fill_in "password", with: "admin"
-
-      click_button "Sign In"
-    end
+    login_user(admin)
   end
 
   context 'Merge', js: true do
-
-    # I tested this locally, and I am able to successfully merge 2 software agents. the test is failing on line 42 (finding the merge button) because it says it is obscured by a <b> element. I did not find any element obscuring the button.
-    it 'should merge two software agents', :skip => "UPGRADE skipping for green CI" do
-      name1  = SecureRandom.hex
-      agent1 = create(:json_agent_software,
-        names: [ build(:json_name_software, { software_name: name1 }) ]
+    it 'should merge two software agents' do
+      agent_1_name = SecureRandom.hex
+      agent_1 = create(:json_agent_software,
+        names: [ build(:json_name_software, { software_name: agent_1_name }) ]
       )
-      name2  = SecureRandom.hex
-      agent2 = create(:json_agent_software,
-        names: [ build(:json_name_software, { software_name: name2 }) ]
+      agent_2_name = SecureRandom.hex
+      agent_2 = create(:json_agent_software,
+        names: [ build(:json_name_software, { software_name: agent_2_name }) ]
       )
 
-      run_indexer
+      run_index_round
 
-      visit agent1.uri
+      visit agent_1.uri
       page.has_xpath? '//div[@id="merge-dropdown"]'
 
-      # use the merge dropdown section
       find('div[id="merge-dropdown"]').click
-      find('#token-input-merge_ref_').send_keys(name2)
-      sleep 0.5 # delay for autocomplete selection to appear
+      find('#token-input-merge_ref_').send_keys(agent_2_name)
+      wait_for_ajax
       find('#token-input-merge_ref_').send_keys :enter
       find('button.merge-button').click
 
-      # confirm the merge selection
       expect(page).to have_text 'Compare Agents'
       find('button#confirmButton').click
 
-      # perform the merge
       expect(page).to have_text 'Merge Preview'
       find('.do-merge', match: :first).click
-      expect(page).to have_text name1
+      expect(page).to have_text agent_1_name
 
-      # reindex to remove deleted (merged away) record
-      run_indexer
+      run_index_round
 
-      click_link 'Browse'
+      click_on 'Browse'
       within('.dropdown-menu') do
         click_link 'Agents'
       end
@@ -62,11 +48,8 @@ describe 'AgentSoftware', js: true do
         click_link 'Software'
       end
 
-      # page.save_screenshot(full: true)
-      expect(page).to have_text name1
-      expect(page).not_to have_text name2
+      expect(page).to have_text agent_1_name
+      expect(page).not_to have_text agent_2_name
     end
-
   end
-
 end

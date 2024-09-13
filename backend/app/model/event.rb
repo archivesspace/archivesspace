@@ -66,7 +66,7 @@ class Event < Sequel::Model(:event)
   # Some canned creators for system generated events
   #
 
-  def self.for_component_transfer(archival_object_uri, source_resource_uri, target_resource_uri)
+  def self.for_component_transfer(archival_object_uri, source_resource_uri, merge_destination_resource_uri)
     # first get the current user
     user = User[:username => RequestContext.get(:current_username)]
 
@@ -76,7 +76,7 @@ class Event < Sequel::Model(:event)
                                           "timestamp" => Time.now.utc.iso8601,
                                           "linked_records" => [
                                             {"role" => "source", "ref" => source_resource_uri},
-                                            {"role" => "outcome", "ref" => target_resource_uri},
+                                            {"role" => "outcome", "ref" => merge_destination_resource_uri},
                                             {"role" => "transfer", "ref" => archival_object_uri},
                                           ],
                                           "linked_agents" => [
@@ -105,22 +105,22 @@ class Event < Sequel::Model(:event)
   end
 
 
-  def self.for_archival_record_merge(target, victims)
+  def self.for_archival_record_merge(merge_destination, merge_candidates)
     user = User[:username => RequestContext.get(:current_username)]
 
     merge_note = ""
-    victims.each do |victim|
-      victim_json = victim.class.to_jsonmodel(victim)
+    merge_candidates.each do |merge_candidate|
+      merge_candidate_json = merge_candidate.class.to_jsonmodel(merge_candidate)
 
-      if victim_json['identifier']
-        identifier = Identifiers.format(Identifiers.parse(victim_json['identifier']))
+      if merge_candidate_json['identifier']
+        identifier = Identifiers.format(Identifiers.parse(merge_candidate_json['identifier']))
       else
-        identifier = victim_json['digital_object_id']
+        identifier = merge_candidate_json['digital_object_id']
       end
 
       merge_note += (identifier +
                      " -- " +
-                     victim_json['title'] +
+                     merge_candidate_json['title'] +
                      "\n")
     end
 
@@ -133,7 +133,7 @@ class Event < Sequel::Model(:event)
       :outcome => 'pass',
       :outcome_note => merge_note,
       :timestamp => Time.now.utc.iso8601,
-      :linked_records => [{:ref => target.uri, :role => 'outcome'}]
+      :linked_records => [{:ref => merge_destination.uri, :role => 'outcome'}]
     )
 
     Event.create_from_json(event, :system_generated => true)

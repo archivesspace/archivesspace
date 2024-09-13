@@ -9,7 +9,7 @@
   header_size = "h3" if header_size.blank?
   all_note_types ||= nil
 %>
-<%= render_aspace_partial :partial => "notes/template_merge_target", :locals =>  { :all_note_types => all_note_types, :form_note_type => section_id, :nested_in_jsonmodel => nested_in_jsonmodel } %>
+<%= render_aspace_partial :partial => "notes/template_merge_destination", :locals =>  { :all_note_types => all_note_types, :form_note_type => section_id, :nested_in_jsonmodel => nested_in_jsonmodel } %>
 
 <section id="<%= section_id %>"
          class="subrecord-form notes-form  <%= "note-inline" if inline? %>"

@@ -17,12 +17,12 @@ module Trees
   end
 
 
-  def assimilate(victims)
-    victims.each do |victim|
-      adopt_children(victim)
+  def assimilate(merge_candidates)
+    merge_candidates.each do |merge_candidate|
+      adopt_children(merge_candidate)
     end
 
-    Event.for_archival_record_merge(self, victims)
+    Event.for_archival_record_merge(self, merge_candidates)
 
     super
   end
