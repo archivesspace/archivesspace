@@ -8,9 +8,17 @@ on:
         required: true
         type: choice
         options:
-          - '8'
           - '11'
+          - '17'
         default: '11'
+      browser:
+        description: Which browser to use
+        required: true
+        type: choice
+        options:
+          - 'chrome'
+          - 'firefox'
+        default: 'chrome'
 
   workflow_call:
     inputs:
@@ -19,6 +27,11 @@ on:
         required: true
         type: string
         default: '11'
+      browser:
+        description: Which browser to use
+        required: true
+        type: string
+        default: 'chrome'
 
   pull_request:
     paths:
@@ -81,6 +94,7 @@ jobs:
       run: |
         ./build/run public:test
       env:
+        SELENIUM_CHROME: ${{ inputs.browser == 'chrome' }}
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
         RSPEC_RETRIES: 2
 

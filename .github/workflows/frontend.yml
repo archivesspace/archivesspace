@@ -22,6 +22,14 @@ on:
           - 'm-r'
           - 's-z'
         default: 'all'
+      browser:
+        description: Which browser to use
+        required: true
+        type: choice
+        options:
+          - 'chrome'
+          - 'firefox'
+        default: 'chrome'
 
   workflow_call:
     inputs:
