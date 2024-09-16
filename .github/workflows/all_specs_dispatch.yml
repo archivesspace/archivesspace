@@ -8,10 +8,17 @@ on:
         required: true
         type: choice
         options:
-          - '8'
           - '11'
           - '17'
         default: '11'
+      browser:
+        description: Which browser to use
+        required: true
+        type: choice
+        options:
+          - 'chrome'
+          - 'firefox'
+        default: 'chrome'
 
 jobs:
   codescan:

@@ -13,6 +13,11 @@ on:
         required: true
         type: string
         default: 11
+      browser:
+        description: Which browser to use
+        required: true
+        type: string
+        default: 'chrome'
 
 jobs:
   start-runner:
@@ -126,6 +131,7 @@ jobs:
     - name: Run Frontend tests
       run: ${{ inputs.run-cmd }}
       env:
+        SELENIUM_CHROME: ${{ inputs.browser == 'chrome' }}
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
         HOME: "/home/ubuntu"
 
