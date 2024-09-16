@@ -2,24 +2,11 @@ require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'launchy'
 
-CHROME_OPTS  = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-logging --log-level=0 --v=1 --log-path=#{File.join(ASUtils.find_base_directory, "ci_logs", "chromedriver.log")} --incognito --disable-extensions --auto-open-devtools-for-tabs --window-size=1920,1080 --disable-dev-shm-usage").split(' ')
-FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless,--log debug,--log-no-truncate').split(',')
+CHROME_OPTS  = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-logging --log-level=0 --v=1 --incognito --disable-extensions --auto-open-devtools-for-tabs --window-size=1920,1080 --disable-dev-shm-usage").split(' ')
+FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless').split(',')
 # https://github.com/mozilla/geckodriver/issues/1354
 ENV['MOZ_HEADLESS_WIDTH'] = ENV.fetch('MOZ_HEADLESS_WIDTH', '1920')
 ENV['MOZ_HEADLESS_HEIGHT'] = ENV.fetch('MOZ_HEADLESS_HEIGHT', '1080')
-
-Capybara.threadsafe = true
-Capybara.save_path = File.join(ASUtils.find_base_directory, "ci_logs")
-# Enables (in theory) viewing of HTML screenshots with assets (provided you run the public devserver)
-Capybara.asset_host = 'http://localhost:3001'
-
-Capybara::Screenshot.register_driver(:chrome) do |driver, path|
-  driver.browser.save_screenshot(path)
-end
-
-Capybara::Screenshot.register_driver(:firefox) do |driver, path|
-  driver.browser.save_screenshot(path)
-end
 
 # Chrome
 Capybara.register_driver(:chrome) do |app|
@@ -41,12 +28,22 @@ end
 
 # Firefox
 Capybara.register_driver :firefox do |app|
-  options = Selenium::WebDriver::Firefox::Options.new(args: FIREFOX_OPTS)
   Capybara::Selenium::Driver.new(
     app,
     browser: :firefox,
-    options: options
+    options: Selenium::WebDriver::Firefox::Options.new(args: FIREFOX_OPTS)
   )
+end
+
+# Capybara screenshot
+Capybara.threadsafe = true
+Capybara.save_path = File.join(ASUtils.find_base_directory, "ci_logs")
+Capybara.asset_host = 'http://localhost:3001' # Enables (in theory) viewing of HTML screenshots with assets (provided you run the public devserver)
+Capybara::Screenshot.register_driver(:chrome) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
+Capybara::Screenshot.register_driver(:firefox) do |driver, path|
+  driver.browser.save_screenshot(path)
 end
 
 if ENV['SELENIUM_CHROME'] == 'true'
