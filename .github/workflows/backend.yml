@@ -8,8 +8,8 @@ on:
         required: true
         type: choice
         options:
-          - '8'
           - '11'
+          - '17'
         default: '11'
 
   workflow_call:
