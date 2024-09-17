@@ -32,6 +32,30 @@ describe 'Space Calculator', js: true do
                          ref: @location_profile.uri
                        })
 
+    @location_room_no_floor = create(:location,
+      room: 'Room with no floor and an area',
+      area: 'Area with no floor and a room',
+      location_profile: {
+        ref: @location_profile.uri
+      }
+    )
+
+    @location_area_no_floor_no_room = create(:location,
+      building: @location.building,
+      area: 'Area with no floor and no room',
+      location_profile: {
+        ref: @location_profile.uri
+      }
+    )
+
+    @location_area_no_room = create(:location,
+      floor: '5',
+      area: 'Area with no room',
+      location_profile: {
+        ref: @location_profile.uri
+      }
+    )
+
     @top_container = create(:top_container,
                             container_profile: {
                               ref: @container_profile.uri
@@ -40,7 +64,8 @@ describe 'Space Calculator', js: true do
     run_index_round
   end
 
-  it 'can access the calculator via the container profile toolbar and run the calculator for a building, floor, room and area combination' do
+  it 'can be accessed via the container profile toolbar and calculate space by building '\
+  'with a floor, room, and area' do
     login_user(@manager_user)
     select_repository(@repository)
 
@@ -70,7 +95,56 @@ describe 'Space Calculator', js: true do
     click_on 'Close'
   end
 
-  it 'can access the calculator from a top container form' do
+  it 'shows building, floor, room, and area fields on load when calculating by building' do
+    login_user(@manager_user)
+    select_repository(@repository)
+    visit "container_profiles/#{@container_profile.id}"
+    click_on 'Space Calculator'
+
+    expect(page).to have_css('#byBuilding', visible: true)
+    expect(page).to have_select('building', disabled: false)
+    expect(page).to have_select('floor', disabled: true)
+    expect(page).to have_select('room', disabled: true)
+    expect(page).to have_select('area', disabled: true)
+  end
+
+  it 'allows a building location to have a room and no floor' do
+    login_user(@manager_user)
+    select_repository(@repository)
+    visit "container_profiles/#{@container_profile.id}"
+    click_on 'Space Calculator'
+    select @location_room_no_floor.building, from: 'building'
+    expect(page).to have_select('room', disabled: false)
+    expect(page).to have_select('area', disabled: true)
+    select @location_room_no_floor.room, from: 'room'
+    select @location_room_no_floor.area, from: 'area'
+  end
+
+  it 'allows a building location to have an area with no room or floor' do
+    login_user(@manager_user)
+    select_repository(@repository)
+    visit "container_profiles/#{@container_profile.id}"
+    click_on 'Space Calculator'
+    select @location_area_no_floor_no_room.building, from: 'building'
+    expect(page).to have_select('floor', disabled: false)
+    expect(page).to have_select('area', disabled: false)
+    select @location_area_no_floor_no_room.area, from: 'area'
+    expect(page).to have_select('floor', disabled: true)
+  end
+
+  it 'allows a building location to have an area on a floor with no room' do
+    login_user(@manager_user)
+    select_repository(@repository)
+    visit "container_profiles/#{@container_profile.id}"
+    click_on 'Space Calculator'
+    select @location_area_no_room.building, from: 'building'
+    expect(page).to have_select('floor', disabled: false)
+    expect(page).to have_select('area', disabled: true)
+    select @location_area_no_room.floor, from: 'floor'
+    select @location_area_no_room.area, from: 'area'
+  end
+
+  it 'can be accessed from a top container form' do
     login_user(@admin_user)
     select_repository(@repository)
 
@@ -87,7 +161,7 @@ describe 'Space Calculator', js: true do
     expect(element).to have_text 'Space Calculator'
   end
 
-  it 'can run the calculator for a specific location' do
+  it 'can calculate space for a specific location' do
     login_user(@admin_user)
     select_repository(@repository)
 

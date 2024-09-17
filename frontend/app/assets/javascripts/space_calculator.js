@@ -143,60 +143,184 @@ SpaceCalculatorModal.prototype.setupForm = function ($form) {
 };
 
 SpaceCalculatorModal.prototype.setupByBuildingSearch = function () {
-  var self = this;
+  // ANW-917: Allow for locations with no floors and/or rooms in a building.
+  const self = this;
 
-  var $building = self.$modal.find('#building');
-  var $floor = self.$modal.find('#floor');
-  var $room = self.$modal.find('#room');
-  var $area = self.$modal.find('#area');
+  const $building = self.$modal.find('#building');
+  const $floor = self.$modal.find('#floor');
+  const $room = self.$modal.find('#room');
+  const $area = self.$modal.find('#area');
 
-  $building.on('change', function () {
-    $floor.val('').closest('.form-group').hide();
-    $room.val('').closest('.form-group').hide();
-    $area.val('').closest('.form-group').hide();
+  $building.on('change', handleBuildingChange);
+  $floor.on('change', handleFloorChange);
+  $room.on('change', handleRoomChange);
+  $area.on('change', handleAreaChange);
+
+  function handleBuildingChange() {
+    $floor.val('').prop('disabled', true);
+    $room.val('').prop('disabled', true);
+    $area.val('').prop('disabled', true);
+
     if ($building.val() != '') {
-      var floors = AS.building_data[$building.val()];
-      if (!$.isEmptyObject(floors)) {
-        $floor.empty();
-        $floor.append($('<option>'));
-        for (var floor in floors) {
-          $floor.append($('<option>').html(floor));
-        }
-        $floor.closest('.form-group').show();
-      }
+      const bldg = AS.building_data[$building.val()];
+      if (hasFloors(bldg)) setFloors(bldg);
+      if (hasRoomsWithNoFloor(bldg)) setRooms(bldg['[no floor]']);
+      if (hasAreasWithNoRoomAndNoFloor(bldg))
+        setAreas(bldg['[no floor]']['[no room]']);
     }
-  });
+  }
 
-  $floor.on('change', function () {
-    $room.val('').closest('.form-group').hide();
-    $area.val('').closest('.form-group').hide();
+  function handleFloorChange() {
+    $room.val('').prop('disabled', true);
+    $area.val('').prop('disabled', true);
+
+    const bldg = AS.building_data[$building.val()];
+
     if ($floor.val() != '') {
-      var rooms = AS.building_data[$building.val()][$floor.val()];
-      if (!$.isEmptyObject(rooms)) {
-        $room.empty();
-        $room.append($('<option>'));
-        for (var room in rooms) {
-          $room.append($('<option>').html(room));
-        }
-        $room.closest('.form-group').show();
-      }
+      const floor = bldg[$floor.val()];
+      if (hasRooms(floor)) setRooms(floor);
+      if (hasAreasWithNoRoom(floor)) setAreas(floor['[no room]']);
+    } else {
+      if (hasFloors(bldg)) setFloors(bldg);
+      if (hasRoomsWithNoFloor(bldg)) setRooms(bldg['[no floor]']);
+      if (hasAreasWithNoRoomAndNoFloor(bldg))
+        setAreas(bldg['[no floor]']['[no room]']);
     }
-  });
+  }
 
-  $room.on('change', function () {
-    $area.val('').closest('.form-group').hide();
+  function handleRoomChange() {
+    $area.val('').prop('disabled', true);
+
+    const bldg = AS.building_data[$building.val()];
+    const hasFloor = $floor.val() !== '' && $floor.val() !== null;
+    const floorKey = hasFloor ? $floor.val() : '[no floor]';
+
     if ($room.val() != '') {
-      var areas = AS.building_data[$building.val()][$floor.val()][$room.val()];
-      if (areas != null && areas.length > 0) {
-        $area.empty();
-        $area.append($('<option>'));
-        for (var i = 0; i < areas.length; i++) {
-          $area.append($('<option>').html(areas[i]));
+      if (!hasFloor) $floor.prop('disabled', true);
+      if (hasAreas(bldg[floorKey][$room.val()]))
+        setAreas(bldg[floorKey][$room.val()]);
+    } else {
+      if (hasFloor || hasFloors(bldg)) $floor.prop('disabled', false);
+      if (hasAreasWithNoRoom(bldg[floorKey]))
+        setAreas(bldg[floorKey]['[no room]']);
+    }
+  }
+
+  function handleAreaChange() {
+    if ($area.val() != '') {
+      if ($floor.val() == '') $floor.prop('disabled', true);
+      if ($room.val() == '') $room.prop('disabled', true);
+    } else {
+      if ($room.val() == '') {
+        if ($floor.val() == '') {
+          const bldg = AS.building_data[$building.val()];
+          if (hasFloors(bldg)) setFloors(bldg);
+          if (hasRoomsWithNoFloor(bldg)) setRooms(bldg['[no floor]']);
+        } else {
+          const floor = AS.building_data[$building.val()][$floor.val()];
+          if (hasRooms(floor)) setRooms(floor);
         }
-        $area.closest('.form-group').show();
       }
     }
-  });
+  }
+
+  /**
+   * @param {Object} floors Object with floor names as keys, with possible
+   * '[no floor]' key for rooms without a floor and/or areas without a room and floor
+   */
+  function setFloors(floors) {
+    const floorNames = Object.keys(floors).filter(
+      key => key != '[no floor]' && key != '[no room]'
+    );
+    $floor.empty();
+    $floor.append($('<option>'));
+    floorNames.forEach(name => {
+      $floor.append($('<option>').html(name));
+    });
+    $floor.prop('disabled', false);
+  }
+
+  /**
+   * @param {Object} rooms Object with room names as keys, with possible
+   * '[no room]' key for areas with out a room
+   */
+  function setRooms(rooms) {
+    const roomNames = Object.keys(rooms).filter(key => key != '[no room]');
+    $room.empty();
+    $room.append($('<option>'));
+    roomNames.forEach(name => {
+      $room.append($('<option>').html(name));
+    });
+    $room.prop('disabled', false);
+  }
+
+  /**
+   * @param {[string]} areas Array of area names
+   */
+  function setAreas(areas) {
+    $area.empty();
+    $area.append($('<option>'));
+    areas.forEach(area => {
+      $area.append($('<option>').html(area));
+    });
+    $area.prop('disabled', false);
+  }
+
+  /**
+   * @param {Object} bldg A building object with floors as keys, including possible
+   * '[no floor]' key
+   * @returns boolean
+   */
+  function hasFloors(bldg) {
+    return Object.keys(bldg).some(key => key != '[no floor]');
+  }
+
+  /**
+   * @param {Object} floor Object with rooms as keys, including possible
+   * '[no room]' key
+   * @returns boolean
+   */
+  function hasRooms(floor) {
+    return Object.keys(floor).some(key => key != '[no room]');
+  }
+
+  /**
+   * @param {array} areas Array of area names, sometimes with a single null value
+   * @returns boolean
+   */
+  function hasAreas(areas) {
+    return areas.length > 0 && areas[0] !== null;
+  }
+
+  /**
+   * @param {Object} bldg A building object with floors as keys
+   * @returns boolean
+   */
+  function hasRoomsWithNoFloor(bldg) {
+    return (
+      Object.hasOwn(bldg, '[no floor]') &&
+      Object.keys(bldg['[no floor]']).some(key => key != '[no room]')
+    );
+  }
+
+  /**
+   * @param {Object} bldg A building object with floors as keys
+   * @returns boolean
+   */
+  function hasAreasWithNoRoomAndNoFloor(bldg) {
+    return (
+      Object.hasOwn(bldg, '[no floor]') &&
+      Object.hasOwn(bldg['[no floor]'], '[no room]')
+    );
+  }
+
+  /**
+   * @param {Object} floor A floor object with rooms as keys
+   * @returns boolean
+   */
+  function hasAreasWithNoRoom(floor) {
+    return Object.hasOwn(floor, '[no room]');
+  }
 };
 
 SpaceCalculatorModal.prototype.setupResults = function () {
