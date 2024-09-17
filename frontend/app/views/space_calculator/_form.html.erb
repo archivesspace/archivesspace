@@ -34,28 +34,28 @@
             </header>
             <div id="byBuilding" class="collapse show" data-parent="#spaceCalculatorAccordion" role="tabpanel" aria-labelledby="byBuildingHeader">
               <div class="card-body">
-                <div class="form-group">
-                  <label class="col-sm-2 control-label"><%= t("location.building") %></label>
+                <div class="form-group w-100 row required">
+                  <label class="col-sm-2 control-label text-md-right"><%= t("location.building") %></label>
                   <div class="col-sm-4">
                     <%= select_tag "building", options_for_select([""].concat(@buildings.keys)), :class => "form-control" %>
                   </div>
                 </div>
-                <div class="form-group by-building-floor" style="display: none;">
-                  <label class="col-sm-2 control-label"><%= t("location.floor") %></label>
+                <div class="form-group w-100 row by-building-floor">
+                  <label class="col-sm-2 control-label text-md-right"><%= t("location.floor") %></label>
                   <div class="col-sm-4">
-                    <%= select_tag "floor", [], :class => "form-control" %>
+                    <%= select_tag "floor", '', :class => "form-control", :disabled => true %>
                   </div>
                 </div>
-                <div class="form-group by-building-room" style="display: none;">
-                  <label class="col-sm-2 control-label"><%= t("location.room") %></label>
+                <div class="form-group w-100 row by-building-room">
+                  <label class="col-sm-2 control-label text-md-right"><%= t("location.room") %></label>
                   <div class="col-sm-4">
-                    <%= select_tag "room", [], :class => "form-control" %>
+                    <%= select_tag "room", '', :class => "form-control", :disabled => true %>
                   </div>
                 </div>
-                <div class="form-group by-building-area" style="display: none;">
-                  <label class="col-sm-2 control-label"><%= t("location.area") %></label>
+                <div class="form-group w-100 row by-building-area">
+                  <label class="col-sm-2 control-label text-md-right"><%= t("location.area") %></label>
                   <div class="col-sm-4">
-                    <%= select_tag "area", [], :class => "form-control" %>
+                    <%= select_tag "area", '', :class => "form-control", :disabled => true %>
                   </div>
                 </div>
               </div>
