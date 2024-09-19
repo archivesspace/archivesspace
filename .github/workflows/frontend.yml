@@ -29,7 +29,7 @@ on:
         options:
           - 'chrome'
           - 'firefox'
-        default: 'chrome'
+        default: 'firefox'
 
   workflow_call:
     inputs:
@@ -46,7 +46,7 @@ on:
         description: Which browser to use
         required: true
         type: string
-        default: 'chrome'
+        default: 'firefox'
 
   pull_request:
     paths:
