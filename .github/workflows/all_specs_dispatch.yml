@@ -18,7 +18,7 @@ on:
         options:
           - 'chrome'
           - 'firefox'
-        default: 'chrome'
+        default: 'firefox'
 
 jobs:
   codescan:

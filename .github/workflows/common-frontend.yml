@@ -17,7 +17,7 @@ on:
         description: Which browser to use
         required: true
         type: string
-        default: 'chrome'
+        default: 'firefox'
 
 jobs:
   start-runner:
