@@ -22,7 +22,7 @@
             <%= resolve_readonly_link_to record_title, result["record"]["ref"] %>
           <% else %>
             <%= resolve_readonly_link_to "#{record_title} (#{result["record"]["ref"]})", result["record"]["ref"], false %>
-            <span class="label label-warning">
+            <span class="badge badge-warning">
              <%= t("job._frontend.external_repo") %>
             </span>
           <% end %>

@@ -47,7 +47,7 @@
                     <dt><%= t("linked_agent.terms") %></dt>
 
                     <% ASUtils.wrap(link['terms']).each do |term| %>
-                      <dd class="label label-info" title="<%= t("enumerations.subject_term_type.#{term["term_type"]}") %>">
+                      <dd class="label label-info badge" title="<%= t("enumerations.subject_term_type.#{term["term_type"]}") %>">
                         <%= term['term'] %>
                       </dd>
                     <% end %>
