@@ -20,7 +20,7 @@ module ASpaceHelpers
   end
 
   def login_user(user)
-    visit '/'
+    visit '/logout' # ensure we are logged out before trying to login
     page.has_xpath? '//input[@id="login"]'
 
     within "form.login" do
