@@ -47,7 +47,15 @@ body {
 }
 
 // Bootstrap badge styles are overriden due to ../../archivesspace.scss,
-// copy .btn-warning styles instead of reordering imports for quick fix
+// so copy .btn-* styles instead of reordering imports for quick fix
+.badge-danger {
+  color: #fff;
+  background-color: #9d261d;
+}
+.badge-success {
+  color: #fff;
+  background-color: #398439;
+}
 .badge-warning {
   color: #212529;
   background-color: #ffc40d;
