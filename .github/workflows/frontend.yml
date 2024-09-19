@@ -42,6 +42,11 @@ on:
         required: true
         type: string
         default: 'all'
+      browser:
+        description: Which browser to use
+        required: true
+        type: string
+        default: 'chrome'
 
   pull_request:
     paths:
@@ -62,6 +67,7 @@ jobs:
         ./build/run frontend:test -Dpattern="spec/features/[a-c]*_spec.rb"
       name: a-c
       java-version: ${{ inputs.java-version || 11 }}
+      browser: ${{ inputs.browser || 'chrome' }}
 
   frontend_d-l:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'd-l' || inputs.group-choice == '' }}
@@ -73,6 +79,7 @@ jobs:
         ./build/run frontend:test -Dpattern="spec/features/[d-l]*_spec.rb"
       name: d-l
       java-version: ${{ inputs.java-version || 11 }}
+      browser: ${{ inputs.browser || 'chrome' }}
 
   frontend_m-r:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'm-r' || inputs.group-choice == '' }}
@@ -84,6 +91,7 @@ jobs:
         ./build/run frontend:test -Dpattern="spec/features/[m-r]*_spec.rb"
       name: m-r
       java-version: ${{ inputs.java-version || 11 }}
+      browser: ${{ inputs.browser || 'chrome' }}
 
   frontend_s-z:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 's-z' || inputs.group-choice == '' }}
@@ -95,3 +103,4 @@ jobs:
         ./build/run frontend:test -Dpattern="spec/features/[s-z]*_spec.rb"
       name: s-z
       java-version: ${{ inputs.java-version || 11 }}
+      browser: ${{ inputs.browser || 'chrome' }}
