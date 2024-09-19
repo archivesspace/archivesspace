@@ -46,6 +46,13 @@ body {
   color: white;
 }
 
+// Bootstrap badge styles are overriden due to ../../archivesspace.scss,
+// copy .btn-warning styles instead of reordering imports for quick fix
+.badge-warning {
+  color: #212529;
+  background-color: #ffc40d;
+}
+
 .sidebar .badge {
   border-radius: 20px;
 }
