@@ -126,8 +126,8 @@
     <% report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])} %>
 
     <% report_params.each do | param | %>
-      <div class="form-group">
-        <label class="col-sm-2 control-label"><%= t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
+      <div class="form-group w-100 row">
+        <label class="col-sm-2 control-label text-md-right"><%= t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
         <div class="col-sm-9">
           <% if param[1] === "Date" %>
             <%= form.textfield param[0], nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :"data-label" => t("actions.date_picker_toggle") %>
