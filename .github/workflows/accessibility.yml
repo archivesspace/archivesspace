@@ -11,6 +11,14 @@ on:
           - '11'
           - '17'
         default: '11'
+      browser:
+        description: Which browser to use
+        required: true
+        type: choice
+        options:
+          - 'chrome'
+          - 'firefox'
+        default: 'chrome'
 
   workflow_call:
     inputs:
@@ -19,6 +27,11 @@ on:
         required: true
         type: string
         default: '11'
+      browser:
+        description: Which browser to use
+        required: true
+        type: string
+        default: 'chrome'
 
   pull_request:
     paths:
@@ -106,6 +119,7 @@ jobs:
 
     - name: Run Frontend accessibility tests
       env:
+        SELENIUM_CHROME: ${{ inputs.browser == 'chrome' }}
         ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:3307/accessibility?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true
         ASPACE_TEST_SKIP_FIXTURES: 1
         ARCHIVESSPACE_VERSION: ${{ github.ref }}

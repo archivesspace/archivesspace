@@ -33,6 +33,7 @@ jobs:
     with:
       java-version: ${{ inputs.java-version || 11 }}
       group-choice: 'all'
+      browser: ${{ inputs.browser || 'chrome' }}
 
   backend:
     uses: ./.github/workflows/backend.yml
@@ -45,6 +46,7 @@ jobs:
     secrets: inherit
     with:
       java-version: ${{ inputs.java-version || 11 }}
+      browser: ${{ inputs.browser || 'chrome' }}
 
   indexer:
     uses: ./.github/workflows/indexer.yml
@@ -57,3 +59,4 @@ jobs:
     secrets: inherit
     with:
       java-version: ${{ inputs.java-version || 11 }}
+      browser: ${{ inputs.browser || 'chrome' }}
