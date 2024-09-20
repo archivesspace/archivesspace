@@ -16,7 +16,7 @@
     </eadheader>
     <archdesc level="collection"><did>
         <unitid>testPhysfacetDimensions_2016_07_08</unitid><unittitle>TEST dimensions physfacet_2016_06_27</unittitle>
-            <unitdate>1880-1970</unitdate>
+            <unitdate type="inclusive">1880-1970</unitdate>
             <physdesc><extent>20 cubic feet</extent><extent>60 boxes</extent></physdesc>
             <physdesc><extent>10000 photographs</extent><physfacet>gelatin
                     silver</physfacet><dimensions>8 x 10 or larger</dimensions></physdesc>

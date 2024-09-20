@@ -13,7 +13,7 @@
          <head>Overview</head>
          <unitid countrycode="US" repositorycode="US-CtY-BR" label="Call Number:">DAO-GRP</unitid>
           <unittitle>i'm a title, since required</unittitle>
-          <unitdate normal="1900/1999"/>
+          <unitdate type="inclusive" normal="1900/1999"/>
           <physdesc>
               <extent>1 whatever</extent>
           </physdesc>
