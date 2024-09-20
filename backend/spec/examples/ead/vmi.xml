@@ -49,7 +49,7 @@
       <did>
          <head>e2add2a7-0adb-4545-9d8e-5367cb25f781</head>
          <repository label="Repository">9eaad71f-7388-4847-9a55-1707050ef502</repository>
-         <unittitle>b053ef76-4b28-4e4d-9e4a-c48b80dcb543<unitdate label="Date">7e9582d9-f672-4730-a8de-8ca3785a20a3</unitdate></unittitle>
+         <unittitle>b053ef76-4b28-4e4d-9e4a-c48b80dcb543<unitdate type="single" label="Date">7e9582d9-f672-4730-a8de-8ca3785a20a3</unitdate></unittitle>
          <unitid label="Accession number">d72ac2a1-6e7d-4370-90ff-b30353a62bce</unitid>
          <physdesc label="Physical Characteristics"><extent>1 book</extent></physdesc>
          <langmaterial label="Language">
@@ -115,7 +115,7 @@
          <c01 level="item">
             <did>
                <unittitle>510f1dbe-d9a5-417b-b14a-e978d9fd6e8e</unittitle>
-               <unitdate>f83cba97-9a15-4bb3-aef2-8544bcc64e6a</unitdate>
+               <unitdate type="single">f83cba97-9a15-4bb3-aef2-8544bcc64e6a</unitdate>
                	<container label="Box" type="box">1</container>
 		<container id="cid370008" type="Box" label="Mixed materials">2</container>
 		<container parent="cid370008" type="Folder">3</container>
