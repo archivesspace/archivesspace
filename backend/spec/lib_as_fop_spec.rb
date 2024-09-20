@@ -68,8 +68,10 @@ describe 'AS_fop' do
 
       pdf_file = generate_pdf(resource)
 
-      # require 'pry'; binding.pry
-      expect(pdf_file.gsub("\n", '').gsub("\r", '')).to include "ID: archival-object-component-id-#{uuid}"
+      # Remove all spaces, new lines, and carriage returns
+      pdf_text_clean = pdf_file.gsub("\n", '').gsub("\r", '').gsub(/ +/, '')
+
+      expect(pdf_text_clean).to include "ID:archival-object-component-id-#{uuid}"
     end
   end
 
