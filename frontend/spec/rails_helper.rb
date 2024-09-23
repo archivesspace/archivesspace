@@ -60,7 +60,7 @@ end
 # Capybara screenshot
 Capybara.threadsafe = true
 Capybara.save_path = File.join(ASUtils.find_base_directory, "ci_logs")
-Capybara.asset_host = 'http://localhost:3001' # Enables (in theory) viewing of HTML screenshots with assets (provided you run the public devserver)
+Capybara.asset_host = 'http://localhost:3000' # Enables (in theory) viewing of HTML screenshots with assets (provided you run the public devserver)
 Capybara::Screenshot.register_driver(:chrome) do |driver, path|
   driver.browser.save_screenshot(path)
 end
