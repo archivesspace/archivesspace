@@ -3,15 +3,18 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'System Information', js: true do
-  let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
+describe 'Agents', js: true do
+  before(:all) do
+    @admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
+  end
+
   let(:repository) { create(:repo, repo_code: "agents_test_#{Time.now.to_i}") }
 
-  describe "agents merge" do
-    before(:each) do
-      login_user(admin)
-    end
+  before(:each) do
+    login_user(@admin)
+  end
 
+  describe "agents merge" do
     it 'displays the full merge page without any errors' do
       now = Time.now.to_i
       agent_a = create(:json_agent_corporate_entity_full_subrec, names: [
@@ -206,10 +209,6 @@ describe 'System Information', js: true do
   end
 
   describe "disallows agents merge with related agents" do
-    before(:each) do
-      login_user(admin)
-    end
-
     it 'tries to merge related agents and gets an error' do
       now = Time.now.to_i
       agent_a = create(:json_agent_corporate_entity_full_subrec, names: [
@@ -232,6 +231,8 @@ describe 'System Information', js: true do
       end
 
       click_on 'Add Related Agent'
+
+      wait_for_ajax
 
       element = find('#related-agents-container .related-agent-type.form-control')
       element.select 'Hierarchical Relationship'
@@ -262,10 +263,6 @@ describe 'System Information', js: true do
   end
 
   describe "agents record CRUD" do
-    before(:each) do
-      login_user(admin)
-    end
-
     describe 'Full Agent Record' do
       it 'reports errors and warnings when creating an invalid Person Agent' do
         click_on 'Create'
