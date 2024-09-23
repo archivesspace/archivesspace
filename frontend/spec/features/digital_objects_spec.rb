@@ -106,9 +106,11 @@ describe 'Digital Objects', js: true do
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq "Digital Object Digital Object Title #{now} Created"
 
-    expect(page).to have_button('Make Representative', disabled: true)
-    find('.js-file-version-publish').click
-    expect(page).to have_button('Make Representative', disabled: false)
+    within '#digital_object_file_versions__0_' do
+      expect(page).to have_button('Make Representative', disabled: true)
+      find('#digital_object_file_versions__0__publish_').click
+      expect(page).to have_button('Make Representative', disabled: false)
+    end
   end
 
   it 'reports errors if adding a child with no title to a Digital Object' do
@@ -138,7 +140,7 @@ describe 'Digital Objects', js: true do
 
   it 'can populate the digital object component tree' do
     now = Time.now.to_i
-    digital_object = create(:digital_object, title: "Digital Object Title #{now}")
+    digital_object = create(:digital_object, title: "Digital Object Title #{now}", dates: [], extents: [])
     run_index_round
 
     visit "digital_objects/#{digital_object.id}/edit"
@@ -243,7 +245,7 @@ describe 'Digital Objects', js: true do
 
   it 'can link a classification to digital object' do
     now = Time.now.to_i
-    digital_object = create(:digital_object, title: "Digital Object Title #{now}")
+    digital_object = create(:digital_object, title: "Digital Object Title #{now}", dates: [], extents: [])
     classification = create(:classification)
     run_index_round
 
@@ -292,6 +294,9 @@ describe 'Digital Objects', js: true do
     expect(expand_elements.length).to eq 2
 
     expand_elements[0].click
+
+    wait_for_ajax
+
     element = find('#digital_object_file_versions__file_version_0')
     expect(element).to have_text "File Format Caption 1 #{now}"
 
