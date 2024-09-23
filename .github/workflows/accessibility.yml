@@ -125,3 +125,9 @@ jobs:
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
       run: |
         ./build/run rspec -Ddir="../frontend" -Dtag="db:accessibility" -Dspec="features" -Dorder="defined"
+
+    - uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: ci_logs_accessibility_Java_${{ inputs.java-version || 11 }}
+        path: 'ci_logs'
