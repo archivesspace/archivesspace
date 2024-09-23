@@ -3,19 +3,10 @@ require 'spec_helper.rb'
 require 'rails_helper.rb'
 
 describe 'DatepickerPlugin', js: true do
+  let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
 
   before(:each) do
-    visit '/'
-    page.has_xpath? '//input[@id="login"]'
-
-    within "form.login" do
-      fill_in "username", with: "admin"
-      fill_in "password", with: "admin"
-
-      click_button "Sign In"
-    end
-
-    expect(page).not_to have_xpath('//input[@id="login"]')
+    login_user(admin)
     wait_for_ajax
     expect(page).to have_css('button[title="Show Advanced Search"]')
     first('button[title="Show Advanced Search"]').click
