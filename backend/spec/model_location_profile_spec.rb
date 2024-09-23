@@ -2,6 +2,23 @@ require 'spec_helper'
 require_relative 'factories'
 
 describe 'Location Profile model' do
+  it 'creates a location profile with various decimal formats for width, height, depth' do
+    uuid = SecureRandom.uuid
+
+    location_profile = LocationProfile.create_from_json(
+      build(:json_location_profile,
+        :name => "Location Profile Name #{uuid}",
+        :width => '.2',
+        :height => '0.2',
+        :depth => '.11'
+      )
+    )
+
+    expect(location_profile[:name]).to eq "Location Profile Name #{uuid}"
+    expect(location_profile[:width]).to eq '.2'
+    expect(location_profile[:height]).to eq '0.2'
+    expect(location_profile[:depth]).to eq '.11'
+  end
 
   it "can be created from a JSON module" do
     cp = LocationProfile.create_from_json(build(:json_location_profile, :name => "Large shelf"))
