@@ -109,6 +109,10 @@ RSpec.configure do |config|
       end
     end
   end
+
+  config.append_after(:each, js: true) do
+    Capybara.reset_sessions!
+  end
 end
 
 # Puma server
