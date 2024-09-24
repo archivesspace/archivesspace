@@ -23,9 +23,7 @@ describe 'Default Form Values', js: true do
     click_button('Save')
     expect(page).to have_checked_field('preference[defaults][default_values]')
     expect(page).to have_content('Preferences updated')
-  end
 
-  it 'will let an admin create default accession values' do
     visit '/accessions'
     click_link('Edit Default Values')
     loop do
@@ -39,6 +37,15 @@ describe 'Default Form Values', js: true do
 
     visit('/accessions/new')
     expect(page).to have_content('DEFAULT TITLE')
+
+    visit('/preferences/0/edit?global=true')
+    uncheck('preference[defaults][default_values]')
+    click_button('Save')
+    expect(page).to have_unchecked_field('preference[defaults][default_values]')
+    expect(page).to have_content('Preferences updated')
+
+    visit('/accessions/new')
+    expect(page).not_to have_content('DEFAULT TITLE')
   end
 
   it "won't let a regular archivist edit default accession values" do
