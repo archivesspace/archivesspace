@@ -7,22 +7,13 @@ describe 'Classifications', js: true do
   before(:all) do
     @repository = create(:repo, repo_code: "classification_test_A_#{Time.now.to_i}", publish: true)
     @agent = create(:agent_person)
+    @admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
 
     run_all_indexers
   end
 
   before(:each) do
-    visit '/'
-    page.has_xpath? '//input[@id="login"]'
-
-    within "form.login" do
-      fill_in "username", with: "admin"
-      fill_in "password", with: "admin"
-      click_button "Sign In"
-    end
-
-    page.has_no_xpath? "//input[@id='login']"
-
+    login_user(@admin)
     select_repository(@repository)
   end
 
@@ -51,13 +42,15 @@ describe 'Classifications', js: true do
     click_on 'Add Child'
     expect(page).to have_text('Classification Term')
 
-    fill_in 'Identifier', with: "Identifier child #{now}"
-    fill_in 'Title', with: "Title child #{now}"
-    # Creator AJAX drodown
-    element = find('#token-input-classification_term_creator__ref_')
-    element.fill_in with: agent_name
-    dropdown_items = all('li.token-input-dropdown-item2')
-    dropdown_items.first.click
+    within '#basic_information' do
+      fill_in 'Identifier', with: "Identifier child #{now}"
+      fill_in 'Title', with: "Title child #{now}"
+      # Creator AJAX drodown
+      element = find('#token-input-classification_term_creator__ref_')
+      element.fill_in with: agent_name
+      dropdown_items = all('li.token-input-dropdown-item2')
+      dropdown_items.first.click
+    end
 
     # Click on save
     find('button', text: 'Save Classification Term', match: :first).click
