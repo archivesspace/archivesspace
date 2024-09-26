@@ -5,11 +5,109 @@ require 'converter_spec_helper'
 require_relative '../app/converters/ead_converter'
 
 describe 'EAD converter' do
-
   def my_converter
     EADConverter
   end
 
+  context 'when ead contains unitdate without date type' do
+    let (:test_doc) {
+      src = <<~ANEAD
+        <ead>
+          <frontmatter>
+            <titlepage>
+              <titleproper>A test resource</titleproper>
+            </titlepage>
+          </frontmatter>
+          <archdesc level="collection" audience="internal">
+            <did>
+              <unittitle>一般行政文件 [2]</unittitle>
+              <unitid>Resource.ID.AT</unitid>
+              <unitdate normal="1907/1911" era="ce" calendar="gregorian">1907-1911</unitdate>
+              <physdesc>
+                <extent>5.0 Linear feet</extent>
+                <extent>Resource-ContainerSummary-AT</extent>
+              </physdesc>
+            </did>
+          </archdesc>
+        <dsc>
+        <c id="1" level="file">
+          <unittitle>oh well<unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate></unittitle>
+          <container id="cid1" type="Box" label="Text (B@RC0D3  )">1</container>
+          <container parent="cid1" type="Folder" ></container>
+          <c id="2" level="file">
+            <unittitle>whatever</unittitle>
+            <container id="cid3" type="Box" label="Text">FOO</container>
+            <controlaccess><persname rules="dacs" source='local' authfilenumber='thesame'>Art, Makah</persname></controlaccess>
+          </c>
+        </c>
+        </dsc>
+        </ead>
+      ANEAD
+
+      get_tempfile_path(src)
+    }
+
+    it 'raises error when no date type is provided' do
+      converter = EADConverter.new(test_doc)
+
+      expect do
+        converter.run
+      end.to raise_error do |error|
+        expect(error).to be_a AccessionConverterInvalidDateTypeError
+        expect(error.message).to eq 'Invalid date type provided: ; must be one of: ["bulk", "inclusive", "single"].'
+      end
+    end
+  end
+
+  context 'when ead contains unitdate with an invalid date type' do
+    let (:test_doc) {
+      src = <<~ANEAD
+        <ead>
+          <frontmatter>
+            <titlepage>
+              <titleproper>A test resource</titleproper>
+            </titlepage>
+          </frontmatter>
+          <archdesc level="collection" audience="internal">
+            <did>
+              <unittitle>一般行政文件 [2]</unittitle>
+              <unitid>Resource.ID.AT</unitid>
+              <unitdate type="INVALID" normal="1907/1911" era="ce" calendar="gregorian">1907-1911</unitdate>
+              <physdesc>
+                <extent>5.0 Linear feet</extent>
+                <extent>Resource-ContainerSummary-AT</extent>
+              </physdesc>
+            </did>
+          </archdesc>
+        <dsc>
+        <c id="1" level="file">
+          <unittitle>oh well<unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate></unittitle>
+          <container id="cid1" type="Box" label="Text (B@RC0D3  )">1</container>
+          <container parent="cid1" type="Folder" ></container>
+          <c id="2" level="file">
+            <unittitle>whatever</unittitle>
+            <container id="cid3" type="Box" label="Text">FOO</container>
+            <controlaccess><persname rules="dacs" source='local' authfilenumber='thesame'>Art, Makah</persname></controlaccess>
+          </c>
+        </c>
+        </dsc>
+        </ead>
+      ANEAD
+
+      get_tempfile_path(src)
+    }
+
+    it 'raises error when no date type is provided' do
+      converter = EADConverter.new(test_doc)
+
+      expect do
+        converter.run
+      end.to raise_error do |error|
+        expect(error).to be_a AccessionConverterInvalidDateTypeError
+        expect(error.message).to eq 'Invalid date type provided: INVALID; must be one of: ["bulk", "inclusive", "single"].'
+      end
+    end
+  end
 
   let (:test_doc_1) {
     src = <<~ANEAD
@@ -23,7 +121,7 @@ describe 'EAD converter' do
           <did>
             <unittitle>一般行政文件 [2]</unittitle>
             <unitid>Resource.ID.AT</unitid>
-            <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+            <unitdate type="inclusive" normal="1907/1911" era="ce" calendar="gregorian">1907-1911</unitdate>
             <physdesc>
               <extent>5.0 Linear feet</extent>
               <extent>Resource-ContainerSummary-AT</extent>
@@ -1086,7 +1184,6 @@ describe 'EAD converter' do
   end
 
   describe "DAO and DAOGROUPS" do
-
      before(:all) do
        test_file = File.expand_path("./examples/ead/ead-dao-test.xml", File.dirname(__FILE__))
        parsed = convert(test_file)
@@ -1118,12 +1215,9 @@ describe 'EAD converter' do
        expect(notes_content).to include('<p>second daogrp</p>')
        expect(notes_content).to include('<p>dao no grp</p>')
      end
-
    end
 
-
   describe "EAD With frontpage" do
-
     before(:all) do
       test_file = File.expand_path("./examples/ead/vmi.xml", File.dirname(__FILE__))
 
@@ -1152,7 +1246,6 @@ describe 'EAD converter' do
       expect(instances[2]['sub_container']['type_3']).to eq('Cassette')
       expect(instances[2]['sub_container']['indicator_3']).to eq('5')
     end
-
   end
 
   # See https://archivesspace.atlassian.net/browse/AR-1134
@@ -1164,7 +1257,7 @@ describe 'EAD converter' do
             <did>
               <unittitle>一般行政文件 [2]</unittitle>
               <unitid>Resource.ID.AT</unitid>
-              <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+              <unitdate type="inclusive" normal="1907/1911" era="ce" calendar="gregorian">1907-1911</unitdate>
               <physdesc>
                 <extent>5.0 Linear feet</extent>
                 <extent>Resource-ContainerSummary-AT</extent>
@@ -1321,7 +1414,7 @@ describe 'EAD converter' do
                  <physdesc>
                     <extent>100 linear_feet</extent>
                  </physdesc>
-                 <unitdate>1900-1901</unitdate>
+                 <unitdate type="inclusive">1900-1901</unitdate>
               </did>
               <note><p>Collection level note outside did</p></note>
               <accessrestrict>
@@ -1464,7 +1557,7 @@ describe 'EAD converter' do
               <physdesc altrender="whole">
                 <extent altrender="materialtype spaceoccupied">1 Cassettes</extent>
               </physdesc>
-              <unitdate normal="2019-04-11/2019-04-11">2019-04-11</unitdate>
+              <unitdate type="inclusive" normal="2019-04-11/2019-04-11">2019-04-11</unitdate>
             </did>
             <dsc/>
           </archdesc>
@@ -1519,7 +1612,7 @@ describe 'EAD converter' do
                     <physdesc altrender="whole">
                         <extent altrender="materialtype spaceoccupied">1 Cassettes</extent>
                     </physdesc>
-                    <unitdate normal="2021-09-14/2021-09-30">2021-09-14</unitdate>
+                    <unitdate type="inclusive" normal="2021-09-14/2021-09-30">2021-09-14</unitdate>
                 </did>
                 <dsc>
                     <c id="1" level="file">
