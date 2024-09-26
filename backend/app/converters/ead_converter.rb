@@ -75,6 +75,20 @@ class EADConverter < Converter
     theleftovers
   end
 
+  def verify_date_type(date_type)
+    date_types = EnumerationValue.filter(
+      :enumeration_id => Enumeration.find(:name => 'date_type').values[:id],
+      :suppressed => 0,
+    ).order(:position).to_a
+    .map { |entry| entry.values[:value] }
+    .reject { |value| value == 'range' }
+
+    unless date_types.include? date_type
+      error_message = "Invalid date type provided: #{date_type}; must be one of: #{date_types}."
+
+      raise AccessionConverterInvalidDateTypeError, error_message
+    end
+  end
 
   def self.configure
     with 'ead' do |*|
@@ -196,7 +210,6 @@ class EADConverter < Converter
 
 
     with 'unitdate' do |node|
-
       norm_dates = (att('normal') || "").sub(/^\s/, '').sub(/\s$/, '').split('/')
       # why were the next 3 lines added?  removed for now, since single dates can stand on their own.
       #if norm_dates.length == 1
@@ -204,8 +217,10 @@ class EADConverter < Converter
       #end
       norm_dates.map! {|d| d =~ /^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$/ ? d : nil}
 
+      verify_date_type(att('type'))
+
       make :date, {
-        :date_type => att('type') || ( norm_dates[1] ? 'inclusive' : 'single' ),
+        :date_type => att('type'),
         :expression => inner_xml,
         :label => 'creation',
         :begin => norm_dates[0],
