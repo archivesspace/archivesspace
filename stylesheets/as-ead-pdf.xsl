@@ -1562,6 +1562,7 @@
         <fo:block margin-bottom="4pt" margin-top="0">
             <xsl:apply-templates select="ead:repository" mode="dsc"/>
             <xsl:apply-templates select="ead:origination" mode="dsc"/>
+            <xsl:apply-templates select="ead:unitid" mode="dsc"/>
             <xsl:apply-templates select="ead:unitdate" mode="dsc"/>
             <xsl:apply-templates select="ead:physdesc" mode="dsc"/>
             <xsl:apply-templates select="ead:physloc" mode="dsc"/>
@@ -1589,6 +1590,7 @@
         <fo:block margin-bottom="4pt" margin-top="0">
             <xsl:apply-templates select="ead:repository" mode="dsc"/>
             <xsl:apply-templates select="ead:origination" mode="dsc"/>
+            <xsl:apply-templates select="ead:unitid" mode="dsc"/>
             <xsl:apply-templates select="ead:unitdate" mode="dsc"/>
             <xsl:apply-templates select="ead:physdesc" mode="dsc"/>
             <xsl:apply-templates select="ead:physloc" mode="dsc"/>
