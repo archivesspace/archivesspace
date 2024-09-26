@@ -48,8 +48,8 @@ end
           <td class="title">Title/Description</td>
           <td class="instance">Instances</td>
        </table>
-
     <% end %>
+
         <% Array(record.instances).each do |instance| %>
             <% if instance['sub_container'] %>
                 <div class="container-information">
@@ -97,24 +97,29 @@ end
         <% end %>
 
         <div class="indented">
-            <% record.notes.each do |note_type, note| %>
-                <% if note_type != 'physdesc' && note_type != 'scopecontent' %>
-                  <% note.each do |n| %>
-                    <% if !n['is_inherited'] %>
-                      <h4>
-                        <% if n['label'] %>
-                            <%== process_mixed_content(n['label']) %>
-                        <% else %>
-                            <%= I18n.t("enumerations._note_types.#{note_type}") %>
-                        <% end %>
-                      </h4>
-                      <p><%== process_mixed_content(n['note_text']) %></p>
-                    <% end %>
-                  <% end %>
-                <% end %>
-            <% end %>
-
             <dl>
+                <% if record.direct_component_id.present? %>
+                    <dt><%= I18n.t('resource._public.finding_aid.identifier') %></dt>
+                    <dd><%= record.direct_component_id %></dd>
+                <% end %>
+
+                <% record.notes.each do |note_type, note| %>
+                    <% if note_type != 'physdesc' && note_type != 'scopecontent' %>
+                      <% note.each do |n| %>
+                        <% if !n['is_inherited'] %>
+                          <dt>
+                            <% if n['label'] %>
+                                <%== process_mixed_content(n['label']) %>
+                            <% else %>
+                                <%= I18n.t("enumerations._note_types.#{note_type}") %>
+                            <% end %>
+                          </dt>
+                          <dd><%== process_mixed_content(n['note_text']) %></dd>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                <% end %>
+
                 <% record.extents.each do |extent| %>
                     <% next if extent['_inherited'] %>
                     <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%= extent['display'] %></dd>
@@ -153,7 +158,7 @@ end
                         </ul>
                     </dd>
                 <% end %>
-                
+
                 <% ASUtils.find_local_directories('public/views/_pdf_archival_object.html.erb').each do |template| %>
                     <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>
                 <% end %>
