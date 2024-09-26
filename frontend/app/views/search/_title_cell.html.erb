@@ -1,13 +1,13 @@
 <% if record['primary_type'] === "repository" and session[:repo] === record['id'] %>
-	<span class="label label-success"><%= t("repository._frontend.messages.selected_short") %></span>
+	<span class="badge badge-success"><%= t("repository._frontend.messages.selected_short") %></span>
 <% end %>
 
 <% if record["suppressed"] %>
-	<span class="label label-info"><%= t("states.suppressed") %></span>
+	<span class="badge badge-warning"><%= t("states.suppressed") %></span>
 <% end %>
 
 <% if deleted(record) %>
-	<span class="label label-important"><%= t("states.deleted") %></span>
+	<span class="badge badge-danger"><%= t("states.deleted") %></span>
 <% end %>
 
 <%= clean_mixed_content(record["title"]).html_safe || clean_mixed_content(record['display_string']).html_safe %>
