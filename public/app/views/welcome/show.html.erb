@@ -26,5 +26,5 @@
     } %>
 
     <% ASUtils.find_local_directories('public/views/_welcome_addition.html.erb').each do |template| %>
-        <%= :inline => File.read(template) => template) if File.exists?(template) %>
+        <%= render(:inline => File.read(template)) if File.exists?(template) %>
     <% end %>
