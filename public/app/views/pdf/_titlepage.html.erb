@@ -40,7 +40,7 @@
     </div>
     
     <% ASUtils.find_local_directories('public/views/_pdf_titlepage.html.erb').each do |template| %>
-        <%= render(:file => template, :locals => {:record => record}) if File.exists?(template) %>
+        <%= :inline => File.read(template) => template, :locals => {:record => record}) if File.exists?(template) %>
     <% end %>
 
     <% if record.resolved_repository && 
