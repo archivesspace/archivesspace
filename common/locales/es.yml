@@ -2065,7 +2065,7 @@ es:
     subject_must_be_unique: Los registros de sujetos no pueden ser idénticos
     subject_heading_identifier_must_be_unique_within_source: El identificador de encabezado de asunto
       debe ser único dentro de la fuente
-    conflicting_record: Registro conflictivo
+    conflicting_record: Ver registro conflictivo
     missing_required_property: Propiedad es necesaria pero falta
     missing_property: Faltaba propiedad
     not_a_valid_date: No es una fecha válida
