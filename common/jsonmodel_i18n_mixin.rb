@@ -28,7 +28,7 @@ module JSONModelI18nMixin
 
   def translate_exception_message(msg, path = nil)
     if path == 'conflicting_record'
-      return t("validation_errors.conflicting_record", :record_uri => msg)
+      return "<a href='/resolve/readonly?uri=#{msg}' target='_blank'>#{t("validation_errors.conflicting_record")}</a>"
     end
 
     msg_data = case msg

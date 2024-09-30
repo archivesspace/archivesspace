@@ -2109,7 +2109,7 @@ fr:
     subject_must_be_unique: Il ne peut y avoir deux notices sujets identiques
     subject_heading_identifier_must_be_unique_within_source: L'identifiant de la vedette-matière doit
       être unique dans la source
-    conflicting_record: Enregistrement contradictoire
+    conflicting_record: Afficher les enregistrements en conflit
     missing_required_property: Propriété requise qui manquait
     missing_property: Propriété manquante
     not_a_valid_date: N'est pas une date valide

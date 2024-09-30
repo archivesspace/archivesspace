@@ -54,6 +54,48 @@ describe 'Subjects', js: true do
     expect(element).to have_text "First Term #{now} -- Second Term #{now}"
   end
 
+  it 'does not create a new subject if there is another identical subject' do
+    now = Time.now.to_i
+
+    click_on 'Create'
+    click_on 'Subject'
+
+    fill_in 'subject_authority_id_', with: "Authority ID #{now}"
+    select 'Local sources', from: 'Source'
+    fill_in 'subject_terms__0__term_', with: "Subject Term #{now}"
+    select 'Temporal', from: 'subject_terms__0__term_type_'
+
+    # Click on save
+    element = find('button', text: 'Save', match: :first)
+    element.click
+
+    expect(page).to have_text 'Subject Created'
+    element = find('.record-pane h2')
+
+    split_url = current_url.split('/')
+    split_url.pop
+    existing_subject_id = split_url.pop
+
+    run_index_round
+
+    # Create an identical subject
+    click_on 'Create'
+    click_on 'Subject'
+
+    fill_in 'subject_authority_id_', with: "Authority ID #{now}"
+    select 'Local sources', from: 'Source'
+    fill_in 'subject_terms__0__term_', with: "Subject Term #{now}"
+    select 'Temporal', from: 'subject_terms__0__term_type_'
+
+    # Click on save
+    element = find('button', text: 'Save', match: :first)
+    element.click
+
+    element = find('.alert.alert-danger.with-hide-alert')
+    expect(element.text).to eq "Terms and Subdivisions - Subject records cannot be identical\nAuthority ID - Subject heading identifier must be unique within source\nView conflicting record"
+    expect(page).to have_link(text: 'View conflicting record', href: "/resolve/readonly?uri=/subjects/#{existing_subject_id}")
+  end
+
   it 'can present a browse list of Subjects' do
     now = Time.now.to_i
     subject = create(:subject, terms: [build(:term, {term: "Term #{now}", term_type: 'temporal'})])
