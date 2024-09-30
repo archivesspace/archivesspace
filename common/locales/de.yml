@@ -2223,8 +2223,7 @@ de:
     must_specify_a_primary_subject: 'Beschreibungsinformation: Aufzeichnung hat kein Hauptthema'
     must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Standardisierte Daten müssen
       in einem standardisierten Format vorliegen
-    conflicting_record: <a href='/resolve/readonly?uri=%{record_uri}' target='_blank'>Aufzeichnung mit
-      Konflikt anzeigen</a>
+    conflicting_record: In Konflikt stehenden Datensatz anzeigen
     subrecord_not_allowed_for_agent_software: Software-Akteure können keine Aufzeichnungskontrolle- oder
       Beziehungs-Teilaufzeichnungen besitzen
     ark_format_error: Einer der eingegebenen ARKs war kein gültiger ARK.
