@@ -9,7 +9,7 @@ Built for archives by archivists, ArchivesSpace is the open source archives info
 [Build ArchivesSpace release package](https://github.com/archivesspace/archivesspace/workflows/Build%20ArchivesSpace%20release%20package/badge.svg?branch=master)
 
 * [archivesspace.org](http://archivesspace.org)
-* [User Documentation](https://docs.archivesspace.org/)
+* [User Documentation](https://archivesspace.atlassian.net/wiki/spaces/ADC/pages/917045261/ArchivesSpace+Help+Center) (member benefit)
 * [Technical Documentation](https://archivesspace.github.io/tech-docs/)
 * [API](http://archivesspace.github.io/archivesspace/api)
 * [Wiki](http://wiki.archivesspace.org)
@@ -26,10 +26,8 @@ ArchivesSpace is released under the [Educational Community License, version 2.0]
 
 ArchivesSpace (https://archivesspace.org) is community-supported software whose ongoing development is led, managed, implemented and funded by a diverse community of users, developers, and administrators all working together to achieve the goal of helping archives and cultural heritage institutions better manage and provide access to their collections.
 
-ArchivesSpace 1.0 (released in 2013) was developed by [Hudson Molonglo](http://www.hudsonmolonglo.com) in partnership with the New York University Libraries,
-UC San Diego Libraries, and University of Illinois Urbana-Champaign Library and with
-funding from the Andrew W. Mellon Foundation, organizational support from
-Lyrasis, and contributions from diverse persons in the archives community.
+ArchivesSpace 1.0 (released in 2013) was developed by [Hudson Molonglo](http://www.hudsonmolonglo.com) in partnership with the New York University Libraries, UC San Diego Libraries, and University of Illinois Urbana-Champaign Library and with
+funding from the Andrew W. Mellon Foundation, organizational support from Lyrasis, and contributions from diverse persons in the archives community.
 
 # Membership
 
