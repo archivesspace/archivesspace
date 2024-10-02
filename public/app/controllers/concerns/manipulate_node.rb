@@ -10,6 +10,12 @@ module ManipulateNode
   #    item.name = "li"
   #  end
 
+  def process_mixed_content_title(text)
+    return '' if !text
+
+    Nokogiri::HTML::DocumentFragment.parse(text).to_html
+  end
+
   def process_mixed_content(in_txt, opts = {})
     return if !in_txt
 

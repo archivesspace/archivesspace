@@ -109,7 +109,7 @@ class Record
     unless infinite_item || json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
       return "#{json['title']}, #{json['display_string']}"
     end
-    return process_mixed_content(json['display_string'] || json['title'], :preserve_newlines => true)
+    return process_mixed_content_title(json['display_string'] || json['title'])
   end
 
   private
