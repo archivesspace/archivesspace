@@ -20,7 +20,7 @@ end
       <% if level == 1 %>
         <div class="ao-summary">
       <% end %>
-        <p><a class="record-title" id="<%= record.uri %>"><%== process_mixed_content(record.display_string) %></a></p>
+        <p><a class="record-title" id="<%= record.uri %>"><%== process_mixed_content_title(record.display_string) %></a></p>
 
          <% record.notes.each do |note_type, note| %>
            <% if note_type == 'scopecontent' %>
