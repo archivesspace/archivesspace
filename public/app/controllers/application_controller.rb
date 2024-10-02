@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include ManipulateNode
   helper_method :process_mixed_content
+  helper_method :process_mixed_content_title
   helper_method :strip_mixed_content
   helper_method :inheritance
 
