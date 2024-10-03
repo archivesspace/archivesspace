@@ -134,9 +134,14 @@ class EAD3Serializer < EADSerializer
   end
 
 
-  def self.run_serialize_step(data, xml, fragments, context)
+  def self.run_serialize_step(data, xml, fragments, context, include_unpublished)
     Array(@extra_serialize_steps).each do |step|
-      step.new.call(data, xml, fragments, context)
+      # Adding in check so as not to break existing plugins missing `include_unpublished`
+      if step.new.method(:call).arity == 4
+        step.new.call(data, xml, fragments, context)
+      else
+        step.new.call(data, xml, fragments, context, include_unpublished)
+      end
     end
   end
 
@@ -524,7 +529,7 @@ class EAD3Serializer < EADSerializer
                 end
               end
 
-              EAD3Serializer.run_serialize_step(data, xml, @fragments, :did)
+              EAD3Serializer.run_serialize_step(data, xml, @fragments, :did, @include_unpublished)
 
               # Change from EAD 2002: dao must be children of did in EAD3, not archdesc
               data.digital_objects.each do |dob|
@@ -541,7 +546,7 @@ class EAD3Serializer < EADSerializer
 
             serialize_controlaccess(data, xml, @fragments)
 
-            EAD3Serializer.run_serialize_step(data, xml, @fragments, :archdesc)
+            EAD3Serializer.run_serialize_step(data, xml, @fragments, :archdesc, @include_unpublished)
 
             xml.dsc {
 
@@ -1131,7 +1136,7 @@ class EAD3Serializer < EADSerializer
           xml.send(node_name, atts) {
             xml.part() {
               sanitize_mixed_content(sort_name, xml, fragments )
-              EAD3Serializer.run_serialize_step(agent, xml, fragments, node_name.to_sym)
+              EAD3Serializer.run_serialize_step(agent, xml, fragments, node_name.to_sym, @include_unpublished)
             }
           }
         }
@@ -1200,7 +1205,7 @@ class EAD3Serializer < EADSerializer
             serialize_languages(languages, xml, fragments)
           end
 
-          EAD3Serializer.run_serialize_step(data, xml, fragments, :did)
+          EAD3Serializer.run_serialize_step(data, xml, fragments, :did, @include_unpublished)
 
           data.instances_with_sub_containers.each do |instance|
             serialize_container(instance, xml, @fragments)
@@ -1218,7 +1223,7 @@ class EAD3Serializer < EADSerializer
         serialize_bibliographies(data, xml, fragments)
         serialize_indexes(data, xml, fragments)
         serialize_controlaccess(data, xml, fragments)
-        EAD3Serializer.run_serialize_step(data, xml, fragments, :archdesc)
+        EAD3Serializer.run_serialize_step(data, xml, fragments, :archdesc, @include_unpublished)
 
         data.children_indexes.each do |i|
           xml.text(
@@ -1282,7 +1287,7 @@ class EAD3Serializer < EADSerializer
           xml.send(node_data[:node_name], node_data[:atts]) {
             xml.part() {
               sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
-              EAD3Serializer.run_serialize_step(subject['_resolved'], xml, fragments, node_data[:node_name].to_sym)
+              EAD3Serializer.run_serialize_step(subject['_resolved'], xml, fragments, node_data[:node_name].to_sym, @include_unpublished)
             }
           }
         end
@@ -1304,7 +1309,7 @@ class EAD3Serializer < EADSerializer
           xml.send(node_data[:node_name], node_data[:atts]) {
             xml.part() {
               sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
-              EAD3Serializer.run_serialize_step(agent['_resolved'], xml, fragments, node_data[:node_name].to_sym)
+              EAD3Serializer.run_serialize_step(agent['_resolved'], xml, fragments, node_data[:node_name].to_sym, @include_unpublished)
             }
           }
         end
@@ -1482,7 +1487,7 @@ class EAD3Serializer < EADSerializer
         }
       end
     end
-    EAD3Serializer.run_serialize_step(digital_object, xml, fragments, :dao)
+    EAD3Serializer.run_serialize_step(digital_object, xml, fragments, :dao, @include_unpublished)
   end
 
 
