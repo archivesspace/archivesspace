@@ -977,7 +977,7 @@ class EADSerializer < ASpaceExport::Serializer
       if export_rs.length > 0
         xml.revisiondesc {
           export_rs.each do |rs|
-            if rs['description'] && rs['description'].strip.start_with?('<')
+            if rs['description'] && (rs['description'].strip.start_with?('<change') || rs['description'].strip.start_with?('<list'))
               xml.text (fragments << escape_content(rs['description']) )
             else
               xml.change(rs['publish'] ? nil : {:audience => 'internal'}) {
