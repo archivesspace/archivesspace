@@ -90,6 +90,10 @@
   background-color: var(--bootstrap-default-card-heading-bg-color);
 }
 
+.bg-secondary {
+  background-color: $secondary-color !important;
+}
+
 .border-top-default {
   border-top: 1px solid var(--default-border-color);
 }

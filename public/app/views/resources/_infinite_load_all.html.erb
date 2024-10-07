@@ -11,7 +11,7 @@
     </p>
 
     <div class="d-flex gap-x-8">
-      <p class="align-self-center mb-0 px-2 py-1 d-flex align-items-center gap-2 bg-primary rounded">
+      <p class="align-self-center mb-0 px-2 py-1 d-flex align-items-center gap-2 bg-secondary rounded">
         <span class="text-white"><%= t('resource.load_records.showing') %></span>
         <span
           id="load-all-showing-percent"
@@ -25,15 +25,13 @@
         <div class="load-all__toggle-container d-flex align-items-center gap-2">
           <input
             id="load-all-state"
-            class="load-all__input visually-hidden order-1"
+            class="load-all__input visually-hidden"
             type="checkbox"
             autocomplete="off"
           />
-          <div class="order-1">
-            <label class="load-all__label-toggle" for="load-all-state"><%= t('resource.load_records.load_all') %></label>
-          </div>
-          <label class="mb-0 order-0 hover-pointer" for="load-all-state"><%= t('resource.load_records.scroll') %></label>
-          <label class="mb-0 order-1 hover-pointer" for="load-all-state"><%= t('resource.load_records.all') %></label>
+          <span class="mb-0"><%= t('resource.load_records.scroll') %></span>
+          <label class="load-all__label-toggle" for="load-all-state"><%= t('resource.load_records.load_all') %></label>
+          <span class="mb-0"><%= t('resource.load_records.all') %></span>
         </div>
       </div>
     </div>
