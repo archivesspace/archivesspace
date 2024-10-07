@@ -136,7 +136,7 @@ $indent-width: 20px;
   transition: 0.2s;
 }
 
-.load-all__input:checked + div > .load-all__label-toggle::after {
+.load-all__input:checked ~ .load-all__label-toggle::after {
   left: calc(100% - 0.25rem);
   transform: translateX(-100%);
 }
