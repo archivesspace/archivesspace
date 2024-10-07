@@ -275,7 +275,11 @@ describe 'Resources', js: true do
     click_on 'Background Job'
     click_on 'Bulk Archival Object Updater'
 
-    attach_file('job_file_input', downloaded_spreadsheet_filename)
+    attach_file(
+      'job_file_input',
+      downloaded_spreadsheet_filename,
+      make_visible: true
+    )
 
     click_on 'Start Job'
 
