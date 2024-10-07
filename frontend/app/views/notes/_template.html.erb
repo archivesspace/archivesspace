@@ -18,7 +18,7 @@
         <div class="controls">
           <ul>
             <% Array.wrap(form.obj['local_access_restriction_type']).
-                     map{|type| t("enumerations.restriction_type.#{type}",type)}.
+                     map{|type| t("enumerations.restriction_type.#{type}")}.
                      sort.each do |type| %>
               <li><%= type %></li>
             <% end %>

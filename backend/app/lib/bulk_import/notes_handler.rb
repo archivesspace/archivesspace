@@ -69,14 +69,25 @@ class NotesHandler < Handler
     else
       note.content.push content
     end
-    # ANW-1115 add dates to access restriction notes
-    if b_date || e_date
+
+    unless local_restriction.nil?
       note.rights_restriction = {
-        'begin' => b_date,
-        'end' => e_date,
         'local_access_restriction_type' => [local_restriction].compact,
       }
     end
+
+    unless b_date.nil?
+      note.rights_restriction = {} if note.rights_restriction.nil?
+
+      note.rights_restriction['begin'] = b_date
+    end
+
+    unless e_date.nil?
+      note.rights_restriction = {} if note.rights_restriction.nil?
+
+      note.rights_restriction['end'] = e_date
+    end
+
     # For some reason, just having the JSONModel doesn't work; convert to hash
     note.to_hash
   end
