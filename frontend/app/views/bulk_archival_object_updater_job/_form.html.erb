@@ -1,18 +1,26 @@
 <section id="job_filenames_">
   <div class="form-group required">
-    <label class="col-sm-2 control-label" for="job_file_input">Spreadsheet File</label>
-    <div class="col-sm-9">
+    <label class="btn btn-success btn-sm fileinput-button" for="job_file_input">
+      <span class="glyphicon glyphicon-plus icon-white"></span>
+      <span><%= t("job._frontend.actions.add_file") %></span>
       <input
-          id="job_file_input"
-          type="file"
-          name="files[]"
-          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-          required
+        id="job_file_input"
+        type="file"
+        name="files[]"
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        required
       />
-    </div>
+    </label>
+    <span id="job_filename"></span>
   </div>
   <%= form.label_and_boolean "create_missing_top_containers",
     {},
     AppConfig.has_key?(:bulk_archival_object_updater_create_missing_top_containers) && AppConfig[:bulk_archival_object_updater_create_missing_top_containers]
   %>
 </section>
+
+<script>
+$('#job_file_input').on('change', function (e) {
+  $('#job_filename').text(e.target.files[0].name);
+});
+</script>
