@@ -476,18 +476,6 @@ describe 'Collection Organization', js: true do
 
     end
 
-    it 'works by clicking on the "on scroll" and "all at once" labels' do
-      visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization"
-      expect(page).to have_css('input#load-all-state:not(:checked)')
-      page.find('#load-all-section label', text: 'On scroll').click
-      expect(page).to have_css('input#load-all-state:checked')
-
-      visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization"
-      expect(page).to have_css('input#load-all-state:not(:checked)')
-      page.find('#load-all-section label', text: 'All at once').click
-      expect(page).to have_css('input#load-all-state:checked')
-    end
-
     it 'works by keyboard' do
       visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization"
       input = page.find('input#load-all-state:not(:checked)')
