@@ -58,16 +58,14 @@ class Record
     end
 
     # Exclude any redundant fields below that are not meant to be used in the public intreface.
-    #
-    # Remove `title`. Only display string is used.
-    # Remove `notes` and `summary`. They are highlighted even when unpublished.
-    # Remove `agents` and `agents_text`. They are highlighted even when unpublished.
     exclude_fields = [
       'title',
       'notes',
       'summary',
       'agents',
       'agents_text',
+      'repository',
+      'classification_uris'
     ]
 
     @highlights = highlights.reject do |key, _|
