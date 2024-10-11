@@ -15,4 +15,22 @@ describe 'Classifications', js: true do
     click_link 'Record Groups'
     click_link 'My Special Classification'
   end
+
+  it 'does not highlight repository classification uri' do
+    visit('/')
+
+    click_on 'Repositories'
+    click_on 'Test Repo 1'
+
+    elements = all('#whats-in-container form')
+    link = elements.last[:action]
+
+    visit link
+
+    link_parts = link.split('/')
+    link_parts.pop
+    repository_uri = '/' + [link_parts.pop, link_parts.pop].reverse.join('/')
+
+    expect(page).to_not have_text repository_uri
+  end
 end
