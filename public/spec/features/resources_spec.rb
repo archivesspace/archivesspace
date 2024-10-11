@@ -14,6 +14,24 @@ describe 'Resources', js: true do
     end
   end
 
+  it 'does not highlight repository uri' do
+    visit('/')
+
+    click_on 'Repositories'
+    click_on 'Test Repo 1'
+
+    elements = all('#whats-in-container form')
+    link = elements[0][:action]
+
+    visit link
+
+    link_parts = link.split('/')
+    link_parts.pop
+    repository_uri = '/' + [link_parts.pop, link_parts.pop].reverse.join('/')
+
+    expect(page).to_not have_text repository_uri
+  end
+
   it 'should be able to properly navigate from Collection Organization back to Resource' do
     visit('/')
     click_link 'Collections'
