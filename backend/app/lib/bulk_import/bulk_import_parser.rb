@@ -195,10 +195,4 @@ class BulkImportParser
   def log_row(row)
     #overwrite this class
   end
-
-  def normalize_boolean_column(row_hash, column)
-    return if row_hash[column].nil?
-    return if [TrueClass, FalseClass].include? row_hash[column].class
-    row_hash[column] = ['t', '1', 'true'].include? row_hash[column].to_s.strip.downcase
-  end
 end
