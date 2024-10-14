@@ -26,6 +26,10 @@
     <param-name>rack.modifiable.env=</param-name>
     <param-value>production</param-value>
   </context-param>
+  <context-param>
+    <param-name>booter</param-name>
+    <param-value>rack</param-value>
+  </context-param>
 
   <!--
        Control the pool of Rails runtimes. Leaving unspecified means
@@ -63,7 +67,7 @@
   </filter-mapping>
 
   <listener>
-    <listener-class>org.jruby.rack.rails.RailsServletContextListener</listener-class>
+    <listener-class>org.jruby.rack.RackServletContextListener</listener-class>
   </listener>
 
   <resource-ref>

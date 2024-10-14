@@ -63,3 +63,9 @@ class ArchivesSpaceOAIServer < Sinatra::Base
          }]
   end
 end
+
+if $0 == __FILE__
+  puts("OAI Dev server starting up...")
+
+  ArchivesSpaceOAIServer.run!(:bind => '0.0.0.0', :port => (ARGV[0] or 4568))
+end
