@@ -20,63 +20,9 @@ on:
         default: 'firefox'
 
 jobs:
-  start-runner:
-    name: Start self-hosted EC2 runner
-    runs-on: ubuntu-latest
-    outputs:
-      label: ${{ steps.start-ec2-runner.outputs.label }}
-      ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
-      - name: Start EC2 runner
-        id: start-ec2-runner
-        uses: esteve/ec2-github-runner@07e593ad9fd5b91a5acf02359214b0e955d5990e
-        with:
-          mode: start
-          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          ec2-image-id: ${{ vars.AWS_RUNNERS_AMI }}
-          ec2-instance-type: m5.xlarge
-          subnet-id: ${{ vars.AWS_SUBNET_ID }}
-          security-group-id: ${{ vars.AWS_GROUP_ID }}
-          run-runner-as-user: 'ubuntu'
-          aws-resource-tags: >
-            [
-              {"Key": "Name", "Value": "ec2-github-runner"},
-              {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
-            ]
-
-  stop-runner:
-    name: Stop self-hosted EC2 runner
-    needs:
-      - start-runner # to get output from the start-runner job
-      - frontend # required to wait when the main job of running the specs is done
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
-      - name: Stop EC2 runner
-        uses: esteve/ec2-github-runner@07e593ad9fd5b91a5acf02359214b0e955d5990e
-        with:
-          mode: stop
-          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          label: ${{ needs.start-runner.outputs.label }}
-          ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
-
   frontend:
     name: Frontend specs ${{ inputs.name }} on Java ${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
-    needs:
-      - start-runner
-    runs-on: ${{ needs.start-runner.outputs.label }}
+    runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
     services:
@@ -133,7 +79,6 @@ jobs:
       env:
         SELENIUM_CHROME: ${{ inputs.browser == 'chrome' }}
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
-        HOME: "/home/ubuntu"
 
     - uses: actions/upload-artifact@v4
       if: failure()
