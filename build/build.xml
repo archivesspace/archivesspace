@@ -26,6 +26,7 @@
 
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
+  <property name="aspace.oai.port" value="4568" />
   <property name="aspace.frontend.port" value="3000" />
   <property name="aspace.public.port" value="3001" />
   <property name="aspace.db_url.dev" value="jdbc:mysql://127.0.0.1:3306/archivesspace?useUnicode=true&amp;characterEncoding=UTF-8&amp;user=as&amp;password=as123&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
@@ -112,6 +113,20 @@
         <arg line="app/main.rb ${aspace.backend.port}" />
       </java>
     </parallel>
+  </target>
+
+  <target name="oai:devserver" depends="set-classpath" description="Start an instance of the OAI development server">
+    <delete dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
+    <mkdir dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../oai">
+      <jvmarg line="-Daspace.service=oai -Daspace.config.backend_url=http://localhost:${aspace.backend.port} -Daspace.config.oai_url=http://localhost:${aspace.oai.port} ${default_java_options} ${env.JAVA_OPTS} -Djruby.debug.fullTrace=true"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="BUNDLE_GEMFILE" value="" />
+      <env key="ASPACE_ENV" value="development" />
+      <arg line="app/main.rb ${aspace.oai.port}" />
+    </java>
   </target>
 
   <target name="backend:doc" depends="set-classpath" description="Generate documentation for endpoints">
@@ -732,6 +747,12 @@
 
   <!-- OAI -->
   <target name="oai:war" depends="set-classpath" description="Deploy the OAI application as a .war file">
+    <antcall target="bundler">
+      <param name="gemfile" value="../oai/Gemfile" />
+      <param name="excluded-gem-groups" value="test development doc build" />
+      <param name="included-gem-groups" value="" />
+    </antcall>
+    <copy file="../.bundle/config" todir="../oai/.bundle" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../oai">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -739,6 +760,7 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="../build/${jruby_build_bin_path}/warble war" />
     </java>
+    <delete file="../oai/.bundle/config" />
   </target>
 
   <!-- FRONTEND -->
