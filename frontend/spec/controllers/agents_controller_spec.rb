@@ -109,6 +109,40 @@ describe AgentsController, type: :controller do
       expect(response).to redirect_to("/agents/agent_person/#{agent.id}")
       expect(request.flash[:error]).to eq("These agents have a relationship. Remove relationship before proceeding with merge.")
     end
+  end
 
+  describe "merging agents" do
+    it "preserves linked agent roles on affected resource or archival object when an agent is merged" do
+      destination_agent = create(:json_agent_person)
+      source_agent = create(:json_agent_person)
+
+      affected_resource = create(:resource, title: 'resource')
+      affected_resource.linked_agents.append({'ref' => destination_agent.uri, 'role' => 'creator'})
+      affected_resource.linked_agents.append({'ref' => source_agent.uri, 'role' => 'source'})
+      affected_resource.save
+
+      affected_ao = create(:archival_object, resource: {'ref' => create(:resource).uri}, title: 'ao')
+      affected_ao.linked_agents.append({'ref' => destination_agent.uri, 'role' => 'creator'})
+      affected_ao.linked_agents.append({'ref' => source_agent.uri, 'role' => 'source'})
+      affected_ao.save
+
+      run_index_round
+
+      post :merge_detail, params: {
+        agent_type: 'agent_person',
+        id: destination_agent.id,
+        merge_candidate_uri: source_agent.uri,
+        agent: {'does not' => 'matter'}
+      }
+
+      # the affected records should now still have both roles but linked only to the merge destination agent
+      affected_resource.refetch
+      expect(affected_resource.linked_agents.pluck('role')).to contain_exactly('creator', 'source')
+      expect(affected_resource.linked_agents.pluck('ref').uniq).to contain_exactly(destination_agent.uri)
+
+      affected_ao.refetch
+      expect(affected_ao.linked_agents.pluck('role')).to contain_exactly('creator', 'source')
+      expect(affected_ao.linked_agents.pluck('ref').uniq).to contain_exactly(destination_agent.uri)
+    end
   end
 end
