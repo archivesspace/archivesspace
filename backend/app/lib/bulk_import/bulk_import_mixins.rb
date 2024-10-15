@@ -303,12 +303,14 @@ module BulkImportMixins
             e_date = hash['e_accessrestrict']
             local_restriction = hash['t_accessrestrict']
           end
+
+          normalize_boolean_column(hash, "p_#{type}")
+
           pubnote = hash["p_#{type}"]
-          if pubnote.nil?
-            pubnote = publish
-          else
-            pubnote = (pubnote == "1")
-          end
+
+          # ΝΟΤE: Publish is inherited from the archival object if not provided
+          pubnote = publish if pubnote.nil?
+
           note_label = hash["l_#{type}"]
           begin
             note = @nh.create_note(type, note_label, content, pubnote, dig_obj, b_date, e_date, local_restriction)
@@ -370,6 +372,12 @@ module BulkImportMixins
         caption: @row_hash['nonrep_caption']
       }
     end
+  end
+
+  def normalize_boolean_column(row_hash, column)
+    return if row_hash[column].nil?
+    return if [TrueClass, FalseClass].include? row_hash[column].class
+    row_hash[column] = ['t', '1', 'true'].include? row_hash[column].to_s.strip.downcase
   end
 end
 
