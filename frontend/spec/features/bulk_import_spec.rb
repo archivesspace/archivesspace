@@ -77,6 +77,8 @@ describe 'Bulk Import', js: true do
     expect(page).to have_link 'Closed due to personnel records'
     click_on 'Closed due to personnel records'
 
+    windows[1].close
+
     click_on 'Edit'
 
     wait_for_ajax
