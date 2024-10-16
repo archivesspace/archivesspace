@@ -374,12 +374,13 @@ class ImportArchivalObjects < BulkImportParser
     cntr = 1
     substr = ""
     until @row_hash["l_lang#{substr}"].nil? && @row_hash["l_langscript#{substr}"].nil? && @row_hash["n_langmaterial#{substr}"].nil?
+      normalize_boolean_column(@row_hash, "p_langmaterial#{substr}")
+
       pubnote = @row_hash["p_langmaterial#{substr}"]
-      if pubnote.nil?
-        pubnote = publish
-      else
-        pubnote = (pubnote == "1")
-      end
+
+      # ΝΟΤE: Publish is inherited from the archival object if not provided
+      pubnote = publish if pubnote.nil?
+
       lang = @lh.create_language(@row_hash["l_lang#{substr}"], @row_hash["l_langscript#{substr}"], @row_hash["n_langmaterial#{substr}"], pubnote, @report)
       langs.concat(lang) if !lang.empty?
       @row_hash["n_langmaterial#{substr}"] = nil

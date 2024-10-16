@@ -128,6 +128,139 @@ describe "Import Archival Objects" do
     expect(archival_object.restrictions_apply).to eq 0
   end
 
+  it 'successfully parses and transforms the boolean columns' do
+    opts = { :repo_id => @resource[:repo_id],
+             :rid => @resource[:id],
+             :type => "resource",
+             :filename => "bulk_import_VFIRST01_boolean_columns.csv",
+             :filepath => BULK_FIXTURES_DIR + "/bulk_import_VFIRST01_boolean_columns.csv",
+             :load_type => "archival_object",
+             :ref_id => "",
+             :aoid => "",
+             :position => "" }
+    importer = ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts)
+    report = importer.run
+
+    expect(report.terminal_error).to eq(nil)
+    expect(report.row_count).to eq(4)
+    expect(report.rows[0].errors).to eq([])
+
+    # First archival object
+    archival_object_id = report.rows[0]['archival_object_id'].split('/').pop
+    archival_object = ::ArchivalObject.to_jsonmodel(archival_object_id.to_i)
+
+    expect(archival_object['publish']).to eq true
+    expect(archival_object['restrictions_apply']).to eq true
+
+    # Language
+    expect(archival_object.lang_materials[0]['notes'][0]['publish']).to eq true
+    expect(archival_object.lang_materials[1]['notes'][0]['publish']).to eq false
+
+    # Digital Object
+    expect(archival_object.instances.length).to eq 1
+    expect(archival_object.instances[0]['instance_type']).to eq 'digital_object'
+    digital_object_id = archival_object.instances[0]['digital_object']['ref'].split('/').pop
+    digital_object = ::DigitalObject.to_jsonmodel(digital_object_id.to_i)
+    expect(digital_object.publish).to eq false
+    expect(digital_object['file_versions'][0]['publish']).to eq true
+    expect(digital_object['file_versions'][1]['publish']).to eq false
+
+    # Notes
+    expect(archival_object.notes.length).to eq 17
+    expect(archival_object.notes[0]['publish']).to eq true
+    expect(archival_object.notes[1]['publish']).to eq false
+    expect(archival_object.notes[2]['publish']).to eq true
+    expect(archival_object.notes[3]['publish']).to eq true
+    expect(archival_object.notes[4]['publish']).to eq false
+    5.upto((archival_object.notes.length - 1)) do |x|
+      expect(archival_object.notes[x]['publish']).to eq true
+    end
+
+    # Second archival object
+    # Field publish is not provided for any of the records.
+    # Defaults to false and inherits from archival object.
+    archival_object_id = report.rows[1]['archival_object_id'].split('/').pop
+    archival_object = ::ArchivalObject.to_jsonmodel(archival_object_id.to_i)
+
+    expect(archival_object['publish']).to eq false
+    expect(archival_object['restrictions_apply']).to eq false
+
+    # Language
+    expect(archival_object.lang_materials[0]['notes'][0]['publish']).to eq false
+    expect(archival_object.lang_materials[1]['notes'][0]['publish']).to eq false
+
+    # Digital Object
+    expect(archival_object.instances.length).to eq 1
+    expect(archival_object.instances[0]['instance_type']).to eq 'digital_object'
+    digital_object_id = archival_object.instances[0]['digital_object']['ref'].split('/').pop
+    digital_object = ::DigitalObject.to_jsonmodel(digital_object_id.to_i)
+    expect(digital_object.publish).to eq false
+    expect(digital_object['file_versions'][0]['publish']).to eq true
+    expect(digital_object['file_versions'][1]['publish']).to eq false
+
+    # Notes
+    expect(archival_object.notes.length).to eq 17
+    1.upto((archival_object.notes.length - 1)) do |x|
+      expect(archival_object.notes[x]['publish']).to eq false
+    end
+
+    # Third archival object
+    # Publish is provided and is false only for the archival object.
+    # Defaults to false and inherits from archival object.
+    archival_object_id = report.rows[2]['archival_object_id'].split('/').pop
+    archival_object = ::ArchivalObject.to_jsonmodel(archival_object_id.to_i)
+
+    expect(archival_object['publish']).to eq false
+    expect(archival_object['restrictions_apply']).to eq false
+
+    # Language
+    expect(archival_object.lang_materials[0]['notes'][0]['publish']).to eq false
+    expect(archival_object.lang_materials[1]['notes'][0]['publish']).to eq false
+
+    # Digital Object
+    expect(archival_object.instances.length).to eq 1
+    expect(archival_object.instances[0]['instance_type']).to eq 'digital_object'
+    digital_object_id = archival_object.instances[0]['digital_object']['ref'].split('/').pop
+    digital_object = ::DigitalObject.to_jsonmodel(digital_object_id.to_i)
+    expect(digital_object.publish).to eq false
+    expect(digital_object['file_versions'][0]['publish']).to eq true
+    expect(digital_object['file_versions'][1]['publish']).to eq false
+
+    # Notes
+    expect(archival_object.notes.length).to eq 17
+    1.upto((archival_object.notes.length - 1)) do |x|
+      expect(archival_object.notes[x]['publish']).to eq false
+    end
+
+    # Fourth archival object
+    # Publish is provided and is true only for the archival object.
+    # All records inherit true from the archival object publish.
+    archival_object_id = report.rows[3]['archival_object_id'].split('/').pop
+    archival_object = ::ArchivalObject.to_jsonmodel(archival_object_id.to_i)
+
+    expect(archival_object['publish']).to eq true
+    expect(archival_object['restrictions_apply']).to eq true
+
+    # Language
+    expect(archival_object.lang_materials[0]['notes'][0]['publish']).to eq true
+    expect(archival_object.lang_materials[1]['notes'][0]['publish']).to eq true
+
+    # Digital Object
+    expect(archival_object.instances.length).to eq 1
+    expect(archival_object.instances[0]['instance_type']).to eq 'digital_object'
+    digital_object_id = archival_object.instances[0]['digital_object']['ref'].split('/').pop
+    digital_object = ::DigitalObject.to_jsonmodel(digital_object_id.to_i)
+    expect(digital_object.publish).to eq true
+    expect(digital_object['file_versions'][0]['publish']).to eq true
+    expect(digital_object['file_versions'][1]['publish']).to eq true
+
+    # Notes
+    expect(archival_object.notes.length).to eq 17
+    1.upto((archival_object.notes.length - 1)) do |x|
+      expect(archival_object.notes[x]['publish']).to eq true
+    end
+  end
+
   it "fixes ANW-1777 and ANW-1778" do
     2.times do
       resource = create(:json_resource, ead_id: "tyler_001")
