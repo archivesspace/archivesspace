@@ -197,6 +197,11 @@ es:
     search_placeholder: Introduzca sus términos de búsqueda
     error_no_term: No se han introducido términos de búsqueda.
     toggle_navigation: Alternar navegación
+  
+  navigation:
+    hierarchical: Navegación jerárquica
+    top_level: Navegación de nivel superior
+    mobile_menu: Menú de navegación para dispositivos más pequeños
 
   internal_links:
     main: Principales elementos

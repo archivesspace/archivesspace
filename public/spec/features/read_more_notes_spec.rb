@@ -1,14 +1,14 @@
 require 'spec_helper'
 require 'rails_helper'
 
-def test_expand_collapse(content, see_more, see_less, mode = 'click')
+def test_expand_collapse(content, label, see_more, see_less, mode = 'click')
   initial_height = page.evaluate_script("arguments[0].clientHeight;", content.native)
 
   if mode == 'click'
-    see_more.click
+    label.click
   elsif mode == 'keyboard'
-    see_more.send_keys(:tab)
-    see_more.send_keys(:space)
+    label.send_keys(:tab)
+    label.send_keys(:space)
   end
 
   expect(page.evaluate_script("arguments[0].clientHeight;", content.native)).to be > initial_height
@@ -16,10 +16,10 @@ def test_expand_collapse(content, see_more, see_less, mode = 'click')
   expect(see_less).to be_visible
 
   if mode == 'click'
-    see_less.click
+    label.click
   elsif mode == 'keyboard'
-    see_less.send_keys(:tab)
-    see_less.send_keys(:space)
+    label.send_keys(:tab)
+    label.send_keys(:space)
   end
 
   expect(page.evaluate_script("arguments[0].clientHeight;", content.native)).to eq(initial_height)
@@ -27,13 +27,13 @@ def test_expand_collapse(content, see_more, see_less, mode = 'click')
   expect(see_less).to_not be_visible
 
   if mode == 'keyboard'
-    see_more.send_keys(:tab)
-    see_more.send_keys(:enter)
+    label.send_keys(:tab)
+    label.send_keys(:enter)
 
     expect(page.evaluate_script("arguments[0].clientHeight;", content.native)).to be > initial_height
 
-    see_less.send_keys(:tab)
-    see_less.send_keys(:enter)
+    label.send_keys(:tab)
+    label.send_keys(:enter)
 
     expect(page.evaluate_script("arguments[0].clientHeight;", content.native)).to eq(initial_height)
   end
@@ -96,10 +96,11 @@ describe 'Read More Notes', js: true do
 
     within(scope_and_contents_read_mores[0]) do
       content = find('.upper-record-details .abstract.single_note .readmore__content')
-      see_more = find('.upper-record-details .abstract.single_note .readmore__more-label')
-      see_less = find('.upper-record-details .abstract.single_note .readmore__less-label', visible: false)
+      label = find('.upper-record-details .abstract.single_note .readmore__label')
+      see_more = find('.upper-record-details .abstract.single_note .readmore__label--more')
+      see_less = find('.upper-record-details .abstract.single_note .readmore__label--less', visible: false)
 
-      test_expand_collapse(content, see_more, see_less)
+      test_expand_collapse(content, label, see_more, see_less)
     end
   end
 
@@ -108,18 +109,20 @@ describe 'Read More Notes', js: true do
 
     within(scope_and_contents_read_mores[0]) do
       content = find('.upper-record-details .abstract.single_note .readmore__content')
-      see_more = find('.upper-record-details .abstract.single_note .readmore__more-label')
-      see_less = find('.upper-record-details .abstract.single_note .readmore__less-label', visible: false)
+      label = find('.upper-record-details .abstract.single_note .readmore__label')
+      see_more = find('.upper-record-details .abstract.single_note .readmore__label--more')
+      see_less = find('.upper-record-details .abstract.single_note .readmore__label--less', visible: false)
 
-      test_expand_collapse(content, see_more, see_less)
+      test_expand_collapse(content, label, see_more, see_less)
     end
 
     within(scope_and_contents_read_mores[1]) do
       content = find('.upper-record-details .abstract.single_note .readmore__content')
-      see_more = find('.upper-record-details .abstract.single_note .readmore__more-label')
-      see_less = find('.upper-record-details .abstract.single_note .readmore__less-label', visible: false)
+      label = find('.upper-record-details .abstract.single_note .readmore__label')
+      see_more = find('.upper-record-details .abstract.single_note .readmore__label--more')
+      see_less = find('.upper-record-details .abstract.single_note .readmore__label--less', visible: false)
 
-      test_expand_collapse(content, see_more, see_less)
+      test_expand_collapse(content, label, see_more, see_less)
     end
   end
 
@@ -128,10 +131,11 @@ describe 'Read More Notes', js: true do
 
     within(scope_and_contents_read_mores[0]) do
       content = find('.upper-record-details .abstract.single_note .readmore__content')
-      see_more = find('.upper-record-details .abstract.single_note .readmore__more-label')
-      see_less = find('.upper-record-details .abstract.single_note .readmore__less-label', visible: false)
+      label = find('.upper-record-details .abstract.single_note .readmore__label')
+      see_more = find('.upper-record-details .abstract.single_note .readmore__label--more')
+      see_less = find('.upper-record-details .abstract.single_note .readmore__label--less', visible: false)
 
-      test_expand_collapse(content, see_more, see_less, 'keyboard')
+      test_expand_collapse(content, label, see_more, see_less, 'keyboard')
     end
   end
 
@@ -140,8 +144,8 @@ describe 'Read More Notes', js: true do
 
     within(scope_and_contents_read_mores[0]) do
       state = find('.upper-record-details .abstract.single_note .readmore__state[aria-expanded="false"]')
-      see_more = find('.upper-record-details .abstract.single_note .readmore__more-label')
-      see_less = find('.upper-record-details .abstract.single_note .readmore__less-label', visible: false)
+      see_more = find('.upper-record-details .abstract.single_note .readmore__label--more')
+      see_less = find('.upper-record-details .abstract.single_note .readmore__label--less', visible: false)
 
       see_more.click
 
