@@ -193,6 +193,7 @@ de:
   navigation:
     hierarchical: hierarchische Navigation
     top_level: oberste Navigationsebene
+    mobile_menu: Navigationsmenü für kleinere Geräte
   advanced_search:
     operator_label: Verknüpfer
     operator:

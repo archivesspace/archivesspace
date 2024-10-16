@@ -37,3 +37,17 @@
   color: $body-color;
   background-color: var(--light);
 }
+
+.btn-primary {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+.page-link {
+  color: $primary-color;
+}
+
+.page-item.active .page-link {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}

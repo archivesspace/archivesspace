@@ -217,6 +217,11 @@ fr:
     search_placeholder: Saisissez les termes de votre recherche
     error_no_term: Aucun terme saisi.
     toggle_navigation: Basculer la navigation
+  
+  navigation:
+    hierarchical: Navigation hiérarchique
+    top_level: Navigation de haut niveau
+    mobile_menu: Menu de navigation pour les petits appareils
 
   internal_links:
     main: Contenu principal

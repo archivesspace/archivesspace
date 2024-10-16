@@ -11,8 +11,7 @@
     constructor(readmoreElement) {
       this.readmore = readmoreElement;
       this.state = this.readmore.querySelector('.readmore__state');
-      this.more = this.readmore.querySelector('.readmore__more-label');
-      this.less = this.readmore.querySelector('.readmore__less-label');
+      this.label = this.readmore.querySelector('.readmore__label');
 
       this.listen();
     }
@@ -25,27 +24,15 @@
         this.setAriaExpanded(this.state.checked);
       });
 
-      this.readmore.addEventListener('keydown', e => {
-        if (e.target === this.more && (e.key === 'Enter' || e.key === ' ')) {
+      this.label.addEventListener('keydown', e => {
+        if (!this.state.checked && (e.key === 'Enter' || e.key === ' ')) {
           e.preventDefault();
-          const x = window.scrollX;
-          const y = window.scrollY;
-
           this.state.checked = true;
           this.setAriaExpanded(this.state.checked);
-
-          this.less.focus();
-
-          window.scrollTo(x, y); // Don't scroll down to this.less
-        } else if (
-          e.target === this.less &&
-          (e.key === 'Enter' || e.key === ' ')
-        ) {
+        } else if (this.state.checked && (e.key === 'Enter' || e.key === ' ')) {
           e.preventDefault();
           this.state.checked = false;
           this.setAriaExpanded(this.state.checked);
-
-          this.more.focus();
         }
       });
     }
