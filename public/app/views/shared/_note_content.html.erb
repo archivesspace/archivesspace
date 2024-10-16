@@ -20,8 +20,10 @@
         aria-expanded="false"
         aria-controls="<%= type %>_readmore_content"
       />
-      <label for="<%= state_id %>" class="readmore__more-label order-1" tabindex="0"><%= t('readmore.see_more') %> <i class="fa fa-chevron-down"></i></label>
-      <label for="<%= state_id %>" class="readmore__less-label order-1" tabindex="0"><%= t('readmore.see_less') %> <i class="fa fa-chevron-up"></i></label>
+      <label for="<%= state_id %>" class="readmore__label order-1" tabindex="0">
+        <span class="readmore__label--more"><%= t('readmore.see_more') %> <i class="fa fa-chevron-down"></i></span>
+        <span class="readmore__label--less"><%= t('readmore.see_less') %> <i class="fa fa-chevron-up"></i></span>
+      </label>
       <section
         id="<%= type %>_readmore_content"
         class="readmore__content order-0"

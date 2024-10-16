@@ -228,6 +228,7 @@ en:
   navigation:
     hierarchical: hierarchical navigation
     top_level: top-level navigation
+    mobile_menu: Navigation menu for smaller devices
 
   internal_links:
     main: Main Content

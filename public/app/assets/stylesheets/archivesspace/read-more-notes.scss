@@ -1,5 +1,4 @@
-.readmore__more-label,
-.readmore__less-label {
+.readmore__label {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
   border: 1px solid $primary-color;
@@ -16,19 +15,19 @@
   }
 }
 
-.readmore__more-label {
+.readmore__label--more {
   display: inline-block;
 }
 
-.readmore__less-label {
+.readmore__label--less {
   display: none;
 }
 
-.readmore__state:checked ~ .readmore__more-label {
+.readmore__state:checked ~ .readmore__label .readmore__label--more {
   display: none;
 }
 
-.readmore__state:checked ~ .readmore__less-label {
+.readmore__state:checked ~ .readmore__label .readmore__label--less {
   display: inline-block;
 }
 

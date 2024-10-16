@@ -184,6 +184,10 @@ ja:
     search_placeholder: 検索用語を入力してください
     error_no_term: 検索語が入力されていません。
     toggle_navigation: Toggle Navigation
+  navigation:
+    hierarchical: 階層ナビゲーション
+    top_level: トップレベルナビゲーション
+    mobile_menu: 小型デバイス向けのナビゲーションメニュー
   internal_links:
     main: メインコンテンツ
     filter: 結果をフィルタリングする

@@ -104,6 +104,10 @@ pt:
     welcome_page_title: Interface pública do ArchivesSpace
     welcome_message: "<p> Pesquisar nas nossas colecções, materiais digitais, e muito mais. </p>\n"
   page_actions: Ações da página
+  navigation:
+    hierarchical: navegação hierárquica
+    top_level: navegação de nível superior
+    mobile_menu: Menu de navegação para dispositivos menores
   request:
     email_header: Obrigado por seu solicitação
     user_name: Seu nome
