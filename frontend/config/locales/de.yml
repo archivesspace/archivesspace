@@ -66,6 +66,7 @@ de:
     suppress_confirm_message: Obwohl eine unterdrückte Aufzeichnung in der Datenbank
       verbleibt, wird sie für die meisten Nutzer versteckt und für die meisten Funktionen
       nicht verfügbar sein.
+    toggle_dropdown_menu: Dropdown-Menü umschalten
     unsuppress: Unterdrückung aufheben
     unsuppress_confirm_message: Nein
     unable_to_move_message: Kann die Aufzeichnung nicht verschieben
