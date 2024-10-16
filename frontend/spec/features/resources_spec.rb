@@ -855,7 +855,7 @@ describe 'Resources', js: true do
     click_on 'Agent Links'
     click_on 'Add Agent Link'
 
-    find('#resource_linked_agents_ #dropdownMenuAgentsToggle').click
+    find('#resource_linked_agents_ .linker-wrapper .dropdown-toggle').click
     find('#resource_linked_agents_ #dropdownMenuAgents .linker-browse-btn').click
 
     element = find('.linker-container')
