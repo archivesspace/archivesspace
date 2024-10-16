@@ -89,6 +89,7 @@ es:
     suppress_confirm_message: "Mientras que un registro bloqueado permanecerá en la\
       \ base de datos, se convertirá en ocultos a la mayoría de los usuarios y a la\
       \ mayoría de las funciones de carácter."
+    toggle_dropdown_menu: Alternar menú desplegable
     transfer: Transferencia
     transfer_confirm_title: ¿La transferencia de este registro?
     transfer_confirm_message: "El registro '%{target}' se transferirá en el repositorio\
