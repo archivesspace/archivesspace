@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Merge and Trasnfer', js: true do
+describe 'Merge and Transfer', js: true do
   let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
 
   before(:all) do
@@ -81,11 +81,11 @@ describe 'Merge and Trasnfer', js: true do
 
     visit "resources/#{resource_target.id}/edit"
 
-    find('#merge-dropdown button').click
+    click_button('Merge')
 
     wait_for_ajax
 
-    within '.dropdown-menu.merge-form' do
+    within '#form_merge' do
       fill_in 'token-input-merge_ref_', with: resource_source.title
       dropdown_items = all('li.token-input-dropdown-item2')
       dropdown_items.first.click
