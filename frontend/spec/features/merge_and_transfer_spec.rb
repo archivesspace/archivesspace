@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Merge and Trasnfer', js: true do
+describe 'Merge and Transfer', js: true do
   let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
 
   before(:all) do
@@ -27,14 +27,18 @@ describe 'Merge and Trasnfer', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    sleep 15
-
-    element = find('h2')
-    expect(element.text).to eq "#{resource.title} Resource"
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{resource.title} Resource"
+    end
 
     find('#transfer-dropdown button').click
 
     select @repository_target.repo_code, from: 'transfer_ref_'
+
+    using_wait_time(15) do
+      expect(page).to have_selector('.dropdown-menu.transfer-form', visible: true)
+    end
 
     within '.dropdown-menu.transfer-form' do
       click_on 'Transfer'
@@ -81,15 +85,26 @@ describe 'Merge and Trasnfer', js: true do
 
     visit "resources/#{resource_target.id}/edit"
 
-    find('#merge-dropdown button').click
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{resource_target.title} Resource"
+    end
 
-    wait_for_ajax
+    using_wait_time(15) do
+      find('#merge-dropdown button').click
+    end
 
-    within '.dropdown-menu.merge-form' do
+    using_wait_time(15) do
+      expect(page).to have_selector('#form_merge', visible: true)
+    end
+
+    within '#form_merge' do
       fill_in 'token-input-merge_ref_', with: resource_source.title
+
+      wait_for_ajax
+
       dropdown_items = all('li.token-input-dropdown-item2')
       dropdown_items.first.click
-
       click_on 'Merge'
     end
 
@@ -109,9 +124,10 @@ describe 'Merge and Trasnfer', js: true do
     expect(ids.sort == ids_from_dom.sort).to eq true
   end
 
-  it 'can merge an archival objects into a resource' do
+  it 'can merge an archival object into a resource' do
     now = Time.now.to_i
 
+    set_repo @repository_source
     select_repository(@repository_source)
 
     resource = create(:resource, title: "Resource Title #{now}")
@@ -120,13 +136,24 @@ describe 'Merge and Trasnfer', js: true do
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
-    click_on 'Transfer'
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{archival_object.title} Archival Object"
+    end
 
-    fill_in 'token-input-transfer_ref_', with: resource.title
-    dropdown_items = all('li.token-input-dropdown-item2')
-    dropdown_items.first.click
+    using_wait_time(15) do
+      click_on 'Transfer'
+    end
+
+    using_wait_time(15) do
+      expect(page).to have_selector('.dropdown-menu.tree-transfer-form', visible: true)
+    end
 
     within '.dropdown-menu.tree-transfer-form' do
+      fill_in 'token-input-transfer_ref_', with: resource.title
+      dropdown_items = all('li.token-input-dropdown-item2')
+      dropdown_items.first.click
+
       click_on 'Transfer'
     end
 
@@ -136,27 +163,36 @@ describe 'Merge and Trasnfer', js: true do
     expect(page).to have_css "#archival_object_#{archival_object.id}"
   end
 
-  it 'can merge a digital object into a digital object' do
+  it 'can merge a digital object into a digital objectb' do
     now = Time.now.to_i
 
     set_repo @repository_source
+    select_repository(@repository_source)
     digital_object_source = create(:digital_object, title: "Digital Object Source Title #{now}")
     digital_object_target = create(:digital_object, title: "Digital Object Target Title #{now}")
 
-    select_repository(@repository_source)
-
     run_index_round
 
-    visit "digital_objects/#{digital_object_source.id}/"
+    visit "digital_objects/#{digital_object_source.id}/edit"
 
-    click_on 'Merge'
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{digital_object_source.title} Digital Object"
+    end
 
-    wait_for_ajax
+    using_wait_time(15) do
+      click_button 'Merge'
+    end
+
+    using_wait_time(15) do
+      expect(page).to have_selector('.dropdown-menu.merge-form', visible: true)
+    end
 
     within '.dropdown-menu.merge-form' do
       fill_in 'token-input-merge_ref_', with: digital_object_target.title
       dropdown_items = all('li.token-input-dropdown-item2')
       dropdown_items.first.click
+
       click_on 'Merge'
     end
 

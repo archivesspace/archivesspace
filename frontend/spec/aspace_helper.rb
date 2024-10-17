@@ -55,8 +55,9 @@ module ASpaceHelpers
   end
 
   def finished_all_ajax_requests?
-    page.evaluate_script('window.jQuery !== undefined') &&
+    page.evaluate_script("typeof window.jQuery != 'undefined'") &&
+      page.evaluate_script('window.jQuery !== undefined') &&
       page.evaluate_script('jQuery.active !== undefined') &&
-      page.evaluate_script('jQuery.active').zero?
+      page.evaluate_script('jQuery.active')&.zero?
   end
 end

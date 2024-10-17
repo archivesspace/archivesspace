@@ -28,6 +28,7 @@ describe 'DatepickerPlugin', js: true do
     @date_field.click
     # warning - this can throw a NotAllowedError if the user is inactive for too long.
     execute_script("navigator.clipboard.writeText('1999').catch(err => { TEST_MESSAGES.append(err); });")
+    wait_for_ajax
     # js debug message will appear in ci_logs/frontend_test_log.out
     js_debug_messages = page.evaluate_script("TEST_MESSAGES.textContent");
     $logger.debug(js_debug_messages);
@@ -44,6 +45,7 @@ describe 'DatepickerPlugin', js: true do
   it 'accepts a pasted month date in yyyy-mm format' do
     @date_field.click
     execute_script("navigator.clipboard.writeText('1999-12').catch(err => { TEST_MESSAGES.append(err); });")
+    wait_for_ajax
     if page.driver.browser.capabilities.platform_name =~ /^mac/
       @date_field.send_keys([:command, 'v'])
     else
@@ -56,6 +58,7 @@ describe 'DatepickerPlugin', js: true do
   it 'accepts a pasted day date in yyyy-mm-dd format' do
     @date_field.click
     execute_script("navigator.clipboard.writeText('1999-12-31').catch(err => { TEST_MESSAGES.append(err); });")
+    wait_for_ajax
     if page.driver.browser.capabilities.platform_name =~ /^mac/
       @date_field.send_keys([:command, 'v'])
     else
