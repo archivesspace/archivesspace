@@ -104,7 +104,6 @@ describe 'Merge and Transfer', js: true do
 
       dropdown_items = all('li.token-input-dropdown-item2')
       dropdown_items.first.click
-
       click_on 'Merge'
     end
 
