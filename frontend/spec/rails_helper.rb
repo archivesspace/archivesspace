@@ -9,10 +9,7 @@ require 'selenium-webdriver'
 require 'aspace_helper'
 
 CHROME_OPTS = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-logging --log-level=0 --v=1 --remote-debugging-port=9222 --incognito --disable-extensions --auto-open-devtools-for-tabs --window-size=1920,1080 --disable-dev-shm-usage").split(' ')
-FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless').split(',')
-# https://github.com/mozilla/geckodriver/issues/1354
-ENV['MOZ_HEADLESS_WIDTH'] = ENV.fetch('MOZ_HEADLESS_WIDTH', '1920')
-ENV['MOZ_HEADLESS_HEIGHT'] = ENV.fetch('MOZ_HEADLESS_HEIGHT', '1080')
+FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless --width=1920 --height=1080').split(' ')
 
 # Chrome
 Capybara.register_driver(:chrome) do |app|
@@ -39,7 +36,10 @@ Capybara.register_driver :firefox do |app|
   profile['browser.helperApps.alwaysAsk.force'] = false
   profile['browser.helperApps.neverAsk.saveToDisk'] = 'application/msword, application/csv, application/pdf, application/xml,  application/ris, text/csv, image/png, application/pdf, text/html, text/plain, application/zip, application/x-zip, application/x-zip-compressed'
   profile['pdfjs.disabled'] = true
-  options = Selenium::WebDriver::Firefox::Options.new(args: FIREFOX_OPTS)
+  options = Selenium::WebDriver::Firefox::Options.new.tap do |opts|
+    FIREFOX_OPTS.each { |arg| opts.add_argument(arg) }
+  end
+
   options.profile = profile
 
   Capybara::Selenium::Driver.new(
@@ -112,6 +112,9 @@ RSpec.configure do |config|
 
   config.append_after(:each, js: true) do
     Capybara.reset_sessions!
+
+    # Make sure all browser windows except one are closed
+    windows.reject(&:current?).each(&:close)
   end
 end
 

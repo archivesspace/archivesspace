@@ -724,12 +724,17 @@ describe 'Resources', js: true do
     end
   end
 
-  xit 'exports and downloads the resource to xml' do
+  it 'exports and downloads the resource to xml' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{resource.title} Resource"
+    end
 
     files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
     files.each do |file|
@@ -737,7 +742,12 @@ describe 'Resources', js: true do
     end
 
     click_on 'Export'
-    click_on 'Download EAD'
+
+    using_wait_time(15) do
+      within('.dropdown-menu') do
+        click_link('Download EAD')
+      end
+    end
 
     files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
     expect(files.length).to eq 1
@@ -752,6 +762,11 @@ describe 'Resources', js: true do
     run_index_round
 
     visit "resources/#{resource.id}"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{resource.title} Resource"
+    end
 
     files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
     files.each do |file|

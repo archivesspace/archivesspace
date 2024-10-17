@@ -34,8 +34,21 @@ describe 'Events', js: true do
     login_admin
     select_repository @repository
     visit "/resources/#{@resource.id}"
-    find('button.add-event-action').click
-    find('button.add-event-button').click
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{@resource.title} Resource"
+    end
+
+    click_button('Add Event')
+
+    using_wait_time(15) do
+      expect(page).to have_selector('.dropdown-menu.add-event-form', visible: true)
+    end
+
+    within '#form_add_event' do
+      click_button('Add Event')
+    end
 
     expect(page).to have_content 'New Event'
     expect(page).to have_selector 'div.resource'
