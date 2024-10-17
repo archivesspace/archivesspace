@@ -112,6 +112,9 @@ RSpec.configure do |config|
 
   config.append_after(:each, js: true) do
     Capybara.reset_sessions!
+
+    # Make sure all browser windows except one are closed
+    windows.reject(&:current?).each(&:close)
   end
 end
 
