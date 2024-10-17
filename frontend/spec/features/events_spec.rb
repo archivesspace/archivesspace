@@ -35,6 +35,7 @@ describe 'Events', js: true do
     select_repository @repository
     visit "/resources/#{@resource.id}"
     find('button.add-event-action').click
+    wait_for_ajax
     find('button.add-event-button').click
 
     expect(page).to have_content 'New Event'
