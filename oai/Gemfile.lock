@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     base64 (0.2.0)
-    mustermann (3.0.1)
+    mustermann (3.0.3)
       ruby2_keywords (~> 0.0.1)
     rack (2.2.9)
     rack-protection (3.2.0)

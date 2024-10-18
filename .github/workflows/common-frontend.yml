@@ -74,6 +74,12 @@ jobs:
       run: |
         docker exec --tty $SOLR_ID solr create_core -p 8983 -c archivesspace -d /solr_conf_from_repo
 
+    - name: Setup firefox
+      id: setup-firefox
+      uses: browser-actions/setup-firefox@v1
+      with:
+        firefox-version: 'latest'
+
     - name: Run Frontend tests
       run: ${{ inputs.run-cmd }}
       env:
