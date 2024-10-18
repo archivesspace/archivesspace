@@ -471,9 +471,11 @@ AppConfig[:record_inheritance_resolves] = [
 AppConfig[:pui_search_results_page_size] = 10
 AppConfig[:pui_branding_img] = 'ArchivesSpaceLogo.svg'
 AppConfig[:pui_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'
+AppConfig[:pui_show_favicon] = true # whether or not to show a favicon
 
 AppConfig[:frontend_branding_img] = 'archivesspace/ArchivesSpaceLogo.svg'
 AppConfig[:frontend_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'
+AppConfig[:frontend_show_favicon] = true # whether or not to show a favicon
 
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referrer' when going outside the domain
 
