@@ -195,4 +195,14 @@ describe 'Repositories', js: true do
     expect(find('select', id: 'id')).to have_content(repo.repo_code)
   end
 
+  it 'will only show the Set Order in Public Interface button when configured as such' do
+    visit '/repositories'
+    expect(page).not_to have_content('Set Order in Public Interface')
+
+    allow(AppConfig).to receive(:[]).and_call_original
+    allow(AppConfig).to receive(:[]).with(:pui_repositories_sort) { :position }
+    page.refresh
+    expect(page).to have_content('Set Order in Public Interface')
+  end
+
 end

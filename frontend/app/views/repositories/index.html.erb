@@ -10,7 +10,7 @@
     <% if user_can?('create_repository') %>
       <div class="record-toolbar d-flex justify-content-end">
         <div class="btn-group" role="group">
-          <% if user_can?('administer_system') %>
+          <% if user_can?('administer_system') && AppConfig[:pui_repositories_sort] == :position %>
             <%= link_to t("repository._frontend.action.order_for_pui"), {:controller => :repositories, :action => :reorder}, :class => "btn btn-sm btn-default" %>
           <% end %>
           <%= link_to t("repository._frontend.action.create"), {:controller => :repositories, :action => :new}, :class => "btn btn-sm btn-default" %>
