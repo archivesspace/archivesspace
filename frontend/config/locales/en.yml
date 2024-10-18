@@ -77,6 +77,7 @@ en:
     suppress: Suppress
     suppress_confirm_title: Suppress this Record?
     suppress_confirm_message: "While a suppressed record will remain in the database, it will become hidden to most users and unavailable to most functions."
+    toggle_dropdown_menu: Toggle dropdown menu
     transfer: Transfer
     transfer_confirm_title: Transfer this record?
     transfer_confirm_message: "The record '%{target}' will be transferred to the repository you selected"

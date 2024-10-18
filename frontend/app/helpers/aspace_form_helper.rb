@@ -547,6 +547,7 @@ module AspaceFormHelper
     def add_tooltip_options(tooltip, options)
       options[:title] = tooltip
       options['data-placement'] = 'bottom'
+      options['data-boundary'] = 'viewport'
       options['data-html'] = true
       options['data-delay'] = 500
       options['data-trigger'] = 'manual'
