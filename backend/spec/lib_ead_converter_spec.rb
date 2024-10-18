@@ -31,14 +31,9 @@ describe 'EAD converter' do
           </archdesc>
         <dsc>
         <c id="1" level="file">
-          <unittitle>oh well<unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate></unittitle>
+          <unittitle>oh well<unitdate normal="1907/1911" era="ce" calendar="gregorian">1907-1911</unitdate></unittitle>
           <container id="cid1" type="Box" label="Text (B@RC0D3  )">1</container>
           <container parent="cid1" type="Folder" ></container>
-          <c id="2" level="file">
-            <unittitle>whatever</unittitle>
-            <container id="cid3" type="Box" label="Text">FOO</container>
-            <controlaccess><persname rules="dacs" source='local' authfilenumber='thesame'>Art, Makah</persname></controlaccess>
-          </c>
         </c>
         </dsc>
         </ead>
@@ -47,15 +42,26 @@ describe 'EAD converter' do
       get_tempfile_path(src)
     }
 
-    it 'raises error when no date type is provided' do
+    it 'automatically parses and assigns date type to date' do
       converter = EADConverter.new(test_doc)
 
-      expect do
-        converter.run
-      end.to raise_error do |error|
-        expect(error).to be_a AccessionConverterInvalidDateTypeError
-        expect(error.message).to eq 'Invalid date type provided: ; must be one of: ["bulk", "inclusive", "single"].'
+      converter.run
+
+      parsed = JSON(File.read(converter.get_output_path))
+      expect(parsed.length).to eq(3)
+      resource = parsed.find do |entry|
+        entry['jsonmodel_type'] == 'resource'
       end
+
+      expect(resource['dates'].length).to eq 1
+      expect(resource['dates'][0]['date_type']).to eq 'inclusive'
+
+      archival_object = parsed.find do |entry|
+        entry['jsonmodel_type'] == 'archival_object'
+      end
+
+      expect(archival_object['dates'].length).to eq 1
+      expect(archival_object['dates'][0]['date_type']).to eq 'inclusive'
     end
   end
 
@@ -103,7 +109,7 @@ describe 'EAD converter' do
       expect do
         converter.run
       end.to raise_error do |error|
-        expect(error).to be_a AccessionConverterInvalidDateTypeError
+        expect(error).to be_a EADConverterInvalidDateTypeError
         expect(error.message).to eq 'Invalid date type provided: INVALID; must be one of: ["bulk", "inclusive", "single"].'
       end
     end
