@@ -86,7 +86,7 @@ class EADConverter < Converter
     unless date_types.include? date_type
       error_message = "Invalid date type provided: #{date_type}; must be one of: #{date_types}."
 
-      raise AccessionConverterInvalidDateTypeError, error_message
+      raise EADConverterInvalidDateTypeError, error_message
     end
   end
 
@@ -217,10 +217,10 @@ class EADConverter < Converter
       #end
       norm_dates.map! {|d| d =~ /^([0-9]{4}(\-(1[0-2]|0[1-9])(\-(0[1-9]|[12][0-9]|3[01]))?)?)$/ ? d : nil}
 
-      verify_date_type(att('type'))
+      verify_date_type(att('type')) unless att('type').nil?
 
       make :date, {
-        :date_type => att('type'),
+        :date_type => att('type') || ( norm_dates[1] ? 'inclusive' : 'single' ),
         :expression => inner_xml,
         :label => 'creation',
         :begin => norm_dates[0],
@@ -1125,3 +1125,5 @@ class EADConverter < Converter
     end
   end
 end
+
+class EADConverterInvalidDateTypeError < StandardError; end;
