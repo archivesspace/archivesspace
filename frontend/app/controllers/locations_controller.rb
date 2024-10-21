@@ -16,6 +16,9 @@ class LocationsController < ApplicationController
       format.csv {
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS, "blank_facet_query_fields" => ["owner_repo_display_string_u_ssort"]})
         search_params["type[]"] = "location"
+
+        search_params['page'] = 1
+
         uri = "/repositories/#{session[:repo_id]}/search"
         csv_response( uri, Search.build_filters(search_params), "#{t('location._plural').downcase}." )
       }

@@ -21,6 +21,52 @@ describe 'Locations', js: true do
     select_repository(@repository)
   end
 
+  it 'downloads all locations to CSV regardless of the current page' do
+    now = Time.now.to_i
+
+    visit 'locations/batch'
+
+    fill_in 'location_batch_building_', with: "Building #{now}"
+    fill_in 'location_batch_room_', with: "Room #{now}"
+    fill_in 'location_batch_coordinate_1_range__label_', with: "Bay #{now}"
+    fill_in 'location_batch_coordinate_1_range__start_', with: "1"
+    fill_in 'location_batch_coordinate_1_range__end_', with: "3"
+    fill_in 'location_batch_coordinate_2_range__label_', with: "Shelf #{now}"
+    fill_in 'location_batch_coordinate_2_range__start_', with: "1"
+    fill_in 'location_batch_coordinate_2_range__end_', with: "6"
+
+    click_on 'Create Locations'
+
+    element = find('.alert.alert-success.with-hide-alert')
+    expect(element.text).to eq '18 Locations Created'
+
+    run_index_round
+
+    visit 'locations'
+
+    files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+    files.each do |file|
+      File.delete file if file.include?('locations.')
+    end
+
+    click_on 'Download CSV'
+
+    click_on '2'
+
+    click_on 'Download CSV'
+
+    csv_location_files = []
+    files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+    files.each do |file|
+      csv_location_files.push(file) if file.include?('locations.')
+    end
+
+    expect(csv_location_files.length).to eq 2
+    csv_from_first_page = File.read(csv_location_files[0])
+    csv_from_second_page = File.read(csv_location_files[1])
+    expect(csv_from_first_page).to eq csv_from_second_page
+  end
+
   it 'allows access to the single location form' do
     click_on 'Create'
     click_on 'Location'
