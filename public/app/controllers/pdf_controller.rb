@@ -19,7 +19,14 @@ class PdfController < ApplicationController
       end
 
       respond_to do |format|
-        filename = pdf.suggested_filename
+        # Remove all special characters from filename.
+        filename_extension = File.extname(pdf.suggested_filename) # Extract file extension
+        filename = pdf.suggested_filename.gsub(filename_extension, '') # Remove file extension
+        filename = filename.gsub(/[^a-zA-Z0-9\s]/, '_') # Replace all special characters with underscores
+        filename.chop! if filename[-1] == '_' # Remove last underscore
+        filename = filename.gsub(/_+/, '_') # Replace underscores multiple with one underscore
+
+        filename = "#{filename}#{filename_extension}"
 
         format.all do
           fh = File.open(pdf_file.path, "r")
