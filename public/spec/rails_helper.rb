@@ -3,10 +3,8 @@ require 'capybara-screenshot/rspec'
 require 'launchy'
 
 CHROME_OPTS  = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-logging --log-level=0 --v=1 --incognito --disable-extensions --auto-open-devtools-for-tabs --window-size=1920,1080 --disable-dev-shm-usage").split(' ')
-FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless').split(',')
-# https://github.com/mozilla/geckodriver/issues/1354
-ENV['MOZ_HEADLESS_WIDTH'] = ENV.fetch('MOZ_HEADLESS_WIDTH', '1920')
-ENV['MOZ_HEADLESS_HEIGHT'] = ENV.fetch('MOZ_HEADLESS_HEIGHT', '1080')
+
+FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless --width=1920 --height=1080').split(' ')
 
 # Chrome
 Capybara.register_driver(:chrome) do |app|
@@ -26,13 +24,35 @@ Capybara.register_driver(:chrome) do |app|
   Capybara::Selenium::Driver.new(app, **options)
 end
 
+
 # Firefox
 Capybara.register_driver :firefox do |app|
+  profile = Selenium::WebDriver::Firefox::Profile.new
+  profile['webdriver.log.level'] = 'ALL'
+  profile['browser.download.dir'] = Dir.tmpdir
+  profile['browser.download.folderList'] = 2
+  profile['browser.helperApps.alwaysAsk.force'] = false
+  profile['browser.helperApps.neverAsk.saveToDisk'] = 'application/msword, application/csv, application/pdf, application/xml,  application/ris, text/csv, image/png, application/pdf, text/html, text/plain, application/zip, application/x-zip, application/x-zip-compressed'
+  profile['pdfjs.disabled'] = true
+  options = Selenium::WebDriver::Firefox::Options.new.tap do |opts|
+    FIREFOX_OPTS.each { |arg| opts.add_argument(arg) }
+  end
+
+  options.profile = profile
+
   Capybara::Selenium::Driver.new(
     app,
     browser: :firefox,
-    options: Selenium::WebDriver::Firefox::Options.new(args: FIREFOX_OPTS)
+    options: options
   )
+end
+
+if ENV['SELENIUM_CHROME'] == 'true'
+  Capybara.default_driver = :chrome
+  Capybara.javascript_driver = :chrome
+else
+  Capybara.default_driver = :firefox
+  Capybara.javascript_driver = :firefox
 end
 
 # Capybara screenshot
@@ -97,6 +117,9 @@ RSpec.configure do |config|
 
   config.append_after(:each, js: true) do
     Capybara.reset_sessions!
+
+    # Make sure all browser windows except one are closed
+    windows.reject(&:current?).each(&:close)
   end
 
   config.append_after(:suite) do
