@@ -54,11 +54,11 @@
           %>
         <% end %>
         <div class="btn-group" id="other-dropdown">
-          <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <%= t('actions.more') %>
           </button>
 
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu dropdown-menu-right">
             <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => @accession} %></li>
             <% if user_can?('update_assessment_record') %>
               <li><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => @accession.uri}, :class => "dropdown-item" %></li>
