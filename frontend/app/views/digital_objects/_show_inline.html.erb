@@ -87,7 +87,7 @@
         <% end %>
 
         <% if digital_object.notes.length > 0 %>
-          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => digital_object.notes, :context => readonly } %>
+          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => digital_object.notes, :context => readonly, :section_id => "digital_object_notes_" } %>
         <% end %>
 
         <% if digital_object.external_documents.length > 0 %>
