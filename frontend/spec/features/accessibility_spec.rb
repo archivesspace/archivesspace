@@ -216,14 +216,16 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       visit "/resources/1"
 
       using_wait_time(15) do
-        expect(page).to have_selector("#add-event-dropdown", visible: true)
+        expect(page).to have_selector("h2", visible: true)
       end
 
       within "#add-event-dropdown" do
         find("button.add-event-action").click
-        expect(page).to have_xpath("//select[@id='add_event_event_type']")
-        expect(page).not_to have_css("label.sr-only")
-        expect(page).to have_xpath("//label[@for='add_event_event_type']")
+        using_wait_time(15) do
+          expect(page).to have_xpath("//select[@id='add_event_event_type']")
+          expect(page).not_to have_css("label.sr-only")
+          expect(page).to have_xpath("//label[@for='add_event_event_type']")
+        end
       end
     end
 
@@ -232,11 +234,11 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       visit "/resources/1"
 
       using_wait_time(15) do
-        expect(page).to have_selector('#merge-dropdown', visible: true)
+        expect(page).to have_selector('h2', visible: true)
       end
 
       within "#merge-dropdown" do
-        find(" button.merge-action").click
+        find("button.merge-action").click
         expect(page).to have_css("ul[role='none']")
       end
     end
@@ -246,7 +248,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       visit "/resources/1"
 
       using_wait_time(15) do
-        expect(page).to have_selector('#transfer-dropdown', visible: true)
+        expect(page).to have_selector('h2', visible: true)
       end
 
       within "#transfer-dropdown" do
@@ -259,12 +261,16 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       visit "/resources/1"
 
       using_wait_time(15) do
-        expect(page).to have_selector('div#merge-dropdown', visible: true)
+        expect(page).to have_selector('h2', visible: true)
       end
 
       within "div#merge-dropdown" do
         find("button.merge-action").click
-        page.has_css?("ul.merge-form")
+
+        using_wait_time(15) do
+          expect(page).to have_selector("ul.merge-form")
+        end
+
         combobox = find("div[role='combobox']")
         combobox.assert_matches_selector("div[aria-expanded='false']")
         searchbox = find("input[role='searchbox']")
@@ -276,7 +282,6 @@ describe 'Accessibility', js: true, db: 'accessibility' do
         searchbox.assert_matches_selector("input[aria-controls='merge_ref__listbox']")
       end
     end
-
   end
 
   describe "color contrast" do
@@ -305,6 +310,10 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       visit "/resources/1/edit"
 
       using_wait_time(15) do
+        expect(page).to have_selector('h2', visible: true)
+      end
+
+      using_wait_time(15) do
         expect(page).to have_selector('.sidebar-entry-resource_linked_agents_', visible: true)
       end
 
@@ -324,6 +333,10 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     # 523686, 523750, 523684,523683
     it "has acceptable color contrast in the linkers" do
       visit "/resources/1/edit"
+
+      using_wait_time(15) do
+        expect(page).to have_selector('h2', visible: true)
+      end
 
       using_wait_time(15) do
         expect(page).to have_selector('.sidebar-entry-resource_linked_agents_', visible: true)
