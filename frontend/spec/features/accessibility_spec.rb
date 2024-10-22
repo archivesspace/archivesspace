@@ -214,7 +214,10 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     # 519344
     it "has visual labels for add event dropdown" do
       visit "/resources/1"
-      page.has_css? "div.record-toolbar"
+
+      using_wait_time(15) do
+        expect(page).to have_selector("#add-event-dropdown", visible: true)
+      end
 
       within "#add-event-dropdown" do
         find("button.add-event-action").click
@@ -228,6 +231,10 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     it "sets role as none for ul element in merge dropdown" do
       visit "/resources/1"
 
+      using_wait_time(15) do
+        expect(page).to have_selector('#merge-dropdown', visible: true)
+      end
+
       within "#merge-dropdown" do
         find(" button.merge-action").click
         expect(page).to have_css("ul[role='none']")
@@ -238,6 +245,10 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     it "sets role as none for ul element in transfer dropdown" do
       visit "/resources/1"
 
+      using_wait_time(15) do
+        expect(page).to have_selector('#transfer-dropdown', visible: true)
+      end
+
       within "#transfer-dropdown" do
         find("button.transfer-action").click
         expect(page).to have_css("ul[role='none']")
@@ -246,6 +257,10 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
     it "has role and aria attributes for the merge dropdown combobox" do
       visit "/resources/1"
+
+      using_wait_time(15) do
+        expect(page).to have_selector('div#merge-dropdown', visible: true)
+      end
 
       within "div#merge-dropdown" do
         find("button.merge-action").click
@@ -275,6 +290,10 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     it "has acceptable color contrast in the datepicker" do
       visit "/resources/1/edit"
 
+      using_wait_time(15) do
+        expect(page).to have_selector('h2', visible: true)
+      end
+
       datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
       datepicker_toggle.click
 
@@ -284,7 +303,11 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     # 521639, 521325, 523750, 519045, 518914, 523671, 520640, 519498, 523670
     it "has acceptable color contrast for active menu dropdowns" do
       visit "/resources/1/edit"
-      page.has_css? ".sidebar-entry-resource_linked_agents_"
+
+      using_wait_time(15) do
+        expect(page).to have_selector('.sidebar-entry-resource_linked_agents_', visible: true)
+      end
+
       find(".sidebar-entry-resource_linked_agents_ a").click
       within "#resource_linked_agents_" do
         find(".alert-too-many").click
@@ -301,7 +324,11 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     # 523686, 523750, 523684,523683
     it "has acceptable color contrast in the linkers" do
       visit "/resources/1/edit"
-      page.has_css? ".sidebar-entry-resource_linked_agents_"
+
+      using_wait_time(15) do
+        expect(page).to have_selector('.sidebar-entry-resource_linked_agents_', visible: true)
+      end
+
       find(".sidebar-entry-resource_linked_agents_ a").click
       within "#resource_linked_agents_" do
         find(".alert-too-many").click
@@ -320,6 +347,10 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     # 523681
     it "has acceptable color contrast for active textarea and input boxes" do
       visit "/resources/1/edit"
+
+      using_wait_time(15) do
+        expect(page).to have_selector('h2', visible: true)
+      end
 
       date_field = find "textarea#resource_repository_processing_note_"
       date_field.click
