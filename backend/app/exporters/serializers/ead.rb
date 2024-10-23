@@ -14,9 +14,14 @@ class EADSerializer < ASpaceExport::Serializer
     @extra_serialize_steps << serialize_step
   end
 
-  def self.run_serialize_step(data, xml, fragments, context)
+  def self.run_serialize_step(data, xml, fragments, context, include_unpublished)
     Array(@extra_serialize_steps).each do |step|
-      step.new.call(data, xml, fragments, context)
+      # Adding in check so as not to break existing plugins missing `include_unpublished`
+      if step.new.method(:call).arity == 4
+        step.new.call(data, xml, fragments, context)
+      else
+        step.new.call(data, xml, fragments, context, include_unpublished)
+      end
     end
   end
 
@@ -212,7 +217,7 @@ class EADSerializer < ASpaceExport::Serializer
               serialize_container(instance, xml, @fragments)
             end
 
-            EADSerializer.run_serialize_step(data, xml, @fragments, :did)
+            EADSerializer.run_serialize_step(data, xml, @fragments, :did, @include_unpublished)
 
           }# </did>
 
@@ -230,7 +235,7 @@ class EADSerializer < ASpaceExport::Serializer
 
           serialize_controlaccess(data, xml, @fragments)
 
-          EADSerializer.run_serialize_step(data, xml, @fragments, :archdesc)
+          EADSerializer.run_serialize_step(data, xml, @fragments, :archdesc, @include_unpublished)
 
           xml.dsc {
 
@@ -343,7 +348,7 @@ class EADSerializer < ASpaceExport::Serializer
           serialize_languages(languages, xml, fragments)
         end
 
-        EADSerializer.run_serialize_step(data, xml, fragments, :did)
+        EADSerializer.run_serialize_step(data, xml, fragments, :did, @include_unpublished)
 
         data.instances_with_sub_containers.each do |instance|
           serialize_container(instance, xml, @fragments)
@@ -364,7 +369,7 @@ class EADSerializer < ASpaceExport::Serializer
 
       serialize_controlaccess(data, xml, fragments)
 
-      EADSerializer.run_serialize_step(data, xml, fragments, :archdesc)
+      EADSerializer.run_serialize_step(data, xml, fragments, :archdesc, @include_unpublished)
 
       data.children_indexes.each do |i|
         xml.text(
@@ -416,7 +421,7 @@ class EADSerializer < ASpaceExport::Serializer
 
           xml.send(node_name, atts) {
             sanitize_mixed_content(sort_name, xml, fragments )
-            EADSerializer.run_serialize_step(agent, xml, fragments, node_name.to_sym)
+            EADSerializer.run_serialize_step(agent, xml, fragments, node_name.to_sym, @include_unpublished)
           }
         }
       end
@@ -429,7 +434,7 @@ class EADSerializer < ASpaceExport::Serializer
         data.controlaccess_subjects.zip(data.subjects).each do |node_data, subject|
           xml.send(node_data[:node_name], node_data[:atts]) {
             sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
-            EADSerializer.run_serialize_step(subject['_resolved'], xml, fragments, node_data[:node_name].to_sym)
+            EADSerializer.run_serialize_step(subject['_resolved'], xml, fragments, node_data[:node_name].to_sym, @include_unpublished)
           }
         end
 
@@ -437,7 +442,7 @@ class EADSerializer < ASpaceExport::Serializer
           next if node_data.empty?
           xml.send(node_data[:node_name], node_data[:atts]) {
             sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
-            EADSerializer.run_serialize_step(agent['_resolved'], xml, fragments, node_data[:node_name].to_sym)
+            EADSerializer.run_serialize_step(agent['_resolved'], xml, fragments, node_data[:node_name].to_sym, @include_unpublished)
           }
         end
       } #</controlaccess>
@@ -620,7 +625,7 @@ class EADSerializer < ASpaceExport::Serializer
         end
       }
     end
-    EADSerializer.run_serialize_step(digital_object, xml, fragments, :dao)
+    EADSerializer.run_serialize_step(digital_object, xml, fragments, :dao, @include_unpublished)
   end
 
 
