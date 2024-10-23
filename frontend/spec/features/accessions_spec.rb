@@ -583,4 +583,16 @@ describe 'Accessions', js: true do
     click_on('Save')
     expect(page).to have_text "Accession #{accession_title} updated"
   end
+
+  describe 'toolbar' do
+    it 'has a "more" dropdown menu that is aligned to the right side of its control button' do
+      accession = create(:json_accession)
+      run_index_round
+      visit "/accessions/#{accession.id}"
+      expect(page).to have_css(
+        '#other-dropdown > .dropdown-menu.dropdown-menu-right',
+        visible: false
+      )
+    end
+  end
 end
