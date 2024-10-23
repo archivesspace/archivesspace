@@ -62,6 +62,14 @@
    </footer>
 
    <%= render "shared/templates" %>
+   
+    <% ASUtils.order_plugins(ASUtils.find_local_directories('frontend/views/_shared_templates.html.erb')).each do |layout| %>
+      <% if File.exist?(layout) %>
+        <!-- Begin plugin layout -->
+        <%= render :inline => File.read(layout) %>
+        <!-- End plugin layout -->
+      <% end %>
+    <% end %>
 
   </div>
 </body>
