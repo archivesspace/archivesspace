@@ -93,7 +93,7 @@ describe 'Subjects', js: true do
 
     element = find('.alert.alert-danger.with-hide-alert')
     expect(element.text).to eq "Terms and Subdivisions - Subject records cannot be identical\nAuthority ID - Subject heading identifier must be unique within source\nView conflicting record"
-    expect(page).to have_link(text: 'View conflicting record', href: "/resolve/readonly?uri=/subjects/#{existing_subject_id}")
+    expect(page).to have_link(text: 'View conflicting record', href: "http://localhost:8080/resolve/readonly?uri=/subjects/#{existing_subject_id}")
   end
 
   it 'can present a browse list of Subjects' do
