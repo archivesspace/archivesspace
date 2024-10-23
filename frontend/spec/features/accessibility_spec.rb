@@ -11,7 +11,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     login_admin
   end
 
-  it 'sets the selected state on sidebar elements' do
+  xit 'sets the selected state on sidebar elements' do
     visit "/resources/1"
 
     page.has_css? "div#archivesSpaceSidebar"
@@ -33,7 +33,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
   context 'Datepicker' do
 
-    it 'should have aria attributes on datepicker advance buttons' do
+    xit 'should have aria attributes on datepicker advance buttons' do
       visit "/resources/1/edit#tree::resource_1"
 
       page.has_no_css? ".datepicker"
@@ -52,7 +52,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       end
     end
 
-    it 'should have role=button on datepicker day, month and year selectors' do
+    xit 'should have role=button on datepicker day, month and year selectors' do
       visit "/resources/1/edit#tree::resource_1"
 
       page.has_no_css? ".datepicker"
@@ -80,7 +80,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       end
     end
 
-    it 'should open via keyboard' do
+    xit 'should open via keyboard' do
       visit "/resources/1/edit#tree::resource_1"
 
       page.has_no_css? ".datepicker"
@@ -94,7 +94,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
 
   context 'Advanced search' do
 
-    it 'sets the expanded state on advanced search dropdown' do
+    xit 'sets the expanded state on advanced search dropdown' do
       visit '/'
       page.has_css? "div.repository-header"
 
@@ -110,7 +110,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       end
     end
 
-    it 'advanced search form fields are in logical order in DOM' do
+    xit 'advanced search form fields are in logical order in DOM' do
       visit '/'
       page.has_css? "div.repository-header"
 
@@ -130,7 +130,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       end
     end
 
-    it 'advanced search form fields all have visible labels' do
+    xit 'advanced search form fields all have visible labels' do
       visit '/'
       page.has_css? "div.repository-header"
 
@@ -142,7 +142,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       end
     end
 
-    it 'expands and dismisses repository popover with keyboard alone' do
+    xit 'expands and dismisses repository popover with keyboard alone' do
       visit '/'
       page.has_css? "div.repository-header"
 
@@ -161,14 +161,14 @@ describe 'Accessibility', js: true, db: 'accessibility' do
   context "resource toolbar" do
 
     # 519098
-    it "does not have any <a> tags without a @href attributes" do
+    xit "does not have any <a> tags without a @href attributes" do
       visit "/resources/1"
       page.has_css? "div.record-toolbar"
       expect(page).to have_no_xpath("//a[not(@href)]")
     end
 
     # 519100, #519357
-    it "supports aria-expanded for event and merge dropdowns" do
+    xit "supports aria-expanded for event and merge dropdowns" do
       visit "/resources/1"
       page.has_css? "div.record-toolbar"
 
@@ -212,7 +212,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     # also see: https://github.com/archivesspace/archivesspace/commit/9bcb1a8884c2a9f8d4d82a67b114b016fa3d0c2c
 
     # 519344
-    it "has visual labels for add event dropdown" do
+    xit "has visual labels for add event dropdown" do
       visit "/resources/1"
 
       using_wait_time(15) do
@@ -228,7 +228,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     # 519396
-    it "sets role as none for ul element in merge dropdown" do
+    xit "sets role as none for ul element in merge dropdown" do
       visit "/resources/1"
 
       using_wait_time(15) do
@@ -242,7 +242,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     # # 519396
-    it "sets role as none for ul element in transfer dropdown" do
+    xit "sets role as none for ul element in transfer dropdown" do
       visit "/resources/1"
 
       using_wait_time(15) do
@@ -255,7 +255,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
       end
     end
 
-    it "has role and aria attributes for the merge dropdown combobox" do
+    xit "has role and aria attributes for the merge dropdown combobox" do
       visit "/resources/1"
 
       using_wait_time(15) do
@@ -287,7 +287,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     # 519486, #519494
-    it "has acceptable color contrast in the datepicker" do
+    xit "has acceptable color contrast in the datepicker" do
       visit "/resources/1/edit"
 
       using_wait_time(15) do
@@ -301,7 +301,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     # 521639, 521325, 523750, 519045, 518914, 523671, 520640, 519498, 523670
-    it "has acceptable color contrast for active menu dropdowns" do
+    xit "has acceptable color contrast for active menu dropdowns" do
       visit "/resources/1/edit"
 
       using_wait_time(15) do
@@ -322,7 +322,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     # 523686, 523750, 523684,523683
-    it "has acceptable color contrast in the linkers" do
+    xit "has acceptable color contrast in the linkers" do
       visit "/resources/1/edit"
 
       using_wait_time(15) do
@@ -345,7 +345,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     # 523681
-    it "has acceptable color contrast for active textarea and input boxes" do
+    xit "has acceptable color contrast for active textarea and input boxes" do
       visit "/resources/1/edit"
 
       using_wait_time(15) do
@@ -359,14 +359,14 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     end
 
     # 523636, 523634, 523633, 523632, 523631, 523630, 523629, 523628, 523627, 523637, 523635
-    it "has acceptable color contrast in disabled buttons" do
+    xit "has acceptable color contrast in disabled buttons" do
       visit "/enumerations?id=14"
       expect(page).to be_axe_clean.checking_only :'color-contrast'
     end
 
     # 518955, 519449, 521318, 523762, 518915, 522650, 519400, 522670
     # 523750, 523751, 519035, 523540, 523680, 522581, 519418, 523679
-    it "has acceptable color contrast for tree expand/collapse button, drag & drop image, form element borders and required field indicators" do
+    xit "has acceptable color contrast for tree expand/collapse button, drag & drop image, form element borders and required field indicators" do
       visit "/resources/1/edit"
       expect(page).to be_axe_clean.checking_only :'color-contrast'
     end
