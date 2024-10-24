@@ -56,10 +56,6 @@ class EventsController < ApplicationController
     end
 
     if params.has_key?(:record_uri)
-      @last_linked_record_uri = params[:record_uri]
-      @last_linked_record_type = params[:record_type]
-      @last_linked_record_path = params[:record_uri].match('\/\w+\/\d+$')[0]
-
       record = JSONModel(params[:record_type]).find_by_uri(params[:record_uri])
       @event.linked_records = []
       @event.linked_records << {'ref' => record.uri, '_resolved' => record.to_hash, 'role' => 'source'}
@@ -89,11 +85,13 @@ class EventsController < ApplicationController
                 },
                 :on_valid => ->(id) {
                   flash[:success] = t("event._frontend.messages.created")
-                  return redirect_to(
-                    :controller => :events,
-                    :action => :new,
-                    :record_uri => params[:redirect_record],
-                    :record_type => JSONModel.parse_reference(params[:redirect_record])[:type]) if params.has_key?(:plus_one)
+                  if params.has_key?(:plus_one) && params[:redirect_record]
+                    return redirect_to(
+                      :controller => :events,
+                      :action => :new,
+                      :record_uri => params[:redirect_record],
+                      :record_type => JSONModel.parse_reference(params[:redirect_record])[:type])
+                  end
 
                   # we parse the reference as a simple sanity check here...
                   if params.has_key?(:redirect_record) && JSONModel.parse_reference(params[:redirect_record])

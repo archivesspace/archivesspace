@@ -10,8 +10,8 @@ describe 'Events', js: true do
     @now = Time.now.to_i
     @repository = create :repo, repo_code: "default_values_test_#{Time.now.to_i}"
     set_repo @repository
-    @resource = create :resource
-    @accession = create(:accession, title: "Accession Title #{@now}")
+    @resource = create :resource, title: "Resource Title #{@now}"
+    @accession = create :accession, title: "Accession Title #{@now}"
 
     name_string = "Agent Name #{@now}"
 
@@ -30,7 +30,7 @@ describe 'Events', js: true do
     run_index_round
   end
 
-  it 'retains the linked resource when adding additional events via +1 button' do
+  it 'retains the linked record when adding additional events via +1 button' do
     login_admin
     select_repository @repository
     visit "/resources/#{@resource.id}"
@@ -55,15 +55,43 @@ describe 'Events', js: true do
     select 'Single', from: 'event[date][date_type]'
     fill_in 'event[date][begin]', with: '2023'
     select 'Authorizer', from: 'event[linked_agents][0][role]'
-    fill_in 'token-input-event_linked_agents__0__ref_', with: 'test'
 
     # Need to wait for evidence of dropdown populating before sending enter to select the agent.
     # This is accomplished by waiting for the aria attribute to show up. (TODO: better way?)
     # After that, click the +1, then wait for the form submission to complete, otherwise it will
     # immediately find the the linked resource div on the current page and short-circuit the test.
     # Easiest way is probably just to look for the success flash.
+    fill_in 'token-input-event_linked_agents__0__ref_', with: 'test'
     expect(page).to have_css '#token-input-event_linked_agents__0__ref_[aria-controls]'
     find(id: 'token-input-event_linked_agents__0__ref_').send_keys(:enter)
+
+    click_button id: 'createPlusOne'
+    expect(page).to have_content 'Event Created'
+    expect(page).to have_selector 'div.resource'
+  end
+
+  it 'adds an event via +1 button when using Create -> Event without a previously linked record' do
+    login_admin
+    select_repository @repository
+
+    click_button 'Create'
+    click_on 'Event'
+
+    expect(page).to have_content 'New Event'
+    select 'Single', from: 'event[date][date_type]'
+    fill_in 'event[date][begin]', with: '2023'
+    select 'Authorizer', from: 'event[linked_agents][0][role]'
+
+    # see comment in example above
+    fill_in 'token-input-event_linked_agents__0__ref_', with: 'test'
+    expect(page).to have_css '#token-input-event_linked_agents__0__ref_[aria-controls]'
+    find(id: 'token-input-event_linked_agents__0__ref_').send_keys(:enter)
+
+    select 'Source', from: 'event[linked_records][0][role]'
+    fill_in 'token-input-event_linked_records__0__ref_', with: 'Resource Title'
+    expect(page).to have_css '#token-input-event_linked_records__0__ref_[aria-controls]'
+    find(id: 'token-input-event_linked_records__0__ref_').send_keys(:enter)
+
     click_button id: 'createPlusOne'
     expect(page).to have_content 'Event Created'
     expect(page).to have_selector 'div.resource'
