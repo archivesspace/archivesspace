@@ -80,6 +80,8 @@ describe 'Resources', js: true do
   it 'displays accessions on show page' do
     visit('/')
     click_link 'Collections'
+    fill_in 'Search within results', with: 'Resource with Accession'
+    click_button 'Search'
     click_link 'Resource with Accession'
     expect(page).to have_content('Related Unprocessed Material')
   end
@@ -101,5 +103,27 @@ describe 'Resources', js: true do
     click_link 'Collections'
     click_link 'Published Resource'
     expect(page).to_not have_content('In Progress')
+  end
+
+  it 'downloads the resouce to a PDF file' do
+    resource = create(:resource,
+      title: "Resource PDF Download Test",
+      ead_id: 'text(us::paav::b jd99:: blake carver papers)//es" "carver.xml"',
+      publish: true,
+      is_finding_aid_status_published: false,
+      finding_aid_status: "in_progress",
+    )
+
+    run_indexers
+
+    visit('/')
+    fill_in 'q0', with: resource.title
+    click_on 'Search'
+    click_on resource.title
+
+    click_on 'Print'
+
+    pdf_files = Dir.glob(File.join(Dir.tmpdir, '*.pdf'))
+    expect(pdf_files).to include "#{Dir.tmpdir}/text_us_paav_b_jd99_blake_carver_papers_es_carver_xml.pdf"
   end
 end
