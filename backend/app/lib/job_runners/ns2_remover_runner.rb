@@ -15,6 +15,13 @@ class NS2RemoverRunner < JobRunner
         count = 0
         Note.each do |n|
           parent = NotePersistentId.where(:note_id => n[:id]).first
+          unless parent
+            @job.write_output("Warning: Cannot find parent of Note with ID: #{n[:id]}")
+            Log.warn("Cannot find parent of Note with ID: #{n[:id]}")
+
+            next
+          end
+
           next unless ['resource', 'archival_object', 'digital_object', 'digital_object_component'].include?(parent[:parent_type])
           if n.notes.lit.include?(' ns2:')
             replaced = n.notes.lit.gsub('ns2:', '')
