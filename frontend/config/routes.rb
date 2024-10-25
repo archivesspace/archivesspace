@@ -112,6 +112,7 @@ ArchivesSpace::Application.routes.draw do
     match 'digital_object_components/:id/unsuppress' => 'digital_object_components#unsuppress', :via => [:post]
 
     match 'resources/defaults' => 'resources#defaults', :via => [:get]
+    match 'resources/defaults' => 'resources#update_defaults', :via => [:post]
     resources :resources
     match 'resources/:id/container_labels' => 'exports#container_labels', :via => [:get]
     match 'resources/:id/container_tempate' => 'exports#container_template', :via => [:get]
