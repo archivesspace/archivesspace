@@ -59,5 +59,7 @@ module ASpaceHelpers
       page.evaluate_script('window.jQuery !== undefined') &&
       page.evaluate_script('jQuery.active !== undefined') &&
       page.evaluate_script('jQuery.active')&.zero?
+  rescue Selenium::WebDriver::Error::JavascriptError
+    false
   end
 end
