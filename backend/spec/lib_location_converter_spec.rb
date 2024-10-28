@@ -26,7 +26,7 @@ describe 'Location converter' do
       my_converter.instance_variable_set(:@import_options, {})
     end
 
-    it 'creates location records with owner repo' do
+    it 'creates location records without owner repo' do
       locations = convert(test_file).select {|r| r['jsonmodel_type'] == 'location' }
       expect(locations.select { |l| l['owner_repo'] }).to be_empty
     end
