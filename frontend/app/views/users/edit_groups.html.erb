@@ -21,9 +21,9 @@
                   <table class="table table-striped table-bordered table-condensed">
                     <% @groups.each do |group| %>
                       <tr>
-                        <td class="col-md-1"><%= check_box_tag("groups[]", group.uri, params.has_key?("groups") ? params["groups"].include?(group.uri) : @user.groups.include?(group.uri), :id => group.group_code) %></td>
-                        <td class="col-md-3"><%= label_tag group.group_code, group.group_code %></td>
-                        <td class="col-md-8"><%= label_tag group.group_code, group.description %></td>
+                        <td><%= check_box_tag("groups[]", group.uri, params.has_key?("groups") ? params["groups"].include?(group.uri) : @user.groups.include?(group.uri), :id => group.group_code) %></td>
+                        <td><%= label_tag group.group_code, group.group_code %></td>
+                        <td><%= label_tag group.group_code, group.description %></td>
                       </tr>
                     <% end %>
                   </table>
