@@ -20,7 +20,8 @@ describe 'Representative File Version', js: true do
             publish: true,
             is_representative: true,
             file_uri: @good_img,
-            use_statement: 'image-thumbnail'
+            use_statement: 'image-thumbnail',
+            caption: 'This is a good image'
           }
         ]
       )
@@ -51,9 +52,9 @@ describe 'Representative File Version', js: true do
       click_button('Save')
     end
 
-    xit 'is shown when a supported image format is available' do
+    xit 'is shown when a supported image format is available and includes alt text from its caption' do
       visit '/digital_objects'
-      expect(page).to have_css("#tabledSearchResults .representative_file_version > img[src='#{@good_img}']", visible: :visible)
+      expect(page).to have_css("#tabledSearchResults .representative_file_version > img[src='#{@good_img}'][alt='This is a good image']", visible: :visible)
     end
     it 'is hidden when a supported image format is not available' do
       visit '/digital_objects'
