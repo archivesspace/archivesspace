@@ -487,6 +487,18 @@ var init = function () {
     });
   };
 
+  var hideImportRepositoryOption = function () {
+    $('#js-import-repository').hide();
+
+    $('#job_import_type_').change(function () {
+      if ($('#job_import_type_').val() == 'location_csv') {
+        $('#js-import-repository').show();
+      } else {
+        $('#js-import-repository').hide();
+      }
+    });
+  };
+
   var type = $('#job_type').val();
 
   $('.linker:not(.initialised)').linker();
@@ -508,6 +520,7 @@ var init = function () {
 
   hideImportEventsOption();
   hideImportSubjectsOption();
+  hideImportRepositoryOption();
 };
 
 $(init);
