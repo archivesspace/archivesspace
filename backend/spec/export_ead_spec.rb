@@ -1345,7 +1345,6 @@ describe "EAD export mappings" do
       it "properly exports revisiondesc starting with mixed content" do
         document = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{resource.id}.xml")
         document.remove_namespaces!
-        
         expect(document.xpath('//revisiondesc/change').length).to eq(2)
       end
     end
