@@ -1,11 +1,7 @@
 <%
   json = ASUtils.json_parse(record["json"])
   file_uri = json['representative_file_version'] ? json['representative_file_version']['file_uri'] : nil
-  file_caption = json['representative_file_version'] &&
-    json['representative_file_version']['caption'] &&
-    !json['representative_file_version']['caption'].empty? ?
-      clean_mixed_content(json['representative_file_version']['caption']) :
-      nil
+  file_caption = json.dig('representative_file_version', 'caption').presence
 %>
 
 <% if file_uri %>
