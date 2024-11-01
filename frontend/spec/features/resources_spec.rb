@@ -26,7 +26,12 @@ describe 'Resources', js: true do
     run_index_round
 
     visit "resources/#{resource.id}"
-    wait_for_ajax
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{resource.title} Resource"
+    end
+
     click_on 'More'
     click_on 'Generate Bulk Archival Object Spreadsheet'
     expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
@@ -229,7 +234,11 @@ describe 'Resources', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    wait_for_ajax
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{resource.title} Resource"
+    end
+
     click_on 'More'
     click_on 'Generate Bulk Archival Object Spreadsheet'
     expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
@@ -299,6 +308,11 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{resource.title} Resource"
+    end
+
     element = find('#tree-container')
     expect(element).to have_text "Updated Archival Object Title 1 #{now}"
     expect(element).to have_text "Updated Archival Object Title 2 #{now}"
@@ -323,7 +337,10 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    wait_for_ajax
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{resource.title} Resource"
+    end
 
     click_on 'Duplicate Resource'
     within '#confirmChangesModal' do
@@ -718,6 +735,11 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}"
 
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{resource.title} Resource"
+    end
+
     within '#form_download_ead', visible: false do
       element = find('#include-uris', visible: false)
       expect(element.checked?).to eq true
@@ -802,6 +824,11 @@ describe 'Resources', js: true do
     run_index_round
 
     visit "resources/#{resource.id}"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true)
+      expect(find('h2').text).to eq "#{resource.title} Resource"
+    end
 
     expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
     click_on 'Export'
