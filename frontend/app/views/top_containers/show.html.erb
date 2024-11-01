@@ -77,13 +77,13 @@
                                         :uri => restriction["linked_records"]["ref"] %>
                         </div>
                       </td>
-                      <td><%= t("enumerations.note_multipart_type.#{restriction["restriction_note_type"]}", restriction["restriction_note_type"]) %></td>
+                      <td><%= t("enumerations.note_multipart_type.#{restriction["restriction_note_type"]}") %></td>
                       <td><%= restriction["begin"] %></td>
                       <td><%= restriction["end"] %></td>
                       <td>
                         <ul>
                           <% Array.wrap(restriction["local_access_restriction_type"]).
-                              map{|type| t("enumerations.restriction_type.#{type}",type)}.
+                              map{|type| t("enumerations.restriction_type.#{type}")}.
                               sort.each do |type| %>
                             <li><%= type %></li>
                           <% end %>
