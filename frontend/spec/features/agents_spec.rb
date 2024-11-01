@@ -230,14 +230,14 @@ describe 'Agents', js: true do
 
       click_on 'Add Related Agent'
 
-      wait_for_ajax
-
-      element = find('#related-agents-container .related-agent-type.form-control')
-      element.select 'Hierarchical Relationship'
-      element = find('#token-input-agent_related_agents__1__ref_')
-      element.fill_in with: agent_b['names'][0]['primary_name']
-      dropdown_items = all('li.token-input-dropdown-item2')
-      dropdown_items.first.click
+      using_wait_time(15) do
+        element = find('#related-agents-container .related-agent-type.form-control')
+        element.select 'Hierarchical Relationship'
+        element = find('#token-input-agent_related_agents__1__ref_')
+        element.fill_in with: agent_b['names'][0]['primary_name']
+        dropdown_items = all('li.token-input-dropdown-item2')
+        dropdown_items.first.click
+      end
 
       # Click on save
       find('button', text: 'Save Corporate Entity', match: :first).click
