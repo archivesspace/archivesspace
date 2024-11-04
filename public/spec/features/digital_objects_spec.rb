@@ -35,6 +35,44 @@ describe 'Digital Objects', js: true do
     end
   end
 
+  describe "breadcrumbs with mixed content" do
+    before(:each) do
+      @repo = create(:repo, repo_code: "collection_organization_test_#{Time.now.to_i}")
+      set_repo(@repo)
+      @resource = create(:resource,
+        title: 'This is <emph render="italic">a mixed content</emph> title',
+        publish: true
+      )
+
+      @do = create(:digital_object, publish: true)
+      @doc = create(:digital_object_component,
+        publish: true,
+        digital_object: { ref: @do.uri }
+      )
+
+
+      @ao = create(:archival_object,
+        publish: true,
+        title: 'This is <emph render="italic">another mixed content</emph> title',
+        resource: {'ref' => @resource.uri},
+        instances: [build(:instance_digital,
+          digital_object: { ref: @do.uri },
+          is_representative: true
+        )]
+      )
+      run_indexers
+    end
+
+    it 'displays breadcrumbs when mixed content is included' do
+      visit @do.uri
+
+      within('#linked_instances_list') do
+        expect(page).to have_css('span.emph.render-italic')
+        expect(page).to have_content('This is <emph render="italic">another mixed content</emph> title')
+      end
+    end
+  end
+
   it 'displays breadcrumbs for items in the Digital Materials listing' do
     visit '/'
     click_link 'Digital Materials'

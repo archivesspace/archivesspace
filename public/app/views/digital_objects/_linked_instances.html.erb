@@ -7,6 +7,7 @@
             <%= badge_for_type(crumb[:type]) %>
             <%
             if crumb[:crumb].include? '<emph'
+              require 'mixed_content_parser'
               title = MixedContentParser.parse(crumb[:crumb], '/')
               tag = Nokogiri::HTML::DocumentFragment.parse(title)
             %>
