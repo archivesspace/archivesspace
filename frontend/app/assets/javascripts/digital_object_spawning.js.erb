@@ -3,13 +3,9 @@
 // maniuplate the target attribute for the Create button so that the data from the correct record
 // is used for spawning, not whatever @resource/@archival_object was initally passed into the view.
 
-const createButton = $('label').filter(function() {
-    return $(this).text().trim() === 'Digital Object'; 
-  }).siblings().find('.linker-create-btn');
-
-createButton.click(function() {
+$(".linker-create-btn").click(function() {
   const match = tree.large_tree.current_tree_id.match(/(\w+)_(\d+)$/);
-  var data_target = createButton.attr('data-target');
+  var data_target = $(this).attr('data-target');
   data_target += "&spawn_from_" + match[1] + "_id=" + match[2];
-  createButton.attr('data-target', data_target);
+  $(this).attr('data-target', data_target);
 });
