@@ -284,6 +284,8 @@ describe 'Resources', js: true do
     click_on 'Background Job'
     click_on 'Bulk Archival Object Updater'
 
+    expect(page).to have_button('Start Job', disabled: true)
+
     attach_file(
       'job_file_input',
       downloaded_spreadsheet_filename,
