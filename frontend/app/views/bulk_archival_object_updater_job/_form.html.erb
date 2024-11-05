@@ -8,6 +8,7 @@
         type="file"
         name="files[]"
         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        autocomplete="off"
         required
       />
     </label>
@@ -20,7 +21,20 @@
 </section>
 
 <script>
-$('#job_file_input').on('change', function (e) {
-  $('#job_filename').text(e.target.files[0].name);
+$(document).ready(function () {
+  const $jobSubmitBtn = $('#job_file_input')
+    .closest('.record-pane')
+    .find('.form-actions .btn-primary[type="submit"]');
+  $jobSubmitBtn.prop('disabled', true);
+
+  $('#job_file_input').on('change', function (e) {
+    if (e.target.files.length > 0) {
+      $('#job_filename').text(e.target.files[0].name);
+      $jobSubmitBtn.prop('disabled', false);
+    } else {
+      $('#job_filename').text('');
+      $jobSubmitBtn.prop('disabled', true);
+    }
+  });
 });
 </script>
