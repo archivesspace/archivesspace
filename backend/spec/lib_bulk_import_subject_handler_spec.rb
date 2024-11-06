@@ -21,7 +21,7 @@ describe "Subject Handler" do
   it "should validate and find errors in a subject" do
     errs = []
     subj = @shv.validate_subject(nil, "My Subject", "topical", "ingested", errs)
-    expect(errs[0]).to start_with("NOT FOUND: 'ingested' not found ")
+    expect(errs[0]).to eq("INVALID: subject_source: 'ingested'. Must be one of: aat, gmgpc, lcsh, local, mesh, rbgenr, tgn, ingest")
   end
 
   it "should build an entry in the subjects list with nil type and return a key" do
@@ -32,7 +32,7 @@ describe "Subject Handler" do
   it "should reject an entry with an invalid source (ingested)" do
     errs = []
     subject = @sh.validate_subject(nil, "My Subject", "topical", "ingested", errs)
-    expect(errs[0]).to start_with("NOT FOUND: 'ingested' not found ")
+    expect(errs[0]).to eq("INVALID: subject_source: 'ingested'. Must be one of: aat, gmgpc, lcsh, local, mesh, rbgenr, tgn, ingest")
   end
 
 =begin

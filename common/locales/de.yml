@@ -2609,7 +2609,7 @@ de:
       date_label: Datumsbeschriftung [%{what}] ungültig für %{date_str}. Das Datum wird nicht verarbeitet.
       certainty: "Ungültige 'Datumssicherheit' ignoriert für %{date_str}: (%{what})"
       below_bad_ao: Kann nicht verarbeitet werden, da es ein Kind des fehlerhaften Archiv-Objekts ist
-      enum: "NICHT GEFUNDEN: '%{label}' nicht in Liste %{which} gefunden"
+      enum: "UNGÜLTIG: %{which}: '%{label}'. Gültige Werte: %{valid_values}"
       error: 'FEHLER: Fehler erkannt: %{term}'
       duplicates: 'Diese Tabelle enthält doppelte ArchivesSpace-Feldcodes: %{codes}'
       uri_mismatch: Der URI der Eingaberessource [%{res_uri}] stimmt nicht mit dem URI der Zeile [%{row_uri}]

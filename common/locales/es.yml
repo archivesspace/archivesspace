@@ -2662,7 +2662,7 @@ es:
       date_label: "Fecha etiqueta [%{what}] válido para %{date_str}. La fecha no será procesada."
       certainty: "No válido 'fecha de certeza' ignorado por %{date_str}: (%{what})"
       below_bad_ao: No se puede procesar porque es un hijo de la mala objeto de archivo
-      enum: "No encontrado: '%{label}' no se encuentra en la lista %{which}"
+      enum: "No válido: %{which}: '%{label}'. Valores válidos: %{valid_values}"
       error: "ERROR: Error (s) detectada: %{term}"
       invalid_date: "Definición no válida la fecha (%{what}) para %{date_str}. La fecha no será procesada."
       invalid_date_label: "Definición de etiqueta fecha no válida en primera fecha (%{what})"

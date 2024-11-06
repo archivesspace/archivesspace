@@ -2933,7 +2933,7 @@ en:
       date_label: "Date label [%{what}] invalid for %{date_str}. The date will not be processed."
       certainty: "Invalid 'date certainty' ignored for %{date_str}: (%{what})"
       below_bad_ao: Cannot process because it is a child of the bad archival object
-      enum: "NOT FOUND: '%{label}' not found in list %{which}"
+      enum: "INVALID: %{which}: '%{label}'. Must be one of: %{valid_values}"
       error: "ERROR: Error(s) detected: %{term}"
       invalid_date: "Invalid date definition (%{what}) for %{date_str}. The date will not be processed."
       invalid_date_label: "Invalid date label definition in first date (%{what})"
