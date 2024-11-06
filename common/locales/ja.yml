@@ -1949,7 +1949,7 @@ ja:
       date_label: "日付ラベル[%{what}]は%{date_str}には無効。日付が処理されません。"
       certainty: "%{date_str}については無視無効な 『日付確信』：（%{what}）"
       below_bad_ao: それが悪いアーカイブオブジェクトの子なので処理できません
-      enum: "が見つかりません。 『%{label}』 %{which}リストにありません"
+      enum: "無効: %{which}: '%{label}'. 有効な値: %{valid_values}"
       error: "ERROR：エラー（複数可）検出：%{term}"
       invalid_date: "%{what}のための無効な日付の定義（%{date_str}）。日付は処理されません。"
       invalid_date_label: "最初の日に無効な日付ラベルの定義（%{what}）"

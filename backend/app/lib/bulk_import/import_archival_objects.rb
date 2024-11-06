@@ -243,9 +243,8 @@ class ImportArchivalObjects < BulkImportParser
       elsif @validate_only
         @report.add_errors(I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")))
       else
-        @report.add_errors(I18n.t("bulk_import.error.dig_validation", :err => ""))
+        @report.add_errors(I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")))
       end
-
     end
     subjs = process_subjects
     subjs.each { |subj| ao.subjects.push({ "ref" => subj.uri }) } unless subjs.empty?
@@ -408,5 +407,4 @@ class ImportArchivalObjects < BulkImportParser
     end
     ret_subjs
   end
-
 end
