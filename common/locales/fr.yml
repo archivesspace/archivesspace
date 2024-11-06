@@ -2694,7 +2694,7 @@ fr:
       date_label: "Label Date [%{what}] non valide pour %{date_str}. La date ne sera pas traitée."
       certainty: "Certitude de la 'date invalide' ignorée pour %{date_str}: (%{what})"
       below_bad_ao: Ne peut pas traiter parce qu'il est un enfant du mauvais objet d'archives
-      enum: "Introuvable: '%{label}' ne figure pas dans la liste %{which}"
+      enum: "INVALIDE: %{which}: '%{label}'. Valeurs valides: %{valid_values}"
       error: "ERREUR: erreur (s) détectée: %{term}"
       invalid_date: "Définition de date non valide (%{what}) pour %{date_str}. La date ne sera pas traitée."
       invalid_date_label: "Définition de l'étiquette de date non valide dans la première date (%{what})"

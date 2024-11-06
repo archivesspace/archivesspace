@@ -7,6 +7,8 @@ class DigitalObjectHandler < Handler
     super
     # we don't currently use this, but it will come in handy with enhancements
     @digital_object_types ||= CvList.new("digital_object_digital_object_type", @current_user)
+    @file_format_names    ||= CvList.new("file_version_file_format_name", @current_user)
+    @file_use_statement   ||= CvList.new("file_version_use_statement", @current_user)
   end
 
   def check_digital_id(dig_id)
@@ -48,6 +50,19 @@ class DigitalObjectHandler < Handler
       raise BulkImportException.new(I18n.t("bulk_import.error.dig_obj_unique", :id => osn))
     end
 
+    errors = []
+    if representative_file_version
+      errors << validate_enum(representative_file_version[:file_format_name], @file_format_names, report)
+      errors << validate_enum(representative_file_version[:use_statement], @file_use_statement, report)
+    end
+
+    if non_representative_file_version
+      errors << validate_enum(non_representative_file_version[:file_format_name], @file_format_names, report)
+      errors << validate_enum(non_representative_file_version[:use_statement], @file_use_statement, report)
+    end
+
+    return nil unless errors.compact.empty?
+
     files = []
     files.push JSONModel(:file_version).from_hash(representative_file_version) if representative_file_version
     files.push JSONModel(:file_version).from_hash(non_representative_file_version) if non_representative_file_version
@@ -84,5 +99,19 @@ class DigitalObjectHandler < Handler
 
   def renew
     clear(@digital_object_types)
+  end
+
+
+  private
+
+  def validate_enum(value, enum_values, report)
+    return if value.nil? || value.empty?
+
+    errs = []
+    return if value_check(enum_values, value, errs)
+
+    error = I18n.t("bulk_import.error.dig_validation", :err => errs[0])
+    report.add_errors(error)
+    return error
   end
 end
