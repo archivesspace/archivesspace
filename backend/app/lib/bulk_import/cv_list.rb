@@ -28,7 +28,11 @@ class CvList
     elsif @list.index(label)
       v = label
     end
-    raise Exception.new(I18n.t("bulk_import.error.enum", :label => label, :which => @which)) if !v and !CvList::CREATE_NEW_VALUES_FOR.include?(@which)
+
+    if !v and !CvList::CREATE_NEW_VALUES_FOR.include?(@which)
+      raise Exception.new(I18n.t("bulk_import.error.enum", label: label, which: @which, valid_values: @list.join(', ')))
+    end
+
     v
   end
 

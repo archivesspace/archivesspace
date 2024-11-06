@@ -65,8 +65,10 @@ describe "Agent Handler" do
     errs = []
     res = @ah.validate_link("xxx", "creator", errs)
     expect(errs.empty?).to be(false)
-    expect(errs[0]).to start_with("NOT FOUND")
-    expect(errs[1]).to start_with("Unable to create")
+    aggregate_failures do
+      expect(errs[0]).to eq("INVALID: linked_agent_archival_record_relators: 'xxx'. Must be one of: acp, act, adp, aft, anl, anm, ann, ant, app, aqt, arc, ard, arr, art, asg, asn, att, auc, aud, aui, aus, aut, bdd, bjd, bkd, bkp, blw, bnd, bpd, bsl, ccp, chr, clb, cli, cll, clr, clt, cmm, cmp, cmt, cnd, cng, cns, coe, col, com, con, cos, cot, cov, cpc, cpe, cph, cpl, cpt, cre, crp, crr, csl, csp, cst, ctb, cte, ctg, ctr, cts, ctt, cur, cwt, dbp, dfd, dfe, dft, dgg, dis, dln, dnc, dnr, dpc, dpt, drm, drt, dsr, dst, dtc, dte, dtm, dto, dub, edt, egr, elg, elt, eng, etr, evp, exp, fac, fld, flm, fmo, fnd, fpy, frg, gis, grt, hnr, hst, ill, ilu, ins, inv, itr, ive, ivr, lbr, lbt, ldr, led, lee, lel, len, let, lgd, lie, lil, lit, lsa, lse, lso, ltg, lyr, mcp, mdc, mfp, mfr, mod, mon, mrb, mrk, msd, mte, mus, nrt, opn, org, orm, oth, own, pat, pbd, pbl, pdr, pfr, pht, plt, pma, pmn, pop, ppm, ppt, prc, prd, prf, prg, prm, pro, prp, prt, prv, pta, pte, ptf, pth, ptt, pup, rbr, rcd, rce, rcp, red, ren, res, rev, rps, rpt, rpy, rse, rsg, rsp, rst, rth, rtm, sad, sce, scl, scr, sds, sec, sgn, sht, sng, spk, spn, spy, srv, std, stg, stl, stm, stn, str, tcd, tch, ths, trc, trl, tyd, tyg, uvp, vdg, voc, wam, wdc, wde, wit, abr, adi, ape, apl, ato, brd, brl, cas, cor, cou, crt, dgs, edc, edm, enj, fds, fmd, fmk, fmp, -grt, his, isb, jud, jug, med, mtk, osp, pan, pra, pre, prn, prs, rdd, rpc, rsr, sgd, sll, tld, tlp, vac, wac, wal, wat, win, wpr, wst")
+      expect(errs[1]).to start_with("Unable to create")
+    end
   end
 
   it "should build an agent entry  with the 'id_but_no_name' value as true " do
@@ -96,8 +98,10 @@ describe "Agent Handler" do
     expect {
       ag = @ahv.get_or_create("family", agent_1[:id], "Magoo Family", nil, "this_is_not_a_real_relator", @report)
     }.not_to raise_error
-    expect(@report.current_row.errors[0]).to start_with("NOT FOUND")
-    expect(@report.current_row.errors[1]).to start_with("Unable to create agent link")
+    aggregate_failures do
+      expect(@report.current_row.errors[0]).to eq("INVALID: linked_agent_role: 'this_is_not_a_real_relator'. Must be one of: creator, source, subject")
+      expect(@report.current_row.errors[1]).to start_with("Unable to create agent link")
+    end
   end
 
   it "should validate that an agent link can't be created with bad role or relator data" do
@@ -105,10 +109,13 @@ describe "Agent Handler" do
     expect {
       ag = @ahv.get_or_create("family", agent_1[:id], "Magoo Family", "AUthor", "xxx", @report)
     }.not_to raise_error
-    expect(@report.current_row.errors[0]).to start_with("NOT FOUND")
-    expect(@report.current_row.errors[1]).to start_with("Unable to create agent link")
-    expect(@report.current_row.errors[2]).to start_with("NOT FOUND")
-    expect(@report.current_row.errors[3]).to start_with("Unable to create agent link")
+
+    aggregate_failures do
+      expect(@report.current_row.errors[0]).to eq("INVALID: linked_agent_role: 'xxx'. Must be one of: creator, source, subject")
+      expect(@report.current_row.errors[1]).to start_with("Unable to create agent link")
+      expect(@report.current_row.errors[2]).to eq("INVALID: linked_agent_archival_record_relators: 'AUthor'. Must be one of: acp, act, adp, aft, anl, anm, ann, ant, app, aqt, arc, ard, arr, art, asg, asn, att, auc, aud, aui, aus, aut, bdd, bjd, bkd, bkp, blw, bnd, bpd, bsl, ccp, chr, clb, cli, cll, clr, clt, cmm, cmp, cmt, cnd, cng, cns, coe, col, com, con, cos, cot, cov, cpc, cpe, cph, cpl, cpt, cre, crp, crr, csl, csp, cst, ctb, cte, ctg, ctr, cts, ctt, cur, cwt, dbp, dfd, dfe, dft, dgg, dis, dln, dnc, dnr, dpc, dpt, drm, drt, dsr, dst, dtc, dte, dtm, dto, dub, edt, egr, elg, elt, eng, etr, evp, exp, fac, fld, flm, fmo, fnd, fpy, frg, gis, grt, hnr, hst, ill, ilu, ins, inv, itr, ive, ivr, lbr, lbt, ldr, led, lee, lel, len, let, lgd, lie, lil, lit, lsa, lse, lso, ltg, lyr, mcp, mdc, mfp, mfr, mod, mon, mrb, mrk, msd, mte, mus, nrt, opn, org, orm, oth, own, pat, pbd, pbl, pdr, pfr, pht, plt, pma, pmn, pop, ppm, ppt, prc, prd, prf, prg, prm, pro, prp, prt, prv, pta, pte, ptf, pth, ptt, pup, rbr, rcd, rce, rcp, red, ren, res, rev, rps, rpt, rpy, rse, rsg, rsp, rst, rth, rtm, sad, sce, scl, scr, sds, sec, sgn, sht, sng, spk, spn, spy, srv, std, stg, stl, stm, stn, str, tcd, tch, ths, trc, trl, tyd, tyg, uvp, vdg, voc, wam, wdc, wde, wit, abr, adi, ape, apl, ato, brd, brl, cas, cor, cou, crt, dgs, edc, edm, enj, fds, fmd, fmk, fmp, -grt, his, isb, jud, jug, med, mtk, osp, pan, pra, pre, prn, prs, rdd, rpc, rsr, sgd, sll, tld, tlp, vac, wac, wal, wat, win, wpr, wst")
+      expect(@report.current_row.errors[3]).to start_with("Unable to create agent link")
+    end
   end
 
   it "should create an person agent using 'create_agent', then retrieve an agent link with 'get_or_create'" do
