@@ -63,7 +63,7 @@ fr:
     merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans
       la ressource '%{source}'. Toutes les notices sélectionnées seront détruites
       et toute notice liée sera réaffectée à cette ressource."
-    merge_container_profile_confirm_message: "The container profile '%{merge_destination}'
+    merge_container_profile_confirm_message: "The container profile '%{target}'
       will have the selected records merged into it. All selected records will be
       deleted and any linked records will be re-linked to this resource."
     batch_merge: "Select the record into which all of the other listed record(s) will

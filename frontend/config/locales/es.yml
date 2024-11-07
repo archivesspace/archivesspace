@@ -65,7 +65,7 @@ es:
     merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados
       fusionados con él. Se eliminarán todos los registros de selectos y cualquier
       registros vinculados será nuevamente vinculados a este fondo."
-    merge_container_profile_confirm_message: "El perfil de contenedor '%{merge_destination}'
+    merge_container_profile_confirm_message: "El perfil de contenedor '%{target}'
       tendrá los registros seleccionados fusionados en él. Todos los registros seleccionados
       se eliminarán y los registros vinculados se volverán a vincular a este recurso."
     batch_merge: "Seleccione el registro en el que se fusionarán todos los demás registros
