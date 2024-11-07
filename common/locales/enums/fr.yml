@@ -1522,14 +1522,14 @@ fr:
       subject: Matière
       title: Titre
     note_rights_statement_act_type:
-      additional_information: Additional Information
+      additional_information: Info supplémentaire
       expiration: Expiration
       extension: Extension
-      permissions: Permissions
+      permissions: Autorisations
       restrictions: Restrictions
     note_rights_statement_type:
       additional_information: Info supplémentaire
-      materials: Documents
+      materials: Matériels
       type_note: Type de note
     _note_types: &note_type_definitions
       abstract: Résumé
@@ -1634,8 +1634,8 @@ fr:
       allmusic: "AllMusic"
       allocine: "AlloCiné"
       amnbo: "American National Biography Online"
-      ansi: "American National Standards Institute and National Information Standards Organisation number\
-        \ for an ANSI or ANSI/NISO standard"
+      ansi: "American National Standards Institute and National Information Standards Organisation number
+        for an ANSI or ANSI/NISO standard"
       artsy: "Artsy"
       bdusc: "Biographical Directory of the United States Congress (United States Congress)"
       bfi: "BFI - British Film Institute"
@@ -1659,18 +1659,18 @@ fr:
       gettytgn: "Getty Thesaurus of Geographic Names Online (J. Paul Getty Trust)"
       gettyulan: "Union List of Artist Names Online (J. Paul Getty Trust)"
       gnd: "Gemeinsame Normdatei (Leipzig, Frankfurt: Deutsche Nationalbibliothek)"
-      gnis: "Geographic Names Information System (GNIS) (United States Geological Survey, Board on Geographic\
-        \ Names)"
+      gnis: "Geographic Names Information System (GNIS) (United States Geological Survey, Board on Geographic
+        Names)"
       gtin-14: "Global Trade Identification Number 14 (EAN/UCC-128 or ITF-14)"
       hdl: "Handle"
       ibdb: "IBDB - Internet Broadway Database"
-      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur\
-        \ (ABES))"
+      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur
+        (ABES))"
       imdb: "IMDb - Internet Movie Database"
       isan: "International Standard Audiovisual Number"
       isbn: "International Standard Book Number"
-      isbn-a: "International Standard Book Number (the actionable ISBN) (International DOI Foundation\
-        \ (IDF))"
+      isbn-a: "International Standard Book Number (the actionable ISBN) (International DOI Foundation
+        (IDF))"
       isbnre: "ISBN (International Standard Book Number) registrant element"
       isil: "ISIL (International Standard Identifier for Libraries and Related Organizations)"
       ismn: "International Standard Music Number"
@@ -1686,8 +1686,8 @@ fr:
       kinopo: "КиноПоиск = KinoPoisk"
       lccn: "Library of Congress Control Number"
       lcmd: "Library of Congress Manuscript Division (Washington, DC: Library of Congress)"
-      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC :\
-        \ Library of Congress)"
+      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC :
+        Library of Congress)"
       libaus: "Libraries Australia (National Library of Australia)"
       local: "Locally defined identifier"
       matrix-number: "Sound recording matrix number"
@@ -1706,20 +1706,20 @@ fr:
       orcid: "Open Researcher and Contributor IDentifier"
       oxforddnb: "Oxford Biography Index"
       porthu: "PORT.hu"
-      rbmsbt: "RBMS Controlled Vocabularies: Binding Terms (Rare Books and Manuscripts Section, Association\
-        \ of College & Research Libraries)"
-      rbmsgt: "RBMS Controlled Vocabularies: Genre Terms (Rare Books and Manuscripts Section, Association\
-        \ of College & Research Libraries)"
-      rbmspe: "RBMS Controlled Vocabularies: Provenance Evidence (Rare Books and Manuscripts Section,\
-        \ Association of College & Research Libraries)"
-      rbmsppe: "RBMS Controlled Vocabularies: Printing and Publishing Evidence (Rare Books and Manuscripts\
-        \ Section, Association of College & Research Libraries)"
-      rbmspt: "RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts Section Association\
-        \ of College & Research Libraries)"
-      rbmsrd: "RBMS Controlled Vocabularies: Relationship Designators (Rare Books and Manuscripts Section,\
-        \ Association of College & Research Libraries)"
-      rbmste: "RBMS Controlled Vocabularies: Type Evidence (Rare Books and Manuscripts Section, Association\
-        \ of College & Research Libraries)"
+      rbmsbt: "RBMS Controlled Vocabularies: Binding Terms (Rare Books and Manuscripts Section, Association
+        of College & Research Libraries)"
+      rbmsgt: "RBMS Controlled Vocabularies: Genre Terms (Rare Books and Manuscripts Section, Association
+        of College & Research Libraries)"
+      rbmspe: "RBMS Controlled Vocabularies: Provenance Evidence (Rare Books and Manuscripts Section,
+        Association of College & Research Libraries)"
+      rbmsppe: "RBMS Controlled Vocabularies: Printing and Publishing Evidence (Rare Books and Manuscripts
+        Section, Association of College & Research Libraries)"
+      rbmspt: "RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts Section Association
+        of College & Research Libraries)"
+      rbmsrd: "RBMS Controlled Vocabularies: Relationship Designators (Rare Books and Manuscripts Section,
+        Association of College & Research Libraries)"
+      rbmste: "RBMS Controlled Vocabularies: Type Evidence (Rare Books and Manuscripts Section, Association
+        of College & Research Libraries)"
       rid: "ResearcherID (Thomson Reuters)"
       rkda: "RKDartists& (Den Haag: Rijksbureau voor Kunsthistorische Documentatie)"
       saam: "Smithsonian American Art Museum (Washington DC: Smithsonian Institution)"
