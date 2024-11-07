@@ -55,6 +55,9 @@ fr:
     search_remove_row: Supprimer une ligne dessous
     staff_link: Réservé au personnel
 
+    next: Suivant
+    previous: Précédent
+    digitized: Voir le matériel numérique
   page_actions: Page Actions
 
   request:
@@ -174,6 +177,8 @@ fr:
       instance_type_enum_s: Type d'instance
       langcode: Langue
 
+      digital_object_type_enum_s: Type
+      extent_type_enum_s: Importance matérielle
   search_sorting:
     sort_by: "Trier par :"
     sort: Trier
@@ -202,8 +207,8 @@ fr:
 
   errors:
     error_404: "%{type} Enregistrement non trouvé"
-    error_404_message: "La notice %{type} à laquelle vous avez tenté d'accéder n'existe plus ou peut avoir\
-      \ été enlevée."
+    error_404_message: "La notice %{type} à laquelle vous avez tenté d'accéder n'existe plus ou peut avoir
+      été enlevée."
     backend_down: Impossible de se connecter à la base de données
     backend_down_message: ArchivesSpace rencontre actuellement des difficultés techniques. Nous nous excusons
       pour le dérangement. Veuillez réessayer plus tard.
@@ -217,7 +222,7 @@ fr:
     search_placeholder: Saisissez les termes de votre recherche
     error_no_term: Aucun terme saisi.
     toggle_navigation: Basculer la navigation
-  
+
   navigation:
     hierarchical: Navigation hiérarchique
     top_level: Navigation de haut niveau
@@ -291,6 +296,7 @@ fr:
         forms_part_of: Relation entre les pièces
         sibling_of: Relation fraternelle
 
+        has_part: Relation entre les pièces
   archival_object:
     _public:
       section: {}
@@ -351,6 +357,10 @@ fr:
       related_accessions:
         accessions: Notices entrées
         deaccessions: Notices aliénations
+      identifier_ark: ID [ark]
+      uri: ID [aspace_uri]
+      identifier_pdf: ID
+      lang_pdf: Langue du matériel
     load_records:
       alert: "Cette collection contient un grand nombre d'enregistrements"
       showing: "Affichage"
@@ -365,6 +375,7 @@ fr:
     _singular: Conditionnement
     _plural: Conditionnements
 
+    restricted: Limité
   related_resource: {}
   digital_object:
     _singular: Document numérique
@@ -376,6 +387,8 @@ fr:
       go: Aller au dossier
       section: {}
       messages: {}
+      additional: Versions de fichiers supplémentaires
+      url_encoded_data: Données codées par URL
   digital_object_component:
     _public:
       section: {}
@@ -468,6 +481,10 @@ fr:
     finding_aid_written_in: Instrument de recherche écrit en
     your_finding_aid_pdf: Votre instrument de recherche PDF pour "%{title}"
     your_finding_aid_is_attached: L'instrument de recherche demandé est en pièce jointe.
+    userestrict: Conditions d'utilisation
+    accruals: Accroissements
+    acqinfo: Informations sur les modalités d'entrée
+    accessrestrict: Conditions d'accès
   readmore:
     see_more: Voir plus
     see_less: Voir moins
@@ -592,3 +609,13 @@ fr:
     fr: Français
     de: Allemand
     ja: Japonais
+  pdf_error:
+    headings:
+      message: Message d'erreur
+      type: Type d'erreur
+      location: Emplacement de l'erreur
+      additional_info: Info supplémentaire
+    title: Une erreur s'est produite lors de la génération de ce PDF.
+    description: Nous sommes désolés, une erreur s'est produite lors de la génération de cette aide à
+      la recherche au format PDF. Voici quelques informations de diagnostic pour vous aider à déterminer
+      ce qui s'est passé.
