@@ -18,7 +18,9 @@ de:
     date_picker_toggle: Schalten Sie die Datumsauswahl um
     defaults: Standardwerte
     duplicate_resource: Doppelte Ressource
-    duplicate_resource_confirm_message: Es wird ein Job erstellt, um diese Ressource mit all ihren Archivierungsobjekten zu duplizieren. Dies kann je nach Anzahl der Datensätze eine Weile dauern.
+    duplicate_resource_confirm_message: Es wird ein Job erstellt, um diese Ressource
+      mit all ihren Archivierungsobjekten zu duplizieren. Dies kann je nach Anzahl
+      der Datensätze eine Weile dauern.
     edit: Bearbeiten
     edit_oai: OAI Einstellungen bearbeiten
     edit_batch: Stapel bearbeiten
@@ -108,7 +110,8 @@ de:
     loading: Lade...
     revert: Änderungen zurücksetzen
     finish_editing: Aufzeichnung schließen
-    toolbar_disabled_message: Sie haben nicht gespeicherte Änderungen – Speichern oder Zurücksetzen, um auf die Symbolleiste und den Datensatzbaum zuzugreifen
+    toolbar_disabled_message: Sie haben nicht gespeicherte Änderungen – Speichern
+      oder Zurücksetzen, um auf die Symbolleiste und den Datensatzbaum zuzugreifen
     publish_confirm_message: <p>Dies wird die Aufzeichnung, alle Teilaufzeichnungen
       (externe Dokumente, Anmerkungen, etc) und alle Komponenten in der Hierarchie
       veröffentlichen.</p>
@@ -1916,9 +1919,9 @@ de:
       action:
         add: Akteur-Verknüpfung hinzufügen
         make_primary_tooltip: |
-            <p>Zum primären Akteur machen</p>
-            <p>Wird verwendet, um anzugeben, welcher mit dem Datensatz verknüpfte Akteur der primäre Akteur ist. Es kann nur ein verknüpfter Akteur als primärer Akteur festgelegt werden.</p>
-            <p>Beim MARCXML Export ist der primäre Akteur der 1XX-Wert.</p>
+          <p>Zum primären Akteur machen</p>
+          <p>Wird verwendet, um anzugeben, welcher mit dem Datensatz verknüpfte Akteur der primäre Akteur ist. Es kann nur ein verknüpfter Akteur als primärer Akteur festgelegt werden.</p>
+          <p>Beim MARCXML Export ist der primäre Akteur der 1XX-Wert.</p>
         make_primary: Primär machen
     is_primary: Primär
   linked_record:
@@ -2324,20 +2327,26 @@ de:
     no_dates: Keine geeigneten Daten gefunden
   bulk_archival_object_update_spreadsheet:
     title: Tabellenkalkulation für Massenarchivierungsobjekte erstellen
-    description: Verwenden Sie das unten stehende Formular, um die Archivobjekte auszuwählen, für die Sie eine Massenaktualisierung durchführen möchten.
+    description: Verwenden Sie das unten stehende Formular, um die Archivobjekte auszuwählen,
+      für die Sie eine Massenaktualisierung durchführen möchten.
     selected_records: Ausgewählte Datensätze
     selected: Ausgewählt
     record_title: Datensatztitel
     column_types_to_include_in_spreadsheet: In die Tabelle aufzunehmende Spaltentypen
     note_types: Hinweistypen
     minimum_subrecords: Mindestanzahl an Unterdatensätzen
-    minimum_subrecords_description: Die Mindestanzahl der einzuschließenden Unterdatensätze jedes Typs
+    minimum_subrecords_description: Die Mindestanzahl der einzuschließenden Unterdatensätze
+      jedes Typs
     extra_subrecords: Zusätzliche Unterdatensätze
-    extra_subrecords_description: Die Anzahl der Unterdatensätze, die zusätzlich zur größten in einem der ausgewählten Datensätze gefundenen Zahl einbezogen werden sollen.
+    extra_subrecords_description: Die Anzahl der Unterdatensätze, die zusätzlich zur
+      größten in einem der ausgewählten Datensätze gefundenen Zahl einbezogen werden
+      sollen.
     minimum_notes: Mindestnotizen
-    minimum_notes_description: Die Mindestanzahl der aufzunehmenden Notizunterdatensätze jedes Typs
+    minimum_notes_description: Die Mindestanzahl der aufzunehmenden Notizunterdatensätze
+      jedes Typs
     download_spreadsheet: Tabelle herunterladen
-    download_spreadsheet_modal_message: Das Erstellen dieser Tabelle kann einige Augenblicke dauern.
+    download_spreadsheet_modal_message: Das Erstellen dieser Tabelle kann einige Augenblicke
+      dauern.
   assessment:
     _frontend:
       record_types: Aufzeichnung-Typen
