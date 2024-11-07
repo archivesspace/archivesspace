@@ -27,6 +27,10 @@ module JobsHelper
     end
   end
 
+  def is_global_record?(json_model)
+    json_model.match?(/agent|location|subject/)
+  end
+
   def link_for_resource(uri)
     id = JSONModel(:resource).id_for(uri)
     URI.join(
