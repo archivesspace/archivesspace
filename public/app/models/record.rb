@@ -341,7 +341,11 @@ class Record
         display << I18n.t('extent_dims', :dimensions => ext['dimensions']) unless ext['dimensions'].blank?
 
         inherited = ext.respond_to?(:dig) ? ext.dig('_inherited') : {}
-        results.push({'display' => display, '_inherited' => inherited})
+        results.push({
+          'display' => display,
+          '_inherited' => inherited,
+          'portion' => ext['portion']
+        })
       end
     end
 

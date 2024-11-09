@@ -327,6 +327,8 @@ en:
       identifier_ark: "ID [ark]"
       ark_link_name: "Archival Resource Key"
       extent: Extent
+      extent_full: Full Extent
+      extent_partial: Partial Extent
       dates: Dates
       lang: Language of Materials
       lang_pdf: Language of the Material

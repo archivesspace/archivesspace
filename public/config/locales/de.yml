@@ -246,6 +246,8 @@ de:
     _public:
       identifier: Signatur
       extent: Umfang
+      extent_full: Vollständiger Umfang
+      extent_partial: Teiler Umfang
       dates: Daten
       lang: Sprache des Archivguts
       script: Schrift

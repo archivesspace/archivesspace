@@ -302,6 +302,8 @@ es:
     _public:
       identifier: Identificador
       extent: Extensión
+      extent_full: Extensión completa
+      extent_partial: Extensión parcial
       dates: Fechas
       lang: Nota de idioma de materiales
       script: Escritura
