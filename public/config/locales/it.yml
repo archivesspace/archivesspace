@@ -1,5 +1,1 @@
-brand:
-  welcome_message: "<p>Cerca tra le nostre collezioni, materiali digitali e altro ancora.</p>\n"
-  title: Interfaccia pubblica di ArchivesSpace
-  welcome_page_title: Interfaccia pubblica di ArchivesSpace
-  welcome_head: Benvenuti in ArchivesSpace
+brand: {}
