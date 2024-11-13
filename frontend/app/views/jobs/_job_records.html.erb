@@ -13,9 +13,8 @@
         <span class="asicon icon-<%= result["record"]["_resolved"]["jsonmodel_type"] %>"
               title="<%= t("#{result["record"]["_resolved"]["jsonmodel_type"]}._singular") %>">
         </span>
-        <%# ANW-1519: for agents and subjects, we don't need to check what repo they belong in %>
-        <% if result["record"]["_resolved"]["jsonmodel_type"] =~ /agent/ ||
-              result["record"]["_resolved"]["jsonmodel_type"] =~ /subject/ %>
+        <%# ANW-1519, ANW-2206: Skip checking owner repo for global records (agents, subjects, locations) %>
+        <% if is_global_record?(result["record"]["_resolved"]["jsonmodel_type"]) %>
           <%= resolve_readonly_link_to record_title, result["record"]["ref"] %>
         <% else %>
           <% if result["record"]["ref"].include?(current_repo.uri) %>
