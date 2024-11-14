@@ -2543,7 +2543,7 @@ en:
     status_running: Running
     status_failed: Failed
     status_canceled: Canceled
-    queue_position: "Nr. %{position}"
+    queue_position: "No. %{position}"
     time_submitted: Time Submitted
     time_started: Time Started
     time_finished: Time Completed

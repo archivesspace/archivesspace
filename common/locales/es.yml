@@ -2176,6 +2176,7 @@ es:
     status_queued: Cola
     status_running: Corriendo
     status_failed: No se pudo
+    queue_position: "Nro. %{position}"
     status_canceled: Cancelada
     time_submitted: Tiempo sometida
     time_started: Tiempo comenzado
@@ -3138,3 +3139,6 @@ es:
     remove_ark: Eliminar
     ark: ARK
     edit: Editar ARK
+  container_profile:
+    title: "%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] extensión medida por %{extent_dimension}"
+    notes: notas
