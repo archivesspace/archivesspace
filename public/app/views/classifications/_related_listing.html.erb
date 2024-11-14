@@ -1,13 +1,12 @@
 <ul class="classifications_list">
   <% classifications.each do |c| %>
     <li>
-      <ul class="breadcrumb">
-      <% c.fetch('breadcrumb').each do |crumb, i| %>
+      <% c.fetch('breadcrumb').each_with_index do |crumb, index| %>
         <% crumb_uri = crumb.fetch(:uri)
            crumb_uri = c.fetch('uri') if crumb_uri.blank? %>
-        <li><%= link_to crumb.fetch(:crumb), app_prefix(crumb_uri) %></li>
+        <%= link_to crumb.fetch(:crumb), app_prefix(crumb_uri) %>
+        <%= t('context_delimiter') unless index == c.fetch('breadcrumb').length - 1 %>
       <% end %>
-      </ul>
     </li>
   <% end %>
 </ul>
