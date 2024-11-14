@@ -377,6 +377,9 @@ es:
       room: Habitación
       area: Area
       location_holdings: Ejemplares
+      location_no_holdings: No hay fondos para este repositorio.
+      location_one_top_container: 1 contenedor superior.
+      location_top_containers: " contenedores superiores."
       location_profile_display_string_u_ssort: Perfil de location
       owner_repo_display_string_u_ssort: Repositorio
       none: Ninguno
