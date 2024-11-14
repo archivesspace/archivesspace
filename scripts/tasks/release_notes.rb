@@ -46,7 +46,7 @@ module ReleaseNotes
     EXCLUDE_AUTHORS = [
       'Christine Di Bella',
       'Jessica Crouch',
-      'Brian Hoffman',
+      'Thimios Dimopulos',
       'Mark Cooper',
       'Brian Zelip',
       'Donald Smith',
