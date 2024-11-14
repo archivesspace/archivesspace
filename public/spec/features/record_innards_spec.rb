@@ -23,4 +23,26 @@ describe 'Record innards', js: true do
       expect(page).to have_css(".note-content", text: "From the")
     end
   end
+
+  describe 'Extent display' do
+    it 'should display the correct extent heading based on portion' do
+      # Test resource with whole extent
+      visit('/repositories/2/resources')
+      click_link "Resource with whole extent"
+
+      within '.upper-record-details' do
+        expect(page).to have_css('h2', text: I18n.t('resource._public.extent_full'))
+        expect(page).to have_content('5 Linear Feet')
+      end
+
+      # Test resource with partial extent
+      visit('/repositories/2/resources')
+      click_link "Resource with partial extent"
+
+      within '.upper-record-details' do
+        expect(page).to have_css('h2', text: I18n.t('resource._public.extent_partial'))
+        expect(page).to have_content('2 Linear Feet')
+      end
+    end
+  end
 end
