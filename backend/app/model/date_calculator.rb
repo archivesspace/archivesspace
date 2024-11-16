@@ -22,18 +22,16 @@ class DateCalculator
                      .filter(Sequel.|(Sequel.~(:begin => nil), Sequel.~(:end => nil)))
                      .select(:begin, :end)
 
-
       if @root_object.is_a?(Resource)
         ao_ids = db[:archival_object]
                   .filter(:root_record_id => @root_object.id)
                   .select(:id)
 
         date_query = date_query
-                      .filter(Sequel.|({:resource_id => @resource.id},
-                                       {:archival_object_id => ao_ids}))
+                      .filter(:archival_object_id => ao_ids)
       else
-        ao_ids = [@root_object.id]
         parent_ids = [@root_object.id]
+        ao_ids = []
 
         while (true) do
           ids = db[:archival_object]
