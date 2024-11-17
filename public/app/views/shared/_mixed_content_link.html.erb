@@ -1,0 +1,9 @@
+<%
+display_string = MixedContentParser.parse(content, url_for(:root))
+if display_string.include? '<span'
+  tag = Nokogiri::HTML::DocumentFragment.parse(display_string)
+%>
+  <span class="<%= tag.css('span').attr('class') %>"> <%= link_to tag.content, app_prefix(uri) %> </span>
+<% else %>
+  <%= link_to display_string, app_prefix(uri) %>
+<% end %>
