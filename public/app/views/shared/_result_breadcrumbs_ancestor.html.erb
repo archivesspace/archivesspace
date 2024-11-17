@@ -3,10 +3,14 @@
 <% end %>
 <span class="<%= span_class %>">
   <%= badge_for_type badge_type %>
+  <%
+  require 'mixed_content_parser'
+  body = MixedContentParser.parse(body, url_for(:root))
 
-  <% # there could be styling on this title and we can't have it inside the anchor tag %>
-  <% if body.include? '<span' %>
-    <% tag = Nokogiri::HTML::DocumentFragment.parse(body) %>
+  # there could be styling on this title and we can't have it inside the anchor tag
+  if body.include? '<span'
+    tag = Nokogiri::HTML::DocumentFragment.parse(body)
+  %>
     <span class="<%= tag.css('span').attr('class') %>"> <%= link_to tag.content, url %> </span>
   <% else %>
     <%= link_to body, url %>
