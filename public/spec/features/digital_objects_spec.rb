@@ -67,8 +67,8 @@ describe 'Digital Objects', js: true do
       visit @do.uri
 
       within('#linked_instances_list') do
-        expect(page).to have_css('span.emph.render-italic')
-        expect(page).to have_content('This is <emph render="italic">another mixed content</emph> title')
+        expect(page).to have_css('span.emph.render-italic', text: 'This is a mixed content title')
+        expect(page).to have_css('span.emph.render-italic', text: 'This is another mixed content title')
       end
     end
   end
