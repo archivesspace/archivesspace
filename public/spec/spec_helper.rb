@@ -198,6 +198,30 @@ def setup_test_data
   create(:digital_object_component,
          publish: true,
          component_id: '12345')
+
+  create(:resource,
+    title: "Resource with whole extent",
+    publish: true,
+    extents: [
+      build(:extent,
+        portion: 'whole',
+        number: '5',
+        extent_type: 'linear_feet'
+      )
+    ]
+  )
+
+  create(:resource,
+    title: "Resource with partial extent",
+    publish: true,
+    extents: [
+      build(:extent,
+        portion: 'part',
+        number: '2',
+        extent_type: 'linear_feet'
+      )
+    ]
+  )
 end
 
 RSpec.configure do |config|

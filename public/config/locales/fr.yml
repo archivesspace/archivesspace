@@ -322,6 +322,8 @@ fr:
     _public:
       identifier: Identifiant
       extent: Volume
+      extent_full: Volume complet
+      extent_partial: Volume partiel
       dates: Dates
       lang: Langue des matériaux
       script: Scénario

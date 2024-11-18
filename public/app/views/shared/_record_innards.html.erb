@@ -30,11 +30,14 @@
     <% end %>
 
     <% unless @result.extents.blank? %>
-      <h2><%= t('resource._public.extent') %></h2>
-       <% @result.extents.each do |ext| %>
-        <p class="extent"><%= inheritance(ext['_inherited']).html_safe %>
-	  <%= ext['display']%>
-	</p>
+      <% @result.extents.each do |ext| %>
+        <h2>
+          <%= ext['portion'] == 'whole' ? t('resource._public.extent_full') : t('resource._public.extent_partial') %>
+        </h2>
+        <p class="extent">
+          <%= inheritance(ext['_inherited']).html_safe %>
+          <%= ext['display'] %>
+        </p>
       <% end %>
     <% end %>
 

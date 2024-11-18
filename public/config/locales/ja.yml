@@ -275,6 +275,8 @@ ja:
     _public:
       identifier: 識別
       extent: エクステント
+      extent_full: 完全なエクステント
+      extent_partial: 部分的なエクステント
       dates: 日付
       lang: 材料の言語
       script: スクリプト
