@@ -7,11 +7,12 @@
 
 <fieldset>
   <section id="basic_information" class="subrecord-form-section">
-    <h3 class='subrecord-form-heading-label'>
-      <% tooltip = t("section_headings.basic_information_tooltip") %>
-      <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
-        <%= t("agent._frontend.section.basic_information") %>
-      </span>
+    <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+      <%= wrap_with_tooltip(
+        t("agent._frontend.section.basic_information"),
+        "section_headings.basic_information_tooltip",
+        "subrecord-form-heading-label"
+      ) %>
       <%= link_to_help :topic => "#{@agent.agent_type}_basic_information" %>
     </h3>
 
@@ -44,11 +45,12 @@
 
   <% unless @agent.agent_type.to_s == "agent_software" %>
     <section id="record_control_information" class="agents-subsection subrecord-form-section">
-      <h3 class='subrecord-form-heading-label'>
-        <% tooltip = t("section_headings.record_control_information_tooltip") %>
-        <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
-          <%= t("agent._frontend.section.record_control_information") %>
-        </span>
+      <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+        <%= wrap_with_tooltip(
+          t("agent._frontend.section.record_control_information"),
+          "section_headings.record_control_information_tooltip",
+          "subrecord-form-heading-label"
+        ) %>
       </h3>
 
      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_record_identifiers", :section_id => "#{@agent.agent_type}_agent_record_identifier", :template => "agent_record_identifiers", help_topic: "agent_record_identifiers", :invisible => false, :lightmode_toggle => false, :section_class => "agent_agent_record_identifiers"} %>
@@ -70,11 +72,12 @@
   <% end %>
 
   <section id="identity_information" class="agents-subsection subrecord-form-section">
-    <h3 class='subrecord-form-heading-label'>
-      <% tooltip = t("section_headings.identity_information_tooltip") %>
-      <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
-        <%= t("agent._frontend.section.identity_information") %>
-      </span>
+    <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+      <%= wrap_with_tooltip(
+        t("agent._frontend.section.identity_information"),
+        "section_headings.identity_information_tooltip",
+        "subrecord-form-heading-label"
+      ) %>
     </h3>
 
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_identifiers", :section_id => "#{@agent.agent_type}_agent_identifier", :template => "agent_identifiers", help_topic: "agent_identifiers", :invisible => false, :lightmode_toggle => false, :section_class => "agent_agent_identifiers"} %>
@@ -83,11 +86,12 @@
   </section>
 
   <section id="description_information"  class="agents-subsection subrecord-form-section">
-    <h3 class='subrecord-form-heading-label'>
-      <% tooltip = t("section_headings.description_information_tooltip") %>
-      <span title="" data-placement='bottom' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;tooltip-arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
-        <%= t("agent._frontend.section.description_information") %>
-      </span>
+    <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+      <%= wrap_with_tooltip(
+        t("agent._frontend.section.description_information"),
+        "section_headings.description_information_tooltip",
+        "subrecord-form-heading-label"
+      ) %>
     </h3>
 
 
