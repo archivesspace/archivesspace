@@ -87,6 +87,7 @@ fr:
     suppress_confirm_message: "Bien qu'une notice bloquée reste dans la base de données,\
       \ elle devient cachée à la plupart des utilisateurs et indisponible à la plupart\
       \ des fonctions."
+    toggle_dropdown_menu: Basculer le menu déroulant
     transfer: Transférer
     transfer_confirm_title: Transférer cette notice?
     transfer_confirm_message: "La notice '%{merge_destination}' sera transférée vers le service\

@@ -14,7 +14,7 @@ window.CodeMirror = (function() {
       if (defaults.hasOwnProperty(opt))
         options[opt] = (givenOptions && givenOptions.hasOwnProperty(opt) ? givenOptions : defaults)[opt];
 
-    var input = elt("textarea", null, null, "position: absolute; padding: 0; width: 1px; height: 1em");
+    var input = elt("textarea", null, null, "position: absolute; padding: 0; width: 1px; height: 1em", {"aria-label": "Text area input"});
     input.setAttribute("wrap", "off"); input.setAttribute("autocorrect", "off"); input.setAttribute("autocapitalize", "off");
     // Wraps and hides input textarea
     var inputDiv = elt("div", [input], null, "overflow: hidden; position: relative; width: 3px; height: 0px;");
@@ -3068,10 +3068,22 @@ window.CodeMirror = (function() {
   function posLess(a, b) {return a.line < b.line || (a.line == b.line && a.ch < b.ch);}
   function copyPos(x) {return {line: x.line, ch: x.ch};}
 
-  function elt(tag, content, className, style) {
+  /**
+   * 
+   * @param {*} tag 
+   * @param {*} content 
+   * @param {*} className 
+   * @param {*} style 
+   * @param {Object} attr Object of attributes to set on the element, ie: { 'data-foo': 'bar' }
+   * @returns 
+   */
+  function elt(tag, content, className, style, attr) {
     var e = document.createElement(tag);
     if (className) e.className = className;
     if (style) e.style.cssText = style;
+    if (attr) for (const a in attr) {
+      if (attr.hasOwnProperty(a)) e.setAttribute(a, attr[a]);
+    }
     if (typeof content == "string") setTextContent(e, content);
     else if (content) for (var i = 0; i < content.length; ++i) e.appendChild(content[i]);
     return e;
