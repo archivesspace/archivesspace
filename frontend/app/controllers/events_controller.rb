@@ -85,12 +85,27 @@ class EventsController < ApplicationController
                 },
                 :on_valid => ->(id) {
                   flash[:success] = t("event._frontend.messages.created")
-                  if params.has_key?(:plus_one) && params[:redirect_record]
-                    return redirect_to(
-                      :controller => :events,
-                      :action => :new,
-                      :record_uri => params[:redirect_record],
-                      :record_type => JSONModel.parse_reference(params[:redirect_record])[:type])
+                  if params.has_key?(:plus_one)
+                    # This is confusing because redirect_record is used as the resource/etc to which this event is
+                    # linked to, and should indeed redirect to that record in the case of the Save button being pressed.
+                    # (Or to the edit page of the new event if Create->Event from the main menu was used.)
+                    # However, if the +1 button is used, we are redirecting to a new event, but still want to
+                    # keep the link to that resource, hence the hijacking of redirect_record for that purpose, but
+                    # not actually redirecting to it.
+                    if params.has_key?(:redirect_record)
+                      return redirect_to(
+                        :controller => :events,
+                        :action => :new,
+                        :record_uri => params[:redirect_record],
+                        :record_type => JSONModel.parse_reference(params[:redirect_record])[:type])
+                    else
+                      # If +1 was used from a New Event created via Create->Event in the menu, we will not automatically
+                      # link the next event to any record, even if there were linked events added to it. This is because
+                      # the intent to link events to a single previously existing resource was not expressed by coming
+                      # here from an Add Event button on a resource, and the user could have linked any number of
+                      # resources (or none) on this fresh standalone event.
+                      return redirect_to(:controller => :events, :action => :new)
+                    end
                   end
 
                   # we parse the reference as a simple sanity check here...

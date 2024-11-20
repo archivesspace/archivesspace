@@ -78,6 +78,7 @@ ja:
     suppress: 抑止
     suppress_confirm_title: このレコードを抑止しますか？
     suppress_confirm_message: 抑制されたレコードはデータベースに残っていますが、ほとんどのユーザーには表示されなくなり、ほとんどの機能では使用できなくなります。
+    toggle_dropdown_menu: ドロップダウンメニューを切り替える
     transfer: 転送
     transfer_confirm_title: このレコードを転送しますか？
     transfer_confirm_message: レコード '%{merge_destination}'は選択したリポジトリに転送されます
