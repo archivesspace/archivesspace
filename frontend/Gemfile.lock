@@ -203,7 +203,7 @@ GEM
       net-protocol
     nio4r (2.7.3-java)
     nkf (0.2.0-java)
-    nokogiri (1.16.7-java)
+    nokogiri (1.13.10-java)
       racc (~> 1.4)
     parallel (1.25.1)
     parallel_tests (3.13.0)
