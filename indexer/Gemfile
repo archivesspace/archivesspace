@@ -10,7 +10,7 @@ gem 'i18n'
 gem 'json'
 gem 'mime-types'
 gem 'multi_json', '~> 1.15.0'
-gem 'nokogiri', '>= 1.10.8'
+gem 'nokogiri', '~> 1.13.10'
 gem 'sinatra', '~> 3.2', require: false
 gem 'sinatra-contrib', '~> 3.2', require: false
 gem 'multipart-post', '~> 2.4'
