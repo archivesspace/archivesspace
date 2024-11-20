@@ -225,7 +225,7 @@ form .form-group {
   .subrecord-form-heading-label {
     .has-tooltip {
       cursor: pointer;
-      border-bottom: 1px dotted #ddd;
+      border-bottom: 1px dotted var(--secondary);
     }
   }
 }
