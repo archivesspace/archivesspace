@@ -94,7 +94,7 @@ describe 'Events', js: true do
 
     click_button id: 'createPlusOne'
     expect(page).to have_content 'Event Created'
-    expect(page).to have_selector 'div.resource'
+    expect(page).to have_current_path '/events/new'
   end
 
   it 'creates an event and links it to an agent and an agent as a source' do
