@@ -22,7 +22,9 @@ fr:
     date_picker_toggle: Basculez le sélecteur de date
     defaults: Valeurs par défaut
     duplicate_resource: Ressource en double
-    duplicate_resource_confirm_message: Un travail va être créé pour dupliquer cette ressource avec tous ses objets d'archives. Cela peut prendre un certain temps en fonction du nombre d'enregistrements.
+    duplicate_resource_confirm_message: Un travail va être créé pour dupliquer cette
+      ressource avec tous ses objets d'archives. Cela peut prendre un certain temps
+      en fonction du nombre d'enregistrements.
     edit: Editer
     edit_oai: Modifier les paramètres OAI
     edit_batch: Editer lot
@@ -46,27 +48,27 @@ fr:
     merge_confirm_title: Fusionner avec cette notice?
     merge_agent_compare_agent_details: Comparer les agents
     merge_from_browse_confirm_title: Fusionner les enregistrements sélectionnés?
-    merge_subject_confirm_message: "Les notices sélectionnées seront fusionnées dans\
-      \ le sujet '%{source}'. Toutes les notices sélectionnées seront détruites et\
-      \ toute notice liée sera re-liée à ce sujet."
-    merge_agent_confirm_message: "Les notices sélectionnées seront fusionnées dans\
-      \ l'agent '%{source}'. Toutes les notices sélectionnées seront détruites et\
-      \ toute notice liée sera re-liée à cet agent. En cliquant sur le bouton Comparer\
-      \ les agents, un écran apparaît vous proposant de choisir les champs et sous-enregistrements\
-      \ à conserver dans chaque enregistrement."
-    merge_agent_from_browse_confirm_message: "Les premiers éléments sélectionnés seront\
-      \ fusionnés avec le premier agent sélectionné. Tous les enregistrements sélectionnés\
-      \ ultérieurement seront supprimés et tous les enregistrements liés seront liés\
-      \ au premier agent sélectionné."
-    merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans\
-      \ la ressource '%{source}'. Toutes les notices sélectionnées seront détruites\
-      \ et toute notice liée sera réaffectée à cette ressource."
-    merge_container_profile_confirm_message: "The container profile '%{merge_destination}' will\
-      \ have the selected records merged into it. All selected records will be deleted\
-      \ and any linked records will be re-linked to this resource."
-    batch_merge: "Select the record into which all of the other listed record(s) will\
-      \ merge. Any linked records will be re-linked to this record and all information\
-      \ for the other record(s) will be deleted."
+    merge_subject_confirm_message: "Les notices sélectionnées seront fusionnées dans
+      le sujet '%{source}'. Toutes les notices sélectionnées seront détruites et toute
+      notice liée sera re-liée à ce sujet."
+    merge_agent_confirm_message: "Les notices sélectionnées seront fusionnées dans
+      l'agent '%{source}'. Toutes les notices sélectionnées seront détruites et toute
+      notice liée sera re-liée à cet agent. En cliquant sur le bouton Comparer les
+      agents, un écran apparaît vous proposant de choisir les champs et sous-enregistrements
+      à conserver dans chaque enregistrement."
+    merge_agent_from_browse_confirm_message: "Les premiers éléments sélectionnés seront
+      fusionnés avec le premier agent sélectionné. Tous les enregistrements sélectionnés
+      ultérieurement seront supprimés et tous les enregistrements liés seront liés
+      au premier agent sélectionné."
+    merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans
+      la ressource '%{source}'. Toutes les notices sélectionnées seront détruites
+      et toute notice liée sera réaffectée à cette ressource."
+    merge_container_profile_confirm_message: "The container profile '%{merge_destination}'
+      will have the selected records merged into it. All selected records will be
+      deleted and any linked records will be re-linked to this resource."
+    batch_merge: "Select the record into which all of the other listed record(s) will
+      merge. Any linked records will be re-linked to this record and all information
+      for the other record(s) will be deleted."
     merge_n_records: "Merge %{n} records"
     move: Déplacer
     move_up_a_level: Un niveau plus haut
@@ -84,56 +86,53 @@ fr:
     set_default: Définir comme défaut
     suppress: Bloquer
     suppress_confirm_title: Bloquer cette notice?
-    suppress_confirm_message: "Bien qu'une notice bloquée reste dans la base de données,\
-      \ elle devient cachée à la plupart des utilisateurs et indisponible à la plupart\
-      \ des fonctions."
+    suppress_confirm_message: "Bien qu'une notice bloquée reste dans la base de données, elle devient cachée à la plupart des utilisateurs et indisponible à la plupart des fonctions."
     toggle_dropdown_menu: Basculer le menu déroulant
     transfer: Transférer
     transfer_confirm_title: Transférer cette notice?
-    transfer_confirm_message: "La notice '%{merge_destination}' sera transférée vers le service\
-      \ d'archives selectionné"
+    transfer_confirm_message: "La notice '%{merge_destination}' sera transférée vers
+      le service d'archives selectionné"
     transfer_successful: Transfert réussi.  L'apparition des notices dans le service
       d'archives cible peut tarder, le temps qu'une réindexation ait lieu.
     transfer_failed: Echec du transfert
-    transfer_failed_records_using_digital_objects: "Les notices suivantes pointent\
-      \ vers des objets numériques qui pourraient être transférés, mais le faire briserait\
-      \ leurs liens d'instances"
-    transfer_failed_digital_objects_linked_to_records: "Cet objet numérique est lié\
-      \ à d'autres enregistrements de ce référentiel. Pour procéder à ce transfert,\
-      \ supprimez les liens des enregistrements suivants"
+    transfer_failed_records_using_digital_objects: "Les notices suivantes pointent
+      vers des objets numériques qui pourraient être transférés, mais le faire briserait
+      leurs liens d'instances"
+    transfer_failed_digital_objects_linked_to_records: "Cet objet numérique est lié
+      à d'autres enregistrements de ce référentiel. Pour procéder à ce transfert,
+      supprimez les liens des enregistrements suivants"
     unset_default: Désactiver défaut
     unsuppress: Débloquer
     unsuppress_confirm_title: Débloquer cette notice?
     unsuppress_confirm_message: "faux"
     unable_to_move_message: "La notice n'a pas pu être déplacée"
-    move_ordering_problem_message: "Problème de rangement occasionné par le déplacement\
-      \ de notice"
+    move_ordering_problem_message: "Problème de rangement occasionné par le déplacement
+      de notice"
     delete: Supprimer
     delete_confirm_title: "Supprimer cette notice? %{title}"
-    delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette\
-      \ opération va supprimer la notice de la base de données, ainsi que toutes les\
-      \ références faites aux autres notices.</p>"
+    delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette
+      opération va supprimer la notice de la base de données, ainsi que toutes les
+      références faites aux autres notices.</p>"
     delete_repository_confirm_title: "Supprimer ce service d'archives? %{name}"
-    delete_repository_confirm_message: "<p>Attention! <strong>Cette opération ne peut\
-      \ être annulée</strong>.</p><p>Cette opération va supprimer de la base de données\
-      \ le <strong>service d'archives</strong> et toutes les notices associées, ainsi\
-      \ que toutes les références faites aux autres notices.</p><p>Pour continuer,\
-      \ veuillez entrer '%{repository}' ci-dessous:</p><p><input id='deleteRepoConfim'\
-      \ data-confirm-answer='%{repository}'></input></p>"
+    delete_repository_confirm_message: "<p>Attention! <strong>Cette opération ne peut
+      être annulée</strong>.</p><p>Cette opération va supprimer de la base de données
+      le <strong>service d'archives</strong> et toutes les notices associées, ainsi
+      que toutes les références faites aux autres notices.</p><p>Pour continuer, veuillez
+      entrer '%{repository}' ci-dessous:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Supprimer notices
     delete_multiple_confirm_title: Supprimer notices?
-    delete_multiple_confirm_message: "<p>Attention! <strong>Cette opération ne peut\
-      \ être annulée</strong>.</p><p>Cette opération va supprimer les notices de la\
-      \ base de données, avec toutes les références faites aux autres notices.</p>"
+    delete_multiple_confirm_message: "<p>Attention! <strong>Cette opération ne peut
+      être annulée</strong>.</p><p>Cette opération va supprimer les notices de la
+      base de données, avec toutes les références faites aux autres notices.</p>"
     reset: Réinitialiser par défaut
     reset_confirm_title: "Réinitialiser %{preftype} aux valeurs par défaut de l'application?"
-    reset_confirm_message: "<p>Veuillez noter que <strong>vous ne pouvez pas annuler\
-      \ cette action</strong>.</p><p>Cette action réinitialisera les préférences aux\
-      \ valeurs par défaut de l'application.</p>"
+    reset_confirm_message: "<p>Veuillez noter que <strong>vous ne pouvez pas annuler
+      cette action</strong>.</p><p>Cette action réinitialisera les préférences aux
+      valeurs par défaut de l'application.</p>"
     edit_multiple: Editer notices
     edit_multiple_confirm_title: Editer notices?
-    edit_multiple_confirm_message: "<p>Ceci va mettre à jour en masse de multitples\
-      \ notices.</p>"
+    edit_multiple_confirm_message: "<p>Ceci va mettre à jour en masse de multitples
+      notices.</p>"
     export_eac: Télécharger EAC-CPF
     export_ead: Télécharger EAD
     export_mods: Télécharger MODS
@@ -145,29 +144,30 @@ fr:
     revert: Défaire les changements
     finish_editing: Fermer notice
     merge: Fusionner
-    form_changes_message: "<small><span class='muted'>Vous avez des modifications\
-      \ non enregistrées</span></small>"
-    toolbar_disabled_message: Vous avez des modifications non enregistrées - Enregistrer ou Revenir pour accéder à la barre d'outils et à l'arborescence des enregistrements.
+    form_changes_message: "<small><span class='muted'>Vous avez des modifications
+      non enregistrées</span></small>"
+    toolbar_disabled_message: Vous avez des modifications non enregistrées - Enregistrer
+      ou Revenir pour accéder à la barre d'outils et à l'arborescence des enregistrements.
     publish: Publier tout
     publish_confirm_title: Publier?
-    publish_confirm_message: "<p>Effectuer cette opération publiera cette notice,\
-      \ toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous\
-      \ les composants de la hiérarchie.</p>"
+    publish_confirm_message: "<p>Effectuer cette opération publiera cette notice,
+      toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous
+      les composants de la hiérarchie.</p>"
     unpublish: Dépublier tout
     unpublish_confirm_title: Dépublier?
-    unpublish_confirm_message: "<p>Effectuer cette opération dépubliera cette notice,\
-      \ toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous\
-      \ les composants de la hiérarchie.</p>"
+    unpublish_confirm_message: "<p>Effectuer cette opération dépubliera cette notice,
+      toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous
+      les composants de la hiérarchie.</p>"
     publish_archival_object: Publier tout
     publish_archival_object_confirm_title: Publier?
-    publish_archival_object_confirm_message: "<p>Effectuer cette opération publiera\
-      \ cette notice, toutes les éventuelles sous-notices (Documents externes, notes,\
-      \ etc.) et tous les composants situés à un niveau inférieur de la hiérarchie.</p>"
+    publish_archival_object_confirm_message: "<p>Effectuer cette opération publiera
+      cette notice, toutes les éventuelles sous-notices (Documents externes, notes,
+      etc.) et tous les composants situés à un niveau inférieur de la hiérarchie.</p>"
     unpublish_archival_object: Dépublier tout
     unpublish_archival_object_confirm_title: Dépublier?
-    unpublish_archival_object_confirm_message: "<p>Effectuer cette opération dépubliera\
-      \ cette notice, toutes les éventuelles sous-notices (Documents externes, notes,\
-      \ etc.) et tous les composants situés à un niveau inférieur de la hiérarchie.</p>"
+    unpublish_archival_object_confirm_message: "<p>Effectuer cette opération dépubliera
+      cette notice, toutes les éventuelles sous-notices (Documents externes, notes,
+      etc.) et tous les composants situés à un niveau inférieur de la hiérarchie.</p>"
     view_search_results: Aller aux résultats de la recherche
     view_published: Voir publiés
     print_to_pdf: Générer un PDF
@@ -194,10 +194,10 @@ fr:
     uncheck_all: Tout décocher
     download: Télécharger
   database_warning:
-    message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base\
-      \ de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations.\
-      \ Vous devriez utiliser MySQL en production, y compris pour les données en phase\
-      \ de test susceptibles d'être mises en production.</p>"
+    message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base
+      de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations.
+      Vous devriez utiliser MySQL en production, y compris pour les données en phase
+      de test susceptibles d'être mises en production.</p>"
 
   states:
     auto_generated: Généré automatiquement à la sauvegarde
@@ -692,8 +692,8 @@ fr:
 
   mixed_content:
     wrap_prefix: "Mettre en forme avec:"
-    help: "Contenu mixte activé&#160;&#160;--&#160;&#160;Tapez '<' pour des éléments\
-      \ ou surlignez du texte à mettre en forme"
+    help: "Contenu mixte activé&#160;&#160;--&#160;&#160;Tapez '<' pour des éléments
+      ou surlignez du texte à mettre en forme"
 
   import:
     eac_title: Importer un fichier EAC
@@ -759,14 +759,15 @@ fr:
       à accéder.
     sidebar_label: Erreurs et avertissements
     error_403: Page inaccessible
-    error_403_message: "La page à laquelle vous avez tenté d'accéder n'existe plus,\
-      \ ou alors vous n'avez pas la permission de la voir."
+    error_403_message: "La page à laquelle vous avez tenté d'accéder n'existe plus,
+      ou alors vous n'avez pas la permission de la voir."
     error_404: Notice introuvable
-    error_404_message: "La notice à laquelle vous avez tenté d'accéder n'existe plus,\
-      \ ou alors vous n'avez pas la permission de la voir."
+    error_404_message: "La notice à laquelle vous avez tenté d'accéder n'existe plus,
+      ou alors vous n'avez pas la permission de la voir."
     error_tree_pane_ajax: Une erreur s'est produite en chargeant ce formulaire.
     merge_conflict: "La fusion des agents n'a pas réussi: %{message}"
-    merge_too_many_merge_candidates: Un seul agent peut être sélectionné pour une fusion détaillée.
+    merge_too_many_merge_candidates: Un seul agent peut être sélectionné pour une
+      fusion détaillée.
     merge_different_types: Les agents sélectionnés pour la fusion détaillée doivent
       être du même type.
     linked_to_assessment: Notice impossible à supprimer, car liée à une évaluation
@@ -785,8 +786,8 @@ fr:
         suppressed_info: Entrée bloquée, ne pouvant pas être éditée
         deleted: Entrée <strong>%{accession_display_string}</strong> supprimée
         transfer_description: Transférer cette entrée vers...
-        transfer_merge_destination: Sélectionnez un service d'archives vers lequel opérer le
-          transfert
+        transfer_merge_destination: Sélectionnez un service d'archives vers lequel
+          opérer le transfert
         spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession_display_string}</strong>"
         delete_conflict: "Entrée impossible à supprimer: <pre>%{error}</pre>"
       section:
@@ -801,8 +802,8 @@ fr:
         created: Agent créé
         updated: Agent sauvegardé
         deleted: Agent supprimé
-        published: "L'agent <strong>%{agent_title}</strong>, ses sous-enregistrements\
-          \ et ses composants ont été publiés"
+        published: "L'agent <strong>%{agent_title}</strong>, ses sous-enregistrements
+          et ses composants ont été publiés"
         delete_conflict: "Impossible de supprimer l'agent: <pre>%{error}</pre>"
         merge_description: Sélectionnez l'agent à fusionner
         merged: Agent(s) fusionné(s)
@@ -879,16 +880,16 @@ fr:
         please_select_a_resource_for_transfer: Veuillez choisir une ressource
         transfer_success: Document d'archives <strong>%{archival_object_display_string}</strong>
           transféré avec succès vers la ressource <strong>%{resource_title}</strong>
-        transfer_error: "Le transfert du document d'archives n'a pas pu se faire,\
-          \ en raison d'une erreur ou d'un conflit: <pre>%{exception}</pre>"
-        deleted: "Document d'archives <strong>%{archival_object_display_string}</strong>\
-          \ supprimé"
-        published: "Document d'archives <strong>%{archival_object.title}</strong>,\
-          \ ses sous-notices et composants situés à un niveau inférieur de la hiérarchie\
-          \ ont été publiés"
-        unpublished: "Document d'archives <strong>%{archival_object.title}</strong>,\
-          \ ses sous-notices et composants situés à un niveau inférieur de la hiérarchie\
-          \ ont été dépubliés"
+        transfer_error: "Le transfert du document d'archives n'a pas pu se faire,
+          en raison d'une erreur ou d'un conflit: <pre>%{exception}</pre>"
+        deleted: "Document d'archives <strong>%{archival_object_display_string}</strong>
+          supprimé"
+        published: "Document d'archives <strong>%{archival_object.title}</strong>,
+          ses sous-notices et composants situés à un niveau inférieur de la hiérarchie
+          ont été publiés"
+        unpublished: "Document d'archives <strong>%{archival_object.title}</strong>,
+          ses sous-notices et composants situés à un niveau inférieur de la hiérarchie
+          ont été dépubliés"
         unsuppressed: Document d'archives <strong>%{archival_object.title}</strong>
           débloqué
         suppressed: Document d'archives <strong>%{archival_object.title}</strong>
@@ -927,16 +928,16 @@ fr:
   classification_term:
     _frontend:
       messages:
-        created: "Terme de classement <strong>%{classification_term.title}</strong>\
-          \ créé"
-        created_with_parent: "Terme de classement <strong>%{classification_term.title}</strong>\
-          \ créé"
-        updated: "Terme de classement <strong>%{classification_term.title}</strong>\
-          \ actualisé"
-        updated_with_parent: "Terme de classement <strong>%{classification_term.title}</strong>\
-          \ mis à jour"
-        deleted: "Terme de classement <strong>%{classification_term.title}</strong>\
-          \ supprimé"
+        created: "Terme de classement <strong>%{classification_term.title}</strong>
+          créé"
+        created_with_parent: "Terme de classement <strong>%{classification_term.title}</strong>
+          créé"
+        updated: "Terme de classement <strong>%{classification_term.title}</strong>
+          actualisé"
+        updated_with_parent: "Terme de classement <strong>%{classification_term.title}</strong>
+          mis à jour"
+        deleted: "Terme de classement <strong>%{classification_term.title}</strong>
+          supprimé"
       section:
         basic_information: Informations de base
         search_embedded: Notices liées
@@ -987,14 +988,15 @@ fr:
         created: "Objet numérique <strong>%{digital_object_title}</strong> créé"
         updated: "Objet numérique <strong>%{digital_object_title}</strong> actualisé"
         deleted: "Objet numérique <strong>%{digital_object_title}</strong> supprimé"
-        published: "L'objet numérique <strong>%{digital_object_title}</strong>, ses\
-          \ sous-notices et ses composants ont été publiés"
+        published: "L'objet numérique <strong>%{digital_object_title}</strong>, ses
+          sous-notices et ses composants ont été publiés"
         merge_description: Sélectionnez ci-dessous des objects numériques à fusionner
           dans
         please_select_a_digital_object_to_merge: Veuillez sélectionner un objet numérique
         merged: Objet(s) numérique(s) fusionné(s)
         transfer_description: Transférer cette ressource dans...
-        transfer_merge_destination: Sélectionnez un service d'archives cible pour le transfert
+        transfer_merge_destination: Sélectionnez un service d'archives cible pour
+          le transfert
         unsuppressed: Objet numérique <strong>%{digital_object_title}</strong> débloqué
         suppressed: Objet numérique <strong>%{digital_object_title}</strong> bloqué
         suppressed_info: Objet numérique bloqué, ne pouvant être édité
@@ -1041,8 +1043,8 @@ fr:
         value_updated: Valeur actualisée
         deleted: Valeur supprimée
         delete_error: Impossible de supprimer la valeur
-        delete_conflict: "La valeur étant actuellement référencée par une notice,\
-          \ elle ne peut être supprimée"
+        delete_conflict: "La valeur étant actuellement référencée par une notice,
+          elle ne peut être supprimée"
         default_set: Ensemble de valeurs par défaut
         created: Valeur créée
         create_error: Echec de la création de valeur
@@ -1124,8 +1126,8 @@ fr:
         add: Lier à un agent
         make_primary: Rendre primaire
         make_primary_tooltip: |
-            <p>Permet d'indiquer quel agent lié à l'enregistrement est l'agent principal. Un seul agent lié peut être désigné comme principal.</p>
-            <p>Dans l'export MARCXML, l'agent principal sera la valeur 1XX.</p>
+          <p>Permet d'indiquer quel agent lié à l'enregistrement est l'agent principal. Un seul agent lié peut être désigné comme principal.</p>
+          <p>Dans l'export MARCXML, l'agent principal sera la valeur 1XX.</p>
 
 
   linked_record:
@@ -1150,9 +1152,9 @@ fr:
         batch_edit: Editer lot de localisations
         save: Sauvegarder localisation
         single: Localisation unique
-        delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être\
-          \ annulée.</strong>.</p><p> Si cette localisation est actuellement liée\
-          \ à une ou plusieurs instance(s), elle ne peut être supprimée.</p>"
+        delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être
+          annulée.</strong>.</p><p> Si cette localisation est actuellement liée à
+          une ou plusieurs instance(s), elle ne peut être supprimée.</p>"
         show_space_calculator: Trouver avec le calculateur d'espace
 
   location_batch:
@@ -1163,13 +1165,13 @@ fr:
       messages:
         created: "<strong>%{number_created} Localisation</strong> créée"
         updated: "<strong>%{number_created} Localisation</strong> actualisée"
-        location_batch_info: "Définir les valeurs de base qui seront appliquées à\
-          \ toutes les localisations générées à partir de la <strong>plage de coordonnées</strong>\
-          \ ci-dessous."
+        location_batch_info: "Définir les valeurs de base qui seront appliquées à
+          toutes les localisations générées à partir de la <strong>plage de coordonnées</strong>
+          ci-dessous."
         location_batch_update_info: "Veuillez saisir ci-dessous les valeurs souhaitées."
-        ranges_info: "Veuillez noter que tout champ de coordonnées saisi dans la <strong>localisation\
-          \ de base</strong> ci-dessus sera remplacé par les valeurs générées par\
-          \ la plage ci-dessous.  Un maximum de %{max_range} localisations sera créé."
+        ranges_info: "Veuillez noter que tout champ de coordonnées saisi dans la <strong>localisation
+          de base</strong> ci-dessus sera remplacé par les valeurs générées par la
+          plage ci-dessous.  Un maximum de %{max_range} localisations sera créé."
         number_to_create: Nombre de localisations
         warning: En fonction de la taille de vos plages, ce processus peut prendre
           plusieurs minutes à s'effectuer.
@@ -1264,14 +1266,15 @@ fr:
         selected_short: Sélectionné
         changed: Le service d'archives <strong>%{repository_repo_code}</strong> est
           maintenant activé
-        create_first_repository: "Pour créer votre premier service d'archives, cliquer\
-          \ dans le menu <strong>Système</strong> ci-dessus, puis <strong>Gérer services\
-          \ d'archives</strong>."
-        no_access_to_repositories: "<p>Vous n'avez accès à aucun service d'archives.</p><p>Veuillez\
-          \ contacter votre administrateur système pour une demande d'accès.</p>"
+        create_first_repository: "Pour créer votre premier service d'archives, cliquer
+          dans le menu <strong>Système</strong> ci-dessus, puis <strong>Gérer services
+          d'archives</strong>."
+        no_access_to_repositories: "<p>Vous n'avez accès à aucun service d'archives.</p><p>Veuillez
+          contacter votre administrateur système pour une demande d'accès.</p>"
         continue_with_transfer: Continuer avec le transfert?
         transfer_failed: Le transfert n'a pu être effectué en raison des erreurs suivantes
-        transfer_merge_destination: Sélectionnez un service d'archives vers lequel transférer
+        transfer_merge_destination: Sélectionnez un service d'archives vers lequel
+          transférer
         transfer_warning: <strong>Avertissement:</strong> transférer ce service d'archives
           va déplacer <strong>toutes</strong> ses notices dans le service d'archives
           sélectionné.  <strong>Cette opération ne peut être annulée</strong>
@@ -1296,16 +1299,16 @@ fr:
         updated: "Ressource <strong>%{resource_title}</strong> actualisée"
         spawned: "Une nouvelle ressource a été générée depuis Entrée <strong>%{accession_display_string}</strong>"
         deleted: "Ressource <strong>%{resource_title}</strong> supprimée"
-        published: "La ressource <strong>%{resource_title}</strong>, ses sous-notices\
-          \ et composants ont été publiés"
-        unpublished: "La ressource <strong>%{resource_title}</strong>, ses sous-notices\
-          \ et composants ont été dépubliés"
+        published: "La ressource <strong>%{resource_title}</strong>, ses sous-notices
+          et composants ont été publiés"
+        unpublished: "La ressource <strong>%{resource_title}</strong>, ses sous-notices
+          et composants ont été dépubliés"
         merge_description: Sélectionner ci-dessous les ressources à fusionner dans
         please_select_a_resource_to_merge: Veuillez sélectionner une ressource
         merged: Ressource(s) fusionnée(s)
         transfer_description: Transférer cette ressource vers...
-        transfer_merge_destination: Sélectionner un service d'archives vers lequel opérer le
-          transfert
+        transfer_merge_destination: Sélectionner un service d'archives vers lequel
+          opérer le transfert
         unsuppressed: Ressource <strong>%{resource_title}</strong> débloquée
         suppressed: Ressource <strong>%{resource_title}</strong> bloquée
         suppressed_info: Ressource bloquée, non éditable
@@ -1328,8 +1331,8 @@ fr:
       messages:
         updated: Préférences actualisées
         reset: Préférences définies sur les valeurs par défaut de l'application
-        reset_error: "Impossible de réinitialiser les préférences en raison d'une\
-          \ erreur: %{exception}"
+        reset_error: "Impossible de réinitialiser les préférences en raison d'une
+          erreur: %{exception}"
       action:
         save: Enregistrer les préférences
 
@@ -1448,8 +1451,8 @@ fr:
       sequence_count_warning: Il y a plus de rangées que d'items dans la séquence.
       preview_sequence: Aperçu valeurs de séquence
       sequence_summary: "%{count} items dans la séquence:"
-      sequence_summary_with_maxsize: "Pour vos %{limit} rangées, les %{count} valeurs\
-        \ de séquence sont:"
+      sequence_summary_with_maxsize: "Pour vos %{limit} rangées, les %{count} valeurs
+        de séquence sont:"
       sequence_from_required: Du est requis
       sequence_to_required: Au est requis
     reorder_columns:
@@ -1466,8 +1469,8 @@ fr:
       error_prefix: Rangée
       success: "<div class='alert alert-success'>Fils créé. Rafraîchissement en cours...</div>"
       no_rows: Veuillez saisir des valeurs pour au moins une rangée
-      rows_with_errors: "%{count} rangée(s) avec une erreur - cliquez sur un champ\
-        \ de rangée pour visualiser les erreurs pour cette rangée"
+      rows_with_errors: "%{count} rangée(s) avec une erreur - cliquez sur un champ
+        de rangée pour visualiser les erreurs pour cette rangée"
       rows_no_errors: "Toutes les rangées sont valides"
       error_summary_header: "Erreurs dans rangée:"
       select_prompt: Appliquer un modèle RDE
@@ -1498,9 +1501,9 @@ fr:
       rafraîchir la page pour accéder à la dernière version.
     other_editors: "Cette notice est actuellement éditée par un autre utilisateur.\
       \  Veuillez contacter les utilisateurs suivant pour prévenir tout conflit: <strong>%{user_ids}</strong>"
-    repository_changed: "Cette notice ne peut être sauvegardée du fait que vous avez\
-      \ changé de service d'archives actif. Pour sauvegarder cette notice, ouvrez\
-      \ une nouvelle fenêtre et réactivez le bon service d'archives."
+    repository_changed: "Cette notice ne peut être sauvegardée du fait que vous avez
+      changé de service d'archives actif. Pour sauvegarder cette notice, ouvrez une
+      nouvelle fenêtre et réactivez le bon service d'archives."
   job:
     _frontend:
       audit_data: Audit Data
@@ -1676,8 +1679,8 @@ fr:
         filter_required: Veuillez choisir un filtre
         max_results_limit_reached: Tous les résultats ne sont pas listés. Veuillez
           affiner votre recherche.
-        max_results_limit_details: "<strong>%{visible}</strong> résulats correspondants\
-          \ affichés sur <strong>%{num_found}</strong>"
+        max_results_limit_details: "<strong>%{visible}</strong> résulats correspondants
+          affichés sur <strong>%{num_found}</strong>"
         results_summary: "Résultats correspondants: <strong>%{num_found}</strong>"
         bulk_selection_sort_help: Cliquez sur une colonne pour définir la méthode
           de tri.  Maintenir la touche Maj pressée pour trier par colonnes multiples.
@@ -1742,7 +1745,8 @@ fr:
         batch_merge_container_profile_mismatch_warning: Ces conteneurs supérieurs
           ont un profil différent de récipient que le récipient supérieur du cadre.
           Le profil de conteneur ne fusionnera pas dans le conteneur cible.
-        batch_merge_confirm_merge_candidates: "Fusionner les conteneurs supérieurs suivants:"
+        batch_merge_confirm_merge_candidates: "Fusionner les conteneurs supérieurs
+          suivants:"
         batch_merge_confirm_merge_destination: "Dans ce conteneur supérieur:"
         batch_delete: Supprimer Top conditionnements
         batch_delete_help: Supprimer tous les conditionnements sélectionnés.
@@ -1831,9 +1835,9 @@ fr:
     end_tooltip: |
       <p>Pour une restriction temporaire, date de fin de la restriction d'accès. Sera dissociée des conditionnements une fois expirée.</p>
     local_access_restriction_type: Type de restriction de consultation locale
-    local_access_restriction_type_inline_help: "Maintenir pressé CTRL (Windows) /\
-      \ Command (Mac) pour sélectionner des options multiples ou pour déselectionner\
-      \ un option"
+    local_access_restriction_type_inline_help: "Maintenir pressé CTRL (Windows) /
+      Command (Mac) pour sélectionner des options multiples ou pour déselectionner
+      un option"
     local_access_restriction_type_tooltip: |
       <p>Pour les restrictions indépendantes du temps, une indication de la raison de la restriction.</p>
       <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
@@ -1893,10 +1897,10 @@ fr:
     message_select_locations: "Vérifier l'espace dans la ou les localisation(s) suivante(s):"
     message_no_locations_with_space: Aucune localisation présentant de l'espace n'a
       été trouvée
-    message_total_spaces: "Nombre total d'espaces disponibles pour ce type de conditionnement:\
-      \ %{total_spaces}"
-    message_total_containers: "Nombre total de conditionnements de ce type trouvés\
-      \ dans ces localisations: %{total_containers}"
+    message_total_spaces: "Nombre total d'espaces disponibles pour ce type de conditionnement:
+      %{total_spaces}"
+    message_total_containers: "Nombre total de conditionnements de ce type trouvés
+      dans ces localisations: %{total_containers}"
     message_loading: Chargement en cours...
     count: Espace disponible (de type de conditionnement)
     calculate_space: Vérification de l'espace
@@ -1942,20 +1946,26 @@ fr:
 
   bulk_archival_object_update_spreadsheet:
     title: Générer une feuille de calcul d'objets d'archivage en masse
-    description: Utilisez le formulaire ci-dessous pour sélectionner les objets d'archives que vous souhaitez mettre à jour en masse.
+    description: Utilisez le formulaire ci-dessous pour sélectionner les objets d'archives
+      que vous souhaitez mettre à jour en masse.
     selected_records: Enregistrements sélectionnés
     selected: Choisie
     record_title: Titre de l'enregistrement
-    column_types_to_include_in_spreadsheet: Types de colonnes à inclure dans la feuille de calcul
+    column_types_to_include_in_spreadsheet: Types de colonnes à inclure dans la feuille
+      de calcul
     note_types: Types de notes
     minimum_subrecords: Sous-enregistrements minimum
-    minimum_subrecords_description: Le nombre minimum de sous-enregistrements de chaque type à inclure
+    minimum_subrecords_description: Le nombre minimum de sous-enregistrements de chaque
+      type à inclure
     extra_subrecords: Sous-enregistrements supplémentaires
-    extra_subrecords_description: Le nombre de sous-enregistrements à inclure en plus du plus grand nombre trouvé dans l'un des enregistrements sélectionnés.
+    extra_subrecords_description: Le nombre de sous-enregistrements à inclure en plus
+      du plus grand nombre trouvé dans l'un des enregistrements sélectionnés.
     minimum_notes: Notes minimales
-    minimum_notes_description: Le nombre minimum de sous-enregistrements de notes de chaque type à inclure
+    minimum_notes_description: Le nombre minimum de sous-enregistrements de notes
+      de chaque type à inclure
     download_spreadsheet: Télécharger la feuille de calcul
-    download_spreadsheet_modal_message: La génération de cette feuille de calcul peut prendre quelques instants.
+    download_spreadsheet_modal_message: La génération de cette feuille de calcul peut
+      prendre quelques instants.
 
   assessment:
     _frontend:
@@ -2039,8 +2049,8 @@ fr:
       messages:
         updated: Attribut actualisés
         error: Erreur lors de l'actualisation
-        conflict: "Erreur lors de l'actualisation des attributs d'évaluation. Les\
-          \ labels suivants sont en conflit avec des entrées existantes: %{conflicts}"
+        conflict: "Erreur lors de l'actualisation des attributs d'évaluation. Les
+          labels suivants sont en conflit avec des entrées existantes: %{conflicts}"
         attribute_in_use: Impossible de supprimer un attribut qui sert à une évaluation
       database_value: Valeur de la base de données
       translation: Traduction
@@ -2118,11 +2128,11 @@ fr:
         error: "ERREUR: erreur (s) détecté:"
         copied: Copié!
         uncopied: Impossible de copier
-        submitted: "<p>La tâche a été soumis aux travaux d'arrière-plan. <br/> Cliquez\
-          \ sur «Fermer» pour actualiser cet écran.</p>"
+        submitted: "<p>La tâche a été soumis aux travaux d'arrière-plan. <br/> Cliquez
+          sur «Fermer» pour actualiser cet écran.</p>"
   bulk_import_job:
-    active: "Une tâche d'importation groupée est active pour cet enregistrement, essayez\
-      \ de modifier plus tard: <a href ='%{url}'>%{uri}</a>"
+    active: "Une tâche d'importation groupée est active pour cet enregistrement, essayez
+      de modifier plus tard: <a href ='%{url}'>%{uri}</a>"
     resource_id: Ressource ID
     format: Télécharger le format de fichier
     filename: Nom du fichier de feuille de calcul
@@ -3251,20 +3261,19 @@ fr:
     dates: Rendez-vous
 
   section_headings:
-    basic_information_tooltip: "<p>Cette section indique le type d'agent et si l'agent\
-      \ est publié ou non.</p>"
-    record_control_information_tooltip: "<p>Cette section contient des informations\
-      \ sur l'enregistrement lui-même, avec l'espoir qu'il provient de l'extérieur\
-      \ d'ArchivesSpace ou qu'il va être partagé avec un système autre qu'ArchivesSpace.</p>"
-    identity_information_tooltip: "<p>Cette section contient les informations de base\
-      \ sur l'agent lui-même. Un formulaire de nom est le seul sous-enregistrement\
-      \ requis dans un enregistrement d'agent.</p>"
-    description_information_tooltip: "<p>Cette section contient les informations de\
-      \ base sur l'agent lui-même. Un formulaire de nom est le seul sous-enregistrement\
-      \ requis dans un enregistrement d'agent.</p>"
-    relation_information_tooltip: "<p>Cette section est utilisée pour indiquer les\
-      \ relations avec d'autres agents ou matériaux à l'intérieur ou à l'extérieur\
-      \ d'ArchivesSpace.</p>"
+    basic_information_tooltip: "<p>Cette section indique le type d'agent et si l'agent
+      est publié ou non.</p>"
+    record_control_information_tooltip: "<p>Cette section contient des informations
+      sur l'enregistrement lui-même, avec l'espoir qu'il provient de l'extérieur d'ArchivesSpace
+      ou qu'il va être partagé avec un système autre qu'ArchivesSpace.</p>"
+    identity_information_tooltip: "<p>Cette section contient les informations de base
+      sur l'agent lui-même. Un formulaire de nom est le seul sous-enregistrement requis
+      dans un enregistrement d'agent.</p>"
+    description_information_tooltip: "<p>Cette section contient les informations de
+      base sur l'agent lui-même. Un formulaire de nom est le seul sous-enregistrement
+      requis dans un enregistrement d'agent.</p>"
+    relation_information_tooltip: "<p>Cette section est utilisée pour indiquer les
+      relations avec d'autres agents ou matériaux à l'intérieur ou à l'extérieur d'ArchivesSpace.</p>"
 
   bulk_archival_object_updater_job:
     _singular: Tâche de mise à jour d'objet d'archivage en masse de feuille de calcul
@@ -3272,8 +3281,8 @@ fr:
 
   note_contact_note:
     contact_notes_tooltip: "<p>Détails sur l'interaction avec le contact</p>\n"
-    date_of_contact_tooltip: "<p>Utilisé pour enregistrer la date ou la période spécifique\
-      \ d'une interaction</p>\n"
+    date_of_contact_tooltip: "<p>Utilisé pour enregistrer la date ou la période spécifique
+      d'une interaction</p>\n"
   metadata_rights_declaration: &metadata_rights_declaration_attributes
     file_version_xlink_actuate_attribute: Attribut Xlink Actuate
     file_version_xlink_show_attribute: Attribut XLink Show
@@ -3311,18 +3320,18 @@ fr:
     bulk_import_DO_template_xlsx: Créez et liez des objets numériques à des objets
       d'archives existants dans une ressource. Le format XLSX est destiné à ceux qui
       ont accès à Microsoft Excel.
-    overview: "<p>Ce sont des modèles pour télécharger des données de feuille de calcul\
-      \ dans ArchivesSpace à l'aide des différentes options d'importation dans la\
-      \ zone Tâches en arrière-plan. Les données requises pour une importation réussie\
-      \ dépendent du type d'enregistrement créé. Vous n'avez pas besoin de remplir\
-      \ chaque ligne et colonne.</p><p>Chaque modèle CSV comprend une ligne d'exemples\
-      \ de données. À moins que vous ne souhaitiez créer un enregistrement avec les\
-      \ exemples de données, veuillez supprimer les exemples de données avant de télécharger\
-      \ votre feuille de calcul. <b>Ne supprimez pas la ligne d'en-tête, n'ajoutez\
-      \ pas de colonnes supplémentaires ou ne réorganisez pas les colonnes existantes.</b></p><p>Les\
-      \ modèles Excel incluent des instructions supplémentaires pour l'utilisation\
-      \ des modèles et des validations pour certaines cellules. Ne supprimez pas les\
-      \ instructions ou les validations.</p>\n"
+    overview: "<p>Ce sont des modèles pour télécharger des données de feuille de calcul
+      dans ArchivesSpace à l'aide des différentes options d'importation dans la zone
+      Tâches en arrière-plan. Les données requises pour une importation réussie dépendent
+      du type d'enregistrement créé. Vous n'avez pas besoin de remplir chaque ligne
+      et colonne.</p><p>Chaque modèle CSV comprend une ligne d'exemples de données.
+      À moins que vous ne souhaitiez créer un enregistrement avec les exemples de
+      données, veuillez supprimer les exemples de données avant de télécharger votre
+      feuille de calcul. <b>Ne supprimez pas la ligne d'en-tête, n'ajoutez pas de
+      colonnes supplémentaires ou ne réorganisez pas les colonnes existantes.</b></p><p>Les
+      modèles Excel incluent des instructions supplémentaires pour l'utilisation des
+      modèles et des validations pour certaines cellules. Ne supprimez pas les instructions
+      ou les validations.</p>\n"
     aspace_digital_object_import_template_csv: Créez des enregistrements d'objets
       numériques et des enregistrements liés à des objets numériques tels que des
       agents, des sujets et des événements.
