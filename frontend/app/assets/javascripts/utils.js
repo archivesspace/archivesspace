@@ -674,11 +674,21 @@ AS.initAddAsYouGoActions = function ($form, $list) {
       'button[data-action], .subrecord-form-heading:first > .btn, .subrecord-form-heading:first > .custom-action > .btn',
       $form
     );
+
+    // jquery.map != Array.prototype.map
     btnsToReplicate = btnsToReplicate.map(function () {
       var $btn = $(this);
       if ($btn.hasClass('show-all') && numberOfSubRecords() < 5) return;
       else return this;
     });
+
+    /**
+     * ANW-2162: Hack around the related bug that duplicates Note subform ids
+     * resulting in extra add-as-you-go buttons
+     */
+    btnsToReplicate = btnsToReplicate.filter(
+      (i, btn) => btn.closest('section.subrecord-form') === $form[0]
+    );
 
     var fillToPercentage = 100; // full width
 
