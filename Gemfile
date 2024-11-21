@@ -3,9 +3,15 @@
 source 'https://rubygems.org'
 
 # Gemfile for supporting rake tasks
-gem 'git', group: :release_notes
-gem 'github_api', group: :release_notes
 gem 'rake'
+
+group :release_notes do
+  gem 'pry'
+  gem 'pry-debugger-jruby'
+  gem 'pry-nav'
+  gem 'git', '~> 2.3'
+  gem 'github_api'
+end
 
 gem 'rubocop', group: :rubocop
 gem 'thor', group: [:docs, :thor, :release_notes]
