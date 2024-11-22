@@ -56,7 +56,7 @@ class Doc < Thor
         pr = pulls.select { |pull| pull[:commits].map { |c| c["sha"]}.include?(log_entry[:sha])}.first
         if pr
           log_entry[:pr_number] = pr["number"]
-          log_entry[:pr_title] = log_entry[:desc]
+          log_entry[:pr_title] = pr["title"]
         end
       end
       pulls_page = pulls_page + 1
