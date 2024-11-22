@@ -391,9 +391,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      location_no_holdings: No hay existencias para este repositorio.
-      location_one_top_container: 1 contenedor superior.
-      location_top_containers: ' contenedores superiores.'
     event:
       score: Relevancia
       agents: Autoridades
