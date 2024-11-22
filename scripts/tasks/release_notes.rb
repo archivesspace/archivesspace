@@ -78,9 +78,9 @@ module ReleaseNotes
           messages << format_log_entry(data)
         end
         next if data[:pr_title].nil? && data[:desc].nil?
-        @contributions += 1
         data[:authors].each do |author|
           next if EXCLUDE_AUTHORS.include?(author)
+          @contributions += 1
           contributors[author] ||= []
           contributors[author] << (data[:pr_title] || data[:desc])
         end
@@ -102,6 +102,10 @@ module ReleaseNotes
 
     def pr_count
       log.map {|l| l[:pr_number]}.compact!.uniq.count
+    end
+
+    def ticket_count
+      log.map {|l| l[:anw_number]}.compact!.uniq.count
     end
 
     def add_jira_id(data)
@@ -213,7 +217,8 @@ module ReleaseNotes
       doc << "## JIRA Tickets and Pull Requests Completed\n"
       doc.concat messages.uniq
 
-      doc << "Total Pull Requests accepted: #{pr_count}"
+      doc << "\nTotal Pull Requests accepted: #{pr_count}"
+      doc << "Total Jira Tickets closed: #{ticket_count}"
     end
 
   end
