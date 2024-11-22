@@ -41,6 +41,7 @@ module ReleaseNotes
 
   class Generator
     attr_reader :contributors, :contributions, :doc, :log, :messages, :previous_tag, :style, :current_tag, :migrations
+
     ANW_URL = 'https://archivesspace.atlassian.net/browse'
     PR_URL  = 'https://github.com/archivesspace/archivesspace/pull'
     EXCLUDE_AUTHORS = [
@@ -65,7 +66,7 @@ module ReleaseNotes
       @diff = Git.open('.').gtree("#{@previous_tag}").diff("#{@current_tag}")
       @migrations = OpenStruct.new
       all_changes = @diff.path('common/db/migrations').name_status
-      relevant_changes = all_changes.select{ |_,d| d == 'A'}
+      relevant_changes = all_changes.select { |_, d| d == 'A' }
       @migrations.count = relevant_changes.count
       @migrations.schema_version = (@migrations.count>0) ? relevant_changes.to_a.last.map { |m| m[/\d+/] }.first : "UNCHANGED"
     end
@@ -77,9 +78,9 @@ module ReleaseNotes
           messages << format_log_entry(data)
         end
         next if data[:pr_title].nil? && data[:desc].nil?
-        @contributions += 1
         data[:authors].each do |author|
           next if EXCLUDE_AUTHORS.include?(author)
+          @contributions += 1
           contributors[author] ||= []
           contributors[author] << (data[:pr_title] || data[:desc])
         end
@@ -99,6 +100,14 @@ module ReleaseNotes
 
     private
 
+    def pr_count
+      log.map {|l| l[:pr_number]}.compact!.uniq.count
+    end
+
+    def ticket_count
+      log.map {|l| l[:anw_number]}.compact!.uniq.count
+    end
+
     def add_jira_id(data)
       if (data[:desc].match(/(ANW-\d+)/) || data[:pr_title]&.match(/(ANW-\d+)/))
         data[:anw_number] = $1
@@ -108,7 +117,7 @@ module ReleaseNotes
     def anw_link(anw_number)
       return nil unless anw_number
 
-      anw_capitalized = anw_number.upcase.gsub(' ','-')
+      anw_capitalized = anw_number.upcase.gsub(' ', '-')
       "[#{anw_number}](#{ANW_URL}/#{anw_capitalized})"
     end
 
@@ -181,7 +190,6 @@ module ReleaseNotes
       @solr_diff
     end
 
-
     def make_doc
       doc << "# Release notes for #{current_tag}\n"
       doc << "(Updating from #{previous_tag})"
@@ -208,7 +216,9 @@ module ReleaseNotes
       doc << "Total community contributions accepted: #{contributions}\n"
       doc << "## JIRA Tickets and Pull Requests Completed\n"
       doc.concat messages.uniq
-      doc << "Total Pull Requests accepted: #{messages.uniq.count}"
+
+      doc << "\nTotal Pull Requests accepted: #{pr_count}"
+      doc << "Total Jira Tickets closed: #{ticket_count}"
     end
 
   end
