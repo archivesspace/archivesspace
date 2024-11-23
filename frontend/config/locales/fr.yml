@@ -92,7 +92,7 @@ fr:
     toggle_dropdown_menu: Basculer le menu déroulant
     transfer: Transférer
     transfer_confirm_title: Transférer cette notice?
-    transfer_confirm_message: "La notice '%{merge_destination}' sera transférée vers
+    transfer_confirm_message: "La notice '%{target}' sera transférée vers
       le service d'archives selectionné"
     transfer_successful: Transfert réussi.  L'apparition des notices dans le service
       d'archives cible peut tarder, le temps qu'une réindexation ait lieu.

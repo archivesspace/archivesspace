@@ -94,7 +94,7 @@ es:
     toggle_dropdown_menu: Alternar menú desplegable
     transfer: Transferencia
     transfer_confirm_title: ¿La transferencia de este registro?
-    transfer_confirm_message: "El registro '%{merge_destination}' se transferirá en
+    transfer_confirm_message: "El registro '%{target}' se transferirá en
       el repositorio seleccionado"
     transfer_successful: Transferencia exitosa.  Los registros pueden tardar un momento
       en aparecer en el repositorio de destino mientras nueva indexación se lleva
