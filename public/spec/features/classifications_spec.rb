@@ -33,4 +33,34 @@ describe 'Classifications', js: true do
 
     expect(page).to_not have_text repository_uri
   end
+
+  describe 'classification with links' do
+    before do
+      @classification = create(:classification, {
+        :title => "Research Guides",
+        :identifier => "RG-#{rand(1000)}",
+        :description => "Check our LibGuide at https://example.edu/guide1 and https://example.edu/guide2",
+        :publish => true
+      })
+
+      run_indexers
+    end
+
+    it 'displays clickable links in description field' do
+      visit @classification.uri
+
+      within '.description' do
+        expect(page).to have_link('https://example.edu/guide1',
+          href: 'https://example.edu/guide1')
+        expect(page).to have_link('https://example.edu/guide2',
+          href: 'https://example.edu/guide2')
+
+        # Check link attributes
+        all('a').each do |link|
+          expect(link[:target]).to eq('_blank')
+          expect(link[:rel]).to include('noopener')
+        end
+      end
+    end
+  end
 end
