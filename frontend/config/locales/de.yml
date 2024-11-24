@@ -79,7 +79,7 @@ de:
     unset_default: Vorgabe aufheben
     transfer: Übertragen
     transfer_confirm_title: Diese Aufzeichnung übertragen?
-    transfer_confirm_message: Die Aufzeichnung '%{merge_destination}' wird zum gewählten
+    transfer_confirm_message: Die Aufzeichnung '%{target}' wird zum gewählten
       Aufbewahrungsort übertragen
     transfer_failed: Übertragung fehlgeschlagen
     transfer_failed_digital_objects_linked_to_records: Dieses digitale Objekt ist
@@ -936,7 +936,7 @@ de:
         spawned: Dieser Eingang wurde vom Eingang <strong>%{accession_display_string}</strong>
           abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
           auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
-        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort zum Übertragen
+        transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
       action:
         create: Eingang erstellen
         save: Eingang speichern
@@ -1163,7 +1163,7 @@ de:
           werden
         delete_conflict: 'Digitales Objekt konnte nicht gelöscht werden: <pre>%{error}</pre>'
         transfer_description: Übertrage diese Aufzeichnung nach...
-        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort für die Übertragung
+        transfer_target: Wählen Sie einen Aufbewahrungsort für die Übertragung
         merged: Digitale Objekte zusammengeführt
       action:
         create: Digitales Objekt erstellen
@@ -1403,7 +1403,7 @@ de:
         create_first_repository: Um Ihren ersten Aufbewahrungsort zu erstellen, klicken
           Sie auf das <strong>System</strong>-Menü oben und wählen dann <strong>Aufbewahrungsorte
           verwalten</strong>.
-        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort zum Übertragen
+        transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
           aus
         continue_with_transfer: Mit Übertragung fortfahren?
         transfer_failed: Übertragung konnte wegen folgender Fehler nicht abgeschlossen
@@ -1440,7 +1440,7 @@ de:
         unpublished: Die Veröffentlichung der Ressource <strong>%{resource_title}</strong>,
           ihre Kinder, Teilaufzeichnungen und Komponenten wurde aufgehoben
         created: Ressource <strong>%{resource_title}</strong> erstellt
-        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort zum Übertragen
+        transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
         suppressed_info: Ressource ist unterdrückt und kann nicht bearbeitet werden
         spawned: Eine neue Ressource wurde vom Eingang <strong>%{accession_display_string}</strong>
           abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen

@@ -81,7 +81,7 @@ ja:
     toggle_dropdown_menu: ドロップダウンメニューを切り替える
     transfer: 転送
     transfer_confirm_title: このレコードを転送しますか？
-    transfer_confirm_message: レコード '%{merge_destination}'は選択したリポジトリに転送されます
+    transfer_confirm_message: レコード '%{target}'は選択したリポジトリに転送されます
     transfer_successful: 転送成功。インデックスの再作成中にレコードがターゲットリポジトリに表示されるまでに時間がかかることがあります。
     transfer_failed: 転送に失敗しました
     transfer_failed_records_using_digital_objects: 次のレコードは、転送されるデジタルオブジェクトにリンクしますが、そのようにすると、インスタンスリンクが破損します
@@ -715,8 +715,8 @@ ja:
         suppressed_info: アクセッションは抑制され、編集できません
         deleted: アクセッション<strong>%{accession_display_string}</strong>削除されました
         transfer_description: このアクセス権を以下に転送します...
-        transfer_merge_destination: 移行するリポジトリを選択する
-        spawned: このアクセッションはAccession 
+        transfer_target: 移行するリポジトリを選択する
+        spawned: このアクセッションはAccession
           <strong>%{accession_display_string}</strong>から生成されました<strong>%{accession_display_string}</strong>
         delete_conflict: アクセッションを削除できませんでした： <pre> %{error} </pre>
       section:
@@ -906,9 +906,9 @@ ja:
         please_select_a_digital_object_to_merge: デジタルオブジェクトを選択してください
         merged: デジタルオブジェクトが結合されました
         transfer_description: このリソースを転送する...
-        transfer_merge_destination: 移行するリポジトリを選択する
+        transfer_target: 移行するリポジトリを選択する
         unsuppressed: デジタルオブジェクト<strong>%{digital_object_title}</strong>抑制されていません
-        suppressed: 
+        suppressed:
           デジタルオブジェクト<strong>%{digital_object_title}</strong>され<strong>%{digital_object_title}</strong>
         suppressed_info: デジタルオブジェクトが抑制され、編集できない
         delete_conflict: デジタルオブジェクトを削除できませんでした： <pre> %{error} </pre>
@@ -1162,7 +1162,7 @@ ja:
           </p>"
         continue_with_transfer: 転送を続行しますか？
         transfer_failed: 次のエラーが原因で転送が完了できませんでした
-        transfer_merge_destination: 移行するリポジトリを選択する
+        transfer_target: 移行するリポジトリを選択する
         transfer_warning: "<strong>警告：</strong>このリポジトリを転送すると、 <strong>すべて</strong>のレコードが選択したリポジトリに移動<strong>し</strong>ます。
           <strong>この操作は元に戻すことはできません</strong>"
         cannot_delete_nonempty: 削除できません - リポジトリは空ではありません
@@ -1193,7 +1193,7 @@ ja:
         please_select_a_resource_to_merge: リソースを選択してください
         merged: 結合されたリソース
         transfer_description: このリソースを転送する...
-        transfer_merge_destination: 移行するリポジトリを選択する
+        transfer_target: 移行するリポジトリを選択する
         unsuppressed: リソース<strong>%{resource_title}</strong>抑制されていません
         suppressed: リソース<strong>%{resource_title}</strong>されません
         suppressed_info: リソースは抑制され、編集できません

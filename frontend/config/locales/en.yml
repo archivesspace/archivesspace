@@ -800,7 +800,7 @@ en:
         suppressed_info: Accession is suppressed and cannot be edited
         deleted: Accession <strong>%{accession_display_string}</strong> deleted
         transfer_description: Transfer this accession to...
-        transfer_merge_destination: Select a repository to transfer into
+        transfer_target: Select a repository to transfer into
         spawned: "This Accession has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
         delete_conflict: "Accession could not be deleted: <pre>%{error}</pre>"
       section:
@@ -1038,7 +1038,7 @@ en:
         please_select_a_digital_object_to_merge: Please select a digital object
         merged: Digital object(s) Merged
         transfer_description: Transfer this resource to...
-        transfer_merge_destination: Select a repository to transfer into
+        transfer_target: Select a repository to transfer into
         unsuppressed: Digital Object <strong>%{digital_object_title}</strong> unsuppressed
         suppressed: Digital Object <strong>%{digital_object_title}</strong> suppressed
         suppressed_info: Digital Object is suppressed and cannot be edited
@@ -1296,7 +1296,7 @@ en:
         no_access_to_repositories: "<p>You do not have access to any Repositories.</p><p>Please contact your System Administrator to request access.</p>"
         continue_with_transfer: Continue with transfer?
         transfer_failed: Transfer could not complete due to the following errors
-        transfer_merge_destination: Select a repository to transfer into
+        transfer_target: Select a repository to transfer into
         transfer_warning: <strong>Warning:</strong> Transferring this repository will move <strong>all</strong> of its records into the repository you select.  <strong>This action cannot be reversed</strong>
         cannot_delete_nonempty: Cannot delete - repository not empty
       section:
@@ -1326,7 +1326,7 @@ en:
         please_select_a_resource_to_merge: Please select a resource
         merged: Resource(s) Merged
         transfer_description: Transfer this resource to...
-        transfer_merge_destination: Select a repository to transfer into
+        transfer_target: Select a repository to transfer into
         unsuppressed: Resource <strong>%{resource_title}</strong> unsuppressed
         suppressed: Resource <strong>%{resource_title}</strong> suppressed
         suppressed_info: Resource is suppressed and cannot be edited

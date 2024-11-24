@@ -90,7 +90,7 @@ fr:
     toggle_dropdown_menu: Basculer le menu déroulant
     transfer: Transférer
     transfer_confirm_title: Transférer cette notice?
-    transfer_confirm_message: "La notice '%{merge_destination}' sera transférée vers
+    transfer_confirm_message: "La notice '%{target}' sera transférée vers
       le service d'archives selectionné"
     transfer_successful: Transfert réussi.  L'apparition des notices dans le service
       d'archives cible peut tarder, le temps qu'une réindexation ait lieu.
@@ -786,7 +786,7 @@ fr:
         suppressed_info: Entrée bloquée, ne pouvant pas être éditée
         deleted: Entrée <strong>%{accession_display_string}</strong> supprimée
         transfer_description: Transférer cette entrée vers...
-        transfer_merge_destination: Sélectionnez un service d'archives vers lequel
+        transfer_target: Sélectionnez un service d'archives vers lequel
           opérer le transfert
         spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession_display_string}</strong>"
         delete_conflict: "Entrée impossible à supprimer: <pre>%{error}</pre>"
@@ -995,7 +995,7 @@ fr:
         please_select_a_digital_object_to_merge: Veuillez sélectionner un objet numérique
         merged: Objet(s) numérique(s) fusionné(s)
         transfer_description: Transférer cette ressource dans...
-        transfer_merge_destination: Sélectionnez un service d'archives cible pour
+        transfer_target: Sélectionnez un service d'archives cible pour
           le transfert
         unsuppressed: Objet numérique <strong>%{digital_object_title}</strong> débloqué
         suppressed: Objet numérique <strong>%{digital_object_title}</strong> bloqué
@@ -1273,7 +1273,7 @@ fr:
           contacter votre administrateur système pour une demande d'accès.</p>"
         continue_with_transfer: Continuer avec le transfert?
         transfer_failed: Le transfert n'a pu être effectué en raison des erreurs suivantes
-        transfer_merge_destination: Sélectionnez un service d'archives vers lequel
+        transfer_target: Sélectionnez un service d'archives vers lequel
           transférer
         transfer_warning: <strong>Avertissement:</strong> transférer ce service d'archives
           va déplacer <strong>toutes</strong> ses notices dans le service d'archives
@@ -1307,7 +1307,7 @@ fr:
         please_select_a_resource_to_merge: Veuillez sélectionner une ressource
         merged: Ressource(s) fusionnée(s)
         transfer_description: Transférer cette ressource vers...
-        transfer_merge_destination: Sélectionner un service d'archives vers lequel
+        transfer_target: Sélectionner un service d'archives vers lequel
           opérer le transfert
         unsuppressed: Ressource <strong>%{resource_title}</strong> débloquée
         suppressed: Ressource <strong>%{resource_title}</strong> bloquée
