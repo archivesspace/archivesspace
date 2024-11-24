@@ -17,9 +17,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: true
-          fetch-depth: 1
-          fetch-tags: true
+          fetch-depth: 0
           show-progress: true
+
+      - run: git fetch --tags
 
       - name: Setup Java
         uses: actions/setup-java@v4
