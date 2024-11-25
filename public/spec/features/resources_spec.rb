@@ -19,17 +19,9 @@ describe 'Resources', js: true do
 
     click_on 'Repositories'
     click_on 'Test Repo 1'
+    find('#whats-in-container form .btn.btn-default.resource').click
 
-    elements = all('#whats-in-container form')
-    link = elements[0][:action]
-
-    visit link
-
-    link_parts = link.split('/')
-    link_parts.pop
-    repository_uri = '/' + [link_parts.pop, link_parts.pop].reverse.join('/')
-
-    expect(page).to_not have_text repository_uri
+    expect(page).to_not have_text Pathname.new(current_path).parent.to_s
   end
 
   it 'should be able to properly navigate from Collection Organization back to Resource' do
