@@ -35,6 +35,16 @@ describe 'Digital Objects', js: true do
     end
   end
 
+  it 'does not highlight repository uri' do
+    visit('/')
+
+    click_on 'Repositories'
+    click_on 'Test Repo 1'
+    find('#whats-in-container form .btn.btn-default.digital_object').click
+
+    expect(page).to_not have_text Pathname.new(current_path).parent.to_s
+  end
+
   describe "breadcrumbs with mixed content" do
     before(:each) do
       @repo = create(:repo, repo_code: "collection_organization_test_#{Time.now.to_i}")

@@ -65,6 +65,8 @@ class Record
       'agents',
       'agents_text',
       'repository',
+      'used_within_repository',
+      'used_within_published_repository',
       'classification_uris'
     ]
 

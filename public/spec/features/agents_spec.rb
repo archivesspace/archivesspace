@@ -17,4 +17,14 @@ describe 'Agents', js: true do
     expect(current_path).to match(/agents\/people\/\d+/)
     expect(page).to have_content('Linked Agent 1')
   end
+
+  it 'does not highlight repository uri' do
+    visit('/')
+
+    click_on 'Repositories'
+    click_on 'Test Repo 1'
+    find('#whats-in-container form .btn.btn-default.agent').click
+
+    expect(page).to_not have_text Pathname.new(current_path).parent.to_s
+  end
 end
