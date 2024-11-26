@@ -508,3 +508,5 @@ de:
     fr: Französisch
     de: Deutsch
     ja: Japanisch
+  pdf_error:
+    title: Die Erzeugung der PDF Datei ist fehlgeschlagen.
