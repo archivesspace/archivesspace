@@ -1042,6 +1042,8 @@ de:
         spawn_menu_before: Abgeleitete Komponente davor einfügen
         spawn_menu_child: Abgeleitete Komponente als Kind einfügen
         spawn_menu_after: Abgeleitete Komponente danach einfügen
+        transfer_description: Wählen Sie eine Aufzeichnung aus, in die dieses Archiv-Objekt
+          übertragen werden soll
       action:
         add_sibling: Geschwister hinzufügen
         add_duplicate: Erstellen Sie ein doppeltes Archivobjekt
