@@ -214,6 +214,7 @@ fr:
       pour le dérangement. Veuillez réessayer plus tard.
     unexpected_error: Votre recherche n'a pu être effectuée en raison d'une erreur inattendue
 
+    invalid_search_params: Paramètre de recherche '%{value}' non valide pour '%{field}'
   boolean:
     "true": "Oui"
     "false": "Non"
