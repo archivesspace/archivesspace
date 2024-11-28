@@ -327,7 +327,9 @@ ja:
       go: ファイルに移動
       section: {}
       messages: {}
-      browse_number_digital_objects_in_collection: コレクションの%{num}つのディジタルオブジェクトを閲覧する
+      browse_number_digital_objects_in_collection:
+        one: コレクションの%{num}つのディジタルオブジェクトを閲覧する
+        other: コレクションの%{num}つのディジタルオブジェクトを閲覧する
   digital_object_component:
     _public:
       section: {}

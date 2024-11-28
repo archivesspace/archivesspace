@@ -389,6 +389,9 @@ fr:
       messages: {}
       additional: Versions de fichiers supplémentaires
       url_encoded_data: Données codées par URL
+      browse_number_digital_objects_in_collection:
+        one: Chercher %{num} objet numérique dans la collection
+        other: Chercher %{num} objets numériques dans la collection
   digital_object_component:
     _public:
       section: {}

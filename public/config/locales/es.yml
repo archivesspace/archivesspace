@@ -197,7 +197,7 @@ es:
     search_placeholder: Introduzca sus términos de búsqueda
     error_no_term: No se han introducido términos de búsqueda.
     toggle_navigation: Alternar navegación
-  
+
   navigation:
     hierarchical: Navegación jerárquica
     top_level: Navegación de nivel superior
@@ -356,6 +356,9 @@ es:
       go: Ir al archivo
       section: {}
       messages: {}
+      browse_number_digital_objects_in_collection:
+        one: Buscar %{num} objeto digital en la colección
+        other: Buscar %{num} objetos digitales en la colección
   digital_object_component:
     _public:
       section: {}

@@ -162,3 +162,6 @@ pt:
       link: Link para objeto digital
       badge_label: Digital %{level}
       go: Ir para o arquivo
+      browse_number_digital_objects_in_collection:
+        one: Pesquisar %{num} objeto digital na coleção
+        other: Pesquisar %{num} objetos digitais na coleção

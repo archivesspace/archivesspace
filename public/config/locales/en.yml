@@ -381,7 +381,9 @@ en:
       go: Go to file
       additional: Additional File Versions
       url_encoded_data: URL-encoded data
-      browse_number_digital_objects_in_collection: Browse %{num} digital objects in collection
+      browse_number_digital_objects_in_collection:
+        one: Browse %{num} digital object in collection
+        other: Browse %{num} digital objects in collection
 
   subject:
     _singular: Subject

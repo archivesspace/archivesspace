@@ -331,7 +331,9 @@ de:
       badge_label: Digital %{level}
       go: Gehen Sie zur Datei
       additional: Weitere Dateiversionen
-      browse_number_digital_objects_in_collection: Durchsuchen Sie %{num} digitale Objekte der Sammlung
+      browse_number_digital_objects_in_collection:
+        one: Durchsuchen Sie %{num} digitale Objekt in der Sammlung
+        other: Durchsuchen Sie %{num} digitale Objekte in der Sammlung
       url_encoded_data: URL-kodierte Daten
     _plural: Digitales Archivgut
   subject:
