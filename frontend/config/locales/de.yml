@@ -79,8 +79,8 @@ de:
     unset_default: Vorgabe aufheben
     transfer: Übertragen
     transfer_confirm_title: Diese Aufzeichnung übertragen?
-    transfer_confirm_message: Die Aufzeichnung '%{target}' wird zum gewählten
-      Aufbewahrungsort übertragen
+    transfer_confirm_message: Die Aufzeichnung '%{target}' wird zum gewählten Aufbewahrungsort
+      übertragen
     transfer_failed: Übertragung fehlgeschlagen
     transfer_failed_digital_objects_linked_to_records: Dieses digitale Objekt ist
       mit anderen Aufzeichnungen in diesem Aufbewahrungsort verknüpft. Um mit der
@@ -1043,6 +1043,8 @@ de:
         spawn_menu_before: Abgeleitete Komponente davor einfügen
         spawn_menu_child: Abgeleitete Komponente als Kind einfügen
         spawn_menu_after: Abgeleitete Komponente danach einfügen
+        transfer_description: Wählen Sie eine Aufzeichnung aus, in die dieses Archiv-Objekt
+          übertragen werden soll
       action:
         add_sibling: Geschwister hinzufügen
         add_duplicate: Erstellen Sie ein doppeltes Archivobjekt
@@ -1403,8 +1405,7 @@ de:
         create_first_repository: Um Ihren ersten Aufbewahrungsort zu erstellen, klicken
           Sie auf das <strong>System</strong>-Menü oben und wählen dann <strong>Aufbewahrungsorte
           verwalten</strong>.
-        transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
-          aus
+        transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen aus
         continue_with_transfer: Mit Übertragung fortfahren?
         transfer_failed: Übertragung konnte wegen folgender Fehler nicht abgeschlossen
           werden
