@@ -36,6 +36,9 @@ es:
     search_remove_row: Eliminar la fila de abajo
     staff_link: Sólo Personal
 
+    next: Próximo
+    digitized: Ver material digital
+    previous: Previo
   page_actions: Acciones de página
 
   request:
@@ -155,6 +158,8 @@ es:
       instance_type_enum_s: Tipo de representación
       langcode: Idioma
 
+      digital_object_type_enum_s: Tipo
+      extent_type_enum_s: Extensión
   search_sorting:
     sort_by: "Ordenar por:"
     sort: Ordenar
@@ -182,8 +187,8 @@ es:
     sub-series: Subserie
   errors:
     error_404: "% {type} registro no encontrado"
-    error_404_message: "El registro% {type} al que ha intentado acceder no existe o puede que se haya\
-      \ eliminado."
+    error_404_message: "El registro% {type} al que ha intentado acceder no existe o puede que se haya
+      eliminado."
     backend_down: No se puede conectar a la base de datos
     backend_down_message: ArchivesSpace está experimentando dificultades técnicas. Pedimos disculpas por
       las molestias. Por favor, inténtelo de nuevo más tarde.
@@ -331,6 +336,9 @@ es:
       related_accessions:
         accessions: Registros de adhesión
         deaccessions: Registros de desa adhereción
+      identifier_ark: ID [ark]
+      uri: ID [aspace_uri]
+      identifier_pdf: ID
     load_records:
       alert: "Esta colección contiene un gran número de registros"
       showing: "Mostrando"
@@ -345,6 +353,7 @@ es:
     _singular: contenedor
     _plural: contenedores
 
+    restricted: Restringido
   related_resource: {}
   digital_object:
     _singular: Registro digital
@@ -358,7 +367,8 @@ es:
       messages: {}
       browse_number_digital_objects_in_collection:
         one: Buscar %{num} objeto digital en la colección
-        other: Buscar %{num} objetos digitales en la colección
+        many: Buscar %{num} objetos digitales en la colección
+        other: ''
   digital_object_component:
     _public:
       section: {}
@@ -452,6 +462,8 @@ es:
     finding_aid_written_in: Encontrar la ayuda escrita en
     your_finding_aid_pdf: Your finding aid PDF for "%{title}"
     your_finding_aid_is_attached: The finding aid you requested is attached.
+    accessrestrict: Nota de condiciones de acceso
+    userestrict: Nota de restricciones de uso
   readmore:
     see_more: Ver más
     see_less: Ver menos
