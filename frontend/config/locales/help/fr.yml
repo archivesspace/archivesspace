@@ -170,3 +170,6 @@ fr:
       agent_related_agents: Aide sur Agents associés
       agent_merge: Aide sur la fusion d'agents
       resource_load_via_spreadsheet: Aide sur le chargement via une feuille de calcul
+      accession_metadata_rights_declarations: Aide sur les déclarations de droits sur les métadonnées
+      resource_metadata_rights_declarations: Aide sur les déclarations de droits sur les métadonnées
+      digital_object_metadata_rights_declarations: Aide sur les déclarations de droits sur les métadonnées
