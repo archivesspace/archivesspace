@@ -141,6 +141,10 @@ fr:
     _plural: Objets numériques
 
     new_title: Nouvel objet numérique
+    linker:
+      browse: Parcourir les objets numériques
+      create: Créer un object numerique
+      link_title: Lien vers un objet numérique
   digital_object_component:
     <<: *digital_object_attributes
     label: Label
@@ -217,6 +221,10 @@ fr:
     _plural: Localisations
 
     new_title: Nouvel emplacement
+    linker:
+      create: Créer un emplacement
+      browse: Parcourir les emplacements
+      link_title: Lien vers un emplacement
   location_batch:
     <<: *location_attributes
     label: Label
@@ -269,6 +277,10 @@ fr:
     _singular: Notice liée
     _plural: Notices liées
 
+    linker_ref:
+      link_title: Lien vers l'enregistrement
+      browse: Parcourir les enregistrements
+      create: Créer un enregistrement
   linked_agent: &linked_agent_attributes
     role: Rôle
     role_tooltip: |
@@ -1369,6 +1381,10 @@ fr:
     user_mtime: Modifié
     create_time: Créé
     new_title: Nouvel entrée
+    linker:
+      browse: Parcourir entrées
+      create: Créer un entrée
+      link_title: Lien ver un entrée
   interrelated_accession:
     _plural: Entrées associées
     relationship_type: Type de relation
