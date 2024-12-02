@@ -45,9 +45,9 @@ fr:
     add_prefix: Ajouter
     merge_replace: Remplacer
     merge_add: Ajouter
-    merge_confirm_title: Fusionner avec cette notice?
+    merge_confirm_title: Fusionner avec cette notice ?
     merge_agent_compare_agent_details: Comparer les agents
-    merge_from_browse_confirm_title: Fusionner les enregistrements sélectionnés?
+    merge_from_browse_confirm_title: Fusionner les enregistrements sélectionnés ?
     merge_subject_confirm_message: "Les notices sélectionnées seront fusionnées dans
       le sujet '%{source}'. Toutes les notices sélectionnées seront détruites et toute
       notice liée sera re-liée à ce sujet."
@@ -85,14 +85,16 @@ fr:
     select: Sélectionner
     set_default: Définir comme défaut
     suppress: Bloquer
-    suppress_confirm_title: Bloquer cette notice?
-    suppress_confirm_message: "Bien qu'une notice bloquée reste dans la base de données, elle devient cachée à la plupart des utilisateurs et indisponible à la plupart des fonctions."
+    suppress_confirm_title: Bloquer cette notice ?
+    suppress_confirm_message: "Bien qu'une notice bloquée reste dans la base de données,
+      elle devient cachée à la plupart des utilisateurs et indisponible à la plupart
+      des fonctions."
     toggle_dropdown_menu: Basculer le menu déroulant
     transfer: Transférer
-    transfer_confirm_title: Transférer cette notice?
-    transfer_confirm_message: "La notice '%{target}' sera transférée vers
-      le service d'archives selectionné"
-    transfer_successful: Transfert réussi.  L'apparition des notices dans le service
+    transfer_confirm_title: Transférer cette notice ?
+    transfer_confirm_message: "La notice '%{target}' sera transférée vers le service
+      d'archives selectionné"
+    transfer_successful: Transfert réussi. L'apparition des notices dans le service
       d'archives cible peut tarder, le temps qu'une réindexation ait lieu.
     transfer_failed: Echec du transfert
     transfer_failed_records_using_digital_objects: "Les notices suivantes pointent
@@ -103,34 +105,35 @@ fr:
       supprimez les liens des enregistrements suivants"
     unset_default: Désactiver défaut
     unsuppress: Débloquer
-    unsuppress_confirm_title: Débloquer cette notice?
+    unsuppress_confirm_title: Débloquer cette notice ?
     unsuppress_confirm_message: "faux"
     unable_to_move_message: "La notice n'a pas pu être déplacée"
     move_ordering_problem_message: "Problème de rangement occasionné par le déplacement
       de notice"
     delete: Supprimer
-    delete_confirm_title: "Supprimer cette notice? %{title}"
-    delete_confirm_message: "<p>Attention! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette
+    delete_confirm_title: "Supprimer cette notice ? %{title}"
+    delete_confirm_message: "<p>Attention ! <strong>Cette opération ne peut être annulée</strong>.</p><p>Cette
       opération va supprimer la notice de la base de données, ainsi que toutes les
       références faites aux autres notices.</p>"
-    delete_repository_confirm_title: "Supprimer ce service d'archives? %{name}"
-    delete_repository_confirm_message: "<p>Attention! <strong>Cette opération ne peut
-      être annulée</strong>.</p><p>Cette opération va supprimer de la base de données
-      le <strong>service d'archives</strong> et toutes les notices associées, ainsi
-      que toutes les références faites aux autres notices.</p><p>Pour continuer, veuillez
-      entrer '%{repository}' ci-dessous:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_repository_confirm_title: "Supprimer ce service d'archives ? %{name}"
+    delete_repository_confirm_message: "<p>Attention ! <strong>Cette opération ne
+      peut être annulée</strong>.</p><p>Cette opération va supprimer de la base de
+      données le <strong>service d'archives</strong> et toutes les notices associées,
+      ainsi que toutes les références faites aux autres notices.</p><p>Pour continuer,
+      veuillez entrer '%{repository}' ci-dessous :</p><p><input id='deleteRepoConfim'
+      data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Supprimer notices
-    delete_multiple_confirm_title: Supprimer notices?
-    delete_multiple_confirm_message: "<p>Attention! <strong>Cette opération ne peut
+    delete_multiple_confirm_title: Supprimer notices ?
+    delete_multiple_confirm_message: "<p>Attention ! <strong>Cette opération ne peut
       être annulée</strong>.</p><p>Cette opération va supprimer les notices de la
       base de données, avec toutes les références faites aux autres notices.</p>"
     reset: Réinitialiser par défaut
-    reset_confirm_title: "Réinitialiser %{preftype} aux valeurs par défaut de l'application?"
+    reset_confirm_title: "Réinitialiser %{preftype} aux valeurs par défaut de l'application ?"
     reset_confirm_message: "<p>Veuillez noter que <strong>vous ne pouvez pas annuler
       cette action</strong>.</p><p>Cette action réinitialisera les préférences aux
       valeurs par défaut de l'application.</p>"
     edit_multiple: Editer notices
-    edit_multiple_confirm_title: Editer notices?
+    edit_multiple_confirm_title: Editer notices ?
     edit_multiple_confirm_message: "<p>Ceci va mettre à jour en masse de multitples
       notices.</p>"
     export_eac: Télécharger EAC-CPF
@@ -147,24 +150,24 @@ fr:
     form_changes_message: "<small><span class='muted'>Vous avez des modifications
       non enregistrées</span></small>"
     toolbar_disabled_message: Vous avez des modifications non enregistrées - Enregistrer
-      ou Revenir pour accéder à la barre d'outils et à l'arborescence des enregistrements.
+      ou Revenir pour accéder à la barre d'outils et à l'arborescence des enregistrements
     publish: Publier tout
-    publish_confirm_title: Publier?
+    publish_confirm_title: Publier ?
     publish_confirm_message: "<p>Effectuer cette opération publiera cette notice,
       toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous
       les composants de la hiérarchie.</p>"
     unpublish: Dépublier tout
-    unpublish_confirm_title: Dépublier?
+    unpublish_confirm_title: Dépublier ?
     unpublish_confirm_message: "<p>Effectuer cette opération dépubliera cette notice,
       toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous
       les composants de la hiérarchie.</p>"
     publish_archival_object: Publier tout
-    publish_archival_object_confirm_title: Publier?
+    publish_archival_object_confirm_title: Publier ?
     publish_archival_object_confirm_message: "<p>Effectuer cette opération publiera
       cette notice, toutes les éventuelles sous-notices (Documents externes, notes,
       etc.) et tous les composants situés à un niveau inférieur de la hiérarchie.</p>"
     unpublish_archival_object: Dépublier tout
-    unpublish_archival_object_confirm_title: Dépublier?
+    unpublish_archival_object_confirm_title: Dépublier ?
     unpublish_archival_object_confirm_message: "<p>Effectuer cette opération dépubliera
       cette notice, toutes les éventuelles sous-notices (Documents externes, notes,
       etc.) et tous les composants situés à un niveau inférieur de la hiérarchie.</p>"
@@ -193,6 +196,9 @@ fr:
     check_all: Vérifie tout
     uncheck_all: Tout décocher
     download: Télécharger
+    drop_before: Laisser tomber avant
+    drop_into: Laisser tomber enfant
+    drop_after: Laisser tomber après
   database_warning:
     message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base
       de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations.
@@ -228,7 +234,7 @@ fr:
   search_results:
     title: Résultats de la recherche
     context: Trouvé dans
-    selected: Choisi?
+    selected: Choisi ?
     no_results: Aucune notice trouvée
     no_results_prefix: Pas de résultat pour
     result_type: Type de notice
@@ -249,7 +255,7 @@ fr:
 
   search_sorting:
     sort_by: "Trier par :"
-    and: "et"
+    and: "et:"
     asc: Ascendant
     desc: Descendant
     select: Seleccione
@@ -267,7 +273,7 @@ fr:
       restrictions_apply: Des restrictions s'appliquent
       access_restrictions: Restrictions d'accès
       use_restrictions: Restrictions d'utilisation
-      audit_info: Audit Information
+      audit_info: Informations sur l'audit
       creators: Producteur
       accession_date_year: Date d'entrée
       dates: Dates
@@ -786,8 +792,8 @@ fr:
         suppressed_info: Entrée bloquée, ne pouvant pas être éditée
         deleted: Entrée <strong>%{accession_display_string}</strong> supprimée
         transfer_description: Transférer cette entrée vers...
-        transfer_target: Sélectionnez un service d'archives vers lequel
-          opérer le transfert
+        transfer_target: Sélectionnez un service d'archives vers lequel opérer le
+          transfert
         spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession_display_string}</strong>"
         delete_conflict: "Entrée impossible à supprimer: <pre>%{error}</pre>"
       section:
@@ -995,8 +1001,7 @@ fr:
         please_select_a_digital_object_to_merge: Veuillez sélectionner un objet numérique
         merged: Objet(s) numérique(s) fusionné(s)
         transfer_description: Transférer cette ressource dans...
-        transfer_target: Sélectionnez un service d'archives cible pour
-          le transfert
+        transfer_target: Sélectionnez un service d'archives cible pour le transfert
         unsuppressed: Objet numérique <strong>%{digital_object_title}</strong> débloqué
         suppressed: Objet numérique <strong>%{digital_object_title}</strong> bloqué
         suppressed_info: Objet numérique bloqué, ne pouvant être édité
@@ -1186,7 +1191,7 @@ fr:
     _frontend:
       section:
         use_date: Date(s) de pertinence de nom
-        dates: Rendez-vous
+        dates: Dates
         parallel_names: Noms parallèles
         place_subject: Lieu Sujet
         topic_subject: Sujet Sujet
@@ -1273,8 +1278,7 @@ fr:
           contacter votre administrateur système pour une demande d'accès.</p>"
         continue_with_transfer: Continuer avec le transfert?
         transfer_failed: Le transfert n'a pu être effectué en raison des erreurs suivantes
-        transfer_target: Sélectionnez un service d'archives vers lequel
-          transférer
+        transfer_target: Sélectionnez un service d'archives vers lequel transférer
         transfer_warning: <strong>Avertissement:</strong> transférer ce service d'archives
           va déplacer <strong>toutes</strong> ses notices dans le service d'archives
           sélectionné.  <strong>Cette opération ne peut être annulée</strong>
@@ -1307,8 +1311,8 @@ fr:
         please_select_a_resource_to_merge: Veuillez sélectionner une ressource
         merged: Ressource(s) fusionnée(s)
         transfer_description: Transférer cette ressource vers...
-        transfer_target: Sélectionner un service d'archives vers lequel
-          opérer le transfert
+        transfer_target: Sélectionner un service d'archives vers lequel opérer le
+          transfert
         unsuppressed: Ressource <strong>%{resource_title}</strong> débloquée
         suppressed: Ressource <strong>%{resource_title}</strong> bloquée
         suppressed_info: Ressource bloquée, non éditable
@@ -2306,7 +2310,7 @@ fr:
         add: Ajouter le sexe
     gender: Le sexe
     note: Noter
-    dates: Rendez-vous
+    dates: Dates
 
   agent_genders:
     _plural: Les genres
@@ -2443,12 +2447,12 @@ fr:
       action:
         add: Ajouter un lieu
     section:
-      dates: Rendez-vous
+      dates: Dates
     _plural: Des endroits
     _singular: Lieu
     place_role: Rôle de place d'agent
     text_note: Noter
-    dates: Rendez-vous
+    dates: Dates
     subjects: Des endroits
     publish: Publié
 
@@ -2513,11 +2517,11 @@ fr:
       action:
         add: Ajouter une profession
     section:
-      dates: Rendez-vous
+      dates: Dates
     _plural: Professions
     _singular: Occupation
     text_note: Noter
-    dates: Rendez-vous
+    dates: Dates
     subjects: Professions
     places: Des endroits
     publish: Publié
@@ -2583,11 +2587,11 @@ fr:
       action:
         add: Ajouter une fonction
     section:
-      dates: Rendez-vous
+      dates: Dates
     _plural: Les fonctions
     _singular: Une fonction
     text_note: Noter
-    dates: Rendez-vous
+    dates: Dates
     subjects: Les fonctions
     places: Des endroits
     publish: Publié
@@ -2653,11 +2657,11 @@ fr:
       action:
         add: Ajouter un sujet
     section:
-      dates: Rendez-vous
+      dates: Dates
     _plural: Les sujets
     _singular: Sujet
     text_note: Noter
-    dates: Rendez-vous
+    dates: Dates
     subjects: Les sujets
     places: Des endroits
     publish: Publié
@@ -3146,11 +3150,11 @@ fr:
       action:
         add: Ajouter une ressource externe associée
     section:
-      dates: Rendez-vous
+      dates: Dates
       places: Des endroits
     _plural: Ressources externes connexes
     _singular: Ressource externe associée
-    dates: Rendez-vous
+    dates: Dates
     places: Des endroits
     publish: Publié
     linked_agent_role: Type de relation de ressource
@@ -3258,7 +3262,7 @@ fr:
 
   subsections:
     notes: Remarques
-    dates: Rendez-vous
+    dates: Dates
 
   section_headings:
     basic_information_tooltip: "<p>Cette section indique le type d'agent et si l'agent
