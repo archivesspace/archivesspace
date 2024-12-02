@@ -576,7 +576,7 @@ FactoryBot.define do
   end
 
   factory :json_bulk_archival_object_updater_job, class: JSONModel(:bulk_archival_object_updater_job) do
-    source { generate(:alphanumstr) }
+    create_missing_top_containers { false }
   end
 
   factory :json_classification_term, class: JSONModel(:classification_term) do
