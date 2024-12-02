@@ -364,6 +364,7 @@ fr:
       uri: ID [aspace_uri]
       identifier_pdf: ID
       lang_pdf: Langue du matériel
+      ark_link_name: Clé de Ressource d'Archives
     load_records:
       alert: "Cette collection contient un grand nombre d'enregistrements"
       showing: "Affichage"
@@ -394,7 +395,8 @@ fr:
       url_encoded_data: Données codées par URL
       browse_number_digital_objects_in_collection:
         one: Chercher %{num} objet numérique dans la collection
-        other: Chercher %{num} objets numériques dans la collection
+        many: Chercher %{num} objets numériques dans la collection
+        other: ''
   digital_object_component:
     _public:
       section: {}
@@ -625,3 +627,15 @@ fr:
     description: Nous sommes désolés, une erreur s'est produite lors de la génération de cette aide à
       la recherche au format PDF. Voici quelques informations de diagnostic pour vous aider à déterminer
       ce qui s'est passé.
+    location:
+      location_title_page: L'erreur s'est produite lors de la génération de la page de titre.
+      location_footer: L'erreur s'est produite lors de la génération du pied de page.
+      location_header: L'erreur s'est produite lors de la génération de l'en-tête.
+      location_toc: L'erreur s'est produite lors de la génération de la table des matières.
+      location_resource: L'erreur s'est produite lors de la génération des sections relatives à l'enregistrement
+        de ressource, qui incluent les informations récapitulatives, les en-têtes d'accès contrôlé et
+        les sections Notes.
+      location_archival_object: L'erreur s'est produite lors de la génération de l'inventaire de la collection.
+    additional_info:
+      invalid_markup: Cette erreur peut résulter d’un balisage non valide présent dans une note ou un
+        sous-enregistrement.
