@@ -160,6 +160,7 @@ ja:
     run: 実行
     check_all: すべてチェック
     uncheck_all: すべてチェックを外します
+    download: ダウンロード
   database_warning:
     message: "<p> <strong>データベース警告：</strong>現在組み込みデータベース（Apache Derby）を使用しています。組込みデータベースは、テスト/デモ目的のみのものです。実稼働環境に移行する予定のテストインスタンス内のデータを含む、実稼働用の任意のデータにMySQLを使用する必要があります。
       </p>"
