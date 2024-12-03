@@ -1475,6 +1475,8 @@ fr:
       agent_corporate_entity: Nouvelle personne morale
       agent_person: Nouvelle personne
       agent_software: Nouveau logiciel
+    linker:
+      create: Créer un agent
   agent_person:
     <<: *agent_attributes
     _singular: Personne
