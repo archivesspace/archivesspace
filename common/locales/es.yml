@@ -133,6 +133,7 @@ es:
     _singular: Objeto digital
     _plural: Objetos digitales
 
+    new_title: Nuevo objeto digital
   digital_object_component:
     <<: *digital_object_attributes
     label: Etiqueta
