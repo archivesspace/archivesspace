@@ -195,6 +195,7 @@ es:
     check_all: Comprobar todo
     uncheck_all: Desmarcar todos
     download: Descargar
+    drop_before: Soltar antes
   database_warning:
     message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la
       base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar
