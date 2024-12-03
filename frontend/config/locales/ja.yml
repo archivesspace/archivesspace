@@ -160,6 +160,7 @@ ja:
     run: 実行
     check_all: すべてチェック
     uncheck_all: すべてチェックを外します
+    download: ダウンロード
   database_warning:
     message: "<p> <strong>データベース警告：</strong>現在組み込みデータベース（Apache Derby）を使用しています。組込みデータベースは、テスト/デモ目的のみのものです。実稼働環境に移行する予定のテストインスタンス内のデータを含む、実稼働用の任意のデータにMySQLを使用する必要があります。
       </p>"
@@ -716,7 +717,7 @@ ja:
         deleted: アクセッション<strong>%{accession_display_string}</strong>削除されました
         transfer_description: このアクセス権を以下に転送します...
         transfer_target: 移行するリポジトリを選択する
-        spawned: このアクセッションはAccession
+        spawned: このアクセッションはAccession 
           <strong>%{accession_display_string}</strong>から生成されました<strong>%{accession_display_string}</strong>
         delete_conflict: アクセッションを削除できませんでした： <pre> %{error} </pre>
       section:
@@ -908,7 +909,7 @@ ja:
         transfer_description: このリソースを転送する...
         transfer_target: 移行するリポジトリを選択する
         unsuppressed: デジタルオブジェクト<strong>%{digital_object_title}</strong>抑制されていません
-        suppressed:
+        suppressed: 
           デジタルオブジェクト<strong>%{digital_object_title}</strong>され<strong>%{digital_object_title}</strong>
         suppressed_info: デジタルオブジェクトが抑制され、編集できない
         delete_conflict: デジタルオブジェクトを削除できませんでした： <pre> %{error} </pre>
