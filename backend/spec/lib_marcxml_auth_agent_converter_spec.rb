@@ -281,6 +281,16 @@ describe 'MARCXML Auth Agent converter' do
       expect(record['agent_maintenance_histories'][0]['agent']).to eq('DLC')
     end
 
+    it 'does not create pre-1970 agent_maintenance_history event_dates' do
+      record = convert(authority_agent_other_standard_identifier_a, true)
+        .select { |r| r['jsonmodel_type'] == 'agent_person' }.first
+
+      expect(record['agent_maintenance_histories'][0]['event_date']).to eq('20090721')
+      expect(record['agent_maintenance_histories'][0]['maintenance_event_type']).to eq('created')
+      expect(record['agent_maintenance_histories'][0]['maintenance_agent_type']).to eq('machine')
+      expect(record['agent_maintenance_histories'][0]['agent']).to eq('Missing in File')
+    end
+
     it 'does not import agent_maintenance_histories if option not set' do
       record = convert(person_agent_1, false).select { |r| r['jsonmodel_type'] == 'agent_person' }.first
 
