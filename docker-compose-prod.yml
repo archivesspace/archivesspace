@@ -1,0 +1,77 @@
+services:
+  app:
+    image: archivesspace/archivesspace:latest
+    container_name: archivesspace
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - solr
+    volumes:
+      - app-data:/archivesspace/data
+      - ./plugins:/archivesspace/plugins
+      - ./config:/archivesspace/config
+
+  db:
+    image: mysql:8
+    cap_add:
+      - SYS_NICE
+    container_name: mysql
+    restart: unless-stopped
+    env_file:
+      - .env
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb_buffer_pool_size=1G  --innodb_buffer_pool_instances=1 --log_bin_trust_function_creators=1
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+
+  db-backup:
+    image: databack/mysql-backup:latest
+    container_name: db-backup
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DB_DUMP_CRON: "0 2 * * *" # UTC
+      DB_DUMP_TARGET: /db
+      DB_SERVER: db
+      DB_USER: root
+      DB_PASS: ${MYSQL_ROOT_PASSWORD} # from .env
+    command: dump
+    volumes:
+      - ./backups:/db
+    depends_on:
+      - db
+
+  solr:
+    image: archivesspace/solr:latest
+    container_name: solr
+    restart: unless-stopped
+    env_file:
+      - .env
+    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    ports:
+      - "8983:8983"
+    volumes:
+      - solr-data:/var/solr
+
+  proxy:
+    image: nginx:1.21
+    container_name: proxy
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - app
+    ports:
+      - "${NGINX_PORT}:80"
+    volumes:
+      - ./proxy-config:/etc/nginx/conf.d/
+
+volumes:
+  app-data:
+  db-data:
+  solr-data:
