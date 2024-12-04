@@ -40,13 +40,18 @@ jobs:
           cat RELEASE_NOTES.md >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Build Dist
+      - name: Build Zip Dist
         run: ./build/run build-dist -Dversion=${{ steps.release_metadata.outputs.VERSION }}
 
+      - name: Build Docker Conf Package
+        run: ./build/run build-docker-conf-package -Dversion=${{ steps.release_metadata.outputs.VERSION }}
+
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           name: ${{ steps.release_metadata.outputs.RELEASE_NAME }}
           body: ${{ steps.release_metadata.outputs.RELEASE_NOTES }}
-          files: archivesspace-${{ steps.release_metadata.outputs.VERSION }}.zip
+          files: |
+            archivesspace-${{ steps.release_metadata.outputs.VERSION }}.zip
+            archivesspace-docker-${{ steps.release_metadata.outputs.VERSION }}.zip
           draft: true
