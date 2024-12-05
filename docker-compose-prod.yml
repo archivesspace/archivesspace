@@ -28,7 +28,7 @@ services:
     cap_add:
       - SYS_NICE
     container_name: mysql
-    command: --character-set-server=utf8 --collation-server=utf8_unicode_ci --innodb_buffer_pool_size=1G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
+    command: --character-set-server=utf8 --collation-server=utf8_unicode_ci --innodb_buffer_pool_size=1G --innodb_buffer_pool_instances=1 --log_bin_trust_function_creators=1
     ports:
       - "3306:3306"
     environment:
@@ -42,6 +42,6 @@ services:
     image: archivesspace/solr:4.0.0-RC1
     command: solr-create -p 8983 -c archivesspace -d archivesspace
     environment:
-      SOLR_JAVA_MEM: "-Xms2g -Xmx2g"
+      SOLR_JAVA_MEM: "-Xms1g -Xmx1g"
     ports:
       - "8983:8983"
