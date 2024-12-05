@@ -305,13 +305,21 @@
     <antcall target="build-zip" />
   </target>
 
-
   <target name="build-docker-conf-package" depends="set-classpath" description="Bundle the default configuration, plugins and docker-compose file into a zip file">
     <delete failonerror="true" dir="docker_prod" />
     <mkdir dir="docker_prod/archivesspace/config" />
     <mkdir dir="docker_prod/archivesspace/plugins" />
 
-    <copy file="../docker-compose-prod.yml" tofile="docker_prod/docker-compose.yml" />
+    <tstamp />
+    <property name="version" value="${DSTAMP}-${TSTAMP}"/>
+
+    <copy file="../docker-compose-prod.yml" tofile="docker_prod/docker-compose.yml">
+      <filterset>
+        <filter token="TAG" value="${version}"/>
+      </filterset>
+    </copy>
+    <copy file="../.env.docker.prod" tofile="docker_prod/.env.docker.prod" />
+    <copy file="../.env.docker.db" tofile="docker_prod/.env.docker.db" />
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -320,9 +328,6 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="-Iapp/lib scripts/export_config.rb docker_prod/archivesspace/config/config.rb" />
     </java>
-
-    <tstamp />
-    <property name="version" value="${DSTAMP}-${TSTAMP}"/>
 
     <zip zipfile="../archivesspace-docker-${version}.zip" level="9">
       <zipfileset dir="docker_prod" />

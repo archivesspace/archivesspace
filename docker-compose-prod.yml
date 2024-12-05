@@ -1,6 +1,6 @@
 services:
   app:
-    image: archivesspace/archivesspace:4.0.0-RC1
+    image: archivesspace/archivesspace:@TAG@
     container_name: archivesspace
     restart: on-failure
     ports:
