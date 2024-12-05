@@ -15,8 +15,8 @@ services:
     env_file:
       - .env.docker.prod
     volumes:
-      - ./aspace/plugins:/archivesspace/plugins
-      - ./aspace/config:/archivesspace/config
+      - ./plugins:/archivesspace/plugins
+      - ./config:/archivesspace/config
   db:
     image: mysql:8
     cap_add:
