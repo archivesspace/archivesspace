@@ -312,10 +312,11 @@
 
     <tstamp />
     <property name="version" value="${DSTAMP}-${TSTAMP}"/>
+    <property name="docker-tag" value="latest"/>
 
     <copy file="../docker-compose-prod.yml" tofile="docker_prod/docker-compose.yml">
       <filterset>
-        <filter token="TAG" value="${version}"/>
+        <filter token="TAG" value="${docker-tag}"/>
       </filterset>
     </copy>
     <copy file="../.env.docker.prod" tofile="docker_prod/.env.docker.prod" />
