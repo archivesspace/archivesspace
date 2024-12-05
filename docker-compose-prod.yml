@@ -20,11 +20,6 @@ services:
       ASPACE_DB_MIGRATE: true
       ASPACE_JAVA_XMX: "-Xmx2048m"
       JAVA_OPTS: "-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xss1024k -Djavax.accessibility.assistive_technologies=''"
-      DB_ADDR: db
-      DB_NAME: archivesspace
-      DB_USER: as
-      DB_PASS: as123
-      SOLR_URL: http://solr:8983/solr/archivesspace
     volumes:
       - ./aspace/plugins:/archivesspace/plugins
       - ./aspace/config:/archivesspace/config
