@@ -2,7 +2,7 @@ services:
   app:
     image: archivesspace/archivesspace:@TAG@
     container_name: archivesspace
-    restart: on-failure
+    restart: unless-stopped
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -22,6 +22,7 @@ services:
     cap_add:
       - SYS_NICE
     container_name: mysql
+    restart: unless-stopped
     command: --character-set-server=utf8 --collation-server=utf8_unicode_ci --innodb_buffer_pool_size=1G --innodb_buffer_pool_instances=1 --log_bin_trust_function_creators=1
     ports:
       - "3306:3306"
@@ -31,6 +32,8 @@ services:
       - ./sql:/docker-entrypoint-initdb.d
   solr:
     image: archivesspace/solr:@TAG@
+    container_name: solr
+    restart: unless-stopped
     command: solr-create -p 8983 -c archivesspace -d archivesspace
     env_file:
       - .env.docker.prod
