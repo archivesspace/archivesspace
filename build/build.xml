@@ -445,7 +445,7 @@
 
   <!-- BUNDLER -->
   <target name="bundler" depends="set-classpath" description="Run bundler against a gemfile">
-    <property name="build.home" location="."/>
+    <property name="bundle-config.home" location="./.bundle"/>
     <property name="excluded-gem-groups" value="" />
     <property name="included-gem-groups" value="" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -453,7 +453,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="HOME" value="${build.home}" />
+      <env key="BUNDLE_APP_CONFIG" value="${bundle-config.home}" />
       <arg line="gems/bin/bundle config unset without" />
     </java>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -461,7 +461,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="HOME" value="${build.home}" />
+      <env key="BUNDLE_APP_CONFIG" value="${bundle-config.home}" />
       <arg line="gems/bin/bundle config unset with" />
     </java>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -469,7 +469,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="HOME" value="${build.home}" />
+      <env key="BUNDLE_APP_CONFIG" value="${bundle-config.home}" />
       <arg line="gems/bin/bundle config without ${excluded-gem-groups}" />
     </java>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -477,8 +477,14 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="HOME" value="${build.home}" />
+      <env key="BUNDLE_APP_CONFIG" value="${bundle-config.home}" />
       <arg line="gems/bin/bundle config with ${included-gem-groups}" />
+    </java>
+    <echo message="Bundler running with config:" />
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="BUNDLE_APP_CONFIG" value="${bundle-config.home}" />
+      <arg line="gems/bin/bundle config list" />
     </java>
     <echo message="Fetching gems for ${gemfile}" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -486,7 +492,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="HOME" value="${build.home}" />
+      <env key="BUNDLE_APP_CONFIG" value="${bundle-config.home}" />
       <arg line="gems/bin/bundle install --jobs=8 --gemfile='${gemfile}'" />
     </java>
   </target>
