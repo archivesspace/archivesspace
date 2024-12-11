@@ -31,7 +31,7 @@ class RepositoriesController < ApplicationController
   end
 
   def new
-    @enum = JSONModel(:enumeration).find("/names/archival_record_level")
+    @enum = JSONModel(:enumeration).find("names/archival_record_level")
     @repository = JSONModel(:repository_with_agent).new('repository' => {},
                                                         'agent_representation' => {
                                                           'agent_contacts' => [{}]
