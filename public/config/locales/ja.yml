@@ -21,7 +21,7 @@ ja:
     cite_item: 項目を引用
     cite_item_description: アイテムの説明を引用
     request: 要求
-    print: 印刷
+    print: PDFをダウンロード
     print-generating: 生成
     collection_overview: コレクションの概要
     hierarch: 収集組織

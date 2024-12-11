@@ -113,7 +113,7 @@ describe 'Resources', js: true do
     click_on 'Search'
     click_on resource.title
 
-    click_on 'Print'
+    click_on 'Download PDF'
 
     pdf_files = Dir.glob(File.join(Dir.tmpdir, '*.pdf'))
     expect(pdf_files).to include "#{Dir.tmpdir}/text_us_paav_b_jd99_blake_carver_papers_es_carver_xml.pdf"
