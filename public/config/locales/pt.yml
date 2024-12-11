@@ -11,7 +11,7 @@ pt:
     close: Fechar
     search_in: Pesquisar %{tipo}
     refine_search: Refinar Pesquisa
-    print: Imprimir
+    print: Baixar PDF
     search_header: Pesquisar nos Arquivos
     search: Procurar
     search_within: Pesquisar dentro de resultados
