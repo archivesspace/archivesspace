@@ -309,6 +309,7 @@
     <delete failonerror="true" dir="docker_prod" />
     <mkdir dir="docker_prod/archivesspace/config" />
     <mkdir dir="docker_prod/archivesspace/plugins" />
+    <mkdir dir="docker_prod/archivesspace/sql" />
 
     <tstamp />
     <property name="version" value="${DSTAMP}-${TSTAMP}"/>
