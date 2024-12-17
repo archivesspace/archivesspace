@@ -9,6 +9,8 @@ describe 'AdvancedSearchDates', js: true do
     set_repo(@repository)
 
     @user = create_user(@repository => ['repository-archivists'])
+
+    run_index_round
   end
 
   before(:each) do
