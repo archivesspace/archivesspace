@@ -15,7 +15,7 @@ describe 'Archival objects', js: true do
     select_repository(@repository)
   end
 
-  xit 'can have a lot of associated records that do not show in the field but are not lost' do
+  it 'can have a lot of associated records that do not show in the field but are not lost' do
     now = Time.now.to_i
 
     subjects = []
@@ -90,7 +90,7 @@ describe 'Archival objects', js: true do
     end
   end
 
-  xit 'can populate the archival object tree' do
+  it 'can populate the archival object tree' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
@@ -129,7 +129,7 @@ describe 'Archival objects', js: true do
     end
   end
 
-  xit 'can cancel edits to Archival Objects' do
+  it 'can cancel edits to Archival Objects' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", component_id: 'component-id', resource: { 'ref' => resource.uri })
@@ -158,7 +158,7 @@ describe 'Archival objects', js: true do
     expect(element).to have_text resource.title
   end
 
-  xit 'reports warnings when updating an Archival Object with invalid data' do
+  it 'reports warnings when updating an Archival Object with invalid data' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", component_id: 'component-id', resource: { 'ref' => resource.uri })
@@ -181,7 +181,7 @@ describe 'Archival objects', js: true do
     end
   end
 
-  xit 'can update an existing Archival Object' do
+  it 'can update an existing Archival Object' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", component_id: 'component-id', resource: { 'ref' => resource.uri })
@@ -206,7 +206,7 @@ describe 'Archival objects', js: true do
     expect(element.text).to eq "Updated Archival Object Title #{now} Archival Object"
   end
 
-  xit 'can add a assign, remove, and reassign a Subject to an archival object' do
+  it 'can add a assign, remove, and reassign a Subject to an archival object' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
@@ -252,7 +252,7 @@ describe 'Archival objects', js: true do
     expect(element).to have_text "Test Term 1 #{now}"
   end
 
-  xit 'can view a read only Archival Object' do
+  it 'can view a read only Archival Object' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
@@ -266,7 +266,7 @@ describe 'Archival objects', js: true do
     expect(element).to have_text archival_object.title
   end
 
-  xit 'shows component id in browse view for archival objects' do
+  it 'shows component id in browse view for archival objects' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(
@@ -294,7 +294,7 @@ describe 'Archival objects', js: true do
     expect(page).to_not have_text 'Component ID'
   end
 
-  xit 'shows component id for search and filter to archival objects' do
+  it 'shows component id for search and filter to archival objects' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(
@@ -325,7 +325,7 @@ describe 'Archival objects', js: true do
     expect(page).to_not have_text 'Identifier'
   end
 
-  xit 'allows for publication and unpublication of all or part of the record tree' do
+  it 'allows for publication and unpublication of all or part of the record tree' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(
