@@ -16,14 +16,14 @@ describe 'Collection Management', js: true do
     select_repository(@repo)
   end
 
-  # TODO flaky login failure
-  xit 'should be fine with no records' do
+
+  it 'should be fine with no records' do
     click_on 'Browse'
     click_on 'Collection Management'
     expect(page).to have_text 'No records found'
   end
 
-  xit 'is browseable even when its linked accession has no title' do
+  it 'is browseable even when its linked accession has no title' do
     now = Time.now.to_i
 
     click_on 'Create'
@@ -69,7 +69,7 @@ describe 'Collection Management', js: true do
     expect(page).to have_text 'No records found'
   end
 
-  xit 'should only allow numbers for some values' do
+  it 'should only allow numbers for some values' do
     now = Time.now.to_i
 
     click_on 'Create'
@@ -98,7 +98,7 @@ describe 'Collection Management', js: true do
     expect(page).to have_text "Accession Test Accession Title #{now} created"
   end
 
-  xit 'can export a list of jobs to CSV' do
+  it 'can export a list of jobs to CSV' do
     visit 'collection_management'
 
     # Delete any existing CSV files
