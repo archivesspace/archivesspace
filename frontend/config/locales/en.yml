@@ -1942,7 +1942,7 @@ en:
     minimum_subrecords: Minimum Subrecords
     minimum_subrecords_description: The minimum number of already extant subrecords of each type to be included.
     extra_subrecords: Extra subrecords
-    extra_subrecords_description: The number of new  subrecords to include in addition to the greatest number of extant subrecords already found in any of the selected records.
+    extra_subrecords_description: The number of new subrecords to include in addition to the greatest number of extant subrecords already found in any of the selected records.
     minimum_notes: Minimum Notes
     minimum_notes_description: The minimum number of already extant note subrecords of each type to be included.
     download_spreadsheet: Download Spreadsheet
