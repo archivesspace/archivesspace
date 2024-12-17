@@ -21,7 +21,7 @@ describe 'Location batch', js: true do
     select_repository(@repository)
   end
 
-  xit 'displays error messages upon invalid batch' do
+  it 'displays error messages upon invalid batch' do
     click_on 'Browse'
     click_on 'Locations'
     click_on 'Create Batch Locations'
@@ -41,7 +41,7 @@ describe 'Location batch', js: true do
     expect(page).not_to have_css('#location_batch_coordinate_3_indicator_')
   end
 
-  xit 'can preview the titles of locations that will be created and creates all the locations for the range' do
+  it 'can preview the titles of locations that will be created and creates all the locations for the range' do
     now = Time.now.to_i
 
     click_on 'Browse'
@@ -98,7 +98,7 @@ describe 'Location batch', js: true do
     expect(elements[7].text).to include "Location Batch Building #{now} [Room: 1B, Shelf: 4]"
   end
 
-  xit 'can edit locations in batch' do
+  it 'can edit locations in batch' do
     now = Time.now.to_i
 
     visit 'logout'
@@ -151,7 +151,7 @@ describe 'Location batch', js: true do
     expect(elements[2].text).to include "Building 3 #{now}, 6th, Studio 5"
   end
 
-  xit 'can create locations with +1 stickyness' do
+  it 'can create locations with +1 stickyness' do
     now = Time.now.to_i
 
     visit 'locations'
@@ -179,7 +179,7 @@ describe 'Location batch', js: true do
     expect(find('#location_batch_area_').value).to eq 'Corner'
   end
 
-  xit 'correctly sorts locations in the browse list' do
+  it 'correctly sorts locations in the browse list' do
     now = Time.now.to_i
 
     location = create(:location, building: "Building 1 AAA #{now}")
