@@ -1739,11 +1739,11 @@ ja:
     column_types_to_include_in_spreadsheet: スプレッドシートに含める列の種類
     note_types: ノートの種類
     minimum_subrecords: 最小サブレコード
-    minimum_subrecords_description: 含まれる各タイプのサブレコードの最小数
+    minimum_subrecords_description: 含める各タイプの既存のサブレコードの最小数。
     extra_subrecords: 追加のサブレコード
-    extra_subrecords_description: 選択したレコードの最大数に加えて含めるサブレコードの数。
+    extra_subrecords_description: 選択したレコードのいずれかにすでに存在するサブレコードの最大数に加えて含める新しいサブレコードの数。
     minimum_notes: 最低限の注意
-    minimum_notes_description: 含まれる各タイプのメモサブレコードの最小数
+    minimum_notes_description: 含める各タイプの既存のメモ サブレコードの最小数。
     download_spreadsheet: スプレッドシートをダウンロード
     download_spreadsheet_modal_message: このスプレッドシートの生成には数分かかる場合があります。
 
