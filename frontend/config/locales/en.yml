@@ -1940,11 +1940,11 @@ en:
     column_types_to_include_in_spreadsheet: Column types to include in spreadsheet
     note_types: Note Types
     minimum_subrecords: Minimum Subrecords
-    minimum_subrecords_description: The minimum number of subrecords of each type to be included
+    minimum_subrecords_description: The minimum number of already extant subrecords of each type to be included.
     extra_subrecords: Extra subrecords
-    extra_subrecords_description: The number of subrecords to include in addition to the greatest number found in any of the selected records.
+    extra_subrecords_description: The number of new  subrecords to include in addition to the greatest number of extant subrecords already found in any of the selected records.
     minimum_notes: Minimum Notes
-    minimum_notes_description: The minimum number of note subrecords of each type to be included
+    minimum_notes_description: The minimum number of already extant note subrecords of each type to be included.
     download_spreadsheet: Download Spreadsheet
     download_spreadsheet_modal_message: Generating this spreadsheet may take a few moments.
 
