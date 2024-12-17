@@ -2337,15 +2337,11 @@ de:
     column_types_to_include_in_spreadsheet: In die Tabelle aufzunehmende Spaltentypen
     note_types: Hinweistypen
     minimum_subrecords: Mindestanzahl an Unterdatensätzen
-    minimum_subrecords_description: Die Mindestanzahl der einzuschließenden Unterdatensätze
-      jedes Typs
+    minimum_subrecords_description: Die Mindestanzahl bereits vorhandener Unterdatensätze jedes Typs, die einbezogen werden sollen.
     extra_subrecords: Zusätzliche Unterdatensätze
-    extra_subrecords_description: Die Anzahl der Unterdatensätze, die zusätzlich zur
-      größten in einem der ausgewählten Datensätze gefundenen Zahl einbezogen werden
-      sollen.
+    extra_subrecords_description: Die Anzahl der neuen Unterdatensätze, die zusätzlich zur größten Anzahl vorhandener Unterdatensätze, die bereits in einem der ausgewählten Datensätze gefunden wurden, einbezogen werden sollen.
     minimum_notes: Mindestnotizen
-    minimum_notes_description: Die Mindestanzahl der aufzunehmenden Notizunterdatensätze
-      jedes Typs
+    minimum_notes_description: Die Mindestanzahl bereits vorhandener Notizunterdatensätze jedes Typs, die einbezogen werden sollen.
     download_spreadsheet: Tabelle herunterladen
     download_spreadsheet_modal_message: Das Erstellen dieser Tabelle kann einige Augenblicke
       dauern.
