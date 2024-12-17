@@ -777,6 +777,7 @@ AS.delayedTypeAhead = function (source, delay) {
 AS.prefixed_cookie = function (cookie_name, value) {
   var args = Array.prototype.slice.call(arguments, 0);
   args[0] = COOKIE_PREFIX + '_' + args[0];
+  args.push({ path: '/;SameSite=Lax', secure: location.protocol === 'https:' });
   return $.cookie.apply(this, args);
 };
 
