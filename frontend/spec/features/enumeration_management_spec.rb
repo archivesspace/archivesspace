@@ -12,7 +12,7 @@ describe 'Enumeration Management', js: true do
     select_repository(repository)
   end
 
-  xit 'lets you add a new value to an enumeration' do
+  it 'lets you add a new value to an enumeration' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
@@ -35,7 +35,7 @@ describe 'Enumeration Management', js: true do
     expect(page).to have_css 'tr', text: "enumaration_value_#{now}"
   end
 
-  xit 'lets you delete a value from an enumeration' do
+  it 'lets you delete a value from an enumeration' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
@@ -67,7 +67,7 @@ describe 'Enumeration Management', js: true do
     expect(page).to_not have_css 'tr', text: "enumaration_value_#{now}"
   end
 
-  xit 'lets you merge one value into another in an enumeration' do
+  it 'lets you merge one value into another in an enumeration' do
     now = Time.now.to_i
     enumeration_a = "Enumeration_a_#{now}"
     enumeration_b = "Enumeration_b_#{now}"
@@ -113,7 +113,7 @@ describe 'Enumeration Management', js: true do
     expect(page).to_not have_css 'tr', text: enumeration_b
   end
 
-  xit 'lets you set a default enumeration (date_type)' do
+  it 'lets you set a default enumeration (date_type)' do
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
     element = find('.alert.alert-info.with-hide-alert')
@@ -142,7 +142,7 @@ describe 'Enumeration Management', js: true do
     expect(element.value).to eq default_value
   end
 
-  xit 'lets you add a new value to an enumeration, reorder it and then you can use it' do
+  it 'lets you add a new value to an enumeration, reorder it and then you can use it' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
@@ -187,7 +187,7 @@ describe 'Enumeration Management', js: true do
     expect(element).to have_text "enumaration_value_#{now}"
   end
 
-  xit 'lets you see how many times the term has been used and search for it' do
+  it 'lets you see how many times the term has been used and search for it' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
@@ -237,7 +237,7 @@ describe 'Enumeration Management', js: true do
     expect(element).to have_text '1 related item'
   end
 
-  xit 'lets you suppress an enumeration value' do
+  it 'lets you suppress an enumeration value' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
@@ -287,7 +287,7 @@ describe 'Enumeration Management', js: true do
     expect(element.text).to eq "Accession Accession Title #{now} created"
   end
 
-  xit 'lets you delete a suppressed enumeration value' do
+  it 'lets you delete a suppressed enumeration value' do
     # TODO: somehow the test is ending up with a "Value Updated" message instead of "Value Deleted", but manual
     # testing indicates the features works as expected with the "Value Deleted" message appearing
     now = Time.now.to_i
@@ -329,7 +329,7 @@ describe 'Enumeration Management', js: true do
     expect(page).to_not have_css 'tr', text: "enumaration_value_#{now}"
   end
 
-  xit 'lets you set a default value with another value suppressed' do
+  it 'lets you set a default value with another value suppressed' do
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
