@@ -74,6 +74,7 @@
         this.waypoints = {};
 
         this.node_selected_callback = node_selected_callback;
+        this.active_cpw_callback = null;
         this.populateWaypointHooks = [];
         this.collapseNodeHooks = [];
 
@@ -599,8 +600,11 @@
     LargeTree.prototype.considerPopulatingWaypoint = function (done_callback) {
         var self = this;
 
-        if (!done_callback) {
-            done_callback = $.noop;
+        // ANW-2176: Persist done_callback from reparentNodes() when reparenting after the first waypoint
+        if (!done_callback && this.active_cpw_callback) {
+            done_callback = this.active_cpw_callback;
+        } else if (done_callback) {
+            this.active_cpw_callback = done_callback;
         }
 
         var emHeight = parseFloat($("body").css("font-size"));
@@ -613,7 +617,10 @@
         var allWaypoints = self.elt.find('.waypoint');
 
         if (allWaypoints.length == 0) {
-            done_callback();
+            if (done_callback) {
+                done_callback();
+                this.active_cpw_callback = null;
+            }
             return;
         }
 
@@ -696,7 +703,10 @@
             });
         } else {
             self.doneLoading();
-            done_callback();
+            if (done_callback) {
+                done_callback();
+                this.active_cpw_callback = null;
+            }
         }
     };
 
