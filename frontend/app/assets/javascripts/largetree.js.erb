@@ -723,13 +723,6 @@
         var offset = elt.data('offset');
         var level = elt.data('level');
 
-        var key = uri + "_" + offset;
-        if (activeWaypointPopulates[key]) {
-            return;
-        }
-
-        activeWaypointPopulates[key] = true;
-
         this.source.fetchWaypoint(uri, offset).done(function (nodes) {
             var endMarker = self.renderer.endpoint_marker();
             endMarker.data('level', level);
@@ -786,8 +779,6 @@
             elt.after.apply(elt, newRows);
 
             elt.addClass('populated');
-
-            activeWaypointPopulates[key] = false;
 
             $(self.populateWaypointHooks).each(function (idx, hook) {
                 hook();
