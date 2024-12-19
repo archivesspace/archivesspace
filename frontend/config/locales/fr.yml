@@ -1955,14 +1955,12 @@ fr:
       de calcul
     note_types: Types de notes
     minimum_subrecords: Sous-enregistrements minimum
-    minimum_subrecords_description: Le nombre minimum de sous-enregistrements de chaque
-      type à inclure
+    minimum_subrecords_description: Le nombre minimum de sous-enregistrements déjà existants de chaque type à inclure.
     extra_subrecords: Sous-enregistrements supplémentaires
-    extra_subrecords_description: Le nombre de sous-enregistrements à inclure en plus
-      du plus grand nombre trouvé dans l'un des enregistrements sélectionnés.
+    extra_subrecords_description: Le nombre de nouveaux sous-enregistrements à inclure en plus du plus grand nombre de sous-enregistrements existants déjà trouvés dans l'un des enregistrements sélectionnés.
     minimum_notes: Notes minimales
-    minimum_notes_description: Le nombre minimum de sous-enregistrements de notes
-      de chaque type à inclure
+    minimum_notes_description: Le nombre minimum de sous-enregistrements déjà existants de notes
+      de chaque type à inclure.
     download_spreadsheet: Télécharger la feuille de calcul
     download_spreadsheet_modal_message: La génération de cette feuille de calcul peut
       prendre quelques instants.

@@ -1929,14 +1929,12 @@ es:
       de cálculo
     note_types: Tipos de notas
     minimum_subrecords: Subregistros mínimos
-    minimum_subrecords_description: El número mínimo de subregistros de cada tipo
-      que se incluirán
+    minimum_subrecords_description: El número mínimo de subregistros ya existentes de cada tipo
+      que se incluirán.
     extra_subrecords: Subregistros adicionales
-    extra_subrecords_description: El número de subregistros a incluir además del mayor
-      número encontrado en cualquiera de los registros seleccionados.
+    extra_subrecords_description: La cantidad de nuevos subregistros que se incluirán además de la mayor cantidad de subregistros existentes ya encontrados en cualquiera de los registros seleccionados.
     minimum_notes: Notas mínimas
-    minimum_notes_description: El número mínimo de subregistros de notas de cada tipo
-      que se deben incluir
+    minimum_notes_description: El número mínimo de subregistros de notas ya existentes de cada tipo que se deben incluir.
     download_spreadsheet: Descargar hoja de cálculo
     download_spreadsheet_modal_message: Generar esta hoja de cálculo puede tardar
       unos minutos.
