@@ -3,7 +3,6 @@
 # Use httponly because some of our AJAX handlers need access to the session too.
 ArchivesSpace::Application.config.session_store :cookie_store,
   key: "#{AppConfig[:cookie_prefix]}_session",
-  secure: Rails.env.production?,
   httponly: true,
   same_site: :lax
 

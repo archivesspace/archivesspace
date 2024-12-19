@@ -313,7 +313,6 @@ class ApplicationController < ActionController::Base
   def set_user_repository_cookie(repository_uri)
     cookies[user_repository_cookie_key] = {
       value: repository_uri,
-      secure: Rails.env.production?,
       httponly: true,
       same_site: :lax
     }
