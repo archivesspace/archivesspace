@@ -103,7 +103,7 @@ AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
 AppConfig[:oai_ead_options] = {}
 # Example: AppConfig[:oai_ead_options] = { :include_daos => true, :use_numbered_c_tags => true, :include_uris => false }
 
-AppConfig[:force_ssl] = proc { Rails.env.production? }
+AppConfig[:force_ssl] = proc { ASpaceEnvironment.environment == :production }
 
 ##
 ## Other less commonly changed settings are below
