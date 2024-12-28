@@ -1,6 +1,6 @@
 services:
   app:
-    image: archivesspace/archivesspace:@TAG@
+    image: archivesspace/archivesspace:latest
     container_name: archivesspace
     restart: unless-stopped
     ports:
@@ -17,6 +17,7 @@ services:
     volumes:
       - ./plugins:/archivesspace/plugins
       - ./config:/archivesspace/config
+      - ./data:/archivesspace/data
   db:
     image: mysql:8
     cap_add:
@@ -30,12 +31,20 @@ services:
       - .env.docker.db
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
+      - ./database:/var/lib/mysql
   solr:
-    image: archivesspace/solr:@TAG@
+    image: archivesspace/solr:latest
     container_name: solr
     restart: unless-stopped
-    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    # run as root to change the permissions of the solr folder
+    user: root
+    # Change permissions of the solr folder, create a default core and start solr as solr user
+    command: bash -c "
+      chown -R 8983:8983 /var/solr
+      && runuser -u solr -- solr-create -p 8983 -c archivesspace -d archivesspace"
     env_file:
       - .env.docker.prod
     ports:
       - "8983:8983"
+    volumes:
+      - ./solr:/var/solr

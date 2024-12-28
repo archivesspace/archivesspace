@@ -310,16 +310,16 @@
     <mkdir dir="docker_prod/archivesspace/config" />
     <mkdir dir="docker_prod/archivesspace/plugins" />
     <mkdir dir="docker_prod/archivesspace/sql" />
+    <mkdir dir="docker_prod/archivesspace/data" />
+    <mkdir dir="docker_prod/archivesspace/database" />
+    <mkdir dir="docker_prod/archivesspace/solr" />
 
     <tstamp />
     <property name="version" value="${DSTAMP}-${TSTAMP}"/>
     <property name="docker-tag" value="latest"/>
 
-    <copy file="../docker-compose-prod.yml" tofile="docker_prod/archivesspace/docker-compose.yml">
-      <filterset>
-        <filter token="TAG" value="${docker-tag}"/>
-      </filterset>
-    </copy>
+    <copy file="../docker-compose-prod.yml" tofile="docker_prod/archivesspace/docker-compose.yml"/>
+    <replace file="docker_prod/archivesspace/docker-compose.yml" token="latest" value="${docker-tag}"/>
     <copy file="../.env.docker.prod" tofile="docker_prod/archivesspace/.env.docker.prod" />
     <copy file="../.env.docker.db" tofile="docker_prod/archivesspace/.env.docker.db" />
 
