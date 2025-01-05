@@ -12,8 +12,6 @@ services:
     depends_on:
       - db
       - solr
-    env_file:
-      - .env.docker.prod
     volumes:
       - ./plugins:/archivesspace/plugins
       - ./config:/archivesspace/config
@@ -27,8 +25,6 @@ services:
     command: --character-set-server=utf8 --collation-server=utf8_unicode_ci --innodb_buffer_pool_size=1G --innodb_buffer_pool_instances=1 --log_bin_trust_function_creators=1
     ports:
       - "3306:3306"
-    env_file:
-      - .env.docker.db
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
       - ./database:/var/lib/mysql
@@ -42,9 +38,17 @@ services:
     command: bash -c "
       chown -R 8983:8983 /var/solr
       && runuser -u solr -- solr-create -p 8983 -c archivesspace -d archivesspace"
-    env_file:
-      - .env.docker.prod
     ports:
       - "8983:8983"
     volumes:
       - ./solr:/var/solr
+  proxy:
+    image: nginx:1.21
+    container_name: proxy
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "${PROXY_PORT}:80"
+    volumes:
+      - ./proxy-config:/etc/nginx/conf.d/
