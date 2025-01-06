@@ -14,6 +14,16 @@ describe 'Jobs', js: true do
     select_repository(@repo)
   end
 
+  it 'does not offer creating hidden jobs' do
+    click_button('Repository settings')
+    click_link('Background Jobs')
+    click_button('Create Job')
+
+    expect(page).to have_content('Batch Find and Replace (Beta)')
+    expect(page).not_to have_content('Resource Duplicate')
+    expect(page).not_to have_content('Top Container Linker')
+  end
+
   it 'can create a find and replace job' do
     resource = create(:resource)
 
