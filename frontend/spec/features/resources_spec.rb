@@ -321,8 +321,7 @@ describe 'Resources', js: true do
   end
 
   it 'can duplicate a resource from another resource with all the archival objects' do
-    visit 'logout'
-    login_user(admin_user)
+    login_admin
     select_repository(@repository)
 
     now = Time.now.to_i
@@ -340,8 +339,7 @@ describe 'Resources', js: true do
     visit "resources/#{resource.id}/edit"
 
     using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{resource.title} Resource"
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
     end
 
     click_on 'Duplicate Resource'
@@ -349,8 +347,7 @@ describe 'Resources', js: true do
       click_on 'Duplicate Resource'
     end
 
-    element = find('h2')
-    expect(element.text).to include 'resource_duplicate_job'
+    expect(page).to have_selector('h2', visible: true, text: 'resource_duplicate_job')
 
     job_status = ''
     while job_status != 'completed'

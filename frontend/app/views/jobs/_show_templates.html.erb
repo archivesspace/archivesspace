@@ -167,6 +167,8 @@
 
 <% end %>
 
+<% define_template("resource_duplicate_job", jsonmodel_definition(:resource_duplicate_job)) {} %>
+
 <%# Now create a template for all job types not handled above - eg from plugins %>
 <% job_types.keys.each do |type| %>
   <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'bulk_import_job', 'report_job'].include?(type) %>

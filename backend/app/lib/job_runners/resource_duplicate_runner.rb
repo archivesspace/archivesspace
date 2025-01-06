@@ -3,7 +3,7 @@ require_relative "../resource/duplicate"
 class ResourceDuplicateRunner < JobRunner
   include JSONModel
 
-  register_for_job_type('resource_duplicate_job')
+  register_for_job_type('resource_duplicate_job', :hidden => true)
 
   def run
     begin
