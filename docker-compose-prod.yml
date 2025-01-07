@@ -3,52 +3,57 @@ services:
     image: archivesspace/archivesspace:latest
     container_name: archivesspace
     restart: unless-stopped
-    ports:
-      - "8080:8080"
-      - "8081:8081"
-      - "8082:8082"
-      - "8089:8089"
-      - "8090:8090"
+    env_file:
+      - .env
     depends_on:
       - db
       - solr
     volumes:
+      - app-data:/archivesspace/data
       - ./plugins:/archivesspace/plugins
       - ./config:/archivesspace/config
-      - ./data:/archivesspace/data
+
   db:
     image: mysql:8
     cap_add:
       - SYS_NICE
     container_name: mysql
     restart: unless-stopped
-    command: --character-set-server=utf8 --collation-server=utf8_unicode_ci --innodb_buffer_pool_size=1G --innodb_buffer_pool_instances=1 --log_bin_trust_function_creators=1
+    env_file:
+      - .env
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb_buffer_pool_size=1G  --innodb_buffer_pool_instances=1 --log_bin_trust_function_creators=1
     ports:
       - "3306:3306"
     volumes:
+      - db-data:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
-      - ./database:/var/lib/mysql
+
   solr:
     image: archivesspace/solr:latest
     container_name: solr
     restart: unless-stopped
-    # run as root to change the permissions of the solr folder
-    user: root
-    # Change permissions of the solr folder, create a default core and start solr as solr user
-    command: bash -c "
-      chown -R 8983:8983 /var/solr
-      && runuser -u solr -- solr-create -p 8983 -c archivesspace -d archivesspace"
+    env_file:
+      - .env
+    command: solr-create -p 8983 -c archivesspace -d archivesspace
     ports:
       - "8983:8983"
     volumes:
-      - ./solr:/var/solr
+      - solr-data:/var/solr/data
+
   proxy:
     image: nginx:1.21
     container_name: proxy
     restart: unless-stopped
+    env_file:
+      - .env
     depends_on:
       - app
     ports:
-      - "${PROXY_PORT}:80"
+      - "${NGINX_PORT}:80"
     volumes:
       - ./proxy-config:/etc/nginx/conf.d/
+
+volumes:
+  app-data:
+  db-data:
+  solr-data:
