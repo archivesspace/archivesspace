@@ -1344,6 +1344,7 @@ de:
         make_authorized_tooltip: Verwenden Sie diese Option, um diese Namensform zum
           autoritativen Namen zu machen.
 
+        make_primary: Als Primär festlegen
   note:
     _frontend:
       preview:
@@ -1469,6 +1470,7 @@ de:
     linker:
       browse: Ressourcen durchsuchen
       link_title: Durchsuchen
+      link_to: Link zur Ressource
   preference:
     _frontend:
       messages:
