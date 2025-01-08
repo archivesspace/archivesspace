@@ -2,6 +2,7 @@
 _site
 bin
 build/*.jar
+build/docker_prod/
 build/solr_backups/*
 *.war
 build/gems

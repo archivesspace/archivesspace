@@ -310,9 +310,6 @@
     <mkdir dir="docker_prod/archivesspace/config" />
     <mkdir dir="docker_prod/archivesspace/plugins" />
     <mkdir dir="docker_prod/archivesspace/sql" />
-    <mkdir dir="docker_prod/archivesspace/data" />
-    <mkdir dir="docker_prod/archivesspace/database" />
-    <mkdir dir="docker_prod/archivesspace/solr" />
     <mkdir dir="docker_prod/archivesspace/proxy-config" />
 
     <tstamp />
