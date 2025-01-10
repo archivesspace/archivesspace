@@ -14,12 +14,7 @@ describe 'AdvancedSearchDates', js: true do
   before(:each) do
     login_user(@user)
 
-    times = 0
-    while page.has_text?('You do not have access to any Repositories.') || times < 5
-      sleep(3)
-      page.refresh
-      times += 1
-    end
+    ensure_repository_access
 
     # Open the dropdown only if its not already open
     if !page.has_css?('.advanced-search-add-row-dropdown')
