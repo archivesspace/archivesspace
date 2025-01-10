@@ -28,6 +28,24 @@ services:
       - db-data:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
 
+  db-backup:
+    image: databack/mysql-backup:latest
+    container_name: db-backup
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DB_DUMP_CRON: "0 2 * * *" # UTC
+      DB_DUMP_TARGET: /db
+      DB_SERVER: db
+      DB_USER: root
+      DB_PASS: ${MYSQL_ROOT_PASSWORD} # from .env
+    command: dump
+    volumes:
+      - ./backups:/db
+    depends_on:
+      - db
+
   solr:
     image: archivesspace/solr:latest
     container_name: solr
