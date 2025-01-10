@@ -38,7 +38,7 @@ services:
     ports:
       - "8983:8983"
     volumes:
-      - solr-data:/var/solr/data
+      - solr-data:/var/solr
 
   proxy:
     image: nginx:1.21
