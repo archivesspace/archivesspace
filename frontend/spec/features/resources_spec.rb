@@ -6,8 +6,6 @@ require 'csv'
 require 'rubyXL/convenience_methods/cell'
 
 describe 'Resources', js: true do
-  let(:admin_user) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
-
   before(:all) do
     @repository = create(:repo, repo_code: "resources_test_#{Time.now.to_i}")
     set_repo @repository
@@ -16,10 +14,11 @@ describe 'Resources', js: true do
 
   before(:each) do
     login_user(@user)
+    ensure_repository_access
     select_repository(@repository)
   end
 
-  it 'has the generate bulk archival object link included in the more dropdown menu on both the show and edit pages', :skip do
+  it 'has the generate bulk archival object link included in the more dropdown menu on both the show and edit pages' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
 
@@ -28,18 +27,29 @@ describe 'Resources', js: true do
     visit "resources/#{resource.id}"
 
     using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{resource.title} Resource"
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
     end
 
-    click_on 'More'
-    click_on 'Generate Bulk Archival Object Spreadsheet'
+    wait_for_ajax
+
+    click_on('More')
+
+    using_wait_time(15) do
+      within('.dropdown-menu') do
+        click_link('Generate Bulk Archival Object Spreadsheet')
+      end
+    end
+
     expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
     expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
     expect(page).to have_text 'Selected Records: 0'
 
     visit "resources/#{resource.id}/edit"
-    wait_for_ajax
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
+
     click_on 'More'
     click_on 'Generate Bulk Archival Object Spreadsheet'
     expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
@@ -108,7 +118,11 @@ describe 'Resources', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    wait_for_ajax
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
+
     click_on 'More'
     click_on 'Generate Bulk Archival Object Spreadsheet'
     expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
@@ -170,8 +184,7 @@ describe 'Resources', js: true do
   end
 
   it 'successfully uploads a bulk archival object spreadsheet and creates a job' do
-    visit 'logout'
-    login_user(admin_user)
+    login_admin
     select_repository(@repository)
 
     now = Time.now.to_i
@@ -234,9 +247,9 @@ describe 'Resources', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
+
     using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{resource.title} Resource"
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
     end
 
     click_on 'More'
@@ -311,8 +324,7 @@ describe 'Resources', js: true do
     visit "resources/#{resource.id}/edit"
 
     using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{resource.title} Resource"
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
     end
 
     element = find('#tree-container')
@@ -372,6 +384,11 @@ describe 'Resources', js: true do
     click_on "[Duplicated] #{resource.title}"
 
     click_on 'Edit'
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "[Duplicated] #{resource.title} Resource")
+    end
+
     expect(find('#resource_title_').value).to eq "[Duplicated] #{resource.title}"
     expect(find('#resource_id_0_').value).to eq "[Duplicated] #{resource.id_0}"
     expect(find('#resource_id_1_').value).to eq "#{resource.id_1}"
@@ -383,12 +400,16 @@ describe 'Resources', js: true do
     expect(elements.length).to eq 10
   end
 
-  xit 'can spawn a resource from an existing accession' do
+  it 'can spawn a resource from an existing accession' do
     now = Time.now.to_i
     accession = create(:accession, title: "Accession Title #{now}", condition_description: 'condition_description')
     run_index_round
 
     visit "accessions/#{accession.id}"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{accession.title} Accession")
+    end
 
     click_on 'Spawn'
     click_on 'Resource'
@@ -414,7 +435,7 @@ describe 'Resources', js: true do
     element.send_keys('Latin')
     element.send_keys(:tab)
 
-    # no collection managment
+    # no collection management
     expect(page).to_not have_css("#resource_collection_management__cataloged_note_")
 
     # condition and content descriptions have come across as notes fields
@@ -427,10 +448,9 @@ describe 'Resources', js: true do
 
     notes_toggle[1].click
 
-    sleep 3
-
-    element = find('#resource_notes__1__content__0_')
-    expect(element.text).to match(accession.condition_description)
+    using_wait_time(15) do
+      expect(page).to have_selector('#resource_notes__1__content__0_', text: accession.condition_description)
+    end
 
     select 'Single', from: 'resource_dates__0__date_type_'
     fill_in 'resource_dates__0__begin_', with: '1978'
@@ -448,7 +468,7 @@ describe 'Resources', js: true do
     expect(find('#resource_extents__0__extent_type_').value).to eq('cassettes')
   end
 
-  xit 'reports errors and warnings when creating an invalid Resource' do
+  it 'reports errors and warnings when creating an invalid Resource' do
     click_on 'Create'
     click_on 'Resource'
 
@@ -478,7 +498,7 @@ describe 'Resources', js: true do
     expect(page).to have_css '.identifier-fields.has-error'
   end
 
-  xit 'prepopulates the top container modal with search for current resource when linking on the resource edit page' do
+  it 'prepopulates the top container modal with search for current resource when linking on the resource edit page' do
     # Create top containers
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
@@ -488,6 +508,10 @@ describe 'Resources', js: true do
     run_all_indexers
 
     visit "resources/#{resource.id}/edit"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     click_on 'Add Container Instance'
 
@@ -504,18 +528,19 @@ describe 'Resources', js: true do
       expect(element).to have_text resource.title
       expect(element).to have_css '.token-input-delete-token'
 
-      sleep 4
+      wait_for_ajax
 
       find('.token-input-delete-token').click
       fill_in 'Keyword', with: '*'
-
       click_on 'Search'
 
-      sleep 2
+      wait_for_ajax
 
-      row = find(:xpath, "//tr[contains(., '#{container.indicator}')]")
+      using_wait_time(15) do
+        expect(page).to have_xpath("//tr[contains(., '#{container.indicator}')]")
+      end
 
-      within row do
+      within(:xpath, "//tr[contains(., '#{container.indicator}')]") do
         find('input').click
       end
 
@@ -542,21 +567,20 @@ describe 'Resources', js: true do
     end
   end
 
-  xit 'can add a rights statement with linked agent to a Resource' do
+  it 'can add a rights statement with linked agent to a Resource' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
-    fill_in 'global-search-box', with: resource.title
-    find('#global-search-button').click
+    visit "resources/#{resource.id}/edit"
 
-    row = find(:xpath, "//tr[contains(., '#{resource.title}')]")
-
-    within row do
-      click_on 'Edit'
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
     end
 
     click_on 'Add Rights Statement'
+
+    wait_for_ajax
 
     select 'Copyright', from: 'resource_rights_statements__0__rights_type_'
     select 'Copyrighted', from: 'resource_rights_statements__0__status_'
@@ -591,7 +615,7 @@ describe 'Resources', js: true do
     expect(page).to have_css '#rights_statement_0_linked_agents'
   end
 
-  xit 'can create a resource' do
+  it 'can create a resource' do
     now = Time.now.to_i
 
     click_on 'Create'
@@ -632,12 +656,16 @@ describe 'Resources', js: true do
     expect(element).to have_text "Resource Title #{now}"
   end
 
-  xit 'reports warnings when updating a Resource with invalid data' do
+  it 'reports warnings when updating a Resource with invalid data' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     fill_in 'resource_title_', with: ''
 
@@ -650,12 +678,16 @@ describe 'Resources', js: true do
     end
   end
 
-  xit 'reports errors if adding an empty child to a Resource' do
+  it 'reports errors if adding an empty child to a Resource' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     click_on 'Add Child'
 
@@ -668,12 +700,16 @@ describe 'Resources', js: true do
     end
   end
 
-  xit 'reports error if title is empty and no date is provided' do
+  it 'reports error if title is empty and no date is provided' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     click_on 'Add Child'
 
@@ -689,11 +725,15 @@ describe 'Resources', js: true do
     end
   end
 
-  xit 'can edit a Resource, add a second Extent, then remove it' do
+  it 'can edit a Resource, add a second Extent, then remove it' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
     visit "resources/#{resource.id}/edit"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     click_on 'Add Extent'
 
@@ -735,8 +775,7 @@ describe 'Resources', js: true do
     visit "resources/#{resource.id}"
 
     using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{resource.title} Resource"
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
     end
 
     within '#form_download_ead', visible: false do
@@ -753,8 +792,7 @@ describe 'Resources', js: true do
     visit "resources/#{resource.id}"
 
     using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{resource.title} Resource"
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
     end
 
     files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
@@ -785,8 +823,7 @@ describe 'Resources', js: true do
     visit "resources/#{resource.id}"
 
     using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{resource.title} Resource"
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
     end
 
     files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
@@ -825,8 +862,7 @@ describe 'Resources', js: true do
     visit "resources/#{resource.id}"
 
     using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{resource.title} Resource"
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
     end
 
     expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
@@ -840,7 +876,7 @@ describe 'Resources', js: true do
     expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
   end
 
-  xit 'can apply and remove filters when browsing for linked agents in the linker modal' do
+  it 'can apply and remove filters when browsing for linked agents in the linker modal' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     person = create(:agent_person)
@@ -848,6 +884,9 @@ describe 'Resources', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     click_on 'Agent Links'
     click_on 'Add Agent Link'
@@ -866,11 +905,15 @@ describe 'Resources', js: true do
     expect(page).to_not have_css '.linker-container .glyphicon-remove'
   end
 
-  xit 'adds the result for calculate extent to the correct subrecord' do
+  it 'adds the result for calculate extent to the correct subrecord' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
     visit "resources/#{resource.id}/edit"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     click_on 'Add Deaccession'
 
@@ -908,11 +951,15 @@ describe 'Resources', js: true do
     expect(element).to have_css('li[data-index="1"]')
   end
 
-  xit 'enforces required fields in extent calculator' do
+  it 'enforces required fields in extent calculator' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
     visit "resources/#{resource.id}/edit"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     find('#other-dropdown').click
     click_on 'Calculate Extent'
@@ -925,12 +972,16 @@ describe 'Resources', js: true do
     end
   end
 
-  xit 'can create a new digital object instance with a note to a resource' do
+  it 'can create a new digital object instance with a note to a resource' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     click_on 'Add Digital Object'
 
