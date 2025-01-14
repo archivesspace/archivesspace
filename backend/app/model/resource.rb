@@ -31,6 +31,7 @@ class Resource < Sequel::Model(:resource)
   include RepresentativeFileVersion
   include Assessments::LinkedRecord
   include Arks
+  include Titles
 
   enable_suppression
 
@@ -116,4 +117,6 @@ class Resource < Sequel::Model(:resource)
     result
   end
 
+  # alias old title field to first item of new multiple titles list (for now at least)
+  #auto_generate :property => :title, :generator => proc { |json| json['titles'][0]['title'] }
 end
