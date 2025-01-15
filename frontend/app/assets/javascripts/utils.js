@@ -349,10 +349,10 @@ $(function () {
           $this.off('mouseleave');
 
           $this.tooltip('show');
-          $('.tooltip-inner', $this.data('bs.tooltip').$tip).prepend(
+          $('.tooltip-inner', $this.data('bs.tooltip').tip).prepend(
             '<span class="tooltip-close glyphicon glyphicon-remove-circle icon-white"></span>'
           );
-          $('.tooltip-close', $this.data('bs.tooltip').$tip).click(function () {
+          $('.tooltip-close', $this.data('bs.tooltip').tip).click(function () {
             $this.trigger('click');
           });
           openedViaClick = true;
