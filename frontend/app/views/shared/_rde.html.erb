@@ -65,8 +65,8 @@
 
         <div class="fill-column-form rde-inline-form" style="display: none;">
           <ul class="nav nav-tabs">
-            <li class="active nav-item"><a class="nav-link" href="#fill_basic" data-toggle="tab"><%= t("rde.fill_column.basic") %></a></li>
-            <li CLASS="nav-item"><a class="nav-link" href="#fill_sequence" data-toggle="tab"><%= t("rde.fill_column.sequence") %></a></li>
+            <li class="nav-item"><a class="nav-link active" href="#fill_basic" data-toggle="tab"><%= t("rde.fill_column.basic") %></a></li>
+            <li class="nav-item"><a class="nav-link" href="#fill_sequence" data-toggle="tab"><%= t("rde.fill_column.sequence") %></a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="fill_basic">
@@ -83,9 +83,9 @@
                     <div class="alert alert-info"><%= t("rde.fill_column.select_a_column") %></div>
                   </div>
                 </div>
-                <div class="form-actions">
+                <div class="form-actions pl-0">
                   <button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= t("rde.fill_column.apply_basic_fill") %></button>
-                  <button class="btn btn-sm btn-cancel"><%= t("actions.cancel") %></button>
+                  <button class="btn btn-sm btn-default"><%= t("actions.cancel") %></button>
                 </div>
               </fieldset>
             </div>
@@ -114,9 +114,9 @@
                 <div class="form-group">
                   <div class="controls sequence-preview"></div>
                 </div>
-                <div class="form-actions">
+                <div class="form-actions pl-0">
                   <button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= t("rde.fill_column.apply_sequence_fill") %></button>
-                  <button class="btn btn-sm btn-cancel"><%= t("actions.cancel") %></button>
+                  <button class="btn btn-sm btn-default btn-cancel"><%= t("actions.cancel") %></button>
                 </div>
               </fieldset>
             </div>
@@ -134,7 +134,7 @@
           <div class="form-group">
             <div class="col-sm-2"></div>
             <button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= t("rde.save_template.save_template") %></button>
-            <button class="btn btn-sm btn-cancel"><%= t("actions.cancel") %></button>
+            <button class="btn btn-sm btn-default btn-cancel"><%= t("actions.cancel") %></button>
           </div>
         </div>
 
@@ -156,9 +156,9 @@
           <select id="columnOrder" multiple="multiple"></select>
           <a href="JavaScript:void(0);" id="columnOrderUp" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-arrow-up"></span></a>
           <a href="JavaScript:void(0);" id="columnOrderDown" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-arrow-down"></span></a>
-          <div class="form-actions">
+          <div class="form-actions pl-0">
             <button class="btn btn-primary btn-sm disabled" disabled="disabled"><%= t("rde.reorder_columns.apply_order") %></button>
-            <button class="btn btn-sm btn-cancel"><%= t("actions.cancel") %></button>
+            <button class="btn btn-sm btn-default btn-cancel"><%= t("actions.cancel") %></button>
           </div>
         </div>
 
