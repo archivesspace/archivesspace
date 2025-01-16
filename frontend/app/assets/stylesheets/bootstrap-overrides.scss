@@ -107,6 +107,8 @@ body {
 
 .combobox-container.combobox-selected .dropdown-toggle::after {
   border: none;
+  content: '\00D7';
+  font-weight: bold;
 }
 
 .typeahead-long {
