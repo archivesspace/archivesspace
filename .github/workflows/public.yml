@@ -100,7 +100,7 @@ jobs:
 
     - name: Upload the ci logs
       if: failure()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ci_logs
         path: ci_logs/*
