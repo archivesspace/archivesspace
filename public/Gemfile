@@ -8,7 +8,7 @@ gem 'rails', '6.1.6'
 gem 'htmlentities'
 gem 'i18n'
 
-gem 'nokogiri'
+gem 'nokogiri', '~> 1.13.10'
 
 # Gems used only for assets and not required in production environments by default.
 # Assets group was deprecated with Rails 4, but we still need it as we need to avoid using gems that include
