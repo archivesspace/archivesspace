@@ -19,7 +19,6 @@ gem 'json-schema', '1.0.10'
 
 group :test do
   gem 'factory_bot', '= 6.2.1'
-  gem 'ladle'
   gem 'rack-test'
   gem 'rspec'
   gem 'rspec-core'
