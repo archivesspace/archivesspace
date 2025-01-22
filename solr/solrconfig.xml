@@ -2,6 +2,7 @@
 <config>
   <schemaFactory class="ClassicIndexSchemaFactory"/>
   <luceneMatchVersion>LATEST</luceneMatchVersion>
+  <lib dir="${solr.install.dir}/modules/analysis-extras/lib/" regex=".*\.jar" />
   <dataDir>${solr.data.dir:}</dataDir>
   <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}" />
   <updateHandler class="solr.DirectUpdateHandler2">
