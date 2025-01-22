@@ -10,13 +10,13 @@ Built for archives by archivists, ArchivesSpace is the open source archives info
 
 * [archivesspace.org](http://archivesspace.org)
 * [User Documentation](https://archivesspace.atlassian.net/wiki/spaces/ADC/pages/917045261/ArchivesSpace+Help+Center) (member benefit)
-* [Technical Documentation](https://archivesspace.github.io/tech-docs/)
+* [Technical Documentation](https://docs.archivesspace.org/)
 * [API](http://archivesspace.github.io/archivesspace/api)
 * [Wiki](http://wiki.archivesspace.org)
 * [Issue Tracker](http://development.archivesspace.org)
 
 The latest technical documentation is managed in a separate GitHub repository [ArchivesSpace tech-docs](https://github.com/archivesspace/tech-docs) and is published at
-[https://archivesspace.github.io/tech-docs/](https://archivesspace.github.io/tech-docs/).
+(https://docs.archivesspace.org/).
 
 # License
 
