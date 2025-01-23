@@ -64,6 +64,8 @@ GEM
       public_suffix (>= 2.0.2, < 8.0)
     atomic (1.1.101-java)
     axe-core-api (4.11.0)
+    autoprefixer-rails (10.4.19.0)
+      execjs (~> 2)
       dumb_delegator
       ostruct
       virtus
@@ -78,6 +80,9 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     base64 (0.3.0)
     bindex (0.8.1)
+    bootstrap (5.3.3)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 2.11.8, < 3)
     builder (3.3.0)
     capybara (3.40.0)
       addressable
@@ -190,6 +195,7 @@ GEM
     nokogiri (1.13.10-java)
       racc (~> 1.4)
     ostruct (0.6.3)
+    popper_js (2.11.8)
     pry (0.14.2-java)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -340,6 +346,7 @@ PLATFORMS
 DEPENDENCIES
   atomic
   axe-core-rspec
+  bootstrap (~> 5.3, >= 5.3.3)
   capybara
   capybara-screenshot
   childprocess
