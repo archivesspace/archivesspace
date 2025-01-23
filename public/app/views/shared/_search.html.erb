@@ -10,19 +10,19 @@
   <% @search = Search.new unless defined?(@search) %>
   <%= form_tag(app_prefix("#{search_url}"), method: 'get', :id => 'advanced_search') do %>
   <% (0...[1, @search.q.length].max).each do |i| %>
-    <div class="row search_row align-items-end pt-1" id="search_row_<%= i %>">
+    <div class="row search_row align-items-end pt-1 mb-3" id="search_row_<%= i %>">
       <div class="col-sm-6 col-md-4 col-xl-1 bool form-group search-operator-field">
-        <%= label_tag("op#{i}", t('advanced_search.operator_label'), :class => 'font-weight-bold') %>
-        <%= select_tag('op[]', options_for_select(Search.get_boolean_opts, @search[:op][i]), disabled: (i == 0), :id => "op#{i}",:class=> 'form-control' + (i == 0 ? ' d-none' : '') + ' options-for-select') %>
+        <%= label_tag("op#{i}", t('advanced_search.operator_label'), :class => 'fw-bold mb-2') %>
+        <%= select_tag('op[]', options_for_select(Search.get_boolean_opts, @search[:op][i]), disabled: (i == 0), :id => "op#{i}",:class=> 'form-select' + (i == 0 ? ' d-none' : '') + ' options-for-select') %>
         <%= hidden_field_tag('op[]','', :id => 'op_') if i == 0 %>
       </div>
-      <div class="col-xl-3 col-lg-6 form-group">
-        <%= label_tag(:"q#{i}", t('navbar.search_placeholder'),:class => 'repeats font-weight-bold') %>
+      <div class="col-xl-3 col-lg-6 form-group flex-grow-1">
+        <%= label_tag(:"q#{i}", t('navbar.search_placeholder'),:class => 'repeats fw-bold mb-2') %>
         <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}",
                           :class=> 'form-control repeats fill-column js-search-box') %>
       </div>
       <div class="col-xl-3 col-md-6 form-group norepeat">
-        <%= label_tag(:limit, t('advanced_search.limit_label'),:class => 'font-weight-bold') %>
+        <%= label_tag(:limit, t('advanced_search.limit_label'),:class => 'fw-bold mb-2') %>
         <%
           # Determine the default limit value
           default_limit = if @search[:limit].present?
@@ -33,24 +33,24 @@
                             SearchConfigHelper.default_search_scope == 'collections_only' ? 'resource' : ''
                           end
         %>
-        <%= select_tag(:limit, options_for_select(limit_options, default_limit), :class=> 'form-control fill-column') %>
+        <%= select_tag(:limit, options_for_select(limit_options, default_limit), :class=> 'form-select fill-column') %>
       </div>
       <div class="col-xl-2 col-lg-4 col-md-6 form-group">
-        <%= label_tag(:"field#{i}", t('search-field'),:class => 'repeats font-weight-bold') %>
-        <%= select_tag('field[]', options_for_select(field_options, @search[:field][i]), :id=> "field#{i}", :class=> 'form-control repeats') %>
+        <%= label_tag(:"field#{i}", t('search-field'),:class => 'repeats fw-bold mb-2') %>
+        <%= select_tag('field[]', options_for_select(field_options, @search[:field][i]), :id=> "field#{i}", :class=> 'form-select repeats') %>
       </div>
       <div class="col-xl-1 col-lg-3 col-sm-5 form-group">
-        <%= label_tag(:"from_year#{i}", "#{t('search_results.filter.from_year')}", :class => 'repeats font-weight-bold') %>
+        <%= label_tag(:"from_year#{i}", "#{t('search_results.filter.from_year')}", :class => 'repeats fw-bold mb-2') %>
         <%= text_field_tag('from_year[]', @search[:from_year][i], :size => 4,:maxlength => 4, :id=>"from_year#{i}",
                           :placeholder => t('search_results.filter.from'),:class=>'form-control repeats') %>
       </div>
       <div class="col-xl-1 col-lg-3 col-sm-5 form-group">
-        <%= label_tag(:"to_year#{i}", "#{t('search_results.filter.to_year')}", :class=> 'repeats font-weight-bold') %>
+        <%= label_tag(:"to_year#{i}", "#{t('search_results.filter.to_year')}", :class=> 'repeats fw-bold mb-2') %>
         <%= text_field_tag('to_year[]', @search[:to_year][i], :size => 4, :maxlength => 4, :id => "to_year#{i}",
                           :class=> 'form-control repeats', :placeholder => t('search_results.filter.to')) %>
       </div>
-      <div class="col-sm-2 form-group text-left align-self-end">
-          <span class="mb-2 d-inline-block repeats plusminus_label font-weight-bold"><%= t('advanced_search.add_row') %></span><br />
+      <div class="d-flex flex-column col-sm-2 form-group text-left align-self-end">
+          <span class="mb-2 d-inline-block repeats plusminus_label fw-bold"><%= t('advanced_search.add_row') %></span><br />
           <button type="button"
                   class="btn btn-light border plusminus-btn"
                   id="plusminus<%= i %>"
@@ -62,7 +62,7 @@
       </div>
     </div>
   <% end %>
-    <div class="row" id="submit_div">
+    <div class="row mt-3" id="submit_div">
       <div class="col-sm-3">
         <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary', :id => 'submit_search') %>
       </div>
