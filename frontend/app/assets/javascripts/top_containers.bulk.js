@@ -899,7 +899,7 @@ function BulkActionMerge(bulkContainerSearch) {
           mergeWarning,
           mergeDestination,
         }),
-        false
+        'large'
       );
     });
   });
