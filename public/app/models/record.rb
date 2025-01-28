@@ -57,7 +57,7 @@ class Record
       @display_string = highlights['title'][0]
     end
 
-    # Exclude any redundant fields below that are not meant to be used in the public intreface.
+    # Exclude any redundant fields below that are not meant to be used in the public interface.
     exclude_fields = [
       'title',
       'notes',
@@ -65,7 +65,10 @@ class Record
       'agents',
       'agents_text',
       'repository',
-      'classification_uris'
+      'used_within_repository',
+      'used_within_published_repository',
+      'classification_uris',
+      'top_container_uri_u_sstr'
     ]
 
     @highlights = highlights.reject do |key, _|

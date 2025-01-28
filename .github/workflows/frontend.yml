@@ -17,9 +17,12 @@ on:
         type: choice
         options:
           - 'all'
-          - 'a-c'
+          - 'aa-af'
+          - 'ag-az'
+          - 'b-c'
           - 'd-l'
-          - 'm-r'
+          - 'm-q'
+          - 'r'
           - 's-z'
         default: 'all'
       browser:
@@ -57,18 +60,39 @@ on:
       - 'solr/**'
 
 jobs:
-  frontend_a-c:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'a-c' || inputs.group-choice == '' }}
-    name: a-c_Java_v${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+  frontend_aa-af:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'aa-af' || inputs.group-choice == '' }}
+    name: aa-af_Java_v${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[a-c]*_spec.rb"
-      name: a-c
+        ./build/run frontend:test -Dpattern="spec/features/a[a-f]*_spec.rb"
+      name: aa-af
       java-version: ${{ inputs.java-version || 11 }}
       browser: ${{ inputs.browser || 'firefox' }}
-
+  frontend_ag-az:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'ag-az' || inputs.group-choice == '' }}
+    name: ag-az_Java_v${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+    uses: ./.github/workflows/common-frontend.yml
+    secrets: inherit
+    with:
+      run-cmd: |
+        ./build/run frontend:test -Dpattern="spec/features/a[g-z]*_spec.rb"
+      name: ag-az
+      java-version: ${{ inputs.java-version || 11 }}
+      browser: ${{ inputs.browser || 'firefox' }}
+  frontend_b-c:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'b-c' || inputs.group-choice == '' }}
+    name: b-c_Java_v${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+    uses: ./.github/workflows/common-frontend.yml
+    secrets: inherit
+    with:
+      run-cmd: |
+        ./build/run frontend:test -Dpattern="spec/features/[b-c]*_spec.rb"
+      name: b-c
+      java-version: ${{ inputs.java-version || 11 }}
+      browser: ${{ inputs.browser || 'firefox' }}
   frontend_d-l:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'd-l' || inputs.group-choice == '' }}
     name: d-l_Java_v${{ inputs.java-version || 11 }}
@@ -81,15 +105,27 @@ jobs:
       java-version: ${{ inputs.java-version || 11 }}
       browser: ${{ inputs.browser || 'firefox' }}
 
-  frontend_m-r:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'm-r' || inputs.group-choice == '' }}
-    name: m-r_Java_v${{ inputs.java-version || 11 }}
+  frontend_m-q:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'm-q' || inputs.group-choice == '' }}
+    name: m-q_Java_v${{ inputs.java-version || 11 }}
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[m-r]*_spec.rb"
-      name: m-r
+        ./build/run frontend:test -Dpattern="spec/features/[m-q]*_spec.rb"
+      name: m-q
+      java-version: ${{ inputs.java-version || 11 }}
+      browser: ${{ inputs.browser || 'firefox' }}
+
+  frontend_r:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'r' || inputs.group-choice == '' }}
+    name: r_Java_v${{ inputs.java-version || 11 }}
+    uses: ./.github/workflows/common-frontend.yml
+    secrets: inherit
+    with:
+      run-cmd: |
+        ./build/run frontend:test -Dpattern="spec/features/r*_spec.rb"
+      name: r
       java-version: ${{ inputs.java-version || 11 }}
       browser: ${{ inputs.browser || 'firefox' }}
 

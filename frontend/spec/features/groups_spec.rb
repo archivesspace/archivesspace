@@ -8,11 +8,10 @@ describe 'Groups', js: true do
     @repository_to_manage = create(:repo, repo_code: "groups_test_manage_#{Time.now.to_i}")
     @repository_to_view = create(:repo, repo_code: "groups_test_view_#{Time.now.to_i}")
     @user = create_user
-    @admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
   end
 
   it 'can assign a user to the archivist group' do
-    login_user(@admin)
+    login_admin
     select_repository @repository_to_manage
 
     find('.repo-container .btn.dropdown-toggle').click
@@ -43,7 +42,7 @@ describe 'Groups', js: true do
   end
 
   it 'can assign the test user to the viewers group of the first repository' do
-    login_user(@admin)
+    login_admin
     select_repository @repository_to_view
     find('.repo-container .btn.dropdown-toggle').click
     click_on 'Manage Groups'
@@ -73,7 +72,7 @@ describe 'Groups', js: true do
   end
 
   it 'reports errors when attempting to create a Group with missing data' do
-    login_user(@admin)
+    login_admin
     select_repository @repository_to_view
 
     find('.repo-container .btn.dropdown-toggle').click
@@ -88,7 +87,7 @@ describe 'Groups', js: true do
 
   it 'can create a new Group' do
     now = Time.now.to_i
-    login_user(@admin)
+    login_admin
     select_repository @repository_to_view
     find('.repo-container .btn.dropdown-toggle').click
     click_on 'Manage Groups'
@@ -106,7 +105,7 @@ describe 'Groups', js: true do
 
   it 'reports errors when attempting to update a Group with missing data' do
     now = Time.now.to_i
-    login_user(@admin)
+    login_admin
     select_repository @repository_to_view
     find('.repo-container .btn.dropdown-toggle').click
     click_on 'Manage Groups'
@@ -136,7 +135,7 @@ describe 'Groups', js: true do
   it 'can edit a Group' do
     # TODO: passes locally but not remotely
     now = Time.now.to_i
-    login_user(@admin)
+    login_admin
     select_repository @repository_to_view
     find('.repo-container .btn.dropdown-toggle').click
     click_on 'Manage Groups'
@@ -163,7 +162,7 @@ describe 'Groups', js: true do
   end
 
   it 'can get a list of usernames matching a string' do
-    login_user(@admin)
+    login_admin
     visit "/users/complete?query=#{Addressable::URI.escape(@user.username)}"
     expect(page).to have_text @user.username
 
@@ -171,7 +170,7 @@ describe 'Groups', js: true do
   end
 
   it 'can log out of the admin account' do
-    login_user(@admin)
+    login_admin
     visit 'logout'
     expect(page).to have_css '#login-form-wrapper'
   end
@@ -189,7 +188,7 @@ describe 'Groups', js: true do
   end
 
   it 'can select the second repository and find the create link' do
-    login_user(@admin)
+    login_admin
     select_repository @repository_to_manage
 
     element = find('.alert.alert-success.with-hide-alert')
@@ -201,7 +200,7 @@ describe 'Groups', js: true do
   end
 
   it "can modify the user's groups for a repository via the Manage Access listing and hides create from user" do
-    login_user(@admin)
+    login_admin
     select_repository @repository_to_manage
 
     find('.repo-container .btn.dropdown-toggle').click
@@ -238,7 +237,7 @@ describe 'Groups', js: true do
 
   it 'cannot modify the user groups via Manage Access if the user is an admin' do
     now = Time.now.to_i
-    login_user(@admin)
+    login_admin
     select_repository @repository_to_manage
 
     find('.repo-container .btn.dropdown-toggle').click

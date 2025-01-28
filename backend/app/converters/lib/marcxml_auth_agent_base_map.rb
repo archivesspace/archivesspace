@@ -530,7 +530,13 @@ module MarcXMLAuthAgentBaseMap
         "parent::record/controlfield[@tag='008']" => proc { |amh, node|
           tag8_content = node.inner_text
 
-          amh['event_date'] = '19' + tag8_content[0..5]
+          # The MARC Authority format was not developed until the 1970s, and the
+          #   first 2 digits of the authority 008 are specifically defined as a
+          #   computer-generated date representing the creation of the MARC
+          #   record. Therefore, “19” should never be the prefix if the decade
+          #   is represented by a number less than 7
+          century = tag8_content[0].to_i < 7 ? '20' : '19'
+          amh['event_date'] = century + tag8_content[0..5]
           amh['maintenance_event_type'] = 'created'
           amh['maintenance_agent_type'] = 'machine'
         },

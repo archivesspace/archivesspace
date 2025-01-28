@@ -199,7 +199,6 @@
       <param name="excluded-gem-groups" value="test development doc build" />
       <param name="included-gem-groups" value="" />
     </antcall>
-    <copy file="../.bundle/config" todir="../backend/.bundle" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../backend">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -237,6 +236,7 @@
     </antcall>
     <antcall target="bundler">
       <param name="gemfile" value="../_yard/Gemfile" />
+      <param name="excluded-gem-groups" value="${excluded-gem-groups}" />
     </antcall>
     <antcall target="bundler">
       <param name="gemfile" value="../public/Gemfile" />
@@ -244,9 +244,11 @@
     </antcall>
     <antcall target="bundler">
       <param name="gemfile" value="../indexer/Gemfile" />
+      <param name="excluded-gem-groups" value="${excluded-gem-groups}" />
     </antcall>
     <antcall target="bundler">
       <param name="gemfile" value="../oai/Gemfile" />
+      <param name="excluded-gem-groups" value="${excluded-gem-groups}" />
     </antcall>
   </target>
 
@@ -303,6 +305,7 @@
       <antcall target="public:war" />
     </parallel>
     <antcall target="build-zip" />
+    <delete dir=".local" failonerror="false" />
   </target>
 
   <target name="build-zip" depends="set-classpath" description="Bundle everything up into a zip file">
@@ -445,7 +448,12 @@
 
   <!-- BUNDLER -->
   <target name="bundler" depends="set-classpath" description="Run bundler against a gemfile">
-    <property name="build.home" location="."/>
+    <!-- Make sure .bundle tracks the $gemfile location -->
+    <!-- This will break if Gemfiles are not named "Gemfile" -->
+    <exec executable="sed" inputstring="${gemfile}" outputproperty="bundle-config-path">
+      <arg value="s/Gemfile/\.bundle/g"/>
+    </exec>
+    <property name="bundle-config" value="${basedir}/${bundle-config-path}" />
     <property name="excluded-gem-groups" value="" />
     <property name="included-gem-groups" value="" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -453,7 +461,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="HOME" value="${build.home}" />
+      <env key="BUNDLE_APP_CONFIG" value="${bundle-config}" />
       <arg line="gems/bin/bundle config unset without" />
     </java>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -461,7 +469,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="HOME" value="${build.home}" />
+      <env key="BUNDLE_APP_CONFIG" value="${bundle-config}" />
       <arg line="gems/bin/bundle config unset with" />
     </java>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -469,7 +477,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="HOME" value="${build.home}" />
+      <env key="BUNDLE_APP_CONFIG" value="${bundle-config}" />
       <arg line="gems/bin/bundle config without ${excluded-gem-groups}" />
     </java>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -477,8 +485,14 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="HOME" value="${build.home}" />
+      <env key="BUNDLE_APP_CONFIG" value="${bundle-config}" />
       <arg line="gems/bin/bundle config with ${included-gem-groups}" />
+    </java>
+    <echo message="Bundler running with config:" />
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="BUNDLE_APP_CONFIG" value="${bundle-config}" />
+      <arg line="gems/bin/bundle config list" />
     </java>
     <echo message="Fetching gems for ${gemfile}" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
@@ -486,7 +500,6 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="HOME" value="${build.home}" />
       <arg line="gems/bin/bundle install --jobs=8 --gemfile='${gemfile}'" />
     </java>
   </target>
@@ -743,6 +756,7 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="../build/${jruby_build_bin_path}/warble war" />
     </java>
+    <delete file="../indexer/.bundle/config" />
   </target>
 
   <!-- OAI -->
@@ -752,7 +766,6 @@
       <param name="excluded-gem-groups" value="test development doc build" />
       <param name="included-gem-groups" value="" />
     </antcall>
-    <copy file="../.bundle/config" todir="../oai/.bundle" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../oai">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -870,7 +883,6 @@
       <param name="excluded-gem-groups" value="test development doc build assets" />
       <param name="included-gem-groups" value="" />
     </antcall>
-    <copy file="../.bundle/config" todir="../frontend/.bundle" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../frontend">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
@@ -975,7 +987,6 @@
       <param name="excluded-gem-groups" value="test development doc build assets" />
       <param name="included-gem-groups" value="" />
     </antcall>
-    <copy file="../.bundle/config" todir="../public/.bundle" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../public">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="RAILS_ENV" value="production" />

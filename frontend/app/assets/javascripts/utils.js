@@ -349,10 +349,10 @@ $(function () {
           $this.off('mouseleave');
 
           $this.tooltip('show');
-          $('.tooltip-inner', $this.data('bs.tooltip').$tip).prepend(
+          $('.tooltip-inner', $this.data('bs.tooltip').tip).prepend(
             '<span class="tooltip-close glyphicon glyphicon-remove-circle icon-white"></span>'
           );
-          $('.tooltip-close', $this.data('bs.tooltip').$tip).click(function () {
+          $('.tooltip-close', $this.data('bs.tooltip').tip).click(function () {
             $this.trigger('click');
           });
           openedViaClick = true;
@@ -777,6 +777,7 @@ AS.delayedTypeAhead = function (source, delay) {
 AS.prefixed_cookie = function (cookie_name, value) {
   var args = Array.prototype.slice.call(arguments, 0);
   args[0] = COOKIE_PREFIX + '_' + args[0];
+  args.push({ path: '/;SameSite=Lax', secure: location.protocol === 'https:' });
   return $.cookie.apply(this, args);
 };
 

@@ -43,13 +43,16 @@ describe 'Date Calculator model' do
     })
 
     calculator = DateCalculator.new(resource)
-    expect(calculator.min_begin).to eq('1990-01-01')
-    expect(calculator.max_end).to eq('2000-05-02')
+    expect(calculator.min_begin).to be_nil
+    expect(calculator.max_end).to be_nil
   end
 
   it "can accept dates without leading zeros" do
-    (resource, _, _, _) = create_tree({
+    (resource, grandparent, _, _) = create_tree({
                                         :resource_properties => {
+                                          :dates => [build(:json_date, :label => 'existence', :begin => '1990-1-1', :end => '2000-5-2')]
+                                        },
+                                        :grandparent_properties => {
                                           :dates => [build(:json_date, :label => 'existence', :begin => '1990-1-1', :end => '2000-5-2')]
                                         }
                                       })
@@ -283,7 +286,114 @@ describe 'Date Calculator model' do
                                       })
 
     calculator = DateCalculator.new(resource)
-    expect(calculator.min_begin).to eq('1989-05-22')
+    expect(calculator.min_begin).to eq('1999')
     expect(calculator.max_end).to eq('2017-05-17')
+  end
+
+  it "excludes dates from the root resource when calculating date ranges" do
+    # Create a resource with its own date that should be excluded
+    resource = create_resource({
+      :dates => [build(:json_date, {
+        :label => 'creation',
+        :begin => '1900',
+        :end => '2000',
+        :date_type => 'inclusive'
+      })]
+    })
+
+    # Create child archival objects with different dates
+    child1 = create_archival_object({
+      :resource => { :ref => resource.uri },
+      :dates => [build(:json_date, {
+        :label => 'creation',
+        :begin => '1950',
+        :end => '1960',
+        :date_type => 'inclusive'
+      })]
+    })
+
+    child2 = create_archival_object({
+      :resource => { :ref => resource.uri },
+      :dates => [build(:json_date, {
+        :label => 'creation',
+        :begin => '1955',
+        :end => '1965',
+        :date_type => 'inclusive'
+      })]
+    })
+
+    calculator = DateCalculator.new(Resource.get_or_die(resource.id))
+    result = calculator.to_hash
+
+    # Should only include dates from children, not from resource
+    expect(result[:min_begin]).to eq('1950')
+    expect(result[:max_end]).to eq('1965')
+  end
+
+  it "excludes dates from the parent archival object when calculating date ranges" do
+    resource = create_resource
+
+    # Create parent AO with its own date that should be excluded
+    parent = create_archival_object({
+      :resource => { :ref => resource.uri },
+      :dates => [build(:json_date, {
+        :label => 'creation',
+        :begin => '1900',
+        :end => '2000',
+        :date_type => 'inclusive'
+      })]
+    })
+
+    # Create child AOs with different dates
+    child1 = create_archival_object({
+      :resource => { :ref => resource.uri },
+      :parent => { :ref => parent.uri },
+      :dates => [build(:json_date, {
+        :label => 'creation',
+        :begin => '1950',
+        :end => '1960',
+        :date_type => 'inclusive'
+      })]
+    })
+
+    child2 = create_archival_object({
+      :resource => { :ref => resource.uri },
+      :parent => { :ref => parent.uri },
+      :dates => [build(:json_date, {
+        :label => 'creation',
+        :begin => '1955',
+        :end => '1965',
+        :date_type => 'inclusive'
+      })]
+    })
+
+    calculator = DateCalculator.new(ArchivalObject.get_or_die(parent.id))
+    result = calculator.to_hash
+
+    # Should only include dates from children, not from parent
+    expect(result[:min_begin]).to eq('1950')
+    expect(result[:max_end]).to eq('1965')
+  end
+
+  it "handles empty child date ranges correctly" do
+    resource = create_resource
+
+    # Create parent with no children
+    parent = create_archival_object({
+      :resource => { :ref => resource.uri },
+      :dates => [build(:json_date, {
+        :label => 'creation',
+        :begin => '1900',
+        :end => '2000',
+        :date_type => 'inclusive'
+      })]
+    })
+
+    calculator = DateCalculator.new(ArchivalObject.get_or_die(parent.id))
+    result = calculator.to_hash
+
+    # Should have nil dates since there are no children
+    expect(result[:min_begin]).to be_nil
+    expect(result[:max_end]).to be_nil
   end
 end

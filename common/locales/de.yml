@@ -2266,6 +2266,7 @@ de:
     import_subjects: Verwandte Themen importieren und verknüpfen?
     import_type_subject_csv: Themen-CSV
     import_subject_csv: Themen-CSV
+    import_repository: Importierte Standorte mit aktuellem Repository verknüpfen?
   job:
     job_type: Aufgabentyp
     status_queued: In Warteschlange

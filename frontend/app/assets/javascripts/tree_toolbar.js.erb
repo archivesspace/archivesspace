@@ -24,7 +24,7 @@ var SHARED_TOOLBAR_ACTIONS = [
         },
         onClick: function(event, btn, node, tree, toolbarRenderer) {
             $(tree.large_tree.elt).toggleClass('drag-enabled');
-            $(event.target).toggleClass('btn-success');
+            $(event.target).toggleClass(['btn-success', 'active']);
 
             if ($(tree.large_tree.elt).is('.drag-enabled')) {
                 $(btn).text('<%= I18n.t('actions.reorder_active') %>');

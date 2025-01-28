@@ -24,6 +24,15 @@ describe 'Accessions', js: true do
   end
 
   context 'viewing a record' do
+    it 'does not highlight repository uri' do
+      visit('/')
+
+      click_on 'Repositories'
+      click_on 'Test Repo 1'
+      find('#whats-in-container form .btn.btn-default.accession').click
+
+      expect(page).to_not have_text Pathname.new(current_path).parent.to_s
+    end
 
     it 'displays language and script of description on an accession show page' do
       visit '/repositories/2/accessions/7'

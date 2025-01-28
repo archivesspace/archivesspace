@@ -43,7 +43,7 @@ en:
     cite_item_description: Cite Item Description
     digitized: View Digital Material
     request: Request
-    print: Print
+    print: Download PDF
     print-generating: Generating
     collection_overview: Collection Overview
     hierarch: Collection Organization
@@ -383,7 +383,9 @@ en:
       go: Go to file
       additional: Additional File Versions
       url_encoded_data: URL-encoded data
-      browse_number_digital_objects_in_collection: Browse %{num} digital objects in collection
+      browse_number_digital_objects_in_collection:
+        one: Browse %{num} digital object in collection
+        other: Browse %{num} digital objects in collection
 
   subject:
     _singular: Subject
@@ -592,7 +594,7 @@ en:
 
   pdf_error:
     title: There was an error generating this PDF.
-    description: "We're sorry, there was an error generating this PDF finding aid. Here is some diagnostic information to help determine what went wrong." 
+    description: "We're sorry, there was an error generating this PDF finding aid. Here is some diagnostic information to help determine what went wrong."
     headings:
       location: Error Location
       message: Error Message

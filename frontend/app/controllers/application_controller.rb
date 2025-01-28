@@ -311,7 +311,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_user_repository_cookie(repository_uri)
-    cookies[user_repository_cookie_key] = repository_uri
+    cookies[user_repository_cookie_key] = {
+      value: repository_uri,
+      httponly: true,
+      same_site: :lax
+    }
   end
 
   # sometimes we get exceptions that look like this: "translation missing: validation_errors.protected_read-only_list_#/dates_of_existence/0/date_type_structured._invalid_value__add_or_update_either_a_single_or_ranged_date_subrecord_to_set_.__must_be_one_of__single__range

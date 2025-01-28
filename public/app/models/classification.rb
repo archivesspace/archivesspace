@@ -35,6 +35,15 @@ class Classification < Record
     raw['has_classification_terms'] == true
   end
 
+  def parsed_description
+    return '' if description.blank?
+
+    # Convert URLs to clickable links
+    description.gsub(/(https?:\/\/[^\s<>]+)/) do |url|
+      "<a href='#{url}' target='_blank' rel='noopener noreferrer'>#{url}</a>"
+    end.html_safe
+  end
+
   private
 
   def parse_linked_records

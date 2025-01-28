@@ -16,21 +16,44 @@ describe 'Classifications', js: true do
     click_link 'My Special Classification'
   end
 
-  it 'does not highlight repository classification uri' do
+
+  it 'does not highlight repository uri' do
     visit('/')
 
     click_on 'Repositories'
     click_on 'Test Repo 1'
+    find('#whats-in-container form .btn.btn-default.classification').click
 
-    elements = all('#whats-in-container form')
-    link = elements.last[:action]
+    expect(page).to_not have_text Pathname.new(current_path).parent.to_s
+  end
 
-    visit link
+  describe 'classification with links' do
+    before do
+      @classification = create(:classification, {
+        :title => "Research Guides",
+        :identifier => "RG-#{rand(1000)}",
+        :description => "Check our LibGuide at https://example.edu/guide1 and https://example.edu/guide2",
+        :publish => true
+      })
 
-    link_parts = link.split('/')
-    link_parts.pop
-    repository_uri = '/' + [link_parts.pop, link_parts.pop].reverse.join('/')
+      run_indexers
+    end
 
-    expect(page).to_not have_text repository_uri
+    it 'displays clickable links in description field' do
+      visit @classification.uri
+
+      within '.description' do
+        expect(page).to have_link('https://example.edu/guide1',
+          href: 'https://example.edu/guide1')
+        expect(page).to have_link('https://example.edu/guide2',
+          href: 'https://example.edu/guide2')
+
+        # Check link attributes
+        all('a').each do |link|
+          expect(link[:target]).to eq('_blank')
+          expect(link[:rel]).to include('noopener')
+        end
+      end
+    end
   end
 end

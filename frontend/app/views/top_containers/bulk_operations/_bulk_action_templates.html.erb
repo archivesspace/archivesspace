@@ -282,7 +282,7 @@
 
       <h4><%= t("top_container._frontend.bulk_operations.batch_merge_confirm_merge_candidates") %></h4>
       <ul>
-        {for merge_candidate in merge_candidatesNoTarget}
+        {for merge_candidate in mergeCandidatesNoTarget}
           <li>${merge_candidate}</li>
         {/for}
       </ul>
@@ -294,22 +294,23 @@
       </p>
       <h4><%= t("top_container._frontend.bulk_operations.batch_merge_confirm_merge_destination") %></h4>
       <ul>
-        <li>${merge_destination.display_string}</li>
+        <li>${mergeDestination.display_string}</li>
       </ul>
 
-      <div class="selected-record-list" id="mergeList">
 
-        {for merge_candidate in merge_candidates}
+      <div class="selected-record-list" id="mergeList">
+        {for merge_candidate in mergeCandidates}
           <input type="hidden" name="merge_candidates[]" value="${merge_candidate.uri}">
         {/for}
 
-        <input type="hidden" name="merge_destination[]" value="${merge_destination.uri}">
+        <input type="hidden" name="merge_destination[]" value="${mergeDestination.uri}">
+
 
       </div>
     </div>
 
     <div class="modal-footer">
-        <button type="submit" class="btn btn-danger merge-button" data-js="confirmMerge"><%= t("top_container._frontend.bulk_operations.merge_n_records", :n => "${merge_candidates.length}") %></button>
+        <button type="submit" class="btn btn-danger merge-button" data-js="confirmMerge"><%= t("top_container._frontend.bulk_operations.merge_n_records", :n => "${mergeCandidates.length}") %></button>
         <button class="btn btn-cancel" data-dismiss="modal"><%= t("actions.cancel") %></button>
     </div>
 

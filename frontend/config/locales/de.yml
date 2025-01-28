@@ -79,8 +79,8 @@ de:
     unset_default: Vorgabe aufheben
     transfer: Übertragen
     transfer_confirm_title: Diese Aufzeichnung übertragen?
-    transfer_confirm_message: Die Aufzeichnung '%{merge_destination}' wird zum gewählten
-      Aufbewahrungsort übertragen
+    transfer_confirm_message: Die Aufzeichnung '%{target}' wird zum gewählten Aufbewahrungsort
+      übertragen
     transfer_failed: Übertragung fehlgeschlagen
     transfer_failed_digital_objects_linked_to_records: Dieses digitale Objekt ist
       mit anderen Aufzeichnungen in diesem Aufbewahrungsort verknüpft. Um mit der
@@ -936,7 +936,7 @@ de:
         spawned: Dieser Eingang wurde vom Eingang <strong>%{accession_display_string}</strong>
           abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
           auf Speichern klicken, damit die Aufzeichnung im System erstellt wird.
-        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort zum Übertragen
+        transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
       action:
         create: Eingang erstellen
         save: Eingang speichern
@@ -1043,6 +1043,8 @@ de:
         spawn_menu_before: Abgeleitete Komponente davor einfügen
         spawn_menu_child: Abgeleitete Komponente als Kind einfügen
         spawn_menu_after: Abgeleitete Komponente danach einfügen
+        transfer_description: Wählen Sie eine Aufzeichnung aus, in die dieses Archiv-Objekt
+          übertragen werden soll
       action:
         add_sibling: Geschwister hinzufügen
         add_duplicate: Erstellen Sie ein doppeltes Archivobjekt
@@ -1163,7 +1165,7 @@ de:
           werden
         delete_conflict: 'Digitales Objekt konnte nicht gelöscht werden: <pre>%{error}</pre>'
         transfer_description: Übertrage diese Aufzeichnung nach...
-        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort für die Übertragung
+        transfer_target: Wählen Sie einen Aufbewahrungsort für die Übertragung
         merged: Digitale Objekte zusammengeführt
       action:
         create: Digitales Objekt erstellen
@@ -1342,6 +1344,7 @@ de:
         make_authorized_tooltip: Verwenden Sie diese Option, um diese Namensform zum
           autoritativen Namen zu machen.
 
+        make_primary: Als Primär festlegen
   note:
     _frontend:
       preview:
@@ -1403,8 +1406,7 @@ de:
         create_first_repository: Um Ihren ersten Aufbewahrungsort zu erstellen, klicken
           Sie auf das <strong>System</strong>-Menü oben und wählen dann <strong>Aufbewahrungsorte
           verwalten</strong>.
-        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort zum Übertragen
-          aus
+        transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen aus
         continue_with_transfer: Mit Übertragung fortfahren?
         transfer_failed: Übertragung konnte wegen folgender Fehler nicht abgeschlossen
           werden
@@ -1440,7 +1442,7 @@ de:
         unpublished: Die Veröffentlichung der Ressource <strong>%{resource_title}</strong>,
           ihre Kinder, Teilaufzeichnungen und Komponenten wurde aufgehoben
         created: Ressource <strong>%{resource_title}</strong> erstellt
-        transfer_merge_destination: Wählen Sie einen Aufbewahrungsort zum Übertragen
+        transfer_target: Wählen Sie einen Aufbewahrungsort zum Übertragen
         suppressed_info: Ressource ist unterdrückt und kann nicht bearbeitet werden
         spawned: Eine neue Ressource wurde vom Eingang <strong>%{accession_display_string}</strong>
           abgeleitet. Diese Aufzeichnung wurde noch nicht gespeichert. Sie müssen
@@ -1468,6 +1470,7 @@ de:
     linker:
       browse: Ressourcen durchsuchen
       link_title: Durchsuchen
+      link_to: Link zur Ressource
   preference:
     _frontend:
       messages:
@@ -2337,15 +2340,11 @@ de:
     column_types_to_include_in_spreadsheet: In die Tabelle aufzunehmende Spaltentypen
     note_types: Hinweistypen
     minimum_subrecords: Mindestanzahl an Unterdatensätzen
-    minimum_subrecords_description: Die Mindestanzahl der einzuschließenden Unterdatensätze
-      jedes Typs
+    minimum_subrecords_description: Die Mindestanzahl bereits vorhandener Unterdatensätze jedes Typs, die einbezogen werden sollen.
     extra_subrecords: Zusätzliche Unterdatensätze
-    extra_subrecords_description: Die Anzahl der Unterdatensätze, die zusätzlich zur
-      größten in einem der ausgewählten Datensätze gefundenen Zahl einbezogen werden
-      sollen.
+    extra_subrecords_description: Die Anzahl der neuen Unterdatensätze, die zusätzlich zur größten Anzahl vorhandener Unterdatensätze, die bereits in einem der ausgewählten Datensätze gefunden wurden, einbezogen werden sollen.
     minimum_notes: Mindestnotizen
-    minimum_notes_description: Die Mindestanzahl der aufzunehmenden Notizunterdatensätze
-      jedes Typs
+    minimum_notes_description: Die Mindestanzahl bereits vorhandener Notizunterdatensätze jedes Typs, die einbezogen werden sollen.
     download_spreadsheet: Tabelle herunterladen
     download_spreadsheet_modal_message: Das Erstellen dieser Tabelle kann einige Augenblicke
       dauern.

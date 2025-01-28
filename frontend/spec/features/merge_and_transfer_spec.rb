@@ -4,8 +4,6 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Merge and Transfer', js: true do
-  let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
-
   before(:all) do
     now = Time.now.to_i
     @repository_source = create(:repo, repo_code: "transfer_test_source_#{now}", publish: true)
@@ -13,7 +11,7 @@ describe 'Merge and Transfer', js: true do
   end
 
   before(:each) do
-    login_user(admin)
+    login_admin
   end
 
   it 'can transfer a resource to another repository and open it for editing' do

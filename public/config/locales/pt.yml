@@ -11,7 +11,7 @@ pt:
     close: Fechar
     search_in: Pesquisar %{tipo}
     refine_search: Refinar Pesquisa
-    print: Imprimir
+    print: Baixar PDF
     search_header: Pesquisar nos Arquivos
     search: Procurar
     search_within: Pesquisar dentro de resultados
@@ -162,3 +162,6 @@ pt:
       link: Link para objeto digital
       badge_label: Digital %{level}
       go: Ir para o arquivo
+      browse_number_digital_objects_in_collection:
+        one: Pesquisar %{num} objeto digital na coleção
+        other: Pesquisar %{num} objetos digitais na coleção

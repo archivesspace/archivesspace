@@ -108,7 +108,7 @@ class JSONModelType
     uri = self.schema['uri']
 
     if not id.nil?
-      uri += "/#{CGI.escapeURIComponent(id.to_s)}"
+      uri += "/#{self.escape_uri_component(id.to_s)}"
     end
 
     self.substitute_parameters(uri, opts)
@@ -402,7 +402,7 @@ class JSONModelType
     matched = []
     opts.each do |k, v|
       old = uri
-      uri = uri.gsub(":#{k}", CGI.escapeURIComponent(v.to_s))
+      uri = uri.gsub(":#{k}", self.escape_uri_component(v.to_s))
 
       if old != uri
 
@@ -431,6 +431,10 @@ class JSONModelType
 
 
   private
+
+  def self.escape_uri_component(string)
+    CGI.escape(string).gsub("+", "%20")
+  end
 
   # Define accessors for all variable names listed in 'attributes'
   def self.define_accessors(attributes)

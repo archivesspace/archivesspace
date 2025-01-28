@@ -6,12 +6,15 @@ class Doc < Thor
   desc "api", "generate docs/slate/source/index.html.md"
   def api
     begin
+      Dir.chdir("backend")
       require_relative '../../docs/api_doc.rb'
+      Dir.chdir("..")
     rescue Exception => e
       puts e.inspect
       puts e.backtrace
       raise e
     end
+
     ApiDoc.generate_markdown_for_slate
   end
 
@@ -40,15 +43,22 @@ class Doc < Thor
 
     git = Git.open('./')
     log = ReleaseNotes.parse_log(git.log.max_count(:all).between(previous_tag, current_tag))
+
+    puts "Found #{log.count} commit(s) between #{previous_tag} and #{current_tag}"
+
     log.reject! { |log_entry| log_entry[:desc].match(/^Merge pull request/) }
     pulls_page = 1
-    while((log.select { |log_entry| log_entry[:pr_number].nil? }.size > 0) && (pulls_page < options[:max_pr_pages] + 1)) do
+
+    while ((log.select { |log_entry| log_entry[:pr_number].nil? }.size > 0) && (pulls_page < options[:max_pr_pages] + 1)) do
       pulls = []
       puts "Fetch pulls page #{pulls_page}"
       pulls = github.pulls.all(state: "closed", page: pulls_page)
+
       break if pulls.count == 0
+
       pulls.each do |pull|
         pull[:commits] = github.pulls.commits(number: pull[:number])
+        puts "Found #{pull[:commits].count} commit(s) in PR: #{pull[:number]}"
       end
 
       log.each do |log_entry|

@@ -5,7 +5,7 @@
   end
 %>
 
-<div id="archivesSpaceSidebar" class="sidebar d-flex position-sticky top-1rem">
+<div id="archivesSpaceSidebar" class="sidebar d-flex position-sticky top-1rem flex-column">
   <ul role='tablist' class="nav as-nav-list d-flex flex-column">
     <% if @exceptions %>
       <li class="<% if @exceptions.has_key?(:errors)%>alert-danger<% end %>">

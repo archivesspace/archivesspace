@@ -171,3 +171,6 @@ es:
       agent_genders: Ayuda sobre géneros
       agent_identifiers: Ayuda sobre los ID de entidad
       resource_load_via_spreadsheet: Ayuda sobre la carga mediante hoja de cálculo
+      accession_metadata_rights_declarations: Ayuda sobre Declaraciones de Derechos de Metadatos
+      resource_metadata_rights_declarations: Ayuda sobre las declaraciones de derechos de metadatos
+      digital_object_metadata_rights_declarations: Ayuda sobre las declaraciones de derechos de metadatos

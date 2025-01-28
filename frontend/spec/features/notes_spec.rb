@@ -11,22 +11,26 @@ describe 'Notes', js: true do
     set_repo @repository
 
     @archivist_user = create_user(@repository => ['repository-archivists'])
-
-    run_index_round
   end
 
   before(:each) do
     login_user(@archivist_user)
+
+    ensure_repository_access
+
     select_repository(@repository)
   end
 
-  xit 'can attach notes to resources and confirms before removing a note entry' do
+  it 'can attach notes to resources and confirms before removing a note entry' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_text resource.title
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -59,13 +63,15 @@ describe 'Notes', js: true do
     expect(element.text).to eq "Resource Resource Title #{now} updated"
   end
 
-  xit 'can edit an existing resource note to add subparts after saving' do
+  it 'can edit an existing resource note to add subparts after saving' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_text resource.title
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -80,6 +86,10 @@ describe 'Notes', js: true do
     expect(element.text).to eq "Resource Resource Title #{now} updated"
 
     visit "resources/#{resource.id}/edit"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     notes = all('#resource_notes_ .subrecord-form-fields')
     expect(notes.length).to eq 1
@@ -118,13 +128,16 @@ describe 'Notes', js: true do
     expect(element.text).to eq "Resource Resource Title #{now} updated"
   end
 
-  xit 'can create an ordered list subnote and list items maintain proper order' do
+  it 'can create an ordered list subnote and list items maintain proper order' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_text resource.title
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -183,11 +196,7 @@ describe 'Notes', js: true do
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq "Resource Resource Title #{now} updated"
 
-    while true do
-      sleep 1
-
-      break if page.evaluate_script('jQuery.active') == 0
-    end
+    wait_for_ajax
 
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
 
@@ -200,13 +209,15 @@ describe 'Notes', js: true do
 
   end
 
-  xit 'can add a top-level bibliography too' do
+  it 'can add a top-level bibliography too' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_text resource.title
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -240,13 +251,16 @@ describe 'Notes', js: true do
     expect(find('input#resource_notes__0__items__1_').value).to eq "Top-level bibliography item 2 #{now}"
   end
 
-  xit 'can wrap note content text with EAD mark up' do
+  it 'can wrap note content text with EAD mark up' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_text resource.title
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -292,13 +306,16 @@ describe 'Notes', js: true do
     expect(element.text).to eq "Resource Resource Title #{now} updated"
   end
 
-  xit 'can add a deaccession record' do
+  it 'can add a deaccession record' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_text resource.title
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     click_on 'Add Deaccession'
 
@@ -318,13 +335,16 @@ describe 'Notes', js: true do
     expect(elements.length).to eq 1
   end
 
-  xit 'types for rights statements are correct' do
+  it 'types for rights statements are correct' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_text resource.title
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     click_on 'Add Rights Statement'
 
@@ -392,7 +412,7 @@ describe 'Notes', js: true do
     expect(find('#resource_rights_statements__0__acts__0__notes__0__type_').value).to eq 'additional_information'
   end
 
-  xit 'can attach notes to archival objects' do
+  it 'can attach notes to archival objects' do
     now = Time.now.to_i
 
     click_on 'Create'
@@ -453,7 +473,7 @@ describe 'Notes', js: true do
     expect(elements.length).to eq 3
   end
 
-  xit 'can attach special notes to digital objects' do
+  it 'can attach special notes to digital objects' do
     now = Time.now.to_i
 
     click_on 'Create'
@@ -461,11 +481,13 @@ describe 'Notes', js: true do
     fill_in 'digital_object_title_', with: "Resource Title #{now}"
     fill_in 'digital_object_digital_object_id_', with: "Identifier #{now}"
 
-    within '#digital_object_notes' do
-      click_on 'Add Note'
+    using_wait_time(15) do
+      within '#digital_object_notes_' do
+        click_on 'Add Note'
+      end
     end
 
-    element = find('#digital_object_notes select.top-level-note-type')
+    element = find('#digital_object_notes_ select.top-level-note-type')
     element.select 'Summary'
     fill_in 'digital_object_notes__0__label_', with: "Summary Label #{now}"
     page.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').setValue('Summary Content #{now}')")
@@ -480,19 +502,23 @@ describe 'Notes', js: true do
 
     expect(find('#digital_object_title_').value).to eq "Resource Title #{now}"
 
-    find('#digital_object_notes .collapse-subrecord-toggle').click
+    find('#digital_object_notes_ .collapse-subrecord-toggle').click
 
     element = find('#digital_object_notes__0__content__0_')
     element.text
     expect(element.text).to include "Content\nSummary Content #{now}"
   end
 
-  xit 'shows a validation error when note content is empty' do
+  it 'shows a validation error when note content is empty' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    end
 
     find('#resource_notes_ > div .add-note').click
 
