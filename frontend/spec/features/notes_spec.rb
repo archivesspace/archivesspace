@@ -245,6 +245,9 @@ describe 'Notes', js: true do
     expect(element.text).to eq "Resource Resource Title #{now} updated"
 
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
+
+    wait_for_ajax
+
     expect(find('#resource_notes__0__label_').value).to eq "Top-level Bibliography Label #{now}"
     expect(find('#resource_notes__0__content__0_ .CodeMirror').text).to include "Top-level Bibliography Content #{now}"
     expect(find('input#resource_notes__0__items__0_').value).to eq "Top-level bibliography item 1 #{now}"
