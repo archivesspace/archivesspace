@@ -4,8 +4,6 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Resources Form', js: true do
-  let(:admin_user) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
-
   before(:all) do
     @repository = create(:repo, repo_code: "resources_test_#{Time.now.to_i}")
     create_subjects
@@ -14,7 +12,7 @@ describe 'Resources Form', js: true do
   end
 
   before(:each) do
-    login_user(admin_user)
+    login_admin
     select_repository(@repository)
 
     @resource = create(:resource)
@@ -29,7 +27,7 @@ describe 'Resources Form', js: true do
       click_on 'Add Subject'
     end
 
-    xit 'displays the correct icon and selects the option for cultural_context term_type, and checks the edit and show pages include it after save' do
+    it 'displays the correct icon and selects the option for cultural_context term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: 'cultural_context'
@@ -55,7 +53,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_cultural_context')
     end
 
-    xit 'displays the correct icon and selects the option for function term_type, and checks the edit and show pages include it after save' do
+    it 'displays the correct icon and selects the option for function term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  function'
@@ -82,7 +80,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_function')
     end
 
-    xit 'displays the correct icon and selects the option for genre_form term_type, and checks the edit and show pages include it after save' do
+    it 'displays the correct icon and selects the option for genre_form term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  genre_form'
@@ -109,7 +107,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_genre_form')
     end
 
-    xit 'displays the correct icon and selects the option for technique term_type, and checks the edit and show pages include it after save' do
+    it 'displays the correct icon and selects the option for technique term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  technique'
@@ -136,7 +134,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_technique')
     end
 
-    xit 'displays the correct icon and selects the option for occupation term_type, and checks the edit and show pages include it after save' do
+    it 'displays the correct icon and selects the option for occupation term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  occupation'
@@ -163,7 +161,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_occupation')
     end
 
-    xit 'displays the correct icon and selects the option for style_period term_type, and checks the edit and show pages include it after save' do
+    it 'displays the correct icon and selects the option for style_period term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  style_period'
@@ -190,7 +188,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_style_period')
     end
 
-    xit 'displays the correct icon and selects the option for temporal term_type, and checks the edit and show pages include it after save' do
+    it 'displays the correct icon and selects the option for temporal term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  temporal'
@@ -218,7 +216,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_temporal')
     end
 
-    xit 'displays the correct icon and selects the option for topical term_type, and checks the edit and show pages include it after save' do
+    it 'displays the correct icon and selects the option for topical term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  topical'
@@ -245,7 +243,7 @@ describe 'Resources Form', js: true do
       find('.icon-token.subject_type_topical')
     end
 
-    xit 'displays the correct icon and selects the option for uniform_title term_type, and checks the edit and show pages include it after save' do
+    it 'displays the correct icon and selects the option for uniform_title term_type, and checks the edit and show pages include it after save' do
       # AJAX drodown
       element = find('#resource_subjects_ input')
       element.fill_in with: '  uniform_title'
