@@ -29,6 +29,10 @@ describe 'Digital Objects', js: true do
     # Click on save
     find('button', text: 'Save Digital Object', match: :first).click
 
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "New Digital Object Digital Object")
+    end
+
     element = find('.alert.alert-danger.with-hide-alert')
     expect(element.text).to eq "Title - Property is required but was missing\nIdentifier - Property is required but was missing"
   end
@@ -63,9 +67,8 @@ describe 'Digital Objects', js: true do
     # Click on save
     element = find('button', text: 'Save Digital Object', match: :first).click
 
-    while true do
-      sleep 1
-      break if page.evaluate_script('jQuery.active') == 0
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "Digital Object Title #{now} Digital Object")
     end
 
     element = find('.alert.alert-success.with-hide-alert')
@@ -103,6 +106,11 @@ describe 'Digital Objects', js: true do
 
     # Click on save
     element = find('button', text: 'Save Digital Object', match: :first).click
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "Digital Object Title #{now} Digital Object")
+    end
+
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq "Digital Object Digital Object Title #{now} Created"
 
@@ -120,12 +128,13 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/edit"
 
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    end
+
     click_on 'Add Child'
 
-    while true do
-      sleep 1
-      break if page.evaluate_script('jQuery.active') == 0
-    end
+    wait_for_ajax
 
     element = find('h2')
     expect(element.text).to eq "Digital Object Component Digital Object Component"
@@ -145,41 +154,44 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/edit"
 
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    end
+
     click_on 'Add Child'
 
     fill_in 'digital_object_component_component_id_', with: "Child 1 #{now}"
     fill_in 'digital_object_component_title_', with: "Child 1 #{now}"
 
     find('#createPlusOne').click
-    while true do
-      sleep 1
-      break if page.evaluate_script('jQuery.active') == 0
+    wait_for_ajax
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "Digital Object Component Digital Object Component")
+      expect(page).to have_content "Digital Object Component Child 1 #{now} created on Digital Object Digital Object Title #{now}"
     end
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Component Child 1 #{now} created on Digital Object Digital Object Title #{now}"
 
     fill_in 'digital_object_component_component_id_', with: "Child 2 #{now}"
     fill_in 'digital_object_component_title_', with: "Child 2 #{now}"
 
     find('#createPlusOne').click
-    while true do
-      sleep 1
-      break if page.evaluate_script('jQuery.active') == 0
+    wait_for_ajax
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "Digital Object Component Digital Object Component")
+      expect(page).to have_content "Digital Object Component Child 2 #{now} created on Digital Object Digital Object Title #{now}"
     end
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Component Child 2 #{now} created on Digital Object Digital Object Title #{now}"
 
     fill_in 'digital_object_component_component_id_', with: "Child 3 #{now}"
     fill_in 'digital_object_component_title_', with: "Child 3 #{now}"
 
     # Click on save
     find('button', text: 'Save Digital Object', match: :first).click
-    while true do
-      sleep 1
-      break if page.evaluate_script('jQuery.active') == 0
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "Digital Object Component Digital Object Component")
+      expect(page).to have_content "Digital Object Component Child 3 #{now} created on Digital Object Digital Object Title #{now}"
     end
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Component Child 3 #{now} created on Digital Object Digital Object Title #{now}"
 
     elements = all('.largetree-node.indent-level-1')
     expect(elements.length).to eq 3
@@ -195,23 +207,25 @@ describe 'Digital Objects', js: true do
     run_index_round
 
     visit "digital_objects/#{digital_object.id}/edit"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    end
+
     click_on "Child #{now}"
 
     click_on 'Add Child'
-    while true do
-      sleep 1
-      break if page.evaluate_script('jQuery.active') == 0
-    end
+
+    wait_for_ajax
+
     fill_in 'digital_object_component_title_', with: "Sub-Child #{now}"
     fill_in 'digital_object_component_component_id_', with: "Sub-Child #{now}"
 
     # Click on save
     find('button', text: 'Save Digital Object', match: :first).click
 
-    while true do
-      sleep 1
-      break if page.evaluate_script('jQuery.active') == 0
-    end
+    wait_for_ajax
+
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq "Digital Object Component Sub-Child #{now} created as child of Child #{now} on Digital Object Digital Object Title #{now}"
 
@@ -234,6 +248,10 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/edit"
 
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    end
+
     root_node = find("#digital_object_#{digital_object.id}")
     expect(root_node).to have_text "Digital Object Title #{now}"
 
@@ -251,7 +269,13 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/edit"
 
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    end
+
     click_on 'Add Classification'
+
+    wait_for_ajax
 
     fill_in 'token-input-digital_object_classifications__0__ref_', with: classification.title
     dropdown_items = all('li.token-input-dropdown-item2')
@@ -266,8 +290,7 @@ describe 'Digital Objects', js: true do
     expect(element).to have_text classification.title
   end
 
-  xit 'provides alt text for Digital Object file version images based on caption or title' do
-    # TODO: not sure yet on this one
+  it 'provides alt text for Digital Object file version images based on caption or title' do
     now = Time.now.to_i
     digital_object = create(
       :digital_object,
@@ -290,6 +313,10 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}"
 
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    end
+
     expand_elements = all('#digital_object_file_versions__accordion .glyphicon')
     expect(expand_elements.length).to eq 2
 
@@ -300,11 +327,12 @@ describe 'Digital Objects', js: true do
     element = find('#digital_object_file_versions__file_version_0')
     expect(element).to have_text "File Format Caption 1 #{now}"
 
-    sleep 3
-
     expand_elements[1].click
-    element = find('#digital_object_file_versions__file_version_1')
-    expect(element).to have_text "File Format Caption 2 #{now}"
+
+    using_wait_time(15) do
+      element = find('#digital_object_file_versions__file_version_1')
+      expect(element).to have_text "File Format Caption 2 #{now}"
+    end
   end
 
   it 'provides alt text for Digital Object Component file version images based on caption or title' do
@@ -348,17 +376,23 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/#tree::digital_object_component_#{digital_object_component.id}"
 
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{digital_object_component.title} Digital Object Component")
+    end
+
     expand_elements = all('#digital_object_component_file_versions_ .glyphicon')
     expect(expand_elements.length).to eq 2
 
     expand_elements[0].click
-    element = find('#digital_object_component_file_versions__file_version_0')
-    expect(element).to have_text "File Format Caption 1 #{now}"
-
-    sleep 3
+    using_wait_time(15) do
+      element = find('#digital_object_component_file_versions__file_version_0')
+      expect(element).to have_text "File Format Caption 1 #{now}"
+    end
 
     expand_elements[1].click
-    element = find('#digital_object_component_file_versions__file_version_1')
-    expect(element).to have_text "File Format Caption 2 #{now}"
+    using_wait_time(15) do
+      element = find('#digital_object_component_file_versions__file_version_1')
+      expect(element).to have_text "File Format Caption 2 #{now}"
+    end
   end
 end
