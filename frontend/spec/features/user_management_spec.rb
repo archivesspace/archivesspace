@@ -4,13 +4,11 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'User management', js: true do
-  let(:admin_user) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
-
   before (:each) do
-    login_user(admin_user)
+    login_admin
   end
 
-  xit 'can create a user account' do
+  it 'can create a user account' do
     now = Time.now.to_i
 
     # Create admin user
@@ -52,7 +50,7 @@ describe 'User management', js: true do
     expect(find('#user_additional_contact_').value).to eq "Additional Contact Information #{now}"
   end
 
-  xit "doesn't delete user information after the new user logins" do
+  it "doesn't delete user information after the new user logins" do
     now = Time.now.to_i
 
     # Create admin user
@@ -78,7 +76,7 @@ describe 'User management', js: true do
     click_on 'Logout'
     expect(page).to have_text 'Please Sign In'
 
-    # Login with the previously created admin user
+    # Login with the previously created user
     within "form.login" do
       fill_in "username", with: "username_#{now}"
       fill_in "password", with: 'password'
@@ -95,7 +93,7 @@ describe 'User management', js: true do
     click_on 'Logout'
     expect(page).to have_text 'Please Sign In'
 
-    login_user(admin_user)
+    login_admin
 
     click_on 'System'
     click_on 'Manage Users'
@@ -113,59 +111,101 @@ describe 'User management', js: true do
     expect(element.value).to eq '1'
   end
 
-  xit "doesn't allow another user to edit the global admin or a system account" do
-    # TODO this example was ignored to get the Softserv updates merged into master;
-    # the cause for this failing remotely but not locally is as yet unknown
-    now = Time.now.to_i
-
-    # Create admin user
-    click_on 'System'
-    click_on 'Manage Users'
-    click_on 'Create User'
-    fill_in 'Username', with: "username_#{now}"
-    fill_in 'Full name', with: "Firstname Lastname #{now}"
-    fill_in 'Password', with: "password"
-    fill_in 'Confirm password', with: "password"
-    element = find('#user_is_admin_').click
-
-    # Click on save
-    element = find('button', text: 'Create Account', match: :first)
-    element.click
-    expect(page).to have_text "User Created: username_#{now}"
-
-    run_index_round
-
-    # Logout admin user
-    element = find('#user-menu-dropdown')
-    element.click
-    click_on 'Logout'
-    expect(page).to have_text 'Please Sign In'
-
-    # Login with the previously created admin user
-    within "form.login" do
-      fill_in "username", with: "username_#{now}"
-      fill_in "password", with: 'password'
-
-      click_button "Sign In"
+  context 'when allow_other_admins_access_to_system_info is enabled' do
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:allow_other_admins_access_to_system_info) { true }
     end
 
-    element = find('span.user-label')
-    expect(element).to have_text "username_#{now}"
+    it "does allow another user to edit the global admin or a system account" do
+      now = Time.now.to_i
 
-    visit '/users'
-    expect(page).to have_text 'Users'
+      # Create admin user
+      click_on 'System'
+      click_on 'Manage Users'
+      click_on 'Create User'
+      fill_in 'Username', with: "username_#{now}"
+      fill_in 'Full name', with: "Firstname Lastname #{now}"
+      fill_in 'Password', with: "password"
+      fill_in 'Confirm password', with: "password"
+      element = find('#user_is_admin_').click
 
-    # Find admin entry on users table
-    element = all('table tbody tr td')
-    expect(element[0]).to have_text 'admin'
-    within element[7] do
-      click_on 'Edit'
+      # Click on save
+      element = find('button', text: 'Create Account', match: :first)
+      element.click
+      expect(page).to have_text "User Created: username_#{now}"
+
+      run_index_round
+
+      # Logout admin user and login as the newly created user
+      login_user(OpenStruct.new( username: "username_#{now}", password: 'password'))
+
+      element = find('span.user-label')
+      expect(element).to have_text "username_#{now}"
+
+      visit '/users'
+      expect(page).to have_text 'Users'
+
+      # Find admin entry on users table
+      element = all('table tbody tr td')
+      expect(element[0]).to have_text 'admin'
+      within element[7] do
+        click_on 'Edit'
+      end
+
+      expect(page).not_to have_text 'Access denied. Login as the admin user to perform this action.'
+      expect(page).to have_text 'Users'
     end
 
-    expect(page).to have_text 'Access denied. Login as the admin user to perform this action.'
   end
 
-  xit "doesn't allow you to edit the user short names" do
+  context 'when allow_other_admins_access_to_system_info is disabled' do
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:allow_other_admins_access_to_system_info) { false }
+    end
+
+    it "doesn't allow another user to edit the global admin or a system account" do
+      now = Time.now.to_i
+
+      # Create admin user
+      click_on 'System'
+      click_on 'Manage Users'
+      click_on 'Create User'
+      fill_in 'Username', with: "username_#{now}"
+      fill_in 'Full name', with: "Firstname Lastname #{now}"
+      fill_in 'Password', with: "password"
+      fill_in 'Confirm password', with: "password"
+      element = find('#user_is_admin_').click
+
+      # Click on save
+      element = find('button', text: 'Create Account', match: :first)
+      element.click
+      expect(page).to have_text "User Created: username_#{now}"
+
+      run_index_round
+
+      # Logout admin user and login as the newly created user
+      login_user(OpenStruct.new( username: "username_#{now}", password: 'password'))
+
+      element = find('span.user-label')
+      expect(element).to have_text "username_#{now}"
+
+      visit '/users'
+      expect(page).to have_text 'Users'
+
+      # Find admin entry on users table
+      element = all('table tbody tr td')
+      expect(element[0]).to have_text 'admin'
+      within element[7] do
+        click_on 'Edit'
+      end
+
+      expect(page).to have_text 'Access denied. Login as the admin user to perform this action.'
+    end
+  end
+
+  it "doesn't allow you to edit the user short names" do
     visit '/users'
     expect(page).to have_text 'Users'
 
@@ -181,7 +221,7 @@ describe 'User management', js: true do
     expect(page).to have_field('user_username_', readonly: true)
   end
 
-  xit "allows user to edit their own account" do
+  it "allows user to edit their own account" do
     now = Time.now.to_i
 
     # Create admin user
