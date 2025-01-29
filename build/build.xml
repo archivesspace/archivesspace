@@ -320,7 +320,7 @@
     <property name="docker-tag" value="latest"/>
 
     <copy file="../docker-compose-prod.yml" tofile="docker_prod/archivesspace/docker-compose.yml"/>
-    <replace file="docker_prod/archivesspace/docker-compose.yml" token="latest" value="${docker-tag}"/>
+    <replace file="docker_prod/archivesspace/docker-compose.yml" token="@docker-tag@" value="${docker-tag}"/>
     <copy file="../.env.docker.prod" tofile="docker_prod/archivesspace/.env" />
     <copy file="../proxy/default.conf.docker.release" tofile="docker_prod/archivesspace/proxy-config/default.conf"/>
 
