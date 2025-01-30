@@ -3,25 +3,25 @@ module MarcXMLBibBaseMap
 
   AUTH_SUBJECT_SOURCE = {
     'a'=>"lcsh",
-    'b'=>"LC subject headings for children's literature",
-    'c'=>"Medical Subject Headings",
-    'd'=>"National Agricultural Library subject authority file",
-    'k'=>"Canadian Subject Headings",
-    'n'=>"Not applicable",
-    'r'=>"Art and Architecture Thesaurus",
-    's'=>"Sears List of Subject Headings",
-    'v'=>"R\u00E9pertoire de vedettes-matic\u00E8re",
-    'z'=>"Other"
+    'b'=>"lcshac",
+    'c'=>"mesh",
+    'd'=>"nal",
+    'k'=>"cash",
+    'n'=>"not_applicable",
+    'r'=>"aat",
+    's'=>"sears",
+    'v'=>"rvm",
+    'z'=>"other"
   }
 
   BIB_SUBJECT_SOURCE = {
     '0'=>"lcsh",
-    '1'=>"LC subject headings for children's literature",
-    '2'=>"Medical Subject Headings",
-    '3'=>"National Agricultural Library subject authority file",
-    '4'=>"Source not specified",
-    '5'=>"Canadian Subject Headings",
-    '6'=>"R\u00E9pertoire de vedettes-matic\u00E8re"
+    '1'=>"lcshac",
+    '2'=>"mesh",
+    '3'=>"nal",
+    '4'=>"not_specified",
+    '5'=>"cash",
+    '6'=>"rvm"
   }
 
   def record_properties(type_of_record = nil, source = nil, rules = nil)
@@ -56,7 +56,7 @@ module MarcXMLBibBaseMap
         # update source if this is lcgft: https://www.loc.gov/catdir/cpso/genre_form_faq.pdf
         "//datafield[@tag='040']" => -> subject, node {
           if record_properties[:type] == :authority
-            if subject.source == 'Other' and node.at_xpath("subfield[@code='f']").inner_text == 'lcgft'
+            if subject.source == 'other' and node.at_xpath("subfield[@code='f']").inner_text == 'lcgft'
               subject.source = 'lcgft'
             end
           end
@@ -82,9 +82,9 @@ module MarcXMLBibBaseMap
   def sets_subject_source
     -> node {
       if record_properties[:type] == :authority
-        AUTH_SUBJECT_SOURCE[ record_properties[:source] ] || 'Source not specified'
+        AUTH_SUBJECT_SOURCE[ record_properties[:source] ] || 'not_specified'
       else
-        BIB_SUBJECT_SOURCE[node.attr('ind2')] || ( !node.at_xpath("subfield[@code='2']").nil? ? node.at_xpath("subfield[@code='2']").inner_text : 'Source not specified' )
+        BIB_SUBJECT_SOURCE[node.attr('ind2')] || ( !node.at_xpath("subfield[@code='2']").nil? ? node.at_xpath("subfield[@code='2']").inner_text : 'not_specified' )
       end
     }
   end
