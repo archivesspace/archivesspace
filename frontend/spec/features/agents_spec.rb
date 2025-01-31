@@ -1607,24 +1607,68 @@ describe 'Agents', js: true do
         expect(elements[0]).to have_text agent.names.first['primary_name']
       end
 
-      it 'will not delete a corp entity agent linked to a repo' do
-        repository = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
+      describe 'publishing agents' do
+        it 'deletes the agent and shows a success message' do
+          agent = create(:agent_person)
+          run_index_round
 
-        run_index_round
+          element = find('#global-search-box')
+          element.fill_in with: agent.names.first['primary_name']
+          find('#global-search-button').click
 
-        element = find('#global-search-box')
-        element.fill_in with: repository.repo_code
-        find('#global-search-button').click
+          click_on 'Edit'
+          click_on 'Publish All'
 
-        click_on 'Edit'
-        click_on 'Delete'
+          within '#confirmChangesModal' do
+            click_on 'Publish All'
+          end
 
-        within '#confirmChangesModal' do
+          element = find('.alert.alert-success.with-hide-alert')
+          expect(element.text).to eq "The Agent #{agent.display_name['sort_name']}, its subrecords and components have been published"
+        end
+      end
+
+      describe 'deleting agents' do
+        it 'deletes the agent and shows a success message' do
+          agent = create(:agent_person)
+          run_index_round
+
+          element = find('#global-search-box')
+          element.fill_in with: agent.names.first['primary_name']
+          find('#global-search-button').click
+
+          click_on 'Edit'
           click_on 'Delete'
+
+          within '#confirmChangesModal' do
+            click_on 'Delete'
+          end
+
+          element = find('.alert.alert-success.with-hide-alert')
+          expect(element.text).to eq "Agent Deleted"
         end
 
-        element = find('.alert.alert-danger.with-hide-alert')
-        expect(element.text).to eq "This agent is linked to a repository and can't be removed."
+        context 'when linked to a repo' do
+          it 'is raises an error' do
+            repository = create(:repo, repo_code: "agents_test_#{Time.now.to_i}")
+
+            run_index_round
+
+            element = find('#global-search-box')
+            element.fill_in with: repository.repo_code
+            find('#global-search-button').click
+
+            click_on 'Edit'
+            click_on 'Delete'
+
+            within '#confirmChangesModal' do
+              click_on 'Delete'
+            end
+
+            element = find('.alert.alert-danger.with-hide-alert')
+            expect(element.text).to eq "This agent is linked to a repository and can't be removed."
+          end
+        end
       end
     end
   end
