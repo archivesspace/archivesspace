@@ -1,10 +1,6 @@
 FROM ubuntu:22.04 as build_release
 
-# Please note: Docker is not supported as an install method.
-# Docker configuration is being used for internal purposes only.
-# Use of Docker by anyone else is "use at your own risk".
-# Docker related files may be updated at anytime without
-# warning or presence in release notes.
+# Please note: Docker is supported as an install method starting with ArchivesSpace v4.0.0, see: https://docs.archivesspace.org/administration/docker/
 
 ENV DEBIAN_FRONTEND=noninteractive \
   JDK_JAVA_OPTIONS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED" \
@@ -23,10 +19,10 @@ RUN apt-get update && \
 COPY . /source
 
 RUN cd /source && \
-  if [ `git symbolic-ref -q --short HEAD 2>/dev/null` ]; then \
-    ARCHIVESSPACE_VERSION="$(git symbolic-ref -q --short HEAD)-$(git rev-parse --short HEAD)"; \
+  if [ `git describe --tags --exact-match --match v* 2>/dev/null` ]; then \
+    ARCHIVESSPACE_VERSION="$(git describe --tags --match v*)" ; \
   else \
-    ARCHIVESSPACE_VERSION="$(git describe --tags --match v* 2>/dev/null)" ; \
+    ARCHIVESSPACE_VERSION="$(git symbolic-ref -q --short HEAD)-$(git rev-parse --short HEAD)"; \
   fi &&\
   ARCHIVESSPACE_VERSION=${ARCHIVESSPACE_VERSION#"heads/"} && \
   echo "Using version: $ARCHIVESSPACE_VERSION" && \
