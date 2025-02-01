@@ -124,7 +124,7 @@ module PublicNewDefaults
 
   ## Print
   if AppConfig[:pui_page_actions_print]
-    add_record_page_action_erb(['resource'],
+    add_record_page_action_erb(['resource', 'archival_object'],
                               'shared/print_page_action')
   end
 
