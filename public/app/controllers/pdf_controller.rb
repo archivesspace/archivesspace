@@ -7,46 +7,40 @@ class PdfController < ApplicationController
   def resource
     PDF_MUTEX.acquire
     begin
-      repo_id = params.fetch(:rid, nil)
-      resource_id = params.fetch(:id, nil)
-      token = params.fetch(:token, nil)
+      # If coming from an archival object view, get the resource ID from the archival object
+      resource_id = if request.referrer&.include?('archival_objects')
+        ao = archivesspace.get_record("/repositories/#{params[:rid]}/archival_objects/#{params[:id]}")
+        # Get resource ID from the archival object's json
+        ao.json['resource']['ref']&.split('/')&.last
+      else
+        params[:id]
+      end
 
-      pdf = FindingAidPDF.new(repo_id, resource_id, archivesspace, "#{request.protocol}#{request.host_with_port}")
+      pdf = FindingAidPDF.new(params[:rid], resource_id, archivesspace, "#{request.protocol}#{request.host_with_port}")
       pdf_file = pdf.generate
 
-      if token
-        token.gsub!(/[^a-f0-9]/, '')
+      if params.fetch(:token, nil)
+        params[:token].gsub!(/[^a-f0-9]/, '')
       end
 
       respond_to do |format|
-        # Remove all special characters from filename.
-        filename_extension = File.extname(pdf.suggested_filename) # Extract file extension
-        filename = pdf.suggested_filename.gsub(filename_extension, '') # Remove file extension
-        filename = filename.gsub(/[^a-zA-Z0-9\s]/, '_') # Replace all special characters with underscores
-        filename.chop! if filename[-1] == '_' # Remove last underscore
-        filename = filename.gsub(/_+/, '_') # Replace underscores multiple with one underscore
-
-        filename = "#{filename}#{filename_extension}"
-
         format.all do
-          fh = File.open(pdf_file.path, "r")
-          self.headers["Content-type"] = "application/pdf"
-          self.headers["Content-disposition"] = "attachment; filename=\"#{filename}\""
-          self.response_body = Enumerator.new do |y|
-            begin
-              while chunk = fh.read(4096)
-                y << chunk
-              end
-            ensure
-              fh.close
-              pdf_file.unlink
-            end
-          end
+          fh = File.open(pdf_file.path)
+          pdf_content = fh.read
+          fh.close
+          pdf_file.unlink
+
+          send_data(pdf_content, :filename => pdf.suggested_filename,
+                   :type => "application/pdf", :disposition => 'attachment')
         end
       end
     ensure
       PDF_MUTEX.release
     end
+  rescue => e
+    Rails.logger.error "PDF generation failed: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    raise
   end
 
 end
