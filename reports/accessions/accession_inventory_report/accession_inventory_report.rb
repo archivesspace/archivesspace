@@ -2,7 +2,7 @@ class AccessionInventoryReport < AbstractReport
   register_report
 
   def query
-    info[:total_count] = db[:accession].count
+    info[:total_count] = db[:accession].where(Sequel.qualify(:accession, :repo_id) => @repo_id).count
     records = db.fetch(query_string)
     info[:number_with_inventories] = records.count
     records
