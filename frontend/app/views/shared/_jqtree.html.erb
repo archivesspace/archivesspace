@@ -1,0 +1,253 @@
+<%= javascript_include_tag "tree.jquery.debug.js" %>
+
+<style>
+    .jqtree-container {
+      background-color: #eee;
+      margin-bottom: 1em;
+      overflow-x: auto;
+      overflow-y: auto;
+      padding: 1px;
+      max-height: 400px;
+    }
+
+    .jqtree-tree {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .jqtree-element {
+        display: flex;
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+        align-items: center;
+    }
+
+    /* Hide the jqtree-created title span with node.name data */
+    .jqtree-title[class*="jqtree-title-button-"] {
+      display: none;
+    }
+
+    .tree-row {
+        display: flex;
+        flex: 1;
+        align-items: center;
+    }
+
+    /* Preserve the original title container */
+    .jqtree-title-container {
+        display: flex;
+        min-width: 200px;
+        padding-right: 15px;
+    }
+
+    .tree-col {
+        flex: 1;
+        padding: 0 15px;
+    }
+
+    /* Toggle button styling */
+    .jqtree-toggler {
+        color: #666;
+    }
+
+    /* Hover effect */
+    .jqtree-element:hover {
+        background-color: #f8f8f8;
+    }
+
+    /* Selected nodes styling */
+    .jqtree-selected > .jqtree-element {
+        background-color: #e8f0fe;
+    }
+
+    /* Dragging styles */
+    .jqtree-dragging {
+        opacity: 0.5;
+    }
+
+    .jqtree-drop-target {
+        background-color: #e8f0fe;
+    }
+
+    /* Animation for moved nodes */
+    @keyframes highlightMove {
+        0% { background-color: #90EE90; }
+        100% { background-color: transparent; }
+    }
+
+    .node-moved > .jqtree-element {
+        animation: highlightMove 1s ease-out forwards;
+    }
+</style>
+
+<section class="col-12">
+  <div id="jqtree-container" class="jqtree-container">
+    <div id="jqtree"></div>
+  </div>
+  <div class="ui-resizable-handle ui-resizable-s" style="bottom: -1rem;">
+    <button
+      class="tree-resize-toggle"
+      aria-expanded="false"
+      title="Expand/Collapse Tree Area"
+      aria-label="Expand/Collapse Tree Area"
+    ></button>
+  </div>
+</section>
+
+<script>
+const treeDataSource = new TreeDataSource('<%= url_for(:action => :show) %>/tree');
+
+function migrateData(nodes) {
+  return nodes.map(node => {
+    const id = parseInt(node.uri.split('/').pop());
+
+    const title = node.title || '';
+    const expression = node.dates?.[0]?.expression || '';
+    const name = `${title}${title && expression ? ' ' : ''}${expression}`;
+    const nameHref = `#tree::${node.jsonmodel_type}_${id}`;
+    const topContainerType = node.containers?.[0]?.top_container_type || '';
+    const topContainerIndicator = node.containers?.[0]?.top_container_indicator || '';
+    const type2 = node.containers?.[0]?.type_2 || '';
+    const indicator2 = node.containers?.[0]?.indicator_2 || '';
+    const container = node.containers?.[0] ? `${topContainerType}: ${topContainerIndicator}, ${type2} ${indicator2}` : '';
+    const instanceType = node.containers?.[0]?.instance_type || '';
+    const level = node.level;
+
+    const migratedNode = {
+      id, // jqtree required
+      name, // jqtree hook
+      nameHref, // AS specific
+      container, // AS specific
+      instanceType, // AS specific
+      level, // AS specific
+    }
+
+    if (node.child_count > 0) {
+      migratedNode.load_on_demand = true;
+    }
+
+    return migratedNode;
+  })
+}
+
+treeDataSource.fetchRootNode().done(function(rootNode) {
+  const rootNodeUri = rootNode.uri;
+  const treeData = migrateData(rootNode.precomputed_waypoints[""]["0"]);
+
+  const $jqtree = $('#jqtree');
+
+  $jqtree.tree({
+    data: treeData,
+    dataUrl: (node) => {
+      const [_, repoId, resourceId] = rootNodeUri.match(/\/repositories\/(\d+)\/resources\/(\d+)/);
+
+      return {
+        url: `/resources/${resourceId}/tree/node`,
+        data: {
+          node: `/repositories/${repoId}/archival_objects/${node.id}`
+        }
+      };
+    },
+    dragAndDrop: true,
+    // saveState: true,
+    selectable: true,
+    autoOpen: false,
+    useContextMenu: false,
+    onCreateLi: function (node, $li) {
+      const $div = $li.find(".jqtree-element");
+
+      const $row = $('<div class="tree-row"></div>');
+
+      const $name = $(`
+      <div class="tree-col">
+        <a class="record-title" href="${node.nameHref}" title="${node.name}">${node.name}</a>
+      </div>`);
+      const $level = $(`<div class="tree-col">${node.level}</div>`);
+      const $type = $(`<div class="tree-col">${node.instanceType}</div>`);
+      const $container = $(`<div class="tree-col">${node.container}</div>`);
+
+      $row.append($name).append($level).append($type).append($container);
+
+      $div.append($row);
+    }
+  });
+
+  // Allow multiple node selection
+  $jqtree.on('tree.click', function(e) {
+    e.preventDefault();
+
+    const clickedNode = e.node;
+
+    if (clickedNode.id === undefined) {
+        console.warn('The multiple selection functions require that nodes have an id');
+    }
+
+    if ($jqtree.tree('isNodeSelected', clickedNode)) {
+        $jqtree.tree('removeFromSelection', clickedNode);
+    } else {
+        $jqtree.tree('addToSelection', clickedNode);
+    }
+  });
+
+  // Enable drag and drop for multiple selected nodes
+  $jqtree.on('tree.move', function(e) {
+    const movedNode = e.move_info.moved_node;
+    const targetNode = e.move_info.target_node;
+    const position = e.move_info.position;
+    const selectedNodes = $jqtree.tree('getSelectedNodes');
+
+    if (selectedNodes.includes(movedNode)) {
+      if (selectedNodes.length === 1) {
+        // Single selection, end move manually after the default move completes
+        setTimeout(() => {
+          endNodeMove(movedNode);
+        }, 0);
+
+        return;
+      } else if (selectedNodes.length > 1 ) {
+        // Multiple selection, handle the move manually
+        e.preventDefault();
+
+        switch (position) {
+          case 'after':
+            selectedNodes.slice().reverse().forEach(node => {
+              $jqtree.tree('moveNode', node, targetNode, 'after');
+            });
+            break;
+          case 'before':
+            selectedNodes.forEach(node => {
+              $jqtree.tree('moveNode', node, targetNode, 'before');
+            });
+            break;
+          case 'inside':
+            const lastChild = targetNode.children.length
+              ? targetNode.children[targetNode.children.length - 1]
+              : null;
+
+            selectedNodes.slice().reverse().forEach(node => {
+              if (lastChild) {
+                $jqtree.tree('moveNode', node, lastChild, 'after');
+              } else {
+                $jqtree.tree('moveNode', node, targetNode, 'inside');
+              }
+            });
+            break;
+        }
+
+        setTimeout(() => {
+          selectedNodes.forEach(endNodeMove);
+        }, 0);
+
+        return;
+      }
+    }
+
+    function endNodeMove(node) {
+      const element = $(node.element);
+      element.removeClass('node-moved'); // Remove any existing animation
+      element.addClass('node-moved');
+      $jqtree.tree('removeFromSelection', node);
+    }
+  });
+});
+</script>
