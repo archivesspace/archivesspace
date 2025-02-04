@@ -1,10 +1,9 @@
-# This is intended as the simplest way to run a complete ArchivesSpace on a single instance using Docker, i.e. as the simplest way to get an ArchivesSpace system up and running (see also: https://docs.archivesspace.org/administration/docker/
-
+# This is intended as the simplest way to get a complete ArchivesSpace system up and running on a single instance using Docker.
+# See also: https://docs.archivesspace.org/administration/docker/
 
 services:
   app:
-    # replace @docker-tag@ with "latest" or one of the available versions: https://hub.docker.com/r/archivesspace/archivesspace/tags
-    image: archivesspace/archivesspace:@docker-tag@
+    image: archivesspace/archivesspace:${ARCHIVESSPACE_DOCKER_TAG}
     container_name: archivesspace
     restart: unless-stopped
     env_file:
@@ -51,8 +50,7 @@ services:
       - db
 
   solr:
-    # replace @docker-tag@ with "latest" or one of the available versions: https://hub.docker.com/r/archivesspace/solr/tags
-    image: archivesspace/solr:@docker-tag@
+    image: archivesspace/solr:${ARCHIVESSPACE_DOCKER_TAG}
     container_name: solr
     restart: unless-stopped
     env_file:
