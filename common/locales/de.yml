@@ -1720,7 +1720,7 @@ de:
       view_agent_contact_record: Bearbeiten/Anzeigen des Abschnitts „Kontaktdetails“ von <b>Agenten</b>
         (in diesem Repository)
       show_full_agents: Bearbeiten Sie zusätzliche Abschnitte von <b>Agenten</b>, die im Vollmodus aktiviert
-        sind (in diesem Repository).
+        sind (in diesem Repository)
       update_accession_record: <b>Zugänge</b> erstellen/aktualisieren (in diesem Repository)
       update_resource_record: <b>Ressourcen</b> erstellen/aktualisieren (in diesem Repository)
       update_digital_object_record: <b>Digitale Objekte</b> erstellen/aktualisieren (in diesem Repository)
@@ -1741,7 +1741,7 @@ de:
         (muss auch im Ziel-Repository über die gleiche Berechtigung verfügen)
       transfer_archival_record: Übertragen Sie einzelne <b>Zugänge, digitale Objekte und Ressourcen</b>
         in ein anderes Repository (Sie müssen außerdem über die Berechtigung verfügen, Datensätze des
-        zu übertragenden Typs in beiden Repositorys zu erstellen/aktualisieren).
+        zu übertragenden Typs in beiden Repositorys zu erstellen/aktualisieren)
       manage_subject_record: <b>Themen</b> erstellen/aktualisieren/löschen (systemweit)
       manage_agent_record: <b>Agenten</b> erstellen/aktualisieren/löschen (systemweit)
       manage_vocabulary_record: <b>Vokabular</b> erstellen/aktualisieren/löschen (systemweit)
@@ -2315,7 +2315,7 @@ de:
       top_container_linker_job: Haupt-Behältnis-Verknüpfer
   resource_duplicate_job:
     going_to_duplicate_job: Die Ressource wird mit der ID %{resource_id} dupliziert.
-    success_message: Successfully duplicated resource %{resource_source_id} to resource %{resource_duplicated_id}.
+    success_message: Ressource erfolgreich dupliziert %{ressource_Ursprung_id} zu ressource %{ressource_dupliziert_id}.
     resource_failure_message: Ressource %{resource_source_id} wurde erfolgreich auf Ressource %{resource_duplicated_id}
       dupliziert.
     archival_object_failure_message: Das Duplizieren des Archivierungsobjekts mit der ID %{archival_object_id}
