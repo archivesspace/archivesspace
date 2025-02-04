@@ -97,6 +97,11 @@
 <script>
 const treeDataSource = new TreeDataSource('<%= url_for(:action => :show) %>/tree');
 
+/**
+ * Migrate the data from the AS API to the jqtree format
+ * @param {Array} nodes - The nodes to migrate
+ * @returns {Array} The migrated nodes
+ */
 function migrateData(nodes) {
   return nodes.map(node => {
     const id = parseInt(node.uri.split('/').pop());
@@ -148,6 +153,7 @@ treeDataSource.fetchRootNode().done(function(rootNode) {
         }
       };
     },
+    dataFilter: (data) => migrateData(data.precomputed_waypoints[data.uri]["0"]),
     dragAndDrop: true,
     // saveState: true,
     selectable: true,
