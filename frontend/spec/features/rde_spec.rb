@@ -8,16 +8,18 @@ describe 'RDE', js: true do
   let(:repo) { create(:repo, repo_code: "accession_test_#{Time.now.to_i}") }
 
   before(:each) do
+    set_repo repo
     login_user(user)
-    run_all_indexers
+    ensure_repository_access
     select_repository(repo)
   end
 
   it 'can review error messages on an invalid entry' do
     resource = create(:resource)
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Rapid Data Entry'
     expect(page).to have_css '#rapidDataEntryModal'
@@ -37,10 +39,7 @@ describe 'RDE', js: true do
 
     click_on 'Save Rows'
 
-    while true do
-      sleep 1
-      break if page.evaluate_script('jQuery.active') == 0
-    end
+    wait_for_ajax
 
     element = find('.alert.alert-danger')
     expect(element.text).to eq '1 row(s) with an error - click a row field to view the errors for that row'
@@ -55,9 +54,10 @@ describe 'RDE', js: true do
   it 'can add a child via the RDE form' do
     now = Time.now.to_i
     resource = create(:resource)
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Rapid Data Entry'
     expect(page).to have_css '#rapidDataEntryModal'
@@ -78,9 +78,10 @@ describe 'RDE', js: true do
   it 'can access the RDE form when editing an archival object' do
     now = Time.now.to_i
     resource = create(:resource)
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Rapid Data Entry'
     expect(page).to have_css '#rapidDataEntryModal'
@@ -105,9 +106,10 @@ describe 'RDE', js: true do
 
   it 'can add multiple children and sticky columns stick' do
     resource = create(:resource)
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Rapid Data Entry'
     expect(page).to have_css '#rapidDataEntryModal'
@@ -145,9 +147,10 @@ describe 'RDE', js: true do
 
   it 'can add multiple rows in one action and can perform a basic fill and a sequence fill' do
     resource = create(:resource)
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Rapid Data Entry'
     expect(page).to have_css '#rapidDataEntryModal'
@@ -203,9 +206,10 @@ describe 'RDE', js: true do
 
   it 'can perform a column reorder' do
     resource = create(:resource)
-    run_index_round
 
     visit "resources/#{resource.id}/edit"
+
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Rapid Data Entry'
 
