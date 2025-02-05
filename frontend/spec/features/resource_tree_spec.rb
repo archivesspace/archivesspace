@@ -21,9 +21,16 @@ describe 'Resource Tree', js: true do
     allow(AppConfig).to receive(:[]).and_call_original
   end
 
-  xit "shows the record id in the tree if configured to do so" do
+  it "shows the record id in the tree if configured to do so" do
     allow(AppConfig).to receive(:[]).with(:display_identifiers_in_largetree_container) { true }
     visit "/resources/#{@resource.id}"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{@resource.title} Resource")
+    end
+
+    wait_for_ajax
+
     ids = find_all('.resource-identifier').map { |node| node.text }
     expect(ids).to eq(["1-2-3-4", "abc"])
   end
@@ -31,6 +38,13 @@ describe 'Resource Tree', js: true do
   it "does not show the record id in the tree if not configured to do so" do
     allow(AppConfig).to receive(:[]).with(:display_identifiers_in_largetree_container) { false }
     visit "/resources/#{@resource.id}"
+
+    using_wait_time(15) do
+      expect(page).to have_selector('h2', visible: true, text: "#{@resource.title} Resource")
+    end
+
+    wait_for_ajax
+
     expect(page).not_to have_css('.resource-identifier')
   end
 end
