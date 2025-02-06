@@ -15,13 +15,13 @@ Sequel.migration do
       Integer :archival_object_id
       HalfLongString :title, null: false
       DynamicEnum :type_id, null: false
-      Integer :language_and_script_id
+      DynamicEnum :language_id
+      DynamicEnum :script_id
       apply_mtime_columns
     end
     alter_table(:title) do
       add_foreign_key([:resource_id], :resource, :key => :id)
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
-      add_foreign_key([:language_and_script_id], :language_and_script, :key => :id)
     end
 
     records_supporting_multiple_titles = [:resource, :archival_object]
