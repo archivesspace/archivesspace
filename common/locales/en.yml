@@ -2424,7 +2424,6 @@ en:
   reports:
     parameters:
       from: From
-      from_tooltip:
       to: To
       locations: Locations
       scope_by_date: Scope by Date

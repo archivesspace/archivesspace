@@ -1,33 +1,4 @@
 de:
-  subject:
-    _singular: Thema
-    _plural: Themen
-    new_title: Neues Thema
-    authority_id: Autoritäts-ID
-    authority_id_tooltip: "<p>Der eindeutige Bezeichner für den Datensatz innerhalb der Quelle, aus der
-      er bezogen wurde (z.B. eine LCSH-Nummer). Die Kennung kann als URI dargestellt werden.</p>\n"
-    source: Quelle
-    subject_source: Quelle des Themas
-    source_tooltip: "<p>Das Vokabular, dem ein festgelegter Begriff entnommen ist.</p>\n<p>Werte in dieser
-      Aufzählungs-Liste können bearbeitet werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Medizinische Fachbegriffe
-      (mesh)</li>\n<li>Library of Congress Schlagwörter (lcsh)</li>\n</ul>\n"
-    scope_note: Anmerkung zum Geltungsbereich
-    scope_note_tooltip: "<p>Eine Anmerkung, die erklärt und verdeutlicht, was in der Definition des Begriffs
-      und in seiner Verwendung als Schlagwort gemeint ist und was nicht.</p>\n<p>Beispiele:</p>\n<ul>\n
-      <li>Hier werden Werke über biologische Studien von Bakterien eingetragen. Werke über diese Wissenschaft
-      sind unter der Rubrik Bakteriologie erfasst.</li>\n<li>\"Das Recht auf Sicherheit und Privatsphäre
-      in der Wohnung eines Menschen'\" - Black, Rechtswörterbuch, 4. Aufl., 1951.</li>\n</ul>\n"
-    terms: Begriffe
-    terms_tooltip: "<p>ERFORDERLICHE TEILAUFZEICHNUNG. Dient zur Verwaltung jedes Begriffs oder jeder
-      Unterteilung innerhalb eines bestimmten Schlagworts. Jeder Themenaufzeichnung muss mindestens ein
-      Begriff zugeordnet sein.</p>\n"
-    external_documents_tooltip: "<p>Ermöglicht Verknüpfungen mit externer Dokumentation, z.B. wie eine
-      bestimmtes Stichwort zu verwenden ist.</p>\n"
-    heading: Schlagwort
-    linker:
-      browse: Themen durchsuchen
-      create: Thema erstellen
-      link_title: Verknüpfung mit Thema
   agent_contact:
     address_1: Adresse 1
     city: Ort
@@ -232,6 +203,36 @@ de:
       URL für diese Aufzeichnung in der öffentlichen Besucher-Oberfläche von ArchivesSpace. Der Slug kann
       manuell hinzugefügt oder aktualisiert werden oder automatisch auf der Grundlage der Konfigurationseinstellungen
       von für Menschen lesbarer URLs in der Datei config.rb auf dem Server erzeugt werden.</p>\n"
+  subject:
+    <<: *slug_attributes
+    _singular: Thema
+    _plural: Themen
+    new_title: Neues Thema
+    authority_id: Autoritäts-ID
+    authority_id_tooltip: "<p>Der eindeutige Bezeichner für den Datensatz innerhalb der Quelle, aus der
+      er bezogen wurde (z.B. eine LCSH-Nummer). Die Kennung kann als URI dargestellt werden.</p>\n"
+    source: Quelle
+    subject_source: Quelle des Themas
+    source_tooltip: "<p>Das Vokabular, dem ein festgelegter Begriff entnommen ist.</p>\n<p>Werte in dieser
+      Aufzählungs-Liste können bearbeitet werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Medizinische Fachbegriffe
+      (mesh)</li>\n<li>Library of Congress Schlagwörter (lcsh)</li>\n</ul>\n"
+    scope_note: Anmerkung zum Geltungsbereich
+    scope_note_tooltip: "<p>Eine Anmerkung, die erklärt und verdeutlicht, was in der Definition des Begriffs
+      und in seiner Verwendung als Schlagwort gemeint ist und was nicht.</p>\n<p>Beispiele:</p>\n<ul>\n
+      <li>Hier werden Werke über biologische Studien von Bakterien eingetragen. Werke über diese Wissenschaft
+      sind unter der Rubrik Bakteriologie erfasst.</li>\n<li>\"Das Recht auf Sicherheit und Privatsphäre
+      in der Wohnung eines Menschen'\" - Black, Rechtswörterbuch, 4. Aufl., 1951.</li>\n</ul>\n"
+    terms: Begriffe
+    terms_tooltip: "<p>ERFORDERLICHE TEILAUFZEICHNUNG. Dient zur Verwaltung jedes Begriffs oder jeder
+      Unterteilung innerhalb eines bestimmten Schlagworts. Jeder Themenaufzeichnung muss mindestens ein
+      Begriff zugeordnet sein.</p>\n"
+    external_documents_tooltip: "<p>Ermöglicht Verknüpfungen mit externer Dokumentation, z.B. wie eine
+      bestimmtes Stichwort zu verwenden ist.</p>\n"
+    heading: Schlagwort
+    linker:
+      browse: Themen durchsuchen
+      create: Thema erstellen
+      link_title: Verknüpfung mit Thema
   classification_term:
     <<: *slug_attributes
     _plural: Klassifizierungs-Begriffe
@@ -1270,6 +1271,10 @@ de:
   agent_relationship_temporal:
     <<: *related_agent_attributes
     _singular: Zeitliche Beziehung
+  agent_relationship_family:
+    <<: *related_agent_attributes
+    _singular: Familiäre Beziehung
+
   note:
     content_item: Inhaltselement
     note_orderedlist: Geordnete Liste
@@ -1331,6 +1336,7 @@ de:
     value: Wert
     value_tooltip: "Ein definiertes Listenelement in einer definierten Liste.\n"
   note_contact_note:
+    <<: *note_attributes
     contact_notes_tooltip: "<p>Details zur Interaktion mit dem Kontakt</p>\n"
     date_of_contact_tooltip: "<p>Verwendet, um die spezifischen Daten oder Zeiträume einer Interaktion
       aufzuzeichnen</p>\n"
@@ -1948,8 +1954,7 @@ de:
     digital_object_spawn: Beschreibung für Instanzen des digitalen Objekts von verknüpfter Aufzeichnung
       ableiten
     top_container_mgmt_browse_section: Spalten der Haupt-Behältnis-Verwaltung beim Blättern
-  agent_relationship_family:
-    _singular: Familiäre Beziehung
+
   advanced_search:
     text:
       notes: Anmerkungen
