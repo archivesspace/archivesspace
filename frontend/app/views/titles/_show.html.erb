@@ -1,0 +1,36 @@
+<%
+   section_id = "titles" if section_id.blank?
+%>
+<section id="<%= section_id %>" class="subrecord-form-dummy">
+  <h3>Titles</h3>
+  <div class="subrecord-form-container">
+    <div class="subrecord-form-fields">
+      <table class="table table-striped table-bordered table-condensed table-hover">
+        <thead>
+        <tr>
+          <td><%= t("mlc_title_type.title") %></td>
+          <td><%= t("mlc_title_type.type") %></td>
+          <td><%= t("mlc_title_type.language") %></td>
+          <td><%= t("mlc_title_type.script") %></td>
+        </tr>
+        </thead>
+        <tbody>
+        <% if titles.nil? %>
+          <tr>
+            <td colspan="2">No titles data available</td>
+          </tr>
+        <% else %>
+          <% titles.each do |title| %>
+            <tr>
+              <td><%= title['title'] %></td>
+              <td><%= title['type'] if title['type'].present? %></td>
+              <td><%= title.dig('language', '') %></td>
+              <td><%= title.dig('script', '') %></td>
+            </tr>
+          <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
