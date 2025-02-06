@@ -1052,7 +1052,6 @@ de:
         bulk_import: Mit Tabelle laden
         add_child: Kind hinzufügen
         select_resource: Ressource auswählen
-        select_parent: Übergeordnetes Element auswählen
         leave_parent_empty: Schließen / Übergeordnetes Element nicht zuweisen
         select_parent_and_position: Position der Komponente auswählen
       tree:
@@ -1529,12 +1528,6 @@ de:
         error_create: Benutzer nicht gespeichert
         error_not_found: Es wurde kein Benutzerkonto für %{email} gefunden. Fragen
           Sie Ihren Administrator um Hilfe.
-        password_recovery_not_allowed: Die Passwortwiederherstellung ist nicht erlaubt.
-          Kontaktieren Sie Ihren Administrator.
-        password_recovery_fail: Die Passwortwiederherstellung ist fehlgeschlagen.
-          Kontaktieren Sie Ihren Administrator.
-        password_recovery_email_sent: Eine E-Mail mit Anweisungen zur Wiederherstellung
-          Ihres Passworts wurde an %{email} gesendet
         password_reset_email_sent: Wenn ein Konto für %{email} existiert, wird eine
           E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts gesendet.
         password_reset_fail: Das Zurücksetzen des Passworts ist fehlgeschlagen. Kontaktieren
