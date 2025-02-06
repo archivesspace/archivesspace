@@ -38,6 +38,10 @@
             </div>
           </section>
 
+          <% if @resource.titles.length > 0 %>
+            <%= render_aspace_partial :partial => "titles/show", :locals => { :titles => @resource.titles, :section_id => "resource_titles_" } %>
+          <% end %>
+
           <% if @resource.lang_materials.length > 0 %>
             <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => @resource.lang_materials, :section_id => "resource_lang_materials_" } %>
           <% end %>

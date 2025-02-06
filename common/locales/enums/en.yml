@@ -1492,6 +1492,8 @@ en:
       share_a_like: This record is made available under an Attribution-ShareAlike 4.0 International
         Creative Commons license.
     mlc_title_type:
+      title: Title
+      type: Title Type
       devised: Devised Title
       formal: Formal Title
       parallel: Parallel Title

@@ -2585,3 +2585,12 @@ en:
     aspace_location_import_template_csv: Create new location records. Please note that this template is for creating the location records themselves, not linking materials to locations.
     aspace_assessment_import_template_csv: Create and link assessments to existing accessions, resources, archival objects, or digital objects.
     aspace_subject_import_template_csv: Create new Subject records. Please note that this template is for creating the subject records themselves, not linking them to other records.
+
+  title:
+    _frontend:
+      action:
+        add: Add Title
+    _plural: All Titles
+    title: Title
+    type: Title Type
+    language_and_script: Language and Script

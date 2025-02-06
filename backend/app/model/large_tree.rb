@@ -91,11 +91,11 @@ class LargeTree
 
       # ANW-617: generate a slugged URL for inclusion in the JSON for the root node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
       digital_instance = relates_digital_instance?(@root_type) ? has_digital_instance?(db, @root_table, @root_record.id) : false
-      response = waypoint_response(child_count).merge("title" => @root_record.title,
+      response = waypoint_response(child_count).merge("title" => @root_record.title[0].title,
                                                       "uri" => @root_record.uri,
                                                       "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
                                                       "jsonmodel_type" => @root_table.to_s,
-                                                      "parsed_title" => MixedContentParser.parse(@root_record.title, '/'),
+                                                      "parsed_title" => MixedContentParser.parse(@root_record.title[0].title , '/'),
                                                       "suppressed" => @root_record.suppressed,
                                                       "has_digital_instance" => digital_instance)
       @decorators.each do |decorator|
