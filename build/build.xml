@@ -62,7 +62,7 @@
     <javaversion atleast="17"/>
   </condition>
 
-  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Dfile.encoding=UTF-8 -Djavax.accessibility.assistive_technologies='' -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver ${java_version_compatibility}" />
+  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver ${java_version_compatibility}" />
 
   <!-- TASKS -->
   <!-- Build tasks invoked using `./build/run [$task]` from the aspace directory -->
@@ -571,7 +571,7 @@
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
       <env key="TEST_MODE" value="1" />
       <env key="ASPACE_TEST_APP_SERVER_URL" value="${test-server-url-arg}" />
-      <arg line="../build/gems/bin/bundle exec rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths}" />
+      <arg line="../build/gems/bin/bundle exec rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths} --profile" />
     </java>
   </target>
 

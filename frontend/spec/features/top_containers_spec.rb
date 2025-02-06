@@ -84,12 +84,10 @@ describe 'Top Containers and Instances', js: true do
 
     within(all('.record-toolbar.bulk-operation-toolbar').first) do
       click_on('Bulk Operations')
-
-      using_wait_time(15) do
-        within('.dropdown-menu') do
-          click_on('Update Indicators')
-        end
+      within('.dropdown-menu') do
+        click_on('Update Indicators')
       end
+
     end
 
     within('#bulkActionIndicatorRapidEntryModal') do
@@ -138,10 +136,8 @@ describe 'Top Containers and Instances', js: true do
     within(all('.record-toolbar.bulk-operation-toolbar').first) do
       click_on('Bulk Operations')
 
-      using_wait_time(15) do
-        within('.dropdown-menu') do
-          click_on('Merge Top Containers')
-        end
+      within('.dropdown-menu') do
+        click_on('Merge Top Containers')
       end
     end
 
@@ -150,10 +146,8 @@ describe 'Top Containers and Instances', js: true do
       click_on('Select merge destination')
     end
 
-    using_wait_time(15) do
-      within('#bulkMergeConfirmModal') do
-        click_on('Merge 5 records')
-      end
+    within('#bulkMergeConfirmModal') do
+      click_on('Merge 5 records')
     end
 
     run_all_indexers

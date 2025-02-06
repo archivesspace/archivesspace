@@ -28,9 +28,7 @@ describe 'Notes', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-    end
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -69,9 +67,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-    end
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -86,10 +82,7 @@ describe 'Notes', js: true do
     expect(element.text).to eq "Resource Resource Title #{now} updated"
 
     visit "resources/#{resource.id}/edit"
-
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-    end
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     notes = all('#resource_notes_ .subrecord-form-fields')
     expect(notes.length).to eq 1
@@ -135,9 +128,7 @@ describe 'Notes', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-    end
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -215,9 +206,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-    end
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -245,6 +234,9 @@ describe 'Notes', js: true do
     expect(element.text).to eq "Resource Resource Title #{now} updated"
 
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
+
+    wait_for_ajax
+
     expect(find('#resource_notes__0__label_').value).to eq "Top-level Bibliography Label #{now}"
     expect(find('#resource_notes__0__content__0_ .CodeMirror').text).to include "Top-level Bibliography Content #{now}"
     expect(find('input#resource_notes__0__items__0_').value).to eq "Top-level bibliography item 1 #{now}"
@@ -257,10 +249,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-    end
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -312,10 +301,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-    end
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Add Deaccession'
 
@@ -341,10 +327,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-    end
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Add Rights Statement'
 
@@ -481,10 +464,8 @@ describe 'Notes', js: true do
     fill_in 'digital_object_title_', with: "Resource Title #{now}"
     fill_in 'digital_object_digital_object_id_', with: "Identifier #{now}"
 
-    using_wait_time(15) do
-      within '#digital_object_notes_' do
-        click_on 'Add Note'
-      end
+    within '#digital_object_notes_' do
+      click_on 'Add Note'
     end
 
     element = find('#digital_object_notes_ select.top-level-note-type')
@@ -515,10 +496,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-    end
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     find('#resource_notes_ > div .add-note').click
 

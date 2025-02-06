@@ -288,8 +288,6 @@ describe 'Enumeration Management', js: true do
   end
 
   it 'lets you delete a suppressed enumeration value' do
-    # TODO: somehow the test is ending up with a "Value Updated" message instead of "Value Deleted", but manual
-    # testing indicates the features works as expected with the "Value Deleted" message appearing
     now = Time.now.to_i
     click_on 'System'
     click_on 'Manage Controlled Value Lists'
@@ -314,6 +312,9 @@ describe 'Enumeration Management', js: true do
       click_on 'Suppress'
     end
 
+    element = find('.alert.alert-success.with-hide-alert')
+    expect(element.text).to eq 'Value Updated'
+
     element = find('tr', text: "enumaration_value_#{now}")
     within element do
       click_on 'Delete'
@@ -322,6 +323,8 @@ describe 'Enumeration Management', js: true do
     within '#form_enumeration' do
       click_on 'Delete Value'
     end
+
+    wait_for_ajax
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Deleted'
