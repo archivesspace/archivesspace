@@ -6,7 +6,8 @@
     "properties" => {
       "title" => {"type" => "string", "minLength" => 1, "maxLength" => 16384, "ifmissing" => "error"},
       "type" => {"type" => "string", "dynamic_enum" => "title_type"},
-      "language_and_script" => {"type" => "JSONModel(:language_and_script) object"},
+      "language" => {"type" => "script", "dynamic_enum" => "language_iso639_2"},
+      "script" => {"type" => "string", "dynamic_enum" => "script_iso15924"}
     }
   }
 }

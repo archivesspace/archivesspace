@@ -2,11 +2,7 @@
   <div class="subrecord-form-fields">
     <%= form.label_and_textarea "title", :field_opts => {:class => "mixed-content"} %>
     <%= form.label_and_select "type", form.possible_options_for("type", true) %>
-    <%= form.emit_template("language_and_script") %>
+    <%= form.label_and_select "language", form.possible_options_for("language", true) %>
+    <%= form.label_and_select "script", form.possible_options_for("script", true) %>
   </div>
-<% end %>
-
-<% define_template "language_and_script", jsonmodel_definition(:language_and_script) do |form| %>
-  <%= form.label_and_select("language", form.possible_options_for("language", true)) %>
-  <%= form.label_and_select("script", form.possible_options_for("script", true)) %>
 <% end %>

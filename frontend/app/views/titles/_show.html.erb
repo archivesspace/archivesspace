@@ -24,8 +24,8 @@
             <tr>
               <td><%= title['title'] %></td>
               <td><%= title['type'] if title['type'].present? %></td>
-              <td><%= title.dig('language', '') %></td>
-              <td><%= title.dig('script', '') %></td>
+              <td><%= (l = title['language']).present? ? t("enumerations.language_iso639_2.#{l}") : "[no language specified]" %> </td>
+              <td><%= (l = title['script']).present? ? t("enumerations.script_iso15924.#{l}") : "[no script specified]" %> </td>
             </tr>
           <% end %>
         <% end %>
