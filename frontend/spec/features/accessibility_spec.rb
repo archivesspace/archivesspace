@@ -215,9 +215,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     xit "has visual labels for add event dropdown" do
       visit "/resources/1"
 
-      using_wait_time(15) do
-        expect(page).to have_selector("#add-event-dropdown", visible: true)
-      end
+      expect(page).to have_selector("#add-event-dropdown", visible: true)
 
       within "#add-event-dropdown" do
         find("button.add-event-action").click
@@ -231,9 +229,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     xit "sets role as none for ul element in merge dropdown" do
       visit "/resources/1"
 
-      using_wait_time(15) do
-        expect(page).to have_selector('#merge-dropdown', visible: true)
-      end
+      expect(page).to have_selector('#merge-dropdown', visible: true)
 
       within "#merge-dropdown" do
         find(" button.merge-action").click
@@ -245,9 +241,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     xit "sets role as none for ul element in transfer dropdown" do
       visit "/resources/1"
 
-      using_wait_time(15) do
-        expect(page).to have_selector('#transfer-dropdown', visible: true)
-      end
+      expect(page).to have_selector('#transfer-dropdown', visible: true)
 
       within "#transfer-dropdown" do
         find("button.transfer-action").click
@@ -258,9 +252,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     xit "has role and aria attributes for the merge dropdown combobox" do
       visit "/resources/1"
 
-      using_wait_time(15) do
-        expect(page).to have_selector('div#merge-dropdown', visible: true)
-      end
+      expect(page).to have_selector('div#merge-dropdown', visible: true)
 
       within "div#merge-dropdown" do
         find("button.merge-action").click
@@ -290,9 +282,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     xit "has acceptable color contrast in the datepicker" do
       visit "/resources/1/edit"
 
-      using_wait_time(15) do
-        expect(page).to have_selector('h2', visible: true)
-      end
+      expect(page).to have_selector('h2', visible: true)
 
       datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
       datepicker_toggle.click
@@ -304,9 +294,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     xit "has acceptable color contrast for active menu dropdowns" do
       visit "/resources/1/edit"
 
-      using_wait_time(15) do
-        expect(page).to have_selector('.sidebar-entry-resource_linked_agents_', visible: true)
-      end
+      expect(page).to have_selector('.sidebar-entry-resource_linked_agents_', visible: true)
 
       find(".sidebar-entry-resource_linked_agents_ a").click
       within "#resource_linked_agents_" do
@@ -325,9 +313,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     xit "has acceptable color contrast in the linkers" do
       visit "/resources/1/edit"
 
-      using_wait_time(15) do
-        expect(page).to have_selector('.sidebar-entry-resource_linked_agents_', visible: true)
-      end
+      expect(page).to have_selector('.sidebar-entry-resource_linked_agents_', visible: true)
 
       find(".sidebar-entry-resource_linked_agents_ a").click
       within "#resource_linked_agents_" do
@@ -348,9 +334,7 @@ describe 'Accessibility', js: true, db: 'accessibility' do
     xit "has acceptable color contrast for active textarea and input boxes" do
       visit "/resources/1/edit"
 
-      using_wait_time(15) do
-        expect(page).to have_selector('h2', visible: true)
-      end
+      expect(page).to have_selector('h2', visible: true)
 
       date_field = find "textarea#resource_repository_processing_note_"
       date_field.click

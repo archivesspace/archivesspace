@@ -571,7 +571,7 @@
       <env key="APPCONFIG_SOLR_URL" value="${env.ASPACE_TEST_SOLR_URL}" />
       <env key="TEST_MODE" value="1" />
       <env key="ASPACE_TEST_APP_SERVER_URL" value="${test-server-url-arg}" />
-      <arg line="../build/gems/bin/bundle exec rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths}" />
+      <arg line="../build/gems/bin/bundle exec rspec -b --format d ${pattern-arg} ${tag-arg} ${order-arg} ${example-arg} ${spec-arg} ${extra-spec-paths} --profile" />
     </java>
   </target>
 
