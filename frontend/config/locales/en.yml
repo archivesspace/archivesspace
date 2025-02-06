@@ -2593,4 +2593,5 @@ en:
     _plural: All Titles
     title: Title
     type: Title Type
-    language_and_script: Language and Script
+    language: Language
+    script: Script
