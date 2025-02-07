@@ -10,6 +10,7 @@ class ResourcesController < ApplicationController
 
 
   include ExportHelper
+  include ResourceHelper
 
   def index
     respond_to do |format|
@@ -102,13 +103,13 @@ class ResourcesController < ApplicationController
   def tree_root
     resource_uri = JSONModel(:resource).uri_for(params[:id])
 
-    render :json => pass_through_json("#{resource_uri}/tree/root")
+    render :json => map_json("#{resource_uri}/tree/root")
   end
 
   def node_from_root
     resource_uri = JSONModel(:resource).uri_for(params[:id])
 
-    render :json => pass_through_json("#{resource_uri}/tree/node_from_root",
+    render :json => map_json("#{resource_uri}/tree/node_from_root",
                                       'node_ids[]' => params[:node_ids])
   end
 
@@ -120,7 +121,7 @@ class ResourcesController < ApplicationController
                  nil
                end
 
-    render :json => pass_through_json("#{resource_uri}/tree/node",
+    render :json => map_json("#{resource_uri}/tree/node",
                                       :node_uri => node_uri)
   end
 
@@ -132,7 +133,7 @@ class ResourcesController < ApplicationController
                  nil
                end
 
-    render :json => pass_through_json("#{resource_uri}/tree/waypoint",
+    render :json => map_json("#{resource_uri}/tree/waypoint",
                                       :parent_node => node_uri,
                                       :offset => params[:offset])
   end
@@ -372,11 +373,11 @@ class ResourcesController < ApplicationController
   private
 
 
-  def pass_through_json(uri, params = {})
+  def map_json(uri, params = {})
     json = "{}"
 
     JSONModel::HTTP.stream(uri, params) do |response|
-      json = response.body
+      json = jsonmodel_to_jqtree(response.body)
     end
 
     json
