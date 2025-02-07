@@ -34,6 +34,10 @@
           <%= display_audit_info(@archival_object) %>
         </section>
 
+        <% if archival_object.titles.length > 0 %>
+          <%= render_aspace_partial :partial => "titles/show", :locals => { :titles => archival_object.titles, :section_id => "archival_object_titles_" } %>
+        <% end %>
+
         <% if archival_object.lang_materials.length > 0 %>
           <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => archival_object.lang_materials, :section_id => "archival_object_lang_materials_" } %>
         <% end %>
