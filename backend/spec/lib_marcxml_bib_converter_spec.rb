@@ -495,14 +495,35 @@ describe 'MARCXML Bib converter' do
       it "maps datafield[@tag='630'] to subject" do
         s = @subjects.select {|s| s['terms'][0]['term'] == 'Subjects--Uniform Title--AT'}
         expect(s.count).to eq(1)
-        expect(s.last['source']).to eq('Local sources')
+        expect(s.last['source']).to eq('rvm')
       end
 
       it "maps datafield[@tag='650'] to subject" do
         s = @subjects.select {|s| s['terms'][0]['term'] == 'Subjects--Topical Term--AT'}
         expect(s.last['terms'][0]['term_type']).to eq('topical')
         expect(s.count).to eq(1)
+        expect(s.last['source']).to eq('mesh')
+      end
+
+      it "maps datafield[@tag='651'] to subject" do
+        s = @subjects.select {|s| s['terms'][0]['term'] == 'Subjects--Geographic Name--AT'}
+        expect(s.last['terms'][0]['term_type']).to eq('geographic')
+        expect(s.count).to eq(1)
         expect(s.last['source']).to eq('Local sources')
+      end
+
+      it "maps datafield[@tag='655'] to subject" do
+        s = @subjects.select {|s| s['terms'][0]['term'] == 'Subjects--GenreForm--AT'}
+        expect(s.last['terms'][0]['term_type']).to eq('genre_form')
+        expect(s.count).to eq(1)
+        expect(s.last['source']).to eq('not_specified')
+      end
+
+      it "maps datafield[@tag='657'] to subject" do
+        s = @subjects.select {|s| s['terms'][0]['term'] == 'Subjects--Function-AT'}
+        expect(s.last['terms'][0]['term_type']).to eq('function')
+        expect(s.count).to eq(1)
+        expect(s.last['source']).to eq('New York State Management Functions Index')
       end
 
       it "maps datafield[@tag='711'] $q to qualifier" do
@@ -619,37 +640,58 @@ describe 'MARCXML Bib converter' do
   end
 
   describe "Importing Subject Authority Files" do
-    it "can import a subject authority record" do
-      cyberpunk_file = File.expand_path("./examples/marc/authority_cyberpunk.xml",
-                                    File.dirname(__FILE__))
+    let(:file) { File.expand_path(auth_file, File.dirname(__FILE__)) }
+    let(:converter) { MarcXMLBibConverter.for_subjects_and_agents_only(file) }
 
-      converter = MarcXMLBibConverter.for_subjects_and_agents_only(cyberpunk_file)
-      converter.run
-      json = JSON(IO.read(converter.get_output_path))
-      # we should only get one subject record
-      expect(json.count).to eq(1)
+    context 'when the file is from lcsh' do
+      let(:auth_file) { "./examples/marc/authority_cyberpunk.xml" }
 
-      subject = json.first
-      expect(subject['publish']).to be_truthy
-      expect(subject['authority_id']).to eq('no2006087900')
-      expect(subject['source']).to eq("lcsh")
-      expect(subject['scope_note']).to eq('Works on cyberpunk in the genre Science Fiction. May be combined with geographic name in the form Cyberpunk fiction-Japan.')
-      expect(subject['terms'].count).to eq(1)
-      expect(subject['terms'][0]['term']).to eq('Cyberpunk')
+      it 'can import a subject authority record' do
+        converter.run
+        json = JSON(IO.read(converter.get_output_path))
+
+        expect(json.count).to eq(1)
+
+        subject = json.first
+        expect(subject['publish']).to be_truthy
+        expect(subject['authority_id']).to eq('no2006087900')
+        expect(subject['source']).to eq("lcsh")
+        expect(subject['scope_note']).to eq('Works on cyberpunk in the genre Science Fiction. May be combined with geographic name in the form Cyberpunk fiction-Japan.')
+        expect(subject['terms'].count).to eq(1)
+        expect(subject['terms'][0]['term']).to eq('Cyberpunk')
+      end
     end
 
-    it "can import a subject authority record with lcgft source" do
-      lcgft_file = File.expand_path("./examples/marc/gf2014026450.xml",
-                                    File.dirname(__FILE__))
+    context 'when the file is from lcshac' do
+      let(:auth_file) { "./examples/marc/sj2021054178.marcxml.xml" }
 
-      converter = MarcXMLBibConverter.for_subjects_and_agents_only(lcgft_file)
-      converter.run
-      json = JSON(IO.read(converter.get_output_path))
-      # we should only get one subject record
-      expect(json.count).to eq(1)
+      it "can import a subject authority record from LC Children's Subject Headings" do
+        converter.run
+        json = JSON(IO.read(converter.get_output_path))
 
-      subject = json.first
-      expect(subject['source']).to eq("lcgft")
+        expect(json.count).to eq(1)
+
+        subject = json.first
+        expect(subject['publish']).to be_truthy
+        expect(subject['authority_id']).to eq('sj2021054178')
+        expect(subject['source']).to eq("lcshac")
+        expect(subject['terms'].count).to eq(1)
+        expect(subject['terms'][0]['term']).to eq('Blue')
+      end
+    end
+
+    context 'when the file is from lcgft' do
+      let(:auth_file) { "./examples/marc/gf2014026450.xml" }
+
+      it "can import a subject authority record with lcgft source" do
+        converter.run
+        json = JSON(IO.read(converter.get_output_path))
+
+        expect(json.count).to eq(1)
+
+        subject = json.first
+        expect(subject['source']).to eq("lcgft")
+      end
     end
   end
 

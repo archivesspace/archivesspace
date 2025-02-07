@@ -230,11 +230,10 @@ Here is an example of a wrap-in tag using ref, targeting the Abstract note in th
             <subfield code="g">CNames-Qualifier-AT</subfield>
             <subfield code="2">NACO Authority File</subfield>
         </datafield>
-        <datafield tag="630" ind2="7" ind1=" ">
+        <datafield tag="630" ind2="6" ind1=" ">
             <subfield code="a">Subjects--Uniform Title--AT</subfield>
-            <subfield code="2">Local sources</subfield>
         </datafield>
-        <datafield tag="650" ind2="7" ind1=" ">
+        <datafield tag="650" ind2="2" ind1=" ">
             <subfield code="a">Subjects--Topical Term--AT</subfield>
             <subfield code="2">Local sources</subfield>
         </datafield>
@@ -242,9 +241,8 @@ Here is an example of a wrap-in tag using ref, targeting the Abstract note in th
             <subfield code="a">Subjects--Geographic Name--AT</subfield>
             <subfield code="2">Local sources</subfield>
         </datafield>
-        <datafield tag="655" ind2="7" ind1=" ">
+        <datafield tag="655" ind2=" " ind1=" ">
             <subfield code="a">Subjects--GenreForm--AT</subfield>
-            <subfield code="2">Local sources</subfield>
         </datafield>
         <datafield tag="656" ind2="7" ind1=" ">
             <subfield code="a">Subjects--Occupation--AT</subfield>
@@ -252,7 +250,7 @@ Here is an example of a wrap-in tag using ref, targeting the Abstract note in th
         </datafield>
         <datafield tag="657" ind2="7" ind1=" ">
             <subfield code="a">Subjects--Function-AT</subfield>
-            <subfield code="2">Local sources</subfield>
+            <subfield code="2">New York State Management Functions Index</subfield>
         </datafield>
         <datafield tag="711" ind2=" " ind1="3">
             <subfield code="a">Corp Name</subfield>
