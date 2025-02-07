@@ -12,6 +12,11 @@
 
       "title" => {"type" => "string", "minLength" => 1, "maxLength" => 16384, "ifmissing" => "error"},
 
+      "titles" => {
+        "type" => "array",
+        "items" => { "type" => "JSONModel(:title) object" }
+      },
+
       "publish" => {"type" => "boolean"},
 
       "subjects" => {
