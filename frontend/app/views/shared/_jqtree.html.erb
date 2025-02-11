@@ -15,6 +15,11 @@
         width: 100%;
     }
 
+    /* Hide the root node toggler */
+    #jqtree > ul:first-child > li:first-child > div:first-child > a.jqtree-toggler {
+      display: none;
+    }
+
     .jqtree-element {
         display: flex;
         padding: 8px;
@@ -82,7 +87,7 @@
 
 <section class="col-12">
   <div id="jqtree-container" class="jqtree-container">
-    <div id="jqtree"></div>
+    <div id="jqtree"></div><!-- TODO: add data-* attributes here instead of in JS -->
   </div>
   <div class="ui-resizable-handle ui-resizable-s" style="bottom: -1rem;">
     <button
@@ -95,165 +100,480 @@
 </section>
 
 <script>
-const treeDataSource = new TreeDataSource('<%= url_for(:action => :show) %>/tree');
+const ROOT_PATH = '<%= url_for(:action => :show) %>'; // eg /resources/24
+const TREE_PATH = `${ROOT_PATH}/tree`;
+const TREE_NODE_PATH = `${TREE_PATH}/node`;
+
+const treeDataSource = new TreeDataSource(TREE_PATH);
+
+const $jqtree = $('#jqtree');
+
+const waypointObserver = new IntersectionObserver(
+  handleObservedNodes, {
+    root: document.querySelector('#jqtree-container'),
+    rootMargin: '-30% 0px -30% 0px',
+    threshold: 0
+  }
+);
+
+treeDataSource.fetchRootNode().done(function(root) {
+  const {
+    uri: rootUri,
+    waypoint_size: WAYPOINT_SIZE,
+    child_count: rootChildCount,
+    waypoints: rootNumWaypoints,
+  } = root;
+
+  const treeData = migrateRoot(root);
+
+  $jqtree.attr('data-root-uri', rootUri);
+  $jqtree.attr('data-waypoint-size', WAYPOINT_SIZE);
+  $jqtree.attr('data-root-child-count', rootChildCount);
+  $jqtree.attr('data-root-waypoint-count', rootNumWaypoints);
+
+  $jqtree.tree({
+    data: treeData,
+    dataUrl, // jqtree's "on demand loading"; fetches the first waypoint of children when a parent is first expanded
+    dataFilter, // manipulate the the dataUrl response
+    dragAndDrop: true,
+    // saveState: true,
+    selectable: true,
+    autoOpen: 0, // expand the root node by default
+    useContextMenu: false,
+    onCreateLi: function (node, $li) {
+      if ('parent_id' in node._AS_) {
+        renderNode(node, $li);
+      } else {
+        renderRoot(node, $li);
+      }
+    }
+  });
+});
+
+// Allow multiple node selection
+// TODO: CHANGE SELECTION TO mousedown not mouseup
+$jqtree.on('tree.click', function(e) {
+  e.preventDefault();
+
+  const clickedNode = e.node;
+
+  if (clickedNode.id === undefined) {
+    console.warn('The multiple selection functions require that nodes have an id');
+  }
+
+  if ($jqtree.tree('isNodeSelected', clickedNode)) {
+    $jqtree.tree('removeFromSelection', clickedNode);
+  } else {
+    $jqtree.tree('addToSelection', clickedNode);
+  }
+});
+
+// Enable drag and drop for multiple selected nodes
+$jqtree.on('tree.move', function(e) {
+  const movedNode = e.move_info.moved_node;
+  const targetNode = e.move_info.target_node;
+  const position = e.move_info.position;
+  const selectedNodes = $jqtree.tree('getSelectedNodes');
+
+  if (selectedNodes.includes(movedNode)) {
+    if (selectedNodes.length === 1) {
+      // Single selection, end move manually after the default move completes
+      setTimeout(() => {
+        endNodeMove(movedNode);
+      }, 0);
+
+      return;
+    } else if (selectedNodes.length > 1 ) {
+      // Multiple selection, handle the move manually
+      e.preventDefault();
+
+      switch (position) {
+        case 'after':
+          selectedNodes.slice().reverse().forEach(node => {
+            $jqtree.tree('moveNode', node, targetNode, 'after');
+          });
+          break;
+        case 'before':
+          selectedNodes.forEach(node => {
+            $jqtree.tree('moveNode', node, targetNode, 'before');
+          });
+          break;
+        case 'inside':
+          const lastChild = targetNode.children.length
+            ? targetNode.children[targetNode.children.length - 1]
+            : null;
+
+          selectedNodes.slice().reverse().forEach(node => {
+            if (lastChild) {
+              $jqtree.tree('moveNode', node, lastChild, 'after');
+            } else {
+              $jqtree.tree('moveNode', node, targetNode, 'inside');
+            }
+          });
+          break;
+      }
+
+      setTimeout(() => {
+        selectedNodes.forEach(endNodeMove);
+      }, 0);
+
+      return;
+    }
+  }
+
+  function endNodeMove(node) {
+    const element = $(node.element);
+    element.removeClass('node-moved'); // Remove any existing animation
+    element.addClass('node-moved');
+    $jqtree.tree('removeFromSelection', node);
+  }
+});
+
 
 /**
- * Migrate the data from the AS API to the jqtree format
- * @param {Array} nodes - The nodes to migrate
- * @returns {Array} The migrated nodes
+ * Migrate the data from the AS API to the jqtree format; temporary
+ * until we figure out exactly what data is needed
+ * @param {Object} root - The root record of the tree
+ * @returns {Array} The migrated root node for jqtree consumption
  */
-function migrateData(nodes) {
+function migrateRoot(root) {
+  const { precomputed_waypoints, ...rootProps } = root;
+
+  return [
+    {
+      id: root.uri,
+      name: root.title,
+      children: migrateNodes(root.precomputed_waypoints[""]["0"], root.uri, true),
+      _AS_: {
+        nameHref: `#tree::${root.jsonmodel_type}_${root.id}`,
+        loadedWaypoints: [0],
+        ...rootProps,
+      }
+    }
+  ];
+}
+
+/**
+ * Migrate the data from the AS API to the jqtree format; temporary
+ * until we figure out exactly what data is needed
+ * @param {Array} nodes - A waypoint of nodes to migrate
+ * @param {String} parentUri - The URI of the parent node
+ * @param {Boolean} parentIsRoot - Whether the parent is the root node
+ * @returns {Array} The migrated nodes for jqtree consumption
+ */
+function migrateNodes(nodes, parentUri, parentIsRoot = false) {
+  // Early return if no nodes
+  if (!nodes.length) return [];
+
+  // Calculate this waypoint's number from the first node
+  // (all nodes in this batch are from same waypoint)
+  const waypointNumber = Math.floor(nodes[0].position / nodes[0].waypoint_size);
+
+  // Only try to update parent's waypoint tracking if this isn't initial tree creation
+  if (!parentIsRoot) {
+    const parentNode = $jqtree.tree('getNodeById', parentUri);
+    if (parentNode && !parentNode._AS_.loadedWaypoints?.includes(waypointNumber)) {
+      parentNode._AS_.loadedWaypoints ??= [];
+      parentNode._AS_.loadedWaypoints.push(waypointNumber);
+      parentNode._AS_.loadedWaypoints.sort((a, b) => a - b);
+    }
+  }
+
   return nodes.map(node => {
     const id = parseInt(node.uri.split('/').pop());
 
     const title = node.title || '';
     const expression = node.dates?.[0]?.expression || '';
-    const name = `${title}${title && expression ? ' ' : ''}${expression}`;
-    const nameHref = `#tree::${node.jsonmodel_type}_${id}`;
+
     const topContainerType = node.containers?.[0]?.top_container_type || '';
     const topContainerIndicator = node.containers?.[0]?.top_container_indicator || '';
     const type2 = node.containers?.[0]?.type_2 || '';
     const indicator2 = node.containers?.[0]?.indicator_2 || '';
-    const container = node.containers?.[0] ? `${topContainerType}: ${topContainerIndicator}, ${type2} ${indicator2}` : '';
-    const instanceType = node.containers?.[0]?.instance_type || '';
-    const level = node.level;
 
     const migratedNode = {
-      id, // jqtree required
-      name, // jqtree hook
-      nameHref, // AS specific
-      container, // AS specific
-      instanceType, // AS specific
-      level, // AS specific
+      id: node.uri,
+      name: `${title}${title && expression ? ' ' : ''}${expression}`,
+      _AS_: {
+        _derived_: {
+          nameHref: `#tree::${node.jsonmodel_type}_${id}`,
+          container: node.containers?.[0] ? `${topContainerType}: ${topContainerIndicator}, ${type2} ${indicator2}` : '',
+          instanceType: node.containers?.[0]?.instance_type || '',
+          waypointNumber,
+        },
+        ...node,
+        parentUri,
+      }
     }
 
     if (node.child_count > 0) {
       migratedNode.load_on_demand = true;
+      migratedNode._AS_.loadedWaypoints = []; // Init empty waypoint tracking
     }
 
     return migratedNode;
-  })
+  });
 }
 
-treeDataSource.fetchRootNode().done(function(rootNode) {
-  const rootNodeUri = rootNode.uri;
-  const treeData = migrateData(rootNode.precomputed_waypoints[""]["0"]);
+/**
+ * Render the root node
+ * @param {Object} node - The jqtree root node to render
+ * @param {Object} $li - The jQuery object for the root node
+ */
+function renderRoot(node, $li) {
+  $li.attr('id', node.id);
+  $li.attr('data-child-count', node._AS_.child_count);
 
-  const $jqtree = $('#jqtree');
+  const {name} = node;
+  const {nameHref, level} = node._AS_;
 
-  $jqtree.tree({
-    data: treeData,
-    dataUrl: (node) => {
-      const [_, repoId, resourceId] = rootNodeUri.match(/\/repositories\/(\d+)\/resources\/(\d+)/);
+  const $div = $li.find(".jqtree-element");
 
-      return {
-        url: `/resources/${resourceId}/tree/node`,
-        data: {
-          node: `/repositories/${repoId}/archival_objects/${node.id}`
-        }
-      };
-    },
-    dataFilter: (data) => migrateData(data.precomputed_waypoints[data.uri]["0"]),
-    dragAndDrop: true,
-    // saveState: true,
-    selectable: true,
-    autoOpen: false,
-    useContextMenu: false,
-    onCreateLi: function (node, $li) {
-      const $div = $li.find(".jqtree-element");
+  const $row = $('<div class="tree-row"></div>');
 
-      const $row = $('<div class="tree-row"></div>');
+  const $name = $(`
+  <div class="tree-col">
+    <a class="record-title" href="${nameHref}" title="${name}">${name}</a>
+  </div>`);
+  const $level = $(`<div class="tree-col">${level}</div>`);
 
-      const $name = $(`
-      <div class="tree-col">
-        <a class="record-title" href="${node.nameHref}" title="${node.name}">${node.name}</a>
-      </div>`);
-      const $level = $(`<div class="tree-col">${node.level}</div>`);
-      const $type = $(`<div class="tree-col">${node.instanceType}</div>`);
-      const $container = $(`<div class="tree-col">${node.container}</div>`);
+  $row.append($name).append($level);
 
-      $row.append($name).append($level).append($type).append($container);
+  $div.append($row);
+}
 
-      $div.append($row);
+/**
+ * Render a node
+ * @param {Object} node - The jqtree node to render
+ * @param {Object} $li - The jQuery object for the node
+ */
+function renderNode(node, $li) {
+  $li.attr('id', node.id);
+
+  const $div = $li.find(".jqtree-element");
+
+  const $row = $('<div class="tree-row"></div>');
+
+  const $name = $(`
+  <div class="tree-col">
+    <a class="record-title" href="${node._AS_._derived_.nameHref}" title="${node.name}">${node.name}</a>
+  </div>`);
+  const $level = $(`<div class="tree-col">${node._AS_.level}</div>`);
+  const $type = $(`<div class="tree-col">${node._AS_._derived_.instanceType}</div>`);
+  const $container = $(`<div class="tree-col">${node._AS_._derived_.container}</div>`);
+
+  $row.append($name).append($level).append($type).append($container);
+
+  $div.append($row);
+
+  // console.log('RENDER NODE:', {
+  //   position: node._AS_.position,
+  //   waypointSize: node._AS_.waypoint_size,
+  //   relativePosition: node._AS_.position % node._AS_.waypoint_size,
+  //   node
+  // });
+  console.log('node:', node._AS_.position);
+
+  if (node._AS_.child_count > 0) {
+    $li.attr('data-child-count', node._AS_.child_count);
+  }
+
+  const parentNode = getParentNode(node);
+  if (hasUnfetchedChildren(parentNode) && isMiddleOfWaypoint(node)) {
+    const waypointNumber = node._AS_._derived_.waypointNumber;
+    const { hasPrevious, hasNext } = findEmptyNeighboringWaypoints(
+      parentNode,
+      waypointNumber
+    );
+
+    // Only observe if this waypoint has an unloaded neighbor
+    if (hasPrevious || hasNext) {
+      console.log('OBSERVE THIS NODE!', {
+        position: node._AS_.position,
+        waypointSize: node._AS_.waypoint_size,
+        relativePosition: node._AS_.position % node._AS_.waypoint_size,
+        node,
+        parentLoadedWaypoints: parentNode._AS_.loadedWaypoints
+      });
+
+      waypointObserver.observe($li[0]);
     }
-  });
+  }
+}
 
-  // Allow multiple node selection
-  $jqtree.on('tree.click', function(e) {
-    e.preventDefault();
+function getParentNode(node) {
+  return $jqtree.tree('getNodeById', node._AS_.parentUri);
+}
 
-    const clickedNode = e.node;
+function hasUnfetchedChildren(parentNode) {
+  return parentNode.children.length < parentNode._AS_.child_count; // TODO: Rename `child_count` on the back end to `total_child_count`
+}
 
-    if (clickedNode.id === undefined) {
-        console.warn('The multiple selection functions require that nodes have an id');
+/**
+ * Provide the url and data to fetch a node's children via
+ * jqTree's load_on_demand feature
+ * @param {Object} node - The node to get the dataUrl for
+ * @returns {Object} The dataUrl for the node
+ * @see https://mbraak.github.io/jqTree/#options-data-url
+ */
+function dataUrl(node) {
+  return {
+    url: `${TREE_NODE_PATH}`,
+    data: {
+      node: node.id
     }
+  };
+}
 
-    if ($jqtree.tree('isNodeSelected', clickedNode)) {
-        $jqtree.tree('removeFromSelection', clickedNode);
-    } else {
-        $jqtree.tree('addToSelection', clickedNode);
-    }
-  });
+/**
+ * Transform the data from the AS API into the jqtree format; temporary
+ * until we figure out exactly what data is needed
+ * @param {Object} data - The dataUrl function's response from the AS API
+ * @returns {Array} The transformed data for jqtree consumption
+ * @see https://mbraak.github.io/jqTree/#options-datafilter
+ */
+function dataFilter(data) {
+  return migrateNodes(
+    data.precomputed_waypoints[data.uri]["0"],
+    data.uri,
+  );
+}
 
-  // Enable drag and drop for multiple selected nodes
-  $jqtree.on('tree.move', function(e) {
-    const movedNode = e.move_info.moved_node;
-    const targetNode = e.move_info.target_node;
-    const position = e.move_info.position;
-    const selectedNodes = $jqtree.tree('getSelectedNodes');
+$jqtree.on('tree.open', function(e) {
+  const node = e.node;
+  const parentNode = node.parent;
 
-    if (selectedNodes.includes(movedNode)) {
-      if (selectedNodes.length === 1) {
-        // Single selection, end move manually after the default move completes
-        setTimeout(() => {
-          endNodeMove(movedNode);
-        }, 0);
+  // Skip root node
+  if (!parentNode.parent) return;
 
-        return;
-      } else if (selectedNodes.length > 1 ) {
-        // Multiple selection, handle the move manually
-        e.preventDefault();
+  // If this is the first time opening this parent, initialize its waypoint tracking
+  if (!parentNode._AS_.loadedWaypoints) {
+    parentNode._AS_.loadedWaypoints = [0]; // First waypoint (0) is always loaded on expand
+  }
 
-        switch (position) {
-          case 'after':
-            selectedNodes.slice().reverse().forEach(node => {
-              $jqtree.tree('moveNode', node, targetNode, 'after');
-            });
-            break;
-          case 'before':
-            selectedNodes.forEach(node => {
-              $jqtree.tree('moveNode', node, targetNode, 'before');
-            });
-            break;
-          case 'inside':
-            const lastChild = targetNode.children.length
-              ? targetNode.children[targetNode.children.length - 1]
-              : null;
+  // Get waypoint number from any child
+  // TODO: Part of the data that should be fetched on open (load_on_demand)
+  // should be the waypoint number of this batch of children, instead
+  // of querying an arbitrary child for it like below.
+  const firstChild = node.children[0];
+  if (!firstChild) return;
 
-            selectedNodes.slice().reverse().forEach(node => {
-              if (lastChild) {
-                $jqtree.tree('moveNode', node, lastChild, 'after');
-              } else {
-                $jqtree.tree('moveNode', node, targetNode, 'inside');
-              }
-            });
-            break;
-        }
+  const waypointNumber = firstChild._AS_._derived_.waypointNumber;
 
-        setTimeout(() => {
-          selectedNodes.forEach(endNodeMove);
-        }, 0);
+  if (!parentNode._AS_.loadedWaypoints.includes(waypointNumber)) {
+    parentNode._AS_.loadedWaypoints.push(waypointNumber);
+    parentNode._AS_.loadedWaypoints.sort((a, b) => a - b);
+  }
 
-        return;
-      }
-    }
-
-    function endNodeMove(node) {
-      const element = $(node.element);
-      element.removeClass('node-moved'); // Remove any existing animation
-      element.addClass('node-moved');
-      $jqtree.tree('removeFromSelection', node);
-    }
+  console.log('Parent waypoint state:', {
+    parentId: parentNode.id,
+    loadedWaypoints: parentNode._AS_.loadedWaypoints,
+    totalChildren: parentNode._AS_.child_count,
+    currentChildren: parentNode.children.length
   });
 });
+
+/**
+ * Check if there are any unloaded waypoints adjacent to the given waypoint
+ * @param {Object} parentNode - The parent node to check waypoints for
+ * @param {Number} currentWaypointNumber - The waypoint number to check neighbors of
+ * @returns {Object} Object containing previous and next waypoint status
+ */
+function findEmptyNeighboringWaypoints(parentNode, currentWaypointNumber) {
+  const loadedWaypoints = parentNode._AS_.loadedWaypoints;
+  const totalWaypoints = parentNode._AS_.waypoints;
+
+  // Find current waypoint's index in the loaded array
+  const currentIndex = loadedWaypoints.indexOf(currentWaypointNumber);
+
+  // Check for gaps before and after
+  const hasPreviousGap = currentWaypointNumber > 0 &&
+    loadedWaypoints[currentIndex - 1] !== currentWaypointNumber - 1;
+
+  const hasNextGap = currentWaypointNumber < totalWaypoints - 1 &&
+    loadedWaypoints[currentIndex + 1] !== currentWaypointNumber + 1;
+
+  return {
+    hasPrevious: hasPreviousGap,
+    hasNext: hasNextGap
+  };
+}
+
+/**
+ * Check if a node is in the middle range of its waypoint
+ * @param {Object} node - The node to check
+ * @returns {Boolean} Whether the node is in the middle range
+ */
+function isNodeInMiddleRange(node) {
+  const waypointSize = node._AS_.waypoint_size;
+  const absolutePosition = node._AS_.position;
+
+  // Calculate position relative to this waypoint
+  const relativePosition = absolutePosition % waypointSize;
+
+  // Define the middle range (20 nodes centered in waypoint)
+  const rangeSize = 20;
+  const rangeStart = Math.floor((waypointSize - rangeSize) / 2);
+  const rangeEnd = rangeStart + rangeSize;
+
+  return relativePosition >= rangeStart && relativePosition < rangeEnd;
+}
+
+function isMiddleOfWaypoint(node) {
+  const waypointSize = node._AS_.waypoint_size; // 200
+  const absolutePosition = node._AS_.position;
+
+  // Calculate which waypoint this node belongs to (0-based)
+  const waypointNumber = Math.floor(absolutePosition / waypointSize);
+
+  // Calculate position relative to this waypoint (0-199)
+  const relativePosition = absolutePosition % waypointSize;
+
+  // Find the middle position of a waypoint (99 for waypoint_size 200)
+  const middlePosition = Math.floor(waypointSize / 2);
+
+  // Return true if this node is at the middle position of its waypoint
+  return relativePosition === middlePosition;
+}
+
+/**
+ * Handle observed entries from the waypoint observer
+ * @param {Array} entries - The observed entries from the waypoint observer
+ */
+function handleObservedNodes(entries, observer) {
+  entries.forEach(async (entry) => {
+    if (!entry.isIntersecting) return;
+
+    const node = $jqtree.tree('getNodeByHtmlElement', entry.target);
+    const parentNode = getParentNode(node);
+
+    observer.unobserve(entry.target);
+
+    const nextWaypointNumber = node._AS_._derived_.waypointNumber + 1;
+
+    try {
+      const nextWaypoint = await treeDataSource.fetchWaypoint(
+        node._AS_.parent_id ? node._AS_.parentUri : "",
+        nextWaypointNumber
+      );
+
+      const migratedNodes = migrateNodes(nextWaypoint, parentNode.id);
+
+      // Update tracking before modifying the tree
+      if (!parentNode._AS_.loadedWaypoints.includes(nextWaypointNumber)) {
+        parentNode._AS_.loadedWaypoints.push(nextWaypointNumber);
+        parentNode._AS_.loadedWaypoints.sort((a, b) => a - b);
+      }
+
+      const lastNode = parentNode.children[parentNode.children.length - 1];
+
+      // Add all nodes in sequence after the last existing node
+      migratedNodes.reduce((previousNode, nodeData) => {
+        return $jqtree.tree('addNodeAfter', nodeData, previousNode);
+      }, lastNode);
+
+    } catch (error) {
+      console.error('Error loading waypoint:', error);
+    }
+  });
+}
 </script>
