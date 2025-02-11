@@ -7,7 +7,7 @@
     <div class="record-pane">
       <%= readonly_context :resource, @resource do |readonly| %>
 
-        <h2><%= clean_mixed_content(@resource.title) %> <span class="label label-info badge"><%= t("resource._singular") %></span></h2>
+        <h2><%= clean_mixed_content(@resource.titles[0]['title']) %> <span class="label label-info badge"><%= t("resource._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
@@ -19,7 +19,6 @@
                                        :form => readonly,
                                        :record => @resource) %>
 
-            <%= readonly.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root), :escape => false} %>
             <% if resource.id_0 %><%= readonly.label_and_fourpartid %><% end %>
 
             <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_urls] %>

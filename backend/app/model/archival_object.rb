@@ -68,7 +68,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
                       :is_array => true)
 
   def self.produce_display_string(json)
-    display_string = json['title'] || ""
+    display_string = json['titles'][0]['title'] || ""
 
     date_label = json.has_key?('dates') && json['dates'].length > 0 ?
                    json['dates'].map do |date|
