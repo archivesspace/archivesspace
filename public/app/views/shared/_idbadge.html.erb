@@ -48,6 +48,9 @@ end
   <% end %>
 <%= (props.fetch(:full,false)? '</h1>' : '</h3>').html_safe %>
 
+<% if result.primary_type == 'resource' || result.primary_type == 'archival_object' %>
+  <%= render partial: 'shared/titles', locals: {titles: result.json['titles'], display_string: result.display_string} %>
+<% end %>
 
 <div class="badge-and-identifier">
   <div class="record-type-badge <%= (result.primary_type.start_with?('agent') ? 'agent' : result.primary_type) %>">

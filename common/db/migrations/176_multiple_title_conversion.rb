@@ -32,7 +32,6 @@ Sequel.migration do
         self[:title].insert(
           "#{record_type}_id".to_sym => row[:id],
           :title => row[:title] || " ",   # shouldn't be possible, but some AOs in testing had a nil title
-          :type_id => get_enum_value_id("title_type", "formal"),
           :last_modified_by => 'admin',
           :create_time => row[:create_time],
           :system_mtime => row[:system_mtime],
