@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Top Containers and Instances', js: true do
-
   before :all do
     @repo = create :repo, repo_code: "containers_test_#{Time.now.to_i}"
     set_repo @repo
@@ -31,7 +30,7 @@ describe 'Top Containers and Instances', js: true do
     select_repository(@repo)
   end
 
-  xit 'abides by search and browse column preferences' do
+  it 'abides by search and browse column preferences' do
     visit '/'
     click_button id: 'user-menu-dropdown'
     click_link 'Global Preferences (admin)'
@@ -46,7 +45,7 @@ describe 'Top Containers and Instances', js: true do
     expect(page).to have_content('ILS Holding ID')
   end
 
-  xit 'searches containers and performs bulk operations' do
+  it 'searches containers and performs bulk operations' do
     visit '/top_containers'
     fill_in id: 'q', with: 'Letter'
     click_button 'Search'
@@ -76,19 +75,47 @@ describe 'Top Containers and Instances', js: true do
     expect(find('.form-group:nth-child(3) div').text).to eq('xyzpdq')
   end
 
-  xit 'performs bulk indicator update' do
+  it 'performs bulk indicator update' do
     visit '/top_containers'
-    select 'Yes', from: '#empty'
-    find('input.btn').click
+    fill_in id: 'q', with: 'Letter'
+    click_button 'Search'
+
     find("#bulk_operation_results input[name='select_all']").click
-    find('.bulk-operation-toolbar:first-child a.dropdown-toggle').click
-    find(id: 'showBulkActionRapidIndicatorEntry').click
-    modal = find(id: 'bulkActionIndicatorRapidEntryModal')
-    modal
-    # the original selenium test appears to have been left unfinished
+
+    within(all('.record-toolbar.bulk-operation-toolbar').first) do
+      click_on('Bulk Operations')
+      within('.dropdown-menu') do
+        click_on('Update Indicators')
+      end
+
+    end
+
+    within('#bulkActionIndicatorRapidEntryModal') do
+      all("input[type='text']").each_with_index do |indicator_field, index|
+        indicator_field.fill_in(with: "New indicator #{index}")
+      end
+
+      click_button('Update 5 records')
+    end
+
+    run_all_indexers
+
+    # need to reload to see results of indexing
+    visit '/top_containers'
+
+    fill_in id: 'q', with: 'New indicator'
+    click_button 'Search'
+
+    wait_for_ajax
+
+    expect(find_all('table tr').length).to be 6   # includes header row
+
+    (0..4).each do |index|
+      expect(page).to have_content("New indicator #{index}")
+    end
   end
 
-  xit 'searches containers and performs bulk container merge' do
+  it 'searches containers and performs bulk container merge' do
     # Some containers for merging
     ('A'..'E').each do |l|
       create :top_container,
@@ -102,18 +129,26 @@ describe 'Top Containers and Instances', js: true do
     find("#bulk_operation_results input[name='select_all']").click
 
     # Make sure multiple containers are present to merge
-    expect(all('table tr').size).to be > 1
+    expect(find_all('table tr').length).to be 6   # includes header row
 
-    # Now merge top containers
-    find('.bulk-operation-toolbar:first-child .dropdown-toggle').click
-    find('#bulkActionMerge').click
-    modal = find('#bulkMergeModal')
-    modal.first("input[name='target[]']").click
-    modal.find('.merge-button').click
+    wait_for_ajax
 
-    # Should be given a confirmation modal
-    modal = find('#bulkMergeConfirmModal')
-    modal.find('.merge-button').click
+    within(all('.record-toolbar.bulk-operation-toolbar').first) do
+      click_on('Bulk Operations')
+
+      within('.dropdown-menu') do
+        click_on('Merge Top Containers')
+      end
+    end
+
+    within('#bulkMergeModal') do
+      all("input[name='merge_destination[]']").first.click
+      click_on('Select merge destination')
+    end
+
+    within('#bulkMergeConfirmModal') do
+      click_on('Merge 5 records')
+    end
 
     run_all_indexers
 
@@ -125,7 +160,7 @@ describe 'Top Containers and Instances', js: true do
     expect(find_all('table tr').length).to be 2   # includes header row
   end
 
-  xit 'remembers the search after leaving the page' do
+  it 'remembers the search after leaving the page' do
     visit '/top_containers'
     fill_in id: 'q', with: 'Letter'
     find('input.btn').click
@@ -138,7 +173,7 @@ describe 'Top Containers and Instances', js: true do
     expect(all('tbody tr').length).to eq(n_results)
   end
 
-  xit 'can attach instances to resources and create containers and locations along the way' do
+  it 'can attach instances to resources and create containers and locations along the way' do
     visit "#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#resource_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
     select 'Text', from: 'resource[instances][0][instance_type]'
@@ -180,6 +215,7 @@ describe 'Top Containers and Instances', js: true do
       fill_in id: 'location_coordinate_1_indicator_', with: 'XYZ1234'
       click_button('createAndLinkButton')
     end
+
     click_button('Create and Link')
     fill_in id: 'resource_instances__0__sub_container__barcode_2_', with: 'test_child_container_barcode'
     click_button("Save Resource", match: :first).click
@@ -197,7 +233,7 @@ describe 'Top Containers and Instances', js: true do
     expect(page).to have_selector('#bulk_operation_results tbody tr')
   end
 
-  xit 'can attach instances to accessions and create containers and locations along the way' do
+  it 'can attach instances to accessions and create containers and locations along the way' do
     visit "#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#accession_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
     select 'Text', from: 'accession[instances][0][instance_type]'
@@ -237,9 +273,7 @@ describe 'Top Containers and Instances', js: true do
     expect(page).to have_content('Accession updated')
   end
 
-  xit 'can find the top container that was created using the typeahead feature for this record' do
-    # TODO this example was ignored to get the Softserv updates merged into master;
-    # the cause for this failing remotely but not locally is as yet unknown
+  it 'can find the top container that was created using the typeahead feature for this record' do
     second_linker = '#accession_instances__1__sub_container__top_container__ref__combobox'
     run_all_indexers
     visit "#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit"
@@ -248,7 +282,7 @@ describe 'Top Containers and Instances', js: true do
     expect(page).to have_selector("#{second_linker} .token-input-dropdown")
   end
 
-  xit 'can add a location with a previous status to a top container' do
+  it 'can add a location with a previous status to a top container' do
     visit "#{@container.uri.sub(%r{/repositories/\d+}, '')}/edit"
     click_button 'Add Location'
     find(id: 'top_container_container_locations__1__status_').select 'Previous'
@@ -262,7 +296,7 @@ describe 'Top Containers and Instances', js: true do
     expect(find('div.record-pane div.alert-success')).to have_content('Top Container Updated')
   end
 
-  xit 'can calculate extents for resources' do
+  it 'can calculate extents for resources' do
     visit "#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#other-dropdown button').click
     click_button 'Calculate Extent'
@@ -278,7 +312,7 @@ describe 'Top Containers and Instances', js: true do
     expect(extent_headings[1].text).to match(/^\d.*/)
   end
 
-  xit 'can calculate extents for accessions' do
+  it 'can calculate extents for accessions' do
     visit "#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit"
     find('#other-dropdown button').click
     click_button 'Calculate Extent'

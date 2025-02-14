@@ -34,19 +34,25 @@ jobs:
           VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "RELEASE_NAME=$(echo $VERSION | sed 's/v/V/')" >> $GITHUB_OUTPUT
+          echo "RELEASE_DOCKER_TAG=$(echo $VERSION | sed 's/v//')" >> $GITHUB_OUTPUT
           ./build/run doc:release_notes -Dcurrent_tag=$VERSION -Doutfile=RELEASE_NOTES.md -Dtoken=${{ secrets.GITHUB_TOKEN }}
           cat RELEASE_NOTES.md
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_OUTPUT
           cat RELEASE_NOTES.md >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Build Dist
+      - name: Build Zip Dist
         run: ./build/run build-dist -Dversion=${{ steps.release_metadata.outputs.VERSION }}
 
+      - name: Build Docker Conf Package
+        run: ./build/run build-docker-conf-package -Dversion=${{ steps.release_metadata.outputs.VERSION }} -Ddocker-tag=${{ steps.release_metadata.outputs.RELEASE_DOCKER_TAG }}
+
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           name: ${{ steps.release_metadata.outputs.RELEASE_NAME }}
           body: ${{ steps.release_metadata.outputs.RELEASE_NOTES }}
-          files: archivesspace-${{ steps.release_metadata.outputs.VERSION }}.zip
+          files: |
+            archivesspace-${{ steps.release_metadata.outputs.VERSION }}.zip
+            archivesspace-docker-${{ steps.release_metadata.outputs.VERSION }}.zip
           draft: true

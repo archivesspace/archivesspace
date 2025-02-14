@@ -25,18 +25,14 @@ describe 'Merge and Transfer', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{resource.title} Resource"
-    end
+    expect(page).to have_selector('h2', visible: true)
+    expect(find('h2').text).to eq "#{resource.title} Resource"
 
     find('#transfer-dropdown button').click
 
     select @repository_target.repo_code, from: 'transfer_ref_'
 
-    using_wait_time(15) do
-      expect(page).to have_selector('.dropdown-menu.transfer-form', visible: true)
-    end
+    expect(page).to have_selector('.dropdown-menu.transfer-form', visible: true)
 
     within '.dropdown-menu.transfer-form' do
       click_on 'Transfer'
@@ -83,18 +79,12 @@ describe 'Merge and Transfer', js: true do
 
     visit "resources/#{resource_target.id}/edit"
 
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{resource_target.title} Resource"
-    end
+    expect(page).to have_selector('h2', visible: true)
+    expect(find('h2').text).to eq "#{resource_target.title} Resource"
 
-    using_wait_time(15) do
-      find('#merge-dropdown button').click
-    end
+    find('#merge-dropdown button').click
 
-    using_wait_time(15) do
-      expect(page).to have_selector('#form_merge', visible: true)
-    end
+    expect(page).to have_selector('#form_merge', visible: true)
 
     within '#form_merge' do
       fill_in 'token-input-merge_ref_', with: resource_source.title
@@ -134,18 +124,12 @@ describe 'Merge and Transfer', js: true do
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{archival_object.title} Archival Object"
-    end
+    expect(page).to have_selector('h2', visible: true)
+    expect(find('h2').text).to eq "#{archival_object.title} Archival Object"
 
-    using_wait_time(15) do
-      click_on 'Transfer'
-    end
+    click_on 'Transfer'
 
-    using_wait_time(15) do
-      expect(page).to have_selector('.dropdown-menu.tree-transfer-form', visible: true)
-    end
+    expect(page).to have_selector('.dropdown-menu.tree-transfer-form', visible: true)
 
     within '.dropdown-menu.tree-transfer-form' do
       fill_in 'token-input-transfer_ref_', with: resource.title
@@ -173,18 +157,12 @@ describe 'Merge and Transfer', js: true do
 
     visit "digital_objects/#{digital_object_source.id}/edit"
 
-    using_wait_time(15) do
-      expect(page).to have_selector('h2', visible: true)
-      expect(find('h2').text).to eq "#{digital_object_source.title} Digital Object"
-    end
+    expect(page).to have_selector('h2', visible: true)
+    expect(find('h2').text).to eq "#{digital_object_source.title} Digital Object"
 
-    using_wait_time(15) do
-      click_button 'Merge'
-    end
+    click_button 'Merge'
 
-    using_wait_time(15) do
-      expect(page).to have_selector('.dropdown-menu.merge-form', visible: true)
-    end
+    expect(page).to have_selector('.dropdown-menu.merge-form', visible: true)
 
     within '.dropdown-menu.merge-form' do
       fill_in 'token-input-merge_ref_', with: digital_object_target.title

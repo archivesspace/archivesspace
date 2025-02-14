@@ -132,7 +132,6 @@ es:
       <p>Enlaza un objeto digital o un componente de objeto digital a un archivo de contenido asociado, direccionable por URI.</p>
     _singular: Objeto digital
     _plural: Objetos digitales
-
     new_title: Nuevo objeto digital
   digital_object_component:
     <<: *digital_object_attributes
@@ -2057,7 +2056,6 @@ es:
   reports:
     parameters:
       from: De
-      from_tooltip:
       to: Para
       locations: Localizaciones
       scope_by_date: Alcance por fecha

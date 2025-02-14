@@ -10,7 +10,7 @@ gem 'i18n'
 gem 'json'
 gem 'mime-types'
 gem 'multi_json', '~> 1.15.0'
-gem 'nokogiri', '>= 1.10.8'
+gem 'nokogiri', '~> 1.13.10'
 gem 'sinatra', '~> 3.2', require: false
 gem 'sinatra-contrib', '~> 3.2', require: false
 gem 'multipart-post', '~> 2.4'
@@ -19,7 +19,6 @@ gem 'json-schema', '1.0.10'
 
 group :test do
   gem 'factory_bot', '= 6.2.1'
-  gem 'ladle'
   gem 'rack-test'
   gem 'rspec'
   gem 'rspec-core'

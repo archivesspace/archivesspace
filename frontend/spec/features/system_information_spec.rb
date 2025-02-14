@@ -35,76 +35,88 @@ describe 'System Information', js: true do
     expect(page).to have_text 'CPU_COUNT'
   end
 
-  it 'should not let a user with administer_system perrmissions see this if allow_other_admins_access_to_system_info is set to false' do
-    AppConfig[:allow_other_admins_access_to_system_info] = false
-
-    user_with_administer_system = create_user(repository => ['repository-archivists'])
-
-    login_user(admin_user)
-    select_repository(repository)
-
-    click_on 'System'
-    click_on 'Manage Users'
-
-    element = find('tr', text: user_with_administer_system.username)
-    within element do
-      click_on 'Edit'
+  context 'when allow_other_admins_access_to_system_info is disabled' do
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:allow_other_admins_access_to_system_info) { false }
     end
 
-    expect(page).to have_text 'Edit Account'
-    find('#user_is_admin_').click
-    find('button', text: 'Update Account', match: :first).click
+    it 'does not let a user with administer_system permissions see this' do
+      user_with_administer_system = create_user(repository => ['repository-archivists'])
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'User Saved'
+      login_user(admin_user)
+      select_repository(repository)
 
-    visit 'logout'
+      click_on 'System'
+      click_on 'Manage Users'
 
-    login_user(user_with_administer_system)
-    select_repository(repository)
+      element = find('tr', text: user_with_administer_system.username)
+      within element do
+        click_on 'Edit'
+      end
 
-    click_on 'System'
-    click_on 'System Information'
+      expect(page).to have_text 'Edit Account'
+      find('#user_is_admin_').click
+      find('button', text: 'Update Account', match: :first).click
 
-    element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq "Unable to Access Page\nThe page you've tried to access may no longer exist or you may not have permission to view it."
+      element = find('.alert.alert-success.with-hide-alert')
+      expect(element.text).to eq 'User Saved'
+
+      visit 'logout'
+
+      login_user(user_with_administer_system)
+      select_repository(repository)
+
+      click_on 'System'
+      click_on 'System Information'
+
+      element = find('.alert.alert-danger.with-hide-alert')
+      expect(element.text).to eq "Unable to Access Page\nThe page you've tried to access may no longer exist or you may not have permission to view it."
+    end
   end
 
-  it 'should let a user with administer_system perrmissions see this if allow_other_admins_access_to_system_info is set to true' do
-    AppConfig[:allow_other_admins_access_to_system_info] = true
-
-    user_with_administer_system = create_user(repository => ['repository-archivists'])
-
-    login_user(admin_user)
-    select_repository(repository)
-
-    click_on 'System'
-    click_on 'Manage Users'
-
-    element = find('tr', text: user_with_administer_system.username)
-    within element do
-      click_on 'Edit'
+  context 'when allow_other_admins_access_to_system_info is enabled' do
+    before(:each) do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:allow_other_admins_access_to_system_info) { true }
     end
 
-    expect(page).to have_text 'Edit Account'
-    find('#user_is_admin_').click
-    find('button', text: 'Update Account', match: :first).click
+    it 'lets a user with administer_system perrmissions see this' do
+      AppConfig[:allow_other_admins_access_to_system_info] = true
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'User Saved'
+      user_with_administer_system = create_user(repository => ['repository-archivists'])
 
-    visit 'logout'
+      login_user(admin_user)
+      select_repository(repository)
 
-    login_user(user_with_administer_system)
-    select_repository(repository)
+      click_on 'System'
+      click_on 'Manage Users'
 
-    click_on 'System'
-    click_on 'System Information'
+      element = find('tr', text: user_with_administer_system.username)
+      within element do
+        click_on 'Edit'
+      end
 
-    expect(page).to have_text 'Frontend System Information'
-    expect(page).to have_text 'VERSION'
-    expect(page).to have_text 'APPCONFIG'
-    expect(page).to have_text 'MEMORY'
-    expect(page).to have_text 'CPU_COUNT'
+      expect(page).to have_text 'Edit Account'
+      find('#user_is_admin_').click
+      find('button', text: 'Update Account', match: :first).click
+
+      element = find('.alert.alert-success.with-hide-alert')
+      expect(element.text).to eq 'User Saved'
+
+      visit 'logout'
+
+      login_user(user_with_administer_system)
+      select_repository(repository)
+
+      click_on 'System'
+      click_on 'System Information'
+
+      expect(page).to have_text 'Frontend System Information'
+      expect(page).to have_text 'VERSION'
+      expect(page).to have_text 'APPCONFIG'
+      expect(page).to have_text 'MEMORY'
+      expect(page).to have_text 'CPU_COUNT'
+    end
   end
 end

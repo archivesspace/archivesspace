@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Check
+  require 'aspace_i18n'
+
   def self.run(checker)
     checker.check
     if checker.issues.count.zero?
@@ -41,7 +43,7 @@ module Check
         Dir[File.join(locale_dir, '*.yml')].each do |locale|
           if locale =~ /en.yml$/
             locales[locale_dir][:eng] = locale
-          else
+          elsif locale =~ /(#{I18n.supported_locales.keys.join('|')}).yml$/
             locales[locale_dir][:others] << locale
           end
         end
