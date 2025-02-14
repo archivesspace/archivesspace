@@ -9,7 +9,7 @@ class ArchivesSpaceService < Sinatra::Base
         # "/users/{your_username}/login"
 
         set SESSION="session_id"
-        # If using Windows, replace set with export
+        # If using a unix-like shell, replace set with export
 
         curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089/repositories/:repo_id:/groups/" \\
         -d '{"group_code": "test-group_managers",
@@ -76,7 +76,7 @@ class ArchivesSpaceService < Sinatra::Base
         # "/users/{your_username}/login"
 
         set SESSION="session_id"
-        # If using Windows, replace set with export
+        # If using a unix-like shell, replace set with export
 
         curl -H 'Content-Type: text/json' -H "X-ArchivesSpace-Session: $SESSION" \\
         "http://localhost:8089/repositories/:repo_id:/groups/:group_id:" \\
@@ -151,7 +151,7 @@ class ArchivesSpaceService < Sinatra::Base
         # "/users/{your_username}/login"
 
         set SESSION="session_id"
-        # If using Windows, replace set with export
+        # If using a unix-like shell, replace set with export
 
         curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089/repositories/:repo_id:/groups/:group_id:"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, and
@@ -208,7 +208,7 @@ class ArchivesSpaceService < Sinatra::Base
         # "/users/{your_username}/login"
 
         set SESSION="session_id"
-        # If using Windows, replace set with export
+        # If using a unix-like shell, replace set with export
 
         curl -H "X-ArchivesSpace-Session: $SESSION" \\
         -X DELETE "http://localhost:8089/repositories/:repo_id:/groups/:group_id:"
@@ -255,7 +255,7 @@ class ArchivesSpaceService < Sinatra::Base
         # "/users/{your_username}/login"
 
         set SESSION="session_id"
-        # If using Windows, replace set with export
+        # If using a unix-like shell, replace set with export
 
         curl -H
         "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089/repositories/:repo_id:/groups"
