@@ -19,11 +19,26 @@ describe 'Collection Organization', js: true do
       title: 'This is not a mixed content title',
       publish: true
     )
+    @ao3 = create(:archival_object,
+      title: "Parent Archival Object #{Time.now}",
+      resource: {'ref' => @resource.uri},
+      publish: true
+    )
     @do = create(:digital_object, publish: true)
     @doc = create(:digital_object_component,
       publish: true,
       digital_object: { ref: @do.uri }
     )
+    201.times do |i|
+      # `WAYPOINT_SIZE = 200` defined in `backend/app/model/large_tree.rb`
+      create(:archival_object,
+        title: "Child AO #{i + 1}",
+        resource: {'ref' => @resource.uri},
+        parent: {'ref' => @ao3.uri},
+        publish: true
+      )
+    end
+
     run_indexers
   end
 
@@ -300,6 +315,55 @@ describe 'Collection Organization', js: true do
       expect(sidebar_right_decrease2).to eq sidebar_right_initial
       expect(sidebar_left_decrease2).to be > sidebar_left_increase2
     end
+
+    describe 'parent nodes' do
+      before(:all) do
+        @parent_HTML_id = "archival_object_#{@ao3.id}"
+      end
+
+      it 'are collapsed by default' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child")
+      end
+
+      it 'are expanded then collapsed by clicking the "expandme" button' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        ao3_expandme = page.find(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child .expandme")
+        ao3_expandme.click
+        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='true']:nth-last-child(3)")
+        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} + [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0']:nth-last-child(2)")
+        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} ~ [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1']:last-child", visible: false)
+        ao3_expandme.click
+        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:nth-last-child(3)")
+        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} + [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0']:nth-last-child(2)", visible: false)
+        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} ~ [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1']:last-child", visible: false)
+      end
+
+      it 'children are loaded in groups of "waypoints" on scroll when the parent has more children than the configured waypoint size' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        container = page.find('.infinite-tree-sidebar')
+        container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child .expandme").click
+        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0'] > .waypoint.populated", visible: false)
+        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0'] > .largetree-node", count: 200)
+        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1'] > .waypoint:not(.populated)", visible: false)
+        observer_node = page.find('[data-observe-next-wp="true"]')
+        container.scroll_to(observer_node, align: :center)
+        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1'] > .waypoint.populated", visible: false)
+        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1'] > .largetree-node", count: 1)
+      end
+
+      it 'hide all waypoints of children when collapsed' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        container = page.find('.infinite-tree-sidebar')
+        ao_expandme = container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child .expandme")
+        ao_expandme.click
+        observer_node = page.find('[data-observe-next-wp="true"]')
+        container.scroll_to(observer_node, align: :center)
+        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number]", count: 2, visible: true)
+        ao_expandme.click
+        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number]", count: 2, visible: false)
+      end
+    end
   end
 
   describe 'Load All Records' do
@@ -379,8 +443,6 @@ describe 'Collection Organization', js: true do
 
       run_indexers
     end
-
-    # See public/config/environments/{test,production,development}.rb for config
 
     it 'is not shown for a resource with less than 3 waypoints of records' do
       visit "/repositories/#{@repo.id}/resources/#{@res_1wp.id}/collection_organization"
