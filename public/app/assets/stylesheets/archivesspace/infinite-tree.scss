@@ -17,9 +17,15 @@
 }
 
 // ANW-425 and after
-.table-row.largetree-node[data-is-expanded='false'] + .table-row-group {
+.table-row.largetree-node[data-is-expanded='false'] + .table-row-group,
+.table-row.largetree-node[data-is-expanded='false']
+  + .table-row-group
+  ~ .table-row-group {
   display: none;
 }
-.table-row.largetree-node[data-is-expanded='true'] + .table-row-group {
+.table-row.largetree-node[data-is-expanded='true'] + .table-row-group,
+.table-row.largetree-node[data-is-expanded='true']
+  + .table-row-group
+  ~ .table-row-group {
   display: contents;
 }
