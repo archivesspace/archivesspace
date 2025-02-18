@@ -1,0 +1,116 @@
+// Base tree structure
+.infinite-tree-view {
+  // Container styles
+  height: 400px;
+  overflow: auto;
+  position: relative;
+
+  // Reset list styles
+  ol.infinite-tree,
+  ol.children {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  // Node structure
+  .node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+
+    .node-content {
+      display: flex;
+      align-items: center;
+      padding: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-sizing: border-box;
+      height: 2em;
+      line-height: 2em;
+
+      .title {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding-left: .5rem;
+        
+        a.record-title {
+          text-decoration: none;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
+      .indentor {
+        display: inline-flex;
+        align-items: center;
+        width: 20px;
+      }
+
+      .expandme {
+        border: none;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+
+        &[aria-hidden="true"] {
+          visibility: hidden;
+        }
+      }
+
+      .expandme-icon {
+        transition: transform 0.2s ease;
+        
+        &.expanded {
+          transform: rotate(90deg);
+        }
+      }
+
+      .has_digital_instance {
+        margin-right: 4px;
+      }
+    }
+
+    &[data-is-expanded="false"] {
+      > .children {
+        display: none;
+      }
+    }
+
+    &[data-is-expanded="true"] {
+      > .children {
+        display: block;
+      }
+    }
+  }
+
+  // Indentation
+  [class*="indent-level-"]:not(.indent-level-1) {
+    padding-left: 20px; // JUST CHANGEd THIS, how does it work for levels 3, 4, etc?
+  }
+
+  .children {
+    display: none; // Hidden by default
+
+    &[data-segment-number="0"] {
+      display: block; // Always show first waypoint
+    }
+  }
+
+  // Root node styling
+  .root.node {
+    > .node-content {
+      padding: 0;
+    }
+
+    > .children {
+      display: block;
+    }
+  }
+}
