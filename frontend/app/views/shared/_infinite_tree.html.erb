@@ -1,0 +1,88 @@
+<%= javascript_include_tag "InfiniteTree.js" %>
+
+<section class="col-12" style="margin-bottom:2rem">
+  <div
+    id="infinite-tree-container"
+    class="infinite-tree-view largetree-container"
+    style="height: 400px;overflow:auto;"
+    data-resource-uri="<%= @resource.uri %>"
+  >
+    <%# The root <ol> will be inserted here by JS %>
+  </div>
+</section>
+
+<%# The <template>s below get appended to #infinite-tree-container via InfiniteTree.js %>
+
+<template id="infinite-tree-root-template">
+  <ol class="infinite-tree" role="tree">
+    <li class="root node" role="treeitem" id="" data-uri="">
+      <div class="node-content">
+        <div class="title" title="">
+          <a class="record-title" href=""></a>
+        </div>
+      </div>
+      <%# The root's <ol> of children will be inserted here by JS %>
+    </li>
+  </ol>
+</template>
+
+<template id="infinite-tree-node-template">
+  <li class="node" role="treeitem" id="" data-uri="">
+    <div class="node-content">
+      <div class="title" title="">
+        <span class="indentor">
+          <button class="expandme" aria-expanded="false">
+            <%# <i class="expandme-icon fa fa-chevron-right"></i> %>
+            <i class="expandme-icon glyphicon glyphicon-chevron-right"></i>
+            <span class="sr-only"></span>
+          </button>
+        </span>
+        <a class="record-title" href=""></a>
+      </div>
+    </div>
+    <%# The node's <ol> of children will be inserted here by JS when expanded %>
+  </li>
+</template>
+
+<template id="infinite-tree-children-list-template">
+  <ol
+    class="children"
+    role="group"
+    data-parent-id=""
+    data-tree-level=""
+    data-total-child-segments=""
+  >
+    <%# Child nodes will be inserted here by JS %>
+  </ol>
+</template>
+
+<template id="infinite-tree-children-segment-placeholder-template">
+  <li class="segment-placeholder" data-segment-number="" style="display:none"></li>
+</template>
+
+<script>
+// @resource.uri looks like: /repositories/:rpid/resources/:rsid
+// use @resource.uri to create `/resources/:rsid/tree/root`
+const resourceUri = "<%= @resource.uri %>"
+const resourceUriParts = resourceUri.split('/')
+const resourceId = resourceUriParts[resourceUriParts.length - 1]
+
+const infiniteTree = new InfiniteTree(
+  "200",
+  "<%= AppConfig[:frontend_proxy_url] %>",
+  resourceUri,
+  ":",
+  "bulk"
+);
+
+// Set up click handling at the template level like public
+// but with no InfiniteRecords like in public
+infiniteTree.container.addEventListener('click', (e) => {
+  if (
+    !e.target.classList.contains('expandme') &&
+    !e.target.classList.contains('expandme-icon')
+  ) return;
+
+  infiniteTree.expandHandler(e);
+});
+</script>
