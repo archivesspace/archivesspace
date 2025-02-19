@@ -6,14 +6,14 @@
   end
 
   field_label ||= t("accession._singular")
-  linker_id ||= "accession_links_"
+  linker_id ||= "ref"
 %>
 <div class="form-group row required">
   <label class="control-label col-sm-2 text-right"><%= field_label %></label>
   <div class="controls col-sm-9">
     <div class="input-group linker-wrapper">
       <input type="text" class="linker"
-             id="<%= linker_id %>"
+             id="<%= form.id_for(linker_id) %>"
              data-label_link="<%= t("accession_link._frontend.action.add") %>"
              data-label_browse="<%= t("top_container._frontend.bulk_operations.collection_accession_linker.browse") %>"
              data-path="<%= form.path %>"
@@ -27,6 +27,20 @@
              data-types='["accession"]'
              aria-label="Link to accession"
       />
+
+       <% if form.obj.has_key?('_resolved') %>
+
+        <input type="text"
+               class='prelinker'
+               name="<%= form.path %>[_resolved]"
+               value="<%= selected_json %>" />
+
+        <input type="text"
+               class='prelinker'
+               name="<%= form.path %>[ref]"
+               value="<%= form.obj[linker_id] %>" />
+
+      <% end %>
 
       <div class="input-group-append">
         <button
