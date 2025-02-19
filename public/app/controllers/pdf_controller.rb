@@ -7,15 +7,22 @@ class PdfController < ApplicationController
   def resource
     PDF_MUTEX.acquire
     begin
-      repo_id = params.fetch(:rid, nil)
-      resource_id = params.fetch(:id, nil)
-      token = params.fetch(:token, nil)
+      # If coming from an archival object view, get the resource ID from the archival object
+      resource_id = if request.referrer&.include?('archival_objects')
+                      ao = archivesspace.get_record("/repositories/#{params[:rid]}/archival_objects/#{params[:id]}")
+                      # Get resource ID from the archival object's json
+                      ao.json['resource']['ref']&.split('/')&.last
+                    else
+                      params[:id]
+                    end
 
-      pdf = FindingAidPDF.new(repo_id, resource_id, archivesspace, "#{request.protocol}#{request.host_with_port}")
+      raise RecordNotFound.new("No resource ID found") unless resource_id
+
+      pdf = FindingAidPDF.new(params[:rid], resource_id, archivesspace, "#{request.protocol}#{request.host_with_port}")
       pdf_file = pdf.generate
 
-      if token
-        token.gsub!(/[^a-f0-9]/, '')
+      if params.fetch(:token, nil)
+        params[:token].gsub!(/[^a-f0-9]/, '')
       end
 
       respond_to do |format|
@@ -47,6 +54,10 @@ class PdfController < ApplicationController
     ensure
       PDF_MUTEX.release
     end
+  rescue => e
+    Rails.logger.error "PDF generation failed: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    raise
   end
 
 end

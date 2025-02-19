@@ -97,7 +97,7 @@ describe 'Resources', js: true do
     expect(page).to_not have_content('In Progress')
   end
 
-  it 'downloads the resouce to a PDF file' do
+  it 'downloads the resource to a PDF file' do
     resource = create(:resource,
       title: "Resource PDF Download Test",
       ead_id: 'text(us::paav::b jd99:: blake carver papers)//es" "carver.xml"',
@@ -117,5 +117,85 @@ describe 'Resources', js: true do
 
     pdf_files = Dir.glob(File.join(Dir.tmpdir, '*.pdf'))
     expect(pdf_files).to include "#{Dir.tmpdir}/text_us_paav_b_jd99_blake_carver_papers_es_carver_xml.pdf"
+  end
+
+  it 'downloads PDF from archival object view' do
+    # Clean existing PDFs
+    Dir.glob(File.join(Dir.tmpdir, '*.pdf')).each { |file| File.delete(file) }
+
+    resource = create(:resource,
+      title: "Resource with Archival Object",
+      publish: true
+    )
+
+    archival_object = create(:archival_object,
+      title: "Archival Object PDF Test",
+      resource: { 'ref' => resource.uri },
+      publish: true
+    )
+
+    run_indexers
+
+    visit('/')
+    fill_in 'q0', with: archival_object.title
+    click_on 'Search'
+    click_on archival_object.title
+
+    click_on 'Download PDF'
+
+    pdf_files = Dir.glob(File.join(Dir.tmpdir, '*.pdf'))
+    expect(pdf_files.length).to eq(1)
+  end
+
+  it 'shows PDF download button only for resources and their published components' do
+    # Clean existing PDFs
+    Dir.glob(File.join(Dir.tmpdir, '*.pdf')).each { |file| File.delete(file) }
+
+    # Create a resource and an archival object
+    resource = create(:resource,
+      title: "Resource with Component",
+      publish: true
+    )
+
+    archival_object = create(:archival_object,
+      title: "Component with Resource",
+      resource: { 'ref' => resource.uri },
+      publish: true
+    )
+
+    # Create a second resource and component
+    resource2 = create(:resource,
+      title: "Second Resource",
+      publish: true
+    )
+
+    # Create component but don't publish it
+    unpublished_ao = create(:archival_object,
+      title: "Unpublished Component",
+      resource: { 'ref' => resource2.uri },
+      publish: false
+    )
+
+    run_indexers
+
+    # Check resource view
+    visit('/')
+    fill_in 'q0', with: resource.title
+    click_on 'Search'
+    find('a.record-title', text: resource.title, match: :first).click
+    expect(page).to have_button('Download PDF')
+
+    # Check published component view
+    visit('/')
+    fill_in 'q0', with: archival_object.title
+    click_on 'Search'
+    find('a.record-title', text: archival_object.title, match: :first).click
+    expect(page).to have_button('Download PDF')
+
+    # Check unpublished component
+    visit('/')
+    fill_in 'q0', with: unpublished_ao.title
+    click_on 'Search'
+    expect(page).not_to have_content(unpublished_ao.title)
   end
 end
