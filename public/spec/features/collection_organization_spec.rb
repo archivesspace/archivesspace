@@ -51,19 +51,19 @@ describe 'Collection Organization', js: true do
       visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
 
       resource = find(".infinite-tree-sidebar #resource_#{@resource.id}")
-      expect(resource).to have_css('.title[title="This is a mixed content title"]')
-      resource_mixed_content_span = resource.find('.record-title > span.emph.render-italic')
+      expect(resource).to have_css('.node-body[title="This is a mixed content title"]')
+      resource_mixed_content_span = resource.find('.root.node > .node-row span.emph.render-italic')
       expect(resource_mixed_content_span).to have_content('a mixed content')
 
       ao1 = find(".infinite-tree-sidebar #archival_object_#{@ao1.id}")
-      expect(ao1).to have_css('.title[title="This is another mixed content title"]')
-      ao1_mixed_content_span = ao1.find('.record-title > span.emph.render-italic')
+      expect(ao1).to have_css("#archival_object_#{@ao1.id} > .node-row > .node-body[title='This is another mixed content title']")
+      ao1_mixed_content_span = ao1.find("#archival_object_#{@ao1.id} > .node-row span.emph.render-italic")
       expect(ao1_mixed_content_span).to have_content('another mixed content')
 
       ao2 = find(".infinite-tree-sidebar #archival_object_#{@ao2.id}")
-      ao2_record_title = ao2.find('.record-title')
-      expect(ao2_record_title).to_not have_css('span.emph.render-italic')
-      expect(ao2_record_title).to have_content('This is not a mixed content title')
+      ao2_title = ao2.find("#archival_object_#{@ao2.id} > .node-row .node-title")
+      expect(ao2_title).to_not have_css('span.emph.render-italic')
+      expect(ao2_title).to have_content('This is not a mixed content title')
     end
 
     it 'is positioned on the left side of the resource show and infinite views ' \
@@ -78,7 +78,7 @@ describe 'Collection Organization', js: true do
       sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
       sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
       content_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
-
+      sleep 5
       expect(sidebar_left_coordinate).to be < content_left_coordinate
       expect(sidebar_right_coordinate).to eq content_left_coordinate
 
@@ -90,7 +90,7 @@ describe 'Collection Organization', js: true do
       sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
       sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
       content_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
-
+      sleep 5
       expect(sidebar_left_coordinate).to be < content_left_coordinate
       expect(sidebar_right_coordinate).to eq content_left_coordinate
     end
@@ -107,7 +107,7 @@ describe 'Collection Organization', js: true do
       sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
       sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
       content_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
-
+      sleep 5
       expect(sidebar_left_coordinate).to be < content_left_coordinate
       expect(sidebar_right_coordinate).to eq content_left_coordinate
 
@@ -119,7 +119,7 @@ describe 'Collection Organization', js: true do
       sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
       sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
       content_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
-
+      sleep 5
       expect(sidebar_left_coordinate).to be < content_left_coordinate
       expect(sidebar_right_coordinate).to eq content_left_coordinate
     end
@@ -136,7 +136,7 @@ describe 'Collection Organization', js: true do
       sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
       sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
       content_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', content)
-
+      sleep 5
       expect(sidebar_left_coordinate).to eq content_right_coordinate
       expect(sidebar_right_coordinate).to be > content_right_coordinate
 
@@ -148,7 +148,7 @@ describe 'Collection Organization', js: true do
       sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
       sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
       content_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', content)
-
+      sleep 5
       expect(sidebar_left_coordinate).to eq content_right_coordinate
       expect(sidebar_right_coordinate).to be > content_right_coordinate
     end
@@ -165,7 +165,7 @@ describe 'Collection Organization', js: true do
       sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
       sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
       content_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', content)
-
+      sleep 5
       expect(sidebar_left_coordinate).to eq content_right_coordinate
       expect(sidebar_right_coordinate).to be > content_right_coordinate
 
@@ -177,7 +177,7 @@ describe 'Collection Organization', js: true do
       sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
       sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
       content_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', content)
-
+      sleep 5
       expect(sidebar_left_coordinate).to eq content_right_coordinate
       expect(sidebar_right_coordinate).to be > content_right_coordinate
     end
@@ -323,45 +323,46 @@ describe 'Collection Organization', js: true do
 
       it 'are collapsed by default' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child")
+        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[aria-expanded='false']:last-child")
       end
 
-      it 'are expanded then collapsed by clicking the "expandme" button' do
+      it 'are expanded then collapsed by clicking the "expand" button' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        ao3_expandme = page.find(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child .expandme")
-        ao3_expandme.click
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='true']:nth-last-child(3)")
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} + [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0']:nth-last-child(2)")
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} ~ [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1']:last-child", visible: false)
-        ao3_expandme.click
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:nth-last-child(3)")
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} + [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0']:nth-last-child(2)", visible: false)
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} ~ [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1']:last-child", visible: false)
+        expect(page).not_to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-row .node-expand-icon.expanded")
+        expect(page).not_to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-children")
+        ao3_expand = page.find("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-row .node-expand")
+        ao3_expand.click
+        expect(page).to have_css("##{@parent_HTML_id}.node[aria-expanded='true'] > .node-row .node-expand-icon.expanded")
+        expect(page).to have_css("##{@parent_HTML_id}.node[aria-expanded='true'] > .node-children > .node", count: 200, visible: true)
+        ao3_expand.click
+        expect(page).not_to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-row .node-expand-icon.expanded")
+        expect(page).to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-children > .node", count: 200, visible: false)
       end
 
-      it 'children are loaded in groups of "waypoints" on scroll when the parent has more children than the configured waypoint size' do
-        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        container = page.find('.infinite-tree-sidebar')
-        container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child .expandme").click
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0'] > .waypoint.populated", visible: false)
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0'] > .largetree-node", count: 200)
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1'] > .waypoint:not(.populated)", visible: false)
-        observer_node = page.find('[data-observe-next-wp="true"]')
-        container.scroll_to(observer_node, align: :center)
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1'] > .waypoint.populated", visible: false)
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1'] > .largetree-node", count: 1)
-      end
-
-      it 'hide all waypoints of children when collapsed' do
+      it 'children are loaded in "batches" on scroll when the parent has more children than the configured batch size' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
         container = page.find('.infinite-tree-sidebar')
-        ao_expandme = container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child .expandme")
-        ao_expandme.click
-        observer_node = page.find('[data-observe-next-wp="true"]')
+        container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[aria-expanded='false']:last-child .node-expand").click
+        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 200)
+        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > [data-batch-placeholder='1']:last-child", visible: false)
+        observer_node = page.find('[data-observe-next-batch="true"]')
         container.scroll_to(observer_node, align: :center)
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number]", count: 2, visible: true)
-        ao_expandme.click
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number]", count: 2, visible: false)
+        sleep 5
+        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 201)
+        expect(page).not_to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > [data-batch-placeholder]", visible: false)
+      end
+
+      it 'hide all children when collapsed' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        container = page.find('.infinite-tree-sidebar')
+        ao_expand = container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[aria-expanded='false']:last-child .node-expand")
+        ao_expand.click
+        observer_node = page.find('[data-observe-next-batch="true"]')
+        container.scroll_to(observer_node, align: :center)
+        sleep 5
+        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 201, visible: true)
+        ao_expand.click
+        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 201, visible: false)
       end
     end
   end
@@ -549,7 +550,7 @@ describe 'Collection Organization', js: true do
     it 'shows a spinner on state change and removes the spinner once all records are loaded' do
       visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
       expect(page).to have_css('#records-loading-dialog', visible: false)
-      sleep 10
+      sleep 5
 
       # There is no dialog 'open' event so listen for 'close' which implies it was open
       page.execute_script(<<~JS)
@@ -562,7 +563,7 @@ describe 'Collection Organization', js: true do
 
       expect(page.evaluate_script('window.dialogClosed')).to eq false
       page.find('.load-all__label-toggle').click
-      sleep 10
+      sleep 5
       expect(page.evaluate_script('window.dialogClosed')).to eq true
     end
 
@@ -570,14 +571,14 @@ describe 'Collection Organization', js: true do
       visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization"
       expect(page).to have_css('#load-all-section', visible: true)
       page.find('.load-all__label-toggle').click
-      sleep 10
+      sleep 5
       expect(page).to have_css('#load-all-section', visible: false)
     end
 
     it 'loads all remaining records from the main thread if the number of waypoints '\
       'does not exceed `infinite_records_main_max_concurrent_waypoint_fetches`' do
       visit "/repositories/#{@repo.id}/resources/#{@res_5wp.id}/collection_organization"
-      sleep 10
+      sleep 5
       total_records = page.find('#infinite-records-container')['data-total-records']
       num_empty_waypoints_start = page.all('#infinite-records-container .waypoint:not(.populated)').length
       expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
@@ -596,7 +597,7 @@ describe 'Collection Organization', js: true do
 
       expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
       page.find('.load-all__label-toggle').click
-      sleep 10
+      sleep 5
       expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
       expect(page.evaluate_script('window.loadAllFetchCount')).to eq num_empty_waypoints_start
     end
@@ -604,7 +605,7 @@ describe 'Collection Organization', js: true do
     it 'loads all remaining records from a background thread if the number of waypoints '\
       'exceeds `infinite_records_main_max_concurrent_waypoint_fetches`' do
       visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
-      sleep 10
+      sleep 5
       total_records = page.find('#infinite-records-container')['data-total-records']
       expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
 
@@ -623,7 +624,7 @@ describe 'Collection Organization', js: true do
 
       expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
       page.find('.load-all__label-toggle').click
-      sleep 10
+      sleep 5
       expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
       expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
     end
