@@ -50,10 +50,10 @@
     }
 
     /**
-     * @description - Get the derived string without the HTML
-     * @returns {string} - The derived string without HTML
+     * @description - Remove any HTML from the string
+     * @returns {string} - The string without HTML
      */
-    get derivedString() {
+    get cleaned() {
       if (!this.match) {
         return this.input;
       }
