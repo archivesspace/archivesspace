@@ -13,8 +13,10 @@ Sequel.migration do
       primary_key :id
       Integer :resource_id
       Integer :archival_object_id
+      Integer :digital_object_id
+      Integer :digital_object_component_id
       HalfLongString :title, null: false
-      DynamicEnum :type_id, null: false
+      DynamicEnum :type_id
       DynamicEnum :language_id
       DynamicEnum :script_id
       apply_mtime_columns
@@ -24,7 +26,7 @@ Sequel.migration do
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
     end
 
-    records_supporting_multiple_titles = [:resource, :archival_object]
+    records_supporting_multiple_titles = [:resource, :archival_object, :digital_object, :digital_object_component]
 
     records_supporting_multiple_titles.each do |record_type|
       $stderr.puts "\tcopying titles from #{record_type} records to title table"
@@ -50,11 +52,10 @@ Sequel.migration do
   # (temporary)
   down do
     $stderr.puts "Removing multiple title support (Multi-Lingual Content project)"
-
-    $stderr.puts "\tdeleting title table"
-    drop_table(:title)
     $stderr.puts "\tdeleting title type enum"
     drop_enum("title_type")
+    $stderr.puts "\tdeleting title table"
+    drop_table(:title)
   end
 
 end

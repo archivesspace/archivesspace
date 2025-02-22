@@ -129,4 +129,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
     Resource.update_mtime_for_ids([self.root_record_id])
   end
 
+  # alias old title field to first item of new multiple titles list (for now at least)
+  auto_generate :property => :title, :generator => proc { |json| json['titles'][0]['title'] }
+
 end
