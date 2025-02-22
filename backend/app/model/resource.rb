@@ -118,5 +118,5 @@ class Resource < Sequel::Model(:resource)
   end
 
   # alias old title field to first item of new multiple titles list (for now at least)
-  #auto_generate :property => :title, :generator => proc { |json| json['titles'][0]['title'] }
+  auto_generate :property => :title, :generator => proc { |json| json['titles'][0]['title'] }
 end

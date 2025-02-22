@@ -361,4 +361,11 @@ class ArchivalObjectsController < ApplicationController
       [type, t("#{type == 'archival_object' ? 'resource_component' : type}._singular")]
     }
   end
+
+  # Get the appropriate title to display based on language, type, etc (more logic to come)
+  def title_for_display
+    @archival_object.titles.first['title']
+  end
+  helper_method :title_for_display
+
 end

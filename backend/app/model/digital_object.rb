@@ -25,6 +25,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Assessments::LinkedRecord
   include RepresentativeFileVersion
   include TouchRecords
+  include Titles
 
   enable_suppression
 
