@@ -6,7 +6,7 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "digital_object", jsonmodel_definition(:digital_object) do |readonly, digital_object| %>
-        <h2><%= clean_mixed_content(digital_object.title) %> <span class="label label-info badge"><%= t("digital_object._singular") %></span></h2>
+        <h2><%= clean_mixed_content(title_for_display) %> <span class="label label-info badge"><%= t("digital_object._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
@@ -17,7 +17,6 @@
                                      :form => readonly,
                                      :record => digital_object) %>
 
-          <%= readonly.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root), :escape => false} %>
           <%= readonly.label_and_textfield "digital_object_id" %>
 
           <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_urls] %>
@@ -35,8 +34,12 @@
           </div>
         </section>
 
+        <% if digital_object.titles.length > 0 %>
+          <%= render_aspace_partial :partial => "titles/show", :locals => { :titles => digital_object.titles, :section_id => "digital_object_titles_" } %>
+        <% end %>
+
         <% if digital_object.file_versions.length > 0 %>
-          <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object.file_versions, :section_id => "digital_object_file_versions_", :title => digital_object.title } %>
+          <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object.file_versions, :section_id => "digital_object_file_versions_", :title => title_for_display } %>
         <% end %>
 
         <% if digital_object.lang_materials.length > 0 %>
