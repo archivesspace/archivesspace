@@ -103,11 +103,11 @@
     }
 
     /**
-     * Provide a DocumentFragment of a list of child batch placeholders
+     * Provide a DocumentFragment of an ordered list of child batch placeholders
      * @param {string} parentElementId - Value of the parent node's HTML id attribute
      * @param {number} level - Tree level of the children
      * @param {number} numBatches - Number of batches to create
-     * @returns {DocumentFragment} - DocumentFragment of the list of child batch placeholders
+     * @returns {DocumentFragment} - DocumentFragment of the ordered list of child batch placeholders
      */
     childrenListFrag(parentElementId, level, numBatches) {
       const childrenFrag = new DocumentFragment();
@@ -137,36 +137,63 @@
     }
 
     /**
-     * Render the first batch of a node's children, observe to fetch
-     * any remaining batches of children
-     * @param {HTMLElement} nodeEl - The node element to initialize children for
-     * @param {Object} nodeData - The node data object from the server
+     * Render the container structure for child nodes
+     * @param {HTMLElement} parent - Parent node element
+     * @param {number} parentLevel - Tree level of the parent
+     * @param {number} numBatches - Number of batch placeholders to create
+     * @returns {HTMLElement} The created children list element
      */
-    async renderInitialChildren(nodeEl, nodeData) {
-      const isRoot = nodeEl.classList.contains('root');
-      const wpKey = isRoot ? '' : nodeData.uri;
-      let level;
-
-      if (isRoot) {
-        level = 0;
-      } else {
-        level = Number(
-          nodeEl.closest('.children').getAttribute('data-tree-level')
-        );
-      }
-
+    renderChildrenList(parent, parentLevel, numBatches) {
       const childrenListFrag = this.childrenListFrag(
-        nodeEl.id,
-        level + 1,
-        nodeData.waypoints
+        parent.id,
+        parentLevel + 1,
+        numBatches
       );
 
-      nodeEl.appendChild(childrenListFrag);
+      parent.appendChild(childrenListFrag);
+
+      return parent.querySelector('.children');
+    }
+
+    /**
+     * Prepare the data needed for rendering a batch of children
+     * @param {HTMLElement} parent - Parent node element
+     * @param {Object} data - Node data from the server
+     * @param {number} batchNumber - Which batch of children to prepare
+     * @returns {Object} Prepared batch data, {nodes:array, hasNextBatch:boolean, level:number}
+     */
+    // call it something else?
+    prepareBatchData(parent, data, batchNumber = 0) {
+      const isRoot = parent.classList.contains('root');
+      const wpKey = isRoot ? '' : data.uri;
+      const level = isRoot
+        ? 0
+        : Number(parent.closest('.children').getAttribute('data-tree-level'));
+
+      return {
+        nodes: data.precomputed_waypoints[wpKey][batchNumber],
+        hasNextBatch: data.waypoints > batchNumber + 1,
+        level: level,
+      };
+    }
+
+    /**
+     * Render the first batch of a node's children
+     * @param {HTMLElement} parent - The node element to initialize children for
+     * @param {Object} data - The node data object from the server
+     */
+    async renderInitialChildren(parent, data) {
+      const batchData = this.prepareBatchData(parent, data);
+      const childrenList = this.renderChildrenList(
+        parent,
+        batchData.level,
+        data.waypoints
+      );
 
       this.renderBatchOfChildren(
-        nodeEl.querySelector(`.children`),
-        nodeData.precomputed_waypoints[wpKey][0],
-        nodeData.waypoints > 1,
+        childrenList,
+        batchData.nodes,
+        batchData.hasNextBatch,
         0
       );
     }
@@ -304,11 +331,11 @@
     }
 
     /**
-     * Populate a child list with a batch of child nodes
-     * @param {HTMLElement} list - The child list to populate
-     * @param {array} nodes - Node objects to populate the list with
-     * @param {boolean} hasNextBatch - Whether or not there is a next batch
-     * @param {number} batchNumber - The batch number of nodes being populated
+     * Render a batch of child nodes into a list
+     * @param {HTMLElement} list - The list element to render into
+     * @param {array} nodes - Node objects to render
+     * @param {boolean} hasNextBatch - Whether there is another batch after this one
+     * @param {number} batchNumber - The batch number being rendered
      */
     renderBatchOfChildren(list, nodes, hasNextBatch, batchNumber = 0) {
       if (!Array.isArray(nodes)) {
@@ -316,34 +343,18 @@
         return;
       }
 
-      if (!list) {
-        console.error('List element is null or undefined');
-        return;
-      }
-
-      const parentId = list.getAttribute('data-parent-id');
-
-      if (!parentId) {
-        console.error('List element is missing data-parent-id attribute');
-        return;
-      }
-
-      const level = Number(list.getAttribute('data-tree-level'));
-
-      if (!level) {
-        console.error('List element is missing data-tree-level attribute');
-        return;
-      }
+      const listMeta = this.validateChildrenList(list);
+      if (!listMeta) return;
 
       const batchFrag = new DocumentFragment();
 
       nodes.forEach((node, i) => {
         const observeThisNode =
           i == Math.floor(this.CHILDREN_BATCH_SIZE / 2) - 1 && hasNextBatch;
-        const markupArgs = [node, level, observeThisNode];
+        const markupArgs = [node, listMeta.level, observeThisNode];
 
         if (observeThisNode) {
-          markupArgs.push(parentId, batchNumber + 1);
+          markupArgs.push(listMeta.parentId, batchNumber + 1);
         }
 
         batchFrag.appendChild(this.nodeFrag(...markupArgs));
@@ -356,9 +367,8 @@
       if (!placeholder) {
         console.error('Could not find placeholder for batch:', {
           batchNumber,
-          parentId,
+          parentId: listMeta.parentId,
           listHTML: list.innerHTML,
-          placeholderSelector: `li[data-batch-placeholder="${batchNumber}"]`,
         });
         return;
       }
@@ -372,6 +382,32 @@
           this.batchObserver.observe(observerNode);
         }
       }
+    }
+
+    /**
+     * Validate the list element and get its metadata
+     * @param {HTMLElement} list - The list element to validate
+     * @returns {Object|null} List metadata if valid, null if invalid
+     */
+    validateChildrenList(list) {
+      if (!list) {
+        console.error('List element is null or undefined');
+        return null;
+      }
+
+      const parentId = list.getAttribute('data-parent-id');
+      if (!parentId) {
+        console.error('List element is missing data-parent-id attribute');
+        return null;
+      }
+
+      const level = Number(list.getAttribute('data-tree-level'));
+      if (!level) {
+        console.error('List element is missing data-tree-level attribute');
+        return null;
+      }
+
+      return { parentId, level };
     }
 
     /**
@@ -392,7 +428,6 @@
             siblingList.getAttribute('data-total-child-batches')
           );
           const hasNextBatch = nextBatchNumber + 1 < totalBatches;
-          debugger;
           const batchData = await this.fetchBatch({
             node: parentNodeUri,
             offset: nextBatchNumber,
@@ -421,6 +456,7 @@
                 nextBatchNumber + 1
               }"]`
             );
+
             if (nextNode) {
               observer.observe(nextNode);
             } else {
