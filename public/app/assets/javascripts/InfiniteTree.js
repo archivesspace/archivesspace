@@ -1,3 +1,5 @@
+//= require InfiniteTreeFetch
+
 (function (exports) {
   class InfiniteTree {
     /**
@@ -17,18 +19,14 @@
       date_type_bulk
     ) {
       this.CHILDREN_BATCH_SIZE = childrenBatchSize;
-      this.appUrlPrefix = appUrlPrefix;
       this.resourceUri = resourceUri;
-      this.repoId = this.resourceUri.split('/')[2];
-      this.resourceId = this.resourceUri.split('/')[4];
-      this.baseUri = `${this.resourceUri}/tree`;
-      // this.baseUri = `/resources/${this.resourceId}/tree`;
-      this.rootUri = `${this.baseUri}/root`;
-      this.nodeUri = `${this.baseUri}/node`;
-      this.batchUri = `${this.baseUri}/waypoint`; // TODO: rename endpoint to /batch
+      this.repoId = resourceUri.split('/')[2];
+      this.resourceId = resourceUri.split('/')[4];
       this.i18n = { sep: identifier_separator, bulk: date_type_bulk };
 
       this.container = document.querySelector('#infinite-tree-container');
+
+      this.fetch = new InfiniteTreeFetch(appUrlPrefix, resourceUri);
 
       this.batchObserver = new IntersectionObserver(
         (entries, observer) => {
@@ -36,39 +34,12 @@
         },
         {
           root: this.container,
-          rootMargin: '-30% 0px -30% 0px',
+          rootMargin: '-30% 0px -30% 0px', // middle 40% of container
           threshold: 0,
         }
       );
 
       this.renderRoot();
-    }
-
-    /**
-     * Render the root node and its first batch of children
-     */
-    async renderRoot() {
-      const rootData = await this.fetchRoot();
-      const rootFrag = this.rootFrag(this.nodeTitle(rootData));
-      const rootNode = rootFrag.querySelector('.root.node');
-
-      await this.renderInitialChildren(rootNode, rootData);
-
-      this.container.appendChild(rootFrag);
-    }
-
-    /**
-     * Fetch the root data
-     * @returns {Object} - Root data object returned from the server
-     */
-    async fetchRoot() {
-      try {
-        const response = await fetch(this.appUrlPrefix + this.rootUri);
-
-        return await response.json();
-      } catch (err) {
-        console.error(err);
-      }
     }
 
     /**
@@ -137,117 +108,6 @@
     }
 
     /**
-     * Render the container structure for child nodes
-     * @param {HTMLElement} parent - Parent node element
-     * @param {number} parentLevel - Tree level of the parent
-     * @param {number} numBatches - Number of batch placeholders to create
-     * @returns {HTMLElement} The created children list element
-     */
-    renderChildrenList(parent, parentLevel, numBatches) {
-      const childrenListFrag = this.childrenListFrag(
-        parent.id,
-        parentLevel + 1,
-        numBatches
-      );
-
-      parent.appendChild(childrenListFrag);
-
-      return parent.querySelector('.children');
-    }
-
-    /**
-     * Prepare the data needed for rendering a batch of children
-     * @param {HTMLElement} parent - Parent node element
-     * @param {Object} data - Node data from the server
-     * @param {number} batchNumber - Which batch of children to prepare
-     * @returns {Object} Prepared batch data, {nodes:array, hasNextBatch:boolean, level:number}
-     */
-    // call it something else?
-    prepareBatchData(parent, data, batchNumber = 0) {
-      const isRoot = parent.classList.contains('root');
-      const wpKey = isRoot ? '' : data.uri;
-      const level = isRoot
-        ? 0
-        : Number(parent.closest('.children').getAttribute('data-tree-level'));
-
-      return {
-        nodes: data.precomputed_waypoints[wpKey][batchNumber],
-        hasNextBatch: data.waypoints > batchNumber + 1,
-        level: level,
-      };
-    }
-
-    /**
-     * Render the first batch of a node's children
-     * @param {HTMLElement} parent - The node element to initialize children for
-     * @param {Object} data - The node data object from the server
-     */
-    async renderInitialChildren(parent, data) {
-      const batchData = this.prepareBatchData(parent, data);
-      const childrenList = this.renderChildrenList(
-        parent,
-        batchData.level,
-        data.waypoints
-      );
-
-      this.renderBatchOfChildren(
-        childrenList,
-        batchData.nodes,
-        batchData.hasNextBatch,
-        0
-      );
-    }
-
-    /**
-     * Fetch the tree of the node with the given id
-     * @param {number} nodeId - ID of the node, ie: 18028
-     * @returns {Object} - Node object as returned from the server
-     */
-    async fetchNode(nodeId) {
-      const query = new URLSearchParams();
-
-      query.append(
-        'node',
-        `/repositories/${this.repoId}/archival_objects/${nodeId}`
-      );
-
-      try {
-        const response = await fetch(`${this.nodeUri}?${query}`);
-
-        return await response.json();
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    /**
-     * Fetch a batch of the given node's children
-     * @param {Object} params - Object of params for the ajax call with the signature:
-     * @param {string} params.node - Node URL param in the form of '' or
-     * '/repositories/X/archival_objects/Y'
-     * @param {number} params.offset - Offset URL param
-     * @returns {array} - Array of batch objects as returned from the server
-     */
-    async fetchBatch(params) {
-      const query = new URLSearchParams();
-
-      for (const key in params) {
-        query.append(key, params[key]);
-      }
-
-      try {
-        const response = await fetch(`${this.batchUri}?${query}`);
-        const batch = await response.json();
-
-        return batch;
-      } catch (err) {
-        console.error('Error fetching batch:', err);
-
-        return null;
-      }
-    }
-
-    /**
      * Provide the DocumentFragment for a node list item
      * @param {Object} data - Node data object from the server
      * @param {number} level - Tree level of the node
@@ -262,7 +122,7 @@
     nodeFrag(data, level, shouldObserve, parentId = null, offset = null) {
       const nodeRecordId = data.uri.split('/')[4];
       const nodeElementId = `archival_object_${nodeRecordId}`;
-      const title = new MixedContent(this.nodeTitle(data));
+      const title = new MixedContent(this.buildNodeTitle(data));
       const aHref = `#tree::${nodeElementId}`;
       const nodeFrag = new DocumentFragment();
       const nodeTemplate = document
@@ -331,6 +191,59 @@
     }
 
     /**
+     * Render the root node and its first batch of children
+     */
+    async renderRoot() {
+      const rootData = await this.fetch.root();
+      const rootFrag = this.rootFrag(this.buildNodeTitle(rootData));
+      const rootNode = rootFrag.querySelector('.root.node');
+
+      await this.renderInitialChildren(rootNode, rootData);
+
+      this.container.appendChild(rootFrag);
+    }
+
+    /**
+     * Render the container structure for child nodes
+     * @param {HTMLElement} parent - Parent node element
+     * @param {number} parentLevel - Tree level of the parent
+     * @param {number} numBatches - Number of batch placeholders to create
+     * @returns {HTMLElement} The created children list element
+     */
+    renderChildrenList(parent, parentLevel, numBatches) {
+      const childrenListFrag = this.childrenListFrag(
+        parent.id,
+        parentLevel + 1,
+        numBatches
+      );
+
+      parent.appendChild(childrenListFrag);
+
+      return parent.querySelector('.children');
+    }
+
+    /**
+     * Render the first batch of a node's children
+     * @param {HTMLElement} parent - The node element to initialize children for
+     * @param {Object} data - The node data object from the server
+     */
+    async renderInitialChildren(parent, data) {
+      const batchData = this.prepareBatchData(parent, data);
+      const childrenList = this.renderChildrenList(
+        parent,
+        batchData.level,
+        data.waypoints
+      );
+
+      this.renderBatchOfChildren(
+        childrenList,
+        batchData.nodes,
+        batchData.hasNextBatch,
+        0
+      );
+    }
+
+    /**
      * Render a batch of child nodes into a list
      * @param {HTMLElement} list - The list element to render into
      * @param {array} nodes - Node objects to render
@@ -385,6 +298,27 @@
     }
 
     /**
+     * Prepare the data needed for rendering a batch of children
+     * @param {HTMLElement} parent - Parent node element
+     * @param {Object} data - Node data from the server
+     * @param {number} batchNumber - Which batch of children to prepare
+     * @returns {Object} Prepared batch data, {nodes:array, hasNextBatch:boolean, level:number}
+     */
+    prepareBatchData(parent, data, batchNumber = 0) {
+      const isRoot = parent.classList.contains('root');
+      const wpKey = isRoot ? '' : data.uri;
+      const level = isRoot
+        ? 0
+        : Number(parent.closest('.children').getAttribute('data-tree-level'));
+
+      return {
+        nodes: data.precomputed_waypoints[wpKey][batchNumber],
+        hasNextBatch: data.waypoints > batchNumber + 1,
+        level: level,
+      };
+    }
+
+    /**
      * Validate the list element and get its metadata
      * @param {HTMLElement} list - The list element to validate
      * @returns {Object|null} List metadata if valid, null if invalid
@@ -428,7 +362,7 @@
             siblingList.getAttribute('data-total-child-batches')
           );
           const hasNextBatch = nextBatchNumber + 1 < totalBatches;
-          const batchData = await this.fetchBatch({
+          const batchData = await this.fetch.batch({
             node: parentNodeUri,
             offset: nextBatchNumber,
           });
@@ -480,7 +414,7 @@
 
       if (isExpanding && node.getAttribute('data-has-expanded') === 'false') {
         const nodeRecordId = node.getAttribute('data-uri').split('/')[4];
-        const nodeData = await this.fetchNode(Number(nodeRecordId));
+        const nodeData = await this.fetch.node(Number(nodeRecordId));
         await this.renderInitialChildren(node, nodeData);
         node.setAttribute('data-has-expanded', 'true');
       }
@@ -494,7 +428,7 @@
      * @param {Object} node - Node data
      * @returns {string} - Title of the node
      */
-    nodeTitle(node) {
+    buildNodeTitle(node) {
       const title = [];
 
       if (SHOW_IDENTIFIERS_IN_TREE && node.identifier && node.parsed_title) {
