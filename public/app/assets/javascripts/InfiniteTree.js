@@ -221,10 +221,10 @@
             siblingList.getAttribute('data-total-child-batches')
           );
           const hasNextBatch = nextBatchNumber + 1 < totalBatches;
-          const batchData = await this.fetch.batch({
-            node: parentNodeUri,
-            offset: nextBatchNumber,
-          });
+          const batchData = await this.fetch.batch(
+            parentNodeUri,
+            nextBatchNumber
+          );
 
           if (!batchData) {
             console.error('Failed to fetch batch');
