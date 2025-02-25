@@ -5,7 +5,7 @@
   class InfiniteTree {
     /**
      * @constructor
-     * @param {number} childrenBatchSize - The number of nodes per batch of children
+     * @param {number} batchSize - The number of nodes per batch of children
      * @param {string} appUrlPrefix - The proper app prefix
      * @param {string} resourceUri - The URI of the collection resource
      * @param {string} identifier_separator - The i18n identifier separator
@@ -13,13 +13,13 @@
      * @returns {InfiniteTree} - InfiniteTree instance
      */
     constructor(
-      childrenBatchSize,
+      batchSize,
       appUrlPrefix,
       resourceUri,
       identifier_separator,
       date_type_bulk
     ) {
-      this.CHILDREN_BATCH_SIZE = childrenBatchSize;
+      this.BATCH_SIZE = batchSize;
       this.resourceUri = resourceUri;
       this.repoId = resourceUri.split('/')[2];
       this.resourceId = resourceUri.split('/')[4];
@@ -29,11 +29,7 @@
 
       this.fetch = new InfiniteTreeFetch(appUrlPrefix, resourceUri);
 
-      this.frag = new InfiniteTreeFragments(
-        resourceUri,
-        childrenBatchSize,
-        this.i18n
-      );
+      this.frag = new InfiniteTreeFragments(resourceUri, batchSize, this.i18n);
 
       this.batchObserver = new IntersectionObserver(
         (entries, observer) => {
@@ -57,7 +53,7 @@
       const rootFrag = this.frag.root(this.frag.buildNodeTitle(rootData));
       const rootNode = rootFrag.querySelector('.root.node');
 
-      await this.renderInitialChildren(rootNode, rootData);
+      await this.renderInitialBatch(rootNode, rootData);
 
       this.container.appendChild(rootFrag);
     }
@@ -67,37 +63,24 @@
      * @param {HTMLElement} parent - The node element to initialize children for
      * @param {Object} data - The node data object from the server
      */
-    async renderInitialChildren(parent, data) {
-      const batchData = this.prepareBatchData(parent, data);
-      const childrenList = this.renderChildrenList(
-        parent,
-        batchData.level,
-        data.waypoints
-      );
+    async renderInitialBatch(parent, data) {
+      const batchData = this.prepareBatch(parent, data);
+      const list = this.renderList(parent, batchData.level, data.waypoints);
 
-      this.renderBatchOfChildren(
-        childrenList,
-        batchData.nodes,
-        batchData.hasNextBatch,
-        0
-      );
+      this.renderBatch(list, batchData.nodes, batchData.hasNextBatch, 0);
     }
 
     /**
-     * Render the container structure for child nodes
+     * Render and return the list element for child nodes
      * @param {HTMLElement} parent - Parent node element
      * @param {number} parentLevel - Tree level of the parent
      * @param {number} numBatches - Number of batch placeholders to create
-     * @returns {HTMLElement} The created children list element
+     * @returns {HTMLElement} The rendered list element
      */
-    renderChildrenList(parent, parentLevel, numBatches) {
-      const childrenListFrag = this.frag.childrenList(
-        parent.id,
-        parentLevel + 1,
-        numBatches
-      );
+    renderList(parent, parentLevel, numBatches) {
+      const listFrag = this.frag.list(parent.id, parentLevel + 1, numBatches);
 
-      parent.appendChild(childrenListFrag);
+      parent.appendChild(listFrag);
 
       return parent.querySelector('.children');
     }
@@ -109,20 +92,20 @@
      * @param {boolean} hasNextBatch - Whether there is another batch after this one
      * @param {number} batchNumber - The batch number being rendered
      */
-    renderBatchOfChildren(list, nodes, hasNextBatch, batchNumber = 0) {
+    renderBatch(list, nodes, hasNextBatch, batchNumber = 0) {
       if (!Array.isArray(nodes)) {
         console.error('Expected nodes to be an array, got:', nodes);
         return;
       }
 
-      const listMeta = this.validateChildrenList(list);
+      const listMeta = this.validateList(list);
       if (!listMeta) return;
 
       const batchFrag = new DocumentFragment();
 
       nodes.forEach((node, i) => {
         const observeThisNode =
-          i == Math.floor(this.CHILDREN_BATCH_SIZE / 2) - 1 && hasNextBatch;
+          i == Math.floor(this.BATCH_SIZE / 2) - 1 && hasNextBatch;
         const markupArgs = [node, listMeta.level, observeThisNode];
 
         if (observeThisNode) {
@@ -163,7 +146,7 @@
      * @param {number} batchNumber - Which batch of children to prepare
      * @returns {Object} Prepared batch data, {nodes:array, hasNextBatch:boolean, level:number}
      */
-    prepareBatchData(parent, data, batchNumber = 0) {
+    prepareBatch(parent, data, batchNumber = 0) {
       const isRoot = parent.classList.contains('root');
       const wpKey = isRoot ? '' : data.uri;
       const level = isRoot
@@ -178,11 +161,11 @@
     }
 
     /**
-     * Validate the list element and get its metadata
-     * @param {HTMLElement} list - The list element to validate
+     * Validate and return parent data from a list
+     * @param {HTMLElement} list - The list element with data attributes to validate
      * @returns {Object|null} List metadata if valid, null if invalid
      */
-    validateChildrenList(list) {
+    validateList(list) {
       if (!list) {
         console.error('List element is null or undefined');
         return null;
@@ -231,7 +214,7 @@
             return;
           }
 
-          this.renderBatchOfChildren(
+          this.renderBatch(
             siblingList,
             batchData,
             hasNextBatch,
@@ -274,7 +257,9 @@
       if (isExpanding && node.getAttribute('data-has-expanded') === 'false') {
         const nodeRecordId = node.getAttribute('data-uri').split('/')[4];
         const nodeData = await this.fetch.node(Number(nodeRecordId));
-        await this.renderInitialChildren(node, nodeData);
+
+        await this.renderInitialBatch(node, nodeData);
+
         node.setAttribute('data-has-expanded', 'true');
       }
 

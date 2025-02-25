@@ -3,14 +3,14 @@
     /**
      * @constructor
      * @param {string} resourceUri - The URI of the collection resource
-     * @param {number} childrenBatchSize - The number of nodes per batch of children
+     * @param {number} batchSize - The number of child nodes per batch
      * @param {Object} i18n - Internationalization strings
      */
-    constructor(resourceUri, childrenBatchSize, i18n) {
+    constructor(resourceUri, batchSize, i18n) {
       this.resourceUri = resourceUri;
       this.repoId = resourceUri.split('/')[2];
       this.resourceId = resourceUri.split('/')[4];
-      this.CHILDREN_BATCH_SIZE = childrenBatchSize;
+      this.BATCH_SIZE = batchSize;
       this.i18n = i18n;
     }
 
@@ -46,14 +46,14 @@
     }
 
     /**
-     * Provide a DocumentFragment of an ordered list of child batch placeholders
+     * Provide a DocumentFragment of an ordered list containing child batch placeholders
      * @param {string} parentElementId - Value of the parent node's HTML id attribute
      * @param {number} level - Tree level of the children
      * @param {number} numBatches - Number of batches to create
      * @returns {DocumentFragment} - DocumentFragment of the ordered list of child batch placeholders
      */
-    childrenList(parentElementId, level, numBatches) {
-      const childrenFrag = new DocumentFragment();
+    list(parentElementId, level, numBatches) {
+      const listFrag = new DocumentFragment();
       const listTemplate = document
         .querySelector('#infinite-tree-children-list-template')
         .content.cloneNode(true);
@@ -74,9 +74,9 @@
         listElement.appendChild(itemElement);
       }
 
-      childrenFrag.appendChild(listTemplate);
+      listFrag.appendChild(listTemplate);
 
-      return childrenFrag;
+      return listFrag;
     }
 
     /**
@@ -109,9 +109,7 @@
       nodeElement.setAttribute('data-uri', data.uri);
 
       if (data.child_count > 0) {
-        const totalBatches = Math.ceil(
-          data.child_count / this.CHILDREN_BATCH_SIZE
-        );
+        const totalBatches = Math.ceil(data.child_count / this.BATCH_SIZE);
 
         nodeElement.setAttribute('data-total-child-batches', totalBatches);
         nodeElement.setAttribute('data-has-expanded', 'false');

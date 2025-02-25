@@ -17,8 +17,8 @@
     }
 
     /**
-     * Fetch the root data
-     * @returns {Object} - Root data object returned from the server
+     * Fetch the root
+     * @returns {Object} - Root object returned from the server
      */
     async root() {
       try {
@@ -31,7 +31,7 @@
     }
 
     /**
-     * Fetch the tree of the node with the given id
+     * Fetch the node with the given id
      * @param {number} id - ID of the node, ie: 18028
      * @returns {Object} - Node object as returned from the server
      */
