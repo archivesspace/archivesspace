@@ -254,10 +254,7 @@ describe 'Archival objects', js: true do
 
   it 'can add more than four accession component links to an archival object' do
     now = Time.now.to_i
-    accessions = []
-    10.times do
-      accessions << create(:accession)
-    end
+    accessions = create_list(:accession, 10)
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(
       :archival_object,
@@ -265,7 +262,6 @@ describe 'Archival objects', js: true do
       resource: { 'ref' => resource.uri },
       accession_links: accessions.map { |a| { ref: a.uri } },
     )
-    run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
@@ -283,6 +279,9 @@ describe 'Archival objects', js: true do
 
     # Click on save
     find('button', text: 'Save Archival Object', match: :first).click
+
+    # refresh to ensure changes are applied and UI is updated
+    page.refresh
 
     # Open the 'too many' disclosure
     find('#archival_object_accession_links_ .alert-too-many', match: :first).click
