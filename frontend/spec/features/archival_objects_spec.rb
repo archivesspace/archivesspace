@@ -206,7 +206,7 @@ describe 'Archival objects', js: true do
     expect(element.text).to eq "Updated Archival Object Title #{now} Archival Object"
   end
 
-  it 'can add a assign, remove, and reassign a Subject to an archival object' do
+  it 'can add, assign, remove, and reassign a Subject to an archival object' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
     archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
@@ -250,6 +250,45 @@ describe 'Archival objects', js: true do
 
     element = find('#archival_object_subjects_ ul.token-input-list')
     expect(element).to have_text "Test Term 1 #{now}"
+  end
+
+  it 'can add more than four accession component links to an archival object' do
+    now = Time.now.to_i
+    accessions = []
+    10.times do
+      accessions << create(:accession)
+    end
+    resource = create(:resource, title: "Resource Title #{now}")
+    archival_object = create(
+      :archival_object,
+      title: "Archival Object Title #{now}",
+      resource: { 'ref' => resource.uri },
+      accession_links: accessions.map { |a| { ref: a.uri } },
+    )
+    run_index_round
+
+    visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
+
+    # Click on close record
+    click_on 'Close Record'
+
+    linked_accessions = all('#archival_object_accession_links_ .subrecord-form-container tbody tr')
+    expect(linked_accessions.length).to eq 10
+
+    # Click on edit
+    find('a', text: 'Edit', match: :first).click
+
+    # Update the archival object
+    fill_in 'archival_object_title_', with: "Updated Archival Object Title #{now}"
+
+    # Click on save
+    find('button', text: 'Save Archival Object', match: :first).click
+
+    # Open the 'too many' disclosure
+    find('#archival_object_accession_links_ .alert-too-many', match: :first).click
+
+    saved_linked_accessions = all('#archival_object_accession_links_ ul.subrecord-form-list .linker-wrapper')
+    expect(saved_linked_accessions.length).to eq 10
   end
 
   it 'can view a read only Archival Object' do
