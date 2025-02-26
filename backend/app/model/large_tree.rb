@@ -95,7 +95,7 @@ class LargeTree
       # TODO this needs to change to fetch appropriate title based on language etc
       title = @root_record.title.first.title
 
-      response = waypoint_response(child_count).merge("title" => @title,
+      response = waypoint_response(child_count).merge("title" => title,
                                             "uri" => @root_record.uri,
                                             "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
                                             "jsonmodel_type" => @root_table.to_s,
