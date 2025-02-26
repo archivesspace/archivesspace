@@ -311,7 +311,19 @@
   <target name="build-docker-conf-package" depends="set-classpath" description="Bundle the default configuration, plugins and docker-compose file into a zip file">
     <delete failonerror="true" dir="docker_prod" />
     <mkdir dir="docker_prod/archivesspace/config" />
+    <mkdir dir="docker_prod/archivesspace/locales" />
+    <mkdir dir="docker_prod/archivesspace/locales/public" />
     <mkdir dir="docker_prod/archivesspace/plugins" />
+    <mkdir dir="docker_prod/archivesspace/plugins/lcnaf" />
+    <mkdir dir="docker_prod/archivesspace/plugins/local/indexer" />
+    <mkdir dir="docker_prod/archivesspace/plugins/local/schemas" />
+    <mkdir dir="docker_prod/archivesspace/plugins/local/backend/model/mixins" />
+    <mkdir dir="docker_prod/archivesspace/plugins/local/backend/model/reports" />
+    <mkdir dir="docker_prod/archivesspace/plugins/local/backend/controllers" />
+    <mkdir dir="docker_prod/archivesspace/plugins/local/frontend/views" />
+    <mkdir dir="docker_prod/archivesspace/plugins/local/frontend/locales" />
+    <mkdir dir="docker_prod/archivesspace/plugins/local/public/views" />
+    <mkdir dir="docker_prod/archivesspace/plugins/local/public/locales" />
     <mkdir dir="docker_prod/archivesspace/sql" />
     <mkdir dir="docker_prod/archivesspace/proxy-config" />
 
@@ -319,6 +331,18 @@
     <property name="version" value="${DSTAMP}-${TSTAMP}"/>
     <property name="docker-tag" value="latest"/>
 
+    <copy todir="docker_prod/archivesspace/locales">
+      <fileset dir="../common/locales" />
+    </copy>
+    <copy todir="docker_prod/archivesspace/locales/public">
+      <fileset dir="../public/config/locales">
+        <include name="**/*.yml" />
+      </fileset>
+    </copy>
+
+    <copy todir="docker_prod/archivesspace/plugins/lcnaf">
+      <fileset dir="../plugins/lcnaf"/>
+    </copy>
     <copy file="../docker-compose-prod.yml" tofile="docker_prod/archivesspace/docker-compose.yml"/>
     <copy file="../.env.docker.prod" tofile="docker_prod/archivesspace/.env" />
     <replace file="docker_prod/archivesspace/.env" token="@docker-tag@" value="${docker-tag}"/>
