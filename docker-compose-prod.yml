@@ -15,6 +15,7 @@ services:
       - app-data:/archivesspace/data
       - ./plugins:/archivesspace/plugins
       - ./config:/archivesspace/config
+      - ./locales:/archivesspace/locales
 
   db:
     image: mysql:8
