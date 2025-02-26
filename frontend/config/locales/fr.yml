@@ -1338,6 +1338,7 @@ fr:
         reset: Préférences définies sur les valeurs par défaut de l'application
         reset_error: "Impossible de réinitialiser les préférences en raison d'une
           erreur: %{exception}"
+        no_access_to_preferences: "Vous devez créer au moins un service d'archives avant de pouvoir gérer les préférences"
       action:
         save: Enregistrer les préférences
 

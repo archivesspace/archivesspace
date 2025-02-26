@@ -1355,6 +1355,7 @@ en:
         updated: Preferences updated
         reset: Preferences set to application defaults
         reset_error: "Unable to reset preferences due to an error: %{exception}"
+        no_access_to_preferences: "You must create at least one repository before managing preferences"
       action:
         save: Save Preferences
 

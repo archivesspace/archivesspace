@@ -1219,6 +1219,7 @@ ja:
         updated: プリファレンスの更新
         reset: アプリケーションのデフォルトに設定されたプリファレンス
         reset_error: "エラーのために設定をリセットできません：％{exception}"
+        no_access_to_preferences: "少なくとも1つのリポジトリを作成する前に、プリファレンスを管理できません"
       action:
         save: 設定を保存
 
