@@ -1477,6 +1477,7 @@ de:
         reset: Voreinstellungen auf Anwendungs-Standards gesetzt
         reset_error: 'Konnte Voreinstellungen wegen einem Fehler nicht zurücksetzen:
           %{exception}'
+        no_access_to_preferences: "Sie müssen mindestens einen Aufbewahrungsort erstellen, bevor Sie Voreinstellungen verwalten können"
       action:
         save: Einstellungen speichern
   rights_statement:

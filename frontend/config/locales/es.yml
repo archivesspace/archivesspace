@@ -1315,6 +1315,7 @@ es:
         reset: Preferencias establecidas en los valores predeterminados de la aplicación
         reset_error: "No se pueden restablecer las preferencias debido a un error:
           %{exception}"
+        no_access_to_preferences: "Debe crear al menos un repositorio antes de administrar las preferencias"
       action:
         save: Guardar preferencias
 

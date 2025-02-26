@@ -5,13 +5,21 @@ class PreferencesController < ApplicationController
   def edit
     opts, user_scope = setup_defaults
 
+    # Check if we have any repositories before proceeding
+    repos = JSONModel::HTTP.get_json("/repositories")
+    if repos.empty?
+      flash[:error] = I18n.t("preference._frontend.messages.no_access_to_preferences")
+      redirect_to(:controller => :welcome, :action => :index)
+      return
+    end
+
     if @current_prefs[user_scope]
       pref = JSONModel(:preference).from_hash(@current_prefs[user_scope])
     else
       pref = JSONModel(:preference).new({
-                                          :defaults => {},
-                                          :user_id => params['repo'] ? nil : JSONModel(:user).id_for(session[:user_uri])
-                                        })
+                                        :defaults => {},
+                                        :user_id => params['repo'] ? nil : JSONModel(:user).id_for(session[:user_uri])
+                                      })
       pref.save(opts)
     end
 
