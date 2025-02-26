@@ -262,7 +262,14 @@ module SearchHelper
             opts[:template] = "search/#{prop}_cell"
           end
         end
-        add_column(I18n.t("search.#{model}.#{prop}"), opts)
+
+        generator_block = nil
+        if model === 'resource' && prop === 'title'
+          generator_block = proc do |record|
+            title = MultipleTitlesHelper.determine_display_title(JSON.parse(record["json"])["titles"])
+          end
+        end
+        add_column(I18n.t("search.#{model}.#{prop}"), opts, generator_block)
       end
     end
     models.each do |model|
