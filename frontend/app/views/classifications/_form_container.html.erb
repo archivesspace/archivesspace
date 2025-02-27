@@ -32,10 +32,9 @@
       <% form.push("creator", form["creator"] || {}) do %>
         <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => t("classification.creator"), :optional => true, :multiplicity => "one"} %>
       <% end %>
-
-      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
-
     </section>
+
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
   <% end %>
 
   <% form.emit_template("classification") %>
