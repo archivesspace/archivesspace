@@ -537,10 +537,10 @@
         if (entry.isIntersecting) {
           const uri = entry.target.dataset.uri;
           const _new = document.querySelector(
-            `#infinite-tree-container .table-row[data-uri="${uri}"]`
+            `#infinite-tree-container .node[data-uri="${uri}"]`
           );
           const old = document.querySelector(
-            '#infinite-tree-container .table-row.current'
+            '#infinite-tree-container .node.current'
           );
 
           if (old) {
