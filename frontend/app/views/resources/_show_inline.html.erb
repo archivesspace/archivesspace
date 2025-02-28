@@ -7,7 +7,7 @@
     <div class="record-pane">
       <%= readonly_context :resource, @resource do |readonly| %>
 
-        <h2><%= clean_mixed_content(MultipleTitlesHelper.determine_display_title(@resource.titles)) %> <span class="label label-info badge"><%= t("resource._singular") %></span></h2>
+        <h2><%= clean_mixed_content(MultipleTitlesHelper.determine_display_title(@resource.titles, I18n.locale)) %> <span class="label label-info badge"><%= t("resource._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
