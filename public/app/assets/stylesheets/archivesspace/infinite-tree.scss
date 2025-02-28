@@ -1,151 +1,211 @@
-// pre ANW-425
-.infinite-tree-view {
+/* Base tree styles */
+:root {
+  --tree-indent-width: 24px;
+  --tree-line-color: #fff;
+}
+
+#infinite-tree-container {
   height: 600px;
-  padding: 1em;
-
-  .resource-level,
-  .resource-type,
-  .resource-container {
-    display: none;
-  }
+  background-color: #f1f1f1;
+  border: 1px solid #f1f1f1;
+  overflow-y: auto;
 }
 
-@media (max-width: 991px) {
-  .infinite-tree-sidebar {
-    display: none;
-  }
+.infinite-tree {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  background-color: white;
 }
 
-// ANW-425 and after
-.table-row.largetree-node[data-is-expanded='false'] + .table-row-group,
-.table-row.largetree-node[data-is-expanded='false']
-  + .table-row-group
-  ~ .table-row-group {
+/* Node styles */
+.node {
+  position: relative;
+  list-style: none;
+}
+
+/* Node row for full-width highlighting */
+.node-row {
+  position: relative;
+  width: 100%;
+}
+
+/* Node body container */
+.node-body {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 2em;
+  line-height: 2em;
+  margin-bottom: 1px;
+}
+
+/* Alternating backgrounds */
+.node:nth-child(even) > .node-row > .node-body {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.node-body:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Indentation based on tree level */
+.node-children {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.node-children .node-indentation {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: calc(var(--tree-indent-width) * var(--level, 1));
+  background-color: #f1f1f1;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent calc(var(--tree-indent-width) - 1px),
+    var(--tree-line-color) calc(var(--tree-indent-width) - 1px),
+    var(--tree-line-color) var(--tree-indent-width)
+  );
+}
+
+/* Set indentation levels */
+.node-children[data-tree-level='1'] .node-body {
+  --level: 0;
+}
+.node-children[data-tree-level='2'] .node-body {
+  --level: 1;
+}
+.node-children[data-tree-level='3'] .node-body {
+  --level: 2;
+}
+.node-children[data-tree-level='4'] .node-body {
+  --level: 3;
+}
+.node-children[data-tree-level='5'] .node-body {
+  --level: 4;
+}
+.node-children[data-tree-level='6'] .node-body {
+  --level: 5;
+}
+.node-children[data-tree-level='7'] .node-body {
+  --level: 6;
+}
+.node-children[data-tree-level='8'] .node-body {
+  --level: 7;
+}
+.node-children[data-tree-level='9'] .node-body {
+  --level: 8;
+}
+.node-children[data-tree-level='10'] .node-body {
+  --level: 9;
+}
+.node-children[data-tree-level='11'] .node-body {
+  --level: 10;
+}
+.node-children[data-tree-level='12'] .node-body {
+  --level: 11;
+}
+
+/* Title container and link */
+.node-title-container {
+  display: flex;
+  align-items: center;
+  min-height: var(--tree-indent-width);
+  margin-left: calc(var(--tree-indent-width) * var(--level, 0));
+  overflow: hidden;
+  min-width: 0; /* Allows flex item to shrink below content size */
+  flex-grow: 1; /* Take up remaining space instead of width: 100% */
+}
+
+.node-title {
+  padding-left: 0.25rem;
+  flex-shrink: 1; /* Allow shrinking */
+  min-width: 0; /* Allows flex item to shrink below content size */
+  text-decoration: none;
+  color: #337ab7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: text; /* Explicitly allow text selection */
+  cursor: pointer; /* Show pointer on the link since it's clickable */
+  position: relative; /* Ensure link is clickable */
+  z-index: 1; /* Ensure link is above other elements */
+}
+
+.node-title:hover {
+  text-decoration: underline;
+  color: #23527c;
+}
+
+/* Expand/collapse button and placeholder */
+.node-expand,
+.node-expand-placeholder {
+  border: none;
+  padding: 0;
+  flex-shrink: 0;
+  width: var(--tree-indent-width);
+  height: 2rem;
+  background-color: #f1f1f1;
+}
+
+.node-expand {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+/* Show expand button only when node has children */
+.node[data-total-child-batches] .node-expand {
+  display: flex;
+}
+
+.node-expand:hover {
+  color: #333;
+}
+
+/* Rotate icon when expanded */
+.node-expand-icon.expanded {
+  transform: rotate(90deg);
+}
+
+/* Hide children when parent is collapsed */
+.node[aria-expanded='false'] > .node-children {
   display: none;
 }
-.table-row.largetree-node[data-is-expanded='true'] + .table-row-group,
-.table-row.largetree-node[data-is-expanded='true']
-  + .table-row-group
-  ~ .table-row-group {
-  display: contents;
+
+/* Root node specific styles */
+.root.node > .node-row > .node-body {
+  padding-left: 4px;
+  font-weight: normal;
 }
 
-.infinite-tree-view {
-  overflow: auto;
-  position: relative;
-
-  ol.infinite-tree,
-  ol.children {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .node {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-
-    .node-content {
-      display: flex;
-      align-items: center;
-      padding: 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      box-sizing: border-box;
-      height: 2em;
-
-      .title-container {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        padding-left: .5rem;
-
-        a.title {
-          text-decoration: none;
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-
-      .indentor {
-        display: inline-flex;
-        align-items: center;
-        width: 20px;
-      }
-
-      .expandme {
-        border: none;
-        background: none;
-        padding: 0;
-        cursor: pointer;
-
-        &[aria-hidden="true"] {
-          visibility: hidden;
-        }
-      }
-
-      .expandme-icon {
-        transition: transform 0.2s ease;
-
-        &.expanded {
-          transform: rotate(90deg);
-        }
-      }
-
-      .has_digital_instance {
-        margin-right: 4px;
-      }
-    }
-
-    &[aria-expanded="false"] {
-      > .children {
-        display: none;
-      }
-    }
-
-    &[aria-expanded="true"] {
-      > .children {
-        display: block;
-      }
-    }
-
-    &.current {
-      > .node-content {
-        outline: 1px solid #0a6aa1;
-        background-color: #effaff;
-      }
-    }
-  }
-
-  // Indentation
-  // [class*="indent-level-"]:not(.indent-level-1) {
-  //   padding-left: 20px;
-  // }
-
-  .children {
-    display: none;
-  }
-
-  .root.node {
-    > .node-content {
-      padding: 0;
-    }
-
-    > .children {
-      display: block;
-    }
-  }
+/* Transition for expand/collapse icon */
+.node-expand-icon {
+  transition: transform 0.15s ease;
 }
 
-// Overrides for frontend/app/assets/stylesheets/archivesspace/largetree.scss
-.largetree-container {
-  .current {
-    outline: none !important;
-  }
+/* Active/selected node highlighting */
+li.node.current > .node-row > .node-body {
+  background-color: #effaff;
+  position: relative; /* For pseudo-element positioning */
+}
+
+li.node.current > .node-row > .node-body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -1px; /* Extend to cover the margin-bottom */
+  border: 1px solid #0a6aa1;
+  pointer-events: none; /* Allow clicks to pass through */
+  z-index: 1;
 }

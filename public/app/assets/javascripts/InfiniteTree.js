@@ -2,6 +2,15 @@
 //= require InfiniteTreeFragments
 
 (function (exports) {
+  /**
+   * A tree is an ordered list, represented in the DOM as `ol.infinite-tree`.
+   * The tree has exactly one list item which is the root node.
+   * The root node has zero or more child nodes, each of which have zero or more child nodes, each of which have zero or more child nodes, etc.
+   * All nodes in the DOM are represented as `li.node`; the root as `li.root.node`.
+   * All nodes have `div.node-body` to display the node's indentation level, expand/collapse icon for any children, and data.
+   * All nodes with children have a nested ordered list, `ol.node-children`, for its child nodes.
+   */
+
   class InfiniteTree {
     /**
      * @constructor
@@ -82,7 +91,7 @@
 
       parent.appendChild(listFrag);
 
-      return parent.querySelector('.children');
+      return parent.querySelector('.node-children');
     }
 
     /**
@@ -151,7 +160,9 @@
       const wpKey = isRoot ? '' : data.uri;
       const level = isRoot
         ? 0
-        : Number(parent.closest('.children').getAttribute('data-tree-level'));
+        : Number(
+            parent.closest('.node-children').getAttribute('data-tree-level')
+          );
 
       return {
         nodes: data.precomputed_waypoints[wpKey][batchNumber],
@@ -196,7 +207,7 @@
         if (entry.isIntersecting) {
           const node = entry.target;
           const parentNodeUri = node.getAttribute('data-observe-node');
-          const siblingList = node.closest('.children');
+          const siblingList = node.closest('.node-children');
           const nextBatchNumber = Number(
             node.getAttribute('data-observe-offset')
           );
@@ -251,8 +262,8 @@
       const node = e.target.closest('.node');
       const isExpanding = node.getAttribute('aria-expanded') === 'false';
       const icon =
-        e.target.closest('.expandme-icon') ||
-        e.target.querySelector('.expandme-icon');
+        e.target.closest('.node-expand-icon') ||
+        e.target.querySelector('.node-expand-icon');
 
       if (isExpanding && node.getAttribute('data-has-expanded') === 'false') {
         const nodeRecordId = node.getAttribute('data-uri').split('/')[4];

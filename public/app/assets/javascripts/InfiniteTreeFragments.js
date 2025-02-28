@@ -26,8 +26,8 @@
         .querySelector('#infinite-tree-root-template')
         .content.cloneNode(true);
       const rootElement = rootTemplate.querySelector('li');
-      const contentWrapper = rootTemplate.querySelector('.node-content');
-      const link = rootTemplate.querySelector('.title');
+      const contentWrapper = rootTemplate.querySelector('.node-body');
+      const link = rootTemplate.querySelector('.node-title');
 
       rootElement.id = `resource_${this.resourceId}`;
       rootElement.setAttribute('data-uri', this.resourceUri);
@@ -65,7 +65,7 @@
 
       for (let i = 0; i < numBatches; i++) {
         const itemTemplate = document
-          .querySelector('#infinite-tree-children-batch-placeholder-template')
+          .querySelector('#infinite-tree-batch-placeholder-template')
           .content.cloneNode(true);
         const itemElement = itemTemplate.querySelector('li');
 
@@ -101,8 +101,8 @@
         .querySelector('#infinite-tree-node-template')
         .content.cloneNode(true);
       const nodeElement = nodeTemplate.querySelector('li');
-      const contentWrapper = nodeTemplate.querySelector('.node-content');
-      const link = nodeTemplate.querySelector('.title');
+      const contentWrapper = nodeTemplate.querySelector('.node-body');
+      const link = nodeTemplate.querySelector('.node-title');
 
       nodeElement.id = nodeElementId;
       nodeElement.classList.add(`indent-level-${level}`);
@@ -110,15 +110,12 @@
 
       if (data.child_count > 0) {
         const totalBatches = Math.ceil(data.child_count / this.BATCH_SIZE);
-
         nodeElement.setAttribute('data-total-child-batches', totalBatches);
         nodeElement.setAttribute('data-has-expanded', 'false');
         nodeElement.setAttribute('aria-expanded', 'false');
-      } else if (data.child_count == 0) {
-        nodeTemplate.querySelector('.expandme').style.visibility = 'hidden';
-        nodeTemplate
-          .querySelector('.expandme')
-          .setAttribute('aria-hidden', 'true');
+        nodeTemplate.querySelector('.node-expand-placeholder').remove();
+      } else {
+        nodeTemplate.querySelector('.node-expand').remove();
       }
 
       if (shouldObserve) {
@@ -139,12 +136,17 @@
       }
 
       contentWrapper.setAttribute('title', title.cleaned);
-      nodeTemplate.querySelector('.sr-only').textContent = title.cleaned;
+
+      // Only set sr-only text if expand button exists (node has children)
+      const expandButton = nodeTemplate.querySelector('.node-expand');
+      if (expandButton) {
+        expandButton.querySelector('.sr-only').textContent = title.cleaned;
+      }
 
       if (data.has_digital_instance) {
         const iconHtml = `<i class="has_digital_instance fa fa-file-image-o" aria-hidden="true"></i>`;
         nodeTemplate
-          .querySelector('.record-title')
+          .querySelector('.node-title')
           .insertAdjacentHTML('beforebegin', iconHtml);
       }
 

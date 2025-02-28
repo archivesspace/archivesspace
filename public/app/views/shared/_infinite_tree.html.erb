@@ -1,6 +1,5 @@
 <div
   id="infinite-tree-container"
-  class="infinite-tree-view largetree-container"
   data-resource-uri="<%= @result['uri'] %>"
 >
 </div>
@@ -10,37 +9,41 @@
 <template id="infinite-tree-root-template">
   <ol class="infinite-tree" role="tree">
     <li class="root node" role="treeitem" id data-uri aria-expanded>
-      <div class="node-content" title>
-        <div class="title-container">
-          <a class="title" href></a>
+      <div class="node-row">
+        <div class="node-body" title>
+          <div class="node-title-container">
+            <a class="node-title" href></a>
+          </div>
         </div>
       </div>
-      <%# The root's <ol> of children will be inserted here by JS %>
+      <%# ol.node-children to be inserted here by JS %>
     </li>
   </ol>
 </template>
 
 <template id="infinite-tree-node-template">
   <li class="node" role="treeitem" id data-uri>
-    <div class="node-content" title>
-      <div class="title-container">
-        <span class="indentor">
-          <button class="expandme">
-            <i class="expandme-icon fa fa-chevron-right"></i>
-            <%# <i class="expandme-icon glyphicon glyphicon-chevron-right"></i> %>
+    <div class="node-row">
+      <div class="node-body" title>
+        <div class="node-indentation"></div>
+        <div class="node-title-container">
+          <button class="node-expand" type="button">
+            <i class="node-expand-icon fa fa-chevron-right"></i>
+            <%# <i class="node-expand-icon glyphicon glyphicon-chevron-right"></i> %>
             <span class="sr-only"></span>
           </button>
-        </span>
-        <a class="title" href></a>
+          <span class="node-expand-placeholder"></span>
+          <a class="node-title" href></a>
+        </div>
       </div>
     </div>
-    <%# The node's <ol> of children will be inserted here by JS when expanded %>
+    <%# ol.node-children to be inserted here by JS on expand %>
   </li>
 </template>
 
 <template id="infinite-tree-children-list-template">
   <ol
-    class="children"
+    class="node-children"
     role="group"
     data-parent-id
     data-tree-level
@@ -50,6 +53,6 @@
   </ol>
 </template>
 
-<template id="infinite-tree-children-batch-placeholder-template">
+<template id="infinite-tree-batch-placeholder-template">
   <li data-batch-placeholder style="display:none"></li>
 </template>
