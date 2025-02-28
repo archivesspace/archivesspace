@@ -80,6 +80,25 @@
     }
 
     /**
+     * Provide the DocumentFragment for an expand button for nodes with children
+     * @param {string} nodeTitle - The node title for screen reader text
+     * @returns {DocumentFragment} - DocumentFragment containing the expand button
+     */
+    expandButton(nodeTitle) {
+      const btnFrag = new DocumentFragment();
+      const btnTemplate = document
+        .querySelector('#infinite-tree-expand-button-template')
+        .content.cloneNode(true);
+      const button = btnTemplate.querySelector('.node-expand');
+
+      button.querySelector('.sr-only').textContent = nodeTitle;
+
+      btnFrag.appendChild(btnTemplate);
+
+      return btnFrag;
+    }
+
+    /**
      * Provide the DocumentFragment for a node list item
      * @param {Object} data - Node data object from the server
      * @param {number} level - Tree level of the node
@@ -102,6 +121,7 @@
         .content.cloneNode(true);
       const nodeElement = nodeTemplate.querySelector('li');
       const contentWrapper = nodeTemplate.querySelector('.node-body');
+      const indentation = nodeTemplate.querySelector('.node-indentation');
       const link = nodeTemplate.querySelector('.node-title');
 
       nodeElement.id = nodeElementId;
@@ -113,9 +133,8 @@
         nodeElement.setAttribute('data-total-child-batches', totalBatches);
         nodeElement.setAttribute('data-has-expanded', 'false');
         nodeElement.setAttribute('aria-expanded', 'false');
-        nodeTemplate.querySelector('.node-expand-placeholder').remove();
-      } else {
-        nodeTemplate.querySelector('.node-expand').remove();
+
+        indentation.appendChild(this.expandButton(title.cleaned));
       }
 
       if (shouldObserve) {
@@ -136,12 +155,6 @@
       }
 
       contentWrapper.setAttribute('title', title.cleaned);
-
-      // Only set sr-only text if expand button exists (node has children)
-      const expandButton = nodeTemplate.querySelector('.node-expand');
-      if (expandButton) {
-        expandButton.querySelector('.sr-only').textContent = title.cleaned;
-      }
 
       if (data.has_digital_instance) {
         const iconHtml = `<i class="has_digital_instance fa fa-file-image-o" aria-hidden="true"></i>`;

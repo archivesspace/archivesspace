@@ -27,18 +27,19 @@
       <div class="node-body" title>
         <div class="node-indentation"></div>
         <div class="node-title-container">
-          <button class="node-expand" type="button">
-            <i class="node-expand-icon fa fa-chevron-right"></i>
-            <%# <i class="node-expand-icon glyphicon glyphicon-chevron-right"></i> %>
-            <span class="sr-only"></span>
-          </button>
-          <span class="node-expand-placeholder"></span>
           <a class="node-title" href></a>
         </div>
       </div>
     </div>
     <%# ol.node-children to be inserted here by JS on expand %>
   </li>
+</template>
+
+<template id="infinite-tree-expand-button-template">
+  <button class="node-expand" type="button">
+    <i class="node-expand-icon fa fa-chevron-right"></i>
+    <span class="sr-only"></span>
+  </button>
 </template>
 
 <template id="infinite-tree-children-list-template">

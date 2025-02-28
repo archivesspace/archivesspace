@@ -5,10 +5,17 @@
   /**
    * A tree is an ordered list, represented in the DOM as `ol.infinite-tree`.
    * The tree has exactly one list item which is the root node.
-   * The root node has zero or more child nodes, each of which have zero or more child nodes, each of which have zero or more child nodes, etc.
+   * The root node has zero or more child nodes,
+   * each of which have zero or more child nodes,
+   * each of which have zero or more child nodes, etc.
    * All nodes in the DOM are represented as `li.node`; the root as `li.root.node`.
-   * All nodes have `div.node-body` to display the node's indentation level, expand/collapse icon for any children, and data.
-   * All nodes with children have a nested ordered list, `ol.node-children`, for its child nodes.
+   * All nodes have `div.node-body` containing:
+   *   - `div.node-indentation` for tree level indentation and expand/collapse button if children
+   *   - `div.node-title-container` for the node's data
+   *   - an `::after` pseudo-element to indicate the currently selected node
+   *     via the in-view InfiniteRecords record
+   * All nodes with children have a nested ordered list, `ol.node-children`, as the
+   * next sibling of the `.node-body` for its child nodes.
    */
 
   class InfiniteTree {
