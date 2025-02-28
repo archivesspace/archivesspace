@@ -1,3 +1,4 @@
+require 'multiple_titles_helper'
 module SearchHelper
 
   IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP = {
@@ -266,7 +267,7 @@ module SearchHelper
         generator_block = nil
         if model === 'resource' && prop === 'title'
           generator_block = proc do |record|
-            title = MultipleTitlesHelper.determine_display_title(JSON.parse(record["json"])["titles"])
+            title = MultipleTitlesHelper.determine_display_title(JSON.parse(record["json"])["titles"], I18n.locale)
           end
         end
         add_column(I18n.t("search.#{model}.#{prop}"), opts, generator_block)
