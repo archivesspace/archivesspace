@@ -49,6 +49,7 @@
 # displaying trees.
 
 require 'mixed_content_parser'
+require 'multiple_titles_helper'
 
 class LargeTree
 
@@ -92,8 +93,12 @@ class LargeTree
       # ANW-617: generate a slugged URL for inclusion in the JSON for the root node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
       digital_instance = relates_digital_instance?(@root_type) ? has_digital_instance?(db, @root_table, @root_record.id) : false
 
-      # TODO this needs to change to fetch appropriate title based on language etc
-      title = @root_record.title.first.title
+      if [Resource, ArchivalObject, DigitalObject, DigitalObjectComponent].include?(@root_record.class)
+        locale = Preference.current_preferences['user_repo']['defaults']['locale']
+        title = MultipleTitlesHelper.determine_display_title(@root_record.title.map {|title| title.to_hash}, locale)
+      else
+        title = @root_record.title
+      end
 
       response = waypoint_response(child_count).merge("title" => title,
                                             "uri" => @root_record.uri,
