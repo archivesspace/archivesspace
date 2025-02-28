@@ -28,6 +28,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Assessments::LinkedRecord
   include TouchRecords
   include Arks
+  include Titles
 
   enable_suppression
 
@@ -67,7 +68,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
                       :is_array => true)
 
   def self.produce_display_string(json)
-    display_string = json['title'] || ""
+    display_string = json['titles'][0]['title'] || ""
 
     date_label = json.has_key?('dates') && json['dates'].length > 0 ?
                    json['dates'].map do |date|
@@ -127,5 +128,8 @@ class ArchivalObject < Sequel::Model(:archival_object)
     super(setting)
     Resource.update_mtime_for_ids([self.root_record_id])
   end
+
+  # alias old title field to first item of new multiple titles list (for now at least)
+  auto_generate :property => :title, :generator => proc { |json| json['titles'][0]['title'] }
 
 end

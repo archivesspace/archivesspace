@@ -49,6 +49,7 @@
 # displaying trees.
 
 require 'mixed_content_parser'
+require 'multiple_titles_helper'
 
 class LargeTree
 
@@ -91,13 +92,22 @@ class LargeTree
 
       # ANW-617: generate a slugged URL for inclusion in the JSON for the root node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
       digital_instance = relates_digital_instance?(@root_type) ? has_digital_instance?(db, @root_table, @root_record.id) : false
-      response = waypoint_response(child_count).merge("title" => @root_record.title,
-                                                      "uri" => @root_record.uri,
-                                                      "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
-                                                      "jsonmodel_type" => @root_table.to_s,
-                                                      "parsed_title" => MixedContentParser.parse(@root_record.title, '/'),
-                                                      "suppressed" => @root_record.suppressed,
-                                                      "has_digital_instance" => digital_instance)
+
+      if [Resource, ArchivalObject, DigitalObject, DigitalObjectComponent].include?(@root_record.class)
+        locale = Preference.current_preferences['user_repo']['defaults']['locale']
+        title = MultipleTitlesHelper.determine_display_title(@root_record.title.map {|title| title.to_hash}, locale)
+      else
+        title = @root_record.title
+      end
+
+      response = waypoint_response(child_count).merge("title" => title,
+                                            "uri" => @root_record.uri,
+                                            "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
+                                            "jsonmodel_type" => @root_table.to_s,
+                                            "parsed_title" => MixedContentParser.parse(title, '/'),
+                                            "suppressed" => @root_record.suppressed,
+                                            "has_digital_instance" => digital_instance)
+
       @decorators.each do |decorator|
         response = decorator.root(response, @root_record)
       end
