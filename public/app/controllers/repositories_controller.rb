@@ -39,6 +39,10 @@ class RepositoriesController < ApplicationController
         id = hash['uri']
         if !facets[id].blank?
           hash['count'] = facets[id]
+          # Process repository info to include description field
+          if hash['agent_representation']['_resolved'] && hash['agent_representation']['_resolved']['jsonmodel_type'] == 'agent_corporate_entity'
+            hash['repo_info'] = process_repo_info(hash)
+          end
           @json.push(hash)
         end
       end
