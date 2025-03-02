@@ -785,3 +785,7 @@ AppConfig[:bulk_archival_object_updater_apply_deletes] = false
 # `create_missing_top_containers` parameter to the import job.
 
 AppConfig[:bulk_archival_object_updater_create_missing_top_containers] = false
+
+# Default search scope setting
+# Options: 'all_record_types', 'collections_only'
+AppConfig[:search_default_scope] = 'all_record_types'
