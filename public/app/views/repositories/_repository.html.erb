@@ -34,6 +34,12 @@
 				<% if full %>
 					<%= render partial: 'repositories/full_repo', locals: {:info => result['repo_info'], :url => result['url']} %>
 				<% else %>
+					<% if result.dig('repo_info', 'top', 'description').present? %>
+					<div class="repository-description py-2">
+						<strong><%= t('description') %>:</strong>
+						<div class="text-wrap"><%= truncate(strip_tags(result.dig('repo_info', 'top', 'description')), length: 200, separator: ' ', omission: '... ') %></div>
+					</div>
+					<% end %>
 					<div>
 						<strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %>
 					</div>
