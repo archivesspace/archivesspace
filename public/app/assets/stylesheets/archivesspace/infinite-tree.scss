@@ -13,7 +13,6 @@
   overflow-y: auto;
 }
 
-/* Reset list styles */
 .infinite-tree,
 .node-children {
   list-style: none;
@@ -26,19 +25,52 @@
   background-color: white;
 }
 
-/* Node styles */
-.node {
-  position: relative;
-  list-style: none;
+.root.node {
+  > .node-row > .node-body {
+    padding-left: 4px;
+    font-weight: normal;
+    background-color: #f1f1f1;
+  }
+
+  > .node-children > .node:last-child > .node-row > .node-body {
+    border-bottom: var(--tree-line-width) solid var(--tree-line-color);
+  }
 }
 
-/* Node row for full-width highlighting */
+.node {
+  position: relative;
+
+  &:nth-child(even) > .node-row > .node-body {
+    background-color: #fafafa;
+  }
+
+  &[aria-expanded='false'] > .node-children {
+    display: none;
+  }
+
+  &.current > .node-row > .node-body {
+    background-color: #effaff;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      border: 1px solid #0a6aa1;
+      pointer-events: none;
+      z-index: 1;
+    }
+  }
+}
+
 .node-row {
   position: relative;
   width: 100%;
 }
 
-/* Node body container */
 .node-body {
   display: flex;
   align-items: center;
@@ -46,29 +78,20 @@
   height: 2em;
   line-height: 2em;
   margin-bottom: 1px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
 }
 
-/* Add white border under last immediate child of root */
-.root.node > .node-children > .node:last-child > .node-row > .node-body {
-  border-bottom: var(--tree-line-width) solid var(--tree-line-color);
-}
-
-/* Alternating backgrounds */
-.node:nth-child(even) > .node-row > .node-body {
-  background-color: #fafafa;
-}
-
-.node-body:hover {
-  background-color: rgba(0, 0, 0, 0.03);
-}
-
-/* Indentation and expand button styles */
 .node-indentation {
   position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
-  width: calc((var(--tree-unit-width) * var(--level, 1)) - var(--tree-line-width));
+  width: calc(
+    (var(--tree-unit-width) * var(--level, 1)) - var(--tree-line-width)
+  );
   background-color: #f1f1f1;
   background-image: repeating-linear-gradient(
     90deg,
@@ -88,13 +111,13 @@
     .node-indentation {
       --level: #{$i};
     }
+
     .node-title-container {
       padding-left: calc(var(--tree-unit-width) * #{$i});
     }
   }
 }
 
-/* Expand button styles */
 .node-expand {
   border: none;
   padding: 0;
@@ -108,18 +131,20 @@
   color: #666;
   font-size: 0.875rem;
   flex-shrink: 0;
+
+  &:hover {
+    color: #333;
+  }
 }
 
-.node-expand:hover {
-  color: #333;
+.node-expand-icon {
+  transition: transform 0.15s ease;
+
+  &.expanded {
+    transform: rotate(90deg);
+  }
 }
 
-/* Rotate icon when expanded */
-.node-expand-icon.expanded {
-  transform: rotate(90deg);
-}
-
-/* Title container and link */
 .node-title-container {
   display: flex;
   align-items: center;
@@ -142,44 +167,9 @@
   cursor: pointer;
   position: relative;
   z-index: 1;
-}
 
-.node-title:hover {
-  text-decoration: underline;
-  color: #23527c;
-}
-
-/* Hide children when parent is collapsed */
-.node[aria-expanded='false'] > .node-children {
-  display: none;
-}
-
-/* Root node specific styles */
-.root.node > .node-row > .node-body {
-  padding-left: 4px;
-  font-weight: normal;
-  background-color: #f1f1f1;
-}
-
-/* Transition for expand/collapse icon */
-.node-expand-icon {
-  transition: transform 0.15s ease;
-}
-
-/* Active/selected node highlighting */
-li.node.current > .node-row > .node-body {
-  background-color: #effaff;
-  position: relative;
-}
-
-li.node.current > .node-row > .node-body::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  border: 1px solid #0a6aa1;
-  pointer-events: none;
-  z-index: 1;
+  &:hover {
+    text-decoration: underline;
+    color: #23527c;
+  }
 }
