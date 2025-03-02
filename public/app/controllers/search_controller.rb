@@ -1,6 +1,7 @@
 class SearchController < ApplicationController
 
   include PrefixHelper
+  include SearchConfigHelper
 
   before_action :validate_params
 
@@ -34,6 +35,12 @@ class SearchController < ApplicationController
 
     search_opts = default_search_opts(DEFAULT_SEARCH_OPTS)
     search_opts['fq'] = ["repository:\"#{repo_url}\" OR used_within_published_repository::\"#{repo_url}\""] if @repo_id
+
+    # Apply the default scope if no scope is specified in params
+    if params[:limit].blank? && SearchConfigHelper.default_search_scope == 'collections_only' && !params.key?(:limit)
+      params[:limit] = 'resource'
+    end
+
     begin
       set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, search_opts, params)
 #NOTE the redirect back here on error!

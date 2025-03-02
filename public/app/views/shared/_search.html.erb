@@ -23,7 +23,17 @@
       </div>
       <div class="col-xl-3 col-md-6 form-group norepeat">
         <%= label_tag(:limit, t('advanced_search.limit_label'),:class => 'font-weight-bold') %>
-        <%= select_tag(:limit, options_for_select(limit_options, @search[:limit]), :class=> 'form-control fill-column') %>
+        <%
+          # Determine the default limit value
+          default_limit = if @search[:limit].present?
+                            @search[:limit]
+                          elsif params.key?(:limit)
+                            params[:limit]
+                          else
+                            SearchConfigHelper.default_search_scope == 'collections_only' ? 'resource' : ''
+                          end
+        %>
+        <%= select_tag(:limit, options_for_select(limit_options, default_limit), :class=> 'form-control fill-column') %>
       </div>
       <div class="col-xl-2 col-lg-4 col-md-6 form-group">
         <%= label_tag(:"field#{i}", t('search-field'),:class => 'repeats font-weight-bold') %>
