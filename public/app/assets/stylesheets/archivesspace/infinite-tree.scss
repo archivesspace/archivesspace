@@ -55,7 +55,7 @@
 
 /* Alternating backgrounds */
 .node:nth-child(even) > .node-row > .node-body {
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: #fafafa;
 }
 
 .node-body:hover {
@@ -83,100 +83,14 @@
 }
 
 /* Set indentation levels */
-.node-children[data-tree-level='1'] {
-  .node-indentation {
-    --level: 1;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 1);
-  }
-}
-.node-children[data-tree-level='2'] {
-  .node-indentation {
-    --level: 2;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 2);
-  }
-}
-.node-children[data-tree-level='3'] {
-  .node-indentation {
-    --level: 3;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 3);
-  }
-}
-.node-children[data-tree-level='4'] {
-  .node-indentation {
-    --level: 4;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 4);
-  }
-}
-.node-children[data-tree-level='5'] {
-  .node-indentation {
-    --level: 5;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 5);
-  }
-}
-.node-children[data-tree-level='6'] {
-  .node-indentation {
-    --level: 6;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 6);
-  }
-}
-.node-children[data-tree-level='7'] {
-  .node-indentation {
-    --level: 7;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 7);
-  }
-}
-.node-children[data-tree-level='8'] {
-  .node-indentation {
-    --level: 8;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 8);
-  }
-}
-.node-children[data-tree-level='9'] {
-  .node-indentation {
-    --level: 9;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 9);
-  }
-}
-.node-children[data-tree-level='10'] {
-  .node-indentation {
-    --level: 10;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 10);
-  }
-}
-.node-children[data-tree-level='11'] {
-  .node-indentation {
-    --level: 11;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 11);
-  }
-}
-.node-children[data-tree-level='12'] {
-  .node-indentation {
-    --level: 12;
-  }
-  .node-title-container {
-    padding-left: calc(var(--tree-unit-width) * 12);
+@for $i from 1 through 12 {
+  .node-children[data-tree-level='#{$i}'] {
+    .node-indentation {
+      --level: #{$i};
+    }
+    .node-title-container {
+      padding-left: calc(var(--tree-unit-width) * #{$i});
+    }
   }
 }
 
