@@ -7,7 +7,7 @@ require 'rspec'
 
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
-  ASpaceCoverage.start('backend:test')
+  ASpaceCoverage.start('backend_tests')
 end
 
 require_relative "../app/model/db"

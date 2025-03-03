@@ -14,7 +14,7 @@ require 'nokogiri'
 
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
-  ASpaceCoverage.start('public:test', 'rails')
+  ASpaceCoverage.start('public', 'rails')
 end
 
 require 'aspace_gems'
