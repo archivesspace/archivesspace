@@ -7,18 +7,19 @@ module ASpaceCoverage
 
   def self.start(test_name, env = nil)
     SimpleCov.root(ASUtils.find_base_directory)
-    SimpleCov.coverage_dir("coverage")
+    SimpleCov.coverage_dir("coverage/#{ENV.fetch('COVERAGE_REPORT_DIR', '')}")
     SimpleCov.command_name test_name + ":#{Time.now.to_i}:#{$$}"
     SimpleCov.merge_timeout 3600
 
     SimpleCov.start(env) do
+      add_group test_name, "."
       add_filter "config/"
       add_filter "build/gems"
       add_filter "common/spec"
       add_filter "backend/spec"
-      add_filter "backend/tests"
       add_filter "frontend/spec"
       add_filter "public/spec"
+      add_filter "indexer/spec"
     end
   end
 end

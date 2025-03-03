@@ -21,7 +21,7 @@ require_relative '../../indexer/app/lib/periodic_indexer'
 
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
-  ASpaceCoverage.start('frontend:test', 'rails')
+  ASpaceCoverage.start('frontend', 'rails')
 end
 AppConfig[:frontend_cookie_secret] = "shhhhh"
 AppConfig[:enable_custom_reports] = true
