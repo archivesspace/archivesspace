@@ -1,6 +1,9 @@
-require File.expand_path('../boot', __FILE__)
+if ENV['COVERAGE_REPORTS'] == 'true'
+  require 'aspace_coverage'
+  ASpaceCoverage.start('frontend', 'rails')
+end
 
-#require 'rails/all'
+require File.expand_path('../boot', __FILE__)
 
 require 'action_controller/railtie'
 require 'sprockets/railtie'
@@ -173,9 +176,4 @@ ASUtils.order_plugins(ASUtils.find_local_directories('frontend')).each do |dir|
   if File.exist?(init_file)
     load init_file
   end
-end
-
-if ENV['COVERAGE_REPORTS'] == 'true'
-  require 'aspace_coverage'
-  ASpaceCoverage.start('frontend:test', 'rails')
 end

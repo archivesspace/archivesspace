@@ -66,6 +66,15 @@ namespace :release_notes do
   end
 end
 
+namespace :coverage do
+  task :colate do
+    require 'simplecov'
+
+    SimpleCov.coverage_dir("coverage/summary")
+    SimpleCov.collate Dir["#{File.join(__dir__, 'coverage')}/**/.resultset.json"]
+  end
+end
+
 namespace :http do
   namespace :checksum do
     # bundle exec rake http:checksum:solr["http://localhost:8983/solr/archivesspace","schema.xml"]

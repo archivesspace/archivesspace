@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+if ENV['COVERAGE_REPORTS'] == 'true'
+  require 'aspace_coverage'
+  ASpaceCoverage.start('public', 'rails')
+end
+
 require 'ashttp'
 require "uri"
 require "json"
@@ -12,10 +17,6 @@ require 'securerandom'
 require 'axe-rspec'
 require 'nokogiri'
 
-if ENV['COVERAGE_REPORTS'] == 'true'
-  require 'aspace_coverage'
-  ASpaceCoverage.start('public:test', 'rails')
-end
 
 require 'aspace_gems'
 
