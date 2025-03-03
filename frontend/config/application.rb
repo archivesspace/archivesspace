@@ -177,5 +177,5 @@ end
 
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
-  ASpaceCoverage.start('frontend:test', 'rails')
+  ASpaceCoverage.start('frontend', 'rails')
 end
