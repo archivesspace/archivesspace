@@ -81,6 +81,7 @@ ja:
       notes_published: ノート
       finding_aid_title: 援助のタイトルを見つける
       finding_aid_filing_title: 援助申請のタイトルを探す
+      instance_type_enum_s: インスタンスの種類
     page_title: 見つかった%{count}結果
     results_head: "%{type} ： %{start} - %{end}の%{total}"
     result: 結果

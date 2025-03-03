@@ -91,6 +91,7 @@ es:
       notes_published: Notas
       finding_aid_title: Título del instrumento de descripción
       finding_aid_filing_title: Título abreviado del instrumento de descripción
+      instance_type_enum_s: Tipo de representación
     page_title: "Encontrado %{count} resultados"
     results_head: "Mostrando %{type}: %{start} - %{end} of %{total}"
     result: Resultado
