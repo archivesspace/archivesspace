@@ -9,7 +9,6 @@
       this.appUrlPrefix = appUrlPrefix;
       this.resourceUri = resourceUri;
       this.repoId = resourceUri.split('/')[2];
-      // this.baseUri = `/resources/${this.resourceId}/tree`; // frontend base uri
       this.baseUri = `${this.resourceUri}/tree`;
       this.rootUri = `${this.baseUri}/root`;
       this.nodeUri = `${this.baseUri}/node`;
@@ -17,7 +16,7 @@
     }
 
     /**
-     * Fetch the root
+     * Fetches the root
      * @returns {Object} - Root object returned from the server
      */
     async root() {
@@ -31,7 +30,7 @@
     }
 
     /**
-     * Fetch the node with the given id
+     * Fetches the node with the given id
      * @param {number} id - ID of the node, ie: 18028
      * @returns {Object} - Node object as returned from the server
      */
@@ -53,7 +52,7 @@
     }
 
     /**
-     * Fetch a batch of the given parent's children
+     * Fetches a batch of the given parent's children
      * @param {string} parentRef - The parent reference for the endpoint; either '' for root,
      * or the URI of the parent node, ie: '/repositories/:rid/archival_objects/:id'
      * @param {number} offset - The `offset` URL param

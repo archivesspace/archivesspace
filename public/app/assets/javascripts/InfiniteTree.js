@@ -13,9 +13,9 @@
    *   - `div.node-indentation` for tree level indentation and expand/collapse button if children
    *   - `div.node-title-container` for the node's data
    *   - an `::after` pseudo-element to indicate the currently selected node
-   *     via the in-view InfiniteRecords record
+   *     via the "current" InfiniteRecords record
    * All nodes with children have a nested ordered list, `ol.node-children`, as the
-   * next sibling of the `.node-body` for its child nodes.
+   * sibling after `.node-body`.
    */
 
   class InfiniteTree {
@@ -62,11 +62,11 @@
     }
 
     /**
-     * Render the root node and its first batch of children
+     * Renders the root node and its first batch of children
      */
     async renderRoot() {
       const rootData = await this.fetch.root();
-      const rootFrag = this.frag.root(this.frag.buildNodeTitle(rootData));
+      const rootFrag = this.frag.root(this.frag.title(rootData));
       const rootNode = rootFrag.querySelector('.root.node');
 
       await this.renderInitialBatch(rootNode, rootData);
@@ -75,7 +75,7 @@
     }
 
     /**
-     * Render the first batch of a node's children
+     * Renders the first batch of a node's children
      * @param {HTMLElement} parent - The node element to initialize children for
      * @param {Object} data - The node data object from the server
      */
@@ -87,7 +87,7 @@
     }
 
     /**
-     * Render and return the list element for child nodes
+     * Renders and returns the list element for child nodes
      * @param {HTMLElement} parent - Parent node element
      * @param {number} parentLevel - Tree level of the parent
      * @param {number} numBatches - Number of batch placeholders to create
@@ -102,7 +102,7 @@
     }
 
     /**
-     * Render a batch of child nodes into a list
+     * Renders a batch of child nodes into a list
      * @param {HTMLElement} list - The list element to render into
      * @param {array} nodes - Node objects to render
      * @param {boolean} hasNextBatch - Whether there is another batch after this one
@@ -156,7 +156,7 @@
     }
 
     /**
-     * Prepare the data needed for rendering a batch of children
+     * Prepares the data needed for rendering a batch of children
      * @param {HTMLElement} parent - Parent node element
      * @param {Object} data - Node data from the server
      * @param {number} batchNumber - Which batch of children to prepare
@@ -179,7 +179,7 @@
     }
 
     /**
-     * Validate and return parent data from a list
+     * Validates and returns parent data from a list
      * @param {HTMLElement} list - The list element with data attributes to validate
      * @returns {Object|null} List metadata if valid, null if invalid
      */
@@ -262,7 +262,7 @@
     }
 
     /**
-     * Handle click events on expandme buttons or their child icons
+     * Handles click events on expand buttons
      * @param {Event} e - Click event
      */
     async expandHandler(e) {

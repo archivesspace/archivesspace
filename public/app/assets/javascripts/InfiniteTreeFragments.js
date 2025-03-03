@@ -15,9 +15,9 @@
     }
 
     /**
-     * Provide a DocumentFragment of the root tree list
-     * @param {string} title - Title of the root node
-     * @returns {DocumentFragment} - DocumentFragment containing the root tree list
+     * Creates a tree structure with a root node
+     * @param {string} title - Display text for the root node
+     * @returns {DocumentFragment} An <ol> with a single <li>
      */
     root(title) {
       const _title = new MixedContent(title);
@@ -34,6 +34,7 @@
       rootElement.setAttribute('aria-expanded', 'true');
       contentWrapper.setAttribute('title', _title.cleaned);
       link.href = `#tree::resource_${this.resourceId}`;
+
       if (_title.isMixed) {
         link.innerHTML = _title.input;
       } else {
@@ -46,11 +47,11 @@
     }
 
     /**
-     * Provide a DocumentFragment of an ordered list containing child batch placeholders
+     * Creates a list of empty placeholders for batches of children
      * @param {string} parentElementId - Value of the parent node's HTML id attribute
-     * @param {number} level - Tree level of the children
-     * @param {number} numBatches - Number of batches to create
-     * @returns {DocumentFragment} - DocumentFragment of the ordered list of child batch placeholders
+     * @param {number} level - Tree level of the children (0 for root)
+     * @param {number} numBatches - Number of batch placeholders to create
+     * @returns {DocumentFragment} - An <ol> with placeholder <li>s
      */
     list(parentElementId, level, numBatches) {
       const listFrag = new DocumentFragment();
@@ -80,40 +81,21 @@
     }
 
     /**
-     * Provide the DocumentFragment for an expand button for nodes with children
-     * @param {string} nodeTitle - The node title for screen reader text
-     * @returns {DocumentFragment} - DocumentFragment containing the expand button
-     */
-    expandButton(nodeTitle) {
-      const btnFrag = new DocumentFragment();
-      const btnTemplate = document
-        .querySelector('#infinite-tree-expand-button-template')
-        .content.cloneNode(true);
-      const button = btnTemplate.querySelector('.node-expand');
-
-      button.querySelector('.sr-only').textContent = nodeTitle;
-
-      btnFrag.appendChild(btnTemplate);
-
-      return btnFrag;
-    }
-
-    /**
-     * Provide the DocumentFragment for a node list item
+     * Creates a node
      * @param {Object} data - Node data object from the server
-     * @param {number} level - Tree level of the node
+     * @param {number} level - Tree level of the node (0 for root)
      * @param {boolean} shouldObserve - Whether or not to observe the node
      * in order to populate a next empty batch
      * @param {number} [parentId=null] - Optional ID of the node's parent; if null
      * then parent is assumed to be the root resource
      * @param {number} [offset=null] - Optional offset of the next batch to
      * populate; required if `shouldObserve` is true
-     * @returns {DocumentFragment} - DocumentFragment containing the node list item
+     * @returns {DocumentFragment} - A <li>
      */
     node(data, level, shouldObserve, parentId = null, offset = null) {
       const nodeRecordId = data.uri.split('/')[4];
       const nodeElementId = `archival_object_${nodeRecordId}`;
-      const title = new MixedContent(this.buildNodeTitle(data));
+      const title = new MixedContent(this.title(data));
       const aHref = `#tree::${nodeElementId}`;
       const nodeFrag = new DocumentFragment();
       const nodeTemplate = document
@@ -138,7 +120,7 @@
       }
 
       if (shouldObserve) {
-        let parentUri = '';
+        let parentUri;
 
         if (parentId) {
           if (parentId.startsWith('resource')) {
@@ -158,12 +140,14 @@
 
       if (data.has_digital_instance) {
         const iconHtml = `<i class="has_digital_instance fa fa-file-image-o" aria-hidden="true"></i>`;
+
         nodeTemplate
           .querySelector('.node-title')
           .insertAdjacentHTML('beforebegin', iconHtml);
       }
 
       link.setAttribute('href', aHref);
+
       if (title.isMixed) {
         link.innerHTML = title.input;
       } else {
@@ -176,13 +160,32 @@
     }
 
     /**
-     * Build the title of a node
+     * Creates an expand button to show and hide a node's children
+     * @param {string} title - The node title
+     * @returns {DocumentFragment} - A <button>
+     */
+    expandButton(title) {
+      const btnFrag = new DocumentFragment();
+      const btnTemplate = document
+        .querySelector('#infinite-tree-expand-button-template')
+        .content.cloneNode(true);
+      const btn = btnTemplate.querySelector('.node-expand');
+
+      btn.querySelector('.sr-only').textContent = title;
+
+      btnFrag.appendChild(btnTemplate);
+
+      return btnFrag;
+    }
+
+    /**
+     * Builds the title of a node
      * @param {Object} node - Node data
      * @returns {string} - Title of the node
+     *
+     * @todo Migrate this logic to the server if possible
      */
-    // TODO: Migrate this logic to the server so it is available via the server data
-    // instead of burdening the client with it
-    buildNodeTitle(node) {
+    title(node) {
       const title = [];
 
       if (SHOW_IDENTIFIERS_IN_TREE && node.identifier && node.parsed_title) {
