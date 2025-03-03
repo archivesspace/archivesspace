@@ -94,7 +94,9 @@ class LargeTree
       digital_instance = relates_digital_instance?(@root_type) ? has_digital_instance?(db, @root_table, @root_record.id) : false
 
       if [Resource, ArchivalObject, DigitalObject, DigitalObjectComponent].include?(@root_record.class)
-        locale = Preference.current_preferences['user_repo']['defaults']['locale']
+        # there may be more sophisticated preference checking that should be done here
+        prefs = Preference.user_global_defaults || Preference.global_defaults
+        locale = prefs['locale']
         title = MultipleTitlesHelper.determine_display_title(@root_record.title.map {|title| title.to_hash}, locale)
       else
         title = @root_record.title
