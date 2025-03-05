@@ -1,6 +1,6 @@
 require 'securerandom'
 require_relative 'ancestor_listing'
-
+require 'multiple_titles_helper'
 
 class ArchivalObject < Sequel::Model(:archival_object)
   include ASModel
@@ -68,7 +68,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
                       :is_array => true)
 
   def self.produce_display_string(json)
-    display_string = json['titles'][0]['title'] || ""
+    display_string = MultipleTitlesHelper(json['titles'], Preference.user_global_defaults['locale'] || Preference.global_defaults['locale']) || ""
 
     date_label = json.has_key?('dates') && json['dates'].length > 0 ?
                    json['dates'].map do |date|

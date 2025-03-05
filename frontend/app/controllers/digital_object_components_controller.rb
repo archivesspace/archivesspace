@@ -246,9 +246,10 @@ class DigitalObjectComponentsController < ApplicationController
     redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
   end
 
-  # Get the appropriate title to display based on language, type, etc (more logic to come)
+  # Get the appropriate title to display based on language preferences
   def title_for_display
-    @digital_object.titles[0]['title']
+    MultipleTitlesHelper.determine_display_title(@digital_object_component.titles, I18n.locale)
   end
   helper_method :title_for_display
+
 end
