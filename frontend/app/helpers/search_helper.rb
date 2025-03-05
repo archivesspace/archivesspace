@@ -1,4 +1,5 @@
 require 'multiple_titles_helper'
+
 module SearchHelper
 
   IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP = {
@@ -265,8 +266,9 @@ module SearchHelper
         end
 
         # title column now needs special handling as there are multiple titles and the one to display depends on several factors
+        # note the 'multi' model in the list - it appears to be used for search results (as opposed to browse results)
         generator_block = nil
-        if ['resource', 'archival_object'].include?(model) && prop === 'title'
+        if ['resource', 'archival_object', 'digital_object', 'digital_object_component', 'multi'].include?(model) && prop === 'title'
           generator_block = proc do |record|
             title = MultipleTitlesHelper.determine_display_title(JSON.parse(record["json"])["titles"], I18n.locale)
           end
