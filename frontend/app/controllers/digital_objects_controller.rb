@@ -413,9 +413,9 @@ class DigitalObjectsController < ApplicationController
     tree
   end
 
-  # Get the appropriate title to display based on language, type, etc (more logic to come)
+  # Get the appropriate title to display based on language preferences
   def title_for_display
-    @digital_object.titles[0]['title']
+    MultipleTitlesHelper.determine_display_title(@digital_object.titles, I18n.locale)
   end
   helper_method :title_for_display
 
