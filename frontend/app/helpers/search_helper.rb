@@ -264,12 +264,14 @@ module SearchHelper
           end
         end
 
+        # title column now needs special handling as there are multiple titles and the one to display depends on several factors
         generator_block = nil
-        if model === 'resource' && prop === 'title'
+        if ['resource', 'archival_object'].include?(model) && prop === 'title'
           generator_block = proc do |record|
             title = MultipleTitlesHelper.determine_display_title(JSON.parse(record["json"])["titles"], I18n.locale)
           end
         end
+
         add_column(I18n.t("search.#{model}.#{prop}"), opts, generator_block)
       end
     end

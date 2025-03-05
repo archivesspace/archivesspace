@@ -393,9 +393,9 @@ class ResourcesController < ApplicationController
     end
   end
 
-  # Get the appropriate title to display based on language, type, etc (more logic to come)
+  # Get the appropriate title to display based on language preferences
   def title_for_display
-    @resource.titles.first['title']
+    MultipleTitlesHelper.determine_display_title(@resource.titles, I18n.locale)
   end
   helper_method :title_for_display
 
