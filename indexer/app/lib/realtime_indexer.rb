@@ -11,7 +11,6 @@ class RealtimeIndexer < IndexerCommon
   end
 
   def get_updates(last_sequence = 0)
-
     resolve_params = resolved_attributes.map {|a| "resolve[]=#{a}"}.join("&")
 
     response = do_http_request(URI.parse(@backend_url),
@@ -63,7 +62,7 @@ class RealtimeIndexer < IndexerCommon
     last_sequence = 0
 
     while @should_continue.call
-     last_sequence = run_index_round(last_sequence) unless paused?   
+     last_sequence = run_index_round(last_sequence) unless paused?
     end
 
   end

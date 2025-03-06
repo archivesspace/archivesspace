@@ -1,6 +1,6 @@
 if ENV['COVERAGE_REPORTS'] == 'true'
   require 'aspace_coverage'
-  ASpaceCoverage.start('common:test')
+  ASpaceCoverage.start('common')
 end
 
 require_relative "../jsonmodel"
