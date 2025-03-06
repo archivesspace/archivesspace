@@ -1,31 +1,59 @@
 <div
   id="infinite-tree-container"
-  class="infinite-tree-view largetree-container"
-  data-waypoint-size="<%= Rails.configuration.infinite_tree_waypoint_size %>"
   data-resource-uri="<%= @result['uri'] %>"
 >
 </div>
 
 <%# The <template>s below get appended to #infinite-tree-container via InfiniteTree.js %>
 
-<template id="infinite-tree-root-row-template">
-  <div id="" class="table-row root-row" role="listitem" data-uri="">
-    <div class="table-cell title" title="">
-      <a class="record-title" href=""></a>
-    </div>
-  </div>
+<template id="infinite-tree-root-template">
+  <ol class="infinite-tree" role="tree">
+    <li class="root node" role="treeitem" id data-uri aria-expanded>
+      <div class="node-row">
+        <div class="node-body" title>
+          <div class="node-title-container">
+            <a class="node-title" href></a>
+          </div>
+        </div>
+      </div>
+      <%# ol.node-children to be inserted here by JS %>
+    </li>
+  </ol>
 </template>
 
-<template id="infinite-tree-node-row-template">
-  <div id="" class="table-row largetree-node" role="listitem" data-uri="">
-    <div class="table-cell title" title="">
-      <span class="indentor">
-        <button class="expandme" aria-expanded="false">
-          <i class="expandme-icon fa fa-chevron-right"></i>
-          <span class="sr-only"></span>
-        </button>
-      </span>
-      <a class="record-title" href=""></a>
+<template id="infinite-tree-node-template">
+  <li class="node" role="treeitem" id data-uri>
+    <div class="node-row">
+      <div class="node-body" title>
+        <div class="node-indentation"></div>
+        <div class="node-title-container">
+          <a class="node-title" href></a>
+        </div>
+      </div>
     </div>
-  </div>
+    <%# ol.node-children to be inserted here by JS on expand %>
+  </li>
+</template>
+
+<template id="infinite-tree-expand-button-template">
+  <button class="node-expand" type="button">
+    <i class="node-expand-icon fa fa-chevron-right"></i>
+    <span class="sr-only"></span>
+  </button>
+</template>
+
+<template id="infinite-tree-children-list-template">
+  <ol
+    class="node-children"
+    role="group"
+    data-parent-id
+    data-tree-level
+    data-total-child-batches
+  >
+    <%# Child nodes will be inserted here by JS %>
+  </ol>
+</template>
+
+<template id="infinite-tree-batch-placeholder-template">
+  <li data-batch-placeholder style="display:none"></li>
 </template>

@@ -46,274 +46,244 @@ describe 'Collection Organization', js: true do
     allow(AppConfig).to receive(:[]).and_call_original
   end
 
+  def sidebar_left_coordinate
+    sidebar = find('.infinite-tree-sidebar')
+    page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
+  end
+
+  def sidebar_right_coordinate
+    sidebar = find('.infinite-tree-sidebar')
+    page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
+  end
+
+  def content_right_coordinate
+    content = find('.resizable-content-pane')
+    page.evaluate_script('arguments[0].getBoundingClientRect().right', content)
+  end
+
+  def content_left_coordinate
+    content = find('.resizable-content-pane')
+    page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
+  end
+
   describe 'Infinite Tree sidebar' do
     it 'should handle titles with mixed content appropriately' do
       visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
 
       resource = find(".infinite-tree-sidebar #resource_#{@resource.id}")
-      expect(resource).to have_css('.title[title="This is a mixed content title"]')
-      resource_mixed_content_span = resource.find('.record-title > span.emph.render-italic')
+      expect(resource).to have_css('.node-body[title="This is a mixed content title"]')
+      resource_mixed_content_span = resource.find('.root.node > .node-row span.emph.render-italic')
       expect(resource_mixed_content_span).to have_content('a mixed content')
 
       ao1 = find(".infinite-tree-sidebar #archival_object_#{@ao1.id}")
-      expect(ao1).to have_css('.title[title="This is another mixed content title"]')
-      ao1_mixed_content_span = ao1.find('.record-title > span.emph.render-italic')
+      expect(ao1).to have_css("#archival_object_#{@ao1.id} > .node-row > .node-body[title='This is another mixed content title']")
+      ao1_mixed_content_span = ao1.find("#archival_object_#{@ao1.id} > .node-row span.emph.render-italic")
       expect(ao1_mixed_content_span).to have_content('another mixed content')
 
       ao2 = find(".infinite-tree-sidebar #archival_object_#{@ao2.id}")
-      ao2_record_title = ao2.find('.record-title')
-      expect(ao2_record_title).to_not have_css('span.emph.render-italic')
-      expect(ao2_record_title).to have_content('This is not a mixed content title')
+      ao2_title = ao2.find("#archival_object_#{@ao2.id} > .node-row .node-title")
+      expect(ao2_title).to_not have_css('span.emph.render-italic')
+      expect(ao2_title).to have_content('This is not a mixed content title')
     end
 
-    it 'is positioned on the left side of the resource show and infinite views ' \
-       'when AppConfig[:pui_collection_org_sidebar_position] is set to left' do
-      allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'left' }
+    context 'when AppConfig[:pui_collection_org_sidebar_position] is set to left' do
+      before :each do
+        allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'left' }
+      end
 
-      visit "/repositories/#{@repo.id}/resources/#{@resource.id}"
+      it 'is positioned on the left side of the resource show and infinite views' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}"
 
-      sidebar = find('.infinite-tree-sidebar')
-      content = find('.resizable-content-pane')
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to be < content_left_coordinate
+        expect(sidebar_right_coordinate).to eq content_left_coordinate
 
-      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      content_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
 
-      expect(sidebar_left_coordinate).to be < content_left_coordinate
-      expect(sidebar_right_coordinate).to eq content_left_coordinate
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to be < content_left_coordinate
+        expect(sidebar_right_coordinate).to eq content_left_coordinate
+      end
 
-      visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+      it 'is positioned on the left side of the objects show view' do
+        visit "/repositories/#{@repo.id}/digital_objects/#{@do.id}"
 
-      sidebar = find('.infinite-tree-sidebar')
-      content = find('.infinite-records-container')
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to be < content_left_coordinate
+        expect(sidebar_right_coordinate).to eq content_left_coordinate
 
-      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      content_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
+        visit "/repositories/#{@repo.id}/digital_object_components/#{@doc.id}"
 
-      expect(sidebar_left_coordinate).to be < content_left_coordinate
-      expect(sidebar_right_coordinate).to eq content_left_coordinate
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to be < content_left_coordinate
+        expect(sidebar_right_coordinate).to eq content_left_coordinate
+      end
+
+      it 'resizes appropriately via mouse drag' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+
+        sidebar = find('.infinite-tree-sidebar')
+        sidebar_handle = find('.resizable-sidebar-handle')
+        content = find('.infinite-records-container')
+
+        sidebar_left_initial = sidebar_left_coordinate
+        sidebar_right_initial = sidebar_right_coordinate
+
+        sidebar_handle.drag_to(content)
+
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to eq sidebar_left_initial
+        expect(sidebar_right_coordinate).to be > sidebar_right_initial
+
+        sidebar_right_increase = sidebar_right_coordinate
+
+        sidebar_handle.drag_to(sidebar)
+
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to eq sidebar_left_initial
+        expect(sidebar_right_coordinate).to be < sidebar_right_increase
+      end
+
+      it 'resizes appropriately via keyboard arrow keys' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+
+        sidebar_handle = find('.resizable-sidebar-handle')
+
+        sidebar_left_initial = sidebar_left_coordinate
+        sidebar_right_initial = sidebar_right_coordinate
+
+        sidebar_handle.send_keys(:tab)
+        sidebar_handle.send_keys(:up)
+
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to eq sidebar_left_initial
+        expect(sidebar_right_coordinate).to be > sidebar_right_initial
+
+        sidebar_right_increase1 = sidebar_right_coordinate
+
+        sidebar_handle.send_keys(:down)
+
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to eq sidebar_left_initial
+        expect(sidebar_right_coordinate).to be < sidebar_right_increase1
+
+        sidebar_right_decrease1 = sidebar_right_coordinate
+
+        sidebar_handle.send_keys(:right)
+
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to eq sidebar_left_initial
+        expect(sidebar_right_coordinate).to be > sidebar_right_decrease1
+
+        sidebar_right_increase2 = sidebar_right_coordinate
+
+        sidebar_handle.send_keys(:left)
+
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to eq sidebar_left_initial
+        expect(sidebar_right_coordinate).to be < sidebar_right_increase2
+      end
     end
 
-    it 'is positioned on the left side of the objects show view ' \
-       'when AppConfig[:pui_collection_org_sidebar_position] is set to left' do
-      allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'left' }
+    context 'when AppConfig[:pui_collection_org_sidebar_position] is set to right' do
+      before :each do
+        allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'right' }
+      end
 
-      visit "/repositories/#{@repo.id}/digital_objects/#{@do.id}"
+      it 'is positioned on the right side of the show and infinite views' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}"
 
-      sidebar = find('.infinite-tree-sidebar')
-      content = find('.resizable-content-pane')
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to eq content_right_coordinate
+        expect(sidebar_right_coordinate).to be > content_right_coordinate
 
-      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      content_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
 
-      expect(sidebar_left_coordinate).to be < content_left_coordinate
-      expect(sidebar_right_coordinate).to eq content_left_coordinate
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to eq content_right_coordinate
+        expect(sidebar_right_coordinate).to be > content_right_coordinate
+      end
 
-      visit "/repositories/#{@repo.id}/digital_object_components/#{@doc.id}"
+      it 'is positioned on the right side of the objects show view' do
+        visit "/repositories/#{@repo.id}/digital_objects/#{@do.id}"
 
-      sidebar = find('.infinite-tree-sidebar')
-      content = find('.resizable-content-pane')
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to eq content_right_coordinate
+        expect(sidebar_right_coordinate).to be > content_right_coordinate
 
-      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      content_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', content)
+        visit "/repositories/#{@repo.id}/digital_object_components/#{@doc.id}"
 
-      expect(sidebar_left_coordinate).to be < content_left_coordinate
-      expect(sidebar_right_coordinate).to eq content_left_coordinate
-    end
+        wait_for_jquery
+        expect(sidebar_left_coordinate).to eq content_right_coordinate
+        expect(sidebar_right_coordinate).to be > content_right_coordinate
+      end
 
-    it 'is positioned on the right side of the show and infinite views ' \
-       'when AppConfig[:pui_collection_org_sidebar_position] is set to right' do
-      allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'right' }
+      it 'resizes appropriately via mouse drag' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
 
-      visit "/repositories/#{@repo.id}/resources/#{@resource.id}"
+        sidebar = find('.infinite-tree-sidebar')
+        sidebar_handle = find('.resizable-sidebar-handle')
+        content = find('.infinite-records-container')
 
-      sidebar = find('.infinite-tree-sidebar')
-      content = find('.resizable-content-pane')
+        sidebar_right_initial = sidebar_right_coordinate
+        sidebar_left_initial = sidebar_left_coordinate
 
-      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      content_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', content)
+        sidebar_handle.drag_to(content)
 
-      expect(sidebar_left_coordinate).to eq content_right_coordinate
-      expect(sidebar_right_coordinate).to be > content_right_coordinate
+        wait_for_jquery
+        expect(sidebar_right_coordinate).to eq sidebar_right_initial
+        expect(sidebar_left_coordinate).to be < sidebar_left_initial
 
-      visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        sidebar_left_increase = sidebar_left_coordinate
 
-      sidebar = find('.infinite-tree-sidebar')
-      content = find('.infinite-records-container')
+        sidebar_handle.drag_to(sidebar)
 
-      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      content_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', content)
+        wait_for_jquery
+        expect(sidebar_right_coordinate).to eq sidebar_right_initial
+        expect(sidebar_left_coordinate).to be > sidebar_left_increase
+      end
 
-      expect(sidebar_left_coordinate).to eq content_right_coordinate
-      expect(sidebar_right_coordinate).to be > content_right_coordinate
-    end
+      it 'resizes appropriately via keyboard arrow keys' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
 
-    it 'is positioned on the right side of the objects show view ' \
-       'when AppConfig[:pui_collection_org_sidebar_position] is set to right' do
-      allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'right' }
+        sidebar = find('.infinite-tree-sidebar')
+        sidebar_handle = find('.resizable-sidebar-handle')
+        content = find('.infinite-records-container')
 
-      visit "/repositories/#{@repo.id}/digital_objects/#{@do.id}"
+        sidebar_right_initial = sidebar_right_coordinate
+        sidebar_left_initial = sidebar_left_coordinate
 
-      sidebar = find('.infinite-tree-sidebar')
-      content = find('.resizable-content-pane')
+        sidebar_handle.send_keys(:tab)
+        sidebar_handle.send_keys(:up)
 
-      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      content_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', content)
+        wait_for_jquery
+        expect(sidebar_right_coordinate).to eq sidebar_right_initial
+        expect(sidebar_left_coordinate).to be < sidebar_left_initial
 
-      expect(sidebar_left_coordinate).to eq content_right_coordinate
-      expect(sidebar_right_coordinate).to be > content_right_coordinate
+        sidebar_left_increase1 = sidebar_left_coordinate
 
-      visit "/repositories/#{@repo.id}/digital_object_components/#{@doc.id}"
+        sidebar_handle.send_keys(:down)
 
-      sidebar = find('.infinite-tree-sidebar')
-      content = find('.resizable-content-pane')
+        wait_for_jquery
+        expect(sidebar_right_coordinate).to eq sidebar_right_initial
+        expect(sidebar_left_coordinate).to be > sidebar_left_increase1
 
-      sidebar_left_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      content_right_coordinate = page.evaluate_script('arguments[0].getBoundingClientRect().right', content)
+        sidebar_left_decrease1 = sidebar_left_coordinate
 
-      expect(sidebar_left_coordinate).to eq content_right_coordinate
-      expect(sidebar_right_coordinate).to be > content_right_coordinate
-    end
+        sidebar_handle.send_keys(:left)
 
-    it 'resizes appropriately via mouse drag when positioned on the left' do
-      allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'left' }
-      visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        wait_for_jquery
+        expect(sidebar_right_coordinate).to eq sidebar_right_initial
+        expect(sidebar_left_coordinate).to be < sidebar_left_decrease1
 
-      sidebar = find('.infinite-tree-sidebar')
-      sidebar_handle = find('.resizable-sidebar-handle')
-      content = find('.infinite-records-container')
+        sidebar_left_increase2 = sidebar_left_coordinate
 
-      sidebar_left_initial = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_initial = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
+        sidebar_handle.send_keys(:right)
 
-      sidebar_handle.drag_to(content)
-
-      sidebar_left_increase = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_increase = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      expect(sidebar_left_increase).to eq sidebar_left_initial
-      expect(sidebar_right_increase).to be > sidebar_right_initial
-
-      sidebar_handle.drag_to(sidebar)
-
-      sidebar_left_decrease = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_decrease = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      expect(sidebar_left_decrease).to eq sidebar_left_initial
-      expect(sidebar_right_decrease).to be < sidebar_right_increase
-    end
-
-    it 'resizes appropriately via mouse drag when positioned on the right' do
-      allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'right' }
-      visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-
-      sidebar = find('.infinite-tree-sidebar')
-      sidebar_handle = find('.resizable-sidebar-handle')
-      content = find('.infinite-records-container')
-
-      sidebar_right_initial = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      sidebar_left_initial = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-
-      sidebar_handle.drag_to(content)
-
-      sidebar_right_increase = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      sidebar_left_increase = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      expect(sidebar_right_increase).to eq sidebar_right_initial
-      expect(sidebar_left_increase).to be < sidebar_left_initial
-
-      sidebar_handle.drag_to(sidebar)
-
-      sidebar_right_decrease = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      sidebar_left_decrease = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      expect(sidebar_right_decrease).to eq sidebar_right_initial
-      expect(sidebar_left_decrease).to be > sidebar_left_increase
-    end
-
-    it 'resizes appropriately via keyboard arrow keys when positioned on the left' do
-      allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'left' }
-      visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-
-      sidebar = find('.infinite-tree-sidebar')
-      sidebar_handle = find('.resizable-sidebar-handle')
-      content = find('.infinite-records-container')
-
-      sidebar_left_initial = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_initial = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-
-      sidebar_handle.send_keys(:tab)
-      sidebar_handle.send_keys(:up)
-
-      sidebar_left_increase1 = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_increase1 = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      expect(sidebar_left_increase1).to eq sidebar_left_initial
-      expect(sidebar_right_increase1).to be > sidebar_right_initial
-
-      sidebar_handle.send_keys(:down)
-
-      sidebar_left_decrease1 = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_decrease1 = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      expect(sidebar_left_decrease1).to eq sidebar_left_initial
-      expect(sidebar_right_decrease1).to be < sidebar_right_increase1
-
-      sidebar_handle.send_keys(:right)
-
-      sidebar_left_increase2 = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_increase2 = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      expect(sidebar_left_increase2).to eq sidebar_left_initial
-      expect(sidebar_right_increase2).to be > sidebar_right_decrease1
-
-      sidebar_handle.send_keys(:left)
-
-      sidebar_left_decrease2 = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      sidebar_right_decrease2 = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      expect(sidebar_left_decrease2).to eq sidebar_left_initial
-      expect(sidebar_right_decrease2).to be < sidebar_right_increase2
-    end
-
-    it 'resizes appropriately via keyboard arrow keys when positioned on the right' do
-      allow(AppConfig).to receive(:[]).with(:pui_collection_org_sidebar_position) { 'right' }
-      visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-
-      sidebar = find('.infinite-tree-sidebar')
-      sidebar_handle = find('.resizable-sidebar-handle')
-      content = find('.infinite-records-container')
-
-      sidebar_right_initial = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      sidebar_left_initial = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-
-      sidebar_handle.send_keys(:tab)
-      sidebar_handle.send_keys(:up)
-
-      sidebar_right_increase1 = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      sidebar_left_increase1 = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      expect(sidebar_right_increase1).to eq sidebar_right_initial
-      expect(sidebar_left_increase1).to be < sidebar_left_initial
-
-      sidebar_handle.send_keys(:down)
-
-      sidebar_right_decrease1 = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      sidebar_left_decrease1 = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      expect(sidebar_right_decrease1).to eq sidebar_right_initial
-      expect(sidebar_left_decrease1).to be > sidebar_left_increase1
-
-      sidebar_handle.send_keys(:left)
-
-      sidebar_right_increase2 = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      sidebar_left_increase2 = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      expect(sidebar_right_increase2).to eq sidebar_right_initial
-      expect(sidebar_left_increase2).to be < sidebar_left_decrease1
-
-      sidebar_handle.send_keys(:right)
-
-      sidebar_right_decrease2 = page.evaluate_script('arguments[0].getBoundingClientRect().right', sidebar)
-      sidebar_left_decrease2 = page.evaluate_script('arguments[0].getBoundingClientRect().left', sidebar)
-      expect(sidebar_right_decrease2).to eq sidebar_right_initial
-      expect(sidebar_left_decrease2).to be > sidebar_left_increase2
+        wait_for_jquery
+        expect(sidebar_right_coordinate).to eq sidebar_right_initial
+        expect(sidebar_left_coordinate).to be > sidebar_left_increase2
+      end
     end
 
     describe 'parent nodes' do
@@ -323,45 +293,46 @@ describe 'Collection Organization', js: true do
 
       it 'are collapsed by default' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child")
+        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[aria-expanded='false']:last-child")
       end
 
-      it 'are expanded then collapsed by clicking the "expandme" button' do
+      it 'are expanded then collapsed by clicking the "expand" button' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        ao3_expandme = page.find(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child .expandme")
-        ao3_expandme.click
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='true']:nth-last-child(3)")
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} + [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0']:nth-last-child(2)")
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} ~ [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1']:last-child", visible: false)
-        ao3_expandme.click
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:nth-last-child(3)")
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} + [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0']:nth-last-child(2)", visible: false)
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id} ~ [data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1']:last-child", visible: false)
+        expect(page).not_to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-row .node-expand-icon.expanded")
+        expect(page).not_to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-children")
+        ao3_expand = page.find("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-row .node-expand")
+        ao3_expand.click
+        expect(page).to have_css("##{@parent_HTML_id}.node[aria-expanded='true'] > .node-row .node-expand-icon.expanded")
+        expect(page).to have_css("##{@parent_HTML_id}.node[aria-expanded='true'] > .node-children > .node", count: 200, visible: true)
+        ao3_expand.click
+        expect(page).not_to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-row .node-expand-icon.expanded")
+        expect(page).to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-children > .node", count: 200, visible: false)
       end
 
-      it 'children are loaded in groups of "waypoints" on scroll when the parent has more children than the configured waypoint size' do
-        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        container = page.find('.infinite-tree-sidebar')
-        container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child .expandme").click
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0'] > .waypoint.populated", visible: false)
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='0'] > .largetree-node", count: 200)
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1'] > .waypoint:not(.populated)", visible: false)
-        observer_node = page.find('[data-observe-next-wp="true"]')
-        container.scroll_to(observer_node, align: :center)
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1'] > .waypoint.populated", visible: false)
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number='1'] > .largetree-node", count: 1)
-      end
-
-      it 'hide all waypoints of children when collapsed' do
+      it 'children are loaded in "batches" on scroll when the parent has more children than the configured batch size' do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
         container = page.find('.infinite-tree-sidebar')
-        ao_expandme = container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[data-is-expanded='false']:last-child .expandme")
-        ao_expandme.click
-        observer_node = page.find('[data-observe-next-wp="true"]')
+        container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[aria-expanded='false']:last-child .node-expand").click
+        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 200)
+        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > [data-batch-placeholder='1']:last-child", visible: false)
+        observer_node = page.find('[data-observe-next-batch="true"]')
         container.scroll_to(observer_node, align: :center)
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number]", count: 2, visible: true)
-        ao_expandme.click
-        expect(page).to have_css("[data-parent-id='#{@parent_HTML_id}'][data-waypoint-number]", count: 2, visible: false)
+
+        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 201)
+        expect(page).not_to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > [data-batch-placeholder]", visible: false)
+      end
+
+      it 'hide all children when collapsed' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        container = page.find('.infinite-tree-sidebar')
+        ao_expand = container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[aria-expanded='false']:last-child .node-expand")
+        ao_expand.click
+        observer_node = page.find('[data-observe-next-batch="true"]')
+        container.scroll_to(observer_node, align: :center)
+
+        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 201, visible: true)
+        ao_expand.click
+        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 201, visible: false)
       end
     end
   end
@@ -549,7 +520,8 @@ describe 'Collection Organization', js: true do
     it 'shows a spinner on state change and removes the spinner once all records are loaded' do
       visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
       expect(page).to have_css('#records-loading-dialog', visible: false)
-      sleep 10
+
+      wait_for_jquery
 
       # There is no dialog 'open' event so listen for 'close' which implies it was open
       page.execute_script(<<~JS)
@@ -562,7 +534,9 @@ describe 'Collection Organization', js: true do
 
       expect(page.evaluate_script('window.dialogClosed')).to eq false
       page.find('.load-all__label-toggle').click
-      sleep 10
+
+      wait_for_jquery
+
       expect(page.evaluate_script('window.dialogClosed')).to eq true
     end
 
@@ -570,62 +544,74 @@ describe 'Collection Organization', js: true do
       visit "/repositories/#{@repo.id}/resources/#{@res_3wp.id}/collection_organization"
       expect(page).to have_css('#load-all-section', visible: true)
       page.find('.load-all__label-toggle').click
-      sleep 10
+
+      wait_for_jquery
+
       expect(page).to have_css('#load-all-section', visible: false)
     end
 
-    it 'loads all remaining records from the main thread if the number of waypoints '\
-      'does not exceed `infinite_records_main_max_concurrent_waypoint_fetches`' do
-      visit "/repositories/#{@repo.id}/resources/#{@res_5wp.id}/collection_organization"
-      sleep 10
-      total_records = page.find('#infinite-records-container')['data-total-records']
-      num_empty_waypoints_start = page.all('#infinite-records-container .waypoint:not(.populated)').length
-      expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
+    context "when the number of waypoints does not exceed 'infinite_records_main_max_concurrent_waypoint_fetches'" do
+      it 'loads all remaining records from the main thread' do
+        visit "/repositories/#{@repo.id}/resources/#{@res_5wp.id}/collection_organization"
 
-      # Add a wrapper function around `window.fetch()` that increments a number when
-      # the browser's main thread makes a fetch call.
-      page.execute_script(<<~JS)
-        window.loadAllFetchCount = 0;
-        window.fetch = ((originalFetch) => {
-          return (...args) => {
-            window.loadAllFetchCount++;
-            return originalFetch(...args);
-          };
-        })(window.fetch);
-      JS
+        wait_for_jquery
 
-      expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
-      page.find('.load-all__label-toggle').click
-      sleep 10
-      expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
-      expect(page.evaluate_script('window.loadAllFetchCount')).to eq num_empty_waypoints_start
+        total_records = page.find('#infinite-records-container')['data-total-records']
+        num_empty_waypoints_start = page.all('#infinite-records-container .waypoint:not(.populated)').length
+        expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
+
+        # Add a wrapper function around `window.fetch()` that increments a number when
+        # the browser's main thread makes a fetch call.
+        page.execute_script(<<~JS)
+          window.loadAllFetchCount = 0;
+          window.fetch = ((originalFetch) => {
+            return (...args) => {
+              window.loadAllFetchCount++;
+              return originalFetch(...args);
+            };
+          })(window.fetch);
+        JS
+
+        expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
+        page.find('.load-all__label-toggle').click
+
+        wait_for_jquery
+
+        expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
+        expect(page.evaluate_script('window.loadAllFetchCount')).to eq num_empty_waypoints_start
+      end
     end
 
-    it 'loads all remaining records from a background thread if the number of waypoints '\
-      'exceeds `infinite_records_main_max_concurrent_waypoint_fetches`' do
-      visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
-      sleep 10
-      total_records = page.find('#infinite-records-container')['data-total-records']
-      expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
+    context "when the number of waypoints exceeds 'infinite_records_main_max_concurrent_waypoint_fetches'" do
+      it 'loads all remaining records from a background thread' do
+        visit "/repositories/#{@repo.id}/resources/#{@res_10wp.id}/collection_organization"
 
-      # Add a wrapper function around `window.fetch()` that increments a number when
-      # the browser's main thread makes a fetch call. Web workers don't have access
-      # to `window`, so its fetch calls won't be counted.
-      page.execute_script(<<~JS)
-        window.loadAllFetchCount = 0;
-        window.fetch = ((originalFetch) => {
-          return (...args) => {
-            window.loadAllFetchCount++;
-            return originalFetch(...args);
-          };
-        })(window.fetch);
-      JS
+        wait_for_jquery
 
-      expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
-      page.find('.load-all__label-toggle').click
-      sleep 10
-      expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
-      expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
+        total_records = page.find('#infinite-records-container')['data-total-records']
+        expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
+
+        # Add a wrapper function around `window.fetch()` that increments a number when
+        # the browser's main thread makes a fetch call. Web workers don't have access
+        # to `window`, so its fetch calls won't be counted.
+        page.execute_script(<<~JS)
+          window.loadAllFetchCount = 0;
+          window.fetch = ((originalFetch) => {
+            return (...args) => {
+              window.loadAllFetchCount++;
+              return originalFetch(...args);
+            };
+          })(window.fetch);
+        JS
+
+        expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
+        page.find('.load-all__label-toggle').click
+
+        wait_for_jquery
+
+        expect(page).to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
+        expect(page.evaluate_script('window.loadAllFetchCount')).to eq 0
+      end
     end
   end
 end
