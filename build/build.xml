@@ -614,7 +614,7 @@
 
     <echo message="Running rspec" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="${dir}">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Djruby.debug.fullTrace=true"/>
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
