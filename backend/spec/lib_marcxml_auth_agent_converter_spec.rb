@@ -223,20 +223,48 @@ describe 'MARCXML Auth Agent converter' do
       expect(record['agent_record_controls'][0]['cataloging_source']).to eq('nat_bib_agency')
     end
 
-    it 'imports agent_record_identifiers' do
+    it 'imports all agent_record_identifiers' do
       record = convert(person_agent_1).select { |r| r['jsonmodel_type'] == 'agent_person' }.first
 
-      # From 010
-      expect(record['agent_record_identifiers'][0]['record_identifier']).to eq('n  88218900 ')
-      expect(record['agent_record_identifiers'][0]['identifier_type']).to eq('loc')
-      expect(record['agent_record_identifiers'][0]['source']).to eq('naf')
-      expect(record['agent_record_identifiers'][0]['primary_identifier']).to eq(true)
+      aggregate_failures do
+        # From 010
+        expect(record['agent_record_identifiers'][0]['record_identifier']).to eq('n  88218900 ')
+        expect(record['agent_record_identifiers'][0]['identifier_type']).to eq('loc')
+        expect(record['agent_record_identifiers'][0]['source']).to eq('naf')
+        expect(record['agent_record_identifiers'][0]['primary_identifier']).to eq(true)
 
-      # From 035
-      expect(record['agent_record_identifiers'][1]['record_identifier']).to eq('n  88218900')
-      expect(record['agent_record_identifiers'][1]['identifier_type']).to eq('local')
-      expect(record['agent_record_identifiers'][1]['source']).to eq('DLC')
-      expect(record['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
+        # From 024
+        expect(record['agent_record_identifiers'][1]['record_identifier']).to eq('000000012276857X')
+        expect(record['agent_record_identifiers'][1]['identifier_type']).to eq('local')
+        expect(record['agent_record_identifiers'][1]['source']).to eq('isni')
+        expect(record['agent_record_identifiers'][1]['primary_identifier']).to eq(false)
+
+        expect(record['agent_record_identifiers'][2]['record_identifier']).to eq('14951645')
+        expect(record['agent_record_identifiers'][2]['identifier_type']).to eq('local')
+        expect(record['agent_record_identifiers'][2]['source']).to eq('viaf')
+        expect(record['agent_record_identifiers'][2]['primary_identifier']).to eq(false)
+
+        expect(record['agent_record_identifiers'][3]['record_identifier']).to eq('Q140052')
+        expect(record['agent_record_identifiers'][3]['identifier_type']).to eq('local')
+        expect(record['agent_record_identifiers'][3]['source']).to eq('wikidata')
+        expect(record['agent_record_identifiers'][3]['primary_identifier']).to eq(false)
+
+        # From 035
+        expect(record['agent_record_identifiers'][4]['record_identifier']).to eq('n  88218901')
+        expect(record['agent_record_identifiers'][4]['identifier_type']).to eq('local')
+        expect(record['agent_record_identifiers'][4]['source']).to eq('DLC')
+        expect(record['agent_record_identifiers'][4]['primary_identifier']).to eq(false)
+
+        expect(record['agent_record_identifiers'][5]['record_identifier']).to eq('n 2023456789')
+        expect(record['agent_record_identifiers'][5]['identifier_type']).to eq('local')
+        expect(record['agent_record_identifiers'][5]['source']).to eq('DLC')
+        expect(record['agent_record_identifiers'][5]['primary_identifier']).to eq(false)
+
+        expect(record['agent_record_identifiers'][6]['record_identifier']).to eq('n 987654321')
+        expect(record['agent_record_identifiers'][6]['identifier_type']).to eq('local')
+        expect(record['agent_record_identifiers'][6]['source']).to eq('NYPL')
+        expect(record['agent_record_identifiers'][6]['primary_identifier']).to eq(false)
+      end
     end
 
     it 'imports authority_agent_other_standard_identifier_a to the correct agent' do

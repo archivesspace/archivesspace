@@ -41,14 +41,11 @@ group :test do
   gem 'simplecov'
 end
 
-group :development do
+group :development, :test do
+  gem 'mizuno-aspace'
   gem 'pry'
   gem 'pry-debugger-jruby'
   gem 'pry-nav'
-end
-
-group :development, :test do
-  gem 'mizuno-aspace'
 end
 
 gem 'multipart-post', '~> 2.4'
