@@ -33,10 +33,6 @@
                                    :form => form,
                                    :record => @archival_object) %>
 
-        <%= form.label_and_textarea("title", :required => :conditionally, :field_opts => {
-          :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
-        })%>
-
         <% if form.obj["ref_id"].blank? %>
           <%= form.label_and_readonly "ref_id", "<em>#{t("archival_object.ref_id_auto_generation_message")}</em>" %>
         <% else %>
@@ -71,6 +67,7 @@
 
   <% form.emit_template("archival_object") %>
 
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "titles"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_materials", :custom_action_template => "lang_materials/subrecord_form_action"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :required => :conditionally, :template => "archival_record_date"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>

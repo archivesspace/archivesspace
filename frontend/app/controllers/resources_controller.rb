@@ -211,7 +211,7 @@ class ResourcesController < ApplicationController
                   render_aspace_partial :partial => "edit_inline"
                 },
                 :on_valid => ->(id) {
-                  flash.now[:success] = t("resource._frontend.messages.updated", resource_title: @resource.title)
+                  flash.now[:success] = t("resource._frontend.messages.updated", resource_title: title_for_display)
                   if @resource["is_slug_auto"] == false &&
                      @resource["slug"] == nil &&
                      params["resource"] &&
@@ -392,5 +392,10 @@ class ResourcesController < ApplicationController
     end
   end
 
+  # Get the appropriate title to display based on language preferences
+  def title_for_display
+    MultipleTitlesHelper.determine_display_title(@resource.titles, I18n.locale)
+  end
+  helper_method :title_for_display
 
 end
