@@ -1,26 +1,49 @@
 <marcxml:record xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:marcxml="http://www.loc.gov/MARC21/slim" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#" xmlns:ri="http://id.loc.gov/ontologies/RecordInfo#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mets="http://www.loc.gov/METS/">
-	    <marcxml:leader>00841cz  a2200181n  4500</marcxml:leader>
-	    <marcxml:controlfield tag="001">n88218900</marcxml:controlfield>
-	    <marcxml:controlfield tag="003">DLC</marcxml:controlfield>
-	    <marcxml:controlfield tag="005">19890222071833.5</marcxml:controlfield>
-	    <marcxml:controlfield tag="008">890119nnbacannaab           |a aaa    ##</marcxml:controlfield>
-	    <marcxml:datafield tag="010" ind1=" " ind2=" ">
+  <marcxml:leader>00841cz  a2200181n  4500</marcxml:leader>
+  <marcxml:controlfield tag="001">n88218900</marcxml:controlfield>
+  <marcxml:controlfield tag="003">DLC</marcxml:controlfield>
+  <marcxml:controlfield tag="005">19890222071833.5</marcxml:controlfield>
+  <marcxml:controlfield tag="008">890119nnbacannaab           |a aaa    ##</marcxml:controlfield>
+  <marcxml:datafield tag="010" ind1=" " ind2=" ">
     <marcxml:subfield code="a">n  88218900 </marcxml:subfield>
   </marcxml:datafield>
-	    <marcxml:datafield tag="035" ind1="7" ind2=" ">
-    <marcxml:subfield code="a">n  88218900</marcxml:subfield>
+  <marcxml:datafield tag="024" ind1="7" ind2=" ">
+    <marcxml:subfield code="a">000000012276857X</marcxml:subfield>
+    <marcxml:subfield code="2">isni</marcxml:subfield>
+    <marcxml:subfield code="1">http://isni.org/isni/000000012276857X</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="024" ind1="7" ind2=" ">
+    <marcxml:subfield code="a">14951645</marcxml:subfield>
+    <marcxml:subfield code="2">viaf</marcxml:subfield>
+    <marcxml:subfield code="1">http://viaf.org/viaf/14951645</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="024" ind1="7" ind2=" ">
+    <marcxml:subfield code="a">Q140052</marcxml:subfield>
+    <marcxml:subfield code="2">wikidata</marcxml:subfield>
+    <marcxml:subfield code="1">http://www.wikidata.org/entity/Q140052</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="035" ind1="7" ind2=" ">
+    <marcxml:subfield code="a">n  88218901</marcxml:subfield>
     <marcxml:subfield code="2">DLC</marcxml:subfield>
   </marcxml:datafield>
-	    <marcxml:datafield tag="040" ind1=" " ind2=" ">
+  <marcxml:datafield tag="035" ind1="7" ind2=" ">
+    <marcxml:subfield code="a">n 2023456789</marcxml:subfield>
+    <marcxml:subfield code="2">DLC</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="035" ind1="7" ind2=" ">
+    <marcxml:subfield code="a">n 987654321</marcxml:subfield>
+    <marcxml:subfield code="2">NYPL</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="040" ind1=" " ind2=" ">
     <marcxml:subfield code="a">DLC</marcxml:subfield>
     <marcxml:subfield code="c">DLC</marcxml:subfield>
     <marcxml:subfield code="d">DLC</marcxml:subfield>
     <marcxml:subfield code="e">AACR2</marcxml:subfield>
   </marcxml:datafield>
-	<marcxml:datafield tag="046" ind1=" " ind2=" ">
-		<marcxml:subfield code="f">18990101</marcxml:subfield>
-		<marcxml:subfield code="g">19611201</marcxml:subfield>
-	</marcxml:datafield>
+  <marcxml:datafield tag="046" ind1=" " ind2=" ">
+    <marcxml:subfield code="f">18990101</marcxml:subfield>
+    <marcxml:subfield code="g">19611201</marcxml:subfield>
+  </marcxml:datafield>
   <marcxml:datafield tag="370" ind1=" " ind2=" ">
     <marcxml:subfield code="a">Montana</marcxml:subfield>
     <marcxml:subfield code="c">USA</marcxml:subfield>
@@ -67,7 +90,7 @@
   <marcxml:datafield tag="378" ind1=" " ind2=" ">
     <marcxml:subfield code="q">378 fuller</marcxml:subfield>
   </marcxml:datafield>
-	    <marcxml:datafield tag="100" ind1="1" ind2="0">
+      <marcxml:datafield tag="100" ind1="1" ind2="0">
     <marcxml:subfield code="a">Davis, John W.</marcxml:subfield>
     <marcxml:subfield code="b">IV</marcxml:subfield>
     <marcxml:subfield code="c">Dr.</marcxml:subfield>
@@ -75,28 +98,28 @@
     <marcxml:subfield code="q">fuller_form</marcxml:subfield>
     <marcxml:subfield code="d">1873-1955</marcxml:subfield>
   </marcxml:datafield>
-	    <marcxml:datafield tag="400" ind1="1" ind2=" ">
+      <marcxml:datafield tag="400" ind1="1" ind2=" ">
     <marcxml:subfield code="a">Davis, John William,</marcxml:subfield>
     <marcxml:subfield code="d">1873-1955</marcxml:subfield>
   </marcxml:datafield>
-	    <marcxml:datafield tag="670" ind1=" " ind2=" ">
+      <marcxml:datafield tag="670" ind1=" " ind2=" ">
     <marcxml:subfield code="a">NUCMC data from Washington and Lee University Lib. for Gaines, F. Papers, 1903-1982</marcxml:subfield>
     <marcxml:subfield code="b">(Davis, John W.)</marcxml:subfield>
     <marcxml:subfield code="u">http://www.google.com</marcxml:subfield>
   </marcxml:datafield>
-	    <marcxml:datafield tag="670" ind1=" " ind2=" ">
+      <marcxml:datafield tag="670" ind1=" " ind2=" ">
     <marcxml:subfield code="a">LC data base, 1-9-89</marcxml:subfield>
     <marcxml:subfield code="b">(hdg.: Davis, John William, 1873-1955; usage: John W. Davis)</marcxml:subfield>
   </marcxml:datafield>
-	    <marcxml:datafield tag="670" ind1=" " ind2=" ">
+      <marcxml:datafield tag="670" ind1=" " ind2=" ">
     <marcxml:subfield code="a">Bio. Dir. of Am. Congress, 1774-1961:</marcxml:subfield>
     <marcxml:subfield code="b">p. 785, etc. (Davis, John William; congressman from W. Va., lawyer; U.S. Solicitor General, 1913-1918; ambassador extraordinary to Gt. Britain, 1918-1921; unsuccessful Democratic candidate for president, 1924)</marcxml:subfield>
   </marcxml:datafield>
   <marcxml:datafield tag="678" ind1="0" ind2=" ">
-		<marcxml:subfield code="a">Biographical or historical data.</marcxml:subfield>
-		<marcxml:subfield code="b">Expansion ...</marcxml:subfield>
-		<marcxml:subfield code="u">Uniform Resource Identifier</marcxml:subfield>
-	</marcxml:datafield>
+    <marcxml:subfield code="a">Biographical or historical data.</marcxml:subfield>
+    <marcxml:subfield code="b">Expansion ...</marcxml:subfield>
+    <marcxml:subfield code="u">Uniform Resource Identifier</marcxml:subfield>
+  </marcxml:datafield>
   <marcxml:datafield tag="678" ind1="1" ind2=" ">
     <marcxml:subfield code="a">Abstract</marcxml:subfield>
     <marcxml:subfield code="b">Content</marcxml:subfield>
