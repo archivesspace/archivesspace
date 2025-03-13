@@ -183,8 +183,8 @@ fr:
   search_sorting:
     sort_by: "Trier par :"
     sort: Trier
-    asc: ascendant
-    desc: descendant
+    asc: (ascendant)
+    desc: (descendant)
     relevance: Pertinence
     title_sort: Intitulé
     identifier: Identifiant
@@ -369,7 +369,7 @@ fr:
     load_records:
       alert: "Cette collection contient un grand nombre d'enregistrements"
       showing: "Affichage"
-      percent_convention: " %"
+      percent_convention: "%"
       load: "Charger les enregistrements"
       load_all: "Charger tous les enregistrements"
       scroll: "Au défilement"
@@ -384,7 +384,7 @@ fr:
   related_resource: {}
   digital_object:
     _singular: Document numérique
-    _plural: Documents numériques
+    _plural: Matériaux numériques
     _public:
       thumbnail: miniature
       link: Lien vers objet numérique
