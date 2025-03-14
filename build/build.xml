@@ -311,6 +311,7 @@
   <target name="build-docker-conf-package" depends="set-classpath" description="Bundle the default configuration, plugins and docker-compose file into a zip file">
     <delete failonerror="true" dir="docker_prod" />
     <mkdir dir="docker_prod/archivesspace/config" />
+    <mkdir dir="docker_prod/archivesspace/backups" />
     <mkdir dir="docker_prod/archivesspace/locales" />
     <mkdir dir="docker_prod/archivesspace/locales/public" />
     <mkdir dir="docker_prod/archivesspace/plugins" />
