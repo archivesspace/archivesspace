@@ -1,3 +1,5 @@
+//= require MixedContentHelper
+
 (function (exports) {
   /**
    * A tree is an ordered list, represented in the DOM as `ol.infinite-tree`.
@@ -39,7 +41,7 @@
      * @returns {DocumentFragment} An <ol> with a single <li>
      */
     root(title) {
-      const _title = new MixedContent(title);
+      const _title = new MixedContentHelper(title);
       const rootFrag = new DocumentFragment();
       const rootTemplate = document
         .querySelector('#infinite-tree-root-template')
@@ -114,7 +116,7 @@
     node(data, level, shouldObserve, parentId = null, offset = null) {
       const nodeRecordId = data.uri.split('/')[4];
       const nodeElementId = `archival_object_${nodeRecordId}`;
-      const title = new MixedContent(this.title(data));
+      const title = new MixedContentHelper(this.title(data));
       const aHref = `#tree::${nodeElementId}`;
       const nodeFrag = new DocumentFragment();
       const nodeTemplate = document
