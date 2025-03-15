@@ -1,9 +1,9 @@
 (function (exports) {
-  class MixedContent {
+  class MixedContentHelper {
     /**
      * @constructor
      * @description - This class checks if a string has mixed content, and if so
-     * provides the derived string without the HTML. MixedContent refers to a string
+     * provides the cleaned string without the HTML. MixedContent refers to a string
      * of content from the backend that includes embedded HTML tags with attributes
      * that are intended to render some or all content within the string with extra
      * CSS styles that would not otherwise be applied to the content via some
@@ -13,7 +13,7 @@
      * `<span class="emph render-none">Some text content</span>`, and can be pre and
      * proceeded by arbitrary text as well.
      * @param {string} input - A string that might contain mixed content
-     * @returns {MixedContent} - A MixedContent object
+     * @returns {MixedContentHelper} - A MixedContentHelper object
      */
     constructor(input) {
       this.input = input;
@@ -62,5 +62,5 @@
     }
   }
 
-  exports.MixedContent = MixedContent;
+  exports.MixedContentHelper = MixedContentHelper;
 })(window);
