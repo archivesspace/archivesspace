@@ -9,7 +9,8 @@
       this.appUrlPrefix = appUrlPrefix;
       this.resourceUri = resourceUri;
       this.repoId = resourceUri.split('/')[2];
-      this.baseUri = `${this.resourceUri}/tree`;
+      this.resourceId = resourceUri.split('/')[4];
+      this.baseUri = `/resources/${this.resourceId}/tree`;
       this.rootUri = `${this.baseUri}/root`;
       this.nodeUri = `${this.baseUri}/node`;
       this.batchUri = `${this.baseUri}/waypoint`; // TODO: rename endpoint to /batch
