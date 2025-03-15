@@ -5,10 +5,17 @@
   --tree-unit-width: calc(var(--tree-indent-width) + var(--tree-line-width));
 }
 
+$lightshade: #f1f1f1;
+$midblue: #007bff;
+$darkest: #001f4d;
+$secondary-color: #212529;
+$darkblue: #004080;
+
 #infinite-tree-container {
-  height: 600px;
-  border: 1px solid $lightshade;
-  background-color: $lightshade;
+  height: 400px;
+  margin: 0 1rem;
+  border: 1px solid #eee;
+  background-color: #eee;
   overflow-y: auto;
 }
 
@@ -78,7 +85,7 @@
   line-height: 2rem;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.03);
+    background-color: #fafafa;
   }
 }
 
@@ -165,7 +172,6 @@
   padding-left: 0.25rem;
   flex-shrink: 1;
   text-decoration: none;
-  color: $secondary-color;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
