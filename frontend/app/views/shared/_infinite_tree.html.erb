@@ -2,7 +2,7 @@
 
 <div
   id="infinite-tree-container"
-  data-resource-uri="<%= @result['uri'] %>"
+  data-resource-uri="<%= @resource.uri %>"
 >
 </div>
 
@@ -39,7 +39,7 @@
 
 <template id="infinite-tree-expand-button-template">
   <button class="node-expand" type="button">
-    <i class="node-expand-icon fa fa-chevron-right"></i>
+    <i class="node-expand-icon glyphicon glyphicon-chevron-right"></i>
     <span class="sr-only"></span>
   </button>
 </template>
@@ -60,9 +60,9 @@
   <li data-batch-placeholder style="display:none"></li>
 </template>
 
+
 <script>
 // @resource.uri looks like: /repositories/:rpid/resources/:rsid
-// use @resource.uri to create `/resources/:rsid/tree/root`
 const resourceUri = "<%= @resource.uri %>"
 const resourceUriParts = resourceUri.split('/')
 const resourceId = resourceUriParts[resourceUriParts.length - 1]
