@@ -67,6 +67,13 @@ describe 'Collection Organization', js: true do
   end
 
   describe 'Infinite Tree sidebar' do
+    context 'when there is a URI fragment pointing to a child node' do
+      it 'should show the node after page load' do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization#archival_object_#{@ao3.id}"
+        expect(page).to have_css(".infinite-tree-sidebar #archival_object_#{@ao3.id}")
+      end
+    end
+
     it 'should handle titles with mixed content appropriately' do
       visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
 

@@ -9,6 +9,7 @@
      * `populateAllWaypoints()`
      * @param {number} mainMaxFetches - The main thread's max number of concurrent fetches
      * @param {number} workerMaxFetches - The worker's max number of concurrent fetches
+     * @param {string} uriFragment - The document's URI fragment
      * @returns {InfiniteRecords} - InfiniteRecords instance
      */
     constructor(
@@ -16,9 +17,10 @@
       appUrlPrefix,
       workerPath,
       mainMaxFetches,
-      workerMaxFetches
+      workerMaxFetches,
+      uriFragment
     ) {
-      this.pageHash = window.location.hash;
+      this.uriFragment = uriFragment;
       this.container = document.querySelector('#infinite-records-container');
 
       this.WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
@@ -78,15 +80,17 @@
      * @returns {boolean} - True if Load All should be shown
      */
     shouldShowLoadAll() {
-      if (this.pageHash === '') {
+      if (this.uriFragment === '') {
         return this.NUM_TOTAL_WAYPOINTS > 2;
       } else {
         if (this.NUM_TOTAL_WAYPOINTS > 3) return true;
 
         if (
           this.NUM_TOTAL_WAYPOINTS === 3 &&
-          (!this.hasEmptyPrevWP(this.treeIdToWaypointNumber(this.pageHash)) ||
-            !this.hasEmptyNextWP(this.treeIdToWaypointNumber(this.pageHash)))
+          (!this.hasEmptyPrevWP(
+            this.treeIdToWaypointNumber(this.uriFragment)
+          ) ||
+            !this.hasEmptyNextWP(this.treeIdToWaypointNumber(this.uriFragment)))
         )
           return true;
 
@@ -133,15 +137,15 @@
     async initRecords() {
       const initialWaypoints = [];
 
-      if (this.pageHash === '') {
+      if (this.uriFragment === '') {
         initialWaypoints.push(0);
 
         if (this.NUM_TOTAL_WAYPOINTS > 1) initialWaypoints.push(1);
 
         this.renderWaypoints(initialWaypoints);
       } else {
-        const recordUri = this.treeIdToRecordUri(this.pageHash);
-        const recordWaypointNum = this.treeIdToWaypointNumber(this.pageHash);
+        const recordUri = this.treeIdToRecordUri(this.uriFragment);
+        const recordWaypointNum = this.treeIdToWaypointNumber(this.uriFragment);
 
         initialWaypoints.push(recordWaypointNum);
 
