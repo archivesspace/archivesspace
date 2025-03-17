@@ -165,7 +165,6 @@
     <dynamicField name="*_u_typeahead_utext" type="text_general" indexed="true" stored="true" multiValued="false" />
     <dynamicField name="*_u_sortdate" type="date" indexed="true" stored="false" multiValued="false" />
     <dynamicField name="*_u_ssortdate" type="date" indexed="true" stored="true" multiValued="false" />
-    <dynamicField name="*_relator_sort" type="sort_string" indexed="true" stored="true" multiValued="false" />
     <dynamicField name="*_int_sort" type="int" indexed="true" stored="false" multiValued="false" />
   </fields>
   <uniqueKey>id</uniqueKey>
