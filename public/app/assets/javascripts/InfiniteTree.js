@@ -50,13 +50,14 @@
       setTimeout(() => {
         this.expandNode(
           this.container.querySelector('#archival_object_4539'),
-          '#archival_object_4561'
+          '#archival_object_4583'
         );
       }, 1000);
     }
 
     /**
-     * Expands a node to show its children, fetching them if necessary
+     * Expands a node to show its children, fetching them if necessary;
+     * sets the current node if provided and scrolls to it
      * @param {HTMLElement} node - The node to expand
      * @param {string|null} [currentNodeSelector=null] - The full selector for the child node to set as current, null if none
      */
@@ -88,16 +89,21 @@
 
       if (currentNodeSelector) {
         const currentNode = node.querySelector(currentNodeSelector);
-        const scrollOpts = { behavior: 'smooth', block: 'center' };
+        const containerRect = this.container.getBoundingClientRect();
+        const nodeRect = currentNode.getBoundingClientRect();
+        const scrollOffset = nodeRect.top - containerRect.top - 100;
 
         this.setCurrentNode(currentNode);
 
-        currentNode.scrollIntoView(scrollOpts);
+        this.container.scrollBy({
+          top: scrollOffset,
+          behavior: 'smooth',
+        });
       }
     }
 
     /**
-     * Sets a node as the current node in the tree by adding the 'current' class
+     * Sets a node as the current node in the tree by adding and removing the 'current' class
      * @param {HTMLElement} node - The node element to make current
      */
     setCurrentNode(node) {
@@ -160,6 +166,31 @@
     }
 
     /**
+     * Renders a single node element
+     * @param {Object} nodeData - The node data from the server
+     * @param {number} level - The tree level for this node
+     * @param {boolean} shouldObserveNode - Whether this node should be observed for batch loading
+     * @param {string} [parentId=null] - The ID of the parent node, required if observe is true
+     * @param {number} [batchNumber=null] - The batch number, required if observe is true
+     * @returns {Node} The rendered node element
+     */
+    renderNode(
+      nodeData,
+      level,
+      shouldObserveNode,
+      parentId = null,
+      batchNumber = null
+    ) {
+      const markupArgs = [nodeData, level, shouldObserveNode];
+
+      if (shouldObserveNode) {
+        markupArgs.push(parentId, batchNumber);
+      }
+
+      return this.markup.node(...markupArgs);
+    }
+
+    /**
      * Renders a batch of child nodes into a list
      * @param {HTMLElement} list - The list element to render into
      * @param {array} nodes - Node objects to render
@@ -178,15 +209,18 @@
       const batchFragment = new DocumentFragment();
 
       nodes.forEach((node, i) => {
-        const observeThisNode =
+        const shouldObserveNode =
           i == Math.floor(this.BATCH_SIZE / 2) - 1 && hasNextBatch;
-        const markupArgs = [node, listMeta.level, observeThisNode];
 
-        if (observeThisNode) {
-          markupArgs.push(listMeta.parentId, batchNumber + 1);
-        }
+        const nodeElement = this.renderNode(
+          node,
+          listMeta.level,
+          shouldObserveNode,
+          shouldObserveNode ? listMeta.parentId : null,
+          shouldObserveNode ? batchNumber + 1 : null
+        );
 
-        batchFragment.appendChild(this.markup.node(...markupArgs));
+        batchFragment.appendChild(nodeElement);
       });
 
       const placeholder = list.querySelector(
