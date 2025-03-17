@@ -95,9 +95,8 @@ class LargeTree
 
       if [Resource, ArchivalObject, DigitalObject, DigitalObjectComponent].include?(@root_record.class)
         # there may be more sophisticated preference checking that should be done here
-        prefs = Preference.user_global_defaults || Preference.global_defaults
-        locale = prefs['locale']
-        title = MultipleTitlesHelper.determine_display_title(@root_record.title.map {|title| title.to_hash}, locale)
+        locale = Preference.current_preferences['defaults']['locale']
+        title = MultipleTitlesHelper.determine_primary_title(@root_record.title.map {|title| title.to_hash}, locale)
       else
         title = @root_record.title
       end

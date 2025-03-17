@@ -24,6 +24,8 @@ Sequel.migration do
     alter_table(:title) do
       add_foreign_key([:resource_id], :resource, :key => :id)
       add_foreign_key([:archival_object_id], :archival_object, :key => :id)
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
+      add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
     end
 
     records_supporting_multiple_titles = [:resource, :archival_object, :digital_object, :digital_object_component]
