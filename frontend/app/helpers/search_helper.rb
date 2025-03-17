@@ -270,7 +270,7 @@ module SearchHelper
         generator_block = nil
         if ['resource', 'archival_object', 'digital_object', 'digital_object_component', 'multi'].include?(model) && prop === 'title'
           generator_block = proc do |record|
-            title = MultipleTitlesHelper.determine_display_title(JSON.parse(record["json"])["titles"], I18n.locale)
+            title = MultipleTitlesHelper.determine_primary_title(JSON.parse(record["json"])["titles"], I18n.locale)
           end
         end
 
