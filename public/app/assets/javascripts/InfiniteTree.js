@@ -56,6 +56,153 @@
     }
 
     /**
+     * Renders the root node and its first batch of children
+     */
+    async renderRoot() {
+      const rootData = await this.fetch.root();
+      const rootFragment = this.markup.root(this.markup.title(rootData));
+      const rootNode = rootFragment.querySelector('.root.node');
+
+      await this.renderInitialBatch(rootNode, rootData);
+
+      this.container.appendChild(rootFragment);
+    }
+
+    /**
+     * Renders the first batch of a node's children
+     * @param {HTMLElement} parent - The node element to initialize children for
+     * @param {Object} data - The node data object from the server
+     */
+    async renderInitialBatch(parent, data) {
+      const batchData = this.prepareBatch(parent, data);
+      const list = this.renderList(parent, batchData.level, data.waypoints);
+
+      this.renderBatch(list, batchData.nodes, batchData.hasNextBatch, 0);
+    }
+
+    /**
+     * Renders and returns the list element for child nodes
+     * @param {HTMLElement} parent - Parent node element
+     * @param {number} parentLevel - Tree level of the parent
+     * @param {number} numBatches - Number of batch placeholders to create
+     * @returns {HTMLElement} The rendered list element
+     */
+    renderList(parent, parentLevel, numBatches) {
+      const listFragment = this.markup.list(
+        parent.id,
+        parentLevel + 1,
+        numBatches
+      );
+
+      parent.appendChild(listFragment);
+
+      return parent.querySelector('.node-children');
+    }
+
+    /**
+     * Renders a batch of child nodes into a list
+     * @param {HTMLElement} list - The list element to render into
+     * @param {array} nodes - Node objects to render
+     * @param {boolean} hasNextBatch - Whether there is another batch after this one
+     * @param {number} batchNumber - The batch number being rendered
+     */
+    renderBatch(list, nodes, hasNextBatch, batchNumber = 0) {
+      if (!Array.isArray(nodes)) {
+        console.error('Expected nodes to be an array, got:', nodes);
+        return;
+      }
+
+      const listMeta = this.validateList(list);
+      if (!listMeta) return;
+
+      const batchFragment = this.buildBatchFragment(
+        nodes,
+        listMeta.level,
+        hasNextBatch,
+        listMeta.parentId,
+        batchNumber
+      );
+
+      const placeholder = list.querySelector(
+        `li[data-batch-placeholder="${batchNumber}"]`
+      );
+
+      if (!placeholder) {
+        console.error('Could not find placeholder for batch:', {
+          batchNumber,
+          parentId: listMeta.parentId,
+          listHTML: list.innerHTML,
+        });
+        return;
+      }
+
+      placeholder.replaceWith(batchFragment);
+
+      if (hasNextBatch) {
+        const observerNode = list.querySelector('[data-observe-next-batch]');
+
+        if (observerNode) {
+          this.batchObserver.observe(observerNode);
+        }
+      }
+    }
+
+    /**
+     * Builds a fragment containing a batch of child nodes
+     * @param {array} nodes - Node objects to render
+     * @param {number} level - The tree level for these nodes
+     * @param {boolean} hasNextBatch - Whether there is another batch after this one
+     * @param {string} parentId - The ID of the parent node
+     * @param {number} batchNumber - The batch number being rendered
+     * @returns {DocumentFragment} The built batch fragment
+     */
+    buildBatchFragment(nodes, level, hasNextBatch, parentId, batchNumber) {
+      const batchFragment = new DocumentFragment();
+
+      nodes.forEach((node, i) => {
+        const shouldObserveNode =
+          i === Math.floor(this.BATCH_SIZE / 2) - 1 && hasNextBatch;
+
+        batchFragment.appendChild(
+          this.buildNodeFragment(
+            node,
+            level,
+            shouldObserveNode,
+            shouldObserveNode ? parentId : null,
+            shouldObserveNode ? batchNumber + 1 : null
+          )
+        );
+      });
+
+      return batchFragment;
+    }
+
+    /**
+     * Builds a node fragment
+     * @param {Object} nodeData - The node data from the server
+     * @param {number} level - The tree level for this node
+     * @param {boolean} shouldObserveNode - Whether this node should be observed for batch loading
+     * @param {string} [parentId=null] - The ID of the parent node, required if observe is true
+     * @param {number} [batchNumber=null] - The batch number, required if observe is true
+     * @returns {DocumentFragment} The built node fragment
+     */
+    buildNodeFragment(
+      nodeData,
+      level,
+      shouldObserveNode,
+      parentId = null,
+      batchNumber = null
+    ) {
+      const markupArgs = [nodeData, level, shouldObserveNode];
+
+      if (shouldObserveNode) {
+        markupArgs.push(parentId, batchNumber);
+      }
+
+      return this.markup.node(...markupArgs);
+    }
+
+    /**
      * Expands a node to show its children, fetching them if necessary;
      * sets the current node if provided and scrolls to it
      * @param {HTMLElement} node - The node to expand
@@ -119,132 +266,6 @@
       }
 
       node.classList.add('current');
-    }
-
-    /**
-     * Renders the root node and its first batch of children
-     */
-    async renderRoot() {
-      const rootData = await this.fetch.root();
-      const rootFragment = this.markup.root(this.markup.title(rootData));
-      const rootNode = rootFragment.querySelector('.root.node');
-
-      await this.renderInitialBatch(rootNode, rootData);
-
-      this.container.appendChild(rootFragment);
-    }
-
-    /**
-     * Renders the first batch of a node's children
-     * @param {HTMLElement} parent - The node element to initialize children for
-     * @param {Object} data - The node data object from the server
-     */
-    async renderInitialBatch(parent, data) {
-      const batchData = this.prepareBatch(parent, data);
-      const list = this.renderList(parent, batchData.level, data.waypoints);
-
-      this.renderBatch(list, batchData.nodes, batchData.hasNextBatch, 0);
-    }
-
-    /**
-     * Renders and returns the list element for child nodes
-     * @param {HTMLElement} parent - Parent node element
-     * @param {number} parentLevel - Tree level of the parent
-     * @param {number} numBatches - Number of batch placeholders to create
-     * @returns {HTMLElement} The rendered list element
-     */
-    renderList(parent, parentLevel, numBatches) {
-      const listFragment = this.markup.list(
-        parent.id,
-        parentLevel + 1,
-        numBatches
-      );
-
-      parent.appendChild(listFragment);
-
-      return parent.querySelector('.node-children');
-    }
-
-    /**
-     * Renders a single node element
-     * @param {Object} nodeData - The node data from the server
-     * @param {number} level - The tree level for this node
-     * @param {boolean} shouldObserveNode - Whether this node should be observed for batch loading
-     * @param {string} [parentId=null] - The ID of the parent node, required if observe is true
-     * @param {number} [batchNumber=null] - The batch number, required if observe is true
-     * @returns {Node} The rendered node element
-     */
-    renderNode(
-      nodeData,
-      level,
-      shouldObserveNode,
-      parentId = null,
-      batchNumber = null
-    ) {
-      const markupArgs = [nodeData, level, shouldObserveNode];
-
-      if (shouldObserveNode) {
-        markupArgs.push(parentId, batchNumber);
-      }
-
-      return this.markup.node(...markupArgs);
-    }
-
-    /**
-     * Renders a batch of child nodes into a list
-     * @param {HTMLElement} list - The list element to render into
-     * @param {array} nodes - Node objects to render
-     * @param {boolean} hasNextBatch - Whether there is another batch after this one
-     * @param {number} batchNumber - The batch number being rendered
-     */
-    renderBatch(list, nodes, hasNextBatch, batchNumber = 0) {
-      if (!Array.isArray(nodes)) {
-        console.error('Expected nodes to be an array, got:', nodes);
-        return;
-      }
-
-      const listMeta = this.validateList(list);
-      if (!listMeta) return;
-
-      const batchFragment = new DocumentFragment();
-
-      nodes.forEach((node, i) => {
-        const shouldObserveNode =
-          i == Math.floor(this.BATCH_SIZE / 2) - 1 && hasNextBatch;
-
-        const nodeElement = this.renderNode(
-          node,
-          listMeta.level,
-          shouldObserveNode,
-          shouldObserveNode ? listMeta.parentId : null,
-          shouldObserveNode ? batchNumber + 1 : null
-        );
-
-        batchFragment.appendChild(nodeElement);
-      });
-
-      const placeholder = list.querySelector(
-        `li[data-batch-placeholder="${batchNumber}"]`
-      );
-
-      if (!placeholder) {
-        console.error('Could not find placeholder for batch:', {
-          batchNumber,
-          parentId: listMeta.parentId,
-          listHTML: list.innerHTML,
-        });
-        return;
-      }
-
-      placeholder.replaceWith(batchFragment);
-
-      if (hasNextBatch) {
-        const observerNode = list.querySelector('[data-observe-next-batch]');
-
-        if (observerNode) {
-          this.batchObserver.observe(observerNode);
-        }
-      }
     }
 
     /**
