@@ -10,6 +10,7 @@
      * @param {string} resourceUri - The URI of the collection resource
      * @param {string} identifier_separator - The i18n identifier separator
      * @param {string} date_type_bulk - The i18n date type bulk
+     * @param {string} uriFragment - The document's URI fragment
      * @returns {InfiniteTree} - InfiniteTree instance
      */
     constructor(
@@ -17,8 +18,10 @@
       appUrlPrefix,
       resourceUri,
       identifier_separator,
-      date_type_bulk
+      date_type_bulk,
+      uriFragment
     ) {
+      this.uriFragment = uriFragment;
       this.BATCH_SIZE = batchSize;
       this.resourceUri = resourceUri;
       this.repoId = resourceUri.split('/')[2];
@@ -43,6 +46,79 @@
       );
 
       this.renderRoot();
+
+      setTimeout(() => {
+        this.expandNode(
+          this.container.querySelector('#archival_object_4539'),
+          '#archival_object_4583'
+        );
+      }, 1000);
+    }
+
+    /**
+     * Expands a node to show its children, fetching them if necessary;
+     * sets the current node if provided and scrolls to it
+     * @param {HTMLElement} node - The node to expand
+     * @param {string|null} [currentNodeSelector=null] - The full selector for the child node to set as current, null if none
+     */
+    async expandNode(node, currentNodeSelector = null) {
+      if (!node || !node.classList.contains('node')) {
+        console.error('Invalid node element provided to expandNode');
+        return;
+      }
+
+      if (node.getAttribute('aria-expanded') === 'true') {
+        return;
+      }
+
+      const icon = node.querySelector('.node-expand-icon');
+
+      if (node.getAttribute('data-has-expanded') === 'true') {
+        node.setAttribute('aria-expanded', 'true');
+        if (icon) icon.classList.add('expanded');
+      } else {
+        const nodeRecordId = node.getAttribute('data-uri').split('/')[4];
+        const nodeData = await this.fetch.node(Number(nodeRecordId));
+
+        await this.renderInitialBatch(node, nodeData);
+
+        node.setAttribute('data-has-expanded', 'true');
+        node.setAttribute('aria-expanded', 'true');
+        if (icon) icon.classList.add('expanded');
+      }
+
+      if (currentNodeSelector) {
+        const currentNode = node.querySelector(currentNodeSelector);
+        const containerRect = this.container.getBoundingClientRect();
+        const nodeRect = currentNode.getBoundingClientRect();
+        const scrollOffset = nodeRect.top - containerRect.top - 100;
+
+        this.setCurrentNode(currentNode);
+
+        this.container.scrollBy({
+          top: scrollOffset,
+          behavior: 'smooth',
+        });
+      }
+    }
+
+    /**
+     * Sets a node as the current node in the tree by adding and removing the 'current' class
+     * @param {HTMLElement} node - The node element to make current
+     */
+    setCurrentNode(node) {
+      if (!node || !node.classList.contains('node')) {
+        console.error('Invalid node element provided to setCurrentNode:', node);
+        return;
+      }
+
+      const old = this.container.querySelector('.node.current');
+
+      if (old) {
+        old.classList.remove('current');
+      }
+
+      node.classList.add('current');
     }
 
     /**
@@ -90,6 +166,31 @@
     }
 
     /**
+     * Renders a single node element
+     * @param {Object} nodeData - The node data from the server
+     * @param {number} level - The tree level for this node
+     * @param {boolean} shouldObserveNode - Whether this node should be observed for batch loading
+     * @param {string} [parentId=null] - The ID of the parent node, required if observe is true
+     * @param {number} [batchNumber=null] - The batch number, required if observe is true
+     * @returns {Node} The rendered node element
+     */
+    renderNode(
+      nodeData,
+      level,
+      shouldObserveNode,
+      parentId = null,
+      batchNumber = null
+    ) {
+      const markupArgs = [nodeData, level, shouldObserveNode];
+
+      if (shouldObserveNode) {
+        markupArgs.push(parentId, batchNumber);
+      }
+
+      return this.markup.node(...markupArgs);
+    }
+
+    /**
      * Renders a batch of child nodes into a list
      * @param {HTMLElement} list - The list element to render into
      * @param {array} nodes - Node objects to render
@@ -108,15 +209,18 @@
       const batchFragment = new DocumentFragment();
 
       nodes.forEach((node, i) => {
-        const observeThisNode =
+        const shouldObserveNode =
           i == Math.floor(this.BATCH_SIZE / 2) - 1 && hasNextBatch;
-        const markupArgs = [node, listMeta.level, observeThisNode];
 
-        if (observeThisNode) {
-          markupArgs.push(listMeta.parentId, batchNumber + 1);
-        }
+        const nodeElement = this.renderNode(
+          node,
+          listMeta.level,
+          shouldObserveNode,
+          shouldObserveNode ? listMeta.parentId : null,
+          shouldObserveNode ? batchNumber + 1 : null
+        );
 
-        batchFragment.appendChild(this.markup.node(...markupArgs));
+        batchFragment.appendChild(nodeElement);
       });
 
       const placeholder = list.querySelector(
