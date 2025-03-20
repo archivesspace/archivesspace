@@ -41,11 +41,13 @@ module ASpaceHelpers
 
   def select_repository(repo)
     click_button 'Select Repository'
-
-    if repo.respond_to? :repo_code
-      select repo.repo_code, from: 'id'
-    else
-      select repo, from: 'id'
+    wait_for_ajax
+    using_wait_time(25) do
+      if repo.respond_to? :repo_code
+        select repo.repo_code, from: 'id'
+      else
+        select repo, from: 'id'
+      end
     end
 
     within "form[action='/repositories/select']" do
