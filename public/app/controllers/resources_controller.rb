@@ -1,3 +1,5 @@
+require 'multiple_titles_helper'
+
 class ResourcesController < ApplicationController
   include ResultInfo
   helper_method :process_repo_info
@@ -113,7 +115,10 @@ class ResourcesController < ApplicationController
     else
       process_search_results(@base_search)
       title = ''
-      title =  strip_mixed_content(@results['results'][0]['_resolved_resource']['json']['title']) if @results['results'][0] && @results['results'][0].dig('_resolved_resource', 'json')
+      #title =  strip_mixed_content(@results['results'][0]['_resolved_resource']['json']['title']) if @results['results'][0] && @results['results'][0].dig('_resolved_resource', 'json')
+      if @results['results'][0] && json = @results['results'][0].dig('_resolved_resource', 'json')
+        title = strip_mixed_content(determine_primary_title(json['titles'], session[:locale]))
+      end
 
       @context = []
       @context.push({:uri => "/repositories/#{repo_id}",
@@ -152,10 +157,11 @@ class ResourcesController < ApplicationController
 
       @result =  archivesspace.get_record(uri, @criteria)
       @repo_info = @result.repository_information
-      @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
+      @primary_title = MultipleTitlesHelper.determine_primary_title(@result['json']['titles'], session[:locale])
+      @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@primary_title)}"
       @context = [
         {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'},
-        {:uri => nil, :crumb => process_mixed_content(@result.display_string), :type => 'resource'}
+        {:uri => nil, :crumb => process_mixed_content(@primary_title), :type => 'resource'}
       ]
 
       fill_request_info
@@ -190,9 +196,10 @@ class ResourcesController < ApplicationController
       @has_digital_objects = has_digital_objects?
 
       @repo_info = @result.repository_information
-      @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
+      @primary_title = MultipleTitlesHelper.determine_primary_title(@result['json']['titles'], session[:locale])
+      @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@primary_title)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], type: 'repository'},
-        {:uri => nil, :crumb => process_mixed_content(@result.display_string), type: @result.primary_type}]
+        {:uri => nil, :crumb => process_mixed_content(@primary_title), type: @result.primary_type}]
       fill_request_info
       @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
     rescue RecordNotFound
