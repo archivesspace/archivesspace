@@ -12,7 +12,7 @@
         :figcaption_class => 'result-repfv__figcaption'
       } %>
       <div>
-        <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>  
+        <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
         <%= render partial: 'shared/result_record_summary', locals: {:result => result, :props => props } %>
       </div>
     </div>
@@ -24,6 +24,7 @@
   <% if result.highlights.present? %>
     <div>
       <% result.highlights.each do |key, value| %>
+        <% next if I18n.t("search_results.highlighting.#{key}").include?('Translation missing') %>
         <div>
           <strong><%= I18n.t('search_results.highlighting.found_in') %> <%= I18n.t("search_results.highlighting.#{key}") %>:</strong>&nbsp;
           <%== value.join(" ") %>
