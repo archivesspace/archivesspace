@@ -77,7 +77,7 @@ module ExportHelper
             uris = old_row[old_column_index]
             new_row[new_column_index] = context_string(uris.split ',') unless uris.blank?
           else
-            new_row[new_column_index] = old_row[old_column_index]
+            new_row[new_column_index] = old_row[old_column_index]&.force_encoding('utf-8')
           end
         end
         new_csv.append new_row
