@@ -4,17 +4,14 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Tree UI', js: true do
-  let(:admin_user) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
-
   before(:all) do
     @repository = create(:repo, repo_code: "trees_test_#{Time.now.to_i}")
-
-    run_all_indexers
   end
 
   before (:each) do
-    login_user(admin_user)
+    login_admin
     select_repository(@repository)
+    set_repo @repository
 
     @now = Time.now.to_i
 
@@ -77,13 +74,11 @@ describe 'Tree UI', js: true do
     @archival_object_4 = create(:archival_object, title: "Archival Object Title 4 #{@now}", resource: { ref: @resource.uri })
     @archival_object_4.set_suppressed(true)
 
-    run_index_round
-
     visit "resources/#{@resource.id}/edit"
     expect(page).to have_text @resource.title
   end
 
-  xit 'can add a sibling' do
+  it 'can add a sibling' do
     expect(all('.largetree-node.indent-level-1').length).to eq(4)
 
     click_link "Archival Object Title 3 #{@now}"
@@ -107,6 +102,7 @@ describe 'Tree UI', js: true do
     expect(elements.length).to eq(5)
 
     visit "resources/#{@resource.id}/edit"
+    expect(page).to have_text @resource.title
     expect(all('.largetree-node.indent-level-1').length).to eq(5)
   end
 
@@ -248,6 +244,7 @@ describe 'Tree UI', js: true do
     end
   end
 
+  # TODO: Fix functionality and re-enable this spec. See also: https://github.com/archivesspace/archivesspace/blob/master/frontend/vendor/assets/javascripts/jquery.ba-hashchange.js
   xit 'can retain location hash when sidebar items are clicked' do
     click_link "Archival Object Title 1 #{@now}"
 
