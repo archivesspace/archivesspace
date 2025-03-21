@@ -32,26 +32,14 @@ class SolrResults
   def parse_record(result, full)
     record = record_for_type(result, full)
     record.criteria = @search_opts
-    record.highlights = find_highlighting(result['id'])
-    record.apply_highlighting
+    record.apply_highlighting(find_highlighting(result['id']))
 
     record
   end
 
   def find_highlighting(result_id)
-    highlights = {}
+    return {} unless @raw['highlighting'].present? && @raw['highlighting'][result_id].present?
 
-    highlighted_keys_to_remove = [
-      'title_ws',
-      'identifier_ws'
-    ]
-
-    if @raw['highlighting'].present? && @raw['highlighting'][result_id].present?
-      highlights = @raw['highlighting'][result_id].reject do |key|
-        highlighted_keys_to_remove.include? key
-      end
-    end
-
-    highlights
+    @raw['highlighting'][result_id]
   end
 end
