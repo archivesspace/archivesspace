@@ -12,7 +12,7 @@
       <li>
         <p class="mb-0">
           <%= t("#{singular}._frontend.messages.merge_description") %>
-          <%= record.respond_to? :title ? record.title : record.titles.first['title'] %>
+          "<%= record.respond_to?(:title) ? record.title : MultipleTitlesHelper.determine_primary_title(record.titles, I18n.locale) %>"
         </p>
         <%= form_context :merge, {} do |form| %>
 
