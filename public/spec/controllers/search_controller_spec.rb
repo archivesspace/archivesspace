@@ -453,4 +453,71 @@ describe SearchController, type: :controller do
       end
     end
   end
+
+  describe 'default search scope configuration' do
+    before(:each) do
+      # Store original config to restore it after tests
+      @original_default_scope = AppConfig[:search_default_scope]
+    end
+
+    after(:each) do
+      # Restore original config
+      AppConfig[:search_default_scope] = @original_default_scope
+    end
+
+    it 'should use all_record_types by default when config is set to all_record_types' do
+      AppConfig[:search_default_scope] = 'all_record_types'
+
+      response = get(:search, params: {
+        :q => ['*'],
+        :op => ['OR'],
+        :field => ['']
+      })
+
+      expect(response).to have_http_status(200)
+      expect(controller.params[:limit]).to be_blank
+    end
+
+    it 'should use collections_only by default when config is set to collections_only' do
+      AppConfig[:search_default_scope] = 'collections_only'
+
+      response = get(:search, params: {
+        :q => ['*'],
+        :op => ['OR'],
+        :field => ['']
+      })
+
+      expect(response).to have_http_status(200)
+      expect(controller.params[:limit]).to eq('resource')
+    end
+
+    it 'should respect user selection when explicitly choosing all_record_types' do
+      AppConfig[:search_default_scope] = 'collections_only'
+
+      # Send an empty string for limit to simulate selecting "All Records"
+      response = get(:search, params: {
+        :q => ['*'],
+        :op => ['OR'],
+        :field => [''],
+        :limit => ''
+      })
+
+      expect(response).to have_http_status(200)
+      expect(controller.params[:limit]).to eq('')
+    end
+
+    it 'should respect user selection when explicitly choosing collections_only' do
+      AppConfig[:search_default_scope] = 'all_record_types'
+
+      response = get(:search, params: {
+        :q => ['*'],
+        :op => ['OR'],
+        :field => [''],
+        :limit => 'resource'
+      })
+
+      expect(response).to have_http_status(200)
+      expect(controller.params[:limit]).to eq('resource')
+    end
+  end
 end

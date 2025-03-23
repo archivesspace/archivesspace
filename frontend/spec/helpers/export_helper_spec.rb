@@ -10,6 +10,7 @@ describe ExportHelper do
   end
 
   it 'can convert the ancestor refs from a search to a user-friendly context column for CSV downloads' do
+    accession = create(:accession, title: "יחסי ציבור")
     collection = create(:resource, title: 'ExportHelper collection', level: 'collection')
     series = create(:archival_object, title: 'ExportHelper series', level: 'series', resource: {ref: collection.uri})
     top_container = create(:top_container, type: 'box')
@@ -25,6 +26,7 @@ describe ExportHelper do
 
     criteria = {'fields[]' => ['primary_type', 'title', 'ancestors'], 'q' => '*', 'page' => '1'}
     export = csv_export_with_context "#{@repo.uri}/search", Search.build_filters(criteria)
+    expect(export).to include("accession,יחסי ציבו")
     expect(export).to include('archival_object,ExportHelper series,ExportHelper collection')
     expect(export).to include('archival_object,ExportHelper item,ExportHelper collection > ExportHelper series')
     expect(export).to include('digital_object_component,ExportHelper digital object component,ExportHelper digital object')

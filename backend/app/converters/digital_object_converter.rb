@@ -131,7 +131,6 @@ class DigitalObjectConverter < Converter
       'extent_physical_details' => 'extent.physical_details',
       'extent_portion' => 'extent.portion',
       'extent_dimensions' => 'extent.dimensions',
-      'extent_container_summary' => 'extent.container_summary',
 
       'subject_source' => 'subject.source',
       'subject_term' => 'subject.term',

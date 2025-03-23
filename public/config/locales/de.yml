@@ -78,6 +78,7 @@ de:
       notes_published: Anmerkungen
       finding_aid_title: Titel des Findmittels
       finding_aid_filing_title: Findmittel Ablagetitel
+      instance_type_enum_s: Exemplar-Typ
     result: Ergebnis
     results: Ergebnisse
     search_for: Suche %{type} wobei %{conditions}

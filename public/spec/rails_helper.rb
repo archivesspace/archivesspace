@@ -1,6 +1,7 @@
 require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'launchy'
+require 'aspace_helper'
 
 CHROME_OPTS  = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-logging --log-level=0 --v=1 --incognito --disable-extensions --auto-open-devtools-for-tabs --window-size=1920,1080 --disable-dev-shm-usage").split(' ')
 
@@ -23,7 +24,6 @@ Capybara.register_driver(:chrome) do |app|
   }
   Capybara::Selenium::Driver.new(app, **options)
 end
-
 
 # Firefox
 Capybara.register_driver :firefox do |app|
@@ -82,6 +82,7 @@ Capybara.server_port = URI.parse(AppConfig[:public_url]).port
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.include Capybara::DSL
+  config.include ASpaceHelpers
   config.filter_rails_from_backtrace!
 
   if Capybara.current_driver == :chrome
@@ -161,12 +162,7 @@ Capybara.register_server :as_puma do |app, port, host|
 end
 Capybara.server = :as_puma
 
-def finished_all_ajax_requests?
-  request_count = page.evaluate_script('$.active').to_i
-  request_count && request_count.zero?
-rescue Timeout::Error
-  puts 'timeout..'
-end
+Capybara.default_max_wait_time = ENV.fetch('CAPYBARA_DEFAULT_MAX_WAIT_TIME', 15).to_i
 
 cp_logger = Logger.new(File.join(ASUtils.find_base_directory, "ci_logs", "childprocess_gem.out"))
 cp_logger.level = Logger::DEBUG

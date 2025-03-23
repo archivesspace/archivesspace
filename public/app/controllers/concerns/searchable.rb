@@ -12,6 +12,13 @@ module Searchable
   def set_up_search(default_types = [], default_facets=[], default_search_opts={}, params={}, q='')
     @search = Search.new(params)
     limit = params.fetch(:limit, '')
+    limit_param_exists = params.key?(:limit)
+
+    # Apply the default scope if no limit is specified
+    if limit.blank? && SearchConfigHelper.default_search_scope == 'collections_only' && !limit_param_exists
+      limit = 'resource'
+    end
+
     field = params.fetch(:field, nil)
     if !limit.blank?
       default_types = [limit]
