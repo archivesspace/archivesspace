@@ -5,7 +5,7 @@ require 'rails_helper'
 
 describe RepositoriesController, type: :controller do
   include BackendClientMethods
-  include SpecHelperMethods
+  include FactoryBot::Syntax::Methods
   include TestUtils::SpecIndexing
 
   before(:all) do
@@ -29,7 +29,7 @@ describe RepositoriesController, type: :controller do
                           :name => "Test Repository No Description",
                           :publish => true)
 
-    run_all_indexers
+    run_indexers
   end
 
   it "displays repositories with their descriptions in the index" do
@@ -62,7 +62,7 @@ describe RepositoriesController, type: :controller do
                                 :name => "Test Repository Long Description",
                                 :description => long_desc)
 
-    run_all_indexers
+    run_indexers
 
     get :index
     html = Nokogiri::HTML(response.body)
@@ -92,6 +92,6 @@ describe RepositoriesController, type: :controller do
 
     @repo_agent.delete if @repo_agent
 
-    run_all_indexers
+    run_indexers
   end
 end
