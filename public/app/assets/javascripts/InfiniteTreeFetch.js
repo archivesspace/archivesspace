@@ -6,14 +6,12 @@
      * @param {string} resourceUri - The URI of the collection resource
      */
     constructor(appUrlPrefix, resourceUri) {
-      this.appUrlPrefix = appUrlPrefix;
-      this.resourceUri = resourceUri;
+      const baseUri = appUrlPrefix + resourceUri + '/tree';
+      this.rootUri = baseUri + '/root';
+      this.nodeUri = baseUri + '/node';
+      this.batchUri = baseUri + '/waypoint'; // TODO: rename endpoint to /batch
+      this.ancestorsUri = baseUri + '/node_from_root'; // TODO: rename endpoint to /ancestors
       this.repoId = resourceUri.split('/')[2];
-      this.baseUri = `${this.resourceUri}/tree`;
-      this.rootUri = `${this.baseUri}/root`;
-      this.nodeUri = `${this.baseUri}/node`;
-      this.batchUri = `${this.baseUri}/waypoint`; // TODO: rename endpoint to /batch
-      this.ancestorsUri = `${this.baseUri}/node_from_root`; // TODO: rename endpoint to /ancestors
     }
 
     /**
@@ -22,7 +20,7 @@
      */
     async root() {
       try {
-        const response = await fetch(this.appUrlPrefix + this.rootUri);
+        const response = await fetch(this.rootUri);
 
         return await response.json();
       } catch (err) {
@@ -44,7 +42,7 @@
       );
 
       try {
-        const response = await fetch(`${this.nodeUri}?${query}`);
+        const response = await fetch(this.nodeUri + '?' + query);
 
         return await response.json();
       } catch (err) {
@@ -66,7 +64,7 @@
       query.append('node_ids[]', id);
 
       try {
-        const response = await fetch(`${this.ancestorsUri}?${query}`);
+        const response = await fetch(this.ancestorsUri + '?' + query);
 
         return await response.json();
       } catch (err) {
@@ -88,7 +86,7 @@
       query.append('offset', offset);
 
       try {
-        const response = await fetch(`${this.batchUri}?${query}`);
+        const response = await fetch(this.batchUri + '?' + query);
 
         return await response.json();
       } catch (err) {
