@@ -1,0 +1,185 @@
+:root {
+  --tree-indent-width: 1.5rem;
+  --tree-line-color: white;
+  --tree-line-width: 1px;
+  --tree-unit-width: calc(var(--tree-indent-width) + var(--tree-line-width));
+}
+
+$lightshade: #f1f1f1;
+$midblue: #007bff;
+$darkest: #001f4d;
+$secondary-color: #212529;
+$darkblue: #004080;
+
+#infinite-tree-container {
+  height: 400px;
+  margin: 0 1rem;
+  border: 1px solid #eee;
+  background-color: #eee;
+  overflow-y: auto;
+}
+
+.infinite-tree,
+.node-children {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.infinite-tree {
+  font-size: 1rem;
+  background-color: $white;
+}
+
+.root.node {
+  > .node-row > .node-body {
+    padding-left: 0.25rem;
+    font-weight: normal;
+    background-color: $lightshade;
+  }
+
+  > .node-children > .node:last-child > .node-row > .node-body {
+    border-bottom: var(--tree-line-width) solid var(--tree-line-color);
+  }
+}
+
+.node {
+  position: relative;
+
+  &:nth-child(even) > .node-row > .node-body {
+    background-color: #fafafa;
+  }
+
+  &[aria-expanded='false'] > .node-children {
+    display: none;
+  }
+
+  &.current > .node-row > .node-body {
+    position: relative;
+    background-color: #effaff;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      border: 1px solid $midblue;
+      pointer-events: none;
+    }
+  }
+}
+
+.node-row {
+  position: relative;
+  width: 100%;
+}
+
+.node-body {
+  position: relative;
+  height: 2rem;
+  margin-bottom: 1px;
+  display: flex;
+  align-items: center;
+  line-height: 2rem;
+
+  &:hover {
+    background-color: #fafafa;
+  }
+}
+
+.node-indentation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: calc(
+    (var(--tree-unit-width) * var(--level, 1)) - var(--tree-line-width)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: $lightshade;
+  background-image: repeating-linear-gradient(
+    90deg,
+    $lightshade,
+    $lightshade var(--tree-indent-width),
+    var(--tree-line-color) var(--tree-indent-width),
+    var(--tree-line-color) var(--tree-unit-width)
+  );
+
+  /* 
+    1. Rotate gradient horizontally for vertical line
+    2. Start background color
+    3. Extend background color to indent width
+    4. Start vertical line at indent
+    5. End vertical line at unit width
+  */
+}
+
+@for $i from 1 through 12 {
+  .node-children[data-tree-level='#{$i}'] {
+    .node-indentation {
+      --level: #{$i};
+    }
+
+    .node-title-container {
+      padding-left: calc(var(--tree-unit-width) * #{$i});
+    }
+  }
+}
+
+.node-expand {
+  height: 2rem;
+  width: var(--tree-indent-width);
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  color: #555;
+  background-color: $lightshade;
+  cursor: pointer;
+
+  &:hover {
+    color: $darkest;
+  }
+}
+
+.node-expand-icon {
+  transition: transform 0.15s ease;
+
+  &.expanded {
+    transform: rotate(90deg);
+  }
+}
+
+.node-title-container {
+  min-height: var(--tree-indent-width);
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.node-title {
+  position: relative;
+  min-width: 0;
+  padding-left: 0.25rem;
+  flex-shrink: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: text;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+    color: $darkblue;
+  }
+}
