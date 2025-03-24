@@ -1,3 +1,5 @@
+require 'multiple_titles_helper'
+
 class Record
 
   include ManipulateNode
@@ -10,7 +12,7 @@ class Record
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
               :identifier, :classifications, :level, :other_level, :linked_digital_objects,
-              :container_titles_and_uris
+              :container_titles_and_uris, :primary_title, :titles
 
   attr_accessor :criteria, :highlights
 
@@ -50,6 +52,9 @@ class Record
     @classifications = parse_classifications
     @agents = parse_agents(subjects)
     @extents = parse_extents
+    if json['titles']
+      @titles = json['titles']
+    end
   end
 
   def apply_highlighting(highlights)
@@ -90,11 +95,22 @@ class Record
     build_request_item
   end
 
-  def parse_full_title(infinite_item = false)
+  def parse_full_title(infinite_item = false, locale = :en)
     unless infinite_item || json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
       return "#{json['title']}, #{json['display_string']}"
     end
+    if @titles
+      return MultipleTitlesHelper::determine_primary_title(@titles, locale)
+    end
     return process_mixed_content_title(json['display_string'] || json['title'])
+  end
+
+  def primary_title(locale)
+    if @titles
+      MultipleTitlesHelper::determine_primary_title(@titles, locale)
+    else
+      display_string
+    end
   end
 
   private
