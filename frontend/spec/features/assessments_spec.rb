@@ -8,18 +8,15 @@ describe 'Assessments', js: true do
     @repository = create(:repo, repo_code: "assessments_test_A_#{Time.now.to_i}", publish: true)
     @another_repository = create(:repo, repo_code: "assessments_test_B_#{Time.now.to_i}", publish: true)
     @manager_user = create_user(@repository => ['repository-managers'], @another_repository => ['repository-managers'])
-
-    run_all_indexers
   end
 
   before(:each) do
     login_user(@manager_user)
+    set_repo(@repository)
+    select_repository(@repository)
   end
 
   it 'can add repository assessment attribute definitions and can delete them' do
-    set_repo(@repository)
-    select_repository(@repository)
-
     element = find('.repo-container .btn.dropdown-toggle')
     element.click
     click_on('Manage Assessment Attributes')
@@ -88,9 +85,6 @@ describe 'Assessments', js: true do
   end
 
   it 'can create an assessment, with ratings and rating notes, links to records and users, and shows it in the listing' do
-    set_repo(@repository)
-    select_repository(@repository)
-
     archivist_user = create_user(@repository => ['repository-archivists'])
 
     now = Time.now.to_i
@@ -179,6 +173,8 @@ describe 'Assessments', js: true do
     # Click on save
     find('button', text: 'Save Assessment', match: :first).click
 
+    run_index_round
+
     expect(page).to have_text 'Assessment Created'
     expect(page).to have_text accession.title
     expect(page).to have_text digital_object.title
@@ -209,8 +205,6 @@ describe 'Assessments', js: true do
     expect(element.length).to eq(1)
     expect(element[0]).to have_text('Test external document title')
     expect(element[0]).to have_text('Test external document location')
-
-    run_index_round
 
     # View the assessment on the listing
     click_on('Browse')
