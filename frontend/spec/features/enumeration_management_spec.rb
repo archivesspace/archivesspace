@@ -4,12 +4,13 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Enumeration Management', js: true do
-  let(:admin) { BackendClientMethods::ASpaceUser.new('admin', 'admin') }
-  let!(:repository) { create(:repo, repo_code: "enum_test_#{Time.now.to_i}", publish: true) }
+  before(:all) do
+    @repository = create(:repo, repo_code: "enum_test_#{Time.now.to_i}", publish: true)
+  end
 
   before(:each) do
-    login_user(admin)
-    select_repository(repository)
+    login_admin
+    select_repository(@repository)
   end
 
   it 'lets you add a new value to an enumeration' do
