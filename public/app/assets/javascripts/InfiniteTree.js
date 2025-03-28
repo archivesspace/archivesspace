@@ -23,9 +23,9 @@
     ) {
       this.uriFragment = uriFragment;
       this.BATCH_SIZE = batchSize;
-      this.resourceUri = resourceUri;
+      this.resourceUri = resourceUri; // TODO generalize away from resource
       this.repoId = resourceUri.split('/')[2];
-      this.resourceId = resourceUri.split('/')[4];
+      this.resourceId = resourceUri.split('/')[4]; // TODO generalize away from resource
       this.i18n = { sep: identifier_separator, bulk: date_type_bulk };
 
       this.container = document.querySelector('#infinite-tree-container');
@@ -56,7 +56,7 @@
 
         this.allAncestorBatches(recordId)
           .then(data => {
-            console.log('Ancestor batches result:', data);
+            this.buildAncestors(data);
           })
           .catch(error => {
             console.error('Error in ancestorBatchAndNeighbors:', error);
@@ -77,9 +77,13 @@
     async renderRoot() {
       const rootData = await this.getNodeData();
       const rootFragment = this.markup.root(this.markup.title(rootData));
-      const rootNode = rootFragment.querySelector('.root.node');
+      const rootNode = rootFragment.querySelector('li');
 
-      await this.renderInitialBatchForNode(rootNode, rootData);
+      if (rootData.child_count > 0) {
+        rootNode.setAttribute('aria-expanded', 'true');
+
+        await this.renderInitialBatchForNode(rootNode, rootData);
+      }
 
       this.container.appendChild(rootFragment);
     }
@@ -194,6 +198,42 @@
     }
 
     /**
+     * Builds a fragment containing a batch of child nodes
+     * @param {array} nodes - Node objects to render
+     * @param {number} level - The tree level for these nodes
+     * @param {string} parentId - The ID of the parent node
+     * @param {number} batchNumber - The batch number being rendered
+     * @param {number|null} observeForBatch - The number of a neighboring batch to observe for, null if none
+     * @returns {DocumentFragment} The built batch fragment
+     */
+    newBuildBatchFragment(
+      nodes,
+      level,
+      parentId,
+      batchNumber,
+      observeForBatch = null
+    ) {
+      const batchFragment = new DocumentFragment();
+
+      nodes.forEach((node, i) => {
+        const shouldObserveNode =
+          observeForBatch !== null && i === Math.floor(this.BATCH_SIZE / 2) - 1;
+
+        batchFragment.appendChild(
+          this.buildNodeFragment(
+            node,
+            level,
+            shouldObserveNode,
+            shouldObserveNode ? parentId : null,
+            shouldObserveNode ? batchNumber + 1 : null
+          )
+        );
+      });
+
+      return batchFragment;
+    }
+
+    /**
      * Builds a node fragment
      * @param {Object} nodeData - The node data from the server
      * @param {number} level - The tree level for this node
@@ -290,7 +330,9 @@
      * @returns {Promise<Object>} Node data from the server
      */
     async getNodeData(nodeId = null) {
-      return nodeId ? await this.fetch.node(nodeId) : await this.fetch.root();
+      return nodeId !== null
+        ? await this.fetch.node(nodeId)
+        : await this.fetch.root();
     }
 
     /**
@@ -438,6 +480,96 @@
     // - append the fragment to the DOM --> renderAncestor
     // - provide the observer with the nodes to observe --> renderAncestor
 
+    buildList(nodeId, level, numBatches) {
+      const listFragment = this.markup.list(nodeId, level, numBatches);
+
+      console.log('listFragment', listFragment);
+    }
+
+    buildAncestors(ancestorBatches) {
+      console.log('buildAncestors', ancestorBatches);
+
+      const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
+        const numBatches = batch.waypoints;
+        const nodeTitle = this.markup.title(batch);
+        const ancestorHtmlId = batch.ancestorHtmlId;
+
+        if (i === 0) {
+          const treeListFrag = this.markup.rootList();
+          const treeListElement = treeListFrag.querySelector('ol');
+
+          const rootNodeFrag = this.markup.newRootNode(nodeTitle);
+          const rootNodeElement = rootNodeFrag.querySelector('li');
+
+          const nodeListFrag = this.markup.nodeList(
+            ancestorHtmlId,
+            i + 1,
+            numBatches
+          );
+          const nodeListElement = nodeListFrag.querySelector('ol');
+
+          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
+            const batchFragment = this.newBuildBatchFragment(
+              batchData.nodes,
+              i + 1,
+              ancestorHtmlId,
+              batchNumber,
+              batchData.hasOwnProperty('observeForBatch')
+                ? batchData.observeForBatch
+                : null
+            );
+
+            nodeListElement
+              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
+              .replaceWith(batchFragment);
+          });
+
+          rootNodeElement.appendChild(nodeListFrag);
+
+          treeListElement.appendChild(rootNodeFrag);
+
+          acc.appendChild(treeListFrag);
+
+          return acc;
+        } else {
+          const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
+
+          const nodeListFrag = this.markup.nodeList(
+            ancestorHtmlId,
+            i + 1,
+            numBatches
+          );
+
+          const nodeListElement = nodeListFrag.querySelector('ol');
+
+          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
+            const batchFragment = this.newBuildBatchFragment(
+              batchData.nodes,
+              i + 1,
+              ancestorHtmlId,
+              batchNumber,
+              batchData.hasOwnProperty('observeForBatch')
+                ? batchData.observeForBatch
+                : null
+            );
+
+            nodeListElement
+              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
+              .replaceWith(batchFragment);
+          });
+
+          nodeElement.appendChild(nodeListFrag);
+
+          return acc;
+        }
+      }, new DocumentFragment());
+
+      console.log('ancestorsFrag', ancestorsFrag);
+
+      const theTree = document.querySelector('.infinite-tree');
+      theTree.replaceWith(ancestorsFrag);
+    }
+
     /**
      * Returns all ancestor batches for a given record ID
      * @param {number} id - The record ID of the node to fetch ancestor batches for
@@ -459,11 +591,27 @@
      */
     async ancestorBatchAndNeighbors(ancestorMetaObj) {
       const isRoot = ancestorMetaObj.node === null;
-      const recordId = isRoot ? null : ancestorMetaObj.node.split('/')[4];
-      const targetBatch = ancestorMetaObj.offset;
-      const baseData = await this.getNodeData(recordId);
+      const recordId = isRoot
+        ? this.resourceId
+        : ancestorMetaObj.node.split('/')[4];
+      const nodeId = isRoot ? null : recordId;
+      const batchTarget = ancestorMetaObj.offset;
+      const baseData = await this.getNodeData(nodeId);
       const numBatches = baseData.waypoints;
-      const result = { targetBatch };
+
+      // Create result object with namespaced node data including batchTarget
+      // TODO: this could be simplified by tailoring the data from the
+      // server for the new InfiniteTree needs
+      const result = {
+        batchTarget,
+        ...Object.fromEntries(
+          Object.entries(baseData).filter(
+            ([key]) => !['precomputed_waypoints', 'waypoint_size'].includes(key)
+          )
+        ),
+        batches: {},
+        ancestorHtmlId: `${baseData.jsonmodel_type}_${recordId}`,
+      };
 
       /**
        * Returns the first batch already fetched
@@ -471,9 +619,10 @@
        */
       const firstBatch = () => {
         return {
-          data: baseData.precomputed_waypoints[
-            isRoot ? '' : ancestorMetaObj.node
-          ][0],
+          nodes:
+            baseData.precomputed_waypoints[
+              isRoot ? '' : ancestorMetaObj.node
+            ][0],
         };
       };
 
@@ -484,12 +633,12 @@
        * @returns {Object} An object containing the batch data and possible metadata
        */
       const fetchBatch = async (batchNum, observeForBatch = null) => {
-        const data = await this.fetch.batch(
+        const nodes = await this.fetch.batch(
           isRoot ? '' : ancestorMetaObj.node,
           batchNum
         );
         const result = {
-          data,
+          nodes,
         };
 
         if (observeForBatch !== null) {
@@ -500,56 +649,44 @@
       };
 
       if (numBatches <= 2) {
-        result[0] = firstBatch();
+        result.batches[0] = firstBatch();
         if (numBatches === 2) {
-          result[1] = await fetchBatch(1);
-        }
-
-        return result;
-      }
-
-      if (numBatches === 3) {
-        result[0] = firstBatch();
-        if (targetBatch === 0) {
-          result[1] = await fetchBatch(1, 2);
-        } else {
-          result[1] = await fetchBatch(1);
-          result[2] = await fetchBatch(2);
+          result.batches[1] = await fetchBatch(1);
         }
 
         return result;
       }
 
       if (numBatches >= 4) {
-        if (targetBatch === 0) {
-          result[0] = firstBatch();
-          result[1] = await fetchBatch(1, 2);
-        } else if (targetBatch === numBatches - 1) {
-          result[numBatches - 2] = await fetchBatch(
+        if (batchTarget === 0) {
+          result.batches[0] = firstBatch();
+          result.batches[1] = await fetchBatch(1, 2);
+        } else if (batchTarget === numBatches - 1) {
+          result.batches[numBatches - 2] = await fetchBatch(
             numBatches - 2,
             numBatches - 3
           );
-          result[numBatches - 1] = await fetchBatch(numBatches - 1);
-        } else if (targetBatch === 1) {
-          result[0] = firstBatch();
-          result[1] = await fetchBatch(1);
-          result[2] = await fetchBatch(2, 3);
-        } else if (targetBatch === numBatches - 2) {
-          result[numBatches - 3] = await fetchBatch(
+          result.batches[numBatches - 1] = await fetchBatch(numBatches - 1);
+        } else if (batchTarget === 1) {
+          result.batches[0] = firstBatch();
+          result.batches[1] = await fetchBatch(1);
+          result.batches[2] = await fetchBatch(2, 3);
+        } else if (batchTarget === numBatches - 2) {
+          result.batches[numBatches - 3] = await fetchBatch(
             numBatches - 3,
             numBatches - 4
           );
-          result[targetBatch] = await fetchBatch(targetBatch);
-          result[numBatches - 1] = await fetchBatch(numBatches - 1);
+          result.batches[batchTarget] = await fetchBatch(batchTarget);
+          result.batches[numBatches - 1] = await fetchBatch(numBatches - 1);
         } else {
-          result[targetBatch - 1] = await fetchBatch(
-            targetBatch - 1,
-            targetBatch - 2
+          result.batches[batchTarget - 1] = await fetchBatch(
+            batchTarget - 1,
+            batchTarget - 2
           );
-          result[targetBatch] = await fetchBatch(targetBatch);
-          result[targetBatch + 1] = await fetchBatch(
-            targetBatch + 1,
-            targetBatch + 2
+          result.batches[batchTarget] = await fetchBatch(batchTarget);
+          result.batches[batchTarget + 1] = await fetchBatch(
+            batchTarget + 1,
+            batchTarget + 2
           );
         }
       }
