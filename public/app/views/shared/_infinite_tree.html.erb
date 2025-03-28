@@ -8,7 +8,7 @@
 
 <template id="infinite-tree-root-template">
   <ol class="infinite-tree" role="tree">
-    <li class="root node" role="treeitem" id data-uri aria-expanded>
+    <li class="root node" role="treeitem" id data-uri>
       <div class="node-row">
         <div class="node-body" title>
           <div class="node-title-container">
@@ -42,7 +42,7 @@
   </button>
 </template>
 
-<template id="infinite-tree-children-list-template">
+<template id="infinite-tree-old-list-template">
   <ol
     class="node-children"
     role="group"
@@ -56,4 +56,44 @@
 
 <template id="infinite-tree-batch-placeholder-template">
   <li data-batch-placeholder style="display:none"></li>
+</template>
+
+<template id="infinite-tree-list-template">
+  <ol class="infinite-tree" role="tree"></ol>
+</template>
+
+<template id="infinite-tree-node-list-template">
+  <ol
+    class="node-children"
+    role="group"
+    data-parent-id
+    data-tree-level
+    data-total-child-batches
+  >
+  </ol>
+</template>
+
+<template id="infinite-tree-root-node-template">
+  <li class="root node" role="treeitem" id data-uri>
+    <div class="node-row">
+      <div class="node-body" title>
+        <div class="node-title-container">
+          <a class="node-title" href></a>
+        </div>
+      </div>
+    </div>
+  </li>
+</template>
+
+<template id="infinite-tree-new-node-template">
+  <li class="node" role="treeitem" id data-uri>
+    <div class="node-row">
+      <div class="node-body" title>
+        <div class="node-indentation"></div>
+        <div class="node-title-container">
+          <a class="node-title" href></a>
+        </div>
+      </div>
+    </div>
+  </li>
 </template>
