@@ -456,6 +456,7 @@ ja:
     date_era:
       ce: 本
     date_label:
+      acquisition: 取得
       agent_relation: エージェント関係
       broadcast: 放送
       copyright: 著作権

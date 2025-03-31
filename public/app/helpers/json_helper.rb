@@ -65,7 +65,7 @@ module JsonHelper
       if label_value == 'creation'
         label = ''
       else
-        label = "#{I18n.t('enumerations.date_label.' + label_value)}: "
+        label = "#{I18n.t('enumerations.date_label.' + label_value, default: label_value)}: "
       end
     else
       label = ''
