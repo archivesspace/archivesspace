@@ -156,3 +156,6 @@ topics:
 
   # Bulk Import Templates
   bulk_import_templates: '894566467/Importing+Records+Overview'
+
+  # Bulk Archival Object Update
+  bulk_archival_object_update: '1173913646/Bulk+Update+of+Archival+Objects+from+v4.0.0'

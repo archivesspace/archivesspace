@@ -119,7 +119,7 @@
           <% end %>
 
           <% if @resource != nil %>
-            <li>
+            <li class="d-inline-flex justify-content-between align-items-center">
               <%=
                 link_to t('bulk_archival_object_update_spreadsheet.title'),
                 {
@@ -127,6 +127,9 @@
                 },
                 :class => "dropdown-item"
               %>
+
+              <%= link_to_help(:topic => "bulk_archival_object_update",
+                     :style => "padding: 0px;") %>
             </li>
           <% end %>
 
