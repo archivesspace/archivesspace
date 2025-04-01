@@ -456,6 +456,7 @@ fr:
     date_era:
       ce: ce
     date_label:
+      acquisition: Acquisition
       agent_relation: Relation agent
       broadcast: Diffusion
       copyright: Copyright
