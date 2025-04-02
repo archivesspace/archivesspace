@@ -27,7 +27,7 @@ class DigitalObject < Record
       {
         :uri => '',
         :type => 'digital_object',
-        :crumb => display_string
+        :crumb => primary_title
       }
     ]
   end
