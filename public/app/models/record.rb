@@ -100,14 +100,14 @@ class Record
       return "#{json['title']}, #{json['display_string']}"
     end
     if @titles
-      return MultipleTitlesHelper::determine_primary_title(@titles, locale)
+      return primary_title
     end
     return process_mixed_content_title(json['display_string'] || json['title'])
   end
 
-  def primary_title(locale)
+  def primary_title
     if @titles
-      MultipleTitlesHelper::determine_primary_title(@titles, locale)
+      MultipleTitlesHelper.determine_primary_title(@titles, $locale)
     else
       display_string
     end

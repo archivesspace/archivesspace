@@ -83,9 +83,9 @@ class ApplicationController < ActionController::Base
 
   def set_locale(&action)
     if session[:locale]
-      locale = session[:locale]
+      $locale = locale = session[:locale]
     else
-      locale = I18n.default_locale
+      $locale = locale = I18n.default_locale
     end
 
     I18n.with_locale(locale, &action)

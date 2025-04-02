@@ -117,7 +117,7 @@ class ResourcesController < ApplicationController
       title = ''
       #title =  strip_mixed_content(@results['results'][0]['_resolved_resource']['json']['title']) if @results['results'][0] && @results['results'][0].dig('_resolved_resource', 'json')
       if @results['results'][0] && json = @results['results'][0].dig('_resolved_resource', 'json')
-        title = strip_mixed_content(determine_primary_title(json['titles'], session[:locale]))
+        title = strip_mixed_content(MultipleTitlesHelper.determine_primary_title(json['titles'], locale))
       end
 
       @context = []
@@ -157,7 +157,7 @@ class ResourcesController < ApplicationController
 
       @result =  archivesspace.get_record(uri, @criteria)
       @repo_info = @result.repository_information
-      @primary_title = MultipleTitlesHelper.determine_primary_title(@result['json']['titles'], session[:locale])
+      @primary_title = MultipleTitlesHelper.determine_primary_title(@result['json']['titles'], locale)
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@primary_title)}"
       @context = [
         {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'},
@@ -196,7 +196,7 @@ class ResourcesController < ApplicationController
       @has_digital_objects = has_digital_objects?
 
       @repo_info = @result.repository_information
-      @primary_title = MultipleTitlesHelper.determine_primary_title(@result['json']['titles'], session[:locale])
+      @primary_title = MultipleTitlesHelper.determine_primary_title(@result['json']['titles'], locale)
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@primary_title)}"
       @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], type: 'repository'},
         {:uri => nil, :crumb => process_mixed_content(@primary_title), type: @result.primary_type}]
@@ -257,9 +257,10 @@ class ResourcesController < ApplicationController
     @criteria['resolve[]'] = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id']
     @result =  archivesspace.get_record(uri, @criteria)
     @repo_info = @result.repository_information
-    @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
+    @primary_title = MultipleTitlesHelper.determine_primary_title(@result['json']['titles'], locale)
+    @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@primary_title)}"
     @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], type: 'repository'},
-      {:uri => nil, :crumb => process_mixed_content(@result.display_string), type: @result.primary_type}]
+      {:uri => nil, :crumb => process_mixed_content(@primary_title), type: @result.primary_type}]
     fill_request_info
 
     # top container stuff ... sets @records
@@ -274,8 +275,9 @@ class ResourcesController < ApplicationController
     uri     = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     @result = archivesspace.get_record(uri, {})
     @repo_info = @result.repository_information
+    @primary_title = MultipleTitlesHelper.determine_primary_title(@result['json']['titles'], locale)
     @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], type: 'repository'},
-      {:uri => nil, :crumb => process_mixed_content(@result.display_string), type: @result.primary_type}]
+      {:uri => nil, :crumb => process_mixed_content(@primary_title), type: @result.primary_type}]
     fill_request_info # enable request button in this context
 
     @has_containers = has_containers?(uri) # enable inventory link
@@ -387,7 +389,7 @@ class ResourcesController < ApplicationController
 
   # Get the appropriate title to display based on language preferences
   def title_for_display
-    MultipleTitlesHelper.determine_primary_title(@resource.titles, I18n.locale)
+    MultipleTitlesHelper.determine_primary_title(@resource.titles, $locale)
   end
   helper_method :title_for_display
 
