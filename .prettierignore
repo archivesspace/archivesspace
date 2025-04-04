@@ -7,3 +7,4 @@ frontend/app/assets/stylesheets/jquery.*
 frontend/vendor/
 public/app/assets/javascripts/bootstrap-accessibility/
 public/vendor/assets/
+public/app/assets/stylesheets/font-awesome/
