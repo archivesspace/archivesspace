@@ -21,6 +21,7 @@ group :assets do
   gem 'coffee-rails'
   # See https://github.com/rails/execjs#readme for more supported runtimes
   gem 'execjs'
+  gem 'font-awesome-sass', '~> 4.7.0'
 end
 
 gem 'atomic', '= 1.0.1'
