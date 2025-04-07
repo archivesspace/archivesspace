@@ -5,11 +5,9 @@ require_relative 'spec_slugs_helper'
 describe 'Resource model' do
 
   it "allows resources to be created" do
-    opts = {:title => generate(:generic_title)}
-
-    resource = create_resource(opts)
-
-    expect(Resource[resource[:id]].title).to eq(opts[:title])
+    title = build(:json_title, title: "poo")
+    resource = create_resource(:titles => [title])
+    expect(Resource[resource.id].title[0].title).to eq(title.title)
     resource.delete
   end
 
