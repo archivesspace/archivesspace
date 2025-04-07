@@ -25,7 +25,7 @@
     <div>
       <% result.highlights.each do |key, value| %>
         <% next if I18n.t("search_results.highlighting.#{key}").include?('Translation missing') %>
-        <div>
+        <div class="highlighting">
           <strong><%= I18n.t('search_results.highlighting.found_in') %> <%= I18n.t("search_results.highlighting.#{key}") %>:</strong>&nbsp;
           <%== value.join(" ") %>
         </div>

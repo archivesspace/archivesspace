@@ -111,6 +111,7 @@ fr:
       finding_aid_title: Titre de l'instrument de recherche
       finding_aid_filing_title: Titre de classement de l'aide
       instance_type_enum_s: Type d'instance
+      acquisition_type: Type d'acquisition
     page_title: "%{count} résultats trouvés"
     results_head: "%{type} affichés : %{start} - %{end} de %{total}"
     result: Résultats
