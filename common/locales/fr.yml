@@ -726,7 +726,7 @@ fr:
     items: Pièces
     items_singular: Pièce
     item_singular: Pièce
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine s'il faut ou non publier cette note sur les interfaces publiques.</p>
     title: Titre
@@ -943,7 +943,7 @@ fr:
     file_uri: URI du fichier
     file_uri_tooltip: |
       <p>Un identifiant pour un fichier associé à un objet numérique, accessible sur le web ou dans un répertoire.</p>
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine si cette version du fichier est publiée sur les interfaces publiques.</p>
     use_statement: Mention d'usage
@@ -1065,7 +1065,7 @@ fr:
       <li>http://www.archivesspace.org/membership</li>
       <li>file:///c:/path/to/the%20file.txt</li>
       </ul>
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine si ce document externe sera publié sur les interfaces publiques.</p>
     document_link: Document Link
@@ -1353,7 +1353,7 @@ fr:
       <li>Achat</li>
       <li>Versement</li>
       </ul>
-    publish: Publier?
+    publish: Publier ?
     publish_help: Cocher la case si vous voulez rendre cette entrée accessible au public.
     publish_tooltip: |
       <p>Détermine si l'entrée sera ou non publiée sur les interfaces publiques.</p>
@@ -1477,6 +1477,8 @@ fr:
       agent_software: Nouveau logiciel
     linker:
       create: Créer un agent
+      link_title: Lier à l'agent
+      browse: Parcourir les agents
   agent_person:
     <<: *agent_attributes
     _singular: Personne
@@ -1556,7 +1558,7 @@ fr:
       <li>12 boîtes à chaussures.</li>
       <li>4 boîtes d'archivage, 32 tubes.</li>
       </ul>
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine si cette ressource sera publiée sur les interfaces publiques.</p>
     restrictions_apply: Des restrictions s'appliquent?
@@ -1782,7 +1784,7 @@ fr:
     description: Description de la révision
     description_tooltip: |
       <p>Une description de la dernière révision de l'instrument de recherche.</p>
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine si ce mention de révision sera publié sur les interfaces publiques.</p>
 
@@ -1855,7 +1857,7 @@ fr:
       <p>Une URL distante ou un chemin d'accès à un fichier local contenant une image de marque (comme un logo ou un sceau) à utiliser dans les outils de recherche en ligne du service d'archives. Cette image apparaît sur les PDF côté public, les PDF côté personnel et sur la page du service d'archives.</p>
     _singular: Service d'archives
     _plural: Services d'archives
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine si ce service d'archives et les notices qu'il peut contenir seront publiés sur les interfaces publiques.</p>
 
@@ -1863,6 +1865,11 @@ fr:
     ark_shoulder: ARK Shoulder (espace de noms local)
     ark_shoulder_tooltip: Chaîne par référentiel à inclure dans les ARK générés
     new_title: Nouveau service d'archive
+    linker:
+      link_title: Lier au service d'archives
+      browse: Parcourir les services d'archives
+      create: Créer un service d'archives
+    position: Position
   term:
     # tooltips not displaying
     term: Terme
@@ -1907,6 +1914,10 @@ fr:
     _plural: Mots-matières
 
     new_title: Nouveau sujet
+    linker:
+      create: Créer un subject
+      browse: Parcourir des sujets
+      link_title: Lier au suject
   user:
     username: Nom d'utilisateur
     username_tooltip: |
@@ -1950,6 +1961,7 @@ fr:
     _singular: Utilisateur
     _plural: Utilisateurs
 
+    reset_password: Réinitialiser le mot de passe
   collection_management:
     cataloged_note: Cataloged Note
     cataloged_note_tooltip: |
@@ -2046,6 +2058,10 @@ fr:
     id_separator: /
 
     new_title: Nouveau classement
+    linker:
+      create: Créer un classements
+      browse: Parcourir des classements
+      link_title: Lier au classement
   classification_term:
     <<: *slug_attributes
     _singular: Terme de classement
@@ -2055,6 +2071,10 @@ fr:
     description: Description
     creator: Créateur
 
+    linker:
+      browse: Parcourir des termes de classement
+      link_title: Lier au terme de classement
+      create: Créer un terme de classement
   preference:
     defaults: Valeurs par défaut
     global: Valeurs par défaut de préférences globales
@@ -2062,7 +2082,7 @@ fr:
       du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives
       ou par les préférences propres d'un utilisateur.
     repo: Préférences Service
-    repo_message: Editez ces valeurs pour définir les préférences utilisateur par défaut pour le service
+    repo_message: Editez ces valeurs pour définir les préférences pour tout utilisateurs pour le service
       d'archives actif. Ces valeurs peuvent être écrasées par les préférences propres d'un utilisateur.
     user_global: Mes préférences globales
     user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système.
@@ -2079,7 +2099,7 @@ fr:
     show_suppressed: Montrer les notices bloquées?
     show_suppressed_tooltip: Faut-il ou non montrer dans l'explorateur les notices bloquées que vous avez
       la permission de voir.
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
     default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des valeurs
@@ -2301,6 +2321,9 @@ fr:
     bulk_import_xlsx: Importation en vrac AO XLSX
     bulk_import_DO_xlsx: Importation en vrac DO XLSX
     bulk_import_DO_csv: Importation en vrac DO CSV
+    import_subject_csv: Sujet CSV
+    import_type_subject_csv: Sujet CSV
+    import_subjects: Importer et lier sujets proches ?
   find_and_replace_job:
     _singular: Tâche chercher et remplacer
     find: Chaîne de caractères à trouver
