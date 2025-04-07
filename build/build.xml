@@ -558,7 +558,7 @@
     </java>
   </target>
 
-  <target name="bundler:update" depends="set-classpath" description="Run bundler update against a gemfile for all or just one specific gem">
+  <target name="bundler:update" depends="set-classpath" description="Run bundler update against a gemfile for all or just one specific gem, example: ./build/run bundler:update -Donly-gem='selenium-webdriver' -Dgemfile=../frontend/Gemfile">
     <property name="build.home" location="."/>
     <property name="only-gem" value="" />
     <echo message="Fetching gems for ${gemfile}" />

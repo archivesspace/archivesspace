@@ -86,6 +86,9 @@ FactoryBot.define do
   sequence(:name_source) { sample(JSONModel(:abstract_name).schema['properties']['source']) }
   sequence(:transliteration) { sample(JSONModel(:abstract_name).schema['properties']['transliteration']) }
 
+  # Accession
+  sequence(:acquisition_type) { sample(JSONModel(:accession).schema['properties']['acquisition_type']) }
+
   # Accession Parts Relationship
   sequence(:accession_parts_relator) {sample(JSONModel(:accession_parts_relationship).schema['properties']['relator'])}
   sequence(:accession_parts_relator_type) {sample(JSONModel(:accession_parts_relationship).schema['properties']['relator_type'])}
@@ -250,6 +253,14 @@ FactoryBot.define do
     condition_description { generate(:generic_description) }
     accession_date { generate(:yyyy_mm_dd) }
     extents { [build(:json_extent)] }
+
+    trait :with_acquisition_type do
+      acquisition_type { generate(:acquisition_type) }
+    end
+
+    trait :with_lang_materials do
+      lang_materials { [build(:json_lang_material)] }
+    end
   end
 
   factory :json_active_edits, class: JSONModel(:active_edits) do

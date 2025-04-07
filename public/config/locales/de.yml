@@ -79,6 +79,7 @@ de:
       finding_aid_title: Titel des Findmittels
       finding_aid_filing_title: Findmittel Ablagetitel
       instance_type_enum_s: Exemplar-Typ
+      acquisition_type: Beschaffungs-Art
     result: Ergebnis
     results: Ergebnisse
     search_for: Suche %{type} wobei %{conditions}

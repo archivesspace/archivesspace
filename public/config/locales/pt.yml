@@ -35,6 +35,7 @@ pt:
       role_enum_s: Funções
       linked_agent_roles: Funções de agente vinculado
       notes_published: Notas
+      acquisition_type: Tipo de aquisição
     filter:
       years: Anos
       to: Para
