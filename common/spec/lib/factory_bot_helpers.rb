@@ -1191,7 +1191,7 @@ FactoryBot.define do
   end
 
   factory :json_resource, class: JSONModel(:resource) do
-    title { "Resource #{generate(:html_title)}" }
+    titles { [build(:json_title)] }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }
@@ -1208,6 +1208,10 @@ FactoryBot.define do
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }
     revision_statements { [build(:json_revision_statement)] }
+  end
+
+  factory :json_resource_duplicate_job, class: JSONModel(:resource_duplicate_job) do
+    source { generate(:alphanumstr) }
   end
 
   factory :json_revision_statement, class: JSONModel(:revision_statement) do
@@ -1298,8 +1302,8 @@ FactoryBot.define do
     vocabulary { create(:json_vocabulary).uri }
   end
 
-  factory :json_resource_duplicate_job, class: JSONModel(:resource_duplicate_job) do
-    source { generate(:alphanumstr) }
+  factory :json_title, class: JSONModel(:title) do
+    title { generate(:generic_title) }
   end
 
   factory :json_top_container_linker_job, class: JSONModel(:top_container_linker_job) do

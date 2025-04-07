@@ -44,11 +44,10 @@ Sequel.migration do
       end
     end
 
-    #$stderr.puts "\tdeleting old title fields from resources"
-    # maybe wait on this
-    # alter_table(:resource) do
-    #   drop_column(:title)
-    # end
+    $stderr.puts "\tdeleting old title fields from resources"
+    alter_table(:resource) do
+      drop_column(:title)
+    end
   end
 
   # (temporary)
