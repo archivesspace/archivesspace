@@ -166,7 +166,7 @@ FactoryBot.define do
 
     factory :resource do
       json_schema_version { 1 }
-      title { generate(:generic_title) }
+      title_id { [build(:title)] }
       id_0 { generate(:alphanumstr) }
       id_1 { generate(:alphanumstr) }
       level { generate(:archival_record_level) }
@@ -192,5 +192,10 @@ FactoryBot.define do
       root_record_id { nil }
       parent_id { nil }
     end
+
+    factory :title do
+      title { generate(:generic_title) }
+    end
+
   end
 end
