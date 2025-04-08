@@ -709,7 +709,7 @@ FactoryBot.define do
   end
 
   factory :json_digital_object, class: JSONModel(:digital_object) do
-    title { "Digital Object #{generate(:generic_title)}" }
+    titles { [build(:json_title, :title => "Digital Object #{generate(:generic_title)}")] }
     lang_materials { [build(:json_lang_material)] }
     digital_object_id { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
