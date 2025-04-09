@@ -4,6 +4,7 @@
     margin-bottom: 2pt !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
+    box-shadow: none !important;
   }
 
   body {
@@ -59,7 +60,8 @@
 
   header,
   .breadcrumb-row,
-  #archivesSpaceSidebar,
+  .repository-header,
+  .col-md-3:has(> #archivesSpaceSidebar),
   .record-toolbar,
   .panel-default .panel-heading,
   #accession_classifications_,
@@ -81,58 +83,6 @@
     margin-left: 0 !important;
   }
 
-  .row > .col-xs-1,
-  .row > .col-sm-1,
-  .row > .col-md-1,
-  .row > .col-lg-1,
-  .row > .col-xs-2,
-  .row > .col-sm-2,
-  .row > .col-md-2,
-  .row > .col-lg-2,
-  .row > .col-xs-3,
-  .row > .col-sm-3,
-  .row > .col-md-3,
-  .row > .col-lg-3,
-  .row > .col-xs-4,
-  .row > .col-sm-4,
-  .row > .col-md-4,
-  .row > .col-lg-4,
-  .row > .col-xs-5,
-  .row > .col-sm-5,
-  .row > .col-md-5,
-  .row > .col-lg-5,
-  .row > .col-xs-6,
-  .row > .col-sm-6,
-  .row > .col-md-6,
-  .row > .col-lg-6,
-  .row > .col-xs-7,
-  .row > .col-sm-7,
-  .row > .col-md-7,
-  .row > .col-lg-7,
-  .row > .col-xs-8,
-  .row > .col-sm-8,
-  .row > .col-md-8,
-  .row > .col-lg-8,
-  .row > .col-xs-9,
-  .row > .col-sm-9,
-  .row > .col-md-9,
-  .row > .col-lg-9,
-  .row > .col-xs-10,
-  .row > .col-sm-10,
-  .row > .col-md-10,
-  .row > .col-lg-10,
-  .row > .col-xs-11,
-  .row > .col-sm-11,
-  .row > .col-md-11,
-  .row > .col-lg-11,
-  .row > .col-xs-12,
-  .row > .col-sm-12,
-  .row > .col-md-12,
-  .row > .col-lg-12 {
-    padding-right: 0 !important;
-    padding-left: 0 !important;
-  }
-
   .subrecord-form-list,
   .subrecord-form-dummy,
   .subrecord-form {
@@ -140,15 +90,20 @@
     margin: 0 !important;
   }
 
+  // Expand any accordions and "rotate" their toggle icon
   .collapse {
-    display: block;
-    width: 100%;
-    visibility: visible;
+    display: block !important;
+    width: 100% !important;
+    visibility: visible !important;
+  }
+
+  .panel-heading .accordion-toggle div:first-child span::before,
+  .panel-heading .accordion-toggle.collapsed div:first-child span::before {
+    content: '\e114';
   }
 
   label,
   .form-group > .control-label {
-    float: left;
     font-weight: bold;
   }
 
@@ -157,13 +112,15 @@
     content: ':';
   }
 
-  .label-only {
-    float: left;
-  }
-
   .token,
   li.token-input-token {
     border-color: #000;
+  }
+
+  // Make the record pane take up the full width of the page
+  .col-md-9:has(> .record-pane) {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
   }
 
   .print-hide {
