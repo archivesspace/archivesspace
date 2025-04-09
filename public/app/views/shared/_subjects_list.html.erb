@@ -23,7 +23,7 @@
     	<% first_term = subject['terms'].first %>
       <li>
         <% terms = subject['terms'].map {|t| t['term']} %>
-      	<a href="<%= subject['uri'] %>"><%= terms.join(" -- ") %></a>
+      	<a href="<%= subject['uri'] %>"><%= raw(process_mixed_content(terms.join(" -- "))) %></a>
       </li>
     <% end %>
   </ul>

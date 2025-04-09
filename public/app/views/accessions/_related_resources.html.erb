@@ -1,7 +1,7 @@
 <ul>
   <% resources.each do |resource| %>
     <li>
-    <%= link_to resource.display_string, app_prefix(resource.uri) %>
+    <%= link_to raw(process_mixed_content(resource.display_string)), app_prefix(resource.uri) %>
   </li>
   <% end %>
 </ul>

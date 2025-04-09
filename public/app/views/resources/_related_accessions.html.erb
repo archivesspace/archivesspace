@@ -4,7 +4,7 @@
       <% if accession.acquisition_type %>
         <strong><%= accession.acquisition_type %></strong>:
       <% end %>
-      <%= link_to accession.display_string, app_prefix(accession.uri) %>
+      <%= link_to raw(process_mixed_content(accession.display_string)), app_prefix(accession.uri) %>
 
       <% unless accession.deaccessions.empty? %>
         <div>
