@@ -12,7 +12,7 @@
     <%= content.html_safe %>
   <% else %>
     <% state_id = "#{type}_readmore_#{SecureRandom.uuid}" %>
-    <div class="position-relative mb-3 d-flex flex-column align-items-start" data-js="readmore">
+    <div class="position-relative mb-3 d-flex flex-column align-items-start w-100" data-js="readmore">
       <input
         type="checkbox"
         id="<%= state_id %>"
