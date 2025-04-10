@@ -27,7 +27,7 @@
 	<% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |template| %>
 		<% if File.exists?(template) %>
 			<!-- Begin plugin layout -->
-			<%= render :inline => File.read(template) %>
+      <%= render :template => ViewHelper.relative_plugin_view_path(template) %>
 			<!-- End plugin layout -->
 		<% end %>
 	<% end %>
@@ -43,11 +43,9 @@
 <body class="min-h-screen d-flex flex-column">
 
 	<% ASUtils.find_local_directories('public/views/body_top.html.erb').each do |template| %>
-		<% if File.exists?(template) %>
-			<!-- Begin plugin layout -->
-			<%= render :inline => File.read(template) %>
-			<!-- End plugin layout -->
-		<% end %>
+		<!-- Begin plugin layout -->
+		<%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
+		<!-- End plugin layout -->
 	<% end %>
 
 	<%= render partial: 'shared/skipnav' %>
