@@ -7,11 +7,11 @@ describe 'ArchivalObject model' do
     ao = ArchivalObject.create_from_json(
                                           build(
                                                 :json_archival_object,
-                                                :title => 'A new archival object'
+                                                :titles => [build(:json_title, :title => 'A new archival object')],
                                                 ),
                                           :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].title).to eq('A new archival object')
+    expect(ArchivalObject[ao[:id]].title[0].title).to eq('A new archival object')
   end
 
 
@@ -139,15 +139,15 @@ describe 'ArchivalObject model' do
   end
 
   it "auto generates a 'label' based on the title (when no date)" do
-    title = "Just a title"
+    title = build(:json_title, :title => "Just a title")
 
     ao = ArchivalObject.create_from_json(
           build(:json_archival_object,
                 :dates => [],
-                :title => title),
+                :titles => [title]),
           :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq(title)
+    expect(ArchivalObject[ao[:id]].display_string).to eq(title['title'])
   end
 
   it "auto generates a 'label' based on the date (when no title)" do
@@ -155,7 +155,7 @@ describe 'ArchivalObject model' do
     date = build(:json_date, :date_type => 'inclusive')
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
-        :title => nil,
+        :titles => nil,
         :dates => [date]
       }),
       :repo_id => $repo_id)
