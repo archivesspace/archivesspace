@@ -25,11 +25,9 @@
 	<%= render partial: 'shared/metadata' %>
 
 	<% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |template| %>
-		<% if File.exists?(template) %>
-			<!-- Begin plugin layout -->
-      <%= render :template => ViewHelper.relative_plugin_view_path(template) %>
-			<!-- End plugin layout -->
-		<% end %>
+		<!-- Begin plugin layout -->
+		<%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
+		<!-- End plugin layout -->
 	<% end %>
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
