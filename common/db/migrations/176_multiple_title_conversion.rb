@@ -42,11 +42,11 @@ Sequel.migration do
           :user_mtime => row[:user_mtime]
         )
       end
-    end
 
-    $stderr.puts "\tdeleting old title fields from resources"
-    alter_table(:resource) do
-      drop_column(:title)
+      $stderr.puts "\tdeleting old title fields from #{record_type} table"
+      alter_table(record_type) do
+        drop_column(:title)
+      end
     end
   end
 

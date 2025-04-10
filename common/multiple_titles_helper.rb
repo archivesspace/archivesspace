@@ -4,6 +4,9 @@ module MultipleTitlesHelper
 
   # titles is an array of Title in json form
   def self.determine_primary_title(titles, current_locale, default_language = 'eng')
+    # archival objects may not have a title, so return nil if that is the case
+    return nil if titles.nil? || titles.empty?
+
     # formal titles take precedence over all others
     titles.each { |t| return t['title'] if t['type'] == 'formal' }
 
@@ -15,7 +18,7 @@ module MultipleTitlesHelper
     titles.each { |t| return t['title'] if t['language'] == default_language }
 
     # if no preferred title can be determined, return the first title in the list
-    titles[0]['title']
+    titles[0]['title'] unless titles.empty?
   end
 
 end
