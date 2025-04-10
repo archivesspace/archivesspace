@@ -495,7 +495,7 @@ FactoryBot.define do
   factory :json_archival_object, class: JSONModel(:archival_object) do
     ref_id { generate(:alphanumstr) }
     level { generate(:level) }
-    title { "Archival Object #{generate(:generic_title)}" }
+    titles { [build(:json_title, :title => "Archival Object #{generate(:generic_title)}")] }
     extents { few_or_none(:json_extent) }
     dates { few_or_none(:json_date) }
     resource { {'ref' => create(:json_resource).uri} }

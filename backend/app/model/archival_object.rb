@@ -68,7 +68,8 @@ class ArchivalObject < Sequel::Model(:archival_object)
                       :is_array => true)
 
   def self.produce_display_string(json)
-    display_string = MultipleTitlesHelper.determine_primary_title(json['titles'], Preference.user_global_defaults['locale'] || Preference.global_defaults['locale']) || ""
+    display_string = MultipleTitlesHelper.determine_primary_title(json['titles'],
+      Preference.user_global_defaults['locale'] || Preference.global_defaults['locale']) || ""
 
     date_label = json.has_key?('dates') && json['dates'].length > 0 ?
                    json['dates'].map do |date|
@@ -81,7 +82,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
                      end
                    end.join(', ') : false
 
-    display_string += ", " if json['title'] && date_label
+    display_string += ", " if display_string && date_label
     display_string += date_label if date_label
 
     display_string
@@ -128,8 +129,5 @@ class ArchivalObject < Sequel::Model(:archival_object)
     super(setting)
     Resource.update_mtime_for_ids([self.root_record_id])
   end
-
-  # alias old title field to first item of new multiple titles list (for now at least)
-  auto_generate :property => :title, :generator => proc { |json| json['titles'][0]['title'] }
 
 end
