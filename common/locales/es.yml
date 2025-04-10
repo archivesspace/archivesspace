@@ -30,11 +30,11 @@ es:
     text_4: Texto 4
     text_5: Texto 5
     date_1: Fecha 1
-    date_1_inline_help: e.g. YYYY-MM-DD
+    date_1_inline_help: YYYY-MM-DD Formato Necesario
     date_2: Fecha 2
-    date_2_inline_help: e.g. YYYY-MM-DD
+    date_2_inline_help: YYYY-MM-DD Formato Necesario
     date_3: Fecha 3
-    date_3_inline_help: e.g. YYYY-MM-DD
+    date_3_inline_help: YYYY-MM-DD Formato Necesario
     enum_1: Valor controlado 1
     enum_2: Valor controlado 2
     enum_3: Valor controlado 3

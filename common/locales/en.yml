@@ -28,11 +28,11 @@ en:
     text_4: Text 4
     text_5: Text 5
     date_1: Date 1
-    date_1_inline_help: e.g. YYYY-MM-DD
+    date_1_inline_help: YYYY-MM-DD Format Required
     date_2: Date 2
-    date_2_inline_help: e.g. YYYY-MM-DD
+    date_2_inline_help: YYYY-MM-DD Format Required
     date_3: Date 3
-    date_3_inline_help: e.g. YYYY-MM-DD
+    date_3_inline_help: YYYY-MM-DD Format Required
     enum_1: Controlled Value 1
     enum_2: Controlled Value 2
     enum_3: Controlled Value 3
