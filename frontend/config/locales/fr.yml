@@ -201,6 +201,10 @@ fr:
     drop_after: Laisser tomber après
     require_subrecord: Exiger un sous-enregistrement
     select_resource: Sélectionner Ressource
+    expand_tree_mode_on: Développer tout automatiquement
+    collapse_tree: Réduire la hiérarchie
+    expand_tree_mode_off: Désactiver développer tout automatiquement
+    reorder_successful: Services d'archives réorganisé avec succès
   database_warning:
     message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base
       de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations.
@@ -257,7 +261,7 @@ fr:
 
   search_sorting:
     sort_by: "Trier par :"
-    and: "et:"
+    and: "et :"
     asc: Ascendant
     desc: Descendant
     select: Seleccione
@@ -384,7 +388,7 @@ fr:
       authority_id: Identifiant d'autorité
       source: Source
       rules: Règles
-      is_user: Is User?
+      is_user: Est-ce un utilisateur ?
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
@@ -412,6 +416,7 @@ fr:
       location_one_top_container: 1 conteneur supérieur.
       location_top_containers: ' conteneurs supérieurs.'
       uri: URI
+      location_no_holdings: Aucune collection pour ce service d'archives.
     event:
       score: Pertinence
       agents: Agent
@@ -444,7 +449,7 @@ fr:
       score: Pertinence
       title: Intitulé
       publish: Publié
-      has_classification_terms: A des termes des classements?
+      has_classification_terms: A des termes des classements ?
       identifier: Identifiant
       audit_info: Audit Information
       user_mtime: Modifié
@@ -665,7 +670,7 @@ fr:
     manage_user_access: Gérer les accès utilisateurs
     logout: Déconnexion
     register: S'inscrire maintenant
-    register_prefix: Créer un compte?
+    register_prefix: Créer un compte ?
     list_reports: Rapports
     global_admin: Système
     system_info: Infos système
@@ -686,19 +691,19 @@ fr:
   batch_delete:
     archival_records:
       success: Notices supprimées
-      error: "Impossible de supprimer notices:"
+      error: "Impossible de supprimer notices :"
     subjects:
       success: Mots-matières supprimés
-      error: "Impossible de supprimer mots-matières:"
+      error: "Impossible de supprimer sujets :"
     agents:
       success: Agents supprimés
-      error: "Impossible de supprimer agents:"
+      error: "Impossible de supprimer agents :"
     locations:
       success: Localisations supprimées
-      error: "Impossible de supprimer localisations:"
+      error: "Impossible de supprimer localisations :"
     assessments:
       success: Evaluations supprimées
-      error: "Impossible de supprimer évaluations:"
+      error: "Impossible de supprimer évaluations :"
 
   welcome:
     heading: Bienvenue sur ArchivesSpace
@@ -755,7 +760,7 @@ fr:
 
     link: Lier
   mixed_content:
-    wrap_prefix: "Mettre en forme avec:"
+    wrap_prefix: "Mettre en forme avec :"
     help: "Contenu mixte activé&#160;&#160;--&#160;&#160;Tapez '<' pour des éléments
       ou surlignez du texte à mettre en forme"
 
@@ -813,7 +818,7 @@ fr:
       after: Ajouter items après
       as_child: Ajouter items comme fils
     unexpected_failure: Oups! Impossible de récupérer cette arborescence. Veuillez
-      rafraîchir la page.
+      rafraîchir la page .
     resize: Développer/Réduire la zone de l'arborescence
 
   errors:
@@ -852,7 +857,9 @@ fr:
         transfer_description: Transférer cette entrée vers...
         transfer_target: Sélectionnez un service d'archives vers lequel opérer le
           transfert
-        spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession_display_string}</strong>"
+        spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession_display_string}</strong>
+          Cet enregistrement n'est pas sauvegardé. Cliquez sur « Enregistrer » pour
+          qu'il soit créé dans le système."
         delete_conflict: "Entrée impossible à supprimer: <pre>%{error}</pre>"
       section:
         basic_information: Informations de base
@@ -901,7 +908,7 @@ fr:
       action:
         add: Ajouter agent
         make_representative: Établir un contact privilégié
-    notes_tooltip: "<p>Notes supplémentaires ou autres informations sur le contact.</p>"
+    notes_tooltip: "<p>Notes supplémentaires ou autres informations sur le contact.</p>\n"
 
   telephone:
     _frontend:
@@ -950,15 +957,15 @@ fr:
           en raison d'une erreur ou d'un conflit: <pre>%{exception}</pre>"
         deleted: "Document d'archives <strong>%{archival_object_display_string}</strong>
           supprimé"
-        published: "Document d'archives <strong>%{archival_object.title}</strong>,
+        published: "Document d'archives <strong>%{archival_object_title}</strong>,
           ses sous-notices et composants situés à un niveau inférieur de la hiérarchie
           ont été publiés"
-        unpublished: "Document d'archives <strong>%{archival_object.title}</strong>,
+        unpublished: "Document d'archives <strong>%{archival_object_title}</strong>,
           ses sous-notices et composants situés à un niveau inférieur de la hiérarchie
           ont été dépubliés"
-        unsuppressed: Document d'archives <strong>%{archival_object.title}</strong>
+        unsuppressed: Document d'archives <strong>%{archival_object_title}</strong>
           débloqué
-        suppressed: Document d'archives <strong>%{archival_object.title}</strong>
+        suppressed: Document d'archives <strong>%{archival_object_title}</strong>
           bloqué
         suppressed_info: Document d'archives bloqué, ne peut être édité
         has_unpublished_ancestor: Merci d'être attentif au fait que cette notice a
@@ -1007,15 +1014,15 @@ fr:
   classification_term:
     _frontend:
       messages:
-        created: "Terme de classement <strong>%{classification_term.title}</strong>
+        created: "Terme de classement <strong>%{classification_term_title}</strong>
           créé"
-        created_with_parent: "Terme de classement <strong>%{classification_term.title}</strong>
+        created_with_parent: "Terme de classement <strong>%{classification_term_title}</strong>
           créé"
-        updated: "Terme de classement <strong>%{classification_term.title}</strong>
+        updated: "Terme de classement <strong>%{classification_term_title}</strong>
           actualisé"
-        updated_with_parent: "Terme de classement <strong>%{classification_term.title}</strong>
+        updated_with_parent: "Terme de classement <strong>%{classification_term_title}</strong>
           mis à jour"
-        deleted: "Terme de classement <strong>%{classification_term.title}</strong>
+        deleted: "Terme de classement <strong>%{classification_term_title}</strong>
           supprimé"
       section:
         basic_information: Informations de base
@@ -1387,7 +1394,9 @@ fr:
       messages:
         created: "Ressource <strong>%{resource_title}</strong> créée"
         updated: "Ressource <strong>%{resource_title}</strong> actualisée"
-        spawned: "Une nouvelle ressource a été générée depuis Entrée <strong>%{accession_display_string}</strong>"
+        spawned: "Une nouvelle ressource a été générée depuis Entrée <strong>%{accession_display_string}</strong>
+          Cet enregistrement n'est pas sauvegardé. Cliquez sur « Enregistrer » pour
+          qu'il soit créé dans le système."
         deleted: "Ressource <strong>%{resource_title}</strong> supprimée"
         published: "La ressource <strong>%{resource_title}</strong>, ses sous-notices
           et composants ont été publiés"
@@ -1585,22 +1594,46 @@ fr:
     help:
       keyboard_shortcuts:
         title: Raccourcis clavier
-      sticky_columns: |
-        <div><strong>Colonnes collantes</strong></div>
-        <div><small>Les colonnes surlignées sont collantes et seront répliquées lors de l'ajout de nouvelles colonnes. Basculer 'collant' en cliquant sur les en-têtes de tableau correspondants.</small></div>
-        <div><small>Cliquer <strong>Ajouter rangée</strong> copiera les valeurs de la dernière rangée; le bouton <strong>+</strong> copiera les valeurs de la rangée actuellement sous le curseur.</small></div>
-      fill_column: |
-        <div><strong>Remplir colonne - Basic</strong></div>
-        <div><small>Pour remplir une colonne avec une même valeur, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Basic</strong> sélectionner la <strong>colonne</strong> cible, entrer la <strong>valeur de remplissage</strong> souhaitée et cliquer <strong>appliquer remplir</strong>.</small></div>
-        <br/>
-        <div><strong>Remplir colonne - Séquence</strong></div>
-        <div><small>Pour appliquer une séquence à une colonne, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Séquence</strong> sélectionner la <strong>colonne</strong> cible et and compléter les champs <strong>remplir valeur</strong> pour générer la séquence souhaitée.  Un avertissement sera affiché si la séquence générée ne remplit pas le nombre de rangées dans le formulaire.</small></div>
+        return: Retour
+        shift: SHIFT
+        arrow_keys: Touches fléchées
+        move_term: Sauter de cellule en cellule
+        new_term: Créer une nouvelle ligne (à partir de la dernière ligne)
+      sticky_columns:
+        p_two: Cliquer sur <strong>Ajouter une ligne</strong> copiera les valeurs
+          de la dernière ligne. Le bouton <strong>+</strong> de la ligne copiera les
+          valeurs de la ligne actuellement sélectionnée.
+        title: Colonnes collantes
+        p_one: Les colonnes en surbrillance sont permanentes et seront répliquées
+          lors de l'ajout de nouvelles lignes. Pour activer cette fonctionnalité,
+          cliquez sur l'en-tête du tableau correspondant.
+      fill_column:
+        sequence_title: Remplir la colonne - séquence
+        sequence_description: Pour appliquer une séquence à une colonne, cliquez sur
+          <strong>Remplir la colonne</strong>, puis, sous l'onglet <strong>séquence</strong>,
+          sélectionnez la <strong>Colonne</strong> cible et renseignez les champs
+          <strong>Valeur de remplissage</strong> pour générer la séquence souhaitée.
+          Un avertissement s'affichera si la séquence générée ne remplit pas le nombre
+          de lignes du formulaire.
+        basic_title: Remplir la colonne - basique
+        basic_description: Pour remplir une colonne avec une seule valeur, cliquez
+          sur <strong>Remplir la colonne</strong> et sous l'onglet <strong>basique</strong>,
+          sélectionnez la <strong>Colonne</strong> cible, entrez la <strong>Valeur
+          de remplissage</strong> souhaitée et cliquez sur <strong>Appliquer le remplissage</strong>.
       resize_and_reorder_columns: |
         <div><strong>Réordonner colonnes</strong></div>
         <div><small>Cliquer <strong>Réordonner colonnes</strong>, sélectionner le(s) rangée(s) à réordonner et utiliser les boutons flèches haut/bas pour changer leur position dans la liste. Quand l'ordre souhaité est obtenu, cliquer <strong>Appliquer ordre de colonne</strong></small></div>
-      reset: |
-        <div><strong>Réinitialiser formulaire</strong></div>
-        <div><small>Cliquer <strong>Réinitialiser</strong> pour réinitialiser le formulaire et rendre aux colonnes leur comportement par défaut en terme d'ordre, de visibilité, etc.</small></div>
+      reset:
+        title: Réinitialiser le forumulaire
+        description: Cliquez sur <strong>Réinitialiser</strong> pour effacer le formulaire
+          et rétablir l'ordre, la visibilité et l'adhérence des colonnes aux valeurs
+          par défaut.
+      reorder_columns:
+        title: Réorganiser les colonnes
+        description: Cliquez sur <strong>Réorganiser les colonnes</strong>, sélectionnez
+          la ou les lignes à réorganiser et utilisez les flèches haut/bas pour modifier
+          leur position dans la liste. Lorsque vous êtes satisfait de votre nouvel
+          ordre, cliquez sur <strong>Appliquer l'ordre des colonnes</strong>.
   update_monitor:
     save_failed: <strong>Echec de l'enregistrement de vos modifications</strong>
     stale_record: Cette notice a été mise à jour par un autre utilisateur. Veuillez
@@ -1660,10 +1693,10 @@ fr:
           automatique de slug pour tous les <b> ressources </b>, <b> objets d'archivage
           </b>, <b> objets numériques </b>, <b> composants d'objets numériques </b>,
           <b> Accessions </b>, <b> Classifications </b>, <b> agents </b>, <b> Sujets
-          </b> et <b> Référentiels </b> qui n'ont pas déjà une limace. <br /> <em>
-          Les slugs ajoutés manuellement ne seront pas modifiés, sauf si vous indiquez
-          sur ces enregistrements qu'ils doivent être remplacés en cochant la case
-          Génération automatique. </em>
+          </b> et <b> Référentiels </b> qui n'ont pas déjà une limace. <br /><br/>
+          <em> Les slugs ajoutés manuellement ne seront pas modifiés, sauf si vous
+          indiquez sur ces enregistrements qu'ils doivent être remplacés en cochant
+          la case Génération automatique. </em>
         slug_config_msg: <b> Selon vos paramètres de configuration dans config.rb
           </b>
         slug_config_id: Des URL sémantiques vont être générées à partir de l'identifiant
@@ -1850,10 +1883,11 @@ fr:
           supérieurs comme indiqué ci-dessous? Cette action est irréversible.
         batch_merge_container_profile_too_many_warning: Ces conteneurs haut ont des
           profils de conteneurs. Aucun de ces profils de conteneurs se fondre dans
-          le conteneur cible.
+          le conteneur qu'est le destination de fusion.
         batch_merge_container_profile_mismatch_warning: Ces conteneurs supérieurs
           ont un profil différent de récipient que le récipient supérieur du cadre.
-          Le profil de conteneur ne fusionnera pas dans le conteneur cible.
+          Le profil de conteneur ne fusionnera pas dans le conteneur qu'est la destination
+          de fusion.
         batch_merge_confirm_merge_candidates: "Fusionner les conteneurs supérieurs
           suivants:"
         batch_merge_confirm_merge_destination: "Dans ce conteneur supérieur:"
@@ -2002,7 +2036,7 @@ fr:
       contiennent une valeur.
   location_profile:
     _singular: Profil de localisation
-    _plural: Profils de localisations
+    _plural: Profils de localisation
     _frontend:
       action:
         save: Sauvegarder profil de localisation
@@ -2267,7 +2301,7 @@ fr:
         not_excel_csv: Le fichier que vous avez choisi n’est ni une feuille de calcul
           Excel ni un fichier CSV
         processed: Le fichier a été traité
-        error: "ERREUR: erreur (s) détecté:"
+        error: "ERREUR: erreur (s) détecté: "
         copied: Copié!
         uncopied: Impossible de copier
         submitted: "<p>La tâche a été soumis aux travaux d'arrière-plan. <br/> Cliquez
@@ -3404,18 +3438,18 @@ fr:
 
   section_headings:
     basic_information_tooltip: "<p>Cette section indique le type d'agent et si l'agent
-      est publié ou non.</p>"
+      est publié ou non.</p>\n"
     record_control_information_tooltip: "<p>Cette section contient des informations
       sur l'enregistrement lui-même, avec l'espoir qu'il provient de l'extérieur d'ArchivesSpace
-      ou qu'il va être partagé avec un système autre qu'ArchivesSpace.</p>"
+      ou qu'il va être partagé avec un système autre qu'ArchivesSpace.</p>\n"
     identity_information_tooltip: "<p>Cette section contient les informations de base
       sur l'agent lui-même. Un formulaire de nom est le seul sous-enregistrement requis
-      dans un enregistrement d'agent.</p>"
+      dans un enregistrement d'agent.</p>\n"
     description_information_tooltip: "<p>Cette section contient les informations de
       base sur l'agent lui-même. Un formulaire de nom est le seul sous-enregistrement
-      requis dans un enregistrement d'agent.</p>"
+      requis dans un enregistrement d'agent.</p>\n"
     relation_information_tooltip: "<p>Cette section est utilisée pour indiquer les
-      relations avec d'autres agents ou matériaux à l'intérieur ou à l'extérieur d'ArchivesSpace.</p>"
+      relations avec d'autres agents ou matériaux à l'intérieur ou à l'extérieur d'ArchivesSpace.</p>\n"
 
   bulk_archival_object_updater_job:
     _singular: Tâche de mise à jour d'objet d'archivage en masse de feuille de calcul
@@ -3497,7 +3531,7 @@ fr:
       et non à les lier à d'autres enregistrements.
   footer:
     archivesspace_home: Visitez <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' merge_destination='_blank'>Envoyer
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer
       des commentaires ou signaler un problème</a>
     public_interface: Afficher <a href="%{public_url}">Interface publique</a>
   component_link:
