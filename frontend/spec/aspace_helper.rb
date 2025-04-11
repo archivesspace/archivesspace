@@ -34,8 +34,12 @@ module ASpaceHelpers
   end
 
   def ensure_repository_access
-    using_wait_time(25) do
-      expect(page).not_to have_text 'You do not have access to any Repositories.'
+    i = 0
+    while i < 20 do
+      page.refresh
+      wait_for_ajax
+      break if !page.has_text?('You do not have access to any Repositories.')
+      i = i + 1
     end
   end
 
