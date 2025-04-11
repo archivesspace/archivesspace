@@ -1982,14 +1982,18 @@ fr:
       ingest: Unspecified ingested source
       lcgft: Library of Congress Genre/Form Terms
       lcsh: Library of Congress Subject Headings
-      lcshac: Library of Congress Children's Subject Headings
+      lcshac: Library of Congress Children's and Young Adults' Subject Headings
       local: Sources locales
       mesh: Medical Subject Headings
-      nal: National Agricultural Library subject headings
+      nal: National Agricultural Library subject authority file
       ram: Répertoire d'autorités RAMEAU
       rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
       rvm: Répertoire de vedettes-matière
       tgn: Getty Thesaurus of Geographic Names
+      not_applicable: Non applicable
+      other: Autre
+      not_specified: Source non spécifiée
+      sears: Sears List of Subject Headings
     subject_term_type:
       cultural_context: Contexte culturel
       function: Fonction
