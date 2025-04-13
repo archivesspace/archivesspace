@@ -1,15 +1,10 @@
 @media print {
-  /* Reset vertical whitespace with print units */
+  /* Reset vertical space with print units */
   * {
     margin-top: 0 !important;
     margin-bottom: 2pt !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
-  }
-
-  /* Reset all fonts but icons */
-  *:not(.fa) {
-    font-family: Georgia, 'Times New Roman', serif !important;
   }
 
   /* Base elements */
@@ -99,7 +94,8 @@
   #paging, 
   #paging_bottom,  
   /* Main footer */
-  .panel-footer {
+  .panel-footer,
+  .readmore__label {
     display: none !important;
   }
 
@@ -128,50 +124,62 @@
     margin-left: 0 !important;
   }
 
+  .col-1,
   .col-xs-1,
   .col-sm-1,
   .col-md-1,
   .col-lg-1,
+  .col-2,
   .col-xs-2,
   .col-sm-2,
   .col-md-2,
   .col-lg-2,
+  .col-3,
   .col-xs-3,
   .col-sm-3,
   .col-md-3,
   .col-lg-3,
+  .col-4,
   .col-xs-4,
   .col-sm-4,
   .col-md-4,
   .col-lg-4,
+  .col-5,
   .col-xs-5,
   .col-sm-5,
   .col-md-5,
   .col-lg-5,
+  .col-6,
   .col-xs-6,
   .col-sm-6,
   .col-md-6,
   .col-lg-6,
+  .col-7,
   .col-xs-7,
   .col-sm-7,
   .col-md-7,
   .col-lg-7,
+  .col-8,
   .col-xs-8,
   .col-sm-8,
   .col-md-8,
   .col-lg-8,
+  .col-9,
   .col-xs-9,
   .col-sm-9,
   .col-md-9,
   .col-lg-9,
+  .col-10,
   .col-xs-10,
   .col-sm-10,
   .col-md-10,
   .col-lg-10,
+  .col-11,
   .col-xs-11,
   .col-sm-11,
   .col-md-11,
   .col-lg-11,
+  .col-12,
   .col-xs-12,
   .col-sm-12,
   .col-md-12,
@@ -180,9 +188,14 @@
     padding-left: 0 !important;
   }
 
-  /* Decrease whitespace between breadcrumb and record type */
+  /* Decrease space between breadcrumb and record type */
   .badge-and-identifier {
     overflow: initial !important;
+  }
+
+  /* Decrease space between tabs and content */
+  #notes_row {
+    margin-top: 1rem !important;
   }
 
   /* Expand accordion panels */
@@ -190,29 +203,41 @@
     display: initial !important;
   }
 
-  /* Hide panel borders */
+  /* Hide panel (Bootstrap v3) and card (Bootstrap v4) borders */
   .panel,
   .panel-default,
   .panel-heading,
-  .panel-body {
+  .panel-body,
+  .card,
+  .card-header,
+  .card-footer {
     border-color: white !important;
   }
 
   /* Expand 'See more' sections */
   .readmore__content {
-    max-height: fit-content !important;
-    overflow: auto !important;
+    max-height: unset;
+    overflow: auto;
+    background: none;
+    -webkit-text-fill-color: unset;
   }
 
-  .readmore__content::after,
-  .readmore__more-label,
-  .readmore__less-label {
-    display: none !important;
+  /* Hide load all records toggle */
+  #load-all-section {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: none !important;
   }
 
-  /* Show all infinite records, tighten whitespace */
+  /* Show all infinite records, tighten space */
   .infinite-records-container {
     height: auto !important;
+    margin-top: 0 !important;
+    display: inline-block !important;
+  }
+  .infinite-item > .information {
+    padding-top: 0 !important;
   }
 
   /* Applied by print.js */
@@ -229,5 +254,19 @@
   /* Print margins */
   @page {
     margin: 1cm;
+  }
+
+  /* Add back features removed in Bootstrap v4 for desired parity with Bootstrap v3 */
+  @page {
+    size: auto; /* enables orientation options in print dialog */
+  }
+
+  a[href]:not([href^='#']):not([href^='javascript:'])::after {
+    content: ' (' attr(href) ')';
+  }
+
+  a[href^='#']::after,
+  a[href^='javascript:']::after {
+    content: '';
   }
 }

@@ -1670,6 +1670,7 @@ de:
     date_era:
       ce: ce
     date_label:
+      acquisition: Erwerb
       agent_relation: Akteur-Beziehung
       broadcast: Sendung
       copyright: Urheberrecht

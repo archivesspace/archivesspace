@@ -37,3 +37,13 @@ services:
     command: solr-create -p 8983 -c archivesspace -d archivesspace
     ports:
       - "8984:8983"
+
+  proxy:
+    image: nginx:1.21
+    container_name: as_proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./proxy/default.prefix.conf:/etc/nginx/conf.d/default.conf
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

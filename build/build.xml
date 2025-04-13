@@ -880,6 +880,29 @@
     <record name="frontend_test_log.out" action="stop" />
   </target>
 
+  <target name="frontend:devserver:prefix" depends="set-classpath, frontend:clean, frontend:copy:templates" description="Start an instance of the ArchivesSpace frontend development server">
+    <condition property="rails.env" value="test" else="development">
+      <matches pattern="true" string="${aspace.integration}" />
+    </condition>
+    <record name="frontend_test_log.out" action="start" />
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../frontend">
+      <jvmarg line="-Daspace.service=frontend -Daspace.config.backend_url=http://localhost:${aspace.backend.port} ${default_java_options} ${env.JAVA_OPTS} -Djruby.debug.fullTrace=true"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="RAILS_ENV" value="${rails.env}" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="ASPACE_ENV" value="development" />
+      <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${env.APPCONFIG_DATA_DIRECTORY}" />
+      <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
+      <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost/staff" />
+      <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost/public" />
+      <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
+      <arg line="script/rails s -b 0.0.0.0 --port=${aspace.frontend.port}" />
+    </java>
+    <record name="frontend_test_log.out" action="stop" />
+  </target>
+
   <target name="frontend:test" depends="set-classpath, frontend:clean, setup-integration" description="Run the frontend capybara tests">
     <property name="tag" value="~db"/>
     <antcall target="rspec">
@@ -1003,6 +1026,23 @@
       <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
       <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost:3000" />
       <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost:3001" />
+      <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
+      <arg line="bin/rails s -b 0.0.0.0 --port=${aspace.public.port}" />
+    </java>
+  </target>
+
+  <target name="public:devserver:prefix" depends="set-classpath, public:clean, public:copy-shared-resources" description="Start an instance of the ArchivesSpacePublic development server">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../public">
+      <jvmarg line="-Daspace.service=public -Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ -Daspace.config.public_url=http://localhost:${aspace.public.port}/ ${default_java_options} ${env.JAVA_OPTS} -Djruby.debug.fullTrace=true"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="ASPACE_ENV" value="development" />
+      <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
+      <env key="APPCONFIG_DATA_DIRECTORY" value="${env.APPCONFIG_DATA_DIRECTORY}" />
+      <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
+      <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost/staff" />
+      <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost/public" />
       <env key="APPCONFIG_SOLR_URL" value="${env.APPCONFIG_SOLR_URL}" />
       <arg line="bin/rails s -b 0.0.0.0 --port=${aspace.public.port}" />
     </java>
