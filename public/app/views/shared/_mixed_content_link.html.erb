@@ -1,4 +1,5 @@
 <%
+require 'mixed_content_parser'
 display_string = MixedContentParser.parse(content, url_for(:root))
 if display_string.include? '<span'
   tag = Nokogiri::HTML::DocumentFragment.parse(display_string)

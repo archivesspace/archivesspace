@@ -10,7 +10,7 @@
      <% unless item['uri'].blank? %>
      <a href="<%= app_prefix(item['uri']) %>">
      <% end %>
-     <%= item['title'] %>
+     <%= raw(process_mixed_content(item['title'])) %>
      <% unless item['uri'].blank? %>
      </a>
      <% end %>
@@ -24,7 +24,7 @@
      <li>
        <% if list_clss == 'subjects_list' && item['jsonmodel_type'].start_with?('agent_') %>
          <a href="<%= app_prefix(item['uri']) %>">
-           <%= item['title'] %>
+           <%= raw(process_mixed_content(item['title'])) %>
          </a>
          <% if item['_relator'] %>
            (<%= t("enumerations.linked_agent_archival_record_relators.#{item['_relator']}", :default => item['_relator'])  %>)
@@ -35,7 +35,7 @@
         <% unless item['uri'].blank? %>
          <a href="<%= app_prefix(item['uri']) %>">
         <% end %>
-        <%= item['title'] %>
+        <%= raw(process_mixed_content(item['title'])) %>
         <% unless item['uri'].blank? %>
          </a>
          <% if list_clss == 'subjects_list' && AppConfig[:show_source_in_subject_listing] %>
