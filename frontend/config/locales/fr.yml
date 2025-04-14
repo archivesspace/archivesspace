@@ -200,6 +200,11 @@ fr:
     drop_into: Laisser tomber enfant
     drop_after: Laisser tomber après
     require_subrecord: Exiger un sous-enregistrement
+    select_resource: Sélectionner Ressource
+    expand_tree_mode_on: Développer tout automatiquement
+    collapse_tree: Réduire la hiérarchie
+    expand_tree_mode_off: Désactiver développer tout automatiquement
+    reorder_successful: Services d'archives réorganisé avec succès
   database_warning:
     message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base
       de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations.
@@ -256,7 +261,7 @@ fr:
 
   search_sorting:
     sort_by: "Trier par :"
-    and: "et:"
+    and: "et :"
     asc: Ascendant
     desc: Descendant
     select: Seleccione
@@ -383,7 +388,7 @@ fr:
       authority_id: Identifiant d'autorité
       source: Source
       rules: Règles
-      is_user: Is User?
+      is_user: Est-ce un utilisateur ?
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
@@ -410,6 +415,8 @@ fr:
       desc: Descendant
       location_one_top_container: 1 conteneur supérieur.
       location_top_containers: ' conteneurs supérieurs.'
+      uri: URI
+      location_no_holdings: Aucune collection pour ce service d'archives.
     event:
       score: Pertinence
       agents: Agent
@@ -421,6 +428,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     collection_management:
       score: Pertinence
       parent_title: Intitulé
@@ -435,11 +443,13 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
+      name: Gestion de collection
     classification:
       score: Pertinence
       title: Intitulé
       publish: Publié
-      has_classification_terms: A des termes des classements?
+      has_classification_terms: A des termes des classements ?
       identifier: Identifiant
       audit_info: Audit Information
       user_mtime: Modifié
@@ -469,6 +479,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     repositories:
       score: Pertinence
       title: Intitulé
@@ -494,6 +505,11 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      collection_identifier_stored_u_sstr: Collection
+      uri: URI
+      exported_to_ils: Exporté au système de bibliothèque intégré
+      series_level_u_sstr: Série
+      ils_holding_id: ID du système de bibliothèque intégré
     container_profile:
       score: Pertinence
       title: Intitulé
@@ -507,6 +523,8 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
+      notes: Note
     location_profile:
       score: Pertinence
       title: Intitulé
@@ -520,6 +538,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     job:
       score: Pertinence
       status: Statut
@@ -535,6 +554,7 @@ fr:
       create_time: Créé
       asc: Ascendant
       desc: Descendant
+      uri: URI
     multi:
       score: Pertinence
       primary_type: Type de notice
@@ -554,10 +574,27 @@ fr:
       asc: Ascendant
       desc: Descendant
       representative_file_version: Image miniature
+      uri: URI
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Service
 
 
+    top_container_mgmt:
+      barcode: Code-barres
+      internal_note: Note interne
+      location: Localisation
+      restricted: Limité
+      ils_holding_id: ID du système de bibliothèque intégré
+      exported_to_ils: Exporté au système de bibliothèque intégré
+      not_exported_to_ils: Non exporté
+      not_restricted: Non limité
+      asc: Ascendant
+      desc: Descendant
+      resource_accession: Ressource/Entrée
+      series: Série
+      container_profile: Profils de conditionnements
+      type: Type
+      indicator: Indicateur
   advanced_search:
     operator:
       operator: Opératrice
@@ -588,6 +625,7 @@ fr:
       empty: est vide
     enum_field:
       empty: non attribué
+      label: Énumérations de recherche avancée
     search_field: Champ de recherche
     search_text: Texte de recherche
     search_date: Date
@@ -627,12 +665,12 @@ fr:
     manage_top_containers: Gérer Top conditionnements
     manage_enumerations: Gérer listes de valeurs contrôlées
     global_preferences: Préférences globales
-    user_repo_preferences: Préférences par défaut de l'utilisateur
+    user_repo_preferences: Préférences par défaut de service d'archives
     repo_preferences: Préférences de service d'archives
     manage_user_access: Gérer les accès utilisateurs
     logout: Déconnexion
     register: S'inscrire maintenant
-    register_prefix: Créer un compte?
+    register_prefix: Créer un compte ?
     list_reports: Rapports
     global_admin: Système
     system_info: Infos système
@@ -653,19 +691,19 @@ fr:
   batch_delete:
     archival_records:
       success: Notices supprimées
-      error: "Impossible de supprimer notices:"
+      error: "Impossible de supprimer notices :"
     subjects:
       success: Mots-matières supprimés
-      error: "Impossible de supprimer mots-matières:"
+      error: "Impossible de supprimer sujets :"
     agents:
       success: Agents supprimés
-      error: "Impossible de supprimer agents:"
+      error: "Impossible de supprimer agents :"
     locations:
       success: Localisations supprimées
-      error: "Impossible de supprimer localisations:"
+      error: "Impossible de supprimer localisations :"
     assessments:
       success: Evaluations supprimées
-      error: "Impossible de supprimer évaluations:"
+      error: "Impossible de supprimer évaluations :"
 
   welcome:
     heading: Bienvenue sur ArchivesSpace
@@ -683,6 +721,23 @@ fr:
     password_aria_label: Mot de passe
     username_aria_label: Nom d'utilisateur
     password_placeholder: Mot de passe
+    reset_form_instructions: Saisissez l'adresse e-mail associée à votre compte utilisateur.
+      Si un compte existe déjà pour cette adresse e-mail, un lien de réinitialisation
+      de mot de passe vous sera envoyé à cette adresse.
+    confirm_password: Confirmer le mot de passe
+    new_password: Nouveau mot de passe
+    recover_password: Récupérer le mot de passe
+    reset_password: Réinitialiser le mot de passe
+    email_placeholder: Adresse email
+    new_password_instructions: Créez un nouveau mot de passe pour %{user} en utilisant
+      le formulaire, puis reconnectez-vous.
+    password_mismatch_error: Les mots de passe ne correspondent pas.
+    password_update_success: Mot de passe mis à jour avec succès.
+    password_too_simple: Ce mot de passe est trop facile à deviner. Essayez d'ajouter
+      des mots ou utilisez un générateur de mots de passe aléatoires.
+    lost_password: Mot de passe oublié ?
+    password_update_error: Impossible de mettre à jour le mot de passe. Réessayez
+      ou contactez un administrateur.
   breadcrumb:
     home: Page d'accueil
 
@@ -703,8 +758,9 @@ fr:
     components:
       browse: Parcourir les composants
 
+    link: Lier
   mixed_content:
-    wrap_prefix: "Mettre en forme avec:"
+    wrap_prefix: "Mettre en forme avec :"
     help: "Contenu mixte activé&#160;&#160;--&#160;&#160;Tapez '<' pour des éléments
       ou surlignez du texte à mettre en forme"
 
@@ -762,7 +818,7 @@ fr:
       after: Ajouter items après
       as_child: Ajouter items comme fils
     unexpected_failure: Oups! Impossible de récupérer cette arborescence. Veuillez
-      rafraîchir la page.
+      rafraîchir la page .
     resize: Développer/Réduire la zone de l'arborescence
 
   errors:
@@ -801,7 +857,9 @@ fr:
         transfer_description: Transférer cette entrée vers...
         transfer_target: Sélectionnez un service d'archives vers lequel opérer le
           transfert
-        spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession_display_string}</strong>"
+        spawned: "Cette entrée a été générée à partir de l'entrée <strong>%{accession_display_string}</strong>
+          Cet enregistrement n'est pas sauvegardé. Cliquez sur « Enregistrer » pour
+          qu'il soit créé dans le système."
         delete_conflict: "Entrée impossible à supprimer: <pre>%{error}</pre>"
       section:
         basic_information: Informations de base
@@ -809,6 +867,8 @@ fr:
         create: Créer entrée
         save: Sauvegarder entrée
 
+    component_link: Composant lié
+    component_links: Composants lié
   agent:
     _frontend:
       messages:
@@ -848,7 +908,7 @@ fr:
       action:
         add: Ajouter agent
         make_representative: Établir un contact privilégié
-    notes_tooltip: "<p>Notes supplémentaires ou autres informations sur le contact.</p>"
+    notes_tooltip: "<p>Notes supplémentaires ou autres informations sur le contact.</p>\n"
 
   telephone:
     _frontend:
@@ -897,20 +957,29 @@ fr:
           en raison d'une erreur ou d'un conflit: <pre>%{exception}</pre>"
         deleted: "Document d'archives <strong>%{archival_object_display_string}</strong>
           supprimé"
-        published: "Document d'archives <strong>%{archival_object.title}</strong>,
+        published: "Document d'archives <strong>%{archival_object_title}</strong>,
           ses sous-notices et composants situés à un niveau inférieur de la hiérarchie
           ont été publiés"
-        unpublished: "Document d'archives <strong>%{archival_object.title}</strong>,
+        unpublished: "Document d'archives <strong>%{archival_object_title}</strong>,
           ses sous-notices et composants situés à un niveau inférieur de la hiérarchie
           ont été dépubliés"
-        unsuppressed: Document d'archives <strong>%{archival_object.title}</strong>
+        unsuppressed: Document d'archives <strong>%{archival_object_title}</strong>
           débloqué
-        suppressed: Document d'archives <strong>%{archival_object.title}</strong>
+        suppressed: Document d'archives <strong>%{archival_object_title}</strong>
           bloqué
         suppressed_info: Document d'archives bloqué, ne peut être édité
         has_unpublished_ancestor: Merci d'être attentif au fait que cette notice a
           un parent non publié.
         delete_conflict: "Impossible de supprimer l'objet archivistique: <pre>%{error}</pre>"
+        spawned: Ce document d'archives a été généré à partir de l'entrée <strong>%{accession_display_string}</strong>.
+          Cet enregistrement n'est pas sauvegardé. Vous devez cliquer sur Sauvegarder
+          pour qu'il soit créé dans le système.
+        spawn_menu_child: Insérer le composant généré comme enfant
+        spawn_menu_before: Insérer le composant généré avant
+        transfer_description: Sélectionnez une ressource dans laquelle transférer
+          cette entrée
+        spawn_placeholder: <em>Le composant généré sera inséré ici</em>
+        spawn_menu_after: Insérer le composant généré aprés
       section:
         basic_information: Informations de base
       action:
@@ -919,10 +988,14 @@ fr:
         add_duplicate: Ajouter un doublon
         save: Sauvegarder document d'archives
         bulk_import: Charge par feuille de calcul
+        select_resource: Sélectionner Ressource
+        select_parent_and_position: Sélectionner la position du composant
+        leave_parent_empty: Fermer / Ne pas attribuer de parent
       tree:
         new_record_title: Nouvel objet archivistique
         duplicated_record_title: Créer un objet d'archives en double
 
+    new_title: Nouveau document d'archives
   classification:
     _frontend:
       messages:
@@ -941,15 +1014,15 @@ fr:
   classification_term:
     _frontend:
       messages:
-        created: "Terme de classement <strong>%{classification_term.title}</strong>
+        created: "Terme de classement <strong>%{classification_term_title}</strong>
           créé"
-        created_with_parent: "Terme de classement <strong>%{classification_term.title}</strong>
+        created_with_parent: "Terme de classement <strong>%{classification_term_title}</strong>
           créé"
-        updated: "Terme de classement <strong>%{classification_term.title}</strong>
+        updated: "Terme de classement <strong>%{classification_term_title}</strong>
           actualisé"
-        updated_with_parent: "Terme de classement <strong>%{classification_term.title}</strong>
+        updated_with_parent: "Terme de classement <strong>%{classification_term_title}</strong>
           mis à jour"
-        deleted: "Terme de classement <strong>%{classification_term.title}</strong>
+        deleted: "Terme de classement <strong>%{classification_term_title}</strong>
           supprimé"
       section:
         basic_information: Informations de base
@@ -1110,6 +1183,9 @@ fr:
         add: Ajouter version de fichier
         make_representative: Rendre représentatif
 
+        make_representative_tooltip: Utilisez-le pour indiquer que cette image doit
+          être affichée lorsqu'il existe plusieurs versions de fichier associées à
+          l'enregistrement.
   group:
     _frontend:
       action:
@@ -1210,6 +1286,15 @@ fr:
         make_authorized: Convertir en nom normatif
         make_display_name: Convertir en nom d'affichage
 
+        make_display_name_tooltip: Utilisez-le pour indiquer que cette forme du nom
+          doit être utilisée pour les affichages lorsqu'il existe plusieurs formes
+          de nom associées à l'enregistrement de l'agent.
+        make_primary: Rendre primaire
+        make_primary_tooltip: Utiliser pour indiquer que cet agent doit être le premier
+          à afficher ou à exporter dans des formats de métadonnées qui nécessitent
+          un agent principal
+        make_authorized_tooltip: À utiliser pour indiquer que la forme du nom est
+          la version faisant autorité du nom.
   note:
     _frontend:
       preview:
@@ -1299,6 +1384,7 @@ fr:
         select: Sélectionner service d'archives
         save: Sauvegarder service d'archives
         create: Créer service d'archives
+        order_for_pui: Définir l'ordre dans l'interface publique
     _sidebar:
       oai_settings:
         _plural: Paramètres de récolte OAI
@@ -1308,7 +1394,9 @@ fr:
       messages:
         created: "Ressource <strong>%{resource_title}</strong> créée"
         updated: "Ressource <strong>%{resource_title}</strong> actualisée"
-        spawned: "Une nouvelle ressource a été générée depuis Entrée <strong>%{accession_display_string}</strong>"
+        spawned: "Une nouvelle ressource a été générée depuis Entrée <strong>%{accession_display_string}</strong>
+          Cet enregistrement n'est pas sauvegardé. Cliquez sur « Enregistrer » pour
+          qu'il soit créé dans le système."
         deleted: "Ressource <strong>%{resource_title}</strong> supprimée"
         published: "La ressource <strong>%{resource_title}</strong>, ses sous-notices
           et composants ont été publiés"
@@ -1333,10 +1421,15 @@ fr:
         load_bulk: Charge par feuille de calcul
         save: Sauvegarder ressource
         delete_multiple: Supprimer ressources
+      remove_subrecord: Supprimer sous-enregistrement
     external_ark_url: External ARK URL
     external_ark_url_tooltip: Identificateur persistant ARK (Archival Resource Key)
       généré en dehors d'ArchivesSpace. Si ce champ a une valeur, il est prioritaire
       sur une ARK générée dans ArchivesSpace.
+    linker:
+      browse: Parcourir Ressources
+      link_title: Parcourir
+      link_to: Lier à Ressource
   preference:
     _frontend:
       messages:
@@ -1399,11 +1492,20 @@ fr:
         deactivated: Utilisateur désactivé
         error_activate: Utilisateur non activé
         error_deactivate: Utilisateur non désactivé
+        error_not_found: Impossible de trouver le compte d'utilisateur %{email}. Contactez
+          votre administrateur pour obtenir de l'aide.
+        password_reset_email_sent: Si un compte pour %{email} existe, un e-mail contenant
+          des instructions pour réinitialiser votre mot de passe sera envoyé.
+        password_reset_not_allowed: La récupération du mot de passe n'est pas autorisée.
+          Contactez votre administrateur.
+        password_reset_fail: Échec de la récupération du mot de passe. Contactez votre
+          administrateur.
       section:
         manage_access: Gérer accès utilisateur
         account: Compte
         edit_account: Editer compte
         edit_account_submit: Actualiser compte
+        new_account: Compte nouveau
       action:
         create_account: Créer compte
         update_account: Actualiser compte
@@ -1415,8 +1517,10 @@ fr:
 
         show_active: Afficher les utilisateurs actifs
         edit: Editer l'utilisateur
+        update_self: Gérer le compte utilisateur
     active: vrai
     inactive: faux
+    source: Authentification
   user_defined:
     _frontend:
       action:
@@ -1488,26 +1592,48 @@ fr:
       error_summary_header: "Erreurs dans rangée:"
       select_prompt: Appliquer un modèle RDE
     help:
-      keyboard_shortcuts: |
-        <div><strong>Raccourcis clavier</strong></div>
-         <div class="row"><small><span class="span3">Passer d'une cellule à l'autre:</span> MAJ + touches flèches</small></div>
-         <div class="row"><small><span class="span3">Créer une nouvelle rangée (à partir de la dernière):</span> MAJ + Entrée</small></div>
-      sticky_columns: |
-        <div><strong>Colonnes collantes</strong></div>
-        <div><small>Les colonnes surlignées sont collantes et seront répliquées lors de l'ajout de nouvelles colonnes. Basculer 'collant' en cliquant sur les en-têtes de tableau correspondants.</small></div>
-        <div><small>Cliquer <strong>Ajouter rangée</strong> copiera les valeurs de la dernière rangée; le bouton <strong>+</strong> copiera les valeurs de la rangée actuellement sous le curseur.</small></div>
-      fill_column: |
-        <div><strong>Remplir colonne - Basic</strong></div>
-        <div><small>Pour remplir une colonne avec une même valeur, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Basic</strong> sélectionner la <strong>colonne</strong> cible, entrer la <strong>valeur de remplissage</strong> souhaitée et cliquer <strong>appliquer remplir</strong>.</small></div>
-        <br/>
-        <div><strong>Remplir colonne - Séquence</strong></div>
-        <div><small>Pour appliquer une séquence à une colonne, cliquer <strong>remplir colonne</strong> et sous l'onglet <strong>Séquence</strong> sélectionner la <strong>colonne</strong> cible et and compléter les champs <strong>remplir valeur</strong> pour générer la séquence souhaitée.  Un avertissement sera affiché si la séquence générée ne remplit pas le nombre de rangées dans le formulaire.</small></div>
+      keyboard_shortcuts:
+        title: Raccourcis clavier
+        return: Retour
+        shift: SHIFT
+        arrow_keys: Touches fléchées
+        move_term: Sauter de cellule en cellule
+        new_term: Créer une nouvelle ligne (à partir de la dernière ligne)
+      sticky_columns:
+        p_two: Cliquer sur <strong>Ajouter une ligne</strong> copiera les valeurs
+          de la dernière ligne. Le bouton <strong>+</strong> de la ligne copiera les
+          valeurs de la ligne actuellement sélectionnée.
+        title: Colonnes collantes
+        p_one: Les colonnes en surbrillance sont permanentes et seront répliquées
+          lors de l'ajout de nouvelles lignes. Pour activer cette fonctionnalité,
+          cliquez sur l'en-tête du tableau correspondant.
+      fill_column:
+        sequence_title: Remplir la colonne - séquence
+        sequence_description: Pour appliquer une séquence à une colonne, cliquez sur
+          <strong>Remplir la colonne</strong>, puis, sous l'onglet <strong>séquence</strong>,
+          sélectionnez la <strong>Colonne</strong> cible et renseignez les champs
+          <strong>Valeur de remplissage</strong> pour générer la séquence souhaitée.
+          Un avertissement s'affichera si la séquence générée ne remplit pas le nombre
+          de lignes du formulaire.
+        basic_title: Remplir la colonne - basique
+        basic_description: Pour remplir une colonne avec une seule valeur, cliquez
+          sur <strong>Remplir la colonne</strong> et sous l'onglet <strong>basique</strong>,
+          sélectionnez la <strong>Colonne</strong> cible, entrez la <strong>Valeur
+          de remplissage</strong> souhaitée et cliquez sur <strong>Appliquer le remplissage</strong>.
       resize_and_reorder_columns: |
         <div><strong>Réordonner colonnes</strong></div>
         <div><small>Cliquer <strong>Réordonner colonnes</strong>, sélectionner le(s) rangée(s) à réordonner et utiliser les boutons flèches haut/bas pour changer leur position dans la liste. Quand l'ordre souhaité est obtenu, cliquer <strong>Appliquer ordre de colonne</strong></small></div>
-      reset: |
-        <div><strong>Réinitialiser formulaire</strong></div>
-        <div><small>Cliquer <strong>Réinitialiser</strong> pour réinitialiser le formulaire et rendre aux colonnes leur comportement par défaut en terme d'ordre, de visibilité, etc.</small></div>
+      reset:
+        title: Réinitialiser le forumulaire
+        description: Cliquez sur <strong>Réinitialiser</strong> pour effacer le formulaire
+          et rétablir l'ordre, la visibilité et l'adhérence des colonnes aux valeurs
+          par défaut.
+      reorder_columns:
+        title: Réorganiser les colonnes
+        description: Cliquez sur <strong>Réorganiser les colonnes</strong>, sélectionnez
+          la ou les lignes à réorganiser et utilisez les flèches haut/bas pour modifier
+          leur position dans la liste. Lorsque vous êtes satisfait de votre nouvel
+          ordre, cliquez sur <strong>Appliquer l'ordre des colonnes</strong>.
   update_monitor:
     save_failed: <strong>Echec de l'enregistrement de vos modifications</strong>
     stale_record: Cette notice a été mise à jour par un autre utilisateur. Veuillez
@@ -1567,10 +1693,10 @@ fr:
           automatique de slug pour tous les <b> ressources </b>, <b> objets d'archivage
           </b>, <b> objets numériques </b>, <b> composants d'objets numériques </b>,
           <b> Accessions </b>, <b> Classifications </b>, <b> agents </b>, <b> Sujets
-          </b> et <b> Référentiels </b> qui n'ont pas déjà une limace. <br /> <em>
-          Les slugs ajoutés manuellement ne seront pas modifiés, sauf si vous indiquez
-          sur ces enregistrements qu'ils doivent être remplacés en cochant la case
-          Génération automatique. </em>
+          </b> et <b> Référentiels </b> qui n'ont pas déjà une limace. <br /><br/>
+          <em> Les slugs ajoutés manuellement ne seront pas modifiés, sauf si vous
+          indiquez sur ces enregistrements qu'ils doivent être remplacés en cochant
+          la case Génération automatique. </em>
         slug_config_msg: <b> Selon vos paramètres de configuration dans config.rb
           </b>
         slug_config_id: Des URL sémantiques vont être générées à partir de l'identifiant
@@ -1585,6 +1711,9 @@ fr:
           et <b> objets d'archivage </b> qui ne possèdent pas déjà d'ARK. <br/> <br/>
           <em> Les ARK externes ne seront pas modifiés. </em>
 
+      external_repo: L'enregistrement appartient à un autre service d'archives
+      singular: Tâche d'arrière-plan
+      plural: Tâches d'arrière-plan
   shortcuts:
     quick_reference_window: "Référence rapide: raccourcis clavier"
     actions:
@@ -1649,7 +1778,7 @@ fr:
       <p>Identifier, supplied by the API, for an associated item record in the library ILS (system field; cannot be edited manually)</p>
     exported_to_ils: Exporté vers ILS
     not_exported: Non exporté
-    restricted: Soumis à des restrictions?
+    restricted: Limité?
     parent: conditionnement parent
     has_location: A un emplacement
 
@@ -1754,10 +1883,11 @@ fr:
           supérieurs comme indiqué ci-dessous? Cette action est irréversible.
         batch_merge_container_profile_too_many_warning: Ces conteneurs haut ont des
           profils de conteneurs. Aucun de ces profils de conteneurs se fondre dans
-          le conteneur cible.
+          le conteneur qu'est le destination de fusion.
         batch_merge_container_profile_mismatch_warning: Ces conteneurs supérieurs
           ont un profil différent de récipient que le récipient supérieur du cadre.
-          Le profil de conteneur ne fusionnera pas dans le conteneur cible.
+          Le profil de conteneur ne fusionnera pas dans le conteneur qu'est la destination
+          de fusion.
         batch_merge_confirm_merge_candidates: "Fusionner les conteneurs supérieurs
           suivants:"
         batch_merge_confirm_merge_destination: "Dans ce conteneur supérieur:"
@@ -1772,6 +1902,25 @@ fr:
         has_location_true: "Oui"
         has_location_false: "Non"
 
+        rapid_indicator_entry_new_indicator: Nouveau Indicateur
+        collection_accession_linker:
+          create: Créer entrée
+          browse: Parcourir entrées
+          link_title: Lien ver un entrée
+        collection_resource_linker:
+          browse: Parcourir Ressources
+          link_title: Lier à Ressource
+          create: Créer Ressource
+        rapid_indicator_entry: Réactualiser indicateurs
+        rapid_indicator_entry_help: Saisissez un indicateur pour chaque conteneur
+          sélectionné. Laissez le champ Nouvel indicateur vide pour le conserver inchangé.
+    linker:
+      create: Créer le conteneur supérieur
+      browse: Parcourir les conteneurs supérieurs
+      link_title: Lier ver le conteneur supérieur
+    internal_note: Note interne
+    internal_note_tooltip: "<p>Notes à usage interne. Visibles uniquement dans l'interface
+      du personnel.</p>\n"
   container_profile:
     _singular: Profil de conditionnement
     _plural: Profils de conditionnements
@@ -1840,6 +1989,12 @@ fr:
     stacking_limit_tooltip: |
       <p>Le nombre de ces conditionnements pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif.</p>
 
+    linker:
+      create: Créer profil de conditionnements
+      browse: Parcourir profil de conditionnements
+      link_title: Lier à profil de conditionnements
+    notes: Note
+    notes_tooltip: "<p>Une note pour les informations/métadonnées diverses.</p>\n"
   rights_restriction:
     begin: Début de la restriction
     begin_tooltip: |
@@ -1877,9 +2032,11 @@ fr:
       _singular: conditionnement
       _plural: conditionnements
 
+    required_fields_alert_message: Veuillez vous assurer que tous les champs obligatoires
+      contiennent une valeur.
   location_profile:
     _singular: Profil de localisation
-    _plural: Profils de localisations
+    _plural: Profils de localisation
     _frontend:
       action:
         save: Sauvegarder profil de localisation
@@ -1900,6 +2057,10 @@ fr:
     height: Hauteur
     width: Largeur
 
+    linker:
+      link_title: Lier à profil de localisation
+      browse: Parcourir profils de localisation
+      create: Créer profils de localisation
   space_calculator:
     modal_title: Calculateur d'espace
     modal_loading: Chargement en cours...
@@ -2080,6 +2241,7 @@ fr:
       action:
         create: Créer un modèle
         save: Enregistrer le modèle
+        search_usernames: Recherche noms d'utilisateur
       messages:
         copied: Modèle de rapport personnalisé copié
         created: Modèle de rapport personnalisé créé
@@ -2139,7 +2301,7 @@ fr:
         not_excel_csv: Le fichier que vous avez choisi n’est ni une feuille de calcul
           Excel ni un fichier CSV
         processed: Le fichier a été traité
-        error: "ERREUR: erreur (s) détecté:"
+        error: "ERREUR: erreur (s) détecté: "
         copied: Copié!
         uncopied: Impossible de copier
         submitted: "<p>La tâche a été soumis aux travaux d'arrière-plan. <br/> Cliquez
@@ -3276,18 +3438,18 @@ fr:
 
   section_headings:
     basic_information_tooltip: "<p>Cette section indique le type d'agent et si l'agent
-      est publié ou non.</p>"
+      est publié ou non.</p>\n"
     record_control_information_tooltip: "<p>Cette section contient des informations
       sur l'enregistrement lui-même, avec l'espoir qu'il provient de l'extérieur d'ArchivesSpace
-      ou qu'il va être partagé avec un système autre qu'ArchivesSpace.</p>"
+      ou qu'il va être partagé avec un système autre qu'ArchivesSpace.</p>\n"
     identity_information_tooltip: "<p>Cette section contient les informations de base
       sur l'agent lui-même. Un formulaire de nom est le seul sous-enregistrement requis
-      dans un enregistrement d'agent.</p>"
+      dans un enregistrement d'agent.</p>\n"
     description_information_tooltip: "<p>Cette section contient les informations de
       base sur l'agent lui-même. Un formulaire de nom est le seul sous-enregistrement
-      requis dans un enregistrement d'agent.</p>"
+      requis dans un enregistrement d'agent.</p>\n"
     relation_information_tooltip: "<p>Cette section est utilisée pour indiquer les
-      relations avec d'autres agents ou matériaux à l'intérieur ou à l'extérieur d'ArchivesSpace.</p>"
+      relations avec d'autres agents ou matériaux à l'intérieur ou à l'extérieur d'ArchivesSpace.</p>\n"
 
   bulk_archival_object_updater_job:
     _singular: Tâche de mise à jour d'objet d'archivage en masse de feuille de calcul
@@ -3364,8 +3526,23 @@ fr:
       eux-mêmes, et non à lier des matériaux à des emplacements.
     aspace_assessment_import_template_csv: Créez et liez des évaluations à des acquisitions,
       des ressources, des objets d'archives ou des objets numériques existants.
+    aspace_subject_import_template_csv: Créer de nouveaux enregistrements de sujet.
+      Veuillez noter que ce modèle sert à créer les enregistrements de sujet eux-mêmes,
+      et non à les lier à d'autres enregistrements.
   footer:
     archivesspace_home: Visitez <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' merge_destination='_blank'>Envoyer
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer
       des commentaires ou signaler un problème</a>
     public_interface: Afficher <a href="%{public_url}">Interface publique</a>
+  component_link:
+    _plural: Liers des composants
+    _singular: Lier de composant
+    _frontend:
+      action:
+        add: Ajouter des liers des composants
+  accession_link:
+    _singular: Entrée lier
+    _plural: Entrée liers
+    _frontend:
+      action:
+        add: Ajouter entrée lier
