@@ -8,7 +8,7 @@ describe 'Digital object model' do
 
     digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
 
-    expect(DigitalObject[digital_object[:id]].title).to eq(json.title)
+    expect(DigitalObject[digital_object[:id]].title[0].title).to eq(json.titles[0].title)
   end
 
 
@@ -174,19 +174,15 @@ describe 'Digital object model' do
         before(:all) do
           AppConfig[:auto_generate_slugs_with_id] = false
         end
-        it "autogenerates a slug via title" do
-          digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => rand(100000).to_s))
-          expected_slug = clean_slug(digital_object[:title])
-          expect(digital_object[:slug]).to eq(expected_slug)
-        end
-        it "cleans slug" do
-          digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
+        it "autogenerates a clean slug via title" do
+          title = build(:json_title, :title => "Foo Bar Baz&&&")
+          digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :titles => [title]))
           expect(digital_object[:slug]).to eq("foo_bar_baz")
         end
-
         it "dedupes slug" do
-          digital_object1 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => "foo"))
-          digital_object2 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => "foo"))
+          title = build(:json_title, :title => "foo")
+          digital_object1 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :titles => [title]))
+          digital_object2 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :titles => [title]))
           expect(digital_object1[:slug]).to eq("foo")
           expect(digital_object2[:slug]).to eq("foo_1")
         end
