@@ -3,168 +3,173 @@
 <%= javascript_include_tag "fattable" %>
 <%= javascript_include_tag "bulk_archival_object_updater" %>
 
-<div class="record-pane">
-  <h1><%= t('bulk_archival_object_update_spreadsheet.title') %></h1>
-
-  <% if @spreadsheet_errors %>
-    <div class="alert alert-danger">
-      <%= @spreadsheet_errors %>
+<div class="d-flex">
+  <div class="record-pane w-100">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0"><%= t('bulk_archival_object_update_spreadsheet.title') %></h2>
+      <%= link_to_help(:topic => "bulk_archival_object_updater_job") %>
     </div>
-  <% end %>
 
-  <p><%= t('bulk_archival_object_update_spreadsheet.description') %></p>
+    <% if @spreadsheet_errors %>
+      <div class="alert alert-danger">
+        <%= @spreadsheet_errors %>
+      </div>
+    <% end %>
 
-  <p>
-    <strong><%= t('bulk_archival_object_update_spreadsheet.selected_records') %>:</strong> <span id="selectedCount"></span>
-  </p>
+    <p><%= t('bulk_archival_object_update_spreadsheet.description') %></p>
 
-  <div id='bulk_archival_object_updater_table'></div>
+    <p>
+      <strong><%= t('bulk_archival_object_update_spreadsheet.selected_records') %>:</strong> <span id="selectedCount"></span>
+    </p>
 
-  <%= form_tag({:action => :download}, {:method => 'post', :id => "bulk_archival_object_updater_form"}) do %>
-    <%= hidden_field_tag "resource", @uri %>
-    <div class="report-fields"></div>
+    <div id='bulk_archival_object_updater_table'></div>
 
-    <hr/>
+    <%= form_tag({:action => :download}, {:method => 'post', :id => "bulk_archival_object_updater_form"}) do %>
+      <%= hidden_field_tag "resource", @uri %>
+      <div class="report-fields"></div>
 
-    <div class="row">
-      <div class="col-sm-12">
-        <p>
-          <input id="bulk-archival-object-updater-toplevel-select-all" class='checkbox-select-all' type="checkbox" checked="checked">&nbsp
-          <%= t('bulk_archival_object_update_spreadsheet.column_types_to_include_in_spreadsheet') %>
-        </p>
+      <hr/>
 
-        <table class="bulk-archival-object-updater-column-selector">
-          <%
-          [
-            ['update_select_level', 'archival_object.level'],
-            ['update_select_component_id', 'archival_object.component_id'],
-            ['update_select_ref_id', 'archival_object.ref_id'],
-            ['update_select_repository_processing_note', 'archival_object.repository_processing_note'],
-            ['update_select_publish', 'archival_object.publish'],
-            ['update_select_date', 'date._plural'],
-            ['update_select_extent', 'extent._plural'],
-            ['update_select_instance', 'instance._plural'],
-            ['update_select_digital_object', 'digital_object._plural'],
-            ['update_select_related_accession', 'related_accession._plural'],
-            ['update_select_langmaterial', 'lang_material._plural'],
-          ].each do |value, label_key|
-          %>
-          <tr>
-            <% no_acc_link = value == 'update_select_related_accession' && !JSONModel(:archival_object).schema.dig('properties', 'accession_links') %>
+      <div class="row">
+        <div class="col-sm-12">
+          <p>
+            <input id="bulk-archival-object-updater-toplevel-select-all" class='checkbox-select-all' type="checkbox" checked="checked">&nbsp
+            <%= t('bulk_archival_object_update_spreadsheet.column_types_to_include_in_spreadsheet') %>
+          </p>
 
-            <td class="checkbox-cell">
-              <input id="<%= value %>" name="<%= value %>" type="checkbox" <%= no_acc_link ? 'disabled="disabled"' : 'checked="checked"' %>>
-            </td>
-            <td class="label-cell">
-              <label for="<%= value %>"><%= I18n.t(label_key) %></label>
-              <% if no_acc_link %>
-                (Requires ArchivesSpace version 3.3.0 or greater, or use this <a href="https://github.com/hudmol/as_accession_links">plugin</a>)
-              <% end %>
-            </td>
-          </tr>
-          <% end %>
-          <tr>
-            <td class="checkbox-cell">
-              <input type="checkbox" checked="checked" id="bulk-archival-object-updater-select-all-notes" class="checkbox-select-all">
-            </td>
-            <td><strong><%= t('bulk_archival_object_update_spreadsheet.note_types') %>:</strong></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              <table>
-                <%
-                [
-                  ['update_select_note_accessrestrict', 'enumerations._note_types.accessrestrict'],
-                  ['update_select_note_scopecontent', 'enumerations._note_types.scopecontent'],
-                  ['update_select_note_bioghist', 'enumerations._note_types.bioghist'],
-                  ['update_select_note_accruals', 'enumerations._note_types.accruals'],
-                  ['update_select_note_dimensions', 'enumerations._note_types.dimensions'],
-                  ['update_select_note_altformavail', 'enumerations._note_types.altformavail'],
-                  ['update_select_note_odd', 'enumerations._note_types.odd'],
-                  ['update_select_note_phystech', 'enumerations._note_types.phystech'],
-                  ['update_select_note_processinfo', 'enumerations._note_types.processinfo'],
-                  ['update_select_note_relatedmaterial', 'enumerations._note_types.relatedmaterial'],
-                  ['update_select_note_separatedmaterial', 'enumerations._note_types.separatedmaterial'],
-                  ['update_select_note_abstract', 'enumerations._note_types.abstract'],
-                  ['update_select_note_physdesc', 'enumerations._note_types.physdesc'],
-                ]
-                .sort_by {|_, note_label_key| I18n.t(note_label_key)}
-                .each do |note_value, note_label_key| %>
-                  <tr>
-                    <td class="checkbox-cell">
-                      <input id="<%= note_value %>" name="<%= note_value %>" type="checkbox" checked="checked" class="bulk-archival-object-updater-note-checkbox">
-                    </td>
-                    <td class="label-cell">
-                      <label for="<%= note_value %>"><%= I18n.t(note_label_key) %></label>
-                    </td>
-                  </tr>
+          <table class="bulk-archival-object-updater-column-selector">
+            <%
+            [
+              ['update_select_level', 'archival_object.level'],
+              ['update_select_component_id', 'archival_object.component_id'],
+              ['update_select_ref_id', 'archival_object.ref_id'],
+              ['update_select_repository_processing_note', 'archival_object.repository_processing_note'],
+              ['update_select_publish', 'archival_object.publish'],
+              ['update_select_date', 'date._plural'],
+              ['update_select_extent', 'extent._plural'],
+              ['update_select_instance', 'instance._plural'],
+              ['update_select_digital_object', 'digital_object._plural'],
+              ['update_select_related_accession', 'related_accession._plural'],
+              ['update_select_langmaterial', 'lang_material._plural'],
+            ].each do |value, label_key|
+            %>
+            <tr>
+              <% no_acc_link = value == 'update_select_related_accession' && !JSONModel(:archival_object).schema.dig('properties', 'accession_links') %>
+
+              <td class="checkbox-cell">
+                <input id="<%= value %>" name="<%= value %>" type="checkbox" <%= no_acc_link ? 'disabled="disabled"' : 'checked="checked"' %>>
+              </td>
+              <td class="label-cell">
+                <label for="<%= value %>"><%= I18n.t(label_key) %></label>
+                <% if no_acc_link %>
+                  (Requires ArchivesSpace version 3.3.0 or greater, or use this <a href="https://github.com/hudmol/as_accession_links">plugin</a>)
                 <% end %>
-              </table>
-            </td>
-        </table>
+              </td>
+            </tr>
+            <% end %>
+            <tr>
+              <td class="checkbox-cell">
+                <input type="checkbox" checked="checked" id="bulk-archival-object-updater-select-all-notes" class="checkbox-select-all">
+              </td>
+              <td><strong><%= t('bulk_archival_object_update_spreadsheet.note_types') %>:</strong></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <table>
+                  <%
+                  [
+                    ['update_select_note_accessrestrict', 'enumerations._note_types.accessrestrict'],
+                    ['update_select_note_scopecontent', 'enumerations._note_types.scopecontent'],
+                    ['update_select_note_bioghist', 'enumerations._note_types.bioghist'],
+                    ['update_select_note_accruals', 'enumerations._note_types.accruals'],
+                    ['update_select_note_dimensions', 'enumerations._note_types.dimensions'],
+                    ['update_select_note_altformavail', 'enumerations._note_types.altformavail'],
+                    ['update_select_note_odd', 'enumerations._note_types.odd'],
+                    ['update_select_note_phystech', 'enumerations._note_types.phystech'],
+                    ['update_select_note_processinfo', 'enumerations._note_types.processinfo'],
+                    ['update_select_note_relatedmaterial', 'enumerations._note_types.relatedmaterial'],
+                    ['update_select_note_separatedmaterial', 'enumerations._note_types.separatedmaterial'],
+                    ['update_select_note_abstract', 'enumerations._note_types.abstract'],
+                    ['update_select_note_physdesc', 'enumerations._note_types.physdesc'],
+                  ]
+                  .sort_by {|_, note_label_key| I18n.t(note_label_key)}
+                  .each do |note_value, note_label_key| %>
+                    <tr>
+                      <td class="checkbox-cell">
+                        <input id="<%= note_value %>" name="<%= note_value %>" type="checkbox" checked="checked" class="bulk-archival-object-updater-note-checkbox">
+                      </td>
+                      <td class="label-cell">
+                        <label for="<%= note_value %>"><%= I18n.t(note_label_key) %></label>
+                      </td>
+                    </tr>
+                  <% end %>
+                </table>
+              </td>
+          </table>
+        </div>
       </div>
-    </div>
 
-    <script>
-      bulkArchivalObjectUpdaterHandleSelectAll($('#bulk-archival-object-updater-select-all-notes'), $('.bulk-archival-object-updater-note-checkbox'));
-      bulkArchivalObjectUpdaterHandleSelectAll($('#bulk-archival-object-updater-toplevel-select-all'), $('input[type=checkbox]:not(#bulk-archival-object-updater-toplevel-select-all)'));
-    </script>
+      <script>
+        bulkArchivalObjectUpdaterHandleSelectAll($('#bulk-archival-object-updater-select-all-notes'), $('.bulk-archival-object-updater-note-checkbox'));
+        bulkArchivalObjectUpdaterHandleSelectAll($('#bulk-archival-object-updater-toplevel-select-all'), $('input[type=checkbox]:not(#bulk-archival-object-updater-toplevel-select-all)'));
+      </script>
 
-    <hr/>
+      <hr/>
 
-    <div class="form-group">
-      <label class="col-sm-4 control-label"><%= t('bulk_archival_object_update_spreadsheet.minimum_subrecords') %>: </label>
-      <div class="col-sm-2">
-        <select class="form-control" name="min_subrecords">
-          <option value="0">0</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3" selected="selected">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
+      <div class="form-group">
+        <label class="col-sm-4 control-label"><%= t('bulk_archival_object_update_spreadsheet.minimum_subrecords') %>: </label>
+        <div class="col-sm-2">
+          <select class="form-control" name="min_subrecords">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected="selected">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <label class="col-sm-6 help-inline"><%= t('bulk_archival_object_update_spreadsheet.minimum_subrecords_description')%></label>
       </div>
-      <label class="col-sm-6 help-inline"><%= t('bulk_archival_object_update_spreadsheet.minimum_subrecords_description')%></label>
-    </div>
 
-    <div class="form-group">
-      <label class="col-sm-4 control-label"><%= t('bulk_archival_object_update_spreadsheet.extra_subrecords') %>:</label>
-      <div class="col-sm-2">
-        <select class="form-control" name="extra_subrecords">
-          <option value="0">0</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3" selected="selected">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
+      <div class="form-group">
+        <label class="col-sm-4 control-label"><%= t('bulk_archival_object_update_spreadsheet.extra_subrecords') %>:</label>
+        <div class="col-sm-2">
+          <select class="form-control" name="extra_subrecords">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected="selected">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <label class="col-sm-6 help-inline">
+          <%= t('bulk_archival_object_update_spreadsheet.extra_subrecords_description') %>
+        </label>
       </div>
-      <label class="col-sm-6 help-inline">
-        <%= t('bulk_archival_object_update_spreadsheet.extra_subrecords_description') %>
-      </label>
-    </div>
 
-    <div class="form-group">
-      <label class="col-sm-4 control-label"><%= t('bulk_archival_object_update_spreadsheet.minimum_notes') %>:</label>
-      <div class="col-sm-2">
-        <select class="form-control" name="min_notes">
-          <option value="0">0</option>
-          <option value="1">1</option>
-          <option value="2" selected="selected">2</option>
-          <option value="3">3</option>
-        </select>
+      <div class="form-group">
+        <label class="col-sm-4 control-label"><%= t('bulk_archival_object_update_spreadsheet.minimum_notes') %>:</label>
+        <div class="col-sm-2">
+          <select class="form-control" name="min_notes">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2" selected="selected">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+        <label class="col-sm-6 help-inline"><%= t('bulk_archival_object_update_spreadsheet.minimum_notes_description') %></label>
       </div>
-      <label class="col-sm-6 help-inline"><%= t('bulk_archival_object_update_spreadsheet.minimum_notes_description') %></label>
-    </div>
 
-    <hr/>
+      <hr/>
 
-    <div class="form-group">
-      <button class="btn btn-primary submit-btn" disabled><%= t('bulk_archival_object_update_spreadsheet.download_spreadsheet')%></button>
-      <%= link_to t('cancel'), :back, :class => "btn btn-default" %>
-    </div>
-  <% end %>
+      <div class="form-group">
+        <button class="btn btn-primary submit-btn" disabled><%= t('bulk_archival_object_update_spreadsheet.download_spreadsheet')%></button>
+        <%= link_to t('cancel'), :back, :class => "btn btn-default" %>
+      </div>
+    <% end %>
+  </div>
 </div>
 
 <%= javascript_include_tag "bulk_archival_object_updater_table" %>
