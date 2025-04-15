@@ -155,18 +155,18 @@ describe 'ArchivalObject model' do
     date = build(:json_date, :date_type => 'inclusive')
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
-        :titles => nil,
+        :titles => [],
         :dates => [date]
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq(date['expression'])
+    expect(ArchivalObject[ao[:id]].display_string).to eq(date['expression'].encode('UTF-8'))
 
     # try with begin and end
     date = build(:json_date, :date_type => 'inclusive', :expression => nil)
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
-        :title => nil,
+        :titles => [],
         :dates => [date]
       }),
       :repo_id => $repo_id)
@@ -176,7 +176,7 @@ describe 'ArchivalObject model' do
     date = build(:json_date, :date_type => 'bulk')
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
-        :title => nil,
+        :titles => [],
         :dates => [date]
       }),
       :repo_id => $repo_id)
@@ -187,7 +187,7 @@ describe 'ArchivalObject model' do
     date = build(:json_date, :date_type => 'bulk', :expression => nil)
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
-        :title => nil,
+        :titles => [],
         :dates => [date]
       }),
       :repo_id => $repo_id)
@@ -196,18 +196,18 @@ describe 'ArchivalObject model' do
   end
 
   it "auto generates a 'label' based on the date and title when both are present" do
-    title = "Just a title"
+    title = build(:json_title, :title => "Just a title")
     date1 = build(:json_date, :date_type => 'inclusive')
     date2 = build(:json_date, :date_type => 'bulk')
 
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
-        :title => title,
+        :titles => [title],
         :dates => [date1, date2]
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq("#{title}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
+      expect(ArchivalObject[ao[:id]].display_string).to eq("#{title['title']}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
   end
 
 
@@ -336,20 +336,16 @@ describe 'ArchivalObject model' do
         before(:all) do
           AppConfig[:auto_generate_slugs_with_id] = false
         end
-        it "autogenerates a slug via title" do
-          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => rand(100000).to_s))
-          expected_slug = clean_slug(archival_object[:title])
-          expect(archival_object[:slug]).to eq(expected_slug)
+        it "autogenerates a clean slug via title" do
+          title = build(:json_title, :title => "Foo Bar Baz&&&")
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :titles => [title]))
+          expected_slug = clean_slug(title[:title])
+          expect(archival_object[:slug]).to eq("foo_bar_baz")
         end
-        it "cleans slug" do
-          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
-          expected_slug = clean_slug(archival_object[:title])
-          expect(archival_object[:slug]).to eq(expected_slug)
-        end
-
         it "dedupes slug" do
-          archival_object1 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "foo"))
-          archival_object2 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "foo"))
+          title = build(:json_title, :title => "foo")
+          archival_object1 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :titles => [title]))
+          archival_object2 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :titles => [title]))
           expect(archival_object1[:slug]).to eq("foo")
           expect(archival_object2[:slug]).to eq("foo_1")
         end

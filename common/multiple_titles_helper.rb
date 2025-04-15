@@ -3,7 +3,7 @@ require 'aspace_i18n'
 module MultipleTitlesHelper
 
   # titles is an array of Title in json form
-  def self.determine_primary_title(titles, current_locale, default_language = 'eng')
+  def self.determine_primary_title(titles, current_locale)
     # archival objects may not have a title, so return nil if that is the case
     return nil if titles.nil? || titles.empty?
 
@@ -15,7 +15,7 @@ module MultipleTitlesHelper
     titles.each { |t| return t['title'] if t['language'] == pref_lang }
 
     # fallback to the default language
-    titles.each { |t| return t['title'] if t['language'] == default_language }
+    titles.each { |t| return t['title'] if t['language'] == I18n.supported_locales[I18n.default_locale] }
 
     # if no preferred title can be determined, return the first title in the list
     titles[0]['title'] unless titles.empty?

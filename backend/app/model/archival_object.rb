@@ -82,7 +82,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
                      end
                    end.join(', ') : false
 
-    display_string += ", " if display_string && date_label
+    display_string += ", " if not display_string&.empty? && date_label
     display_string += date_label if date_label
 
     display_string
