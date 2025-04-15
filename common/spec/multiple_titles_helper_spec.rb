@@ -4,7 +4,7 @@ describe MultipleTitlesHelper do
   describe "determine_primary_title" do
     it "returns the primary title based on the provided locale" do
       titles = [
-        {"title" => "English Title",  "language" => "eng"},
+        {"title" => "English Title", "language" => "eng"},
         {"title" => "日本語のタイトル", "language" => "jpn"}
       ]
       expect(MultipleTitlesHelper.determine_primary_title(titles, :en)).to eq("English Title")
@@ -13,7 +13,7 @@ describe MultipleTitlesHelper do
 
     it "returns a formal title if it exists regardless of locale" do
       titles = [
-        {"title" => "English Title",  "language" => "eng","type" => "formal"},
+        {"title" => "English Title", "language" => "eng", "type" => "formal"},
         {"title" => "日本語のタイトル", "language" => "jpn"},
       ]
       expect(MultipleTitlesHelper.determine_primary_title(titles, :ja)).to eq("English Title")
@@ -21,7 +21,7 @@ describe MultipleTitlesHelper do
 
     it "falls back to the default language if no formal or preferred-language title exists" do
       titles = [
-        {"title" => "English Title",  "language" => "eng"},
+        {"title" => "English Title", "language" => "eng"},
         {"title" => "日本語のタイトル", "language" => "jpn"}
       ]
       # The default default language is English
@@ -31,8 +31,8 @@ describe MultipleTitlesHelper do
 
     it "returns the first title if no preferred title can be determined" do
       titles = [
-        {"title" => "Titre Français",  "language" => "fra"},
-        {"title" => "English Title",  "language" => "eng"},
+        {"title" => "Titre Français", "language" => "fra"},
+        {"title" => "English Title", "language" => "eng"},
         {"title" => "日本語のタイトル", "language" => "jpn"}
       ]
       expect(MultipleTitlesHelper.determine_primary_title(titles, :de, "spa")).to eq("Titre Français")
