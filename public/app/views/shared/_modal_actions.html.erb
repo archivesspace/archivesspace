@@ -9,9 +9,9 @@
   } %>
 <script type ="text/javascript" >setupCite()</script>
 <% end %>
-<% if defined?(@request) && !@request.nil? %>
+<% if AppConfig[:pui_page_actions_request] && defined?(@request) && !@request.nil? %>
   <% req = render partial: 'shared/request_form' %>
   <%= render partial: 'shared/modal', locals: {:modal_id => 'request_modal', :title => t('actions.request'),
       :modal_body => req } %>
-<script type ="text/javascript" >setupRequest("request_modal",  "<%= t('actions.request') %>")</script>
+  <script type ="text/javascript" >setupRequest("request_modal",  "<%= t('actions.request') %>")</script>
 <% end %>
