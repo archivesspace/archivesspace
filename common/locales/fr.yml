@@ -52,7 +52,7 @@ fr:
   slug: &slug_attributes
     slug: Slug
     slug_tooltip: |
-      <p>When using human-readable URLs, the last part of the public URL for this record in the ArchivesSpace public interface. The slug can be manually added or updated, or generated automatically based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
+      <p>Lors de l'utilisation d'URL lisibles par l'utilisateur, dernière partie de l'URL publique de cet enregistrement dans l'interface publique d'ArchivesSpace. Le slug peut être ajouté ou mis à jour manuellement, ou généré automatiquement selon les paramètres de configuration des URL lisibles par l'utilisateur dans le fichier config.rb sur le serveur.</p>
     public_url: Public URL
     public_url_tooltip: |
       <p>If this record is published or updated to be published, the full URL for this record in the public user interface. If human-readable URLs are being used the end of the URL will be the slug.</p>
@@ -432,16 +432,16 @@ fr:
 
   agent_name: &agent_name_attributes
     parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle du nom dans différentes
-      langues et / ou scripts ou formes translittérées du nom.</p>"
+      langues et / ou scripts ou formes translittérées du nom.</p>\n"
     language: Langue
     language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du nom. Exemple: russe
-      (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+      (pour Каспаров, Г. К. (Гарри Кимович))</p>\n"
     script: Scénario
     script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom. Exemple: cyrillique
-      (pour Каспаров, Г. К. (Гарри Кимович))</p>"
+      (pour Каспаров, Г. К. (Гарри Кимович))</p>\n"
     transliteration: Translitération
     transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour enregistrer la forme
-      du nom.</p>"
+      du nom.</p>\n"
     authority_id: Identifiant d'autorité
     authority_id_tooltip: |
       <p>L'identifiant unique de la forme du nom d'un agent dans la source d'où elle a été tirée (par ex., un identifiant de notice MADS ou EAC). L'identifiant peut être exprimé sous forme d'URI.</p>
@@ -557,19 +557,19 @@ fr:
       <p>Le nom de famille ou le surnom, pour une famille, donnant lieu à une appellation du type: "famille untel".</p>
     family_type: Type de famille
     family_type_tooltip: "<p>Type de famille utilisé comme qualificatif pour distinguer les entrées de
-      nom similaires. Exemples: famille, dynastie, maison royale.</p>"
+      nom similaires. Exemples: famille, dynastie, maison royale.</p>\n"
     location: Emplacement
     location_tooltip: "<p>Emplacement utilisé comme qualificatif pour distinguer les entrées de nom similaires.
       Exemples: Trigg County, Ky. (Pour Cunningham (Family: 1795-: Trigg County, Ky.)), Ambassade du Canada,
-      Tokyo (pour la Conférence de jumelage Canada-Japon (1991: Ambassade du Canada, Tokyo))</p>"
+      Tokyo (pour la Conférence de jumelage Canada-Japon (1991: Ambassade du Canada, Tokyo))</p>\n"
 
   name_corporate_entity: &agent_corporate_entity_attributes
     <<: *agent_name_attributes
     jurisdiction: Juridiction?
-    jurisdiction_tooltip: "<p>Indique si l'entité est une entrée de nom de juridiction légale.</p>"
+    jurisdiction_tooltip: "<p>Indique si l'entité est une entrée de nom de juridiction légale.</p>\n"
     conference_meeting: Conférence?
     conference_meeting_tooltip: "<p>Indique si l'entité est une personne morale standard ou est une conférence,
-      une réunion ou un autre événement nommé.</p>"
+      une réunion ou un autre événement nommé.</p>\n"
     location: Emplacement
     location_tooltip: "<p>Emplacement utilisé comme qualificatif pour distinguer les entrées de nom similaires.
       Exemples: Trigg County, Ky. (Pour Cunningham (Family: 1795-: Trigg County, Ky.)), Ambassade du Canada,
@@ -726,7 +726,7 @@ fr:
     items: Pièces
     items_singular: Pièce
     item_singular: Pièce
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine s'il faut ou non publier cette note sur les interfaces publiques.</p>
     title: Titre
@@ -943,7 +943,7 @@ fr:
     file_uri: URI du fichier
     file_uri_tooltip: |
       <p>Un identifiant pour un fichier associé à un objet numérique, accessible sur le web ou dans un répertoire.</p>
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine si cette version du fichier est publiée sur les interfaces publiques.</p>
     use_statement: Mention d'usage
@@ -1065,7 +1065,7 @@ fr:
       <li>http://www.archivesspace.org/membership</li>
       <li>file:///c:/path/to/the%20file.txt</li>
       </ul>
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine si ce document externe sera publié sur les interfaces publiques.</p>
     document_link: Document Link
@@ -1353,7 +1353,7 @@ fr:
       <li>Achat</li>
       <li>Versement</li>
       </ul>
-    publish: Publier?
+    publish: Publier ?
     publish_help: Cocher la case si vous voulez rendre cette entrée accessible au public.
     publish_tooltip: |
       <p>Détermine si l'entrée sera ou non publiée sur les interfaces publiques.</p>
@@ -1477,6 +1477,8 @@ fr:
       agent_software: Nouveau logiciel
     linker:
       create: Créer un agent
+      link_title: Lier à l'agent
+      browse: Parcourir les agents
   agent_person:
     <<: *agent_attributes
     _singular: Personne
@@ -1556,7 +1558,7 @@ fr:
       <li>12 boîtes à chaussures.</li>
       <li>4 boîtes d'archivage, 32 tubes.</li>
       </ul>
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine si cette ressource sera publiée sur les interfaces publiques.</p>
     restrictions_apply: Des restrictions s'appliquent?
@@ -1649,6 +1651,13 @@ fr:
     _singular: Groupe
     _plural: Groupes
 
+    default_group_names:
+      repository_managers: Gestionnaires du service d'archives %{repo_code}
+      repository_archivists: Archivistes du service d'archives %{repo_code}
+      advanced_data_entry: Utilisateurs de saisie de données avancée du service d'archives %{repo_code}
+      basic_data_entry: Utilisateurs de saisie de données basique du service d'archives %{repo_code}
+      repository_viewers: Téléspectateurs du service d'archives %{repo_code}
+      project_managers: Chefs de projet du service d'archives %{repo_code}
   resource:
     <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
@@ -1769,6 +1778,9 @@ fr:
     created_by: Créé par
     create_time: Créé
     new_title: Nouvelle ressource
+    is_finding_aid_status_published_tooltip: "<p>Détermine si le statut de l'instrument à la recherche
+      est exposé publiquement.</p>\n"
+    is_finding_aid_status_published: Statut de l'instrument de recherche publié ?
   related_accession:
     _singular: Entrée associée
     _plural: Entrées associées
@@ -1782,7 +1794,7 @@ fr:
     description: Description de la révision
     description_tooltip: |
       <p>Une description de la dernière révision de l'instrument de recherche.</p>
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine si ce mention de révision sera publié sur les interfaces publiques.</p>
 
@@ -1855,7 +1867,7 @@ fr:
       <p>Une URL distante ou un chemin d'accès à un fichier local contenant une image de marque (comme un logo ou un sceau) à utiliser dans les outils de recherche en ligne du service d'archives. Cette image apparaît sur les PDF côté public, les PDF côté personnel et sur la page du service d'archives.</p>
     _singular: Service d'archives
     _plural: Services d'archives
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: |
       <p>Détermine si ce service d'archives et les notices qu'il peut contenir seront publiés sur les interfaces publiques.</p>
 
@@ -1863,6 +1875,11 @@ fr:
     ark_shoulder: ARK Shoulder (espace de noms local)
     ark_shoulder_tooltip: Chaîne par référentiel à inclure dans les ARK générés
     new_title: Nouveau service d'archive
+    linker:
+      link_title: Lier au service d'archives
+      browse: Parcourir les services d'archives
+      create: Créer un service d'archives
+    position: Position
   term:
     # tooltips not displaying
     term: Terme
@@ -1907,6 +1924,10 @@ fr:
     _plural: Mots-matières
 
     new_title: Nouveau sujet
+    linker:
+      create: Créer un subject
+      browse: Parcourir des sujets
+      link_title: Lier au suject
   user:
     username: Nom d'utilisateur
     username_tooltip: |
@@ -1950,6 +1971,7 @@ fr:
     _singular: Utilisateur
     _plural: Utilisateurs
 
+    reset_password: Réinitialiser le mot de passe
   collection_management:
     cataloged_note: Cataloged Note
     cataloged_note_tooltip: |
@@ -2046,6 +2068,10 @@ fr:
     id_separator: /
 
     new_title: Nouveau classement
+    linker:
+      create: Créer un classements
+      browse: Parcourir des classements
+      link_title: Lier au classement
   classification_term:
     <<: *slug_attributes
     _singular: Terme de classement
@@ -2055,6 +2081,10 @@ fr:
     description: Description
     creator: Créateur
 
+    linker:
+      browse: Parcourir des termes de classement
+      link_title: Lier au terme de classement
+      create: Créer un terme de classement
   preference:
     defaults: Valeurs par défaut
     global: Valeurs par défaut de préférences globales
@@ -2062,7 +2092,7 @@ fr:
       du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives
       ou par les préférences propres d'un utilisateur.
     repo: Préférences Service
-    repo_message: Editez ces valeurs pour définir les préférences utilisateur par défaut pour le service
+    repo_message: Editez ces valeurs pour définir les préférences pour tout utilisateurs pour le service
       d'archives actif. Ces valeurs peuvent être écrasées par les préférences propres d'un utilisateur.
     user_global: Mes préférences globales
     user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système.
@@ -2079,7 +2109,7 @@ fr:
     show_suppressed: Montrer les notices bloquées?
     show_suppressed_tooltip: Faut-il ou non montrer dans l'explorateur les notices bloquées que vous avez
       la permission de voir.
-    publish: Publier?
+    publish: Publier ?
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
     default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des valeurs
@@ -2118,6 +2148,9 @@ fr:
 
     rde_sort_alpha: Afficher les modèles RDE par ordre alphabétique ?
     include_unpublished: Inclure les enregistrements non publiés dans les exportations ?
+    digital_object_spawn: Description de génération pour les instances d'objets numériques à partir d'enregistrements
+      liés
+    top_container_mgmt_browse_section: Colonnes de navigation des gestion des conteneurs supérieurs
   reports:
     parameters:
       from: Du
@@ -2238,6 +2271,7 @@ fr:
       indiquer une date de début.
     missing_end_filter_date: Les dates de début et de fin sont nécessaires pour filtrer par date. Veuillez
       indiquer une date de fin.
+    missing_required_subrecord: Le sous-enregistrement est requis mais manquait
   job:
     _singular: Tâche d'arrière-plan
     _plural: Tâches d'arrière-plan
@@ -2257,6 +2291,7 @@ fr:
       bulk_import_job: Charger via une feuille de calcul
       top_container_linker_job: Lien de conteneur supérieur
       bulk_archival_object_updater_job: Mise à jour en masse des objets d'archivage
+      ns2_remover_job: Suppresseur d'espace de noms ns2
     status: Statut
     status_completed: Effectuée
     status_queued: Mise en attente
@@ -2272,6 +2307,7 @@ fr:
     output_file: Fichier de sortie
 
     new_title: Nouveaux tâches d'arrière-plan
+    queue_position: No. %{position}
   container_labels_job:
     source: Source
     format: Format
@@ -2301,6 +2337,10 @@ fr:
     bulk_import_xlsx: Importation en vrac AO XLSX
     bulk_import_DO_xlsx: Importation en vrac DO XLSX
     bulk_import_DO_csv: Importation en vrac DO CSV
+    import_subject_csv: Sujet CSV
+    import_type_subject_csv: Sujet CSV
+    import_subjects: Importer et lier sujets proches ?
+    import_repository: Lier les emplacements importés au service d'archives actuel ?
   find_and_replace_job:
     _singular: Tâche chercher et remplacer
     find: Chaîne de caractères à trouver
@@ -2503,6 +2543,8 @@ fr:
     _plural: Evaluations
 
     new_title: Nouvelle évaluation
+    linker:
+      link_title: Lien vers l'enregistrement
   assessment_attribute:
     rating:
       "Reformatting Readiness": Aptitude au reformatage
@@ -2812,6 +2854,7 @@ fr:
 
       find_tc: Impossible de trouver le conteneur supérieur avec les paramètres : %{where}.
       sc_barcode: Impossible de trouver un sous-conteneur avec ce code-barres enfant %{barcode}
+      utf8: Cette feuille de calcul contient du texte non valide ou corrompu qui ne peut pas être traité.
     templates: Modèles d'importation en bloc
   parallel_name_person:
     <<: *agent_name_attributes
@@ -3204,5 +3247,16 @@ fr:
     _plural: Modèles d'importation en bloc
   container_profile:
     new_title: Nouvel profils de conditionnements
+    title: '%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] étendue mesurée par %{extent_dimension}'
   location_profile:
     new_title: Nouvel profils de localisations
+  ns2_remover_job:
+    dry_run: Essai à blanc ?
+    description: "Les EAD de l'ère Toolit des archivistes importés dans ASpace peuvent contenir des références
+      d'espace de noms \"ns2\" résiduelles ajoutées au début de divers attributs de balise EAD dans les
+      sous-enregistrements de notes. Cela peut entraîner des erreurs de validation lors de l'exportation
+      d'EAD depuis ArchivesSpace, car la balise racine <ead> ne déclare pas l'espace de noms \"ns2\".
+      Cette tâche supprime en bloc les références \"ns2\" dans les sous-enregistrements Notes attachés
+      aux enregistrements de ressources, d'objets d'archives, d'objets numériques et de composants d'objets
+      numériques. Cette tâche étant applicable à tous les dépôts, elle est réservée aux utilisateurs disposant
+      des autorisations d'administrateur système.\n"
