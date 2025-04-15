@@ -4,7 +4,10 @@
 <%= javascript_include_tag "bulk_archival_object_updater" %>
 
 <div class="record-pane">
-  <h1><%= t('bulk_archival_object_update_spreadsheet.title') %></h1>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0"><%= t('bulk_archival_object_update_spreadsheet.title') %></h2>
+    <%= link_to_help(:topic => "bulk_archival_object_updater_job") %>
+  </div>
 
   <% if @spreadsheet_errors %>
     <div class="alert alert-danger">

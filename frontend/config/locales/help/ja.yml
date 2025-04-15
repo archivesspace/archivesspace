@@ -148,6 +148,6 @@ ja:
       agent_required: 必須フィールドの編集に関するヘルプ
       agent_merge: エージェントのマージに関するヘルプ
       resource_load_via_spreadsheet: スプレッドシートを介したロードに関するヘルプ
-      bulk_archival_object_update: アーカイブオブジェクトのマージに関するヘルプ
+      bulk_archival_object_updater_job: アーカイブオブジェクトのマージに関するヘルプ
       agent_identifiers: エンティティIDに関するヘルプ
       agent_genders: ジェンダーに関するヘルプ
