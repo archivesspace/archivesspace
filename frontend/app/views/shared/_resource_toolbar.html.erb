@@ -118,6 +118,18 @@
             <% end %>
           <% end %>
 
+          <% if @resource != nil %>
+            <li>
+              <%=
+                link_to t('bulk_archival_object_update_spreadsheet.title'),
+                {
+                  :controller => :bulk_archival_object_updater, :action => :download_form, :resource => @resource.uri
+                },
+                :class => "dropdown-item"
+              %>
+            </li>
+          <% end %>
+
           <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
             <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %></li>
           <% end %>
