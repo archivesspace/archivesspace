@@ -288,12 +288,7 @@ class AgentsController < ApplicationController
       render_aspace_partial partial: 'agents/merge_preview', locals: { object: @agent }
     else
       begin
-        # For each linked resource or AO, need to remember roles to re-establish with the destination agent.
-        candidate_roles = get_merge_candidate_linked_roles(merge_candidate_uri)
-
         response = JSONModel::HTTP.post_json(URI(uri), request.to_json)
-
-        recreate_linked_record_agent_roles(candidate_roles, merge_destination_uri)
 
         flash[:success] = t('agent._frontend.messages.merged')
         resolver = Resolver.new(request.merge_destination['ref'])
@@ -438,39 +433,4 @@ class AgentsController < ApplicationController
       end
     end
   end
-
-  # gathers necessary fields to recreate agent roles in affected resources/AOs
-  def get_merge_candidate_linked_roles(merge_candidate_uri)
-    filter_term = ["{ \"agent_uris\":\"#{merge_candidate_uri}\" }"]
-    search_results = Search.all(session[:repo_id], {'filter_term[]' => filter_term})['results']
-    candidate_roles = []
-    search_results.each do |result|
-      linked_agents = JSON.parse(result['json'])['linked_agents']
-      linked_agents.select { |a| a['ref'] == merge_candidate_uri }.each do |linked_agent|
-        candidate_roles.append({
-          linked_uri: result['uri'],
-          title: linked_agent['_resolved']['title'],
-          role: linked_agent['role'],
-          relator: linked_agent['relator'],
-          terms: linked_agent['terms']
-        })
-      end
-    end
-    candidate_roles
-  end
-
-  def recreate_linked_record_agent_roles(candidate_roles, destination_agent_uri)
-    candidate_roles.each do |role|
-      linked_type = role[:linked_uri].match(/.*\/(\w+)s\/\d+$/)[1]
-      linked_record = JSONModel(linked_type.to_sym).find_by_uri(role[:linked_uri])
-      linked_record.linked_agents.append({
-        'ref' => destination_agent_uri,
-        'role' => role[:role],
-        'relator' => role[:relator],
-        'terms' => role[:terms]
-      })
-      linked_record.save
-    end
-  end
-
 end

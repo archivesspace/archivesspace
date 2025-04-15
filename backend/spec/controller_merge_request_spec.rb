@@ -122,9 +122,12 @@ describe 'Merge request controller' do
           expect(JSONModel(:"#{type}").find(parent.id).linked_agents).not_to include(merge_candidate)
         end
 
-        it "retains and updates unrelated relationships" do
+        it "retains and updates relationships" do
           parent1 = create(:"json_#{type}",
                            :linked_agents => [{
+                                                'ref' => merge_candidate.uri,
+                                                'role' => 'source'
+                                              }, {
                                                 'ref' => merge_destination.uri,
                                                 'role' => 'creator'
                                               }])
@@ -141,14 +144,17 @@ describe 'Merge request controller' do
 
           request.save(:record_type => 'agent')
 
-          expect {
-            JSONModel(:agent_person).find(merge_candidate.id)
-          }.to raise_error(RecordNotFound)
-
           # Relationships updated and merge_candidate is gone
-          expect(JSONModel(:"#{type}").find(parent1.id).linked_agents.count).to eq(1)
-          expect(JSONModel(:"#{type}").find(parent2.id).linked_agents.count).to eq(1)
-          expect(JSONModel(:"#{type}").find(parent2.id).linked_agents).not_to include(merge_candidate)
+          aggregate_failures do
+            expect {
+              JSONModel(:agent_person).find(merge_candidate.id)
+            }.to raise_error(RecordNotFound)
+
+            expect(JSONModel(:"#{type}").find(parent1.id).linked_agents.map { |a| a['role'] }).to contain_exactly('creator', 'source')
+            expect(JSONModel(:"#{type}").find(parent1.id).linked_agents.map { |a| a['ref'] }.uniq).to contain_exactly(merge_destination.uri)
+            expect(JSONModel(:"#{type}").find(parent2.id).linked_agents.map { |a| a['role'] }).to contain_exactly('creator')
+            expect(JSONModel(:"#{type}").find(parent2.id).linked_agents.map { |a| a['ref'] }).to contain_exactly(merge_destination.uri)
+          end
         end
       end
     end

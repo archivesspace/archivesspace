@@ -84,7 +84,6 @@ AbstractRelationship = Class.new(Sequel::Model) do
     }
   end
 
-
   # Find any relationship instances that reference 'merge_candidates' and modify them to
   # refer to 'merge_destination' instead.
   def self.transfer(merge_destination, merge_candidates)
@@ -142,17 +141,15 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
                 elsif relationship.is_a?(Relationships::ContainerProfileTopContainerProfile)
                   merge_candidate_container_profiles << relationship
-
                 else
                   merge_destination_pre.each do |pre|
-                    if pre[parent_col] == relationship[parent_col]
+                    if pre[parent_col] == relationship[parent_col] && pre[:role_id] == relationship[:role_id]
                       dups << relationship
                     end
                   end
                   transfer_relationship_to_merge_destination(relationship, merge_destination_col, merge_destination, true)
                   break
                 end
-
               end
 
               relationship[:system_mtime] = Time.now
