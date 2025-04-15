@@ -166,3 +166,11 @@ pt:
       browse_number_digital_objects_in_collection:
         one: Pesquisar %{num} objeto digital na coleção
         other: Pesquisar %{num} objetos digitais na coleção
+
+  pdf_reports:
+    administrative_information: Informação administrativa
+    collection_inventory: Inventário da coleção
+    summary_information: Informação resumida
+    table_of_contents: Índice
+    return_to_table_of_contents: Voltar ao índice
+    publication_statement: Declaração de publicação

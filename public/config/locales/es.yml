@@ -459,6 +459,7 @@ es:
     collection_inventory: Inventario de la colección
     summary_information: Información de resumen
     table_of_contents: Tabla de contenidos
+    return_to_table_of_contents: Volver a la tabla de contenidos
     publication_statement: Declaración de publicación
     controlled_access_headings: Encabezados de acceso controlado
     finding_aid_date_prefix: Esta ayuda de búsqueda se elaboró utilizando ArchivesSpace en
