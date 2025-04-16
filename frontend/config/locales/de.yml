@@ -2718,6 +2718,6 @@ de:
     _singular: Eingangs-Verknüpfung
   footer:
     public_interface: <a href="%{public_url}">Zum öffentlichen Katalog</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' merge_destination='_blank'>Rückmeldung
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung
       geben oder ein Problem melden</a>
     archivesspace_home: Besuchen Sie <a href='http://archivesspace.org'>ArchivesSpace.org</a>
