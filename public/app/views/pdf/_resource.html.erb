@@ -90,7 +90,7 @@
 
 </dl>
 
-    <a href="#toc">Return to Table of Contents</a>
+    <a href="#toc"><%= I18n.t('pdf_reports.return_to_table_of_contents') %></a>
 
     <% record.notes.each do |note_type, note| %>
         <% if note_type == 'prefercite' %>
@@ -118,7 +118,7 @@
     <% end %>
   <% end %>
 
-  <a href="#toc">Return to Table of Contents</a>
+  <a href="#toc"><%= I18n.t('pdf_reports.return_to_table_of_contents') %></a>
 </div>
 
 
@@ -136,7 +136,7 @@
     <p><%== process_mixed_content(n['note_text']) %></p>
   <% end %>
 
-  <a href="#toc">Return to Table of Contents</a>
+  <a href="#toc"><%= I18n.t('pdf_reports.return_to_table_of_contents') %></a>
 <% end %>
 
 <a id="note-arrangement"></a>
@@ -153,7 +153,7 @@
     <p><%== process_mixed_content(n['note_text']) %></p>
   <% end %>
 
-  <a href="#toc">Return to Table of Contents</a>
+  <a href="#toc"><%= I18n.t('pdf_reports.return_to_table_of_contents') %></a>
 <% end %>
 
 
@@ -233,7 +233,7 @@
   <% end %>
 <% end %>
 
-<a href="#toc">Return to Table of Contents</a>
+<a href="#toc"><%= I18n.t('pdf_reports.return_to_table_of_contents') %></a>
 
 <a id="note-relatedmaterial"></a>
 
@@ -273,7 +273,7 @@
 
   </ul>
 
-  <a href="#toc">Return to Table of Contents</a>
+  <a href="#toc"><%= I18n.t('pdf_reports.return_to_table_of_contents') %></a>
 <% end %>
 
 
@@ -289,7 +289,23 @@
     <p><%== process_mixed_content(n['note_text']) %></p>
   <% end %>
 
-  <a href="#toc">Return to Table of Contents</a>
+  <a href="#toc"><%= I18n.t('pdf_reports.return_to_table_of_contents') %></a>
+<% end %>
+
+<% unless record.notes['note_bibliography'].nil? %>
+  <a id="note-note_bibliography"></a>
+  <% record.notes['note_bibliography'].each do |n| %>
+    <h3>
+      <% if n['label'] %>
+          <%== process_mixed_content(n['label']) %>
+      <% else %>
+          <%= I18n.t("enumerations._note_types.note_bibliography") %>
+      <% end %>
+    </h3>
+    <p><%== process_mixed_content(n['note_text']) %></p>
+  <% end %>
+
+  <a href="#toc"><%= I18n.t('pdf_reports.return_to_table_of_contents') %></a>
 <% end %>
 
 

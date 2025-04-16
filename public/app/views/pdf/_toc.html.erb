@@ -83,6 +83,23 @@
           <li class="level-1"><a href="#controlled-access-headings"><%= I18n.t('pdf_reports.controlled_access_headings') %></a></li>
         <% end %>
 
+        <% unless resource.notes['note_bibliography'].nil? %>
+          <li class="level-1">
+            <a href="#note-note_bibliography">
+              <% labels = [] %>
+
+              <% resource.notes['note_bibliography'].each do |n| %>
+                <% if n['label'] %>
+                    <% labels << n['label'] %>
+                <% else %>
+                    <% labels <<  I18n.t("enumerations._note_types.note_bibliography") %>
+                <% end %>
+              <% end %>
+              <%== process_mixed_content(labels.uniq.join(", ")) %>
+            </a>
+          </li>
+        <% end %>
+
         <% if has_children %>
             <li class="level-1"><a href="#collection-inventory"><%= I18n.t('pdf_reports.collection_inventory') %></a></li>
         <% end %>
