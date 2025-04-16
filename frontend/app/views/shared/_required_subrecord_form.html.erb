@@ -6,7 +6,7 @@
   heading_size = "h3" if heading_size.blank?
   heading_text = t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
 
-  section_classes = []
+  section_classes = ['subrecord-form']
   if defined?(section_class)
     section_classes << section_class
   end
@@ -18,14 +18,21 @@
 %>
 
 <section id="<%= section_id %>" class="<%= section_classes.reject(&:blank?).join(' ') %>" data-subrecord-form="true" data-object-name="<%= singular %>" >
-  <<%= heading_size %> class="subrecord-form-heading">
-    <%= wrap_with_tooltip(heading_text, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
-    <%= link_to_help :topic => help_topic %>
-  </<%= heading_size %>>
+  <header class="d-flex align-items-center border-bottom bg-asFormHeadingBg<%= link_to_help(:topic => help_topic).blank? ? ' py-2' : '' %>">
+    <<%= heading_size %> class="subrecord-form-heading mb-0 border-bottom-0">
+      <%= wrap_with_tooltip(heading_text, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
+    </<%= heading_size %>>
+    <%= link_to_help :topic => help_topic, :style => "margin-left: auto;" %>
+  </header>
   <% form_name = "agent[#{property}][0][jsonmodel_type]" %>
   <div class="subrecord-form-container">
-    <div class="form-group">
-      <label class="col-sm-2 control-label"><%= t("actions.require_subrecord") %></label>
+    <div class="form-group w-100 row">
+      <label
+        class="col-sm-2 control-label text-right"
+        for="required_fields__<%= property %>__required"
+      >
+        <%= t("actions.require_subrecord") %>
+      </label>
         <div class="col-sm-1 req_checkbox">
           <input id="required_fields__<%= property %>" type="hidden" name="<%= form_name %>" value="<%= type %>" >
           <input id="required_fields__<%= property %>__required" type="checkbox" name="agent[<%= property %>][0][required]" value="true" <%= @required_fields.required?(property, type) ? " checked=checked" : "" %>>
@@ -34,8 +41,8 @@
     <% field_names.each do |field_name| %>
       <% label = t("#{i18n_type}.#{field_name}") %>
       <% form_name = "agent[#{property}][0][#{field_name}]" %>
-      <div class="form-group">
-        <label class="col-sm-2 control-label" for="agent_record_identifier_" plugin=""><%=  label %></label>
+      <div class="form-group w-100 row">
+        <label class="col-sm-2 control-label text-right" for="agent_record_identifier_" plugin=""><%=  label %></label>
         <div class="col-sm-9 label-only">
           <input id="required_fields__<%= field_name %>_" type="checkbox" name="<%= form_name %>" value="<%= type %>" col_size="1" controls_class="req_checkbox"<%= definition.required?(field_name) ? ' disabled checked=checked' : '' %><%= @required_fields.required?(property, type, field_name) ? " checked=checked" : "" %>>
         </div>
