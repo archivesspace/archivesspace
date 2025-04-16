@@ -3320,6 +3320,6 @@ es:
       recursos, objetos de archivo u objetos digitales existentes.
   footer:
     archivesspace_home: Visitar <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' merge_destination='_blank'>Enviar
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Enviar
       comentarios o informar un problema</a>
     public_interface: Vistar <a href="%{public_url}">Interfaz Pública</a>
