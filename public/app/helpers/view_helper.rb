@@ -199,4 +199,11 @@ module ViewHelper
 
     return url
   end
+
+  # calculate a relative path from the incoming partial to the plugin directory
+  def self.relative_plugin_view_path(partial)
+    rel_path = Pathname.new(File.absolute_path(partial)).relative_path_from(File.absolute_path(ASUtils.plugin_base_directory)).to_s
+    File.join(File.dirname(rel_path), File.basename(rel_path).split('.')[0])
+  end
+
 end

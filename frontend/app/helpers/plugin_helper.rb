@@ -61,13 +61,19 @@ module PluginHelper
     result.html_safe
   end
 
+  # calculate a relative path from the incoming partial to the plugin directory
+  def self.relative_plugin_view_path(partial)
+    rel_path = Pathname.new(File.absolute_path(partial)).relative_path_from(File.absolute_path(ASUtils.plugin_base_directory)).to_s
+    File.join(File.dirname(rel_path), File.basename(rel_path).split('.')[0])
+  end
+
   def render_plugin_partials(name, locals = {})
     result = ''
 
     ASUtils.find_local_directories("frontend/views/_#{name}.html.erb").each do |partial|
       next unless File.exist?(partial)
 
-      result << render(:inline => File.read(partial), :locals => locals)
+      result << render(:template => PluginHelper.relative_plugin_view_path(partial), :locals => locals)
     end
 
     result.html_safe

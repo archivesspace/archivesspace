@@ -38,7 +38,7 @@
   <% ASUtils.order_plugins(ASUtils.find_local_directories('frontend/views/layout_head.html.erb')).each do |layout| %>
     <% if File.exist?(layout) %>
       <!-- Begin plugin layout -->
-      <%= render :inline => File.read(layout) %>
+      <%= render :template => PluginHelper.relative_plugin_view_path(layout) %>
       <!-- End plugin layout -->
     <% end %>
   <% end %>
@@ -66,7 +66,7 @@
     <% ASUtils.order_plugins(ASUtils.find_local_directories('frontend/views/_shared_templates.html.erb')).each do |layout| %>
       <% if File.exist?(layout) %>
         <!-- Begin plugin layout -->
-        <%= render :inline => File.read(layout) %>
+        <%= render :template => PluginHelper.relative_plugin_view_path(layout) %>
         <!-- End plugin layout -->
       <% end %>
     <% end %>

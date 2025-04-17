@@ -58,7 +58,7 @@
     <% end %>
 
     <% ASUtils.find_local_directories('public/views/_upper_record_innards.html.erb').each do |template| %>
-      <%= render :inline => File.read(template) if File.exists?(template) %>
+      <%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
     <% end %>
 </div>
 
@@ -148,7 +148,7 @@
         <% end %>
       </div>
       <% ASUtils.find_local_directories('public/views/_lower_record_innards.html.erb').each do |template| %>
-        <%= render :inline => File.read(template) if File.exists?(template) %>
+        <%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
       <% end %>
     </div>
     <script type="text/javascript" >initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>", <%= AppConfig[:pui_expand_all] %>);
