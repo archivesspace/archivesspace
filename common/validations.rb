@@ -633,7 +633,7 @@ module JSONModel::Validations
   def self.check_digital_object_component(hash)
     errors = []
 
-    fields = ["dates", "title", "label"]
+    fields = ["dates", "titles", "label"]
 
     if fields.all? {|field| !hash.has_key?(field) || hash[field].empty?}
       fields.each do |field|
