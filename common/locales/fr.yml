@@ -2,7 +2,7 @@ fr:
   dates_of_existence:
     _frontend:
       action:
-        add: Ajouter une date
+        add: Ajouter date
 
   parallel_name:
     _frontend:
@@ -37,11 +37,11 @@ fr:
     text_4: Texte 4
     text_5: Texte 5
     date_1: Date 1
-    date_1_inline_help: par ex. AAAA-MM-JJ
+    date_1_inline_help: doit être AAAA-MM-JJ
     date_2: Date 2
-    date_2_inline_help: par ex. AAAA-MM-JJ
+    date_2_inline_help: doit être AAAA-MM-JJ
     date_3: Date 3
-    date_3_inline_help: par ex. AAAA-MM-JJ
+    date_3_inline_help: doit être AAAA-MM-JJ
     enum_1: Valeur contrôlée 1
     enum_2: Valeur contrôlée 2
     enum_3: Valeur contrôlée 3
@@ -233,8 +233,8 @@ fr:
     coordinate_1_range: Plage de coordonnées 1
     coordinate_2_range: Plage de coordonnées 2
     coordinate_3_range: Plage de coordonnées 3
-    start: Borne inf.
-    end: Borne sup.
+    start: Début de gamme
+    end: Fin de gamme
     _singular: Localisations en lot
     _plural: Localisations en lot
 
@@ -653,7 +653,7 @@ fr:
       <p>Pays où habite la personne à contacter.</p>
     post_code: Code postal
     post_code_tooltip: |
-      <p>Code postal ou  code zip du contact.</p>
+      <p>Code postal ou code zip du contact.</p>
     telephone: Téléphone
     telephone_ext: Numéro de poste
     fax: Fax
@@ -746,7 +746,7 @@ fr:
     relator_tooltip: Un qualificatif spécifique qui décrit la relation.
     description: La description
     date: Date
-    dates: Rendez-vous
+    dates: Dates
     ref: Agent associé
 
     relationship_type_tooltip: Terme contrôlé décrivant, en termes généraux, la nature de la relation
@@ -1037,7 +1037,7 @@ fr:
     _singular: Importance matérielle
 
   lang_material: &lang_material_attributes
-    _plural: Les langues
+    _plural: Langues
     _singular: La langue
 
   language_and_script:
@@ -1909,11 +1909,11 @@ fr:
     scope_note: Note de présentation de contenu
     scope_note_tooltip: |
       <p>Une note expliquant et clarifiant ce qu'il faut entendre et ne pas entendre dans la définition du terme et son utilisation comme vedette-matière.</p>
-        <p>Exemples:</p>
-        <ul>
-        <li>On entre ici des travaux sur l'étude biologique des bactéries. Les travaux sur la science sont entrés sous la vedette-matière Bactériologie.</li>
-        <li>"The right of security and privacy in a man's home." - Black, Law dictionary, 4th ed., 1951.</li>
-        </ul>
+      <p>Exemples:</p>
+      <ul>
+      <li>On entre ici des travaux sur l'étude biologique des bactéries. Les travaux sur la science sont entrés sous la vedette-matière Bactériologie.</li>
+      <li>"The right of security and privacy in a man's home." - Black, Law dictionary, 4th ed., 1951.</li>
+      </ul>
     terms: Termes
     terms_tooltip: |
       <p>SOUS-CHAMP OBLIGATOIRE. Used to manage each term or subdivision within a given subject heading. Each subject record must have at least one term associated with it.</p>
@@ -2569,7 +2569,7 @@ fr:
       "Intellectual Access (description)_tooltip": <p>Une note de 1 à 5 pour caractériser la description
         intellectuelle d'une collection et l'accessibilité de cette description pour les utilisateurs.</p>
       "Interest": Intérêt
-      "Interest_tooltip": <p>Une note de  1 à 5 qui indique l'intérêt que présentent les documents pour
+      "Interest_tooltip": <p>Une note de 1 à 5 qui indique l'intérêt que présentent les documents pour
         le chercheur, le donateur ou l'histoire locale. Intérêt + Qualité de la documentation déterminent
         le niveau de "Valeur pour la recherche".</p>
       "Documentation Quality": Qualité de la documentation
@@ -2842,8 +2842,8 @@ fr:
       lang_code: "Impossible de valider la langue (%{lang})"
       script_code: "Impossible de valider un script de langue (%{script})"
       process_error: "Traitement d'erreur %{type} %{num}: %{why}"
-      bad_ao_uri: "Avec uri %{uri}"
-      bad_ao_ref_id: "Avec REF ID %{ref_id}"
+      bad_ao_uri: " Avec uri %{uri}"
+      bad_ao_ref_id: " Avec REF ID %{ref_id}"
       bad_ao: "Impossible de trouver l'objet d'archives %{errs}"
       no_uri_or_ref: Ni un URI objet d'archives ni REF ID n'a été fournie
       file_too_big: "Ce fichier, à %{file_info}, dépasse la taille et / ou limites de nombre de lignes
@@ -2934,8 +2934,8 @@ fr:
       être utilisé comme légende.</p>"
     xlink_role_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
     xlink_arcrole_attribute_tooltip: "<p>Type ou nature de la ressource distante liée dans l'URI associé.</p>"
-    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée  dans
-      l'URI associé a été vérifiée.</p>\n"
+    last_verified_date_tooltip: "<p>Dernière date ou date et heure auxquelles la ressource liée dans l'URI
+      associé a été vérifiée.</p>\n"
 
   agent_conventions_declaration:
     name_rule_tooltip: "<p>Une norme de contenu utilisée dans la formulation du contenu de l'enregistrement
