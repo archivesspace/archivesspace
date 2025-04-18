@@ -1715,7 +1715,7 @@ fr:
       singular: Tâche d'arrière-plan
       plural: Tâches d'arrière-plan
   shortcuts:
-    quick_reference_window: "Référence rapide: raccourcis clavier"
+    quick_reference_window: "Référence rapide : raccourcis clavier"
     actions:
       this_reference: "Cette référence de raccourci"
       close_modal: "Fermer une fenêtre (par ex. celle-ci)"
