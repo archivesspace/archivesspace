@@ -20,7 +20,9 @@ class FindingAidPDF
     @archivesspace = archivesspace_client
     @base_url = base_url
 
-    @resource = archivesspace.get_record("/repositories/#{repo_id}/resources/#{resource_id}")
+    @resource = archivesspace.get_record("/repositories/#{repo_id}/resources/#{resource_id}",
+                                         { 'resolve[]' => ['repository:id'] })
+
     @ordered_records = archivesspace.get_record("/repositories/#{repo_id}/resources/#{resource_id}/ordered_records")
 
     # make sure finding aid title isn't only like /^\n$/
