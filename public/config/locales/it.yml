@@ -1,1 +1,3 @@
-brand: {}
+brand:
+  brand:
+    title: Interfaccia pubblica di ArchivesSpace
