@@ -17,8 +17,7 @@
 
 .input-group.date .datepicker-enabled button.btn {
   color: #fff;
-  background-color: #23547e;
-  border-color: #1b4162;
+  background-color: $grayLight;
 }
 
 input:invalid {
@@ -26,14 +25,89 @@ input:invalid {
 }
 
 /* ANW-1821 Bootstrap v4 updates */
-body > .datepicker {
-  padding: 0.25rem;
-}
+.datepicker {
+  &.dropdown-menu {
+    font-size: 1rem;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  }
 
-body > .datepicker table tr td,
-body > .datepicker table tr th {
-  width: 2rem;
-  height: 2rem;
   padding: 0.25rem;
-  text-align: center;
+
+  table tr {
+    td,
+    th {
+      width: 2rem;
+      height: 2rem;
+      padding: 0.25rem;
+      text-align: center;
+    }
+
+    td.day:hover,
+    td.focused {
+      background: $grayLighter;
+      cursor: default;
+    }
+
+    td {
+      &.active.active,
+      &.active.disabled,
+      &.active.disabled.active,
+      &.active.disabled.disabled,
+      &.active.disabled:active,
+      &.active.disabled:hover,
+      &.active.disabled:hover.active,
+      &.active.disabled:hover.disabled,
+      &.active.disabled:hover:active,
+      &.active.disabled:hover:hover,
+      &.active.disabled:hover[disabled],
+      &.active.disabled[disabled],
+      &.active:active,
+      &.active:hover,
+      &.active:hover.active,
+      &.active:hover.disabled,
+      &.active:hover:active,
+      &.active:hover:hover,
+      &.active:hover[disabled],
+      &.active[disabled] {
+        border-color: $blueDark;
+        background-color: $blue;
+        background-image: none;
+      }
+
+      span {
+        &.active.active,
+        &.active.disabled,
+        &.active.disabled.active,
+        &.active.disabled.disabled,
+        &.active.disabled:active,
+        &.active.disabled:hover,
+        &.active.disabled:hover.active,
+        &.active.disabled:hover.disabled,
+        &.active.disabled:hover:active,
+        &.active.disabled:hover:hover,
+        &.active.disabled:hover[disabled],
+        &.active.disabled[disabled],
+        &.active:active,
+        &.active:hover,
+        &.active:hover.active,
+        &.active:hover.disabled,
+        &.active:hover:active,
+        &.active:hover:hover,
+        &.active:hover[disabled],
+        &.active[disabled],
+        &.active:active,
+        &.active:hover,
+        &.active:hover.active,
+        &.active:hover.disabled,
+        &.active:hover:active,
+        &.active:hover:hover,
+        &.active:hover[disabled],
+        &.active[disabled] {
+          border-color: $blueDark;
+          background-color: $blue;
+          background-image: none;
+        }
+      }
+    }
+  }
 }
