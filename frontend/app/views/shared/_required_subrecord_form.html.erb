@@ -7,6 +7,7 @@
   heading_text = t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
 
   section_classes = ['subrecord-form']
+  section_classes << 'lightmode_toggle' if local_assigns[:lightmode_toggle]
   if defined?(section_class)
     section_classes << section_class
   end
