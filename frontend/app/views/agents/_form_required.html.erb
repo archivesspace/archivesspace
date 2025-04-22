@@ -12,58 +12,110 @@
     </div>
   </section>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_record_identifiers", help_topic: "agent_record_identifiers", type: :agent_record_identifier, field_names: ["record_identifier", "source", "identifier_type"], lightmode_toggle: false} %>
+  <% unless @agent.agent_type.to_s == "agent_software" %>
+    <section id="record_control_information" class="agents-subsection subrecord-form-section">
+      <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+        <%= wrap_with_tooltip(
+          t("agent._frontend.section.record_control_information"),
+          "section_headings.record_control_information_tooltip",
+          "subrecord-form-heading-label"
+        ) %>
+      </h3>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_record_controls", help_topic: "agent_record_controls",  type: :agent_record_control, field_names: ["maintenance_status", "publication_status", "maintenance_agency", "agency_name", "maintenance_agency_note", "language", "script", "language_note", "romanization", "government_agency_type", "reference_evaluation", "name_type", "level_of_detail", "modified_record", "cataloging_source"], lightmode_toggle: true} %>
+      <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_record_identifiers", help_topic: "agent_record_identifiers", type: :agent_record_identifier, field_names: ["record_identifier", "source", "identifier_type"], lightmode_toggle: false} %>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_other_agency_codes", help_topic: "agent_other_agency_codes", type: :agent_other_agency_codes, field_names: ["maintenance_agency", "agency_code_type"], lightmode_toggle: true} %>
+      <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_record_controls", help_topic: "agent_record_controls", type: :agent_record_control, field_names: ["maintenance_status", "publication_status", "maintenance_agency", "agency_name", "maintenance_agency_note", "language", "script", "language_note", "romanization", "government_agency_type", "reference_evaluation", "name_type", "level_of_detail", "modified_record", "cataloging_source"], lightmode_toggle: true} %>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name:  "agent_conventions_declarations", help_topic: "agent_conventions_declarations", type: :agent_conventions_declaration, field_names: ["name_rule", "citation", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"], lightmode_toggle: true} %>
+      <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_other_agency_codes", help_topic: "agent_other_agency_codes", type: :agent_other_agency_codes, field_names: ["maintenance_agency", "agency_code_type"], lightmode_toggle: true} %>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "metadata_rights_declarations", help_topic: "metadata_rights_declarations", type: :metadata_rights_declaration, field_names: ["license", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"], lightmode_toggle: true} %>
+      <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_conventions_declarations", help_topic: "agent_conventions_declarations", type: :agent_conventions_declaration, field_names: ["name_rule", "citation", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"], lightmode_toggle: true} %>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_maintenance_histories", help_topic: "agent_maintenance_histories", type: :agent_maintenance_history, field_names: ["maintenance_event_type", "event_date", "agent", "maintenance_agent_type", "descriptive_note"], lightmode_toggle: true} %>
+      <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "metadata_rights_declarations", help_topic: "metadata_rights_declarations", type: :metadata_rights_declaration, field_names: ["license", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"], lightmode_toggle: true} %>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_sources", help_topic: "agent_sources", type: "agent_sources", field_names: ["source_entry", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute",  "last_verified_date"], lightmode_toggle: true} %>
+      <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_maintenance_histories", help_topic: "agent_maintenance_histories", type: :agent_maintenance_history, field_names: ["maintenance_event_type", "event_date", "agent", "maintenance_agent_type", "descriptive_note"], lightmode_toggle: true} %>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_alternate_sets", help_topic: "agent_alternate_sets", type: "agent_alternate_set", field_names: ["set_component", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"], lightmode_toggle: true}  %>
+      <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_sources", help_topic: "agent_sources", type: "agent_sources", field_names: ["source_entry", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"], lightmode_toggle: true} %>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_identifiers", help_topic: "agent_identifiers", type: "agent_identifier", field_names: ["entity_identifier", "identifier_type"], lightmode_toggle: false} %>
-
-  <%
-     name_type = @agent.agent_type.to_s.sub('agent', 'name')
-     name_fields = ["authority_id", "source", "rules"]
-     name_fields += case name_type
-                    when 'name_person'
-                      ["name_order", "prefix", "title", "primary_name", "rest_of_name", "suffix", "fuller_form", "number", "dates", "language", "script", "transliteration", "qualifier"]
-                    when 'name_corporate_entity'
-                      ["primary_name", "subordinate_name_1", "subordinate_name_2", "number", "dates", "location", "language", "script", "transliteration", "qualifier"]
-                    when 'name_family'
-                      ["prefix", "family_name", "dates", "family_type", "location", "language", "script", "transliteration", "qualifier"]
-                    when 'name_software'
-                      ["software_name", "version", "manufacturer", "dates", "language", "script", "transliteration", "qualifier"]
-                    else
-                      []
-                    end
-   %>
-
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "names", help_topic: "#{@agent.agent_type}_names", type: name_type.intern, field_names: name_fields, section_id: "#{@agent.agent_type}_names", lightmode_toggle: false} %>
-
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "dates_of_existence", :heading_text => t("agent._frontend.section.dates_of_existence"), :help_topic => "#{@agent.agent_type}_dates_of_existence", type: :structured_date_label, i18n_type: :structured_date_label_common_fields, field_names: ["date_label", "date_type_structured", "date_certainty", "date_era", "date_calendar"], section_id: "#{@agent.agent_type}_dates_of_existence", lightmode_toggle: false} %>
-
-  <% if @agent.agent_type.to_s == "agent_person" %>
-    <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_genders", help_topic: "agent_genders", :property => "agent_genders", type: "agent_gender", field_names: ["gender"], lightmode_toggle: true}  %>
+      <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_alternate_sets", help_topic: "agent_alternate_sets", type: "agent_alternate_set", field_names: ["set_component", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"], lightmode_toggle: true} %>
+    </section>
   <% end %>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_places", help_topic: "agent_places", :property => "agent_places", type: "agent_place", field_names: ["place_role"], lightmode_toggle: true} %>
+  <section id="identity_information" class="agents-subsection subrecord-form-section">
+    <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+      <%= wrap_with_tooltip(
+        t("agent._frontend.section.identity_information"),
+        "section_headings.identity_information_tooltip",
+        "subrecord-form-heading-label"
+      ) %>
+    </h3>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "used_languages",  help_topic: "used_languages", type: "used_language", field_names: ["language", "script"], lightmode_toggle: true} %>
+    <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_identifiers", help_topic: "agent_identifiers", type: "agent_identifier", field_names: ["entity_identifier", "identifier_type"], lightmode_toggle: false} %>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_contacts", help_topic: "#{@agent.agent_type}_contact_details", type: :agent_contact, field_names: ["name", "salutation", "address_1", "address_2", "address_3", "city", "region", "country", "post_code", "email", "note"], section_id: "#{@agent.agent_type}_contact_details", lightmode_toggle: false} %>
+    <%
+       name_type = @agent.agent_type.to_s.sub('agent', 'name')
+       name_fields = ["authority_id", "source", "rules"]
+       name_fields += case name_type
+                      when 'name_person'
+                        ["name_order", "prefix", "title", "primary_name", "rest_of_name", "suffix", "fuller_form", "number", "dates", "language", "script", "transliteration", "qualifier"]
+                      when 'name_corporate_entity'
+                        ["primary_name", "subordinate_name_1", "subordinate_name_2", "number", "dates", "location", "language", "script", "transliteration", "qualifier"]
+                      when 'name_family'
+                        ["prefix", "family_name", "dates", "family_type", "location", "language", "script", "transliteration", "qualifier"]
+                      when 'name_software'
+                        ["software_name", "version", "manufacturer", "dates", "language", "script", "transliteration", "qualifier"]
+                      else
+                        []
+                      end
+     %>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "external_documents", help_topic: "#{@agent.agent_type}_external_documents", type: :external_document, field_names: ["title", "location"], section_id: "#{@agent.agent_type}_external_documents", lightmode_toggle: false} %>
+    <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "names", help_topic: "#{@agent.agent_type}_names", type: name_type.intern, field_names: name_fields, section_id: "#{@agent.agent_type}_names", lightmode_toggle: false} %>
+  </section>
 
-  <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_resources", help_topic: "agent_resources", type: :agent_resource, field_names: ["linked_agent_role", "linked_resource", "linked_resource_description", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute",  "last_verified_date"], lightmode_toggle: true} %>
+  <section id="description_information" class="agents-subsection subrecord-form-section">
+    <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+      <%= wrap_with_tooltip(
+        t("agent._frontend.section.description_information"),
+        "section_headings.description_information_tooltip",
+        "subrecord-form-heading-label"
+      ) %>
+    </h3>
+
+    <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "dates_of_existence", :heading_text => t("agent._frontend.section.dates_of_existence"), :help_topic => "#{@agent.agent_type}_dates_of_existence", type: :structured_date_label, i18n_type: :structured_date_label_common_fields, field_names: ["date_label", "date_type_structured", "date_certainty", "date_era", "date_calendar"], section_id: "#{@agent.agent_type}_dates_of_existence", lightmode_toggle: false} %>
+
+    <% if @agent.agent_type.to_s == "agent_person" %>
+      <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_genders", help_topic: "agent_genders", :property => "agent_genders", type: "agent_gender", field_names: ["gender"], lightmode_toggle: true} %>
+    <% end %>
+
+    <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_places", help_topic: "agent_places", :property => "agent_places", type: "agent_place", field_names: ["place_role"], lightmode_toggle: true} %>
+
+    <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_occupations", help_topic: "agent_occupations", type: "agent_occupation", field_names: ["occupation"], lightmode_toggle: true} %>
+
+    <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_functions", help_topic: "agent_functions", type: "agent_function", field_names: ["function"], lightmode_toggle: true} %>
+
+    <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_topics", help_topic: "agent_topics", type: "agent_topic", field_names: ["topic"], lightmode_toggle: true} %>
+
+    <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "used_languages", help_topic: "used_languages", type: "used_language", field_names: ["language", "script"], lightmode_toggle: true} %>
+
+    <% if user_can?('view_agent_contact_record') %>
+      <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_contacts", help_topic: "#{@agent.agent_type}_contact_details", type: :agent_contact, field_names: ["name", "salutation", "address_1", "address_2", "address_3", "city", "region", "country", "post_code", "email", "note"], section_id: "#{@agent.agent_type}_contact_details", lightmode_toggle: false} %>
+    <% end %>
+
+    <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "external_documents", help_topic: "#{@agent.agent_type}_external_documents", type: :external_document, field_names: ["title", "location"], section_id: "#{@agent.agent_type}_external_documents", lightmode_toggle: false} %>
+  </section>
+
+  <% unless @agent.agent_type.to_s == "agent_software" %>
+    <section id="relation_information" class="agents-subsection subrecord-form-section">
+      <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+        <%= wrap_with_tooltip(
+          t("agent._frontend.section.relation_information"),
+          "section_headings.relation_information_tooltip",
+          "subrecord-form-heading-label"
+        ) %>
+      </h3>
+
+      <%= render_aspace_partial :partial => "shared/required_subrecord_form", :locals => {form: form, name: "agent_resources", help_topic: "agent_resources", type: :agent_resource, field_names: ["linked_agent_role", "linked_resource", "linked_resource_description", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"], lightmode_toggle: true} %>
+    </section>
+  <% end %>
 
   <%= form_plugins_for(@agent.agent_type.to_s, form) %>
 
