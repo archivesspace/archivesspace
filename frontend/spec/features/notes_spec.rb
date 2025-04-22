@@ -335,6 +335,7 @@ describe 'Notes', js: true do
       click_on 'Add Note'
     end
 
+    wait_for_ajax
     # Ensure option values are only note_rights_statement
     elements = all('#rights_statement_notes .top-level-note-type option')
     option_values = elements.map { |element| element.value if element.value.present? }.compact.uniq

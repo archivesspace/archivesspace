@@ -10,9 +10,11 @@ describe 'Restricted properties', js: true do
   let!(:agent_source) { create(:agent_person) }
   let(:restricted_property) { 'agent_contacts' }
 
-  xit 'updates a record with restricted properties retains the restricted data' do
+  it 'updates a record with restricted properties retains the restricted data and prevents merging of agents containing restricted data' do
     login_user(user)
+
     select_repository(repository)
+    set_repo(repository)
 
     expect(agent[restricted_property].count).to eq 1
 
@@ -28,7 +30,6 @@ describe 'Restricted properties', js: true do
     visit 'logout'
 
     login_admin
-
     select_repository(repository)
 
     visit "/agents/#{agent['jsonmodel_type']}/#{agent.id}/edit"
@@ -41,14 +42,8 @@ describe 'Restricted properties', js: true do
 
     element = find('#agent_agent_contacts__0__notes__0__date_of_contact_')
     expect(element.value).to_not be_nil
-  end
 
-  xit 'prevents merging of agents containing restricted data' do
-    login_admin
-    select_repository(repository)
-
-    find('.repo-container .btn.dropdown-toggle').click
-    click_on 'Manage Groups'
+    visit "/groups"
 
     row = find(:xpath, "//tr[contains(., 'repository-advanced-data-entry')]")
     within row do
@@ -64,6 +59,8 @@ describe 'Restricted properties', js: true do
 
     visit 'logout'
 
+    run_index_round
+
     login_user(user)
 
     select_repository(repository)
@@ -74,12 +71,11 @@ describe 'Restricted properties', js: true do
 
     element = find('#token-input-merge_ref_')
     element.fill_in with: agent_source['names'][0]['primary_name']
+
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
-    within '#form_merge' do
-      click_on 'Merge'
-    end
+    find('.merge-button').click
 
     within '#confirmChangesModal' do
       click_on 'Compare Agents'
