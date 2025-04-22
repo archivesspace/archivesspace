@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
 
   # Allow overriding of templates via the local folder(s)
   if not ASUtils.find_local_directories.blank?
+    append_view_path(File.absolute_path(ASUtils.plugin_base_directory))
     ASUtils.find_local_directories.map {|local_dir| File.join(local_dir, 'frontend', 'views')}.reject { |dir| !Dir.exist?(dir) }.each do |template_override_directory|
       prepend_view_path(template_override_directory)
     end
