@@ -13,6 +13,14 @@ describe 'Enumeration Management', js: true do
     select_repository(@repository)
   end
 
+  describe 'accessibility' do
+    # 523636, 523634, 523633, 523632, 523631, 523630, 523629, 523628, 523627, 523637, 523635
+    it "has acceptable color contrast in disabled buttons" do
+      visit "/enumerations?id=14"
+      expect(page).to be_axe_clean.checking_only :'color-contrast'
+    end
+  end
+
   it 'lets you add a new value to an enumeration' do
     now = Time.now.to_i
     click_on 'System'

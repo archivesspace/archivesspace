@@ -18,6 +18,271 @@ describe 'Resources', js: true do
     select_repository(@repository)
   end
 
+  describe 'accessibility' do
+    before(:each) do
+      login_admin
+      ensure_repository_access
+      select_repository(@repository)
+    end
+
+    let(:resource) { create(:resource, title: "Resource Title #{Time.now.to_i}") }
+
+    it 'sets the selected state on sidebar elements' do
+      visit "resources/#{resource.id}"
+      wait_for_ajax
+
+      within "div#archivesSpaceSidebar" do
+        tablist = find "ul.as-nav-list"
+
+        expect(tablist).to have_xpath "self::ul[@role='tablist']"
+        expect(tablist).not_to have_xpath "li[@role='tab'][@aria-selected='true']"
+
+        find("li.sidebar-entry-resource_extents_ a").click
+        expect(tablist).to have_xpath("li[@role='tab'][@aria-selected='true']/a[@href='#resource_extents_']")
+
+        find("li.sidebar-entry-resource_dates_ a").click
+        expect(tablist).to have_xpath("li[@role='tab'][@aria-selected='true']/a[@href='#resource_dates_']")
+        expect(tablist).to have_no_xpath("li[@role='tab'][@aria-selected='true']/a[@href='#resource_extents_']")
+      end
+    end
+
+    context 'Datepicker' do
+      it 'supports accessibility' do
+        visit "/resources/#{resource.id}/edit#tree::resource_#{resource.id}"
+        wait_for_ajax
+
+        aggregate_failures 'opens via keyboard' do
+          expect(page).not_to have_css ".datepicker"
+
+          datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
+          datepicker_toggle.native.send_keys(:return)
+
+          expect(page).to have_css ".datepicker"
+        end
+
+        within ".datepicker" do
+          prev_th = find ".datepicker-days thead > tr > th.prev"
+          next_th = find ".datepicker-days thead > tr > th.next"
+
+          aggregate_failures 'has aria attributes on datepicker advance buttons' do
+            expect(prev_th).to have_xpath "self::th[@role='button'][@aria-label='Previous']"
+            expect(next_th).to have_xpath "self::th[@role='button'][@aria-label='Next']"
+          end
+
+          aggregate_failures 'has role=button on datepicker day, month and year selectors' do
+            current_day = find "td.day.active"
+            expect(current_day).to have_xpath "self::td[@role='button']"
+
+            selection_bar = find ".datepicker-switch"
+            selection_bar.click
+
+            current_month = find "span.month.active"
+            expect(current_month).to have_xpath "self::span[@role='button']"
+
+            selection_bar = find ".datepicker-switch"
+            selection_bar.click
+
+            current_year = find "span.year.active"
+            expect(current_year).to have_xpath "self::span[@role='button']"
+          end
+        end
+      end
+    end
+
+    context "resource toolbar" do
+      # 519098
+      it "supports accessibility" do
+        visit "resources/#{resource.id}"
+        wait_for_ajax
+
+        expect(page).to have_css "div.record-toolbar"
+
+        aggregate_failures 'does not have any <a> tags without a @href attributes' do
+          expect(page).to have_no_xpath("//a[not(@href)]")
+        end
+
+        # 519100, #519357
+        aggregate_failures "supports aria-expanded for event and merge dropdowns" do
+          within "div.record-toolbar" do
+            [
+              "#add-event-dropdown button.add-event-action",
+              "#merge-dropdown button.merge-action",
+              "#transfer-dropdown button.transfer-action"
+            ].each do |css|
+              expect(page).to have_css("#{css}[aria-expanded='false']")
+              find(css).click
+              expect(page).to have_css("#{css}[aria-expanded='true']")
+              find(css).click
+              expect(page).to have_css("#{css}[aria-expanded='false']")
+            end
+
+            # #merge-dropdown a.dropdown-toggle is inside the merge menu, so we need to drop that down first so the target element is visible
+            find("#merge-dropdown button.merge-action").click
+            dropdown_ctrl = find("#merge-dropdown #form_merge .dropdown-toggle")
+            expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='false']")
+            dropdown_ctrl.click
+            expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='true']")
+            dropdown_ctrl.click
+            expect(dropdown_ctrl).to have_xpath("self::*[@aria-expanded='false']")
+          end
+        end
+      end
+
+      # 519344
+      it "has visual labels for add event dropdown" do
+        visit "resources/#{resource.id}"
+        wait_for_ajax
+
+        expect(page).to have_selector("#add-event-dropdown", visible: true)
+
+        within "#add-event-dropdown" do
+          find("button.add-event-action").click
+          expect(page).to have_xpath("//select[@id='add_event_event_type']")
+          expect(page).not_to have_css("label.sr-only")
+          expect(page).to have_xpath("//label[@for='add_event_event_type']")
+        end
+      end
+
+      # 519396
+      it "sets role as none for ul element in merge dropdown" do
+        visit "resources/#{resource.id}"
+        wait_for_ajax
+
+        expect(page).to have_selector('#merge-dropdown', visible: true)
+
+        within "#merge-dropdown" do
+          find(" button.merge-action").click
+          expect(page).to have_css("ul[role='none']")
+        end
+      end
+
+      # # 519396
+      it "sets role as none for ul element in transfer dropdown" do
+        visit "resources/#{resource.id}"
+        wait_for_ajax
+
+        expect(page).to have_selector('#transfer-dropdown', visible: true)
+
+        within "#transfer-dropdown" do
+          find("button.transfer-action").click
+          expect(page).to have_css("ul[role='none']")
+        end
+      end
+
+      it "has role and aria attributes for the merge dropdown combobox" do
+        visit "resources/#{resource.id}"
+        second_resource = create(:resource, title: "Resource 2 Title #{Time.now.to_i}")
+        run_periodic_index
+        wait_for_ajax
+
+        expect(page).to have_selector('div#merge-dropdown', visible: true)
+
+        within "div#merge-dropdown" do
+          find("button.merge-action").click
+          expect(page).to have_css("ul.merge-form")
+          expect(page).to have_css("div[role='combobox'][aria-expanded='false']")
+          expect(page).to have_css("input[role='searchbox'][type='text'][aria-multiline='false']")
+          find("input[role='searchbox'][type='text']").fill_in with: second_resource.title
+          expect(page).to have_css("div[role='combobox'][aria-expanded='true']")
+          expect(page).to have_css("div[role='combobox'] ul[role='listbox']")
+          expect(page).to have_css("input[role='searchbox'][aria-controls='merge_ref__listbox']")
+        end
+      end
+
+      # 519346
+      # it "conveys purpose of the control through programmatic label" do
+      # end
+
+      # 519349
+      # it "has acceptable color contrast in dropdowns" do
+      # end
+
+      # 519350
+      # see https://www.w3.org/TR/wai-aria-1.1/#combobox
+      # also see: https://github.com/archivesspace/archivesspace/commit/9bcb1a8884c2a9f8d4d82a67b114b016fa3d0c2c
+    end
+
+    describe "color contrast" do
+      # 518792, 520876, 522397, 519342, 522396, 519349
+      # TODO: xit "has acceptable color contrast in placeholders" do
+        # untestable: axe testing gem is not capable of choosing colors in CSS
+      # end
+
+      # 519486, #519494
+      # TODO: fix the colors to achieve acceptable contrast
+      xit "has acceptable color contrast in the datepicker" do
+        visit "resources/#{resource.id}/edit"
+        wait_for_ajax
+
+        datepicker_toggle = find "input#resource_dates__0__begin_.date-field.initialised + .input-group-append button"
+        datepicker_toggle.click
+        wait_for_ajax
+
+        expect(page).to be_axe_clean.checking_only :'color-contrast'
+      end
+
+      # 521639, 521325, 523750, 519045, 518914, 523671, 520640, 519498, 523670
+      it "has acceptable color contrast for active menu dropdowns" do
+        visit "resources/#{resource.id}/edit"
+        wait_for_ajax
+
+        expect(page).to have_selector('.sidebar-entry-resource_linked_agents_', visible: true)
+
+        find(".sidebar-entry-resource_linked_agents_ a").click
+        within "#resource_linked_agents_" do
+          click_button "Add Agent Link"
+          agent_subrecords = find_all("li.linked_agent_initialised")
+          within agent_subrecords.last do
+            dropdown_button = find(".linker-wrapper .input-group-append > .dropdown-toggle")
+            dropdown_button.click
+            expect(page).to be_axe_clean.checking_only :'color-contrast'
+          end
+        end
+      end
+
+      # 523686, 523750, 523684,523683
+      it "has acceptable color contrast in the linkers" do
+        agent = create(:agent_person)
+        run_periodic_index
+
+        visit "resources/#{resource.id}/edit"
+        wait_for_ajax
+
+        expect(page).to have_selector('.sidebar-entry-resource_linked_agents_', visible: true)
+
+        find(".sidebar-entry-resource_linked_agents_ a").click
+        within "#resource_linked_agents_" do
+          click_button "Add Agent Link"
+          agent_subrecords = find_all("li.linked_agent_initialised")
+          within agent_subrecords.last do
+            field = find("input[role='searchbox']")
+            field.send_keys agent.names.first['primary_name']
+            within "ul[role='listbox']" do
+              expect(page).to be_axe_clean.checking_only :'color-contrast'
+            end
+          end
+        end
+      end
+
+      # 523681
+      it "has acceptable color contrast for active textarea and input boxes" do
+        visit "resources/#{resource.id}/edit"
+        wait_for_ajax
+
+        date_field = find "textarea#resource_repository_processing_note_"
+        date_field.click
+
+        expect(page).to be_axe_clean.checking_only :'color-contrast'
+      end
+
+      # 518955, 519449, 521318, 523762, 518915, 522650, 519400, 522670
+      # 523750, 523751, 519035, 523540, 523680, 522581, 519418, 523679
+      # TODO:
+      # it "has acceptable color contrast for tree expand/collapse button, drag & drop image, form element borders and required field indicators" do
+      # end
+    end
+  end
+
   it 'has the generate bulk archival object link included in the more dropdown menu on both the show and edit pages' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
@@ -551,6 +816,8 @@ describe 'Resources', js: true do
   it 'can add a rights statement with linked agent to a Resource' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
+    agent = create(:agent_person)
+    run_periodic_index
 
     visit "resources/#{resource.id}/edit"
 
@@ -574,7 +841,7 @@ describe 'Resources', js: true do
     end
 
     element = find('#token-input-resource_rights_statements__0__linked_agents__0__ref_')
-    element.fill_in with: 'resources'
+    element.fill_in with: agent.names.first['primary_name']
 
     wait_for_ajax
 
@@ -590,6 +857,9 @@ describe 'Resources', js: true do
 
     expect(page).to have_css '#resource_rights_statements_'
     find('#resource_rights_statements_ .accordion-toggle').click
+
+    wait_for_ajax
+
     expect(page).to have_css '#rights_statement_0'
     expect(page).to have_css '#rights_statement_0_linked_agents'
   end
@@ -791,6 +1061,7 @@ describe 'Resources', js: true do
     end
 
     click_on 'Export'
+    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
     click_on 'Download Digital Object Template'
 
     files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
