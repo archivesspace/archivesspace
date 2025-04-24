@@ -93,21 +93,18 @@ class LargeTree
       # ANW-617: generate a slugged URL for inclusion in the JSON for the root node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
       digital_instance = relates_digital_instance?(@root_type) ? has_digital_instance?(db, @root_table, @root_record.id) : false
 
-      if [Resource, ArchivalObject, DigitalObject, DigitalObjectComponent].include?(@root_record.class)
-        # there may be more sophisticated preference checking that should be done here
-        locale = Preference.current_preferences['defaults']['locale']
-        title = MultipleTitlesHelper.determine_primary_title(@root_record.title.map {|title| title.to_hash}, locale)
-      else
-        title = @root_record.title
-      end
+      titles = @root_record.title.map {|t| t.to_hash}
+      parsed_titles = titles.clone.each { |t| t[:title] = MixedContentParser.parse(t[:title], '/') }
 
-      response = waypoint_response(child_count).merge("title" => title,
-                                            "uri" => @root_record.uri,
-                                            "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
-                                            "jsonmodel_type" => @root_table.to_s,
-                                            "parsed_title" => MixedContentParser.parse(title, '/'),
-                                            "suppressed" => @root_record.suppressed,
-                                            "has_digital_instance" => digital_instance)
+      response = waypoint_response(child_count).merge(
+        "title" => titles[0]['title'],   # TODO: this is just to avoid breaking everything for now, will eventually be removed
+        "titles" => titles,
+        "uri" => @root_record.uri,
+        "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
+        "jsonmodel_type" => @root_table.to_s,
+        "parsed_titles" => parsed_titles,
+        "suppressed" => @root_record.suppressed,
+        "has_digital_instance" => digital_instance)
 
       @decorators.each do |decorator|
         response = decorator.root(response, @root_record)
@@ -138,6 +135,7 @@ class LargeTree
 
       digital_instance = relates_digital_instance?(@node_type) ? has_digital_instance?(db, @node_table, node_record.id) : false
       response = waypoint_response(child_count).merge("title" => node_record.display_string,
+                                                      "titles" => node_record.title.map { |t| t.to_hash },
                                                       "uri" => node_record.uri,
                                                       "position" => node_position,
                                                       "jsonmodel_type" => @node_table.to_s,
@@ -256,12 +254,20 @@ class LargeTree
                 :parent_id => parent_id)
         .filter(published_filter)
         .order(:position)
-        .select(:id, :repo_id, :title, :position, :slug, :suppressed)
+        .select(:id, :repo_id, :position, :slug, :suppressed)
         .offset(offset * WAYPOINT_SIZE)
         .limit(WAYPOINT_SIZE)
         .each do |row|
           record_ids << row[:id]
           records[row[:id]] = row
+          records[row[:id]][:titles] = []
+          db[:title].filter(:archival_object_id => row[:id])
+            .select(:title, :language_id)
+            .each do |title_row|
+              title = title_row[:title]
+              lang = db[:enumeration_value].where(id: title_row[:language_id]).select(:value).first&.fetch(:value)
+              records[row[:id]][:titles].append({title: title, lang: lang})
+            end
         end
 
       # Count up their children
@@ -283,16 +289,18 @@ class LargeTree
         child_count = child_counts.fetch(id, 0)
         digital_instance = child_digital_instances.include?(id)
 
-        # ANW-617: generate a slugged URL for inclusion in the JSON for the standard node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
-        waypoint_response(child_count).merge("title" => row[:title],
-                                             "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@node_type.to_s, row[:repo_id], row[:slug]),
-                                             "parsed_title" => MixedContentParser.parse(row[:title], '/'),
-                                             "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
-                                             "position" => (offset * WAYPOINT_SIZE) + idx,
-                                             "parent_id" => parent_id,
-                                             "suppressed" => row[:suppressed],
-                                             "jsonmodel_type" => @node_type.to_s,
-                                             "has_digital_instance" => digital_instance)
+        parsed_titles = row[:titles].clone.each { |t| t[:title] = MixedContentParser.parse(t[:title], '/') }
+        waypoint_response(child_count).merge(
+          "title" => row[:titles][0]['title'],   # TODO: this is just to avoid breaking everything for now, will eventually be removed
+          "titles" => row[:titles],
+          "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@node_type.to_s, row[:repo_id], row[:slug]),
+          "parsed_titles" => parsed_titles,
+          "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
+          "position" => (offset * WAYPOINT_SIZE) + idx,
+          "parent_id" => parent_id,
+          "suppressed" => row[:suppressed],
+          "jsonmodel_type" => @node_type.to_s,
+          "has_digital_instance" => digital_instance)
 
       end
 
