@@ -8,7 +8,7 @@ describe 'Resources controller' do
 
 
   it "lets you create a resource and get it back" do
-    resource = JSONModel(:resource).from_hash("title" => "a resource",
+    resource = JSONModel(:resource).from_hash("titles" => [build(:json_title, :title => "a resource")],
                                               "dates" => [{
                                                 "date_type" => "single",
                                                 "label" => "creation",
@@ -27,17 +27,17 @@ describe 'Resources controller' do
                                                 "extent_type" => "reels"}])
 
     id = resource.save
-    expect(JSONModel(:resource).find(id).title).to eq("a resource")
+    expect(JSONModel(:resource).find(id).titles[0]['title']).to eq("a resource")
   end
 
 
   it "lets you update a resource" do
     resource = create(:json_resource)
 
-    resource.title = "an updated resource"
+    resource.titles[0]['title'] = "an updated resource"
     resource.save
 
-    expect(JSONModel(:resource).find(resource.id).title).to eq("an updated resource")
+    expect(JSONModel(:resource).find(resource.id).titles[0]['title']).to eq("an updated resource")
   end
 
 
@@ -116,7 +116,7 @@ describe 'Resources controller' do
 
     aos = []
     ["earth", "australia", "canberra"].each do |name|
-      ao = create(:json_archival_object, {:title => "archival object: #{name}"})
+      ao = create(:json_archival_object, :titles => [build(:json_title, :title => "archival object: #{name}")])
       if not aos.empty?
         ao.parent = {:ref => aos.last.uri}
       end
@@ -154,14 +154,14 @@ describe 'Resources controller' do
     powers = ['coal', 'wind', 'love']
 
     powers.each do |p|
-      create(:json_resource, {:title => p})
+      create(:json_resource, {:titles => [build(:json_title, :title => p)]})
     end
 
     resources = JSONModel(:resource).all(:page => 1)['results']
-    expect(resources.any? { |res| res.title == generate(:generic_title) }).to be_falsey
+    expect(resources.any? { |res| res.titles[0]['title'] == generate(:generic_title) }).to be_falsey
 
     powers.each do |p|
-      expect(resources.any? { |res| res.title == p }).to be_truthy
+      expect(resources.any? { |res| res.titles[0]['title'] == p }).to be_truthy
     end
   end
 
