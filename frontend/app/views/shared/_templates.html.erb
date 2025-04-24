@@ -212,10 +212,7 @@
    <li id="${item.id.replace(/\//g,'_')}">
       <input type="hidden" name="${config.path}[_resolved]{if config.multiplicity != 'one'}[]{/if}" />
       <input type="hidden" name="${config.path}[${config.name}]{if config.multiplicity != 'one'}[]{/if}" value="${item.id}" />
-      <%= render_token :label => "${item.name|h}",
-                       :type => "${item.json.jsonmodel_type}",
-                       :uri => "${item.id}",
-                       :inside_token_editor => true %>
+      <%= render_linker_token("${item.name}", "${item.json.jsonmodel_type}", "${item.id}") %>
    </li>
 --></div>
 

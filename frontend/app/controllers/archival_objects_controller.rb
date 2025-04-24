@@ -1,4 +1,5 @@
 class ArchivalObjectsController < ApplicationController
+  include ApplicationHelper
 
   set_access_control  "view_repository" => [:index, :show, :models_in_graph],
                       "update_resource_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :publish, :unpublish, :accept_children, :validate_rows],
@@ -18,7 +19,7 @@ class ArchivalObjectsController < ApplicationController
       @archival_object.instances = []
       @archival_object.position = params[:position]
 
-      flash[:success] = t("archival_object._frontend.messages.duplicated", archival_object_display_string: @archival_object.display_string)
+      flash[:success] = t("archival_object._frontend.messages.duplicated", archival_object_display_string: clean_mixed_content(@archival_object.display_string))
     else
       @archival_object = ArchivalObject.new._always_valid!
       @archival_object.parent = {'ref' => ArchivalObject.uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
@@ -32,7 +33,7 @@ class ArchivalObjectsController < ApplicationController
         acc = Accession.find(params[:accession_id], find_opts)
         @archival_object.populate_from_accession(acc)
 
-        flash.now[:info] = t("archival_object._frontend.messages.spawned", accession_display_string: acc.title)
+        flash.now[:info] = t("archival_object._frontend.messages.spawned", accession_display_string: clean_mixed_content(acc.title))
         flash[:spawned_from_accession] = acc.id
       end
     end
@@ -112,8 +113,8 @@ class ArchivalObjectsController < ApplicationController
                 :on_valid => ->(id) {
 
                   flash_success = parent ?
-                    t("archival_object._frontend.messages.updated_with_parent", archival_object_display_string: @archival_object.title) :
-                    t("archival_object._frontend.messages.updated", archival_object_display_string: @archival_object.title)
+                    t("archival_object._frontend.messages.updated_with_parent", archival_object_display_string: clean_mixed_content(@archival_object.title)) :
+                    t("archival_object._frontend.messages.updated", archival_object_display_string: clean_mixed_content(@archival_object.title))
                   flash.now[:success] = flash_success
                   if @archival_object["is_slug_auto"] == false &&
                      @archival_object["slug"] == nil &&
@@ -195,7 +196,7 @@ class ArchivalObjectsController < ApplicationController
       if response.code == '200'
         @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
         resource = @archival_object['resource']['_resolved']
-        flash[:success] = t("archival_object._frontend.messages.transfer_success", archival_object_display_string: @archival_object.title, resource_title: resource['title'])
+        flash[:success] = t("archival_object._frontend.messages.transfer_success", archival_object_display_string: clean_mixed_content(@archival_object.title), resource_title: clean_mixed_content(resource['title']))
         redirect_to :controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(params["transfer"]["ref"]), :anchor => "tree::archival_object_#{params[:id]}"
       else
         raise ASUtils.json_parse(response.body)['error'].to_s
@@ -224,7 +225,7 @@ class ArchivalObjectsController < ApplicationController
       return redirect_to resolver.view_uri
     end
 
-    flash[:success] = t("archival_object._frontend.messages.deleted", archival_object_display_string: archival_object.title)
+    flash[:success] = t("archival_object._frontend.messages.deleted", archival_object_display_string: clean_mixed_content(archival_object.title))
 
     if previous_record
       redirect_to :controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{JSONModel(:archival_object).id_for(previous_record['uri'])}"
@@ -299,7 +300,7 @@ class ArchivalObjectsController < ApplicationController
     response = JSONModel::HTTP.post_form("#{@archival_object.uri}/publish")
 
     if response.code == '200'
-      flash[:success] = t("archival_object._frontend.messages.published", archival_object_title: @archival_object.title)
+      flash[:success] = t("archival_object._frontend.messages.published", archival_object_title: clean_mixed_content(@archival_object.title))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -314,7 +315,7 @@ class ArchivalObjectsController < ApplicationController
     response = JSONModel::HTTP.post_form("#{@archival_object.uri}/unpublish")
 
     if response.code == '200'
-      flash[:success] = t("archival_object._frontend.messages.unpublished", archival_object_title: @archival_object.title)
+      flash[:success] = t("archival_object._frontend.messages.unpublished", archival_object_title: clean_mixed_content(@archival_object.title))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -338,7 +339,7 @@ class ArchivalObjectsController < ApplicationController
     archival_object = JSONModel(:archival_object).find(params[:id])
     archival_object.set_suppressed(true)
 
-    flash[:success] = t("archival_object._frontend.messages.suppressed", archival_object_title: archival_object.title)
+    flash[:success] = t("archival_object._frontend.messages.suppressed", archival_object_title: clean_mixed_content(archival_object.title))
     redirect_to(:controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{params[:id]}")
   end
 
@@ -347,7 +348,7 @@ class ArchivalObjectsController < ApplicationController
     archival_object = JSONModel(:archival_object).find(params[:id])
     archival_object.set_suppressed(false)
 
-    flash[:success] = t("archival_object._frontend.messages.unsuppressed", archival_object_title: archival_object.title)
+    flash[:success] = t("archival_object._frontend.messages.unsuppressed", archival_object_title: clean_mixed_content(archival_object.title))
     redirect_to(:controller => :resources, :action => :show, :id => JSONModel(:resource).id_for(archival_object['resource']['ref']), :anchor => "tree::archival_object_#{params[:id]}")
   end
 

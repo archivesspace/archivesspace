@@ -1,4 +1,5 @@
 class ClassificationTermsController < ApplicationController
+  include ApplicationHelper
 
   set_access_control  "view_repository" => [:index, :show],
                       "update_classification_record" => [:new, :edit, :create, :update, :accept_children],
@@ -35,8 +36,8 @@ class ClassificationTermsController < ApplicationController
                 :on_valid => ->(id) {
 
                   success_message = @classification_term.parent ?
-                                      t("classification_term._frontend.messages.created_with_parent", classification_term_title: @classification_term.title) :
-                                      t("classification_term._frontend.messages.created", classification_term_title: @classification_term.title)
+                                      t("classification_term._frontend.messages.created_with_parent", classification_term_title: clean_mixed_content(@classification_term.title)) :
+                                      t("classification_term._frontend.messages.created", classification_term_title: clean_mixed_content(@classification_term.title))
                   if params.has_key?(:plus_one)
                     flash[:success] = success_message
                   else
@@ -73,8 +74,8 @@ class ClassificationTermsController < ApplicationController
                 :on_valid => ->(id) {
 
                   success_message = parent ?
-                    t("classification_term._frontend.messages.updated_with_parent", classification_term_title: @classification_term.title) :
-                    t("classification_term._frontend.messages.updated", classification_term_title: @classification_term.title)
+                    t("classification_term._frontend.messages.updated_with_parent", classification_term_title: clean_mixed_content(@classification_term.title)) :
+                    t("classification_term._frontend.messages.updated", classification_term_title: clean_mixed_content(@classification_term.title))
                   flash.now[:success] = success_message
 
                   if @classification_term["is_slug_auto"] == false &&
@@ -113,7 +114,7 @@ class ClassificationTermsController < ApplicationController
     classification_term = JSONModel(:classification_term).find(params[:id])
     classification_term.delete
 
-    flash[:success] = t("classification_term._frontend.messages.deleted", classification_term_title: classification_term.title)
+    flash[:success] = t("classification_term._frontend.messages.deleted", classification_term_title: clean_mixed_content(classification_term.title))
 
     resolver = Resolver.new(classification_term['classification']['ref'])
     redirect_to resolver.view_uri

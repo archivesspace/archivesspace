@@ -10,6 +10,7 @@ class AgentsController < ApplicationController
   before_action :get_required, only: [:new, :create, :required]
 
   include ExportHelper
+  include ApplicationHelper
 
   def index
     respond_to do |format|
@@ -143,7 +144,7 @@ class AgentsController < ApplicationController
     response = JSONModel::HTTP.post_form("#{agent.uri}/publish")
 
     if response.code == '200'
-      flash[:success] = t('agent._frontend.messages.published', agent_title: agent.display_name['sort_name'])
+      flash[:success] = t('agent._frontend.messages.published', agent_title: clean_mixed_content(agent.display_name['sort_name']))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
