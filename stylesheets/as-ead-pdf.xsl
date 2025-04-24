@@ -659,8 +659,8 @@
                         <xsl:apply-templates select="ead:physloc" mode="overview"/>
                         <xsl:apply-templates select="ead:langmaterial" mode="overview"/>
                         <xsl:apply-templates select="ead:materialspec" mode="overview"/>
-                        <xsl:apply-templates select="../ead:dao" mode="overview"/>
-                        <xsl:apply-templates select="../ead:daogrp" mode="overview"/>
+                        <xsl:apply-templates select="ead:dao|../ead:dao" mode="overview"/>
+                        <xsl:apply-templates select="ead:daogrp|../ead:daogrp" mode="overview"/>
                         <xsl:apply-templates select="ead:container" mode="overview"/>
                         <xsl:apply-templates select="ead:abstract" mode="overview"/>
                         <xsl:apply-templates select="ead:note" mode="overview"/>
@@ -1236,21 +1236,32 @@
         </fo:table-row>
     </xsl:template>
     <xsl:template match="ead:daogrp" mode="overview">
-        <fo:block>
-            <xsl:apply-templates/>
-        </fo:block>
+        <fo:table-row>
+            <fo:table-cell padding-bottom="8pt" padding-right="16pt" text-align="right" font-weight="bold">
+                <fo:block>
+                    <xsl:value-of select="local:tagName(.)"/>:
+                </fo:block>
+            </fo:table-cell>
+            <fo:table-cell>
+                <fo:block>
+                    <xsl:apply-templates/>
+                </fo:block>
+            </fo:table-cell>
+        </fo:table-row>
     </xsl:template>
-    <xsl:template match="ead:daoloc" mode="overview">
-        <fo:basic-link external-destination="url('{@*:href}')" xsl:use-attribute-sets="ref">
-            <xsl:choose>
-                <xsl:when test="text()">
-                    <xsl:value-of select="."/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="@*:href"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </fo:basic-link>
+    <xsl:template match="ead:daoloc">
+        <fo:block>
+            <fo:basic-link external-destination="url('{@*:href}')" xsl:use-attribute-sets="ref">
+                <xsl:choose>
+                    <xsl:when test="text()">
+                        <xsl:value-of select="."/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="@*:href"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </fo:basic-link>
+        </fo:block>
     </xsl:template>
 
     <!--Render elements -->
@@ -1566,8 +1577,8 @@
             <xsl:apply-templates select="ead:unitdate" mode="dsc"/>
             <xsl:apply-templates select="ead:physdesc" mode="dsc"/>
             <xsl:apply-templates select="ead:physloc" mode="dsc"/>
-            <xsl:apply-templates select="ead:dao"/>
-            <xsl:apply-templates select="ead:daogrp"/>
+            <xsl:apply-templates select="ead:dao" mode="dsc"/>
+            <xsl:apply-templates select="ead:daogrp" mode="dsc"/>
             <xsl:apply-templates select="ead:langmaterial" mode="dsc"/>
             <xsl:apply-templates select="ead:materialspec" mode="dsc"/>
             <xsl:apply-templates select="ead:abstract" mode="dsc"/>
@@ -1715,6 +1726,11 @@
             <fo:basic-link external-destination="url('{@*:href}')" xsl:use-attribute-sets="ref">
                 <xsl:value-of select="$title"/>
             </fo:basic-link>
+        </fo:block>
+    </xsl:template>
+    <xsl:template match="ead:daogrp" mode="dsc">
+        <fo:block xsl:use-attribute-sets="smpDsc">
+            <xsl:apply-templates/>
         </fo:block>
     </xsl:template>
     <!-- Everything else in the dsc -->
