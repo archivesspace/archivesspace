@@ -1,3 +1,5 @@
 brand:
   brand:
     title: Interfaccia pubblica di ArchivesSpace
+  actions:
+    close: Chiudi
