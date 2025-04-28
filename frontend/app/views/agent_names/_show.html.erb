@@ -14,7 +14,7 @@
               <span class="glyphicon"></span>
             </div>
             <div class="col-md-6">
-              <%= name['sort_name'] %>
+              <%= clean_mixed_content(name['sort_name']) %>
             </div>
             <div class="col-md-4">
               <% if name['authorized'] %><span class="badge"><%= t("name_person.authorized") %></span><% end %>

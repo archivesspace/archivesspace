@@ -8,7 +8,7 @@ class AccessionsController < ApplicationController
                       "manage_repository" => [:defaults, :update_defaults]
 
   include ExportHelper
-
+  include ApplicationHelper
 
   def index
     respond_to do |format|
@@ -111,7 +111,7 @@ class AccessionsController < ApplicationController
                 :model => Accession,
                 :on_invalid => ->() { render action: "new" },
                 :on_valid => ->(id) {
-                    flash[:success] = t("accession._frontend.messages.created", accession_display_string: @accession.title)
+                    flash[:success] = t("accession._frontend.messages.created", accession_display_string: clean_mixed_content(@accession.title))
                     if @accession["is_slug_auto"] == false &&
                        @accession["slug"] == nil &&
                        params["accession"] &&
@@ -132,7 +132,7 @@ class AccessionsController < ApplicationController
                   return render action: "edit"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = t("accession._frontend.messages.updated", accession_display_string: @accession.title)
+                  flash[:success] = t("accession._frontend.messages.updated", accession_display_string: clean_mixed_content(@accession.title))
                   if @accession["is_slug_auto"] == false &&
                      @accession["slug"] == nil &&
                      params["accession"] &&

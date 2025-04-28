@@ -10,6 +10,7 @@ class ResourcesController < ApplicationController
 
 
   include ExportHelper
+  include ApplicationHelper
 
   def index
     respond_to do |format|
@@ -185,7 +186,7 @@ class ResourcesController < ApplicationController
                   render action: "new"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = t("resource._frontend.messages.created", resource_title: @resource.title)
+                  flash[:success] = t("resource._frontend.messages.created", resource_title: clean_mixed_content(@resource.title))
 
                   if @resource["is_slug_auto"] == false &&
                      @resource["slug"] == nil &&
@@ -211,7 +212,7 @@ class ResourcesController < ApplicationController
                   render_aspace_partial :partial => "edit_inline"
                 },
                 :on_valid => ->(id) {
-                  flash.now[:success] = t("resource._frontend.messages.updated", resource_title: @resource.title)
+                  flash.now[:success] = t("resource._frontend.messages.updated", resource_title: clean_mixed_content(@resource.title))
                   if @resource["is_slug_auto"] == false &&
                      @resource["slug"] == nil &&
                      params["resource"] &&
@@ -236,7 +237,7 @@ class ResourcesController < ApplicationController
     end
 
 
-    flash[:success] = t("resource._frontend.messages.deleted", resource_title: resource.title)
+    flash[:success] = t("resource._frontend.messages.deleted", resource_title: clean_mixed_content(resource.title))
     redirect_to(:controller => :resources, :action => :index, :deleted_uri => resource.uri)
   end
 
@@ -306,7 +307,7 @@ class ResourcesController < ApplicationController
     response = JSONModel::HTTP.post_form("#{resource.uri}/publish")
 
     if response.code == '200'
-      flash[:success] = t("resource._frontend.messages.published", resource_title: resource.title)
+      flash[:success] = t("resource._frontend.messages.published", resource_title: clean_mixed_content(resource.title))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -321,7 +322,7 @@ class ResourcesController < ApplicationController
     response = JSONModel::HTTP.post_form("#{resource.uri}/unpublish")
 
     if response.code == '200'
-      flash[:success] = t("resource._frontend.messages.unpublished", resource_title: resource.title)
+      flash[:success] = t("resource._frontend.messages.unpublished", resource_title: clean_mixed_content(resource.title))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -346,7 +347,7 @@ class ResourcesController < ApplicationController
     resource = JSONModel(:resource).find(params[:id])
     resource.set_suppressed(true)
 
-    flash[:success] = t("resource._frontend.messages.suppressed", resource_title: resource.title)
+    flash[:success] = t("resource._frontend.messages.suppressed", resource_title: clean_mixed_content(resource.title))
     redirect_to(:controller => :resources, :action => :show, :id => params[:id])
   end
 
@@ -355,7 +356,7 @@ class ResourcesController < ApplicationController
     resource = JSONModel(:resource).find(params[:id])
     resource.set_suppressed(false)
 
-    flash[:success] = t("resource._frontend.messages.unsuppressed", resource_title: resource.title)
+    flash[:success] = t("resource._frontend.messages.unsuppressed", resource_title: clean_mixed_content(resource.title))
     redirect_to(:controller => :resources, :action => :show, :id => params[:id])
   end
 
