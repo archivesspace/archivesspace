@@ -493,6 +493,7 @@ $(function () {
           onResult: formatResults,
           zindex: 1100,
           tokenFormatter: function (item) {
+            item.name = convertEADMarkup(item.name);
             var tokenEl = $(
               AS.renderTemplate('linker_selectedtoken_template', {
                 item: item,
@@ -507,7 +508,7 @@ $(function () {
             return tokenEl;
           },
           resultsFormatter: function (item) {
-            var string = item.name;
+            var string = convertEADMarkup(item.name);
             var $resultSpan = $(
               "<span class='" +
                 item.json.jsonmodel_type +
@@ -516,7 +517,7 @@ $(function () {
                 "'>"
             );
             var extra_class = tag_subjects_by_term_type(item);
-            $resultSpan.text(string);
+            $resultSpan.html(string);
             $resultSpan.prepend(
               "<span class='icon-token " + extra_class + "'></span>"
             );
@@ -618,6 +619,44 @@ $(function () {
       init();
     });
   };
+
+  function convertEADMarkup(text) {
+    return (
+      text
+        // Mimic MixedContentParser by matching tags to capture any render attr value and content
+        .replace(
+          /<title\s+render="([^"]+)">(.*?)<\/title>/g,
+          convertEADRenderToHTML
+        )
+        .replace(
+          /<title>(.*?)<\/title>/g,
+          '<span class="emph render-none">$1</span>'
+        )
+        .replace(
+          /<emph\s+render="([^"]+)">(.*?)<\/emph>/g,
+          convertEADRenderToHTML
+        )
+        .replace(
+          /<emph>(.*?)<\/emph>/g,
+          '<span class="emph render-none">$1</span>'
+        )
+        .replace(
+          /<unitdate\s+render="([^"]+)">(.*?)<\/unitdate>/g,
+          convertEADRenderToHTML
+        )
+        .replace(
+          /<unitdate>(.*?)<\/unitdate>/g,
+          '<span class="emph render-none">$1</span>'
+        )
+        .replace(/<lb\/>/g, '<br/>')
+    );
+
+    function convertEADRenderToHTML(match, render, content) {
+      return render === 'nonproport'
+        ? `<code class="emph render-nonproport">${content}</code>`
+        : `<span class="emph render-${render}">${content}</span>`;
+    }
+  }
 });
 
 $(document).ready(function () {

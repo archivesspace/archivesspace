@@ -18,7 +18,7 @@
             </div>
             <div class="col-md-7">
               <% if instance["instance_type"] == "digital_object" %>
-                <%= instance["digital_object"]["_resolved"]["title"] %>
+                <%= clean_mixed_content(instance["digital_object"]["_resolved"]["title"]) %>
               <% elsif instance["sub_container"] and instance["sub_container"].length > 0 %>
                 <%= instance["sub_container"]["top_container"]["_resolved"]["display_string"] %>
               <% end %>
