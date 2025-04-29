@@ -11,7 +11,7 @@
     <% relationships.each do |relationship| %>
       <% agent = relationship['_resolved'] %>
       <li>
-        <%= link_to agent['display_name']['sort_name'], app_prefix(agent['uri']) %>
+        <%= link_to raw(process_mixed_content(agent['display_name']['sort_name'])), app_prefix(agent['uri']) %>
         <% if relationship['specific_relator'] %>
           (<%= I18n.t("enumerations.specific_relator.#{relationship['specific_relator']}", :default => relationship['specific_relator']) %>)
         <% else %>
