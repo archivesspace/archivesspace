@@ -1,55 +1,56 @@
-states:
-  suppressed: Bloccato
-  deleted: Eliminato
-  auto_generated: Generato automaticamente
-user_defined:
-  boolean_2: Booleano 2
-  boolean_3: Booleano 3
-  integer_1: Intero 1
-  real_1: Reale 1
-  real_2: Reale 2
-  real_3: Reale 3
-  string_1: Stringa 1
-  string_2: Stringa 2
-  string_3: Stringa 3
-  text_1: Testo 1
-  text_2: Testo 2
-  date_1_inline_help: AAAA-MM-GG Formato Richiesto
-  date_2: Data 2
-  date_2_inline_help: AAAA-MM-GG Formato Richiesto
-  enum_1: Valore Controllato 1
-  enum_2: Valore Controllato 2
-  enum_3: Valore Controllato 3
-  enum_4: Valore Controllato 4
-  _singular: Definito dall'utente
-  _plural: Definito dagli utenti
-  date_1: Data 1
-  date_3: Data 3
-  boolean_1: Booleano 1
-  text_4: Testo 4
-  date_3_inline_help: AAAA-MM-GG Formato Richiesto
-  text_3: Testo 3
-  string_4: Stringa 4
-  integer_2: Intero 2
-  integer_3: Intero 3
-  text_5: Testo 5
-slug:
-  slug: Slug
-  slug_tooltip: "<p>Quando si usano human-readable URLs, l'ultima parte dell'URL pubblico per questo record
-    nell'interfaccia pubblica di ArchivesSpace. Lo slug può essere aggiunto o aggiornato manualmente,
-    o generato automaticamente in base ai settings di configurazione per gli human-readable URLs nel file
-    config.rb in questo server.</p>\n"
-  public_url: URL Pubblico
-  is_slug_auto: Genera Automaticamente Slug?
-  is_slug_auto_tooltip: "<p>Se questo campo è spuntato, lo slug per questo record sarà automaticamente
-    generato quando il record è salvato, basandosi sulle impostazioni di configurazione per gli human-readable
-    URLs nel file config.rb sul server.</p>\n"
-  autogen_disabled: Uno slug non può essere automaticamente generato dai dati a disposizione basandosi
-    sulle impostazioni di configurazione
-  public_url_tooltip: "<p>Se questo record è pubblicato o aggiornato per la pubblicazione, l'URL completo
-    per questo record è nell'interfaccia utente pubblica. Se human-readable URLs vengono usati la fine
-    dell'URL sarà lo slug.</p>\n<p>Che gli human-readable URLs vengano usati o no, l'URI originale per
-    questo record rimane sempre valido.</p>\n"
-boolean:
-  "true": Vero
-  "false": Falso
+it:
+  states:
+    suppressed: Bloccato
+    deleted: Eliminato
+    auto_generated: Generato automaticamente
+  user_defined:
+    boolean_2: Booleano 2
+    boolean_3: Booleano 3
+    integer_1: Intero 1
+    real_1: Reale 1
+    real_2: Reale 2
+    real_3: Reale 3
+    string_1: Stringa 1
+    string_2: Stringa 2
+    string_3: Stringa 3
+    text_1: Testo 1
+    text_2: Testo 2
+    date_1_inline_help: AAAA-MM-GG Formato Richiesto
+    date_2: Data 2
+    date_2_inline_help: AAAA-MM-GG Formato Richiesto
+    enum_1: Valore Controllato 1
+    enum_2: Valore Controllato 2
+    enum_3: Valore Controllato 3
+    enum_4: Valore Controllato 4
+    _singular: Definito dall'utente
+    _plural: Definito dagli utenti
+    date_1: Data 1
+    date_3: Data 3
+    boolean_1: Booleano 1
+    text_4: Testo 4
+    date_3_inline_help: AAAA-MM-GG Formato Richiesto
+    text_3: Testo 3
+    string_4: Stringa 4
+    integer_2: Intero 2
+    integer_3: Intero 3
+    text_5: Testo 5
+  slug:
+    slug: Slug
+    slug_tooltip: "<p>Quando si usano human-readable URLs, l'ultima parte dell'URL pubblico per questo record
+      nell'interfaccia pubblica di ArchivesSpace. Lo slug può essere aggiunto o aggiornato manualmente,
+      o generato automaticamente in base ai settings di configurazione per gli human-readable URLs nel file
+      config.rb in questo server.</p>\n"
+    public_url: URL Pubblico
+    is_slug_auto: Genera Automaticamente Slug?
+    is_slug_auto_tooltip: "<p>Se questo campo è spuntato, lo slug per questo record sarà automaticamente
+      generato quando il record è salvato, basandosi sulle impostazioni di configurazione per gli human-readable
+      URLs nel file config.rb sul server.</p>\n"
+    autogen_disabled: Uno slug non può essere automaticamente generato dai dati a disposizione basandosi
+      sulle impostazioni di configurazione
+    public_url_tooltip: "<p>Se questo record è pubblicato o aggiornato per la pubblicazione, l'URL completo
+      per questo record è nell'interfaccia utente pubblica. Se human-readable URLs vengono usati la fine
+      dell'URL sarà lo slug.</p>\n<p>Che gli human-readable URLs vengano usati o no, l'URI originale per
+      questo record rimane sempre valido.</p>\n"
+  boolean:
+    "true": Vero
+    "false": Falso

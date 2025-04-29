@@ -1,20 +1,21 @@
-brand:
-  title: АрхівзСпєс Публічний Інтерфейс
-  title_link_text: Повернутися на АрхівзСпєс головну сторінку
-  welcome_head: Ласкаво просимо до АрхівзСпєс
-  welcome_page_title: АрхівзСпєс Публічний Інтерфейс
-  welcome_message: "<p>Шукайте в наших колекціях, цифрових матеріалах тощо.<p>\n"
-actions:
-  search: Пошук
-  search_header: Пошук в архівах
-  new_search: Новий Пошук
-  search_within: Пошук у результатах
-  search_in: Пошук %{тип}
-  close: Закрити
-  refine_search: Уточнити пошук
-  backup: Повернутися на попередню сторінку
-  backup_abbr: Повернись
-  cite: Цитування
-  cite_item: Процитувати статтю
-  cite_item_description: Процитувати пункт Опис
-  digitized: ''
+uk:
+  brand:
+    title: АрхівзСпєс Публічний Інтерфейс
+    title_link_text: Повернутися на АрхівзСпєс головну сторінку
+    welcome_head: Ласкаво просимо до АрхівзСпєс
+    welcome_page_title: АрхівзСпєс Публічний Інтерфейс
+    welcome_message: "<p>Шукайте в наших колекціях, цифрових матеріалах тощо.<p>\n"
+  actions:
+    search: Пошук
+    search_header: Пошук в архівах
+    new_search: Новий Пошук
+    search_within: Пошук у результатах
+    search_in: Пошук %{тип}
+    close: Закрити
+    refine_search: Уточнити пошук
+    backup: Повернутися на попередню сторінку
+    backup_abbr: Повернись
+    cite: Цитування
+    cite_item: Процитувати статтю
+    cite_item_description: Процитувати пункт Опис
+    digitized: ''
