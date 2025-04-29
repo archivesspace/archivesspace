@@ -19,7 +19,7 @@
     <ul class="assessment-search-result-listing">
       <% record_titles.uniq.sort.each do |title| %>
         <li>
-          <%= title %>
+          <%= clean_mixed_content(title).html_safe %>
         </li>
       <% end %>
     </ul>

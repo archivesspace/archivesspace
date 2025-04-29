@@ -18,7 +18,7 @@
             <%= form.label_and_textarea "identifier" %>
             <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @classification_term} if AppConfig[:use_human_readable_urls] %>
 
-            <%= form.label_and_textarea "title" %>
+            <%= form.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root), :escape => false} %>
             <%= form.label_and_textarea "description" %>
 
             <%= render_plugin_partials("basic_information_classification_term",

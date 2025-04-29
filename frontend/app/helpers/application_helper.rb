@@ -432,13 +432,4 @@ module ApplicationHelper
       agent.send(subrecord).length.positive?
     end
   end
-
-  def render_linker_token(name, type, id)
-    render_token(
-      :label => clean_mixed_content(name),
-      :type => type,
-      :uri => id,
-      :inside_token_editor => true
-    )
-  end
 end

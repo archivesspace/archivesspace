@@ -11,7 +11,7 @@
       </div>
       <% terms.each do | term | %>
         <div class="row">
-          <div class="col-md-6"><%= term["term"] %></div>
+          <div class="col-md-6"><%= clean_mixed_content(term["term"]) %></div>
           <div class="col-md-6"><%= t("enumerations.subject_term_type.#{term["term_type"]}", :default => term["term_type"]) %></div>
         </div>
       <% end %>

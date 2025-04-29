@@ -17,7 +17,7 @@
                                      :form => readonly,
                                      :record => digital_object) %>
 
-          <%= readonly.label_and_textarea "title" %>
+          <%= readonly.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root), :escape => false} %>
           <%= readonly.label_and_textfield "digital_object_id" %>
 
           <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_urls] %>
