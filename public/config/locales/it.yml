@@ -3,3 +3,7 @@ brand:
     title: Interfaccia pubblica di ArchivesSpace
   actions:
     close: Chiudi
+  search_results:
+    filtered_by: Filtrato per
+  search_sorting:
+    sort_by: 'Ordina per:'
