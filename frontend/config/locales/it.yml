@@ -1,5 +1,4 @@
-actions:
-  add: Aggiungere
+it:
   actions:
     add_event_event_type: Tipo
     add: Aggiungi
