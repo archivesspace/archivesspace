@@ -59,7 +59,7 @@ describe 'Restricted properties', js: true do
 
     visit 'logout'
 
-    run_index_round
+    run_periodic_index
 
     login_user(user)
 

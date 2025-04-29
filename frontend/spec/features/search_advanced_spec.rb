@@ -28,6 +28,82 @@ describe 'Advanced Search', js: true do
     select_repository(@repository)
   end
 
+  describe 'Accessibility' do
+    before(:each) do
+      login_admin
+    end
+
+    it 'sets the expanded state on advanced search dropdown' do
+      visit '/'
+      page.has_css? "div.repository-header"
+
+      within "div.repository-header" do
+        switcher = find "button.search-switcher"
+
+        expect(switcher).to have_xpath "self::button[@aria-expanded='false']"
+        expect(switcher).not_to have_xpath "self::button[@aria-expanded='true']"
+
+        switcher.click
+        wait_for_ajax
+
+        expect(switcher).to have_xpath "self::button[@aria-expanded='true']"
+        expect(switcher).not_to have_xpath "self::button[@aria-expanded='false']"
+      end
+    end
+
+    it 'advanced search form fields are in logical order in DOM' do
+      visit '/'
+      page.has_css? "div.repository-header"
+
+      within "div.repository-header" do
+        switcher = find "button.search-switcher"
+        switcher.send_keys :tab
+        wait_for_ajax
+
+        # Doesn't tab down into hidden advanced search form
+        expect(page.evaluate_script("document.activeElement.outerHTML")).to include("repository-label")
+
+        # Expand advanced search and tab into it
+        switcher.click
+        wait_for_ajax
+        last_button_in_navbar = find "a.context-help"
+        last_button_in_navbar.send_keys :tab
+
+        expect(page.evaluate_script("document.activeElement.classList[0]")).to include("advanced-search-row-op-input")
+      end
+    end
+
+    it 'advanced search form fields all have visible labels' do
+      visit '/'
+      page.has_css? "div.repository-header"
+
+      within "div.repository-header" do
+        switcher = find "button.search-switcher"
+        switcher.click
+        wait_for_ajax
+
+        expect(page).to be_axe_clean.checking_only :'label-title-only'
+      end
+    end
+
+    it 'expands and dismisses repository popover with keyboard alone' do
+      visit '/'
+      page.has_css? "div.repository-header"
+
+      within "div.repository-header" do
+        expect(page).not_to have_xpath("*//span[starts-with(@aria-describedby,'popover')]")
+        repo = find "span.repository-label"
+        repo.send_keys ''
+        expect(page).to have_xpath("*//span[starts-with(@aria-describedby,'popover')]")
+
+        repo.send_keys :escape
+        wait_for_ajax
+
+        expect(page).not_to have_xpath("*//span[starts-with(@aria-describedby,'popover')]")
+      end
+    end
+  end
+
   it 'is available via the navbar and renders when toggled' do
     find('.navbar .search-switcher').click
     find('.search-switcher-hide')
