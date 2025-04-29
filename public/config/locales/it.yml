@@ -7,3 +7,5 @@ it:
     filtered_by: Filtrato per
   search_sorting:
     sort_by: 'Ordina per:'
+  agent:
+    _singular: Nome
