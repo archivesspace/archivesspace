@@ -159,3 +159,149 @@ actions:
     print_to_pdf: Genera PDF
   states:
     auto_generated: Generato automaticamente
+  export_options:
+    include_uris: Includi URIs
+    include_daos: Includi i tags &lt;dao&gt;
+    use_mods: Usa MODS
+    ead3: Schema EAD3
+    use_dc: Usa Dublin Core
+    numbered_cs: Usa i tags numerati &lt;c&gt;
+  pagination:
+    last: Ultimo
+    previous_label: Precedente
+    next: '&#187;'
+    next_label: Successivo
+    summary_offset_connector: '-'
+    summary_total_connector: di
+    summary_suffix: Risultati
+    page_prefix: Pagina
+    page_connector: di
+    first: Primo
+    previous: '&#171;'
+  search_results:
+    context: Trovato in
+    selected: Selezionato?
+    no_results: Records non trovati
+    no_results_prefix: Non ci sono risultati della ricerca per
+    result_type: Tipo di record
+    result_title: Titolo
+    result_identifier: Identificatore
+    filtered_by: Filtrato per
+    modified: Ultima modifica fatta il
+    created: Creato da
+    actions: Azioni
+    title: Risultati della ricerca
+    text_placeholder: Filtrato per testo
+    component_switch: Mostra componenti
+    help:
+      row_selection: Clicca una riga per selezionarla per le operazioni in blocco.
+        Tieni premuto ALT mentre clicchi una casella di spunta per selezionare, o
+        deselezionare, precedenti righe multiple.
+  search_sorting:
+    sort_by: 'Ordina per:'
+    asc: Ascendente
+    desc: Discendente
+    select: Seleziona
+    and: 'e:'
+  search:
+    accession:
+      publish: Pubblicato
+      score: Rilevanza
+      acquisition_type: Tipo di acquisizione
+      accession_date: ''
+      resource_type: Tipo di risorsa
+      restrictions_apply: Restrizioni applicate
+      audit_info: Informazioni sull'audit
+      creators: Creatore
+      dates: Date
+      create_time: Creato
+      desc: Discendente
+      asc: Ascendente
+      title: Titolo
+      subjects: Soggetto
+      identifier: Identificatore
+      extents: Entità
+      processing_priority: Priorità di elaborazione
+      processors: Processori
+      user_mtime: Modificato
+      uri: URI
+      representative_file_version: Immagine thumbnail
+      use_restrictions: Restrizioni d'uso
+    resource:
+      score: Rilevanza
+      title: Titolo
+      publish: Pubblicato
+      classification_path: Percorso di classificazione
+      subjects: Soggetto
+      audit_info: Informazioni sull'audit
+      dates: Date
+      processors: Processori
+      desc: Discendente
+      representative_file_version: Immagine thumbnail
+      uri: URI
+      level: Livello
+      identifier: Identificatore
+      resource_type: Tipo di risorsa
+      langcode: Lingua dei materiali
+      restrictions: Restrizioni
+      ead_id: Identificativo EAD
+      user_mtime: Modificato
+      create_time: Creato
+      asc: Ascendente
+    archival_object:
+      score: Rilevanza
+      identifier: Identificativo componente
+      publish: Pubblicato
+      ref_id: Identificativo REF
+      level: Livello
+      audit_info: Informazioni sull'audit
+      langcode: Lingua dei materiali
+      dates: Date
+      user_mtime: Modificato
+      create_time: Creato
+      asc: Ascendente
+      desc: Discendente
+      uri: URI
+      title: Titolo
+      representative_file_version: Immagine thumbnail
+    subject:
+      score: Rilevanza
+      asc: Ascendente
+      uri: URI
+      create_time: Creato
+      desc: Discendente
+      publish: Pubblicato
+      source: Fonte
+      audit_info: Informazioni sull'audit
+      user_mtime: Modificato
+    digital_object:
+      score: Rilevanza
+      title: Titolo
+      publish: Pubblicato
+      level: Livello
+      digital_object_type: Tipo di oggetto digitale
+      digital_object_id: Identificativo oggetto digitale
+      audit_info: Informazioni sull'audit
+      langcode: Lingua dei materiali
+      restrictions: Restrizioni
+      user_mtime: Modificato
+      desc: Discendente
+      dates: Date
+      create_time: Creato
+      asc: Ascendente
+      subjects: Soggetto
+      uri: URI
+      representative_file_version: Immagine thumbnail
+    digital_object_component:
+      publish: Pubblicato
+      context: Trovato in
+      audit_info: Informazioni sull'audit
+      langcode: Lingua dei materiali
+      desc: Discendente
+      uri: URI
+      score: Rilevanza
+      title: Titolo
+      dates: Date
+      user_mtime: Modificato
+      create_time: Creato
+      asc: Ascendente
