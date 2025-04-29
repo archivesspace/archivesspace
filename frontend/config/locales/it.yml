@@ -34,7 +34,7 @@ it:
     merge_replace: Sostituisci
     merge_add: Aggiungi
     merge_confirm_title: Unisci a questo record?
-    merge_agent_compare_agent_details: Compara agenti
+    merge_agent_compare_agent_details: Compara agents
     merge_from_browse_confirm_title: Unisci i record selezionati?
     batch_merge: Seleziona il record dentro cui tutti gli altri record(s) elencati
       saranno uniti. Ogni record linkato sarà linkato nuovamente a questo record e
@@ -116,17 +116,17 @@ it:
     drop_after: ''
     edit_default_archival_object_values: Modifica componenti predefiniti
     refresh_page: Ricarica pagina
-    merge_agent_confirm_message: I record selezionati saranno uniti all'interno dell'agente
+    merge_agent_confirm_message: I record selezionati saranno uniti all'interno dell'agent
       '%{source}'. I record selezionati saranno eliminati e ogni record linkato sarà
-      linkato nuovamente a questo agente. Cliccando il pulsante 'Compara Agenti' si
+      linkato nuovamente a questo agent. Cliccando il pulsante 'Compara Agents' si
       aprirà una finestra che darà l'opzione di scegliere quali campi e sub-records
       conservare da ogni record.
     merge_container_profile_confirm_message: I record selezionati saranno uniti all'interno
       del profilo container '%{merge_destination}'. Tutti i record selezionati saranno
       eliminati e ogni record linkato sarà linkato nuovamente a questo soggetto.
-    merge_agent_from_browse_confirm_message: Il primo agente selezionato avrà i records
+    merge_agent_from_browse_confirm_message: Il primo agent selezionato avrà i records
       successivamente selezionati uniti all'interno. Tutti i records selezionati successivamente
-      saranno eliminati e ogni record linkato sarà linkato nuovamente al primo agente
+      saranno eliminati e ogni record linkato sarà linkato nuovamente al primo agent
       selezionato.
     merge_subject_confirm_message: I record selezionati saranno uniti all'interno
       del soggetto '%{source}'. Tutti i record selezionati saranno eliminati e ogni
@@ -304,3 +304,223 @@ it:
       user_mtime: Modificato
       create_time: Creato
       asc: Ascendente
+      representative_file_version: Immagine thumbnail
+    agent:
+      score: Rilevanza
+      title: Nome
+      primary_type: Tipo di agent
+      authority_id: Identificativo autorità
+      rules: Regole
+      is_user: È un utente?
+      asc: Ascendente
+      create_time: Creato
+      source: Fonte
+      audit_info: Informazioni sull'audit
+      user_mtime: Modificato
+      desc: Discendente
+      uri: URI
+      publish: Pubblicato
+    location:
+      title: Posizione
+      publish: Pubblicato
+      building: Edificio
+      floor: Pavimento
+      room: Stanza
+      owner_repo_display_string_u_ssort: Repository
+      temporary: Temporaneo
+      user_mtime: Modificato
+      create_time: Creato
+      asc: Ascendente
+      desc: Discendente
+      uri: URI
+      area: Area
+      score: Rilevanza
+      none: Nessuno
+      audit_info: Informazioni sull'audit
+      location_profile_display_string_u_ssort: Profilo di posizione
+    event:
+      audit_info: Informazioni sull'audit
+      asc: Ascendente
+      score: Rilevanza
+      agents: Agent
+      desc: Discendente
+      uri: URI
+    collection_management:
+      score: Rilevanza
+      audit_info: Informazioni sull'audit
+      asc: Ascendente
+      desc: Discendente
+      uri: URI
+    classification:
+      title: Titolo
+      audit_info: Informazioni sull'audit
+      asc: Ascendente
+      score: Rilevanza
+      desc: Discendente
+      uri: URI
+      publish: Pubblicato
+      identifier: Identificativo
+    assessment:
+      asc: Ascendente
+      desc: Discendente
+      uri: URI
+      audit_info: Informazioni sull'audit
+      score: Rilevanza
+    repositories:
+      score: Rilevanza
+      asc: Ascendente
+      audit_info: Informazioni sull'audit
+      desc: Discendente
+      uri: URI
+    top_container:
+      asc: Ascendente
+      desc: Discendente
+      uri: URI
+      audit_info: Informazioni sull'audit
+      score: Rilevanza
+    top_container_mgmt:
+      desc: Discendente
+      asc: Ascendente
+    container_profile:
+      score: Rilevanza
+      audit_info: Informazioni sull'audit
+      asc: Ascendente
+      desc: Discendente
+      uri: URI
+    location_profile:
+      score: Rilevanza
+      audit_info: Informazioni sull'audit
+      asc: Ascendente
+      desc: Discendente
+      uri: URI
+    job:
+      score: Rilevanza
+      audit_info: Informazioni sull'audit
+      asc: Ascendente
+      uri: URI
+      desc: Discendente
+    multi:
+      score: Rilevanza
+      relevance: Rilevanza
+      representative_file_version: Immagine thumbnail
+      audit_info: Informazioni sull'audit
+      asc: Ascendente
+      desc: Discendente
+      uri: URI
+  navbar:
+    import_marcxml_subjects_and_agents: MARCXML (solo soggetti e agents)
+  footer:
+    archivesspace_home: Visita <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Invia
+      feedback o riferisci un problema</a>
+  import:
+    marcxml_subjects_and_agents_title: Importa i soggetti e gli agents da un file
+      MARCXML
+  errors:
+    merge_restricted_contact_details: Questa unione non può essere completata perché
+      uno o più degli agents ha dettagli di contatto a cui non hai il permesso di
+      accedere.
+    merge_different_types: Gli agents selezionati per questa unione devono essere
+      dello stesso tipo.
+    merge_denied_for_system_user: Uno o più agents è un utente del sistema.
+    merge_denied_relationship: Questi agents hanno una relazione. Rimuovi la relazione
+      prima di procedere con l'unione.
+    cannot_delete_repository_agent: Questo agent è linkato a una repository e non
+      può essere rimosso.
+    merge_conflict: 'Non è stato possibile unire gli agent(s): %{message}'
+    merge_too_many_merge_candidates: Solo un agent può essere selezionato per questa
+      unione.
+  agent:
+    _frontend:
+      messages:
+        published: L'agent <strong>%{agent_title}</strong>, i suoi sub-records e componenti
+          sono stati pubblicati
+        created: Agent creato
+        updated: Agent salvato
+        deleted: Agent eliminato
+        delete_conflict: "Non è stato possibile eliminare l'agent: <pre>%{error}</pre>"
+        merged: Agent(s) uniti
+        please_select_a_agent_to_merge: Per favore seleziona un agent
+      section:
+        description_information: ''
+        date_of_existence: Data di esistenza
+        dates_of_existence: Date di esistenza
+        basic_information: Informazioni di base
+        search_embedded: Records linkati
+        linked_via_rights_statement: Records linkati tramite dichiarazione di diritti
+        events: Eventi
+        merge_destination_record: Questo record sarà aggiornato
+        structured_date_single_fields: Singola data
+        structured_date_range_fields: Range di data
+        identity_information: ''
+        merge_candidate_record: Questo record sarà eliminato
+        record_control_information: ''
+      action:
+        preview: Preview unione
+        create: Crea agente
+  agent_contact:
+    is_representative: Preferito
+    notes_tooltip: "<p>Ulteriori note o altre informazioni riguardo il contatto.</p>\n"
+    _frontend:
+      action:
+        add: Aggiungi contatto
+  linked_agent:
+    _frontend:
+      action:
+        make_primary_tooltip: "<p>Usato per indicare quale agent linkato al record
+          è l'agent primario. Solo un agent linkato può essere designato come primario..</p>
+          \n<p>Nell'export MARCXML, l'agent primario sarà il valore 1XX.</p> \n"
+        add: Aggiungi link agent
+        make_primary: Rendi primario
+    is_primary: Primario
+  used_language:
+    _singular: Lingua usata
+    _plural: Lingue usate
+  agent_occupation:
+    _singular: Occupazione
+    _plural: Occupazioni
+  agent_record_identifier:
+    source: Fonte
+  agent_resource:
+    file_uri: File URI
+  metadata_rights_declaration:
+    license: Licenza
+    file_uri: File URI
+    descriptive_note: Nota descrittiva
+  job:
+    _frontend:
+      audit_data: Dati dell'audit
+  agent_identifier:
+    identifier_type: Tipo di identificativo
+  agent_gender:
+    _singular: Genere
+  agent_function:
+    _singular: Funzione
+    _plural: Funzioni
+  agent_place:
+    _singular: Luogo
+    _plural: Luoghi
+  agent_topic:
+    _singular: Argomento
+    _plural: Argomenti
+  agent_alternate_set:
+    file_uri: File URI
+  agent_conventions_declaration:
+    file_uri: File URI
+  agent_source:
+    file_uri: File URI
+  advanced_search:
+    operator:
+      NOT: Non
+      AND: E
+      OR: O
+  batch_delete:
+    agents:
+      error: 'Impossibile eliminare gli agents:'
+      success: Agents eliminati
+  related_agent:
+    _frontend:
+      messages:
+        select_a_type: <em>Per favore seleziona un tipo di relazione</em>
+      action:
+        add: Aggiungi agent relativi
