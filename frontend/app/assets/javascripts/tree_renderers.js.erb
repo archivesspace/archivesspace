@@ -224,6 +224,14 @@ DigitalObjectRenderer.prototype.build_node_title = function(node) {
 
 function ClassificationRenderer() {
     BaseRenderer.call(this);
+
+    this.nodeTemplate = $('<div class="table-row"> ' +
+                          `  <div class="table-cell drag-handle" style="width: 2em;">${dragHandleMarkup()}</div>` +
+                          '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"></i></button></span> </div>' +
+                          '  <div class="table-cell" style="width: 8%;"></div>' +
+                          '  <div class="table-cell" style="width: 18%;"></div>' +
+                          '  <div class="table-cell" style="width: 28%;"></div>' +
+                          '</div>');
 };
 
 ClassificationRenderer.prototype = new BaseRenderer();
@@ -242,6 +250,9 @@ ClassificationRenderer.prototype.add_node_columns = function (row, node) {
       .find('.title .record-title')
       .html(() => recordTitleHandler(node.suppressed, title))
       .attr('title', title);
+
+    // Ensure the record title is properly positioned
+    row.find('.title').css('white-space', 'nowrap');
 };
 
 ClassificationRenderer.prototype.build_title = function(node) {
@@ -308,7 +319,7 @@ function dragHandleMarkup() {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="${bs4Gray700}"
-      width="40%"
+      width="20px"
       role="presentation"
       viewBox="0 0 320 512">
       <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
