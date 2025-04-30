@@ -1,4 +1,4 @@
-<% fa_grip_svg = render_aspace_partial :partial => "shared/fa_grip_svg" %>
+<% grip_svg = render_aspace_partial :partial => "shared/grip_svg" %>
 <%= setup_context(:title => t('assessment_attribute_definitions._frontend.title')) %>
 
 <%= form_for @assessment_attribute_definitions, :as => "assessment_attribute_definitions", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form', :id => "assessment_attributes_form"} do |f| %>
@@ -51,7 +51,7 @@
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text form-control repo-attribute-drag-handle">
-                          <%= fa_grip_svg %>
+                          <%= grip_svg %>
                         </span>
                         <span class="input-group-text form-control repo-attribute-search">
                           <a target="_blank" aria-label="<%= t("assessment_attribute_definitions._frontend.action.find_rating", :rating_type =>rating.fetch('label')) %>" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{rating.fetch('label')}\"" %>">
@@ -122,7 +122,7 @@
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text form-control repo-attribute-drag-handle">
-                          <%= fa_grip_svg %>
+                          <%= grip_svg %>
                         </span>
                         <span class="input-group-text form-control repo-attribute-search">
                           <a target="_blank" aria-label="<%= t("assessment_attribute_definitions._frontend.action.find_format", :format_type =>format.fetch('label')) %>" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_formats:\"#{format.fetch('label')}\"" %>">
@@ -193,7 +193,7 @@
                     <div class="input-group">
                       <div class="input-group-prepend repo-attribute-drag-handle">
                         <span class="input-group-text form-control repo-attribute-drag-handle">
-                          <%= fa_grip_svg %>
+                          <%= grip_svg %>
                         </span>
                         <span class="input-group-text form-control repo-attribute-search">
                           <a target="_blank" aria-label="<%= t("assessment_attribute_definitions._frontend.action.find_issue", :issue_type =>conservation_issue.fetch('label')) %>" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{conservation_issue.fetch('label')}\"" %>">
@@ -245,7 +245,7 @@
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text form-control repo-attribute-drag-handle">
-            <%= fa_grip_svg %>
+            <%= grip_svg %>
           </span>
         </div>
         <%= text_field_tag 'formats[][label]', '', :class => 'form-control', :"aria-label" =>  t('assessment_attribute_definitions._frontend.section.formats') %>
@@ -265,7 +265,7 @@
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text form-control repo-attribute-drag-handle">
-            <%= fa_grip_svg %>
+            <%= grip_svg %>
           </span>
         </div>
         <%= text_field_tag 'ratings[][label]', '', :class => 'form-control', :"aria-label" =>  t('assessment_attribute_definitions._frontend.section.ratings') %>
@@ -285,7 +285,7 @@
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text form-control repo-attribute-drag-handle">
-            <%= fa_grip_svg %>
+            <%= grip_svg %>
           </span>
         </div>
         <%= text_field_tag 'conservation_issues[][label]', '', :class => 'form-control', :"aria-label" =>  t('assessment_attribute_definitions._frontend.section.conservation_issues') %>
