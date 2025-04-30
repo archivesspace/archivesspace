@@ -270,9 +270,19 @@ describe 'Mixed Content in title fields', js: true do
     end
 
     context 'in search results' do
-      it 'from a search' do
-        visit "/search?q=Mixed+Content+#{@now}"
-        expect(page).to have_css "#tabledSearchResults .title > span#{@title_selector}", text: "Mixed Content #{@now}"
+      describe 'from a search query' do
+        before(:each) do
+          visit "/search?q=Mixed+Content+#{@now}"
+        end
+
+        it 'filter options' do
+          expect(page).to have_css ".search-listing-filter span#{@emph_selector}", text: "Agent Person #{@now}"
+          expect(page).to have_css ".search-listing-filter span#{@emph_selector}", text: "Subject #{@now}"
+        end
+
+        it 'results table' do
+          expect(page).to have_css "#tabledSearchResults .title > span#{@title_selector}", text: "Mixed Content #{@now}"
+        end
       end
 
       describe 'in an index view' do
