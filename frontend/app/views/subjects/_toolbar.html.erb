@@ -29,7 +29,7 @@
         <% end %>
 
         <% if user_can?('delete_subject_record') %>
-          <%= button_delete_action url_for(:controller => :subjects, :action => :delete, :id => @subject.id), { :"data-title" => t("actions.delete_confirm_title", :title => @subject.title) } %>
+          <%= button_delete_action url_for(:controller => :subjects, :action => :delete, :id => @subject.id), { :"data-title" => t("actions.delete_confirm_title", :title => clean_mixed_content(@subject.title)) } %>
         <% end %>
       </div>
     </div>

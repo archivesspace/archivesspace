@@ -101,7 +101,7 @@
       <% end %>
       <% if user_can?('delete_archival_record') %>
         <div class="btn btn-inline-form">
-          <%= button_delete_action url_for(:action => :delete, :id => record.id), { :"data-title" => t("actions.delete_confirm_title", :title => delete_action_title) } %>
+          <%= button_delete_action url_for(:action => :delete, :id => record.id), { :"data-title" => t("actions.delete_confirm_title", :title => clean_mixed_content(delete_action_title)) } %>
         </div>
       <% end %>
     </div>
