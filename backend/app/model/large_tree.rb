@@ -261,13 +261,13 @@ class LargeTree
           record_ids << row[:id]
           records[row[:id]] = row
           records[row[:id]][:titles] = []
-          db[:title].filter(:archival_object_id => row[:id])
-            .select(:title, :language_id)
-            .each do |title_row|
-              title = title_row[:title]
-              lang = db[:enumeration_value].where(id: title_row[:language_id]).select(:value).first&.fetch(:value)
-              records[row[:id]][:titles].append({title: title, lang: lang})
-            end
+          db[:title].filter("#{@node_type}_id".to_sym => row[:id])
+          .select(:title, :language_id)
+          .each do |title_row|
+            title = title_row[:title]
+            lang = db[:enumeration_value].where(id: title_row[:language_id]).select(:value).first&.fetch(:value)
+            records[row[:id]][:titles].append({title: title, lang: lang})
+          end
         end
 
       # Count up their children
@@ -288,10 +288,9 @@ class LargeTree
         row = records[id]
         child_count = child_counts.fetch(id, 0)
         digital_instance = child_digital_instances.include?(id)
-
         parsed_titles = row[:titles].clone.each { |t| t[:title] = MixedContentParser.parse(t[:title], '/') }
         waypoint_response(child_count).merge(
-          "title" => row[:titles][0]['title'],   # TODO: this is just to avoid breaking everything for now, will eventually be removed
+          "title" => row[:titles].present? ? row[:titles][0]['title'] : "",   # TODO: this is just to avoid breaking everything for now, will eventually be removed
           "titles" => row[:titles],
           "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@node_type.to_s, row[:repo_id], row[:slug]),
           "parsed_titles" => parsed_titles,
@@ -301,7 +300,6 @@ class LargeTree
           "suppressed" => row[:suppressed],
           "jsonmodel_type" => @node_type.to_s,
           "has_digital_instance" => digital_instance)
-
       end
 
       @decorators.each do |decorator|
