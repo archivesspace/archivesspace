@@ -796,12 +796,13 @@ AS.initSubRecordSorting = function ($list) {
     $list.children('li').each(function () {
       var $child = $(this);
       if (!$child.hasClass('sort-enabled')) {
-        // Manually duplicate frontend/app/views/shared/_fa_grip_svg.html.erb here
-        // instead of renaming this file .erb
-        const fa_grip_svg = `
-<svg xmlns="http://www.w3.org/2000/svg" class="fa-grip" height="16" width="10" viewBox="0 0 320 512"><path d="M40 352l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zm192 0l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 320c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 192l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 160c-22.1 0-40-17.9-40-40L0 72C0 49.9 17.9 32 40 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40z"/></svg>
-`;
-        var $handle = $(`<div class='drag-handle'>${fa_grip_svg}</div>`);
+        // Duplicate shared/_grip_svg.html.erb, tweak height, width, viewbox
+        // for consistency with tree_renderers.js.erb
+        const grip_svg = `
+<svg height="32" width="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+</svg>`;
+        var $handle = $(`<div class='drag-handle'>${grip_svg}</div>`);
         if ($list.parent().hasClass('controls')) {
           $handle.addClass('inline');
         }
