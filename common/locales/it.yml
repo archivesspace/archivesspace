@@ -83,3 +83,6 @@ it:
     _plural: Soggetto
   classification:
     creator: Creatore
+  advanced_search:
+    text:
+      subjects: Soggetto
