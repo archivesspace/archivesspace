@@ -80,7 +80,7 @@ it:
     _plural: Software
   subject:
     _singular: Soggetto
-    _plural: Soggetto
+    _plural: Soggetti
   classification:
     creator: Creatore
   advanced_search:
