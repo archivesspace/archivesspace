@@ -90,7 +90,7 @@
             <% end %>
           <% end %>
           <% if user_can?('delete_archival_record') %>
-            <%= button_delete_action url_for(:controller => :accessions, :action => :delete, :id => @accession.id), { :"data-title" => t("actions.delete_confirm_title", :title => @accession.title) } %>
+            <%= button_delete_action url_for(:controller => :accessions, :action => :delete, :id => @accession.id), { :"data-title" => t("actions.delete_confirm_title", :title => clean_mixed_content(@accession.title)) } %>
           <% end %>
         <% end %>
       </div>

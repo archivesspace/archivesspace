@@ -10,7 +10,7 @@
     </button>
     <ul class="dropdown-menu merge-form dropdown-menu-right" role="none">
       <li>
-        <p class="mb-0"><%= t("#{singular}._frontend.messages.merge_description") %>   <%= record.title %></p>
+        <p class="mb-0"><%= t("#{singular}._frontend.messages.merge_description") %>   <%= clean_mixed_content(record.title) %></p>
         <%= form_context :merge, {} do |form| %>
 
         <fieldset class="mt-3 mb-4 p-0">

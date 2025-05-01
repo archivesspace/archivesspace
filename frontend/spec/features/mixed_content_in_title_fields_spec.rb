@@ -249,6 +249,72 @@ describe 'Mixed Content in title fields', js: true do
       end
     end
 
+    context 'in a record toolbar' do
+      describe 'merge dropdown' do
+        def test_merge_dropdown(path, title_selector, expected_text)
+          visit path
+          expect(page).to have_css "#merge-dropdown span#{title_selector}", text: expected_text, visible: false
+        end
+
+        it 'for resources' do
+          test_merge_dropdown("/resources/#{@resource.id}/edit", @title_selector, "Mixed Content #{@now}")
+        end
+
+        it 'for digital objects' do
+          test_merge_dropdown("/digital_objects/#{@do.id}/edit", @title_selector, "Digital object #{@now}")
+        end
+
+        it 'for subjects' do
+          test_merge_dropdown("/subjects/#{@subject.id}/edit", @emph_selector, "Subject #{@now}")
+        end
+
+        it 'for agents' do
+          test_merge_dropdown("/agents/agent_person/#{@agent.id}/edit", @title_selector, "Agent Person #{@now}")
+        end
+      end
+
+      describe 'delete button' do
+        def test_delete_modal(path, title_selector, expected_text)
+          visit path
+          click_button 'Delete'
+          wait_for_ajax
+          expect(page).to have_css "#confirmChangesModal span#{title_selector}", text: expected_text
+        end
+
+        it 'for resources' do
+          test_delete_modal("/resources/#{@resource.id}/edit", @title_selector, "Mixed Content #{@now}")
+        end
+
+        it 'for archival objects' do
+          test_delete_modal("/resources/#{@resource.id}/edit#tree::archival_object_#{@ao.id}", @title_selector, "Archival Object #{@now}")
+        end
+
+        it 'for digital objects' do
+          test_delete_modal("/digital_objects/#{@do.id}/edit", @title_selector, "Digital object #{@now}")
+        end
+
+        it 'for digital object components' do
+          test_delete_modal("/digital_objects/#{@do.id}/edit#tree::digital_object_component_#{@doc.id}", @emph_italic_selector, "Digital object component #{@now}")
+        end
+
+        it 'for accessions' do
+          test_delete_modal("/accessions/#{@acc2.id}/edit", @emph_selector, "Accession 2 #{@now}")
+        end
+
+        it 'for subjects' do
+          test_delete_modal("/subjects/#{@subject.id}/edit", @emph_selector, "Subject #{@now}")
+        end
+
+        it 'for agents' do
+          test_delete_modal("/agents/agent_person/#{@agent.id}/edit", @title_selector, "Agent Person #{@now}")
+        end
+
+        it 'for classifications' do
+          test_delete_modal("/classifications/#{@classification.id}/edit", @emph_selector, "Classification #{@now}")
+        end
+      end
+    end
+
     context 'in the largetree' do
       it 'for resources and archival objects' do
         visit "/resources/#{@resource.id}"
