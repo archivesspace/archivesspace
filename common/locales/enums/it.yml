@@ -1,1 +1,817 @@
 it:
+  enumerations:
+    country_iso_3166:
+      TC: Turks e Caicos (isole)
+      TH: Thailandia
+      YT: Mayotte
+      VE: Venezuela
+      ZM: Zambia
+      ZW: Zimbabwe
+      UZ: Uzbekistan
+      US: Stati Uniti d'America
+      YE: Yemen
+      UY: Uruguay
+      PS: Palestina (territorio occupato)
+      ZA: Sudafrica
+      RW: Ruanda
+      SV: El Salvador
+      PT: Portogallo
+      QA: Qatar
+      RS: Serbia
+      SC: Seychelles
+      SI: Slovenia
+      SL: Sierra Leone
+      SO: Somalia
+      TN: Tunisia
+      TO: Tonga
+      SM: San Marino
+      ST: São Tomé e Príncipe
+      TD: Ciad
+      AE: Emirati Arabi Uniti
+      AG: Antigua e Barbuda
+      AI: Anguilla
+      AL: Albania
+      AM: Armenia
+      AO: Angola
+      AQ: Antartide
+      AR: Argentina
+      AS: Samoa Americane
+      AW: Aruba
+      AX: Isole Åland
+      AZ: Azerbaigian
+      BB: Barbados
+      BD: Bangladesh
+      BF: Burkina Faso
+      BG: Bulgaria
+      BH: Bahrein
+      BI: Burundi
+      BJ: Benin
+      BL: Saint-Barthélemy
+      BM: Bermuda
+      BN: Brunei
+      BO: Bolivia
+      BR: Brasile
+      BS: Bahamas
+      BT: Bhutan
+      CA: Canada
+      CC: Isole Cocos (Keeling)
+      CD: Repubblica Democratica del Congo
+      CF: Repubblica Centrafricana
+      CG: Repubblica del Congo
+      CH: Svizzera
+      CI: Costa d'Avorio
+      CO: Colombia
+      CZ: Repubblica Ceca
+      DE: Germania
+      DJ: Gibuti
+      DK: Danimarca
+      DM: Dominica
+      DO: Repubblica Dominicana
+      EH: Sahara Occidentale
+      ER: Eritrea
+      ES: Spagna
+      FJ: Figi
+      FK: Isole Falkland (Malvine)
+      FM: Micronesia, Stati Federati di
+      GB: Regno Unito
+      GD: Grenada
+      GE: Georgia
+      GF: Guyana francese
+      GG: Guernsey
+      GH: Ghana
+      GI: Gibilterra
+      GL: Groenlandia
+      GM: Gambia
+      GN: Guinea
+      GS: Georgia del Sud e Isole Sandwich Australi
+      GT: Guatemala
+      GU: Guam
+      IO: Territorio Britannico dell'Oceano Indiano
+      IQ: Iraq
+      JE: Jersey
+      JM: Giamaica
+      JO: Giordania
+      KI: Kiribati
+      KM: Comore
+      KN: Saint Kitts e Nevis
+      KW: Kuwait
+      KY: Isole Cayman
+      KZ: Kazakistan
+      LA: Laos
+      LB: Libano
+      LC: Saint Lucia
+      LI: Liechtenstein
+      LK: Sri Lanka
+      LR: Liberia
+      LS: Lesotho
+      LY: Libia
+      MA: Marocco
+      MF: Saint-Martin (Francia)
+      MG: Madagascar
+      MH: Isole Marshall
+      MK: Macedonia del Nord
+      ML: Mali
+      MM: Birmania (Myanmar)
+      MN: Mongolia
+      MO: Macao
+      MP: Isole Marianne Settentrionali
+      MT: Malta
+      MU: Mauritius
+      MV: Maldive
+      MW: Malawi
+      MX: Messico
+      MY: Malaysia (Malesia)
+      MZ: Mozambico
+      NA: Namibia
+      NC: Nuova Caledonia
+      NE: Niger
+      NG: Nigeria
+      NI: Nicaragua
+      NL: Paesi Bassi
+      "NO": Norvegia
+      PE: Perù
+      PW: Palau
+      RE: La Riunione (isola)
+      RO: Romania
+      SA: Arabia Saudita
+      SB: Isole Salomone
+      SH: Sant'Elena, Ascensione e Tristan da Cunha
+      SJ: Svalbard e Jan Mayen
+      SK: Slovacchia
+      SY: Siria
+      SZ: eSwatini (Swaziland)
+      TK: Tokelau
+      TL: Timor Est
+      TM: Turkmenistan
+      TR: Turchia
+      TT: Trinidad e Tobago
+      TV: Tuvalu
+      TW: Taiwan
+      TZ: Tanzania
+      UA: Ucraina
+      UG: Uganda
+      UM: Isole minori esterne degli Stati Uniti d'America
+      VA: Città del Vaticano
+      VI: Isole Vergini Statunitensi
+      VN: Vietnam
+      VU: Vanuatu
+      WF: Wallis e Futuna
+      WS: Samoa
+      BV: Isola Bouvet
+      FR: Francia
+      KR: Corea del Sud
+      CM: Camerun
+      CK: Isole Cook
+      BW: Botswana
+      CV: Capo Verde
+      ID: Indonesia
+      GW: Guinea-Bissau
+      GP: Guadalupa
+      GR: Grecia
+      FI: Finlandia
+      LU: Lussemburgo
+      LV: Lettonia
+      LT: Lituania
+      IE: Irlanda
+      HM: Isole Heard e McDonald
+      IM: Isola di Man
+      BZ: Belize
+      KH: Cambogia
+      HK: Hong Kong
+      IN: India
+      EC: Ecuador
+      MR: Mauritania
+      BY: Bielorussia
+      MC: Principato di Monaco
+      FO: Fær Øer
+      KG: Kirghizistan
+      CN: Cina
+      CX: Isola di Natale
+      EG: Egitto
+      GA: Gabon
+      IR: Iran
+      CR: Costa Rica
+      EE: Estonia
+      GY: Guyana
+      HT: Haiti
+      HU: Ungheria
+      AD: Andorra
+      ET: Etiopia
+      GQ: Guinea Equatoriale
+      AT: Austria
+      AU: Australia
+      BA: Bosnia ed Erzegovina
+      BE: Belgio
+      BQ: Bonaire, Sint Eustatius e Saba
+      AF: Afghanistan
+      ME: Montenegro
+      IS: Islanda
+      HN: Honduras
+      HR: Croazia
+      KP: Corea del Nord
+      MD: Moldavia
+      MS: Montserrat (isola)
+      MQ: Martinica
+      NF: Isola Norfolk
+      PN: Isole Pitcairn
+      RU: Russia
+      SE: Svezia
+      PG: Papua Nuova Guinea
+      PL: Polonia
+      SD: Sudan
+      SS: Sudan del Sud
+      PR: Porto Rico
+      PK: Pakistan
+      SG: Singapore
+      SR: Suriname
+      TF: Terre Australi e Antartiche Francesi
+      SX: Sint Maarten (Paesi Bassi)
+      PY: Paraguay
+      SN: Senegal
+      VC: Saint Vincent e Grenadine
+      PH: Filippine
+      PM: Saint-Pierre e Miquelon
+      NP: Nepal
+      OM: Oman
+      PA: Panama
+      NZ: Nuova Zelanda
+      TJ: Tagikistan
+      NR: Nauru
+      NU: Niue
+      PF: Polinesia francese
+      TG: Togo
+      VG: Isole Vergini Britanniche
+      CY: Cipro
+      DZ: Algeria
+      CW: Curaçao
+      KE: Kenya
+      CL: Cile
+      CU: Cuba
+      IT: Italia
+      IL: Israele
+      JP: Giappone
+    date_calendar:
+      gregorian: Gregoriano
+    language_iso639_2:
+      bho: Bhojpuri
+      cos: Corso
+      hmo: Hiri Motu
+      ang: Inglese Antico (450-1100 Ca.)
+      loz: Lozi
+      asm: Assamese
+      bas: Basa
+      ber: Berbera (Altra Lingua)
+      cpp: Creolo-Portoghese (Altra Lingua)
+      bal: Beluci
+      sat: Santali
+      sel: Selkupico
+      sem: Semitica (Altra Lingua)
+      scn: Siciliano
+      sco: Scozzese
+      san: Sanscrito
+      sas: Sasak
+      sio: Siouan, Sioux (Altra Lingua)
+      sin: Singalese
+      snk: Soninke
+      sog: Sogdiano
+      sna: Shona
+      snd: Sindhi
+      sot: Sotho del Sud
+      srn: Sranan Tongo
+      srd: Sardo
+      spa: Spagnolo
+      ssa: Nilo-Sahariana (Altra Lingua)
+      suk: Sukuma
+      sun: Sundanese
+      sus: Susu
+      sux: Sumero
+      swa: Swahili
+      swe: Svedese
+      srp: Serbo
+      srr: Serer
+      tat: Tataro del Volga
+      tem: Temne
+      ter: Tereno
+      tel: Telugu
+      tet: Tetum
+      tig: Tigre
+      tib: Tibetano
+      tli: Tlingit
+      tog: Tonga (Africa)
+      ton: Tonga (Oceania)
+      tsn: Tswana
+      tyv: Tuvinian
+      udm: Udmurt
+      uga: Ugaritico
+      tvl: Tuvalu
+      vot: Voto
+      wak: Wakash (Lingue)
+      wal: Wolaytta (Wolamo)
+      war: Waray
+      was: Washo
+      wel: Gallese
+      wln: Vallone
+      xal: Calmucco (Oirat)
+      xho: Xhosa
+      yao: Yao (Bantu)
+      yap: Yap
+      yid: Yiddish
+      yor: Yoruba
+      zza: Zaza
+      akk: Accado
+      aka: Akan
+      anp: Angika
+      apa: Apache (Lingue)
+      ara: Arabo
+      arw: Aruaco
+      ast: Asturiano
+      aym: Aymara
+      aze: Azero
+      awa: Awadhi
+      bai: Bamileke (Lingue)
+      bad: Banda (Lingue)
+      bak: Baschiro
+      bih: Bihari (Altra Lingua)
+      bin: Bini
+      bla: Siksika
+      bis: Bislama
+      bos: Bosniaco
+      bnt: Bantu (Altra Lingua)
+      bra: Braj
+      bre: Bretone
+      ceb: Cebuano
+      che: Ceceno
+      cha: Chamorro
+      chb: Chibcha
+      chm: Mari
+      chn: Chinook
+      cho: Choctaw
+      chp: Chipewyan
+      chr: Cherokee
+      chu: Slavo Ecclesiastico
+      cre: Cree
+      dar: Dargwa
+      dan: Danese
+      dsb: Sorabo Inferiore
+      eng: Inglese
+      enm: Inglese Medio (1100-1500 Ca.)
+      elx: Elamitico
+      epo: Esperanto
+      frm: Francese Medio (1400-1600 Ca.)
+      fro: Francese Antico (842-1400 Ca.)
+      fre: Francese
+      frr: Frisone Settentrionale
+      gaa: Ga
+      gay: Gayo
+      ful: Fula
+      fur: Friulano
+      gem: Germanica (Altra Lingua)
+      geo: Georgiano
+      gba: Gbaya
+      ger: Tedesco
+      grc: Greco Antico (fino al 1453)
+      gwi: Gwich'in
+      hai: Haida
+      hat: Haitiano
+      guj: Gujarati
+      hau: Haussa
+      hit: Ittita
+      hmn: Hmong
+      iba: Iban
+      ibo: Ibo
+      iku: Inuktitut
+      inh: Ingush
+      jpr: Giudeo-Persiano
+      jrb: Giudeo-Arabo
+      kaa: Karakalpak
+      kaz: Kazako (Qazaq)
+      kbd: Cabardino
+      kok: Konkani
+      kmb: Kimbundu
+      kom: Komi
+      kor: Coreano
+      kos: Kosrae (Kusaie)
+      kpe: Kpelle
+      krc: Karachay-Balkar
+      krl: Careliano
+      kro: Kru (Lingue)
+      kru: Kurukh
+      kon: Kongo
+      lit: Lituano
+      lol: Mongo
+      ltz: Lussemburghese
+      lug: Luganda
+      lui: Luiseno
+      lun: Lunda
+      luo: Luo (Kenya e Tanzania)
+      mdf: Moksha
+      may: Malese
+      mdr: Mandar
+      min: Minangkabau
+      mic: Micmac
+      mno: Manobo (Lingue)
+      mnc: Manchu
+      mni: Manipuri
+      myv: Erzya
+      nai: Indiana dell'America del Nord (Altra Lingua)
+      nap: Napoletano
+      ndo: Ndonga
+      nbl: Ndebeleb del Sud
+      nde: Ndebele del Nord
+      nic: Niger-Kordofan (Altra Lingua)
+      niu: Niue
+      nia: Niassese
+      nno: Norvegese Nynorsk
+      nog: Nogai
+      nor: Norvegese
+      nqo: N'ko
+      nob: Norvegese Bokmål
+      nub: Nubiane (Lingue)
+      non: Norreno
+      oci: Occitano (dopo il 1500), Provenzale
+      pon: Pohnpeiano (Ponape)
+      pol: Polacco
+      rap: Rapanui
+      roa: Romanza (Altra Lingua)
+      roh: Romancio
+      rom: Romani
+      raj: Rajasthani
+      rar: Rarotonga
+      run: Rundi
+      sai: Indiana del Sud America (Altra Lingua)
+      sam: Samaritano
+      lat: Latino
+      zul: Zulu
+      fon: Fon
+      gle: Irlandese
+      gon: Gondi
+      mga: Irlandese Medio (900-1200)
+      myn: Maya (Lingue)
+      gre: Greco Moderno (dal 1453)
+      hin: Hindi
+      hrv: Croato
+      lin: Lingala
+      art: Artificiale (Altra Lingua)
+      cat: Catalano
+      cze: Ceco
+      cau: Caucasica (Altra Lingua)
+      lam: Lamba
+      ven: Venda
+      lav: Lettone
+      mao: Maori
+      nah: Nahuatl (Lingue)
+      nso: Sotho del Nord
+      tah: Tahitiano
+      ukr: Ucraino
+      ori: Oriya
+      osa: Osage
+      oss: Ossetico
+      pam: Pampanga
+      rum: Rumeno, Moldavo
+      pra: Pracrito
+      shn: Shan
+      smj: Sami di Lule
+      ssw: Swati
+      tir: Tigrino
+      zxx: Privo di Contenuto Linguistico, Non Applicabile
+      vie: Vietnamita
+      uig: Uiguro
+      zun: Zuñi
+      und: Lingua Imprecisabile
+      ypk: Yupik (Lingue)
+      vol: Volapük
+      tlh: Klingon
+      tmh: Tamashek
+      umb: Umbundu
+      vai: Vai
+      twi: Twi
+      znd: Zande (Lingue)
+      urd: Urdu
+      uzb: Usbeco
+      aar: Afar
+      abk: Abcaso
+      ace: Accinese (Acheh)
+      ach: Acioli
+      ada: Adangme
+      ady: Adyghe
+      afa: Afro-Asiatica (Altra Lingua)
+      afh: Afrihili
+      afr: Afrikaans
+      ain: Ainu
+      alb: Albanese
+      ale: Aleuto
+      alg: Algonchina (Altra Lingua)
+      alt: Altai Del Sud
+      amh: Amarico
+      arc: Aramaico
+      arg: Aragonese
+      arm: Armeno
+      arn: Mapudungun (Araucano)
+      arp: Arapaho
+      ath: Athabaska (Altra Lingua)
+      aus: Australiane Native (Lingue)
+      ava: Avaro
+      ave: Avestico
+      bam: Bambara
+      ban: Balinese
+      baq: Basco
+      bat: Baltica (Altra Lingua)
+      bej: Begia
+      bel: Bielorusso
+      bem: Bemba
+      ben: Bengalese
+      bik: Bicol
+      bug: Bugi
+      bul: Bulgaro
+      btk: Batak (Lingue)
+      bua: Buriato
+      bur: Birmano
+      byn: Blin
+      cad: Caddo
+      cai: Indiana dell'America Centrale (Altra Lingua)
+      car: Caribico
+      cel: Celtica (Altra Lingua)
+      chg: Ciagataico (Chagatay)
+      chi: Cinese
+      chk: Chuukese
+      chv: Ciuvascio
+      chy: Cheyenne
+      cmc: Ciami (Altra Lingua)
+      cnr: Montenegrino
+      cop: Copto
+      cor: Cornico
+      cpe: Creolo-Inglese (Altra Lingua)
+      cpf: Creolo-Francese (Altra Lingua)
+      crh: Tataro Di Crimea
+      crp: Creola (Altra Lingua)
+      csb: Casciubo (Kashubo)
+      cus: Cuscitica (Altra Lingua)
+      day: Daiaco
+      del: Delaware
+      den: Slavey (Slave)
+      dgr: Dogrib
+      din: Dinka
+      div: Divehi (Maldiviano)
+      doi: Dogri
+      dra: Dravidica (Altra Lingua)
+      dua: Duala
+      dum: Olandese Medio (1050-1350 Ca.)
+      dut: Olandese, Fiammingo
+      dyu: Diula
+      dzo: Dzongkha
+      efi: Efik
+      egy: Egiziano Antico
+      eka: Ekajuk
+      est: Estone
+      ewe: Ewe
+      ewo: Ewondo
+      fan: Fang
+      fao: Faroese
+      fat: Fanti
+      fij: Figi
+      fil: Filippino
+      fin: Finlandese
+      fiu: Ugrofinnica (Altra Lingua)
+      frs: Frisone Orientale
+      fry: Frisone Occidentale
+      gez: Ge'ez
+      gil: Gilbertese
+      gla: Gaelico (Scozzese)
+      glg: Galiziano (Gallego)
+      glv: Mannese (Manx)
+      gmh: Tedesco Alto Medio (1050-1500 Ca.)
+      goh: Tedesco Alto Antico (750-1050 Ca.)
+      gor: Gorontalo
+      got: Gotico
+      grb: Grebo
+      grn: Guarani
+      gsw: Tedesco Alemanno (Svizzero, Walser, Alsaziano)
+      haw: Hawaiano
+      heb: Ebraico
+      her: Herero
+      hil: Hiligaynon
+      him: Himachali, Pahari (Lingue)
+      hsb: Sorabo Superiore
+      hun: Ungherese
+      hup: Hupa
+      ice: Islandese
+      ido: Ido
+      iii: Nuosu (Yi Dello Sichuan)
+      ijo: Ijo (Lingue)
+      ile: Interlingue (Occidental)
+      ilo: Ilocano
+      ina: Interlingua (International Auxiliary Language Association- IALA)
+      inc: Indiana (Altra Lingua)
+      ind: Indonesiano
+      ine: Indoeuropea (Altra Lingua)
+      ipk: Inupiaq
+      ira: Iranica (Altra Lingua)
+      iro: Irochese (Altra Lingua)
+      ita: Italiano
+      jav: Giavanese
+      jbo: Lojban
+      jpn: Giapponese
+      kab: Cabilo
+      kac: Kachin
+      kal: Groenlandese
+      kam: Kamba
+      kan: Kannada (Canarese)
+      kar: Karen (Lingue)
+      kas: Kashmiri
+      kau: Kanuri
+      kaw: Kawi
+      kha: Khasi
+      khi: Khoisan (Altra Lingua)
+      khm: Khmer (Cambogiano)
+      kho: Khotanese
+      kik: Kikuyu
+      kin: Kinyarwanda (Ruanda)
+      kir: Chirghiso (Kyrgyz)
+      kua: Kuanyama
+      kum: Kumyk
+      kur: Curdo
+      kut: Kutenai
+      lad: Giudeo-Spagnolo (Judezmo)
+      lah: Lahnda
+      lao: Laotiano
+      lez: Lesgo
+      lim: Limburghese
+      lua: Luba-Lulua
+      lub: Luba-Katanga
+      lus: Lushei
+      mac: Macedone
+      mad: Madurese
+      mag: Magahi
+      mah: Marshallese
+      mai: Maithili
+      mak: Macassar
+      mal: Malayalam
+      man: Mandingo (Lingue)
+      map: Austronesiana (Altra Lingua)
+      mar: Marathi
+      mas: Masai
+      men: Mende
+      mis: Lingue Non Codificate
+      mkh: Mon-Khmer (Altra Lingua)
+      mlg: Malgascio
+      mlt: Maltese
+      moh: Mohawk
+      mon: Mongolo
+      mos: Mossi
+      mul: Multilingue
+      mun: Munda (Altra Lingua)
+      mus: Muskogee (Creek)
+      mwl: Mirandese
+      mwr: Marwari
+      nau: Nauruano
+      nav: Navaho
+      nds: Basso Tedesco
+      nep: Nepalese (Parbatiya)
+      new: Newari Moderno
+      nwc: Newari Classico
+      nya: Nyanja (Chichewa)
+      nym: Nyamwesi
+      nyn: Nyankole
+      nyo: Nyoro
+      nzi: Nzima
+      oji: Ojibwa
+      orm: Oromo
+      ota: Turco Ottomano (1500-1928)
+      oto: Otomi (Lingue)
+      paa: Papuane (Lingue)
+      pag: Pangasinan
+      pal: Pahlavi
+      pan: Panjabi
+      pap: Papiamento
+      pau: Palauano
+      peo: Persiano Antico (600-400 A.C. Ca.)
+      per: Persiano Moderno
+      phi: Filippina (Altra Lingua)
+      phn: Fenicio, Punico
+      pli: Pali
+      por: Portoghese
+      pro: Provenzale (fino al 1500)
+      pus: Pashto
+      que: Quechua
+      rup: Aromeno (Macedo-Rumeno)
+      rus: Russo
+      sad: Sandawe
+      sag: Sango
+      sah: Yakut
+      sal: Salish (Lingue)
+      sga: Irlandese Antico (fino al 900)
+      sgn: Lingua dei Segni
+      sid: Sidama
+      sit: Sino-Tibetana (Altra Lingua)
+      sla: Slava (Altra Lingua)
+      slo: Slovacco
+      slv: Sloveno
+      sma: Sami Meridionale
+      sme: Sami Settentrionale
+      smi: Sami, Lapponi (Lingue)
+      smn: Sami di Inari
+      smo: Samoano
+      sms: Sami Skolt
+      som: Somalo
+      son: Songhai (Lingue)
+      syc: Siriaco Classico
+      syr: Siriaco
+      tai: Tai (Altra Lingua)
+      tam: Tamil
+      tgk: Tagico
+      tgl: Tagalog
+      tha: Thai
+      tiv: Tiv
+      tkl: Tokelau
+      tpi: Tok Pisin
+      tsi: Tsimshian
+      tso: Tsonga
+      tuk: Turkmeno
+      tum: Tumbuka
+      tup: Tupi (Lingue)
+      wen: Sorabo (Superiore e Inferiore)
+      tur: Turco
+      tut: Altaica (Altra Lingua)
+      wol: Uolof
+      zap: Zapoteco
+      zbl: Lingua di Bliss (Simbolica)
+      zen: Zenaga
+      zgh: Tamazight Standard (Marocco)
+      zha: Zhuang
+      dak: Dakota
+    accession_acquisition_type:
+      deposit: Deposito
+      gift: Regalo
+      purchase: Acquisto
+      transfer: Trasferimento
+    accession_parts_relator:
+      forms_part_of: Forma parte di
+      has_part: Ha parte
+    accession_resource_type:
+      collection: Collezione
+      papers: Documenti
+      publications: Pubblicazioni
+      records: Records
+    accession_sibling_relator:
+      sibling_of: È fratello di
+    agency_code_type:
+      local: Locale
+      oclc: OCLC
+    agent_contact_salutation:
+      madame: Madame
+      mr: Sig.
+      mrs: Sig.ra
+      ms: Sig.ra
+      sir: Sig.
+    archival_record_level:
+      collection: Collezione
+      file: File
+      fonds: Fondi
+      item: Item
+      otherlevel: Altro livello
+      series: Serie
+      subgrp: Sottogruppo
+      subfonds: Sotto-fondi
+      class: Classe
+      subseries: Sotto-serie
+    cataloging_source:
+      ccp: Programma di catalogazione cooperativa
+      nat_bib_agency: Agenzia bibliografica nazionale
+      other: Altro
+      unknown: Sconosciuto
+    collection_management_processing_priority:
+      high: Alto
+      low: Basso
+      medium: Medio
+      none: Non specificato
+    collection_management_processing_status:
+      completed: Completato
+      in_progress: In corso
+      new: Nuovo
+      none: Non specificato
+    container_type:
+      carton: Scatolone
+      reel: Rotolo
+      volume: Volume
+      folder: Cartella
+      box: Scatola
+      case: Cassa
+      container: Contenitore
+      frame: Cornice
+      object: Oggetto
+      page: Pagina
+    begin_date_standardized_type:
+      not_after: Non dopo
+      not_before: Non prima
+      standard: Standard
+    container_location_status:
+      current: Corrente
+      previous: Precedente
+  enumeration_names:
+    country_iso_3166: Nazione ISO 3166
+    date_calendar: ''
+    language_iso639_2: Lingua ISO 639-2
+    metadata_license: Licenza dei metadata
+    romanization: Romanizzazione
+    script_iso15924: Script lingua ISO 15924
+    transliteration: Traslitterazione
