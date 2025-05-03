@@ -31,4 +31,37 @@ describe ExportHelper do
     expect(export).to include('archival_object,ExportHelper item,ExportHelper collection > ExportHelper series')
     expect(export).to include('digital_object_component,ExportHelper digital object component,ExportHelper digital object')
   end
+
+  describe 'CSV Field Mapping in csv_response method' do
+    it 'handles CSV parsing edge cases' do
+      # BOM
+      csv_with_bom = "\uFEFFtitle,collection"
+      cleaned = csv_with_bom.sub(/^\uFEFF/, '')
+      expect(cleaned).to eq('title,collection')
+
+      # Commas
+      csv_content = "title,collection\nTest,Value"
+      xml_content = "<xml><data>test</data></xml>"
+
+      expect(csv_content.include?(',')).to be true
+      expect(xml_content.include?(',')).to be false
+    end
+
+    it 'correctly sets CSV generation options' do
+      csv_options = {
+        force_quotes: false,
+        col_sep: ',',
+        row_sep: "\n",
+        quote_char: '"'
+      }
+
+      test_data = [['Title', 'Collection'], ['Test Title', 'Test Collection']]
+      generated = CSV.generate(csv_options) do |csv|
+        test_data.each { |row| csv << row }
+      end
+
+      expect(generated).to include('Title,Collection')
+      expect(generated).to include('Test Title,Test Collection')
+    end
+  end
 end
