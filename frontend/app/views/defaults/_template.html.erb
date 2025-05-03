@@ -18,10 +18,10 @@
 
         order = order.empty? ? note_types_for(:resource).keys : order
 
-        fa_grip = render_aspace_partial :partial => "shared/fa_grip_svg"
+        grip_svg = render_aspace_partial :partial => "shared/grip_svg"
 
         order.each do |type|
-          out  += "<li data-id='#{type}' class='list-group-item'><div class='d-flex align-items-center gap-x-3'>#{fa_grip}<span>#{t('enumerations._note_types.'+type)}</span></div></li>"
+          out  += "<li data-id='#{type}' class='list-group-item'><div class='d-flex align-items-center gap-x-3'>#{grip_svg}<span>#{t('enumerations._note_types.'+type)}</span></div></li>"
         end
         out += "</ul>"
         out.html_safe

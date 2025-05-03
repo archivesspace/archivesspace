@@ -35,7 +35,7 @@
   <div class="col-sm-3 align-self-start">
   <% if show_agents_sidebar?(@result) %>
     <div id="sidebar" class="sidebar sidebar-container">
-      <h3><%= t('more_about') %> '<%= @result.display_string %>'</h3>
+      <h3><%= t('more_about') %> '<%== process_mixed_content(@result.display_string) %>'</h3>
       <div class="acc_holder clear" >
         <div class="panel-group" id="agent_accordion">
 

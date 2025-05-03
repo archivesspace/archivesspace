@@ -20,7 +20,7 @@
           <% title = agent['title'] %>
         <% end %>
 
-        <%= link_to title, app_prefix(agent['uri']) %>
+        <%= link_to raw(process_mixed_content(title)), app_prefix(agent['uri']) %>
         (<%= [relator, I18n.t("#{agent['jsonmodel_type']}._singular")].compact.join(', ') %>)
       </li>
     <% end %>

@@ -422,13 +422,10 @@ module AspaceFormHelper
         opts[:"aria-label"] = I18n.t(i18n_for(name))
       end
       selection = obj[name]
-      selection = selection[0...-4] if selection.is_a? String and selection.end_with?("_REQ")
       @forms.select_tag(path(name), @forms.options_for_select(options, selection || default_for(name) || opts[:default]), {:id => id_for(name)}.merge!(opts))
     end
 
     def textarea(name = nil, value = "", opts = {})
-      value = value[0...-4] if value.is_a? String and value.end_with?("_REQ")
-      value = nil if value === "REQ"
       options = {:id => id_for(name), :rows => 3}
 
       placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')
@@ -450,10 +447,6 @@ module AspaceFormHelper
 
     def textfield(name = nil, value = nil, opts = {})
       value ||= obj[name] if !name.nil?
-
-      value = value[0...-4] if value.is_a? String and value.end_with?("_REQ")
-      value = nil if value === "REQ"
-
       options = {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}
 
       placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')

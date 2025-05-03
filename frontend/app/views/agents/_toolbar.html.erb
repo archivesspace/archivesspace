@@ -55,7 +55,7 @@
         %>
       <% end %>
       <% if user_can?('delete_agent_record') %>
-        <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id), { :"data-title" => t("actions.delete_confirm_title", :title => @agent.title) } %>
+        <%= button_delete_action url_for(:controller => :agents, :action => :delete, :id => @agent.id), { :"data-title" => t("actions.delete_confirm_title", :title => clean_mixed_content(@agent.title)) } %>
       <% end %>
     </div>
   </div>

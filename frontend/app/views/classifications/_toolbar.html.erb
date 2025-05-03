@@ -18,7 +18,7 @@
       <% end %>
       <% if user_can?('delete_classification_record') %>
         <div class="ml-auto btn-group" data-allow-disabled>
-          <%= button_delete_action url_for(:controller => :classifications, :action => :delete, :id => @classification.id), { :"data-title" => t("actions.delete_confirm_title", :title => @classification.title) } %>
+          <%= button_delete_action url_for(:controller => :classifications, :action => :delete, :id => @classification.id), { :"data-title" => t("actions.delete_confirm_title", :title => clean_mixed_content(@classification.title)) } %>
         </div>
       <% end %>
     </div>

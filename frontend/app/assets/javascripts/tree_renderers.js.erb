@@ -43,7 +43,7 @@ function ResourceRenderer(config = {}) {
                           '</div>');
 
     this.nodeTemplate = $('<div class="table-row"> ' +
-                          `  <div class="table-cell drag-handle">${dragHandleMarkup()}</div>` +
+                          `  <div class="table-cell drag-handle">${gripSvg()}</div>` +
                           '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"></i></button></span> </div>' +
                           '  <div class="table-cell resource-level"></div>' +
                           '  <div class="table-cell resource-type"></div>' +
@@ -181,7 +181,7 @@ function DigitalObjectRenderer() {
 
 
     this.nodeTemplate = $('<div class="table-row"> ' +
-                          `  <div class="table-cell drag-handle">${dragHandleMarkup()}</div>` +
+                          `  <div class="table-cell drag-handle">${gripSvg()}</div>` +
                           '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"></i></button></span> </div>' +
                           '  <div class="table-cell digital-object-type"></div>' +
                           '  <div class="table-cell file-uri-summary"></div>' +
@@ -226,7 +226,7 @@ function ClassificationRenderer() {
     BaseRenderer.call(this);
 
     this.nodeTemplate = $('<div class="table-row"> ' +
-                          `  <div class="table-cell drag-handle" style="width: 2em;">${dragHandleMarkup()}</div>` +
+                          `  <div class="table-cell drag-handle" style="width: 2em;">${gripSvg()}</div>` +
                           '  <div class="table-cell title"><span class="indentor"><button class="expandme" aria-expanded="false"><i class="expandme-icon glyphicon glyphicon-chevron-right"></i></button></span> </div>' +
                           '  <div class="table-cell" style="width: 8%;"></div>' +
                           '  <div class="table-cell" style="width: 18%;"></div>' +
@@ -310,22 +310,15 @@ function recordTitleHandler(suppressed, title) {
   return suppressed ? `${suppressedMarkup} ${title}` : title;
 }
 
-function dragHandleMarkup() {
-  const rows = [8, 12, 16, 20, 24, 28];
-  const cols = [10, 14, 18];
-
-  const bs4Gray700 = '#495057'; // Bootstrap 4's $gray-700
-  const faGripVertical = `
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="${bs4Gray700}"
-      width="20px"
-      role="presentation"
-      viewBox="0 0 320 512">
-      <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-      <path d="M40 352l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zm192 0l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 320c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 192l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 160c-22.1 0-40-17.9-40-40L0 72C0 49.9 17.9 32 40 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40z"/>
-    </svg>
-  `;
-
-  return `<span class="pl-1">${faGripVertical}</span>`;
+function gripSvg() {
+// Duplicate shared/_grip_svg.html.erb, add style
+  return `
+<svg
+  style="position: relative; bottom: .25rem; left: .2rem;"
+  height="24"
+  width="12"
+  viewBox="0 0 6 12"
+  xmlns="http://www.w3.org/2000/svg">
+  <path d="M2 2a0.8 0.8 0 1 1-1.6 0 0.8 0.8 0 0 1 1.6 0zm3 0a0.8 0.8 0 1 1-1.6 0 0.8 0.8 0 0 1 1.6 0zM2 5a0.8 0.8 0 1 1-1.6 0 0.8 0.8 0 0 1 1.6 0zm3 0a0.8 0.8 0 1 1-1.6 0 0.8 0.8 0 0 1 1.6 0zM2 8a0.8 0.8 0 1 1-1.6 0 0.8 0.8 0 0 1 1.6 0zm3 0a0.8 0.8 0 1 1-1.6 0 0.8 0.8 0 0 1 1.6 0zM2 11a0.8 0.8 0 1 1-1.6 0 0.8 0.8 0 0 1 1.6 0zm3 0a0.8 0.8 0 1 1-1.6 0 0.8 0.8 0 0 1 1.6 0zM2 14a0.8 0.8 0 1 1-1.6 0 0.8 0.8 0 0 1 1.6 0zm3 0a0.8 0.8 0 1 1-1.6 0 0.8 0.8 0 0 1 1.6 0z"/>
+</svg>`;
 }

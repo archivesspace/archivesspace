@@ -36,10 +36,10 @@ it:
     text_5: Testo 5
   slug:
     slug: Slug
-    slug_tooltip: "<p>Quando si usano human-readable URLs, l'ultima parte dell'URL pubblico per questo record
-      nell'interfaccia pubblica di ArchivesSpace. Lo slug può essere aggiunto o aggiornato manualmente,
-      o generato automaticamente in base ai settings di configurazione per gli human-readable URLs nel file
-      config.rb in questo server.</p>\n"
+    slug_tooltip: "<p>Quando si usano human-readable URLs, l'ultima parte dell'URL pubblico per questo
+      record nell'interfaccia pubblica di ArchivesSpace. Lo slug può essere aggiunto o aggiornato manualmente,
+      o generato automaticamente in base ai settings di configurazione per gli human-readable URLs nel
+      file config.rb in questo server.</p>\n"
     public_url: URL Pubblico
     is_slug_auto: Genera Automaticamente Slug?
     is_slug_auto_tooltip: "<p>Se questo campo è spuntato, lo slug per questo record sarà automaticamente
@@ -54,3 +54,35 @@ it:
   boolean:
     "true": Vero
     "false": Falso
+  agent_contact:
+    name: Nome contatto
+    address_1: Indirizzo 1
+    fax: Fax
+    address_2: Indirizzo 2
+    email: Email
+    address_3: Indirizzo 3
+    post_code: Codice postale
+    city: Città
+    country: Nazione
+    region: Stato/Regione
+  telephone:
+    _plural: Numeri telefonici
+    number_type: Tipo di numero
+    number: Numero
+  agent_person:
+    _singular: Persona
+    _plural: Persone
+  agent_family:
+    _singular: Famiglia
+    _plural: Famiglie
+  agent_software:
+    _singular: Software
+    _plural: Software
+  subject:
+    _singular: Soggetto
+    _plural: Soggetti
+  classification:
+    creator: Creatore
+  advanced_search:
+    text:
+      subjects: Soggetto
