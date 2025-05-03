@@ -43,7 +43,7 @@
       <% label = t("#{i18n_type}.#{field_name}") %>
       <% form_name = "agent[#{property}][0][#{field_name}]" %>
       <div class="form-group w-100 row">
-        <label class="col-sm-2 control-label text-right" for="agent_record_identifier_" plugin=""><%=  label %></label>
+        <label class="col-sm-2 control-label text-right" for="required_fields__<%= field_name %>_" plugin=""><%=  label %></label>
         <div class="col-sm-9 label-only">
           <input id="required_fields__<%= field_name %>_" type="checkbox" name="<%= form_name %>" value="<%= type %>" col_size="1" controls_class="req_checkbox"<%= definition.required?(field_name) ? ' disabled checked=checked' : '' %><%= @required_fields.required?(property, type, field_name) ? " checked=checked" : "" %>>
         </div>
