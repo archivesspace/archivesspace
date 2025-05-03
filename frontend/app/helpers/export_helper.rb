@@ -9,6 +9,61 @@ module ExportHelper
     params["dt"] = "csv"
     self.response_body = Enumerator.new do |y|
       xml_response(request_uri, params) do |chunk, percent|
+        # Process the CSV to fix column headers
+        if chunk && !chunk.empty?
+          # Only process if it's a CSV (skip if it's XML or empty)
+          if chunk.include?(",")
+            begin
+              # Remove any BOM markers or other non-CSV characters that might be at the start
+              chunk = chunk.sub(/^\uFEFF/, '')
+
+              # Parse the CSV chunk
+              csv_data = CSV.parse(chunk)
+
+              # If this is the header row, replace Solr field names with friendly names
+              if csv_data.length > 0 && csv_data[0]
+                # Map Solr field names to user-friendly names
+                field_map = {
+                  'title' => I18n.t('search.multi.title', :default => 'Title'),
+                  'collection_display_string_u_sstr' => I18n.t('search.top_container_mgmt.resource_accession', :default => 'Resource/Accession'),
+                  'series_title_u_sstr' => I18n.t('search.top_container_mgmt.series', :default => 'Series'),
+                  'type_enum_s' => I18n.t('search.top_container_mgmt.type', :default => 'Type'),
+                  'indicator_u_sstr' => I18n.t('search.top_container_mgmt.indicator', :default => 'Indicator'),
+                  'indicator_u_icusort' => I18n.t('search.top_container_mgmt.indicator', :default => 'Indicator'),
+                  'barcode_u_sstr' => I18n.t('search.top_container_mgmt.barcode', :default => 'Barcode'),
+                  'container_profile_display_string_u_sstr' => I18n.t('search.top_container_mgmt.container_profile', :default => 'Container Profile'),
+                  'location_display_string_u_sstr' => I18n.t('search.top_container_mgmt.location', :default => 'Location'),
+                  'context' => I18n.t('search.multi.context', :default => 'Context')
+                }
+
+                # Replace column headers with friendly names
+                csv_data[0].each_with_index do |header, i|
+                  csv_data[0][i] = field_map[header] || header
+                end
+              end
+
+              # Generate CSV with proper quoting
+              csv_options = {
+                force_quotes: false,       # Only quote when necessary
+                col_sep: ',',              # Standard CSV separator
+                row_sep: "\n",             # Standard newline
+                quote_char: '"'            # Standard quote character
+              }
+
+              # Convert data back to CSV string
+              chunk = CSV.generate(csv_options) do |csv|
+                csv_data.each do |row|
+                  csv << row
+                end
+              end
+            rescue => e
+              # If CSV parsing fails, log the error and return the original chunk
+              Rails.logger.error("CSV parsing error in export_helper: #{e.message}")
+              Rails.logger.error(e.backtrace.join("\n"))
+            end
+          end
+        end
+
         y << chunk if !chunk.blank?
       end
     end
