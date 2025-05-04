@@ -36,21 +36,21 @@ it:
     text_5: Testo 5
   slug:
     slug: Slug
-    slug_tooltip: "<p>Quando si usano human-readable URLs, l'ultima parte dell'URL pubblico per questo
-      record nell'interfaccia pubblica di ArchivesSpace. Lo slug può essere aggiunto o aggiornato manualmente,
-      o generato automaticamente in base ai settings di configurazione per gli human-readable URLs nel
-      file config.rb in questo server.</p>\n"
+    slug_tooltip: "<p>Quando si usano human-readable URLs, l'ultima parte dell'URL pubblico per questa
+      unità archivistica nell'interfaccia pubblica di ArchivesSpace. Lo slug può essere aggiunto o aggiornato
+      manualmente, o generato automaticamente in base ai settings di configurazione per gli human-readable
+      URLs nel file config.rb in questo server.</p>\n"
     public_url: URL Pubblico
     is_slug_auto: Genera Automaticamente Slug?
-    is_slug_auto_tooltip: "<p>Se questo campo è spuntato, lo slug per questo record sarà automaticamente
-      generato quando il record è salvato, basandosi sulle impostazioni di configurazione per gli human-readable
-      URLs nel file config.rb sul server.</p>\n"
+    is_slug_auto_tooltip: "<p>Se questo campo è spuntato, lo slug per questa unità archivistica sarà automaticamente
+      generata quando l'unità archivistica è salvata, basandosi sulle impostazioni di configurazione per
+      gli human-readable URLs nel file config.rb sul server.</p>\n"
     autogen_disabled: Uno slug non può essere automaticamente generato dai dati a disposizione basandosi
       sulle impostazioni di configurazione
-    public_url_tooltip: "<p>Se questo record è pubblicato o aggiornato per la pubblicazione, l'URL completo
-      per questo record è nell'interfaccia utente pubblica. Se human-readable URLs vengono usati la fine
-      dell'URL sarà lo slug.</p>\n<p>Che gli human-readable URLs vengano usati o no, l'URI originale per
-      questo record rimane sempre valido.</p>\n"
+    public_url_tooltip: "<p>Se questa unità archivistica è pubblicata o aggiornata per la pubblicazione,
+      l'URL completo per questa unità archivistica è nell'interfaccia utente pubblica. Se human-readable
+      URLs vengono usati la fine dell'URL sarà lo slug.</p>\n<p>Che gli human-readable URLs vengano usati
+      o no, l'URI originale per questa unità archivistica rimane sempre valido.</p>\n"
   boolean:
     "true": Vero
     "false": Falso
@@ -86,3 +86,85 @@ it:
   advanced_search:
     text:
       subjects: Soggetto
+  digital_object:
+    digital_object_id_tooltip: "<p>Un identificativo unico per l'oggetto digitale nel suo complesso. Può
+      essere un ARK, HANDLE, un URI, o ogni stringa che identifica unicamente l'oggetto digitale. Il campo
+      deve essere completato per un valido METS record affinché possa essere esportato.</p>\n<p>Esempi</p>\n\
+      <ul>\n<li>http://hdl.handle.net/1813/13524</li>\n</ul>\n"
+    restrictions_tooltip: "<p>Una casella di spunta per indicare che si applicano delle restrizioni. Le
+      restrizioni possono essere spiegate usando nota sub-unità archivistica o diritti sub-unità archivistica.</p>\n"
+    title_tooltip: "<p>Una espressione del titolo per l'oggetto digitale.  Può essere trascritto dall'oggetto,
+      o ereditato da una fonte risorsa/risorsa compontente dell'unità archivistica, o assegnato dal deposito.</p>\n
+      <p>Il titolo dell'oggetto digitale può complessivamente essere lo stesso della risorsa o della risorsa
+      componente l'unità archivistica alla quale l'oggetto digitale dell'unità archivistica è linkato.
+      Comunque può essere diverso da quello espresso nella risorsa dell'unità archivistica linkata.</p>\n
+      <p>Esempi:</p>\n<ul>\n<li>Italo Svevo, nonno <em>(linkato a una risorsa componente dell'unità archivistica
+      che ha il titolo di \"Ritratti di famiglia\")</em></li>\n<li>Lettera al Corriere della Sera <em>(linkato
+      a una risorsa componente dell'unità archivistica che ha il titolo di \"Lettera al Corriere della
+      Sera\")</em></li>\n<li>Grande incendio di Roma <em>(linkato a una risorsa componente dell'unità
+      archivistica che ha il titolo di \"Grande incendio di Roma\")</em></li>\n</ul>\n"
+  location:
+    coordinate_2_label_tooltip: "<p>Usato per registrare una etichetta (ad es. \"scaffale\", \"zona\"
+      , \"cassetto\") per una specifica posizione.</p>\n"
+    coordinate_3_label_tooltip: "<p>Usato per registrare una etichetta (ad es. \"scaffale\", \"zona\"
+      , \"cassetto\") per una specifica posizione.</p>\n"
+    coordinate_2_indicator_tooltip: "<p>Usato per registrare un indicatore come un numero o una lettera
+      che identifica la posizione in modo unico in combinazione con le coordinate di etichetta associate.</p>\n"
+    barcode_tooltip: "<p>CAMPO CONDIZIONALMENTE OBBLIGATORIO: Uno di questi campi (codice a barre, classificazione,
+      o coordinata 1 etichetta e coordinata 1 indicatore) deve necessariamente contenere dati.</p>\n<p>Usato
+      per registrare il codice a barre di, ad es., uno scaffale o una zona che identifica la posizione
+      in modo unico.</p>\n"
+    classification_tooltip: "<p>CAMPO CONDIZIONALMENTE OBBLIGATORIO: Uno di questi campi (codice a barre,
+      classificazione, o coordinata 1 etichetta e coordinata 1 indicatore) deve necessariamente contenere
+      dati.</p>\n<p>Usato per registrare un numero di classificazione che identifica la posizione in modo
+      unico.</p>\n"
+    coordinate_1_indicator_tooltip: "<p>CAMPO CONDIZIONALMENTE OBBLIGATORIO: Uno di questi campi (codice
+      a barre, classificazione, o coordinata 1 etichetta e coordinata 1 indicatore) deve necessariamente
+      contenere dati.</p>\n<p>Usato per registrare un indicatore come un numero o una lettera che identifica
+      la posizione in modo unico in combinazione con le coordinate di etichetta associate.</p>\n"
+    coordinate_3_indicator_tooltip: "<p>Usato per registrare un indicatore come un numero o una lettera
+      che identifica la posizione in modo unico in combinazione con le coordinate di etichetta associate.</p>\n"
+    coordinate_1_label_tooltip: "<p>CAMPO CONDIZIONALMENTE OBBLIGATORIO: Uno di questi campi (codice a
+      barre, classificazione, o coordinata 1 etichetta e coordinata 1 indicatore) deve necessariamente
+      contenere dati.</p>\n<p>Usato per registrare una etichetta (ad es. \"scaffale\", \"zona\", \"cassetto\"\
+      ) per una specifica posizione.</p>\n"
+  container_location:
+    status_tooltip: "<p>CAMPO OBBLIGATORIO. Indica se la dichiarazione di posizione di questa unità archivistica
+      è corrente o si riferisce a una precedente posizione della stessa.</p>\n"
+    note_tooltip: "<p>Usato per registrare informazioni aggiuntive riguardanti il caso e la sua relazione
+      con questa posizione di luogo.</p>\n"
+  linked_record:
+    role: Ruolo
+    role_tooltip: "<p>Il ruolo in cui l'unità archivistica linkata è in relazione con la corrente unità
+      archivistica.</p>\n"
+    ref: Unità archivistica
+    ref_plural: Unità archivistiche
+    _singular: Link unità archivistica
+    _plural: Links unità archivistica
+    linker_ref:
+      browse: Scorri le unità archivistiche
+      link_title: Link all'unità archivistica
+      create: Crea un'unità archivistica
+  repository:
+    _singular: Deposito
+    _plural: Depositi
+  section_tooltips:
+    dates_tooltip: "<p>Identifica e registra la/le data/e che riguardano creazione, raggruppamento, accumulo
+      e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4</p>\n"
+    classification_tooltip: "<p>Usato per linkare i materiali descritti a una classificazione o un termine
+      di classificazione (ad es. un sistema gruppo di unità archivistiche) gestiti all'interno dell'applicazione.</p>\n"
+    deaccessions_tooltip: ''
+    user_defined_tooltip: "<p>Campi definiti dall'utente per registrare informazioni aggiuntive non inserite
+      in altre sezioni dell'applicazione.</p>\n"
+  linked_agent:
+    title_tooltip: "<p>Campo opzionale: registra qui il titolo ufficiale di un'opera per creare un nome
+      / titolo come intestazione per un agent linkato come creatore o soggetto:</p>\n<p>Per esempio,</p>\n
+      <ul><li>Alighieri, Dante, 1265-1321. Vita Nova</li><li> Montale, Eugenio, 1896-1981. Ossi di seppia</li><li>
+      Calvino, Italo, 1923-1985. Il barone rampante</li></ul>\n"
+  digital_object_component:
+    label_tooltip: "<p>Un termine usato per descrivere la parte e la posizione all'interno dell'Oggetto
+      Digitale descritto. Più spesso usato per i componenti delle parti dell'Oggetto Digitale che il top-level
+      dell'Oggetto Digitale dell'unità archivistica.</p>\n<p>Esempi:</p>\n<ul>\n<li>Audio: Audiocassetta
+      1, Traccia 1, Sezione 1, ecc.</li>\n<li>Immagine: Immagine 1, Foto 1, ecc.</li>\n<li>Testo: Pagina
+      1, Foglio 1, Primo foglio, Capitolo 1, Sezione 1, ecc.</li>\n<li>Video:  Cassetta 1, Parte 1, Sezione
+      1, ecc.</li>\n</ul>\n"
