@@ -1,3 +1,111 @@
 it:
   help:
     icon: <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
+    topics:
+      archival_object_basic_information: Aiuto riguardo le informazioni di base
+      archival_object_dates: Aiuto riguardo le date
+      archival_object_subjects: Aiuto riguardo i soggetti
+      archival_object_notes: Aiuto riguardo le note
+      archival_object_external_documents: Aiuto riguardo i documenti esterni
+      archival_object_rights_statements: Aiuto riguardo le dichiarazioni dei diritti
+      digital_object: Aiuto riguardo l'oggetto digitale
+      digital_object_basic_information: Aiuto riguardo le informazioni di base
+      digital_object_dates: Aiuto riguardo le date
+      digital_object_subjects: Aiuto riguardo i soggetti
+      digital_object_notes: Aiuto riguardo le note
+      digital_object_component_dates: Aiuto riguardo le date
+      digital_object_component_notes: Aiuto riguardo le note
+      digital_object_component_rights_statements: Aiuto riguardo le dichiarazioni dei diritti
+      digital_object_component_collection_management: Aiuto riguardo la gestione della collezione
+      subject_external_documents: Aiuto riguardo i documenti esterni
+      agent_person: Aiuto riguardo le persone (agent)
+      agent_person_dates_of_existence: Aiuto riguardo le date di esistenza
+      agent_person_names: Aiuto riguardo i nomi
+      agent_person_contact_details: Aiuto riguardo i dettagli del contatto
+      agent_person_notes: Aiuto riguardo le note
+      agent_family_external_documents: Aiuto riguardo i documenti esterni
+      agent_corporate_entity_names: Aiuto riguardo i nomi
+      agent_corporate_entity_contact_details: Aiuto riguardo i dettagli del contatto
+      agent_corporate_entity_notes: Aiuto riguardo le note
+      agent_software_dates_of_existence: Aiuto riguardo le date di esistenza
+      agent_software_external_documents: Aiuto riguardo i documenti esterni
+      agent_identifiers: Aiuto riguardo gli identificativi dell'entità
+      agent_genders: Aiuto riguardo i generi
+      agent_function: Aiuto riguardo le funzioni
+      agent_topic: Aiuto riguardo i temi
+      agent_external_resources: Aiuto riguardo le risorse relative esterne
+      user: Aiuto riguardo la gestione degli utenti
+      accession_basic_information: Aiuto riguardo le informazioni di base
+      accession_dates: Aiuto riguardo le date
+      accession_subjects: Aiuto riguardo i soggetti
+      accession_collection_management: Aiuto riguardo la gestione della collezione
+      accession_user_defined: Aiuto riguardo il definito dall'utente
+      accession_metadata_rights_declarations: Aiuto riguardo le dichiarazioni dei diritti sui metadati
+      resource: Aiuto riguardo le risorse
+      resource_dates: Aiuto riguardo le date
+      resource_external_documents: Aiuto riguardo i documenti esterni
+      resource_rights_statements: Aiuto riguardo le dichiarazioni dei diritti
+      resource_collection_management: Aiuto riguardo la gestione della collezione
+      resource_metadata_rights_declarations: Aiuto riguardo le dichiarazioni dei diritti sui metadati
+      resource_classification: Aiuto riguardo le classificazioni
+      resource_user_defined: Aiuto riguardo il definito dall'utente
+      resource_load_via_spreadsheet: Aiuto riguardo carica tramite foglio di calcolo
+      archival_object: Aiuto riguardo oggetti d'archivio
+      digital_object_collection_management: Aiuto riguardo la gestione della collezione
+      subject: Aiuto riguardo i soggetti
+      agent_family_notes: Aiuto riguardo le note
+      agent_corporate_entity_dates_of_existence: Aiuto riguardo le date di esistenza
+      agent_corporate_entity_external_documents: Aiuto riguardo i documenti esterni
+      agent_software: Aiuto riguardo il software (agent)
+      agent_required: Aiuto riguardo la modifica dei campi obbligatori
+      location: Aiuto riguardo le ubicazioni
+      accession_classification: Aiuto riguardo le classificazioni
+      resource_notes: Aiuto riguardo le note
+      resource_basic_information: Aiuto riguardo le informazioni di base
+      accession_related_resources: Aiuto riguardo le risorse relative
+      accession_rights_statements: Aiuto riguardo le dichiarazioni dei diritti
+      classification_term: Aiuto riguardo le classificazioni
+      repository_groups: Aiuto riguardo la gestione dei gruppi
+      bulk_archival_object_updater_job: Aiuto riguardo l'aggiornamento in massa di oggetti d'archivio
+      agent_external_documents: Aiuto riguardo i documenti esterni
+      digital_object_component_subjects: Aiuto riguardo i soggetti
+      agent_family: Aiuto riguardo la famiglia (agent)
+      digital_object_component_external_documents: Aiuto riguardo i documenti esterni
+      agent_place: Aiuto riguardo i luoghi
+      digital_object_classification: Aiuto riguardo le classificazioni
+      agent_family_contact_details: Aiuto riguardo i dettagli del contatto
+      resource_subjects: Aiuto riguardo i soggetti
+      archival_object_collection_management: Aiuto riguardo la gestione della collezione
+      event_basic_information: Aiuto riguardo le informazioni di base
+      archival_object_classification: Aiuto riguardo le classificazioni
+      digital_object_component_basic_information: Aiuto riguardo le informazioni di base
+      import: Aiuto riguardo l'Importazione di dati
+      repository: Aiuto riguardo la gestione dei depositi
+      event: Aiuto riguardo gli eventi
+      digital_object_user_defined: Aiuto riguardo il definito dall'utente
+      subject_terms: Aiuto riguardo i termini e le suddivisioni
+      digital_object_component_user_defined: Aiuto riguardo il definito dall'utente
+      agent_family_names: Aiuto riguardo i nomi
+      digital_object_component: Aiuto riguardo i componenti dell'oggetto digitale
+      preference: Aiuto riguardo le preferenze
+      digital_object_metadata_rights_declarations: Aiuto riguardo le dichiarazioni dei diritti sui metadati
+      classification: Aiuto riguardo le classificazioni
+      digital_object_external_documents: Aiuto riguardo i documenti esterni
+      digital_object_component_classification: Aiuto riguardo le classificazioni
+      agent_family_dates_of_existence: Aiuto riguardo le date di esistenza
+      archival_object_user_defined: Aiuto riguardo il definito dall'utente
+      agent_software_contact_details: Aiuto riguardo i dettagli del contatto
+      digital_object_rights_statements: Aiuto riguardo le dichiarazioni dei diritti
+      agent_used_language: Aiuto riguardo la lingua usata
+      agent_software_notes: Aiuto riguardo le note
+      subject_basic_information: Aiuto riguardo le informazioni di base
+      agent_person_external_documents: Aiuto riguardo i documenti esterni
+      agent_occupation: Aiuto riguardo le occupazioni
+      event_linked_records: Aiuto riguardo i links dell'unità archivistica
+      search: Aiuto riguardo ricerca e navigazione
+      accession_external_documents: Aiuto riguardo i documenti esterni
+      event_date: Aiuto riguardo data/ora di un evento
+      enumeration: Aiuto riguardo le liste di valori controllati
+      agent_software_names: Aiuto riguardo i nomi
+    help_center: Centro di assistenza ArchivesSpace
+    default_tooltip: Centro di assistenza ArchivesSpace
