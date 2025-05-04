@@ -32,6 +32,7 @@ it:
     previous: Precedente
     clipboard: Copia negli appunti
     print: Scarica il PDF
+    numeric: Contenitore dell'inventario
   search_results:
     filtered_by: Filtrato per
     highlighting:
@@ -43,6 +44,7 @@ it:
       role_enum_s: Ruoli
       notes_published: Note
       acquisition_type: Tipo di acquisizione
+      published_agents: Agenti
     results_head: 'Mostrando %{type}: %{start} - %{end} di %{total}'
     result: Risultato
     page_title: Trovati %{count} risultati
@@ -80,8 +82,8 @@ it:
       subjects: Soggetto
       primary_type: Tipo
       head: Filtra i risultati
-      repository: Repository
-      used_within_published_repository: Repository
+      repository: Deposito
+      used_within_published_repository: Deposito
       creators: Creatore
       from_year: Dall'anno
       to_year: All'anno
@@ -93,7 +95,7 @@ it:
     title_contain: il <strong>titolo</strong> contiene  <span class='searchterm'>%{kw}</span>
     keyword_contain: "<strong>parola/e chiave</strong>: <span class='searchterm'>%{kw}</span>"
     creators_text_contain: il <strong>creatore</strong> contiene <span class='searchterm'>%{kw}</span>
-    no_results: No records trovati
+    no_results: Nessuna unità archivistica trovata
     remove_filter: Rimuovi questo filtro
     more_facets: Più
     op:
@@ -124,6 +126,7 @@ it:
         related_agent_dates: Date
         dates: Date
         related_agent_description: Descrizione
+        related_agents: Nomi correlati
     _plural: Nomi
   request:
     email_header: Grazie per la tua richiesta
@@ -146,16 +149,16 @@ it:
   search-limit: Limita a %{limit}
   search-limiting: limitato a %{limit}
   search-limits:
-    all: tutti i tipi di record
-    repositories: repositories
+    all: tutti i tipi di unità archivistica
+    repositories: depositi
     resource: collezioni
     resources: collezioni
-    objects: records archivistici o digitali
+    objects: unità archivistiche fisiche o digitali
     subject: soggetto
     agent: creatore del contenuto
     agents: creatori del contenuto
     digital_object: materiali digitali
-    repository: repositories
+    repository: depositi
     digital: materiali digitali
   search-field: Campo di ricerca
   searched-field: cercando %{field}
@@ -171,14 +174,15 @@ it:
     file: File
     fonds: Fondi
     subgrp: Sottogruppo
+    recordgrp: Gruppo di unità archivistiche
   errors:
     backend_down_message: ArchivesSpace sta riscontrando difficoltà tecniche. Ci scusiamo per il disagio.
       Per favore prova di nuovo più tardi.
     unexpected_error: Non è stato possibile completare la tua richiesta per colpa di un errore inatteso
     invalid_search_params: Parametri di ricerca invalidi '%{value}' per il campo '%{field}'
-    error_404: '%{type} Record non trovato'
-    error_404_message: Il %{type} record a cui hai provato ad accedere non esiste o potrebbe essere stato
-      rimosso.
+    error_404: '%{type} Unità archivistica non trovata'
+    error_404_message: L' %{type} unità archivistica a cui hai provato ad accedere non esiste o potrebbe
+      essere stato rimossa.
     backend_down: Impossibile connettersi al database
   navigation:
     hierarchical: navigazione gerarchica
@@ -191,7 +195,7 @@ it:
     search_collection: Cerca all'interno della collezione
     filter: Filtra risultati
   advanced_search:
-    limit_label: Limita per tipo di record
+    limit_label: Limita per tipo di unità archivistica
     operator:
       NOT: Non
       AND: E
@@ -222,10 +226,18 @@ it:
         language: Lingua della descrizione
       related_accessions:
         accessions: Materiale non processato relativo
+        deaccessions: Materiale ritirato
+        sibling_of: Relazione fratello/sorella
+        has_part: Parte di una relazione (ha parte in)
+        forms_part_of: Relazione di parte (forma parte di)
     _singular: Materiale non processato
     _plural: Materiali non processati
   repository:
     part: Parte di
+    _singular: Deposito
+    _plural: Depositi
+    what: Cosa c'è in questo deposito?
+    details: Dettagli del deposito
   resource:
     identifier_separator: ':'
     _public:
@@ -247,6 +259,8 @@ it:
         language: Lingua di descrizione
         sponsor: Sponsor
         status: Stato
+        revision: Dichiarazioni di revisione
+        series_statement: Dichiarazione delle serie
       digital_object: Oggetto digitale
       lang_pdf: Lingua del materiale
       physdesc: Descrizione fisica
@@ -254,22 +268,32 @@ it:
       dates: Date
       lang: Lingua dei materiali
       additional: Descrizione aggiuntiva
+      storage: Informazioni contenitore
+      extent_full: Dimensioni complete
+      extent_partial: Dimensioni parziali
+      extent: Dimensioni
     _singular: Collezione
     _plural: Collezioni
     load_records:
       showing: Mostrando
-      load_all: Carica tutti i records
+      load_all: Carica tutte le unità archivistiche
       loading: Caricando
-      alert: Questa collezione contiene un gran numero di records
+      alert: Questa collezione contiene un gran numero di unità archivistiche
       percent_convention: '%'
-      load: Carica records
+      load: Carica unità archivistiche
+      all: ''
   digital_object:
-    _singular: Record digitale
+    _singular: Unità archivistica digitale
     _public:
       link: Link all'oggetto digitale
       badge_label: Digitale %{level}
       go: Vai al file
       thumbnail: thumbnail
+      additional: Ulteriori Versioni del File
+      browse_number_digital_objects_in_collection:
+        one: Sfoglia %{num} l'oggetto digitale nella collezione
+        many: Sfoglia %{num} gli oggetti digitali nella collezione
+        other:
     _plural: Materiali digitali
   subject:
     _singular: Soggetto
@@ -280,6 +304,8 @@ it:
       actions:
         show_subgroups: Mostra sottogruppi
     identifier_separator: .
+    _singular: Gruppo di unità archivistica
+    _plural: Gruppi di unità archivistiche
   pui_agent:
     _plural: Nomi
     parallel: Nomi paralleli
@@ -344,7 +370,8 @@ it:
       location_header: Un errore si è verificato durante la generazione dell'intestazione.
       location_archival_object: Un errore è avvenuto durante la generazione dell'inventario della collezione.
     additional_info:
-      invalid_markup: Questo errore può derivare dal markup non valido presente in una nota o subrecord.
+      invalid_markup: Questo errore può derivare dal markup non valido presente in una nota o sub-unità
+        archivistica.
     headings:
       additional_info: Informazioni aggiuntive
     title: C'è stato un errore nella generazione di questo PDF.
@@ -373,15 +400,15 @@ it:
     "true": Sì
   found: Trovato in %{count} %{type}
   coll_obj:
-    _singular: Collezione o record
-    _plural: Collezioni e/o records
+    _singular: Collezione o unità archivistica
+    _plural: Collezioni e/o unità archivistiche
   contains: Contiene %{count} %{type}
   external_docs: Documenti esterni
   more_about: Di più su
   list: '%{type} Lista'
   cont_arr: Organizzazione della collezione
   related_resources: Collezioni correlate
-  linked_instances: Records linkati
+  linked_instances: Unità archivistiche linkate
   context_delimiter: /
   bulk:
     _singular: La maggior parte del materiale è stata trovata in %{dates}
@@ -411,8 +438,8 @@ it:
     identifier_separator: /
   an_agent: Nome
   record:
-    _singular: Record
-    _plural: Records
+    _singular: Unità archivistica
+    _plural: Unità archivistiche
   agent_gender:
     _singular: Genere
     _plural: Generi
@@ -426,3 +453,18 @@ it:
   number_of: 'Numero di %{type}:'
   email: Invia email
   fax: Fax
+  accessed: Acceduto
+  containers: Informazioni di archiviazione fisica
+  top_container:
+    _singular: Contenitore
+    _plural: Contenitori
+    restricted: Limitato
+  record_group:
+    _plural: Gruppo di unità archivistiche
+    _singular: Gruppo di unità archivistica
+  related_accessions: Materiale non processato correlato
+  multiple_containers: Contenitori multipli
+  archival_object:
+    _public:
+      header:
+        ref_id: Identificatore di riferimento
