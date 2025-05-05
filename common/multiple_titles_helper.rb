@@ -7,8 +7,9 @@ module MultipleTitlesHelper
     # archival objects may not have a title, so return nil if that is the case
     return nil if titles.nil? || titles.empty?
 
+    # TODO: delete if the decision to remove this rule sticks
     # formal titles take precedence over all others
-    titles.each { |t| return t['title'] if t['type'] == 'formal' }
+    # titles.each { |t| return t['title'] if t['type'] == 'formal' }
 
     # in absence of formal titles, try to find a title with the preferred language (the language of the UI)
     pref_lang = I18n.supported_locales[current_locale.to_s]

@@ -11,7 +11,8 @@ describe MultipleTitlesHelper do
       expect(MultipleTitlesHelper.determine_primary_title(titles, :ja)).to eq("日本語のタイトル")
     end
 
-    it "returns a formal title if it exists regardless of locale" do
+    xit "returns a formal title if it exists regardless of locale" do
+      # TODO: delete this test if decision to remove this rule sticks
       titles = [
         {"title" => "English Title", "language" => "eng", "type" => "formal"},
         {"title" => "日本語のタイトル", "language" => "jpn"},
