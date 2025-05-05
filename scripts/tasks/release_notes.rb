@@ -101,11 +101,11 @@ module ReleaseNotes
     private
 
     def pr_count
-      log.map {|l| l[:pr_number]}.compact!.uniq.count
+      log.map {|l| l[:pr_number]}.compact.uniq.count
     end
 
     def ticket_count
-      log.map {|l| l[:anw_number]}.compact!.uniq.count
+      log.map {|l| l[:anw_number]}.compact.uniq.count
     end
 
     def add_jira_id(data)

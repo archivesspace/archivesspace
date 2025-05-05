@@ -63,7 +63,7 @@ class Doc < Thor
 
       log.each do |log_entry|
         next if log_entry[:pr_number]
-        pr = pulls.select { |pull| pull[:commits].map { |c| c["sha"]}.include?(log_entry[:sha])}.first
+        pr = pulls.select { |pull| pull[:commits].find { |c| log_entry[:sha].include?(c["sha"]) } }.first
         if pr
           log_entry[:pr_number] = pr["number"]
           log_entry[:pr_title] = pr["title"]
