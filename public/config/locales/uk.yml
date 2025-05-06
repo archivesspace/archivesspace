@@ -18,4 +18,114 @@ uk:
     cite: Цитування
     cite_item: Процитувати статтю
     cite_item_description: Процитувати пункт Опис
-    digitized: ''
+    digitized: 'Переглянути цифровий матеріал'
+    cilpboard_cite_item_description: "Копіювати опис елемента\nцитування в буфер обміну"
+    collection_overview: Огляд колекції
+    request: Запит
+    print: Завантажити PDF-файл
+    print-generating: Генерування
+    hierarch: Організація збору коштів
+    numeric: Інвентаризація контейнерів
+    clipboard: Копіювати в буфер обміну
+    cilpboard_cite_item: Копіювати посилання на елемент у буфер обміну
+    search_add_row: Додати рядок пошуку
+    search_remove_row: Видалити рядок нижче
+    staff_link: Тільки для персоналу
+    next: Далі
+    previous: Попередній
+  errors:
+    error_404_message: Запис %{тип} до якого ви намагалися отримати доступ, не існує або, можливо, його
+      було видалено.
+    error_404: '%{тип} Запис не знайдено'
+    backend_down: Не вдається підключитися до бази даних
+    backend_down_message: Наразі у ArchivesSpace виникли технічні проблеми. Вибачте за незручності. Будь
+      ласка, спробуйте пізніше.
+    unexpected_error: Ваш запит не вдалося виконати через неочікувану помилку
+    invalid_search_params: Недійсний параметр пошуку '%{значення}' для поля '%{поле}'
+  page_actions: Дії на сторінці
+  request:
+    email_header: Дякуємо за ваш запит
+  search-limiting: обмежено до %{limit}
+  search-limits:
+    all: усі типи записів
+    repository: репозиторії
+    repositories: repositories
+    resource: колекції
+    resources: колекції
+    digital: цифрові матеріали
+    digital_object: цифрові матеріали
+    objects: архівні або цифрові записи
+    subject: предмет
+    agent: творець контенту
+    agents: творці контенту
+  search-field: Поле пошуку
+  searched-field: пошук %{field}
+  search_results:
+    highlighting:
+      found_in: Знайдено в
+      four_part_id: Ідентифікатор
+      dates: Дати
+      subjects_text: Суб'єкти
+      published_agents: Агенти
+      creators_text: Творці
+      role_enum_s: Ролі
+      linked_agent_roles: Ролі пов'язаних агентів
+      notes_published: Нотатки
+      finding_aid_title: Пошук допомоги Назва
+      finding_aid_filing_title: Пошук права на подання заяви про допомогу
+      instance_type_enum_s: Тип екземпляра
+      acquisition_type: Тип придбання
+    anything: '*'
+    filter:
+      year_begin: початок
+      from_to: 'Рокив: %{започинати в & {кінець}'
+      grand_child_container_u_sstr: Контейнер для онуків
+      child_container_u_sstr: Дочірній контейнер
+      type_enum_s: Тип
+      years: Рокив
+      to_year: До року
+      from: Від
+      to: До
+      years_include: Роки, які потрібно включити
+      year_now: зараз
+      langcode: Мова
+      published_series_title_u_sstr: Серія
+      instance_type_enum_s: Тип екземпляра
+      digital_object_type_enum_s: Тип
+      extent_type_enum_s: Ступінь
+    page_title: Знайдено %{рахувати} результатів
+    results_head: 'Показано %{тип}: %{початок} - %{закінчення} від %{загальна сума}'
+    result: Результат
+    results: Результати
+    search_for: Пошук %{тип}, де %{обставини}
+  search_sorting:
+    desc: (за спаданням)
+    asc: (за зростанням)
+    sort_by: 'Сортувати за:'
+    sort: Сортувати
+  inherit:
+    subfonds: Субфонди
+    subgrp: Підгрупа
+  boolean:
+    "true": Так
+    "false": Ні
+  navbar:
+    search_placeholder: Введіть пошукові терміни
+    error_no_term: Пошуковий термін(и) не введено.
+    toggle_navigation: Перемикання навігації
+  navigation:
+    hierarchical: ієрархічна навігація
+    top_level: навігація верхнього рівня
+    mobile_menu: Меню навігації для менших пристроїв
+  internal_links:
+    main: Основний зміст
+    search_collection: Пошук у колекції
+    filter: Фільтрувати результати
+  accordion:
+    expand: Розгорнути все
+    collapse: Згорнути все
+  advanced_search:
+    operator_label: Оператор
+    operator:
+      OR: Або
+      AND: И
