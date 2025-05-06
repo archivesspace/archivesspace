@@ -1,4 +1,7 @@
 name: Frontend Testing
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   workflow_dispatch:
@@ -63,7 +66,7 @@ on:
 jobs:
   frontend_features_aa-af:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'aa-af' || inputs.group-choice == '' }}
-    name: aa-af_Java_v${{ inputs.java-version || 17 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+    name: aa-af
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
@@ -74,7 +77,7 @@ jobs:
       browser: ${{ inputs.browser || 'firefox' }}
   frontend_features_ag-az:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'ag-az' || inputs.group-choice == '' }}
-    name: ag-az_Java_v${{ inputs.java-version || 17 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+    name: ag-az
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
@@ -85,7 +88,7 @@ jobs:
       browser: ${{ inputs.browser || 'firefox' }}
   frontend_features_b-c:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'b-c' || inputs.group-choice == '' }}
-    name: b-c_Java_v${{ inputs.java-version || 17 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+    name: b-c
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
@@ -96,7 +99,7 @@ jobs:
       browser: ${{ inputs.browser || 'firefox' }}
   frontend_features_d-l:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'd-l' || inputs.group-choice == '' }}
-    name: d-l_Java_v${{ inputs.java-version || 17 }}
+    name: d-l
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
@@ -108,7 +111,7 @@ jobs:
 
   frontend_features_m-q:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'm-q' || inputs.group-choice == '' }}
-    name: m-q_Java_v${{ inputs.java-version || 17 }}
+    name: m-q
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
@@ -120,7 +123,7 @@ jobs:
 
   frontend_features_r:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'r' || inputs.group-choice == '' }}
-    name: r_Java_v${{ inputs.java-version || 17 }}
+    name: r
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
@@ -132,7 +135,7 @@ jobs:
 
   frontend_features_s-z:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 's-z' || inputs.group-choice == '' }}
-    name: s-z_Java_v${{ inputs.java-version || 17 }}
+    name: s-z
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
@@ -144,12 +147,24 @@ jobs:
 
   frontend_models_and_controllers:
     if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'models-controllers' || inputs.group-choice == '' }}
-    name: models_and_controllers_Java_v${{ inputs.java-version || 17 }}
+    name: models_and_controllers
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
         ./build/run frontend:test -Dpattern="spec/models/*_spec.rb,spec/controllers/*_spec.rb"
-      name: s-z
+      name: models_and_controllers
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
+
+  final:
+    runs-on: ubuntu-latest
+    needs: [frontend_features_aa-af, frontend_features_ag-az, frontend_features_b-c, frontend_features_d-l, frontend_features_m-q, frontend_features_r, frontend_features_s-z, frontend_models_and_controllers]
+    steps:
+      - name: Post end of parallel tests to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          debug: true
+          flag-name: frontend
+          parallel-finished: true
+          carryforward: "aa-af, ag-az, b-c, d-l, m-q, r, s-z, models_and_controllers"

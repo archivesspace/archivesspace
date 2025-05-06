@@ -1,4 +1,7 @@
 name: Backend Testing
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   workflow_dispatch:
@@ -87,3 +90,11 @@ jobs:
         ./build/run backend:test
       env:
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
+
+    - name: Post Coverage to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        format: simplecov
+        compare-ref: master
+        flag-name: backend
+        debug: true
