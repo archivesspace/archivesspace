@@ -1,4 +1,7 @@
 name: Frontend Testing Sub-Workflow
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   workflow_call:
@@ -21,7 +24,7 @@ on:
 
 jobs:
   frontend:
-    name: Frontend specs ${{ inputs.name }} on Java ${{ inputs.java-version || 17 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+    name: ${{ inputs.name }}
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
@@ -91,3 +94,12 @@ jobs:
       with:
         name: failed_spec_saved_pages(${{ inputs.name }})_Java_${{ inputs.java-version || 17 }}
         path: 'ci_logs'
+
+    - name: Post Coverage to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        format: simplecov
+        compare-ref: master
+        flag-name: ${{ inputs.name }}
+        debug: false
+        parallel: true

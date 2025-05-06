@@ -1,4 +1,8 @@
 name: Stats
+permissions:
+  contents: write
+  pull-requests: write
+
 on:
   schedule:
     - cron: "0 5 1 * *"

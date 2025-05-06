@@ -1,4 +1,7 @@
 name: Code Scan
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   workflow_dispatch:
@@ -19,10 +22,6 @@ on:
         required: true
         type: string
         default: '17'
-
-  pull_request:
-    branches:
-      - master
 
 jobs:
   rubocop:

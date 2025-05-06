@@ -1,4 +1,7 @@
 name: Backend Testing
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   workflow_dispatch:
@@ -19,13 +22,6 @@ on:
         required: true
         type: string
         default: '17'
-
-  pull_request:
-    paths:
-      - '.github/workflows/backend.yml'
-      - 'backend/**'
-      - 'common/**'
-      - 'oai/**'
 
 jobs:
   backend:
@@ -87,3 +83,12 @@ jobs:
         ./build/run backend:test
       env:
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
+
+    - name: Post Coverage to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        format: simplecov
+        compare-ref: master
+        flag-name: backend
+        debug: false
+        parallel: true

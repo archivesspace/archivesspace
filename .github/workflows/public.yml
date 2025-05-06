@@ -1,5 +1,9 @@
 name: Public Testing
 
+permissions:
+  contents: read
+  pull-requests: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -32,14 +36,6 @@ on:
         required: true
         type: string
         default: 'firefox'
-
-  pull_request:
-    paths:
-      - '.github/workflows/public.yml'
-      - 'public/**'
-      - 'common/**'
-      - 'solr/**'
-      - 'indexer/**'
 
 jobs:
   public:
@@ -104,3 +100,12 @@ jobs:
       with:
         name: ci_logs
         path: ci_logs/*
+
+    - name: Post Coverage to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        format: simplecov
+        compare-ref: master
+        flag-name: public
+        debug: false
+        parallel: true
