@@ -44,8 +44,10 @@ module ASpaceHelpers
   end
 
   def select_repository(repo)
+    page.refresh unless page.has_button?('Select Repository')
     click_button 'Select Repository'
     wait_for_ajax
+    page.has_xpath? '//select[@id="id"]', wait: 25
     using_wait_time(25) do
       if repo.respond_to? :repo_code
         select repo.repo_code, from: 'id'
