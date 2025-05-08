@@ -107,5 +107,14 @@ it:
       event_date: Aiuto riguardo data/ora di un evento
       enumeration: Aiuto riguardo le liste di valori controllati
       agent_software_names: Aiuto riguardo i nomi
+      archival_object_finding_aid: Aiuto riguardo strumenti di ricerca
+      archival_object_deaccessions: Aiuto riguardo le deaccessioni
+      digital_object_finding_aid: Aiuto riguardo strumenti di ricerca
+      digital_object_component_finding_aid: Aiuto riguardo strumenti di ricerca
+      digital_object_component_deaccessions: Aiuto riguardo le deaccessioni
+      accession_deaccessions: Aiuto riguardo le deaccessioni
+      resource_finding_aid: Aiuto riguardo strumenti di ricerca
+      resource_deaccessions: Aiuto riguardo le deaccessioni
+      digital_object_deaccessions: Aiuto riguardo le deaccessioni
     help_center: Centro di assistenza ArchivesSpace
     default_tooltip: Centro di assistenza ArchivesSpace
