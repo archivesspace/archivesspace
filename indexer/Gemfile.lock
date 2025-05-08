@@ -13,6 +13,7 @@ GEM
     base64 (0.2.0)
     bigdecimal (3.1.8-java)
     builder (3.3.0)
+    coderay (1.1.3)
     concurrent-ruby (1.3.3)
     connection_pool (2.4.1)
     crack (1.0.0)
@@ -23,6 +24,7 @@ GEM
     excon (0.109.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
+    ffi (1.17.2-java)
     fog-aws (2.0.0)
       fog-core (~> 1.38)
       fog-json (~> 1.0)
@@ -45,6 +47,7 @@ GEM
     ipaddress (0.8.3)
     json (2.7.2-java)
     json-schema (1.0.10)
+    method_source (1.1.0)
     mime-types (3.5.2)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2024.0507)
@@ -57,6 +60,15 @@ GEM
       connection_pool (~> 2.2)
     nokogiri (1.13.10-java)
       racc (~> 1.4)
+    pry (0.14.2-java)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+      spoon (~> 0.0)
+    pry-debugger-jruby (2.2.1-java)
+      pry (>= 0.13, < 0.16)
+      ruby-debug-base (>= 0.10.4, < 0.12)
+    pry-nav (1.0.0)
+      pry (>= 0.9.10, < 0.15)
     public_suffix (6.0.1)
     racc (1.8.1-java)
     rack (2.2.9)
@@ -79,6 +91,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.1)
+    ruby-debug-base (0.11.0-java)
     ruby2_keywords (0.0.5)
     simplecov (0.22.0)
       docile (~> 1.1)
@@ -97,6 +110,8 @@ GEM
       rack-protection (= 3.2.0)
       sinatra (= 3.2.0)
       tilt (~> 2.0)
+    spoon (0.0.6)
+      ffi
     tilt (2.4.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -108,8 +123,6 @@ GEM
     zeitwerk (2.6.17)
 
 PLATFORMS
-  universal-java-1.8
-  universal-java-11
   universal-java-17
 
 DEPENDENCIES
@@ -126,6 +139,9 @@ DEPENDENCIES
   multipart-post (~> 2.4)
   net-http-persistent (>= 4.0.1)
   nokogiri (~> 1.13.10)
+  pry
+  pry-debugger-jruby
+  pry-nav
   rack-test
   rspec
   rspec-core

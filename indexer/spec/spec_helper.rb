@@ -5,6 +5,12 @@ require 'vcr'
 require 'webmock/rspec'
 require 'test_utils'
 
+if ENV['COVERAGE_REPORTS'] == 'true'
+  require 'aspace_coverage'
+  ASpaceCoverage.start('indexer')
+end
+
+
 AppConfig[:backend_url] = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{TestUtils::free_port_from(3636)}"
 
 # VCR allows the tests to be self-contained - there is no need
