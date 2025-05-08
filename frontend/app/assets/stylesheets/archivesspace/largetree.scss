@@ -82,26 +82,22 @@
     }
     .drag-handle,
     .no-drag-handle {
-      display: table-cell;
-    }
-    .no-drag-handle {
       width: 2em;
+      display: table-cell;
     }
     .drag-handle {
       position: relative;
-      width: 2em;
     }
     .drag-handle.drag-disabled {
       visibility: hidden;
     }
     .drag-handle.multiselected {
-      width: 2em;
       background-color: #0a6aa1;
     }
   }
 
   .title {
-    width: 46%;
+    width: auto;
   }
   .resource-level {
     width: 8%;
