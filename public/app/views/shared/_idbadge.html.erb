@@ -41,10 +41,10 @@ end
 <%= (props.fetch(:full,false)? '<h1>' : '<h3>').html_safe %>
   <% if !props.fetch(:full,false) %>
     <a class="record-title" href="<%= app_prefix(url) %>">
-      <%== process_mixed_content(props.fetch(:infinite_item, false) ? result.parse_full_title(true, session[:locale]) : result.primary_title(session[:locale])) %>
+      <%== process_mixed_content(props.fetch(:infinite_item, false) ? result.parse_full_title(true, session[:locale]) : result.primary_title) %>
     </a>
   <% else %>
-    <%== process_mixed_content(result.primary_title(session[:locale]) || result.display_string) %>
+    <%== process_mixed_content(result.primary_title || result.display_string) %>
   <% end %>
 <%= (props.fetch(:full,false)? '</h1>' : '</h3>').html_safe %>
 
