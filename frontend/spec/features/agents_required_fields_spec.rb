@@ -123,6 +123,19 @@ describe 'Agents Required Fields', js: true do
     end
   end
 
+  shared_examples 'valid label-checkbox pairs' do |agent_type|
+    it "has matching label for and checkbox id attributes for #{agent_type}" do
+      visit "/agents/#{agent_type}/required"
+
+      all('.subrecord-form-container > .form-group.w-100.row').each do |row|
+        label = row.find('label')
+        checkbox = row.find('input[type="checkbox"]')
+
+        expect(label[:for]).to eq(checkbox[:id])
+      end
+    end
+  end
+
   context 'when lightmode is off' do
     describe 'the sidebar' do
       include_examples 'agent sidebar items', 'agent_person', []
@@ -162,6 +175,11 @@ describe 'Agents Required Fields', js: true do
         'Relation Information',
         'Related External Resources'
       ]
+
+      include_examples 'valid label-checkbox pairs', 'agent_person'
+      include_examples 'valid label-checkbox pairs', 'agent_family'
+      include_examples 'valid label-checkbox pairs', 'agent_corporate_entity'
+      include_examples 'valid label-checkbox pairs', 'agent_software'
     end
   end
 

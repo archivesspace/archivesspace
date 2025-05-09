@@ -42,7 +42,7 @@ describe "Resource Duplicate" do
 
   let(:resource) do
     create_resource(
-      title: "Resource Title #{now}",
+      titles: [build(:json_title, :title => "Resource Title #{now}")],
       publish: true,
       ead_id: "Resource EAD ID #{now}",
       :lang_materials => [
@@ -152,7 +152,7 @@ describe "Resource Duplicate" do
 
   let(:archival_object_parent_1) do
     create_archival_object({
-      :title => "Archival Object Parent 1 #{now}",
+      :titles => [build(:json_title, :title => "Archival Object Parent 1 #{now}")],
       :resource => { :ref => resource.uri },
       :ref_id => "archival_object_parent_1_#{now}",
       :lang_materials => [build(:json_lang_material_with_note)],
@@ -199,7 +199,7 @@ describe "Resource Duplicate" do
 
   let(:archival_object_parent_2) do
     create_archival_object({
-      :title => "Archival Object Parent 2 #{now}",
+      :titles => [build(:json_title, :title => "Archival Object Parent 2 #{now}")],
       :resource => { :ref => resource.uri },
       :ref_id => "archival_object_parent_2_#{now}",
       :lang_materials => [
@@ -232,7 +232,7 @@ describe "Resource Duplicate" do
 
   let(:archival_object_child_1) do
     create_archival_object({
-      :title => "Archival Object Child 1 #{now}",
+      :titles => [build(:json_title, :title => "Archival Object Child 1 #{now}")],
       :resource => { :ref => resource.uri },
       :parent => { 'ref' => archival_object_parent_1.uri },
       :ref_id => "archival_object_child_1_#{now}",
@@ -259,7 +259,7 @@ describe "Resource Duplicate" do
 
   let(:archival_object_sub_child_1) do
     create_archival_object({
-      :title => "Archival Object Sub Child 1 #{now}",
+      :titles => [build(:json_title, :title => "Archival Object Sub Child 1 #{now}")],
       :resource => { :ref => resource.uri },
       :parent => { 'ref' => archival_object_child_1.uri },
       :ref_id => "archival_object_sub_child_1_#{now}",
@@ -271,7 +271,7 @@ describe "Resource Duplicate" do
 
   let(:archival_object_sub_sub_child_1) do
     create_archival_object({
-      :title => "Archival Object Sub Sub Child 1 #{now}",
+      :titles => [build(:json_title, :title => "Archival Object Sub Sub Child 1 #{now}")],
       :resource => { :ref => resource.uri },
       :parent => { 'ref' => archival_object_sub_child_1.uri },
       :ref_id => "archival_object_sub_sub_child_1_#{now}",
@@ -290,7 +290,7 @@ describe "Resource Duplicate" do
 
   let(:archival_object_sub_sub_child_2) do
     create_archival_object({
-      :title => "Archival Object Sub Sub Child 2 #{now}",
+      :titles => [build(:json_title, :title => "Archival Object Sub Sub Child 2 #{now}")],
       :resource => { :ref => resource.uri },
       :parent => { 'ref' => archival_object_sub_child_1.uri },
       :ref_id => "archival_object_sub_sub_child_2_#{now}",
@@ -302,7 +302,7 @@ describe "Resource Duplicate" do
 
   let(:archival_object_sub_sub_sub_child_1) do
     create_archival_object({
-      :title => "Archival Object Sub Sub Sub Child 1 #{now}",
+      :titles => [build(:json_title, :title => "Archival Object Sub Sub Sub Child 1 #{now}")],
       :resource => { :ref => resource.uri },
       :parent => { 'ref' => archival_object_sub_sub_child_1.uri },
       :ref_id => "archival_object_sub_sub_sub_child_1_#{now}",
@@ -334,15 +334,21 @@ describe "Resource Duplicate" do
     expect(archival_object_parent_1_json_model[:dates]).to eq []
 
     # Make archival object invalid, by directly updating it on the database to bypass model validation.
+    disconnected_title_id = Title.where(:archival_object_id => archival_object_parent_1.id).first.id
     DB.open do |db|
-      db.execute("UPDATE archival_object SET title=NULL WHERE id = #{archival_object_parent_1.id}")
+      db.execute("UPDATE title SET archival_object_id=NULL WHERE archival_object_id=#{archival_object_parent_1.id}")
     end
 
     expect(subject.duplicate).to eq false
     expect(subject.errors.length).to eq 1
     # NOTE: This is not the actual error that is going to be raised when the system runs.
     #       JSONModel::ValidationException is raised only on the specs, because it uses the client JSONModel
-    expect(subject.errors[0][:error]).to eq "last_error #<JSONModel::ValidationException: #<:ValidationException: {:errors=>{\"dates\"=>[\"one or more required (or enter a Title)\"], \"title\"=>[\"must not be an empty string (or enter a Date)\"]}}>>."
+    expect(subject.errors[0][:error]).to eq "last_error #<JSONModel::ValidationException: #<:ValidationException: {:errors=>{\"dates\"=>[\"one or more required (or enter a Title)\"], \"titles\"=>[\"must not be an empty list (or enter a Date)\"]}}>>."
+
+    # Restore archival object title so that resource graphs will match
+    DB.open do |db|
+      db.execute("UPDATE title SET archival_object_id=#{archival_object_parent_1.id} WHERE id=#{disconnected_title_id}")
+    end
 
     after_duplicate_failed_total_records_count = total_records_count
     resource_graph_after = object_graph_to_hash(resource.object_graph)
@@ -479,7 +485,7 @@ describe "Resource Duplicate" do
     resource_source_values = resource.values
     resource_duplicated_values = resource_duplicated.values
     expect(resource_duplicated_values[:id_0]).to eq "[Duplicated] #{resource_source_values[:id_0]}"
-    expect(resource_duplicated_values[:title]).to eq "[Duplicated] #{resource_source_values[:title]}"
+    expect(resource_duplicated.title[0].title).to eq "[Duplicated] #{resource.title[0].title}"
     expect(resource_duplicated_values[:ead_id]).to eq "[Duplicated] #{resource_source_values[:ead_id]}"
     expect(resource_duplicated_values).to include(resource_to_match(resource))
     expect_resource_records_to_match(resource_duplicated_json_model, resource_json_model)
@@ -491,6 +497,7 @@ describe "Resource Duplicate" do
     # Check archival object parent 1
     expect(duplicated_parent_archival_objects[0].parent_id).to eq nil
     expect(duplicated_parent_archival_objects[0].ref_id).to_not eq archival_object_parent_1.ref_id
+    expect(duplicated_parent_archival_objects[0].title).to eq(archival_object_parent_1.title)
     expect(duplicated_parent_archival_objects[0]).to have_attributes(archival_object_to_match(archival_object_parent_1))
     duplicated_archival_object_parent_1_json_model = ::ArchivalObject.to_jsonmodel(duplicated_parent_archival_objects[0])
     expect_archival_object_records_to_match(
@@ -618,7 +625,7 @@ describe "Resource Duplicate" do
       end
 
       archival_object_parent = create_archival_object({
-        :title => "Archival Object #{x} #{now}",
+        :titles => [build(:json_title, :title => "Archival Object #{x} #{now}")],
         :resource => { :ref => resource.uri },
         :parent => parent,
         :ref_id => "ref_id_#{x}_#{now}_#{SecureRandom.uuid}",
@@ -914,7 +921,7 @@ describe "Resource Duplicate" do
 
   def archival_object_to_match(archival_object)
     {
-      title: archival_object.title,
+      #title: archival_object.title,
       lock_version: archival_object.lock_version,
       json_schema_version: archival_object.json_schema_version,
       repo_id: archival_object.repo_id,

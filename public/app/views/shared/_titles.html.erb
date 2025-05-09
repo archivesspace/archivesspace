@@ -1,0 +1,20 @@
+<div>
+    <p>
+        <ul style="list-style-type: none;">
+            <% titles.each do |title| %>
+                <li>
+                    <%= title['title'] %>
+                    <% if title['type'].present? %>
+                        [<%= title['type'] %>]
+                    <% end %>
+                    <% if title['language'].present? %>
+                        [language: <%= t("enumerations.language_iso639_2.#{title['language']}") %>]
+                    <% end %>
+                    <% if title['script'].present? %>
+                        [script: <%= t("enumerations.script_iso15924.#{title['script']}") %>]
+                    <% end %>
+                </li>
+            <% end %>
+        </ul>
+    </p>
+</div>
