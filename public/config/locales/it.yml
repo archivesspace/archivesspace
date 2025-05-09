@@ -45,6 +45,7 @@ it:
       notes_published: Note
       acquisition_type: Tipo di acquisizione
       published_agents: Agenti
+      finding_aid_title: Titolo degli strumenti di ricerca
     results_head: 'Mostrando %{type}: %{start} - %{end} di %{total}'
     result: Risultato
     page_title: Trovati %{count} risultati
@@ -226,7 +227,7 @@ it:
         language: Lingua della descrizione
       related_accessions:
         accessions: Materiale non processato relativo
-        deaccessions: Materiale ritirato
+        deaccessions: Materiale deaccessionato
         sibling_of: Relazione fratello/sorella
         has_part: Parte di una relazione (ha parte in)
         forms_part_of: Relazione di parte (forma parte di)
