@@ -2,7 +2,7 @@ it:
   states:
     suppressed: Bloccato
     deleted: Eliminato
-    auto_generated: Generato automaticamente
+    auto_generated: Generato automaticamente al salvataggio
   user_defined:
     boolean_2: Booleano 2
     boolean_3: Booleano 3
@@ -15,20 +15,20 @@ it:
     string_3: Stringa 3
     text_1: Testo 1
     text_2: Testo 2
-    date_1_inline_help: AAAA-MM-GG Formato Richiesto
+    date_1_inline_help: AAAA-MM-GG formato richiesto
     date_2: Data 2
-    date_2_inline_help: AAAA-MM-GG Formato Richiesto
-    enum_1: Valore Controllato 1
-    enum_2: Valore Controllato 2
-    enum_3: Valore Controllato 3
-    enum_4: Valore Controllato 4
+    date_2_inline_help: AAAA-MM-GG formato richiesto
+    enum_1: Valore controllato 1
+    enum_2: Valore controllato 2
+    enum_3: Valore controllato 3
+    enum_4: Valore controllato 4
     _singular: Definito dall'utente
     _plural: Definito dagli utenti
     date_1: Data 1
     date_3: Data 3
     boolean_1: Booleano 1
     text_4: Testo 4
-    date_3_inline_help: AAAA-MM-GG Formato Richiesto
+    date_3_inline_help: AAAA-MM-GG formato richiesto
     text_3: Testo 3
     string_4: Stringa 4
     integer_2: Intero 2
@@ -40,8 +40,8 @@ it:
       unità archivistica nell'interfaccia pubblica di ArchivesSpace. Lo slug può essere aggiunto o aggiornato
       manualmente, o generato automaticamente in base ai settings di configurazione per gli human-readable
       URLs nel file config.rb in questo server.</p>\n"
-    public_url: URL Pubblico
-    is_slug_auto: Genera Automaticamente Slug?
+    public_url: URL pubblico
+    is_slug_auto: Genera automaticamente slug?
     is_slug_auto_tooltip: "<p>Se questo campo è spuntato, lo slug per questa unità archivistica sarà automaticamente
       generata quando l'unità archivistica è salvata, basandosi sulle impostazioni di configurazione per
       gli human-readable URLs nel file config.rb sul server.</p>\n"
@@ -83,11 +83,13 @@ it:
     _plural: Soggetti
   classification:
     creator: Creatore
+    identifier: Identificatore
   advanced_search:
     text:
       subjects: Soggetto
+      identifier: Identificatore
   digital_object:
-    digital_object_id_tooltip: "<p>Un identificativo unico per l'oggetto digitale nel suo complesso. Può
+    digital_object_id_tooltip: "<p>Un Identificatore unico per l'oggetto digitale nel suo complesso. Può
       essere un ARK, HANDLE, un URI, o ogni stringa che identifica unicamente l'oggetto digitale. Il campo
       deve essere completato per un valido METS record affinché possa essere esportato.</p>\n<p>Esempi</p>\n\
       <ul>\n<li>http://hdl.handle.net/1813/13524</li>\n</ul>\n"
@@ -103,6 +105,22 @@ it:
       a una risorsa componente dell'unità archivistica che ha il titolo di \"Lettera al Corriere della
       Sera\")</em></li>\n<li>Grande incendio di Roma <em>(linkato a una risorsa componente dell'unità
       archivistica che ha il titolo di \"Grande incendio di Roma\")</em></li>\n</ul>\n"
+    title: Titolo
+    digital_object_id: Identificatore
+    publish: Pubblicare?
+    level: VRA Core Level
+    digital_object_type: Tipo di oggetto digitale
+    publish_tooltip: "<p>Determina se questo oggetto digitale o componente sarà pubblicato per l'interfaccia
+      pubblica (visibile al pubblico).</p>\n"
+    digital_object_type_tooltip: ''
+    restrictions: Restrizioni?
+    _singular: Oggetto digitale
+    _plural: Oggetti digitali
+    new_title: Nuovo oggetto digitale
+    linker:
+      browse: Scorri gli oggetti digitali
+      create: Crea oggetto digitale
+      link_title: Link all'oggetto digitale
   location:
     coordinate_2_label_tooltip: "<p>Usato per registrare una etichetta (ad es. \"scaffale\", \"zona\"
       , \"cassetto\") per una specifica posizione.</p>\n"
@@ -128,11 +146,50 @@ it:
       barre, classificazione, o coordinata 1 etichetta e coordinata 1 indicatore) deve necessariamente
       contenere dati.</p>\n<p>Usato per registrare una etichetta (ad es. \"scaffale\", \"zona\", \"cassetto\"\
       ) per una specifica posizione.</p>\n"
+    temporary_question: Temporaneo?
+    temporary: Tipo temporaneo
+    building: Edificio
+    title: Ubicazione
+    temporary_tooltip: "<p>Usato per indicare se questa ubicazione è uno specifico tipo di luogo temporaneo
+      (ad es. area espositiva).</p>\n"
+    floor: Piano
+    room: Stanza
+    area: Area
+    floor_tooltip: "<p>Usato per indicare il piano ove esiste un'ubicazione.</p>\n"
+    area_tooltip: "<p>Usato per indicare un'area (ad es. di una stanza) ove esiste un'ubicazione.</p>\n"
+    classification: Classificazione
+    coordinates: Coordinate
+    coordinate_1_label: Etichetta della coordinata 1
+    coordinate_2_label: Etichetta della coordinata 2
+    coordinate_1_indicator: Indicatore di coordinata 1
+    coordinate_2_indicator: Indicatore di coordinata 2
+    coordinate_3_label: Etichetta della coordinata 3
+    display_string: ''
+    coordinate_3_indicator: Indicatore di coordinata 3
+    owner_repo: Riservato per
+    _singular: Ubicazione
+    _plural: Ubicazioni
+    new_title: Nuova ubicazione
+    linker:
+      browse: Scorri le ubicazioni
+      create: Crea ubicazione
+      link_title: Link all'ubicazione
+    building_tooltip: "<p>CAMPO OBBLIGATORIO. Usato per indicare l'edificio ove esiste un'ubicazione.</p>\n"
+    room_tooltip: "<p>Usato per indicare la stanza ove esiste un'ubicazione.</p>\n"
+    barcode: Codice a barre
   container_location:
     status_tooltip: "<p>CAMPO OBBLIGATORIO. Indica se la dichiarazione di posizione di questa unità archivistica
       è corrente o si riferisce a una precedente posizione della stessa.</p>\n"
     note_tooltip: "<p>Usato per registrare informazioni aggiuntive riguardanti il caso e la sua relazione
       con questa posizione di luogo.</p>\n"
+    status: Stato
+    start_date: Data di inizio
+    end_date: Data di fine
+    note: Nota
+    location: Ubicazione
+    ref: Ubicazione
+    _singular: Ubicazione
+    _plural: Ubicazioni
   linked_record:
     role: Ruolo
     role_tooltip: "<p>Il ruolo in cui l'unità archivistica linkata è in relazione con la corrente unità
@@ -148,23 +205,233 @@ it:
   repository:
     _singular: Deposito
     _plural: Depositi
+    org_code_tooltip: "<p>Un codice conforme con ISO/DIS 15511 ISIL (Information and Documentation International
+      Standard Identifier for Libraries and Related Organizations). Per le istituzioni degli Stati Uniti
+      d'America, questo include codici dalla lista MARC Organization Code.</p>\n<p>Esempi:</p>\n<ul>\n
+      <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>\n<li>IU-Ar <em>(for
+      University of Illinois Archives)</em></li>\n</ul>\n"
   section_tooltips:
     dates_tooltip: "<p>Identifica e registra la/le data/e che riguardano creazione, raggruppamento, accumulo
       e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4</p>\n"
     classification_tooltip: "<p>Usato per linkare i materiali descritti a una classificazione o un termine
       di classificazione (ad es. un sistema gruppo di unità archivistiche) gestiti all'interno dell'applicazione.</p>\n"
-    deaccessions_tooltip: ''
+    deaccessions_tooltip: '<p>Registra le informazioni su materiali che possono essere stati separati
+      e scartati, restituiti a un donatore, o trasferiti presso un''altra istituzione.</p>
+
+      '
     user_defined_tooltip: "<p>Campi definiti dall'utente per registrare informazioni aggiuntive non inserite
       in altre sezioni dell'applicazione.</p>\n"
+    subjects_tooltip: "<p>Usato per linkare i soggetti coi materiali descritti.</p>\n"
+    lang_materials_tooltip: "<p>Le lingue e gli scripts rappresentati nel materiale/i descritto/i.</p>\n
+      <p>Vedere DACS 4.5</p>\n"
+    notes_tooltip: "<p>Ulteriori informazioni descrittive sui materiali descritti, solitamente in forma
+      di testo o liste strutturate.</p>\n"
+    rights_statements_tooltip: "<p>Informazioni riguardo lo stato dei diritti dei materiali descritti
+      e se ci sono specifiche restrizioni o permessi che sono stati indicati.</p>\n"
+    metadata_rights_declarations_tooltip: "<p>Basato su DACS 8.2 e 13.11</p>\n"
+    collection_management_tooltip: "<p>Informazioni aggiuntive (a uso puramente interno) riguardo a come
+      i materiali descritti saranno o sono stati processati.</p>\n"
+    external_documents_tooltip: ''
   linked_agent:
     title_tooltip: "<p>Campo opzionale: registra qui il titolo ufficiale di un'opera per creare un nome
       / titolo come intestazione per un agent linkato come creatore o soggetto:</p>\n<p>Per esempio,</p>\n
       <ul><li>Alighieri, Dante, 1265-1321. Vita Nova</li><li> Montale, Eugenio, 1896-1981. Ossi di seppia</li><li>
       Calvino, Italo, 1923-1985. Il barone rampante</li></ul>\n"
+    role: Ruolo
+    terms: Termini
+    title: Titolo
   digital_object_component:
-    label_tooltip: "<p>Un termine usato per descrivere la parte e la posizione all'interno dell'Oggetto
-      Digitale descritto. Più spesso usato per i componenti delle parti dell'Oggetto Digitale che il top-level
+    label_tooltip: "<p>Un termine usato per descrivere la parte e la posizione all'interno dell'oggetto
+      digitale descritto. Più spesso usato per i componenti delle parti dell'Oggetto Digitale che il top-level
       dell'Oggetto Digitale dell'unità archivistica.</p>\n<p>Esempi:</p>\n<ul>\n<li>Audio: Audiocassetta
       1, Traccia 1, Sezione 1, ecc.</li>\n<li>Immagine: Immagine 1, Foto 1, ecc.</li>\n<li>Testo: Pagina
       1, Foglio 1, Primo foglio, Capitolo 1, Sezione 1, ecc.</li>\n<li>Video:  Cassetta 1, Parte 1, Sezione
       1, ecc.</li>\n</ul>\n"
+    label: Etichetta
+    component_id: Identificatore
+    dates: Date
+    component_id_tooltip: "<p>Identificatore unico per il componente dell'oggetto digitale.</p>\n"
+    _singular: Componente dell'oggetto digitale
+    _plural: Componenti dell'oggetto digitale
+  content_items:
+    content_tooltip: "<p>Il contenuto della nota.</p>\n"
+    content: Contenuto
+  location_batch:
+    label: Etichetta
+    prefix: Prefisso
+    suffix: Suffisso
+    coordinate_1_range: Intervallo di coordinate 1
+    coordinate_2_range: Intervallo di coordinate 2
+    coordinate_3_range: Intervallo di coordinate 3
+    end: Fine intervallo
+    start: Inizio intervallo
+  location_function:
+    _singular: Funzione
+    _plural: Funzioni
+  function:
+    _singular: Funzione
+    _plural: Funzioni
+    _frontend:
+      action:
+        add: Aggiungi funzione
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Aggiungi data
+  event:
+    event_type: Tipo
+    event_type_tooltip: "<p>Una categorizzazione della natura dell'evento.</p>\n<p>I valori in questa
+      lista di valori controllati possono essere modificati.</p>\n<p>Vedi PREMIS eventType</p>\n"
+    outcome: Risultato
+    outcome_note: Nota di risultato
+    outcome_note_tooltip: "<p>Una descrizione dettagliata del risultato o del prodotto dell'evento. Questa
+      può essere usata per registrare tutti i messaggi di errore e di avvertimento emessi dal programma
+      coinvolto nell'evento o per registrare un   error and warning messages issued by a program involved
+      in the event or to record a pointer to an error log.</p>\n"
+    date: Data/ora evento
+    date_type: Tipo di evento
+    timestamp: Marca temporale UTC
+    chronotype_label: Specificatore data/ora
+    chronotype_label_tooltip: "<p>Indica quale tipo di data è associata con questo evento.</p>\n"
+    chronotype:
+      timestamp: Marca temporale UTC
+    timestamp_inline_help: AAAA-MM-GG HH:MM:SS
+    timestamp_tooltip: "<p>Una specifica marca temporale, con informazioni complete sulla data e sull'ora,
+      riguardo a quando è avvenuto l'evento. Per default l'applicazione presume che la marca temporale
+      sia in UTC (Coordinated Universal Time).</p>\n"
+    date_tooltip: "<p>La singola data e ora, o l'intervallo di data e ora, in cui/durante le quali l'evento
+      è avvenuto.</p>\n<p>Se la singola data/ora o la data/ora d'inizio o di fine sono sconosciute, inserire
+      \"sconosciuto\" nel campo espressione data.</p>\n"
+    types:
+      agreement_received: Accordo ricevuto
+      agreement_sent: Accordo inviato
+      agreement_signed: Accordo firmato
+      appraisal: Valutazione
+      assessment: Valutazione
+      cataloged: Catalogato
+      collection: Collezione
+      compression: Compressione
+      contribution: Contributo
+      deaccession: Deaccessione
+      copyright_transfer: Trasferimento del copyright
+      custody_transfer: Trasferimento della custodia
+      decompression: Decompressione
+      decryption: Decriptazione
+      deletion: Eliminazione
+      digital_signature_validation: Convalida della firma digitale
+      migration: Migrazione
+      processed: Processato
+      publication: Pubblicazione
+      validation: Convalida
+      virus_check: Ispezione per virus
+      normalization: Normalizzazione
+      replication: Riproduzione
+    new_title: Nuovo evento
+    outcome_tooltip: "<p>Una categorizzazione del risultato complessivo dell'evento in termini di successo,
+      successo parziale, o fallimento. Si raccomanda di usare un vocabolario controllato tale che il sistema
+      possa agire automaticamente. Più dettagli riguardanti il risultato possono essere registrati nella
+      nota di risultato. Si raccomanda di definire gli eventi con sufficiente granularità tale che ogni
+      evento abbia un singolo risultato.</p>\n<p>I valori in questa lista controllata di valori possono
+      essere modificati.</p>\n"
+    _singular: Evento
+    _plural: Eventi
+  deaccession:
+    description: Descrizione
+    description_tooltip: "<p>CAMPO OBBLIGATORIO: descrizione dei materiali che sono stati deaccessionati.</p>\n
+      <p>Esempi:</p>\n<ul>\n<li>Periodici, ritagli di giornale, e rendiconto finanziario famigliare.</li>\n
+      <li>Trofei conferiti alle mostre canine.</li>\n</ul>\n"
+    reason: Ragione
+    reason_tooltip: "<p>La ragione per cui i materiali descritti sono stati deaccessionati.</p>\n<p>Esempi:</p>\n
+      <ul>\n<li>Il donatore non intendeva trasferire questi materiali.</li>\n</ul>\n"
+    disposition: Disposizione
+    notification: Notifica ricevuta?
+    notification_tooltip: "<p>Una casella di spunta che indica che la notifica della deaccessione è stata
+      data.</p>\n"
+    dates: Data di deaccessione
+    _plural: Deaccessioni
+    _singular: Deaccessione
+    disposition_tooltip: "<p>Una descrizione che indica cosa è stato fatto con i materiali deaccessionati.</p>\n
+      <p>Esempi:</p>\n<ul>\n<li>Rendiconto finanziario restituito alla famiglia.</li>\n<li>Trofei della
+      mostra canina restituiti alla moglie del donatore.</li>\n</ul>\n"
+  agent_name:
+    source: Fonte
+    rules: Regole
+    name_order_tooltip: "<p>Indica se il nome dovrebbe essere mostrato in ordine invertito (cognome nome)
+      o in ordine diretto (nome cognome).</p>\n"
+    prefix: Prefisso
+    prefix_tooltip: "<p>Ogni termine associato con un nome che in uso normativo dovrebbe precedere l'intero
+      nome.</p>\n<p>Esempi:</p>\n<ul>\n<li>Sig.ra.</li>\n</ul>\n"
+    title: Titolo
+    primary_name: Parte principale del nome
+    rest_of_name: Resto del nome
+    suffix: Suffisso
+    rest_of_name_tooltip: "<p>Il primo elemento del nome o del nome proprio e nomi aggiuntivi, ad es.
+      secondo nome, per la persona nominata nell'unità archivistica.</p>\n<p>Esempi:</p>\n<ul>\n<li>Winston
+      <em>(per Churchill, Winston, Sir, 1874-1965)</em></li>\n<li>Alda <em>(per Merini, Alda, 1931-2009)</em></li>\n\
+      </ul>\n"
+    suffix_tooltip: "<p>Un termine che segue un nome, il termine qualifica il nome ma non è un titolo.</p>\n\
+      <p>Esempi</p>\n<ul>\n<li>Jr.</li>\n<li>fils</li>\n</ul>\n"
+    fuller_form: Forma più completa
+    number: Numero
+    dates: Date
+    dates_tooltip: "<p>Usa questo campo per l'allineamento con il record d'autorità MARC. Queste date,
+      a differenza delle date di esistenza, sono aggiunte alla voce nome nella visualizzazione.</p>\n
+      <p>Date di esistenza per l'entità nominata.</p>\n<p>Esempi:<p>\n<ul>\n<li>1876-1960 <em>(per S.B.,
+      Sibilla Aleramo, 1876-1960)</em></li>\n</ul>\n"
+    qualifier: Qualificativo
+    primary_name_tooltip: "<p>La parte principale di un nome (ad es. il nome di famiglia o il cognome
+      di una persona).</p>\n<p>Esempi:</p>\n<ul>\n<li>Churchill <em>(per Churchill, Winston, Sir, 1874-1965
+      [persona])</em></i>\n<li>Porsenna <em>(per Porsenna, Lars, Lucumone, VI secolo a.c.-V secolo a.c.
+      [persona])</em></li>\n<li>Intesa Sanpaolo <em>(per Banca Intesa Sanpaolo S.p.A [entità aziendale])</em></li>\n\
+      </ul>\n"
+    title_tooltip: "<p>Un titolo che è parte del nome.</p>\n<p>Esempi:</p>\n<ul>\n<li>Sir <em>(per Churchill,
+      Winston, Sir, 1874-1965)</em></li>\n<li>Lucumone (per Porsenna, Lars, Lucumone, VI secolo a.c.-V
+      secolo a.c.)</li>\n<li>Imperatore d'Oriente <em>(per Costantino I. Imperatore bizantino o dell'Impero
+      romano d'Oriente.)</em></li>\n</ul>\n"
+    number_tooltip: "<p>Un numero, a volte con un termine, che qualifica il nome. Per gli antroponimi
+      è spesso un numero romano o un numero romano e una seguente parte di un nome. Per i nomi di aziende
+      è il numero di una parte / sezione o di una assemblea.</p>\n<p>Esempi:</p>\n<ul>\n<li>I Costantino
+      <em>(per Costantino I, Imperatore bizantino d'Oriente</em></li>\n<li>I <em>(per Cosimo I de' Medici)</em></li>\n
+      <li>150º <em>(per 150º anniversario dell'Unità d'Italia)</em></li>\n</ul>\n"
+    fuller_form_tooltip: "<p>La forma più completa dei nomi o secondi nomi, quando abbreviati.</p>\n<p>Esempi</p>\n
+      <ul>\n<li>Sibilla Aleramo <em>(per S.B., Sibilla Aleramo, 1876-1960)</em></li>\n</ul>\n"
+  agent_record_identifiers:
+    is_primary: Primario
+  agent_identifiers:
+    entity_identifier_tooltip: "<p>Registra gli identificatori associati a un'entità, come un identificatore
+      legale assegnato da un'agenzia autorevole.</p>\n"
+    identifier_type_tooltip: "<p>Indica il tipo o la fonte dell'identificatore dell'entità registrata.</p>\n"
+  rights_statement_external_document:
+    identifier_type: Tipo di identificatore
+    identifier_type_tooltip: "<p>Il tipo di identificatore indica a quale dominio appartiene il documento
+      esterno.</p>\n"
+  rights_statement:
+    identifier: Identificatore
+    identifier_auto_generate_message: -- auto-generato al salvataggio --
+  accession:
+    accession_id: Identificatore
+    identifier: Identificatore
+    id_0: Identificatore
+    id_1: Identificatore 2
+    id_2: Identificatore 3
+    id_3: Identificatore 4
+  archival_object:
+    component_id: Identificatore unico del componente
+  resource:
+    id_0: Identificatore
+    id_1: Identificatore 2
+    id_2: Identificatore 3
+    id_3: Identificatore 4
+    "[:id_0, :id_1, :id_2, :id_3]": Identificatore
+    "[:repo_id, :identifier]": Identificatore
+    identifier: Identificatore
+  classification_term:
+    identifier: Identificatore
+  file_version:
+    identifier: Identificatore
+    file_uri_tooltip: "<p>Un identificatore per un file associato a un oggetto digitale, accessibile sul
+      web o in una file directory.</p>\n"
+  agent:
+    agent_identifiers_tooltip: "<p>Identificatori associati a un'entità, come un identificatore legale
+      assegnato da un'agenzia autorevole. Esempi includono un identificatore ORCID per una persona o un
+      MARC Repository Code per un'entità aziendale.</p>\n"
