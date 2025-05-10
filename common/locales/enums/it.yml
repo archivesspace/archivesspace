@@ -807,6 +807,12 @@ it:
     container_location_status:
       current: Corrente
       previous: Precedente
+    rights_statement_external_document_identifier_type:
+      fast: 'Faceted Application of Subject Terminology (Dublin, Ohio: OCLC)'
+    date_label:
+      deaccession: Deaccessione
+    event_event_type:
+      deaccession: Deaccessione
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: ''
