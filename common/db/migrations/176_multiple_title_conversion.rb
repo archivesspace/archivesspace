@@ -6,7 +6,7 @@ Sequel.migration do
     $stderr.puts "Adding multiple title support (Multi-Lingual Description project)"
 
     $stderr.puts "\tcreating title type enum"
-    create_enum("title_type", ["devised", "formal", "parallel", "translated", "other"], "formal")
+    create_enum("title_type", ["devised", "formal", "parallel", "translated", "other"])
 
     $stderr.puts "\tcreating title table"
     create_table(:title) do
@@ -35,7 +35,7 @@ Sequel.migration do
       self[record_type].each do |row|
         self[:title].insert(
           "#{record_type}_id".to_sym => row[:id],
-          :title => row[:title] || " ",   # shouldn't be possible, but some AOs in testing had a nil title
+          :title => row[:title] || " ",   # TODO: deal with AOs that don't have a title
           :last_modified_by => 'admin',
           :create_time => row[:create_time],
           :system_mtime => row[:system_mtime],
