@@ -157,7 +157,7 @@ it:
     view_published: Visualizza i pubblicati
     print_to_pdf: Genera PDF
   states:
-    auto_generated: Generato automaticamente
+    auto_generated: Generato automaticamente al salvataggio
   export_options:
     include_uris: Includi URIs
     include_daos: Includi i tags &lt;dao&gt;
@@ -247,6 +247,7 @@ it:
       user_mtime: Modificato
       create_time: Creato
       asc: Ascendente
+      finding_aid_status: Stato degli strumenti di ricerca
     archival_object:
       score: Rilevanza
       identifier: Identificativo componente
@@ -524,3 +525,15 @@ it:
         select_a_type: <em>Per favore seleziona un tipo di relazione</em>
       action:
         add: Aggiungi agent relativi
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Aggiungi data
+  resource:
+    _frontend:
+      section:
+        finding_aid: Dati degli strumenti di ricerca
+  deaccession:
+    _frontend:
+      action:
+        add: Aggiungi deaccessione
