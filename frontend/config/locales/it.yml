@@ -322,7 +322,7 @@ it:
       uri: URI
       publish: Pubblicato
     location:
-      title: Posizione
+      title: Ubicazione
       publish: Pubblicato
       building: Edificio
       floor: Pavimento
@@ -367,6 +367,7 @@ it:
       uri: URI
       audit_info: Informazioni sull'audit
       score: Rilevanza
+      assessment_collections: Collezione
     repositories:
       score: Rilevanza
       asc: Ascendente
@@ -379,9 +380,12 @@ it:
       uri: URI
       audit_info: Informazioni sull'audit
       score: Rilevanza
+      location_display_string_u_sstr: Ubicazione
+      collection_identifier_stored_u_sstr: Collezione
     top_container_mgmt:
       desc: Discendente
       asc: Ascendente
+      location: Ubicazione
     container_profile:
       score: Rilevanza
       audit_info: Informazioni sull'audit
