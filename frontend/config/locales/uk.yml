@@ -1,3 +1,11 @@
 uk:
   actions:
     close: Закрити
+  search_sorting:
+    sort_by: 'Сортувати за:'
+  advanced_search:
+    operator:
+      AND: И
+      OR: Або
+  navbar:
+    toggle_navigation: Перемикання навігації
