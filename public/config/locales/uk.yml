@@ -45,6 +45,20 @@ uk:
   page_actions: Дії на сторінці
   request:
     email_header: Дякуємо за ваш запит
+    user_email: Ваша адреса електронної пошти
+    date: Очікувана дата прибуття
+    note: Примітка для персоналу
+    visit: Надіслати запит на відвідування %{назва_репозиторію} для перегляду <strong>%{архівний_об'єкт}</strong>
+    required: необхідний
+    user_name: Ваше ім'я
+    submit: Надіслати запит
+    submitted: Дякуємо, ваш запит надіслано.   Невдовзі ви отримаєте електронного листа з копією вашого
+      запиту.
+    errors:
+      name: Будь ласка, введіть своє ім'я
+      email: Будь ласка, введіть дійсну адресу електронної пошти
+    email:
+      subject: Запит на %{титул}
   search-limiting: обмежено до %{limit}
   search-limits:
     all: усі типи записів
@@ -93,19 +107,74 @@ uk:
       instance_type_enum_s: Тип екземпляра
       digital_object_type_enum_s: Тип
       extent_type_enum_s: Ступінь
+      query: Текст
+      show_fewer: Показати менше
+      show_more: Показати більше
+      subjects: Тема
+      form: Пошук серед результатів
+      repository: Репозиторій
+      used_within_published_repository: Репозиторій
+      creators: Творець
+      fullrecord: Ключове слово
+      source: Джерело
+      classification_uri: Класифікація
+      published_agents: Імена
+      agents_text: Імена
+      linked_agent_roles: Роль
+      head: Фільтрувати результати
+      add: Додаткові фільтри
+      primary_type: Тип
+      subjects_text: Тема
+      title: Назва
+      creators_text: Творець
+      scope: Сфера застосування
+      notes: Нотатки
+      identifier: Ідентифікатор
+      from_year: З року
     page_title: Знайдено %{рахувати} результатів
     results_head: 'Показано %{тип}: %{початок} - %{закінчення} від %{загальна сума}'
     result: Результат
     results: Результати
     search_for: Пошук %{тип}, де %{обставини}
+    more_facets: Більше
+    filtered_by: Відфільтровано за
+    fewer_facets: Менше
+    error: Ваш пошук не вдалося завершити через неочікувану помилку
+    no_results: Записів не знайдено
+    filter_by: Фільтрувати за
+    title_contain: <span class='searchterm'>
+    op:
+      OR: або
+      NOT: і не
+      AND: й
+    op_first_row:
+      NOT: не
+    search_term: Пошуковий термін
+    remove_filter: Видалити цей фільтр
   search_sorting:
     desc: (за спаданням)
     asc: (за зростанням)
     sort_by: 'Сортувати за:'
     sort: Сортувати
+    relevance: Релевантність
+    classification_identifier: Ідентифікатор
+    year_sort: Рік
+    sorting: '%{тип} %{напрямок}'
+    title_sort: Назва
+    identifier: Ідентифікатор
   inherit:
     subfonds: Субфонди
     subgrp: Підгрупа
+    class: Клас
+    inherited: З %{рівень}
+    collection: Колекція
+    series: Серія
+    sub-series: Підсерія
+    file: Файл
+    fonds: Фонди
+    item: Елемент
+    otherlevel: Інший рівень
+    recordgrp: Група записів
   boolean:
     "true": Так
     "false": Ні
@@ -129,3 +198,132 @@ uk:
     operator:
       OR: Або
       AND: И
+      NOT: Не
+    remove_row: Видалити рядок
+    add_row: Додати рядок
+    limit_label: Обмеження за типом запису
+  accession:
+    _public:
+      related_accessions:
+        accessions: Супутні необроблені матеріали
+        sibling_of: Відносини між братами та сестрами
+        has_part: Зв'язок частини
+        deaccessions: Вилучений матеріал
+        forms_part_of: Зв'язок частини
+      section:
+        content_description: Опис вмісту
+        access_restrictions: Обмеження доступу
+        provenance: Походження
+        language: Мова опису
+        script: Сценарій опису
+        access_restrictions_apply: Застосовуються обмеження доступу
+        acquisition_type: Тип придбання
+        use_restrictions: Обмеження використання
+        use_restrictions_apply: Застосовуються обмеження використання
+        inventory: Інвентаризація
+    _singular: Необроблений матеріал
+    _plural: Необроблені матеріалий
+  multiple_containers: Кілька контейнерів
+  extent_number_type: '%{ряд} %{тип}'
+  archival_object:
+    _public:
+      header:
+        ref_id: Ідентифікатор посилання
+  search-button:
+    label: Пошук
+  search-limit: Обмеження до %{ліміт}
+  containers: Інформація про фізичне сховище
+  related_accessions: Супутні необроблені матеріали
+  related_resources: Пов'язані колекції
+  linked_instances: Пов'язані записи
+  linked_digital_objects: Цифровий матеріал
+  context: Знайдено в
+  context_delimiter: /
+  resource:
+    identifier_separator: ':'
+    _public:
+      identifier: Ідентифікатор
+      identifier_pdf: посвідчення особи
+      ark_link_name: Ключ архівного ресурсу
+      extent: Ступінь
+      extent_full: Повний обсяг
+      finding_aid:
+        sponsor: Спонсор
+        edition_statement: Видання
+        series_statement: Опис серії
+        note: Примітка
+        head: Пошук допомоги та адміністративної інформації
+        script: Сценарій опису
+        revision: Заяви про перегляд
+        language_note: Мова опису примітки
+        title: Назва
+        subtitle: Підзаголовок
+        status: Статус
+        author: Автор
+        date: Дата
+        description_rules: Правила опису
+        identifier: Ідентифікатор
+        language: Мова опису
+      related_accessions:
+        deaccessions: Записи про вилучення
+        accessions: Записи про приєднання
+      script: Сценарій
+      lang: Мова матеріалів
+      lang_pdf: Мова матеріал
+      storage: Інформація про контейнер
+      additional: Додатковий опис
+      extent_partial: Частковий обсяг
+      dates: Дати
+      digital_object: Цифровий об'єкт
+      physdesc: Фізичний опис
+    load_records:
+      alert: Ця колекція містить велику кількість записів
+      showing: Показ
+      percent_convention: '%'
+      scroll: При прокручуванні
+      all: Все одразу
+      loading: Завантаження
+      load: Завантаження записів
+      load_all: Завантажити всі записи
+    _singular: Колекція
+    _plural: Колекції
+  coll_obj:
+    _singular: Колекція або запис
+    _plural: Колекції та/або записи
+  scope_note: Примітка щодо сфери застосування
+  contains: Містить %{підрахунок} %{тип}
+  found: Знайдено в %{підрахунок} %{тип}
+  extent_dims: ' ; %{розміри}'
+  list: '%{тип} Список'
+  cont_arr: Організація збору коштів
+  external_docs: Зовнішні документи
+  more_about: Більше про
+  archive:
+    _singular: Архів
+    _plural: Архівий
+  accessed: Доступ отримано
+  repository:
+    part: Частина
+    _plural: Репозиторії
+    what: Що знаходиться в цьому репозиторії?
+    _singular: Репозиторій
+    details: Деталі репозиторію
+  digital_object:
+    _singular: Цифровий запис
+    _plural: Цифрові матеріали
+    _public:
+      thumbnail: ніготь великого пальця
+      link: Посилання на цифровий об'єкт
+      badge_label: Цифровий %{рівень}
+      go: Перейти до файлу
+      additional: Додаткові версії файлів
+      url_encoded_data: Дані, закодовані за допомогою URL-адреси
+  top_container:
+    _singular: Контейнер
+    _plural: Контейнери
+    restricted: Обмежено
+  dig_cont_arr: Організація цифрових об'єктів
+  subgroups: Підгрупи
+  bulk:
+    _singular: Більшість матеріалів знайдено в %{дати}
+    _plural: Більшість матеріалів знайдено в %{дати}
