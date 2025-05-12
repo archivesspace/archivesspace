@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+if ENV['COVERAGE_REPORTS'] == 'true'
+  require 'aspace_coverage'
+  ASpaceCoverage.start('frontend', 'rails')
+end
+
 require 'ashttp'
 require 'uri'
 require 'json'
@@ -19,10 +24,6 @@ require_relative '../../indexer/app/lib/pui_indexer'
 require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
 
-if ENV['COVERAGE_REPORTS'] == 'true'
-  require 'aspace_coverage'
-  ASpaceCoverage.start('frontend:test', 'rails')
-end
 AppConfig[:frontend_cookie_secret] = "shhhhh"
 AppConfig[:enable_custom_reports] = true
 app_logfile = File.join(ASUtils.find_base_directory, "ci_logs", "frontend_app_log.out")

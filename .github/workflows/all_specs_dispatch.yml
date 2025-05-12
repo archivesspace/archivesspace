@@ -1,4 +1,7 @@
-name: Trigger all specs
+name: Test Suite
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   workflow_dispatch:
@@ -10,7 +13,7 @@ on:
         options:
           - '11'
           - '17'
-        default: '11'
+        default: '17'
       browser:
         description: Which browser to use
         required: true
@@ -20,43 +23,124 @@ on:
           - 'firefox'
         default: 'firefox'
 
+  pull_request:
+    paths:
+      - '.github/workflows/backend.yml'
+      - 'backend/**'
+      - 'common/**'
+      - 'oai/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   codescan:
     uses: ./.github/workflows/codescan.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+      java-version: ${{ inputs.java-version || 17 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+
+  changes:
+    needs: codescan
+    runs-on: ubuntu-latest
+    # Required permissions
+    permissions:
+      pull-requests: read
+    # Set job outputs to values from filter step
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+      backend: ${{ steps.filter.outputs.backend }}
+      accessibility: ${{ steps.filter.outputs.accessibility }}
+      indexer: ${{ steps.filter.outputs.indexer }}
+      public: ${{ steps.filter.outputs.public }}
+    steps:
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          frontend:
+            - '.github/workflows/frontend.yml'
+            - '.github/workflows/common-frontend.yml'
+            - 'frontend/**'
+            - 'common/**'
+            - 'solr/**'
+          backend:
+            - '.github/workflows/backend.yml'
+            - 'backend/**'
+            - 'common/**'
+            - 'oai/**'
+          accessibility:
+            - '.github/workflows/accessibility.yml'
+            - 'public/**'
+          indexer:
+            - '.github/workflows/indexer.yml'
+            - 'indexer/**'
+          public:
+            - '.github/workflows/public.yml'
+            - 'public/**'
+            - 'common/**'
+            - 'solr/**'
+            - 'indexer/**'
 
   frontend:
+    needs: changes
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
     uses: ./.github/workflows/frontend.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 11 }}
+      java-version: ${{ inputs.java-version || 17 }}
       group-choice: 'all'
-      browser: ${{ inputs.browser || 'chrome' }}
+      browser: ${{ inputs.browser || 'firefox' }}
 
   backend:
+    needs: changes
+    if: ${{ needs.changes.outputs.backend == 'true' }}
     uses: ./.github/workflows/backend.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 11 }}
+      java-version: ${{ inputs.java-version || 17 }}
 
   accessibility:
+    needs: changes
+    if: ${{ needs.changes.outputs.accessibility == 'true' }}
     uses: ./.github/workflows/accessibility.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 11 }}
-      browser: ${{ inputs.browser || 'chrome' }}
+      java-version: ${{ inputs.java-version || 17 }}
+      browser: ${{ inputs.browser || 'firefox' }}
 
   indexer:
+    needs: changes
+    if: ${{ needs.changes.outputs.indexer == 'true' }}
     uses: ./.github/workflows/indexer.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 11 }}
+      java-version: ${{ inputs.java-version || 17 }}
 
   public:
+    needs: changes
+    if: ${{ needs.changes.outputs.public == 'true' }}
     uses: ./.github/workflows/public.yml
     secrets: inherit
     with:
-      java-version: ${{ inputs.java-version || 11 }}
-      browser: ${{ inputs.browser || 'chrome' }}
+      java-version: ${{ inputs.java-version || 17 }}
+      browser: ${{ inputs.browser || 'firefox' }}
+
+  coveralls:
+    runs-on: ubuntu-latest
+    needs: [
+       frontend,
+       backend,
+       accessibility,
+       indexer,
+       public
+    ]
+    if: ${{ always() && !cancelled() }}
+    steps:
+      - name: Post end of parallel tests to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          debug: false
+          parallel-finished: true
+          carryforward: "backend, indexer, public, aa-af, ag-az, b-c, d-l, m-q, r, s-z, models_and_controllers"

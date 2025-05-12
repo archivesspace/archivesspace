@@ -109,7 +109,7 @@ class ArchivesSpaceIndexer < Sinatra::Base
       ASUtils.dump_diagnostics($!)
     end
 
-    set :logging, false 
+    set :logging, false
     Log.noisiness "Logger::#{AppConfig[:indexer_log_level].upcase}".constantize
 
     main
@@ -127,10 +127,9 @@ class ArchivesSpaceIndexer < Sinatra::Base
   # without bogging down the server
   put "/" do
     duration = params[:duration].nil? ? 900 : params[:duration].to_i
-    IndexerCommon.pause duration  
+    IndexerCommon.pause duration
     "#{IndexerCommon.class_variable_get(:@@paused_until)}"
   end
 
 
 end
-

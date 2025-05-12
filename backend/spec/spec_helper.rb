@@ -1,14 +1,14 @@
 require 'bundler'
 Bundler.require
 
+if ENV['COVERAGE_REPORTS'] == 'true'
+  require 'aspace_coverage'
+  ASpaceCoverage.start('backend_tests')
+end
+
 require 'sinatra'
 require 'java'
 require 'rspec'
-
-if ENV['COVERAGE_REPORTS'] == 'true'
-  require 'aspace_coverage'
-  ASpaceCoverage.start('backend:test')
-end
 
 require_relative "../app/model/db"
 require_relative "json_record_spec_helper"

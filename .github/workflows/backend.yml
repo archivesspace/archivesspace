@@ -1,4 +1,7 @@
 name: Backend Testing
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   workflow_dispatch:
@@ -10,7 +13,7 @@ on:
         options:
           - '11'
           - '17'
-        default: '11'
+        default: '17'
 
   workflow_call:
     inputs:
@@ -18,18 +21,11 @@ on:
         description: Java version to run specs on
         required: true
         type: string
-        default: '11'
-
-  pull_request:
-    paths:
-      - '.github/workflows/backend.yml'
-      - 'backend/**'
-      - 'common/**'
-      - 'oai/**'
+        default: '17'
 
 jobs:
   backend:
-    name: Backend_Java_v${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+    name: Backend_Java_v${{ inputs.java-version || 17 }} # https://archivesspace.atlassian.net/browse/ANW-2022
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
@@ -56,7 +52,7 @@ jobs:
 
     - uses: actions/setup-java@v4
       with:
-        java-version: ${{ inputs.java-version || 11 }} # https://archivesspace.atlassian.net/browse/ANW-2022
+        java-version: ${{ inputs.java-version || 17 }} # https://archivesspace.atlassian.net/browse/ANW-2022
         distribution: temurin
 
     - uses: './.github/actions/bootstrap'
@@ -87,3 +83,12 @@ jobs:
         ./build/run backend:test
       env:
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
+
+    - name: Post Coverage to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        format: simplecov
+        compare-ref: master
+        flag-name: backend
+        debug: false
+        parallel: true

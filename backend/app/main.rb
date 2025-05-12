@@ -1,15 +1,15 @@
 require 'bundler/setup'
 Bundler.require
 
+if ENV['COVERAGE_REPORTS'] == "true" && ENV["ASPACE_INTEGRATION"] == "true"
+  require 'aspace_coverage'
+  ASpaceCoverage.start('backend_integration')
+end
+
 require 'rack/utils'
 
 Rack::Utils.key_space_limit = 655360 # x10 Rack default
 Rack::Utils.param_depth_limit = 200 # x2 Rack default
-
-if ENV['COVERAGE_REPORTS'] && ENV["ASPACE_INTEGRATION"] == "true"
-  require 'aspace_coverage'
-  ASpaceCoverage.start('backend_integration')
-end
 
 if ENV["ASPACE_ENV"] == "development"
   Bundler.require(:development)

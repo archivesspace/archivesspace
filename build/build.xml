@@ -165,6 +165,8 @@
     <pathconvert pathsep=" " property="plugin-spec-dirs" refid="plugins"/>
     <antcall target="rspec">
       <param name="dir" value="../backend" />
+      <param name="coverage_reports" value="true" />
+      <param name="coverage_report_dir" value="backend" />
       <param name="extra-spec-paths" value="${plugin-spec-dirs}"/>
     </antcall>
   </target>
@@ -616,7 +618,9 @@
     <echo message="Running rspec" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="${dir}">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS} -Djruby.debug.fullTrace=true"/>
-      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <env key="COVERAGE_REPORTS" value="${coverage_reports}" />
+      <env key="COVERAGE_REPORT_DIR" value="${coverage_report_dir}" />
+      <env key="ASPACE_INTEGRATION" value="${aspace.integration}" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
@@ -636,7 +640,8 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
+      <env key="COVERAGE_REPORTS" value="true" />
+      <env key="COVERAGE_REPORT_DIR" value="common" />
 
       <!-- NOTE: We explicitly add '.' to the load path here because
            we're running from common/ and JRuby 9k refuses to load
@@ -646,13 +651,6 @@
            path fixes this test. -->
       <arg line="-I. ../build/${jruby_build_bin_path}/rspec -P '*_spec.rb' --order rand:1 spec" />
     </java>
-  </target>
-
-  <target name="common:test:coverage" depends="set-classpath, common:test" description="Generate coverage reports for the common unit tests">
-  </target>
-
-  <!-- COVERAGE -->
-  <target name="coverage" depends="clean-coverage, common:test:coverage, backend:coverage, backend:integration:coverage, frontend:coverage, public:coverage" description="Run all coverage reports">
   </target>
 
   <target name="clean-coverage">
@@ -798,6 +796,8 @@
       <isset property="example"/>
     </condition>
     <antcall target="rspec">
+      <param name="coverage_reports" value="true" />
+      <param name="coverage_report_dir" value="indexer" />
       <param name="dir" value="../indexer" />
     </antcall>
   </target>
@@ -906,6 +906,9 @@
   <target name="frontend:test" depends="set-classpath, frontend:clean, setup-integration" description="Run the frontend capybara tests">
     <property name="tag" value="~db"/>
     <antcall target="rspec">
+      <param name="coverage_reports" value="true" />
+      <param name="coverage_report_dir" value="frontend" />
+      <param name="aspace.integration" value="true" />
       <param name="dir" value="../frontend" />
       <param name="pattern" value="spec/*/*_spec.rb" />
       <!-- feature tests copied from old selenium tests may be order-dependent -->
@@ -1051,6 +1054,9 @@
   <target name="public:test" depends="set-classpath, setup-integration, public:copy-shared-resources" description="Run the unit test suite">
     <property name="tag" value="~db"/>
     <antcall target="rspec">
+      <param name="coverage_reports" value="true" />
+      <param name="coverage_report_dir" value="public" />
+      <param name="aspace.integration" value="true" />
       <param name="dir" value="../public" />
       <param name="tag" value="${tag}" />
       <param name="test-server-url" value="${aspace.public_url.test}" />
@@ -1094,11 +1100,7 @@
 
   <!-- SETUP / SUPPORT TASKS -->
   <target name="set-classpath" description="Set JRuby classpath">
-    <condition property="COVERAGE_REPORTS" value="true">
-      <matches pattern=".*coverage" string="${ant.project.invoked-targets}" />
-    </condition>
     <property name="jruby_classpath" value="${jruby_file}:gems/jruby/${jruby_build_version}:../lib/*:../common:../common/lib/*" />
-    <property name="COVERAGE_REPORTS" value="false" />
   </target>
 
   <!-- Prepares all tests to be run -->
