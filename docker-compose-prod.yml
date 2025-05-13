@@ -57,7 +57,10 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    command:
+      - solr-precreate
+      - archivesspace
+      - /opt/solr/server/solr/configsets/archivesspace
     ports:
       - "8983:8983"
     volumes:
