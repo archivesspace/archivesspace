@@ -207,7 +207,7 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-      expect(ArchivalObject[ao[:id]].display_string).to eq("#{title['title']}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
+    expect(ArchivalObject[ao[:id]].display_string).to eq("#{title['title']}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
   end
 
 
