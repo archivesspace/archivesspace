@@ -10,9 +10,11 @@
     </div>
   <% end %>
   <% if ['edit', 'update'].include?(controller.action_name) %>
+    <div class="close-record">
+      <%= link_to t("actions.finish_editing"), {:controller => :custom_report_templates, :action => :show, :id => @custom_report_template.id}, :class => "btn btn-primary btn-sm btn-success finish-editing" %>
+    </div>
     <div class="revert-changes">
     <%= link_to t("actions.revert"), {:controller => :custom_report_templates, :action => :edit, :id => @custom_report_template.id}, :class => "btn btn-sm btn-default bg-white border" %>
-    <%= t("actions.toolbar_disabled_message") %>
     </div>
   <% end %>
     <div class="btn-toolbar ml-auto">
@@ -38,3 +40,9 @@
     </div>
   <div class="clearfix"></div>
 </div>
+<% if ['edit', 'update'].include?(controller.action_name) %>
+  <div id="record-toolbar-alert">
+    <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+  </div>
+<% end %>
+

@@ -10,6 +10,9 @@
       <% end %>
 
       <% if ['edit', 'update'].include?(controller.action_name) %>
+        <div class="close-record">
+          <%= link_to I18n.t("actions.finish_editing"), {:controller => :subjects, :action => :show, :id => @subject.id}, :class => "btn btn-primary btn-sm btn-success finish-editing" %>
+        </div>
         <div class="align-items-center revert-changes">
           <%= link_to I18n.t("actions.revert"), {:controller => :subjects, :action => :edit, :id => @subject.id}, :class => "btn btn-sm btn-default flex-shrink-0" %>
         </div>

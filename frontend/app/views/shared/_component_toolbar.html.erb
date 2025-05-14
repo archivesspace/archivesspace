@@ -15,8 +15,9 @@
         <div class="save-changes">
           <button type="submit" class="btn btn-primary btn-sm"><%= t("actions.save_prefix") %></button>
         </div>
-      <% end %>
-      <% if ['edit', 'update'].include?(controller.action_name) %>
+        <div class="close-record">
+          <%= link_to t("actions.finish_editing"), {:controller => parent_link[:controller], :action => :show, :id => parent_link[:id], :anchor => parent_link[:anchor]}, :class => "btn btn-primary btn-sm btn-success finish-editing" %>
+        </div>
         <div class="align-items-center revert-changes">
           <%= link_to t("actions.revert"), parent_link, :class => "btn btn-sm btn-default flex-shrink-0" %>
         </div>
@@ -107,7 +108,7 @@
     </div>
   </div>
 
-  <% if ['edit', 'update'].include?(controller.action_name) %>
+  <% if ['new', 'create', 'edit', 'update'].include?(controller.action_name) %>
     <div id="record-toolbar-alert">
       <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
     </div>
