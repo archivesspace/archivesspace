@@ -127,7 +127,7 @@ module AspaceFactories
 
 
       factory :resource, class: JSONModel(:resource) do
-        title { generate :resource_title }
+        titles { [build(:title, title: title)] }
         id_0 { generate :id_0 }
         extents { [build(:extent)] }
         dates { [build(:date)] }
@@ -137,41 +137,52 @@ module AspaceFactories
         finding_aid_script { [generate(:finding_aid_script)].sample }
         finding_aid_language_note { nil_or_whatever }
         instances { [] }
+
+        transient do
+          title { generate(:generic_title) }
+        end
+
+        trait :with_scope do
+          notes { [build(:json_note_multipart)] }
+        end
       end
 
-      factory :resource_with_scope, class: JSONModel(:resource) do
-        title { generate :resource_title }
-        id_0 { generate :id_0 }
-        extents { [build(:extent)] }
-        dates { [build(:date)] }
-        level { "collection" }
-        lang_materials { [build(:lang_material)] }
-        finding_aid_language { [generate(:finding_aid_language)].sample }
-        finding_aid_script { [generate(:finding_aid_script)].sample }
-        notes { [build(:json_note_multipart)] }
+      factory :title, class: JSONModel(:title) do
+        title { generate(:generic_title) }
       end
 
       factory :archival_object, class: JSONModel(:archival_object) do
-        title { generate(:archival_object_title) }
+        titles { [build(:title, title: title)] }
         ref_id { generate(:ref_id) }
         level { "item" }
+
+        transient do
+          title { generate(:generic_title) }
+        end
       end
 
-
       factory :digital_object, class: JSONModel(:digital_object) do
-        title { generate :digital_object_title }
+        titles { [build(:title, title: title)] }
         lang_materials { [build(:lang_material)] }
         digital_object_id { generate(:ref_id) }
         extents { [build(:extent)] }
         file_versions { [build(:file_version)] }
         dates { few_or_none(:date) }
         publish { true }
+
+        transient do
+          title { generate(:generic_title) }
+        end
       end
 
       factory :digital_object_component, class: JSONModel(:digital_object_component) do
+        titles { [build(:title, title: title)] }
         component_id { generate(:alphanumstr) }
-        title { generate :digital_object_component_title }
         digital_object { {'ref' => create(:digital_object).uri} }
+
+        transient do
+          title { generate(:digital_object_component_title) }
+        end
       end
 
       factory :instance_digital, class: JSONModel(:instance) do
