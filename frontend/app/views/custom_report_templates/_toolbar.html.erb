@@ -22,7 +22,7 @@
         <% if ['edit', 'update', 'new', 'create'].include?(controller.action_name) %>
           <button class="btn btn-sm border btn-success no-change-tracking" type="button" id="check_all" data-checked="<%= t("actions.check_all") %>" data-unchecked="<%= t("actions.uncheck_all") %>"><%= t("actions.check_all") %></button>
         <% end %>
-        <% if controller.action_name == 'edit' %>
+        <% if ['show', 'edit', 'update'].include?(controller.action_name) %>
           <%= link_to t("actions.run"),
             new_job_path(
               :job_type => 'report_job',
@@ -31,8 +31,6 @@
             ),
             :class => "btn btn-sm btn-info"
           %>
-        <% end %>
-        <% if ['edit', 'update'].include?(controller.action_name) %>
           <%= link_to t("actions.copy"), {:controller => :custom_report_templates, :action => :copy, :id =>  @custom_report_template.id}, :class => "btn btn-sm btn-default" %>
           <%= button_delete_action url_for(:controller => :custom_report_templates, :action => :delete, :id => @custom_report_template.id ), { :"data-title" => t("actions.delete_confirm_title", :title => @custom_report_template.name) } unless @custom_report_template.id.nil? %>
         <% end %>
