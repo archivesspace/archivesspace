@@ -19,7 +19,7 @@ it:
     cite_item: Cita l'item
     cite_item_description: Cita la descrizione dell'item
     digitized: Visualizza il materiale digitale
-    request: Richiedi
+    request: ''
     print-generating: Generando
     collection_overview: Panoramica della collezione
     hierarch: Organizzazione della collezione
@@ -375,6 +375,8 @@ it:
         archivistica.
     headings:
       additional_info: Informazioni aggiuntive
+      type: Tipo d'errore
+      message: Messaggio d'errore
     title: C'è stato un errore nella generazione di questo PDF.
   contact: Contatto
   agent_software:
