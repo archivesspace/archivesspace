@@ -23,7 +23,7 @@ class Doc < Thor
   option :current_tag, :required => true
   option :previous_tag, :required => false
   option :out, :required => false
-  option :max_pr_pages, :required => false, :default => 20, type: :numeric
+  option :max_pr_pages, :required => false, :default => 10, type: :numeric
   option :gh_user, :required => false, :default => "archivesspace"
   def release_notes
     current_tag = options[:current_tag]
@@ -42,7 +42,7 @@ class Doc < Thor
     end
 
     git = Git.open('./')
-    log = ReleaseNotes.parse_log(git.log.max_count(:all).between(previous_tag, current_tag))
+    log = ReleaseNotes.parse_log(git.log.max_count(:all).cherry.between(previous_tag, current_tag))
 
     puts "Found #{log.count} commit(s) between #{previous_tag} and #{current_tag}"
 
@@ -63,7 +63,8 @@ class Doc < Thor
 
       log.each do |log_entry|
         next if log_entry[:pr_number]
-        pr = pulls.select { |pull| pull[:commits].map { |c| c["sha"]}.include?(log_entry[:sha])}.first
+
+        pr = pulls.select { |pull| pull[:commits].find { |c| log_entry[:sha].include?(c["sha"]) } }.first
         if pr
           log_entry[:pr_number] = pr["number"]
           log_entry[:pr_title] = pr["title"]

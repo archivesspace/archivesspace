@@ -73,6 +73,7 @@ module ReleaseNotes
 
     def process
       log.each do |data|
+        #require 'pry-debugger-jruby'; binding.pry
         add_jira_id(data)
         if data[:pr_number]
           messages << format_log_entry(data)
