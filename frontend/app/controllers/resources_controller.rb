@@ -46,7 +46,7 @@ class ResourcesController < ApplicationController
   end
 
   def new
-    @resource = Resource.new(:title => t("resource.title_default", :default => ""))._always_valid!
+    @resource = Resource.new(:titles => [{:title => t("resource.title_default", :default => "")}])._always_valid!
     defaults = user_defaults('resource')
     if defaults
       @resource.update(defaults.values)
