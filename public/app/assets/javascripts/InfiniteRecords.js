@@ -193,7 +193,7 @@
 
         this.isOkToObserve = false;
 
-        targetRecord.scrollIntoView({ behavior: 'smooth' });
+        targetRecord.scrollIntoView({ behavior: 'instant' });
       }
 
       if (shouldCloseModal) this.modal.toggle();
@@ -567,22 +567,20 @@
     async treeLinkHandler(event) {
       event.preventDefault();
 
-      const targetDivId = event.target.href.split('#')[1];
-      const recordUri = this.treeIdToRecordUri(targetDivId);
-
+      const treeId = event.target.closest('.node-title').href.split('#')[1];
+      const recordUri = this.treeIdToRecordUri(treeId);
       const recordSelector = `.infinite-record-record[data-uri='${recordUri}']`;
-      const scrollOpts = { behavior: 'smooth' };
 
-      window.location.hash = targetDivId;
+      window.location.hash = treeId;
 
       const record = this.container.querySelector(recordSelector);
 
       if (record) {
-        record.scrollIntoView(scrollOpts);
+        record.scrollIntoView({ behavior: 'instant' });
       } else {
         // Record doesn't exist so render its waypoint and any empty neighbors,
         // then scroll to the record
-        const recordWaypointNum = this.treeIdToWaypointNumber(targetDivId);
+        const recordWaypointNum = this.treeIdToWaypointNumber(treeId);
         const newWaypoints = [recordWaypointNum];
 
         if (this.hasEmptyPrevWP(recordWaypointNum)) {
