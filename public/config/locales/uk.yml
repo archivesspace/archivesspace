@@ -142,7 +142,7 @@ uk:
     error: Ваш пошук не вдалося завершити через неочікувану помилку
     no_results: Записів не знайдено
     filter_by: Фільтрувати за
-    title_contain: <span class='searchterm'>
+    title_contain: <strong>заголовок</strong> містить<span class='searchterm'>%{кс}</span>
     op:
       OR: або
       NOT: і не
@@ -151,6 +151,10 @@ uk:
       NOT: не
     search_term: Пошуковий термін
     remove_filter: Видалити цей фільтр
+    creators_text_contain: <strong>творець</strong> містить <span class='searchterm'>%{кс}</span>
+    subjects_text_contain: <strong> </strong> містить  <span class='searchterm'>%{кс}</span>
+    keyword_contain: <strong>ключове слово(a)</strong>:<span class='searchterm'>%{кс}</span>
+    notes_contain: <strong>нотатка</strong> містить<span class='searchterm'>%{кс}</span>
   search_sorting:
     desc: (за спаданням)
     asc: (за зростанням)
