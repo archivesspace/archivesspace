@@ -26,7 +26,7 @@ describe ArchivalObjectsController, type: :controller do
             record_type: 'archival_object',
             defaults: {
               publish: true,
-              title: 'Default Title'
+              titles: [{"title": 'Default Title'}]
             }
           })
       )
@@ -70,7 +70,7 @@ describe ArchivalObjectsController, type: :controller do
 
       expect(response.status).to eq 200
       result = Capybara.string(response.body)
-      result.find(:css, "#archival_object_title_") do |form_input|
+      result.find(:css, "#archival_object_titles__0__title_") do |form_input|
         expect(form_input.value).to eq("Default Title")
       end
     end
@@ -83,7 +83,7 @@ describe ArchivalObjectsController, type: :controller do
 
       expect(response.status).to eq 200
       result = Capybara.string(response.body)
-      result.find(:css, "#archival_object_title_") do |form_input|
+      result.find(:css, "#archival_object_titles__0__title_") do |form_input|
         expect(form_input.value).to eq(accession.title)
       end
     end
@@ -95,8 +95,8 @@ describe ArchivalObjectsController, type: :controller do
       expect(response.status).to eq 200
       result = Capybara.string(response.body)
 
-      result.find(:css, "#archival_object_title_") do |form_input|
-        expect(form_input.value).to eq(archival_object.title)
+      result.find(:css, "#archival_object_titles__0__title_") do |form_input|
+        expect(form_input.value).to eq(archival_object.titles[0]['title'])
       end
     end
 
@@ -112,13 +112,13 @@ describe ArchivalObjectsController, type: :controller do
 
       it 'does not support mixed content by default' do
         get :edit, params: {id: @aobj.id, inline: true}
-        expect(response.body).to have_css('#archival_object_title_.form-control:not(.mixed-content)')
+        expect(response.body).to have_css('#archival_object_titles__0__title_.form-control:not(.mixed-content)')
       end
 
       it 'supports mixed content when enabled' do
         allow(AppConfig).to receive(:[]).with(:allow_mixed_content_title_fields) { true }
         get :edit, params: {id: @aobj.id, inline: true}
-        expect(response.body).to have_css('#archival_object_title_.form-control.mixed-content')
+        expect(response.body).to have_css('#archival_object_titles__0__title_.form-control.mixed-content')
       end
     end
   end

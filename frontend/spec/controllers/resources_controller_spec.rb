@@ -92,13 +92,13 @@ describe ResourcesController, type: :controller do
 
     it 'does not support mixed content by default' do
       get :new
-      expect(response.body).to have_css('#resource_title_.form-control:not(.mixed-content)')
+      expect(response.body).to have_css('#resource_titles__0__title_.form-control:not(.mixed-content)')
     end
 
     it 'supports mixed content when enabled' do
       allow(AppConfig).to receive(:[]).with(:allow_mixed_content_title_fields) { true }
       get :new
-      expect(response.body).to have_css('#resource_title_.form-control.mixed-content')
+      expect(response.body).to have_css('#resource_titles__0__title_.form-control.mixed-content')
     end
   end
 end
