@@ -12,11 +12,24 @@
         <button type="submit" class="btn btn-primary btn-sm"><%= I18n.t("actions.save_prefix") %></button>
       </div>
     <% end %>
+    <% if ['edit', 'update'].include?(controller.action_name) %>
+      <div class="close-record">
+        <%= link_to t("actions.finish_editing"), {:controller => :top_containers, :action => :show, :id => @top_container.id}, :class => "btn btn-primary btn-sm btn-success finish-editing" %>
+      </div>
+      <div class="align-items-center revert-changes">
+        <%= link_to t("actions.revert"), {:controller => :top_containers, :action => :edit, :id => @top_container.id}, :class => "btn btn-sm btn-default flex-shrink-0" %>
+      </div>
+    <% end %>
     <% if !['new'].include?(controller.action_name) && user_can?('manage_container_record') %>
       <div class="btn-toolbar ml-auto">
         <%= button_delete_action url_for(:controller => :top_containers, :action => :delete, :id => @top_container.id ), { :"data-title" => t("actions.delete_confirm_title", :title => @top_container.display_string) } unless @top_container.id.nil? %> 
       </div>
     <% end %>
   </div>
+  <% if ['edit', 'update'].include?(controller.action_name) %>
+    <div id="record-toolbar-alert">
+      <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+    </div>
+  <% end %>
 
 <% end %>
