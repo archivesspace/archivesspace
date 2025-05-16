@@ -45,30 +45,21 @@
         }
       );
 
-      this.renderRoot();
-
-      if (this.uriFragment !== '') {
-        const recordId =
+      if (this.uriFragment === '') {
+        this.renderRoot();
+      } else {
+        const nodeRecordId =
           this.uriFragment.split('_')[this.uriFragment.split('_').length - 1];
+        const nodeElementId = this.uriFragment.replace('#tree::', '');
 
-        console.log('Testing ancestorBatchAndNeighbors:');
-        console.log('Record ID:', recordId);
-
-        this.allAncestorBatches(recordId)
+        this.allAncestorBatches(nodeRecordId)
           .then(data => {
-            this.buildAncestors(data);
+            this.renderAncestors(data, nodeElementId);
           })
           .catch(error => {
-            console.error('Error in ancestorBatchAndNeighbors:', error);
+            console.error('Error fetching ancestors:', error);
           });
       }
-
-      // setTimeout(() => {
-      //   this.expandNode(
-      //     this.container.querySelector('#archival_object_4539'),
-      //     '#archival_object_4583'
-      //   );
-      // }, 1000);
     }
 
     /**
@@ -96,8 +87,9 @@
     async renderInitialBatchForNode(node, nodeData) {
       const batchData = this.prepareBatch(node, nodeData);
       const list = this.renderList(node, batchData.level, nodeData.waypoints);
+      const observeForBatch = nodeData.waypoints > 1 ? 1 : null;
 
-      this.renderBatch(list, batchData.nodes, batchData.hasNextBatch, 0);
+      this.renderBatch(list, batchData.nodes, 0, observeForBatch);
     }
 
     /**
@@ -123,12 +115,12 @@
      * Renders a batch of child nodes into a list
      * @param {HTMLElement} list - The list element to render into
      * @param {array} nodes - Node objects to render
-     * @param {boolean} hasNextBatch - Whether there is another batch after this one
      * @param {number} batchNumber - The batch number being rendered
+     * @param {number|null} observeForBatch - The number of a neighboring batch to observe for, null if none
      */
-    renderBatch(list, nodes, hasNextBatch, batchNumber = 0) {
+    renderBatch(list, nodes, batchNumber, observeForBatch = null) {
       if (!Array.isArray(nodes)) {
-        console.error('Expected nodes to be an array, got:', nodes);
+        console.error('renderBatch expected nodes to be an array, got:', nodes);
         return;
       }
 
@@ -138,9 +130,8 @@
       const batchFragment = this.buildBatchFragment(
         nodes,
         listMeta.level,
-        hasNextBatch,
         listMeta.parentId,
-        batchNumber
+        observeForBatch
       );
 
       const placeholder = list.querySelector(
@@ -148,7 +139,7 @@
       );
 
       if (!placeholder) {
-        console.error('Could not find placeholder for batch:', {
+        console.error('renderBatch could not find placeholder for batch:', {
           batchNumber,
           parentId: listMeta.parentId,
           listHTML: list.innerHTML,
@@ -158,7 +149,7 @@
 
       placeholder.replaceWith(batchFragment);
 
-      if (hasNextBatch) {
+      if (observeForBatch !== null) {
         const observerNode = list.querySelector('[data-observe-next-batch]');
 
         if (observerNode) {
@@ -171,157 +162,29 @@
      * Builds a fragment containing a batch of child nodes
      * @param {array} nodes - Node objects to render
      * @param {number} level - The tree level for these nodes
-     * @param {boolean} hasNextBatch - Whether there is another batch after this one
      * @param {string} parentId - The ID of the parent node
-     * @param {number} batchNumber - The batch number being rendered
-     * @returns {DocumentFragment} The built batch fragment
-     */
-    buildBatchFragment(nodes, level, hasNextBatch, parentId, batchNumber) {
-      const batchFragment = new DocumentFragment();
-
-      nodes.forEach((node, i) => {
-        const shouldObserveNode =
-          i === Math.floor(this.BATCH_SIZE / 2) - 1 && hasNextBatch;
-
-        batchFragment.appendChild(
-          this.buildNodeFragment(
-            node,
-            level,
-            shouldObserveNode,
-            shouldObserveNode ? parentId : null,
-            shouldObserveNode ? batchNumber + 1 : null
-          )
-        );
-      });
-
-      return batchFragment;
-    }
-
-    /**
-     * Builds a fragment containing a batch of child nodes
-     * @param {array} nodes - Node objects to render
-     * @param {number} level - The tree level for these nodes
-     * @param {string} parentId - The ID of the parent node
-     * @param {number} batchNumber - The batch number being rendered
      * @param {number|null} observeForBatch - The number of a neighboring batch to observe for, null if none
      * @returns {DocumentFragment} The built batch fragment
      */
-    newBuildBatchFragment(
-      nodes,
-      level,
-      parentId,
-      batchNumber,
-      observeForBatch = null
-    ) {
+    buildBatchFragment(nodes, level, parentId, observeForBatch = null) {
       const batchFragment = new DocumentFragment();
 
       nodes.forEach((node, i) => {
         const shouldObserveNode =
-          observeForBatch !== null && i === Math.floor(this.BATCH_SIZE / 2) - 1;
+          i === Math.floor(this.BATCH_SIZE / 2) - 1 && observeForBatch !== null;
 
         batchFragment.appendChild(
-          this.buildNodeFragment(
+          this.markup.node(
             node,
             level,
             shouldObserveNode,
             shouldObserveNode ? parentId : null,
-            shouldObserveNode ? batchNumber + 1 : null
+            shouldObserveNode ? Number(observeForBatch) : null
           )
         );
       });
 
       return batchFragment;
-    }
-
-    /**
-     * Builds a node fragment
-     * @param {Object} nodeData - The node data from the server
-     * @param {number} level - The tree level for this node
-     * @param {boolean} shouldObserveNode - Whether this node should be observed for batch loading
-     * @param {string} [parentId=null] - The ID of the parent node, required if observe is true
-     * @param {number} [batchNumber=null] - The batch number, required if observe is true
-     * @returns {DocumentFragment} The built node fragment
-     */
-    buildNodeFragment(
-      nodeData,
-      level,
-      shouldObserveNode,
-      parentId = null,
-      batchNumber = null
-    ) {
-      const markupArgs = [nodeData, level, shouldObserveNode];
-
-      if (shouldObserveNode) {
-        markupArgs.push(parentId, batchNumber);
-      }
-
-      return this.markup.node(...markupArgs);
-    }
-
-    /**
-     * Expands a node to show its children, fetching them if necessary;
-     * sets the current node if provided and scrolls to it
-     * @param {HTMLElement} node - The node to expand
-     * @param {string|null} [currentNodeSelector=null] - The full selector for the child node to set as current, null if none
-     */
-    async expandNode(node, currentNodeSelector = null) {
-      if (!node || !node.classList.contains('node')) {
-        console.error('Invalid node element provided to expandNode');
-        return;
-      }
-
-      if (node.getAttribute('aria-expanded') === 'true') {
-        return;
-      }
-
-      const icon = node.querySelector('.node-expand-icon');
-
-      if (node.getAttribute('data-has-expanded') === 'true') {
-        node.setAttribute('aria-expanded', 'true');
-        if (icon) icon.classList.add('expanded');
-      } else {
-        const nodeRecordId = node.getAttribute('data-uri').split('/')[4];
-        const nodeData = await this.getNodeData(Number(nodeRecordId));
-
-        await this.renderInitialBatchForNode(node, nodeData);
-
-        node.setAttribute('data-has-expanded', 'true');
-        node.setAttribute('aria-expanded', 'true');
-        if (icon) icon.classList.add('expanded');
-      }
-
-      if (currentNodeSelector) {
-        const currentNode = node.querySelector(currentNodeSelector);
-        const containerRect = this.container.getBoundingClientRect();
-        const nodeRect = currentNode.getBoundingClientRect();
-        const scrollOffset = nodeRect.top - containerRect.top - 100;
-
-        this.setCurrentNode(currentNode);
-
-        this.container.scrollBy({
-          top: scrollOffset,
-          behavior: 'smooth',
-        });
-      }
-    }
-
-    /**
-     * Sets a node as the current node in the tree by adding and removing the 'current' class
-     * @param {HTMLElement} node - The node element to make current
-     */
-    setCurrentNode(node) {
-      if (!node || !node.classList.contains('node')) {
-        console.error('Invalid node element provided to setCurrentNode:', node);
-        return;
-      }
-
-      const old = this.container.querySelector('.node.current');
-
-      if (old) {
-        old.classList.remove('current');
-      }
-
-      node.classList.add('current');
     }
 
     /**
@@ -359,6 +222,238 @@
     }
 
     /**
+     * Builds the ancestor tree list
+     * @param {Array} ancestorBatches - The ancestor batches to build the tree from
+     * @param {string} nodeElementId - The HTML ID of the node element to scroll to
+     */
+    async renderAncestors(ancestorBatches, nodeElementId) {
+      const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
+        const numBatches = batch.waypoints;
+        const nodeTitle = this.markup.title(batch);
+        const ancestorHtmlId = batch.ancestorHtmlId;
+
+        if (i === 0) {
+          const treeListFrag = this.markup.rootList();
+          const treeListElement = treeListFrag.querySelector('ol');
+
+          const rootNodeFrag = this.markup.newRootNode(nodeTitle);
+          const rootNodeElement = rootNodeFrag.querySelector('li');
+
+          const nodeListFrag = this.markup.nodeList(
+            ancestorHtmlId,
+            i + 1,
+            numBatches
+          );
+          const nodeListElement = nodeListFrag.querySelector('ol');
+
+          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
+            const batchFragment = this.buildBatchFragment(
+              batchData.nodes,
+              i + 1,
+              ancestorHtmlId,
+              batchData.hasOwnProperty('observeForBatch')
+                ? Number(batchData.observeForBatch)
+                : null
+            );
+
+            nodeListElement
+              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
+              .replaceWith(batchFragment);
+          });
+
+          rootNodeElement.appendChild(nodeListFrag);
+
+          treeListElement.appendChild(rootNodeFrag);
+
+          acc.appendChild(treeListFrag);
+
+          return acc;
+        } else {
+          const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
+          const icon = nodeElement.querySelector('.node-expand-icon');
+
+          const nodeListFrag = this.markup.nodeList(
+            ancestorHtmlId,
+            i + 1,
+            numBatches
+          );
+
+          const nodeListElement = nodeListFrag.querySelector('ol');
+
+          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
+            const batchFragment = this.buildBatchFragment(
+              batchData.nodes,
+              i + 1,
+              ancestorHtmlId,
+              batchData.hasOwnProperty('observeForBatch')
+                ? Number(batchData.observeForBatch)
+                : null
+            );
+
+            nodeListElement
+              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
+              .replaceWith(batchFragment);
+          });
+
+          nodeElement.appendChild(nodeListFrag);
+
+          nodeElement.setAttribute('data-has-expanded', 'true');
+          nodeElement.setAttribute('aria-expanded', 'true');
+          icon.classList.add('expanded');
+
+          return acc;
+        }
+      }, new DocumentFragment());
+
+      this.container.appendChild(ancestorsFrag);
+
+      const nodeOfInterest = this.container.querySelector(`#${nodeElementId}`);
+      const nodesToObserve = this.container.querySelectorAll(
+        '[data-observe-next-batch]'
+      );
+
+      nodeOfInterest.classList.add('current');
+      nodeOfInterest.scrollIntoView({ behavior: 'instant', block: 'center' });
+
+      nodesToObserve.forEach(node => {
+        this.batchObserver.observe(node);
+      });
+    }
+
+    /**
+     * Returns all ancestor batches for a given record ID
+     * @param {number} id - The record ID of the node to fetch ancestor batches for
+     * @returns {Promise<Array>} An array of ancestor batch data
+     */
+    async allAncestorBatches(id) {
+      const ancestors = await this.fetch.ancestors(id);
+
+      return Promise.all(
+        ancestors[id].map(ancestor => this.ancestorBatchAndNeighbors(ancestor))
+      );
+    }
+
+    /**
+     * Fetches and returns the initial batch(es) for an ancestor; includes extra metadata
+     * if a target batch's neighbor needs to be observed for its neighbor
+     * @param {Object} ancestorMetaObj - The ancestor metadata object
+     * @returns {Object} An object containing the ancestor's batch(es) and possible metadata
+     */
+    async ancestorBatchAndNeighbors(ancestorMetaObj) {
+      // TODO: Provide `result` data from the server
+      const isRoot = ancestorMetaObj.node === null;
+      const recordId = isRoot
+        ? this.resourceId
+        : ancestorMetaObj.node.split('/')[4];
+      const nodeId = isRoot ? null : recordId;
+      const batchTarget = ancestorMetaObj.offset;
+      const baseData = await this.getNodeData(nodeId);
+      const numBatches = baseData.waypoints;
+
+      const result = {
+        batchTarget,
+        ...Object.fromEntries(
+          Object.entries(baseData).filter(
+            ([key]) => !['precomputed_waypoints', 'waypoint_size'].includes(key)
+          )
+        ),
+        batches: {},
+        ancestorHtmlId: `${baseData.jsonmodel_type}_${recordId}`,
+      };
+
+      /**
+       * Fetches a batch and returns it with optional metadata about the batch's neighbors
+       * @param {number} batchNum - The batch number to fetch
+       * @param {number} [observeForBatch=null] - The batch number to observe for loading its neighbor
+       * @returns {Object} An object containing the batch data and possible metadata
+       */
+      const fetchBatch = async (batchNum, observeForBatch = null) => {
+        let nodes;
+
+        if (batchNum === 0) {
+          nodes =
+            baseData.precomputed_waypoints[
+              isRoot ? '' : ancestorMetaObj.node
+            ][0];
+        } else {
+          nodes = await this.fetch.batch(
+            isRoot ? '' : ancestorMetaObj.node,
+            batchNum
+          );
+        }
+
+        const result = {
+          nodes,
+        };
+
+        if (observeForBatch !== null) {
+          result.observeForBatch = observeForBatch;
+        }
+
+        return result;
+      };
+
+      if (numBatches < 4) {
+        result.batches[0] = await fetchBatch(0);
+      }
+
+      if (numBatches === 2) {
+        result.batches[1] = await fetchBatch(1);
+      }
+
+      if (numBatches === 3) {
+        if (batchTarget === 0) {
+          result.batches[1] = await fetchBatch(1, 2);
+        } else {
+          result.batches[1] = await fetchBatch(1);
+          result.batches[2] = await fetchBatch(2);
+        }
+      }
+
+      if (numBatches >= 4) {
+        if (batchTarget === 0) {
+          result.batches[1] = await fetchBatch(1, 2);
+        } else if (batchTarget === numBatches - 1) {
+          result.batches[0] = await fetchBatch(0, 1);
+          result.batches[numBatches - 2] = await fetchBatch(
+            numBatches - 2,
+            numBatches - 3
+          );
+          result.batches[numBatches - 1] = await fetchBatch(numBatches - 1);
+        } else if (batchTarget === 1) {
+          result.batches[0] = await fetchBatch(0);
+          result.batches[1] = await fetchBatch(1);
+          result.batches[2] = await fetchBatch(2, 3);
+        } else if (batchTarget === numBatches - 2) {
+          result.batches[0] = await fetchBatch(0, numBatches > 4 ? 1 : null);
+          result.batches[numBatches - 3] = await fetchBatch(
+            numBatches - 3,
+            numBatches - 4 === 0 ? null : numBatches - 4
+          );
+          result.batches[batchTarget] = await fetchBatch(batchTarget);
+          result.batches[numBatches - 1] = await fetchBatch(numBatches - 1);
+        } else if (batchTarget === 2) {
+          result.batches[0] = await fetchBatch(0);
+          result.batches[1] = await fetchBatch(1);
+          result.batches[2] = await fetchBatch(2, 3);
+        } else {
+          result.batches[0] = await fetchBatch(0, 1);
+          result.batches[batchTarget - 1] = await fetchBatch(
+            batchTarget - 1,
+            batchTarget - 2
+          );
+          result.batches[batchTarget] = await fetchBatch(batchTarget);
+          result.batches[batchTarget + 1] = await fetchBatch(
+            batchTarget + 1,
+            batchTarget + 2
+          );
+        }
+      }
+
+      return result;
+    }
+
+    /**
      * Validates and returns parent data from a list
      * @param {HTMLElement} list - The list element with data attributes to validate
      * @returns {Object|null} List metadata if valid, null if invalid
@@ -393,30 +488,43 @@
       entries.forEach(async entry => {
         if (entry.isIntersecting) {
           const node = entry.target;
-          const parentNodeUri = node.getAttribute('data-observe-node');
+          const parentNodeUri = node.getAttribute('data-observe-node'); // this attr needs to be renamed to data-parent-uri
           const siblingList = node.closest('.node-children');
-          const nextBatchNumber = Number(
-            node.getAttribute('data-observe-offset')
-          );
-          const totalBatches = Number(
-            siblingList.getAttribute('data-total-child-batches')
-          );
-          const hasNextBatch = nextBatchNumber + 1 < totalBatches;
-          const batchData = await this.fetch.batch(
-            parentNodeUri,
-            nextBatchNumber
-          );
+          const batchOffset = Number(node.getAttribute('data-observe-offset'));
+          const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
 
           if (!batchData) {
-            console.error('Failed to fetch batch');
+            console.error('batchObserverHandler failed to fetch batch');
             return;
           }
+
+          const batchOffsetPlaceholderEl = siblingList.querySelector(
+            `li[data-batch-placeholder="${batchOffset}"]`
+          );
+          const observeForBatch =
+            batchOffsetPlaceholderEl.nextElementSibling?.matches(
+              'li[data-batch-placeholder]'
+            )
+              ? Number(
+                  batchOffsetPlaceholderEl.nextElementSibling.getAttribute(
+                    'data-batch-placeholder'
+                  )
+                )
+              : batchOffsetPlaceholderEl.previousElementSibling?.matches(
+                  'li[data-batch-placeholder]'
+                )
+              ? Number(
+                  batchOffsetPlaceholderEl.previousElementSibling.getAttribute(
+                    'data-batch-placeholder'
+                  )
+                )
+              : null;
 
           this.renderBatch(
             siblingList,
             batchData,
-            hasNextBatch,
-            nextBatchNumber
+            batchOffset,
+            observeForBatch
           );
 
           node.removeAttribute('data-observe-next-batch');
@@ -424,17 +532,17 @@
           node.removeAttribute('data-observe-offset');
           observer.unobserve(node);
 
-          if (hasNextBatch) {
+          if (observeForBatch !== null) {
             const nextNode = siblingList.querySelector(
-              `[data-observe-next-batch][data-observe-offset="${
-                nextBatchNumber + 1
-              }"]`
-            );
+              `[data-observe-next-batch][data-observe-offset="${observeForBatch}"]`
+            ); // TODO the data-observe-next-batch attr should be renamed or removed, "next" is not holistic enough
 
             if (nextNode) {
               observer.observe(nextNode);
             } else {
-              console.error('Could not find node to observe for next batch');
+              console.error(
+                `batchObserverHandler could not find node to observe for batch ${observeForBatch}`
+              );
             }
           }
         }
@@ -463,235 +571,6 @@
 
       node.setAttribute('aria-expanded', isExpanding ? 'true' : 'false');
       icon.classList.toggle('expanded');
-    }
-
-    // THE BIG IDEA
-    // given a recordId, determine which root batches to fetch
-    // see which batch the node is in
-    // see if that batch has empty neigbors; all will need to be fetched
-    // see if the empty neighbors have empty neighbors; if so queue the batchObserver -- it's the observer that is the issue, since only live dom can be observed.
-    // to get around this we can continue populating batches inside a fragment, then on appending the big list to the DOM, run a querySelectorAll that provides the observer with the nodes to observe!
-    // there's a common flow of dipping through an ancestor where you:
-    // - determine which batches to fetch --> ancestorBatchAndNeighbors
-    // - determine which nodes to observe for which batches --> ancestorBatchAndNeighbors
-    // - fetch batches --> ancestorBatchAndNeighbors
-    // - build node <li>s from the batches --> buildAncestor
-    // - insert them into a fragment --> buildAncestor
-    // - append the fragment to the DOM --> renderAncestor
-    // - provide the observer with the nodes to observe --> renderAncestor
-
-    buildList(nodeId, level, numBatches) {
-      const listFragment = this.markup.list(nodeId, level, numBatches);
-
-      console.log('listFragment', listFragment);
-    }
-
-    buildAncestors(ancestorBatches) {
-      console.log('buildAncestors', ancestorBatches);
-
-      const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
-        const numBatches = batch.waypoints;
-        const nodeTitle = this.markup.title(batch);
-        const ancestorHtmlId = batch.ancestorHtmlId;
-
-        if (i === 0) {
-          const treeListFrag = this.markup.rootList();
-          const treeListElement = treeListFrag.querySelector('ol');
-
-          const rootNodeFrag = this.markup.newRootNode(nodeTitle);
-          const rootNodeElement = rootNodeFrag.querySelector('li');
-
-          const nodeListFrag = this.markup.nodeList(
-            ancestorHtmlId,
-            i + 1,
-            numBatches
-          );
-          const nodeListElement = nodeListFrag.querySelector('ol');
-
-          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
-            const batchFragment = this.newBuildBatchFragment(
-              batchData.nodes,
-              i + 1,
-              ancestorHtmlId,
-              batchNumber,
-              batchData.hasOwnProperty('observeForBatch')
-                ? batchData.observeForBatch
-                : null
-            );
-
-            nodeListElement
-              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
-              .replaceWith(batchFragment);
-          });
-
-          rootNodeElement.appendChild(nodeListFrag);
-
-          treeListElement.appendChild(rootNodeFrag);
-
-          acc.appendChild(treeListFrag);
-
-          return acc;
-        } else {
-          const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
-
-          const nodeListFrag = this.markup.nodeList(
-            ancestorHtmlId,
-            i + 1,
-            numBatches
-          );
-
-          const nodeListElement = nodeListFrag.querySelector('ol');
-
-          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
-            const batchFragment = this.newBuildBatchFragment(
-              batchData.nodes,
-              i + 1,
-              ancestorHtmlId,
-              batchNumber,
-              batchData.hasOwnProperty('observeForBatch')
-                ? batchData.observeForBatch
-                : null
-            );
-
-            nodeListElement
-              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
-              .replaceWith(batchFragment);
-          });
-
-          nodeElement.appendChild(nodeListFrag);
-
-          return acc;
-        }
-      }, new DocumentFragment());
-
-      console.log('ancestorsFrag', ancestorsFrag);
-
-      const theTree = document.querySelector('.infinite-tree');
-      theTree.replaceWith(ancestorsFrag);
-    }
-
-    /**
-     * Returns all ancestor batches for a given record ID
-     * @param {number} id - The record ID of the node to fetch ancestor batches for
-     * @returns {Promise<Array>} An array of ancestor batch data
-     */
-    async allAncestorBatches(id) {
-      const ancestors = await this.fetch.ancestors(id);
-
-      return Promise.all(
-        ancestors[id].map(ancestor => this.ancestorBatchAndNeighbors(ancestor))
-      );
-    }
-
-    /**
-     * Fetches and returns the initial batch(es) for an ancestor; includes extra metadata
-     * if a target batch's neighbor needs to be observed for its neighbor
-     * @param {Object} ancestorMetaObj - The ancestor metadata object
-     * @returns {Object} An object containing the ancestor's batch(es) and possible metadata
-     */
-    async ancestorBatchAndNeighbors(ancestorMetaObj) {
-      const isRoot = ancestorMetaObj.node === null;
-      const recordId = isRoot
-        ? this.resourceId
-        : ancestorMetaObj.node.split('/')[4];
-      const nodeId = isRoot ? null : recordId;
-      const batchTarget = ancestorMetaObj.offset;
-      const baseData = await this.getNodeData(nodeId);
-      const numBatches = baseData.waypoints;
-
-      // Create result object with namespaced node data including batchTarget
-      // TODO: this could be simplified by tailoring the data from the
-      // server for the new InfiniteTree needs
-      const result = {
-        batchTarget,
-        ...Object.fromEntries(
-          Object.entries(baseData).filter(
-            ([key]) => !['precomputed_waypoints', 'waypoint_size'].includes(key)
-          )
-        ),
-        batches: {},
-        ancestorHtmlId: `${baseData.jsonmodel_type}_${recordId}`,
-      };
-
-      /**
-       * Returns the first batch already fetched
-       * @returns {Object} An object containing the batch data and possible metadata
-       */
-      const firstBatch = () => {
-        return {
-          nodes:
-            baseData.precomputed_waypoints[
-              isRoot ? '' : ancestorMetaObj.node
-            ][0],
-        };
-      };
-
-      /**
-       * Fetches a batch and returns it with optional metadata about the batch's neighbors
-       * @param {number} batchNum - The batch number to fetch
-       * @param {number} [observeForBatch=null] - The batch number to observe for the target batch's neighbors
-       * @returns {Object} An object containing the batch data and possible metadata
-       */
-      const fetchBatch = async (batchNum, observeForBatch = null) => {
-        const nodes = await this.fetch.batch(
-          isRoot ? '' : ancestorMetaObj.node,
-          batchNum
-        );
-        const result = {
-          nodes,
-        };
-
-        if (observeForBatch !== null) {
-          result.observeForBatch = observeForBatch;
-        }
-
-        return result;
-      };
-
-      if (numBatches <= 2) {
-        result.batches[0] = firstBatch();
-        if (numBatches === 2) {
-          result.batches[1] = await fetchBatch(1);
-        }
-
-        return result;
-      }
-
-      if (numBatches >= 4) {
-        if (batchTarget === 0) {
-          result.batches[0] = firstBatch();
-          result.batches[1] = await fetchBatch(1, 2);
-        } else if (batchTarget === numBatches - 1) {
-          result.batches[numBatches - 2] = await fetchBatch(
-            numBatches - 2,
-            numBatches - 3
-          );
-          result.batches[numBatches - 1] = await fetchBatch(numBatches - 1);
-        } else if (batchTarget === 1) {
-          result.batches[0] = firstBatch();
-          result.batches[1] = await fetchBatch(1);
-          result.batches[2] = await fetchBatch(2, 3);
-        } else if (batchTarget === numBatches - 2) {
-          result.batches[numBatches - 3] = await fetchBatch(
-            numBatches - 3,
-            numBatches - 4
-          );
-          result.batches[batchTarget] = await fetchBatch(batchTarget);
-          result.batches[numBatches - 1] = await fetchBatch(numBatches - 1);
-        } else {
-          result.batches[batchTarget - 1] = await fetchBatch(
-            batchTarget - 1,
-            batchTarget - 2
-          );
-          result.batches[batchTarget] = await fetchBatch(batchTarget);
-          result.batches[batchTarget + 1] = await fetchBatch(
-            batchTarget + 1,
-            batchTarget + 2
-          );
-        }
-      }
-
-      return result;
     }
   }
 
