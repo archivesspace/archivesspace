@@ -152,9 +152,11 @@ uk:
     search_term: Пошуковий термін
     remove_filter: Видалити цей фільтр
     creators_text_contain: <strong>творець</strong> містить <span class='searchterm'>%{кс}</span>
-    subjects_text_contain: <strong> </strong> містить  <span class='searchterm'>%{кс}</span>
+    subjects_text_contain: <strong> предмет</strong> містить  <span class='searchterm'>%{кс}</span>
     keyword_contain: <strong>ключове слово(a)</strong>:<span class='searchterm'>%{кс}</span>
     notes_contain: <strong>нотатка</strong> містить<span class='searchterm'>%{кс}</span>
+    identifier_contain: <strong> ідентифікатор</strong> містить  <span class='searchterm'>%{кс}</span>
+    in_repository: ' in <strong>%{name}</strong>'
   search_sorting:
     desc: (за спаданням)
     asc: (за зростанням)
