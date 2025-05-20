@@ -1,0 +1,31 @@
+# .rubocop.yml
+
+AllCops:
+  NewCops: enable
+
+Metrics/AbcSize:
+  Max: 50
+
+Layout/LineLength:
+  Max: 300
+
+Metrics/MethodLength:
+  Max: 50
+
+Metrics/BlockLength:
+  Max: 90
+
+Layout/ElseAlignment:
+  Enabled: false
+
+Style/ConditionalAssignment:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/ZeroLengthPredicate:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: false

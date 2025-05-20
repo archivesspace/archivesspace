@@ -1,0 +1,8 @@
+default: |
+  staff_features
+  --publish-quiet
+  --format pretty
+  --color
+  --require env.rb
+  --require helpers
+  --require staff_features
