@@ -199,12 +199,18 @@ class LargeTree
       db[@root_table]
         .join(@node_table, :root_record_id => :id)
         .filter(Sequel.qualify(@node_table, :id) => node_ids)
-        .select(Sequel.qualify(@root_table, :id),
-                Sequel.qualify(@root_table, :title))
+        .select(Sequel.qualify(@root_table, :id))
         .distinct
         .each do |row|
-        root_record_titles[row[:id]] = row[:title]
-      end
+          root_record_titles[row[:id]] = []
+          db[:title].filter("#{@root_table}_id".to_sym => row[:id])
+            .select(:title, :language_id)
+            .each do |title_row|
+            title = title_row[:title]
+            lang = db[:enumeration_value].where(id: title_row[:language_id]).select(:value).first&.fetch(:value)
+            root_record_titles[row[:id]].append({title: title, lang: lang})
+          end
+        end
 
       ## Build up the path of waypoints for each node
       node_ids.each do |node_id|
@@ -231,8 +237,8 @@ class LargeTree
                  "root_record_uri" => root_record_uri,
                  "offset" => node_to_waypoint_map.fetch(current_node),
                  "jsonmodel_type" => @root_type,
-                 "title" => root_record_titles[root_record_id],
-                 "parsed_title" => MixedContentParser.parse(root_record_titles[root_record_id], '/')}
+                 "title" => root_record_titles[root_record_id][0][:title],  # TODO: this is just to avoid breaking everything for now, will eventually be removed
+                 "parsed_title" => MixedContentParser.parse(root_record_titles[root_record_id][0][:title], '/')} # TODO: this is just to avoid breaking everything for now, will eventually be removed
 
         result[node_id] = path.reverse
       end
