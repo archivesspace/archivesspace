@@ -1551,7 +1551,7 @@ FactoryBot.define do
   end
 
   factory :json_resource_nohtml, class: JSONModel(:resource) do
-    title { "Resource #{generate(:generic_title)}" }
+    titles { [build(:json_title, title: "Resource #{generate(:generic_title)}")] }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }

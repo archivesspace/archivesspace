@@ -9,7 +9,7 @@
     "uri" => "/repositories/:repo_id/archival_objects",
     "properties" => {
       # Titles (overrides abstract schema)
-      "titles" => {"type" => "array", "minItems" => 1, "items" => {"type" => "JSONModel(:title) object"}},
+      "titles" => {"type" => "array", "items" => {"type" => "JSONModel(:title) object"}},
 
       "ref_id" => {"type" => "string", "maxLength" => 255, "pattern" => "\\A[a-zA-Z0-9\\-_:\\.]*\\z"},
       "component_id" => {"type" => "string", "maxLength" => 255, "required" => false, "default" => ""},
