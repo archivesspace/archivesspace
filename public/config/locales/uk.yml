@@ -156,7 +156,7 @@ uk:
     keyword_contain: <strong>ключове слово(a)</strong>:<span class='searchterm'>%{кс}</span>
     notes_contain: <strong>нотатка</strong> містить<span class='searchterm'>%{кс}</span>
     identifier_contain: <strong> ідентифікатор</strong> містить  <span class='searchterm'>%{кс}</span>
-    in_repository: ' in <strong>%{name}</strong>'
+    in_repository: ' in <strong>%{ім''я}</strong>'
   search_sorting:
     desc: (за спаданням)
     asc: (за зростанням)
@@ -282,6 +282,8 @@ uk:
       dates: Дати
       digital_object: Цифровий об'єкт
       physdesc: Фізичний опис
+      identifier_ark: ідентифікатор [кар]
+      uri: Ідентифікатор [acпєс_URI]
     load_records:
       alert: Ця колекція містить велику кількість записів
       showing: Показ
@@ -333,3 +335,110 @@ uk:
   bulk:
     _singular: Більшість матеріалів знайдено в %{дати}
     _plural: Більшість матеріалів знайдено в %{дати}
+  agent_resource:
+    _plural: Пов’язані зовнішні ресурси
+    _singular: Пов'язаний зовнішній ресурс
+  pdf_reports:
+    controlled_access_headings: Заголовки контрольованого доступу
+    finding_aid_date_prefix: Цей допоміжний матеріал було створено за допомогою АрхівзСпєс на
+    finding_aid_written_in: Пошук допомоги, написаної на
+    administrative_information: Адміністративна інформація
+    collection_inventory: Інвентаризація колекції
+    summary_information: Зведена інформація
+    table_of_contents: Зміст
+    return_to_table_of_contents: Повернутися до змісту
+    publication_statement: Заява про публікацію
+    your_finding_aid_pdf: Ваш PDF-допоміжний засіб для пошуку "%{титул}"
+    your_finding_aid_is_attached: Запитаний вами довідник з пошуку додається.
+    accessrestrict: Умови доступу
+    userestrict: Умови використання
+    accruals: Нарахування
+    acqinfo: Безпосереднє джерело придбання
+  extent_phys_details: ' : %{деталі}'
+  subject:
+    _singular: Суб'єкт
+    _plural: Суб'єкти
+  classification:
+    _singular: Група записів
+    _plural: Групи записів
+    creator: Творець
+    identifier_separator: .
+    _public:
+      actions:
+        show_subgroups: Показати підгрупи
+  classification_term:
+    _plural: Умови групи записів
+    _singular: Термін групи записів
+    identifier_separator: /
+  an_agent: Ім'я
+  pui_agent:
+    parallel: Паралельні назви
+    related: Пов'язані імена
+    also_known_as: Також відомий під наступними назвами
+    _singular: Ім'я
+    _plural: Імена
+  record:
+    _singular: Запис
+    _plural: Записи
+  record_group:
+    _singular: Група записів
+    _plural: Групи записів
+  agent:
+    _public:
+      section:
+        other_names: Форми імен
+        related_agents: Пов'язані імена
+        related_agent_description: Опис
+        dates: Дати
+        related_agent_dates: Дати
+    _singular: Ім'я
+    _plural: Імена
+  agent_person:
+    _singular: Людина
+    _plural: Люди
+  agent_software:
+    _plural: Програмне забезпечення
+    _singular: Програмне забезпечення
+  agent_function:
+    _singular: Функція
+    _plural: Функції
+  agent_place:
+    _plural: Місця
+    _singular: Місце
+  agent_topic:
+    _plural: Теми
+    _singular: Тема
+  description: Про нас
+  contact: Контакти
+  number_of: 'Кількість %{тип}:'
+  parent_inst: Материнська установа
+  email: Надіслати електронного листа
+  fax: Факс
+  agent_record_identifier:
+    primary_identifier: Чи є основним ідентифікатором?
+    identifier_type: Тип ідентифікатора
+    source: Джерело
+    record_identifier: Ідентифікатор запису
+    snac: Ідентифікатор соціальних мереж та архівного контексту (SNAC)
+  readmore:
+    see_more: Дивитися більше
+    see_less: Бачити менше
+  skipnav:
+    main_content: Перейти до основного вмісту
+    search: Перейти до пошуку
+    search_results: Перейти до результатів пошуку
+  search_tab: Пошук %{ціль}
+  agent_identifier:
+    identifier_type: Тип ідентифікатора
+  agent_family:
+    _singular: Сім'я
+    _plural: Сім'ї
+  agent_gender:
+    _plural: Стать
+    _singular: Стать
+  agent_occupation:
+    _singular: Професія
+    _plural: Професії
+  agent_corporate_entity:
+    _singular: Організація
+    _plural: Організації
