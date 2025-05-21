@@ -186,7 +186,7 @@ class ResourcesController < ApplicationController
                   render action: "new"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = t("resource._frontend.messages.created", resource_title: clean_mixed_content(@resource.title))
+                  flash[:success] = t("resource._frontend.messages.created", resource_title: clean_mixed_content(title_for_display))
 
                   if @resource["is_slug_auto"] == false &&
                      @resource["slug"] == nil &&
