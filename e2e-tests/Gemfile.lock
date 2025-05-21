@@ -1,0 +1,129 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
+    ast (2.4.2)
+    base64 (0.2.0)
+    bigdecimal (3.1.8)
+    builder (3.3.0)
+    byebug (11.1.3)
+    capybara (3.40.0)
+      addressable
+      matrix
+      mini_mime (>= 0.1.3)
+      nokogiri (~> 1.11)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      regexp_parser (>= 1.5, < 3.0)
+      xpath (~> 3.2)
+    capybara-screenshot (1.0.26)
+      capybara (>= 1.0, < 4)
+      launchy
+    childprocess (5.1.0)
+      logger (~> 1.5)
+    cucumber (9.2.0)
+      builder (~> 3.2)
+      cucumber-ci-environment (> 9, < 11)
+      cucumber-core (> 13, < 14)
+      cucumber-cucumber-expressions (~> 17.0)
+      cucumber-gherkin (> 24, < 28)
+      cucumber-html-formatter (> 20.3, < 22)
+      cucumber-messages (> 19, < 25)
+      diff-lcs (~> 1.5)
+      mini_mime (~> 1.1)
+      multi_test (~> 1.1)
+      sys-uname (~> 1.2)
+    cucumber-ci-environment (10.0.1)
+    cucumber-core (13.0.3)
+      cucumber-gherkin (>= 27, < 28)
+      cucumber-messages (>= 20, < 23)
+      cucumber-tag-expressions (> 5, < 7)
+    cucumber-cucumber-expressions (17.1.0)
+      bigdecimal
+    cucumber-gherkin (27.0.0)
+      cucumber-messages (>= 19.1.4, < 23)
+    cucumber-html-formatter (21.6.0)
+      cucumber-messages (> 19, < 25)
+    cucumber-messages (22.0.0)
+    cucumber-tag-expressions (6.1.0)
+    cuke_linter (1.3.0)
+      cuke_modeler (>= 1.5, < 4.0)
+    cuke_modeler (3.21.0)
+      cucumber-gherkin (< 29.0)
+    diff-lcs (1.5.1)
+    ffi (1.17.0-x86_64-linux-gnu)
+    json (2.7.2)
+    language_server-protocol (3.17.0.3)
+    launchy (3.0.1)
+      addressable (~> 2.8)
+      childprocess (~> 5.0)
+    logger (1.6.0)
+    matrix (0.4.2)
+    mini_mime (1.1.5)
+    multi_test (1.1.0)
+    nokogiri (1.16.7-x86_64-linux)
+      racc (~> 1.4)
+    parallel (1.26.3)
+    parser (3.3.4.2)
+      ast (~> 2.4.1)
+      racc
+    public_suffix (6.0.1)
+    racc (1.8.1)
+    rack (3.1.7)
+    rack-test (2.1.0)
+      rack (>= 1.3)
+    rainbow (3.1.1)
+    regexp_parser (2.9.2)
+    rexml (3.3.4)
+      strscan
+    rspec-expectations (3.13.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.1)
+    rubocop (1.65.1)
+      json (~> 2.3)
+      language_server-protocol (>= 3.17.0)
+      parallel (~> 1.10)
+      parser (>= 3.3.0.2)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 2.4, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.32.1)
+      parser (>= 3.3.1.0)
+    rubocop-packaging (0.5.2)
+      rubocop (>= 1.33, < 2.0)
+    ruby-progressbar (1.13.0)
+    rubyzip (2.3.2)
+    selenium-webdriver (4.23.0)
+      base64 (~> 0.2)
+      logger (~> 1.4)
+      rexml (~> 3.2, >= 3.2.5)
+      rubyzip (>= 1.2.2, < 3.0)
+      websocket (~> 1.0)
+    strscan (3.1.0)
+    sys-uname (1.3.0)
+      ffi (~> 1.1)
+    unicode-display_width (2.5.0)
+    websocket (1.2.11)
+    xpath (3.2.0)
+      nokogiri (~> 1.8)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  byebug
+  capybara
+  capybara-screenshot
+  cucumber
+  cuke_linter
+  rspec-expectations
+  rubocop-packaging
+  selenium-webdriver
+
+BUNDLED WITH
+   2.4.1
