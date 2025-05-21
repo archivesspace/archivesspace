@@ -758,7 +758,7 @@ it:
       local: Locale
       oclc: OCLC
     agent_contact_salutation:
-      madame: Madame
+      madame: Madama
       mr: Sig.
       mrs: Sig.ra
       ms: Sig.ra
@@ -858,13 +858,13 @@ it:
       ant: Antecedente bibliografico
       arr: Arrangiatore
       asg: Assegnatario
-      ato: Autografista
+      ato: Autografatore
       art: Artista
       aus: Autore della sceneggiatura, ecc.
       aut: Autore
       bdd: Designer della rilegatura
-      bjd: Designer della sovracoperta
-      brd: Presentatore
+      bjd: Designer della sovraccoperta
+      brd: Annunciatore
       chr: Coreografo
       clb: Collaboratore
       cli: Cliente
@@ -876,8 +876,8 @@ it:
       cmt: Compositore (tipografia)
       col: Collezionista
       com: Compilatore
-      cph: Detentore del copyright
-      csp: Consulente per un progetto
+      cph: Titolare dei diritti d'autore
+      csp: Consulente di progetto
       csl: Consulente
       cst: Costumista
       asn: Nome associato
@@ -896,22 +896,138 @@ it:
       auc: Banditore d'asta
       aud: Autore del dialogo
       aui: Autore dell'introduzione, ecc.
-      blw: Scrittore della quarta di copertina
+      blw: Scrittore del soffietto editoriale
       bnd: Rilegatore
-      brl: Stampante per braille
+      brl: Goffratore braille
       bsl: Libraio
-      cnd: Conduttore
+      cnd: Direttore d'orchestra
       cng: Direttore della fotografia
       cns: Censore
-      cor: Registrar della collezione
-      cos: Concorrente
-      cpl: Querelante
-      cov: Designer della cover
-      cpc: Richiedente copyright
+      cor: Archivista / Registrar della collezione
+      cos: Opponente
+      cpl: Querelante / Denunciante
+      cov: Designer della coperta
+      cpc: Richiedente il diritto d'autore
       cre: Creatore
       crp: Corrispondente
       crr: Correttore
-      crt: Stenografo di tribunale
+      crt: Stenografo della corte
+      bkd: Designer del libro
+      bkp: Produttore del libro
+      bpd: Designer dell'ex-libris
+      cas: Fonditore
+      ccp: Ideatore
+      coe: Impugnato (appellato)
+      cte: Resistente-appellato
+      ctb: Contributore
+      ctg: Cartografo
+      ctr: Contraente
+      dfd: Imputato
+      dfe: Imputato-appellato
+      dft: Imputato-appellante
+      dln: Delineatore
+      dnc: Ballerino
+      eng: Ingegnere
+      elt: Elettrotipista / Galvanotipista
+      fac: Facsimilista
+      fds: Distributore del film
+      fmp: Produttore del film
+      fnd: Finanziatore / Mecenate
+      frg: Falsario / Falsificatore
+      gis: Specialista di informazioni territoriali
+      led: Capo
+      jud: Giudice
+      mrk: Curatore del markup
+      mrb: Marmorizzatore
+      rse: Convenuto-appellato
+      dpc: Raffigurato
+      dis: Autore della dissertazione
+      dgs: Supervisore di titolo accademico
+      dnr: Donatore
+      pte: Parte civile appellata
+      fmo: Possessore precedente
+      aqt: Autore in citazioni o estratti
+      con: Conservatore
+      cou: Corte governata
+      cts: Resistente
+      ctt: Resistente-appellante
+      cot: Impugnante (appellante)
+      cpe: Ricorrente (appellato)
+      cpt: Ricorrente (appellante)
+      cur: Curatore di mostra
+      cwt: Commentatore di testo scritto
+      dbp: Luogo di distribuzione
+      dgg: Conferitore di titolo accademico
+      dpt: Depositante
+      drm: Progettista
+      drt: Regista
+      dsr: Designer
+      dst: Distributore
+      dtc: Fornitore di dati
+      dte: Dedicatario
+      dub: Autore incerto
+      dtm: Gestore dei dati
+      dto: Dedicante
+      edc: Curatore della raccolta
+      edm: Curatore di opera filmica
+      edt: Curatore
+      egr: Incisore
+      elg: Elettricista
+      enj: Giurisdizione emanante
+      etr: Incisore / Acquafortista
+      evp: Luogo dell'evento
+      exp: Valutatore / Perito
+      fld: Direttore della campagna
+      flm: Montatore di film
+      fmd: Regista del film
+      fmk: Regista indipendente / Cineasta
+      fpy: Cedente
+      grt: Grafico / Artista
+      his: Istituzione ospitante
+      hnr: Onorato (in memoria/onore di)
+      hst: Conduttore
+      ill: Illustratore
+      ilu: Miniatore / Miniaturista
+      lee: Calunniato-appellato
+      ins: Firmatario del dono
+      inv: Inventore
+      isb: Ente emittente
+      itr: Strumentista
+      ive: Intervistato
+      ivr: Intervistatore
+      jug: Giurisdizione subordinata
+      lbr: Laboratorio
+      lbt: Librettista
+      ldr: Direttore di laboratorio
+      let: Calunniato-appellante
+      lie: Chiamante in causa per calunnia-appellato
+      lit: Chiamante in causa per calunnia-appellante
+      lel: Calunniato
+      len: Prestatore
+      lgd: Designer delle luci
+      lil: Chiamante in causa per calunnia
+      lsa: Architetto paesaggista
+      lse: Licenziatario
+      lso: Licenziatore
+      ltg: Litografo
+      lyr: Autore del testo della musica / Paroliere / Autore della lirica
+      mcp: Copista di musica
+      mdc: Elaboratore dei metadati
+      med: Medium
+      mfp: Luogo di manifattura
+      mfr: Manifattore
+      mod: Moderatore
+      mon: Garante
+      msd: Direttore artistico musicale
+      mte: Incisore su metallo
+      mtk: Verbalizzatore
+      mus: Musicista
+      nrt: Narratore
+      opn: Controrelatore
+      org: Promotore / Autore dell'inchiesta
+      orm: Organizzatore della riunione
+      ptt: Parte civile appellante
+      rst: Convenuto-appellante
     maintenance_event_type:
       deleted: Eliminato
       derived: Derivato
