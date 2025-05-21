@@ -171,7 +171,7 @@
                 "ref": "/subjects/1"
             }
         ],
-        "title": "A test resource",
+        "titles": [{"jsonmodel_type": "title", "title": "A test resource"}],
         "tree": {
             "ref": "/repositories/{{repo_id}}/resources/1/tree"
         },
@@ -258,7 +258,7 @@
         },
         "rights_statements": [],
         "subjects": [],
-        "title": "test archival object 1",
+        "titles": [{"jsonmodel_type": "title", "title": "test archival object 1"}],
         "uri": "/repositories/{{repo_id}}/archival_objects/1"
     },
     {
@@ -283,7 +283,7 @@
         },
         "rights_statements": [],
         "subjects": [],
-        "title": "test archival object 2",
+        "titles": [{"jsonmodel_type": "title", "title": "test archival object 2"}],
         "uri": "/repositories/{{repo_id}}/archival_objects/2"
     },
     {
@@ -311,7 +311,7 @@
         },
         "rights_statements": [],
         "subjects": [],
-        "title": "test archival object 1.5",
+        "titles": [{"jsonmodel_type": "title", "title": "test archival object 1.5"}],
         "uri": "/repositories/{{repo_id}}/archival_objects/3"
     },
     {
@@ -386,7 +386,7 @@
         "restrictions": false,
         "rights_statements": [],
         "subjects": [],
-        "title": "A test digital object",
+        "titles": [{"jsonmodel_type": "title", "title": "A test digital object"}],
         "tree": {
             "ref": "/repositories/{{repo_id}}/digital_objects/1/tree"
         },
@@ -411,7 +411,7 @@
         },
         "rights_statements": [],
         "subjects": [],
-        "title": "digital object child 1",
+        "titles": [{"jsonmodel_type": "title", "title": "digital object child 1"}],
         "uri": "/repositories/{{repo_id}}/digital_object_components/1"
     },
     {
@@ -433,7 +433,7 @@
         },
         "rights_statements": [],
         "subjects": [],
-        "title": "digital object child 2",
+        "titles": [{"jsonmodel_type": "title", "title": "digital object child 2"}],
         "uri": "/repositories/{{repo_id}}/digital_object_components/2"
     },
     {
@@ -458,7 +458,7 @@
         },
         "rights_statements": [],
         "subjects": [],
-        "title": "digital object child 1.5",
+        "titles": [{"jsonmodel_type": "title", "title": "digital object child 1.5"}],
         "uri": "/repositories/{{repo_id}}/digital_object_components/3"
     }
 ]
