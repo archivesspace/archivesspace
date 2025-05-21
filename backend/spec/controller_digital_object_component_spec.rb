@@ -3,10 +3,10 @@ require 'spec_helper'
 describe 'Digital Object Component controller' do
 
   it "lets you create an digital object component and get it back" do
-    opts = {:title => 'The digital object component title'}
+    title = build(:json_title, :title => 'The digital object component title')
+    created = create(:json_digital_object_component, :titles => [title]).id
 
-    created = create(:json_digital_object_component, opts).id
-    expect(JSONModel(:digital_object_component).find(created).title).to eq(opts[:title])
+    expect(JSONModel(:digital_object_component).find(created).titles[0]['title']).to eq(title['title'])
   end
 
 
@@ -22,7 +22,7 @@ describe 'Digital Object Component controller' do
     parent = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri})
 
     child = create(:json_digital_object_component, {
-                     :title => 'Child',
+                     :titles => [build(:json_title, :title => 'Child')],
                      :parent => {:ref => parent.uri},
                      :digital_object => {:ref => digital_object.uri}
                    })
@@ -31,40 +31,42 @@ describe 'Digital Object Component controller' do
     expect(last_response).to be_ok
 
     children = JSON(last_response.body)
-    expect(children[0]['title']).to eq('Child')
+    expect(children[0]['titles'][0]['title']).to eq('Child')
   end
 
 
   it "handles updates for an existing digital object component" do
     created = create(:json_digital_object_component)
 
-    opts = {:title => 'A brand new title'}
+    title = build(:json_title, :title => 'A brand new title')
 
     doc = JSONModel(:digital_object_component).find(created.id)
-    doc.title = opts[:title]
+    doc.titles = [title]
     doc.save
 
-    expect(JSONModel(:digital_object_component).find(created.id).title).to eq(opts[:title])
+    expect(JSONModel(:digital_object_component).find(created.id).titles[0]['title']).to eq(title['title'])
   end
 
 
   it "lets you reorder sibling digital object components" do
     digital_object = create(:json_digital_object)
 
-    doc_1 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri}, :title=> "DOC1", :position => 0)
-    doc_2 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri}, :title=> "DOC2", :position => 1)
+    doc_1 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri},
+      :titles => [build(:json_title, :title => 'DOC1')], :position => 0)
+    doc_2 = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri},
+      :titles => [build(:json_title, :title => 'DOC2')], :position => 1)
 
     tree = JSONModel::HTTP.get_json("#{digital_object.uri}/tree/root")
-    expect(tree["precomputed_waypoints"][""]["0"][0]['title']).to eq("DOC1")
-    expect(tree["precomputed_waypoints"][""]["0"][1]['title']).to eq("DOC2")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["titles"][0]["title"]).to eq("DOC1")
+    expect(tree["precomputed_waypoints"][""]["0"][1]["titles"][0]["title"]).to eq("DOC2")
 
     doc_1 = JSONModel(:digital_object_component).find(doc_1.id)
     doc_1.position = 1
     doc_1.save
 
     tree = JSONModel::HTTP.get_json("#{digital_object.uri}/tree/root")
-    expect(tree["precomputed_waypoints"][""]["0"][0]['title']).to eq("DOC2")
-    expect(tree["precomputed_waypoints"][""]["0"][1]['title']).to eq("DOC1")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["titles"][0]["title"]).to eq("DOC2")
+    expect(tree["precomputed_waypoints"][""]["0"][1]["titles"][0]["title"]).to eq("DOC1")
   end
 
 
@@ -97,11 +99,11 @@ describe 'Digital Object Component controller' do
     children = ASUtils.json_parse(last_response.body)
 
     expect(children.length).to eq(2)
-    expect(children[0]["title"]).to eq(sibling_1["title"])
+    expect(children[0]["titles"][0]["title"]).to eq(sibling_1["titles"][0]["title"])
     expect(children[0]["parent"]["ref"]).to eq(target.uri)
     expect(children[0]["digital_object"]["ref"]).to eq(digital_object.uri)
 
-    expect(children[1]["title"]).to eq(sibling_2["title"])
+    expect(children[1]["titles"][0]["title"]).to eq(sibling_2["titles"][0]["title"])
     expect(children[1]["parent"]["ref"]).to eq(target.uri)
     expect(children[1]["digital_object"]["ref"]).to eq(digital_object.uri)
   end
@@ -113,7 +115,7 @@ describe 'Digital Object Component controller' do
     parent = create(:json_digital_object_component, :digital_object => {:ref => digital_object.uri})
 
     child = create(:json_digital_object_component, {
-      :title => 'Child',
+      :titles => [build(:json_title, :title => 'Child')],
       :parent => {:ref => parent.uri},
       :digital_object => {:ref => digital_object.uri}
     })
@@ -122,7 +124,7 @@ describe 'Digital Object Component controller' do
     expect(last_response).to be_ok
 
     children = JSON(last_response.body)
-    expect(children[0]['title']).to eq('Child')
+    expect(children[0]['titles'][0]['title']).to eq('Child')
   end
 
 
@@ -133,9 +135,7 @@ describe 'Digital Object Component controller' do
     doc_1 = build(:json_digital_object_component, :position => nil )
     doc_2 = build(:json_digital_object_component, :position => nil )
 
-    children = JSONModel(:digital_record_children).from_hash({
-                                                                "children" => [doc_1, doc_2]
-                                                              })
+    children = JSONModel(:digital_record_children).from_hash({ "children" => [doc_1, doc_2] })
 
     url = URI("#{JSONModel::HTTP.backend_url}#{parent_component.uri}/children")
     response = JSONModel::HTTP.post_json(url, children.to_json)
@@ -148,11 +148,11 @@ describe 'Digital Object Component controller' do
     children = JSON(last_response.body)
 
     expect(children.length).to eq(2)
-    expect(children[0]["title"]).to eq(doc_1["title"])
+    expect(children[0]["titles"][0]["title"]).to eq(doc_1["titles"][0]["title"])
     expect(children[0]["parent"]["ref"]).to eq(parent_component.uri)
     expect(children[0]["digital_object"]["ref"]).to eq(digital_object.uri)
 
-    expect(children[1]["title"]).to eq(doc_2["title"])
+    expect(children[1]["titles"][0]["title"]).to eq(doc_2["titles"][0]["title"])
     expect(children[1]["parent"]["ref"]).to eq(parent_component.uri)
     expect(children[1]["digital_object"]["ref"]).to eq(digital_object.uri)
   end
