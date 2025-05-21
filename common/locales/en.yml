@@ -2468,6 +2468,7 @@ en:
     group_code_already_in_use: Group code must be unique within a repository
     one_or_more_required_(or_enter_a_title): one or more required (or enter a Title)
     must_not_be_an_empty_string_(or_enter_a_date): must not be an empty string (or enter a Date)
+    must_not_be_an_empty_list_(or_enter_a_date): must not be an empty list (or enter a Date)
     is_required_when__source__is_blank: is required when 'Source' is blank
     is_required_when__rules__is_blank: is required when 'Rules' is blank
     is_required_if_there_is_an_authority_id: is required if there is an 'Authority ID'
