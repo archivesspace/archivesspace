@@ -395,23 +395,24 @@
 
       if (numBatches < 4) {
         result.batches[0] = await fetchBatch(0);
-      }
 
-      if (numBatches === 2) {
-        result.batches[1] = await fetchBatch(1);
-      }
-
-      if (numBatches === 3) {
-        if (batchTarget === 0) {
-          result.batches[1] = await fetchBatch(1, 2);
-        } else {
+        if (numBatches === 2) {
           result.batches[1] = await fetchBatch(1);
-          result.batches[2] = await fetchBatch(2);
+        }
+
+        if (numBatches === 3) {
+          if (batchTarget === 0) {
+            result.batches[1] = await fetchBatch(1, 2);
+          } else {
+            result.batches[1] = await fetchBatch(1);
+            result.batches[2] = await fetchBatch(2);
+          }
         }
       }
 
       if (numBatches >= 4) {
         if (batchTarget === 0) {
+          result.batches[0] = await fetchBatch(0);
           result.batches[1] = await fetchBatch(1, 2);
         } else if (batchTarget === numBatches - 1) {
           result.batches[0] = await fetchBatch(0, 1);
@@ -435,7 +436,8 @@
         } else if (batchTarget === 2) {
           result.batches[0] = await fetchBatch(0);
           result.batches[1] = await fetchBatch(1);
-          result.batches[2] = await fetchBatch(2, 3);
+          result.batches[2] = await fetchBatch(2);
+          result.batches[3] = await fetchBatch(3, 4);
         } else {
           result.batches[0] = await fetchBatch(0, 1);
           result.batches[batchTarget - 1] = await fetchBatch(
