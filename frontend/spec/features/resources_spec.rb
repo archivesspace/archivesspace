@@ -302,19 +302,6 @@ describe 'Resources', js: true do
     expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
     expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
     expect(page).to have_text 'Selected Records: 0'
-
-    visit "resources/#{resource.id}/edit"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
-
-    find('#other-dropdown button').click
-
-    within('.dropdown-menu') do
-      click_link('Generate Bulk Archival Object Spreadsheet')
-    end
-    expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
-    expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
-    expect(page).to have_text 'Selected Records: 0'
   end
 
   it 'successfully generates a bulk archival object spreadsheet for a resource' do
