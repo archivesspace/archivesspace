@@ -251,7 +251,7 @@
               batchData.nodes,
               i + 1,
               ancestorHtmlId,
-              batchData.hasOwnProperty('observeForBatch')
+              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
                 ? Number(batchData.observeForBatch)
                 : null
             );
@@ -285,7 +285,7 @@
               batchData.nodes,
               i + 1,
               ancestorHtmlId,
-              batchData.hasOwnProperty('observeForBatch')
+              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
                 ? Number(batchData.observeForBatch)
                 : null
             );

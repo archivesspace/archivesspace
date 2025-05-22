@@ -56,7 +56,7 @@ describe 'Collection Organization', js: true do
     before(:all) do
       set_repo(@repo)
 
-      801.times do |i|
+      81.times do |i|
         # `WAYPOINT_SIZE = 200` defined in `backend/app/model/large_tree.rb`
         instance_variable_set("@ao#{i + 1}_of_ao3", create(:archival_object,
           resource: {'ref' => @resource.uri},
@@ -65,7 +65,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      401.times do |i|
+      41.times do |i|
         instance_variable_set("@ao#{i + 1}_of_ao4", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao4.uri},
@@ -73,7 +73,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      201.times do |i|
+      21.times do |i|
         instance_variable_set("@ao#{i + 1}_of_ao5", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao5.uri},
@@ -118,7 +118,7 @@ describe 'Collection Organization', js: true do
       end
 
       it 'should show the child' do
-        random_ao = rand(1..801)
+        random_ao = rand(1..81)
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization#tree::archival_object_#{instance_variable_get("@ao#{random_ao}_of_ao3").id}"
         node = find("#archival_object_#{instance_variable_get("@ao#{random_ao}_of_ao3").id}.current")
         expect(node_in_tree_viewport?(node)).to be true
@@ -126,45 +126,45 @@ describe 'Collection Organization', js: true do
 
       context 'when a parent node has 4 or more batches of children' do
         it "should show 2 batches when the node is in its parent's first batch" do
-          verify_batch_rendering('@ao50_of_ao3', 400, [2, 3, 4])
+          verify_batch_rendering('@ao5_of_ao3', 40, [2, 3, 4])
         end
 
-        context 'should show 3 batches'do
+        context 'should show 3 batches' do
           it "when the node is in its parent's last batch" do
-            verify_batch_rendering('@ao801_of_ao3', 401, [1, 2])
+            verify_batch_rendering('@ao81_of_ao3', 41, [1, 2])
           end
 
           it "when the node is in its parent's second batch" do
-            verify_batch_rendering('@ao201_of_ao3', 600, [3, 4])
+            verify_batch_rendering('@ao21_of_ao3', 60, [3, 4])
           end
         end
 
         it "should show 4 batches when the node is in a batch between its parent's third and second to last batches" do
-          verify_batch_rendering('@ao401_of_ao3', 800, [4])
+          verify_batch_rendering('@ao41_of_ao3', 80, [4])
         end
       end
 
       context 'when a parent node has 3 batches of children' do
         it "should show 2 batches when the node is in its parent's first batch" do
-          verify_batch_rendering('@ao1_of_ao4', 400, [2])
+          verify_batch_rendering('@ao1_of_ao4', 40, [2])
         end
 
         it "should show 3 batches when the node is in its parent's second batch" do
-          verify_batch_rendering('@ao202_of_ao4', 401, [])
+          verify_batch_rendering('@ao21_of_ao4', 41, [])
         end
 
         it "should show 3 batches when the node is in its parent's last batch" do
-          verify_batch_rendering('@ao401_of_ao4', 401, [])
+          verify_batch_rendering('@ao41_of_ao4', 41, [])
         end
       end
 
       context 'when a parent node has 2 batches of children' do
         it "should show 2 batches when the node is in its parent's first batch" do
-          verify_batch_rendering('@ao1_of_ao5', 201, [])
+          verify_batch_rendering('@ao1_of_ao5', 21, [])
         end
 
         it "should show 2 batches when the node is in its parent's last batch" do
-          verify_batch_rendering('@ao201_of_ao5', 201, [])
+          verify_batch_rendering('@ao21_of_ao5', 21, [])
         end
       end
 
@@ -419,26 +419,26 @@ describe 'Collection Organization', js: true do
         expect(@ao3_node['aria-expanded']).to eq "true"
         expect(@ao3_node['data-has-expanded']).to eq "true"
         expect(@ao3_node).to have_css('.node-expand-icon.expanded')
-        expect(@ao3_node).to have_css('& > .node-children > .node', count: 200, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > .node', count: 20, visible: true)
 
         @ao3_node.find('.node-expand').click
         expect(@ao3_node['aria-expanded']).to eq "false"
         expect(@ao3_node['data-has-expanded']).to eq "true"
         expect(@ao3_node).to have_css('.node-expand-icon:not(.expanded)')
-        expect(@ao3_node).to have_css('& > .node-children > .node', count: 200, visible: false)
+        expect(@ao3_node).to have_css('& > .node-children > .node', count: 20, visible: false)
       end
 
       it 'children are loaded in "batches" on scroll when the parent has more children than the configured batch size' do
         @ao3_node.find('.node-expand').click
-        expect(@ao3_node).to have_css('& > .node-children > li', count: 204, visible: :all)
-        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 200, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 24, visible: :all)
+        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 20, visible: true)
         expect(@ao3_node).to have_css('& > .node-children > li:nth-last-child(-n+4)[data-batch-placeholder]', count: 4, visible: false)
 
         observer_node = @ao3_node.find('[data-observe-next-batch="true"]')
         @container.scroll_to(observer_node, align: :center)
 
-        expect(@ao3_node).to have_css('& > .node-children > li', count: 403, visible: :all)
-        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 400, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 43, visible: :all)
+        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 40, visible: true)
         expect(@ao3_node).to have_css('& > .node-children > li:nth-last-child(-n+3)[data-batch-placeholder]', visible: false)
       end
 
@@ -453,11 +453,11 @@ describe 'Collection Organization', js: true do
         @container.scroll_to(observer_node_3, align: :center)
         observer_node_4 = @ao3_node.find('[data-observe-offset="4"]')
         @container.scroll_to(observer_node_4, align: :center)
-        expect(@ao3_node).to have_css('& > .node-children > li', count: 801, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 81, visible: true)
         expect(@ao3_node).not_to have_css('& > .node-children > [data-batch-placeholder]')
 
         @ao3_node.find('.node-expand').click
-        expect(@ao3_node).to have_css('& > .node-children > li', count: 801, visible: false)
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 81, visible: false)
       end
     end
   end
