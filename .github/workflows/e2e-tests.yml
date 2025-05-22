@@ -1,0 +1,59 @@
+name: E2E Tests
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  repository_dispatch:
+    types: [docker-image-updated]
+
+  pull_request:
+    paths:
+      - 'e2e-tests/**'
+
+defaults:
+  run:
+    working-directory: ./e2e-tests
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cucumber_a_g:
+    name: Run Tests Group A - G
+    uses: './.github/workflows/common-e2e-tests.yml'
+    with:
+      run-cmd: |
+        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[a-g]*' | tr '\n' ' ')
+        if [ -n "$dirs" ]; then
+          bundle exec cucumber --strict HEADLESS=true HOST=localhost $dirs
+        fi
+  cucumber_h_m:
+    name: Run Tests Group H - M
+    uses: './.github/workflows/common-e2e-tests.yml'
+    with:
+      run-cmd: |
+        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[h-m]*' | tr '\n' ' ')
+        if [ -n "$dirs" ]; then
+          bundle exec cucumber --strict HEADLESS=true HOST=localhost $dirs
+        fi
+  cucumber_n_s:
+    name: Run Tests Group N - S
+    uses: './.github/workflows/common-e2e-tests.yml'
+    with:
+      run-cmd: |
+        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[n-s]*' | tr '\n' ' ')
+        if [ -n "$dirs" ]; then
+          bundle exec cucumber --strict HEADLESS=true HOST=localhost $dirs
+        fi
+  cucumber_t_z:
+    name: Run Tests Group T - Z
+    uses: './.github/workflows/common-e2e-tests.yml'
+    with:
+      run-cmd: |
+        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[t-z]*' | tr '\n' ' ')
+        if [ -n "$dirs" ]; then
+          bundle exec cucumber --strict HEADLESS=true HOST=localhost $dirs
+        fi
