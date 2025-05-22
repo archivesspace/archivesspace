@@ -54,7 +54,7 @@ class LargeTree
 
   include JSONModel
 
-  WAYPOINT_SIZE = 200
+  WAYPOINT_SIZE = 20
 
   def initialize(root_record, opts = {})
     @decorators = []
