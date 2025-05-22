@@ -12,3 +12,26 @@ uk:
     toggle_navigation: Перемикання навігації
   search_results:
     filtered_by: Відфільтровано за
+  agent_gender:
+    _singular: Стать
+  agent_place:
+    _singular: Місце
+    _plural: Місця
+  agent_occupation:
+    _singular: Професія
+    _plural: Професії
+  agent_topic:
+    _singular: Тема
+    _plural: Теми
+  agent_record_identifier:
+    source: Джерело
+    primary_identifier: Чи є основним ідентифікатором?
+    record_identifier: Ідентифікатор запису
+  agent_function:
+    _plural: Функції
+    _singular: Функція
+  agent_identifier:
+    identifier_type: Тип ідентифікатора
+  agent_resource:
+    _singular: Пов'язаний зовнішній ресурс
+    _plural: Пов’язані зовнішні ресурси
