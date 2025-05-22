@@ -19,26 +19,12 @@ describe 'Collection Organization', js: true do
       title: 'This is not a mixed content title',
       publish: true
     )
-    @ao3 = create(:archival_object,
-      title: "Parent Archival Object #{Time.now}",
-      resource: {'ref' => @resource.uri},
-      publish: true
-    )
+    @ao3 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
+    @ao4 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
+    @ao5 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
+    @ao6 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
     @do = create(:digital_object, publish: true)
-    @doc = create(:digital_object_component,
-      publish: true,
-      digital_object: { ref: @do.uri }
-    )
-    201.times do |i|
-      # `WAYPOINT_SIZE = 200` defined in `backend/app/model/large_tree.rb`
-      create(:archival_object,
-        title: "Child AO #{i + 1}",
-        resource: {'ref' => @resource.uri},
-        parent: {'ref' => @ao3.uri},
-        publish: true
-      )
-    end
-
+    @doc = create(:digital_object_component, publish: true, digital_object: { ref: @do.uri })
     run_indexers
   end
 
@@ -67,10 +53,125 @@ describe 'Collection Organization', js: true do
   end
 
   describe 'Infinite Tree sidebar' do
-    context 'when there is a URI fragment pointing to a child node' do
-      it 'should show the node after page load' do
-        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization#archival_object_#{@ao3.id}"
-        expect(page).to have_css(".infinite-tree-sidebar #archival_object_#{@ao3.id}")
+    before(:all) do
+      set_repo(@repo)
+
+      801.times do |i|
+        # `WAYPOINT_SIZE = 200` defined in `backend/app/model/large_tree.rb`
+        instance_variable_set("@ao#{i + 1}_of_ao3", create(:archival_object,
+          resource: {'ref' => @resource.uri},
+          parent: {'ref' => @ao3.uri},
+          publish: true
+        ))
+      end
+
+      401.times do |i|
+        instance_variable_set("@ao#{i + 1}_of_ao4", create(:archival_object,
+          resource: {'ref' => @resource.uri},
+          parent: {'ref' => @ao4.uri},
+          publish: true
+        ))
+      end
+
+      201.times do |i|
+        instance_variable_set("@ao#{i + 1}_of_ao5", create(:archival_object,
+          resource: {'ref' => @resource.uri},
+          parent: {'ref' => @ao5.uri},
+          publish: true
+        ))
+      end
+
+      @ao1_of_ao6 = create(:archival_object,
+        resource: {'ref' => @resource.uri},
+        parent: {'ref' => @ao6.uri},
+        publish: true
+      )
+
+      run_indexers
+    end
+
+    context 'on page load with a URI fragment referencing a child record' do
+      def node_in_tree_viewport?(node)
+        tree = find('#infinite-tree-container')
+        tree_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', tree)
+        node_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', node)
+        node_top_in_view = node_rect['top'] >= tree_rect['top'] && node_rect['top'] <= tree_rect['bottom']
+        node_bottom_in_view = node_rect['bottom'] >= tree_rect['top'] && node_rect['bottom'] <= tree_rect['bottom']
+
+        node_top_in_view && node_bottom_in_view
+      end
+
+      def verify_batch_rendering(node_var, expected_node_count, batch_placeholders)
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization#tree::archival_object_#{instance_variable_get(node_var).id}"
+        wait_for_jquery
+        node = find("#archival_object_#{instance_variable_get(node_var).id}.current")
+        parent_list = node.find(:xpath, '..')
+        expect(parent_list).to have_css('.node', count: expected_node_count)
+        if batch_placeholders.length > 0
+          expect(parent_list).to have_css('[data-batch-placeholder]', count: batch_placeholders.length, visible: false)
+          batch_placeholders.each do |batch_num|
+            expect(parent_list).to have_css("[data-batch-placeholder='#{batch_num}']", visible: false)
+          end
+        else
+          expect(parent_list).to_not have_css('[data-batch-placeholder]')
+        end
+      end
+
+      it 'should show the child' do
+        random_ao = rand(1..801)
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization#tree::archival_object_#{instance_variable_get("@ao#{random_ao}_of_ao3").id}"
+        node = find("#archival_object_#{instance_variable_get("@ao#{random_ao}_of_ao3").id}.current")
+        expect(node_in_tree_viewport?(node)).to be true
+      end
+
+      context 'when a parent node has 4 or more batches of children' do
+        it "should show 2 batches when the node is in its parent's first batch" do
+          verify_batch_rendering('@ao50_of_ao3', 400, [2, 3, 4])
+        end
+
+        context 'should show 3 batches'do
+          it "when the node is in its parent's last batch" do
+            verify_batch_rendering('@ao801_of_ao3', 401, [1, 2])
+          end
+
+          it "when the node is in its parent's second batch" do
+            verify_batch_rendering('@ao201_of_ao3', 600, [3, 4])
+          end
+        end
+
+        it "should show 4 batches when the node is in a batch between its parent's third and second to last batches" do
+          verify_batch_rendering('@ao401_of_ao3', 800, [4])
+        end
+      end
+
+      context 'when a parent node has 3 batches of children' do
+        it "should show 2 batches when the node is in its parent's first batch" do
+          verify_batch_rendering('@ao1_of_ao4', 400, [2])
+        end
+
+        it "should show 3 batches when the node is in its parent's second batch" do
+          verify_batch_rendering('@ao202_of_ao4', 401, [])
+        end
+
+        it "should show 3 batches when the node is in its parent's last batch" do
+          verify_batch_rendering('@ao401_of_ao4', 401, [])
+        end
+      end
+
+      context 'when a parent node has 2 batches of children' do
+        it "should show 2 batches when the node is in its parent's first batch" do
+          verify_batch_rendering('@ao1_of_ao5', 201, [])
+        end
+
+        it "should show 2 batches when the node is in its parent's last batch" do
+          verify_batch_rendering('@ao201_of_ao5', 201, [])
+        end
+      end
+
+      context 'when a parent node has 1 batch of children' do
+        it 'should show 1 batch of siblings' do
+          verify_batch_rendering('@ao1_of_ao6', 1, [])
+        end
       end
     end
 
@@ -294,52 +395,69 @@ describe 'Collection Organization', js: true do
     end
 
     describe 'parent nodes' do
-      before(:all) do
-        @parent_HTML_id = "archival_object_#{@ao3.id}"
+      before(:each) do
+        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        @container = page.find('#infinite-tree-container')
+        @ao3_node = page.find("#archival_object_#{@ao3.id}")
       end
 
       it 'are collapsed by default' do
-        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        expect(page).to have_css(".infinite-tree-sidebar ##{@parent_HTML_id}[aria-expanded='false']:last-child")
+        num_first_level_nodes = page.all('#infinite-tree .root.node > .node-children > .node').count
+        num_all_nodes = page.all('#infinite-tree .root.node .node').count
+        expect(num_first_level_nodes).to eq num_all_nodes
+
+        [@ao3, @ao4, @ao5, @ao6].each do |parent|
+          node = page.find("#archival_object_#{parent.id}")
+          expect(node['aria-expanded']).to eq "false"
+          expect(node['data-has-expanded']).to eq "false"
+          expect(node).to have_css('.node-expand-icon:not(.expanded)')
+        end
       end
 
-      it 'are expanded then collapsed by clicking the "expand" button' do
-        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        expect(page).not_to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-row .node-expand-icon.expanded")
-        expect(page).not_to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-children")
-        ao3_expand = page.find("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-row .node-expand")
-        ao3_expand.click
-        expect(page).to have_css("##{@parent_HTML_id}.node[aria-expanded='true'] > .node-row .node-expand-icon.expanded")
-        expect(page).to have_css("##{@parent_HTML_id}.node[aria-expanded='true'] > .node-children > .node", count: 200, visible: true)
-        ao3_expand.click
-        expect(page).not_to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-row .node-expand-icon.expanded")
-        expect(page).to have_css("##{@parent_HTML_id}.node[aria-expanded='false'] > .node-children > .node", count: 200, visible: false)
+      it 'are expanded and collapsed by clicking the "expand" button' do
+        @ao3_node.find('.node-expand').click
+        expect(@ao3_node['aria-expanded']).to eq "true"
+        expect(@ao3_node['data-has-expanded']).to eq "true"
+        expect(@ao3_node).to have_css('.node-expand-icon.expanded')
+        expect(@ao3_node).to have_css('& > .node-children > .node', count: 200, visible: true)
+
+        @ao3_node.find('.node-expand').click
+        expect(@ao3_node['aria-expanded']).to eq "false"
+        expect(@ao3_node['data-has-expanded']).to eq "true"
+        expect(@ao3_node).to have_css('.node-expand-icon:not(.expanded)')
+        expect(@ao3_node).to have_css('& > .node-children > .node', count: 200, visible: false)
       end
 
       it 'children are loaded in "batches" on scroll when the parent has more children than the configured batch size' do
-        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        container = page.find('.infinite-tree-sidebar')
-        container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[aria-expanded='false']:last-child .node-expand").click
-        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 200)
-        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > [data-batch-placeholder='1']:last-child", visible: false)
-        observer_node = page.find('[data-observe-next-batch="true"]')
-        container.scroll_to(observer_node, align: :center)
+        @ao3_node.find('.node-expand').click
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 204, visible: :all)
+        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 200, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > li:nth-last-child(-n+4)[data-batch-placeholder]', count: 4, visible: false)
 
-        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 201)
-        expect(page).not_to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > [data-batch-placeholder]", visible: false)
+        observer_node = @ao3_node.find('[data-observe-next-batch="true"]')
+        @container.scroll_to(observer_node, align: :center)
+
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 403, visible: :all)
+        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 400, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > li:nth-last-child(-n+3)[data-batch-placeholder]', visible: false)
       end
 
       it 'hide all children when collapsed' do
-        visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
-        container = page.find('.infinite-tree-sidebar')
-        ao_expand = container.find(".infinite-tree-sidebar ##{@parent_HTML_id}[aria-expanded='false']:last-child .node-expand")
-        ao_expand.click
-        observer_node = page.find('[data-observe-next-batch="true"]')
-        container.scroll_to(observer_node, align: :center)
+        @ao3_node.find('.node-expand').click
 
-        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 201, visible: true)
-        ao_expand.click
-        expect(page).to have_css(".node-children[data-parent-id='#{@parent_HTML_id}'] > .node", count: 201, visible: false)
+        observer_node_1 = @ao3_node.find('[data-observe-offset="1"]')
+        @container.scroll_to(observer_node_1, align: :center)
+        observer_node_2 = @ao3_node.find('[data-observe-offset="2"]')
+        @container.scroll_to(observer_node_2, align: :center)
+        observer_node_3 = @ao3_node.find('[data-observe-offset="3"]')
+        @container.scroll_to(observer_node_3, align: :center)
+        observer_node_4 = @ao3_node.find('[data-observe-offset="4"]')
+        @container.scroll_to(observer_node_4, align: :center)
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 801, visible: true)
+        expect(@ao3_node).not_to have_css('& > .node-children > [data-batch-placeholder]')
+
+        @ao3_node.find('.node-expand').click
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 801, visible: false)
       end
     end
   end
