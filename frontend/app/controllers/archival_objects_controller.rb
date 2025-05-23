@@ -71,9 +71,15 @@ class ArchivalObjectsController < ApplicationController
                   resource = @archival_object['resource']['_resolved']
                   parent = @archival_object['parent'] ? @archival_object['parent']['_resolved'] : false
 
+                  resource_display_title = MultipleTitlesHelper.determine_primary_title(resource['titles'], I18n.locale)
                   success_message = @archival_object.parent ?
-                                      t("archival_object._frontend.messages.created_with_parent", archival_object_display_string: @archival_object.title, parent_display_string: parent['title'], resource_title: resource['title']) :
-                                      t("archival_object._frontend.messages.created", archival_object_display_string: @archival_object.title, resource_title: resource['title'])
+                                      t("archival_object._frontend.messages.created_with_parent",
+                                        archival_object_display_string: @archival_object.display_string,
+                                        parent_display_string: MultipleTitlesHelper.determine_primary_title(parent['titles'], I18n.locale),
+                                        resource_title: resource_display_title) :
+                                      t("archival_object._frontend.messages.created",
+                                        archival_object_display_string: @archival_object.display_string,
+                                        resource_title: resource_display_title)
                   if params.has_key?(:plus_one)
                     flash[:success] = success_message
                   else
