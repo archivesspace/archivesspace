@@ -85,7 +85,7 @@ module Factories
       end
 
       factory :resource, class: JSONModel(:resource) do
-        title { generate(:resource_title) }
+        titles { [build(:title, title: title)] }
         id_0 { generate(:generic_id) }
         id_1 { generate(:generic_id) }
         extents { [build(:extent)] }
@@ -94,6 +94,14 @@ module Factories
         lang_materials { [build(:json_lang_material)] }
         finding_aid_language { 'eng' }
         finding_aid_script { 'Latn' }
+
+        transient do
+          title { generate(:generic_title) }
+        end
+      end
+
+      factory :title, class: JSONModel(:title) do
+        title { generate(:generic_title) }
       end
 
       factory :extent, class: JSONModel(:extent) do
@@ -111,9 +119,14 @@ module Factories
       end
 
       factory :archival_object, class: JSONModel(:archival_object) do
+        titles { [build(:title, title: title)] }
         ref_id { generate(:ref_id) }
         level { 'item' }
         lang_materials { [build(:json_lang_material)] }
+
+        transient do
+          title { generate(:generic_title) }
+        end
       end
 
       factory :digital_object, class: JSONModel(:digital_object) do

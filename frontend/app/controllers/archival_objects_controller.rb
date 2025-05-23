@@ -22,6 +22,7 @@ class ArchivalObjectsController < ApplicationController
       flash[:success] = t("archival_object._frontend.messages.duplicated", archival_object_display_string: clean_mixed_content(@archival_object.display_string))
     else
       @archival_object = ArchivalObject.new._always_valid!
+      @archival_object.titles = [{title: ""}]
       @archival_object.parent = {'ref' => ArchivalObject.uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
       @archival_object.resource = {'ref' => Resource.uri_for(params[:resource_id])} if params.has_key?(:resource_id)
       @archival_object.position = params[:position]
@@ -361,4 +362,11 @@ class ArchivalObjectsController < ApplicationController
       [type, t("#{type == 'archival_object' ? 'resource_component' : type}._singular")]
     }
   end
+
+  # Get the appropriate title to display based on language
+  def title_for_display
+    MultipleTitlesHelper.determine_primary_title(@archival_object.titles, I18n.locale)
+  end
+  helper_method :title_for_display
+
 end
