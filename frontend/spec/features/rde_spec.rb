@@ -19,7 +19,7 @@ describe 'RDE', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Rapid Data Entry'
     expect(page).to have_css '#rapidDataEntryModal'
@@ -57,8 +57,7 @@ describe 'RDE', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
     click_on 'Rapid Data Entry'
     expect(page).to have_css '#rapidDataEntryModal'
 
@@ -81,8 +80,7 @@ describe 'RDE', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
     click_on 'Rapid Data Entry'
     expect(page).to have_css '#rapidDataEntryModal'
 
@@ -109,8 +107,7 @@ describe 'RDE', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
     click_on 'Rapid Data Entry'
     expect(page).to have_css '#rapidDataEntryModal'
 
@@ -150,8 +147,7 @@ describe 'RDE', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
     click_on 'Rapid Data Entry'
     expect(page).to have_css '#rapidDataEntryModal'
 
@@ -209,8 +205,7 @@ describe 'RDE', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
     click_on 'Rapid Data Entry'
 
     expect(page).to have_css '#rapidDataEntryModal'

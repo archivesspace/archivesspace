@@ -20,7 +20,7 @@ describe 'RDE Templates', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Rapid Data Entry'
 
@@ -104,7 +104,7 @@ describe 'RDE Templates', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Rapid Data Entry'
 
@@ -131,7 +131,7 @@ describe 'RDE Templates', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Rapid Data Entry'
 
@@ -164,7 +164,7 @@ describe 'RDE Templates', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Rapid Data Entry'
     click_on 'Remove Templates'
@@ -180,7 +180,7 @@ describe 'RDE Templates', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Rapid Data Entry'
 
