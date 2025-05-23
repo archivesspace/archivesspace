@@ -59,19 +59,26 @@ describe 'Archival objects', js: true do
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
 
-    expect(page).to have_text "Resource #{resource.title} updated"
+    expect(page).to have_text "Resource #{resource.titles[0]['title']} updated"
 
     elements = all('.alert-too-many')
     elements.each do |element|
       element.click
     end
 
-    [subjects, accessions, classifications, digital_objects].each do |entities|
+    [subjects, accessions, classifications].each do |entities|
       entities.each do |entity|
         element = find("##{entity[:uri].gsub('/', '_')}")
         expect(element.text).to match(/#{entity.title}/)
       end
     end
+
+
+    digital_objects.each do |entity|
+      element = find("##{entity[:uri].gsub('/', '_')}")
+      expect(element.text).to match(/#{entity.digital_object_id}/)
+    end
+
 
     linked_agents.each_with_index do |agent, index|
       element = find("#resource_linked_agents__#{index}__role_")
@@ -98,7 +105,7 @@ describe 'Archival objects', js: true do
 
     click_on 'Add Child'
 
-    expect(page).to have_css '#archival_object_title_'
+    expect(page).to have_css '#archival_object_titles__0__title_'
     expect(page).to have_css '#archival_object_level_'
     fill_in 'Title', with: "Archival Object Title #{now}"
     select 'Item', from: 'archival_object_level_'
@@ -108,10 +115,10 @@ describe 'Archival objects', js: true do
 
     expect(page).to have_text "Archival Object Archival Object Title #{now} on Resource Resource Title #{now} created"
 
-    %w[January February December].each do |month|
-      sleep 5
+    %w[January February December].each_with_index do |month, index|
+      wait_for_ajax
       expect(page).to have_text 'Archival Object'
-      expect(page).to have_css '#archival_object_title_'
+      expect(page).to have_css "#archival_object_titles___#{index}_title_"
       expect(page).to have_css '#archival_object_level_'
 
       fill_in 'Title', with: "Archival Object Title #{month} #{now}"
@@ -138,16 +145,15 @@ describe 'Archival objects', js: true do
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
     within '#tree-container' do
-      click_on archival_object.title
+      click_on archival_object.titles[0]['title']
     end
 
     expect(page).to have_css '.ui-resizable-handle.ui-resizable-s'
 
     fill_in 'archival_object_component_id_', with: 'unimportant change'
 
-
     within '#tree-container' do
-      click_on resource.title
+      click_on resource.titles[0]['title']
     end
 
     within '#saveYourChangesModal' do
@@ -155,7 +161,7 @@ describe 'Archival objects', js: true do
     end
 
     element = find('#form_resource')
-    expect(element).to have_text resource.title
+    expect(element).to have_text resource.titles[0]['title']
   end
 
   it 'reports warnings when updating an Archival Object with invalid data' do
@@ -169,7 +175,7 @@ describe 'Archival objects', js: true do
     element = find('#form_archival_object')
     expect(element).to have_text archival_object.title
 
-    fill_in 'archival_object_title_', with: ''
+    fill_in 'archival_object_titles__0__title_', with: ''
 
     # Click on save
     find('button', text: 'Save Archival Object', match: :first).click
@@ -192,10 +198,10 @@ describe 'Archival objects', js: true do
     element = find('#form_archival_object')
     expect(element).to have_text archival_object.title
 
-    element = find('#archival_object_title_')
+    element = find('#archival_object_titles__0__title_')
     expect(element.value).to eq archival_object.title
 
-    fill_in 'archival_object_title_', with: "Updated Archival Object Title #{now}"
+    fill_in 'archival_object_titles__0__title_', with: "Updated Archival Object Title #{now}"
 
     # Click on save
     find('button', text: 'Save Archival Object', match: :first).click
@@ -275,7 +281,7 @@ describe 'Archival objects', js: true do
     find('a', text: 'Edit', match: :first).click
 
     # Update the archival object
-    fill_in 'archival_object_title_', with: "Updated Archival Object Title #{now}"
+    fill_in 'archival_object_titles__0__title_', with: "Updated Archival Object Title #{now}"
 
     # Click on save
     find('button', text: 'Save Archival Object', match: :first).click
@@ -410,7 +416,7 @@ describe 'Archival objects', js: true do
     # Confirm that this hasn't unpublished the resource
     visit "resources/#{resource.id}/edit"
     element = find('h2')
-    expect(element).to have_text "#{resource.title}"
+    expect(element).to have_text "#{resource.titles[0]['title']}"
     element = find('#resource_publish_')
     expect(element.checked?).to eq(true)
 
