@@ -1,1 +1,155 @@
 uk:
+  help:
+    topics:
+      bulk_archival_object_updater_job: Довідка щодо масового оновлення архівних об'єктів
+      archival_object_dates: Допомога з датами
+      archival_object_basic_information: Довідка з основної інформації
+      archival_object_extents: Довідка щодо екстентів
+      archival_object_finding_aid: Допомога у пошуку допомоги
+      archival_object_related_accessions: Довідка щодо пов'язаних приєднань
+      archival_object_linked_agents: Довідка щодо посилань агентів
+      archival_object_subjects: Допомога з предметів
+      archival_object_notes: Довідка щодо нотаток
+      archival_object_external_documents: Довідка щодо зовнішніх документів
+      archival_object_rights_statements: Довідка щодо заяв про права
+      archival_object_instances: Довідка щодо екземплярів
+      archival_object_deaccessions: Допомога з питань вилучення
+      archival_object_collection_management: Допомога з управління колекціями
+      archival_object_classification: Довідка з класифікацій
+      archival_object_user_defined: Довідка щодо визначених користувачем
+      digital_object: Довідка щодо цифрового об'єкта
+      digital_object_basic_information: Довідка з основної інформації
+      digital_object_dates: Допомога з датами
+      digital_object_extents: Довідка щодо екстентів
+      digital_object_finding_aid: Допомога у пошуку допомоги
+      digital_object_related_accessions: Довідка щодо пов'язаних приєднань
+      digital_object_linked_agents: Довідка щодо посилань агентів
+      digital_object_subjects: Help on Subjects
+      digital_object_notes: Довідка щодо нотаток
+      digital_object_external_documents: Довідка щодо зовнішніх документів
+      digital_object_rights_statements: Довідка щодо заяв про права
+      digital_object_instances: Довідка щодо екземплярів
+      digital_object_deaccessions: Допомога з питань вилучення
+      digital_object_collection_management: Допомога з управління колекціями
+      digital_object_classification: Довідка з класифікацій
+      digital_object_user_defined: Довідка щодо визначених користувачем
+      digital_object_metadata_rights_declarations: Довідка щодо декларацій прав на метадані
+      digital_object_component: Довідка щодо компонентів цифрових об'єктів
+      digital_object_component_basic_information: Довідка з основної інформації
+      digital_object_component_dates: Допомога з датами
+      digital_object_component_subjects: Допомога з предметів
+      digital_object_component_notes: Довідка щодо нотаток
+      digital_object_component_external_documents: Довідка щодо зовнішніх документів
+      digital_object_component_rights_statements: Довідка щодо заяв про права
+      digital_object_component_instances: Довідка щодо екземплярів
+      digital_object_component_deaccessions: Допомога з питань вилучення
+      digital_object_component_collection_management: Допомога з управління колекціями
+      digital_object_component_classification: Довідка з класифікацій
+      digital_object_component_user_defined: Довідка щодо визначених користувачем
+      subject: Допомога з предметів
+      subject_basic_information: Довідка з основної інформації
+      subject_terms: Довідка щодо термінів та підрозділів
+      subject_external_documents: Довідка щодо зовнішніх документів
+      agent_person: Довідка щодо осіб (агент)
+      agent_person_dates_of_existence: Довідка щодо дат існування
+      agent_person_names: Допомога з іменами
+      agent_person_contact_details: Довідка щодо контактної інформації
+      agent_person_notes: Довідка щодо нотаток
+      agent_person_related_agents: Довідка щодо пов'язаних агентів
+      agent_person_external_documents: Довідка щодо зовнішніх документів
+      agent_family: Допомога з питань сім'ї (агент)
+      agent_family_dates_of_existence: Довідка щодо дат існування
+      agent_family_notes: Довідка щодо нотаток
+      agent_family_names: Допомога з іменами
+      agent_family_contact_details: Довідка щодо контактної інформації
+      agent_family_related_agents: Довідка щодо пов'язаних агентів
+      agent_family_external_documents: Довідка щодо зовнішніх документів
+      agent_corporate_entity: Довідка щодо юридичної особи (агента)
+      agent_software_contact_details: Довідка щодо контактної інформації
+      agent_software_related_agents: Довідка щодо пов'язаних агентів
+      agent_software_external_documents: Довідка щодо зовнішніх документів
+      agent_sources: Довідка щодо джерел агентів
+      agent_maintenance_histories: Довідка щодо історії обслуговування агентів
+      agent_other_agency_codes: Довідка щодо інших кодів агентств
+      agent_conventions_declarations: Довідка щодо декларацій конвенцій агентів
+      agent_alternate_sets: Довідка щодо альтернативних наборів агентів
+      agent_record_controls: Довідка щодо елементів керування записами агентів
+      agent_identifiers: Довідка щодо ідентифікаторів об'єктів
+      agent_genders: Довідка щодо гендерних питань
+      agent_place: Довідка щодо Місць
+      agent_occupation: Допомога з питань професій
+      agent_function: Довідка щодо функцій
+      agent_topic: Допомога з тем
+      agent_used_language: Довідка щодо вживаної мови
+      agent_external_documents: Довідка щодо зовнішніх документів
+      agent_external_resources: Довідка щодо пов'язаних зовнішніх ресурсів
+      agent_related_agents: Довідка щодо пов'язаних агентів
+      agent_required: Довідка щодо редагування обов'язкових полів
+      agent_merge: Допомога щодо об'єднання агентів
+      location: Довідка щодо місцезнаходження
+      event_basic_information: Довідка з основної інформації
+      event_date: Довідка щодо дати/часу події
+      event_linked_agents: Довідка щодо посилань агентів
+      event_linked_records: Довідка щодо посилань на записи
+      classification: Довідка з класифікацій
+      accession: Допомога з приєднаннями
+      accession_basic_information: Довідка з основної інформації
+      accession_dates: Допомога з датами
+      accession_related_resources: Довідка щодо пов'язаних ресурсів
+      accession_linked_agents: Довідка щодо посилань агентів
+      accession_subjects: Допомога з предметів
+      accession_external_documents: Довідка щодо зовнішніх документів
+      accession_rights_statements: Довідка щодо заяв про права
+      accession_deaccessions: Допомога з питань вилучення
+      accession_instances: Довідка щодо екземплярів
+      accession_collection_management: Допомога з управління колекціями
+      accession_classification: Довідка з класифікацій
+      accession_user_defined: Довідка щодо визначених користувачем
+      accession_metadata_rights_declarations: Довідка щодо декларацій прав на метадані
+      resource: Довідка щодо ресурсів
+      resource_basic_information: Довідка з основної інформації
+      resource_dates: Допомога з датами
+      resource_extents: Довідка щодо екстентів
+      resource_finding_aid: Допомога у пошуку допомоги
+      resource_related_accessions: Довідка щодо пов'язаних приєднань
+      resource_linked_agents: Довідка щодо посилань агентів
+      resource_subjects: Допомога з предметів
+      resource_notes: Довідка щодо нотаток
+      resource_external_documents: Довідка щодо зовнішніх документів
+      resource_rights_statements: Довідка щодо заяв про права
+      resource_instances: Довідка щодо екземплярів
+      resource_deaccessions: Допомога з питань вилучення
+      resource_collection_management: Допомога з управління колекціями
+      resource_metadata_rights_declarations: Довідка щодо декларацій прав на метадані
+      resource_user_defined: Довідка щодо визначених користувачем
+      resource_load_via_spreadsheet: Довідка щодо завантаження через електронну таблицю
+      archival_object: Довідка щодо архівних об'єктів
+      resource_classification: Довідка з класифікацій
+      digital_object_component_finding_aid: Допомога у пошуку допомоги
+      digital_object_component_related_accessions: Довідка щодо пов'язаних приєднань
+      digital_object_component_linked_agents: Довідка щодо посилань агентів
+      agent_corporate_entity_dates_of_existence: Довідка щодо дат існування
+      agent_corporate_entity_names: Допомога з іменами
+      agent_corporate_entity_contact_details: Довідка щодо контактної інформації
+      agent_corporate_entity_notes: Довідка щодо нотаток
+      agent_corporate_entity_related_agents: Довідка щодо пов'язаних агентів
+      agent_corporate_entity_external_documents: Довідка щодо зовнішніх документів
+      agent_software: Допомога з програмним забезпеченням (Агент)
+      agent_software_dates_of_existence: Довідка щодо дат існування
+      agent_software_names: Допомога з іменами
+      agent_software_notes: Довідка щодо нотаток
+      repository_groups: Допомога з управління групами
+      repository_users: Довідка щодо призначення групи користувачів
+      classification_term: Довідка з класифікацій
+      repository: Допомога з управління репозиторіями
+      user: Довідка з керування користувачами
+      enumeration: Довідка щодо списків контрольованих значень
+      import: Довідка з імпорту даних
+      search: Допомога з пошуку та перегляду
+      preference: Довідка щодо налаштувань
+      accession_extents: Довідка з основної інформації
+      event: Допомога з подіями
+      digital_object_component_extents: Довідка щодо екстентів
+      agent_record_identifiers: Довідка щодо ідентифікаторів записів агентів
+    help_center: АрхівзСпєс Довідковий Центр
+    default_tooltip: АрхівзСпєс Довідковий Центр
