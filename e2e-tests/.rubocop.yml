@@ -2,6 +2,8 @@
 
 AllCops:
   NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
 
 Metrics/AbcSize:
   Max: 50

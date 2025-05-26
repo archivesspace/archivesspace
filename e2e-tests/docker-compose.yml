@@ -1,8 +1,9 @@
-version: "3"
+name: e2e-tests
+
 services:
-  app:
+  e2e-app:
     image: archivesspace/archivesspace:latest
-    container_name: archivesspace
+    container_name: e2e-app
     restart: on-failure
     ports:
       - "8080:8080"
@@ -11,13 +12,13 @@ services:
       - "8089:8089"
       - "8090:8090"
     depends_on:
-      - db
-      - solr
+      - e2e-db
+      - e2e-solr
     environment:
-      APPCONFIG_DB_URL: "jdbc:mysql://db:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true"
+      APPCONFIG_DB_URL: "jdbc:mysql://e2e-db:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false&allowPublicKeyRetrieval=true"
       APPCONFIG_FRONTEND_PROXY_URL: "http://localhost:8080"
       APPCONFIG_PUBLIC_PROXY_URL: "http://localhost:8081"
-      APPCONFIG_SOLR_URL: "http://solr:8983/solr/archivesspace"
+      APPCONFIG_SOLR_URL: "http://e2e-solr:8983/solr/archivesspace"
       ASPACE_DB_MIGRATE: true
       ASPACE_JAVA_XMX: "-Xmx2048m"
       JAVA_OPTS: "-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xss1024k -Djavax.accessibility.assistive_technologies=''"
@@ -25,12 +26,11 @@ services:
       DB_NAME: archivesspace
       DB_USER: as
       DB_PASS: as123
-      SOLR_URL: http://solr:8983/solr/archivesspace
-  db:
+  e2e-db:
     image: mysql:8
     cap_add:
       - SYS_NICE
-    container_name: mysql
+    container_name: e2e-db
     command: --character-set-server=utf8 --collation-server=utf8_unicode_ci --innodb_buffer_pool_size=1G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
       - "3306:3306"
@@ -39,8 +39,11 @@ services:
       MYSQL_DATABASE: archivesspace
       MYSQL_USER: as
       MYSQL_PASSWORD: as123
-  solr:
+    # volumes: # TODO: initialize with a migrated default database to avoid running all migrations every time
+    #   - ../demo.sql:/docker-entrypoint-initdb.d/demo.sql
+  e2e-solr:
     image: archivesspace/solr:latest
+    container_name: e2e-solr
     command: solr-create -p 8983 -c archivesspace -d archivesspace
     environment:
       SOLR_JAVA_MEM: "-Xms2g -Xmx2g"
