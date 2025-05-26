@@ -8,6 +8,8 @@ describe 'Groups', js: true do
     @repository_to_manage = create(:repo, repo_code: "groups_test_manage_#{Time.now.to_i}")
     @repository_to_view = create(:repo, repo_code: "groups_test_view_#{Time.now.to_i}")
     @user = create_user
+
+    run_index_round
   end
 
   it 'can assign a user to the archivist group' do
