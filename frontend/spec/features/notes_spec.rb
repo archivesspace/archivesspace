@@ -402,7 +402,7 @@ describe 'Notes', js: true do
     click_on 'Create'
     click_on 'Resource'
 
-    fill_in 'resource_title_', with: "Resource Title #{now}"
+    fill_in 'resource_titles__0__title_', with: "Resource Title #{now}"
     fill_in 'resource_id_0_', with: "1 #{now}"
     fill_in 'resource_id_1_', with: "2 #{now}"
     fill_in 'resource_id_2_', with: "3 #{now}"
@@ -436,7 +436,7 @@ describe 'Notes', js: true do
 
     click_on 'Add Child'
 
-    fill_in 'archival_object_title_', with: "Archival Object Title #{now}"
+    fill_in 'archival_object_titles__0__title_', with: "Archival Object Title #{now}"
     select 'Item', from: 'archival_object_level_'
 
     element = find('#notes .add-note')

@@ -142,8 +142,12 @@ module Factories
       end
 
       factory :digital_object_component, class: JSONModel(:digital_object_component) do
+        titles { [build(:title, title: title)] }
         component_id { generate(:alphanumstr) }
-        title { generate :digital_object_component_title }
+
+        transient do
+          title { generate(:digital_object_component_title) }
+        end
       end
 
       factory :instance_digital, class: JSONModel(:instance) do
