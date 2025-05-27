@@ -22,20 +22,20 @@ concurrency:
 
 jobs:
   cucumber_a_g:
-    name: Run Tests Group A - G
+    name: Run Tests Group A - B
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
       run-cmd: |
-        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[a-g]*' | tr '\n' ' ')
+        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[a-b]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
           bundle exec cucumber --strict HEADLESS=true HOST=localhost $dirs
         fi
   cucumber_h_m:
-    name: Run Tests Group H - M
+    name: Run Tests Group C - M
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
       run-cmd: |
-        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[h-m]*' | tr '\n' ' ')
+        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[c-m]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
           bundle exec cucumber --strict HEADLESS=true HOST=localhost $dirs
         fi

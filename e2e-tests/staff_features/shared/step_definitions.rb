@@ -88,7 +88,7 @@ When 'the user clicks on {string} in the dropdown menu' do |string|
     elements = dropdown_menu.all(:xpath, ".//*[contains(text(), '#{string}')]")
 
     elements.each do |element|
-      if (element.tag_name == 'button' || element.tag_name == 'a' || element.tag_name == 'span') && element.text == string
+      if %w[button a span].include?(element.tag_name) && element.text == string
         element.click
         break
       end
