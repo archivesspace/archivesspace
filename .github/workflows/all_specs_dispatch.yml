@@ -24,6 +24,8 @@ on:
         default: 'firefox'
 
   pull_request:
+    branches:
+      - '**'
     paths-ignore:
       - 'e2e-tests/**'
 
