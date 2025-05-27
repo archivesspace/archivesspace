@@ -758,7 +758,7 @@ it:
       local: Locale
       oclc: OCLC
     agent_contact_salutation:
-      madame: Madame
+      madame: Madama
       mr: Sig.
       mrs: Sig.ra
       ms: Sig.ra
@@ -811,8 +811,544 @@ it:
       fast: 'Faceted Application of Subject Terminology (Dublin, Ohio: OCLC)'
     date_label:
       deaccession: Deaccessione
+      copyright: Diritto d'autore
+      creation: Creazione
+      broadcast: Trasmissione
+      digitized: Digitalizzato
+      event: Evento
+      existence: Esistenza
+      other: Altro
+      publication: Pubblicazione
+      usage: Uso
+      acquisition: Acquisizione
+      issued: Emesso
+      modified: Modificato
     event_event_type:
       deaccession: Deaccessione
+      agreement_received: Accordo ricevuto
+      agreement_sent: Accordo inviato
+      appraisal: Valutazione
+      agreement_signed: Accordo firmato
+      collection: Collezione
+      compression: Compressione
+      contribution: Contributo
+      copyright_transfer: Trasferimento del copyright
+      custody_transfer: Trasferimento della custodia
+      deletion: Eliminazione
+      decompression: Decompressione
+      decryption: Decriptazione
+      normalization: Normalizzazione
+      processed: Processato
+      migration: Migrazione
+      replication: Riproduzione
+      publication: Pubblicazione
+      request: ''
+      cataloged: Catalogato
+      digital_signature_validation: Convalida della firma digitale
+      validation: Convalida
+      virus_check: Ispezione per i virus
+    level_of_detail:
+      not_applicable: Non applicabile
+      preliminary: Preliminare
+      provisional: Provvisorio
+    linked_agent_archival_record_relators:
+      acp: Copista d'arte
+      abr: Compendiatore
+      act: Attore
+      ant: Antecedente bibliografico
+      arr: Arrangiatore
+      asg: Assegnatario
+      ato: Autografatore
+      art: Artista
+      aus: Autore della sceneggiatura, ecc.
+      aut: Autore
+      bdd: Designer della rilegatura
+      bjd: Designer della sovraccoperta
+      brd: Annunciatore
+      chr: Coreografo
+      clb: Collaboratore
+      cli: Cliente
+      cll: Calligrafo
+      clr: Colorista
+      clt: Collotipista
+      cmm: Commentatore
+      cmp: Compositore (musica)
+      cmt: Compositore (tipografia)
+      col: Collezionista
+      com: Compilatore
+      cph: Titolare dei diritti d'autore
+      csp: Consulente di progetto
+      csl: Consulente
+      cst: Costumista
+      asn: Nome associato
+      adp: Adattatore
+      aft: Autore di postfazione, colophon, ecc.
+      anl: Analista
+      adi: Art director
+      anm: Animatore
+      ann: Annotatore
+      ape: Appellato
+      apl: Appellante
+      app: Richiedente
+      arc: Architetto
+      ard: Direttore artistico
+      att: Nome attribuito
+      auc: Banditore d'asta
+      aud: Autore del dialogo
+      aui: Autore dell'introduzione, ecc.
+      blw: Scrittore del soffietto editoriale
+      bnd: Rilegatore
+      brl: Goffratore braille
+      bsl: Libraio
+      cnd: Direttore d'orchestra
+      cng: Direttore della fotografia
+      cns: Censore
+      cor: Archivista / Registrar della collezione
+      cos: Opponente
+      cpl: Querelante / Denunciante
+      cov: Designer della coperta
+      cpc: Richiedente il diritto d'autore
+      cre: Creatore
+      crp: Corrispondente
+      crr: Correttore
+      crt: Stenografo della corte
+      bkd: Designer del libro
+      bkp: Produttore del libro
+      bpd: Designer dell'ex-libris
+      cas: Fonditore
+      ccp: Ideatore
+      coe: Impugnato (appellato)
+      cte: Resistente-appellato
+      ctb: Contributore
+      ctg: Cartografo
+      ctr: Contraente
+      dfd: Imputato
+      dfe: Imputato-appellato
+      dft: Imputato-appellante
+      dln: Delineatore
+      dnc: Ballerino
+      eng: Ingegnere
+      elt: Elettrotipista / Galvanotipista
+      fac: Facsimilista
+      fds: Distributore del film
+      fmp: Produttore del film
+      fnd: Finanziatore / Mecenate
+      frg: Falsario / Falsificatore
+      gis: Specialista di informazioni territoriali
+      led: Capo
+      jud: Giudice
+      mrk: Curatore del markup
+      mrb: Marmorizzatore
+      rse: Convenuto-appellato
+      dpc: Raffigurato
+      dis: Autore della dissertazione
+      dgs: Supervisore di titolo accademico
+      dnr: Donatore
+      pte: Parte civile appellata
+      fmo: Possessore precedente
+      aqt: Autore in citazioni o estratti
+      con: Conservatore
+      cou: Corte governata
+      cts: Resistente
+      ctt: Resistente-appellante
+      cot: Impugnante (appellante)
+      cpe: Ricorrente (appellato)
+      cpt: Ricorrente (appellante)
+      cur: Curatore di mostra
+      cwt: Commentatore di testo scritto
+      dbp: Luogo di distribuzione
+      dgg: Conferitore di titolo accademico
+      dpt: Depositante
+      drm: Progettista
+      drt: Regista
+      dsr: Designer
+      dst: Distributore
+      dtc: Fornitore di dati
+      dte: Dedicatario
+      dub: Autore incerto
+      dtm: Gestore dei dati
+      dto: Dedicante
+      edc: Curatore della raccolta
+      edm: Curatore di opera filmica
+      edt: Curatore
+      egr: Incisore
+      elg: Elettricista
+      enj: Giurisdizione emanante
+      etr: Incisore / Acquafortista
+      evp: Luogo dell'evento
+      exp: Valutatore / Perito
+      fld: Direttore della campagna
+      flm: Montatore di film
+      fmd: Regista del film
+      fmk: Regista indipendente / Cineasta
+      fpy: Cedente
+      grt: Grafico / Artista
+      his: Istituzione ospitante
+      hnr: Onorato (in memoria/onore di)
+      hst: Conduttore
+      ill: Illustratore
+      ilu: Miniatore / Miniaturista
+      lee: Calunniato-appellato
+      ins: Firmatario del dono
+      inv: Inventore
+      isb: Ente emittente
+      itr: Strumentista
+      ive: Intervistato
+      ivr: Intervistatore
+      jug: Giurisdizione subordinata
+      lbr: Laboratorio
+      lbt: Librettista
+      ldr: Direttore di laboratorio
+      let: Calunniato-appellante
+      lie: Chiamante in causa per calunnia-appellato
+      lit: Chiamante in causa per calunnia-appellante
+      lel: Calunniato
+      len: Prestatore
+      lgd: Designer delle luci
+      lil: Chiamante in causa per calunnia
+      lsa: Architetto paesaggista
+      lse: Licenziatario
+      lso: Licenziatore
+      ltg: Litografo
+      lyr: Autore del testo della musica / Paroliere / Autore della lirica
+      mcp: Copista di musica
+      mdc: Elaboratore dei metadati
+      med: Medium
+      mfp: Luogo di manifattura
+      mfr: Manifattore
+      mod: Moderatore
+      mon: Garante
+      msd: Direttore artistico musicale
+      mte: Incisore su metallo
+      mtk: Verbalizzatore
+      mus: Musicista
+      nrt: Narratore
+      opn: Controrelatore
+      org: Promotore / Autore dell'inchiesta
+      orm: Organizzatore della riunione
+      ptt: Parte civile appellante
+      rst: Convenuto-appellante
+    maintenance_event_type:
+      deleted: Eliminato
+      derived: Derivato
+      cancelled: Cancellato
+      created: Creato
+    _note_types:
+      appraisal: Valutazione
+    script_iso15924:
+      Adlm: Adlam
+      Bali: Balinese
+      Blis: Iconico Bliss
+      Bopo: Bopomofo (Zhuyin Fuhao)
+      Cakm: Chakma
+      Cari: Cario
+      Cham: Chăm
+      Cirt: Cirth
+      Cyrl: Cirillico
+      Cyrs: Cirillico arcaico (variante slavo ecclesiastico antico)
+      Egyd: Egiziano demotico
+      Elba: Elbasano
+      Egyp: Geroglifici egiziani
+      Elym: Elimaico
+      Geok: Khutsuri (Asomtavruli e Khutsuri)
+      Geor: Georgiano (Mkhedruli e Mtavruli)
+      Glag: Glagolitico
+      Goth: Gotico
+      Hani: Han (Hanzi, Kanji, Hanja)
+      Hano: Hanunoo (Hanunóo)
+      Hans: Han (variante semplificata)
+      Hmng: Pahawh Hmong
+      Hmnp: Nyiakeng Puachue Hmong
+      Hrkt: Sillabari giapponesi (alias per Hiragana + Katakana)
+      Hung: Ungherese antico (ungherese runico)
+      Ital: Italico antico (Etrusco, Osco, ecc.)
+      Khoj: Khojki
+      Kitl: Khitan (scrittura grande)
+      Kpel: Kpelle
+      Kthi: Kaithi
+      Lana: Tai Tham (Lanna)
+      Latg: Latino (variante Gaelica)
+      Latn: Latino
+      Laoo: Lao
+      Latf: Latino (variante Fraktur)
+      Lina: Lineare A
+      Leke: Leke
+      Lepc: Lepcha (Róng)
+      Limb: Limbu
+      Lydi: Lidio
+      Mani: Manicheo
+      Mahj: Mahajani
+      Maka: Makasar
+      Mand: Mandaico, Mandaeano
+      Marc: Marchen
+      Mero: Geroglifici Meroitici
+      Mlym: Malayalam
+      Modi: Modi, Moḍī
+      Mong: Mongolo
+      Moon: Moon (Codice Moon, Scrittura Moon, Tipo Moon)
+      Mroo: Mro, Mru
+      Mtei: Meitei Mayek (Meithei, Meetei)
+      Mult: Multani
+      Mymr: Myanmar (Birmano)
+      Nkdb: Naxi Dongba (na²¹ɕi³³ to³³ba²¹, Nakhi Tomba)
+      Nbat: Nabatean
+      Newa: Newa, Newar, Newari, Nepāla lipi
+      Nkgb: Naxi Geba (na²¹ɕi³³ gʌ²¹ba²¹, 'Na-'Khi ²Ggŏ-¹baw, Nakhi Geba)
+      Nkoo: N’Ko
+      Nshu: Nüshu
+      Ogam: Ogham
+      Olck: Ol Chiki (Ol Cemet’, Ol, Santali)
+      Orkh: Ol Chiki (Ol Cemet’, Ol, Santali)
+      Orya: Oriya (Odia)
+      Osge: Osage
+      Perm: Permico Antico
+      Osma: Osmanya
+      Palm: Palmyrene
+      Pauc: Pau Cin Hau
+      Phlp: Psalter Pahlavi
+      Phlv: Book Pahlavi
+      Phnx: Fenicio
+      Phag: Phags-pa
+      Phli: Iscrizioni pahlavi
+      Prti: Iscrizioni Partiche
+      Piqd: Klingon (KLI pIqaD)
+      Plrd: Miao (Pollard)
+      Qaaa: Riservato per uso privato (inizio)
+      Qabx: Riservato per uso privato (fine)
+      Saur: Saurashtra
+      Sgnw: Linguaggio dei segni
+      Shaw: Shaviano (Shaw)
+      Sind: Sindhi khudawad
+      Shrd: Sharada, Śāradā
+      Shui: Shuishu
+      Syrj: Siriano (variante occidentale)
+      Talu: Nuovo Tai Lue
+      Ugar: Ugarito
+      Zsye: Simboli (variante Emoji)
+      Zinh: Codice per scritture ereditate
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, sistema di scrittura
+        orizzontale quadrata)
+      Zmth: Notazione matematica
+      Zzzz: Codice per scritture non codificate
+      Avst: Avestano
+      Armi: Aramaico d’impero
+      Armn: Armeno
+      Buhd: Buhid
+      Khmr: Khmer
+      Samr: Samaritano
+      Sidd: Siddham, Siddhaṃ, Siddhamātṛkā
+      Visp: Parola visualizzata
+      Syrn: Siriano (variante orientale)
+      Tirh: Tirhuta
+      Vaii: Vai
+      Taml: Tamil
+      Afak: Afaka
+      Aghb: Albanese caucasico
+      Arab: Arabo
+      Aran: Arabo (variante Nastaliq)
+      Bamu: Bamum
+      Bass: Bassa Vah
+      Batk: Batak
+      Bhks: Bhaiksuki
+      Ahom: Ahom (Tai Ahom)
+      Brah: Brahmi
+      Brai: Braille
+      Bugi: Buginese
+      Beng: Bengalese (Bengali o Bangla)
+      Cher: Cherokee
+      Copt: Copto
+      Cans: Simboli Aborigeni Canadesi Unificati
+      Dogr: Dogri
+      Cpmn: Cipriota-minoico
+      Cprt: Cipriota
+      Deva: Devanagari (Nagari)
+      Egyh: Egiziano ieratico
+      Dsrt: Deseret (mormone)
+      Dupl: Stenografia Duployé
+      Ethi: Etiopico (Ge‘ez)
+      Gong: Gunjala Gondi
+      Gonm: Masaram Gondi
+      Gran: Grantha
+      Grek: Greco
+      Gujr: Gujarati
+      Guru: Gurmukhi
+      Hanb: Han con Bopomofo
+      Hang: Hangul (Hangŭl, Hangeul)
+      Hant: Han (variante tradizionale)
+      Hatr: Hatran
+      Hebr: Ebraico
+      Hira: Hiragana
+      Hluw: Geroglifici anatolici (geroglifici luvi, geroglifici ittiti)
+      Inds: Indù (Harappa)
+      Jamo: Jamo (alias per il sottoinsieme Jamo di Hangul)
+      Java: Giavanese
+      Jpan: Sillabari giapponesi (alias per Han + Hiragana + Katakana)
+      Jurc: Jurchen
+      Kali: Kayah Li
+      Kana: Katakana
+      Khar: Kharoshthi
+      Kits: Khitan (scrittura piccola)
+      Knda: Kannada
+      Kore: Coreano (alias per Hangul + Han)
+      Linb: Lineare B
+      Lisu: Lisu (Fraser)
+      Loma: Loma
+      Medf: Medefaidrin (Oberi Okaime, Oberi Ɔkaimɛ)
+      Lyci: Licio
+      Maya: Geroglifici Maya
+      Mend: Mende Kikakui
+      Merc: Corsivo Meroitico
+      Nand: Nandinagari
+      Narb: Arabo antico del Nord
+      Rjng: Rejang (Redjang, Kaganga)
+      Rohg: Hanifi Rohingya
+      Roro: Rongorongo
+      Runr: Runico
+      Sinh: Sinhala
+      Sogd: Sogdiano
+      Sara: Sarati
+      Sarb: Arabo antico del Sud
+      Sogo: Sogdiano antico
+      Sora: Sora Sompeng
+      Soyo: Soyombo
+      Sund: Sundanese
+      Sylo: Syloti Nagri
+      Syrc: Siriano
+      Syre: Siriano (variante estrangelo)
+      Tagb: Tagbanwa
+      Takr: Takri, Ṭākrī, Ṭāṅkrī
+      Tale: Tai Le
+      Tang: Tangut
+      Tavt: Tai Viet
+      Telu: Telugu
+      Teng: Tengwar
+      Tfng: Tifinagh (Berbero)
+      Tglg: Tagalog (Baybayin, Alibata)
+      Thaa: Thaana
+      Thai: Tailandese
+      Tibt: Tibetano
+      Wara: Warang Citi (Varang Kshiti)
+      Wcho: Wancho
+      Wole: Woleai
+      Xpeo: Persiano antico
+      Xsux: Cuneiforme, Sumero-Accadiano
+      Yiii: Yi
+      Zsym: Simboli
+      Zxxx: Codice per documenti non scritti
+      Zyyy: Codice per scritture non determinate
+    source:
+      local: Locale
+    date_certainty:
+      approximate: Approssimativa
+      inferred: Desunta
+      questionable: Dubbiosa
+    date_era:
+      ce: d.c.
+    date_role:
+      begin: Inizio
+      end: Fine
+    date_standardized_type:
+      standard: Standard
+    date_type:
+      expression: Espressione
+      range: Intervallo
+      single: Singolo
+    date_type_structured:
+      range: Intervallo
+      single: Singolo
+    digital_object_digital_object_type:
+      mixed_materials: Materiali misti
+      cartographic: Cartografico
+      software_multimedia: Software, Multimedia
+      moving_image: Immagine in movimento
+      notated_music: Musica annotata
+      sound_recording_nonmusical: Registrazione audio (non musicale)
+      still_image: Immagine ferma
+      sound_recording_musical: Registrazione audio (musicale)
+      text: Testo
+      sound_recording: Registrazione audio
+    digital_object_level:
+      collection: Collezione
+      work: Lavoro
+      image: Immagine
+    dimension_units:
+      feet: Piede
+      centimeters: Centimetri
+      meters: Metri
+      yards: Iarde
+      inches: Pollici
+      millimeters: Millimetri
+    end_date_standardized_type:
+      standard: Standard
+    extent_extent_type:
+      cassettes: Audiocassetta
+      gigabytes: Gigabytes
+      leaves: Fogli
+      cubic_feet: Metri cubi
+      linear_feet: Metri lineari
+      megabytes: Megabytes
+      photographic_prints: Stampe fotografiche
+      photographic_slides: Diapositive fotografiche
+      terabytes: Terabytes
+      volumes: Volumi
+    event_outcome:
+      pending: In attesa
+      fulfilled: Realizzato
+      cancelled: Cancellato
+      fail: Fallimento
+    file_version_xlink_show_attribute:
+      other: altro
+      new: nuovo
+      none: nessuno
+      replace: sostituisci
+    government_agency_type:
+      int_gov: Internazionale intergovernativa
+      ngo: Organizzazione non governativa
+      other: Altro
+      sac: Componente autonomo o semi-autonomo
+      fed: Federale/Nazionale
+      local: Locale
+      multilocal: Multilocale
+      multistate: Multistato
+      provincial: Stato, provinciale, territoriale, dipendente, ecc.
+    identifier_type:
+      lac: Biblioteca e archivi Canada
+      loc: Biblioteca del Congresso
+      local: Locale
+    instance_instance_type:
+      digital_object: Oggetto digitale
+      graphic_materials: Materiali grafici
+      computer_disks: Computer Disks
+      maps: Mappe
+      audio: Audio
+      books: Libri
+      mixed_materials: Materiali misti
+      moving_images: Immagini in movimento
+      text: Testo
+    file_version_checksum_methods:
+      md5: MD5
+      sha-1: SHA-1
+      sha-256: SHA-256
+      sha-384: SHA-384
+      sha-512: SHA-512
+    file_version_file_format_name:
+      aiff: Audio Interchange File Format (.aiff)
+      avi: Audio/Video Interleaved Format (.avi)
+      gif: Graphics Interchange Format (.gif)
+      jpeg: JPEG File Interchange Format (.jpeg)
+      mp3: MPEG Audio Layer 3 (.mp3)
+      pdf: Portable Document Format (.pdf)
+      tiff: Tagged Image File Format (.tiff)
+      txt: File di testo generico (.txt)
+    file_version_use_statement:
+      audio-master: ''
+      image-thumbnail: Immagine-Thumbnail
+      audio-clip: ''
+    file_version_xlink_actuate_attribute:
+      none: nessuno
+      other: altro
+    gender:
+      not_specified: Non specificato
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: ''
@@ -821,3 +1357,10 @@ it:
     romanization: Romanizzazione
     script_iso15924: Script lingua ISO 15924
     transliteration: Traslitterazione
+    subject_source: Fonte del soggetto
+    subject_term_type: Tipo di termine soggetto
+    telephone_number_type: Tipo di numero di telefono
+    user_defined_enum_1: Enum 1 definito dall'utente
+    user_defined_enum_2: Enum 2 definito dall'utente
+    user_defined_enum_3: Enum 3 definito dall'utente
+    user_defined_enum_4: Enum 4 definito dall'utente

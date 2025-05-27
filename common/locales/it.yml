@@ -307,7 +307,7 @@ it:
       agreement_sent: Accordo inviato
       agreement_signed: Accordo firmato
       appraisal: Valutazione
-      assessment: Valutazione
+      assessment: ''
       cataloged: Catalogato
       collection: Collezione
       compression: Compressione
@@ -323,7 +323,7 @@ it:
       processed: Processato
       publication: Pubblicazione
       validation: Convalida
-      virus_check: Ispezione per virus
+      virus_check: Ispezione per i virus
       normalization: Normalizzazione
       replication: Riproduzione
     new_title: Nuovo evento
@@ -395,6 +395,21 @@ it:
       <li>150º <em>(per 150º anniversario dell'Unità d'Italia)</em></li>\n</ul>\n"
     fuller_form_tooltip: "<p>La forma più completa dei nomi o secondi nomi, quando abbreviati.</p>\n<p>Esempi</p>\n
       <ul>\n<li>Sibilla Aleramo <em>(per S.B., Sibilla Aleramo, 1876-1960)</em></li>\n</ul>\n"
+    authorized: Autorizzato
+    is_display_name: Nome visualizzato
+    language: Lingua
+    language_tooltip: "<p>Indica la lingua usata nella registrazione del nome. Esempio: Russo (per Каспаров,
+      Г. К. (Гарри Кимович))</p>\n"
+    script: Script
+    transliteration: Traslitterazione
+    transliteration_tooltip: "<p>Indica lo schema di traslitterazione usato nella registrazione del nome.</p>\n"
+    script_tooltip: "<p>Indica lo script usato nella registrazione del nome. Esempio: Cirillico (per Каспаров,
+      Г. К. (Гарри Кимович))</p>\n"
+    qualifier_tooltip: "<p>Un termine o una frase per distinguere due nomi identici in tutti gli aspetti
+      ma che identificano due entità differenti.  Il termine può essere una data, un luogo od ogni altro
+      descrittore adatto.</p>\n<p>Esempi:</p>\n<ul>\n<li>Fioristi <em>(per famiglia Bianchi (fioristi))</em>)</li>\n
+      <li>Santa Maria Novella, Firenze, Toscana <em>(per Chiesa di Santa Maria Novella (Santa Maria Novella,
+      Firenze, Toscana))</em></li>\n</ul>\n"
   agent_record_identifiers:
     is_primary: Primario
   agent_identifiers:
@@ -435,3 +450,31 @@ it:
     agent_identifiers_tooltip: "<p>Identificatori associati a un'entità, come un identificatore legale
       assegnato da un'agenzia autorevole. Esempi includono un identificatore ORCID per una persona o un
       MARC Repository Code per un'entità aziendale.</p>\n"
+  name_family:
+    family_name: Nome di famiglia
+    family_name_tooltip: "<p>Il nome di famiglia o il cognome, tipicamente integrato col termine \"famiglia\"\
+      .</p>\n"
+    family_type: Tipo di famiglia
+    family_type_tooltip: "<p>Tipo di famiglia usato come qualificativo per distinguere voci di nomi simili.
+      Esempi: Famiglia, Dinastia, Casata Reale.</p>\n"
+    location: Ubicazione
+    location_tooltip: "<p>Un'ubicazione usata come qualificativo per distinguere voci di nomi simili.
+      Esempi: Mugello, Firenze. (per Medici (famiglia : 1169-1737 : Mugello, Firenze.)), Ambasciata canadese,
+      Tokyo (per Canada-Giappone Twinning Conference (1991 : Ambasciata canadese, Tokyo))</p>\n"
+  name_corporate_entity:
+    subordinate_name_1: Nome subordinato 1
+    location: Ubicazione
+    subordinate_name_1_tooltip: "<p>Un'unità gerarchica con l'entità aziendale nominata nel campo del
+      nome principale.</p>\n<p>Esempi</p>\n<ul>\n<li>Banca S.p.A<em>(per Banca Intesa Sanpaolo S.p.A)</em></li>\n\
+      </ul>\n"
+    subordinate_name_2: Nome subordinato 2
+    subordinate_name_2_tooltip: "<p>Un'unità gerarchica con l'entità aziendale nominata nel campo del
+      nome principale e inferiore rispetto all'unità nominata nel campo nome subordinato 1.</p>\n"
+    jurisdiction: Giurisdizione?
+    location_tooltip: "<p>Un'ubicazione usata come qualificativo per distinguere voci di nomi simili.
+      Esempi: Mugello, Firenze. (per Medici (famiglia : 1169-1737 : Mugello, Firenze.)), Ambasciata canadese,
+      Tokyo (per Canada-Giappone Twinning Conference (1991 : Ambasciata canadese, Tokyo))</p>\n"
+  external_document:
+    location: Ubicazione
+  assessment:
+    appraisal: Valutazione

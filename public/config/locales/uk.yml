@@ -45,6 +45,20 @@ uk:
   page_actions: Дії на сторінці
   request:
     email_header: Дякуємо за ваш запит
+    user_email: Ваша адреса електронної пошти
+    date: Очікувана дата прибуття
+    note: Примітка для персоналу
+    visit: Надіслати запит на відвідування %{назва_репозиторію} для перегляду <strong>%{архівний_об'єкт}</strong>
+    required: необхідний
+    user_name: Ваше ім'я
+    submit: Надіслати запит
+    submitted: Дякуємо, ваш запит надіслано.   Невдовзі ви отримаєте електронного листа з копією вашого
+      запиту.
+    errors:
+      name: Будь ласка, введіть своє ім'я
+      email: Будь ласка, введіть дійсну адресу електронної пошти
+    email:
+      subject: Запит на %{титул}
   search-limiting: обмежено до %{limit}
   search-limits:
     all: усі типи записів
@@ -93,19 +107,80 @@ uk:
       instance_type_enum_s: Тип екземпляра
       digital_object_type_enum_s: Тип
       extent_type_enum_s: Ступінь
+      query: Текст
+      show_fewer: Показати менше
+      show_more: Показати більше
+      subjects: Тема
+      form: Пошук серед результатів
+      repository: Репозиторій
+      used_within_published_repository: Репозиторій
+      creators: Творець
+      fullrecord: Ключове слово
+      source: Джерело
+      classification_uri: Класифікація
+      published_agents: Імена
+      agents_text: Імена
+      linked_agent_roles: Роль
+      head: Фільтрувати результати
+      add: Додаткові фільтри
+      primary_type: Тип
+      subjects_text: Тема
+      title: Назва
+      creators_text: Творець
+      scope: Сфера застосування
+      notes: Нотатки
+      identifier: Ідентифікатор
+      from_year: З року
     page_title: Знайдено %{рахувати} результатів
     results_head: 'Показано %{тип}: %{початок} - %{закінчення} від %{загальна сума}'
     result: Результат
     results: Результати
     search_for: Пошук %{тип}, де %{обставини}
+    more_facets: Більше
+    filtered_by: Відфільтровано за
+    fewer_facets: Менше
+    error: Ваш пошук не вдалося завершити через неочікувану помилку
+    no_results: Записів не знайдено
+    filter_by: Фільтрувати за
+    title_contain: <strong>заголовок</strong> містить<span class='searchterm'>%{кс}</span>
+    op:
+      OR: або
+      NOT: і не
+      AND: й
+    op_first_row:
+      NOT: не
+    search_term: Пошуковий термін
+    remove_filter: Видалити цей фільтр
+    creators_text_contain: <strong>творець</strong> містить <span class='searchterm'>%{кс}</span>
+    subjects_text_contain: <strong> предмет</strong> містить  <span class='searchterm'>%{кс}</span>
+    keyword_contain: <strong>ключове слово(a)</strong>:<span class='searchterm'>%{кс}</span>
+    notes_contain: <strong>нотатка</strong> містить<span class='searchterm'>%{кс}</span>
+    identifier_contain: <strong> ідентифікатор</strong> містить  <span class='searchterm'>%{кс}</span>
+    in_repository: ' in <strong>%{ім''я}</strong>'
   search_sorting:
     desc: (за спаданням)
     asc: (за зростанням)
     sort_by: 'Сортувати за:'
     sort: Сортувати
+    relevance: Релевантність
+    classification_identifier: Ідентифікатор
+    year_sort: Рік
+    sorting: '%{тип} %{напрямок}'
+    title_sort: Назва
+    identifier: Ідентифікатор
   inherit:
     subfonds: Субфонди
     subgrp: Підгрупа
+    class: Клас
+    inherited: З %{рівень}
+    collection: Колекція
+    series: Серія
+    sub-series: Підсерія
+    file: Файл
+    fonds: Фонди
+    item: Елемент
+    otherlevel: Інший рівень
+    recordgrp: Група записів
   boolean:
     "true": Так
     "false": Ні
@@ -129,3 +204,241 @@ uk:
     operator:
       OR: Або
       AND: И
+      NOT: Не
+    remove_row: Видалити рядок
+    add_row: Додати рядок
+    limit_label: Обмеження за типом запису
+  accession:
+    _public:
+      related_accessions:
+        accessions: Супутні необроблені матеріали
+        sibling_of: Відносини між братами та сестрами
+        has_part: Зв'язок частини
+        deaccessions: Вилучений матеріал
+        forms_part_of: Зв'язок частини
+      section:
+        content_description: Опис вмісту
+        access_restrictions: Обмеження доступу
+        provenance: Походження
+        language: Мова опису
+        script: Сценарій опису
+        access_restrictions_apply: Застосовуються обмеження доступу
+        acquisition_type: Тип придбання
+        use_restrictions: Обмеження використання
+        use_restrictions_apply: Застосовуються обмеження використання
+        inventory: Інвентаризація
+    _singular: Необроблений матеріал
+    _plural: Необроблені матеріалий
+  multiple_containers: Кілька контейнерів
+  extent_number_type: '%{ряд} %{тип}'
+  archival_object:
+    _public:
+      header:
+        ref_id: Ідентифікатор посилання
+  search-button:
+    label: Пошук
+  search-limit: Обмеження до %{ліміт}
+  containers: Інформація про фізичне сховище
+  related_accessions: Супутні необроблені матеріали
+  related_resources: Пов'язані колекції
+  linked_instances: Пов'язані записи
+  linked_digital_objects: Цифровий матеріал
+  context: Знайдено в
+  context_delimiter: /
+  resource:
+    identifier_separator: ':'
+    _public:
+      identifier: Ідентифікатор
+      identifier_pdf: посвідчення особи
+      ark_link_name: Ключ архівного ресурсу
+      extent: Ступінь
+      extent_full: Повний обсяг
+      finding_aid:
+        sponsor: Спонсор
+        edition_statement: Видання
+        series_statement: Опис серії
+        note: Примітка
+        head: Пошук допомоги та адміністративної інформації
+        script: Сценарій опису
+        revision: Заяви про перегляд
+        language_note: Мова опису примітки
+        title: Назва
+        subtitle: Підзаголовок
+        status: Статус
+        author: Автор
+        date: Дата
+        description_rules: Правила опису
+        identifier: Ідентифікатор
+        language: Мова опису
+      related_accessions:
+        deaccessions: Записи про вилучення
+        accessions: Записи про приєднання
+      script: Сценарій
+      lang: Мова матеріалів
+      lang_pdf: Мова матеріал
+      storage: Інформація про контейнер
+      additional: Додатковий опис
+      extent_partial: Частковий обсяг
+      dates: Дати
+      digital_object: Цифровий об'єкт
+      physdesc: Фізичний опис
+      identifier_ark: ідентифікатор [кар]
+      uri: Ідентифікатор [acпєс_URI]
+    load_records:
+      alert: Ця колекція містить велику кількість записів
+      showing: Показ
+      percent_convention: '%'
+      scroll: При прокручуванні
+      all: Все одразу
+      loading: Завантаження
+      load: Завантаження записів
+      load_all: Завантажити всі записи
+    _singular: Колекція
+    _plural: Колекції
+  coll_obj:
+    _singular: Колекція або запис
+    _plural: Колекції та/або записи
+  scope_note: Примітка щодо сфери застосування
+  contains: Містить %{підрахунок} %{тип}
+  found: Знайдено в %{підрахунок} %{тип}
+  extent_dims: ' ; %{розміри}'
+  list: '%{тип} Список'
+  cont_arr: Організація збору коштів
+  external_docs: Зовнішні документи
+  more_about: Більше про
+  archive:
+    _singular: Архів
+    _plural: Архівий
+  accessed: Доступ отримано
+  repository:
+    part: Частина
+    _plural: Репозиторії
+    what: Що знаходиться в цьому репозиторії?
+    _singular: Репозиторій
+    details: Деталі репозиторію
+  digital_object:
+    _singular: Цифровий запис
+    _plural: Цифрові матеріали
+    _public:
+      thumbnail: ніготь великого пальця
+      link: Посилання на цифровий об'єкт
+      badge_label: Цифровий %{рівень}
+      go: Перейти до файлу
+      additional: Додаткові версії файлів
+      url_encoded_data: Дані, закодовані за допомогою URL-адреси
+  top_container:
+    _singular: Контейнер
+    _plural: Контейнери
+    restricted: Обмежено
+  dig_cont_arr: Організація цифрових об'єктів
+  subgroups: Підгрупи
+  bulk:
+    _singular: Більшість матеріалів знайдено в %{дати}
+    _plural: Більшість матеріалів знайдено в %{дати}
+  agent_resource:
+    _plural: Пов’язані зовнішні ресурси
+    _singular: Пов'язаний зовнішній ресурс
+  pdf_reports:
+    controlled_access_headings: Заголовки контрольованого доступу
+    finding_aid_date_prefix: Цей допоміжний матеріал було створено за допомогою АрхівзСпєс на
+    finding_aid_written_in: Пошук допомоги, написаної на
+    administrative_information: Адміністративна інформація
+    collection_inventory: Інвентаризація колекції
+    summary_information: Зведена інформація
+    table_of_contents: Зміст
+    return_to_table_of_contents: Повернутися до змісту
+    publication_statement: Заява про публікацію
+    your_finding_aid_pdf: Ваш PDF-допоміжний засіб для пошуку "%{титул}"
+    your_finding_aid_is_attached: Запитаний вами довідник з пошуку додається.
+    accessrestrict: Умови доступу
+    userestrict: Умови використання
+    accruals: Нарахування
+    acqinfo: Безпосереднє джерело придбання
+  extent_phys_details: ' : %{деталі}'
+  subject:
+    _singular: Суб'єкт
+    _plural: Суб'єкти
+  classification:
+    _singular: Група записів
+    _plural: Групи записів
+    creator: Творець
+    identifier_separator: .
+    _public:
+      actions:
+        show_subgroups: Показати підгрупи
+  classification_term:
+    _plural: Умови групи записів
+    _singular: Термін групи записів
+    identifier_separator: /
+  an_agent: Ім'я
+  pui_agent:
+    parallel: Паралельні назви
+    related: Пов'язані імена
+    also_known_as: Також відомий під наступними назвами
+    _singular: Ім'я
+    _plural: Імена
+  record:
+    _singular: Запис
+    _plural: Записи
+  record_group:
+    _singular: Група записів
+    _plural: Групи записів
+  agent:
+    _public:
+      section:
+        other_names: Форми імен
+        related_agents: Пов'язані імена
+        related_agent_description: Опис
+        dates: Дати
+        related_agent_dates: Дати
+    _singular: Ім'я
+    _plural: Імена
+  agent_person:
+    _singular: Людина
+    _plural: Люди
+  agent_software:
+    _plural: Програмне забезпечення
+    _singular: Програмне забезпечення
+  agent_function:
+    _singular: Функція
+    _plural: Функції
+  agent_place:
+    _plural: Місця
+    _singular: Місце
+  agent_topic:
+    _plural: Теми
+    _singular: Тема
+  description: Про нас
+  contact: Контакти
+  number_of: 'Кількість %{тип}:'
+  parent_inst: Материнська установа
+  email: Надіслати електронного листа
+  fax: Факс
+  agent_record_identifier:
+    primary_identifier: Чи є основним ідентифікатором?
+    identifier_type: Тип ідентифікатора
+    source: Джерело
+    record_identifier: Ідентифікатор запису
+    snac: Ідентифікатор соціальних мереж та архівного контексту (SNAC)
+  readmore:
+    see_more: Дивитися більше
+    see_less: Бачити менше
+  skipnav:
+    main_content: Перейти до основного вмісту
+    search: Перейти до пошуку
+    search_results: Перейти до результатів пошуку
+  search_tab: Пошук %{ціль}
+  agent_identifier:
+    identifier_type: Тип ідентифікатора
+  agent_family:
+    _singular: Сім'я
+    _plural: Сім'ї
+  agent_gender:
+    _plural: Стать
+    _singular: Стать
+  agent_occupation:
+    _singular: Професія
+    _plural: Професії
+  agent_corporate_entity:
+    _singular: Організація
+    _plural: Організації

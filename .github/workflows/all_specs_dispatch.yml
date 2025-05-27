@@ -24,11 +24,10 @@ on:
         default: 'firefox'
 
   pull_request:
-    paths:
-      - '.github/workflows/backend.yml'
-      - 'backend/**'
-      - 'common/**'
-      - 'oai/**'
+    branches:
+      - '**'
+    paths-ignore:
+      - 'e2e-tests/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
