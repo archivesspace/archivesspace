@@ -178,3 +178,6 @@ en:
 
       # Preference
       preference: Help on Preferences
+
+      # Custom Reports
+      custom_report_templates: Help on Custom Report Templates
