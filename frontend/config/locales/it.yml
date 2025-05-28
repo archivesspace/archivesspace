@@ -34,7 +34,7 @@ it:
     merge_replace: Sostituisci
     merge_add: Aggiungi
     merge_confirm_title: Unisci a questo record?
-    merge_agent_compare_agent_details: Compara agents
+    merge_agent_compare_agent_details: Compara agenti
     merge_from_browse_confirm_title: Unisci i record selezionati?
     batch_merge: Seleziona il record dentro cui tutti gli altri record(s) elencati
       saranno uniti. Ogni record linkato sarà linkato nuovamente a questo record e
@@ -473,8 +473,8 @@ it:
     _frontend:
       action:
         make_primary_tooltip: "<p>Usato per indicare quale agent linkato al record
-          è l'agent primario. Solo un agent linkato può essere designato come primario..</p>
-          \n<p>Nell'export MARCXML, l'agent primario sarà il valore 1XX.</p> \n"
+          è l'agent primario. Solo un agent linkato può essere designato come primario..</p>\
+          \ \n<p>Nell'export MARCXML, l'agent primario sarà il valore 1XX.</p> \n"
         add: Aggiungi link agent
         make_primary: Rendi primario
     is_primary: Primario
@@ -499,6 +499,7 @@ it:
     identifier_type: Tipo di identificativo
   agent_gender:
     _singular: Genere
+    _plural: Generi
   agent_function:
     _singular: Funzione
     _plural: Funzioni
@@ -541,3 +542,7 @@ it:
     _frontend:
       action:
         add: Aggiungi deaccessione
+  welcome:
+    message: Il tuo amichevole strumento di gestione per gli archivi.
+    message_logged_in: Il tuo amichevole strumento di gestione per gli archivi.
+    heading: Benvenuto in ArchivesSpace
