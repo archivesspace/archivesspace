@@ -159,3 +159,6 @@ topics:
 
   # Bulk Archival Object Updater job
   bulk_archival_object_updater_job: '4158423042/Bulk+Update+of+Archival+Objects+as+of+v4.0'
+
+  # Custom Reports
+  custom_report_templates: '2914877469/Creating+Managing+and+Running+Custom+Reports'
