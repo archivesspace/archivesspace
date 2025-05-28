@@ -1,7 +1,7 @@
 <%= link_to_help :topic => "resource" %>
 
 <h2>
-  <%= @form_title ? @form_title : @resource.titles.empty? ? "#{t("resource.new_title")}" : clean_mixed_content(MultipleTitlesHelper.determine_primary_title(@resource.titles, I18n.locale))  %>
+  <%= @form_title ? @form_title : @resource.titles&.first['title'].present? ? clean_mixed_content(MultipleTitlesHelper.determine_primary_title(@resource.titles, I18n.locale)) : t("resource.new_title")  %>
   <span class="label label-info badge"><%= t("resource._singular") %></span>
 </h2>
 

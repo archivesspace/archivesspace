@@ -130,15 +130,24 @@ module Factories
       end
 
       factory :digital_object, class: JSONModel(:digital_object) do
+        titles { [build(:title, title: title)] }
         lang_materials { [build(:json_lang_material)] }
         digital_object_id { generate(:ref_id) }
         extents { [build(:extent)] }
         dates { few_or_none(:date) }
+
+        transient do
+          title { generate(:generic_title) }
+        end
       end
 
       factory :digital_object_component, class: JSONModel(:digital_object_component) do
+        titles { [build(:title, title: title)] }
         component_id { generate(:alphanumstr) }
-        title { generate :digital_object_component_title }
+
+        transient do
+          title { generate(:digital_object_component_title) }
+        end
       end
 
       factory :instance_digital, class: JSONModel(:instance) do
