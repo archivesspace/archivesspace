@@ -119,7 +119,7 @@ describe 'Add As You Go buttons', js: true do
     end
 
     it_behaves_like 'and when editing a top-level non-Notes subform', 'accession', 14, 16
-    it_behaves_like 'and when editing a top-level non-Notes subform', 'resource', 14, 15
+    it_behaves_like 'and when editing a top-level non-Notes subform', 'resource', 14, 16
     it_behaves_like 'and when editing a top-level non-Notes subform', 'digital_object', 10, 11
     it_behaves_like 'and when editing a top-level non-Notes subform', 'subject', 3, 3
     it_behaves_like 'and when editing a top-level non-Notes subform', 'location', 1, 1

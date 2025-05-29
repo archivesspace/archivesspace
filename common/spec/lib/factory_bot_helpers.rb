@@ -248,7 +248,7 @@ FactoryBot.define do
     id_1 { generate(:alphanumstr) }
     id_2 { generate(:alphanumstr) }
     id_3 { generate(:alphanumstr) }
-    title { "Accession " + generate(:generic_title) }
+    titles { [build(:json_title, :title => title)] }
     content_description { generate(:generic_description) }
     condition_description { generate(:generic_description) }
     accession_date { generate(:yyyy_mm_dd) }
@@ -260,6 +260,10 @@ FactoryBot.define do
 
     trait :with_lang_materials do
       lang_materials { [build(:json_lang_material)] }
+    end
+
+    transient do
+      title { "Accession #{generate(:generic_title)}" }
     end
   end
 
@@ -709,12 +713,16 @@ FactoryBot.define do
   end
 
   factory :json_digital_object, class: JSONModel(:digital_object) do
-    titles { [build(:json_title, :title => "Digital Object #{generate(:generic_title)}")] }
+    titles { [build(:json_title, :title => title)] }
     lang_materials { [build(:json_lang_material)] }
     digital_object_id { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     file_versions { few_or_none(:json_file_version) }
     dates { few_or_none(:json_date) }
+
+    transient do
+      title { "Digital Object #{generate(:generic_title)}" }
+    end
   end
 
   factory :json_digital_record_children, class: JSONModel(:digital_record_children) do
@@ -1191,7 +1199,7 @@ FactoryBot.define do
   end
 
   factory :json_resource, class: JSONModel(:resource) do
-    titles { [build(:json_title)] }
+    titles { [build(:json_title, title: title)] }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }
@@ -1208,6 +1216,10 @@ FactoryBot.define do
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }
     revision_statements { [build(:json_revision_statement)] }
+
+    transient do
+      title { generate(:generic_title) }
+    end
   end
 
   factory :json_resource_duplicate_job, class: JSONModel(:resource_duplicate_job) do
