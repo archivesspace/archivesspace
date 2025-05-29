@@ -93,11 +93,17 @@ class LargeTree
       # ANW-617: generate a slugged URL for inclusion in the JSON for the root node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
       digital_instance = relates_digital_instance?(@root_type) ? has_digital_instance?(db, @root_table, @root_record.id) : false
 
-      titles = @root_record.title.map {|t| t.to_hash}
+      # TODO: workaround until all records have multiple titles
+      if @root_record.class == Array
+        titles = @root_record.title.map {|t| t.to_hash}
+      else
+        titles = [{title: @root_record.title}]
+      end
+
       parsed_titles = titles.clone.each { |t| t[:title] = MixedContentParser.parse(t[:title], '/') }
 
       response = waypoint_response(child_count).merge(
-        "title" => titles[0]['title'],   # TODO: this is just to avoid breaking everything for now, will eventually be removed
+        "title" => titles[0]['title'],   # TODO: workaround until all records have multiple titles
         "titles" => titles,
         "uri" => @root_record.uri,
         "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
@@ -197,13 +203,19 @@ class LargeTree
 
       root_record_titles = {}
       db[@root_table]
-        .join(@node_table, :root_record_id => :id)
-        .filter(Sequel.qualify(@node_table, :id) => node_ids)
-        .select(Sequel.qualify(@root_table, :id),
-                Sequel.qualify(@root_table, :title))
-        .distinct
-        .each do |row|
-        root_record_titles[row[:id]] = row[:title]
+      .join(@node_table, :root_record_id => :id)
+      .filter(Sequel.qualify(@node_table, :id) => node_ids)
+      .select(Sequel.qualify(@root_table, :id))
+      .distinct
+      .each do |row|
+        root_record_titles[row[:id]] = []
+        db[:title].filter("#{@node_type}_id".to_sym => row[:id])
+        .select(:title, :language_id)
+        .each do |title_row|
+          title = title_row[:title]
+          lang = db[:enumeration_value].where(id: title_row[:language_id]).select(:value).first&.fetch(:value)
+          root_record_titles[row[:id]].append({title: title, lang: lang})
+        end
       end
 
       ## Build up the path of waypoints for each node
@@ -217,22 +229,28 @@ class LargeTree
         while child_to_parent_map[current_node]
           parent_node = child_to_parent_map[current_node]
 
-          path << {"node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
-                   "root_record_uri" => root_record_uri,
-                   "jsonmodel_type" => @node_type,
-                   "title" => node_to_title_map.fetch(parent_node),
-                   "offset" => node_to_waypoint_map.fetch(current_node),
-                   "parsed_title" => MixedContentParser.parse(node_to_title_map.fetch(parent_node), '/')}
+          path << {
+            "node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
+            "root_record_uri" => root_record_uri,
+            "jsonmodel_type" => @node_type,
+            "title" => node_to_title_map.fetch(parent_node),
+            "offset" => node_to_waypoint_map.fetch(current_node),
+            "parsed_title" => MixedContentParser.parse(node_to_title_map.fetch(parent_node), '/')
+          }
 
           current_node = parent_node
         end
 
-        path << {"node" => nil,
-                 "root_record_uri" => root_record_uri,
-                 "offset" => node_to_waypoint_map.fetch(current_node),
-                 "jsonmodel_type" => @root_type,
-                 "title" => root_record_titles[root_record_id],
-                 "parsed_title" => MixedContentParser.parse(root_record_titles[root_record_id], '/')}
+        path << {
+          "node" => nil,
+          "root_record_uri" => root_record_uri,
+          "offset" => node_to_waypoint_map.fetch(current_node),
+          "jsonmodel_type" => @root_type,
+          "titles" => root_record_titles[root_record_id],
+          "parsed_titles" => root_record_titles[root_record_id].map { |t|
+            {title: MixedContentParser.parse(t['title'], '/'), lang: t['lang']}
+          }
+        }
 
         result[node_id] = path.reverse
       end
