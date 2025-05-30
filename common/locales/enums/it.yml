@@ -1028,6 +1028,101 @@ it:
       orm: Organizzatore della riunione
       ptt: Parte civile appellante
       rst: Convenuto-appellante
+      ppm: Cartaro
+      prc: Responsabile del procedimento
+      pra: Praeses
+      prm: Produttore degli stampi
+      prn: Società di produzione
+      prf: Interprete
+      prg: Programmatore
+      pro: Produttore
+      prp: Luogo di produzione
+      ptf: Parte civile
+      rcd: Fonico
+      pup: Luogo di pubblicazione
+      rbr: Rubricatore
+      rcp: Destinatario (lettere)
+      rce: Tecnico della registrazione
+      rdd: Regista radiofonico
+      red: Portavoce
+      ren: Raffiguratore
+      res: Ricercatore
+      rev: Recensore
+      rpc: Produttore radiofonico
+      rpy: Parte responsabile
+      rpt: Reporter
+      sce: Sceneggiatore
+      sad: Consulente scientifico
+      sds: Designer del suono
+      scr: Copista (scriba)
+      stg: Ambientazione
+      stl: Cantastorie
+      stm: Direttore di scena
+      str: Stereotipista
+      tcd: Direttore tecnico
+      tch: Insegnante
+      ths: Relatore di tesi
+      vac: Doppiatore
+      vdg: Specializzato di ripresa
+      wac: Autore del commento aggiunto
+      wde: Incisore su legno
+      wit: Testimone
+      win: Scrittore dell'introduzione
+      wpr: Scrittore della prefazione
+      pbl: Editore
+      pta: Richiedente del brevetto
+      pbd: Direttore editoriale
+      prs: Designer della produzione
+      osp: Presentatore sullo schermo
+      oth: Altro
+      spn: Committente
+      sll: Venditore
+      srv: Topografo
+      wat: Scrittore di testo aggiunto
+      std: Scenografo
+      sgn: Firmatario
+      stn: Ente di standardizzazione
+      tld: Regista televisivo
+      sht: Fornitore di supporto
+      spy: Cessionario
+      tlp: Produttore televisivo
+      trc: Trascrittore
+      wdc: Xilografo
+      own: Possessore
+      pan: Partecipante a una tavola rotonda
+      pat: Patrocinatore
+      pdr: Direttore di progetto
+      pfr: Correttore di bozze
+      pht: Fotografo
+      plt: Produttore delle lastre
+      pma: Agenzia autorizzante
+      pmn: Direttore di produzione
+      pop: Stampatore delle tavole
+      ppt: Burattinaio
+      prd: Personale di produzione
+      pre: Presentatore
+      prt: Stampatore
+      prv: Fornitore
+      pth: Detentore del brevetto
+      rps: Repository
+      rsg: Riallestitore
+      rsp: Convenuto
+      rsr: Restauratore
+      rth: Direttore della ricerca
+      rtm: Membro del gruppo di ricerca
+      scl: Scultore
+      sec: Segretario
+      sgd: Regista teatrale
+      sng: Cantante
+      spk: Oratore
+      trl: Traduttore
+      tyd: Disegnatore dei caratteri
+      tyg: Tipografo
+      uvp: Sede dell'università
+      voc: Vocalist
+      wal: Autore delle liriche aggiunte
+      wam: Autore del materiale di accompagnamento
+      wst: Scrittore di contenuto testuale supplementare
     maintenance_event_type:
       deleted: Eliminato
       derived: Derivato
@@ -1349,6 +1444,14 @@ it:
       other: altro
     gender:
       not_specified: Non specificato
+    user_defined_enum_4:
+      novalue: Nessun valore definito
+    user_defined_enum_1:
+      novalue: Nessun valore definito
+    user_defined_enum_2:
+      novalue: Nessun valore definito
+    user_defined_enum_3:
+      novalue: Nessun valore definito
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: ''
