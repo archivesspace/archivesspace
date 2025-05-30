@@ -430,6 +430,7 @@ uk:
   search_tab: Пошук %{ціль}
   agent_identifier:
     identifier_type: Тип ідентифікатора
+    entity_identifier: Сутність Ідентифікатор
   agent_family:
     _singular: Сім'я
     _plural: Сім'ї
@@ -442,3 +443,65 @@ uk:
   agent_corporate_entity:
     _singular: Організація
     _plural: Організації
+  agent_contact:
+    region: Штат/Регіон
+    address_2: Адреса 2
+    salutation: Привітання
+    address_1: Адреса 1
+    country: Країна
+    post_code: Поштовий індекс
+    fax: Факс
+    name: Ім'я контактної особи
+    address_3: Адреса 3
+    city: Місто
+    email: Електронна пошта
+  pdf_error:
+    location:
+      location_title_page: Помилка сталася під час створення титульної сторінки.
+      location_resource: Помилка сталася під час створення розділів, пов’язаних із записом ресурсу, який
+        включає розділи «Зведена інформація», «Заголовки контрольованого доступу» та «Примітки».
+      location_archival_object: Помилка сталася під час створення інвентаризації колекції.
+      location_footer: Помилка сталася під час створення нижнього колонтитула.
+      location_toc: Помилка сталася під час створення змісту.
+    additional_info:
+      invalid_markup: Ця помилка може виникнути через недійсну розмітку, присутню в примітці або підзаписі.
+  agent_notes:
+    note_text: Примітка
+    _singular: Примітка
+    _plural: Нотатки
+    note_bioghist: Біографія
+    note_general_context: Загальний контекст
+    persistent_id: Постійний ідентифікатор
+    type: Тип примітки
+    content: Зміст
+    note_citation: Цитування
+    note_legal_status: Правовий статус
+    note_mandate: Мандат
+    note_structure_or_genealogy: Структура або генеалогія
+  use_date:
+    _singular: Дата використання
+    _plural: Використовуйте дати
+  used_language:
+    _plural: Використані мови
+    _singular: Використана мова
+  metadata_rights_declaration:
+    xlink_title_attribute: Атрибут заголовка Xlink
+    _plural: Декларації прав на метадані
+    descriptive_note: Описова примітка
+    file_uri: URI файлу
+    _singular: Декларація про права на метадані
+    license: Ліцензія
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+  date_label:
+    existence: Існування
+    usage: Використання
+  structured_date_label:
+    date: Дата
+  telephone:
+    _plural: Номери телефонів
+    number_type: Тип числа
+    ext: Додатковий телефонний номер
+    number: Номер
