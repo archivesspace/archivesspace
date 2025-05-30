@@ -94,7 +94,7 @@ class LargeTree
       digital_instance = relates_digital_instance?(@root_type) ? has_digital_instance?(db, @root_table, @root_record.id) : false
 
       # TODO: workaround until all records have multiple titles
-      if @root_record.class == Array
+      if @root_record.title.class == Array
         titles = @root_record.title.map {|t| t.to_hash}
       else
         titles = [{title: @root_record.title}]
