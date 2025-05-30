@@ -37,11 +37,7 @@ describe 'Digital Object RDE', js: true do
     select 'Single', from: 'digital_record_children_children__0__dates__0__date_type_'
 
     click_on 'Save Rows'
-
-    while true do
-      sleep 1
-      break if page.evaluate_script('jQuery.active') == 0
-    end
+    wait_for_ajax
 
     element = find('.alert.alert-danger')
     expect(element.text).to eq '1 row(s) with an error - click a row field to view the errors for that row'

@@ -3,9 +3,10 @@ require 'spec_helper'
 describe 'Digital Objects controller' do
 
   it "lets you create a digital object and get it back" do
-    id = create_digital_object("title" => "a digital object").id
+    title = build(:json_title, title: "a digital object")
+    id = create_digital_object("titles" => [title]).id
 
-    expect(JSONModel(:digital_object).find(id).title).to eq("a digital object")
+    expect(JSONModel(:digital_object).find(id).titles[0]['title']).to eq("a digital object")
   end
 
 
@@ -14,10 +15,10 @@ describe 'Digital Objects controller' do
 
     digital_object = JSONModel(:digital_object).find(id)
 
-    digital_object.title = "an updated digital object"
+    digital_object.titles = [build(:json_title, :title => "an updated digital object")]
     digital_object.save
 
-    expect(JSONModel(:digital_object).find(id).title).to eq("an updated digital object")
+    expect(JSONModel(:digital_object).find(id).titles[0]['title']).to eq("an updated digital object")
   end
 
 
@@ -40,7 +41,8 @@ describe 'Digital Objects controller' do
 
     docs = []
     ["earth", "australia", "canberra"].each do |name|
-      doc = create(:json_digital_object_component, {:title => "digital object component: #{name}"})
+      title = build(:json_title, :title => "digital object component: #{name}")
+      doc = create(:json_digital_object_component, {:titles => [title]})
       if not docs.empty?
         doc.parent = {:ref => docs.last.uri}
       end
@@ -95,7 +97,7 @@ describe 'Digital Objects controller' do
                                            :digital_object => {:ref => digobj.uri})])
 
     digobj = JSONModel(:digital_object).find(digobj.id)
-    digobj.title = "updated"
+    digobj.titles = [build(:json_title, "title" => "updated")]
     digobj.save
 
     expect(JSONModel(:resource).find(resource.id).instances.count).to be(1)
@@ -169,9 +171,7 @@ describe 'Digital Objects controller' do
     doc_1 = build(:json_digital_object_component)
     doc_2 = build(:json_digital_object_component)
 
-    children = JSONModel(:digital_record_children).from_hash({
-                                                                "children" => [doc_1, doc_2]
-                                                              })
+    children = JSONModel(:digital_record_children).from_hash({"children" => [doc_1, doc_2]})
 
     url = URI("#{JSONModel::HTTP.backend_url}#{digital_object.uri}/children")
     response = JSONModel::HTTP.post_json(url, children.to_json)
@@ -182,10 +182,10 @@ describe 'Digital Objects controller' do
     tree = JSONModel::HTTP.get_json("#{digital_object.uri}/tree/root")
     expect(tree['child_count']).to eq(2)
 
-    sorted_by_id = tree["precomputed_waypoints"][""]["0"].sort_by { |x| x["id"]}
+    sorted_by_id = tree["precomputed_waypoints"][""]["0"].sort_by { |x| x["id"] }
 
-    expect(sorted_by_id[0]["title"]).to eq(doc_1["title"])
-    expect(sorted_by_id[1]["title"]).to eq(doc_2["title"])
+    expect(sorted_by_id[0]["titles"][0]["title"]).to eq(doc_1["titles"][0]["title"])
+    expect(sorted_by_id[1]["titles"][0]["title"]).to eq(doc_2["titles"][0]["title"])
   end
 
 

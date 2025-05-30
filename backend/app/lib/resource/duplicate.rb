@@ -48,7 +48,15 @@ module Lib
       def duplicate_resource
         resource_source_json_model.id = nil
         resource_source_json_model.id_0 = "[Duplicated] #{resource_source_json_model.id_0}"
-        resource_source_json_model.title = "[Duplicated] #{resource_source_json_model.title}"
+
+        resource_source_json_model.titles = resource_source_json_model.titles.map { |t|
+          {
+            "title" => "[Duplicated] #{t['title']}",
+            "language" => t['language'],
+            "type" => t['type'],
+            "script" => t['script']
+          }
+        }
         resource_source_json_model.ead_id = "[Duplicated] #{resource_source_json_model.ead_id}" if resource_source_json_model.ead_id.present?
 
         resource_source_json_model.linked_agents.each do |linked_agent|
