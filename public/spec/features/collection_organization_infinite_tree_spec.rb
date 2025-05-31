@@ -41,14 +41,6 @@ describe 'Collection Organization', js: true do
         # Flaky batch rendering tests were observed with 101 nodes, where an extra batch
         # sometimes got loaded right after initial page load via the InfiniteTree batchObserver.
         # The workaround is a full last batch, and to select its middle node for the URI fragment.
-        instance_variable_set("@ao#{i + 1}_of_ao7", create(:archival_object,
-          resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao7.uri},
-          publish: true
-        ))
-      end
-
-      81.times do |i| # 5 batches
         instance_variable_set("@ao#{i + 1}_of_ao3", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao3.uri},
@@ -56,7 +48,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      41.times do |i| # 3 batches
+      81.times do |i| # 5 batches
         instance_variable_set("@ao#{i + 1}_of_ao4", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao4.uri},
@@ -64,7 +56,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      21.times do |i| # 2 batches
+      41.times do |i| # 3 batches
         instance_variable_set("@ao#{i + 1}_of_ao5", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao5.uri},
@@ -72,9 +64,17 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      @ao1_of_ao6 = create(:archival_object, # 1 batch
+      21.times do |i| # 2 batches
+        instance_variable_set("@ao#{i + 1}_of_ao6", create(:archival_object,
+          resource: {'ref' => @resource.uri},
+          parent: {'ref' => @ao6.uri},
+          publish: true
+        ))
+      end
+
+      @ao1_of_ao7 = create(:archival_object, # 1 batch
         resource: {'ref' => @resource.uri},
-        parent: {'ref' => @ao6.uri},
+        parent: {'ref' => @ao7.uri},
         publish: true
       )
 
@@ -84,11 +84,11 @@ describe 'Collection Organization', js: true do
     shared_examples 'uri fragment batch rendering' do |parent, batch_offset|
       before(:each) do
         total_nodes = case parent
-                      when 'ao7' then 120
-                      when 'ao3' then 81
-                      when 'ao4' then 41
-                      when 'ao5' then 21
-                      when 'ao6' then 1
+                      when 'ao3' then 120
+                      when 'ao4' then 81
+                      when 'ao5' then 41
+                      when 'ao6' then 21
+                      when 'ao7' then 1
                       end
         @total_batches = (total_nodes / @tree_batch_size.to_f).ceil
         node_position = if batch_offset == @total_batches - 1 && (total_nodes % @tree_batch_size) == 1
@@ -148,7 +148,7 @@ describe 'Collection Organization', js: true do
           case batch_offset
           when 0 # Batches loaded: 0, 1
             last_node_selector = "#archival_object_#{instance_variable_get("@ao40_of_#{parent}").id}"
-            expect(@parent_list).to have_css("#archival_object_#{instance_variable_get("@ao40_of_#{parent}").id} + [data-batch-placeholder='2']", visible: false)
+            expect(@parent_list).to have_css("#{last_node_selector} + [data-batch-placeholder='2']", visible: false)
             if @batch_placeholders_arr.length > 1
               @batch_placeholders_arr.each_cons(2) do |prev, curr|
                 expect(@parent_list).to have_css("[data-batch-placeholder='#{prev}'] + [data-batch-placeholder='#{curr}']", visible: false)
@@ -223,27 +223,27 @@ describe 'Collection Organization', js: true do
 
     context 'when loading a page with a URI fragment' do
       describe 'should load the correct number of siblings' do
-        it_behaves_like 'uri fragment batch rendering', 'ao7', 0
-        it_behaves_like 'uri fragment batch rendering', 'ao7', 1
-        it_behaves_like 'uri fragment batch rendering', 'ao7', 2
-        it_behaves_like 'uri fragment batch rendering', 'ao7', 3
-        it_behaves_like 'uri fragment batch rendering', 'ao7', 4
-        it_behaves_like 'uri fragment batch rendering', 'ao7', 5
-
         it_behaves_like 'uri fragment batch rendering', 'ao3', 0
         it_behaves_like 'uri fragment batch rendering', 'ao3', 1
         it_behaves_like 'uri fragment batch rendering', 'ao3', 2
         it_behaves_like 'uri fragment batch rendering', 'ao3', 3
         it_behaves_like 'uri fragment batch rendering', 'ao3', 4
+        it_behaves_like 'uri fragment batch rendering', 'ao3', 5
 
         it_behaves_like 'uri fragment batch rendering', 'ao4', 0
         it_behaves_like 'uri fragment batch rendering', 'ao4', 1
         it_behaves_like 'uri fragment batch rendering', 'ao4', 2
+        it_behaves_like 'uri fragment batch rendering', 'ao4', 3
+        it_behaves_like 'uri fragment batch rendering', 'ao4', 4
 
         it_behaves_like 'uri fragment batch rendering', 'ao5', 0
         it_behaves_like 'uri fragment batch rendering', 'ao5', 1
+        it_behaves_like 'uri fragment batch rendering', 'ao5', 2
 
         it_behaves_like 'uri fragment batch rendering', 'ao6', 0
+        it_behaves_like 'uri fragment batch rendering', 'ao6', 1
+
+        it_behaves_like 'uri fragment batch rendering', 'ao7', 0
       end
     end
   end
