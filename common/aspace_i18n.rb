@@ -30,7 +30,9 @@ module I18n
     'es' => 'spa',
     'fr' => 'fre',
     'ja' => 'jpn',
-    'de' => 'ger'
+    'de' => 'ger',
+    'it' => 'ita',
+    'uk' => 'ukr'
   }.sort_by { |_, v| v }.to_h.freeze
 
   def self.supported_locales
