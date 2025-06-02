@@ -2,3 +2,17 @@ uk:
   repository:
     _singular: Репозиторій
     _plural: Репозиторії
+  subject:
+    _singular: Суб'єкт
+    _plural: Суб'єкти
+  classification:
+    creator: Творець
+  agent_family:
+    _singular: Сім'я
+    _plural: Сім'ї
+  agent_software:
+    _singular: Програмне забезпечення
+    _plural: Програмне забезпечення
+  agent_person:
+    _plural: Люди
+    _singular: Людина
