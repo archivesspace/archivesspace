@@ -2,13 +2,11 @@ require_relative 'spec_helper'
 require_relative 'spec_slugs_helper'
 
 describe 'Accession model' do
-
   it "allows accessions to be created" do
     accession = create_accession
 
-    expect(Accession[accession[:id]].title).to eq("Papers of Mark Triggs")
+    expect(Accession[accession[:id]].titles[0]['title']).to eq("Papers of Mark Triggs")
   end
-
 
   it "enforces ID uniqueness" do
     expect(lambda {
@@ -23,7 +21,6 @@ describe 'Accession model' do
       end
     }).to raise_error(Sequel::ValidationFailed)
   end
-
 
   it "does not allow a gap in an id sequence" do
     expect {
@@ -99,9 +96,7 @@ describe 'Accession model' do
     expect(Accession[accession[:id]].date[0].begin).to eq("2012-05-14")
   end
 
-
   it "allows accessions to be created with an external document" do
-
     accession = Accession.create_from_json(build(:json_accession,
                                                  :external_documents => [
                                                     {
@@ -112,7 +107,6 @@ describe 'Accession model' do
                                                  ),
                                           :repo_id => $repo_id)
 
-
     expect(Accession[accession[:id]].external_document.length).to eq(1)
     expect(Accession[accession[:id]].external_document[0].title).to eq("My external document")
   end
@@ -120,7 +114,6 @@ describe 'Accession model' do
 
   it "throws an error when accession created with duplicate external documents" do
     expect {
-
       Accession.create_from_json(build(:json_accession,
                                        :external_documents => [
                                           {
@@ -138,7 +131,6 @@ describe 'Accession model' do
   end
 
   it "allows an accession created with external documents with same title duplicate locations" do
-
     accession = Accession.create_from_json(build(:json_accession,
                                       :external_documents => [
                                          {
@@ -155,9 +147,7 @@ describe 'Accession model' do
     expect(Accession[accession[:id]].external_document.length).to eq(2)
   end
 
-
   it "allows accessions to be created with a rights statement" do
-
     accession = Accession.create_from_json(build(:json_accession,
                                                  :rights_statements => [
                                                     {
@@ -196,9 +186,7 @@ describe 'Accession model' do
     expect(Accession.to_jsonmodel(accession[:id]).rights_statements.first['external_documents'].first['identifier_type']).to eq('trove')
   end
 
-
   it "allows accessions to be created with a deaccession" do
-
     accession = Accession.create_from_json(build(:json_accession,
                                                  :deaccessions => [
                                                     {
@@ -211,14 +199,10 @@ describe 'Accession model' do
                                                  ),
                                           :repo_id => $repo_id)
 
-
     expect(Accession[accession[:id]].deaccession.length).to eq(1)
     expect(Accession[accession[:id]].deaccession[0].scope).to eq("whole")
     expect(Accession[accession[:id]].deaccession[0].date.begin).to eq("2012-05-14")
   end
-
-
-
 
   it "reports an error if the accession's collection management record has a total extent that lacks a type" do
     expect {
@@ -244,8 +228,6 @@ describe 'Accession model' do
     expect(Accession[accession[:id]].collection_management.processing_status).to eq("completed")
   end
 
-
-
   it "allows accessions to be created with user defined fields" do
     accession = Accession.create_from_json(build(:json_accession,
                                                  :user_defined =>
@@ -260,50 +242,49 @@ describe 'Accession model' do
     expect(Accession[accession[:id]].user_defined.real_1).to eq("3.14159")
   end
 
-
   it "reports errors if the accession's user defined fields don't validate" do
-    expect {
-      accession = Accession.create_from_json(build(:json_accession,
-                                                   :user_defined =>
-                                                   {
-                                                     "integer_1" => "3.1415",
-                                                   }
-                                                   ),
-                                             :repo_id => $repo_id)
-    }.to raise_error(JSONModel::ValidationException)
+    aggregate_failures "Accession user defined fields validation" do
+      expect {
+        accession = Accession.create_from_json(build(:json_accession,
+                                                     :user_defined =>
+                                                     {
+                                                       "integer_1" => "3.1415",
+                                                     }
+                                                    ),
+                                               :repo_id => $repo_id)
+      }.to raise_error(JSONModel::ValidationException)
 
-    expect {
-      accession = Accession.create_from_json(build(:json_accession,
-                                                   :user_defined =>
-                                                   {
-                                                     "integer_2" => "moo",
-                                                   }
-                                                   ),
-                                             :repo_id => $repo_id)
-    }.to raise_error(JSONModel::ValidationException)
+      expect {
+        accession = Accession.create_from_json(build(:json_accession,
+                                                     :user_defined =>
+                                                     {
+                                                       "integer_2" => "moo",
+                                                     }
+                                                    ),
+                                               :repo_id => $repo_id)
+      }.to raise_error(JSONModel::ValidationException)
 
-    expect {
-      accession = Accession.create_from_json(build(:json_accession,
-                                                   :user_defined =>
-                                                   {
-                                                     "real_1" => "3.1415926",
-                                                   }
-                                                   ),
-                                             :repo_id => $repo_id)
-    }.to raise_error(JSONModel::ValidationException)
+      expect {
+        accession = Accession.create_from_json(build(:json_accession,
+                                                     :user_defined =>
+                                                     {
+                                                       "real_1" => "3.1415926",
+                                                     }
+                                                    ),
+                                               :repo_id => $repo_id)
+      }.to raise_error(JSONModel::ValidationException)
 
-    expect {
-      accession = Accession.create_from_json(build(:json_accession,
-                                                   :user_defined =>
-                                                   {
-                                                     "real_2" => "real_1 failed because you're only allowed five decimal places",
-                                                   }
-                                                   ),
-                                             :repo_id => $repo_id)
-    }.to raise_error(JSONModel::ValidationException)
-
+      expect {
+        accession = Accession.create_from_json(build(:json_accession,
+                                                     :user_defined =>
+                                                     {
+                                                       "real_2" => "real_1 failed because you're only allowed five decimal places",
+                                                     }
+                                                    ),
+                                               :repo_id => $repo_id)
+      }.to raise_error(JSONModel::ValidationException)
+    end
   end
-
 
   it "can be linked to a classification" do
     classification = build(:json_classification,
@@ -317,13 +298,11 @@ describe 'Accession model' do
     expect(accession.related_records(:classification).first.title).to eq("top-level classification")
   end
 
-
   it "respects the publish preference when creating accessions" do
     accession = create_accession
 
     expect(Accession[accession[:id]].publish).to eq(Preference.defaults['publish'] ? 1 : 0)
   end
-
 
   it "can create an accession consisting of a number of parts" do
     parent = create_accession
@@ -351,7 +330,6 @@ describe 'Accession model' do
       expect(parts_child.first['ref']).to eq(parent.uri)
     end
   end
-
 
   it "can bind two accessions together in a sibling relationship" do
     ernie = create_accession
@@ -383,36 +361,43 @@ describe 'Accession model' do
         before(:all) do
           AppConfig[:auto_generate_slugs_with_id] = false
         end
+
         it "autogenerates a slug via title" do
           accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true))
           expected_slug = clean_slug(accession[:title])
           expect(accession[:slug]).to eq(expected_slug)
         end
+
         it "cleans slug" do
           accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
           expect(accession[:slug]).to eq("foo_bar_baz")
         end
+
         it "dedupes slug" do
           accession1 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "foo"))
           accession2 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "foo"))
           expect(accession1[:slug]).to eq("foo")
           expect(accession2[:slug]).to eq("foo_1")
         end
+
         it "turns off autogen if slug is blank" do
           accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true))
           accession.update(:slug => "")
           expect(accession[:is_slug_auto]).to eq(0)
         end
       end
+
       describe "by id" do
         before(:all) do
           AppConfig[:auto_generate_slugs_with_id] = true
         end
+
         it "autogenerates a slug via identifier when configured to generate by id" do
           accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true))
           expected_slug = format_identifier_array(accession[:identifier])
           expect(accession[:slug]).to eq(expected_slug)
         end
+
         it "cleans slug when autogenerating by id" do
           accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "Foo Bar Baz&&&&", :id_1 => "", :id_2 => "", :id_3 => ""))
           expect(accession[:slug]).to eq("foo_bar_baz")
@@ -431,6 +416,7 @@ describe 'Accession model' do
       before(:all) do
         AppConfig[:auto_generate_slugs_with_id] = false
       end
+
       it "slug does not change when config set to autogen by title and title updated" do
         accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => false, :slug => "foo"))
         accession.update(:title => rand(100000000))

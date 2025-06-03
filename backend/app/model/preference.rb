@@ -59,7 +59,7 @@ class Preference < Sequel::Model(:preference)
 
 
   def self.user_global_defaults
-    RequestContext.open(:repo_id => Repository.global_repo_id) do
+    RequestContext.in_global_repo do
       if RequestContext.get(:current_username)
         user_defs = self.parsed_defaults_for(:user_id => User[:username => RequestContext.get(:current_username)].id)
         self.global_defaults.merge(user_defs)

@@ -74,6 +74,7 @@ module Factories
       end
 
       factory :accession, class: JSONModel(:accession) do
+        titles { [build(:title, title: title)] if title }
         id_0 { generate(:generic_id) }
         id_1 { generate(:generic_id) }
         id_2 { generate(:generic_id) }
@@ -82,6 +83,10 @@ module Factories
         condition_description { 'furious' }
         accession_date { '1990-01-01' }
         lang_materials { [build(:json_lang_material)] }
+
+        transient do
+          title { nil }
+        end
       end
 
       factory :resource, class: JSONModel(:resource) do

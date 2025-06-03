@@ -1,3 +1,5 @@
+require 'multiple_titles_helper'
+
 class Accession < Sequel::Model(:accession)
   include ASModel
   corresponds_to JSONModel(:accession)
@@ -25,6 +27,7 @@ class Accession < Sequel::Model(:accession)
   include ReindexTopContainers
   include Assessments::LinkedRecord
   include RepresentativeFileVersion
+  include Titles
 
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
@@ -63,7 +66,9 @@ class Accession < Sequel::Model(:accession)
 
   auto_generate :property => :display_string,
                 :generator => lambda { |json|
-                  return json["title"] if json["title"]
+                  locale = Preference.user_global_defaults['locale'] || Preference.global_defaults['locale']
+                  primary_title = MultipleTitlesHelper.determine_primary_title(json['titles'], locale)
+                  return primary_title if primary_title
 
                   %w(id_0 id_1 id_2 id_3).map {|p| json[p]}.compact.join("-")
                 }
@@ -80,6 +85,4 @@ class Accession < Sequel::Model(:accession)
                     end
                   end
                 }
-
-
 end

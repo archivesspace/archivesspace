@@ -422,7 +422,10 @@ class IndexerCommon
         end
         doc['accession_date_year'] = Date.parse(date).year
         doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
+        doc['display_string'] = record['record']['display_string']
         doc['title'] = record['record']['display_string']
+        doc['titles_u_sstr'] = record['record']['titles'].map {|t| t['title']}
+        doc['title_languages_enum_s'] = record['record']['titles'].map {|t| t['language'] || 'zzz'}
 
         doc['acquisition_type'] = record['record']['acquisition_type']
         doc['resource_type'] = record['record']['resource_type']
@@ -1095,7 +1098,6 @@ class IndexerCommon
 
 
   def delete_records(records, opts = {})
-
     return if records.empty?
 
     req = Net::HTTP::Post.new("#{solr_url.path}/update")

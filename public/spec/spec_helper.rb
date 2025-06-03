@@ -81,7 +81,7 @@ def setup_test_data
     build(:instance_digital, digital_object: { 'ref' => digi_obj.uri })
   ])
 
-  create(:accession_with_deaccession, title: "Published Accession with Deaccession")
+  create(:accession, :with_deaccession, title: "Published Accession with Deaccession")
   create(:accession, title: "Accession for Phrase Search")
 
 

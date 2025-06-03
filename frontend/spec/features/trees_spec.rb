@@ -75,7 +75,7 @@ describe 'Tree UI', js: true do
     @archival_object_4.set_suppressed(true)
 
     visit "resources/#{@resource.id}/edit"
-    expect(page).to have_text @resource.title
+    expect(page).to have_text @resource.titles[0]['title']
   end
 
   it 'can add a sibling' do

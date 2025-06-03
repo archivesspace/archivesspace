@@ -1,5 +1,4 @@
 class ArchivalObject < JSONModel(:archival_object)
-
   def populate_from_accession(accession)
     values = accession.to_hash(:raw)
 
@@ -32,10 +31,6 @@ class ArchivalObject < JSONModel(:archival_object)
       notes << JSONModel(:note_singlepart).from_hash(:type => "physdesc",
                                                      :label => I18n.t('accession.condition_description'),
                                                      :content => [accession.condition_description])
-    end
-
-    if accession.title
-      self.titles = [JSONModel(:title).from_hash(title: accession.title)]
     end
 
     self.notes.concat(notes)
