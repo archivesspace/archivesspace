@@ -74,6 +74,7 @@ describe 'Collection Management', js: true do
 
     click_on 'Create'
     click_on 'Accession'
+    click_on 'Add Title'
     fill_in("Title", with: "Test Accession Title #{now}")
     fill_in("Identifier", with: "Test Accession Identifier #{now}")
     click_on 'Add Collection Management Fields'
