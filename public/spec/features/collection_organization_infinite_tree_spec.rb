@@ -153,7 +153,7 @@ describe 'Collection Organization', js: true do
               curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
 
               if node_num == 1
-                expect(@parent_list).to have_css("& #archival_object_#{@node_record_id}:first-child")
+                expect(@parent_list).to have_css("& #archival_object_#{curr_node_id}:first-child")
               elsif node_num < @total_nodes
                 next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
                 expect(@parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
