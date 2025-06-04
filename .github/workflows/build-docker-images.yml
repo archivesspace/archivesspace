@@ -1,0 +1,86 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - master
+      - mlc-multiple-titles
+      - 'ANW-**'
+    tags:
+      - 'v[2-9].[0-9].[0-9]*'  # matches v2.0.0, v3.1.4-beta, etc.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Determine Docker tag
+        id: tag
+        shell: bash
+        run: |
+          REF_TYPE="${GITHUB_REF_TYPE}"  # either 'branch' or 'tag'
+          REF_NAME="${GITHUB_REF_NAME}"  # actual branch or tag name
+
+          if [ "$REF_TYPE" = "branch" ]; then
+            if [ "$REF_NAME" = "master" ]; then
+              TAG="latest"
+            elif [ "$REF_NAME" = "mlc-multiple-titles" ]; then
+              TAG="mlc-multiple-titles"
+            elif [[ "$REF_NAME" =~ ^(ANW-[0-9]+).*-build$ ]]; then
+              TAG="${BASH_REMATCH[1]}"
+            else
+              echo "Branch $REF_NAME does not match tagging rules. Skipping."
+              exit 0
+            fi
+          elif [ "$REF_TYPE" = "tag" ]; then
+            if [[ "$REF_NAME" =~ ^v([2-9]\.[0-9]+\.[0-9].*)$ ]]; then
+              TAG="${BASH_REMATCH[1]}"
+            else
+              echo "Tag $REF_NAME does not match versioning rules. Skipping."
+              exit 0
+            fi
+          else
+            echo "Unknown ref type: $REF_TYPE"
+            exit 1
+          fi
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push ArchivesSpace image
+        if: steps.tag.outputs.tag != ''
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: archivesspace/archivesspace:${{ steps.tag.outputs.tag }}
+
+      - name: Build and push Solr image
+        if: steps.tag.outputs.tag != ''
+        uses: docker/build-push-action@v5
+        with:
+          context: ./solr
+          push: true
+          tags: archivesspace/archivesspace-solr:${{ steps.tag.outputs.tag }}
+
+      - name: Build and push Proxy image
+        if: steps.tag.outputs.tag != ''
+        uses: docker/build-push-action@v5
+        with:
+          context: ./proxy
+          push: true
+          tags: archivesspace/archivesspace-proxy:${{ steps.tag.outputs.tag }}
