@@ -16,3 +16,20 @@ uk:
   agent_person:
     _plural: Люди
     _singular: Людина
+  agent_contact:
+    name: Ім'я контактної особи
+    address_1: Адреса 1
+    address_3: Адреса 3
+    salutation: Привітання
+    address_2: Адреса 2
+    city: Місто
+    region: Штат/Регіон
+    country: Країна
+    post_code: Поштовий індекс
+    fax: Факс
+    email: Електронна пошта
+  telephone:
+    _plural: Номери телефонів
+    number_type: Тип числа
+    number: Номер
+    ext: Додатковий телефонний номер
