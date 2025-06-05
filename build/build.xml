@@ -356,9 +356,17 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-Iapp/lib scripts/export_config.rb docker_prod/archivesspace/config/config.rb" />
-    </java>
 
+      <env key="APPCONFIG_DB_URL" value="jdbc:mysql://db:3306/archivesspace?useUnicode=true&amp;characterEncoding=UTF-8&amp;user=as&amp;password=as123&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
+      <env key="APPCONFIG_DB_URL" value="jdbc:mysql://db:3306/archivesspace?useUnicode=true&amp;characterEncoding=UTF-8&amp;user=as&amp;password=as123&amp;useSSL=false&amp;allowPublicKeyRetrieval=true" />
+      <env key="APPCONFIG_SOLR_URL" value="http://solr:8983/solr/archivesspace" />
+      <env key="APPCONFIG_FORCE_SSL" value="false" />
+      <env key="APPCONFIG_FRONTEND_PROXY_URL" value="http://localhost/staff/" />
+      <env key="APPCONFIG_OAI_PROXY_URL" value="http://localhost/oai" />
+      <env key="APPCONFIG_PUBLIC_PROXY_URL" value="http://localhost/" />
+
+      <arg line="-Iapp/lib scripts/export_config.rb docker_prod/archivesspace/config/config.rb true" />
+    </java>
     <zip zipfile="../archivesspace-docker-${version}.zip" level="9">
       <zipfileset dir="docker_prod" />
     </zip>
