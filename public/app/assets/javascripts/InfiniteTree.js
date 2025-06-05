@@ -71,16 +71,20 @@
      */
     async renderRoot() {
       const rootData = await this.getNodeData();
-      const rootFragment = this.markup.root(this.markup.title(rootData));
-      const rootNode = rootFragment.querySelector('li');
+      const rootListFrag = this.markup.rootList();
+      const rootListElement = rootListFrag.querySelector('ol');
+      const rootNodeFrag = this.markup.rootNode(this.markup.title(rootData));
+      const rootNodeElement = rootNodeFrag.querySelector('li');
 
       if (rootData.child_count > 0) {
-        rootNode.setAttribute('aria-expanded', 'true');
+        rootNodeElement.setAttribute('aria-expanded', 'true');
 
-        await this.renderInitialBatchForNode(rootNode, rootData);
+        await this.renderInitialBatchForNode(rootNodeElement, rootData);
       }
 
-      this.container.appendChild(rootFragment);
+      rootListElement.appendChild(rootNodeFrag);
+
+      this.container.appendChild(rootListFrag);
     }
 
     /**
@@ -90,29 +94,18 @@
      */
     async renderInitialBatchForNode(node, nodeData) {
       const batchData = this.prepareBatch(node, nodeData);
-      const list = this.renderList(node, batchData.level, nodeData.waypoints);
+      const listFragment = this.markup.nodeList(
+        node.id,
+        batchData.level + 1,
+        nodeData.waypoints
+      );
+
+      node.appendChild(listFragment);
+
+      const list = node.querySelector('.node-children');
       const observeForBatch = nodeData.waypoints > 1 ? 1 : null;
 
       this.renderBatch(list, batchData.nodes, 0, observeForBatch);
-    }
-
-    /**
-     * Renders and returns the list element for child nodes
-     * @param {HTMLElement} parent - Parent node element
-     * @param {number} parentLevel - Tree level of the parent
-     * @param {number} numBatches - Number of batch placeholders to create
-     * @returns {HTMLElement} The rendered list element
-     */
-    renderList(parent, parentLevel, numBatches) {
-      const listFragment = this.markup.list(
-        parent.id,
-        parentLevel + 1,
-        numBatches
-      );
-
-      parent.appendChild(listFragment);
-
-      return parent.querySelector('.node-children');
     }
 
     /**
@@ -123,11 +116,6 @@
      * @param {number|null} observeForBatch - The number of a neighboring batch to observe for, null if none
      */
     renderBatch(list, nodes, batchNumber, observeForBatch = null) {
-      if (!Array.isArray(nodes)) {
-        console.error('renderBatch expected nodes to be an array, got:', nodes);
-        return;
-      }
-
       const listMeta = this.validateList(list);
       if (!listMeta) return;
 
@@ -240,7 +228,7 @@
           const treeListFrag = this.markup.rootList();
           const treeListElement = treeListFrag.querySelector('ol');
 
-          const rootNodeFrag = this.markup.newRootNode(nodeTitle);
+          const rootNodeFrag = this.markup.rootNode(nodeTitle);
           const rootNodeElement = rootNodeFrag.querySelector('li');
 
           const nodeListFrag = this.markup.nodeList(
@@ -494,7 +482,7 @@
       entries.forEach(async entry => {
         if (entry.isIntersecting) {
           const node = entry.target;
-          const parentNodeUri = node.getAttribute('data-observe-node'); // this attr needs to be renamed to data-parent-uri
+          const parentNodeUri = node.getAttribute('data-parent-uri');
           const siblingList = node.closest('.node-children');
           const batchOffset = Number(node.getAttribute('data-observe-offset'));
           const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
@@ -534,14 +522,14 @@
           );
 
           node.removeAttribute('data-observe-next-batch');
-          node.removeAttribute('data-observe-node');
+          node.removeAttribute('data-parent-uri');
           node.removeAttribute('data-observe-offset');
           observer.unobserve(node);
 
           if (observeForBatch !== null) {
             const nextNode = siblingList.querySelector(
               `[data-observe-next-batch][data-observe-offset="${observeForBatch}"]`
-            ); // TODO the data-observe-next-batch attr should be renamed or removed, "next" is not holistic enough
+            );
 
             if (nextNode) {
               observer.observe(nextNode);
