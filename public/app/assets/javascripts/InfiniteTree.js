@@ -52,13 +52,17 @@
           this.uriFragment.split('_')[this.uriFragment.split('_').length - 1];
         const nodeElementId = this.uriFragment.replace('#tree::', '');
 
-        this.allAncestorBatches(nodeRecordId)
-          .then(data => {
-            this.renderAncestors(data, nodeElementId);
-          })
-          .catch(error => {
-            console.error('Error fetching ancestors:', error);
-          });
+        if (nodeElementId.includes('resource')) {
+          this.renderRoot();
+        } else {
+          this.allAncestorBatches(nodeRecordId)
+            .then(data => {
+              this.renderAncestors(data, nodeElementId);
+            })
+            .catch(error => {
+              console.error('Error fetching ancestors:', error);
+            });
+        }
       }
     }
 
