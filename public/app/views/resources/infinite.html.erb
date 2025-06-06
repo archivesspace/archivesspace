@@ -44,6 +44,7 @@
 <%= render partial: 'resources/infinite_load_all', locals: {num_records: num_records} %>
 
 <script>
+const uriFragment = window.location.hash;
 const resourceUri = '<%= @result["uri"] %>';
 const treeWaypointSize = '<%= tree_waypoint_size %>';
 const identifier_separator = '<%= I18n.t("resource.identifier_separator") %>';
@@ -58,14 +59,16 @@ const infiniteRecords = new InfiniteRecords(
   appUrlPrefix,
   workerPath,
   mainMaxFetches,
-  workerMaxFetches
+  workerMaxFetches,
+  uriFragment
 );
 const infiniteTree = new InfiniteTree(
   treeWaypointSize,
   appUrlPrefix,
   resourceUri,
   identifier_separator,
-  date_type_bulk
+  date_type_bulk,
+  uriFragment
 );
 
 infiniteTree.container.addEventListener('click', (e) => {
@@ -80,15 +83,9 @@ infiniteTree.container.addEventListener('click', (e) => {
  * @param {InfiniteRecords} records - InfiniteRecords instance
  */
 function treeClickDelegator(event, tree, records) {
-  if (
-    !event.target.classList.contains('node-expand') &&
-    !event.target.classList.contains('node-expand-icon') &&
-    !event.target.classList.contains('node-title')
-  ) return;
-
-  if (event.target.className.includes('node-expand')) {
+  if (event.target.closest('.node-expand')) {
     tree.expandHandler(event);
-  } else if (event.target.classList.contains('node-title')) {
+  } else if (event.target.closest('.node-title')) {
     records.treeLinkHandler(event);
   }
 }
