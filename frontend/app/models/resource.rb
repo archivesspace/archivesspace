@@ -53,6 +53,10 @@ class Resource < JSONModel(:resource)
                                                      :content => [accession.condition_description])
     end
 
+    if accession.title
+      self.titles = [JSONModel(:title).from_hash(title: accession.title)]
+    end
+
     self.notes.concat(notes)
 
     self.rights_statements = Array(accession.rights_statements).map {|rights_statement|

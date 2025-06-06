@@ -182,7 +182,7 @@ describe 'Resources', js: true do
           expect(page).to have_css("ul.merge-form")
           expect(page).to have_css("div[role='combobox'][aria-expanded='false']")
           expect(page).to have_css("input[role='searchbox'][type='text'][aria-multiline='false']")
-          find("input[role='searchbox'][type='text']").fill_in with: second_resource.title
+          find("input[role='searchbox'][type='text']").fill_in with: second_resource.titles[0]['title']
           expect(page).to have_css("div[role='combobox'][aria-expanded='true']")
           expect(page).to have_css("div[role='combobox'] ul[role='listbox']")
           expect(page).to have_css("input[role='searchbox'][aria-controls='merge_ref__listbox']")
@@ -289,7 +289,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     wait_for_ajax
 
@@ -299,19 +299,6 @@ describe 'Resources', js: true do
       click_link('Generate Bulk Archival Object Spreadsheet')
     end
 
-    expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
-    expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
-    expect(page).to have_text 'Selected Records: 0'
-
-    visit "resources/#{resource.id}/edit"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    find('#other-dropdown button').click
-
-    within('.dropdown-menu') do
-      click_link('Generate Bulk Archival Object Spreadsheet')
-    end
     expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
     expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
     expect(page).to have_text 'Selected Records: 0'
@@ -377,7 +364,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'More'
 
@@ -506,7 +493,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     wait_for_ajax
 
@@ -585,7 +572,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     element = find('#tree-container')
     expect(element).to have_text "Updated Archival Object Title 1 #{now}"
@@ -608,7 +595,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Duplicate Resource'
     within '#confirmChangesModal' do
@@ -635,15 +622,15 @@ describe 'Resources', js: true do
 
     links = all('#jobRecordsSpool .subrecord-form-fields a')
     expect(links.length).to eq 1
-    expect(links[0].text).to eq "[Duplicated] #{resource.title}"
+    expect(links[0].text).to eq "[Duplicated] #{resource.titles[0]['title']}"
 
-    click_on "[Duplicated] #{resource.title}"
+    click_on "[Duplicated] #{resource.titles[0]['title']}"
 
     click_on 'Edit'
 
-    expect(page).to have_selector('h2', visible: true, text: "[Duplicated] #{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "[Duplicated] #{resource.titles[0]['title']} Resource")
 
-    expect(find('#resource_title_').value).to eq "[Duplicated] #{resource.title}"
+    expect(find('#resource_title_').value).to eq "[Duplicated] #{resource.titles[0]['title']}"
     expect(find('#resource_id_0_').value).to eq "[Duplicated] #{resource.id_0}"
     expect(find('#resource_id_1_').value).to eq "#{resource.id_1}"
     expect(find('#resource_id_2_').value).to eq "#{resource.id_2}"
@@ -721,7 +708,7 @@ describe 'Resources', js: true do
     click_on 'Create'
     click_on 'Resource'
 
-    element = find('#resource_title_')
+    element = find('#resource_titles__0__title_')
     element.fill_in with: ''
 
     # Click on save
@@ -758,7 +745,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Add Container Instance'
 
@@ -773,7 +760,7 @@ describe 'Resources', js: true do
     within '#resource_instances__0__sub_container__top_container__ref__modal' do
       expect(page).to have_text 'Browse Top Containers'
       element = find("#_repositories_#{@repository.id}_resources_#{resource.id}")
-      expect(element).to have_text resource.title
+      expect(element).to have_text resource.titles[0]['title']
       expect(element).to have_css '.token-input-delete-token'
 
       wait_for_ajax
@@ -798,7 +785,7 @@ describe 'Resources', js: true do
 
     run_index_round
 
-    expect(page).to have_text "Resource #{resource.title} updated"
+    expect(page).to have_text "Resource #{resource.titles[0]['title']} updated"
 
     run_periodic_index
 
@@ -821,7 +808,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Add Rights Statement'
 
@@ -851,9 +838,9 @@ describe 'Resources', js: true do
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
 
-    expect(page).to have_text "Resource #{resource.title} updated"
+    expect(page).to have_text "Resource #{resource.titles[0]['title']} updated"
 
-    find_link(resource.title, match: :first).click
+    find_link(resource.titles[0]['title'], match: :first).click
 
     expect(page).to have_css '#resource_rights_statements_'
     find('#resource_rights_statements_ .accordion-toggle').click
@@ -869,7 +856,7 @@ describe 'Resources', js: true do
 
     click_on 'Create'
     click_on 'Resource'
-    fill_in 'resource_title_', with: "Resource Title #{now}"
+    fill_in 'resource_titles__0__title_', with: "Resource Title #{now}"
     fill_in 'resource_id_0_', with: "1 #{now}"
     fill_in 'resource_id_1_', with: "2 #{now}"
     fill_in 'resource_id_2_', with: "3 #{now}"
@@ -911,9 +898,9 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
-    fill_in 'resource_title_', with: ''
+    fill_in 'resource_titles__0__title_', with: ''
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
@@ -930,7 +917,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Add Child'
 
@@ -949,7 +936,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Add Child'
 
@@ -961,7 +948,7 @@ describe 'Resources', js: true do
     within '#form_messages' do
       element = find('.alert.alert-danger.with-hide-alert')
       expect(element).to have_text 'Dates - one or more required (or enter a Title)'
-      expect(element).to have_text 'Title - must not be an empty string (or enter a Date)'
+      expect(element).to have_text 'Title - must not be an empty list (or enter a Date)'
     end
   end
 
@@ -971,7 +958,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Add Extent'
 
@@ -981,7 +968,7 @@ describe 'Resources', js: true do
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
 
-    expect(page).to have_text "Resource #{resource.title} updated"
+    expect(page).to have_text "Resource #{resource.titles[0]['title']} updated"
 
     click_on 'Close Record'
 
@@ -1011,7 +998,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     within '#form_download_ead', visible: false do
       element = find('#include-uris', visible: false)
@@ -1025,7 +1012,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
     files.each do |file|
@@ -1043,7 +1030,7 @@ describe 'Resources', js: true do
     files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
     expect(files.length).to eq 1
     file = File.read(files[0])
-    expect(file).to include(resource.title)
+    expect(file).to include(resource.titles[0]['title'])
   end
 
   it 'exports a prefilled CSV template to import digital objects to archival objects' do
@@ -1053,7 +1040,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
     files.each do |file|
@@ -1090,7 +1077,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
     click_on 'Export'
@@ -1110,7 +1097,7 @@ describe 'Resources', js: true do
     agent_corporate_entity = create(:agent_corporate_entity)
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Agent Links'
     click_on 'Add Agent Link'
@@ -1134,7 +1121,7 @@ describe 'Resources', js: true do
     resource = create(:resource, title: "Resource Title #{now}")
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Add Deaccession'
 
@@ -1177,7 +1164,7 @@ describe 'Resources', js: true do
     resource = create(:resource, title: "Resource Title #{now}")
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     find('#other-dropdown').click
     click_on 'Calculate Extent'
@@ -1196,7 +1183,7 @@ describe 'Resources', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Add Digital Object'
 
@@ -1230,7 +1217,7 @@ describe 'Resources', js: true do
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
 
-    expect(page).to have_text "Resource #{resource.title} updated"
+    expect(page).to have_text "Resource #{resource.titles[0]['title']} updated"
 
     element = find('.token-input-token .digital_object')
     expect(element).to have_text "Digital Object Title #{now}"

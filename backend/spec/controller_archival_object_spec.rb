@@ -3,10 +3,9 @@ require 'spec_helper'
 describe 'Archival Object controller' do
 
   it "lets you create an archival object and get it back" do
-    opts = {:title => 'The archival object title'}
-
-    created = create(:json_archival_object, opts).id
-    expect(JSONModel(:archival_object).find(created).title).to eq(opts[:title])
+    title = 'The archival object title'
+    created = create(:json_archival_object, {:titles => [build(:json_title, :title => title)]}).id
+    expect(JSONModel(:archival_object).find(created).titles[0]['title']).to eq(title)
   end
 
   it "returns nil if the archival object is not in this repository" do
@@ -26,7 +25,7 @@ describe 'Archival Object controller' do
 
   it "gives you a better error if a uri is jacked" do
     expect {
-      create(:json_archival_object, :resource => {:ref => "/bad/uri"}, :title => "AO1")
+      create(:json_archival_object, :resource => {:ref => "/bad/uri"})
     }.to raise_error(JSONModel::ValidationException)
   end
 
@@ -37,29 +36,29 @@ describe 'Archival Object controller' do
     ao_1 = create(:json_archival_object,
                   :dates => [],
                   :resource => {:ref => resource.uri},
-                  :title => "AO1")
+                  :titles => [build(:json_title, :title => "AO1")])
     ao_2 = create(:json_archival_object,
                   :dates => [],
                   :resource => {:ref => resource.uri},
-                  :title => "AO2")
+                  :titles => [build(:json_title, :title => "AO2")])
     ao_3 = create(:json_archival_object,
                   :dates => [],
                   :resource => {:ref => resource.uri},
-                  :title => "AO3")
+                  :titles => [build(:json_title, :title => "AO3"), build(:json_title, :title => "AO4")])
 
     tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
-    expect(tree["precomputed_waypoints"][""]["0"][0]["title"]).to eq("AO1")
-    expect(tree["precomputed_waypoints"][""]["0"][1]["title"]).to eq("AO2")
-    expect(tree["precomputed_waypoints"][""]["0"][2]["title"]).to eq("AO3")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["titles"][0]["title"]).to eq("AO1")
+    expect(tree["precomputed_waypoints"][""]["0"][1]["titles"][0]["title"]).to eq("AO2")
+    expect(tree["precomputed_waypoints"][""]["0"][2]["titles"][0]["title"]).to eq("AO3")
 
     ao_1 = JSONModel(:archival_object).find(ao_1.id)
     ao_1.position = 1  # the second position
     ao_1.save
 
     tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
-    expect(tree["precomputed_waypoints"][""]["0"][0]["title"]).to eq("AO2")
-    expect(tree["precomputed_waypoints"][""]["0"][1]["title"]).to eq("AO1")
-    expect(tree["precomputed_waypoints"][""]["0"][2]["title"]).to eq("AO3")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["titles"][0]["title"]).to eq("AO2")
+    expect(tree["precomputed_waypoints"][""]["0"][1]["titles"][0]["title"]).to eq("AO1")
+    expect(tree["precomputed_waypoints"][""]["0"][2]["titles"][0]["title"]).to eq("AO3")
   end
 
 
@@ -69,21 +68,21 @@ describe 'Archival Object controller' do
     ao_1 = create(:json_archival_object,
                   :dates => [],
                   :resource => {:ref => resource.uri},
-                  :title => "AO1")
+                  :titles => [build(:json_title, :title => "AO1")])
     ao_2 = create(:json_archival_object,
                   :dates => [],
                   :resource => {:ref => resource.uri},
-                  :title => "AO2")
+                  :titles => [build(:json_title, :title => "AO2")])
     ao_3 = create(:json_archival_object,
                   :dates => [],
                   :resource => {:ref => resource.uri},
-                  :title => "AO3",
+                  :titles => [build(:json_title, :title => "AO3")],
                   :position => 1)
 
     tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
-    expect(tree["precomputed_waypoints"][""]["0"][0]["title"]).to eq("AO1")
-    expect(tree["precomputed_waypoints"][""]["0"][1]["title"]).to eq("AO3")
-    expect(tree["precomputed_waypoints"][""]["0"][2]["title"]).to eq("AO2")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["titles"][0]["title"]).to eq("AO1")
+    expect(tree["precomputed_waypoints"][""]["0"][1]["titles"][0]["title"]).to eq("AO3")
+    expect(tree["precomputed_waypoints"][""]["0"][2]["titles"][0]["title"]).to eq("AO2")
   end
 
 
@@ -93,16 +92,16 @@ describe 'Archival Object controller' do
     ao_1 = create(:json_archival_object,
                   :dates => [],
                   :resource => {:ref => resource.uri},
-                  :title => "AO1",
+                  :titles => [build(:json_title, :title => "AO1")],
                   :position => 1)
     ao_2 = create(:json_archival_object,
                   :dates => [],
                   :resource => {:ref => resource.uri},
-                  :title => "AO2")
+                  :titles => [build(:json_title, :title => "AO2")])
 
     tree = JSONModel::HTTP.get_json("#{resource.uri}/tree/root")
-    expect(tree["precomputed_waypoints"][""]["0"][0]["title"]).to eq("AO1")
-    expect(tree["precomputed_waypoints"][""]["0"][1]["title"]).to eq("AO2")
+    expect(tree["precomputed_waypoints"][""]["0"][0]["titles"][0]["title"]).to eq("AO1")
+    expect(tree["precomputed_waypoints"][""]["0"][1]["titles"][0]["title"]).to eq("AO2")
   end
 
 
@@ -128,13 +127,13 @@ describe 'Archival Object controller' do
   it "handles updates for an existing archival object" do
     created = create(:json_archival_object)
 
-    opts = {:title => 'A brand new title'}
+    title = 'A brand new title'
 
     ao = JSONModel(:archival_object).find(created.id)
-    ao.title = opts[:title]
+    ao.titles = [build(:json_title, :title => title)]
     ao.save
 
-    expect(JSONModel(:archival_object).find(created.id).title).to eq(opts[:title])
+    expect(JSONModel(:archival_object).find(created.id).titles[0]['title']).to eq(title)
   end
 
 
@@ -192,7 +191,7 @@ describe 'Archival Object controller' do
     parent = create(:json_archival_object, :resource => {:ref => resource.uri})
 
     child = create(:json_archival_object, {
-                     :title => 'Child',
+                     :titles => [build(:json_title, :title => 'Child')],
                      :parent => {:ref => parent.uri},
                      :resource => {:ref => resource.uri}
                    })
@@ -201,7 +200,7 @@ describe 'Archival Object controller' do
     expect(last_response).to be_ok
 
     children = JSON(last_response.body)
-    expect(children[0]['title']).to eq('Child')
+    expect(children[0]['titles'][0]['title']).to eq('Child')
   end
 
 
@@ -331,11 +330,11 @@ describe 'Archival Object controller' do
     children = JSON(last_response.body)
 
     expect(children.length).to eq(2)
-    expect(children[0]["title"]).to eq(archival_object_1["title"])
+    expect(children[0]["titles"][0]["title"]).to eq(archival_object_1["titles"][0]["title"])
     expect(children[0]["parent"]["ref"]).to eq(parent_archival_object.uri)
     expect(children[0]["resource"]["ref"]).to eq(resource.uri)
 
-    expect(children[1]["title"]).to eq(archival_object_2["title"])
+    expect(children[1]["titles"][0]["title"]).to eq(archival_object_2["titles"][0]["title"])
     expect(children[1]["parent"]["ref"]).to eq(parent_archival_object.uri)
     expect(children[1]["resource"]["ref"]).to eq(resource.uri)
   end
@@ -413,11 +412,11 @@ describe 'Archival Object controller' do
     children = ASUtils.json_parse(last_response.body)
 
     expect(children.length).to eq(2)
-    expect(children[0]["title"]).to eq(sibling_1["title"])
+    expect(children[0]["titles"][0]["title"]).to eq(sibling_1["titles"][0]["title"])
     expect(children[0]["parent"]["ref"]).to eq(target.uri)
     expect(children[0]["resource"]["ref"]).to eq(resource.uri)
 
-    expect(children[1]["title"]).to eq(sibling_2["title"])
+    expect(children[1]["titles"][0]["title"]).to eq(sibling_2["titles"][0]["title"])
     expect(children[1]["parent"]["ref"]).to eq(target.uri)
     expect(children[1]["resource"]["ref"]).to eq(resource.uri)
   end

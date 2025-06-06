@@ -35,7 +35,7 @@ describe 'Events', js: true do
     select_repository @repository
     visit "/resources/#{@resource.id}"
     expect(page).to have_selector('h2', visible: true)
-    expect(find('h2').text).to eq "#{@resource.title} Resource"
+    expect(find('h2').text).to eq "#{@resource.titles[0]['title']} Resource"
 
     click_button('Add Event')
     expect(page).to have_selector('.dropdown-menu.add-event-form', visible: true)
