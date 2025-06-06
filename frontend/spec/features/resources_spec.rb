@@ -647,7 +647,7 @@ describe 'Resources', js: true do
 
     visit "accessions/#{accession.id}"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{accession.title} Accession")
+    expect(page).to have_selector('h2', visible: true, text: "#{accession.titles[0]['title']} Accession")
 
     click_on 'Spawn'
     click_on 'Resource'

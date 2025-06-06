@@ -80,7 +80,7 @@ describe 'Merge and Transfer', js: true do
     visit "resources/#{resource_target.id}/edit"
 
     expect(page).to have_selector('h2', visible: true)
-    expect(find('h2').text).to eq "#{resource_target.title} Resource"
+    expect(find('h2').text).to eq "#{resource_target.titles[0]['title']} Resource"
 
     find('#merge-dropdown button').click
 

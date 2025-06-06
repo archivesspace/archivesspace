@@ -1,120 +1,125 @@
 [
     {
-        "access_restrictions": false, 
-        "accession_date": "2013-05-07 00:00:00 UTC", 
+        "access_restrictions": false,
+        "accession_date": "2013-05-07 00:00:00 UTC",
         "collection_management": {
-            "cataloged_note": "A collection management record", 
-            "external_ids": [], 
-            "jsonmodel_type": "collection_management", 
+            "cataloged_note": "A collection management record",
+            "external_ids": [],
+            "jsonmodel_type": "collection_management",
             "repository": {
                 "ref": "/repositories/{{repo_id}}"
-            }, 
-            "rights_determined": false, 
+            },
+            "rights_determined": false,
             "uri": "/repositories/{{repo_id}}/collection_management/1"
-        }, 
+        },
         "dates": [
             {
-                "begin": "2013-05-07", 
-                "date_type": "single", 
-                "expression": "A test date", 
-                "jsonmodel_type": "date", 
+                "begin": "2013-05-07",
+                "date_type": "single",
+                "expression": "A test date",
+                "jsonmodel_type": "date",
                 "label": "copyright"
             }
-        ], 
-        "deaccessions": [], 
+        ],
+        "deaccessions": [],
         "extents": [
             {
-                "extent_type": "cassettes", 
-                "jsonmodel_type": "extent", 
-                "number": "123", 
+                "extent_type": "cassettes",
+                "jsonmodel_type": "extent",
+                "number": "123",
                 "portion": "whole"
             }
         ],
         "external_documents": [
             {
-                "jsonmodel_type": "external_document", 
-                "location": "http://www.archivesspace.org/", 
-                "publish": true, 
+                "jsonmodel_type": "external_document",
+                "location": "http://www.archivesspace.org/",
+                "publish": true,
                 "title": "A test external document"
             }
-        ], 
-        "external_ids": [], 
-        "id_0": "tstacc01", 
-        "instances": [], 
-        "jsonmodel_type": "accession", 
+        ],
+        "external_ids": [],
+        "id_0": "tstacc01",
+        "instances": [],
+        "jsonmodel_type": "accession",
         "linked_agents": [
             {
-                "ref": "/agents/software/1", 
-                "relator": "act", 
-                "role": "source", 
+                "ref": "/agents/software/1",
+                "relator": "act",
+                "role": "source",
                 "terms": []
             }
-        ], 
-        "publish": false, 
+        ],
+        "publish": false,
         "related_resources": [
             {
                 "ref": "/repositories/{{repo_id}}/resources/1"
             }
-        ], 
+        ],
         "repository": {
             "ref": "/repositories/{{repo_id}}"
-        }, 
-        "restrictions_apply": false, 
-        "rights_statements": [], 
+        },
+        "restrictions_apply": false,
+        "rights_statements": [],
         "subjects": [
             {
                 "ref": "/subjects/1"
             }
-        ], 
-        "suppressed": false, 
-        "title": "A test accession", 
-        "uri": "/repositories/{{repo_id}}/accessions/1", 
-        "use_restrictions": false, 
+        ],
+        "suppressed": false,
+        "titles": [
+                {
+                  "jsonmodel_type": "title",
+                  "title": "A test accession"
+                }
+              ],
+        "uri": "/repositories/{{repo_id}}/accessions/1",
+        "use_restrictions": false,
         "user_defined": {
-            "boolean_1": true, 
-            "boolean_2": false, 
-            "integer_1": "123", 
-            "jsonmodel_type": "user_defined", 
+            "boolean_1": true,
+            "boolean_2": false,
+            "integer_1": "123",
+            "jsonmodel_type": "user_defined",
             "repository": {
                 "ref": "/repositories/{{repo_id}}"
             }
         }
-    }, 
+    },
     {
         "collection_management": {
-            "cataloged_note": "A collection management record", 
-            "external_ids": [], 
-            "jsonmodel_type": "collection_management", 
+            "cataloged_note": "A collection management record",
+            "external_ids": [],
+            "jsonmodel_type": "collection_management",
             "repository": {
                 "ref": "/repositories/{{repo_id}}"
-            }, 
-            "rights_determined": false, 
+            },
+            "rights_determined": false,
             "uri": "/repositories/{{repo_id}}/collection_management/2"
-        }, 
+        },
         "dates": [
             {
-                "begin": "2013-05-07", 
-                "date_type": "single", 
-                "expression": "A test date", 
-                "jsonmodel_type": "date", 
+                "begin": "2013-05-07",
+                "date_type": "single",
+                "expression": "A test date",
+                "jsonmodel_type": "date",
                 "label": "copyright"
             }
-        ], 
-        "deaccessions": [], 
-        "ead_id": "abc123", 
+        ],
+        "deaccessions": [],
+        "ead_id": "abc123",
         "extents": [
             {
-                "extent_type": "cassettes", 
-                "jsonmodel_type": "extent", 
-                "number": "123", 
+                "extent_type": "cassettes",
+                "jsonmodel_type": "extent",
+                "number": "123",
                 "portion": "whole"
             }
-        ], 
+        ],
         "external_documents": [
             {
-                "jsonmodel_type": "external_document", 
-                "location": "http://www.archivesspace.org/", 
-                "publish": true, 
+                "jsonmodel_type": "external_document",
+                "location": "http://www.archivesspace.org/",
+                "publish": true,
                 "title": "A test external document"
             }
         ],
@@ -137,12 +142,12 @@
         "level": "class",
         "linked_agents": [
             {
-                "ref": "/agents/software/1", 
-                "relator": "act", 
-                "role": "source", 
+                "ref": "/agents/software/1",
+                "relator": "act",
+                "role": "source",
                 "terms": []
             }
-        ], 
+        ],
         "notes": [
             {
                 "content": [

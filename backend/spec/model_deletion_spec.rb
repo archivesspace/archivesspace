@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe "Deletion of Archival Records" do
-
   before(:each) do
     test_data = File.read(File.join(File.dirname(__FILE__), 'sample_record_set.dat'))
     test_data = test_data.gsub('/repositories/{{repo_id}}', "/repositories/#{$repo_id}")
@@ -9,20 +8,18 @@ describe "Deletion of Archival Records" do
     raise "Test data import failed: #{last_response.body}" unless last_response.status == 200
   end
 
-
   it "can delete an accession" do
     resource = Resource[Title.where(:title => "A test resource").first.resource_id]
     expect(resource.my_relationships(:spawned)).not_to eq([])
 
-    acc = Accession.where(:title => "A test accession").first
+    acc = Accession[Title.where(:title => "A test accession").first.accession_id]
     expect(acc).not_to be_nil
     acc.delete
-    expect(Accession.where(:title => "A test accession").first).to be_nil
+    expect(Accession[Title.where(:title => "A test accession").first.accession_id]).to be_nil
 
     # No more relationship either
     expect(resource.my_relationships(:spawned)).to eq([])
   end
-
 
   it "can delete an archival object (possibly with children)" do
     ao_with_child = ArchivalObject[Title.where(:title => "test archival object 1").first.archival_object_id]
@@ -43,9 +40,8 @@ describe "Deletion of Archival Records" do
     expect(ArchivalObject[ao_without_child_id]).to be_nil
   end
 
-
   it "can delete a resource (and all children)" do
-    acc = Accession.where(:title => "A test accession").first
+    acc = Accession[Title.where(:title => "A test accession").first.accession_id]
     expect(acc.my_relationships(:spawned)).not_to eq([])
 
     resource = Resource[Title.where(:title => "A test resource").first.resource_id]
@@ -70,7 +66,6 @@ describe "Deletion of Archival Records" do
     expect(acc.my_relationships(:spawned)).to eq([])
   end
 
-
   it "can delete a digital object (and all children)" do
     digital_object = DigitalObject[Title.where(:title => "A test digital object").first.digital_object_id]
     digital_object_id = digital_object.id
@@ -90,7 +85,6 @@ describe "Deletion of Archival Records" do
     expect(DigitalObjectComponent[digital_object_child_1_5_id]).to be_nil
     expect(DigitalObjectComponent[digital_object_child_2_id]).to be_nil
   end
-
 
   it "can delete an event" do
     event1 = Event.where(:outcome_note => "test event 1").first
@@ -113,7 +107,6 @@ describe "Deletion of Archival Records" do
     }.not_to raise_error
   end
 
-
   it "can delete a subject" do
     r = Resource[Title.where(:title => "A test resource").first.resource_id]
     expect(r).not_to be_nil
@@ -128,14 +121,11 @@ describe "Deletion of Archival Records" do
     subject.delete
 
     expect(Subject[subject.id]).to be_nil
-
     expect(r.my_relationships(:subject).count).to eq(0)
   end
 
-
   it "can delete an agent" do
     agent = AgentSoftware.create_from_json(build(:json_agent_software))
-
     acc = Accession.create_from_json(build(:json_accession,
                                            :linked_agents => [{
                                                                 'ref' => agent.uri,
@@ -146,10 +136,8 @@ describe "Deletion of Archival Records" do
     agent.delete
 
     expect(AgentSoftware[agent.id]).to be_nil
-
     expect(acc.my_relationships(:linked_agents).count).to eq(0)
   end
-
 
   it "can delete a group" do
     group = Group.create_from_json(build(:json_group,
@@ -163,7 +151,6 @@ describe "Deletion of Archival Records" do
     expect(Notifications.last_notification).not_to eq(last_notification)
   end
 
-
   it "can delete a user (and their corresponding agent)" do
     user = create_nobody_user
 
@@ -175,7 +162,6 @@ describe "Deletion of Archival Records" do
     expect(AgentPerson[user.agent_record_id]).to be_nil
   end
 
-
   it "cannot delete a user's corresponding agent" do
     user = create_nobody_user
     agent = AgentPerson.to_jsonmodel(user.agent_record_id)
@@ -185,13 +171,11 @@ describe "Deletion of Archival Records" do
     }.to raise_error(ConflictException, "linked_to_user")
   end
 
-
   it "won't delete a system user" do
     expect {
       User[:username => "admin"].delete
     }.to raise_error(AccessDeniedException)
   end
-
 
   it "can delete a location" do
     location = Location.create_from_json(build(:json_location))
@@ -201,7 +185,6 @@ describe "Deletion of Archival Records" do
 
     expect(Location[location.id]).to be_nil
   end
-
 
   it "won't delete a location with links to instances" do
     location = Location.create_from_json(build(:json_location))
@@ -216,10 +199,8 @@ describe "Deletion of Archival Records" do
                                                :sub_container => build(:json_sub_container,
                                                                        :top_container => {:ref => top_container.uri}))]
                                            ))
-
     expect {
       location.delete
     }.to raise_error(ConflictException)
   end
-
 end

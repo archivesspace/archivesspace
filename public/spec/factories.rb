@@ -88,7 +88,7 @@ module AspaceFactories
       end
 
       factory :accession, class: JSONModel(:accession) do
-        title { generate(:accession_title) }
+        titles { [build(:title, title: title)] }
         id_0 { generate(:accession_id) }
         id_1 { generate(:accession_id) }
         id_2 { generate(:accession_id) }
@@ -97,6 +97,14 @@ module AspaceFactories
         content_description { "9 guinea pigs" }
         condition_description { "furious" }
         accession_date { "1990-01-01" }
+
+        transient do
+          title { generate(:accession_title) }
+        end
+
+        trait :with_deaccession do
+          deaccessions { [build(:json_deaccession)] }
+        end
       end
 
       factory :accession_parts_relationship, class: JSONModel(:accession_parts_relationship) do
@@ -105,18 +113,6 @@ module AspaceFactories
         relator { "has_part" }
       end
 
-      factory :accession_with_deaccession, class: JSONModel(:accession) do
-        title { generate(:accession_title) }
-        id_0 { generate(:accession_id) }
-        id_1 { generate(:accession_id) }
-        id_2 { generate(:accession_id) }
-        id_3 { generate(:accession_id) }
-        publish { true }
-        content_description { generate(:generic_description) }
-        condition_description { generate(:generic_description) }
-        accession_date { generate(:yyyy_mm_dd) }
-        deaccessions { [build(:json_deaccession)] }
-      end
 
       factory :collection_management, class: JSONModel(:collection_management) do
         processing_total_extent { "10" }
