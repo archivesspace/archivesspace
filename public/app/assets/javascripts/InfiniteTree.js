@@ -4,13 +4,13 @@
 (function (exports) {
   class InfiniteTree {
     /**
-     * @constructor
      * @param {number} batchSize - The number of nodes per batch of children
      * @param {string} appUrlPrefix - The proper app prefix
      * @param {string} resourceUri - The URI of the collection resource
      * @param {string} identifier_separator - The i18n identifier separator
      * @param {string} date_type_bulk - The i18n date type bulk
      * @param {string} uriFragment - The document's URI fragment
+     * @param {InfiniteCoordinator} coordinator - The coordinator instance
      * @returns {InfiniteTree} - InfiniteTree instance
      */
     constructor(
@@ -19,9 +19,11 @@
       resourceUri,
       identifier_separator,
       date_type_bulk,
-      uriFragment
+      uriFragment,
+      coordinator
     ) {
       this.uriFragment = uriFragment;
+      this.coordinator = coordinator;
       this.BATCH_SIZE = batchSize;
       this.resourceUri = resourceUri; // TODO generalize away from resource
       this.repoId = resourceUri.split('/')[2];
@@ -125,18 +127,19 @@
         listMeta.parentId,
         observeForBatch
       );
-
       const placeholder = list.querySelector(
         `li[data-batch-placeholder="${batchNumber}"]`
       );
 
-      if (!placeholder) {
-        console.error('renderBatch could not find placeholder for batch:', {
-          batchNumber,
-          parentId: listMeta.parentId,
-          listHTML: list.innerHTML,
-        });
-        return;
+      if (
+        this.coordinator.currentRecord &&
+        !this.container.querySelector('.node.current')
+      ) {
+        const currentNode = batchFragment.querySelector(
+          `[data-uri="${this.coordinator.currentRecord}"]`
+        );
+
+        if (currentNode) currentNode.classList.add('current');
       }
 
       placeholder.replaceWith(batchFragment);
