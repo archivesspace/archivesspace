@@ -10,6 +10,7 @@
      * @param {number} mainMaxFetches - The main thread's max number of concurrent fetches
      * @param {number} workerMaxFetches - The worker's max number of concurrent fetches
      * @param {string} uriFragment - The document's URI fragment
+     * @param {Coordinator} coordinator - The coordinator instance
      * @returns {InfiniteRecords} - InfiniteRecords instance
      */
     constructor(
@@ -18,9 +19,11 @@
       workerPath,
       mainMaxFetches,
       workerMaxFetches,
-      uriFragment
+      uriFragment,
+      coordinator
     ) {
       this.uriFragment = uriFragment;
+      this.coordinator = coordinator;
       this.container = document.querySelector('#infinite-records-container');
 
       this.WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
@@ -57,7 +60,14 @@
       );
 
       this.currentRecordObserver = new IntersectionObserver(
-        this.currentRecordScrollHandler,
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              this.coordinator.currentRecord = entry.target.dataset.uri;
+              this.coordinator.updateCurrentTreeNode();
+            }
+          });
+        },
         {
           root: this.container,
           rootMargin: '-5px 0px -95% 0px', // only the top sliver
@@ -530,32 +540,6 @@
 
         count++;
       }
-    }
-
-    /**
-     * IntersectionObserver callback for current record observer
-     * @param {IntersectionObserverEntry[]} entries - Array of entries
-     */
-    currentRecordScrollHandler(entries) {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const uri = entry.target.dataset.uri;
-          const _new = document.querySelector(
-            `#infinite-tree-container .node[data-uri="${uri}"]`
-          );
-          const old = document.querySelector(
-            '#infinite-tree-container .node.current'
-          );
-
-          if (old) {
-            old.classList.remove('current');
-          }
-
-          if (_new) {
-            _new.classList.add('current');
-          }
-        }
-      });
     }
 
     /**
