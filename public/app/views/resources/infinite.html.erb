@@ -54,13 +54,16 @@ const workerPath = '<%= asset_path('infiniteRecordsWorker.js') %>';
 const mainMaxFetches = <%= Rails.configuration.infinite_records_main_max_concurrent_waypoint_fetches %>;
 const workerMaxFetches = <%= Rails.configuration.infinite_records_worker_max_concurrent_waypoint_fetches %>;
 
+const coordinator = new InfiniteCoordinator();
+
 const infiniteRecords = new InfiniteRecords(
   resourceUri,
   appUrlPrefix,
   workerPath,
   mainMaxFetches,
   workerMaxFetches,
-  uriFragment
+  uriFragment,
+  coordinator
 );
 const infiniteTree = new InfiniteTree(
   treeWaypointSize,
@@ -68,7 +71,8 @@ const infiniteTree = new InfiniteTree(
   resourceUri,
   identifier_separator,
   date_type_bulk,
-  uriFragment
+  uriFragment,
+  coordinator
 );
 
 infiniteTree.container.addEventListener('click', (e) => {
