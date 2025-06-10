@@ -93,6 +93,18 @@ describe 'Collection Organization', js: true do
       run_indexers
     end
 
+    RSpec::Matchers.define :appear_in_tree_vieport do
+      match do |node|
+        tree = find('#infinite-tree-container')
+        tree_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', tree)
+        node_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', node)
+        node_top_in_view = node_rect['top'] >= tree_rect['top'] && node_rect['top'] <= tree_rect['bottom']
+        node_bottom_in_view = node_rect['bottom'] >= tree_rect['top'] && node_rect['bottom'] <= tree_rect['bottom']
+
+        node_top_in_view && node_bottom_in_view
+      end
+    end
+
     shared_examples 'uri fragment batch rendering' do |parent, batch_target, expected_populated_batches, expected_batch_placeholders|
       before(:each) do
         @total_nodes = case parent
@@ -127,17 +139,7 @@ describe 'Collection Organization', js: true do
       end
 
       it 'shows the child node of interest' do
-        def node_in_tree_viewport?(node)
-          tree = find('#infinite-tree-container')
-          tree_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', tree)
-          node_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', node)
-          node_top_in_view = node_rect['top'] >= tree_rect['top'] && node_rect['top'] <= tree_rect['bottom']
-          node_bottom_in_view = node_rect['bottom'] >= tree_rect['top'] && node_rect['bottom'] <= tree_rect['bottom']
-
-          node_top_in_view && node_bottom_in_view
-        end
-
-        expect(node_in_tree_viewport?(@node)).to be true
+        expect(@node).to appear_in_tree_vieport
       end
 
       it 'loads the correct number of sibling nodes' do
