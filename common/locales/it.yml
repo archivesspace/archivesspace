@@ -45,14 +45,14 @@ it:
     is_slug_auto_tooltip: "<p>Se questo campo è spuntato, lo slug per questa unità archivistica sarà automaticamente
       generata quando l'unità archivistica è salvata, basandosi sulle impostazioni di configurazione per
       gli human-readable URLs nel file config.rb sul server.</p>\n"
-    autogen_disabled: Uno slug non può essere automaticamente generato dai dati a disposizione basandosi
-      sulle impostazioni di configurazione
+    autogen_disabled: Uno slug non può essere automaticamente generato dai dati a disposizione 
+      basandosi sulle impostazioni di configurazione
     public_url_tooltip: "<p>Se questa unità archivistica è pubblicata o aggiornata per la pubblicazione,
       l'URL completo per questa unità archivistica è nell'interfaccia utente pubblica. Se human-readable
       URLs vengono usati la fine dell'URL sarà lo slug.</p>\n<p>Che gli human-readable URLs vengano usati
       o no, l'URI originale per questa unità archivistica rimane sempre valido.</p>\n"
-    autogen_repo_slug: Visto che uno slug non è stato inserito manualmente lo slug repository è stato
-      automaticamente generato usando il nome abbreviato della repository
+    autogen_repo_slug: Visto che uno slug non è stato inserito manualmente lo slug repository è 
+      stato automaticamente generato usando il nome abbreviato della repository
   boolean:
     "true": Vero
     "false": Falso
@@ -67,6 +67,7 @@ it:
     city: Città
     country: Nazione
     region: Stato/Regione
+    salutation: Saluti
   telephone:
     _plural: Numeri telefonici
     number_type: Tipo di numero
