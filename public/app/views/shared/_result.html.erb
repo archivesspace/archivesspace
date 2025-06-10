@@ -27,7 +27,7 @@
         <% next if I18n.t("search_results.highlighting.#{key}").include?('Translation missing') %>
         <div class="highlighting">
           <strong><%= I18n.t('search_results.highlighting.found_in') %> <%= I18n.t("search_results.highlighting.#{key}") %>:</strong>&nbsp;
-          <%== value.join(" ") %>
+          <%== process_mixed_content(value.join(" ")) %>
         </div>
       <% end %>
     </div>
