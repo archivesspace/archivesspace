@@ -26,13 +26,13 @@ describe DigitalObjectComponentsController, type: :controller do
 
     it 'does not support mixed content by default' do
       get :edit, params: {id: @doc.id, inline: true}
-      expect(response.body).to have_css('#digital_object_component_title_.form-control:not(.mixed-content)')
+      expect(response.body).to have_css('#digital_object_component_titles__0__title_.form-control:not(.mixed-content)')
     end
 
     it 'supports mixed content when enabled' do
       allow(AppConfig).to receive(:[]).with(:allow_mixed_content_title_fields) { true }
       get :edit, params: {id: @doc.id, inline: true}
-      expect(response.body).to have_css('#digital_object_component_title_.form-control.mixed-content')
+      expect(response.body).to have_css('#digital_object_component_titles__0__title_.form-control.mixed-content')
     end
   end
 end
