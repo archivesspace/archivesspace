@@ -6,7 +6,7 @@ module MixedContentParser
     opts[:pretty_print] ||= false
 
     return if content.nil?
-
+    content = content.dup if content.frozen?
     content.strip!
     content.chomp!
 
