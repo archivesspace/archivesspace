@@ -24,6 +24,13 @@ describe "index state" do
       s_dir = "#{AppConfig[:data_directory]}" + "/indexer_state" + "/#{repo_id}" + "_#{rec_type}"
       expect(@state.path_for(repo_id,rec_type)).to eq(s_dir)
     end
+    it "provides a path for an indexer_state file which includes a state_type" do
+      repo_id = 2
+      rec_type = 'resource'
+      state_type = 'test_state'
+      s_dir = "#{AppConfig[:data_directory]}" + "/indexer_state" + "/#{repo_id}" + "_#{rec_type}_#{state_type}"
+      expect(@state.path_for(repo_id, rec_type, state_type)).to eq(s_dir)
+    end
     it "creates directory for indexer_state files" do
       repo_id = 2
       rec_type = 'resource'
@@ -41,6 +48,15 @@ describe "index state" do
       path = @state.path_for(repo_id,rec_type)
       expect(File.mtime("#{path}.dat").utc).to be_within(1).of(start.utc)
     end
+    it "sets last mtime with a state_type" do
+      start = Time.now
+      repo_id = 3
+      rec_type = 'accession'
+      state_type = 'test_state'
+      @state.set_last_mtime(repo_id, rec_type, start, state_type)
+      path = @state.path_for(repo_id, rec_type, state_type)
+      expect(File.mtime("#{path}.dat").utc).to be_within(1).of(start.utc)
+    end
   end
   describe "get_last_mtime" do
     it "gets last mtime" do
@@ -50,8 +66,15 @@ describe "index state" do
       @state.set_last_mtime(repo_id, rec_type, start)
       expect(@state.get_last_mtime(repo_id, rec_type)).to be_within(1).of(start.to_i)
     end
-    it "returns 0 for mtime if have not indexed this repository and record_type pair" do
+    it "gets last mtime with a state_type" do
       start = Time.now
+      repo_id = 4
+      rec_type = 'archival_object'
+      state_type = 'test_state'
+      @state.set_last_mtime(repo_id, rec_type, start, state_type)
+      expect(@state.get_last_mtime(repo_id, rec_type, state_type)).to be_within(1).of(start.to_i)
+    end
+    it "returns 0 for mtime if have not indexed this repository and record_type pair" do
       repo_id = 5
       rec_type = 'digital_object'
       expect(@state.get_last_mtime(repo_id, rec_type)).to eq(0)
