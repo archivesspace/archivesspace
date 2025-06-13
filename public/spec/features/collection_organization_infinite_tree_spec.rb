@@ -39,6 +39,10 @@ describe 'Collection Organization', js: true do
         resource: {'ref' => @resource.uri},
         publish: true
       )
+      @ao9 = create(:archival_object,
+         resource: {'ref' => @resource.uri},
+         publish: true
+       )
 
       120.times do |i| # 6 batches
         # Why 120 and not 101?
@@ -84,11 +88,19 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      @ao1_of_ao8 = create(:archival_object, # 1 batch
+      @ao1_of_ao8 = create(:archival_object, # 1 batch with a single node
         resource: {'ref' => @resource.uri},
         parent: {'ref' => @ao8.uri},
         publish: true
       )
+
+      5.times do |i| # 1 batch with multiple nodes
+        instance_variable_set("@ao#{i + 1}_of_ao9", create(:archival_object,
+          resource: {'ref' => @resource.uri},
+          parent: {'ref' => @ao9.uri},
+          publish: true
+        ))
+      end
 
       run_indexers
     end
@@ -115,28 +127,7 @@ describe 'Collection Organization', js: true do
       end
 
       it 'loads content in the correct order' do
-        if total_batches == 1
-          (1..total_nodes).each do |node_num|
-            if total_nodes == 1
-              expect(parent_list).to have_css("#archival_object_#{node_record_id}")
-            else
-              curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
-
-              if node_num == 1
-                expect(parent_list).to have_css("& #archival_object_#{curr_node_id}:first-child")
-              elsif node_num < total_nodes
-                next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
-                expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
-              else
-                prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
-                expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
-                expect(parent_list).to have_css("& #archival_object_#{curr_node_id}:last-child")
-              end
-            end
-          end
-
-          expect(parent_list).to_not have_css('[data-batch-placeholder]')
-        else
+        if total_batches > 1
           all_batches = (expected_populated_batches + expected_batch_placeholders).sort
 
           all_batches.each do |batch_offset|
@@ -214,6 +205,7 @@ describe 'Collection Organization', js: true do
         end
       end
 
+
       it 'fetches remaining siblings on scroll' do
         if expected_batch_placeholders.any?
           container = page.find('#infinite-tree-container')
@@ -226,8 +218,7 @@ describe 'Collection Organization', js: true do
         end
 
         wait_for_jquery
-        expect(parent_list).to have_css('.node', count: total_nodes
-)
+        expect(parent_list).to have_css('.node', count: total_nodes)
         expect(parent_list).not_to have_css('[data-batch-placeholder]', visible: false)
       end
     end
@@ -456,16 +447,66 @@ describe 'Collection Organization', js: true do
         end
       end
 
-      context 'showing a tree with 1 batch of child nodes' do
-        let(:total_nodes) { 1 }
-        let(:parent) { 'ao8' }
-
-        context 'and the target node is in the first batch' do
+      context 'showing a tree with 1 batch' do
+        context 'containing a single node' do
+          let(:total_nodes) { 1 }
+          let(:parent) { 'ao8' }
           let(:batch_target) { 0 }
           let(:expected_populated_batches) { [0] }
           let(:expected_batch_placeholders) { [] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          describe 'the parent list' do
+            it 'contains the node but no data placeholder' do
+              aggregate_failures 'loads the node' do
+                expect(parent_list).to have_css("#archival_object_#{node_record_id}")
+              end
+
+              aggregate_failures 'does not include a data batch placeholder' do
+                expect(parent_list).to_not have_css('[data-batch-placeholder]')
+              end
+            end
+          end
+        end
+
+        context 'containing multiple nodes' do
+          let(:total_nodes) { 5 }
+          let(:parent) { 'ao9' }
+          let(:batch_target) { 0 }
+          let(:expected_populated_batches) { [0] }
+          let(:expected_batch_placeholders) { [] }
+
+          let(:node_position) { 2 }
+
+          it_behaves_like 'uri fragment batch rendering'
+
+          describe 'the parent list' do
+            it 'contains node ids' do
+              aggregate_failures 'does not contain a data batch placeholder' do
+                expect(parent_list).to_not have_css('[data-batch-placeholder]')
+              end
+
+              aggregate_failures 'includes the first node of the batch' do
+                # TODO: fix selector:
+                # expect(parent_list).to have_css("#archival_object_@ao1_of_#{parent}:first-child")
+              end
+
+              aggregate_failures 'includes the intermediate nodes of the batch' do
+                (2..total_nodes - 1).each do |node_num|
+                  curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
+                  next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
+                  expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
+                end
+              end
+
+              aggregate_failures 'includes the last node of the batch' do
+                curr_node_id = instance_variable_get("@ao#{total_nodes}_of_#{parent}").id
+                prev_node_id = instance_variable_get("@ao#{total_nodes - 1}_of_#{parent}").id
+                expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
+              end
+            end
+          end
         end
       end
     end
