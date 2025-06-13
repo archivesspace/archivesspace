@@ -126,86 +126,6 @@ describe 'Collection Organization', js: true do
         expect(parent_list).to have_css('.node', count: expected_node_count_on_page_load)
       end
 
-      it 'loads content in the correct order' do
-        if total_batches > 1
-          all_batches = (expected_populated_batches + expected_batch_placeholders).sort
-
-          all_batches.each do |batch_offset|
-            if batch_offset == 0
-              (1..@tree_batch_size).each do |node_num|
-                curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
-                if node_num == 1
-                  expect(parent_list).to have_css("& #archival_object_#{curr_node_id}:first-child")
-                elsif node_num < @tree_batch_size
-                  next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
-                  expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
-                else
-                  prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
-                  expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
-                end
-              end
-            elsif expected_populated_batches.include?(batch_offset)
-              prev_batch_was_populated = expected_populated_batches.include?(batch_offset - 1)
-              curr_batch_first_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size + 1}_of_#{parent}").id
-
-              if prev_batch_was_populated
-                prev_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
-                expect(parent_list).to have_css("#archival_object_#{prev_batch_last_node_id} + #archival_object_#{curr_batch_first_node_id}")
-              else
-                expect(parent_list).to have_css("[data-batch-placeholder='#{batch_offset - 1}'] + #archival_object_#{curr_batch_first_node_id}", visible: :all)
-              end
-
-              if batch_offset < total_batches - 1 # not last batch
-                (batch_offset * @tree_batch_size + 1..(batch_offset + 1) * @tree_batch_size).each do |node_num|
-                  curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
-
-                  if node_num < (batch_offset + 1) * @tree_batch_size # not last node in this batch
-                    next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
-                    expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
-                  else # last node in this batch
-                    prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
-                    expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
-                  end
-                end
-              else # last batch
-                second_to_last_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
-                last_batch_first_node_position = batch_offset * @tree_batch_size + 1
-                last_batch_first_node_id = instance_variable_get("@ao#{last_batch_first_node_position}_of_#{parent}").id
-                expect(parent_list).to have_css("#archival_object_#{second_to_last_batch_last_node_id} + #archival_object_#{last_batch_first_node_id}")
-
-                if last_batch_first_node_position < total_nodes # not last node in this batch
-                  (last_batch_first_node_position..total_nodes).each do |node_num|
-                    curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
-                    if node_num < total_nodes # not last node in this batch
-                      next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
-                      expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
-                    else
-                      prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
-                      expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
-                      expect(parent_list).to have_css("& #archival_object_#{curr_node_id}:last-child")
-                    end
-                  end
-                end
-              end
-            elsif expected_batch_placeholders.include?(batch_offset)
-              prev_batch_was_populated = expected_populated_batches.include?(batch_offset - 1)
-
-              if prev_batch_was_populated
-                prev_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
-                expect(parent_list).to have_css("#archival_object_#{prev_batch_last_node_id} + [data-batch-placeholder='#{batch_offset}']", visible: :all)
-              else
-                expect(parent_list).to have_css("[data-batch-placeholder='#{batch_offset - 1}'] + [data-batch-placeholder='#{batch_offset}']", visible: false)
-              end
-
-              if batch_offset == total_batches - 1
-                expect(parent_list).to have_css("& [data-batch-placeholder='#{batch_offset}']:last-child", visible: :all)
-              end
-            end
-          end
-        end
-      end
-
-
       it 'fetches remaining siblings on scroll' do
         if expected_batch_placeholders.any?
           container = page.find('#infinite-tree-container')
@@ -220,6 +140,99 @@ describe 'Collection Organization', js: true do
         wait_for_jquery
         expect(parent_list).to have_css('.node', count: total_nodes)
         expect(parent_list).not_to have_css('[data-batch-placeholder]', visible: false)
+      end
+    end
+
+    shared_examples 'loading multi-batch content in the correct order' do
+      describe 'the parent list' do
+        it 'contains the first batch (offset: 0)' do
+          aggregate_failures 'does not contain a data batch placeholder' do
+            expect(parent_list).to_not have_css('[data-batch-placeholder]')
+          end
+
+          aggregate_failures 'includes the first node of the batch' do
+            curr_node_id = instance_variable_get("@ao1_of_#{parent}").id
+            expect(parent_list).to have_css("& #archival_object_#{curr_node_id}:first-child")
+          end
+
+          aggregate_failures 'includes the intermediate nodes of the batch' do
+            (2..@tree_batch_size - 1).each do |node_num|
+              curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
+              next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
+              expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
+            end
+          end
+
+          aggregate_failures 'includes the last node of the batch' do
+            curr_node_id = instance_variable_get("@ao#{@tree_batch_size}_of_#{parent}").id
+            prev_node_id = instance_variable_get("@ao#{@tree_batch_size - 1}_of_#{parent}").id
+            expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
+          end
+        end
+      end
+
+      it 'loads content in the correct order' do
+        all_batches = (expected_populated_batches + expected_batch_placeholders).sort
+
+        all_batches.each do |batch_offset|
+          if expected_populated_batches.include?(batch_offset) && batch_offset > 0
+            prev_batch_was_populated = expected_populated_batches.include?(batch_offset - 1)
+            curr_batch_first_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size + 1}_of_#{parent}").id
+
+            if prev_batch_was_populated
+              prev_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
+              expect(parent_list).to have_css("#archival_object_#{prev_batch_last_node_id} + #archival_object_#{curr_batch_first_node_id}")
+            else
+              expect(parent_list).to have_css("[data-batch-placeholder='#{batch_offset - 1}'] + #archival_object_#{curr_batch_first_node_id}", visible: :all)
+            end
+
+            if batch_offset < total_batches - 1 # not last batch
+              (batch_offset * @tree_batch_size + 1..(batch_offset + 1) * @tree_batch_size).each do |node_num|
+                curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
+
+                if node_num < (batch_offset + 1) * @tree_batch_size # not last node in this batch
+                  next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
+                  expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
+                else # last node in this batch
+                  prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
+                  expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
+                end
+              end
+            else # last batch
+              second_to_last_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
+              last_batch_first_node_position = batch_offset * @tree_batch_size + 1
+              last_batch_first_node_id = instance_variable_get("@ao#{last_batch_first_node_position}_of_#{parent}").id
+              expect(parent_list).to have_css("#archival_object_#{second_to_last_batch_last_node_id} + #archival_object_#{last_batch_first_node_id}")
+
+              if last_batch_first_node_position < total_nodes # not last node in this batch
+                (last_batch_first_node_position..total_nodes).each do |node_num|
+                  curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
+                  if node_num < total_nodes # not last node in this batch
+                    next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
+                    expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
+                  else
+                    prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
+                    expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
+                    expect(parent_list).to have_css("& #archival_object_#{curr_node_id}:last-child")
+                  end
+                end
+              end
+            end
+          elsif expected_batch_placeholders.include?(batch_offset)
+            prev_batch_was_populated = expected_populated_batches.include?(batch_offset - 1)
+
+            if prev_batch_was_populated
+              prev_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
+              expect(parent_list).to have_css("#archival_object_#{prev_batch_last_node_id} + [data-batch-placeholder='#{batch_offset}']", visible: :all)
+            else
+              expect(parent_list).to have_css("[data-batch-placeholder='#{batch_offset - 1}'] + [data-batch-placeholder='#{batch_offset}']", visible: false)
+            end
+
+            if batch_offset == total_batches - 1
+              expect(parent_list).to have_css("& [data-batch-placeholder='#{batch_offset}']:last-child", visible: :all)
+            end
+          end
+        end
       end
     end
 
@@ -272,6 +285,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [2, 3, 4, 5] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the second batch' do
@@ -280,6 +295,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [3, 4, 5] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the third batch' do
@@ -288,6 +305,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [4, 5] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the forth batch' do
@@ -296,6 +315,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [1, 5] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the fifth batch' do
@@ -304,6 +325,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [1, 2] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the fifth batch' do
@@ -312,6 +335,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [1, 2, 3] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
       end
 
@@ -325,6 +350,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [2, 3, 4] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the second batch' do
@@ -333,6 +360,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [3, 4] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the third batch' do
@@ -341,6 +370,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [4] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the forth batch' do
@@ -349,6 +380,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [1] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the fifth batch' do
@@ -357,6 +390,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [1, 2] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
       end
 
@@ -370,6 +405,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [2, 3] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the second batch' do
@@ -378,6 +415,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [3] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the third batch' do
@@ -386,6 +425,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the forth batch' do
@@ -394,6 +435,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [1] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
       end
 
@@ -407,6 +450,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [2] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the second batch' do
@@ -415,6 +460,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the third batch' do
@@ -423,6 +470,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
       end
 
@@ -436,6 +485,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
 
         context 'and the target node is in the second batch' do
@@ -444,6 +495,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'loading multi-batch content in the correct order'
         end
       end
 
@@ -458,13 +511,13 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
 
           describe 'the parent list' do
-            it 'contains the node but no data placeholder' do
-              aggregate_failures 'loads the node' do
-                expect(parent_list).to have_css("#archival_object_#{node_record_id}")
+            it 'contains the node' do
+              aggregate_failures 'does not contain a data batch placeholder' do
+                expect(parent_list).to_not have_css('[data-batch-placeholder]')
               end
 
-              aggregate_failures 'does not include a data batch placeholder' do
-                expect(parent_list).to_not have_css('[data-batch-placeholder]')
+              aggregate_failures 'loads the node' do
+                expect(parent_list).to have_css("#archival_object_#{node_record_id}")
               end
             end
           end
@@ -482,14 +535,14 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
 
           describe 'the parent list' do
-            it 'contains node ids' do
+            it 'contains the first batch (offset: 0)' do
               aggregate_failures 'does not contain a data batch placeholder' do
                 expect(parent_list).to_not have_css('[data-batch-placeholder]')
               end
 
               aggregate_failures 'includes the first node of the batch' do
-                # TODO: fix selector:
-                # expect(parent_list).to have_css("#archival_object_@ao1_of_#{parent}:first-child")
+                curr_node_id = instance_variable_get("@ao1_of_#{parent}").id
+                expect(parent_list).to have_css("& #archival_object_#{curr_node_id}:first-child")
               end
 
               aggregate_failures 'includes the intermediate nodes of the batch' do
