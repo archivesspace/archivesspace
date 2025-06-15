@@ -88,7 +88,12 @@ uk:
     resource_resource_type: Тип ресурсу
     rights_statement_act_restriction: Обмеження Закону про права
     rights_statement_act_type: Тип акта про права
-    rights_statement_external_document_identifier_type: Тип зовнішнього ідентифікатора документа заяви
-      про права
+    rights_statement_external_document_identifier_type: Тип зовнішнього ідентифікатора документа 
+      заяви про права
     rights_statement_ip_status: Заява про права IP Статус IP
     rights_statement_other_rights_basis: Заява про права Інші права Основи
+    rights_statement_rights_type: Заява про права Тип прав
+    romanization: Романізація
+    script_iso15924: Мова Скрипт ISO 15924
+    subject_source: Джерело теми
+    subject_term_type: Тип предметного терміна
