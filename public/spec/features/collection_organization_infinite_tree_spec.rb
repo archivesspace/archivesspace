@@ -125,16 +125,24 @@ describe 'Collection Organization', js: true do
       it 'loads the correct number of sibling nodes' do
         expect(parent_list).to have_css('.node', count: expected_node_count_on_page_load)
       end
+    end
 
+    shared_examples 'having all nodes loaded' do
+      it 'has all siblings already loaded' do
+        wait_for_jquery
+        expect(parent_list).to have_css('.node', count: total_nodes)
+        expect(parent_list).not_to have_css('[data-batch-placeholder]', visible: false)
+      end
+    end
+
+    shared_examples 'scrolling loads remaining nodes' do
       it 'fetches remaining siblings on scroll' do
-        if expected_batch_placeholders.any?
-          container = page.find('#infinite-tree-container')
+        container = page.find('#infinite-tree-container')
 
-          expected_batch_placeholders.each do |batch_offset|
-            wait_for_jquery
-            observer_node = parent_list.first("[data-observe-offset='#{batch_offset}']")
-            container.scroll_to(observer_node, align: :center)
-          end
+        expected_batch_placeholders.each do |batch_offset|
+          wait_for_jquery
+          observer_node = parent_list.first("[data-observe-offset='#{batch_offset}']")
+          container.scroll_to(observer_node, align: :center)
         end
 
         wait_for_jquery
@@ -192,6 +200,7 @@ describe 'Collection Organization', js: true do
 
                 if node_num < (batch_offset + 1) * @tree_batch_size # not last node in this batch
                   next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
+
                   expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
                 else # last node in this batch
                   prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
@@ -286,6 +295,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
 
+          it_behaves_like 'scrolling loads remaining nodes'
+
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -295,6 +306,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [3, 4, 5] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'scrolling loads remaining nodes'
 
           it_behaves_like 'loading multi-batch content in the correct order'
         end
@@ -306,6 +319,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
 
+          it_behaves_like 'scrolling loads remaining nodes'
+
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -315,6 +330,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [1, 5] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'scrolling loads remaining nodes'
 
           it_behaves_like 'loading multi-batch content in the correct order'
         end
@@ -326,6 +343,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
 
+          it_behaves_like 'scrolling loads remaining nodes'
+
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -335,6 +354,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [1, 2, 3] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'scrolling loads remaining nodes'
 
           it_behaves_like 'loading multi-batch content in the correct order'
         end
@@ -351,6 +372,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
 
+          it_behaves_like 'scrolling loads remaining nodes'
+
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -360,6 +383,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [3, 4] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'scrolling loads remaining nodes'
 
           it_behaves_like 'loading multi-batch content in the correct order'
         end
@@ -371,6 +396,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
 
+          it_behaves_like 'scrolling loads remaining nodes'
+
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -381,6 +408,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
 
+          it_behaves_like 'scrolling loads remaining nodes'
+
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -390,6 +419,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [1, 2] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'scrolling loads remaining nodes'
 
           it_behaves_like 'loading multi-batch content in the correct order'
         end
@@ -406,6 +437,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
 
+          it_behaves_like 'scrolling loads remaining nodes'
+
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -415,6 +448,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [3] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'scrolling loads remaining nodes'
 
           it_behaves_like 'loading multi-batch content in the correct order'
         end
@@ -426,6 +461,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
 
+          it_behaves_like 'having all nodes loaded'
+
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -435,6 +472,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [1] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'scrolling loads remaining nodes'
 
           it_behaves_like 'loading multi-batch content in the correct order'
         end
@@ -451,6 +490,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
 
+          it_behaves_like 'scrolling loads remaining nodes'
+
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -461,6 +502,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
 
+          it_behaves_like 'having all nodes loaded'
+
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -470,6 +513,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'having all nodes loaded'
 
           it_behaves_like 'loading multi-batch content in the correct order'
         end
@@ -486,6 +531,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
 
+          it_behaves_like 'having all nodes loaded'
+
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -495,6 +542,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'having all nodes loaded'
 
           it_behaves_like 'loading multi-batch content in the correct order'
         end
@@ -509,6 +558,8 @@ describe 'Collection Organization', js: true do
           let(:expected_batch_placeholders) { [] }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'having all nodes loaded'
 
           describe 'the parent list' do
             it 'contains the node' do
@@ -533,6 +584,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 2 }
 
           it_behaves_like 'uri fragment batch rendering'
+
+          it_behaves_like 'having all nodes loaded'
 
           describe 'the parent list' do
             it 'contains the first batch (offset: 0)' do
