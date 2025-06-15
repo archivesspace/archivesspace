@@ -278,11 +278,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 10 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -294,11 +291,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 30 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -309,13 +303,9 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 80 }
           let(:node_position) { 50 }
 
-
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -327,11 +317,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 70 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -343,11 +330,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 90 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -358,13 +342,9 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 60 }
           let(:node_position) { 110 }
 
-
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
       end
@@ -381,11 +361,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 10 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -397,11 +374,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 30 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -413,11 +387,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 50 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -429,11 +400,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 70 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -445,11 +413,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 81 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
       end
@@ -466,11 +431,8 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 40 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -482,11 +444,8 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 60 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -498,11 +457,8 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 61 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'having all nodes loaded'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -514,11 +470,8 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 41 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
       end
@@ -535,11 +488,8 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 40 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'scrolling loads remaining nodes'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -551,11 +501,8 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 41 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'having all nodes loaded'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -567,11 +514,8 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 41 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'having all nodes loaded'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
       end
@@ -588,11 +532,8 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 21 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'having all nodes loaded'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
 
@@ -604,11 +545,8 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 21 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'loading first batch of multi-batch content'
-
           it_behaves_like 'having all nodes loaded'
-
           it_behaves_like 'loading multi-batch content in the correct order'
         end
       end
@@ -624,7 +562,6 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 1 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'having all nodes loaded'
 
           describe 'the parent list' do
@@ -650,7 +587,6 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 2 }
 
           it_behaves_like 'uri fragment batch rendering'
-
           it_behaves_like 'having all nodes loaded'
 
           describe 'the parent list' do
