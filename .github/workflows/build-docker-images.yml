@@ -50,7 +50,6 @@ jobs:
             archivesspace/archivesspace-proxy
           tags: |
             type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
-            type=raw,value=mlc-multiple-titles,enable=${{ github.ref_name == 'mlc-multiple-titles' }}
             type=raw,value=latest,enable={{is_default_branch}}
             type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
 
