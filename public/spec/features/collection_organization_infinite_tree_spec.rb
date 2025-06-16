@@ -154,7 +154,7 @@ describe 'Collection Organization', js: true do
     shared_examples 'loading first batch of multi-batch content' do
       it 'contains the first batch (offset: 0)' do
         aggregate_failures 'does not contain a data batch placeholder' do
-          expect(parent_list).to_not have_css('[data-batch-placeholder]')
+          expect(parent_list).not_to have_css('[data-batch-placeholder]', visible: false)
         end
 
         aggregate_failures 'includes the first node of the batch' do
