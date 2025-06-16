@@ -105,7 +105,7 @@ describe 'Collection Organization', js: true do
       run_indexers
     end
 
-    RSpec::Matchers.define :appear_in_tree_vieport do
+    RSpec::Matchers.define :appear_in_tree_viewport do
       match do |node|
         tree = find('#infinite-tree-container')
         tree_rect = page.evaluate_script('arguments[0].getBoundingClientRect()', tree)
@@ -119,7 +119,7 @@ describe 'Collection Organization', js: true do
 
     shared_examples 'uri fragment batch rendering' do
       it 'shows the child node of interest' do
-        expect(node).to appear_in_tree_vieport
+        expect(node).to appear_in_tree_viewport
       end
 
       it 'loads the correct number of sibling nodes' do
@@ -320,7 +320,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'including the last batch placeholder'
         end
 
-        context 'and the target node is in the forth batch' do
+        context 'and the target node is in the fourth batch' do
           let(:batch_target) { 3 }
           let(:expected_populated_batches) { [0, 2, 3, 4] }
           let(:expected_batch_placeholders) { [1, 5] }
@@ -416,7 +416,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'including the last batch placeholder'
         end
 
-        context 'and the target node is in the forth batch' do
+        context 'and the target node is in the fourth batch' do
           let(:batch_target) { 3 }
           let(:expected_populated_batches) { [0, 2, 3, 4] }
           let(:expected_batch_placeholders) { [1] }
@@ -495,7 +495,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'loading the last batch'
         end
 
-        context 'and the target node is in the forth batch' do
+        context 'and the target node is in the fourth batch' do
           let(:batch_target) { 3 }
           let(:expected_populated_batches) { [0, 2, 3] }
           let(:expected_batch_placeholders) { [1] }
