@@ -15,6 +15,7 @@ Sequel.migration do
       Integer :archival_object_id
       Integer :digital_object_id
       Integer :digital_object_component_id
+      Integer :classification_term_id
       HalfLongString :title, null: false
       DynamicEnum :type_id
       DynamicEnum :language_id
@@ -27,9 +28,10 @@ Sequel.migration do
       add_foreign_key([:accession_id], :accession, :key => :id)
       add_foreign_key([:digital_object_id], :digital_object, :key => :id)
       add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
+      add_foreign_key([:classification_term_id], :classification_term, :key => :id)
     end
 
-    records_supporting_multiple_titles = [:resource, :archival_object, :digital_object, :digital_object_component, :accession]
+    records_supporting_multiple_titles = [:resource, :archival_object, :digital_object, :digital_object_component, :accession, :classification_term]
 
     records_supporting_multiple_titles.each do |record_type|
       $stderr.puts "\tcopying titles from #{record_type} records to title table"
