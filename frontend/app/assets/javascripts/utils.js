@@ -455,6 +455,37 @@ AS.encodeForAttribute = function (string) {
   return $.trim(string.replace(/"/g, '&quot;').replace(/(\r\n|\n|\r)/gm, ''));
 };
 
+/**
+ * ANW-2417 Copy the bootstrap-select.js plugin's function for escaping HTML
+ * via frontend/vendor/assets/javascripts/bootstrap-select.js, or
+ * https://github.com/snapappointments/bootstrap-select/blob/v1.6.5/js/bootstrap-select.js#L170-L186
+ * @param {string} html
+ * @returns {string}
+ */
+AS.htmlEscape = function (html) {
+  if (html === null || html === undefined) {
+    return '';
+  }
+
+  const escapeMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '`': '&#x60;',
+  };
+
+  const source = `(?:${Object.keys(escapeMap).join('|')})`;
+  const testRegexp = new RegExp(source);
+  const replaceRegexp = new RegExp(source, 'g');
+  const string = `${html}`;
+
+  return testRegexp.test(string)
+    ? string.replace(replaceRegexp, match => escapeMap[match])
+    : string;
+};
+
 AS.openQuickModal = function (title, message) {
   AS.openCustomModal(
     'quickModal',

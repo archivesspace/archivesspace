@@ -509,4 +509,62 @@ describe 'Notes', js: true do
     element = find('.alert.alert-danger.with-hide-alert')
     expect(element.text).to eq 'Content - At least 1 item(s) is required'
   end
+
+  describe 'handle mixed content appropriately in read only mode' do
+    before(:all) do
+      @resource = create(
+        :resource,
+        publish: true,
+        notes: [
+          build(
+            :json_note_multipart,
+            subnotes: [
+              build(:json_note_text, publish: true, content: "<title>Title wrapped</title> text")
+            ]
+          ),
+          build(:json_note_singlepart, content: ['<emph>Emph wrapped</emph> text'], publish: true)
+        ]
+      )
+      run_index_round
+    end
+
+    context 'in a show view' do
+      before(:each) do
+        visit "resources/#{@resource.id}"
+      end
+
+      it 'shows the raw summary of the note content' do
+        aggregate_failures do
+          expect(page).to have_css('#resource_notes_ [data-type="note_multipart"] .note-content-raw', text: '<title>Title wrapped</title> text', visible: true)
+          expect(page).to have_css('#resource_notes_ [data-type="note_multipart"] .note-content-formatted span.emph.render-none', text: 'Title wrapped', visible: false)
+          expect(page).to have_css('#resource_notes_ [data-type="note_singlepart"] .note-content-raw', text: '<emph>Emph wrapped</emph> text', visible: true)
+          expect(page).to have_css('#resource_notes_ [data-type="note_singlepart"] .note-content-formatted span.emph.render-none', text: 'Emph wrapped', visible: false)
+        end
+      end
+
+      it 'shows the formatted summary of the note content' do
+        page.find('#resource_notes_ [data-type="note_multipart"] .nav-link[href*="_parsed"]').click
+        page.find('#resource_notes_ [data-type="note_singlepart"] .nav-link[href*="_parsed"]').click
+        aggregate_failures do
+          expect(page).to have_css('#resource_notes_ [data-type="note_multipart"] .note-content-raw', text: '<title>Title wrapped</title> text', visible: false)
+          expect(page).to have_css('#resource_notes_ [data-type="note_multipart"] .note-content-formatted span.emph.render-none', text: 'Title wrapped', visible: true)
+          expect(page).to have_css('#resource_notes_ [data-type="note_singlepart"] .note-content-raw', text: '<emph>Emph wrapped</emph> text', visible: false)
+          expect(page).to have_css('#resource_notes_ [data-type="note_singlepart"] .note-content-formatted span.emph.render-none', text: 'Emph wrapped', visible: true)
+        end
+      end
+    end
+
+    context 'in an edit view' do
+      before(:each) do
+        visit "resources/#{@resource.id}/edit"
+      end
+
+      it 'shows the raw summary of the note content' do
+        aggregate_failures do
+          expect(page).to have_css('#resource_notes_ [data-type="note_multipart"] .subrecord-summary-content', text: '<title>Title wrapped</title> text', visible: true)
+          expect(page).to have_css('#resource_notes_ [data-type="note_singlepart"] .subrecord-summary-content', text: '<emph>Emph wrapped</emph> text', visible: true)
+        end
+      end
+    end
+  end
 end
