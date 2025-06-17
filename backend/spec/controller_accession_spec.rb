@@ -2,20 +2,17 @@ require 'spec_helper'
 
 
 describe 'Accession controller' do
-
   it "lets you create an accession and get it back" do
-    opts = {:title => 'The accession title'}
+    title = 'The accession title'
 
-    id = create(:json_accession, opts).id
-    expect(JSONModel(:accession).find(id).title).to eq(opts[:title])
+    id = create(:json_accession, title: title).id
+    expect(JSONModel(:accession).find(id).titles[0]['title']).to eq(title)
   end
-
 
   it "lets you list all accessions" do
     create(:json_accession)
     expect(JSONModel(:accession).all(:page => 1)['results'].count).to eq(1)
   end
-
 
   it "fails when you try to update an accession that doesn't exist" do
     acc = build(:json_accession)
@@ -24,11 +21,9 @@ describe 'Accession controller' do
     expect { acc.save }.to raise_error(RecordNotFound)
   end
 
-
   it "uses dummy date when missing accession date" do
     expect(JSONModel(:accession).from_hash("id_0" => "abcdef").accession_date).to eq('9999-12-31')
   end
-
 
   it "supports updates" do
     acc = create(:json_accession)
@@ -39,15 +34,12 @@ describe 'Accession controller' do
     expect(JSONModel(:accession).find(acc.id).id_1).to eq("5678")
   end
 
-
   it "knows its own URI" do
     acc = create(:json_accession)
     expect(JSONModel(:accession).find(acc.id).uri).to eq("#{$repo}/accessions/#{acc.id}")
   end
 
-
   it "won't let you overwrite the current version of a record with a stale copy" do
-
     acc = create(:json_accession)
 
     acc1 = JSONModel(:accession).find(acc.id)
@@ -61,9 +53,7 @@ describe 'Accession controller' do
     expect {
       acc2.save
     }.to raise_error(ConflictException)
-
   end
-
 
   it "creates an accession with a language and script of description" do
     opts = {:language => 'eng', :script => 'Latn'}
@@ -84,7 +74,7 @@ describe 'Accession controller' do
 
   it "creates an accession with a rights statement" do
     acc = JSONModel(:accession).from_hash("id_0" => "1234",
-                                          "title" => "The accession title",
+                                          "titles" => [build(:json_title, :title => "The accession title")],
                                           "content_description" => "The accession description",
                                           "condition_description" => "The condition description",
                                           "accession_date" => "2012-05-03",
@@ -104,7 +94,7 @@ describe 'Accession controller' do
 
   it "creates an accession with a deaccession" do
     acc = JSONModel(:accession).from_hash("id_0" => "1234",
-                                          "title" => "The accession title",
+                                          "titles" => [build(:json_title, :title => "The accession title")],
                                           "content_description" => "The accession description",
                                           "condition_description" => "The condition description",
                                           "accession_date" => "2012-05-03",
@@ -274,6 +264,4 @@ describe 'Accession controller' do
     expect(resource).not_to be_nil
     expect(resource.related_accessions.count).to be(0)
   end
-
-
 end

@@ -23,6 +23,7 @@ describe 'Accessions', js: true do
   it 'can create an accession' do
     click_on('Create')
     click_on('Accession')
+    click_on('Add Title')
     fill_in('Title', with: accession_title)
     fill_in("Identifier", with: "test_#{Time.now}")
     fill_in("Accession Date", with: "2012-01-01")
@@ -71,7 +72,7 @@ describe 'Accessions', js: true do
     # Save
     click_on('Save')
     expect(page).to have_text "Accession #{accession_title} created"
-    expect(page).to have_field('accession_title_', with: accession_title)
+    expect(page).to have_field('accession_titles__0__title_', with: accession_title)
 
     dates = all('section#accession_dates_ .subrecord-form-container ul li')
     expect(dates.length).to eq(2)
@@ -85,11 +86,12 @@ describe 'Accessions', js: true do
     visit "/accessions/#{accession.id}"
 
     first(:link, 'Edit').click
+    click_on('Add Title')
     updated_title = "Some new title"
     fill_in('Title', with: updated_title)
     click_on('Save')
     expect(page).to have_text "Accession #{updated_title} updated"
-    expect(page).to have_field('accession_title_', with: updated_title)
+    expect(page).to have_field('accession_titles__0__title_', with: updated_title)
   end
 
   it 'can spawn an accession from an existing accession' do
@@ -120,10 +122,10 @@ describe 'Accessions', js: true do
     click_on('Spawn')
     click_on('Accession')
     expect(page).to have_text 'This Accession has been spawned from'
-    expect(page).to have_field('accession_title_', with: accession.title)
+    expect(page).to have_field('accession_titles__0__title_', with: accession.titles[0]['title'])
     fill_in("Identifier", with: "test_#{Time.now}")
     find("form#accession_form button[type='submit']", match: :first).click
-    expect(page).to have_text "Accession #{accession.title} created"
+    expect(page).to have_text "Accession #{accession.titles[0]['title']} created"
 
     dates = all('section#accession_dates_ .subrecord-form-container ul')
     expect(dates.length).to eq(1)
@@ -224,7 +226,7 @@ describe 'Accessions', js: true do
     element.click
     click_on('Confirm Removal')
     click_button('Save')
-    expect(page).to have_text "Accession #{accession.title} updated"
+    expect(page).to have_text "Accession #{accession.titles[0]['title']} updated"
     external_documents = all('#accession_external_documents_ .subrecord-form-container ul li')
     expect(external_documents.length).to eq(1)
   end
@@ -263,7 +265,7 @@ describe 'Accessions', js: true do
     element.click
     click_on('Confirm Removal')
     click_button('Save')
-    expect(page).to have_text "Accession #{accession.title} updated"
+    expect(page).to have_text "Accession #{accession.titles[0]['title']} updated"
     dates = all('section#accession_dates_ .subrecord-form-container ul li')
     expect(dates.length).to eq(1)
   end
@@ -319,6 +321,7 @@ describe 'Accessions', js: true do
     identifier = Time.now
     click_on('Create')
     click_on('Accession')
+    click_on('Add Title')
     fill_in('Title', with: accession_title)
     fill_in("Identifier", with: "test_#{identifier}")
     click_on('Save')
@@ -326,6 +329,7 @@ describe 'Accessions', js: true do
 
     click_on('Create')
     click_on('Accession')
+    click_on('Add Title')
     fill_in('Title', with: accession_title)
     fill_in("Identifier", with: "test_#{identifier}")
     click_on('Save')
@@ -358,7 +362,7 @@ describe 'Accessions', js: true do
     dropdown_items.first.click
 
     click_button('Save')
-    expect(page).to have_text "Accession #{accession.title} updated"
+    expect(page).to have_text "Accession #{accession.titles[0]['title']} updated"
     run_index_round
 
     visit "/accessions/#{accession.id}"
@@ -411,7 +415,7 @@ describe 'Accessions', js: true do
     click_button 'Link'
 
     click_button 'Save'
-    expect(page).to have_text "Accession #{accession.title} updated"
+    expect(page).to have_text "Accession #{accession.titles[0]['title']} updated"
   end
 
   it 'can add collection management to an accession and can remove it' do
@@ -433,7 +437,7 @@ describe 'Accessions', js: true do
     element.click
     click_on('Confirm Removal')
     click_button('Save')
-    expect(page).to have_text "Accession #{accession.title} updated"
+    expect(page).to have_text "Accession #{accession.titles[0]['title']} updated"
 
     run_index_round
 
@@ -460,12 +464,12 @@ describe 'Accessions', js: true do
 
     # Find second accession by AJAX and select the first
     element = find('#token-input-accession_related_accessions__0__ref_')
-    element.fill_in with: accession_to_link_to.title
+    element.fill_in with: accession_to_link_to.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
     click_on('Save')
-    expect(page).to have_text "Accession #{accession.title} updated"
+    expect(page).to have_text "Accession #{accession.titles[0]['title']} updated"
   end
 
   it 'can show a browse list of accessions' do
@@ -480,21 +484,21 @@ describe 'Accessions', js: true do
 
     # Search for accession and check results table
     input_text = find('#filter-text')
-    input_text.fill_in with: accession_first.title
+    input_text.fill_in with: accession_first.titles[0]['title']
     input_text.send_keys(:enter)
-    find('td', text: accession_first.title)
+    find('td', text: accession_first.titles[0]['title'])
 
     # Search for accession and check results table
     input_text = find('#filter-text')
-    input_text.fill_in with: accession_second.title
+    input_text.fill_in with: accession_second.titles[0]['title']
     input_text.send_keys(:enter)
-    find('td', text: accession_second.title)
+    find('td', text: accession_second.titles[0]['title'])
 
     # Search for accession and check results table
     input_text = find('#filter-text')
-    input_text.fill_in with: accession_third.title
+    input_text.fill_in with: accession_third.titles[0]['title']
     input_text.send_keys(:enter)
-    find('td', text: accession_third.title)
+    find('td', text: accession_third.titles[0]['title'])
   end
 
   it 'can define a second level sort for a browse list of accessions' do
@@ -552,6 +556,7 @@ describe 'Accessions', js: true do
     now = Time.now.to_i
     click_on('Create')
     click_on('Accession')
+    click_on('Add Title')
     fill_in('Title', with: accession_title)
     fill_in("Identifier", with: "test_#{Time.now}")
     click_on('Save')

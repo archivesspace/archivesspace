@@ -53,15 +53,15 @@ class Resource < JSONModel(:resource)
                                                      :content => [accession.condition_description])
     end
 
-    if accession.title
-      self.titles = [JSONModel(:title).from_hash(title: accession.title)]
-    end
-
     self.notes.concat(notes)
 
     self.rights_statements = Array(accession.rights_statements).map {|rights_statement|
       rights_statement.clone.tap {|r| r.delete('identifier')}
     }
+
+    if !self.titles || self.titles.empty?
+      self.titles = [JSONModel(:title).new._always_valid!]
+    end
 
     if !self.extents || self.extents.empty?
       self.extents = [JSONModel(:extent).new._always_valid!]

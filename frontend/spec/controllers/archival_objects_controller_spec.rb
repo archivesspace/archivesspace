@@ -84,7 +84,7 @@ describe ArchivalObjectsController, type: :controller do
       expect(response.status).to eq 200
       result = Capybara.string(response.body)
       result.find(:css, "#archival_object_titles__0__title_") do |form_input|
-        expect(form_input.value).to eq(accession.title)
+        expect(form_input.value).to eq(accession.titles[0]['title'])
       end
     end
 

@@ -20,7 +20,6 @@ class Accession < JSONModel(:accession)
     ref_id
   end
 
-
   def populate_from_accession(accession)
     values = accession.to_hash(:raw)
 
@@ -31,12 +30,10 @@ class Accession < JSONModel(:accession)
                                                      hash.delete_if {|k, v| k.to_s =~ /^(id_[0-9]|lock_version)$/}
                                                      hash
                                                    }])
-
     prepare_for_clone(values)
 
     self.update(values)
   end
-
 
   private
 
@@ -53,5 +50,4 @@ class Accession < JSONModel(:accession)
     values.delete('classification')
     values.delete_if { |k, v| v.respond_to?(:empty?) && v.empty? }
   end
-
 end

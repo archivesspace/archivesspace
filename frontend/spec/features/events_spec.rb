@@ -161,7 +161,7 @@ describe 'Events', js: true do
 
     select 'Source', from: 'event_linked_records__0__role_'
 
-    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.title
+    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
@@ -193,7 +193,7 @@ describe 'Events', js: true do
 
     select 'Source', from: 'event_linked_records__0__role_'
 
-    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.title
+    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
@@ -239,7 +239,7 @@ describe 'Events', js: true do
 
     select 'Source', from: 'event_linked_records__0__role_'
 
-    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.title
+    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 

@@ -9,7 +9,8 @@
 
       "external_ids" => {"type" => "array", "items" => {"type" => "JSONModel(:external_id) object"}},
 
-      "title" => {"type" => "string", "maxLength" => 8192, "ifmissing" => nil},
+      "titles" => {"type" => "array", "items" => {"type" => "JSONModel(:title) object"}},
+
       "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
       "slug" => {"type" => "string"},

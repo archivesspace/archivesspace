@@ -10,7 +10,7 @@ describe "Import Archival Objects" do
   before(:each) do
     @current_user = User.find(:username => "admin")
     # create the resource
-    resource = JSONModel(:resource).from_hash("title" => "a resource",
+    resource = JSONModel(:resource).from_hash("titles" => [build(:json_title, :title => "a resource")],
                                               "dates" => [{
                                                 "date_type" => "single",
                                                 "label" => "creation",

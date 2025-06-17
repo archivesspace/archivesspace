@@ -66,13 +66,17 @@ describe 'Archival objects', js: true do
       element.click
     end
 
-    [subjects, accessions, classifications].each do |entities|
+    [subjects, classifications].each do |entities|
       entities.each do |entity|
         element = find("##{entity[:uri].gsub('/', '_')}")
         expect(element.text).to match(/#{entity.title}/)
       end
     end
 
+    accessions.each do |entity|
+      element = find("##{entity[:uri].gsub('/', '_')}")
+      expect(element.text).to match(/#{entity.titles[0]['title']}/)
+    end
 
     digital_objects.each do |entity|
       element = find("##{entity[:uri].gsub('/', '_')}")

@@ -132,6 +132,7 @@ describe 'Classifications', js: true do
 
     click_on 'Create'
     click_on 'Accession'
+    click_on 'Add Title'
 
     fill_in 'Title', with: "Accession Title #{now}"
     fill_in 'Identifier', with: "Accession Identifier #{now}"

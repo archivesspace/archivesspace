@@ -48,7 +48,7 @@ end
   <% end %>
 <%= (props.fetch(:full,false)? '</h1>' : '</h3>').html_safe %>
 
-<% if result.primary_type == 'resource' || result.primary_type == 'archival_object' %>
+<% if %w(resource archival_object accession).include?(result.primary_type) %>
   <%= render partial: 'shared/titles', locals: {titles: result.json['titles'], display_string: result.display_string} %>
 <% end %>
 

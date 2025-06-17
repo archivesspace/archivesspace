@@ -111,7 +111,7 @@ describe 'Assessments', js: true do
 
     # Records AJAX drodown
     element = find('#token-input-assessment_records_')
-    element.fill_in with: accession.title
+    element.fill_in with: accession.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
@@ -176,7 +176,7 @@ describe 'Assessments', js: true do
     run_index_round
 
     expect(page).to have_text 'Assessment Created'
-    expect(page).to have_text accession.title
+    expect(page).to have_text accession.titles[0]['title']
     expect(page).to have_text digital_object.titles[0]['title'] # TODO: This will be fixed once digital objects get proper rendering of their multiple titles
     expect(page).to have_text archival_object.titles[0]['title']
     linked_agents = all('.token-input-token .agent_person')
@@ -302,7 +302,7 @@ describe 'Assessments', js: true do
 
     # Records AJAX drodown
     element = find('#token-input-assessment_records_')
-    element.fill_in with: accession.title
+    element.fill_in with: accession.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 

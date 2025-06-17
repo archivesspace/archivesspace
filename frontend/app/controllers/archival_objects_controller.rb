@@ -34,7 +34,7 @@ class ArchivalObjectsController < ApplicationController
         acc = Accession.find(params[:accession_id], find_opts)
         @archival_object.populate_from_accession(acc)
 
-        flash.now[:info] = t("archival_object._frontend.messages.spawned", accession_display_string: clean_mixed_content(acc.title))
+        flash.now[:info] = t("archival_object._frontend.messages.spawned", accession_display_string: clean_mixed_content(MultipleTitlesHelper.determine_primary_title(acc.titles, I18n.locale)))
         flash[:spawned_from_accession] = acc.id
       end
     end
