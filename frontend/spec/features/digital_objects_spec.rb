@@ -32,7 +32,7 @@ describe 'Digital Objects', js: true do
     expect(page).to have_selector('h2', visible: true, text: "New Digital Object Digital Object")
 
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq "Title - Property is required but was missing\nIdentifier - Property is required but was missing"
+    expect(element.text).to eq "Titles - At least 1 item(s) is required\nIdentifier - Property is required but was missing"
   end
 
   it 'can handle multiple file versions and file system and network path types' do

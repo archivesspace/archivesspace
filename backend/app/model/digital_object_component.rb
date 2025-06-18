@@ -53,7 +53,8 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
 
 
   def self.produce_display_string(json)
-    display_string = json['title'] || json['label'] || ""
+    display_string = MultipleTitlesHelper.determine_primary_title(json['titles'],
+      Preference.user_global_defaults['locale'] || Preference.global_defaults['locale']) || ""
 
     date_label = json.has_key?('dates') && json['dates'].length > 0 ?
                   json['dates'].map do |date|
@@ -66,7 +67,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
                     end
                   end.join(', ') : false
 
-    display_string += ", " if json['title'] && date_label
+    display_string += ", " if !display_string&.empty? && date_label
     display_string += date_label if date_label
 
     display_string
