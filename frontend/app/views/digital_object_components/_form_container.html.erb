@@ -34,9 +34,6 @@
                                  :record => @digital_object_component) %>
 
       <%= form.label_and_textfield "label", :required => :conditionally %>
-      <%= form.label_and_textarea "title", :required => :conditionally, :field_opts => {
-        :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
-      } %>
       <%= form.label_and_textfield "component_id" %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @digital_object_component} if AppConfig[:use_human_readable_urls] %>
@@ -59,6 +56,8 @@
   <% end %>
 
   <% form.emit_template("digital_object_component") %>
+
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "titles"} %>
 
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "file_versions"} %>
 

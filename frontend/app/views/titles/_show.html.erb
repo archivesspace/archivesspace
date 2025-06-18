@@ -1,8 +1,8 @@
 <%
-   section_id = "all_titles" if section_id.blank?
+   section_id = "titles" if section_id.blank?
 %>
-<section id="<%= section_id %>" class="subrecord-form-dummy">
-  <h3><%= t('title._plural') %></h3>
+<section id="<%= section_id %>" class="subrecord-form">
+  <h3 class="subrecord-form-heading"><%= t("title._plural") %></h3>
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields">
       <table class="table table-striped table-bordered table-condensed table-hover">

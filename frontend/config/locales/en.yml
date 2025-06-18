@@ -2590,7 +2590,7 @@ en:
     _frontend:
       action:
         add: Add Title
-    _plural: All Titles
+    _plural: Titles
     title: Title
     type: Title Type
     language: Language
