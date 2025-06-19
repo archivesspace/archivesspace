@@ -322,7 +322,6 @@ class Solr
         add_solr_param(:fq, "-types:pui_only")
       end
 
-
       if @highlighting
         add_solr_param(:hl, "true")
         add_solr_param(:"hl.fl", "*")

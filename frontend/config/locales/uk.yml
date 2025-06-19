@@ -35,3 +35,17 @@ uk:
   agent_resource:
     _singular: Пов'язаний зовнішній ресурс
     _plural: Пов’язані зовнішні ресурси
+  used_language:
+    _plural: Використані мови
+    _singular: Використана мова
+  metadata_rights_declaration:
+    _plural: Декларації прав на метадані
+    descriptive_note: Описова примітка
+    _singular: Декларація про права на метадані
+    license: Ліцензія
+    file_uri: URI файлу
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_show_attribute: Атрибут Xlink Show

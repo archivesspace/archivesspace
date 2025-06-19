@@ -114,14 +114,14 @@
     <div class="tabbable tabs-below">
       <div class="tab-content">
         <div class="tab-pane active" id="<%= form.id_for("item") %>_raw">
-          <span class="note-content-raw"><%= form.textarea(nil, item, { :escape => false, :class => "mixed-content" }) %></span>
+          <p class="note-content-raw"><%= item %></p>
         </div>
         <div class="tab-pane note-content-formatted" id="<%= form.id_for("item") %>_parsed">
           <%= clean_note(item).html_safe %>
         </div>
       </div>
       <ul class="nav nav-tabs">
-        <li class="active nav-item"><a class="nav-link" href="#<%= form.id_for("item") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
+        <li class="nav-item"><a class="active nav-link" href="#<%= form.id_for("item") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
         <li class="nav-item"><a class="nav-link" href="#<%= form.id_for("item") %>_parsed" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
       </ul>
     </div>
@@ -912,14 +912,14 @@
           <div class="tabbable tabs-below">
             <div class="tab-content">
               <div class="tab-pane active" id="<%= form.id_for("content") %>_raw">
-                <span class="note-content-raw"><%= form.textarea(nil, form["content"], :class => "mixed-content") %></span>
+                <p class="note-content-raw"><%= form["content"] %></p>
               </div>
               <div class="tab-pane note-content-formatted" id="<%= form.id_for("content") %>_parsed">
                 <%= clean_note(form["content"]).html_safe %>
               </div>
             </div>
             <ul class="nav nav-tabs">
-              <li class="active nav-item"><a class="nav-link" href="#<%= form.id_for("content") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
+              <li class="nav-item"><a class="active nav-link" href="#<%= form.id_for("content") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
               <li class="nav-item"><a class="nav-link" href="#<%= form.id_for("content") %>_parsed" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
             </ul>
           </div>
