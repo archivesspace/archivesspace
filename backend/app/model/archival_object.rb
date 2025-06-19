@@ -69,7 +69,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
 
   def self.produce_display_string(json)
     display_string = MultipleTitlesHelper.determine_primary_title(json['titles'],
-      Preference.user_global_defaults['locale'] || Preference.global_defaults['locale']) || ""
+                                                                  Preference.get_user_global_preference('locale'))
 
     date_label = json.has_key?('dates') && json['dates'].length > 0 ?
                    json['dates'].map do |date|
