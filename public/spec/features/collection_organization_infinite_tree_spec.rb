@@ -135,9 +135,12 @@ describe 'Collection Organization', js: true do
       end
     end
 
-    shared_examples 'loading all middle batches in the correct order' do
+    shared_examples 'loading expected populated batches beyond the first and except the last batch' do
       it 'loads nodes in the correct order' do
-        expected_populated_batches[1...-1].each do |batch_offset|
+        expected_populated_batches.each do |batch_offset|
+          next if batch_offset == 0 # skip first batch, already tested
+          next if batch_offset == total_batches - 1 # skip last batch, already tested
+
           prev_batch_was_populated = expected_populated_batches.include?(batch_offset - 1)
           curr_batch_first_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size + 1}_of_#{parent}").id
 
@@ -285,7 +288,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -300,7 +303,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -315,7 +318,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -330,7 +333,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -345,7 +348,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'loading the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
         end
@@ -360,7 +363,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'loading the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
         end
@@ -379,7 +382,7 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'scrolling loads remaining nodes'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
@@ -395,7 +398,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -409,9 +412,8 @@ describe 'Collection Organization', js: true do
 
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -426,7 +428,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'loading the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
         end
@@ -441,7 +443,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'loading the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
         end
@@ -461,7 +463,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -476,7 +478,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -491,7 +493,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'having all nodes loaded'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'loading the last batch'
         end
 
@@ -505,7 +507,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'loading the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
         end
@@ -525,7 +527,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -540,7 +542,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'having all nodes loaded'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'loading the last batch'
         end
 
@@ -554,7 +556,7 @@ describe 'Collection Organization', js: true do
           it_behaves_like 'uri fragment batch rendering'
           it_behaves_like 'loading first batch of multi-batch content'
           it_behaves_like 'having all nodes loaded'
-          it_behaves_like 'loading all middle batches in the correct order'
+          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
           it_behaves_like 'loading the last batch'
         end
       end
