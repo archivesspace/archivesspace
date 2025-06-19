@@ -66,9 +66,7 @@ class Accession < Sequel::Model(:accession)
 
   auto_generate :property => :display_string,
                 :generator => lambda { |json|
-                  locale = Preference.user_global_defaults['locale'] || Preference.global_defaults['locale']
-                  primary_title = MultipleTitlesHelper.determine_primary_title(json['titles'], locale)
-                  return primary_title if primary_title
+                  return determine_primary_title if determine_primary_title
 
                   %w(id_0 id_1 id_2 id_3).map {|p| json[p]}.compact.join("-")
                 }

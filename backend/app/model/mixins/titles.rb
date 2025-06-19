@@ -1,5 +1,6 @@
-module Titles
+require 'multiple_titles_helper'
 
+module Titles
   def self.included(base)
     base.one_to_many(:title)
     base.def_nested_record(:the_property => :titles,
@@ -7,4 +8,8 @@ module Titles
                            :corresponding_to_association  => :title)
   end
 
+  def determine_primary_title
+    MultipleTitlesHelper.determine_primary_title(json['titles'],
+                                                 Preference.get_user_global_preference('locale'))
+  end
 end
