@@ -1,6 +1,8 @@
 uk:
   actions:
     close: Закрити
+    add: Додати
+    add_event: Додати подію
   search_sorting:
     sort_by: 'Сортувати за:'
   advanced_search:
@@ -49,3 +51,9 @@ uk:
     xlink_role_attribute: Атрибут ролі Xlink
     xlink_arcrole_attribute: Атрибут Xlink Arcrole
     file_version_xlink_show_attribute: Атрибут Xlink Show
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Додати дату
+  states:
+    auto_generated: Система генерує під час збереження
