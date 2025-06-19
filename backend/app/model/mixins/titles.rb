@@ -2,7 +2,6 @@ require 'multiple_titles_helper'
 require 'json'
 
 module Titles
-
   def self.included(base)
     base.one_to_many(:title)
     base.def_nested_record(:the_property => :titles,
@@ -17,5 +16,4 @@ module Titles
       Preference.get_user_global_preference('locale').to_sym || I18n.default_locale
     )
   end
-
 end

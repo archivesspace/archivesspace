@@ -24,7 +24,7 @@ describe 'Classifications', js: true do
     click_on 'Create'
     click_on 'Classification'
     fill_in 'Identifier', with: "Identifier #{now}"
-    fill_in 'Title', with: "Title #{now}"
+    fill_in 'classification_titles__0__title_', with: "Title #{now}"
 
     # Creator AJAX drodown
     element = find('#token-input-classification_creator__ref_')
@@ -72,7 +72,7 @@ describe 'Classifications', js: true do
 
     click_on 'Create'
     click_on 'Resource'
-    fill_in 'Title', with: "Resource title #{now}"
+    fill_in 'resource_titles__0__title_', with: "Resource Title #{now}"
     fill_in 'Identifier', with: "Resource identifier #{now}"
     select 'Collection', from: 'Level of Description'
     element = find('#resource_lang_materials__0__language_and_script__language_')
@@ -106,7 +106,7 @@ describe 'Classifications', js: true do
 
     # Classification AJAX drodown
     element = find('#token-input-resource_classifications__0__ref_')
-    element.fill_in with: classification.title
+    element.fill_in with: classification.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
@@ -116,7 +116,7 @@ describe 'Classifications', js: true do
     click_on 'Close Record'
 
     element = find('#resource_classifications_')
-    expect(element).to have_text(classification.title)
+    expect(element).to have_text(classification.titles[0]['title'])
   end
 
   it 'allows you to link an accession to a classification' do
@@ -140,7 +140,7 @@ describe 'Classifications', js: true do
     click_on 'Add Classification'
 
     element = find('#token-input-accession_classifications__0__ref_')
-    element.fill_in with: classification.title
+    element.fill_in with: classification.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
@@ -149,7 +149,7 @@ describe 'Classifications', js: true do
     expect(page).to have_text "Accession Accession Title #{now} created"
 
     element = find('#accession_classifications_')
-    expect(element).to have_text(classification.title)
+    expect(element).to have_text(classification.titles[0]['title'])
   end
 
   it 'has the linked records on the classifications view page' do
@@ -165,6 +165,6 @@ describe 'Classifications', js: true do
     expect(page).to have_text resource.titles[0]['title']
     tree_element = find("#classification_term_#{classification_term.id} a.record-title")
     tree_element.click
-    expect(page).to have_text accession.title
+    expect(page).to have_text accession.titles[0]['title']
   end
 end
