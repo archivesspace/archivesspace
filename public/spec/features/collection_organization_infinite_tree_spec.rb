@@ -117,7 +117,7 @@ describe 'Collection Organization', js: true do
       end
     end
 
-    shared_examples 'uri fragment batch rendering' do
+    shared_examples 'basic details of uri fragment batch rendering' do
       it 'shows the child node of interest' do
         expect(node).to appear_in_tree_viewport
       end
@@ -128,15 +128,15 @@ describe 'Collection Organization', js: true do
     end
 
     shared_examples 'having all nodes loaded' do
-      it 'has all siblings already loaded' do
+      it 'has all sibling nodes loaded' do
         wait_for_jquery
         expect(parent_list).to have_css('.node', count: total_nodes)
         expect(parent_list).not_to have_css('[data-batch-placeholder]', visible: false)
       end
     end
 
-    shared_examples 'loading expected populated batches beyond the first and except the last batch' do
-      it 'loads nodes in the correct order' do
+    shared_examples 'loading middle batches' do
+      it 'loads middle batches of nodes in the correct order' do
         expected_populated_batches.each do |batch_offset|
           next if batch_offset == 0 # skip first batch, already tested
           next if batch_offset == total_batches - 1 # skip last batch, already tested
@@ -145,49 +145,64 @@ describe 'Collection Organization', js: true do
           curr_batch_first_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size + 1}_of_#{parent}").id
 
           if prev_batch_was_populated
-            prev_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
-            expect(parent_list).to have_css("#archival_object_#{prev_batch_last_node_id} + #archival_object_#{curr_batch_first_node_id}")
+            aggregate_failures 'loads the first node of the current batch after the last node of the previous batch' do
+              prev_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
+              expect(parent_list).to have_css("#archival_object_#{prev_batch_last_node_id} + #archival_object_#{curr_batch_first_node_id}")
+            end
           else
-            expect(parent_list).to have_css("[data-batch-placeholder='#{batch_offset - 1}'] + #archival_object_#{curr_batch_first_node_id}", visible: :all)
+            aggregate_failures 'loads the first node of the current batch after the previous batch placeholder' do
+              expect(parent_list).to have_css("[data-batch-placeholder='#{batch_offset - 1}'] + #archival_object_#{curr_batch_first_node_id}", visible: :all)
+            end
           end
 
-          aggregate_failures 'loads nodes in the correct order' do
-            (batch_offset * @tree_batch_size + 1..(batch_offset + 1) * @tree_batch_size).each do |node_num|
-              curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
+          (batch_offset * @tree_batch_size + 1..(batch_offset + 1) * @tree_batch_size).each do |node_num|
+            curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
 
-              if node_num < (batch_offset + 1) * @tree_batch_size # not last node in this batch
+            if node_num < (batch_offset + 1) * @tree_batch_size
+              aggregate_failures 'loads the first through the second-to-last node of the current batch in order' do
                 next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
-
                 expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
-              else # last node in this batch
+              end
+            else
+              aggregate_failures 'loads the last node of the current batch in order' do
                 prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
                 expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
               end
             end
+
           end
         end
       end
     end
 
     shared_examples 'loading the last batch' do
-      it 'loads nodes in the correct order' do
+      it 'loads the last batch' do
         batch_offset = total_batches - 1
         second_to_last_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
         last_batch_first_node_position = batch_offset * @tree_batch_size + 1
         last_batch_first_node_id = instance_variable_get("@ao#{last_batch_first_node_position}_of_#{parent}").id
-        expect(parent_list).to have_css("#archival_object_#{second_to_last_batch_last_node_id} + #archival_object_#{last_batch_first_node_id}")
+
+        aggregate_failures 'loads the first node of the last batch' do
+          expect(parent_list).to have_css("#archival_object_#{second_to_last_batch_last_node_id} + #archival_object_#{last_batch_first_node_id}")
+        end
 
         if last_batch_first_node_position < total_nodes # not last node in this batch
           (last_batch_first_node_position..total_nodes).each do |node_num|
             curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
-            if node_num < total_nodes # not last node in this batch
-              next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
-              expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
+
+            if node_num < total_nodes
+              aggregate_failures 'loads the middle nodes of the last batch in the correct order' do
+                next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
+                expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
+              end
             else
-              prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
-              expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
-              expect(parent_list).to have_css("& #archival_object_#{curr_node_id}:last-child")
+              aggregate_failures 'loads the last node of the last batch' do
+                prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
+                expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
+                expect(parent_list).to have_css("& #archival_object_#{curr_node_id}:last-child")
+              end
             end
+
           end
         end
       end
@@ -199,10 +214,14 @@ describe 'Collection Organization', js: true do
           prev_batch_was_populated = expected_populated_batches.include?(batch_offset - 1)
 
           if prev_batch_was_populated
-            prev_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
-            expect(parent_list).to have_css("#archival_object_#{prev_batch_last_node_id} + [data-batch-placeholder='#{batch_offset}']", visible: :all)
+            aggregate_failures 'includes a placeholder after the last node of the previous batch' do
+              prev_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
+              expect(parent_list).to have_css("#archival_object_#{prev_batch_last_node_id} + [data-batch-placeholder='#{batch_offset}']", visible: :all)
+            end
           else
-            expect(parent_list).to have_css("[data-batch-placeholder='#{batch_offset - 1}'] + [data-batch-placeholder='#{batch_offset}']", visible: false)
+            aggregate_failures 'includes a placeholder after the previous placeholder' do
+              expect(parent_list).to have_css("[data-batch-placeholder='#{batch_offset - 1}'] + [data-batch-placeholder='#{batch_offset}']", visible: false)
+            end
           end
         end
       end
@@ -230,14 +249,14 @@ describe 'Collection Organization', js: true do
       end
     end
 
-    shared_examples 'loading first batch of multi-batch content' do
-      it 'contains the first batch (offset: 0)' do
+    shared_examples 'loading the first batch' do
+      it 'contains the first batch' do
         aggregate_failures 'includes the first node of the batch' do
           curr_node_id = instance_variable_get("@ao1_of_#{parent}").id
           expect(parent_list).to have_css("& #archival_object_#{curr_node_id}:first-child")
         end
 
-        aggregate_failures 'includes the intermediate nodes of the batch' do
+        aggregate_failures 'includes the middle nodes of the batch' do
           (2..@tree_batch_size - 1).each do |node_num|
             curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
             next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
@@ -285,10 +304,10 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 40 }
           let(:node_position) { 10 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -300,10 +319,10 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 60 }
           let(:node_position) { 30 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -315,10 +334,10 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 80 }
           let(:node_position) { 50 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -330,10 +349,10 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 80 }
           let(:node_position) { 70 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -345,10 +364,10 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 80 }
           let(:node_position) { 90 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'loading the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
         end
@@ -360,10 +379,10 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 60 }
           let(:node_position) { 110 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'loading the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
         end
@@ -380,9 +399,9 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 40 }
           let(:node_position) { 10 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'scrolling loads remaining nodes'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
@@ -395,10 +414,10 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 60 }
           let(:node_position) { 30 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -410,9 +429,9 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 80 }
           let(:node_position) { 50 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'scrolling loads remaining nodes'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
@@ -425,10 +444,10 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 61 }
           let(:node_position) { 70 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'loading the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
         end
@@ -440,10 +459,10 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 41 }
           let(:node_position) { 81 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'loading the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
         end
@@ -460,10 +479,10 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 10 }
           let(:expected_node_count_on_page_load) { 40 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -475,10 +494,10 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 30 }
           let(:expected_node_count_on_page_load) { 60 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -490,10 +509,10 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 50 }
           let(:expected_node_count_on_page_load) { 61 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'having all nodes loaded'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'loading the last batch'
         end
 
@@ -504,10 +523,10 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 61 }
           let(:expected_node_count_on_page_load) { 41 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'loading the last batch'
           it_behaves_like 'including placeholders for non-loaded batches'
         end
@@ -524,10 +543,10 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 10 }
           let(:expected_node_count_on_page_load) { 40 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'scrolling loads remaining nodes'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'including placeholders for non-loaded batches'
           it_behaves_like 'including the last batch placeholder'
         end
@@ -539,10 +558,10 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 30 }
           let(:expected_node_count_on_page_load) { 41 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'having all nodes loaded'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'loading the last batch'
         end
 
@@ -553,10 +572,10 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 41 }
           let(:expected_node_count_on_page_load) { 41 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'having all nodes loaded'
-          it_behaves_like 'loading expected populated batches beyond the first and except the last batch'
+          it_behaves_like 'loading middle batches'
           it_behaves_like 'loading the last batch'
         end
       end
@@ -572,8 +591,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 10 }
           let(:expected_node_count_on_page_load) { 21 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'having all nodes loaded'
           it_behaves_like 'loading the last batch'
         end
@@ -585,8 +604,8 @@ describe 'Collection Organization', js: true do
           let(:node_position) { 21 }
           let(:expected_node_count_on_page_load) { 21 }
 
-          it_behaves_like 'uri fragment batch rendering'
-          it_behaves_like 'loading first batch of multi-batch content'
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
           it_behaves_like 'having all nodes loaded'
           it_behaves_like 'loading the last batch'
         end
@@ -602,7 +621,7 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 1 }
           let(:node_position) { 1 }
 
-          it_behaves_like 'uri fragment batch rendering'
+          it_behaves_like 'basic details of uri fragment batch rendering'
           it_behaves_like 'having all nodes loaded'
 
           describe 'the parent list' do
@@ -627,7 +646,7 @@ describe 'Collection Organization', js: true do
           let(:expected_node_count_on_page_load) { 5 }
           let(:node_position) { 2 }
 
-          it_behaves_like 'uri fragment batch rendering'
+          it_behaves_like 'basic details of uri fragment batch rendering'
           it_behaves_like 'having all nodes loaded'
 
           describe 'the parent list' do
