@@ -4,21 +4,20 @@
 >
 </div>
 
-<%# The <template>s below get appended to #infinite-tree-container via InfiniteTree.js %>
+<template id="infinite-tree-root-list-template">
+  <ol class="infinite-tree" role="tree"></ol>
+</template>
 
-<template id="infinite-tree-root-template">
-  <ol class="infinite-tree" role="tree">
-    <li class="root node" role="treeitem" id data-uri aria-expanded>
-      <div class="node-row">
-        <div class="node-body" title>
-          <div class="node-title-container">
-            <a class="node-title" href></a>
-          </div>
+<template id="infinite-tree-root-node-template">
+  <li class="root node" role="treeitem" id data-uri>
+    <div class="node-row">
+      <div class="node-body" title>
+        <div class="node-title-container">
+          <a class="node-title" href></a>
         </div>
       </div>
-      <%# ol.node-children to be inserted here by JS %>
-    </li>
-  </ol>
+    </div>
+  </li>
 </template>
 
 <template id="infinite-tree-node-template">
@@ -31,18 +30,10 @@
         </div>
       </div>
     </div>
-    <%# ol.node-children to be inserted here by JS on expand %>
   </li>
 </template>
 
-<template id="infinite-tree-expand-button-template">
-  <button class="node-expand" type="button">
-    <i class="node-expand-icon fa fa-chevron-right"></i>
-    <span class="sr-only"></span>
-  </button>
-</template>
-
-<template id="infinite-tree-children-list-template">
+<template id="infinite-tree-node-list-template">
   <ol
     class="node-children"
     role="group"
@@ -50,8 +41,14 @@
     data-tree-level
     data-total-child-batches
   >
-    <%# Child nodes will be inserted here by JS %>
   </ol>
+</template>
+
+<template id="infinite-tree-expand-button-template">
+  <button class="node-expand" type="button">
+    <i class="node-expand-icon fa fa-chevron-right"></i>
+    <span class="sr-only"></span>
+  </button>
 </template>
 
 <template id="infinite-tree-batch-placeholder-template">
