@@ -38,7 +38,7 @@ class ClassificationsController < ApplicationController
   end
 
   def new
-    @classification = JSONModel(:classification).new(:title => t("classification.title_default", :default => ""))._always_valid!
+    @classification = JSONModel(:classification).new(:titles => [{:title => t("classification.title_default", :default => "")}])._always_valid!
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'classification'
@@ -71,7 +71,7 @@ class ClassificationsController < ApplicationController
     },
       :on_valid => ->(id) {
 
-      flash[:success] = t("classification._frontend.messages.created", classification_title: clean_mixed_content(@classification.title))
+      flash[:success] = t("classification._frontend.messages.created", classification_title: clean_mixed_content(@classification.determine_primary_title))
 
       if @classification["is_slug_auto"] == false &&
           @classification["slug"] == nil &&
@@ -97,7 +97,7 @@ class ClassificationsController < ApplicationController
       render_aspace_partial :partial => "edit_inline"
     },
       :on_valid => ->(id) {
-      flash.now[:success] = t("classification._frontend.messages.updated", classification_title: clean_mixed_content(@classification.title))
+      flash.now[:success] = t("classification._frontend.messages.updated", classification_title: clean_mixed_content(@classification.determine_primary_title))
 
       if @classification["is_slug_auto"] == false &&
           @classification["slug"] == nil &&
@@ -116,7 +116,7 @@ class ClassificationsController < ApplicationController
     classification = JSONModel(:classification).find(params[:id])
     classification.delete
 
-    flash[:success] = t("classification._frontend.messages.deleted", classification_title: clean_mixed_content(classification.title))
+    flash[:success] = t("classification._frontend.messages.deleted", classification_title: clean_mixed_content(classification.determine_primary_title))
     redirect_to(:controller => :classifications, :action => :index, :deleted_uri => classification.uri)
   end
 
