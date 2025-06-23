@@ -15,6 +15,14 @@ describe 'Collection Organization', js: true do
         title: 'This is <emph render="italic">a mixed content</emph> title',
         publish: true
       )
+      @ao1 = create(:archival_object,
+        resource: {'ref' => @resource.uri},
+        publish: true
+      )
+      @ao2 = create(:archival_object,
+        resource: {'ref' => @resource.uri},
+        publish: true
+      )
       @ao3 = create(:archival_object,
         resource: {'ref' => @resource.uri},
         publish: true
@@ -32,14 +40,6 @@ describe 'Collection Organization', js: true do
         publish: true
       )
       @ao7 = create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        publish: true
-      )
-      @ao8 = create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        publish: true
-      )
-      @ao9 = create(:archival_object,
          resource: {'ref' => @resource.uri},
          publish: true
        )
@@ -49,6 +49,22 @@ describe 'Collection Organization', js: true do
         # Flaky batch rendering tests were observed with 101 nodes, where an extra batch
         # sometimes got loaded right after initial page load via the InfiniteTree batchObserver.
         # The workaround is a full last batch, and to select its middle node for the URI fragment.
+        instance_variable_set("@ao#{i + 1}_of_ao1", create(:archival_object,
+          resource: {'ref' => @resource.uri},
+          parent: {'ref' => @ao1.uri},
+          publish: true
+        ))
+      end
+
+      81.times do |i| # 5 batches
+        instance_variable_set("@ao#{i + 1}_of_ao2", create(:archival_object,
+          resource: {'ref' => @resource.uri},
+          parent: {'ref' => @ao2.uri},
+          publish: true
+        ))
+      end
+
+      61.times do |i| # 4 batches
         instance_variable_set("@ao#{i + 1}_of_ao3", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao3.uri},
@@ -56,7 +72,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      81.times do |i| # 5 batches
+      41.times do |i| # 3 batches
         instance_variable_set("@ao#{i + 1}_of_ao4", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao4.uri},
@@ -64,7 +80,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      61.times do |i| # 4 batches
+      21.times do |i| # 2 batches
         instance_variable_set("@ao#{i + 1}_of_ao5", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao5.uri},
@@ -72,15 +88,13 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      41.times do |i| # 3 batches
-        instance_variable_set("@ao#{i + 1}_of_ao6", create(:archival_object,
-          resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao6.uri},
-          publish: true
-        ))
-      end
+      @ao1_of_ao6 = create(:archival_object, # 1 batch with a single node
+        resource: {'ref' => @resource.uri},
+        parent: {'ref' => @ao6.uri},
+        publish: true
+      )
 
-      21.times do |i| # 2 batches
+      5.times do |i| # 1 batch with multiple nodes
         instance_variable_set("@ao#{i + 1}_of_ao7", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao7.uri},
@@ -88,16 +102,18 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      @ao1_of_ao8 = create(:archival_object, # 1 batch with a single node
-        resource: {'ref' => @resource.uri},
-        parent: {'ref' => @ao8.uri},
-        publish: true
-      )
+      @resource2 = create(:resource, publish: true)
+      21.times do |i| # 2 batches
+        instance_variable_set("@ao#{i + 1}_of_resource2", create(:archival_object,
+          resource: {'ref' => @resource2.uri},
+          publish: true
+        ))
+      end
 
-      5.times do |i| # 1 batch with multiple nodes
-        instance_variable_set("@ao#{i + 1}_of_ao9", create(:archival_object,
-          resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao9.uri},
+      @resource3 = create(:resource, publish: true)
+      41.times do |i| # 3 batches
+        instance_variable_set("@ao#{i + 1}_of_resource3", create(:archival_object,
+          resource: {'ref' => @resource3.uri},
           publish: true
         ))
       end
@@ -118,7 +134,7 @@ describe 'Collection Organization', js: true do
     end
 
     shared_examples 'basic details of uri fragment batch rendering' do
-      it 'shows the child node of interest' do
+      it 'shows the node of interest' do
         expect(node).to appear_in_tree_viewport
       end
 
@@ -248,8 +264,8 @@ describe 'Collection Organization', js: true do
       end
     end
 
-    shared_examples 'scrolling loads remaining nodes' do
-      it 'fetches remaining siblings on scroll' do
+    shared_examples 'scrolling loads remaining batches' do
+      it 'fetches remaining batches of siblings on scroll' do
         container = page.find('#infinite-tree-container')
 
         expected_batch_placeholders.each do |batch_offset|
@@ -273,10 +289,9 @@ describe 'Collection Organization', js: true do
     end
 
     context 'when loading a page with a URI fragment' do
+      let(:total_batches) { (total_nodes / @tree_batch_size.to_f).ceil }
 
       context 'when the target node is not the root node' do
-        let(:total_batches) { (total_nodes / @tree_batch_size.to_f).ceil }
-
         let(:node_record_id) do
           node_var = "@ao#{node_position}_of_#{parent}"
           instance_variable_get(node_var).id
@@ -297,7 +312,7 @@ describe 'Collection Organization', js: true do
           # sometimes got loaded right after initial page load via the InfiniteTree batchObserver.
           # The workaround is a full last batch, and to select its middle node for the URI fragment.
           let(:total_nodes) { 120 }
-          let(:parent) { 'ao3' }
+          let(:parent) { 'ao1' }
 
           context 'and the target node is in the first batch' do
             let(:batch_target) { 0 }
@@ -311,7 +326,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'including placeholders for non-loaded batches'
             it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the second batch' do
@@ -326,7 +341,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'including placeholders for non-loaded batches'
             it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the third batch' do
@@ -341,7 +356,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'including placeholders for non-loaded batches'
             it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the fourth batch' do
@@ -356,7 +371,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'including placeholders for non-loaded batches'
             it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the fifth batch' do
@@ -371,7 +386,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'loading the last batch'
             it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the sixth batch' do
@@ -386,13 +401,13 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'loading the last batch'
             it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
         end
 
         context "the target node's parent has 5 batches of child nodes" do
           let(:total_nodes) { 81 }
-          let(:parent) { 'ao4' }
+          let(:parent) { 'ao2' }
 
           context 'and the target node is in the first batch' do
             let(:batch_target) { 0 }
@@ -406,7 +421,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'including placeholders for non-loaded batches'
             it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the second batch' do
@@ -421,7 +436,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'including placeholders for non-loaded batches'
             it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the third batch' do
@@ -436,7 +451,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'including placeholders for non-loaded batches'
             it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the fourth batch' do
@@ -451,7 +466,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'loading the last batch'
             it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the fifth batch' do
@@ -466,13 +481,13 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'loading the last batch'
             it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
         end
 
         context "the target node's parent has 4 batches of child nodes" do
           let(:total_nodes) { 61 }
-          let(:parent) { 'ao5' }
+          let(:parent) { 'ao3' }
 
           context 'and the target node is in the first batch' do
             let(:batch_target) { 0 }
@@ -486,7 +501,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'including placeholders for non-loaded batches'
             it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the second batch' do
@@ -501,7 +516,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'including placeholders for non-loaded batches'
             it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the third batch' do
@@ -530,13 +545,13 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'loading the last batch'
             it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
         end
 
         context "the target node's parent has 3 batches of child nodes" do
           let(:total_nodes) { 41 }
-          let(:parent) { 'ao6' }
+          let(:parent) { 'ao4' }
 
           context 'and the target node is in the first batch' do
             let(:batch_target) { 0 }
@@ -550,7 +565,7 @@ describe 'Collection Organization', js: true do
             it_behaves_like 'loading middle batches'
             it_behaves_like 'including placeholders for non-loaded batches'
             it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining nodes'
+            it_behaves_like 'scrolling loads remaining batches'
           end
 
           context 'and the target node is in the second batch' do
@@ -584,7 +599,7 @@ describe 'Collection Organization', js: true do
 
         context "the target node's parent has 2 batches of child nodes" do
           let(:total_nodes) { 21 }
-          let(:parent) { 'ao7' }
+          let(:parent) { 'ao5' }
 
           context 'and the target node is in the first batch' do
             let(:batch_target) { 0 }
@@ -616,7 +631,7 @@ describe 'Collection Organization', js: true do
         context "the target node's parent has 1 batch of child nodes" do
           context 'containing a single node' do
             let(:total_nodes) { 1 }
-            let(:parent) { 'ao8' }
+            let(:parent) { 'ao6' }
             let(:batch_target) { 0 }
             let(:expected_populated_batches) { [0] }
             let(:expected_batch_placeholders) { [] }
@@ -641,7 +656,7 @@ describe 'Collection Organization', js: true do
 
           context 'containing multiple nodes' do
             let(:total_nodes) { 5 }
-            let(:parent) { 'ao9' }
+            let(:parent) { 'ao7' }
             let(:batch_target) { 0 }
             let(:expected_populated_batches) { [0] }
             let(:expected_batch_placeholders) { [] }
@@ -682,7 +697,57 @@ describe 'Collection Organization', js: true do
       end
 
       context 'when the target node is the root node' do
-        # TODO: Implement this (this behaves just like when there is no uri fragment)
+
+        context 'when the root node has 1 batch of child nodes' do
+          let(:node) do
+            visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization#tree::resource_#{@resource.id}"
+            wait_for_jquery
+
+            find(".infinite-tree .root.current")
+          end
+          let(:parent_list) { node.find('& > .node-children') }
+          let(:total_nodes) { 7 }
+          let(:expected_node_count_on_page_load) { 7 }
+
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'having all nodes loaded'
+        end
+
+        context 'when the root node has 2 batches of child nodes' do
+          let(:node) do
+            visit "/repositories/#{@repo.id}/resources/#{@resource2.id}/collection_organization#tree::resource_#{@resource2.id}"
+            wait_for_jquery
+
+            find(".infinite-tree .root.current")
+          end
+          let(:parent_list) { node.find('& > .node-children') }
+          let(:total_nodes) { 21 }
+          let(:parent) { 'resource2' }
+          let(:expected_node_count_on_page_load) { 20 }
+          let(:expected_batch_placeholders) { [1] }
+
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
+          it_behaves_like 'scrolling loads remaining batches'
+        end
+
+        context 'when the root node has 3 batches of child nodes' do
+          let(:node) do
+            visit "/repositories/#{@repo.id}/resources/#{@resource3.id}/collection_organization#tree::resource_#{@resource3.id}"
+            wait_for_jquery
+
+            find(".infinite-tree .root.current")
+          end
+          let(:parent_list) { node.find('& > .node-children') }
+          let(:total_nodes) { 41 }
+          let(:parent) { 'resource3' }
+          let(:expected_node_count_on_page_load) { 20 }
+          let(:expected_batch_placeholders) { [1, 2] }
+
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
+          it_behaves_like 'scrolling loads remaining batches'
+        end
       end
     end
   end
