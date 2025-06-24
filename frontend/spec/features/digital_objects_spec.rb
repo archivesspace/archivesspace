@@ -43,7 +43,7 @@ describe 'Digital Objects', js: true do
     element = find('h2')
     expect(element.text).to eq 'New Digital Object Digital Object'
 
-    fill_in 'digital_object_title_', with: "Digital Object Title #{now}"
+    fill_in 'digital_object_titles__0__title_', with: "Digital Object Title #{now}"
     fill_in 'digital_object_digital_object_id_', with: "Digital Object Identifier #{now}"
     select 'Mixed Materials', from: 'digital_object_digital_object_type_'
 

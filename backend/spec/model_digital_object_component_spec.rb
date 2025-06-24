@@ -14,18 +14,18 @@ describe 'DigitalObjectComponent model' do
   end
 
   it "auto generates a 'label' based on the date and title when both are present" do
-    title = "Just a title"
+    title = build(:json_title, :title =>"Just a title")
     date1 = build(:json_date, :date_type => 'inclusive')
     date2 = build(:json_date, :date_type => 'bulk')
 
     doc = DigitalObjectComponent.create_from_json(
       build(:json_digital_object_component, {
-        :title => title,
+        :titles => [title],
         :dates => [date1, date2]
       }),
       :repo_id => $repo_id)
 
-    expect(DigitalObjectComponent[doc[:id]].display_string).to eq("#{title}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
+    expect(DigitalObjectComponent[doc[:id]].display_string).to eq("#{title['title']}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
   end
 
   it "won't allow more than one file_version flagged 'is_representative'" do
