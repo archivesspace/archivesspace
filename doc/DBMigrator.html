@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: DBMigrator
+  
+    &mdash; Documentation by YARD 0.9.36
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "DBMigrator";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (D)</a> &raquo;
+    
+    
+    <span class="title">DBMigrator</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: DBMigrator
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">DBMigrator</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>common/db/db_migrator.rb</dd>
+  </dl>
+  
+</div>
+
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="DBMigrator/ContainerMigrationError.html" title="DBMigrator::ContainerMigrationError (class)">ContainerMigrationError</a></span>
+    
+  
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="MIGRATIONS_DIR-constant" class="">MIGRATIONS_DIR =
+          
+        </dt>
+        <dd><pre class="code"><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_dirname identifier id'>dirname</span><span class='lparen token'>(</span><span class='rubyid___FILE__ __file__ kw'>__FILE__</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;migrations&quot;</span><span class='rparen token'>)</span>
+</pre></dd>
+      
+        <dt id="PLUGIN_MIGRATIONS-constant" class="">PLUGIN_MIGRATIONS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="PLUGIN_MIGRATION_DIRS-constant" class="">PLUGIN_MIGRATION_DIRS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="CONTAINER_MIGRATION_NUMBER-constant" class="">CONTAINER_MIGRATION_NUMBER =
+          
+        </dt>
+        <dd><pre class="code"><span class='integer val'>60</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fail_if_managed_container_migration_needed!-class_method" title="fail_if_managed_container_migration_needed! (class method)">.<strong>fail_if_managed_container_migration_needed!</strong>(db)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#order_plugins-class_method" title="order_plugins (class method)">.<strong>order_plugins</strong>(plugins)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#setup_database-class_method" title="setup_database (class method)">.<strong>setup_database</strong>(db)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="fail_if_managed_container_migration_needed!-class_method">
+  
+    .<strong>fail_if_managed_container_migration_needed!</strong>(db)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 251</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_fail_if_managed_container_migration_needed! fid id'>fail_if_managed_container_migration_needed!</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+    <span class='comment val'># If brand new install with empty database, need to check</span>
+    <span class='comment val'># for tables existence before determining the current version number</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_tables identifier id'>tables</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='rubyid_current_version identifier id'>current_version</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_current_version identifier id'>current_version</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:schema_info</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='lbrack token'>[</span><span class='symbol val'>:version</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_current_version identifier id'>current_version</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_current_version identifier id'>current_version</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_current_version identifier id'>current_version</span> <span class='lt op'>&lt;</span> <span class='rubyid_CONTAINER_MIGRATION_NUMBER constant id'>CONTAINER_MIGRATION_NUMBER</span>
+      <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='lshft op'>&lt;&lt;</span><span class='bitnot op'>~</span><span class='rubyid_EOM constant id'>EOM</span>
+
+        <span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eq op'>==</span>
+        <span class='rubyid_Important constant id'>Important</span> <span class='rubyid_migration identifier id'>migration</span> <span class='rubyid_issue identifier id'>issue</span>
+        <span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eq op'>==</span>
+
+        <span class='rubyid_Hello! constant id'>Hello!</span>
+
+        <span class='rubyid_It constant id'>It</span> <span class='rubyid_appears identifier id'>appears</span> <span class='rubyid_that identifier id'>that</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_are identifier id'>are</span> <span class='rubyid_upgrading identifier id'>upgrading</span> <span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span> <span class='rubyid_from identifier id'>from</span> <span class='rubyid_version identifier id'>version</span> <span class='float val'>1.4</span><span class='integer val'>.2</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_prior identifier id'>prior</span><span class='dot token'>.</span>  <span class='rubyid_To constant id'>To</span>
+        <span class='rubyid_complete identifier id'>complete</span> <span class='rubyid_this identifier id'>this</span> <span class='rubyid_upgrade identifier id'>upgrade</span><span class='comma token'>,</span> <span class='rubyid_there identifier id'>there</span> <span class='rubyid_are identifier id'>are</span> <span class='rubyid_some identifier id'>some</span> <span class='rubyid_additional identifier id'>additional</span> <span class='rubyid_steps identifier id'>steps</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_follow identifier id'>follow</span><span class='dot token'>.</span>
+
+        <span class='rubyid_The constant id'>The</span> <span class='float val'>1.5</span> <span class='rubyid_series identifier id'>series</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span> <span class='rubyid_introduced identifier id'>introduced</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_new identifier id'>new</span> <span class='rubyid_data identifier id'>data</span> <span class='rubyid_model identifier id'>model</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_containers identifier id'>containers</span><span class='comma token'>,</span>
+        <span class='rubyid_along identifier id'>along</span> <span class='rubyid_with identifier id'>with</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_compatibility identifier id'>compatibility</span> <span class='rubyid_layer identifier id'>layer</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_provide identifier id'>provide</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_seamless identifier id'>seamless</span> <span class='rubyid_transition identifier id'>transition</span> <span class='rubyid_between identifier id'>between</span> <span class='rubyid_the identifier id'>the</span>
+        <span class='rubyid_old identifier id'>old</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_new identifier id'>new</span> <span class='rubyid_container identifier id'>container</span> <span class='rubyid_models identifier id'>models</span><span class='dot token'>.</span>  <span class='rubyid_In constant id'>In</span> <span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span> <span class='rubyid_version identifier id'>version</span> <span class='float val'>2.1</span><span class='comma token'>,</span> <span class='rubyid_this identifier id'>this</span> <span class='rubyid_compatibility identifier id'>compatibility</span>
+        <span class='rubyid_layer identifier id'>layer</span> <span class='rubyid_was identifier id'>was</span> <span class='rubyid_removed identifier id'>removed</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_interest identifier id'>interest</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_long identifier id'>long</span><span class='minus op'>-</span><span class='rubyid_term identifier id'>term</span> <span class='rubyid_maintainability identifier id'>maintainability</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_system identifier id'>system</span>
+        <span class='rubyid_performance identifier id'>performance</span><span class='dot token'>.</span>
+
+        <span class='rubyid_To constant id'>To</span> <span class='rubyid_upgrade identifier id'>upgrade</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span> <span class='rubyid_installation identifier id'>installation</span><span class='comma token'>,</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_will identifier id'>will</span> <span class='rubyid_first identifier id'>first</span> <span class='rubyid_need identifier id'>need</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_upgrade identifier id'>upgrade</span> <span class='rubyid_to identifier id'>to</span>
+        <span class='rubyid_version identifier id'>version</span> <span class='float val'>2.0</span><span class='float val'>.1</span><span class='dot token'>.</span>  <span class='rubyid_This constant id'>This</span> <span class='rubyid_will identifier id'>will</span> <span class='rubyid_upgrade identifier id'>upgrade</span> <span class='rubyid_your identifier id'>your</span> <span class='rubyid_containers identifier id'>containers</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_new identifier id'>new</span> <span class='rubyid_model identifier id'>model</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_clear identifier id'>clear</span> <span class='rubyid_the identifier id'>the</span>
+        <span class='rubyid_path identifier id'>path</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_future identifier id'>future</span> <span class='rubyid_upgrades identifier id'>upgrades</span><span class='dot token'>.</span>  <span class='rubyid_Once constant id'>Once</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_have identifier id'>have</span> <span class='rubyid_done identifier id'>done</span> <span class='rubyid_this identifier id'>this</span><span class='comma token'>,</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_can identifier id'>can</span> <span class='rubyid_upgrade identifier id'>upgrade</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_the identifier id'>the</span>
+        <span class='rubyid_latest identifier id'>latest</span> <span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span> <span class='rubyid_version identifier id'>version</span> <span class='rubyid_as identifier id'>as</span> <span class='rubyid_normal identifier id'>normal</span><span class='dot token'>.</span>
+
+        <span class='rubyid_For constant id'>For</span> <span class='rubyid_more identifier id'>more</span> <span class='rubyid_information identifier id'>information</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_upgrading identifier id'>upgrading</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span> <span class='float val'>2.0</span><span class='integer val'>.1</span><span class='comma token'>,</span> <span class='rubyid_please identifier id'>please</span> <span class='rubyid_see identifier id'>see</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_upgrade identifier id'>upgrade</span>
+        <span class='label val'>guide:</span>
+
+          <span class='label val'>https:</span><span class='div op'>/</span><span class='regexp val'>/archivesspace.github.io/</span><span class='rubyid_tech identifier id'>tech</span><span class='minus op'>-</span><span class='rubyid_docs identifier id'>docs</span><span class='div op'>/</span><span class='rubyid_administration identifier id'>administration</span><span class='div op'>/</span><span class='rubyid_upgrading identifier id'>upgrading</span><span class='dot token'>.</span><span class='rubyid_html identifier id'>html</span>
+
+        <span class='rubyid_The constant id'>The</span> <span class='rubyid_upgrade identifier id'>upgrade</span> <span class='rubyid_guide identifier id'>guide</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_version identifier id'>version</span> <span class='float val'>1.5</span><span class='integer val'>.0</span> <span class='rubyid_also identifier id'>also</span> <span class='rubyid_contains identifier id'>contains</span> <span class='rubyid_specific identifier id'>specific</span> <span class='rubyid_instructions identifier id'>instructions</span> <span class='rubyid_for for kw'>for</span>
+        <span class='rubyid_the identifier id'>the</span> <span class='rubyid_container identifier id'>container</span> <span class='rubyid_upgrade identifier id'>upgrade</span> <span class='rubyid_that identifier id'>that</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_will identifier id'>will</span> <span class='rubyid_be identifier id'>be</span> <span class='rubyid_performing identifier id'>performing</span><span class='comma token'>,</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_steps identifier id'>steps</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_this identifier id'>this</span> <span class='rubyid_guide identifier id'>guide</span>
+        <span class='rubyid_apply identifier id'>apply</span> <span class='rubyid_equally identifier id'>equally</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_version identifier id'>version</span> <span class='float val'>2.0</span><span class='float val'>.1</span><span class='dot token'>.</span>  <span class='rubyid_You constant id'>You</span> <span class='rubyid_can identifier id'>can</span> <span class='rubyid_find identifier id'>find</span> <span class='rubyid_that identifier id'>that</span> <span class='rubyid_guide identifier id'>guide</span> <span class='label val'>here:</span>
+
+          <span class='label val'>https:</span><span class='div op'>/</span><span class='regexp val'>/github.com/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_blob identifier id'>blob</span><span class='div op'>/</span><span class='rubyid_master identifier id'>master</span><span class='div op'>/</span><span class='rubyid_UPGRADING_1 constant id'>UPGRADING_1</span><span class='float val'>.5.0</span><span class='dot token'>.</span><span class='rubyid_md identifier id'>md</span>
+
+        <span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eqq op'>===</span><span class='eq op'>==</span>
+
+      <span class='rubyid_EOM constant id'>EOM</span>
+
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ContainerMigrationError constant id'>ContainerMigrationError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_nuke_database identifier id'>nuke_database</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+    <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='eq op'>==</span> <span class='symbol val'>:mysql</span>
+      <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='string val'>&#39;SET foreign_key_checks = 0;&#39;</span><span class='rparen token'>)</span>
+      <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_drop_table? fid id'>drop_table?</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_tables identifier id'>tables</span><span class='rparen token'>)</span>
+      <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='string val'>&#39;SET foreign_key_checks = 1;&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_PLUGIN_MIGRATIONS constant id'>PLUGIN_MIGRATIONS</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_plugin identifier id'>plugin</span><span class='bitor op'>|</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Migrator constant id'>Migrator</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='comma token'>,</span> <span class='rubyid_PLUGIN_MIGRATION_DIRS constant id'>PLUGIN_MIGRATION_DIRS</span><span class='lbrack token'>[</span><span class='rubyid_plugin identifier id'>plugin</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+        <span class='symbol val'>:table</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{plugin}_schema_info&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+      <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Migrator constant id'>Migrator</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='comma token'>,</span> <span class='rubyid_MIGRATIONS_DIR constant id'>MIGRATIONS_DIR</span><span class='comma token'>,</span> <span class='symbol val'>:target</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_needs_updating? fid id'>needs_updating?</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+    <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Migrator constant id'>Migrator</span><span class='dot token'>.</span><span class='rubyid_is_current? fid id'>is_current?</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='comma token'>,</span> <span class='rubyid_MIGRATIONS_DIR constant id'>MIGRATIONS_DIR</span><span class='rparen token'>)</span>
+    <span class='rubyid_PLUGIN_MIGRATIONS constant id'>PLUGIN_MIGRATIONS</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_plugin identifier id'>plugin</span><span class='bitor op'>|</span> <span class='rubyid_return return kw'>return</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Migrator constant id'>Migrator</span><span class='dot token'>.</span><span class='rubyid_is_current? fid id'>is_current?</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='comma token'>,</span> <span class='rubyid_PLUGIN_MIGRATIONS_DIR constant id'>PLUGIN_MIGRATIONS_DIR</span><span class='lbrack token'>[</span><span class='rubyid_plugin identifier id'>plugin</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                                                                                      <span class='symbol val'>:table</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{plugin}_schema_info&quot;</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_latest_migration_number identifier id'>latest_migration_number</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+    <span class='rubyid_migration_numbers identifier id'>migration_numbers</span> <span class='assign token'>=</span> <span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_entries identifier id'>entries</span><span class='lparen token'>(</span><span class='rubyid_MIGRATIONS_DIR constant id'>MIGRATIONS_DIR</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_e identifier id'>e</span> <span class='match op'>=~</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Migrator constant id'>Migrator</span><span class='colon2 op'>::</span><span class='rubyid_MIGRATION_FILE_PATTERN constant id'>MIGRATION_FILE_PATTERN</span>
+        <span class='comment val'># $1 is the migration number (e.g. &#39;075&#39;)</span>
+        <span class='rubyid_Integer constant id'>Integer</span><span class='lparen token'>(</span><span class='rubyid_$1 nth_ref id'>$1</span><span class='comma token'>,</span> <span class='integer val'>10</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_migration_numbers identifier id'>migration_numbers</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='integer val'>0</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_migration_numbers identifier id'>migration_numbers</span><span class='dot token'>.</span><span class='rubyid_max identifier id'>max</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="order_plugins-class_method">
+  
+    .<strong>order_plugins</strong>(plugins)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+176
+177
+178
+179
+180
+181
+182
+183
+184</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 176</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_order_plugins identifier id'>order_plugins</span><span class='lparen token'>(</span><span class='rubyid_plugins identifier id'>plugins</span><span class='rparen token'>)</span>
+  <span class='rubyid_ordered_plugin_dirs identifier id'>ordered_plugin_dirs</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_order_plugins identifier id'>order_plugins</span><span class='lparen token'>(</span><span class='rubyid_plugins identifier id'>plugins</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_plugin_base_directory identifier id'>plugin_base_directory</span><span class='comma token'>,</span> <span class='rubyid_p identifier id'>p</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_plugins identifier id'>plugins</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span>
+    <span class='rubyid_ordered_plugin_dirs identifier id'>ordered_plugin_dirs</span><span class='dot token'>.</span><span class='rubyid_index identifier id'>index</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_absolute_path identifier id'>absolute_path</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_plugin_base_directory identifier id'>plugin_base_directory</span><span class='comma token'>,</span> <span class='rubyid_p identifier id'>p</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rbrace token'>}</span>
+
+  <span class='rubyid_result identifier id'>result</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="setup_database-class_method">
+  
+    .<strong>setup_database</strong>(db)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/db/db_migrator.rb', line 198</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_setup_database identifier id'>setup_database</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_database_type identifier id'>database_type</span>
+    <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_$db_type gvar id'>$db_type</span> <span class='eq op'>==</span> <span class='symbol val'>:derby</span>
+      <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_default_engine identifier id'>default_engine</span> <span class='assign token'>=</span> <span class='string val'>&#39;InnoDB&#39;</span>
+      <span class='rubyid_db identifier id'>db</span><span class='dot token'>.</span><span class='rubyid_default_charset identifier id'>default_charset</span> <span class='assign token'>=</span> <span class='string val'>&#39;utf8&#39;</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_fail_if_managed_container_migration_needed! fid id'>fail_if_managed_container_migration_needed!</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Migrator constant id'>Migrator</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='comma token'>,</span> <span class='rubyid_MIGRATIONS_DIR constant id'>MIGRATIONS_DIR</span><span class='rparen token'>)</span>
+    <span class='rubyid_PLUGIN_MIGRATIONS constant id'>PLUGIN_MIGRATIONS</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_plugin identifier id'>plugin</span><span class='bitor op'>|</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_Migrator constant id'>Migrator</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='comma token'>,</span> <span class='rubyid_PLUGIN_MIGRATION_DIRS constant id'>PLUGIN_MIGRATION_DIRS</span><span class='lbrack token'>[</span><span class='rubyid_plugin identifier id'>plugin</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                                                           <span class='symbol val'>:table</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{plugin}_schema_info&quot;</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ContainerMigrationError constant id'>ContainerMigrationError</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_$! gvar id'>$!</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n    !!                                                                                                !!\n    !!                                      Database migration error.                                 !!\n    !!                                  Your upgrade has encountered a problem.                       !!\n    !!                  You must resolve these issues before the database migration can complete.     !!\n    !!                                                                                                !!\n    !!                                                                                                !!\n    !!                                                Error:                                          !!\n&quot;</span>
+    <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_line identifier id'>line</span><span class='bitor op'>|</span>
+      <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;    !! #{line}&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;    !!                                                                                                !!\n    !!                                                                                                !!\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n&quot;</span>
+
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_e identifier id'>e</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version release-v4.0.x Documentation Generated on Wed Jun 25 21:12:13 2025 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.36.
+</div>
+
+    </div>
+  </body>
+</html>

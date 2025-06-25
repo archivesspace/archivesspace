@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: BulkArchivalObjectUpdater
+  
+    &mdash; Documentation by YARD 0.9.36
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "BulkArchivalObjectUpdater";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (B)</a> &raquo;
+    
+    
+    <span class="title">BulkArchivalObjectUpdater</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: BulkArchivalObjectUpdater
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">BulkArchivalObjectUpdater</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/lib/bulk_archival_object_updater.rb</dd>
+  </dl>
+  
+</div>
+
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="BulkArchivalObjectUpdater/AccessionCandidate.html" title="BulkArchivalObjectUpdater::AccessionCandidate (class)">AccessionCandidate</a></span>, <span class='object_link'><a href="BulkArchivalObjectUpdater/BulkUpdateFailed.html" title="BulkArchivalObjectUpdater::BulkUpdateFailed (class)">BulkUpdateFailed</a></span>, <span class='object_link'><a href="BulkArchivalObjectUpdater/DigitalObjectCandidate.html" title="BulkArchivalObjectUpdater::DigitalObjectCandidate (class)">DigitalObjectCandidate</a></span>, <span class='object_link'><a href="BulkArchivalObjectUpdater/Row.html" title="BulkArchivalObjectUpdater::Row (class)">Row</a></span>, <span class='object_link'><a href="BulkArchivalObjectUpdater/TopContainerCandidate.html" title="BulkArchivalObjectUpdater::TopContainerCandidate (class)">TopContainerCandidate</a></span>
+    
+  
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="BATCH_SIZE-constant" class="">BATCH_SIZE =
+          
+        </dt>
+        <dd><pre class="code"><span class='integer val'>128</span>
+</pre></dd>
+      
+        <dt id="SUBRECORD_DEFAULTS-constant" class="">SUBRECORD_DEFAULTS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='string val'>&#39;dates&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+    <span class='string val'>&#39;label&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;creation&#39;</span><span class='comma token'>,</span>
+  <span class='rbrace token'>}</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;instance&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+    <span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;instance&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;sub_container&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+      <span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;sub_container&#39;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;top_container&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+    <span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;note_multipart&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+    <span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_multipart&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;subnotes&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+  <span class='rbrace token'>}</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;note_singlepart&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+    <span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_singlepart&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;content&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+  <span class='rbrace token'>}</span><span class='comma token'>,</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
+      
+        <dt id="INSTANCE_FIELD_MAPPINGS-constant" class="">INSTANCE_FIELD_MAPPINGS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span>
+  <span class='lbrack token'>[</span><span class='string val'>&#39;instance_type&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;instance_type&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+<span class='rbrack token'>]</span>
+</pre></dd>
+      
+        <dt id="SUB_CONTAINER_FIELD_MAPPINGS-constant" class="">SUB_CONTAINER_FIELD_MAPPINGS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span>
+  <span class='lbrack token'>[</span><span class='string val'>&#39;type_2&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;sub_container_type_2&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+  <span class='lbrack token'>[</span><span class='string val'>&#39;indicator_2&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;sub_container_indicator_2&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+  <span class='lbrack token'>[</span><span class='string val'>&#39;barcode_2&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;sub_container_barcode_2&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+  <span class='lbrack token'>[</span><span class='string val'>&#39;type_3&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;sub_container_type_3&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+  <span class='lbrack token'>[</span><span class='string val'>&#39;indicator_3&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;sub_container_indicator_3&#39;</span><span class='rbrack token'>]</span>
+<span class='rbrack token'>]</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#errors-instance_method" title="#errors (instance method)">#<strong>errors</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute errors.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filename-instance_method" title="#filename (instance method)">#<strong>filename</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute filename.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#info_messages-instance_method" title="#info_messages (instance method)">#<strong>info_messages</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute info_messages.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parameters-instance_method" title="#parameters (instance method)">#<strong>parameters</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute parameters.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#updated_uris-instance_method" title="#updated_uris (instance method)">#<strong>updated_uris</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute updated_uris.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply_deletes%3F-instance_method" title="#apply_deletes? (instance method)">#<strong>apply_deletes?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_missing_top_containers%3F-instance_method" title="#create_missing_top_containers? (instance method)">#<strong>create_missing_top_containers?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(filename, parameters)  &#x21d2; BulkArchivalObjectUpdater </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of BulkArchivalObjectUpdater.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run-instance_method" title="#run (instance method)">#<strong>run</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(filename, parameters)  &#x21d2; <tt><span class='object_link'><a href="" title="BulkArchivalObjectUpdater (class)">BulkArchivalObjectUpdater</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of BulkArchivalObjectUpdater.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42
+43
+44
+45</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_archival_object_updater.rb', line 39</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_filename identifier id'>filename</span><span class='comma token'>,</span> <span class='rubyid_parameters identifier id'>parameters</span><span class='rparen token'>)</span>
+  <span class='rubyid_@filename ivar id'>@filename</span> <span class='assign token'>=</span> <span class='rubyid_filename identifier id'>filename</span>
+  <span class='rubyid_@parameters ivar id'>@parameters</span> <span class='assign token'>=</span> <span class='rubyid_parameters identifier id'>parameters</span>
+  <span class='rubyid_@errors ivar id'>@errors</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@info_messages ivar id'>@info_messages</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@updated_uris ivar id'>@updated_uris</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="errors-instance_method">
+  
+    #<strong>errors</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute errors</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2
+3
+4</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_archival_object_updater.rb', line 2</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_errors identifier id'>errors</span>
+  <span class='rubyid_@errors ivar id'>@errors</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="filename-instance_method">
+  
+    #<strong>filename</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute filename</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2
+3
+4</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_archival_object_updater.rb', line 2</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_filename identifier id'>filename</span>
+  <span class='rubyid_@filename ivar id'>@filename</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="info_messages-instance_method">
+  
+    #<strong>info_messages</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute info_messages</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2
+3
+4</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_archival_object_updater.rb', line 2</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_info_messages identifier id'>info_messages</span>
+  <span class='rubyid_@info_messages ivar id'>@info_messages</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="parameters-instance_method">
+  
+    #<strong>parameters</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute parameters</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2
+3
+4</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_archival_object_updater.rb', line 2</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_parameters identifier id'>parameters</span>
+  <span class='rubyid_@parameters ivar id'>@parameters</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="updated_uris-instance_method">
+  
+    #<strong>updated_uris</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute updated_uris</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2
+3
+4</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_archival_object_updater.rb', line 2</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_updated_uris identifier id'>updated_uris</span>
+  <span class='rubyid_@updated_uris ivar id'>@updated_uris</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="apply_deletes?-instance_method">
+  
+    #<strong>apply_deletes?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_archival_object_updater.rb', line 94</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_deletes? fid id'>apply_deletes?</span>
+  <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:bulk_archival_object_updater_apply_deletes</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:bulk_archival_object_updater_apply_deletes</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_missing_top_containers?-instance_method">
+  
+    #<strong>create_missing_top_containers?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100
+101
+102
+103
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_archival_object_updater.rb', line 98</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_create_missing_top_containers? fid id'>create_missing_top_containers?</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_parameters identifier id'>parameters</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:create_missing_top_containers</span><span class='rparen token'>)</span>
+    <span class='rubyid_parameters identifier id'>parameters</span><span class='lbrack token'>[</span><span class='symbol val'>:create_missing_top_containers</span><span class='rbrack token'>]</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:bulk_archival_object_updater_create_missing_top_containers</span><span class='rparen token'>)</span>
+    <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:bulk_archival_object_updater_create_missing_top_containers</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run-instance_method">
+  
+    #<strong>run</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_archival_object_updater.rb', line 47</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
+  <span class='rubyid_check_sheet identifier id'>check_sheet</span><span class='lparen token'>(</span><span class='rubyid_filename identifier id'>filename</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_column_by_path identifier id'>column_by_path</span> <span class='assign token'>=</span> <span class='rubyid_extract_columns identifier id'>extract_columns</span><span class='lparen token'>(</span><span class='rubyid_filename identifier id'>filename</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_subrecord_columns identifier id'>subrecord_columns</span> <span class='assign token'>=</span> <span class='rubyid_find_subrecord_columns identifier id'>find_subrecord_columns</span><span class='lparen token'>(</span><span class='rubyid_column_by_path identifier id'>column_by_path</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
+    <span class='rubyid_resource_id identifier id'>resource_id</span> <span class='assign token'>=</span> <span class='rubyid_resource_ids_in_play identifier id'>resource_ids_in_play</span><span class='lparen token'>(</span><span class='rubyid_filename identifier id'>filename</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_@top_containers_in_resource ivar id'>@top_containers_in_resource</span> <span class='assign token'>=</span> <span class='rubyid_subrecord_columns identifier id'>subrecord_columns</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_extract_top_containers_for_resource identifier id'>extract_top_containers_for_resource</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='comma token'>,</span> <span class='rubyid_resource_id identifier id'>resource_id</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_SpreadsheetBuilder constant id'>SpreadsheetBuilder</span><span class='dot token'>.</span><span class='rubyid_related_accessions_enabled? fid id'>related_accessions_enabled?</span>
+      <span class='rubyid_@accessions_in_sheet ivar id'>@accessions_in_sheet</span> <span class='assign token'>=</span> <span class='rubyid_subrecord_columns identifier id'>subrecord_columns</span><span class='lbrack token'>[</span><span class='symbol val'>:related_accession</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_extract_accessions_from_sheet identifier id'>extract_accessions_from_sheet</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='comma token'>,</span> <span class='rubyid_filename identifier id'>filename</span><span class='comma token'>,</span> <span class='rubyid_subrecord_columns identifier id'>subrecord_columns</span><span class='lbrack token'>[</span><span class='symbol val'>:related_accession</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_create_missing_top_containers? fid id'>create_missing_top_containers?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_subrecord_columns identifier id'>subrecord_columns</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container</span><span class='rbrack token'>]</span>
+      <span class='rubyid_top_containers_in_sheet identifier id'>top_containers_in_sheet</span> <span class='assign token'>=</span> <span class='rubyid_extract_top_containers_from_sheet identifier id'>extract_top_containers_from_sheet</span><span class='lparen token'>(</span><span class='rubyid_filename identifier id'>filename</span><span class='comma token'>,</span> <span class='rubyid_subrecord_columns identifier id'>subrecord_columns</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_create_missing_top_containers identifier id'>create_missing_top_containers</span><span class='lparen token'>(</span><span class='rubyid_top_containers_in_sheet identifier id'>top_containers_in_sheet</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_subrecord_columns identifier id'>subrecord_columns</span><span class='lbrack token'>[</span><span class='symbol val'>:digital_object</span><span class='rbrack token'>]</span>
+      <span class='rubyid_digital_objects_in_sheet identifier id'>digital_objects_in_sheet</span> <span class='assign token'>=</span> <span class='rubyid_extract_digital_objects_from_sheet identifier id'>extract_digital_objects_from_sheet</span><span class='lparen token'>(</span><span class='rubyid_filename identifier id'>filename</span><span class='comma token'>,</span> <span class='rubyid_subrecord_columns identifier id'>subrecord_columns</span><span class='lbrack token'>[</span><span class='symbol val'>:digital_object</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_@digital_object_id_to_uri_map ivar id'>@digital_object_id_to_uri_map</span> <span class='assign token'>=</span> <span class='rubyid_apply_digital_objects_changes identifier id'>apply_digital_objects_changes</span><span class='lparen token'>(</span><span class='rubyid_digital_objects_in_sheet identifier id'>digital_objects_in_sheet</span><span class='comma token'>,</span> <span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_batch_rows identifier id'>batch_rows</span><span class='lparen token'>(</span><span class='rubyid_filename identifier id'>filename</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_batch identifier id'>batch</span><span class='bitor op'>|</span>
+      <span class='rubyid_to_process identifier id'>to_process</span> <span class='assign token'>=</span> <span class='rubyid_batch identifier id'>batch</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_Integer constant id'>Integer</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_row identifier id'>row</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_to_h identifier id'>to_h</span>
+
+      <span class='rubyid_ao_objs identifier id'>ao_objs</span> <span class='assign token'>=</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_to_process identifier id'>to_process</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span>
+      <span class='rubyid_ao_jsons identifier id'>ao_jsons</span> <span class='assign token'>=</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_ao_objs identifier id'>ao_objs</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_ao_objs identifier id'>ao_objs</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_ao_jsons identifier id'>ao_jsons</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ao identifier id'>ao</span><span class='comma token'>,</span> <span class='rubyid_ao_json identifier id'>ao_json</span><span class='bitor op'>|</span>
+        <span class='rubyid_process_row identifier id'>process_row</span><span class='lparen token'>(</span><span class='rubyid_to_process identifier id'>to_process</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_ao identifier id'>ao</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_ao identifier id'>ao</span><span class='comma token'>,</span> <span class='rubyid_ao_json identifier id'>ao_json</span><span class='comma token'>,</span> <span class='rubyid_column_by_path identifier id'>column_by_path</span><span class='comma token'>,</span> <span class='rubyid_subrecord_columns identifier id'>subrecord_columns</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BulkUpdateFailed constant id'>BulkUpdateFailed</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='lbrace token'>{</span>
+    <span class='label val'>updated_uris:</span> <span class='rubyid_updated_uris identifier id'>updated_uris</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version release-v4.0.x Documentation Generated on Wed Jun 25 21:12:01 2025 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.36.
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: ExportHelper::ContextConverter
+  
+    &mdash; Documentation by YARD 0.9.36
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "ExportHelper::ContextConverter";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../ExportHelper.html" title="ExportHelper (module)">ExportHelper</a></span></span>
+     &raquo; 
+    <span class="title">ContextConverter</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: ExportHelper::ContextConverter
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ExportHelper::ContextConverter</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>frontend/app/helpers/export_helper.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Creates a “context” string intended to match what is displayed in the Staff UI for search results.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ancestor_fields-class_method" title="ancestor_fields (class method)">.<strong>ancestor_fields</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>There are several different fields that ‘context’ data may potentially be drawn from.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#convert_ancestors_to_context-instance_method" title="#convert_ancestors_to_context (instance method)">#<strong>convert_ancestors_to_context</strong>(old_csv)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>  &#x21d2; ContextConverter </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of ContextConverter.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="ExportHelper::ContextConverter (class)">ContextConverter</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of ContextConverter.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/export_helper.rb', line 49</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span>
+  <span class='comment val'># Fetching JSONModel records from the backend creates a lot of overhead, and it&#39;s likely that many records have</span>
+  <span class='comment val'># the same ancestor(s), so we&#39;ll cache the titles to mitigate that.</span>
+  <span class='rubyid_@title_cache ivar id'>@title_cache</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="ancestor_fields-class_method">
+  
+    .<strong>ancestor_fields</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>There are several different fields that ‘context’ data may potentially be drawn from</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/export_helper.rb', line 45</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ancestor_fields identifier id'>ancestor_fields</span>
+  <span class='lbrack token'>[</span><span class='string val'>&#39;ancestors&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_instance_uris&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_record_uris&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;collection_uri_u_sstr&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;digital_object&#39;</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="convert_ancestors_to_context-instance_method">
+  
+    #<strong>convert_ancestors_to_context</strong>(old_csv)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/export_helper.rb', line 55</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_convert_ancestors_to_context identifier id'>convert_ancestors_to_context</span><span class='lparen token'>(</span><span class='rubyid_old_csv identifier id'>old_csv</span><span class='rparen token'>)</span>
+  <span class='comment val'># we want all the columns from the search except for the various ancestor fields, which will all end up in context</span>
+  <span class='rubyid_new_csv identifier id'>new_csv</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_old_csv identifier id'>old_csv</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_header identifier id'>header</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_ancestor_fields identifier id'>ancestor_fields</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_header identifier id'>header</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+  <span class='rubyid_new_csv identifier id'>new_csv</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_append identifier id'>append</span> <span class='string val'>&#39;context&#39;</span>
+  <span class='rubyid_new_row_length identifier id'>new_row_length</span> <span class='assign token'>=</span> <span class='rubyid_new_csv identifier id'>new_csv</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span>
+  <span class='rubyid_context_column_index identifier id'>context_column_index</span> <span class='assign token'>=</span> <span class='rubyid_new_csv identifier id'>new_csv</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_index identifier id'>index</span> <span class='string val'>&#39;context&#39;</span>
+
+  <span class='rubyid_column_map identifier id'>column_map</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_old_csv identifier id'>old_csv</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_old_column identifier id'>old_column</span><span class='comma token'>,</span> <span class='rubyid_old_column_index identifier id'>old_column_index</span><span class='bitor op'>|</span>
+    <span class='rubyid_new_column_index identifier id'>new_column_index</span> <span class='assign token'>=</span> <span class='rubyid_new_csv identifier id'>new_csv</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_index identifier id'>index</span><span class='lparen token'>(</span><span class='rubyid_old_column identifier id'>old_column</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_new_column_index identifier id'>new_column_index</span>
+      <span class='rubyid_column_map identifier id'>column_map</span><span class='lbrack token'>[</span><span class='rubyid_old_column_index identifier id'>old_column_index</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_new_column_index identifier id'>new_column_index</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_column_map identifier id'>column_map</span><span class='lbrack token'>[</span><span class='rubyid_old_column_index identifier id'>old_column_index</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_column_index identifier id'>context_column_index</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_old_csv identifier id'>old_csv</span><span class='lbrack token'>[</span><span class='float val'>1</span><span class='dot3 op'>...</span><span class='rubyid_old_csv identifier id'>old_csv</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_old_row identifier id'>old_row</span><span class='bitor op'>|</span>
+    <span class='rubyid_new_row identifier id'>new_row</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_new_row_length identifier id'>new_row_length</span><span class='rparen token'>)</span>
+    <span class='rubyid_column_map identifier id'>column_map</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_new_column_index identifier id'>new_column_index</span><span class='comma token'>,</span> <span class='rubyid_old_column_index identifier id'>old_column_index</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_new_column_index identifier id'>new_column_index</span> <span class='eq op'>==</span> <span class='rubyid_context_column_index identifier id'>context_column_index</span>
+        <span class='comment val'># these ones need to be moved to the context column if they exist</span>
+        <span class='rubyid_uris identifier id'>uris</span> <span class='assign token'>=</span> <span class='rubyid_old_row identifier id'>old_row</span><span class='lbrack token'>[</span><span class='rubyid_old_column_index identifier id'>old_column_index</span><span class='rbrack token'>]</span>
+        <span class='rubyid_new_row identifier id'>new_row</span><span class='lbrack token'>[</span><span class='rubyid_new_column_index identifier id'>new_column_index</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_context_string identifier id'>context_string</span><span class='lparen token'>(</span><span class='rubyid_uris identifier id'>uris</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span> <span class='string val'>&#39;,&#39;</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_uris identifier id'>uris</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_new_row identifier id'>new_row</span><span class='lbrack token'>[</span><span class='rubyid_new_column_index identifier id'>new_column_index</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_old_row identifier id'>old_row</span><span class='lbrack token'>[</span><span class='rubyid_old_column_index identifier id'>old_column_index</span><span class='rbrack token'>]</span><span class='bitand op'>&amp;</span><span class='dot token'>.</span><span class='rubyid_force_encoding identifier id'>force_encoding</span><span class='lparen token'>(</span><span class='string val'>&#39;utf-8&#39;</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_new_csv identifier id'>new_csv</span><span class='dot token'>.</span><span class='rubyid_append identifier id'>append</span> <span class='rubyid_new_row identifier id'>new_row</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_new_csv identifier id'>new_csv</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version release-v4.0.x Documentation Generated on Wed Jun 25 21:12:06 2025 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.36.
+</div>
+
+    </div>
+  </body>
+</html>

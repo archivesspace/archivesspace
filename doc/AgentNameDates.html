@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: AgentNameDates
+  
+    &mdash; Documentation by YARD 0.9.36
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "AgentNameDates";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (A)</a> &raquo;
+    
+    
+    <span class="title">AgentNameDates</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: AgentNameDates
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/model/mixins/agent_name_dates.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_associated_name_forms-instance_method" title="#update_associated_name_forms (instance method)">#<strong>update_associated_name_forms</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>ANW-429: This code runs when a single or ranged date is updated.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="update_associated_name_forms-instance_method">
+  
+    #<strong>update_associated_name_forms</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>ANW-429: This code runs when a single or ranged date is updated.
+If the date is attached to a date of existence for an agent, that agent’s display name is pulled and updated with data from this date, if there is no name use date for the display name.
+It would be really nice to do this at the JSONModel layer instead of with Sequel calls like here below… But I couldn’t figure out a way to do that.
+As far as I can tell, there isn’t a way to get the ID of the parent date label object from the AutoGenerator in the Name classes.
+Also tried getting this data from a after_save/update hook in the parent label class, but these date subrecords were not accessible – it looks like they weren’t created yet from the context of inside that hook.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/agent_name_dates.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_update_associated_name_forms identifier id'>update_associated_name_forms</span>
+  <span class='rubyid_sdl identifier id'>sdl</span> <span class='assign token'>=</span> <span class='rubyid_StructuredDateLabel constant id'>StructuredDateLabel</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_structured_date_label_id identifier id'>structured_date_label_id</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># See if label object is attached directly to an agent, which indicates a date of existence</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_sdl identifier id'>sdl</span><span class='dot token'>.</span><span class='rubyid_agent_person_id identifier id'>agent_person_id</span>
+    <span class='rubyid_agent_id identifier id'>agent_id</span> <span class='assign token'>=</span> <span class='rubyid_sdl identifier id'>sdl</span><span class='dot token'>.</span><span class='rubyid_agent_person_id identifier id'>agent_person_id</span>
+    <span class='rubyid_agent_json identifier id'>agent_json</span> <span class='assign token'>=</span> <span class='rubyid_AgentPerson constant id'>AgentPerson</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_agent_id identifier id'>agent_id</span><span class='rparen token'>)</span>
+    <span class='rubyid_agent_name identifier id'>agent_name</span> <span class='assign token'>=</span> <span class='rubyid_NamePerson constant id'>NamePerson</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='lparen token'>(</span><span class='symbol val'>:agent_person_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent_id identifier id'>agent_id</span><span class='comma token'>,</span> <span class='symbol val'>:is_display_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
+    <span class='rubyid_name_json identifier id'>name_json</span> <span class='assign token'>=</span> <span class='rubyid_NamePerson constant id'>NamePerson</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_agent_name identifier id'>agent_name</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+    <span class='rubyid_processor identifier id'>processor</span> <span class='assign token'>=</span> <span class='rubyid_SortNameProcessor constant id'>SortNameProcessor</span><span class='colon2 op'>::</span><span class='rubyid_Person constant id'>Person</span>
+
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_sdl identifier id'>sdl</span><span class='dot token'>.</span><span class='rubyid_agent_family_id identifier id'>agent_family_id</span>
+    <span class='rubyid_agent_id identifier id'>agent_id</span> <span class='assign token'>=</span> <span class='rubyid_sdl identifier id'>sdl</span><span class='dot token'>.</span><span class='rubyid_agent_family_id identifier id'>agent_family_id</span>
+    <span class='rubyid_agent_json identifier id'>agent_json</span> <span class='assign token'>=</span> <span class='rubyid_AgentFamily constant id'>AgentFamily</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_agent_id identifier id'>agent_id</span><span class='rparen token'>)</span>
+    <span class='rubyid_agent_name identifier id'>agent_name</span> <span class='assign token'>=</span> <span class='rubyid_NameFamily constant id'>NameFamily</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='lparen token'>(</span><span class='symbol val'>:agent_family_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent_id identifier id'>agent_id</span><span class='comma token'>,</span> <span class='symbol val'>:is_display_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
+    <span class='rubyid_name_json identifier id'>name_json</span> <span class='assign token'>=</span> <span class='rubyid_NameFamily constant id'>NameFamily</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_agent_name identifier id'>agent_name</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+    <span class='rubyid_processor identifier id'>processor</span> <span class='assign token'>=</span> <span class='rubyid_SortNameProcessor constant id'>SortNameProcessor</span><span class='colon2 op'>::</span><span class='rubyid_Family constant id'>Family</span>
+
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_sdl identifier id'>sdl</span><span class='dot token'>.</span><span class='rubyid_agent_corporate_entity_id identifier id'>agent_corporate_entity_id</span>
+    <span class='rubyid_agent_id identifier id'>agent_id</span> <span class='assign token'>=</span> <span class='rubyid_sdl identifier id'>sdl</span><span class='dot token'>.</span><span class='rubyid_agent_corporate_entity_id identifier id'>agent_corporate_entity_id</span>
+    <span class='rubyid_agent_json identifier id'>agent_json</span> <span class='assign token'>=</span> <span class='rubyid_AgentCorporateEntity constant id'>AgentCorporateEntity</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_agent_id identifier id'>agent_id</span><span class='rparen token'>)</span>
+    <span class='rubyid_agent_name identifier id'>agent_name</span> <span class='assign token'>=</span> <span class='rubyid_NameCorporateEntity constant id'>NameCorporateEntity</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='lparen token'>(</span><span class='symbol val'>:agent_corporate_entity_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent_id identifier id'>agent_id</span><span class='comma token'>,</span> <span class='symbol val'>:is_display_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
+    <span class='rubyid_name_json identifier id'>name_json</span> <span class='assign token'>=</span> <span class='rubyid_NameCorporateEntity constant id'>NameCorporateEntity</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_agent_name identifier id'>agent_name</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+    <span class='rubyid_processor identifier id'>processor</span> <span class='assign token'>=</span> <span class='rubyid_SortNameProcessor constant id'>SortNameProcessor</span><span class='colon2 op'>::</span><span class='rubyid_CorporateEntity constant id'>CorporateEntity</span>
+
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_sdl identifier id'>sdl</span><span class='dot token'>.</span><span class='rubyid_agent_software_id identifier id'>agent_software_id</span>
+    <span class='rubyid_agent_id identifier id'>agent_id</span> <span class='assign token'>=</span> <span class='rubyid_sdl identifier id'>sdl</span><span class='dot token'>.</span><span class='rubyid_agent_software_id identifier id'>agent_software_id</span>
+    <span class='rubyid_agent_json identifier id'>agent_json</span> <span class='assign token'>=</span> <span class='rubyid_AgentSoftware constant id'>AgentSoftware</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_agent_id identifier id'>agent_id</span><span class='rparen token'>)</span>
+    <span class='rubyid_agent_name identifier id'>agent_name</span> <span class='assign token'>=</span> <span class='rubyid_NameSoftware constant id'>NameSoftware</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span><span class='lparen token'>(</span><span class='symbol val'>:agent_software_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent_id identifier id'>agent_id</span><span class='comma token'>,</span> <span class='symbol val'>:is_display_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
+    <span class='rubyid_name_json identifier id'>name_json</span> <span class='assign token'>=</span> <span class='rubyid_NameSoftware constant id'>NameSoftware</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_agent_name identifier id'>agent_name</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+    <span class='rubyid_processor identifier id'>processor</span> <span class='assign token'>=</span> <span class='rubyid_SortNameProcessor constant id'>SortNameProcessor</span><span class='colon2 op'>::</span><span class='rubyid_Software constant id'>Software</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># This code runs if we find an agent display name directly attached to this date subrecord with no dates of it&#39;s own -- name dates take precedence over dates of existence.</span>
+  <span class='comment val'># We&#39;ll then generate the string for the display name from the dates of existence, and update it.</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_name_json identifier id'>name_json</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_name_json identifier id'>name_json</span><span class='lbrack token'>[</span><span class='string val'>&#39;dates&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_agent_json identifier id'>agent_json</span><span class='lbrack token'>[</span><span class='string val'>&#39;dates_of_existence&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_agent_name identifier id'>agent_name</span><span class='dot token'>.</span><span class='rubyid_sort_name_auto_generate identifier id'>sort_name_auto_generate</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
+    <span class='rubyid_extras identifier id'>extras</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='string val'>&#39;dates_of_existence&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent_json identifier id'>agent_json</span><span class='lbrack token'>[</span><span class='string val'>&quot;dates_of_existence&quot;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_agent_name identifier id'>agent_name</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='label val'>sort_name:</span> <span class='rubyid_processor identifier id'>processor</span><span class='dot token'>.</span><span class='rubyid_process identifier id'>process</span><span class='lparen token'>(</span><span class='rubyid_name_json identifier id'>name_json</span><span class='comma token'>,</span> <span class='rubyid_extras identifier id'>extras</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='label val'>system_mtime:</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version release-v4.0.x Documentation Generated on Wed Jun 25 21:11:26 2025 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.36.
+</div>
+
+    </div>
+  </body>
+</html>

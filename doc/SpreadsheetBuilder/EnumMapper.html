@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: SpreadsheetBuilder::EnumMapper
+  
+    &mdash; Documentation by YARD 0.9.36
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "SpreadsheetBuilder::EnumMapper";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (E)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../SpreadsheetBuilder.html" title="SpreadsheetBuilder (class)">SpreadsheetBuilder</a></span></span>
+     &raquo; 
+    <span class="title">EnumMapper</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: SpreadsheetBuilder::EnumMapper
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">SpreadsheetBuilder::EnumMapper</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/model/spreadsheet_builder.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enum_id_to_spreadsheet_value-class_method" title="enum_id_to_spreadsheet_value (class method)">.<strong>enum_id_to_spreadsheet_value</strong>(enum_id, enum_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enum_to_spreadsheet_value-class_method" title="enum_to_spreadsheet_value (class method)">.<strong>enum_to_spreadsheet_value</strong>(enum_value, enum_name)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#spreadsheet_value_to_enum-class_method" title="spreadsheet_value_to_enum (class method)">.<strong>spreadsheet_value_to_enum</strong>(spreadsheet_value)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="enum_id_to_spreadsheet_value-class_method">
+  
+    .<strong>enum_id_to_spreadsheet_value</strong>(enum_id, enum_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+924
+925
+926
+927
+928
+929
+930</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/spreadsheet_builder.rb', line 924</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enum_id_to_spreadsheet_value identifier id'>enum_id_to_spreadsheet_value</span><span class='lparen token'>(</span><span class='rubyid_enum_id identifier id'>enum_id</span><span class='comma token'>,</span> <span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_enum_id identifier id'>enum_id</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_enum_id identifier id'>enum_id</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
+  <span class='rubyid_enum_value identifier id'>enum_value</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_value_for_id identifier id'>value_for_id</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_enum_id identifier id'>enum_id</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_EnumMapper constant id'>EnumMapper</span><span class='dot token'>.</span><span class='rubyid_enum_to_spreadsheet_value identifier id'>enum_to_spreadsheet_value</span><span class='lparen token'>(</span><span class='rubyid_enum_value identifier id'>enum_value</span><span class='comma token'>,</span> <span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enum_to_spreadsheet_value-class_method">
+  
+    .<strong>enum_to_spreadsheet_value</strong>(enum_value, enum_name)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+932
+933
+934
+935
+936
+937
+938</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/spreadsheet_builder.rb', line 932</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enum_to_spreadsheet_value identifier id'>enum_to_spreadsheet_value</span><span class='lparen token'>(</span><span class='rubyid_enum_value identifier id'>enum_value</span><span class='comma token'>,</span> <span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_enum_value identifier id'>enum_value</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_enum_value identifier id'>enum_value</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
+  <span class='rubyid_enum_label identifier id'>enum_label</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.#{enum_name}.#{enum_value}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_enum_value identifier id'>enum_value</span><span class='rparen token'>)</span>
+
+  <span class='dstring node'>&quot;#{enum_label} [#{enum_value}]&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="spreadsheet_value_to_enum-class_method">
+  
+    .<strong>spreadsheet_value_to_enum</strong>(spreadsheet_value)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+940
+941
+942
+943
+944
+945
+946
+947</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/spreadsheet_builder.rb', line 940</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_spreadsheet_value_to_enum identifier id'>spreadsheet_value_to_enum</span><span class='lparen token'>(</span><span class='rubyid_spreadsheet_value identifier id'>spreadsheet_value</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_spreadsheet_value identifier id'>spreadsheet_value</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_spreadsheet_value identifier id'>spreadsheet_value</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_spreadsheet_value identifier id'>spreadsheet_value</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='match op'>=~</span> <span class='regexp val'>/\[(.*)\]$/</span>
+    <span class='rubyid_$1 nth_ref id'>$1</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Could not parse enumeration value from: #{spreadsheet_value}&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version release-v4.0.x Documentation Generated on Wed Jun 25 21:11:58 2025 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.36.
+</div>
+
+    </div>
+  </body>
+</html>

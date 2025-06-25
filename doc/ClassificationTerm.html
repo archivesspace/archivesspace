@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: ClassificationTerm
+  
+    &mdash; Documentation by YARD 0.9.36
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "ClassificationTerm";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (C)</a> &raquo;
+    
+    
+    <span class="title">ClassificationTerm</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: ClassificationTerm
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="Classification.html" title="Classification (class)">Classification</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="Record.html" title="Record (class)">Record</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="Classification.html" title="Classification (class)">Classification</a></span></li>
+          
+            <li class="next">ClassificationTerm</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/model/classification_term.rb<span class="defines">,<br />
+  public/app/models/classification_term.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="Record.html" title="Record (class)">Record</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Record.html#ABSTRACT-constant" title="Record::ABSTRACT (constant)">Record::ABSTRACT</a></span></p>
+
+
+
+
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Classification.html" title="Classification (class)">Classification</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Classification.html#creator-instance_method" title="Classification#creator (method)">#creator</a></span>, <span class='object_link'><a href="Classification.html#linked_records-instance_method" title="Classification#linked_records (method)">#linked_records</a></span></p>
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Record.html" title="Record (class)">Record</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Record.html#agents-instance_method" title="Record#agents (method)">#agents</a></span>, <span class='object_link'><a href="Record.html#classifications-instance_method" title="Record#classifications (method)">#classifications</a></span>, <span class='object_link'><a href="Record.html#container_display-instance_method" title="Record#container_display (method)">#container_display</a></span>, <span class='object_link'><a href="Record.html#container_summary_for_badge-instance_method" title="Record#container_summary_for_badge (method)">#container_summary_for_badge</a></span>, <span class='object_link'><a href="Record.html#container_titles_and_uris-instance_method" title="Record#container_titles_and_uris (method)">#container_titles_and_uris</a></span>, <span class='object_link'><a href="Record.html#criteria-instance_method" title="Record#criteria (method)">#criteria</a></span>, <span class='object_link'><a href="Record.html#dates-instance_method" title="Record#dates (method)">#dates</a></span>, <span class='object_link'><a href="Record.html#display_string-instance_method" title="Record#display_string (method)">#display_string</a></span>, <span class='object_link'><a href="Record.html#extents-instance_method" title="Record#extents (method)">#extents</a></span>, <span class='object_link'><a href="Record.html#external_documents-instance_method" title="Record#external_documents (method)">#external_documents</a></span>, <span class='object_link'><a href="Record.html#full-instance_method" title="Record#full (method)">#full</a></span>, <span class='object_link'><a href="Record.html#highlights-instance_method" title="Record#highlights (method)">#highlights</a></span>, <span class='object_link'><a href="Record.html#identifier-instance_method" title="Record#identifier (method)">#identifier</a></span>, <span class='object_link'><a href="Record.html#json-instance_method" title="Record#json (method)">#json</a></span>, <span class='object_link'><a href="Record.html#lang_materials-instance_method" title="Record#lang_materials (method)">#lang_materials</a></span>, <span class='object_link'><a href="Record.html#level-instance_method" title="Record#level (method)">#level</a></span>, <span class='object_link'><a href="Record.html#linked_digital_objects-instance_method" title="Record#linked_digital_objects (method)">#linked_digital_objects</a></span>, <span class='object_link'><a href="Record.html#notes-instance_method" title="Record#notes (method)">#notes</a></span>, <span class='object_link'><a href="Record.html#other_level-instance_method" title="Record#other_level (method)">#other_level</a></span>, <span class='object_link'><a href="Record.html#primary_type-instance_method" title="Record#primary_type (method)">#primary_type</a></span>, <span class='object_link'><a href="Record.html#raw-instance_method" title="Record#raw (method)">#raw</a></span>, <span class='object_link'><a href="Record.html#repository_information-instance_method" title="Record#repository_information (method)">#repository_information</a></span>, <span class='object_link'><a href="Record.html#resolved_repository-instance_method" title="Record#resolved_repository (method)">#resolved_repository</a></span>, <span class='object_link'><a href="Record.html#resolved_resource-instance_method" title="Record#resolved_resource (method)">#resolved_resource</a></span>, <span class='object_link'><a href="Record.html#resolved_top_container-instance_method" title="Record#resolved_top_container (method)">#resolved_top_container</a></span>, <span class='object_link'><a href="Record.html#subjects-instance_method" title="Record#subjects (method)">#subjects</a></span>, <span class='object_link'><a href="Record.html#uri-instance_method" title="Record#uri (method)">#uri</a></span></p>
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_from_json-class_method" title="create_from_json (class method)">.<strong>create_from_json</strong>(json, opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sequel_to_jsonmodel-class_method" title="sequel_to_jsonmodel (class method)">.<strong>sequel_to_jsonmodel</strong>(objs, opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_path_from_root-class_method" title="set_path_from_root (class method)">.<strong>set_path_from_root</strong>(json)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#breadcrumb_title_for_node-instance_method" title="#breadcrumb_title_for_node (instance method)">#<strong>breadcrumb_title_for_node</strong>(node, level)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>we add the identifier to the breadcrumb title.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#root_node_uri-instance_method" title="#root_node_uri (instance method)">#<strong>root_node_uri</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">#<strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#validate-instance_method" title="#validate (instance method)">#<strong>validate</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Classification.html" title="Classification (class)">Classification</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Classification.html#breadcrumb-instance_method" title="Classification#breadcrumb (method)">#breadcrumb</a></span>, <span class='object_link'><a href="Classification.html#classification_terms%3F-instance_method" title="Classification#classification_terms? (method)">#classification_terms?</a></span>, <span class='object_link'><a href="Classification.html#description-instance_method" title="Classification#description (method)">#description</a></span>, <span class='object_link'><a href="Classification.html#display_string_for_breadcrumb-instance_method" title="Classification#display_string_for_breadcrumb (method)">#display_string_for_breadcrumb</a></span>, <span class='object_link'><a href="Classification.html#initialize-instance_method" title="Classification#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="Classification.html#load_node_properties-instance_method" title="Classification#load_node_properties (method)">#load_node_properties</a></span>, <span class='object_link'><a href="Classification.html#load_root_properties-instance_method" title="Classification#load_root_properties (method)">#load_root_properties</a></span>, <span class='object_link'><a href="Classification.html#parsed_description-instance_method" title="Classification#parsed_description (method)">#parsed_description</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Record.html" title="Record (class)">Record</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Record.html#[]-instance_method" title="Record#[] (method)">#[]</a></span>, <span class='object_link'><a href="Record.html#apply_highlighting-instance_method" title="Record#apply_highlighting (method)">#apply_highlighting</a></span>, <span class='object_link'><a href="Record.html#dig-instance_method" title="Record#dig (method)">#dig</a></span>, <span class='object_link'><a href="Record.html#initialize-instance_method" title="Record#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="Record.html#note-instance_method" title="Record#note (method)">#note</a></span>, <span class='object_link'><a href="Record.html#parse_full_title-instance_method" title="Record#parse_full_title (method)">#parse_full_title</a></span>, <span class='object_link'><a href="Record.html#request_item-instance_method" title="Record#request_item (method)">#request_item</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <p class="notice">This class inherits a constructor from <span class='object_link'><a href="Classification.html#initialize-instance_method" title="Classification#initialize (method)">Classification</a></span></p>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="create_from_json-class_method">
+  
+    .<strong>create_from_json</strong>(json, opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 48</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_path_from_root identifier id'>set_path_from_root</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='symbol val'>:title_sha1</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_reindex_children identifier id'>reindex_children</span>
+  <span class='rubyid_obj identifier id'>obj</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sequel_to_jsonmodel-class_method">
+  
+    .<strong>sequel_to_jsonmodel</strong>(objs, opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83
+84
+85
+86
+87
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 81</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
+
+  <span class='rubyid_jsons identifier id'>jsons</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='bitor op'>|</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_path_from_root identifier id'>set_path_from_root</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_jsons identifier id'>jsons</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="set_path_from_root-class_method">
+  
+    .<strong>set_path_from_root</strong>(json)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 64</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_path_from_root identifier id'>set_path_from_root</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_path identifier id'>path</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&#39;title&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span> <span class='string val'>&#39;identifier&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+  <span class='rubyid_parent_id identifier id'>parent_id</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='integer val'>? </span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span>
+
+  <span class='rubyid_while while kw'>while</span> <span class='rubyid_parent_id identifier id'>parent_id</span>
+    <span class='rubyid_node identifier id'>node</span> <span class='assign token'>=</span> <span class='rubyid_ClassificationTerm constant id'>ClassificationTerm</span><span class='lbrack token'>[</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rbrack token'>]</span>
+    <span class='rubyid_path identifier id'>path</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;title&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span> <span class='string val'>&#39;identifier&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='rbrace token'>}</span>
+    <span class='rubyid_parent_id identifier id'>parent_id</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_root identifier id'>root</span> <span class='assign token'>=</span> <span class='rubyid_Classification constant id'>Classification</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_classification identifier id'>classification</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+  <span class='rubyid_path identifier id'>path</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;title&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_root identifier id'>root</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span> <span class='string val'>&#39;identifier&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_root identifier id'>root</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;path_from_root&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_path identifier id'>path</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="breadcrumb_title_for_node-instance_method">
+  
+    #<strong>breadcrumb_title_for_node</strong>(node, level)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>we add the identifier to the breadcrumb title</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/classification_term.rb', line 9</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_breadcrumb_title_for_node identifier id'>breadcrumb_title_for_node</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_level identifier id'>level</span><span class='rparen token'>)</span>
+  <span class='rubyid_json_path_to_root identifier id'>json_path_to_root</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;path_from_root&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_json_identifiers identifier id'>json_identifiers</span> <span class='assign token'>=</span> <span class='rubyid_json_path_to_root identifier id'>json_path_to_root</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='rubyid_level identifier id'>level</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_n identifier id'>n</span><span class='bitor op'>|</span> <span class='rubyid_n identifier id'>n</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;identifier&#39;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+
+  <span class='dstring node'>&quot;#{json_identifiers.join(I18n.t(&#39;classification_term.identifier_separator&#39;))}#{I18n.t(&#39;classification.identifier_separator&#39;)} #{super}&quot;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="root_node_uri-instance_method">
+  
+    #<strong>root_node_uri</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/classification_term.rb', line 4</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_root_node_uri identifier id'>root_node_uri</span>
+  <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;classification&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;ref&#39;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_from_json-instance_method">
+  
+    #<strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 56</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_set_path_from_root identifier id'>set_path_from_root</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:title_sha1</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_reindex_children identifier id'>reindex_children</span>
+  <span class='rubyid_obj identifier id'>obj</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="validate-instance_method">
+  
+    #<strong>validate</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 92</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
+  <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:parent_name</span><span class='comma token'>,</span> <span class='symbol val'>:title_sha1</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                   <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;must be unique to its level in the tree&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:parent_name</span><span class='comma token'>,</span> <span class='symbol val'>:identifier</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                   <span class='symbol val'>:message</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;must be unique to its level in the tree&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_map_validation_to_json_property identifier id'>map_validation_to_json_property</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:parent_name</span><span class='comma token'>,</span> <span class='symbol val'>:title_sha1</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:title</span><span class='rparen token'>)</span>
+  <span class='rubyid_map_validation_to_json_property identifier id'>map_validation_to_json_property</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:parent_name</span><span class='comma token'>,</span> <span class='symbol val'>:identifier</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:identifier</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_super super kw'>super</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version release-v4.0.x Documentation Generated on Wed Jun 25 21:11:57 2025 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.36.
+</div>
+
+    </div>
+  </body>
+</html>
