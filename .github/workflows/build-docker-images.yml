@@ -37,7 +37,7 @@ jobs:
         id: extract
         run: |
           echo "Branch: ${{ github.ref_name }}"
-          ticket=$(echo "${{ github.ref_name }}" | grep -oE 'ANW-[0-9]+')
+          ticket=$(echo "${{ github.ref_name }}" | grep -oE 'ANW-[0-9]+') || ticket=""
           echo "ticket=$ticket" >> $GITHUB_OUTPUT
 
       - name: Extract Docker metadata
