@@ -46,8 +46,8 @@ jobs:
         with:
           images: |
             archivesspace/archivesspace
-            archivesspace/archivesspace-solr
-            archivesspace/archivesspace-proxy
+            archivesspace/solr
+            archivesspace/proxy
           tags: |
             type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
             type=raw,value=latest,enable={{is_default_branch}}
