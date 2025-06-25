@@ -9,6 +9,10 @@ on:
     tags:
       - 'v[2-9].[0-9].[0-9]*'  # matches v2.0.0, v3.1.4-beta, etc.
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,58 +33,46 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Determine Docker tag
-        id: tag
-        shell: bash
+      - name: Extract ANW-123 part from branch name
+        id: extract
         run: |
-          REF_TYPE="${GITHUB_REF_TYPE}"  # either 'branch' or 'tag'
-          REF_NAME="${GITHUB_REF_NAME}"  # actual branch or tag name
+          echo "Branch: ${{ github.ref_name }}"
+          ticket=$(echo "${{ github.ref_name }}" | grep -oE 'ANW-[0-9]+')
+          echo "ticket=$ticket" >> $GITHUB_OUTPUT
 
-          if [ "$REF_TYPE" = "branch" ]; then
-            if [ "$REF_NAME" = "master" ]; then
-              TAG="latest"
-            elif [ "$REF_NAME" = "mlc-multiple-titles" ]; then
-              TAG="mlc-multiple-titles"
-            elif [[ "$REF_NAME" =~ ^(ANW-[0-9]+).*-build$ ]]; then
-              TAG="${BASH_REMATCH[1]}"
-            else
-              echo "Branch $REF_NAME does not match tagging rules. Skipping."
-              exit 0
-            fi
-          elif [ "$REF_TYPE" = "tag" ]; then
-            if [[ "$REF_NAME" =~ ^v([2-9]\.[0-9]+\.[0-9].*)$ ]]; then
-              TAG="${BASH_REMATCH[1]}"
-            else
-              echo "Tag $REF_NAME does not match versioning rules. Skipping."
-              exit 0
-            fi
-          else
-            echo "Unknown ref type: $REF_TYPE"
-            exit 1
-          fi
-
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            archivesspace/archivesspace
+            archivesspace/archivesspace-solr
+            archivesspace/archivesspace-proxy
+          tags: |
+            type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
 
       - name: Build and push ArchivesSpace image
-        if: steps.tag.outputs.tag != ''
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: archivesspace/archivesspace:${{ steps.tag.outputs.tag }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push Solr image
-        if: steps.tag.outputs.tag != ''
         uses: docker/build-push-action@v5
         with:
           context: ./solr
           push: true
-          tags: archivesspace/archivesspace-solr:${{ steps.tag.outputs.tag }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push Proxy image
-        if: steps.tag.outputs.tag != ''
         uses: docker/build-push-action@v5
         with:
           context: ./proxy
           push: true
-          tags: archivesspace/archivesspace-proxy:${{ steps.tag.outputs.tag }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
