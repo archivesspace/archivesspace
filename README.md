@@ -35,7 +35,7 @@ ArchivesSpace is free to download and use, but has a membership model to promote
 
 # Reporting an Issue
 
-All users are welcome to submit bug reports and requests for new features for consideration by our member community. Instructions are available on our wiki.
+All users are welcome to submit bug reports and requests for new features for consideration by our member community. Instructions are available on our wiki:
 
 * [How to Report a Bug](https://archivesspace.atlassian.net/wiki/spaces/ADC/pages/19202056/How+to+Report+a+Bug)
 * [How to Request a New Feature](https://archivesspace.atlassian.net/wiki/spaces/ADC/pages/19202060/How+to+Request+a+New+Feature)
