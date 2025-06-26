@@ -32,7 +32,7 @@ describe 'Digital Objects', js: true do
     expect(page).to have_selector('h2', visible: true, text: "New Digital Object Digital Object")
 
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq "Title - Property is required but was missing\nIdentifier - Property is required but was missing"
+    expect(element.text).to eq "Titles - At least 1 item(s) is required\nIdentifier - Property is required but was missing"
   end
 
   it 'can handle multiple file versions and file system and network path types' do
@@ -43,7 +43,7 @@ describe 'Digital Objects', js: true do
     element = find('h2')
     expect(element.text).to eq 'New Digital Object Digital Object'
 
-    fill_in 'digital_object_title_', with: "Digital Object Title #{now}"
+    fill_in 'digital_object_titles__0__title_', with: "Digital Object Title #{now}"
     fill_in 'digital_object_digital_object_id_', with: "Digital Object Identifier #{now}"
     select 'Mixed Materials', from: 'digital_object_digital_object_type_'
 

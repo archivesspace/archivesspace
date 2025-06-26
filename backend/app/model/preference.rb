@@ -69,6 +69,9 @@ class Preference < Sequel::Model(:preference)
     end
   end
 
+  def self.get_user_global_preference(preference_key)
+    Preference.user_global_defaults[preference_key] || Preference.global_defaults[preference_key]
+  end
 
   def self.repo_defaults
     self.user_global_defaults.merge(self.parsed_defaults_for(:user_id => nil))
