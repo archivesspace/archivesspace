@@ -1,13 +1,15 @@
-name: Build and Push Docker Image
+name: Docker Images
+permissions:
+  contents: read
+  packages: write
 
 on:
-  # push:
-  #   branches:
-  #     - master
-  #     - mlc-multiple-titles
-  #     - 'ANW-**'
-  #   tags:
-  #     - 'v[2-9].[0-9].[0-9]*'  # matches v2.0.0, v3.1.4-beta, etc.
+  push:
+    branches:
+      - master
+      - 'ANW-**'
+    tags:
+      - 'v[2-9].[0-9].[0-9]*'  # matches v2.0.0, v3.1.4-beta, etc.
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -16,9 +18,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
       - name: Checkout source code
@@ -40,39 +39,59 @@ jobs:
           ticket=$(echo "${{ github.ref_name }}" | grep -oE 'ANW-[0-9]+') || ticket=""
           echo "ticket=$ticket" >> $GITHUB_OUTPUT
 
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: |
-            archivesspace/archivesspace
-            archivesspace/solr
-            archivesspace/proxy
-          tags: |
-            type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
-            type=raw,value=latest,enable={{is_default_branch}}
-            type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+      # ArchivesSpace Metadata
+     - name: Extract ArchivesSpace metadata
+       id: meta_archivesspace
+       uses: docker/metadata-action@v5
+       with:
+         images: archivesspace/archivesspace
+         tags: |
+           type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
+           type=raw,value=latest,enable={{is_default_branch}}
+           type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
 
-      - name: Build and push ArchivesSpace image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+     # Solr Metadata
+     - name: Extract Solr metadata
+       id: meta_solr
+       uses: docker/metadata-action@v5
+       with:
+         images: archivesspace/solr
+         tags: |
+           type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
+           type=raw,value=latest,enable={{is_default_branch}}
+           type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
 
-      - name: Build and push Solr image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./solr
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+     # Proxy Metadata
+     - name: Extract Proxy metadata
+       id: meta_proxy
+       uses: docker/metadata-action@v5
+       with:
+         images: archivesspace/proxy
+         tags: |
+           type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
+           type=raw,value=latest,enable={{is_default_branch}}
+           type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
 
-      - name: Build and push Proxy image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./proxy
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+     - name: Build and push ArchivesSpace image
+       uses: docker/build-push-action@v5
+       with:
+         context: .
+         push: true
+         tags: ${{ steps.meta_archivesspace.outputs.tags }}
+         labels: ${{ steps.meta_archivesspace.outputs.labels }}
+
+     - name: Build and push Solr image
+       uses: docker/build-push-action@v5
+       with:
+         context: ./solr
+         push: true
+         tags: ${{ steps.meta_solr.outputs.tags }}
+         labels: ${{ steps.meta_solr.outputs.labels }}
+
+     - name: Build and push Proxy image
+       uses: docker/build-push-action@v5
+       with:
+         context: ./proxy
+         push: true
+         tags: ${{ steps.meta_proxy.outputs.tags }}
+         labels: ${{ steps.meta_proxy.outputs.labels }}
