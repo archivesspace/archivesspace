@@ -74,6 +74,7 @@ module Factories
       end
 
       factory :accession, class: JSONModel(:accession) do
+        titles { [build(:title, title: title)] if title }
         id_0 { generate(:generic_id) }
         id_1 { generate(:generic_id) }
         id_2 { generate(:generic_id) }
@@ -82,10 +83,14 @@ module Factories
         condition_description { 'furious' }
         accession_date { '1990-01-01' }
         lang_materials { [build(:json_lang_material)] }
+
+        transient do
+          title { nil }
+        end
       end
 
       factory :resource, class: JSONModel(:resource) do
-        title { generate(:resource_title) }
+        titles { [build(:title, title: title)] }
         id_0 { generate(:generic_id) }
         id_1 { generate(:generic_id) }
         extents { [build(:extent)] }
@@ -94,6 +99,14 @@ module Factories
         lang_materials { [build(:json_lang_material)] }
         finding_aid_language { 'eng' }
         finding_aid_script { 'Latn' }
+
+        transient do
+          title { generate(:generic_title) }
+        end
+      end
+
+      factory :title, class: JSONModel(:title) do
+        title { generate(:generic_title) }
       end
 
       factory :extent, class: JSONModel(:extent) do
@@ -111,21 +124,35 @@ module Factories
       end
 
       factory :archival_object, class: JSONModel(:archival_object) do
+        titles { [build(:title, title: title)] }
         ref_id { generate(:ref_id) }
         level { 'item' }
         lang_materials { [build(:json_lang_material)] }
+
+        transient do
+          title { generate(:generic_title) }
+        end
       end
 
       factory :digital_object, class: JSONModel(:digital_object) do
+        titles { [build(:title, title: title)] }
         lang_materials { [build(:json_lang_material)] }
         digital_object_id { generate(:ref_id) }
         extents { [build(:extent)] }
         dates { few_or_none(:date) }
+
+        transient do
+          title { generate(:generic_title) }
+        end
       end
 
       factory :digital_object_component, class: JSONModel(:digital_object_component) do
+        titles { [build(:title, title: title)] }
         component_id { generate(:alphanumstr) }
-        title { generate :digital_object_component_title }
+
+        transient do
+          title { generate(:digital_object_component_title) }
+        end
       end
 
       factory :instance_digital, class: JSONModel(:instance) do
