@@ -61,7 +61,8 @@ class DigitalObjectsController < ApplicationController
 
 
   def new
-    @digital_object = JSONModel(:digital_object).new({:title => t("digital_object.title_default", :default => "")})._always_valid!
+    @digital_object = JSONModel(:digital_object)
+      .new({:titles => [{:title => t("digital_object.title_default", :default => "")}]})._always_valid!
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'digital_object'
@@ -150,7 +151,8 @@ class DigitalObjectsController < ApplicationController
                   render :action => "new"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = t("digital_object._frontend.messages.created", digital_object_title: clean_mixed_content(@digital_object.title))
+                  flash[:success] = t("digital_object._frontend.messages.created",
+                    digital_object_title: clean_mixed_content(title_for_display))
 
                   if @digital_object["is_slug_auto"] == false &&
                      @digital_object["slug"] == nil &&
@@ -178,7 +180,8 @@ class DigitalObjectsController < ApplicationController
                 },
                 :on_valid => ->(id) {
 
-                  flash.now[:success] = t("digital_object._frontend.messages.updated", digital_object_title: clean_mixed_content(@digital_object.title))
+                  flash.now[:success] = t("digital_object._frontend.messages.updated",
+                    digital_object_title: clean_mixed_content(title_for_display))
                   if @digital_object["is_slug_auto"] == false &&
                      @digital_object["slug"] == nil &&
                      params["digital_object"] &&
@@ -202,7 +205,7 @@ class DigitalObjectsController < ApplicationController
       return redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
     end
 
-    flash[:success] = t("digital_object._frontend.messages.deleted", digital_object_title: clean_mixed_content(digital_object.title))
+    flash[:success] = t("digital_object._frontend.messages.deleted", digital_object_title: clean_mixed_content(title_for_display))
     redirect_to(:controller => :digital_objects, :action => :index, :deleted_uri => digital_object.uri)
   end
 
@@ -213,7 +216,7 @@ class DigitalObjectsController < ApplicationController
     response = JSONModel::HTTP.post_form("#{digital_object.uri}/publish")
 
     if response.code == '200'
-      flash[:success] = t("digital_object._frontend.messages.published", digital_object_title: clean_mixed_content(digital_object.title))
+      flash[:success] = t("digital_object._frontend.messages.published", digital_object_title: clean_mixed_content(title_for_display))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -307,7 +310,8 @@ class DigitalObjectsController < ApplicationController
     digital_object = JSONModel(:digital_object).find(params[:id])
     digital_object.set_suppressed(true)
 
-    flash[:success] = t("digital_object._frontend.messages.suppressed", digital_object_title: clean_mixed_content(digital_object.title))
+    flash[:success] = t("digital_object._frontend.messages.suppressed",
+      digital_object_title: clean_mixed_content(title_for_display))
     redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
   end
 
@@ -316,7 +320,8 @@ class DigitalObjectsController < ApplicationController
     digital_object = JSONModel(:digital_object).find(params[:id])
     digital_object.set_suppressed(false)
 
-    flash[:success] = t("digital_object._frontend.messages.unsuppressed", digital_object_title: clean_mixed_content(digital_object.title))
+    flash[:success] = t("digital_object._frontend.messages.unsuppressed",
+      digital_object_title: clean_mixed_content(title_for_display))
     redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
   end
 
