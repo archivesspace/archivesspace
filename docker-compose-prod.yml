@@ -4,6 +4,7 @@
 services:
   app:
     image: archivesspace/archivesspace:${ARCHIVESSPACE_DOCKER_TAG}
+    platform: linux/x86_64
     container_name: archivesspace
     restart: unless-stopped
     env_file:
@@ -19,6 +20,7 @@ services:
 
   db:
     image: mysql:8
+    platform: linux/x86_64
     cap_add:
       - SYS_NICE
     container_name: mysql
@@ -34,6 +36,7 @@ services:
 
   db-backup:
     image: databack/mysql-backup:latest
+    platform: linux/x86_64
     container_name: db-backup
     restart: unless-stopped
     user: "0"
@@ -53,6 +56,7 @@ services:
 
   solr:
     image: archivesspace/solr:${ARCHIVESSPACE_DOCKER_TAG}
+    platform: linux/x86_64
     container_name: solr
     restart: unless-stopped
     env_file:
@@ -68,6 +72,7 @@ services:
 
   proxy:
     image: nginx:1.21
+    platform: linux/x86_64
     container_name: proxy
     restart: unless-stopped
     env_file:
