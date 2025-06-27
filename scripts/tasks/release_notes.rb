@@ -84,7 +84,6 @@ module ReleaseNotes
           contributors[author] ||= []
           contributors[author] << (data[:pr_title] || data[:desc])
         end
-
       end
 
       contributors.each do |author, contributions|

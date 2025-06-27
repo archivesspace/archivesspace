@@ -25,6 +25,7 @@ class Doc < Thor
   option :out, :required => false
   option :max_pr_pages, :required => false, :default => 20, type: :numeric
   option :gh_user, :required => false, :default => "archivesspace"
+
   def release_notes
     current_tag = options[:current_tag]
     previous_tag = options[:previous_tag] || ReleaseNotes.find_previous_tag(current_tag)
@@ -33,7 +34,7 @@ class Doc < Thor
           else
             $stderr
           end
-    github = github = Github.new do |config|
+    github = Github.new do |config|
       if options[:token]
         config.connection_options = {headers: {"authorization" => "Bearer #{options[:token]}"}}
       end
@@ -44,9 +45,10 @@ class Doc < Thor
     git = Git.open('./')
     log = ReleaseNotes.parse_log(git.log.max_count(:all).between(previous_tag, current_tag))
 
-    puts "Found #{log.count} commit(s) between #{previous_tag} and #{current_tag}"
-
     log.reject! { |log_entry| log_entry[:desc].match(/^Merge pull request/) }
+
+    puts "Found #{log.count} commit(s) between #{previous_tag} and #{current_tag} excluding merge commits."
+
     pulls_page = 1
 
     while ((log.select { |log_entry| log_entry[:pr_number].nil? }.size > 0) && (pulls_page < options[:max_pr_pages] + 1)) do
@@ -55,6 +57,8 @@ class Doc < Thor
       pulls = github.pulls.all(state: "closed", page: pulls_page)
 
       break if pulls.count == 0
+
+      pulls = pulls.reject { |p| p['base']['ref'] != p['base']['repo']['default_branch'] } # only include PRs that were merged into the default branch
 
       pulls.each do |pull|
         pull[:commits] = github.pulls.commits(number: pull[:number])
