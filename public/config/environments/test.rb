@@ -41,7 +41,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Infinite Tree and Records config
-  config.infinite_tree_waypoint_size = 20 # see also backend/app/model/large_tree.rb
+  config.infinite_tree_batch_size = 50 # see also backend/app/model/large_tree.rb
   config.infinite_records_waypoint_size = 5
   config.infinite_records_main_max_concurrent_waypoint_fetches = 3
   config.infinite_records_worker_max_concurrent_waypoint_fetches = 100
