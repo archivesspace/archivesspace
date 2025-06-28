@@ -44,8 +44,7 @@ describe 'Collection Organization', js: true do
          publish: true
        )
 
-      # 120.times do |i| # 6 batches
-      300.times do |i| # 6 batches
+      180.times do |i| # 6 batches
         # Why 120 and not 101?
         # Flaky batch rendering tests were observed with 101 nodes, where an extra batch
         # sometimes got loaded right after initial page load via the InfiniteTree batchObserver.
@@ -57,8 +56,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      # 81.times do |i| # 5 batches
-      201.times do |i| # 5 batches
+      121.times do |i| # 5 batches
         instance_variable_set("@ao#{i + 1}_of_ao2", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao2.uri},
@@ -66,8 +64,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      # 61.times do |i| # 4 batches
-      151.times do |i| # 4 batches
+      91.times do |i| # 4 batches
         instance_variable_set("@ao#{i + 1}_of_ao3", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao3.uri},
@@ -75,8 +72,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      # 41.times do |i| # 3 batches
-      101.times do |i| # 3 batches
+      61.times do |i| # 3 batches
         instance_variable_set("@ao#{i + 1}_of_ao4", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao4.uri},
@@ -84,8 +80,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      # 21.times do |i| # 2 batches
-      51.times do |i| # 2 batches
+      31.times do |i| # 2 batches
         instance_variable_set("@ao#{i + 1}_of_ao5", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao5.uri},
@@ -108,7 +103,7 @@ describe 'Collection Organization', js: true do
       end
 
       @resource2 = create(:resource, publish: true)
-      51.times do |i| # 2 batches
+      31.times do |i| # 2 batches
         instance_variable_set("@ao#{i + 1}_of_resource2", create(:archival_object,
           resource: {'ref' => @resource2.uri},
           publish: true
@@ -116,7 +111,7 @@ describe 'Collection Organization', js: true do
       end
 
       @resource3 = create(:resource, publish: true)
-      101.times do |i| # 3 batches
+      61.times do |i| # 3 batches
         instance_variable_set("@ao#{i + 1}_of_resource3", create(:archival_object,
           resource: {'ref' => @resource3.uri},
           publish: true
@@ -767,11 +762,9 @@ describe 'Collection Organization', js: true do
 
         context 'when the root node has 2 batches of child nodes' do
           let(:resource_id) { @resource2.id }
-          # let(:total_nodes) { 21 }
-          let(:total_nodes) { 51 }
+          let(:total_nodes) { 31 }
           let(:parent) { 'resource2' }
-          # let(:expected_node_count_on_page_load) { 20 }
-          let(:expected_node_count_on_page_load) { 50 }
+          let(:expected_node_count_on_page_load) { 30 }
           let(:expected_batch_placeholders) { [1] }
 
           it_behaves_like 'basic details of uri fragment batch rendering'
@@ -787,11 +780,9 @@ describe 'Collection Organization', js: true do
             find(".infinite-tree .root.current")
           end
           let(:parent_list) { node.find('& > .node-children') }
-          # let(:total_nodes) { 41 }
-          let(:total_nodes) { 101 }
+          let(:total_nodes) { 61 }
           let(:parent) { 'resource3' }
-          # let(:expected_node_count_on_page_load) { 20 }
-          let(:expected_node_count_on_page_load) { 50 }
+          let(:expected_node_count_on_page_load) { 30 }
           let(:expected_batch_placeholders) { [1, 2] }
 
           it_behaves_like 'basic details of uri fragment batch rendering'
