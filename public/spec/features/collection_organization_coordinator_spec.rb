@@ -16,13 +16,13 @@ describe 'Collection Organization Infinite Coordinator', js: true do
       publish: true
     )
 
-  31.times do |i| # 2 batches
-      instance_variable_set("@ao#{i + 1}_of_ao2", create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        parent: {'ref' => @ao2.uri},
-        publish: true
-      ))
-    end
+    31.times do |i| # 2 batches
+        instance_variable_set("@ao#{i + 1}_of_ao2", create(:archival_object,
+          resource: {'ref' => @resource.uri},
+          parent: {'ref' => @ao2.uri},
+          publish: true
+        ))
+      end
 
     run_indexers
   end
