@@ -44,11 +44,7 @@ describe 'Collection Organization', js: true do
          publish: true
        )
 
-      180.times do |i| # 6 batches
-        # Why 120 and not 101?
-        # Flaky batch rendering tests were observed with 101 nodes, where an extra batch
-        # sometimes got loaded right after initial page load via the InfiniteTree batchObserver.
-        # The workaround is a full last batch, and to select its middle node for the URI fragment.
+      151.times do |i| # 6 batches
         instance_variable_set("@ao#{i + 1}_of_ao1", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao1.uri},
@@ -283,7 +279,6 @@ describe 'Collection Organization', js: true do
 
     shared_examples 'having all nodes loaded' do
       it 'has all sibling nodes loaded' do
-        # wait_for_jquery
         expect(parent_list).to have_css('.node', count: total_nodes)
         expect(parent_list).not_to have_css('[data-batch-placeholder]', visible: false)
       end
@@ -308,22 +303,15 @@ describe 'Collection Organization', js: true do
         let(:parent_list) { node.find(:xpath, '..') }
 
         context "the target node's parent has 6 batches of child nodes" do
-          # Why 120 and not 101?
-          # Flaky batch rendering tests were observed with 101 nodes, where an extra batch
-          # sometimes got loaded right after initial page load via the InfiniteTree batchObserver.
-          # The workaround is a full last batch, and to select its middle node for the URI fragment.
-          # let(:total_nodes) { 120 }
-          let(:total_nodes) { 300 }
+          let(:total_nodes) { 151 }
           let(:parent) { 'ao1' }
 
           context 'and the target node is in the first batch' do
             let(:batch_target) { 0 }
             let(:expected_populated_batches) { [0, 1] }
             let(:expected_batch_placeholders) { [2, 3, 4, 5] }
-            # let(:expected_node_count_on_page_load) { 40 }
-            let(:expected_node_count_on_page_load) { 100 }
-            # let(:node_position) { 10 }
-            let(:node_position) { 25 }
+            let(:expected_node_count_on_page_load) { 60 }
+            let(:node_position) { 15 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -337,10 +325,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 1 }
             let(:expected_populated_batches) { [0, 1, 2] }
             let(:expected_batch_placeholders) { [3, 4, 5] }
-            # let(:expected_node_count_on_page_load) { 60 }
-            let(:expected_node_count_on_page_load) { 150 }
-            # let(:node_position) { 30 }
-            let(:node_position) { 75 }
+            let(:expected_node_count_on_page_load) { 90 }
+            let(:node_position) { 45 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -354,10 +340,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 2 }
             let(:expected_populated_batches) { [0, 1, 2, 3] }
             let(:expected_batch_placeholders) { [4, 5] }
-            # let(:expected_node_count_on_page_load) { 80 }
-            let(:expected_node_count_on_page_load) { 200 }
-            # let(:node_position) { 50 }
-            let(:node_position) { 125 }
+            let(:expected_node_count_on_page_load) { 120 }
+            let(:node_position) { 75 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -371,10 +355,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 3 }
             let(:expected_populated_batches) { [0, 2, 3, 4] }
             let(:expected_batch_placeholders) { [1, 5] }
-            # let(:expected_node_count_on_page_load) { 80 }
-            let(:expected_node_count_on_page_load) { 200 }
-            # let(:node_position) { 70 }
-            let(:node_position) { 175 }
+            let(:expected_node_count_on_page_load) { 120 }
+            let(:node_position) { 105 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -388,10 +370,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 4 }
             let(:expected_populated_batches) { [0, 3, 4, 5] }
             let(:expected_batch_placeholders) { [1, 2] }
-            # let(:expected_node_count_on_page_load) { 80 }
-            let(:expected_node_count_on_page_load) { 200 }
-            # let(:node_position) { 90 }
-            let(:node_position) { 225 }
+            let(:expected_node_count_on_page_load) { 91 }
+            let(:node_position) { 135 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -405,10 +385,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 5 }
             let(:expected_populated_batches) { [0, 4, 5] }
             let(:expected_batch_placeholders) { [1, 2, 3] }
-            # let(:expected_node_count_on_page_load) { 60 }
-            let(:expected_node_count_on_page_load) { 150 }
-            # let(:node_position) { 110 }
-            let(:node_position) { 275 }
+            let(:expected_node_count_on_page_load) { 61 }
+            let(:node_position) { 151 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -420,18 +398,15 @@ describe 'Collection Organization', js: true do
         end
 
         context "the target node's parent has 5 batches of child nodes" do
-          # let(:total_nodes) { 81 }
-          let(:total_nodes) { 201 }
+          let(:total_nodes) { 121 }
           let(:parent) { 'ao2' }
 
           context 'and the target node is in the first batch' do
             let(:batch_target) { 0 }
             let(:expected_populated_batches) { [0, 1] }
             let(:expected_batch_placeholders) { [2, 3, 4] }
-            # let(:expected_node_count_on_page_load) { 40 }
-            let(:expected_node_count_on_page_load) { 100 }
-            # let(:node_position) { 10 }
-            let(:node_position) { 25 }
+            let(:expected_node_count_on_page_load) { 60 }
+            let(:node_position) { 15 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -445,10 +420,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 1 }
             let(:expected_populated_batches) { [0, 1, 2] }
             let(:expected_batch_placeholders) { [3, 4] }
-            # let(:expected_node_count_on_page_load) { 60 }
-            let(:expected_node_count_on_page_load) { 150 }
-            # let(:node_position) { 30 }
-            let(:node_position) { 75 }
+            let(:expected_node_count_on_page_load) { 90 }
+            let(:node_position) { 45 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -462,10 +435,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 2 }
             let(:expected_populated_batches) { [0, 1, 2, 3] }
             let(:expected_batch_placeholders) { [4] }
-            # let(:expected_node_count_on_page_load) { 80 }
-            let(:expected_node_count_on_page_load) { 200 }
-            # let(:node_position) { 50 }
-            let(:node_position) { 125 }
+            let(:expected_node_count_on_page_load) { 120 }
+            let(:node_position) { 75 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -479,10 +450,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 3 }
             let(:expected_populated_batches) { [0, 2, 3, 4] }
             let(:expected_batch_placeholders) { [1] }
-            # let(:expected_node_count_on_page_load) { 61 }
-            let(:expected_node_count_on_page_load) { 151 }
-            # let(:node_position) { 70 }
-            let(:node_position) { 175 }
+            let(:expected_node_count_on_page_load) { 91 }
+            let(:node_position) { 105 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -496,10 +465,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 4 }
             let(:expected_populated_batches) { [0, 3, 4] }
             let(:expected_batch_placeholders) { [1, 2] }
-            # let(:expected_node_count_on_page_load) { 41 }
-            let(:expected_node_count_on_page_load) { 101 }
-            # let(:node_position) { 81 }
-            let(:node_position) { 201 }
+            let(:expected_node_count_on_page_load) { 61 }
+            let(:node_position) { 121 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -511,18 +478,15 @@ describe 'Collection Organization', js: true do
         end
 
         context "the target node's parent has 4 batches of child nodes" do
-          # let(:total_nodes) { 61 }
-          let(:total_nodes) { 151 }
+          let(:total_nodes) { 91 }
           let(:parent) { 'ao3' }
 
           context 'and the target node is in the first batch' do
             let(:batch_target) { 0 }
             let(:expected_populated_batches) { [0, 1] }
             let(:expected_batch_placeholders) { [2, 3] }
-            # let(:node_position) { 10 }
             let(:node_position) { 25 }
-            # let(:expected_node_count_on_page_load) { 40 }
-            let(:expected_node_count_on_page_load) { 100 }
+            let(:expected_node_count_on_page_load) { 60 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -536,10 +500,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 1 }
             let(:expected_populated_batches) { [0, 1, 2] }
             let(:expected_batch_placeholders) { [3] }
-            # let(:node_position) { 30 }
-            let(:node_position) { 75 }
-            # let(:expected_node_count_on_page_load) { 60 }
-            let(:expected_node_count_on_page_load) { 150 }
+            let(:node_position) { 45 }
+            let(:expected_node_count_on_page_load) { 90 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -553,10 +515,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 2 }
             let(:expected_populated_batches) { [0, 1, 2, 3] }
             let(:expected_batch_placeholders) { [] }
-            # let(:node_position) { 50 }
-            let(:node_position) { 125 }
-            # let(:expected_node_count_on_page_load) { 61 }
-            let(:expected_node_count_on_page_load) { 151 }
+            let(:node_position) { 75 }
+            let(:expected_node_count_on_page_load) { 91 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -569,10 +529,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 3 }
             let(:expected_populated_batches) { [0, 2, 3] }
             let(:expected_batch_placeholders) { [1] }
-            # let(:node_position) { 61 }
-            let(:node_position) { 151 }
-            # let(:expected_node_count_on_page_load) { 41 }
-            let(:expected_node_count_on_page_load) { 101 }
+            let(:expected_node_count_on_page_load) { 61 }
+            let(:node_position) { 91 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -584,18 +542,15 @@ describe 'Collection Organization', js: true do
         end
 
         context "the target node's parent has 3 batches of child nodes" do
-          # let(:total_nodes) { 41 }
-          let(:total_nodes) { 101 }
+          let(:total_nodes) { 61 }
           let(:parent) { 'ao4' }
 
           context 'and the target node is in the first batch' do
             let(:batch_target) { 0 }
             let(:expected_populated_batches) { [0, 1] }
             let(:expected_batch_placeholders) { [2] }
-            # let(:node_position) { 10 }
-            let(:node_position) { 25 }
-            # let(:expected_node_count_on_page_load) { 40 }
-            let(:expected_node_count_on_page_load) { 100 }
+            let(:node_position) { 15 }
+            let(:expected_node_count_on_page_load) { 60 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -609,10 +564,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 1 }
             let(:expected_populated_batches) { [0, 1, 2] }
             let(:expected_batch_placeholders) { [] }
-            # let(:node_position) { 30 }
-            let(:node_position) { 75 }
-            # let(:expected_node_count_on_page_load) { 41 }
-            let(:expected_node_count_on_page_load) { 101 }
+            let(:node_position) { 45 }
+            let(:expected_node_count_on_page_load) { 61 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -625,10 +578,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 2 }
             let(:expected_populated_batches) { [0, 1, 2] }
             let(:expected_batch_placeholders) { [] }
-            # let(:node_position) { 41 }
-            let(:node_position) { 101 }
-            # let(:expected_node_count_on_page_load) { 41 }
-            let(:expected_node_count_on_page_load) { 101 }
+            let(:node_position) { 61 }
+            let(:expected_node_count_on_page_load) { 61 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -639,18 +590,15 @@ describe 'Collection Organization', js: true do
         end
 
         context "the target node's parent has 2 batches of child nodes" do
-          # let(:total_nodes) { 21 }
-          let(:total_nodes) { 51 }
+          let(:total_nodes) { 31 }
           let(:parent) { 'ao5' }
 
           context 'and the target node is in the first batch' do
             let(:batch_target) { 0 }
             let(:expected_populated_batches) { [0, 1] }
             let(:expected_batch_placeholders) { [] }
-            # let(:node_position) { 10 }
-            let(:node_position) { 25 }
-            # let(:expected_node_count_on_page_load) { 21 }
-            let(:expected_node_count_on_page_load) { 51 }
+            let(:node_position) { 15 }
+            let(:expected_node_count_on_page_load) { 31 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -662,10 +610,8 @@ describe 'Collection Organization', js: true do
             let(:batch_target) { 1 }
             let(:expected_populated_batches) { [0, 1] }
             let(:expected_batch_placeholders) { [] }
-            # let(:node_position) { 21 }
-            let(:node_position) { 51 }
-            # let(:expected_node_count_on_page_load) { 21 }
-            let(:expected_node_count_on_page_load) { 51 }
+            let(:node_position) { 31 }
+            let(:expected_node_count_on_page_load) { 31 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
             it_behaves_like 'loading the first batch'
@@ -749,6 +695,7 @@ describe 'Collection Organization', js: true do
 
           find(".infinite-tree .root.current")
         end
+
         let(:parent_list) { node.find('& > .node-children') }
 
         context 'when the root node has 1 batch of child nodes' do
@@ -779,6 +726,7 @@ describe 'Collection Organization', js: true do
 
             find(".infinite-tree .root.current")
           end
+
           let(:parent_list) { node.find('& > .node-children') }
           let(:total_nodes) { 61 }
           let(:parent) { 'resource3' }
