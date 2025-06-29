@@ -16,7 +16,7 @@ describe 'Collection Organization Infinite Coordinator', js: true do
       publish: true
     )
 
-    41.times do |i| # 3 batches
+  31.times do |i| # 2 batches
       instance_variable_set("@ao#{i + 1}_of_ao2", create(:archival_object,
         resource: {'ref' => @resource.uri},
         parent: {'ref' => @ao2.uri},
@@ -59,13 +59,14 @@ describe 'Collection Organization Infinite Coordinator', js: true do
 
       it 'when its batch is rendered on scroll' do
         page.find('.load-all__label-toggle').click
-        ao41_of_ao2_record = @records_container.find("[data-uri='#{@ao41_of_ao2.uri}']")
-        @records_container.scroll_to(ao41_of_ao2_record, align: :top)
+        last_record_uri = @ao31_of_ao2.uri
+        last_record = @records_container.find("[data-uri='#{last_record_uri}']")
+        @records_container.scroll_to(last_record, align: :top)
         @ao2_expand_btn.click
         observer_node = @tree_container.find('[data-observe-next-batch]')
         expect(@tree_container).not_to have_css('.current')
-        @tree_container.scroll_to(observer_node)
-        expect(@tree_container).to have_css("[data-uri='#{@ao41_of_ao2.uri}'].current")
+        @tree_container.scroll_to(observer_node, align: :center)
+        expect(@tree_container).to have_css("[data-uri='#{last_record_uri}'].current")
       end
     end
   end

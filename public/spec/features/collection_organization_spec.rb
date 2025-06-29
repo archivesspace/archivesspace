@@ -56,8 +56,7 @@ describe 'Collection Organization', js: true do
     before(:all) do
       set_repo(@repo)
 
-      81.times do |i|
-        # `WAYPOINT_SIZE = 200` defined in `backend/app/model/large_tree.rb`
+      121.times do |i| # 5 batches
         instance_variable_set("@ao#{i + 1}_of_ao3", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao3.uri},
@@ -65,7 +64,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      41.times do |i|
+      61.times do |i| # 3 batches
         instance_variable_set("@ao#{i + 1}_of_ao4", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao4.uri},
@@ -73,7 +72,7 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      21.times do |i|
+      31.times do |i| # 2 batches
         instance_variable_set("@ao#{i + 1}_of_ao5", create(:archival_object,
           resource: {'ref' => @resource.uri},
           parent: {'ref' => @ao5.uri},
@@ -334,27 +333,27 @@ describe 'Collection Organization', js: true do
         expect(@ao3_node['aria-expanded']).to eq "true"
         expect(@ao3_node['data-has-expanded']).to eq "true"
         expect(@ao3_node).to have_css('.node-expand-icon.expanded')
-        expect(@ao3_node).to have_css('& > .node-children > .node', count: 20, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > .node', count: 30, visible: true)
 
         @ao3_node.find('.node-expand').click
         expect(@ao3_node['aria-expanded']).to eq "false"
         expect(@ao3_node['data-has-expanded']).to eq "true"
         expect(@ao3_node).to have_css('.node-expand-icon:not(.expanded)')
-        expect(@ao3_node).to have_css('& > .node-children > .node', count: 20, visible: false)
+        expect(@ao3_node).to have_css('& > .node-children > .node', count: 30, visible: false)
       end
 
       it 'children are loaded in "batches" on scroll when the parent has more children than the configured batch size' do
         @ao3_node.find('.node-expand').click
-        expect(@ao3_node).to have_css('& > .node-children > li', count: 24, visible: :all)
-        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 20, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 34, visible: :all)
+        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 30, visible: true)
         expect(@ao3_node).to have_css('& > .node-children > li:nth-last-child(-n+4)[data-batch-placeholder]', count: 4, visible: false)
 
         observer_node = @ao3_node.find('[data-observe-next-batch="true"]')
         @container.scroll_to(observer_node, align: :center)
 
-        expect(@ao3_node).to have_css('& > .node-children > li', count: 43, visible: :all)
-        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 40, visible: true)
-        expect(@ao3_node).to have_css('& > .node-children > li:nth-last-child(-n+3)[data-batch-placeholder]', visible: false)
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 63, visible: :all)
+        expect(@ao3_node).to have_css('& > .node-children > li.node', count: 60, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > li:nth-last-child(-n+3)[data-batch-placeholder]', count: 3, visible: false)
       end
 
       it 'hide all children when collapsed' do
@@ -368,11 +367,11 @@ describe 'Collection Organization', js: true do
         @container.scroll_to(observer_node_3, align: :center)
         observer_node_4 = @ao3_node.find('[data-observe-offset="4"]')
         @container.scroll_to(observer_node_4, align: :center)
-        expect(@ao3_node).to have_css('& > .node-children > li', count: 81, visible: true)
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 121, visible: true)
         expect(@ao3_node).not_to have_css('& > .node-children > [data-batch-placeholder]')
 
         @ao3_node.find('.node-expand').click
-        expect(@ao3_node).to have_css('& > .node-children > li', count: 81, visible: false)
+        expect(@ao3_node).to have_css('& > .node-children > li', count: 121, visible: false)
       end
     end
   end
