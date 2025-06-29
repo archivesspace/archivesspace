@@ -5,65 +5,39 @@ describe 'Collection Organization', js: true do
   before(:all) do
     @repo = create(:repo, repo_code: "collection_organization_test_#{Time.now.to_i}")
     set_repo(@repo)
-
+    
     @tree_batch_size = Rails.configuration.infinite_tree_batch_size
   end
-
+  
   describe 'InfiniteTree' do
     before(:all) do
-      @resource = create(:resource,
-        title: 'This is <emph render="italic">a mixed content</emph> title',
-        publish: true
+      @resource = create(:resource, publish: true)
+      @ao1 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
+      @ao2 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
+      @ao3 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
+      @ao4 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
+      @ao5 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
+      @ao6 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
+      @ao7 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
+      
+      @ao1_of_ao6 = create(:archival_object, # 1 batch with a single node
+      resource: {'ref' => @resource.uri},
+      parent: {'ref' => @ao6.uri},
+      publish: true
       )
-      @ao1 = create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        publish: true
-      )
-      @ao2 = create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        publish: true
-      )
-      @ao3 = create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        publish: true
-      )
-      @ao4 = create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        publish: true
-      )
-      @ao5 = create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        publish: true
-      )
-      @ao6 = create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        publish: true
-      )
-      @ao7 = create(:archival_object,
-         resource: {'ref' => @resource.uri},
-         publish: true
-       )
 
-      151.times do |i| # 6 batches
-        instance_variable_set("@ao#{i + 1}_of_ao1", create(:archival_object,
-          resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao1.uri},
-          publish: true
+      5.times do |i| # 1 batch with multiple nodes
+        instance_variable_set("@ao#{i + 1}_of_ao7", create(:archival_object,
+        resource: {'ref' => @resource.uri},
+        parent: {'ref' => @ao7.uri},
+        publish: true
         ))
       end
 
-      121.times do |i| # 5 batches
-        instance_variable_set("@ao#{i + 1}_of_ao2", create(:archival_object,
+      31.times do |i| # 2 batches
+        instance_variable_set("@ao#{i + 1}_of_ao5", create(:archival_object,
           resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao2.uri},
-          publish: true
-        ))
-      end
-
-      91.times do |i| # 4 batches
-        instance_variable_set("@ao#{i + 1}_of_ao3", create(:archival_object,
-          resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao3.uri},
+          parent: {'ref' => @ao5.uri},
           publish: true
         ))
       end
@@ -76,24 +50,26 @@ describe 'Collection Organization', js: true do
         ))
       end
 
-      31.times do |i| # 2 batches
-        instance_variable_set("@ao#{i + 1}_of_ao5", create(:archival_object,
+      91.times do |i| # 4 batches
+        instance_variable_set("@ao#{i + 1}_of_ao3", create(:archival_object,
           resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao5.uri},
+          parent: {'ref' => @ao3.uri},
           publish: true
         ))
       end
 
-      @ao1_of_ao6 = create(:archival_object, # 1 batch with a single node
+      121.times do |i| # 5 batches
+        instance_variable_set("@ao#{i + 1}_of_ao2", create(:archival_object,
         resource: {'ref' => @resource.uri},
-        parent: {'ref' => @ao6.uri},
+        parent: {'ref' => @ao2.uri},
         publish: true
-      )
+        ))
+      end
 
-      5.times do |i| # 1 batch with multiple nodes
-        instance_variable_set("@ao#{i + 1}_of_ao7", create(:archival_object,
+      151.times do |i| # 6 batches
+        instance_variable_set("@ao#{i + 1}_of_ao1", create(:archival_object,
           resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao7.uri},
+          parent: {'ref' => @ao1.uri},
           publish: true
         ))
       end
@@ -302,332 +278,14 @@ describe 'Collection Organization', js: true do
 
         let(:parent_list) { node.find(:xpath, '..') }
 
-        context "the target node's parent has 6 batches of child nodes" do
-          let(:total_nodes) { 151 }
-          let(:parent) { 'ao1' }
-
-          context 'and the target node is in the first batch' do
-            let(:batch_target) { 0 }
-            let(:expected_populated_batches) { [0, 1] }
-            let(:expected_batch_placeholders) { [2, 3, 4, 5] }
-            let(:expected_node_count_on_page_load) { 60 }
-            let(:node_position) { 15 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the second batch' do
-            let(:batch_target) { 1 }
-            let(:expected_populated_batches) { [0, 1, 2] }
-            let(:expected_batch_placeholders) { [3, 4, 5] }
-            let(:expected_node_count_on_page_load) { 90 }
-            let(:node_position) { 45 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the third batch' do
-            let(:batch_target) { 2 }
-            let(:expected_populated_batches) { [0, 1, 2, 3] }
-            let(:expected_batch_placeholders) { [4, 5] }
-            let(:expected_node_count_on_page_load) { 120 }
-            let(:node_position) { 75 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the fourth batch' do
-            let(:batch_target) { 3 }
-            let(:expected_populated_batches) { [0, 2, 3, 4] }
-            let(:expected_batch_placeholders) { [1, 5] }
-            let(:expected_node_count_on_page_load) { 120 }
-            let(:node_position) { 105 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the fifth batch' do
-            let(:batch_target) { 4 }
-            let(:expected_populated_batches) { [0, 3, 4, 5] }
-            let(:expected_batch_placeholders) { [1, 2] }
-            let(:expected_node_count_on_page_load) { 91 }
-            let(:node_position) { 135 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the sixth batch' do
-            let(:batch_target) { 5 }
-            let(:expected_populated_batches) { [0, 4, 5] }
-            let(:expected_batch_placeholders) { [1, 2, 3] }
-            let(:expected_node_count_on_page_load) { 61 }
-            let(:node_position) { 151 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-        end
-
-        context "the target node's parent has 5 batches of child nodes" do
-          let(:total_nodes) { 121 }
-          let(:parent) { 'ao2' }
-
-          context 'and the target node is in the first batch' do
-            let(:batch_target) { 0 }
-            let(:expected_populated_batches) { [0, 1] }
-            let(:expected_batch_placeholders) { [2, 3, 4] }
-            let(:expected_node_count_on_page_load) { 60 }
-            let(:node_position) { 15 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the second batch' do
-            let(:batch_target) { 1 }
-            let(:expected_populated_batches) { [0, 1, 2] }
-            let(:expected_batch_placeholders) { [3, 4] }
-            let(:expected_node_count_on_page_load) { 90 }
-            let(:node_position) { 45 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the third batch' do
-            let(:batch_target) { 2 }
-            let(:expected_populated_batches) { [0, 1, 2, 3] }
-            let(:expected_batch_placeholders) { [4] }
-            let(:expected_node_count_on_page_load) { 120 }
-            let(:node_position) { 75 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the fourth batch' do
-            let(:batch_target) { 3 }
-            let(:expected_populated_batches) { [0, 2, 3, 4] }
-            let(:expected_batch_placeholders) { [1] }
-            let(:expected_node_count_on_page_load) { 91 }
-            let(:node_position) { 105 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the fifth batch' do
-            let(:batch_target) { 4 }
-            let(:expected_populated_batches) { [0, 3, 4] }
-            let(:expected_batch_placeholders) { [1, 2] }
-            let(:expected_node_count_on_page_load) { 61 }
-            let(:node_position) { 121 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-        end
-
-        context "the target node's parent has 4 batches of child nodes" do
-          let(:total_nodes) { 91 }
-          let(:parent) { 'ao3' }
-
-          context 'and the target node is in the first batch' do
-            let(:batch_target) { 0 }
-            let(:expected_populated_batches) { [0, 1] }
-            let(:expected_batch_placeholders) { [2, 3] }
-            let(:node_position) { 25 }
-            let(:expected_node_count_on_page_load) { 60 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the second batch' do
-            let(:batch_target) { 1 }
-            let(:expected_populated_batches) { [0, 1, 2] }
-            let(:expected_batch_placeholders) { [3] }
-            let(:node_position) { 45 }
-            let(:expected_node_count_on_page_load) { 90 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the third batch' do
-            let(:batch_target) { 2 }
-            let(:expected_populated_batches) { [0, 1, 2, 3] }
-            let(:expected_batch_placeholders) { [] }
-            let(:node_position) { 75 }
-            let(:expected_node_count_on_page_load) { 91 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
-          end
-
-          context 'and the target node is in the fourth batch' do
-            let(:batch_target) { 3 }
-            let(:expected_populated_batches) { [0, 2, 3] }
-            let(:expected_batch_placeholders) { [1] }
-            let(:expected_node_count_on_page_load) { 61 }
-            let(:node_position) { 91 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-        end
-
-        context "the target node's parent has 3 batches of child nodes" do
-          let(:total_nodes) { 61 }
-          let(:parent) { 'ao4' }
-
-          context 'and the target node is in the first batch' do
-            let(:batch_target) { 0 }
-            let(:expected_populated_batches) { [0, 1] }
-            let(:expected_batch_placeholders) { [2] }
-            let(:node_position) { 15 }
-            let(:expected_node_count_on_page_load) { 60 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
-            it_behaves_like 'scrolling loads remaining batches'
-          end
-
-          context 'and the target node is in the second batch' do
-            let(:batch_target) { 1 }
-            let(:expected_populated_batches) { [0, 1, 2] }
-            let(:expected_batch_placeholders) { [] }
-            let(:node_position) { 45 }
-            let(:expected_node_count_on_page_load) { 61 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
-          end
-
-          context 'and the target node is in the third batch' do
-            let(:batch_target) { 2 }
-            let(:expected_populated_batches) { [0, 1, 2] }
-            let(:expected_batch_placeholders) { [] }
-            let(:node_position) { 61 }
-            let(:expected_node_count_on_page_load) { 61 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
-          end
-        end
-
-        context "the target node's parent has 2 batches of child nodes" do
-          let(:total_nodes) { 31 }
-          let(:parent) { 'ao5' }
-
-          context 'and the target node is in the first batch' do
-            let(:batch_target) { 0 }
-            let(:expected_populated_batches) { [0, 1] }
-            let(:expected_batch_placeholders) { [] }
-            let(:node_position) { 15 }
-            let(:expected_node_count_on_page_load) { 31 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
-          end
-
-          context 'and the target node is in the second batch' do
-            let(:batch_target) { 1 }
-            let(:expected_populated_batches) { [0, 1] }
-            let(:expected_batch_placeholders) { [] }
-            let(:node_position) { 31 }
-            let(:expected_node_count_on_page_load) { 31 }
-
-            it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
-          end
-        end
-
         context "the target node's parent has 1 batch of child nodes" do
           context 'containing a single node' do
-            let(:total_nodes) { 1 }
             let(:parent) { 'ao6' }
+            let(:total_nodes) { 1 }
             let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 1 }
             let(:expected_populated_batches) { [0] }
             let(:expected_batch_placeholders) { [] }
-            let(:expected_node_count_on_page_load) { 1 }
             let(:node_position) { 1 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
@@ -647,12 +305,12 @@ describe 'Collection Organization', js: true do
           end
 
           context 'containing multiple nodes' do
-            let(:total_nodes) { 5 }
             let(:parent) { 'ao7' }
+            let(:total_nodes) { 5 }
             let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 5 }
             let(:expected_populated_batches) { [0] }
             let(:expected_batch_placeholders) { [] }
-            let(:expected_node_count_on_page_load) { 5 }
             let(:node_position) { 2 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
@@ -684,6 +342,324 @@ describe 'Collection Organization', js: true do
                 end
               end
             end
+          end
+        end
+
+        context "the target node's parent has 2 batches of child nodes" do
+          let(:parent) { 'ao5' }
+          let(:total_nodes) { 31 }
+
+          context 'and the target node is in the first batch' do
+            let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 31 }
+            let(:expected_populated_batches) { [0, 1] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 15 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'having all nodes loaded'
+          end
+
+          context 'and the target node is in the second batch' do
+            let(:batch_target) { 1 }
+            let(:expected_node_count_on_page_load) { 31 }
+            let(:expected_populated_batches) { [0, 1] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 31 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'having all nodes loaded'
+          end
+        end
+
+        context "the target node's parent has 3 batches of child nodes" do
+          let(:parent) { 'ao4' }
+          let(:total_nodes) { 61 }
+
+          context 'and the target node is in the first batch' do
+            let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 60 }
+            let(:expected_populated_batches) { [0, 1] }
+            let(:expected_batch_placeholders) { [2] }
+            let(:node_position) { 15 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the second batch' do
+            let(:batch_target) { 1 }
+            let(:expected_node_count_on_page_load) { 61 }
+            let(:expected_populated_batches) { [0, 1, 2] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 45 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'having all nodes loaded'
+          end
+
+          context 'and the target node is in the third batch' do
+            let(:batch_target) { 2 }
+            let(:expected_node_count_on_page_load) { 61 }
+            let(:expected_populated_batches) { [0, 1, 2] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 61 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'having all nodes loaded'
+          end
+        end
+
+        context "the target node's parent has 4 batches of child nodes" do
+          let(:parent) { 'ao3' }
+          let(:total_nodes) { 91 }
+
+          context 'and the target node is in the first batch' do
+            let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 60 }
+            let(:expected_populated_batches) { [0, 1] }
+            let(:expected_batch_placeholders) { [2, 3] }
+            let(:node_position) { 25 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the second batch' do
+            let(:batch_target) { 1 }
+            let(:expected_node_count_on_page_load) { 90 }
+            let(:expected_populated_batches) { [0, 1, 2] }
+            let(:expected_batch_placeholders) { [3] }
+            let(:node_position) { 45 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the third batch' do
+            let(:batch_target) { 2 }
+            let(:expected_node_count_on_page_load) { 91 }
+            let(:expected_populated_batches) { [0, 1, 2, 3] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 75 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'having all nodes loaded'
+          end
+
+          context 'and the target node is in the fourth batch' do
+            let(:batch_target) { 3 }
+            let(:expected_node_count_on_page_load) { 61 }
+            let(:expected_populated_batches) { [0, 2, 3] }
+            let(:expected_batch_placeholders) { [1] }
+            let(:node_position) { 91 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+        end
+
+        context "the target node's parent has 5 batches of child nodes" do
+          let(:parent) { 'ao2' }
+          let(:total_nodes) { 121 }
+
+          context 'and the target node is in the first batch' do
+            let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 60 }
+            let(:expected_populated_batches) { [0, 1] }
+            let(:expected_batch_placeholders) { [2, 3, 4] }
+            let(:node_position) { 15 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the second batch' do
+            let(:batch_target) { 1 }
+            let(:expected_node_count_on_page_load) { 90 }
+            let(:expected_populated_batches) { [0, 1, 2] }
+            let(:expected_batch_placeholders) { [3, 4] }
+            let(:node_position) { 45 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the third batch' do
+            let(:batch_target) { 2 }
+            let(:expected_node_count_on_page_load) { 120 }
+            let(:expected_populated_batches) { [0, 1, 2, 3] }
+            let(:expected_batch_placeholders) { [4] }
+            let(:node_position) { 75 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the fourth batch' do
+            let(:batch_target) { 3 }
+            let(:expected_node_count_on_page_load) { 91 }
+            let(:expected_populated_batches) { [0, 2, 3, 4] }
+            let(:expected_batch_placeholders) { [1] }
+            let(:node_position) { 105 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the fifth batch' do
+            let(:batch_target) { 4 }
+            let(:expected_node_count_on_page_load) { 61 }
+            let(:expected_populated_batches) { [0, 3, 4] }
+            let(:expected_batch_placeholders) { [1, 2] }
+            let(:node_position) { 121 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+        end
+
+        context "the target node's parent has 6 batches of child nodes" do
+          let(:parent) { 'ao1' }
+          let(:total_nodes) { 151 }
+
+          context 'and the target node is in the first batch' do
+            let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 60 }
+            let(:expected_populated_batches) { [0, 1] }
+            let(:expected_batch_placeholders) { [2, 3, 4, 5] }
+            let(:node_position) { 15 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the second batch' do
+            let(:batch_target) { 1 }
+            let(:expected_node_count_on_page_load) { 90 }
+            let(:expected_populated_batches) { [0, 1, 2] }
+            let(:expected_batch_placeholders) { [3, 4, 5] }
+            let(:node_position) { 45 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the third batch' do
+            let(:batch_target) { 2 }
+            let(:expected_node_count_on_page_load) { 120 }
+            let(:expected_populated_batches) { [0, 1, 2, 3] }
+            let(:expected_batch_placeholders) { [4, 5] }
+            let(:node_position) { 75 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the fourth batch' do
+            let(:batch_target) { 3 }
+            let(:expected_node_count_on_page_load) { 120 }
+            let(:expected_populated_batches) { [0, 2, 3, 4] }
+            let(:expected_batch_placeholders) { [1, 5] }
+            let(:node_position) { 105 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the fifth batch' do
+            let(:batch_target) { 4 }
+            let(:expected_node_count_on_page_load) { 91 }
+            let(:expected_populated_batches) { [0, 3, 4, 5] }
+            let(:expected_batch_placeholders) { [1, 2] }
+            let(:node_position) { 135 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'scrolling loads remaining batches'
+          end
+
+          context 'and the target node is in the sixth batch' do
+            let(:batch_target) { 5 }
+            let(:expected_node_count_on_page_load) { 61 }
+            let(:expected_populated_batches) { [0, 4, 5] }
+            let(:expected_batch_placeholders) { [1, 2, 3] }
+            let(:node_position) { 151 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading middle batches'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'scrolling loads remaining batches'
           end
         end
       end
@@ -720,14 +696,7 @@ describe 'Collection Organization', js: true do
         end
 
         context 'when the root node has 3 batches of child nodes' do
-          let(:node) do
-            visit "/repositories/#{@repo.id}/resources/#{@resource3.id}/collection_organization#tree::resource_#{@resource3.id}"
-            wait_for_jquery
-
-            find(".infinite-tree .root.current")
-          end
-
-          let(:parent_list) { node.find('& > .node-children') }
+          let(:resource_id) { @resource3.id }
           let(:total_nodes) { 61 }
           let(:parent) { 'resource3' }
           let(:expected_node_count_on_page_load) { 30 }
