@@ -5,10 +5,10 @@ describe 'Collection Organization', js: true do
   before(:all) do
     @repo = create(:repo, repo_code: "collection_organization_test_#{Time.now.to_i}")
     set_repo(@repo)
-    
+
     @tree_batch_size = Rails.configuration.infinite_tree_batch_size
   end
-  
+
   describe 'InfiniteTree' do
     before(:all) do
       @resource = create(:resource, publish: true)
@@ -19,25 +19,25 @@ describe 'Collection Organization', js: true do
       @ao5 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
       @ao6 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
       @ao7 = create(:archival_object, resource: {'ref' => @resource.uri}, publish: true)
-      
-      @ao1_of_ao6 = create(:archival_object, # 1 batch with a single node
-      resource: {'ref' => @resource.uri},
-      parent: {'ref' => @ao6.uri},
-      publish: true
+
+      @ao1_of_ao1 = create(:archival_object, # 1 batch with a single node
+        resource: {'ref' => @resource.uri},
+        parent: {'ref' => @ao1.uri},
+        publish: true
       )
 
       5.times do |i| # 1 batch with multiple nodes
-        instance_variable_set("@ao#{i + 1}_of_ao7", create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        parent: {'ref' => @ao7.uri},
-        publish: true
+        instance_variable_set("@ao#{i + 1}_of_ao2", create(:archival_object,
+          resource: {'ref' => @resource.uri},
+          parent: {'ref' => @ao2.uri},
+          publish: true
         ))
       end
 
       31.times do |i| # 2 batches
-        instance_variable_set("@ao#{i + 1}_of_ao5", create(:archival_object,
+        instance_variable_set("@ao#{i + 1}_of_ao3", create(:archival_object,
           resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao5.uri},
+          parent: {'ref' => @ao3.uri},
           publish: true
         ))
       end
@@ -51,25 +51,25 @@ describe 'Collection Organization', js: true do
       end
 
       91.times do |i| # 4 batches
-        instance_variable_set("@ao#{i + 1}_of_ao3", create(:archival_object,
+        instance_variable_set("@ao#{i + 1}_of_ao5", create(:archival_object,
           resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao3.uri},
+          parent: {'ref' => @ao5.uri},
           publish: true
         ))
       end
 
       121.times do |i| # 5 batches
-        instance_variable_set("@ao#{i + 1}_of_ao2", create(:archival_object,
-        resource: {'ref' => @resource.uri},
-        parent: {'ref' => @ao2.uri},
-        publish: true
+        instance_variable_set("@ao#{i + 1}_of_ao6", create(:archival_object,
+          resource: {'ref' => @resource.uri},
+          parent: {'ref' => @ao6.uri},
+          publish: true
         ))
       end
 
       151.times do |i| # 6 batches
-        instance_variable_set("@ao#{i + 1}_of_ao1", create(:archival_object,
+        instance_variable_set("@ao#{i + 1}_of_ao7", create(:archival_object,
           resource: {'ref' => @resource.uri},
-          parent: {'ref' => @ao1.uri},
+          parent: {'ref' => @ao7.uri},
           publish: true
         ))
       end
@@ -280,7 +280,7 @@ describe 'Collection Organization', js: true do
 
         context "the target node's parent has 1 batch of child nodes" do
           context 'containing a single node' do
-            let(:parent) { 'ao6' }
+            let(:parent) { 'ao1' }
             let(:total_nodes) { 1 }
             let(:batch_target) { 0 }
             let(:expected_node_count_on_page_load) { 1 }
@@ -305,7 +305,7 @@ describe 'Collection Organization', js: true do
           end
 
           context 'containing multiple nodes' do
-            let(:parent) { 'ao7' }
+            let(:parent) { 'ao2' }
             let(:total_nodes) { 5 }
             let(:batch_target) { 0 }
             let(:expected_node_count_on_page_load) { 5 }
@@ -346,7 +346,7 @@ describe 'Collection Organization', js: true do
         end
 
         context "the target node's parent has 2 batches of child nodes" do
-          let(:parent) { 'ao5' }
+          let(:parent) { 'ao3' }
           let(:total_nodes) { 31 }
 
           context 'and the target node is in the first batch' do
@@ -425,7 +425,7 @@ describe 'Collection Organization', js: true do
         end
 
         context "the target node's parent has 4 batches of child nodes" do
-          let(:parent) { 'ao3' }
+          let(:parent) { 'ao5' }
           let(:total_nodes) { 91 }
 
           context 'and the target node is in the first batch' do
@@ -489,7 +489,7 @@ describe 'Collection Organization', js: true do
         end
 
         context "the target node's parent has 5 batches of child nodes" do
-          let(:parent) { 'ao2' }
+          let(:parent) { 'ao6' }
           let(:total_nodes) { 121 }
 
           context 'and the target node is in the first batch' do
@@ -569,7 +569,7 @@ describe 'Collection Organization', js: true do
         end
 
         context "the target node's parent has 6 batches of child nodes" do
-          let(:parent) { 'ao1' }
+          let(:parent) { 'ao7' }
           let(:total_nodes) { 151 }
 
           context 'and the target node is in the first batch' do
