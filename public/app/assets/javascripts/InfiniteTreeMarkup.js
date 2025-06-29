@@ -34,15 +34,30 @@
     }
 
     /**
-     * Creates a tree structure with a root node
-     * @param {string} title - Display text for the root node
-     * @returns {DocumentFragment} An <ol> with a single <li>
+     * Creates a root list element
+     * @returns {DocumentFragment} - The root <ol> element
      */
-    root(title) {
-      const _title = new MixedContent(title);
+    rootList() {
+      const listFrag = new DocumentFragment();
+      const listTemplate = document
+        .querySelector('#infinite-tree-root-list-template')
+        .content.cloneNode(true);
+
+      listFrag.appendChild(listTemplate);
+
+      return listFrag;
+    }
+
+    /**
+     * Creates a root node element
+     * @param {string} title - Display text for the root node
+     * @returns {DocumentFragment} - The root <li> element
+     */
+    rootNode(title) {
+      const _title = new MixedContentHelper(title);
       const rootFrag = new DocumentFragment();
       const rootTemplate = document
-        .querySelector('#infinite-tree-root-template')
+        .querySelector('#infinite-tree-root-node-template')
         .content.cloneNode(true);
       const rootElement = rootTemplate.querySelector('li');
       const contentWrapper = rootTemplate.querySelector('.node-body');
@@ -68,14 +83,14 @@
     /**
      * Creates a list of empty placeholders for batches of children
      * @param {string} parentElementId - Value of the parent node's HTML id attribute
-     * @param {number} level - Tree level of the children (0 for root)
-     * @param {number} numBatches - Number of batch placeholders to create
-     * @returns {DocumentFragment} - An <ol> with placeholder <li>s
+     * @param {number} level - The tree level (root is 0)
+     * @param {number} numBatches - Number of batch placeholder list items to create
+     * @returns {DocumentFragment} - An <ol> element with appropriate attributes and batch placeholder <li>s
      */
-    list(parentElementId, level, numBatches) {
+    nodeList(parentElementId, level, numBatches) {
       const listFrag = new DocumentFragment();
       const listTemplate = document
-        .querySelector('#infinite-tree-children-list-template')
+        .querySelector('#infinite-tree-node-list-template')
         .content.cloneNode(true);
       const listElement = listTemplate.querySelector('ol');
 
@@ -114,7 +129,7 @@
     node(data, level, shouldObserve, parentId = null, offset = null) {
       const nodeRecordId = data.uri.split('/')[4];
       const nodeElementId = `archival_object_${nodeRecordId}`;
-      const title = new MixedContent(this.title(data));
+      const title = new MixedContentHelper(this.title(data));
       const aHref = `#tree::${nodeElementId}`;
       const nodeFrag = new DocumentFragment();
       const nodeTemplate = document
@@ -151,7 +166,7 @@
         }
 
         nodeElement.setAttribute('data-observe-next-batch', 'true');
-        nodeElement.setAttribute('data-observe-node', parentUri);
+        nodeElement.setAttribute('data-parent-uri', parentUri);
         nodeElement.setAttribute('data-observe-offset', offset);
       }
 

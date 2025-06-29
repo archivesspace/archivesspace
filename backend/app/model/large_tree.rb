@@ -54,7 +54,8 @@ class LargeTree
 
   include JSONModel
 
-  WAYPOINT_SIZE = 200
+  # The size of each Infinite Tree batch (called waypoint for historical reasons).  This is the number of nodes that will be returned in each waypoint.
+  ENV["ASPACE_INTEGRATION"] == "true" ? WAYPOINT_SIZE = 30 : WAYPOINT_SIZE = 200
 
   def initialize(root_record, opts = {})
     @decorators = []
