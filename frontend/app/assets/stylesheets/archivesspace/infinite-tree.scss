@@ -1,21 +1,55 @@
 :root {
   --tree-indent-width: 1.5rem;
-  --tree-line-color: white;
   --tree-line-width: 1px;
-  --tree-unit-width: calc(var(--tree-indent-width) + var(--tree-line-width));
-}
+  --tree-indent-unit-width: calc(
+    var(--tree-indent-width) + var(--tree-line-width)
+  );
 
-$lightshade: #f1f1f1;
-$midblue: #007bff;
-$darkest: #001f4d;
-$secondary-color: #212529;
-$darkblue: #004080;
+  // Original largetree column widths
+  --tree-column-width-sm: 8%;
+  --tree-column-width-md: 18%;
+  --tree-column-width-lg: 28%;
+  --tree-column-width-xl: 46%;
+  --tree-column-title-width: var(--tree-column-width-xl);
+  --tree-column-container-width: var(--tree-column-width-lg);
+  --tree-column-identifier-width: calc(
+    var(--tree-column-width-lg) - var(--tree-column-width-md)
+  );
+
+  // ANW-2251 Yet another color scheme in addition to variables.scss and common.scss
+  // for parity with original largetree
+  // Grays from lightest to darkest
+  --gray-0: white;
+  --gray-100: #fafafa;
+  --gray-150: #f1f1f1;
+  --gray-200: #eee;
+  --gray-500: #555;
+
+  // Blues from lightest to darkest
+  --blue-50: #effaff;
+  --blue-500: #007bff;
+  --blue-800: #004080;
+  --blue-950: #001f4d;
+
+  // Semantic usage
+  --tree-bg-subtle: var(--gray-150);
+  --tree-container-border: var(--gray-200);
+  --tree-container-bg: var(--gray-200);
+  --tree-line-color: var(--gray-0);
+  --tree-row-even-bg: var(--gray-100);
+  --tree-row-hover-bg: var(--gray-100);
+  --tree-current-bg: var(--blue-50);
+  --tree-expand-text: var(--gray-500);
+  --tree-current-border: var(--blue-500);
+  --tree-link-hover: var(--blue-800);
+  --tree-expand-hover: var(--blue-950);
+}
 
 #infinite-tree-container {
   height: 400px;
   margin: 0 1rem;
-  border: 1px solid #eee;
-  background-color: #eee;
+  border: 1px solid var(--tree-container-border);
+  background-color: var(--tree-container-bg);
   overflow-y: auto;
 }
 
@@ -29,13 +63,16 @@ $darkblue: #004080;
 .infinite-tree {
   font-size: 1rem;
   background-color: $white;
+
+  &.has-identifier-column {
+    --tree-column-container-width: var(--tree-column-width-md);
+  }
 }
 
 .root.node {
   > .node-row > .node-body {
-    padding-left: 0.25rem;
     font-weight: normal;
-    background-color: $lightshade;
+    background-color: var(--tree-bg-subtle);
   }
 
   > .node-children > .node:last-child > .node-row > .node-body {
@@ -47,7 +84,7 @@ $darkblue: #004080;
   position: relative;
 
   &:nth-child(even) > .node-row > .node-body {
-    background-color: #fafafa;
+    background-color: var(--tree-row-even-bg);
   }
 
   &[aria-expanded='false'] > .node-children {
@@ -56,7 +93,7 @@ $darkblue: #004080;
 
   &.current > .node-row > .node-body {
     position: relative;
-    background-color: #effaff;
+    background-color: var(--tree-current-bg);
 
     &::after {
       content: '';
@@ -65,7 +102,7 @@ $darkblue: #004080;
       left: 0;
       right: 0;
       bottom: -1px;
-      border: 1px solid $midblue;
+      border: 1px solid var(--tree-current-border);
       pointer-events: none;
     }
   }
@@ -84,8 +121,36 @@ $darkblue: #004080;
   align-items: center;
   line-height: 2rem;
 
+  > .node-column {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  > .node-column[data-column='title'] {
+    margin-left: calc(var(--tree-indent-unit-width) * var(--level, 0));
+    flex: 0 0 var(--tree-column-title-width);
+  }
+
+  > .node-column[data-column='level'] {
+    flex: 0 0 var(--tree-column-width-sm);
+  }
+
+  > .node-column[data-column='type'] {
+    flex: 0 0 var(--tree-column-width-md);
+  }
+
+  > .node-column[data-column='container'] {
+    flex: 0 0 var(--tree-column-container-width);
+  }
+
+  > .node-column[data-column='identifier'] {
+    flex: 0 0 var(--tree-column-identifier-width);
+  }
+
   &:hover {
-    background-color: #fafafa;
+    background-color: var(--tree-row-hover-bg);
   }
 }
 
@@ -95,27 +160,27 @@ $darkblue: #004080;
   left: 0;
   bottom: 0;
   width: calc(
-    (var(--tree-unit-width) * var(--level, 1)) - var(--tree-line-width)
+    (var(--tree-indent-unit-width) * var(--level, 1)) - var(--tree-line-width)
   );
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  background-color: $lightshade;
+  background-color: var(--tree-bg-subtle);
   background-image: repeating-linear-gradient(
     90deg,
-    $lightshade,
-    $lightshade var(--tree-indent-width),
+    var(--tree-bg-subtle),
+    var(--tree-bg-subtle) var(--tree-indent-width),
     var(--tree-line-color) var(--tree-indent-width),
-    var(--tree-line-color) var(--tree-unit-width)
+    var(--tree-line-color) var(--tree-indent-unit-width)
   );
 
-  /* 
-    1. Rotate gradient horizontally for vertical line
-    2. Start background color
+  /* Gradient args:
+    1. Rotate gradient horizontally for a vertical line
+    2. Begin background color
     3. Extend background color to indent width
     4. Start vertical line at indent
     5. End vertical line at unit width
-  */
+   */
 }
 
 @for $i from 1 through 12 {
@@ -124,8 +189,8 @@ $darkblue: #004080;
       --level: #{$i};
     }
 
-    .node-title-container {
-      padding-left: calc(var(--tree-unit-width) * #{$i});
+    .node-column[data-column='title'] {
+      padding-left: calc(var(--tree-indent-unit-width) * #{$i});
     }
   }
 }
@@ -140,12 +205,12 @@ $darkblue: #004080;
   justify-content: center;
   flex-shrink: 0;
   font-size: 0.875rem;
-  color: #555;
-  background-color: $lightshade;
+  color: var(--tree-expand-text);
+  background-color: var(--tree-bg-subtle);
   cursor: pointer;
 
   &:hover {
-    color: $darkest;
+    color: var(--tree-expand-hover);
   }
 }
 
@@ -157,29 +222,24 @@ $darkblue: #004080;
   }
 }
 
-.node-title-container {
-  min-height: var(--tree-indent-width);
-  min-width: 0;
+.node-column[data-column='title'] {
   display: flex;
   align-items: center;
   flex-grow: 1;
-  overflow: hidden;
-}
 
-.node-title {
-  position: relative;
-  min-width: 0;
-  padding-left: 0.25rem;
-  flex-shrink: 1;
-  text-decoration: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  user-select: text;
-  cursor: pointer;
+  > .node-title {
+    min-width: 0;
+    padding-left: 0.25rem;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: text;
+    cursor: pointer;
 
-  &:hover {
-    text-decoration: underline;
-    color: $darkblue;
+    &:hover {
+      text-decoration: underline;
+      color: var(--tree-link-hover);
+    }
   }
 }
