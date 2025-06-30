@@ -2,7 +2,7 @@
 
 <div
   id="infinite-tree-container"
-  data-resource-uri="<%= @resource.uri %>"
+  data-resource-uri="<%= @resource.uri %>" # TODO make this applicable to all record types with trees
 >
 </div>
 
@@ -16,6 +16,12 @@
           <div class="node-title-container">
             <a class="node-title" href></a>
           </div>
+          <div class="node-resource-level">Collection</div>
+          <div class="node-resource-type"></div>
+          <div class="node-resource-container"></div>
+          <% if AppConfig[:display_identifiers_in_largetree_container] %>
+            <div class="node-resource-identifier"></div>
+          <% end %>
         </div>
       </div>
       <%# ol.node-children to be inserted here by JS %>
@@ -31,6 +37,12 @@
         <div class="node-title-container">
           <a class="node-title" href></a>
         </div>
+        <div class="node-resource-level">Series</div>
+        <div class="node-resource-type"></div>
+        <div class="node-resource-container"></div>
+        <% if AppConfig[:display_identifiers_in_largetree_container] %>
+          <div class="node-resource-identifier"></div>
+        <% end %>
       </div>
     </div>
     <%# ol.node-children to be inserted here by JS on expand %>
@@ -62,6 +74,7 @@
 
 
 <script>
+// TODO make this applicable to all record types with trees
 // @resource.uri looks like: /repositories/:rpid/resources/:rsid
 const resourceUri = "<%= @resource.uri %>"
 const resourceUriParts = resourceUri.split('/')
