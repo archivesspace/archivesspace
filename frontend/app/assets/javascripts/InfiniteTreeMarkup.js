@@ -1,4 +1,5 @@
 //= require MixedContentHelper
+//= require InfiniteTreeI18n
 
 (function (exports) {
   /**
@@ -25,42 +26,45 @@
      * @constructor
      * @param {string} resourceUri - The URI of the collection resource
      * @param {number} batchSize - The number of child nodes per batch
-     * @param {Object} i18n - Internationalization strings
+     * @param {Object} i18n - The i18n object
+     * @param {string} i18n.sep - The identifier separator
+     * @param {string} i18n.bulk - The date type bulk
+     * @param {Object} i18n.enumerations - The enumeration translations object
      */
     constructor(resourceUri, batchSize, i18n) {
       this.resourceUri = resourceUri;
       this.repoId = resourceUri.split('/')[2];
       this.resourceId = resourceUri.split('/')[4];
       this.BATCH_SIZE = batchSize;
-      this.i18n = i18n;
+      this.i18n = new InfiniteTreeI18n(i18n);
     }
 
     /**
      * Creates a tree structure with a root node
-     * @param {string} title - Display text for the root node
+     * @param {Object} data - Root data object fetched from server
      * @returns {DocumentFragment} An <ol> with a single <li>
      */
-    root(title) {
-      const _title = new MixedContentHelper(title);
+    root(data) {
+      const title = new MixedContentHelper(this.#title(data));
       const rootFrag = new DocumentFragment();
       const rootTemplate = document
         .querySelector('#infinite-tree-root-template')
         .content.cloneNode(true);
       const rootElement = rootTemplate.querySelector('li');
       const contentWrapper = rootTemplate.querySelector('.node-body');
-      const link = rootTemplate.querySelector('.node-title');
+      const columns = contentWrapper.querySelectorAll('.node-column');
 
       rootElement.id = `resource_${this.resourceId}`;
       rootElement.setAttribute('data-uri', this.resourceUri);
       rootElement.setAttribute('aria-expanded', 'true');
-      contentWrapper.setAttribute('title', _title.cleaned);
-      link.href = `#tree::resource_${this.resourceId}`;
+      contentWrapper.setAttribute('title', title.cleaned);
 
-      if (_title.isMixed) {
-        link.innerHTML = _title.input;
-      } else {
-        link.textContent = _title.cleaned;
-      }
+      this.#processColumns(
+        columns,
+        data,
+        title,
+        `#tree::resource_${this.resourceId}`
+      );
 
       rootFrag.appendChild(rootTemplate);
 
@@ -116,7 +120,7 @@
     node(data, level, shouldObserve, parentId = null, offset = null) {
       const nodeRecordId = data.uri.split('/')[4];
       const nodeElementId = `archival_object_${nodeRecordId}`;
-      const title = new MixedContentHelper(this.title(data));
+      const title = new MixedContentHelper(this.#title(data));
       const aHref = `#tree::${nodeElementId}`;
       const nodeFrag = new DocumentFragment();
       const nodeTemplate = document
@@ -125,7 +129,7 @@
       const nodeElement = nodeTemplate.querySelector('li');
       const contentWrapper = nodeTemplate.querySelector('.node-body');
       const indentation = nodeTemplate.querySelector('.node-indentation');
-      const link = nodeTemplate.querySelector('.node-title');
+      const columns = contentWrapper.querySelectorAll('.node-column');
 
       nodeElement.id = nodeElementId;
       nodeElement.classList.add(`indent-level-${level}`);
@@ -137,7 +141,7 @@
         nodeElement.setAttribute('data-has-expanded', 'false');
         nodeElement.setAttribute('aria-expanded', 'false');
 
-        indentation.appendChild(this.expandButton(title.cleaned));
+        indentation.appendChild(this.#expandButton(title.cleaned));
       }
 
       if (shouldObserve) {
@@ -167,13 +171,7 @@
           .insertAdjacentHTML('beforebegin', iconHtml);
       }
 
-      link.setAttribute('href', aHref);
-
-      if (title.isMixed) {
-        link.innerHTML = title.input;
-      } else {
-        link.textContent = title.cleaned;
-      }
+      this.#processColumns(columns, data, title, aHref);
 
       nodeFrag.appendChild(nodeTemplate);
 
@@ -181,11 +179,78 @@
     }
 
     /**
+     * Processes columns for both root and node elements
+     * @param {NodeList} columns - The column elements to process
+     * @param {Object} data - The data object containing node information
+     * @param {MixedContentHelper} title - The processed title object
+     * @param {string} href - The href value for the title link
+     * @private
+     */
+    #processColumns(columns, data, title, href) {
+      columns.forEach(column => {
+        const colName = column.dataset.column;
+
+        switch (colName) {
+          case 'title': {
+            const titleEl = column.querySelector('.node-title');
+
+            titleEl.href = href;
+            titleEl.setAttribute('title', title.cleaned);
+
+            if (title.isMixed) {
+              titleEl.innerHTML = title.input;
+            } else {
+              titleEl.textContent = title.cleaned;
+            }
+
+            if (data.suppressed) {
+              const suppressedBadge = document
+                .querySelector('#infinite-tree-suppressed-template')
+                .content.cloneNode(true);
+              titleEl.prepend(suppressedBadge);
+            }
+            break;
+          }
+
+          case 'level': {
+            const levelText = this.i18n.t('archival_record_level', data.level);
+            column.textContent = levelText;
+            column.title = levelText;
+            break;
+          }
+
+          case 'type': {
+            const typeText = this.#buildTypeSummary(data);
+            column.textContent = typeText;
+            column.title = typeText;
+            break;
+          }
+
+          case 'container': {
+            const containerText = this.#buildContainerSummary(data);
+            column.textContent = containerText;
+            column.title = containerText;
+            break;
+          }
+
+          case 'identifier': {
+            if (data.identifier) {
+              column.textContent = data.identifier;
+              column.title = data.identifier;
+            }
+            break;
+          }
+        }
+      });
+    }
+
+    /**
      * Creates an expand button to show and hide a node's children
      * @param {string} title - The node title
      * @returns {DocumentFragment} - A <button>
+     * @private
      */
-    expandButton(title) {
+    #expandButton(title) {
       const btnFrag = new DocumentFragment();
       const btnTemplate = document
         .querySelector('#infinite-tree-expand-button-template')
@@ -205,14 +270,15 @@
      * @returns {string} - Title of the node
      *
      * @todo Migrate this logic to the server if possible
+     * @private
      */
-    title(node) {
+    #title(node) {
       const title = [];
 
-      if (SHOW_IDENTIFIERS_IN_TREE && node.identifier && node.parsed_title) {
-        title.push(`${node.identifier}${this.i18n.sep} ${node.parsed_title}`);
-      } else if (node.parsed_title) {
+      if (node.parsed_title) {
         title.push(node.parsed_title);
+      } else if (node.title) {
+        title.push(node.title);
       }
 
       if (node.label) {
@@ -244,6 +310,91 @@
       }
 
       return title.join(', ');
+    }
+
+    /**
+     * Builds a summary of the types for a node
+     * @param {Object} node - Node data
+     * @returns {string} - Type summary
+     * @private
+     */
+    #buildTypeSummary(node) {
+      let typeSummary = '';
+
+      if (node.containers) {
+        const types = [];
+
+        node.containers.forEach(container => {
+          types.push(
+            this.i18n.t('instance_instance_type', container.instance_type)
+          );
+        });
+
+        typeSummary = types.join(', ');
+      }
+
+      return typeSummary;
+    }
+
+    /**
+     * Builds a summary of the containers for a node
+     * @param {Object} node - Node data
+     * @returns {string} - Container summary
+     * @private
+     */
+    #buildContainerSummary(node) {
+      let containerSummary = '';
+
+      if (node.containers) {
+        const containerSummaries = [];
+
+        node.containers.forEach(container => {
+          const summaryItems = [];
+
+          if (container.top_container_indicator) {
+            let topContainerSummary = '';
+
+            if (container.top_container_type) {
+              topContainerSummary +=
+                this.i18n.t('container_type', container.top_container_type) +
+                ': ';
+            }
+
+            topContainerSummary += container.top_container_indicator;
+
+            if (container.top_container_barcode) {
+              topContainerSummary +=
+                ' [' + container.top_container_barcode + ']';
+            }
+
+            summaryItems.push(topContainerSummary);
+          }
+
+          if (container.type_2) {
+            summaryItems.push(
+              this.i18n.t('container_type', container.type_2) +
+                ': ' +
+                container.indicator_2
+            );
+          }
+
+          if (container.type_3) {
+            summaryItems.push(
+              this.i18n.t('container_type', container.type_3) +
+                ': ' +
+                container.indicator_3
+            );
+          }
+
+          if (summaryItems.length > 0) {
+            containerSummaries.push(summaryItems.join(', '));
+          }
+        });
+
+        containerSummary = containerSummaries.join('; ');
+      }
+
+      return containerSummary;
     }
   }
 
