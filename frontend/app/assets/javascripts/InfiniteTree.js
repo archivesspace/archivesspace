@@ -8,28 +8,23 @@
      * @param {number} batchSize - The number of nodes per batch of children
      * @param {string} appUrlPrefix - The proper app prefix
      * @param {string} resourceUri - The URI of the collection resource
-     * @param {string} identifier_separator - The i18n identifier separator
-     * @param {string} date_type_bulk - The i18n date type bulk
+     * @param {Object} i18n - The i18n object for use in a non .js.erb file
+     * @param {string} i18n.sep - The identifier separator
+     * @param {string} i18n.bulk - The date type bulk
+     * @param {Object} i18n.enumerations - The enumeration translations object
      * @returns {InfiniteTree} - InfiniteTree instance
      */
-    constructor(
-      batchSize,
-      appUrlPrefix,
-      resourceUri,
-      identifier_separator,
-      date_type_bulk
-    ) {
+    constructor(batchSize, appUrlPrefix, resourceUri, i18n) {
       this.BATCH_SIZE = batchSize;
       this.resourceUri = resourceUri;
       this.repoId = resourceUri.split('/')[2];
       this.resourceId = resourceUri.split('/')[4];
-      this.i18n = { sep: identifier_separator, bulk: date_type_bulk };
 
       this.container = document.querySelector('#infinite-tree-container');
 
       this.fetch = new InfiniteTreeFetch(appUrlPrefix, resourceUri);
 
-      this.markup = new InfiniteTreeMarkup(resourceUri, batchSize, this.i18n);
+      this.markup = new InfiniteTreeMarkup(resourceUri, batchSize, i18n);
 
       this.batchObserver = new IntersectionObserver(
         (entries, observer) => {
@@ -43,13 +38,7 @@
       );
 
       this.container.addEventListener('click', e => {
-        if (
-          !e.target.classList.contains('node-expand') &&
-          !e.target.classList.contains('node-expand-icon')
-        )
-          return;
-
-        this.expandHandler(e);
+        if (e.target.closest('.node-expand')) this.expandHandler(e);
       });
 
       this.renderRoot();
@@ -60,7 +49,7 @@
      */
     async renderRoot() {
       const rootData = await this.fetch.root();
-      const rootFragment = this.markup.root(this.markup.title(rootData));
+      const rootFragment = this.markup.root(rootData);
       const rootNode = rootFragment.querySelector('.root.node');
 
       await this.renderInitialBatch(rootNode, rootData);
