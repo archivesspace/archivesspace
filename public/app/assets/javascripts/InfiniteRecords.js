@@ -9,6 +9,8 @@
      * `populateAllWaypoints()`
      * @param {number} mainMaxFetches - The main thread's max number of concurrent fetches
      * @param {number} workerMaxFetches - The worker's max number of concurrent fetches
+     * @param {string} uriFragment - The document's URI fragment
+     * @param {Coordinator} coordinator - The coordinator instance
      * @returns {InfiniteRecords} - InfiniteRecords instance
      */
     constructor(
@@ -16,9 +18,12 @@
       appUrlPrefix,
       workerPath,
       mainMaxFetches,
-      workerMaxFetches
+      workerMaxFetches,
+      uriFragment,
+      coordinator
     ) {
-      this.pageHash = window.location.hash;
+      this.uriFragment = uriFragment;
+      this.coordinator = coordinator;
       this.container = document.querySelector('#infinite-records-container');
 
       this.WAYPOINT_SIZE = parseInt(this.container.dataset.waypointSize, 10);
@@ -55,7 +60,14 @@
       );
 
       this.currentRecordObserver = new IntersectionObserver(
-        this.currentRecordScrollHandler,
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              this.coordinator.currentRecord = entry.target.dataset.uri;
+              this.coordinator.updateCurrentTreeNode();
+            }
+          });
+        },
         {
           root: this.container,
           rootMargin: '-5px 0px -95% 0px', // only the top sliver
@@ -78,15 +90,17 @@
      * @returns {boolean} - True if Load All should be shown
      */
     shouldShowLoadAll() {
-      if (this.pageHash === '') {
+      if (this.uriFragment === '') {
         return this.NUM_TOTAL_WAYPOINTS > 2;
       } else {
         if (this.NUM_TOTAL_WAYPOINTS > 3) return true;
 
         if (
           this.NUM_TOTAL_WAYPOINTS === 3 &&
-          (!this.hasEmptyPrevWP(this.treeIdToWaypointNumber(this.pageHash)) ||
-            !this.hasEmptyNextWP(this.treeIdToWaypointNumber(this.pageHash)))
+          (!this.hasEmptyPrevWP(
+            this.treeIdToWaypointNumber(this.uriFragment)
+          ) ||
+            !this.hasEmptyNextWP(this.treeIdToWaypointNumber(this.uriFragment)))
         )
           return true;
 
@@ -133,15 +147,15 @@
     async initRecords() {
       const initialWaypoints = [];
 
-      if (this.pageHash === '') {
+      if (this.uriFragment === '') {
         initialWaypoints.push(0);
 
         if (this.NUM_TOTAL_WAYPOINTS > 1) initialWaypoints.push(1);
 
         this.renderWaypoints(initialWaypoints);
       } else {
-        const recordUri = this.treeIdToRecordUri(this.pageHash);
-        const recordWaypointNum = this.treeIdToWaypointNumber(this.pageHash);
+        const recordUri = this.treeIdToRecordUri(this.uriFragment);
+        const recordWaypointNum = this.treeIdToWaypointNumber(this.uriFragment);
 
         initialWaypoints.push(recordWaypointNum);
 
@@ -189,7 +203,7 @@
 
         this.isOkToObserve = false;
 
-        targetRecord.scrollIntoView({ behavior: 'smooth' });
+        targetRecord.scrollIntoView({ behavior: 'instant' });
       }
 
       if (shouldCloseModal) this.modal.toggle();
@@ -529,32 +543,6 @@
     }
 
     /**
-     * IntersectionObserver callback for current record observer
-     * @param {IntersectionObserverEntry[]} entries - Array of entries
-     */
-    currentRecordScrollHandler(entries) {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const uri = entry.target.dataset.uri;
-          const _new = document.querySelector(
-            `#infinite-tree-container .node[data-uri="${uri}"]`
-          );
-          const old = document.querySelector(
-            '#infinite-tree-container .node.current'
-          );
-
-          if (old) {
-            old.classList.remove('current');
-          }
-
-          if (_new) {
-            _new.classList.add('current');
-          }
-        }
-      });
-    }
-
-    /**
      * Handle click events on record titles in the tree by scrolling to
      * the record if it exists, or rendering the record's waypoint and
      * nearby waypoints then scrolling to the record
@@ -563,22 +551,20 @@
     async treeLinkHandler(event) {
       event.preventDefault();
 
-      const targetDivId = event.target.href.split('#')[1];
-      const recordUri = this.treeIdToRecordUri(targetDivId);
-
+      const treeId = event.target.closest('.node-title').href.split('#')[1];
+      const recordUri = this.treeIdToRecordUri(treeId);
       const recordSelector = `.infinite-record-record[data-uri='${recordUri}']`;
-      const scrollOpts = { behavior: 'smooth' };
 
-      window.location.hash = targetDivId;
+      window.location.hash = treeId;
 
       const record = this.container.querySelector(recordSelector);
 
       if (record) {
-        record.scrollIntoView(scrollOpts);
+        record.scrollIntoView({ behavior: 'instant' });
       } else {
         // Record doesn't exist so render its waypoint and any empty neighbors,
         // then scroll to the record
-        const recordWaypointNum = this.treeIdToWaypointNumber(targetDivId);
+        const recordWaypointNum = this.treeIdToWaypointNumber(treeId);
         const newWaypoints = [recordWaypointNum];
 
         if (this.hasEmptyPrevWP(recordWaypointNum)) {

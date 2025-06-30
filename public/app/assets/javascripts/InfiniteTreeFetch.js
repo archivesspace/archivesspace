@@ -6,13 +6,12 @@
      * @param {string} resourceUri - The URI of the collection resource
      */
     constructor(appUrlPrefix, resourceUri) {
-      this.appUrlPrefix = appUrlPrefix;
-      this.resourceUri = resourceUri;
+      const baseUri = appUrlPrefix + resourceUri + '/tree';
+      this.rootUri = baseUri + '/root';
+      this.nodeUri = baseUri + '/node';
+      this.batchUri = baseUri + '/waypoint'; // TODO: rename endpoint to /batch
+      this.ancestorsUri = baseUri + '/node_from_root'; // TODO: rename endpoint to /ancestors
       this.repoId = resourceUri.split('/')[2];
-      this.baseUri = `${this.resourceUri}/tree`;
-      this.rootUri = `${this.baseUri}/root`;
-      this.nodeUri = `${this.baseUri}/node`;
-      this.batchUri = `${this.baseUri}/waypoint`; // TODO: rename endpoint to /batch
     }
 
     /**
@@ -21,7 +20,7 @@
      */
     async root() {
       try {
-        const response = await fetch(this.appUrlPrefix + this.rootUri);
+        const response = await fetch(this.rootUri);
 
         return await response.json();
       } catch (err) {
@@ -43,7 +42,29 @@
       );
 
       try {
-        const response = await fetch(`${this.nodeUri}?${query}`);
+        const response = await fetch(this.nodeUri + '?' + query);
+
+        return await response.json();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    /**
+     * Fetches the ancestors of the given id
+     * @param {number} id - ID of the node, ie: 18028
+     * @returns {Object} - node_from_root object as returned from the server
+     * {":id": [{}, {}, {}]}
+     *
+     * @todo: rename node_from_root to ancestors
+     */
+    async ancestors(id) {
+      const query = new URLSearchParams();
+
+      query.append('node_ids[]', id);
+
+      try {
+        const response = await fetch(this.ancestorsUri + '?' + query);
 
         return await response.json();
       } catch (err) {
@@ -65,7 +86,7 @@
       query.append('offset', offset);
 
       try {
-        const response = await fetch(`${this.batchUri}?${query}`);
+        const response = await fetch(this.batchUri + '?' + query);
 
         return await response.json();
       } catch (err) {
