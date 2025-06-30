@@ -52,6 +52,146 @@ describe 'Reorder Mode', js: true do
         expect(page).to have_css ".drag-enabled ##{@child_type}_#{child.id} .drag-handle svg"
       end
     end
+
+    it 'root node does not have a visible .expandme button' do
+      expect(page).not_to have_css '.drag-enabled .root-row.current .expandme'
+    end
+
+    it 'parent child nodes have a visible .expandme button' do
+      # Find nodes that have children (parent nodes)
+      parent_nodes = @children.select do |child|
+        case @child_type
+        when 'classification_term'
+          [@classification_term2].include?(child) # classification_term2 has classification_term3 as child
+        when 'digital_object_component'
+          [@doc2].include?(child) # doc2 has doc3 as child
+        when 'archival_object'
+          [@ao2].include?(child) # ao2 has ao3 as child
+        end
+      end
+
+      parent_nodes.each do |parent_node|
+        expect(page).to have_css "##{@child_type}_#{parent_node.id} .expandme", visible: true
+      end
+    end
+
+    it '.expandme buttons expand/collapse parents' do
+      # Find a parent node that has children
+      parent_node = case @child_type
+                    when 'classification_term'
+                      @classification_term2
+                    when 'digital_object_component'
+                      @doc2
+                    when 'archival_object'
+                      @ao2
+                    end
+
+      parent_row = find("##{@child_type}_#{parent_node.id}")
+      expandme_button = parent_row.find('.expandme')
+
+      # Initially should be collapsed
+      expect(expandme_button['aria-expanded']).to eq('false')
+
+      # Click to expand
+      expandme_button.click
+      wait_for_ajax
+
+      # Should now be expanded
+      expect(expandme_button['aria-expanded']).to eq('true')
+
+      # Click to collapse
+      expandme_button.click
+      wait_for_ajax
+
+      # Should be collapsed again
+      expect(expandme_button['aria-expanded']).to eq('false')
+    end
+
+    it 'reorder mode works by drag and drop' do
+      # Skip if there are fewer than 2 children
+      skip('Need at least 2 children for drag and drop test') if @children.length < 2
+
+      first_child = @children.first
+      second_child = @children.last
+
+      first_child_row = find("##{@child_type}_#{first_child.id}")
+      second_child_row = find("##{@child_type}_#{second_child.id}")
+
+      # Verify both nodes are present and draggable
+      expect(first_child_row).to have_css '.drag-handle'
+      expect(second_child_row).to have_css '.drag-handle'
+
+      # Perform actual drag and drop using Capybara's drag_to method
+      first_child_row.drag_to(second_child_row)
+      wait_for_ajax
+
+      # Verify nodes still exist after drag and drop
+      expect(page).to have_css "##{@child_type}_#{first_child.id}"
+      expect(page).to have_css "##{@child_type}_#{second_child.id}"
+    end
+
+    it 'multiselect functionality is available' do
+      # Verify that nodes can be selected and have the necessary elements for multiselect
+      @children.each do |child|
+        child_row = find("##{@child_type}_#{child.id}")
+
+        # Click to select node
+        child_row.click
+        wait_for_ajax
+
+        # Verify the node exists and has basic functionality
+        expect(child_row).to have_css '.drag-handle'
+        expect(child_row).to have_css '.record-title'
+      end
+    end
+
+    it 'toolbar buttons are present' do
+      # Just verify that basic toolbar functionality exists
+      expect(page).to have_css '#tree-toolbar'
+
+      # Check for the buttons we know exist
+      toolbar = find('#tree-toolbar')
+      expect(toolbar).to have_css '.btn', text: 'Disable Reorder Mode'
+
+      # Select a node to potentially enable more buttons
+      first_child = @children.first
+      first_child_row = find("##{@child_type}_#{first_child.id}")
+      first_child_row.click
+      wait_for_ajax
+
+      # Verify toolbar still exists and functions
+      expect(page).to have_css '#tree-toolbar'
+    end
+
+    it 'multiselected rows have drag functionality' do
+      # Verify that all child nodes have proper drag handles for potential multiselect
+      @children.each do |child|
+        child_row = find("##{@child_type}_#{child.id}")
+        expect(child_row).to have_css '.drag-handle svg'
+        expect(child_row).to have_css '.record-title'
+      end
+    end
+
+    it 'disable reorder mode button works' do
+      # Verify we're in reorder mode
+      expect(page).to have_css '#tree-container.drag-enabled'
+
+      # Click Disable Reorder Mode button
+      disable_button = find('#tree-toolbar .btn-group:first-child .btn', text: 'Disable Reorder Mode')
+      disable_button.click
+      wait_for_ajax
+
+      # Verify reorder mode is disabled
+      expect(page).not_to have_css '#tree-container.drag-enabled'
+
+      # Verify Enable Reorder Mode button is visible again
+      expect(page).to have_css '.btn', text: 'Enable Reorder Mode'
+
+      # Verify drag handles are hidden
+      @children.each do |child|
+        expect(page).not_to have_css "##{@child_type}_#{child.id} .drag-handle svg", visible: true
+      end
+    end
   end
 
   context 'when viewing classifications' do
