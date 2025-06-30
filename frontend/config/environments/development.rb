@@ -41,4 +41,6 @@ ArchivesSpace::Application.configure do
   # differently there due to precompilation.
   config.assets.prefix = AppConfig[:frontend_proxy_prefix] + "assets"
 
+  # The number of nodes that will be returned in each InfiniteTree batch
+  config.infinite_tree_batch_size = 200
 end
