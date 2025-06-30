@@ -1,1 +1,20 @@
 pl:
+  states:
+    deleted: Usunięto
+    auto_generated: System generuje po zapisaniu
+    suppressed: Powstrzymać
+  boolean:
+    "true": Prawda
+  user_defined:
+    boolean_3: Wartość logiczna 3
+    integer_2: Liczba Całkowita 2
+    integer_3: Liczba Całkowita 3
+    real_1: Prawdziwe 1
+    real_2: Prawdziwe 2
+    real_3: Prawdziwe 3
+    string_1: Ciąg 1
+    string_2: Ciąg 2
+    string_3: Ciąg 3
+    string_4: Ciąg 4
+    text_1: Tekst 1
+    integer_1: Liczba całkowita 1
