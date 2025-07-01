@@ -97,7 +97,7 @@ class ObjectsController < ApplicationController
       end
 
       @repo_info =  @result.repository_information
-      @page_title = @result.display_string
+      @page_title = @result.primary_title
       @context = [
         {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'}
       ].concat(@result.breadcrumb)
