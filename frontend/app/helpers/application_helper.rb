@@ -59,7 +59,7 @@ module ApplicationHelper
       type = options[:type] || object["jsonmodel_type"]
       controller = options[:controller] || type.to_s.pluralize
       if object.respond_to? :titles
-        title = MultipleTitlesHelper.determine_primary_title(object.titles, I18n.locale)
+        title = MultipleTitlesHelper.determine_primary_title(object.titles, I18n.locale).to_s
       else
         title = (options[:title] || object["title"] || object["username"]).to_s
       end

@@ -28,11 +28,11 @@ describe 'Classification controllers' do
 
   it "allows a tree of classification_terms to be created" do
     term = create_classification_term(classification)
-    expect(term.title).to eq("classification A")
+    expect(term.titles[0]['title']).to eq("classification A")
 
     tree = JSONModel::HTTP.get_json("#{classification.uri}/tree/root")
     expect(tree['child_count']).to eq(1)
-    expect(tree["precomputed_waypoints"][""]["0"][0]['title']).to eq(term.title)
+    expect(tree["precomputed_waypoints"][""]["0"][0]['title']).to eq(term.titles[0]['title'])
     expect(tree["precomputed_waypoints"][""]["0"][0]['uri']).to eq(term.uri)
 
     second_term = create_classification_term(classification,
@@ -42,7 +42,7 @@ describe 'Classification controllers' do
 
     tree = JSONModel::HTTP.get_json("#{classification.uri}/tree/node", node_uri: term.uri)
 
-    expect(tree["precomputed_waypoints"][term.uri]["0"][0]['title']).to eq(second_term.title)
+    expect(tree["precomputed_waypoints"][term.uri]["0"][0]['title']).to eq(second_term.titles[0]['title'])
   end
 
 

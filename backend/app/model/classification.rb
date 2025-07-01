@@ -4,6 +4,7 @@ class Classification < Sequel::Model(:classification)
   include Trees
   include ClassificationIndexing
   include Publishable
+  include Titles
 
   enable_suppression
 

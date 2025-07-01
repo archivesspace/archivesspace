@@ -6,6 +6,7 @@ class ClassificationTerm < Sequel::Model(:classification_term)
   include ClassificationIndexing
   include Publishable
   include AutoGenerator
+  include Titles
 
   enable_suppression
 
@@ -27,9 +28,8 @@ class ClassificationTerm < Sequel::Model(:classification_term)
 
   auto_generate :property => :display_string,
                 :generator => proc { |json|
-                  json['title']
+                  determine_primary_title
                 }
-
 
   auto_generate :property => :slug,
                 :generator => proc { |json|
@@ -47,22 +47,21 @@ class ClassificationTerm < Sequel::Model(:classification_term)
 
   def self.create_from_json(json, opts = {})
     self.set_path_from_root(json)
-    obj = super(json, :title_sha1 => Digest::SHA1.hexdigest(json.title))
+    obj = super(json, :title_sha1 => Digest::SHA1.hexdigest(json.titles.first['title']),)
     obj.reindex_children
     obj
   end
 
-
   def update_from_json(json, opts = {}, apply_nested_records = true)
     self.class.set_path_from_root(json)
-    obj = super(json, {:title_sha1 => Digest::SHA1.hexdigest(json.title)}, apply_nested_records)
+    obj = super(json, {:title_sha1 => Digest::SHA1.hexdigest(json.titles.first['title'])}, apply_nested_records)
     obj.reindex_children
     obj
   end
 
 
   def self.set_path_from_root(json)
-    path = [{'title' => json.title, 'identifier' => json.identifier}]
+    path = [{'title' => json.titles[], 'identifier' => json.identifier}]
     parent_id = json.parent ? self.parse_reference(json.parent['ref'], {})[:id] : nil
 
     while parent_id
