@@ -1,5 +1,6 @@
 class ArchivalObjectsController < ApplicationController
   include ApplicationHelper
+  include MlcHelper
 
   set_access_control  "view_repository" => [:index, :show, :models_in_graph],
                       "update_resource_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :publish, :unpublish, :accept_children, :validate_rows],
@@ -120,8 +121,8 @@ class ArchivalObjectsController < ApplicationController
                 :on_valid => ->(id) {
 
                   flash_success = parent ?
-                    t("archival_object._frontend.messages.updated_with_parent", archival_object_display_string: clean_mixed_content(@archival_object.title)) :
-                    t("archival_object._frontend.messages.updated", archival_object_display_string: clean_mixed_content(@archival_object.title))
+                    t("archival_object._frontend.messages.updated_with_parent", archival_object_display_string: title_for_display) :
+                    t("archival_object._frontend.messages.updated", archival_object_display_string: title_for_display)
                   flash.now[:success] = flash_success
                   if @archival_object["is_slug_auto"] == false &&
                      @archival_object["slug"] == nil &&
@@ -203,7 +204,7 @@ class ArchivalObjectsController < ApplicationController
       if response.code == '200'
         @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
         resource = @archival_object['resource']['_resolved']
-        flash[:success] = t("archival_object._frontend.messages.transfer_success", archival_object_display_string: clean_mixed_content(@archival_object.title), resource_title: clean_mixed_content(resource['title']))
+        flash[:success] = t("archival_object._frontend.messages.transfer_success", archival_object_display_string: title_for_display, resource_title: clean_mixed_content(resource['title']))
         redirect_to :controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(params["transfer"]["ref"]), :anchor => "tree::archival_object_#{params[:id]}"
       else
         raise ASUtils.json_parse(response.body)['error'].to_s
@@ -368,11 +369,5 @@ class ArchivalObjectsController < ApplicationController
       [type, t("#{type == 'archival_object' ? 'resource_component' : type}._singular")]
     }
   end
-
-  # Get the appropriate title to display based on language
-  def title_for_display
-    MultipleTitlesHelper.determine_primary_title(@archival_object.titles, I18n.locale)
-  end
-  helper_method :title_for_display
 
 end

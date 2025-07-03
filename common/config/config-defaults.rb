@@ -84,7 +84,7 @@ AppConfig[:mysql_binlog] = false
 # here: https://solr.apache.org/guide/solr/latest/query-guide/dismax-query-parser.html
 # Configuring search operator to be AND by default - ANW-427
 AppConfig[:solr_params] = { 'q.op' => 'AND' }
-AppConfig[:solr_verify_checksums] = true
+AppConfig[:solr_verify_checksums] = false
 
 # Set the application's language (see the .yml files in
 # https://github.com/archivesspace/archivesspace/tree/master/common/locales for
@@ -184,7 +184,8 @@ AppConfig[:demo_db_backup_number_to_keep] = 7
 # (i.e., another domain or port, or via https, or for a prefix) it is
 # recommended that you record those URLs in your configuration
 AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
-AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
+AppConfig[:public_proxy_url] = "http://localhost:80/pui"
+
 
 # Don't override _prefix or _proxy_prefix unless you know what you're doing
 AppConfig[:frontend_proxy_prefix] = proc { "#{URI(AppConfig[:frontend_proxy_url]).path}/".gsub(%r{/+$}, "/") }

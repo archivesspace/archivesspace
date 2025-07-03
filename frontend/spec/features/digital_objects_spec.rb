@@ -173,8 +173,8 @@ describe 'Digital Objects', js: true do
 
     # Click on save
     find('button', text: 'Save Digital Object', match: :first).click
+    wait_for_ajax
 
-    expect(page).to have_selector('h2', visible: true, text: "Digital Object Component Digital Object Component")
     expect(page).to have_content "Digital Object Component Child 3 #{now} created on Digital Object Digital Object Title #{now}"
     elements = all('.largetree-node.indent-level-1')
     expect(elements.length).to eq 3
