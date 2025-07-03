@@ -88,14 +88,9 @@ const infiniteTree = new InfiniteTree(
   "bulk"
 );
 
-// Set up click handling at the template level like public
-// but with no InfiniteRecords like in public
+// Set up click handling at the template level, not the InfiniteCoordinator
+// like in public
 infiniteTree.container.addEventListener('click', (e) => {
-  if (
-    !e.target.classList.contains('expandme') &&
-    !e.target.classList.contains('expandme-icon')
-  ) return;
-
-  infiniteTree.expandHandler(e);
+  if (e.target.closest('.node-expand')) infiniteTree.expandHandler(e);
 });
 </script>
