@@ -1203,11 +1203,7 @@ class IndexerCommon
         doc['id'] = uri
         doc['uri'] = uri
 
-        if ( !values["finding_aid_filing_title"].nil? && values["finding_aid_filing_title"].length > 0 )
-          doc['title'] = values["finding_aid_filing_title"]
-        else
-          doc['title'] =  values['title']
-        end
+        doc['title'] = values['title']
 
         doc['primary_type'] = record_type
         doc['types'] = [record_type]
