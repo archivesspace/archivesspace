@@ -92,6 +92,10 @@ if [ "$ARCHIVESSPACE_LOGS" = "" ]; then
     ARCHIVESSPACE_LOGS="logs/archivesspace.out"
 fi
 
+if [ "$ARCHIVESSPACE_APPEND_LOGS" = "" ]; then
+    ARCHIVESSPACE_APPEND_LOGS=
+fi
+
 export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
 
 # Wow.  Not proud of this!
@@ -141,10 +145,15 @@ case "$1" in
             shellcmd="su $ARCHIVESSPACE_USER"
         fi
 
+        redirect="&>"
+        if [ "$ARCHIVESSPACE_APPEND_LOGS" != "" ]; then
+            redirect="&>>"
+        fi
+
         $shellcmd -c "cd '$ASPACE_LAUNCHER_BASE';
           (
              exec 0<&-; exec 1>&-; exec 2>&-;
-             $startup_cmd &> \"$ARCHIVESSPACE_LOGS\" &
+             $startup_cmd $redirect \"$ARCHIVESSPACE_LOGS\" &
              echo \$! > \"$ASPACE_PIDFILE\"
           ) &
           disown $!"
