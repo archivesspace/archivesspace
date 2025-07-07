@@ -294,7 +294,7 @@ function build_node_title(node) {
  * @return {htmlString}
  */
 function recordTitleHandler(suppressed, title) {
-  const suppressedMarkup = `<span class="label label-info"><%= I18n.t("states.suppressed") %></span>`;
+  const suppressedMarkup = `<span class="badge badge-warning"><%= I18n.t("states.suppressed") %></span>`;
 
   return suppressed ? `${suppressedMarkup} ${title}` : title;
 }

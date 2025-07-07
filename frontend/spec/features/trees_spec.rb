@@ -258,10 +258,8 @@ describe 'Tree UI', js: true do
   end
 
   it 'shows the suppressed tag only for suppressed records' do
-    elements = all('#tree-container > .table.root > .table-row-group > div > .title > a.record-title > span.label.label-info')
+    elements = all('#tree-container .record-title .badge', text: 'Suppressed')
     expect(elements.length).to eq(1)
-
-    element = find("div[title=\"#{@archival_object_4.title}\"]")
-    expect(element).to have_text 'Suppressed'
+    expect(elements[0].find(:xpath, '..')['title']).to eq(@archival_object_4.title)
   end
 end
