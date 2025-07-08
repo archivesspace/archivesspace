@@ -12,6 +12,7 @@ class DigitalObjectsController < ApplicationController
   include ApplicationHelper
   include NotesHelper
   include DigitalObjectHelper
+  include MlcHelper
 
   def index
     respond_to do |format|
@@ -152,7 +153,7 @@ class DigitalObjectsController < ApplicationController
                 },
                 :on_valid => ->(id) {
                   flash[:success] = t("digital_object._frontend.messages.created",
-                    digital_object_title: clean_mixed_content(title_for_display))
+                    digital_object_title: title_for_display)
 
                   if @digital_object["is_slug_auto"] == false &&
                      @digital_object["slug"] == nil &&
@@ -181,7 +182,7 @@ class DigitalObjectsController < ApplicationController
                 :on_valid => ->(id) {
 
                   flash.now[:success] = t("digital_object._frontend.messages.updated",
-                    digital_object_title: clean_mixed_content(title_for_display))
+                    digital_object_title: title_for_display)
                   if @digital_object["is_slug_auto"] == false &&
                      @digital_object["slug"] == nil &&
                      params["digital_object"] &&
@@ -417,11 +418,5 @@ class DigitalObjectsController < ApplicationController
 
     tree
   end
-
-  # Get the appropriate title to display based on language preferences
-  def title_for_display
-    MultipleTitlesHelper.determine_primary_title(@digital_object.titles, I18n.locale)
-  end
-  helper_method :title_for_display
 
 end

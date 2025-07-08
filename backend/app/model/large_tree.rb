@@ -100,7 +100,7 @@ class LargeTree
         titles = [{title: @root_record.title}]
       end
 
-      parsed_titles = titles.clone.each { |t| t[:title] = MixedContentParser.parse(t[:title], '/') }
+      parsed_titles = titles.map { |t| { title: MixedContentParser.parse(t[:title], '/'), lang: t[:lang] } }
 
       response = waypoint_response(child_count).merge(
         "title" => titles[0]['title'],   # TODO: workaround until all records have multiple titles
@@ -306,9 +306,10 @@ class LargeTree
         row = records[id]
         child_count = child_counts.fetch(id, 0)
         digital_instance = child_digital_instances.include?(id)
-        parsed_titles = row[:titles].clone.each { |t| t[:title] = MixedContentParser.parse(t[:title], '/') }
+        parsed_titles = row[:titles].map { |t| {title: MixedContentParser.parse(t[:title], '/'), lang: t[:lang] } }
+
         waypoint_response(child_count).merge(
-          "title" => row[:titles].present? ? row[:titles][0]['title'] : "",   # TODO: this is just to avoid breaking everything for now, will eventually be removed
+          "title" => row[:titles].present? ? row[:titles][0][:title] : "",   # TODO: this is just to avoid breaking everything for now, will eventually be removed
           "titles" => row[:titles],
           "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@node_type.to_s, row[:repo_id], row[:slug]),
           "parsed_titles" => parsed_titles,
