@@ -38,4 +38,7 @@ ArchivesSpace::Application.configure do
   config.active_support.deprecation = :stderr
 
   config.assets.prefix = AppConfig[:frontend_proxy_prefix] + "assets"
+
+  # The number of nodes that will be returned in each InfiniteTree batch
+  config.infinite_tree_batch_size = 30 # see also backend/app/model/large_tree.rb
 end
