@@ -1,5 +1,6 @@
 class DigitalObjectComponentsController < ApplicationController
   include ApplicationHelper
+  include MlcHelper
 
   set_access_control  "view_repository" => [:index, :show],
                       "update_digital_object_record" => [:new, :edit, :create, :update, :accept_children, :rde, :add_children, :validate_rows],
@@ -255,11 +256,5 @@ class DigitalObjectComponentsController < ApplicationController
     flash[:success] = t("digital_object_component._frontend.messages.unsuppressed", digital_object_component_display_string: title_for_display)
     redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(@digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
   end
-
-  # Get the appropriate title to display based on language preferences
-  def title_for_display
-    MultipleTitlesHelper.determine_primary_title(@digital_object_component.titles, session[:locale])
-  end
-  helper_method :title_for_display
 
 end
