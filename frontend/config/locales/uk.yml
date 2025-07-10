@@ -51,9 +51,15 @@ uk:
     xlink_role_attribute: Атрибут ролі Xlink
     xlink_arcrole_attribute: Атрибут Xlink Arcrole
     file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
   dates_of_existence:
     _frontend:
       action:
         add: Додати дату
   states:
     auto_generated: Система генерує під час збереження
+  footer:
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+      target='_blank'>Надіслати відгук або повідомити про проблему</a>
+    archivesspace_home: Відвідайте <a 
+      href='http://archivesspace.org'>ArchivesSpace.org</a>
