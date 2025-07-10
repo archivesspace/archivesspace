@@ -331,7 +331,7 @@ uk:
       browse_number_digital_objects_in_collection:
         one: Один
         few: Мало хто
-        many:
+        many: Багато
   top_container:
     _singular: Контейнер
     _plural: Контейнери
@@ -526,6 +526,8 @@ uk:
   footer:
     feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Надіслати відгук або
       повідомити про проблему</a>
+    staff_interface: <a href="%{staff_url}">Інтерфейс для персоналу</a>
+    archivesspace_home: Відвідайте <a href='http://archivesspace.org'>ArchivesSpace.org</a>
   languages:
     select: Виберіть мову
     en: Англійська
