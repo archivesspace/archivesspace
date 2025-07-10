@@ -97,3 +97,32 @@ uk:
     script_iso15924: Мова Скрипт ISO 15924
     subject_source: Джерело теми
     subject_term_type: Тип предметного терміна
+    telephone_number_type: Тип номера телефону
+    transliteration: Транслітерація
+    user_defined_enum_1: Користувацький перелік 1
+    user_defined_enum_2: Користувацький перелік 2
+    user_defined_enum_3: Користувацький перелік 3
+    user_defined_enum_4: Користувацький перелік 4
+  enumerations:
+    accession_acquisition_type:
+      deposit: Депозит
+      gift: Подарунок
+      purchase: Купівля
+      transfer: Передача
+    accession_parts_relator:
+      forms_part_of: Є частиною
+      has_part: Має частину
+    accession_parts_relator_type:
+      part: '"Частинні" стосунки'
+    accession_resource_type:
+      collection: Колекція
+      papers: Документи
+      publications: Публікації
+      records: Записи
+    accession_sibling_relator:
+      sibling_of: Є братом/сестрою
+    accession_sibling_relator_type:
+      bound_with: Стосунки "Зв'язаний з"
+    agency_code_type:
+      local: Місцевий
+      oclc: OCLC
