@@ -28,7 +28,7 @@ describe 'Notes', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -67,7 +67,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -82,7 +82,7 @@ describe 'Notes', js: true do
     expect(element.text).to eq "Resource Resource Title #{now} updated"
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     notes = all('#resource_notes_ .subrecord-form-fields')
     expect(notes.length).to eq 1
@@ -128,7 +128,7 @@ describe 'Notes', js: true do
 
     visit "resources/#{resource.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -206,7 +206,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -249,7 +249,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     find('button', text: 'Add Note', match: :first).click
     element = find('#resource_notes_ [data-index="0"] select.form-control.top-level-note-type')
@@ -301,7 +301,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Add Deaccession'
 
@@ -327,7 +327,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     click_on 'Add Rights Statement'
 
@@ -402,7 +402,7 @@ describe 'Notes', js: true do
     click_on 'Create'
     click_on 'Resource'
 
-    fill_in 'resource_title_', with: "Resource Title #{now}"
+    fill_in 'resource_titles__0__title_', with: "Resource Title #{now}"
     fill_in 'resource_id_0_', with: "1 #{now}"
     fill_in 'resource_id_1_', with: "2 #{now}"
     fill_in 'resource_id_2_', with: "3 #{now}"
@@ -436,7 +436,7 @@ describe 'Notes', js: true do
 
     click_on 'Add Child'
 
-    fill_in 'archival_object_title_', with: "Archival Object Title #{now}"
+    fill_in 'archival_object_titles__0__title_', with: "Archival Object Title #{now}"
     select 'Item', from: 'archival_object_level_'
 
     element = find('#notes .add-note')
@@ -497,7 +497,7 @@ describe 'Notes', js: true do
     run_index_round
 
     visit "resources/#{resource.id}/edit"
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
 
     find('#resource_notes_ > div .add-note').click
 
