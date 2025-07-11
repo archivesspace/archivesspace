@@ -125,4 +125,24 @@ uk:
       bound_with: Стосунки "Зв'язаний з"
     agency_code_type:
       local: Місцевий
-      oclc: OCLC/OCЛC
+      oclc: OCЛC
+    agent_contact_salutation:
+      madame: Мадам
+      mrs: Пані
+      mr: Пан
+      ms: Пані
+      sir: Пан
+    agent_relationship_associative_relator:
+      is_associative_with: Асоціативний зі спорідненим
+    agent_relationship_earlierlater_relator:
+      is_earlier_form_of: Раніша форма пов'язаних
+      is_later_form_of: Пізніша форма спорідненості
+    agent_relationship_family_relator:
+      is_related_with: Агент, пов'язаний з відносинами
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: Ієрархічний релятор зв'язків між агентами
+    agent_relationship_identity_relator:
+      is_identified_with: Зв'язок агента, ідентифікований з посередником
+    agent_relationship_parentchild_relator:
+      is_child_of: Дитина пов'язаних осіб
+      is_parent_of: Батьківський елемент пов’язаного елемента
