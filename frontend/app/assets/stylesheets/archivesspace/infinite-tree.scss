@@ -1,7 +1,9 @@
 :root {
   --tree-indent-width: 1.5rem;
   --tree-line-width: 1px;
-  --tree-indent-unit-width: calc(var(--tree-indent-width) + var(--tree-line-width));
+  --tree-indent-unit-width: calc(
+    var(--tree-indent-width) + var(--tree-line-width)
+  );
 
   // Original largetree column widths
   --tree-column-width-sm: 8%;
@@ -10,7 +12,9 @@
   --tree-column-width-xl: 46%;
   --tree-column-title-width: var(--tree-column-width-xl);
   --tree-column-container-width: var(--tree-column-width-lg);
-  --tree-column-identifier-width: calc(var(--tree-column-width-lg) - var(--tree-column-width-md));
+  --tree-column-identifier-width: calc(
+    var(--tree-column-width-lg) - var(--tree-column-width-md)
+  );
 
   // ANW-2251 Yet another color scheme in addition to variables.scss and common.scss
   // for parity with original largetree
@@ -136,7 +140,7 @@
   > .node-column[data-column='type'] {
     flex: 0 0 var(--tree-column-width-md);
   }
-  
+
   > .node-column[data-column='container'] {
     flex: 0 0 var(--tree-column-container-width);
   }
