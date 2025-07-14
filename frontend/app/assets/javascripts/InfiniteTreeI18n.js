@@ -21,12 +21,11 @@
      * @returns {string|null} The translated value or null if not found
      */
     t(enumeration, enumeration_value) {
-      if (this.enumerations.hasOwnProperty(enumeration)) {
-        if (this.enumerations[enumeration].hasOwnProperty(enumeration_value)) {
-          return this.enumerations[enumeration][enumeration_value];
-        } else if (enumeration === 'archival_record_level') {
-          return enumeration_value;
-        }
+      const translation = this.enumerations?.[enumeration]?.[enumeration_value];
+      if (translation !== undefined) {
+        return translation;
+      } else if (enumeration === 'archival_record_level') {
+        return enumeration_value;
       }
       return null;
     }
