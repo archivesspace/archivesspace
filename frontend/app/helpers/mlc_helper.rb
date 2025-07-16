@@ -7,7 +7,8 @@ module MlcHelper
   # (default is to parse mixed content since this is typically used for display outside of an edit field)
   def title_for_display(record = nil, parse_mixed_content: true)
     r = record || current_record
-    MultipleTitlesHelper.determine_primary_title(r.titles, I18n.locale, parse_mixed_content)
+    titles = (r.is_a?(Hash) ? r['titles'] : r.titles)
+    MultipleTitlesHelper.determine_primary_title(titles, I18n.locale, parse_mixed_content)
   end
 
 end
