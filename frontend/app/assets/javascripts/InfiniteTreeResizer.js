@@ -5,14 +5,16 @@
      */
     constructor(container) {
       this.container = container;
-      this.handle = document.querySelector('[data-resize-handle]');
-      this.toggle = document.querySelector('[data-resize-toggle]');
       this.isResizing = false;
       this.startY = 0;
       this.startHeight = 0;
       this.minHeight = 60;
+      this.maximizedMarginBottom = 50;
+      this.handle = document.querySelector('[data-resize-handle]');
+      this.toggleBtn = document.querySelector('[data-resize-toggle]');
 
       this.handle.addEventListener('mousedown', this.onMouseDown.bind(this));
+      this.toggleBtn.addEventListener('click', this.toggleHeight.bind(this));
     }
 
     onMouseDown(e) {
@@ -35,11 +37,36 @@
       this.container.style.height = `${newHeight}px`;
     }
 
-    onMouseUp(e) {
+    onMouseUp() {
       this.isResizing = false;
       document.body.style.userSelect = '';
       document.removeEventListener('mousemove', this.onMouseMoveHandler);
       document.removeEventListener('mouseup', this.onMouseUpHandler);
+    }
+
+    toggleHeight() {
+      if (this.isResizing) return;
+
+      this.isResizing = true;
+
+      if (!this.isMaximized) {
+        this.handle.classList.add('maximized');
+
+        this.container.style.height = `${
+          window.innerHeight -
+          this.maximizedMarginBottom -
+          this.container.getBoundingClientRect().top
+        }px`;
+      } else {
+        this.handle.classList.remove('maximized');
+        this.container.style.height = `${this.minHeight}px`;
+      }
+
+      this.isResizing = false;
+    }
+
+    get isMaximized() {
+      return this.handle.classList.contains('maximized');
     }
   }
 
