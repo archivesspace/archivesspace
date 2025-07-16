@@ -5,7 +5,20 @@
 <div
   id="infinite-tree-container"
   data-resource-uri="<%= @resource.uri %>"
+  class="mb-2"
 >
+</div>
+<div id="infinite-tree-resizer" class="position-relative" style="height: .5rem">
+  <div class="ui-resizable-handle ui-resizable-s" data-resize-handle>
+    <button
+      class="tree-resize-toggle"
+      aria-expanded="false"
+      title="<%= I18n.t("tree.resize") %>"
+      aria-label="<%= I18n.t("tree.resize") %>"
+      data-resize-toggle
+    >
+    </button>
+  </div>
 </div>
 
 <template id="infinite-tree-root-template">
@@ -71,7 +84,6 @@
 <template id="infinite-tree-suppressed-template">
   <span class="badge badge-warning"><%= I18n.t("states.suppressed") %></span>
 </template>
-
 
 <script>
 const resourceUri = "<%= @resource.uri %>"
