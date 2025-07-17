@@ -327,43 +327,31 @@ class DigitalObjectsController < ApplicationController
   end
 
   def tree_root
-    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
-
-    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/root")
+    endpoint = "#{JSONModel(:digital_object).uri_for(params[:id])}/tree/root"
+    render :json => process_waypoint_data(endpoint)
   end
 
   def node_from_root
-    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
-
-    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/node_from_root",
-                                             'node_ids[]' => params[:node_ids])
+    endpoint = "#{JSONModel(:digital_object).uri_for(params[:id])}/tree/node_from_root"
+    render :json => process_waypoint_data(endpoint, 'node_ids[]' => params[:node_ids])
   end
 
   def tree_node
-    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
-    node_uri = if !params[:node].blank?
-                 params[:node]
-               else
-                 nil
-               end
-
-    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/node",
-                                             :node_uri => node_uri)
+    endpoint = "#{JSONModel(:digital_object).uri_for(params[:id])}/tree/node"
+    node_uri = params[:node] unless params[:node].blank?
+    render :json => process_waypoint_data(endpoint, :node_uri => node_uri)
   end
 
   def tree_waypoint
-    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
-    node_uri = if !params[:node].blank?
-                 params[:node]
-               else
-                 nil
-               end
-
-    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/waypoint",
-                                             :parent_node => node_uri,
-                                             :offset => params[:offset])
+    endpoint = "#{JSONModel(:digital_object).uri_for(params[:id])}/tree/waypoint"
+    node_uri = params[:node] unless params[:node].blank?
+    render :json => process_waypoint_data(endpoint, :parent_node => node_uri, :offset => params[:offset])
   end
 
+  def process_waypoint_data(uri, params = {})
+    waypoint_data = JSONModel::HTTP.get_json(uri, params)
+    MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
+  end
 
 
   private

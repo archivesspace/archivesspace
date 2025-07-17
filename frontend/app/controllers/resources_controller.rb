@@ -107,6 +107,7 @@ class ResourcesController < ApplicationController
     resource_uri = JSONModel(:resource).uri_for(params[:id])
     waypoint_data = fetch_json("#{resource_uri}/tree/root")
     processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
+
     render :json => processed_waypoint_data
   end
 
@@ -378,7 +379,7 @@ class ResourcesController < ApplicationController
       json = response.body
     end
 
-    json
+    JSON.parse(json)
   end
 
 

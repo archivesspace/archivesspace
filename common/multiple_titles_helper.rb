@@ -19,14 +19,13 @@ module MultipleTitlesHelper
   end
 
   # process largetree waypoint data, filling in the 'title' fields with the appropriate one from the titles list
-  def self.waypoint_determine_primary_titles(json, current_locale)
-    waypoint_data = JSON.parse(json)
-    waypoint_data["title"] = self.determine_primary_title(waypoint_data["titles"], current_locale, true)
-    waypoint_data.delete("titles")
-    waypoint_data.delete("parsed_titles")
+  def self.waypoint_determine_primary_titles(waypoint_json, current_locale)
+    waypoint_json["title"] = self.determine_primary_title(waypoint_json["titles"], current_locale, true)
+    waypoint_json.delete("titles")
+    waypoint_json.delete("parsed_titles")
 
     # the list of records is a couple of levels down in the waypoint data hash, and it's never more than one level deep
-    records = waypoint_data['precomputed_waypoints'].values[0].values[0]
+    records = waypoint_json['precomputed_waypoints'].values[0].values[0]
     records.each do |record|
       record["title"] = self.determine_primary_title(record["parsed_titles"], current_locale, true)
       # we're deleting the title lists to avoid confusion, since only one will be displayed in the tree
@@ -34,7 +33,7 @@ module MultipleTitlesHelper
       record.delete("parsed_titles")
     end
 
-    waypoint_data.to_json
+    waypoint_json
   end
 
 end
