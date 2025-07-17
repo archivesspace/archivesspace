@@ -8,18 +8,7 @@
   class="mb-2"
 >
 </div>
-<div id="infinite-tree-resizer" class="position-relative" style="height: .5rem">
-  <div class="ui-resizable-handle ui-resizable-s" data-resize-handle>
-    <button
-      class="tree-resize-toggle"
-      aria-expanded="false"
-      title="<%= I18n.t("tree.resize") %>"
-      aria-label="<%= I18n.t("tree.resize") %>"
-      data-resize-toggle
-    >
-    </button>
-  </div>
-</div>
+<%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
 
 <template id="infinite-tree-root-template">
   <ol class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>" role="tree">
