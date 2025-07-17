@@ -17,7 +17,13 @@
       this.toggleBtn = document.querySelector('[data-resize-toggle]');
 
       this.handle.addEventListener('mousedown', this.onMouseDown.bind(this));
+      this.handle.addEventListener('keydown', this.onHandleKeyDown.bind(this));
       this.toggleBtn.addEventListener('click', this.toggleMaximized.bind(this));
+      this.updateHandleAriaAttrs();
+
+      window.addEventListener('resize', () => {
+        this.updateHandleAriaAttrs();
+      });
     }
 
     onMouseDown(e) {
@@ -38,6 +44,7 @@
       const deltaY = e.clientY - this.startY;
       const newHeight = Math.max(this.minHeight, this.startHeight + deltaY);
       this.container.style.height = `${newHeight}px`;
+      this.updateHandleAriaAttrs(newHeight);
     }
 
     onMouseUp() {
@@ -47,26 +54,80 @@
       document.removeEventListener('mouseup', this.onMouseUpHandler);
     }
 
+    onHandleKeyDown(e) {
+      const step = 10;
+      const largeStep = 50;
+      let newHeight = this.container.offsetHeight;
+
+      switch (e.key) {
+        case 'ArrowUp':
+        case 'ArrowRight':
+          newHeight = Math.min(this.availableHeight, newHeight + step);
+          break;
+
+        case 'ArrowDown':
+        case 'ArrowLeft':
+          newHeight = Math.max(this.minHeight, newHeight - step);
+          break;
+
+        case 'PageUp':
+          newHeight = Math.min(this.availableHeight, newHeight + largeStep);
+          break;
+
+        case 'PageDown':
+          newHeight = Math.max(this.minHeight, newHeight - largeStep);
+          break;
+
+        case 'Home':
+          newHeight = this.minHeight;
+          break;
+
+        case 'End':
+          newHeight = this.availableHeight;
+          break;
+
+        default:
+          return;
+      }
+
+      this.container.style.height = `${newHeight}px`;
+      this.updateHandleAriaAttrs(newHeight);
+
+      e.preventDefault();
+    }
+
     toggleMaximized() {
       if (this.isResizing) return;
 
       this.isResizing = true;
 
       if (!this.isMaximized) {
+        this.container.style.height = `${this.availableHeight}px`;
         this.handle.classList.add('maximized');
-
-        const availableHeight =
-          window.innerHeight -
-          this.maximizedMarginBottom -
-          this.container.getBoundingClientRect().top;
-
-        this.container.style.height = `${availableHeight}px`;
+        this.toggleBtn.setAttribute('aria-expanded', true);
       } else {
-        this.handle.classList.remove('maximized');
         this.container.style.height = `${this.minHeight}px`;
+        this.handle.classList.remove('maximized');
+        this.toggleBtn.setAttribute('aria-expanded', false);
       }
 
       this.isResizing = false;
+    }
+
+    /**
+     * @param {number} [nowHeight] Current height in pixels
+     */
+    updateHandleAriaAttrs(nowHeight = this.container.offsetHeight) {
+      this.handle.setAttribute('aria-valuenow', nowHeight);
+      this.handle.setAttribute('aria-valuemax', this.availableHeight);
+    }
+
+    get availableHeight() {
+      return (
+        window.innerHeight -
+        this.maximizedMarginBottom -
+        this.container.getBoundingClientRect().top
+      );
     }
 
     get isMaximized() {
