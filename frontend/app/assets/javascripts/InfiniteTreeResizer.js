@@ -1,5 +1,8 @@
 (function (exports) {
   class InfiniteTreeResizer {
+    static #MIN_HEIGHT = 60;
+    static #MAXIMIZED_MARGIN_BOTTOM = 50;
+
     /**
      * @param {HTMLElement} container - The tree container to be resized
      */
@@ -8,13 +11,13 @@
       this.isResizing = false;
       this.startY = 0;
       this.startHeight = 0;
-      this.minHeight = 60;
-      this.maximizedMarginBottom = 50;
+      this.minHeight = InfiniteTreeResizer.#MIN_HEIGHT;
+      this.maximizedMarginBottom = InfiniteTreeResizer.#MAXIMIZED_MARGIN_BOTTOM;
       this.handle = document.querySelector('[data-resize-handle]');
       this.toggleBtn = document.querySelector('[data-resize-toggle]');
 
       this.handle.addEventListener('mousedown', this.onMouseDown.bind(this));
-      this.toggleBtn.addEventListener('click', this.toggleHeight.bind(this));
+      this.toggleBtn.addEventListener('click', this.toggleMaximized.bind(this));
     }
 
     onMouseDown(e) {
@@ -44,7 +47,7 @@
       document.removeEventListener('mouseup', this.onMouseUpHandler);
     }
 
-    toggleHeight() {
+    toggleMaximized() {
       if (this.isResizing) return;
 
       this.isResizing = true;
@@ -52,11 +55,12 @@
       if (!this.isMaximized) {
         this.handle.classList.add('maximized');
 
-        this.container.style.height = `${
+        const availableHeight =
           window.innerHeight -
           this.maximizedMarginBottom -
-          this.container.getBoundingClientRect().top
-        }px`;
+          this.container.getBoundingClientRect().top;
+
+        this.container.style.height = `${availableHeight}px`;
       } else {
         this.handle.classList.remove('maximized');
         this.container.style.height = `${this.minHeight}px`;

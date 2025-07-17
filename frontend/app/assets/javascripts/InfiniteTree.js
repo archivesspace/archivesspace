@@ -27,7 +27,7 @@
 
       this.markup = new InfiniteTreeMarkup(resourceUri, batchSize, i18n);
 
-      this.resizer = new InfiniteTreeResizer(this.container);
+      new InfiniteTreeResizer(this.container);
 
       this.batchObserver = new IntersectionObserver(
         (entries, observer) => {
