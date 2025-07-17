@@ -18,12 +18,15 @@
 
       this.handle.addEventListener('mousedown', this.onMouseDown.bind(this));
       this.handle.addEventListener('keydown', this.onHandleKeyDown.bind(this));
+      this.handle.addEventListener('touchstart', this.onTouchStart.bind(this), {
+        passive: false,
+      });
       this.toggleBtn.addEventListener('click', this.toggleMaximized.bind(this));
-      this.updateHandleAriaAttrs();
-
       window.addEventListener('resize', () => {
         this.updateHandleAriaAttrs();
       });
+
+      this.updateHandleAriaAttrs();
     }
 
     onMouseDown(e) {
@@ -52,6 +55,42 @@
       document.body.style.userSelect = '';
       document.removeEventListener('mousemove', this.onMouseMoveHandler);
       document.removeEventListener('mouseup', this.onMouseUpHandler);
+    }
+
+    onTouchStart(e) {
+      if (e.touches.length !== 1) return; // ignore multi-touch
+
+      this.isResizing = true;
+      this.startY = e.touches[0].clientY;
+      this.startHeight = this.container.offsetHeight;
+      document.body.style.userSelect = 'none';
+
+      this.onTouchMoveHandler = this.onTouchMove.bind(this);
+      this.onTouchEndHandler = this.onTouchEnd.bind(this);
+
+      document.addEventListener('touchmove', this.onTouchMoveHandler, {
+        passive: false,
+      });
+      document.addEventListener('touchend', this.onTouchEndHandler);
+    }
+
+    onTouchMove(e) {
+      if (!this.isResizing) return;
+
+      const deltaY = e.touches[0].clientY - this.startY;
+      const newHeight = Math.max(this.minHeight, this.startHeight + deltaY);
+
+      this.container.style.height = `${newHeight}px`;
+      this.updateHandleAriaAttrs(newHeight);
+
+      e.preventDefault(); // Prevent scrolling while resizing
+    }
+
+    onTouchEnd() {
+      this.isResizing = false;
+      document.body.style.userSelect = '';
+      document.removeEventListener('touchmove', this.onTouchMoveHandler);
+      document.removeEventListener('touchend', this.onTouchEndHandler);
     }
 
     onHandleKeyDown(e) {
