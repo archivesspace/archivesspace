@@ -1,5 +1,6 @@
 //= require InfiniteTreeFetch
 //= require InfiniteTreeMarkup
+//= require InfiniteTreeResizer
 
 (function (exports) {
   class InfiniteTree {
@@ -25,6 +26,8 @@
       this.fetch = new InfiniteTreeFetch(appUrlPrefix, resourceUri);
 
       this.markup = new InfiniteTreeMarkup(resourceUri, batchSize, i18n);
+
+      new InfiniteTreeResizer(this.container);
 
       this.batchObserver = new IntersectionObserver(
         (entries, observer) => {
