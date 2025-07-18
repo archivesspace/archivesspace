@@ -893,7 +893,8 @@ de:
       as_child: Elemente als Kinder hinzufügen
     unexpected_failure: Oje! Wir haben Probleme diesen Baum zu laden. Bitte versuchen
       Sie die Seite neu zu laden.
-    resize: Baum-Bereich aus/einklappen
+    resize: Ziehen, um die Baumhöhe zu ändern
+    maximize: Baumhöhe maximieren/minimieren
   errors:
     sidebar_label: Fehler und Warnungen
     error_403: Kann Seite nicht aufrufen
