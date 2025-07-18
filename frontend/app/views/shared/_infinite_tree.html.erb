@@ -5,8 +5,10 @@
 <div
   id="infinite-tree-container"
   data-resource-uri="<%= @resource.uri %>"
+  class="mb-2"
 >
 </div>
+<%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
 
 <template id="infinite-tree-root-template">
   <ol class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>" role="tree">
@@ -71,7 +73,6 @@
 <template id="infinite-tree-suppressed-template">
   <span class="badge badge-warning"><%= I18n.t("states.suppressed") %></span>
 </template>
-
 
 <script>
 const resourceUri = "<%= @resource.uri %>"

@@ -819,7 +819,8 @@ fr:
       as_child: Ajouter items comme fils
     unexpected_failure: Oups! Impossible de récupérer cette arborescence. Veuillez
       rafraîchir la page .
-    resize: Développer/Réduire la zone de l'arborescence
+    resize: Faire glisser pour ajuster la hauteur de l'arborescence
+    maximize: Maximiser/minimiser la hauteur de l'arborescence
 
   errors:
     merge_denied_for_system_user: Un ou plusieurs agents est un utilisateur système.
