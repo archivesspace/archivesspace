@@ -72,7 +72,9 @@ class PUIIndexer < PeriodicIndexer
         doc['types'] << 'pui_only'
       end
     }
+  end
 
+  def final_doc_rules
     # this runs after the hooks in indexer_common, so we can overwrite with confidence
     add_document_prepare_hook {|doc, record|
       if RecordInheritance.has_type?(doc['primary_type'])
