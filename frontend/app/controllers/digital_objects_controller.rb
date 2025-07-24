@@ -348,10 +348,6 @@ class DigitalObjectsController < ApplicationController
     render :json => process_waypoint_data(endpoint, :parent_node => node_uri, :offset => params[:offset])
   end
 
-  def process_waypoint_data(uri, params = {})
-    waypoint_data = JSONModel::HTTP.get_json(uri, params)
-    MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
-  end
 
   private
 
