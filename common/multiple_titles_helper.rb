@@ -25,7 +25,7 @@ module MultipleTitlesHelper
     waypoint_json.delete("parsed_titles")
 
     # the list of precomputed waypoints is a couple of levels down in the waypoint data hash (if any exist)
-    records = waypoint_json['precomputed_waypoints'].values.at(0)&.values&.at(0) || []
+    records = waypoint_json['precomputed_waypoints']&.values&.at(0)&.values&.at(0) || []
 
     records.each do |record|
       record["title"] = self.determine_primary_title(record["parsed_titles"], current_locale, true)
