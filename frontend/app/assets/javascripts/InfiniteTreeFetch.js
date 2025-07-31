@@ -2,18 +2,17 @@
   class InfiniteTreeFetch {
     /**
      * @constructor
-     * @param {string} appUrlPrefix - The proper app prefix
-     * @param {string} resourceUri - The URI of the collection resource
+     * @param {string} rootRecordUri - The URI of the root record, e.g. "/repositories/1/resources/3"
      */
-    constructor(appUrlPrefix, resourceUri) {
-      this.appUrlPrefix = appUrlPrefix;
-      this.resourceUri = resourceUri;
-      this.repoId = resourceUri.split('/')[2];
-      this.resourceId = resourceUri.split('/')[4];
-      this.baseUri = `/resources/${this.resourceId}/tree`;
-      this.rootUri = `${this.baseUri}/root`;
-      this.nodeUri = `${this.baseUri}/node`;
-      this.batchUri = `${this.baseUri}/waypoint`; // TODO: rename endpoint to /batch
+    constructor(rootRecordUri) {
+      this.rootRecordUri = rootRecordUri;
+      this.repoId = rootRecordUri.split('/')[2];
+      this.rootRecordTypePlural = rootRecordUri.split('/')[3];
+      this.rootRecordId = rootRecordUri.split('/')[4];
+      this.baseEndpoint = `/${this.rootRecordTypePlural}/${this.rootRecordId}/tree`;
+      this.rootNodeEndpoint = `${this.baseEndpoint}/root`;
+      this.nodeEndpoint = `${this.baseEndpoint}/node`;
+      this.batchEndpoint = `${this.baseEndpoint}/waypoint`; // TODO: rename endpoint to /batch
     }
 
     /**
@@ -22,7 +21,7 @@
      */
     async root() {
       try {
-        const response = await fetch(this.appUrlPrefix + this.rootUri);
+        const response = await fetch(AS.app_prefix(this.rootNodeEndpoint));
 
         return await response.json();
       } catch (err) {
@@ -44,7 +43,9 @@
       );
 
       try {
-        const response = await fetch(`${this.nodeUri}?${query}`);
+        const response = await fetch(
+          `${AS.app_prefix(this.nodeEndpoint)}?${query}`
+        );
 
         return await response.json();
       } catch (err) {
@@ -66,7 +67,9 @@
       query.append('offset', offset);
 
       try {
-        const response = await fetch(`${this.batchUri}?${query}`);
+        const response = await fetch(
+          `${AS.app_prefix(this.batchEndpoint)}?${query}`
+        );
 
         return await response.json();
       } catch (err) {
