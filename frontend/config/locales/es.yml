@@ -744,7 +744,8 @@ es:
       as_child: Añadir artículos como niños
     unexpected_failure: Ups! Estamos teniendo problemas para ir a buscar este árbol.
       Por favor, intente actualizar la página.
-    resize: Expandir / Contraer el área del árbol
+    resize: Arrastrar para cambiar la altura del árbol
+    maximize: Maximizar/minimizar la altura del árbol
 
   errors:
     merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.
