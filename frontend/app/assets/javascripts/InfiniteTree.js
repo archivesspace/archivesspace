@@ -21,6 +21,7 @@
       this.rootUri = rootUri;
 
       this.container = document.querySelector('#infinite-tree-container');
+      this.recordPaneEl = document.querySelector('#infinite-tree-record-pane');
 
       this.fetch = new InfiniteTreeFetch(rootUri);
 
@@ -41,9 +42,34 @@
 
       this.container.addEventListener('click', e => {
         if (e.target.closest('.node-expand')) this.expandHandler(e);
+        else if (e.target.closest('.node-title')) {
+          const clickedNode = e.target.closest('.node');
+          this.setCurrentNode(clickedNode);
+        }
       });
 
-      this.renderRoot();
+      if (this.uriFragment === '') {
+        this.renderRoot();
+      } else {
+        this.renderRoot(); // This is temporary until we have a way to load an arbitrary node
+      }
+    }
+
+    /**
+     * Sets the current node and emits an event to the coordinator
+     * @param {HTMLElement} node - The node to set as current
+     */
+    setCurrentNode(node) {
+      const old = this.container.querySelector('.current');
+      if (old) old.classList.remove('current');
+
+      node.classList.add('current');
+
+      const nodeSelectEvent = new CustomEvent('infiniteTree:nodeSelect', {
+        detail: { recordPath: node.dataset.uri.split('/').slice(-2).join('/') },
+      });
+
+      this.recordPaneEl.dispatchEvent(nodeSelectEvent);
     }
 
     /**
@@ -53,6 +79,8 @@
       const rootData = await this.fetch.root();
       const rootFragment = this.markup.root(rootData);
       const rootNode = rootFragment.querySelector('.root.node');
+
+      rootNode.classList.add('current');
 
       await this.renderInitialBatch(rootNode, rootData);
 

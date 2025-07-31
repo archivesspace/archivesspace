@@ -1,6 +1,11 @@
-<% show_identifiers = AppConfig[:display_identifiers_in_largetree_container] %>
+<%
+   show_identifiers = AppConfig[:display_identifiers_in_largetree_container]
+   read_only = false if read_only.blank?
+%>
 
 <%= javascript_include_tag "InfiniteTree.js" %>
+<%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
+<%= javascript_include_tag "InfiniteTreeIds.js" %>
 
 <div
   id="infinite-tree-container"
@@ -9,6 +14,7 @@
 >
 </div>
 <%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
+<%= render_aspace_partial :partial => "shared/infinite_tree_record_pane" %>
 
 <template id="infinite-tree-root-template">
   <ol class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>" role="tree">
@@ -75,9 +81,13 @@
 </template>
 
 <script>
-const resourceUri = "<%= @resource.uri %>"
-const resourceUriParts = resourceUri.split('/')
-const resourceId = resourceUriParts[resourceUriParts.length - 1]
+const resourceUri = "<%= @resource.uri %>";
+
+if (window.location.hash === '') {
+  window.location.hash = InfiniteTreeIds.uriToLocationHash(resourceUri);
+}
+
+const uriFragment = window.location.hash;
 
 // ANW-2322 Temporarily copy and adapt ENUMERATION_TRANSLATIONS from largetree.js
 // for use in a .js file (not .js.erb)
@@ -121,4 +131,6 @@ const infiniteTree = new InfiniteTree(
     enumerations: EnumerationTranslations2
   }
 );
+
+const infiniteTreeRecordPane = new InfiniteTreeRecordPane(uriFragment, resourceUri);
 </script>

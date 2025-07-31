@@ -43,6 +43,7 @@
   --tree-current-border: var(--blue-500);
   --tree-link-hover: var(--blue-800);
   --tree-expand-hover: var(--blue-950);
+  --tree-blockout-overlay: rgba(0, 0, 0, 0.2);
 }
 
 #infinite-tree-container {
@@ -247,7 +248,6 @@
 #infinite-tree-resizer {
   position: relative;
   height: 0.5rem;
-  margin-bottom: 10rem;
 
   .resize-handle {
     width: 100%;
@@ -319,6 +319,24 @@
           }
         }
       }
+    }
+  }
+}
+
+#infinite-tree-record-pane {
+  &.blocked {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -15px;
+      width: calc(100% + 30px);
+      height: 100%;
+      background: var(--tree-blockout-overlay);
+      z-index: 100;
+      pointer-events: auto;
     }
   }
 }
