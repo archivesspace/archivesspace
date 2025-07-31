@@ -96,7 +96,10 @@ class BulkArchivalObjectUpdaterController < ApplicationController
 
 
   def load_tree
-    JSONModel::HTTP::get_json("/bulk_archival_object_updater#{@uri}/small_tree")
+    tree = JSONModel::HTTP::get_json("/bulk_archival_object_updater#{@uri}/small_tree")
+    tree['title'] = MultipleTitlesHelper.determine_primary_title(tree['titles'], I18n.locale)
+    tree.delete('titles')
+    tree
   end
 
 
