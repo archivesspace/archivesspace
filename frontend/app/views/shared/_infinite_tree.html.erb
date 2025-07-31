@@ -113,7 +113,7 @@ const EnumerationTranslations2 = {
 
 const infiniteTree = new InfiniteTree(
   "<%= Rails.configuration.infinite_tree_batch_size %>",
-  "<%= AppConfig[:frontend_proxy_url] %>",
+  uriFragment,
   resourceUri,
   {
     sep: "<%= I18n.t("resource.identifier_separator") %>",

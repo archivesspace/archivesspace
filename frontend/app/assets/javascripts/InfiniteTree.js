@@ -7,27 +7,26 @@
     /**
      * @constructor
      * @param {number} batchSize - The number of nodes per batch of children
-     * @param {string} appUrlPrefix - The proper app prefix
-     * @param {string} resourceUri - The URI of the collection resource
+     * @param {string} uriFragment - The document's URI fragment
+     * @param {string} rootUri - The URI of the root record, e.g. "/repositories/1/resources/3"
      * @param {Object} i18n - The i18n object for use in a non .js.erb file
      * @param {string} i18n.sep - The identifier separator
      * @param {string} i18n.bulk - The date type bulk
      * @param {Object} i18n.enumerations - The enumeration translations object
      * @returns {InfiniteTree} - InfiniteTree instance
      */
-    constructor(batchSize, appUrlPrefix, resourceUri, i18n) {
+    constructor(batchSize, uriFragment, rootUri, i18n) {
       this.BATCH_SIZE = batchSize;
-      this.resourceUri = resourceUri;
-      this.repoId = resourceUri.split('/')[2];
-      this.resourceId = resourceUri.split('/')[4];
+      this.uriFragment = uriFragment;
+      this.rootUri = rootUri;
 
       this.container = document.querySelector('#infinite-tree-container');
 
-      this.fetch = new InfiniteTreeFetch(appUrlPrefix, resourceUri);
+      this.fetch = new InfiniteTreeFetch(rootUri);
 
-      this.markup = new InfiniteTreeMarkup(resourceUri, batchSize, i18n);
+      this.markup = new InfiniteTreeMarkup(rootUri, batchSize, i18n);
 
-      new InfiniteTreeResizer(this.container);
+      new InfiniteTreeResizer(this.container); // this could be abstracted out to the template level since its markup is there alongside the tree not within the tree
 
       this.batchObserver = new IntersectionObserver(
         (entries, observer) => {
