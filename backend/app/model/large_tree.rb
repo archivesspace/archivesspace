@@ -248,7 +248,7 @@ class LargeTree
           "jsonmodel_type" => @root_type,
           "titles" => root_record_titles[root_record_id],
           "parsed_titles" => root_record_titles[root_record_id].map { |t|
-            {title: MixedContentParser.parse(t['title'], '/'), language: t['lang']}
+            {title: MixedContentParser.parse(t[:title], '/'), language: t[:language]}
           }
         }
 
