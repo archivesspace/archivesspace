@@ -763,3 +763,118 @@ uk:
   telephone_merge_target:
     _plural: Номери телефонів
     number_type: Тип числа
+    number: Номер
+    number_tooltip: "<p>Номер телефону контактної особи.</p>\n"
+    ext: Додатковий телефонний номер
+    ext_tooltip: "<p>Додатковий номер телефону для контактної особи.</p>\n"
+  note_attributes:
+    label: Мітка
+    label_tooltip: "<p>Мітка або заголовок для конкретної нотатки. Якщо мітка не використовується, тип
+      нотатки буде використано як мітка, де це необхідно.</p>\n"
+    persistent_id: Постійний ідентифікатор
+    content: Зміст
+    content_tooltip: "<p>Зміст нотатки.</p>\n"
+    items: Елементи
+    items_singular: Елемент
+    item_singular: Елемент
+    publish: Опублікувати?
+    publish_tooltip: "<p>Визначає, чи стосується ця Примітка публічних (клієнтських) інтерфейсів.</p>\n"
+    title: Назва
+    title_tooltip: "<p>Елемент для запису певної мітки або назви для підноски.</p>\n"
+    type: Тип
+    type_tooltip: "<p>Тип примітки для вмісту. Типи приміток використовуються для керування експортом
+      вмісту приміток до певних елементів у певних форматах даних.</p>\n"
+  related_agent:
+    relationship_type: Загальний тип зв'язку
+    relationship_type_tooltip: Контрольований термін, що описує в широкому сенсі характер 
+      взаємовідносин між первинним агентом та пов'язаним агентом.
+    relator: Тип спрямованого зв'язку
+    specific_relator: Конкретний тип зв'язку
+    specific_relator_tooltip: Контрольований термін, що більш конкретно описує характер 
+      взаємозв'язку між первинним агентом та пов'язаним агентом.
+    relationship_uri: URI зв'язку
+    relationship_uri_tooltip: URI, що вказує на запис в онтології або іншому ресурсі для типів 
+      зв'язків між агентами. В основному використовується для цілей EAC-CPF.
+    relator_tooltip: Коли загальний тип зв'язку є частиною пари з двома можливими напрямками 
+      (наприклад, Батьківський-Дитиня), контрольований термін, що вказує на напрямок зв'язку.
+    description: Опис
+    description_tooltip: Опис характеру взаємовідносин у вільному тексті.
+    date: Дата
+    dates: Дати
+    ref: Пов'язаний агент
+    related_agent_tooltip: Особа, сім'я або юридична особа, пов'язана з основним агентом.
+    _singular: Пов'язаний агент
+    _plural: Пов'язані агенти
+  agent_relationship_parentchild:
+    _singular: Відносини між батьками та дітьми
+  agent_relationship_earlierlater:
+    _singular: Раніші/пізніші стосунки
+  agent_relationship_subordinatesuperior:
+    _singular: Відносини підлеглого/начальника
+  agent_relationship_associative:
+    _singular: Асоціативний зв'язок
+  agent_relationship_identity:
+    _singular: Відносини ідентичності
+  agent_relationship_hierarchical:
+    _singular: Ієрархічні зв'язки
+  agent_relationship_temporal:
+    _singular: Часові зв'язки
+  agent_relationship_family:
+    _singular: Сімейні стосунки
+  note:
+    item: Елемент
+    content_item: Елемент контенту
+    note_singlepart: Примітка для однієї частини
+    note_orderedlist: Упорядкований список
+    note_multipart: Багаточастинна нотатка
+    note_definedlist: Визначений список
+    note_chronology: Хронологія
+    note_index: Індекс
+    note_bibliography: Бібліографія
+    note_digital_object: Примітка про цифровий об'єкт
+    note_langmaterial: Примітка щодо мови матеріалів
+    note_bioghist: Біографія/Історична довідка
+    note_citation: Цитування
+    note_abstract: Анотація
+    note_outline: Контур
+    note_text: Текст
+    note_type: Тип примітки
+    note_rights_statement: Примітка щодо заяви про права
+    note_rights_statement_act: Примітка до акту
+    note_agent_rights_statement: Примітка щодо заяви про права (не використовувати)
+    note_general_context: Загальний контекст
+    note_mandate: Мандат
+    note_contact_note: Контактна примітка
+    note_legal_status: Правовий статус
+    note_structure_or_genealogy: Структура або генеалогія
+    _singular: Примітка„
+    _plural: Нотатки
+  note_text:
+    option: Текст
+  note_index:
+    option: Індекс
+  note_index_item:
+    value: Значення
+    value_tooltip: Зміст кожного запису в бібліографії. Для будь-якої примітки-покажчика потрібен 
+      принаймні один запис.
+    type: Тип
+    type_tooltip: Тип запису індексу.
+    reference: Довідка
+    reference_tooltip: Ціль для елемента індексу.
+    reference_text: Довідковий текст
+    reference_text_tooltip: Опис посилання, якщо це необхідно.
+  note_multipart:
+    subnotes: Додаткові примітки
+    sub_notes: Додаткові примітки
+    sub_notes_singular: Підпримітка
+  note_bibliography:
+    option: Бібліографія
+  note_chronology:
+    option: Хронологія
+    title: Назва
+    items: Події
+  chronology_item:
+    event_date: Дата події
+    event_date_tooltip: "<p>Дата події у хронологічному списку.</p>\n"
+    events: Елементи події
+    events_tooltip: "<p>Опис події, що відповідає елементу хронологічної дати.</p>\n"
