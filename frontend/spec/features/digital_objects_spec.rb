@@ -254,7 +254,7 @@ describe 'Digital Objects', js: true do
 
     wait_for_ajax
 
-    fill_in 'token-input-digital_object_classifications__0__ref_', with: classification.title
+    fill_in 'token-input-digital_object_classifications__0__ref_', with: classification.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
@@ -264,7 +264,7 @@ describe 'Digital Objects', js: true do
     expect(element.text).to eq "Digital Object Digital Object Title #{now} Updated"
 
     element = find('#digital_object_classifications__0_')
-    expect(element).to have_text classification.title
+    expect(element).to have_text classification.titles[0]['title']
   end
 
   it 'provides alt text for Digital Object file version images based on caption or title' do
