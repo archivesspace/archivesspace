@@ -53,9 +53,9 @@ class DigitalObjectComponentsController < ApplicationController
                   digital_object = @digital_object_component['digital_object']['_resolved']
                   parent = @digital_object_component['parent']? @digital_object_component['parent']['_resolved'] : false
 
-                  do_title = clean_mixed_content(MultipleTitlesHelper.determine_primary_title(digital_object['titles'], session[:locale]))
+                  do_title = title_for_display(digital_object)
                   if parent
-                    parent_display_string = clean_mixed_content(MultipleTitlesHelper.determine_primary_title(parent['titles'], session[:locale]))
+                    parent_display_string = title_for_display(parent)
                     flash[:success] = t("digital_object_component._frontend.messages.created_with_parent",
                       digital_object_component_display_string: title_for_display,
                       digital_object_title: do_title,

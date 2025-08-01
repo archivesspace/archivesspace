@@ -1,3 +1,5 @@
+require 'multiple_titles_helper'
+
 class ResourcesController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :tree_root, :tree_node, :tree_waypoint, :node_from_root, :models_in_graph],
@@ -103,40 +105,36 @@ class ResourcesController < ApplicationController
 
   def tree_root
     resource_uri = JSONModel(:resource).uri_for(params[:id])
+    waypoint_data = fetch_json("#{resource_uri}/tree/root")
+    processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
 
-    render :json => pass_through_json("#{resource_uri}/tree/root")
+    render :json => processed_waypoint_data
   end
 
   def node_from_root
     resource_uri = JSONModel(:resource).uri_for(params[:id])
+    waypoint_data = fetch_json("#{resource_uri}/tree/node_from_root", 'node_ids[]' => params[:node_ids])
+    processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
 
-    render :json => pass_through_json("#{resource_uri}/tree/node_from_root",
-                                      'node_ids[]' => params[:node_ids])
+    render :json => processed_waypoint_data
   end
 
   def tree_node
     resource_uri = JSONModel(:resource).uri_for(params[:id])
-    node_uri = if !params[:node].blank?
-                 params[:node]
-               else
-                 nil
-               end
+    node_uri = params[:node] unless params[:node].blank?
+    waypoint_data = fetch_json("#{resource_uri}/tree/node", :node_uri => node_uri)
+    processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
 
-    render :json => pass_through_json("#{resource_uri}/tree/node",
-                                      :node_uri => node_uri)
+    render :json => processed_waypoint_data
   end
 
   def tree_waypoint
     resource_uri = JSONModel(:resource).uri_for(params[:id])
-    node_uri = if !params[:node].blank?
-                 params[:node]
-               else
-                 nil
-               end
+    node_uri = params[:node] unless params[:node].blank?
 
-    render :json => pass_through_json("#{resource_uri}/tree/waypoint",
-                                      :parent_node => node_uri,
-                                      :offset => params[:offset])
+    render :json => fetch_json("#{resource_uri}/tree/waypoint",
+      :parent_node => node_uri,
+      :offset => params[:offset])
   end
 
   def transfer
@@ -374,14 +372,14 @@ class ResourcesController < ApplicationController
   private
 
 
-  def pass_through_json(uri, params = {})
+  def fetch_json(uri, params = {})
     json = "{}"
 
     JSONModel::HTTP.stream(uri, params) do |response|
       json = response.body
     end
 
-    json
+    JSON.parse(json)
   end
 
 

@@ -18,4 +18,23 @@ module MultipleTitlesHelper
     parse_mixed_content ? MixedContentParser.parse(title['title'], '/').to_s : title['title']
   end
 
+  # process largetree waypoint data, filling in the 'title' fields with the appropriate one from the titles list
+  def self.waypoint_determine_primary_titles(waypoint_json, current_locale)
+    waypoint_json["title"] = self.determine_primary_title(waypoint_json["titles"], current_locale, true)
+    waypoint_json.delete("titles")
+    waypoint_json.delete("parsed_titles")
+
+    # the list of precomputed waypoints is a couple of levels down in the waypoint data hash (if any exist)
+    records = waypoint_json['precomputed_waypoints']&.values&.at(0)&.values&.at(0) || []
+
+    records.each do |record|
+      record["title"] = self.determine_primary_title(record["parsed_titles"], current_locale, true)
+      # we're deleting the title lists to avoid confusion, since only one will be displayed in the tree
+      record.delete("titles")
+      record.delete("parsed_titles")
+    end
+
+    waypoint_json
+  end
+
 end
