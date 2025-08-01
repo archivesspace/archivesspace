@@ -6,7 +6,7 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "digital_object_component", jsonmodel_definition(:digital_object_component) do |readonly, digital_object_component| %>
-        <h2><%= clean_mixed_content(digital_object_component.display_string) %> <span class="label label-info badge"><%= t("digital_object_component._singular") %></span></h2>
+        <h2><%= title_for_display %> <span class="label label-info badge"><%= t("digital_object_component._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
@@ -18,7 +18,6 @@
                                      :record => @digital_object_component) %>
 
           <%= readonly.label_and_textfield "label" %>
-          <%= readonly.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root), :escape => false} %>
           <%= readonly.label_and_textfield "component_id" %>
 
           <%= readonly.label_with_field "public_url", readonly.slug_url_field("slug", session[:repo_slug], AppConfig[:repo_name_in_slugs]) if AppConfig[:use_human_readable_urls] %>
@@ -32,8 +31,12 @@
 
         </section>
 
+        <% if digital_object_component.titles.length > 0 %>
+          <%= render_aspace_partial :partial => "titles/show", :locals => { :titles => digital_object_component.titles, :section_id => "digital_object_component_titles_" } %>
+        <% end %>
+
         <% if digital_object_component.file_versions.length > 0 %>
-          <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object_component.file_versions, :section_id => "digital_object_component_file_versions_", :title => digital_object_component.display_string } %>
+          <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object_component.file_versions, :section_id => "digital_object_component_file_versions_", :title => title_for_display } %>
         <% end %>
 
         <% if digital_object_component.lang_materials.length > 0 %>

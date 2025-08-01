@@ -11,7 +11,6 @@
 
       "component_id" => {"type" => "string", "maxLength" => 255},
       "label" => {"type" => "string", "maxLength" => 255},
-      "title" => {"type" => "string", "ifmissing" => nil},
       "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
       "file_versions" => {"type" => "array", "items" => {"type" => "JSONModel(:file_version) object"}},

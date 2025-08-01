@@ -31,6 +31,7 @@ class Resource < Sequel::Model(:resource)
   include RepresentativeFileVersion
   include Assessments::LinkedRecord
   include Arks
+  include Titles
 
   enable_suppression
 
@@ -115,5 +116,4 @@ class Resource < Sequel::Model(:resource)
 
     result
   end
-
 end
