@@ -1,18 +1,22 @@
+//= require InfiniteTreeIds
+
 (function (exports) {
   class InfiniteTreeFetch {
     /**
      * @constructor
-     * @param {string} rootRecordUri - The URI of the root record, e.g. "/repositories/1/resources/3"
+     * @param {string} rootRecordUri - The backend URI of the root record, e.g. "/repositories/1/resources/3"
      */
     constructor(rootRecordUri) {
-      this.rootRecordUri = rootRecordUri;
-      this.repoId = rootRecordUri.split('/')[2];
-      this.rootRecordTypePlural = rootRecordUri.split('/')[3];
-      this.rootRecordId = rootRecordUri.split('/')[4];
-      this.baseEndpoint = `/${this.rootRecordTypePlural}/${this.rootRecordId}/tree`;
-      this.rootNodeEndpoint = `${this.baseEndpoint}/root`;
-      this.nodeEndpoint = `${this.baseEndpoint}/node`;
-      this.batchEndpoint = `${this.baseEndpoint}/waypoint`; // TODO: rename endpoint to /batch
+      const baseUrl =
+        InfiniteTreeIds.backendUriToFrontendUri(rootRecordUri) + '/tree';
+      const rootParts = InfiniteTreeIds.rootUriToParts(rootRecordUri);
+
+      this.rootUrl = baseUrl + '/root';
+      this.nodeUrl = baseUrl + '/node';
+      this.batchUrl = baseUrl + '/waypoint'; // TODO: rename endpoint to /batch
+      this.ancestorsUrl = baseUrl + '/node_from_root'; // TODO: rename endpoint to /ancestors
+      this.nodeSearchParamsBase =
+        '/repositories/' + rootParts.repoId + '/' + rootParts.childType + 's/';
     }
 
     /**
@@ -21,7 +25,7 @@
      */
     async root() {
       try {
-        const response = await fetch(AS.app_prefix(this.rootNodeEndpoint));
+        const response = await fetch(this.rootUrl);
 
         return await response.json();
       } catch (err) {
@@ -35,17 +39,12 @@
      * @returns {Object} - Node object as returned from the server
      */
     async node(id) {
-      const query = new URLSearchParams();
-
-      query.append(
-        'node',
-        `/repositories/${this.repoId}/archival_objects/${id}`
-      );
+      const query = new URLSearchParams({
+        node: this.nodeSearchParamsBase + id,
+      });
 
       try {
-        const response = await fetch(
-          `${AS.app_prefix(this.nodeEndpoint)}?${query}`
-        );
+        const response = await fetch(this.nodeUrl + '?' + query);
 
         return await response.json();
       } catch (err) {
@@ -56,25 +55,41 @@
     /**
      * Fetches a batch of the given parent's children
      * @param {string} parentRef - The parent reference for the endpoint; either '' for root,
-     * or the URI of the parent node, ie: '/repositories/:rid/archival_objects/:id'
-     * @param {number} offset - The `offset` URL param
+     * or the backend URI of the parent node, ie: '/repositories/:rid/archival_objects/:id'
+     * @param {number} offset - The parent's batch offset to fetch, 0-indexed
      * @returns {array} - Array of node objects as returned from the server
      */
     async batch(parentRef, offset) {
-      const query = new URLSearchParams();
-
-      query.append('node', parentRef);
-      query.append('offset', offset);
+      const query = new URLSearchParams({
+        node: parentRef,
+        offset,
+      });
 
       try {
-        const response = await fetch(
-          `${AS.app_prefix(this.batchEndpoint)}?${query}`
-        );
+        const response = await fetch(this.batchUrl + '?' + query);
 
         return await response.json();
       } catch (err) {
         console.error('Error fetching batch:', err);
         return null;
+      }
+    }
+
+    /**
+     * Fetches the ancestors of the given id
+     * @param {number} id - ID of the node, ie: 18028
+     * @returns {Object} - node_from_root object as returned from the server
+     * {":id": [{}, {}, {}]}
+     */
+    async ancestors(id) {
+      const query = new URLSearchParams({ 'node_ids[]': id });
+
+      try {
+        const response = await fetch(this.ancestorsUrl + '?' + query);
+
+        return await response.json();
+      } catch (err) {
+        console.error(err);
       }
     }
   }

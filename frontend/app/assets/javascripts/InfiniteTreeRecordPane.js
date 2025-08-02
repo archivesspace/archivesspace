@@ -13,7 +13,7 @@
 
       if (
         uriFragment === '' ||
-        uriFragment === InfiniteTreeIds.uriToLocationHash(rootRecordUri)
+        uriFragment === InfiniteTreeIds.treeLinkUrl(rootRecordUri)
       ) {
         this.loadRecord(InfiniteTreeIds.backendUriToFrontendUri(rootRecordUri));
       } else {
