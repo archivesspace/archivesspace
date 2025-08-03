@@ -17,24 +17,36 @@
 <%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
 <%= render_aspace_partial :partial => "shared/infinite_tree_record_pane" %>
 
-<template id="infinite-tree-root-template">
-  <ol class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>" role="tree">
-    <li class="root node" role="treeitem" id data-uri aria-expanded>
-      <div class="node-row">
-        <div class="node-body" title>
-          <div class="node-column" data-column="title">
-            <a class="node-title" href></a>
-          </div>
-          <div class="node-column" data-column="level"></div>
-          <div class="node-column" data-column="type"></div>
-          <div class="node-column" data-column="container"></div>
-          <% if show_identifiers %>
-            <div class="node-column" data-column="identifier"></div>
-          <% end %>
+<template id="infinite-tree-root-list-template">
+  <ol class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>" role="tree"></ol>
+</template>
+
+<template id="infinite-tree-root-node-template">
+  <li class="root node" role="treeitem" id data-uri> <!-- aria-expanded was removed here, so it needs to be explicitly handled in the Markup -->
+    <div class="node-row">
+      <div class="node-body" title>
+        <div class="node-column" data-column="title">
+          <a class="node-title" href></a>
         </div>
+        <div class="node-column" data-column="level"></div>
+        <div class="node-column" data-column="type"></div>
+        <div class="node-column" data-column="container"></div>
+        <% if show_identifiers %>
+          <div class="node-column" data-column="identifier"></div>
+        <% end %>
       </div>
-    </li>
-  </ol>
+    </div>
+  </li>
+</template>
+
+<template id="infinite-tree-node-list-template">
+  <ol
+    class="node-children"
+    role="group"
+    data-parent-id
+    data-tree-level
+    data-total-child-batches
+  ></ol>
 </template>
 
 <template id="infinite-tree-node-template">
@@ -61,16 +73,6 @@
     <i class="node-expand-icon glyphicon glyphicon-chevron-right"></i>
     <span class="sr-only"></span>
   </button>
-</template>
-
-<template id="infinite-tree-children-list-template">
-  <ol
-    class="node-children"
-    role="group"
-    data-parent-id
-    data-tree-level
-    data-total-child-batches
-  ></ol>
 </template>
 
 <template id="infinite-tree-batch-placeholder-template">

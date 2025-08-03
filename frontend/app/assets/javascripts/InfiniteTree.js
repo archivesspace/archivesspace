@@ -89,77 +89,60 @@
      */
     async renderRoot() {
       const rootData = await this.fetch.root();
-      const rootFragment = this.markup.root(rootData);
-      const rootNode = rootFragment.querySelector('.root.node');
+      const rootListFrag = this.markup.rootList();
+      const rootListElement = rootListFrag.querySelector('ol');
+      const rootNodeFrag = this.markup.rootNode(rootData);
+      const rootNodeElement = rootNodeFrag.querySelector('li');
 
-      rootNode.classList.add('current');
+      rootNodeElement.classList.add('current');
+      debugger;
+      if (rootData.child_count > 0) {
+        await this.renderInitialBatchForNode(rootNodeElement, rootData);
+      }
 
-      await this.renderInitialBatch(rootNode, rootData);
+      rootListElement.appendChild(rootNodeFrag);
 
-      this.container.appendChild(rootFragment);
+      this.container.appendChild(rootListFrag);
     }
 
     /**
-     * Renders the first batch of a node's children
-     * @param {HTMLElement} parent - The node element to initialize children for
-     * @param {Object} data - The node data object from the server
+     * Renders the first batch of children for any node
+     * @param {HTMLElement} node - The node to render children for
+     * @param {Object} nodeData - The node data from the server
      */
-    async renderInitialBatch(parent, data) {
-      const batchData = this.prepareBatch(parent, data);
-      const list = this.renderList(parent, batchData.level, data.waypoints);
-
-      this.renderBatch(list, batchData.nodes, batchData.hasNextBatch, 0);
-    }
-
-    /**
-     * Renders and returns the list element for child nodes
-     * @param {HTMLElement} parent - Parent node element
-     * @param {number} parentLevel - Tree level of the parent
-     * @param {number} numBatches - Number of batch placeholders to create
-     * @returns {HTMLElement} The rendered list element
-     */
-    renderList(parent, parentLevel, numBatches) {
-      const listFragment = this.markup.list(
-        parent.id,
-        parentLevel + 1,
-        numBatches
+    async renderInitialBatchForNode(node, nodeData) {
+      const batchData = this.prepareBatch(node, nodeData);
+      const listFragment = this.markup.nodeList(
+        node.id,
+        batchData.level + 1,
+        nodeData.waypoints
       );
 
-      parent.appendChild(listFragment);
+      node.appendChild(listFragment);
 
-      return parent.querySelector('.node-children');
+      const list = node.querySelector('.node-children');
+      const observeForBatch = nodeData.waypoints > 1 ? 1 : null;
+
+      this.renderBatch(list, batchData.nodes, 0, observeForBatch);
     }
 
     /**
      * Renders a batch of child nodes into a list
      * @param {HTMLElement} list - The list element to render into
      * @param {array} nodes - Node objects to render
-     * @param {boolean} hasNextBatch - Whether there is another batch after this one
      * @param {number} batchNumber - The batch number being rendered
+     * @param {number|null} observeForBatch - The number of a neighboring batch to observe for, null if none
      */
-    renderBatch(list, nodes, hasNextBatch, batchNumber = 0) {
-      if (!Array.isArray(nodes)) {
-        console.error('Expected nodes to be an array, got:', nodes);
-        return;
-      }
-
+    renderBatch(list, nodes, batchNumber, observeForBatch = null) {
       const listMeta = this.validateList(list);
       if (!listMeta) return;
 
-      const batchFragment = new DocumentFragment();
-
-      nodes.forEach((node, i) => {
-        const observeThisNode =
-          i == Math.floor(this.BATCH_SIZE / 2) - 1 && hasNextBatch;
-        const markupArgs = [node, listMeta.level, observeThisNode];
-
-        if (observeThisNode) {
-          markupArgs.push(listMeta.parentId, batchNumber + 1);
-        }
-
-        batchFragment.appendChild(this.markup.node(...markupArgs));
-      });
-
+      const batchFragment = this.buildBatchFragment(
+        nodes,
+        listMeta.level,
+        listMeta.parentId,
+        observeForBatch
+      );
       const placeholder = list.querySelector(
         `li[data-batch-placeholder="${batchNumber}"]`
       );
@@ -175,7 +158,7 @@
 
       placeholder.replaceWith(batchFragment);
 
-      if (hasNextBatch) {
+      if (observeForBatch !== null) {
         const observerNode = list.querySelector('[data-observe-next-batch]');
 
         if (observerNode) {
@@ -244,28 +227,41 @@
           const node = entry.target;
           const parentNodeUri = node.getAttribute('data-observe-node');
           const siblingList = node.closest('.node-children');
-          const nextBatchNumber = Number(
-            node.getAttribute('data-observe-offset')
-          );
-          const totalBatches = Number(
-            siblingList.getAttribute('data-total-child-batches')
-          );
-          const hasNextBatch = nextBatchNumber + 1 < totalBatches;
-          const batchData = await this.fetch.batch(
-            parentNodeUri,
-            nextBatchNumber
-          );
+          const batchOffset = Number(node.getAttribute('data-observe-offset'));
+          const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
 
           if (!batchData) {
-            console.error('Failed to fetch batch');
+            console.error('batchObserverHandler failed to fetch batch');
             return;
           }
+
+          const batchOffsetPlaceholderEl = siblingList.querySelector(
+            `li[data-batch-placeholder="${batchOffset}"]`
+          );
+          const observeForBatch =
+            batchOffsetPlaceholderEl.nextElementSibling?.matches(
+              'li[data-batch-placeholder]'
+            )
+              ? Number(
+                  batchOffsetPlaceholderEl.nextElementSibling.getAttribute(
+                    'data-batch-placeholder'
+                  )
+                )
+              : batchOffsetPlaceholderEl.previousElementSibling?.matches(
+                  'li[data-batch-placeholder]'
+                )
+              ? Number(
+                  batchOffsetPlaceholderEl.previousElementSibling.getAttribute(
+                    'data-batch-placeholder'
+                  )
+                )
+              : null;
 
           this.renderBatch(
             siblingList,
             batchData,
-            hasNextBatch,
-            nextBatchNumber
+            batchOffset,
+            observeForBatch
           );
 
           node.removeAttribute('data-observe-next-batch');
@@ -273,17 +269,17 @@
           node.removeAttribute('data-observe-offset');
           observer.unobserve(node);
 
-          if (hasNextBatch) {
+          if (observeForBatch !== null) {
             const nextNode = siblingList.querySelector(
-              `[data-observe-next-batch][data-observe-offset="${
-                nextBatchNumber + 1
-              }"]`
+              `[data-observe-next-batch][data-observe-offset="${observeForBatch}"]`
             );
 
             if (nextNode) {
               observer.observe(nextNode);
             } else {
-              console.error('Could not find node to observe for next batch');
+              console.error(
+                `batchObserverHandler could not find node to observe for batch ${observeForBatch}`
+              );
             }
           }
         }
@@ -311,12 +307,11 @@
      */
     async ancestorBatchAndNeighbors(ancestorMetaObj) {
       const isRoot = ancestorMetaObj.node === null;
-      const resourceId = this.rootUri.split('/')[4]; // Extract from rootUri instead of this.resourceId
+      const resourceId = this.rootUri.split('/')[4];
       const recordId = isRoot ? resourceId : ancestorMetaObj.node.split('/')[4];
       const nodeId = isRoot ? null : recordId;
       const batchTarget = ancestorMetaObj.offset;
 
-      // Get node data directly instead of using getNodeData method
       const baseData =
         nodeId !== null
           ? await this.fetch.node(nodeId)
@@ -440,15 +435,19 @@
         const ancestorHtmlId = batch.ancestorHtmlId;
 
         if (i === 0) {
-          // Handle root node - use frontend's root() method
-          const rootFrag = this.markup.root(batch);
-          const rootElement = rootFrag.querySelector('.root.node');
+          const treeListFrag = this.markup.rootList();
+          const treeListElement = treeListFrag.querySelector('ol');
 
-          // Create list for root's children
-          const listFrag = this.markup.list(ancestorHtmlId, i + 1, numBatches);
-          const listElement = listFrag.querySelector('ol');
+          const rootNodeFrag = this.markup.rootNode(batch);
+          const rootNodeElement = rootNodeFrag.querySelector('li');
 
-          // Populate batches
+          const nodeListFrag = this.markup.nodeList(
+            ancestorHtmlId,
+            i + 1,
+            numBatches
+          );
+          const nodeListElement = nodeListFrag.querySelector('ol');
+
           Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
             const batchFragment = this.buildBatchFragment(
               batchData.nodes,
@@ -459,13 +458,16 @@
                 : null
             );
 
-            listElement
+            nodeListElement
               .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
               .replaceWith(batchFragment);
           });
 
-          rootElement.appendChild(listFrag);
-          acc.appendChild(rootFrag);
+          rootNodeElement.appendChild(nodeListFrag);
+
+          treeListElement.appendChild(rootNodeFrag);
+
+          acc.appendChild(treeListFrag);
 
           return acc;
         } else {
@@ -473,11 +475,14 @@
           const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
           const icon = nodeElement.querySelector('.node-expand-icon');
 
-          // Create list for this node's children
-          const listFrag = this.markup.list(ancestorHtmlId, i + 1, numBatches);
-          const listElement = listFrag.querySelector('ol');
+          const nodeListFrag = this.markup.nodeList(
+            ancestorHtmlId,
+            i + 1,
+            numBatches
+          );
 
-          // Populate batches
+          const nodeListElement = nodeListFrag.querySelector('ol');
+
           Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
             const batchFragment = this.buildBatchFragment(
               batchData.nodes,
@@ -488,12 +493,12 @@
                 : null
             );
 
-            listElement
+            nodeListElement
               .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
               .replaceWith(batchFragment);
           });
 
-          nodeElement.appendChild(listFrag);
+          nodeElement.appendChild(nodeListFrag);
 
           nodeElement.setAttribute('data-has-expanded', 'true');
           nodeElement.setAttribute('aria-expanded', 'true');
@@ -564,7 +569,7 @@
         const nodeRecordId = node.getAttribute('data-uri').split('/')[4];
         const nodeData = await this.fetch.node(Number(nodeRecordId));
 
-        await this.renderInitialBatch(node, nodeData);
+        await this.renderInitialBatchForNode(node, nodeData);
 
         node.setAttribute('data-has-expanded', 'true');
       }
