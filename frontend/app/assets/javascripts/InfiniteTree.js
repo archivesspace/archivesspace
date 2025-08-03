@@ -68,23 +68,6 @@
     }
 
     /**
-     * Sets the current node and notifiesthe record pane
-     * @param {HTMLElement} node - The node to set as current
-     */
-    setCurrentNode(node) {
-      const old = this.container.querySelector('.current');
-      if (old) old.classList.remove('current');
-
-      node.classList.add('current');
-
-      const nodeSelectEvent = new CustomEvent('infiniteTree:nodeSelect', {
-        detail: { recordPath: node.dataset.uri.split('/').slice(-2).join('/') },
-      });
-
-      this.recordPaneEl.dispatchEvent(nodeSelectEvent);
-    }
-
-    /**
      * Renders the root node and its first batch of children
      */
     async renderRoot() {
@@ -168,6 +151,35 @@
     }
 
     /**
+     * Builds a fragment containing a batch of child nodes
+     * @param {array} nodes - Node objects to render
+     * @param {number} level - The tree level for these nodes
+     * @param {string} parentId - The ID of the parent node
+     * @param {number|null} observeForBatch - The number of a neighboring batch to observe for, null if none
+     * @returns {DocumentFragment} The built batch fragment
+     */
+    buildBatchFragment(nodes, level, parentId, observeForBatch = null) {
+      const batchFragment = new DocumentFragment();
+
+      nodes.forEach((node, i) => {
+        const shouldObserveNode =
+          i === Math.floor(this.BATCH_SIZE / 2) - 1 && observeForBatch !== null;
+
+        batchFragment.appendChild(
+          this.markup.node(
+            node,
+            level,
+            shouldObserveNode,
+            shouldObserveNode ? parentId : null,
+            shouldObserveNode ? Number(observeForBatch) : null
+          )
+        );
+      });
+
+      return batchFragment;
+    }
+
+    /**
      * Prepares the data needed for rendering a batch of children
      * @param {HTMLElement} parent - Parent node element
      * @param {Object} data - Node data from the server
@@ -191,98 +203,103 @@
     }
 
     /**
-     * Validates and returns parent data from a list
-     * @param {HTMLElement} list - The list element with data attributes to validate
-     * @returns {Object|null} List metadata if valid, null if invalid
+     * Builds the ancestor tree list
+     * @param {Array} ancestorBatches - The ancestor batches to build the tree from
+     * @param {string} nodeElementId - The HTML ID of the node element to scroll to
      */
-    validateList(list) {
-      if (!list) {
-        console.error('List element is null or undefined');
-        return null;
-      }
+    async renderAncestors(ancestorBatches, nodeElementId) {
+      const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
+        const numBatches = batch.waypoints;
+        const ancestorHtmlId = batch.ancestorHtmlId;
 
-      const parentId = list.getAttribute('data-parent-id');
-      if (!parentId) {
-        console.error('List element is missing data-parent-id attribute');
-        return null;
-      }
+        if (i === 0) {
+          const treeListFrag = this.markup.rootList();
+          const treeListElement = treeListFrag.querySelector('ol');
 
-      const level = Number(list.getAttribute('data-tree-level'));
-      if (!level) {
-        console.error('List element is missing data-tree-level attribute');
-        return null;
-      }
+          const rootNodeFrag = this.markup.rootNode(batch);
+          const rootNodeElement = rootNodeFrag.querySelector('li');
 
-      return { parentId, level };
-    }
-
-    /**
-     * IntersectionObserver callback for populating the next batch of children
-     * @param {IntersectionObserverEntry[]} entries - Array of entries
-     * @param {IntersectionObserver} observer - The observer instance
-     */
-    batchObserverHandler(entries, observer) {
-      entries.forEach(async entry => {
-        if (entry.isIntersecting) {
-          const node = entry.target;
-          const parentNodeUri = node.getAttribute('data-observe-node');
-          const siblingList = node.closest('.node-children');
-          const batchOffset = Number(node.getAttribute('data-observe-offset'));
-          const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
-
-          if (!batchData) {
-            console.error('batchObserverHandler failed to fetch batch');
-            return;
-          }
-
-          const batchOffsetPlaceholderEl = siblingList.querySelector(
-            `li[data-batch-placeholder="${batchOffset}"]`
+          const nodeListFrag = this.markup.nodeList(
+            ancestorHtmlId,
+            i + 1,
+            numBatches
           );
-          const observeForBatch =
-            batchOffsetPlaceholderEl.nextElementSibling?.matches(
-              'li[data-batch-placeholder]'
-            )
-              ? Number(
-                  batchOffsetPlaceholderEl.nextElementSibling.getAttribute(
-                    'data-batch-placeholder'
-                  )
-                )
-              : batchOffsetPlaceholderEl.previousElementSibling?.matches(
-                  'li[data-batch-placeholder]'
-                )
-              ? Number(
-                  batchOffsetPlaceholderEl.previousElementSibling.getAttribute(
-                    'data-batch-placeholder'
-                  )
-                )
-              : null;
+          const nodeListElement = nodeListFrag.querySelector('ol');
 
-          this.renderBatch(
-            siblingList,
-            batchData,
-            batchOffset,
-            observeForBatch
-          );
-
-          node.removeAttribute('data-observe-next-batch');
-          node.removeAttribute('data-observe-node');
-          node.removeAttribute('data-observe-offset');
-          observer.unobserve(node);
-
-          if (observeForBatch !== null) {
-            const nextNode = siblingList.querySelector(
-              `[data-observe-next-batch][data-observe-offset="${observeForBatch}"]`
+          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
+            const batchFragment = this.buildBatchFragment(
+              batchData.nodes,
+              i + 1,
+              ancestorHtmlId,
+              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
+                ? Number(batchData.observeForBatch)
+                : null
             );
 
-            if (nextNode) {
-              observer.observe(nextNode);
-            } else {
-              console.error(
-                `batchObserverHandler could not find node to observe for batch ${observeForBatch}`
-              );
-            }
-          }
+            nodeListElement
+              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
+              .replaceWith(batchFragment);
+          });
+
+          rootNodeElement.appendChild(nodeListFrag);
+
+          treeListElement.appendChild(rootNodeFrag);
+
+          acc.appendChild(treeListFrag);
+
+          return acc;
+        } else {
+          // Handle non-root ancestor nodes
+          const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
+          const icon = nodeElement.querySelector('.node-expand-icon');
+
+          const nodeListFrag = this.markup.nodeList(
+            ancestorHtmlId,
+            i + 1,
+            numBatches
+          );
+
+          const nodeListElement = nodeListFrag.querySelector('ol');
+
+          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
+            const batchFragment = this.buildBatchFragment(
+              batchData.nodes,
+              i + 1,
+              ancestorHtmlId,
+              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
+                ? Number(batchData.observeForBatch)
+                : null
+            );
+
+            nodeListElement
+              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
+              .replaceWith(batchFragment);
+          });
+
+          nodeElement.appendChild(nodeListFrag);
+
+          nodeElement.setAttribute('data-has-expanded', 'true');
+          nodeElement.setAttribute('aria-expanded', 'true');
+          icon.classList.add('expanded');
+
+          return acc;
         }
+      }, new DocumentFragment());
+
+      this.container.appendChild(ancestorsFrag);
+
+      const nodeOfInterest = this.container.querySelector(`#${nodeElementId}`);
+      const nodesToObserve = this.container.querySelectorAll(
+        '[data-observe-next-batch]'
+      );
+
+      if (nodeOfInterest) {
+        this.setCurrentNode(nodeOfInterest);
+        nodeOfInterest.scrollIntoView({ behavior: 'instant', block: 'center' });
+      }
+
+      nodesToObserve.forEach(node => {
+        this.batchObserver.observe(node);
       });
     }
 
@@ -422,133 +439,116 @@
     }
 
     /**
-     * Builds the ancestor tree list
-     * @param {Array} ancestorBatches - The ancestor batches to build the tree from
-     * @param {string} nodeElementId - The HTML ID of the node element to scroll to
+     * Sets the current node and notifiesthe record pane
+     * @param {HTMLElement} node - The node to set as current
      */
-    async renderAncestors(ancestorBatches, nodeElementId) {
-      const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
-        const numBatches = batch.waypoints;
-        const ancestorHtmlId = batch.ancestorHtmlId;
+    setCurrentNode(node) {
+      const old = this.container.querySelector('.current');
+      if (old) old.classList.remove('current');
 
-        if (i === 0) {
-          const treeListFrag = this.markup.rootList();
-          const treeListElement = treeListFrag.querySelector('ol');
+      node.classList.add('current');
 
-          const rootNodeFrag = this.markup.rootNode(batch);
-          const rootNodeElement = rootNodeFrag.querySelector('li');
-
-          const nodeListFrag = this.markup.nodeList(
-            ancestorHtmlId,
-            i + 1,
-            numBatches
-          );
-          const nodeListElement = nodeListFrag.querySelector('ol');
-
-          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
-            const batchFragment = this.buildBatchFragment(
-              batchData.nodes,
-              i + 1,
-              ancestorHtmlId,
-              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
-                ? Number(batchData.observeForBatch)
-                : null
-            );
-
-            nodeListElement
-              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
-              .replaceWith(batchFragment);
-          });
-
-          rootNodeElement.appendChild(nodeListFrag);
-
-          treeListElement.appendChild(rootNodeFrag);
-
-          acc.appendChild(treeListFrag);
-
-          return acc;
-        } else {
-          // Handle non-root ancestor nodes
-          const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
-          const icon = nodeElement.querySelector('.node-expand-icon');
-
-          const nodeListFrag = this.markup.nodeList(
-            ancestorHtmlId,
-            i + 1,
-            numBatches
-          );
-
-          const nodeListElement = nodeListFrag.querySelector('ol');
-
-          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
-            const batchFragment = this.buildBatchFragment(
-              batchData.nodes,
-              i + 1,
-              ancestorHtmlId,
-              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
-                ? Number(batchData.observeForBatch)
-                : null
-            );
-
-            nodeListElement
-              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
-              .replaceWith(batchFragment);
-          });
-
-          nodeElement.appendChild(nodeListFrag);
-
-          nodeElement.setAttribute('data-has-expanded', 'true');
-          nodeElement.setAttribute('aria-expanded', 'true');
-          icon.classList.add('expanded');
-
-          return acc;
-        }
-      }, new DocumentFragment());
-
-      this.container.appendChild(ancestorsFrag);
-
-      const nodeOfInterest = this.container.querySelector(`#${nodeElementId}`);
-      const nodesToObserve = this.container.querySelectorAll(
-        '[data-observe-next-batch]'
-      );
-
-      if (nodeOfInterest) {
-        this.setCurrentNode(nodeOfInterest);
-        nodeOfInterest.scrollIntoView({ behavior: 'instant', block: 'center' });
-      }
-
-      nodesToObserve.forEach(node => {
-        this.batchObserver.observe(node);
+      const nodeSelectEvent = new CustomEvent('infiniteTree:nodeSelect', {
+        detail: { recordPath: node.dataset.uri.split('/').slice(-2).join('/') },
       });
+
+      this.recordPaneEl.dispatchEvent(nodeSelectEvent);
     }
 
     /**
-     * Builds a fragment containing a batch of child nodes
-     * @param {array} nodes - Node objects to render
-     * @param {number} level - The tree level for these nodes
-     * @param {string} parentId - The ID of the parent node
-     * @param {number|null} observeForBatch - The number of a neighboring batch to observe for, null if none
-     * @returns {DocumentFragment} The built batch fragment
+     * Validates and returns parent data from a list
+     * @param {HTMLElement} list - The list element with data attributes to validate
+     * @returns {Object|null} List metadata if valid, null if invalid
      */
-    buildBatchFragment(nodes, level, parentId, observeForBatch = null) {
-      const batchFragment = new DocumentFragment();
+    validateList(list) {
+      if (!list) {
+        console.error('List element is null or undefined');
+        return null;
+      }
 
-      nodes.forEach((node, i) => {
-        const shouldObserveNode =
-          i === Math.floor(this.BATCH_SIZE / 2) - 1 && observeForBatch !== null;
+      const parentId = list.getAttribute('data-parent-id');
+      if (!parentId) {
+        console.error('List element is missing data-parent-id attribute');
+        return null;
+      }
 
-        batchFragment.appendChild(
-          this.markup.node(
-            node,
-            level,
-            shouldObserveNode,
-            shouldObserveNode ? parentId : null,
-            shouldObserveNode ? Number(observeForBatch) : null
-          )
-        );
+      const level = Number(list.getAttribute('data-tree-level'));
+      if (!level) {
+        console.error('List element is missing data-tree-level attribute');
+        return null;
+      }
+
+      return { parentId, level };
+    }
+
+    /**
+     * IntersectionObserver callback for populating the next batch of children
+     * @param {IntersectionObserverEntry[]} entries - Array of entries
+     * @param {IntersectionObserver} observer - The observer instance
+     */
+    batchObserverHandler(entries, observer) {
+      entries.forEach(async entry => {
+        if (entry.isIntersecting) {
+          const node = entry.target;
+          const parentNodeUri = node.getAttribute('data-observe-node');
+          const siblingList = node.closest('.node-children');
+          const batchOffset = Number(node.getAttribute('data-observe-offset'));
+          const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
+
+          if (!batchData) {
+            console.error('batchObserverHandler failed to fetch batch');
+            return;
+          }
+
+          const batchOffsetPlaceholderEl = siblingList.querySelector(
+            `li[data-batch-placeholder="${batchOffset}"]`
+          );
+          const observeForBatch =
+            batchOffsetPlaceholderEl.nextElementSibling?.matches(
+              'li[data-batch-placeholder]'
+            )
+              ? Number(
+                  batchOffsetPlaceholderEl.nextElementSibling.getAttribute(
+                    'data-batch-placeholder'
+                  )
+                )
+              : batchOffsetPlaceholderEl.previousElementSibling?.matches(
+                  'li[data-batch-placeholder]'
+                )
+              ? Number(
+                  batchOffsetPlaceholderEl.previousElementSibling.getAttribute(
+                    'data-batch-placeholder'
+                  )
+                )
+              : null;
+
+          this.renderBatch(
+            siblingList,
+            batchData,
+            batchOffset,
+            observeForBatch
+          );
+
+          node.removeAttribute('data-observe-next-batch');
+          node.removeAttribute('data-observe-node');
+          node.removeAttribute('data-observe-offset');
+          observer.unobserve(node);
+
+          if (observeForBatch !== null) {
+            const nextNode = siblingList.querySelector(
+              `[data-observe-next-batch][data-observe-offset="${observeForBatch}"]`
+            );
+
+            if (nextNode) {
+              observer.observe(nextNode);
+            } else {
+              console.error(
+                `batchObserverHandler could not find node to observe for batch ${observeForBatch}`
+              );
+            }
+          }
+        }
       });
-
-      return batchFragment;
     }
 
     /**
