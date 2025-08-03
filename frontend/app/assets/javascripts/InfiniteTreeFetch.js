@@ -33,39 +33,6 @@
     }
 
     /**
-     * Private method to fetch the root
-     * @returns {Object} - Root object returned from the server
-     */
-    async #root() {
-      try {
-        const response = await fetch(this.rootUrl);
-
-        return await response.json();
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    /**
-     * Private method to fetch the node with the given id
-     * @param {number} id - ID of the node, ie: 18028
-     * @returns {Object} - Node object as returned from the server
-     */
-    async #node(id) {
-      const query = new URLSearchParams({
-        node: this.nodeSearchParamsBase + id,
-      });
-
-      try {
-        const response = await fetch(this.nodeUrl + '?' + query);
-
-        return await response.json();
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    /**
      * Fetches a batch of the given parent's children
      * @param {string} parentRef - The parent reference for the endpoint; either '' for root,
      * or the backend URI of the parent node, ie: '/repositories/:rid/archival_objects/:id'
@@ -99,6 +66,39 @@
 
       try {
         const response = await fetch(this.ancestorsUrl + '?' + query);
+
+        return await response.json();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    /**
+     * Private method to fetch the root
+     * @returns {Object} - Root object returned from the server
+     */
+    async #root() {
+      try {
+        const response = await fetch(this.rootUrl);
+
+        return await response.json();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    /**
+     * Private method to fetch the node with the given id
+     * @param {number} id - ID of the node, ie: 18028
+     * @returns {Object} - Node object as returned from the server
+     */
+    async #node(id) {
+      const query = new URLSearchParams({
+        node: this.nodeSearchParamsBase + id,
+      });
+
+      try {
+        const response = await fetch(this.nodeUrl + '?' + query);
 
         return await response.json();
       } catch (err) {
