@@ -88,7 +88,7 @@
      * Renders the root node and its first batch of children
      */
     async renderRoot() {
-      const rootData = await this.fetch.root();
+      const rootData = await this.fetch.node();
       const rootListFrag = this.markup.rootList();
       const rootListElement = rootListFrag.querySelector('ol');
       const rootNodeFrag = this.markup.rootNode(rootData);
@@ -312,10 +312,7 @@
       const nodeId = isRoot ? null : recordId;
       const batchTarget = ancestorMetaObj.offset;
 
-      const baseData =
-        nodeId !== null
-          ? await this.fetch.node(nodeId)
-          : await this.fetch.root();
+      const baseData = await this.fetch.node(isRoot ? null : nodeId);
 
       const numBatches = baseData.waypoints;
 

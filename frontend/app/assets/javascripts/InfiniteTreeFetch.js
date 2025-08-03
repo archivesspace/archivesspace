@@ -20,10 +20,23 @@
     }
 
     /**
-     * Fetches the root
+     * Fetches either the root or a node with the given id
+     * @param {number|null} [id] - ID of the node or null for the root node
+     * @returns {Object} - Root or node object returned from the server
+     */
+    async node(id = null) {
+      if (id === null) {
+        return this.#root();
+      } else {
+        return this.#node(id);
+      }
+    }
+
+    /**
+     * Private method to fetch the root
      * @returns {Object} - Root object returned from the server
      */
-    async root() {
+    async #root() {
       try {
         const response = await fetch(this.rootUrl);
 
@@ -34,11 +47,11 @@
     }
 
     /**
-     * Fetches the node with the given id
+     * Private method to fetch the node with the given id
      * @param {number} id - ID of the node, ie: 18028
      * @returns {Object} - Node object as returned from the server
      */
-    async node(id) {
+    async #node(id) {
       const query = new URLSearchParams({
         node: this.nodeSearchParamsBase + id,
       });
