@@ -18,7 +18,10 @@
      */
     constructor(batchSize, uriFragment, rootUri, i18n) {
       this.BATCH_SIZE = batchSize;
-      this.rootUri = rootUri;
+      this.rootMeta = {
+        uri: rootUri,
+        ...InfiniteTreeIds.uriToParts(rootUri),
+      };
 
       this.container = document.querySelector('#infinite-tree-container');
       this.recordPaneEl = document.querySelector('#infinite-tree-record-pane');
@@ -31,7 +34,7 @@
 
       this.batchObserver = new IntersectionObserver(
         (entries, observer) => {
-          this.batchObserverHandler(entries, observer);
+          this.#batchObserverHandler(entries, observer);
         },
         {
           root: this.container,
@@ -41,29 +44,17 @@
       );
 
       this.container.addEventListener('click', e => {
-        if (e.target.closest('.node-expand')) this.expandHandler(e);
-        else if (e.target.closest('.node-title')) {
-          const clickedNode = e.target.closest('.node');
-          this.setCurrentNode(clickedNode);
-        }
+        if (e.target.closest('.node-expand')) this.#expandClickHandler(e);
+        else if (e.target.closest('.node-title')) this.#titleClickHandler(e);
       });
 
       if (
         uriFragment === '' ||
-        uriFragment === InfiniteTreeIds.treeLinkUrl(this.rootUri)
+        uriFragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)
       ) {
         this.renderRoot();
       } else {
-        const nodeId = InfiniteTreeIds.parseTreeId(uriFragment).id;
-        const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(uriFragment);
-
-        this.allAncestorBatches(nodeId)
-          .then(data => {
-            this.renderAncestors(data, nodeElementId);
-          })
-          .catch(error => {
-            console.error('Error in allAncestorBatches:', error);
-          });
+        this.loadNodeWithAncestors(uriFragment);
       }
     }
 
@@ -78,9 +69,9 @@
       const rootNodeElement = rootNodeFrag.querySelector('li');
 
       rootNodeElement.classList.add('current');
-      debugger;
+
       if (rootData.child_count > 0) {
-        await this.renderInitialBatchForNode(rootNodeElement, rootData);
+        await this.#renderInitialBatchForNode(rootNodeElement, rootData);
       }
 
       rootListElement.appendChild(rootNodeFrag);
@@ -93,8 +84,8 @@
      * @param {HTMLElement} node - The node to render children for
      * @param {Object} nodeData - The node data from the server
      */
-    async renderInitialBatchForNode(node, nodeData) {
-      const batchData = this.prepareBatch(node, nodeData);
+    async #renderInitialBatchForNode(node, nodeData) {
+      const batchData = this.#prepareBatch(node, nodeData);
       const listFragment = this.markup.nodeList(
         node.id,
         batchData.level + 1,
@@ -106,7 +97,7 @@
       const list = node.querySelector('.node-children');
       const observeForBatch = nodeData.waypoints > 1 ? 1 : null;
 
-      this.renderBatch(list, batchData.nodes, 0, observeForBatch);
+      this.#renderBatch(list, batchData.nodes, 0, observeForBatch);
     }
 
     /**
@@ -116,11 +107,11 @@
      * @param {number} batchNumber - The batch number being rendered
      * @param {number|null} observeForBatch - The number of a neighboring batch to observe for, null if none
      */
-    renderBatch(list, nodes, batchNumber, observeForBatch = null) {
-      const listMeta = this.validateList(list);
+    #renderBatch(list, nodes, batchNumber, observeForBatch = null) {
+      const listMeta = this.#validateList(list);
       if (!listMeta) return;
 
-      const batchFragment = this.buildBatchFragment(
+      const batchFragment = this.#buildBatchFragment(
         nodes,
         listMeta.level,
         listMeta.parentId,
@@ -158,7 +149,7 @@
      * @param {number|null} observeForBatch - The number of a neighboring batch to observe for, null if none
      * @returns {DocumentFragment} The built batch fragment
      */
-    buildBatchFragment(nodes, level, parentId, observeForBatch = null) {
+    #buildBatchFragment(nodes, level, parentId, observeForBatch = null) {
       const batchFragment = new DocumentFragment();
 
       nodes.forEach((node, i) => {
@@ -186,7 +177,7 @@
      * @param {number} batchNumber - Which batch of children to prepare
      * @returns {Object} Prepared batch data, {nodes:array, hasNextBatch:boolean, level:number}
      */
-    prepareBatch(parent, data, batchNumber = 0) {
+    #prepareBatch(parent, data, batchNumber = 0) {
       const isRoot = parent.classList.contains('root');
       const wpKey = isRoot ? '' : data.uri;
       const level = isRoot
@@ -203,133 +194,52 @@
     }
 
     /**
-     * Builds the ancestor tree list
-     * @param {Array} ancestorBatches - The ancestor batches to build the tree from
-     * @param {string} nodeElementId - The HTML ID of the node element to scroll to
+     * Orchestrates the rendering of a node with all its ancestors on page load
+     * @param {string} uriFragment - The URI fragment of the node to render
      */
-    async renderAncestors(ancestorBatches, nodeElementId) {
-      const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
-        const numBatches = batch.waypoints;
-        const ancestorHtmlId = batch.ancestorHtmlId;
+    loadNodeWithAncestors(uriFragment) {
+      const nodeId = InfiniteTreeIds.parseTreeId(uriFragment).id;
+      const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(uriFragment);
 
-        if (i === 0) {
-          const treeListFrag = this.markup.rootList();
-          const treeListElement = treeListFrag.querySelector('ol');
-
-          const rootNodeFrag = this.markup.rootNode(batch);
-          const rootNodeElement = rootNodeFrag.querySelector('li');
-
-          const nodeListFrag = this.markup.nodeList(
-            ancestorHtmlId,
-            i + 1,
-            numBatches
-          );
-          const nodeListElement = nodeListFrag.querySelector('ol');
-
-          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
-            const batchFragment = this.buildBatchFragment(
-              batchData.nodes,
-              i + 1,
-              ancestorHtmlId,
-              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
-                ? Number(batchData.observeForBatch)
-                : null
-            );
-
-            nodeListElement
-              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
-              .replaceWith(batchFragment);
-          });
-
-          rootNodeElement.appendChild(nodeListFrag);
-
-          treeListElement.appendChild(rootNodeFrag);
-
-          acc.appendChild(treeListFrag);
-
-          return acc;
-        } else {
-          // Handle non-root ancestor nodes
-          const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
-          const icon = nodeElement.querySelector('.node-expand-icon');
-
-          const nodeListFrag = this.markup.nodeList(
-            ancestorHtmlId,
-            i + 1,
-            numBatches
-          );
-
-          const nodeListElement = nodeListFrag.querySelector('ol');
-
-          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
-            const batchFragment = this.buildBatchFragment(
-              batchData.nodes,
-              i + 1,
-              ancestorHtmlId,
-              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
-                ? Number(batchData.observeForBatch)
-                : null
-            );
-
-            nodeListElement
-              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
-              .replaceWith(batchFragment);
-          });
-
-          nodeElement.appendChild(nodeListFrag);
-
-          nodeElement.setAttribute('data-has-expanded', 'true');
-          nodeElement.setAttribute('aria-expanded', 'true');
-          icon.classList.add('expanded');
-
-          return acc;
-        }
-      }, new DocumentFragment());
-
-      this.container.appendChild(ancestorsFrag);
-
-      const nodeOfInterest = this.container.querySelector(`#${nodeElementId}`);
-      const nodesToObserve = this.container.querySelectorAll(
-        '[data-observe-next-batch]'
-      );
-
-      if (nodeOfInterest) {
-        this.setCurrentNode(nodeOfInterest);
-        nodeOfInterest.scrollIntoView({ behavior: 'instant', block: 'center' });
-      }
-
-      nodesToObserve.forEach(node => {
-        this.batchObserver.observe(node);
-      });
+      this.#fetchAncestorBatches(nodeId)
+        .then(data => {
+          this.#renderAncestors(data, nodeElementId);
+        })
+        .catch(error => {
+          console.error('Error in #fetchAncestorBatches:', error);
+        });
     }
 
     /**
-     * Returns all ancestor batches for a given record ID
+     * Fetches all ancestor batches for a given record ID
      * @param {number} id - The record ID of the node to fetch ancestor batches for
      * @returns {Promise<Array>} An array of ancestor batch data
      */
-    async allAncestorBatches(id) {
+    async #fetchAncestorBatches(id) {
       const ancestors = await this.fetch.ancestors(id);
 
       return Promise.all(
-        ancestors[id].map(ancestor => this.ancestorBatchAndNeighbors(ancestor))
+        ancestors[id].map(ancestor =>
+          this.#fetchAncestorBatchWithNeighbors(ancestor)
+        )
       );
     }
 
     /**
-     * Fetches and returns the initial batch(es) for an ancestor; includes extra metadata
+     * Fetches the initial batch(es) for an ancestor; includes extra metadata
      * if a target batch's neighbor needs to be observed for its neighbor
      * @param {Object} ancestorMetaObj - The ancestor metadata object
      * @returns {Object} An object containing the ancestor's batch(es) and possible metadata
      */
-    async ancestorBatchAndNeighbors(ancestorMetaObj) {
+    async #fetchAncestorBatchWithNeighbors(ancestorMetaObj) {
       const isRoot = ancestorMetaObj.node === null;
-      const resourceId = this.rootUri.split('/')[4];
-      const recordId = isRoot ? resourceId : ancestorMetaObj.node.split('/')[4];
-      const nodeId = isRoot ? null : recordId;
+      const recordId = isRoot
+        ? this.rootMeta.id
+        : ancestorMetaObj.node.split('/')[4];
+      const fetchNodeId = isRoot ? null : recordId;
       const batchTarget = ancestorMetaObj.offset;
 
-      const baseData = await this.fetch.node(isRoot ? null : nodeId);
+      const baseData = await this.fetch.node(isRoot ? null : fetchNodeId);
 
       const numBatches = baseData.waypoints;
 
@@ -345,7 +255,8 @@
       };
 
       /**
-       * Fetches a batch and returns it with optional metadata about the batch's neighbors
+       * Fetches a batch and returns it with optional metadata about the batch's neighbors;
+       * defined as an arrow function to access `this.fetch`
        * @param {number} batchNum - The batch number to fetch
        * @param {number} [observeForBatch=null] - The batch number to observe for loading its neighbor
        * @returns {Object} An object containing the batch data and possible metadata
@@ -365,9 +276,7 @@
           );
         }
 
-        const result = {
-          nodes,
-        };
+        const result = { nodes };
 
         if (observeForBatch !== null) {
           result.observeForBatch = observeForBatch;
@@ -376,6 +285,10 @@
         return result;
       };
 
+      // Build a "window" of batches around the node of interest's batch to ensure complete tree data availability.
+      // This window acts as a buffer for bi-directional infinite scrolling by pre-fetching batches adjacent to
+      // the target batch so users can navigate without waiting for intersection observer-triggered lazy loading.
+      // The window size and composition varies based on the target's position and its parent's total batch count.
       if (numBatches < 4) {
         result.batches[0] = await fetchBatch(0);
 
@@ -439,7 +352,108 @@
     }
 
     /**
-     * Sets the current node and notifiesthe record pane
+     * Builds the ancestor tree list
+     * @param {Array} ancestorBatches - The ancestor batches to build the tree from
+     * @param {string} nodeElementId - The HTML ID of the node element to scroll to
+     */
+    async #renderAncestors(ancestorBatches, nodeElementId) {
+      const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
+        const numBatches = batch.waypoints;
+        const ancestorHtmlId = batch.ancestorHtmlId;
+
+        if (i === 0) {
+          const treeListFrag = this.markup.rootList();
+          const treeListElement = treeListFrag.querySelector('ol');
+
+          const rootNodeFrag = this.markup.rootNode(batch);
+          const rootNodeElement = rootNodeFrag.querySelector('li');
+
+          const nodeListFrag = this.markup.nodeList(
+            ancestorHtmlId,
+            i + 1,
+            numBatches
+          );
+          const nodeListElement = nodeListFrag.querySelector('ol');
+
+          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
+            const batchFragment = this.#buildBatchFragment(
+              batchData.nodes,
+              i + 1,
+              ancestorHtmlId,
+              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
+                ? Number(batchData.observeForBatch)
+                : null
+            );
+
+            nodeListElement
+              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
+              .replaceWith(batchFragment);
+          });
+
+          rootNodeElement.appendChild(nodeListFrag);
+
+          treeListElement.appendChild(rootNodeFrag);
+
+          acc.appendChild(treeListFrag);
+
+          return acc;
+        } else {
+          // Handle non-root ancestor nodes
+          const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
+          const icon = nodeElement.querySelector('.node-expand-icon');
+
+          const nodeListFrag = this.markup.nodeList(
+            ancestorHtmlId,
+            i + 1,
+            numBatches
+          );
+
+          const nodeListElement = nodeListFrag.querySelector('ol');
+
+          Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
+            const batchFragment = this.#buildBatchFragment(
+              batchData.nodes,
+              i + 1,
+              ancestorHtmlId,
+              Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
+                ? Number(batchData.observeForBatch)
+                : null
+            );
+
+            nodeListElement
+              .querySelector(`li[data-batch-placeholder="${batchNumber}"]`)
+              .replaceWith(batchFragment);
+          });
+
+          nodeElement.appendChild(nodeListFrag);
+
+          nodeElement.setAttribute('data-has-expanded', 'true');
+          nodeElement.setAttribute('aria-expanded', 'true');
+          icon.classList.add('expanded');
+
+          return acc;
+        }
+      }, new DocumentFragment());
+
+      this.container.appendChild(ancestorsFrag);
+
+      const nodeOfInterest = this.container.querySelector(`#${nodeElementId}`);
+      const nodesToObserve = this.container.querySelectorAll(
+        '[data-observe-next-batch]'
+      );
+
+      if (nodeOfInterest) {
+        this.setCurrentNode(nodeOfInterest);
+        nodeOfInterest.scrollIntoView({ behavior: 'instant', block: 'center' });
+      }
+
+      nodesToObserve.forEach(node => {
+        this.batchObserver.observe(node);
+      });
+    }
+
+    /**
+     * Sets the current node and notifies the record pane
      * @param {HTMLElement} node - The node to set as current
      */
     setCurrentNode(node) {
@@ -460,7 +474,7 @@
      * @param {HTMLElement} list - The list element with data attributes to validate
      * @returns {Object|null} List metadata if valid, null if invalid
      */
-    validateList(list) {
+    #validateList(list) {
       if (!list) {
         console.error('List element is null or undefined');
         return null;
@@ -482,11 +496,55 @@
     }
 
     /**
+     * @param {HTMLElement} node - The node to expand
+     */
+    async #expandNode(node) {
+      if (node.dataset.hasExpanded === 'false') {
+        const nodeRecordId = node.getAttribute('data-uri').split('/')[4];
+        const nodeData = await this.fetch.node(Number(nodeRecordId));
+
+        await this.#renderInitialBatchForNode(node, nodeData);
+        node.setAttribute('data-has-expanded', 'true');
+      }
+
+      node.querySelector('.node-expand-icon').classList.add('expanded');
+      node.setAttribute('aria-expanded', 'true');
+    }
+
+    /**
+     * @param {HTMLElement} node - The node to collapse
+     */
+    #collapseNode(node) {
+      node.querySelector('.node-expand-icon').classList.remove('expanded');
+      node.setAttribute('aria-expanded', 'false');
+    }
+
+    /**
+     * Identifies an adjacent batch placeholder and returns its batch number for observation
+     * @param {HTMLElement} el - The element to check for a batch placeholder neighbor
+     * @returns {number|null} The batch number to observe for, or null if none
+     */
+    #observeForBatch(el) {
+      const nextSiblingIsAPlaceholder = el.nextElementSibling?.matches(
+        'li[data-batch-placeholder]'
+      );
+      const prevSiblingIsAPlaceholder = el.previousElementSibling?.matches(
+        'li[data-batch-placeholder]'
+      );
+
+      return nextSiblingIsAPlaceholder
+        ? +el.nextElementSibling.getAttribute('data-batch-placeholder')
+        : prevSiblingIsAPlaceholder
+        ? +el.previousElementSibling.getAttribute('data-batch-placeholder')
+        : null;
+    }
+
+    /**
      * IntersectionObserver callback for populating the next batch of children
      * @param {IntersectionObserverEntry[]} entries - Array of entries
      * @param {IntersectionObserver} observer - The observer instance
      */
-    batchObserverHandler(entries, observer) {
+    #batchObserverHandler(entries, observer) {
       entries.forEach(async entry => {
         if (entry.isIntersecting) {
           const node = entry.target;
@@ -496,33 +554,18 @@
           const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
 
           if (!batchData) {
-            console.error('batchObserverHandler failed to fetch batch');
+            console.error('#batchObserverHandler failed to fetch batch');
             return;
           }
 
           const batchOffsetPlaceholderEl = siblingList.querySelector(
             `li[data-batch-placeholder="${batchOffset}"]`
           );
-          const observeForBatch =
-            batchOffsetPlaceholderEl.nextElementSibling?.matches(
-              'li[data-batch-placeholder]'
-            )
-              ? Number(
-                  batchOffsetPlaceholderEl.nextElementSibling.getAttribute(
-                    'data-batch-placeholder'
-                  )
-                )
-              : batchOffsetPlaceholderEl.previousElementSibling?.matches(
-                  'li[data-batch-placeholder]'
-                )
-              ? Number(
-                  batchOffsetPlaceholderEl.previousElementSibling.getAttribute(
-                    'data-batch-placeholder'
-                  )
-                )
-              : null;
+          const observeForBatch = this.#observeForBatch(
+            batchOffsetPlaceholderEl
+          );
 
-          this.renderBatch(
+          this.#renderBatch(
             siblingList,
             batchData,
             batchOffset,
@@ -543,7 +586,7 @@
               observer.observe(nextNode);
             } else {
               console.error(
-                `batchObserverHandler could not find node to observe for batch ${observeForBatch}`
+                `#batchObserverHandler could not find node to observe for batch ${observeForBatch}`
               );
             }
           }
@@ -552,27 +595,29 @@
     }
 
     /**
-     * Handles click events on expand buttons
-     * @param {Event} e - Click event
+     * @param {Event} e - The click event
      */
-    async expandHandler(e) {
+    async #expandClickHandler(e) {
       const node = e.target.closest('.node');
-      const isExpanding = node.getAttribute('aria-expanded') === 'false';
-      const icon =
-        e.target.closest('.node-expand-icon') ||
-        e.target.querySelector('.node-expand-icon');
+      const isExpanded = node.getAttribute('aria-expanded') === 'true';
 
-      if (isExpanding && node.getAttribute('data-has-expanded') === 'false') {
-        const nodeRecordId = node.getAttribute('data-uri').split('/')[4];
-        const nodeData = await this.fetch.node(Number(nodeRecordId));
-
-        await this.renderInitialBatchForNode(node, nodeData);
-
-        node.setAttribute('data-has-expanded', 'true');
+      if (!isExpanded) {
+        await this.#expandNode(node);
+      } else {
+        this.#collapseNode(node);
       }
+    }
 
-      node.setAttribute('aria-expanded', isExpanding ? 'true' : 'false');
-      icon.classList.toggle('expanded');
+    /**
+     * @param {Event} e - The click event
+     */
+    #titleClickHandler(e) {
+      const node = e.target.closest('.node');
+
+      this.setCurrentNode(node);
+
+      if (node.getAttribute('aria-expanded') === 'false')
+        this.#expandNode(node);
     }
   }
 
