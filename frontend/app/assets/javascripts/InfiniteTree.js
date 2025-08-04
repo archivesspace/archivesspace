@@ -80,6 +80,40 @@
     }
 
     /**
+     * Orchestrates the rendering of a node with all its ancestors on page load
+     * @param {string} uriFragment - The URI fragment of the node to render
+     */
+    loadNodeWithAncestors(uriFragment) {
+      const nodeId = InfiniteTreeIds.parseTreeId(uriFragment).id;
+      const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(uriFragment);
+
+      this.#fetchAncestorBatches(nodeId)
+        .then(data => {
+          this.#renderAncestors(data, nodeElementId);
+        })
+        .catch(error => {
+          console.error('Error in #fetchAncestorBatches:', error);
+        });
+    }
+
+    /**
+     * Sets the current node and notifies the record pane
+     * @param {HTMLElement} node - The node to set as current
+     */
+    setCurrentNode(node) {
+      const old = this.container.querySelector('.current');
+      if (old) old.classList.remove('current');
+
+      node.classList.add('current');
+
+      const nodeSelectEvent = new CustomEvent('infiniteTree:nodeSelect', {
+        detail: { recordPath: node.dataset.uri.split('/').slice(-2).join('/') },
+      });
+
+      this.recordPaneEl.dispatchEvent(nodeSelectEvent);
+    }
+
+    /**
      * Renders the first batch of children for any node
      * @param {HTMLElement} node - The node to render children for
      * @param {Object} nodeData - The node data from the server
@@ -191,23 +225,6 @@
         hasNextBatch: data.waypoints > batchNumber + 1,
         level: level,
       };
-    }
-
-    /**
-     * Orchestrates the rendering of a node with all its ancestors on page load
-     * @param {string} uriFragment - The URI fragment of the node to render
-     */
-    loadNodeWithAncestors(uriFragment) {
-      const nodeId = InfiniteTreeIds.parseTreeId(uriFragment).id;
-      const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(uriFragment);
-
-      this.#fetchAncestorBatches(nodeId)
-        .then(data => {
-          this.#renderAncestors(data, nodeElementId);
-        })
-        .catch(error => {
-          console.error('Error in #fetchAncestorBatches:', error);
-        });
     }
 
     /**
@@ -453,49 +470,6 @@
     }
 
     /**
-     * Sets the current node and notifies the record pane
-     * @param {HTMLElement} node - The node to set as current
-     */
-    setCurrentNode(node) {
-      const old = this.container.querySelector('.current');
-      if (old) old.classList.remove('current');
-
-      node.classList.add('current');
-
-      const nodeSelectEvent = new CustomEvent('infiniteTree:nodeSelect', {
-        detail: { recordPath: node.dataset.uri.split('/').slice(-2).join('/') },
-      });
-
-      this.recordPaneEl.dispatchEvent(nodeSelectEvent);
-    }
-
-    /**
-     * Validates and returns parent data from a list
-     * @param {HTMLElement} list - The list element with data attributes to validate
-     * @returns {Object|null} List metadata if valid, null if invalid
-     */
-    #validateList(list) {
-      if (!list) {
-        console.error('List element is null or undefined');
-        return null;
-      }
-
-      const parentId = list.getAttribute('data-parent-id');
-      if (!parentId) {
-        console.error('List element is missing data-parent-id attribute');
-        return null;
-      }
-
-      const level = Number(list.getAttribute('data-tree-level'));
-      if (!level) {
-        console.error('List element is missing data-tree-level attribute');
-        return null;
-      }
-
-      return { parentId, level };
-    }
-
-    /**
      * @param {HTMLElement} node - The node to expand
      */
     async #expandNode(node) {
@@ -517,26 +491,6 @@
     #collapseNode(node) {
       node.querySelector('.node-expand-icon').classList.remove('expanded');
       node.setAttribute('aria-expanded', 'false');
-    }
-
-    /**
-     * Identifies an adjacent batch placeholder and returns its batch number for observation
-     * @param {HTMLElement} el - The element to check for a batch placeholder neighbor
-     * @returns {number|null} The batch number to observe for, or null if none
-     */
-    #observeForBatch(el) {
-      const nextSiblingIsAPlaceholder = el.nextElementSibling?.matches(
-        'li[data-batch-placeholder]'
-      );
-      const prevSiblingIsAPlaceholder = el.previousElementSibling?.matches(
-        'li[data-batch-placeholder]'
-      );
-
-      return nextSiblingIsAPlaceholder
-        ? +el.nextElementSibling.getAttribute('data-batch-placeholder')
-        : prevSiblingIsAPlaceholder
-        ? +el.previousElementSibling.getAttribute('data-batch-placeholder')
-        : null;
     }
 
     /**
@@ -618,6 +572,52 @@
 
       if (node.getAttribute('aria-expanded') === 'false')
         this.#expandNode(node);
+    }
+
+    /**
+     * Validates and returns parent data from a list
+     * @param {HTMLElement} list - The list element with data attributes to validate
+     * @returns {Object|null} List metadata if valid, null if invalid
+     */
+    #validateList(list) {
+      if (!list) {
+        console.error('List element is null or undefined');
+        return null;
+      }
+
+      const parentId = list.getAttribute('data-parent-id');
+      if (!parentId) {
+        console.error('List element is missing data-parent-id attribute');
+        return null;
+      }
+
+      const level = Number(list.getAttribute('data-tree-level'));
+      if (!level) {
+        console.error('List element is missing data-tree-level attribute');
+        return null;
+      }
+
+      return { parentId, level };
+    }
+
+    /**
+     * Identifies an adjacent batch placeholder and returns its batch number for observation
+     * @param {HTMLElement} el - The element to check for a batch placeholder neighbor
+     * @returns {number|null} The batch number to observe for, or null if none
+     */
+    #observeForBatch(el) {
+      const nextSiblingIsAPlaceholder = el.nextElementSibling?.matches(
+        'li[data-batch-placeholder]'
+      );
+      const prevSiblingIsAPlaceholder = el.previousElementSibling?.matches(
+        'li[data-batch-placeholder]'
+      );
+
+      return nextSiblingIsAPlaceholder
+        ? +el.nextElementSibling.getAttribute('data-batch-placeholder')
+        : prevSiblingIsAPlaceholder
+        ? +el.previousElementSibling.getAttribute('data-batch-placeholder')
+        : null;
     }
   }
 
