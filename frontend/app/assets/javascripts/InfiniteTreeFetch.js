@@ -74,7 +74,6 @@
     }
 
     /**
-     * Private method to fetch the root
      * @returns {Object} - Root object returned from the server
      */
     async #root() {
@@ -88,7 +87,6 @@
     }
 
     /**
-     * Private method to fetch the node with the given id
      * @param {number} id - ID of the node, ie: 18028
      * @returns {Object} - Node object as returned from the server
      */

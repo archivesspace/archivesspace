@@ -8,10 +8,40 @@
       classification: 'classification_term',
     };
 
+    static uriToParts(uri) {
+      const match = uri.match(this.#uriPattern);
+      if (!match) return null;
+
+      const [, , typePlural, id] = match;
+      const type = typePlural.replace(/s$/, '');
+
+      return { type, id };
+    }
+
+    static rootUriToParts(rootUri) {
+      const match = rootUri.match(this.#uriPattern);
+      if (!match) return null;
+
+      const [, repoId, typePlural, id] = match;
+      const type = typePlural.replace(/s$/, '');
+      const childType = this.#childTypeMap[type];
+
+      return { repoId, type, id, childType };
+    }
+
     static uriToTreeId(uri) {
       const parts = this.uriToParts(uri);
 
       return `${parts.type}_${parts.id}`;
+    }
+
+    static parseTreeId(treeId) {
+      const match = treeId.match(/([a-z_]+)([0-9]+)/);
+      if (!match) return null;
+
+      const [, rowType, rowId] = match;
+
+      return { type: rowType.replace(/_$/, ''), id: rowId };
     }
 
     static uriToLocationHash(uri) {
@@ -27,25 +57,8 @@
       return hash.replace('#tree::', '');
     }
 
-    static rootUriToParts(rootUri) {
-      const match = rootUri.match(this.#uriPattern);
-      if (!match) return null;
-
-      const [, repoId, typePlural, id] = match;
-      const type = typePlural.replace(/s$/, '');
-      const childType = this.#childTypeMap[type];
-
-      return { repoId, type, id, childType };
-    }
-
-    static uriToParts(uri) {
-      const match = uri.match(this.#uriPattern);
-      if (!match) return null;
-
-      const [, , typePlural, id] = match;
-      const type = typePlural.replace(/s$/, '');
-
-      return { type, id };
+    static treeLinkUrl(uri) {
+      return `#${this.uriToLocationHash(uri)}`;
     }
 
     static backendUriToFrontendUri(uri) {
@@ -57,19 +70,6 @@
       const parts = this.parseTreeId(treeId);
 
       return `/${parts.type}s/${parts.id}`;
-    }
-
-    static parseTreeId(treeId) {
-      const match = treeId.match(/([a-z_]+)([0-9]+)/);
-      if (!match) return null;
-
-      const [, rowType, rowId] = match;
-
-      return { type: rowType.replace(/_$/, ''), id: rowId };
-    }
-
-    static treeLinkUrl(uri) {
-      return `#${this.uriToLocationHash(uri)}`;
     }
   }
 
