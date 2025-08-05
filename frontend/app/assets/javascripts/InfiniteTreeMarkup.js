@@ -40,15 +40,30 @@
     }
 
     /**
-     * Creates a tree structure with a root node
-     * @param {Object} data - Root data object fetched from server
-     * @returns {DocumentFragment} An <ol> with a single <li>
+     * Creates a root list element
+     * @returns {DocumentFragment} - The root <ol> element
      */
-    root(data) {
+    rootList() {
+      const listFrag = new DocumentFragment();
+      const listTemplate = document
+        .querySelector('#infinite-tree-root-list-template')
+        .content.cloneNode(true);
+
+      listFrag.appendChild(listTemplate);
+
+      return listFrag;
+    }
+
+    /**
+     * Creates a root node element
+     * @param {Object} data - Root data object fetched from server
+     * @returns {DocumentFragment} - The root <li> element
+     */
+    rootNode(data) {
       const title = new MixedContentHelper(this.#title(data));
       const rootFrag = new DocumentFragment();
       const rootTemplate = document
-        .querySelector('#infinite-tree-root-template')
+        .querySelector('#infinite-tree-root-node-template')
         .content.cloneNode(true);
       const rootElement = rootTemplate.querySelector('li');
       const contentWrapper = rootTemplate.querySelector('.node-body');
@@ -75,13 +90,13 @@
      * Creates a list of empty placeholders for batches of children
      * @param {string} parentElementId - Value of the parent node's HTML id attribute
      * @param {number} level - Tree level of the children (0 for root)
-     * @param {number} numBatches - Number of batch placeholders to create
-     * @returns {DocumentFragment} - An <ol> with placeholder <li>s
+     * @param {number} numBatches - Number of batch placeholder list items to create
+     * @returns {DocumentFragment} - An <ol> element with appropriate attributes and batch placeholder <li>s
      */
-    list(parentElementId, level, numBatches) {
+    nodeList(parentElementId, level, numBatches) {
       const listFrag = new DocumentFragment();
       const listTemplate = document
-        .querySelector('#infinite-tree-children-list-template')
+        .querySelector('#infinite-tree-node-list-template')
         .content.cloneNode(true);
       const listElement = listTemplate.querySelector('ol');
 
