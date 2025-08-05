@@ -1,6 +1,12 @@
-<% show_identifiers = AppConfig[:display_identifiers_in_largetree_container] %>
+<%
+   show_identifiers = AppConfig[:display_identifiers_in_largetree_container]
+   read_only = false if read_only.blank?
+%>
 
 <%= javascript_include_tag "InfiniteTree.js" %>
+<%= javascript_include_tag "InfiniteTreeResizer.js" %>
+<%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
+<%= javascript_include_tag "InfiniteTreeIds.js" %>
 
 <div
   id="infinite-tree-container"
@@ -9,25 +15,38 @@
 >
 </div>
 <%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
+<%= render_aspace_partial :partial => "shared/infinite_tree_record_pane" %>
 
-<template id="infinite-tree-root-template">
-  <ol class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>" role="tree">
-    <li class="root node" role="treeitem" id data-uri aria-expanded>
-      <div class="node-row">
-        <div class="node-body" title>
-          <div class="node-column" data-column="title">
-            <a class="node-title" href></a>
-          </div>
-          <div class="node-column" data-column="level"></div>
-          <div class="node-column" data-column="type"></div>
-          <div class="node-column" data-column="container"></div>
-          <% if show_identifiers %>
-            <div class="node-column" data-column="identifier"></div>
-          <% end %>
+<template id="infinite-tree-root-list-template">
+  <ol class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>" role="tree"></ol>
+</template>
+
+<template id="infinite-tree-root-node-template">
+  <li class="root node" role="treeitem" id data-uri>
+    <div class="node-row">
+      <div class="node-body" title>
+        <div class="node-column" data-column="title">
+          <a class="node-title" href></a>
         </div>
+        <div class="node-column" data-column="level"></div>
+        <div class="node-column" data-column="type"></div>
+        <div class="node-column" data-column="container"></div>
+        <% if show_identifiers %>
+          <div class="node-column" data-column="identifier"></div>
+        <% end %>
       </div>
-    </li>
-  </ol>
+    </div>
+  </li>
+</template>
+
+<template id="infinite-tree-node-list-template">
+  <ol
+    class="node-children"
+    role="group"
+    data-parent-id
+    data-tree-level
+    data-total-child-batches
+  ></ol>
 </template>
 
 <template id="infinite-tree-node-template">
@@ -56,16 +75,6 @@
   </button>
 </template>
 
-<template id="infinite-tree-children-list-template">
-  <ol
-    class="node-children"
-    role="group"
-    data-parent-id
-    data-tree-level
-    data-total-child-batches
-  ></ol>
-</template>
-
 <template id="infinite-tree-batch-placeholder-template">
   <li data-batch-placeholder style="display:none"></li>
 </template>
@@ -75,9 +84,13 @@
 </template>
 
 <script>
-const resourceUri = "<%= @resource.uri %>"
-const resourceUriParts = resourceUri.split('/')
-const resourceId = resourceUriParts[resourceUriParts.length - 1]
+const resourceUri = "<%= @resource.uri %>";
+
+if (window.location.hash === '') {
+  window.location.hash = InfiniteTreeIds.uriToLocationHash(resourceUri);
+}
+
+const uriFragment = window.location.hash;
 
 // ANW-2322 Temporarily copy and adapt ENUMERATION_TRANSLATIONS from largetree.js
 // for use in a .js file (not .js.erb)
@@ -113,7 +126,7 @@ const EnumerationTranslations2 = {
 
 const infiniteTree = new InfiniteTree(
   "<%= Rails.configuration.infinite_tree_batch_size %>",
-  "<%= AppConfig[:frontend_proxy_url] %>",
+  uriFragment,
   resourceUri,
   {
     sep: "<%= I18n.t("resource.identifier_separator") %>",
@@ -121,4 +134,6 @@ const infiniteTree = new InfiniteTree(
     enumerations: EnumerationTranslations2
   }
 );
+
+const infiniteTreeRecordPane = new InfiniteTreeRecordPane(uriFragment, resourceUri);
 </script>
