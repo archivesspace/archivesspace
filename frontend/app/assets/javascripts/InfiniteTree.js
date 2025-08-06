@@ -51,7 +51,7 @@
 
       this.container.addEventListener('click', e => {
         if (e.target.closest('.node-expand')) this.#expandClickHandler(e);
-        else if (e.target.closest('.node-title')) this.#titleClickHandler(e);
+        else if (e.target.closest('.record-title')) this.#titleClickHandler(e);
       });
 
       if (initialContext.isRoot) {

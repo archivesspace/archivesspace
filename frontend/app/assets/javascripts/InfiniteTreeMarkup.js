@@ -14,7 +14,7 @@
    *   - `div.node-body` a layout wrapper containing:
    *     - `div.node-indentation` for tree level visualization via a repeating
    *       gradient and padding, and expand/collapse button if children
-   *     - `div.node-title-container` for the node's data
+   *     - `div.node-column[data-column]`s for the node's data
    *     - an `::after` pseudo-element to indicate the currently selected node
    *       via the "current" InfiniteRecords record
    * All nodes with children have a nested ordered list, `ol.node-children`, as the
@@ -182,7 +182,7 @@
         const iconHtml = `<i class="has_digital_instance fa fa-file-image-o" aria-hidden="true"></i>`;
 
         nodeTemplate
-          .querySelector('.node-title')
+          .querySelector('.record-title')
           .insertAdjacentHTML('beforebegin', iconHtml);
       }
 
@@ -207,7 +207,7 @@
 
         switch (colName) {
           case 'title': {
-            const titleEl = column.querySelector('.node-title');
+            const titleEl = column.querySelector('.record-title');
 
             titleEl.href = href;
             titleEl.setAttribute('title', title.cleaned);
