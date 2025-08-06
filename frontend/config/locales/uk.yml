@@ -63,3 +63,9 @@ uk:
       target='_blank'>Надіслати відгук або повідомити про проблему</a>
     archivesspace_home: Відвідайте <a 
       href='http://archivesspace.org'>ArchivesSpace.org</a>
+  note_contact_note:
+    contact_notes_tooltip: "<p>Деталі взаємодії з контактом</p>\n"
+    date_of_contact_tooltip: "<p>Використовується для запису конкретної дати або часових
+      рамок взаємодії</p>\n"
+  lang_material:
+    _plural: Мови
