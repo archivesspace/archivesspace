@@ -48,7 +48,7 @@ on:
       group-choice:
         required: true
         type: string
-        default: 'all'
+        default: 'b-c'
       browser:
         description: Which browser to use
         required: true
