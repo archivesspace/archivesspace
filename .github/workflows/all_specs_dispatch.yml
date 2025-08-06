@@ -89,7 +89,7 @@ jobs:
     secrets: inherit
     with:
       java-version: ${{ inputs.java-version || 17 }}
-      group-choice: 'b-c'
+      group-choice: 'all'
       browser: ${{ inputs.browser || 'firefox' }}
 
   backend:
