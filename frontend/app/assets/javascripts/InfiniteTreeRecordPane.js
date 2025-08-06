@@ -76,16 +76,12 @@
     }
 
     /**
-     * Mimic the jQuery-based form initialization system for broader compatibility
+     * Use the jQuery event pattern for compatibility with the broader form initialization system
      */
     #initializeRecordForm() {
-      const loadedEvent = new CustomEvent('loadedrecordform.aspace', {
-        detail: [this.container],
-        bubbles: true,
-        cancelable: true,
-      });
-
-      document.dispatchEvent(loadedEvent);
+      $(document).triggerHandler('loadedrecordform.aspace', [
+        $(this.container),
+      ]);
     }
 
     /**
