@@ -188,7 +188,7 @@ describe 'Tree UI', js: true do
       expect(arhicval_objects_level_1[2]).to have_text @archival_object_3.title
       expect(arhicval_objects_level_1[3]).to have_text "[Duplicated] #{@archival_object_3.title}"
 
-      link = find('#tree-container a ', text: @archival_object_3.title, match: :first).click
+      link = find('#infinite-tree-container a ', text: @archival_object_3.title, match: :first).click
       click_on 'Delete'
       within '#confirmChangesModal' do
         click_on 'Delete'
@@ -258,7 +258,7 @@ describe 'Tree UI', js: true do
   end
 
   it 'shows the suppressed tag only for suppressed records' do
-    elements = all('#tree-container .record-title .badge', text: 'Suppressed')
+    elements = all('#infinite-tree-container .record-title .badge', text: 'Suppressed')
     expect(elements.length).to eq(1)
     expect(elements[0].find(:xpath, '..')['title']).to eq(@archival_object_4.title)
   end
