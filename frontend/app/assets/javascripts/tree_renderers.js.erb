@@ -231,7 +231,7 @@ ClassificationRenderer.prototype.add_root_columns = function (row, rootNode) {
     var title = this.build_title(rootNode);
     row
       .find('.title .record-title')
-      .html(() => recordTitleHandler(rootNode.suppressed, title))
+      .html(() => suppressedLabeler(rootNode.suppressed, title))
       .attr('title', title);
 };
 
@@ -239,7 +239,7 @@ ClassificationRenderer.prototype.add_node_columns = function (row, node) {
     var title = this.build_title(node);
     row
       .find('.title .record-title')
-      .html(() => recordTitleHandler(node.suppressed, title))
+      .html(() => suppressedLabeler(node.suppressed, title))
       .attr('title', title);
 };
 
