@@ -17,6 +17,9 @@ describe ArchivalObjectsController, type: :controller do
     let (:resource) { create(:json_resource) }
     let (:archival_object) { create(:json_archival_object,
                                     :resource => {'ref' => resource.uri}) }
+    let (:archival_object_with_note) { create(:json_archival_object,
+                                               :notes => [ build(:json_note_singlepart) ],
+                                               :resource => {'ref' => resource.uri}) }
     let (:random_archival_object) { create(:json_archival_object) }
     let (:accession) { create(:json_accession) }
     let(:default_values) {
@@ -97,6 +100,18 @@ describe ArchivalObjectsController, type: :controller do
 
       result.find(:css, "#archival_object_title_") do |form_input|
         expect(form_input.value).to eq(archival_object.title)
+      end
+    end
+
+    it "does not duplicate persistent id when duplicating an archival object note" do
+      get :new, params: { resource_id: resource.id,
+                          duplicate_from_archival_object: { uri: archival_object_with_note.uri } }
+
+      expect(response.status).to eq 200
+      result = Capybara.string(response.body)
+
+      result.find(:css, "#archival_object_notes__0__persistent_id_") do |new_persistent_id|
+        expect(new_persistent_id.value).to eq("")
       end
     end
 
