@@ -1,6 +1,6 @@
 require 'securerandom'
 require_relative 'ancestor_listing'
-
+require 'multiple_titles_helper'
 
 class ArchivalObject < Sequel::Model(:archival_object)
   include ASModel
@@ -28,6 +28,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Assessments::LinkedRecord
   include TouchRecords
   include Arks
+  include Titles
 
   enable_suppression
 
@@ -67,7 +68,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
                       :is_array => true)
 
   def self.produce_display_string(json)
-    display_string = json['title'] || ""
+    display_string = Titles.primary_title(json['titles']) || ""
 
     date_label = json.has_key?('dates') && json['dates'].length > 0 ?
                    json['dates'].map do |date|
@@ -80,7 +81,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
                      end
                    end.join(', ') : false
 
-    display_string += ", " if json['title'] && date_label
+    display_string += ", " if !display_string&.empty? && date_label
     display_string += date_label if date_label
 
     display_string

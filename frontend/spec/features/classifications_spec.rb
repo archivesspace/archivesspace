@@ -132,6 +132,7 @@ describe 'Classifications', js: true do
 
     click_on 'Create'
     click_on 'Accession'
+    click_on 'Add Title'
 
     fill_in 'Title', with: "Accession Title #{now}"
     fill_in 'Identifier', with: "Accession Identifier #{now}"
@@ -161,7 +162,7 @@ describe 'Classifications', js: true do
 
     visit "/"
     visit "classifications/#{classification.id}"
-    expect(page).to have_text resource.title
+    expect(page).to have_text resource.titles[0]['title']
     tree_element = find("#classification_term_#{classification_term.id} a.record-title")
     tree_element.click
     expect(page).to have_text accession.title
