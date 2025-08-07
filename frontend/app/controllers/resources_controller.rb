@@ -236,7 +236,7 @@ class ResourcesController < ApplicationController
     end
 
 
-    flash[:success] = t("resource._frontend.messages.deleted", resource_title: title_for_display)
+    flash[:success] = t("resource._frontend.messages.deleted", resource_title: title_for_display(resource))
     redirect_to(:controller => :resources, :action => :index, :deleted_uri => resource.uri)
   end
 
