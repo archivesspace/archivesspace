@@ -103,7 +103,7 @@ describe 'Merge and Transfer', js: true do
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Resource(s) Merged'
 
-    elements = all('#tree-container .table-row.largetree-node.indent-level-1')
+    elements = all('#infinite-tree-container .root.node .node')
     expect(elements.length).to eq 20
 
     ids = archival_objects_source.map { |entry| "archival_object_#{entry.id}" }
