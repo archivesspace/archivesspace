@@ -28,25 +28,25 @@ class IndexStateS3
     end
   end
 
-  def path_for(repository_id, record_type)
-    "#{@state_dir}#{repository_id}_#{record_type}"
+  def path_for(repository_id, record_type, state_type = nil)
+    "#{@state_dir}#{repository_id}_#{record_type}#{state_type.nil? ? '' : "_#{state_type}"}"
   end
 
-  def set_last_mtime(repository_id, record_type, time)
-    file = @bucket.files.get(path_for(repository_id, record_type))
+  def set_last_mtime(repository_id, record_type, time, state_type = nil)
+    file = @bucket.files.get(path_for(repository_id, record_type, state_type))
     if file
       file.body = StringIO.new("#{time.to_i.to_s}")
       file.save
     else
       @bucket.files.create(
-        :key  => path_for(repository_id, record_type),
+        :key  => path_for(repository_id, record_type, state_type),
         :body => StringIO.new("#{time.to_i.to_s}"),
       )
     end
   end
 
-  def get_last_mtime(repository_id, record_type)
-    file = @bucket.files.get(path_for(repository_id, record_type))
+  def get_last_mtime(repository_id, record_type, state_type = nil)
+    file = @bucket.files.get(path_for(repository_id, record_type, state_type))
     if file
       file.body.to_i
     else
