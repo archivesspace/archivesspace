@@ -69,5 +69,78 @@ describe 'Infinite Tree', js: true do
         include_examples 'identifier column visible'
       end
     end
+
+    describe 'suppressed badge' do
+      let!(:suppressed_ao) do
+        create(
+          :archival_object,
+          resource: { 'ref' => resource.uri },
+          title: "Suppressed AO #{now}"
+        ).tap { |obj| obj.set_suppressed(true) }
+      end
+
+      it 'is shown only for suppressed records' do
+        visit "/resources/#{resource.id}"
+        badge_selector = '#infinite-tree-container .record-title .badge'
+        badge = find(badge_selector, text: 'Suppressed', match: :first)
+        badge_parent = badge.find(:xpath, '..')
+
+        expect(page).to have_css(badge_selector, text: 'Suppressed', count: 1)
+        expect(badge_parent['title']).to eq(suppressed_ao.title)
+      end
+    end
+
+    describe 'mixed content in title column' do
+      let(:resource) do
+        create(
+          :resource,
+          title: 'This is <emph>a mixed content</emph> title'
+        )
+      end
+
+      let!(:mixed_content_ao) do
+        create(
+          :archival_object,
+          resource: { 'ref' => resource.uri },
+          title: 'This is <emph render="italic">another mixed content</emph> title'
+        )
+      end
+
+      let!(:plain_ao) do
+        create(
+          :archival_object,
+          resource: { 'ref' => resource.uri },
+          title: 'This is not a mixed content title'
+        )
+      end
+
+      let(:allow_mixed_content_title_fields) { true }
+
+      before(:each) do
+        allow(AppConfig)
+          .to receive(:[])
+          .with(:allow_mixed_content_title_fields)
+          .and_return(allow_mixed_content_title_fields)
+      end
+
+      it 'renders titles with mixed content appropriately' do
+        tree
+
+        resource_node = find("#resource_#{resource.id}")
+        expect(resource_node).to have_css('.node-body[title="This is a mixed content title"]')
+        resource_mixed_span = resource_node.find('.node-row span.emph.render-none')
+        expect(resource_mixed_span).to have_text('a mixed content')
+
+        ao1_node = find("#archival_object_#{mixed_content_ao.id}")
+        expect(ao1_node).to have_css('.node-row > .node-body[title="This is another mixed content title"]')
+        ao1_mixed_span = ao1_node.find('.node-row span.emph.render-italic')
+        expect(ao1_mixed_span).to have_text('another mixed content')
+
+        ao2_node = find("#archival_object_#{plain_ao.id}")
+        ao2_title = ao2_node.find('.node-row .record-title')
+        expect(ao2_title).not_to have_css('span')
+        expect(ao2_title).to have_text('This is not a mixed content title')
+      end
+    end
   end
 end
