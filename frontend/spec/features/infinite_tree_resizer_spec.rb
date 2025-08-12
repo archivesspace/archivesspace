@@ -41,6 +41,10 @@ describe 'Infinite Tree Resizer', js: true do
         .perform
     end
 
+    def expect_tree_height_matches_handle_value_now
+      expect(tree_height).to eq(@handle[:'aria-valuenow'].to_i)
+    end
+
     shared_examples 'persists tree height across page visits' do
       it 'persists the tree height after revisiting the page' do
         expected_height = tree_height
@@ -55,31 +59,52 @@ describe 'Infinite Tree Resizer', js: true do
       end
     end
 
+    shared_examples 'maximized tree state' do
+      it 'is maximized' do
+        expect(tree_height).to eq(available_height)
+        expect(tree_height).to eq(@handle[:'aria-valuemax'].to_i)
+        expect(@handle).to match_css('.maximized')
+        expect(@toggle[:'aria-expanded']).to eq('true')
+      end
+    end
+
+    shared_examples 'minimized tree state' do
+      it 'is minimized' do
+        expect(tree_height).to eq(@handle[:'aria-valuemin'].to_i)
+        expect(@handle).not_to match_css('.maximized')
+        expect(@toggle[:'aria-expanded']).to eq('false')
+      end
+    end
+
+    shared_examples 'key changes height by' do |key, delta|
+      it "#{key} changes height by #{delta}" do
+        start = @handle[:'aria-valuenow'].to_i
+        @handle.send_keys(key)
+        expect(@handle[:'aria-valuenow'].to_i).to eq(start + delta)
+        expect_tree_height_matches_handle_value_now
+      end
+    end
+
     describe 'handle' do
       it 'includes expected ARIA attributes on page load' do
         expect(@handle[:'role']).to eq('separator')
         expect(@handle[:'aria-orientation']).to eq('horizontal')
         expect(@handle[:'tabindex']).to eq('0')
         expect(@handle[:'aria-valuemin']).to eq('60')
-        expect(@handle[:'aria-valuenow'].to_i).to eq(tree_height)
         expect(@handle[:'aria-valuemax'].to_i).to eq(available_height)
+        expect_tree_height_matches_handle_value_now
       end
 
       describe 'mouse drag' do
         it 'changes tree height and updates aria-valuenow' do
           start_height = tree_height
-
           drag_handle_by(100)
-
-          new_height = tree_height
-          expect(new_height).to eq(start_height + 100)
-          expect(@handle[:'aria-valuenow'].to_i).to eq(new_height)
+          expect(tree_height).to eq(start_height + 100)
+          expect_tree_height_matches_handle_value_now
 
           drag_handle_by(-50)
-
-          new_height = tree_height
-          expect(new_height).to eq(start_height + 50)
-          expect(@handle[:'aria-valuenow'].to_i).to eq(new_height)
+          expect(tree_height).to eq(start_height + 50)
+          expect_tree_height_matches_handle_value_now
         end
 
         it 'does not go below min height when dragged upward beyond the minimum height' do
@@ -95,7 +120,7 @@ describe 'Infinite Tree Resizer', js: true do
           drag_handle_by(safe_delta)
 
           expect(tree_height).to eq(min_h)
-          expect(@handle[:'aria-valuenow'].to_i).to eq(min_h)
+          expect_tree_height_matches_handle_value_now
         end
 
         context 'after resizing the tree' do
@@ -103,53 +128,39 @@ describe 'Infinite Tree Resizer', js: true do
             drag_handle_by(80)
           end
 
-          include_examples 'persists tree height across page visits'
+          it_behaves_like 'persists tree height across page visits'
         end
       end
 
       describe 'keyboard controls' do
-        it 'Home sets to min, End sets to max' do
+        context 'small step keys' do
+          include_examples 'key changes height by', :arrow_up, 10
+          include_examples 'key changes height by', :arrow_right, 10
+          include_examples 'key changes height by', :arrow_down, -10
+          include_examples 'key changes height by', :arrow_left, -10
+        end
+
+        context 'large step keys' do
+          describe 'PageUp' do
+            include_examples 'key changes height by', :page_up, 50
+          end
+
+          describe 'PageDown' do
+            before { @handle.send_keys(:page_up) }
+            include_examples 'key changes height by', :page_down, -50
+          end
+        end
+
+        it 'Home minimizes' do
           @handle.send_keys(:home)
           expect(@handle[:'aria-valuenow'].to_i).to eq(@handle[:'aria-valuemin'].to_i)
-          expect(tree_height).to eq(@handle[:'aria-valuenow'].to_i)
+          expect_tree_height_matches_handle_value_now
+        end
 
+        it 'End maximizes' do
           @handle.send_keys(:end)
           expect(@handle[:'aria-valuenow'].to_i).to eq(@handle[:'aria-valuemax'].to_i)
-          expect(tree_height).to eq(@handle[:'aria-valuenow'].to_i)
-        end
-
-        it 'ArrowUp/Right increase by step; ArrowDown/Left decrease by step' do
-          step = 10
-          start = @handle[:'aria-valuenow'].to_i
-
-          @handle.send_keys(:arrow_up)
-          expect(@handle[:'aria-valuenow'].to_i).to eq(start + step)
-          expect(tree_height).to eq(@handle[:'aria-valuenow'].to_i)
-
-          @handle.send_keys(:arrow_right)
-          expect(@handle[:'aria-valuenow'].to_i).to eq(start + step * 2)
-          expect(tree_height).to eq(@handle[:'aria-valuenow'].to_i)
-
-          @handle.send_keys(:arrow_down)
-          expect(@handle[:'aria-valuenow'].to_i).to eq(start + step)
-          expect(tree_height).to eq(@handle[:'aria-valuenow'].to_i)
-
-          @handle.send_keys(:arrow_left)
-          expect(@handle[:'aria-valuenow'].to_i).to eq(start)
-          expect(tree_height).to eq(@handle[:'aria-valuenow'].to_i)
-        end
-
-        it 'PageUp/PageDown adjust by large step' do
-          step = 50
-          start = @handle[:'aria-valuenow'].to_i
-
-          @handle.send_keys(:page_up)
-          expect(@handle[:'aria-valuenow'].to_i).to eq(start + step)
-          expect(tree_height).to eq(@handle[:'aria-valuenow'].to_i)
-
-          @handle.send_keys(:page_down)
-          expect(@handle[:'aria-valuenow'].to_i).to eq(start)
-          expect(tree_height).to eq(@handle[:'aria-valuenow'].to_i)
+          expect_tree_height_matches_handle_value_now
         end
 
         it 'does not go below min or above max' do
@@ -168,12 +179,10 @@ describe 'Infinite Tree Resizer', js: true do
 
         context 'after resizing the tree' do
           before do
-            3.times do
-              @handle.send_keys(:arrow_up)
-            end
+            @handle.send_keys(:arrow_up, :arrow_up, :arrow_up)
           end
 
-          include_examples 'persists tree height across page visits'
+          it_behaves_like 'persists tree height across page visits'
         end
       end
     end
@@ -184,49 +193,82 @@ describe 'Infinite Tree Resizer', js: true do
       end
 
       describe 'click' do
-        it 'maximizes and minimizes the tree height, with related aria and class updates' do
-          @toggle.click
-          expect(tree_height).to eq(available_height)
-          expect(tree_height).to eq(@handle[:'aria-valuemax'].to_i)
-          expect(@handle).to match_css('.maximized')
-          expect(@toggle[:'aria-expanded']).to eq('true')
+        context 'when toggled on' do
+          before { @toggle.click }
 
-          @toggle.click
-          expect(tree_height).to eq(@handle[:'aria-valuemin'].to_i)
-          expect(@handle).not_to match_css('.maximized')
-          expect(@toggle[:'aria-expanded']).to eq('false')
+          it_behaves_like 'maximized tree state'
         end
 
-        context 'after resizing the tree' do
+        context 'when toggled off' do
           before do
+            @toggle.click
             @toggle.click
           end
 
-          include_examples 'persists tree height across page visits'
+          it_behaves_like 'minimized tree state'
+        end
+
+        context 'after resizing the tree' do
+          before { @toggle.click }
+
+          it_behaves_like 'persists tree height across page visits'
         end
       end
 
       describe 'keyboard controls' do
-        it 'Space and Enter maximize and minimize the tree height' do
-          @toggle.send_keys(:space)
-          expect(tree_height).to eq(available_height)
-          expect(@handle).to match_css('.maximized')
-          expect(@toggle[:'aria-expanded']).to eq('true')
+        context 'Space' do
+          describe 'toggle on' do
+            before { @toggle.send_keys(:space) }
 
-          @toggle.send_keys(:enter)
-          expect(tree_height).to eq(@handle[:'aria-valuemin'].to_i)
-          expect(@handle).not_to match_css('.maximized')
-          expect(@toggle[:'aria-expanded']).to eq('false')
+            it_behaves_like 'maximized tree state'
+          end
 
-          @toggle.send_keys(:enter)
-          expect(tree_height).to eq(available_height)
-          expect(@handle).to match_css('.maximized')
-          expect(@toggle[:'aria-expanded']).to eq('true')
+          describe 'toggle off' do
+            before do
+              @toggle.send_keys(:space)
+              @toggle.send_keys(:space)
+            end
 
-          @toggle.send_keys(:space)
-          expect(tree_height).to eq(@handle[:'aria-valuemin'].to_i)
-          expect(@handle).not_to match_css('.maximized')
-          expect(@toggle[:'aria-expanded']).to eq('false')
+            it_behaves_like 'minimized tree state'
+          end
+        end
+
+        context 'Enter' do
+          describe 'toggle on' do
+            before { @toggle.send_keys(:enter) }
+
+            it_behaves_like 'maximized tree state'
+          end
+
+          describe 'toggle off' do
+            before do
+              @toggle.send_keys(:enter)
+              @toggle.send_keys(:enter)
+            end
+
+            it_behaves_like 'minimized tree state'
+          end
+        end
+
+        context 'Space and Enter' do
+          describe 'toggle on' do
+            before do
+              @toggle.send_keys(:space)
+              @toggle.send_keys(:enter)
+              @toggle.send_keys(:space)
+            end
+
+            it_behaves_like 'maximized tree state'
+          end
+
+          describe 'toggle off' do
+            before do
+              @toggle.send_keys(:space)
+              @toggle.send_keys(:enter)
+            end
+
+            it_behaves_like 'minimized tree state'
+          end
         end
 
         context 'after resizing the tree' do
@@ -234,7 +276,7 @@ describe 'Infinite Tree Resizer', js: true do
             @toggle.send_keys(:space)
           end
 
-          include_examples 'persists tree height across page visits'
+          it_behaves_like 'persists tree height across page visits'
         end
       end
     end
