@@ -7,28 +7,34 @@
   class InfiniteTree {
     /**
      * @constructor
+     * @param {Object} initialContext - The data for the "current node"
+     * @param {boolean} initialContext.isRoot - Whether the initial selection is the root
+     * @param {string} initialContext.locationHash - window.location.hash
+     * @param {string} initialContext.rootUri - The URI of the root record, e.g. "/repositories/1/resources/3"
      * @param {number} batchSize - The number of nodes per batch of children
-     * @param {string} uriFragment - The document's URI fragment
-     * @param {string} rootUri - The URI of the root record, e.g. "/repositories/1/resources/3"
      * @param {Object} i18n - The i18n object for use in a non .js.erb file
      * @param {string} i18n.sep - The identifier separator
      * @param {string} i18n.bulk - The date type bulk
      * @param {Object} i18n.enumerations - The enumeration translations object
      * @returns {InfiniteTree} - InfiniteTree instance
      */
-    constructor(batchSize, uriFragment, rootUri, i18n) {
+    constructor(initialContext, batchSize, i18n) {
       this.BATCH_SIZE = batchSize;
       this.rootMeta = {
-        uri: rootUri,
-        ...InfiniteTreeIds.uriToParts(rootUri),
+        uri: initialContext.rootUri,
+        ...InfiniteTreeIds.uriToParts(initialContext.rootUri),
       };
 
       this.container = document.querySelector('#infinite-tree-container');
       this.recordPaneEl = document.querySelector('#infinite-tree-record-pane');
 
-      this.fetch = new InfiniteTreeFetch(rootUri);
+      this.fetch = new InfiniteTreeFetch(initialContext.rootUri);
 
-      this.markup = new InfiniteTreeMarkup(rootUri, batchSize, i18n);
+      this.markup = new InfiniteTreeMarkup(
+        initialContext.rootUri,
+        batchSize,
+        i18n
+      );
 
       new InfiniteTreeResizer(this.container); // this could be abstracted out to the template level since its markup is there alongside the tree not within the tree
 
@@ -48,13 +54,10 @@
         else if (e.target.closest('.node-title')) this.#titleClickHandler(e);
       });
 
-      if (
-        uriFragment === '' ||
-        uriFragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)
-      ) {
+      if (initialContext.isRoot) {
         this.renderRoot();
       } else {
-        this.loadNodeWithAncestors(uriFragment);
+        this.loadNodeWithAncestors(initialContext.locationHash);
       }
     }
 
@@ -81,11 +84,11 @@
 
     /**
      * Orchestrates the rendering of a node with all its ancestors on page load
-     * @param {string} uriFragment - The URI fragment of the node to render
+     * @param {string} locationHash - The location hash representing the node to render
      */
-    loadNodeWithAncestors(uriFragment) {
-      const nodeId = InfiniteTreeIds.parseTreeId(uriFragment).id;
-      const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(uriFragment);
+    loadNodeWithAncestors(locationHash) {
+      const nodeId = InfiniteTreeIds.parseTreeId(locationHash).id;
+      const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(locationHash);
 
       this.#fetchAncestorBatches(nodeId)
         .then(data => {
