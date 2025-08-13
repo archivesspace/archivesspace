@@ -4,25 +4,27 @@
   class InfiniteTreeRecordPane {
     /**
      * @constructor
-     * @param {string} uriFragment - The document's URI fragment at page load
-     * @param {string} rootRecordUri - The backend URI of the root record
+     * @param {Object} initialContext - The data for the initial "current node" to load
+     * @param {boolean} initialContext.isRoot - Whether the initial selection is the root
+     * @param {string} initialContext.locationHash - The document's URI fragment at page load
+     * @param {string} initialContext.rootUri - The backend URI of the root record
      * @returns {InfiniteTreeRecordPane}
      */
-    constructor(uriFragment, rootRecordUri) {
+    constructor(initialContext) {
       this.container = document.querySelector('#infinite-tree-record-pane');
 
       this.container.addEventListener('infiniteTree:nodeSelect', e => {
         this.loadRecord(e.detail.recordPath);
       });
 
-      const shouldLoadRoot =
-        uriFragment === '' ||
-        uriFragment === InfiniteTreeIds.treeLinkUrl(rootRecordUri);
-
-      if (shouldLoadRoot) {
-        this.loadRecord(InfiniteTreeIds.backendUriToFrontendUri(rootRecordUri));
+      if (initialContext.isRoot) {
+        this.loadRecord(
+          InfiniteTreeIds.backendUriToFrontendUri(initialContext.rootUri)
+        );
       } else {
-        this.loadRecord(InfiniteTreeIds.locationHashToFrontendUri(uriFragment));
+        this.loadRecord(
+          InfiniteTreeIds.locationHashToFrontendUri(initialContext.locationHash)
+        );
       }
     }
 
