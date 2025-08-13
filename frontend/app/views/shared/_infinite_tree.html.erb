@@ -3,6 +3,7 @@
    read_only = false if read_only.blank?
 %>
 
+<%= javascript_include_tag "InfiniteTreeInitialContext.js" %>
 <%= javascript_include_tag "InfiniteTree.js" %>
 <%= javascript_include_tag "InfiniteTreeResizer.js" %>
 <%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
@@ -84,13 +85,9 @@
 </template>
 
 <script>
-const resourceUri = "<%= @resource.uri %>";
+const rootUri = "<%= @resource.uri %>";
 
-if (window.location.hash === '') {
-  window.location.hash = InfiniteTreeIds.uriToLocationHash(resourceUri);
-}
-
-const uriFragment = window.location.hash;
+const initialContext = new InfiniteTreeInitialContext(rootUri).context;
 
 // ANW-2322 Temporarily copy and adapt ENUMERATION_TRANSLATIONS from largetree.js
 // for use in a .js file (not .js.erb)
@@ -125,9 +122,8 @@ const EnumerationTranslations2 = {
 };
 
 const infiniteTree = new InfiniteTree(
+  initialContext,
   "<%= Rails.configuration.infinite_tree_batch_size %>",
-  uriFragment,
-  resourceUri,
   {
     sep: "<%= I18n.t("resource.identifier_separator") %>",
     bulk: "<%= I18n.t("date_type_bulk.bulk") %>",
@@ -135,5 +131,5 @@ const infiniteTree = new InfiniteTree(
   }
 );
 
-const infiniteTreeRecordPane = new InfiniteTreeRecordPane(uriFragment, resourceUri);
+const infiniteTreeRecordPane = new InfiniteTreeRecordPane(initialContext);
 </script>
