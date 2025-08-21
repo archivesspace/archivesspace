@@ -71,8 +71,11 @@
 
       rootElement.id = `resource_${this.resourceId}`;
       rootElement.setAttribute('data-uri', this.resourceUri);
-      rootElement.setAttribute('aria-expanded', 'true');
       contentWrapper.setAttribute('title', title.cleaned);
+
+      if (data.child_count > 0) {
+        rootElement.setAttribute('aria-expanded', 'true');
+      }
 
       this.#processColumns(
         columns,

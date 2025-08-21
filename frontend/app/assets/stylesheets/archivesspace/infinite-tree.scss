@@ -78,6 +78,14 @@
 
   > .node-children > .node:last-child > .node-row > .node-body {
     border-bottom: var(--tree-line-width) solid var(--tree-line-color);
+
+    /*
+      The border-bottom above creates a white line under the root's last child row, which is consistent with
+      all other rows, and matches the old largetree. But it also creates a visual bug where, when the root
+      has only one immediate child that is a parent, and the root is the .current node, the child's
+      .node-expand button overlays and covers up the root row’s .current outline for the width of the button.
+      The solution is z-index: 1 on .node.current > .node-row > .node-body::after.
+    */
   }
 }
 
@@ -99,6 +107,7 @@
     &::after {
       content: '';
       position: absolute;
+      z-index: 1; // See note in root.node > .node-children > .node:last-child > .node-row > .node-body
       top: 0;
       left: 0;
       right: 0;
