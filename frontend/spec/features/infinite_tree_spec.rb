@@ -7,7 +7,6 @@ describe 'Infinite Tree', js: true do
   let(:repo) { create(:repo, repo_code: "resources_test_#{now}") }
   let(:resource) { create(:resource, title: "Resource #{now}") }
   let(:ao) { create(:archival_object, resource: { 'ref' => resource.uri }, title: "Archival Object #{now}") }
-  let(:display_identifiers) { false }
 
   before(:each) do
     set_repo(repo)
@@ -23,19 +22,6 @@ describe 'Infinite Tree', js: true do
   end
 
   let(:container) { find('#infinite-tree-container') }
-
-  shared_examples 'tree has role tree' do
-    it 'has role tree' do
-      expect(tree['role']).to eq('tree')
-    end
-  end
-
-  shared_examples 'tree has one child' do
-    it 'has one child' do
-      expect(tree).to have_css(':scope > li', count: 1)
-      expect(tree).to have_css(':scope > li.root.node')
-    end
-  end
 
   shared_examples 'basic node markup' do
     it_behaves_like 'node has role treeitem'
@@ -102,8 +88,6 @@ describe 'Infinite Tree', js: true do
   end
 
   shared_examples 'parent node has not been expanded' do
-    before { tree }
-
     it 'has not been expanded' do
       aggregate_failures do
         expect(node['aria-expanded']).to eq('false')
@@ -116,7 +100,6 @@ describe 'Infinite Tree', js: true do
 
   shared_examples 'parent node expands on expand button click' do
     before do
-      tree
       node.find(':scope > .node-row .node-expand').click
       wait_for_ajax
     end
@@ -126,7 +109,6 @@ describe 'Infinite Tree', js: true do
 
   shared_examples 'parent node expands on title click' do
     before do
-      tree
       node.find(':scope > .node-row .record-title').click
       wait_for_ajax
     end
@@ -141,7 +123,6 @@ describe 'Infinite Tree', js: true do
 
   shared_examples 'parent node expands on space keydown on expand button' do
     before do
-      tree
       node.find(':scope > .node-row .node-expand').send_keys(:space)
       wait_for_ajax
     end
@@ -151,7 +132,6 @@ describe 'Infinite Tree', js: true do
 
   shared_examples 'parent node expands on enter keydown on expand button' do
     before do
-      tree
       node.find(':scope > .node-row .node-expand').send_keys(:enter)
       wait_for_ajax
     end
@@ -161,7 +141,6 @@ describe 'Infinite Tree', js: true do
 
   shared_examples 'parent node collapses on expand button click' do
     before do
-      tree
       node.find(':scope > .node-row .node-expand').click
       wait_for_ajax
       node.find(':scope > .node-row .node-expand').click
@@ -177,7 +156,6 @@ describe 'Infinite Tree', js: true do
 
   shared_examples 'parent node collapses on space keydown on expand button' do
     before do
-      tree
       node.find(':scope > .node-row .node-expand').send_keys(:space)
       wait_for_ajax
       node.find(':scope > .node-row .node-expand').send_keys(:space)
@@ -188,7 +166,6 @@ describe 'Infinite Tree', js: true do
 
   shared_examples 'parent node collapses on enter keydown on expand button' do
     before do
-      tree
       node.find(':scope > .node-row .node-expand').send_keys(:enter)
       wait_for_ajax
       node.find(':scope > .node-row .node-expand').send_keys(:enter)
@@ -304,8 +281,14 @@ describe 'Infinite Tree', js: true do
 
   context 'on the resources show view' do
     describe 'tree list' do
-      it_behaves_like 'tree has role tree'
-      it_behaves_like 'tree has one child'
+      it 'has role tree' do
+        expect(tree['role']).to eq('tree')
+      end
+
+      it 'has one child' do
+        expect(tree).to have_css(':scope > li', count: 1)
+        expect(tree).to have_css(':scope > li.root.node')
+      end
     end
 
     context 'root node' do
@@ -562,7 +545,6 @@ describe 'Infinite Tree', js: true do
 
         describe 'after initial expansion' do
           before do
-            tree
             node.find(':scope > .node-row .node-expand').click
             wait_for_ajax
           end
@@ -611,7 +593,6 @@ describe 'Infinite Tree', js: true do
 
         describe 'after initial expansion' do
           before do
-            tree
             node.find(':scope > .node-row .node-expand').click
             wait_for_ajax
           end
@@ -660,7 +641,6 @@ describe 'Infinite Tree', js: true do
 
         describe 'after initial expansion' do
           before do
-            tree
             node.find(':scope > .node-row .node-expand').click
             wait_for_ajax
           end
@@ -709,7 +689,6 @@ describe 'Infinite Tree', js: true do
 
         describe 'after initial expansion' do
           before do
-            tree
             node.find(':scope > .node-row .node-expand').click
             wait_for_ajax
           end
@@ -738,7 +717,6 @@ describe 'Infinite Tree', js: true do
         let(:node) { tree.find("#archival_object_#{ao.id}") }
 
         before(:each) do
-          tree
           node.find(':scope > .node-row .node-expand').click
           wait_for_ajax
         end
