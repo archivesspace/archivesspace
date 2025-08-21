@@ -105,7 +105,14 @@ describe 'Infinite Tree Page Load', js: true do
         ))
       end
 
-      run_indexers
+      @resource4 = create(:resource, title: "Resource4 #{@now}", publish: true)
+      91.times do |i| # 4 batches
+        instance_variable_set("@ao#{i + 1}_of_resource4", create(:archival_object,
+          resource: {'ref' => @resource4.uri},
+          title: "R4 child #{i + 1} #{@now}",
+          publish: true
+        ))
+      end
     end
 
     RSpec::Matchers.define :appear_in_tree_viewport do
