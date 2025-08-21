@@ -34,6 +34,8 @@ $backend = ENV['ASPACE_TEST_BACKEND_URL'] || "http://localhost:#{backend_port}"
 test_db_url = ENV['ASPACE_TEST_DB_URL'] || AppConfig[:db_url]
 AppConfig[:backend_url] = $backend
 
+ENV['RAILS_ENV'] ||= 'test'
+
 $logger = ASpaceLogger.new(File.join(ASUtils.find_base_directory, "ci_logs", "frontend_test_log.out"))
 $logger.level = :debug
 
