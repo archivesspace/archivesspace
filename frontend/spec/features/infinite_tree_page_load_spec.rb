@@ -737,5 +737,3 @@ describe 'Infinite Tree Page Load', js: true do
     end
   end
 end
-
-
