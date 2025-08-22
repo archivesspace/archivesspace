@@ -4,40 +4,48 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Enumeration Management', js: true do
-  before(:all) do
-    @repository = create(:repo, repo_code: "enum_test_#{Time.now.to_i}", publish: true)
-  end
+  let(:now) { Time.now.to_i }
+  let(:repo) { create(:repo, repo_code: "enum_test_#{now}", publish: true) }
 
   before(:each) do
+    set_repo(repo)
     login_admin
-    select_repository(@repository)
+    select_repository(repo)
+  end
+
+  def visit_enumerations
+    click_on 'System'
+    click_on 'Manage Controlled Value Lists'
+    wait_for_ajax
+  end
+
+  def select_enum(dropdown_text)
+    visit_enumerations
+    element = find('.alert.alert-info.with-hide-alert')
+    expect(element.text).to eq 'Please select a Controlled Value List'
+    select dropdown_text, from: 'enum_selector'
+    wait_for_ajax
+  end
+
+  def create_enum_value(value)
+    find('a', text: 'Create Value').click
+    within '#form_enumeration' do
+      fill_in 'enumeration_value_', with: value
+      click_on 'Create Value'
+    end
   end
 
   describe 'accessibility' do
-    # 523636, 523634, 523633, 523632, 523631, 523630, 523629, 523628, 523627, 523637, 523635
-    it "has acceptable color contrast in disabled buttons" do
+    it 'has acceptable color contrast in disabled buttons' do
       visit "/enumerations?id=14"
       expect(page).to be_axe_clean.checking_only :'color-contrast'
     end
   end
 
   it 'lets you add a new value to an enumeration' do
-    now = Time.now.to_i
-    click_on 'System'
-    click_on 'Manage Controlled Value Lists'
+    select_enum 'Accession Acquisition Type (accession_acquisition_type)'
 
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element.text).to eq 'Please select a Controlled Value List'
-
-    select 'Accession Acquisition Type (accession_acquisition_type)', from: 'enum_selector'
-
-    element = find('a', text: 'Create Value')
-    element.click
-
-    within '#form_enumeration' do
-      fill_in 'enumeration_value_', with: "enumaration_value_#{now}"
-      click_on 'Create Value'
-    end
+    create_enum_value("enumaration_value_#{now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
@@ -45,21 +53,9 @@ describe 'Enumeration Management', js: true do
   end
 
   it 'lets you delete a value from an enumeration' do
-    now = Time.now.to_i
-    click_on 'System'
-    click_on 'Manage Controlled Value Lists'
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element.text).to eq 'Please select a Controlled Value List'
+    select_enum 'Accession Acquisition Type (accession_acquisition_type)'
 
-    select 'Accession Acquisition Type (accession_acquisition_type)', from: 'enum_selector'
-
-    element = find('a', text: 'Create Value')
-    element.click
-
-    within '#form_enumeration' do
-      fill_in 'enumeration_value_', with: "enumaration_value_#{now}"
-      click_on 'Create Value'
-    end
+    create_enum_value("enumaration_value_#{now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
@@ -77,32 +73,17 @@ describe 'Enumeration Management', js: true do
   end
 
   it 'lets you merge one value into another in an enumeration' do
-    now = Time.now.to_i
     enumeration_a = "Enumeration_a_#{now}"
     enumeration_b = "Enumeration_b_#{now}"
-    click_on 'System'
-    click_on 'Manage Controlled Value Lists'
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element.text).to eq 'Please select a Controlled Value List'
 
-    select 'Accession Acquisition Type (accession_acquisition_type)', from: 'enum_selector'
+    select_enum 'Accession Acquisition Type (accession_acquisition_type)'
 
-    element = find('a', text: 'Create Value')
-    element.click
-    within '#form_enumeration' do
-      fill_in 'enumeration_value_', with: "#{enumeration_a}"
-      click_on 'Create Value'
-    end
+    create_enum_value(enumeration_a)
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
     expect(page).to have_css 'tr', text: enumeration_a
 
-    element = find('a', text: 'Create Value')
-    element.click
-    within '#form_enumeration' do
-      fill_in 'enumeration_value_', with: "#{enumeration_b}"
-      click_on 'Create Value'
-    end
+    create_enum_value(enumeration_b)
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
 
@@ -111,24 +92,22 @@ describe 'Enumeration Management', js: true do
       click_on 'Merge'
     end
 
+    wait_for_ajax
+
     within '#form_enumeration' do
       select enumeration_a, from: 'merge_into'
       click_on 'Merge Value'
     end
 
+    wait_for_ajax
+
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Merged'
-
     expect(page).to_not have_css 'tr', text: enumeration_b
   end
 
   it 'lets you set a default enumeration (date_type)' do
-    click_on 'System'
-    click_on 'Manage Controlled Value Lists'
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element.text).to eq 'Please select a Controlled Value List'
-
-    select 'Date Type (date_type)', from: 'enum_selector'
+    select_enum 'Date Type (date_type)'
 
     elements = all('tr', text: 'Set as Default')
     expect(elements.length > 0).to eq true
@@ -147,26 +126,13 @@ describe 'Enumeration Management', js: true do
     click_on 'Add Date'
 
     element = find('#accession_dates__0__date_type_')
-
     expect(element.value).to eq default_value
   end
 
   it 'lets you add a new value to an enumeration, reorder it and then you can use it' do
-    now = Time.now.to_i
-    click_on 'System'
-    click_on 'Manage Controlled Value Lists'
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element.text).to eq 'Please select a Controlled Value List'
+    select_enum 'Collection Management Processing Priority (collection_management_processing_priority)'
 
-    select 'Collection Management Processing Priority (collection_management_processing_priority)', from: 'enum_selector'
-
-    element = find('a', text: 'Create Value')
-    element.click
-
-    within '#form_enumeration' do
-      fill_in 'enumeration_value_', with: "enumaration_value_#{now}"
-      click_on 'Create Value'
-    end
+    create_enum_value("enumaration_value_#{now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
@@ -185,7 +151,6 @@ describe 'Enumeration Management', js: true do
     click_on 'Add Collection Management Fields'
     select "enumaration_value_#{now}", from: 'accession_collection_management__processing_priority_'
 
-    # Click on save
     find('button', text: 'Save Accession', match: :first).click
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq "Accession Accession Title #{now} created"
@@ -197,21 +162,9 @@ describe 'Enumeration Management', js: true do
   end
 
   it 'lets you see how many times the term has been used and search for it' do
-    now = Time.now.to_i
-    click_on 'System'
-    click_on 'Manage Controlled Value Lists'
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element.text).to eq 'Please select a Controlled Value List'
+    select_enum 'Collection Management Processing Priority (collection_management_processing_priority)'
 
-    select 'Collection Management Processing Priority (collection_management_processing_priority)', from: 'enum_selector'
-
-    element = find('a', text: 'Create Value')
-    element.click
-
-    within '#form_enumeration' do
-      fill_in 'enumeration_value_', with: "enumaration_value_#{now}"
-      click_on 'Create Value'
-    end
+    create_enum_value("enumaration_value_#{now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
@@ -230,7 +183,6 @@ describe 'Enumeration Management', js: true do
     click_on 'Add Collection Management Fields'
     select "enumaration_value_#{now}", from: 'accession_collection_management__processing_priority_'
 
-    # Click on save
     find('button', text: 'Save Accession', match: :first).click
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq "Accession Accession Title #{now} created"
@@ -247,21 +199,9 @@ describe 'Enumeration Management', js: true do
   end
 
   it 'lets you suppress an enumeration value' do
-    now = Time.now.to_i
-    click_on 'System'
-    click_on 'Manage Controlled Value Lists'
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element.text).to eq 'Please select a Controlled Value List'
+    select_enum 'Collection Management Processing Priority (collection_management_processing_priority)'
 
-    select 'Collection Management Processing Priority (collection_management_processing_priority)', from: 'enum_selector'
-
-    element = find('a', text: 'Create Value')
-    element.click
-
-    within '#form_enumeration' do
-      fill_in 'enumeration_value_', with: "enumaration_value_#{now}"
-      click_on 'Create Value'
-    end
+    create_enum_value("enumaration_value_#{now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
@@ -287,31 +227,18 @@ describe 'Enumeration Management', js: true do
     click_on 'Add Collection Management Fields'
 
     elements = all('#accession_collection_management__processing_priority_ option')
-    options = elements.map { |option| option.value  }
+    options = elements.map { |option| option.value }
     expect(options.include?("enumaration_value_#{now}")).to eq false
 
-    # Click on save
     find('button', text: 'Save Accession', match: :first).click
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq "Accession Accession Title #{now} created"
   end
 
   it 'lets you delete a suppressed enumeration value' do
-    now = Time.now.to_i
-    click_on 'System'
-    click_on 'Manage Controlled Value Lists'
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element.text).to eq 'Please select a Controlled Value List'
+    select_enum 'Collection Management Processing Priority (collection_management_processing_priority)'
 
-    select 'Collection Management Processing Priority (collection_management_processing_priority)', from: 'enum_selector'
-
-    element = find('a', text: 'Create Value')
-    element.click
-
-    within '#form_enumeration' do
-      fill_in 'enumeration_value_', with: "enumaration_value_#{now}"
-      click_on 'Create Value'
-    end
+    create_enum_value("enumaration_value_#{now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
@@ -342,14 +269,7 @@ describe 'Enumeration Management', js: true do
   end
 
   it 'lets you set a default value with another value suppressed' do
-    now = Time.now.to_i
-    click_on 'System'
-    click_on 'Manage Controlled Value Lists'
-
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element.text).to eq 'Please select a Controlled Value List'
-
-    select 'Record Control Level of Detail (level_of_detail)', from: 'enum_selector'
+    select_enum 'Record Control Level of Detail (level_of_detail)'
 
     element = find('tr', text: 'natc')
     within element do

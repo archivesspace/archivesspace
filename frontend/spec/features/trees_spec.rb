@@ -194,6 +194,8 @@ describe 'Tree UI', js: true do
         click_on 'Delete'
       end
 
+      wait_for_ajax
+
       click_on "[Duplicated] #{@archival_object_3.title}"
       click_on 'Edit'
 
