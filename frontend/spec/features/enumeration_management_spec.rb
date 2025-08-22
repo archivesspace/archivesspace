@@ -103,6 +103,9 @@ describe 'Enumeration Management', js: true do
       fill_in 'enumeration_value_', with: "#{enumeration_b}"
       click_on 'Create Value'
     end
+
+    wait_for_ajax
+
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
 
@@ -111,10 +114,14 @@ describe 'Enumeration Management', js: true do
       click_on 'Merge'
     end
 
+    wait_for_ajax
+
     within '#form_enumeration' do
       select enumeration_a, from: 'merge_into'
       click_on 'Merge Value'
     end
+
+    wait_for_ajax
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Merged'
