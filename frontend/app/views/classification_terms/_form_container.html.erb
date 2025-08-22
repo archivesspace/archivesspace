@@ -1,7 +1,7 @@
 <%= link_to_help :topic => "classification_term" %>
 
 <h2>
-  <%= @form_title ? clean_mixed_content(@form_title) : @classification_term.title.blank? ? t("classification_term._singular") : clean_mixed_content(@classification_term.title) %>
+  <%= @form_title ? clean_mixed_content(@form_title) : @classification_term.titles.empty? ? t("classification_term._singular") : title_for_display %>
   <span class="label label-info badge"><%= t("classification_term._singular") %></span>
 </h2>
 
@@ -25,19 +25,20 @@
                                  :record => @classification_term) %>
 
       <%= form.label_and_textfield "identifier" %>
-      <%= form.label_and_textfield "title" %>
-
+      
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @classification_term} if AppConfig[:use_human_readable_urls] %>
-
+      
       <%= form.label_and_textarea "description" %>
-
+      
       <%= render_plugin_partials("basic_information_classification_term",
-                                 :form => form,
-                                 :record => @classification_term) %>
-
+      :form => form,
+      :record => @classification_term) %>
+      
       <% form.push("creator", form["creator"] || {}) do %>
-        <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => t("classification_term.creator"), :optional => true, :multiplicity => "one"} %>
+      <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => t("classification_term.creator"), :optional => true, :multiplicity => "one"} %>
       <% end %>
+      
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "titles"} %>
 
       <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
 

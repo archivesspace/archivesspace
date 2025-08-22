@@ -6,6 +6,7 @@
     "parent" => "abstract_classification",
     "uri" => "/repositories/:repo_id/classifications",
     "properties" => {
+      "titles" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:title) object"}},
 
       "has_classification_terms" => {"type" => "boolean", "readonly" => true},
       "slug" => {"type" => "string"},

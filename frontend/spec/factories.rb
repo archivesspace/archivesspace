@@ -85,7 +85,7 @@ module Factories
         lang_materials { [build(:json_lang_material)] }
 
         transient do
-          title { nil }
+          title { generate(:accession_title) }
         end
       end
 
@@ -319,14 +319,22 @@ module Factories
 
       factory :classification, class: JSONModel(:classification) do
         identifier { generate(:alphanumstr) }
-        title { generate(:classification_title) }
+        titles { [build(:json_title, title: title)] }
         description { generate(:alphanumstr) }
+
+        transient do
+          title { "Classification #{generate(:classification_title)}" }
+        end
       end
 
       factory :classification_term, class: JSONModel(:classification_term) do
         identifier { generate(:alphanumstr) }
-        title { generate(:classification_term_title) }
+        titles { [build(:json_title, title: title)] }
         description { generate(:alphanumstr) }
+
+        transient do
+          title { "Classification #{generate(:classification_term_title)}" }
+        end
       end
 
       factory :container_profile, class: JSONModel(:container_profile) do
