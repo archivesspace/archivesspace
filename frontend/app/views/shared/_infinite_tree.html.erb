@@ -1,0 +1,135 @@
+<%
+   show_identifiers = AppConfig[:display_identifiers_in_largetree_container]
+   read_only = false if read_only.blank?
+%>
+
+<%= javascript_include_tag "InfiniteTreeInitialContext.js" %>
+<%= javascript_include_tag "InfiniteTree.js" %>
+<%= javascript_include_tag "InfiniteTreeResizer.js" %>
+<%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
+<%= javascript_include_tag "InfiniteTreeIds.js" %>
+
+<div
+  id="infinite-tree-container"
+  data-resource-uri="<%= @resource.uri %>"
+  class="mb-2"
+>
+</div>
+<%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
+<%= render_aspace_partial :partial => "shared/infinite_tree_record_pane" %>
+
+<template id="infinite-tree-root-list-template">
+  <ol class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>" role="tree"></ol>
+</template>
+
+<template id="infinite-tree-root-node-template">
+  <li class="root node" role="treeitem" id data-uri>
+    <div class="node-row">
+      <div class="node-body" title>
+        <div class="node-column" data-column="title">
+          <a class="record-title" href></a>
+        </div>
+        <div class="node-column" data-column="level"></div>
+        <div class="node-column" data-column="type"></div>
+        <div class="node-column" data-column="container"></div>
+        <% if show_identifiers %>
+          <div class="node-column" data-column="identifier"></div>
+        <% end %>
+      </div>
+    </div>
+  </li>
+</template>
+
+<template id="infinite-tree-node-list-template">
+  <ol
+    class="node-children"
+    role="group"
+    data-parent-id
+    data-tree-level
+    data-total-child-batches
+  ></ol>
+</template>
+
+<template id="infinite-tree-node-template">
+  <li class="node" role="treeitem" id data-uri>
+    <div class="node-row">
+      <div class="node-body" title>
+        <div class="node-indentation"></div>
+        <div class="node-column" data-column="title">
+          <a class="record-title" href></a>
+        </div>
+        <div class="node-column" data-column="level"></div>
+        <div class="node-column" data-column="type"></div>
+        <div class="node-column" data-column="container"></div>
+        <% if show_identifiers %>
+          <div class="node-column" data-column="identifier"></div>
+        <% end %>
+      </div>
+    </div>
+  </li>
+</template>
+
+<template id="infinite-tree-expand-button-template">
+  <button class="node-expand" type="button">
+    <i class="node-expand-icon glyphicon glyphicon-chevron-right"></i>
+    <span class="sr-only"></span>
+  </button>
+</template>
+
+<template id="infinite-tree-batch-placeholder-template">
+  <li data-batch-placeholder style="display:none"></li>
+</template>
+
+<template id="infinite-tree-suppressed-template">
+  <span class="badge badge-warning"><%= I18n.t("states.suppressed") %></span>
+</template>
+
+<script>
+const rootUri = "<%= @resource.uri %>";
+
+const initialContext = new InfiniteTreeInitialContext(rootUri).context;
+
+// ANW-2322 Temporarily copy and adapt ENUMERATION_TRANSLATIONS from largetree.js
+// for use in a .js file (not .js.erb)
+<%
+  translations = {}
+
+  ['instance_instance_type', 'container_type', 'resource_resource_type',
+    'archival_record_level', 'digital_object_digital_object_type'
+  ].each do |enumeration_name|
+    translations[enumeration_name] ||= {}
+
+    JSONModel.enum_values(enumeration_name).each do |enumeration_value|
+      translations[enumeration_name][enumeration_value] = t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
+    end
+  end
+%>
+
+const ENUMERATION_TRANSLATIONS_2 = <%== translations.to_json %>;
+
+const EnumerationTranslations2 = {
+  t : function(enumeration, enumeration_value) {
+    if (ENUMERATION_TRANSLATIONS_2.hasOwnProperty(enumeration)) {
+        if (ENUMERATION_TRANSLATIONS_2[enumeration].hasOwnProperty(enumeration_value)) {
+            return ENUMERATION_TRANSLATIONS_2[enumeration][enumeration_value];
+        } else if (enumeration == 'archival_record_level'){
+            return enumeration_value;
+        }
+    }
+    return null;
+  },
+  ENUMERATION_TRANSLATIONS: ENUMERATION_TRANSLATIONS_2
+};
+
+const infiniteTree = new InfiniteTree(
+  initialContext,
+  "<%= Rails.configuration.infinite_tree_batch_size %>",
+  {
+    sep: "<%= I18n.t("resource.identifier_separator") %>",
+    bulk: "<%= I18n.t("date_type_bulk.bulk") %>",
+    enumerations: EnumerationTranslations2
+  }
+);
+
+const infiniteTreeRecordPane = new InfiniteTreeRecordPane(initialContext);
+</script>
