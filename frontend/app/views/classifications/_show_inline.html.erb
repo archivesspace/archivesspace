@@ -6,7 +6,7 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :classification, @classification do |readonly| %>
-        <h2><%= clean_mixed_content(@classification.title) %> <span class="label label-info badge"><%= t("classification._singular") %></span></h2>
+        <h2><%= title_for_display %> <span class="label label-info badge"><%= t("classification._singular") %></span></h2>
 
         <% define_template "classification", jsonmodel_definition(:classification) do |form, classification| %>
           <section id="basic_information">
@@ -17,7 +17,6 @@
                                        :record => @classification) %>
 
             <%= form.label_and_textarea "identifier" %>
-            <%= form.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root), :escape => false} %>
 
             <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @classification} if AppConfig[:use_human_readable_urls] %>
 
@@ -37,8 +36,11 @@
             <% end %>
             <%= display_audit_info(@classification) %>
           </section>
+          
+          <%= render_aspace_partial :partial => "titles/show", :locals => { :titles => @classification.titles, :section_id => "classification_titles_" } %>
         <% end %>
-
+        
+        
         <% readonly.emit_template("classification", @classification) %>
 
         <%= render_aspace_partial :partial => "search/embedded", :locals => {:section_id => "classifications", :filter_term => {"classification_uris" => @classification.uri}.to_json, :heading_text => t("classification._frontend.section.search_embedded")} %>

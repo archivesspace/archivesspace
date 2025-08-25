@@ -18,6 +18,10 @@ class Title < Sequel::Model(:title)
     }
   end
 
+  def self.to_array_of_hash(titles_array)
+    titles_array.map { |title| title.to_hash }
+  end
+
   def hash
     [title, type, language, script].hash
   end

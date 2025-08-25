@@ -104,7 +104,6 @@ class ResourcesController < ApplicationController
   end
 
   def tree_root
-    resource_uri = JSONModel(:resource).uri_for(params[:id])
     waypoint_data = fetch_json("#{resource_uri}/tree/root")
     processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
 
@@ -112,7 +111,6 @@ class ResourcesController < ApplicationController
   end
 
   def node_from_root
-    resource_uri = JSONModel(:resource).uri_for(params[:id])
     waypoint_data = fetch_json("#{resource_uri}/tree/node_from_root", 'node_ids[]' => params[:node_ids])
     processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
 
@@ -120,7 +118,6 @@ class ResourcesController < ApplicationController
   end
 
   def tree_node
-    resource_uri = JSONModel(:resource).uri_for(params[:id])
     node_uri = params[:node] unless params[:node].blank?
     waypoint_data = fetch_json("#{resource_uri}/tree/node", :node_uri => node_uri)
     processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
@@ -129,7 +126,6 @@ class ResourcesController < ApplicationController
   end
 
   def tree_waypoint
-    resource_uri = JSONModel(:resource).uri_for(params[:id])
     node_uri = params[:node] unless params[:node].blank?
 
     render :json => fetch_json("#{resource_uri}/tree/waypoint",
@@ -369,8 +365,8 @@ class ResourcesController < ApplicationController
     }
   end
 
-  private
 
+  private
 
   def fetch_json(uri, params = {})
     json = "{}"
@@ -382,6 +378,9 @@ class ResourcesController < ApplicationController
     JSON.parse(json)
   end
 
+  def resource_uri
+    JSONModel(:resource).uri_for(params[:id])
+  end
 
   def find_active_bulk_import_job
     Job.active.find do |j|

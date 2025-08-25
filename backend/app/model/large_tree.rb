@@ -100,7 +100,7 @@ class LargeTree
         titles = [{title: @root_record.title}]
       end
 
-      parsed_titles = titles.map { |t| { title: MixedContentParser.parse(t[:title], '/'), language: t[:language] } }
+      parsed_titles = titles.map { |t| { title: MixedContentParser.parse(t['title'], '/'), language: t['language'] } }
 
       response = waypoint_response(child_count).merge(
         "title" => titles[0]['title'],   # TODO: workaround until all records have multiple titles

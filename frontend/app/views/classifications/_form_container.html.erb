@@ -1,7 +1,7 @@
 <%= link_to_help :topic => "classification" %>
 
 <h2>
-   <%= @form_title ? clean_mixed_content(@form_title) : @classification.title.blank? ? "#{I18n.t("classification.new_title")}" : clean_mixed_content(@classification.title) %>  <span class="label label-info badge"><%= I18n.t("classification._singular") %></span>
+   <%= @form_title ? clean_mixed_content(@form_title) : @classification.titles.empty? ? "#{I18n.t("classification.new_title")}" : title_for_display %>  <span class="label label-info badge"><%= I18n.t("classification._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -19,8 +19,7 @@
                                  :record => @classification) %>
 
       <%= form.label_and_textfield "identifier" %>
-      <%= form.label_and_textfield "title" %>
-
+            
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @classification} if AppConfig[:use_human_readable_urls] %>
 
       <%= form.label_and_textarea "description" %>
@@ -33,6 +32,8 @@
         <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => t("classification.creator"), :optional => true, :multiplicity => "one"} %>
       <% end %>
     </section>
+
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "titles"} %>
 
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
   <% end %>
