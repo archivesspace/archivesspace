@@ -6,14 +6,14 @@ class IndexState
   end
 
 
-  def path_for(repository_id, record_type)
+  def path_for(repository_id, record_type, state_type = nil)
     FileUtils.mkdir_p(@state_dir)
-    File.join(@state_dir, "#{repository_id}_#{record_type}")
+    File.join(@state_dir, "#{repository_id}_#{record_type}#{state_type.nil? ? '' : "_#{state_type}"}")
   end
 
 
-  def set_last_mtime(repository_id, record_type, time)
-    path = path_for(repository_id, record_type)
+  def set_last_mtime(repository_id, record_type, time, state_type = nil)
+    path = path_for(repository_id, record_type, state_type)
 
     File.open("#{path}.tmp", "w") do |fh|
       fh.puts(time.to_i)
@@ -24,8 +24,8 @@ class IndexState
   end
 
 
-  def get_last_mtime(repository_id, record_type)
-    path = path_for(repository_id, record_type)
+  def get_last_mtime(repository_id, record_type, state_type = nil)
+    path = path_for(repository_id, record_type, state_type)
 
     begin
       File.open("#{path}.dat", "r") do |fh|
