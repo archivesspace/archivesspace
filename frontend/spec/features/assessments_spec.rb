@@ -111,17 +111,17 @@ describe 'Assessments', js: true do
 
     # Records AJAX drodown
     element = find('#token-input-assessment_records_')
-    element.fill_in with: accession.title
+    element.fill_in with: accession.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
     element = find('#token-input-assessment_records_')
-    element.fill_in with: digital_object.title
+    element.fill_in with: digital_object.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item')
     dropdown_items.first.click
 
     element = find('#token-input-assessment_records_')
-    element.fill_in with: archival_object.title
+    element.fill_in with: archival_object.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
@@ -176,9 +176,9 @@ describe 'Assessments', js: true do
     run_index_round
 
     expect(page).to have_text 'Assessment Created'
-    expect(page).to have_text accession.title
-    expect(page).to have_text digital_object.title
-    expect(page).to have_text archival_object.title
+    expect(page).to have_text accession.titles[0]['title']
+    expect(page).to have_text digital_object.titles[0]['title'] # TODO: This will be fixed once digital objects get proper rendering of their multiple titles
+    expect(page).to have_text archival_object.titles[0]['title']
     linked_agents = all('.token-input-token .agent_person')
     expect(linked_agents[0]).to have_text(archivist_user.username)
     expect(linked_agents[1]).to have_text(archivist_user.username)
@@ -210,14 +210,14 @@ describe 'Assessments', js: true do
     click_on('Browse')
     first(:link, 'Assessments').click
     expect(page).to have_text accession.title
-    expect(page).to have_text digital_object.title
-    expect(page).to have_text archival_object.title
+    expect(page).to have_text digital_object.titles[0]['title']
+    expect(page).to have_text archival_object.titles[0]['title']
     expect(page).to have_text archivist_user.username
 
     click_on('View')
     expect(page).to have_text accession.title
-    expect(page).to have_text digital_object.title
-    expect(page).to have_text archival_object.title
+    expect(page).to have_text digital_object.titles[0]['title']
+    expect(page).to have_text archival_object.titles[0]['title']
     expect(page).to have_text archivist_user.username
 
     # Assessment Information | Ratings
@@ -302,17 +302,17 @@ describe 'Assessments', js: true do
 
     # Records AJAX drodown
     element = find('#token-input-assessment_records_')
-    element.fill_in with: accession.title
+    element.fill_in with: accession.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
     element = find('#token-input-assessment_records_')
-    element.fill_in with: digital_object.title
+    element.fill_in with: digital_object.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
     element = find('#token-input-assessment_records_')
-    element.fill_in with: archival_object.title
+    element.fill_in with: archival_object.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
@@ -365,7 +365,7 @@ describe 'Assessments', js: true do
     expect(page).to have_text 'Search Results'
 
     # Find result that contains the archivist username and click on View
-    element = find(:xpath, "//table//tr[td[contains(., '#{archivist_user.username}')]]")
+    element = find(:xpath, "//table//tr[td[contains(., '#{archivist_user.username}')]]") # TODO: fix rendering of agent_person with multiple titles
     within element do
       click_on('View')
     end

@@ -140,7 +140,8 @@ describe 'Enumeration Management', js: true do
 
     click_on 'Create'
     click_on 'Accession'
-    fill_in 'accession_title_', with: "Accession Title #{now}"
+    click_on 'Add Title'
+    fill_in 'accession_titles__0__title_', with: "Accession Title #{now}"
     fill_in 'accession_id_0_', with: "1 #{now}"
     fill_in 'accession_id_1_', with: "2 #{now}"
     fill_in 'accession_id_2_', with: "3 #{now}"
@@ -172,7 +173,8 @@ describe 'Enumeration Management', js: true do
 
     click_on 'Create'
     click_on 'Accession'
-    fill_in 'accession_title_', with: "Accession Title #{now}"
+    click_on 'Add Title'
+    fill_in 'accession_titles__0__title_', with: "Accession Title #{now}"
     fill_in 'accession_id_0_', with: "1 #{now}"
     fill_in 'accession_id_1_', with: "2 #{now}"
     fill_in 'accession_id_2_', with: "3 #{now}"
@@ -216,7 +218,8 @@ describe 'Enumeration Management', js: true do
 
     click_on 'Create'
     click_on 'Accession'
-    fill_in 'accession_title_', with: "Accession Title #{now}"
+    click_on 'Add Title'
+    fill_in 'accession_titles__0__title_', with: "Accession Title #{now}"
     fill_in 'accession_id_0_', with: "1 #{now}"
     fill_in 'accession_id_1_', with: "2 #{now}"
     fill_in 'accession_id_2_', with: "3 #{now}"

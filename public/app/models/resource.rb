@@ -21,7 +21,7 @@ class Resource < Record
       {
         :uri => '',
         :type => 'resource',
-        :crumb => display_string
+        :crumb => primary_title
       }
     ]
   end
