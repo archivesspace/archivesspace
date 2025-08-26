@@ -154,5 +154,4 @@ class Preference < Sequel::Model(:preference)
     super(json, opts.merge('defaults' => JSON(json.defaults)),
           apply_nested_records)
   end
-
 end
