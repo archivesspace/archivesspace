@@ -36,7 +36,7 @@
         i18n
       );
 
-      new InfiniteTreeResizer(this.container); // this could be abstracted out to the template level since its markup is there alongside the tree not within the tree
+      new InfiniteTreeResizer(this.container);
 
       this.batchObserver = new IntersectionObserver(
         (entries, observer) => {
@@ -503,49 +503,42 @@
      */
     #batchObserverHandler(entries, observer) {
       entries.forEach(async entry => {
-        if (entry.isIntersecting) {
-          const node = entry.target;
-          const parentNodeUri = node.getAttribute('data-observe-node');
-          const siblingList = node.closest('.node-children');
-          const batchOffset = Number(node.getAttribute('data-observe-offset'));
-          const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
+        if (!entry.isIntersecting) return;
 
-          if (!batchData) {
-            console.error('#batchObserverHandler failed to fetch batch');
-            return;
-          }
+        const node = entry.target;
+        const parentNodeUri = node.getAttribute('data-observe-node');
+        const siblingList = node.closest('.node-children');
+        const batchOffset = Number(node.getAttribute('data-observe-offset'));
+        const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
 
-          const batchOffsetPlaceholderEl = siblingList.querySelector(
-            `li[data-batch-placeholder="${batchOffset}"]`
+        if (!batchData) {
+          console.error('#batchObserverHandler failed to fetch batch');
+          return;
+        }
+
+        const batchOffsetPlaceholderEl = siblingList.querySelector(
+          `li[data-batch-placeholder="${batchOffset}"]`
+        );
+        const observeForBatch = this.#observeForBatch(batchOffsetPlaceholderEl);
+
+        this.#renderBatch(siblingList, batchData, batchOffset, observeForBatch);
+
+        node.removeAttribute('data-observe-next-batch');
+        node.removeAttribute('data-observe-node');
+        node.removeAttribute('data-observe-offset');
+        observer.unobserve(node);
+
+        if (observeForBatch !== null) {
+          const nextNode = siblingList.querySelector(
+            `[data-observe-next-batch][data-observe-offset="${observeForBatch}"]`
           );
-          const observeForBatch = this.#observeForBatch(
-            batchOffsetPlaceholderEl
-          );
 
-          this.#renderBatch(
-            siblingList,
-            batchData,
-            batchOffset,
-            observeForBatch
-          );
-
-          node.removeAttribute('data-observe-next-batch');
-          node.removeAttribute('data-observe-node');
-          node.removeAttribute('data-observe-offset');
-          observer.unobserve(node);
-
-          if (observeForBatch !== null) {
-            const nextNode = siblingList.querySelector(
-              `[data-observe-next-batch][data-observe-offset="${observeForBatch}"]`
+          if (nextNode) {
+            observer.observe(nextNode);
+          } else {
+            console.error(
+              `#batchObserverHandler could not find node to observe for batch ${observeForBatch}`
             );
-
-            if (nextNode) {
-              observer.observe(nextNode);
-            } else {
-              console.error(
-                `#batchObserverHandler could not find node to observe for batch ${observeForBatch}`
-              );
-            }
           }
         }
       });

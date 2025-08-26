@@ -19,13 +19,15 @@
      * @returns {string} context.rootUri - Backend URI of the root record
      */
     get context() {
-      return this.isRoot
-        ? { isRoot: true, rootUri: this.rootUri }
-        : {
-            isRoot: false,
-            locationHash: this.locationHash,
-            rootUri: this.rootUri,
-          };
+      if (this.isRoot) {
+        return { isRoot: true, rootUri: this.rootUri };
+      } else {
+        return {
+          isRoot: false,
+          locationHash: this.locationHash,
+          rootUri: this.rootUri,
+        };
+      }
     }
 
     /**
