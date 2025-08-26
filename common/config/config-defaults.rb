@@ -263,6 +263,12 @@ AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 # USE WITH CAUTION - running custom reports that are too complex may cause ASpace to crash
 AppConfig[:enable_custom_reports] = false
 
+# Option to drop select fields from resource record duplication
+# Note: If required resource record fields (e.g. 'level') are added here, they will be ignored
+# Example:
+# AppConfig[:resource_fields_not_to_duplicate] = ['finding_aid_status', 'finding_aid_author']
+AppConfig[:resource_fields_not_to_duplicate] = []
+
 # Path to system Java -- required when creating PDFs on Windows
 AppConfig[:path_to_java] = "java"
 
