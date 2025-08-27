@@ -14,7 +14,7 @@
       this.container = document.querySelector('#infinite-tree-record-pane');
 
       this.container.addEventListener('infiniteTree:nodeSelect', e => {
-        this.loadRecord(e.detail.recordPath);
+        this.loadRecord(e.detail.requestPath);
       });
 
       if (initialContext.isRoot) {
@@ -29,10 +29,10 @@
     }
 
     /**
-     * @param {string} recordPath - The path to the record, e.g. "resources/123"
+     * @param {string} requestPath - The prefixed frontend URI to the record, e.g. "/resources/123"
      */
-    async loadRecord(recordPath) {
-      const url = AS.app_prefix(recordPath) + '?inline=true';
+    async loadRecord(requestPath) {
+      const url = requestPath + '?inline=true';
 
       this.#blockUI();
 

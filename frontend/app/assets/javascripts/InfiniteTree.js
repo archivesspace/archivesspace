@@ -110,7 +110,11 @@
       node.classList.add('current');
 
       const nodeSelectEvent = new CustomEvent('infiniteTree:nodeSelect', {
-        detail: { recordPath: node.dataset.uri.split('/').slice(-2).join('/') },
+        detail: {
+          requestPath: AS.app_prefix(
+            node.dataset.uri.split('/').slice(-2).join('/')
+          ),
+        },
       });
 
       this.recordPaneEl.dispatchEvent(nodeSelectEvent);
