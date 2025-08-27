@@ -7,7 +7,9 @@
       "uri" => {"type" => "string", "required" => false},
 
       "identifier" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
-      "title" => {"type" => "string", "minLength" => 1, "maxLength" => 16384, "ifmissing" => "error"},
+
+      "titles" => {"type" => "array", "items" => {"type" => "JSONModel(:title) object"}},
+
       "description" => {"type" => "string", "maxLength" => 65000},
 
       "publish" => {"type" => "boolean", "default" => true, "readonly" => true},

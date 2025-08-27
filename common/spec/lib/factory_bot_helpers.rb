@@ -596,9 +596,13 @@ FactoryBot.define do
 
   factory :json_classification_term, class: JSONModel(:classification_term) do
     identifier { generate(:alphanumstr) }
-    title { "Classification #{generate(:generic_title)}" }
+    titles { [build(:json_title, title: title)] }
     description { generate(:generic_description) }
     classification { {'ref' => create(:json_classification).uri} }
+
+    transient do
+      title { "Classification #{generate(:generic_title)}" }
+    end
   end
 
   factory :json_classification_tree, class: JSONModel(:classification_tree) do
@@ -610,8 +614,12 @@ FactoryBot.define do
 
   factory :json_classification, class: JSONModel(:classification) do
     identifier { generate(:alphanumstr) }
-    title { "Classification #{generate(:generic_title)}" }
+    titles { [build(:json_title, title: title)] }
     description { generate(:generic_description) }
+
+    transient do
+      title { "Classification #{generate(:generic_title)}" }
+    end
   end
 
   factory :json_collection_management, class: JSONModel(:collection_management) do
