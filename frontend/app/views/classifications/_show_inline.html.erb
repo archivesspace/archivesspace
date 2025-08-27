@@ -40,7 +40,6 @@
           <%= render_aspace_partial :partial => "titles/show", :locals => { :titles => @classification.titles, :section_id => "classification_titles_" } %>
         <% end %>
         
-        
         <% readonly.emit_template("classification", @classification) %>
 
         <%= render_aspace_partial :partial => "search/embedded", :locals => {:section_id => "classifications", :filter_term => {"classification_uris" => @classification.uri}.to_json, :heading_text => t("classification._frontend.section.search_embedded")} %>
