@@ -2,6 +2,7 @@ name: Docker Images
 permissions:
   contents: read
   packages: write
+  pull-requests: write
 
 on:
   push:
