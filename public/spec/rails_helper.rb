@@ -2,6 +2,7 @@ require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'launchy'
 require 'aspace_helper'
+require File.expand_path("../../../common/spec/support/file_runtime_formatter.rb", __FILE__)
 
 CHROME_OPTS  = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-logging --log-level=0 --v=1 --incognito --disable-extensions --auto-open-devtools-for-tabs --window-size=1920,1080 --disable-dev-shm-usage").split(' ')
 
@@ -82,6 +83,8 @@ Capybara.raise_server_errors = false
 Capybara.server_port = URI.parse(AppConfig[:public_url]).port
 
 RSpec.configure do |config|
+  config.add_formatter FileRuntimeFormatter
+
   config.infer_spec_type_from_file_location!
   config.include Capybara::DSL
   config.include ASpaceHelpers
