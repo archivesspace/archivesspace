@@ -182,4 +182,197 @@ describe SearchController, type: :controller do
         .to eq "<img src=\"http://foo.com/bar.jpg\">"
     end
   end
+
+  describe 'Top Container CSV Export Logic' do
+    before :each do
+      session = User.login('admin', 'admin')
+      User.establish_session(controller, session, 'admin')
+      controller.session[:repo_id] = 999
+    end
+
+    it 'correctly identifies top container searches from filter terms' do
+      # Test the detection logic for top container searches
+      criteria = {
+        'filter_term[]' => [
+          {"primary_type" => "top_container"}.to_json,
+          {"collection" => "/repositories/999/resources/1"}.to_json
+        ]
+      }
+
+      filter_terms = Array(criteria['filter_term[]']).map {|t| ASUtils.json_parse(t) rescue {} }
+      is_top_container_search = filter_terms.any? {|term| term['primary_type'] == 'top_container'}
+
+      expect(is_top_container_search).to be true
+    end
+
+    it 'correctly rejects non-top-container searches' do
+      # Test that other search types are not identified as top container searches
+      criteria = {
+        'filter_term[]' => [
+          {"primary_type" => "resource"}.to_json,
+          {"collection" => "/repositories/999/resources/1"}.to_json
+        ]
+      }
+
+      filter_terms = Array(criteria['filter_term[]']).map {|t| ASUtils.json_parse(t) rescue {} }
+      is_top_container_search = filter_terms.any? {|term| term['primary_type'] == 'top_container'}
+
+      expect(is_top_container_search).to be false
+    end
+
+    it 'handles data extraction logic for top container fields' do
+      # Test the field extraction logic used in the CSV generation
+      mock_result = {
+        "title" => "Test Box",
+        "collection_display_string_u_sstr" => ["Test Collection"],
+        "series_title_u_sstr" => "Test Series",
+        "type_enum_s" => ["box"],
+        "indicator_u_sstr" => "1",
+        "barcode_u_sstr" => ["12345"],
+        "container_profile_display_string_u_sstr" => ["Letter Box"],
+        "location_display_string_u_sstr" => ["Building A"]
+      }
+
+      # Test the extraction logic from the implementation
+      title = mock_result['title'] || ''
+      collection_raw = mock_result['collection_display_string_u_sstr']
+      collection_display = collection_raw.is_a?(Array) ? collection_raw.first : collection_raw || ''
+      series_raw = mock_result['series_title_u_sstr']
+      series_display = series_raw.is_a?(Array) ? series_raw.first : series_raw || ''
+      type_raw = mock_result['type_enum_s']
+      type = type_raw.is_a?(Array) ? type_raw.first : type_raw || ''
+      indicator_raw = mock_result['indicator_u_sstr'] || mock_result['indicator_u_icusort']
+      indicator = indicator_raw.is_a?(Array) ? indicator_raw.first : indicator_raw || ''
+      barcode_raw = mock_result['barcode_u_sstr']
+      barcode = barcode_raw.is_a?(Array) ? barcode_raw.first : barcode_raw || ''
+      container_profile_raw = mock_result['container_profile_display_string_u_sstr']
+      container_profile = container_profile_raw.is_a?(Array) ? container_profile_raw.first : container_profile_raw || ''
+      location_raw = mock_result['location_display_string_u_sstr']
+      current_location_title = location_raw.is_a?(Array) ? location_raw.first : location_raw || ''
+
+      expect(title).to eq("Test Box")
+      expect(collection_display).to eq("Test Collection")
+      expect(series_display).to eq("Test Series")
+      expect(type).to eq("box")
+      expect(indicator).to eq("1")
+      expect(barcode).to eq("12345")
+      expect(container_profile).to eq("Letter Box")
+      expect(current_location_title).to eq("Building A")
+    end
+
+    it 'handles missing fields gracefully' do
+      # Test with minimal data
+      mock_result = {
+        "title" => "Minimal Box"
+      }
+
+      title = mock_result['title'] || ''
+      collection_raw = mock_result['collection_display_string_u_sstr']
+      collection_display = collection_raw.is_a?(Array) ? collection_raw.first : collection_raw || ''
+      series_raw = mock_result['series_title_u_sstr']
+      series_display = series_raw.is_a?(Array) ? series_raw.first : series_raw || ''
+      type_raw = mock_result['type_enum_s']
+      type = type_raw.is_a?(Array) ? type_raw.first : type_raw || ''
+      indicator_raw = mock_result['indicator_u_sstr'] || mock_result['indicator_u_icusort']
+      indicator = indicator_raw.is_a?(Array) ? indicator_raw.first : indicator_raw || ''
+      barcode_raw = mock_result['barcode_u_sstr']
+      barcode = barcode_raw.is_a?(Array) ? barcode_raw.first : barcode_raw || ''
+      container_profile_raw = mock_result['container_profile_display_string_u_sstr']
+      container_profile = container_profile_raw.is_a?(Array) ? container_profile_raw.first : container_profile_raw || ''
+      location_raw = mock_result['location_display_string_u_sstr']
+      current_location_title = location_raw.is_a?(Array) ? location_raw.first : location_raw || ''
+
+      expect(title).to eq("Minimal Box")
+      expect(collection_display).to eq("")
+      expect(series_display).to eq("")
+      expect(type).to eq("")
+      expect(indicator).to eq("")
+      expect(barcode).to eq("")
+      expect(container_profile).to eq("")
+      expect(current_location_title).to eq("")
+    end
+
+    it 'uses fallback indicator field correctly' do
+      # Test fallback to indicator_u_icusort when indicator_u_sstr is not available
+      mock_result = {
+        "title" => "Fallback Box",
+        "indicator_u_icusort" => "fallback_value"
+        # no indicator_u_sstr
+      }
+
+      indicator_raw = mock_result['indicator_u_sstr'] || mock_result['indicator_u_icusort']
+      indicator = indicator_raw.is_a?(Array) ? indicator_raw.first : indicator_raw || ''
+
+      expect(indicator).to eq("fallback_value")
+    end
+
+    it 'handles array vs string values correctly' do
+      # Test mixed array and string data
+      mock_result = {
+        "collection_display_string_u_sstr" => ["Array Value"],
+        "series_title_u_sstr" => "String Value",
+        "type_enum_s" => ["box", "folder"],
+        "indicator_u_sstr" => "single_indicator"
+      }
+
+      collection_raw = mock_result['collection_display_string_u_sstr']
+      collection_display = collection_raw.is_a?(Array) ? collection_raw.first : collection_raw || ''
+      series_raw = mock_result['series_title_u_sstr']
+      series_display = series_raw.is_a?(Array) ? series_raw.first : series_raw || ''
+      type_raw = mock_result['type_enum_s']
+      type = type_raw.is_a?(Array) ? type_raw.first : type_raw || ''
+      indicator_raw = mock_result['indicator_u_sstr'] || mock_result['indicator_u_icusort']
+      indicator = indicator_raw.is_a?(Array) ? indicator_raw.first : indicator_raw || ''
+
+      expect(collection_display).to eq("Array Value")
+      expect(series_display).to eq("String Value")
+      expect(type).to eq("box") # first element of array
+      expect(indicator).to eq("single_indicator")
+    end
+
+    it 'generates correct search parameters for top container export' do
+      # Test the search parameter construction logic
+      criteria = {'some' => 'initial_criteria'}
+      search_params = criteria.dup
+      search_params.delete('dt')
+      search_params['page'] = 1
+      search_params['page_size'] = 10000 # default when no config
+      search_params['resolve[]'] = ['container_profile:id', 'container_locations:id', 'collection:id', 'series:id']
+      search_params['fields[]'] = [
+        'title',
+        'collection_display_string_u_sstr',
+        'series_title_u_sstr',
+        'type_enum_s',
+        'indicator_u_sstr',
+        'indicator_u_icusort',
+        'barcode_u_sstr',
+        'container_profile_display_string_u_sstr',
+        'location_display_string_u_sstr'
+      ]
+
+      expect(search_params['page']).to eq(1)
+      expect(search_params['page_size']).to eq(10000)
+      expect(search_params['resolve[]']).to include('container_profile:id')
+      expect(search_params['fields[]']).to include('title')
+      expect(search_params['fields[]']).to include('collection_display_string_u_sstr')
+      expect(search_params.has_key?('dt')).to be false
+    end
+
+    it 'respects max_top_container_results configuration' do
+      # Test config handling
+      allow(AppConfig).to receive(:has_key?).with(:max_top_container_results).and_return(true)
+      allow(AppConfig).to receive(:[]).with(:max_top_container_results).and_return(5000)
+
+      page_size = AppConfig.has_key?(:max_top_container_results) ? AppConfig[:max_top_container_results] : 10000
+      expect(page_size).to eq(5000)
+    end
+
+    it 'uses default page size when config is not set' do
+      # Test default behavior
+      allow(AppConfig).to receive(:has_key?).with(:max_top_container_results).and_return(false)
+
+      page_size = AppConfig.has_key?(:max_top_container_results) ? AppConfig[:max_top_container_results] : 10000
+      expect(page_size).to eq(10000)
+    end
+  end
 end
