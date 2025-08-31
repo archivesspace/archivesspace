@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as build_release
+FROM ubuntu:24.04 as build_release
 
 # Please note: Docker is supported as an install method starting with ArchivesSpace v4.0.0, see: https://docs.archivesspace.org/administration/docker/
 
@@ -20,9 +20,9 @@ COPY . /source
 
 RUN cd /source && \
   if [ `git describe --tags --exact-match --match v* 2>/dev/null` ]; then \
-    ARCHIVESSPACE_VERSION="$(git describe --tags --match v*)" ; \
+  ARCHIVESSPACE_VERSION="$(git describe --tags --match v*)" ; \
   else \
-    ARCHIVESSPACE_VERSION="$(git symbolic-ref -q --short HEAD)-$(git rev-parse --short HEAD)"; \
+  ARCHIVESSPACE_VERSION="$(git symbolic-ref -q --short HEAD)-$(git rev-parse --short HEAD)"; \
   fi &&\
   ARCHIVESSPACE_VERSION=${ARCHIVESSPACE_VERSION#"heads/"} && \
   echo "Using version: $ARCHIVESSPACE_VERSION" && \
@@ -37,7 +37,7 @@ RUN cd /source && \
 ADD docker-startup.sh /archivesspace/startup.sh
 RUN chmod u+x /archivesspace/startup.sh
 
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
@@ -52,22 +52,25 @@ ENV ARCHIVESSPACE_LOGS=/dev/null \
 COPY --from=build_release /archivesspace /archivesspace
 
 RUN apt-get update && \
-    apt-get -y install --no-install-recommends \
-      ca-certificates \
-      git \
-      libjemalloc-dev \
-      openjdk-17-jre-headless \
-      netbase \
-      shared-mime-info \
-      wget \
-      nodejs \
-      unzip && \
-    rm -rf /var/lib/apt/lists/* && \
-    groupadd -g 1000 archivesspace && \
-    useradd -l -M -u 1000 -g archivesspace archivesspace && \
-    chown -R archivesspace:archivesspace /archivesspace
+  apt-get -y install --no-install-recommends \
+  ca-certificates \
+  fontconfig \
+  fonts-dejavu-core \
+  fonts-dejavu \
+  fonts-liberation \
+  git \
+  libharfbuzz0b \
+  libjemalloc2 \
+  openjdk-17-jre-headless \
+  netbase \
+  shared-mime-info \
+  wget \
+  nodejs \
+  unzip && \
+  rm -rf /var/lib/apt/lists/* && \
+  chown -R 1000:1000 /archivesspace
 
-USER archivesspace
+USER 1000:1000
 
 EXPOSE 8080 8081 8089 8090 8092
 

@@ -41,6 +41,19 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/jobs_with_files')
     .description("Create a new job and post input files")
+    .example("shell") do
+      <<~SHELL
+        curl -X POST \
+        -H "X-ArchivesSpace-Session: $SESSION" \
+        -H "Content-Type: multipart/form-data" \
+        -F "files[0]=@FULL_LOCAL_PATH_TO_FILE" \
+        -F "job={\"jsonmodel_type\": \"job\", \"status\": \"queued\", \"has_modified_records\": false, \"inactive_record\": false, \"job\": {\"jsonmodel_type\": \"import_job\", \"filenames\": [\"EAD_FILE_NAME\"], \"import_type\": \"ead_xml\"}};type=application/json" \
+        http://localhost:8089/repositories/:repo_id/jobs_with_files
+
+        # Note the files field needs to have a key to associate with the filename in 'filenames'
+        # See https://github.com/archivesspace/archivesspace/issues/3671
+      SHELL
+    end
     .params(["job", JSONModel(:job)],
             ["files", [UploadFile]],
             ["repo_id", :repo_id])

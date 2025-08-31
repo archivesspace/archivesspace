@@ -1202,13 +1202,7 @@ class IndexerCommon
 
         doc['id'] = uri
         doc['uri'] = uri
-
-        if ( !values["finding_aid_filing_title"].nil? && values["finding_aid_filing_title"].length > 0 )
-          doc['title'] = values["finding_aid_filing_title"]
-        else
-          doc['title'] =  values['title']
-        end
-
+        doc['title'] = values['title']
         doc['primary_type'] = record_type
         doc['types'] = [record_type]
         doc['json'] = ASUtils.to_json(sanitize_json(values))
@@ -1229,7 +1223,11 @@ class IndexerCommon
           hook.call(doc, record)
         end
 
-        doc['title_sort'] ||= clean_for_sort(doc['title'])
+        if ( !values["finding_aid_filing_title"].nil? && values["finding_aid_filing_title"].length > 0 )
+          doc['title_sort'] ||= clean_for_sort(values["finding_aid_filing_title"])
+        else
+          doc['title_sort'] ||= clean_for_sort(values['title'])
+        end
 
         # do this last of all so we know for certain the doc is published
         apply_pui_fields(doc, record)

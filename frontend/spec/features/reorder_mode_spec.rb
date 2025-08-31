@@ -58,15 +58,16 @@ describe 'Reorder Mode', js: true do
     end
 
     it 'parent child nodes have a visible .expandme button' do
+
       # Find nodes that have children (parent nodes)
       parent_nodes = @children.select do |child|
         case @child_type
         when 'classification_term'
-          [@classification_term2].include?(child) # classification_term2 has classification_term3 as child
+          [@classification_term2].include?(child)
         when 'digital_object_component'
-          [@doc2].include?(child) # doc2 has doc3 as child
+          [@doc2].include?(child)
         when 'archival_object'
-          [@ao2].include?(child) # ao2 has ao3 as child
+          [@ao2].include?(child)
         end
       end
 
@@ -89,7 +90,7 @@ describe 'Reorder Mode', js: true do
       parent_row = find("##{@child_type}_#{parent_node.id}")
       expandme_button = parent_row.find('.expandme')
 
-      # Initially should be collapsed
+      # Initially collapsed
       expect(expandme_button['aria-expanded']).to eq('false')
 
       # Click to expand
@@ -136,10 +137,10 @@ describe 'Reorder Mode', js: true do
         child_row = find("##{@child_type}_#{child.id}")
 
         # Click to select node
+        page.execute_script("arguments[0].scrollIntoView(true);", child_row.native)
         child_row.click
         wait_for_ajax
 
-        # Verify the node exists and has basic functionality
         expect(child_row).to have_css '.drag-handle'
         expect(child_row).to have_css '.record-title'
       end

@@ -34,6 +34,7 @@ describe 'Classifications', js: true do
 
     # Click on save
     find('button', text: 'Save Classification', match: :first).click
+    wait_for_ajax
     expect(page).to have_text "Classification Title #{now} created"
     element = find('div.agent_person')
     expect(element).to have_text agent_name
@@ -161,6 +162,7 @@ describe 'Classifications', js: true do
 
     visit "/"
     visit "classifications/#{classification.id}"
+    wait_for_ajax
     expect(page).to have_text resource.title
     tree_element = find("#classification_term_#{classification_term.id} a.record-title")
     tree_element.click

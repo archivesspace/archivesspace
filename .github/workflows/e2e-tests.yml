@@ -5,12 +5,10 @@ permissions:
   pull-requests: write
 
 on:
-  repository_dispatch:
-    types: [docker-image-updated]
-
   pull_request:
     paths:
       - 'e2e-tests/**'
+  workflow_call:
 
 defaults:
   run:

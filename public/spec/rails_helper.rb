@@ -66,6 +66,8 @@ Capybara::Screenshot.register_driver(:firefox) do |driver, path|
   driver.browser.save_screenshot(path)
 end
 
+Capybara::Screenshot.prune_strategy = :keep_last_run
+
 if ENV['SELENIUM_CHROME'] == 'true'
   Capybara.default_driver = :chrome
   Capybara.javascript_driver = :chrome

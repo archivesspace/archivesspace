@@ -25,19 +25,161 @@ describe 'Search', js: true do
     expect(page).to have_content('Showing Results')
   end
 
-  it "should sort by identifier on results page" do
-    visit('/search')
-    click_on('Add a search row')
-    find('#q1').native.send_keys(:return)
+  describe 'sorting' do
+    describe 'by identifier' do
+      context 'descending' do
+        it "sorts by identifier on results page" do
+          visit('/search?utf8=✓&op%5B%5D=&q%5B%5D=&limit=resource&field%5B%5D=&from_year%5B%5D=&to_year%5B%5D=&commit=Search')
 
-    find('#sort').select("Identifier (descending)")
+          find('#sort').select("Identifier (descending)")
 
-    click_on('Sort')
+          click_on('Sort')
 
-    identifiers_desc = find_all('span.component').to_a
+          identifiers_desc = find_all('.identifier .component').to_a
 
-    expect(identifiers_desc[1].text > identifiers_desc[2].text).to be true
-    expect(identifiers_desc[2].text > identifiers_desc[3].text).to be true
+          expect(identifiers_desc[1].text.downcase > identifiers_desc[2].text.downcase).to be true
+          expect(identifiers_desc[2].text.downcase > identifiers_desc[3].text.downcase).to be true
+        end
+      end
+
+      context 'ascending' do
+        it "sorts by identifier on results page" do
+          visit('/search?utf8=✓&op%5B%5D=&q%5B%5D=&limit=resource&field%5B%5D=&from_year%5B%5D=&to_year%5B%5D=&commit=Search')
+
+          find('#sort').select("Identifier (ascending)")
+
+          click_on('Sort')
+
+          identifiers = find_all('.identifier .component').to_a
+
+          expect(identifiers[1].text.downcase < identifiers[2].text.downcase).to be true
+          expect(identifiers[2].text.downcase < identifiers[3].text.downcase).to be true
+        end
+      end
+    end
+
+    describe 'by title' do
+      context 'without finding aid filing title' do
+        let(:now) { Time.now.to_i }
+
+        before(:each) do
+          create(:resource,
+                 :title => "AAAA #{now}",
+                 :id_0 => "AAAA #{now}",
+                 :publish => true)
+
+          create(:resource,
+                 :title => "BBBB  #{now}",
+                 :id_0 => "BBBB #{now}",
+                 :publish => true)
+
+          create(:resource,
+                 :title => "CCCC  #{now}",
+                 :id_0 => "CCCC #{now}",
+                 :publish => true)
+
+          create(:resource,
+                 :title => "DDDD  #{now}",
+                 :publish => true,
+                 :id_0 => "DDDD #{now}")
+
+          run_indexers
+        end
+
+        context 'descending' do
+          it "sorts the results as expected" do
+            visit("/search?utf8=✓&op%5B%5D=&q%5B%5D=#{now}&limit=resource&field%5B%5D=&from_year%5B%5D=&to_year%5B%5D=&commit=Search")
+
+            find('#sort').select("Title (descending)")
+
+            click_on('Sort')
+
+            titles_desc = find_all('h3 .record-title').to_a
+
+            expect(titles_desc[1].text.downcase > titles_desc[2].text.downcase).to be true
+            expect(titles_desc[2].text.downcase > titles_desc[3].text.downcase).to be true
+          end
+        end
+
+        context 'ascending' do
+          it "sorts the results as expected" do
+            visit("/search?utf8=✓&op%5B%5D=&q%5B%5D=#{now}&limit=resource&field%5B%5D=&from_year%5B%5D=&to_year%5B%5D=&commit=Search")
+
+            find('#sort').select("Title (ascending)")
+
+            click_on('Sort')
+
+            titles = find_all('h3 .record-title').to_a
+
+            expect(titles[1].text.downcase < titles[2].text.downcase).to be true
+            expect(titles[2].text.downcase < titles[3].text.downcase).to be true
+          end
+        end
+      end
+
+      context 'with finding aid filing title' do
+        let(:now) { Time.now.to_i }
+
+        before(:each) do
+          create(:resource,
+                 :title => "AAAA #{now}",
+                 :id_0 => "AAAA #{now}",
+                 :publish => true,
+                 :finding_aid_filing_title => "ZZZZ")
+
+          create(:resource,
+                 :title => "BBBB  #{now}",
+                 :id_0 => "BBBB #{now}",
+                 :publish => true,
+                 :finding_aid_filing_title => "YYYY")
+
+          create(:resource,
+                 :title => "CCCC  #{now}",
+                 :id_0 => "CCCC #{now}",
+                 :publish => true,
+                 :finding_aid_filing_title => "XXXX")
+
+          create(:resource,
+                 :title => "DDDD  #{now}",
+                 :publish => true,
+                 :id_0 => "DDDD #{now}",
+                 :finding_aid_filing_title => "WWWW")
+
+          run_indexers
+        end
+
+        context 'descending' do
+          it "sorts the results using the finding aid filing title, instead of the title" do
+            visit("/search?utf8=✓&op%5B%5D=&q%5B%5D=#{now}&limit=resource&field%5B%5D=&from_year%5B%5D=&to_year%5B%5D=&commit=Search")
+
+            find('#sort').select("Title (descending)")
+
+            click_on('Sort')
+
+            identifiers = find_all('.identifier .component').to_a
+
+            expect(identifiers[1].text.downcase < identifiers[2].text.downcase).to be true
+            expect(identifiers[2].text.downcase < identifiers[3].text.downcase).to be true
+          end
+        end
+
+        context 'ascending' do
+          it "sorts the results using the finding aid filing title, instead of the title" do
+            visit("/search?utf8=✓&op%5B%5D=&q%5B%5D=#{now}&limit=resource&field%5B%5D=&from_year%5B%5D=&to_year%5B%5D=&commit=Search")
+
+            find('#sort').select("Title (ascending)")
+
+            click_on('Sort')
+
+            identifiers = find_all('.identifier .component').to_a
+
+            expect(identifiers[1].text.downcase > identifiers[2].text.downcase).to be true
+            expect(identifiers[2].text.downcase > identifiers[3].text.downcase).to be true
+
+          end
+        end
+      end
+    end
   end
 
   describe 'results highlighting' do
@@ -111,49 +253,87 @@ describe 'Search', js: true do
     end
 
     describe 'in resources' do
-      let(:searched_record) do
-        person_1 = JSONModel(:name_person).new(primary_name: "Linked Agent 1 #{now}", name_order: 'direct')
-        linked_agent_1 = create(:agent_person, names: [person_1], publish: true, dates_of_existence: [])
+      context 'when search terms found in title' do
+        let(:now) { now = Time.now.to_i }
 
-        person_2 = JSONModel(:name_person).new(:primary_name => "Linked Agent 2 #{now}", name_order: 'direct')
-        linked_agent_2 = create(:agent_person, names: [person_2], publish: true, dates_of_existence: [])
+        let(:searched_record) do
+          person_1 = JSONModel(:name_person).new(primary_name: "Linked Agent 1 #{now}", name_order: 'direct')
+          linked_agent_1 = create(:agent_person, names: [person_1], publish: true, dates_of_existence: [])
 
-        resource = create(:resource,
-                          :title => "Resource Title #{now}",
-                          :publish => true,
-                          :finding_aid_language_note => "Finding aid language note #{now}",
-                          :id_0 => "id_0 #{now}",
-                          :id_1 => "with spaces #{now}",
-                          :repository_processing_note => "Processing note #{now}",
-                          :linked_agents => [
-                            { 'role' => 'creator', 'ref' => linked_agent_1.uri },
-                            { 'role' => 'source', 'ref' => linked_agent_2.uri }
-                          ],
-                          :notes => [
-                            build(:json_note_multipart,
-                                  subnotes: [
-                                    build(:json_note_text, publish: true, content: "<title>Mixed content</title> note text #{now}"),
-                                    build(:json_note_text, publish: false, content: "Unpublished note text #{now}")
-                                  ])
-                          ]
-                         )
-      end
+          person_2 = JSONModel(:name_person).new(:primary_name => "Linked Agent 2 #{now}", name_order: 'direct')
+          linked_agent_2 = create(:agent_person, names: [person_2], publish: true, dates_of_existence: [])
 
-      it 'highlights the search term in the results' do
-        expect(page).to highlight_term_in_title search_term
-
-        page.all(:xpath, "//div[contains(@class, 'recordrow')][h3[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')][strong[contains(., 'Found in Identifier:')]]/span[contains(@class, 'searchterm')]").each do |e|
-          expect(e.text).to eq(search_term)
+          create(:resource,
+                 :title => "Resource Title #{now}",
+                 :publish => true,
+                 :finding_aid_language_note => "Finding aid language note #{now}",
+                 :id_0 => "id_0 #{now}",
+                 :id_1 => "with spaces #{now}",
+                 :repository_processing_note => "Processing note #{now}",
+                 :linked_agents => [
+                   { 'role' => 'creator', 'ref' => linked_agent_1.uri },
+                   { 'role' => 'source', 'ref' => linked_agent_2.uri }
+                 ],
+                 :notes => [
+                   build(:json_note_multipart,
+                         subnotes: [
+                           build(:json_note_text, publish: true, content: "<title>Mixed content</title> note text #{now}"),
+                           build(:json_note_text, publish: false, content: "Unpublished note text #{now}")
+                         ])
+                 ]
+                )
         end
 
-        expect(page).to highlight_term_found_in "Found in Creators:", search_term
-        expect(page).to highlight_term_found_in "Found in Notes:", search_term
+        it 'highlights the search term in the results title and found in sections' do
+          expect(page).to highlight_term_in_title search_term
+
+          page.all(:xpath, "//div[contains(@class, 'recordrow')][h3[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')][strong[contains(., 'Found in Identifier:')]]/span[contains(@class, 'searchterm')]").each do |e|
+            expect(e.text).to eq(search_term)
+          end
+
+          expect(page).to highlight_term_found_in "Found in Creators:", search_term
+          expect(page).to highlight_term_found_in "Found in Notes:", search_term
+          found_in_notes = page.find('.highlighting', text: 'Found in Notes:')
+          expect(found_in_notes).to have_css('span.title', text: "Mixed content")
+          expect(found_in_notes).to have_content("Mixed content note text #{now}")
+        end
       end
 
-      it 'handles mixed content appropriately' do
-        found_in_notes = page.find('.highlighting', text: 'Found in Notes:')
-        expect(found_in_notes).to have_css('span.title', text: "Mixed content")
-        expect(found_in_notes).to have_content("Mixed content note text #{now}")
+      context 'when search terms found in finding aid filing title only' do
+        let(:now) { now = Time.now.to_i }
+
+        let(:searched_record) do
+          person_1 = JSONModel(:name_person).new(primary_name: "Linked Agent 1 #{now}", name_order: 'direct')
+          linked_agent_1 = create(:agent_person, names: [person_1], publish: true, dates_of_existence: [])
+
+          person_2 = JSONModel(:name_person).new(:primary_name => "Linked Agent 2 #{now}", name_order: 'direct')
+          linked_agent_2 = create(:agent_person, names: [person_2], publish: true, dates_of_existence: [])
+
+          resource = create(:resource,
+                            :title => "Resource Title",
+                            :publish => true,
+                            :finding_aid_filing_title => "Finding aid filing title #{now}",
+                            :id_0 => "id_0 #{now}",
+                            :id_1 => "with spaces #{now}",
+                            :repository_processing_note => "Processing note",
+                            :linked_agents => [
+                              { 'role' => 'creator', 'ref' => linked_agent_1.uri },
+                              { 'role' => 'source', 'ref' => linked_agent_2.uri }
+                            ],
+                            :notes => [
+                              build(:json_note_multipart,
+                                    subnotes: [
+                                      build(:json_note_text, publish: true, content: "<title>Mixed content</title> note text"),
+                                      build(:json_note_text, publish: false, content: "Unpublished note text")
+                                    ])
+                            ]
+                           )
+        end
+
+        it 'highlights the search term in the finding aid filing title only' do
+          expect(page).not_to highlight_term_in_title search_term
+          expect(page).to highlight_term_found_in "Found in Finding Aid Filing Title:", search_term
+        end
       end
     end
   end
