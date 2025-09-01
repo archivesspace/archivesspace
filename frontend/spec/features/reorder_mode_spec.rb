@@ -16,6 +16,37 @@ describe 'Reorder Mode', js: true do
     select_repository(@repo)
   end
 
+    # Reliable element interaction
+  def safely_interact_with_element(element, container: nil)
+    if container
+      container.scroll_to(element, align: :center)
+    else
+      page.execute_script("arguments[0].scrollIntoView({block: 'center'});", element.native)
+    end
+
+    expect(element).to be_visible
+
+    element.click
+    wait_for_ajax
+  end
+
+  # Reliable drag and drop operations
+  def safely_drag_and_drop(source_element, target_element, container: nil)
+    if container
+      container.scroll_to(source_element, align: :center)
+      container.scroll_to(target_element, align: :center)
+    else
+      page.execute_script("arguments[0].scrollIntoView({block: 'center'});", source_element.native)
+      page.execute_script("arguments[0].scrollIntoView({block: 'center'});", target_element.native)
+    end
+
+    expect(source_element).to be_visible
+    expect(target_element).to be_visible
+
+    source_element.drag_to(target_element)
+    wait_for_ajax
+  end
+
   shared_examples 'supporting reorder mode' do
     before(:each) do
       visit "/#{@collection_path}/#{@parent.id}/edit"
@@ -23,6 +54,8 @@ describe 'Reorder Mode', js: true do
       expect(page).not_to have_css '#tree-container.drag-enabled'
       click_on "Enable Reorder Mode"
       wait_for_ajax
+
+      @tree_container = find('#tree-container')
     end
 
     it 'allows enabling reorder mode' do
@@ -89,19 +122,20 @@ describe 'Reorder Mode', js: true do
       parent_row = find("##{@child_type}_#{parent_node.id}")
       expandme_button = parent_row.find('.expandme')
 
-      # Initially should be collapsed
+      # Wait for element to be fully ready
+      expect(page).to have_css "##{@child_type}_#{parent_node.id} .expandme", visible: true
+
+      # Initially collapsed
       expect(expandme_button['aria-expanded']).to eq('false')
 
-      # Click to expand
-      expandme_button.click
-      wait_for_ajax
+      # Click to expand using safe interaction with tree container
+      safely_interact_with_element(expandme_button, container: @tree_container)
 
       # Should now be expanded
       expect(expandme_button['aria-expanded']).to eq('true')
 
-      # Click to collapse
-      expandme_button.click
-      wait_for_ajax
+      # Click to collapse using safe interaction with tree container
+      safely_interact_with_element(expandme_button, container: @tree_container)
 
       # Should be collapsed again
       expect(expandme_button['aria-expanded']).to eq('false')
@@ -121,9 +155,8 @@ describe 'Reorder Mode', js: true do
       expect(first_child_row).to have_css '.drag-handle'
       expect(second_child_row).to have_css '.drag-handle'
 
-      # Perform actual drag and drop using Capybara's drag_to method
-      first_child_row.drag_to(second_child_row)
-      wait_for_ajax
+      # Perform actual drag and drop using helper method with tree container
+      safely_drag_and_drop(first_child_row, second_child_row, container: @tree_container)
 
       # Verify nodes still exist after drag and drop
       expect(page).to have_css "##{@child_type}_#{first_child.id}"
@@ -135,9 +168,8 @@ describe 'Reorder Mode', js: true do
       @children.each do |child|
         child_row = find("##{@child_type}_#{child.id}")
 
-        # Click to select node
-        child_row.click
-        wait_for_ajax
+        # Click to select node using safe interaction with tree container
+        safely_interact_with_element(child_row, container: @tree_container)
 
         # Verify the node exists and has basic functionality
         expect(child_row).to have_css '.drag-handle'
@@ -156,8 +188,9 @@ describe 'Reorder Mode', js: true do
       # Select a node to potentially enable more buttons
       first_child = @children.first
       first_child_row = find("##{@child_type}_#{first_child.id}")
-      first_child_row.click
-      wait_for_ajax
+
+      # Click using safe interaction with tree container
+      safely_interact_with_element(first_child_row, container: @tree_container)
 
       # Verify toolbar still exists and functions
       expect(page).to have_css '#tree-toolbar'
@@ -167,6 +200,13 @@ describe 'Reorder Mode', js: true do
       # Verify that all child nodes have proper drag handles for potential multiselect
       @children.each do |child|
         child_row = find("##{@child_type}_#{child.id}")
+
+        # Scroll into view to ensure element is visible using tree container
+        @tree_container.scroll_to(child_row, align: :center)
+
+        # Ensure element is visible before checking attributes
+        expect(child_row).to be_visible
+
         expect(child_row).to have_css '.drag-handle svg'
         expect(child_row).to have_css '.record-title'
       end
@@ -178,8 +218,9 @@ describe 'Reorder Mode', js: true do
 
       # Click Disable Reorder Mode button
       disable_button = find('#tree-toolbar .btn-group:first-child .btn', text: 'Disable Reorder Mode')
-      disable_button.click
-      wait_for_ajax
+
+      # Click disable button using safe interaction (no container needed for toolbar button)
+      safely_interact_with_element(disable_button)
 
       # Verify reorder mode is disabled
       expect(page).not_to have_css '#tree-container.drag-enabled'
