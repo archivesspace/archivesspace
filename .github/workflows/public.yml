@@ -98,7 +98,7 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: ci_logs
+        name: failed_spec_saved_pages(public)_Java_${{ inputs.java-version || 17 }}
         path: ci_logs/*
 
     - name: Post Coverage to Coveralls
