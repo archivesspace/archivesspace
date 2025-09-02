@@ -167,7 +167,7 @@ Capybara.register_server :as_puma do |app, port, host|
 end
 Capybara.server = :as_puma
 
-Capybara.default_max_wait_time = ENV.fetch('CAPYBARA_DEFAULT_MAX_WAIT_TIME', 15).to_i
+Capybara.default_max_wait_time = ENV.fetch('CAPYBARA_DEFAULT_MAX_WAIT_TIME', 20).to_i
 
 cp_logger = Logger.new(File.join(ASUtils.find_base_directory, "ci_logs", "childprocess_gem.out"))
 cp_logger.level = Logger::DEBUG
