@@ -1178,6 +1178,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
+        wait_for_ajax
         element = find('.alert.alert-success.with-hide-alert')
         expect(element.text).to eq "Subject Created"
 

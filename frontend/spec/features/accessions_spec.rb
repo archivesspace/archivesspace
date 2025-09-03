@@ -406,6 +406,8 @@ describe 'Accessions', js: true do
       click_on 'Browse'
     end
 
+    wait_for_ajax
+
     element = find('#linker-item', match: :first)
     element.click
     click_button 'Link'
