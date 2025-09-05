@@ -1805,3 +1805,180 @@ uk:
     browse_column: Колонка %{число}
     browse_column_tooltip: Поле, яке потрібно відобразити у стовпці %{num}.
     sort_column: Стовпець сортування за замовчуванням
+    sort_column_tooltip: Поле за замовчуванням для сортування результатів.
+    sort_direction: Напрямок сортування за замовчуванням
+    sort_direction_tooltip: Напрямок сортування результатів за замовчуванням.
+    locale: Вибір мови
+    search_browse_columns: Параметри стовпців пошуку та перегляду
+    accession_browse_section: Огляд колонок доступу
+    resource_browse_section: Стовпці перегляду ресурсів
+    archival_object_browse_section: Стовпці перегляду архівних об'єктів
+    digital_object_browse_section: Колонки перегляду цифрових об'єктів
+    digital_object_component_browse_section: Перегляд стовпців компонента цифрового об'єкта
+    subject_browse_section: Тема Перегляд колонок
+    agent_browse_section: Стовпці перегляду агента
+    location_browse_section: Розташування Перегляд стовпців
+    event_browse_section: Стовпці перегляду подій
+    collection_management_browse_section: Управління колекціями Перегляд колонок
+    top_container_browse_section: Перегляд стовпців верхнього контейнера
+    top_container_mgmt_browse_section: Перегляд колонок управління контейнерами
+    classification_browse_section: Класифікація Перегляд стовпців
+    assessment_browse_section: Оцінювання Перегляд колонок
+    repositories_browse_section: Стовпці перегляду репозиторію
+    location_profile_browse_section: Профіль розташування Переглянути стовпці
+    container_profile_browse_section: Перегляд стовпців профілю контейнера
+    multi_browse_section: Пошук у стовпцях
+    job_browse_section: Колонки фонових завдань
+    note_order_section: Порядок приміток
+    accept_default_message: '> Прийняти за замовчуванням:'
+    no_value: '[без значення]'
+    _singular: Значення за замовчуванням
+    _plural: За замовчуванням
+  reports:
+    parameters:
+      from: Від
+      to: До
+      locations: Місця розташування
+      scope_by_date: Обсяг за датою
+      template: Шаблон
+      rating: Рейтинг
+      values: Цінності
+    formats:
+      json: JSON
+      csv: CSV-файл
+      pdf: PDF-файл
+      html: HTML
+      rtf: RTF
+  validation_errors:
+    agent_must_be_unique: Записи агентів не можуть бути ідентичними
+    subject_must_be_unique: Записи суб'єктів не можуть бути ідентичними
+    subject_heading_identifier_must_be_unique_within_source: Ідентифікатор предметної рубрики має 
+      бути унікальним у межах джерела
+    missing_required_property: Властивість обов'язкова, але відсутня
+    missing_required_subrecord: Підзапис обов'язковий, але його не було
+    missing_property: Майно було відсутнє
+    not_a_valid_date: Недійсна дата
+    must_not_be_before_begin: не повинно бути до початку
+    must_be_in_yyyy-mm-dd_format: Дата має бути у форматі рррр-мм-дд
+    is_required_unless_a_begin_or_end_date_is_given: обов'язкове поле, якщо не вказано дату початку 
+      або закінчення
+    is_required_unless_an_expression_or_an_end_date_is_given: обов'язковий, якщо не вказано вираз 
+      або кінцеву дату
+    is_required_unless_an_expression_or_a_begin_date_is_given: обов'язковий, якщо не вказано вираз 
+      або дату початку
+    must_specify_either_a_date_or_a_timestamp: необхідно вказати дату або позначку часу
+    did_not_match_regular_expression: Не відповідає очікуваному шаблону %{regexp}
+    too_few_characters: Має бути щонайменше %{min_length} символів
+    too_many_characters: Має бути %{max_length} символів або менше
+    max_length_is_50_characters: Не повинно перевищувати 50 символів
+    too_few_items: Потрібно щонайменше %{min_items} елементів
+    must_contain_at_least_one_subnote: Повинно містити принаймні одну підпримітку
+    must_contain_at_least_one_language: Повинно містити принаймні одну мову
+    invalid_value: Недійсне значення '%{value}'. Має бути одним із '%{valid_set}'
+    wrong_type: Має бути %{desired_type} (ви вказали %{actual_type})
+    must_be_one_of: Має бути один з %{allowed_types} (ви вказали %{actual_type})
+    id_already_in_use: Цей ідентифікатор вже використовується
+    username_already_in_use: Ім'я користувача '%{username}' вже використовується
+    cant_be_empty: не може бути порожнім
+    password_did_not_match: Введене значення не відповідає паролю
+    group_code_already_in_use: Код групи має бути унікальним у межах репозиторію
+    one_or_more_required_(or_enter_a_title): один або декілька обов'язкових (або введіть назву)
+    must_not_be_an_empty_string_(or_enter_a_date): не може бути порожнім рядком (або введіть дату)
+    is_required_when__source__is_blank: обов'язкове, якщо поле «Джерело» порожнє
+    is_required_when__rules__is_blank: обов'язкове, коли поле «Правила» пусте
+    is_required_if_there_is_an_authority_id: обов'язковий, якщо є «Ідентифікатор авторизації»
+    you_must_provide_a_label__title_or_date: Ви повинні вказати мітку, назву або дату
+    location_fields_error: "Ви повинні вказати або штрих-код, класифікацію, або мітку координати 1 та
+      індикатор координати 1.\n"
+    location_must_be_unique_within_a_record: Має бути унікальним у записі
+    location_cannot_be_deleted_if_linked: Запис місцезнаходження наразі пов’язаний з одним або 
+      кількома записами екземплярів і не може бути видалений. Будь ласка, пов’яжіть ці екземпляри з 
+      новими місцезнаходженнями, перш ніж видаляти запис місцезнаходження.
+    cannot_be_previous_if_location_is_not_temporary: Неможливо перенести дані до попереднього, якщо 
+      місцезнаходження не тимчасове.
+    authority_id_must_be_unique: Ідентифікатор авторизації вже використовується
+    either_type_1_or_barcode_is_required: Контейнер повинен містити Тип контейнера 1 або штрих-код.
+    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Має бути числом не 
+      більше дев'яти цифр і п'яти знаків після коми.
+    container_2_requires_both_a_type_and_indicator: Ви повинні надати індикатор, якщо ви надаєте тип
+    container_3_requires_both_a_type_and_indicator: Ви повинні надати індикатор, якщо ви надаєте тип
+    container_2_is_required_if_container_3_is_provided: Ви повинні надати дочірній контейнер, якщо 
+      надаєте контейнер онука
+    a_barcode_must_be_unique_within_a_repository: Штрих-код має бути унікальним у межах сховища
+    container_profile_name_not_unique: Назва профілю контейнера має бути унікальною
+    must_be_a_number_with_no_more_than_2_decimal_places: Має бути числом не більше ніж з двома 
+      знаками після коми
+    length_must_be_within_the_range_set_in_configuration: Довжина має бути в межах діапазону, 
+      встановленого в конфігурації
+    is_required_if_status_is_previous: обов'язкове, якщо для параметра «Статус» встановлено значення
+      «Попередній»
+    location_profile_name_not_unique: Назва профілю місцезнаходження має бути унікальною
+    must_be_a_positive_integer: Має бути додатним цілим числом
+    must_be_unique_to_its_level_in_the_tree: Це значення має бути унікальним для цього рівня 
+      ієрархії.
+    short_name_already_in_use: Скорочена назва репозиторію має бути унікальною в межах цього 
+      АрхівзСпєс.
+    custom_report_template_name_not_unique: Назва шаблону настроюваного звіту має бути унікальною.
+    custom_report_must_include_field_or_subreport: Шаблон настроюваного звіту має містити принаймні 
+      одне поле або підзвіт.
+    missing_end_filter_date: Для фільтрації за датою обов’язкові дати початку та завершення. Будь 
+      ласка, вкажіть дату завершення.
+    missing_start_filter_date: Для фільтрації за датою обов’язкові дати початку та завершення. Будь 
+      ласка, вкажіть дату початку.
+    must_be_a_valid_email_address: Поле адреси електронної пошти має містити дійсну адресу
+    repo_set_desc_required: Для створення набору репозиторіїв OAI потрібен опис набору репозиторіїв.
+    repo_set_name_required: Для створення набору репозиторіїв OAI потрібна назва набору 
+      репозиторіїв.
+    is_not_present: Обов'язкове поле відсутнє
+    sponsor_set_desc_required: Для створення набору спонсорів OAI потрібен опис набору спонсорів
+    sponsor_set_name_required: Для створення набору спонсорів OAI потрібна назва набору спонсорів.
+    invalid_characters: Містить недійсні символи
+    conflicting_record: Переглянути конфліктний запис
+    or_date_expression_is_required: Дати повинні вказувати принаймні один вираз дати
+    must_specify_either_a_single_or_ranged_date: Дати мають бути вказані як одиночні або діапазонні
+    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Стандартизовані дати 
+      повинні бути у стандартизованому форматі
+    generic_validation_error: Помилка перевірки
+    requires_that_end_dates_are_after_begin_dates: Дати завершення мають бути після дат початку
+    must_specify_a_primary_subject: 'Опис інформації: У записі відсутня основна тема'
+    subrecord_not_allowed_for_agent_software: Програмні агенти не можуть мати підзаписи керування 
+      записами або зв'язків
+    ark_collision: Під час створення ARK для цього запису виникла проблема. Зверніться до системного
+      адміністратора.
+    external_ark_collision: Зовнішній ARK вже використовується
+    ark_format_error: Один із наданих ARK не був дійсним ARK.
+  job:
+    _singular: Фонова робота
+    _plural: Фонові завдання
+    new_title: Нова фонова робота
+    job_type: Тип роботи
+    types:
+      print_to_pdf_job: Згенерувати PDF
+      report_job: Створити звіт
+      container_labels_job: Етикетки контейнерів
+      container_conversion_job: Створити звіт
+      import_job: Імпорт даних
+      generate_slugs_job: Масове генерування слагів
+      generate_arks_job: Масове генерування ARKи
+      find_and_replace_job: Пакетний пошук і заміна (бета-версія)
+      trim_whitespace_job: Обрізати пробіли
+      resource_duplicate_job: Дублікат ресурсу
+      unknown_job_type: Невідомий тип роботи
+      bulk_import_job: Завантажити через електронну таблицю
+      top_container_linker_job: Найкращий компонувальник контейнерів
+      ns2_remover_job: Видалення простору імен ns2
+      bulk_archival_object_updater_job: Масове оновлення архівних об'єктів
+    status: Статус
+    status_completed: Завершено
+    status_queued: У черзі
+    status_running: Біг
+    status_failed: Не вдалося
+    status_canceled: Скасовано
+    queue_position: № %{позиція}
+    time_submitted: Час подання
+    time_started: Час початку
+    time_finished: Час виконання
+    owner: Власник
+    show_description: Показати опис
+    input_file: Вхідний файл
+    output_file: Вихідний файл
