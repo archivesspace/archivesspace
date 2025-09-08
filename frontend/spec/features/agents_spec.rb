@@ -1353,7 +1353,8 @@ describe 'Agents', js: true do
         select 'Function', from: 'subject_terms__0__term_type_'
 
         # Click on save
-        find('button', text: 'Save Subject', match: :first).click
+        click_button('Save Subject', match: :first)
+        wait_for_ajax
         element = find('.alert.alert-success.with-hide-alert')
         expect(element.text).to eq "Subject Created"
 

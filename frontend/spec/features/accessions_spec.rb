@@ -394,6 +394,8 @@ describe 'Accessions', js: true do
     select 'Function', from: 'Type'
     click_button 'Create and Link'
 
+    create(:subject)
+
     run_index_round
 
     click_on('Add Subject')
