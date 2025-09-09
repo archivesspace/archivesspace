@@ -12,6 +12,7 @@ class DigitalObjectsController < ApplicationController
   include ApplicationHelper
   include NotesHelper
   include DigitalObjectHelper
+  include MlcHelper
 
   def index
     respond_to do |format|
@@ -61,7 +62,8 @@ class DigitalObjectsController < ApplicationController
 
 
   def new
-    @digital_object = JSONModel(:digital_object).new({:title => t("digital_object.title_default", :default => "")})._always_valid!
+    @digital_object = JSONModel(:digital_object)
+      .new({:titles => [{:title => t("digital_object.title_default", :default => "")}]})._always_valid!
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'digital_object'
@@ -150,7 +152,8 @@ class DigitalObjectsController < ApplicationController
                   render :action => "new"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = t("digital_object._frontend.messages.created", digital_object_title: clean_mixed_content(@digital_object.title))
+                  flash[:success] = t("digital_object._frontend.messages.created",
+                    digital_object_title: title_for_display)
 
                   if @digital_object["is_slug_auto"] == false &&
                      @digital_object["slug"] == nil &&
@@ -178,7 +181,8 @@ class DigitalObjectsController < ApplicationController
                 },
                 :on_valid => ->(id) {
 
-                  flash.now[:success] = t("digital_object._frontend.messages.updated", digital_object_title: clean_mixed_content(@digital_object.title))
+                  flash.now[:success] = t("digital_object._frontend.messages.updated",
+                    digital_object_title: title_for_display)
                   if @digital_object["is_slug_auto"] == false &&
                      @digital_object["slug"] == nil &&
                      params["digital_object"] &&
@@ -202,7 +206,7 @@ class DigitalObjectsController < ApplicationController
       return redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
     end
 
-    flash[:success] = t("digital_object._frontend.messages.deleted", digital_object_title: clean_mixed_content(digital_object.title))
+    flash[:success] = t("digital_object._frontend.messages.deleted", digital_object_title: clean_mixed_content(title_for_display))
     redirect_to(:controller => :digital_objects, :action => :index, :deleted_uri => digital_object.uri)
   end
 
@@ -213,7 +217,7 @@ class DigitalObjectsController < ApplicationController
     response = JSONModel::HTTP.post_form("#{digital_object.uri}/publish")
 
     if response.code == '200'
-      flash[:success] = t("digital_object._frontend.messages.published", digital_object_title: clean_mixed_content(digital_object.title))
+      flash[:success] = t("digital_object._frontend.messages.published", digital_object_title: clean_mixed_content(title_for_display))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -307,7 +311,8 @@ class DigitalObjectsController < ApplicationController
     digital_object = JSONModel(:digital_object).find(params[:id])
     digital_object.set_suppressed(true)
 
-    flash[:success] = t("digital_object._frontend.messages.suppressed", digital_object_title: clean_mixed_content(digital_object.title))
+    flash[:success] = t("digital_object._frontend.messages.suppressed",
+      digital_object_title: clean_mixed_content(title_for_display))
     redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
   end
 
@@ -316,51 +321,40 @@ class DigitalObjectsController < ApplicationController
     digital_object = JSONModel(:digital_object).find(params[:id])
     digital_object.set_suppressed(false)
 
-    flash[:success] = t("digital_object._frontend.messages.unsuppressed", digital_object_title: clean_mixed_content(digital_object.title))
+    flash[:success] = t("digital_object._frontend.messages.unsuppressed",
+      digital_object_title: clean_mixed_content(title_for_display))
     redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
   end
 
   def tree_root
-    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
-
-    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/root")
+    endpoint = "#{JSONModel(:digital_object).uri_for(params[:id])}/tree/root"
+    render :json => process_waypoint_data(endpoint)
   end
 
   def node_from_root
-    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
-
-    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/node_from_root",
-                                             'node_ids[]' => params[:node_ids])
+    endpoint = "#{JSONModel(:digital_object).uri_for(params[:id])}/tree/node_from_root"
+    render :json => process_waypoint_data(endpoint, 'node_ids[]' => params[:node_ids])
   end
 
   def tree_node
-    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
-    node_uri = if !params[:node].blank?
-                 params[:node]
-               else
-                 nil
-               end
-
-    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/node",
-                                             :node_uri => node_uri)
+    endpoint = "#{JSONModel(:digital_object).uri_for(params[:id])}/tree/node"
+    node_uri = params[:node] unless params[:node].blank?
+    render :json => process_waypoint_data(endpoint, :node_uri => node_uri)
   end
 
   def tree_waypoint
-    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
-    node_uri = if !params[:node].blank?
-                 params[:node]
-               else
-                 nil
-               end
-
-    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/waypoint",
-                                             :parent_node => node_uri,
-                                             :offset => params[:offset])
+    endpoint = "#{JSONModel(:digital_object).uri_for(params[:id])}/tree/waypoint"
+    node_uri = params[:node] unless params[:node].blank?
+    render :json => process_waypoint_data(endpoint, :parent_node => node_uri, :offset => params[:offset])
   end
 
 
-
   private
+
+  def process_waypoint_data(uri, params = {})
+    waypoint_data = JSONModel::HTTP.get_json(uri, params)
+    MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
+  end
 
   def fetch_tree
     tree = {}
@@ -412,11 +406,5 @@ class DigitalObjectsController < ApplicationController
 
     tree
   end
-
-  # Get the appropriate title to display based on language preferences
-  def title_for_display
-    MultipleTitlesHelper.determine_primary_title(@digital_object.titles, I18n.locale)
-  end
-  helper_method :title_for_display
 
 end

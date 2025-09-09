@@ -267,13 +267,15 @@ module SearchHelper
 
         # title column now needs special handling as there are multiple titles and the one to display depends on several factors
         # note the 'multi' model in the list - it appears to be used for search results (as opposed to browse results)
-        if ['resource', 'accession', 'archival_object', 'digital_object', 'digital_object_component', 'multi'].include?(model) && prop === 'title'
+        generator_block = nil
+        if ['resource', 'accession', 'archival_object', 'digital_object', 'digital_object_component', 'multi',
+            'classification', 'classification_term'].include?(model) && prop === 'title'
           generator_block = proc do |record|
             title = MultipleTitlesHelper.determine_primary_title(JSON.parse(record["json"])["titles"], I18n.locale)
           end
-
-          add_column(I18n.t("search.#{model}.#{prop}"), opts, generator_block)
         end
+
+        add_column(I18n.t("search.#{model}.#{prop}"), opts, generator_block)
       end
     end
     models.each do |model|

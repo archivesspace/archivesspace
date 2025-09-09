@@ -629,8 +629,7 @@ describe 'Resources', js: true do
     click_on 'Edit'
 
     expect(page).to have_selector('h2', visible: true, text: "[Duplicated] #{resource.titles[0]['title']} Resource")
-
-    expect(find('#resource_title_').value).to eq "[Duplicated] #{resource.titles[0]['title']}"
+    expect(find('#resource_titles__0__title_').value).to eq "[Duplicated] #{resource.titles[0]['title']}"
     expect(find('#resource_id_0_').value).to eq "[Duplicated] #{resource.id_0}"
     expect(find('#resource_id_1_').value).to eq "#{resource.id_1}"
     expect(find('#resource_id_2_').value).to eq "#{resource.id_2}"
@@ -643,7 +642,7 @@ describe 'Resources', js: true do
 
   it 'can spawn a resource from an existing accession' do
     now = Time.now.to_i
-    accession = create(:accession, title: "Accession Title #{now}", condition_description: 'condition_description')
+    accession = create(:accession, titles: [build(:json_title, title: "Accession Title #{now}")], condition_description: 'condition_description')
 
     visit "accessions/#{accession.id}"
 
@@ -696,7 +695,7 @@ describe 'Resources', js: true do
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
 
-    expect(page).to have_text "Resource #{accession.title} created"
+    expect(page).to have_text "Resource #{accession.titles[0]['title']} created"
 
     expect(find('#resource_dates__0__date_type_').value).to eq('single')
     expect(find('#resource_dates__0__begin_').value).to eq('1978')
@@ -718,7 +717,7 @@ describe 'Resources', js: true do
       messages = [
         'Number - Property is required but was missing',
         'Type - Property is required but was missing',
-        'Title - Property is required but was missing',
+        'Titles - At least 1 item(s) is required',
         'Identifier - Property is required but was missing',
         'Level of Description - Property is required but was missing',
         'Language of Description - Property is required but was missing',
@@ -737,7 +736,7 @@ describe 'Resources', js: true do
   it 'prepopulates the top container modal with search for current resource when linking on the resource edit page' do
     # Create top containers
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
     location = create(:location)
     container_location = build(:container_location, ref: location.uri)
     container = create(:top_container, indicator: "Container #{now}", container_locations: [container_location])
@@ -760,7 +759,7 @@ describe 'Resources', js: true do
     within '#resource_instances__0__sub_container__top_container__ref__modal' do
       expect(page).to have_text 'Browse Top Containers'
       element = find("#_repositories_#{@repository.id}_resources_#{resource.id}")
-      expect(element).to have_text resource.titles[0]['title']
+      expect(element).to have_text resource.titles[0]['title']  # this failing with just '×' as text is probably due to the linker needing to be updated for multiple titles
       expect(element).to have_css '.token-input-delete-token'
 
       wait_for_ajax
@@ -802,7 +801,7 @@ describe 'Resources', js: true do
 
   it 'can add a rights statement with linked agent to a Resource' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
     agent = create(:agent_person)
     run_periodic_index
 
@@ -894,7 +893,7 @@ describe 'Resources', js: true do
 
   it 'reports warnings when updating a Resource with invalid data' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
 
     visit "resources/#{resource.id}/edit"
 
@@ -907,13 +906,13 @@ describe 'Resources', js: true do
 
     within '#form_messages' do
       element = find('.alert.alert-danger.with-hide-alert')
-      expect(element).to have_text 'Title - Property is required but was missing'
+      expect(element).to have_text 'Titles - At least 1 item(s) is required'
     end
   end
 
   it 'reports errors if adding an empty child to a Resource' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
 
     visit "resources/#{resource.id}/edit"
 
@@ -932,7 +931,7 @@ describe 'Resources', js: true do
 
   it 'reports error if title is empty and no date is provided' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
 
     visit "resources/#{resource.id}/edit"
 
@@ -948,13 +947,13 @@ describe 'Resources', js: true do
     within '#form_messages' do
       element = find('.alert.alert-danger.with-hide-alert')
       expect(element).to have_text 'Dates - one or more required (or enter a Title)'
-      expect(element).to have_text 'Title - must not be an empty list (or enter a Date)'
+      expect(element).to have_text 'Titles - must not be an empty list (or enter a Date)'
     end
   end
 
   it 'can edit a Resource, add a second Extent, then remove it' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
 
     visit "resources/#{resource.id}/edit"
 
@@ -994,7 +993,7 @@ describe 'Resources', js: true do
 
   it 'has the Include URIs checkbox checked by default inside the EAD Export dropdown menu' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
 
     visit "resources/#{resource.id}"
 
@@ -1008,7 +1007,7 @@ describe 'Resources', js: true do
 
   it 'exports and downloads the resource to xml' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
 
     visit "resources/#{resource.id}"
 
@@ -1035,8 +1034,8 @@ describe 'Resources', js: true do
 
   it 'exports a prefilled CSV template to import digital objects to archival objects' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-    archival_objects = create_list(:archival_object, 10, title: "Archival Object Title #{now}", :resource => { ref: resource.uri })
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
+    archival_objects = create_list(:archival_object, 10, titles: [build(:json_title, title: "Archival Object Title #{now}")], :resource => { ref: resource.uri })
 
     visit "resources/#{resource.id}"
 
@@ -1073,7 +1072,7 @@ describe 'Resources', js: true do
 
   it 'closes the export dropdown menu after Download EAD and Download MARCXML are clicked' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
 
     visit "resources/#{resource.id}"
 
@@ -1092,7 +1091,7 @@ describe 'Resources', js: true do
 
   it 'can apply and remove filters when browsing for linked agents in the linker modal' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
     person = create(:agent_person)
     agent_corporate_entity = create(:agent_corporate_entity)
 
@@ -1118,7 +1117,7 @@ describe 'Resources', js: true do
 
   it 'adds the result for calculate extent to the correct subrecord' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
     visit "resources/#{resource.id}/edit"
 
     expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
@@ -1161,7 +1160,7 @@ describe 'Resources', js: true do
 
   it 'enforces required fields in extent calculator' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
     visit "resources/#{resource.id}/edit"
 
     expect(page).to have_selector('h2', visible: true, text: "#{resource.titles[0]['title']} Resource")
@@ -1179,7 +1178,7 @@ describe 'Resources', js: true do
 
   it 'can create a new digital object instance with a note to a resource' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource, titles: [build(:json_title, title: "Resource Title #{now}")])
 
     visit "resources/#{resource.id}/edit"
 
@@ -1220,6 +1219,6 @@ describe 'Resources', js: true do
     expect(page).to have_text "Resource #{resource.titles[0]['title']} updated"
 
     element = find('.token-input-token .digital_object')
-    expect(element).to have_text "Digital Object Title #{now}"
+    expect(element).to have_text "Digital Object Title #{now}" # another linker-related issue
   end
 end

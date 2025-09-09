@@ -360,17 +360,17 @@ $(function () {
 
         var truncate_note_content = function (content_inputs) {
           if (content_inputs.length === 0) {
-            return '&hellip;';
+            return '…';
           }
 
           var text = $(content_inputs.get(0)).val();
           if (text.length <= 200) {
-            return text + (content_inputs.length > 1 ? '<br/>&hellip;' : '');
+            return text + (content_inputs.length > 1 ? '<br/>…' : '');
           }
 
           return (
             $.trim(text).substring(0, 200).split(' ').slice(0, -1).join(' ') +
-            '&hellip;'
+            '…'
           );
         };
 

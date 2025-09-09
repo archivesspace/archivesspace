@@ -116,5 +116,11 @@ it:
       resource_finding_aid: Aiuto riguardo strumenti di ricerca
       resource_deaccessions: Aiuto riguardo le deaccessioni
       digital_object_deaccessions: Aiuto riguardo le deaccessioni
+      archival_object_linked_agents: Aiuto riguardo i links agente
+      digital_object_component_linked_agents: Aiuto riguardo i links agente
+      event_linked_agents: Aiuto riguardo i links agente
+      accession_linked_agents: Aiuto riguardo i links agente
+      resource_linked_agents: Aiuto riguardo i links agente
+      digital_object_linked_agents: Aiuto riguardo i links agente
     help_center: Centro di assistenza ArchivesSpace
     default_tooltip: Centro di assistenza ArchivesSpace

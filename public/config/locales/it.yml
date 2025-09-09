@@ -19,7 +19,7 @@ it:
     cite_item: Cita l'item
     cite_item_description: Cita la descrizione dell'item
     digitized: Visualizza il materiale digitale
-    request: ''
+    request: 'Richiedi'
     print-generating: Generando
     collection_overview: Panoramica della collezione
     hierarch: Organizzazione della collezione
@@ -92,10 +92,12 @@ it:
       from: Da
       years_include: Anni da includere
       digital_object_type_enum_s: Tipo
-    identifier_contain: l' <strong>identificativo</strong> contiene <span class='searchterm'>%{kw}</span>
+    identifier_contain: l' <strong>identificativo</strong> contiene <span 
+      class='searchterm'>%{kw}</span>
     title_contain: il <strong>titolo</strong> contiene  <span class='searchterm'>%{kw}</span>
     keyword_contain: "<strong>parola/e chiave</strong>: <span class='searchterm'>%{kw}</span>"
-    creators_text_contain: il <strong>creatore</strong> contiene <span class='searchterm'>%{kw}</span>
+    creators_text_contain: il <strong>creatore</strong> contiene <span 
+      class='searchterm'>%{kw}</span>
     no_results: Nessuna unità archivistica trovata
     remove_filter: Rimuovi questo filtro
     more_facets: Più
@@ -103,7 +105,8 @@ it:
       NOT: e non
       AND: e
       OR: o
-    subjects_text_contain: il <strong>soggetto</strong> contiene <span class='searchterm'>%{kw}</span>
+    subjects_text_contain: il <strong>soggetto</strong> contiene <span 
+      class='searchterm'>%{kw}</span>
     in_repository: ' in <strong>%{name}</strong>'
     error: Non è stato possibile completare la tua ricerca per colpa di un errore inatteso
     fewer_facets: Meno
@@ -137,14 +140,15 @@ it:
     date: Data di arrivo prevista
     note: Nota per il personale
     submit: Presenta una richiesta
-    submitted: Grazie, la tua richiesta è stata presentata.  Riceverai a breve una email con la copia
-      della tua richiesta.
+    submitted: Grazie, la tua richiesta è stata presentata.  Riceverai a breve una email con la 
+      copia della tua richiesta.
     errors:
       name: Per favore inserisci il tuo nome
       email: Per favore inserisci un indirizzo email valido
     email:
       subject: Richiesta per %{title}
-    visit: Presenta una richiesta per visitare %{repo_name} per vedere <strong>%{archival_object}</strong>
+    visit: Presenta una richiesta per visitare %{repo_name} per vedere 
+      <strong>%{archival_object}</strong>
   search-button:
     label: Cerca
   search-limit: Limita a %{limit}
@@ -177,13 +181,14 @@ it:
     subgrp: Sottogruppo
     recordgrp: Gruppo di unità archivistiche
   errors:
-    backend_down_message: ArchivesSpace sta riscontrando difficoltà tecniche. Ci scusiamo per il disagio.
-      Per favore prova di nuovo più tardi.
-    unexpected_error: Non è stato possibile completare la tua richiesta per colpa di un errore inatteso
+    backend_down_message: ArchivesSpace sta riscontrando difficoltà tecniche. Ci scusiamo per il 
+      disagio. Per favore prova di nuovo più tardi.
+    unexpected_error: Non è stato possibile completare la tua richiesta per colpa di un errore 
+      inatteso
     invalid_search_params: Parametri di ricerca invalidi '%{value}' per il campo '%{field}'
     error_404: '%{type} Unità archivistica non trovata'
-    error_404_message: L' %{type} unità archivistica a cui hai provato ad accedere non esiste o potrebbe
-      essere stato rimossa.
+    error_404_message: L' %{type} unità archivistica a cui hai provato ad accedere non esiste o 
+      potrebbe essere stato rimossa.
     backend_down: Impossibile connettersi al database
   navigation:
     hierarchical: navigazione gerarchica
@@ -273,6 +278,9 @@ it:
       extent_full: Dimensioni complete
       extent_partial: Dimensioni parziali
       extent: Dimensioni
+      related_accessions:
+        accessions: Registri di accesso
+        deaccessions: Registri di deaccesso
     _singular: Collezione
     _plural: Collezioni
     load_records:
@@ -340,6 +348,7 @@ it:
     address_1: Indirizzo 1
     region: Stato/Regione
     country: Nazione
+    salutation: Saluti
   agent_notes:
     _singular: Nota
     _plural: Note
@@ -369,10 +378,11 @@ it:
       location_toc: Un errore si è verificato durante la generazione dell'indice.
       location_footer: Un errore si è verificato durante la generazione del piè di pagina.
       location_header: Un errore si è verificato durante la generazione dell'intestazione.
-      location_archival_object: Un errore è avvenuto durante la generazione dell'inventario della collezione.
+      location_archival_object: Un errore è avvenuto durante la generazione dell'inventario della 
+        collezione.
     additional_info:
-      invalid_markup: Questo errore può derivare dal markup non valido presente in una nota o sub-unità
-        archivistica.
+      invalid_markup: Questo errore può derivare dal markup non valido presente in una nota o 
+        sub-unità archivistica.
     headings:
       additional_info: Informazioni aggiuntive
       type: Tipo d'errore
@@ -426,8 +436,8 @@ it:
     _plural: Lingue usate
   footer:
     staff_interface: <a href="%{staff_url}">Interfaccia staff</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Invia feedback o riferisci
-      un problema</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Invia feedback o 
+      riferisci un problema</a>
     archivesspace_home: Visita <a href='http://archivesspace.org'>ArchivesSpace.org</a>
   skipnav:
     search_results: Passa ai risultati della ricerca
@@ -471,3 +481,4 @@ it:
     _public:
       header:
         ref_id: Identificatore di riferimento
+  page_actions: Azioni sulla pagina

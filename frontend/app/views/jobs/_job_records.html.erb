@@ -2,19 +2,22 @@
   <div class="subrecord-form-fields">
     <% @search_data['results'].each do |result| %>
       <%
-         record_title = result["record"]["_resolved"]["title"]
-         if "event" == result["record"]["_resolved"]["jsonmodel_type"]
-           record_title = "#{t("event._singular")}: #{t("enumerations.event_event_type.#{result["record"]["_resolved"]["event_type"]}")}"
-         elsif "collection_management" == result["record"]["_resolved"]["jsonmodel_type"]
+         full_record = result["record"]["_resolved"]
+         record_title = full_record["title"]
+         if "event" == full_record["jsonmodel_type"]
+           record_title = "#{t("event._singular")}: #{t("enumerations.event_event_type.#{full_record["event_type"]}")}"
+         elsif "collection_management" == full_record["jsonmodel_type"]
            record_title = "#{t("collection_management._singular")}"
+         elsif full_record.keys.include?("titles")
+           record_title = title_for_display(full_record)
          end
       %>
       <div>
-        <span class="asicon icon-<%= result["record"]["_resolved"]["jsonmodel_type"] %>"
-              title="<%= t("#{result["record"]["_resolved"]["jsonmodel_type"]}._singular") %>">
+        <span class="asicon icon-<%= full_record["jsonmodel_type"] %>"
+              title="<%= t("#{full_record["jsonmodel_type"]}._singular") %>">
         </span>
         <%# ANW-1519, ANW-2206: Skip checking owner repo for global records (agents, subjects, locations) %>
-        <% if is_global_record?(result["record"]["_resolved"]["jsonmodel_type"]) %>
+        <% if is_global_record?(full_record["jsonmodel_type"]) %>
           <%= resolve_readonly_link_to record_title, result["record"]["ref"] %>
         <% else %>
           <% if result["record"]["ref"].include?(current_repo.uri) %>

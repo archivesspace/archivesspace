@@ -25,16 +25,20 @@ services:
     container_name: as_dev_solr
     build:
       context: ./solr
-    image: archivesspace/solr:latest
-    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    command:
+      - solr-precreate
+      - archivesspace
+      - /opt/solr/server/solr/configsets/archivesspace
     ports:
       - "8983:8983"
   solr2:
     container_name: as_test_solr
     build:
       context: ./solr
-    image: archivesspace/solr:latest
-    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    command:
+      - solr-precreate
+      - archivesspace
+      - /opt/solr/server/solr/configsets/archivesspace
     ports:
       - "8984:8983"
 

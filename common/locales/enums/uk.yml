@@ -1,1 +1,99 @@
 uk:
+  enumeration_names:
+    accession_sibling_relator: Реляційний консультант з питань приєднання до братів і сестер
+    agent_relationship_hierarchical_relator: Ієрархічний релятор зв'язків між агентами
+    agent_relationship_associative_relator: Агент з взаємовідносин з ріелтором
+    linked_agent_archival_record_relators: Пов’язані агенти архівних записів
+    date_standardized_type: Дата Стандартизований тип
+    agent_relationship_temporal_relator: Агент Зв'язок Часовий Релятор
+    container_location_status: Статус розташування контейнера
+    agent_relationship_specific_relator: Агент, зв'язок з конкретним релятором
+    agent_relationship_subordinatesuperior_relator: Відносини з агентом Підлеглий Вищий Ріелтор
+    agent_relationship_parentchild_relator: Агент Зв'язок Батько Дитина Зв'язок
+    agent_relationship_identity_relator: Ідентичність агента, зв'язок, релятор
+    level_of_detail: Рівень деталізації контролю записів
+    maintenance_event_type: Тип події технічного обслуговування контролю записів
+    note_multipart_type: Тип багаточастинної ноти
+    location_function_type: Тип функції розташування
+    accession_acquisition_type: Тип придбання приєднання
+    accession_parts_relator: Реляційний агент з запчастин для приєднання
+    accession_parts_relator_type: Тип релятора частин приєднання
+    accession_resource_type: Тип ресурсу доступу
+    accession_sibling_relator_type: Тип родича-приєднання
+    agency_code_type: Тип коду агентства з контролю за записами
+    agent_contact_salutation: Звернення до агента
+    agent_relationship_earlierlater_relator: Агентські стосунки Раніше Пізніше Ріелтор
+    agent_relationship_family_relator: Агент Зв'язки Сім'я Релятор
+    archival_record_level: Рівень архівного запису
+    begin_date_standardized_type: Стандартизований тип дати початку
+    cataloging_source: Джерело каталогізації контролю записів
+    collection_management_processing_priority: Пріоритет обробки управління колекціями
+    collection_management_processing_status: Стан обробки управління колекцією
+    container_type: Тип контейнера
+    country_iso_3166: Країна ISO 3166
+    date_calendar: Календар дат
+    date_certainty: Визначеність дати
+    date_era: Дата Ера
+    date_label: Мітка дати
+    date_role: Дата Роль
+    date_type: Тип дати
+    date_type_structured: Тип дати
+    deaccession_scope: Сфера вилучення
+    digital_object_digital_object_type: Цифровий об'єкт Тип цифрового об'єкта
+    digital_object_level: Рівень цифрового об'єкта
+    dimension_units: Одиниці виміру
+    end_date_standardized_type: Стандартизований тип кінцевої дати
+    event_event_type: Тип події
+    event_outcome: Результат заходу
+    extent_extent_type: Тип екстенту
+    extent_portion: Частина обсягу
+    file_version_checksum_methods: Методи контрольної суми версій файлів
+    file_version_file_format_name: Версія файлу Формат файлу Назва
+    file_version_use_statement: Заява про використання версії файлу
+    file_version_xlink_actuate_attribute: Версія файлу Xlink Активувати атрибут
+    file_version_xlink_show_attribute: Версія файлу Xlink Показати атрибут
+    gender: Стать агента
+    government_agency_type: Тип державного органу з контролю за записами
+    identifier_type: Тип ідентифікатора керування записами
+    instance_instance_type: Тип екземпляра
+    job_type: Тип роботи
+    language_iso639_2: Мова ISO 639-2
+    linked_agent_event_roles: Ролі подій пов'язаних агентів
+    linked_agent_role: Роль пов'язаного агента
+    linked_event_archival_record_roles: Ролі архівних записів пов'язаних подій
+    location_temporary: Тимчасове розташування
+    maintenance_agent_type: Тип агента з обслуговування контролю записів
+    maintenance_status: Стан ведення контролю записів
+    metadata_license: Ліцензія на метадані
+    modified_record: Змінений тип елемента керування записами
+    name_person_name_order: Ім'я Особа Ім'я Порядок
+    name_rule: Правило назви
+    name_source: Джерело назви
+    name_type: Тип імені елемента керування записом
+    note_bibliography_type: Тип бібліографії примітки
+    note_digital_object_type: Тип цифрового об'єкта примітки
+    note_index_item_type: Тип елемента покажчика приміток
+    note_index_type: Тип індексу примітки
+    note_langmaterial_type: Примітка Мова Тип матеріалів
+    note_orderedlist_enumeration: Примітка перерахування впорядкованого списку
+    note_rights_statement_act_type: Тип акта про права на ноти
+    note_rights_statement_type: Тип заяви про права на ноти
+    note_singlepart_type: Тип одночастинної ноти
+    place_role: Роль місця агента
+    publication_status: Стан публікації контролю записів
+    reference_evaluation: Оцінювання посилань на контроль записів
+    resource_finding_aid_description_rules: Правила опису допоміжних засобів для пошуку ресурсів
+    resource_finding_aid_status: Статус допомоги з пошуку ресурсів
+    restriction_type: Тип обмеження локального доступу
+    resource_resource_type: Тип ресурсу
+    rights_statement_act_restriction: Обмеження Закону про права
+    rights_statement_act_type: Тип акта про права
+    rights_statement_external_document_identifier_type: Тип зовнішнього ідентифікатора документа 
+      заяви про права
+    rights_statement_ip_status: Заява про права IP Статус IP
+    rights_statement_other_rights_basis: Заява про права Інші права Основи
+    rights_statement_rights_type: Заява про права Тип прав
+    romanization: Романізація
+    script_iso15924: Мова Скрипт ISO 15924
+    subject_source: Джерело теми
+    subject_term_type: Тип предметного терміна

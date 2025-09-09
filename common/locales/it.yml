@@ -45,12 +45,14 @@ it:
     is_slug_auto_tooltip: "<p>Se questo campo è spuntato, lo slug per questa unità archivistica sarà automaticamente
       generata quando l'unità archivistica è salvata, basandosi sulle impostazioni di configurazione per
       gli human-readable URLs nel file config.rb sul server.</p>\n"
-    autogen_disabled: Uno slug non può essere automaticamente generato dai dati a disposizione basandosi
-      sulle impostazioni di configurazione
+    autogen_disabled: Uno slug non può essere automaticamente generato dai dati a disposizione 
+      basandosi sulle impostazioni di configurazione
     public_url_tooltip: "<p>Se questa unità archivistica è pubblicata o aggiornata per la pubblicazione,
       l'URL completo per questa unità archivistica è nell'interfaccia utente pubblica. Se human-readable
       URLs vengono usati la fine dell'URL sarà lo slug.</p>\n<p>Che gli human-readable URLs vengano usati
       o no, l'URI originale per questa unità archivistica rimane sempre valido.</p>\n"
+    autogen_repo_slug: Visto che uno slug non è stato inserito manualmente lo slug repository è 
+      stato automaticamente generato usando il nome abbreviato della repository
   boolean:
     "true": Vero
     "false": Falso
@@ -65,6 +67,7 @@ it:
     city: Città
     country: Nazione
     region: Stato/Regione
+    salutation: Saluti
   telephone:
     _plural: Numeri telefonici
     number_type: Tipo di numero
@@ -96,15 +99,15 @@ it:
     restrictions_tooltip: "<p>Una casella di spunta per indicare che si applicano delle restrizioni. Le
       restrizioni possono essere spiegate usando nota sub-unità archivistica o diritti sub-unità archivistica.</p>\n"
     title_tooltip: "<p>Una espressione del titolo per l'oggetto digitale.  Può essere trascritto dall'oggetto,
-      o ereditato da una fonte risorsa/risorsa compontente dell'unità archivistica, o assegnato dal deposito.</p>\n
-      <p>Il titolo dell'oggetto digitale può complessivamente essere lo stesso della risorsa o della risorsa
-      componente l'unità archivistica alla quale l'oggetto digitale dell'unità archivistica è linkato.
-      Comunque può essere diverso da quello espresso nella risorsa dell'unità archivistica linkata.</p>\n
-      <p>Esempi:</p>\n<ul>\n<li>Italo Svevo, nonno <em>(linkato a una risorsa componente dell'unità archivistica
-      che ha il titolo di \"Ritratti di famiglia\")</em></li>\n<li>Lettera al Corriere della Sera <em>(linkato
-      a una risorsa componente dell'unità archivistica che ha il titolo di \"Lettera al Corriere della
-      Sera\")</em></li>\n<li>Grande incendio di Roma <em>(linkato a una risorsa componente dell'unità
-      archivistica che ha il titolo di \"Grande incendio di Roma\")</em></li>\n</ul>\n"
+      o ereditato da una fonte risorsa/risorsa compontente dell'unità archivistica, o assegnato dal deposito.</p>\n\
+      \ <p>Il titolo dell'oggetto digitale può complessivamente essere lo stesso della risorsa o della
+      risorsa componente l'unità archivistica alla quale l'oggetto digitale dell'unità archivistica è
+      linkato. Comunque può essere diverso da quello espresso nella risorsa dell'unità archivistica linkata.</p>\n\
+      \ <p>Esempi:</p>\n<ul>\n<li>Italo Svevo, nonno <em>(linkato a una risorsa componente dell'unità
+      archivistica che ha il titolo di \"Ritratti di famiglia\")</em></li>\n<li>Lettera al Corriere della
+      Sera <em>(linkato a una risorsa componente dell'unità archivistica che ha il titolo di \"Lettera
+      al Corriere della Sera\")</em></li>\n<li>Grande incendio di Roma <em>(linkato a una risorsa componente
+      dell'unità archivistica che ha il titolo di \"Grande incendio di Roma\")</em></li>\n</ul>\n"
     title: Titolo
     digital_object_id: Identificatore
     publish: Pubblicare?
@@ -122,10 +125,10 @@ it:
       create: Crea oggetto digitale
       link_title: Link all'oggetto digitale
   location:
-    coordinate_2_label_tooltip: "<p>Usato per registrare una etichetta (ad es. \"scaffale\", \"zona\"
-      , \"cassetto\") per una specifica posizione.</p>\n"
-    coordinate_3_label_tooltip: "<p>Usato per registrare una etichetta (ad es. \"scaffale\", \"zona\"
-      , \"cassetto\") per una specifica posizione.</p>\n"
+    coordinate_2_label_tooltip: "<p>Usato per registrare una etichetta (ad es. \"scaffale\", \"zona\"\
+      \ , \"cassetto\") per una specifica posizione.</p>\n"
+    coordinate_3_label_tooltip: "<p>Usato per registrare una etichetta (ad es. \"scaffale\", \"zona\"\
+      \ , \"cassetto\") per una specifica posizione.</p>\n"
     coordinate_2_indicator_tooltip: "<p>Usato per registrare un indicatore come un numero o una lettera
       che identifica la posizione in modo unico in combinazione con le coordinate di etichetta associate.</p>\n"
     barcode_tooltip: "<p>CAMPO CONDIZIONALMENTE OBBLIGATORIO: Uno di questi campi (codice a barre, classificazione,
@@ -207,9 +210,9 @@ it:
     _plural: Depositi
     org_code_tooltip: "<p>Un codice conforme con ISO/DIS 15511 ISIL (Information and Documentation International
       Standard Identifier for Libraries and Related Organizations). Per le istituzioni degli Stati Uniti
-      d'America, questo include codici dalla lista MARC Organization Code.</p>\n<p>Esempi:</p>\n<ul>\n
-      <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>\n<li>IU-Ar <em>(for
-      University of Illinois Archives)</em></li>\n</ul>\n"
+      d'America, questo include codici dalla lista MARC Organization Code.</p>\n<p>Esempi:</p>\n<ul>\n\
+      \ <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>\n<li>IU-Ar
+      <em>(for University of Illinois Archives)</em></li>\n</ul>\n"
   section_tooltips:
     dates_tooltip: "<p>Identifica e registra la/le data/e che riguardano creazione, raggruppamento, accumulo
       e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4</p>\n"
@@ -222,8 +225,8 @@ it:
     user_defined_tooltip: "<p>Campi definiti dall'utente per registrare informazioni aggiuntive non inserite
       in altre sezioni dell'applicazione.</p>\n"
     subjects_tooltip: "<p>Usato per linkare i soggetti coi materiali descritti.</p>\n"
-    lang_materials_tooltip: "<p>Le lingue e gli scripts rappresentati nel materiale/i descritto/i.</p>\n
-      <p>Vedere DACS 4.5</p>\n"
+    lang_materials_tooltip: "<p>Le lingue e gli scripts rappresentati nel materiale/i descritto/i.</p>\n\
+      \ <p>Vedere DACS 4.5</p>\n"
     notes_tooltip: "<p>Ulteriori informazioni descrittive sui materiali descritti, solitamente in forma
       di testo o liste strutturate.</p>\n"
     rights_statements_tooltip: "<p>Informazioni riguardo lo stato dei diritti dei materiali descritti
@@ -232,10 +235,11 @@ it:
     collection_management_tooltip: "<p>Informazioni aggiuntive (a uso puramente interno) riguardo a come
       i materiali descritti saranno o sono stati processati.</p>\n"
     external_documents_tooltip: ''
+    extents_tooltip: ''
   linked_agent:
     title_tooltip: "<p>Campo opzionale: registra qui il titolo ufficiale di un'opera per creare un nome
-      / titolo come intestazione per un agent linkato come creatore o soggetto:</p>\n<p>Per esempio,</p>\n
-      <ul><li>Alighieri, Dante, 1265-1321. Vita Nova</li><li> Montale, Eugenio, 1896-1981. Ossi di seppia</li><li>
+      / titolo come intestazione per un agent linkato come creatore o soggetto:</p>\n<p>Per esempio,</p>\n\
+      \ <ul><li>Alighieri, Dante, 1265-1321. Vita Nova</li><li> Montale, Eugenio, 1896-1981. Ossi di seppia</li><li>
       Calvino, Italo, 1923-1985. Il barone rampante</li></ul>\n"
     role: Ruolo
     terms: Termini
@@ -286,8 +290,7 @@ it:
     outcome_note: Nota di risultato
     outcome_note_tooltip: "<p>Una descrizione dettagliata del risultato o del prodotto dell'evento. Questa
       può essere usata per registrare tutti i messaggi di errore e di avvertimento emessi dal programma
-      coinvolto nell'evento o per registrare un   error and warning messages issued by a program involved
-      in the event or to record a pointer to an error log.</p>\n"
+      coinvolto nell'evento o per registrare un pointer a un log errore.</p>\n"
     date: Data/ora evento
     date_type: Tipo di evento
     timestamp: Marca temporale UTC
@@ -337,12 +340,12 @@ it:
     _plural: Eventi
   deaccession:
     description: Descrizione
-    description_tooltip: "<p>CAMPO OBBLIGATORIO: descrizione dei materiali che sono stati deaccessionati.</p>\n
-      <p>Esempi:</p>\n<ul>\n<li>Periodici, ritagli di giornale, e rendiconto finanziario famigliare.</li>\n
-      <li>Trofei conferiti alle mostre canine.</li>\n</ul>\n"
+    description_tooltip: "<p>CAMPO OBBLIGATORIO: descrizione dei materiali che sono stati deaccessionati.</p>\n\
+      \ <p>Esempi:</p>\n<ul>\n<li>Periodici, ritagli di giornale, e rendiconto finanziario famigliare.</li>\n\
+      \ <li>Trofei conferiti alle mostre canine.</li>\n</ul>\n"
     reason: Ragione
-    reason_tooltip: "<p>La ragione per cui i materiali descritti sono stati deaccessionati.</p>\n<p>Esempi:</p>\n
-      <ul>\n<li>Il donatore non intendeva trasferire questi materiali.</li>\n</ul>\n"
+    reason_tooltip: "<p>La ragione per cui i materiali descritti sono stati deaccessionati.</p>\n<p>Esempi:</p>\n\
+      \ <ul>\n<li>Il donatore non intendeva trasferire questi materiali.</li>\n</ul>\n"
     disposition: Disposizione
     notification: Notifica ricevuta?
     notification_tooltip: "<p>Una casella di spunta che indica che la notifica della deaccessione è stata
@@ -350,8 +353,8 @@ it:
     dates: Data di deaccessione
     _plural: Deaccessioni
     _singular: Deaccessione
-    disposition_tooltip: "<p>Una descrizione che indica cosa è stato fatto con i materiali deaccessionati.</p>\n
-      <p>Esempi:</p>\n<ul>\n<li>Rendiconto finanziario restituito alla famiglia.</li>\n<li>Trofei della
+    disposition_tooltip: "<p>Una descrizione che indica cosa è stato fatto con i materiali deaccessionati.</p>\n\
+      \ <p>Esempi:</p>\n<ul>\n<li>Rendiconto finanziario restituito alla famiglia.</li>\n<li>Trofei della
       mostra canina restituiti alla moglie del donatore.</li>\n</ul>\n"
   agent_name:
     source: Fonte
@@ -370,13 +373,13 @@ it:
       <em>(per Churchill, Winston, Sir, 1874-1965)</em></li>\n<li>Alda <em>(per Merini, Alda, 1931-2009)</em></li>\n\
       </ul>\n"
     suffix_tooltip: "<p>Un termine che segue un nome, il termine qualifica il nome ma non è un titolo.</p>\n\
-      <p>Esempi</p>\n<ul>\n<li>Jr.</li>\n<li>fils</li>\n</ul>\n"
+      <p>Esempi</p>\n<ul>\n<li>Jr.</li>\n<li>F.lli</li>\n</ul>\n"
     fuller_form: Forma più completa
     number: Numero
     dates: Date
     dates_tooltip: "<p>Usa questo campo per l'allineamento con il record d'autorità MARC. Queste date,
-      a differenza delle date di esistenza, sono aggiunte alla voce nome nella visualizzazione.</p>\n
-      <p>Date di esistenza per l'entità nominata.</p>\n<p>Esempi:<p>\n<ul>\n<li>1876-1960 <em>(per S.B.,
+      a differenza delle date di esistenza, sono aggiunte alla voce nome nella visualizzazione.</p>\n\
+      \ <p>Date di esistenza per l'entità nominata.</p>\n<p>Esempi:<p>\n<ul>\n<li>1876-1960 <em>(per S.B.,
       Sibilla Aleramo, 1876-1960)</em></li>\n</ul>\n"
     qualifier: Qualificativo
     primary_name_tooltip: "<p>La parte principale di un nome (ad es. il nome di famiglia o il cognome
@@ -391,10 +394,10 @@ it:
     number_tooltip: "<p>Un numero, a volte con un termine, che qualifica il nome. Per gli antroponimi
       è spesso un numero romano o un numero romano e una seguente parte di un nome. Per i nomi di aziende
       è il numero di una parte / sezione o di una assemblea.</p>\n<p>Esempi:</p>\n<ul>\n<li>I Costantino
-      <em>(per Costantino I, Imperatore bizantino d'Oriente</em></li>\n<li>I <em>(per Cosimo I de' Medici)</em></li>\n
-      <li>150º <em>(per 150º anniversario dell'Unità d'Italia)</em></li>\n</ul>\n"
-    fuller_form_tooltip: "<p>La forma più completa dei nomi o secondi nomi, quando abbreviati.</p>\n<p>Esempi</p>\n
-      <ul>\n<li>Sibilla Aleramo <em>(per S.B., Sibilla Aleramo, 1876-1960)</em></li>\n</ul>\n"
+      <em>(per Costantino I, Imperatore bizantino d'Oriente</em></li>\n<li>I <em>(per Cosimo I de' Medici)</em></li>\n\
+      \ <li>150º <em>(per 150º anniversario dell'Unità d'Italia)</em></li>\n</ul>\n"
+    fuller_form_tooltip: "<p>La forma più completa dei nomi o secondi nomi, quando abbreviati.</p>\n<p>Esempi</p>\n\
+      \ <ul>\n<li>Sibilla Aleramo <em>(per S.B., Sibilla Aleramo, 1876-1960)</em></li>\n</ul>\n"
     authorized: Autorizzato
     is_display_name: Nome visualizzato
     language: Lingua
@@ -407,9 +410,9 @@ it:
       Г. К. (Гарри Кимович))</p>\n"
     qualifier_tooltip: "<p>Un termine o una frase per distinguere due nomi identici in tutti gli aspetti
       ma che identificano due entità differenti.  Il termine può essere una data, un luogo od ogni altro
-      descrittore adatto.</p>\n<p>Esempi:</p>\n<ul>\n<li>Fioristi <em>(per famiglia Bianchi (fioristi))</em>)</li>\n
-      <li>Santa Maria Novella, Firenze, Toscana <em>(per Chiesa di Santa Maria Novella (Santa Maria Novella,
-      Firenze, Toscana))</em></li>\n</ul>\n"
+      descrittore adatto.</p>\n<p>Esempi:</p>\n<ul>\n<li>Fioristi <em>(per famiglia Bianchi (fioristi))</em>)</li>\n\
+      \ <li>Santa Maria Novella, Firenze, Toscana <em>(per Chiesa di Santa Maria Novella (Santa Maria
+      Novella, Firenze, Toscana))</em></li>\n</ul>\n"
   agent_record_identifiers:
     is_primary: Primario
   agent_identifiers:

@@ -120,7 +120,7 @@ class Event < Sequel::Model(:event)
 
       merge_note += (identifier +
                      " -- " +
-                     MultipleTitlesHelper.determine_primary_title(merge_candidate_json['titles'], I18n.default_locale) +
+                     Titles.primary_title(merge_candidate_json['titles']) +
                      "\n")
     end
 

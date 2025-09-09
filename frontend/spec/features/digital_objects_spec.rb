@@ -32,7 +32,7 @@ describe 'Digital Objects', js: true do
     expect(page).to have_selector('h2', visible: true, text: "New Digital Object Digital Object")
 
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq "Title - Property is required but was missing\nIdentifier - Property is required but was missing"
+    expect(element.text).to eq "Titles - At least 1 item(s) is required\nIdentifier - Property is required but was missing"
   end
 
   it 'can handle multiple file versions and file system and network path types' do
@@ -43,7 +43,7 @@ describe 'Digital Objects', js: true do
     element = find('h2')
     expect(element.text).to eq 'New Digital Object Digital Object'
 
-    fill_in 'digital_object_title_', with: "Digital Object Title #{now}"
+    fill_in 'digital_object_titles__0__title_', with: "Digital Object Title #{now}"
     fill_in 'digital_object_digital_object_id_', with: "Digital Object Identifier #{now}"
     select 'Mixed Materials', from: 'digital_object_digital_object_type_'
 
@@ -91,7 +91,7 @@ describe 'Digital Objects', js: true do
     element = find('h2')
     expect(element.text).to eq 'New Digital Object Digital Object'
 
-    fill_in 'digital_object_title_', with: "Digital Object Title #{now}"
+    fill_in 'digital_object_titles__0__title_', with: "Digital Object Title #{now}"
     fill_in 'digital_object_digital_object_id_', with: "Digital Object Identifier #{now}"
     select 'Mixed Materials', from: 'digital_object_digital_object_type_'
 
@@ -122,7 +122,7 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.titles[0]['title']} Digital Object")
 
     click_on 'Add Child'
 
@@ -136,7 +136,7 @@ describe 'Digital Objects', js: true do
     find('#createPlusOne').click
 
     element = find('.alert.alert-danger.with-hide-alert')
-    expect(element.text).to eq "Dates - you must provide a Label, Title or Date\nTitle - you must provide a Label, Title or Date\nLabel - you must provide a Label, Title or Date"
+    expect(element.text).to eq "Dates - you must provide a Label, Title or Date\nTitles - you must provide a Label, Title or Date\nLabel - you must provide a Label, Title or Date"
   end
 
   it 'can populate the digital object component tree' do
@@ -146,12 +146,12 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.titles[0]['title']} Digital Object")
 
     click_on 'Add Child'
 
     fill_in 'digital_object_component_component_id_', with: "Child 1 #{now}"
-    fill_in 'digital_object_component_title_', with: "Child 1 #{now}"
+    fill_in 'digital_object_component_titles__0__title_', with: "Child 1 #{now}"
 
     find('#createPlusOne').click
     wait_for_ajax
@@ -160,7 +160,7 @@ describe 'Digital Objects', js: true do
     expect(page).to have_content "Digital Object Component Child 1 #{now} created on Digital Object Digital Object Title #{now}"
 
     fill_in 'digital_object_component_component_id_', with: "Child 2 #{now}"
-    fill_in 'digital_object_component_title_', with: "Child 2 #{now}"
+    fill_in 'digital_object_component_titles__0__title_', with: "Child 2 #{now}"
 
     find('#createPlusOne').click
     wait_for_ajax
@@ -169,14 +169,13 @@ describe 'Digital Objects', js: true do
     expect(page).to have_content "Digital Object Component Child 2 #{now} created on Digital Object Digital Object Title #{now}"
 
     fill_in 'digital_object_component_component_id_', with: "Child 3 #{now}"
-    fill_in 'digital_object_component_title_', with: "Child 3 #{now}"
+    fill_in 'digital_object_component_titles__0__title_', with: "Child 3 #{now}"
 
     # Click on save
     find('button', text: 'Save Digital Object', match: :first).click
+    wait_for_ajax
 
-    expect(page).to have_selector('h2', visible: true, text: "Digital Object Component Digital Object Component")
     expect(page).to have_content "Digital Object Component Child 3 #{now} created on Digital Object Digital Object Title #{now}"
-
     elements = all('.largetree-node.indent-level-1')
     expect(elements.length).to eq 3
     expect(elements[0]).to have_text "Child 1 #{now}"
@@ -192,7 +191,7 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.titles[0]['title']} Digital Object")
 
     click_on "Child #{now}"
 
@@ -200,7 +199,7 @@ describe 'Digital Objects', js: true do
 
     wait_for_ajax
 
-    fill_in 'digital_object_component_title_', with: "Sub-Child #{now}"
+    fill_in 'digital_object_component_titles__0__title_', with: "Sub-Child #{now}"
     fill_in 'digital_object_component_component_id_', with: "Sub-Child #{now}"
 
     # Click on save
@@ -230,7 +229,7 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.titles[0]['title']} Digital Object")
 
     root_node = find("#digital_object_#{digital_object.id}")
     expect(root_node).to have_text "Digital Object Title #{now}"
@@ -249,7 +248,7 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/edit"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.titles[0]['title']} Digital Object")
 
     click_on 'Add Classification'
 
@@ -291,7 +290,7 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.title} Digital Object")
+    expect(page).to have_selector('h2', visible: true, text: "#{digital_object.titles[0]['title']} Digital Object")
 
     expand_elements = all('#digital_object_file_versions__accordion .glyphicon')
     expect(expand_elements.length).to eq 2
@@ -350,7 +349,7 @@ describe 'Digital Objects', js: true do
 
     visit "digital_objects/#{digital_object.id}/#tree::digital_object_component_#{digital_object_component.id}"
 
-    expect(page).to have_selector('h2', visible: true, text: "#{digital_object_component.title} Digital Object Component")
+    expect(page).to have_selector('h2', visible: true, text: "#{digital_object_component.titles[0]['title']} Digital Object Component")
 
     expand_elements = all('#digital_object_component_file_versions_ .glyphicon')
     expect(expand_elements.length).to eq 2

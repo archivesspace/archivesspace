@@ -12,7 +12,7 @@
       <li>
         <p class="mb-0">
           <%= t("#{singular}._frontend.messages.merge_description") %>
-          <%= clean_mixed_content(record.respond_to?(:title) ? record.title : record.titles.first['title']) %>
+          <%= clean_mixed_content(record.respond_to?(:title) ? record.title : title_for_display) %>
         </p>
         <%= form_context :merge, {} do |form| %>
 

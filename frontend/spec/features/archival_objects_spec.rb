@@ -15,6 +15,7 @@ describe 'Archival objects', js: true do
     select_repository(@repository)
   end
 
+  # TODO: linker multiple title update should fix
   it 'can have a lot of associated records that do not show in the field but are not lost' do
     now = Time.now.to_i
 
@@ -29,7 +30,7 @@ describe 'Archival objects', js: true do
       subjects << create(:subject)
       accessions << create(:accession)
       classifications << create(:classification)
-      digital_objects << create(:digital_object, title: "Digital Object Title #{i} #{now}")
+      digital_objects << create(:digital_object)
       instances = digital_objects.map { |d| { instance_type: 'digital_object', digital_object: { ref: d.uri } } }
       agents << create(:agent_person)
     end
@@ -66,16 +67,17 @@ describe 'Archival objects', js: true do
       element.click
     end
 
-    [subjects, classifications].each do |entities|
-      entities.each do |entity|
-        element = find("##{entity[:uri].gsub('/', '_')}")
-        expect(element.text).to match(/#{entity.title}/)
-      end
+    subjects.each do |entity|
+      element = find("##{entity[:uri].gsub('/', '_')}")
+      expect(element.text).to match(/#{entity.title}/)
     end
 
-    accessions.each do |entity|
-      element = find("##{entity[:uri].gsub('/', '_')}")
-      expect(element.text).to match(/#{entity.titles[0]['title']}/)
+    # TODO classification css isn't showing up because it's for the linker which needs to be updated
+    [accessions, classifications].each do |entities|
+      entities.each do |entity|
+        element = find("##{entity[:uri].gsub('/', '_')}")
+        expect(element.text).to match(/#{entity.titles[0]['title']}/)
+      end
     end
 
     digital_objects.each do |entity|
@@ -103,7 +105,7 @@ describe 'Archival objects', js: true do
 
   it 'can populate the archival object tree' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource)
     run_index_round
     visit "resources/#{resource.id}/edit"
 
@@ -111,18 +113,19 @@ describe 'Archival objects', js: true do
 
     expect(page).to have_css '#archival_object_titles__0__title_'
     expect(page).to have_css '#archival_object_level_'
-    fill_in 'Title', with: "Archival Object Title #{now}"
+    fill_in 'Title', with: (ao_title = "Archival Object Title #{now}")
     select 'Item', from: 'archival_object_level_'
 
     # Click on save
     find('#createPlusOne', match: :first).click
 
-    expect(page).to have_text "Archival Object Archival Object Title #{now} on Resource Resource Title #{now} created"
+    expect(page).to have_text "Archival Object #{ao_title} on Resource #{resource.titles[0]['title']} created"
 
-    %w[January February December].each_with_index do |month, index|
+
+    %w[January February December].each do |month|
       wait_for_ajax
       expect(page).to have_text 'Archival Object'
-      expect(page).to have_css "#archival_object_titles___#{index}_title_"
+      expect(page).to have_css '#archival_object_titles__0__title_'
       expect(page).to have_css '#archival_object_level_'
 
       fill_in 'Title', with: "Archival Object Title #{month} #{now}"
@@ -130,7 +133,7 @@ describe 'Archival objects', js: true do
 
       # Click on save
       find('#createPlusOne', match: :first).click
-      expect(page).to have_text "Archival Object Archival Object Title #{month} #{now} on Resource Resource Title #{now} created"
+      expect(page).to have_text "Archival Object Archival Object Title #{month} #{now} on Resource #{resource.titles[0]['title']} created"
     end
 
     elements = all('#tree-container .largetree-node.indent-level-1').map { |li| li.text.strip }
@@ -142,8 +145,8 @@ describe 'Archival objects', js: true do
 
   it 'can cancel edits to Archival Objects' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-    archival_object = create(:archival_object, title: "Archival Object Title #{now}", component_id: 'component-id', resource: { 'ref' => resource.uri })
+    resource = create(:resource)
+    archival_object = create(:archival_object, component_id: 'component-id', resource: { 'ref' => resource.uri })
     run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
@@ -170,14 +173,14 @@ describe 'Archival objects', js: true do
 
   it 'reports warnings when updating an Archival Object with invalid data' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-    archival_object = create(:archival_object, title: "Archival Object Title #{now}", component_id: 'component-id', resource: { 'ref' => resource.uri })
+    resource = create(:resource)
+    archival_object = create(:archival_object, component_id: 'component-id', resource: { 'ref' => resource.uri })
     run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
     element = find('#form_archival_object')
-    expect(element).to have_text archival_object.title
+    expect(element).to have_text archival_object.titles[0]['title']
 
     fill_in 'archival_object_titles__0__title_', with: ''
 
@@ -187,23 +190,23 @@ describe 'Archival objects', js: true do
     within '#form_messages' do
       element = find('.alert.alert-danger.with-hide-alert')
       expect(element).to have_text 'Dates - one or more required (or enter a Title)'
-      expect(element).to have_text 'Title - must not be an empty string (or enter a Date)'
+      expect(element).to have_text 'Titles - must not be an empty list (or enter a Date)'
     end
   end
 
   it 'can update an existing Archival Object' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-    archival_object = create(:archival_object, title: "Archival Object Title #{now}", component_id: 'component-id', resource: { 'ref' => resource.uri })
+    resource = create(:resource)
+    archival_object = create(:archival_object, component_id: 'component-id', resource: { 'ref' => resource.uri })
     run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
     element = find('#form_archival_object')
-    expect(element).to have_text archival_object.title
+    expect(element).to have_text archival_object.titles[0]['title']
 
     element = find('#archival_object_titles__0__title_')
-    expect(element.value).to eq archival_object.title
+    expect(element.value).to eq archival_object.titles[0]['title']
 
     fill_in 'archival_object_titles__0__title_', with: "Updated Archival Object Title #{now}"
 
@@ -218,8 +221,8 @@ describe 'Archival objects', js: true do
 
   it 'can add, assign, remove, and reassign a Subject to an archival object' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-    archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
+    resource = create(:resource)
+    archival_object = create(:archival_object, resource: { 'ref' => resource.uri })
     run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
@@ -265,10 +268,9 @@ describe 'Archival objects', js: true do
   it 'can add more than four accession component links to an archival object' do
     now = Time.now.to_i
     accessions = create_list(:accession, 10)
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource)
     archival_object = create(
       :archival_object,
-      title: "Archival Object Title #{now}",
       resource: { 'ref' => resource.uri },
       accession_links: accessions.map { |a| { ref: a.uri } },
     )
@@ -302,8 +304,8 @@ describe 'Archival objects', js: true do
 
   it 'can view a read only Archival Object' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-    archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
+    resource = create(:resource)
+    archival_object = create(:archival_object, resource: { 'ref' => resource.uri })
     run_index_round
 
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
@@ -311,15 +313,14 @@ describe 'Archival objects', js: true do
     click_on 'Close Record'
 
     element = find('.record-pane h2')
-    expect(element).to have_text archival_object.title
+    expect(element).to have_text archival_object.titles[0]['title']
   end
 
   it 'shows component id in browse view for archival objects' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource)
     archival_object = create(
       :archival_object,
-      title: "Archival Object Title #{now}",
       component_id: "Component Id #{now}",
       resource: { 'ref' => resource.uri }
     )
@@ -344,10 +345,9 @@ describe 'Archival objects', js: true do
 
   it 'shows component id for search and filter to archival objects' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource)
     archival_object = create(
       :archival_object,
-      title: "Archival Object Title #{now}",
       component_id: "Component Id #{now}",
       resource: { 'ref' => resource.uri }
     )
@@ -366,7 +366,7 @@ describe 'Archival objects', js: true do
     row = find('tr', text: archival_object.component_id)
     within row do
       elements = all('td')
-      expect(elements[0].text).to eq archival_object.title
+      expect(elements[0].text).to eq archival_object.titles[0]['title']
       expect(elements[2].text).to eq "Component Id #{now}"
     end
 
@@ -375,10 +375,9 @@ describe 'Archival objects', js: true do
 
   it 'allows for publication and unpublication of all or part of the record tree' do
     now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
+    resource = create(:resource)
     archival_object = create(
       :archival_object,
-      title: "Archival Object Title #{now}",
       component_id: "Component Id #{now}",
       resource: { 'ref' => resource.uri }
     )
@@ -401,7 +400,7 @@ describe 'Archival objects', js: true do
     # Confirm that the archival object is also published
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
     element = find('h2')
-    expect(element).to have_text "#{archival_object.title}"
+    expect(element).to have_text "#{archival_object.titles[0]['title']}"
     element = find('#archival_object_publish_')
     expect(element.checked?).to eq(true)
 
@@ -412,7 +411,7 @@ describe 'Archival objects', js: true do
     end
 
     element = find('h2')
-    expect(element).to have_text "#{archival_object.title}"
+    expect(element).to have_text "#{archival_object.titles[0]['title']}"
 
     element = find('#archival_object_publish_')
     expect(element.checked?).to eq(false)

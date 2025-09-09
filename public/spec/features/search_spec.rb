@@ -132,7 +132,7 @@ describe 'Search', js: true do
                           :notes => [
                             build(:json_note_multipart,
                                   subnotes: [
-                                    build(:json_note_text, publish: true, content: "Note text #{now}"),
+                                    build(:json_note_text, publish: true, content: "<title>Mixed content</title> note text #{now}"),
                                     build(:json_note_text, publish: false, content: "Unpublished note text #{now}")
                                   ])
                           ]
@@ -148,6 +148,12 @@ describe 'Search', js: true do
 
         expect(page).to highlight_term_found_in "Found in Creators:", search_term
         expect(page).to highlight_term_found_in "Found in Notes:", search_term
+      end
+
+      it 'handles mixed content appropriately' do
+        found_in_notes = page.find('.highlighting', text: 'Found in Notes:')
+        expect(found_in_notes).to have_css('span.title', text: "Mixed content")
+        expect(found_in_notes).to have_content("Mixed content note text #{now}")
       end
     end
   end

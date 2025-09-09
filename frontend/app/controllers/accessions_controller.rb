@@ -39,7 +39,10 @@ class AccessionsController < ApplicationController
   end
 
   def new
-    @accession = Accession.new({:accession_date => Date.today.strftime('%Y-%m-%d')})._always_valid!
+    @accession = Accession.new({
+      :accession_date => Date.today.strftime('%Y-%m-%d'),
+      :titles => [{:title => t("accession.title_default", :default => "")}]
+    })._always_valid!
     defaults = user_defaults('accession')
     @accession.update(defaults.values) if defaults
 

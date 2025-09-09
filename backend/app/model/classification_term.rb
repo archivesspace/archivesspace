@@ -6,6 +6,7 @@ class ClassificationTerm < Sequel::Model(:classification_term)
   include ClassificationIndexing
   include Publishable
   include AutoGenerator
+  include Titles
 
   enable_suppression
 
@@ -27,7 +28,7 @@ class ClassificationTerm < Sequel::Model(:classification_term)
 
   auto_generate :property => :display_string,
                 :generator => proc { |json|
-                  json['title']
+                  MultipleTitlesHelper.determine_primary_title(json['titles'], I18n.default_locale)
                 }
 
 
@@ -47,7 +48,7 @@ class ClassificationTerm < Sequel::Model(:classification_term)
 
   def self.create_from_json(json, opts = {})
     self.set_path_from_root(json)
-    obj = super(json, :title_sha1 => Digest::SHA1.hexdigest(json.title))
+    obj = super(json, :title_sha1 => Digest::SHA1.hexdigest(json.titles[0]['title']))
     obj.reindex_children
     obj
   end
@@ -55,24 +56,24 @@ class ClassificationTerm < Sequel::Model(:classification_term)
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
     self.class.set_path_from_root(json)
-    obj = super(json, {:title_sha1 => Digest::SHA1.hexdigest(json.title)}, apply_nested_records)
+    obj = super(json, {:title_sha1 => Digest::SHA1.hexdigest(json.titles[0]['title'])}, apply_nested_records)
     obj.reindex_children
     obj
   end
 
 
   def self.set_path_from_root(json)
-    path = [{'title' => json.title, 'identifier' => json.identifier}]
+    path = [{'title' => MultipleTitlesHelper.determine_primary_title(json.titles, I18n.default_locale), 'identifier' => json.identifier}]
     parent_id = json.parent ? self.parse_reference(json.parent['ref'], {})[:id] : nil
 
     while parent_id
       node = ClassificationTerm[parent_id]
-      path << {'title' => node.title, 'identifier' => node.identifier}
+      path << {'title' => MultipleTitlesHelper.determine_primary_title(Title.to_array_of_hash(node.title), I18n.default_locale), 'identifier' => node.identifier}
       parent_id = node.parent_id
     end
 
     root = Classification[self.parse_reference(json.classification['ref'], {})[:id]]
-    path << {'title' => root.title, 'identifier' => root.identifier}
+    path << {'title' => MultipleTitlesHelper.determine_primary_title(Title.to_array_of_hash(root.title), I18n.default_locale), 'identifier' => root.identifier}
 
     json['path_from_root'] = path.reverse
   end
