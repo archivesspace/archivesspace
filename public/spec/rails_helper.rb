@@ -2,6 +2,7 @@ require 'capybara/rails'
 require 'capybara-screenshot/rspec'
 require 'launchy'
 require 'aspace_helper'
+require File.expand_path("../../../common/spec/support/file_runtime_formatter.rb", __FILE__)
 
 CHROME_OPTS  = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-logging --log-level=0 --v=1 --incognito --disable-extensions --auto-open-devtools-for-tabs --window-size=1920,1080 --disable-dev-shm-usage").split(' ')
 
@@ -66,6 +67,8 @@ Capybara::Screenshot.register_driver(:firefox) do |driver, path|
   driver.browser.save_screenshot(path)
 end
 
+Capybara::Screenshot.prune_strategy = :keep_last_run
+
 if ENV['SELENIUM_CHROME'] == 'true'
   Capybara.default_driver = :chrome
   Capybara.javascript_driver = :chrome
@@ -80,6 +83,8 @@ Capybara.raise_server_errors = false
 Capybara.server_port = URI.parse(AppConfig[:public_url]).port
 
 RSpec.configure do |config|
+  config.add_formatter FileRuntimeFormatter
+
   config.infer_spec_type_from_file_location!
   config.include Capybara::DSL
   config.include ASpaceHelpers
@@ -162,7 +167,7 @@ Capybara.register_server :as_puma do |app, port, host|
 end
 Capybara.server = :as_puma
 
-Capybara.default_max_wait_time = ENV.fetch('CAPYBARA_DEFAULT_MAX_WAIT_TIME', 15).to_i
+Capybara.default_max_wait_time = ENV.fetch('CAPYBARA_DEFAULT_MAX_WAIT_TIME', 20).to_i
 
 cp_logger = Logger.new(File.join(ASUtils.find_base_directory, "ci_logs", "childprocess_gem.out"))
 cp_logger.level = Logger::DEBUG

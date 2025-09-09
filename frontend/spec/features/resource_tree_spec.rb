@@ -28,7 +28,7 @@ describe 'Resource Tree', js: true do
     it "shows the record id in the tree if configured to do so" do
       visit "/resources/#{@resource.id}"
       wait_for_ajax
-      ids = find_all('.resource-identifier').map { |node| node.text }
+      ids = find_all('[data-column="identifier"]').map { |node| node.text }
       expect(ids).to eq(["1-2-3-4", "abc"])
     end
   end
@@ -41,7 +41,7 @@ describe 'Resource Tree', js: true do
     it "does not show the record id in the tree if not configured to do so" do
       visit "/resources/#{@resource.id}"
       wait_for_ajax
-      expect(page).not_to have_css('.resource-identifier')
+      expect(page).not_to have_css('[data-column="identifier"]')
     end
   end
 end

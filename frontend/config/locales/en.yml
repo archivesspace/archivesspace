@@ -755,7 +755,8 @@ en:
       after: Add Items After
       as_child: Add Items as Children
     unexpected_failure: Oops! We're having trouble fetching this tree. Please try refreshing the page.
-    resize: Expand/Collapse Tree Area
+    resize: Drag to resize the tree height
+    maximize: Maximize/minimize the tree height
 
   errors:
     sidebar_label: Errors and Warnings

@@ -1,0 +1,18 @@
+pl:
+  enumeration_names:
+    accession_acquisition_type: Rodzaj Nabycia Akcesji
+    accession_parts_relator: Relator Części Akcesyjnych
+    accession_parts_relator_type: Typ Relatora Części Akcesoryjnych
+    accession_resource_type: Typ zasobu przystąpienia
+    agent_contact_salutation: Powitanie Agenta
+    agent_relationship_earlierlater_relator: Relacja Agenta Wcześniej Później Relator
+    agent_relationship_family_relator: Relacja Agenta Relator Rodzinny
+    agent_relationship_hierarchical_relator: Relacja Agenta Hierarchiczny Relator
+    agent_relationship_parentchild_relator: Relacja Agenta Rodzic-Dziecko Relator
+    agent_relationship_specific_relator: Relacja Agenta Konkretny Relator
+    agent_relationship_subordinatesuperior_relator: Relacja Agenta Podwładny-Przełożony Relator
+    agent_relationship_temporal_relator: Relacja Agenta Relator Czasowy
+    archival_record_level: Poziom Rekordu Archiwalnego
+    begin_date_standardized_type: Data Rozpoczęcia Typ Standaryzowany
+    agent_relationship_associative_relator: Relacja Agenta Relator Stowarzyszony
+    agent_relationship_identity_relator: Relacja Tożsamość Agent Relator

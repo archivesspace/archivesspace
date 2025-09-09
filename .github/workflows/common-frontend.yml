@@ -47,6 +47,11 @@ jobs:
           - 8984:8983
 
     steps:
+    - uses: browser-actions/setup-geckodriver@latest
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - run: geckodriver --version
+    - run: firefox --version
     - uses: actions/checkout@v4
     - uses: actions/setup-java@v4
       with:

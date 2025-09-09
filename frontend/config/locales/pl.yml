@@ -1,0 +1,20 @@
+pl:
+  actions:
+    add: Dodać
+    add_event: Dodaj Wydarzenie
+    add_event_event_type: Odmiana
+    automate: Generuj automatycznie
+    batch: Wsad
+    download_bulk_import_report: Pobierz raport
+    download: Pobierać
+    cancel: Anulować
+    close: Zamknąć
+    check_all: Zaznacz Wszystko
+    uncheck_all: Odznacz wszystko
+    continue: Kontynuować
+    confirm: Potwierdzać
+    confirm_removal: Potwierdź Usunięcie
+    container_labels: Pobierz Etykiety Pojemników
+    create: Tworzyć
+  states:
+    auto_generated: System generuje po zapisaniu

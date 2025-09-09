@@ -1,0 +1,17 @@
+pl:
+  help:
+    topics:
+      accession: Pomoc w Sprawie Przystąpienia
+      accession_related_resources: Pomoc Dotycząca Powiązanych Zasobów
+      accession_linked_agents: Pomoc Dotycząca Linków Agentów
+      accession_subjects: Pomoc w Tematach
+      accession_rights_statements: Pomoc Dotycząca Oświadczeń o Prawach
+      accession_deaccessions: Pomoc w Sprawie Deakcesji
+      accession_instances: Pomoc w Przypadku Instancji
+      accession_collection_management: Pomoc w Zarządzaniu Zbiorami
+      accession_classification: Pomoc w Klasyfikacjach
+      accession_user_defined: Pomoc Dotycząca Zdefiniowanych Przez Użytkownika
+      accession_external_documents: Pomoc Dotycząca Dokumentów Zewnętrznych
+      accession_metadata_rights_declarations: Pomoc Dotycząca Deklaracji Praw do Metadanych
+    help_center: Centrum Pomocy ArchivesSpace
+    default_tooltip: Centrum Pomocy ArchivesSpace

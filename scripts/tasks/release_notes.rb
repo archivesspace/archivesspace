@@ -84,7 +84,6 @@ module ReleaseNotes
           contributors[author] ||= []
           contributors[author] << (data[:pr_title] || data[:desc])
         end
-
       end
 
       contributors.each do |author, contributions|
@@ -101,11 +100,11 @@ module ReleaseNotes
     private
 
     def pr_count
-      log.map {|l| l[:pr_number]}.compact!.uniq.count
+      log.map {|l| l[:pr_number]}.compact.uniq.count
     end
 
     def ticket_count
-      log.map {|l| l[:anw_number]}.compact!.uniq.count
+      log.map {|l| l[:anw_number]}.compact.uniq.count
     end
 
     def add_jira_id(data)

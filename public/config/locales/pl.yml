@@ -1,0 +1,19 @@
+pl:
+  brand:
+    title: Publiczny Interfejs ArchivesSpace
+    title_link_text: Powrót do strony głównej ArchivesSpace
+    welcome_head: Witamy w ArchivesSpace
+    welcome_message: "<p>Przeszukaj nasze zbiory, materiały cyfrowe i wiele więcej.</p>\n"
+    welcome_page_title: Interfejs Publiczny ArchivesSpace
+  actions:
+    search_in: Szukaj %{type}
+    new_search: Nowe Wyszukiwanie
+    refine_search: Sprecyzuj Wyszukiwanie
+    close: Zamknąć
+    backup: Powrót do poprzedniej strony
+    backup_abbr: Wracać
+    cite: Cytat
+    cite_item: Cytuj Element
+    cite_item_description: Cytuj Opis Przedmiotu
+    digitized: Zobacz Materiały Cyfrowe
+    request: Prośba

@@ -34,12 +34,12 @@ uk:
     next: Далі
     previous: Попередній
   errors:
-    error_404_message: Запис %{тип} до якого ви намагалися отримати доступ, не існує або, можливо, його
-      було видалено.
+    error_404_message: Запис %{тип} до якого ви намагалися отримати доступ, не існує або, можливо, 
+      його було видалено.
     error_404: '%{тип} Запис не знайдено'
     backend_down: Не вдається підключитися до бази даних
-    backend_down_message: Наразі у ArchivesSpace виникли технічні проблеми. Вибачте за незручності. Будь
-      ласка, спробуйте пізніше.
+    backend_down_message: Наразі у ArchivesSpace виникли технічні проблеми. Вибачте за незручності. 
+      Будь ласка, спробуйте пізніше.
     unexpected_error: Ваш запит не вдалося виконати через неочікувану помилку
     invalid_search_params: Недійсний параметр пошуку '%{значення}' для поля '%{поле}'
   page_actions: Дії на сторінці
@@ -48,12 +48,13 @@ uk:
     user_email: Ваша адреса електронної пошти
     date: Очікувана дата прибуття
     note: Примітка для персоналу
-    visit: Надіслати запит на відвідування %{назва_репозиторію} для перегляду <strong>%{архівний_об'єкт}</strong>
+    visit: Надіслати запит на відвідування %{назва_репозиторію} для перегляду 
+      <strong>%{архівний_об'єкт}</strong>
     required: необхідний
     user_name: Ваше ім'я
     submit: Надіслати запит
-    submitted: Дякуємо, ваш запит надіслано.   Невдовзі ви отримаєте електронного листа з копією вашого
-      запиту.
+    submitted: Дякуємо, ваш запит надіслано.   Невдовзі ви отримаєте електронного листа з копією 
+      вашого запиту.
     errors:
       name: Будь ласка, введіть своє ім'я
       email: Будь ласка, введіть дійсну адресу електронної пошти
@@ -155,7 +156,8 @@ uk:
     subjects_text_contain: <strong> предмет</strong> містить  <span class='searchterm'>%{кс}</span>
     keyword_contain: <strong>ключове слово(a)</strong>:<span class='searchterm'>%{кс}</span>
     notes_contain: <strong>нотатка</strong> містить<span class='searchterm'>%{кс}</span>
-    identifier_contain: <strong> ідентифікатор</strong> містить  <span class='searchterm'>%{кс}</span>
+    identifier_contain: <strong> ідентифікатор</strong> містить  <span 
+      class='searchterm'>%{кс}</span>
     in_repository: ' in <strong>%{ім''я}</strong>'
   search_sorting:
     desc: (за спаданням)
@@ -326,6 +328,10 @@ uk:
       go: Перейти до файлу
       additional: Додаткові версії файлів
       url_encoded_data: Дані, закодовані за допомогою URL-адреси
+      browse_number_digital_objects_in_collection:
+        one: Один
+        few: Мало хто
+        many: Багато
   top_container:
     _singular: Контейнер
     _plural: Контейнери
@@ -458,13 +464,24 @@ uk:
   pdf_error:
     location:
       location_title_page: Помилка сталася під час створення титульної сторінки.
-      location_resource: Помилка сталася під час створення розділів, пов’язаних із записом ресурсу, який
-        включає розділи «Зведена інформація», «Заголовки контрольованого доступу» та «Примітки».
+      location_resource: Помилка сталася під час створення розділів, пов’язаних із записом ресурсу, 
+        який включає розділи «Зведена інформація», «Заголовки контрольованого доступу» та 
+        «Примітки».
       location_archival_object: Помилка сталася під час створення інвентаризації колекції.
       location_footer: Помилка сталася під час створення нижнього колонтитула.
       location_toc: Помилка сталася під час створення змісту.
+      location_header: Помилка сталася під час створення заголовка.
     additional_info:
-      invalid_markup: Ця помилка може виникнути через недійсну розмітку, присутню в примітці або підзаписі.
+      invalid_markup: Ця помилка може виникнути через недійсну розмітку, присутню в примітці або 
+        підзаписі.
+    title: Під час створення цього PDF-файлу сталася помилка.
+    description: Вибачте, під час створення цього PDF-файлу сталася помилка. Ось діагностична 
+      інформація, яка допоможе визначити, що пішло не так.
+    headings:
+      location: Розташування помилки
+      message: Повідомлення про помилку
+      type: Тип помилки
+      additional_info: Додаткова інформація
   agent_notes:
     note_text: Примітка
     _singular: Примітка
@@ -495,6 +512,7 @@ uk:
     xlink_arcrole_attribute: Атрибут Xlink Arcrole
     file_version_xlink_actuate_attribute: Атрибут активації Xlink
     file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
   date_label:
     existence: Існування
     usage: Використання
@@ -505,3 +523,15 @@ uk:
     number_type: Тип числа
     ext: Додатковий телефонний номер
     number: Номер
+  footer:
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Надіслати відгук або
+      повідомити про проблему</a>
+    staff_interface: <a href="%{staff_url}">Інтерфейс для персоналу</a>
+    archivesspace_home: Відвідайте <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+  languages:
+    select: Виберіть мову
+    en: Англійська
+    es: Іспанська
+    fr: Французька
+    de: Німецька
+    ja: Японська

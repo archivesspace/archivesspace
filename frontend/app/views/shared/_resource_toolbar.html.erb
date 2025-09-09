@@ -99,44 +99,50 @@
                               :confirmation_msg => t("actions.transfer_confirm_message", :target => title_for_display)}
         %>
       <% end %>
-      <div class="btn-group dropdown" id="other-dropdown" style="display: none">
-        <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          <%= t('actions.more') %>
-        </button>
+      <%
+        show_more_button = false
 
-        <% other_shown = false %>
-        <ul class="dropdown-menu dropdown-menu-right">
-          <% if ['resource', 'archival_object'].include?(record_type) %>
-            <% other_shown = true %>
-            <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record}, :class => "dropdown-item" %></li>
-            <li><%= render_aspace_partial :partial => "date_calculator/toolbar_button", :locals => {:record => record}, :class => "dropdown-item" %></li>
-          <% end %>
-          <% if ['resource', 'digital_object'].include?(record_type) %>
-            <% if user_can?('update_assessment_record') %>
-              <% other_shown = true %>
-              <li><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => record.uri}, :class => "dropdown-item" %></li>
+        if ['resource', 'archival_object'].include?(record_type)
+          show_more_button = true
+        elsif ['resource', 'digital_object'].include?(record_type) && user_can?('update_assessment_record')
+          show_more_button = true
+        end
+      %>
+      <% if show_more_button %>
+        <div class="btn-group dropdown" id="other-dropdown">
+          <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <%= t('actions.more') %>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-right">
+            <% if ['resource', 'archival_object'].include?(record_type) %>
+              <li><%= render_aspace_partial :partial => "extent_calculator/toolbar_button", :locals => {:record => record}, :class => "dropdown-item" %></li>
+              <li><%= render_aspace_partial :partial => "date_calculator/toolbar_button", :locals => {:record => record}, :class => "dropdown-item" %></li>
             <% end %>
-          <% end %>
+            <% if ['resource', 'digital_object'].include?(record_type) %>
+              <% if user_can?('update_assessment_record') %>
+                <li><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => record.uri}, :class => "dropdown-item" %></li>
+              <% end %>
+            <% end %>
 
-          <% if @resource != nil %>
-            <li>
-              <%=
-                link_to t('bulk_archival_object_update_spreadsheet.title'),
-                {
-                  :controller => :bulk_archival_object_updater, :action => :download_form, :resource => @resource.uri
-                },
-                :class => "dropdown-item"
-              %>
-            </li>
-          <% end %>
+            <% if @resource != nil %>
+              <li>
+                <%=
+                  link_to t('bulk_archival_object_update_spreadsheet.title'),
+                  {
+                    :controller => :bulk_archival_object_updater, :action => :download_form, :resource => @resource.uri
+                  },
+                  :class => "dropdown-item"
+                %>
+              </li>
+            <% end %>
 
-          <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
-            <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %></li>
-          <% end %>
-        </ul>
-
-        <% if other_shown %><script>$('#other-dropdown').show();</script><% end %>
-      </div>
+            <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
+              <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
       <% if user_can?('suppress_archival_record') %>
         <% if record.suppressed %>

@@ -398,6 +398,8 @@ describe 'Accessions', js: true do
     select 'Function', from: 'Type'
     click_button 'Create and Link'
 
+    create(:subject)
+
     run_index_round
 
     click_on('Add Subject')
@@ -409,6 +411,8 @@ describe 'Accessions', js: true do
     within '#dropdownMenuSubjects' do
       click_on 'Browse'
     end
+
+    wait_for_ajax
 
     element = find('#linker-item', match: :first)
     element.click

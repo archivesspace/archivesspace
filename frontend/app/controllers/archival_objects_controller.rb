@@ -19,6 +19,11 @@ class ArchivalObjectsController < ApplicationController
       @archival_object.ref_id = nil
       @archival_object.instances = []
       @archival_object.position = params[:position]
+      @archival_object.notes.each do |note|
+        if note.is_a?(Hash)
+          note.delete('persistent_id')
+        end
+      end
 
       flash[:success] = t("archival_object._frontend.messages.duplicated", archival_object_display_string: title_for_display)
     else
