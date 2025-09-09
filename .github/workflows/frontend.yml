@@ -22,9 +22,9 @@ on:
           - 'all'
           - 'aa-af'
           - 'ag-az'
-          - 'b-c'
-          - 'd-l'
-          - 'm-q'
+          - 'b-h'
+          - 'i'
+          - 'j-q'
           - 'r'
           - 's-z'
           - 'models-controllers'
@@ -78,38 +78,38 @@ jobs:
       name: ag-az
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
-  frontend_features_b-c:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'b-c' || inputs.group-choice == '' }}
-    name: b-c
+  frontend_features_b-h:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'b-h' || inputs.group-choice == '' }}
+    name: b-h
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[b-c]*_spec.rb"
-      name: b-c
+        ./build/run frontend:test -Dpattern="spec/features/[b-h]*_spec.rb"
+      name: b-h
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
-  frontend_features_d-l:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'd-l' || inputs.group-choice == '' }}
-    name: d-l
+  frontend_features_i:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'i' || inputs.group-choice == '' }}
+    name: i
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[d-l]*_spec.rb"
-      name: d-l
+        ./build/run frontend:test -Dpattern="spec/features/i*_spec.rb"
+      name: i
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
 
-  frontend_features_m-q:
-    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'm-q' || inputs.group-choice == '' }}
-    name: m-q
+  frontend_features_j-q:
+    if: ${{ inputs.group-choice == 'all' || inputs.group-choice == 'j-q' || inputs.group-choice == '' }}
+    name: j-q
     uses: ./.github/workflows/common-frontend.yml
     secrets: inherit
     with:
       run-cmd: |
-        ./build/run frontend:test -Dpattern="spec/features/[m-q]*_spec.rb"
-      name: m-q
+        ./build/run frontend:test -Dpattern="spec/features/[j-q]*_spec.rb"
+      name: j-q
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
 

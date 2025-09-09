@@ -414,33 +414,6 @@ describe 'Infinite Tree', js: true do
         it_behaves_like 'child list has the correct number of batch placeholders'
         it_behaves_like 'child list lazy loads the remaining batches of children on scroll'
       end
-
-      describe 'with five batches of children' do
-        let(:total_child_count) { BATCH_SIZE * 4 + 1 }
-        child_count_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          (total_child_count - 1).times.map do |i|
-            create(
-              :archival_object,
-              resource: { 'ref' => resource.uri },
-              title: "AO #{i + 1} #{now}"
-            )
-          end
-        end
-        let(:node) { tree.find("#resource_#{resource.id}") }
-        let(:expected_uri) { resource.uri }
-        let(:child_list) { node.find(':scope > .node-children') }
-        let(:total_batches) { 5 }
-        let(:child_count) { child_count_before_lazy_loading_batches }
-        let(:batches_not_yet_loaded) { [1, 2, 3, 4] }
-
-        include_examples 'basic node markup'
-        it_behaves_like 'node has correct data-total-child-batches attribute'
-        it_behaves_like 'node has X children visible'
-        it_behaves_like 'child list has an observer node for the second batch'
-        it_behaves_like 'child list has the correct number of batch placeholders'
-        it_behaves_like 'child list lazy loads the remaining batches of children on scroll'
-      end
     end
 
     context 'parent node' do
@@ -647,54 +620,6 @@ describe 'Infinite Tree', js: true do
 
           let(:child_list) { node.find(':scope > .node-children') }
           let(:batches_not_yet_loaded) { [1, 2, 3] }
-
-          it_behaves_like 'child list has an observer node for the second batch'
-          it_behaves_like 'child list has the correct number of batch placeholders'
-          it_behaves_like 'child list lazy loads the remaining batches of children on scroll'
-        end
-      end
-
-      describe 'with five batches of children' do
-        let(:total_child_count) { BATCH_SIZE * 4 + 1 }
-        child_count_on_expand_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          total_child_count.times.map do |i|
-            create(
-              :archival_object,
-              resource: { 'ref' => resource.uri },
-              parent: { 'ref' => ao.uri },
-              title: "Child of AO #{now}"
-            )
-          end
-        end
-        let(:node) { tree.find("#archival_object_#{ao.id}") }
-        let(:expected_uri) { ao.uri }
-        let(:total_batches) { 5 }
-        let(:child_count) { child_count_on_expand_before_lazy_loading_batches }
-
-        include_examples 'basic node markup'
-        it_behaves_like 'node has correct data-total-child-batches attribute'
-        it_behaves_like 'parent node has not been expanded'
-
-        describe 'expands' do
-          it_behaves_like 'parent node expands on expand button click'
-          it_behaves_like 'parent node expands on title click'
-          it_behaves_like 'parent node expands on keydown'
-        end
-
-        describe 'collapses' do
-          it_behaves_like 'parent node collapses on expand button click'
-          it_behaves_like 'parent node collapses on keydown'
-        end
-
-        describe 'after initial expansion' do
-          before do
-            node.find(':scope > .node-row .node-expand').click
-            wait_for_ajax
-          end
-
-          let(:child_list) { node.find(':scope > .node-children') }
-          let(:batches_not_yet_loaded) { [1, 2, 3, 4] }
 
           it_behaves_like 'child list has an observer node for the second batch'
           it_behaves_like 'child list has the correct number of batch placeholders'

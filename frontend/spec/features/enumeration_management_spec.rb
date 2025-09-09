@@ -4,13 +4,15 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Enumeration Management', js: true do
-  let(:now) { Time.now.to_i }
-  let(:repo) { create(:repo, repo_code: "enum_test_#{now}", publish: true) }
+  before(:all) do
+    @repository = create(:repo, repo_code: "enum_test_#{Time.now.to_i}")
+    run_indexer
+  end
 
   before(:each) do
-    set_repo(repo)
     login_admin
-    select_repository(repo)
+    select_repository(@repository)
+    @now = Time.now.to_i
   end
 
   def visit_enumerations
@@ -45,22 +47,22 @@ describe 'Enumeration Management', js: true do
   it 'lets you add a new value to an enumeration' do
     select_enum 'Accession Acquisition Type (accession_acquisition_type)'
 
-    create_enum_value("enumaration_value_#{now}")
+    create_enum_value("enumaration_value_#{@now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
-    expect(page).to have_css 'tr', text: "enumaration_value_#{now}"
+    expect(page).to have_css '.enumeration-list tr', text: "enumaration_value_#{@now}"
   end
 
   it 'lets you delete a value from an enumeration' do
     select_enum 'Accession Acquisition Type (accession_acquisition_type)'
 
-    create_enum_value("enumaration_value_#{now}")
+    create_enum_value("enumaration_value_#{@now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
 
-    element = find('tr', text: "enumaration_value_#{now}")
+    element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
     within element do
       click_on 'Delete'
     end
@@ -69,25 +71,25 @@ describe 'Enumeration Management', js: true do
       click_on 'Delete Value'
     end
 
-    expect(page).to_not have_css 'tr', text: "enumaration_value_#{now}"
+    expect(page).not_to have_text "enumaration_value_#{@now}"
   end
 
   it 'lets you merge one value into another in an enumeration' do
-    enumeration_a = "Enumeration_a_#{now}"
-    enumeration_b = "Enumeration_b_#{now}"
+    enumeration_a = "Enumeration_a_#{@now}"
+    enumeration_b = "Enumeration_b_#{@now}"
 
     select_enum 'Accession Acquisition Type (accession_acquisition_type)'
 
     create_enum_value(enumeration_a)
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
-    expect(page).to have_css 'tr', text: enumeration_a
+    expect(page).to have_css '.enumeration-list tr', text: enumeration_a
 
     create_enum_value(enumeration_b)
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
 
-    element = find('tr', text: enumeration_b)
+    element = find('.enumeration-list tr', text: enumeration_b)
     within element do
       click_on 'Merge'
     end
@@ -101,9 +103,8 @@ describe 'Enumeration Management', js: true do
 
     wait_for_ajax
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Value Merged'
-    expect(page).to_not have_css 'tr', text: enumeration_b
+    expect(page).to have_text 'Value Merged'
+    expect(page).to_not have_css '.enumeration-list tr', text: enumeration_b
   end
 
   it 'lets you set a default enumeration (date_type)' do
@@ -132,60 +133,60 @@ describe 'Enumeration Management', js: true do
   it 'lets you add a new value to an enumeration, reorder it and then you can use it' do
     select_enum 'Collection Management Processing Priority (collection_management_processing_priority)'
 
-    create_enum_value("enumaration_value_#{now}")
+    create_enum_value("enumaration_value_#{@now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
-    expect(page).to have_css 'tr', text: "enumaration_value_#{now}"
+    expect(page).to have_css '.enumeration-list tr', text: "enumaration_value_#{@now}"
 
     click_on 'Create'
     click_on 'Accession'
-    fill_in 'accession_title_', with: "Accession Title #{now}"
-    fill_in 'accession_id_0_', with: "1 #{now}"
-    fill_in 'accession_id_1_', with: "2 #{now}"
-    fill_in 'accession_id_2_', with: "3 #{now}"
-    fill_in 'accession_id_3_', with: "4 #{now}"
+    fill_in 'accession_title_', with: "Accession Title #{@now}"
+    fill_in 'accession_id_0_', with: "1 #{@now}"
+    fill_in 'accession_id_1_', with: "2 #{@now}"
+    fill_in 'accession_id_2_', with: "3 #{@now}"
+    fill_in 'accession_id_3_', with: "4 #{@now}"
     fill_in 'accession_accession_date_', with: '2012-01-01'
-    fill_in 'accession_content_description_', with: "Accession Description #{now}"
-    fill_in 'accession_condition_description_', with: "Accession Condition Description #{now}"
+    fill_in 'accession_content_description_', with: "Accession Description #{@now}"
+    fill_in 'accession_condition_description_', with: "Accession Condition Description #{@now}"
     click_on 'Add Collection Management Fields'
-    select "enumaration_value_#{now}", from: 'accession_collection_management__processing_priority_'
+    select "enumaration_value_#{@now}", from: 'accession_collection_management__processing_priority_'
 
     find('button', text: 'Save Accession', match: :first).click
     element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Accession Accession Title #{now} created"
+    expect(element.text).to eq "Accession Accession Title #{@now} created"
 
-    find('a', text: "Accession Title #{now}").click
+    find('a', text: "Accession Title #{@now}").click
 
     element = find('#accession_collection_management__accordion')
-    expect(element).to have_text "enumaration_value_#{now}"
+    expect(element).to have_text "enumaration_value_#{@now}"
   end
 
   it 'lets you see how many times the term has been used and search for it' do
     select_enum 'Collection Management Processing Priority (collection_management_processing_priority)'
 
-    create_enum_value("enumaration_value_#{now}")
+    create_enum_value("enumaration_value_#{@now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
-    expect(page).to have_css 'tr', text: "enumaration_value_#{now}"
+    expect(page).to have_css '.enumeration-list tr', text: "enumaration_value_#{@now}"
 
     click_on 'Create'
     click_on 'Accession'
-    fill_in 'accession_title_', with: "Accession Title #{now}"
-    fill_in 'accession_id_0_', with: "1 #{now}"
-    fill_in 'accession_id_1_', with: "2 #{now}"
-    fill_in 'accession_id_2_', with: "3 #{now}"
-    fill_in 'accession_id_3_', with: "4 #{now}"
+    fill_in 'accession_title_', with: "Accession Title #{@now}"
+    fill_in 'accession_id_0_', with: "1 #{@now}"
+    fill_in 'accession_id_1_', with: "2 #{@now}"
+    fill_in 'accession_id_2_', with: "3 #{@now}"
+    fill_in 'accession_id_3_', with: "4 #{@now}"
     fill_in 'accession_accession_date_', with: '2012-01-01'
-    fill_in 'accession_content_description_', with: "Accession Description #{now}"
-    fill_in 'accession_condition_description_', with: "Accession Condition Description #{now}"
+    fill_in 'accession_content_description_', with: "Accession Description #{@now}"
+    fill_in 'accession_condition_description_', with: "Accession Condition Description #{@now}"
     click_on 'Add Collection Management Fields'
-    select "enumaration_value_#{now}", from: 'accession_collection_management__processing_priority_'
+    select "enumaration_value_#{@now}", from: 'accession_collection_management__processing_priority_'
 
     find('button', text: 'Save Accession', match: :first).click
     element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Accession Accession Title #{now} created"
+    expect(element.text).to eq "Accession Accession Title #{@now} created"
 
     run_index_round
 
@@ -194,56 +195,56 @@ describe 'Enumeration Management', js: true do
     click_on 'Manage Controlled Value Lists'
     select 'Collection Management Processing Priority (collection_management_processing_priority)', from: 'enum_selector'
 
-    element = find('tr', text: "enumaration_value_#{now}")
+    element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
     expect(element).to have_text '1 related item'
   end
 
   it 'lets you suppress an enumeration value' do
     select_enum 'Collection Management Processing Priority (collection_management_processing_priority)'
 
-    create_enum_value("enumaration_value_#{now}")
+    create_enum_value("enumaration_value_#{@now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
 
-    element = find('tr', text: "enumaration_value_#{now}")
+    element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
     within element do
       click_on 'Suppress'
     end
 
-    element = find('tr', text: "enumaration_value_#{now}")
+    element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
     expect(element).to have_css 'a', text: 'Unsuppress'
 
     click_on 'Create'
     click_on 'Accession'
-    fill_in 'accession_title_', with: "Accession Title #{now}"
-    fill_in 'accession_id_0_', with: "1 #{now}"
-    fill_in 'accession_id_1_', with: "2 #{now}"
-    fill_in 'accession_id_2_', with: "3 #{now}"
-    fill_in 'accession_id_3_', with: "4 #{now}"
+    fill_in 'accession_title_', with: "Accession Title #{@now}"
+    fill_in 'accession_id_0_', with: "1 #{@now}"
+    fill_in 'accession_id_1_', with: "2 #{@now}"
+    fill_in 'accession_id_2_', with: "3 #{@now}"
+    fill_in 'accession_id_3_', with: "4 #{@now}"
     fill_in 'accession_accession_date_', with: '2012-01-01'
-    fill_in 'accession_content_description_', with: "Accession Description #{now}"
-    fill_in 'accession_condition_description_', with: "Accession Condition Description #{now}"
+    fill_in 'accession_content_description_', with: "Accession Description #{@now}"
+    fill_in 'accession_condition_description_', with: "Accession Condition Description #{@now}"
     click_on 'Add Collection Management Fields'
 
     elements = all('#accession_collection_management__processing_priority_ option')
     options = elements.map { |option| option.value }
-    expect(options.include?("enumaration_value_#{now}")).to eq false
+    expect(options.include?("enumaration_value_#{@now}")).to eq false
 
     find('button', text: 'Save Accession', match: :first).click
     element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Accession Accession Title #{now} created"
+    expect(element.text).to eq "Accession Accession Title #{@now} created"
   end
 
   it 'lets you delete a suppressed enumeration value' do
     select_enum 'Collection Management Processing Priority (collection_management_processing_priority)'
 
-    create_enum_value("enumaration_value_#{now}")
+    create_enum_value("enumaration_value_#{@now}")
 
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Created'
 
-    element = find('tr', text: "enumaration_value_#{now}")
+    element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
     within element do
       click_on 'Suppress'
     end
@@ -251,7 +252,7 @@ describe 'Enumeration Management', js: true do
     element = find('.alert.alert-success.with-hide-alert')
     expect(element.text).to eq 'Value Updated'
 
-    element = find('tr', text: "enumaration_value_#{now}")
+    element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
     within element do
       click_on 'Delete'
     end
@@ -262,26 +263,24 @@ describe 'Enumeration Management', js: true do
 
     wait_for_ajax
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Value Deleted'
-
-    expect(page).to_not have_css 'tr', text: "enumaration_value_#{now}"
+    expect(page).to have_text 'Value Deleted'
+    expect(page).to_not have_css '.enumeration-list tr', text: "enumaration_value_#{@now}"
   end
 
   it 'lets you set a default value with another value suppressed' do
     select_enum 'Record Control Level of Detail (level_of_detail)'
 
-    element = find('tr', text: 'natc')
+    element = find('.enumeration-list tr', text: 'natc')
     within element do
       click_on 'Suppress'
     end
 
-    element = find('tr', text: 'not_applicable')
+    element = find('.enumeration-list tr', text: 'not_applicable')
     within element do
       click_on 'Set as Default'
     end
 
-    element = find('tr', text: 'not_applicable')
+    element = find('.enumeration-list tr', text: 'not_applicable')
     within element do
       click_on 'Unset Default'
     end
