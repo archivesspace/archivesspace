@@ -3,12 +3,15 @@
    read_only = false if read_only.blank?
 %>
 
-<%= javascript_include_tag "InfiniteTreeInitialContext.js" %>
+<%= javascript_include_tag "InfiniteTreeRouter2.js" %>
 <%= javascript_include_tag "InfiniteTree.js" %>
 <%= javascript_include_tag "InfiniteTreeResizer.js" %>
 <%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
 <%= javascript_include_tag "InfiniteTreeIds.js" %>
 
+<% if !read_only %>
+  <%= render_aspace_partial :partial => "shared/infinite_tree_toolbar" %>
+<% end %>
 <div
   id="infinite-tree-container"
   data-resource-uri="<%= @resource.uri %>"
@@ -87,8 +90,6 @@
 <script>
 const rootUri = "<%= @resource.uri %>";
 
-const initialContext = new InfiniteTreeInitialContext(rootUri).context;
-
 // ANW-2322 Temporarily copy and adapt ENUMERATION_TRANSLATIONS from largetree.js
 // for use in a .js file (not .js.erb)
 <%
@@ -122,7 +123,7 @@ const EnumerationTranslations2 = {
 };
 
 const infiniteTree = new InfiniteTree(
-  initialContext,
+  { rootUri },
   "<%= Rails.configuration.infinite_tree_batch_size %>",
   {
     sep: "<%= I18n.t("resource.identifier_separator") %>",
@@ -131,5 +132,7 @@ const infiniteTree = new InfiniteTree(
   }
 );
 
-const infiniteTreeRecordPane = new InfiniteTreeRecordPane(initialContext);
+const infiniteTreeRecordPane = new InfiniteTreeRecordPane();
+
+const infiniteTreeRouter = new InfiniteTreeRouter2({ rootUri });
 </script>

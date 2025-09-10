@@ -7,10 +7,8 @@
   class InfiniteTree {
     /**
      * @constructor
-     * @param {Object} initialContext - The data for the "current node"
-     * @param {boolean} initialContext.isRoot - Whether the initial selection is the root
-     * @param {string} initialContext.locationHash - window.location.hash
-     * @param {string} initialContext.rootUri - The URI of the root record, e.g. "/repositories/1/resources/3"
+     * @param {Object} options - The options object
+     * @param {string} options.rootUri - The URI of the root record, e.g. "/repositories/1/resources/3"
      * @param {number} batchSize - The number of nodes per batch of children
      * @param {Object} i18n - The i18n object for use in a non .js.erb file
      * @param {string} i18n.sep - The identifier separator
@@ -18,23 +16,21 @@
      * @param {Object} i18n.enumerations - The enumeration translations object
      * @returns {InfiniteTree} - InfiniteTree instance
      */
-    constructor(initialContext, batchSize, i18n) {
+    constructor(options, batchSize, i18n) {
+      const { rootUri } = options;
+
       this.BATCH_SIZE = batchSize;
       this.rootMeta = {
-        uri: initialContext.rootUri,
-        ...InfiniteTreeIds.uriToParts(initialContext.rootUri),
+        uri: rootUri,
+        ...InfiniteTreeIds.uriToParts(rootUri),
       };
 
       this.container = document.querySelector('#infinite-tree-container');
       this.recordPaneEl = document.querySelector('#infinite-tree-record-pane');
 
-      this.fetch = new InfiniteTreeFetch(initialContext.rootUri);
+      this.fetch = new InfiniteTreeFetch(rootUri);
 
-      this.markup = new InfiniteTreeMarkup(
-        initialContext.rootUri,
-        batchSize,
-        i18n
-      );
+      this.markup = new InfiniteTreeMarkup(rootUri, batchSize, i18n);
 
       new InfiniteTreeResizer(this.container);
 
@@ -54,11 +50,17 @@
         else if (e.target.closest('.record-title')) this.#titleClickHandler(e);
       });
 
-      if (initialContext.isRoot) {
-        this.renderRoot();
-      } else {
-        this.loadNodeWithAncestors(initialContext.locationHash);
-      }
+      this.container.addEventListener('infiniteTreeRouter:hashchange', e => {
+        const { targetHash } = e.detail;
+
+        if (targetHash === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
+          this.renderRoot().then(rootNodeElement => {
+            this.setCurrentNode(rootNodeElement);
+          });
+        } else {
+          this.loadNodeWithAncestors(targetHash);
+        }
+      });
     }
 
     /**
@@ -71,7 +73,7 @@
       const rootNodeFrag = this.markup.rootNode(rootData);
       const rootNodeElement = rootNodeFrag.querySelector('li');
 
-      rootNodeElement.classList.add('current');
+      // rootNodeElement.classList.add('current');
 
       if (rootData.child_count > 0) {
         await this.#renderInitialBatchForNode(rootNodeElement, rootData);
@@ -79,7 +81,14 @@
 
       rootListElement.appendChild(rootNodeFrag);
 
+      this.container.replaceChildren(); // In case there is some possible future use case where `renderRoot` is called without a page refresh
+
       this.container.appendChild(rootListFrag);
+
+      return rootNodeElement;
+      // Removing the .current class add above and returning the root node element here
+      // allows optional setting of current node later, ie: if the child node of interest
+      // via the location hash doesn't exist, then load the root w/ no current node
     }
 
     /**

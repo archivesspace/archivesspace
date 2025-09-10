@@ -1,35 +1,15 @@
-//= require InfiniteTreeIds
-
 (function (exports) {
   class InfiniteTreeRecordPane {
-    /**
-     * @constructor
-     * @param {Object} initialContext - The data for the initial "current node" to load
-     * @param {boolean} initialContext.isRoot - Whether the initial selection is the root
-     * @param {string} initialContext.locationHash - The document's URI fragment at page load
-     * @param {string} initialContext.rootUri - The backend URI of the root record
-     * @returns {InfiniteTreeRecordPane}
-     */
-    constructor(initialContext) {
+    constructor() {
       this.container = document.querySelector('#infinite-tree-record-pane');
 
       this.container.addEventListener('infiniteTree:nodeSelect', e => {
         this.loadRecord(e.detail.requestPath);
       });
-
-      if (initialContext.isRoot) {
-        this.loadRecord(
-          InfiniteTreeIds.backendUriToFrontendUri(initialContext.rootUri)
-        );
-      } else {
-        this.loadRecord(
-          InfiniteTreeIds.locationHashToFrontendUri(initialContext.locationHash)
-        );
-      }
     }
 
     /**
-     * @param {string} requestPath - The prefixed frontend URI to the record, e.g. "/resources/123"
+     * @param {string} requestPath - The app-prefixed frontend URI to the record, e.g. "/resources/123"
      */
     async loadRecord(requestPath) {
       const url = requestPath + '?inline=true';
@@ -58,7 +38,7 @@
     }
 
     /**
-     * Loads content from the given URL and returns the HTML
+     * Returns HTML fetched from the given URL
      * @param {string} url - The URL to load
      * @returns {Promise<string>} - The HTML content
      */
