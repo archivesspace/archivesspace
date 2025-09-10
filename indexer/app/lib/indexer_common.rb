@@ -31,6 +31,24 @@ class IndexerCommon
 
   @@paused_until = Time.now
 
+  # Solr stores deletes and applies them at commit time.  If you go a long time
+  # between commits, this can cause OOM issues and/or long commit times as
+  # thousands of deletes are finally applied.
+  #
+  # To avoid this, we'll force a Solr commit when we hit a certain number of deletes.
+  #
+  # Fun fact: our solrconfig.xml has a <maxPendingDeletes> set, but it doesn't
+  # appear to do anything anymore.  There's a JIRA suggesting the feature did
+  # exist at some point: https://issues.apache.org/jira/browse/SOLR-310.
+  #
+  # So we're essentially reimplementing that feature here.
+  MAX_PENDING_DELETES = AppConfig.has_key?(:indexer_max_pending_deletes) ? AppConfig[:indexer_max_pending_deletes] : 10000
+
+  # Our best estimate of the number of deletes we have queued up.  It's an
+  # estimate because sometimes we delete by query and don't know exactly how
+  # many hits there will be.
+  @@pending_delete_estimate = java.util.concurrent.atomic.AtomicLong.new(0)
+
   def self.add_indexer_initialize_hook(&block)
     @@init_hooks << block
   end
@@ -1107,10 +1125,53 @@ class IndexerCommon
       hook.call(records, delete_request)
     end
 
+    @@pending_delete_estimate.addAndGet(delete_request.fetch(:delete).length)
+
+    # In delete_request, we have an array of individual requests like:
+    #
+    #   {:delete=>
+    #     [{"id"=>"/some/uri/123"},
+    #      {"query"=>"parent_id:\"/some/uri/123\""},
+    #      {"id"=>"/some/uri/456"},
+    #      {"query"=>"parent_id:\"/some/uri/456\""},
+    #      ...]}
+    #
+    # And since delete hooks assume this format, I didn't want to change it.
+    # But...
+    #
+    # Solr processes each delete one at a time, at commit time, on a single
+    # thread.  The id deletes are quite cheap, but the query-based deletes take
+    # substantially longer (20ms+) because each one looks up the schema, gets an
+    # index reader, opens a searcher, parses a query, etc..  Solr performs no
+    # batching internally.
+    #
+    # So, we group them into boolean clauses here to amortize the cost of all of
+    # that.
+
+    id_deletes = delete_request.fetch(:delete).select {|r| r['id']}
+    grouped_queries = delete_request
+                        .fetch(:delete)
+                        .map {|r| r['query']}
+                        .compact
+                        .each_slice(512)
+                        .map do |clause_group|
+      {'query' => clause_group.join(" OR ")}
+    end
+
+    delete_request = {:delete => id_deletes + grouped_queries}
+
     req.body = delete_request.to_json
 
     response = do_http_request(solr_url, req)
 
+    # If there are lots of pending deletes, fire a commit to clear them out
+    # before they get too numerous.  See the comment on MAX_PENDING_DELETES for
+    # more detail.
+    pending_deletes = @@pending_delete_estimate.get
+    if pending_deletes >= MAX_PENDING_DELETES && @@pending_delete_estimate.compareAndSet(pending_deletes, 0)
+      Log.info "Sending soft commit to apply deletes to Solr"
+      send_commit(:soft)
+    end
 
     if response.code == '200'
       Log.info "Deleted #{records.length} documents: #{response}"
