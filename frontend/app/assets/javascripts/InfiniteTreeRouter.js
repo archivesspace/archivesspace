@@ -1,29 +1,41 @@
 //= require InfiniteTreeIds
 
 (function (exports) {
-  class InfiniteTreeRouter2 {
+  class InfiniteTreeRouter {
     constructor({ rootUri }) {
       this.rootUri = rootUri;
       this.currentHash = window.location.hash;
       this.inflight = null;
       this.treeContainer = document.querySelector('#infinite-tree-container');
 
+      this.treeContainer.addEventListener('infiniteTree:titleClick', e => {
+        const { node } = e.detail;
+        this.setHash(InfiniteTreeIds.uriToLocationHash(node.dataset.uri));
+        this.dispatchNodeSelect(window.location.hash);
+      });
+
       this.init();
     }
 
     init() {
-      let targetHash;
-
       if (this.currentHash === '') {
-        targetHash = InfiniteTreeIds.uriToLocationHash(this.rootUri);
-        this.setHash(targetHash);
-      } else {
-        targetHash = this.currentHash;
-      }
+        const fragment = InfiniteTreeIds.treeLinkUrl(this.rootUri);
 
+        this.setHash(fragment);
+
+        this.dispatchNodeSelect(window.location.hash);
+      } else {
+        this.dispatchNodeSelect(this.currentHash);
+      }
+    }
+
+    dispatchNodeSelect(hash) {
+      const fragment = hash && hash.startsWith('#') ? hash : `#${hash}`;
       this.treeContainer.dispatchEvent(
-        new CustomEvent('infiniteTreeRouter:hashchange', {
-          detail: { targetHash },
+        new CustomEvent('infiniteTreeRouter:nodeSelect', {
+          detail: {
+            targetHash: fragment,
+          },
         })
       );
     }
@@ -45,5 +57,5 @@
     }
   }
 
-  exports.InfiniteTreeRouter2 = InfiniteTreeRouter2;
+  exports.InfiniteTreeRouter = InfiniteTreeRouter;
 })(window);

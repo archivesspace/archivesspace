@@ -5,6 +5,9 @@
 
 (function (exports) {
   class InfiniteTree {
+    static EVENT_TYPE_NODE_SELECT = 'infiniteTree:nodeSelect';
+    static EVENT_TYPE_TITLE_CLICK = 'infiniteTree:titleClick';
+
     /**
      * @constructor
      * @param {Object} options - The options object
@@ -50,12 +53,23 @@
         else if (e.target.closest('.record-title')) this.#titleClickHandler(e);
       });
 
-      this.container.addEventListener('infiniteTreeRouter:hashchange', e => {
+      this.container.addEventListener('infiniteTreeRouter:nodeSelect', e => {
         const { targetHash } = e.detail;
 
+        const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(targetHash);
+        const selectedNode = this.container.querySelector(`#${nodeElementId}`);
+
+        if (selectedNode) {
+          // Node already exists, we are likely responding to a title click that was confirmed by the router + dirty guard
+          this.selectNode(selectedNode);
+
+          return;
+        }
+
+        // Treat this event as the initial page load
         if (targetHash === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
           this.renderRoot().then(rootNodeElement => {
-            this.setCurrentNode(rootNodeElement);
+            this.selectNode(rootNodeElement);
           });
         } else {
           this.loadNodeWithAncestors(targetHash);
@@ -73,8 +87,6 @@
       const rootNodeFrag = this.markup.rootNode(rootData);
       const rootNodeElement = rootNodeFrag.querySelector('li');
 
-      // rootNodeElement.classList.add('current');
-
       if (rootData.child_count > 0) {
         await this.#renderInitialBatchForNode(rootNodeElement, rootData);
       }
@@ -86,9 +98,9 @@
       this.container.appendChild(rootListFrag);
 
       return rootNodeElement;
-      // Removing the .current class add above and returning the root node element here
-      // allows optional setting of current node later, ie: if the child node of interest
-      // via the location hash doesn't exist, then load the root w/ no current node
+      // Removing the .selected class add above and returning the root node element here
+      // allows optional setting of selected node later, ie: if the child node of interest
+      // via the location hash doesn't exist, then load the root w/ no selected node
     }
 
     /**
@@ -96,8 +108,8 @@
      * @param {string} locationHash - The location hash representing the node to render
      */
     loadNodeWithAncestors(locationHash) {
-      const nodeId = InfiniteTreeIds.parseTreeId(locationHash).id;
       const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(locationHash);
+      const nodeId = InfiniteTreeIds.parseTreeId(nodeElementId).id;
 
       this.#fetchAncestorBatches(nodeId)
         .then(data => {
@@ -109,24 +121,19 @@
     }
 
     /**
-     * Sets the current node and notifies the record pane
-     * @param {HTMLElement} node - The node to set as current
+     * Sets the selected node, expanding it if collapsed, and notifies the record pane
+     * @param {HTMLElement} node - The node to select corresponding to the record pane
      */
-    setCurrentNode(node) {
-      const old = this.container.querySelector('.current');
-      if (old) old.classList.remove('current');
+    selectNode(node) {
+      const old = this.container.querySelector('.selected');
+      if (old) old.classList.remove('selected');
 
-      node.classList.add('current');
+      node.classList.add('selected');
 
-      const nodeSelectEvent = new CustomEvent('infiniteTree:nodeSelect', {
-        detail: {
-          requestPath: AS.app_prefix(
-            node.dataset.uri.split('/').slice(-2).join('/')
-          ),
-        },
-      });
+      if (node.getAttribute('aria-expanded') === 'false')
+        this.#expandNode(node);
 
-      this.recordPaneEl.dispatchEvent(nodeSelectEvent);
+      this.#dispatchNodeSelectEvent(node);
     }
 
     /**
@@ -476,7 +483,7 @@
       );
 
       if (nodeOfInterest) {
-        this.setCurrentNode(nodeOfInterest);
+        this.selectNode(nodeOfInterest);
         nodeOfInterest.scrollIntoView({ behavior: 'instant', block: 'center' });
       }
 
@@ -575,12 +582,11 @@
      * @param {Event} e - The click event
      */
     #titleClickHandler(e) {
+      e.preventDefault();
+
       const node = e.target.closest('.node');
 
-      this.setCurrentNode(node);
-
-      if (node.getAttribute('aria-expanded') === 'false')
-        this.#expandNode(node);
+      this.#dispatchTitleClickEvent(node);
     }
 
     /**
@@ -627,6 +633,41 @@
         : prevSiblingIsAPlaceholder
         ? +el.previousElementSibling.getAttribute('data-batch-placeholder')
         : null;
+    }
+
+    /**
+     * Dispatches the node select event for the record pane
+     * @param {HTMLElement} node - The selected node
+     */
+    #dispatchNodeSelectEvent(node) {
+      const target = this.recordPaneEl;
+      const type = InfiniteTree.EVENT_TYPE_NODE_SELECT;
+      const requestPath = AS.app_prefix(
+        node.dataset.uri.split('/').slice(-2).join('/')
+      ); // ie: /repositories/2/archival_objects/4 --> /archival_objects/4
+
+      this.#dispatchEvent(target, type, { requestPath });
+    }
+
+    /**
+     * Dispatches the title click event for the router
+     * @param {HTMLElement} node - The node whose title was clicked
+     */
+    #dispatchTitleClickEvent(node) {
+      const target = this.container;
+      const type = InfiniteTree.EVENT_TYPE_TITLE_CLICK;
+
+      this.#dispatchEvent(target, type, { node });
+    }
+
+    /**
+     * Dispatches a custom event
+     * @param {HTMLElement} target - The target element to dispatch the event on
+     * @param {string} type - The event type
+     * @param {Object} detail - The detail object to include in the event
+     */
+    #dispatchEvent(target, type, detail) {
+      target.dispatchEvent(new CustomEvent(type, { detail }));
     }
   }
 
