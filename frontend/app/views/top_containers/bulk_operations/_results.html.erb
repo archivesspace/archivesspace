@@ -99,15 +99,15 @@
             </td>
           <% elsif field == 'exported_to_ils' %>
             <% if container_json['exported_to_ils'].blank? %>
-              <td><%= t('top_container_mgmt.not_exported') %></td>
+              <td><%= t('search.top_container_mgmt.not_exported_to_ils') %></td>
             <% else %>
-              <td><%= t('top_container_mgmt.exported_to_ils') %></td>
+              <td><%= t('search.top_container_mgmt.exported_to_ils') %></td>
             <% end %>
           <% elsif field == 'restricted' %>
             <% if container_json['restricted'] %>
-              <td><%= t('top_container_management.restricted') %></td>
+              <td><%= t('search.top_container_mgmt.restricted') %></td>
             <% else %>
-              <td><%= t('top_container_management.not_restricted') %></td>
+              <td><%= t('search.top_container_mgmt.not_restricted') %></td>
             <% end %>
           <% else %>
               <td class="top-container-<%=field%>"> <%= container_json[field] %> </td>
