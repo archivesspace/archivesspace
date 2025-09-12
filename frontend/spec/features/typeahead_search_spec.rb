@@ -25,6 +25,7 @@ describe 'Resources Form', js: true do
       expect(page).to have_text @resource.title
 
       click_on 'Add Subject'
+      wait_for_ajax
     end
 
     it 'displays the correct icon and selects the option for cultural_context term_type, and checks the edit and show pages include it after save' do

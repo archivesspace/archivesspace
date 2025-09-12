@@ -1,0 +1,351 @@
+:root {
+  --tree-indent-width: 1.5rem;
+  --tree-line-width: 1px;
+  --tree-indent-unit-width: calc(
+    var(--tree-indent-width) + var(--tree-line-width)
+  );
+
+  // Original largetree column widths
+  --tree-column-width-sm: 8%;
+  --tree-column-width-md: 18%;
+  --tree-column-width-lg: 28%;
+  --tree-column-width-xl: 46%;
+  --tree-column-title-width: var(--tree-column-width-xl);
+  --tree-column-container-width: var(--tree-column-width-lg);
+  --tree-column-identifier-width: calc(
+    var(--tree-column-width-lg) - var(--tree-column-width-md)
+  );
+
+  // ANW-2251 Yet another color scheme in addition to variables.scss and common.scss
+  // for parity with original largetree
+  // Grays from lightest to darkest
+  --gray-0: white;
+  --gray-100: #fafafa;
+  --gray-150: #f1f1f1;
+  --gray-200: #eee;
+  --gray-500: #555;
+
+  // Blues from lightest to darkest
+  --blue-50: #effaff;
+  --blue-500: #007bff;
+  --blue-800: #004080;
+  --blue-950: #001f4d;
+
+  // Semantic usage
+  --tree-bg-subtle: var(--gray-150);
+  --tree-container-border: var(--gray-200);
+  --tree-container-bg: var(--gray-200);
+  --tree-line-color: var(--gray-0);
+  --tree-row-even-bg: var(--gray-100);
+  --tree-row-hover-bg: var(--gray-100);
+  --tree-current-bg: var(--blue-50);
+  --tree-expand-text: var(--gray-500);
+  --tree-current-border: var(--blue-500);
+  --tree-link-hover: var(--blue-800);
+  --tree-expand-hover: var(--blue-950);
+  --tree-blockout-overlay: rgba(0, 0, 0, 0.2);
+}
+
+#infinite-tree-container {
+  height: 100px;
+  margin: 0 1rem;
+  border: 1px solid var(--tree-container-border);
+  background-color: var(--tree-container-bg);
+  overflow-y: auto;
+}
+
+.infinite-tree,
+.node-children {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.infinite-tree {
+  font-size: 1rem;
+  background-color: $white;
+
+  &.has-identifier-column {
+    --tree-column-container-width: var(--tree-column-width-md);
+  }
+}
+
+.root.node {
+  > .node-row > .node-body {
+    font-weight: normal;
+    background-color: var(--tree-bg-subtle);
+  }
+
+  > .node-children > .node:last-child > .node-row > .node-body {
+    border-bottom: var(--tree-line-width) solid var(--tree-line-color);
+
+    /*
+      The border-bottom above creates a white line under the root's last child row, which is consistent with
+      all other rows, and matches the old largetree. But it also creates a visual bug where, when the root
+      has only one immediate child that is a parent, and the root is the .current node, the child's
+      .node-expand button overlays and covers up the root row’s .current outline for the width of the button.
+      The solution is z-index: 1 on .node.current > .node-row > .node-body::after.
+    */
+  }
+}
+
+.node {
+  position: relative;
+
+  &:nth-child(even) > .node-row > .node-body {
+    background-color: var(--tree-row-even-bg);
+  }
+
+  &[aria-expanded='false'] > .node-children {
+    display: none;
+  }
+
+  &.current > .node-row > .node-body {
+    position: relative;
+    background-color: var(--tree-current-bg);
+
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 1; // See note in root.node > .node-children > .node:last-child > .node-row > .node-body
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      border: 1px solid var(--tree-current-border);
+      pointer-events: none;
+    }
+  }
+}
+
+.node-row {
+  position: relative;
+  width: 100%;
+}
+
+.node-body {
+  position: relative;
+  height: 2rem;
+  margin-bottom: 1px;
+  display: flex;
+  align-items: center;
+  line-height: 2rem;
+
+  > .node-column {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  > .node-column[data-column='title'] {
+    margin-left: calc(var(--tree-indent-unit-width) * var(--level, 0));
+    flex: 0 0 var(--tree-column-title-width);
+  }
+
+  > .node-column[data-column='level'] {
+    flex: 0 0 var(--tree-column-width-sm);
+  }
+
+  > .node-column[data-column='type'] {
+    flex: 0 0 var(--tree-column-width-md);
+  }
+
+  > .node-column[data-column='container'] {
+    flex: 0 0 var(--tree-column-container-width);
+  }
+
+  > .node-column[data-column='identifier'] {
+    flex: 0 0 var(--tree-column-identifier-width);
+  }
+
+  &:hover {
+    background-color: var(--tree-row-hover-bg);
+  }
+}
+
+.node-indentation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: calc(
+    (var(--tree-indent-unit-width) * var(--level, 1)) - var(--tree-line-width)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: var(--tree-bg-subtle);
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--tree-bg-subtle),
+    var(--tree-bg-subtle) var(--tree-indent-width),
+    var(--tree-line-color) var(--tree-indent-width),
+    var(--tree-line-color) var(--tree-indent-unit-width)
+  );
+
+  /* Gradient args:
+    1. Rotate gradient horizontally for a vertical line
+    2. Begin background color
+    3. Extend background color to indent width
+    4. Start vertical line at indent
+    5. End vertical line at unit width
+   */
+}
+
+@for $i from 1 through 12 {
+  .node-children[data-tree-level='#{$i}'] {
+    .node-indentation {
+      --level: #{$i};
+    }
+
+    .node-column[data-column='title'] {
+      padding-left: calc(var(--tree-indent-unit-width) * #{$i});
+    }
+  }
+}
+
+.node-expand {
+  height: 2rem;
+  width: var(--tree-indent-width);
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  color: var(--tree-expand-text);
+  background-color: var(--tree-bg-subtle);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--tree-expand-hover);
+  }
+}
+
+.node-expand-icon {
+  transition: transform 0.15s ease;
+
+  &.expanded {
+    transform: rotate(90deg);
+  }
+}
+
+.node-column[data-column='title'] {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+
+  > .record-title {
+    min-width: 0;
+    padding-left: 0.25rem;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: text;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+      color: var(--tree-link-hover);
+    }
+  }
+}
+
+#infinite-tree-resizer {
+  position: relative;
+  height: 0.5rem;
+
+  .resize-handle {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 8px;
+    background-color: #eee;
+    background-image: asset-url('archivesspace/drag_handle.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #d9d9d9;
+    cursor: ns-resize;
+
+    &:hover {
+      background-color: #e9e9e9;
+    }
+
+    .resize-toggle {
+      font-family: 'Glyphicons Halflings';
+      position: absolute;
+      border: none;
+      font-size: 8px;
+      right: 0;
+      top: 0;
+      padding: 0 20px;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.1);
+      line-height: 8px;
+      color: #787878;
+
+      &::before {
+        content: '\e114';
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    &.maximized {
+      .resize-toggle {
+        font-family: 'Glyphicons Halflings';
+        position: absolute;
+        border: none;
+        font-size: 8px;
+        right: 0;
+        top: 0;
+        padding: 0 20px;
+        cursor: pointer;
+        background-color: #919191;
+        line-height: 8px;
+        color: #fff;
+
+        &::before {
+          content: '\e113';
+        }
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      &.maximized {
+        .resize-toggle {
+          &::before {
+            content: '\e113';
+          }
+        }
+      }
+    }
+  }
+}
+
+#infinite-tree-record-pane {
+  &.blocked {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -15px;
+      width: calc(100% + 30px);
+      height: 100%;
+      background: var(--tree-blockout-overlay);
+      z-index: 100;
+      pointer-events: auto;
+    }
+  }
+}

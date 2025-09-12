@@ -1,4 +1,5 @@
 require_relative 'utils'
+require 'securerandom'
 
 def migrate_contact_notes(ac_notes)
   # Find all agent_contact notes

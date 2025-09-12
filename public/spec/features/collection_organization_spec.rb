@@ -311,6 +311,7 @@ describe 'Collection Organization', js: true do
     describe 'parent nodes' do
       before(:each) do
         visit "/repositories/#{@repo.id}/resources/#{@resource.id}/collection_organization"
+        wait_for_jquery
         @container = page.find('#infinite-tree-container')
         @ao3_node = page.find("#archival_object_#{@ao3.id}")
       end
@@ -330,6 +331,7 @@ describe 'Collection Organization', js: true do
 
       it 'are expanded and collapsed by clicking the "expand" button' do
         @ao3_node.find('.node-expand').click
+        wait_for_jquery
         expect(@ao3_node['aria-expanded']).to eq "true"
         expect(@ao3_node['data-has-expanded']).to eq "true"
         expect(@ao3_node).to have_css('.node-expand-icon.expanded')

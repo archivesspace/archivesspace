@@ -8,3 +8,4 @@ require 'aspace_gems'
 ASpaceGems.setup
 
 require 'bundler/setup' if File.exist?(ENV['BUNDLE_GEMFILE'])
+require 'logger'

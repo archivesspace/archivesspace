@@ -188,11 +188,13 @@ describe 'Tree UI', js: true do
       expect(arhicval_objects_level_1[2]).to have_text @archival_object_3.title
       expect(arhicval_objects_level_1[3]).to have_text "[Duplicated] #{@archival_object_3.title}"
 
-      link = find('#tree-container a ', text: @archival_object_3.title, match: :first).click
+      link = find('#tree-container a', text: @archival_object_3.title, match: :first).click
       click_on 'Delete'
       within '#confirmChangesModal' do
         click_on 'Delete'
       end
+
+      wait_for_ajax
 
       click_on "[Duplicated] #{@archival_object_3.title}"
       click_on 'Edit'
