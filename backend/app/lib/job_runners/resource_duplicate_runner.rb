@@ -13,7 +13,12 @@ class ResourceDuplicateRunner < JobRunner
 
         @job.write_output(I18n.t("resource_duplicate_job.going_to_duplicate_job", resource_id: resource_id))
 
-        resource_duplicate = ::Lib::Resource::Duplicate.new(resource_id)
+        if AppConfig.has_key?(:resource_fields_not_to_duplicate)
+          skip_fields = AppConfig[:resource_fields_not_to_duplicate]
+        end
+        skip_fields ||= []
+
+        resource_duplicate = ::Lib::Resource::Duplicate.new(resource_id, skip_fields)
         resource_duplicate.duplicate
 
         if resource_duplicate.errors.length == 0
