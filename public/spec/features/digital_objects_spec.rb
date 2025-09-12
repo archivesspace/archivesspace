@@ -83,11 +83,32 @@ describe 'Digital Objects', js: true do
     end
   end
 
-  it 'displays breadcrumbs for items in the Digital Materials listing' do
-    visit '/'
-    click_link 'Digital Materials'
-    within find('div[data-uri="/repositories/2/digital_objects/5"') do
-      expect(page).to have_content('Resource with digital instance')
+  describe 'Digital Materials listing' do
+    before (:each) do
+      visit '/'
+      click_link 'Digital Materials'
+    end
+
+    it 'displays breadcrumbs for items in the Digital Materials listing' do
+      within find('div[data-uri="/repositories/2/digital_objects/5"') do
+        expect(page).to have_content('Resource with digital instance')
+      end
+    end
+
+    describe 'accessibility' do
+      it "does not skip heading levels" do
+        expect(page).to be_axe_clean.checking_only :'heading-order'
+      end
+
+      context 'individual digital materials page' do
+        before (:each) do
+          first("a[class='record-title']").click
+        end
+
+        it "does not skip heading levels" do
+          expect(page).to be_axe_clean.checking_only :'heading-order'
+        end
+      end
     end
   end
 end

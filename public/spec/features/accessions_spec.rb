@@ -3,7 +3,6 @@ require 'rails_helper'
 
 describe 'Accessions', js: true do
   context 'browsing' do
-
     it 'shows a list of ordered accessions' do
       visit('/')
       click_link 'Unprocessed Material'
@@ -13,6 +12,10 @@ describe 'Accessions', js: true do
       within all('.col-sm-12')[0] do
         expect(page).to have_content(/Showing Unprocessed Materials: 1 - \d[0]? of \d{1,2}/)
       end
+
+      aggregate_failures 'supporting accessibility by not skipping heading levels' do
+        expect(page).to be_axe_clean.checking_only :'heading-order'
+      end
     end
 
     it 'lets you click on a search result', js: true do
@@ -20,6 +23,10 @@ describe 'Accessions', js: true do
       click_link 'Published Accession'
       expect(current_path).to match(/repositories\/\d+\/accessions\/\d+/)
       expect(page).to have_content('Published Accession')
+
+      aggregate_failures 'supporting accessibility by not skipping heading levels' do
+        expect(page).to be_axe_clean.checking_only :'heading-order'
+      end
     end
   end
 
