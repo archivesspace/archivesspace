@@ -22,6 +22,17 @@ describe 'Resource Tree', js: true do
   it "shows the record id in the tree if configured to do so" do
     allow(AppConfig).to receive(:[]).with(:pui_display_identifiers_in_resource_tree) { true }
     visit @resource.uri
+
+    aggregate_failures "marks visual lists as such" do
+      page.has_css? "div#tree-container"
+      within "div#tree-container" do
+        expect(page).to have_xpath("div[@role='list']")
+        expect(page).to have_xpath("div[@role='list']/div[@role='listitem'][@id='resource_22']")
+        first(".expandme-icon").click
+        expect(page).to have_xpath("div[@role='list']/div[@role='list']/div[@role='list']/div[@role='listitem'][@id='archival_object_1856']")
+      end
+    end
+
     # don't do this! Capybara will wait for the first title to show up, the proceed and 'abc' will fail!
     #node_titles = find_all('.sidebar .record-title').map { |node| node.text }
     node_title_one = find('#tree-container .table-row:nth-child(1) .record-title').text
@@ -39,5 +50,4 @@ describe 'Resource Tree', js: true do
     expect(node_title_one).not_to match /^1-2-3-4:/
     expect(node_title_two).not_to match /^abc:/
   end
-
 end

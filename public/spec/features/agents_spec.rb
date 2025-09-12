@@ -13,9 +13,18 @@ describe 'Agents', js: true do
   it 'displays agent page' do
     visit('/')
     click_link 'Names'
+
+    aggregate_failures 'supporting accessibility by not skipping heading levels in agents listing' do
+      expect(page).to be_axe_clean.checking_only :'heading-order'
+    end
+
     click_link 'Linked Agent 1' # prefer this agent because it's a "full" record
     expect(current_path).to match(/agents\/people\/\d+/)
     expect(page).to have_content('Linked Agent 1')
+
+    aggregate_failures 'supporting accessibility by not skipping heading levels while viewing a specific agent' do
+      expect(page).to be_axe_clean.checking_only :'heading-order'
+    end
   end
 
   it 'does not highlight repository uri' do
