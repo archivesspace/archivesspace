@@ -2,46 +2,216 @@
 
 (function (exports) {
   class InfiniteTreeRouter {
-    constructor({ rootUri }) {
-      this.rootUri = rootUri;
-      this.currentHash = window.location.hash;
-      this.inflight = null;
-      this.treeContainer = document.querySelector('#infinite-tree-container');
+    /**
+     * @constructor
+     * @param {Object} i18n - The i18n object for use in a non .js.erb file
+     * @param {string} i18n.saveChangesTitle - The title of the save changes modal
+     */
+    constructor(i18n) {
+      const { rootUri, isReadOnly } = document.querySelector(
+        '#infinite-tree-component'
+      ).dataset;
 
-      this.treeContainer.addEventListener('infiniteTree:titleClick', e => {
-        const { node } = e.detail;
-        this.setHash(InfiniteTreeIds.uriToLocationHash(node.dataset.uri));
-        this.dispatchNodeSelect(window.location.hash);
-      });
+      this.currentHash = window.location.hash;
+      this.treeContainer = document.querySelector('#infinite-tree-container');
+      this.recordPaneEl = document.querySelector('#infinite-tree-record-pane');
+
+      this.rootUri = rootUri;
+      this.isReadOnly = isReadOnly === 'true';
+      this.i18n = i18n;
+      this.inflight = null;
+      this.isDirty = false;
+      this._ignoreHashChange = false;
+      this._pendingHash = null;
+      this._pendingSavedUri = null;
+
+      this.addListeners();
 
       this.init();
     }
 
+    addListeners() {
+      // Track dirty/clean events from the record pane
+      this.recordPaneEl.addEventListener('infiniteTreeRecordPane:dirty', () => {
+        this.isDirty = true;
+      });
+
+      this.recordPaneEl.addEventListener('infiniteTreeRecordPane:clean', () => {
+        this.isDirty = false;
+      });
+
+      // React to submit results during dirty guard Save
+      this.recordPaneEl.addEventListener(
+        'infiniteTreeRecordPane:submitSuccess',
+        () => {
+          const target = this._pendingHash;
+
+          this._pendingHash = null;
+
+          // Close the modal now that save has completed
+          $('#saveYourChangesModal').modal('hide');
+
+          // Mark clean
+          this.isDirty = false;
+
+          if (target) {
+            // Update the URL but suppress the hashchange handler to avoid double navigation
+            this._ignoreHashChange = true;
+
+            this.setHash(target);
+
+            // Fully rebuild the tree to the target
+            this.treeContainer.dispatchEvent(
+              new CustomEvent('infiniteTreeRouter:redisplayAndShow', {
+                detail: { targetHash: target },
+              })
+            );
+          }
+
+          // Clear any savedUri fallback
+          this._pendingSavedUri = null;
+        }
+      );
+
+      this.recordPaneEl.addEventListener(
+        'infiniteTreeRecordPane:submitError',
+        () => {}
+        // Leave the user on the current record; no further action}
+      );
+
+      // Intercept title clicks
+      this.treeContainer.addEventListener('infiniteTree:titleClick', e => {
+        const { node } = e.detail;
+        const target = InfiniteTreeIds.uriToLocationHash(node.dataset.uri);
+
+        if (this.isReadOnly || !this.isDirty) {
+          // Fast path: clean — just set the hash and let the hashchange handler dispatch
+          this.setHash(target);
+        } else {
+          // Guarded path: prevent default behavior altogether
+          e.preventDefault();
+          e.stopPropagation();
+
+          this.#openDirtyModal(target);
+        }
+      });
+
+      // Intercept browser hash changes (back/forward/manual edits)
+      window.addEventListener('hashchange', () => this.#onHashChange());
+    }
+
     init() {
       if (this.currentHash === '') {
-        const fragment = InfiniteTreeIds.treeLinkUrl(this.rootUri);
+        const hash = InfiniteTreeIds.treeLinkUrl(this.rootUri);
 
-        this.setHash(fragment);
-
-        this.dispatchNodeSelect(window.location.hash);
+        // Set the hash and rely on hashchange to dispatch the first navigation
+        this.setHash(hash);
       } else {
+        // No hashchange will occur; dispatch directly
         this.dispatchNodeSelect(this.currentHash);
       }
     }
 
+    #onHashChange() {
+      if (this._ignoreHashChange) {
+        this._ignoreHashChange = false;
+
+        return;
+      }
+
+      const newHash = window.location.hash;
+
+      if (this.isReadOnly || !this.isDirty) {
+        // Navigation allowed
+        this.currentHash = newHash;
+
+        this.dispatchNodeSelect(newHash);
+      } else {
+        // Revert visual hash and show guard
+        const target = newHash;
+
+        this._ignoreHashChange = true;
+
+        window.location.hash = this.currentHash;
+
+        this.#openDirtyModal(target);
+      }
+    }
+
+    #openDirtyModal(targetHash) {
+      // Save target for later
+      this._pendingHash = targetHash;
+
+      // Open the existing Save Changes modal template
+      AS.openCustomModal(
+        'saveYourChangesModal',
+        this.i18n.saveChangesTitle,
+        AS.renderTemplate('save_changes_modal_template')
+      );
+
+      // Hook up modal actions
+      $('#saveChangesButton', '#saveYourChangesModal').on('click', () => {
+        $('.btn', '#saveYourChangesModal').addClass('disabled');
+        // Capture the currently selected node's URI in case the form doesn't provide one
+        try {
+          const selectedNode =
+            this.treeContainer.querySelector('li.node.selected');
+
+          this._pendingSavedUri = selectedNode
+            ? selectedNode.getAttribute('data-uri')
+            : null;
+        } catch (e) {
+          this._pendingSavedUri = null;
+        }
+        // Ask record pane to submit the form
+        this.recordPaneEl.dispatchEvent(
+          new CustomEvent('infiniteTreeRouter:requestSubmit')
+        );
+      });
+
+      $('#dismissChangesButton', '#saveYourChangesModal').on('click', () => {
+        // Discard changes and proceed
+        this.isDirty = false;
+
+        this.#proceedToHash(this._pendingHash);
+
+        this._pendingHash = null;
+
+        $('#saveYourChangesModal').modal('hide');
+      });
+
+      $('.btn-cancel', '#saveYourChangesModal').on('click', () => {
+        // Cancel: do nothing
+        this._pendingHash = null;
+
+        $('#saveYourChangesModal').modal('hide');
+      });
+    }
+
+    #proceedToHash(hash) {
+      if (!hash) return;
+
+      this.setHash(hash);
+
+      this.dispatchNodeSelect(window.location.hash);
+    }
+
     dispatchNodeSelect(hash) {
-      const fragment = hash && hash.startsWith('#') ? hash : `#${hash}`;
+      const prefixedHash = hash && hash.startsWith('#') ? hash : `#${hash}`;
+
       this.treeContainer.dispatchEvent(
         new CustomEvent('infiniteTreeRouter:nodeSelect', {
           detail: {
-            targetHash: fragment,
+            targetHash: prefixedHash,
           },
         })
       );
     }
 
     setHash(hash) {
-      window.location.hash = this.#normalizeHash(hash);
+      const normalized = this.#normalizeHash(hash);
+
+      window.location.hash = normalized;
 
       this.currentHash = window.location.hash;
     }

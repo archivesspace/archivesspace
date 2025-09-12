@@ -10,19 +10,18 @@
 
     /**
      * @constructor
-     * @param {Object} options - The options object
-     * @param {string} options.rootUri - The URI of the root record, e.g. "/repositories/1/resources/3"
-     * @param {number} batchSize - The number of nodes per batch of children
      * @param {Object} i18n - The i18n object for use in a non .js.erb file
      * @param {string} i18n.sep - The identifier separator
      * @param {string} i18n.bulk - The date type bulk
      * @param {Object} i18n.enumerations - The enumeration translations object
      * @returns {InfiniteTree} - InfiniteTree instance
      */
-    constructor(options, batchSize, i18n) {
-      const { rootUri } = options;
+    constructor(i18n) {
+      const { rootUri, batchSize } = document.querySelector(
+        '#infinite-tree-component'
+      ).dataset;
 
-      this.BATCH_SIZE = batchSize;
+      this.BATCH_SIZE = Number(batchSize);
       this.rootMeta = {
         uri: rootUri,
         ...InfiniteTreeIds.uriToParts(rootUri),
@@ -50,7 +49,13 @@
 
       this.container.addEventListener('click', e => {
         if (e.target.closest('.node-expand')) this.#expandClickHandler(e);
-        else if (e.target.closest('.record-title')) this.#titleClickHandler(e);
+        else if (e.target.closest('.record-title')) {
+          // Allow the router to decide what to do
+          e.preventDefault();
+          e.stopPropagation();
+
+          this.#titleClickHandler(e);
+        }
       });
 
       this.container.addEventListener('infiniteTreeRouter:nodeSelect', e => {
@@ -75,6 +80,27 @@
           this.loadNodeWithAncestors(targetHash);
         }
       });
+
+      // Rebuild the tree and show a target node (full redisplay)
+      this.container.addEventListener(
+        'infiniteTreeRouter:redisplayAndShow',
+        e => {
+          const { targetHash } = e.detail;
+          this.redisplayAndShow(targetHash);
+        }
+      );
+
+      // Refresh a node’s visible data after a save
+      this.container.addEventListener(
+        'infiniteTreeRouter:refreshNode',
+        async e => {
+          const { uri } = e.detail || {};
+
+          if (!uri) return;
+
+          await this.refreshNodeByUri(uri);
+        }
+      );
     }
 
     /**
@@ -126,6 +152,7 @@
      */
     selectNode(node) {
       const old = this.container.querySelector('.selected');
+
       if (old) old.classList.remove('selected');
 
       node.classList.add('selected');
@@ -166,6 +193,7 @@
      */
     #renderBatch(list, nodes, batchNumber, observeForBatch = null) {
       const listMeta = this.#validateList(list);
+
       if (!listMeta) return;
 
       const batchFragment = this.#buildBatchFragment(
@@ -392,11 +420,53 @@
     }
 
     /**
+     * Rebuilds the entire tree and selects the node pointed to by locationHash
+     * @param {string} locationHash - The location hash representing the node to render
+     */
+    async redisplayAndShow(locationHash) {
+      // Normalize hash to include # prefix
+      const fragment =
+        locationHash && locationHash.startsWith('#')
+          ? locationHash
+          : `#${locationHash}`;
+
+      // Clear the container completely
+      this.container.replaceChildren();
+
+      if (fragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
+        const rootNodeElement = await this.renderRoot();
+        this.selectNode(rootNodeElement);
+        rootNodeElement.scrollIntoView({
+          behavior: 'instant',
+          block: 'center',
+        });
+        return;
+      }
+
+      // Non-root: reuse ancestor batching logic
+      const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(fragment);
+      const nodeId = InfiniteTreeIds.parseTreeId(nodeElementId).id;
+
+      try {
+        const data = await this.#fetchAncestorBatches(nodeId);
+        await this.#renderAncestors(data, nodeElementId, { replace: false });
+      } catch (error) {
+        console.error('Error in redisplayAndShow:', error);
+      }
+    }
+
+    /**
      * Builds the ancestor tree list
      * @param {Array} ancestorBatches - The ancestor batches to build the tree from
      * @param {string} nodeElementId - The HTML ID of the node element to scroll to
+     * @param {Object} [options] - Options for rendering
+     * @param {boolean} [options.replace=true] - Whether to replace container content first
      */
-    async #renderAncestors(ancestorBatches, nodeElementId) {
+    async #renderAncestors(
+      ancestorBatches,
+      nodeElementId,
+      { replace = true } = {}
+    ) {
       const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
         const numBatches = batch.waypoints;
         const ancestorHtmlId = batch.ancestorHtmlId;
@@ -475,6 +545,8 @@
         }
       }, new DocumentFragment());
 
+      if (replace) this.container.replaceChildren();
+
       this.container.appendChild(ancestorsFrag);
 
       const nodeOfInterest = this.container.querySelector(`#${nodeElementId}`);
@@ -490,6 +562,55 @@
       nodesToObserve.forEach(node => {
         this.batchObserver.observe(node);
       });
+    }
+
+    /**
+     * Refresh a single node’s DOM using server data
+     * @param {string} uri - Backend URI of the node (e.g., "/repositories/1/archival_objects/2")
+     */
+    async refreshNodeByUri(uri) {
+      try {
+        const parts = InfiniteTreeIds.uriToParts(uri);
+
+        if (!parts) return;
+
+        let data;
+
+        if (parts.type === 'resource') {
+          data = await this.fetch.node(null); // root
+        } else {
+          const id = Number(parts.id);
+
+          data = await this.fetch.node(id);
+        }
+
+        const treeId = InfiniteTreeIds.uriToTreeId(uri);
+        const el = this.container.querySelector(`#${treeId}`);
+
+        if (!el) return;
+
+        const titleAnchor = el.querySelector('.record-title');
+
+        if (titleAnchor && data) {
+          const newTitleHTML = data.parsed_title || data.title || '';
+
+          if (newTitleHTML) {
+            titleAnchor.innerHTML = newTitleHTML;
+
+            // Update title attribute to a plain-text version of the link text
+            const tmp = document.createElement('div');
+
+            tmp.innerHTML = newTitleHTML;
+
+            titleAnchor.setAttribute(
+              'title',
+              tmp.textContent || tmp.innerText || ''
+            );
+          }
+        }
+      } catch (err) {
+        console.error('refreshNodeByUri error:', err);
+      }
     }
 
     /**
@@ -642,11 +763,8 @@
     #dispatchNodeSelectEvent(node) {
       const target = this.recordPaneEl;
       const type = InfiniteTree.EVENT_TYPE_NODE_SELECT;
-      const requestPath = AS.app_prefix(
-        node.dataset.uri.split('/').slice(-2).join('/')
-      ); // ie: /repositories/2/archival_objects/4 --> /archival_objects/4
 
-      this.#dispatchEvent(target, type, { requestPath });
+      this.#dispatchEvent(target, type, { node });
     }
 
     /**
