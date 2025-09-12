@@ -90,7 +90,7 @@ class AccessionsController < ApplicationController
     @criteria['resolve[]'] = ['repository:id', 'resource:id@compact_resource', 'related_resource_uris:id', 'related_accession_uris:id', 'top_container_uri_u_sstr:id', 'digital_object_uris:id']
     begin
       @result = archivesspace.get_record(uri, @criteria)
-      @page_title = @result.display_string
+      @page_title = @result.primary_title
       @context = []
       @context.unshift({
         :uri => @result.resolved_repository['uri'],

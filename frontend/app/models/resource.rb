@@ -59,6 +59,10 @@ class Resource < JSONModel(:resource)
       rights_statement.clone.tap {|r| r.delete('identifier')}
     }
 
+    if !self.titles || self.titles.empty?
+      self.titles = [JSONModel(:title).new._always_valid!]
+    end
+
     if !self.extents || self.extents.empty?
       self.extents = [JSONModel(:extent).new._always_valid!]
     end
