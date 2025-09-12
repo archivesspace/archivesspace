@@ -105,9 +105,9 @@
             <% end %>
           <% elsif field == 'restricted' %>
             <% if container_json['restricted'] %>
-              <td><%= t('top_container_management.restricted') %></td>
+              <td><%= t('top_container_mgmt.restricted') %></td>
             <% else %>
-              <td><%= t('top_container_management.not_restricted') %></td>
+              <td><%= t('top_container_mgmt.not_restricted') %></td>
             <% end %>
           <% else %>
               <td class="top-container-<%=field%>"> <%= container_json[field] %> </td>
