@@ -277,7 +277,7 @@ describe 'Infinite Tree Page Load', js: true do
           visit "/resources/#{@resource.id}/#tree::archival_object_#{node_record_id}"
           wait_for_ajax
 
-          find("#archival_object_#{node_record_id}.current")
+          find("#archival_object_#{node_record_id}.selected")
         end
 
         let(:parent_list) { node.find(:xpath, '..') }
@@ -498,7 +498,7 @@ describe 'Infinite Tree Page Load', js: true do
           visit "/resources/#{resource_id}#tree::resource_#{resource_id}"
           wait_for_ajax
 
-          find('.infinite-tree .root.current')
+          find('.infinite-tree .root.selected')
         end
 
         let(:parent_list) { node.find(':scope > .node-children') }
