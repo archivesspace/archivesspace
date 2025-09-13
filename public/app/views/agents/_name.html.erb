@@ -2,7 +2,14 @@
   <p><%= I18n.t('pui_agent.also_known_as') %>:</p>
   <ul class="present_list">
   <% result.json['names'].reject { |n| n['is_display_name'] }.each do |r| %>
-    <li><%== process_mixed_content(r['sort_name']) %></li>
+    <li>
+      <%== process_mixed_content(r['sort_name']) %>
+      <% if r['use_dates'] && r['use_dates'].any? %>
+        <% r['use_dates'].each do |date| -%>
+          (<b><%= I18n.t("date_label.#{date['date_label']}") %></b>: <%= render(partial: 'structured_date', locals: { date: date }).to_s.strip -%>)
+        <% end -%>
+      <% end %>
+    </li>
   <% end %>
   </ul>
 <% end %>
