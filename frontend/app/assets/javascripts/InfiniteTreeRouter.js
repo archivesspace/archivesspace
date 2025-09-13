@@ -43,33 +43,30 @@
       // React to submit results during dirty guard Save
       this.recordPaneEl.addEventListener(
         'infiniteTreeRecordPane:submitSuccess',
-        () => {
+        e => {
           const target = this._pendingHash;
+          const { uri: savedUri } = e.detail || {};
 
-          this._pendingHash = null;
-
-          // Close the modal now that save has completed
           $('#saveYourChangesModal').modal('hide');
 
-          // Mark clean
+          this._pendingHash = null;
+          this._pendingSavedUri = null;
           this.isDirty = false;
 
-          if (target) {
-            // Update the URL but suppress the hashchange handler to avoid double navigation
-            this._ignoreHashChange = true;
-
-            this.setHash(target);
-
-            // Fully rebuild the tree to the target
+          // Render the saved node's new data
+          if (savedUri) {
             this.treeContainer.dispatchEvent(
-              new CustomEvent('infiniteTreeRouter:redisplayAndShow', {
-                detail: { targetHash: target },
+              new CustomEvent('infiniteTreeRouter:refreshNode', {
+                detail: { uri: savedUri },
               })
             );
           }
 
-          // Clear any savedUri fallback
-          this._pendingSavedUri = null;
+          if (target) {
+            // Update the URL and navigate to the pending target
+            // No need to suppress hashchange since we're not doing full rebuild
+            this.setHash(target);
+          }
         }
       );
 
