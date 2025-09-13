@@ -155,6 +155,11 @@
 
           if (uriInput && uriInput.value) savedUri = uriInput.value;
 
+          // Unblock UI before firing success events to prevent race condition
+          // with redisplayAndShow triggering loadRecord while pane is still blocked
+          this.#unblockUI();
+          if (submitButton) submitButton.removeAttribute('disabled');
+
           this.#dispatch('infiniteTreeRecordPane:submitSuccess', {
             uri: savedUri,
           });
@@ -180,7 +185,13 @@
         });
         this.#dispatch('infiniteTreeRecordPane:submitted', { success: false });
       } finally {
-        if (submitButton) submitButton.removeAttribute('disabled');
+        // Only unblock and re-enable if not already done in success case
+        if (this.container.classList.contains('blocked')) {
+          this.#unblockUI();
+        }
+        if (submitButton && submitButton.hasAttribute('disabled')) {
+          submitButton.removeAttribute('disabled');
+        }
       }
     }
 
