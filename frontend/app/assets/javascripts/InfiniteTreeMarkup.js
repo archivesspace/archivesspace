@@ -60,29 +60,16 @@
      * @returns {DocumentFragment} - The root <li> element
      */
     rootNode(data) {
-      const title = new MixedContentHelper(this.#title(data));
       const rootFrag = new DocumentFragment();
       const rootTemplate = document
         .querySelector('#infinite-tree-root-node-template')
         .content.cloneNode(true);
       const rootElement = rootTemplate.querySelector('li');
-      const contentWrapper = rootTemplate.querySelector('.node-body');
-      const columns = contentWrapper.querySelectorAll('.node-column');
+      const rootBody = rootTemplate.querySelector('.node-body');
 
-      rootElement.id = `resource_${this.resourceId}`;
-      rootElement.setAttribute('data-uri', this.resourceUri);
-      contentWrapper.setAttribute('title', title.cleaned);
+      this.#setRootMetadata(rootElement, data);
 
-      if (data.child_count > 0) {
-        rootElement.setAttribute('aria-expanded', 'true');
-      }
-
-      this.#processColumns(
-        columns,
-        data,
-        title,
-        `#tree::resource_${this.resourceId}`
-      );
+      this.#populateNodeBody(rootBody, data);
 
       rootFrag.appendChild(rootTemplate);
 
@@ -136,18 +123,67 @@
      * @returns {DocumentFragment} - A <li>
      */
     node(data, level, shouldObserve, parentId = null, offset = null) {
-      const nodeRecordId = data.uri.split('/')[4];
-      const nodeElementId = `archival_object_${nodeRecordId}`;
-      const title = new MixedContentHelper(this.#title(data));
-      const aHref = `#tree::${nodeElementId}`;
       const nodeFrag = new DocumentFragment();
       const nodeTemplate = document
         .querySelector('#infinite-tree-node-template')
         .content.cloneNode(true);
       const nodeElement = nodeTemplate.querySelector('li');
-      const contentWrapper = nodeTemplate.querySelector('.node-body');
-      const indentation = nodeTemplate.querySelector('.node-indentation');
-      const columns = contentWrapper.querySelectorAll('.node-column');
+      const nodeBody = nodeTemplate.querySelector('.node-body');
+
+      this.#setNodeMetadata(
+        nodeElement,
+        data,
+        level,
+        shouldObserve,
+        parentId,
+        offset
+      );
+
+      this.#populateNodeBody(nodeBody, data);
+
+      nodeFrag.appendChild(nodeTemplate);
+
+      return nodeFrag;
+    }
+
+    /**
+     * Sets the metadata on the root node element
+     * @param {Element} rootElement - The root <li> element
+     * @param {Object} data - The root data object
+     * @private
+     */
+    #setRootMetadata(rootElement, data) {
+      rootElement.id = `resource_${this.resourceId}`;
+      rootElement.setAttribute('data-uri', this.resourceUri);
+      rootElement.setAttribute('title', this.#titleHelper(data).cleaned);
+
+      if (data.child_count > 0)
+        rootElement.setAttribute('aria-expanded', 'true');
+    }
+
+    /**
+     * Sets the metadata on non root node elements
+     * @param {Element} nodeElement - The node <li> element
+     * @param {Object} data - The node data object
+     * @param {number} level - Tree level of the node (0 for root)
+     * @param {boolean} shouldObserve - Whether or not to observe the node
+     * in order to populate a next empty batch
+     * @param {number} [parentId=null] - Optional ID of the node's parent; if null
+     * then parent is assumed to be the root resource
+     * @param {number} [offset=null] - Optional offset of the next batch to
+     * populate; required if `shouldObserve` is true
+     * @private
+     */
+    #setNodeMetadata(
+      nodeElement,
+      data,
+      level,
+      shouldObserve,
+      parentId = null,
+      offset = null
+    ) {
+      const uriParts = InfiniteTreeIds.uriToParts(data.uri);
+      const nodeElementId = `${uriParts.type}_${uriParts.id}`;
 
       nodeElement.id = nodeElementId;
       nodeElement.classList.add(`indent-level-${level}`);
@@ -158,8 +194,6 @@
         nodeElement.setAttribute('data-total-child-batches', totalBatches);
         nodeElement.setAttribute('data-has-expanded', 'false');
         nodeElement.setAttribute('aria-expanded', 'false');
-
-        indentation.appendChild(this.#expandButton(title.cleaned));
       }
 
       if (shouldObserve) {
@@ -178,47 +212,70 @@
         nodeElement.setAttribute('data-observe-node', parentUri);
         nodeElement.setAttribute('data-observe-offset', offset);
       }
+    }
 
-      contentWrapper.setAttribute('title', title.cleaned);
+    /**
+     * Populates the .node-body content for root and non root nodes
+     * @param {Element} bodyEl - The node body <div> element
+     * @param {Object} data - The node data object
+     * @private
+     */
+    #populateNodeBody(bodyEl, data) {
+      const titleCleaned = this.#titleHelper(data).cleaned;
+      const indentationEl = bodyEl.querySelector('.node-indentation');
+
+      bodyEl.setAttribute('title', titleCleaned);
+
+      if (indentationEl && data.child_count > 0) {
+        indentationEl.appendChild(this.#expandButton(titleCleaned));
+      }
 
       if (data.has_digital_instance) {
         const iconHtml = `<i class="has_digital_instance fa fa-file-image-o" aria-hidden="true"></i>`;
 
-        nodeTemplate
+        bodyEl
           .querySelector('.record-title')
           .insertAdjacentHTML('beforebegin', iconHtml);
       }
 
-      this.#processColumns(columns, data, title, aHref);
-
-      nodeFrag.appendChild(nodeTemplate);
-
-      return nodeFrag;
+      this.#processColumns(bodyEl.querySelectorAll('.node-column'), data);
     }
 
     /**
-     * Processes columns for both root and node elements
-     * @param {NodeList} columns - The column elements to process
-     * @param {Object} data - The data object containing node information
-     * @param {MixedContentHelper} title - The processed title object
-     * @param {string} href - The href value for the title link
+     * Builds a title helper object for a node
+     * @param {Object} data - The node data object
+     * @returns {MixedContentHelper} - The title helper object
      * @private
      */
-    #processColumns(columns, data, title, href) {
+    #titleHelper(data) {
+      return new MixedContentHelper(this.#buildTitle(data));
+    }
+
+    /**
+     * Processes columns for root and non root node elements
+     * @param {NodeList} columns - The column elements to process
+     * @param {Object} data - The node data object
+     * @private
+     */
+    #processColumns(columns, data) {
       columns.forEach(column => {
         const colName = column.dataset.column;
 
         switch (colName) {
           case 'title': {
+            const uriParts = InfiniteTreeIds.uriToParts(data.uri);
+            const href = `#tree::${uriParts.type}_${uriParts.id}`;
+            const titleHelper = this.#titleHelper(data);
+
             const titleEl = column.querySelector('.record-title');
 
             titleEl.href = href;
-            titleEl.setAttribute('title', title.cleaned);
+            titleEl.setAttribute('title', titleHelper.cleaned);
 
-            if (title.isMixed) {
-              titleEl.innerHTML = title.input;
+            if (titleHelper.isMixed) {
+              titleEl.innerHTML = titleHelper.input;
             } else {
-              titleEl.textContent = title.cleaned;
+              titleEl.textContent = titleHelper.cleaned;
             }
 
             if (data.suppressed) {
@@ -290,7 +347,7 @@
      * @todo Migrate this logic to the server if possible
      * @private
      */
-    #title(node) {
+    #buildTitle(node) {
       const title = [];
 
       if (node.parsed_title) {
