@@ -3,20 +3,31 @@
    read_only = false if read_only.blank?
 %>
 
-<%= javascript_include_tag "InfiniteTreeInitialContext.js" %>
+<%= javascript_include_tag "InfiniteTreeRouter.js" %>
 <%= javascript_include_tag "InfiniteTree.js" %>
 <%= javascript_include_tag "InfiniteTreeResizer.js" %>
 <%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
 <%= javascript_include_tag "InfiniteTreeIds.js" %>
 
 <div
-  id="infinite-tree-container"
-  data-resource-uri="<%= @resource.uri %>"
-  class="mb-2"
+  id="infinite-tree-component"
+  data-batch-size="<%= Rails.configuration.infinite_tree_batch_size %>"
+  data-is-read-only="<%= read_only %>"
+  data-root-uri="<%= @resource.uri %>"
 >
+  <% if !read_only %>
+    <%= render_aspace_partial :partial => "shared/infinite_tree_toolbar" %>
+  <% end %>
+  <div
+    id="infinite-tree-container"
+    data-resource-uri="<%= @resource.uri %>"
+    data-read-only="<%= read_only %>"
+    class="mb-2"
+  >
+  </div>
+  <%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
+  <%= render_aspace_partial :partial => "shared/infinite_tree_record_pane" %>
 </div>
-<%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
-<%= render_aspace_partial :partial => "shared/infinite_tree_record_pane" %>
 
 <template id="infinite-tree-root-list-template">
   <ol class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>" role="tree"></ol>
@@ -85,10 +96,6 @@
 </template>
 
 <script>
-const rootUri = "<%= @resource.uri %>";
-
-const initialContext = new InfiniteTreeInitialContext(rootUri).context;
-
 // ANW-2322 Temporarily copy and adapt ENUMERATION_TRANSLATIONS from largetree.js
 // for use in a .js file (not .js.erb)
 <%
@@ -121,15 +128,15 @@ const EnumerationTranslations2 = {
   ENUMERATION_TRANSLATIONS: ENUMERATION_TRANSLATIONS_2
 };
 
-const infiniteTree = new InfiniteTree(
-  initialContext,
-  "<%= Rails.configuration.infinite_tree_batch_size %>",
-  {
-    sep: "<%= I18n.t("resource.identifier_separator") %>",
-    bulk: "<%= I18n.t("date_type_bulk.bulk") %>",
-    enumerations: EnumerationTranslations2
-  }
-);
+const infiniteTree = new InfiniteTree({
+  sep: "<%= I18n.t("resource.identifier_separator") %>",
+  bulk: "<%= I18n.t("date_type_bulk.bulk") %>",
+  enumerations: EnumerationTranslations2
+});
 
-const infiniteTreeRecordPane = new InfiniteTreeRecordPane(initialContext);
+const infiniteTreeRecordPane = new InfiniteTreeRecordPane();
+
+const infiniteTreeRouter = new InfiniteTreeRouter({
+    saveChangesTitle: "<%= I18n.t('save_changes_modal.save') %>"
+});
 </script>
