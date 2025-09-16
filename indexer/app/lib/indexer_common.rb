@@ -1146,7 +1146,8 @@ class IndexerCommon
     # batching internally.
     #
     # So, we group them into boolean clauses here to amortize the cost of all of
-    # that.
+    # that.  Note that the size of each query group must be lower than Solr's
+    # <maxBooleanClauses> setting.
 
     id_deletes = delete_request.fetch(:delete).select {|r| r['id']}
     grouped_queries = delete_request
