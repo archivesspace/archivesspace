@@ -1,7 +1,7 @@
 <% dates = find_dates_for(result) %>
 <% if dates.any? %>
   <h2><%= I18n.t("agent._public.section.dates") %></h2>
-  <ul>
+  <ul data-test="main-content-agent-dates">
     <% dates.each do |d| %>
       <li>
         <b><%= I18n.t("date_label.#{d['date_label']}") %>:</b> <%= render partial: 'structured_date', locals: {:date => d} %>

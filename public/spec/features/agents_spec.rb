@@ -115,13 +115,14 @@ describe 'Agent with multiple name forms', js: true do
       expect(alias_two_item).to have_content('Usage: 2011')
     end
 
-    within('#main-content > .row > .col-sm-9') do
+    within('[data-test="main-content-agent-dates"]') do
+      # Check authoritative name and dates appear in main section
       expect(page).to have_content('Usage:')
-      expect(page).to have_content('2000 - 2005') # Date from authoritative name
-    end
+      expect(page).to have_content('2000 - 2005')
 
-    # Check alias dates do NOT appear in the main dates section
-    expect(page).not_to have_selector('#main-content > .row > .col-sm-9', text: '2006 - 2010')
-    expect(page).not_to have_selector('#main-content > .row > .col-sm-9', text: '2011')
+      # Check alias dates do NOT appear in the main dates section
+      expect(page).not_to have_content('2006 - 2010')
+      expect(page).not_to have_content('2011')
+    end
   end
 end
