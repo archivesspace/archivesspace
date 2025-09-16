@@ -45,6 +45,44 @@ class LargeTreeResource
 
   def node(response, node_record)
     response['identifier'] = node_record.component_id
+
+    response['level'] = node_record.other_level || BackendEnumSource.value_for_id('archival_record_level', node_record.level_id)
+
+    Instance
+      .left_join(:sub_container, :sub_container__instance_id => :instance__id)
+      .left_join(:top_container_link_rlshp, :sub_container_id => :sub_container__id)
+      .left_join(:top_container, :id => :top_container_link_rlshp__top_container_id)
+      .left_join(Sequel.as(:enumeration_value, :top_container_type), :id => :top_container__type_id)
+      .left_join(Sequel.as(:enumeration_value, :type_2), :id => :sub_container__type_2_id)
+      .left_join(Sequel.as(:enumeration_value, :type_3), :id => :sub_container__type_3_id)
+      .left_join(Sequel.as(:enumeration_value, :instance_type), :id => :instance__instance_type_id)
+      .filter(:archival_object_id => node_record.id)
+      .select(Sequel.as(:instance_type__value, :instance_type),
+              Sequel.as(:top_container_type__value, :top_container_type),
+              Sequel.as(:top_container__indicator, :top_container_indicator),
+              Sequel.as(:top_container__barcode, :top_container_barcode),
+              Sequel.as(:type_2__value, :type_2),
+              Sequel.as(:sub_container__indicator_2, :indicator_2),
+              Sequel.as(:sub_container__barcode_2, :barcode_2),
+              Sequel.as(:type_3__value, :type_3),
+              Sequel.as(:sub_container__indicator_3, :indicator_3))
+      .each do |row|
+      response['containers'] ||= []
+
+      container_data = {}
+      container_data['instance_type'] = row[:instance_type] if row[:instance_type]
+      container_data['top_container_type'] = row[:top_container_type] if row[:top_container_type]
+      container_data['top_container_indicator'] = row[:top_container_indicator] if row[:top_container_indicator]
+      container_data['top_container_barcode'] = row[:top_container_barcode] if row[:top_container_barcode]
+      container_data['type_2'] = row[:type_2] if row[:type_2]
+      container_data['indicator_2'] = row[:indicator_2] if row[:indicator_2]
+      container_data['barcode_2'] = row[:barcode_2] if row[:barcode_2]
+      container_data['type_3'] = row[:type_3] if row[:type_3]
+      container_data['indicator_3'] = row[:indicator_3] if row[:indicator_3]
+
+      response['containers'] << container_data
+    end
+
     response
   end
 
