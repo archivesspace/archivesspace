@@ -50,7 +50,7 @@
 
     /**
      *
-     * @param {string} hash the URI fragment hash, with or without # prefix
+     * @param {string} hash the URI fragment with or without a '#' prefix
      * @returns {string} the HTML id of the node
      */
     static locationHashToHtmlId(hash) {

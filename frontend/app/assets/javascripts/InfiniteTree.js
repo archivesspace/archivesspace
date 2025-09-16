@@ -58,28 +58,34 @@
         }
       });
 
-      this.container.addEventListener('infiniteTreeRouter:nodeSelect', e => {
-        const { targetHash } = e.detail;
+      this.container.addEventListener(
+        'infiniteTreeRouter:nodeSelect',
+        async e => {
+          const { targetHash } = e.detail;
 
-        const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(targetHash);
-        const selectedNode = this.container.querySelector(`#${nodeElementId}`);
+          const nodeElementId =
+            InfiniteTreeIds.locationHashToHtmlId(targetHash);
+          const selectedNode = this.container.querySelector(
+            `#${nodeElementId}`
+          );
 
-        if (selectedNode) {
-          // Node already exists, we are likely responding to a title click that was confirmed by the router + dirty guard
-          this.selectNode(selectedNode);
+          if (selectedNode) {
+            // Node already exists, we are likely responding to a title click that was confirmed by the router + dirty guard
+            this.selectNode(selectedNode);
 
-          return;
+            return;
+          }
+
+          // Treat this event as the initial page load
+          if (targetHash === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
+            const rootNode = await this.renderRoot();
+
+            this.selectNode(rootNode);
+          } else {
+            this.loadNodeWithAncestors(targetHash);
+          }
         }
-
-        // Treat this event as the initial page load
-        if (targetHash === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
-          this.renderRoot().then(rootNodeElement => {
-            this.selectNode(rootNodeElement);
-          });
-        } else {
-          this.loadNodeWithAncestors(targetHash);
-        }
-      });
+      );
 
       // Rebuild the tree and show a target node (full redisplay)
       this.container.addEventListener(
@@ -105,6 +111,7 @@
 
     /**
      * Renders the root node and its first batch of children
+     * @returns {HTMLElement} The live root node element
      */
     async renderRoot() {
       const rootData = await this.fetch.node();
@@ -572,7 +579,10 @@
       try {
         const parts = InfiniteTreeIds.uriToParts(uri);
 
-        if (!parts) return;
+        if (!parts) {
+          this.#dispatchRefreshComplete(uri, false);
+          return;
+        }
 
         let data;
 
@@ -580,36 +590,35 @@
           data = await this.fetch.node(null); // root
         } else {
           const id = Number(parts.id);
-
           data = await this.fetch.node(id);
         }
 
         const treeId = InfiniteTreeIds.uriToTreeId(uri);
         const el = this.container.querySelector(`#${treeId}`);
 
-        if (!el) return;
+        if (!el) {
+          this.#dispatchRefreshComplete(uri, false);
+          return;
+        }
 
-        const titleAnchor = el.querySelector('.record-title');
+        const currentNodeBody = el.querySelector('.node-body');
 
-        if (titleAnchor && data) {
-          const newTitleHTML = data.parsed_title || data.title || '';
+        if (currentNodeBody && data) {
+          // Use the markup builder to create a complete new node body with all columns
+          // Pass the current node element to preserve expansion state
+          const newNodeBodyFrag = this.markup.nodeBody(data, uri, el);
+          const newNodeBody = newNodeBodyFrag.querySelector('.node-body');
 
-          if (newTitleHTML) {
-            titleAnchor.innerHTML = newTitleHTML;
-
-            // Update title attribute to a plain-text version of the link text
-            const tmp = document.createElement('div');
-
-            tmp.innerHTML = newTitleHTML;
-
-            titleAnchor.setAttribute(
-              'title',
-              tmp.textContent || tmp.innerText || ''
-            );
+          if (newNodeBody) {
+            // Replace the entire node body to update all columns
+            currentNodeBody.replaceWith(newNodeBody);
           }
         }
+
+        this.#dispatchRefreshComplete(uri, true);
       } catch (err) {
         console.error('refreshNodeByUri error:', err);
+        this.#dispatchRefreshComplete(uri, false);
       }
     }
 
@@ -786,6 +795,19 @@
      */
     #dispatchEvent(target, type, detail) {
       target.dispatchEvent(new CustomEvent(type, { detail }));
+    }
+
+    /**
+     * Dispatches the refresh node complete event
+     * @param {string} uri - The URI that was refreshed
+     * @param {boolean} succeeded - Whether the refresh succeeded
+     */
+    #dispatchRefreshComplete(uri, succeeded) {
+      this.container.dispatchEvent(
+        new CustomEvent('infiniteTree:refreshNodeComplete', {
+          detail: { uri, succeeded },
+        })
+      );
     }
   }
 

@@ -147,6 +147,48 @@
     }
 
     /**
+     * Creates a standalone node body for refreshing existing nodes
+     * @param {Object} data - Node data object from the server
+     * @param {string} uri - The URI of the node being refreshed
+     * @param {HTMLElement} [currentNode] - The current node element to preserve expansion state
+     * @returns {DocumentFragment} - A DocumentFragment containing the populated .node-body
+     */
+    nodeBody(data, uri, currentNode = null) {
+      // Determine which template to use based on URI
+      const parts = InfiniteTreeIds.uriToParts(uri);
+      const isRoot = parts.type === 'resource';
+
+      // Get the appropriate template
+      const templateId = isRoot
+        ? '#infinite-tree-root-node-template'
+        : '#infinite-tree-node-template';
+
+      const template = document
+        .querySelector(templateId)
+        .content.cloneNode(true);
+      const nodeBody = template.querySelector('.node-body');
+
+      // Use the existing populateNodeBody method to fill in all content
+      this.#populateNodeBody(nodeBody, data);
+
+      // If we have a current node and this node has children, preserve expansion state
+      if (currentNode && data.child_count > 0) {
+        const isExpanded = currentNode.getAttribute('aria-expanded') === 'true';
+        const newExpandIcon = nodeBody.querySelector('.node-expand-icon');
+
+        if (newExpandIcon && isExpanded) {
+          newExpandIcon.classList.add('expanded');
+        }
+      }
+
+      const fragment = new DocumentFragment();
+
+      fragment.appendChild(nodeBody);
+
+      return fragment;
+    }
+
+    /**
      * Sets the metadata on the root node element
      * @param {Element} rootElement - The root <li> element
      * @param {Object} data - The root data object

@@ -24,6 +24,7 @@
       this._ignoreHashChange = false;
       this._pendingHash = null;
       this._pendingSavedUri = null;
+      this._pendingTransaction = null;
 
       this.addListeners();
 
@@ -47,25 +48,38 @@
           const target = this._pendingHash;
           const { uri: savedUri } = e.detail || {};
 
-          $('#saveYourChangesModal').modal('hide');
+          // Store transaction state for completion handler
+          this._pendingTransaction = {
+            target: target,
+            savedUri: savedUri,
+          };
 
+          // Clear pending hash now that we've captured it
           this._pendingHash = null;
           this._pendingSavedUri = null;
           this.isDirty = false;
 
-          // Render the saved node's new data
+          // Start the refresh process
           if (savedUri) {
             this.treeContainer.dispatchEvent(
               new CustomEvent('infiniteTreeRouter:refreshNode', {
                 detail: { uri: savedUri },
               })
             );
+          } else {
+            // No refresh needed, complete transaction immediately
+            this.#completeTransaction();
           }
+        }
+      );
 
-          if (target) {
-            // Update the URL and navigate to the pending target
-            // No need to suppress hashchange since we're not doing full rebuild
-            this.setHash(target);
+      // Listen for refresh completion to finish the transaction
+      this.treeContainer.addEventListener(
+        'infiniteTree:refreshNodeComplete',
+        () => {
+          // Only handle if this is part of a pending transaction
+          if (this._pendingTransaction) {
+            this.#completeTransaction();
           }
         }
       );
@@ -221,6 +235,26 @@
      */
     #normalizeHash(hash) {
       return hash.replace(/^#/, '');
+    }
+
+    /**
+     * Completes the save transaction by closing modal and navigating to target
+     */
+    #completeTransaction() {
+      if (!this._pendingTransaction) return;
+
+      const { target } = this._pendingTransaction;
+
+      // Close the modal now that everything is complete
+      $('#saveYourChangesModal').modal('hide');
+
+      // Navigate to the pending target if there is one
+      if (target) {
+        this.setHash(target);
+      }
+
+      // Clear transaction state
+      this._pendingTransaction = null;
     }
   }
 
