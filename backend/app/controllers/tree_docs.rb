@@ -14,6 +14,8 @@ class TreeDocs
 
       * title (String) -- Record title
 
+      * parsed_title (String) -- Record title with EAD markup converted to HTML spans for display
+
       * uri (String) -- Record URI
 
       * precomputed_waypoints (JSON) -- A nested JSON object containing the first "waypoint" (set of children), limited to `waypoint_size`. The JSON object is structured as follows: `{ "": { "0": [<JSON Object>] }`.  `precomputed_waypoints[''][0]` is an array of JSON objects representing immediate children of the root record. The format of this object is similar to the object returned by: `/repositories/:repo_id/:record_type/:id/tree/node` but without its own precomputed_waypoints.
@@ -38,7 +40,9 @@ class TreeDocs
     Returns a JSON array containing information for the records contained in a given waypoint.  Each array element is an object that includes:
     
       * title -- the record's title
-    
+
+      * parsed_title -- the record's title with EAD markup converted to HTML spans for display
+
       * uri -- the record URI
     
       * position -- the logical position of this record within its subtree
@@ -50,7 +54,13 @@ class TreeDocs
     Returns a JSON object describing enough information about a specific node.  Includes:
     
       * title -- the collection title
-    
+
+      * parsed_title -- the collection title with EAD markup converted to HTML spans for display
+
+      * level -- the archival record level (e.g., "Series", "File", etc.)
+
+      * containers -- an array of container information objects, each containing instance_type, container types, indicators, and barcodes
+
       * uri -- the collection URI
     
       * child_count -- the number of immediate children

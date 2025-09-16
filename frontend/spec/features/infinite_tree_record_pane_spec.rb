@@ -55,7 +55,7 @@ describe 'Infinite Tree Record Pane', js: true do
     end
 
     context 'when an infinite tree node record title is clicked' do
-      it 'shows the readonly form for the new current record' do
+      it 'shows the readonly form for the new selected record' do
         visit "/resources/#{resource.id}"
         wait_for_ajax
         form = page.find('#infinite-tree-record-pane .readonly-context')
