@@ -13,6 +13,7 @@ describe 'Agents', js: true do
     visit('/agents')
     first('.record-title').click
     expect(current_path).to match(/agents\/people\/\d+/)
+    expect(page).to have_content('Linked Agent 1')
   end
 
   it 'does not highlight repository uri' do
