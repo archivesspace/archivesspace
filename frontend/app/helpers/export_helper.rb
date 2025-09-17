@@ -25,62 +25,107 @@ module ExportHelper
     end
   end
 
-  # This is meant to be used by the search controller to be able to fill in the derived "context" column,
-  # since JSONModel can't do that as it isn't stored/indexed.
-  def csv_export_with_context(request_uri, params = {})
+  # Helper method to map user-requested field names to backend field names for CSV exports
+  def map_fields_for_backend(requested_fields)
+    backend_fields = []
+    requested_fields.each do |field|
+      if field == 'context'
+        # Context is special - it needs ancestor fields in the backend request
+        backend_fields.concat(CSVMappingConverter.ancestor_fields)
+      else
+        # Map regular fields using shared method
+        backend_fields << CSVMappingConverter.map_field_name(field)
+      end
+    end
+    backend_fields
+  end
+
+  # Enhanced CSV export that handles header mapping and field transformations
+  def csv_export_with_mappings(request_uri, params = {})
+    # Extract requested fields from params
+    requested_fields = params['fields[]'] || []
+    
+    # Map user-requested field names to backend field names for the request
+    backend_fields = map_fields_for_backend(requested_fields)
+    
+    # Update params to request the correct backend field names
+    params = params.dup
+    params['fields[]'] = backend_fields if requested_fields.any?
     params["dt"] = "csv"
+    
     JSONModel::HTTP::stream(request_uri, params) do |response|
       old_csv = CSV.parse(response.body)
-      new_csv = ContextConverter.new.convert_ancestors_to_context old_csv
+      new_csv = CSVMappingConverter.new(requested_fields).convert_with_header_mapping old_csv
 
       # convert arrays back CSV string
       return new_csv.map(&:to_csv).join
     end
   end
 
-  # Creates a "context" string intended to match what is displayed in the Staff UI for search results.
-  class ContextConverter
-
-    # There are several different fields that 'context' data may potentially be drawn from
-    def self.ancestor_fields
-      ['ancestors', 'linked_instance_uris', 'linked_record_uris', 'collection_uri_u_sstr', 'digital_object']
+  # Handles header mapping and field transformations for CSV exports
+  class CSVMappingConverter
+    
+    # Define header mappings from backend field names to user-friendly names
+    def self.header_mappings
+      {
+        'context' => I18n.t('search_results.filter.top_container.context', :default => 'Resource/Accession'),
+        'container_profile_display_string_u_sstr' => I18n.t('search_results.filter.top_container.container_profile_display_string_u_sstr', :default => 'Container Profile'),
+        'location_display_string_u_sstr' => I18n.t('search_results.filter.top_container.location_display_string_u_sstr', :default => 'Location'),
+        'title' => I18n.t('search_results.filter.top_container.title', :default => 'Title'),
+        'type_enum_s' => I18n.t('search_results.filter.top_container.type', :default => 'Type'),
+        'indicator_u_icusort' => I18n.t('search_results.filter.top_container.indicator', :default => 'Indicator'),
+        'barcode_u_sstr' => I18n.t('search_results.filter.top_container.barcode', :default => 'Barcode')
+      }
     end
 
-    def initialize
+    # Map user-requested field names to actual backend field names
+    FIELD_NAME_MAPPINGS = {
+      'type' => 'type_enum_s',
+      'indicator' => 'indicator_u_icusort',
+      'barcode' => 'barcode_u_sstr'
+    }.freeze
+
+    # Cached ancestor fields for performance  
+    def self.ancestor_fields
+      @ancestor_fields ||= ['ancestors', 'linked_instance_uris', 'linked_record_uris', 'collection_uri_u_sstr', 'digital_object']
+    end
+
+    # Shared method to map a single field name
+    def self.map_field_name(field)
+      FIELD_NAME_MAPPINGS[field] || field
+    end
+
+    def initialize(requested_fields = [])
+      @requested_fields = requested_fields
       # Fetching JSONModel records from the backend creates a lot of overhead, and it's likely that many records have
       # the same ancestor(s), so we'll cache the titles to mitigate that.
       @title_cache = {}
     end
 
-    def convert_ancestors_to_context(old_csv)
-      # we want all the columns from the search except for the various ancestor fields, which will all end up in context
-      new_csv = [old_csv[0].reject {|header| self.class.ancestor_fields.include? header}]
-      new_csv[0].append 'context'
-      new_row_length = new_csv[0].length
-      context_column_index = new_csv[0].index 'context'
-
-      column_map = []
-      old_csv[0].each_with_index do |old_column, old_column_index|
-        new_column_index = new_csv[0].index(old_column)
-        if new_column_index
-          column_map[old_column_index] = new_column_index
-        else
-          column_map[old_column_index] = context_column_index
-        end
+    # Get the actual backend field names for the requested fields
+    def get_backend_field_names(requested_fields)
+      requested_fields.map do |field|
+        self.class.map_field_name(field)
       end
+    end
 
-      old_csv[1...old_csv.length].each do |old_row|
-        new_row = Array.new(new_row_length)
-        column_map.each_with_index do |new_column_index, old_column_index|
-          if new_column_index == context_column_index
-            # these ones need to be moved to the context column if they exist
-            uris = old_row[old_column_index]
-            new_row[new_column_index] = context_string(uris.split ',') unless uris.blank?
-          else
-            new_row[new_column_index] = old_row[old_column_index]&.force_encoding('utf-8')
-          end
+    def convert_with_header_mapping(old_csv)
+      return old_csv if old_csv.empty?
+      
+      old_headers = old_csv[0]
+      
+      # Handle context field specially if it was requested - we need to include ancestor fields
+      if @requested_fields.include?('context')
+        # Include ancestor fields in the backend request but map to context in output
+        new_csv = process_with_context_mapping(old_csv, old_headers)
+      else
+        # Regular header mapping without special context processing
+        new_headers = old_headers.map { |header| map_header_name(header) }
+        new_csv = [new_headers]
+        old_csv[1...old_csv.length].each do |old_row|
+          new_row = old_row.map { |value| clean_field_value(value) }
+          new_csv.append new_row
         end
-        new_csv.append new_row
       end
 
       new_csv
@@ -88,17 +133,104 @@ module ExportHelper
 
     private
 
-    # given a list of ancestor URIs, look up record titles and construct context string that matches the frontend display
-    def context_string(ancestor_uris)
-      ancestor_context = ''
-      ancestor_uris.reverse.each_with_index do |ancestor_uri, i|
-        title = @title_cache.fetch(ancestor_uri) do |uri|
-          @title_cache[uri] = JSONModel::HTTP.get_json(ancestor_uri)['title']
+    def map_header_name(header)
+      self.class.header_mappings[header] || header
+    end
+
+    def clean_field_value(value)
+      return value if value.nil?
+      
+      # Fix force encoding and remove unnecessary escaping
+      cleaned_value = value&.force_encoding('utf-8')
+      
+      # Remove backslash escaping of commas since CSV already handles this with quotes
+      cleaned_value&.gsub('\,', ',')
+    end
+
+    # Creates a "context" string intended to match what is displayed in the Staff UI for search results.
+    # This is meant to be used by the search controller to be able to fill in the derived "context" column,
+    # since JSONModel can't do that as it isn't stored/indexed.
+    def process_with_context_mapping(old_csv, old_headers)
+      # When context is requested, we need to build it from ancestor fields
+      # and map headers appropriately
+      
+      # Build the final header row in the requested order
+      final_headers = []
+      column_mapping = []
+      context_position = nil
+      
+      @requested_fields.each_with_index do |requested_field, index|
+        if requested_field == 'context'
+          final_headers << self.class.header_mappings['context']
+          context_position = index
+          column_mapping << :context
+        else
+          # Map the requested field name to the backend field name for column lookup
+          backend_field_name = self.class.map_field_name(requested_field)
+          final_headers << (self.class.header_mappings[backend_field_name] || requested_field.titleize)
+          column_mapping << old_headers.index(backend_field_name)
         end
-        ancestor_context += title
-        ancestor_context += ' > ' if i < ancestor_uris.length - 1
       end
-      ancestor_context
+      
+      new_csv = [final_headers]
+      
+      # Find ancestor field indices for context building
+      ancestor_field_indices = self.class.ancestor_fields.map { |field| old_headers.index(field) }.compact
+      
+      old_csv[1...old_csv.length].each do |old_row|
+        new_row = Array.new(final_headers.length)
+        
+        column_mapping.each_with_index do |mapping, new_index|
+          if mapping == :context
+            # Build context from ancestor fields
+            context_value = build_context_from_ancestors(old_row, old_headers, ancestor_field_indices)
+            new_row[new_index] = context_value || ''
+          elsif mapping
+            new_row[new_index] = clean_field_value(old_row[mapping])
+          end
+        end
+        
+        new_csv.append new_row
+      end
+
+      new_csv
+    end
+
+    def build_context_from_ancestors(row, headers, ancestor_indices)
+      # Try to build context from ancestor fields
+      ancestor_uris = []
+      
+      ancestor_indices.each do |index|
+        next if index.nil?
+        value = row[index]
+        next if value.blank?
+        
+        if value.include?(',')
+          ancestor_uris.concat(value.split(',').map(&:strip))
+        else
+          ancestor_uris << value.strip
+        end
+      end
+      
+      return nil if ancestor_uris.empty?
+      
+      # Build context string from URIs
+      context_parts = []
+      ancestor_uris.reverse.each do |ancestor_uri|
+        next if ancestor_uri.blank?
+        
+        title = @title_cache.fetch(ancestor_uri) do |uri|
+          begin
+            @title_cache[uri] = JSONModel::HTTP.get_json(ancestor_uri)['title']
+          rescue
+            # If we can't fetch the title, use the URI as fallback
+            @title_cache[uri] = uri
+          end
+        end
+        context_parts << title
+      end
+      
+      context_parts.join(' > ')
     end
 
   end
