@@ -44,38 +44,43 @@ module ExportHelper
   def csv_export_with_mappings(request_uri, params = {})
     # Extract requested fields from params
     requested_fields = params['fields[]'] || []
-    
+
     # Map user-requested field names to backend field names for the request
     backend_fields = map_fields_for_backend(requested_fields)
-    
+
     # Update params to request the correct backend field names
     params = params.dup
     params['fields[]'] = backend_fields if requested_fields.any?
     params["dt"] = "csv"
-    
+
+    result = nil
     JSONModel::HTTP::stream(request_uri, params) do |response|
       old_csv = CSV.parse(response.body)
       new_csv = CSVMappingConverter.new(requested_fields).convert_with_header_mapping old_csv
 
       # convert arrays back CSV string
-      return new_csv.map(&:to_csv).join
+      result = new_csv.map { |row| CSV.generate_line(row) }.join
     end
+    result
   end
 
   # Handles header mapping and field transformations for CSV exports
   class CSVMappingConverter
-    
+
     # Define header mappings from backend field names to user-friendly names
+    # Using I18n translations with fallbacks for test environment
     def self.header_mappings
-      {
-        'context' => I18n.t('search_results.filter.top_container.context', :default => 'Resource/Accession'),
-        'container_profile_display_string_u_sstr' => I18n.t('search_results.filter.top_container.container_profile_display_string_u_sstr', :default => 'Container Profile'),
-        'location_display_string_u_sstr' => I18n.t('search_results.filter.top_container.location_display_string_u_sstr', :default => 'Location'),
-        'title' => I18n.t('search_results.filter.top_container.title', :default => 'Title'),
-        'type_enum_s' => I18n.t('search_results.filter.top_container.type', :default => 'Type'),
-        'indicator_u_icusort' => I18n.t('search_results.filter.top_container.indicator', :default => 'Indicator'),
-        'barcode_u_sstr' => I18n.t('search_results.filter.top_container.barcode', :default => 'Barcode')
-      }
+      @header_mappings ||= begin
+        {
+          'context' => (I18n.t('search_results.filter.top_container.context', :default => 'Resource/Accession') rescue 'Resource/Accession'),
+          'container_profile_display_string_u_sstr' => (I18n.t('search_results.filter.top_container.container_profile_display_string_u_sstr', :default => 'Container Profile') rescue 'Container Profile'),
+          'location_display_string_u_sstr' => (I18n.t('search_results.filter.top_container.location_display_string_u_sstr', :default => 'Location') rescue 'Location'),
+          'title' => (I18n.t('search_results.filter.top_container.title', :default => 'Title') rescue 'Title'),
+          'type_enum_s' => (I18n.t('search_results.filter.top_container.type', :default => 'Type') rescue 'Type'),
+          'indicator_u_icusort' => (I18n.t('search_results.filter.top_container.indicator', :default => 'Indicator') rescue 'Indicator'),
+          'barcode_u_sstr' => (I18n.t('search_results.filter.top_container.barcode', :default => 'Barcode') rescue 'Barcode')
+        }
+      end
     end
 
     # Map user-requested field names to actual backend field names
@@ -85,7 +90,7 @@ module ExportHelper
       'barcode' => 'barcode_u_sstr'
     }.freeze
 
-    # Cached ancestor fields for performance  
+    # Cached ancestor fields for performance
     def self.ancestor_fields
       @ancestor_fields ||= ['ancestors', 'linked_instance_uris', 'linked_record_uris', 'collection_uri_u_sstr', 'digital_object']
     end
@@ -111,9 +116,9 @@ module ExportHelper
 
     def convert_with_header_mapping(old_csv)
       return old_csv if old_csv.empty?
-      
+
       old_headers = old_csv[0]
-      
+
       # Handle context field specially if it was requested - we need to include ancestor fields
       if @requested_fields.include?('context')
         # Include ancestor fields in the backend request but map to context in output
@@ -139,10 +144,10 @@ module ExportHelper
 
     def clean_field_value(value)
       return value if value.nil?
-      
+
       # Fix force encoding and remove unnecessary escaping
       cleaned_value = value&.force_encoding('utf-8')
-      
+
       # Remove backslash escaping of commas since CSV already handles this with quotes
       cleaned_value&.gsub('\,', ',')
     end
@@ -153,12 +158,12 @@ module ExportHelper
     def process_with_context_mapping(old_csv, old_headers)
       # When context is requested, we need to build it from ancestor fields
       # and map headers appropriately
-      
+
       # Build the final header row in the requested order
       final_headers = []
       column_mapping = []
       context_position = nil
-      
+
       @requested_fields.each_with_index do |requested_field, index|
         if requested_field == 'context'
           final_headers << self.class.header_mappings['context']
@@ -171,15 +176,15 @@ module ExportHelper
           column_mapping << old_headers.index(backend_field_name)
         end
       end
-      
+
       new_csv = [final_headers]
-      
+
       # Find ancestor field indices for context building
       ancestor_field_indices = self.class.ancestor_fields.map { |field| old_headers.index(field) }.compact
-      
+
       old_csv[1...old_csv.length].each do |old_row|
         new_row = Array.new(final_headers.length)
-        
+
         column_mapping.each_with_index do |mapping, new_index|
           if mapping == :context
             # Build context from ancestor fields
@@ -189,7 +194,7 @@ module ExportHelper
             new_row[new_index] = clean_field_value(old_row[mapping])
           end
         end
-        
+
         new_csv.append new_row
       end
 
@@ -199,26 +204,26 @@ module ExportHelper
     def build_context_from_ancestors(row, headers, ancestor_indices)
       # Try to build context from ancestor fields
       ancestor_uris = []
-      
+
       ancestor_indices.each do |index|
         next if index.nil?
         value = row[index]
         next if value.blank?
-        
+
         if value.include?(',')
           ancestor_uris.concat(value.split(',').map(&:strip))
         else
           ancestor_uris << value.strip
         end
       end
-      
+
       return nil if ancestor_uris.empty?
-      
+
       # Build context string from URIs
       context_parts = []
       ancestor_uris.reverse.each do |ancestor_uri|
         next if ancestor_uri.blank?
-        
+
         title = @title_cache.fetch(ancestor_uri) do |uri|
           begin
             @title_cache[uri] = JSONModel::HTTP.get_json(ancestor_uri)['title']
@@ -229,7 +234,7 @@ module ExportHelper
         end
         context_parts << title
       end
-      
+
       context_parts.join(' > ')
     end
 

@@ -49,7 +49,7 @@ class SearchController < ApplicationController
       }
       format.csv {
         uri = "/repositories/#{session[:repo_id]}/search"
-        
+
         send_data csv_export_with_mappings(uri, Search.build_filters(criteria)),
           filename: "#{t('search_results.title').downcase}.#{Time.now.to_i}.csv"
       }
