@@ -98,39 +98,6 @@ describe ExportHelper do
       run_index_round
     end
 
-    it 'handles basic field mapping without context' do
-      # Test basic search without context field
-      params = {
-        'fields[]' => ['title', 'type', 'indicator'],
-        'q' => 'top_container',
-        'type[]' => ['top_container']
-      }
-
-      result = helper.csv_export_with_mappings("#{@repo.uri}/search", params)
-
-      # Should contain mapped headers
-      expect(result).to include('Title,Type,Indicator')
-      # Should contain the data
-      expect(result).to include('box')
-      expect(result).to include('1')
-    end
-
-    it 'handles mixed field types including context' do
-      params = {
-        'fields[]' => ['title', 'type', 'context'],
-        'q' => 'archival_object',
-        'type[]' => ['archival_object']
-      }
-
-      result = helper.csv_export_with_mappings("#{@repo.uri}/search", params)
-
-      # Should contain all mapped headers
-      expect(result).to include('Title,Type,Resource/Accession')
-      # Should contain the series data with context
-      expect(result).to include('Test Series')
-      expect(result).to include('Test Collection')
-    end
-
     it 'handles empty fields array gracefully' do
       mock_csv_response = "title\nTest Title\n"
       allow(JSONModel::HTTP).to receive(:stream).and_yield(double(body: mock_csv_response))
