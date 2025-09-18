@@ -122,6 +122,9 @@ module ExportHelper
     def build_csv_with_mappings(old_csv)
       return old_csv if old_csv.empty?
 
+      # If no specific fields were requested, return the original CSV
+      return old_csv if @requested_fields.empty?
+
       old_headers = old_csv[0]
       # Create the header row
       new_headers = build_header_row(old_headers)

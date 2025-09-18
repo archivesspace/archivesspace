@@ -24,9 +24,9 @@ describe ExportHelper do
 
     run_index_round
 
-    criteria = {'fields[]' => ['primary_type', 'title', 'ancestors'], 'q' => '*', 'page' => '1'}
+    criteria = {'fields[]' => ['primary_type', 'title', 'context'], 'q' => '*', 'page' => '1'}
     export = csv_export_with_mappings "#{@repo.uri}/search", Search.build_filters(criteria)
-    expect(export).to include("accession,יחסי ציבו")
+    expect(export).to include("accession,יחסי ציבור,")
     expect(export).to include('archival_object,ExportHelper series,ExportHelper collection')
     expect(export).to include('archival_object,ExportHelper item,ExportHelper collection > ExportHelper series')
     expect(export).to include('digital_object_component,ExportHelper digital object component,ExportHelper digital object')
