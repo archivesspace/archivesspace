@@ -56,7 +56,7 @@ module ExportHelper
     result = nil
     JSONModel::HTTP::stream(request_uri, params) do |response|
       old_csv = CSV.parse(response.body)
-      new_csv = CSVMappingConverter.new(requested_fields).convert_with_header_mapping old_csv
+      new_csv = CSVMappingConverter.new(requested_fields).build_csv_with_mappings old_csv
 
       # convert arrays back CSV string
       result = new_csv.map { |row| CSV.generate_line(row) }.join
@@ -114,91 +114,88 @@ module ExportHelper
       end
     end
 
-    def convert_with_header_mapping(old_csv)
-      return old_csv if old_csv.empty?
-
-      old_headers = old_csv[0]
-
-      # Handle context field specially if it was requested - we need to include ancestor fields
-      if @requested_fields.include?('context')
-        # Include ancestor fields in the backend request but map to context in output
-        new_csv = process_with_context_mapping(old_csv, old_headers)
-      else
-        # Regular header mapping without special context processing
-        new_headers = old_headers.map { |header| map_header_name(header) }
-        new_csv = [new_headers]
-        old_csv[1...old_csv.length].each do |old_row|
-          new_row = old_row.map { |value| clean_field_value(value) }
-          new_csv.append new_row
-        end
-      end
-
-      new_csv
-    end
-
-    private
-
     def map_header_name(header)
       self.class.header_mappings[header] || header
     end
 
-    def clean_field_value(value)
-      return value if value.nil?
-
-      # Fix force encoding and remove unnecessary escaping
-      cleaned_value = value&.force_encoding('utf-8')
-
-      # Remove backslash escaping of commas since CSV already handles this with quotes
-      cleaned_value&.gsub('\,', ',')
-    end
-
-    # Creates a "context" string intended to match what is displayed in the Staff UI for search results.
-    # This is meant to be used by the search controller to be able to fill in the derived "context" column,
-    # since JSONModel can't do that as it isn't stored/indexed.
-    def process_with_context_mapping(old_csv, old_headers)
-      # When context is requested, we need to build it from ancestor fields
-      # and map headers appropriately
-
-      # Build the final header row in the requested order
-      final_headers = []
-      column_mapping = []
-      context_position = nil
-
-      @requested_fields.each_with_index do |requested_field, index|
-        if requested_field == 'context'
-          final_headers << self.class.header_mappings['context']
-          context_position = index
-          column_mapping << :context
-        else
-          # Map the requested field name to the backend field name for column lookup
-          backend_field_name = self.class.map_field_name(requested_field)
-          final_headers << (self.class.header_mappings[backend_field_name] || requested_field.titleize)
-          column_mapping << old_headers.index(backend_field_name)
-        end
-      end
-
-      new_csv = [final_headers]
-
-      # Find ancestor field indices for context building
-      ancestor_field_indices = self.class.ancestor_fields.map { |field| old_headers.index(field) }.compact
-
+    # Unified CSV building function with dedicated methods for headers and rows
+    def build_csv_with_mappings(old_csv)
+      old_headers = old_csv[0]
+      # Create the header row
+      new_headers = build_header_row(old_headers)
+      new_csv = [new_headers]
+      
+      # Create data rows
       old_csv[1...old_csv.length].each do |old_row|
-        new_row = Array.new(final_headers.length)
-
-        column_mapping.each_with_index do |mapping, new_index|
-          if mapping == :context
-            # Build context from ancestor fields
-            context_value = build_context_from_ancestors(old_row, old_headers, ancestor_field_indices)
-            new_row[new_index] = context_value || ''
-          elsif mapping
-            new_row[new_index] = clean_field_value(old_row[mapping])
-          end
-        end
-
+        new_row = build_data_row(old_row, old_headers)
         new_csv.append new_row
       end
-
+      
       new_csv
+    end
+
+    # Method 1: Creates the header row based on requested fields
+    def build_header_row(old_headers)
+      headers = []
+      
+      @requested_fields.each do |requested_field|
+        if requested_field == 'context'
+          headers << self.class.header_mappings['context']
+        else
+          backend_field_name = self.class.map_field_name(requested_field)
+          headers << (self.class.header_mappings[backend_field_name] || requested_field.titleize)
+        end
+      end
+      
+      headers
+    end
+
+    # Method 2: Creates a data row with proper field mapping and transformations
+    def build_data_row(old_row, old_headers)
+      row = []
+      
+      @requested_fields.each do |requested_field|
+        if requested_field == 'context'
+          # Build context from ancestor fields
+          ancestor_field_indices = self.class.ancestor_fields.map { |field| old_headers.index(field) }.compact
+          context_value = build_context_from_ancestors(old_row, old_headers, ancestor_field_indices)
+          row << (context_value || '')
+        else
+          # Map regular fields
+          backend_field_name = self.class.map_field_name(requested_field)
+          field_index = old_headers.index(backend_field_name)
+          value = field_index ? old_row[field_index] : nil
+          row << clean_field_value(value)
+        end
+      end
+      
+      row
+    end
+
+    def clean_field_value(value)
+      return '' if value.nil?
+      return '' if value == 'null'
+      return '' if value.is_a?(String) && value.strip.empty?
+
+      # Fix force encoding and remove unnecessary escaping
+      # Duplicate the string first to avoid modifying frozen strings
+      cleaned_value = if value.is_a?(String)
+                        value.dup.force_encoding('utf-8')
+                      else
+                        value.to_s.force_encoding('utf-8')
+                      end
+
+      # Remove backslash escaping of commas since CSV already handles this with quotes
+      if cleaned_value.is_a?(String)
+        cleaned_value = cleaned_value.gsub('\\,', ',')
+        cleaned_value = cleaned_value.gsub("\\'", "'")
+        cleaned_value = cleaned_value.gsub('\\"', '"')
+        cleaned_value = cleaned_value.gsub('\\n', ' ')
+        cleaned_value = cleaned_value.gsub('\\r', ' ')
+        cleaned_value = cleaned_value.strip
+      end
+
+      cleaned_value || ''
     end
 
     def build_context_from_ancestors(row, headers, ancestor_indices)

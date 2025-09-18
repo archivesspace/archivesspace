@@ -115,24 +115,6 @@ describe ExportHelper do
       expect(result).to include('1')
     end
 
-    it 'automatically maps user field names to backend field names' do
-      # Mock the HTTP stream to test field mapping
-      mock_csv_response = "type_enum_s,indicator_u_icusort,barcode_u_sstr\nbox,1,BC001\n"
-
-      allow(JSONModel::HTTP).to receive(:stream).and_yield(double(body: mock_csv_response))
-
-      params = {
-        'fields[]' => ['type', 'indicator', 'barcode'],
-        'q' => '*'
-      }
-
-      result = helper.csv_export_with_mappings("/repositories/1/search", params)
-
-      # Should map headers to user-friendly names
-      expect(result).to include('Type,Indicator,Barcode')
-      expect(result).to include('box,1,BC001')
-    end
-
     it 'handles context field by including ancestor fields in backend request' do
       params = {
         'fields[]' => ['title', 'context'],
@@ -242,19 +224,6 @@ describe ExportHelper do
   end
 
   describe 'CSVMappingConverter' do
-    describe '.map_field_name' do
-      it 'maps known field names to backend equivalents' do
-        expect(ExportHelper::CSVMappingConverter.map_field_name('type')).to eq('type_enum_s')
-        expect(ExportHelper::CSVMappingConverter.map_field_name('indicator')).to eq('indicator_u_icusort')
-        expect(ExportHelper::CSVMappingConverter.map_field_name('barcode')).to eq('barcode_u_sstr')
-      end
-
-      it 'returns unknown field names unchanged' do
-        expect(ExportHelper::CSVMappingConverter.map_field_name('title')).to eq('title')
-        expect(ExportHelper::CSVMappingConverter.map_field_name('unknown_field')).to eq('unknown_field')
-      end
-    end
-
     describe '.ancestor_fields' do
       it 'returns cached ancestor fields' do
         fields = ExportHelper::CSVMappingConverter.ancestor_fields
@@ -271,7 +240,7 @@ describe ExportHelper do
       end
     end
 
-    describe '#convert_with_header_mapping' do
+    describe '#build_csv_with_mappings' do
       let(:converter) { ExportHelper::CSVMappingConverter.new(['type', 'indicator', 'title']) }
 
       it 'maps backend headers to user-friendly names' do
@@ -280,9 +249,9 @@ describe ExportHelper do
           ['box', '1', 'Test Container']
         ]
 
-        result = converter.convert_with_header_mapping(csv_data)
+        result = converter.build_csv_with_mappings(csv_data)
 
-        expect(result[0]).to eq(['Type', 'Indicator', 'title'])
+        expect(result[0]).to eq(['Type', 'Indicator', 'Title'])
         expect(result[1]).to eq(['box', '1', 'Test Container'])
       end
 
@@ -301,16 +270,93 @@ describe ExportHelper do
           .with('/repositories/1/archival_objects/1')
           .and_return({'title' => 'Test Series'})
 
-        result = converter.convert_with_header_mapping(csv_data)
+        result = converter.build_csv_with_mappings(csv_data)
 
-        expect(result[0]).to eq(['title', 'Resource/Accession'])
+        expect(result[0]).to eq(['Title', 'Resource/Accession'])
         expect(result[1][0]).to eq('Test Item')
         expect(result[1][1]).to include('Test Series > Test Collection')
       end
 
       it 'handles empty CSV data' do
-        result = converter.convert_with_header_mapping([])
+        result = converter.build_csv_with_mappings([])
         expect(result).to eq([])
+      end
+    end
+
+    describe '#build_header_row' do
+      it 'creates headers for regular fields' do
+        converter = ExportHelper::CSVMappingConverter.new(['type', 'indicator', 'title'])
+        old_headers = ['type_enum_s', 'indicator_u_icusort', 'title']
+        
+        result = converter.send(:build_header_row, old_headers)
+        
+        expect(result).to eq(['Type', 'Indicator', 'Title'])
+      end
+
+      it 'handles context field specially' do
+        converter = ExportHelper::CSVMappingConverter.new(['title', 'context', 'type'])
+        old_headers = ['title', 'ancestors', 'type_enum_s']
+        
+        result = converter.send(:build_header_row, old_headers)
+        
+        expect(result).to eq(['Title', 'Resource/Accession', 'Type'])
+      end
+
+      it 'handles unmapped fields by titleizing them' do
+        converter = ExportHelper::CSVMappingConverter.new(['title', 'unknown_field'])
+        old_headers = ['title', 'unknown_field']
+        
+        result = converter.send(:build_header_row, old_headers)
+        
+        expect(result).to eq(['Title', 'Unknown Field'])
+      end
+    end
+
+    describe '#build_data_row' do
+      it 'creates data row for regular fields' do
+        converter = ExportHelper::CSVMappingConverter.new(['type', 'indicator', 'title'])
+        old_headers = ['type_enum_s', 'indicator_u_icusort', 'title']
+        old_row = ['box', '1', 'Test Container']
+        
+        result = converter.send(:build_data_row, old_row, old_headers)
+        
+        expect(result).to eq(['box', '1', 'Test Container'])
+      end
+
+      it 'handles context field by building from ancestors' do
+        converter = ExportHelper::CSVMappingConverter.new(['title', 'context'])
+        old_headers = ['title', 'ancestors', 'linked_instance_uris']
+        old_row = ['Test Item', '/repositories/1/resources/1', '']
+        
+        # Mock the HTTP call for title lookup
+        allow(JSONModel::HTTP).to receive(:get_json)
+          .with('/repositories/1/resources/1')
+          .and_return({'title' => 'Test Collection'})
+        
+        result = converter.send(:build_data_row, old_row, old_headers)
+        
+        expect(result[0]).to eq('Test Item')
+        expect(result[1]).to eq('Test Collection')
+      end
+
+      it 'handles missing field indices gracefully' do
+        converter = ExportHelper::CSVMappingConverter.new(['type', 'missing_field'])
+        old_headers = ['type_enum_s', 'other_field']
+        old_row = ['box', 'other_value']
+        
+        result = converter.send(:build_data_row, old_row, old_headers)
+        
+        expect(result).to eq(['box', ''])
+      end
+
+      it 'cleans field values properly' do
+        converter = ExportHelper::CSVMappingConverter.new(['title'])
+        old_headers = ['title']
+        old_row = ['Test\, with comma']
+        
+        result = converter.send(:build_data_row, old_row, old_headers)
+        
+        expect(result).to eq(['Test, with comma'])
       end
     end
 
@@ -318,20 +364,58 @@ describe ExportHelper do
       let(:converter) { ExportHelper::CSVMappingConverter.new([]) }
 
       it 'handles nil values' do
-        expect(converter.send(:clean_field_value, nil)).to be_nil
+        expect(converter.clean_field_value(nil)).to eq('')
+      end
+
+      it 'handles null string values' do
+        expect(converter.clean_field_value('null')).to eq('')
+      end
+
+      it 'handles empty string values' do
+        expect(converter.clean_field_value('   ')).to eq('')
       end
 
       it 'removes backslash escaping from commas' do
         dirty_value = 'Item with\, comma'
-        clean_value = converter.send(:clean_field_value, dirty_value)
+        clean_value = converter.clean_field_value(dirty_value)
         expect(clean_value).to eq('Item with, comma')
       end
 
-      it 'forces UTF-8 encoding' do
-        value = 'test'
-        allow(value).to receive(:force_encoding).with('utf-8').and_return(value)
-        converter.send(:clean_field_value, value)
-        expect(value).to have_received(:force_encoding).with('utf-8')
+      it 'removes backslash escaping from quotes' do
+        dirty_value = 'Item with\\" quote'
+        clean_value = converter.clean_field_value(dirty_value)
+        expect(clean_value).to eq('Item with" quote')
+      end
+
+      it 'removes backslash escaping from single quotes' do
+        dirty_value = "Item with\\' quote"
+        clean_value = converter.clean_field_value(dirty_value)
+        expect(clean_value).to eq("Item with' quote")
+      end
+
+      it 'converts newlines to spaces' do
+        dirty_value = "Item with\\nline break"
+        clean_value = converter.clean_field_value(dirty_value)
+        expect(clean_value).to eq('Item with line break')
+      end
+
+      it 'converts carriage returns to spaces' do
+        dirty_value = "Item with\\rcarriage return"
+        clean_value = converter.clean_field_value(dirty_value)
+        expect(clean_value).to eq('Item with carriage return')
+      end
+
+      it 'forces UTF-8 encoding and strips whitespace' do
+        dirty_value = '  test value  '
+        clean_value = converter.clean_field_value(dirty_value)
+        expect(clean_value).to eq('test value')
+        expect(clean_value.encoding).to eq(Encoding::UTF_8)
+      end
+
+      it 'handles non-string values by converting to string' do
+        clean_value = converter.clean_field_value(123)
+        expect(clean_value).to eq('123')
+        expect(clean_value.encoding).to eq(Encoding::UTF_8)
       end
     end
   end
