@@ -115,21 +115,6 @@ describe ExportHelper do
       expect(result).to include('1')
     end
 
-    it 'handles context field by including ancestor fields in backend request' do
-      params = {
-        'fields[]' => ['title', 'context'],
-        'q' => 'archival_object',
-        'type[]' => ['archival_object']
-      }
-
-      result = helper.csv_export_with_mappings("#{@repo.uri}/search", params)
-
-      # Should contain context header mapped to user-friendly name
-      expect(result).to include('Title,Resource/Accession')
-      # Should contain hierarchical context
-      expect(result).to include('Test Collection')
-    end
-
     it 'handles mixed field types including context' do
       params = {
         'fields[]' => ['title', 'type', 'context'],
