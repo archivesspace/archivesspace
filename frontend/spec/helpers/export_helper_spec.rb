@@ -287,27 +287,27 @@ describe ExportHelper do
       it 'creates headers for regular fields' do
         converter = ExportHelper::CSVMappingConverter.new(['type', 'indicator', 'title'])
         old_headers = ['type_enum_s', 'indicator_u_icusort', 'title']
-        
+
         result = converter.send(:build_header_row, old_headers)
-        
+
         expect(result).to eq(['Type', 'Indicator', 'Title'])
       end
 
       it 'handles context field specially' do
         converter = ExportHelper::CSVMappingConverter.new(['title', 'context', 'type'])
         old_headers = ['title', 'ancestors', 'type_enum_s']
-        
+
         result = converter.send(:build_header_row, old_headers)
-        
+
         expect(result).to eq(['Title', 'Resource/Accession', 'Type'])
       end
 
       it 'handles unmapped fields by titleizing them' do
         converter = ExportHelper::CSVMappingConverter.new(['title', 'unknown_field'])
         old_headers = ['title', 'unknown_field']
-        
+
         result = converter.send(:build_header_row, old_headers)
-        
+
         expect(result).to eq(['Title', 'Unknown Field'])
       end
     end
@@ -317,9 +317,9 @@ describe ExportHelper do
         converter = ExportHelper::CSVMappingConverter.new(['type', 'indicator', 'title'])
         old_headers = ['type_enum_s', 'indicator_u_icusort', 'title']
         old_row = ['box', '1', 'Test Container']
-        
+
         result = converter.send(:build_data_row, old_row, old_headers)
-        
+
         expect(result).to eq(['box', '1', 'Test Container'])
       end
 
@@ -327,14 +327,14 @@ describe ExportHelper do
         converter = ExportHelper::CSVMappingConverter.new(['title', 'context'])
         old_headers = ['title', 'ancestors', 'linked_instance_uris']
         old_row = ['Test Item', '/repositories/1/resources/1', '']
-        
+
         # Mock the HTTP call for title lookup
         allow(JSONModel::HTTP).to receive(:get_json)
           .with('/repositories/1/resources/1')
           .and_return({'title' => 'Test Collection'})
-        
+
         result = converter.send(:build_data_row, old_row, old_headers)
-        
+
         expect(result[0]).to eq('Test Item')
         expect(result[1]).to eq('Test Collection')
       end
@@ -343,9 +343,9 @@ describe ExportHelper do
         converter = ExportHelper::CSVMappingConverter.new(['type', 'missing_field'])
         old_headers = ['type_enum_s', 'other_field']
         old_row = ['box', 'other_value']
-        
+
         result = converter.send(:build_data_row, old_row, old_headers)
-        
+
         expect(result).to eq(['box', ''])
       end
 
@@ -353,9 +353,9 @@ describe ExportHelper do
         converter = ExportHelper::CSVMappingConverter.new(['title'])
         old_headers = ['title']
         old_row = ['Test\, with comma']
-        
+
         result = converter.send(:build_data_row, old_row, old_headers)
-        
+
         expect(result).to eq(['Test, with comma'])
       end
     end

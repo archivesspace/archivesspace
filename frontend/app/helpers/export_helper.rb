@@ -124,20 +124,20 @@ module ExportHelper
       # Create the header row
       new_headers = build_header_row(old_headers)
       new_csv = [new_headers]
-      
+
       # Create data rows
       old_csv[1...old_csv.length].each do |old_row|
         new_row = build_data_row(old_row, old_headers)
         new_csv.append new_row
       end
-      
+
       new_csv
     end
 
     # Method 1: Creates the header row based on requested fields
     def build_header_row(old_headers)
       headers = []
-      
+
       @requested_fields.each do |requested_field|
         if requested_field == 'context'
           headers << self.class.header_mappings['context']
@@ -146,14 +146,14 @@ module ExportHelper
           headers << (self.class.header_mappings[backend_field_name] || requested_field.titleize)
         end
       end
-      
+
       headers
     end
 
     # Method 2: Creates a data row with proper field mapping and transformations
     def build_data_row(old_row, old_headers)
       row = []
-      
+
       @requested_fields.each do |requested_field|
         if requested_field == 'context'
           # Build context from ancestor fields
@@ -168,7 +168,7 @@ module ExportHelper
           row << clean_field_value(value)
         end
       end
-      
+
       row
     end
 
