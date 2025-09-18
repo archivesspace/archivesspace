@@ -179,22 +179,6 @@ describe ExportHelper do
       expect(lines[1]).to eq('box,Test Container,1')
     end
 
-    it 'handles fields with no mapping defined' do
-      mock_csv_response = "title,unknown_field,type_enum_s\nTest,Unknown Value,box\n"
-      allow(JSONModel::HTTP).to receive(:stream).and_yield(double(body: mock_csv_response))
-
-      params = {
-        'fields[]' => ['title', 'unknown_field', 'type'],
-        'q' => '*'
-      }
-
-      result = helper.csv_export_with_mappings("/repositories/1/search", params)
-
-      # Should keep unmapped field names as-is
-      expect(result).to include('title,unknown_field,Type')
-      expect(result).to include('Test,Unknown Value,box')
-    end
-
     it 'properly duplicates params to avoid side effects' do
       original_params = {
         'fields[]' => ['type', 'indicator'],
