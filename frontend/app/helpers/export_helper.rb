@@ -120,6 +120,8 @@ module ExportHelper
 
     # Unified CSV building function with dedicated methods for headers and rows
     def build_csv_with_mappings(old_csv)
+      return old_csv if old_csv.empty?
+
       old_headers = old_csv[0]
       # Create the header row
       new_headers = build_header_row(old_headers)
