@@ -5,6 +5,7 @@ class JobsController < ApplicationController
   set_access_control "cancel_job" => [:cancel]
 
   include ExportHelper
+  include MlcHelper
 
   def index
     respond_to do |format|

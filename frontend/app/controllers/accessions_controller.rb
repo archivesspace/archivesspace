@@ -39,7 +39,10 @@ class AccessionsController < ApplicationController
   end
 
   def new
-    @accession = Accession.new({:accession_date => Date.today.strftime('%Y-%m-%d')})._always_valid!
+    @accession = Accession.new({
+      :accession_date => Date.today.strftime('%Y-%m-%d'),
+      :titles => [{:title => t("accession.title_default", :default => "")}]
+    })._always_valid!
     defaults = user_defaults('accession')
     @accession.update(defaults.values) if defaults
 
@@ -48,7 +51,7 @@ class AccessionsController < ApplicationController
 
       if acc
         @accession.populate_from_accession(acc)
-        flash.now[:info] = t("accession._frontend.messages.spawned", accession_display_string: acc.title)
+        flash.now[:info] = t("accession._frontend.messages.spawned", accession_display_string: MultipleTitlesHelper.determine_primary_title(acc.titles, I18n.locale))
         flash[:spawned_from_accession] = acc.id
       end
     end
@@ -111,17 +114,17 @@ class AccessionsController < ApplicationController
                 :model => Accession,
                 :on_invalid => ->() { render action: "new" },
                 :on_valid => ->(id) {
-                    flash[:success] = t("accession._frontend.messages.created", accession_display_string: clean_mixed_content(@accession.title))
-                    if @accession["is_slug_auto"] == false &&
-                       @accession["slug"] == nil &&
-                       params["accession"] &&
-                       params["accession"]["is_slug_auto"] == "1"
+                  flash[:success] = t("accession._frontend.messages.created", accession_display_string: clean_mixed_content(MultipleTitlesHelper.determine_primary_title(@accession.titles, I18n.locale)))
+                  if @accession["is_slug_auto"] == false &&
+                     @accession["slug"] == nil &&
+                     params["accession"] &&
+                     params["accession"]["is_slug_auto"] == "1"
 
-                      flash[:warning] = t("slug.autogen_disabled")
-                    end
-                    redirect_to(:controller => :accessions,
-                                :action => :edit,
-                                :id => id) })
+                    flash[:warning] = t("slug.autogen_disabled")
+                  end
+                  redirect_to(:controller => :accessions,
+                              :action => :edit,
+                              :id => id) })
   end
 
   def update
@@ -132,7 +135,7 @@ class AccessionsController < ApplicationController
                   return render action: "edit"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = t("accession._frontend.messages.updated", accession_display_string: clean_mixed_content(@accession.title))
+                  flash[:success] = t("accession._frontend.messages.updated", accession_display_string: clean_mixed_content(MultipleTitlesHelper.determine_primary_title(@accession.titles, I18n.locale)))
                   if @accession["is_slug_auto"] == false &&
                      @accession["slug"] == nil &&
                      params["accession"] &&
@@ -149,7 +152,7 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.set_suppressed(true)
 
-    flash[:success] = t("accession._frontend.messages.suppressed", accession_display_string: accession.title)
+    flash[:success] = t("accession._frontend.messages.suppressed", accession_display_string: MultipleTitlesHelper.determine_primary_title(accession.titles, I18n.locale))
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
@@ -158,7 +161,7 @@ class AccessionsController < ApplicationController
     accession = Accession.find(params[:id])
     accession.set_suppressed(false)
 
-    flash[:success] = t("accession._frontend.messages.unsuppressed", accession_display_string: accession.title)
+    flash[:success] = t("accession._frontend.messages.unsuppressed", accession_display_string: MultipleTitlesHelper.determine_primary_title(accession.titles, I18n.locale))
     redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
   end
 
@@ -172,9 +175,7 @@ class AccessionsController < ApplicationController
       return redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
     end
 
-    flash[:success] = t("accession._frontend.messages.deleted", accession_display_string: accession.title)
+    flash[:success] = t("accession._frontend.messages.deleted", accession_display_string: MultipleTitlesHelper.determine_primary_title(accession.titles, I18n.locale))
     redirect_to(:controller => :accessions, :action => :index, :deleted_uri => accession.uri)
   end
-
-
 end
