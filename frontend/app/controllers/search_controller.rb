@@ -49,7 +49,9 @@ class SearchController < ApplicationController
       }
       format.csv {
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, Search.build_filters(criteria), "#{t('search_results.title').downcase}." )
+
+        send_data csv_export_with_mappings(uri, Search.build_filters(criteria)),
+          filename: "#{t('search_results.title').downcase}.#{Time.now.to_i}.csv"
       }
     end
   end
@@ -84,19 +86,8 @@ class SearchController < ApplicationController
         criteria = params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS})
         uri = "/repositories/#{session[:repo_id]}/search"
 
-        # The 'context' field (shown as the "Found in" column for text searches) does not actually exist in the backend;
-        # it is derived from the 'ancestors' field at runtime. If it shows up in the fields for the CSV download, we
-        # need special processing to populate it properly. (See ANW-1509)
-        if criteria['fields[]'].include? 'context'
-          criteria['fields[]'].delete 'context'
-          criteria['fields[]'].append *ContextConverter.ancestor_fields
-
-          send_data csv_export_with_context(uri, Search.build_filters(criteria)),
-            filename: "#{t('search_results.title').downcase}.#{Time.now.to_i}.csv"
-        else
-          # the old way (should generally be faster)
-          csv_response(uri, Search.build_filters(criteria), "#{t('search_results.title').downcase}.")
-        end
+        send_data csv_export_with_mappings(uri, Search.build_filters(criteria)),
+          filename: "#{t('search_results.title').downcase}.#{Time.now.to_i}.csv"
       }
     end
   end
