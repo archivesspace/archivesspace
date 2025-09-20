@@ -45,6 +45,10 @@ describe "Resource Duplicate" do
       title: "Resource Title #{now}",
       publish: true,
       ead_id: "Resource EAD ID #{now}",
+      ead_location: 'https://example.com/finding_aid',
+      finding_aid_status: %w(completed in_progress under_revision unprocessed).sample,
+      finding_aid_author: 'Finding Aid Author',
+      repository_processing_note: 'Repository Processing Note',
       :lang_materials => [
         build(:json_lang_material),
         build(:json_lang_material_with_note),
@@ -388,7 +392,7 @@ describe "Resource Duplicate" do
     expect(subject.duplicate).to eq true
     expect(subject.errors).to eq []
 
-    # Ensure related records are only linked to the new resource/archival objects and thay are not duplicated.
+    # Ensure related records are only linked to the new resource/archival objects and they are not duplicated.
     after_duplicate_records_count = total_records_count
     expect(original_total_records_count[:subjects]).to eq after_duplicate_records_count[:subjects]
     expect(original_total_records_count[:classifications]).to eq after_duplicate_records_count[:classifications]
@@ -441,7 +445,7 @@ describe "Resource Duplicate" do
     expect(subject.duplicate).to eq true
     expect(subject.errors).to eq []
 
-    # Ensure related records are only linked to the new resource/archival objects and thay are not duplicated.
+    # Ensure related records are only linked to the new resource/archival objects and they are not duplicated.
     after_duplicate_records_count = total_records_count
     expect(original_total_records_count[:subjects]).to eq after_duplicate_records_count[:subjects]
     expect(original_total_records_count[:classifications]).to eq after_duplicate_records_count[:classifications]
@@ -578,7 +582,7 @@ describe "Resource Duplicate" do
     # Last child on the tree must have no children
     expect(duplicated_sub_sub_sub_children_archival_objects[0].children.count).to eq 0
 
-    # Delete orignal resource
+    # Delete original resource
     resource.delete
     deleted_resource = Resource.where(id: resource.id).to_a
     expect(deleted_resource.count).to eq 0
@@ -650,6 +654,101 @@ describe "Resource Duplicate" do
       expect(resource_duplicated_graph[model].length).to eq ids.length
       # Expect ids to be different
       expect(ids & resource_duplicated_graph[model]).to eq []
+    end
+  end
+
+  context 'when an optional value is excluded from duplication' do
+    # Not an all-encompassing list, but at least a few of them
+    let(:optional_value) { ['ead_location', 'finding_aid_author', 'finding_aid_status', 'repository_processing_note'].sample }
+
+    subject { ::Lib::Resource::Duplicate.new(resource.id, [optional_value]) }
+
+    it 'successfully duplicates a resource, but not the optional value' do
+      # For some reason id_0 is missing from the original resource. We have to reload the object in order to be present.
+      reload_resource = ::Resource.where(id: resource.id).first
+      resource = reload_resource
+
+      # Duplicate the Resource
+      expect(subject.duplicate).to eq true
+      expect(subject.errors).to eq []
+
+      # Load duplicated resource and convert it to json model
+      find_resource_duplicated = ::Resource.where(id: subject.resource.id).to_a
+      expect(find_resource_duplicated.length).to eq 1
+      resource_duplicated = find_resource_duplicated[0]
+      resource_duplicated_json_model = ::Resource.to_jsonmodel(resource_duplicated)
+
+      # Convert source resource to json model
+      resource_json_model = ::Resource.to_jsonmodel(resource)
+
+      # Field excluded from duplication is present in original resource
+      expect(resource_json_model["#{optional_value}"]).not_to be_nil
+
+      # But not in the duplicate
+      expect(resource_duplicated_json_model["#{optional_value}"]).to be_nil
+    end
+  end
+
+  context 'when an optional array-type value is excluded from duplication' do
+    # Not an all-encompassing list, but at least a few of them
+    let(:optional_array) { ['linked_agents', 'metadata_rights_declarations', 'notes', 'rights_statements', 'subjects'].sample }
+
+    subject { ::Lib::Resource::Duplicate.new(resource.id, [optional_array]) }
+
+    it 'successfully duplicates a resource, but not the optional value' do
+      # For some reason id_0 is missing from the original resource. We have to reload the object in order to be present.
+      reload_resource = ::Resource.where(id: resource.id).first
+      resource = reload_resource
+
+      # Duplicate the Resource
+      expect(subject.duplicate).to eq true
+      expect(subject.errors).to eq []
+
+      # Load duplicated resource and convert it to json model
+      find_resource_duplicated = ::Resource.where(id: subject.resource.id).to_a
+      expect(find_resource_duplicated.length).to eq 1
+      resource_duplicated = find_resource_duplicated[0]
+      resource_duplicated_json_model = ::Resource.to_jsonmodel(resource_duplicated)
+
+      # Convert source resource to json model
+      resource_json_model = ::Resource.to_jsonmodel(resource)
+
+      # Field excluded from duplication is present in original resource
+      expect(resource_json_model["#{optional_array}"]).not_to be_empty
+
+      # But not in the duplicate
+      expect(resource_duplicated_json_model["#{optional_array}"]).to be_empty
+    end
+  end
+
+  context 'when a required value is is excluded from duplication' do
+    let(:required_value) { ['dates', 'extents', 'finding_aid_language', 'finding_aid_script', 'id_0', 'lang_materials', 'level', 'publish', 'title'].sample }
+
+    subject { ::Lib::Resource::Duplicate.new(resource.id, [required_value]) }
+
+    it 'successfully duplicates a resource, including the original required value' do
+      # For some reason id_0 is missing from the original resource. We have to reload the object in order to be present.
+      reload_resource = ::Resource.where(id: resource.id).first
+      resource = reload_resource
+
+      # Duplicate the Resource
+      expect(subject.duplicate).to eq true
+      expect(subject.errors).to eq []
+
+      # Load duplicated resource and convert it to json model
+      find_resource_duplicated = ::Resource.where(id: subject.resource.id).to_a
+      expect(find_resource_duplicated.length).to eq 1
+      resource_duplicated = find_resource_duplicated[0]
+      resource_duplicated_json_model = ::Resource.to_jsonmodel(resource_duplicated)
+
+      # Convert source resource to json model
+      resource_json_model = ::Resource.to_jsonmodel(resource)
+
+      # Field excluded from duplication is present in original resource
+      expect(resource_json_model["#{required_value}"]).not_to eq(nil || [])
+
+      # And still present in the duplicate
+      expect(resource_duplicated_json_model["#{required_value}"]).not_to eq(nil || [])
     end
   end
 
@@ -823,7 +922,7 @@ describe "Resource Duplicate" do
       expect(archival_object_duplicated.subjects[x]).to include(subject_to_match(archival_object_source.subjects[x]))
     end
 
-    # Check acrhival object accession links
+    # Check archival object accession links
     expect(archival_object_duplicated.accession_links.count).to eq archival_object_source.accession_links.count
     for x in 0..(archival_object_duplicated.accession_links.count - 1) do
       expect(archival_object_duplicated.accession_links[x]['id']).to_not eq archival_object_source.accession_links[x]['id']
