@@ -161,6 +161,7 @@ class PUIIndexer < PeriodicIndexer
     start = Time.now
     checkpoints = []
     update_mtimes = false
+    state_type = 'tree'
 
     tree_uris = []
 
@@ -171,8 +172,8 @@ class PUIIndexer < PeriodicIndexer
       checkpoints << [repository, root_type, start]
       checkpoints << [repository, node_type, start]
 
-      last_root_node_mtime = [@state.get_last_mtime(repository.id, root_type) - @window_seconds, 0].max
-      last_node_mtime = [@state.get_last_mtime(repository.id, node_type) - @window_seconds, 0].max
+      last_root_node_mtime = [@state.get_last_mtime(repository.id, root_type, state_type) - @window_seconds, 0].max
+      last_node_mtime = [@state.get_last_mtime(repository.id, node_type, state_type) - @window_seconds, 0].max
 
       root_node_ids = Set.new(JSONModel::HTTP.get_json(JSONModel(root_type).uri_for, :all_ids => true, :modified_since => last_root_node_mtime))
       node_ids = JSONModel::HTTP.get_json(JSONModel(node_type).uri_for, :all_ids => true, :modified_since => last_node_mtime)
@@ -217,7 +218,7 @@ class PUIIndexer < PeriodicIndexer
     @unpublished_records.clear()
 
     checkpoints.each do |repository, type, start|
-      @state.set_last_mtime(repository.id, type, start) if update_mtimes
+      @state.set_last_mtime(repository.id, type, start, state_type) if update_mtimes
     end
 
   end
