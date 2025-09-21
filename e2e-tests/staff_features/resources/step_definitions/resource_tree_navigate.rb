@@ -93,19 +93,8 @@ Then 'all Archival Objects are displayed' do
 end
 
 Then 'only the top-level Archival Objects are displayed' do
-  rows = all('#tree-container .table .table-row')
-
-  tries = 0
-  loop do
-    break if rows.length == 2 || tries == 3
-
-    sleep 1
-    tries += 1
-    rows = all('#tree-container .table .table-row')
-  end
-
-  expect(rows.length).to eq 2
-  expect(rows[1].text).to include "Archival Object 1 #{@uuid}"
+  expect(page).to have_css('#tree-container .table .table-row', count: 2)
+  expect(page).to have_css('#tree-container .table .table-row', text: "Archival Object 1 #{@uuid}")
 end
 
 Given 'all levels of hierarchy in the tree are expanded' do

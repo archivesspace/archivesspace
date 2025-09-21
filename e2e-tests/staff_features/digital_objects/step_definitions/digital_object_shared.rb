@@ -79,6 +79,7 @@ end
 
 Given 'the user is on the Digital Object edit page' do
   visit "#{STAFF_URL}/digital_objects/#{@digital_object_id}/edit"
+  expect(page).to have_selector('h2', visible: true, text: 'Digital Object')
 end
 
 Then 'the Digital Objects page is displayed' do
@@ -117,7 +118,7 @@ end
 Given 'the Digital Object is opened in edit mode' do
   visit "#{STAFF_URL}/digital_objects/#{@digital_object_id}/edit"
 
-  wait_for_ajax
+  expect(page).to have_selector('h2', visible: true, text: 'Digital Object')
 end
 
 Then 'the Digital Object Title field has the original value' do

@@ -7,9 +7,10 @@ When 'the user selects Resource in the modal' do
       find('button').click
     end
 
-    rows = all('#tabledSearchResults tbody tr')
-    expect(rows.length).to eq 1
-    rows[0].click
+    wait_for_ajax
+    within '#tabledSearchResults' do
+      find('tbody tr', match: :first).click
+    end
 
     click_on 'Select Resource'
   end
@@ -36,6 +37,7 @@ Then 'the Archival Object publish is set from the Accession publish' do
 end
 
 Then 'the following Archival Object forms have the same values as the Accession' do |linked_record_forms|
+  wait_for_ajax
   linked_record_forms.raw.each do |form_title|
     form_title = form_title[0]
 
@@ -45,30 +47,34 @@ Then 'the following Archival Object forms have the same values as the Accession'
 
     case form_title
     when 'Agent Links'
-      expect(find('#archival_object_linked_agents__0__role_').value).to eq 'creator'
-      expect(find('#archival_object_linked_agents__0__title_').value).to eq "Accession #{@uuid} Agent Title"
-      expect(find('#archival_object_linked_agents__0__relator_').value).to eq 'Annotator'
-      expect(find('#archival_object_linked_agents__0__ref__combobox .token-input-token').text).to include 'test_agent'
+      within '#archival_object_linked_agents__0_' do
+        expect(page).to have_select('archival_object_linked_agents__0__role_', selected: 'Creator')
+        expect(page).to have_field('archival_object_linked_agents__0__title_', with: "Accession #{@uuid} Agent Title")
+        expect(page).to have_field('archival_object_linked_agents__0__relator_', with: 'Annotator')
+        expect(page).to have_css('#archival_object_linked_agents__0__ref__combobox .token-input-token', text: 'test_agent')
+      end
     when 'Accession Links'
-      expect(find('#archival_object_accession_links__0_ .token-input-token').text).to include "Accession #{@uuid}: Accession Title #{@uuid}"
+      expect(page).to have_css('#archival_object_accession_links__0_ .token-input-token', text: "Accession #{@uuid}: Accession Title #{@uuid}")
     when 'Subjects'
-      expect(find('#archival_object_subjects__0_ .token-input-token').text).to include 'test_subject_term'
+      expect(page).to have_css('#archival_object_subjects__0_ .token-input-token', text: 'test_subject_term')
     when 'Languages'
-      expect(find('#archival_object_lang_materials__0__language_and_script__language_').value).to eq 'English'
-      expect(find('#archival_object_lang_materials__0__language_and_script__script_').value).to eq 'Adlam'
+      within '#archival_object_lang_materials__0_' do
+        expect(page).to have_field('archival_object_lang_materials__0__language_and_script__language_', with: 'English')
+        expect(page).to have_select('archival_object_lang_materials__0__language_and_script__script__list', selected: 'Adlam', visible: false)
+      end
     when 'Dates'
-      expect(find('#archival_object_dates__0__label_').value).to eq 'creation'
-      expect(find('#archival_object_dates__0__date_type_').value).to eq 'single'
-      expect(find('#archival_object_dates__0__begin_').value).to eq ORIGINAL_ACCESSION_DATE
+      expect(page).to have_select('archival_object_dates__0__label_', selected: 'Creation')
+      expect(page).to have_select('archival_object_dates__0__date_type_', selected: 'Single')
+      expect(page).to have_field('archival_object_dates__0__begin_', with: ORIGINAL_ACCESSION_DATE)
     when 'Extents'
-      expect(find('#archival_object_extents__0__portion_').value).to eq 'whole'
-      expect(find('#archival_object_extents__0__number_').value).to eq @uuid
-      expect(find('#archival_object_extents__0__extent_type_').value).to eq 'cassettes'
+      expect(page).to have_select('archival_object_extents__0__portion_', selected: 'Whole')
+      expect(page).to have_field('archival_object_extents__0__number_', with: @uuid)
+      expect(page).to have_select('archival_object_extents__0__extent_type_', selected: 'Cassettes')
     when 'Rights Statements'
-      expect(find('#archival_object_rights_statements__0__rights_type_').value).to eq 'copyright'
-      expect(find('#archival_object_rights_statements__0__status_').value).to eq 'copyrighted'
-      expect(find('#archival_object_rights_statements__0__jurisdiction_').value).to eq 'Andorra'
-      expect(find('#archival_object_rights_statements__0__start_date_').value).to eq ORIGINAL_ACCESSION_DATE
+      expect(page).to have_select('archival_object_rights_statements__0__rights_type_', selected: 'Copyright')
+      expect(page).to have_select('archival_object_rights_statements__0__status_', selected: 'Copyrighted')
+      expect(page).to have_field('archival_object_rights_statements__0__jurisdiction_', with: 'Andorra')
+      expect(page).to have_field('archival_object_rights_statements__0__start_date_', with: ORIGINAL_ACCESSION_DATE)
     else
       raise "Invalid form provided: #{form_title}"
     end

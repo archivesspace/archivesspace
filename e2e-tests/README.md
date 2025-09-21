@@ -30,27 +30,29 @@ gem install bundler
 bundle install
 ```
 
-### How to run the tests
+### How to run the test scenarios
 
-#### Run on the remote host
-To run the tests on the `https://e2e.archivesspace.org`, run:
-```
-bundle exec cucumber
-```
-
-#### Run on localhost
-To run the tests on localhost, you have to setup the application with:
+Switch to the e2e-tests directory and start the application with (it will take some minutes to setup the application the first time you run it):
 
 ```
 docker compose -f docker-compose.yml up
 ```
 
-Wait until everything is up and running.
-You can check if the staff interface is running on `http://localhost:8080`.
+Wait until everything is up and running - until the staff interface becomes available on `http://localhost:8080`.
 
-Then, to run the tests, open another terminal, and run:
+Then, to run all the tests, open another terminal, and run:
 ```
 bundle exec cucumber HOST=localhost staff_features/
+```
+
+To run all the scenarios in a specific file:
+```
+bundle exec cucumber HOST=localhost staff_features/assessments/assessment_create.feature
+```
+
+To run a specific scenario:
+```
+bundle exec cucumber HOST=localhost staff_features/assessments/assessment_create.feature --name 'Assessment is created'
 ```
 
 ### Linters
