@@ -35,7 +35,10 @@ When 'the user filters by text with the Agent name in the modal' do
 end
 
 When('the user selects the Agent from the search results in the modal') do
-  rows = all('#tabledSearchResults tbody tr input')
-  expect(rows.length).to eq 1
-  rows[0].click
+  wait_for_ajax
+  within '#tabledSearchResults' do
+    rows = all('tbody tr input')
+    expect(rows.length).to eq 1
+    rows[0].click
+  end
 end

@@ -69,42 +69,60 @@ Then 'the following Resource forms have the same values as the Accession' do |li
 
     case form_title
     when 'Agent Links'
-      expect(find('#resource_linked_agents__0__role_').value).to eq 'creator'
-      expect(find('#resource_linked_agents__0__title_').value).to eq "Accession #{@uuid} Agent Title"
-      expect(find('#resource_linked_agents__0__relator_').value).to eq 'Annotator'
-      expect(find('#resource_linked_agents__0__ref__combobox .token-input-token').text).to include 'test_agent'
+      within '#resource_linked_agents_' do
+        expect(find('#resource_linked_agents__0__role_').value).to eq 'creator'
+        expect(find('#resource_linked_agents__0__title_').value).to eq "Accession #{@uuid} Agent Title"
+        expect(find('#resource_linked_agents__0__relator_').value).to eq 'Annotator'
+        expect(find('#resource_linked_agents__0__ref__combobox .token-input-token').text).to include 'test_agent'
+      end
     when 'Related Accessions'
-      expect(find('#resource_related_accessions__0_ .token-input-token').text).to include "Accession #{@uuid}: Accession Title #{@uuid}"
+      within '#resource_related_accessions_' do
+        expect(find('#resource_related_accessions__0_ .token-input-token').text).to include "Accession #{@uuid}: Accession Title #{@uuid}"
+      end
     when 'Subjects'
-      expect(find('#resource_subjects__0_ .token-input-token').text).to include 'test_subject_term'
+      within '#resource_subjects_' do
+        expect(find('#resource_subjects__0_ .token-input-token').text).to include 'test_subject_term'
+      end
     when 'Languages'
-      expect(find('#resource_lang_materials__0__language_and_script__language_').value).to eq 'English'
-      expect(find('#resource_lang_materials__0__language_and_script__script_').value).to eq 'Adlam'
+      within '#resource_lang_materials_' do
+        expect(find('#resource_lang_materials__0__language_and_script__language_').value).to eq 'English'
+        expect(find('#resource_lang_materials__0__language_and_script__script_').value).to eq 'Adlam'
+      end
     when 'Dates'
-      expect(find('#resource_dates__0__label_').value).to eq 'creation'
-      expect(find('#resource_dates__0__date_type_').value).to eq 'single'
-      expect(find('#resource_dates__0__begin_').value).to eq ORIGINAL_ACCESSION_DATE
+      within '#resource_dates_' do
+        expect(find('#resource_dates__0__label_').value).to eq 'creation'
+        expect(find('#resource_dates__0__date_type_').value).to eq 'single'
+        expect(find('#resource_dates__0__begin_').value).to eq ORIGINAL_ACCESSION_DATE
+      end
     when 'Extents'
-      expect(find('#resource_extents__0__portion_').value).to eq 'whole'
-      expect(find('#resource_extents__0__number_').value).to eq @uuid
-      expect(find('#resource_extents__0__extent_type_').value).to eq 'cassettes'
+      within '#resource_extents_' do
+        expect(find('#resource_extents__0__portion_').value).to eq 'whole'
+        expect(find('#resource_extents__0__number_').value).to eq @uuid
+        expect(find('#resource_extents__0__extent_type_').value).to eq 'cassettes'
+      end
     when 'Rights Statements'
-      expect(find('#resource_rights_statements__0__rights_type_').value).to eq 'copyright'
-      expect(find('#resource_rights_statements__0__status_').value).to eq 'copyrighted'
-      expect(find('#resource_rights_statements__0__jurisdiction_').value).to eq 'Andorra'
-      expect(find('#resource_rights_statements__0__start_date_').value).to eq ORIGINAL_ACCESSION_DATE
+      within '#resource_rights_statements_' do
+        expect(find('#resource_rights_statements__0__rights_type_').value).to eq 'copyright'
+        expect(find('#resource_rights_statements__0__status_').value).to eq 'copyrighted'
+        expect(find('#resource_rights_statements__0__jurisdiction_').value).to eq 'Andorra'
+        expect(find('#resource_rights_statements__0__start_date_').value).to eq ORIGINAL_ACCESSION_DATE
+      end
     when 'Metadata Rights Declarations'
-      expect(find('#resource_metadata_rights_declarations__0__license_').value).to eq 'public_domain'
-      expect(find('#resource_metadata_rights_declarations__0__descriptive_note_').value).to eq "Descriptive Note #{@uuid}"
-      expect(find('#resource_metadata_rights_declarations__0__descriptive_note_').value).to eq "Descriptive Note #{@uuid}"
-      expect(find('#resource_metadata_rights_declarations__0__file_uri_').value).to eq "file-uri-#{@uuid}"
-      expect(find('#resource_metadata_rights_declarations__0__file_version_xlink_actuate_attribute_').value).to eq 'onLoad'
-      expect(find('#resource_metadata_rights_declarations__0__file_version_xlink_show_attribute_').value).to eq 'embed'
-      expect(find('#resource_metadata_rights_declarations__0__xlink_role_attribute_').value).to eq "Xlink Role Attribute #{@uuid}"
-      expect(find('#resource_metadata_rights_declarations__0__xlink_arcrole_attribute_').value).to eq "Xlink Arcrole Attribute #{@uuid}"
-      expect(find('#resource_metadata_rights_declarations__0__last_verified_date_').value).to eq '2000-01-01 00:00:00 UTC'
+      within '#resource_metadata_rights_declarations_' do
+        expect(find('#resource_metadata_rights_declarations__0__license_').value).to eq 'public_domain'
+        expect(find('#resource_metadata_rights_declarations__0__descriptive_note_').value).to eq "Descriptive Note #{@uuid}"
+        expect(find('#resource_metadata_rights_declarations__0__descriptive_note_').value).to eq "Descriptive Note #{@uuid}"
+        expect(find('#resource_metadata_rights_declarations__0__file_uri_').value).to eq "file-uri-#{@uuid}"
+        expect(find('#resource_metadata_rights_declarations__0__file_version_xlink_actuate_attribute_').value).to eq 'onLoad'
+        expect(find('#resource_metadata_rights_declarations__0__file_version_xlink_show_attribute_').value).to eq 'embed'
+        expect(find('#resource_metadata_rights_declarations__0__xlink_role_attribute_').value).to eq "Xlink Role Attribute #{@uuid}"
+        expect(find('#resource_metadata_rights_declarations__0__xlink_arcrole_attribute_').value).to eq "Xlink Arcrole Attribute #{@uuid}"
+        expect(find('#resource_metadata_rights_declarations__0__last_verified_date_').value).to eq '2000-01-01 00:00:00 UTC'
+      end
     when 'Classifications'
-      expect(find('#resource_classifications__0__ref__combobox .token-input-token').text).to include 'test_classification'
+      within '#resource_classifications_' do
+        expect(find('#resource_classifications__0__ref__combobox .token-input-token').text).to include 'test_classification'
+      end
     else
       raise "Invalid form provided: #{form_title}"
     end

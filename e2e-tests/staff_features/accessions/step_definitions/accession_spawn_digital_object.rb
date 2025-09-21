@@ -27,12 +27,16 @@ Then 'the following Digital Object forms have the same values as the Accession' 
 
     case form_title
     when 'Languages'
-      expect(find('#digital_object_lang_materials__0__language_and_script__language_').value).to eq 'English'
-      expect(find('#digital_object_lang_materials__0__language_and_script__script_').value).to eq 'Adlam'
+      within '#accession_lang_materials_' do
+        expect(find('#digital_object_lang_materials__0__language_and_script__language_').value).to eq 'English'
+        expect(find('#digital_object_lang_materials__0__language_and_script__script_').value).to eq 'Adlam'
+      end
     when 'Dates'
-      expect(find('#digital_object_dates__0__label_').value).to eq 'creation'
-      expect(find('#digital_object_dates__0__date_type_').value).to eq 'single'
-      expect(find('#digital_object_dates__0__begin_').value).to eq ORIGINAL_ACCESSION_DATE
+      within '#accession_dates_' do
+        expect(find('#digital_object_dates__0__label_').value).to eq 'creation'
+        expect(find('#digital_object_dates__0__date_type_').value).to eq 'single'
+        expect(find('#digital_object_dates__0__begin_').value).to eq ORIGINAL_ACCESSION_DATE
+      end
     else
       raise "Invalid form provided: #{form_title}"
     end
