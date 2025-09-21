@@ -7,9 +7,11 @@ When 'the user selects Resource in the modal' do
       find('button').click
     end
 
-    rows = all('#tabledSearchResults tbody tr')
-    expect(rows.length).to eq 1
-    rows[0].click
+    within '#tabledSearchResults' do
+      rows = all('tbody tr')
+      expect(rows.length).to eq 1
+      rows[0].click
+    end
 
     click_on 'Select Resource'
   end

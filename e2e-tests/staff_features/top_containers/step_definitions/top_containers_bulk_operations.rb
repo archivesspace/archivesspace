@@ -138,8 +138,9 @@ When 'the user selects Container Profile in the modal' do
   fill_in 'filter-text', with: 'test_container_profile'
   find('.search-filter button').click
 
-  rows = all('#tabledSearchResults input')
-  rows[0].click
+  within '#tabledSearchResults' do
+    find('input', match: :first).click
+  end
 end
 
 When 'the user clicks on {string} in the Browse Container Profiles modal' do |string|

@@ -8,13 +8,19 @@ def search(uuid)
 end
 
 def login_admin
-  visit STAFF_URL
+  visit "#{STAFF_URL}/logout" # ensure we are logged out before trying to login
 
-  fill_in 'username', with: 'admin'
-  fill_in 'password', with: 'admin'
+  page.has_xpath? '//input[@id="login"]'
 
-  click_on 'Sign In'
+  within 'form.login' do
+    fill_in 'username', with: 'admin'
+    fill_in 'password', with: 'admin'
+    click_on 'Sign In'
+  end
 
+  wait_for_ajax
+
+  expect(page).not_to have_content('Please Sign In')
   expect(page).to have_content 'Welcome to ArchivesSpace'
   expect(page).to have_content 'Your friendly archives management tool.'
   element = find('.global-header .user-container')
@@ -52,7 +58,6 @@ def login_archivist
   expect(page).to have_text 'User Saved'
 
   visit "#{STAFF_URL}/logout"
-  visit STAFF_URL
 
   fill_in 'username', with: "archivist-user-#{uuid}"
   fill_in 'password', with: "archivist-user-#{uuid}"
