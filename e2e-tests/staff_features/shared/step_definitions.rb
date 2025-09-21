@@ -107,8 +107,8 @@ When 'the user clicks on the first dropdown in the {string} form' do |form_title
   section = section_title.ancestor('section')
   expect(section[:id]).to_not eq nil
 
-  within section do
-    find('.dropdown-toggle', match: :first).click
+  within "##{section[:id]}" do
+    find('.input-group-append .dropdown-toggle', match: :first).click
   end
 end
 
@@ -117,7 +117,7 @@ When 'the user clicks on {string} in the {string} form' do |string, form_title|
   section = section_title.ancestor('section')
   expect(section[:id]).to_not eq nil
 
-  within section do
+  within "##{section[:id]}" do
     click_on string
   end
 end
@@ -127,10 +127,8 @@ When 'the user clicks on {string} in the dropdown menu in the {string} form' do 
   section = section_title.ancestor('section')
   expect(section[:id]).to_not eq nil
 
-  within section do
-    dropdown_menu = find('.dropdown-menu')
-
-    within dropdown_menu do
+  within "##{section[:id]}" do
+    within '.dropdown-menu' do
       click_on string
     end
   end
@@ -187,7 +185,13 @@ When 'the user fills in {string} with {string} in the {string} form' do |label, 
   expect(section[:id]).to_not eq nil
 
   within section do
-    fill_in label, with: value
+    if form_title == 'Dates'
+      within 'li.sort-enabled.initialised' do
+        fill_in label, with: value
+      end
+    else
+      fill_in label, with: value
+    end
   end
 end
 
@@ -270,41 +274,33 @@ When 'the user changes the {string} field' do |field|
 end
 
 Then('the {string} created message is displayed') do |string|
-  wait_for_ajax if current_url.include?('resources') || current_url.include?('digital_objects')
-
-  expect(find('.alert.alert-success.with-hide-alert').text).to match(/^#{string}.*created.*$/i)
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /^#{Regexp.quote(string)}.*created.*$/i)
 
   @created_record_id = extract_created_record_id(string)
 end
 
 Then('the {string} updated message is displayed') do |string|
-  wait_for_ajax if current_url.include?('resources') ||
-                   current_url.include?('digital_objects') ||
-                   current_url.include?('top_containers')
-
-  expect(find('.alert.alert-success', match: :first).text).to match(/^#{string}.*updated$/i)
+  expect(page).to have_css('.alert.alert-success', text: /^#{Regexp.quote(string)}.*updated.*$/i)
 end
 
 Then('the {string} saved message is displayed') do |string|
-  wait_for_ajax if current_url.include? 'resources'
-
-  expect(find('.alert.alert-success.with-hide-alert').text).to match(/^#{string}.*saved$/i)
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /^#{Regexp.quote(string)}.*saved.*$/i)
 end
 
 Then('the {string} deleted message is displayed') do |string|
-  expect(find('.alert.alert-success.with-hide-alert').text).to match(/^#{string}.*deleted$/i)
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /^#{Regexp.quote(string)}.*deleted.*$/i)
 end
 
 Then('the {string} published message is displayed') do |string|
-  expect(find('.alert.alert-success.with-hide-alert').text).to match(/#{string} .* subrecords and components have been published.*$/i)
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /#{string} .* subrecords and components have been published.*$/i)
 end
 
 Then('the {string} unpublished message is displayed') do |string|
-  expect(find('.alert.alert-success.with-hide-alert').text).to match(/#{string} .* subrecords and components have been unpublished.*$/i)
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /#{string} .* subrecords and components have been unpublished.*$/i)
 end
 
 Then('the {string} merged message is displayed') do |string|
-  expect(find('.alert.alert-success.with-hide-alert').text.downcase).to eq("#{string} Merged".downcase)
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /^#{Regexp.quote(string)}.*merged.*$/i)
 end
 
 Then 'the following message is displayed' do |messages|
@@ -314,7 +310,7 @@ Then 'the following message is displayed' do |messages|
 end
 
 Then('the {string} duplicated message is displayed') do |string|
-  expect(find('.alert.alert-success.with-hide-alert').text).to match(/^#{string}.*duplicated.*$/i)
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /^#{Regexp.quote(string)}.*duplicated.*$/i)
 end
 
 Then 'only the following info message is displayed' do |messages|
@@ -375,9 +371,7 @@ Given 'the Pre-populate Records option is checked in Repository Preferences' do
   find('#repository_repository__publish_').check
   click_on 'Save'
 
-  message = find('.alert')
-
-  expect(message.text).to eq 'Repository Created'
+  expect(page).to have_css('.alert.alert-success', text: 'Repository Created')
 
   visit STAFF_URL
 
@@ -399,6 +393,7 @@ Given 'the Pre-populate Records option is checked in Repository Preferences' do
   expect(find('#preference_defaults__default_values_').checked?).to eq true
 
   click_on 'Save'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Preferences updated')
 end
 
 When 'the user clears {string} in the {string} form' do |label, form_title|
