@@ -16,7 +16,7 @@ describe 'Reorder Mode', js: true do
     select_repository(@repo)
   end
 
-  
+
 
     # Reliable element interaction
   def safely_interact_with_element(element, container: nil)
@@ -99,10 +99,10 @@ describe 'Reorder Mode', js: true do
         # Find and click the radio button directly
         radio_button = find("input[type='radio'][name='drop-behavior'][value='#{behavior}']", visible: false)
         expect(radio_button).to be_present
-        
+
         # Click the radio button using JavaScript since it's hidden
         page.execute_script("arguments[0].click();", radio_button)
-        
+
         # Verify it's selected
         expect(radio_button).to be_checked
       end
@@ -193,7 +193,7 @@ describe 'Reorder Mode', js: true do
         # Set the drop behavior using radio buttons
         radio_button = find("input[type='radio'][name='drop-behavior'][value='#{drop_behavior}']", visible: false)
         page.execute_script("arguments[0].click();", radio_button)
-        
+
         # Verify the radio button is selected
         expect(radio_button).to be_checked
 
