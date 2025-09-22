@@ -55,12 +55,12 @@ services:
 3. new tab- bash into the container again: `docker-compose exec app bash`
 4. run the individual command to start the front end only: `./build/run frontend:devserver`
 
-# How to use demo data in dev
-1. Copy the demo db into the db docker container: `docker cp demo.sql archivesspace_db_1:/` or `docker cp demo.sql archivesspace-db-1:/` depending on the name of your docker container
+## How to use demo data
+1. Copy the demo db into the db docker container: `docker cp build/mysql_db_fixtures/demo.sql.gz archivesspace_db_1:/` or `docker cp build/mysql_db_fixtures/demo.sql.gz archivesspace-db-1:/` depending on the name of your docker container
   - run `docker ps` to see the name of your db container
 2. bash into the container for db: `docker-compose exec db sh`
-3. import the database: `mysql -p archivesspace < demo.sql`
-4. password is 123456
+3. Unzip sql file: `gzip demo.sql.gz``
+4. import the database: `mysql -p archivesspace < demo.sql`, password is 123456
 
 # Running the test suite
 1. Bash into the container: `docker compose exec app bash`
