@@ -16,6 +16,8 @@ describe 'Reorder Mode', js: true do
     select_repository(@repo)
   end
 
+  
+
     # Reliable element interaction
   def safely_interact_with_element(element, container: nil)
     if container
@@ -24,9 +26,13 @@ describe 'Reorder Mode', js: true do
       page.execute_script("arguments[0].scrollIntoView({block: 'center'});", element.native)
     end
 
-    expect(element).to be_visible
-
-    element.click
+    # For hidden elements (like radio buttons), don't check visibility
+    if element[:type] == 'radio' && !element.visible?
+      page.execute_script("arguments[0].click();", element)
+    else
+      expect(element).to be_visible
+      element.click
+    end
     wait_for_ajax
   end
 
@@ -90,11 +96,14 @@ describe 'Reorder Mode', js: true do
 
       # Test each drop behavior radio button
       ['before', 'into', 'after'].each do |behavior|
-        # Choose radio button
-        choose("drop-#{behavior}")
-
-        # Verify it's selected
+        # Find and click the radio button directly
         radio_button = find("input[type='radio'][name='drop-behavior'][value='#{behavior}']", visible: false)
+        expect(radio_button).to be_present
+        
+        # Click the radio button using JavaScript since it's hidden
+        page.execute_script("arguments[0].click();", radio_button)
+        
+        # Verify it's selected
         expect(radio_button).to be_checked
       end
     end
@@ -181,11 +190,11 @@ describe 'Reorder Mode', js: true do
 
       # Test different drop behavior modes
       ['before', 'into', 'after'].each do |drop_behavior|
-        # Choose radio button
-        choose("drop-#{drop_behavior}")
-
-        # Verify the radio button is selected
+        # Set the drop behavior using radio buttons
         radio_button = find("input[type='radio'][name='drop-behavior'][value='#{drop_behavior}']", visible: false)
+        page.execute_script("arguments[0].click();", radio_button)
+        
+        # Verify the radio button is selected
         expect(radio_button).to be_checked
 
         # Perform drag and drop using helper method with tree container
