@@ -92,7 +92,7 @@ describe 'Reorder Mode', js: true do
       ['before', 'into', 'after'].each do |behavior|
         # Choose radio button
         choose("drop-#{behavior}")
-        
+
         # Verify it's selected
         radio_button = find("input[type='radio'][name='drop-behavior'][value='#{behavior}']", visible: false)
         expect(radio_button).to be_checked
@@ -183,7 +183,7 @@ describe 'Reorder Mode', js: true do
       ['before', 'into', 'after'].each do |drop_behavior|
         # Choose radio button
         choose("drop-#{drop_behavior}")
-        
+
         # Verify the radio button is selected
         radio_button = find("input[type='radio'][name='drop-behavior'][value='#{drop_behavior}']", visible: false)
         expect(radio_button).to be_checked
@@ -226,7 +226,7 @@ describe 'Reorder Mode', js: true do
       # Multiselect multiple nodes using Ctrl+click (or Cmd+click on Mac)
       # First, click the first node to select it
       safely_interact_with_element(first_child_row, container: @tree_container)
-      
+
       # Then Ctrl+click the second node to add it to selection
       if second_child_row
         @tree_container.scroll_to(second_child_row, align: :center)
@@ -266,7 +266,7 @@ describe 'Reorder Mode', js: true do
       # Multiselect multiple nodes using Ctrl+click (or Cmd+click on Mac)
       # First, click the first node to select it
       safely_interact_with_element(first_child_row, container: @tree_container)
-      
+
       # Then Ctrl+click the second node to add it to selection
       @tree_container.scroll_to(second_child_row, align: :center)
       page.driver.browser.action.key_down(multiselect_key).click(second_child_row.native).key_up(multiselect_key).perform
@@ -326,7 +326,7 @@ describe 'Reorder Mode', js: true do
 
       # Wait for the operation to complete
       wait_for_ajax
-      
+
       # Verify the cut class is removed after paste
       expect(first_child_row).not_to have_css '.cut'
 
