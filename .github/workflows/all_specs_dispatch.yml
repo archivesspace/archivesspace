@@ -50,7 +50,6 @@ jobs:
     outputs:
       frontend: ${{ steps.filter.outputs.frontend }}
       backend: ${{ steps.filter.outputs.backend }}
-      accessibility: ${{ steps.filter.outputs.accessibility }}
       indexer: ${{ steps.filter.outputs.indexer }}
       public: ${{ steps.filter.outputs.public }}
     steps:
@@ -69,9 +68,6 @@ jobs:
             - 'backend/**'
             - 'common/**'
             - 'oai/**'
-          accessibility:
-            - '.github/workflows/accessibility.yml'
-            - 'public/**'
           indexer:
             - '.github/workflows/indexer.yml'
             - 'indexer/**'
@@ -100,15 +96,6 @@ jobs:
     with:
       java-version: ${{ inputs.java-version || 17 }}
 
-  accessibility:
-    needs: changes
-    if: ${{ needs.changes.outputs.accessibility == 'true' }}
-    uses: ./.github/workflows/accessibility.yml
-    secrets: inherit
-    with:
-      java-version: ${{ inputs.java-version || 17 }}
-      browser: ${{ inputs.browser || 'firefox' }}
-
   indexer:
     needs: changes
     if: ${{ needs.changes.outputs.indexer == 'true' }}
@@ -131,7 +118,6 @@ jobs:
     needs: [
        frontend,
        backend,
-       accessibility,
        indexer,
        public
     ]

@@ -10,6 +10,45 @@ describe 'Search', js: true do
     within all('.col-sm-12')[0] do
       expect(page).to have_content('Search The Archives')
     end
+
+    aggregate_failures 'supporting accessibility by not skipping heading levels' do
+      expect(page).to be_axe_clean.checking_only :'heading-order'
+    end
+
+    aggregate_failures "supporting accessibility with visible labels in the main search form" do
+      within "form#advanced_search" do
+        expect(page).not_to have_css("label.sr-only")
+
+        expect(page).to have_xpath("//label[@for='q0']")
+        expect(page).to have_xpath("//input[@type='text'][@id='q0']")
+
+        expect(page).to have_xpath("//label[@for='limit']")
+        expect(page).to have_xpath("//select[@id='limit']")
+
+        expect(page).to have_xpath("//label[@for='field0']")
+        expect(page).to have_xpath("//select[@id='field0']")
+
+        expect(page).to have_xpath("//label[@for='from_year0']")
+        expect(page).to have_xpath("//input[@id='from_year0']")
+
+        expect(page).to have_xpath("//label[@for='to_year0']")
+        expect(page).to have_xpath("//input[@id='to_year0']")
+
+        first('.btn.btn-light.border').click
+
+        expect(page).to have_xpath("//label[@for='op1']")
+        expect(page).to have_xpath("//select[@id='op1']")
+
+        expect(page).to have_xpath("//label[@for='field1']")
+        expect(page).to have_xpath("//select[@id='field1']")
+
+        expect(page).to have_xpath("//label[@for='from_year1']")
+        expect(page).to have_xpath("//input[@id='from_year1']")
+
+        expect(page).to have_xpath("//label[@for='to_year1']")
+        expect(page).to have_xpath("//input[@id='to_year1']")
+      end
+    end
   end
 
   it 'should use an asterisk for a keyword search when no inputs and search button pressed' do
