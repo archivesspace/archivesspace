@@ -115,7 +115,7 @@ describe 'Agent with multiple name forms', js: true do
       expect(alias_two_item).to have_content('Usage: 2011')
     end
 
-    within('[data-test="main-content-agent-dates"]') do
+    within('#authoritative-name-form-dates') do
       # Check authoritative name and dates appear in main section
       expect(page).to have_content('Usage:')
       expect(page).to have_content('2000 - 2005')
