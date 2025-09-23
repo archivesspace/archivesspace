@@ -25,7 +25,6 @@ module ExportHelper
     end
   end
 
-  # Helper method to map user-requested field names to backend field names for CSV exports
   def map_fields_for_backend(requested_fields)
     backend_fields = []
     requested_fields.each do |field|
@@ -72,13 +71,13 @@ module ExportHelper
     def self.header_mappings
       @header_mappings ||= begin
         {
-          'context' => (I18n.t('search_results.filter.top_container.context', :default => 'Resource/Accession') rescue 'Resource/Accession'),
-          'container_profile_display_string_u_sstr' => (I18n.t('search_results.filter.top_container.container_profile_display_string_u_sstr', :default => 'Container Profile') rescue 'Container Profile'),
-          'location_display_string_u_sstr' => (I18n.t('search_results.filter.top_container.location_display_string_u_sstr', :default => 'Location') rescue 'Location'),
-          'title' => (I18n.t('search_results.filter.top_container.title', :default => 'Title') rescue 'Title'),
-          'type_enum_s' => (I18n.t('search_results.filter.top_container.type', :default => 'Type') rescue 'Type'),
-          'indicator_u_icusort' => (I18n.t('search_results.filter.top_container.indicator', :default => 'Indicator') rescue 'Indicator'),
-          'barcode_u_sstr' => (I18n.t('search_results.filter.top_container.barcode', :default => 'Barcode') rescue 'Barcode')
+          'context' => I18n.t('reports.headings.context', :default => 'Resource/Accession'),
+          'container_profile_display_string_u_sstr' => I18n.t('reports.headings.container_profile', :default => 'Container Profile'),
+          'location_display_string_u_sstr' => I18n.t('reports.headings.location', :default => 'Location'),
+          'title' => I18n.t('reports.headings.title', :default => 'Title'),
+          'type_enum_s' => I18n.t('reports.headings.type', :default => 'Type'),
+          'indicator_u_icusort' => I18n.t('reports.headings.indicator', :default => 'Indicator'),
+          'barcode_u_sstr' => I18n.t('reports.headings.barcode', :default => 'Barcode')
         }
       end
     end
@@ -204,7 +203,6 @@ module ExportHelper
     end
 
     def build_context_from_ancestors(row, headers, ancestor_indices)
-      # Try to build context from ancestor fields
       ancestor_uris = []
 
       ancestor_indices.each do |index|

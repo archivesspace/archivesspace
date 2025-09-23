@@ -18,3 +18,27 @@ pl:
     string_4: Ciąg 4
     text_1: Tekst 1
     integer_1: Liczba całkowita 1
+
+  reports:
+    parameters:
+      from: Od
+      to: Do
+      locations: Lokalizacje
+      scope_by_date: Zakres według Daty
+      template: Szablon
+      rating: Ocena
+      values: Wartości
+    formats:
+      json: JSON
+      csv: CSV
+      pdf: PDF
+      html: HTML
+      rtf: RTF
+    headings:
+      context: Zasób/Przystąpienie
+      container_profile: Profil Kontenera
+      location: Lokalizacja
+      title: Tytuł
+      type: Typ
+      indicator: Wskaźnik
+      barcode: Kod Kreskowy

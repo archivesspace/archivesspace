@@ -90,7 +90,6 @@ describe ExportHelper do
     let(:helper) { Object.new.extend(ExportHelper) }
 
     before do
-      # Create test data
       @collection = create(:resource, title: 'Test Collection', level: 'collection')
       @series = create(:archival_object, title: 'Test Series', level: 'series', resource: {ref: @collection.uri})
       @top_container = create(:top_container, type: 'box', indicator: '1', barcode: 'BC001')
@@ -109,7 +108,6 @@ describe ExportHelper do
 
       result = helper.csv_export_with_mappings("/repositories/1/search", params)
 
-      # Should still process the CSV
       expect(result).to include('title')
       expect(result).to include('Test Title')
     end
@@ -125,7 +123,6 @@ describe ExportHelper do
 
       result = helper.csv_export_with_mappings("/repositories/1/search", params)
 
-      # Should preserve the order: Type, Title, Indicator
       lines = result.split("\n")
       expect(lines[0]).to eq('Type,Title,Indicator')
       expect(lines[1]).to eq('box,Test Container,1')
@@ -153,7 +150,6 @@ describe ExportHelper do
 
       helper.csv_export_with_mappings("/repositories/1/search", original_params)
 
-      # Original params should remain unchanged
       expect(original_params['fields[]']).to eq(['type', 'indicator'])
       expect(original_params['dt']).to be_nil
     end

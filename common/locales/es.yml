@@ -2066,6 +2066,14 @@ es:
       pdf: PDF
       html: HTML
       rtf: RTF
+    headings:
+      context: Recurso/Accesión
+      container_profile: Perfil de Contenedor
+      location: Ubicación
+      title: Título
+      type: Tipo
+      indicator: Indicador
+      barcode: Código de Barras
 
   validation_errors:
     or_date_expression_is_required: Las fechas deben especificar al menos una expresión de fecha
