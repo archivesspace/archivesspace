@@ -207,6 +207,10 @@ class ResourcesController < ApplicationController
                   render_aspace_partial :partial => "edit_inline"
                 },
                 :on_valid => ->(id) {
+                  # make sure subrecords get a title field for frontend ajax calls
+                  @resource['classifications'].select { |c| c['_resolved']['jsonmodel_type'] == 'classification' }.each do |classification|
+                    MultipleTitlesHelper.subrecord_select_primary_title!(classification['_resolved'], I18n.locale)
+                  end
                   flash.now[:success] = t("resource._frontend.messages.updated", resource_title: title_for_display)
                   if @resource["is_slug_auto"] == false &&
                      @resource["slug"] == nil &&
