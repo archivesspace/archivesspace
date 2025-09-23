@@ -190,7 +190,9 @@ describe 'Search Listing', js: true do
         container_1_row = csv_data.find { |row| row.include?(@top_container_1.indicator) }
         container_2_row = csv_data.find { |row| row.include?(@top_container_2.indicator) }
         expect(container_1_row).to include(@top_container_1.barcode)
+        expect(container_1_row).to include(@top_container_1.type)
         expect(container_2_row).to include(@top_container_2.barcode)
+        expect(container_2_row).to include(@top_container_2.type)
       end
     end
   end
