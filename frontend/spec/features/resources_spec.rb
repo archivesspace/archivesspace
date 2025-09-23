@@ -1235,4 +1235,87 @@ describe 'Resources', js: true do
     element = find('.token-input-token .digital_object')
     expect(element).to have_text "Digital Object Title #{now}"
   end
+
+  describe 'export to pdf' do
+    shared_examples 'has the correct export-to-pdf configuration' do
+      it 'the print to pdf link href has the correct value for the include_unpublished parameter' do
+        expect(generate_pdf_btn['href']).to include "include_unpublished=#{include_unpublished?}"
+      end
+
+      it 'the include unpublished checkbox has the correct state' do
+        if include_unpublished?
+          expect(include_unpublished_checkbox).to be_checked
+        else
+          expect(include_unpublished_checkbox).not_to be_checked
+        end
+      end
+    end
+
+    before :each do
+      login_admin
+      ensure_repository_access
+      select_repository(@repository)
+    end
+
+    let(:resource) { create(:resource, title: "Resource Title #{Time.now.to_i}") }
+
+    context 'when the user repository preferences sets "Include Unpublished Records in Exports?" to false' do
+      before :each do
+        find('#user-menu-dropdown').click
+        click_on 'Repository Preferences (admin)'
+        uncheck 'Include Unpublished Records in Exports?'
+        click_on 'Save Preferences'
+        visit "resources/#{resource.id}"
+        wait_for_ajax
+      end
+
+      let(:generate_pdf_btn) { find('#print-to-pdf-link', visible: false) }
+      let(:include_unpublished_checkbox) { find('#include-unpublished-pdf', visible: false) }
+      let(:include_unpublished?) { false }
+
+      it_behaves_like 'has the correct export-to-pdf configuration'
+    end
+
+    context 'when the user repository preferences sets "Include Unpublished Records in Exports?" to true' do
+      before :each do
+        find('#user-menu-dropdown').click
+        click_on 'Repository Preferences (admin)'
+        check 'Include Unpublished Records in Exports?'
+        click_on 'Save Preferences'
+        visit "resources/#{resource.id}"
+        wait_for_ajax
+      end
+
+      let(:generate_pdf_btn) { find('#print-to-pdf-link', visible: false) }
+      let(:include_unpublished_checkbox) { find('#include-unpublished-pdf', visible: false) }
+      let(:include_unpublished?) { true }
+
+      it_behaves_like 'has the correct export-to-pdf configuration'
+    end
+
+    context 'when the user sets the "include unpublished" preference via the record pane toolbar' do
+      before :each do
+        visit "resources/#{resource.id}"
+        wait_for_ajax
+        find('#export-dropdown-toggle').click
+        find('#print-to-pdf-link').hover
+      end
+
+      let(:generate_pdf_btn) { find('#print-to-pdf-link', visible: :all) }
+      let(:include_unpublished_checkbox) { find('#include-unpublished-pdf', visible: true) }
+
+      it 'updates the PDF link href when toggling the checkbox' do
+        aggregate_failures "checkbox toggling updates href" do
+          include_unpublished_checkbox.uncheck
+          expect(generate_pdf_btn['href']).to include 'include_unpublished=false'
+
+          include_unpublished_checkbox.check
+          expect(generate_pdf_btn['href']).to include 'include_unpublished=true'
+
+          include_unpublished_checkbox.uncheck
+          expect(generate_pdf_btn['href']).to include 'include_unpublished=false'
+        end
+      end
+    end
+  end
 end
