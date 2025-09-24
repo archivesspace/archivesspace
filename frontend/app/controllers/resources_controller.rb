@@ -41,6 +41,8 @@ class ResourcesController < ApplicationController
       excludes = event_hits > AppConfig[:max_linked_events_to_resolve] ? ['linked_events', 'linked_events::linked_records'] : []
       @resource = fetch_resolved(:resource, params[:id], excludes: excludes)
 
+      select_title_for_subrecords
+
       flash.now[:info] = t("resource._frontend.messages.suppressed_info") if @resource.suppressed
       return render_aspace_partial :partial => "resources/show_inline"
     end
@@ -166,6 +168,8 @@ class ResourcesController < ApplicationController
         return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
       end
 
+      select_title_for_subrecords
+
       return render_aspace_partial :partial => "resources/edit_inline"
     end
 
@@ -207,10 +211,6 @@ class ResourcesController < ApplicationController
                   render_aspace_partial :partial => "edit_inline"
                 },
                 :on_valid => ->(id) {
-                  # make sure subrecords get a title field for frontend ajax calls
-                  @resource['classifications'].select { |c| c['_resolved']['jsonmodel_type'] == 'classification' }.each do |classification|
-                    MultipleTitlesHelper.subrecord_select_primary_title!(classification['_resolved'], I18n.locale)
-                  end
                   flash.now[:success] = t("resource._frontend.messages.updated", resource_title: title_for_display)
                   if @resource["is_slug_auto"] == false &&
                      @resource["slug"] == nil &&
@@ -219,6 +219,8 @@ class ResourcesController < ApplicationController
 
                     flash.now[:warning] = t("slug.autogen_disabled")
                   end
+
+                  select_title_for_subrecords
 
                   render_aspace_partial :partial => "edit_inline"
                 })
@@ -392,6 +394,16 @@ class ResourcesController < ApplicationController
         rid = j['job'].fetch('resource_id', '').split('/').last
         rid == params[:id]
       end
+    end
+  end
+
+  # select the proper title from the titles list and insert it into the old 'title' field that the linkers are expecting
+  def select_title_for_subrecords
+    @resource['classifications'].each do |classification|
+      MultipleTitlesHelper.subrecord_select_primary_title!(classification['_resolved'], I18n.locale)
+    end
+    @resource['instances'].each do |instance|
+      MultipleTitlesHelper.subrecord_select_primary_title!(instance['digital_object']['_resolved'], I18n.locale)
     end
   end
 

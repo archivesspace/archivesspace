@@ -41,6 +41,7 @@ module MultipleTitlesHelper
   end
 
   def self.subrecord_select_primary_title!(subrecord_json, current_locale)
+    return if subrecord_json["title"].present?
     subrecord_json["title"] = self.determine_primary_title(subrecord_json["titles"], current_locale, true)
     subrecord_json.delete("titles")
   end

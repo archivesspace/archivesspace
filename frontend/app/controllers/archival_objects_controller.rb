@@ -58,6 +58,8 @@ class ArchivalObjectsController < ApplicationController
       return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
     end
 
+    select_title_for_subrecords
+
     render_aspace_partial :partial => "archival_objects/edit_inline" if inline?
   end
 
@@ -124,7 +126,6 @@ class ArchivalObjectsController < ApplicationController
                 :obj => @archival_object,
                 :on_invalid => ->() { return render_aspace_partial :partial => "edit_inline" },
                 :on_valid => ->(id) {
-
                   flash_success = parent ?
                     t("archival_object._frontend.messages.updated_with_parent", archival_object_display_string: title_for_display) :
                     t("archival_object._frontend.messages.updated", archival_object_display_string: title_for_display)
@@ -136,6 +137,8 @@ class ArchivalObjectsController < ApplicationController
 
                     flash.now[:warning] = t("slug.autogen_disabled")
                   end
+
+                  select_title_for_subrecords
 
                   render_aspace_partial :partial => "edit_inline"
                 })
@@ -150,11 +153,11 @@ class ArchivalObjectsController < ApplicationController
 
     new_find_opts = find_opts
     new_find_opts["resolve[]"].push("top_container::container_locations")
-
     @archival_object = JSONModel(:archival_object).find(params[:id], new_find_opts)
 
-    flash.now[:info] = t("archival_object._frontend.messages.suppressed_info") if @archival_object.suppressed
+    select_title_for_subrecords
 
+    flash.now[:info] = t("archival_object._frontend.messages.suppressed_info") if @archival_object.suppressed
     render_aspace_partial :partial => "archival_objects/show_inline" if inline?
   end
 
@@ -373,6 +376,13 @@ class ArchivalObjectsController < ApplicationController
     render :json => list.select { |type| type != "lang_material" }.map {|type|
       [type, t("#{type == 'archival_object' ? 'resource_component' : type}._singular")]
     }
+  end
+
+  # select the proper title from the titles list and insert it into the old 'title' field that the linkers are expecting
+  def select_title_for_subrecords
+    @archival_object['instances'].each do |instance|
+      MultipleTitlesHelper.subrecord_select_primary_title!(instance['digital_object']['_resolved'], I18n.locale)
+    end
   end
 
 end
