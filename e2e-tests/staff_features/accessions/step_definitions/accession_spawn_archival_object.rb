@@ -38,6 +38,7 @@ Then 'the Archival Object publish is set from the Accession publish' do
 end
 
 Then 'the following Archival Object forms have the same values as the Accession' do |linked_record_forms|
+  wait_for_json
   linked_record_forms.raw.each do |form_title|
     form_title = form_title[0]
 
@@ -47,8 +48,8 @@ Then 'the following Archival Object forms have the same values as the Accession'
 
     case form_title
     when 'Agent Links'
-      expect(find('#archival_object_linked_agents__0__role_').value).to eq 'creator'
-      expect(find('#archival_object_linked_agents__0__title_').value).to eq "Accession #{@uuid} Agent Title"
+      expect(page).to have_css('#archival_object_linked_agents__0__role_', text: 'creator')
+      expect(page).to have_css('#archival_object_linked_agents__0__title_', text: "Accession #{@uuid} Agent Title")
       expect(find('#archival_object_linked_agents__0__relator_').value).to eq 'Annotator'
       expect(find('#archival_object_linked_agents__0__ref__combobox .token-input-token').text).to include 'test_agent'
     when 'Accession Links'
@@ -56,7 +57,7 @@ Then 'the following Archival Object forms have the same values as the Accession'
     when 'Subjects'
       expect(find('#archival_object_subjects__0_ .token-input-token').text).to include 'test_subject_term'
     when 'Languages'
-      expect(find('#archival_object_lang_materials__0__language_and_script__language_').value).to eq 'English'
+      expect(page).to have_css('#archival_object_lang_materials__0__language_and_script__language_', text: 'English')
       expect(find('#archival_object_lang_materials__0__language_and_script__script_').value).to eq 'Adlam'
     when 'Dates'
       expect(find('#archival_object_dates__0__label_').value).to eq 'creation'
