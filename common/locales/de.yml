@@ -2156,6 +2156,14 @@ de:
       to: Bis
       rating: Bewertung
       values: Werte
+    headings:
+      context: Ressource/Akzession
+      container_profile: Behälterprofil
+      location: Standort
+      title: Titel
+      type: Typ
+      indicator: Indikator
+      barcode: Strichcode
   validation_errors:
     missing_required_property: Eigenschaft ist erforderlich, fehlte aber
     must_not_be_before_begin: darf nicht vor Beginn sein

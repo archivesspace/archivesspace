@@ -2436,6 +2436,14 @@ en:
       pdf: PDF
       html: HTML
       rtf: RTF
+    headings:
+      context: Resource/Accession
+      container_profile: Container Profile
+      location: Location
+      title: Title
+      type: Type
+      indicator: Indicator
+      barcode: Barcode
 
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical

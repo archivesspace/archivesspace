@@ -1849,6 +1849,14 @@ uk:
       pdf: PDF-файл
       html: HTML
       rtf: RTF
+    headings:
+      context: Ресурс/Приєднання
+      container_profile: Профіль Контейнера
+      location: Місцезнаходження
+      title: Заголовок
+      type: Тип
+      indicator: Індикатор
+      barcode: Штрих-код
   validation_errors:
     agent_must_be_unique: Записи агентів не можуть бути ідентичними
     subject_must_be_unique: Записи суб'єктів не можуть бути ідентичними

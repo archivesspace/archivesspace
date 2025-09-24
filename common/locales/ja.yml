@@ -1483,6 +1483,14 @@ ja:
       pdf: PDF
       html: HTML
       rtf: RTF
+    headings:
+      context: リソース/収集
+      container_profile: コンテナプロファイル
+      location: 場所
+      title: タイトル
+      type: タイプ
+      indicator: インジケータ
+      barcode: バーコード
 
   validation_errors:
     or_date_expression_is_required: 日付には、少なくとも1つの日付式を指定する必要があります

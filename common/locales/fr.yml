@@ -2167,6 +2167,14 @@ fr:
       pdf: PDF
       html: HTML
       rtf: RTF
+    headings:
+      context: Ressource/Accession
+      container_profile: Profil de Conteneur
+      location: Emplacement
+      title: Titre
+      type: Type
+      indicator: Indicateur
+      barcode: Code à Barres
 
   validation_errors:
     or_date_expression_is_required: Les dates doivent spécifier au moins une expression de date
