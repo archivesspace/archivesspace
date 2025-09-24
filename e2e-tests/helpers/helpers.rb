@@ -203,6 +203,7 @@ def create_resource(uuid)
   element.send_keys(:tab)
 
   select 'Single', from: 'resource_dates__0__date_type_'
+  wait_for_ajax
   fill_in 'resource_dates__0__begin_', with: ORIGINAL_RESOURCE_DATE
   @resource_number_of_dates = 1
 
