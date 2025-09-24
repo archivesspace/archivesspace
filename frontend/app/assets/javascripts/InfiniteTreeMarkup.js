@@ -1,5 +1,6 @@
 //= require MixedContentHelper
 //= require InfiniteTreeI18n
+//= require InfiniteTreeIds
 
 (function (exports) {
   /**
@@ -24,17 +25,21 @@
   class InfiniteTreeMarkup {
     /**
      * @constructor
-     * @param {string} resourceUri - The URI of the collection resource
+     * @param {string} rootUri - The URI of the root record
      * @param {number} batchSize - The number of child nodes per batch
      * @param {Object} i18n - The i18n object
      * @param {string} i18n.sep - The identifier separator
      * @param {string} i18n.bulk - The date type bulk
      * @param {Object} i18n.enumerations - The enumeration translations object
      */
-    constructor(resourceUri, batchSize, i18n) {
-      this.resourceUri = resourceUri;
-      this.repoId = resourceUri.split('/')[2];
-      this.resourceId = resourceUri.split('/')[4];
+    constructor(rootUri, batchSize, i18n) {
+      const { repoId, type, id, childType } =
+        InfiniteTreeIds.rootUriToParts(rootUri);
+      this.rootUri = rootUri;
+      this.repoId = repoId;
+      this.rootType = type;
+      this.rootId = id;
+      this.childType = childType;
       this.BATCH_SIZE = batchSize;
       this.i18n = new InfiniteTreeI18n(i18n);
     }
@@ -68,21 +73,17 @@
       const rootElement = rootTemplate.querySelector('li');
       const contentWrapper = rootTemplate.querySelector('.node-body');
       const columns = contentWrapper.querySelectorAll('.node-column');
+      const rootElementId = `${data.jsonmodel_type}_${this.rootId}`;
 
-      rootElement.id = `resource_${this.resourceId}`;
-      rootElement.setAttribute('data-uri', this.resourceUri);
+      rootElement.id = rootElementId;
+      rootElement.setAttribute('data-uri', this.rootUri);
       contentWrapper.setAttribute('title', title.cleaned);
 
       if (data.child_count > 0) {
         rootElement.setAttribute('aria-expanded', 'true');
       }
 
-      this.#processColumns(
-        columns,
-        data,
-        title,
-        `#tree::resource_${this.resourceId}`
-      );
+      this.#processColumns(columns, data, title, `#tree::${rootElementId}`);
 
       rootFrag.appendChild(rootTemplate);
 
@@ -137,7 +138,7 @@
      */
     node(data, level, shouldObserve, parentId = null, offset = null) {
       const nodeRecordId = data.uri.split('/')[4];
-      const nodeElementId = `archival_object_${nodeRecordId}`;
+      const nodeElementId = `${data.jsonmodel_type}_${nodeRecordId}`;
       const title = new MixedContentHelper(this.#title(data));
       const aHref = `#tree::${nodeElementId}`;
       const nodeFrag = new DocumentFragment();
@@ -163,15 +164,14 @@
       }
 
       if (shouldObserve) {
-        let parentUri;
+        let parentUri = '';
 
         if (parentId) {
-          if (parentId.startsWith('resource')) {
-            parentUri = '';
-          } else if (parentId.startsWith('archival_object')) {
-            const parentNodeId = parentId.split('_')[2];
-            parentUri = `/repositories/${this.repoId}/archival_objects/${parentNodeId}`;
-          }
+          const parentParts = InfiniteTreeIds.parseTreeId(parentId);
+          const parentIsRoot = parentParts?.type === this.rootType;
+
+          if (!parentIsRoot)
+            parentUri = `/repositories/${this.repoId}/${parentParts.type}s/${parentParts.id}`;
         }
 
         nodeElement.setAttribute('data-observe-next-batch', 'true');
@@ -238,16 +238,48 @@
           }
 
           case 'type': {
-            const typeText = this.#buildTypeSummary(data);
+            let typeText = '';
+
+            if (data.digital_object_type) {
+              typeText = this.i18n.t(
+                'digital_object_digital_object_type',
+                data.digital_object_type
+              );
+            } else {
+              // Non-digital objects
+              typeText = this.#buildTypeSummary(data);
+            }
+
             column.textContent = typeText;
-            column.title = typeText;
+
+            if (typeText !== '') {
+              column.title = typeText;
+            } else {
+              column.removeAttribute('title');
+            }
+
             break;
           }
 
           case 'container': {
-            const containerText = this.#buildContainerSummary(data);
+            let containerText = '';
+
+            if (data.file_uri_summary) {
+              // Digital Object
+              containerText = data.file_uri_summary;
+            } else {
+              // Resource
+              containerText = this.#buildContainerSummary(data);
+            }
+
             column.textContent = containerText;
-            column.title = containerText;
+
+            if (containerText !== '') {
+              column.title = containerText;
+            } else {
+              column.removeAttribute('title');
+            }
+
             break;
           }
 
@@ -291,6 +323,20 @@
      * @private
      */
     #title(node) {
+      if (node.jsonmodel_type.includes('classification')) {
+        const bits = [];
+        if (node.identifier) bits.push(node.identifier);
+
+        if (node.parsed_title) {
+          bits.push(node.parsed_title);
+        } else if (node.title) {
+          bits.push(node.title);
+        }
+
+        return bits.join('. ');
+      }
+
+      // Non-classifications
       const title = [];
 
       if (node.parsed_title) {

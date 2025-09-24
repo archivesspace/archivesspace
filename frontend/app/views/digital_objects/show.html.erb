@@ -1,4 +1,4 @@
 <%= setup_context :object => @digital_object %>
 
 <%= render_aspace_partial :partial => "transfer/transfer_failures", :locals => { :transfer_errors => @transfer_errors } %>
-<%= render_aspace_partial :partial => "shared/largetree", :locals => {:root_record => @digital_object, :read_only => true} %>
+<%= render_aspace_partial :partial => "shared/infinite_tree", :locals => {:root_record => @digital_object, :read_only => true} %>
