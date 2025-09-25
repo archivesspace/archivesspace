@@ -30,6 +30,7 @@ Given 'a Resource with two Top Containers has been created' do
   within '#resource_instances__0__sub_container__top_container__ref__combobox' do
     click_on 'Create'
   end
+  wait_for_ajax
   fill_in 'Indicator', with: "Indicator A #{@uuid}"
 
   click_on 'Add Location'
@@ -39,13 +40,15 @@ Given 'a Resource with two Top Containers has been created' do
 
   click_on 'Create and Link'
 
-  sleep 3
+  sleep 3 # ensure created top container is indexed
 
-  click_on 'Add Container Instance'
-  select 'Accession', from: 'resource_instances__1__instance_type_'
-  find('#resource_instances__1__sub_container__top_container__ref__combobox .btn.btn-default.dropdown-toggle').click
-  within '#resource_instances__1__sub_container__top_container__ref__combobox' do
-    click_on 'Create'
+  within '#resource_instances_' do
+    click_button 'Add Container Instance'
+    select 'Accession', from: 'resource_instances__1__instance_type_'
+    find('#resource_instances__1__sub_container__top_container__ref__combobox .btn.btn-default.dropdown-toggle').click
+    within '#resource_instances__1__sub_container__top_container__ref__combobox' do
+      click_on 'Create'
+    end
   end
 
   fill_in 'Indicator', with: "Indicator B #{@uuid}"
