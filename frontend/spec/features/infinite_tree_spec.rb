@@ -4,24 +4,7 @@ require 'rails_helper'
 describe 'Infinite Tree', js: true do
   BATCH_SIZE = Rails.configuration.infinite_tree_batch_size
   let(:now) { Time.now.to_i }
-  let(:repo) { create(:repo, repo_code: "resources_test_#{now}") }
-  let(:resource) { create(:resource, title: "Resource #{now}") }
-  let(:ao) { create(:archival_object, resource: { 'ref' => resource.uri }, title: "Archival Object #{now}") }
-
-  before(:each) do
-    set_repo(repo)
-    login_admin
-    select_repository(repo)
-    ao
-  end
-
-  subject(:tree) do
-    visit "/resources/#{resource.id}"
-    wait_for_ajax
-    find('.infinite-tree')
-  end
-
-  let(:container) { find('#infinite-tree-container') }
+  let(:repo) { create(:repo, repo_code: "infinite_tree_test_#{now}") }
 
   shared_examples 'basic node markup' do
     it_behaves_like 'node has role treeitem'
@@ -256,30 +239,48 @@ describe 'Infinite Tree', js: true do
     end
   end
 
-  shared_examples 'renders base columns' do
-    it 'renders the base columns' do
-      aggregate_failures do
-        expect(tree).to have_css('[data-column="title"]', visible: true)
-        expect(tree).to have_css('[data-column="level"]', visible: :all)
-        expect(tree).to have_css('[data-column="type"]', visible: :all)
-        expect(tree).to have_css('[data-column="container"]', visible: :all)
+  context 'on the resources show view' do
+    shared_examples 'renders base columns' do
+      it 'renders the base columns' do
+        aggregate_failures do
+          expect(tree).to have_css('[data-column="title"]', visible: true)
+          expect(tree).to have_css('[data-column="level"]', visible: :all)
+          expect(tree).to have_css('[data-column="type"]', visible: :all)
+          expect(tree).to have_css('[data-column="container"]', visible: :all)
+        end
       end
     end
-  end
 
-  shared_examples 'identifier column visible' do
-    it 'shows the identifier column' do
-      expect(tree).to have_css('[data-column="identifier"]', visible: :all)
+    shared_examples 'identifier column visible' do
+      it 'shows the identifier column' do
+        expect(tree).to have_css('[data-column="identifier"]', visible: :all)
+      end
     end
-  end
 
-  shared_examples 'identifier column hidden' do
-    it 'does not show the identifier column' do
-      expect(tree).not_to have_css('[data-column="identifier"]', visible: :all)
+    shared_examples 'identifier column hidden' do
+      it 'does not show the identifier column' do
+        expect(tree).not_to have_css('[data-column="identifier"]', visible: :all)
+      end
     end
-  end
 
-  context 'on the resources show view' do
+    let(:resource) { create(:resource, title: "Resource #{now}") }
+    let(:ao) { create(:archival_object, resource: { 'ref' => resource.uri }, title: "Archival Object #{now}") }
+
+    before(:each) do
+      set_repo(repo)
+      login_admin
+      select_repository(repo)
+      ao
+    end
+
+    subject(:tree) do
+      visit "/resources/#{resource.id}"
+      wait_for_ajax
+      find('.infinite-tree')
+    end
+
+    let(:container) { find('#infinite-tree-container') }
+
     describe 'tree list' do
       it 'has role tree' do
         expect(tree['role']).to eq('tree')
@@ -758,6 +759,564 @@ describe 'Infinite Tree', js: true do
         expect(ao2_title).not_to have_css('span')
         expect(ao2_title).to have_text('This is not a mixed content title')
       end
+    end
+  end
+
+  context 'on the digital objects show view' do
+    shared_examples 'renders appropriate columns' do
+      it 'renders the appropriate columns' do
+        aggregate_failures do
+          expect(tree).to have_css('[data-column="title"]', visible: true)
+          expect(tree).to have_css('[data-column="type"]', visible: :all)
+          expect(tree).to have_css('[data-column="container"]', visible: :all)
+        end
+      end
+    end
+
+    let(:digital_object) { create(:digital_object, title: "Digital Object #{now}", digital_object_type: 'mixed_materials') }
+    let(:doc) { create(:digital_object_component, digital_object: { 'ref' => digital_object.uri }, title: "Digital Object Component #{now}") }
+
+    before(:each) do
+      set_repo(repo)
+      login_admin
+      select_repository(repo)
+      doc
+    end
+
+    subject(:tree) do
+      visit "/digital_objects/#{digital_object.id}"
+      wait_for_ajax
+      find('.infinite-tree')
+    end
+
+    let(:container) { find('#infinite-tree-container') }
+
+    describe 'tree list' do
+      it 'has role tree' do
+        expect(tree['role']).to eq('tree')
+      end
+
+      it 'has one child' do
+        expect(tree).to have_css(':scope > li', count: 1)
+        expect(tree).to have_css(':scope > li.root.node')
+      end
+    end
+
+    context 'root node' do
+      describe 'with no children' do
+        let(:doc) { nil }
+        let(:digital_object) { create(:digital_object, title: "Digital Object #{now}", digital_object_type: 'mixed_materials') }
+        let(:node) { tree.find("#digital_object_#{digital_object.id}") }
+        let(:expected_uri) { digital_object.uri }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has no children'
+      end
+
+      describe 'with one child' do
+        let(:node) { tree.find("#digital_object_#{digital_object.id}") }
+        let(:expected_uri) { digital_object.uri }
+        let(:total_batches) { 1 }
+        let(:child_count) { 1 }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'node has X children visible'
+      end
+
+      describe 'with ten children' do
+        total_child_count = 10
+        let!(:children) do
+          (total_child_count - 1).times.map do |i|
+            create(
+              :digital_object_component,
+              digital_object: { 'ref' => digital_object.uri },
+              title: "DOC #{i + 1} #{now}"
+            )
+          end
+        end
+        let(:node) { tree.find("#digital_object_#{digital_object.id}") }
+        let(:expected_uri) { digital_object.uri }
+        let(:total_batches) { 1 }
+        let(:child_count) { total_child_count }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'node has X children visible'
+      end
+
+      describe 'with two batches of children' do
+        let(:total_child_count) { BATCH_SIZE + 1 }
+        child_count_before_lazy_loading_batches = BATCH_SIZE
+        let!(:children) do
+          (total_child_count - 1).times.map do |i|
+            create(
+              :digital_object_component,
+              digital_object: { 'ref' => digital_object.uri },
+              title: "DOC #{i + 1} #{now}"
+            )
+          end
+        end
+        let(:node) { tree.find("#digital_object_#{digital_object.id}") }
+        let(:expected_uri) { digital_object.uri }
+        let(:child_list) { node.find(':scope > .node-children') }
+        let(:total_batches) { 2 }
+        let(:child_count) { child_count_before_lazy_loading_batches }
+        let(:batches_not_yet_loaded) { [1] }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'node has X children visible'
+        it_behaves_like 'child list has an observer node for the second batch'
+        it_behaves_like 'child list has the correct number of batch placeholders'
+        it_behaves_like 'child list lazy loads the remaining batches of children on scroll'
+      end
+    end
+
+    context 'parent node' do
+      describe 'with one child' do
+        total_child_count = 1
+        child_count_on_expand = total_child_count
+        let!(:child) do
+          create(
+            :digital_object_component,
+            digital_object: { 'ref' => digital_object.uri },
+            parent: { 'ref' => doc.uri },
+            title: "Child of DOC #{now}"
+          )
+        end
+        let(:node) { tree.find("#digital_object_component_#{doc.id}") }
+        let(:expected_uri) { doc.uri }
+        let(:total_batches) { 1 }
+        let(:child_count) { child_count_on_expand }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'parent node has not been expanded'
+
+        describe 'expands' do
+          it_behaves_like 'parent node expands on expand button click'
+          it_behaves_like 'parent node expands on title click'
+          it_behaves_like 'parent node expands on keydown'
+        end
+
+        describe 'collapses' do
+          it_behaves_like 'parent node collapses on expand button click'
+          it_behaves_like 'parent node collapses on keydown'
+        end
+      end
+
+      describe 'with ten children' do
+        total_child_count = 10
+        child_count_on_expand = total_child_count
+        let!(:children) do
+          total_child_count.times.map do |i|
+            create(
+              :digital_object_component,
+              digital_object: { 'ref' => digital_object.uri },
+              parent: { 'ref' => doc.uri },
+              title: "Child of DOC #{now}"
+            )
+          end
+        end
+        let(:node) { tree.find("#digital_object_component_#{doc.id}") }
+        let(:expected_uri) { doc.uri }
+        let(:total_batches) { 1 }
+        let(:child_count) { child_count_on_expand }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'parent node has not been expanded'
+
+        describe 'expands' do
+          it_behaves_like 'parent node expands on expand button click'
+          it_behaves_like 'parent node expands on title click'
+          it_behaves_like 'parent node expands on keydown'
+        end
+
+        describe 'collapses' do
+          it_behaves_like 'parent node collapses on expand button click'
+          it_behaves_like 'parent node collapses on keydown'
+        end
+      end
+
+      describe 'with two batches of children' do
+        let(:total_child_count) { BATCH_SIZE + 1 }
+        child_count_on_expand_before_lazy_loading_batches = BATCH_SIZE
+        let!(:children) do
+          total_child_count.times.map do |i|
+            create(
+              :digital_object_component,
+              digital_object: { 'ref' => digital_object.uri },
+              parent: { 'ref' => doc.uri },
+              title: "Child of DOC #{now}"
+            )
+          end
+        end
+        let(:node) { tree.find("#digital_object_component_#{doc.id}") }
+        let(:expected_uri) { doc.uri }
+        let(:total_batches) { 2 }
+        let(:child_count) { child_count_on_expand_before_lazy_loading_batches }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'parent node has not been expanded'
+
+        describe 'expands' do
+          it_behaves_like 'parent node expands on expand button click'
+          it_behaves_like 'parent node expands on title click'
+          it_behaves_like 'parent node expands on keydown'
+        end
+
+        describe 'collapses' do
+          it_behaves_like 'parent node collapses on expand button click'
+          it_behaves_like 'parent node collapses on keydown'
+        end
+
+        describe 'after initial expansion' do
+          before do
+            node.find(':scope > .node-row .node-expand').click
+            wait_for_ajax
+          end
+
+          let(:child_list) { node.find(':scope > .node-children') }
+          let(:batches_not_yet_loaded) { [1] }
+
+          it_behaves_like 'child list has an observer node for the second batch'
+          it_behaves_like 'child list has the correct number of batch placeholders'
+          it_behaves_like 'child list lazy loads the remaining batches of children on scroll'
+        end
+      end
+    end
+
+    context 'leaf node' do
+      let(:node) { tree.find("#digital_object_component_#{doc.id}") }
+      let(:expected_uri) { doc.uri }
+
+      include_examples 'basic node markup'
+      it_behaves_like 'node has no children'
+    end
+
+    describe 'columns' do
+      include_examples 'renders appropriate columns'
+    end
+
+    describe 'suppressed badge' do
+      let!(:suppressed_doc) do
+        create(
+          :digital_object_component,
+          digital_object: { 'ref' => digital_object.uri },
+          title: "Suppressed DOC #{now}"
+        ).tap { |obj| obj.set_suppressed(true) }
+      end
+
+      it 'is shown only for suppressed records' do
+        visit "/digital_objects/#{digital_object.id}"
+        badge_selector = '#infinite-tree-container .record-title .badge'
+        badge = find(badge_selector, text: 'Suppressed', match: :first)
+        badge_parent = badge.find(:xpath, '..')
+
+        expect(page).to have_css(badge_selector, text: 'Suppressed', count: 1)
+        expect(badge_parent['title']).to eq(suppressed_doc.title)
+      end
+    end
+
+    describe 'mixed content in title column' do
+      let(:digital_object) do
+        create(
+          :digital_object,
+          title: 'This is <emph>a mixed content</emph> title',
+          digital_object_type: 'mixed_materials'
+        )
+      end
+
+      let!(:mixed_content_doc) do
+        create(
+          :digital_object_component,
+          digital_object: { 'ref' => digital_object.uri },
+          title: 'This is <emph render="italic">another mixed content</emph> title'
+        )
+      end
+
+      let!(:plain_doc) do
+        create(
+          :digital_object_component,
+          digital_object: { 'ref' => digital_object.uri },
+          title: 'This is not a mixed content title'
+        )
+      end
+
+      let(:allow_mixed_content_title_fields) { true }
+
+      before(:each) do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig)
+          .to receive(:[])
+          .with(:allow_mixed_content_title_fields)
+          .and_return(allow_mixed_content_title_fields)
+      end
+
+      it 'renders titles with mixed content appropriately' do
+        tree
+
+        digital_object_node = find("#digital_object_#{digital_object.id}")
+        expect(digital_object_node).to have_css('.node-body[title="This is a mixed content title"]')
+        digital_object_mixed_span = digital_object_node.find('.node-row span.emph.render-none')
+        expect(digital_object_mixed_span).to have_text('a mixed content')
+
+        doc1_node = find("#digital_object_component_#{mixed_content_doc.id}")
+        expect(doc1_node).to have_css('.node-row > .node-body[title="This is another mixed content title"]')
+        doc1_mixed_span = doc1_node.find('.node-row span.emph.render-italic')
+        expect(doc1_mixed_span).to have_text('another mixed content')
+
+        doc2_node = find("#digital_object_component_#{plain_doc.id}")
+        doc2_title = doc2_node.find('.node-row .record-title')
+        expect(doc2_title).not_to have_css('span')
+        expect(doc2_title).to have_text('This is not a mixed content title')
+      end
+    end
+  end
+
+  context 'on the classifications show view' do
+    shared_examples 'renders appropriate columns' do
+      it 'renders the appropriate columns' do
+        aggregate_failures do
+          expect(tree).to have_css('[data-column="title"]', visible: true)
+        end
+      end
+    end
+
+    let(:classification) { create(:classification, title: "Classification #{now}", identifier: "CLASS#{now}") }
+    let(:ct) { create(:classification_term, classification: { 'ref' => classification.uri }, title: "Classification Term #{now}", identifier: "CT#{now}") }
+
+    before(:each) do
+      set_repo(repo)
+      login_admin
+      select_repository(repo)
+      ct
+    end
+
+    subject(:tree) do
+      visit "/classifications/#{classification.id}"
+      wait_for_ajax
+      find('.infinite-tree')
+    end
+
+    let(:container) { find('#infinite-tree-container') }
+
+    describe 'tree list' do
+      it 'has role tree' do
+        expect(tree['role']).to eq('tree')
+      end
+
+      it 'has one child' do
+        expect(tree).to have_css(':scope > li', count: 1)
+        expect(tree).to have_css(':scope > li.root.node')
+      end
+    end
+
+    context 'root node' do
+      describe 'with no children' do
+        let(:ct) { nil }
+        let(:classification) { create(:classification, title: "Classification #{now}", identifier: "CLASS#{now}") }
+        let(:node) { tree.find("#classification_#{classification.id}") }
+        let(:expected_uri) { classification.uri }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has no children'
+      end
+
+      describe 'with one child' do
+        let(:node) { tree.find("#classification_#{classification.id}") }
+        let(:expected_uri) { classification.uri }
+        let(:total_batches) { 1 }
+        let(:child_count) { 1 }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'node has X children visible'
+      end
+
+      describe 'with ten children' do
+        total_child_count = 10
+        let!(:children) do
+          (total_child_count - 1).times.map do |i|
+            create(
+              :classification_term,
+              classification: { 'ref' => classification.uri },
+              title: "CT #{i + 1} #{now}",
+              identifier: "CT#{i + 1}#{now}"
+            )
+          end
+        end
+        let(:node) { tree.find("#classification_#{classification.id}") }
+        let(:expected_uri) { classification.uri }
+        let(:total_batches) { 1 }
+        let(:child_count) { total_child_count }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'node has X children visible'
+      end
+
+      describe 'with two batches of children' do
+        let(:total_child_count) { BATCH_SIZE + 1 }
+        child_count_before_lazy_loading_batches = BATCH_SIZE
+        let!(:children) do
+          (total_child_count - 1).times.map do |i|
+            create(
+              :classification_term,
+              classification: { 'ref' => classification.uri },
+              title: "CT #{i + 1} #{now}",
+              identifier: "CT#{i + 1}#{now}"
+            )
+          end
+        end
+        let(:node) { tree.find("#classification_#{classification.id}") }
+        let(:expected_uri) { classification.uri }
+        let(:child_list) { node.find(':scope > .node-children') }
+        let(:total_batches) { 2 }
+        let(:child_count) { child_count_before_lazy_loading_batches }
+        let(:batches_not_yet_loaded) { [1] }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'node has X children visible'
+        it_behaves_like 'child list has an observer node for the second batch'
+        it_behaves_like 'child list has the correct number of batch placeholders'
+        it_behaves_like 'child list lazy loads the remaining batches of children on scroll'
+      end
+    end
+
+    context 'parent node' do
+      describe 'with one child' do
+        total_child_count = 1
+        child_count_on_expand = total_child_count
+        let!(:child) do
+          create(
+            :classification_term,
+            classification: { 'ref' => classification.uri },
+            parent: { 'ref' => ct.uri },
+            title: "Child of CT #{now}",
+            identifier: "CHILD-CT#{now}"
+          )
+        end
+        let(:node) { tree.find("#classification_term_#{ct.id}") }
+        let(:expected_uri) { ct.uri }
+        let(:total_batches) { 1 }
+        let(:child_count) { child_count_on_expand }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'parent node has not been expanded'
+
+        describe 'expands' do
+          it_behaves_like 'parent node expands on expand button click'
+          it_behaves_like 'parent node expands on title click'
+          it_behaves_like 'parent node expands on keydown'
+        end
+
+        describe 'collapses' do
+          it_behaves_like 'parent node collapses on expand button click'
+          it_behaves_like 'parent node collapses on keydown'
+        end
+      end
+
+      describe 'with ten children' do
+        total_child_count = 10
+        child_count_on_expand = total_child_count
+        let!(:children) do
+          total_child_count.times.map do |i|
+            create(
+              :classification_term,
+              classification: { 'ref' => classification.uri },
+              parent: { 'ref' => ct.uri },
+              title: "Child #{i + 1} of CT #{now}",
+              identifier: "CHILD#{i + 1}-CT#{now}"
+            )
+          end
+        end
+        let(:node) { tree.find("#classification_term_#{ct.id}") }
+        let(:expected_uri) { ct.uri }
+        let(:total_batches) { 1 }
+        let(:child_count) { child_count_on_expand }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'parent node has not been expanded'
+
+        describe 'expands' do
+          it_behaves_like 'parent node expands on expand button click'
+          it_behaves_like 'parent node expands on title click'
+          it_behaves_like 'parent node expands on keydown'
+        end
+
+        describe 'collapses' do
+          it_behaves_like 'parent node collapses on expand button click'
+          it_behaves_like 'parent node collapses on keydown'
+        end
+      end
+
+      describe 'with two batches of children' do
+        let(:total_child_count) { BATCH_SIZE + 1 }
+        child_count_on_expand_before_lazy_loading_batches = BATCH_SIZE
+        let!(:children) do
+          total_child_count.times.map do |i|
+            create(
+              :classification_term,
+              classification: { 'ref' => classification.uri },
+              parent: { 'ref' => ct.uri },
+              title: "Child #{i + 1} of CT #{now}",
+              identifier: "CHILD#{i + 1}-CT#{now}"
+            )
+          end
+        end
+        let(:node) { tree.find("#classification_term_#{ct.id}") }
+        let(:expected_uri) { ct.uri }
+        let(:total_batches) { 2 }
+        let(:child_count) { child_count_on_expand_before_lazy_loading_batches }
+
+        include_examples 'basic node markup'
+        it_behaves_like 'node has correct data-total-child-batches attribute'
+        it_behaves_like 'parent node has not been expanded'
+
+        describe 'expands' do
+          it_behaves_like 'parent node expands on expand button click'
+          it_behaves_like 'parent node expands on title click'
+          it_behaves_like 'parent node expands on keydown'
+        end
+
+        describe 'collapses' do
+          it_behaves_like 'parent node collapses on expand button click'
+          it_behaves_like 'parent node collapses on keydown'
+        end
+
+        describe 'after initial expansion' do
+          before do
+            node.find(':scope > .node-row .node-expand').click
+            wait_for_ajax
+          end
+
+          let(:child_list) { node.find(':scope > .node-children') }
+          let(:batches_not_yet_loaded) { [1] }
+
+          it_behaves_like 'child list has an observer node for the second batch'
+          it_behaves_like 'child list has the correct number of batch placeholders'
+          it_behaves_like 'child list lazy loads the remaining batches of children on scroll'
+        end
+      end
+    end
+
+    context 'leaf node' do
+      let(:node) { tree.find("#classification_term_#{ct.id}") }
+      let(:expected_uri) { ct.uri }
+
+      include_examples 'basic node markup'
+      it_behaves_like 'node has no children'
+    end
+
+    describe 'columns' do
+      include_examples 'renders appropriate columns'
     end
   end
 end
