@@ -553,4 +553,453 @@ describe 'Infinite Tree Page Load', js: true do
       end
     end
   end
+
+  context 'on a digital object show page' do
+    let(:child_type) { 'digital_object_component' }
+    let(:child_prefix) { 'doc' }
+
+    before(:all) do
+      @digital_object = create(:digital_object, 
+        title: "Digital Object #{@now}", 
+        digital_object_type: 'mixed_materials',
+        publish: true
+      )
+      @doc1 = create(:digital_object_component, 
+        digital_object: {'ref' => @digital_object.uri}, 
+        title: "DOC1 #{@now}", 
+        publish: true
+      )
+      @doc2 = create(:digital_object_component, 
+        digital_object: {'ref' => @digital_object.uri}, 
+        title: "DOC2 #{@now}", 
+        publish: true
+      )
+      @doc3 = create(:digital_object_component, 
+        digital_object: {'ref' => @digital_object.uri}, 
+        title: "DOC3 #{@now}", 
+        publish: true
+      )
+      @doc4 = create(:digital_object_component, 
+        digital_object: {'ref' => @digital_object.uri}, 
+        title: "DOC4 #{@now}", 
+        publish: true
+      )
+      @doc5 = create(:digital_object_component, 
+        digital_object: {'ref' => @digital_object.uri}, 
+        title: "DOC5 #{@now}", 
+        publish: true
+      )
+
+      @doc1_of_doc1 = create(:digital_object_component, # 1 batch with a single node
+        digital_object: {'ref' => @digital_object.uri},
+        parent: {'ref' => @doc1.uri},
+        title: "DOC1 child #{@now}",
+        publish: true
+      )
+
+      5.times do |i| # 1 batch with multiple nodes
+        instance_variable_set("@doc#{i + 1}_of_doc2", create(:digital_object_component,
+          digital_object: {'ref' => @digital_object.uri},
+          parent: {'ref' => @doc2.uri},
+          title: "DOC2 child #{i + 1} #{@now}",
+          publish: true
+        ))
+      end
+
+      31.times do |i| # 2 batches
+        instance_variable_set("@doc#{i + 1}_of_doc3", create(:digital_object_component,
+          digital_object: {'ref' => @digital_object.uri},
+          parent: {'ref' => @doc3.uri},
+          title: "DOC3 child #{i + 1} #{@now}",
+          publish: true
+        ))
+      end
+
+      @digital_object2 = create(:digital_object, 
+        title: "Digital Object2 #{@now}", 
+        digital_object_type: 'mixed_materials',
+        publish: true
+      )
+      31.times do |i| # 2 batches
+        instance_variable_set("@doc#{i + 1}_of_digital_object2", create(:digital_object_component,
+          digital_object: {'ref' => @digital_object2.uri},
+          title: "DO2 child #{i + 1} #{@now}",
+          publish: true
+        ))
+      end
+    end
+
+    context 'when loading a page with a URI fragment' do
+      let(:total_batches) { (total_nodes / @tree_batch_size.to_f).ceil }
+
+      context 'when the target node is not the root node' do
+        let(:node_record_id) do
+          node_var = "@doc#{node_position}_of_#{parent}"
+          instance_variable_get(node_var).id
+        end
+
+        let!(:node) do
+          visit "/digital_objects/#{@digital_object.id}/#tree::digital_object_component_#{node_record_id}"
+          wait_for_ajax
+
+          find("#digital_object_component_#{node_record_id}.current")
+        end
+
+        let(:parent_list) { node.find(:xpath, '..') }
+
+        context "the target node's parent has 1 batch of child nodes" do
+          context 'containing a single node' do
+            let(:parent) { 'doc1' }
+            let(:total_nodes) { 1 }
+            let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 1 }
+            let(:expected_populated_batches) { [0] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 1 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'having all nodes loaded'
+
+            describe 'the parent list' do
+              it 'contains the node' do
+                aggregate_failures 'does not contain a data batch placeholder' do
+                  expect(parent_list).not_to have_css('[data-batch-placeholder]', visible: false)
+                end
+
+                aggregate_failures 'loads the node' do
+                  expect(parent_list).to have_css("#digital_object_component_#{node_record_id}")
+                end
+              end
+            end
+          end
+
+          context 'containing multiple nodes' do
+            let(:parent) { 'doc2' }
+            let(:total_nodes) { 5 }
+            let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 5 }
+            let(:expected_populated_batches) { [0] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 2 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'having all nodes loaded'
+
+            describe 'the parent list' do
+              it 'contains the first batch' do
+                aggregate_failures 'does not contain a data batch placeholder' do
+                  expect(parent_list).not_to have_css('[data-batch-placeholder]', visible: false)
+                end
+
+                aggregate_failures 'includes the first node of the batch' do
+                  curr_node_id = instance_variable_get("@doc1_of_#{parent}").id
+                  expect(parent_list).to have_css(":scope > #digital_object_component_#{curr_node_id}:first-child")
+                end
+
+                aggregate_failures 'includes the middle nodes of the batch' do
+                  (2..total_nodes - 1).each do |node_num|
+                    curr_node_id = instance_variable_get("@doc#{node_num}_of_#{parent}").id
+                    next_node_id = instance_variable_get("@doc#{node_num + 1}_of_#{parent}").id
+                    expect(parent_list).to have_css("#digital_object_component_#{curr_node_id} + #digital_object_component_#{next_node_id}")
+                  end
+                end
+
+                aggregate_failures 'includes the last node of the batch' do
+                  curr_node_id = instance_variable_get("@doc#{total_nodes}_of_#{parent}").id
+                  prev_node_id = instance_variable_get("@doc#{total_nodes - 1}_of_#{parent}").id
+                  expect(parent_list).to have_css("#digital_object_component_#{prev_node_id} + #digital_object_component_#{curr_node_id}")
+                end
+              end
+            end
+          end
+        end
+
+        context "the target node's parent has 2 batches of child nodes" do
+          let(:parent) { 'doc3' }
+          let(:total_nodes) { 31 }
+
+          context 'and the target node is in the first batch' do
+            let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 31 }
+            let(:expected_populated_batches) { [0, 1] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 15 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'having all nodes loaded'
+          end
+
+          context 'and the target node is in the second batch' do
+            let(:batch_target) { 1 }
+            let(:expected_node_count_on_page_load) { 31 }
+            let(:expected_populated_batches) { [0, 1] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 31 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'having all nodes loaded'
+          end
+        end
+      end
+
+      context 'when the target node is the root node' do
+        let!(:node) do
+          visit "/digital_objects/#{digital_object_id}#tree::digital_object_#{digital_object_id}"
+          wait_for_ajax
+
+          find('.infinite-tree .root.current')
+        end
+
+        let(:parent_list) { node.find(':scope > .node-children') }
+
+        context 'when the root node has 1 batch of child nodes' do
+          let(:digital_object_id) { @digital_object.id }
+          let(:total_nodes) { 5 }
+          let(:expected_node_count_on_page_load) { 5 }
+
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'having all nodes loaded'
+        end
+
+        context 'when the root node has 2 batches of child nodes' do
+          let(:digital_object_id) { @digital_object2.id }
+          let(:total_nodes) { 31 }
+          let(:parent) { 'digital_object2' }
+          let(:expected_node_count_on_page_load) { 30 }
+          let(:expected_batch_placeholders) { [1] }
+
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
+          it_behaves_like 'scrolling loads remaining batches'
+        end
+      end
+    end
+  end
+
+  context 'on a classification show page' do
+    let(:child_type) { 'classification_term' }
+    let(:child_prefix) { 'ct' }
+
+    before(:all) do
+      @classification = create(:classification, 
+        title: "Classification #{@now}", 
+        identifier: "CLASS#{@now}",
+        publish: true
+      )
+      @ct1 = create(:classification_term, 
+        classification: {'ref' => @classification.uri}, 
+        title: "CT1 #{@now}", 
+        identifier: "CT1-#{@now}",
+        publish: true
+      )
+      @ct2 = create(:classification_term, 
+        classification: {'ref' => @classification.uri}, 
+        title: "CT2 #{@now}", 
+        identifier: "CT2-#{@now}",
+        publish: true
+      )
+      @ct3 = create(:classification_term, 
+        classification: {'ref' => @classification.uri}, 
+        title: "CT3 #{@now}", 
+        identifier: "CT3-#{@now}",
+        publish: true
+      )
+
+      @ct1_of_ct1 = create(:classification_term, # 1 batch with a single node
+        classification: {'ref' => @classification.uri},
+        parent: {'ref' => @ct1.uri},
+        title: "CT1 child #{@now}",
+        identifier: "CT1-CHILD-#{@now}",
+        publish: true
+      )
+
+      5.times do |i| # 1 batch with multiple nodes
+        instance_variable_set("@ct#{i + 1}_of_ct2", create(:classification_term,
+          classification: {'ref' => @classification.uri},
+          parent: {'ref' => @ct2.uri},
+          title: "CT2 child #{i + 1} #{@now}",
+          identifier: "CT2-CHILD#{i + 1}-#{@now}",
+          publish: true
+        ))
+      end
+
+      31.times do |i| # 2 batches
+        instance_variable_set("@ct#{i + 1}_of_ct3", create(:classification_term,
+          classification: {'ref' => @classification.uri},
+          parent: {'ref' => @ct3.uri},
+          title: "CT3 child #{i + 1} #{@now}",
+          identifier: "CT3-CHILD#{i + 1}-#{@now}",
+          publish: true
+        ))
+      end
+
+      @classification2 = create(:classification, 
+        title: "Classification2 #{@now}", 
+        identifier: "CLASS2#{@now}",
+        publish: true
+      )
+      31.times do |i| # 2 batches
+        instance_variable_set("@ct#{i + 1}_of_classification2", create(:classification_term,
+          classification: {'ref' => @classification2.uri},
+          title: "C2 child #{i + 1} #{@now}",
+          identifier: "C2-CHILD#{i + 1}-#{@now}",
+          publish: true
+        ))
+      end
+    end
+
+    context 'when loading a page with a URI fragment' do
+      let(:total_batches) { (total_nodes / @tree_batch_size.to_f).ceil }
+
+      context 'when the target node is not the root node' do
+        let(:node_record_id) do
+          node_var = "@ct#{node_position}_of_#{parent}"
+          instance_variable_get(node_var).id
+        end
+
+        let!(:node) do
+          visit "/classifications/#{@classification.id}/#tree::classification_term_#{node_record_id}"
+          wait_for_ajax
+
+          find("#classification_term_#{node_record_id}.current")
+        end
+
+        let(:parent_list) { node.find(:xpath, '..') }
+
+        context "the target node's parent has 1 batch of child nodes" do
+          context 'containing a single node' do
+            let(:parent) { 'ct1' }
+            let(:total_nodes) { 1 }
+            let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 1 }
+            let(:expected_populated_batches) { [0] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 1 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'having all nodes loaded'
+
+            describe 'the parent list' do
+              it 'contains the node' do
+                aggregate_failures 'does not contain a data batch placeholder' do
+                  expect(parent_list).not_to have_css('[data-batch-placeholder]', visible: false)
+                end
+
+                aggregate_failures 'loads the node' do
+                  expect(parent_list).to have_css("#classification_term_#{node_record_id}")
+                end
+              end
+            end
+          end
+
+          context 'containing multiple nodes' do
+            let(:parent) { 'ct2' }
+            let(:total_nodes) { 5 }
+            let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 5 }
+            let(:expected_populated_batches) { [0] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 2 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'having all nodes loaded'
+
+            describe 'the parent list' do
+              it 'contains the first batch' do
+                aggregate_failures 'does not contain a data batch placeholder' do
+                  expect(parent_list).not_to have_css('[data-batch-placeholder]', visible: false)
+                end
+
+                aggregate_failures 'includes the first node of the batch' do
+                  curr_node_id = instance_variable_get("@ct1_of_#{parent}").id
+                  expect(parent_list).to have_css(":scope > #classification_term_#{curr_node_id}:first-child")
+                end
+
+                aggregate_failures 'includes the middle nodes of the batch' do
+                  (2..total_nodes - 1).each do |node_num|
+                    curr_node_id = instance_variable_get("@ct#{node_num}_of_#{parent}").id
+                    next_node_id = instance_variable_get("@ct#{node_num + 1}_of_#{parent}").id
+                    expect(parent_list).to have_css("#classification_term_#{curr_node_id} + #classification_term_#{next_node_id}")
+                  end
+                end
+
+                aggregate_failures 'includes the last node of the batch' do
+                  curr_node_id = instance_variable_get("@ct#{total_nodes}_of_#{parent}").id
+                  prev_node_id = instance_variable_get("@ct#{total_nodes - 1}_of_#{parent}").id
+                  expect(parent_list).to have_css("#classification_term_#{prev_node_id} + #classification_term_#{curr_node_id}")
+                end
+              end
+            end
+          end
+        end
+
+        context "the target node's parent has 2 batches of child nodes" do
+          let(:parent) { 'ct3' }
+          let(:total_nodes) { 31 }
+
+          context 'and the target node is in the first batch' do
+            let(:batch_target) { 0 }
+            let(:expected_node_count_on_page_load) { 31 }
+            let(:expected_populated_batches) { [0, 1] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 15 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'having all nodes loaded'
+          end
+
+          context 'and the target node is in the second batch' do
+            let(:batch_target) { 1 }
+            let(:expected_node_count_on_page_load) { 31 }
+            let(:expected_populated_batches) { [0, 1] }
+            let(:expected_batch_placeholders) { [] }
+            let(:node_position) { 31 }
+
+            it_behaves_like 'basic details of uri fragment batch rendering'
+            it_behaves_like 'loading the first batch'
+            it_behaves_like 'loading the last batch'
+            it_behaves_like 'having all nodes loaded'
+          end
+        end
+      end
+
+      context 'when the target node is the root node' do
+        let!(:node) do
+          visit "/classifications/#{classification_id}#tree::classification_#{classification_id}"
+          wait_for_ajax
+
+          find('.infinite-tree .root.current')
+        end
+
+        let(:parent_list) { node.find(':scope > .node-children') }
+
+        context 'when the root node has 1 batch of child nodes' do
+          let(:classification_id) { @classification.id }
+          let(:total_nodes) { 3 }
+          let(:expected_node_count_on_page_load) { 3 }
+
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'having all nodes loaded'
+        end
+
+        context 'when the root node has 2 batches of child nodes' do
+          let(:classification_id) { @classification2.id }
+          let(:total_nodes) { 31 }
+          let(:parent) { 'classification2' }
+          let(:expected_node_count_on_page_load) { 30 }
+          let(:expected_batch_placeholders) { [1] }
+
+          it_behaves_like 'basic details of uri fragment batch rendering'
+          it_behaves_like 'loading the first batch'
+          it_behaves_like 'scrolling loads remaining batches'
+        end
+      end
+    end
+  end
 end
