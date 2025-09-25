@@ -559,34 +559,34 @@ describe 'Infinite Tree Page Load', js: true do
     let(:child_prefix) { 'doc' }
 
     before(:all) do
-      @digital_object = create(:digital_object, 
-        title: "Digital Object #{@now}", 
+      @digital_object = create(:digital_object,
+        title: "Digital Object #{@now}",
         digital_object_type: 'mixed_materials',
         publish: true
       )
-      @doc1 = create(:digital_object_component, 
-        digital_object: {'ref' => @digital_object.uri}, 
-        title: "DOC1 #{@now}", 
+      @doc1 = create(:digital_object_component,
+        digital_object: {'ref' => @digital_object.uri},
+        title: "DOC1 #{@now}",
         publish: true
       )
-      @doc2 = create(:digital_object_component, 
-        digital_object: {'ref' => @digital_object.uri}, 
-        title: "DOC2 #{@now}", 
+      @doc2 = create(:digital_object_component,
+        digital_object: {'ref' => @digital_object.uri},
+        title: "DOC2 #{@now}",
         publish: true
       )
-      @doc3 = create(:digital_object_component, 
-        digital_object: {'ref' => @digital_object.uri}, 
-        title: "DOC3 #{@now}", 
+      @doc3 = create(:digital_object_component,
+        digital_object: {'ref' => @digital_object.uri},
+        title: "DOC3 #{@now}",
         publish: true
       )
-      @doc4 = create(:digital_object_component, 
-        digital_object: {'ref' => @digital_object.uri}, 
-        title: "DOC4 #{@now}", 
+      @doc4 = create(:digital_object_component,
+        digital_object: {'ref' => @digital_object.uri},
+        title: "DOC4 #{@now}",
         publish: true
       )
-      @doc5 = create(:digital_object_component, 
-        digital_object: {'ref' => @digital_object.uri}, 
-        title: "DOC5 #{@now}", 
+      @doc5 = create(:digital_object_component,
+        digital_object: {'ref' => @digital_object.uri},
+        title: "DOC5 #{@now}",
         publish: true
       )
 
@@ -615,8 +615,8 @@ describe 'Infinite Tree Page Load', js: true do
         ))
       end
 
-      @digital_object2 = create(:digital_object, 
-        title: "Digital Object2 #{@now}", 
+      @digital_object2 = create(:digital_object,
+        title: "Digital Object2 #{@now}",
         digital_object_type: 'mixed_materials',
         publish: true
       )
@@ -785,26 +785,26 @@ describe 'Infinite Tree Page Load', js: true do
     let(:child_prefix) { 'ct' }
 
     before(:all) do
-      @classification = create(:classification, 
-        title: "Classification #{@now}", 
+      @classification = create(:classification,
+        title: "Classification #{@now}",
         identifier: "CLASS#{@now}",
         publish: true
       )
-      @ct1 = create(:classification_term, 
-        classification: {'ref' => @classification.uri}, 
-        title: "CT1 #{@now}", 
+      @ct1 = create(:classification_term,
+        classification: {'ref' => @classification.uri},
+        title: "CT1 #{@now}",
         identifier: "CT1-#{@now}",
         publish: true
       )
-      @ct2 = create(:classification_term, 
-        classification: {'ref' => @classification.uri}, 
-        title: "CT2 #{@now}", 
+      @ct2 = create(:classification_term,
+        classification: {'ref' => @classification.uri},
+        title: "CT2 #{@now}",
         identifier: "CT2-#{@now}",
         publish: true
       )
-      @ct3 = create(:classification_term, 
-        classification: {'ref' => @classification.uri}, 
-        title: "CT3 #{@now}", 
+      @ct3 = create(:classification_term,
+        classification: {'ref' => @classification.uri},
+        title: "CT3 #{@now}",
         identifier: "CT3-#{@now}",
         publish: true
       )
@@ -837,8 +837,8 @@ describe 'Infinite Tree Page Load', js: true do
         ))
       end
 
-      @classification2 = create(:classification, 
-        title: "Classification2 #{@now}", 
+      @classification2 = create(:classification,
+        title: "Classification2 #{@now}",
         identifier: "CLASS2#{@now}",
         publish: true
       )
