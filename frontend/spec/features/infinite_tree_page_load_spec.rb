@@ -97,6 +97,10 @@ describe 'Infinite Tree Page Load', js: true do
       end
     end
 
+    # Resource-specific record type configuration
+    let(:child_type) { 'archival_object' }
+    let(:child_prefix) { 'ao' }
+
     RSpec::Matchers.define :appear_in_tree_viewport do
       match do |node|
         tree = find('#infinite-tree-container')
@@ -123,22 +127,22 @@ describe 'Infinite Tree Page Load', js: true do
     shared_examples 'loading the first batch' do
       it 'contains the first batch' do
         aggregate_failures 'includes the first node of the batch' do
-          curr_node_id = instance_variable_get("@ao1_of_#{parent}").id
-          expect(parent_list).to have_css(":scope > #archival_object_#{curr_node_id}:first-child")
+          curr_node_id = instance_variable_get("@#{child_prefix}1_of_#{parent}").id
+          expect(parent_list).to have_css(":scope > ##{child_type}_#{curr_node_id}:first-child")
         end
 
         aggregate_failures 'includes the middle nodes of the batch' do
           (2..@tree_batch_size - 1).each do |node_num|
-            curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
-            next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
-            expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
+            curr_node_id = instance_variable_get("@#{child_prefix}#{node_num}_of_#{parent}").id
+            next_node_id = instance_variable_get("@#{child_prefix}#{node_num + 1}_of_#{parent}").id
+            expect(parent_list).to have_css("##{child_type}_#{curr_node_id} + ##{child_type}_#{next_node_id}")
           end
         end
 
         aggregate_failures 'includes the last node of the batch' do
-          curr_node_id = instance_variable_get("@ao#{@tree_batch_size}_of_#{parent}").id
-          prev_node_id = instance_variable_get("@ao#{@tree_batch_size - 1}_of_#{parent}").id
-          expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
+          curr_node_id = instance_variable_get("@#{child_prefix}#{@tree_batch_size}_of_#{parent}").id
+          prev_node_id = instance_variable_get("@#{child_prefix}#{@tree_batch_size - 1}_of_#{parent}").id
+          expect(parent_list).to have_css("##{child_type}_#{prev_node_id} + ##{child_type}_#{curr_node_id}")
         end
       end
     end
@@ -150,31 +154,31 @@ describe 'Infinite Tree Page Load', js: true do
           next if batch_offset == total_batches - 1 # skip last batch, already tested
 
           prev_batch_was_populated = expected_populated_batches.include?(batch_offset - 1)
-          curr_batch_first_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size + 1}_of_#{parent}").id
+          curr_batch_first_node_id = instance_variable_get("@#{child_prefix}#{batch_offset * @tree_batch_size + 1}_of_#{parent}").id
 
           if prev_batch_was_populated
             aggregate_failures 'loads the first node of the current batch after the last node of the previous batch' do
-              prev_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
-              expect(parent_list).to have_css("#archival_object_#{prev_batch_last_node_id} + #archival_object_#{curr_batch_first_node_id}")
+              prev_batch_last_node_id = instance_variable_get("@#{child_prefix}#{batch_offset * @tree_batch_size}_of_#{parent}").id
+              expect(parent_list).to have_css("##{child_type}_#{prev_batch_last_node_id} + ##{child_type}_#{curr_batch_first_node_id}")
             end
           else
             aggregate_failures 'loads the first node of the current batch after the previous batch placeholder' do
-              expect(parent_list).to have_css("[data-batch-placeholder='#{batch_offset - 1}'] + #archival_object_#{curr_batch_first_node_id}", visible: :all)
+              expect(parent_list).to have_css("[data-batch-placeholder='#{batch_offset - 1}'] + ##{child_type}_#{curr_batch_first_node_id}", visible: :all)
             end
           end
 
           (batch_offset * @tree_batch_size + 1..(batch_offset + 1) * @tree_batch_size).each do |node_num|
-            curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
+            curr_node_id = instance_variable_get("@#{child_prefix}#{node_num}_of_#{parent}").id
 
             if node_num < (batch_offset + 1) * @tree_batch_size
               aggregate_failures 'loads the first through the second-to-last node of the current batch in order' do
-                next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
-                expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
+                next_node_id = instance_variable_get("@#{child_prefix}#{node_num + 1}_of_#{parent}").id
+                expect(parent_list).to have_css("##{child_type}_#{curr_node_id} + ##{child_type}_#{next_node_id}")
               end
             else
               aggregate_failures 'loads the last node of the current batch in order' do
-                prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
-                expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
+                prev_node_id = instance_variable_get("@#{child_prefix}#{node_num - 1}_of_#{parent}").id
+                expect(parent_list).to have_css("##{child_type}_#{prev_node_id} + ##{child_type}_#{curr_node_id}")
               end
             end
 
@@ -186,28 +190,28 @@ describe 'Infinite Tree Page Load', js: true do
     shared_examples 'loading the last batch' do
       it 'loads the last batch' do
         batch_offset = total_batches - 1
-        second_to_last_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
+        second_to_last_batch_last_node_id = instance_variable_get("@#{child_prefix}#{batch_offset * @tree_batch_size}_of_#{parent}").id
         last_batch_first_node_position = batch_offset * @tree_batch_size + 1
-        last_batch_first_node_id = instance_variable_get("@ao#{last_batch_first_node_position}_of_#{parent}").id
+        last_batch_first_node_id = instance_variable_get("@#{child_prefix}#{last_batch_first_node_position}_of_#{parent}").id
 
         aggregate_failures 'loads the first node of the last batch' do
-          expect(parent_list).to have_css("#archival_object_#{second_to_last_batch_last_node_id} + #archival_object_#{last_batch_first_node_id}")
+          expect(parent_list).to have_css("##{child_type}_#{second_to_last_batch_last_node_id} + ##{child_type}_#{last_batch_first_node_id}")
         end
 
         if last_batch_first_node_position < total_nodes # not last node in this batch
           (last_batch_first_node_position..total_nodes).each do |node_num|
-            curr_node_id = instance_variable_get("@ao#{node_num}_of_#{parent}").id
+            curr_node_id = instance_variable_get("@#{child_prefix}#{node_num}_of_#{parent}").id
 
             if node_num < total_nodes
               aggregate_failures 'loads the middle nodes of the last batch in the correct order' do
-                next_node_id = instance_variable_get("@ao#{node_num + 1}_of_#{parent}").id
-                expect(parent_list).to have_css("#archival_object_#{curr_node_id} + #archival_object_#{next_node_id}")
+                next_node_id = instance_variable_get("@#{child_prefix}#{node_num + 1}_of_#{parent}").id
+                expect(parent_list).to have_css("##{child_type}_#{curr_node_id} + ##{child_type}_#{next_node_id}")
               end
             else
               aggregate_failures 'loads the last node of the last batch' do
-                prev_node_id = instance_variable_get("@ao#{node_num - 1}_of_#{parent}").id
-                expect(parent_list).to have_css("#archival_object_#{prev_node_id} + #archival_object_#{curr_node_id}")
-                expect(parent_list).to have_css(":scope > #archival_object_#{curr_node_id}:last-child")
+                prev_node_id = instance_variable_get("@#{child_prefix}#{node_num - 1}_of_#{parent}").id
+                expect(parent_list).to have_css("##{child_type}_#{prev_node_id} + ##{child_type}_#{curr_node_id}")
+                expect(parent_list).to have_css(":scope > ##{child_type}_#{curr_node_id}:last-child")
               end
             end
 
@@ -223,8 +227,8 @@ describe 'Infinite Tree Page Load', js: true do
 
           if prev_batch_was_populated
             aggregate_failures 'includes a placeholder after the last node of the previous batch' do
-              prev_batch_last_node_id = instance_variable_get("@ao#{batch_offset * @tree_batch_size}_of_#{parent}").id
-              expect(parent_list).to have_css("#archival_object_#{prev_batch_last_node_id} + [data-batch-placeholder='#{batch_offset}']", visible: :all)
+              prev_batch_last_node_id = instance_variable_get("@#{child_prefix}#{batch_offset * @tree_batch_size}_of_#{parent}").id
+              expect(parent_list).to have_css("##{child_type}_#{prev_batch_last_node_id} + [data-batch-placeholder='#{batch_offset}']", visible: :all)
             end
           else
             aggregate_failures 'includes a placeholder after the previous placeholder' do
