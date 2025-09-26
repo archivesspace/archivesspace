@@ -23,6 +23,8 @@ module SlugHelpers
         slug = entity[:title]
       elsif !entity[:name].nil? && !entity[:name].empty?
         slug = entity[:name]
+      elsif !entity[:titles].nil? && !entity[:titles].empty?
+        slug = entity[:titles][0]['title']
       end
     # This codepath is run on updating slugs for agents, where we get either a Sequel Name object, or a Hash
     elsif is_agent_name_type?(klass)

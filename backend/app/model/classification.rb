@@ -4,6 +4,7 @@ class Classification < Sequel::Model(:classification)
   include Trees
   include ClassificationIndexing
   include Publishable
+  include Titles
 
   enable_suppression
 
@@ -39,7 +40,7 @@ class Classification < Sequel::Model(:classification)
 
 
   def self.set_path_from_root(json)
-    json['path_from_root'] = [{'title' => json.title, 'identifier' => json.identifier}]
+    json['path_from_root'] = [{'title' => MultipleTitlesHelper.determine_primary_title(json.titles, I18n.default_locale), 'identifier' => json.identifier}]
   end
 
 
