@@ -594,6 +594,8 @@ en:
     fr: French
     de: German
     ja: Japanese
+    it: Italian
+    uk: Ukrainian
 
   pdf_error:
     title: There was an error generating this PDF.
