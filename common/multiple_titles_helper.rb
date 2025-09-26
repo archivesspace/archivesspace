@@ -40,6 +40,12 @@ module MultipleTitlesHelper
     waypoint_json
   end
 
+  def self.subrecord_select_primary_title!(subrecord_json, current_locale)
+    return if subrecord_json["title"].present?
+    subrecord_json["title"] = self.determine_primary_title(subrecord_json["titles"], current_locale, true)
+    subrecord_json.delete("titles")
+  end
+
   def self.processed_waypoint(uri, params)
     waypoint_data = fetch_json(uri, params)
     processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
