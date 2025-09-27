@@ -266,6 +266,163 @@ describe 'Infinite Tree', js: true do
     let(:resource) { create(:resource, title: "Resource #{now}") }
     let(:ao) { create(:archival_object, resource: { 'ref' => resource.uri }, title: "Archival Object #{now}") }
 
+    # Shared contexts for incremental record creation
+    # 1 child → 10 children → BATCH_SIZE+1 → 2*BATCH_SIZE+1 → 3*BATCH_SIZE+1
+
+    shared_context 'with 1 archival object child' do
+      let!(:ao_1) do
+        create(
+          :archival_object,
+          resource: { 'ref' => resource.uri },
+          title: "AO 1 #{now}"
+        )
+      end
+      let(:all_aos) { [ao_1] }
+    end
+
+    shared_context 'with 10 archival object children' do
+      include_context 'with 1 archival object child'
+      let!(:aos_2_to_10) do
+        (2..10).map do |i|
+          create(
+            :archival_object,
+            resource: { 'ref' => resource.uri },
+            title: "AO #{i} #{now}"
+          )
+        end
+      end
+      let(:all_aos) { [ao_1] + aos_2_to_10 }
+    end
+
+    shared_context 'with BATCH_SIZE+1 archival objects' do
+      include_context 'with 10 archival object children'
+      let(:first_batch_count) { BATCH_SIZE + 1 }
+      let!(:aos_11_to_first_batch) do
+        additional_needed = first_batch_count - 10
+        (11..(10 + additional_needed)).map do |i|
+          create(
+            :archival_object,
+            resource: { 'ref' => resource.uri },
+            title: "AO #{i} #{now}"
+          )
+        end
+      end
+      let(:all_aos) { [ao_1] + aos_2_to_10 + aos_11_to_first_batch }
+    end
+
+    shared_context 'with 2*BATCH_SIZE+1 archival objects' do
+      include_context 'with BATCH_SIZE+1 archival objects'
+      let(:second_batch_count) { BATCH_SIZE * 2 + 1 }
+      let!(:aos_to_second_batch) do
+        previous_count = first_batch_count
+        additional_needed = second_batch_count - previous_count
+        ((previous_count + 1)..(previous_count + additional_needed)).map do |i|
+          create(
+            :archival_object,
+            resource: { 'ref' => resource.uri },
+            title: "AO #{i} #{now}"
+          )
+        end
+      end
+      let(:all_aos) { [ao_1] + aos_2_to_10 + aos_11_to_first_batch + aos_to_second_batch }
+    end
+
+    shared_context 'with 3*BATCH_SIZE+1 archival objects' do
+      include_context 'with 2*BATCH_SIZE+1 archival objects'
+      let(:third_batch_count) { BATCH_SIZE * 3 + 1 }
+      let!(:aos_to_third_batch) do
+        previous_count = second_batch_count
+        additional_needed = third_batch_count - previous_count
+        ((previous_count + 1)..(previous_count + additional_needed)).map do |i|
+          create(
+            :archival_object,
+            resource: { 'ref' => resource.uri },
+            title: "AO #{i} #{now}"
+          )
+        end
+      end
+      let(:all_aos) { [ao_1] + aos_2_to_10 + aos_11_to_first_batch + aos_to_second_batch + aos_to_third_batch }
+    end
+
+    # Shared contexts for parent node tests that leverage the archival objects from above
+    shared_context 'parent node with 1 child' do
+      include_context 'with 1 archival object child'
+      let(:parent_ao) { ao_1 }
+      let!(:parent_child) do
+        create(
+          :archival_object,
+          resource: { 'ref' => resource.uri },
+          parent: { 'ref' => parent_ao.uri },
+          title: "Child of AO #{now}"
+        )
+      end
+    end
+
+    shared_context 'parent node with 10 children' do
+      include_context 'with 10 archival object children'
+      let(:parent_ao) { aos_2_to_10.first }  # Use second AO as parent
+      let!(:parent_children) do
+        10.times.map do |i|
+          create(
+            :archival_object,
+            resource: { 'ref' => resource.uri },
+            parent: { 'ref' => parent_ao.uri },
+            title: "Child #{i + 1} of AO #{now}"
+          )
+        end
+      end
+    end
+
+    shared_context 'parent node with BATCH_SIZE+1 children' do
+      include_context 'with BATCH_SIZE+1 archival objects'
+      let(:parent_ao) { aos_11_to_first_batch.first }  # Use one of the later AOs as parent
+      let(:parent_child_count) { BATCH_SIZE + 1 }
+      let!(:parent_children) do
+        parent_child_count.times.map do |i|
+          create(
+            :archival_object,
+            resource: { 'ref' => resource.uri },
+            parent: { 'ref' => parent_ao.uri },
+            title: "Child #{i + 1} of AO #{now}"
+          )
+        end
+      end
+    end
+
+    shared_context 'parent node with 2*BATCH_SIZE+1 children' do
+      include_context 'with 2*BATCH_SIZE+1 archival objects'
+      # Use one of the early AOs that are direct children of the resource, not deep nested ones
+      let(:parent_ao) { aos_2_to_10[1] }  # Use the 3rd AO (AO 3) as parent - it's a direct child of resource
+      let(:parent_child_count) { BATCH_SIZE * 2 + 1 }
+      let!(:parent_children) do
+        parent_child_count.times.map do |i|
+          create(
+            :archival_object,
+            resource: { 'ref' => resource.uri },
+            parent: { 'ref' => parent_ao.uri },
+            title: "Child #{i + 1} of AO #{now}"
+          )
+        end
+      end
+    end
+
+    shared_context 'parent node with 3*BATCH_SIZE+1 children' do
+      include_context 'with 3*BATCH_SIZE+1 archival objects'
+      # Use one of the early AOs that are direct children of the resource, not deep nested ones
+      let(:parent_ao) { aos_2_to_10[2] }  # Use the 4th AO (AO 4) as parent - it's a direct child of resource
+      let(:parent_child_count) { BATCH_SIZE * 3 + 1 }
+      let!(:parent_children) do
+        parent_child_count.times.map do |i|
+          create(
+            :archival_object,
+            resource: { 'ref' => resource.uri },
+            parent: { 'ref' => parent_ao.uri },
+            title: "Child #{i + 1} of AO #{now}"
+          )
+        end
+      end
+    end
+
     before(:each) do
       set_repo(repo)
       login_admin
@@ -304,6 +461,8 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with one child' do
+        include_context 'with 1 archival object child'
+        let(:ao) { nil }  # Override the context-level ao to prevent extra child
         let(:node) { tree.find("#resource_#{resource.id}") }
         let(:expected_uri) { resource.uri }
         let(:total_batches) { 1 }
@@ -315,20 +474,12 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with ten children' do
-        total_child_count = 10
-        let!(:children) do
-          (total_child_count - 1).times.map do |i|
-            create(
-              :archival_object,
-              resource: { 'ref' => resource.uri },
-              title: "AO #{i + 1} #{now}"
-            )
-          end
-        end
+        include_context 'with 10 archival object children'
+        let(:ao) { nil }  # Override the context-level ao to prevent extra child
         let(:node) { tree.find("#resource_#{resource.id}") }
         let(:expected_uri) { resource.uri }
         let(:total_batches) { 1 }
-        let(:child_count) { total_child_count }
+        let(:child_count) { 10 }
 
         include_examples 'basic node markup'
         it_behaves_like 'node has correct data-total-child-batches attribute'
@@ -336,17 +487,10 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with two batches of children' do
+        include_context 'with BATCH_SIZE+1 archival objects'
+        let(:ao) { nil }  # Override the context-level ao to prevent extra child
         let(:total_child_count) { BATCH_SIZE + 1 }
         child_count_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          (total_child_count - 1).times.map do |i|
-            create(
-              :archival_object,
-              resource: { 'ref' => resource.uri },
-              title: "AO #{i + 1} #{now}"
-            )
-          end
-        end
         let(:node) { tree.find("#resource_#{resource.id}") }
         let(:expected_uri) { resource.uri }
         let(:child_list) { node.find(':scope > .node-children') }
@@ -363,17 +507,10 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with three batches of children' do
+        include_context 'with 2*BATCH_SIZE+1 archival objects'
+        let(:ao) { nil }  # Override the context-level ao to prevent extra child
         let(:total_child_count) { BATCH_SIZE * 2 + 1 }
         child_count_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          (total_child_count - 1).times.map do |i|
-            create(
-              :archival_object,
-              resource: { 'ref' => resource.uri },
-              title: "AO #{i + 1} #{now}"
-            )
-          end
-        end
         let(:node) { tree.find("#resource_#{resource.id}") }
         let(:expected_uri) { resource.uri }
         let(:child_list) { node.find(':scope > .node-children') }
@@ -390,17 +527,10 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with four batches of children' do
+        include_context 'with 3*BATCH_SIZE+1 archival objects'
+        let(:ao) { nil }  # Override the context-level ao to prevent extra child
         let(:total_child_count) { BATCH_SIZE * 3 + 1 }
         child_count_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          (total_child_count - 1).times.map do |i|
-            create(
-              :archival_object,
-              resource: { 'ref' => resource.uri },
-              title: "AO #{i + 1} #{now}"
-            )
-          end
-        end
         let(:node) { tree.find("#resource_#{resource.id}") }
         let(:expected_uri) { resource.uri }
         let(:child_list) { node.find(':scope > .node-children') }
@@ -419,20 +549,11 @@ describe 'Infinite Tree', js: true do
 
     context 'parent node' do
       describe 'with one child' do
-        total_child_count = 1
-        child_count_on_expand = total_child_count
-        let!(:child) do
-          create(
-            :archival_object,
-            resource: { 'ref' => resource.uri },
-            parent: { 'ref' => ao.uri },
-            title: "Child of AO #{now}"
-          )
-        end
-        let(:node) { tree.find("#archival_object_#{ao.id}") }
-        let(:expected_uri) { ao.uri }
+        include_context 'parent node with 1 child'
+        let(:node) { tree.find("#archival_object_#{parent_ao.id}") }
+        let(:expected_uri) { parent_ao.uri }
         let(:total_batches) { 1 }
-        let(:child_count) { child_count_on_expand }
+        let(:child_count) { 1 }
 
         include_examples 'basic node markup'
         it_behaves_like 'node has correct data-total-child-batches attribute'
@@ -451,22 +572,11 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with ten children' do
-        total_child_count = 10
-        child_count_on_expand = total_child_count
-        let!(:children) do
-          total_child_count.times.map do |i|
-            create(
-              :archival_object,
-              resource: { 'ref' => resource.uri },
-              parent: { 'ref' => ao.uri },
-              title: "Child of AO #{now}"
-            )
-          end
-        end
-        let(:node) { tree.find("#archival_object_#{ao.id}") }
-        let(:expected_uri) { ao.uri }
+        include_context 'parent node with 10 children'
+        let(:node) { tree.find("#archival_object_#{parent_ao.id}") }
+        let(:expected_uri) { parent_ao.uri }
         let(:total_batches) { 1 }
-        let(:child_count) { child_count_on_expand }
+        let(:child_count) { 10 }
 
         include_examples 'basic node markup'
         it_behaves_like 'node has correct data-total-child-batches attribute'
@@ -485,20 +595,11 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with two batches of children' do
+        include_context 'parent node with BATCH_SIZE+1 children'
         let(:total_child_count) { BATCH_SIZE + 1 }
         child_count_on_expand_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          total_child_count.times.map do |i|
-            create(
-              :archival_object,
-              resource: { 'ref' => resource.uri },
-              parent: { 'ref' => ao.uri },
-              title: "Child of AO #{now}"
-            )
-          end
-        end
-        let(:node) { tree.find("#archival_object_#{ao.id}") }
-        let(:expected_uri) { ao.uri }
+        let(:node) { tree.find("#archival_object_#{parent_ao.id}") }
+        let(:expected_uri) { parent_ao.uri }
         let(:total_batches) { 2 }
         let(:child_count) { child_count_on_expand_before_lazy_loading_batches }
 
@@ -533,20 +634,11 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with three batches of children' do
+        include_context 'parent node with 2*BATCH_SIZE+1 children'
         let(:total_child_count) { BATCH_SIZE * 2 + 1 }
         child_count_on_expand_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          total_child_count.times.map do |i|
-            create(
-              :archival_object,
-              resource: { 'ref' => resource.uri },
-              parent: { 'ref' => ao.uri },
-              title: "Child of AO #{now}"
-            )
-          end
-        end
-        let(:node) { tree.find("#archival_object_#{ao.id}") }
-        let(:expected_uri) { ao.uri }
+        let(:node) { tree.find("#archival_object_#{parent_ao.id}") }
+        let(:expected_uri) { parent_ao.uri }
         let(:total_batches) { 3 }
         let(:child_count) { child_count_on_expand_before_lazy_loading_batches }
 
@@ -581,20 +673,11 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with four batches of children' do
+        include_context 'parent node with 3*BATCH_SIZE+1 children'
         let(:total_child_count) { BATCH_SIZE * 3 + 1 }
         child_count_on_expand_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          total_child_count.times.map do |i|
-            create(
-              :archival_object,
-              resource: { 'ref' => resource.uri },
-              parent: { 'ref' => ao.uri },
-              title: "Child of AO #{now}"
-            )
-          end
-        end
-        let(:node) { tree.find("#archival_object_#{ao.id}") }
-        let(:expected_uri) { ao.uri }
+        let(:node) { tree.find("#archival_object_#{parent_ao.id}") }
+        let(:expected_uri) { parent_ao.uri }
         let(:total_batches) { 4 }
         let(:child_count) { child_count_on_expand_before_lazy_loading_batches }
 
@@ -629,18 +712,9 @@ describe 'Infinite Tree', js: true do
       end
 
       context 'after batches are lazy loaded' do
+        include_context 'parent node with 3*BATCH_SIZE+1 children'
         let(:total_child_count) { BATCH_SIZE * 3 + 1 }
-        let!(:children) do
-          total_child_count.times.map do |i|
-            create(
-              :archival_object,
-              resource: { 'ref' => resource.uri },
-              parent: { 'ref' => ao.uri },
-              title: "Child of AO #{now}"
-            )
-          end
-        end
-        let(:node) { tree.find("#archival_object_#{ao.id}") }
+        let(:node) { tree.find("#archival_object_#{parent_ao.id}") }
 
         before(:each) do
           node.find(':scope > .node-row .node-expand').click
