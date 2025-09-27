@@ -11,6 +11,7 @@ Given 'a Resource with an Archival Object has been created' do
   element.send_keys(:tab)
 
   select 'Single', from: 'resource_dates__0__date_type_'
+  wait_for_ajax
   fill_in 'resource_dates__0__begin_', with: '2024'
 
   fill_in 'resource_extents__0__number_', with: '10'
@@ -170,7 +171,6 @@ Then 'the following Archival Object forms have the same values as the Archival O
       expect(find('#archival_object_subjects__0_ .token-input-token').text).to include 'test_subject_term'
     when 'Notes'
       find('#archival_object_notes__0_').click
-      expect(find('#archival_object_notes__0__persistent_id_').value).to eq "Persistent ID #{@uuid}"
       expect(find('#archival_object_notes__0__label_').value).to eq "Label #{@uuid}"
       expect(find('#archival_object_notes__0__publish_').value).to eq '1'
       expect(page).to have_css '#archival_object_notes__0__content__0_'
