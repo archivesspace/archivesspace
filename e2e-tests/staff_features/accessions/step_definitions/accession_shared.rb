@@ -19,11 +19,13 @@ Given 'an Accession has been created' do
   select 'Collection', from: 'accession_resource_type_'
 
   fill_in 'accession_language_', with: 'english'
-  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
-  dropdown_items.first.click
+  wait_for_ajax
+  find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
+
   fill_in 'accession_script_', with: 'adlam'
-  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
-  dropdown_items.first.click
+  wait_for_ajax
+  find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Adlam', match: :first).click
+
   find('#accession_restrictions_apply_').check
   find('#accession_access_restrictions_').check
   fill_in 'accession_access_restrictions_note_', with: "Access Restrictions Note #{@uuid}"
@@ -32,16 +34,12 @@ Given 'an Accession has been created' do
 
   click_on 'Add Language'
   fill_in 'Language', with: 'English'
-  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu li')
-  dropdown_item = dropdown_items.select do |item|
-    item.text == 'English'
-  end
-  expect(dropdown_item.length).to eq 1
-  dropdown_item[0].click
+  wait_for_ajax
+  find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
 
   fill_in 'Script', with: 'adlam'
-  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
-  dropdown_items.first.click
+  wait_for_ajax
+  find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Adlam', match: :first).click
 
   click_on 'Add Date'
   select 'Single', from: 'accession_dates__0__date_type_'
