@@ -850,6 +850,97 @@ describe 'Infinite Tree', js: true do
     let(:digital_object) { create(:digital_object, title: "Digital Object #{now}", digital_object_type: 'mixed_materials') }
     let(:doc) { create(:digital_object_component, digital_object: { 'ref' => digital_object.uri }, title: "Digital Object Component #{now}") }
 
+    # Shared contexts for incremental record creation
+    # 1 child → 10 children → BATCH_SIZE+1
+
+    shared_context 'with 1 digital object component child' do
+      let!(:doc_1) do
+        create(
+          :digital_object_component,
+          digital_object: { 'ref' => digital_object.uri },
+          title: "DOC 1 #{now}"
+        )
+      end
+      let(:all_docs) { [doc_1] }
+    end
+
+    shared_context 'with 10 digital object component children' do
+      include_context 'with 1 digital object component child'
+      let!(:docs_2_to_10) do
+        (2..10).map do |i|
+          create(
+            :digital_object_component,
+            digital_object: { 'ref' => digital_object.uri },
+            title: "DOC #{i} #{now}"
+          )
+        end
+      end
+      let(:all_docs) { [doc_1] + docs_2_to_10 }
+    end
+
+    shared_context 'with BATCH_SIZE+1 digital object components' do
+      include_context 'with 10 digital object component children'
+      let!(:docs_11_to_first_batch) do
+        (11..(BATCH_SIZE + 1)).map do |i|
+          create(
+            :digital_object_component,
+            digital_object: { 'ref' => digital_object.uri },
+            title: "DOC #{i} #{now}"
+          )
+        end
+      end
+      let(:all_docs) { [doc_1] + docs_2_to_10 + docs_11_to_first_batch }
+    end
+
+    # Parent node shared contexts
+    shared_context 'parent node with 1 doc child' do
+      include_context 'with 1 digital object component child'
+      let(:parent_doc) { doc_1 }
+      let(:parent_child_count) { 1 }
+      let!(:parent_children) do
+        parent_child_count.times.map do |i|
+          create(
+            :digital_object_component,
+            digital_object: { 'ref' => digital_object.uri },
+            parent: { 'ref' => parent_doc.uri },
+            title: "Child #{i + 1} of DOC #{now}"
+          )
+        end
+      end
+    end
+
+    shared_context 'parent node with 10 doc children' do
+      include_context 'with 10 digital object component children'
+      let(:parent_doc) { docs_2_to_10.first }
+      let(:parent_child_count) { 10 }
+      let!(:parent_children) do
+        parent_child_count.times.map do |i|
+          create(
+            :digital_object_component,
+            digital_object: { 'ref' => digital_object.uri },
+            parent: { 'ref' => parent_doc.uri },
+            title: "Child #{i + 1} of DOC #{now}"
+          )
+        end
+      end
+    end
+
+    shared_context 'parent node with BATCH_SIZE+1 doc children' do
+      include_context 'with BATCH_SIZE+1 digital object components'
+      let(:parent_doc) { docs_11_to_first_batch.first }
+      let(:parent_child_count) { BATCH_SIZE + 1 }
+      let!(:parent_children) do
+        parent_child_count.times.map do |i|
+          create(
+            :digital_object_component,
+            digital_object: { 'ref' => digital_object.uri },
+            parent: { 'ref' => parent_doc.uri },
+            title: "Child #{i + 1} of DOC #{now}"
+          )
+        end
+      end
+    end
+
     before(:each) do
       set_repo(repo)
       login_admin
@@ -888,6 +979,8 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with one child' do
+        include_context 'with 1 digital object component child'
+        let(:doc) { nil }  # Override the context-level doc to prevent extra child
         let(:node) { tree.find("#digital_object_#{digital_object.id}") }
         let(:expected_uri) { digital_object.uri }
         let(:total_batches) { 1 }
@@ -899,20 +992,12 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with ten children' do
-        total_child_count = 10
-        let!(:children) do
-          (total_child_count - 1).times.map do |i|
-            create(
-              :digital_object_component,
-              digital_object: { 'ref' => digital_object.uri },
-              title: "DOC #{i + 1} #{now}"
-            )
-          end
-        end
+        include_context 'with 10 digital object component children'
+        let(:doc) { nil }  # Override the context-level doc to prevent extra child
         let(:node) { tree.find("#digital_object_#{digital_object.id}") }
         let(:expected_uri) { digital_object.uri }
         let(:total_batches) { 1 }
-        let(:child_count) { total_child_count }
+        let(:child_count) { 10 }
 
         include_examples 'basic node markup'
         it_behaves_like 'node has correct data-total-child-batches attribute'
@@ -920,17 +1005,10 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with two batches of children' do
+        include_context 'with BATCH_SIZE+1 digital object components'
+        let(:doc) { nil }  # Override the context-level doc to prevent extra child
         let(:total_child_count) { BATCH_SIZE + 1 }
         child_count_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          (total_child_count - 1).times.map do |i|
-            create(
-              :digital_object_component,
-              digital_object: { 'ref' => digital_object.uri },
-              title: "DOC #{i + 1} #{now}"
-            )
-          end
-        end
         let(:node) { tree.find("#digital_object_#{digital_object.id}") }
         let(:expected_uri) { digital_object.uri }
         let(:child_list) { node.find(':scope > .node-children') }
@@ -949,20 +1027,11 @@ describe 'Infinite Tree', js: true do
 
     context 'parent node' do
       describe 'with one child' do
-        total_child_count = 1
-        child_count_on_expand = total_child_count
-        let!(:child) do
-          create(
-            :digital_object_component,
-            digital_object: { 'ref' => digital_object.uri },
-            parent: { 'ref' => doc.uri },
-            title: "Child of DOC #{now}"
-          )
-        end
-        let(:node) { tree.find("#digital_object_component_#{doc.id}") }
-        let(:expected_uri) { doc.uri }
+        include_context 'parent node with 1 doc child'
+        let(:node) { tree.find("#digital_object_component_#{parent_doc.id}") }
+        let(:expected_uri) { parent_doc.uri }
         let(:total_batches) { 1 }
-        let(:child_count) { child_count_on_expand }
+        let(:child_count) { 1 }
 
         include_examples 'basic node markup'
         it_behaves_like 'node has correct data-total-child-batches attribute'
@@ -981,22 +1050,11 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with ten children' do
-        total_child_count = 10
-        child_count_on_expand = total_child_count
-        let!(:children) do
-          total_child_count.times.map do |i|
-            create(
-              :digital_object_component,
-              digital_object: { 'ref' => digital_object.uri },
-              parent: { 'ref' => doc.uri },
-              title: "Child of DOC #{now}"
-            )
-          end
-        end
-        let(:node) { tree.find("#digital_object_component_#{doc.id}") }
-        let(:expected_uri) { doc.uri }
+        include_context 'parent node with 10 doc children'
+        let(:node) { tree.find("#digital_object_component_#{parent_doc.id}") }
+        let(:expected_uri) { parent_doc.uri }
         let(:total_batches) { 1 }
-        let(:child_count) { child_count_on_expand }
+        let(:child_count) { 10 }
 
         include_examples 'basic node markup'
         it_behaves_like 'node has correct data-total-child-batches attribute'
@@ -1015,20 +1073,11 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with two batches of children' do
+        include_context 'parent node with BATCH_SIZE+1 doc children'
         let(:total_child_count) { BATCH_SIZE + 1 }
         child_count_on_expand_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          total_child_count.times.map do |i|
-            create(
-              :digital_object_component,
-              digital_object: { 'ref' => digital_object.uri },
-              parent: { 'ref' => doc.uri },
-              title: "Child of DOC #{now}"
-            )
-          end
-        end
-        let(:node) { tree.find("#digital_object_component_#{doc.id}") }
-        let(:expected_uri) { doc.uri }
+        let(:node) { tree.find("#digital_object_component_#{parent_doc.id}") }
+        let(:expected_uri) { parent_doc.uri }
         let(:total_batches) { 2 }
         let(:child_count) { child_count_on_expand_before_lazy_loading_batches }
 
@@ -1163,6 +1212,103 @@ describe 'Infinite Tree', js: true do
     let(:classification) { create(:classification, title: "Classification #{now}", identifier: "CLASS#{now}") }
     let(:ct) { create(:classification_term, classification: { 'ref' => classification.uri }, title: "Classification Term #{now}", identifier: "CT#{now}") }
 
+    # Shared contexts for incremental record creation
+    # 1 child → 10 children → BATCH_SIZE+1
+
+    shared_context 'with 1 classification term child' do
+      let!(:ct_1) do
+        create(
+          :classification_term,
+          classification: { 'ref' => classification.uri },
+          title: "CT 1 #{now}",
+          identifier: "CT1#{now}"
+        )
+      end
+      let(:all_cts) { [ct_1] }
+    end
+
+    shared_context 'with 10 classification term children' do
+      include_context 'with 1 classification term child'
+      let!(:cts_2_to_10) do
+        (2..10).map do |i|
+          create(
+            :classification_term,
+            classification: { 'ref' => classification.uri },
+            title: "CT #{i} #{now}",
+            identifier: "CT#{i}#{now}"
+          )
+        end
+      end
+      let(:all_cts) { [ct_1] + cts_2_to_10 }
+    end
+
+    shared_context 'with BATCH_SIZE+1 classification terms' do
+      include_context 'with 10 classification term children'
+      let!(:cts_11_to_first_batch) do
+        (11..(BATCH_SIZE + 1)).map do |i|
+          create(
+            :classification_term,
+            classification: { 'ref' => classification.uri },
+            title: "CT #{i} #{now}",
+            identifier: "CT#{i}#{now}"
+          )
+        end
+      end
+      let(:all_cts) { [ct_1] + cts_2_to_10 + cts_11_to_first_batch }
+    end
+
+    # Parent node shared contexts
+    shared_context 'parent node with 1 ct child' do
+      include_context 'with 1 classification term child'
+      let(:parent_ct) { ct_1 }
+      let(:parent_child_count) { 1 }
+      let!(:parent_children) do
+        parent_child_count.times.map do |i|
+          create(
+            :classification_term,
+            classification: { 'ref' => classification.uri },
+            parent: { 'ref' => parent_ct.uri },
+            title: "Child #{i + 1} of CT #{now}",
+            identifier: "CHILD#{i + 1}-CT#{now}"
+          )
+        end
+      end
+    end
+
+    shared_context 'parent node with 10 ct children' do
+      include_context 'with 10 classification term children'
+      let(:parent_ct) { cts_2_to_10.first }
+      let(:parent_child_count) { 10 }
+      let!(:parent_children) do
+        parent_child_count.times.map do |i|
+          create(
+            :classification_term,
+            classification: { 'ref' => classification.uri },
+            parent: { 'ref' => parent_ct.uri },
+            title: "Child #{i + 1} of CT #{now}",
+            identifier: "CHILD#{i + 1}-CT#{now}"
+          )
+        end
+      end
+    end
+
+    shared_context 'parent node with BATCH_SIZE+1 ct children' do
+      include_context 'with BATCH_SIZE+1 classification terms'
+      let(:parent_ct) { cts_11_to_first_batch.first }
+      let(:parent_child_count) { BATCH_SIZE + 1 }
+      let!(:parent_children) do
+        parent_child_count.times.map do |i|
+          create(
+            :classification_term,
+            classification: { 'ref' => classification.uri },
+            parent: { 'ref' => parent_ct.uri },
+            title: "Child #{i + 1} of CT #{now}",
+            identifier: "CHILD#{i + 1}-CT#{now}"
+          )
+        end
+      end
+    end
+
     before(:each) do
       set_repo(repo)
       login_admin
@@ -1201,6 +1347,8 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with one child' do
+        include_context 'with 1 classification term child'
+        let(:ct) { nil }  # Override the context-level ct to prevent extra child
         let(:node) { tree.find("#classification_#{classification.id}") }
         let(:expected_uri) { classification.uri }
         let(:total_batches) { 1 }
@@ -1212,21 +1360,12 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with ten children' do
-        total_child_count = 10
-        let!(:children) do
-          (total_child_count - 1).times.map do |i|
-            create(
-              :classification_term,
-              classification: { 'ref' => classification.uri },
-              title: "CT #{i + 1} #{now}",
-              identifier: "CT#{i + 1}#{now}"
-            )
-          end
-        end
+        include_context 'with 10 classification term children'
+        let(:ct) { nil }  # Override the context-level ct to prevent extra child
         let(:node) { tree.find("#classification_#{classification.id}") }
         let(:expected_uri) { classification.uri }
         let(:total_batches) { 1 }
-        let(:child_count) { total_child_count }
+        let(:child_count) { 10 }
 
         include_examples 'basic node markup'
         it_behaves_like 'node has correct data-total-child-batches attribute'
@@ -1234,18 +1373,10 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with two batches of children' do
+        include_context 'with BATCH_SIZE+1 classification terms'
+        let(:ct) { nil }  # Override the context-level ct to prevent extra child
         let(:total_child_count) { BATCH_SIZE + 1 }
         child_count_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          (total_child_count - 1).times.map do |i|
-            create(
-              :classification_term,
-              classification: { 'ref' => classification.uri },
-              title: "CT #{i + 1} #{now}",
-              identifier: "CT#{i + 1}#{now}"
-            )
-          end
-        end
         let(:node) { tree.find("#classification_#{classification.id}") }
         let(:expected_uri) { classification.uri }
         let(:child_list) { node.find(':scope > .node-children') }
@@ -1264,21 +1395,11 @@ describe 'Infinite Tree', js: true do
 
     context 'parent node' do
       describe 'with one child' do
-        total_child_count = 1
-        child_count_on_expand = total_child_count
-        let!(:child) do
-          create(
-            :classification_term,
-            classification: { 'ref' => classification.uri },
-            parent: { 'ref' => ct.uri },
-            title: "Child of CT #{now}",
-            identifier: "CHILD-CT#{now}"
-          )
-        end
-        let(:node) { tree.find("#classification_term_#{ct.id}") }
-        let(:expected_uri) { ct.uri }
+        include_context 'parent node with 1 ct child'
+        let(:node) { tree.find("#classification_term_#{parent_ct.id}") }
+        let(:expected_uri) { parent_ct.uri }
         let(:total_batches) { 1 }
-        let(:child_count) { child_count_on_expand }
+        let(:child_count) { 1 }
 
         include_examples 'basic node markup'
         it_behaves_like 'node has correct data-total-child-batches attribute'
@@ -1297,23 +1418,11 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with ten children' do
-        total_child_count = 10
-        child_count_on_expand = total_child_count
-        let!(:children) do
-          total_child_count.times.map do |i|
-            create(
-              :classification_term,
-              classification: { 'ref' => classification.uri },
-              parent: { 'ref' => ct.uri },
-              title: "Child #{i + 1} of CT #{now}",
-              identifier: "CHILD#{i + 1}-CT#{now}"
-            )
-          end
-        end
-        let(:node) { tree.find("#classification_term_#{ct.id}") }
-        let(:expected_uri) { ct.uri }
+        include_context 'parent node with 10 ct children'
+        let(:node) { tree.find("#classification_term_#{parent_ct.id}") }
+        let(:expected_uri) { parent_ct.uri }
         let(:total_batches) { 1 }
-        let(:child_count) { child_count_on_expand }
+        let(:child_count) { 10 }
 
         include_examples 'basic node markup'
         it_behaves_like 'node has correct data-total-child-batches attribute'
@@ -1332,21 +1441,11 @@ describe 'Infinite Tree', js: true do
       end
 
       describe 'with two batches of children' do
+        include_context 'parent node with BATCH_SIZE+1 ct children'
         let(:total_child_count) { BATCH_SIZE + 1 }
         child_count_on_expand_before_lazy_loading_batches = BATCH_SIZE
-        let!(:children) do
-          total_child_count.times.map do |i|
-            create(
-              :classification_term,
-              classification: { 'ref' => classification.uri },
-              parent: { 'ref' => ct.uri },
-              title: "Child #{i + 1} of CT #{now}",
-              identifier: "CHILD#{i + 1}-CT#{now}"
-            )
-          end
-        end
-        let(:node) { tree.find("#classification_term_#{ct.id}") }
-        let(:expected_uri) { ct.uri }
+        let(:node) { tree.find("#classification_term_#{parent_ct.id}") }
+        let(:expected_uri) { parent_ct.uri }
         let(:total_batches) { 2 }
         let(:child_count) { child_count_on_expand_before_lazy_loading_batches }
 
