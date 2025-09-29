@@ -7,6 +7,10 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
+    if !current_user.can?(:view_agent_contact_record_global) && params[:agent]['agent_contacts'] && !params[:agent]['agent_contacts'].empty?
+      raise AccessDeniedException.new(:target_agent => ["Creating agent with contacts permission denied"])
+    end
+
     with_record_conflict_reporting(AgentPerson, params[:agent]) do
       handle_create(AgentPerson, params[:agent])
     end
@@ -32,8 +36,12 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
+    # ignore agent_contacts params
+    opts = {}
+    opts[:skip_agent_contacts] = true if !current_user.can?(:view_agent_contact_record_global)
+
     with_record_conflict_reporting(AgentPerson, params[:agent]) do
-      handle_update(AgentPerson, params[:id], params[:agent])
+      handle_update(AgentPerson, params[:id], params[:agent], opts)
     end
   end
 
@@ -46,7 +54,10 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:agent_person)"],
              [404, "Not found"]) \
   do
-    opts = {:calculate_linked_repositories => current_user.can?(:index_system)}
+    opts = {
+      calculate_linked_repositories: current_user.can?(:index_system),
+      hide_agent_contacts: !current_user.can?(:view_agent_contact_record_global)
+    }
     json_response(resolve_references(AgentPerson.to_jsonmodel(AgentPerson.get_or_die(params[:id]), opts),
                                      params[:resolve]))
   end
