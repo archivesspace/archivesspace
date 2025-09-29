@@ -258,6 +258,7 @@ class AgentsController < ApplicationController
       return
     end
 
+    # TODO move this check into the backend
     if !user_can?('view_agent_contact_record') && (@agent.agent_contacts.any? || @merge_candidate.agent_contacts.any?)
       flash[:error] = t('errors.merge_restricted_contact_details')
       redirect_to({ action: :show, id: params[:id] })
