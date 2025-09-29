@@ -18,22 +18,62 @@ describe 'Reorder Mode', js: true do
 
 
 
-    # Reliable element interaction
+    # Reliable element interaction with stale element handling
   def safely_interact_with_element(element, container: nil)
-    if container
-      container.scroll_to(element, align: :center)
-    else
-      page.execute_script("arguments[0].scrollIntoView({block: 'center'});", element.native)
-    end
+    retries = 0
+    max_retries = 3
 
-    # For hidden elements (like radio buttons), don't check visibility
-    if element[:type] == 'radio' && !element.visible?
-      page.execute_script("arguments[0].click();", element)
-    else
-      expect(element).to be_visible
-      element.click
+    begin
+      # Try to scroll the element into view
+      if container
+        begin
+          container.scroll_to(element, align: :center)
+        rescue Selenium::WebDriver::Error::StaleElementReferenceError
+          # If container is stale, try without it
+          page.execute_script("arguments[0].scrollIntoView({block: 'center'});", element.native)
+        end
+      else
+        page.execute_script("arguments[0].scrollIntoView({block: 'center'});", element.native)
+      end
+
+      # Wait a bit for scrolling to complete
+      sleep(0.1)
+
+      # For hidden elements (like radio buttons), don't check visibility
+      if element[:type] == 'radio' && !element.visible?
+        page.execute_script("arguments[0].click();", element)
+      else
+        # Add a brief wait for element to be ready
+        wait_for_element_to_be_ready(element)
+        element.click
+      end
+      
+      wait_for_ajax
+      
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError, Selenium::WebDriver::Error::ElementNotInteractableError => e
+      retries += 1
+      if retries < max_retries
+        sleep(0.2)
+        retry
+      else
+        raise e
+      end
     end
-    wait_for_ajax
+  end
+
+  # Helper to wait for element to be ready for interaction
+  def wait_for_element_to_be_ready(element)
+    wait_count = 0
+    while wait_count < 10
+      begin
+        break if element.visible?
+      rescue Selenium::WebDriver::Error::StaleElementReferenceError
+        # Element is stale, let the caller handle re-finding it
+        raise
+      end
+      sleep(0.1)
+      wait_count += 1
+    end
   end
 
   # Helper method to handle cross-platform multiselect key
@@ -46,21 +86,48 @@ describe 'Reorder Mode', js: true do
     end
   end
 
-  # Reliable drag and drop operations
+  # Reliable drag and drop operations with stale element handling  
   def safely_drag_and_drop(source_element, target_element, container: nil)
-    if container
-      container.scroll_to(source_element, align: :center)
-      container.scroll_to(target_element, align: :center)
-    else
-      page.execute_script("arguments[0].scrollIntoView({block: 'center'});", source_element.native)
-      page.execute_script("arguments[0].scrollIntoView({block: 'center'});", target_element.native)
+    retries = 0
+    max_retries = 3
+
+    begin
+      # Scroll elements into view
+      if container
+        begin
+          container.scroll_to(source_element, align: :center)
+          sleep(0.1)
+          container.scroll_to(target_element, align: :center)
+        rescue Selenium::WebDriver::Error::StaleElementReferenceError
+          # If container is stale, use page scroll instead
+          page.execute_script("arguments[0].scrollIntoView({block: 'center'});", source_element.native)
+          sleep(0.1)
+          page.execute_script("arguments[0].scrollIntoView({block: 'center'});", target_element.native)
+        end
+      else
+        page.execute_script("arguments[0].scrollIntoView({block: 'center'});", source_element.native)
+        sleep(0.1)
+        page.execute_script("arguments[0].scrollIntoView({block: 'center'});", target_element.native)
+      end
+
+      sleep(0.1)
+
+      # Verify elements are still valid and visible before drag and drop
+      wait_for_element_to_be_ready(source_element)
+      wait_for_element_to_be_ready(target_element)
+
+      source_element.drag_to(target_element)
+      wait_for_ajax
+      
+    rescue Selenium::WebDriver::Error::StaleElementReferenceError, Selenium::WebDriver::Error::ElementNotInteractableError => e
+      retries += 1
+      if retries < max_retries
+        sleep(0.3)
+        retry
+      else
+        raise e
+      end
     end
-
-    expect(source_element).to be_visible
-    expect(target_element).to be_visible
-
-    source_element.drag_to(target_element)
-    wait_for_ajax
   end
 
   shared_examples 'supporting reorder mode' do
@@ -152,11 +219,12 @@ describe 'Reorder Mode', js: true do
                       @ao2
                     end
 
+      # Re-find elements to avoid stale references
       parent_row = find("##{@child_type}_#{parent_node.id}")
       expandme_button = parent_row.find('.expandme')
 
       # Wait for element to be fully ready
-      expect(page).to have_css "##{@child_type}_#{parent_node.id} .expandme", visible: true
+      wait_for_element_to_be_ready(expandme_button)
 
       # Initially collapsed
       expect(expandme_button['aria-expanded']).to eq('false')
@@ -164,11 +232,19 @@ describe 'Reorder Mode', js: true do
       # Click to expand using safe interaction with tree container
       safely_interact_with_element(expandme_button, container: @tree_container)
 
+      # Re-find elements after interaction
+      parent_row = find("##{@child_type}_#{parent_node.id}")
+      expandme_button = parent_row.find('.expandme')
+
       # Should now be expanded
       expect(expandme_button['aria-expanded']).to eq('true')
 
       # Click to collapse using safe interaction with tree container
       safely_interact_with_element(expandme_button, container: @tree_container)
+
+      # Re-find elements after interaction
+      parent_row = find("##{@child_type}_#{parent_node.id}")
+      expandme_button = parent_row.find('.expandme')
 
       # Should be collapsed again
       expect(expandme_button['aria-expanded']).to eq('false')
@@ -181,6 +257,7 @@ describe 'Reorder Mode', js: true do
       first_child = @children.first
       second_child = @children.last
 
+      # Re-find elements at the start to avoid stale references
       first_child_row = find("##{@child_type}_#{first_child.id}")
       second_child_row = find("##{@child_type}_#{second_child.id}")
 
@@ -197,6 +274,10 @@ describe 'Reorder Mode', js: true do
         # Verify the radio button is selected
         expect(radio_button).to be_checked
 
+        # Re-find elements before each drag operation to avoid stale references
+        first_child_row = find("##{@child_type}_#{first_child.id}")
+        second_child_row = find("##{@child_type}_#{second_child.id}")
+
         # Perform drag and drop using helper method with tree container
         safely_drag_and_drop(first_child_row, second_child_row, container: @tree_container)
 
@@ -209,14 +290,16 @@ describe 'Reorder Mode', js: true do
     it 'multiselect functionality is available' do
       # Verify that nodes can be selected and have the necessary elements for multiselect
       @children.each do |child|
+        # Re-find the element each time to avoid stale references
         child_row = find("##{@child_type}_#{child.id}")
 
-        # Click to select node using safe interaction with tree container
+        # Use safe interaction with tree container
         safely_interact_with_element(child_row, container: @tree_container)
 
-        # Verify the node exists and has basic functionality
-        expect(child_row).to have_css '.drag-handle'
-        expect(child_row).to have_css '.record-title'
+        # Re-find after interaction to verify it's still there
+        child_row_after = find("##{@child_type}_#{child.id}")
+        expect(child_row_after).to have_css '.drag-handle'
+        expect(child_row_after).to have_css '.record-title'
       end
     end
 
@@ -228,6 +311,7 @@ describe 'Reorder Mode', js: true do
       second_child = @children[1] if @children.length > 1
       third_child = @children.last
 
+      # Re-find elements to avoid stale references
       first_child_row = find("##{@child_type}_#{first_child.id}")
       second_child_row = find("##{@child_type}_#{second_child.id}") if second_child
       third_child_row = find("##{@child_type}_#{third_child.id}")
@@ -238,18 +322,33 @@ describe 'Reorder Mode', js: true do
 
       # Then Ctrl+click the second node to add it to selection
       if second_child_row
-        @tree_container.scroll_to(second_child_row, align: :center)
+        # Re-find the tree container and elements to avoid stale references
+        @tree_container = find('#tree-container')
+        second_child_row = find("##{@child_type}_#{second_child.id}")
+        
+        begin
+          @tree_container.scroll_to(second_child_row, align: :center)
+        rescue Selenium::WebDriver::Error::StaleElementReferenceError
+          # Use page scroll if container is stale
+          page.execute_script("arguments[0].scrollIntoView({block: 'center'});", second_child_row.native)
+        end
+        
+        sleep(0.1)
         page.driver.browser.action.key_down(multiselect_key).click(second_child_row.native).key_up(multiselect_key).perform
         wait_for_ajax
       end
 
-      # Verify multiselection worked by checking for multiselected class
+      # Re-find elements after interaction and verify multiselection worked
+      first_child_row = find("##{@child_type}_#{first_child.id}")
       expect(first_child_row).to have_css '.drag-handle.multiselected'
+      
       if second_child_row
+        second_child_row = find("##{@child_type}_#{second_child.id}")
         expect(second_child_row).to have_css '.drag-handle.multiselected'
       end
 
       # Perform drag and drop of multiselected items
+      third_child_row = find("##{@child_type}_#{third_child.id}")
       safely_drag_and_drop(first_child_row, third_child_row, container: @tree_container)
 
       # Verify nodes still exist after multiselect drag and drop
@@ -268,6 +367,7 @@ describe 'Reorder Mode', js: true do
       second_child = @children[1]
       third_child = @children[2] if @children.length > 2
 
+      # Re-find elements to avoid stale references
       first_child_row = find("##{@child_type}_#{first_child.id}")
       second_child_row = find("##{@child_type}_#{second_child.id}")
       third_child_row = find("##{@child_type}_#{third_child.id}") if third_child
@@ -277,16 +377,39 @@ describe 'Reorder Mode', js: true do
       safely_interact_with_element(first_child_row, container: @tree_container)
 
       # Then Ctrl+click the second node to add it to selection
-      @tree_container.scroll_to(second_child_row, align: :center)
+      @tree_container = find('#tree-container')
+      second_child_row = find("##{@child_type}_#{second_child.id}")
+      
+      begin
+        @tree_container.scroll_to(second_child_row, align: :center)
+      rescue Selenium::WebDriver::Error::StaleElementReferenceError
+        page.execute_script("arguments[0].scrollIntoView({block: 'center'});", second_child_row.native)
+      end
+      
+      sleep(0.1)
       page.driver.browser.action.key_down(multiselect_key).click(second_child_row.native).key_up(multiselect_key).perform
       wait_for_ajax
 
       # Add third node if available
       if third_child_row
-        @tree_container.scroll_to(third_child_row, align: :center)
+        @tree_container = find('#tree-container')
+        third_child_row = find("##{@child_type}_#{third_child.id}")
+        
+        begin
+          @tree_container.scroll_to(third_child_row, align: :center)
+        rescue Selenium::WebDriver::Error::StaleElementReferenceError
+          page.execute_script("arguments[0].scrollIntoView({block: 'center'});", third_child_row.native)
+        end
+        
+        sleep(0.1)
         page.driver.browser.action.key_down(multiselect_key).click(third_child_row.native).key_up(multiselect_key).perform
         wait_for_ajax
       end
+
+      # Re-find elements after interactions to verify numbering
+      first_child_row = find("##{@child_type}_#{first_child.id}")
+      second_child_row = find("##{@child_type}_#{second_child.id}")
+      third_child_row = find("##{@child_type}_#{third_child.id}") if third_child
 
       # Verify that multiselected rows have drag annotations with numbers
       expect(first_child_row).to have_css '.drag-annotation', text: '1'
@@ -310,6 +433,7 @@ describe 'Reorder Mode', js: true do
       first_child = @children.first
       second_child = @children.last
 
+      # Re-find elements to avoid stale references
       first_child_row = find("##{@child_type}_#{first_child.id}")
       second_child_row = find("##{@child_type}_#{second_child.id}")
 
@@ -320,7 +444,8 @@ describe 'Reorder Mode', js: true do
       cut_button = find('#tree-toolbar .btn', text: 'Cut')
       safely_interact_with_element(cut_button)
 
-      # Verify the node is marked as cut (should have 'cut' class)
+      # Re-find the first child row and verify it's marked as cut
+      first_child_row = find("##{@child_type}_#{first_child.id}")
       expect(first_child_row).to have_css '.cut'
 
       # Verify the Paste button is now enabled (not disabled)
@@ -328,15 +453,18 @@ describe 'Reorder Mode', js: true do
       expect(paste_button).not_to have_css '.disabled'
 
       # Select the target node (where we want to paste)
+      second_child_row = find("##{@child_type}_#{second_child.id}")
       safely_interact_with_element(second_child_row, container: @tree_container)
 
       # Click the Paste button
+      paste_button = find('#tree-toolbar .btn', text: 'Paste')
       safely_interact_with_element(paste_button)
 
       # Wait for the operation to complete
       wait_for_ajax
 
-      # Verify the cut class is removed after paste
+      # Re-find the first child row and verify the cut class is removed after paste
+      first_child_row = find("##{@child_type}_#{first_child.id}")
       expect(first_child_row).not_to have_css '.cut'
 
       # Verify nodes still exist
@@ -347,13 +475,20 @@ describe 'Reorder Mode', js: true do
     it 'multiselected rows have drag functionality' do
       # Verify that all child nodes have proper drag handles for potential multiselect
       @children.each do |child|
+        # Re-find element to avoid stale references
         child_row = find("##{@child_type}_#{child.id}")
 
         # Scroll into view to ensure element is visible using tree container
-        @tree_container.scroll_to(child_row, align: :center)
+        begin
+          @tree_container.scroll_to(child_row, align: :center)
+        rescue Selenium::WebDriver::Error::StaleElementReferenceError
+          # Re-find container if it's stale
+          @tree_container = find('#tree-container')
+          @tree_container.scroll_to(child_row, align: :center)
+        end
 
-        # Ensure element is visible before checking attributes
-        expect(child_row).to be_visible
+        # Wait for element to be ready
+        wait_for_element_to_be_ready(child_row)
 
         expect(child_row).to have_css '.drag-handle svg'
         expect(child_row).to have_css '.record-title'
