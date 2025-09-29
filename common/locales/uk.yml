@@ -1990,3 +1990,257 @@ uk:
     show_description: Показати опис
     input_file: Вхідний файл
     output_file: Вихідний файл
+  container_labels_job:
+    source: Джерело
+    format: Формат
+  report_job:
+    report_type: Тип звіту
+    format: Формат
+  import_job:
+    _singular: Імпорт завдання
+    import_events: Імпортувати події технічного обслуговування?
+    import_subjects: Імпортувати та пов'язати пов'язані теми?
+    import_repository: Прив’язати імпортовані місця розташування до поточного репозиторію?
+    filenames: Файли
+    import_type: Тип імпорту
+    import_type_ead_xml: ЕАД
+    import_type_assessment_csv: CSV-файл з оцінюванням
+    import_type_accession_csv: CSV-файл приєднання
+    import_type_subject_csv: CSV-файл теми
+    bulk_import_csv: Масовий імпорт CSV-файлу AO
+    bulk_import_xlsx: Масовий імпорт AO XLSX
+    bulk_import_DO_csv: Масовий імпорт файлу DO CSV
+    bulk_import_DO_xlsx: Масовий імпорт DO XLSX
+    import_type_digital_object_csv: CSV-файл цифрового об'єкта
+    import_subject_csv: CSV-файл теми
+    import_type_eac_xml: EAC-CPF
+    import_type_location_csv: CSV-файл з місцезнаходженням
+    import_type_marcxml: Бібліографічний довідник MarcXML (ресурс)
+    import_type_marcxml_accession: Бібліографічний довідник MarcXML (доступ)
+    import_type_marcxml_subjects_and_agents: Бібліографічна інформація MarcXML (лише для суб'єктів 
+      та агентів)
+    import_type_marcxml_auth_agent: Авторитет MarcXML (агенти)
+    import_type_marcxml_auth_subject: Авторитет MarcXML (теми)
+  find_and_replace_job:
+    record_type: Тип запису або підзапису
+    property: Цільова власність
+    base_record_uri: URI базового запису
+    _singular: Знайти та замінити завдання
+    find: Рядок для пошуку
+    replace: Запасний рядок
+    jsonmodel_type: Тип запису або підзапису
+  print_to_pdf_job:
+    include_unpublished: Включити неопубліковані
+    source: Джерело
+  top_container_linker_job:
+    _singular: Найкраща вакансія з компонування контейнерів
+    filename: Файл
+    content_type: Тип файлу
+    resource_id: Ідентифікатор ресурсу
+    load_type: Тип навантаження
+    type:
+      top_container_linker_job: Найкращий компонувальник контейнерів
+  bulk_import_job:
+    resource_uri: URI ресурсу
+    content_type: Тип електронної таблиці
+    load_type: Тип навантаження
+    only_validate: Тільки перевірка
+    type:
+      csv: CSV-файл
+      xlsx: Електронна таблиця Excel
+      ao: Завантаження архівних об'єктів
+      digital: Завантаження цифрових об'єктів
+  trim_whitespace_job:
+    description: Видаляє початкові та кінцеві пробіли з назв ресурсів, приєднань, цифрових об'єктів,
+      архівних об'єктів та компонентів цифрових об'єктів.
+  resource_duplicate_job:
+    going_to_duplicate_job: Збираємося продублювати ресурс з ідентифікатором %{resource_id}.
+    success_message: Успішно продубльовано ресурс %{resource_source_id} до ресурсу 
+      %{resource_duplicated_id}.
+    resource_failure_message: Не вдалося дублювати ресурс з ресурсу з ідентифікатором 
+      %{resource_id}; Помилка перевірки %{message}.
+    archival_object_failure_message: Не вдалося дублювати архівний об'єкт з ідентифікатором 
+      %{archival_object_id} з ресурсу з ідентифікатором %{resource_id}; Помилка перевірки 
+      %{message}.
+    source_archival_object: Вихідний архівний об'єкт %{source_archival_object_inspect}.
+    success_reload_message: Готово. Будь ласка, натисніть «Оновити», щоб отримати посилання на новий
+      ресурс.
+    job_failed: Завдання не вдалося.
+    could_not_find_resource: Не вдалося знайти наданий ресурс з ідентифікатором %{resource_id}.
+  ns2_remover_job:
+    description: "Імпортовані в ASpace EAD архівістів часів Toolit можуть містити залишкові посилання
+      на простір імен \"ns2\", додані до різних атрибутів тегів EAD всередині підзаписів нотаток. Це може
+      призвести до помилок перевірки під час експорту EAD з ArchivesSpace, оскільки кореневий тег <ead>
+      не оголошує простір імен \"ns2\". Це завдання масово видаляє посилання \"ns2\" у підзаписах нотаток,
+      приєднаних до записів resource, archival_object, digital_object та digital_object_component. Оскільки
+      це завдання працює в усіх репозиторіях, воно обмежене користувачами з <b>дозволами лише системного
+      адміністратора</b>.\n"
+    dry_run: Сухий пробіг?
+  advanced_search:
+    type:
+      text: Текст
+      date: Дата
+      boolean: Булеве значення
+      controlled_value: Контрольоване значення
+    text:
+      keyword: Ключове слово
+      title: Назва
+      creators: Творець
+      notes: Нотатки
+      subjects: Тема
+      identifier: Ідентифікатор
+      created_by: Створено
+      last_modified_by: Остання зміна від
+    boolean:
+      published: Опубліковано?
+      suppressed: Придушено?
+    date:
+      create_time: Створено
+      user_mtime: Оновлено
+  system_info:
+    frontend: Інтерфейс користувача фронтенду
+    backend: Бекенд
+    frontend_info: Інформація про фронтенд-систему
+    frontend_log: Журнал фронтенду
+    backend_info: Інформація про серверну систему
+    backend_log: Журнал серверної частини
+  resource_component:
+    _singular: Компонент ресурсу
+  largetree:
+    reparent_error:
+      title: Не вдалося виконати переміщення
+      message: Переміщення було заборонено, оскільки батько не може стати власною дитиною.
+  rights_statement_act:
+    _singular: Закон
+    _plural: Дії
+    act_type: Тип акту
+    act_type_tooltip: "<p>Дія, яку дозволяє ця заява про права.</p>\n"
+    restriction: Обмеження
+    restriction_tooltip: "<p>Умова або обмеження дії.</p>\n<p>Приклади:</p>\n<ul>\n<li>Не більше трьох</li>\n\
+      <li>Дозволено лише після закінчення одного року архівного зберігання</li>\n<li>Власник прав має
+      бути повідомлений після завершення дії</li>\n</ul>\n"
+    start_date: Дата початку
+    start_date_tooltip: "<p>Дата набрання чинності законом.</p>\n"
+    end_date: Дата завершення
+    end_date_tooltip: "<p>Дата закінчення дії.</p>\n"
+  oai:
+    sample_page:
+      title: '%{oai_repository_name} – Зразки запитів OAI-PMH'
+      introduction: <p>Зразки запитів з використанням протоколу Ініціативи відкритих архівів для 
+        збору метаданих (OAI-PMH версії 2.0).</p>
+      form_header: Надіслати запит '%{verb}'
+      form_submit: Надіслати
+  assessment:
+    records: Записи
+    records_tooltip: "<p>ОБОВ'ЯЗКОВЕ ПОЛЕ: Посилання на ресурс(и), примірник(и), архівний(і) об'єкт(и)
+      або цифровий(і) об'єкт(и), що є предметом оцінювання.</p>\n"
+    accession_report: Звіт про приєднання
+    appraisal: Оцінка
+    container_list: Список коробок/контейнерів
+    catalog_record: Запис у каталозі (MARC)
+    collections: Колекції
+    control_file: Колекція/Файл керування
+    conservation_note: Примітка щодо збереження
+    conservation_note_tooltip: <p>Вказує на області, що викликають особливе занепокоєння щодо потреб
+      збереження колекції.</p>
+    deed_of_gift: Договір дарування
+    existing_description_notes: Існуючі описові примітки
+    existing_description_notes_tooltip: <p>Будь-яка додаткова інформація щодо існуючого опису 
+      матеріалів.</p>
+    finding_aid_ead: Пошукова допомога (кодування EAD)
+    finding_aid_online: Пошук допомоги (онлайн)
+    finding_aid_paper: Пошук допомоги (лише паперовий документ)
+    finding_aid_word: Пошукова допомога (документ для обробки текстів)
+    finding_aid_spreadsheet: Пошук допомоги (електронна таблиця)
+    id: Ідентифікатор
+    inactive: Неактивний?
+    inactive_tooltip: <p>Вказує, чи запис оцінювання більше не вважається «активним» і, отже, не 
+      повинен включатися до пошуку або звітів.</p>
+    inactive_true: Так
+    inactive_false: Ні
+    monetary_value: Грошова вартість
+    monetary_value_tooltip: <p>Оцінена або розрахункова ринкова вартість оцінюваних матеріалів 
+      (числова вартість).</p>
+    monetary_value_note: Примітка про грошову вартість
+    monetary_value_note_tooltip: <p>Вказує, хто надав грошову вартість, дату оцінки та будь-яку іншу
+      відповідну інформацію.</p>
+    surveyed_by: Опитування проведено
+    surveyed_by_tooltip: "<p>ОБОВ’ЯЗКОВЕ ПОЛЕ: Ім’я(-мена) особи(-й), яка(-і) виконала(-ли) оцінювання.
+      Це поле обмежено тими, хто має записи користувачів в ArchivesSpace.</p>\n"
+    survey_begin: Дата початку опитування
+    survey_begin_tooltip: "<p>ОБОВ'ЯЗКОВЕ ПОЛЕ: Дата початку опитування у форматі рррр-мм-дд.</p>\n"
+    survey_end: Дата завершення опитування
+    survey_end_tooltip: <p>Дата закінчення опитування у форматі рррр-мм-дд.</p>
+    surveyed_duration: Час, необхідний для завершення опитування
+    surveyed_duration_tooltip: <p>Час, необхідний для завершення опитування, виміряний у 
+      годинах.</p>
+    surveyed_extent: Обсяг обстеження
+    surveyed_extent_tooltip: <p>Обсяг досліджуваного матеріалу в одиницях вимірювання, таких як 
+      кубічні або лінійні фути.</p>
+    related_eac_records: Пов'язані записи EAC
+    research_value: Дослідницька цінність
+    research_value_tooltip: <p>Це значення автоматично розраховується шляхом додавання значення в 
+      полі «Якість документації» до значення в полі «Інтерес».</p>
+    review_required: Потрібен огляд?
+    review_required_tooltip: <p>Вказує, чи потрібна рецензія для колекції через її формат, тему або 
+      обставини.</p>
+    review_required_true: Так
+    review_required_false: Ні
+    review_note: Примітка до огляду
+    review_note_tooltip: <p>Пояснення результатів будь-якого спеціального перегляду.</p>
+    reviewer: Кому потрібно переглядати
+    reviewer_tooltip: <p>Вказує, хто має виконати перевірку. Це поле обмежено тими, хто має записи 
+      користувачів в ArchivesSpace.</p>
+    purpose: Мета оцінювання
+    purpose_tooltip: "<p>Вказує причину проведення оцінки. Приклади: пріоритети збереження; пріоритети
+      обробки; оцінка тощо.</p>\n"
+    scope: Обсяг оцінювання
+    scope_tooltip: "<p>Вказує обсяг оцінювання. Приклади: 10% вибірка; сукупність; певний формат або жанр
+      у межах колекцій або між ними; або інші обмеження чи умови щодо матеріалів, які активно розглядаються
+      під час оцінювання.</p>\n"
+    sensitive_material: Чутливий матеріал?
+    sensitive_material_tooltip: <p>Вказує на наявність чутливих матеріалів.</p>
+    sensitive_material_true: Так
+    sensitive_material_false: Ні
+    general_assessment_note: Загальна оцінювальна примітка
+    general_assessment_note_tooltip: <p>Будь-які додаткові примітки щодо оцінювання.</p>
+    special_format_note: Примітка спеціального формату
+    special_format_note_tooltip: <p>Додаткова або пояснювальна інформація про наявні спеціальні 
+      формати.</p>
+    exhibition_value_note: Примітка щодо вартості виставки
+    exhibition_value_note_tooltip: <p>Вказує, чи сама колекція або окремі предмети, знайдені в 
+      колекції, можуть бути особливо доречними для виставки. Наприклад, у цьому полі може бути 
+      зазначено унікальний артефакт, лист чи фотографію історичного значення.</p>
+    rating_attributes_value:
+      rating_none: Без оцінки
+      rating_1: '1'
+      rating_2: '2'
+      rating_3: '3'
+      rating_4: '4'
+      rating_5: '5'
+    rating_note: Примітка %{label}
+    _singular: Оцінювання
+    _plural: Оцінювання
+    new_title: Нова оцінка
+    linker:
+      link_title: Посилання на запис
+  assessment_attribute:
+    rating:
+      "Reformatting Readiness": Готовність до переформатування
+      "Reformatting Readiness_tooltip": <p>Рейтинг від 1 до 5, який показує, наскільки легко 
+        матеріали можна переформатувати.</p>
+      "Housing Quality": Якість житла
+      "Housing Quality_tooltip": <p>Рейтинг від 1 до 5, призначений для опису загальної якості 
+        зберігання матеріалів у колекції; предмети або групи матеріалів у колекції можуть бути у 
+        кращому або гіршому стані, ніж зазначено в загальному рейтингу.</p>
+      "Physical Condition": Фізичний стан
+      "Physical Condition_tooltip": <p>Рейтинг від 1 до 5, призначений для опису загального стану 
+        матеріалів у колекції; предмети або групи матеріалів, що викликають особливе занепокоєння, 
+        будуть вказані в записці про збереження.</p>
+      "Physical Access (arrangement)": Фізичний доступ (організація)
+      "Physical Access (arrangement)_tooltip": <p>Рейтинг від 1 до 5, який застосовується до 
+        фізичного розташування колекції, враховуючи складність та розмір колекції. Наприклад, 
+        невелика, відносно однорідна колекція в приблизному порядку, як правило, фізично доступніша,
+        ніж велика, неоднорідна колекція в приблизному порядку, і рейтинги відображатимуть цей факт.
+        (Зауважте, що розташування на рівні елементів може бути небажаним для багатьох колекцій; 
+        рейтинг 4 може бути найвищим рейтингом, бажаним для колекції.)</p>
