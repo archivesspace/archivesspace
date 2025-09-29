@@ -2,187 +2,292 @@ require 'spec_helper'
 require 'agent_spec_helper'
 
 describe 'Person agent controller' do
-
   def create_person(opts = {})
     create(:json_agent_person, opts)
   end
 
+  describe 'update action' do
+    describe 'adding a contact' do
+      context 'when user has the view_agent_contact_record permission on any repository' do
+        before :each do
+          archivist = make_test_user("archivist")
+          Group[:group_code => 'repository-archivists', :repo_id => $repo_id].add_user(archivist)
+        end
 
-  it "lets you create a person and get them back" do
-    opts = {:names => [build(:json_name_person)]}
+        it "adds the contact" do
+          as_test_user("archivist") do
+            id = create_person(:agent_contacts => nil).id
+            person = JSONModel(:agent_person).find(id)
+            [0, 1].each do |n|
+              opts = {:name => generate(:generic_name)}
+              person.agent_contacts << build(:json_agent_contact, opts)
+              person.save
 
-    id = create_person(opts).id
-    expect(JSONModel(:agent_person).find(id).names.first['primary_name']).to eq(opts[:names][0]['primary_name'])
-  end
+              expect(JSONModel(:agent_person).find(id).agent_contacts[n]['name']).to eq(opts[:name])
+            end
+          end
+        end
 
+        context 'when user does not have the view_agent_contact_record permission on any repository' do
+          before :each do
+            user = make_test_user("intern")
+            Group[:group_code => 'repository-advanced-data-entry', :repo_id => $repo_id].add_user(user)
+          end
 
-  it "lets you update someone by adding contacts" do
-    id = create_person(:agent_contacts => nil).id
-
-    person = JSONModel(:agent_person).find(id)
-    [0, 1].each do |n|
-      opts = {:name => generate(:generic_name)}
-
-      person.agent_contacts << build(:json_agent_contact, opts)
-
-      person.save
-
-      expect(JSONModel(:agent_person).find(id).agent_contacts[n]['name']).to eq(opts[:name])
+          it "does not add the contact" do
+            as_test_user("intern") do
+              id = create_person(:agent_contacts => nil).id
+              person = JSONModel(:agent_person).find(id)
+              [0, 1].each do |n|
+                opts = {:name => generate(:generic_name)}
+                person.agent_contacts << build(:json_agent_contact, opts)
+                expect { person.save }.to raise_error(AccessDeniedException)
+              end
+            end
+          end
+        end
+      end
     end
   end
 
+  describe 'create action' do
+    it "persists the created person" do
+      opts = {:names => [build(:json_name_person)]}
 
-  it "can give a list of person agents" do
-    count = JSONModel(:agent_person).all(:page => 1)['results'].count
-    if count > 8
-      raise "too many agents in the test db for pagination testing"
+      id = create_person(opts).id
+      expect(JSONModel(:agent_person).find(id).names.first['primary_name']).to eq(opts[:names][0]['primary_name'])
     end
-    2.times { create_person }
-    expect(JSONModel(:agent_person).all(:page => 1)['results'].count).to eq(count + 2)
+
+    it "persists dates of existence" do
+      date = build(:json_structured_date_label, :date_label => "existence")
+      id = create_person({:dates_of_existence => [date]}).id
+      agent = JSONModel(:agent_person).find(id)
+
+      expect(agent.dates_of_existence.length).to eq(1)
+      expect(agent.dates_of_existence[0]["structured_date_single"]["date_expression"]).to eq(date["structured_date_single"]["date_expression"])
+    end
+
+    it "persists use dates" do
+      date = build(:json_structured_date_label, {:date_label => "usage"})
+      name = build(:json_name_person, {:use_dates => [date]})
+      id = create_person({:names => [name]}).id
+
+      agent = JSONModel(:agent_person).find(id)
+      expect(agent.names[0]['use_dates'].length).to eq(1)
+    end
+
+    describe 'with contacts' do
+      context 'when user has the manage_agent_record permission on any repository' do
+        context 'when user has the view_agent_contact_record permission on any repository' do
+          before :each do
+            archivist = make_test_user("archivist")
+            Group[:group_code => 'repository-archivists', :repo_id => $repo_id].add_user(archivist)
+          end
+
+          it "adds the contact" do
+            as_test_user("archivist") do
+              first_contact_params = build(:json_agent_contact).to_hash
+              second_contact_params = build(:json_agent_contact).to_hash
+              id = create_person(:agent_contacts => [first_contact_params, second_contact_params]).id
+
+              person_contacts = JSONModel(:agent_person).find(id).agent_contacts
+
+              expect(person_contacts[0].to_hash).to deep_include(first_contact_params)
+              expect(person_contacts[1].to_hash).to deep_include(second_contact_params)
+            end
+          end
+
+          context 'when user does not have the view_agent_contact_record permission on any repository' do
+            before :each do
+              user = make_test_user("intern")
+              Group[:group_code => 'repository-advanced-data-entry', :repo_id => $repo_id].add_user(user)
+            end
+
+            it "responds with access denied" do
+              as_test_user("intern") do
+                first_contact_params = build(:json_agent_contact).to_hash
+                second_contact_params = build(:json_agent_contact).to_hash
+                expect do
+                  create_person(:agent_contacts => [first_contact_params, second_contact_params]).id
+                end.to raise_error(AccessDeniedException)
+              end
+            end
+          end
+        end
+
+        context 'when user does not have the manage_agent_record permission on any repository' do
+          context 'when user has the view_agent_contact_record permission on at least one repository' do
+            before :each do
+              group_data = {
+                :group_code => "view-agent-contact-without-manage-agents",
+                         :description => "Can view agent agent contacts but cannot manage agents",
+                         :grants_permissions => ["view_repository", "update_accession_record", "update_resource_record",
+                                                 "update_digital_object_record", "create_job", "view_agent_contact_record", "view_agent_contact_record_global"]
+              }
+
+              Group.create_from_json(JSONModel(:group).from_hash(group_data),
+                                     :repo_id => $repo_id)
+
+              user = make_test_user("limited-user")
+              Group[:group_code => 'view-agent-contact-without-manage-agents', :repo_id => $repo_id].add_user(user)
+            end
+
+            it "responds with access denied" do
+              as_test_user("limited-user") do
+                first_contact_params = build(:json_agent_contact).to_hash
+                second_contact_params = build(:json_agent_contact).to_hash
+                expect do
+                  create_person(:agent_contacts => [first_contact_params, second_contact_params]).id
+                end.to raise_error(AccessDeniedException)
+              end
+            end
+          end
+
+          context 'when user does not have the view_agent_contact_record permission on any repository' do
+            before :each do
+              user = make_test_user("intern")
+              Group[:group_code => 'repository-advanced-data-entry', :repo_id => $repo_id].add_user(user)
+            end
+
+            it "responds with access denied" do
+              as_test_user("intern") do
+                first_contact_params = build(:json_agent_contact).to_hash
+                second_contact_params = build(:json_agent_contact).to_hash
+                expect do
+                  create_person(:agent_contacts => [first_contact_params, second_contact_params]).id
+                end.to raise_error(AccessDeniedException)
+              end
+            end
+          end
+        end
+      end
+    end
+
+    describe 'without contacts' do
+
+    end
+
+    describe 'with notes' do
+      it "allows people to have a bioghist notes" do
+        n1 = build(:json_note_bioghist)
+        id = create_person({:notes => [n1]}).id
+        agent = JSONModel(:agent_person).find(id)
+
+        expect(agent.notes.length).to eq(1)
+        expect(agent.notes[0]["label"]).to eq(n1.label)
+      end
+
+      it "allows people to have a general_context notes" do
+        n1 = build(:json_note_general_context)
+        id = create_person({:notes => [n1]}).id
+        agent = JSONModel(:agent_person).find(id)
+
+        expect(agent.notes.length).to eq(1)
+        expect(agent.notes[0]["label"]).to eq(n1.label)
+      end
+
+      it "throws an error if created with an invalid note type" do
+        n1 = build(:json_note_bibliography)
+
+        expect { create_person({:notes => [n1.to_json]}) }.to raise_error(JSONModel::ValidationException)
+      end
+    end
+
+    describe 'peristing a sort name' do
+      context 'when a sort name is provided' do
+        it "persists the provided sort name" do
+          opts = {:names => [build(:json_name_person, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false)]}
+
+          id = create_person(opts).id
+          expect(JSONModel(:agent_person).find(id).names.first['sort_name']).to eq(opts[:names][0]['sort_name'])
+        end
+      end
+
+      context 'when a sort name is not provided' do
+        it "auto-generates the sort name" do
+          id = create_person({:names => [build(:json_name_person, {:primary_name => "Hendrix", :rest_of_name => "Jimi", :title => "Mr", :name_order => "direct", :sort_name_auto_generate => true})]}).id
+          agent = JSONModel(:agent_person).find(id)
+
+          expect(agent.names.first['sort_name']).to match(/\AJimi Hendrix,.* Mr/)
+          agent.names.first['name_order'] = "direct"
+          agent.save
+
+          agent = JSONModel(:agent_person).find(id)
+
+          expect(agent.names.first['sort_name']).to match(/\AJimi Hendrix,.* Mr/)
+
+          aggregate_failures "adding a readonly 'title' of the first name's sort_name" do
+            expect(agent.title).to match(/Jimi Hendrix,.* Mr/)
+          end
+        end
+
+        it "auto-generates the sort name for a parallel name" do
+          id = create_person(
+            {
+              :names => [build(:json_name_person, {
+                                 :primary_name => "Caesar",
+                                 :rest_of_name => "Julius",
+                                 :name_order => "direct",
+                                 :sort_name_auto_generate => true,
+                                 :parallel_names => [{:primary_name => 'Gaius Julius Caesar', :name_order => "direct"}]
+                               })]
+            }).id
+
+          agent = JSONModel(:agent_person).find(id)
+
+          expect(agent.names.first['sort_name']).to match(/^Julius Caesar/)
+          expect(agent.names.first['parallel_names'].first['sort_name']).to match(/^Gaius Julius Caesar/)
+
+          agent.names.first['parallel_names'].first['title'] = "Dictator"
+          agent.save
+
+          expect(JSONModel(:agent_person).find(id).names.first['parallel_names'].first['sort_name']).to match(/^Gaius.*Dictator$/)
+        end
+      end
+    end
   end
 
-
-  it "publishes the person agent and subrecords when /publish is POSTed" do
-    person = create(:json_agent_person, {
-                  :publish => false,
-                  :names => [build(:json_name_person)],
-                  :external_documents => [build(:json_external_document, {:publish => false})],
-                  :agent_places => [build(:json_agent_place)]
-                })
-
-    # Confirm various subrecords are unpublished
-    person = JSONModel(:agent_person).find(person.id)
-    expect(person.publish).to be_falsey
-    expect(person.external_documents[0]['publish']).to be_falsey
-    expect(person.agent_places[0]['publish']).to be_falsey
-    expect(person.agent_places[0]['notes'][0]['publish']).to be_falsey
-
-    url = URI("#{JSONModel::HTTP.backend_url}#{person.uri}/publish")
-
-    request = Net::HTTP::Post.new(url.request_uri)
-    response = JSONModel::HTTP.do_http_request(url, request)
-
-    # Now they're published
-    person = JSONModel(:agent_person).find(person.id)
-    expect(person.publish).to be_truthy
-    expect(person.external_documents[0]['publish']).to be_truthy
-    expect(person.agent_places[0]['publish']).to be_truthy
-    expect(person.agent_places[0]['notes'][0]['publish']).to be_truthy
+  describe 'index action' do
+    it "can give a list of person agents" do
+      count = JSONModel(:agent_person).all(:page => 1)['results'].count
+      if count > 8
+        raise "too many agents in the test db for pagination testing"
+      end
+      2.times { create_person }
+      expect(JSONModel(:agent_person).all(:page => 1)['results'].count).to eq(count + 2)
+    end
   end
 
+  describe 'publish action' do
+    it "publishes the person agent and subrecords when /publish is POSTed" do
+      person = create(:json_agent_person, {
+                        :publish => false,
+                        :names => [build(:json_name_person)],
+                        :external_documents => [build(:json_external_document, {:publish => false})],
+                        :agent_places => [build(:json_agent_place)]
+                      })
 
-  it "sets the sort name if one is provided" do
-    opts = {:names => [build(:json_name_person, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false)]}
+      # Confirm various subrecords are unpublished
+      person = JSONModel(:agent_person).find(person.id)
+      expect(person.publish).to be_falsey
+      expect(person.external_documents[0]['publish']).to be_falsey
+      expect(person.agent_places[0]['publish']).to be_falsey
+      expect(person.agent_places[0]['notes'][0]['publish']).to be_falsey
 
-    id = create_person(opts).id
-    expect(JSONModel(:agent_person).find(id).names.first['sort_name']).to eq(opts[:names][0]['sort_name'])
+      url = URI("#{JSONModel::HTTP.backend_url}#{person.uri}/publish")
+
+      request = Net::HTTP::Post.new(url.request_uri)
+      response = JSONModel::HTTP.do_http_request(url, request)
+
+      # Now they're published
+      person = JSONModel(:agent_person).find(person.id)
+      expect(person.publish).to be_truthy
+      expect(person.external_documents[0]['publish']).to be_truthy
+      expect(person.agent_places[0]['publish']).to be_truthy
+      expect(person.agent_places[0]['notes'][0]['publish']).to be_truthy
+    end
   end
 
-
-  it "auto-generates the sort name if one is not provided" do
-    id = create_person({:names => [build(:json_name_person, {:primary_name => "Hendrix", :rest_of_name => "Jimi", :title => "Mr", :name_order => "direct", :sort_name_auto_generate => true})]}).id
-
-    agent = JSONModel(:agent_person).find(id)
-
-    expect(agent.names.first['sort_name']).to match(/\AJimi Hendrix,.* Mr/)
-
-    agent.names.first['name_order'] = "direct"
-    agent.save
-
-    expect(JSONModel(:agent_person).find(id).names.first['sort_name']).to match(/\AJimi Hendrix,.* Mr/)
-  end
-
-
-  it "auto-generates the sort name for a parallel name" do
-    id = create_person(
-      {
-        :names => [build(:json_name_person, {
-          :primary_name => "Caesar",
-          :rest_of_name => "Julius",
-          :name_order => "direct",
-          :sort_name_auto_generate => true,
-          :parallel_names => [{:primary_name => 'Gaius Julius Caesar', :name_order => "direct"}]
-        })]
-      }).id
-
-    agent = JSONModel(:agent_person).find(id)
-
-    expect(agent.names.first['sort_name']).to match(/^Julius Caesar/)
-    expect(agent.names.first['parallel_names'].first['sort_name']).to match(/^Gaius Julius Caesar/)
-
-    agent.names.first['parallel_names'].first['title'] = "Dictator"
-    agent.save
-
-    expect(JSONModel(:agent_person).find(id).names.first['parallel_names'].first['sort_name']).to match(/^Gaius.*Dictator$/)
-  end
-
-
-  it "allows people to have a bioghist notes" do
-
-    n1 = build(:json_note_bioghist)
-
-    id = create_person({:notes => [n1]}).id
-
-    agent = JSONModel(:agent_person).find(id)
-
-    expect(agent.notes.length).to eq(1)
-    expect(agent.notes[0]["label"]).to eq(n1.label)
-  end
-
-  it "allows people to have a general_context notes" do
-
-    n1 = build(:json_note_general_context)
-
-    id = create_person({:notes => [n1]}).id
-
-    agent = JSONModel(:agent_person).find(id)
-
-    expect(agent.notes.length).to eq(1)
-    expect(agent.notes[0]["label"]).to eq(n1.label)
-  end
-
-
-  it "throws an error if created with an invalid note type" do
-
-    n1 = build(:json_note_bibliography)
-
-    expect { create_person({:notes => [n1.to_json]}) }.to raise_error(JSONModel::ValidationException)
-
-  end
-
-
-  it "offers a readonly 'title' of the first name's sort_name" do
-    id = create_person({:names => [build(:json_name_person, {:primary_name => "Hendrix", :rest_of_name => "Jimi", :title => "Mr", :name_order => "direct", :sort_name_auto_generate => true})]}).id
-
-    agent = JSONModel(:agent_person).find(id)
-
-    expect(agent.title).to match(/Jimi Hendrix,.* Mr/)
-  end
-
-  it "allows agents to have dates of existence" do
-
-    date = build(:json_structured_date_label, :date_label => "existence")
-
-    id = create_person({:dates_of_existence => [date]}).id
-
-    agent = JSONModel(:agent_person).find(id)
-
-    expect(agent.dates_of_existence.length).to eq(1)
-    expect(agent.dates_of_existence[0]["structured_date_single"]["date_expression"]).to eq(date["structured_date_single"]["date_expression"])
-  end
-
-  it "allows names to have use dates" do
-
-    date = build(:json_structured_date_label, {:date_label => "usage"})
-
-    name = build(:json_name_person, {:use_dates => [date]})
-
-    id = create_person({:names => [name]}).id
-
-    agent = JSONModel(:agent_person).find(id)
-
-    expect(agent.names[0]['use_dates'].length).to eq(1)
-  end
 
   describe "subrecord CRUD" do
     before :each do
@@ -214,7 +319,6 @@ describe 'Person agent controller' do
     it "deletes agent subrecords when parent agent is deleted" do
       agent_id = create_agent_via_api(:person, {:create_subrecords => true})
       expect(agent_id).to_not eq(-1)
-
 
       url = URI("#{JSONModel::HTTP.backend_url}/agents/people/#{agent_id}")
       response = JSONModel::HTTP.delete_request(url)
