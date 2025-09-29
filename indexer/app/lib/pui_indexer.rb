@@ -73,7 +73,9 @@ class PUIIndexer < PeriodicIndexer
       end
     }
   end
-
+  
+  # Run the final doc rules after all the hooks have been added
+  # This allows plugins to access ancestor data in PUI records before it is removed
   def final_doc_rules
     # this runs after the hooks in indexer_common, so we can overwrite with confidence
     add_document_prepare_hook {|doc, record|

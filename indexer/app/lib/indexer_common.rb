@@ -103,8 +103,6 @@ class IndexerCommon
       hook.call(self)
     end
 
-    # Run the final doc rules after all the hooks have been added
-    # This allows plugins to access ancestor data in PUI records before it is removed
     final_doc_rules
   end
 
