@@ -13,7 +13,7 @@ require 'rspec'
 require_relative "../app/model/db"
 require_relative "json_record_spec_helper"
 require_relative "custom_matchers"
-
+require_relative '../../common/spec/support/deep_include_matcher.rb'
 
 Dir.glob(File.join(File.dirname(__FILE__), '../', '../', 'common', 'lib', "*.jar")).each do |file|
   require file
