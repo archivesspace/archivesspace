@@ -12,6 +12,7 @@ services:
     env_file:
       - .env.docker.db
     volumes:
+      - as_dev_db-data:/var/lib/mysql
       - ./build/mysql_db_fixtures:/docker-entrypoint-initdb.d
   db2:
     container_name: as_test_db
@@ -21,6 +22,8 @@ services:
       - "3307:3306"
     env_file:
       - .env.docker.db
+    volumes:
+      - as_test_db-data:/var/lib/mysql
   solr1:
     container_name: as_dev_solr
     build:
@@ -31,6 +34,8 @@ services:
       - /opt/solr/server/solr/configsets/archivesspace
     ports:
       - "8983:8983"
+    volumes:
+      - as_dev_solr-data:/var/solr
   solr2:
     container_name: as_test_solr
     build:
@@ -41,6 +46,8 @@ services:
       - /opt/solr/server/solr/configsets/archivesspace
     ports:
       - "8984:8983"
+    volumes:
+      - as_test_solr-data:/var/solr
 
   proxy:
     image: nginx:1.21
@@ -51,3 +58,9 @@ services:
       - ./proxy/default.prefix.conf:/etc/nginx/conf.d/default.conf
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+volumes:
+  as_dev_db-data:
+  as_test_db-data:
+  as_dev_solr-data:
+  as_test_solr-data:
