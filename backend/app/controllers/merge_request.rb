@@ -25,18 +25,18 @@ class ArchivesSpaceService < Sinatra::Base
 
         client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
         # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
-        
+
         client.authorize()  # authorizes the client
-        
+
         updated_json = {'uri': 'merge_requests/subject',
                         'merge_destination': {'ref': subject_merge_into},
                         'merge_candidates': [{'ref': subject_uri_to_merge}]}
-        # replace subject_merge_into for the URI of the subject you want to merge into and subject_uri_to_merge with the 
+        # replace subject_merge_into for the URI of the subject you want to merge into and subject_uri_to_merge with the
         # URI of the subject you want merged, i.e. subject_uri_to_merge >> subject_merge_into
-        
+
         merge_response = client.post('merge_requests/subject', json=updated_json)
         # capture the response of the merge request
-        
+
         print(merge_response.json())  # For error handling, you can print the response of the merge request
       PYTHON
     end
@@ -158,6 +158,10 @@ class ArchivesSpaceService < Sinatra::Base
       raise BadParamsException.new(:merge_request => ["Agent merge request can only merge agent records"])
     end
 
+    if !current_user.can?('view_agent_contact_record_global') && (merge_destination_obj.agent_contact.any? || merge_candidate_obj.agent_contact.any?)
+      raise ConflictException.new('The merge cannot be completed because one or more of the agents has contact details you do not have permission to access.')
+    end
+
     agent_model = AgentManager.model_for(merge_destination[:type])
     agent_model.get_or_die(merge_destination[:id]).assimilate(merge_candidates.map {|v|
                                                      AgentManager.model_for(v[:type]).get_or_die(v[:id])
@@ -208,6 +212,7 @@ class ArchivesSpaceService < Sinatra::Base
     if (merge_candidates.map {|r| r[:type]} + [merge_destination[:type]]).any? {|type| !AgentManager.known_agent_type?(type)}
       raise BadParamsException.new(:merge_request_detail => ["Agent merge request can only merge agent records"])
     end
+
     agent_model = AgentManager.model_for(merge_destination[:type])
     merge_destination_obj = agent_model.get_or_die(merge_destination[:id])
     merge_candidate_obj = agent_model.get_or_die(merge_candidates[0][:id])
@@ -219,6 +224,10 @@ class ArchivesSpaceService < Sinatra::Base
     # if this is not a dry run, commit the merge.
     # otherwise, we'll send the response without saving any results.
     unless params[:dry_run]
+      if !current_user.can?('view_agent_contact_record_global') && (merge_destination_obj.agent_contact.any? || merge_candidate_obj.agent_contact.any?)
+        raise ConflictException.new('The merge cannot be completed because one or more of the agents has contact details you do not have permission to access.')
+      end
+
       merge_destination_obj.assimilate((merge_candidates.map {|v|
                                        AgentManager.model_for(v[:type]).get_or_die(v[:id])
                                      }))
