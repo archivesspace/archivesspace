@@ -1,9 +1,7 @@
 uk:
   enumeration_names:
     accession_sibling_relator: Реляційний консультант з питань приєднання до братів і сестер
-    agent_relationship_hier    agent_relationship_parentchild_relator:
-      is_child_of: Дитина пов'язаних осіб
-      is_parent_of: Батьківський елемент пов'язаного елемента
+    agent_relationship_hierarchical_relator: Ієрархічний релятор зв'язків між агентами
     event_event_type:
       accession: Поповнення
       accumulation: Накопичення
@@ -43,7 +41,7 @@ uk:
       request: Запит
       rights_transferred: Права передані
       validation: Валідація
-      virus_check: Перевірка на вірусиhical_relator: Ієрархічний релятор зв'язків між агентами
+      virus_check: Перевірка на віруси
     agent_relationship_associative_relator: Агент з взаємовідносин з ріелтором
     linked_agent_archival_record_relators: Пов’язані агенти архівних записів
     date_standardized_type: Дата Стандартизований тип
