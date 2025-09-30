@@ -59,13 +59,20 @@ end
                          instance['sub_container']['top_container']['_resolved'] &&
                          instance['sub_container']['top_container']['_resolved']['display_string']
 
-                        tc_display_string = instance['sub_container']['top_container']['_resolved']['display_string'].split(':')[0]
-
-
-                        if tc_display_string =~ /:/
-                          box_string = tc_display_string.split(':')[0]
+                        # Extract just the container type and indicator from the display string
+                        # The display string format is: "Type Indicator: series_info [barcode_info]"
+                        # We want to extract "Type Indicator" part only
+                        tc_resolved = instance['sub_container']['top_container']['_resolved']
+                        if tc_resolved['type'] && tc_resolved['indicator']
+                          box_string = "#{tc_resolved['type'].capitalize} #{tc_resolved['indicator']}"
                         else
-                          box_string = tc_display_string
+                          # Fallback to parsing display_string
+                          tc_display_string = tc_resolved['display_string'].split(':')[0]
+                          if tc_display_string =~ /:/
+                            box_string = tc_display_string.split(':')[0]
+                          else
+                            box_string = tc_display_string
+													end
                         end
 
                       else
