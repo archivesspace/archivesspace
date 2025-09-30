@@ -1295,7 +1295,7 @@ fr:
           à afficher ou à exporter dans des formats de métadonnées qui nécessitent
           un agent principal
         make_authorized_tooltip: À utiliser pour indiquer que la forme du nom est
-          la version autorisée du nom par des sources faisant autorité comme LCNAF, AAT, etc.
+          la version autorisée du nom par des sources faisant autorité comme LCNAF.
   note:
     _frontend:
       preview:
