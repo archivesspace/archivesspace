@@ -1284,7 +1284,7 @@ fr:
         occupation_subject: Occupation Sujet
       action:
         add: Ajouter forme de nom
-        make_authorized: Convertir en nom normatif
+        make_authorized: Convertir en nom autorisé
         make_display_name: Convertir en nom d'affichage
 
         make_display_name_tooltip: Utilisez-le pour indiquer que cette forme du nom
@@ -1295,7 +1295,7 @@ fr:
           à afficher ou à exporter dans des formats de métadonnées qui nécessitent
           un agent principal
         make_authorized_tooltip: À utiliser pour indiquer que la forme du nom est
-          la version faisant autorité du nom.
+          la version autorisée du nom par des sources faisant autorité comme LCNAF, AAT, etc.
   note:
     _frontend:
       preview:
