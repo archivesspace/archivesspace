@@ -102,6 +102,8 @@ class IndexerCommon
     @@init_hooks.each do |hook|
       hook.call(self)
     end
+
+    final_doc_rules
   end
 
   def self.generate_years_for_date_range(begin_date, end_date)
@@ -499,12 +501,12 @@ class IndexerCommon
         doc['floor'] = record['record']['floor']
         doc['room'] = record['record']['room']
         doc['area'] = record['record']['area']
-       if record['record']['owner_repo']
-         repo = JSONModel::HTTP.get_json(record['record']['owner_repo']['ref'])
-          doc['owner_repo_uri_u_sstr'] = record['record']['owner_repo']['ref']
-          doc['owner_repo_display_string_u_ssort'] = repo["repo_code"]
-       end
-       end
+        if record['record']['owner_repo']
+          repo = JSONModel::HTTP.get_json(record['record']['owner_repo']['ref'])
+            doc['owner_repo_uri_u_sstr'] = record['record']['owner_repo']['ref']
+            doc['owner_repo_display_string_u_ssort'] = repo["repo_code"]
+        end
+      end
     }
 
     add_document_prepare_hook {|doc, record|
@@ -1428,6 +1430,10 @@ class IndexerCommon
   end
 end
 
+def final_doc_rules
+  # give subclasses a place to hang custom behavior.
+  # runs after all the hooks have been added
+end
 
 ASUtils.find_local_directories('indexer').each do |dir|
   Dir.glob(File.join(dir, "*.rb")).sort.each do |file|
