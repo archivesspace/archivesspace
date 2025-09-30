@@ -4,7 +4,7 @@
       <%
          record_title = result["record"]["_resolved"]["title"]
          if "event" == result["record"]["_resolved"]["jsonmodel_type"]
-           record_title = "#{t("event._singular")}: #{t("enumerations.event_event_type.#{result["record"]["_resolved"]["event_type"]}")}"
+           record_title = "#{t("event._singular")}: #{I18n.t("enumerations.event_event_type.#{result["record"]["_resolved"]["event_type"]}", :default => result["record"]["_resolved"]["event_type"])}"
          elsif "collection_management" == result["record"]["_resolved"]["jsonmodel_type"]
            record_title = "#{t("collection_management._singular")}"
          end
