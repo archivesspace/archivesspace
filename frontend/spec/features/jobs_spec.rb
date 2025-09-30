@@ -39,7 +39,7 @@ describe 'Jobs', js: true do
     end
     # make sure linker is activated
     find('input#job_ref_.initialised', visible: :all);
-    fill_in('token-input-job_ref_', with: resource.title)
+    fill_in('token-input-job_ref_', with: resource.titles[0]['title'])
     find(:css, 'li.token-input-dropdown-item2').click
     select('Extent', from: 'Record or subrecord type')
     select('Container Summary', from: 'Target property')
@@ -63,7 +63,7 @@ describe 'Jobs', js: true do
     within('.dropdown-menu') do
       click_link('Generate PDF')
     end
-    fill_in('token-input-job_source_', with: resource.title)
+    fill_in('token-input-job_source_', with: resource.titles[0]['title'])
     find(:css, 'li.token-input-dropdown-item2').click
     click_button('Start Job')
     wait_for_job_to_complete(page)

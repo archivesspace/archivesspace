@@ -22,7 +22,7 @@ describe 'Resources Form', js: true do
   describe 'search dropdown and subject selection' do
     before(:each) do
       visit "resources/#{@resource.id}/edit"
-      expect(page).to have_text @resource.title
+      expect(page).to have_text @resource.titles[0]['title']
 
       click_on 'Add Subject'
       wait_for_ajax
@@ -43,7 +43,7 @@ describe 'Resources Form', js: true do
 
       # Save
       find('button', text: 'Save', match: :first).click
-      expect(page).to have_text "Resource #{@resource.title} updated"
+      expect(page).to have_text "Resource #{@resource.titles[0]['title']} updated"
 
       # Check edit page
       visit "resources/#{@resource.id}/edit"
@@ -70,7 +70,7 @@ describe 'Resources Form', js: true do
 
       # Save
       find('button', text: 'Save', match: :first).click
-      expect(page).to have_text "Resource #{@resource.title} updated"
+      expect(page).to have_text "Resource #{@resource.titles[0]['title']} updated"
 
       # Check edit page
       visit "resources/#{@resource.id}/edit"
@@ -97,7 +97,7 @@ describe 'Resources Form', js: true do
 
       # Save
       find('button', text: 'Save', match: :first).click
-      expect(page).to have_text "Resource #{@resource.title} updated"
+      expect(page).to have_text "Resource #{@resource.titles[0]['title']} updated"
 
       # Check edit page
       visit "resources/#{@resource.id}/edit"
@@ -124,7 +124,7 @@ describe 'Resources Form', js: true do
 
       # Save
       find('button', text: 'Save', match: :first).click
-      expect(page).to have_text "Resource #{@resource.title} updated"
+      expect(page).to have_text "Resource #{@resource.titles[0]['title']} updated"
 
       # Check edit page
       visit "resources/#{@resource.id}/edit"
@@ -151,7 +151,7 @@ describe 'Resources Form', js: true do
 
       # Save
       find('button', text: 'Save', match: :first).click
-      expect(page).to have_text "Resource #{@resource.title} updated"
+      expect(page).to have_text "Resource #{@resource.titles[0]['title']} updated"
 
       # Check edit page
       visit "resources/#{@resource.id}/edit"
@@ -178,7 +178,7 @@ describe 'Resources Form', js: true do
 
       # Save
       find('button', text: 'Save', match: :first).click
-      expect(page).to have_text "Resource #{@resource.title} updated"
+      expect(page).to have_text "Resource #{@resource.titles[0]['title']} updated"
 
       # Check edit page
       visit "resources/#{@resource.id}/edit"
@@ -206,7 +206,7 @@ describe 'Resources Form', js: true do
 
       # Save
       find('button', text: 'Save', match: :first).click
-      expect(page).to have_text "Resource #{@resource.title} updated"
+      expect(page).to have_text "Resource #{@resource.titles[0]['title']} updated"
 
       # Check edit page
       visit "resources/#{@resource.id}/edit"
@@ -233,7 +233,7 @@ describe 'Resources Form', js: true do
 
       # Save
       find('button', text: 'Save', match: :first).click
-      expect(page).to have_text "Resource #{@resource.title} updated"
+      expect(page).to have_text "Resource #{@resource.titles[0]['title']} updated"
 
       # Check edit page
       visit "resources/#{@resource.id}/edit"
@@ -261,7 +261,7 @@ describe 'Resources Form', js: true do
 
       # Save
       find('button', text: 'Save', match: :first).click
-      expect(page).to have_text "Resource #{@resource.title} updated"
+      expect(page).to have_text "Resource #{@resource.titles[0]['title']} updated"
 
       # Check edit page
       visit "resources/#{@resource.id}/edit"

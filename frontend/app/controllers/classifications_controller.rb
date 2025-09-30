@@ -7,6 +7,7 @@ class ClassificationsController < ApplicationController
 
   include ExportHelper
   include ApplicationHelper
+  include MlcHelper
 
   def index
     respond_to do |format|
@@ -38,7 +39,7 @@ class ClassificationsController < ApplicationController
   end
 
   def new
-    @classification = JSONModel(:classification).new(:title => t("classification.title_default", :default => ""))._always_valid!
+    @classification = JSONModel(:classification).new(:titles => [{:title => t("classification.title_default", :default => "")}])._always_valid!
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'classification'
@@ -71,7 +72,7 @@ class ClassificationsController < ApplicationController
     },
       :on_valid => ->(id) {
 
-      flash[:success] = t("classification._frontend.messages.created", classification_title: clean_mixed_content(@classification.title))
+      flash[:success] = t("classification._frontend.messages.created", classification_title: title_for_display)
 
       if @classification["is_slug_auto"] == false &&
           @classification["slug"] == nil &&
@@ -97,7 +98,7 @@ class ClassificationsController < ApplicationController
       render_aspace_partial :partial => "edit_inline"
     },
       :on_valid => ->(id) {
-      flash.now[:success] = t("classification._frontend.messages.updated", classification_title: clean_mixed_content(@classification.title))
+      flash.now[:success] = t("classification._frontend.messages.updated", classification_title: title_for_display)
 
       if @classification["is_slug_auto"] == false &&
           @classification["slug"] == nil &&
@@ -116,7 +117,7 @@ class ClassificationsController < ApplicationController
     classification = JSONModel(:classification).find(params[:id])
     classification.delete
 
-    flash[:success] = t("classification._frontend.messages.deleted", classification_title: clean_mixed_content(classification.title))
+    flash[:success] = t("classification._frontend.messages.deleted", classification_title: title_for_display)
     redirect_to(:controller => :classifications, :action => :index, :deleted_uri => classification.uri)
   end
 
@@ -163,41 +164,28 @@ class ClassificationsController < ApplicationController
   end
 
   def tree_root
-    classification_uri = JSONModel(:classification).uri_for(params[:id])
+    waypoint_data = fetch_json("#{classification_uri}/tree/root")
+    processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
 
-    render :json => JSONModel::HTTP.get_json("#{classification_uri}/tree/root")
+    render :json => processed_waypoint_data
   end
 
   def node_from_root
-    classification_uri = JSONModel(:classification).uri_for(params[:id])
-
-    render :json => JSONModel::HTTP.get_json("#{classification_uri}/tree/node_from_root",
-                                             'node_ids[]' => params[:node_ids])
+    waypoint_data = fetch_json("#{classification_uri}/tree/node_from_root", 'node_ids[]' => params[:node_ids])
+    processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
+    render :json => processed_waypoint_data
   end
 
   def tree_node
-    classification_uri = JSONModel(:classification).uri_for(params[:id])
-    node_uri = if !params[:node].blank?
-                 params[:node]
-               else
-                 nil
-               end
-
-    render :json => JSONModel::HTTP.get_json("#{classification_uri}/tree/node",
-                                             :node_uri => node_uri)
+    waypoint_data = fetch_json("#{classification_uri}/tree/node", :node_uri => params[:node])
+    processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
+    render :json => processed_waypoint_data
   end
 
   def tree_waypoint
-    classification_uri = JSONModel(:classification).uri_for(params[:id])
-    node_uri = if !params[:node].blank?
-                 params[:node]
-               else
-                 nil
-               end
-
-    render :json => JSONModel::HTTP.get_json("#{classification_uri}/tree/waypoint",
-                                             :parent_node => node_uri,
-                                             :offset => params[:offset])
+    render :json => fetch_json("#{resource_uri}/tree/waypoint",
+      :parent_node => params[:node],
+      :offset => params[:offset])
   end
 
 
@@ -252,6 +240,20 @@ class ClassificationsController < ApplicationController
     end
 
     tree
+  end
+
+  def fetch_json(uri, params = {})
+    json = "{}"
+
+    JSONModel::HTTP.stream(uri, params) do |response|
+      json = response.body
+    end
+
+    JSON.parse(json)
+  end
+
+  def classification_uri
+    JSONModel(:classification).uri_for(params[:id])
   end
 
 end

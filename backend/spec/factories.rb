@@ -164,14 +164,6 @@ FactoryBot.define do
       identifier_type { "loc"}
     end
 
-    factory :resource do
-      json_schema_version { 1 }
-      title { generate(:generic_title) }
-      id_0 { generate(:alphanumstr) }
-      id_1 { generate(:alphanumstr) }
-      level { generate(:archival_record_level) }
-    end
-
     factory :extent do
       json_schema_version { 1 }
       portion { generate(:portion) }
@@ -181,16 +173,6 @@ FactoryBot.define do
       archival_object_id { nil }
       dimensions { generate(:alphanumstr) }
       physical_details { generate(:alphanumstr) }
-    end
-
-    factory :archival_object do
-      json_schema_version { 1 }
-      title { generate(:generic_title) }
-      repo_id { nil }
-      ref_id { generate(:alphanumstr) }
-      level { generate(:archival_record_level) }
-      root_record_id { nil }
-      parent_id { nil }
     end
   end
 end
