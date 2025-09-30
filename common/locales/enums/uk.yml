@@ -146,3 +146,83 @@ uk:
     agent_relationship_parentchild_relator:
       is_child_of: Дитина пов'язаних осіб
       is_parent_of: Батьківський елемент пов’язаного елемента
+    agent_relationship_subordinatesuperior_relator:
+      is_subordinate_to: Підпорядкований спорідненому
+      is_superior_of: Переважає пов'язані
+    agent_relationship_temporal_relator:
+      is_temporal_with: Агент Зв'язок Часовий Релятор
+    archival_record_level:
+      class: Клас
+      collection: Колекція
+      file: Файл
+      fonds: Фонди
+      item: Елемент
+      otherlevel: Інший рівень
+      recordgrp: Група записів
+      series: Серія
+      subfonds: Субфонди
+      subgrp: Підгрупа
+      subseries: Підсерія
+    begin_date_standardized_type:
+      not_after: Не після
+      not_before: Не раніше
+      standard: Стандартний
+    cataloging_source:
+      ccp: Програма кооперативної каталогізації
+      nat_bib_agency: Національне бібліографічне агентство
+      natc: Без спроби кодування
+      other: Інше
+      unknown: Невідомо
+    collection_management_processing_priority:
+      high: Високий
+      low: Низький
+      medium: Середній
+      none: Не вказано
+    collection_management_processing_status:
+      completed: Завершено
+      in_progress: У процесі
+      new: Новий
+      none: Не вказано
+    container_location_status:
+      current: Поточний
+      previous: Попередній
+    container_type:
+      box: Коробка
+      carton: Картон
+      case: Справа
+      container: Контейнер
+      folder: Папка
+      frame: Рамка
+      object: Об'єкт
+      page: Сторінка
+      reel: Котушка
+      volume: Обсяг
+    country_iso_3166:
+      AD: Андорра
+      AE: Об'єднані Арабські Емірати
+      AF: Афганістан
+      AG: Антигуа і Барбуда
+      AI: Ангілья
+      AL: Албанія
+      AM: Вірменія
+      AO: Ангола
+      AQ: Антарктида
+      AR: Аргентина
+      AS: Американське Самоа
+      AT: Австрія
+      AU: Австралія
+      AW: Аруба
+      AX: Аландські острови
+      AZ: Азербайджан
+      BA: Боснія і Герцеговина
+      BB: Барбадос
+      BD: Бангладеш
+      BE: Бельгія
+      BF: Буркіна-Фасо
+      BG: Болгарія
+      BH: Бахрейн
+      BI: Бурунді
+      BJ: Бенін
+      BL: Святий Варфоломій
+      BM: Бермудські острови
+      BN: Бруней-Даруссалам
