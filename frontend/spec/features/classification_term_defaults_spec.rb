@@ -8,20 +8,20 @@ describe 'Classification Term Defaults', js: true do
     it 'can link to an agent' do
       login_admin
       visit '/classification_terms/defaults'
-      agent_linker = find('#classification_term_creator__ref__combobox')
-      dropdown_btn = agent_linker.find('.dropdown-toggle')
-      expect(agent_linker).not_to have_css('.token-input-token', visible: :all)
+      expect(page).not_to have_css('#classification_term_creator__ref__combobox .token-input-token', visible: :all)
 
-      dropdown_btn.click
-      within agent_linker do
+      find('#classification_term_creator__ref__combobox .dropdown-toggle').click
+
+      within '#classification_term_creator__ref__combobox' do
         click_on 'Browse'
       end
+
       within '.modal' do
         find('td', text: 'Administrator').click
       end
       click_on 'Link'
 
-      expect(agent_linker).to have_css('.token-input-token', visible: true, text: 'Administrator')
+      expect(page).to have_css('#classification_term_creator__ref__combobox .token-input-token', visible: true, text: 'Administrator')
     end
   end
 
@@ -38,9 +38,7 @@ describe 'Classification Term Defaults', js: true do
     end
 
     it 'can link to records' do
-      linked_record_subform = find('#classification_term_linked_records_')
-
-      expect(linked_record_subform).not_to have_css('ul.subrecord-form-list > li')
+      expect(page).not_to have_css('#classification_term_linked_records_ ul.subrecord-form-list > li')
 
       click_on 'Add Record Link'
       within 'ul.subrecord-form-list > li:nth-child(1)' do
@@ -52,7 +50,7 @@ describe 'Classification Term Defaults', js: true do
         click_on 'Link'
       end
       within 'ul.subrecord-form-list > li:nth-child(1)' do
-        expect(find('.token-input-token').text).to include @resource1.title
+        expect(page).to have_css('.token-input-token', text: @resource1.title)
       end
 
       click_on 'Add Record Link'
@@ -65,10 +63,10 @@ describe 'Classification Term Defaults', js: true do
         click_on 'Link'
       end
       within 'ul.subrecord-form-list > li:nth-child(2)' do
-        expect(find('.token-input-token').text).to include @resource2.title
+        expect(page).to have_css('.token-input-token', text: @resource2.title)
       end
 
-      expect(linked_record_subform).to have_css('ul.subrecord-form-list > li', count: 2)
+      expect(page).to have_css('#classification_term_linked_records_ ul.subrecord-form-list > li', count: 2)
     end
   end
 end
