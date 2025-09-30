@@ -283,4 +283,14 @@ describe 'Events', js: true do
     csv = File.read(csv_files[0])
     expect(csv).to include("Agent Name #{@now}")
   end
+
+  describe 'Agent Links subform' do
+    it 'does not allow an agent to be marked primary' do
+      login_admin
+      visit '/events/new'
+      expect(page).to have_css('#event_linked_agents_ #event_linked_agents__0_', visible: true)
+      expect(page).not_to have_content 'Make Primary'
+      expect(page).not_to have_css('#event_linked_agents__0__is_primary_')
+    end
+  end
 end
