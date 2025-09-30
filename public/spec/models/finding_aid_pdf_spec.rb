@@ -80,4 +80,42 @@ describe "FindingAidPDF" do
     expect(html).to include "Archival Object <b>Title</b> #{now} title&amp;title"
     expect(html).to include "Archival Object <b>Title</b> &amp;; &amp;&amp;; &amp;&amp;&amp;; #{now} &amp;title;"
   end
+
+  it "generates html for pdf export with container indicators containing semicolons" do
+    now = Time.now.to_i
+
+    repository = create(:repo, :repo_code => "finding_aid_pdf_#{now}", publish: true)
+    set_repo repository
+
+    resource = create(:resource, title: "Resource Title #{now}", publish: true)
+    
+    # Create a top container with an indicator containing a semicolon  
+    top_container = create(:json_top_container, 
+      indicator: "Series 1: accession 2",
+      type: "box")
+    
+    # Create an archival object with this container
+    archival_object = create(:archival_object,
+      title: "Archival Object with Semicolon Container #{now}",
+      resource: { 'ref' => resource.uri },
+      publish: true,
+      instances: [build(:json_instance, {
+        instance_type: 'text',
+        sub_container: build(:json_sub_container, {
+          top_container: { ref: top_container.uri },
+          type_2: 'folder',
+          indicator_2: '1'
+        })
+      })]
+    )
+
+    run_indexers
+
+    pdf = FindingAidPDF.new(repository.id, resource.id, ArchivesSpaceClient.instance, nil)
+    source_file = pdf.source_file
+    html = File.read(source_file)
+
+    # The container indicator should appear in full, not truncated at the semicolon
+    expect(html).to include "box series 1: accession 2"
+  end
 end
