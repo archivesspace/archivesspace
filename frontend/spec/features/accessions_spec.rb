@@ -597,4 +597,32 @@ describe 'Accessions', js: true do
       )
     end
   end
+
+describe 'Linked Agents is_primary behavior' do
+  let(:record_type) { 'accession' }
+  let(:agent) { create(:agent_person) }
+  let(:record) do
+    create(:accession,
+      title: "Accession Title #{Time.now.to_i}",
+      linked_agents: [
+        { ref: agent.uri, role: 'creator' }
+      ],
+      rights_statements: [
+        build(:json_rights_statement,
+          rights_type: 'copyright',
+          status: 'copyrighted',
+          jurisdiction: 'AU',
+          start_date: Time.now.strftime('%Y-%m-%d'),
+          linked_agents: [
+            { ref: agent.uri, role: 'rights_holder' }
+          ]
+        )
+      ]
+    )
+  end
+  let(:edit_path) { "/accessions/#{record.id}/edit" }
+
+  it_behaves_like 'supports is_primary on top-level linked agents'
+  it_behaves_like 'disallows is_primary on rights statement linked agents'
+end
 end
