@@ -73,7 +73,7 @@ describe 'Agent with multiple name forms', js: true do
       names: [
         build(
           :name_person,
-          primary_name: "Authoritative Name #{@now}",
+          primary_name: "Authorized Name #{@now}",
           authority_id: "auth_id_#{@now}",
           is_display_name: true,
           authorized: true,
@@ -102,10 +102,10 @@ describe 'Agent with multiple name forms', js: true do
   it 'displays name usage dates correctly' do
     visit('/agents')
 
-    find('a.record-title', text: /Authoritative Name/, match: :first).click
+    find('a.record-title', text: /Authorized Name/, match: :first).click
 
     expect(current_path).to match(/agents\/people\/\d+/)
-    expect(page).to have_content("Authoritative Name")
+    expect(page).to have_content("Authorized Name")
 
     within('#sidebar') do
       alias_one_item = find('li', text: /Alias One #{@now}/)
@@ -115,8 +115,8 @@ describe 'Agent with multiple name forms', js: true do
       expect(alias_two_item).to have_content('Usage: 2011')
     end
 
-    within('#authoritative-name-form-dates') do
-      # Check authoritative name and dates appear in main section
+    within('#authorized-name-form-dates') do
+      # Check authorized name and dates appear in main section
       expect(page).to have_content('Usage:')
       expect(page).to have_content('2000 - 2005')
 

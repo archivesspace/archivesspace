@@ -83,16 +83,16 @@ $(function () {
       }
     });
 
-    // setup authoritive/display name actions
+    // setup authorized/display name actions
     var $authorized = $(':input[name$="[authorized]"]', $subform);
     var $displayName = $(':input[name$="[is_display_name]"]', $subform);
     var $section = $authorized.closest('section.subrecord-form');
 
     var handleAuthorizedChange = function (val) {
       if (val) {
-        $subform.addClass('authoritive-name');
+        $subform.addClass('authorized-name');
       } else {
-        $subform.removeClass('authoritive-name');
+        $subform.removeClass('authorized-name');
       }
       $authorized.val(val ? 1 : 0);
     };
@@ -105,7 +105,7 @@ $(function () {
       $displayName.val(val ? 1 : 0);
     };
 
-    $('.btn-authoritive-name-toggle', $subform).click(function (event) {
+    $('.btn-authorized-name-toggle', $subform).click(function (event) {
       event.preventDefault();
       $(this).parent().off('click');
 
