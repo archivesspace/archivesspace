@@ -38,7 +38,7 @@ $(function () {
           ':input[name$="[' + rep_field_name + ']"]',
           $subform
         );
-        if ($hiddenRepStateField.length === 0) return; // No hidden field, nothing to do here
+        if ($hiddenRepStateField.length === 0) return; // ANW-1874 No hidden field, nothing to do here
 
         const isRepresentative = $hiddenRepStateField.val() === '1';
         const $labelBtn = $subform.find('.is-representative-label');

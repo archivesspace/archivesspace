@@ -10,9 +10,9 @@
    ].each do |defn| %>
 
   <% define_template "#{defn[:type]}_linked_agent", jsonmodel_definition(defn[:type], "linked_agents") do |form| %>
-
+    <% type_supports_is_primary = [:accession, :resource, :archival_object, :digital_object, :digital_object_component].include?(defn[:type]) %>
     <div class="subrecord-form-fields agent_links">
-      <% if [:accession, :resource, :archival_object, :digital_object, :digital_object_component].include?(defn[:type]) %>
+      <% if type_supports_is_primary %>
       <h3 class="subrecord-form-heading">
        <%= form.button_with_tooltip(I18n.t("linked_agent._frontend.action.make_primary_tooltip"), I18n.t("linked_agent.is_primary"), [], ["badge badge-pill badge-primary fs-14px is-representative-label"], false) %>
        <%= form.button_with_tooltip(I18n.t("linked_agent._frontend.action.make_primary_tooltip"), I18n.t("linked_agent._frontend.action.make_primary"), [], ["is-representative-toggle"]) %>
@@ -35,7 +35,7 @@
         <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "terms", :heading_text => t("subject._frontend.section.terms")} %>
       </div>
 
-      <% if [:accession, :resource, :archival_object, :digital_object, :digital_object_component].include?(defn[:type]) %>
+      <% if type_supports_is_primary %>
       <%= form.hidden_input "is_primary", form["is_primary"] ? 1 : 0 %>
       <% end %>
     </div>

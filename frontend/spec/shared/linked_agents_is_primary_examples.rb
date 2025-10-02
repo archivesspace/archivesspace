@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 # Shared helpers and examples for verifying is_primary behavior on linked agents.
-# NOTE: These examples DO NOT create records. The spec file must define:
+# These examples do not create records. The spec file must define:
 # - let(:record_type) { 'accession' | 'resource' | 'digital_object' | 'archival_object' | 'digital_object_component' | 'event' }
 # - let(:record) { create(:...) } with any linked_agents/rights_statements as needed
-# - let(:edit_path) { "/.../#{record.id}/edit" or the appropriate tree anchor }
+# - let(:edit_path) { "/#{record_type}/#{record.id}/edit" or the appropriate child path }
 
 RSpec.shared_context 'linked agents is_primary helpers' do
   let(:top_level_linked_agents_section) { "section##{record_type}_linked_agents_" }

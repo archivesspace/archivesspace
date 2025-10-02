@@ -253,7 +253,7 @@ describe 'Resources', js: true do
         find(".sidebar-entry-resource_linked_agents_ a").click
         within "#resource_linked_agents_" do
           click_button "Add Agent Link"
-          expect(page).to have_content 'Make Primary' # ANW-1874
+          expect(page).to have_content 'Make Primary'
           agent_subrecords = find_all("li.linked_agent_initialised")
           within agent_subrecords.last do
             field = find("input[role='searchbox']")
@@ -839,7 +839,7 @@ describe 'Resources', js: true do
 
     within '#resource_rights_statements_' do
       click_on 'Add Agent Link'
-      expect(page).not_to have_content 'Make Primary' # ANW-1874
+      expect(page).not_to have_content 'Make Primary'
     end
 
     element = find('#token-input-resource_rights_statements__0__linked_agents__0__ref_')
