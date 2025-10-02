@@ -33,8 +33,14 @@ $(function () {
 
         const $subform = $(subform);
         const $section = $subform.closest('section.subrecord-form');
-        const isRepresentative =
-          $(':input[name$="[' + rep_field_name + ']"]', $subform).val() === '1';
+
+        const $hiddenRepStateField = $(
+          ':input[name$="[' + rep_field_name + ']"]',
+          $subform
+        );
+        if ($hiddenRepStateField.length === 0) return; // ANW-1874 No hidden field, nothing to do here
+
+        const isRepresentative = $hiddenRepStateField.val() === '1';
         const $labelBtn = $subform.find('.is-representative-label');
         const $repBtn = $subform.find('.is-representative-toggle');
         const eventName =
