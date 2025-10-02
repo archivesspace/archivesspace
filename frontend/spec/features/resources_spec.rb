@@ -1264,8 +1264,8 @@ describe 'Resources', js: true do
     end
     let(:edit_path) { "/resources/#{record.id}/edit" }
 
-    it_behaves_like 'supports is_primary on top-level linked agents'
-    it_behaves_like 'disallows is_primary on rights statement linked agents'
+    it_behaves_like 'supporting is_primary on top-level linked agents'
+    it_behaves_like 'not supporting is_primary on rights statement linked agents'
   end
 
   describe 'export to pdf' do

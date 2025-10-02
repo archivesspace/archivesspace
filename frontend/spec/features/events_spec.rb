@@ -284,13 +284,16 @@ describe 'Events', js: true do
     expect(csv).to include("Agent Name #{@now}")
   end
 
-  describe 'Agent Links subform' do
-    it 'does not allow an agent to be marked primary' do
+  describe 'Linked Agents is_primary behavior' do
+    let(:record_type) { 'event' }
+    let(:record) { create(:event) }
+    let(:edit_path) { "/events/#{record.id}/edit" }
+
+    before :each do
       login_admin
-      visit '/events/new'
-      expect(page).to have_css('#event_linked_agents_ #event_linked_agents__0_', visible: true)
-      expect(page).not_to have_content 'Make Primary'
-      expect(page).not_to have_css('#event_linked_agents__0__is_primary_')
+      select_repository @repository
     end
+
+    it_behaves_like 'not supporting is_primary on top-level linked agents'
   end
 end

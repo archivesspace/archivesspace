@@ -7,60 +7,72 @@
 # - let(:edit_path) { "/.../#{record.id}/edit" or the appropriate tree anchor }
 
 RSpec.shared_context 'linked agents is_primary helpers' do
-  def top_level_linked_agents_section(record_type)
-    "section##{record_type}_linked_agents_"
-  end
-
-  def top_level_linked_agents_first_li(record_type)
-    "#{top_level_linked_agents_section(record_type)} .subrecord-form-list > li[data-index='0']"
-  end
-
-  def rights_statement_linked_agents_section(record_type, index = 0)
-    "##{record_type}_rights_statements__#{index}__linked_agents_"
-  end
-
-  def is_primary_hidden_selector
-    "input[type='hidden'][name$='[is_primary]']"
-  end
-
-  def make_primary_btn_selector
-    'button.is-representative-toggle'
-  end
-
-  def primary_btn_selector
-    'button.is-representative-label'
-  end
+  let(:top_level_linked_agents_section) { "section##{record_type}_linked_agents_" }
+  let(:top_level_linked_agents_first_li) { "#{top_level_linked_agents_section} .subrecord-form-list > li[data-index='0']" }
+  let(:rights_statement_linked_agents_section) { "##{record_type}_rights_statements__0__linked_agents_" }
+  let(:is_primary_hidden_selector) { "input[type='hidden'][name$='[is_primary]']" }
+  let(:make_primary_btn_selector) { 'button.is-representative-toggle' }
+  let(:primary_btn_selector) { 'button.is-representative-label' }
+  let(:save_button_selector) { 'button[type="submit"]' }
 end
 
-RSpec.shared_examples 'supports is_primary on top-level linked agents' do
+RSpec.shared_examples 'supporting is_primary on top-level linked agents' do
   include_context 'linked agents is_primary helpers'
 
-  it 'marks primary and persists the state' do
+  it 'marks an agent primary and persists the state' do
     visit edit_path
 
-    within top_level_linked_agents_first_li(record_type) do
-      expect(page).to have_css(make_primary_btn_selector, text: 'Make Primary')
+    within top_level_linked_agents_first_li do
+      expect(page).to have_css(make_primary_btn_selector, text: 'Make Primary', visible: true)
+      expect(page).to have_css(primary_btn_selector, text: 'Primary', visible: false)
       expect(find(is_primary_hidden_selector, visible: false).value).to eq('0')
 
-      find(make_primary_btn_selector, match: :first).click
+      find(make_primary_btn_selector).click
+      expect(page).to have_css(primary_btn_selector, text: 'Primary', visible: true)
+      expect(page).to have_css(make_primary_btn_selector, text: 'Make Primary', visible: false)
       expect(find(is_primary_hidden_selector, visible: false).value).to eq('1')
     end
 
     find('button', text: 'Save', match: :first).click
     expect(page).to have_css('.alert.alert-success.with-hide-alert')
-    within top_level_linked_agents_first_li(record_type) do
-      expect(page).to have_button('Primary')
+    within top_level_linked_agents_first_li do
+      expect(page).to have_css(primary_btn_selector, text: 'Primary', visible: true)
+      expect(page).to have_css(make_primary_btn_selector, text: 'Make Primary', visible: false)
       expect(find(is_primary_hidden_selector, visible: false).value).to eq('1')
+    end
+  end
+
+  it 'unmarks an agent primary and persists the state' do
+    visit edit_path
+
+    within top_level_linked_agents_first_li do
+      expect(page).to have_css(make_primary_btn_selector, text: 'Make Primary', visible: true)
+      find(make_primary_btn_selector).click
+    end
+
+    find(save_button_selector, match: :first).click
+    expect(page).to have_css('.alert.alert-success.with-hide-alert')
+    within top_level_linked_agents_first_li do
+      expect(page).to have_css(primary_btn_selector, text: 'Primary', visible: true)
+      find(primary_btn_selector).click
+    end
+
+    find(save_button_selector, match: :first).click
+    expect(page).to have_css('.alert.alert-success.with-hide-alert')
+    within top_level_linked_agents_first_li do
+      expect(page).to have_css(make_primary_btn_selector, text: 'Make Primary', visible: true)
+      expect(page).to have_css(primary_btn_selector, text: 'Primary', visible: false)
+      expect(find(is_primary_hidden_selector, visible: false).value).to eq('0')
     end
   end
 end
 
-RSpec.shared_examples 'disallows is_primary on rights statement linked agents' do
+RSpec.shared_examples 'not supporting is_primary on top-level linked agents' do
   include_context 'linked agents is_primary helpers'
 
-  it 'does not show primary UI in rights statement linked agents' do
+  it 'does not show is_primary UI for top-level linked agents' do
     visit edit_path
-    within rights_statement_linked_agents_section(record_type) do
+    within top_level_linked_agents_section do
       expect(page).to have_no_css(make_primary_btn_selector, visible: :all)
       expect(page).to have_no_css(primary_btn_selector, visible: :all)
       expect(page).to have_no_css(is_primary_hidden_selector, visible: :all)
@@ -68,25 +80,15 @@ RSpec.shared_examples 'disallows is_primary on rights statement linked agents' d
   end
 end
 
-RSpec.shared_examples 'disallows is_primary on top-level linked agents' do
+RSpec.shared_examples 'not supporting is_primary on rights statement linked agents' do
   include_context 'linked agents is_primary helpers'
 
-  it 'does not show primary UI for top-level linked agents' do
+  it 'does not show is_primary UI for rights statement linked agents' do
     visit edit_path
-    # If a pre-created linked agent exists, the selector will match. Otherwise, this will no-op.
-    if page.has_css?(top_level_linked_agents_first_li(record_type))
-      within top_level_linked_agents_first_li(record_type) do
-        expect(page).to have_no_css(make_primary_btn_selector, visible: :all)
-        expect(page).to have_no_css(primary_btn_selector, visible: :all)
-        expect(page).to have_no_css(is_primary_hidden_selector, visible: :all)
-      end
-    else
-      # Fallback: ensure the section itself has no primary UI
-      within top_level_linked_agents_section(record_type) do
-        expect(page).to have_no_css(make_primary_btn_selector, visible: :all)
-        expect(page).to have_no_css(primary_btn_selector, visible: :all)
-        expect(page).to have_no_css(is_primary_hidden_selector, visible: :all)
-      end
+    within rights_statement_linked_agents_section do
+      expect(page).to have_no_css(make_primary_btn_selector, visible: :all)
+      expect(page).to have_no_css(primary_btn_selector, visible: :all)
+      expect(page).to have_no_css(is_primary_hidden_selector, visible: :all)
     end
   end
 end
