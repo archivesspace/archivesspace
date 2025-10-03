@@ -737,6 +737,7 @@ en:
       event: Event Record Defaults
       classification: Classification Record Defaults
       classification_term: Classification Term Defaults
+      container_profile: Container Profile Defaults
     messages:
       defaults_updated: Defaults Updated
 
