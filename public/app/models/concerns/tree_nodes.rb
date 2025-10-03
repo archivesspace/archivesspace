@@ -47,7 +47,8 @@ module TreeNodes
 
 
   def breadcrumb_title_for_node(node, _)
-    node.fetch('title')
+    require 'pry-debugger-jruby'; binding.pry
+    MultipleTitlesHelper.determine_primary_title(node.fetch('titles'), $locale) #*archival_object node coming back with single title field
   end
 
 

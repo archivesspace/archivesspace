@@ -28,7 +28,7 @@ class ResourcesController < ApplicationController
     q: ['*'],
     limit: 'resource',
     op: [''],
-    field: ['title']
+    field: ['titles_u_sstr', 'title_languages_enum_s']
   }
   DEFAULT_RES_TYPES = %w{pui_archival_object pui_digital_object agent subject}
 
