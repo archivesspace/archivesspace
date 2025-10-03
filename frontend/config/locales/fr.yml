@@ -809,6 +809,7 @@ fr:
       event: Valeurs par défaut d'une notice Evénement
       classification: Valeurs par défaut d'une notice Classement
       classification_term: Valeurs par défaut Terme de classement
+      container_profile: Valeurs par défaut Profil de conditionnement
     messages:
       defaults_updated: Valeurs par défaut actualisées
 
