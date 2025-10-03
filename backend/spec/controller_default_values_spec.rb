@@ -164,7 +164,7 @@ end
 
     # Test changing default to height
     defaults['defaults']['extent_dimension'] = 'height'
-    
+
     response = JSONModel::HTTP.post_json(url, ASUtils.to_json(defaults))
 
     expect(response.status).to eq(200)
