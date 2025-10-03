@@ -529,7 +529,7 @@ describe 'Collection Organization', js: true do
 
       expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="0"]')
       expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="1"]')
-      expect(page).to have_css('#infinite-records-container .waypoint:not(.populated)[data-waypoint-number="2"]')
+      expect(page).to have_css('#infinite-records-container .waypoint:not(.populated)[data-waypoint-number="2"]', visible: false)
       percent_start = page.find('#load-all-showing-percent').text[0..-2].to_i
 
       container = page.find('#infinite-records-container')
@@ -598,7 +598,7 @@ describe 'Collection Organization', js: true do
         wait_for_jquery
 
         total_records = page.find('#infinite-records-container')['data-total-records']
-        num_empty_waypoints_start = page.all('#infinite-records-container .waypoint:not(.populated)').length
+        num_empty_waypoints_start = page.all('#infinite-records-container .waypoint:not(.populated)', visible: false).length
         expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
 
         # Add a wrapper function around `window.fetch()` that increments a number when
