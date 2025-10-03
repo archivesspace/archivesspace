@@ -1,4 +1,5 @@
 require 'aspace_i18n'
+require 'mixed_content_parser'
 
 module MultipleTitlesHelper
 
