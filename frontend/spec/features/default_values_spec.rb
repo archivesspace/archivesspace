@@ -67,14 +67,14 @@ describe 'Default Form Values', js: true do
     visit '/container_profiles'
     click_link('Edit Default Values')
     wait_for_ajax
-    
+
     fill_in 'container_profile_name_', with: 'DEFAULT BOX'
     select 'Width', from: 'container_profile_extent_dimension_'
     fill_in 'container_profile_depth_', with: '12'
-    fill_in 'container_profile_height_', with: '15' 
+    fill_in 'container_profile_height_', with: '15'
     fill_in 'container_profile_width_', with: '10'
     select 'Inches', from: 'container_profile_dimension_units_'
-    
+
     click_on('Save Container Profile')
     expect(page).to have_content('Defaults Updated')
 
@@ -87,11 +87,11 @@ describe 'Default Form Values', js: true do
     expect(page).to have_field('container_profile_width_', with: '10')
     expect(page).to have_select('container_profile_dimension_units_', selected: 'Inches')
 
-    # Now test changing defaults to "Height" 
+    # Now test changing defaults to "Height"
     visit '/container_profiles'
     click_link('Edit Default Values')
     wait_for_ajax
-    
+
     select 'Height', from: 'container_profile_extent_dimension_'
     click_on('Save Container Profile')
     expect(page).to have_content('Defaults Updated')
