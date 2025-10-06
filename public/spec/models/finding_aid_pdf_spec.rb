@@ -89,12 +89,10 @@ describe "FindingAidPDF" do
 
     resource = create(:resource, title: "Resource Title #{now}", publish: true)
 
-    # Create a top container with an indicator containing a semicolon
     top_container = create(:json_top_container,
       indicator: "Series 1: accession 2",
       type: "box")
 
-    # Create an archival object with this container
     archival_object = create(:archival_object,
       title: "Archival Object with Semicolon Container #{now}",
       resource: { 'ref' => resource.uri },
@@ -115,7 +113,6 @@ describe "FindingAidPDF" do
     source_file = pdf.source_file
     html = File.read(source_file)
 
-    # The container indicator should appear in full, not truncated at the semicolon
     expect(html).to include "box series 1: accession 2"
   end
 end
