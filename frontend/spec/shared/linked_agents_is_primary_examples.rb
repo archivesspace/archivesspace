@@ -25,12 +25,12 @@ RSpec.shared_examples 'supporting is_primary on top-level linked agents' do
     within top_level_linked_agents_first_li do
       expect(page).to have_css(make_primary_btn_selector, text: 'Make Primary', visible: true)
       expect(page).to have_css(primary_btn_selector, text: 'Primary', visible: false)
-      expect(find(is_primary_hidden_selector, visible: false).value).to eq('0')
+      expect(page).to have_css("#{is_primary_hidden_selector}[value='0']", visible: false)
 
       find(make_primary_btn_selector).click
       expect(page).to have_css(primary_btn_selector, text: 'Primary', visible: true)
       expect(page).to have_css(make_primary_btn_selector, text: 'Make Primary', visible: false)
-      expect(find(is_primary_hidden_selector, visible: false).value).to eq('1')
+      expect(page).to have_css("#{is_primary_hidden_selector}[value='1']", visible: false)
     end
 
     find('button', text: 'Save', match: :first).click
@@ -38,7 +38,7 @@ RSpec.shared_examples 'supporting is_primary on top-level linked agents' do
     within top_level_linked_agents_first_li do
       expect(page).to have_css(primary_btn_selector, text: 'Primary', visible: true)
       expect(page).to have_css(make_primary_btn_selector, text: 'Make Primary', visible: false)
-      expect(find(is_primary_hidden_selector, visible: false).value).to eq('1')
+      expect(page).to have_css("#{is_primary_hidden_selector}[value='1']", visible: false)
     end
   end
 
@@ -62,7 +62,7 @@ RSpec.shared_examples 'supporting is_primary on top-level linked agents' do
     within top_level_linked_agents_first_li do
       expect(page).to have_css(make_primary_btn_selector, text: 'Make Primary', visible: true)
       expect(page).to have_css(primary_btn_selector, text: 'Primary', visible: false)
-      expect(find(is_primary_hidden_selector, visible: false).value).to eq('0')
+      expect(page).to have_css("#{is_primary_hidden_selector}[value='0']", visible: false)
     end
   end
 end
