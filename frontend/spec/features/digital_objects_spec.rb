@@ -363,4 +363,73 @@ describe 'Digital Objects', js: true do
     element = find('#digital_object_component_file_versions__file_version_1')
     expect(element).to have_text "File Format Caption 2 #{now}"
   end
+
+  describe 'Linked Agents is_primary behavior' do
+    let(:agent) { create(:agent_person) }
+
+    context 'for a parent Digital Object' do
+      let(:record_type) { 'digital_object' }
+      let(:record) do
+        create(
+          :digital_object,
+          title: "Digital Object Title #{Time.now.to_i}",
+          linked_agents: [
+            { ref: agent.uri, role: 'creator' }
+          ],
+          rights_statements: [
+            build(
+              :json_rights_statement,
+              rights_type: 'copyright',
+              status: 'copyrighted',
+              jurisdiction: 'AU',
+              start_date: Time.now.strftime('%Y-%m-%d'),
+              linked_agents: [
+                { ref: agent.uri, role: 'rights_holder' }
+              ]
+            )
+          ]
+        )
+      end
+      let(:edit_path) { "/digital_objects/#{record.id}/edit" }
+
+      it_behaves_like 'supporting is_primary on top-level linked agents'
+      it_behaves_like 'not supporting is_primary on rights statement linked agents'
+    end
+
+    context 'for child Digital Object Components' do
+      let(:record_type) { 'digital_object_component' }
+      let(:parent_digital_object) do
+        create(
+          :digital_object,
+          title: "Digital Object Title #{Time.now.to_i}"
+        )
+      end
+      let(:record) do
+        create(
+          :digital_object_component,
+          digital_object: { ref: parent_digital_object.uri },
+          title: "Digital Object Component Title #{Time.now.to_i}",
+          linked_agents: [
+            { ref: agent.uri, role: 'creator' }
+          ],
+          rights_statements: [
+            build(
+              :json_rights_statement,
+              rights_type: 'copyright',
+              status: 'copyrighted',
+              jurisdiction: 'AU',
+              start_date: Time.now.strftime('%Y-%m-%d'),
+              linked_agents: [
+                { ref: agent.uri, role: 'rights_holder' }
+              ]
+            )
+          ]
+        )
+      end
+      let(:edit_path) { "/digital_objects/#{parent_digital_object.id}/edit#tree::digital_object_component_#{record.id}" }
+
+      it_behaves_like 'supporting is_primary on top-level linked agents'
+      it_behaves_like 'not supporting is_primary on rights statement linked agents'
+    end
+  end
 end

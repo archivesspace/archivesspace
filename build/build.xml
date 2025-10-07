@@ -918,7 +918,6 @@
       <param name="coverage_report_dir" value="frontend" />
       <param name="aspace.integration" value="true" />
       <param name="dir" value="../frontend" />
-      <param name="pattern" value="spec/*/*_spec.rb" />
       <!-- feature tests copied from old selenium tests may be order-dependent -->
       <param name="order" value="defined" />
       <param name="tag" value="${tag}" />

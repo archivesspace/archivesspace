@@ -283,4 +283,17 @@ describe 'Events', js: true do
     csv = File.read(csv_files[0])
     expect(csv).to include("Agent Name #{@now}")
   end
+
+  describe 'Linked Agents is_primary behavior' do
+    let(:record_type) { 'event' }
+    let(:record) { create(:event) }
+    let(:edit_path) { "/events/#{record.id}/edit" }
+
+    before :each do
+      login_admin
+      select_repository @repository
+    end
+
+    it_behaves_like 'not supporting is_primary on top-level linked agents'
+  end
 end
