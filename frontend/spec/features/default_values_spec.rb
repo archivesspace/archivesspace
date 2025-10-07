@@ -75,7 +75,7 @@ describe 'Default Form Values', js: true do
     fill_in 'container_profile_width_', with: '10'
     select 'Inches', from: 'container_profile_dimension_units_'
 
-    within('.form-actions') { click_button('Save Container Profile') }
+    click_button('Save Container Profile', match: :first)
     expect(page).to have_content('Defaults Updated')    # Verify defaults are applied with "Width" selected
     visit('/container_profiles/new')
     expect(page).to have_field('container_profile_name_', with: 'DEFAULT BOX')
@@ -91,7 +91,7 @@ describe 'Default Form Values', js: true do
     wait_for_ajax
 
     select 'Height', from: 'container_profile_extent_dimension_'
-    within('.form-actions') { click_button('Save Container Profile') }
+    click_button('Save Container Profile', match: :first)
     expect(page).to have_content('Defaults Updated')
 
     # Verify defaults now use "Height"
