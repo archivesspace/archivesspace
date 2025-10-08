@@ -98,6 +98,10 @@ AppConfig[:plugins] = ['local', 'lcnaf']
 # Resist the urge to set this to a big number as it will affect performance
 AppConfig[:job_thread_count] = 2
 
+# Proxy URLs
+# If you are serving user-facing applications via proxy
+# (i.e., another domain or port, or via https, or for a prefix) it is
+# recommended that you record those URLs in your configuration
 AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
 
 AppConfig[:oai_ead_options] = {}
@@ -120,13 +124,23 @@ AppConfig[:default_admin_password] = "admin"
 #
 AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
 
+
 AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }
 
+# Frequency of PUI periodic indexer
 AppConfig[:solr_indexing_frequency_seconds] = 30
+
+# The number of facet counts returned. A negative value means that Solr will return all counts.
+# See also: https://solr.apache.org/guide/solr/latest/query-guide/faceting.html#field-value-faceting-parameters
 AppConfig[:solr_facet_limit] = 100
 
+# TODO:
 AppConfig[:default_page_size] = 10
+
+# TODO:
 AppConfig[:max_boolean_queries] = 1024 # ArchivesSpace Solr default
+
+# TODO:
 AppConfig[:max_page_size] = 250
 
 # An option to change the length of the abstracts on the collections overview page
@@ -147,9 +161,11 @@ AppConfig[:cookie_prefix] = "archivesspace"
 # cores and/or more records per thread means more memory used).
 AppConfig[:indexer_records_per_thread] = 25
 AppConfig[:indexer_thread_count] = 4
+
+# TODO
 AppConfig[:indexer_solr_timeout_seconds] = 300
 
-# PUI Indexer Settings
+# PUI Indexer Settings TODO:
 AppConfig[:pui_indexer_enabled] = true
 AppConfig[:pui_indexing_frequency_seconds] = 30
 AppConfig[:pui_indexer_records_per_thread] = 25
