@@ -1,3 +1,5 @@
+require 'multiple_titles_helper'
+
 class Resource < Record
   include ResourceRequestItems
 
@@ -6,7 +8,6 @@ class Resource < Record
 
   def initialize(*args)
     super
-
     @digital_instances = parse_digital_instance
     @finding_aid = parse_finding_aid
     @related_accessions = parse_related_accessions
@@ -192,7 +193,7 @@ class Resource < Record
           dig_f = {}
           it =  instance['digital_object']['_resolved']
           unless it['file_versions'].blank?
-            title = strip_mixed_content(it['title'])
+            title = primary_title
             dig_f = process_file_versions(it)
             dig_f['caption'] = CGI::escapeHTML(title) if dig_f['caption'].blank? && !title.blank?
           end

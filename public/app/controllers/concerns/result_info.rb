@@ -112,7 +112,7 @@ module ResultInfo
     dig_obj = process_file_versions(json)
     unless dig_obj.blank?
       dig_obj['material'] = json['digital_object_type'].blank? ? '' : '(' << json['digital_object_type'] << ')'
-      caption = json.fetch(json['display_string'], json['title'])
+      caption = json.fetch('display_string', json['title'])
       caption = '' if caption.blank?
       dig_obj['caption'] = CGI::escapeHTML(strip_mixed_content(caption)) if dig_obj['caption'].blank? && !dig_obj['thumb'].blank?
     end
@@ -148,7 +148,7 @@ module ResultInfo
           dig_f = {}
           it =  instance['digital_object']['_resolved']
           unless !it['publish'] || it['file_versions'].blank?
-            title = strip_mixed_content(it['title'])
+            title = MultipleTitlesHelper.determine_primary_title(it['titles'], $locale)
             dig_f = process_file_versions(it)
             dig_f['caption'] = CGI::escapeHTML(title) if dig_f['caption'].blank? && !title.blank?
           end

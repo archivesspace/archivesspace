@@ -353,14 +353,22 @@ module AspaceFactories
       factory :classification, class: JSONModel(:classification) do
         identifier { generate(:alphanumstr) }
         publish { true }
-        title { generate(:classification_title) }
+        titles { [build(:title, title: title)] }
         description { generate(:alphanumstr) }
+
+        transient do
+          title { generate(:classification_title) }
+        end
       end
 
       factory :classification_term, class: JSONModel(:classification_term) do
         identifier { generate(:alphanumstr) }
-        title { generate(:classification_term_title) }
+        titles { [build(:title, title: title)] }
         description { generate(:alphanumstr) }
+
+        transient do
+          title { generate(:classification_term_title) }
+        end
       end
 
       factory :container_profile, class: JSONModel(:container_profile) do
