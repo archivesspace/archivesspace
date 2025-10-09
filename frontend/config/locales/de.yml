@@ -1393,13 +1393,13 @@ de:
         occupation_subject: Beruf
       action:
         add: Namensform hinzufügen
-        make_authorized: Zum autoritativen Namen machen
+        make_authorized: Zum autorisierten Namen machen
         make_display_name: Zum Anzeigenamen machen
         make_display_name_tooltip: Verwenden Sie diese Option, um diese 
           Namensform anzuzeigen, wenn der Akteur-Aufzeichnung mehrere 
           Namensformen zugeordnet sind.
         make_authorized_tooltip: Verwenden Sie diese Option, um diese Namensform
-          zum autoritativen Namen zu machen.
+          zum autorisierten Namen durch maßgebliche Quellen wie LCNAF zu machen.
 
         make_primary: Als Primär festlegen
         make_primary_tooltip: Als primäre Kurzinfo festlegen

@@ -25,7 +25,7 @@ module ViewHelper
   end
 
   def find_dates_for(result)
-    # Get use_dates only for the authoritative name form
+    # Get use_dates only for the authorized name form
     result.json['names'].select {|name| name['authorized'] == true}.map {|name| name['use_dates']}.flatten
   end
 
