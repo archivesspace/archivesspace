@@ -152,7 +152,7 @@ end
     uri = "/repositories/#{JSONModel.repository}/default_values/container_profile"
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
-    # Test setting width as default (addressing Jira issue requirement)
+    # Test setting width as default (see ANW-1023)
     response = JSONModel::HTTP.post_json(url, ASUtils.to_json(container_profile_defaults))
 
     expect(response.status).to eq(200)
