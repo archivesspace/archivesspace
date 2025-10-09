@@ -8,14 +8,14 @@ Given 'a Container Profile Default has been set with Width as Extent Dimension' 
   visit "#{STAFF_URL}/container_profiles"
   click_link('Edit Default Values')
   wait_for_ajax
-  
+
   fill_in 'Name', with: 'DEFAULT BOX'
   select 'Width', from: 'Extent Dimension'
   fill_in 'Depth', with: '12'
   fill_in 'Height', with: '15'
   fill_in 'Width', with: '10'
   select 'Inches', from: 'Dimension Units'
-  
+
   click_on('Save Container Profile')
   expect(page).to have_content('Defaults Updated')
 end
