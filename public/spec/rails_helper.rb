@@ -4,6 +4,9 @@ require 'launchy'
 require 'aspace_helper'
 require File.expand_path("../../../common/spec/support/file_runtime_formatter.rb", __FILE__)
 
+# Load shared examples
+Dir[File.expand_path('../shared/**/*.rb', __FILE__)].sort.each { |f| require f }
+
 CHROME_OPTS  = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-logging --log-level=0 --v=1 --incognito --disable-extensions --auto-open-devtools-for-tabs --window-size=1920,1080 --disable-dev-shm-usage").split(' ')
 
 FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless --width=1920 --height=1080').split(' ')

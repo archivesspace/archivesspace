@@ -37,6 +37,7 @@
   <ol
     class="node-children"
     role="group"
+    id
     data-parent-id
     data-tree-level
     data-total-child-batches
@@ -45,7 +46,13 @@
 </template>
 
 <template id="infinite-tree-expand-button-template">
-  <button class="node-expand" type="button">
+  <button
+    class="node-expand"
+    type="button"
+    data-has-expanded="false"
+    aria-expanded="false"
+    aria-controls
+  >
     <i class="node-expand-icon fa fa-chevron-right"></i>
     <span class="sr-only"></span>
   </button>
