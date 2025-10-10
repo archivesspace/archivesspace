@@ -43,7 +43,7 @@
     background-color: #fafafa;
   }
 
-  &[aria-expanded='false'] > .node-children {
+  &[data-is-expanded='false'] > .node-children {
     display: none;
   }
 

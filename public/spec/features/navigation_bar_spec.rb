@@ -28,4 +28,26 @@ describe 'Navigation Bar', js: true do
     click_link 'Search The Archives'
     expect(current_path).to eq ('/search')
   end
+
+  describe 'accessibility' do
+    context 'on mobile devices' do
+      before (:each) do
+        page.driver.browser.manage.window.resize_to(800, 600)
+        visit('/')
+      end
+
+      after (:each) do
+        # Reset browser window to prevent impacting other tests
+        width, height = default_window_size
+        page.driver.browser.manage.window.resize_to(width, height)
+      end
+
+      describe 'the menu' do
+        let(:control_element_selector) { 'button.navbar-toggler' }
+        let(:controlled_element_id) { 'collapsemenu' }
+
+        it_behaves_like 'having an accessible exapandable element'
+      end
+    end
+  end
 end

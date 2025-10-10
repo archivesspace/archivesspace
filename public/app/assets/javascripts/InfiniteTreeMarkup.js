@@ -65,7 +65,6 @@
 
       rootElement.id = `resource_${this.resourceId}`;
       rootElement.setAttribute('data-uri', this.resourceUri);
-      rootElement.setAttribute('aria-expanded', 'true');
       contentWrapper.setAttribute('title', _title.cleaned);
       link.href = `#tree::resource_${this.resourceId}`;
 
@@ -93,7 +92,9 @@
         .querySelector('#infinite-tree-node-list-template')
         .content.cloneNode(true);
       const listElement = listTemplate.querySelector('ol');
+      const listElementId = `${parentElementId}-children`;
 
+      listElement.id = listElementId;
       listElement.setAttribute('data-parent-id', parentElementId);
       listElement.setAttribute('data-tree-level', level);
       listElement.setAttribute('data-total-child-batches', numBatches);
@@ -146,11 +147,12 @@
 
       if (data.child_count > 0) {
         const totalBatches = Math.ceil(data.child_count / this.BATCH_SIZE);
-        nodeElement.setAttribute('data-total-child-batches', totalBatches);
-        nodeElement.setAttribute('data-has-expanded', 'false');
-        nodeElement.setAttribute('aria-expanded', 'false');
+        const childListId = `${nodeElementId}-children`;
 
-        indentation.appendChild(this.expandButton(title.cleaned));
+        nodeElement.setAttribute('data-total-child-batches', totalBatches);
+        nodeElement.setAttribute('data-is-expanded', 'false');
+
+        indentation.appendChild(this.expandButton(title.cleaned, childListId));
       }
 
       if (shouldObserve) {
@@ -196,15 +198,17 @@
     /**
      * Creates an expand button to show and hide a node's children
      * @param {string} title - The node title
+     * @param {string} childListId - The HTML id of the children container this button controls
      * @returns {DocumentFragment} - A <button>
      */
-    expandButton(title) {
+    expandButton(title, childListId) {
       const btnFrag = new DocumentFragment();
       const btnTemplate = document
         .querySelector('#infinite-tree-expand-button-template')
         .content.cloneNode(true);
       const btn = btnTemplate.querySelector('.node-expand');
 
+      btn.setAttribute('aria-controls', childListId);
       btn.querySelector('.sr-only').textContent = title;
 
       btnFrag.appendChild(btnTemplate);
