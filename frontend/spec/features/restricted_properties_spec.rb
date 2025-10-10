@@ -5,8 +5,8 @@ require 'rails_helper'
 
 describe 'Restricted properties', js: true do
   let!(:repository) { create(:repo, repo_code: "agents_test_#{Time.now.to_i}") }
-  let(:user) { create_user(repository => ['repository-advanced-data-entry']) }
-  let!(:agent) { create(:agent_person) }
+  let(:user) { create_user(repository => ['repository-advanced-data-entry']) } # has manage_agent_record but no view_agent_contact_record permissions
+  let!(:agent) { create(:agent_person, agent_contacts: [build(:json_agent_contact)]) }
   let!(:agent_source) { create(:agent_person) }
   let(:restricted_property) { 'agent_contacts' }
 
@@ -19,8 +19,6 @@ describe 'Restricted properties', js: true do
     expect(agent[restricted_property].count).to eq 1
 
     visit "/agents/#{agent['jsonmodel_type']}/#{agent.id}/edit"
-
-    find('#agent_restricted_properties___', visible: false)
 
     # Click on save
     find('button', text: 'Save Person', match: :first).click

@@ -88,18 +88,6 @@ class ApplicationController < ActionController::Base
 
       obj.instance_data[:find_opts] = opts[:find_opts] if opts.has_key? :find_opts
 
-      # We need to retain any restricted properties from the existing object. i.e.
-      # properties that exist for the record but the user was not allowed to edit
-      unless params[:action] == 'copy'
-        if params[opts[:instance]].key?(:restricted_properties)
-          params[opts[:instance]][:restricted_properties].each do |restricted|
-            next unless obj.has_key? restricted
-
-            params[opts[:instance]][restricted] = obj[restricted].dup
-          end
-        end
-      end
-
       # Param validations that don't have to do with the JSON validator
       opts[:params_check].call(obj, params) if opts[:params_check]
 
