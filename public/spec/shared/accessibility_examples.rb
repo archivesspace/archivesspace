@@ -7,45 +7,40 @@
 RSpec.shared_examples 'having an accessible exapandable element' do
   context 'when not expanded' do
     describe 'the control element' do
-      let(:control_element) { find(control_element_selector) }
+      it 'has aria attributes' do
+        aggregate_failures 'aria-expanded attribute set to false' do
+          expect(page).to have_css("#{control_element_selector}[aria-expanded='false']")
+        end
 
-      it 'has aria-expanded attribute set to false' do
-        expect(control_element['aria-expanded']).to eq 'false'
-      end
+        aggregate_failures 'aria-controls attribute set to the id of the controlled element' do
+          expect(page).to have_css("#{control_element_selector}[aria-controls='#{controlled_element_id}']")
+        end
 
-      it 'has aria-controls attribute set to the id of the controlled element' do
-        expect(control_element['aria-controls']).to eq controlled_element_id
-      end
-    end
-
-    describe 'the controlled element' do
-      it 'is not visible' do
-        expect(page).to have_css("##{controlled_element_id}", visible: false)
+        aggregate_failures 'is not visible' do
+          expect(page).to have_css("##{controlled_element_id}", visible: false)
+        end
       end
     end
   end
 
   context 'when expanded' do
-    before(:each) do
+    before :each do
       find(control_element_selector).click
-      wait_for_jquery
     end
 
     describe 'the control element' do
-      let(:control_element) { find(control_element_selector) }
+      it 'has aria attributes' do
+        aggregate_failures 'aria-expanded attribute set to true' do
+          expect(page).to have_css("#{control_element_selector}[aria-expanded='true']")
+        end
 
-      it 'has aria-expanded attribute set to true' do
-        expect(control_element['aria-expanded']).to eq 'true'
-      end
+        aggregate_failures 'is visible' do
+          expect(page).to have_css("##{controlled_element_id}", visible: true)
+        end
 
-      it 'has aria-controls attribute set to the id of the controlled element' do
-        expect(control_element['aria-controls']).to eq controlled_element_id
-      end
-    end
-
-    describe 'the controlled element' do
-      it 'is visible' do
-        expect(page).to have_css("##{controlled_element_id}", visible: true)
+        aggregate_failures 'has aria-controls attribute set to the id of the controlled element' do
+          expect(page).to have_css("#{control_element_selector}[aria-controls='#{controlled_element_id}']")
+        end
       end
     end
   end
