@@ -88,7 +88,7 @@ en:
     restriction_type: Local Access Restriction Type
     rights_statement_act_restriction: Rights Statement Act Restriction
     rights_statement_act_type: Rights Statement Act Type
-    rights_statement_external_document_identifier_type: Rights Statement External Document 
+    rights_statement_external_document_identifier_type: Rights Statement External Document
       Identifier Type
     rights_statement_ip_status: Rights Statement IP Status
     rights_statement_other_rights_basis: Rights Statement Other Rights Basis
@@ -1478,18 +1478,18 @@ en:
       revised_corrected: Revised/Corrected
       upgraded: Upgraded
     metadata_license:
-      no_derivatives: This record is made available under an Attribution-NoDerivatives 4.0 
+      no_derivatives: This record is made available under an Attribution-NoDerivatives 4.0
         International Creative Commons license.
-      non_commercial: This record is made available under an Attribution-NonCommercial 4.0 
+      non_commercial: This record is made available under an Attribution-NonCommercial 4.0
         International Creative Commons license.
-      non_commercial_no_derivatives: This record is made available under an 
+      non_commercial_no_derivatives: This record is made available under an
         Attribution-NonCommercial-NoDerivatives 4.0 International Creative Commons license.
-      non_commercial_share_a_like: This record is made available under an 
+      non_commercial_share_a_like: This record is made available under an
         Attribution-NonCommercial-ShareAlike 4.0 International Creative Commons license.
       other: Unspecified or custom license.
-      public_domain: This record is made available under an Universal 1.0 Public Domain Dedication 
+      public_domain: This record is made available under an Universal 1.0 Public Domain Dedication
         Creative Commons license.
-      share_a_like: This record is made available under an Attribution-ShareAlike 4.0 International 
+      share_a_like: This record is made available under an Attribution-ShareAlike 4.0 International
         Creative Commons license.
     modified_record:
       missing_characters: Missing characters
@@ -1503,7 +1503,7 @@ en:
       aacr: Anglo-American Cataloging Rules
       ccr: Cataloging Cultural Resources
       dacs: "Describing Archives: A Content Standard"
-      isaar: International Standard Archival Authority Record for Corporate Bodies, Persons, and 
+      isaar: International Standard Archival Authority Record for Corporate Bodies, Persons, and
         Families
       local: Local rules
       rad: Rules for Archival Description
@@ -1650,13 +1650,14 @@ en:
       allmusic: "AllMusic"
       allocine: "AlloCiné"
       amnbo: "American National Biography Online"
-      ansi: "American National Standards Institute and National Information Standards Organisation number
-        for an ANSI or ANSI/NISO standard"
+      ansi: "American National Standards Institute and National Information Standards Organisation\
+        \ number for an ANSI or ANSI/NISO standard"
       artsy: "Artsy"
       bdusc: "Biographical Directory of the United States Congress (United States Congress)"
       bfi: "BFI - British Film Institute"
       bnfcg: "BnF catalogue général (Paris: Bibliothèque nationale de France)"
-      cantic: "CANTIC (Catàleg d'autoritats de noms i títols de Catalunya) (Biblioteca de Catalunya)"
+      cantic: "CANTIC (Catàleg d'autoritats de noms i títols de Catalunya)\
+        \ (Biblioteca de Catalunya)"
       cgndb: "Canadian Geographical Names Database (Natural Resources Canada)"
       danacode: "Danacode (Bnei Brak, Israel: D.A.N.A. Systems)"
       datoses: "datos.bne.es (Biblioteca Nacional de España)"
@@ -1675,18 +1676,18 @@ en:
       gettytgn: "Getty Thesaurus of Geographic Names Online (J. Paul Getty Trust)"
       gettyulan: "Union List of Artist Names Online (J. Paul Getty Trust)"
       gnd: "Gemeinsame Normdatei (Leipzig, Frankfurt: Deutsche Nationalbibliothek)"
-      gnis: "Geographic Names Information System (GNIS) (United States Geological Survey, Board on Geographic
-        Names)"
+      gnis: "Geographic Names Information System (GNIS) (United States Geological Survey, Board on\
+        \ Geographic Names)"
       gtin-14: "Global Trade Identification Number 14 (EAN/UCC-128 or ITF-14)"
       hdl: "Handle"
       ibdb: "IBDB - Internet Broadway Database"
-      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement superieur
-        (ABES))"
+      idref: "IdRef: le referentiel des autorites Sudoc (L'agence bibliographique de l'enseignement\
+        \ superieur (ABES))"
       imdb: "IMDb - Internet Movie Database"
       isan: "International Standard Audiovisual Number"
       isbn: "International Standard Book Number"
-      isbn-a: "International Standard Book Number (the actionable ISBN) (International DOI Foundation
-        (IDF))"
+      isbn-a: "International Standard Book Number (the actionable ISBN) (International DOI\
+        \ Foundation (IDF))"
       isbnre: "ISBN (International Standard Book Number) registrant element"
       isil: "ISIL (International Standard Identifier for Libraries and Related Organizations)"
       ismn: "International Standard Music Number"
@@ -1702,8 +1703,8 @@ en:
       kinopo: "КиноПоиск = KinoPoisk"
       lccn: "Library of Congress Control Number"
       lcmd: "Library of Congress Manuscript Division (Washington, DC: Library of Congress)"
-      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC:Library
-        of Congress)"
+      lcmpt: "Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington,\
+        \ DC:Library of Congress)"
       libaus: "Libraries Australia (National Library of Australia)"
       local: "Locally defined identifier"
       matrix-number: "Sound recording matrix number"
@@ -1722,20 +1723,20 @@ en:
       orcid: "Open Researcher and Contributor IDentifier"
       oxforddnb: "Oxford Biography Index"
       porthu: "PORT.hu"
-      rbmsbt: "RBMS Controlled Vocabularies: Binding Terms (Rare Books and Manuscripts Section, Association
-        of College & Research Libraries)"
-      rbmsgt: "RBMS Controlled Vocabularies: Genre Terms (Rare Books and Manuscripts Section, Association
-        of College & Research Libraries)"
-      rbmspe: "RBMS Controlled Vocabularies: Provenance Evidence (Rare Books and Manuscripts Section,
-        Association of College & Research Libraries)"
-      rbmsppe: "RBMS Controlled Vocabularies: Printing and Publishing Evidence (Rare Books and Manuscripts
-        Section, Association of College & Research Libraries)"
-      rbmspt: "RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts Section Association
-        of College & Research Libraries)"
-      rbmsrd: "RBMS Controlled Vocabularies: Relationship Designators (Rare Books and Manuscripts Section,
-        Association of College & Research Libraries)"
-      rbmste: "RBMS Controlled Vocabularies: Type Evidence (Rare Books and Manuscripts Section, Association
-        of College & Research Libraries)"
+      rbmsbt: "RBMS Controlled Vocabularies: Binding Terms (Rare Books and Manuscripts Section,\
+        \ Association of College & Research Libraries)"
+      rbmsgt: "RBMS Controlled Vocabularies: Genre Terms (Rare Books and Manuscripts Section,\
+        \ Association of College & Research Libraries)"
+      rbmspe: "RBMS Controlled Vocabularies: Provenance Evidence (Rare Books and Manuscripts\
+        \ Section, Association of College & Research Libraries)"
+      rbmsppe: "RBMS Controlled Vocabularies: Printing and Publishing Evidence (Rare Books and\
+        \ Manuscripts Section, Association of College & Research Libraries)"
+      rbmspt: "RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts Section\
+        \ Association of College & Research Libraries)"
+      rbmsrd: "RBMS Controlled Vocabularies: Relationship Designators (Rare Books and Manuscripts\
+        \ Section, Association of College & Research Libraries)"
+      rbmste: "RBMS Controlled Vocabularies: Type Evidence (Rare Books and Manuscripts Section,\
+        \ Association of College & Research Libraries)"
       rid: "ResearcherID (Thomson Reuters)"
       rkda: "RKDartists& (Den Haag: Rijksbureau voor Kunsthistorische Documentatie)"
       saam: "Smithsonian American Art Museum (Washington DC: Smithsonian Institution)"
@@ -1777,8 +1778,7 @@ en:
       other: Other
       statute: Statute
     romanization:
-      conv_rom_cat_agency: Conventional romanization or conventional form of name in language of 
-        cataloging agency
+      conv_rom_cat_agency: Conventional romanization or conventional form of name in language of cataloging agency
       int_std: International standard
       local_standard: Local standard
       nat_std: National standard

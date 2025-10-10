@@ -81,15 +81,13 @@ fr:
     place_role: Rôle de place d'agent
     publication_status: Statut de publication
     reference_evaluation: Évaluation de référence
-    resource_finding_aid_description_rules: Instrument de recherche de la ressource Règles de 
-      description
+    resource_finding_aid_description_rules: Instrument de recherche de la ressource Règles de description
     resource_finding_aid_status: Instrument de recherche de la ressource Statut
     resource_resource_type: Ressource Type de ressource
     restriction_type: Consultation locale Type de restriction
     rights_statement_act_restriction: Déclaration de droits Convention de restrictions
     rights_statement_act_type: Déclaration de droits Type de convention
-    rights_statement_external_document_identifier_type: Déclaration de droits Type d'identifiant 
-      externe
+    rights_statement_external_document_identifier_type: Déclaration de droits Type d'identifiant externe
     rights_statement_ip_status: Mention de droits Statut de la propriété intellectuelle
     rights_statement_other_rights_basis: Déclaration de droits Autres fondements
     rights_statement_rights_type: Mention de droits Type de droits
@@ -1490,8 +1488,8 @@ fr:
       aacr: Anglo-American Cataloging Rules
       ccr: Catalogage des ressources culturelles
       dacs: "Describing Archives: A Content Standard"
-      isaar: Registre international normalisé des autorités archivistiques pour les personnes 
-        morales, les personnes et les familles
+      isaar: Registre international normalisé des autorités archivistiques pour les personnes morales,
+        les personnes et les familles
       local: Règles locales
       rad: Règles de description archivistique
       rda: Resource Description and Access
@@ -1764,8 +1762,8 @@ fr:
       other: Autre
       statute: Statut
     romanization:
-      conv_rom_cat_agency: Romanisation conventionnelle ou forme conventionnelle du nom dans la 
-        langue de l'agence de catalogage
+      conv_rom_cat_agency: Romanisation conventionnelle ou forme conventionnelle du nom dans la langue
+        de l'agence de catalogage
       int_std: Standard international
       local_standard: Norme locale
       nat_std: Norme nationale
@@ -1965,8 +1963,7 @@ fr:
       Xpeo: Old Persian
       Xsux: Cuneiform, Sumero-Akkadian
       Yiii: Yi
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square 
-        Script)
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square Script)
       Zinh: Code for inherited script
       Zmth: Mathematical notation
       Zsye: Symbols (Emoji variant)
@@ -2019,16 +2016,16 @@ fr:
     user_defined_enum_4:
       novalue: Aucune valeur définie
     metadata_license:
-      no_derivatives: Cet enregistrement est mis à disposition sous une licence 
-        Attribution-NoDerivatives 4.0 International Creative Commons.
-      other: Licence non spécifiée ou personnalisée.
-      non_commercial: Cet enregistrement est mis à disposition sous une licence 
-        Attribution-NonCommercial 4.0 International Creative Commons.
-      non_commercial_no_derivatives: Cet enregistrement est mis à disposition sous une licence 
-        Creative Commons internationale Attribution-NonCommercial-NoDerivatives 4.0.
-      non_commercial_share_a_like: Cet enregistrement est mis à disposition sous une licence 
-        Creative Commons internationale Attribution-NonCommercial-ShareAlike 4.0.
-      public_domain: Cet enregistrement est mis à disposition sous une licence Creative Commons 
-        Universal 1.0 Public Domain Dedication.
-      share_a_like: Cet enregistrement est mis à disposition sous une licence Attribution-ShareAlike
+      no_derivatives: Cet enregistrement est mis à disposition sous une licence Attribution-NoDerivatives
         4.0 International Creative Commons.
+      other: Licence non spécifiée ou personnalisée.
+      non_commercial: Cet enregistrement est mis à disposition sous une licence Attribution-NonCommercial
+        4.0 International Creative Commons.
+      non_commercial_no_derivatives: Cet enregistrement est mis à disposition sous une licence Creative
+        Commons internationale Attribution-NonCommercial-NoDerivatives 4.0.
+      non_commercial_share_a_like: Cet enregistrement est mis à disposition sous une licence Creative
+        Commons internationale Attribution-NonCommercial-ShareAlike 4.0.
+      public_domain: Cet enregistrement est mis à disposition sous une licence Creative Commons Universal
+        1.0 Public Domain Dedication.
+      share_a_like: Cet enregistrement est mis à disposition sous une licence Attribution-ShareAlike 4.0
+        International Creative Commons.
