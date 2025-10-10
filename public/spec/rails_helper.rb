@@ -7,9 +7,12 @@ require File.expand_path("../../../common/spec/support/file_runtime_formatter.rb
 # Load shared examples
 Dir[File.expand_path('../shared/**/*.rb', __FILE__)].sort.each { |f| require f }
 
-CHROME_OPTS  = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-logging --log-level=0 --v=1 --incognito --disable-extensions --auto-open-devtools-for-tabs --window-size=1920,1080 --disable-dev-shm-usage").split(' ')
+DEFAULT_WINDOW_WIDTH = 1920
+DEFAULT_WINDOW_HEIGHT = 1080
 
-FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless --width=1920 --height=1080').split(' ')
+CHROME_OPTS  = ENV.fetch('CHROME_OPTS', "--headless=new --no-sandbox --enable-logging --log-level=0 --v=1 --incognito --disable-extensions --auto-open-devtools-for-tabs --window-size=#{DEFAULT_WINDOW_WIDTH},#{DEFAULT_WINDOW_HEIGHT} --disable-dev-shm-usage").split(' ')
+
+FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', "-headless --width=#{DEFAULT_WINDOW_WIDTH} --height=#{DEFAULT_WINDOW_HEIGHT}").split(' ')
 
 # Chrome
 Capybara.register_driver(:chrome) do |app|
@@ -84,6 +87,10 @@ Capybara.raise_server_errors = false
 
 # Make sure server port used is the one AppConfig says it should be
 Capybara.server_port = URI.parse(AppConfig[:public_url]).port
+
+def default_window_size
+  [DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT]
+end
 
 RSpec.configure do |config|
   config.add_formatter FileRuntimeFormatter

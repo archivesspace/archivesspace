@@ -36,6 +36,12 @@ describe 'Navigation Bar', js: true do
         visit('/')
       end
 
+      after (:each) do
+        # Reset browser window to prevent impacting other tests
+        width, height = default_window_size
+        page.driver.browser.manage.window.resize_to(width, height)
+      end
+
       describe 'the menu' do
         let(:control_element_selector) { 'button.navbar-toggler' }
         let(:controlled_element_id) { 'collapsemenu' }
