@@ -220,7 +220,7 @@ class LargeTree
         .each do |row|
 
         root_record_titles[row[:id]] = []
-        db[:title].filter("#{@node_type}_id".to_sym => row[:id])
+        db[:title].filter("#{@root_type}_id".to_sym => row[:id])
         .select(:title, :language_id)
         .each do |title_row|
           title = title_row[:title]
