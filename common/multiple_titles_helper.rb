@@ -13,7 +13,7 @@ module MultipleTitlesHelper
     title = titles.find { |t| t['language'] == pref_lang }
 
     # fallback to the default language
-    title ||= titles.find { |t| t['language'] == I18n.supported_locales[I18n.default_locale] }
+    title ||= titles.find { |t| t['language'] == I18n.supported_locales[I18n.default_locale.to_s] }
 
     # if no preferred title can be determined, return the first title in the list
     title ||= titles[0]['title']
