@@ -921,8 +921,7 @@ describe 'Resources', js: true do
     find('button', text: 'Save Resource', match: :first).click
 
     within '#form_messages' do
-      element = find('.alert.alert-danger.with-hide-alert')
-      expect(element).to have_text 'Title - Property is required but was missing'
+      expect(page).to have_selector('.alert.alert-danger.with-hide-alert', visible: true, text: 'Title - Property is required but was missing')
     end
   end
 
@@ -940,8 +939,7 @@ describe 'Resources', js: true do
     find('#createPlusOne').click
 
     within '#form_messages' do
-      element = find('.alert.alert-danger.with-hide-alert')
-      expect(element).to have_text 'Level of Description - Property is required but was missing'
+      expect(page).to have_selector('.alert.alert-danger.with-hide-alert', visible: true, text: 'Level of Description - Property is required but was missing')
     end
   end
 
@@ -961,7 +959,7 @@ describe 'Resources', js: true do
     find('#createPlusOne').click
 
     within '#form_messages' do
-      element = find('.alert.alert-danger.with-hide-alert')
+      element = find('.alert.alert-danger.with-hide-alert', visible: true)
       expect(element).to have_text 'Dates - one or more required (or enter a Title)'
       expect(element).to have_text 'Title - must not be an empty string (or enter a Date)'
     end
@@ -992,11 +990,15 @@ describe 'Resources', js: true do
 
     click_on 'Edit'
 
-    elements = all('#resource_extents_ .subrecord-form-remove')
-    expect(elements.length).to eq 2
+    within '#resource_extents_' do
+      elements = all('#resource_extents_ .subrecord-form-remove')
+      expect(elements.length).to eq 2
 
-    elements[1].click
-    click_on 'Confirm Removal'
+      elements[1].click
+      within '.subrecord-form-removal-confirmation' do
+        click_button 'Confirm Removal'
+      end
+    end
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
