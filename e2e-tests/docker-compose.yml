@@ -3,6 +3,7 @@ name: e2e-tests
 services:
   e2e-app:
     image: archivesspace/archivesspace:latest
+    platform: linux/x86_64
     container_name: e2e-app
     restart: on-failure
     ports:
@@ -31,6 +32,7 @@ services:
 
   e2e-db:
     image: mysql:8
+    platform: linux/x86_64
     cap_add:
       - SYS_NICE
     container_name: e2e-db
@@ -48,8 +50,8 @@ services:
 
   e2e-solr:
     container_name: e2e-solr
-    image: archivesspace/solr:latest
     platform: linux/x86_64
+    image: archivesspace/solr:latest
     command:
       - solr-precreate
       - archivesspace

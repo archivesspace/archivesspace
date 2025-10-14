@@ -9,6 +9,7 @@ on:
     paths:
       - 'e2e-tests/**'
   workflow_call:
+  workflow_dispatch:
 
 defaults:
   run:
