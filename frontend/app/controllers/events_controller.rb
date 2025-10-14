@@ -77,10 +77,56 @@ class EventsController < ApplicationController
   def create
     handle_crud(:instance => :event,
                 :model => JSONModel(:event),
+                :before_hooks => [method(:ensure_required_linked_agents), method(:ensure_required_linked_records)],
                 :on_invalid => ->() {
                   if params.has_key?(:redirect_action)
                     @redirect_action = params[:redirect_action]
                   end
+
+                  # Ensure Agent Links and Record Links subforms are visible after validation errors
+                  # by reintroducing a single blank subrecord when none are present.
+                  @event.linked_agents = [{}] if @event.linked_agents.blank?
+                  @event.linked_records = [{}] if @event.linked_records.blank?
+
+                  # Transform list-level error into field-level errors for Agent Links and Record Links.
+                  if defined?(@exceptions) && @exceptions && @exceptions[:errors]
+                    errors = @exceptions[:errors]
+
+                    if errors.key?('linked_agents') || errors.key?(:linked_agents)
+                      errors.delete('linked_agents')
+                      errors.delete(:linked_agents)
+
+                      %w[ref role].each do |field|
+                        key = "linked_agents/0/#{field}"
+                        errors[key] ||= []
+                        errors[key] << I18n.t('validation_errors.missing_required_property')
+                      end
+                    end
+
+                    if errors.key?('linked_records') || errors.key?(:linked_records)
+                      errors.delete('linked_records')
+                      errors.delete(:linked_records)
+
+                      %w[ref role].each do |field|
+                        key = "linked_records/0/#{field}"
+                        errors[key] ||= []
+                        errors[key] << I18n.t('validation_errors.missing_required_property')
+                      end
+                    end
+
+                    # When date_type is 'single', we only care about the 'begin' field,
+                    # so suppress the unrelated 'end' field error
+                    if @event && @event['date'] && @event['date']['date_type'] == 'single'
+                      errors.keys.each do |key|
+                        if key.to_s =~ /^date(\/\d+)?\/end$/
+                          errors.delete(key)
+                        end
+                      end
+                    end
+
+                    @exceptions[:errors] = errors
+                  end
+
                   render :action => :new
                 },
                 :on_valid => ->(id) {
@@ -125,6 +171,7 @@ class EventsController < ApplicationController
                 })
   end
 
+
   def update
     handle_crud(:instance => :event,
                 :model => JSONModel(:event),
@@ -136,14 +183,12 @@ class EventsController < ApplicationController
                 })
   end
 
-
   def delete
     event = JSONModel(:event).find(params[:id])
     event.delete
     flash[:success] = t("event._frontend.messages.deleted")
     redirect_to(:controller => :events, :action => :index, :deleted_uri => event.uri)
   end
-
 
   def defaults
     defaults = DefaultValues.get 'event'
@@ -173,4 +218,19 @@ class EventsController < ApplicationController
     end
   end
 
+  private
+
+  # Ensure the required Agent and Record Links subrecords exist before validation so that
+  # field-level errors (eg, Role and Agent) are produced instead of only a list-level error.
+  def ensure_required_linked_agents(instance)
+    if instance['linked_agents'].nil? || (instance['linked_agents'].respond_to?(:empty?) && instance['linked_agents'].empty?)
+      instance['linked_agents'] = [{}]
+    end
+  end
+
+  def ensure_required_linked_records(instance)
+    if instance['linked_records'].nil? || (instance['linked_records'].respond_to?(:empty?) && instance['linked_records'].empty?)
+      instance['linked_records'] = [{}]
+    end
+  end
 end
