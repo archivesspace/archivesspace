@@ -11,6 +11,7 @@ Given 'a Resource with two Archival Objects has been created' do
   element.send_keys(:tab)
 
   select 'Single', from: 'resource_dates__0__date_type_'
+  wait_for_ajax
   fill_in 'resource_dates__0__begin_', with: '2024'
 
   fill_in 'resource_extents__0__number_', with: '10'
@@ -92,6 +93,12 @@ Then 'all Archival Objects are displayed' do
   expect(rows[2].text).to include "Archival Object 2 #{@uuid}"
 end
 
+When 'the user clicks on {string} in the tree toolbar' do |string|
+  within '#tree-toolbar' do
+    click_on_string string
+  end
+end
+
 Then 'only the top-level Archival Objects are displayed' do
   expect(page).to have_css('#tree-container .table .table-row', count: 2)
   expect(page).to have_css('#tree-container .table .table-row', text: "Archival Object 1 #{@uuid}")
@@ -99,8 +106,9 @@ end
 
 Given 'all levels of hierarchy in the tree are expanded' do
   click_on 'Auto-Expand All'
-
-  wait_for_ajax
+  expect(page).to have_css('#tree-container .table .table-row-group button.expandme.disabled')
+  expect(page).to have_css('#tree-toolbar a.btn-expand-tree-mode.btn-success', visible: true, text: 'Disable Auto-Expand')
+  sleep 1
 end
 
 Then 'the expand arrows are enabled' do

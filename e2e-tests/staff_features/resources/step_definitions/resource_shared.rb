@@ -66,7 +66,7 @@ end
 
 Given 'the Resource is opened in edit mode' do
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
-  wait_for_ajax
+  expect(page).to have_selector('h2', visible: true, text: 'Resource')
 end
 
 Given 'the Resource is published' do
