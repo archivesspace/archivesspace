@@ -15,6 +15,10 @@ on:
         description: "A name for the job"
         required: true
         type: string
+      image_tag:
+        description: "Docker image tag for archivesspace and solr"
+        required: true
+        type: string
 
 defaults:
   run:
@@ -35,6 +39,8 @@ jobs:
         geckodriver --version
         firefox --version
     - name: Set up Docker
+      env:
+        IMAGE_TAG: ${{ inputs.image_tag }}
       run: |
         docker compose -f docker-compose.yml up --quiet-pull --detach
     - name: Wait until the web server is ready

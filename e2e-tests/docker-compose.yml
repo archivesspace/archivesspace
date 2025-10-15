@@ -2,7 +2,7 @@ name: e2e-tests
 
 services:
   e2e-app:
-    image: archivesspace/archivesspace:latest
+    image: archivesspace/archivesspace:${IMAGE_TAG:-latest}
     platform: linux/x86_64
     container_name: e2e-app
     restart: on-failure
@@ -51,7 +51,7 @@ services:
   e2e-solr:
     container_name: e2e-solr
     platform: linux/x86_64
-    image: archivesspace/solr:latest
+    image: archivesspace/solr:${IMAGE_TAG:-latest}
     command:
       - solr-precreate
       - archivesspace

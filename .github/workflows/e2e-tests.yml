@@ -5,11 +5,18 @@ permissions:
   pull-requests: write
 
 on:
-  pull_request:
-    paths:
-      - 'e2e-tests/**'
   workflow_call:
+    inputs:
+      image_tag:
+        description: "Docker image tag for archivesspace and solr"
+        required: true
+        type: string
   workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Docker image tag for archivesspace and solr"
+        required: true
+        type: string
 
 defaults:
   run:
@@ -25,6 +32,7 @@ jobs:
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
       name: 'a-b'
+      image_tag: ${{ inputs.image_tag }}
       run-cmd: |
         dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[a-b]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
@@ -35,6 +43,7 @@ jobs:
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
       name: 'c-m'
+      image_tag: ${{ inputs.image_tag }}
       run-cmd: |
         dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[c-m]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
@@ -45,6 +54,7 @@ jobs:
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
       name: 'n-s'
+      image_tag: ${{ inputs.image_tag }}
       run-cmd: |
         dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[n-s]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
@@ -55,6 +65,7 @@ jobs:
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
       name: 't-z'
+      image_tag: ${{ inputs.image_tag }}
       run-cmd: |
         dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[t-z]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
