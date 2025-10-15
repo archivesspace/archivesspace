@@ -285,14 +285,12 @@ describe 'Events', js: true do
   end
 
   describe 'Linked Agents is_primary behavior' do
-    let(:record_type) { 'event' }
-    let(:record) { create(:event) }
-    let(:edit_path) { "/events/#{record.id}/edit" }
-
     before :each do
       login_admin
-      select_repository @repository
     end
+
+    let(:record_type) { 'event' }
+    let(:edit_path) { "/events/new" }
 
     it_behaves_like 'not supporting is_primary on top-level linked agents'
   end
