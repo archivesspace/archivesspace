@@ -5,19 +5,10 @@ require 'capybara/cucumber'
 require 'selenium-webdriver'
 require 'capybara-screenshot/cucumber'
 
-case ENV.fetch('HOST', 'localhost')
-when 'localhost', 'http://localhost:8080'
-  BASE_URL = 'http://localhost:8080'
-  PUBLIC_URL = 'http://localhost:8081'
-  STAFF_URL = BASE_URL
-end
+STAFF_URL = ENV.fetch('STAFF_URL', 'http://localhost:8080')
+PUBLIC_URL = ENV.fetch('PUBLIC_URL', 'http://localhost:8081')
 
-case ENV.fetch('HEADLESS', nil)
-when 'true'
-  HEADLESS = '--headless'
-else
-  HEADLESS = ''
-end
+HEADLESS = ENV.fetch('HEADLESS', '--headless')
 
 SCREENSHOTS_PATH = '/tmp/screenshots'
 
