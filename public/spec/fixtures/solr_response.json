@@ -1,7 +1,8 @@
 {
   "id": "/repositories/2/archival_objects/19#pui",
   "uri": "/repositories/2/archival_objects/19",
-  "title": "Resource with child inheriting title",
+  "titles_u_sstr": [ "Resource with child inheriting title" ],
+  "title_languages_enum_s":["zzz"],
   "primary_type": "archival_object",
   "types": [
     "archival_object",

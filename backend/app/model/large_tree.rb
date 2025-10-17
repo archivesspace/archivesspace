@@ -162,7 +162,7 @@ class LargeTree
     child_to_parent_map = {}
     node_to_position_map = {}
     node_to_root_record_map = {}
-    node_to_title_map = {}
+    node_to_titles_map = {}
 
     result = {}
 
@@ -178,11 +178,20 @@ class LargeTree
           .filter(:id => nodes_to_expand)
           .filter(published_filter)
           .select(:id, :parent_id, :root_record_id, :position, :display_string).each do |row|
+
           child_to_parent_map[row[:id]] = row[:parent_id]
           node_to_position_map[row[:id]] = row[:position]
-          node_to_title_map[row[:id]] = row[:display_string]
           node_to_root_record_map[row[:id]] = row[:root_record_id]
           next_nodes_to_expand << row[:parent_id]
+          node_to_titles_map[row[:id]] = []
+
+          db[:title].filter("#{@node_type}_id".to_sym => row[:id])
+            .select(:title, :language_id)
+            .each do |title_row|
+            title = title_row[:title]
+            language = db[:enumeration_value].where(id: title_row[:language_id]).select(:value).first&.fetch(:value)
+            node_to_titles_map[row[:id]].append({title: title, language: language})
+          end
         end
 
         nodes_to_expand = next_nodes_to_expand.compact.uniq
@@ -204,19 +213,21 @@ class LargeTree
 
       root_record_titles = {}
       db[@root_table]
-      .join(@node_table, :root_record_id => :id)
-      .filter(Sequel.qualify(@node_table, :id) => node_ids)
-      .select(Sequel.qualify(@root_table, :id))
-      .distinct
-      .each do |row|
+        .join(@node_table, :root_record_id => :id)
+        .filter(Sequel.qualify(@node_table, :id) => node_ids)
+        .select(Sequel.qualify(@root_table, :id))
+        .distinct
+        .each do |row|
+
         root_record_titles[row[:id]] = []
-        db[:title].filter("#{@node_type}_id".to_sym => row[:id])
+        db[:title].filter("#{@root_type}_id".to_sym => row[:id])
         .select(:title, :language_id)
         .each do |title_row|
           title = title_row[:title]
           language = db[:enumeration_value].where(id: title_row[:language_id]).select(:value).first&.fetch(:value)
           root_record_titles[row[:id]].append({title: title, language: language})
         end
+
       end
 
       ## Build up the path of waypoints for each node
@@ -234,9 +245,11 @@ class LargeTree
             "node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
             "root_record_uri" => root_record_uri,
             "jsonmodel_type" => @node_type,
-            "title" => node_to_title_map.fetch(parent_node),
+            "titles" => node_to_titles_map.fetch(parent_node),
             "offset" => node_to_waypoint_map.fetch(current_node),
-            "parsed_title" => MixedContentParser.parse(node_to_title_map.fetch(parent_node), '/')
+            "parsed_titles" => node_to_titles_map.fetch(parent_node).map { |t|
+              {title: MixedContentParser.parse(t[:title], '/'), language: t[:language]}
+            }
           }
 
           current_node = parent_node

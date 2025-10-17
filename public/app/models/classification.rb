@@ -14,7 +14,7 @@ class Classification < Record
   end
 
   def display_string_for_breadcrumb
-    "#{json['identifier']}#{I18n.t('classification.identifier_separator')} #{json['title']}"
+    "#{json['identifier']}#{I18n.t('classification.identifier_separator')} #{primary_title}"
   end
 
   def root_node_uri
@@ -59,7 +59,7 @@ class Classification < Record
   end
 
   def parse_full_title
-    "#{parse_identifier}#{I18n.t('classification.identifier_separator')} #{json['title']}"
+    "#{parse_identifier}#{I18n.t('classification.identifier_separator')} #{primary_title}"
   end
 
   def parse_identifier

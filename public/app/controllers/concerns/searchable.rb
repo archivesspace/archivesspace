@@ -393,9 +393,11 @@ module Searchable
 
   # if there's an inherited title, pre-pend it
   def full_title(json)
-    ft = strip_mixed_content(json['display_string'] || json['title'])
-    unless json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
-      ft = I18n.t('inherit.inherited', :level => raw['level'], :title => strip_mixed_content(json['title']), :display => ft)
+    # TODO this logic could really use a rework - for now I tried to keep it as close as possible to how it was
+    primary_title = MultipleTitlesHelper.determine_primary_title(json['titles'], true)
+    ft = strip_mixed_content(json['display_string']) || primary_title
+    unless json['title_inherited'].blank? || (json['display_string'] || '') == primary_title
+      ft = I18n.t('inherit.inherited', :level => raw['level'], :title => primary_title, :display => ft)
     end
     ft
   end

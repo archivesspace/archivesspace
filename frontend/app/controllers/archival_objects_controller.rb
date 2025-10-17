@@ -381,7 +381,9 @@ class ArchivalObjectsController < ApplicationController
   # select the proper title from the titles list and insert it into the old 'title' field that the linkers are expecting
   def select_title_for_subrecords
     @archival_object['instances'].each do |instance|
-      MultipleTitlesHelper.subrecord_select_primary_title!(instance['digital_object']['_resolved'], I18n.locale)
+      if instance['digital_object'].present?
+        MultipleTitlesHelper.subrecord_select_primary_title!(instance['digital_object']['_resolved'], I18n.locale)
+      end
     end
   end
 
