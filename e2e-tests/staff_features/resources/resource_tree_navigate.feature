@@ -23,5 +23,5 @@ Feature: Resource Tree navigate
   Scenario: Collapse all levels of the tree
     Given the Resource is opened in edit mode
       And all levels of hierarchy in the tree are expanded
-     When the user clicks on 'Collapse Tree'
+     When the user clicks on 'Collapse Tree' in the tree toolbar
      Then only the top-level Archival Objects are displayed

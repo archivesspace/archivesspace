@@ -10,7 +10,7 @@ Given 'an Agent Person has been created' do
   fill_in 'Primary Part of Name', with: "Agent #{@uuid}", match: :first
   click_on 'Save'
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Agent Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Agent Created')
   url_parts = current_url.split('agents/agent_person').pop.split('/')
   url_parts.pop
   @agent_id = url_parts.pop
@@ -23,7 +23,8 @@ Given 'an Agent Family has been created' do
 
   click_on 'Save'
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Agent Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Agent Created')
+
   url_parts = current_url.split('agents/agent_person').pop.split('/')
   url_parts.pop
   @agent_id = url_parts.pop
@@ -35,7 +36,7 @@ Given 'an Agent Corporate Entity has been created' do
   fill_in 'Primary Part of Name', with: "Agent #{@uuid}", match: :first
   click_on 'Save'
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Agent Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Agent Created')
   url_parts = current_url.split('agents/agent_person').pop.split('/')
   url_parts.pop
   @agent_id = url_parts.pop
@@ -47,7 +48,7 @@ Given 'an Agent Software has been created' do
   fill_in 'Software Name', with: "Agent #{@uuid}"
   click_on 'Save'
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Agent Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Agent Created')
   url_parts = current_url.split('agents/agent_person').pop.split('/')
   url_parts.pop
   @agent_id = url_parts.pop

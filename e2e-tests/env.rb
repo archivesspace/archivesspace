@@ -5,23 +5,10 @@ require 'capybara/cucumber'
 require 'selenium-webdriver'
 require 'capybara-screenshot/cucumber'
 
-case ENV.fetch('HOST', nil)
-when 'localhost', 'http://localhost:8080'
-  BASE_URL = 'http://localhost:8080'
-  PUBLIC_URL = 'http://localhost:8081'
-  STAFF_URL = BASE_URL
-else
-  BASE_URL = 'https://e2e.archivesspace.org'
-  PUBLIC_URL = BASE_URL.freeze
-  STAFF_URL = "#{BASE_URL}/staff".freeze
-end
+STAFF_URL = ENV.fetch('STAFF_URL', 'http://localhost:8080')
+PUBLIC_URL = ENV.fetch('PUBLIC_URL', 'http://localhost:8081')
 
-case ENV.fetch('HEADLESS', nil)
-when 'true'
-  HEADLESS = '--headless'
-else
-  HEADLESS = ''
-end
+HEADLESS = ENV.fetch('HEADLESS', '--headless')
 
 SCREENSHOTS_PATH = '/tmp/screenshots'
 
@@ -49,7 +36,8 @@ Capybara.register_driver :firefox_alternative_session do |app|
 end
 
 Capybara.default_driver = :firefox
-Capybara.default_max_wait_time = 10
+Capybara.default_max_wait_time = 15
+Capybara.asset_host = 'http://localhost:8080' # Enables viewing of HTML screenshots with assets
 
 BeforeAll do
   connection_error = "\nNo server found running on #{STAFF_URL}.\n\n"

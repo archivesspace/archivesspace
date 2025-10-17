@@ -9,7 +9,7 @@ Given 'two Digital Objects A & B have been created' do
   click_on 'Save'
   wait_for_ajax
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to have_text "Digital Object Digital Object A #{@uuid} Created"
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object A #{@uuid} Created")
   @digital_object_first_id = current_url.split('::digital_object_').pop
 
   visit "#{STAFF_URL}/digital_objects/new"
@@ -40,7 +40,7 @@ Given 'two Digital Objects A & B have been created' do
   click_on 'Save'
   wait_for_ajax
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to have_text "Digital Object Digital Object B #{@uuid} Created"
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object B #{@uuid} Created")
   @digital_object_second_id = current_url.split('::digital_object_').pop
 end
 

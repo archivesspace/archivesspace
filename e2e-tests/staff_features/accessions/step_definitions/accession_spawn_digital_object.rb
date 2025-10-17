@@ -7,6 +7,8 @@ When 'the {string} setting is enabled in the Repository Preferences' do |reposit
   check repository_setting_checkbox_label
 
   click_on 'Save'
+
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Preferences updated')
 end
 
 Then 'the Create Digital Object modal is displayed' do
@@ -14,7 +16,9 @@ Then 'the Create Digital Object modal is displayed' do
 end
 
 Then 'the Digital Object title is filled in with the Accession Title' do
-  expect(find('#digital_object_title_').value).to eq "Accession Title #{@uuid}"
+  within '#form_digital_object section#basic_information' do
+    expect(page).to have_field('digital_object_title_', with: "Accession Title #{@uuid}")
+  end
 end
 
 Then 'the following Digital Object forms have the same values as the Accession' do |linked_record_forms|
@@ -27,12 +31,14 @@ Then 'the following Digital Object forms have the same values as the Accession' 
 
     case form_title
     when 'Languages'
-      expect(find('#digital_object_lang_materials__0__language_and_script__language_').value).to eq 'English'
-      expect(find('#digital_object_lang_materials__0__language_and_script__script_').value).to eq 'Adlam'
+      within '#digital_object_lang_materials__0_' do
+        expect(page).to have_field('digital_object_lang_materials__0__language_and_script__language_', with: 'English')
+        expect(page).to have_select('digital_object_lang_materials__0__language_and_script__script__list', selected: 'Adlam', visible: false)
+      end
     when 'Dates'
-      expect(find('#digital_object_dates__0__label_').value).to eq 'creation'
-      expect(find('#digital_object_dates__0__date_type_').value).to eq 'single'
-      expect(find('#digital_object_dates__0__begin_').value).to eq ORIGINAL_ACCESSION_DATE
+      expect(page).to have_select('digital_object_dates__0__label_', selected: 'Creation')
+      expect(page).to have_select('digital_object_dates__0__date_type_', selected: 'Single')
+      expect(page).to have_field('digital_object_dates__0__begin_', with: ORIGINAL_ACCESSION_DATE)
     else
       raise "Invalid form provided: #{form_title}"
     end

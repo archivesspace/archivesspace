@@ -67,8 +67,7 @@ describe 'Digital Objects', js: true do
 
     expect(page).to have_selector('h2', visible: true, text: "Digital Object Title #{now} Digital Object")
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Digital Object Title #{now} Created"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} Created")
 
     click_on 'Close Record'
 
@@ -105,8 +104,7 @@ describe 'Digital Objects', js: true do
 
     expect(page).to have_selector('h2', visible: true, text: "Digital Object Title #{now} Digital Object")
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Digital Object Title #{now} Created"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} Created")
 
     within '#digital_object_file_versions__0_' do
       expect(page).to have_button('Make Representative', disabled: true)
@@ -208,8 +206,7 @@ describe 'Digital Objects', js: true do
 
     wait_for_ajax
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Component Sub-Child #{now} created as child of Child #{now} on Digital Object Digital Object Title #{now}"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Component Sub-Child #{now} created as child of Child #{now} on Digital Object Digital Object Title #{now}")
 
     find('button.tree-resize-toggle').click
 
@@ -261,8 +258,7 @@ describe 'Digital Objects', js: true do
 
     # Click on save
     find('button', text: 'Save Digital Object', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Digital Object Title #{now} Updated"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} Updated")
 
     element = find('#digital_object_classifications__0_')
     expect(element).to have_text classification.title

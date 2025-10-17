@@ -10,7 +10,7 @@ Given 'a Location Profile has been created' do
 
   find('button', text: 'Save Location Profile', match: :first).click
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Location Profile Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Location Profile Created')
   url_parts = current_url.split('/')
   @location_profile_id = url_parts.pop
 end
@@ -29,7 +29,7 @@ Given 'two Location Profiles have been created with a common keyword in their ti
 
   find('button', text: 'Save Location Profile', match: :first).click
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Location Profile Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Location Profile Created')
   url_parts = current_url.split('/')
   @location_profile_first_id = url_parts.pop
 
@@ -42,7 +42,7 @@ Given 'two Location Profiles have been created with a common keyword in their ti
 
   find('button', text: 'Save Location Profile', match: :first).click
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Location Profile Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Location Profile Created')
   url_parts = current_url.split('/')
   @location_profile_first_id = url_parts.pop
 end
@@ -85,19 +85,13 @@ Given 'the two Location Profiles are displayed sorted by ascending title' do
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @location_profile_a_uuid
-  expect(search_result_rows[1]).to have_text @location_profile_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @location_profile_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @location_profile_b_uuid)
 end
 
 Then 'the two Location Profiles are displayed sorted by descending title' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @location_profile_a_uuid
-  expect(search_result_rows[0]).to have_text @location_profile_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @location_profile_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @location_profile_a_uuid)
 end
 
 Given 'the two Location Profiles are displayed in the search results' do
@@ -109,11 +103,8 @@ Given 'the two Location Profiles are displayed in the search results' do
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @location_profile_a_uuid
-  expect(search_result_rows[1]).to have_text @location_profile_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @location_profile_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @location_profile_b_uuid)
 end
 
 Then 'a CSV file is downloaded with the the two Location Profiles' do

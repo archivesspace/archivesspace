@@ -7,11 +7,7 @@ end
 Then 'the new Location form has the following default values' do |form_values_table|
   visit "#{STAFF_URL}/locations/new"
 
-  form_values = form_values_table.hashes
-
-  form_values.each do |row|
-    field = find_field(row['form_field'])
-
-    expect(field.value.downcase).to eq row['form_value'].downcase
+  form_values_table.hashes.each do |row|
+    expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
   end
 end

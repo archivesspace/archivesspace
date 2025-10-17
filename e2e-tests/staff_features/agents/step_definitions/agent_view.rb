@@ -12,7 +12,7 @@ Given 'two Agents have been created with a common keyword in their name' do
   select 'Anglo-American Cataloging Rules', from: 'Rules'
   fill_in 'Rest of Name', with: 'Rest of name A'
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Agent Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Agent Created')
   url_parts = current_url.split('agents/agent_person').pop.split('/')
   url_parts.pop
   @agent_a_id = url_parts.pop
@@ -24,7 +24,7 @@ Given 'two Agents have been created with a common keyword in their name' do
   select 'Describing Archives: A Content Standard', from: 'Rules'
   fill_in 'Rest of Name', with: 'Rest of name B'
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Agent Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Agent Created')
   url_parts = current_url.split('agents/agent_person').pop.split('/')
   url_parts.pop
   @agent_b_id = url_parts.pop
@@ -39,83 +39,53 @@ Given 'the two Agents are displayed sorted by ascending name' do
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @agent_a_uuid
-  expect(search_result_rows[1]).to have_text @agent_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 Then 'the two Agents are displayed sorted by descending name' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @agent_a_uuid
-  expect(search_result_rows[0]).to have_text @agent_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_a_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending type' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text "A #{@agent_a_uuid} #{@shared_agent_uuid}, Rest of name A"
-  expect(search_result_rows[1]).to have_text "B #{@agent_b_uuid} #{@shared_agent_uuid}, Rest of name B"
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: "A #{@agent_a_uuid} #{@shared_agent_uuid}, Rest of name A")
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: "B #{@agent_b_uuid} #{@shared_agent_uuid}, Rest of name B")
 end
 
 Then 'the two Agents are displayed sorted by ascending level' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @agent_a_uuid
-  expect(search_result_rows[0]).to have_text @agent_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_a_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending Authority ID' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @agent_a_uuid
-  expect(search_result_rows[1]).to have_text @agent_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending source' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @agent_a_uuid
-  expect(search_result_rows[1]).to have_text @agent_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending rule' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @agent_a_uuid
-  expect(search_result_rows[1]).to have_text @agent_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending created date' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @agent_a_uuid
-  expect(search_result_rows[1]).to have_text @agent_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 Then 'Sort Agents by modified date' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @agent_a_uuid
-  expect(search_result_rows[1]).to have_text @agent_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending modified date' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @agent_a_uuid
-  expect(search_result_rows[1]).to have_text @agent_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 When 'the user filters by text with the Agent name' do

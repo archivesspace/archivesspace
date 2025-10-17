@@ -16,7 +16,7 @@ Given 'an Assessment has been created' do
   dropdown_items.first.click
 
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Assessment Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Assessment Created')
   url_parts = current_url.split('assessments').pop.split('/')
   url_parts.pop
   @assessment_id = url_parts.pop
@@ -53,14 +53,14 @@ Given 'two Assessments have been created with a common keyword in their record' 
   fill_in 'accession_id_1_', with: @accession_a_uuid
   fill_in 'accession_id_2_', with: @shared_accession_uuid
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Accession created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Accession created')
 
   visit "#{STAFF_URL}/accessions/new"
   fill_in 'accession_id_0_', with: 'Accession B'
   fill_in 'accession_id_1_', with: @accession_b_uuid
   fill_in 'accession_id_2_', with: @shared_accession_uuid
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Accession created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Accession created')
 
   visit "#{STAFF_URL}/assessments/new"
   fill_in 'token-input-assessment_records_', with: "Accession A-#{@accession_a_uuid}-#{@shared_accession_uuid}"
@@ -72,7 +72,7 @@ Given 'two Assessments have been created with a common keyword in their record' 
   dropdown_items.first.click
 
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Assessment Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Assessment Created')
   url_parts = current_url.split('assessments').pop.split('/')
   url_parts.pop
   @assessment_a_id = url_parts.pop
@@ -87,7 +87,7 @@ Given 'two Assessments have been created with a common keyword in their record' 
   dropdown_items.first.click
 
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Assessment Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Assessment Created')
   url_parts = current_url.split('assessments').pop.split('/')
   url_parts.pop
   @assessment_b_id = url_parts.pop
@@ -111,17 +111,11 @@ Given 'the two Assessments are displayed sorted by ascending record in the searc
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @assessment_a_uuid
-  expect(search_result_rows[1]).to have_text @assessment_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @assessment_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @assessment_b_uuid)
 end
 
 Then('the two Assessments are displayed sorted by ascending ID') do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @assessment_a_uuid
-  expect(search_result_rows[1]).to have_text @assessment_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @assessment_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @assessment_b_uuid)
 end

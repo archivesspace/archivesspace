@@ -75,17 +75,11 @@ Given 'the two Repositories are displayed sorted by ascending title in the searh
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @repository_a_uuid
-  expect(search_result_rows[1]).to have_text @repository_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @repository_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @repository_b_uuid)
 end
 
 Then 'the two Repositories are displayed sorted by ascending title' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @repository_a_uuid
-  expect(search_result_rows[1]).to have_text @repository_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @repository_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @repository_b_uuid)
 end

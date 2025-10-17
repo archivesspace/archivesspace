@@ -44,7 +44,7 @@ Given 'the Subject has one Metadata Rights Declarations' do
 
   click_on 'Save'
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Subject Saved'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Saved')
 end
 
 Then 'the Subject does not have Metadata Rights Declarations' do

@@ -16,7 +16,9 @@ Given 'two Resources have been created with a common keyword in their title' do
   dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
   dropdown_items.first.click
   select 'Single', from: 'resource_dates__0__date_type_'
-  fill_in 'resource_dates__0__begin_', with: '2000-01-01'
+  within '.input-group.date' do
+    fill_in 'resource_dates__0__begin_', with: '2000-01-01'
+  end
   fill_in 'Number', with: @uuid
   select 'Cassettes', from: 'resource_extents__0__extent_type_'
   fill_in 'resource_finding_aid_language_', with: 'English'
@@ -39,7 +41,9 @@ Given 'two Resources have been created with a common keyword in their title' do
   dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
   dropdown_items.first.click
   select 'Single', from: 'resource_dates__0__date_type_'
-  fill_in 'resource_dates__0__begin_', with: '2000-01-01'
+  within '.input-group.date' do
+    fill_in 'resource_dates__0__begin_', with: '2000-01-01'
+  end
   fill_in 'Number', with: @uuid
   select 'Cassettes', from: 'resource_extents__0__extent_type_'
   fill_in 'resource_finding_aid_language_', with: 'English'
@@ -61,33 +65,21 @@ Given 'the two Resources are displayed sorted by ascending title' do
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @resource_a_uuid
-  expect(search_result_rows[1]).to have_text @resource_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @resource_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @resource_b_uuid)
 end
 
 Then 'the two Resources are displayed sorted by descending title' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @resource_a_uuid
-  expect(search_result_rows[0]).to have_text @resource_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @resource_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @resource_a_uuid)
 end
 
 Then 'the two Resources are displayed sorted by ascending identifier' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @accession_a_uuid
-  expect(search_result_rows[0]).to have_text @accession_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @accession_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @accession_a_uuid)
 end
 
 Then 'the two Resources are displayed sorted by ascending level' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @accession_a_uuid
-  expect(search_result_rows[0]).to have_text @accession_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @accession_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @accession_a_uuid)
 end

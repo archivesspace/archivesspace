@@ -42,19 +42,15 @@ describe 'Record Lifecycle', js: true do
       click_on 'Suppress'
     end
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element).to have_text "Accession Accession Title #{now} suppressed"
-
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element).to have_text 'Accession is suppressed and cannot be edited'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Accession Accession Title #{now} suppressed")
+    expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Accession is suppressed and cannot be edited')
 
     run_index_round
 
     visit '/'
     visit "accessions/#{accession.id}/edit"
 
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element).to have_text 'Accession is suppressed and cannot be edited'
+    expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Accession is suppressed and cannot be edited')
   end
 
   it "an archivist can't see a suppressed Accession" do
@@ -85,16 +81,14 @@ describe 'Record Lifecycle', js: true do
     element = find('.alert.alert-success.with-hide-alert')
     expect(element).to have_text "Accession Accession Title #{now} suppressed"
 
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element).to have_text 'Accession is suppressed and cannot be edited'
+    expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Accession is suppressed and cannot be edited')
 
     run_index_round
 
     visit '/'
     visit "accessions/#{accession.id}/edit"
 
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element).to have_text 'Accession is suppressed and cannot be edited'
+    expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Accession is suppressed and cannot be edited')
 
     visit 'logout'
 
@@ -141,16 +135,14 @@ describe 'Record Lifecycle', js: true do
     element = find('.alert.alert-success.with-hide-alert')
     expect(element).to have_text "Accession Accession Title #{now} suppressed"
 
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element).to have_text 'Accession is suppressed and cannot be edited'
+    expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Accession is suppressed and cannot be edited')
 
     run_index_round
 
     visit '/'
     visit "accessions/#{accession.id}/edit"
 
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element).to have_text 'Accession is suppressed and cannot be edited'
+    expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Accession is suppressed and cannot be edited')
 
     visit "accessions/#{accession.id}/edit"
 
@@ -213,10 +205,7 @@ describe 'Record Lifecycle', js: true do
       click_on 'Suppress'
     end
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element).to have_text "Digital Object Digital Object Title #{now} suppressed"
-
-    element = find('.alert.alert-info.with-hide-alert')
-    expect(element).to have_text 'Digital Object is suppressed and cannot be edited'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} suppressed")
+    expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Digital Object is suppressed and cannot be edited')
   end
 end

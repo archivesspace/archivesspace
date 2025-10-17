@@ -19,29 +19,35 @@ Given 'an Accession has been created' do
   select 'Collection', from: 'accession_resource_type_'
 
   fill_in 'accession_language_', with: 'english'
-  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
-  dropdown_items.first.click
+  wait_for_ajax
+  find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
+
   fill_in 'accession_script_', with: 'adlam'
-  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
-  dropdown_items.first.click
+  wait_for_ajax
+  find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Adlam', match: :first).click
+
   find('#accession_restrictions_apply_').check
   find('#accession_access_restrictions_').check
   fill_in 'accession_access_restrictions_note_', with: "Access Restrictions Note #{@uuid}"
   find('#accession_use_restrictions_').check
   fill_in 'accession_use_restrictions_note_', with: "Use Restrictions Note #{@uuid}"
 
-  click_on 'Add Language'
-  fill_in 'Language', with: 'English'
-  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu li')
-  dropdown_item = dropdown_items.select do |item|
-    item.text == 'English'
-  end
-  expect(dropdown_item.length).to eq 1
-  dropdown_item[0].click
+  within '#accession_lang_materials_' do
+    click_on 'Add Language'
 
-  fill_in 'Script', with: 'adlam'
-  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
-  dropdown_items.first.click
+    within 'li.sort-enabled.initialised' do
+      fill_in 'Language', with: 'English'
+      wait_for_ajax
+      find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
+      expect(page).to have_css('#accession_lang_materials_ .dropdown-item.active[data-value="English"]', visible: false)
+
+      fill_in 'accession_lang_materials__0__language_and_script__script_', with: 'adlam'
+      wait_for_ajax
+      sleep 1
+      find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Adlam', match: :first).click
+      expect(page).to have_css('#accession_lang_materials_ .dropdown-item.active[data-value="Adlam"]', visible: false)
+    end
+  end
 
   click_on 'Add Date'
   select 'Single', from: 'accession_dates__0__date_type_'

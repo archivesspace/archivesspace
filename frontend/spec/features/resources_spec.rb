@@ -703,6 +703,7 @@ describe 'Resources', js: true do
     expect(page).to have_selector('#resource_notes__1__content__0_', text: accession.condition_description)
 
     select 'Single', from: 'resource_dates__0__date_type_'
+    wait_for_ajax
     fill_in 'resource_dates__0__begin_', with: '1978'
     fill_in 'resource_extents__0__number_', with: '10'
     select 'Cassettes', from: 'resource_extents__0__extent_type_'
@@ -893,6 +894,7 @@ describe 'Resources', js: true do
     element.send_keys(:tab)
 
     select 'Single', from: 'resource_dates__0__date_type_'
+    wait_for_ajax
     fill_in 'resource_dates__0__begin_', with: '1978'
     select 'Collection', from: 'resource_level_'
     fill_in 'resource_extents__0__number_', with: '10'

@@ -8,7 +8,7 @@ Given 'two Subjects A & B have been created' do
   select 'Cultural context', from: 'subject_terms__0__term_type_'
 
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Subject Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
 
   uri_parts = current_url.split('/')
   uri_parts.pop
@@ -21,7 +21,7 @@ Given 'two Subjects A & B have been created' do
   select 'Cultural context', from: 'subject_terms__0__term_type_'
 
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Subject Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
 
   uri_parts = current_url.split('/')
   uri_parts.pop

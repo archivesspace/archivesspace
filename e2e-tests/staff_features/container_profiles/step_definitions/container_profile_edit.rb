@@ -9,7 +9,7 @@ Given 'a Container Profile has been created' do
   fill_in 'container_profile_width_', with: '3.3'
 
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Container Profile Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Container Profile Created')
 
   @container_profile_id = current_url.split('/').pop
 end

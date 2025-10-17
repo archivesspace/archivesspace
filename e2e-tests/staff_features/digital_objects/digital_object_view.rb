@@ -25,19 +25,13 @@ Given 'the two Digital Objects are displayed sorted by ascending title' do
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @digital_object_a_uuid
-  expect(search_result_rows[1]).to have_text @digital_object_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @digital_object_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @digital_object_b_uuid)
 end
 
 Then 'the two Digital Objects are displayed sorted by descending title' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @digital_object_a_uuid
-  expect(search_result_rows[0]).to have_text @digital_object_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @digital_object_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @digital_object_a_uuid)
 end
 
 Then 'the Digital Object is in the search results' do
@@ -49,11 +43,8 @@ Then 'the Digital Object view page is displayed' do
 end
 
 Then 'the two Digital Objects are displayed sorted by ascending Digital Object ID' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @digital_object_a_uuid
-  expect(search_result_rows[1]).to have_text @digital_object_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @digital_object_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @digital_object_b_uuid)
 end
 
 Given 'the two Digital Objects are displayed in the search results' do
@@ -65,11 +56,8 @@ Given 'the two Digital Objects are displayed in the search results' do
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @digital_object_a_uuid
-  expect(search_result_rows[1]).to have_text @digital_object_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @digital_object_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @digital_object_b_uuid)
 end
 
 Then 'a CSV file is downloaded with the the two Digital Objects' do

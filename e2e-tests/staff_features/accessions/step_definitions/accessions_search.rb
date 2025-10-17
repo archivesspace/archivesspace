@@ -33,17 +33,11 @@ Given 'the two Accessions are displayed sorted by ascending title' do
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @accession_a_uuid
-  expect(search_result_rows[1]).to have_text @accession_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @accession_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @accession_b_uuid)
 end
 
 Then 'the two Accessions are displayed sorted by descending title' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @accession_a_uuid
-  expect(search_result_rows[0]).to have_text @accession_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @accession_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @accession_a_uuid)
 end

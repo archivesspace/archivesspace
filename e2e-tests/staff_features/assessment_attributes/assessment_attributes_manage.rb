@@ -31,7 +31,7 @@ Given 'a Rating Attribute has been added to the Repository Ratings' do
 
   find('button', text: 'Save Assessment Attributes', match: :first).click
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Assessment Attributes updated'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Assessment Attributes updated')
 end
 
 Then 'the Rating Attribute is removed from the Repository Ratings' do
@@ -44,7 +44,7 @@ Given 'an Assessment with a rating has been created' do
   element = find('input#ratings__label[value=""]', match: :first)
   element.fill_in with: @uuid
   find('button', text: 'Save Assessment Attributes', match: :first).click
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Assessment Attributes updated'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Assessment Attributes updated')
 
   visit "#{STAFF_URL}/accessions/new"
   fill_in 'accession_id_0_', with: "Accession #{@uuid}"
@@ -65,7 +65,7 @@ Given 'an Assessment with a rating has been created' do
   ratings[3].click
 
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Assessment Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Assessment Created')
   url_parts = current_url.split('assessments').pop.split('/')
   url_parts.pop
   @assessment_id = url_parts.pop

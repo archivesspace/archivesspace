@@ -117,8 +117,7 @@ describe 'Tree UI', js: true do
 
       wait_for_ajax
 
-      element = find('.alert.alert-success.with-hide-alert')
-      expect(element.text).to eq "Archival Object duplicated from #{@archival_object_3.display_string}"
+      expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Archival Object duplicated from #{@archival_object_3.display_string}")
 
       expect(find('#archival_object_title_').value).to eq @archival_object_3.title
       expect_archival_object_form_to_have_values_from(@archival_object_3)
@@ -131,8 +130,7 @@ describe 'Tree UI', js: true do
 
       wait_for_ajax
 
-      element = find('.alert.alert-success.with-hide-alert')
-      expect(element.text).to eq "Archival Object [Duplicated] #{@archival_object_3.title} on Resource #{@resource.title} created"
+      expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Archival Object [Duplicated] #{@archival_object_3.title} on Resource #{@resource.title} created")
 
       expect(find('#archival_object_title_').value).to eq "[Duplicated] #{@archival_object_3.title}"
       expect_archival_object_form_to_have_values_from(@archival_object_3)
@@ -157,8 +155,7 @@ describe 'Tree UI', js: true do
 
       wait_for_ajax
 
-      element = find('.alert.alert-success.with-hide-alert')
-      expect(element.text).to eq "Archival Object duplicated from #{@archival_object_3.display_string}"
+      expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Archival Object duplicated from #{@archival_object_3.display_string}")
 
       expect(find('#archival_object_title_').value).to eq @archival_object_3.title
       expect_archival_object_form_to_have_values_from(@archival_object_3)

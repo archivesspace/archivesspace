@@ -57,8 +57,7 @@ describe 'Notes', js: true do
 
     find('button', text: 'Save Resource', match: :first).click
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Resource Resource Title #{now} updated"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
   end
 
   it 'can edit an existing resource note to add subparts after saving' do
@@ -78,8 +77,7 @@ describe 'Notes', js: true do
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Resource Resource Title #{now} updated"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
     visit "resources/#{resource.id}/edit"
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
@@ -117,8 +115,7 @@ describe 'Notes', js: true do
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Resource Resource Title #{now} updated"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
   end
 
   it 'can create an ordered list subnote and list items maintain proper order' do
@@ -163,8 +160,7 @@ describe 'Notes', js: true do
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Resource Resource Title #{now} updated"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
 
@@ -184,8 +180,7 @@ describe 'Notes', js: true do
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Resource Resource Title #{now} updated"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
     wait_for_ajax
 
@@ -230,8 +225,7 @@ describe 'Notes', js: true do
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Resource Resource Title #{now} updated"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
 
@@ -273,8 +267,7 @@ describe 'Notes', js: true do
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Resource Resource Title #{now} updated"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
     find('#resource_notes_ #resource_notes__0_ .collapse-subrecord-toggle').click
 
@@ -291,8 +284,7 @@ describe 'Notes', js: true do
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Resource Resource Title #{now} updated"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
   end
 
   it 'can add a deaccession record' do
@@ -312,8 +304,7 @@ describe 'Notes', js: true do
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Resource Resource Title #{now} updated"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} updated")
 
     click_on 'Close Record'
 
@@ -417,6 +408,7 @@ describe 'Notes', js: true do
     fill_in 'resource_extents__0__number_', with: '10'
     select 'Cassettes', from: 'resource_extents__0__extent_type_'
     select 'Single', from: 'resource_dates__0__date_type_'
+    wait_for_ajax
     fill_in 'resource_dates__0__begin_', with: '1978'
 
     element = find('#resource_finding_aid_language_')
@@ -431,8 +423,7 @@ describe 'Notes', js: true do
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Resource Resource Title #{now} created"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource Title #{now} created")
 
     click_on 'Add Child'
 
@@ -479,8 +470,7 @@ describe 'Notes', js: true do
 
     # Click on save
     find('button', text: 'Save Digital Object', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Resource Title #{now} Created"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Resource Title #{now} Created")
 
     expect(find('#digital_object_title_').value).to eq "Resource Title #{now}"
 

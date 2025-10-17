@@ -24,12 +24,17 @@ Given 'a Resource with a Top Container has been created' do
 
   languages = all('#resource_lang_materials_ .subrecord-form-list li')
   click_on 'Add Language' if languages.length == 0
-  element = find('#resource_lang_materials__0__language_and_script__language_')
-  element.send_keys(ORIGINAL_LANGUAGE)
-  element.send_keys(:tab)
+
+  within '#resource_lang_materials_ li.sort-enabled.initialised' do
+    element = find('#resource_lang_materials__0__language_and_script__language_')
+    element.send_keys(ORIGINAL_LANGUAGE)
+    element.send_keys(:tab)
+  end
 
   select 'Single', from: 'resource_dates__0__date_type_'
-  fill_in 'resource_dates__0__begin_', with: ORIGINAL_RESOURCE_DATE
+  within '.input-group.date' do
+    fill_in 'resource_dates__0__begin_', with: ORIGINAL_RESOURCE_DATE
+  end
   @resource_number_of_dates = 1
 
   fill_in 'resource_extents__0__number_', with: '10'
@@ -46,7 +51,7 @@ Given 'a Resource with a Top Container has been created' do
 
   click_on 'Save'
 
-  expect(find('.alert.alert-success.with-hide-alert').text).to have_text "Resource Resource #{@uuid} created"
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Resource Resource #{@uuid} created")
 
   uri_parts = current_url.split('/')
   uri_parts.pop
@@ -66,7 +71,8 @@ end
 
 Given 'the Resource is opened in edit mode' do
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
-  wait_for_ajax
+  expect(page).to have_selector('h2', visible: true, text: 'Resource')
+  wait_for_ajax # still needed for dropdown menus to become active
 end
 
 Given 'the Resource is published' do

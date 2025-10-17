@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 Given 'a Resource has been created' do
-  visit "#{STAFF_URL}/resources/new"
-
   create_resource(@uuid)
 end
 

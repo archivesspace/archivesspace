@@ -2,6 +2,7 @@ Feature: Assessment Create
   Background:
     Given an administrator user is logged in
       And a Digital Object has been created
+
   Scenario: Assessment is created
     Given the user is on the New Assessment page
      When the user clicks on the Records dropdown
@@ -16,6 +17,7 @@ Feature: Assessment Create
       And the user clicks on 'Link' in the modal
       And the user clicks on 'Save'
      Then the 'Assessment' created message is displayed
+
   Scenario: Assessment is not created because required fields are missing
     Given the user is on the New Assessment page
      When the user clicks on 'Save'

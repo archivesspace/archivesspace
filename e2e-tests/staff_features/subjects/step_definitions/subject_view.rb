@@ -10,7 +10,7 @@ Given 'a Subject has been created' do
   @subject_number_of_external_documents = 0
 
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Subject Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
 
   uri_parts = current_url.split('/')
   uri_parts.pop
@@ -18,19 +18,13 @@ Given 'a Subject has been created' do
 end
 
 Then 'the two Subjects are displayed sorted by ascending identifier' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @accession_a_uuid
-  expect(search_result_rows[0]).to have_text @accession_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @accession_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @accession_a_uuid)
 end
 
 Then 'the two Subjects are displayed sorted by ascending level' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @accession_a_uuid
-  expect(search_result_rows[0]).to have_text @accession_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @accession_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @accession_a_uuid)
 end
 
 When 'the user filters by text with the Subject term' do
@@ -64,7 +58,7 @@ Given 'two Subjects have been created with a common keyword in their term' do
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Subject Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
   uri_parts = current_url.split('/')
   uri_parts.pop
   @subject_a_id = uri_parts.pop
@@ -74,7 +68,7 @@ Given 'two Subjects have been created with a common keyword in their term' do
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Subject Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
   uri_parts = current_url.split('/')
   uri_parts.pop
   @subject_b_id = uri_parts.pop
@@ -85,11 +79,8 @@ Then 'the Subject is in the search results' do
 end
 
 Then 'the two Subjects are displayed sorted by descending title' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @subject_a_uuid
-  expect(search_result_rows[0]).to have_text @subject_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @subject_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @subject_a_uuid)
 end
 
 Then 'the Subject view page is displayed' do
@@ -106,33 +97,21 @@ Given 'the two Subjects are displayed sorted by ascending term' do
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @subject_a_uuid
-  expect(search_result_rows[1]).to have_text @subject_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @subject_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @subject_b_uuid)
 end
 
 Then 'the two Subjects are displayed sorted by descending term' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @subject_a_uuid
-  expect(search_result_rows[0]).to have_text @subject_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @subject_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @subject_a_uuid)
 end
 
 Then 'the two Subjects are displayed sorted by ascending created date' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @subject_a_uuid
-  expect(search_result_rows[1]).to have_text @subject_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @subject_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @subject_b_uuid)
 end
 
 Then 'the two Subjects are displayed sorted by ascending modified date' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @subject_a_uuid
-  expect(search_result_rows[1]).to have_text @subject_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @subject_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @subject_b_uuid)
 end
