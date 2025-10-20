@@ -1,4 +1,4 @@
-## Archives Space End-to-End Tests
+j## Archives Space End-to-End Tests
 
 ### Setup
 
@@ -33,33 +33,38 @@ bundle install
 ### How to run the test scenarios locally
 
 #### Just working on e2e tests
-If you are just working on e2e tests and not touching the application, you can run e2e tests locally against the latest version of archivesspace by using docker.
+If you are just working on e2e tests and not touching the application, you can run e2e tests locally against the latest version of archivesspace from the master branch, by using docker:
 
 1. Start the latest version of ArchivesSpace locally on docker:
-```
-docker compose -f docker-compose.yml up
-```
+    To make sure you start the docker image that contains the latest changes from master, you need to pull first:
+    ```
+    docker compose pull
+    ```
+    You can then start the dockerized ArchivesSpace with:   
+    ```
+    docker compose up
+    ```
 
-make sure that it is up by opening [http://localhost:8080](http://localhost:8080) on your browser.
+    make sure that it is up by opening [http://localhost:8080](http://localhost:8080) on your browser.
 
 2. Set your STAFF_URL environment variable to point your e2e tests to this server:
-
-```
-export STAFF_URL='http://localhost:8080'
-```
-
-#### With local application changes
-While developing locally, you will potentially make changes to the application code and the e2e test suite. In order to run them against each other:
+    
+    ```
+    export STAFF_URL='http://localhost:8080'
+    ```
+    
+    #### With local application changes
+    While developing locally, you will potentially make changes to the application code and the e2e test suite. In order to run them against each other:
 
 1. Make sure you start with a [blank database](https://docs.archivesspace.org/development/dev/#loading-data-fixtures-into-dev-database) and [blank solr index](https://docs.archivesspace.org/development/dev/#clear-out-existing-solr-state).
 
 2. Start the `frontend:devserver` as described [here](https://docs.archivesspace.org/development/dev/#run-the-development-servers). Make sure that it is running by opening [http://localhost:3000/](http://localhost:3000/) in your browser.
 
 3. Set your STAFF_URL environment variable to point your e2e tests to this server:
-
-```
-export STAFF_URL='http://localhost:3000'
-```
+    
+    ```
+    export STAFF_URL='http://localhost:3000'
+    ```
 
 ### Running tests
 
