@@ -8,13 +8,19 @@ def search(uuid)
 end
 
 def login_admin
-  visit STAFF_URL
+  visit "#{STAFF_URL}/logout" # ensure we are logged out before trying to login
 
-  fill_in 'username', with: 'admin'
-  fill_in 'password', with: 'admin'
+  page.has_xpath? '//input[@id="login"]'
 
-  click_on 'Sign In'
+  within 'form.login' do
+    fill_in 'username', with: 'admin'
+    fill_in 'password', with: 'admin'
+    click_on 'Sign In'
+  end
 
+  wait_for_ajax
+
+  expect(page).not_to have_content('Please Sign In')
   expect(page).to have_content 'Welcome to ArchivesSpace'
   expect(page).to have_content 'Your friendly archives management tool.'
   element = find('.global-header .user-container')
@@ -52,7 +58,6 @@ def login_archivist
   expect(page).to have_text 'User Saved'
 
   visit "#{STAFF_URL}/logout"
-  visit STAFF_URL
 
   fill_in 'username', with: "archivist-user-#{uuid}"
   fill_in 'password', with: "archivist-user-#{uuid}"
@@ -82,8 +87,8 @@ def ensure_test_repository_exists
     find('#repository_repository__publish_').check
     click_on 'Save'
 
-    expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Repository Created'
-    expect(find('.alert.alert-info.with-hide-alert').text).to eq 'Repository is Currently Selected'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Repository Created')
+    expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Repository is Currently Selected')
 
     visit STAFF_URL
   end
@@ -198,7 +203,9 @@ def create_resource(uuid)
   element.send_keys(:tab)
 
   select 'Single', from: 'resource_dates__0__date_type_'
-  fill_in 'resource_dates__0__begin_', with: ORIGINAL_RESOURCE_DATE
+  within '.input-group.date' do
+    fill_in 'resource_dates__0__begin_', with: ORIGINAL_RESOURCE_DATE
+  end
   @resource_number_of_dates = 1
 
   fill_in 'resource_extents__0__number_', with: '10'
@@ -282,7 +289,7 @@ def expect_record_to_not_be_in_search_results(search_term)
   search_result_rows = all('#tabledSearchResults tbody tr')
 
   expect(search_result_rows.length).to eq 0
-  expect(find('.alert.alert-info.with-hide-alert').text).to eq 'No records found'
+  expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'No records found')
 end
 
 def click_on_string(string)
@@ -326,9 +333,7 @@ def expect_form_values(form_values_table)
     expect(section[:id]).to_not eq nil
 
     within section do
-      field = find_field(row['form_field'])
-
-      expect(field.value.downcase).to eq row['form_value'].downcase
+      expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
     end
   end
 end

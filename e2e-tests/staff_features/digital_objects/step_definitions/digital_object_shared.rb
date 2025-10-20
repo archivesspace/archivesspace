@@ -16,8 +16,7 @@ Given 'a Digital Object has been created' do
 
   click_on 'Save'
 
-  wait_for_ajax
-  expect(find('.alert.alert-success.with-hide-alert').text).to have_text "Digital Object Digital Object Title #{@uuid} Created"
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} Created")
   @digital_object_id = current_url.split('::digital_object_').pop
 end
 
@@ -43,8 +42,7 @@ Given 'a Digital Object with a Linked Agent has been created' do
 
   click_on 'Save'
 
-  wait_for_ajax
-  expect(find('.alert.alert-success.with-hide-alert').text).to have_text "Digital Object Digital Object Title #{@uuid} Created"
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} Created")
   @digital_object_id = current_url.split('::digital_object_').pop
 end
 
@@ -79,6 +77,7 @@ end
 
 Given 'the user is on the Digital Object edit page' do
   visit "#{STAFF_URL}/digital_objects/#{@digital_object_id}/edit"
+  expect(page).to have_selector('h2', visible: true, text: 'Digital Object')
 end
 
 Then 'the Digital Objects page is displayed' do
@@ -116,8 +115,9 @@ end
 
 Given 'the Digital Object is opened in edit mode' do
   visit "#{STAFF_URL}/digital_objects/#{@digital_object_id}/edit"
-
   wait_for_ajax
+
+  expect(page).to have_selector('h2', visible: true, text: 'Digital Object')
 end
 
 Then 'the Digital Object Title field has the original value' do
@@ -215,8 +215,7 @@ Given 'a Digital Object with a Digital Object Component has been created' do
 
   click_on 'Save'
 
-  wait_for_ajax
-  expect(find('.alert.alert-success.with-hide-alert').text).to have_text "Digital Object Digital Object Title #{@uuid} Created"
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} Created")
   @digital_object_id = current_url.split('::digital_object_').pop
 
   click_on 'Add Child'
@@ -224,9 +223,7 @@ Given 'a Digital Object with a Digital Object Component has been created' do
 
   fill_in 'Label', with: "Digital Object Component Label #{@uuid}"
   click_on 'Save'
-  wait_for_ajax
-
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq "Digital Object Component created on Digital Object Digital Object Title #{@uuid}"
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Component created on Digital Object Digital Object Title #{@uuid}")
 end
 
 And 'the user selects the Digital Object Component' do

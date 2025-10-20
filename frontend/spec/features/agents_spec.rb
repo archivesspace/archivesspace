@@ -312,8 +312,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         element = find('h2')
         expect(element.text).to eq "Agent Name #{now} Agent"
@@ -322,8 +321,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Saved"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Saved")
 
         element = find('h2')
         expect(element.text).to eq "Agent Name #{now}, Rest of Agent Name #{now} Agent"
@@ -346,8 +344,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         element = find('h2')
         expect(element.text).to eq "Agent Name #{now}, Rest of Agent Name #{now} Agent"
@@ -355,8 +352,7 @@ describe 'Agents', js: true do
         select 'Direct', from: 'agent_names__0__name_order_'
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Saved"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Saved")
 
         element = find('h2')
         expect(element.text).to eq "Rest of Agent Name #{now} Agent Name #{now} Agent"
@@ -378,8 +374,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         find('#agent_names__0__sort_name_auto_generate_').click
         fill_in 'agent_names__0__sort_name_', with: ''
@@ -405,8 +400,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         element = find('h2')
         expect(element.text).to eq "Agent Sort Name #{now} Agent"
@@ -427,8 +421,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         element = find('h2')
         expect(element.text).to eq "Agent Sort Name #{now} Agent"
@@ -462,8 +455,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         element = find('h2')
         expect(element.text).to eq "Agent Name #{now} Agent"
@@ -497,8 +489,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_contacts__0__telephones__0__number_').value).to eq "Telephone Number 1 #{now}"
         expect(find('#agent_agent_contacts__0__telephones__0__ext_').value).to eq "Telephone Extension 1 #{now}"
@@ -534,8 +525,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Saved"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Saved")
 
         element = find('#agent_related_agents__0_')
         expect(element).to have_text agent_to_be_related.names.first['sort_name']
@@ -552,8 +542,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Saved"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Saved")
       end
 
       it 'can add an external document to an Agent' do
@@ -569,8 +558,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Saved"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Saved")
 
         visit "agents/agent_person/#{agent.id}"
 
@@ -596,8 +584,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_dates_of_existence__0__structured_date_single__date_expression_').value).to eq '1973'
       end
@@ -618,8 +605,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_record_identifiers__0__record_identifier_').value).to eq "Agent Record Identifier #{now}"
         expect(find('#agent_agent_record_identifiers__0__source_').value).to eq 'local'
@@ -641,8 +627,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         run_index_round
 
@@ -671,8 +656,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(page).to have_css '#agent_agent_record_controls__0_'
       end
@@ -692,8 +676,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_other_agency_codes__0__maintenance_agency_').value).to eq "Maintenance Agency #{now}"
       end
@@ -713,8 +696,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_conventions_declarations__0__name_rule_').value).to eq 'local'
       end
@@ -735,8 +717,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         run_index_round
 
@@ -770,8 +751,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_maintenance_histories__0__maintenance_event_type_').value).to eq 'created'
         expect(find('#agent_agent_maintenance_histories__0__event_date_').value).to eq '1980-02-12 00:00:00 UTC'
@@ -794,8 +774,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_sources__0__source_entry_').value).to eq "Source Entry #{now}"
       end
@@ -815,8 +794,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_alternate_sets__0__set_component_').value).to eq "Alternate Set #{now}"
       end
@@ -836,8 +814,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_identifiers__0__entity_identifier_').value).to eq "Entity IDs #{now}"
       end
@@ -858,8 +835,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_names__0__use_dates__0__structured_date_single__date_expression_').value).to eq '1973'
       end
@@ -879,8 +855,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_names__0__parallel_names__0__primary_name_').value).to eq "Primary Part of Name #{now}"
       end
@@ -907,8 +882,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_names__0__parallel_names__0__primary_name_').value).to eq "Primary Part of Name #{now}"
         expect(find('#agent_names__0__parallel_names__0__use_dates__0__structured_date_single__date_expression_').value).to eq '1973'
@@ -929,8 +903,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_genders__0__gender_').value).to eq 'not_specified'
       end
@@ -957,8 +930,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_genders__0__dates__0__date_type_structured_').value).to eq 'single'
         expect(find('#agent_agent_genders__0__dates__0__structured_date_single__date_expression_').value).to eq '1973'
@@ -988,8 +960,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_genders__0__gender_').value).to eq 'not_specified'
         expect(page.evaluate_script("$('#agent_agent_genders__0__notes__0__content_').data('CodeMirror').getValue()")).to eq "Agent Gender Text #{now}"
@@ -1007,8 +978,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1027,8 +997,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         element = find('#agent_agent_places__0__subjects__0__ref__combobox')
         expect(element).to have_text "Subject Term #{now}"
@@ -1046,8 +1015,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1073,8 +1041,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_places__0__dates__0__date_type_structured_').value).to eq 'single'
         expect(find('#agent_agent_places__0__dates__0__structured_date_single__date_expression_').value).to eq '1973'
@@ -1092,8 +1059,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1122,8 +1088,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(page.evaluate_script("$('#agent_agent_places__0__notes__0__content_').data('CodeMirror').getValue()")).to eq "Agent Place Text #{now}"
       end
@@ -1140,8 +1105,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1159,8 +1123,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         element = find('#agent_agent_occupations__0__subjects__0__ref__combobox')
         expect(element).to have_text "Subject Term #{now}"
@@ -1179,8 +1142,7 @@ describe 'Agents', js: true do
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
         wait_for_ajax
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1205,8 +1167,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_occupations__0__dates__0__date_type_structured_').value).to eq 'single'
         expect(find('#agent_agent_occupations__0__dates__0__structured_date_single__date_expression_').value).to eq '1973'
@@ -1224,8 +1185,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1253,8 +1213,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(page.evaluate_script("$('#agent_agent_occupations__0__notes__0__content_').data('CodeMirror').getValue()")).to eq "Agent Occupation Note #{now}"
       end
@@ -1271,8 +1230,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1290,8 +1248,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         element = find('#agent_agent_functions__0__subjects__0__ref__combobox')
         expect(element).to have_text "Subject Term #{now}"
@@ -1309,8 +1266,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1335,8 +1291,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_functions__0__dates__0__date_type_structured_').value).to eq 'single'
         expect(find('#agent_agent_functions__0__dates__0__structured_date_single__date_expression_').value).to eq '1973'
@@ -1355,8 +1310,7 @@ describe 'Agents', js: true do
         # Click on save
         click_button('Save Subject', match: :first)
         wait_for_ajax
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1384,8 +1338,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(page.evaluate_script("$('#agent_agent_functions__0__notes__0__content_').data('CodeMirror').getValue()")).to eq "Agent Function Note #{now}"
       end
@@ -1402,8 +1355,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1421,8 +1373,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         element = find('#agent_agent_topics__0__subjects__0__ref__combobox')
         expect(element).to have_text "Subject Term #{now}"
@@ -1440,8 +1391,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1466,8 +1416,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(find('#agent_agent_topics__0__dates__0__date_type_structured_').value).to eq 'single'
         expect(find('#agent_agent_topics__0__dates__0__structured_date_single__date_expression_').value).to eq '1973'
@@ -1485,8 +1434,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Subject Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
 
@@ -1514,8 +1462,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         expect(page.evaluate_script("$('#agent_agent_topics__0__notes__0__content_').data('CodeMirror').getValue()")).to eq "Agent Topic Notes #{now}"
       end
@@ -1544,8 +1491,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         element = find('#agent_person_notes')
         expect(element).to have_text "Biography/Historical Note #{now}"
@@ -1575,8 +1521,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Person', match: :first).click
-        element = find('.alert.alert-success.with-hide-alert')
-        expect(element.text).to eq "Agent Created"
+        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
 
         element = find('#agent_person_notes')
         expect(element).to have_text "General Context Note #{now}"
@@ -1623,8 +1568,7 @@ describe 'Agents', js: true do
             click_on 'Publish All'
           end
 
-          element = find('.alert.alert-success.with-hide-alert')
-          expect(element.text).to eq "The Agent #{agent.display_name['sort_name']}, its subrecords and components have been published"
+          expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "The Agent #{agent.display_name['sort_name']}, its subrecords and components have been published")
         end
       end
 
@@ -1644,8 +1588,7 @@ describe 'Agents', js: true do
             click_on 'Delete'
           end
 
-          element = find('.alert.alert-success.with-hide-alert')
-          expect(element.text).to eq "Agent Deleted"
+          expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Deleted")
         end
 
         context 'when linked to a repo' do

@@ -2,7 +2,8 @@ name: e2e-tests
 
 services:
   e2e-app:
-    image: archivesspace/archivesspace:latest
+    image: archivesspace/archivesspace:${IMAGE_TAG:-latest}
+    platform: linux/x86_64
     container_name: e2e-app
     restart: on-failure
     ports:
@@ -26,8 +27,12 @@ services:
       DB_NAME: archivesspace
       DB_USER: as
       DB_PASS: as123
+    volumes:
+      - app-data:/archivesspace/data
+
   e2e-db:
     image: mysql:8
+    platform: linux/x86_64
     cap_add:
       - SYS_NICE
     container_name: e2e-db
@@ -39,13 +44,27 @@ services:
       MYSQL_DATABASE: archivesspace
       MYSQL_USER: as
       MYSQL_PASSWORD: as123
-    # volumes: # TODO: initialize with a migrated default database to avoid running all migrations every time
-    #   - ../demo.sql:/docker-entrypoint-initdb.d/demo.sql
+    volumes:
+      - db-data:/var/lib/mysql
+      - ../build/mysql_db_fixtures/blank.sql.gz:/docker-entrypoint-initdb.d/blank.sql.gz
+
   e2e-solr:
-    image: archivesspace/solr:latest
     container_name: e2e-solr
-    command: solr-create -p 8983 -c archivesspace -d archivesspace
+    platform: linux/x86_64
+    image: archivesspace/solr:${IMAGE_TAG:-latest}
+    command:
+      - solr-precreate
+      - archivesspace
+      - /opt/solr/server/solr/configsets/archivesspace
     environment:
-      SOLR_JAVA_MEM: "-Xms2g -Xmx2g"
+      SOLR_JAVA_MEM: "-Xms1g -Xmx1g"
+      JAVA_OPTS: "-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xss1024k -Djavax.accessibility.assistive_technologies=''"
     ports:
       - "8983:8983"
+    volumes:
+      - solr-data:/var/solr
+
+volumes:
+  app-data:
+  solr-data:
+  db-data:

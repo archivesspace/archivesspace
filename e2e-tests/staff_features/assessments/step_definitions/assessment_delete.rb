@@ -2,6 +2,7 @@
 
 When 'the user checks the checkbox of the Assessment' do
   find('#multiselect-item').check
+  wait_for_ajax
 end
 
 Then 'the Assessment is deleted' do
