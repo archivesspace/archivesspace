@@ -52,6 +52,7 @@ GEM
     cuke_modeler (3.25.0)
       cucumber-gherkin (< 34.0)
     diff-lcs (1.6.2)
+    ffi (1.17.2-arm64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     json (2.15.0)
     language_server-protocol (3.17.0.5)
@@ -65,6 +66,8 @@ GEM
     memoist3 (1.0.0)
     mini_mime (1.1.5)
     multi_test (1.1.0)
+    nokogiri (1.18.10-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
     parallel (1.27.0)
@@ -117,6 +120,7 @@ GEM
       nokogiri (~> 1.8)
 
 PLATFORMS
+  arm64-darwin-21
   x86_64-linux
 
 DEPENDENCIES
