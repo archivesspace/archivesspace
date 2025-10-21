@@ -450,6 +450,15 @@ describe 'Archival objects', js: true do
     expect(element.checked?).to eq(false)
   end
 
+  describe 'title field mixed content validation' do
+    let(:resource) { create(:resource) }
+    let(:ao) { create(:archival_object, title: 'AO', resource: { ref: resource.uri }) }
+    let(:edit_path) { "resources/#{resource.id}/edit#tree::archival_object_#{ao.id}" }
+    let(:input_field_id) { 'archival_object_title_' }
+
+    it_behaves_like 'validating mixed content'
+  end
+
   describe 'Linked Agents is_primary behavior' do
     let(:record_type) { 'archival_object' }
     let(:agent) { create(:agent_person) }

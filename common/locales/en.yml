@@ -2522,6 +2522,7 @@ en:
     ark_collision: There was a problem while generating an ARK for this record. Please contact your system administrator.
     external_ark_collision: External ARK already in use
     ark_format_error: One of the ARKs provided was not a valid ARK.
+    mixed_content_invalid_inline_ead: "Invalid EAD markup: use straight quotes (\" or ') for attribute values and ensure tags are well-formed."
 
   job:
     _singular: Background Job

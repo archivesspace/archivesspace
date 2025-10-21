@@ -1245,6 +1245,14 @@ describe 'Resources', js: true do
     expect(element).to have_text "Digital Object Title #{now}"
   end
 
+  describe 'title field mixed content validation' do
+    let(:resource) { create(:resource) }
+    let(:edit_path) { "resources/#{resource.id}/edit" }
+    let(:input_field_id) { 'resource_title_' }
+
+    it_behaves_like 'validating mixed content'
+  end
+
   describe 'Linked Agents is_primary behavior' do
     let(:record_type) { 'resource' }
     let(:agent) { create(:agent_person) }

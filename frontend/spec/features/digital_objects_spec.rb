@@ -360,6 +360,25 @@ describe 'Digital Objects', js: true do
     expect(element).to have_text "File Format Caption 2 #{now}"
   end
 
+  describe 'title field mixed content validation' do
+    let(:digital_object) { create(:digital_object, title: 'Digital Object') }
+
+    context 'for a parent Digital Object' do
+      let(:edit_path) { "digital_objects/#{digital_object.id}/edit" }
+      let(:input_field_id) { 'digital_object_title_' }
+
+      it_behaves_like 'validating mixed content'
+    end
+
+    context 'for a child Digital Object Component' do
+      let(:digital_object_component) { create(:digital_object_component, title: 'Digital Object Component', digital_object: { ref: digital_object.uri }) }
+      let(:edit_path) { "digital_objects/#{digital_object.id}/edit#tree::digital_object_component_#{digital_object_component.id}" }
+      let(:input_field_id) { 'digital_object_component_title_' }
+
+      it_behaves_like 'validating mixed content'
+    end
+  end
+
   describe 'Linked Agents is_primary behavior' do
     let(:agent) { create(:agent_person) }
 

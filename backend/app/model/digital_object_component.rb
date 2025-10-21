@@ -1,5 +1,8 @@
 require_relative 'ancestor_listing'
 
+require 'mixed_content_validator'
+require_relative 'mixins/mixed_content_validatable'
+
 class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include ASModel
   corresponds_to JSONModel(:digital_object_component)
@@ -21,6 +24,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include Publishable
   include TouchRecords
   include RepresentativeFileVersion
+  include MixedContentValidatable
 
   enable_suppression
 
@@ -81,6 +85,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
     validates_unique([:root_record_id, :component_id],
                      :message => "A Digital Object Component ID must be unique to its Digital Object")
     map_validation_to_json_property([:root_record_id, :component_id], :component_id)
+    validate_mixed_content_field!()
     super
   end
 

@@ -564,6 +564,14 @@ describe 'Accessions', js: true do
     end
   end
 
+  describe 'title field mixed content validation' do
+    let(:accession) { create(:accession) }
+    let(:edit_path) { "accessions/#{accession.id}/edit" }
+    let(:input_field_id) { 'accession_title_' }
+
+    it_behaves_like 'validating mixed content'
+  end
+
   describe 'Linked Agents is_primary behavior' do
     let(:record_type) { 'accession' }
     let(:agent) { create(:agent_person) }
