@@ -239,8 +239,7 @@ describe 'Agents', js: true do
 
       # Click on save
       find('button', text: 'Save Corporate Entity', match: :first).click
-      element = find('.alert.alert-success.with-hide-alert')
-      expect(element.text).to eq 'Agent Saved'
+      expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Agent Saved')
 
       click_on 'Merge'
       element = find('#token-input-merge_ref_')

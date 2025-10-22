@@ -42,8 +42,7 @@ describe 'Merge and Transfer', js: true do
       click_on 'Transfer'
     end
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Transfer Successful. Records may take a moment to appear in the target repository while re-indexing takes place.'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Transfer Successful. Records may take a moment to appear in the target repository while re-indexing takes place.')
 
     run_all_indexers
 
@@ -99,8 +98,7 @@ describe 'Merge and Transfer', js: true do
       click_on 'Merge'
     end
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Resource(s) Merged'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Resource(s) Merged')
 
     elements = all('#infinite-tree-container .root.node .node')
     expect(elements.length).to eq 20
@@ -174,7 +172,6 @@ describe 'Merge and Transfer', js: true do
       click_on 'Merge'
     end
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Digital object(s) Merged'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Digital object(s) Merged')
   end
 end

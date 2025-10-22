@@ -59,8 +59,7 @@ describe 'System Information', js: true do
       find('#user_is_admin_').click
       find('button', text: 'Update Account', match: :first).click
 
-      element = find('.alert.alert-success.with-hide-alert')
-      expect(element.text).to eq 'User Saved'
+      expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'User Saved')
 
       visit 'logout'
 
@@ -101,8 +100,7 @@ describe 'System Information', js: true do
       find('#user_is_admin_').click
       find('button', text: 'Update Account', match: :first).click
 
-      element = find('.alert.alert-success.with-hide-alert')
-      expect(element.text).to eq 'User Saved'
+      expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'User Saved')
 
       visit 'logout'
 

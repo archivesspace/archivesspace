@@ -78,13 +78,11 @@ describe 'Enumeration Management', js: true do
     select_enum 'Accession Acquisition Type (accession_acquisition_type)'
 
     create_enum_value(enumeration_a)
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Value Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
     expect(page).to have_css '.enumeration-list tr', text: enumeration_a
 
     create_enum_value(enumeration_b)
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Value Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
 
     element = find('.enumeration-list tr', text: enumeration_b)
     within element do
@@ -116,8 +114,7 @@ describe 'Enumeration Management', js: true do
       click_on 'Set as Default'
     end
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Default Value Set'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Default Value Set')
 
     click_on 'Create'
     click_on 'Accession'
@@ -132,8 +129,7 @@ describe 'Enumeration Management', js: true do
 
     create_enum_value("enumaration_value_#{@now}")
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Value Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
     expect(page).to have_css '.enumeration-list tr', text: "enumaration_value_#{@now}"
 
     click_on 'Create'
@@ -163,8 +159,7 @@ describe 'Enumeration Management', js: true do
 
     create_enum_value("enumaration_value_#{@now}")
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Value Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
     expect(page).to have_css '.enumeration-list tr', text: "enumaration_value_#{@now}"
 
     click_on 'Create'
@@ -199,8 +194,7 @@ describe 'Enumeration Management', js: true do
 
     create_enum_value("enumaration_value_#{@now}")
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Value Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
 
     element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
     within element do
@@ -235,16 +229,14 @@ describe 'Enumeration Management', js: true do
 
     create_enum_value("enumaration_value_#{@now}")
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Value Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
 
     element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
     within element do
       click_on 'Suppress'
     end
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Value Updated'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Updated')
 
     element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
     within element do
