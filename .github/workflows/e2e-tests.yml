@@ -14,9 +14,10 @@ on:
   workflow_dispatch:
     inputs:
       image_tag:
-        description: "Docker image tag for archivesspace and solr"
+        description: "Docker image tag for AS, e.g.: latest, ANW-1234"
         required: true
         type: string
+        default: 'latest'
 
 defaults:
   run:
