@@ -224,8 +224,7 @@ describe 'Groups', js: true do
 
     click_on 'Update Account'
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'User Saved'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'User Saved')
 
     visit 'logout'
     login_user(@user)

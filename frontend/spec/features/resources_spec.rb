@@ -975,10 +975,13 @@ describe 'Resources', js: true do
 
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
-    click_on 'Add Extent'
+    within '#resource_extents_' do
+      click_on 'Add Extent'
+      wait_for_ajax
 
-    fill_in 'resource_extents__1__number_', with: '5'
-    select 'Volumes', from: 'resource_extents__1__extent_type_'
+      fill_in 'resource_extents__1__number_', with: '5'
+      select 'Volumes', from: 'resource_extents__1__extent_type_'
+    end
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click

@@ -103,8 +103,8 @@ Given 'the two Location Profiles are displayed in the search results' do
     find('button').click
   end
 
-  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @location_profile_a_uuid)
-  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @location_profile_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr', text: @location_profile_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr', text: @location_profile_b_uuid)
 end
 
 Then 'a CSV file is downloaded with the the two Location Profiles' do

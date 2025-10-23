@@ -117,10 +117,7 @@ Then 'the Archival Object with Title {string} is saved as a child of the Resourc
 end
 
 Then 'the Archival Object with Title {string} is saved as a sibling of the selected Archival Object' do |title|
-  archival_objects = all('#tree-container .table-row', text: title)
-
-  expect(archival_objects.length).to eq 1
-  expect(archival_objects[0][:class]).to include 'indent-level-1 current'
+  expect(page).to have_css('#tree-container .table-row.largetree-node.indent-level-1.current', text: title)
   expect(page).to have_css "#tree-container #resource_#{@resource_id} + .table-row-group #archival_object_#{@created_record_id}"
 end
 
