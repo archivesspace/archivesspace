@@ -12,6 +12,7 @@ Given 'a Subject has been created' do
   @subject_number_of_external_documents = 0
 
   click_on 'Save'
+  expect(page).to have_selector('h2', visible: true, text: 'Subject')
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
 
   uri_parts = current_url.split('/')

@@ -159,8 +159,7 @@ end
 Then 'the Top Container A profile is linked to the Container Profile' do
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
-  element = find('.container_profile')
-  expect(element.text).to include 'test_container_profile'
+  expect(page).to have_css('.container_profile', text: 'test_container_profile')
 end
 
 When 'the user fills in {string} with {string} in the Create Container Profiles modal' do |label, value|
@@ -178,8 +177,7 @@ end
 Then 'the Top Container A profile is linked to the created Container Profile' do
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
-  element = find('.container_profile')
-  expect(element.text).to include @uuid
+  expect(page).to have_css('.container_profile', text: @uuid)
 end
 
 When 'the user clicks on {string} in the Browse Locations modal' do |string|
@@ -209,11 +207,13 @@ When 'the user clicks on {string} in the Create Location modal' do |string|
   within '#location_modal' do
     click_on_string string
   end
+
+  wait_for_ajax
 end
 
 Then 'the Top Container profile is linked to the created Location' do
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
-
+  expect(page).to have_selector('h2', visible: true, text: 'Top Container')
   expect(page).to have_css('.location', text: 'Test Building')
 end
 
