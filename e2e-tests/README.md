@@ -112,7 +112,7 @@ bundle exec cucumber staff_features/assessments/assessment_create.feature --name
 
 ## Debugging
 
-Add a `byebug` statement in any `.rb` file to set a breakpoint and start a debugging session in the console while running. See more [here](https://github.com/deivid-rodriguez/byebug). Don't forget to remove any `byebug` statements before pushing...
+Add a `byebug` statement in any `.rb` file to set a breakpoint and start a debugging session in the console while running. See more [here](https://github.com/deivid-rodriguez/byebug). Don't forget to remove any `byebug` statements before a `git push`...
 
 If you need to see the browser while running the test scenario and debugging, add a `HEADLESS=''` argument, as in:
 
