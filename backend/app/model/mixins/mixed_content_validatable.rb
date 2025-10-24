@@ -1,7 +1,9 @@
+require 'mixed_content_validator'
+
 module MixedContentValidatable
 
   # Adds a validation error to the given field (default :title) for invalid EAD markup.
-  def validate_mixed_content_field!(field = :title)
+  def validate_mixed_content_field(field = :title)
     value = begin
       respond_to?(field) ? send(field) : self[field]
     rescue

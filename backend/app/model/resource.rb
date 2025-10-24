@@ -1,4 +1,3 @@
-require 'mixed_content_validator'
 require_relative 'mixins/mixed_content_validatable'
 
 class Resource < Sequel::Model(:resource)
@@ -97,7 +96,7 @@ class Resource < Sequel::Model(:resource)
 
 
   def validate
-    validate_mixed_content_field!()
+    validate_mixed_content_field()
     super
   end
 

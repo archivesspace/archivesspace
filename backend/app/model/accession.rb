@@ -1,4 +1,3 @@
-require 'mixed_content_validator'
 require_relative 'mixins/mixed_content_validatable'
 
 class Accession < Sequel::Model(:accession)
@@ -86,7 +85,7 @@ class Accession < Sequel::Model(:accession)
                 }
 
   def validate
-    validate_mixed_content_field!()
+    validate_mixed_content_field()
     super
   end
 
