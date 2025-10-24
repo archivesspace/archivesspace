@@ -470,7 +470,7 @@ describe 'Notes', js: true do
 
     # Click on save
     find('button', text: 'Save Digital Object', match: :first).click
-    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Resource Title #{now} Created")
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Resource Title #{now} created")
 
     expect(find('#digital_object_title_').value).to eq "Resource Title #{now}"
 

@@ -16,7 +16,7 @@ Given 'a Digital Object has been created' do
 
   click_on 'Save'
 
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} Created")
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} created")
   @digital_object_id = current_url.split('::digital_object_').pop
 end
 
@@ -42,7 +42,7 @@ Given 'a Digital Object with a Linked Agent has been created' do
 
   click_on 'Save'
 
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} Created")
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} created")
   @digital_object_id = current_url.split('::digital_object_').pop
 end
 
@@ -215,7 +215,7 @@ Given 'a Digital Object with a Digital Object Component has been created' do
 
   click_on 'Save'
 
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} Created")
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} created")
   @digital_object_id = current_url.split('::digital_object_').pop
 
   click_on 'Add Child'
