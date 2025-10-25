@@ -1031,9 +1031,9 @@ en:
   digital_object:
     _frontend:
       messages:
-        created: "Digital Object <strong>%{digital_object_title}</strong> Created"
-        updated: "Digital Object <strong>%{digital_object_title}</strong> Updated"
-        deleted: "Digital Object <strong>%{digital_object_title}</strong> Deleted"
+        created: "Digital Object <strong>%{digital_object_title}</strong> created"
+        updated: "Digital Object <strong>%{digital_object_title}</strong> updated"
+        deleted: "Digital Object <strong>%{digital_object_title}</strong> deleted"
         published: "The Digital Object <strong>%{digital_object_title}</strong>, its subrecords and components have been published"
         merge_description: Select digital objects below to merge into
         please_select_a_digital_object_to_merge: Please select a digital object

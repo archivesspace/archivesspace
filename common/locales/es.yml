@@ -2176,6 +2176,7 @@ es:
       con el administrador del sistema.
     external_ark_collision: ARK externo ya en uso
     ark_format_error: Uno de los ARK proporcionados no era un ARK válido.
+    mixed_content_invalid_inline_ead: "Marcado EAD no válido: use comillas rectas (\" o ') para los valores de los atributos y asegúrese de que las etiquetas estén bien formadas."
   job:
     _singular: Tarea en el background
     _plural: Tareas en el background

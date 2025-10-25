@@ -67,7 +67,7 @@ describe 'Digital Objects', js: true do
 
     expect(page).to have_selector('h2', visible: true, text: "Digital Object Title #{now} Digital Object")
 
-    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} Created")
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} created")
 
     click_on 'Close Record'
 
@@ -104,7 +104,7 @@ describe 'Digital Objects', js: true do
 
     expect(page).to have_selector('h2', visible: true, text: "Digital Object Title #{now} Digital Object")
 
-    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} Created")
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} created")
 
     within '#digital_object_file_versions__0_' do
       expect(page).to have_button('Make Representative', disabled: true)
@@ -258,7 +258,7 @@ describe 'Digital Objects', js: true do
 
     # Click on save
     find('button', text: 'Save Digital Object', match: :first).click
-    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} Updated")
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} updated")
 
     element = find('#digital_object_classifications__0_')
     expect(element).to have_text classification.title
@@ -358,6 +358,25 @@ describe 'Digital Objects', js: true do
     expand_elements[1].click
     element = find('#digital_object_component_file_versions__file_version_1')
     expect(element).to have_text "File Format Caption 2 #{now}"
+  end
+
+  describe 'title field mixed content validation' do
+    let(:digital_object) { create(:digital_object, title: 'Digital Object') }
+
+    context 'for a parent Digital Object' do
+      let(:edit_path) { "digital_objects/#{digital_object.id}/edit" }
+      let(:input_field_id) { 'digital_object_title_' }
+
+      it_behaves_like 'validating mixed content'
+    end
+
+    context 'for a child Digital Object Component' do
+      let(:digital_object_component) { create(:digital_object_component, title: 'Digital Object Component', digital_object: { ref: digital_object.uri }) }
+      let(:edit_path) { "digital_objects/#{digital_object.id}/edit#tree::digital_object_component_#{digital_object_component.id}" }
+      let(:input_field_id) { 'digital_object_component_title_' }
+
+      it_behaves_like 'validating mixed content'
+    end
   end
 
   describe 'Linked Agents is_primary behavior' do

@@ -12,7 +12,7 @@ Given 'a Digital Object with two Digital Object Components has been created' do
 
   click_on 'Save'
 
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} Created")
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} created")
   @digital_object_id = current_url.split('::digital_object_').pop
 
   click_on 'Add Child'
@@ -47,7 +47,7 @@ Given 'a Digital Object with two nested Digital Object Components has been creat
 
   click_on 'Save'
 
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} Created")
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} created")
 
   @digital_object_id = current_url.split('::digital_object_').pop
 
@@ -81,7 +81,7 @@ Given 'a Digital Object with two Digital Object Components in the same level has
 
   click_on 'Save'
 
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} Created")
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{@uuid} created")
 
   @digital_object_id = current_url.split('::digital_object_').pop
 
