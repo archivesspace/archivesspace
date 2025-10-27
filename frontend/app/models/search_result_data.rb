@@ -258,6 +258,15 @@ class SearchResultData
     false
   end
 
+  def sort_index_for(field)
+    return nil unless sorted?
+
+    @sort_data&.each_with_index do |entry, i|
+      return i if entry[:field] == field
+    end
+
+    nil
+  end
 
   def current_sort_direction(index = 0)
     return "desc" unless sorted?
@@ -267,9 +276,10 @@ class SearchResultData
 
 
   def sort_filter_for(field, default = "asc")
-    return "#{field} #{default}" if field != sorted_by
+    idx = sort_index_for(field)
+    return "#{field} #{default}" if idx.nil?
 
-    return "#{field} #{current_sort_direction === "asc" ? "desc" : "asc"}"
+    return "#{field} #{current_sort_direction(idx) == "asc" ? "desc" : "asc"}"
   end
 
   def sorted_by_label(index = 0)

@@ -43,7 +43,7 @@
       </button>
       <ul class="dropdown-menu dropdown-menu-right sort-opts">
         <% @search_data.sort_fields.each do |field, label| %>
-          <% if !@search_data.sorted_by?(field) && field != 'score' %>
+          <% if @search_data.sorted_by(0) != field && field != 'score' %>
             <li class="dropdown-item p-0 dropdown-submenu">
               <%= link_to label, build_search_params("sort2" => @search_data.sort_filter_for(field, "desc")), :class => 'py-1 px-4 d-block text-decoration-none menu-with-options' %>
               <ul class="dropdown-menu" style="top: -3px;">
