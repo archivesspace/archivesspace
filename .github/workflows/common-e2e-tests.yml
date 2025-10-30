@@ -16,7 +16,7 @@ on:
         required: true
         type: string
       image_tag:
-        description: "Docker image tag for archivesspace and solr"
+        description: "Docker image tag for archivesspace and solr: latest or ANW-1234"
         required: true
         type: string
 
