@@ -2,41 +2,63 @@
 
 # Shared examples for verifying column sorting behavior in search results tables.
 #
-# Requires:
-# - let(:browse_path) - the path to the browse page (e.g., '/collection_management')
-# - let(:sortable_column_label) - the text label of a sortable column (e.g., 'Processing Priority')
-
-RSpec.shared_examples 'column sorting cycles through asc and desc' do
-  it 'cycles between ascending and descending on repeated clicks' do
-    visit browse_path
-
-    # Wait for table to load
-    expect(page).to have_css('#tabledSearchResults')
-
-    # Find the sortable column header and click it
-    within('#tabledSearchResults thead') do
-      click_link sortable_column_label
+# Required lets in the including context:
+# - initial_sort [Array<String>] The expected titles order on initial render (first N rows).
+# - column_headers [Hash{String=>String}] Mapping of column headers to sort keys
+#   used by the UI logic (e.g., { 'Accession Date' => 'accession_date' }).
+# - sort_expectations [Hash{String=>Hash{Symbol=>Array<String>}}] Expected titles order per
+#   sort key and direction, e.g. {
+#     'identifier' => { asc: ['A', 'B'], desc: ['B', 'A'] },
+#     'title_sort' => { asc: ['A', 'B'], desc: ['B', 'A'] }
+#   }.
+#
+# Example usage:
+#
+#   let(:initial_sort) { [record_1_title, record_2_title] }
+#   let(:column_headers) do
+#     {
+#       'Accession Date' => 'accession_date',
+#       'Identifier'     => 'identifier',
+#       'Title'          => 'title_sort'
+#     }
+#   end
+#   let(:sort_expectations) do
+#     {
+#       'accession_date' => { asc: [record_2_title, record_1_title], desc: [record_1_title, record_2_title] },
+#       'identifier'     => { asc: [record_1_title, record_2_title], desc: [record_2_title, record_1_title] },
+#       'title_sort'     => { asc: [record_1_title, record_2_title], desc: [record_2_title, record_1_title] }
+#     }
+#   end
+#   it_behaves_like 'sortable results table'
+RSpec.shared_examples 'sortable results table' do
+  def click_column_header(heading)
+    within '#tabledSearchResults thead' do
+      click_link heading
     end
+  end
 
-    # First click: sort ascending
-    expect(page).to have_css('th.sort-asc', text: sortable_column_label, wait: 5)
-
-    # Second click: sort descending
-    within('#tabledSearchResults thead') do
-      click_link sortable_column_label
+  def expect_sorted_results(titles)
+    aggregate_failures "sorted results" do
+      titles.each_with_index do |title, index|
+        within '#tabledSearchResults' do
+          expect(page).to have_css("tbody > tr:nth-child(#{index + 1}) > td.title", text: title)
+        end
+      end
     end
-    expect(page).to have_css('th.sort-desc', text: sortable_column_label, wait: 5)
+  end
 
-    # Third click: should cycle back to ascending (not reset to default)
-    within('#tabledSearchResults thead') do
-      click_link sortable_column_label
-    end
-    expect(page).to have_css('th.sort-asc', text: sortable_column_label, wait: 5)
+  it 'toggles between ascending and descending sort on repeated clicks per sortable column' do
+    expect_sorted_results(initial_sort)
 
-    # Fourth click: back to descending
-    within('#tabledSearchResults thead') do
-      click_link sortable_column_label
+    column_headers.each do |heading, sort_key|
+      click_column_header(heading)
+      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:asc))
+
+      click_column_header(heading)
+      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:desc))
+
+      click_column_header(heading)
+      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:asc))
     end
-    expect(page).to have_css('th.sort-desc', text: sortable_column_label, wait: 5)
   end
 end

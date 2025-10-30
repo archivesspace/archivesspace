@@ -1365,4 +1365,64 @@ describe 'Resources', js: true do
       end
     end
   end
+
+  context 'Related Accessions browse modal' do
+    describe 'results table sorting' do
+      let(:now) { Time.now.to_i }
+      let(:repo) { create(:repo, repo_code: "result_table_sorting_#{now}") }
+      let(:record_1) {
+        create(:accession,
+          title: "Accession 1 #{now}",
+          id_0: "1",
+          accession_date: Time.now.strftime('%Y-%m-%d'),
+          dates: [build(:date)],
+          extents: [build(:extent)]
+        )
+      }
+      let(:record_2) {
+        create(:accession,
+          title: "Accession 2 #{now}",
+          id_0: "2",
+          accession_date: (Time.at(now) - 86400).strftime('%Y-%m-%d'),
+          dates: [build(:date)],
+          extents: [build(:extent)]
+        )
+      }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:column_headers) do
+        {
+          'Accession Date' => 'accession_date',
+          'Identifier'     => 'identifier',
+          'Title'          => 'title_sort'
+        }
+      end
+      let(:sort_expectations) do
+        {
+          'accession_date' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
+          'identifier'     => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
+          'title_sort'     => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] }
+        }
+      end
+
+      before :each do
+        set_repo repo
+        record_1
+        record_2
+        run_index_round
+        login_admin
+        select_repository(repo)
+        visit '/resources/new'
+        click_on 'Add Related Accession'
+        expect(page).to have_css('#resource_related_accessions__0__ref__combobox')
+        within '#resource_related_accessions__0__ref__combobox' do
+          find('button.dropdown-toggle').click
+          expect(page).to have_css('ul.dropdown-menu.show')
+          click_on 'Browse'
+        end
+        expect(page).to have_css('#resource_related_accessions__0__ref__modal')
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end
