@@ -195,6 +195,29 @@ describe 'OAI handler' do
       end
     end
 
+    context 'when listing identifiers with unpublished parent nodes' do
+      before do
+        Resource[@test_resource_record_id].update(publish: false)
+      end
+
+      it "does not include unpublished records in ListIdentifiers results" do
+        RESOURCE_AND_COMPONENT_BASED_FORMATS.each do |prefix|
+          expect(list_identifiers(prefix)).not_to include("oai:archivesspace:#{@test_archival_object_record}")
+        end
+      end
+    end
+
+    context 'when listing identifiers with published parent nodes' do
+      before do
+        Resource[@test_resource_record_id].update(publish: true)
+      end
+
+      it "includes published records in ListIdentifiers results" do
+        RESOURCE_AND_COMPONENT_BASED_FORMATS.each do |prefix|
+          expect(list_identifiers(prefix)).to include("oai:archivesspace:#{@test_archival_object_record}")
+        end
+      end
+    end
   end
 
   describe "ListRecords" do
@@ -213,6 +236,32 @@ describe 'OAI handler' do
 
       oai_repo
     }
+
+    context 'when listing records with unpublished parent nodes' do
+      before do
+        Resource[@test_resource_record_id].update(publish: false)
+      end
+
+      after do
+        Resource[@test_resource_record_id].update(publish: true)
+      end
+
+      it "does not include unpublished records in ListIdentifiers results" do
+        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc"})
+        expect(response.records.map(&:id)).not_to include(@test_archival_object_record)
+      end
+    end
+
+    context 'when listing records with published parent nodes' do
+      before do
+        Resource[@test_resource_record_id].update(publish: true)
+      end
+
+      it "includes published records in ListIdentifiers results" do
+        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc"})
+        expect(response.records.map(&:id)).to include(@test_archival_object_record)
+      end
+    end
 
     it "supports an unqualified ListRecords request" do
       response = oai_repo.find(:all, {:metadata_prefix => "oai_dc"})
@@ -523,6 +572,34 @@ describe 'OAI handler' do
       expect(response.body).not_to match(/note with unpublished parent node/)
     end
 
+    context 'records have unpublished parent nodes' do
+      before do
+        Resource[@test_resource_record_id].update(publish: false)
+      end
+
+      after do
+        Resource[@test_resource_record_id].update(publish: true)
+      end
+
+      it "does not return the records" do
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace:#{@test_resource_record}&metadataPrefix=oai_dc"
+        response = get uri
+        expect(response.body).to match(/<error code="idDoesNotExist">/)
+      end
+    end
+
+    context 'when listing records with published parent nodes' do
+      before do
+        Resource[@test_resource_record_id].update(publish: true)
+      end
+
+      it "returns the records" do
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace:#{@test_resource_record}&metadataPrefix=oai_dc"
+
+        response = get uri
+        expect(response.body).not_to match(/<error code="idDoesNotExist">/)
+      end
+    end
   end
 
   describe "respository with OAI harvesting disabled" do
