@@ -37,5 +37,4 @@ module FileEmbedHelper
       false
     end
   end
-
 end

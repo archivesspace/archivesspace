@@ -16,6 +16,8 @@ require 'aspace_i18n'
 require 'aspace_logger'
 require 'ostruct'
 
+require 'iiif'
+
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line

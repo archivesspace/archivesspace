@@ -97,6 +97,14 @@ class Record
     return process_mixed_content_title(json['display_string'] || json['title'])
   end
 
+  def iiif_manifest
+    return @iiif_embed if @iiif_embed
+
+    @iiif_embed = fetch_candidate_file_versions.detect do |fv|
+      IIIF.manifest?(fv)
+    end
+  end
+
   private
 
   def parse_identifier
@@ -498,4 +506,30 @@ class Record
     container_info
   end
 
+  def fetch_candidate_file_versions
+    return @file_version_candidates if @file_version_candidates
+
+    file_version_candidates = []
+
+    if ['resource', 'archival_object', 'accession'].include?(@primary_type)
+      Array(json['instances']).each do |instance|
+        if (digital_object = instance.dig('digital_object', '_resolved'))
+          # skip unpublished digital objects
+          next unless digital_object['publish']
+
+          if instance['is_representative']
+            file_version_candidates = Array(digital_object['file_versions'])
+            break
+          else
+            file_version_candidates += Array(digital_object['file_versions'])
+          end
+        end
+      end
+    else
+      file_version_candidates = Array(json['file_versions'])
+    end
+
+    # drop unpublished file versions and cache
+    @file_version_candidates = file_version_candidates.select {|fv| fv['publish'] }
+  end
 end

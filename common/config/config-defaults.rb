@@ -918,3 +918,29 @@ AppConfig[:extended_csv_export_extra_excluded_properties] = []
 # Expert: If you want to customize the extended CSV export from a plugin, you
 # can replace the standard implementation with your own version here.
 AppConfig[:extended_csv_export_class] = 'ExtendedCSVExportStream'
+
+
+## IIIF Configuration
+#
+# To enable IIIF set the default viewer URL and any repository specific
+# viewer URLs keyed on the repo_code.
+#
+# If the value is a `String`, we assume the manifest URI will be appended
+# to the end of the URL.  To support more complex URLs, please use a
+# `Proc` that takes the manifest URI as a parameter and returns the full
+# viewer URL.
+#
+## For example:
+## AppConfig[:iiif_viewer_url] = {
+#   :default => 'http://iiif-viewer.com?manifest=',
+#   'myrepo' => proc{|manifest_uri| "http://myrepo-iiif-viewer.com/?m=#{CGI::escape(manifest_uri)}&other_param=value" },
+## }
+#
+# For a Digital Object's File Version to be considered an IIIF Manifest and
+# suitable for embed, it must satisfy the following fields:
+# - `file_format_name` is 'iiif'
+# - `use_statement` is 'text-json'
+# - and `xlink_show_attribute` is 'embed'
+# Additionally, to be a candidate for embedding in the PUI, the File Version
+# and any parent records must also be published.
+#
