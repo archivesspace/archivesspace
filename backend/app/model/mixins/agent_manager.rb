@@ -76,6 +76,10 @@ module AgentManager
 
 
     def update_from_json(json, opts = {}, apply_nested_records = true)
+      if opts[:skip_agent_contacts]
+        json['agent_contacts'] = AgentContact.sequel_to_jsonmodel(self.agent_contact)
+      end
+
       klass = self.class
       klass.ensure_authorized_name(json)
       klass.ensure_display_name(json)
@@ -473,6 +477,11 @@ module AgentManager
       end
 
 
+      # Serialize a set of Sequel agent objects to JSONModel json
+      # @param objs the Sequel objects to serialize
+      # @param [Hash] opts A set of options
+      # @option opts [Boolean] :calculate_linked_repositories Whether to calculate and include the linked repositories
+      # @option opts [Boolean] :hide_agent_contacts Whether to hide contact details in the output
       def sequel_to_jsonmodel(objs, opts = {})
         jsons = super
 
@@ -482,6 +491,12 @@ module AgentManager
           jsons.zip(objs).each do |json, obj|
             json.used_within_repositories = agents_to_repositories.fetch(obj, []).map {|repo| repo.uri}
             json.used_within_published_repositories = agents_to_repositories.fetch(obj, []).select {|repo| repo.publish == 1}.map {|repo| repo.uri}
+          end
+        end
+
+        if opts[:hide_agent_contacts]
+          jsons.zip(objs).each do |json, obj|
+            json[:agent_contacts] = []
           end
         end
 

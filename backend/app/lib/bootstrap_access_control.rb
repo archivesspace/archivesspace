@@ -196,6 +196,11 @@ class ArchivesSpaceService
                       "The ability to view contact details for agent records",
                       :level => "repository")
 
+    Permission.define("view_agent_contact_record_global",
+                      "The ability to view contact details for agent records",
+                      :implied_by => 'view_agent_contact_record',
+                      :level => "global")
+
     Permission.define("manage_vocabulary_record",
                       "The ability to create, modify and delete a vocabulary record",
                       :level => "repository")

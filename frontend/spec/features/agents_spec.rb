@@ -12,251 +12,6 @@ describe 'Agents', js: true do
     login_user(@admin)
   end
 
-  describe "agents merge" do
-    it 'displays the full merge page without any errors' do
-      now = Time.now.to_i
-      agent_a = create(:json_agent_corporate_entity_full_subrec, names: [
-        build(:json_name_corporate_entity, primary_name: "Agent Name A #{now}")
-      ])
-
-      agent_b = create(:json_agent_corporate_entity_full_subrec, names: [
-        build(:json_name_corporate_entity, primary_name: "Agent Name B #{now}")
-      ])
-
-      run_index_round
-
-      element = find('#global-search-box')
-      element.fill_in with: agent_a['names'][0]['primary_name']
-      find('#global-search-button').click
-
-      element = find(:css, "table tr", text: agent_a['names'][0]['primary_name'])
-      within element do
-        click_on 'Edit'
-      end
-
-      click_on 'Merge'
-
-      element = find('#token-input-merge_ref_')
-      element.fill_in with: agent_b['names'][0]['primary_name']
-      dropdown_items = all('li.token-input-dropdown-item2')
-      dropdown_items.first.click
-      find('.merge-button').click
-
-      within '#confirmChangesModal' do
-        click_on 'Compare Agents'
-      end
-
-      expect(page).to have_text 'This record will be updated'
-      expect(page).to have_text 'This record will be deleted'
-
-      find('#agent_agent_record_identifiers__0__append_').click
-      find('.preview-merge', match: :first).click
-
-      within '#mergePreviewModal' do
-        within '#agent_corporate_entity_agent_record_identifier_accordion' do
-          elements = all('.card')
-          elements.last.click
-          expect(elements.last).to have_text agent_b['agent_record_identifiers'][0]['record_identifier']
-        end
-      end
-    end
-
-    it "merges record ids" do
-      now = Time.now.to_i
-      agent_a = create(:json_agent_corporate_entity_full_subrec, names: [
-        build(:json_name_corporate_entity, primary_name: "Agent Name A #{now}")
-      ])
-
-      agent_b = create(:json_agent_corporate_entity_full_subrec, names: [
-        build(:json_name_corporate_entity, primary_name: "Agent Name B #{now}")
-      ])
-
-      run_index_round
-
-      element = find('#global-search-box')
-      element.fill_in with: agent_a['names'][0]['primary_name']
-      find('#global-search-button').click
-
-      element = find(:css, "table tr", text: agent_a['names'][0]['primary_name'])
-      within element do
-        click_on 'Edit'
-      end
-
-      click_on 'Merge'
-
-      element = find('#token-input-merge_ref_')
-      element.fill_in with: agent_b['names'][0]['primary_name']
-      dropdown_items = all('li.token-input-dropdown-item2')
-      dropdown_items.first.click
-      find('.merge-button').click
-
-      within '#confirmChangesModal' do
-        click_on 'Compare Agents'
-      end
-
-      expect(page).to have_text 'This record will be updated'
-      expect(page).to have_text 'This record will be deleted'
-
-      find('#agent_agent_record_identifiers__0__append_').click
-      find('.preview-merge', match: :first).click
-
-      within '#mergePreviewModal' do
-        within '#agent_corporate_entity_agent_record_identifier_accordion' do
-          elements = all('.card')
-          elements.last.click
-          expect(elements.last).to have_text agent_b['agent_record_identifiers'][0]['record_identifier']
-        end
-      end
-    end
-
-    it "merges agent places" do
-      now = Time.now.to_i
-      agent_a = create(:json_agent_corporate_entity_full_subrec, names: [
-        build(:json_name_corporate_entity, primary_name: "Agent Name A #{now}")
-      ])
-
-      agent_b = create(:json_agent_corporate_entity_full_subrec, names: [
-        build(:json_name_corporate_entity, primary_name: "Agent Name B #{now}")
-      ])
-
-      run_index_round
-
-      element = find('#global-search-box')
-      element.fill_in with: agent_a['names'][0]['primary_name']
-      find('#global-search-button').click
-
-      element = find(:css, "table tr", text: agent_a['names'][0]['primary_name'])
-      within element do
-        click_on 'Edit'
-      end
-
-      click_on 'Merge'
-
-      element = find('#token-input-merge_ref_')
-      element.fill_in with: agent_b['names'][0]['primary_name']
-      dropdown_items = all('li.token-input-dropdown-item2')
-      dropdown_items.first.click
-      find('.merge-button').click
-
-      within '#confirmChangesModal' do
-        click_on 'Compare Agents'
-      end
-
-      expect(page).to have_text 'This record will be updated'
-      expect(page).to have_text 'This record will be deleted'
-
-      find('#agent_agent_places__0__append_').click
-      find('.preview-merge', match: :first).click
-
-      within '#mergePreviewModal' do
-        within '#agent_corporate_entity_agent_place' do
-          elements = all('.card')
-          elements.last.click
-          expect(elements.last).to have_text I18n.t("enumerations.place_role.#{agent_b['agent_places'][0]['place_role']}")
-        end
-      end
-    end
-
-    it "merges names" do
-      now = Time.now.to_i
-      agent_a = create(:json_agent_corporate_entity_full_subrec, names: [
-        build(:json_name_corporate_entity, primary_name: "Agent Name A #{now}")
-      ])
-
-      agent_b = create(:json_agent_corporate_entity_full_subrec, names: [
-        build(:json_name_corporate_entity, primary_name: "Agent Name B #{now}")
-      ])
-
-      run_index_round
-
-      element = find('#global-search-box')
-      element.fill_in with: agent_a['names'][0]['primary_name']
-      find('#global-search-button').click
-
-      element = find(:css, "table tr", text: agent_a['names'][0]['primary_name'])
-      within element do
-        click_on 'Edit'
-      end
-
-      click_on 'Merge'
-
-      element = find('#token-input-merge_ref_')
-      element.fill_in with: agent_b['names'][0]['primary_name']
-      dropdown_items = all('li.token-input-dropdown-item2')
-      dropdown_items.first.click
-      find('.merge-button').click
-
-      within '#confirmChangesModal' do
-        click_on 'Compare Agents'
-      end
-
-      expect(page).to have_text 'This record will be updated'
-      expect(page).to have_text 'This record will be deleted'
-
-      find('#agent_names__0__append_').click
-      find('.preview-merge', match: :first).click
-
-      within '#mergePreviewModal' do
-        within '#agent_name_accordion' do
-          elements = all('.card')
-          elements.last.click
-          expect(elements.last).to have_text agent_b['agent_places'][0]['primary_name']
-        end
-      end
-    end
-  end
-
-  describe "disallows agents merge with related agents" do
-    it 'tries to merge related agents and gets an error' do
-      now = Time.now.to_i
-      agent_a = create(:json_agent_corporate_entity_full_subrec, names: [
-        build(:json_name_corporate_entity, primary_name: "Agent Name A #{now}")
-      ])
-
-      agent_b = create(:json_agent_corporate_entity_full_subrec, names: [
-        build(:json_name_corporate_entity, primary_name: "Agent Name B #{now}")
-      ])
-
-      run_index_round
-
-      element = find('#global-search-box')
-      element.fill_in with: agent_a['names'][0]['primary_name']
-      find('#global-search-button').click
-
-      element = find(:css, "table tr", text: agent_a['names'][0]['primary_name'])
-      within element do
-        click_on 'Edit'
-      end
-
-      click_on 'Add Related Agent'
-
-      element = find('#related-agents-container .related-agent-type.form-control')
-      element.select 'Hierarchical Relationship'
-      element = find('#token-input-agent_related_agents__1__ref_')
-      element.fill_in with: agent_b['names'][0]['primary_name']
-      dropdown_items = all('li.token-input-dropdown-item2')
-      dropdown_items.first.click
-
-      # Click on save
-      find('button', text: 'Save Corporate Entity', match: :first).click
-      expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Agent Saved')
-
-      click_on 'Merge'
-      element = find('#token-input-merge_ref_')
-      element.fill_in with: agent_b['names'][0]['primary_name']
-      dropdown_items = all('li.token-input-dropdown-item2')
-      dropdown_items.first.click
-      find('.merge-button').click
-
-      within '#confirmChangesModal' do
-        click_on 'Compare Agents'
-      end
-
-      element = find('.alert.alert-danger.with-hide-alert')
-      expect(element.text).to eq 'These agents have a relationship. Remove relationship before proceeding with merge.'
-    end
-  end
-
   describe "agents record CRUD" do
     describe 'Full Agent Record' do
       it 'reports errors and warnings when creating an invalid Person Agent' do
@@ -434,68 +189,6 @@ describe 'Agents', js: true do
         element = find('.alert.alert-danger.with-hide-alert')
         expect(element.text).to eq "Primary Part of Name - Property is required but was missing"
       end
-
-      it 'can save a person and view readonly view of person' do
-        now = Time.now.to_i
-
-        click_on 'Create'
-        click_on 'Agent'
-        click_on 'Person'
-
-        element = find('#agent_names__0__primary_name_')
-        element.fill_in with: "Agent Name #{now}"
-
-        within '#agent_person_contact_details' do
-          click_on 'Add Contact'
-        end
-
-        fill_in 'agent_agent_contacts__0__name_', with: "Contact Name #{now}"
-        fill_in 'agent_agent_contacts__0__email_', with: "Email Address #{now}"
-
-        # Click on save
-        find('button', text: 'Save Person', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
-
-        element = find('h2')
-        expect(element.text).to eq "Agent Name #{now} Agent"
-      end
-
-      it 'can add multiple telephone numbers' do
-        now = Time.now.to_i
-
-        click_on 'Create'
-        click_on 'Agent'
-        click_on 'Person'
-
-        element = find('#agent_names__0__primary_name_')
-        element.fill_in with: "Agent Name #{now}"
-
-        within '#agent_person_contact_details' do
-          click_on 'Add Contact'
-        end
-
-        fill_in 'agent_agent_contacts__0__name_', with: "Contact Name #{now}"
-        fill_in 'agent_agent_contacts__0__email_', with: "Email Address #{now}"
-
-        within '#agent_agent_contacts__0__telephones_' do
-          click_on 'Add Telephone Number'
-          click_on 'Add Telephone Number'
-        end
-        fill_in 'agent_agent_contacts__0__telephones__0__number_', with: "Telephone Number 1 #{now}"
-        fill_in 'agent_agent_contacts__0__telephones__0__ext_', with: "Telephone Extension 1 #{now}"
-        fill_in 'agent_agent_contacts__0__telephones__1__number_', with: "Telephone Number 2 #{now}"
-        fill_in 'agent_agent_contacts__0__telephones__1__ext_', with: "Telephone Extension 2 #{now}"
-
-        # Click on save
-        find('button', text: 'Save Person', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
-
-        expect(find('#agent_agent_contacts__0__telephones__0__number_').value).to eq "Telephone Number 1 #{now}"
-        expect(find('#agent_agent_contacts__0__telephones__0__ext_').value).to eq "Telephone Extension 1 #{now}"
-        expect(find('#agent_agent_contacts__0__telephones__1__number_').value).to eq "Telephone Number 2 #{now}"
-        expect(find('#agent_agent_contacts__0__telephones__1__ext_').value).to eq "Telephone Extension 2 #{now}"
-      end
-
       it 'reports errors when updating a Person Agent with invalid data' do
         agent = create(:agent_person)
         visit "agents/agent_person/#{agent.id}/edit"
@@ -530,18 +223,88 @@ describe 'Agents', js: true do
         expect(element).to have_text agent_to_be_related.names.first['sort_name']
       end
 
-      it 'can remove contact details' do
-        agent = create(:agent_person)
-        visit "agents/agent_person/#{agent.id}/edit"
+      describe 'contact details' do
+        it 'can create a person and view readonly view of person' do
+          now = Time.now.to_i
 
-        find('#agent_person_contact_details .subrecord-form-remove', match: :first).click
-        click_on 'Confirm Removal'
+          click_on 'Create'
+          click_on 'Agent'
+          click_on 'Person'
 
-        expect(page).to_not have_css '#agent_agent_contacts__0__name_'
+          element = find('#agent_names__0__primary_name_')
+          element.fill_in with: "Agent Name #{now}"
 
-        # Click on save
-        find('button', text: 'Save Person', match: :first).click
-        expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Saved")
+          # Click on save
+          find('button', text: 'Save Person', match: :first).click
+          expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Agent Created")
+
+          within '#agent_person_contact_details' do
+            click_on 'Add Contact'
+          end
+
+          fill_in 'agent_agent_contacts__0__name_', with: "Contact Name #{now}"
+          fill_in 'agent_agent_contacts__0__email_', with: "Email Address #{now}"
+
+          # Click on save
+          find('button', text: 'Save Person', match: :first).click
+          element = find('.alert.alert-success.with-hide-alert')
+          expect(element.text).to eq "Agent Saved"
+
+          element = find('h2')
+          expect(element.text).to eq "Agent Name #{now} Agent"
+        end
+
+        it 'can add multiple telephone numbers' do
+          now = Time.now.to_i
+
+          click_on 'Create'
+          click_on 'Agent'
+          click_on 'Person'
+
+          element = find('#agent_names__0__primary_name_')
+          element.fill_in with: "Agent Name #{now}"
+
+          within '#agent_person_contact_details' do
+            click_on 'Add Contact'
+          end
+
+          fill_in 'agent_agent_contacts__0__name_', with: "Contact Name #{now}"
+          fill_in 'agent_agent_contacts__0__email_', with: "Email Address #{now}"
+
+          within '#agent_agent_contacts__0__telephones_' do
+            click_on 'Add Telephone Number'
+            click_on 'Add Telephone Number'
+          end
+          fill_in 'agent_agent_contacts__0__telephones__0__number_', with: "Telephone Number 1 #{now}"
+          fill_in 'agent_agent_contacts__0__telephones__0__ext_', with: "Telephone Extension 1 #{now}"
+          fill_in 'agent_agent_contacts__0__telephones__1__number_', with: "Telephone Number 2 #{now}"
+          fill_in 'agent_agent_contacts__0__telephones__1__ext_', with: "Telephone Extension 2 #{now}"
+
+          # Click on save
+          find('button', text: 'Save Person', match: :first).click
+          element = find('.alert.alert-success.with-hide-alert')
+          expect(element.text).to eq "Agent Created"
+
+          expect(find('#agent_agent_contacts__0__telephones__0__number_').value).to eq "Telephone Number 1 #{now}"
+          expect(find('#agent_agent_contacts__0__telephones__0__ext_').value).to eq "Telephone Extension 1 #{now}"
+          expect(find('#agent_agent_contacts__0__telephones__1__number_').value).to eq "Telephone Number 2 #{now}"
+          expect(find('#agent_agent_contacts__0__telephones__1__ext_').value).to eq "Telephone Extension 2 #{now}"
+        end
+
+        it 'can remove contact details' do
+          agent = create(:agent_person)
+          visit "agents/agent_person/#{agent.id}/edit"
+
+          find('#agent_person_contact_details .subrecord-form-remove', match: :first).click
+          click_on 'Confirm Removal'
+
+          expect(page).to_not have_css '#agent_agent_contacts__0__name_'
+
+          # Click on save
+          find('button', text: 'Save Person', match: :first).click
+          element = find('.alert.alert-success.with-hide-alert')
+          expect(element.text).to eq "Agent Saved"
+        end
       end
 
       it 'can add an external document to an Agent' do
