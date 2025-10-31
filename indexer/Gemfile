@@ -17,6 +17,9 @@ gem 'multipart-post', '~> 2.4'
 gem 'net-http-persistent', '>= 4.0.1'
 gem 'json-schema', '1.0.10'
 
+# We load simplecov only when running e2e tests and not in normal production mode 
+gem 'simplecov', require: false
+
 group :development, :test do
   gem 'pry'
   gem 'pry-debugger-jruby'
@@ -28,7 +31,6 @@ group :test do
   gem 'rack-test'
   gem 'rspec'
   gem 'rspec-core'
-  gem 'simplecov'
   gem 'vcr', '6.0.0'
   gem 'webmock'
 end

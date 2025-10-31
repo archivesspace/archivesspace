@@ -29,6 +29,9 @@ gem 'json-schema', '1.0.10'
 
 gem 'atomic', '= 1.0.1'
 gem 'jruby-jars', '= 9.4.8.0'
+#
+# We load simplecov only when running e2e tests and not in normal production mode 
+gem 'simplecov', require: false
 
 group :test do
   gem 'rails-controller-testing'
@@ -38,7 +41,6 @@ group :test do
   # For performance testing
   gem 'rspec-benchmark'
   gem 'rspec-rails'
-  gem 'simplecov'
 
   # selenium stuff
   gem 'factory_bot', '= 6.2.1'
