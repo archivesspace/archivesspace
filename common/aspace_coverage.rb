@@ -22,6 +22,7 @@ module ASpaceCoverage
       add_filter "frontend/spec"
       add_filter "public/spec"
       add_filter "indexer/spec"
+      add_filter "e2e-tests"
     end
   end
 end
