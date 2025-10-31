@@ -1253,6 +1253,66 @@ describe 'Resources', js: true do
     it_behaves_like 'validating mixed content'
   end
 
+  context 'index view' do
+    describe 'results table sorting' do
+      let(:now) { Time.now.to_i }
+      let(:repo) { create(:repo, repo_code: "resources_index_sorting_#{now}") }
+      let(:record_1) {
+        create(:resource,
+          title: "Resource 1 #{now}",
+          id_0: '1',
+          level: 'collection'
+        )
+      }
+      let(:record_2) {
+        create(:resource,
+          title: "Resource 2 #{now}",
+          id_0: '2',
+          level: 'item'
+        )
+      }
+
+      let(:initial_sort) { [record_1.title, record_2.title] }
+
+      let(:column_headers) do
+        {
+          'Identifier' => 'identifier',
+          'Level' => 'level',
+          'Title' => 'title_sort'
+        }
+      end
+
+      let(:sort_expectations) do
+        {
+          'identifier' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'level' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          }
+        }
+      end
+
+      before :each do
+        set_repo repo
+        record_1
+        record_2
+        run_index_round
+        login_admin
+        select_repository(repo)
+        visit '/resources'
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
+
   describe 'Linked Agents is_primary behavior' do
     let(:record_type) { 'resource' }
     let(:agent) { create(:agent_person) }
