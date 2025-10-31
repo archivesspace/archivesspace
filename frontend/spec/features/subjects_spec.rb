@@ -206,4 +206,58 @@ describe 'Subjects', js: true do
     expect(csv).to include(subject_1.title)
     expect(csv).to include(subject_2.title)
   end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      let(:now) { Time.now.to_i }
+      let(:record_1) {
+        create(:subject,
+          source: 'local',
+          terms: [build(:term, { term: "A #{now}", term_type: 'topical' })]
+        )
+      }
+      let(:record_2) {
+        create(:subject,
+          source: 'aat',
+          terms: [build(:term, { term: "B #{now}", term_type: 'geographic' })]
+        )
+      }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:column_headers) do
+        {
+          'Term Type (First)' => 'first_term_type',
+          'Terms' => 'title_sort',
+        }
+      end
+      let(:sort_expectations) do
+        {
+          'first_term_type' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          }
+        }
+      end
+
+      before :each do
+        record_1
+        record_2
+        run_index_round
+        login_admin
+
+        # Add a second browse column for the shared_example to work
+        find('#user-menu-dropdown').click
+        click_on 'Default Repository Preferences'
+        select 'Term Type (First)', from: 'preference_defaults__subject_browse_column_2_'
+        click_on 'Save Preferences'
+
+        visit '/subjects'
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end

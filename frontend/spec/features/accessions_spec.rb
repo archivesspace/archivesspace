@@ -472,50 +472,6 @@ describe 'Accessions', js: true do
     expect(page).to have_text "Accession #{accession.title} updated"
   end
 
-  it 'can show a browse list of accessions' do
-    now = Time.now.to_i
-    accession_first = create(:json_accession, title: "First Accession #{now}")
-    accession_second = create(:json_accession, title: "Second Accession #{now}")
-    accession_third = create(:json_accession, title: "Third Accession #{now}")
-    run_index_round
-
-    click_on('Browse')
-    click_on('Accessions')
-
-    # Search for accession and check results table
-    input_text = find('#filter-text')
-    input_text.fill_in with: accession_first.title
-    input_text.send_keys(:enter)
-    find('td', text: accession_first.title)
-
-    # Search for accession and check results table
-    input_text = find('#filter-text')
-    input_text.fill_in with: accession_second.title
-    input_text.send_keys(:enter)
-    find('td', text: accession_second.title)
-
-    # Search for accession and check results table
-    input_text = find('#filter-text')
-    input_text.fill_in with: accession_third.title
-    input_text.send_keys(:enter)
-    find('td', text: accession_third.title)
-  end
-
-  it 'can define a second level sort for a browse list of accessions' do
-    create(:json_accession)
-    create(:json_accession)
-
-    run_index_round
-    click_on('Browse')
-    click_on('Accessions')
-
-    click_on('Select')
-
-    element = first('a', text: 'Identifier')
-    element.click
-    expect(page).to have_text('Identifier Descending')
-  end
-
   context 'when user is a repository manager of the current repo' do
     let(:user) do
       user = create_user(repo => ['repository-managers'])
@@ -598,5 +554,110 @@ describe 'Accessions', js: true do
 
     it_behaves_like 'supporting is_primary on top-level linked agents'
     it_behaves_like 'not supporting is_primary on rights statement linked agents'
+  end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      let(:now) { Time.now.to_i }
+      let(:repo) { create(:repo, repo_code: "results_table_sorting_#{now}") }
+      let(:record_1) {
+        create(:accession,
+          title: "Accession 1 #{now}",
+          id_0: "1",
+          accession_date: Time.now.strftime('%Y-%m-%d'),
+          dates: [build(:date)],
+          extents: [build(:extent)]
+        )
+      }
+      let(:record_2) {
+        create(:accession,
+          title: "Accession 2 #{now}",
+          id_0: "2",
+          accession_date: (Time.at(now) - 86400).strftime('%Y-%m-%d'),
+          dates: [build(:date)],
+          extents: [build(:extent)]
+        )
+      }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:column_headers) do
+        {
+          'Accession Date' => 'accession_date',
+          'Identifier' => 'identifier',
+          'Title' => 'title_sort'
+        }
+      end
+      let(:sort_expectations) do
+        {
+          'accession_date' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'identifier' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          }
+        }
+      end
+
+      before :each do
+        set_repo repo
+        record_1
+        record_2
+        run_index_round
+        login_admin
+        select_repository(repo)
+        visit '/accessions'
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+
+    it 'can show a browse list of accessions' do
+      now = Time.now.to_i
+      accession_first = create(:json_accession, title: "First Accession #{now}")
+      accession_second = create(:json_accession, title: "Second Accession #{now}")
+      accession_third = create(:json_accession, title: "Third Accession #{now}")
+      run_index_round
+
+      click_on('Browse')
+      click_on('Accessions')
+
+      # Search for accession and check results table
+      input_text = find('#filter-text')
+      input_text.fill_in with: accession_first.title
+      input_text.send_keys(:enter)
+      find('td', text: accession_first.title)
+
+      # Search for accession and check results table
+      input_text = find('#filter-text')
+      input_text.fill_in with: accession_second.title
+      input_text.send_keys(:enter)
+      find('td', text: accession_second.title)
+
+      # Search for accession and check results table
+      input_text = find('#filter-text')
+      input_text.fill_in with: accession_third.title
+      input_text.send_keys(:enter)
+      find('td', text: accession_third.title)
+    end
+
+    it 'can define a second level sort for a browse list of accessions' do
+      create(:json_accession)
+      create(:json_accession)
+
+      run_index_round
+      click_on('Browse')
+      click_on('Accessions')
+
+      click_on('Select')
+
+      element = first('a', text: 'Identifier')
+      element.click
+      expect(page).to have_text('Identifier Descending')
+    end
   end
 end
