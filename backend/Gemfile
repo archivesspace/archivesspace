@@ -33,12 +33,14 @@ gem 'rrtf'
 gem 'addressable', '= 2.8.7'
 gem 'faraday', '< 2'
 
+# Code coverage is used while running e2e tests, do we keep it in the production group but require only when needed
+gem 'simplecov', require: false
+
 group :test do
   gem 'factory_bot', '= 6.2.1'
   gem 'rack-test'
   gem 'rspec'
   gem 'rspec-core'
-  gem 'simplecov'
 end
 
 group :development, :test do
