@@ -45,6 +45,9 @@ gem 'turbolinks'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+# Code coverage is used while running e2e tests, do we keep it in the production group but require only when needed
+gem 'simplecov', require: false
+
 group :development do
   gem 'web-console'
   gem 'pry'
@@ -73,7 +76,6 @@ group :test do
   gem 'rspec-rails'
   gem 'rspec-retry'
   gem 'selenium-webdriver'
-  gem 'simplecov'
 end
 
 # Allow plugins to provide their own Gemfiles too.

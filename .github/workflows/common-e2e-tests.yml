@@ -43,6 +43,8 @@ jobs:
           IMAGE_TAG: ${{ inputs.image_tag }}
           COVERAGE_REPORTS: true
           ASPACE_INTEGRATION: true
+          COVERAGE_REPORT_DIR: e2e-${{ inputs.name }}
+
         run: |
           docker compose -f docker-compose.yml up --quiet-pull --detach
       - name: Wait until the web server is ready
@@ -76,3 +78,11 @@ jobs:
         with:
           name: screenshots_${{ inputs.name }}
           path: /tmp/screenshots/
+      - name: Post Coverage to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          format: simplecov
+          compare-ref: master
+          flag-name: e2e-${{ inputs.name }}
+          debug: false
+          parallel: true
