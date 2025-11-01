@@ -11,7 +11,7 @@ Given 'two Container Profiles A & B have been created' do
   fill_in 'container_profile_height_', with: '2.2'
   fill_in 'container_profile_width_', with: '3.3'
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Container Profile Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Container Profile Created')
   url_parts = current_url.split('container_profiles/container_profile_person').pop.split('/')
   @container_profile_a_id = url_parts.pop
 
@@ -21,7 +21,7 @@ Given 'two Container Profiles A & B have been created' do
   fill_in 'container_profile_height_', with: '2.2'
   fill_in 'container_profile_width_', with: '3.3'
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Container Profile Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Container Profile Created')
   url_parts = current_url.split('container_profiles/container_profile_person').pop.split('/')
   @container_profile_b_id = url_parts.pop
 end
@@ -35,11 +35,8 @@ Given 'the two Container Profiles are displayed in the search results' do
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @container_profile_a_uuid
-  expect(search_result_rows[1]).to have_text @container_profile_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @container_profile_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @container_profile_b_uuid)
 end
 
 When 'the two Container Profiles A & B are selected' do

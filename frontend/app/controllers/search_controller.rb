@@ -61,9 +61,6 @@ class SearchController < ApplicationController
 
     context_criteria = params["context_filter_term"] ? {"filter_term[]" => params["context_filter_term"]} : {}
 
-    # linker typeaheads should always sort by score
-    context_criteria["sort"] = "score desc" if params["linker"]
-
     @search_data = Search.all(session[:repo_id], criteria, context_criteria)
     @hide_sort_options = params[:hide_sort_options] == "true"
     @hide_csv_download = params[:hide_csv_download] == "true"

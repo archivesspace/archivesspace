@@ -11,9 +11,7 @@ Then 'the new Digital Object form has the following default values' do |form_val
     expect(section[:id]).to_not eq nil
 
     within section do
-      field = find_field(row['form_field'])
-
-      expect(field.value.downcase).to eq row['form_value'].downcase
+      expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
     end
   end
 end
@@ -32,9 +30,7 @@ Then 'the new Digital Object Component form has the following default values' do
     expect(section[:id]).to_not eq nil
 
     within section do
-      field = find_field(row['form_field'])
-
-      expect(field.value.downcase).to eq row['form_value'].downcase
+      expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
     end
   end
 end

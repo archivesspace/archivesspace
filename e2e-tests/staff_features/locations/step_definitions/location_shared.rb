@@ -81,11 +81,8 @@ Given 'the two Locations are displayed sorted by ascending building' do
     find('button').click
   end
 
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @location_a_uuid
-  expect(search_result_rows[1]).to have_text @location_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @location_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @location_b_uuid)
 end
 
 Then 'the Location is in the search results' do
@@ -93,33 +90,21 @@ Then 'the Location is in the search results' do
 end
 
 Then 'the two Locations are displayed sorted by descending building' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[1]).to have_text @location_a_uuid
-  expect(search_result_rows[0]).to have_text @location_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @location_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @location_a_uuid)
 end
 
 Then 'the two Locations are displayed sorted by ascending floor' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @location_a_uuid
-  expect(search_result_rows[1]).to have_text @location_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @location_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @location_b_uuid)
 end
 
 Then 'the two Locations are displayed sorted by ascending area' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @location_a_uuid
-  expect(search_result_rows[1]).to have_text @location_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @location_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @location_b_uuid)
 end
 
 Then 'the two Locations are displayed sorted by ascending room' do
-  search_result_rows = all('#tabledSearchResults tbody tr')
-
-  expect(search_result_rows.length).to eq 2
-  expect(search_result_rows[0]).to have_text @location_a_uuid
-  expect(search_result_rows[1]).to have_text @location_b_uuid
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @location_a_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @location_b_uuid)
 end

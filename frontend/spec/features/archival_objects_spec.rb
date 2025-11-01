@@ -449,4 +449,50 @@ describe 'Archival objects', js: true do
     element = find('#resource_publish_')
     expect(element.checked?).to eq(false)
   end
+
+  describe 'title field mixed content validation' do
+    let(:resource) { create(:resource) }
+    let(:ao) { create(:archival_object, title: 'AO', resource: { ref: resource.uri }) }
+    let(:edit_path) { "resources/#{resource.id}/edit#tree::archival_object_#{ao.id}" }
+    let(:input_field_id) { 'archival_object_title_' }
+
+    it_behaves_like 'validating mixed content'
+  end
+
+  describe 'Linked Agents is_primary behavior' do
+    let(:record_type) { 'archival_object' }
+    let(:agent) { create(:agent_person) }
+    let(:parent_resource) do
+      create(
+        :resource,
+        title: "Resource Title #{Time.now.to_i}"
+      )
+    end
+    let(:record) do
+      create(
+        :archival_object,
+        resource: { ref: parent_resource.uri },
+        title: "Archival Object Title #{Time.now.to_i}",
+        linked_agents: [
+          { ref: agent.uri, role: 'creator' }
+        ],
+        rights_statements: [
+          build(
+            :json_rights_statement,
+            rights_type: 'copyright',
+            status: 'copyrighted',
+            jurisdiction: 'AU',
+            start_date: Time.now.strftime('%Y-%m-%d'),
+            linked_agents: [
+              { ref: agent.uri, role: 'rights_holder' }
+            ]
+          )
+        ]
+      )
+    end
+    let(:edit_path) { "/resources/#{parent_resource.id}/edit#tree::archival_object_#{record.id}" }
+
+    it_behaves_like 'supporting is_primary on top-level linked agents'
+    it_behaves_like 'not supporting is_primary on rights statement linked agents'
+  end
 end

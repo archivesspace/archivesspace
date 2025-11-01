@@ -1,3 +1,5 @@
+require_relative 'mixins/mixed_content_validatable'
+
 class DigitalObject < Sequel::Model(:digital_object)
   include ASModel
   corresponds_to JSONModel(:digital_object)
@@ -25,6 +27,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Assessments::LinkedRecord
   include RepresentativeFileVersion
   include TouchRecords
+  include MixedContentValidatable
 
   enable_suppression
 
@@ -56,6 +59,11 @@ class DigitalObject < Sequel::Model(:digital_object)
   repo_unique_constraint(:digital_object_id,
                          :message => "Must be unique",
                          :json_property => :digital_object_id)
+
+  def validate
+    validate_mixed_content_field()
+    super
+  end
 
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super

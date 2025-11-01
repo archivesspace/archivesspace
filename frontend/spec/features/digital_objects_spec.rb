@@ -67,8 +67,7 @@ describe 'Digital Objects', js: true do
 
     expect(page).to have_selector('h2', visible: true, text: "Digital Object Title #{now} Digital Object")
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Digital Object Title #{now} Created"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} created")
 
     click_on 'Close Record'
 
@@ -105,8 +104,7 @@ describe 'Digital Objects', js: true do
 
     expect(page).to have_selector('h2', visible: true, text: "Digital Object Title #{now} Digital Object")
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Digital Object Title #{now} Created"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} created")
 
     within '#digital_object_file_versions__0_' do
       expect(page).to have_button('Make Representative', disabled: true)
@@ -208,8 +206,7 @@ describe 'Digital Objects', js: true do
 
     wait_for_ajax
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Component Sub-Child #{now} created as child of Child #{now} on Digital Object Digital Object Title #{now}"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Component Sub-Child #{now} created as child of Child #{now} on Digital Object Digital Object Title #{now}")
 
     find('button.tree-resize-toggle').click
 
@@ -261,8 +258,7 @@ describe 'Digital Objects', js: true do
 
     # Click on save
     find('button', text: 'Save Digital Object', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "Digital Object Digital Object Title #{now} Updated"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Digital Object Title #{now} updated")
 
     element = find('#digital_object_classifications__0_')
     expect(element).to have_text classification.title
@@ -362,5 +358,93 @@ describe 'Digital Objects', js: true do
     expand_elements[1].click
     element = find('#digital_object_component_file_versions__file_version_1')
     expect(element).to have_text "File Format Caption 2 #{now}"
+  end
+
+  describe 'title field mixed content validation' do
+    let(:digital_object) { create(:digital_object, title: 'Digital Object') }
+
+    context 'for a parent Digital Object' do
+      let(:edit_path) { "digital_objects/#{digital_object.id}/edit" }
+      let(:input_field_id) { 'digital_object_title_' }
+
+      it_behaves_like 'validating mixed content'
+    end
+
+    context 'for a child Digital Object Component' do
+      let(:digital_object_component) { create(:digital_object_component, title: 'Digital Object Component', digital_object: { ref: digital_object.uri }) }
+      let(:edit_path) { "digital_objects/#{digital_object.id}/edit#tree::digital_object_component_#{digital_object_component.id}" }
+      let(:input_field_id) { 'digital_object_component_title_' }
+
+      it_behaves_like 'validating mixed content'
+    end
+  end
+
+  describe 'Linked Agents is_primary behavior' do
+    let(:agent) { create(:agent_person) }
+
+    context 'for a parent Digital Object' do
+      let(:record_type) { 'digital_object' }
+      let(:record) do
+        create(
+          :digital_object,
+          title: "Digital Object Title #{Time.now.to_i}",
+          linked_agents: [
+            { ref: agent.uri, role: 'creator' }
+          ],
+          rights_statements: [
+            build(
+              :json_rights_statement,
+              rights_type: 'copyright',
+              status: 'copyrighted',
+              jurisdiction: 'AU',
+              start_date: Time.now.strftime('%Y-%m-%d'),
+              linked_agents: [
+                { ref: agent.uri, role: 'rights_holder' }
+              ]
+            )
+          ]
+        )
+      end
+      let(:edit_path) { "/digital_objects/#{record.id}/edit" }
+
+      it_behaves_like 'supporting is_primary on top-level linked agents'
+      it_behaves_like 'not supporting is_primary on rights statement linked agents'
+    end
+
+    context 'for child Digital Object Components' do
+      let(:record_type) { 'digital_object_component' }
+      let(:parent_digital_object) do
+        create(
+          :digital_object,
+          title: "Digital Object Title #{Time.now.to_i}"
+        )
+      end
+      let(:record) do
+        create(
+          :digital_object_component,
+          digital_object: { ref: parent_digital_object.uri },
+          title: "Digital Object Component Title #{Time.now.to_i}",
+          linked_agents: [
+            { ref: agent.uri, role: 'creator' }
+          ],
+          rights_statements: [
+            build(
+              :json_rights_statement,
+              rights_type: 'copyright',
+              status: 'copyrighted',
+              jurisdiction: 'AU',
+              start_date: Time.now.strftime('%Y-%m-%d'),
+              linked_agents: [
+                { ref: agent.uri, role: 'rights_holder' }
+              ]
+            )
+          ]
+        )
+      end
+      let(:edit_path) { "/digital_objects/#{parent_digital_object.id}/edit#tree::digital_object_component_#{record.id}" }
+
+      it_behaves_like 'supporting is_primary on top-level linked agents'
+      it_behaves_like 'not supporting is_primary on rights statement linked agents'
+    end
   end
 end

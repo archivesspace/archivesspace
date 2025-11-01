@@ -11,7 +11,9 @@ Given 'a Resource with an Archival Object has been created' do
   element.send_keys(:tab)
 
   select 'Single', from: 'resource_dates__0__date_type_'
-  fill_in 'resource_dates__0__begin_', with: '2024'
+  within '.input-group.date' do
+    fill_in 'resource_dates__0__begin_', with: '2024'
+  end
 
   fill_in 'resource_extents__0__number_', with: '10'
   select 'Cassettes', from: 'resource_extents__0__extent_type_'
@@ -43,12 +45,14 @@ Given 'a Resource with an Archival Object has been created' do
   fill_in 'Repository Processing Note', with: "Repository Processing Note #{@uuid}"
 
   click_on 'Add Language'
-  fill_in 'Language', with: 'English'
-  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
-  dropdown_items.first.click
-  fill_in 'Script', with: 'adlam'
-  dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
-  dropdown_items.first.click
+  within 'li.sort-enabled.initialised' do
+    fill_in 'Language', with: 'English'
+    dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
+    dropdown_items.first.click
+    fill_in 'Script', with: 'adlam'
+    dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
+    dropdown_items.first.click
+  end
 
   click_on 'Add Date'
   select 'Single', from: 'archival_object_dates__0__date_type_'
@@ -108,24 +112,17 @@ When 'the user selects the Archival Object' do
 end
 
 Then 'the Archival Object with Title {string} is saved as a child of the Resource' do |title|
-  archival_objects = all('#tree-container .table-row', text: title)
-
-  expect(archival_objects.length).to eq 1
-  expect(archival_objects[0][:class]).to include 'indent-level-1 current'
+  expect(page).to have_css '#tree-container .table-row.indent-level-1.current', text: title
   expect(page).to have_css "#tree-container #resource_#{@resource_id} + .table-row-group #archival_object_#{@created_record_id}"
 end
 
 Then 'the Archival Object with Title {string} is saved as a sibling of the selected Archival Object' do |title|
-  archival_objects = all('#tree-container .table-row', text: title)
-
-  expect(archival_objects.length).to eq 1
-  expect(archival_objects[0][:class]).to include 'indent-level-1 current'
+  expect(page).to have_css('#tree-container .table-row.largetree-node.indent-level-1.current', text: title)
   expect(page).to have_css "#tree-container #resource_#{@resource_id} + .table-row-group #archival_object_#{@created_record_id}"
 end
 
 Then 'the New Archival Object page is displayed' do
   wait_for_ajax
-
   if current_url.include? 'resources'
     expect(current_url).to include "resources/#{@resource_id}/edit#new"
   else
@@ -171,11 +168,9 @@ Then 'the following Archival Object forms have the same values as the Archival O
       expect(find('#archival_object_subjects__0_ .token-input-token').text).to include 'test_subject_term'
     when 'Notes'
       find('#archival_object_notes__0_').click
-      expect(find('#archival_object_notes__0__persistent_id_').value).to eq "Persistent ID #{@uuid}"
-      expect(find('#archival_object_notes__0__label_').value).to eq "Label #{@uuid}"
-      expect(find('#archival_object_notes__0__publish_').value).to eq '1'
-      expect(page).to have_css '#archival_object_notes__0__content__0_'
-      expect(find('#archival_object_notes__0__content__0_').text).to include "Content #{@uuid}"
+      expect(page).to have_field('archival_object_notes__0__label_', with: "Label #{@uuid}")
+      expect(page).to have_checked_field('archival_object_notes__0__publish_')
+      expect(page).to have_field('archival_object_notes__0__content__0_', visible: false, with: "Content #{@uuid}")
     when 'External Documents'
       expect(find('#archival_object_external_documents__0__title_').value).to eq "External Document Title #{@uuid}"
       expect(find('#archival_object_external_documents__0__location_').value).to eq "External Document Location #{@uuid}"

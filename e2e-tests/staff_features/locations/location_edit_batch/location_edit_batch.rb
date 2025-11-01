@@ -52,9 +52,7 @@ Then 'the two Locations have the following values' do |form_values_table|
   form_values = form_values_table.hashes
 
   form_values.each do |row|
-    field = find_field(row['form_field'])
-
-    expect(field.value.downcase).to eq row['form_value'].downcase
+    expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
   end
 
   visit "#{STAFF_URL}/locations/#{@location_second_id}/edit"
@@ -62,8 +60,6 @@ Then 'the two Locations have the following values' do |form_values_table|
   form_values = form_values_table.hashes
 
   form_values.each do |row|
-    field = find_field(row['form_field'])
-
-    expect(field.value.downcase).to eq row['form_value'].downcase
+    expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
   end
 end

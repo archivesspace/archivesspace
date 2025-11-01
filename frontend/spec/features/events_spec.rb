@@ -119,8 +119,7 @@ describe 'Events', js: true do
 
     # Click on save
     find('button', text: 'Save Event', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Event Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Event Created')
 
     run_index_round
 
@@ -167,8 +166,7 @@ describe 'Events', js: true do
 
     # Click on save
     find('button', text: 'Save Event', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Event Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Event Created')
   end
 
   it 'can add an external document to an Event' do
@@ -199,8 +197,7 @@ describe 'Events', js: true do
 
     # Click on save
     find('button', text: 'Save Event', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Event Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Event Created')
 
     click_on 'Add External Document'
     fill_in 'event_external_documents__0__title_', with: "External Document Title #{now}"
@@ -208,8 +205,7 @@ describe 'Events', js: true do
 
     # Click on save
     find('button', text: 'Save Event', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Event Saved'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Event Saved')
 
     elements = all('#event_external_documents_ .subrecord-form-wrapper')
     expect(elements.length).to eq 1
@@ -245,8 +241,7 @@ describe 'Events', js: true do
 
     # Click on save
     find('button', text: 'Save Event', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Event Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Event Created')
 
     run_index_round
 
@@ -282,5 +277,16 @@ describe 'Events', js: true do
 
     csv = File.read(csv_files[0])
     expect(csv).to include("Agent Name #{@now}")
+  end
+
+  describe 'Linked Agents is_primary behavior' do
+    before :each do
+      login_admin
+    end
+
+    let(:record_type) { 'event' }
+    let(:edit_path) { "/events/new" }
+
+    it_behaves_like 'not supporting is_primary on top-level linked agents'
   end
 end

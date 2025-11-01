@@ -44,16 +44,20 @@ module ASpaceHelpers
   end
 
   def select_repository(repo)
-    page.refresh unless page.has_button?('Select Repository')
-    click_button 'Select Repository'
-    wait_for_ajax
-    page.has_xpath? '//select[@id="id"]', wait: 25
-    using_wait_time(25) do
+    begin
+      retries ||= 0
+      page.refresh unless page.has_button?('Select Repository')
+      click_button 'Select Repository'
+      page.has_xpath? '//select[@id="id"]', wait: 25
+
       if repo.respond_to? :repo_code
         select repo.repo_code, from: 'id'
       else
         select repo, from: 'id'
       end
+    rescue Capybara::ElementNotFound
+      page.refresh
+      retry if (retries += 1) < 3
     end
 
     within "form[action='/repositories/select']" do

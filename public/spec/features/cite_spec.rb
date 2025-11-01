@@ -32,7 +32,7 @@ describe 'Citation dialog modal', js: true do
     else
       item_input.send_keys([:control, 'v'])
     end
-    expect(item_input.value).to eq(item_text)
+    expect(page).to have_field('tempItemInput', with: item_text)
 
     cite_item_desc_btn = page.find('#copy_item_description_citation')
     cite_item_desc_btn.click
@@ -43,7 +43,7 @@ describe 'Citation dialog modal', js: true do
     else
       item_desc_input.send_keys([:control, 'v'])
     end
-    expect(item_desc_input.value).to eq(item_description_text)
+    expect(page).to have_field('tempItemDescInput', with: item_description_text)
   end
 
   it 'should close when the header close button is clicked' do

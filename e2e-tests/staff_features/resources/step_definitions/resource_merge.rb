@@ -11,7 +11,9 @@ Given 'two Resources A & B have been created' do
   element.send_keys(:tab)
 
   select 'Single', from: 'resource_dates__0__date_type_'
-  fill_in 'resource_dates__0__begin_', with: '2024'
+  within '.input-group.date' do
+    fill_in 'resource_dates__0__begin_', with: '2024'
+  end
 
   fill_in 'resource_extents__0__number_', with: '10'
   select 'Cassettes', from: 'resource_extents__0__extent_type_'
@@ -42,7 +44,9 @@ Given 'two Resources A & B have been created' do
   element.send_keys(:tab)
 
   select 'Single', from: 'resource_dates__0__date_type_'
-  fill_in 'resource_dates__0__begin_', with: '2024'
+  within '.input-group.date' do
+    fill_in 'resource_dates__0__begin_', with: '2024'
+  end
 
   fill_in 'resource_extents__0__number_', with: '10'
   select 'Cassettes', from: 'resource_extents__0__extent_type_'
