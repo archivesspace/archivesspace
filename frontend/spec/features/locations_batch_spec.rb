@@ -204,11 +204,12 @@ describe 'Location batch', js: true do
     click_on 'Locations'
     click_on 'Create Batch Locations'
 
-    submit_buttons = all('button[type="submit"]')
-    expect(submit_buttons.length).to eq 2
-
     create_plus_one_buttons = all('.createPlusOneBtn')
-    expect(create_plus_one_buttons.length).to be >= 1
-    expect(create_plus_one_buttons.first[:id]).to eq 'createPlusOne'
+    expect(create_plus_one_buttons.length).to eq 2
+
+    create_plus_one_buttons.each do |button|
+      expect(button['type']).to eq 'submit'
+      expect(button[:id]).to eq 'createPlusOne'
+    end
   end
 end
