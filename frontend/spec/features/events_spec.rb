@@ -311,8 +311,7 @@ describe 'Events', js: true do
       select_enum 'Event Event Type (event_event_type)'
       create_enum_value(new_event_type_value)
 
-      element = find('.alert.alert-success.with-hide-alert')
-      expect(element.text).to eq 'Value Created'
+      expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
       expect(page).to have_css '.enumeration-list tr', text: new_event_type_value
 
       click_on 'Create'
