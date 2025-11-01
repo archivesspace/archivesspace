@@ -174,5 +174,4 @@ end
     expect(updated_defaults['defaults']['name']).to eq('DEFAULT BOX')
     expect(updated_defaults['defaults']['extent_dimension']).to eq('height')
   end
-
 end
