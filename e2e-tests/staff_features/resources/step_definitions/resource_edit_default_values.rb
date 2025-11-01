@@ -14,6 +14,7 @@ end
 
 Then 'the new Resource form has the following default values' do |form_values_table|
   visit "#{STAFF_URL}/resources/new"
+  wait_for_ajax
 
   form_values = form_values_table.hashes
 

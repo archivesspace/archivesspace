@@ -48,7 +48,9 @@ When 'the user clicks on {string}' do |string|
 
   wait_for_ajax if current_url.include?("resources/#{@resource_id}/edit") ||
                    current_url.include?("digital_objects/#{@digital_object_id}/edit") ||
-                   current_url.include?('merge_selector')
+                   current_url.include?('merge_selector') ||
+                   string == 'Add Digital Object' ||
+                   string == 'Collapse Tree'
 end
 
 When 'the user hovers on {string} in the dropdown menu' do |string|
@@ -314,6 +316,7 @@ Then 'the following message is displayed' do |messages|
 end
 
 Then('the {string} duplicated message is displayed') do |string|
+  wait_for_ajax
   expect(find('.alert.alert-success.with-hide-alert').text).to match(/^#{string}.*duplicated.*$/i)
 end
 

@@ -130,6 +130,8 @@ Then 'the two Subjects are displayed sorted by ascending created date' do
 end
 
 Then 'the two Subjects are displayed sorted by ascending modified date' do
+  wait_for_ajax
+
   search_result_rows = all('#tabledSearchResults tbody tr')
 
   expect(search_result_rows.length).to eq 2

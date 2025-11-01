@@ -93,6 +93,8 @@ Then 'all Archival Objects are displayed' do
 end
 
 Then 'only the top-level Archival Objects are displayed' do
+  wait_for_ajax
+
   rows = all('#tree-container .table .table-row')
 
   tries = 0
