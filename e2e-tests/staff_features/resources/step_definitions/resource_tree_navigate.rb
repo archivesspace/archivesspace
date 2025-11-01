@@ -106,6 +106,7 @@ Then 'only the top-level Archival Objects are displayed' do
     sleep 1
     tries += 1
     rows = all('#tree-container .table .table-row')
+  end
 end
 
 When 'the user clicks on {string} in the tree toolbar' do |string|
