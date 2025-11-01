@@ -33,7 +33,7 @@ services:
 
     volumes:
       - app-data:/archivesspace/data
-      - ../coverage:/archivesspace/coverage
+      - ../coverage:/archivesspace/data/coverage
 
   e2e-db:
     image: mysql:8
