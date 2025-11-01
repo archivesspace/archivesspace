@@ -253,6 +253,7 @@ describe 'Resources', js: true do
         find(".sidebar-entry-resource_linked_agents_ a").click
         within "#resource_linked_agents_" do
           click_button "Add Agent Link"
+          expect(page).to have_content 'Make Primary'
           agent_subrecords = find_all("li.linked_agent_initialised")
           within agent_subrecords.last do
             field = find("input[role='searchbox']")
@@ -702,6 +703,7 @@ describe 'Resources', js: true do
     expect(page).to have_selector('#resource_notes__1__content__0_', text: accession.condition_description)
 
     select 'Single', from: 'resource_dates__0__date_type_'
+    wait_for_ajax
     fill_in 'resource_dates__0__begin_', with: '1978'
     fill_in 'resource_extents__0__number_', with: '10'
     select 'Cassettes', from: 'resource_extents__0__extent_type_'
@@ -838,6 +840,7 @@ describe 'Resources', js: true do
 
     within '#resource_rights_statements_' do
       click_on 'Add Agent Link'
+      expect(page).not_to have_content 'Make Primary'
     end
 
     element = find('#token-input-resource_rights_statements__0__linked_agents__0__ref_')
@@ -891,6 +894,7 @@ describe 'Resources', js: true do
     element.send_keys(:tab)
 
     select 'Single', from: 'resource_dates__0__date_type_'
+    wait_for_ajax
     fill_in 'resource_dates__0__begin_', with: '1978'
     select 'Collection', from: 'resource_level_'
     fill_in 'resource_extents__0__number_', with: '10'
@@ -919,8 +923,7 @@ describe 'Resources', js: true do
     find('button', text: 'Save Resource', match: :first).click
 
     within '#form_messages' do
-      element = find('.alert.alert-danger.with-hide-alert')
-      expect(element).to have_text 'Title - Property is required but was missing'
+      expect(page).to have_selector('.alert.alert-danger.with-hide-alert', visible: true, text: 'Title - Property is required but was missing')
     end
   end
 
@@ -938,8 +941,7 @@ describe 'Resources', js: true do
     find('#createPlusOne').click
 
     within '#form_messages' do
-      element = find('.alert.alert-danger.with-hide-alert')
-      expect(element).to have_text 'Level of Description - Property is required but was missing'
+      expect(page).to have_selector('.alert.alert-danger.with-hide-alert', visible: true, text: 'Level of Description - Property is required but was missing')
     end
   end
 
@@ -959,7 +961,7 @@ describe 'Resources', js: true do
     find('#createPlusOne').click
 
     within '#form_messages' do
-      element = find('.alert.alert-danger.with-hide-alert')
+      element = find('.alert.alert-danger.with-hide-alert', visible: true)
       expect(element).to have_text 'Dates - one or more required (or enter a Title)'
       expect(element).to have_text 'Title - must not be an empty string (or enter a Date)'
     end
@@ -973,10 +975,13 @@ describe 'Resources', js: true do
 
     expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
-    click_on 'Add Extent'
+    within '#resource_extents_' do
+      click_on 'Add Extent'
+      wait_for_ajax
 
-    fill_in 'resource_extents__1__number_', with: '5'
-    select 'Volumes', from: 'resource_extents__1__extent_type_'
+      fill_in 'resource_extents__1__number_', with: '5'
+      select 'Volumes', from: 'resource_extents__1__extent_type_'
+    end
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
@@ -990,11 +995,15 @@ describe 'Resources', js: true do
 
     click_on 'Edit'
 
-    elements = all('#resource_extents_ .subrecord-form-remove')
-    expect(elements.length).to eq 2
+    within '#resource_extents_' do
+      elements = all('#resource_extents_ .subrecord-form-remove')
+      expect(elements.length).to eq 2
 
-    elements[1].click
-    click_on 'Confirm Removal'
+      elements[1].click
+      within '.subrecord-form-removal-confirmation' do
+        click_button 'Confirm Removal'
+      end
+    end
 
     # Click on save
     find('button', text: 'Save Resource', match: :first).click
@@ -1234,6 +1243,44 @@ describe 'Resources', js: true do
 
     element = find('.token-input-token .digital_object')
     expect(element).to have_text "Digital Object Title #{now}"
+  end
+
+  describe 'title field mixed content validation' do
+    let(:resource) { create(:resource) }
+    let(:edit_path) { "resources/#{resource.id}/edit" }
+    let(:input_field_id) { 'resource_title_' }
+
+    it_behaves_like 'validating mixed content'
+  end
+
+  describe 'Linked Agents is_primary behavior' do
+    let(:record_type) { 'resource' }
+    let(:agent) { create(:agent_person) }
+    let(:record) do
+      create(
+        :resource,
+        title: "Resource Title #{Time.now.to_i}",
+        linked_agents: [
+          { ref: agent.uri, role: 'creator' }
+        ],
+        rights_statements: [
+          build(
+            :json_rights_statement,
+            rights_type: 'copyright',
+            status: 'copyrighted',
+            jurisdiction: 'AU',
+            start_date: Time.now.strftime('%Y-%m-%d'),
+            linked_agents: [
+              { ref: agent.uri, role: 'rights_holder' }
+            ]
+          )
+        ]
+      )
+    end
+    let(:edit_path) { "/resources/#{record.id}/edit" }
+
+    it_behaves_like 'supporting is_primary on top-level linked agents'
+    it_behaves_like 'not supporting is_primary on rights statement linked agents'
   end
 
   describe 'export to pdf' do

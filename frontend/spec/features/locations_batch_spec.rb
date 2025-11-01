@@ -75,8 +75,7 @@ describe 'Location batch', js: true do
 
     # Click on save
     find('button', text: 'Create Locations', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq '8 Locations Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: '8 Locations Created')
 
     run_index_round
 
@@ -134,8 +133,7 @@ describe 'Location batch', js: true do
 
     # Click on save
     find('button', text: 'Update Locations', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq '3 Locations Updated'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: '3 Locations Updated')
 
     run_index_round
     visit current_url
@@ -170,8 +168,7 @@ describe 'Location batch', js: true do
 
     # Click on save
     find('#createPlusOne', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq '8 Locations Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: '8 Locations Created')
 
     expect(find('#location_batch_building_').value).to eq "Location Batch Building #{now}"
     expect(find('#location_batch_floor_').value).to eq '2nd'

@@ -2280,6 +2280,7 @@ fr:
     missing_end_filter_date: Les dates de début et de fin sont nécessaires pour filtrer par date. Veuillez
       indiquer une date de fin.
     missing_required_subrecord: Le sous-enregistrement est requis mais manquait
+    mixed_content_invalid_inline_ead: "Balisage EAD non valide : utilisez des guillemets droits (\" ou ') pour les valeurs d'attribut et veillez à ce que les balises soient bien formées."
   job:
     _singular: Tâche d'arrière-plan
     _plural: Tâches d'arrière-plan

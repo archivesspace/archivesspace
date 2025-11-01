@@ -54,31 +54,20 @@ end
             <% if instance['sub_container'] %>
                 <div class="container-information">
                     <%
-                      if instance['sub_container'] &&
-                         instance['sub_container']['top_container'] &&
-                         instance['sub_container']['top_container']['_resolved'] &&
-                         instance['sub_container']['top_container']['_resolved']['display_string']
+                      box_string = lambda {
+                        return '' unless instance.dig('sub_container', 'top_container', '_resolved', 'display_string')
 
-                        tc_display_string = instance['sub_container']['top_container']['_resolved']['display_string'].split(':')[0]
+                        tc_resolved = instance['sub_container']['top_container']['_resolved']
+                        return "#{tc_resolved['type'].capitalize} #{tc_resolved['indicator']}" if tc_resolved['type'] && tc_resolved['indicator']
 
+                        tc_resolved['display_string'].split(':')[0]
+                      }.call
 
-                        if tc_display_string =~ /:/
-                          box_string = tc_display_string.split(':')[0]
-                        else
-                          box_string = tc_display_string
-                        end
+                      folder_string = lambda {
+                        return '' unless instance['sub_container']['type_2'] && instance['sub_container']['indicator_2']
 
-                      else
-                        box_string = ""
-                      end
-
-                      if instance['sub_container'] &&
-                         instance['sub_container']['type_2'] &&
-                         instance['sub_container']['indicator_2']
-                        folder_string = instance['sub_container']['type_2'] + " " + instance['sub_container']['indicator_2']
-                      else
-                        folder_string = ""
-                      end
+                        "#{instance['sub_container']['type_2']} #{instance['sub_container']['indicator_2']}"
+                      }.call
                     %>
 
                     <% unless box_string.empty? && folder_string.empty? %>

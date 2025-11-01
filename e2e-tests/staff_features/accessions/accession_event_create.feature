@@ -19,18 +19,16 @@ Feature: Accession Event Create
      When the user selects 'Single' from 'Type' in the 'Event Date/Time' form
       And the user clicks on 'Save'
      Then the following error messages are displayed
-       | Expression - is required unless a begin or end date is given |
+       | Expression - is required unless a begin or end date is given     |
        | Begin - is required unless an expression or an end date is given |
-       | Agents - Property is required but was missing |
-       | Role - Property is required but was missing |
+       | Agent Links - At least 1 item(s) is required                     |
   Scenario: Accession Event is not created due to missing required fields, with Event Date/Time Expression filled in
     Given the New Event page is open for an Accession
      When the user selects 'Single' from 'Type' in the 'Event Date/Time' form
       And the user fills in 'Expression' with 'Date Expression' in the 'Event Date/Time' form
       And the user clicks on 'Save'
      Then the following error messages are displayed
-      | Agents - Property is required but was missing |
-      | Role - Property is required but was missing |
+       | Agent Links - At least 1 item(s) is required |
   Scenario: Accession Event is not created due to invalid date
     Given the New Event page is open for an Accession
      When the user selects 'Single' from 'Type' in the 'Event Date/Time' form

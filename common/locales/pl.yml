@@ -42,3 +42,5 @@ pl:
       type: Typ
       indicator: Wskaźnik
       barcode: Kod Kreskowy
+  validation_errors:
+    mixed_content_invalid_inline_ead: "Nieprawidłowy znacznik EAD: używaj prostych cudzysłowów (\" lub ') dla wartości atrybutów i upewnij się, że znaczniki są poprawnie sformatowane."

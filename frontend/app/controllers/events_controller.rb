@@ -81,6 +81,10 @@ class EventsController < ApplicationController
                   if params.has_key?(:redirect_action)
                     @redirect_action = params[:redirect_action]
                   end
+
+                  @event.linked_agents = [{}] if @event.linked_agents.blank?
+                  @event.linked_records = [{}] if @event.linked_records.blank?
+
                   render :action => :new
                 },
                 :on_valid => ->(id) {

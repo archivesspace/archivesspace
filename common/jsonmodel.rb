@@ -100,7 +100,7 @@ module JSONModel
   # trying every model every time can be quite significant.  Trying to be a bit
   # cleverer...
   #
-  REFERENCE_KEY_REGEX = /(\/[0-9]+)/
+  REFERENCE_KEY_REGEX = /(\/[0-9]+)|(\/import_[a-f0-9-]+)/
   @@model_lookup_cache = Atomic.new({})
 
   def self.parse_reference(reference, opts = {})

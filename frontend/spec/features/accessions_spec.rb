@@ -552,40 +552,6 @@ describe 'Accessions', js: true do
     end
   end
 
-  it 'can mark a linked_agent as primary' do
-    now = Time.now.to_i
-    click_on('Create')
-    click_on('Accession')
-    fill_in('Title', with: accession_title)
-    fill_in("Identifier", with: "test_#{Time.now}")
-    click_on('Save')
-
-    agent = create(
-      :agent_person,
-      names: [build(:name_person,
-      name_order: 'inverted',
-      primary_name: "Subject Agent #{now}",
-      rest_of_name: "Subject Agent #{now}",
-      sort_name: "Subject Agent #{now}")]
-    )
-
-    run_index_round
-
-    click_on('Add Agent Link')
-    select 'Creator', from: 'Role'
-
-    # Find agent by AJAX and select the first
-    element = find('#token-input-accession_linked_agents__0__ref_')
-    element.fill_in with: agent.names.first['primary_name']
-    dropdown_items = all('li.token-input-dropdown-item2')
-    dropdown_items.first.click
-
-    click_on('Make Primary')
-
-    click_on('Save')
-    expect(page).to have_text "Accession #{accession_title} updated"
-  end
-
   describe 'toolbar' do
     it 'has a "more" dropdown menu that is aligned to the right side of its control button' do
       accession = create(:json_accession)
@@ -596,5 +562,41 @@ describe 'Accessions', js: true do
         visible: false
       )
     end
+  end
+
+  describe 'title field mixed content validation' do
+    let(:accession) { create(:accession) }
+    let(:edit_path) { "accessions/#{accession.id}/edit" }
+    let(:input_field_id) { 'accession_title_' }
+
+    it_behaves_like 'validating mixed content'
+  end
+
+  describe 'Linked Agents is_primary behavior' do
+    let(:record_type) { 'accession' }
+    let(:agent) { create(:agent_person) }
+    let(:record) do
+      create(:accession,
+        title: "Accession Title #{Time.now.to_i}",
+        linked_agents: [
+          { ref: agent.uri, role: 'creator' }
+        ],
+        rights_statements: [
+          build(:json_rights_statement,
+            rights_type: 'copyright',
+            status: 'copyrighted',
+            jurisdiction: 'AU',
+            start_date: Time.now.strftime('%Y-%m-%d'),
+            linked_agents: [
+              { ref: agent.uri, role: 'rights_holder' }
+            ]
+          )
+        ]
+      )
+    end
+    let(:edit_path) { "/accessions/#{record.id}/edit" }
+
+    it_behaves_like 'supporting is_primary on top-level linked agents'
+    it_behaves_like 'not supporting is_primary on rights statement linked agents'
   end
 end

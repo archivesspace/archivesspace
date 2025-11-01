@@ -130,10 +130,12 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
     RequestContext.open(:repo_id => repo_id) do
       obj = add_visibility_restrictions(model.filter(:id => parsed_ref[:id])).first
-
       raise OAI::IdException.new unless obj
 
-      ArchivesSpaceOAIRecord.new(obj, fetch_jsonmodels(model, [obj])[0])
+      json = fetch_jsonmodels(model, [obj])[0]
+      raise OAI::IdException.new unless !json["has_unpublished_ancestor"]
+
+      ArchivesSpaceOAIRecord.new(obj, json)
     end
   end
 
@@ -268,6 +270,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
       matches = matches.take(limit)
 
       matches.zip(fetch_jsonmodels(record_type, matches)).each do |obj, json|
+        next unless !json["has_unpublished_ancestor"]
         matched_records << ArchivesSpaceOAIRecord.new(obj, json)
       end
     end
