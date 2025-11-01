@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require 'fileutils'
+
 Then('I should see a notification that the template was saved') do
   expect(page).to have_content('+1')
 end
@@ -19,7 +23,7 @@ When('I wait for the job to complete') do
 
   timeout = 60
   start_time = Time.now
-  
+
   while Time.now - start_time < timeout
     files = Dir.glob(File.join(Dir.tmpdir, '*.json'))
     if files.length == 1
@@ -28,7 +32,7 @@ When('I wait for the job to complete') do
     end
     sleep 1
   end
-  
+
   expect(@downloaded_report).not_to be_nil
 end
 
@@ -56,7 +60,7 @@ Then('I should see the following user defined values:') do |table|
     end
   end
 
-  File.delete(@downloaded_report) if File.exist?(@downloaded_report)
+  FileUtils.rm_f(@downloaded_report)
 end
 
 When('I wait for the report to complete') do
