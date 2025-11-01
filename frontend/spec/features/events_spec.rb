@@ -323,13 +323,20 @@ describe 'Events', js: true do
       select 'Pass', from: 'event_outcome_'
       select 'Single', from: 'event_date__date_type_'
       fill_in 'event_date__begin_', with: '2023'
+      select 'Recipient', from: 'event_linked_agents__0__role_'
+
+      fill_in 'token-input-event_linked_agents__0__ref_', with: "Agent Name #{@now}"
+      dropdown_items = all('li.token-input-dropdown-item2')
+      dropdown_items.first.click
+
+      select 'Source', from: 'event_linked_records__0__role_'
+
+      fill_in 'token-input-event_linked_records__0__ref_', with: @accession.title
+      dropdown_items = all('li.token-input-dropdown-item2')
+      dropdown_items.first.click
 
       find('button', text: 'Save Event', match: :first).click
       expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Event Created')
-
-      expect(find('h2').text).to include(new_event_type_value)
-
-      click_on 'Edit'
       expect(find('h2').text).to include(new_event_type_value)
     end
   end
