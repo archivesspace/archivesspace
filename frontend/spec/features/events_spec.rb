@@ -334,6 +334,8 @@ describe 'Events', js: true do
       click_on 'Edit'
       expect(find('h2').text).to include(new_event_type_value)
     end
+  end
+
   describe 'Linked Agents is_primary behavior' do
     before :each do
       login_admin
