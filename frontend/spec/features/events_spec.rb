@@ -325,8 +325,7 @@ describe 'Events', js: true do
       fill_in 'event_date__begin_', with: '2023'
 
       find('button', text: 'Save Event', match: :first).click
-      element = find('.alert.alert-success.with-hide-alert')
-      expect(element.text).to eq 'Event Created'
+      expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Event Created')
 
       expect(find('h2').text).to include(new_event_type_value)
 
