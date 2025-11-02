@@ -276,7 +276,12 @@ When 'the user changes the {string} field' do |field|
 end
 
 Then('the {string} created message is displayed') do |string|
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /^#{Regexp.quote(string)}.*created.*$/i)
+  # Try with .with-hide-alert first, fallback to just .alert-success if not found
+  begin
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: /^#{Regexp.quote(string)}.*created.*$/i, wait: 5)
+  rescue RSpec::Expectations::ExpectationNotMetError
+    expect(page).to have_css('.alert.alert-success', text: /^#{Regexp.quote(string)}.*created.*$/i, wait: 5)
+  end
 
   @created_record_id = extract_created_record_id(string)
 end

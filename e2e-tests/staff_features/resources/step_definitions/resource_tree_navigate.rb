@@ -94,6 +94,12 @@ Then 'all Archival Objects are displayed' do
   expect(rows[2].text).to include "Archival Object 2 #{@uuid}"
 end
 
+When 'the user clicks on {string} in the tree toolbar' do |string|
+  within '#tree-toolbar' do
+    click_on_string string
+  end
+end
+
 Then 'only the top-level Archival Objects are displayed' do
   wait_for_ajax
 
@@ -107,15 +113,7 @@ Then 'only the top-level Archival Objects are displayed' do
     tries += 1
     rows = all('#tree-container .table .table-row')
   end
-end
 
-When 'the user clicks on {string} in the tree toolbar' do |string|
-  within '#tree-toolbar' do
-    click_on_string string
-  end
-end
-
-Then 'only the top-level Archival Objects are displayed' do
   expect(page).to have_css('#tree-container .table .table-row', count: 2)
   expect(page).to have_css('#tree-container .table .table-row', text: "Archival Object 1 #{@uuid}")
 end
