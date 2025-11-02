@@ -25,10 +25,10 @@ Then 'the new Resource Component form has the following default values' do |form
       # Wait for the field to be present and populated with default value
       field_name = row['form_field']
       expected_value = row['form_value']
-      
+
       # For select fields, check the selected option value
       field = find_field(field_name, visible: true)
-      
+
       if field.tag_name == 'select'
         # Select fields use downcase values
         expect(field.value).to eq expected_value.downcase
