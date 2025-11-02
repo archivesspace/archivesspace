@@ -16,7 +16,7 @@ Given 'a Container Profile Default has been set with Width as Extent Dimension' 
   fill_in 'Width', with: '10'
   select 'Inches', from: 'Dimension Units'
 
-  click_on('Save Container Profile')
+  find('button', text: 'Save Container Profile', match: :first).click
   expect(page).to have_content('Defaults Updated')
 end
 
