@@ -16,7 +16,7 @@ services:
       - .env.docker.release
   db:
     container_name: as_release_db
-    image: mysql:8.0
+    image: mysql:8
     command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
       - "3308:3306"
