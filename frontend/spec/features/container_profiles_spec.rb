@@ -118,4 +118,45 @@ describe 'Container Profiles', js: true do
     input_text.send_keys(:enter)
     expect(page).to have_text 'No records found'
   end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      let(:now) { Time.now.to_i }
+      # URIs are auto-incremented from the previous record so we name
+      # the first record to come after the second for sorting on the URI
+      let(:record_1) { create(:container_profile, name: "Container Profile B #{now}") }
+      let(:record_2) { create(:container_profile, name: "Container Profile A #{now}") }
+      let(:initial_sort) { [record_2.name, record_1.name] }
+      let(:column_headers) { {'URI' => 'uri', 'Title' => 'title_sort'} }
+      let(:sort_expectations) do
+        {
+          'uri' => {
+            asc: [record_1.name, record_2.name],
+            desc: [record_2.name, record_1.name]
+          },
+          'title_sort' => {
+            asc: [record_2.name, record_1.name],
+            desc: [record_1.name, record_2.name]
+          }
+        }
+      end
+
+      before :each do
+        record_1
+        record_2
+        run_index_round
+        login_admin
+
+        # Add a second browse column for the shared_example to work
+        find('#user-menu-dropdown').click
+        click_on 'Global Preferences'
+        select 'URI', from: 'preference_defaults__container_profile_browse_column_2_'
+        click_on 'Save Preferences'
+
+        visit '/container_profiles'
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end
