@@ -351,4 +351,40 @@ describe 'Events', js: true do
 
     it_behaves_like 'not supporting is_primary on top-level linked agents'
   end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      let(:now) { Time.now.to_i }
+      let(:repo) { create(:repo, repo_code: "events_index_sorting_#{now}") }
+      let(:record_1) { create(:event, event_type: 'accession', outcome: 'pass') }
+      let(:record_2) { create(:event, event_type: 'virus_check', outcome: 'fail') }
+      let(:primary_column_class) { 'event_type' }
+      let(:initial_sort) { [record_1.event_type.titleize, record_2.event_type.titleize] }
+      let(:column_headers) { { 'Outcome' => 'outcome', 'Type' => 'event_type' } }
+      let(:sort_expectations) do
+        {
+          'outcome' => {
+            asc: [record_2.event_type.titleize, record_1.event_type.titleize],
+            desc: [record_1.event_type.titleize, record_2.event_type.titleize]
+          },
+          'event_type' => {
+            asc: [record_1.event_type.titleize, record_2.event_type.titleize],
+            desc: [record_2.event_type.titleize, record_1.event_type.titleize]
+          }
+        }
+      end
+
+      before :each do
+        set_repo repo
+        record_1
+        record_2
+        run_index_round
+        login_admin
+        select_repository(repo)
+        visit '/events'
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end

@@ -344,4 +344,72 @@ describe 'Locations', js: true do
 
     expect(page).to have_text /Showing .*1.* of.*Results/
   end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      let(:now) { Time.now.to_i }
+      let(:record_1) do
+        create(
+          :location,
+          building: "Building 1 #{now}",
+          floor: '2',
+          room: '1',
+          area: '2'
+        )
+      end
+      let(:record_2) do
+        create(
+          :location,
+          building: "Building 2 #{now}",
+          floor: '1',
+          room: '2',
+          area: '1'
+        )
+      end
+      let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:column_headers) do
+        {
+          'Building' => 'building',
+          'Floor' => 'floor',
+          'Room' => 'room',
+          'Area' => 'area',
+          'Location' => 'title_sort',
+        }
+      end
+      let(:sort_expectations) do
+        {
+          'building' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'floor' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'room' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'area' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          }
+        }
+      end
+
+      before :each do
+        record_1
+        record_2
+        run_index_round
+        login_admin
+        visit '/locations'
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end

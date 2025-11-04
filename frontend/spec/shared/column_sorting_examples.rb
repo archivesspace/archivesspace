@@ -12,6 +12,9 @@
 #     'title_sort' => { asc: ['A', 'B'], desc: ['B', 'A'] }
 #   }.
 #
+# Optional lets:
+# - primary_column_class [String] CSS class for the primary sortable column (default: 'title')
+#
 # Example usage:
 #
 #   let(:initial_sort) { [record_1_title, record_2_title] }
@@ -37,11 +40,13 @@ RSpec.shared_examples 'sortable results table' do
     end
   end
 
-  def expect_sorted_results(titles)
+  def expect_sorted_results(values)
+    col_class = respond_to?(:primary_column_class) ? primary_column_class : 'title'
+
     aggregate_failures "sorted results" do
-      titles.each_with_index do |title, index|
+      values.each_with_index do |value, index|
         within '#tabledSearchResults' do
-          expect(page).to have_css("tbody > tr:nth-child(#{index + 1}) > td.title", text: title)
+          expect(page).to have_css("tbody > tr:nth-child(#{index + 1}) > td.#{col_class}", text: value)
         end
       end
     end
