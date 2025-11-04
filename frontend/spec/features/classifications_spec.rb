@@ -168,4 +168,55 @@ describe 'Classifications', js: true do
     tree_element.click
     expect(page).to have_text accession.title
   end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      let(:now) { Time.now.to_i }
+      let(:repo) { create(:repo, repo_code: "classifications_index_sorting_#{now}") }
+      let(:record_1) { create(:classification, title: "Classification 1 #{now}", identifier: "Z") }
+      let(:record_2) { create(:classification, title: "Classification 2 #{now}", identifier: "A") }
+      let(:record_3) { create(:classification_term, classification: { 'ref' => record_2.uri }) }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:column_headers) {
+        {
+          'Has classification terms?' => 'has_classification_terms',
+          'Identifier' => 'identifier_sort',
+          'URI' => 'uri',
+          'Title' => 'title_sort'
+        }
+      }
+      let(:sort_expectations) do
+        {
+          'has_classification_terms' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
+          'identifier_sort' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
+          'uri' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
+          'title_sort' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] }
+        }
+      end
+
+      before do
+        set_repo repo
+        record_1
+        record_2
+        record_3
+        # Touch record_2 to update its mtime to trigger indexer to recalculate its has_classification_terms
+        updated_classification = JSONModel(:classification).find(record_2.id)
+        updated_classification.save
+        run_index_round
+        login_admin
+        select_repository(repo)
+
+        find('#user-menu-dropdown').click
+        click_on 'Repository Preferences (admin)'
+        select 'Has classification terms?', from: 'preference_defaults__classification_browse_column_2_'
+        select 'Identifier', from: 'preference_defaults__classification_browse_column_3_'
+        select 'URI', from: 'preference_defaults__classification_browse_column_4_'
+        click_on 'Save Preferences'
+
+        visit '/classifications'
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end

@@ -400,4 +400,99 @@ describe 'Assessments', js: true do
 
     it_behaves_like 'having a popover to view the linked record'
   end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      let(:now) { Time.now.to_i }
+      let(:repo) { create(:repo, repo_code: "assessments_index_sorting_#{now}") }
+      let(:record_1) do
+        create(:json_assessment, {
+          'records' => [{'ref' => create(:resource).uri}],
+          'surveyed_by' => [{'ref' => create(:agent_person).uri}],
+          'survey_begin' => '2025-01-01',
+          'survey_end' => '2025-01-02',
+          'review_required' => false,
+          'sensitive_material' => false,
+          'inactive' => true
+        })
+      end
+      let(:record_2) do
+        create(:json_assessment, {
+          'records' => [{'ref' => create(:resource).uri}],
+          'surveyed_by' => [{'ref' => create(:agent_person).uri}],
+          'survey_begin' => '2023-01-01',
+          'review_required' => true,
+          'sensitive_material' => true,
+          'inactive' => false
+        })
+      end
+      let(:primary_column_class) { 'assessment_id' }
+      let(:initial_sort) { [record_1.id.to_s, record_2.id.to_s] }
+      let(:column_headers) do
+        {
+          'Survey Begin' => 'assessment_survey_begin',
+          'Review Required' => 'assessment_review_required',
+          'Assessment Completed' => 'assessment_completed',
+          'Sensitive Material' => 'assessment_sensitive_material',
+          'Inactive' => 'assessment_inactive',
+          'URI' => 'uri',
+          'Assessment ID' => 'assessment_id'
+        }
+      end
+      let(:sort_expectations) do
+        {
+          'assessment_survey_begin' => {
+            asc: [record_2.id.to_s, record_1.id.to_s],
+            desc: [record_1.id.to_s, record_2.id.to_s]
+          },
+          'assessment_review_required' => {
+            asc: [record_1.id.to_s, record_2.id.to_s],
+            desc: [record_2.id.to_s, record_1.id.to_s]
+          },
+          'assessment_completed' => {
+            asc: [record_2.id.to_s, record_1.id.to_s],
+            desc: [record_1.id.to_s, record_2.id.to_s]
+          },
+          'assessment_sensitive_material' => {
+            asc: [record_1.id.to_s, record_2.id.to_s],
+            desc: [record_2.id.to_s, record_1.id.to_s]
+          },
+          'assessment_inactive' => {
+            asc: [record_2.id.to_s, record_1.id.to_s],
+            desc: [record_1.id.to_s, record_2.id.to_s]
+          },
+          'uri' => {
+            asc: [record_1.id.to_s, record_2.id.to_s],
+            desc: [record_2.id.to_s, record_1.id.to_s]
+          },
+          'assessment_id' => {
+            asc: [record_1.id.to_s, record_2.id.to_s],
+            desc: [record_2.id.to_s, record_1.id.to_s]
+          },
+        }
+      end
+
+      before do
+        set_repo repo
+        record_1
+        record_2
+        run_index_round
+        login_admin
+        select_repository(repo)
+
+        find('#user-menu-dropdown').click
+        click_on 'Repository Preferences (admin)'
+        select 'Survey Begin', from: 'preference_defaults__assessment_browse_column_2_'
+        select 'Review Required', from: 'preference_defaults__assessment_browse_column_3_'
+        select 'Sensitive Material', from: 'preference_defaults__assessment_browse_column_5_'
+        select 'Inactive', from: 'preference_defaults__assessment_browse_column_6_'
+        select 'URI', from: 'preference_defaults__assessment_browse_column_7_'
+        click_on 'Save Preferences'
+
+        visit '/assessments'
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end
