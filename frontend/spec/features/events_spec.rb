@@ -279,6 +279,68 @@ describe 'Events', js: true do
     expect(csv).to include("Agent Name #{@now}")
   end
 
+  context 'controlled values' do
+    def visit_enumerations
+      click_on 'System'
+      click_on 'Manage Controlled Value Lists'
+      wait_for_ajax
+    end
+
+    def select_enum(dropdown_text)
+      visit_enumerations
+      element = find('.alert.alert-info.with-hide-alert')
+      expect(element.text).to eq 'Please select a Controlled Value List'
+      select dropdown_text, from: 'enum_selector'
+      wait_for_ajax
+    end
+
+    def create_enum_value(value)
+      find('a', text: 'Create Value').click
+      within '#form_enumeration' do
+        fill_in 'enumeration_value_', with: value
+        click_on 'Create Value'
+      end
+    end
+
+    it 'can create a new event event type value and use it in an event form' do
+      new_event_type_value = "new_event_type_#{Time.now.to_i}"
+
+      login_user @manager_user
+      select_repository @repository
+
+      select_enum 'Event Event Type (event_event_type)'
+      create_enum_value(new_event_type_value)
+
+      expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
+      expect(page).to have_css '.enumeration-list tr', text: new_event_type_value
+
+      click_on 'Create'
+      click_on 'Event'
+
+      expect(page).to have_content 'New Event'
+      expect(page).to have_select('event_event_type_')
+      select new_event_type_value, from: 'event_event_type_'
+      select 'Pass', from: 'event_outcome_'
+      select 'Single', from: 'event_date__date_type_'
+      fill_in 'event_date__begin_', with: '2023'
+      select 'Recipient', from: 'event_linked_agents__0__role_'
+
+      fill_in 'token-input-event_linked_agents__0__ref_', with: "Agent Name #{@now}"
+      dropdown_items = all('li.token-input-dropdown-item2')
+      dropdown_items.first.click
+
+      select 'Source', from: 'event_linked_records__0__role_'
+
+      fill_in 'token-input-event_linked_records__0__ref_', with: @accession.title
+      dropdown_items = all('li.token-input-dropdown-item2')
+      dropdown_items.first.click
+
+      find('button', text: 'Save Event', match: :first).click
+      expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Event Created')
+      expect(find('h2').text).to include(new_event_type_value)
+    end
+  end
+
   describe 'Linked Agents is_primary behavior' do
     before :each do
       login_admin
