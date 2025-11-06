@@ -1402,6 +1402,8 @@ pl:
     active: prawda
     inactive: fałsz
     source: Uwierzytelnianie
+    is_pui_viewer: Przeglądarka PUI
+    none: Brak użytkowników.
   user_defined:
     _frontend:
       action:

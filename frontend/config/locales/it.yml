@@ -703,3 +703,6 @@ it:
       destinati alla produzione, inclusi i dati presenti in un'istanza di test 
       che intendi trasferire in un'istanza di produzione, dovresti utilizzare 
       MySQL.</p>
+  user:
+    is_pui_viewer: Visualizzatore PUI
+    none: Nessun utente.

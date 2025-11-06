@@ -33,6 +33,7 @@ uk:
     staff_link: Тільки для персоналу
     next: Далі
     previous: Попередній
+    authenticating: Перевірка доступу
   errors:
     error_404_message: Запис %{type} до якого ви намагалися отримати доступ, не існує або, можливо, 
       його було видалено.
@@ -529,4 +530,9 @@ uk:
     archivesspace_home_html: Відвідайте <a href='http://archivesspace.org'>ArchivesSpace.org</a>
   languages:
     select: Виберіть мову
-  
+  login:
+    login: Увійти
+    logout: Вийти
+    username_placeholder: Ім'я користувача
+    password_placeholder: Пароль
+    required: потрібно

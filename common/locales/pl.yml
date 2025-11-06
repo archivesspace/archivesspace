@@ -543,6 +543,7 @@ pl:
       advanced_data_entry: Zaawansowani użytkownicy wprowadzający dane do repozytorium %{repo_code}
       basic_data_entry: Podstawowi użytkownicy wprowadzający dane do repozytorium %{repo_code}
       repository_viewers: Widzowie repozytorium %{repo_code}
+      pui_viewers: Przeglądarki PUI
     permission_types:
       manage_repository: przypisywanie <b>użytkowników</b> do grup (w tym 
         repozytorium)<br/>ustawianie uprawnień <b>grup</b> (w tym repozytorium)<br/>ustawianie 

@@ -514,3 +514,6 @@ it:
     mixed_content_disallowed_tag: "Tag HTML non consentito rilevato. Per motivi di sicurezza, tag come
       &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; ed elementi di modulo non sono consentiti nei campi
       a contenuto misto."
+  group:
+    default_group_names:
+      pui_viewers: Visualizzatori PUI

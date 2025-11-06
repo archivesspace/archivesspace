@@ -1745,6 +1745,7 @@ de:
       advanced_data_entry: "Fortgeschrittene Dateneingabe-Benutzer des Aufbewahrungsorts %{repo_code}"
       basic_data_entry: "Basis-Dateneingabe-Benutzer des Aufbewahrungsorts %{repo_code}"
       repository_viewers: "Betrachter des Aufbewahrungsorts %{repo_code}"
+      pui_viewers: PUI-Zuschauer
     permission_types:
       manage_repository: Weisen Sie <b>Benutzer</b> Gruppen zu (in diesem Repository)<br/>Legen Sie 
         <b>Gruppen</b>-Berechtigungen fest (in diesem Repository)<br/>Legen Sie 

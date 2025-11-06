@@ -63,3 +63,6 @@ nl:
       href='http://archivesspace.org'>ArchivesSpace.org</a>
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
       target='_blank'>Stuur feedback of meld een probleem</a>
+  user:
+    is_pui_viewer: PUI-viewer
+    none: Geen gebruikers.
