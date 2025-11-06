@@ -9,6 +9,12 @@ Rails.application.routes.draw do
       get '/ark:/*ark_id' => 'ark_name#show'
     end
 
+    if AppConfig[:pui_require_authentication]
+      post '/login', to: 'sessions#login'
+      get '/login', to: 'sessions#show'
+      get '/logout', to: 'sessions#logout'
+    end
+
     # I don't think this is used anywhere...
     post '/cite', to: 'cite#show'
 

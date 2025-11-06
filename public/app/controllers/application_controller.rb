@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
   rescue_from RequestFailedException, :with => :render_backend_failure
   rescue_from NoResultsError, :with => :render_no_results_found
 
+  before_action :authenticate_user!
   around_action :set_locale
 
 
@@ -44,6 +45,38 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def authenticate_user!
+    if AppConfig[:pui_require_authentication]
+      unless session[:username]
+        uri = URI("#{AppConfig[:frontend_proxy_url]}/check_pui_session")
+        http = Net::HTTP.new(uri.host, uri.port)
+        request = Net::HTTP::Get.new(uri.request_uri)
+        # We really can't do this, but in the interests of getting something working for the time being...
+        request['Cookie'] = "archivesspace_session=#{cookies[:archivesspace_session]}".to_s
+        response = http.request(request)
+        if response.body
+          session[:username] = JSON.parse(response.body)['username']
+        else
+          # flash[:notice] = "You must log in."
+          # render 'shared/login'
+          # return
+        end
+      end
+
+      if session[:username]
+        uri = "/users/pui"
+        response = JSONModel::HTTP::get_json(uri, username: session[:username])
+        if !response
+          flash[:error] = "User `#{session[:username]}` does not have permission to view the PUI."
+          render 'shared/login'
+        end
+      else
+        render 'shared/login'
+        return
+      end
+    end
+  end
 
   def render_backend_failure(exception)
     Rails.logger.error(exception)
