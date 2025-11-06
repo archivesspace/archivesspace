@@ -40,10 +40,10 @@ RSpec.shared_examples 'sortable results table' do
     end
   end
 
-  def expect_sorted_results(values)
+  def expect_sorted_results(values, heading, direction)
     col_class = respond_to?(:primary_column_class) ? primary_column_class : 'title'
 
-    aggregate_failures "sorted results" do
+    aggregate_failures "sorted results for #{heading} #{direction}" do
       values.each_with_index do |value, index|
         within '#tabledSearchResults' do
           expect(page).to have_css("tbody > tr:nth-child(#{index + 1}) > td.#{col_class}", text: value)
@@ -53,17 +53,17 @@ RSpec.shared_examples 'sortable results table' do
   end
 
   it 'toggles between ascending and descending sort on repeated clicks per sortable column' do
-    expect_sorted_results(initial_sort)
+    expect_sorted_results(initial_sort, 'initial', 'asc')
 
     column_headers.each do |heading, sort_key|
       click_column_header(heading)
-      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:asc))
+      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:asc), heading, 'asc')
 
       click_column_header(heading)
-      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:desc))
+      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:desc), heading, 'desc')
 
       click_column_header(heading)
-      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:asc))
+      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:asc), heading, 'asc')
     end
   end
 end
