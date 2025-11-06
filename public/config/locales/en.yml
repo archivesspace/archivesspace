@@ -222,6 +222,15 @@ en:
     "true": "Yes"
     "false": "No"
 
+  login:
+    login: Sign In
+    login_fail: Login attempt failed
+    login_success: Login Successful. Redirecting...
+    logout: Logout
+    username_placeholder: Username
+    password_placeholder: Password
+    required: required
+
   navbar:
     search_placeholder: Enter your search terms
     error_no_term: No search term(s) entered.

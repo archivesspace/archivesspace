@@ -80,6 +80,22 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(usernames)
   end
 
+  Endpoint.get('/users/pui')
+    .description("")
+    .params(["username", String, ""])
+    .permissions([])
+    .returns([200, ""]) \
+  do
+    user_id = User.find(username: params[:username]).id
+    raise NotFoundException.new unless user_id
+
+    user = User[user_id]
+    user_perms = user.permissions.values.flatten.uniq
+    response = ['view_all_records', 'view_repository'].any? { |value| user_perms.include?(value) }
+
+    json_response(response)
+  end
+
 
   Endpoint.post('/users/reset-password')
     .description("Initiate a password reset process by sending a one-time token to the user")
