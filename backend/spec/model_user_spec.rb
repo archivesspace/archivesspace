@@ -163,4 +163,40 @@ describe 'User model' do
     new_user = create(:user)
     expect(new_user.permissions[Repository.GLOBAL]).to include('edit_user_self')
   end
+
+  it "grants view_pui permission when is_pui_viewer is true on create" do
+    json = build(:json_user, :is_pui_viewer => true)
+    user = User.create_from_json(json)
+
+    expect(user.can?(:view_pui)).to be true
+  end
+
+  it "does not grant view_pui permission when is_pui_viewer is false on create" do
+    json = build(:json_user, :is_pui_viewer => false)
+    user = User.create_from_json(json)
+
+    expect(user.can?(:view_pui)).to be false
+  end
+
+  it "grants view_pui permission when is_pui_viewer is set to true on update" do
+    user = User.create_from_json(build(:json_user, :is_pui_viewer => false))
+    expect(user.can?(:view_pui)).to be false
+
+    user_json = User.to_jsonmodel(user.id)
+    user_json[:is_pui_viewer] = true
+
+    user.update_from_json(user_json)
+    expect(user.can?(:view_pui)).to be true
+  end
+
+  it "revokes view_pui permission when is_pui_viewer is set to false on update" do
+    user = User.create_from_json(build(:json_user, :is_pui_viewer => true))
+    expect(user.can?(:view_pui)).to be true
+
+    user_json = User.to_jsonmodel(user.id)
+    user_json[:is_pui_viewer] = false
+
+    user.update_from_json(user_json)
+    expect(user.can?(:view_pui)).to be false
+  end
 end

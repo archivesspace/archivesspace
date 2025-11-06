@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
   rescue_from RequestFailedException, :with => :render_backend_failure
   rescue_from NoResultsError, :with => :render_no_results_found
 
+  before_action :authenticate_user!
   around_action :set_locale
 
 
@@ -44,6 +45,34 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def authenticate_user!
+    return unless AppConfig[:pui_require_authentication]
+    return unless session[:pui_username]
+
+    uri = URI("#{AppConfig[:backend_url]}/users/current-user")
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Get.new(uri.request_uri)
+    request['X-ArchivesSpace-Session'] = session[:session]
+
+    response = http.request(request)
+
+    parsed_body = begin
+      JSON.parse(response.body)
+    rescue JSON::ParserError
+      nil
+    end
+
+    if response.code == '200' && parsed_body
+      unless parsed_body['is_pui_viewer']
+        flash.now[:error] = "User `#{session[:pui_username]}` does not have permission to view the PUI."
+        render 'shared/login'
+      end
+    else
+      session[:session] = nil
+      render 'shared/login'
+    end
+  end
 
   def render_backend_failure(exception)
     Rails.logger.error(exception)

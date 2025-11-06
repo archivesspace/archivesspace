@@ -299,4 +299,40 @@ describe 'User controller' do
       expect(last_response.status).to eq(400)
     end
   end
+
+  describe "pui parameter" do
+    context "when pui is false (default)" do
+      it "allows login for a user without view_pui permission" do
+        post "/users/test1/login", {
+          password: 'password',
+          pui: false
+        }
+
+        expect(last_response.status).to eq(200)
+        expect(JSON(last_response.body)["session"]).not_to be_nil
+      end
+    end
+
+    context "when pui is true" do
+      it "allows login for a user with view_pui permission" do
+        post "/users/admin/login", {
+          password: 'admin',
+          pui: true
+        }
+
+        expect(last_response.status).to eq(200)
+        expect(JSON(last_response["session"])).not_to be_nil
+      end
+
+      it "rejects login for a user without view_pui permission" do
+        post "/users/test1/login", {
+          password: 'password',
+          pui: true
+        }
+
+        expect(last_response.status).to eq(403)
+        expect(JSON(last_response.body)["error"]).to eq("User does not have permission to view the PUI")
+      end
+    end
+  end
 end

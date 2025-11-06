@@ -227,7 +227,8 @@ class ArchivesSpaceService < Sinatra::Base
              "NOTE: Previously this parameter would cause the created session" +
              " to last forever, but this generally isn't what you want.  The parameter" +
              " name is unfortunate, but we're keeping it for backward-compatibility.",
-             :default => true])
+             :default => true],
+             ["pui", BooleanParam, "If true, check PUI access permissions", :default => false])
     .permissions([])
     .no_data(true)
     .returns([200, "Login accepted"],
@@ -238,6 +239,10 @@ class ArchivesSpaceService < Sinatra::Base
     user = AuthenticationManager.authenticate(username, params[:password])
 
     if user
+      if params[:pui] && !user.can?(:view_pui)
+        halt 403, {"Content-Type" => "application/json"}, [{"error" => "User does not have permission to view the PUI"}.to_json]
+      end
+
       session = create_session_for(username, params[:expiring])
       json_user = User.to_jsonmodel(user)
       json_user.permissions = user.permissions

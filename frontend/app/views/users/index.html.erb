@@ -44,6 +44,9 @@
                <th class="admin"><%= t("user.admin") %></th>
                <th class="is_active_user"><%= t("user.is_active_user") %></th>
                <th class="source"><%= t("user.source") %></th>
+               <% if AppConfig[:pui_require_authentication] %>
+                 <th class="pui_viewer"><%= t("user.is_pui_viewer") %></th>
+               <% end %>
              <% end %>
              <th class="actions" width="70px"><span class="sr-only"><%= t('search_results.actions') %></span></th>
            </tr>

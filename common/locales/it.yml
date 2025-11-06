@@ -1553,3 +1553,6 @@ it:
     forms_part_of: Forma parte di
     has_part: Ha parte
     relator_type: Tipo di relazionatore
+  group:
+    default_group_names:
+      pui_viewers: Visualizzatori PUI

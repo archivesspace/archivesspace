@@ -33,6 +33,7 @@ it:
     clipboard: Copia negli appunti
     print: Scarica il PDF
     numeric: Contenitore dell'inventario
+    authenticating: Verifica dell'accesso
   search_results:
     filtered_by: Filtrato per
     highlighting:
@@ -536,3 +537,9 @@ it:
   use_date:
     _plural: Usa le date
     _singular: Usa data
+  login:
+    login: Registrazione
+    logout: Esci
+    username_placeholder: Nome utente
+    password_placeholder: Password
+    required: Campi obbligatori

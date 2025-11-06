@@ -1425,6 +1425,8 @@ uk:
         activate_user_confirm: Ви впевнені, що хочете активувати цього 
           користувача?
         update_self: Керування обліковим записом користувача
+    is_pui_viewer: Переглядач PUI
+    none: Немає користувачів.
   user_defined:
     _frontend:
       action:
