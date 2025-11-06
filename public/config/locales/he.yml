@@ -8,3 +8,14 @@ he:
   request: {}
   classification:
     _public: {}
+  resource:
+    load_records:
+      loading: טְעִינָה
+  actions:
+    authenticating: מאמת גישה
+  login:
+    login: היכנס
+    logout: התנתק
+    username_placeholder: שם משתמש
+    password_placeholder: סִיסמָה
+    required: דָרוּשׁ

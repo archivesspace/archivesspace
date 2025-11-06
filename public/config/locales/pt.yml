@@ -25,6 +25,7 @@ pt:
     request: Solicitação
     print-generating: Gerando
     collection_overview: Visão Geral da Coleção
+    authenticating: Verificando o acesso
   search_results:
     highlighting:
       found_in: Encontrado em
@@ -175,6 +176,12 @@ pt:
     table_of_contents: Índice
     return_to_table_of_contents: Voltar ao índice
     publication_statement: Declaração de publicação
+  login:
+    login: Entrar
+    logout: Sair
+    username_placeholder: Nome de usuário
+    password_placeholder: Senha
+    required: obrigatório
   archival_object:
     _public: {}
   agent:
