@@ -35,27 +35,70 @@ describe "Batch Import Controller" do
     expect(results.last['saved'].length).to eq(10)
   end
 
-  it "can import a batch of JSON objects from a migrator and not slam the database with checks if position is provided" do
-    expect_any_instance_of(ArchivalObject).not_to receive(:set_position_in_list)
-    batch_array = []
-
-    resource = create(:json_resource)
-
-    10.times do |i|
-      obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "A#{i.to_s}", :position => i )
-      obj.uri = obj.class.uri_for(big_id, {:repo_id => $repo_id})
-      batch_array << obj
+  describe 'migration mode' do
+    let(:batch_array) do
+      Array.new(10) do |i|
+        build(:json_archival_object).tap do |obj|
+          obj.uri = obj.class.uri_for(i, {:repo_id => $repo_id}) end
+      end
     end
 
-    uri = "/repositories/#{$repo_id}/batch_imports?migration=true"
-    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+    def make_batch_import_request(migration_param)
+      uri = "/repositories/#{$repo_id}/batch_imports?migration=#{migration_param}"
+      url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+      JSONModel::HTTP.post_json(url, batch_array.to_json)
+    end
 
-    response = JSONModel::HTTP.post_json(url, batch_array.to_json)
+    shared_examples "returning a parameter validation error" do |migration_value|
+      it "responds with a BooleanParam validation error" do
+        expect(StreamingImport).not_to receive(:new)
+        response = make_batch_import_request(migration_value)
 
-    expect(response.code).to eq('200')
+        expect(response.code).to eq('400')
+        expect(ASUtils.json_parse(response.body)['error']['migration'][0]).to match(/RESTHelpers::BooleanParam/)
+      end
+    end
 
-    results = ASUtils.json_parse(response.body)
-    expect(results.last['saved'].length).to eq(10)
+    shared_examples "successfully importing a batch" do |migration_value, expected_migration_flag|
+      it "successfully imports the batch" do
+        expect(StreamingImport).to receive(:new).with(anything, anything, anything, expected_migration_flag).and_call_original
+        response = make_batch_import_request(migration_value)
+
+        expect(response.code).to eq('200')
+        results = ASUtils.json_parse(response.body)
+        expect(results.last['saved'].length).to eq(10)
+      end
+    end
+
+    context 'with a string migration parameter' do
+      context "set to 'false'" do
+        it_behaves_like "returning a parameter validation error", "'false'"
+      end
+
+      context "set to 'true'" do
+        it_behaves_like "returning a parameter validation error", "'true'"
+      end
+    end
+
+    context 'with a boolean migration parameter' do
+      context "set to false" do
+        it_behaves_like "successfully importing a batch", false, false
+      end
+
+      context "set to true" do
+        it_behaves_like "successfully importing a batch", true, true
+      end
+    end
+
+    it "can import a batch of JSON objects from a migrator and not slam the database with checks if position is provided" do
+      expect_any_instance_of(ArchivalObject).not_to receive(:set_position_in_list)
+
+      response = make_batch_import_request(true)
+
+      expect(response.code).to eq('200')
+      results = ASUtils.json_parse(response.body)
+      expect(results.last['saved'].length).to eq(10)
+    end
   end
 
   it "can import a batch of JSON objects with unknown enum values" do
@@ -103,8 +146,8 @@ describe "Batch Import Controller" do
     accession = create(:json_accession)
 
     resource = build(:json_resource,
-            :subjects => [{'ref' => subject.uri}],
-            :related_accessions => [{'ref' => accession.uri}])
+      :subjects => [{'ref' => subject.uri}],
+      :related_accessions => [{'ref' => accession.uri}])
 
 
 
@@ -134,7 +177,7 @@ describe "Batch Import Controller" do
   it "can import a batch containing a record with an inline (non-schematized) external id object" do
 
     resource = build(:json_resource, :external_ids => [{:external_id => '1',
-                                                        :source => 'jdbc:mysql://tracerdb.cyo37z0ucix8.us-east-1.rds.amazonaws.com/at2::RESOURCE'}])
+      :source => 'jdbc:mysql://tracerdb.cyo37z0ucix8.us-east-1.rds.amazonaws.com/at2::RESOURCE'}])
 
     resource.uri = resource.class.uri_for(big_id, {:repo_id => $repo_id})
 
@@ -158,7 +201,7 @@ describe "Batch Import Controller" do
     new_repo = create(:repo)
 
     resource = build(:json_resource,
-            :related_accessions => [{'ref' => accession.uri}])
+      :related_accessions => [{'ref' => accession.uri}])
 
     resource.uri = resource.class.uri_for(big_id, {:repo_id => $repo_id})
 
@@ -195,7 +238,7 @@ describe "Batch Import Controller" do
     accession = create(:json_accession)
 
     resource = build(:json_resource,
-            :related_accessions => [{'ref' => accession.uri << "9"}])
+      :related_accessions => [{'ref' => accession.uri << "9"}])
 
     resource.uri = resource.class.uri_for(big_id, {:repo_id => $repo_id})
 
@@ -232,11 +275,11 @@ describe "Batch Import Controller" do
     resource.uri = resource.class.uri_for(big_id, {:repo_id => $repo_id})
 
     a1 = build(:json_archival_object,
-               :dates => [])
+      :dates => [])
     a2 = build(:json_archival_object,
-               :dates => [])
+      :dates => [])
     a3 = build(:json_archival_object,
-               :dates => [])
+      :dates => [])
 
     a1.position = 1
     a2.position = 2
@@ -273,7 +316,7 @@ describe "Batch Import Controller" do
     archival_objects = []
     (0..10).each do  |i|
       a = build(:json_archival_object,
-                :dates => [])
+        :dates => [])
       a.title = "AO #{i}"
       a.uri = a.class.uri_for(i, {:repo_id => $repo_id})
       a.resource = {:ref => resource.uri}
