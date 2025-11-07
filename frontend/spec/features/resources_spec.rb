@@ -1281,22 +1281,28 @@ describe 'Resources', js: true do
           restrictions: true
         )
       end
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
       let(:initial_sort) { [record_1.title, record_2.title] }
 
       context 'with seven of nine sortable columns showing' do
         let(:column_headers) do
           {
+            'Title' => 'title_sort',
             'Identifier' => 'identifier',
             'Level' => 'level',
             'EAD ID' => 'ead_id',
             'Resource Type' => 'resource_type',
             'Finding Aid Status' => 'finding_aid_status',
-            # 'Published' => 'publish',
-            'Title' => 'title_sort'
+            # 'Published' => 'publish'
           }
         end
         let(:sort_expectations) do
           {
+            'title_sort' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
             'identifier' => {
               asc: [record_1.title, record_2.title],
               desc: [record_2.title, record_1.title]
@@ -1320,11 +1326,7 @@ describe 'Resources', js: true do
             # 'publish' => {
             #   asc: [record_2.title, record_1.title],
             #   desc: [record_1.title, record_2.title]
-            # },
-            'title_sort' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            }
+            # }
           }
         end
 
@@ -1352,9 +1354,9 @@ describe 'Resources', js: true do
       context 'with the remaining two of nine sortable columns showing, plus the title column' do
         let(:column_headers) do
           {
+            'Title' => 'title_sort',
             'Restrictions' => 'restrictions',
-            'URI' => 'uri',
-            'Title' => 'title_sort'
+            'URI' => 'uri'
           }
         end
         let(:sort_expectations) do
@@ -1366,6 +1368,10 @@ describe 'Resources', js: true do
           uri_desc = uri_asc.reverse
   
           {
+            'title_sort' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
             'restrictions' => {
               asc: [record_1.title, record_2.title],
               desc: [record_2.title, record_1.title]
@@ -1373,10 +1379,6 @@ describe 'Resources', js: true do
             'uri' => {
               asc: uri_asc,
               desc: uri_desc
-            },
-            'title_sort' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
             }
           }
         end

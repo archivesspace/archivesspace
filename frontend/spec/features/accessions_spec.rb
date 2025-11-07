@@ -590,23 +590,29 @@ describe 'Accessions', js: true do
           extents: [build(:extent)]
         )
       end
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
       let(:initial_sort) { [record_1.title, record_2.title] }
 
       # Results table has a maxiumum of 7 columns
       context 'with seven of ten sortable columns showing' do
         let(:column_headers) do
           {
+            'Title' => 'title_sort',
             'Identifier' => 'identifier',
             'Accession Date' => 'accession_date',
             'Acquisition Type' => 'acquisition_type',
             'Resource Type' => 'resource_type',
             'Restrictions Apply' => 'restrictions_apply',
-            'Access Restrictions' => 'access_restrictions',
-            'Title' => 'title_sort'
+            'Access Restrictions' => 'access_restrictions'
           }
         end
         let(:sort_expectations) do
           {
+            'title_sort' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
             'identifier' => {
               asc: [record_1.title, record_2.title],
               desc: [record_2.title, record_1.title]
@@ -628,10 +634,6 @@ describe 'Accessions', js: true do
               desc: [record_2.title, record_1.title]
             },
             'access_restrictions' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'title_sort' => {
               asc: [record_1.title, record_2.title],
               desc: [record_2.title, record_1.title]
             }

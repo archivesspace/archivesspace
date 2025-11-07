@@ -176,13 +176,15 @@ describe 'Classifications', js: true do
       let(:record_1) { create(:classification, title: "Classification 1 #{now}", identifier: "Z") }
       let(:record_2) { create(:classification, title: "Classification 2 #{now}", identifier: "A") }
       let(:record_3) { create(:classification_term, classification: { 'ref' => record_2.uri }) }
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
       let(:initial_sort) { [record_1.title, record_2.title] }
       let(:column_headers) {
         {
+          'Title' => 'title_sort',
           'Has classification terms?' => 'has_classification_terms',
           'Identifier' => 'identifier_sort',
-          'URI' => 'uri',
-          'Title' => 'title_sort'
+          'URI' => 'uri'
         }
       }
       let(:sort_expectations) do
@@ -194,10 +196,10 @@ describe 'Classifications', js: true do
         uri_desc = uri_asc.reverse
 
         {
+          'title_sort' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
           'has_classification_terms' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
           'identifier_sort' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
-          'uri' => { asc: uri_asc, desc: uri_desc },
-          'title_sort' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] }
+          'uri' => { asc: uri_asc, desc: uri_desc }
         }
       end
 

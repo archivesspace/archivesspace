@@ -401,15 +401,17 @@ describe 'Digital Objects', js: true do
           publish: false
         )
       end
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
       let(:initial_sort) { [record_1.title, record_2.title] }
       let(:column_headers) do
         {
+          'Title' => 'title_sort',
           'Digital Object ID' => 'digital_object_id',
           'Digital Object Type' => 'digital_object_type',
           'Level' => 'level',
           # 'Published' => 'publish',
-          'URI' => 'uri',
-          'Title' => 'title_sort'
+          'URI' => 'uri'
         }
       end
       let(:sort_expectations) do
@@ -421,6 +423,10 @@ describe 'Digital Objects', js: true do
         uri_desc = uri_asc.reverse
 
         {
+          'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
           'digital_object_id' => {
             asc: [record_2.title, record_1.title],
             desc: [record_1.title, record_2.title]
@@ -440,10 +446,6 @@ describe 'Digital Objects', js: true do
           'uri' => {
             asc: uri_asc,
             desc: uri_desc
-          },
-          'title_sort' => {
-            asc: [record_1.title, record_2.title],
-            desc: [record_2.title, record_1.title]
           }
         }
       end

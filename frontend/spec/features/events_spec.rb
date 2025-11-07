@@ -359,8 +359,10 @@ describe 'Events', js: true do
       let(:record_1) { create(:event, event_type: 'accession', outcome: 'pass') }
       let(:record_2) { create(:event, event_type: 'virus_check', outcome: 'fail') }
       let(:primary_column_class) { 'event_type' }
+      let(:default_sort_key) { 'event_type' }
+      let(:sorting_in_url) { true }
       let(:initial_sort) { [record_1.event_type.titleize, record_2.event_type.titleize] }
-      let(:column_headers) { { 'Outcome' => 'outcome', 'URI' => 'uri', 'Type' => 'event_type' } }
+      let(:column_headers) { { 'Type' => 'event_type', 'Outcome' => 'outcome', 'URI' => 'uri' } }
       let(:sort_expectations) do
         # URI sorting uses lexicographic (string) comparison, not numeric.
         # URIs like '/events/9' and '/events/11' sort as '11' < '9' because '1' < '9'.
@@ -372,6 +374,10 @@ describe 'Events', js: true do
         uri_desc = uri_asc.reverse
 
         {
+          'event_type' => {
+            asc: [record_1.event_type.titleize, record_2.event_type.titleize],
+            desc: [record_2.event_type.titleize, record_1.event_type.titleize]
+          },
           'outcome' => {
             asc: [record_2.event_type.titleize, record_1.event_type.titleize],
             desc: [record_1.event_type.titleize, record_2.event_type.titleize]
@@ -379,10 +385,6 @@ describe 'Events', js: true do
           'uri' => {
             asc: uri_asc,
             desc: uri_desc
-          },
-          'event_type' => {
-            asc: [record_1.event_type.titleize, record_2.event_type.titleize],
-            desc: [record_2.event_type.titleize, record_1.event_type.titleize]
           }
         }
       end

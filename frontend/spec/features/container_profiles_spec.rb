@@ -125,8 +125,10 @@ describe 'Container Profiles', js: true do
       let(:repo) { create(:repo, repo_code: "container_profiles_index_sorting_#{now}") }
       let(:record_1) { create(:container_profile, name: "Container Profile B #{now}") }
       let(:record_2) { create(:container_profile, name: "Container Profile A #{now}") }
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
       let(:initial_sort) { [record_2.name, record_1.name] }
-      let(:column_headers) { {'URI' => 'uri', 'Title' => 'title_sort'} }
+      let(:column_headers) { {'Title' => 'title_sort', 'URI' => 'uri'} }
       let(:sort_expectations) do
         # URI sorting uses lexicographic (string) comparison, not numeric.
         # URIs like '/container_profiles/9' and '/container_profiles/11' sort as '11' < '9' because '1' < '9'.
@@ -136,13 +138,13 @@ describe 'Container Profiles', js: true do
         uri_desc = uri_asc.reverse
 
         {
-          'uri' => {
-            asc: uri_asc,
-            desc: uri_desc
-          },
           'title_sort' => {
             asc: [record_2.name, record_1.name],
             desc: [record_1.name, record_2.name]
+          },
+          'uri' => {
+            asc: uri_asc,
+            desc: uri_desc
           }
         }
       end

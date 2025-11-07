@@ -3,67 +3,62 @@
 # Shared examples for verifying column sorting behavior in search results tables.
 #
 # Required lets in the including context:
-# - initial_sort [Array<String>] The expected titles order on initial render (first N rows).
-# - column_headers [Hash{String=>String}] Mapping of column headers to sort keys
-#   used by the UI logic (e.g., { 'Accession Date' => 'accession_date' }).
+# - initial_sort [Array<String>] The expected titles order on initial render (first N rows)
+# - column_headers [Hash{String=>String}] Mapping of column headers to their sort keys
 # - sort_expectations [Hash{String=>Hash{Symbol=>Array<String>}}] Expected titles order per
 #   sort key and direction, e.g. {
-#     'identifier' => { asc: ['A', 'B'], desc: ['B', 'A'] },
+#     'identifier' => { asc: ['1', '2'], desc: ['2', '1'] },
 #     'title_sort' => { asc: ['A', 'B'], desc: ['B', 'A'] }
 #   }.
 #
 # Optional lets:
 # - primary_column_class [String] CSS class for the primary sortable column (default: 'title')
-#
-# Example usage:
-#
-#   let(:initial_sort) { [record_1_title, record_2_title] }
-#   let(:column_headers) do
-#     {
-#       'Accession Date' => 'accession_date',
-#       'Identifier'     => 'identifier',
-#       'Title'          => 'title_sort'
-#     }
-#   end
-#   let(:sort_expectations) do
-#     {
-#       'accession_date' => { asc: [record_2_title, record_1_title], desc: [record_1_title, record_2_title] },
-#       'identifier'     => { asc: [record_1_title, record_2_title], desc: [record_2_title, record_1_title] },
-#       'title_sort'     => { asc: [record_1_title, record_2_title], desc: [record_2_title, record_1_title] }
-#     }
-#   end
-#   it_behaves_like 'sortable results table'
+# - sorting_in_url [Boolean] Whether to verify that sort parameters are reflected in the URL
+# - default_sort_key [String] The sort key that the page uses by default on initial load.
+#   When the first column matches this key, the test expects desc→asc→desc instead of 
+#   asc→desc→asc, because the page is already sorted by this column in ascending order on page load.
+
 RSpec.shared_examples 'sortable results table' do
-  def click_column_header(heading)
+  # heading [String] The column heading to click
+  def click_column_heading(heading)
     within '#tabledSearchResults thead' do
       click_link heading
     end
   end
 
-  def expect_sorted_results(values, heading, direction)
+  # values [Array<String>] The expected values in the sorted results
+  # sort_params [Hash{Symbol=>String}] The sort parameters to expect:
+  #   { heading: String, sort_key: String, direction: String }
+  def expect_sorted_results(values, sort_params)
     col_class = respond_to?(:primary_column_class) ? primary_column_class : 'title'
+    context_label = sort_params ? "#{sort_params[:heading]} #{sort_params[:direction]}" : "initial sort"
 
-    aggregate_failures "sorted results for #{heading} #{direction}" do
+    aggregate_failures "sorted results for #{context_label}" do
       values.each_with_index do |value, index|
         within '#tabledSearchResults' do
           expect(page).to have_css("tbody > tr:nth-child(#{index + 1}) > td.#{col_class}", text: value)
         end
       end
+
+      if sort_params && respond_to?(:sorting_in_url) && sorting_in_url
+        base_path = current_path.split('?').first
+        expect(page).to have_current_path("#{base_path}?sort=#{sort_params[:sort_key]}+#{sort_params[:direction]}")
+      end
     end
   end
 
   it 'toggles between ascending and descending sort on repeated clicks per sortable column' do
-    expect_sorted_results(initial_sort, 'initial', 'asc')
+    expect_sorted_results(initial_sort, nil)
 
-    column_headers.each do |heading, sort_key|
-      click_column_header(heading)
-      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:asc), heading, 'asc')
+    column_headers.each_with_index do |(heading, sort_key), index|
+      this_col_is_first_and_default = index.zero ? && respond_to ? (: default_sort_key) && sort_key == default_sort_key
+      sort_order = this_col_is_first_and_default ? [:desc, :asc, :desc] : [:asc, :desc, :asc]
 
-      click_column_header(heading)
-      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:desc), heading, 'desc')
-
-      click_column_header(heading)
-      expect_sorted_results(sort_expectations.fetch(sort_key).fetch(:asc), heading, 'asc')
+      sort_order.each do |direction|
+        click_column_heading(heading)
+        expect_sorted_results(sort_expectations.fetch(sort_key).fetch(direction),
+                             { heading: heading, sort_key: sort_key, direction: direction.to_s })
+      end
     end
   end
 end

@@ -128,16 +128,18 @@ describe 'Collection Management', js: true do
         )
       end
       let(:primary_column_class) { 'parent_title' }
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
       let(:initial_sort) { [record_1.title, record_2.title] }
       let(:column_headers) {
         {
+          'Title' => 'title_sort',
           'Record Type' => 'parent_type',
           'Processing Priority' => 'processing_priority',
           'Processing Status' => 'processing_status',
           'Total Hours' => 'processing_hours_total',
           'Processing Funding Source' => 'processing_funding_source',
-          'URI' => 'uri',
-          'Title' => 'title_sort'
+          'URI' => 'uri'
         }
       }
       let(:sort_expectations) do
@@ -149,6 +151,10 @@ describe 'Collection Management', js: true do
         uri_desc = uri_asc.reverse
 
         {
+         'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
           'parent_type' => {
             asc: [record_1.title, record_2.title],
             desc: [record_2.title, record_1.title]
@@ -172,10 +178,6 @@ describe 'Collection Management', js: true do
           'uri' => {
             asc: uri_asc,
             desc: uri_desc
-          },
-          'title_sort' => {
-            asc: [record_1.title, record_2.title],
-            desc: [record_2.title, record_1.title]
           }
         }
       end

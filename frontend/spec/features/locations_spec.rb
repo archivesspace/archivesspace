@@ -369,16 +369,18 @@ describe 'Locations', js: true do
           temporary: 'reading_room'
         )
       end
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
       let(:initial_sort) { [record_1.title, record_2.title] }
       let(:column_headers) do
         {
+          'Location' => 'title_sort',
           'Building' => 'building',
           'Floor' => 'floor',
           'Room' => 'room',
           'Area' => 'area',
           'Temporary' => 'temporary',
-          'URI' => 'uri',
-          'Location' => 'title_sort'
+          'URI' => 'uri'
         }
       end
       let(:sort_expectations) do
@@ -390,6 +392,10 @@ describe 'Locations', js: true do
         uri_desc = uri_asc.reverse
 
         {
+          'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
           'building' => {
             asc: [record_1.title, record_2.title],
             desc: [record_2.title, record_1.title]
@@ -413,10 +419,6 @@ describe 'Locations', js: true do
           'uri' => {
             asc: uri_asc,
             desc: uri_desc
-          },
-          'title_sort' => {
-            asc: [record_1.title, record_2.title],
-            desc: [record_2.title, record_1.title]
           }
         }
       end
