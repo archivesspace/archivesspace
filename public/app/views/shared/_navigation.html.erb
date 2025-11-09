@@ -24,6 +24,9 @@
         </ul>
 
         <% if AppConfig[:pui_require_authentication] %>
+        <%= session[:pui_username].inspect %>
+        <%= session[:session].inspect %>
+        <%= params.inspect %>
           <li class="user-container d-flex align-items-center pr-4">
             <div class="btn-group align-items-center">
               <% if session[:username] %>
@@ -32,7 +35,7 @@
                   <%= session[:username] %>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                  <li><%= link_to t("login.logout"), {:controller => "sessions",:action => "logout"}, :class => "dropdown-item" %></li>
+                  <li><%= link_to t("login.logout"), {:controller => "sessions", :action => "logout"}, :class => "dropdown-item" %></li>
                 </ul>
               <% end %>
             </div>

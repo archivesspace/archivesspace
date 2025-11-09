@@ -56,13 +56,12 @@ class SessionController < ApplicationController
     end
   end
 
+  # Need this to be called when logout happens
   def check_pui_session
     response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
     response.headers['Access-Control-Allow-Credentials'] = 'true'
 
-    if response.body
-      render json: { username: session[:user], view_pui: user_can_view_pui? }
-    end
+    render json: { username: session[:user], session: session[:session], view_pui: user_can_view_pui? }
   end
 
 
