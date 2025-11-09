@@ -31,9 +31,9 @@ RSpec.shared_examples 'sortable results table' do
   #   { heading: String, sort_key: String, direction: String }
   def expect_sorted_results(values, sort_params)
     col_class = respond_to?(:primary_column_class) ? primary_column_class : 'title'
-    context_label = sort_params ? "#{sort_params[:heading]} #{sort_params[:direction]}" : "initial sort"
+    sort_context = sort_params ? "#{sort_params[:heading]} #{sort_params[:direction]}" : "initial sort"
 
-    aggregate_failures "sorted results for #{context_label}" do
+    aggregate_failures "sorted results for #{sort_context}" do
       values.each_with_index do |value, index|
         within '#tabledSearchResults' do
           expect(page).to have_css("tbody > tr:nth-child(#{index + 1}) > td.#{col_class}", text: value)
@@ -41,8 +41,7 @@ RSpec.shared_examples 'sortable results table' do
       end
 
       if sort_params && respond_to?(:sorting_in_url) && sorting_in_url
-        base_path = current_path.split('?').first
-        expect(page).to have_current_path("#{base_path}?sort=#{sort_params[:sort_key]}+#{sort_params[:direction]}")
+        expect(page).to have_current_path(/sort=#{sort_params[:sort_key]}\+#{sort_params[:direction]}/)
       end
     end
   end
@@ -51,7 +50,7 @@ RSpec.shared_examples 'sortable results table' do
     expect_sorted_results(initial_sort, nil)
 
     column_headers.each_with_index do |(heading, sort_key), index|
-      this_col_is_first_and_default = index.zero ? && respond_to ? (: default_sort_key) && sort_key == default_sort_key
+      this_col_is_first_and_default = index.zero? && respond_to?(:default_sort_key) && sort_key == default_sort_key
       sort_order = this_col_is_first_and_default ? [:desc, :asc, :desc] : [:asc, :desc, :asc]
 
       sort_order.each do |direction|
