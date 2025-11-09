@@ -48,28 +48,38 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     if AppConfig[:pui_require_authentication]
-      unless session[:username]
+      unless session[:pui_username]
         uri = URI("#{AppConfig[:frontend_proxy_url]}/check_pui_session")
         http = Net::HTTP.new(uri.host, uri.port)
         request = Net::HTTP::Get.new(uri.request_uri)
         # We really can't do this, but in the interests of getting something working for the time being...
         request['Cookie'] = "archivesspace_session=#{cookies[:archivesspace_session]}".to_s
         response = http.request(request)
-        if response.body
+        if response.code == "200"
+          session[:session] = JSON.parse(response.body)['session']
           session[:username] = JSON.parse(response.body)['username']
         else
-          # flash[:notice] = "You must log in."
-          # render 'shared/login'
-          # return
+          session[:session] = nil
+          session[:username] = nil
         end
       end
 
-      if session[:username]
-        uri = "/users/pui"
-        response = JSONModel::HTTP::get_json(uri, username: session[:username])
-        if !response
-          flash[:error] = "User `#{session[:username]}` does not have permission to view the PUI."
+      if session[:session]
+        uri = URI("#{AppConfig[:backend_url]}/users/pui")
+        http = Net::HTTP.new(uri.host, uri.port)
+        request = Net::HTTP::Get.new(uri.request_uri)
+        request['X-ArchivesSpace-Session'] = session[:session]
+        response = http.request(request)
+        if response.code == '200'
+          if !JSON.parse(response.body)
+            flash[:error] = "User `#{session[:username]}` does not have permission to view the PUI."
+            render 'shared/login'
+          end
+        else
+          # Something is up with our session, so stop future problems
+          session[:session] = nil
           render 'shared/login'
+          return
         end
       else
         render 'shared/login'

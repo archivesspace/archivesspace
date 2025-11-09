@@ -6,27 +6,27 @@ class SessionsController < ApplicationController
   end
 
   def login
-    uri = "/users/#{params[:user_name]}/login"
-    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
-    response = ASHTTP.post_form(url, password: params[:password])
+    response = archivesspace.do_login(params[:user_name], params[:password])
 
-    if JSON.parse(response.code) == 200
-      session[:session] = JSON.parse(response.body)['session']
-      session[:username] = JSON.parse(response.body)['user']['username']
-      redirect_to ('/'), :notice => "Logged in as #{session[:username]}!"
+    if response
+      session[:session] = response['session']
+      session[:username] = response['user']['username']
+      session[:pui_username] = response['user']['username']
+      redirect_to ('/')
     else
       flash.now[:alert] = "Invalid."
-      raise LoginFailedException.new("#{response.code}: #{response.body}")
+      raise LoginFailedException.new("#{response}")
       redirect_to ('/')
     end
   end
 
   def logout
-    uri = "/logout"
-    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
-    JSONModel::HTTP.post_json(url, {}.to_json)
-    session[:session] = nil
-    session[:username] = nil
-    redirect_to ('/')
+    uri = URI("#{AppConfig[:backend_url]}/logout")
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Post.new(uri.request_uri)
+    request['X-ArchivesSpace-Session'] = session[:session]
+    response = http.request(request)
+    reset_session
+    redirect_to ('/'), notice: "Logged out successfully."
   end
 end
