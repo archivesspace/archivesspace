@@ -278,6 +278,11 @@ describe 'Subjects', js: true do
         })
 
         visit '/subjects'
+
+        # Subjects are cross-repo, so need to filter for `now` here as in search_listing_spec.rb
+        fill_in 'filter-text', with: "#{now}"
+        click_on 'Filter by text'
+        expect(page).to have_text('Showing 1 - 2 of 2 Results')
       end
 
       it_behaves_like 'sortable results table'
