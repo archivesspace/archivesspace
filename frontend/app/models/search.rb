@@ -65,6 +65,37 @@ class Search
     SearchResultData.new(search_data, criteria)
   end
 
+  # Compute the default sort string for a given type, honoring preferences
+  # - type [String] One of the SearchAndBrowseColumnConfig types (e.g., "resource", "multi", "repositories")
+  def self.default_sort_for_type(type)
+    normalized_type =
+      if type.include?('agent')
+        'agent'
+      elsif type == 'classification_term'
+        'classification'
+      elsif type == 'repository'
+        'repositories'
+      else
+        type
+      end
+
+    repo = JSONModel.repository
+    prefs = if repo
+              JSONModel::HTTP::get_json("/repositories/#{repo}/current_preferences")["defaults"]
+            else
+              JSONModel::HTTP::get_json("/current_global_preferences")["defaults"]
+            end
+
+    configured_col = prefs["#{normalized_type}_sort_column"].presence || 'score'
+    derived_sort_col = SearchAndBrowseColumnConfig.columns.dig(normalized_type, configured_col, :sort_by)
+    sort_col = derived_sort_col || configured_col
+
+    direction = prefs["#{normalized_type}_sort_direction"]
+    direction = %w[asc desc].include?(direction) ? direction : 'desc'
+
+    "#{sort_col} #{direction}"
+  end
+
   private
 
   def self.sort(types)
@@ -81,18 +112,7 @@ class Search
              'multi'
            end
 
-    repo = JSONModel.repository
-    prefs = if repo
-              JSONModel::HTTP::get_json("/repositories/#{repo}/current_preferences")['defaults']
-            else
-              JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
-            end
-
-    sort_col = prefs["#{type}_sort_column"] || 'score'
-    derived_sort_col = SearchAndBrowseColumnConfig.columns.dig(type, sort_col, :sort_by)
-    sort_col = derived_sort_col if derived_sort_col
-    direction = prefs["#{type}_sort_direction"] || "desc"
-    "#{sort_col} #{direction}"
+    default_sort_for_type(type)
   end
 
   def self.build_filters(criteria)

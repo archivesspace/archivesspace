@@ -639,7 +639,7 @@ describe 'Accessions', js: true do
             }
           }
         end
-  
+
         before do
           set_repo repo
           record_1
@@ -647,7 +647,7 @@ describe 'Accessions', js: true do
           run_index_round
           login_admin
           select_repository(repo)
-  
+
           # Show 7 of 10 sortable columns
           set_browse_column_preferences('accession', {
             4 => 'Acquisition Type',
@@ -655,10 +655,10 @@ describe 'Accessions', js: true do
             6 => 'Restrictions Apply',
             7 => 'Access Restrictions',
           })
-  
+
           visit '/accessions'
         end
-  
+
         it_behaves_like 'sortable results table'
       end
 
@@ -678,7 +678,7 @@ describe 'Accessions', js: true do
           # TODO: Fix application to sort URIs numerically by ID (separate ticket)
           uri_asc = [record_1, record_2].sort_by { |r| r.uri }.map(&:title)
           uri_desc = uri_asc.reverse
-  
+
           {
             # 'publish' => {
             #   asc: [record_2.title, record_1.title],
@@ -698,7 +698,7 @@ describe 'Accessions', js: true do
             }
           }
         end
-  
+
         before do
           set_repo repo
           record_1
@@ -706,17 +706,17 @@ describe 'Accessions', js: true do
           run_index_round
           login_admin
           select_repository(repo)
-  
+
           # Show the remaining three of ten sortable columns
           set_browse_column_preferences('accession', {
             # 2 => 'Published',
             3 => 'Use Restrictions',
             4 => 'URI'
           })
-  
+
           visit '/accessions'
         end
-  
+
         it_behaves_like 'sortable results table'
       end
     end

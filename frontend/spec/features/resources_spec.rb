@@ -1366,7 +1366,7 @@ describe 'Resources', js: true do
           # TODO: Fix application to sort URIs numerically by ID (separate ticket)
           uri_asc = [record_1, record_2].sort_by { |r| r.uri }.map(&:title)
           uri_desc = uri_asc.reverse
-  
+
           {
             'title_sort' => {
               asc: [record_1.title, record_2.title],
@@ -1382,7 +1382,7 @@ describe 'Resources', js: true do
             }
           }
         end
-  
+
         before do
           set_repo repo
           record_1
@@ -1390,16 +1390,16 @@ describe 'Resources', js: true do
           run_index_round
           login_admin
           select_repository(repo)
-  
+
           # Show all sortable columns
           set_browse_column_preferences('resource', {
             2 => 'Restrictions',
             3 => 'URI'
           })
-  
+
           visit '/resources'
         end
-  
+
         it_behaves_like 'sortable results table'
       end
     end
