@@ -15,7 +15,7 @@
 # - primary_column_class [String] CSS class for the primary sortable column (default: 'title')
 # - sorting_in_url [Boolean] Whether to verify that sort parameters are reflected in the URL
 # - default_sort_key [String] The sort key that the page uses by default on initial load.
-#   When the first column matches this key, the test expects desc→asc→desc instead of 
+#   When the first column matches this key, the test expects desc→asc→desc instead of
 #   asc→desc→asc, because the page is already sorted by this column in ascending order on page load.
 
 RSpec.shared_examples 'sortable results table' do
