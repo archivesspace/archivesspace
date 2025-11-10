@@ -1,3 +1,5 @@
+require_relative 'mixins/mixed_content_validatable'
+
 class Resource < Sequel::Model(:resource)
   include ASModel
   corresponds_to JSONModel(:resource)
@@ -32,6 +34,7 @@ class Resource < Sequel::Model(:resource)
   include Assessments::LinkedRecord
   include Arks
   include Titles
+  include MixedContentValidatable
 
   enable_suppression
 
@@ -92,6 +95,11 @@ class Resource < Sequel::Model(:resource)
     super(json, opts.merge(sponsor), apply_nested_records)
   end
 
+
+  def validate
+    validate_mixed_content_field()
+    super
+  end
 
   def self.id_to_identifier(id)
     res = Resource[id]

@@ -2,26 +2,28 @@
 
 Given 'two Subjects A & B have been created' do
   visit "#{STAFF_URL}/subjects/new"
+  wait_for_ajax
 
   fill_in 'subject_terms__0__term_', with: "subject_term_A_#{@uuid}"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
 
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Subject Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
 
   uri_parts = current_url.split('/')
   uri_parts.pop
   @subject_first_id = uri_parts.pop
 
   visit "#{STAFF_URL}/subjects/new"
+  wait_for_ajax
 
   fill_in 'subject_terms__0__term_', with: "subject_term_B_#{@uuid}"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
 
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Subject Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
 
   uri_parts = current_url.split('/')
   uri_parts.pop

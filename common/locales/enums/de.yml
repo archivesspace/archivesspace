@@ -866,18 +866,20 @@ de:
       <<: *note_type_definitions
     metadata_license:
       other: Nicht spezifizierte oder benutzerdefinierte Lizenz.
-      share_a_like: Diese Aufzeichnung wird unter einer Namensnennung-Weitergabe unter gleichen Bedingungen
-        4.0 International Creative Commons Lizenz zur Verfügung gestellt.
-      no_derivatives: Diese Aufzeichnung wird unter einer Namensnennung-Keine Bearbeitungen 4.0 International
+      share_a_like: Diese Aufzeichnung wird unter einer Namensnennung-Weitergabe unter gleichen 
+        Bedingungen 4.0 International Creative Commons Lizenz zur Verfügung gestellt.
+      no_derivatives: Diese Aufzeichnung wird unter einer Namensnennung-Keine Bearbeitungen 4.0 
+        International Creative Commons Lizenz zur Verfügung gestellt.
+      non_commercial_no_derivatives: Diese Aufzeichnung wird unter einer Namensnennung-Nicht 
+        kommzeriell-Keine Bearbeitungen 4.0 International Creative Commons Lizenz zur Verfügung 
+        gestellt.
+      non_commercial: Diese Aufzeichnung wird unter einer Namensnennung-Nicht kommerziell 4.0 
+        International Creative Commons Lizenz zur Verfügung gestellt.
+      non_commercial_share_a_like: Diese Aufzeichnung wird unter einer Namensnennung-Nicht 
+        kommerziell-Weitergabe unter gleichen Bedingungen 4.0 International Creative Commons Lizenz 
+        zur Verfügung gestellt.
+      public_domain: Diese Aufzeichnung wird unter einer Universal 1.0 Public Domain Dedication 
         Creative Commons Lizenz zur Verfügung gestellt.
-      non_commercial_no_derivatives: Diese Aufzeichnung wird unter einer Namensnennung-Nicht kommzeriell-Keine
-        Bearbeitungen 4.0 International Creative Commons Lizenz zur Verfügung gestellt.
-      non_commercial: Diese Aufzeichnung wird unter einer Namensnennung-Nicht kommerziell 4.0 International
-        Creative Commons Lizenz zur Verfügung gestellt.
-      non_commercial_share_a_like: Diese Aufzeichnung wird unter einer Namensnennung-Nicht kommerziell-Weitergabe
-        unter gleichen Bedingungen 4.0 International Creative Commons Lizenz zur Verfügung gestellt.
-      public_domain: Diese Aufzeichnung wird unter einer Universal 1.0 Public Domain Dedication Creative
-        Commons Lizenz zur Verfügung gestellt.
     name_person_name_order:
       direct: Direkt
       inverted: Indirekt
@@ -946,16 +948,16 @@ de:
         (ABES))"
       cantic: CANTIC (Catàleg d'autoritats de noms i títols de Catalunya) (Biblioteca de Catalunya)
       doi: Digital Object Identifier
-      gnis: Geographic Names Information System (GNIS) (United States Geological Survey, Board on Geographic
-        Names)
+      gnis: Geographic Names Information System (GNIS) (United States Geological Survey, Board on 
+        Geographic Names)
       gtin-14: Globale Handelsidentifikationsnummer 14 (EAN/UCC-128 oder ITF-14)
       hdl: Handle
       ibdb: IBDB - Internet Broadway Database
       isan: International Standard Audiovisual Number
       imdb: IMDb - Internet Movie Database
       isil: ISIL (International Standard Identifier for Bibliotheken and Related Organizations)
-      lcmpt: Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC:Library
-        of Congress)
+      lcmpt: Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, 
+        DC:Library of Congress)
       oxforddnb: Oxford Biography Index
       rbmspt: 'RBMS Controlled Vocabularies: Paper Terms (Rare Books and Manuscripts Section Association
         of College & Research Libraries)'
@@ -1014,8 +1016,8 @@ de:
       allmusic: AllMusic
       allocine: AlloCiné
       amnbo: American National Biography Online
-      ansi: Nummer des American National Standards Institute und der National Information Standards Organisation
-        für eine ANSI- oder ANSI/NISO-Norm
+      ansi: Nummer des American National Standards Institute und der National Information Standards 
+        Organisation für eine ANSI- oder ANSI/NISO-Norm
       bfi: BFI - Britisches Filminstitut
       bnfcg: 'BnF catalogue général (Paris: Bibliothèque nationale de France)'
       cgndb: Canadian Geographical Names Database (Natural Resources Canada)
@@ -1031,7 +1033,8 @@ de:
       gettytgn: Getty Thesaurus of Geographic Names Online (J. Paul Getty Trust)
       gettyulan: US Union List of Artist Names Online (J. Paul Getty Trust)
       gnd: 'Gemeinsame Normdatei (Leipzig, Frankfurt: Deutsche Nationalbibliothek)'
-      isbn-a: Internationale Standardbuchnummer (die verfolgbare ISBN) (International DOI Foundation (IDF))
+      isbn-a: Internationale Standardbuchnummer (die verfolgbare ISBN) (International DOI Foundation
+        (IDF))
       isbnre: ISBN (Internationale Standardbuchnummer) - Registrant-Gruppe
       ismn: Internationale Standardmusiknummer
       isni: Internationaler Standard Name Identifier
@@ -1287,8 +1290,8 @@ de:
       license: Lizenz
       other: Andere
     romanization:
-      conv_rom_cat_agency: Konventionelle Romanisierung oder konventionelle Form des Namens in der Sprache
-        der Katalogisierungsagentur
+      conv_rom_cat_agency: Konventionelle Romanisierung oder konventionelle Form des Namens in der 
+        Sprache der Katalogisierungsagentur
       int_std: Internationale Norm
       not_applicable: Nicht zutreffend
       local_standard: Lokale Norm
@@ -1304,13 +1307,17 @@ de:
       aat: Art & Architecture Thesaurus
       gmgpc: TGM II, Genre and physical characteristic terms
       ingest: Nicht spezifizierte aufgenommene Quelle
-      lcshac: US Library of Congress Children's Subject Headings
+      lcshac: US Library of Congress Children's and Young Adults' Subject Headings
       local: Lokale Quellen
       mesh: Medical Subject Headings
-      nal: US National Agricultural Library subject headings
+      nal: US National Agricultural Library subject authority file
       rbgenr: 'Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing'
       rvm: Répertoire de vedettes-matière
       tgn: Getty Thesaurus der geografischen Namen
+      not_applicable: Nicht zutreffend
+      not_specified: Quelle nicht angegeben
+      other: Andere
+      sears: Sears List of Subject Heading
     subject_term_type:
       temporal: Zeitlich
       occupation: Beruf
@@ -1931,7 +1938,8 @@ de:
     agent_relationship_family_relator: Akteur Beziehung Familien-Relator
     agent_relationship_parentchild_relator: Akteur Beziehung Elternkind Relator
     agent_relationship_specific_relator: Akteur Beziehung Spezifischer Relator
-    agent_relationship_subordinatesuperior_relator: Akteur Beziehung Untergebenervorgesetzter Relator
+    agent_relationship_subordinatesuperior_relator: Akteur Beziehung Untergebenervorgesetzter 
+      Relator
     archival_record_level: Archiv-Aufzeichnungs-Ebene
     begin_date_standardized_type: Beginndatum Standardisierter Typ
     collection_management_processing_priority: Sammlungsverwaltung Bearbeitungspriorität
@@ -1993,7 +2001,8 @@ de:
     resource_finding_aid_description_rules: Ressource Findmittel Beschreibungsregeln
     resource_finding_aid_status: Ressource Findmittel Status
     resource_resource_type: Ressource Ressourcen-Typ
-    rights_statement_external_document_identifier_type: Rechteerklärung Externes Dokument-Bezeichnertyp
+    rights_statement_external_document_identifier_type: Rechteerklärung Externes 
+      Dokument-Bezeichnertyp
     rights_statement_ip_status: Rechteerklärung Status des geistigen Eigentums
     rights_statement_act_type: Rechteerklärung Aktions-Typ
     rights_statement_rights_type: Rechteerklärung Rechtstyp

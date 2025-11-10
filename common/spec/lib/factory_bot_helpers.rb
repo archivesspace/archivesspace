@@ -297,7 +297,6 @@ FactoryBot.define do
     region { nil_or_whatever }
     country { nil_or_whatever }
     post_code { nil_or_whatever }
-    fax { nil_or_whatever }
     email { nil_or_whatever }
     email_signature { nil_or_whatever }
     notes { [build(:json_note_contact_note)] }

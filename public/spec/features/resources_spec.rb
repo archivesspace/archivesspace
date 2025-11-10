@@ -12,6 +12,10 @@ describe 'Resources', js: true do
     within all('.col-sm-12')[1] do
       expect(page.all("a[class='record-title']", text: 'Published Resource').length).to eq 1
     end
+
+    aggregate_failures 'supporting accessibility by not skipping heading levels' do
+      expect(page).to be_axe_clean.checking_only :'heading-order'
+    end
   end
 
   it 'does not highlight repository uri' do
@@ -38,6 +42,11 @@ describe 'Resources', js: true do
     end
     expect(current_path).to eq (first_href)
     click_link 'Collection Organization'
+
+    aggregate_failures 'should not duplicate ids' do
+      expect(page).to be_axe_clean.checking_only :'duplicate-id'
+    end
+
     expect(current_path).to eq ("#{first_href}/collection_organization")
     page.go_back
     expect(current_path).to eq (first_href)
@@ -56,6 +65,41 @@ describe 'Resources', js: true do
     fill_in 'Search within results', with: 'Resource with digital instance'
     click_button 'Search'
     click_link 'Resource with digital instance'
+
+    aggregate_failures 'supporting accessibility by not skipping heading levels' do
+      expect(page).to be_axe_clean.checking_only :'heading-order'
+    end
+
+    aggregate_failures 'should not duplicate ids' do
+      expect(page).to be_axe_clean.checking_only :'duplicate-id'
+    end
+
+    aggregate_failures 'supporting accessibility by resizing sidebar with keyboard' do
+      page.has_css? 'div.sidebar'
+
+      sidebar_width = find('div.sidebar').evaluate_script("window.getComputedStyle(this)['width']")
+      handle = find('input.resizable-sidebar-handle')
+
+      5.times do
+        handle.native.send_keys :arrow_left
+      end
+
+      new_sidebar_width = find('div.sidebar').evaluate_script("window.getComputedStyle(this)['width']")
+      expect(new_sidebar_width).to be < sidebar_width
+
+      10.times do
+        handle.native.send_keys :arrow_right
+      end
+
+      newest_sidebar_width = find('div.sidebar').evaluate_script("window.getComputedStyle(this)['width']")
+      expect(newest_sidebar_width).to be > sidebar_width
+    end
+
+    aggregate_failures 'should not duplicate ids when viewing container inventory' do
+      click_link 'Container Inventory'
+      expect(page).to be_axe_clean.checking_only :'duplicate-id'
+    end
+
     click_link 'View Digital Material'
     expect(page).to have_content('Digital Record')
   end

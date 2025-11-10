@@ -1483,6 +1483,14 @@ ja:
       pdf: PDF
       html: HTML
       rtf: RTF
+    headings:
+      context: リソース/収集
+      container_profile: コンテナプロファイル
+      location: 場所
+      title: タイトル
+      type: タイプ
+      indicator: インジケータ
+      barcode: バーコード
 
   validation_errors:
     or_date_expression_is_required: 日付には、少なくとも1つの日付式を指定する必要があります
@@ -1554,8 +1562,8 @@ ja:
     sponsor_set_desc_required: OAIスポンサーセットを作成するにはスポンサーセットの説明が必要です
     sponsor_set_name_required: OAIスポンサーセットを作成するにはスポンサーセット名が必要です
     invalid_characters: 無効な文字が含まれています
-
     subrecord_not_allowed_for_agent_software: ソフトウェアエージェントは、レコード制御または関係サブレコードを持つことはできません
+    mixed_content_invalid_inline_ead: "無効な EAD マークアップです。属性値には直線の引用符（\" または '）を使用し、タグが正しく構成されていることを確認してください。"
   job:
     _singular: バックグラウンドジョブ
     _plural: バックグラウンドジョブ

@@ -2,6 +2,7 @@
 
 require 'spec_helper'
 require 'rails_helper'
+require 'csv'
 
 describe 'Search Listing', js: true do
   before(:all) do
@@ -20,6 +21,10 @@ describe 'Search Listing', js: true do
     @archival_object_2 = create(:archival_object, title: "Archival Object Resource 2 #{@now}", resource: { ref: @resource.uri })
     @archival_object_3 = create(:archival_object, title: "Archival Object Resource 3 #{@now}", resource: { ref: @resource.uri })
     @digital_object_1 = create(:digital_object, title: "Digital Object 1 #{@now}")
+
+    # Create top containers for CSV export testing
+    @top_container_1 = create(:top_container, type: 'box', indicator: 'ID1', barcode: "BC001#{@now}")
+    @top_container_2 = create(:top_container, type: 'folder', indicator: 'ID2', barcode: "BC002#{@now}")
 
     @suppressed_resource = create(:resource, title: "Suppressed resource #{@now}",
                                   instances: [build(:instance_digital, digital_object: { 'ref' => @digital_object_1.uri })])
@@ -144,6 +149,42 @@ describe 'Search Listing', js: true do
 
       sortable_columns.each do |column|
         expect(dropdown_elements).to have_link column.text
+      end
+    end
+  end
+
+  context 'CSV export' do
+    describe 'Top Containers' do
+      it 'exports CSV with correct headers and data matching web page display' do
+        # Clear any existing CSV files to avoid spec contamination
+        files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+        files.each { |file| File.delete file }
+
+        visit '/search'
+        click_on 'Top Container'
+
+        expect(page).to have_text 'Search Results'
+        expect(page).to have_text @top_container_1.indicator
+
+        click_on 'Download CSV'
+
+        files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+        expect(files.length).to be >= 1
+
+        csv_file = File.read(files.last)
+        csv_data = CSV.parse(csv_file)
+        csv_headers = csv_data[0]
+
+        expect(csv_headers).to include('Type')
+        expect(csv_headers).to include('Indicator')
+        expect(csv_headers).to include('Barcode')
+
+        container_1_row = csv_data.find { |row| row.include?(@top_container_1.indicator) }
+        container_2_row = csv_data.find { |row| row.include?(@top_container_2.indicator) }
+        expect(container_1_row).to include(@top_container_1.barcode)
+        expect(container_1_row).to include(@top_container_1.type)
+        expect(container_2_row).to include(@top_container_2.barcode)
+        expect(container_2_row).to include(@top_container_2.type)
       end
     end
   end

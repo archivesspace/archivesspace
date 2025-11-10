@@ -1,6 +1,7 @@
 require 'securerandom'
 require_relative 'ancestor_listing'
 require 'multiple_titles_helper'
+require_relative 'mixins/mixed_content_validatable'
 
 class ArchivalObject < Sequel::Model(:archival_object)
   include ASModel
@@ -29,6 +30,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include TouchRecords
   include Arks
   include Titles
+  include MixedContentValidatable
 
   enable_suppression
 
@@ -97,6 +99,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
     validates_unique([:root_record_id, :ref_id],
                      :message => "An Archival Object Ref ID must be unique to its resource")
     map_validation_to_json_property([:root_record_id, :ref_id], :ref_id)
+    validate_mixed_content_field()
     super
   end
 

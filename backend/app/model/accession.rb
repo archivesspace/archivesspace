@@ -1,4 +1,5 @@
 require 'multiple_titles_helper'
+require_relative 'mixins/mixed_content_validatable'
 
 class Accession < Sequel::Model(:accession)
   include ASModel
@@ -28,6 +29,7 @@ class Accession < Sequel::Model(:accession)
   include Assessments::LinkedRecord
   include RepresentativeFileVersion
   include Titles
+  include MixedContentValidatable
 
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
@@ -85,4 +87,9 @@ class Accession < Sequel::Model(:accession)
                     end
                   end
                 }
+
+  def validate
+    validate_mixed_content_field()
+    super
+  end
 end

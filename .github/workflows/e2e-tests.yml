@@ -5,17 +5,26 @@ permissions:
   pull-requests: write
 
 on:
-  pull_request:
-    paths:
-      - 'e2e-tests/**'
   workflow_call:
+    inputs:
+      image_tag:
+        required: true
+        type: string
+
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Docker image tag for AS, e.g.: latest, ANW-1234"
+        required: true
+        type: string
+        default: 'latest'
 
 defaults:
   run:
     working-directory: ./e2e-tests
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: e2e-tests-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -23,35 +32,43 @@ jobs:
     name: Run Tests Group A - B
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
+      name: 'a-b'
+      image_tag: ${{ inputs.image_tag }}
       run-cmd: |
         dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[a-b]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
-          bundle exec cucumber --strict HEADLESS=true HOST=localhost $dirs
+          bundle exec cucumber --strict $dirs
         fi
   cucumber_h_m:
     name: Run Tests Group C - M
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
+      name: 'c-m'
+      image_tag: ${{ inputs.image_tag }}
       run-cmd: |
         dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[c-m]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
-          bundle exec cucumber --strict HEADLESS=true HOST=localhost $dirs
+          bundle exec cucumber --strict $dirs
         fi
   cucumber_n_s:
     name: Run Tests Group N - S
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
+      name: 'n-s'
+      image_tag: ${{ inputs.image_tag }}
       run-cmd: |
         dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[n-s]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
-          bundle exec cucumber --strict HEADLESS=true HOST=localhost $dirs
+          bundle exec cucumber --strict $dirs
         fi
   cucumber_t_z:
     name: Run Tests Group T - Z
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
+      name: 't-z'
+      image_tag: ${{ inputs.image_tag }}
       run-cmd: |
         dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[t-z]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
-          bundle exec cucumber --strict HEADLESS=true HOST=localhost $dirs
+          bundle exec cucumber --strict $dirs
         fi

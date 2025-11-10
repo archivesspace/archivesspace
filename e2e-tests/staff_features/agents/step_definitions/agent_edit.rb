@@ -8,7 +8,7 @@ Given 'an Agent has been created' do
   fill_in 'Rest of Name', with: "Agent Rest of Name #{@uuid}"
   check 'Publish'
   click_on 'Save'
-  expect(find('.alert.alert-success.with-hide-alert').text).to eq 'Agent Created'
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Agent Created')
   url_parts = current_url.split('agents/agent_person').pop.split('/')
   url_parts.pop
   @agent_id = url_parts.pop

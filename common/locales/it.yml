@@ -481,3 +481,28 @@ it:
     location: Ubicazione
   assessment:
     appraisal: Valutazione
+  reports:
+    parameters:
+      from: Da
+      to: A
+      locations: Ubicazioni
+      scope_by_date: Ambito per Data
+      template: Modello
+      rating: Valutazione
+      values: Valori
+    formats:
+      json: JSON
+      csv: CSV
+      pdf: PDF
+      html: HTML
+      rtf: RTF
+    headings:
+      context: Risorsa/Accesso
+      container_profile: Profilo del Contenitore
+      location: Ubicazione
+      title: Titolo
+      type: Tipo
+      indicator: Indicatore
+      barcode: Codice a Barre
+  validation_errors:
+    mixed_content_invalid_inline_ead: "Markup EAD non valido: usa virgolette dritte (\" o ') per i valori degli attributi e assicurati che i tag siano ben formati."

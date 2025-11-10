@@ -40,15 +40,15 @@ de:
     note: Anmerkungen für Mitarbeitende
     submit: Anfrage absenden
     date: Erwartetes Ankunftsdatum
-    submitted: Vielen Dank, Ihre Anfrage wurde gesendet.  Sie erhalten in Kürze eine E-Mail mit einer
-      Kopie Ihrer Anfrage.
+    submitted: Vielen Dank, Ihre Anfrage wurde gesendet.  Sie erhalten in Kürze eine E-Mail mit 
+      einer Kopie Ihrer Anfrage.
     errors:
       name: Bitte geben Sie Ihren Namen ein
       email: Bitte geben Sie eine gültige E-Mail-Adresse ein
     email:
       subject: Anfrage für %{title}
-    visit: Stellen Sie eine Anfrage zum Besuch von %{repo_name}, um <strong>%{archival_object}</strong>
-      einzusehen
+    visit: Stellen Sie eine Anfrage zum Besuch von %{repo_name}, um 
+      <strong>%{archival_object}</strong> einzusehen
     email_header: Danke für Ihre Anfrage
   search-limit: Einschränken auf %{limit}
   search-limiting: eingeschränkt auft %{limit}
@@ -135,7 +135,8 @@ de:
       published_series_title_u_sstr: Serie
       digital_object_type_enum_s: Typ
       extent_type_enum_s: Umfang
-    creators_text_contain: der <strong>Urheber</strong> enthält <span class='searchterm'>%{kw}</span>
+    creators_text_contain: der <strong>Urheber</strong> enthält <span 
+      class='searchterm'>%{kw}</span>
     fewer_facets: Weniger
     op:
       OR: oder
@@ -177,10 +178,10 @@ de:
     subfonds: Teilbestand
     subgrp: Teilgruppe
   errors:
-    error_404_message: Die %{type} Aufzeichnung, die Sie aufrufen wollten, existiert nicht oder wurde
-      entfernt.
-    backend_down_message: ArchivesSpace hat technische Schwierigkeiten. Wir entschuldigen uns für die
-      Unannehmlichkeiten. Bitte versuchen Sie es später noch einmal.
+    error_404_message: Die %{type} Aufzeichnung, die Sie aufrufen wollten, existiert nicht oder 
+      wurde entfernt.
+    backend_down_message: ArchivesSpace hat technische Schwierigkeiten. Wir entschuldigen uns für 
+      die Unannehmlichkeiten. Bitte versuchen Sie es später noch einmal.
     backend_down: Konnte nicht mit der Datenbank verbinden
     unexpected_error: Ihre Anfrage konnte wegen einem unerwartetem Fehler nicht abgeschlossen werden
     error_404: '%{type} Aufzeichnung nicht gefunden'
@@ -285,7 +286,7 @@ de:
     load_records:
       alert: "Diese Sammlung enthält eine große Anzahl von Datensätzen"
       showing: "Anzeigen"
-      percent_convention: " %"
+      percent_convention: "%"
       load: "Datensätze laden"
       load_all: "Alle Datensätze laden"
       scroll: "Beim Scrollen"
@@ -503,8 +504,8 @@ de:
   footer:
     staff_interface: <a href="%{staff_url}">Verwaltungsoberfläche</a>
     archivesspace_home: Besuchen Sie <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung geben oder
-      ein Problem melden</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung geben 
+      oder ein Problem melden</a>
 
   languages:
     select: Sprache auswählen
@@ -515,3 +516,22 @@ de:
     ja: Japanisch
   pdf_error:
     title: Die Erzeugung der PDF Datei ist fehlgeschlagen.
+    description: Es tut uns leid, aber es gab einen Fehler beim Erstellen dieses PDF-Findmittels. 
+      Hier sind einige Diagnosedaten, um festzustellen, was schiefgegangen ist.
+    headings:
+      location: Ort des Fehlers
+      message: Fehlermeldung
+      type: Art des Fehlers
+      additional_info: Zusätzliche Informationen
+    location:
+      location_header: Der Fehler trat beim Erzeugen des Kopfbereichs auf.
+      location_title_page: Der Fehler trat beim Erzeugen der Titelseite auf.
+      location_toc: Der Fehler trat beim Erzeugen des Inhaltsverzeichnisses auf.
+      location_resource: Der Fehler trat beim Erzeugen von Abschnitten des Ressourcen-Eintrags auf. 
+        Diese enthalten zusammenfassende Informationen, Überschriften für geregelten Zugang und 
+        Notizen.
+      location_archival_object: Der Fehler trat beim Erzeugen des Sammlungsverzeichnisses.
+      location_footer: Der Fehler trat beim Erzeugen des Fußbereichs auf.
+    additional_info:
+      invalid_markup: Dieser Fehler kann durch ungültiges Markup in einer Notiz oder einem 
+        untergeordneten Eintrag entstehen.

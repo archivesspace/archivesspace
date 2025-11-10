@@ -1,20 +1,21 @@
 <% if @search_data['results'].length > 0 %>
   <div class="subrecord-form-fields">
     <% @search_data['results'].each do |result| %>
-      <%
-         full_record = result["record"]["_resolved"]
-         record_title = full_record["title"]
-         if "event" == full_record["jsonmodel_type"]
-           record_title = "#{t("event._singular")}: #{t("enumerations.event_event_type.#{full_record["event_type"]}")}"
-         elsif "collection_management" == full_record["jsonmodel_type"]
-           record_title = "#{t("collection_management._singular")}"
-         elsif full_record.keys.include?("titles")
-           record_title = title_for_display(full_record)
-         end
-      %>
+      <% full_record = result["record"]["_resolved"]
+      record_title = full_record["title"]
+      if "event" == full_record["jsonmodel_type"]
+        record_title =
+          "#{t("event._singular")}: #{I18n.t("enumerations.event_event_type.#{full_record["event_type"]}", default: full_record["event_type"])}"
+      elsif "collection_management" == full_record["jsonmodel_type"]
+        record_title = "#{t("collection_management._singular")}"
+      elsif full_record.keys.include?("titles")
+        record_title = title_for_display(full_record)
+      end %>
       <div>
-        <span class="asicon icon-<%= full_record["jsonmodel_type"] %>"
-              title="<%= t("#{full_record["jsonmodel_type"]}._singular") %>">
+        <span
+          class="asicon icon-<%= full_record["jsonmodel_type"] %>"
+          title="<%= t("#{full_record["jsonmodel_type"]}._singular") %>"
+        >
         </span>
         <%# ANW-1519, ANW-2206: Skip checking owner repo for global records (agents, subjects, locations) %>
         <% if is_global_record?(full_record["jsonmodel_type"]) %>
@@ -23,14 +24,16 @@
           <% if result["record"]["ref"].include?(current_repo.uri) %>
             <%= resolve_readonly_link_to record_title, result["record"]["ref"] %>
           <% else %>
-            <%= resolve_readonly_link_to "#{record_title} (#{result["record"]["ref"]})", result["record"]["ref"], false %>
+            <%= resolve_readonly_link_to "#{record_title} (#{result["record"]["ref"]})",
+            result["record"]["ref"],
+            false %>
             <span class="badge badge-warning">
-             <%= t("job._frontend.external_repo") %>
+              <%= t("job._frontend.external_repo") %>
             </span>
           <% end %>
         <% end %>
       </div>
     <% end %>
   </div>
-  <%= render_aspace_partial :partial => "shared/pagination" %>
+  <%= render_aspace_partial partial: "shared/pagination" %>
 <% end %>

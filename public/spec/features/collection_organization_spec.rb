@@ -323,25 +323,35 @@ describe 'Collection Organization', js: true do
 
         [@ao3, @ao4, @ao5, @ao6].each do |parent|
           node = page.find("#archival_object_#{parent.id}")
-          expect(node['aria-expanded']).to eq "false"
-          expect(node['data-has-expanded']).to eq "false"
-          expect(node).to have_css('.node-expand-icon:not(.expanded)')
+          aggregate_failures do
+            expect(node['data-is-expanded']).to eq "false"
+            expect(node).to have_css('.node-body:first-child .node-expand[aria-expanded="false"]')
+            expect(node).to have_css(".node-body:first-child .node-expand[aria-controls='archival_object_#{parent.id}-children']")
+            expect(node).to have_css('.node-body:first-child .node-expand[data-has-expanded="false"]')
+            expect(node).to have_css('.node-body:first-child .node-expand-icon:not(.expanded)')
+          end
         end
       end
 
       it 'are expanded and collapsed by clicking the "expand" button' do
         @ao3_node.find('.node-expand').click
         wait_for_jquery
-        expect(@ao3_node['aria-expanded']).to eq "true"
-        expect(@ao3_node['data-has-expanded']).to eq "true"
-        expect(@ao3_node).to have_css('.node-expand-icon.expanded')
-        expect(@ao3_node).to have_css('& > .node-children > .node', count: 30, visible: true)
+        aggregate_failures do
+          expect(@ao3_node['data-is-expanded']).to eq "true"
+          expect(@ao3_node).to have_css('.node-body:first-child .node-expand[aria-expanded="true"]')
+          expect(@ao3_node).to have_css('.node-body:first-child .node-expand[data-has-expanded="true"]')
+          expect(@ao3_node).to have_css('.node-body:first-child .node-expand-icon.expanded')
+          expect(@ao3_node).to have_css('& > .node-children > .node', count: 30, visible: true)
+        end
 
         @ao3_node.find('.node-expand').click
-        expect(@ao3_node['aria-expanded']).to eq "false"
-        expect(@ao3_node['data-has-expanded']).to eq "true"
-        expect(@ao3_node).to have_css('.node-expand-icon:not(.expanded)')
-        expect(@ao3_node).to have_css('& > .node-children > .node', count: 30, visible: false)
+        aggregate_failures do
+          expect(@ao3_node['data-is-expanded']).to eq "false"
+          expect(@ao3_node).to have_css('.node-body:first-child .node-expand[aria-expanded="false"]')
+          expect(@ao3_node).to have_css('.node-body:first-child .node-expand[data-has-expanded="true"]')
+          expect(@ao3_node).to have_css('.node-body:first-child .node-expand-icon:not(.expanded)')
+          expect(@ao3_node).to have_css('& > .node-children > .node', count: 30, visible: false)
+        end
       end
 
       it 'children are loaded in "batches" on scroll when the parent has more children than the configured batch size' do
@@ -529,7 +539,7 @@ describe 'Collection Organization', js: true do
 
       expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="0"]')
       expect(page).to have_css('#infinite-records-container .waypoint.populated[data-waypoint-number="1"]')
-      expect(page).to have_css('#infinite-records-container .waypoint:not(.populated)[data-waypoint-number="2"]')
+      expect(page).to have_css('#infinite-records-container .waypoint:not(.populated)[data-waypoint-number="2"]', visible: false)
       percent_start = page.find('#load-all-showing-percent').text[0..-2].to_i
 
       container = page.find('#infinite-records-container')
@@ -598,7 +608,7 @@ describe 'Collection Organization', js: true do
         wait_for_jquery
 
         total_records = page.find('#infinite-records-container')['data-total-records']
-        num_empty_waypoints_start = page.all('#infinite-records-container .waypoint:not(.populated)').length
+        num_empty_waypoints_start = page.all('#infinite-records-container .waypoint:not(.populated)', visible: false).length
         expect(page).not_to have_css('#infinite-records-container .waypoint.populated .infinite-record-record', count: total_records.to_i)
 
         # Add a wrapper function around `window.fetch()` that increments a number when

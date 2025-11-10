@@ -193,8 +193,7 @@ describe 'Groups', js: true do
     login_admin
     select_repository @repository_to_manage
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq "The Repository #{@repository_to_manage.repo_code} is now active"
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "The Repository #{@repository_to_manage.repo_code} is now active")
 
     expect(page).to have_css('button', text: 'Create')
 
@@ -225,8 +224,7 @@ describe 'Groups', js: true do
 
     click_on 'Update Account'
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'User Saved'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'User Saved')
 
     visit 'logout'
     login_user(@user)

@@ -2066,6 +2066,14 @@ es:
       pdf: PDF
       html: HTML
       rtf: RTF
+    headings:
+      context: Recurso/Accesión
+      container_profile: Perfil de Contenedor
+      location: Ubicación
+      title: Título
+      type: Tipo
+      indicator: Indicador
+      barcode: Código de Barras
 
   validation_errors:
     or_date_expression_is_required: Las fechas deben especificar al menos una expresión de fecha
@@ -2168,6 +2176,7 @@ es:
       con el administrador del sistema.
     external_ark_collision: ARK externo ya en uso
     ark_format_error: Uno de los ARK proporcionados no era un ARK válido.
+    mixed_content_invalid_inline_ead: "Marcado EAD no válido: use comillas rectas (\" o ') para los valores de los atributos y asegúrese de que las etiquetas estén bien formadas."
   job:
     _singular: Tarea en el background
     _plural: Tareas en el background
