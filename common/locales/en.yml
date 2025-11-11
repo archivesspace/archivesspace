@@ -2436,6 +2436,14 @@ en:
       pdf: PDF
       html: HTML
       rtf: RTF
+    headings:
+      context: Resource/Accession
+      container_profile: Container Profile
+      location: Location
+      title: Title
+      type: Type
+      indicator: Indicator
+      barcode: Barcode
 
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical
@@ -2515,6 +2523,7 @@ en:
     ark_collision: There was a problem while generating an ARK for this record. Please contact your system administrator.
     external_ark_collision: External ARK already in use
     ark_format_error: One of the ARKs provided was not a valid ARK.
+    mixed_content_invalid_inline_ead: "Invalid EAD markup: use straight quotes (\" or ') for attribute values and ensure tags are well-formed."
 
   job:
     _singular: Background Job

@@ -336,6 +336,7 @@ $(function () {
         }
         $('.token-input-list', $linkerWrapper).sortable({
           items: 'li.token-input-token',
+          cancel: '.has-popover', // Prevent dragging when clicking on popover elements
         });
         $('.token-input-list', $linkerWrapper)
           .off('sortupdate')

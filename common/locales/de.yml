@@ -73,8 +73,8 @@ de:
     name: Name
     name_tooltip: "<p>Der Name der Aufzählungs-Liste, zu der Sie einen Wert hinzufügen möchten.</p>\n"
     value: Wert
-    value_tooltip: "<p>Der Wert für die Aufzählungs-Liste, die Sie hinzufügen oder bearbeiten möchten.</p>\n
-      <p>Wann immer möglich, sollten die Werte in Kleinbuchstaben und mit Unterstrichen (\"_\") anstelle
+    value_tooltip: "<p>Der Wert für die Aufzählungs-Liste, die Sie hinzufügen oder bearbeiten möchten.</p>\n\
+      \ <p>Wann immer möglich, sollten die Werte in Kleinbuchstaben und mit Unterstrichen (\"_\") anstelle
       von Leerzeichen angegeben werden. Übersetzungen für die Werte sollten der Locales-Datei hinzugefügt
       werden.</p>\n"
     translation: Übersetzung
@@ -96,9 +96,9 @@ de:
     xlink_role_attribute_tooltip: "<p>Typ oder Art der im zugehörigen URI verknüpften entfernten Ressource.</p>\n"
     descriptive_note_tooltip: "<p>Unstrukturierte Informationen über die Bedingungen, unter denen die
       Metadaten zur Verwendung und Wiederverwendung zur Verfügung stehen.  Beispiele:</p>\n<p>i. Copyright
-      Smith College, 1985</p>\n<p>ii. Dieses Findmittel darf für jeden Zweck vervielfältigt werden.</p>\n
-      <p>iii. Dieses Werk ist gemeinfrei, d.h. Sie können es vervielfältigen, verändern, verbreiten und
-      aufführen, auch zu kommerziellen Zwecken, ohne um Erlaubnis zu fragen.</p>\n<p>iv. Die biografische
+      Smith College, 1985</p>\n<p>ii. Dieses Findmittel darf für jeden Zweck vervielfältigt werden.</p>\n\
+      \ <p>iii. Dieses Werk ist gemeinfrei, d.h. Sie können es vervielfältigen, verändern, verbreiten
+      und aufführen, auch zu kommerziellen Zwecken, ohne um Erlaubnis zu fragen.</p>\n<p>iv. Die biografische
       Notiz ist urheberrechtlich geschützt durch Ted Smith, 2015.  Alle anderen Metadaten sind unter CC
       BY 4.0 lizenziert.</p>\n"
     file_uri_tooltip: "<p>Ein URI für den Online-Speicherort der Lizenz oder anderer veröffentlichter
@@ -140,11 +140,11 @@ de:
     text_1: Text 1
     text_2: Text 2
     text_5: Text 5
-    date_1_inline_help: z.B. JJJJ-MM-TT
+    date_1_inline_help: JJJJ-MM-TT Format erforderlich
     date_2: Datum 2
-    date_2_inline_help: z.B. JJJJ-MM-TT
+    date_2_inline_help: JJJJ-MM-TT Format erforderlich
     date_3: Datum 3
-    date_3_inline_help: z.B. JJJJ-MM-TT
+    date_3_inline_help: JJJJ-MM-TT Format erforderlich
     enum_1: Aufzählungswert 1
     enum_2: Aufzählungswert 2
     enum_3: Aufzählungswert 3
@@ -155,11 +155,11 @@ de:
     date_1: Datum 1
     text_3: Text 3
   section_tooltips: &section_tooltips
-    lang_materials_tooltip: "<p>Die Sprachen und Schriften, die im beschriebenen Archivgut vertreten sind.</p>\n
-      <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>\n"
+    lang_materials_tooltip: "<p>Die Sprachen und Schriften, die im beschriebenen Archivgut vertreten sind.</p>\n\
+      \ <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>\n"
     subjects_tooltip: "<p>Wird verwendet, um Themen mit dem beschriebenen Archivgut zu verknüpfen.</p>\n"
-    extents_tooltip: "<p>Gibt den Umfang und physische Beschaffenheit des beschriebenen Archivguts an.</p>\n
-      <p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
+    extents_tooltip: "<p>Gibt den Umfang und physische Beschaffenheit des beschriebenen Archivguts an.</p>\n\
+      \ <p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n"
     notes_tooltip: "<p>Zusätzliche beschreibende Informationen über das beschriebene Archivgut, meist
       in der Form von Text oder strukturierten Listen.</p>\n"
     linked_agents_tooltip: "<p>Ordnet Akteure als Urheber, Quelle oder Subjekt dem beschriebenen Archivgut
@@ -190,10 +190,10 @@ de:
     is_slug_auto_tooltip: "<p>Wird dieses Feld ausgewählt, dann wird der Slug für diese Aufzeichnung basierend
       auf den Konfigurationseinstellungen von für Menschen lesbaren URLs in der config.rb Datei am Server
       automatisch erzeugt, wenn die Aufzeichnung gespeichert wird.</p>\n"
-    autogen_disabled: Ein Slug kann aus den bereitgestellten Daten basierend auf den aktuellen Konfigurationseinstellungen
-      nicht erzeugt werden
-    autogen_repo_slug: Da kein Slug manuell eingegeben wurde, wurde der Aufbewahrungsort-Slug automatisch
-      aus dem Kurznamen des Aufbewahrungsort generiert
+    autogen_disabled: Ein Slug kann aus den bereitgestellten Daten basierend auf den aktuellen 
+      Konfigurationseinstellungen nicht erzeugt werden
+    autogen_repo_slug: Da kein Slug manuell eingegeben wurde, wurde der Aufbewahrungsort-Slug 
+      automatisch aus dem Kurznamen des Aufbewahrungsort generiert
     public_url_tooltip: "<p>Wenn diese Aufzeichnung veröffentlicht oder zur Veröffentlichung aktualisiert
       wird, dann ist das die vollständige URL für diesen Datensatz in der öffentlichen Besucher-Oberfläche.
       Wenn für Menschen lesbare URLs verwendet werden, wird das Ende der URL der Slug sein.</p>\n<p>Ob
@@ -218,8 +218,8 @@ de:
       (mesh)</li>\n<li>Library of Congress Schlagwörter (lcsh)</li>\n</ul>\n"
     scope_note: Anmerkung zum Geltungsbereich
     scope_note_tooltip: "<p>Eine Anmerkung, die erklärt und verdeutlicht, was in der Definition des Begriffs
-      und in seiner Verwendung als Schlagwort gemeint ist und was nicht.</p>\n<p>Beispiele:</p>\n<ul>\n
-      <li>Hier werden Werke über biologische Studien von Bakterien eingetragen. Werke über diese Wissenschaft
+      und in seiner Verwendung als Schlagwort gemeint ist und was nicht.</p>\n<p>Beispiele:</p>\n<ul>\n\
+      \ <li>Hier werden Werke über biologische Studien von Bakterien eingetragen. Werke über diese Wissenschaft
       sind unter der Rubrik Bakteriologie erfasst.</li>\n<li>\"Das Recht auf Sicherheit und Privatsphäre
       in der Wohnung eines Menschen'\" - Black, Rechtswörterbuch, 4. Aufl., 1951.</li>\n</ul>\n"
     terms: Begriffe
@@ -250,12 +250,13 @@ de:
     _singular: Aufbewahrungsort
     name: Name des Aufbewahrungsorts
     ark_shoulder: ARK Shoulder (lokaler Namensraum)
-    ark_shoulder_tooltip: Zeichenkette pro Aufbewahrungsort, die in die erzeugten ARKs aufgenommen wird
+    ark_shoulder_tooltip: Zeichenkette pro Aufbewahrungsort, die in die erzeugten ARKs aufgenommen 
+      wird
     org_code: Organisation / Agentur-Code
     parent_institution_name: Name der übergeordneten Einrichtung
     parent_institution_name_tooltip: "<p>Der Name der übergeordneten Einrichtung, zu welcher der Aufbewahrungsort
-      gehört.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Universität Wien <em>(für Bibliothek der Universität Wien)</em></li>\n
-      <li>Stiftung Preußischer Kulturbesitz <em>(für Geheimes Staatsarchiv Preußischer Kulturbesitz)</em></li>\n\
+      gehört.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Universität Wien <em>(für Bibliothek der Universität Wien)</em></li>\n\
+      \ <li>Stiftung Preußischer Kulturbesitz <em>(für Geheimes Staatsarchiv Preußischer Kulturbesitz)</em></li>\n\
       </ul>\n"
     address_1: Adresse 1
     address_1_tooltip: "<p>Die Post- oder Straßenanschrift für den Aufbewahrungsort.</p>\n"
@@ -291,9 +292,9 @@ de:
     repo_code: Aufbewahrungsort-Kurzname
     org_code_tooltip: "<p>Ein Code, der mit ISO/DIS 15511 Information and Documentation International
       Standard Identifier for Libraries and Related Organizations (ISIL) übereinstimmt. Für Einrichtungen
-      in den Vereinigten Staaten umfasst dies Codes aus der MARC Organization Code Liste.</p>\n<p>Beispiele:</p>\n
-      <ul>\n<li>AT-OeNB <em>(für Österreichische Nationalbibliothek)</em></li>\n<li>DE-2884 <em>(für Geheimes
-      Staatsarchiv Preußischer Kulturbesitz)</em></li>\n</ul>\n"
+      in den Vereinigten Staaten umfasst dies Codes aus der MARC Organization Code Liste.</p>\n<p>Beispiele:</p>\n\
+      \ <ul>\n<li>AT-OeNB <em>(für Österreichische Nationalbibliothek)</em></li>\n<li>DE-2884 <em>(für
+      Geheimes Staatsarchiv Preußischer Kulturbesitz)</em></li>\n</ul>\n"
     repo_code_tooltip: "<p>ERFORDERLICHES FELD. Eine Abkürzung oder ein Akronym des Namens des Aufbewahrungsorts,
       das in der Benutzeroberfläche besser untergebracht werden kann.</p>\n<p>Beispiele:</p>\n<ul>\n<li>INHBS
       <em>(für Ihr Name Hier Bibliothek für besondere Sammlungen)</em></li>\n<li>OENB <em>(für Österreichische
@@ -302,8 +303,8 @@ de:
     name_tooltip: "<p>ERFORDERLICHES FELD. Name des Aufbewahrungsorts, der die administrative Verantwortung
       für das in den Modulen \"Eingang\", \"Ressource\" und \"Digitales Objekt\" der Anwendung beschriebenen
       Archivguts trägt und diese verwahrt.</p>\n<p>Siehe DACS 2.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Ihr
-      Name Hier Bibliothek für besondere Sammlungen</li>\n<li>Österreichische Nationalbibliothek</li>\n
-      <li>Geheimes Staatsarchiv Preußischer Kulturbesitz</li>\n</ul>\n"
+      Name Hier Bibliothek für besondere Sammlungen</li>\n<li>Österreichische Nationalbibliothek</li>\n\
+      \ <li>Geheimes Staatsarchiv Preußischer Kulturbesitz</li>\n</ul>\n"
     linker:
       browse: Aufbewahrungsorte durchsuchen
       create: Aufbewahrungsort erstellen
@@ -328,8 +329,8 @@ de:
     _singular: Akteur
     notes: Anmerkungen
     type: Akteur-Typ
-    type_tooltip: "<p>Der Typ der Entität, die durch Die Akteur-Aufzeichnung repräsentiert wird.</p>\n
-      <p>Siehe DACS 10.2 und PREMIS Agent-Entität</p>\n"
+    type_tooltip: "<p>Der Typ der Entität, die durch Die Akteur-Aufzeichnung repräsentiert wird.</p>\n\
+      \ <p>Siehe DACS 10.2 und PREMIS Agent-Entität</p>\n"
     agent_type:
       agent_family: Familie
       agent_person: Person
@@ -374,15 +375,15 @@ de:
     agent_genders_tooltip: Geschlecht des Subjekts.
     agent_occupations_tooltip: Dem Akteur zugeordnete Berufsinformationen.
     agent_places_tooltip: Dem Akteur zugeordnete Ortsinformationen.
-    agent_functions_tooltip: Begriffe zur Identifizierung der Funktionen, Prozesse, Aufgaben, Aktivitäten
-      oder Transaktionen, die vom Akteur ausgeführt werden.
+    agent_functions_tooltip: Begriffe zur Identifizierung der Funktionen, Prozesse, Aufgaben, 
+      Aktivitäten oder Transaktionen, die vom Akteur ausgeführt werden.
     agent_topics_tooltip: Ein mit dem Akteur verbundenes Thema.
     agent_contacts_tooltip: "<p>Kontaktinformationen für den Akteur oder einen Vertreter, der in seinem
       Namen handelt.</p>\n"
     used_languages_tooltip: 'Die dem Akteur zugeordnete(n) Sprache(n). Beispiel: Englisch.'
     agent_resources_tooltip: Ressourcen und andere mit dem Akteur verbundene Aufzeichnungen.
-    related_agent_tooltip: Wird verwendet, um andere Akteure mit einer Beziehung zum Akteur zu verknüpfen
-      und die Art der Beziehung anzugeben.
+    related_agent_tooltip: Wird verwendet, um andere Akteure mit einer Beziehung zum Akteur zu 
+      verknüpfen und die Art der Beziehung anzugeben.
     agent_conventions_declarations_tooltip: "<p>Ein Inhaltsstandard, der bei der Formulierung des Inhalts
       der Akteur-Aufzeichnung verwendet wird. Beispiel: ISAD(G) - Internationale Grundsätze für die archivische
       Verzeichnung. Diese Teilaufzeichnung kann anstelle von Regel-Eintragungen auf einzelnen Namensformen
@@ -443,9 +444,9 @@ de:
     inventory_tooltip: "<p>Eine Liste der Behältnisse und ihres Inhalts, aus denen ein Eingang besteht.
       Die Karton-Liste kann im Feld erstellt, kopiert und in das Feld eingefügt oder als externes Dokument
       referenziert werden. Der Verweis auf das externe Dokument kann hier oder in einer Teilaufzeichnung
-      für externe Dokumente erfasst werden.</p>\n<p>Beispiel:</p>\n<ul>\n<li>Karton 1:   Tagebücher</li>\n
-      <li>Karton 2:   Briefe an Mr. Smith's Familie</li>\n<li>Karton 3:   Persönliche Unterlagen für Angestellte
-      der Ranch</li>\n<li>Karton 4:   Entwürfe von Karten der Ranch</li>\n</ul>\n"
+      für externe Dokumente erfasst werden.</p>\n<p>Beispiel:</p>\n<ul>\n<li>Karton 1:   Tagebücher</li>\n\
+      \ <li>Karton 2:   Briefe an Mr. Smith's Familie</li>\n<li>Karton 3:   Persönliche Unterlagen für
+      Angestellte der Ranch</li>\n<li>Karton 4:   Entwürfe von Karten der Ranch</li>\n</ul>\n"
     general_note_tooltip: "<p>Ein Feld für alle Informationen, die nicht in eines der spezifischeren Felder
       passen.</p>\n"
     inventory: Bestandsverzeichnis
@@ -470,8 +471,8 @@ de:
     publish: Veröffentlichen?
     access_restrictions_note_tooltip: "<p>Eine Erklärung zur Angabe für welches Archivgut im Eingang eine
       Zugangsbeschränkung besteht, woher diese Einschränkung kommt und für welchen Zeitraum sie gilt.
-      Zusätzliche Informationen können auch in einer Teilaufzeichnung für Rechte erfasst werden.</p>\n
-      <p>Beispiele:</p>\n<ul>\n<li>Die Tagebücher in Karton zehn sind vom Geber bis 2030 gesperrt.</li>\n\
+      Zusätzliche Informationen können auch in einer Teilaufzeichnung für Rechte erfasst werden.</p>\n\
+      \ <p>Beispiele:</p>\n<ul>\n<li>Die Tagebücher in Karton zehn sind vom Geber bis 2030 gesperrt.</li>\n\
       </ul>\n"
     use_restrictions: Nutzungsbeschränkungen?
     use_restrictions_tooltip: "<p>Ein Kontrollkästchen zur Angabe von Nutzungsbeschränkungen für das Archivgut
@@ -479,12 +480,12 @@ de:
     use_restrictions_note: Anmerkung zu Nutzungsbeschränkungen
     use_restrictions_note_tooltip: "<p>Eine Erklärung zur Angabe welches Archivgut Nutzungsbeschränkungen
       unterliegt, wie das Archivgut genutzt werden kann, woher die Einschränkung kommt und wie lange sie
-      gilt. Zusätzliche Informationen können auch in einer Teilaufzeichnung für Rechte erfasst werden.</p>\n
-      <p>Beispiele:</p>\n<p>Manuskripte in Karton 33 sind brüchig; stattdessen müssen Fotokopien verwendet
+      gilt. Zusätzliche Informationen können auch in einer Teilaufzeichnung für Rechte erfasst werden.</p>\n\
+      \ <p>Beispiele:</p>\n<p>Manuskripte in Karton 33 sind brüchig; stattdessen müssen Fotokopien verwendet
       werden.</p>\n"
     acquisition_type: Bezugsart
-    acquisition_type_tooltip: "<p>Ein kategorische Beschreibung für die Art des Erwerbs. Aufbewahrungsorte\n
-      können die Liste der Datenwerte anpassen.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Schenkung</li>\n<li>Erwerb</li>\n\
+    acquisition_type_tooltip: "<p>Ein kategorische Beschreibung für die Art des Erwerbs. Aufbewahrungsorte\n\
+      \ können die Liste der Datenwerte anpassen.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Schenkung</li>\n<li>Erwerb</li>\n\
       <li>Übertragung</li>\n</ul>\n"
     publish_help: Kreuzen Sie dies an, wenn Sie diesen Eingang veröffentlichen möchten.
     publish_tooltip: "<p>Legt fest, ob dieser Eingang auf öffentlichen Besucher-Schnittstellen veröffentlicht
@@ -506,8 +507,8 @@ de:
     accession_date_tooltip: "<p>Das Datum, an dem der Eingang erfolgte. Es ist nicht\nnotwendigerweise
       dasselbe Datum, an dem die Aufzeichnung erstellt wurde.</p>\n"
     accession_id: Signatur
-    id_0_tooltip: "<p>ERFORDERLICHES FELD: Die eindeutige Signatur für einen Eingang innerhalb eines\n
-      Aufbewahrungsortes.</p>\n<p>In ArchivesSpace werden vier Felder für die Zerlegung einer\nEingangs-Signatur
+    id_0_tooltip: "<p>ERFORDERLICHES FELD: Die eindeutige Signatur für einen Eingang innerhalb eines\n\
+      \ Aufbewahrungsortes.</p>\n<p>In ArchivesSpace werden vier Felder für die Zerlegung einer\nEingangs-Signatur
       in ihre Bestandteile angeboten. Jedes Segment ist\nauf 50 Zeichen begrenzt, d.h. es gibt insgesamt
       200 Zeichen für die Signatur.\nMindestens der erste Teil muss für eine gültige Eingangs-Aufzeichnung
       verwendet werden.</p>\n<p>Vorgabewerte können verwendet werden, um die Bestandteile aufzufüllen,
@@ -522,8 +523,8 @@ de:
       - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6, ISAD(G) 3.4.1; 3.4.4</p>\n"
     title_tooltip: "<p>Der einem Eingang oder Ressource zugewiesene Titel. Der Titel des Eingangs\nmuss
       nicht mit dem Titel der Ressource identisch sein. Außerdem muss ein Titel nicht\nfür die Eingangs-Aufzeichnung
-      angegeben werden, da er implizit\nvon der Ressourcen-Aufzeichnung geerbt wird, mit dem der Eingang\n
-      verknüpft ist.</p>\n<p>Siehe DACS 2.3.18-2.3.22, ISAD(G) 3.1.2</p>\n"
+      angegeben werden, da er implizit\nvon der Ressourcen-Aufzeichnung geerbt wird, mit dem der Eingang\n\
+      \ verknüpft ist.</p>\n<p>Siehe DACS 2.3.18-2.3.22, ISAD(G) 3.1.2</p>\n"
     linker:
       browse: Eingänge durchsuchen
       create: Eingang erstellen
@@ -713,9 +714,9 @@ de:
       ist. Zum Beispiel kann ein Akteur als Urheber mit der spezielleren Rolle des \"Illustrators\" mit
       einer Aufzeichnung verknüpft sein.</p>\n<p>Siehe MARC Code-Liste für Relatoren (https://www.loc.gov/marc/relators/).</p>\n"
     ref: Akteur
-    ref_tooltip: "<p>Der Akteur in Beziehung zu dem in der Aufzeichnung beschriebenen Archivgut.</p>\n
-      <p>Akteure können mit Auto-Vervollständigen oder mit der Blättern-Funktion gesucht werden oder können
-      bei Bedarf erstellt werden.</p>\n"
+    ref_tooltip: "<p>Der Akteur in Beziehung zu dem in der Aufzeichnung beschriebenen Archivgut.</p>\n\
+      \ <p>Akteure können mit Auto-Vervollständigen oder mit der Blättern-Funktion gesucht werden oder
+      können bei Bedarf erstellt werden.</p>\n"
     _singular: Akteur-Verknüpfung
     _plural: Akteur-Verknüpfungen
   accession_linked_agent:
@@ -813,9 +814,9 @@ de:
     <<: *section_tooltips
     scope: Teil
     description: Beschreibung
-    description_tooltip: "<p> ERFORDERLICHES FELD: Beschreibung des Archivguts, das ausgeschieden wurde.</p>\n
-      <p>Beispiele:</p>\n<ul>\n<li>Zeitschriften, Zeitungsausschnitte und Finanzunterlagen der Familie.</li>\n
-      <li>Trophäen, die bei Hundeausstellungen verliehen wurden.</li>\n</ul>\n"
+    description_tooltip: "<p> ERFORDERLICHES FELD: Beschreibung des Archivguts, das ausgeschieden wurde.</p>\n\
+      \ <p>Beispiele:</p>\n<ul>\n<li>Zeitschriften, Zeitungsausschnitte und Finanzunterlagen der Familie.</li>\n\
+      \ <li>Trophäen, die bei Hundeausstellungen verliehen wurden.</li>\n</ul>\n"
     reason: Grund
     disposition: Disposition
     notification_tooltip: "<p>Ein Kontrollkästchen zur Angabe, dass eine Mitteilung über den Abgang erfolgt
@@ -823,8 +824,8 @@ de:
     dates: Datum des Abgangs
     _plural: Abgänge
     _singular: Abgang
-    reason_tooltip: "<p>Der Grund für den Abgang des beschriebenen Archivguts.</p>\n<p>Beispiele:</p>\n
-      <ul>\n<li>Der Geber hatte nicht die Absicht, dieses Archivgut weiterzugeben.</li>\n</ul>\n"
+    reason_tooltip: "<p>Der Grund für den Abgang des beschriebenen Archivguts.</p>\n<p>Beispiele:</p>\n\
+      \ <ul>\n<li>Der Geber hatte nicht die Absicht, dieses Archivgut weiterzugeben.</li>\n</ul>\n"
     scope_tooltip: "<p>ERFORDERLICHES FELD: Dient zur Angabe, ob sich eine Umfangssangabe auf die Gesamtheit
       oder einen Teil einer bestimmten beschriebenen Ansammlung oder Objekt bezieht.</p>\n"
     notification: Benachrichtigung erfolgt?
@@ -897,12 +898,12 @@ de:
       die Karl-Borromäus-Kirche (Zentralfriedhof Wien, Österreich))</em></li>\n</ul>\n"
     authority_id_tooltip: "Der eindeutige Bezeichner für die Namensform eines Akteurs innerhalb der Quelle,
       aus der dieser gewonnen wurde (d. h. ein MADS-Datensatzbezeichner oder EAC-Datensatzbezeichner).
-      Der Bezeichner kann als URI dargestellt werden;\n<p>Siehe DACS 13.2</p>\n<p>Beispiele:</p>\n<ul>\n
-      <li>nr92045078 <em>für eine LCNAF-Namensüberschrift</em></li>\n<li>500115393 <em>für eine ULAN-Namensüberschrift</em></li>\n
-      <li>http://viaf.org/viaf/134138653 <em>für eine VIAF-Namensüberschrift</em>\n</ul>\n"
+      Der Bezeichner kann als URI dargestellt werden;\n<p>Siehe DACS 13.2</p>\n<p>Beispiele:</p>\n<ul>\n\
+      \ <li>nr92045078 <em>für eine LCNAF-Namensüberschrift</em></li>\n<li>500115393 <em>für eine ULAN-Namensüberschrift</em></li>\n\
+      \ <li>http://viaf.org/viaf/134138653 <em>für eine VIAF-Namensüberschrift</em>\n</ul>\n"
     title_tooltip: "<p>Ein Titel, der Teil des Namens ist.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Sir <em>(für
-      Churchill, Winston, Sir, 1874-1965)</em></li>\n<li>Chief (für Black Foot, Chief, gest. 1877)</li>\n
-      <li>Kaiser des Ostens <em>(für Johannes II. Komnenus, Kaiser des Ostens)</em></li>\n</ul>\n"
+      Churchill, Winston, Sir, 1874-1965)</em></li>\n<li>Chief (für Black Foot, Chief, gest. 1877)</li>\n\
+      \ <li>Kaiser des Ostens <em>(für Johannes II. Komnenus, Kaiser des Ostens)</em></li>\n</ul>\n"
     rest_of_name_tooltip: "<p>Das Namenselement Vorname oder Vorname und weitere Namen, z.B. zweite Vornamen,
       für die in der Aufzeichnung genannte Person.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Winston <em>(für
       Churchill, Winston, Sir, 1874-1965)</em></li>\n<li>Humphrey <em>(für Ward, Humphrey, Frau, 1851-1920)</em></li>\n\
@@ -910,11 +911,11 @@ de:
     number_tooltip: "<p>Eine Zahl, manchmal mit einem Begriff, die den Namen qualifiziert. Bei Personennamen
       oft eine römische Zahl oder eine römische Zahl und ein nachfolgender Teil eines Vornamens. Bei Firmennamen
       die Nummer eines Teils / Abteilung oder einer Sitzung.</p>\n<p>Beispiele:</p>\n<ul>\n<li>II Komnenus
-      <em>(für Johannes II Komnenus, Kaiser des Ostens</em></li>\n<li>II <em>(für Johannes Paul II)</em></li>\n
-      <li>97., 2. Sitzung <em>(für Kongress der Vereinigten Staaten, 97., 2. Sitzung)</em></li>\n</ul>\n"
-    primary_name_tooltip: "<p>Der Hauptteil einer Namensform (z.B. Nachname oder Vorname einer Person).</p>\n
-      <p>Beispiele:</p>\n<ul>\n<li>Churchill <em>(für Churchill, Winston, Sir, 1874-1965 [Person])</em></i>\n
-      <li>Black Foot <em>(für Black Foot, Chief, gest. 1877 [Person])</em></li>\n<li>International Business
+      <em>(für Johannes II Komnenus, Kaiser des Ostens</em></li>\n<li>II <em>(für Johannes Paul II)</em></li>\n\
+      \ <li>97., 2. Sitzung <em>(für Kongress der Vereinigten Staaten, 97., 2. Sitzung)</em></li>\n</ul>\n"
+    primary_name_tooltip: "<p>Der Hauptteil einer Namensform (z.B. Nachname oder Vorname einer Person).</p>\n\
+      \ <p>Beispiele:</p>\n<ul>\n<li>Churchill <em>(für Churchill, Winston, Sir, 1874-1965 [Person])</em></i>\n\
+      \ <li>Black Foot <em>(für Black Foot, Chief, gest. 1877 [Person])</em></li>\n<li>International Business
       Machines <em>(für International Business Machines. Mikroelektronik-Sparte [Körperschaft])</em></li>\n\
       </ul>\n"
   name_person:
@@ -954,8 +955,8 @@ de:
       unterscheiden. Beispiele: Trigg County, Ky. (für Cunningham (Familie : 1795- : Trigg County, Ky.)),
       Kanadische Botschaft, Tokio (für Kanada-Japan-Partnerschaftskonferenz (1991 : Kanadische Botschaft,
       Tokio))</p>\n"
-    subordinate_name_1_tooltip: "<p>Eine hierarchische Einheit mit der im Feld Hauptname genannten Körperschaft.</p>\n
-      <p>Beispiele</p>\n<ul>\n<li>Mikroelektronik-Abteilung <em>(für International Business Machines,
+    subordinate_name_1_tooltip: "<p>Eine hierarchische Einheit mit der im Feld Hauptname genannten Körperschaft.</p>\n\
+      \ <p>Beispiele</p>\n<ul>\n<li>Mikroelektronik-Abteilung <em>(für International Business Machines,
       Mikroelektronik-Abteilung)</em></li>\n</ul>\n"
     conference_meeting_tooltip: "<p> Gibt an, ob es sich bei der Entität um eine normale Körperschaft
       oder um eine Konferenz, ein Treffen oder eine andere benannte Veranstaltung handelt.</p>\n"
@@ -1229,25 +1230,27 @@ de:
   related_agent: &related_agent_attributes
     relator: Richtungsabhängige Beziehungsart
     specific_relator: Spezifische Beziehungsart
-    specific_relator_tooltip: Ein kontrollierter Begriff, der die Art der Beziehung zwischen dem Hauptakteur
-      und dem verbundenen Akteur genauer beschreibt.
+    specific_relator_tooltip: Ein kontrollierter Begriff, der die Art der Beziehung zwischen dem 
+      Hauptakteur und dem verbundenen Akteur genauer beschreibt.
     relationship_uri: Beziehungs-URI
-    relationship_uri_tooltip: Ein URI, der auf einen Eintrag in einer Ontologie oder einer anderen Ressource
-      für Beziehungstypen zwischen Akteuren verweist. Wird vorwiegend für die Zwecke von EAC-CPF verwendet.
-    relator_tooltip: Wenn ein allgemeiner Beziehungstyp Teil eines Paares mit zwei Richtungsmöglichkeiten
-      ist (z. B. Eltern-Kind), wird ein kontrollierter Begriff verwendet, der die Richtung der Beziehung
-      angibt.
+    relationship_uri_tooltip: Ein URI, der auf einen Eintrag in einer Ontologie oder einer anderen 
+      Ressource für Beziehungstypen zwischen Akteuren verweist. Wird vorwiegend für die Zwecke von 
+      EAC-CPF verwendet.
+    relator_tooltip: Wenn ein allgemeiner Beziehungstyp Teil eines Paares mit zwei 
+      Richtungsmöglichkeiten ist (z. B. Eltern-Kind), wird ein kontrollierter Begriff verwendet, der
+      die Richtung der Beziehung angibt.
     description_tooltip: Eine Freitextbeschreibung der Art der Beziehung.
     date: Datum
     ref: Verwandter Akteur
     _plural: Verwandte Akteure
     relationship_type: Allgemeine Beziehungsart
-    relationship_type_tooltip: Ein kontrollierter Begriff, der grob gesagt die Art der Beziehung zwischen
-      dem Hauptakteur und dem verbundenen Akteur beschreibt.
+    relationship_type_tooltip: Ein kontrollierter Begriff, der grob gesagt die Art der Beziehung 
+      zwischen dem Hauptakteur und dem verbundenen Akteur beschreibt.
     dates: Daten
     description: Beschreibung
     _singular: Verwandter Akteur
-    related_agent_tooltip: Die Person, Familie oder Körperschaft, die mit dem Hauptakteur verwandt ist.
+    related_agent_tooltip: Die Person, Familie oder Körperschaft, die mit dem Hauptakteur verwandt 
+      ist.
   related_agents:
     <<: *related_agent_attributes
   agent_relationship_earlierlater:
@@ -1306,8 +1309,8 @@ de:
   note_index_item:
     type: Typ
     value: Wert
-    value_tooltip: Der Inhalt eines jeden Eintrags im Literaturverzeichnis. Mindestens ein Eintrag ist
-      für jede Indexanmerkung erforderlich.
+    value_tooltip: Der Inhalt eines jeden Eintrags im Literaturverzeichnis. Mindestens ein Eintrag 
+      ist für jede Indexanmerkung erforderlich.
     type_tooltip: Die Art des Indexeintrags.
     reference: Referenz
     reference_text_tooltip: Eine Beschreibung für die Referenz, falls erforderlich.
@@ -1410,8 +1413,8 @@ de:
       verwendet.</p>\n"
     file_format_name: Name des Dateiformats
     file_format_version: Version des Dateiformats
-    file_format_version_tooltip: "<p>Die Version des Formats für den Dateityp.</p>\n<p>Beispiele:</p>\n
-      <ul>\n<li>5.0 <em>(für TIFF 5.0)</em></li>\n</ul>\n"
+    file_format_version_tooltip: "<p>Die Version des Formats für den Dateityp.</p>\n<p>Beispiele:</p>\n\
+      \ <ul>\n<li>5.0 <em>(für TIFF 5.0)</em></li>\n</ul>\n"
     file_size_bytes: Dateigröße (Bytes)
     file_size_bytes_tooltip: "<p>Die Größe (in Bytes) der digitalen Datei.</p>\n"
     checksum: Prüfsumme
@@ -1430,9 +1433,9 @@ de:
       wie das digitale Objekt angezeigt werden soll (z.B. ob der Link automatisch erfolgt oder vom Benutzer
       angefordert werden muss). Es wird in Verbindung mit dem XLink Show-Attribut verwendet.</p>\n"
     file_format_name_tooltip: "<p>Der Name des Formats für den Dateityp.</p>\n<p>Werte in dieser Aufzählungs-Liste
-      können bearbeitet werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Audio Interchange File Format (aiff)</li>\n
-      <li>Audio/Video Interleaved Format (avi)</li>\n<li>JPEG File Interchange Format (jpeg)</li>\n<li>MPEG-Audio
-      Layer 3 (mp3)</li>\n<li>Portables Dokumentenformat (pdf)</li>\n</ul>\n"
+      können bearbeitet werden.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Audio Interchange File Format (aiff)</li>\n\
+      \ <li>Audio/Video Interleaved Format (avi)</li>\n<li>JPEG File Interchange Format (jpeg)</li>\n\
+      <li>MPEG-Audio Layer 3 (mp3)</li>\n<li>Portables Dokumentenformat (pdf)</li>\n</ul>\n"
     _singular: Dateiversion
   extent:
     portion: Teil
@@ -1537,8 +1540,8 @@ de:
       Rechteerklärung bezieht.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Gesetz über die Informationsfreiheit
       und den Schutz der Privatsphäre [RSBC 1996] Kapitel 165</li>\n</ul>\n"
     type_note_tooltip: "<p>Zusätzliche Informationen über das Urheberrecht, die Lizenz, das Gesetz oder
-      die institutionelle Richtlinie und/oder deren Anwendung auf das beschriebene Archivgut.</p>\n<p>Beispiele:</p>\n
-      <ul>\n<li>Nutzungsbeschränkung(en): Dieses Werk kann durch das Urheberrechtsgesetz geschützt sein.
+      die institutionelle Richtlinie und/oder deren Anwendung auf das beschriebene Archivgut.</p>\n<p>Beispiele:</p>\n\
+      \ <ul>\n<li>Nutzungsbeschränkung(en): Dieses Werk kann durch das Urheberrechtsgesetz geschützt sein.
       Eine über das geltende Urheberrecht hinausgehende Nutzung dieses Werks bedarf der schriftlichen
       Genehmigung des/der Urheberrechtsinhaber(s). Die Verantwortung für die Einholung von Genehmigungen
       zur Nutzung und Verbreitung dieses Werks liegt ausschließlich beim Nutzer und nicht bei der Bibliothek
@@ -1564,9 +1567,10 @@ de:
   date: &date_attributes
     date_type: Typ
     label: Beschriftung
-    label_tooltip: "<p>ERFORDERLICHES FELD: Beschreibt die Art der Tätigkeit, die das Datum kennzeichnet.</p>\n
-      <p>Siehe DACS 2.4 und 2.4.3, ISAD(G) 3.1.3</p>\n"
-    date_type_message: Wählen Sie einen Typ, um ein normalisiertes Datum oder einen Datumsbereich einzugeben
+    label_tooltip: "<p>ERFORDERLICHES FELD: Beschreibt die Art der Tätigkeit, die das Datum kennzeichnet.</p>\n\
+      \ <p>Siehe DACS 2.4 und 2.4.3, ISAD(G) 3.1.3</p>\n"
+    date_type_message: Wählen Sie einen Typ, um ein normalisiertes Datum oder einen Datumsbereich 
+      einzugeben
     date_type_tooltip: "<p>ERFORDERLICHES FELD: Gibt den Typ der normalisierten Datumsinformation an,
       entweder ein einzelnes Datum oder einen Datumsbereich (inklusive oder Großteil).</p>\n"
     begin: Beginn
@@ -1580,8 +1584,8 @@ de:
     certainty: Sicherheit
     certainty_tooltip: "<p>Der Grad des Vertrauens in die in einer Datumsangabe enthaltenen Informationen.
       Diese Angabe ist optional und sollte nur hinzugefügt werden, wenn Datumsangaben auf der Grundlage
-      der verwendeten Beschreibung oder Katalogisierungsregeln als potenziell unsicher eingestuft werden.</p>\n
-      <p>Siehe EAD-Attribut \"certainty\".</p>\n"
+      der verwendeten Beschreibung oder Katalogisierungsregeln als potenziell unsicher eingestuft werden.</p>\n\
+      \ <p>Siehe EAD-Attribut \"certainty\".</p>\n"
     era: Epoche
     era_tooltip: "<p>Zeitraum, in dem die Jahre nummeriert und die Daten berechnet werden, z. B. BC (v.
       d. Z.) oder CE (n. d. Z.). Der Wert \"ce\" ist der Standardwert.</p>\n<p>Siehe EAD-Attribut \"era\"\
@@ -1592,13 +1596,13 @@ de:
     expression: Ausdruck
     expression_tooltip: "<p>BEDINGT ERFORDERLICHES FELD: Ein Ausdruck in natürlicher Sprache, der das
       Datum oder den Datumsbereich des Archivguts angibt. Erforderlich, wenn kein normalisiertes Datum
-      erfasst wird.</p>\n<p>Siehe DACS 2.4, ISAD(G) 3.1.3</p>\n<p>Beispiele:</p>\n<ul>\n<li>1968</li>\n
-      <li>1979-1993</li>\n<li>1785-1960, großteils 1916-1958</li>\n<li>1827, 1952-1978</li>\n<li>circa
+      erfasst wird.</p>\n<p>Siehe DACS 2.4, ISAD(G) 3.1.3</p>\n<p>Beispiele:</p>\n<ul>\n<li>1968</li>\n\
+      \ <li>1979-1993</li>\n<li>1785-1960, großteils 1916-1958</li>\n<li>1827, 1952-1978</li>\n<li>circa
       1870-1879</li>\n<li>17. März 1906</li>\n<li>undatiert</li>\n<li>unbekannt <em>(für Ereignisse)</em></li>\n\
       </ul>\n"
     end_tooltip: "<p>Ein normalisiertes Datum (in der Form JJJJ, JJJJ-MM oder JJJJ-MM-TT), welches das
-      zweite Datum in einem Datumsbereich darstellt.</p>\n<p>Siehe DACS 2.4.7-2.4.16, ISAD(G) 3.1.3</p>\n
-      <p>Jahre n. d. Z. werden mit vier Ziffern ausgedrückt.</p>\n<p>Jahre v. d. Z. werden als negative
+      zweite Datum in einem Datumsbereich darstellt.</p>\n<p>Siehe DACS 2.4.7-2.4.16, ISAD(G) 3.1.3</p>\n\
+      \ <p>Jahre n. d. Z. werden mit vier Ziffern ausgedrückt.</p>\n<p>Jahre v. d. Z. werden als negative
       Zahl ausgedrückt, z. B. -214 für 214 v. Chr./v. d. Z.</p>\n"
     _plural: Daten
     _singular: Datum
@@ -1669,8 +1673,8 @@ de:
     other_level: Andere Ebene
     container_summary: Behältnis-Zusammenfassung
     container_summary_tooltip: "<p>Zur Erfassung der Anzahl und des Typs der Behältnisse einer Ressourcen-Aufzeichnung.
-      Dies wird als textliche Zusammenfassung betrachtet und ist nicht identisch mit den Umfang-Teilaufzeichnungen.</p>\n
-      <p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n<p>Beispiele:</p>\n<ul>\n<li>10 Aktenkartons, 6 Archivkartons,
+      Dies wird als textliche Zusammenfassung betrachtet und ist nicht identisch mit den Umfang-Teilaufzeichnungen.</p>\n\
+      \ <p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n<p>Beispiele:</p>\n<ul>\n<li>10 Aktenkartons, 6 Archivkartons,
       3 Übergrößenordner.</li>\n<li>12 Schuhkartons.</li>\n<li>4 Archivschachteln, 32 Röhren.</li>\n</ul>\n"
     publish_tooltip: "<p>Bestimmt, ob dieses Archiv-Objekt auf öffentlichen Besucher-Schnittstellen veröffentlicht
       wird.</p>\n"
@@ -1682,9 +1686,9 @@ de:
     _singular: Archiv-Objekt
     _plural: Archiv-Objekte
     title_tooltip: "<p>BEDINGT ERFORDERLICHES FELD: Der Titel, der dem beschriebenen Archivgut zugeordnet
-      ist. Ein Archiv-Objekt muss entweder eine Titel- oder eine Datums-Teilaufzeichnung haben.</p>\n
-      <p>Siehe DACS 2.3, ISAD(G) 3.1.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Graciany Miranda Archilla Arbeiten</li>\n
-      <li>Liebe macht eine Familie Aufzeichnungen</li>\n<li>Kontenbuch der Familie Cameron</li>\n<li>Karoline
+      ist. Ein Archiv-Objekt muss entweder eine Titel- oder eine Datums-Teilaufzeichnung haben.</p>\n\
+      \ <p>Siehe DACS 2.3, ISAD(G) 3.1.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Graciany Miranda Archilla Arbeiten</li>\n\
+      \ <li>Liebe macht eine Familie Aufzeichnungen</li>\n<li>Kontenbuch der Familie Cameron</li>\n<li>Karoline
       und Erwin Swann Sammlung von Karikaturen und Cartoons</li>\n<li>Korrespondenz der Nationalen Akademie
       der Wissenschaften</li>\n<li>Audio- und Videoaufnahmen</li>\n</ul>\n"
     other_level_tooltip: "<p>ERFORDERLICHES FELD, wenn \"Andere Ebene\" der für Ebene ausgewählte Wert
@@ -1694,8 +1698,8 @@ de:
       und wird von Importen nicht befüllt.</p>\n"
     restrictions_apply_tooltip: "<p>Gibt an, ob das beschriebene Archivgut in irgendeiner Weise eingeschränkt
       sind. Eine zusätzliche Beschreibung der Einschränkung sollte in den entsprechenden Anmerkungen oder
-      Rechteerklärungen für die Aufzeichnung, in dem die Einschränkung auftritt, gegeben werden.</p>\n
-      <p>Siehe DACS 4.1-4.4, ISAD(G) 3.4.1; 3.4.2; 3.4.4</p>\n"
+      Rechteerklärungen für die Aufzeichnung, in dem die Einschränkung auftritt, gegeben werden.</p>\n\
+      \ <p>Siehe DACS 4.1-4.4, ISAD(G) 3.4.1; 3.4.2; 3.4.4</p>\n"
   related_agents_agent_person:
     related_agents: Verwandte Akteure
   related_agents_agent_family:
@@ -1718,60 +1722,70 @@ de:
       basic_data_entry: "Basis-Dateneingabe-Benutzer des Aufbewahrungsorts %{repo_code}"
       repository_viewers: "Betrachter des Aufbewahrungsorts %{repo_code}"
     permission_types:
-      manage_repository: Weisen Sie <b>Benutzer</b> Gruppen zu (in diesem Repository)<br/>Legen Sie <b>Gruppen</b>-Berechtigungen
-        fest (in diesem Repository)<br/>Legen Sie <b>Repository-Einstellungen</b> fest ( in diesem Repository)<br/>konfigurieren
-        Sie <b>erforderliche Felder und Standardwerte</b> (in diesem Repository)<br/>erstellen und führen
-        Sie <b>Batch-Jobs zum Suchen und Ersetzen</b> aus (in diesem Repository) <br/><b>Standorte</b>
-        erstellen/aktualisieren/löschen (systemweit)
-      view_agent_contact_record: Bearbeiten/Anzeigen des Abschnitts „Kontaktdetails“ von <b>Agenten</b>
-        (in diesem Repository)
-      show_full_agents: Bearbeiten Sie zusätzliche Abschnitte von <b>Agenten</b>, die im Vollmodus aktiviert
-        sind (in diesem Repository)
+      manage_repository: Weisen Sie <b>Benutzer</b> Gruppen zu (in diesem Repository)<br/>Legen Sie 
+        <b>Gruppen</b>-Berechtigungen fest (in diesem Repository)<br/>Legen Sie 
+        <b>Repository-Einstellungen</b> fest ( in diesem Repository)<br/>konfigurieren Sie 
+        <b>erforderliche Felder und Standardwerte</b> (in diesem Repository)<br/>erstellen und 
+        führen Sie <b>Batch-Jobs zum Suchen und Ersetzen</b> aus (in diesem Repository) 
+        <br/><b>Standorte</b> erstellen/aktualisieren/löschen (systemweit)
+      view_agent_contact_record: Bearbeiten/Anzeigen des Abschnitts „Kontaktdetails“ von 
+        <b>Agenten</b> (in diesem Repository)
+      show_full_agents: Bearbeiten Sie zusätzliche Abschnitte von <b>Agenten</b>, die im Vollmodus 
+        aktiviert sind (in diesem Repository)
       update_accession_record: <b>Zugänge</b> erstellen/aktualisieren (in diesem Repository)
       update_resource_record: <b>Ressourcen</b> erstellen/aktualisieren (in diesem Repository)
-      update_digital_object_record: <b>Digitale Objekte</b> erstellen/aktualisieren (in diesem Repository)
+      update_digital_object_record: <b>Digitale Objekte</b> erstellen/aktualisieren (in diesem 
+        Repository)
       update_event_record: <b>Ereignisse</b> erstellen/aktualisieren (in diesem Repository)
-      view_repository: <b>alle Datensätze</b> anzeigen (in diesem Repository)<br/><b>Agenten</b> anzeigen
-        (systemweit)<br/><b>Themen</b> anzeigen (systemweit)
+      view_repository: <b>alle Datensätze</b> anzeigen (in diesem Repository)<br/><b>Agenten</b> 
+        anzeigen (systemweit)<br/><b>Themen</b> anzeigen (systemweit)
       view_suppressed: <b>unterdrückte Datensätze</b> anzeigen (in diesem Repository)
-      suppress_archival_record: <b>Zugänge, Archivobjekte und Ressourcen</b> unterdrücken (in diesem Repository)
-      delete_archival_record: <b>Zugänge, Archivobjekte, digitale Objekte und Ressourcen</b> löschen (in
-        diesem Repository)
+      suppress_archival_record: <b>Zugänge, Archivobjekte und Ressourcen</b> unterdrücken (in diesem
+        Repository)
+      delete_archival_record: <b>Zugänge, Archivobjekte, digitale Objekte und Ressourcen</b> löschen
+        (in diesem Repository)
       delete_event_record: <b>Ereignisse</b> löschen (in diesem Repository)
-      update_classification_record: <b>Klassifizierungen</b> erstellen/aktualisieren (in diesem Repository)
-      merge_agents_and_subjects: <b>Agenten</b> zusammenführen (systemweit)<br/> <b>Subjekte</b> zusammenführen
-        (systemweit)
-      merge_archival_record: <b>digitale Objekte</b> zusammenführen (in diesem Repository)</br><b>Ressourcen</b>
-        zusammenführen (in diesem Repository)
-      transfer_repository: <b>den gesamten Inhalt dieses Repositorys</b> in ein anderes Repository übertragen
-        (muss auch im Ziel-Repository über die gleiche Berechtigung verfügen)
-      transfer_archival_record: Übertragen Sie einzelne <b>Zugänge, digitale Objekte und Ressourcen</b>
-        in ein anderes Repository (Sie müssen außerdem über die Berechtigung verfügen, Datensätze des
-        zu übertragenden Typs in beiden Repositorys zu erstellen/aktualisieren)
+      update_classification_record: <b>Klassifizierungen</b> erstellen/aktualisieren (in diesem 
+        Repository)
+      merge_agents_and_subjects: <b>Agenten</b> zusammenführen (systemweit)<br/> <b>Subjekte</b> 
+        zusammenführen (systemweit)
+      merge_archival_record: <b>digitale Objekte</b> zusammenführen (in diesem 
+        Repository)</br><b>Ressourcen</b> zusammenführen (in diesem Repository)
+      transfer_repository: <b>den gesamten Inhalt dieses Repositorys</b> in ein anderes Repository 
+        übertragen (muss auch im Ziel-Repository über die gleiche Berechtigung verfügen)
+      transfer_archival_record: Übertragen Sie einzelne <b>Zugänge, digitale Objekte und 
+        Ressourcen</b> in ein anderes Repository (Sie müssen außerdem über die Berechtigung 
+        verfügen, Datensätze des zu übertragenden Typs in beiden Repositorys zu 
+        erstellen/aktualisieren)
       manage_subject_record: <b>Themen</b> erstellen/aktualisieren/löschen (systemweit)
       manage_agent_record: <b>Agenten</b> erstellen/aktualisieren/löschen (systemweit)
       manage_vocabulary_record: <b>Vokabular</b> erstellen/aktualisieren/löschen (systemweit)
       import_records: <b>Importjobs</b> erstellen/ausführen (in diesem Repository)
       cancel_importer_job: <b>Importjobs</b> abbrechen (in diesem Repository)
-      manage_container_record: <b>Top-Container</b> löschen/massenaktualisieren (in diesem Repository)
-      manage_container_profile_record: <b>Containerprofile</b> erstellen/aktualisieren/löschen (systemweit)
-      manage_location_profile_record: <b>Standortprofile</b> erstellen/aktualisieren/löschen (systemweit)
+      manage_container_record: <b>Top-Container</b> löschen/massenaktualisieren (in diesem 
+        Repository)
+      manage_container_profile_record: <b>Containerprofile</b> erstellen/aktualisieren/löschen 
+        (systemweit)
+      manage_location_profile_record: <b>Standortprofile</b> erstellen/aktualisieren/löschen 
+        (systemweit)
       update_assessment_record: <b>Bewertungen</b> erstellen/aktualisieren (in diesem Repository)
       delete_assessment_record: <b>Bewertungen</b> löschen (in diesem Repository)
-      manage_assessment_attributes: Erstellen/Aktualisieren/Löschen von <b>Repository-Bewertungsattributdefinitionen</b>
-        (in diesem Repository)
+      manage_assessment_attributes: Erstellen/Aktualisieren/Löschen von 
+        <b>Repository-Bewertungsattributdefinitionen</b> (in diesem Repository)
       delete_classification_record: <b>Klassifizierungen</b> löschen (in diesem Repository)
       cancel_job: <b>Hintergrundjobs</b> abbrechen (in diesem Repository)
       create_job: <b>Hintergrundjobs</b> erstellen/ausführen (in diesem Repository)
-      manage_enumeration_record: <b>gesteuerte Werte</b> erstellen/aktualisieren/löschen (systemweit)
-      manage_rde_templates: Erstellen/Löschen von <b>Schnelldateneingabevorlagen</b> (in diesem Repository)
+      manage_enumeration_record: <b>gesteuerte Werte</b> erstellen/aktualisieren/löschen 
+        (systemweit)
+      manage_rde_templates: Erstellen/Löschen von <b>Schnelldateneingabevorlagen</b> (in diesem 
+        Repository)
       update_container_record: <b>Top-Container</b> erstellen/aktualisieren (in diesem Repository)
-      manage_custom_report_templates: <b>benutzerdefinierte Berichtsvorlagen</b> erstellen/aktualisieren/löschen
-        (in diesem Repository)
+      manage_custom_report_templates: <b>benutzerdefinierte Berichtsvorlagen</b> 
+        erstellen/aktualisieren/löschen (in diesem Repository)
     _singular: Gruppe
     _plural: Gruppen
-    description_tooltip: "<p>Eine kurze textliche Beschreibung der Gruppe.</p>\n<p>Beispiele:\n<ul>\n
-      <li>Praktikanten im Sommer 2013</li>\n<li>Mitarbeiter der Sammlungsverwaltung</li>\n</ul>\n"
+    description_tooltip: "<p>Eine kurze textliche Beschreibung der Gruppe.</p>\n<p>Beispiele:\n<ul>\n\
+      \ <li>Praktikanten im Sommer 2013</li>\n<li>Mitarbeiter der Sammlungsverwaltung</li>\n</ul>\n"
     member_usernames_tooltip: "<p>Die Mitglieder, die zu dieser Gruppe gehören.</p>\n"
   resource:
     <<: [*archival_object_attributes, *section_tooltips]
@@ -1837,19 +1851,19 @@ de:
     _plural: Ressourcen
     new_title: Neue Ressource
     id_0_tooltip: "<p>ERFORDERLICHES FELD. Die Identifikationsnummer, die jeder einzelnen Ressource innerhalb
-      eines Aufbewahrungsorts zugewiesen wird.</p>\n<p>Siehe DACS 2.1.3, ISAD(G) 3.1.1</p>\n<p>Beispiele</p>\n
-      <ul>\n<li>R.001 (Zwei Elemente \"R\" + \"001\")</li>\n<li>MSS 025 (Ein einzelnes Element)</li>\n
-      <li>Archiv.RSS.0333 (Drei Elemente \"Archiv\" + \"RSS\" + \"0333\")</li>\n</ul>\n"
+      eines Aufbewahrungsorts zugewiesen wird.</p>\n<p>Siehe DACS 2.1.3, ISAD(G) 3.1.1</p>\n<p>Beispiele</p>\n\
+      \ <ul>\n<li>R.001 (Zwei Elemente \"R\" + \"001\")</li>\n<li>MSS 025 (Ein einzelnes Element)</li>\n\
+      \ <li>Archiv.RSS.0333 (Drei Elemente \"Archiv\" + \"RSS\" + \"0333\")</li>\n</ul>\n"
     resource_type_tooltip: "<p>Eine Liste von Begriffen, die von einem Aufbewahrungsort zur Kategorisierung
       seiner Ressourcen in Grundtypen verwendet werden.</p>\n<p>Werte in dieser Aufzählungs-Liste können
       bearbeitet werden.</p>\n"
     restrictions_tooltip: "<p>Gibt an, ob das beschriebene Archivgut in irgendeiner Weise eingeschränkt
       sind. Eine zusätzliche Beschreibung der Einschränkung sollte in den entsprechenden Anmerkungen oder
-      Rechteerklärungen für die Aufzeichnung, in dem die Einschränkung auftritt, gegeben werden.</p>\n
-      <p>Siehe DACS 4.1-4.4, ISAD(G) 3.4.1; 3.4.2; 3.4.4</p>\n"
+      Rechteerklärungen für die Aufzeichnung, in dem die Einschränkung auftritt, gegeben werden.</p>\n\
+      \ <p>Siehe DACS 4.1-4.4, ISAD(G) 3.4.1; 3.4.2; 3.4.4</p>\n"
     title_tooltip: "<p>ERFORDERLICHES FELD. Der Titel, welcher der Ressource zugewiesen wurde.</p>\n<p>Siehe
-      DACS 2.3, ISAD(G) 3.1.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Graciany Miranda Archilla Arbeiten</li>\n
-      <li>Liebe macht eine Familie Aufzeichnungen</li>\n<li>Kontobuch der Familie Cameron</li>\n<li>Karoline
+      DACS 2.3, ISAD(G) 3.1.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Graciany Miranda Archilla Arbeiten</li>\n\
+      \ <li>Liebe macht eine Familie Aufzeichnungen</li>\n<li>Kontobuch der Familie Cameron</li>\n<li>Karoline
       und Erwin Swann Sammlung von Karikaturen und Cartoons</li>\n<li>Korrespondenz der Nationalen Akademie
       der Wissenschaften</li>\n<li>Audio- und Videoaufnahmen</li>\n</ul>\n"
     "[:id_0, :id_1, :id_2, :id_3]": Signatur
@@ -1858,9 +1872,9 @@ de:
       über die Bearbeitung des Archivguts. Diese Anmerkung ist nicht in Exporten oder Berichten enthalten
       und wird von Importen nicht befüllt.</p>\n"
     finding_aid_filing_title_tooltip: "<p>Eine abgeänderte Version des offiziellen Titels des Findmittels.
-      Erleichtert das Durchsuchen und Sortieren von Findmittel-Titellisten.</p>\n<p>Beispiele:</p>\n<ul>\n
-      <li>Wayne (Bruce M.) Papiere</li>\n<li>Papiere der Rooney Familie</li>\n<li>Aufzeichnungen der Kommunistischen
-      Partei der Vereinigten Staaten</li>\n</ul>\n"
+      Erleichtert das Durchsuchen und Sortieren von Findmittel-Titellisten.</p>\n<p>Beispiele:</p>\n<ul>\n\
+      \ <li>Wayne (Bruce M.) Papiere</li>\n<li>Papiere der Rooney Familie</li>\n<li>Aufzeichnungen der
+      Kommunistischen Partei der Vereinigten Staaten</li>\n</ul>\n"
     ead_id_tooltip: "<p>Der aus der Ressourcenbeschreibung generierte Bezeichner für die EAD, in der Regel
       ein Dateiname. Muss im Kontext des Aufbewahrungsorts eindeutig sein.</p>\n"
     finding_aid_title_tooltip: "<p>Der (bibliografische) Titel für das mit dieser Ressource verbundene
@@ -1915,8 +1929,8 @@ de:
     general_section: Allgemeine Einstellungen
     show_suppressed: Unterdrückte anzeigen?
     include_unpublished: Unveröffentlichte Datensätze in Exporte einschließen?
-    default_values_tooltip: Ob neue Eingangs- und Ressourcenaufzeichnungen mit Standardwerten vorbefüllt
-      werden sollen.
+    default_values_tooltip: Ob neue Eingangs- und Ressourcenaufzeichnungen mit Standardwerten 
+      vorbefüllt werden sollen.
     sort_direction_tooltip: Standardrichtung zum Sortieren der Ergebnisse.
     classification_browse_section: Spalten der Klassifizerung beim Blättern
     repositories_browse_section: Spalten des Aufbewahrungsorts beim Blättern
@@ -1934,7 +1948,8 @@ de:
     resource_browse_section: Spalten der Ressource beim Blättern
     archival_object_browse_section: Spalten des Archiv-Objekts beim Blättern
     digital_object_browse_section: Spalten des digitalen Objekts beim Blättern
-    digital_object_component_browse_section: Spalten der Komponente des digitalen Objekts beim Blättern
+    digital_object_component_browse_section: Spalten der Komponente des digitalen Objekts beim 
+      Blättern
     subject_browse_section: Spalten des Themas beim Blättern
     agent_browse_section: Spalten des Akteurs beim Blättern
     location_browse_section: Spalten des Standorts beim Blättern
@@ -1948,11 +1963,11 @@ de:
     _singular: Standardeinstellungen
     _plural: Standardeinstellungen
     publish_tooltip: Ob neue Datensätze standardmäßig veröffentlicht werden sollen.
-    show_suppressed_tooltip: Ob unterdrückte Aufzeichnungen, die Sie beim Blättern sehen können, angezeigt
-      werden sollen.
+    show_suppressed_tooltip: Ob unterdrückte Aufzeichnungen, die Sie beim Blättern sehen können, 
+      angezeigt werden sollen.
     default_values: Datensätze vorbefüllen?
-    digital_object_spawn: Beschreibung für Instanzen des digitalen Objekts von verknüpfter Aufzeichnung
-      ableiten
+    digital_object_spawn: Beschreibung für Instanzen des digitalen Objekts von verknüpfter 
+      Aufzeichnung ableiten
     top_container_mgmt_browse_section: Spalten der Haupt-Behältnis-Verwaltung beim Blättern
 
   advanced_search:
@@ -2029,12 +2044,12 @@ de:
       erstellen.</li>\n<li>Der Projektleiter wird das kodierte Findmittel überprüfen, ausgeben und laden.</li>\n\
       </ul>\n"
     processing_status_tooltip: "<p>Zur Angabe des aktuellen Bearbeitungsstatus einer Archiveinheit (Eingang,
-      Ressource oder digitales Objekt).</p>\n<p>Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n
-      <p>Beispiele:</p>\n<ul>\n<li>Neu</li>\n<li>In Bearbeitung</li>\n<li>Erledigt</li>\n</ul>\n"
+      Ressource oder digitales Objekt).</p>\n<p>Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n\
+      \ <p>Beispiele:</p>\n<ul>\n<li>Neu</li>\n<li>In Bearbeitung</li>\n<li>Erledigt</li>\n</ul>\n"
     cataloged_note: Katalogisierte Anmerkung
     cataloged_note_tooltip: "<p>Ein Hinweis auf die Katalogisierung der Archiveinheit (Eingang, Ressource,
-      digitales Objekt), einschließlich der Angabe von Katalogisierungsbezeichnern.</p>\n<p>Beispiele:</p>\n
-      <ul>\n<li>Katalogeintragsnummer: 21345672</li>\n</ul>\n"
+      digitales Objekt), einschließlich der Angabe von Katalogisierungsbezeichnern.</p>\n<p>Beispiele:</p>\n\
+      \ <ul>\n<li>Katalogeintragsnummer: 21345672</li>\n</ul>\n"
     processing_hours_per_foot_estimate_tooltip: "<p>Die Zeit, die ein Aufbewahrungsort schätzt, um eine
       Einheit von Archivgut zu bearbeiten (z. B. ein Laufmeter oder ein Objekt im Fall von digitalen Objekten).\
       \  Bei der Schätzung kann die Erstellung von Findmitteln, Katalogen und anderen Zugangsprodukten
@@ -2073,19 +2088,20 @@ de:
     _plural: Einstellungen
     defaults: Standardwerte
     global: Globale Voreinstellungen
-    global_message: Bearbeiten Sie diese Werte, um systemweite Voreinstellungen für die Benutzereinstellungen
-      festzulegen. Diese Werte können durch Aufbewahrungsort-Standardwerte oder die eigenen Einstellungen
-      eines Benutzers überschrieben werden.
+    global_message: Bearbeiten Sie diese Werte, um systemweite Voreinstellungen für die 
+      Benutzereinstellungen festzulegen. Diese Werte können durch Aufbewahrungsort-Standardwerte 
+      oder die eigenen Einstellungen eines Benutzers überschrieben werden.
     repo: Aufbewahrungsort-Einstellungen
-    repo_message: Bearbeiten Sie diese Werte, um Einstellungen für alle Nutzer des aktuellen Aufbewahrungsorts
-      festzulegen. Diese Werte können von den eigenen Einstellungen eines Benutzers überschrieben werden.
+    repo_message: Bearbeiten Sie diese Werte, um Einstellungen für alle Nutzer des aktuellen 
+      Aufbewahrungsorts festzulegen. Diese Werte können von den eigenen Einstellungen eines 
+      Benutzers überschrieben werden.
     user_global: Globale Einstellungen
-    user_global_message: Bearbeiten Sie diese Werte, um Ihre Benutzereinstellungen festzulegen. Diese
-      Werte können durch Aufbewahrungsort-Standardwerte oder durch Ihre eigenen Einstellungen für einen
-      Aufbewahrungsort überschrieben werden.
+    user_global_message: Bearbeiten Sie diese Werte, um Ihre Benutzereinstellungen festzulegen. 
+      Diese Werte können durch Aufbewahrungsort-Standardwerte oder durch Ihre eigenen Einstellungen 
+      für einen Aufbewahrungsort überschrieben werden.
     user_repo: Benutzereinstellungen
-    user_repo_message: Bearbeiten Sie diese Werte, um Ihre Einstellungen für diesen Aufbewahrungsort festzulegen.
-      Diese Werte können nicht überschrieben werden.
+    user_repo_message: Bearbeiten Sie diese Werte, um Ihre Einstellungen für diesen Aufbewahrungsort
+      festzulegen. Diese Werte können nicht überschrieben werden.
     _singular: Einstellungen
   user:
     first_name: Vorname
@@ -2140,35 +2156,44 @@ de:
       to: Bis
       rating: Bewertung
       values: Werte
+    headings:
+      context: Ressource/Akzession
+      container_profile: Behälterprofil
+      location: Standort
+      title: Titel
+      type: Typ
+      indicator: Indikator
+      barcode: Strichcode
   validation_errors:
     missing_required_property: Eigenschaft ist erforderlich, fehlte aber
     must_not_be_before_begin: darf nicht vor Beginn sein
-    is_required_unless_an_expression_or_a_begin_date_is_given: ist erforderlich, es sei denn, es wird
-      ein Ausdruck oder ein Beginndatum angegeben
-    subject_heading_identifier_must_be_unique_within_source: Schlagwortbezeichner muss innerhalb der Quelle
-      eindeutig sein
+    is_required_unless_an_expression_or_a_begin_date_is_given: ist erforderlich, es sei denn, es 
+      wird ein Ausdruck oder ein Beginndatum angegeben
+    subject_heading_identifier_must_be_unique_within_source: Schlagwortbezeichner muss innerhalb der
+      Quelle eindeutig sein
     must_be_in_yyyy-mm-dd_format: Datum muss im Format JJJJ-MM-TT vorliegen
-    is_required_unless_a_begin_or_end_date_is_given: ist erforderlich, es sei denn, es wird ein Anfangs-
-      oder Enddatum angegeben
-    is_required_unless_an_expression_or_an_end_date_is_given: ist erforderlich, es sei denn, es wird ein
-      Ausdruck oder ein Enddatum angegeben
-    must_specify_either_a_date_or_a_timestamp: muss entweder ein Datum oder einen Zeitstempel angeben
+    is_required_unless_a_begin_or_end_date_is_given: ist erforderlich, es sei denn, es wird ein 
+      Anfangs- oder Enddatum angegeben
+    is_required_unless_an_expression_or_an_end_date_is_given: ist erforderlich, es sei denn, es wird
+      ein Ausdruck oder ein Enddatum angegeben
+    must_specify_either_a_date_or_a_timestamp: muss entweder ein Datum oder einen Zeitstempel 
+      angeben
     not_a_valid_date: Kein gültiges Datum
     subject_must_be_unique: Themenaufzeichnungen dürfen nicht identisch sein
     agent_must_be_unique: Akteuraufzeichnungen dürfen nicht identisch sein
     missing_property: Eigenschaft fehlte
-    container_2_requires_both_a_type_and_indicator: Sie müssen einen Indikator angeben, wenn Sie einen
-      Typ angeben
+    container_2_requires_both_a_type_and_indicator: Sie müssen einen Indikator angeben, wenn Sie 
+      einen Typ angeben
     container_profile_name_not_unique: Der Name des Behältnisprofils muss eindeutig sein
     must_be_a_positive_integer: Muss eine positive ganze Zahl sein
-    length_must_be_within_the_range_set_in_configuration: Die Länge muss innerhalb des in der Konfiguration
-      festgelegten Bereichs liegen
+    length_must_be_within_the_range_set_in_configuration: Die Länge muss innerhalb des in der 
+      Konfiguration festgelegten Bereichs liegen
     is_required_if_status_is_previous: ist erforderlich, wenn 'Status' 'Vorheriger' ist
     location_profile_name_not_unique: Standortprofilname muss eindeutig sein
-    custom_report_template_name_not_unique: Der Name der benutzerdefinierten Berichtsvorlage muss eindeutig
-      sein.
-    short_name_already_in_use: Der Kurzname des Aufbewahrungsortes muss innerhalb dieses ArchivesSpace
-      eindeutig sein
+    custom_report_template_name_not_unique: Der Name der benutzerdefinierten Berichtsvorlage muss 
+      eindeutig sein.
+    short_name_already_in_use: Der Kurzname des Aufbewahrungsortes muss innerhalb dieses 
+      ArchivesSpace eindeutig sein
     generic_validation_error: Validierungsfehler
     did_not_match_regular_expression: Entspricht nicht dem erwarteten Pattern %{regexp}
     too_few_characters: Muss mindestens %{min_length} Zeichen lang sein
@@ -2185,69 +2210,72 @@ de:
     cant_be_empty: darf nicht leer sein
     password_did_not_match: Eingegebener Wert stimmt nicht mit dem Passwort überein
     authority_id_must_be_unique: Autoritäts-ID wird bereits verwendet
-    either_type_1_or_barcode_is_required: Ein Behältnis muss einen Behältnis 1 Typ oder Strichcode enthalten.
-    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Muss eine Zahl mit höchstens
-      neun Ziffern und fünf Dezimalstellen sein.
-    container_3_requires_both_a_type_and_indicator: Sie müssen einen Indikator angeben, wenn Sie einen
-      Typ angeben
-    container_2_is_required_if_container_3_is_provided: Sie müssen ein Kind-Behältnis angeben, wenn Sie
-      ein Enkel-Behältnis angeben
-    a_barcode_must_be_unique_within_a_repository: Ein Strichcode muss innerhalb eines Aufbewahrungsortes
+    either_type_1_or_barcode_is_required: Ein Behältnis muss einen Behältnis 1 Typ oder Strichcode 
+      enthalten.
+    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Muss eine Zahl mit 
+      höchstens neun Ziffern und fünf Dezimalstellen sein.
+    container_3_requires_both_a_type_and_indicator: Sie müssen einen Indikator angeben, wenn Sie 
+      einen Typ angeben
+    container_2_is_required_if_container_3_is_provided: Sie müssen ein Kind-Behältnis angeben, wenn 
+      Sie ein Enkel-Behältnis angeben
+    a_barcode_must_be_unique_within_a_repository: Ein Strichcode muss innerhalb eines 
+      Aufbewahrungsortes eindeutig sein
+    must_be_unique_to_its_level_in_the_tree: Dieser Wert muss für diese Ebene der Hierarchie 
       eindeutig sein
-    must_be_unique_to_its_level_in_the_tree: Dieser Wert muss für diese Ebene der Hierarchie eindeutig
-      sein
-    repo_set_desc_required: Die Beschreibung der Aufbewahrungsort-Menge ist für die Erstellung eines OAI-Repository-Sets
-      erforderlich
-    repo_set_name_required: Der Name der Aufbewahrungsort-Menge ist für die Erstellung eines OAI-Repository-Sets
-      erforderlich
+    repo_set_desc_required: Die Beschreibung der Aufbewahrungsort-Menge ist für die Erstellung eines
+      OAI-Repository-Sets erforderlich
+    repo_set_name_required: Der Name der Aufbewahrungsort-Menge ist für die Erstellung eines 
+      OAI-Repository-Sets erforderlich
     is_not_present: Erforderliches Feld fehlt
-    sponsor_set_desc_required: Die Beschreibung der Geber-Menge ist für die Erstellung eines OAI-Sponsor-Sets
-      erforderlich
+    sponsor_set_desc_required: Die Beschreibung der Geber-Menge ist für die Erstellung eines 
+      OAI-Sponsor-Sets erforderlich
     invalid_characters: Enthält ungültige Zeichen
     external_ark_collision: Externer ARK bereits im Einsatz
-    location_cannot_be_deleted_if_linked: Die Standort-Aufzeichnung ist derzeit mit einer oder mehreren
-      Instanz-Aufzeichnungen verknüpft und kann nicht gelöscht werden. Bitte verknüpfen Sie diese Instanzen
-      mit neuen Standorten, bevor Sie die Standort-Aufzeichnung löschen.
-    cannot_be_previous_if_location_is_not_temporary: Kann nicht auf den vorherigen übertragen werden,
-      wenn der Standort nicht vorübergehend ist.
+    location_cannot_be_deleted_if_linked: Die Standort-Aufzeichnung ist derzeit mit einer oder 
+      mehreren Instanz-Aufzeichnungen verknüpft und kann nicht gelöscht werden. Bitte verknüpfen Sie
+      diese Instanzen mit neuen Standorten, bevor Sie die Standort-Aufzeichnung löschen.
+    cannot_be_previous_if_location_is_not_temporary: Kann nicht auf den vorherigen übertragen 
+      werden, wenn der Standort nicht vorübergehend ist.
     is_required_if_there_is_an_authority_id: ist erforderlich, wenn es eine 'Autoritäts-ID' gibt
-    you_must_provide_a_label__title_or_date: Sie müssen eine Beschriftung, einen Titel oder ein Datum
-      angeben
+    you_must_provide_a_label__title_or_date: Sie müssen eine Beschriftung, einen Titel oder ein 
+      Datum angeben
     location_fields_error: "Sie müssen entweder einen Strichcode, eine Klassifizierung oder sowohl eine
       Koordinate 1 Beschriftung als auch einen Koordinate 1 Indikator angeben.\n"
     location_must_be_unique_within_a_record: Muss innerhalb einer Aufzeichnung eindeutig sein
-    one_or_more_required_(or_enter_a_title): ein oder mehrere erforderlich (oder geben Sie einen Titel
-      ein)
-    must_not_be_an_empty_string_(or_enter_a_date): darf keine leere Zeichenkette sein (oder ein Datum
-      eingeben)
+    one_or_more_required_(or_enter_a_title): ein oder mehrere erforderlich (oder geben Sie einen 
+      Titel ein)
+    must_not_be_an_empty_string_(or_enter_a_date): darf keine leere Zeichenkette sein (oder ein 
+      Datum eingeben)
     is_required_when__source__is_blank: ist erforderlich, wenn 'Quelle' leer ist
     is_required_when__rules__is_blank: ist erforderlich, wenn 'Regeln' leer ist
-    group_code_already_in_use: Der Gruppencode muss innerhalb eines Aufbewahrungsortes eindeutig sein
-    or_date_expression_is_required: Datumsangaben müssen mindestens einen Datumsausdruck enthalten
-    must_be_a_number_with_no_more_than_2_decimal_places: Muss eine Zahl mit nicht mehr als 2 Dezimalstellen
+    group_code_already_in_use: Der Gruppencode muss innerhalb eines Aufbewahrungsortes eindeutig 
       sein
-    missing_end_filter_date: Start- und Enddatum sind erforderlich, um nach Datum zu filtern. Bitte geben
-      Sie ein Enddatum an.
-    custom_report_must_include_field_or_subreport: Die benutzerdefinierte Berichtsvorlage muss mindestens
-      ein Feld oder einen Teilbericht enthalten.
-    missing_start_filter_date: Start- und Enddatum sind erforderlich, um nach Datum zu filtern. Bitte
-      geben Sie ein Startdatum an.
+    or_date_expression_is_required: Datumsangaben müssen mindestens einen Datumsausdruck enthalten
+    must_be_a_number_with_no_more_than_2_decimal_places: Muss eine Zahl mit nicht mehr als 2 
+      Dezimalstellen sein
+    missing_end_filter_date: Start- und Enddatum sind erforderlich, um nach Datum zu filtern. Bitte 
+      geben Sie ein Enddatum an.
+    custom_report_must_include_field_or_subreport: Die benutzerdefinierte Berichtsvorlage muss 
+      mindestens ein Feld oder einen Teilbericht enthalten.
+    missing_start_filter_date: Start- und Enddatum sind erforderlich, um nach Datum zu filtern. 
+      Bitte geben Sie ein Startdatum an.
     must_be_a_valid_email_address: Das Feld E-Mail-Adresse muss eine gültige Adresse enthalten
-    ark_collision: Bei der Erstellung eines ARK für diese Aufzeichnung ist ein Problem aufgetreten. Bitte
-      wenden Sie sich an Ihren Systemadministrator.
-    sponsor_set_name_required: Der Name der Geber-Menge ist für die Erstellung eines OAI-Sponsor-Sets
-      erforderlich
-    must_specify_either_a_single_or_ranged_date: Die Daten müssen entweder als Einzel- oder als Bereichsdatum
-      angegeben werden
+    ark_collision: Bei der Erstellung eines ARK für diese Aufzeichnung ist ein Problem aufgetreten. 
+      Bitte wenden Sie sich an Ihren Systemadministrator.
+    sponsor_set_name_required: Der Name der Geber-Menge ist für die Erstellung eines 
+      OAI-Sponsor-Sets erforderlich
+    must_specify_either_a_single_or_ranged_date: Die Daten müssen entweder als Einzel- oder als 
+      Bereichsdatum angegeben werden
     requires_that_end_dates_are_after_begin_dates: Enddaten müssen nach den Anfangsdaten liegen
     must_specify_a_primary_subject: 'Beschreibungsinformation: Aufzeichnung hat kein Hauptthema'
-    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Standardisierte Daten müssen
-      in einem standardisierten Format vorliegen
+    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Standardisierte Daten 
+      müssen in einem standardisierten Format vorliegen
     conflicting_record: In Konflikt stehenden Datensatz anzeigen
-    subrecord_not_allowed_for_agent_software: Software-Akteure können keine Aufzeichnungskontrolle- oder
-      Beziehungs-Teilaufzeichnungen besitzen
+    subrecord_not_allowed_for_agent_software: Software-Akteure können keine Aufzeichnungskontrolle- 
+      oder Beziehungs-Teilaufzeichnungen besitzen
     ark_format_error: Einer der eingegebenen ARKs war kein gültiger ARK.
     missing_required_subrecord: Unteraufzeichnung ist erforderlich, fehlte aber
+    mixed_content_invalid_inline_ead: "Ungültiges EAD-Markup: Verwenden Sie gerade Anführungszeichen (\" oder ') für Attributwerte und stellen Sie sicher, dass die Tags korrekt aufgebaut sind."
   import_job:
     bulk_import_csv: Massenimport von AO-CSV
     bulk_import_DO_xlsx: Massenimport von DO-XLSX
@@ -2320,17 +2348,19 @@ de:
       top_container_linker_job: Haupt-Behältnis-Verknüpfer
   resource_duplicate_job:
     going_to_duplicate_job: Die Ressource wird mit der ID %{resource_id} dupliziert.
-    success_message: Ressource erfolgreich dupliziert %{ressource_Ursprung_id} zu ressource %{ressource_dupliziert_id}.
-    resource_failure_message: Ressource %{resource_source_id} wurde erfolgreich auf Ressource %{resource_duplicated_id}
-      dupliziert.
-    archival_object_failure_message: Das Duplizieren des Archivierungsobjekts mit der ID %{archival_object_id}
-      aus der Ressource mit der ID %{resource_id} ist fehlgeschlagen. Validierungsfehler %{message}.
+    success_message: Ressource erfolgreich dupliziert %{ressource_Ursprung_id} zu ressource 
+      %{ressource_dupliziert_id}.
+    resource_failure_message: Ressource %{resource_source_id} wurde erfolgreich auf Ressource 
+      %{resource_duplicated_id} dupliziert.
+    archival_object_failure_message: Das Duplizieren des Archivierungsobjekts mit der ID 
+      %{archival_object_id} aus der Ressource mit der ID %{resource_id} ist fehlgeschlagen. 
+      Validierungsfehler %{message}.
     source_archival_object: Quellarchivobjekt %{source_archival_object_inspect}.
-    success_reload_message: Alles erledigt. Klicken Sie bitte auf „Aktualisieren“, um einen Link zur neuen
-      Ressource zu erhalten.
+    success_reload_message: Alles erledigt. Klicken Sie bitte auf „Aktualisieren“, um einen Link zur
+      neuen Ressource zu erhalten.
     job_failed: Auftrag fehlgeschlagen.
-    could_not_find_resource: Die bereitgestellte Ressource mit der ID %{resource_id} konnte nicht gefunden
-      werden.
+    could_not_find_resource: Die bereitgestellte Ressource mit der ID %{resource_id} konnte nicht 
+      gefunden werden.
   system_info:
     frontend: Frontend-Benutzeroberfläche
     backend: Backend
@@ -2355,33 +2385,34 @@ de:
     <<: *rights_statement_act_attributes
   oai:
     sample_page:
-      introduction: <p>Beispielanfragen unter Verwendung des Open Archives Initiative Protocol for Metadata
-        Harvesting (OAI-PMH v 2.0).</p>
+      introduction: <p>Beispielanfragen unter Verwendung des Open Archives Initiative Protocol for 
+        Metadata Harvesting (OAI-PMH v 2.0).</p>
       form_header: Eine '%{verb}' Anfrage senden
       form_submit: Senden
       title: '%{oai_repository_name} - Beispiele für OAI-PMH-Anfragen'
   assessment:
     records: Aufzeichnungen
-    reviewer_tooltip: <p>Gibt an, wer die Überprüfung durchführen muss. Dieses Feld ist auf Personen mit
-      Benutzerdatensätzen in ArchivesSpace beschränkt.</p>
+    reviewer_tooltip: <p>Gibt an, wer die Überprüfung durchführen muss. Dieses Feld ist auf Personen
+      mit Benutzerdatensätzen in ArchivesSpace beschränkt.</p>
     accession_report: Eingangs-Bericht
     container_list: Box-/Behältnis-Liste
     catalog_record: Katalogaufzeichnung (MARC)
     collections: Sammlungen
     control_file: Sammlungs-/Kontrolldatei
     conservation_note: Anmerkung zur Bestandserhaltung
-    conservation_note_tooltip: <p> Gibt Bereiche an, die im Hinblick auf den Bestandserhaltungsbedarf
-      der Sammlung von besonderer Bedeutung sind.</p>
-    existing_description_notes_tooltip: <p>Weitere Informationen zur vorhandenen Beschreibung des Archivguts.</p>
+    conservation_note_tooltip: <p> Gibt Bereiche an, die im Hinblick auf den 
+      Bestandserhaltungsbedarf der Sammlung von besonderer Bedeutung sind.</p>
+    existing_description_notes_tooltip: <p>Weitere Informationen zur vorhandenen Beschreibung des 
+      Archivguts.</p>
     finding_aid_ead: Findmittel (EAD-Kodierung)
     finding_aid_online: Findmittel (online)
     survey_end: Fertigstellungsdatum der Erhebung
     survey_end_tooltip: <p>Das Datum, an dem die Erhebung beendet wurde, im Format JJJJ-MM-TT.</p>
     surveyed_duration: Zeitaufwand für den Abschluss der Erhebung
-    surveyed_duration_tooltip: <p>Die Zeit, die zum Abschluss der Erhebung benötigt wurde, gemessen in
-      Stundenschritten.</p>
-    surveyed_extent_tooltip: <p>Der Umfang des untersuchten Archivguts in Einheiten wie Kubikmeter oder
-      Meter. </p>
+    surveyed_duration_tooltip: <p>Die Zeit, die zum Abschluss der Erhebung benötigt wurde, gemessen 
+      in Stundenschritten.</p>
+    surveyed_extent_tooltip: <p>Der Umfang des untersuchten Archivguts in Einheiten wie Kubikmeter 
+      oder Meter. </p>
     related_eac_records: Zugehörige EAC-Aufzeichnung(en)
     review_required: Überprüfung erforderlich?
     review_required_true: Ja
@@ -2395,11 +2426,13 @@ de:
     sensitive_material_true: Ja
     sensitive_material_false: Nein
     special_format_note: Anmerkung zum Sonderformat
-    special_format_note_tooltip: <p>Zusätzliche oder erläuternde Informationen zu den vorhandenen Sonderformaten.</p>
+    special_format_note_tooltip: <p>Zusätzliche oder erläuternde Informationen zu den vorhandenen 
+      Sonderformaten.</p>
     exhibition_value_note: Anmerkung zum Ausstellungswert
-    exhibition_value_note_tooltip: <p>Gibt an, ob die Sammlung selbst oder einzelne in der Sammlung gefundene
-      Gegenstände für eine Ausstellung besonders geeignet sein könnten. In diesem Feld kann zum Beispiel
-      ein einzigartiges Artefakt, ein Brief oder eine Fotografie von historischer Bedeutung vermerkt sein.</p>
+    exhibition_value_note_tooltip: <p>Gibt an, ob die Sammlung selbst oder einzelne in der Sammlung 
+      gefundene Gegenstände für eine Ausstellung besonders geeignet sein könnten. In diesem Feld 
+      kann zum Beispiel ein einzigartiges Artefakt, ein Brief oder eine Fotografie von historischer 
+      Bedeutung vermerkt sein.</p>
     rating_attributes_value:
       rating_none: Keine Bewertung
       rating_1: '1'
@@ -2414,19 +2447,19 @@ de:
     inactive: Inaktiv?
     survey_begin: Beginndatum der Erhebung
     monetary_value_note: Anmerkung zum Geldwert
-    monetary_value_note_tooltip: <p> Gibt an, wer den Geldwert, das Datum der Bewertung und andere relevante
-      Informationen zur Verfügung gestellt hat.</p>
+    monetary_value_note_tooltip: <p> Gibt an, wer den Geldwert, das Datum der Bewertung und andere 
+      relevante Informationen zur Verfügung gestellt hat.</p>
     surveyed_by: Erhoben von
     surveyed_by_tooltip: "<p>ERFORDERLICHES FELD: Name(n) der Person(en), welche die Begutachtung durchgeführt
       haben. Dieses Feld ist auf Personen mit Benutzerdatensätzen in ArchivesSpace beschränkt.</p>\n"
     survey_begin_tooltip: "<p>ERFORDERLICHES FELD: Das Datum des Beginns der Erhebung im Format JJJJ-MM-TT.</p>\n"
-    inactive_tooltip: <p>Gibt an, dass die Begutachtungsaufzeichnung nicht mehr als "aktiv" gilt und daher
-      nicht in Suchvorgängen oder Berichten berücksichtigt werden sollte.</p>
+    inactive_tooltip: <p>Gibt an, dass die Begutachtungsaufzeichnung nicht mehr als "aktiv" gilt und
+      daher nicht in Suchvorgängen oder Berichten berücksichtigt werden sollte.</p>
     inactive_true: Ja
     inactive_false: Nein
     monetary_value: Geldwert
-    monetary_value_tooltip: <p>Bewerteter oder geschätzter Marktwert des begutachteten Archivguts (numerischer
-      Wert).</p>
+    monetary_value_tooltip: <p>Bewerteter oder geschätzter Marktwert des begutachteten Archivguts 
+      (numerischer Wert).</p>
     records_tooltip: "<p>ERFORDERLICHES FELD: Eine Verknüpfung zu den Ressourcen, den Eingängen, den Archiv-Objekten
       oder den digitalen Objekten, die Gegenstand der Begutachtung sind.</p>\n"
     deed_of_gift: Schenkungsurkunde
@@ -2434,16 +2467,16 @@ de:
     finding_aid_paper: Findmittel (nur auf Papier)
     appraisal: Beurteilung
     surveyed_extent: Erfasster Umfang
-    review_required_tooltip: <p>Gibt an, ob für die Sammlung aufgrund ihres Formats, ihres Gegenstands
-      oder ihrer Umstände eine Überprüfung erforderlich ist.</p>
+    review_required_tooltip: <p>Gibt an, ob für die Sammlung aufgrund ihres Formats, ihres 
+      Gegenstands oder ihrer Umstände eine Überprüfung erforderlich ist.</p>
     scope_tooltip: "<p>Gibt den Umfang der Begutachtung an. Beispiele: 10 % Stichproben; Gesamtheit; ein
       bestimmtes Format oder Genre innerhalb einer Sammlung oder sammlungsübergreifend; oder andere Einschränkungen
       oder Bedingungen für Archivgut, die während einer Begutachtung aktiv geprüft werden.</p>\n"
     research_value: Forschungswert
     _singular: Begutachtung
     new_title: Neue Begutachtung
-    research_value_tooltip: <p>Dieser Wert wird automatisch berechnet, indem der Wert im Feld Dokumentationsqualität
-      mit dem Wert im Feld Interesse addiert wird.</p>
+    research_value_tooltip: <p>Dieser Wert wird automatisch berechnet, indem der Wert im Feld 
+      Dokumentationsqualität mit dem Wert im Feld Interesse addiert wird.</p>
     general_assessment_note_tooltip: <p>Weitere Anmerkungen zu einer Begutachtung.</p>
     rating_note: '{%label} Anmerkung'
     review_note: Anmerkung zur Überprüfung
@@ -2460,18 +2493,19 @@ de:
         Schwach</li><li><b>Bewertung 3</b>: Mäßig</li><li><b>Bewertung 4</b>: Hoch</li><li><b>Bewertung
         5</b>: Sehr hoch</li></ul>'
       "Reformatting Readiness": Möglichkeit zur Umformatierung
-      "Reformatting Readiness_tooltip": <p>Eine Bewertung von 1 bis 5, die angibt, wie leicht Archivgut
-        umformatiert werden kann.</p>
+      "Reformatting Readiness_tooltip": <p>Eine Bewertung von 1 bis 5, die angibt, wie leicht 
+        Archivgut umformatiert werden kann.</p>
       "Physical Access (arrangement)": Physischer Zugang (Anordnung)
-      "Intellectual Access (description)_tooltip": <p>Eine Bewertung von 1 bis 5, die sich auf die intellektuelle
-        Beschreibung einer Sammlung und die Zugänglichkeit dieser Beschreibung für die Benutzer bezieht.</p>
-      "Interest_tooltip": <p>Eine Bewertung von 1 bis 5, die das Interesse von Forschern, Gebern oder
-        lokalen Personen am Archivgut angibt. Interesse + Dokumentationsqualität ergeben den Wert des
-        "Forschungswert".</p>
+      "Intellectual Access (description)_tooltip": <p>Eine Bewertung von 1 bis 5, die sich auf die 
+        intellektuelle Beschreibung einer Sammlung und die Zugänglichkeit dieser Beschreibung für 
+        die Benutzer bezieht.</p>
+      "Interest_tooltip": <p>Eine Bewertung von 1 bis 5, die das Interesse von Forschern, Gebern 
+        oder lokalen Personen am Archivgut angibt. Interesse + Dokumentationsqualität ergeben den 
+        Wert des "Forschungswert".</p>
       "Documentation Quality": Dokumentationsqualität
-      "Documentation Quality_tooltip": <p>Eine Bewertung von 1 bis 5, die sich auf die Reichhaltigkeit
-        und Tiefe der in einer Sammlung verfügbaren Dokumentation bezieht. Interesse + Dokumentationsqualität
-        ergeben den Wert des "Forschungswert".</p>
+      "Documentation Quality_tooltip": <p>Eine Bewertung von 1 bis 5, die sich auf die 
+        Reichhaltigkeit und Tiefe der in einer Sammlung verfügbaren Dokumentation bezieht. Interesse
+        + Dokumentationsqualität ergeben den Wert des "Forschungswert".</p>
       "Documentation Quality_values_tooltip": '<ul><li><b>Bewertung 1</b>: Gering</li><li><b>Bewertung
         2</b>: Zufällig wertvoll</li><li><b>Rating 3</b>: Mäßig reichhaltig</li><li><b>Bewertung 4</b>:
         Reichhaltig</li><li><b>Bewertung 5</b>: Sehr reichhaltig</li></ul>'
@@ -2491,29 +2525,29 @@ de:
         ohne Schwierigkeiten neu formatiert werden. Es gibt keine bestandserhaltenden Probleme, die Formate
         sind aktuell, und es bestehen keine Bedenken hinsichtlich des geistigen Eigentums. Die Metadaten
         sind vorhanden und vollständig.</li></ul>'
-      "Documentation Quality_note_tooltip": Weitere Informationen über die Dokumentationsqualität des
-        Archivguts.
-      "Housing Quality_note_tooltip": Gibt Bereiche an, die in Bezug auf die Aufbewahrung der Sammlung
-        von besonderer Bedeutung sind.
-      "Intellectual Access_note_tooltip": Weitere Informationen über den intellektuellen Zugang zum Archivgut
-        und dessen Beschreibung.
+      "Documentation Quality_note_tooltip": Weitere Informationen über die Dokumentationsqualität 
+        des Archivguts.
+      "Housing Quality_note_tooltip": Gibt Bereiche an, die in Bezug auf die Aufbewahrung der 
+        Sammlung von besonderer Bedeutung sind.
+      "Intellectual Access_note_tooltip": Weitere Informationen über den intellektuellen Zugang zum 
+        Archivgut und dessen Beschreibung.
       "Interest_note_tooltip": Weitere Informationen über das Interesse am Archivgut.
       "Housing Quality": Qualität der Aufbewahrung
       "Physical Condition": Physischer Zustand
-      "Housing Quality_tooltip": <p>Eine Bewertung von 1 bis 5, welche die Gesamtqualität der Aufbewahrung
-        der Materialien in einer Sammlung beschreiben soll; Elemente oder Gruppen von Archivgut innerhalb
-        einer Sammlung können sich in einer besseren oder schlechteren Aufbewahrung befinden, als es die
-        Gesamtbewertung angibt.</p>
-      "Physical Condition_tooltip": <p>Eine Bewertung von 1 bis 5, die den Gesamtzustand des Archivguts
-        in einer Sammlung beschreiben soll; besonders problematische Objekte oder Materialgruppen werden
-        in der Bestanderhaltungs-Anmerkung angegeben.</p>
-      "Physical Access (arrangement)_tooltip": <p>Eine Bewertung von 1 bis 5 für die physische Anordnung
-        einer Sammlung unter Berücksichtigung der Komplexität und Größe der Sammlung. Zum Beispiel ist
-        eine kleine, relativ homogene Sammlung in grober Ordnung im Allgemeinen besser zugänglich als
-        eine große, heterogene Sammlung in grober Ordnung, und die Bewertungen spiegeln diese Tatsache
-        wider. (Beachten Sie, dass die Anordnung auf Artikelebene für viele Sammlungen nicht wünschenswert
-        ist; eine Bewertung von 4 kann die höchste Bewertung sein, die für eine Sammlung wünschenswert
-        ist.)</p>
+      "Housing Quality_tooltip": <p>Eine Bewertung von 1 bis 5, welche die Gesamtqualität der 
+        Aufbewahrung der Materialien in einer Sammlung beschreiben soll; Elemente oder Gruppen von 
+        Archivgut innerhalb einer Sammlung können sich in einer besseren oder schlechteren 
+        Aufbewahrung befinden, als es die Gesamtbewertung angibt.</p>
+      "Physical Condition_tooltip": <p>Eine Bewertung von 1 bis 5, die den Gesamtzustand des 
+        Archivguts in einer Sammlung beschreiben soll; besonders problematische Objekte oder 
+        Materialgruppen werden in der Bestanderhaltungs-Anmerkung angegeben.</p>
+      "Physical Access (arrangement)_tooltip": <p>Eine Bewertung von 1 bis 5 für die physische 
+        Anordnung einer Sammlung unter Berücksichtigung der Komplexität und Größe der Sammlung. Zum 
+        Beispiel ist eine kleine, relativ homogene Sammlung in grober Ordnung im Allgemeinen besser 
+        zugänglich als eine große, heterogene Sammlung in grober Ordnung, und die Bewertungen 
+        spiegeln diese Tatsache wider. (Beachten Sie, dass die Anordnung auf Artikelebene für viele 
+        Sammlungen nicht wünschenswert ist; eine Bewertung von 4 kann die höchste Bewertung sein, 
+        die für eine Sammlung wünschenswert ist.)</p>
       "Housing Quality_values_tooltip": '<ul><li><b>Bewertung 1</b>: Die Sammlung ist in nicht archivtauglichen
         Kartons untergebracht und kann lose im Regal liegen. Der Großteil des Archivguts befindet sich
         nicht in Ordnern und/oder die Kartons sind überfüllt oder zu wenig befüllt. Bei gebundenen Bänden
@@ -2590,10 +2624,10 @@ de:
         nationalen bibliografischen Dienstprogramm wie OCLC. Die Sammlung kann auch in anderen Online-
         oder Offline-Quellen beschrieben sein, die den Forschern zur Verfügung stehen (z. B. in einem
         gedruckten oder Online-Führer zu Sammlungen).</li></ul>'
-      "Physical Access_note_tooltip": Weitere Informationen über den physischen Zugang zum Archivgut und
-        dessen Anordnung.
-      "Physical Condition_note_tooltip": Gibt Bereiche an, die in Bezug auf den physischen Zustand der
-        Sammlung von besonderer Bedeutung sind.
+      "Physical Access_note_tooltip": Weitere Informationen über den physischen Zugang zum Archivgut
+        und dessen Anordnung.
+      "Physical Condition_note_tooltip": Gibt Bereiche an, die in Bezug auf den physischen Zustand 
+        der Sammlung von besonderer Bedeutung sind.
     format:
       "Artifacts": Artefakte
       "Audio Materials": Audio-Archivgut
@@ -2631,14 +2665,16 @@ de:
       has_dig_obj: Archiv-Objekt hat bereits ein zugehöriges digitales Objekt
       ao_validation: 'Validierungsfehler beim Versuch, ein Archiv-Objekt zu speichern: %{err}'
       date_type: Datumstyp [%{what}] ungültig für %{date_str}. Das Datum wird nicht verarbeitet.
-      date_label: Datumsbeschriftung [%{what}] ungültig für %{date_str}. Das Datum wird nicht verarbeitet.
+      date_label: Datumsbeschriftung [%{what}] ungültig für %{date_str}. Das Datum wird nicht 
+        verarbeitet.
       certainty: "Ungültige 'Datumssicherheit' ignoriert für %{date_str}: (%{what})"
-      below_bad_ao: Kann nicht verarbeitet werden, da es ein Kind des fehlerhaften Archiv-Objekts ist
+      below_bad_ao: Kann nicht verarbeitet werden, da es ein Kind des fehlerhaften Archiv-Objekts 
+        ist
       enum: "UNGÜLTIG: %{which}: '%{label}'. Gültige Werte: %{valid_values}"
       error: 'FEHLER: Fehler erkannt: %{term}'
       duplicates: 'Diese Tabelle enthält doppelte ArchivesSpace-Feldcodes: %{codes}'
-      uri_mismatch: Der URI der Eingaberessource [%{res_uri}] stimmt nicht mit dem URI der Zeile [%{row_uri}]
-        überein
+      uri_mismatch: Der URI der Eingaberessource [%{res_uri}] stimmt nicht mit dem URI der Zeile 
+        [%{row_uri}] überein
       title: Fehlender Titel
       title_and_date: Fehlende Definition von Titel UND Definition des Gültigkeitsdatums
       hier_miss: Fehlende Hierarchie -- muss eine Zahl größer als 0 sein
@@ -2676,25 +2712,27 @@ de:
       system: Ein Systemfehler ist aufgetreten [%{msg}].
       initialize: Die Verarbeitung wird beendet [%{msg}]
       too_many: Mehr als eine Übereinstimmung in der Datenbank gefunden
-      invalid_date: Ungültige Datumsdefinition (%{what}) für %{date_str}. Das Datum wird nicht verarbeitet.
+      invalid_date: Ungültige Datumsdefinition (%{what}) für %{date_str}. Das Datum wird nicht 
+        verarbeitet.
       invalid_date_label: Ungültige Definition der Datumsbeschriftung im ersten Datum (%{what})
       type_undef: Typ kann nicht ermittelt werden
       stopped: Verarbeitung angehalten bei Zeile %{row} [%{msg}]
-      second_save_error: Fehler beim Versuch, ein Archiv-Objekt mit 'Instanzen' %{title} Position %{pos}
-        erneut zu speichern. Das bedeutet, dass das Archiv-Objekt zwar erstellt wurde, aber möglicherweise
-        nicht mit den zugehörigen Instanzen (digitales Objekt, Haupt-Behältnis, Thema usw.) verknüpft
-        ist [%{what}]
+      second_save_error: Fehler beim Versuch, ein Archiv-Objekt mit 'Instanzen' %{title} Position 
+        %{pos} erneut zu speichern. Das bedeutet, dass das Archiv-Objekt zwar erstellt wurde, aber 
+        möglicherweise nicht mit den zugehörigen Instanzen (digitales Objekt, Haupt-Behältnis, Thema
+        usw.) verknüpft ist [%{what}]
       no_data: Keine verarbeitbaren Datenzeilen gefunden!
       no_container_instance: 'Behältnis-Instanz %{number} konnte nicht erstellt werden: [%{why}]'
-      no_move: Die Archiv-Objekte können nicht vom Ende der Liste verschoben werden (Antwortcode %{code})
+      no_move: Die Archiv-Objekte können nicht vom Ende der Liste verschoben werden (Antwortcode 
+        %{code})
       no_create: 'Kann nicht erstellt werden: [%{why}]'
       bad_note: '%{type} Anmerkung ist nicht wohlgeformt: %{msg}'
       role_invalid: "Akteur-Verknüpfung kann aufgrund eines Problems mit der Rolle '%{label}' nicht erstellt
         werden: %{why}"
       no_uri_or_ref: Es wurde weder ein URI für ein Archiv-Objekt noch eine Ref-ID angegeben
       row_missing_ead_uri: In dieser Zeile fehlen sowohl eine EAD-ID als auch eine URI
-      ead_mismatch: Die EAD-ID des Formulars [%{res_ead}] stimmt nicht mit der EAD-ID der Zeile überein
-        [%{row_ead}]
+      ead_mismatch: Die EAD-ID des Formulars [%{res_ead}] stimmt nicht mit der EAD-ID der Zeile 
+        überein [%{row_ead}]
       hier_wrong_resource_validation: 'WARNUNG: nichts unterhalb dieser Zeile wäre verarbeitet worden'
       res_ead: In der Ressource dieses Formulars fehlt eine EAD-ID
       row_ead: In dieser Zeile fehlt eine EAD-ID
@@ -2703,11 +2741,13 @@ de:
       no_ao_be: Archiv-Objekt würde nicht erstellt werden
       bad_note_type: Anmerkungs-Typ '%{type}' wird nicht unterstützt
       bad_relator: "Akteur-Verknüpfung kann nicht erstellt werden: '%{label}' ist kein gültiger Relator"
-      dig_info_miss: Weder der URI des digitalen Objekts noch der URI der Miniaturansicht wurde angegeben
+      dig_info_miss: Weder der URI des digitalen Objekts noch der URI der Miniaturansicht wurde 
+        angegeben
       initial_save_error: Problem beim ersten Speichern von %{title} -- %{msg}
-      file_too_big: Diese Datei bei %{file_info} überschreitet die Größen- und/oder Zeilenanzahlgrenzen
-        von %{limits}
-      utf8: Diese Tabelle enthält ungültigen oder fehlerhaften Text, der nicht verarbeitet werden kann.
+      file_too_big: Diese Datei bei %{file_info} überschreitet die Größen- und/oder 
+        Zeilenanzahlgrenzen von %{limits}
+      utf8: Diese Tabelle enthält ungültigen oder fehlerhaften Text, der nicht verarbeitet werden 
+        kann.
     templates: Vorlagen für den Massenimport
     row: Zeile %{row}
     dig_assoc: Digitales Objekt zum Archiv-Objekt hinzugefügt
@@ -2728,12 +2768,13 @@ de:
     log_info: "%{row}:\t%{what}"
     ref_id_notfound: Ref-ID %{refid} nicht gefunden
     warn:
-      disamuse: Mehrere Übereinstimmungen für '%{which}' gefunden. Benutze bereits erstellte '%{name}'
-        zur Unterscheidung.
+      disamuse: Mehrere Übereinstimmungen für '%{which}' gefunden. Benutze bereits erstellte 
+        '%{name}' zur Unterscheidung.
       single_date_end: Einzeldatum %{date_str} hat ein Enddatum, das ignoriert wird.
-      disam: Mehrere Übereinstimmungen für '%{which}' gefunden. Erstelle '%{name}' zur Unterscheidung.
-      dup: Aufzählungs-Liste %{which} hat mehrere Instanzen für die Übersetzung '%{trans}'. '%{used}'
-        wird als Wert verwendet.
+      disam: Mehrere Übereinstimmungen für '%{which}' gefunden. Erstelle '%{name}' zur 
+        Unterscheidung.
+      dup: Aufzählungs-Liste %{which} hat mehrere Instanzen für die Übersetzung '%{trans}'. 
+        '%{used}' wird als Wert verwendet.
     log_error: "%{row}:\tFEHLER %{what}"
     unfound_id: '%{type} ID %{id} NICHT GEFUNDEN. Das ist ein PLATZHALTER'
     log_results: Stelle Resultat-CSV-Datei zusammen
@@ -2779,8 +2820,8 @@ de:
   largetree:
     reparent_error:
       title: Verschieben kann nicht durchgeführt werden
-      message: Das Verschieben wurde nicht durchgeführt, weil ein Elternteil nicht sein eigenes Kind werden
-        kann.
+      message: Das Verschieben wurde nicht durchgeführt, weil ein Elternteil nicht sein eigenes Kind
+        werden kann.
   oai_config:
     sponsor_set_description_tooltip: Sponsor Set Beschreibung Tooltip
     repo_set_section_tooltip: Repo Set Abschnitt Tooltip
@@ -2794,21 +2835,23 @@ de:
   top_container_linker:
     error:
       ref_id_miss: Ref-ID fehlt in der Tabelle in Zeile %{row_num} .
-      ao_not_in_db: Das Archiv-Objekt %{ref_id} kann in der Datenbank in Zeile %{row_num} nicht gefunden
-        werden.
+      ao_not_in_db: Das Archiv-Objekt %{ref_id} kann in der Datenbank in Zeile %{row_num} nicht 
+        gefunden werden.
       instance_type_miss: 'Instanztyp fehlt in der Tabelle für Zeile %{row_num} Archiv-Objekt %{ref_id}. '
       instance_type_does_not_exist: 'Instanztyp %{instance_type} existiert nicht in der Datenbank (siehe
         Zeile %{row_num} Archiv-Objekt %{ref_id}). '
-      tc_indicator_and_record_no_miss: Für %{ref_id} in Zeile %{row_num} muss entweder ein Haupt-Behältnis-Indikator
-        oder eine TC Aufzeichnungs-Nummer vorhanden sein.
-      tc_indicator_and_record_no_exist: Für %{ref_id} in Zeile %{row_num} kann nur ein Haupt-Behältnis-Indikator
-        ODER eine TC Aufzeichnungs-Nummer vorhanden sein.
-      tc_barcode_differs: Der Haupt-Behältnis-Strichcode, %{barcode}, unterscheidet sich von einem anderen
-        Eintrag in Ihrer Tabelle für %{type} %{indicator} (siehe %{ref_id} in Zeile %{row_num}).
-      sc_barcode_exists: Der untergeordnete Strichcode %{barcode} ist bereits in der Datenbank vorhanden
-        (siehe %{ref_id} in Zeile %{row_num}).
-      sc_barcode_differs: Der untergeordnete Strichcode %{barcode} unterscheidet sich von einem anderen
-        Eintrag in Ihrer Tabelle für %{type} %{indicator} (siehe %{ref_id} in Zeile %{row_num}).
+      tc_indicator_and_record_no_miss: Für %{ref_id} in Zeile %{row_num} muss entweder ein 
+        Haupt-Behältnis-Indikator oder eine TC Aufzeichnungs-Nummer vorhanden sein.
+      tc_indicator_and_record_no_exist: Für %{ref_id} in Zeile %{row_num} kann nur ein 
+        Haupt-Behältnis-Indikator ODER eine TC Aufzeichnungs-Nummer vorhanden sein.
+      tc_barcode_differs: Der Haupt-Behältnis-Strichcode, %{barcode}, unterscheidet sich von einem 
+        anderen Eintrag in Ihrer Tabelle für %{type} %{indicator} (siehe %{ref_id} in Zeile 
+        %{row_num}).
+      sc_barcode_exists: Der untergeordnete Strichcode %{barcode} ist bereits in der Datenbank 
+        vorhanden (siehe %{ref_id} in Zeile %{row_num}).
+      sc_barcode_differs: Der untergeordnete Strichcode %{barcode} unterscheidet sich von einem 
+        anderen Eintrag in Ihrer Tabelle für %{type} %{indicator} (siehe %{ref_id} in Zeile 
+        %{row_num}).
       no_tc: 'Haupt-Behältnis kann nicht erstellt werden (siehe %{ref_id} in Zeile %{row_num}): [%{why}]'
       problem_adding_current_location: 'Problem beim Hinzufügen des aktuellen Standorts (siehe %{ref_id}
         in Zeile %{row_num}): [%{why}]'
@@ -2818,26 +2861,26 @@ de:
         %{why}'
       tc_record_no_missing: 'Die Haupt-Behältnis-ID kann nicht gefunden werden: %{tc_id} (siehe %{ref_id}
         in Zeile %{row_num})'
-      resource_not_in_db: Ressource %{ead_id} kann nicht in der Datenbank in Zeile %{row_num} gefunden
-        werden
+      resource_not_in_db: Ressource %{ead_id} kann nicht in der Datenbank in Zeile %{row_num} 
+        gefunden werden
       job_file_empty: Keine zu verarbeitende Datei für Haupt-Behältnis-Verknüpfung
-      tc_barcode_exists: Der Haupt-Behältnis-Strichcode, %{barcode} existiert bereits in der Datenbank
-        (siehe  %{ref_id} in Zeile %{row_num}).
-      loc_not_in_db: Die angegebene Standort-ID %{loc_id} kann in der Datenbank nicht gefunden werden
-        (siehe %{ref_id} in Zeile %{row_num}).
-      tc_ind_ct_exists: Die Kombination aus Haupt-Behältnis-Indikator und Behältnisart %{tc_type} %{indicator}
-        existiert bereits in der Datenbank für ein AO in der Ressource %{ead_id} (siehe %{ref_id} in Zeile
-        %{row_num}).
-      cp_not_in_db: Die angegebene Behältnisprofil-ID, %{cp_id}, kann nicht in der Datenbank gefunden
+      tc_barcode_exists: Der Haupt-Behältnis-Strichcode, %{barcode} existiert bereits in der 
+        Datenbank (siehe  %{ref_id} in Zeile %{row_num}).
+      loc_not_in_db: Die angegebene Standort-ID %{loc_id} kann in der Datenbank nicht gefunden 
         werden (siehe %{ref_id} in Zeile %{row_num}).
+      tc_ind_ct_exists: Die Kombination aus Haupt-Behältnis-Indikator und Behältnisart %{tc_type} 
+        %{indicator} existiert bereits in der Datenbank für ein AO in der Ressource %{ead_id} (siehe
+        %{ref_id} in Zeile %{row_num}).
+      cp_not_in_db: Die angegebene Behältnisprofil-ID, %{cp_id}, kann nicht in der Datenbank 
+        gefunden werden (siehe %{ref_id} in Zeile %{row_num}).
       resources_do_not_match: 'Die Ressource in der Tabelle %{spreadsheet_resource} (EAD-ID: %{ead_id})
         stimmt nicht mit der aktuellen Ressource %{current_resource} in Zeile %{row_num} überein'
       ead_id_miss: 'In dieser Zeile fehlt eine EAD-ID: (siehe %{ref_id} in Zeile %{row_num})'
     log_creating_linker: 'Erstelle neuen Haupt-Behältnis-Verknüpfer für Aufbewahrungsort: %{repo_id}'
-    log_validate_only: Überspringen der Erstellung und Verknüpfung von Haupt-Behältnissen, da nur die
-      Option "Validieren" aktiviert ist.
-    log_skipping_due_to_errors: Überspringen der Erstellung und Verknüpfung von Haupt-Behältnissen aufgrund
-      von Fehlern.
+    log_validate_only: Überspringen der Erstellung und Verknüpfung von Haupt-Behältnissen, da nur 
+      die Option "Validieren" aktiviert ist.
+    log_skipping_due_to_errors: Überspringen der Erstellung und Verknüpfung von Haupt-Behältnissen 
+      aufgrund von Fehlern.
     log_validating: Validiere Tabellen-Daten...
     log_creating_and_linking: Erstelle und verknüpfe Haupt-Behältnisse...
   surveyed_by:
@@ -2853,8 +2896,8 @@ de:
   arks:
     ark: ARK
     unsubmitted_input: Sie haben ungespeicherte Eingaben
-    only_current_ark_can_be_external: Der aktuelle ARK kann nicht ersetzt werden, solange er als extern
-      gekennzeichnet ist.
+    only_current_ark_can_be_external: Der aktuelle ARK kann nicht ersetzt werden, solange er als 
+      extern gekennzeichnet ist.
     edit: ARKs bearbeiten
     current: aktuell
     remove_ark: Entfernen
@@ -2870,8 +2913,8 @@ de:
     _singular: Vorlage für den Massenimport
     _plural: Vorlagen für den Massenimport
   trim_whitespace_job:
-    description: Entfernt führenden und nachgestellten Leerraum aus den Titeln von Ressourcen, Eingängen,
-      digitalen Objekten, Archiv-Objekten und Komponenten von digitalen Objekten.
+    description: Entfernt führenden und nachgestellten Leerraum aus den Titeln von Ressourcen, 
+      Eingängen, digitalen Objekten, Archiv-Objekten und Komponenten von digitalen Objekten.
   repository_oai:
     oai_sets_available_tooltip: OAI-Sets verfügbar Tooltip
     oai_is_disabled_tooltip: OAI ist deaktiviert Tooltip

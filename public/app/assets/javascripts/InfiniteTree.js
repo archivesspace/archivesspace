@@ -265,6 +265,9 @@
           return acc;
         } else {
           const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
+          const expandButton = nodeElement.querySelector(
+            '.node-body:first-child .node-expand'
+          );
           const icon = nodeElement.querySelector('.node-expand-icon');
 
           const nodeListFrag = this.markup.nodeList(
@@ -292,8 +295,9 @@
 
           nodeElement.appendChild(nodeListFrag);
 
-          nodeElement.setAttribute('data-has-expanded', 'true');
-          nodeElement.setAttribute('aria-expanded', 'true');
+          nodeElement.setAttribute('data-is-expanded', 'true');
+          expandButton.setAttribute('data-has-expanded', 'true');
+          expandButton.setAttribute('aria-expanded', 'true');
           icon.classList.add('expanded');
 
           return acc;
@@ -551,22 +555,25 @@
      * @param {Event} e - Click event
      */
     async expandHandler(e) {
-      const node = e.target.closest('.node');
-      const isExpanding = node.getAttribute('aria-expanded') === 'false';
+      const button = e.target.closest('.node-expand');
+      const node = button.closest('.node');
+      const isExpanding = button.getAttribute('aria-expanded') === 'false';
+      const hasExpanded = button.getAttribute('data-has-expanded') === 'true';
       const icon =
         e.target.closest('.node-expand-icon') ||
         e.target.querySelector('.node-expand-icon');
 
-      if (isExpanding && node.getAttribute('data-has-expanded') === 'false') {
+      if (isExpanding && !hasExpanded) {
         const nodeRecordId = node.getAttribute('data-uri').split('/')[4];
         const nodeData = await this.getNodeData(Number(nodeRecordId));
 
         await this.renderInitialBatchForNode(node, nodeData);
 
-        node.setAttribute('data-has-expanded', 'true');
+        button.setAttribute('data-has-expanded', 'true');
       }
 
-      node.setAttribute('aria-expanded', isExpanding ? 'true' : 'false');
+      button.setAttribute('aria-expanded', isExpanding ? 'true' : 'false');
+      node.setAttribute('data-is-expanded', isExpanding ? 'true' : 'false');
       icon.classList.toggle('expanded');
     }
   }

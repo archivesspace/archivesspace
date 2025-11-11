@@ -902,17 +902,17 @@ label {
 }
 
 // Name form styles
-.is-authoritive-label,
+.is-authorized-label,
 .is-display-name-label,
 .is-primary-label,
 .is-representative-label {
   display: none;
 }
-.authoritive-name {
-  .is-authoritive-label {
+.authorized-name {
+  .is-authorized-label {
     display: inline;
   }
-  .btn-authoritive-name-toggle {
+  .btn-authorized-name-toggle {
     display: none;
   }
 }
@@ -976,13 +976,6 @@ ul.checkbox-list {
   .checkbox label {
     padding-left: 10px;
   }
-}
-
-// hiding form elements for agents light
-
-.subrecord-form-invisible {
-  visibility: hidden !important;
-  position: absolute;
 }
 
 .note-content-raw {

@@ -37,8 +37,7 @@ describe 'Locations', js: true do
 
     click_on 'Create Locations'
 
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq '18 Locations Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: '18 Locations Created')
 
     run_index_round
 
@@ -118,8 +117,7 @@ describe 'Locations', js: true do
 
     # Click on save
     find('button', text: 'Save Location', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Location Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Location Created')
   end
 
   it 'allows locations to be edited and persists the temporary location' do
@@ -132,15 +130,13 @@ describe 'Locations', js: true do
 
     # Click on save
     find('button', text: 'Save Location', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Location Saved'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Location Saved')
     expect(find('#location_temporary_').value).to eq 'conservation'
 
     find('a.hide-alert').click
     # Click on save
     find('button', text: 'Save Location', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Location Saved'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Location Saved')
     expect(find('#location_temporary_').value).to eq 'conservation'
   end
 
@@ -162,8 +158,7 @@ describe 'Locations', js: true do
 
     # Click on save
     find('button', text: 'Save Location', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Location Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Location Created')
 
     run_index_round
 
@@ -196,8 +191,7 @@ describe 'Locations', js: true do
 
     # Click on save
     find('button', text: 'Save Location', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Location Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Location Created')
   end
 
   it 'allows the new location to be viewed in non-edit mode' do
@@ -218,8 +212,7 @@ describe 'Locations', js: true do
 
     # Click on save
     find('button', text: 'Save Location', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Location Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Location Created')
 
     run_index_round
 
@@ -252,8 +245,7 @@ describe 'Locations', js: true do
 
     # Click on save
     find('.createPlusOneBtn', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Location Created'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Location Created')
 
     expect(find('#location_building_').value).to eq "Location Building #{now}"
     expect(find('#location_floor_').value).to eq '1'
@@ -325,8 +317,7 @@ describe 'Locations', js: true do
 
     # Click on save
     find('button', text: 'Save Location', match: :first).click
-    element = find('.alert.alert-success.with-hide-alert')
-    expect(element.text).to eq 'Location Saved'
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Location Saved')
 
     run_index_round
 

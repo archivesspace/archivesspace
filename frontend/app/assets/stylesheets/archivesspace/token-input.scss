@@ -101,14 +101,14 @@ li.token-input-token {
   margin: 0 4px 4px 0;
   padding: 2px 4px;
 
-  &.has-popover {
-    cursor: pointer;
-  }
-
   &:hover {
     @include vertical(#a4e3ff, #77d5ff);
     @include transition('linear .2s');
   }
+}
+
+ul.token-input-list .has-popover {
+  cursor: default;
 }
 
 .token-popover.popover {
@@ -137,10 +137,6 @@ li.token-input-token .token-input-delete-token {
 
 li.token-input-selected-token {
   font-weight: bold;
-}
-
-li.token-input-selected-token span {
-  color: #bbb;
 }
 
 div.token-input-dropdown {

@@ -1,4 +1,5 @@
 require 'multiple_titles_helper'
+require_relative 'mixins/mixed_content_validatable'
 
 class Accession < Sequel::Model(:accession)
   include ASModel
@@ -85,4 +86,8 @@ class Accession < Sequel::Model(:accession)
                     end
                   end
                 }
+
+  def validate
+    super
+  end
 end

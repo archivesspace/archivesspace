@@ -377,4 +377,27 @@ describe 'Assessments', js: true do
       expect(cells[1]).to have_text(assessment.id)
     end
   end
+
+  describe 'Records linker' do
+    let(:resource) {
+      create(
+        :resource,
+        title: "Test resource #{Time.now.to_i}"
+      )
+    }
+    let(:assessment) {
+      create(:json_assessment, {
+        'records' => [{'ref' => resource.uri}]
+      })
+    }
+
+    before(:each) do
+      visit "assessments/#{assessment.id}/edit"
+    end
+
+    let(:linker_token_selector) { '.linker-wrapper:has(#token-input-assessment_records_) .token-input-token' }
+    let(:linked_record) { resource }
+
+    it_behaves_like 'having a popover to view the linked record'
+  end
 end

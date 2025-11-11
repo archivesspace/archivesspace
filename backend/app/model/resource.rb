@@ -93,6 +93,10 @@ class Resource < Sequel::Model(:resource)
   end
 
 
+  def validate
+    super
+  end
+
   def self.id_to_identifier(id)
     res = Resource[id]
     [res[:id_0], res[:id_1], res[:id_2], res[:id_3]].compact.join(".")

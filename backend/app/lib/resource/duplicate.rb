@@ -3,9 +3,10 @@ module Lib
     class Duplicate
       attr_reader :resource_id, :errors, :resource
 
-      def initialize(resource_id)
+      def initialize(resource_id, skip_fields = [])
         @errors = []
         @resource_id = resource_id
+        @skip_fields = skip_fields
       end
 
       def duplicate
@@ -58,6 +59,10 @@ module Lib
           }
         }
         resource_source_json_model.ead_id = "[Duplicated] #{resource_source_json_model.ead_id}" if resource_source_json_model.ead_id.present?
+
+        if @skip_fields.any?
+          nullify_fields(resource_source_json_model)
+        end
 
         resource_source_json_model.linked_agents.each do |linked_agent|
           linked_agent['id'] = nil
@@ -148,6 +153,25 @@ module Lib
           end
         end
       end
+
+      def nullify_fields(resource_source_json_model)
+        @skip_fields.each do |field|
+          required_fields = ['dates', 'extents', 'finding_aid_language', 'finding_aid_script',
+                              'id_0', 'lang_materials', 'level', 'publish', 'title']
+          next if required_fields.any?(field)
+
+          if resource_source_json_model.respond_to?(field)
+            if resource_source_json_model["#{field}"].is_a?(Array)
+              resource_source_json_model["#{field}"] = []
+            else
+              resource_source_json_model["#{field}"] = nil
+            end
+          end
+        end
+
+        resource_source_json_model
+      end
+
     end
   end
 end

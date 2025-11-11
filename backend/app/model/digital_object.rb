@@ -58,6 +58,10 @@ class DigitalObject < Sequel::Model(:digital_object)
                          :message => "Must be unique",
                          :json_property => :digital_object_id)
 
+  def validate
+    super
+  end
+
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
 

@@ -3,8 +3,216 @@ uk:
     close: Закрити
     add: Додати
     add_event: Додати подію
+    add_event_event_type: Тип
+    automate: Автоматично генерувати
+    batch: Пакет
+    browse: Переглянути
+    bulk_import: Завантажити через електронну таблицю
+    bulk_import_job: Завантажити через електронну таблицю
+    download_bulk_import_report: Завантажити звіт
+    download: Завантажити
+    cancel: Скасувати
+    check_all: Вибрати все
+    uncheck_all: Зняти всі прапорці
+    continue: Продовжити
+    confirm: Підтвердити
+    confirm_removal: Підтвердити видалення
+    container_labels: Завантажити етикетки контейнерів
+    create: Створити
+    cut: Вирізати
+    date_picker: Відкрити вибір дати
+    date_picker_toggle: Увімкнути/вимкнути вибір дати
+    defaults: Значення за замовчуванням
+    drop_before: Кинути раніше
+    drop_into: Видалити як дитину
+    drop_after: Падіння після
+    duplicate_resource: Дублікат ресурсу
+    duplicate_resource_confirm_message: Буде створено завдання для дублювання 
+      цього ресурсу з усіма його архівними об'єктами. Це може зайняти деякий час
+      залежно від кількості записів.
+    edit: Редагувати
+    edit_oai: Редагувати налаштування OAI
+    edit_batch: Редагувати пакет
+    edit_groups: Редагувати групи
+    edit_default_values: Редагувати значення за замовчуванням
+    edit_default_archival_object_values: Редагувати значення компонента за 
+      замовчуванням
+    edit_required_fields: Редагувати обов'язкові поля
+    edit_global_oai: Переглянути/редагувати глобальні налаштування OAI
+    required: Обов'язкові поля
+    require_subrecord: Вимагати підзапису
+    export: Експорт
+    view: Переглянути
+    spawn: Ікру
+    show_all: Показати все
+    transfer_record: Переказ
+    more: Більше
+    lightmode_toggle: Режим світла
+    link_to: Посилання на
+    link_to_record: Посилання на запис
+    add_prefix: Додати
+    merge_replace: Замінити
+    merge_add: Додати
+    merge_confirm_title: Об’єднати з цим записом?
+    merge_agent_compare_agent_details: Порівняти агентів
+    merge_from_browse_confirm_title: Об'єднати вибрані записи?
+    merge_subject_confirm_message: Вибрані записи будуть об'єднані з темою 
+      '%{source}'. Усі вибрані записи будуть видалені, а будь-які пов'язані 
+      записи будуть повторно пов'язані з цією темою.
+    merge_agent_confirm_message: Агент '%{source}' матиме об'єднаний вибраний 
+      запис. Вибраний запис буде видалено, а всі пов'язані записи будуть 
+      повторно пов'язані з цим агентом. Натискання кнопки «Порівняти агентів» 
+      відкриє екран, на якому ви зможете вибрати, які поля та підзаписи зберегти
+      з кожного запису.
+    merge_agent_from_browse_confirm_message: З першим вибраним агентом будуть 
+      об’єднані записи, вибрані наступним чином. Усі вибрані наступним чином 
+      записи будуть видалені, а будь-які пов’язані записи будуть повторно 
+      пов’язані з першим вибраним агентом.
+    merge_resource_confirm_message: Вибрані записи будуть об'єднані з ресурсом 
+      '%{source}'. Усі вибрані записи будуть видалені, а будь-які пов'язані 
+      записи будуть повторно пов'язані з цим ресурсом.
+    merge_container_profile_confirm_message: Вибрані записи будуть об'єднані з 
+      профілем контейнера '%{merge_destination}'. Усі вибрані записи будуть 
+      видалені, а будь-які пов'язані записи будуть повторно пов'язані з цим 
+      ресурсом.
+    batch_merge: Виберіть запис, у який буде об’єднано всі інші перелічені 
+      записи. Будь-які пов’язані записи будуть повторно пов’язані з цим записом,
+      а всю інформацію про інші записи буде видалено.
+    merge_n_records: Об'єднати %{n} записів
+    move: Перемістити
+    move_up_a_level: На новий рівень
+    move_up: Вгору
+    move_down: Вниз
+    move_down_into: Вниз у...
+    paste: Вставити
+    remove: Видалити
+    refresh_page: Оновити сторінку
+    new_prefix: Новий
+    save_prefix: Зберегти
+    save_plus_one: '+1'
+    save_anyway: Зберегти все одно
+    select: Виберіть
+    set_default: Встановити за замовчуванням
+    suppress: Придушити
+    suppress_confirm_title: Приховати цей запис?
+    suppress_confirm_message: Хоча прихований запис залишатиметься в базі даних,
+      він стане прихованим для більшості користувачів і недоступним для 
+      більшості функцій.
+    toggle_dropdown_menu: Перемикання випадаючого меню
+    transfer: Переказ
+    transfer_confirm_title: Перенести цей запис?
+    transfer_confirm_message: Запис '%{target}' буде перенесено до вибраного 
+      вами репозиторію
+    transfer_successful: Перенесення успішне. Записи можуть з’явитися в 
+      цільовому репозиторії деякий час під час переіндексації.
+    transfer_failed: Передача не вдалася
+    transfer_failed_records_using_digital_objects: Наведені нижче записи 
+      посилаються на цифрові об'єкти, які будуть передані, але це призведе до 
+      розриву їхніх посилань на екземпляри.
+    transfer_failed_digital_objects_linked_to_records: Цей цифровий об'єкт 
+      посилається на інші записи, що зберігаються в цьому сховищі. Щоб 
+      продовжити це перенесення, видаліть посилання в наступних записах
+    transfer_failed_top_containers_in_use: Наступні контейнери верхнього рівня 
+      пов'язані з іншими записами верхнього рівня в цьому репозиторії та не 
+      можуть бути передані, доки ці зв'язки не будуть розірвані.
+    transfer_failed_barcodes_in_use: Наведені нижче верхні контейнери 
+      використовують штрих-коди, що використовуються в цільовому репозиторії, і 
+      не можуть бути передані, доки ці конфлікти не будуть виправлені.
+    unset_default: Скасувати налаштування за замовчуванням
+    unsuppress: Розблокувати
+    unsuppress_confirm_title: Розблокувати цей запис?
+    unsuppress_confirm_message: хибний
+    unable_to_move_message: Не вдалося перемістити запис
+    move_ordering_problem_message: Проблема з порядком переміщення записів
+    delete: Видалити
+    delete_confirm_title: Видалити цей запис? %{title}
+    delete_confirm_message: <p>Зверніть увагу, що <strong>цю дію не можна 
+      скасувати</strong>.</p><p>Ця дія видалить запис з бази даних, включаючи 
+      будь-які посилання на інші записи.</p>
+    delete_repository_confirm_title: Видалити цей репозиторій? %{name}
+    delete_repository_confirm_message: <p>Зверніть увагу, що <strong>цю дію 
+      неможливо скасувати</strong>.</p><p>Ця дія видалить 
+      <strong>репозиторій</strong> та всі пов'язані з ним записи з бази даних, 
+      включаючи будь-які посилання на інші записи.</p><p>Щоб продовжити, введіть
+      '%{repository}' нижче:</p><p><input id='deleteRepoConfim' 
+      data-confirm-answer='%{repository}'></input></p>
+    delete_multiple: Видалити записи
+    delete_multiple_confirm_title: Видалити записи?
+    delete_multiple_confirm_message: <p>Зверніть увагу, що <strong>цю дію не 
+      можна скасувати</strong>.</p><p>Ця дія видалить ці записи з бази даних, 
+      включаючи будь-які посилання на інші записи.</p>
+    reset: Скинути налаштування за замовчуванням
+    reset_confirm_title: Скинути %{preftype} до налаштувань програми за 
+      замовчуванням?
+    reset_confirm_message: <p>Зверніть увагу, <strong>ви не можете скасувати цю 
+      дію</strong>.</p><p>Ця дія скине налаштування програми до значень за 
+      замовчуванням.</p>
+    edit_multiple: Редагувати записи
+    edit_multiple_confirm_title: Редагувати записи?
+    edit_multiple_confirm_message: <p>Це призведе до масового оновлення кількох 
+      записів.</p>
+    export_eac: Завантажити EAC-CPF
+    export_marc_auth: Завантажити MARCXML Authority
+    export_ead: Завантажити EAD
+    export_mods: Завантажити MODS
+    export_mets: Завантажити METS
+    export_marc: Завантажити MARCXML
+    export_dc: Завантажити DC
+    export_csv: Завантажити CSV
+    container_template: Завантажити шаблон контейнера
+    digital_object_template: Завантажити шаблон цифрового об'єкта
+    loading: Завантаження...
+    revert: Скасувати зміни
+    finish_editing: Закрити запис
+    merge: Об'єднати
+    form_changes_message: <small><span class='muted'>У вас є незбережені 
+      зміни</span></small>
+    toolbar_disabled_message: У вас є незбережені зміни. Зберегти або Скасувати,
+      щоб отримати доступ до панелі інструментів та дерева записів.
+    publish: Опублікувати все
+    publish_confirm_title: Опублікувати?
+    publish_confirm_message: <p>Виконання цієї дії опублікує цей запис, будь-які
+      підзаписи (зовнішні документи, нотатки тощо) та всі компоненти в 
+      ієрархії.</p>
+    unpublish: Скасувати публікацію всіх
+    unpublish_confirm_title: Скасувати публікацію?
+    unpublish_confirm_message: <p>Виконання цієї дії призведе до скасування 
+      публікації цього запису, будь-яких підзаписів (зовнішніх документів, 
+      нотаток тощо) та всіх компонентів в ієрархії.</p>
+    publish_archival_object: Опублікувати все
+    publish_archival_object_confirm_title: Опублікувати?
+    publish_archival_object_confirm_message: <p>Виконання цієї дії опублікує цей
+      запис, будь-які підзаписи (зовнішні документи, нотатки тощо) та всі 
+      компоненти, розташовані нижче цього запису в ієрархії.</p>
+    unpublish_archival_object: Скасувати публікацію всіх
+    unpublish_archival_object_confirm_title: Скасувати публікацію?
+    unpublish_archival_object_confirm_message: <p>Виконання цієї дії призведе до
+      скасування публікації цього запису, будь-яких підзаписів (зовнішніх 
+      документів, нотаток тощо) та всіх компонентів, розташованих нижче цього 
+      запису в ієрархії.</p>
+    view_search_results: Перейти до результатів пошуку
+    view_published: Переглянути опубліковано
+    print_to_pdf: Згенерувати PDF
+    resource_to_pdf: Ресурс для друку
+    download_pdf: Завантажити PDF-файл
+    download_report: Завантажити звіт
+    click_to_show: Будь ласка, натисніть, щоб завантажити записи.
+    rapid_data_entry: Швидке введення даних
+    enable_reorder: Увімкнути режим зміни порядку
+    reorder_active: Вимкнути режим зміни порядку
+    copy: Копіювати
+    run: Бігти
+    select_resource: Виберіть ресурс
+    expand_tree_mode_on: Автоматично розгорнути все
+    expand_tree_mode_off: Вимкнути автоматичне розгортання
+    collapse_tree: Згорнути дерево
+    reorder_successful: Репозиторії успішно перевпорядковано
   search_sorting:
     sort_by: 'Сортувати за:'
+    and: 'і:'
+    asc: Зростаючий
+    desc: Спадання
+    select: Виберіть
   advanced_search:
     operator:
       AND: И
@@ -14,6 +222,24 @@ uk:
     toggle_navigation: Перемикання навігації
   search_results:
     filtered_by: Відфільтровано за
+    title: Результати пошуку
+    context: Знайдено в
+    selected: Обраний?
+    no_results: Записів не знайдено
+    no_results_prefix: Не було результатів пошуку для
+    result_type: Тип запису
+    result_title: Назва
+    result_identifier: Ідентифікатор
+    modified: Остання зміна від
+    created: Створено
+    actions: Дії
+    text_placeholder: Фільтрувати за текстом
+    clear_all: Очистити все
+    component_switch: Показати компоненти
+    help:
+      row_selection: Клацніть рядок, щоб вибрати його для масових операцій. 
+        Утримуйте клавішу Alt під час натискання прапорця, щоб вибрати або 
+        скасувати вибір кількох попередніх рядків.
   agent_gender:
     _singular: Стать
   agent_place:
@@ -69,3 +295,143 @@ uk:
       рамок взаємодії</p>\n"
   lang_material:
     _plural: Мови
+  database_warning:
+    message: <p><strong>Попередження щодо бази даних:</strong> Ви зараз 
+      використовуєте вбудовану базу даних (Apache Derby). Вбудована база даних 
+      призначена лише для тестування/демонстрації. Вам слід використовувати 
+      MySQL для будь-яких даних, призначених для виробництва, включаючи дані в 
+      тестовому екземплярі, які ви маєте намір перенести до виробничого 
+      екземпляра.</p>
+  export_options:
+    include_unpublished: Включити неопубліковані
+    include_daos: Включити теги &lt;dao&gt;
+    include_uris: Включити URI
+    numbered_cs: Використовуйте нумеровані теги &lt;c&gt;
+    ead3: Схема EAD3
+    use_mods: Використовуйте МОДИ
+    use_dc: Використовуйте Дублінське ядро
+  pagination:
+    first: Перший
+    last: Останній
+    previous: '&#171;'
+    previous_label: Попередній
+    next: '&#187;'
+    next_label: Далі
+    summary_prefix: Показ
+    summary_offset_connector: '-'
+    summary_total_connector: з
+    summary_suffix: Результати
+    page_prefix: Сторінка
+    page_connector: з
+  search:
+    accession:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      subjects: Тема
+      identifier: Ідентифікатор
+      acquisition_type: Тип придбання
+      accession_date: Дата вступу
+      resource_type: Тип ресурсу
+      restrictions_apply: Застосовуються обмеження
+      access_restrictions: Обмеження доступу
+      use_restrictions: Обмеження використання
+      audit_info: Інформація про аудит
+      creators: Творець
+      accession_date_year: Дата вступу
+      dates: Дати
+      extents: Ступінь
+      processing_priority: Пріоритет обробки
+      processors: Процесори
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+      representative_file_version: Мініатюра зображення
+    resource:
+      score: Релевантність
+      title: Релевантність
+      publish: Опубліковано
+      level: Рівень
+      identifier: Ідентифікатор
+      resource_type: Тип ресурсу
+      langcode: Мова матеріалів
+      restrictions: Обмеження
+      ead_id: Ідентифікатор EAD
+      finding_aid_status: Пошук статусу допомоги
+      audit_info: Інформація про аудит
+      classification_path: Шлях класифікації
+      subjects: Тема
+      dates: Дати
+      extents: Ступінь
+      processing_priority: Пріоритет обробки
+      processors: Процесори
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+      representative_file_version: Мініатюра зображення
+    archival_object:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      context: Батьківський ресурс
+      identifier: Ідентифікатор компонента
+      ref_id: Ідентифікатор посилання
+      level: Рівень
+      audit_info: Інформація про аудит
+      langcode: Мова матеріалів
+      dates: Дати
+      extents: Ступінь
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+      representative_file_version: Мініатюра зображення
+    subject:
+      score: Релевантність
+      source: Джерело
+      first_term_type: Тип терміна (перший)
+      title: Умови
+      publish: Опубліковано
+      audit_info: Інформація про аудит
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+    digital_object:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      subjects: Тема
+      level: Рівень
+      digital_object_type: Тип цифрового об'єкта
+      digital_object_id: Ідентифікатор цифрового об'єкта
+      restrictions: Обмеження
+      audit_info: Інформація про аудит
+      langcode: Мова матеріалів
+      dates: Дати
+      extents: Ступінь
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+      representative_file_version: Мініатюра зображення
+    digital_object_component:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      context: Знайдено в
+      audit_info: Інформація про аудит
+      langcode: Мова матеріалів
+      dates: Дати
+      extents: Ступінь
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання

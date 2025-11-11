@@ -11,10 +11,18 @@ on:
         description: "Cucumber Tests Command"
         required: true
         type: string
+      name:
+        description: "A name for the job"
+        required: true
+        type: string
+      image_tag:
+        description: "Docker image tag for archivesspace and solr: latest or ANW-1234"
+        required: true
+        type: string
 
 defaults:
   run:
-    working-directory: ./e2e-tests
+    working-directory: e2e-tests
 
 jobs:
   cucumber:
@@ -23,7 +31,16 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+    - uses: browser-actions/setup-geckodriver@latest
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Get geckodriver and firefox versions
+      run: |
+        geckodriver --version
+        firefox --version
     - name: Set up Docker
+      env:
+        IMAGE_TAG: ${{ inputs.image_tag }}
       run: |
         docker compose -f docker-compose.yml up --quiet-pull --detach
     - name: Wait until the web server is ready
@@ -55,5 +72,5 @@ jobs:
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: screenshots
+        name: screenshots_${{ inputs.name }}
         path: /tmp/screenshots/

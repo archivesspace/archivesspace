@@ -67,7 +67,11 @@ class CustomReport < AbstractReport
       if (ASUtils.present?(template['fields'][field_name]['values'])) &&
         (!template['fields'][field_name]['values'].nil?)
 
-        self.send("#{field[:data_type].downcase}_narrow", template, field_name)
+        if field[:data_type] == 'Enum'
+          enum_narrow(template, field_name, field)
+        else
+          self.send("#{field[:data_type].downcase}_narrow", template, field_name)
+        end
       end
 
       if (ASUtils.present?(template['fields'][field_name]['range_start'])) &&
@@ -293,14 +297,14 @@ class CustomReport < AbstractReport
     info[field_name] = value.to_s == 'true' ? 'Yes' : 'No'
   end
 
-  def enum_narrow(template, field)
-    return unless @possible_fields.include? "#{field}_id"
-    values = template['fields'][field]['values']
+  def enum_narrow(template, field_name, field)
+    return unless @possible_fields.include? "#{field_name}_id"
+    values = template['fields'][field_name]['values']
     values_list = values.collect {|value| db.literal(value)}.join(', ')
-    @conditions.push("#{field}_id in (#{values_list})")
+    @conditions.push("#{field_name}_id in (#{values_list})")
 
     begin
-      enum_name = field[:enum_name] || "#{@record_type}_#{field}"
+      enum_name = field[:enum_name] || "#{@record_type}_#{field_name}"
       value_names = []
       values.each do |id|
         enum_val = EnumerationValue.get_or_die(id)
@@ -309,9 +313,9 @@ class CustomReport < AbstractReport
           :default => value)
         value_names.push(value_name)
       end
-      info[field] = value_names.join(', ')
+      info[field_name] = value_names.join(', ')
     rescue Exception => e
-      info[field] = values.join(', ')
+      info[field_name] = values.join(', ')
     end
   end
 

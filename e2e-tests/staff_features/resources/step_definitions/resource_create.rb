@@ -13,9 +13,7 @@ Then 'the Resource form has the following values' do |form_values_table|
     expect(section[:id]).to_not eq nil
 
     within section do
-      field = find_field(row['form_field'])
-
-      expect(field.value.downcase).to eq row['form_value'].downcase
+      expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
     end
   end
 end

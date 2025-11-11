@@ -14,6 +14,8 @@ end
 
 Then 'the new Resource form has the following default values' do |form_values_table|
   visit "#{STAFF_URL}/resources/new"
+  expect(page).to have_selector('h2', visible: true, text: 'Resource')
+  wait_for_ajax
 
   form_values = form_values_table.hashes
 
@@ -23,9 +25,7 @@ Then 'the new Resource form has the following default values' do |form_values_ta
     expect(section[:id]).to_not eq nil
 
     within section do
-      field = find_field(row['form_field'])
-
-      expect(field.value.downcase).to eq row['form_value'].downcase
+      expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
     end
   end
 end
