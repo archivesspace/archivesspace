@@ -704,10 +704,13 @@ FactoryBot.define do
 
   factory :json_digital_object_component, class: JSONModel(:digital_object_component) do
     component_id { generate(:digital_object_component_id) }
-    titles { [build(:json_title, :title => "Digital Object Component #{generate(:generic_title)}")] }
+    titles { [build(:json_title, :title => title)] }
     digital_object { {'ref' => create(:json_digital_object).uri} }
     position { generate(:integer) }
     has_unpublished_ancestor { false }
+    transient do
+      title { "Digital Object Component #{generate(:generic_title)}" }
+    end
   end
 
   factory :json_digital_object_tree, class: JSONModel(:digital_object_tree) do
