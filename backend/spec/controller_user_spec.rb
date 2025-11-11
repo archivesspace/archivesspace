@@ -19,6 +19,30 @@ describe 'User controller' do
     expect(resp.status).to eq (404)
   end
 
+  it "returns false when the user doesn't have pui permissions" do
+    post '/users/test1/login', params = { "password" => "password", "expiring" => "false" }
+    expect(last_response).to be_ok
+
+    session_headers = {"HTTP_X_ARCHIVESSPACE_SESSION" => JSON(last_response.body)["session"]}
+
+    resp = get '/users/pui', params = {}, session_headers
+    expect(JSON.parse(resp.body)).to eq (false)
+  end
+
+  it "returns true when the user has pui permissions" do
+    post "/users/admin/login", params = { "password" => "admin" }
+    expect(last_response).to be_ok
+
+    session_headers = {"HTTP_X_ARCHIVESSPACE_SESSION" => JSON(last_response.body)["session"]}
+
+    resp = get '/users/pui', params = {}, session_headers
+    expect(JSON.parse(resp.body)).to eq (true)
+  end
+
+  it "returns no_active_session when no user" do
+    resp = get '/users/pui'
+    expect(JSON.parse(resp.body)).to include('status' => 'no_active_session')
+  end
 
   it "can give a list of users" do
     a_user = create(:user)
