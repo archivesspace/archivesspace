@@ -66,7 +66,7 @@ class Search
     SearchResultData.new(search_data, criteria)
   end
 
-  # Helper to get the default sort string for a given record type, honoring preferences
+  # Get the default sort string for a given record type, honoring preferences
   # - type [String] Record type
   def self.default_sort_for_type(type)
     normalized_type =

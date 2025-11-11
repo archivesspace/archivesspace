@@ -1540,6 +1540,7 @@ describe 'Resources', js: true do
           extents: [build(:extent)]
         )
       }
+      let(:default_sort_key) { 'title_sort' }
       let(:initial_sort) { [record_1.title, record_2.title] }
       let(:column_headers) do
         {

@@ -209,6 +209,8 @@ describe 'Subjects', js: true do
 
   context 'index view' do
     describe 'results table sorting' do
+      include_context 'filter search results by text'
+
       let(:now) { Time.now.to_i }
       let(:repo) { create(:repo, repo_code: "subjects_index_sorting_#{now}") }
       let(:record_1) do
@@ -280,8 +282,7 @@ describe 'Subjects', js: true do
         visit '/subjects'
 
         # Subjects are cross-repo, so need to filter for `now` here as in search_listing_spec.rb
-        fill_in 'filter-text', with: "#{now}"
-        click_on 'Filter by text'
+        filter_search_results_by_text(now.to_s)
         expect(page).to have_text('Showing 1 - 2 of 2 Results')
       end
 

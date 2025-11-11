@@ -194,6 +194,8 @@ describe 'Search Listing', js: true do
     end
 
     describe 'results table sorting' do
+      include_context 'filter search results by text'
+
       let(:now) { Time.now.to_i }
       let(:repo) { create(:repo, repo_code: "search_listing_sorting_#{now}") }
       let(:record_1) { create(:resource, title: "Resource #{now}", id_0: "1") }
@@ -231,8 +233,7 @@ describe 'Search Listing', js: true do
         set_browse_column_preference('multi', 6, 'URI')
 
         visit '/search'
-        fill_in 'filter-text', with: "#{now}"
-        click_on 'Filter by text'
+        filter_search_results_by_text(now.to_s)
         expect(page).to have_text('Showing 1 - 2 of 2 Results')
       end
 

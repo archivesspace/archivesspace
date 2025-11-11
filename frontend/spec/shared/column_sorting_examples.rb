@@ -26,38 +26,112 @@ RSpec.shared_examples 'sortable results table' do
     end
   end
 
-  # values [Array<String>] The expected values in the sorted results
+  # row_values [Array<String>] The expected row values in the sorted results
   # sort_params [Hash{Symbol=>String}] The sort parameters to expect:
   #   { heading: String, sort_key: String, direction: String }
-  def expect_sorted_results(values, sort_params)
-    col_class = respond_to?(:primary_column_class) ? primary_column_class : 'title'
-    sort_context = sort_params ? "#{sort_params[:heading]} #{sort_params[:direction]}" : "initial sort"
+  # is_initial_sort [Boolean] Whether this is the initial sort
+  def expect_sorted_results(row_values, sort_params, is_initial_sort = false)
+    heading, sort_key, direction = sort_params.values_at(:heading, :sort_key, :direction)
+    opposite_direction = opposite_sort_direction(direction)
 
-    aggregate_failures "sorted results for #{sort_context}" do
-      values.each_with_index do |value, index|
-        within '#tabledSearchResults' do
-          expect(page).to have_css("tbody > tr:nth-child(#{index + 1}) > td.#{col_class}", text: value)
-        end
-      end
-
-      if sort_params && respond_to?(:sorting_in_url) && sorting_in_url
-        expect(page).to have_current_path(/sort=#{sort_params[:sort_key]}\+#{sort_params[:direction]}/)
+    within '#tabledSearchResults' do
+      aggregate_failures "sorted results for #{heading} #{direction}" do
+        verify_sort_column_attributes(heading, sort_key, direction, opposite_direction, is_initial_sort)
+        verify_primary_column_values_by_row(row_values, primary_column_class_name)
       end
     end
+
+    verify_url_params(sort_key, direction) unless is_initial_sort
   end
 
   it 'toggles between ascending and descending sort on repeated clicks per sortable column' do
-    expect_sorted_results(initial_sort, nil)
+    verify_initial_sort_state
 
     column_headers.each_with_index do |(heading, sort_key), index|
-      this_col_is_first_and_default = index.zero? && respond_to?(:default_sort_key) && sort_key == default_sort_key
-      sort_order = this_col_is_first_and_default ? [:desc, :asc, :desc] : [:asc, :desc, :asc]
-
-      sort_order.each do |direction|
-        click_column_heading(heading)
-        expect_sorted_results(sort_expectations.fetch(sort_key).fetch(direction),
-                             { heading: heading, sort_key: sort_key, direction: direction.to_s })
-      end
+      verify_column_sort_cycles(heading, sort_key, first_column: index.zero?)
     end
+  end
+
+  private
+
+  def verify_initial_sort_state
+    expect_sorted_results(
+      initial_sort,
+      { heading: column_headers.key(default_sort_key), sort_key: default_sort_key, direction: :asc },
+      true
+    )
+  end
+
+  # @param heading [String] The column heading text
+  # @param sort_key [String] The sort parameter key
+  # @param first_column [Boolean] Whether this is the first column being tested
+  def verify_column_sort_cycles(heading, sort_key, first_column:)
+    sort_order = sort_cycle_for_column(sort_key, first_column: first_column)
+
+    sort_order.each do |direction|
+      click_column_heading(heading)
+      expect_sorted_results(
+        sort_expectations.dig(sort_key, direction),
+        { heading: heading, sort_key: sort_key, direction: direction }
+      )
+    end
+  end
+
+  # @param sort_key [String] The sort parameter key
+  # @param first_column [Boolean] Whether this is the first column
+  def sort_cycle_for_column(sort_key, first_column:)
+    if first_column && is_default_sort_key?(sort_key)
+      [:desc, :asc, :desc]
+    else
+      [:asc, :desc, :asc]
+    end
+  end
+
+  # @param sort_key [String] The sort parameter key to check
+  def is_default_sort_key?(sort_key)
+    respond_to?(:default_sort_key) && sort_key == default_sort_key
+  end
+
+  def primary_column_class_name
+    respond_to?(:primary_column_class) ? primary_column_class : 'title'
+  end
+
+  # @param direction [Symbol] The current sort direction (:asc or :desc)
+  def opposite_sort_direction(direction)
+    direction == :asc ? :desc : :asc
+  end
+
+  # @param heading [String] The column heading text
+  # @param sort_key [String] The sort parameter key
+  # @param current_direction [Symbol] The current sort direction
+  # @param next_direction [Symbol] The direction that clicking will toggle to
+  # @param is_initial_sort [Boolean] Whether this is the initial page load sort
+  def verify_sort_column_attributes(heading, sort_key, current_direction, next_direction, is_initial_sort)
+    return if is_initial_sort && respond_to?(:default_sort_key) && default_sort_key == 'score'
+
+    expect(page).to have_css(
+      "thead th.sortable.sort-#{current_direction} a[href*='#{sort_key}+#{next_direction}']",
+      text: heading
+    )
+  end
+
+  # @param row_values [Array<String>] The expected values for each row
+  # @param col_class [String] The CSS class of the column to verify
+  def verify_primary_column_values_by_row(row_values, col_class)
+    row_values.each.with_index(1) do |value, row_number|
+      expect(page).to have_css("tbody > tr:nth-child(#{row_number}) > td.#{col_class}", text: value)
+    end
+  end
+
+  # @param sort_key [String] The sort parameter key
+  # @param direction [Symbol] The sort direction
+  def verify_url_params(sort_key, direction)
+    return unless should_verify_url?
+
+    expect(page).to have_current_path(/sort=#{sort_key}\+#{direction}/)
+  end
+
+  def should_verify_url?
+    respond_to?(:sorting_in_url) && sorting_in_url
   end
 end

@@ -1378,6 +1378,98 @@ describe 'Agents', js: true do
     end
   end
 
+  context 'index view' do
+    describe 'results table sorting' do
+      include_context 'filter search results by text'
+
+      let(:now) { Time.now.to_i }
+      let(:repo) { create(:repo, repo_code: "agents_results_sorting_#{now}") }
+      let(:record_1) {
+        create(:agent_person,
+          names: [build(:name_person,
+            primary_name: "AAAA Agent 1 #{now}",
+            rest_of_name: "AAAA",
+            authority_id: "auth1",
+            source: 'local',
+            rules: 'local'
+          )]
+        )
+      }
+      let(:record_2) {
+        create(:agent_corporate_entity,
+          names: [build(:json_name_corporate_entity,
+            primary_name: "AAAB Agent 2 #{now}",
+            authority_id: "auth2",
+            source: 'naf',
+            rules: 'aacr'
+          )]
+        )
+      }
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
+      let(:record_1_name) { record_1.names.first['sort_name'] }
+      let(:record_2_name) { record_2.names.first['sort_name'] }
+      let(:initial_sort) { [record_1_name, record_2_name] }
+      let(:column_headers) do
+        {
+          'Agent Type' => 'primary_type',
+          'Name' => 'title_sort',
+          'Authority ID' => 'authority_id',
+          'Source' => 'source',
+          'Rules' => 'rules'
+        }
+      end
+      let(:sort_expectations) do
+        {
+          'primary_type' => {
+            asc: [record_2_name, record_1_name],
+            desc: [record_1_name, record_2_name]
+          },
+          'title_sort' => {
+            asc: [record_1_name, record_2_name],
+            desc: [record_2_name, record_1_name]
+          },
+          'authority_id' => {
+            asc: [record_1_name, record_2_name],
+            desc: [record_2_name, record_1_name]
+          },
+          'source' => {
+            asc: [record_1_name, record_2_name],
+            desc: [record_2_name, record_1_name]
+          },
+          'rules' => {
+            asc: [record_2_name, record_1_name],
+            desc: [record_1_name, record_2_name]
+          }
+        }
+      end
+
+      before :each do
+        set_repo repo
+        record_1
+        record_2
+        run_index_round
+        login_admin
+        select_repository(repo)
+
+        # Show all sortable columns
+        set_browse_column_preferences('agent', {
+          6 => 'Is User?',
+          7 => 'URI',
+          # 8 => 'Published'
+        })
+
+        visit '/agents'
+
+        # Agents are cross-repo, so need to filter for `now` here as in search_listing_spec.rb
+        filter_search_results_by_text(now.to_s)
+        expect(page).to have_text('Showing 1 - 2 of 2 Results')
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
+
   describe 'Light Agent Record' do
     before(:all) do
       @corpοrate_agent_full = create(:json_agent_corporate_entity_full_subrec)

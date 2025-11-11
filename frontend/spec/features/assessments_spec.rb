@@ -426,6 +426,7 @@ describe 'Assessments', js: true do
           'inactive' => false
         })
       end
+      let(:default_sort_key) { 'assessment_id' }
       let(:primary_column_class) { 'assessment_id' }
       let(:initial_sort) { [record_1.id.to_s, record_2.id.to_s] }
       let(:column_headers) do
