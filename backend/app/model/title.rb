@@ -1,5 +1,6 @@
 class Title < Sequel::Model(:title)
   include ASModel
+  include MixedContentValidatable
   corresponds_to JSONModel(:title)
 
   set_model_scope :global
@@ -7,6 +8,7 @@ class Title < Sequel::Model(:title)
   def validate
     super
     validates_presence [:title]
+    validate_mixed_content_field()
   end
 
   def to_hash

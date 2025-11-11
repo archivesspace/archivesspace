@@ -29,7 +29,6 @@ class Accession < Sequel::Model(:accession)
   include Assessments::LinkedRecord
   include RepresentativeFileVersion
   include Titles
-  include MixedContentValidatable
 
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
@@ -89,7 +88,6 @@ class Accession < Sequel::Model(:accession)
                 }
 
   def validate
-    validate_mixed_content_field()
     super
   end
 end
