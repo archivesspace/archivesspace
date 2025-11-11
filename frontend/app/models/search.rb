@@ -59,14 +59,15 @@ class Search
     build_filters(criteria)
 
     criteria["page"] = 1 if not criteria.has_key?("page")
+    criteria["sort"] ||= default_sort_for_type(type)
 
     search_data = JSONModel::HTTP::get_json("/search/#{type}", criteria)
     search_data[:type] = type
     SearchResultData.new(search_data, criteria)
   end
 
-  # Compute the default sort string for a given type, honoring preferences
-  # - type [String] One of the SearchAndBrowseColumnConfig types (e.g., "resource", "multi", "repositories")
+  # Helper to get the default sort string for a given record type, honoring preferences
+  # - type [String] Record type
   def self.default_sort_for_type(type)
     normalized_type =
       if type.include?('agent')

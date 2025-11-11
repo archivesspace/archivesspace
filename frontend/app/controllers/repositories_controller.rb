@@ -11,9 +11,8 @@ class RepositoriesController < ApplicationController
 
 
   def index
-    criteria = params_for_backend_search.merge({ "facet[]" => [] })
-    criteria["sort"] ||= Search.default_sort_for_type("repositories")
-    @search_data = Search.global(criteria, "repositories")
+    @search_data = Search.global(params_for_backend_search.merge({"facet[]" => []}),
+                                 "repositories")
   end
 
   def reorder
