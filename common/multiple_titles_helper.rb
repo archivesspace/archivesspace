@@ -16,7 +16,7 @@ module MultipleTitlesHelper
     title ||= titles.find { |t| t['language'] == I18n.supported_locales[I18n.default_locale.to_s] }
 
     # if no preferred title can be determined, return the first title in the list
-    title ||= titles[0]['title']
+    title ||= titles[0]
 
     parse_mixed_content ? MixedContentParser.parse(title['title'], '/').to_s : title['title']
   end

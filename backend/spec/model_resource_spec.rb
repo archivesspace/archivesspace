@@ -149,7 +149,7 @@ describe 'Resource model' do
     classification = Classification.create_from_json(classification)
     resource = create_resource(:classifications =>[ {'ref' => classification.uri} ])
 
-    expect(resource.related_records(:classification).first.title).to eq("top-level classification")
+    expect(resource.related_records(:classification).first.title[0].title).to eq("top-level classification")
   end
 
   # See https://gist.github.com/anarchivist/7477913
