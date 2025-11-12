@@ -165,7 +165,8 @@ module SearchHelper
                 end
               else
                 proc do |record|
-                  v = Array(record[opts[:field]] || ASUtils.json_parse(record['json'])[opts[:field]])
+                  field_value = record.has_key?(opts[:field]) ? record[opts[:field]] : ASUtils.json_parse(record['json'])[opts[:field]]
+                  v = Array(field_value)
                   if v.length > 1
                     content_tag('ul', :style => 'padding-left: 20px;') {
                       Array(v).collect { |i|
