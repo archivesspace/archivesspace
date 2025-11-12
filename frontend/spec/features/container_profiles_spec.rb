@@ -118,4 +118,37 @@ describe 'Container Profiles', js: true do
     input_text.send_keys(:enter)
     expect(page).to have_text 'No records found'
   end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      include_context 'sortable results table setup'
+
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'container_profile' }
+      let(:browse_path) { '/container_profiles' }
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
+      let(:record_1) { create(:container_profile, name: "Container Profile B #{now}") }
+      let(:record_2) { create(:container_profile, name: "Container Profile A #{now}") }
+      let(:filter_results) { true }
+      let(:initial_sort) { [record_2.name, record_1.name] }
+      let(:additional_browse_columns) do
+        {
+          2 => 'URI'
+        }
+      end
+      let(:column_headers) { {'Title' => 'title_sort', 'URI' => 'uri'} }
+      let(:sort_expectations) do
+        {
+          'title_sort' => {
+            asc: [record_2.name, record_1.name],
+            desc: [record_1.name, record_2.name]
+          },
+          'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.name })
+        }
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end

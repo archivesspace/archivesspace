@@ -206,4 +206,64 @@ describe 'Subjects', js: true do
     expect(csv).to include(subject_1.title)
     expect(csv).to include(subject_2.title)
   end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      include_context 'sortable results table setup'
+
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'subject' }
+      let(:browse_path) { '/subjects' }
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
+      let(:record_1) do
+        create(:subject,
+          source: 'local',
+          terms: [build(:term, { term: "A #{now}", term_type: 'topical' })]
+        )
+      end
+      let(:record_2) do
+        create(:subject,
+          source: 'aat',
+          terms: [build(:term, { term: "B #{now}", term_type: 'geographic' })]
+        )
+      end
+      let(:filter_results) { true }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:additional_browse_columns) do
+        {
+          2 => 'Source',
+          3 => 'Term Type (First)',
+          4 => 'URI'
+        }
+      end
+      let(:column_headers) do
+        {
+          'Terms' => 'title_sort',
+          'Source' => 'source',
+          'Term Type (First)' => 'first_term_type',
+          'URI' => 'uri'
+        }
+      end
+      let(:sort_expectations) do
+        {
+          'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'source' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'first_term_type' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+        }
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end

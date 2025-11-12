@@ -151,6 +151,81 @@ describe 'Search Listing', js: true do
         expect(dropdown_elements).to have_link column.text
       end
     end
+
+    describe 'column sorting' do
+      let(:sortable_column_label) { 'Identifier' }
+
+      it 'cycles between ascending and descending on repeated clicks' do
+        # Do a global search and filter to accessions
+        find('#global-search-button').click
+        expect(page).to have_text 'Search Results'
+        click_on 'Accession'
+
+        # Wait for table to load
+        expect(page).to have_css('#tabledSearchResults')
+        expect(page).to have_text @accession_1.title
+
+        # Find the sortable column header and click it
+        within('#tabledSearchResults thead') do
+          click_link sortable_column_label
+        end
+
+        # First click: sort ascending
+        expect(page).to have_css('th.sort-asc', text: sortable_column_label, wait: 5)
+
+        # Second click: sort descending
+        within('#tabledSearchResults thead') do
+          click_link sortable_column_label
+        end
+        expect(page).to have_css('th.sort-desc', text: sortable_column_label, wait: 5)
+
+        # Third click: should cycle back to ascending (not reset to default)
+        within('#tabledSearchResults thead') do
+          click_link sortable_column_label
+        end
+        expect(page).to have_css('th.sort-asc', text: sortable_column_label, wait: 5)
+
+        # Fourth click: back to descending
+        within('#tabledSearchResults thead') do
+          click_link sortable_column_label
+        end
+        expect(page).to have_css('th.sort-desc', text: sortable_column_label, wait: 5)
+      end
+    end
+
+    describe 'results table sorting' do
+      include_context 'sortable results table setup'
+
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'multi' }
+      let(:browse_path) { '/search' }
+      let(:record_1) { create(:resource, title: "Resource #{now}", id_0: "1") }
+      let(:record_2) { create(:accession, title: "Accession #{now}", id_0: "2") }
+      let(:default_sort_key) { 'score' }
+      let(:sorting_in_url) { true }
+      let(:filter_results) { true }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:additional_browse_columns) { { 6 => 'URI' } }
+      let(:column_headers) do
+        {
+          'Record Type' => 'primary_type',
+          'Title' => 'title_sort',
+          'Identifier' => 'identifier',
+          'URI' => 'uri'
+        }
+      end
+      let(:sort_expectations) do
+        # Re: URI sorting, this is multi-record type so URIs should sort by record type string before id integer
+        {
+          'primary_type' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
+          'title_sort' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
+          'identifier' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
+          'uri' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] }
+        }
+      end
+
+      it_behaves_like 'sortable results table'
+    end
   end
 
   context 'CSV export' do
