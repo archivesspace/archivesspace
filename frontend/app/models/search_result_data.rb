@@ -269,9 +269,7 @@ class SearchResultData
   def sort_filter_for(field, default = "asc")
     return "#{field} #{default}" if field != sorted_by
 
-    return "" if current_sort_direction != default
-
-    return "#{field} #{default === "asc" ? "desc" : "asc"}"
+    return "#{field} #{current_sort_direction === "asc" ? "desc" : "asc"}"
   end
 
   def sorted_by_label(index = 0)

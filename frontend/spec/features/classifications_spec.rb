@@ -168,4 +168,72 @@ describe 'Classifications', js: true do
     tree_element.click
     expect(page).to have_text accession.title
   end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      let(:now) { Time.now.to_i }
+      let(:repo) { create(:repo, repo_code: "classifications_index_sorting_#{now}") }
+      let(:record_1) { create(:classification, title: "Classification 1 #{now}", identifier: "Z") }
+      let(:record_2) { create(:classification, title: "Classification 2 #{now}", identifier: "A") }
+      let(:record_3) { create(:classification_term, classification: { 'ref' => record_2.uri }) }
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:column_headers) {
+        {
+          'Title' => 'title_sort',
+          'Has classification terms?' => 'has_classification_terms',
+          'Identifier' => 'identifier_sort',
+          'URI' => 'uri'
+        }
+      }
+      let(:sort_expectations) do
+        # URI sorting uses lexicographic (string) comparison, not numeric.
+        # URIs like '/classifications/9' and '/classifications/11' sort as '11' < '9' because '1' < '9'.
+        # We compute the expected order dynamically to document the current behavior while keeping tests stable.
+        # TODO: Fix application to sort URIs numerically by ID (separate ticket)
+        uri_asc = [record_1, record_2].sort_by { |r| r.uri }.map(&:title)
+        uri_desc = uri_asc.reverse
+
+        {
+          'title_sort' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
+          'has_classification_terms' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
+          'identifier_sort' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
+          'uri' => { asc: uri_asc, desc: uri_desc }
+        }
+      end
+
+      before do
+        set_repo repo
+        record_1
+        record_2
+        record_3
+        # Touch record_2 to update its mtime to trigger indexer to recalculate its has_classification_terms
+        updated_classification = JSONModel(:classification).find(record_2.id)
+        updated_classification.save
+        run_index_round
+        login_admin
+        select_repository(repo)
+
+        # Show all remaining sortable columns
+        set_browse_column_preferences('classification', {
+          2 => 'Has classification terms?',
+          3 => 'Identifier',
+          4 => 'URI'
+        })
+
+        visit '/classifications'
+      end
+
+      after do
+        set_browse_column_preferences('classification', {
+          2 => 'Default',
+          3 => 'Default',
+          4 => 'Default',
+        })
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end
