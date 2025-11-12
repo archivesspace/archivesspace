@@ -1519,6 +1519,10 @@ describe 'Resources', js: true do
   end
 
   context 'Related Accessions browse modal' do
+    # This is the only spec for column sorting in a linker browse modal results table.
+    # Linker browse modals use the same search results table as the index views, all of
+    # which have been tested. Keeping this working example here for reference instead of
+    # duplicating existing tests.
     describe 'results table sorting' do
       let(:now) { Time.now.to_i }
       let(:repo) { create(:repo, repo_code: "result_table_sorting_#{now}") }
