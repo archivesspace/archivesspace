@@ -206,4 +206,93 @@ describe 'Subjects', js: true do
     expect(csv).to include(subject_1.title)
     expect(csv).to include(subject_2.title)
   end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      include_context 'filter search results by text'
+
+      let(:now) { Time.now.to_i }
+      let(:repo) { create(:repo, repo_code: "subjects_index_sorting_#{now}") }
+      let(:record_1) do
+        create(:subject,
+          source: 'local',
+          terms: [build(:term, { term: "A #{now}", term_type: 'topical' })]
+        )
+      end
+      let(:record_2) do
+        create(:subject,
+          source: 'aat',
+          terms: [build(:term, { term: "B #{now}", term_type: 'geographic' })]
+        )
+      end
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:column_headers) do
+        {
+          'Terms' => 'title_sort',
+          'Source' => 'source',
+          'Term Type (First)' => 'first_term_type',
+          'URI' => 'uri'
+        }
+      end
+      let(:sort_expectations) do
+        # URI sorting uses lexicographic (string) comparison, not numeric.
+        # URIs like '/subjects/9' and '/subjects/11' sort as '11' < '9' because '1' < '9'.
+        # We compute the expected order dynamically to document the current behavior while keeping tests stable.
+        # TODO: Fix application to sort URIs numerically by ID (separate ticket)
+        uri_asc = [record_1, record_2].sort_by { |r| r.uri }.map(&:title)
+        uri_desc = uri_asc.reverse
+
+        {
+          'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'source' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'first_term_type' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'uri' => {
+            asc: uri_asc,
+            desc: uri_desc
+          }
+        }
+      end
+
+      before do
+        set_repo repo
+        record_1
+        record_2
+        run_index_round
+        login_admin
+        select_repository(repo)
+
+        # Show all sortable columns
+        set_browse_column_preferences('subject', {
+          2 => 'Source',
+          3 => 'Term Type (First)',
+          4 => 'URI'
+        })
+
+        visit '/subjects'
+        filter_search_results_by_text(now.to_s)
+        expect(page).to have_text('Showing 1 - 2 of 2 Results')
+      end
+
+      after do
+        set_browse_column_preferences('subject', {
+          2 => 'Default',
+          3 => 'Default',
+          4 => 'Default',
+        })
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end

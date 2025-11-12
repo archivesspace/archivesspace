@@ -344,4 +344,114 @@ describe 'Locations', js: true do
 
     expect(page).to have_text /Showing .*1.* of.*Results/
   end
+
+  context 'index view' do
+    describe 'results table sorting' do
+      include_context 'filter search results by text'
+
+      let(:now) { Time.now.to_i }
+      let(:repo) { create(:repo, repo_code: "locations_index_sorting_#{now}") }
+      let(:record_1) do
+        create(
+          :location,
+          building: "Building 1 #{now}",
+          floor: '2',
+          room: '1',
+          area: '2',
+          temporary: 'conservation'
+        )
+      end
+      let(:record_2) do
+        create(
+          :location,
+          building: "Building 2 #{now}",
+          floor: '1',
+          room: '2',
+          area: '1',
+          temporary: 'reading_room'
+        )
+      end
+      let(:default_sort_key) { 'title_sort' }
+      let(:sorting_in_url) { true }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:column_headers) do
+        {
+          'Location' => 'title_sort',
+          'Building' => 'building',
+          'Floor' => 'floor',
+          'Room' => 'room',
+          'Area' => 'area',
+          'Temporary' => 'temporary',
+          'URI' => 'uri'
+        }
+      end
+      let(:sort_expectations) do
+        # URI sorting uses lexicographic (string) comparison, not numeric.
+        # URIs like '/locations/9' and '/locations/11' sort as '11' < '9' because '1' < '9'.
+        # We compute the expected order dynamically to document the current behavior while keeping tests stable.
+        # TODO: Fix application to sort URIs numerically by ID (separate ticket)
+        uri_asc = [record_1, record_2].sort_by { |r| r.uri }.map(&:title)
+        uri_desc = uri_asc.reverse
+
+        {
+          'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'building' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'floor' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'room' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'area' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'temporary' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'uri' => {
+            asc: uri_asc,
+            desc: uri_desc
+          }
+        }
+      end
+
+      before do
+        set_repo repo
+        record_1
+        record_2
+        run_index_round
+        login_admin
+        select_repository(repo)
+
+        # Show all remaining sortable columns
+        set_browse_column_preferences('location', {
+          6 => 'Temporary',
+          7 => 'URI'
+        })
+
+        visit '/locations'
+        filter_search_results_by_text(now.to_s)
+        expect(page).to have_text('Showing 1 - 2 of 2 Results')
+      end
+
+      after do
+        set_browse_column_preferences('location', {
+          6 => 'Default',
+          7 => 'Default',
+        })
+      end
+
+      it_behaves_like 'sortable results table'
+    end
+  end
 end

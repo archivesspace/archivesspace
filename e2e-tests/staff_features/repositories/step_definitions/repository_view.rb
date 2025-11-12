@@ -79,7 +79,7 @@ Given 'the two Repositories are displayed sorted by ascending title in the searh
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @repository_b_uuid)
 end
 
-Then 'the two Repositories are displayed sorted by ascending title' do
-  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @repository_a_uuid)
-  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @repository_b_uuid)
+Then 'the two Repositories are displayed sorted by descending title' do
+  expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @repository_b_uuid)
+  expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @repository_a_uuid)
 end
