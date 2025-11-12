@@ -80,8 +80,9 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(usernames)
   end
 
+  # Very much WIP so path is intentionally vague until I know what this will actually do
   Endpoint.get('/users/pui')
-    .description("")
+    .description('')
     .permissions([])
     .returns([200, ""]) \
   do
