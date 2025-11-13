@@ -2,46 +2,6 @@ uk:
   enumeration_names:
     accession_sibling_relator: Реляційний консультант з питань приєднання до братів і сестер
     agent_relationship_hierarchical_relator: Ієрархічний релятор зв'язків між агентами
-    event_event_type:
-      accession: Поповнення
-      accumulation: Накопичення
-      acknowledgement: Підтвердження
-      acknowledgement_received: Підтвердження отримано
-      acknowledgement_sent: Підтвердження надіслано
-      agreement_received: Угода отримана
-      agreement_sent: Угода надіслана
-      agreement_signed: Угода підписана
-      appraisal: Оцінка
-      assessment: Оцінювання
-      capture: Захоплення
-      cataloged: Каталогізовано
-      collection: Колекція
-      component_transfer: Передача компонента
-      compression: Стиснення
-      contribution: Внесок
-      copyright_transfer: Передача авторських прав
-      custody_transfer: Передача опіки
-      deaccession: Вилучення
-      decompression: Розпакування
-      decryption: Розшифровка
-      deletion: Видалення
-      digital_signature_validation: Перевірка цифрового підпису
-      fixity_check: Перевірка цілісності
-      ingestion: Поглинання
-      message_digest_calculation: Обчислення дайджесту повідомлення
-      migration: Міграція
-      normalization: Нормалізація
-      processed: Оброблено
-      processing_completed: Обробка завершена
-      processing_in_progress: Обробка в процесі
-      processing_new: Нова обробка
-      processing_started: Обробка розпочата
-      publication: Публікація
-      replication: Реплікація
-      request: Запит
-      rights_transferred: Права передані
-      validation: Валідація
-      virus_check: Перевірка на віруси
     agent_relationship_associative_relator: Агент з взаємовідносин з ріелтором
     linked_agent_archival_record_relators: Пов’язані агенти архівних записів
     date_standardized_type: Дата Стандартизований тип
