@@ -1371,7 +1371,7 @@ de:
           Minuten bis zur Fertigstellung dauern.
         ranges_info: Beachten Sie, dass jegliche Koordinaten-Felder, die in 
           obigem <strong>Basis-Standort</strong> eingegeben wurden, mit den 
-          Werten, die durch die Bereiche unten erzeugt wurden, ersetzt werden.  
+          Werten, die durch die Bereiche unten erzeugt wurden, ersetzt werden. 
           Maximal %{max_range} Standorte werden erstellt werden.
         updated: <strong>%{number_created} Standorte</strong> aktualisiert
       action:
