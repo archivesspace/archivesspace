@@ -498,10 +498,14 @@ FactoryBot.define do
   factory :json_archival_object, class: JSONModel(:archival_object) do
     ref_id { generate(:alphanumstr) }
     level { generate(:level) }
-    titles { [build(:json_title, :title => "Archival Object #{generate(:generic_title)}")] }
+    titles { [build(:json_title, :title => title)] }
     extents { few_or_none(:json_extent) }
     dates { few_or_none(:json_date) }
     resource { {'ref' => create(:json_resource).uri} }
+
+    transient do
+      title { "Archival Object #{generate(:generic_title)}" }
+    end
   end
 
   factory :json_archival_record_children, class: JSONModel(:archival_record_children) do
@@ -1397,8 +1401,12 @@ FactoryBot.define do
   factory :json_archival_object_nohtml, class: JSONModel(:archival_object) do
     ref_id { generate(:alphanumstr) }
     level { generate(:level) }
-    title { "Archival Object #{generate(:generic_title)}" }
+    titles { [build(:json_title, title: title)] }
     resource { {'ref' => create(:json_resource_nohtml).uri} }
+
+    transient do
+      title { "Archival Object #{generate(:generic_title)}" }
+    end
   end
 
   factory :json_agent_person_full_subrec, class: JSONModel(:agent_person) do
@@ -1536,12 +1544,16 @@ FactoryBot.define do
   end
 
   factory :json_digital_object_unpub_files, class: JSONModel(:digital_object) do
-    title { "Digital Object #{generate(:generic_title)}" }
+    titles { [build(:json_title, title: title)] }
     lang_materials { [build(:json_lang_material)] }
     digital_object_id { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     file_versions { few_or_none(:json_file_version_unpub) }
     dates { few_or_none(:json_date) }
+
+    transient do
+      title { "Digital Object #{generate(:generic_title)}" }
+    end
   end
 
   factory :json_lang_material_with_note, class: JSONModel(:lang_material) do
@@ -1573,7 +1585,7 @@ FactoryBot.define do
   end
 
   factory :json_resource_nohtml, class: JSONModel(:resource) do
-    titles { [build(:json_title, title: "Resource #{generate(:generic_title)}")] }
+    titles { [build(:json_title, title: title)] }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }
@@ -1590,6 +1602,9 @@ FactoryBot.define do
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }
     revision_statements { [build(:json_revision_statement)] }
+    transient do
+      title { "Resource #{generate(:generic_title)}" }
+    end
   end
 
   factory :json_accession_job, class: JSONModel(:job) do
