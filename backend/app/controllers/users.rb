@@ -92,7 +92,7 @@ class ArchivesSpaceService < Sinatra::Base
 
       user = User[user_id]
       user_perms = user.permissions.values.flatten.uniq
-      response = ['view_all_records', 'view_repository'].any? { |value| user_perms.include?(value) }
+      response = user_perms.include?('view_pui')
 
       json_response(response)
     else

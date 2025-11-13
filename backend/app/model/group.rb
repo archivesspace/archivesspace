@@ -14,6 +14,10 @@ class Group < Sequel::Model(:group)
     'administrators'
   end
 
+  def self.VIEW_PUI_GROUP_CODE
+    'global-pui-viewers'
+  end
+
 
   def self.SEARCHINDEX_GROUP_CODE
     'searchindex'

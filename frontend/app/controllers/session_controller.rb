@@ -108,6 +108,6 @@ class SessionController < ApplicationController
   end
 
   def user_can_view_pui?
-    user_can?('view_all_records') || user_can?('view_repository')
+    user_can?('view_pui')
   end
 end

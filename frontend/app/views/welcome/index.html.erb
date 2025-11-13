@@ -13,8 +13,6 @@
     <h2><%= t "welcome.heading" %></h2>
     <%= welcome_message %>
   </div>
-  <%= session[:pui_username].inspect %>
-  <%= session[:session].inspect %>
   <% if !session[:user] %>
   <div class="col-md-6 col-xl-4 p-4 bg-light">
     <main id="login-form-wrapper" class="card p-3 p-sm-4">
