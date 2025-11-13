@@ -19,7 +19,7 @@ describe SessionController, type: :controller do
         user = User.find(user)
         group = create(:json_group,
                        member_usernames: [user.username],
-                       grants_permissions: ['view_repository'])
+                       grants_permissions: ['view_repository', 'view_pui'])
         session = User.login(user.username, '123')
         User.establish_session(controller, session, user.username)
       end
