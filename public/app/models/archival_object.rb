@@ -45,7 +45,7 @@ class ArchivalObject < Record
               end
 
       if resolved_resource
-        ttl = resolved_resource.dig('title')
+        ttl = resolved_resource.primary_title
         cite += " #{strip_mixed_content(ttl)}, #{resource_identifier}."
       end
 
@@ -70,7 +70,7 @@ class ArchivalObject < Record
               end
 
       if resolved_resource
-        ttl = resolved_resource.dig('title')
+        ttl = resolved_resource.primary_title
         cite += " #{strip_mixed_content(ttl)}, #{resource_identifier}."
       end
       unless repository_information['top']['name'].blank?
@@ -94,7 +94,7 @@ class ArchivalObject < Record
                 ", #{@citation_container_display}."
               end
       if resolved_resource
-        ttl = resolved_resource.dig('title')
+        ttl = resolved_resource.primary_title
         cite += " #{strip_mixed_content(ttl)}, #{resource_identifier}."
       end
       unless repository_information['top']['name'].blank?

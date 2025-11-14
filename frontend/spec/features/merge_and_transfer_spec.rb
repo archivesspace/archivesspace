@@ -26,7 +26,7 @@ describe 'Merge and Transfer', js: true do
     visit "resources/#{resource.id}/edit"
 
     expect(page).to have_selector('h2', visible: true)
-    expect(find('h2').text).to eq "#{resource.title} Resource"
+    expect(find('h2').text).to eq "#{resource.titles[0]['title']} Resource"
 
     find('#transfer-dropdown button').click
 
@@ -53,7 +53,7 @@ describe 'Merge and Transfer', js: true do
     click_on 'Browse'
     click_on 'Resources'
 
-    expect(page).to have_css 'tr', text: resource.title
+    expect(page).to have_css 'tr', text: resource.titles[0]['title']
   end
 
   it 'can merge a resource into a resource' do
@@ -78,7 +78,7 @@ describe 'Merge and Transfer', js: true do
     visit "resources/#{resource_target.id}/edit"
 
     expect(page).to have_selector('h2', visible: true)
-    expect(find('h2').text).to eq "#{resource_target.title} Resource"
+    expect(find('h2').text).to eq "#{resource_target.titles[0]['title']} Resource"
 
     find('#merge-dropdown button').click
 
@@ -122,14 +122,14 @@ describe 'Merge and Transfer', js: true do
     visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
 
     expect(page).to have_selector('h2', visible: true)
-    expect(find('h2').text).to eq "#{archival_object.title} Archival Object"
+    expect(find('h2').text).to eq "#{archival_object.titles[0]['title']} Archival Object"
 
     click_on 'Transfer'
 
     expect(page).to have_selector('.dropdown-menu.tree-transfer-form', visible: true)
 
     within '.dropdown-menu.tree-transfer-form' do
-      fill_in 'token-input-transfer_ref_', with: resource.title
+      fill_in 'token-input-transfer_ref_', with: resource.titles[0]['title']
       dropdown_items = all('li.token-input-dropdown-item2')
       dropdown_items.first.click
 
@@ -137,7 +137,6 @@ describe 'Merge and Transfer', js: true do
     end
 
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Successfully transferred Archival Object #{archival_object.title} to Resource #{resource.title}")
-
     expect(page).to have_css "#archival_object_#{archival_object.id}"
   end
 

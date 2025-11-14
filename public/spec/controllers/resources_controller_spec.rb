@@ -15,7 +15,6 @@ describe ResourcesController, type: :controller do
     @digital_object = create(:digital_object)
     @digital_object_with_rep_file_ver = create(:digital_object,
       publish: true,
-      title: 'Digital object with representative file version',
       :file_versions => [build(:file_version, {
         :publish => true,
         :is_representative => true,
@@ -28,7 +27,6 @@ describe ResourcesController, type: :controller do
                        instances: [build(:instance_digital, digital_object: { ref: @digital_object.uri })])
     @resource_with_rep_instance = create(:resource,
       publish: true,
-      title: "Resource with representative file version",
       instances: [build(:instance_digital,
         digital_object: {'ref' => @digital_object_with_rep_file_ver.uri},
         is_representative: true
@@ -36,7 +34,6 @@ describe ResourcesController, type: :controller do
     )
     @resource_with_rep_instance_2 = create(:resource,
       publish: true,
-      title: "Yet another Resource with representative file version",
       instances: [build(:instance_digital,
         digital_object: {'ref' => @digital_object_with_rep_file_ver.uri},
         is_representative: true
@@ -45,7 +42,7 @@ describe ResourcesController, type: :controller do
     @unpublished_resource = create(:resource)
 
     subject = create(:subject, terms: [build(:term, {term: 'Term 1', term_type: 'temporal'}), build(:term, term: 'Term 2')])
-    @resource_with_subj = create(:resource, title: "Resource with Subject from Controller",
+    @resource_with_subj = create(:resource,
                     publish: true,
                     instances: [build(:instance_digital)],
                     subjects: [{'ref' => subject.uri}])
@@ -142,7 +139,7 @@ describe ResourcesController, type: :controller do
     it "passes digital object instance data to the view" do
       get(:show, params: { rid: @repo.id, id: @resource.id })
       instance_data = controller.instance_variable_get(:@dig)
-      expect(instance_data[0]['caption']).to eq(@digital_object.title)
+      expect(instance_data[0]['caption']).to eq(@digital_object.titles[0]['title'])
     end
 
     it 'displays a representative file version image, caption and link to view all digital objects when set' do
@@ -165,11 +162,11 @@ describe ResourcesController, type: :controller do
       page = Capybara.string(response.body)
 
       page.find(:css, ".recordrow[data-uri='#{@digital_object_with_rep_file_ver.uri}'] ol.result_linked_instances_tree li:first-of-type span.resource_name") do |span|
-        expect(span).to have_content @resource_with_rep_instance.title
+        expect(span).to have_content @resource_with_rep_instance.titles[0]['title']
       end
 
       page.find(:css, ".recordrow[data-uri='#{@digital_object_with_rep_file_ver.uri}'] ol.result_linked_instances_tree li:last-of-type span.resource_name") do |span|
-        expect(span).to have_content @resource_with_rep_instance_2.title
+        expect(span).to have_content @resource_with_rep_instance_2.titles[0]['title']
       end
     end
   end

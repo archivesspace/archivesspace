@@ -34,17 +34,17 @@ describe 'Classification models' do
 
 
   it "allows a classification to be created" do
-    expect(classification.title).to eq("top-level classification")
+    expect(classification.title[0].title).to eq("top-level classification")
     expect(Classification.to_jsonmodel(classification)['creator']['ref']).to eq(creator.uri)
   end
 
 
   it "allows a tree of classification_terms to be created" do
     term = create_classification_term(classification)
-    expect(term.title).to eq("classification A")
+    expect(term.title[0].title).to eq("classification A")
 
     expect(classification.tree['children'].count).to eq(1)
-    expect(classification.tree['children'].first['title']).to eq(term.title)
+    expect(classification.tree['children'].first['title']).to eq(term.title[0].title)
     expect(classification.tree['children'].first['record_uri']).to eq(term.uri)
 
     second_term = create_classification_term(classification,
@@ -52,7 +52,7 @@ describe 'Classification models' do
                                              :identifier => "another",
                                              :parent => {'ref' => term.uri})
 
-    expect(classification.tree['children'][0]['children'][0]['title']).to eq(second_term.title)
+    expect(classification.tree['children'][0]['children'][0]['title']).to eq(second_term.title[0].title)
   end
 
 
@@ -122,7 +122,7 @@ describe 'Classification models' do
 
     terms.last.set_parent_and_position(terms.last.parent_id, 0)
 
-    titles = classification.tree['children'].map {|e| e['title']}
+    titles = classification.tree['children'].map {|e| e['title'] }
 
     expect(titles).to eq(["title 4", "title 0", "title 1", "title 2", "title 3"])
   end
@@ -171,7 +171,7 @@ describe 'Classification models' do
         end
         it "autogenerates a slug via title" do
           classification = Classification.create_from_json(build(:json_classification, :is_slug_auto => true, :title => rand(100000).to_s))
-          expected_slug = clean_slug(classification[:title])
+          expected_slug = clean_slug(classification.title[0].title)
           expect(classification[:slug]).to eq(expected_slug)
         end
         it "cleans slug" do

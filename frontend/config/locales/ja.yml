@@ -127,7 +127,7 @@ ja:
     loading: 読み込んでいます...
     revert: 変更を元に戻す
     finish_editing: レコードを閉じる
-    merge: 行きます
+    merge: マージする
     form_changes_message: "<small><span class='muted'>保存していない変更があります</span></small>"
     toolbar_disabled_message: 未保存の変更があります - ツールバーとレコード 
       ツリーにアクセスするには、保存するか元に戻してください

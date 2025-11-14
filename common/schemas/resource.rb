@@ -8,6 +8,8 @@
     "parent" => "abstract_archival_object",
     "uri" => "/repositories/:repo_id/resources",
     "properties" => {
+      # Titles (overrides abstract schema)
+      "titles" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:title) object"}},
 
       "id_0" => {"type" => "string", "ifmissing" => "error", "maxLength" => 255},
       "id_1" => {"type" => "string", "maxLength" => 255},
