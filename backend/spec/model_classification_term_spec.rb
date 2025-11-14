@@ -15,7 +15,7 @@ describe 'Classification models' do
         end
         it "autogenerates a slug via title" do
           classification_term = ClassificationTerm.create_from_json(build(:json_classification_term, :is_slug_auto => true, :title => rand(100000).to_s))
-          expected_slug = clean_slug(classification_term[:title])
+          expected_slug = clean_slug(classification_term[:display_string])
           expect(classification_term[:slug]).to eq(expected_slug)
         end
         it "cleans slug" do

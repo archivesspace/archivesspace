@@ -1,7 +1,8 @@
 <%= link_to_help :topic => "resource" %>
 
 <h2>
-   <%= @form_title ? @form_title : @resource.title.blank? ? "#{t("resource.new_title")}" : clean_mixed_content( @resource.title)  %>  <span class="label label-info badge"><%= t("resource._singular") %></span>
+  <%= @form_title ? @form_title : (@resource.titles&.present? ? title_for_display : t("resource.new_title"))  %>
+  <span class="label label-info badge"><%= t("resource._singular") %></span>
 </h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
@@ -25,9 +26,6 @@
                                  :form => form,
                                  :record => @resource) %>
 
-      <%= form.label_and_textarea "title", :field_opts => {
-        :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
-      } %>
       <%= form.label_and_fourpartid %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @resource} if AppConfig[:use_human_readable_urls] %>
@@ -46,6 +44,7 @@
     </fieldset>
   </section>
 
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "titles", :required => true} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_materials", :custom_action_template => "lang_materials/subrecord_form_action"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>

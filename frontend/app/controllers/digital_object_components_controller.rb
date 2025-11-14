@@ -1,5 +1,6 @@
 class DigitalObjectComponentsController < ApplicationController
   include ApplicationHelper
+  include MlcHelper
 
   set_access_control  "view_repository" => [:index, :show],
                       "update_digital_object_record" => [:new, :edit, :create, :update, :accept_children, :rde, :add_children, :validate_rows],
@@ -10,7 +11,8 @@ class DigitalObjectComponentsController < ApplicationController
 
   def new
     @digital_object_component = JSONModel(:digital_object_component).new._always_valid!
-    @digital_object_component.title = t("digital_object_component.title_default", :default => "")
+    @digital_object_component.titles = [JSONModel(:title).new._always_valid!]
+    @digital_object_component.display_string = t("digital_object_component.title_default", :default => "")
     @digital_object_component.parent = {'ref' => JSONModel(:digital_object_component).uri_for(params[:digital_object_component_id])} if params.has_key?(:digital_object_component_id)
     @digital_object_component.digital_object = {'ref' => JSONModel(:digital_object).uri_for(params[:digital_object_id])} if params.has_key?(:digital_object_id)
     @digital_object_component.position = params[:position]
@@ -51,9 +53,18 @@ class DigitalObjectComponentsController < ApplicationController
                   digital_object = @digital_object_component['digital_object']['_resolved']
                   parent = @digital_object_component['parent']? @digital_object_component['parent']['_resolved'] : false
 
-                  flash[:success] = @digital_object_component.parent ?
-                    t("digital_object_component._frontend.messages.created_with_parent", digital_object_component_display_string: clean_mixed_content(@digital_object_component.title), digital_object_title: clean_mixed_content(digital_object['title']), parent_display_string: clean_mixed_content(parent['title'])) :
-                    t("digital_object_component._frontend.messages.created", digital_object_component_display_string: clean_mixed_content(@digital_object_component.title), digital_object_title: clean_mixed_content(digital_object['title']))
+                  do_title = title_for_display(digital_object)
+                  if parent
+                    parent_display_string = title_for_display(parent)
+                    flash[:success] = t("digital_object_component._frontend.messages.created_with_parent",
+                      digital_object_component_display_string: title_for_display,
+                      digital_object_title: do_title,
+                      parent_display_string: parent_display_string)
+                  else
+                    flash[:success] = t("digital_object_component._frontend.messages.created",
+                      digital_object_component_display_string: title_for_display,
+                      digital_object_title: do_title)
+                  end
 
                   if @digital_object_component["is_slug_auto"] == false &&
                      @digital_object_component["slug"] == nil &&
@@ -79,10 +90,9 @@ class DigitalObjectComponentsController < ApplicationController
                 :obj => @digital_object_component,
                 :on_invalid => ->() { return render_aspace_partial :partial => "edit_inline" },
                 :on_valid => ->(id) {
-
                   flash.now[:success] = parent ?
-                    t("digital_object_component._frontend.messages.updated_with_parent", digital_object_component_display_string: clean_mixed_content(@digital_object_component.title)) :
-                    t("digital_object_component._frontend.messages.updated", digital_object_component_display_string: clean_mixed_content(@digital_object_component.title))
+                    t("digital_object_component._frontend.messages.updated_with_parent", digital_object_component_display_string: title_for_display) :
+                    t("digital_object_component._frontend.messages.updated", digital_object_component_display_string: title_for_display)
                   if @digital_object_component["is_slug_auto"] == false &&
                      @digital_object_component["slug"] == nil &&
                      params["digital_object_component"] &&
@@ -112,12 +122,13 @@ class DigitalObjectComponentsController < ApplicationController
 
 
   def delete
-    digital_object_component = JSONModel(:digital_object_component).find(params[:id])
-    digital_object_component.delete
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id])
+    display_string = title_for_display
+    @digital_object_component.delete
 
-    flash[:success] = t("digital_object_component._frontend.messages.deleted", digital_object_component_display_string: clean_mixed_content(digital_object_component.title))
+    flash[:success] = t("digital_object_component._frontend.messages.deleted", digital_object_component_display_string: display_string)
 
-    resolver = Resolver.new(digital_object_component['digital_object']['ref'])
+    resolver = Resolver.new(@digital_object_component['digital_object']['ref'])
     redirect_to resolver.view_uri
   end
 
@@ -230,20 +241,20 @@ class DigitalObjectComponentsController < ApplicationController
 
 
   def suppress
-    digital_object_component = JSONModel(:digital_object_component).find(params[:id])
-    digital_object_component.set_suppressed(true)
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id])
+    @digital_object_component.set_suppressed(true)
 
-    flash[:success] = t("digital_object_component._frontend.messages.suppressed", digital_object_component_display_string: clean_mixed_content(digital_object_component.title))
-    redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
+    flash[:success] = t("digital_object_component._frontend.messages.suppressed", digital_object_component_display_string: title_for_display)
+    redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(@digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
   end
 
 
   def unsuppress
-    digital_object_component = JSONModel(:digital_object_component).find(params[:id])
-    digital_object_component.set_suppressed(false)
+    @digital_object_component = JSONModel(:digital_object_component).find(params[:id])
+    @digital_object_component.set_suppressed(false)
 
-    flash[:success] = t("digital_object_component._frontend.messages.unsuppressed", digital_object_component_display_string: clean_mixed_content(digital_object_component.title))
-    redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
+    flash[:success] = t("digital_object_component._frontend.messages.unsuppressed", digital_object_component_display_string: title_for_display)
+    redirect_to(:controller => :digital_objects, :action => :show, :id => JSONModel(:digital_object).id_for(@digital_object_component['digital_object']['ref']), :anchor => "tree::digital_object_component_#{params[:id]}")
   end
 
 end
