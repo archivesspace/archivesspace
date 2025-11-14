@@ -68,12 +68,12 @@ class ClassificationTerm < Sequel::Model(:classification_term)
 
     while parent_id
       node = ClassificationTerm[parent_id]
-      path << {'title' => MultipleTitlesHelper.determine_primary_title(Title.to_array_of_hash(node.title), I18n.default_locale), 'identifier' => node.identifier}
+      path << {'title' => node.title, 'identifier' => node.identifier}
       parent_id = node.parent_id
     end
 
     root = Classification[self.parse_reference(json.classification['ref'], {})[:id]]
-    path << {'title' => MultipleTitlesHelper.determine_primary_title(Title.to_array_of_hash(root.title), I18n.default_locale), 'identifier' => root.identifier}
+    path << {'title' => root.title, 'identifier' => root.identifier}
 
     json['path_from_root'] = path.reverse
   end
