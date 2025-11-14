@@ -1266,7 +1266,11 @@ describe 'Resources', js: true do
           resource_type: 'collection',
           finding_aid_status: 'completed',
           publish: true,
-          restrictions: false
+          restrictions: false,
+          collection_management: {
+            'processing_priority' => 'medium',
+            'processors' => 'Processor 1'
+          }
         )
       end
       let(:record_2) do
@@ -1278,145 +1282,126 @@ describe 'Resources', js: true do
           resource_type: 'papers',
           finding_aid_status: 'in_progress',
           publish: false,
-          restrictions: true
+          restrictions: true,
+          collection_management: {
+            'processing_priority' => 'low',
+            'processors' => 'Processor 2'
+          }
         )
       end
       let(:default_sort_key) { 'title_sort' }
       let(:sorting_in_url) { true }
       let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:column_headers) do
+        {
+          'Title' => 'title_sort',
+          'Identifier' => 'identifier',
+          'Level' => 'level',
+          'Resource Type' => 'resource_type',
+          # 'Published' => 'publish',
+          'Restrictions' => 'restrictions',
+          'EAD ID' => 'ead_id',
+          'Finding Aid Status' => 'finding_aid_status',
+          'Processing Priority' => 'processing_priority',
+          'Processors' => 'processors',
+          'URI' => 'uri'
+        }
+      end
+      let(:sort_expectations) do
+        # URI sorting uses lexicographic (string) comparison, not numeric.
+        # URIs like '/resources/9' and '/resources/11' sort as '11' < '9' because '1' < '9'.
+        # We compute the expected order dynamically to document the current behavior while keeping tests stable.
+        # TODO: Fix application to sort URIs numerically by ID (separate ticket)
+        uri_asc = [record_1, record_2].sort_by { |r| r.uri }.map(&:title)
+        uri_desc = uri_asc.reverse
 
-      context 'with seven of nine sortable columns showing' do
-        let(:column_headers) do
-          {
-            'Title' => 'title_sort',
-            'Identifier' => 'identifier',
-            'Level' => 'level',
-            'EAD ID' => 'ead_id',
-            'Resource Type' => 'resource_type',
-            'Finding Aid Status' => 'finding_aid_status',
-            # 'Published' => 'publish'
+        {
+          'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'identifier' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'level' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'resource_type' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          # 'publish' => {
+          #   asc: [record_2.title, record_1.title],
+          #   desc: [record_1.title, record_2.title]
+          # },
+          'restrictions' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'ead_id' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'finding_aid_status' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'processing_priority' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'processors' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'uri' => {
+            asc: uri_asc,
+            desc: uri_desc
           }
-        end
-        let(:sort_expectations) do
-          {
-            'title_sort' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'identifier' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'level' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'ead_id' => {
-              asc: [record_2.title, record_1.title],
-              desc: [record_1.title, record_2.title]
-            },
-            'resource_type' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'finding_aid_status' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            # 'publish' => {
-            #   asc: [record_2.title, record_1.title],
-            #   desc: [record_1.title, record_2.title]
-            # }
-          }
-        end
-
-        before do
-          set_repo repo
-          record_1
-          record_2
-          run_index_round
-          login_admin
-          select_repository(repo)
-
-          # Show 7 of 9 sortable columns
-          set_browse_column_preferences('resource', {
-            4 => 'EAD ID',
-            5 => 'Resource Type',
-            6 => 'Finding Aid Status',
-          })
-
-          visit '/resources'
-        end
-
-        after do
-          set_browse_column_preferences('resource', {
-            4 => 'Default',
-            5 => 'Default',
-            6 => 'Default',
-          })
-        end
-
-        it_behaves_like 'sortable results table'
+        }
       end
 
-      context 'with the remaining two of nine sortable columns showing, plus the title column' do
-        let(:column_headers) do
-          {
-            'Title' => 'title_sort',
-            'Restrictions' => 'restrictions',
-            'URI' => 'uri'
-          }
-        end
-        let(:sort_expectations) do
-          # URI sorting uses lexicographic (string) comparison, not numeric.
-          # URIs like '/resources/9' and '/resources/11' sort as '11' < '9' because '1' < '9'.
-          # We compute the expected order dynamically to document the current behavior while keeping tests stable.
-          # TODO: Fix application to sort URIs numerically by ID (separate ticket)
-          uri_asc = [record_1, record_2].sort_by { |r| r.uri }.map(&:title)
-          uri_desc = uri_asc.reverse
+      before do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:max_search_columns) { 11 }
+        set_repo repo
+        record_1
+        record_2
+        run_index_round
+        login_admin
+        select_repository(repo)
 
-          {
-            'title_sort' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'restrictions' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'uri' => {
-              asc: uri_asc,
-              desc: uri_desc
-            }
-          }
-        end
+        # Show all sortable columns
+        set_browse_column_preferences('resource', {
+          4 => 'Resource Type',
+          5 => 'Published',
+          6 => 'Restrictions',
+          7 => 'EAD ID',
+          8 => 'Finding Aid Status',
+          9 => 'Processing Priority',
+          10 => 'Processors',
+          11 => 'URI'
+        })
 
-        before do
-          set_repo repo
-          record_1
-          record_2
-          run_index_round
-          login_admin
-          select_repository(repo)
-
-          # Show all sortable columns
-          set_browse_column_preferences('resource', {
-            2 => 'Restrictions',
-            3 => 'URI'
-          })
-
-          visit '/resources'
-        end
-
-        after do
-          set_browse_column_preferences('resource', {
-            2 => 'Default',
-            3 => 'Default',
-          })
-        end
-
-        it_behaves_like 'sortable results table'
+        visit '/resources'
       end
+
+      after do
+        set_browse_column_preferences('resource', {
+          4 => 'Default',
+          5 => 'Default',
+          6 => 'Default',
+          7 => 'Default',
+          8 => 'Default',
+          9 => 'Default',
+          10 => 'Default',
+          11 => 'Default',
+        })
+      end
+
+      it_behaves_like 'sortable results table'
     end
   end
 

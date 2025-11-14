@@ -593,148 +593,109 @@ describe 'Accessions', js: true do
       let(:default_sort_key) { 'title_sort' }
       let(:sorting_in_url) { true }
       let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:column_headers) do
+        {
+          'Title' => 'title_sort',
+          'Identifier' => 'identifier',
+          'Accession Date' => 'accession_date',
+          'Acquisition Type' => 'acquisition_type',
+          'Resource Type' => 'resource_type',
+          'Restrictions Apply' => 'restrictions_apply',
+          # 'Publish' => 'publish',
+          'Access Restrictions' => 'access_restrictions',
+          'Use Restrictions' => 'use_restrictions',
+          'URI' => 'uri'
+        }
+      end
+      let(:sort_expectations) do
+        # URI sorting uses lexicographic (string) comparison, not numeric.
+        # URIs like '/accessions/9' and '/accessions/11' sort as '11' < '9' because '1' < '9'.
+        # We compute the expected order dynamically to document the current behavior while keeping tests stable.
+        # TODO: Fix application to sort URIs numerically by ID (separate ticket)
+        uri_asc = [record_1, record_2].sort_by { |r| r.uri }.map(&:title)
+        uri_desc = uri_asc.reverse
 
-      # Results table has a maxiumum of 7 columns
-      context 'with seven of ten sortable columns showing' do
-        let(:column_headers) do
-          {
-            'Title' => 'title_sort',
-            'Identifier' => 'identifier',
-            'Accession Date' => 'accession_date',
-            'Acquisition Type' => 'acquisition_type',
-            'Resource Type' => 'resource_type',
-            'Restrictions Apply' => 'restrictions_apply',
-            'Access Restrictions' => 'access_restrictions'
+        {
+          'title_sort' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'identifier' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'accession_date' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'acquisition_type' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'resource_type' => {
+            asc: [record_2.title, record_1.title],
+            desc: [record_1.title, record_2.title]
+          },
+          'restrictions_apply' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          # 'publish' => {
+          #   asc: [record_2.title, record_1.title],
+          #   desc: [record_1.title, record_2.title]
+          # },
+          'access_restrictions' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'use_restrictions' => {
+            asc: [record_1.title, record_2.title],
+            desc: [record_2.title, record_1.title]
+          },
+          'uri' => {
+            asc: uri_asc,
+            desc: uri_desc
           }
-        end
-        let(:sort_expectations) do
-          {
-            'title_sort' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'identifier' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'accession_date' => {
-              asc: [record_2.title, record_1.title],
-              desc: [record_1.title, record_2.title]
-            },
-            'acquisition_type' => {
-              asc: [record_2.title, record_1.title],
-              desc: [record_1.title, record_2.title]
-            },
-            'resource_type' => {
-              asc: [record_2.title, record_1.title],
-              desc: [record_1.title, record_2.title]
-            },
-            'restrictions_apply' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'access_restrictions' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            }
-          }
-        end
-
-        before do
-          set_repo repo
-          record_1
-          record_2
-          run_index_round
-          login_admin
-          select_repository(repo)
-
-          # Show 7 of 10 sortable columns
-          set_browse_column_preferences('accession', {
-            4 => 'Acquisition Type',
-            5 => 'Resource Type',
-            6 => 'Restrictions Apply',
-            7 => 'Access Restrictions',
-          })
-
-          visit '/accessions'
-        end
-
-        after do
-          set_browse_column_preferences('accession', {
-            4 => 'Default',
-            5 => 'Default',
-            6 => 'Default',
-            7 => 'Default',
-          })
-        end
-
-        it_behaves_like 'sortable results table'
+        }
       end
 
-      context 'with the remaining three of ten sortable columns showing, plus the title column' do
-        let(:column_headers) do
-          {
-            # 'Published' => 'publish',
-            'Use Restrictions' => 'use_restrictions',
-            'URI' => 'uri',
-            'Title' => 'title_sort'
-          }
-        end
-        let(:sort_expectations) do
-          # URI sorting uses lexicographic (string) comparison, not numeric.
-          # URIs like '/accessions/9' and '/accessions/11' sort as '11' < '9' because '1' < '9'.
-          # We compute the expected order dynamically to document the current behavior while keeping tests stable.
-          # TODO: Fix application to sort URIs numerically by ID (separate ticket)
-          uri_asc = [record_1, record_2].sort_by { |r| r.uri }.map(&:title)
-          uri_desc = uri_asc.reverse
+      before do
+        allow(AppConfig).to receive(:[]).and_call_original
+        allow(AppConfig).to receive(:[]).with(:max_search_columns) { 10 }
+        set_repo repo
+        record_1
+        record_2
+        run_index_round
+        login_admin
+        select_repository(repo)
 
-          {
-            # 'publish' => {
-            #   asc: [record_2.title, record_1.title],
-            #   desc: [record_1.title, record_2.title]
-            # },
-            'use_restrictions' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'uri' => {
-              asc: uri_asc,
-              desc: uri_desc
-            },
-            'title_sort' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            }
-          }
-        end
+        # Show all sortable columns
+        set_browse_column_preferences('accession', {
+          4 => 'Acquisition Type',
+          5 => 'Resource Type',
+          6 => 'Restrictions Apply',
+          7 => 'Published',
+          8 => 'Access Restrictions',
+          9 => 'Use Restrictions',
+          10 => 'URI'
+        })
 
-        before do
-          set_repo repo
-          record_1
-          record_2
-          run_index_round
-          login_admin
-          select_repository(repo)
-
-          # Show the remaining three of ten sortable columns
-          set_browse_column_preferences('accession', {
-            # 2 => 'Published',
-            3 => 'Use Restrictions',
-            4 => 'URI'
-          })
-
-          visit '/accessions'
-        end
-
-        after do
-          set_browse_column_preferences('accession', {
-            3 => 'Default',
-            4 => 'Default',
-          })
-        end
-
-        it_behaves_like 'sortable results table'
+        visit '/accessions'
       end
+
+      after do
+        set_browse_column_preferences('accession', {
+          4 => 'Default',
+          5 => 'Default',
+          6 => 'Default',
+          7 => 'Default',
+          8 => 'Default',
+          9 => 'Default',
+          10 => 'Default'
+        })
+      end
+
+      it_behaves_like 'sortable results table'
     end
 
     it 'can show a browse list of accessions' do
