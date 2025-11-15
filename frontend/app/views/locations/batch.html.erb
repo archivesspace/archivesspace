@@ -41,14 +41,17 @@
             <% if !@is_batch_update  &&  !(t("location_batch._frontend.messages.warning", :default => "").blank?) %>
               <div class="alert alert-warning"><%= t("location_batch._frontend.messages.warning") %></div>
             <% end %>
-            <button type="submit" class="btn btn-primary">
-              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon", :alt=>t("location_batch._frontend.action.creating") %>
-              <span class="btn-label"><%= t("location_batch._frontend.action.#{@action}") %></span>
-              <span class="btn-busy-label"><%= t("location_batch._frontend.action.creating") %></span>
-            </button>
-            <% if !@is_batch_update %> 
-              <button type="button" class="btn btn-default preview-locations"><%= I18n.t("location_batch._frontend.action.preview") %></button>
-            <% end %>   
+						<div class="btn-group">
+							<button type="submit" class="btn btn-primary">
+								<%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon", :alt=>t("location_batch._frontend.action.creating") %>
+								<span class="btn-label"><%= t("location_batch._frontend.action.#{@action}") %></span>
+								<span class="btn-busy-label"><%= t("location_batch._frontend.action.creating") %></span>
+							</button>
+							<button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= t("actions.save_plus_one") %></button>
+						</div>
+						<% if !@is_batch_update %> 
+							<button type="button" class="btn btn-default preview-locations"><%= I18n.t("location_batch._frontend.action.preview") %></button>
+						<% end %>   
             <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
         </div>

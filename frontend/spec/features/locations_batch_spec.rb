@@ -198,4 +198,18 @@ describe 'Location batch', js: true do
     expect(elements[1].text).to include "Building 2 BBB #{now}"
     expect(elements[2].text).to include "Building 3 CCC #{now}"
   end
+
+  it 'displays two submit buttons including createPlusOneBtn' do
+    click_on 'Browse'
+    click_on 'Locations'
+    click_on 'Create Batch Locations'
+
+    create_plus_one_buttons = all('.createPlusOneBtn')
+    expect(create_plus_one_buttons.length).to eq 2
+
+    create_plus_one_buttons.each do |button|
+      expect(button['type']).to eq 'submit'
+      expect(button[:id]).to eq 'createPlusOne'
+    end
+  end
 end
