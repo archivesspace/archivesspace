@@ -46,6 +46,9 @@ it:
       acquisition_type: Tipo di acquisizione
       published_agents: Agenti
       finding_aid_title: Titolo degli strumenti di ricerca
+      finding_aid_filing_title: ''
+      linked_agent_roles: ''
+      instance_type_enum_s: ''
     results_head: 'Mostrando %{type}: %{start} - %{end} di %{total}'
     result: Risultato
     page_title: Trovati %{count} risultati
@@ -92,6 +95,10 @@ it:
       from: Da
       years_include: Anni da includere
       digital_object_type_enum_s: Tipo
+      child_container_u_sstr: ''
+      grand_child_container_u_sstr: ''
+      extent_type_enum_s: ''
+      instance_type_enum_s: ''
     identifier_contain: l' <strong>identificativo</strong> contiene <span 
       class='searchterm'>%{kw}</span>
     title_contain: il <strong>titolo</strong> contiene  <span class='searchterm'>%{kw}</span>
@@ -131,6 +138,7 @@ it:
         dates: Date
         related_agent_description: Descrizione
         related_agents: Nomi correlati
+        other_names: ''
     _plural: Nomi
   request:
     email_header: Grazie per la tua richiesta
@@ -193,9 +201,11 @@ it:
   navigation:
     hierarchical: navigazione gerarchica
     mobile_menu: Navigazione menu per piccoli dispositivi
+    top_level: ''
   navbar:
     search_placeholder: Inserisci i tuoi termini di ricerca
     error_no_term: Nessun termine di ricerca inserito.
+    toggle_navigation: ''
   internal_links:
     main: Contenuto principale
     search_collection: Cerca all'interno della collezione
@@ -267,6 +277,8 @@ it:
         status: Stato
         revision: Dichiarazioni di revisione
         series_statement: Dichiarazione delle serie
+        head: ''
+        edition_statement: ''
       digital_object: Oggetto digitale
       lang_pdf: Lingua del materiale
       physdesc: Descrizione fisica
@@ -291,6 +303,7 @@ it:
       percent_convention: '%'
       load: Carica unità archivistiche
       all: ''
+      scroll: ''
   digital_object:
     _singular: Unità archivistica digitale
     _public:
@@ -303,6 +316,7 @@ it:
         one: Sfoglia %{num} l'oggetto digitale nella collezione
         many: Sfoglia %{num} gli oggetti digitali nella collezione
         other:
+      url_encoded_data: ''
     _plural: Materiali digitali
   subject:
     _singular: Soggetto
@@ -334,9 +348,21 @@ it:
     summary_information: ''
     table_of_contents: Indice
     return_to_table_of_contents: Ritorna all'indice
+    finding_aid_written_in: ''
+    accessrestrict: ''
+    userestrict: ''
+    publication_statement: ''
+    controlled_access_headings: ''
+    your_finding_aid_is_attached: ''
+    finding_aid_date_prefix: ''
+    acqinfo: ''
+    your_finding_aid_pdf: ''
   agent_record_identifier:
     source: Fonte
     identifier_type: Tipo di identificativo
+    primary_identifier: ''
+    record_identifier: ''
+    snac: ''
   agent_contact:
     address_2: Indirizzo 2
     address_3: Indirizzo 3
@@ -361,10 +387,19 @@ it:
     type: Tipo di nota
     note_legal_status: Stato legale
     note_mandate: Mandato
+    persistent_id: ''
   metadata_rights_declaration:
     license: Licenza
     descriptive_note: Nota descrittiva
     file_uri: File URI
+    file_version_xlink_show_attribute: ''
+    xlink_title_attribute: ''
+    xlink_arcrole_attribute: ''
+    _singular: ''
+    xlink_role_attribute: ''
+    last_verified_date: ''
+    _plural: ''
+    file_version_xlink_actuate_attribute: ''
   languages:
     select: Seleziona lingua
     en: Inglese
@@ -380,6 +415,7 @@ it:
       location_header: Un errore si è verificato durante la generazione dell'intestazione.
       location_archival_object: Un errore è avvenuto durante la generazione dell'inventario della 
         collezione.
+      location_resource: ''
     additional_info:
       invalid_markup: Questo errore può derivare dal markup non valido presente in una nota o 
         sub-unità archivistica.
@@ -387,7 +423,9 @@ it:
       additional_info: Informazioni aggiuntive
       type: Tipo d'errore
       message: Messaggio d'errore
+      location: ''
     title: C'è stato un errore nella generazione di questo PDF.
+    description: ''
   contact: Contatto
   agent_software:
     _singular: Software
@@ -405,6 +443,7 @@ it:
     number: Numero
     number_type: Tipo di numero
     _plural: Numeri telefonici
+    ext: ''
   agent_function:
     _singular: Funzione
     _plural: Funzioni
@@ -431,6 +470,7 @@ it:
     _plural: Luoghi
   agent_identifier:
     identifier_type: Tipo di identificativo
+    entity_identifier: ''
   used_language:
     _singular: Lingua usata
     _plural: Lingue usate
@@ -449,6 +489,8 @@ it:
     see_less: Vedi meno
   classification_term:
     identifier_separator: /
+    _plural: ''
+    _singular: ''
   an_agent: Nome
   record:
     _singular: Unità archivistica
@@ -461,6 +503,7 @@ it:
     _singular: Famiglia
   accordion:
     collapse: Riduci tutto
+    expand: ''
   linked_digital_objects: Materiale digitale
   context: Trovato in
   number_of: 'Numero di %{type}:'
@@ -482,3 +525,14 @@ it:
       header:
         ref_id: Identificatore di riferimento
   page_actions: Azioni sulla pagina
+  use_date:
+    _singular: ''
+    _plural: ''
+  date_label:
+    existence: ''
+    usage: ''
+  parent_inst: ''
+  agent_resource:
+    _singular: ''
+    _plural: ''
+  scope_note: ''
