@@ -20,7 +20,8 @@ es:
     archival_record_level: Nivel de registro de archivo
     begin_date_standardized_type: Fecha de inicio Tipo estandarizado
     cataloging_source: Fuente de catalogación
-    collection_management_processing_priority: Prioridad de la tramitación de la gestión de la colección
+    collection_management_processing_priority: Prioridad de la tramitación de la gestión de la 
+      colección
     collection_management_processing_status: Estado de tramitación de la gestión de la colección
     container_location_status: Estado de ubicación de contenedores
     container_type: Tipo de contenedor
@@ -87,8 +88,8 @@ es:
     restriction_type: Tipos de restricciones de acceso loceles
     rights_statement_act_restriction: Ley de declaración de derechos de restricción
     rights_statement_act_type: Declaración de Derechos Tipo de Ley
-    rights_statement_external_document_identifier_type: Declaración de derechos Tipo de identificador
-      de documento externo
+    rights_statement_external_document_identifier_type: Declaración de derechos Tipo de 
+      identificador de documento externo
     rights_statement_ip_status: Declaración de derechos IP Status
     rights_statement_other_rights_basis: Declaración de derechos Otros derechos de base
     rights_statement_rights_type: Declaración de los derechos derechos tipo
@@ -750,7 +751,8 @@ es:
       cho: Choctaw
       chp: Chipewyan; Dene Suline
       chr: Cherokee
-      chu: Iglesia eslava; Antiguo eslavo; Eslavo eclesiástico; Antiguo búlgaro; Antiguo eslavo eclesiástico
+      chu: Iglesia eslava; Antiguo eslavo; Eslavo eclesiástico; Antiguo búlgaro; Antiguo eslavo 
+        eclesiástico
       chv: Chuvasio
       chy: Cheyenne
       cmc: Chamic languages
@@ -1489,8 +1491,8 @@ es:
       aacr: Reglas de catalogación angloamericanas
       ccr: Catalogación de recursos culturales
       dacs: "Describing Archives: A Content Standard"
-      isaar: Registro de autoridad de archivo estándar internacional para entidades corporativas, personas
-        y familias
+      isaar: Registro de autoridad de archivo estándar internacional para entidades corporativas, 
+        personas y familias
       local: Reglas locales
       rad: Reglas para la descripción de archivos
       rda: Resource Description and Access
@@ -1763,8 +1765,8 @@ es:
       other: Otro
       statute: Estatuto
     romanization:
-      conv_rom_cat_agency: Romanización convencional o forma convencional de nombre en el idioma de la
-        agencia de catalogación
+      conv_rom_cat_agency: Romanización convencional o forma convencional de nombre en el idioma de 
+        la agencia de catalogación
       int_std: Estándar internacional
       local_standard: Norma local
       nat_std: Norma nacional
@@ -1964,7 +1966,8 @@ es:
       Xpeo: Old Persian
       Xsux: Cuneiform, Sumero-Akkadian
       Yiii: Yi
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square Script)
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square 
+        Script)
       Zinh: Code for inherited script
       Zmth: Mathematical notation
       Zsye: Symbols (Emoji variant)
@@ -1991,6 +1994,10 @@ es:
       rbgenr: Términos de género
       rvm: Répertoire de vedettes-matière
       tgn: Thesaurus Getty de Nombres Geográficos
+      other: ''
+      sears: ''
+      not_specified: ''
+      not_applicable: ''
     subject_term_type:
       cultural_context: Contexto cultural
       function: Función
@@ -2013,16 +2020,16 @@ es:
     user_defined_enum_4:
       novalue: Ningún valor definido
     metadata_license:
-      share_a_like: Este registro está disponible bajo una licencia Creative Commons Attribution-ShareAlike
-        4.0 International.
-      public_domain: Este registro está disponible bajo una licencia Creative Commons de Dedicación de
-        dominio público universal 1.0.
+      share_a_like: Este registro está disponible bajo una licencia Creative Commons 
+        Attribution-ShareAlike 4.0 International.
+      public_domain: Este registro está disponible bajo una licencia Creative Commons de Dedicación 
+        de dominio público universal 1.0.
       other: Licencia personalizada o no especificada.
-      non_commercial_share_a_like: Este registro está disponible bajo una licencia Creative Commons de
-        Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional.
-      non_commercial_no_derivatives: Este registro está disponible bajo una licencia Creative Commons
-        de Reconocimiento-NoComercial-Sin Derivados 4.0 Internacional.
-      non_commercial: Este registro está disponible bajo una licencia Creative Commons de Reconocimiento-No
-        Comercial 4.0 Internacional.
-      no_derivatives: Este registro está disponible bajo una licencia Creative Commons Attribution-NoDerivatives
-        4.0 International.
+      non_commercial_share_a_like: Este registro está disponible bajo una licencia Creative Commons 
+        de Reconocimiento-NoComercial-CompartirIgual 4.0 Internacional.
+      non_commercial_no_derivatives: Este registro está disponible bajo una licencia Creative 
+        Commons de Reconocimiento-NoComercial-Sin Derivados 4.0 Internacional.
+      non_commercial: Este registro está disponible bajo una licencia Creative Commons de 
+        Reconocimiento-No Comercial 4.0 Internacional.
+      no_derivatives: Este registro está disponible bajo una licencia Creative Commons 
+        Attribution-NoDerivatives 4.0 International.
