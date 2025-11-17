@@ -50,7 +50,8 @@ fr:
     numeric: Description du conditionnement
     clipboard: Copier dans le presse-papier
     cilpboard_cite_item: Copier la citation de l'élément dans le presse-papiers
-    cilpboard_cite_item_description: Copier la citation de la description de l'article dans le presse-papiers
+    cilpboard_cite_item_description: Copier la citation de la description de l'article dans le 
+      presse-papiers
     search_add_row: Ajouter une ligne
     search_remove_row: Supprimer une ligne dessous
     staff_link: Réservé au personnel
@@ -69,8 +70,8 @@ fr:
     note: Avis au personnel
     visit: "Soumettre une demande de visite à %{repo_name} pour consulter <strong>%{archival_object}</strong>"
     submit: Soumettre une demande
-    submitted: Merci, votre demande a été transmise.  Vous recevrez bientôt un courriel avec la copie
-      de votre demande.
+    submitted: Merci, votre demande a été transmise.  Vous recevrez bientôt un courriel avec la 
+      copie de votre demande.
     errors:
       name: Veuillez entrer votre nom
       email: Veuillez saisir une adresse email valide
@@ -212,8 +213,8 @@ fr:
     error_404_message: "La notice %{type} à laquelle vous avez tenté d'accéder n'existe plus ou peut avoir
       été enlevée."
     backend_down: Impossible de se connecter à la base de données
-    backend_down_message: ArchivesSpace rencontre actuellement des difficultés techniques. Nous nous excusons
-      pour le dérangement. Veuillez réessayer plus tard.
+    backend_down_message: ArchivesSpace rencontre actuellement des difficultés techniques. Nous nous
+      excusons pour le dérangement. Veuillez réessayer plus tard.
     unexpected_error: Votre recherche n'a pu être effectuée en raison d'une erreur inattendue
 
     invalid_search_params: Paramètre de recherche '%{value}' non valide pour '%{field}'
@@ -398,7 +399,7 @@ fr:
       browse_number_digital_objects_in_collection:
         one: Chercher %{num} objet numérique dans la collection
         many: Chercher %{num} objets numériques dans la collection
-        other: ''
+        other:
   digital_object_component:
     _public:
       section: {}
@@ -609,8 +610,8 @@ fr:
     _plural: Déclarations de droits sur les métadonnées
   footer:
     archivesspace_home: Visitez <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer des commentaires
-      ou signaler un problème</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer des 
+      commentaires ou signaler un problème</a>
     staff_interface: <a href="%{staff_url}">Interface personnel</a>
 
   languages:
@@ -627,18 +628,19 @@ fr:
       location: Emplacement de l'erreur
       additional_info: Info supplémentaire
     title: Une erreur s'est produite lors de la génération de ce PDF.
-    description: Nous sommes désolés, une erreur s'est produite lors de la génération de cette aide à
-      la recherche au format PDF. Voici quelques informations de diagnostic pour vous aider à déterminer
-      ce qui s'est passé.
+    description: Nous sommes désolés, une erreur s'est produite lors de la génération de cette aide 
+      à la recherche au format PDF. Voici quelques informations de diagnostic pour vous aider à 
+      déterminer ce qui s'est passé.
     location:
       location_title_page: L'erreur s'est produite lors de la génération de la page de titre.
       location_footer: L'erreur s'est produite lors de la génération du pied de page.
       location_header: L'erreur s'est produite lors de la génération de l'en-tête.
       location_toc: L'erreur s'est produite lors de la génération de la table des matières.
-      location_resource: L'erreur s'est produite lors de la génération des sections relatives à l'enregistrement
-        de ressource, qui incluent les informations récapitulatives, les en-têtes d'accès contrôlé et
-        les sections Notes.
-      location_archival_object: L'erreur s'est produite lors de la génération de l'inventaire de la collection.
+      location_resource: L'erreur s'est produite lors de la génération des sections relatives à 
+        l'enregistrement de ressource, qui incluent les informations récapitulatives, les en-têtes 
+        d'accès contrôlé et les sections Notes.
+      location_archival_object: L'erreur s'est produite lors de la génération de l'inventaire de la 
+        collection.
     additional_info:
-      invalid_markup: Cette erreur peut résulter d’un balisage non valide présent dans une note ou un
-        sous-enregistrement.
+      invalid_markup: Cette erreur peut résulter d’un balisage non valide présent dans une note ou 
+        un sous-enregistrement.
