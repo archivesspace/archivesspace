@@ -50,7 +50,8 @@ es:
       archival_object_rights_statements: Ayuda sobre las declaraciones de derechos
       archival_object_instances: Ayuda en las instancias de
       archival_object_deaccessions: Ayuda en expurgo de objetos de archivo
-      archival_object_collection_management: Ayuda en la gestión de la colección de objetos de archivo
+      archival_object_collection_management: Ayuda en la gestión de la colección de objetos de 
+        archivo
       archival_object_classification: Ayuda sobre clasificaciones
       archival_object_user_defined: Ayuda sobre definidos por el usuario
       # Digital Object help tooltips
@@ -84,8 +85,8 @@ es:
       digital_object_component_rights_statements: Ayuda sobre las declaraciones de derechos
       digital_object_component_instances: Ayuda en las instancias de
       digital_object_component_deaccessions: Ayuda en expurgo de componentes de objetos digitales
-      digital_object_component_collection_management: Ayuda en la gestión de la colección de componentes
-        de objetos digitales
+      digital_object_component_collection_management: Ayuda en la gestión de la colección de 
+        componentes de objetos digitales
       digital_object_component_classification: Ayuda sobre clasificaciones
       digital_object_component_user_defined: Ayuda sobre definidos por el usuario
       # Subjects
@@ -174,4 +175,6 @@ es:
       bulk_archival_object_updater_job: Ayuda sobre la actualización de objetos de archivo masivos
       accession_metadata_rights_declarations: Ayuda sobre Declaraciones de Derechos de Metadatos
       resource_metadata_rights_declarations: Ayuda sobre las declaraciones de derechos de metadatos
-      digital_object_metadata_rights_declarations: Ayuda sobre las declaraciones de derechos de metadatos
+      digital_object_metadata_rights_declarations: Ayuda sobre las declaraciones de derechos de 
+        metadatos
+      custom_report_templates: ''
