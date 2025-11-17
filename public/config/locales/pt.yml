@@ -4,7 +4,8 @@ pt:
     numeric: Inventário de Contentores
     clipboard: Copiar para área de transferência
     cilpboard_cite_item: Copiar citação do item para a área de transferência
-    cilpboard_cite_item_description: Copiar citação da descrição do item para a área de transferência
+    cilpboard_cite_item_description: Copiar citação da descrição do item para a área de 
+      transferência
     search_add_row: Adicionar uma linha de pesquisa
     search_remove_row: Remova a linha abaixo
     staff_link: Somente pessoal autorizado
@@ -24,6 +25,9 @@ pt:
     request: Solicitação
     print-generating: Gerando
     collection_overview: Visão Geral da Coleção
+    next: ''
+    previous: ''
+    digitized: ''
   search_results:
     highlighting:
       found_in: Encontrado em
@@ -36,6 +40,9 @@ pt:
       linked_agent_roles: Funções de agente vinculado
       notes_published: Notas
       acquisition_type: Tipo de aquisição
+      finding_aid_filing_title: ''
+      finding_aid_title: ''
+      instance_type_enum_s: ''
     filter:
       years: Anos
       to: Para
@@ -71,6 +78,12 @@ pt:
       from_to: 'Anos: %{começar} a %{fim}'
       child_container_u_sstr: Contentor criança
       grand_child_container_u_sstr: Contentor neto
+      digital_object_type_enum_s: ''
+      extent_type_enum_s: ''
+      instance_type_enum_s: ''
+      langcode: ''
+      type_enum_s: ''
+      published_series_title_u_sstr: ''
     page_title: Encontrado %{contar} Resultados
     in_repository: ' em <strong>%{nome}</strong>'
     anything: '*'
@@ -91,7 +104,8 @@ pt:
     results: Resultados
     results_head: 'Mostrando %{tipo}: %{início} - %{fim} de %{total}'
     result: Resultado
-    identifier_contain: o <strong>identificador</strong> contém <span class='searchterm'>%{kw}</span>
+    identifier_contain: o <strong>identificador</strong> contém <span 
+      class='searchterm'>%{kw}</span>
     subjects_text_contain: o <strong>assunto</strong> contém <span class='searchterm'>%{kw}</span>
     search_for: Pesquisa %{tipo} onde %{condições}
     creators_text_contain: o <strong>criador</strong> contém <span class='searchterm'>%{kw}</span>
@@ -117,8 +131,8 @@ pt:
     note: Nota para o pessoal
     visit: Enviar um pedido para visitar %{repo_nome} para ver <strong>%{objeto_de_arquivo}</strong>
     submit: Enviar solicitação
-    submitted: Obrigado, seu solicitação foi apresentado. Em breve você receberá um e-mail com uma cópia
-      de sua solicitação.
+    submitted: Obrigado, seu solicitação foi apresentado. Em breve você receberá um e-mail com uma 
+      cópia de sua solicitação.
     errors:
       name: Por favor introduza o seu nome
       email: Por favor introduza um endereço de e-mail válido
@@ -155,6 +169,46 @@ pt:
       all: "Todos de uma vez"
       loading: Carregando
 
+    _plural: ''
+    _public:
+      digital_object: ''
+      extent: ''
+      finding_aid:
+        language: ''
+        revision: ''
+        author: ''
+        script: ''
+        subtitle: ''
+        sponsor: ''
+        language_note: ''
+        description_rules: ''
+        identifier: ''
+        note: ''
+        head: ''
+        date: ''
+        edition_statement: ''
+        series_statement: ''
+        status: ''
+        title: ''
+      uri: ''
+      extent_partial: ''
+      script: ''
+      storage: ''
+      ark_link_name: ''
+      related_accessions:
+        accessions: ''
+        deaccessions: ''
+      physdesc: ''
+      lang_pdf: ''
+      dates: ''
+      identifier: ''
+      lang: ''
+      additional: ''
+      identifier_pdf: ''
+      extent_full: ''
+      identifier_ark: ''
+    _singular: ''
+    identifier_separator: ''
   digital_object:
     _singular: Registro Digital
     _plural: Materiais Digitais
@@ -165,8 +219,10 @@ pt:
       go: Ir para o arquivo
       browse_number_digital_objects_in_collection:
         one: Pesquisar %{num} objeto digital na coleção
-        other: Pesquisar %{num} objetos digitais na coleção
-
+        many: Pesquisar %{num} objetos digitais na coleção
+        other:
+      url_encoded_data: ''
+      additional: ''
   pdf_reports:
     administrative_information: Informação administrativa
     collection_inventory: Inventário da coleção
@@ -174,3 +230,303 @@ pt:
     table_of_contents: Índice
     return_to_table_of_contents: Voltar ao índice
     publication_statement: Declaração de publicação
+    finding_aid_written_in: ''
+    accessrestrict: ''
+    userestrict: ''
+    controlled_access_headings: ''
+    accruals: ''
+    your_finding_aid_is_attached: ''
+    finding_aid_date_prefix: ''
+    acqinfo: ''
+    your_finding_aid_pdf: ''
+  agent_notes:
+    _plural: ''
+    note_bioghist: ''
+    note_mandate: ''
+    note_legal_status: ''
+    persistent_id: ''
+    type: ''
+    note_structure_or_genealogy: ''
+    content: ''
+    _singular: ''
+    note_citation: ''
+    note_general_context: ''
+    note_text: ''
+  agent_person:
+    _singular: ''
+    _plural: ''
+  more_about: ''
+  skipnav:
+    search_results: ''
+    search: ''
+    main_content: ''
+  linked_instances: ''
+  boolean:
+    "true": ''
+    "false": ''
+  record:
+    _plural: ''
+    _singular: ''
+  extent_number_type: ''
+  agent_occupation:
+    _singular: ''
+    _plural: ''
+  coll_obj:
+    _plural: ''
+    _singular: ''
+  archival_object:
+    _public:
+      header:
+        ref_id: ''
+  agent:
+    _public:
+      section:
+        related_agent_dates: ''
+        related_agent_description: ''
+        dates: ''
+        related_agents: ''
+        other_names: ''
+    _singular: ''
+    _plural: ''
+  accession:
+    _public:
+      section:
+        use_restrictions_apply: ''
+        inventory: ''
+        script: ''
+        provenance: ''
+        access_restrictions: ''
+        use_restrictions: ''
+        acquisition_type: ''
+        language: ''
+        access_restrictions_apply: ''
+        content_description: ''
+      related_accessions:
+        forms_part_of: ''
+        sibling_of: ''
+        deaccessions: ''
+        accessions: ''
+        has_part: ''
+    _singular: ''
+    _plural: ''
+  use_date:
+    _singular: ''
+    _plural: ''
+  agent_contact:
+    country: ''
+    address_1: ''
+    name: ''
+    city: ''
+    post_code: ''
+    email: ''
+    address_2: ''
+    address_3: ''
+    salutation: ''
+    fax: ''
+    region: ''
+  pdf_error:
+    headings:
+      additional_info: ''
+      type: ''
+      message: ''
+      location: ''
+    additional_info:
+      invalid_markup: ''
+    location:
+      location_footer: ''
+      location_title_page: ''
+      location_resource: ''
+      location_header: ''
+      location_archival_object: ''
+      location_toc: ''
+    description: ''
+    title: ''
+  languages:
+    select: ''
+    ja: ''
+    fr: ''
+    es: ''
+    en: ''
+    de: ''
+  errors:
+    error_404: ''
+    unexpected_error: ''
+    invalid_search_params: ''
+    backend_down_message: ''
+    backend_down: ''
+    error_404_message: ''
+  readmore:
+    see_more: ''
+    see_less: ''
+  context_delimiter: ''
+  metadata_rights_declaration:
+    license: ''
+    file_version_xlink_show_attribute: ''
+    xlink_title_attribute: ''
+    descriptive_note: ''
+    xlink_arcrole_attribute: ''
+    _singular: ''
+    xlink_role_attribute: ''
+    file_uri: ''
+    last_verified_date: ''
+    _plural: ''
+    file_version_xlink_actuate_attribute: ''
+  inherit:
+    fonds: ''
+    file: ''
+    subgrp: ''
+    series: ''
+    class: ''
+    recordgrp: ''
+    collection: ''
+    otherlevel: ''
+    inherited: ''
+    sub-series: ''
+    subfonds: ''
+    item: ''
+  repository:
+    details: ''
+    _singular: ''
+    what: ''
+    part: ''
+    _plural: ''
+  search_sorting:
+    relevance: ''
+    sorting: ''
+    asc: ''
+    desc: ''
+    classification_identifier: ''
+    sort_by: ''
+    year_sort: ''
+    sort: ''
+    title_sort: ''
+    identifier: ''
+  extent_phys_details: ''
+  date_label:
+    existence: ''
+    usage: ''
+  agent_identifier:
+    identifier_type: ''
+    entity_identifier: ''
+  agent_family:
+    _plural: ''
+    _singular: ''
+  advanced_search:
+    operator:
+      NOT: ''
+      OR: ''
+      AND: ''
+    remove_row: ''
+    add_row: ''
+    operator_label: ''
+    limit_label: ''
+  top_container:
+    _plural: ''
+    restricted: ''
+    _singular: ''
+  accordion:
+    collapse: ''
+    expand: ''
+  agent_record_identifier:
+    primary_identifier: ''
+    identifier_type: ''
+    record_identifier: ''
+    snac: ''
+    source: ''
+  agent_gender:
+    _plural: ''
+    _singular: ''
+  pui_agent:
+    parallel: ''
+    _plural: ''
+    _singular: ''
+    related: ''
+    also_known_as: ''
+  containers: ''
+  parent_inst: ''
+  agent_topic:
+    _singular: ''
+    _plural: ''
+  email: ''
+  accessed: ''
+  bulk:
+    _plural: ''
+    _singular: ''
+  used_language:
+    _plural: ''
+    _singular: ''
+  internal_links:
+    main: ''
+    search_collection: ''
+    filter: ''
+  agent_function:
+    _singular: ''
+    _plural: ''
+  dig_cont_arr: ''
+  fax: ''
+  classification:
+    identifier_separator: ''
+    creator: ''
+    _public:
+      actions:
+        show_subgroups: ''
+    _plural: ''
+    _singular: ''
+  description: ''
+  number_of: ''
+  agent_resource:
+    _singular: ''
+    _plural: ''
+  structured_date_label:
+    date: ''
+  record_group:
+    _singular: ''
+    _plural: ''
+  classification_term:
+    _plural: ''
+    _singular: ''
+    identifier_separator: ''
+  scope_note: ''
+  external_docs: ''
+  contact: ''
+  archive:
+    _plural: ''
+    _singular: ''
+  agent_place:
+    _singular: ''
+    _plural: ''
+  telephone:
+    ext: ''
+    number: ''
+    _plural: ''
+    number_type: ''
+  contains: ''
+  found: ''
+  agent_software:
+    _plural: ''
+    _singular: ''
+  linked_digital_objects: ''
+  agent_corporate_entity:
+    _singular: ''
+    _plural: ''
+  footer:
+    archivesspace_home: ''
+    staff_interface: ''
+    feedback: ''
+  subject:
+    _singular: ''
+    _plural: ''
+  navbar:
+    toggle_navigation: ''
+    search_placeholder: ''
+    error_no_term: ''
+  cont_arr: ''
+  extent_dims: ''
+  related_accessions: ''
+  list: ''
+  multiple_containers: ''
+  context: ''
+  an_agent: ''
+  search_tab: ''
+  related_resources: ''
+  subgroups: ''
