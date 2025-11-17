@@ -151,5 +151,7 @@ uk:
       event: Допомога з подіями
       digital_object_component_extents: Довідка щодо екстентів
       agent_record_identifiers: Довідка щодо ідентифікаторів записів агентів
+      custom_report_templates: ''
     help_center: АрхівзСпєс Довідковий Центр
     default_tooltip: АрхівзСпєс Довідковий Центр
+    icon: ''
