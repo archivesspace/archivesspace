@@ -774,11 +774,13 @@ it:
       subfonds: Sotto-fondi
       class: Classe
       subseries: Sotto-serie
+      recordgrp: ''
     cataloging_source:
       ccp: Programma di catalogazione cooperativa
       nat_bib_agency: Agenzia bibliografica nazionale
       other: Altro
       unknown: Sconosciuto
+      natc: ''
     collection_management_processing_priority:
       high: Alto
       low: Basso
@@ -809,6 +811,112 @@ it:
       previous: Precedente
     rights_statement_external_document_identifier_type:
       fast: 'Faceted Application of Subject Terminology (Dublin, Ohio: OCLC)'
+      hdl: ''
+      nndb: ''
+      local: ''
+      discogs: ''
+      allmusic: ''
+      moma: ''
+      isbn: ''
+      lcmpt: ''
+      nipo: ''
+      odnb: ''
+      doi: ''
+      libaus: ''
+      wikidata: ''
+      imdb: ''
+      gettytgn: ''
+      isbnre: ''
+      ibdb: ''
+      cantic: ''
+      viaf: ''
+      rbmspt: ''
+      allocine: ''
+      gettyulan: ''
+      sprfpfb: ''
+      cgndb: ''
+      npg: ''
+      rkda: ''
+      bfi: ''
+      rbmspe: ''
+      munzing: ''
+      natgazfid: ''
+      scholaru: ''
+      ismn: ''
+      issn-l: ''
+      geonames: ''
+      matrix-number: ''
+      amnbo: ''
+      geogndb: ''
+      sprfbsb: ''
+      isil: ''
+      eidr: ''
+      scope: ''
+      sprfhoc: ''
+      rbmsppe: ''
+      artsy: ''
+      sprfoly: ''
+      datoses: ''
+      agrovoc: ''
+      musicb: ''
+      sprfcfb: ''
+      sprfbsk: ''
+      rbmsrd: ''
+      strn: ''
+      stock-number: ''
+      dkfilm: ''
+      theatr: ''
+      iso: ''
+      filmport: ''
+      findagr: ''
+      gtin-14: ''
+      gec: ''
+      ansi: ''
+      issn: ''
+      opensm: ''
+      scopus: ''
+      rbmsgt: ''
+      isni: ''
+      itar: ''
+      tatearid: ''
+      rid: ''
+      nga: ''
+      svfilm: ''
+      freebase: ''
+      bdusc: ''
+      sici: ''
+      saam: ''
+      danacode: ''
+      ean: ''
+      isan: ''
+      bnfcg: ''
+      spotify: ''
+      videorecording-identifier: ''
+      isbn-a: ''
+      orcid: ''
+      istc: ''
+      lccn: ''
+      upc: ''
+      allmovie: ''
+      rbmste: ''
+      issue-number: ''
+      gnis: ''
+      isrc: ''
+      porthu: ''
+      music-plate: ''
+      music-publisher: ''
+      gnd: ''
+      uri: ''
+      lcmd: ''
+      iswc: ''
+      wndla: ''
+      urn: ''
+      rbmsbt: ''
+      idref: ''
+      trove: ''
+      oxforddnb: ''
+      kinopo: ''
+      sprfcbb: ''
     date_label:
       deaccession: Deaccessione
       copyright: Diritto d'autore
@@ -823,6 +931,8 @@ it:
       acquisition: Acquisizione
       issued: Emesso
       modified: Modificato
+      agent_relation: ''
+      record_keeping: ''
     event_event_type:
       accession: Accesso
       accumulation: Accumulo
@@ -867,6 +977,9 @@ it:
       not_applicable: Non applicabile
       preliminary: Preliminare
       provisional: Provvisorio
+      memorandum: ''
+      natc: ''
+      fully_established: ''
     linked_agent_archival_record_relators:
       acp: Copista d'arte
       abr: Compendiatore
@@ -1144,8 +1257,50 @@ it:
       derived: Derivato
       cancelled: Cancellato
       created: Creato
+      updated: ''
+      revised: ''
     _note_types:
       appraisal: Valutazione
+      abstract: ''
+      physfacet: ''
+      legalstatus: ''
+      contact_note: ''
+      edition: ''
+      materialspec: ''
+      scopecontent: ''
+      userestrict: ''
+      rights_statement: ''
+      physloc: ''
+      bibliography: ''
+      inscription: ''
+      custodhist: ''
+      bioghist: ''
+      general_context: ''
+      accruals: ''
+      dimensions: ''
+      accessrestrict: ''
+      processinfo: ''
+      odd: ''
+      originalsloc: ''
+      extent: ''
+      separatedmaterial: ''
+      structure_or_genealogy: ''
+      prefercite: ''
+      index: ''
+      acqinfo: ''
+      note: ''
+      mandate: ''
+      altformavail: ''
+      arrangement: ''
+      note_bibliography: ''
+      phystech: ''
+      otherfindaid: ''
+      relatedmaterial: ''
+      physdesc: ''
+      langmaterial: ''
+      legal_status: ''
+      summary: ''
+      fileplan: ''
     script_iso15924:
       Adlm: Adlam
       Bali: Balinese
@@ -1237,8 +1392,8 @@ it:
       Ugar: Ugarito
       Zsye: Simboli (variante Emoji)
       Zinh: Codice per scritture ereditate
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, sistema di scrittura
-        orizzontale quadrata)
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, sistema di 
+        scrittura orizzontale quadrata)
       Zmth: Notazione matematica
       Zzzz: Codice per scritture non codificate
       Avst: Avestano
@@ -1349,6 +1504,8 @@ it:
       Zyyy: Codice per scritture non determinate
     source:
       local: Locale
+      snac: ''
+      naf: ''
     date_certainty:
       approximate: Approssimativa
       inferred: Desunta
@@ -1360,10 +1517,14 @@ it:
       end: Fine
     date_standardized_type:
       standard: Standard
+      not_before: ''
+      not_after: ''
     date_type:
       expression: Espressione
       range: Intervallo
       single: Singolo
+      inclusive: ''
+      bulk: ''
     date_type_structured:
       range: Intervallo
       single: Singolo
@@ -1391,6 +1552,8 @@ it:
       millimeters: Millimetri
     end_date_standardized_type:
       standard: Standard
+      not_before: ''
+      not_after: ''
     extent_extent_type:
       cassettes: Audiocassetta
       gigabytes: Gigabytes
@@ -1402,16 +1565,22 @@ it:
       photographic_slides: Diapositive fotografiche
       terabytes: Terabytes
       volumes: Volumi
+      reels: ''
+      files: ''
+      sheets: ''
     event_outcome:
       pending: In attesa
       fulfilled: Realizzato
       cancelled: Cancellato
       fail: Fallimento
+      pass: ''
+      partial pass: ''
     file_version_xlink_show_attribute:
       other: altro
       new: nuovo
       none: nessuno
       replace: sostituisci
+      embed: ''
     government_agency_type:
       int_gov: Internazionale intergovernativa
       ngo: Organizzazione non governativa
@@ -1422,6 +1591,9 @@ it:
       multilocal: Multilocale
       multistate: Multistato
       provincial: Stato, provinciale, territoriale, dipendente, ecc.
+      undetermined: ''
+      unknown: ''
+      natc: ''
     identifier_type:
       lac: Biblioteca e archivi Canada
       loc: Biblioteca del Congresso
@@ -1436,6 +1608,10 @@ it:
       mixed_materials: Materiali misti
       moving_images: Immagini in movimento
       text: Testo
+      microform: ''
+      realia: ''
+      digital_object_link: ''
+      accession: ''
     file_version_checksum_methods:
       md5: MD5
       sha-1: SHA-1
@@ -1455,9 +1631,31 @@ it:
       audio-master: ''
       image-thumbnail: Immagine-Thumbnail
       audio-clip: ''
+      text-georeference: ''
+      image-master-edited: ''
+      text-tei-transcripted: ''
+      audio-master-edited: ''
+      text-ocr-unedited: ''
+      audio-streaming: ''
+      video-master: ''
+      video-service: ''
+      text-ocr-edited: ''
+      text-data_definition: ''
+      text-tei-translated: ''
+      image-master: ''
+      image-service-edited: ''
+      image-service: ''
+      video-clip: ''
+      text-codebook: ''
+      text-data: ''
+      audio-service: ''
+      video-streaming: ''
+      video-master-edited: ''
     file_version_xlink_actuate_attribute:
       none: nessuno
       other: altro
+      onRequest: ''
+      onLoad: ''
     gender:
       not_specified: Non specificato
     user_defined_enum_4:
@@ -1468,6 +1666,238 @@ it:
       novalue: Nessun valore definito
     user_defined_enum_3:
       novalue: Nessun valore definito
+    metadata_license:
+      non_commercial_no_derivatives: ''
+      no_derivatives: ''
+      other: ''
+      non_commercial: ''
+      public_domain: ''
+      non_commercial_share_a_like: ''
+      share_a_like: ''
+    subject_term_type:
+      uniform_title: ''
+      technique: ''
+      genre_form: ''
+      style_period: ''
+      temporal: ''
+      geographic: ''
+      cultural_context: ''
+      function: ''
+      occupation: ''
+      topical: ''
+    maintenance_status:
+      deleted: ''
+      deleted_merged: ''
+      cancelled_obsolete: ''
+      deleted_replaced: ''
+      revised_corrected: ''
+      new: ''
+      upgraded: ''
+      derived: ''
+      deleted_split: ''
+    location_function_type:
+      shared: ''
+      arrivals: ''
+      av_materials: ''
+    agent_relationship_earlierlater_relator:
+      is_earlier_form_of: ''
+      is_later_form_of: ''
+    agent_relationship_subordinatesuperior_relator:
+      is_subordinate_to: ''
+      is_superior_of: ''
+    note_rights_statement_type:
+      type_note: ''
+      additional_information: ''
+      materials: ''
+    note_rights_statement_act_type:
+      expiration: ''
+      extension: ''
+      additional_information: ''
+      permissions: ''
+      restrictions: ''
+    accession_sibling_relator_type:
+      bound_with: ''
+    rights_statement_rights_type:
+      statute: ''
+      copyright: ''
+      license: ''
+      other: ''
+    linked_event_archival_record_roles:
+      transfer: ''
+      source: ''
+      context: ''
+      requested: ''
+      outcome: ''
+    resource_resource_type:
+      records: ''
+      papers: ''
+      publications: ''
+      collection: ''
+    transliteration:
+      ala-lc: ''
+    publication_status:
+      approved: ''
+      in_process: ''
+    note_index_item_type:
+      geographic_name: ''
+      occupation: ''
+      corporate_entity: ''
+      family: ''
+      genre_form: ''
+      name: ''
+      subject: ''
+      title: ''
+      function: ''
+      person: ''
+    name_source:
+      cash: ''
+      lcnaf: ''
+      lcshac: ''
+      rvm: ''
+      nad: ''
+      naf: ''
+      ram: ''
+      local: ''
+      ingest: ''
+      snac: ''
+      ulan: ''
+      nal: ''
+    subject_source:
+      other: ''
+      ram: ''
+      lcsh: ''
+      lcshac: ''
+      mesh: ''
+      tgn: ''
+      ingest: ''
+      rbgenr: ''
+      local: ''
+      sears: ''
+      cash: ''
+      not_specified: ''
+      nal: ''
+      not_applicable: ''
+      rvm: ''
+      gmgpc: ''
+      aat: ''
+      lcgft: ''
+    rights_statement_act_restriction:
+      disallow: ''
+      allow: ''
+      conditional: ''
+    resource_finding_aid_description_rules:
+      dacs: ''
+      rad: ''
+      cco: ''
+      isadg: ''
+      aacr: ''
+    reference_evaluation:
+      tr_inconsistent: ''
+      natc: ''
+      tr_consistent: ''
+      not_applicable: ''
+    name_rule:
+      rad: ''
+      dacs: ''
+      rda: ''
+      isaar: ''
+      aacr: ''
+      local: ''
+      ccr: ''
+    rights_statement_ip_status:
+      public_domain: ''
+      unknown: ''
+      copyrighted: ''
+    place_role:
+      residence: ''
+      assoc_country: ''
+      other_assoc: ''
+      place_of_death: ''
+      place_of_birth: ''
+    location_temporary:
+      reading_room: ''
+      loan: ''
+      conservation: ''
+      exhibit: ''
+    rights_statement_act_type:
+      disseminate: ''
+      use: ''
+      migrate: ''
+      modify: ''
+      delete: ''
+      replicate: ''
+    name_type:
+      differentiated: ''
+      undifferentiated: ''
+      natc: ''
+      not_applicable: ''
+    romanization:
+      int_std: ''
+      conv_rom_cat_agency: ''
+      nl_assoc_std: ''
+      unknown_standard: ''
+      local_standard: ''
+      nl_bib_agency_std: ''
+      nat_std: ''
+      not_applicable: ''
+    deaccession_scope:
+      whole: ''
+      part: ''
+    maintenance_agent_type:
+      human: ''
+      machine: ''
+    restriction_type:
+      ColdStorageBrbl: ''
+      RestrictedFragileSpecColl: ''
+      InProcessSpecColl: ''
+      RestrictedSpecColl: ''
+      RestrictedCurApprSpecColl: ''
+    name_person_name_order:
+      inverted: ''
+      direct: ''
+    linked_agent_event_roles:
+      executing_program: ''
+      recipient: ''
+      validator: ''
+      requester: ''
+      transmitter: ''
+      authorizer: ''
+      implementer: ''
+    rights_statement_other_rights_basis:
+      donor: ''
+      policy: ''
+    modified_record:
+      missing_characters: ''
+      not_modified: ''
+      shortened: ''
+      natc: ''
+    agent_relationship_parentchild_relator:
+      is_child_of: ''
+      is_parent_of: ''
+    linked_agent_role:
+      subject: ''
+      source: ''
+      creator: ''
+    resource_finding_aid_status:
+      unprocessed: ''
+      in_progress: ''
+      under_revision: ''
+      completed: ''
+    extent_portion:
+      whole: ''
+      part: ''
+    agent_relationship_identity_relator:
+      is_identified_with: ''
+    agent_relationship_family_relator:
+      is_related_with: ''
+    agent_relationship_associative_relator:
+      is_associative_with: ''
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: ''
+    agent_relationship_temporal_relator:
+      is_temporal_with: ''
+    accession_parts_relator_type:
+      part: ''
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: ''
@@ -1483,3 +1913,91 @@ it:
     user_defined_enum_2: Enum 2 definito dall'utente
     user_defined_enum_3: Enum 3 definito dall'utente
     user_defined_enum_4: Enum 4 definito dall'utente
+    maintenance_agent_type: ''
+    instance_instance_type: ''
+    resource_finding_aid_status: ''
+    name_source: ''
+    event_event_type: ''
+    accession_parts_relator_type: ''
+    begin_date_standardized_type: ''
+    deaccession_scope: ''
+    name_rule: ''
+    extent_extent_type: ''
+    note_rights_statement_type: ''
+    container_location_status: ''
+    linked_event_archival_record_roles: ''
+    location_temporary: ''
+    cataloging_source: ''
+    linked_agent_event_roles: ''
+    agent_relationship_specific_relator: ''
+    gender: ''
+    agent_relationship_parentchild_relator: ''
+    location_function_type: ''
+    maintenance_status: ''
+    agent_relationship_earlierlater_relator: ''
+    place_role: ''
+    extent_portion: ''
+    rights_statement_act_type: ''
+    agent_relationship_hierarchical_relator: ''
+    accession_acquisition_type: ''
+    collection_management_processing_status: ''
+    modified_record: ''
+    date_role: ''
+    note_langmaterial_type: ''
+    agent_relationship_associative_relator: ''
+    file_version_checksum_methods: ''
+    note_multipart_type: ''
+    rights_statement_external_document_identifier_type: ''
+    accession_resource_type: ''
+    agent_contact_salutation: ''
+    maintenance_event_type: ''
+    event_outcome: ''
+    agent_relationship_family_relator: ''
+    agent_relationship_temporal_relator: ''
+    date_standardized_type: ''
+    linked_agent_role: ''
+    resource_resource_type: ''
+    agent_relationship_identity_relator: ''
+    agent_relationship_subordinatesuperior_relator: ''
+    rights_statement_other_rights_basis: ''
+    resource_finding_aid_description_rules: ''
+    note_index_type: ''
+    dimension_units: ''
+    linked_agent_archival_record_relators: ''
+    end_date_standardized_type: ''
+    note_orderedlist_enumeration: ''
+    reference_evaluation: ''
+    name_person_name_order: ''
+    date_type_structured: ''
+    file_version_xlink_actuate_attribute: ''
+    rights_statement_rights_type: ''
+    collection_management_processing_priority: ''
+    file_version_xlink_show_attribute: ''
+    file_version_file_format_name: ''
+    digital_object_digital_object_type: ''
+    file_version_use_statement: ''
+    note_singlepart_type: ''
+    container_type: ''
+    note_bibliography_type: ''
+    publication_status: ''
+    job_type: ''
+    date_label: ''
+    note_rights_statement_act_type: ''
+    restriction_type: ''
+    digital_object_level: ''
+    date_type: ''
+    date_certainty: ''
+    identifier_type: ''
+    archival_record_level: ''
+    rights_statement_act_restriction: ''
+    rights_statement_ip_status: ''
+    note_digital_object_type: ''
+    accession_parts_relator: ''
+    date_era: ''
+    note_index_item_type: ''
+    accession_sibling_relator: ''
+    agency_code_type: ''
+    accession_sibling_relator_type: ''
+    name_type: ''
+    government_agency_type: ''
+    level_of_detail: ''
