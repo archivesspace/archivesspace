@@ -1475,6 +1475,7 @@ ja:
       new: 新しい
       revised_corrected: 修正/修正
       upgraded: アップグレード済み
+      deleted_merged: ''
     modified_record:
       missing_characters: 行方不明の文字
       natc: コーディングしようとしない
@@ -1948,7 +1949,8 @@ ja:
       Xpeo: Old Persian
       Xsux: Cuneiform, Sumero-Akkadian
       Yiii: Yi
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square Script)
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, Horizontal Square 
+        Script)
       Zinh: Code for inherited script
       Zmth: Mathematical notation
       Zsye: Symbols (Emoji variant)
@@ -1975,6 +1977,10 @@ ja:
       rbgenr: ジャンル用語：レアブックや特別コレクションのカタログ化に使用するシソーラス
       rvm: 件名見出しディレクトリ
       tgn: Geographic Namesのゲットシソーラス
+      other: ''
+      sears: ''
+      not_specified: ''
+      not_applicable: ''
     subject_term_type:
       cultural_context: 文化的背景
       function: 関数
@@ -1997,11 +2003,16 @@ ja:
     user_defined_enum_4:
       novalue: 値が定義されていない
     metadata_license:
-      no_derivatives: このレコードは、Attribution-NoDerivatives 4.0 International CreativeCommonsライセンスの下で利用可能になります。
-      non_commercial_share_a_like: このレコードは、Attribution-NonCommercial-ShareAlike 4.0 International CreativeCommonsライセンスの下で利用可能になります。
-      other: 不特定またはカスタムライセンス。
-      public_domain: このレコードは、Universal 1.0 Public Domain Dedication CreativeCommonsライセンスの下で利用可能になります。
-      non_commercial: このレコードは、Attribution-NonCommercial 4.0 International CreativeCommonsライセンスの下で利用可能になります。
-      non_commercial_no_derivatives: このレコードは、Attribution-NonCommercial-NoDerivatives 4.0 International
+      no_derivatives: このレコードは、Attribution-NoDerivatives 4.0 International 
         CreativeCommonsライセンスの下で利用可能になります。
-      share_a_like: このレコードは、Attribution-ShareAlike 4.0 International CreativeCommonsライセンスの下で利用可能になります。
+      non_commercial_share_a_like: このレコードは、Attribution-NonCommercial-ShareAlike 4.0 International 
+        CreativeCommonsライセンスの下で利用可能になります。
+      other: 不特定またはカスタムライセンス。
+      public_domain: このレコードは、Universal 1.0 Public Domain Dedication 
+        CreativeCommonsライセンスの下で利用可能になります。
+      non_commercial: このレコードは、Attribution-NonCommercial 4.0 International 
+        CreativeCommonsライセンスの下で利用可能になります。
+      non_commercial_no_derivatives: このレコードは、Attribution-NonCommercial-NoDerivatives 4.0 
+        International CreativeCommonsライセンスの下で利用可能になります。
+      share_a_like: このレコードは、Attribution-ShareAlike 4.0 International 
+        CreativeCommonsライセンスの下で利用可能になります。
