@@ -1958,6 +1958,10 @@ uk:
       Zxxx: Код для ненаписаних документів
       Zyyy: Код для невизначеного сценарію
       Zzzz: Код для незакодованого сценарію
+      Phag: ''
+      Phlv: ''
+      Phli: ''
+      Phlp: ''
     rights_statement_rights_type:
       copyright: Авторське право
       license: Ліцензія
