@@ -50,8 +50,8 @@ es:
     note: Nota para el personal
     visit: "Envíe una solicitud para visitar%{repo_name} para ver <strong>%{archival_object}</strong>"
     submit: Enviar solicitud
-    submitted: Gracias, su solicitud ha sido enviada.  Pronto recibirá un correo electrónico con una copia
-      de su solicitud.
+    submitted: Gracias, su solicitud ha sido enviada.  Pronto recibirá un correo electrónico con una
+      copia de su solicitud.
     errors:
       name: por favor, escriba su nombre
       email: Por favor, introduce una dirección de correo electrónico válida
@@ -192,10 +192,11 @@ es:
     error_404_message: "El registro% {type} al que ha intentado acceder no existe o puede que se haya
       eliminado."
     backend_down: No se puede conectar a la base de datos
-    backend_down_message: ArchivesSpace está experimentando dificultades técnicas. Pedimos disculpas por
-      las molestias. Por favor, inténtelo de nuevo más tarde.
+    backend_down_message: ArchivesSpace está experimentando dificultades técnicas. Pedimos disculpas
+      por las molestias. Por favor, inténtelo de nuevo más tarde.
     unexpected_error: Su solicitud no se pudo completar debido a un error inesperado
 
+    invalid_search_params: ''
   boolean:
     "true": "Si"
     "false": "No"
@@ -278,6 +279,7 @@ es:
         forms_part_of: Relación de parte
         sibling_of: Relación de hermanos
 
+        has_part: ''
   archival_object:
     _public:
       section: {}
@@ -343,6 +345,8 @@ es:
       identifier_ark: ID [ark]
       uri: ID [aspace_uri]
       identifier_pdf: ID
+      ark_link_name: ''
+      lang_pdf: ''
     load_records:
       alert: "Esta colección contiene un gran número de registros"
       showing: "Mostrando"
@@ -372,7 +376,9 @@ es:
       browse_number_digital_objects_in_collection:
         one: Buscar %{num} objeto digital en la colección
         many: Buscar %{num} objetos digitales en la colección
-        other: ''
+        other:
+      url_encoded_data: ''
+      additional: ''
   digital_object_component:
     _public:
       section: {}
@@ -469,6 +475,8 @@ es:
     your_finding_aid_is_attached: The finding aid you requested is attached.
     accessrestrict: Nota de condiciones de acceso
     userestrict: Nota de restricciones de uso
+    accruals: ''
+    acqinfo: ''
   readmore:
     see_more: Ver más
     see_less: Ver menos
@@ -582,8 +590,8 @@ es:
     _plural: Declaraciones de derechos de metadatos
   footer:
     archivesspace_home: Visitar <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Enviar comentarios o informar
-      un problema</a>
+    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Enviar comentarios o
+      informar un problema</a>
     staff_interface: <a href="%{staff_url}">Interfaz de personal</a>
 
   languages:
@@ -593,3 +601,20 @@ es:
     fr: Francés
     de: Alemán
     ja: Japonés
+  pdf_error:
+    headings:
+      additional_info: ''
+      type: ''
+      message: ''
+      location: ''
+    additional_info:
+      invalid_markup: ''
+    location:
+      location_footer: ''
+      location_title_page: ''
+      location_resource: ''
+      location_header: ''
+      location_archival_object: ''
+      location_toc: ''
+    description: ''
+    title: ''
