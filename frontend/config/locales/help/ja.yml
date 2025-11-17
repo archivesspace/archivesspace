@@ -151,3 +151,7 @@ ja:
       bulk_archival_object_updater_job: アーカイブオブジェクトのマージに関するヘルプ
       agent_identifiers: エンティティIDに関するヘルプ
       agent_genders: ジェンダーに関するヘルプ
+      accession_metadata_rights_declarations: ''
+      resource_metadata_rights_declarations: ''
+      custom_report_templates: ''
+      digital_object_metadata_rights_declarations: ''
