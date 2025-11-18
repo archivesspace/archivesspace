@@ -28,14 +28,10 @@ module SlugHelpers
       end
     # This codepath is run on updating slugs for agents, where we get either a Sequel Name object, or a Hash
     elsif is_agent_name_type?(klass)
-      if entity.class == Hash
-        # turn keys into symbols, that's what we expect down the line
-        entity.keys.each do |key|
-          entity[(key.to_sym rescue key) || key] = entity.delete(key)
-        end
-        slug = get_agent_name_string_from_hash(entity, klass)
-      elsif is_agent_name_type?(entity.class)
+      if is_agent_name_type?(entity.class)
         slug = get_agent_name_string_from_sequel(entity, klass)
+      else
+        slug = get_agent_name_string_from_hash(entity, klass)
       end
     else
       slug = ""
