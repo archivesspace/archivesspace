@@ -979,3 +979,47 @@ uk:
         spawn_placeholder: <em>Створений компонент буде вставлено сюди</em>
         spawn_menu_before: Вставити створений компонент перед
         spawn_menu_child: Вставити породжений компонент як дочірній
+  classification_term:
+    _frontend:
+      messages:
+        created_with_parent: Термін класифікації 
+          <strong>%{classification_term_title}</strong> створено
+  location:
+    _frontend:
+      messages:
+        updated: Розташування збережено
+        deleted: Розташування видалено
+      section:
+        basic_information: Основна інформація
+        search_embedded: Пов'язані записи
+      action:
+        add_child: Додати підкомпонент
+        add_sibling: Додати рідного брата
+        create: Створити місце розташування
+        batch: Створення пакетних розташувань
+        batch_edit: Створення пакетних розташувань
+        save: Зберегти місцезнаходження
+        single: Єдине розташування
+        delete_confirm_message: <p>Зауважте, що ви <strong>не можете скасувати 
+          цю дію.</strong>.</p><p> Якщо це місце наразі пов’язане з одним чи 
+          кількома екземплярами, його не можна видалити.</p>
+        show_space_calculator: Знайдіть за допомогою калькулятора простору
+  location_batch:
+    _frontend:
+      section:
+        location: Розташування бази
+        ranges: Діапазони координат
+      messages:
+        created: <strong>%{number_created} місць</strong> створено
+        updated: <strong>%{number_created} місць</strong> оновлено
+        location_batch_info: Визначте базові значення, які застосовуватимуться 
+          до всіх місць, згенерованих на основі <strong>діапазонів 
+          координат</strong> нижче.
+        location_batch_update_info: Введіть значення, які потрібно застосувати.
+  name:
+    _frontend:
+      section:
+        function_subject: Суб’єкт функції
+        occupation_subject: Тема професії
+      action:
+        add: Додайте форму імені
