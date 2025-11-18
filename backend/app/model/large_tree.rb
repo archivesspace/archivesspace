@@ -142,7 +142,7 @@ class LargeTree
 
       digital_instance = relates_digital_instance?(@node_type) ? has_digital_instance?(db, @node_table, node_record.id) : false
       response = waypoint_response(child_count).merge("title" => node_record.display_string,
-                                                      "titles" => node_record.title.map { |t| t.to_hash },
+                                                      "titles" => node_record.titles.map { |t| t.to_hash },
                                                       "uri" => node_record.uri,
                                                       "position" => node_position,
                                                       "jsonmodel_type" => @node_table.to_s,
