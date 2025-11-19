@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Shared context for setting up feature specs that use the
-# 'sortable results table' shared examples.
+# Shared context for setting up feature specs that exercise the
+# search/browse results table (sorting, column display, etc.).
 #
 # Expected lets provided by the including context:
 # - now [Integer] Timestamp used for uniqueness in record creation and filtering
@@ -12,7 +12,7 @@
 # - record_1 [Record] The first test record to create (called during setup_records)
 # - record_2 [Record] The second test record to create (called during setup_records)
 # - additional_browse_columns [Hash{Integer => String}] A hash mapping column numbers to
-#   display values for the sortable columns. When omitted, preferences are not
+#   display values for the results table columns. When omitted, preferences are not
 #   changed by this context.
 #
 # Optional lets:
@@ -20,35 +20,39 @@
 #   or :default_repository.
 # - filter_results [Boolean] Whether to filter the results to include only the necessary
 #   records in the results set (using the 'now' timestamp as the filter text).
-# - use_repo_for_sorting_context [Boolean] Defaults to true. Set to false for
+# - use_repo_for_results_table_context [Boolean] Defaults to true. Set to false for
 #   global listings that are not scoped to a repo (e.g. for repositories).
 #
 # Methods that specs can override:
 # - go_to_results_table: Override for modal-based results or custom navigation flows.
-RSpec.shared_context 'sortable results table setup' do
+RSpec.shared_context 'results table setup' do
   include_context 'filter search results by text'
 
-  let(:repo) { create(:repo, repo_code: "#{record_type}_results_sorting_#{now}") }
+  let(:repo) { create(:repo, repo_code: "#{record_type}_results_table_#{now}") }
   let(:pref_type_label) { record_type == 'repository' ? record_type.pluralize : record_type }
   let(:browse_column_scope) { :repository }
 
   before do
-    set_repo(repo) if use_repo_for_sorting_context?
-    setup_records
-    run_index_round
-    login_admin
-    select_repository(repo) if use_repo_for_sorting_context?
-    setup_additional_columns
-    go_to_results_table
-    filter_results_for_comparison
+    init_results_table
   end
 
   after do
     reset_columns
   end
 
-  def use_repo_for_sorting_context?
-    respond_to?(:use_repo_for_sorting_context) ? !!use_repo_for_sorting_context : true
+  def init_results_table
+    set_repo(repo) if use_repo_for_results_table_context?
+    setup_records
+    run_index_round
+    login_admin
+    select_repository(repo) if use_repo_for_results_table_context?
+    setup_additional_columns
+    go_to_results_table
+    filter_results_for_comparison
+  end
+
+  def use_repo_for_results_table_context?
+    respond_to?(:use_repo_for_results_table_context) ? !!use_repo_for_results_table_context : true
   end
 
   def setup_records

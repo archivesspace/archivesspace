@@ -557,12 +557,10 @@ describe 'Accessions', js: true do
   end
 
   context 'index view' do
-    describe 'results table sorting' do
+    describe 'results table' do
       let(:now) { Time.now.to_i }
       let(:record_type) { 'accession' }
       let(:browse_path) { '/accessions' }
-      let(:default_sort_key) { 'title_sort' }
-      let(:sorting_in_url) { true }
       let(:record_1) do
         create(:accession,
           title: "Accession 1 #{now}",
@@ -595,101 +593,129 @@ describe 'Accessions', js: true do
       end
       let(:initial_sort) { [record_1.title, record_2.title] }
 
-      context 'with seven of ten sortable columns showing' do
-        include_context 'sortable results table setup'
+      describe 'sorting' do
+        let(:default_sort_key) { 'title_sort' }
+        let(:sorting_in_url) { true }
 
-        let(:additional_browse_columns) do
-          {
-            4 => 'Acquisition Type',
-            5 => 'Resource Type',
-            6 => 'Restrictions Apply',
-            # 7 => 'Published'
-          }
-        end
-        let(:column_headers) do
-          {
-            'Title' => 'title_sort',
-            'Identifier' => 'identifier',
-            'Accession Date' => 'accession_date',
-            'Acquisition Type' => 'acquisition_type',
-            'Resource Type' => 'resource_type',
-            'Restrictions Apply' => 'restrictions_apply'
-            # 'Publish' => 'publish',
-          }
-        end
-        let(:sort_expectations) do
-          {
-            'title_sort' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'identifier' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'accession_date' => {
-              asc: [record_2.title, record_1.title],
-              desc: [record_1.title, record_2.title]
-            },
-            'acquisition_type' => {
-              asc: [record_2.title, record_1.title],
-              desc: [record_1.title, record_2.title]
-            },
-            'resource_type' => {
-              asc: [record_2.title, record_1.title],
-              desc: [record_1.title, record_2.title]
-            },
-            'restrictions_apply' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
+        context 'with seven of ten sortable columns showing' do
+          include_context 'results table setup'
+
+          let(:additional_browse_columns) do
+            {
+              4 => 'Acquisition Type',
+              5 => 'Resource Type',
+              6 => 'Restrictions Apply',
+              # 7 => 'Published'
             }
-            # 'publish' => {
-            #   asc: [record_2.title, record_1.title],
-            #   desc: [record_1.title, record_2.title]
-            # },
-          }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Identifier' => 'identifier',
+              'Accession Date' => 'accession_date',
+              'Acquisition Type' => 'acquisition_type',
+              'Resource Type' => 'resource_type',
+              'Restrictions Apply' => 'restrictions_apply'
+              # 'Publish' => 'publish',
+            }
+          end
+          let(:sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'identifier' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'accession_date' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'acquisition_type' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'resource_type' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'restrictions_apply' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              }
+              # 'publish' => {
+              #   asc: [record_2.title, record_1.title],
+              #   desc: [record_1.title, record_2.title]
+              # },
+            }
+          end
+
+          it_behaves_like 'results table sorting'
         end
 
-        it_behaves_like 'sortable results table'
+        context 'with the remaining three of ten sortable columns showing, plus the title column' do
+          include_context 'results table setup'
+
+          let(:additional_browse_columns) do
+            {
+              2 => 'Access Restrictions',
+              3 => 'Use Restrictions',
+              4 => 'URI'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Access Restrictions' => 'access_restrictions',
+              'Use Restrictions' => 'use_restrictions',
+              'URI' => 'uri'
+            }
+          end
+          let(:sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'access_restrictions' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'use_restrictions' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+            }
+          end
+
+          it_behaves_like 'results table sorting'
+        end
       end
 
-      context 'with the remaining three of ten sortable columns showing, plus the title column' do
-        include_context 'sortable results table setup'
+      describe 'boolean columns' do
+        include_context 'results table setup'
 
         let(:additional_browse_columns) do
           {
-            2 => 'Access Restrictions',
-            3 => 'Use Restrictions',
-            4 => 'URI'
+            4 => 'Restrictions Apply',
+            # 5 => 'Published',
+            6 => 'Access Restrictions',
+            7 => 'Use Restrictions'
           }
         end
-        let(:column_headers) do
+        let(:boolean_column_expectations) do
           {
-            'Title' => 'title_sort',
-            'Access Restrictions' => 'access_restrictions',
-            'Use Restrictions' => 'use_restrictions',
-            'URI' => 'uri'
-          }
-        end
-        let(:sort_expectations) do
-          {
-            'title_sort' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'access_restrictions' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'use_restrictions' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+            'restrictions_apply'   => %w[False True],
+            # 'publish'              => %w[True False],
+            'access_restrictions'  => %w[False True],
+            'use_restrictions'     => %w[False True]
           }
         end
 
-        it_behaves_like 'sortable results table'
+        it_behaves_like 'results table boolean columns'
       end
     end
 

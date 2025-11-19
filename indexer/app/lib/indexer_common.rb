@@ -977,13 +977,13 @@ class IndexerCommon
         doc['assessment_surveyors'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['_resolved']['title']}
         doc['assessment_survey_begin'] = "#{record['record']['survey_begin']}T00:00:00Z"
         doc['assessment_survey_end'] = "#{record['record']['survey_end']}T00:00:00Z" if record['record']['survey_end']
-        doc['assessment_review_required'] = record['record']['review_required']
-        doc['assessment_sensitive_material'] = record['record']['sensitive_material']
+        doc['assessment_review_required'] = record['record']['review_required'] || false
+        doc['assessment_sensitive_material'] = record['record']['sensitive_material'] || false
         if (ASUtils.wrap(record['record']['reviewer']).length > 0)
           doc['assessment_reviewer_uris'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['ref']}
           doc['assessment_reviewers'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['_resolved']['title']}
         end
-        doc['assessment_inactive'] = record['record']['inactive']
+        doc['assessment_inactive'] = record['record']['inactive'] || false
 
         doc['assessment_survey_year'] = IndexerCommon.generate_years_for_date_range(record['record']['survey_begin'], record['record']['survey_end'])
 

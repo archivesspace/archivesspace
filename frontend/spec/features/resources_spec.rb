@@ -1254,12 +1254,10 @@ describe 'Resources', js: true do
   end
 
   context 'index view' do
-    describe 'results table sorting' do
+    describe 'results table' do
       let(:now) { Time.now.to_i }
       let(:record_type) { 'resource' }
       let(:browse_path) { '/resources' }
-      let(:default_sort_key) { 'title_sort' }
-      let(:sorting_in_url) { true }
       let(:record_1) do
         create(:resource,
           title: "Resource 1 #{now}",
@@ -1294,107 +1292,130 @@ describe 'Resources', js: true do
       end
       let(:initial_sort) { [record_1.title, record_2.title] }
 
-      context 'with seven of eleven sortable columns showing' do
-        include_context 'sortable results table setup'
+      describe 'sorting' do
+        let(:default_sort_key) { 'title_sort' }
+        let(:sorting_in_url) { true }
 
-        let(:additional_browse_columns) do
-          {
-            4 => 'Resource Type',
-            # 5 => 'Published',
-            6 => 'Restrictions',
-            7 => 'EAD ID'
-          }
-        end
-        let(:column_headers) do
-          {
-            'Title' => 'title_sort',
-            'Identifier' => 'identifier',
-            'Level' => 'level',
-            'Resource Type' => 'resource_type',
-            # 'Published' => 'publish',
-            'Restrictions' => 'restrictions',
-            'EAD ID' => 'ead_id'
-          }
-        end
-        let(:sort_expectations) do
-          {
-            'title_sort' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'identifier' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'level' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'resource_type' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            # 'publish' => {
-            #   asc: [record_2.title, record_1.title],
-            #   desc: [record_1.title, record_2.title]
-            # },
-            'restrictions' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'ead_id' => {
-              asc: [record_2.title, record_1.title],
-              desc: [record_1.title, record_2.title]
+        context 'with seven of eleven sortable columns showing' do
+          include_context 'results table setup'
+
+          let(:additional_browse_columns) do
+            {
+              4 => 'Resource Type',
+              # 5 => 'Published',
+              6 => 'Restrictions',
+              7 => 'EAD ID'
             }
-          }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Identifier' => 'identifier',
+              'Level' => 'level',
+              'Resource Type' => 'resource_type',
+              # 'Published' => 'publish',
+              'Restrictions' => 'restrictions',
+              'EAD ID' => 'ead_id'
+            }
+          end
+          let(:sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'identifier' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'level' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'resource_type' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              # 'publish' => {
+              #   asc: [record_2.title, record_1.title],
+              #   desc: [record_1.title, record_2.title]
+              # },
+              'restrictions' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'ead_id' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              }
+            }
+          end
+
+          it_behaves_like 'results table sorting'
         end
 
-        it_behaves_like 'sortable results table'
+        context 'with the remaining four of eleven sortable columns showing, plus the title column' do
+          include_context 'results table setup'
+
+          let(:additional_browse_columns) do
+            {
+              2 => 'Finding Aid Status',
+              3 => 'Processing Priority',
+              4 => 'Processors',
+              5 => 'URI'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Finding Aid Status' => 'finding_aid_status',
+              'Processing Priority' => 'processing_priority',
+              'Processors' => 'processors',
+              'URI' => 'uri'
+            }
+          end
+          let(:sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'finding_aid_status' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'processing_priority' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'processors' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+            }
+          end
+
+          it_behaves_like 'results table sorting'
+        end
       end
 
-      context 'with the remaining four of eleven sortable columns showing, plus the title column' do
-        include_context 'sortable results table setup'
+      # Skipped due to ANW-2543 publish issue when running specs
+      xdescribe 'boolean columns' do
+        include_context 'results table setup'
 
         let(:additional_browse_columns) do
           {
-            2 => 'Finding Aid Status',
-            3 => 'Processing Priority',
-            4 => 'Processors',
-            5 => 'URI'
+            5 => 'Published'
           }
         end
-        let(:column_headers) do
+        let(:boolean_column_expectations) do
           {
-            'Title' => 'title_sort',
-            'Finding Aid Status' => 'finding_aid_status',
-            'Processing Priority' => 'processing_priority',
-            'Processors' => 'processors',
-            'URI' => 'uri'
-          }
-        end
-        let(:sort_expectations) do
-          {
-            'title_sort' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'finding_aid_status' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'processing_priority' => {
-              asc: [record_2.title, record_1.title],
-              desc: [record_1.title, record_2.title]
-            },
-            'processors' => {
-              asc: [record_1.title, record_2.title],
-              desc: [record_2.title, record_1.title]
-            },
-            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+            'publish' => %w[True False]
           }
         end
 
-        it_behaves_like 'sortable results table'
+        it_behaves_like 'results table boolean columns'
       end
     end
   end
@@ -1520,12 +1541,9 @@ describe 'Resources', js: true do
   end
 
   context 'Related Accessions browse modal' do
-    describe 'results table sorting' do
-      include_context 'sortable results table setup'
-
+    describe 'results table' do
       let(:now) { Time.now.to_i }
       let(:record_type) { 'accession' }
-      let(:default_sort_key) { 'title_sort' }
       let(:record_1) {
         create(:accession,
           title: "Accession 1 #{now}",
@@ -1544,36 +1562,41 @@ describe 'Resources', js: true do
           extents: [build(:extent)]
         )
       }
-      let(:default_sort_key) { 'title_sort' }
       let(:initial_sort) { [record_1.title, record_2.title] }
-      let(:column_headers) do
-        {
-          'Accession Date' => 'accession_date',
-          'Identifier'     => 'identifier',
-          'Title'          => 'title_sort'
-        }
-      end
-      let(:sort_expectations) do
-        {
-          'accession_date' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
-          'identifier'     => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
-          'title_sort'     => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] }
-        }
-      end
 
-      def go_to_results_table
-        visit '/resources/new'
-        click_on 'Add Related Accession'
-        expect(page).to have_css('#resource_related_accessions__0__ref__combobox')
-        within '#resource_related_accessions__0__ref__combobox' do
-          find('button.dropdown-toggle').click
-          expect(page).to have_css('ul.dropdown-menu.show')
-          click_on 'Browse'
+      describe 'sorting' do
+        include_context 'results table setup'
+
+        let(:default_sort_key) { 'title_sort' }
+        let(:column_headers) do
+          {
+            'Accession Date' => 'accession_date',
+            'Identifier'     => 'identifier',
+            'Title'          => 'title_sort'
+          }
         end
-        expect(page).to have_css('#resource_related_accessions__0__ref__modal')
-      end
+        let(:sort_expectations) do
+          {
+            'accession_date' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
+            'identifier'     => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
+            'title_sort'     => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] }
+          }
+        end
 
-      it_behaves_like 'sortable results table'
+        def go_to_results_table
+          visit '/resources/new'
+          click_on 'Add Related Accession'
+          expect(page).to have_css('#resource_related_accessions__0__ref__combobox')
+          within '#resource_related_accessions__0__ref__combobox' do
+            find('button.dropdown-toggle').click
+            expect(page).to have_css('ul.dropdown-menu.show')
+            click_on 'Browse'
+          end
+          expect(page).to have_css('#resource_related_accessions__0__ref__modal')
+        end
+
+        it_behaves_like 'results table sorting'
+      end
     end
   end
 end
