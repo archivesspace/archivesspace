@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Shared examples for verifying column sorting behavior in search results tables.
+# Shared examples for verifying sorting behavior in search/browse results tables.
 #
 # Required lets in the including context:
 # - initial_sort [Array<String>] The expected titles order on initial render (first N rows)
@@ -18,7 +18,7 @@
 # - primary_column_class [String] CSS class for the primary sortable column (default: 'title')
 # - sorting_in_url [Boolean] Whether to verify that sort parameters are reflected in the URL
 
-RSpec.shared_examples 'sortable results table' do
+RSpec.shared_examples 'results table sorting' do
   # heading [String] The column heading to click
   def click_column_heading(heading)
     within '#tabledSearchResults thead' do
