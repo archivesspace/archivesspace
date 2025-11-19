@@ -118,7 +118,7 @@ describe 'Repository controller' do
     it "has normal access to archival records (accessions, resources, etc.)" do
       as_test_user(user) do
         acc = create(:json_accession)
-        acc.title = "No problems here"
+        acc.titles[0]['title'] = "No problems here"
         acc.save
       end
     end
