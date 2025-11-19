@@ -41,13 +41,16 @@ end
 <%= (props.fetch(:full,false)? '<h1>' : '<h3>').html_safe %>
   <% if !props.fetch(:full,false) %>
     <a class="record-title" href="<%= app_prefix(url) %>">
-      <%== props.fetch(:infinite_item, false) ? process_mixed_content(result.parse_full_title(true)) : process_mixed_content(result.display_string) %>
+      <%== process_mixed_content(props.fetch(:infinite_item, false) ? result.parse_full_title(true) : result.primary_title) %>
     </a>
   <% else %>
-    <%== process_mixed_content(result.display_string)%>
+    <%== process_mixed_content(result.primary_title || result.display_string) %>
   <% end %>
 <%= (props.fetch(:full,false)? '</h1>' : '</h3>').html_safe %>
 
+<% if %w(resource archival_object accession).include?(result.primary_type) %>
+  <%= render partial: 'shared/titles', locals: {titles: result.json['titles'], display_string: result.display_string} %>
+<% end %>
 
 <div class="badge-and-identifier">
   <div class="record-type-badge <%= (result.primary_type.start_with?('agent') ? 'agent' : result.primary_type) %>">

@@ -6,7 +6,7 @@ describe "Bulk Import Mixins" do
   before(:each) do
     @current_user = User.find(:username => "admin")
     # create the resource
-    @resource_json = JSONModel(:resource).from_hash("title" => "a resource",
+    @resource_json = JSONModel(:resource).from_hash("titles" => [build(:json_title, :title => "a resource")],
                                                     "dates" => [{
                                                       "date_type" => "single",
                                                       "label" => "creation",
@@ -32,7 +32,7 @@ describe "Bulk Import Mixins" do
     id = @resource_json.save
     @resource = Resource.get_or_die(id)
     # create another resource
-    @no_ead_json = JSONModel(:resource).from_hash("title" => "another resource",
+    @no_ead_json = JSONModel(:resource).from_hash("titles" => [build(:json_title, :title => "another resource")],
                                                   "dates" => [{
                                                     "date_type" => "single",
                                                     "label" => "creation",

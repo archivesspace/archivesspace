@@ -10,22 +10,22 @@ describe 'DigitalObjectComponent model' do
     bib_note = build(:json_note_bibliography)
     do_note = build(:json_note_digital_object)
     doc.notes = [bib_note, do_note]
-    expect(DigitalObjectComponent[doc.id].title).to eq(doc.title)
+    expect(DigitalObjectComponent[doc.id].title[0].title).to eq(doc.titles[0]['title'])
   end
 
   it "auto generates a 'label' based on the date and title when both are present" do
-    title = "Just a title"
+    title = build(:json_title, :title =>"Just a title")
     date1 = build(:json_date, :date_type => 'inclusive')
     date2 = build(:json_date, :date_type => 'bulk')
 
     doc = DigitalObjectComponent.create_from_json(
       build(:json_digital_object_component, {
-        :title => title,
+        :titles => [title],
         :dates => [date1, date2]
       }),
       :repo_id => $repo_id)
 
-    expect(DigitalObjectComponent[doc[:id]].display_string).to eq("#{title}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
+    expect(DigitalObjectComponent[doc[:id]].display_string).to eq("#{title['title']}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
   end
 
   it "won't allow more than one file_version flagged 'is_representative'" do
@@ -84,19 +84,15 @@ describe 'DigitalObjectComponent model' do
         before(:all) do
           AppConfig[:auto_generate_slugs_with_id] = false
         end
-        it "autogenerates a slug via title" do
-          digital_object_component = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :title => rand(100000).to_s))
-          expected_slug = clean_slug(digital_object_component[:title])
-          expect(digital_object_component[:slug]).to eq(expected_slug)
-        end
-        it "cleans slug" do
-          digital_object_component = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
+        it "autogenerates a clean slug via title" do
+          title = build(:json_title, :title => "Foo Bar Baz&&&")
+          digital_object_component = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :titles => [title]))
           expect(digital_object_component[:slug]).to eq("foo_bar_baz")
         end
-
         it "dedupes slug" do
-          digital_object_component1 = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :title => "foo"))
-          digital_object_component2 = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :title => "foo"))
+          title = build(:json_title, :title => "foo")
+          digital_object_component1 = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :titles => [title]))
+          digital_object_component2 = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :titles => [title]))
           expect(digital_object_component1[:slug]).to eq("foo")
           expect(digital_object_component2[:slug]).to eq("foo_1")
         end
@@ -119,7 +115,6 @@ describe 'DigitalObjectComponent model' do
           digital_object_component = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :component_id => "Foo Bar Baz&&&&"))
           expect(digital_object_component[:slug]).to eq("foo_bar_baz")
         end
-
         it "dedupes slug" do
           digital_object_component1 = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :component_id => "foo"))
           digital_object_component2 = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :component_id => "foo#"))

@@ -47,7 +47,7 @@ module TreeNodes
 
 
   def breadcrumb_title_for_node(node, _)
-    node.fetch('title')
+    MultipleTitlesHelper.determine_primary_title(node.fetch('titles'), $locale)
   end
 
 

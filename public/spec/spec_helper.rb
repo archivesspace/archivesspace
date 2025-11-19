@@ -81,7 +81,7 @@ def setup_test_data
     build(:instance_digital, digital_object: { 'ref' => digi_obj.uri })
   ])
 
-  create(:accession_with_deaccession, title: "Published Accession with Deaccession")
+  create(:accession, :with_deaccession, title: "Published Accession with Deaccession")
   create(:accession, title: "Accession for Phrase Search")
 
 
@@ -169,7 +169,7 @@ def setup_test_data
                     instances: [build(:instance_digital)],
                     subjects: [{'ref' => subject2.uri}])
 
-  resource_with_scope = create(:resource_with_scope, title: "Resource with scope note", publish: true)
+  resource_with_scope = create(:resource, :with_scope, title: "Resource with scope note", publish: true)
   aos = (0..5).map do
     create(:archival_object,
            resource: { 'ref' => resource_with_scope.uri }, publish: true)

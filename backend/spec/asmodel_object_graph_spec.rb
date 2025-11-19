@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'ASModel Object Graph' do
 
   it "can produce a simple object graph from a subject relationship" do
-    resource = create(:resource, :repo_id => $repo_id)
+    resource = Resource.create_from_json(build(:json_resource))
     subject = Subject.create_from_json(build(:json_subject))
 
     relationship = Subject.find_relationship(:subject).relate(resource, subject, {
@@ -23,8 +23,11 @@ describe 'ASModel Object Graph' do
 
 
   it "can produce a simple object graph from a top-level tree" do
-    resource = create(:resource, :repo_id => $repo_id)
-    top_ao = create(:archival_object, :root_record_id => resource.id, :repo_id => $repo_id, :position => 0)
+    resource = Resource.create_from_json(build(:json_resource))
+    top_ao = ArchivalObject.create_from_json(build(:json_archival_object))
+    top_ao.root_record_id = resource.id
+    top_ao.position = 0
+    top_ao.save
 
     count = 5
 

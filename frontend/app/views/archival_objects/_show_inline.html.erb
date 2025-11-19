@@ -6,7 +6,7 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "archival_object", jsonmodel_definition(:archival_object) do |readonly, archival_object| %>
-        <h2><%= clean_mixed_content(archival_object.display_string) %> <span class="label label-info badge"><%= t("archival_object._singular") %></span></h2>
+        <h2><%= title_for_display %> <span class="label label-info badge"><%= t("archival_object._singular") %></span></h2>
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
         <section id="basic_information">
           <h3><%= t("archival_object._frontend.section.basic_information") %></h3>
@@ -15,7 +15,6 @@
                                      :form => readonly,
                                      :record => @archival_object) %>
 
-          <%= readonly.label_and_textarea "title" , :field_opts => { :clean => true, :escape => false } %>
           <%= readonly.label_with_field "ref_id", "<div class='identifier-display'><div class='identifier-display-part'>#{readonly["ref_id"]}</div></div>" %>
           <%= readonly.label_and_textfield "component_id" %>
 
@@ -33,6 +32,10 @@
 
           <%= display_audit_info(@archival_object) %>
         </section>
+
+        <% if archival_object.titles.length > 0 %>
+          <%= render_aspace_partial :partial => "titles/show", :locals => { :titles => archival_object.titles, :section_id => "archival_object_titles_" } %>
+        <% end %>
 
         <% if archival_object.lang_materials.length > 0 %>
           <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => archival_object.lang_materials, :section_id => "archival_object_lang_materials_" } %>

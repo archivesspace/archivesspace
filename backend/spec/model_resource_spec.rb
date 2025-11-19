@@ -5,18 +5,15 @@ require_relative 'spec_slugs_helper'
 describe 'Resource model' do
 
   it "allows resources to be created" do
-    opts = {:title => generate(:generic_title)}
-
-    resource = create_resource(opts)
-
-    expect(Resource[resource[:id]].title).to eq(opts[:title])
+    title = build(:json_title)
+    resource = create_resource(:titles => [title])
+    expect(Resource[resource.id].title[0].title).to eq(title.title)
     resource.delete
   end
 
   it "creates an ARK name with resource" do
     AppConfig[:arks_enabled] = true
-    opts = {:title => generate(:generic_title)}
-    resource = create_resource(opts)
+    resource = create_resource(:titles => [build(:json_title)])
     expect(ArkName.first(:resource_id => resource.id)).to_not be_nil
     resource.delete
     AppConfig[:arks_enabled] = false
@@ -24,8 +21,7 @@ describe 'Resource model' do
 
   it "deletes ARK Name when resource is deleted" do
     AppConfig[:arks_enabled] = true
-    opts = {:title => generate(:generic_title)}
-    resource = create_resource(opts)
+    resource = create_resource(:titles => [build(:json_title)])
     resource_id = resource.id
     expect(ArkName.first(:resource_id => resource_id)).to_not be_nil
     resource.delete
@@ -129,7 +125,8 @@ describe 'Resource model' do
 
   it "allows long titles" do
     expect {
-      res = create(:resource, {:repo_id => $repo_id, :title => 200.times.map { 'moo'}.join})
+      title = build(:json_title, :title => 200.times.map { 'moo'}.join)
+      res = create_resource(:repo_id => $repo_id, :titles => [title])
     }.not_to raise_error
   end
 
@@ -152,7 +149,7 @@ describe 'Resource model' do
     classification = Classification.create_from_json(classification)
     resource = create_resource(:classifications =>[ {'ref' => classification.uri} ])
 
-    expect(resource.related_records(:classification).first.title).to eq("top-level classification")
+    expect(resource.related_records(:classification).first.title[0].title).to eq("top-level classification")
   end
 
   # See https://gist.github.com/anarchivist/7477913
@@ -231,17 +228,20 @@ describe 'Resource model' do
           AppConfig[:auto_generate_slugs_with_id] = false
         end
         it "autogenerates a slug via title" do
-          resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => rand(100000).to_s))
-          expected_slug = clean_slug(resource[:title])
+          random_title = build(:json_title, :title => rand(100000).to_s)
+          resource = create_resource(:is_slug_auto => true, :titles => [random_title])
+          expected_slug = clean_slug(resource.title[0].title)
           expect(resource[:slug]).to eq(expected_slug)
         end
         it "cleans slug" do
-          resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
+          dirty_title = build(:json_title, :title => "Foo Bar Baz&&&&")
+          resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :titles => [dirty_title]))
           expect(resource[:slug]).to eq("foo_bar_baz")
         end
         it "dedupes slug" do
-          resource1 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => "foo"))
-          resource2 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => "foo"))
+          title = build(:json_title, :title => "foo")
+          resource1 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :titles => [title]))
+          resource2 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :titles => [title]))
           expect(resource1[:slug]).to eq("foo")
           expect(resource2[:slug]).to eq("foo_1")
         end

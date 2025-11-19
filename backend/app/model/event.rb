@@ -120,7 +120,7 @@ class Event < Sequel::Model(:event)
 
       merge_note += (identifier +
                      " -- " +
-                     merge_candidate_json['title'] +
+                     Titles.primary_title(merge_candidate_json['titles']) +
                      "\n")
     end
 

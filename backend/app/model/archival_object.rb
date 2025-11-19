@@ -1,6 +1,6 @@
 require 'securerandom'
 require_relative 'ancestor_listing'
-require_relative 'mixins/mixed_content_validatable'
+require 'multiple_titles_helper'
 
 class ArchivalObject < Sequel::Model(:archival_object)
   include ASModel
@@ -28,7 +28,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Assessments::LinkedRecord
   include TouchRecords
   include Arks
-  include MixedContentValidatable
+  include Titles
 
   enable_suppression
 
@@ -68,7 +68,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
                       :is_array => true)
 
   def self.produce_display_string(json)
-    display_string = json['title'] || ""
+    display_string = Titles.primary_title(json['titles']) || ""
 
     date_label = json.has_key?('dates') && json['dates'].length > 0 ?
                    json['dates'].map do |date|
@@ -81,7 +81,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
                      end
                    end.join(', ') : false
 
-    display_string += ", " if json['title'] && date_label
+    display_string += ", " if !display_string&.empty? && date_label
     display_string += date_label if date_label
 
     display_string
@@ -97,7 +97,6 @@ class ArchivalObject < Sequel::Model(:archival_object)
     validates_unique([:root_record_id, :ref_id],
                      :message => "An Archival Object Ref ID must be unique to its resource")
     map_validation_to_json_property([:root_record_id, :ref_id], :ref_id)
-    validate_mixed_content_field()
     super
   end
 

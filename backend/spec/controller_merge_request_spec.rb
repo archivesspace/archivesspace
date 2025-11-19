@@ -252,7 +252,7 @@ describe 'Merge request controller' do
 
     # An event was created
     expect(Event.this_repo.all.any? {|event|
-             expect(event.outcome_note).to match(/#{merge_candidate.title}/)
+             expect(event.outcome_note).to match(/#{merge_candidate.titles[0]['title']}/)
            }).to be_truthy
   end
 
@@ -282,7 +282,7 @@ describe 'Merge request controller' do
 
     # An event was created
     expect(Event.this_repo.all.any? {|event|
-             expect(event.outcome_note).to match(/#{merge_candidate.title}/)
+             expect(event.outcome_note).to match(/#{merge_candidate.titles[0]['title']}/)
            }).to be_truthy
   end
 

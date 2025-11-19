@@ -1,5 +1,4 @@
 class ArchivalObject < JSONModel(:archival_object)
-
   def populate_from_accession(accession)
     values = accession.to_hash(:raw)
 

@@ -60,8 +60,8 @@ describe 'Search Listing', js: true do
       expect(element).to have_text 'Record Type: Accession'
 
       element = find('#tabledSearchResults')
-      expect(element).to have_text @accession_1.title
-      expect(element).to have_text @accession_2.title
+      expect(element).to have_text @accession_1.titles[0]['title']
+      expect(element).to have_text @accession_2.titles[0]['title']
     end
 
     it 'supports some basic fulltext search globally' do
@@ -70,7 +70,7 @@ describe 'Search Listing', js: true do
       find('#global-search-button').click
 
       element = find('#tabledSearchResults')
-      expect(element).to have_text @accession_2.title
+      expect(element).to have_text @accession_2.titles[0]['title']
     end
 
     it 'displays search results with context' do
@@ -79,7 +79,7 @@ describe 'Search Listing', js: true do
       find('#global-search-button').click
 
       element = find('#tabledSearchResults')
-      expect(element).to have_text @archival_object_1.title
+      expect(element).to have_text @archival_object_1.titles[0]['title']
     end
 
     it 'does not display suppressed records to viewers' do
@@ -101,7 +101,7 @@ describe 'Search Listing', js: true do
       find('#global-search-button').click
 
       element = find('#tabledSearchResults')
-      expect(element).to have_text @suppressed_resource.title
+      expect(element).to have_text @suppressed_resource.titles[0]['title']
     end
 
     it 'does display digital objects linked to suppressed records to viewers' do

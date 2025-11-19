@@ -1,3 +1,5 @@
+require 'multiple_titles_helper'
+
 class ResourcesController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :tree_root, :tree_node, :tree_waypoint, :node_from_root, :models_in_graph],
@@ -11,6 +13,7 @@ class ResourcesController < ApplicationController
 
   include ExportHelper
   include ApplicationHelper
+  include MlcHelper
 
   def index
     respond_to do |format|
@@ -38,6 +41,8 @@ class ResourcesController < ApplicationController
       excludes = event_hits > AppConfig[:max_linked_events_to_resolve] ? ['linked_events', 'linked_events::linked_records'] : []
       @resource = fetch_resolved(:resource, params[:id], excludes: excludes)
 
+      select_title_for_subrecords
+
       flash.now[:info] = t("resource._frontend.messages.suppressed_info") if @resource.suppressed
       return render_aspace_partial :partial => "resources/show_inline"
     end
@@ -46,7 +51,7 @@ class ResourcesController < ApplicationController
   end
 
   def new
-    @resource = Resource.new(:title => t("resource.title_default", :default => ""))._always_valid!
+    @resource = Resource.new(:titles => [{:title => t("resource.title_default", :default => "")}])._always_valid!
     defaults = user_defaults('resource')
     if defaults
       @resource.update(defaults.values)
@@ -101,41 +106,33 @@ class ResourcesController < ApplicationController
   end
 
   def tree_root
-    resource_uri = JSONModel(:resource).uri_for(params[:id])
+    waypoint_data = fetch_json("#{resource_uri}/tree/root")
+    processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
 
-    render :json => pass_through_json("#{resource_uri}/tree/root")
+    render :json => processed_waypoint_data
   end
 
   def node_from_root
-    resource_uri = JSONModel(:resource).uri_for(params[:id])
+    waypoint_data = fetch_json("#{resource_uri}/tree/node_from_root", 'node_ids[]' => params[:node_ids])
+    processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
 
-    render :json => pass_through_json("#{resource_uri}/tree/node_from_root",
-                                      'node_ids[]' => params[:node_ids])
+    render :json => processed_waypoint_data
   end
 
   def tree_node
-    resource_uri = JSONModel(:resource).uri_for(params[:id])
-    node_uri = if !params[:node].blank?
-                 params[:node]
-               else
-                 nil
-               end
+    node_uri = params[:node] unless params[:node].blank?
+    waypoint_data = fetch_json("#{resource_uri}/tree/node", :node_uri => node_uri)
+    processed_waypoint_data = MultipleTitlesHelper.waypoint_determine_primary_titles(waypoint_data, I18n.locale)
 
-    render :json => pass_through_json("#{resource_uri}/tree/node",
-                                      :node_uri => node_uri)
+    render :json => processed_waypoint_data
   end
 
   def tree_waypoint
-    resource_uri = JSONModel(:resource).uri_for(params[:id])
-    node_uri = if !params[:node].blank?
-                 params[:node]
-               else
-                 nil
-               end
+    node_uri = params[:node] unless params[:node].blank?
 
-    render :json => pass_through_json("#{resource_uri}/tree/waypoint",
-                                      :parent_node => node_uri,
-                                      :offset => params[:offset])
+    render :json => fetch_json("#{resource_uri}/tree/waypoint",
+      :parent_node => node_uri,
+      :offset => params[:offset])
   end
 
   def transfer
@@ -171,6 +168,8 @@ class ResourcesController < ApplicationController
         return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
       end
 
+      select_title_for_subrecords
+
       return render_aspace_partial :partial => "resources/edit_inline"
     end
 
@@ -186,7 +185,7 @@ class ResourcesController < ApplicationController
                   render action: "new"
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = t("resource._frontend.messages.created", resource_title: clean_mixed_content(@resource.title))
+                  flash[:success] = t("resource._frontend.messages.created", resource_title: title_for_display)
 
                   if @resource["is_slug_auto"] == false &&
                      @resource["slug"] == nil &&
@@ -212,7 +211,7 @@ class ResourcesController < ApplicationController
                   render_aspace_partial :partial => "edit_inline"
                 },
                 :on_valid => ->(id) {
-                  flash.now[:success] = t("resource._frontend.messages.updated", resource_title: clean_mixed_content(@resource.title))
+                  flash.now[:success] = t("resource._frontend.messages.updated", resource_title: title_for_display)
                   if @resource["is_slug_auto"] == false &&
                      @resource["slug"] == nil &&
                      params["resource"] &&
@@ -220,6 +219,8 @@ class ResourcesController < ApplicationController
 
                     flash.now[:warning] = t("slug.autogen_disabled")
                   end
+
+                  select_title_for_subrecords
 
                   render_aspace_partial :partial => "edit_inline"
                 })
@@ -237,7 +238,7 @@ class ResourcesController < ApplicationController
     end
 
 
-    flash[:success] = t("resource._frontend.messages.deleted", resource_title: clean_mixed_content(resource.title))
+    flash[:success] = t("resource._frontend.messages.deleted", resource_title: title_for_display(resource))
     redirect_to(:controller => :resources, :action => :index, :deleted_uri => resource.uri)
   end
 
@@ -307,7 +308,7 @@ class ResourcesController < ApplicationController
     response = JSONModel::HTTP.post_form("#{resource.uri}/publish")
 
     if response.code == '200'
-      flash[:success] = t("resource._frontend.messages.published", resource_title: clean_mixed_content(resource.title))
+      flash[:success] = t("resource._frontend.messages.published", resource_title: title_for_display(resource))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -322,7 +323,7 @@ class ResourcesController < ApplicationController
     response = JSONModel::HTTP.post_form("#{resource.uri}/unpublish")
 
     if response.code == '200'
-      flash[:success] = t("resource._frontend.messages.unpublished", resource_title: clean_mixed_content(resource.title))
+      flash[:success] = t("resource._frontend.messages.unpublished", resource_title: title_for_display(resource))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -347,7 +348,7 @@ class ResourcesController < ApplicationController
     resource = JSONModel(:resource).find(params[:id])
     resource.set_suppressed(true)
 
-    flash[:success] = t("resource._frontend.messages.suppressed", resource_title: clean_mixed_content(resource.title))
+    flash[:success] = t("resource._frontend.messages.suppressed", resource_title: title_for_display(resource))
     redirect_to(:controller => :resources, :action => :show, :id => params[:id])
   end
 
@@ -356,7 +357,7 @@ class ResourcesController < ApplicationController
     resource = JSONModel(:resource).find(params[:id])
     resource.set_suppressed(false)
 
-    flash[:success] = t("resource._frontend.messages.unsuppressed", resource_title: clean_mixed_content(resource.title))
+    flash[:success] = t("resource._frontend.messages.unsuppressed", resource_title: title_for_display(resource))
     redirect_to(:controller => :resources, :action => :show, :id => params[:id])
   end
 
@@ -370,19 +371,22 @@ class ResourcesController < ApplicationController
     }
   end
 
+
   private
 
-
-  def pass_through_json(uri, params = {})
+  def fetch_json(uri, params = {})
     json = "{}"
 
     JSONModel::HTTP.stream(uri, params) do |response|
       json = response.body
     end
 
-    json
+    JSON.parse(json)
   end
 
+  def resource_uri
+    JSONModel(:resource).uri_for(params[:id])
+  end
 
   def find_active_bulk_import_job
     Job.active.find do |j|
@@ -393,5 +397,14 @@ class ResourcesController < ApplicationController
     end
   end
 
+  # select the proper title from the titles list and insert it into the old 'title' field that the linkers are expecting
+  def select_title_for_subrecords
+    @resource['classifications'].each do |classification|
+      MultipleTitlesHelper.subrecord_select_primary_title!(classification['_resolved'], I18n.locale)
+    end
+    @resource['instances'].each do |instance|
+      MultipleTitlesHelper.subrecord_select_primary_title!(instance['digital_object']['_resolved'], I18n.locale)
+    end
+  end
 
 end

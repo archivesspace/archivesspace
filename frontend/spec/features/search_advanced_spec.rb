@@ -118,12 +118,12 @@ describe 'Advanced Search', js: true do
 
     click_on 'Search'
 
-    find(:xpath, "//table//tr[contains(., '#{@accession_1.title}')]")
-    find(:xpath, "//table//tr[contains(., '#{@resource_1.title}')]")
+    find(:xpath, "//table//tr[contains(., '#{@accession_1.titles[0]['title']}')]")
+    find(:xpath, "//table//tr[contains(., '#{@resource_1.titles[0]['title']}')]")
     find(:xpath, "//table//tr[contains(., '#{@digital_object_1.title}')]")
 
-    expect(page).to_not have_text @accession_2.title
-    expect(page).to_not have_text @resource_2.title
+    expect(page).to_not have_text @accession_2.titles[0]['title']
+    expect(page).to_not have_text @resource_2.titles[0]['title']
     expect(page).to_not have_text @digital_object_2.title
   end
 
@@ -140,12 +140,12 @@ describe 'Advanced Search', js: true do
 
     click_on 'Search'
 
-    find(:xpath, "//table//tr[contains(., '#{@accession_1.title}')]")
+    find(:xpath, "//table//tr[contains(., '#{@accession_1.titles[0]['title']}')]")
 
-    expect(page).to_not have_text @resource_1.title
+    expect(page).to_not have_text @resource_1.titles[0]['title']
     expect(page).to_not have_text @digital_object_1.title
-    expect(page).to_not have_text @accession_2.title
-    expect(page).to_not have_text @resource_2.title
+    expect(page).to_not have_text @accession_2.titles[0]['title']
+    expect(page).to_not have_text @resource_2.titles[0]['title']
     expect(page).to_not have_text @digital_object_2.title
   end
 
@@ -162,12 +162,12 @@ describe 'Advanced Search', js: true do
 
     click_on 'Search'
 
-    find(:xpath, "//table//tr[contains(., '#{@accession_1.title}')]")
-    find(:xpath, "//table//tr[contains(., '#{@resource_1.title}')]")
+    find(:xpath, "//table//tr[contains(., '#{@accession_1.titles[0]['title']}')]")
+    find(:xpath, "//table//tr[contains(., '#{@resource_1.titles[0]['title']}')]")
     find(:xpath, "//table//tr[contains(., '#{@digital_object_1.title}')]")
 
-    expect(page).to_not have_text @accession_2.title
-    expect(page).to_not have_text @resource_2.title
+    expect(page).to_not have_text @accession_2.titles[0]['title']
+    expect(page).to_not have_text @resource_2.titles[0]['title']
     expect(page).to_not have_text @digital_object_2.title
   end
 
@@ -183,12 +183,12 @@ describe 'Advanced Search', js: true do
 
     click_on 'Search'
 
-    find(:xpath, "//table//tr[contains(., '#{@resource_1.title}')]")
+    find(:xpath, "//table//tr[contains(., '#{@resource_1.titles[0]['title']}')]")
     find(:xpath, "//table//tr[contains(., '#{@digital_object_1.title}')]")
 
-    expect(page).to_not have_text @accession_1.title
-    expect(page).to_not have_text @accession_2.title
-    expect(page).to_not have_text @resource_2.title
+    expect(page).to_not have_text @accession_1.titles[0]['title']
+    expect(page).to_not have_text @accession_2.titles[0]['title']
+    expect(page).to_not have_text @resource_2.titles[0]['title']
     expect(page).to_not have_text @digital_object_2.title
   end
 
@@ -230,8 +230,8 @@ describe 'Advanced Search', js: true do
 
     click_on 'Search'
 
-    find(:xpath, "//table//tr[contains(., '#{@resource_1.title}')]")
-    find(:xpath, "//table//tr[contains(., '#{@accession_1.title}')]")
+    find(:xpath, "//table//tr[contains(., '#{@resource_1.titles[0]['title']}')]")
+    find(:xpath, "//table//tr[contains(., '#{@accession_1.titles[0]['title']}')]")
 
     find('.advanced-search-add-row-dropdown').click
     find('.advanced-search-add-bool-row').click
@@ -241,15 +241,15 @@ describe 'Advanced Search', js: true do
 
     click_on 'Search'
 
-    find(:xpath, "//table//tr[contains(., '#{@resource_1.title}')]")
-    expect(page).to_not have_text @accession_1.title
+    find(:xpath, "//table//tr[contains(., '#{@resource_1.titles[0]['title']}')]")
+    expect(page).to_not have_text @accession_1.titles[0]['title']
 
     select 'True', from: 'v1'
 
     click_on 'Search'
 
-    find(:xpath, "//table//tr[contains(., '#{@accession_1.title}')]")
-    expect(page).to_not have_text @resource_1.title
+    find(:xpath, "//table//tr[contains(., '#{@accession_1.titles[0]['title']}')]")
+    expect(page).to_not have_text @resource_1.titles[0]['title']
   end
 
   it 'filters records based on a date field search' do
@@ -277,7 +277,7 @@ describe 'Advanced Search', js: true do
 
     click_on 'Search'
 
-    find(:xpath, "//table//tr[contains(., '#{@accession_1.title}')]")
+    find(:xpath, "//table//tr[contains(., '#{@accession_1.titles[0]['title']}')]")
 
     select 'less than', from: 'dop2'
 

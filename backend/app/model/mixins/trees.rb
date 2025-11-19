@@ -138,7 +138,7 @@ module Trees
         end
 
         properties[node.id] = {
-          :title => node[:title],
+          :title => node[:title] || node[:display_string],
           :id => node.id,
           :record_uri => self.class.uri_for(node_type, node.id),
           :publish => node.respond_to?(:publish) ? node.publish===1 : true,
@@ -348,7 +348,7 @@ module Trees
     end
 
     result = {
-      :title => self.title,
+      :titles => self.title.map {|t| t.to_hash},
       :identifier => Identifiers.format(Identifiers.parse(self.identifier)),
       :children => top_nodes.sort_by(&:first).map {|_, node| self.class.assemble_tree(node, links, properties)},
       :uri => self.class.uri_for(root_type, self.id)

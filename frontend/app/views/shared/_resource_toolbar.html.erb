@@ -57,7 +57,7 @@
             :merge_destination => :_blank,
             :class => "btn btn-sm btn-default",
             :"data-confirmation" => true,
-            :"data-title" => I18n.t("actions.duplicate_resource", :title => @resource.title),
+            :"data-title" => I18n.t("actions.duplicate_resource", :title => title_for_display),
             :"data-message" => I18n.t("actions.duplicate_resource_confirm_message"),
             :"data-confirm-btn-label" => "#{I18n.t("actions.duplicate_resource")}",
             :"data-authenticity_token" => form_authenticity_token,
@@ -87,7 +87,7 @@
                               :controller => controller.controller_name,
                               :confirmation_title => t("actions.merge_confirm_title"),
                               :confirmation_msg => t("actions.merge_resource_confirm_message",
-                                                          :source => record.title)}
+                                                          :source => title_for_display)}
         %>
       <% end %>
       <% if user_can?('transfer_archival_record') %>
@@ -96,7 +96,7 @@
                   :locals => {:record => record,
                               :controller => controller.controller_name,
                               :confirmation_title => t("actions.transfer_confirm_title"),
-                              :confirmation_msg => t("actions.transfer_confirm_message", :target => record.title)}
+                              :confirmation_msg => t("actions.transfer_confirm_message", :target => title_for_display)}
         %>
       <% end %>
       <%
@@ -169,7 +169,7 @@
         <% end %>
       <% end %>
       <% if user_can?('delete_archival_record') %>
-        <%= button_delete_action url_for(:action => :delete, :id => record.id), { :"data-title" => t("actions.delete_confirm_title", :title => clean_mixed_content(record.title)) } %>
+        <%= button_delete_action url_for(:action => :delete, :id => record.id), { :"data-title" => t("actions.delete_confirm_title", :title => clean_mixed_content(title_for_display)) } %>
       <% end %>
     </div>
   </div>

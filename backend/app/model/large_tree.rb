@@ -49,6 +49,7 @@
 # displaying trees.
 
 require 'mixed_content_parser'
+require 'multiple_titles_helper'
 
 class LargeTree
 
@@ -92,13 +93,26 @@ class LargeTree
 
       # ANW-617: generate a slugged URL for inclusion in the JSON for the root node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
       digital_instance = relates_digital_instance?(@root_type) ? has_digital_instance?(db, @root_table, @root_record.id) : false
-      response = waypoint_response(child_count).merge("title" => @root_record.title,
-                                                      "uri" => @root_record.uri,
-                                                      "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
-                                                      "jsonmodel_type" => @root_table.to_s,
-                                                      "parsed_title" => MixedContentParser.parse(@root_record.title, '/'),
-                                                      "suppressed" => @root_record.suppressed,
-                                                      "has_digital_instance" => digital_instance)
+
+      # TODO: workaround until all records have multiple titles
+      if @root_record.title.class == Array
+        titles = @root_record.title.map {|t| t.to_hash}
+      else
+        titles = [{title: @root_record.title}]
+      end
+
+      parsed_titles = titles.map { |t| { title: MixedContentParser.parse(t['title'], '/'), language: t['language'] } }
+
+      response = waypoint_response(child_count).merge(
+        "title" => titles[0]['title'],   # TODO: workaround until all records have multiple titles
+        "titles" => titles,
+        "uri" => @root_record.uri,
+        "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
+        "jsonmodel_type" => @root_table.to_s,
+        "parsed_titles" => parsed_titles,
+        "suppressed" => @root_record.suppressed,
+        "has_digital_instance" => digital_instance)
+
       @decorators.each do |decorator|
         response = decorator.root(response, @root_record)
       end
@@ -128,6 +142,7 @@ class LargeTree
 
       digital_instance = relates_digital_instance?(@node_type) ? has_digital_instance?(db, @node_table, node_record.id) : false
       response = waypoint_response(child_count).merge("title" => node_record.display_string,
+                                                      "titles" => node_record.title.map { |t| t.to_hash },
                                                       "uri" => node_record.uri,
                                                       "position" => node_position,
                                                       "jsonmodel_type" => @node_table.to_s,
@@ -147,7 +162,7 @@ class LargeTree
     child_to_parent_map = {}
     node_to_position_map = {}
     node_to_root_record_map = {}
-    node_to_title_map = {}
+    node_to_titles_map = {}
 
     result = {}
 
@@ -163,11 +178,20 @@ class LargeTree
           .filter(:id => nodes_to_expand)
           .filter(published_filter)
           .select(:id, :parent_id, :root_record_id, :position, :display_string).each do |row|
+
           child_to_parent_map[row[:id]] = row[:parent_id]
           node_to_position_map[row[:id]] = row[:position]
-          node_to_title_map[row[:id]] = row[:display_string]
           node_to_root_record_map[row[:id]] = row[:root_record_id]
           next_nodes_to_expand << row[:parent_id]
+          node_to_titles_map[row[:id]] = []
+
+          db[:title].filter("#{@node_type}_id".to_sym => row[:id])
+            .select(:title, :language_id)
+            .each do |title_row|
+            title = title_row[:title]
+            language = db[:enumeration_value].where(id: title_row[:language_id]).select(:value).first&.fetch(:value)
+            node_to_titles_map[row[:id]].append({title: title, language: language})
+          end
         end
 
         nodes_to_expand = next_nodes_to_expand.compact.uniq
@@ -191,11 +215,19 @@ class LargeTree
       db[@root_table]
         .join(@node_table, :root_record_id => :id)
         .filter(Sequel.qualify(@node_table, :id) => node_ids)
-        .select(Sequel.qualify(@root_table, :id),
-                Sequel.qualify(@root_table, :title))
+        .select(Sequel.qualify(@root_table, :id))
         .distinct
         .each do |row|
-        root_record_titles[row[:id]] = row[:title]
+
+        root_record_titles[row[:id]] = []
+        db[:title].filter("#{@root_type}_id".to_sym => row[:id])
+        .select(:title, :language_id)
+        .each do |title_row|
+          title = title_row[:title]
+          language = db[:enumeration_value].where(id: title_row[:language_id]).select(:value).first&.fetch(:value)
+          root_record_titles[row[:id]].append({title: title, language: language})
+        end
+
       end
 
       ## Build up the path of waypoints for each node
@@ -209,22 +241,30 @@ class LargeTree
         while child_to_parent_map[current_node]
           parent_node = child_to_parent_map[current_node]
 
-          path << {"node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
-                   "root_record_uri" => root_record_uri,
-                   "jsonmodel_type" => @node_type,
-                   "title" => node_to_title_map.fetch(parent_node),
-                   "offset" => node_to_waypoint_map.fetch(current_node),
-                   "parsed_title" => MixedContentParser.parse(node_to_title_map.fetch(parent_node), '/')}
+          path << {
+            "node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
+            "root_record_uri" => root_record_uri,
+            "jsonmodel_type" => @node_type,
+            "titles" => node_to_titles_map.fetch(parent_node),
+            "offset" => node_to_waypoint_map.fetch(current_node),
+            "parsed_titles" => node_to_titles_map.fetch(parent_node).map { |t|
+              {title: MixedContentParser.parse(t[:title], '/'), language: t[:language]}
+            }
+          }
 
           current_node = parent_node
         end
 
-        path << {"node" => nil,
-                 "root_record_uri" => root_record_uri,
-                 "offset" => node_to_waypoint_map.fetch(current_node),
-                 "jsonmodel_type" => @root_type,
-                 "title" => root_record_titles[root_record_id],
-                 "parsed_title" => MixedContentParser.parse(root_record_titles[root_record_id], '/')}
+        path << {
+          "node" => nil,
+          "root_record_uri" => root_record_uri,
+          "offset" => node_to_waypoint_map.fetch(current_node),
+          "jsonmodel_type" => @root_type,
+          "titles" => root_record_titles[root_record_id],
+          "parsed_titles" => root_record_titles[root_record_id].map { |t|
+            {title: MixedContentParser.parse(t[:title], '/'), language: t[:language]}
+          }
+        }
 
         result[node_id] = path.reverse
       end
@@ -246,12 +286,20 @@ class LargeTree
                 :parent_id => parent_id)
         .filter(published_filter)
         .order(:position)
-        .select(:id, :repo_id, :title, :position, :slug, :suppressed)
+        .select(:id, :repo_id, :position, :slug, :suppressed)
         .offset(offset * WAYPOINT_SIZE)
         .limit(WAYPOINT_SIZE)
         .each do |row|
           record_ids << row[:id]
           records[row[:id]] = row
+          records[row[:id]][:titles] = []
+          db[:title].filter("#{@node_type}_id".to_sym => row[:id])
+          .select(:title, :language_id)
+          .each do |title_row|
+            title = title_row[:title]
+            language = db[:enumeration_value].where(id: title_row[:language_id]).select(:value).first&.fetch(:value)
+            records[row[:id]][:titles].append({title: title, language: language})
+          end
         end
 
       # Count up their children
@@ -272,18 +320,19 @@ class LargeTree
         row = records[id]
         child_count = child_counts.fetch(id, 0)
         digital_instance = child_digital_instances.include?(id)
+        parsed_titles = row[:titles].map { |t| {title: MixedContentParser.parse(t[:title], '/'), language: t[:language] } }
 
-        # ANW-617: generate a slugged URL for inclusion in the JSON for the standard node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
-        waypoint_response(child_count).merge("title" => row[:title],
-                                             "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@node_type.to_s, row[:repo_id], row[:slug]),
-                                             "parsed_title" => MixedContentParser.parse(row[:title], '/'),
-                                             "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
-                                             "position" => (offset * WAYPOINT_SIZE) + idx,
-                                             "parent_id" => parent_id,
-                                             "suppressed" => row[:suppressed],
-                                             "jsonmodel_type" => @node_type.to_s,
-                                             "has_digital_instance" => digital_instance)
-
+        waypoint_response(child_count).merge(
+          "title" => row[:titles].present? ? row[:titles][0][:title] : "",   # TODO: this is just to avoid breaking everything for now, will eventually be removed
+          "titles" => row[:titles],
+          "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@node_type.to_s, row[:repo_id], row[:slug]),
+          "parsed_titles" => parsed_titles,
+          "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
+          "position" => (offset * WAYPOINT_SIZE) + idx,
+          "parent_id" => parent_id,
+          "suppressed" => row[:suppressed],
+          "jsonmodel_type" => @node_type.to_s,
+          "has_digital_instance" => digital_instance)
       end
 
       @decorators.each do |decorator|

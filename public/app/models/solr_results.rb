@@ -43,3 +43,5 @@ class SolrResults
     @raw['highlighting'][result_id]
   end
 end
+#parse_record(@raw['results'][0], false)
+#*failing record is a resource with a digital object instance*

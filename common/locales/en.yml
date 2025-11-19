@@ -97,7 +97,7 @@ en:
     user_defined:
       <<: *user_defined_attributes
     title: Title
-    title_tooltip: |
+    titles_tooltip: |
         <p>A title expression for the digital object.  May be transcribed from the object, or inherited from a source resource/resource component record, or provided by the repository.</p>
         <p>The title of the digital object as a whole may be the same as that of the resource or resource component record to which the digital object record is linked. However, it can be different than that expressed in the linked resource record.</p>
         <p>Examples:</p>
@@ -1657,7 +1657,7 @@ en:
         <p>Indication if restrictions apply to the accession.</p>
         <p>See DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
     title: Title
-    title_tooltip: |
+    titles_tooltip: |
         <p>The title assigned to an accession or resource. The accession title
         need not be the same as the resource title. Moreover, a title need not
         be expressed for the accession record, as it can be implicitly
@@ -1806,7 +1806,7 @@ en:
   archival_object: &archival_object_attributes
     <<: [*section_tooltips, *slug_attributes]
     title: Title
-    title_tooltip: |
+    titles_tooltip: |
         <p>CONDITIONALLY REQUIRED FIELD: The title assigned to the materials described. An Archival Object must have either a Title or a Date subrecord.</p>
         <p>See DACS 2.3</p>
         <p>Examples:</p>
@@ -1953,7 +1953,7 @@ en:
     "[:id_0, :id_1, :id_2, :id_3]": Identifier
     "[:repo_id, :identifier]": Identifier
     identifier: Identifier
-    title_tooltip: |
+    titles_tooltip: |
         <p>REQUIRED FIELD. The title assigned to the resource.</p>
         <p>See DACS 2.3</p>
         <p>Examples:</p>
@@ -2476,6 +2476,7 @@ en:
     group_code_already_in_use: Group code must be unique within a repository
     one_or_more_required_(or_enter_a_title): one or more required (or enter a Title)
     must_not_be_an_empty_string_(or_enter_a_date): must not be an empty string (or enter a Date)
+    must_not_be_an_empty_list_(or_enter_a_date): must not be an empty list (or enter a Date)
     is_required_when__source__is_blank: is required when 'Source' is blank
     is_required_when__rules__is_blank: is required when 'Rules' is blank
     is_required_if_there_is_an_authority_id: is required if there is an 'Authority ID'

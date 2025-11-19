@@ -35,7 +35,7 @@ describe 'Events', js: true do
     select_repository @repository
     visit "/resources/#{@resource.id}"
     expect(page).to have_selector('h2', visible: true)
-    expect(find('h2').text).to eq "#{@resource.title} Resource"
+    expect(find('h2').text).to eq "#{@resource.titles[0]['title']} Resource"
 
     click_button('Add Event')
     expect(page).to have_selector('.dropdown-menu.add-event-form', visible: true)
@@ -160,7 +160,7 @@ describe 'Events', js: true do
 
     select 'Source', from: 'event_linked_records__0__role_'
 
-    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.title
+    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
@@ -191,7 +191,7 @@ describe 'Events', js: true do
 
     select 'Source', from: 'event_linked_records__0__role_'
 
-    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.title
+    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 
@@ -235,7 +235,7 @@ describe 'Events', js: true do
 
     select 'Source', from: 'event_linked_records__0__role_'
 
-    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.title
+    fill_in 'token-input-event_linked_records__0__ref_', with: @accession.titles[0]['title']
     dropdown_items = all('li.token-input-dropdown-item2')
     dropdown_items.first.click
 

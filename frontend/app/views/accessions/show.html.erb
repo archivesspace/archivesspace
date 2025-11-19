@@ -22,7 +22,6 @@
                                        :form => readonly,
                                        :record => @accession) %>
 
-            <%= readonly.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root), :escape => false} %>
             <%= readonly.label_and_fourpartid %>
 
             <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_urls] %>
@@ -57,6 +56,10 @@
           <% end %>
 
           <% readonly.emit_template("accession") %>
+
+          <% if @accession.titles.length > 0 %>
+            <%= render_aspace_partial :partial => "titles/show", :locals => { :titles => @accession.titles, :section_id => "accession_titles_" } %>
+          <% end %>
 
           <% if @accession.lang_materials.length > 0 %>
             <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => @accession.lang_materials, :section_id => "accession_lang_materials_" } %>

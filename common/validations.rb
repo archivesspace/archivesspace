@@ -608,9 +608,9 @@ module JSONModel::Validations
   def self.check_archival_object(hash)
     errors = []
 
-    if (!hash.has_key?("dates") || hash["dates"].empty?) && (!hash.has_key?("title") || hash["title"].empty?)
+    if (!hash.has_key?("dates") || hash["dates"].empty?) && (!hash.has_key?("titles") || hash["titles"].empty?)
       errors << ["dates", "one or more required (or enter a Title)"]
-      errors << ["title", "must not be an empty string (or enter a Date)"]
+      errors << ["titles", "must not be an empty list (or enter a Date)"]
     end
 
     errors
@@ -632,7 +632,7 @@ module JSONModel::Validations
   def self.check_digital_object_component(hash)
     errors = []
 
-    fields = ["dates", "title", "label"]
+    fields = ["dates", "titles", "label"]
 
     if fields.all? {|field| !hash.has_key?(field) || hash[field].empty?}
       fields.each do |field|

@@ -8,6 +8,7 @@
     "parent" => "abstract_archival_object",
     "uri" => "/repositories/:repo_id/digital_objects",
     "properties" => {
+      "titles" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:title) object"}},
 
       "digital_object_id" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
       "level" => {"type" => "string", "dynamic_enum" => "digital_object_level"},

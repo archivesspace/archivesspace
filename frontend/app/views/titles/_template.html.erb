@@ -1,0 +1,8 @@
+<% define_template "title", jsonmodel_definition(:title) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_textarea "title", :field_opts => {:class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"} %>
+    <%= form.label_and_select "type", form.possible_options_for("type", true) %>
+    <%= form.label_and_select "language", form.possible_options_for("language", true) %>
+    <%= form.label_and_select "script", form.possible_options_for("script", true) %>
+  </div>
+<% end %>

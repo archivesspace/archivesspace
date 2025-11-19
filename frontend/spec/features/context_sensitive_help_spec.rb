@@ -10,8 +10,9 @@ describe 'Context Sensitive Help', js: true do
 
   it 'displays a clickable tooltip for a field label' do
     visit('/accessions/new')
+    click_on('Add Title')
 
-    find('label[for="accession_title_"]').hover
+    find('label[for="accession_titles__0__title_"]').hover
     # wait for the tooltip to appear
     find('.tooltip-inner')
     expect(page).to have_content('The title assigned')

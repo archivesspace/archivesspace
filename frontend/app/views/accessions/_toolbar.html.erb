@@ -49,7 +49,7 @@
                     :locals => {:record => @accession,
                                 :controller => controller.controller_name,
                                 :confirmation_title => t("actions.transfer_confirm_title"),
-                                :confirmation_msg => t("actions.transfer_confirm_message", :target => @accession.title)}
+                                :confirmation_msg => t("actions.transfer_confirm_message", :target => MultipleTitlesHelper.determine_primary_title(@accession.titles, session[:locale]))}
           %>
         <% end %>
         <div class="btn-group" id="other-dropdown">
@@ -90,7 +90,7 @@
             <% end %>
           <% end %>
           <% if user_can?('delete_archival_record') %>
-            <%= button_delete_action url_for(:controller => :accessions, :action => :delete, :id => @accession.id), { :"data-title" => t("actions.delete_confirm_title", :title => clean_mixed_content(@accession.title)) } %>
+            <%= button_delete_action url_for(:controller => :accessions, :action => :delete, :id => @accession.id), { :"data-title" => t("actions.delete_confirm_title", :title => clean_mixed_content(MultipleTitlesHelper.determine_primary_title(@accession.titles, session[:locale]))) } %>
           <% end %>
         <% end %>
       </div>

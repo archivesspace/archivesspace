@@ -1,3 +1,5 @@
+require 'multiple_titles_helper'
+
 class Record
 
   include ManipulateNode
@@ -10,7 +12,7 @@ class Record
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
               :identifier, :classifications, :level, :other_level, :linked_digital_objects,
-              :container_titles_and_uris
+              :container_titles_and_uris, :primary_title, :titles
 
   attr_accessor :criteria, :highlights
 
@@ -23,7 +25,6 @@ class Record
     else
       @json = ASUtils.json_parse(solr_result['json']) || {}
     end
-
     @full = full
 
     @primary_type = raw['primary_type']
@@ -31,6 +32,12 @@ class Record
     @identifier = parse_identifier
 
     @resolved_resource = parse_resource
+
+    if json['titles']
+      @titles = json['titles']
+    else
+      @title = json['title']
+    end
 
     @level = raw['level']
     @other_level = json['other_level']
@@ -91,10 +98,19 @@ class Record
   end
 
   def parse_full_title(infinite_item = false)
-    unless infinite_item || json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
-      return "#{json['title']}, #{json['display_string']}"
+    pt = primary_title
+    unless infinite_item || json['title_inherited'].blank? || (json['display_string'] || '') == pt
+      return "#{pt}, #{json['display_string']}"
     end
-    return process_mixed_content_title(json['display_string'] || json['title'])
+    return process_mixed_content_title(json['display_string'] || pt)
+  end
+
+  def primary_title
+    if @titles
+      MultipleTitlesHelper.determine_primary_title(@titles, $locale, true)
+    else
+      display_string
+    end
   end
 
   private
