@@ -33,12 +33,14 @@ gem 'rrtf'
 gem 'addressable', '= 2.8.7'
 gem 'faraday', '< 2'
 
+# We load simplecov only when running e2e tests and not in normal production mode 
+gem 'simplecov', require: false
+
 group :test do
   gem 'factory_bot', '= 6.2.1'
   gem 'rack-test'
   gem 'rspec'
   gem 'rspec-core'
-  gem 'simplecov'
 end
 
 group :development, :test do
