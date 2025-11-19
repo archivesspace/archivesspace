@@ -1023,3 +1023,4 @@ uk:
         occupation_subject: Тема професії
       action:
         add: Додайте форму імені
+        make_authorized: Введіть авторизоване ім’я
