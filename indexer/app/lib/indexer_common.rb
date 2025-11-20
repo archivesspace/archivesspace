@@ -485,6 +485,7 @@ class IndexerCommon
       if doc['primary_type'] == 'repository'
         doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
+        doc['title_sort'] = clean_for_sort(record['record']['display_string'])
         doc['repo_sort'] = record['record']['display_string']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
@@ -867,6 +868,7 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'container_profile'
         doc['title'] = record['record']['display_string']
+        doc['title_sort'] = clean_for_sort(record['record']['display_string'])
         doc['display_string'] = record['record']['display_string']
         doc['note'] = record['record']['note']
 
@@ -891,6 +893,7 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'location_profile'
         doc['title'] = record['record']['display_string']
+        doc['title_sort'] = clean_for_sort(record['record']['display_string'])
         doc['display_string'] = record['record']['display_string']
 
         ['width', 'height', 'depth'].each do |property|
@@ -1105,6 +1108,7 @@ class IndexerCommon
     repo_id = get_record_scope(uri)
 
     return false if (repo_id == "global")
+    return false if values['repository'].nil? || values['repository']['_resolved'].nil?
 
     values['repository']['_resolved']['publish'] == false
   end
