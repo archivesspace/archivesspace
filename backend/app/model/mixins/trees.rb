@@ -348,7 +348,7 @@ module Trees
     end
 
     result = {
-      :titles => self.title.map {|t| t.to_hash},
+      :titles => self.titles.map {|t| t.to_hash},
       :identifier => Identifiers.format(Identifiers.parse(self.identifier)),
       :children => top_nodes.sort_by(&:first).map {|_, node| self.class.assemble_tree(node, links, properties)},
       :uri => self.class.uri_for(root_type, self.id)
