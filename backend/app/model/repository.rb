@@ -118,6 +118,11 @@ class Repository < Sequel::Model(:repository)
                          :group_code => "repository-viewers",
                          :description => I18n.t("group.default_group_names.repository_viewers", :repo_code => repo_code),
                          :grants_permissions => ["view_repository", "view_pui", "view_pui_global"]
+                       },
+                       {
+                         :group_code => "repository-pui-viewers",
+                         :description => I18n.t("group.default_group_names.pui_viewers"),
+                         :grants_permissions => ["view_pui", "view_pui_global"]
                        }]
 
     RequestContext.open(:repo_id => self.id) do

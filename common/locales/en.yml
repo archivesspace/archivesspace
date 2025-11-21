@@ -1894,6 +1894,7 @@ en:
       advanced_data_entry: "Advanced Data Entry users of the %{repo_code} repository"
       basic_data_entry: "Basic Data Entry users of the %{repo_code} repository"
       repository_viewers: "Viewers of the %{repo_code} repository"
+      pui_viewers: "Viewers of the PUI (system-wide)"
     permission_types:
       cancel_importer_job: cancel <b>import jobs</b> (in this repository)
       cancel_job: cancel <b>background jobs</b> (in this repository)
