@@ -194,7 +194,7 @@ describe 'Search Listing', js: true do
     end
 
     describe 'results table sorting' do
-      include_context 'sortable results table setup'
+      include_context 'results table setup'
 
       let(:now) { Time.now.to_i }
       let(:record_type) { 'multi' }
@@ -224,7 +224,7 @@ describe 'Search Listing', js: true do
         }
       end
 
-      it_behaves_like 'sortable results table'
+      it_behaves_like 'results table sorting'
     end
   end
 

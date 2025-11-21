@@ -170,53 +170,84 @@ describe 'Classifications', js: true do
   end
 
   context 'index view' do
-    describe 'results table sorting' do
-      include_context 'sortable results table setup'
-
+    describe 'results table' do
       let(:now) { Time.now.to_i }
       let(:record_type) { 'classification' }
       let(:browse_path) { '/classifications' }
-      let(:default_sort_key) { 'title_sort' }
-      let(:sorting_in_url) { true }
       let(:record_1) { create(:classification, title: "Classification 1 #{now}", identifier: "Z") }
       let(:record_2) { create(:classification, title: "Classification 2 #{now}", identifier: "A") }
       let(:record_3) { create(:classification_term, classification: { 'ref' => record_2.uri }) }
       let(:initial_sort) { [record_1.title, record_2.title] }
-      let(:additional_browse_columns) do
-        {
-          2 => 'Has classification terms?',
-          3 => 'Identifier',
-          4 => 'URI'
+
+      describe 'sorting' do
+        include_context 'results table setup'
+
+        let(:default_sort_key) { 'title_sort' }
+        let(:sorting_in_url) { true }
+        let(:additional_browse_columns) do
+          {
+            2 => 'Has classification terms?',
+            3 => 'Identifier',
+            4 => 'URI'
+          }
+        end
+        let(:column_headers) {
+          {
+            'Title' => 'title_sort',
+            'Has classification terms?' => 'has_classification_terms',
+            'Identifier' => 'identifier_sort',
+            'URI' => 'uri'
+          }
         }
-      end
-      let(:column_headers) {
-        {
-          'Title' => 'title_sort',
-          'Has classification terms?' => 'has_classification_terms',
-          'Identifier' => 'identifier_sort',
-          'URI' => 'uri'
-        }
-      }
-      let(:sort_expectations) do
-        {
-          'title_sort' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
-          'has_classification_terms' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
-          'identifier_sort' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
-          'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
-        }
+        let(:sort_expectations) do
+          {
+            'title_sort' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
+            'has_classification_terms' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
+            'identifier_sort' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
+            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+          }
+        end
+
+        before do
+          # Create and update record_2 before 'sortable results table setup' to sort on has_classification_terms
+          record_1
+          record_2
+          record_3
+          updated_classification = JSONModel(:classification).find(record_2.id)
+          updated_classification.save
+          run_index_round
+        end
+
+        it_behaves_like 'results table sorting'
       end
 
-      before do
-        # Create and update record_2 before 'sortable results table setup' to sort on has_classification_terms
-        record_1
-        record_2
-        record_3
-        updated_classification = JSONModel(:classification).find(record_2.id)
-        updated_classification.save
-        run_index_round
-      end
+      # Skipped due to ANW-2543 has_classification_terms issue when running specs
+      xdescribe 'boolean columns' do
+        include_context 'results table setup'
 
-      it_behaves_like 'sortable results table'
+        let(:additional_browse_columns) do
+          {
+            2 => 'Has classification terms?'
+          }
+        end
+        let(:boolean_column_expectations) do
+          {
+            'has_classification_terms' => %w[False True]
+          }
+        end
+
+        before do
+          # Create and update record_2 before 'sortable results table setup' to have classification terms
+          record_1
+          record_2
+          record_3
+          updated_classification = JSONModel(:classification).find(record_2.id)
+          updated_classification.save
+          run_index_round
+        end
+
+        it_behaves_like 'results table boolean columns'
+      end
     end
   end
 end
