@@ -23,6 +23,7 @@ class AccessionReceiptReport < AbstractReport
     end
   end
 
+  # TODO: implement the logic of choosing from mlc titles in sql rather than MAX(title)
   def query_string
     date_condition = if @date_scope
                       "accession_date > 
@@ -35,8 +36,8 @@ class AccessionReceiptReport < AbstractReport
     "select
       id,
       identifier as accession_number,
-      title as record_title,
       accession_date,
+      record_title,
       container_summary,
       extent_number,
       extent_type
@@ -50,6 +51,12 @@ class AccessionReceiptReport < AbstractReport
             as container_summary
         from extent
         group by accession_id) as extent_cnt
+      natural left outer join
+        (select
+          accession_id as id,
+          MAX(title) as record_title
+        from title
+        group by accession_id) as title_cnt
     where repo_id = #{db.literal(@repo_id)} and #{date_condition}"
   end
 

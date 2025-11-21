@@ -14,8 +14,9 @@ describe "Deletion of Archival Records" do
 
     acc = Accession[Title.where(:title => "A test accession").first.accession_id]
     expect(acc).not_to be_nil
+    expect(Accession[acc.id]).not_to be_nil
     acc.delete
-    expect(Accession[Title.where(:title => "A test accession").first.accession_id]).to be_nil
+    expect(Accession[acc.id]).to be_nil
 
     # No more relationship either
     expect(resource.my_relationships(:spawned)).to eq([])

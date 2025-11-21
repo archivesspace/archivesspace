@@ -8,8 +8,7 @@ class GenerateSlugsRunner < JobRunner
   def generate_slug_for(thing)
     slug = nil
     elapsed = Benchmark.measure do
-      json_like_hash = thing.values
-
+      json_like_hash = thing.class.to_jsonmodel(thing)
       # Repository always uses repo_code for slug
       if thing.class == Repository
         slug = SlugHelpers.clean_slug(json_like_hash[:repo_code])
