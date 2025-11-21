@@ -10,7 +10,7 @@ describe 'DigitalObjectComponent model' do
     bib_note = build(:json_note_bibliography)
     do_note = build(:json_note_digital_object)
     doc.notes = [bib_note, do_note]
-    expect(DigitalObjectComponent[doc.id].title[0].title).to eq(doc.titles[0]['title'])
+    expect(DigitalObjectComponent[doc.id].title).to eq(doc.titles[0]['title'])
   end
 
   it "auto generates a 'label' based on the date and title when both are present" do
