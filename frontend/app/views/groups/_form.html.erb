@@ -1,4 +1,5 @@
 <%= form.label_and_textfield "description", :required => true %>
+<%= form.hidden_input "group_code", form.obj["group_code"] %>
 
 <div class="form-group group-member-form-group d-flex align-items-start">
   <label for="group_member_usernames_" class="control-label col-sm-2 text-right font-weight-bold"><%= t("group.member_usernames") %></label>
