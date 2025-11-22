@@ -103,35 +103,6 @@ describe 'User model' do
     expect(Group[group[:id]].user).to include(new_user)
   end
 
-  context 'when the pui viewer group' do
-    let(:group) { Group.find(:group_code => 'repository-pui-viewers', :repo_id => $repo_id) }
-    let(:global_group) { Group.find(:group_code => 'global-pui-viewers', :repo_id => Repository.global_repo_id) }
-
-    it "can add groups to a user" do
-      new_user = create(:user)
-      new_user.add_to_groups(group)
-
-      expect(Group[group[:id]].user).to include(new_user)
-      expect(Group[global_group[:id]].user).to include(new_user)
-    end
-
-    context 'when there is more than one repo' do
-      let(:new_repo) { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "newrepo", :name => "My new test repository")) }
-
-      it "can add groups to a user" do
-        new_repo
-
-        new_repo_group = Group.find(:group_code => 'repository-pui-viewers', :repo_id => new_repo.id)
-        new_user = create(:user)
-        new_user.add_to_groups(group)
-
-        expect(Group[group[:id]].user).to include(new_user)
-        expect(Group[global_group[:id]].user).to include(new_user)
-        expect(Group[new_repo_group[:id]].user).to include(new_user)
-      end
-    end
-  end
-
 
   it "notifies about ACL changes when new groups are added to a user" do
 

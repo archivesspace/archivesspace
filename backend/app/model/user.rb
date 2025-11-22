@@ -222,11 +222,6 @@ class User < Sequel::Model(:user)
 
     Array(groups).each do |group|
       group.add_user(self)
-
-      if group.group_code = 'repository-pui-viewers'
-        global_group = Group.find(:group_code => 'global-pui-viewers', :repo_id => Repository.global_repo_id)
-        global_group.add_user(self)
-      end
     end
 
     self.class.broadcast_changes

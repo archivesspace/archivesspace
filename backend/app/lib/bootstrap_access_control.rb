@@ -364,15 +364,9 @@ class ArchivesSpaceService
                       ["mediate_edits"])
   end
 
-  def self.create_global_pui_viewer_grp
-    self.create_group(Group.VIEW_PUI_GROUP_CODE, "Viewers of the PUI", [], ["view_pui"])
-  end
-
   set_up_base_permissions
   create_search_user
   create_public_user
   create_staff_user
-
-  create_global_pui_viewer_grp
 
 end

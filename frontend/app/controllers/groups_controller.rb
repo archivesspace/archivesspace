@@ -2,8 +2,6 @@ class GroupsController < ApplicationController
 
   set_access_control "manage_repository" => [:new, :index, :edit, :create, :update, :show, :delete]
 
-  after_action :update_global_group, only: :update, if: -> { params[:group][:group_code] == 'repository-pui-viewers' }
-
   def new
     @group = JSONModel(:group).new._always_valid!
   end
@@ -62,20 +60,6 @@ class GroupsController < ApplicationController
     group.delete
 
     redirect_to(:controller => :groups, :action => :index, :deleted_uri => group.uri)
-  end
-
-  private
-
-  def update_global_group
-   # Need to figure out how to get this global group uri
-    uri = "/repositories/1/groups/5"
-    global_group = JSONModel::HTTP::get_json(uri)
-    global_group['member_usernames'] = Array(params[:group][:member_usernames])
-
-    post_data = global_group
-    post_uri = "#{JSONModel::HTTP.backend_url}#{uri}"
-    response = JSONModel::HTTP::post_json(URI(post_uri), post_data.to_json)
-    result = ASUtils.json_parse(response.body)
   end
 
 end
