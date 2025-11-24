@@ -1016,11 +1016,71 @@ uk:
           до всіх місць, згенерованих на основі <strong>діапазонів 
           координат</strong> нижче.
         location_batch_update_info: Введіть значення, які потрібно застосувати.
+        ranges_info: Зверніть увагу, що будь-які поля «Координати», введені у 
+          вищевказане поле <strong>Базове розташування</strong>, будуть замінені
+          значеннями, згенерованими на основі наведених нижче діапазонів. Буде 
+          створено максимум %{max_range} розташування.
+        number_to_create: Кількість локацій
+        warning: Залежно від розміру ваших діапазонів, цей процес може тривати 
+          кілька хвилин.
+      action:
+        create: Створити місця розташування
+        update: Оновити місцезнаходження
+        preview: Попередній перегляд місць розташування
+        preview_short: Попередній перегляд
+        creating: Виконується пакет...
   name:
     _frontend:
       section:
         function_subject: Суб’єкт функції
         occupation_subject: Тема професії
+        use_date: Дата(и) використання імені
+        dates: Дати
+        parallel_names: Паралельні назви
+        place_subject: Розмістити тему
+        topic_subject: Тема Тема
+        name_subject: Ім'я Тема
       action:
         add: Додайте форму імені
         make_authorized: Введіть авторизоване ім’я
+        make_authorized_tooltip: Використовується для позначення форми імені як 
+          авторизованої версії імені, встановленої авторитетними джерелами, 
+          такими як LCNAF.
+        make_display_name: Зробити відображуваним ім'ям
+        make_display_name_tooltip: Використовується для позначення того, що ця 
+          форма імені має використовуватися для відображень, коли із записом 
+          агента пов’язано кілька форм імені.
+        make_primary: Зробити основним
+        make_primary_tooltip: Зробити основною підказкою
+  note:
+    _frontend:
+      preview:
+        raw: Сире
+      action:
+        note_definedlist_item: Додати елемент
+        expand: Розгорнути
+        collapse: Згорнути
+        apply_note_order: Застосувати стандартний порядок нот
+      note_outline:
+        placeholder: Додати текст примітки
+        empty_level: Порожній рівень -- Використовуйте кнопки вище, щоб додати 
+          нові елементи або підрівні
+  related_accession:
+    _frontend:
+      action:
+        add: Додати пов'язаний доступ
+  related_agent:
+    dates: Дати стосунків
+    _frontend:
+      messages:
+        select_a_type: <em>Будь ласка, виберіть тип зв'язку</em>
+      action:
+        add: Додати пов'язаного агента
+  related_resource:
+    _frontend:
+      action:
+        add: Додати пов'язаний ресурс
+  revision_statement:
+    _frontend:
+      action:
+        add: Додати звіт про редакцію
