@@ -1084,3 +1084,22 @@ uk:
     _frontend:
       action:
         add: Додати звіт про редакцію
+  repository_oai:
+    oai_is_disabled: Збір даних OAI вимкнено?
+    oai_sets_available: Набори, що входять до OAI
+  repository:
+    _frontend:
+      messages:
+        created: Створено репозиторій
+        updated: Репозиторій збережено
+        deleted: Репозиторій видалено
+        selected: Репозиторій наразі вибрано
+        selected_short: Вибрано
+        changed: Репозиторій <strong>%{repository_repo_code</strong> тепер 
+          активний
+  resource:
+    _frontend:
+      messages:
+        deleted: Ресурс <strong>%{resource_title}<strong> видалено
+        published: Ресурс <strong>%{resource_title</strong>, його підзаписи та 
+          компоненти опубліковано
