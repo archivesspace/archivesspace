@@ -1056,6 +1056,10 @@ uk:
     _frontend:
       preview:
         raw: Сире
+        raw_title: Необроблений вміст нотатки
+        parsed: Відформатовано
+        parsed_title: Як примітка буде відображена у публічному додатку
+        content: Зміст
       action:
         note_definedlist_item: Додати елемент
         expand: Розгорнути
@@ -1065,6 +1069,8 @@ uk:
         placeholder: Додати текст примітки
         empty_level: Порожній рівень -- Використовуйте кнопки вище, щоб додати 
           нові елементи або підрівні
+      messages:
+        select_a_note_type: <em>Будь ласка, виберіть тип нотатки</em>
   related_accession:
     _frontend:
       action:
