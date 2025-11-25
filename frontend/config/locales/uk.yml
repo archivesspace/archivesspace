@@ -1066,6 +1066,16 @@ uk:
         collapse: Згорнути
         apply_note_order: Застосувати стандартний порядок нот
         add: Додати примітку
+        add_for_contact_note: Додати контактну примітку
+        add_content_item: Додати елемент контенту
+        add_note_orderedlist: Додати елемент
+        add_sub_note: Додати підпримітку
+        add_note_index_item: Додати елемент
+        add_note_chronology_item: Додати подію
+        add_event: Додати елемент події
+        add_note_bibliography_item: Додати елемент
+        add_note_outline_level_item: Додати елемент
+        add_note_outline_level_level: Додати рівень
       note_outline:
         placeholder: Додати текст примітки
         empty_level: Порожній рівень -- Використовуйте кнопки вище, щоб додати 
@@ -1104,9 +1114,50 @@ uk:
         selected_short: Вибрано
         changed: Репозиторій <strong>%{repository_repo_code</strong> тепер 
           активний
+        create_first_repository: Щоб створити свій перший репозиторій, натисніть
+          меню <strong>Система</strong> вище, а потім виберіть <strong>Керування
+          репозиторіями</strong>.
+        no_access_to_repositories: <p>У вас немає доступу до жодних 
+          репозиторіїв.</p><p>Будь ласка, зверніться до свого системного 
+          адміністратора, щоб запросити доступ.</p>
+        continue_with_transfer: Продовжити переказ?
+        transfer_failed: Перенесення не вдалося завершити через такі помилки
   resource:
     _frontend:
       messages:
         deleted: Ресурс <strong>%{resource_title}<strong> видалено
         published: Ресурс <strong>%{resource_title</strong>, його підзаписи та 
           компоненти опубліковано
+        unpublished: Публікацію ресурсу <strong>%{resource_title</strong>, його 
+          дочірніх об'єктів, підзаписів та компонентів скасовано
+        merge_description: Виберіть ресурси нижче для об'єднання
+        please_select_a_resource_to_merge: Будь ласка, виберіть ресурс
+        merged: Об'єднані ресурси
+        transfer_description: Перенести цей ресурс до...
+        transfer_target: Виберіть репозиторій для перенесення
+        unsuppressed: Ресурс <strong>%{resource_title</strong> розблоковано
+        suppressed: Ресурс <strong>%{resource_title}<strong> приховано
+        suppressed_info: Ресурс приховано та не можна редагувати
+        delete_conflict: 'Ресурс не вдалося видалити: <pre>%{error}<pre>'
+      section:
+        basic_information: Основна інформація
+        finding_aid: Пошук даних про допомогу
+      action:
+        add_child: Додати дитину
+        create: Створити ресурс
+        load_bulk: Завантажити через електронну таблицю
+        save: Зберегти ресурс
+        delete_multiple: Видалити ресурси
+      remove_subrecord: Видалити підзапис
+    external_ark_url: Зовнішня URL-адреса ARK
+    external_ark_url_tooltip: Постійний ідентифікатор ключа архівного ресурсу 
+      (ARK), згенерований поза межами АрхівзСпєс. Якщо це поле має значення, 
+      воно має пріоритет над ARK, згенерованим в АрхівзСпєс.
+    linker:
+      browse: Переглянути ресурси
+      link_title: Переглянути
+      link_to: Посилання на ресурс
+  preference:
+    _frontend:
+      messages:
+        updated: Налаштування оновлено
