@@ -418,7 +418,7 @@ describe "EAD3 export mappings" do
 
 
     it "maps {archival_object}.title to {desc_path}/did/unittitle" do
-      mt(object.title, "#{desc_path}/did/unittitle", :markup)
+      mt(object.titles.first['title'], "#{desc_path}/did/unittitle", :markup)
     end
 
     it "maps {archival_object}.uri to {desc_path}/did/unitid[@localtype='aspace_uri']" do
@@ -1140,7 +1140,7 @@ describe "EAD3 export mappings" do
     def description_content(obj)
       date = obj.dates[0] || {}
       content = ""
-      content << "#{obj.title}" if obj.title
+      content << "#{obj.titles.first['title']}" if obj.titles.first['title']
       content << ": " if date['expression'] || date['begin']
       if date['expression']
         content << date['expression']
@@ -1208,7 +1208,7 @@ describe "EAD3 export mappings" do
               mt(fv['use_statement'], path, 'localtype')
             end
 
-            mt(obj.title, path, 'linktitle')
+            mt(obj.titles.first['title'], path, 'linktitle')
             mt(content, "#{path}/descriptivenote/p")
           end
         end
