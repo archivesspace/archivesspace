@@ -402,15 +402,12 @@ describe 'Assessments', js: true do
   end
 
   context 'index view' do
-    describe 'results table sorting' do
-      include_context 'sortable results table setup'
+    describe 'results table' do
+      include_context 'results table setup'
 
       let(:now) { Time.now.to_i }
       let(:record_type) { 'assessment' }
       let(:browse_path) { '/assessments' }
-      let(:default_sort_key) { 'assessment_id' }
-      let(:sorting_in_url) { true }
-      let(:primary_column_class) { 'assessment_id' }
       let(:record_1) do
         create(:json_assessment, {
           'records' => [{'ref' => create(:resource).uri}],
@@ -442,48 +439,68 @@ describe 'Assessments', js: true do
           7 => 'URI'
         }
       end
-      let(:column_headers) do
-        {
-          'Survey Begin' => 'assessment_survey_begin',
-          'Review Required' => 'assessment_review_required',
-          'Assessment Completed' => 'assessment_completed',
-          'Sensitive Material' => 'assessment_sensitive_material',
-          'Inactive' => 'assessment_inactive',
-          'URI' => 'uri',
-          'Assessment ID' => 'assessment_id'
-        }
-      end
-      let(:sort_expectations) do
-        {
-          'assessment_survey_begin' => {
-            asc: [record_2.id.to_s, record_1.id.to_s],
-            desc: [record_1.id.to_s, record_2.id.to_s]
-          },
-          'assessment_review_required' => {
-            asc: [record_1.id.to_s, record_2.id.to_s],
-            desc: [record_2.id.to_s, record_1.id.to_s]
-          },
-          'assessment_completed' => {
-            asc: [record_2.id.to_s, record_1.id.to_s],
-            desc: [record_1.id.to_s, record_2.id.to_s]
-          },
-          'assessment_sensitive_material' => {
-            asc: [record_1.id.to_s, record_2.id.to_s],
-            desc: [record_2.id.to_s, record_1.id.to_s]
-          },
-          'assessment_inactive' => {
-            asc: [record_2.id.to_s, record_1.id.to_s],
-            desc: [record_1.id.to_s, record_2.id.to_s]
-          },
-          'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.id }),
-          'assessment_id' => {
-            asc: [record_1.id.to_s, record_2.id.to_s],
-            desc: [record_2.id.to_s, record_1.id.to_s]
-          },
-        }
+
+      describe 'sorting' do
+        let(:default_sort_key) { 'assessment_id' }
+        let(:sorting_in_url) { true }
+        let(:primary_column_class) { 'assessment_id' }
+        let(:column_headers) do
+          {
+            'Survey Begin' => 'assessment_survey_begin',
+            'Review Required' => 'assessment_review_required',
+            'Assessment Completed' => 'assessment_completed',
+            'Sensitive Material' => 'assessment_sensitive_material',
+            'Inactive' => 'assessment_inactive',
+            'URI' => 'uri',
+            'Assessment ID' => 'assessment_id'
+          }
+        end
+        let(:sort_expectations) do
+          {
+            'assessment_survey_begin' => {
+              asc: [record_2.id.to_s, record_1.id.to_s],
+              desc: [record_1.id.to_s, record_2.id.to_s]
+            },
+            'assessment_review_required' => {
+              asc: [record_1.id.to_s, record_2.id.to_s],
+              desc: [record_2.id.to_s, record_1.id.to_s]
+            },
+            'assessment_completed' => {
+              asc: [record_2.id.to_s, record_1.id.to_s],
+              desc: [record_1.id.to_s, record_2.id.to_s]
+            },
+            'assessment_sensitive_material' => {
+              asc: [record_1.id.to_s, record_2.id.to_s],
+              desc: [record_2.id.to_s, record_1.id.to_s]
+            },
+            'assessment_inactive' => {
+              asc: [record_2.id.to_s, record_1.id.to_s],
+              desc: [record_1.id.to_s, record_2.id.to_s]
+            },
+            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.id }),
+            'assessment_id' => {
+              asc: [record_1.id.to_s, record_2.id.to_s],
+              desc: [record_2.id.to_s, record_1.id.to_s]
+            },
+          }
+        end
+
+        it_behaves_like 'results table sorting'
       end
 
-      it_behaves_like 'sortable results table'
+      describe 'boolean columns' do
+        let(:boolean_column_expectations) do
+          {
+            'assessment_review_required'    => %w[False True],
+            'assessment_sensitive_material' => %w[False True],
+            'assessment_inactive'           => %w[True False],
+            'assessment_completed'          => %w[True False],
+          }
+        end
+
+        it_behaves_like 'results table boolean columns'
+      end
+
     end
   end
 end

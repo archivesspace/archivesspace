@@ -206,14 +206,10 @@ describe 'Repositories', js: true do
   end
 
   context 'index view' do
-    describe 'results table sorting' do
-      include_context 'sortable results table setup'
-
+    describe 'results table' do
       let(:now) { Time.now.to_i }
       let(:record_type) { 'repository' }
       let(:browse_path) { '/repositories' }
-      let(:default_sort_key) { 'title_sort' }
-      let(:sorting_in_url) { true }
       let(:use_repo_for_sorting_context) { false }
       # Repo names are not present in the table but are used here to filter by now with out underscores
       let(:record_1) do
@@ -234,29 +230,48 @@ describe 'Repositories', js: true do
       end
       let(:filter_results) { true }
       let(:initial_sort) { [record_1.repo_code, record_2.repo_code] }
-      let(:additional_browse_columns) { { 4 => 'URI' } }
-      let(:column_headers) do
-        {
-          'Title' => 'title_sort',
-          'Published' => 'publish', # Solr reindexing of publish works for repositories but not yet for other record types
-          "URI" => "uri"
-        }
-      end
-      let(:sort_expectations) do
-        {
-          'title_sort' => {
-            asc: [record_1.repo_code, record_2.repo_code],
-            desc: [record_2.repo_code, record_1.repo_code]
-          },
-          'publish' => {
-            asc: [record_2.repo_code, record_1.repo_code],
-            desc: [record_1.repo_code, record_2.repo_code]
-          },
-          'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.repo_code })
-        }
+
+      describe 'sorting' do
+        include_context 'results table setup'
+
+        let(:default_sort_key) { 'title_sort' }
+        let(:sorting_in_url) { true }
+        let(:additional_browse_columns) { { 4 => 'URI' } }
+        let(:column_headers) do
+          {
+            'Title' => 'title_sort',
+            'Published' => 'publish', # Solr reindexing of publish works for repositories but not yet for other record types
+            "URI" => "uri"
+          }
+        end
+        let(:sort_expectations) do
+          {
+            'title_sort' => {
+              asc: [record_1.repo_code, record_2.repo_code],
+              desc: [record_2.repo_code, record_1.repo_code]
+            },
+            'publish' => {
+              asc: [record_2.repo_code, record_1.repo_code],
+              desc: [record_1.repo_code, record_2.repo_code]
+            },
+            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.repo_code })
+          }
+        end
+
+        it_behaves_like 'results table sorting'
       end
 
-      it_behaves_like 'sortable results table'
+      describe 'boolean columns' do
+        include_context 'results table setup'
+
+        let(:boolean_column_expectations) do
+          {
+            'publish' => %w[True False]
+          }
+        end
+
+        it_behaves_like 'results table boolean columns'
+      end
     end
   end
 
