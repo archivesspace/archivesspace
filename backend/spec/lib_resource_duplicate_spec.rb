@@ -489,7 +489,7 @@ describe "Resource Duplicate" do
     resource_source_values = resource.values
     resource_duplicated_values = resource_duplicated.values
     expect(resource_duplicated_values[:id_0]).to eq "[Duplicated] #{resource_source_values[:id_0]}"
-    expect(resource_duplicated.title[0].title).to eq "[Duplicated] #{resource.title[0].title}"
+    expect(resource_duplicated.titles[0].title).to eq "[Duplicated] #{resource.titles[0].title}"
     expect(resource_duplicated_values[:ead_id]).to eq "[Duplicated] #{resource_source_values[:ead_id]}"
     expect(resource_duplicated_values).to include(resource_to_match(resource))
     expect_resource_records_to_match(resource_duplicated_json_model, resource_json_model)
