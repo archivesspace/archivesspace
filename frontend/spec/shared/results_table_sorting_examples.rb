@@ -19,23 +19,44 @@
 # - sorting_in_url [Boolean] Whether to verify that sort parameters are reflected in the URL
 
 RSpec.shared_examples 'results table sorting' do
-  # heading [String] The column heading to click
+  # @param heading [String] The column heading to click
   def click_column_heading(heading)
     within '#tabledSearchResults thead' do
       click_link heading
     end
   end
 
-  # row_values [Array<String>] The expected row values in the sorted results
-  # sort_params [Hash{Symbol=>String}] The sort parameters to expect:
+  # @param heading [String] The column heading to sort by
+  # @param direction [Symbol] The sort direction (:asc or :desc)
+  def click_primary_sort_option(heading, direction)
+    within '#pagination-summary-primary-sort-opts' do
+      find('button.dropdown-toggle').click
+      find_link(heading).hover
+      click_link direction_text(direction)
+    end
+  end
+
+  # @param heading [String] The column heading to sort by
+  # @param direction [Symbol] The sort direction (:asc or :desc)
+  def click_secondary_sort_option(heading, direction)
+    within '#pagination-summary-secondary-sort-opts' do
+      find('button.dropdown-toggle').click
+      find_link(heading).hover
+      click_link direction_text(direction)
+    end
+  end
+
+  # @param row_values [Array<String>] The expected row values in the sorted results
+  # @param sort_params [Hash{Symbol=>String}] The sort parameters to expect:
   #   { heading: String, sort_key: String, direction: String }
-  # is_initial_sort [Boolean] Whether this is the initial sort (default: false)
+  # @param is_initial_sort [Boolean] Whether this is the initial sort (default: false)
   def expect_sorted_results(row_values, sort_params, is_initial_sort: false)
     heading, sort_key, direction = sort_params.values_at(:heading, :sort_key, :direction)
     opposite_direction = opposite_sort_direction(direction)
 
     aggregate_failures "sorted results for #{heading} #{direction}" do
-      verify_pagination_sort_button_text(heading, direction, is_initial_sort: is_initial_sort)
+      verify_sort_buttons_text(heading, direction, is_initial_sort: is_initial_sort)
+      verify_sort_menu_options(current_primary_heading: heading)
 
       within '#tabledSearchResults' do
         verify_sort_column_attributes(heading, sort_key, direction, opposite_direction, is_initial_sort: is_initial_sort)
@@ -46,12 +67,70 @@ RSpec.shared_examples 'results table sorting' do
     verify_url_params(sort_key, direction) unless is_initial_sort
   end
 
-  it 'toggles between ascending and descending sort on repeated clicks per sortable column' do
+  it 'has the correct initial sort state' do
     verify_initial_sort_state
+  end
 
-    column_headers.each_with_index do |(heading, sort_key), index|
-      verify_column_sort_cycles(heading, sort_key, first_column: index.zero?)
+  context 'sortable columns' do
+    it 'toggle between ascending and descending sort on repeated clicks' do
+      column_headers.each_with_index do |(heading, sort_key), index|
+        verify_column_sort_cycles(heading, sort_key, first_column: index.zero?)
+      end
     end
+  end
+
+  # describe 'sort dropdown menus' do
+  #   context 'primary sort menu' do
+  #     it 'should have the correct initial sort state' do
+  #       verify_initial_sort_state
+  #     end
+  #   end
+
+  #   context 'secondary sort menu' do
+  #   end
+  # end
+
+  it 'sorts by primary and secondary sort menus' do
+    # # Verify initial state - should have default sort with secondary as "Select"
+    # initial_heading = default_sort_key == 'score' ? 'Relevance' : column_headers.key(default_sort_key)
+    # verify_sort_buttons_text(initial_heading, :asc, is_initial_sort: true)
+
+    # # Verify initial menu options - primary has all, secondary has all except current primary
+    # verify_sort_menu_options(current_primary_heading: initial_heading)
+
+    # Select a different primary sort option
+    # Example: Pick the second column header (first non-default option)
+    new_primary_heading, new_primary_key = column_headers.to_a[1]
+    click_primary_sort_option(new_primary_heading, :desc)
+
+    # Verify primary button updated and secondary still shows "Select"
+    verify_sort_buttons_text(new_primary_heading, :desc)
+
+    # Verify the table sorted correctly
+    verify_primary_column_values_by_row(
+      sort_expectations.dig(new_primary_key, :desc),
+      primary_column_class_name
+    )
+
+    # Verify secondary menu no longer includes the new primary option
+    verify_sort_menu_options(current_primary_heading: new_primary_heading)
+
+    # Now select a secondary sort option
+    # Example: Pick a different column that's not the primary
+    secondary_heading, secondary_key = column_headers.to_a[2]
+    click_secondary_sort_option(secondary_heading, :asc)
+
+    # Verify both buttons now show the correct text
+    verify_sort_buttons_text(
+      new_primary_heading, :desc,
+      secondary_heading: secondary_heading,
+      secondary_direction: :asc
+    )
+
+    # require 'pry'; binding.pry
+
+    # TODO: Verify table is sorted by primary then secondary
+    # (This would require more complex expectations data structure)
   end
 
   private
@@ -82,18 +161,59 @@ RSpec.shared_examples 'results table sorting' do
     end
   end
 
-  # @param heading [String] The column heading text
-  # @param direction [Symbol] The sort direction
-  # @param is_initial_sort [Boolean] Whether this is the initial page load sort
-  def verify_pagination_sort_button_text(heading, direction, is_initial_sort:)
-    expected_text = if multi_record_search_initial_sort?(is_initial_sort)
-                      'Relevance'
-                    else
-                      direction_text = direction == :asc ? 'Ascending' : 'Descending'
-                      "#{heading} #{direction_text}"
-                    end
+  # @param primary_heading [String] The primary column heading text
+  # @param primary_direction [Symbol] The primary sort direction (:asc or :desc)
+  # @param secondary_heading [String] The secondary column heading (default: 'Select')
+  # @param secondary_direction [Symbol, nil] The secondary sort direction (default: nil)
+  # @param is_initial_sort [Boolean] Whether this is the initial page load sort (default: false)
+  def verify_sort_buttons_text(primary_heading, primary_direction, secondary_heading: 'Select', secondary_direction: nil, is_initial_sort: false)
+    primary_expected_text = if multi_record_search_initial_sort?(is_initial_sort)
+                              'Relevance'
+                            else
+                              "#{primary_heading} #{direction_text(primary_direction)}"
+                            end
 
-    expect(page).to have_css('#pagination-summary-primary-sort-opts > button', text: expected_text)
+    secondary_expected_text = if secondary_heading == 'Select'
+                                'Select'
+                              else
+                                "#{secondary_heading} #{direction_text(secondary_direction)}"
+                              end
+
+    aggregate_failures 'sort buttons text' do
+      expect(page).to have_css('#pagination-summary-primary-sort-opts > button', text: primary_expected_text)
+      expect(page).to have_css('#pagination-summary-secondary-sort-opts > button', text: secondary_expected_text)
+    end
+  end
+
+  # @param current_primary_heading [String, nil] The currently selected primary sort heading
+  #   (used to filter it out of secondary menu options). If nil, verifies primary menu only.
+  def verify_sort_menu_options(current_primary_heading: nil)
+    verify_primary_sort_menu_options
+    verify_secondary_sort_menu_options(current_primary_heading) if current_primary_heading
+  end
+
+  def verify_primary_sort_menu_options
+    expected_options = ['Created', 'Modified'] + column_headers.keys
+
+    aggregate_failures 'primary sort menu options' do
+      within '#pagination-summary-primary-sort-opts > .dropdown-menu', visible: false do
+        actual_options = extract_dropdown_menu_options
+        expect(actual_options).to eq(expected_options)
+      end
+    end
+  end
+
+  # @param current_primary_heading [String] The currently selected primary sort heading
+  def verify_secondary_sort_menu_options(current_primary_heading)
+    expected_options = ['Created', 'Modified'] + column_headers.keys
+    expected_options.delete(current_primary_heading)
+
+    aggregate_failures 'secondary sort menu options' do
+      within '#pagination-summary-secondary-sort-opts > .dropdown-menu', visible: false do
+        actual_options = extract_dropdown_menu_options
+        expect(actual_options).to eq(expected_options)
+      end
+    end
   end
 
   # @param heading [String] The column heading text
@@ -129,6 +249,7 @@ RSpec.shared_examples 'results table sorting' do
 
   # @param sort_key [String] The sort parameter key
   # @param first_column [Boolean] Whether this is the first column
+  # @return [Array<Symbol>] The sort cycle order (e.g., [:desc, :asc, :desc])
   def sort_cycle_for_column(sort_key, first_column:)
     if first_column && is_default_sort_key?(sort_key)
       [:desc, :asc, :desc]
@@ -138,23 +259,40 @@ RSpec.shared_examples 'results table sorting' do
   end
 
   # @param sort_key [String] The sort parameter key to check
+  # @return [Boolean] True if the sort key matches the default sort key
   def is_default_sort_key?(sort_key)
     sort_key == default_sort_key
   end
 
+  # @return [String] The CSS class name for the primary sortable column
   def primary_column_class_name
     respond_to?(:primary_column_class) ? primary_column_class : 'title'
   end
 
   # @param direction [Symbol] The current sort direction (:asc or :desc)
+  # @return [Symbol] The opposite sort direction
   def opposite_sort_direction(direction)
     direction == :asc ? :desc : :asc
   end
 
+  # @param direction [Symbol] The sort direction (:asc or :desc)
+  # @return [String] The human-readable direction text ('Ascending' or 'Descending')
+  def direction_text(direction)
+    direction == :asc ? 'Ascending' : 'Descending'
+  end
+
+  # @return [Array<String>] The text content of each dropdown menu option
+  def extract_dropdown_menu_options
+    all('.dropdown-item > a', visible: false).map { |el| el.text(:all) }
+  end
+
+  # @return [Boolean] True if URL params should be verified
   def should_verify_url?
     respond_to?(:sorting_in_url) && sorting_in_url
   end
 
+  # @param is_initial_sort [Boolean] Whether this is the initial page load sort
+  # @return [Boolean] True if this is initial sort and default key is 'score'
   def multi_record_search_initial_sort?(is_initial_sort)
     is_initial_sort && default_sort_key == 'score'
   end
