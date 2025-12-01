@@ -31,8 +31,9 @@ RSpec.shared_examples 'results table sorting' do
   def click_primary_sort_option(heading, direction)
     within '#pagination-summary-primary-sort-opts' do
       find('button.dropdown-toggle').click
-      find_link(heading).hover
-      click_link direction_text(direction)
+      submenu = find('li.dropdown-submenu', text: heading)
+      submenu.hover
+      click_sort_direction_option(submenu, direction)
     end
   end
 
@@ -41,9 +42,20 @@ RSpec.shared_examples 'results table sorting' do
   def click_secondary_sort_option(heading, direction)
     within '#pagination-summary-secondary-sort-opts' do
       find('button.dropdown-toggle').click
-      find_link(heading).hover
-      click_link direction_text(direction)
+      submenu = find('li.dropdown-submenu', text: heading)
+      submenu.hover
+      click_sort_direction_option(submenu, direction)
     end
+  end
+
+  # @param submenu [Capybara::Node::Element] The <li.dropdown-submenu> for a given heading
+  # @param direction [Symbol] The sort direction (:asc or :desc)
+  def click_sort_direction_option(submenu, direction)
+    link = submenu.find('a', text: direction_text(direction), visible: :all)
+
+    # Use JS to click the direction option because exposing the direction submenu via hover
+    # doesn’t always produce a WebDriver-interactable link (eg, via `click_link link`)
+    page.execute_script('arguments[0].click();', link.native)
   end
 
   # @param row_values [Array<String>] The expected row values in the sorted results
@@ -79,16 +91,19 @@ RSpec.shared_examples 'results table sorting' do
     end
   end
 
-  # describe 'sort dropdown menus' do
-  #   context 'primary sort menu' do
-  #     it 'should have the correct initial sort state' do
-  #       verify_initial_sort_state
-  #     end
-  #   end
-
-  #   context 'secondary sort menu' do
-  #   end
-  # end
+  context 'primary sort dropdown menu' do
+    it 'provides ascending and descending sort per sortable column' do
+      column_headers.to_a.each do |heading, sort_key|
+        [:asc, :desc].each do |direction|
+          click_primary_sort_option(heading, direction)
+          expect_sorted_results(
+            sort_expectations.dig(sort_key, direction),
+            { heading: heading, sort_key: sort_key, direction: direction }
+          )
+        end
+      end
+    end
+  end
 
   it 'sorts by primary and secondary sort menus' do
     # # Verify initial state - should have default sort with secondary as "Select"
