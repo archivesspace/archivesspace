@@ -1122,6 +1122,15 @@ uk:
           адміністратора, щоб запросити доступ.</p>
         continue_with_transfer: Продовжити переказ?
         transfer_failed: Перенесення не вдалося завершити через такі помилки
+        transfer_target: Виберіть репозиторій для перенесення
+        transfer_warning: <strong>Попередження:</strong> Перенесення цього 
+          репозиторію призведе до переміщення <strong>всіх</strong> його записів
+          до вибраного вами репозиторію. <strong>Цю дію не можна 
+          скасувати</strong>
+        cannot_delete_nonempty: Неможливо видалити – сховище не порожнє
+      section:
+        all_fields: Поля репозиторію
+        oai_fields: Налаштування збору врожаю OAI
   resource:
     _frontend:
       messages:
