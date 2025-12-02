@@ -1122,6 +1122,25 @@ uk:
           адміністратора, щоб запросити доступ.</p>
         continue_with_transfer: Продовжити переказ?
         transfer_failed: Перенесення не вдалося завершити через такі помилки
+        transfer_target: Виберіть репозиторій для перенесення
+        transfer_warning: <strong>Попередження:</strong> Перенесення цього 
+          репозиторію призведе до переміщення <strong>всіх</strong> його записів
+          до вибраного вами репозиторію. <strong>Цю дію не можна 
+          скасувати</strong>
+        cannot_delete_nonempty: Неможливо видалити – сховище не порожнє
+      section:
+        all_fields: Поля репозиторію
+        oai_fields: Налаштування збору врожаю OAI
+        transfer: Репозиторій перенесення
+        oai_settings: Налаштування OAI
+      action:
+        select: Виберіть репозиторій
+        save: Зберегти репозиторій
+        create: Створити репозиторій
+        order_for_pui: Встановити порядок у публічному інтерфейсі
+    _sidebar:
+      oai_settings:
+        _plural: Налаштування збору врожаю OAI
   resource:
     _frontend:
       messages:
@@ -1139,6 +1158,11 @@ uk:
         suppressed: Ресурс <strong>%{resource_title}<strong> приховано
         suppressed_info: Ресурс приховано та не можна редагувати
         delete_conflict: 'Ресурс не вдалося видалити: <pre>%{error}<pre>'
+        created: Ресурс <strong>%{resource_title}<strong> створено
+        updated: Ресурс <strong>%{resource_title}<strong> оновлено
+        spawned: Новий ресурс було створено з об’єкта доступу 
+          <strong>%{accession_display_string}<strong>. Цей запис не збережено. 
+          Щоб запис було створено в системі, потрібно натиснути «Зберегти».
       section:
         basic_information: Основна інформація
         finding_aid: Пошук даних про допомогу
@@ -1161,3 +1185,38 @@ uk:
     _frontend:
       messages:
         updated: Налаштування оновлено
+        reset: Налаштування встановлено на значення за замовчуванням програми
+        reset_error: 'Не вдалося скинути налаштування через помилку: %{exception}'
+        no_access_to_preferences: Перш ніж керувати налаштуваннями, потрібно 
+          створити принаймні одне сховище
+      action:
+        save: Зберегти налаштування
+  rights_statement:
+    _frontend:
+      action:
+        add: Додати заяву про права
+  subject:
+    _frontend:
+      action:
+        save: Зберегти тему
+        add: Додати тему
+  user:
+    is_active_user: Активний
+    active: правда
+    inactive: хибний
+    source: Автентифікація
+    _frontend:
+      messages:
+        access_denied: Доступ заборонено. Увійдіть як адміністратор, щоб 
+          виконати цю дію.
+        created: Створено користувачем
+        updated: Збережено користувачем
+        deleted: Користувача видалено
+        error_update: Користувача не збережено
+        error_create: Користувача не створено
+        group_not_required: Користувач — це адміністратор або системний 
+          користувач, вибір групи не потрібен.
+        activated: Користувач активував
+        deactivated: Користувач деактивовано
+        error_activate: Користувач не активований
+        error_deactivate: Користувач не деактивовано
