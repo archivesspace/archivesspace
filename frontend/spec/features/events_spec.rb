@@ -383,6 +383,61 @@ describe 'Events', js: true do
           }
         end
 
+        # Optional third record for secondary sort tests
+        # Uses same event_type ("virus_check") as record_2 but different outcome to create a tie
+        let(:record_3) { create(:event, event_type: 'virus_check', outcome: 'pass') }
+
+        # Secondary sort test cases
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary outcome asc, secondary event_type asc - no-op since outcomes are unique
+              # (record_1=pass, record_2=fail, record_3=pass creates a tie on outcome!)
+              # Actually this IS interesting: record_1 and record_3 both have outcome="pass"
+              primary_key:   'outcome',
+              primary_dir:   :asc,
+              secondary_key: 'event_type',
+              secondary_dir: :asc,
+              # outcome asc: "fail" < "pass", so record_2 first, then record_1/record_3 tie (pass)
+              # Solr tie-breaks by ID: record_1 before record_3
+              expected_after_primary: [
+                record_2.event_type.titleize,
+                record_1.event_type.titleize,
+                record_3.event_type.titleize
+              ],
+              # secondary (event_type asc): within pass group, "accession" < "virus_check"
+              # record_1 (accession) before record_3 (virus_check) - no change since already in that order
+              expected_after_both: [
+                record_2.event_type.titleize,
+                record_1.event_type.titleize,
+                record_3.event_type.titleize
+              ]
+            },
+            {
+              # Case 2: primary event_type asc, secondary outcome desc - secondary changes order
+              # record_2 and record_3 both have event_type="virus_check", so they tie.
+              primary_key:   'event_type',
+              primary_dir:   :asc,
+              secondary_key: 'outcome',
+              secondary_dir: :desc,
+              # event_type asc: "accession" < "virus_check", so record_1 first, then record_2/record_3 tie
+              # Solr tie-breaks by ID: record_2 before record_3
+              expected_after_primary: [
+                record_1.event_type.titleize,
+                record_2.event_type.titleize,
+                record_3.event_type.titleize
+              ],
+              # secondary (outcome desc): within virus_check group, "pass" > "fail"
+              # record_3 (pass) moves before record_2 (fail)
+              expected_after_both: [
+                record_1.event_type.titleize,
+                record_3.event_type.titleize,
+                record_2.event_type.titleize
+              ]
+            }
+          ]
+        end
+
         it_behaves_like 'results table sorting'
       end
     end

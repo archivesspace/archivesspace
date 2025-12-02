@@ -74,10 +74,62 @@ RSpec.shared_examples 'results table sorting' do
     end
   end
 
+  def verify_secondary_sort_menu_behavior
+    unless respond_to?(:secondary_sort_cases)
+      skip 'secondary_sort_cases not defined for this context'
+    end
+
+    secondary_sort_cases.each do |test_case|
+      primary_key       = test_case.fetch(:primary_key)
+      primary_dir       = test_case.fetch(:primary_dir)
+      secondary_key     = test_case.fetch(:secondary_key)
+      secondary_dir     = test_case.fetch(:secondary_dir)
+      primary_heading   = column_headers.key(primary_key)
+      secondary_heading = column_headers.key(secondary_key)
+
+      click_sort_menu_option(:primary, primary_heading, primary_dir)
+
+      if test_case[:expected_after_primary]
+        aggregate_failures "primary sort within secondary sort test case: #{primary_heading} #{primary_dir}" do
+          expect_sorted_results(
+            test_case[:expected_after_primary],
+            { heading: primary_heading, sort_key: primary_key, direction: primary_dir }
+          )
+        end
+      end
+
+      click_sort_menu_option(:secondary, secondary_heading, secondary_dir)
+
+      aggregate_failures "secondary sort: #{primary_heading} #{primary_dir}, then #{secondary_heading} #{secondary_dir}" do
+        verify_sort_buttons_text(
+          primary_heading, primary_dir,
+          secondary_heading: secondary_heading,
+          secondary_direction: secondary_dir
+        )
+
+        if test_case[:expected_after_both]
+          verify_primary_column_values_by_row(
+            test_case[:expected_after_both],
+            primary_column_class_name
+          )
+        end
+      end
+    end
+  end
+
   def verify_sortable_columns_behavior
     column_headers.each_with_index do |(heading, sort_key), index|
       verify_column_sort_cycles(heading, sort_key, first_column: index.zero?)
     end
+  end
+
+  def setup_secondary_sort_environment
+    return unless respond_to?(:record_3) && respond_to?(:secondary_sort_cases)
+
+    record_3
+    run_index_round
+    go_to_results_table
+    filter_results_for_comparison if respond_to?(:filter_results) && filter_results
   end
 
   it 'has the correct initial sort state' do
@@ -93,6 +145,16 @@ RSpec.shared_examples 'results table sorting' do
   context 'primary sort dropdown menu' do
     it 'provides ascending and descending sort per sortable column' do
       verify_primary_sort_menu_behavior
+    end
+  end
+
+  context 'secondary sort dropdown menu' do
+    before do
+      setup_secondary_sort_environment
+    end
+
+    it 'provides a second sort layer given some primary sort keys' do
+      verify_secondary_sort_menu_behavior
     end
   end
 
