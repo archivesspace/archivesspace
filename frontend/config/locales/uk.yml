@@ -1220,3 +1220,43 @@ uk:
         deactivated: Користувач деактивовано
         error_activate: Користувач не активований
         error_deactivate: Користувач не деактивовано
+        password_reset_email_sent: Якщо обліковий запис для %{email} існує, вам 
+          буде надіслано електронний лист з інструкціями щодо скидання пароля.
+        error_not_found: Не вдалося знайти обліковий запис користувача для 
+          %{email}. Зверніться по допомогу до адміністратора.
+        password_reset_not_allowed: Відновлення пароля заборонено. Зверніться до
+          адміністратора.
+        password_reset_fail: Не вдалося відновити пароль. Зверніться до 
+          адміністратора.
+      section:
+        manage_access: Керування доступом користувачів
+        account: Обліковий запис
+        edit_account: Редагувати обліковий запис
+        edit_account_submit: Оновити обліковий запис
+        new_account: Новий обліковий запис
+      action:
+        create_account: Створити обліковий запис
+        update_account: Оновити обліковий запис
+        create: Створити користувача
+        edit: Редагувати користувача
+        show_active: Показати активних користувачів
+        show_inactive: Показати неактивних користувачів
+        deactivate_user: Деактивувати
+        activate_user: Активувати
+        update_self: Керування обліковим записом користувача
+  user_defined:
+    _frontend:
+      action:
+        add: Додати поля, визначені користувачем
+  use_date:
+    _frontend:
+      action:
+        add: Додати дату використання
+  rde:
+    date_type: Тип дати
+    instance_type: Тип екземпляра
+    column_label: Колонка
+    messages:
+      error_prefix: Рядок
+      success: <div class='alert alert-success'>Діти створено. Оновлення 
+        сторінки...</div>
