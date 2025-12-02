@@ -26,36 +26,15 @@ RSpec.shared_examples 'results table sorting' do
     end
   end
 
+  # @param menu [Symbol] The menu to click (:primary or :secondary)
   # @param heading [String] The column heading to sort by
   # @param direction [Symbol] The sort direction (:asc or :desc)
-  def click_primary_sort_option(heading, direction)
-    within '#pagination-summary-primary-sort-opts' do
+  def click_sort_menu_option(menu, heading, direction)
+    within "#pagination-summary-#{menu}-sort-opts" do
       find('button.dropdown-toggle').click
-      submenu = find('li.dropdown-submenu', text: heading)
-      submenu.hover
-      click_sort_direction_option(submenu, direction)
+      find('li.dropdown-submenu', text: heading).hover
+      click_link direction_text(direction)
     end
-  end
-
-  # @param heading [String] The column heading to sort by
-  # @param direction [Symbol] The sort direction (:asc or :desc)
-  def click_secondary_sort_option(heading, direction)
-    within '#pagination-summary-secondary-sort-opts' do
-      find('button.dropdown-toggle').click
-      submenu = find('li.dropdown-submenu', text: heading)
-      submenu.hover
-      click_sort_direction_option(submenu, direction)
-    end
-  end
-
-  # @param submenu [Capybara::Node::Element] The <li.dropdown-submenu> for a given heading
-  # @param direction [Symbol] The sort direction (:asc or :desc)
-  def click_sort_direction_option(submenu, direction)
-    link = submenu.find('a', text: direction_text(direction), visible: :all)
-
-    # Use JS to click the direction option because exposing the direction submenu via hover
-    # doesn’t always produce a WebDriver-interactable link (eg, via `click_link link`)
-    page.execute_script('arguments[0].click();', link.native)
   end
 
   # @param row_values [Array<String>] The expected row values in the sorted results
@@ -79,73 +58,42 @@ RSpec.shared_examples 'results table sorting' do
     verify_url_params(sort_key, direction) unless is_initial_sort
   end
 
+  def verify_primary_sort_menu_behavior
+    # Here the directions are iterated over first, then each menu option. The inverse
+    # iteration order resulted in Webdriver flakiness, "element not interactable /
+    # could not be scrolled into view" errors, when trying to hover to expose the
+    # second link for a given menu option.
+    [:asc, :desc].each do |direction|
+      column_headers.to_a.each do |heading, sort_key|
+        click_sort_menu_option(:primary, heading, direction)
+        expect_sorted_results(
+          sort_expectations.dig(sort_key, direction),
+          { heading: heading, sort_key: sort_key, direction: direction }
+        )
+      end
+    end
+  end
+
+  def verify_sortable_columns_behavior
+    column_headers.each_with_index do |(heading, sort_key), index|
+      verify_column_sort_cycles(heading, sort_key, first_column: index.zero?)
+    end
+  end
+
   it 'has the correct initial sort state' do
     verify_initial_sort_state
   end
 
   context 'sortable columns' do
     it 'toggle between ascending and descending sort on repeated clicks' do
-      column_headers.each_with_index do |(heading, sort_key), index|
-        verify_column_sort_cycles(heading, sort_key, first_column: index.zero?)
-      end
+      verify_sortable_columns_behavior
     end
   end
 
   context 'primary sort dropdown menu' do
     it 'provides ascending and descending sort per sortable column' do
-      column_headers.to_a.each do |heading, sort_key|
-        [:asc, :desc].each do |direction|
-          click_primary_sort_option(heading, direction)
-          expect_sorted_results(
-            sort_expectations.dig(sort_key, direction),
-            { heading: heading, sort_key: sort_key, direction: direction }
-          )
-        end
-      end
+      verify_primary_sort_menu_behavior
     end
-  end
-
-  it 'sorts by primary and secondary sort menus' do
-    # # Verify initial state - should have default sort with secondary as "Select"
-    # initial_heading = default_sort_key == 'score' ? 'Relevance' : column_headers.key(default_sort_key)
-    # verify_sort_buttons_text(initial_heading, :asc, is_initial_sort: true)
-
-    # # Verify initial menu options - primary has all, secondary has all except current primary
-    # verify_sort_menu_options(current_primary_heading: initial_heading)
-
-    # Select a different primary sort option
-    # Example: Pick the second column header (first non-default option)
-    new_primary_heading, new_primary_key = column_headers.to_a[1]
-    click_primary_sort_option(new_primary_heading, :desc)
-
-    # Verify primary button updated and secondary still shows "Select"
-    verify_sort_buttons_text(new_primary_heading, :desc)
-
-    # Verify the table sorted correctly
-    verify_primary_column_values_by_row(
-      sort_expectations.dig(new_primary_key, :desc),
-      primary_column_class_name
-    )
-
-    # Verify secondary menu no longer includes the new primary option
-    verify_sort_menu_options(current_primary_heading: new_primary_heading)
-
-    # Now select a secondary sort option
-    # Example: Pick a different column that's not the primary
-    secondary_heading, secondary_key = column_headers.to_a[2]
-    click_secondary_sort_option(secondary_heading, :asc)
-
-    # Verify both buttons now show the correct text
-    verify_sort_buttons_text(
-      new_primary_heading, :desc,
-      secondary_heading: secondary_heading,
-      secondary_direction: :asc
-    )
-
-    # require 'pry'; binding.pry
-
-    # TODO: Verify table is sorted by primary then secondary
-    # (This would require more complex expectations data structure)
   end
 
   private
