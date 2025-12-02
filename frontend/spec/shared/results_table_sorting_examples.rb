@@ -136,27 +136,40 @@ RSpec.shared_examples 'results table sorting' do
                               "#{primary_heading} #{direction_text(primary_direction)}"
                             end
 
-    secondary_expected_text = if secondary_heading == 'Select'
-                                'Select'
-                              else
-                                "#{secondary_heading} #{direction_text(secondary_direction)}"
-                              end
-
     aggregate_failures 'sort buttons text' do
       expect(page).to have_css('#pagination-summary-primary-sort-opts > button', text: primary_expected_text)
-      expect(page).to have_css('#pagination-summary-secondary-sort-opts > button', text: secondary_expected_text)
+
+      # No secondary sort button when sorted by Relevance
+      unless primary_expected_text == 'Relevance'
+        secondary_expected_text = if secondary_heading == 'Select'
+                                    'Select'
+                                  else
+                                    "#{secondary_heading} #{direction_text(secondary_direction)}"
+                                  end
+        expect(page).to have_css('#pagination-summary-secondary-sort-opts > button', text: secondary_expected_text)
+      end
     end
   end
 
   # @param current_primary_heading [String, nil] The currently selected primary sort heading
   #   (used to filter it out of secondary menu options). If nil, verifies primary menu only.
   def verify_sort_menu_options(current_primary_heading: nil)
-    verify_primary_sort_menu_options
-    verify_secondary_sort_menu_options(current_primary_heading) if current_primary_heading
+    verify_primary_sort_menu_options(current_primary_heading)
+
+    # No secondary sort menu when sorted by Relevance
+    if current_primary_heading && current_primary_heading != 'Relevance'
+      verify_secondary_sort_menu_options(current_primary_heading)
+    end
   end
 
-  def verify_primary_sort_menu_options
+  # @param current_primary_heading [String, nil] The currently selected primary sort heading
+  def verify_primary_sort_menu_options(current_primary_heading = nil)
     expected_options = ['Created', 'Modified'] + column_headers.keys
+
+    # Relevance only appears in menu when NOT currently sorted by it (it only has descending)
+    if default_sort_key == 'score' && current_primary_heading != 'Relevance'
+      expected_options << 'Relevance'
+    end
 
     aggregate_failures 'primary sort menu options' do
       within '#pagination-summary-primary-sort-opts > .dropdown-menu', visible: false do

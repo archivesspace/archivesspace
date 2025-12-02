@@ -446,17 +446,21 @@ describe 'Assessments', js: true do
         let(:primary_column_class) { 'assessment_id' }
         let(:column_headers) do
           {
+            'Assessment ID' => 'assessment_id',
             'Survey Begin' => 'assessment_survey_begin',
             'Review Required' => 'assessment_review_required',
             'Assessment Completed' => 'assessment_completed',
             'Sensitive Material' => 'assessment_sensitive_material',
             'Inactive' => 'assessment_inactive',
-            'URI' => 'uri',
-            'Assessment ID' => 'assessment_id'
+            'URI' => 'uri'
           }
         end
         let(:sort_expectations) do
           {
+            'assessment_id' => {
+              asc: [record_1.id.to_s, record_2.id.to_s],
+              desc: [record_2.id.to_s, record_1.id.to_s]
+            },
             'assessment_survey_begin' => {
               asc: [record_2.id.to_s, record_1.id.to_s],
               desc: [record_1.id.to_s, record_2.id.to_s]
@@ -477,11 +481,7 @@ describe 'Assessments', js: true do
               asc: [record_2.id.to_s, record_1.id.to_s],
               desc: [record_1.id.to_s, record_2.id.to_s]
             },
-            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.id }),
-            'assessment_id' => {
-              asc: [record_1.id.to_s, record_2.id.to_s],
-              desc: [record_2.id.to_s, record_1.id.to_s]
-            },
+            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.id })
           }
         end
 
