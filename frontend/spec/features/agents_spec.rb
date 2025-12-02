@@ -1475,6 +1475,82 @@ describe 'Agents', js: true do
           }
         end
 
+        # Optional third record for secondary sort tests
+        # Uses same primary_type (corporate_entity) and source as record_2 to create ties
+        let(:record_3) {
+          create(:agent_corporate_entity,
+            names: [build(:json_name_corporate_entity,
+              primary_name: "AAAC Agent 3 #{now}",
+              authority_id: "auth3-#{now}",
+              source: 'naf',
+              rules: 'aacr'
+            )],
+            publish: false
+          )
+        }
+        let(:record_3_name) { record_3.names.first['sort_name'] }
+
+        # Secondary sort test cases
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary source asc - no-op since names are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'source',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1_name,
+                record_2_name,
+                record_3_name
+              ],
+              expected_after_both: [
+                record_1_name,
+                record_2_name,
+                record_3_name
+              ]
+            },
+            {
+              # Case 2: primary primary_type asc, secondary title_sort desc - secondary changes order
+              # record_2 and record_3 are both agent_corporate_entity, so they tie on primary_type.
+              # After primary-only: corporates first (agent_corporate_entity < agent_person alphabetically),
+              #   Solr tie-breaks by ID, so record_2 before record_3.
+              # After secondary (title_sort desc): "AAAC" > "AAAB", so record_3 moves before record_2.
+              primary_key:   'primary_type',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2_name,
+                record_3_name,
+                record_1_name
+              ],
+              expected_after_both: [
+                record_3_name,
+                record_2_name,
+                record_1_name
+              ]
+            },
+            {
+              # Case 3: primary authority_id asc, secondary rules asc - no-op since authority_ids are unique
+              primary_key:   'authority_id',
+              primary_dir:   :asc,
+              secondary_key: 'rules',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1_name,
+                record_2_name,
+                record_3_name
+              ],
+              expected_after_both: [
+                record_1_name,
+                record_2_name,
+                record_3_name
+              ]
+            }
+          ]
+        end
+
         it_behaves_like 'results table sorting'
       end
 

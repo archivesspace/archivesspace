@@ -485,6 +485,78 @@ describe 'Assessments', js: true do
           }
         end
 
+        # Optional third record for secondary sort tests
+        let(:record_3) do
+          create(:json_assessment, {
+            'records' => [{'ref' => create(:resource).uri}],
+            'surveyed_by' => [{'ref' => create(:agent_person).uri}],
+            'survey_begin' => '2023-01-01',
+            'review_required' => true,
+            'sensitive_material' => true,
+            'inactive' => true
+          })
+        end
+
+        # Secondary sort test cases (only used by secondary context)
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary boolean, secondary id (secondary effectively a no-op)
+              primary_key:   'assessment_review_required',
+              primary_dir:   :asc,
+              secondary_key: 'assessment_id',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.id.to_s,
+                record_2.id.to_s,
+                record_3.id.to_s
+              ],
+              expected_after_both: [
+                record_1.id.to_s,
+                record_2.id.to_s,
+                record_3.id.to_s
+              ]
+            },
+            {
+              # Case 2: primary date asc, secondary id desc – secondary changes order
+              # record_2 and record_3 both have survey_begin='2023-01-01', so they tie.
+              # After primary-only sort, Solr's default tie-breaker puts record_2 first (lower ID).
+              # After secondary (id desc), record_3 moves before record_2 within the tie group.
+              primary_key:   'assessment_survey_begin',
+              primary_dir:   :asc,
+              secondary_key: 'assessment_id',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.id.to_s,
+                record_3.id.to_s,
+                record_1.id.to_s
+              ],
+              expected_after_both: [
+                record_3.id.to_s,
+                record_2.id.to_s,
+                record_1.id.to_s
+              ]
+            },
+            {
+              # Case 3: primary id, secondary boolean – secondary is a no-op
+              primary_key:   'assessment_id',
+              primary_dir:   :asc,
+              secondary_key: 'assessment_review_required',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.id.to_s,
+                record_2.id.to_s,
+                record_3.id.to_s
+              ],
+              expected_after_both: [
+                record_1.id.to_s,
+                record_2.id.to_s,
+                record_3.id.to_s
+              ]
+            }
+          ]
+        end
+
         it_behaves_like 'results table sorting'
       end
 

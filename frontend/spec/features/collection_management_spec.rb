@@ -183,6 +183,82 @@ describe 'Collection Management', js: true do
           }
         end
 
+        # Optional third record for secondary sort tests
+        # Uses same processing_priority ("high") as record_2 to create a tie
+        let(:record_3) do
+          create(
+            :resource,
+            title: "Resource Z with Collection Management #{now}",
+            collection_management: {
+              "processing_status" => "in_progress",
+              "processing_priority" => "high",
+              "processing_hours_total" => "3",
+              "processing_funding_source" => "MMM"
+            }
+          )
+        end
+
+        # Secondary sort test cases
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary processing_priority asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'processing_priority',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            },
+            {
+              # Case 2: primary processing_priority asc, secondary title_sort desc - secondary changes order
+              # record_2 and record_3 both have processing_priority="high", so they tie.
+              # After primary-only: "high" < "medium" alphabetically, so high records first.
+              #   Solr tie-breaks by ID, so record_2 before record_3.
+              # After secondary (title_sort desc): "Resource Z" > "Resource", so record_3 moves first.
+              primary_key:   'processing_priority',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.title,
+                record_3.title,
+                record_1.title
+              ],
+              expected_after_both: [
+                record_3.title,
+                record_2.title,
+                record_1.title
+              ]
+            },
+            {
+              # Case 3: primary uri asc, secondary processing_status asc - no-op since URIs are unique
+              primary_key:   'uri',
+              primary_dir:   :asc,
+              secondary_key: 'processing_status',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            }
+          ]
+        end
+
         it_behaves_like 'results table sorting'
       end
     end

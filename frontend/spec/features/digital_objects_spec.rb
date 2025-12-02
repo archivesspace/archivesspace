@@ -454,6 +454,79 @@ describe 'Digital Objects', js: true do
           }
         end
 
+        # Optional third record for secondary sort tests
+        # Uses same level ("collection") and digital_object_type ("text") as record_2 to create ties
+        let(:record_3) do
+          create(:digital_object,
+            title: "Digital Object 3 #{now}",
+            digital_object_id: "3",
+            level: 'collection',
+            digital_object_type: 'text',
+            publish: false
+          )
+        end
+
+        # Secondary sort test cases
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary level asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'level',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            },
+            {
+              # Case 2: primary level asc, secondary title_sort desc - secondary changes order
+              # record_2 and record_3 both have level="collection", so they tie.
+              # After primary-only: "collection" < "image" alphabetically, so collection records first.
+              #   Solr tie-breaks by ID, so record_2 before record_3.
+              # After secondary (title_sort desc): "Digital Object 3" > "Digital Object 2", so record_3 moves first.
+              primary_key:   'level',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.title,
+                record_3.title,
+                record_1.title
+              ],
+              expected_after_both: [
+                record_3.title,
+                record_2.title,
+                record_1.title
+              ]
+            },
+            {
+              # Case 3: primary digital_object_id asc, secondary digital_object_type asc - no-op since IDs are unique
+              primary_key:   'digital_object_id',
+              primary_dir:   :asc,
+              secondary_key: 'digital_object_type',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_2.title,
+                record_1.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_2.title,
+                record_1.title,
+                record_3.title
+              ]
+            }
+          ]
+        end
+
         it_behaves_like 'results table sorting'
       end
 

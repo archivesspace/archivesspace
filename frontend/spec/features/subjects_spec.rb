@@ -265,6 +265,60 @@ describe 'Subjects', js: true do
           }
         end
 
+        # Optional third record for secondary sort tests
+        # Creates ties: source='local' (same as record_1), first_term_type='topical' (same as record_1)
+        let(:record_3) do
+          create(:subject,
+            source: 'local',
+            terms: [build(:term, { term: "C #{now}", term_type: 'topical' })]
+          )
+        end
+
+        # Secondary sort test cases
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary source asc - no-op since titles are unique
+              # Titles sort: "A" < "B" < "C"
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'source',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            },
+            {
+              # Case 2: primary source asc, secondary title_sort desc - secondary changes order
+              # record_1 and record_3 both have source='local', so they tie.
+              # After primary-only: "aat" < "local", so record_2 first, then local group.
+              #   Solr tie-breaks by ID, so record_1 before record_3.
+              # After secondary (title_sort desc): "C" > "A", so record_3 moves first.
+              primary_key:   'source',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.title,
+                record_1.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_2.title,
+                record_3.title,
+                record_1.title
+              ]
+            }
+          ]
+        end
+
         it_behaves_like 'results table sorting'
       end
     end

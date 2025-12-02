@@ -258,6 +258,61 @@ describe 'Repositories', js: true do
           }
         end
 
+        # Optional third record for secondary sort tests
+        # Uses same publish value (true) as record_1 to create a tie
+        let(:record_3) do
+          create(
+            :repo,
+            repo_code: "repositories_index_sorting_#{now}_3",
+            name: "Repository 3 #{now}",
+            publish: true
+          )
+        end
+
+        # Secondary sort test cases
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary publish asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'publish',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.repo_code,
+                record_2.repo_code,
+                record_3.repo_code
+              ],
+              expected_after_both: [
+                record_1.repo_code,
+                record_2.repo_code,
+                record_3.repo_code
+              ]
+            },
+            {
+              # Case 2: primary publish asc, secondary title_sort desc - secondary changes order
+              # record_1 and record_3 both have publish=true, so they tie.
+              # After primary-only: false < true, so record_2 (false) first, then true group.
+              #   Solr tie-breaks by ID, so record_1 before record_3.
+              # After secondary (title_sort desc): within true group, "_3" > "_1", so record_3 moves first.
+              primary_key:   'publish',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.repo_code,
+                record_1.repo_code,
+                record_3.repo_code
+              ],
+              expected_after_both: [
+                record_2.repo_code,
+                record_3.repo_code,
+                record_1.repo_code
+              ]
+            }
+          ]
+        end
+
         it_behaves_like 'results table sorting'
       end
 
