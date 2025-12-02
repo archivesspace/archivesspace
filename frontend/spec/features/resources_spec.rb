@@ -1544,46 +1544,42 @@ describe 'Resources', js: true do
     describe 'results table' do
       let(:now) { Time.now.to_i }
       let(:record_type) { 'accession' }
-      let(:record_1) {
+      let(:record_1) do
         create(:accession,
           title: "Accession 1 #{now}",
           id_0: "1",
           accession_date: Time.now.strftime('%Y-%m-%d'),
+          acquisition_type: 'gift',
+          resource_type: 'papers',
+          restrictions_apply: false,
+          publish: true,
+          access_restrictions: false,
+          use_restrictions: false,
           dates: [build(:date)],
           extents: [build(:extent)]
         )
-      }
-      let(:record_2) {
+      end
+      let(:record_2) do
         create(:accession,
           title: "Accession 2 #{now}",
           id_0: "2",
           accession_date: (Time.at(now) - 86400).strftime('%Y-%m-%d'),
+          acquisition_type: 'deposit',
+          resource_type: 'collection',
+          restrictions_apply: true,
+          publish: false,
+          access_restrictions: true,
+          use_restrictions: true,
           dates: [build(:date)],
           extents: [build(:extent)]
         )
-      }
+      end
       let(:initial_sort) { [record_1.title, record_2.title] }
 
       describe 'sorting' do
-        include_context 'results table setup'
-
         let(:default_sort_key) { 'title_sort' }
-        let(:column_headers) do
-          {
-            'Accession Date' => 'accession_date',
-            'Identifier'     => 'identifier',
-            'Title'          => 'title_sort'
-          }
-        end
-        let(:sort_expectations) do
-          {
-            'accession_date' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
-            'identifier'     => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
-            'title_sort'     => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] }
-          }
-        end
 
-        def go_to_results_table
+        def modal_go_to_results_table
           visit '/resources/new'
           click_on 'Add Related Accession'
           expect(page).to have_css('#resource_related_accessions__0__ref__combobox')
@@ -1595,7 +1591,124 @@ describe 'Resources', js: true do
           expect(page).to have_css('#resource_related_accessions__0__ref__modal')
         end
 
-        it_behaves_like 'results table sorting'
+        def modal_clean_up_results_table
+          within '#resource_related_accessions__0__ref__modal' do
+            click_on 'Cancel'
+          end
+        end
+
+        context 'with seven of ten sortable columns showing' do
+          include_context 'results table setup'
+
+          def go_to_results_table
+            modal_go_to_results_table
+          end
+
+          def clean_up_results_table
+            modal_clean_up_results_table
+          end
+
+          let(:additional_browse_columns) do
+            {
+              4 => 'Acquisition Type',
+              5 => 'Resource Type',
+              6 => 'Restrictions Apply',
+              # 7 => 'Published'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Identifier' => 'identifier',
+              'Accession Date' => 'accession_date',
+              'Acquisition Type' => 'acquisition_type',
+              'Resource Type' => 'resource_type',
+              'Restrictions Apply' => 'restrictions_apply'
+              # 'Publish' => 'publish',
+            }
+          end
+          let(:sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'identifier' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'accession_date' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'acquisition_type' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'resource_type' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'restrictions_apply' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              }
+              # 'publish' => {
+              #   asc: [record_2.title, record_1.title],
+              #   desc: [record_1.title, record_2.title]
+              # },
+            }
+          end
+
+          it_behaves_like 'results table sorting'
+        end
+
+        context 'with the remaining three of ten sortable columns showing, plus the title column' do
+          include_context 'results table setup'
+
+          def go_to_results_table
+            modal_go_to_results_table
+          end
+
+          def clean_up_results_table
+            modal_clean_up_results_table
+          end
+
+          let(:additional_browse_columns) do
+            {
+              2 => 'Access Restrictions',
+              3 => 'Use Restrictions',
+              4 => 'URI'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Access Restrictions' => 'access_restrictions',
+              'Use Restrictions' => 'use_restrictions',
+              'URI' => 'uri'
+            }
+          end
+          let(:sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'access_restrictions' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'use_restrictions' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+            }
+          end
+
+          it_behaves_like 'results table sorting'
+        end
       end
     end
   end
