@@ -385,7 +385,7 @@ describe 'MARCXML Bib converter' do
       end
 
       it "maps datafield[@tag='245'] to resource.title using template '$a : $b [$h] $k , $n , $p , $s / $c' " do
-        expect(@resource['title']).to eq("Resource--Title-AT")
+        expect(@resource['titles'].first['title']).to eq("Resource--Title-AT")
       end
 
       it "maps datafield[@tag='245']/subfield[@code='f' or @code='g'] to resources.dates[]" do

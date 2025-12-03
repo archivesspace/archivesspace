@@ -73,7 +73,7 @@ describe 'Event model' do
 
 
     expect(resolved['linked_events'][0]['_resolved']['outcome_note']).to eq('testing')
-    expect(resolved['linked_events'][0]['_resolved']['linked_records'][0]['_resolved']['title']).to eq(accession.title)
+    expect(resolved['linked_events'][0]['_resolved']['linked_records'][0]['_resolved']['titles'].first['title']).to eq(accession.titles.first['title'])
   end
 
 end

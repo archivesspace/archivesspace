@@ -479,8 +479,8 @@ class EAD3Serializer < EADSerializer
 
             xml.did {
 
-              unless data.title.nil?
-                xml.unittitle { sanitize_mixed_content(data.title, xml, @fragments) }
+              unless data.titles.empty?
+                xml.unittitle { sanitize_mixed_content(data.titles.first['title'], xml, @fragments) }
               end
 
               xml.unitid (0..3).map { |i| data.send("id_#{i}") }.compact.join('.')
@@ -608,7 +608,7 @@ class EAD3Serializer < EADSerializer
           # titleproper
           titleproper = ""
           titleproper += "#{data.finding_aid_title} " if data.finding_aid_title
-          titleproper += "#{data.title}" if ( data.title && titleproper.empty? )
+          titleproper += "#{data.titles.first['title']}" if ( !data.titles.empty? && titleproper.empty? )
           xml.titleproper { strip_tags_and_sanitize(titleproper, xml, fragments) }
 
           # titleproper (filing)
@@ -1171,7 +1171,7 @@ class EAD3Serializer < EADSerializer
       xml.send(tag_name, atts) {
 
         xml.did {
-          if (val = data.title)
+          if (val = data.titles.first['title'])
             xml.unittitle { sanitize_mixed_content( val, xml, fragments) }
           end
 
@@ -1433,7 +1433,7 @@ class EAD3Serializer < EADSerializer
     return if digital_object["suppressed"] === true
 
     file_versions = digital_object['file_versions']
-    title = digital_object['title']
+    title = digital_object['titles'].first['title']
     date = digital_object['dates'][0] || {}
 
     atts = {}
@@ -1450,7 +1450,7 @@ class EAD3Serializer < EADSerializer
       end
     end
 
-    atts['linktitle'] = digital_object['title'] if digital_object['title']
+    atts['linktitle'] = digital_object['titles'].first['title'] unless digital_object['titles'].empty?
 
     if digital_object['digital_object_type']
       atts['daotype'] = 'otherdaotype'

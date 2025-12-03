@@ -109,7 +109,7 @@ describe 'Tree mixins' do
 
   it "creates the bulk updater tree" do
     quick_tree = Resource[resource.id].bulk_archival_object_updater_quick_tree
-    expect(quick_tree[:title]).to eq(Resource[resource.id].title)
+    expect(quick_tree[:titles][0]['title']).to eq(Resource[resource.id].title)
     expect(quick_tree[:uri]).to eq(Resource[resource.id].uri)
     expect(quick_tree[:identifier]).to eq(Identifiers.format(Identifiers.parse(Resource[resource.id].identifier)))
     expect(quick_tree[:children].map {|r| r[:uri]} - Resource[resource.id].ordered_records.map {|r| r['ref']}).to eq([])

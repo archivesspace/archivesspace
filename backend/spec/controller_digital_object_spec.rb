@@ -154,13 +154,13 @@ describe 'Digital Objects controller' do
 
     tree = JSONModel::HTTP.get_json("#{digital_object.uri}/tree/root")
     expect(tree['child_count']).to eq(3)
-    expect(tree["precomputed_waypoints"][""]["0"][0]["title"]).to eq(child_1["title"])
+    expect(tree["precomputed_waypoints"][""]["0"][0]["title"]).to eq(child_1["titles"].first['title'])
     expect(tree["precomputed_waypoints"][""]["0"][0]["uri"]).to eq(child_1.uri)
 
-    expect(tree["precomputed_waypoints"][""]["0"][1]["title"]).to eq(child_2["title"])
+    expect(tree["precomputed_waypoints"][""]["0"][1]["title"]).to eq(child_2["titles"].first['title'])
     expect(tree["precomputed_waypoints"][""]["0"][1]["uri"]).to eq(child_2.uri)
 
-    expect(tree["precomputed_waypoints"][""]["0"][2]["title"]).to eq(doc["title"])
+    expect(tree["precomputed_waypoints"][""]["0"][2]["title"]).to eq(doc["titles"].first['title'])
     expect(tree["precomputed_waypoints"][""]["0"][2]["uri"]).to eq(doc.uri)
   end
 

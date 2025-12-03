@@ -7,7 +7,7 @@ describe 'Resource model' do
   it "allows resources to be created" do
     title = build(:json_title)
     resource = create_resource(:titles => [title])
-    expect(Resource[resource.id].title[0].title).to eq(title.title)
+    expect(Resource[resource.id].titles[0].title).to eq(title.title)
     resource.delete
   end
 
@@ -149,7 +149,7 @@ describe 'Resource model' do
     classification = Classification.create_from_json(classification)
     resource = create_resource(:classifications =>[ {'ref' => classification.uri} ])
 
-    expect(resource.related_records(:classification).first.title[0].title).to eq("top-level classification")
+    expect(resource.related_records(:classification).first.titles[0].title).to eq("top-level classification")
   end
 
   # See https://gist.github.com/anarchivist/7477913
@@ -230,7 +230,7 @@ describe 'Resource model' do
         it "autogenerates a slug via title" do
           random_title = build(:json_title, :title => rand(100000).to_s)
           resource = create_resource(:is_slug_auto => true, :titles => [random_title])
-          expected_slug = clean_slug(resource.title[0].title)
+          expected_slug = clean_slug(resource.titles[0].title)
           expect(resource[:slug]).to eq(expected_slug)
         end
         it "cleans slug" do

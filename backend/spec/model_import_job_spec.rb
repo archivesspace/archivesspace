@@ -14,7 +14,7 @@ describe 'Import job model' do
 
       def run
         obj = ASpaceImport::JSONModel(:accession).new
-        obj.title = IO.read(@input_file)
+        obj.titles << JSONModel(:title).from_hash(title: IO.read(@input_file))
         obj.id_0 = '1234'
         obj.accession_date = '2010-10-10'
         @batch << obj

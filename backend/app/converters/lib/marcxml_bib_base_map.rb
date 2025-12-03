@@ -893,7 +893,7 @@ module MarcXMLBibBaseMap
 
         # TITLE
         "datafield[@tag='245']" => -> resource, node {
-          resource.title = subfield_template("{$a : }{$b }{[$h] }{$k , }{$n , }{$p , }{$s }{/ $c}", node)
+          resource.titles << JSONModel(:title).from_hash(title: subfield_template("{$a : }{$b }{[$h] }{$k , }{$n , }{$p , }{$s }{/ $c}", node))
 
           expression = subfield_template("{$f}", node)
           bulk = subfield_template("{$g}", node)
@@ -1530,8 +1530,8 @@ module MarcXMLBibBaseMap
         # last minute checks for the top-level record
         "self::record" => -> resource, node {
 
-          if !resource.title && resource['_fallback_titles'] && !resource['_fallback_titles'].empty?
-            resource.title = resource['_fallback_titles'].shift
+          if resource.titles.empty? && resource['_fallback_titles'] && !resource['_fallback_titles'].empty?
+            resource.titles << JSONModel(:title).from_hash(title: resource['_fallback_titles'].shift)
           end
 
           if resource.id_0.nil? or resource.id.empty?

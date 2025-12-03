@@ -203,7 +203,7 @@ class EADConverter < Converter
         unless obj.class.record_type == "note_multipart"
           title = Nokogiri::XML::DocumentFragment.parse(inner_xml.strip)
           title.xpath(".//unitdate").remove
-          obj.title = format_content( title.to_xml(:encoding => 'utf-8') ) if obj.title.nil? || obj.title.empty?
+          obj.titles << JSONModel(:title).from_hash(title: format_content( title.to_xml(:encoding => 'utf-8'))) if obj.titles.empty?
         end
       end
     end
@@ -979,9 +979,9 @@ class EADConverter < Converter
 
       make :digital_object, {
              :digital_object_id => SecureRandom.uuid,
-             :publish => att('audience') != 'internal',
-             :title => att('title', :xlink)
+             :publish => att('audience') != 'internal'
            } do |obj|
+        obj.titles << { title: att('title', :xlink) }
         obj.file_versions << {
           :use_statement => att('role', :xlink),
           :file_uri => att('href', :xlink),
@@ -1016,12 +1016,11 @@ class EADConverter < Converter
           title << display_string + ' Digital Object'
         }
       end
-
       make :digital_object, {
         :digital_object_id => SecureRandom.uuid,
-        :title => title,
         :publish => att('audience') != 'internal'
        } do |obj|
+        obj.titles << { title: title }
         ancestor(:resource, :archival_object) do |ao|
           ao.instances.push({'instance_type' => 'digital_object', 'digital_object' => {'ref' => obj.uri}})
         end

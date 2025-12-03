@@ -26,7 +26,7 @@ describe 'Events controller' do
     event = JSONModel(:event).find(e.id, "resolve[]" => ["linked_agents", "linked_records"])
 
     expect(event['linked_agents'][0]['_resolved']['names'][0]['primary_name']).to eq(@test_agent.names[0]['primary_name'])
-    expect(event['linked_records'][0]['_resolved']['title']).to eq(@test_accession.title)
+    expect(event['linked_records'][0]['_resolved']['titles'][0]['title']).to eq(@test_accession.titles[0]['title'])
   end
 
 

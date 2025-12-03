@@ -4,8 +4,7 @@ require_relative 'spec_slugs_helper'
 describe 'Accession model' do
   it "allows accessions to be created" do
     accession = create_accession
-
-    expect(Accession[accession[:id]].titles[0]['title']).to eq("Papers of Mark Triggs")
+    expect(Accession[accession[:id]].titles[0].title).to eq("Papers of Mark Triggs")
   end
 
   it "enforces ID uniqueness" do
@@ -364,7 +363,7 @@ describe 'Accession model' do
 
         it "autogenerates a slug via title" do
           accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true))
-          expected_slug = clean_slug(accession[:title])
+          expected_slug = clean_slug(accession.title)
           expect(accession[:slug]).to eq(expected_slug)
         end
 
