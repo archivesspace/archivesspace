@@ -1348,6 +1348,7 @@ uk:
           стовпців.
       keyboard_shortcuts:
         title: Комбінації клавіш
+        shift: ЗМІЩЕННЯ
     default_template: Шаблон за замовчуванням
   term:
     _frontend:
