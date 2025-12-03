@@ -1200,6 +1200,19 @@ uk:
       action:
         save: Зберегти тему
         add: Додати тему
+        create: Створити тему
+      messages:
+        created: Тему створено
+        updated: Тему збережено
+        deleted: Тему видалено
+        merged: Об'єднані теми
+        merge_description: Виберіть теми нижче для об'єднання
+        please_select_a_subject_to_merge: Будь ласка, виберіть тему
+        delete_conflict: 'Не вдалося видалити тему: <pre>%{error}<pre>'
+      section:
+        basic_information: Основна інформація
+        terms: Терміни та підрозділи
+        search_embedded: Пов'язані записи
   user:
     is_active_user: Активний
     active: правда
@@ -1264,3 +1277,41 @@ uk:
       rows_with_errors: '%{count} рядків з помилкою – клацніть поле рядка, щоб переглянути
         помилки для цього рядка'
       rows_no_errors: Усі рядки дійсні
+    sections:
+      basic_information: Основна інформація
+      language: Мова
+      date: Дата
+      extent: Ступінь
+      instance: Екземпляр
+      notes: Нотатки
+      file_version: Версія файлу
+    actions:
+      add_row: Додати рядок
+      add_rows: Додати рядки
+      submit: Зберегти рядки
+      reset: Скинути
+      showhide_prefix: 'Колонки:'
+      showhide_suffix: видимий
+      showhide_none: Усі стовпці відфільтровано
+      fill_toggle: Заповнити стовпець
+      reorder_toggle: Зміна порядку стовпців
+      validate_rows: Перевірити рядки
+      inline_errors_toggle: Переглянути вбудовані помилки
+      save_template: Зберегти як шаблон
+      select_template: Виберіть шаблон
+      manage_templates: Видалити шаблони
+    fill_column:
+      basic: Базовий
+      sequence: Послідовність
+      fill_value: Значення заповнення
+      select_a_column: Будь ласка, виберіть стовпець
+      sequence_count_warning: ''
+      apply_basic_fill: Застосувати заливку
+  term:
+    _frontend:
+      messages:
+        preview_pending: Попередній перегляд теми
+      action:
+        add: Додати термін/підрозділ
+  transfer:
+    ref: Цільовий репозиторій
