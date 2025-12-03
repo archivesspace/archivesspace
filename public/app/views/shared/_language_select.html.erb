@@ -6,7 +6,7 @@
         <% language_options = I18n.supported_locales.keys.map{ |l| [l.to_s, t("languages.#{l}")] }.to_h %>
         
         <form action="/locale" method="post" id="language_select_form">
-          <label><%= I18n.t('languages.select') %>:</label> 
+          <label for="language_select_dropdown"><%= I18n.t('languages.select') %>:</label> 
           <select name="locale" id="language_select_dropdown">
             <% language_options.each do |code, name| %>
               <% is_selected = (code == current_locale ? "selected" : "") %>
