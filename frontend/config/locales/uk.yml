@@ -1277,6 +1277,8 @@ uk:
       rows_with_errors: '%{count} рядків з помилкою – клацніть поле рядка, щоб переглянути
         помилки для цього рядка'
       rows_no_errors: Усі рядки дійсні
+      error_summary_header: 'Помилки в рядку:'
+      select_prompt: 'Помилки в рядку:'
     sections:
       basic_information: Основна інформація
       language: Мова
@@ -1305,8 +1307,48 @@ uk:
       sequence: Послідовність
       fill_value: Значення заповнення
       select_a_column: Будь ласка, виберіть стовпець
-      sequence_count_warning: ''
+      sequence_count_warning: 'Рядків більше, ніж елементів у послідовності.'
       apply_basic_fill: Застосувати заливку
+      preview_sequence: Попередній перегляд значень послідовності
+      apply_sequence_fill: Застосувати послідовність
+      sequence_summary: '%{count} елементів у послідовності:'
+      sequence_summary_with_maxsize: 'Для ваших рядків %{limit} значення послідовності
+        %{count} такі:'
+      sequence_from_required: Потрібно поле "Від"
+      sequence_to_required: Потрібно "К"
+    reorder_columns:
+      apply_order: Застосувати порядок стовпців
+    save_template:
+      save_template: Зберегти шаблон
+      template_name: Назва шаблону
+      confirm_removal: Підтвердити видалення
+    templates:
+      listing: Шаблони
+      no_templates: Шаблонів не визначено
+    help:
+      fill_column:
+        sequence_description: Щоб застосувати послідовність до стовпця, 
+          натисніть <strong>Заповнити стовпець</strong> та на вкладці 
+          <strong>Послідовність</strong> виберіть цільовий 
+          <strong>Стовпець</strong> і заповніть поля <strong>Значення 
+          заповнення</strong>, щоб створити потрібну послідовність. З’явиться 
+          попередження, якщо згенерована послідовність не заповнить кількість 
+          рядків у формі.
+      reorder_columns:
+        title: Зміна порядку стовпців
+        description: Натисніть <strong>Змінити порядок стовпців</strong>, 
+          виберіть рядок(ки), порядок яких потрібно змінити, і за допомогою 
+          кнопок зі стрілками вгору/вниз змініть їхнє положення у списку. Коли 
+          вас влаштовує новий порядок, натисніть <strong>Застосувати порядок 
+          стовпців</strong>.
+      reset:
+        title: Скинути форму
+        description: Натисніть <strong>Скинути</strong>, щоб очистити форму та 
+          повернути значення за замовчуванням для закріплених, видимих і порядку
+          стовпців.
+      keyboard_shortcuts:
+        title: Комбінації клавіш
+    default_template: Шаблон за замовчуванням
   term:
     _frontend:
       messages:
@@ -1315,3 +1357,7 @@ uk:
         add: Додати термін/підрозділ
   transfer:
     ref: Цільовий репозиторій
+  update_monitor:
+    save_failed: <strong>Не вдалося зберегти зміни</strong>
+    stale_record: Цей запис було оновлено іншим користувачем. Будь ласка, 
+      оновіть сторінку, щоб отримати доступ до останньої версії.
