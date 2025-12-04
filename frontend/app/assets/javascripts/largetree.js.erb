@@ -435,6 +435,15 @@
 
     LargeTree.prototype.expandNode = function (row, done_callback) {
         var self = this;
+
+        // Root row is already expanded
+        if (row.is('.root-row')) {
+            if (done_callback) {
+                done_callback();
+            }
+            return;
+        }
+
         var button = row.find('.expandme');
 
         if (button.data('expanded')) {
