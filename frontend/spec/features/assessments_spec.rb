@@ -400,4 +400,107 @@ describe 'Assessments', js: true do
 
     it_behaves_like 'having a popover to view the linked record'
   end
+
+  context 'index view' do
+    describe 'results table' do
+      include_context 'results table setup'
+
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'assessment' }
+      let(:browse_path) { '/assessments' }
+      let(:record_1) do
+        create(:json_assessment, {
+          'records' => [{'ref' => create(:resource).uri}],
+          'surveyed_by' => [{'ref' => create(:agent_person).uri}],
+          'survey_begin' => '2025-01-01',
+          'survey_end' => '2025-01-02',
+          'review_required' => false,
+          'sensitive_material' => false,
+          'inactive' => true
+        })
+      end
+      let(:record_2) do
+        create(:json_assessment, {
+          'records' => [{'ref' => create(:resource).uri}],
+          'surveyed_by' => [{'ref' => create(:agent_person).uri}],
+          'survey_begin' => '2023-01-01',
+          'review_required' => true,
+          'sensitive_material' => true,
+          'inactive' => false
+        })
+      end
+      let(:initial_sort) { [record_1.id.to_s, record_2.id.to_s] }
+      let(:additional_browse_columns) do
+        {
+          2 => 'Survey Begin',
+          3 => 'Review Required',
+          5 => 'Sensitive Material',
+          6 => 'Inactive',
+          7 => 'URI'
+        }
+      end
+
+      describe 'sorting' do
+        let(:default_sort_key) { 'assessment_id' }
+        let(:sorting_in_url) { true }
+        let(:primary_column_class) { 'assessment_id' }
+        let(:column_headers) do
+          {
+            'Survey Begin' => 'assessment_survey_begin',
+            'Review Required' => 'assessment_review_required',
+            'Assessment Completed' => 'assessment_completed',
+            'Sensitive Material' => 'assessment_sensitive_material',
+            'Inactive' => 'assessment_inactive',
+            'URI' => 'uri',
+            'Assessment ID' => 'assessment_id'
+          }
+        end
+        let(:sort_expectations) do
+          {
+            'assessment_survey_begin' => {
+              asc: [record_2.id.to_s, record_1.id.to_s],
+              desc: [record_1.id.to_s, record_2.id.to_s]
+            },
+            'assessment_review_required' => {
+              asc: [record_1.id.to_s, record_2.id.to_s],
+              desc: [record_2.id.to_s, record_1.id.to_s]
+            },
+            'assessment_completed' => {
+              asc: [record_2.id.to_s, record_1.id.to_s],
+              desc: [record_1.id.to_s, record_2.id.to_s]
+            },
+            'assessment_sensitive_material' => {
+              asc: [record_1.id.to_s, record_2.id.to_s],
+              desc: [record_2.id.to_s, record_1.id.to_s]
+            },
+            'assessment_inactive' => {
+              asc: [record_2.id.to_s, record_1.id.to_s],
+              desc: [record_1.id.to_s, record_2.id.to_s]
+            },
+            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.id }),
+            'assessment_id' => {
+              asc: [record_1.id.to_s, record_2.id.to_s],
+              desc: [record_2.id.to_s, record_1.id.to_s]
+            },
+          }
+        end
+
+        it_behaves_like 'results table sorting'
+      end
+
+      describe 'boolean columns' do
+        let(:boolean_column_expectations) do
+          {
+            'assessment_review_required'    => %w[False True],
+            'assessment_sensitive_material' => %w[False True],
+            'assessment_inactive'           => %w[True False],
+            'assessment_completed'          => %w[True False],
+          }
+        end
+
+        it_behaves_like 'results table boolean columns'
+      end
+
+    end
+  end
 end

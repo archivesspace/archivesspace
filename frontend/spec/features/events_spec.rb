@@ -351,4 +351,40 @@ describe 'Events', js: true do
 
     it_behaves_like 'not supporting is_primary on top-level linked agents'
   end
+
+  context 'index view' do
+    describe 'results table' do
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'event' }
+      let(:browse_path) { '/events' }
+      let(:record_1) { create(:event, event_type: 'accession', outcome: 'pass') }
+      let(:record_2) { create(:event, event_type: 'virus_check', outcome: 'fail') }
+      let(:initial_sort) { [record_1.event_type.titleize, record_2.event_type.titleize] }
+
+      describe 'sorting' do
+        include_context 'results table setup'
+
+        let(:default_sort_key) { 'event_type' }
+        let(:sorting_in_url) { true }
+        let(:primary_column_class) { 'event_type' }
+        let(:additional_browse_columns) { { 5 => 'URI' } }
+        let(:column_headers) { { 'Type' => 'event_type', 'Outcome' => 'outcome', 'URI' => 'uri' } }
+        let(:sort_expectations) do
+          {
+            'event_type' => {
+              asc: [record_1.event_type.titleize, record_2.event_type.titleize],
+              desc: [record_2.event_type.titleize, record_1.event_type.titleize]
+            },
+            'outcome' => {
+              asc: [record_2.event_type.titleize, record_1.event_type.titleize],
+              desc: [record_1.event_type.titleize, record_2.event_type.titleize]
+            },
+            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.event_type.titleize })
+          }
+        end
+
+        it_behaves_like 'results table sorting'
+      end
+    end
+  end
 end

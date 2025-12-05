@@ -979,3 +979,487 @@ uk:
         spawn_placeholder: <em>Створений компонент буде вставлено сюди</em>
         spawn_menu_before: Вставити створений компонент перед
         spawn_menu_child: Вставити породжений компонент як дочірній
+  classification_term:
+    _frontend:
+      messages:
+        created_with_parent: Термін класифікації 
+          <strong>%{classification_term_title}</strong> створено
+  location:
+    _frontend:
+      messages:
+        updated: Розташування збережено
+        deleted: Розташування видалено
+      section:
+        basic_information: Основна інформація
+        search_embedded: Пов'язані записи
+      action:
+        add_child: Додати підкомпонент
+        add_sibling: Додати рідного брата
+        create: Створити місце розташування
+        batch: Створення пакетних розташувань
+        batch_edit: Створення пакетних розташувань
+        save: Зберегти місцезнаходження
+        single: Єдине розташування
+        delete_confirm_message: <p>Зауважте, що ви <strong>не можете скасувати 
+          цю дію.</strong>.</p><p> Якщо це місце наразі пов’язане з одним чи 
+          кількома екземплярами, його не можна видалити.</p>
+        show_space_calculator: Знайдіть за допомогою калькулятора простору
+  location_batch:
+    _frontend:
+      section:
+        location: Розташування бази
+        ranges: Діапазони координат
+      messages:
+        created: <strong>%{number_created} місць</strong> створено
+        updated: <strong>%{number_created} місць</strong> оновлено
+        location_batch_info: Визначте базові значення, які застосовуватимуться 
+          до всіх місць, згенерованих на основі <strong>діапазонів 
+          координат</strong> нижче.
+        location_batch_update_info: Введіть значення, які потрібно застосувати.
+        ranges_info: Зверніть увагу, що будь-які поля «Координати», введені у 
+          вищевказане поле <strong>Базове розташування</strong>, будуть замінені
+          значеннями, згенерованими на основі наведених нижче діапазонів. Буде 
+          створено максимум %{max_range} розташування.
+        number_to_create: Кількість локацій
+        warning: Залежно від розміру ваших діапазонів, цей процес може тривати 
+          кілька хвилин.
+      action:
+        create: Створити місця розташування
+        update: Оновити місцезнаходження
+        preview: Попередній перегляд місць розташування
+        preview_short: Попередній перегляд
+        creating: Виконується пакет...
+  name:
+    _frontend:
+      section:
+        function_subject: Суб’єкт функції
+        occupation_subject: Тема професії
+        use_date: Дата(и) використання імені
+        dates: Дати
+        parallel_names: Паралельні назви
+        place_subject: Розмістити тему
+        topic_subject: Тема Тема
+        name_subject: Ім'я Тема
+      action:
+        add: Додайте форму імені
+        make_authorized: Введіть авторизоване ім’я
+        make_authorized_tooltip: Використовується для позначення форми імені як 
+          авторизованої версії імені, встановленої авторитетними джерелами, 
+          такими як LCNAF.
+        make_display_name: Зробити відображуваним ім'ям
+        make_display_name_tooltip: Використовується для позначення того, що ця 
+          форма імені має використовуватися для відображень, коли із записом 
+          агента пов’язано кілька форм імені.
+        make_primary: Зробити основним
+        make_primary_tooltip: Зробити основною підказкою
+  note:
+    _frontend:
+      preview:
+        raw: Сире
+        raw_title: Необроблений вміст нотатки
+        parsed: Відформатовано
+        parsed_title: Як примітка буде відображена у публічному додатку
+        content: Зміст
+      action:
+        note_definedlist_item: Додати елемент
+        expand: Розгорнути
+        collapse: Згорнути
+        apply_note_order: Застосувати стандартний порядок нот
+        add: Додати примітку
+        add_for_contact_note: Додати контактну примітку
+        add_content_item: Додати елемент контенту
+        add_note_orderedlist: Додати елемент
+        add_sub_note: Додати підпримітку
+        add_note_index_item: Додати елемент
+        add_note_chronology_item: Додати подію
+        add_event: Додати елемент події
+        add_note_bibliography_item: Додати елемент
+        add_note_outline_level_item: Додати елемент
+        add_note_outline_level_level: Додати рівень
+      note_outline:
+        placeholder: Додати текст примітки
+        empty_level: Порожній рівень -- Використовуйте кнопки вище, щоб додати 
+          нові елементи або підрівні
+      messages:
+        select_a_note_type: <em>Будь ласка, виберіть тип нотатки</em>
+  related_accession:
+    _frontend:
+      action:
+        add: Додати пов'язаний доступ
+  related_agent:
+    dates: Дати стосунків
+    _frontend:
+      messages:
+        select_a_type: <em>Будь ласка, виберіть тип зв'язку</em>
+      action:
+        add: Додати пов'язаного агента
+  related_resource:
+    _frontend:
+      action:
+        add: Додати пов'язаний ресурс
+  revision_statement:
+    _frontend:
+      action:
+        add: Додати звіт про редакцію
+  repository_oai:
+    oai_is_disabled: Збір даних OAI вимкнено?
+    oai_sets_available: Набори, що входять до OAI
+  repository:
+    _frontend:
+      messages:
+        created: Створено репозиторій
+        updated: Репозиторій збережено
+        deleted: Репозиторій видалено
+        selected: Репозиторій наразі вибрано
+        selected_short: Вибрано
+        changed: Репозиторій <strong>%{repository_repo_code</strong> тепер 
+          активний
+        create_first_repository: Щоб створити свій перший репозиторій, натисніть
+          меню <strong>Система</strong> вище, а потім виберіть <strong>Керування
+          репозиторіями</strong>.
+        no_access_to_repositories: <p>У вас немає доступу до жодних 
+          репозиторіїв.</p><p>Будь ласка, зверніться до свого системного 
+          адміністратора, щоб запросити доступ.</p>
+        continue_with_transfer: Продовжити переказ?
+        transfer_failed: Перенесення не вдалося завершити через такі помилки
+        transfer_target: Виберіть репозиторій для перенесення
+        transfer_warning: <strong>Попередження:</strong> Перенесення цього 
+          репозиторію призведе до переміщення <strong>всіх</strong> його записів
+          до вибраного вами репозиторію. <strong>Цю дію не можна 
+          скасувати</strong>
+        cannot_delete_nonempty: Неможливо видалити – сховище не порожнє
+      section:
+        all_fields: Поля репозиторію
+        oai_fields: Налаштування збору врожаю OAI
+        transfer: Репозиторій перенесення
+        oai_settings: Налаштування OAI
+      action:
+        select: Виберіть репозиторій
+        save: Зберегти репозиторій
+        create: Створити репозиторій
+        order_for_pui: Встановити порядок у публічному інтерфейсі
+    _sidebar:
+      oai_settings:
+        _plural: Налаштування збору врожаю OAI
+  resource:
+    _frontend:
+      messages:
+        deleted: Ресурс <strong>%{resource_title}<strong> видалено
+        published: Ресурс <strong>%{resource_title</strong>, його підзаписи та 
+          компоненти опубліковано
+        unpublished: Публікацію ресурсу <strong>%{resource_title</strong>, його 
+          дочірніх об'єктів, підзаписів та компонентів скасовано
+        merge_description: Виберіть ресурси нижче для об'єднання
+        please_select_a_resource_to_merge: Будь ласка, виберіть ресурс
+        merged: Об'єднані ресурси
+        transfer_description: Перенести цей ресурс до...
+        transfer_target: Виберіть репозиторій для перенесення
+        unsuppressed: Ресурс <strong>%{resource_title</strong> розблоковано
+        suppressed: Ресурс <strong>%{resource_title}<strong> приховано
+        suppressed_info: Ресурс приховано та не можна редагувати
+        delete_conflict: 'Ресурс не вдалося видалити: <pre>%{error}<pre>'
+        created: Ресурс <strong>%{resource_title}<strong> створено
+        updated: Ресурс <strong>%{resource_title}<strong> оновлено
+        spawned: Новий ресурс було створено з об’єкта доступу 
+          <strong>%{accession_display_string}<strong>. Цей запис не збережено. 
+          Щоб запис було створено в системі, потрібно натиснути «Зберегти».
+      section:
+        basic_information: Основна інформація
+        finding_aid: Пошук даних про допомогу
+      action:
+        add_child: Додати дитину
+        create: Створити ресурс
+        load_bulk: Завантажити через електронну таблицю
+        save: Зберегти ресурс
+        delete_multiple: Видалити ресурси
+      remove_subrecord: Видалити підзапис
+    external_ark_url: Зовнішня URL-адреса ARK
+    external_ark_url_tooltip: Постійний ідентифікатор ключа архівного ресурсу 
+      (ARK), згенерований поза межами АрхівзСпєс. Якщо це поле має значення, 
+      воно має пріоритет над ARK, згенерованим в АрхівзСпєс.
+    linker:
+      browse: Переглянути ресурси
+      link_title: Переглянути
+      link_to: Посилання на ресурс
+  preference:
+    _frontend:
+      messages:
+        updated: Налаштування оновлено
+        reset: Налаштування встановлено на значення за замовчуванням програми
+        reset_error: 'Не вдалося скинути налаштування через помилку: %{exception}'
+        no_access_to_preferences: Перш ніж керувати налаштуваннями, потрібно 
+          створити принаймні одне сховище
+      action:
+        save: Зберегти налаштування
+  rights_statement:
+    _frontend:
+      action:
+        add: Додати заяву про права
+  subject:
+    _frontend:
+      action:
+        save: Зберегти тему
+        add: Додати тему
+        create: Створити тему
+      messages:
+        created: Тему створено
+        updated: Тему збережено
+        deleted: Тему видалено
+        merged: Об'єднані теми
+        merge_description: Виберіть теми нижче для об'єднання
+        please_select_a_subject_to_merge: Будь ласка, виберіть тему
+        delete_conflict: 'Не вдалося видалити тему: <pre>%{error}<pre>'
+      section:
+        basic_information: Основна інформація
+        terms: Терміни та підрозділи
+        search_embedded: Пов'язані записи
+  user:
+    is_active_user: Активний
+    active: правда
+    inactive: хибний
+    source: Автентифікація
+    _frontend:
+      messages:
+        access_denied: Доступ заборонено. Увійдіть як адміністратор, щоб 
+          виконати цю дію.
+        created: Створено користувачем
+        updated: Збережено користувачем
+        deleted: Користувача видалено
+        error_update: Користувача не збережено
+        error_create: Користувача не створено
+        group_not_required: Користувач — це адміністратор або системний 
+          користувач, вибір групи не потрібен.
+        activated: Користувач активував
+        deactivated: Користувач деактивовано
+        error_activate: Користувач не активований
+        error_deactivate: Користувач не деактивовано
+        password_reset_email_sent: Якщо обліковий запис для %{email} існує, вам 
+          буде надіслано електронний лист з інструкціями щодо скидання пароля.
+        error_not_found: Не вдалося знайти обліковий запис користувача для 
+          %{email}. Зверніться по допомогу до адміністратора.
+        password_reset_not_allowed: Відновлення пароля заборонено. Зверніться до
+          адміністратора.
+        password_reset_fail: Не вдалося відновити пароль. Зверніться до 
+          адміністратора.
+      section:
+        manage_access: Керування доступом користувачів
+        account: Обліковий запис
+        edit_account: Редагувати обліковий запис
+        edit_account_submit: Оновити обліковий запис
+        new_account: Новий обліковий запис
+      action:
+        create_account: Створити обліковий запис
+        update_account: Оновити обліковий запис
+        create: Створити користувача
+        edit: Редагувати користувача
+        show_active: Показати активних користувачів
+        show_inactive: Показати неактивних користувачів
+        deactivate_user: Деактивувати
+        activate_user: Активувати
+        update_self: Керування обліковим записом користувача
+  user_defined:
+    _frontend:
+      action:
+        add: Додати поля, визначені користувачем
+  use_date:
+    _frontend:
+      action:
+        add: Додати дату використання
+  rde:
+    date_type: Тип дати
+    instance_type: Тип екземпляра
+    column_label: Колонка
+    messages:
+      error_prefix: Рядок
+      success: <div class='alert alert-success'>Діти створено. Оновлення 
+        сторінки...</div>
+      no_rows: Будь ласка, введіть значення принаймні для одного рядка
+      rows_with_errors: '%{count} рядків з помилкою – клацніть поле рядка, щоб переглянути
+        помилки для цього рядка'
+      rows_no_errors: Усі рядки дійсні
+      error_summary_header: 'Помилки в рядку:'
+      select_prompt: 'Помилки в рядку:'
+    sections:
+      basic_information: Основна інформація
+      language: Мова
+      date: Дата
+      extent: Ступінь
+      instance: Екземпляр
+      notes: Нотатки
+      file_version: Версія файлу
+    actions:
+      add_row: Додати рядок
+      add_rows: Додати рядки
+      submit: Зберегти рядки
+      reset: Скинути
+      showhide_prefix: 'Колонки:'
+      showhide_suffix: видимий
+      showhide_none: Усі стовпці відфільтровано
+      fill_toggle: Заповнити стовпець
+      reorder_toggle: Зміна порядку стовпців
+      validate_rows: Перевірити рядки
+      inline_errors_toggle: Переглянути вбудовані помилки
+      save_template: Зберегти як шаблон
+      select_template: Виберіть шаблон
+      manage_templates: Видалити шаблони
+    fill_column:
+      basic: Базовий
+      sequence: Послідовність
+      fill_value: Значення заповнення
+      select_a_column: Будь ласка, виберіть стовпець
+      sequence_count_warning: 'Рядків більше, ніж елементів у послідовності.'
+      apply_basic_fill: Застосувати заливку
+      preview_sequence: Попередній перегляд значень послідовності
+      apply_sequence_fill: Застосувати послідовність
+      sequence_summary: '%{count} елементів у послідовності:'
+      sequence_summary_with_maxsize: 'Для ваших рядків %{limit} значення послідовності
+        %{count} такі:'
+      sequence_from_required: Потрібно поле "Від"
+      sequence_to_required: Потрібно "К"
+    reorder_columns:
+      apply_order: Застосувати порядок стовпців
+    save_template:
+      save_template: Зберегти шаблон
+      template_name: Назва шаблону
+      confirm_removal: Підтвердити видалення
+    templates:
+      listing: Шаблони
+      no_templates: Шаблонів не визначено
+    help:
+      fill_column:
+        sequence_description: Щоб застосувати послідовність до стовпця, 
+          натисніть <strong>Заповнити стовпець</strong> та на вкладці 
+          <strong>Послідовність</strong> виберіть цільовий 
+          <strong>Стовпець</strong> і заповніть поля <strong>Значення 
+          заповнення</strong>, щоб створити потрібну послідовність. З’явиться 
+          попередження, якщо згенерована послідовність не заповнить кількість 
+          рядків у формі.
+        basic_title: Заповнити стовпець – базовий
+        basic_description: Щоб заповнити стовпець одним значенням, натисніть 
+          кнопку <strong>Заповнити стовпець</strong> та на вкладці 
+          <strong>Основні</strong> виберіть цільовий <strong>Стовпець</strong>, 
+          введіть потрібне <strong>Значення заповнення</strong> та натисніть 
+          <strong>Застосувати заповнення</strong>.
+        sequence_title: Заповнити стовпець – послідовність
+      reorder_columns:
+        title: Зміна порядку стовпців
+        description: Натисніть <strong>Змінити порядок стовпців</strong>, 
+          виберіть рядок(ки), порядок яких потрібно змінити, і за допомогою 
+          кнопок зі стрілками вгору/вниз змініть їхнє положення у списку. Коли 
+          вас влаштовує новий порядок, натисніть <strong>Застосувати порядок 
+          стовпців</strong>.
+      reset:
+        title: Скинути форму
+        description: Натисніть <strong>Скинути</strong>, щоб очистити форму та 
+          повернути значення за замовчуванням для закріплених, видимих і порядку
+          стовпців.
+      keyboard_shortcuts:
+        title: Комбінації клавіш
+        shift: ЗМІЩЕННЯ
+        arrow_keys: Клавіші зі стрілками
+        return: Повернення
+        move_term: Перехід з клітинки в клітинку
+        new_term: Створити новий рядок (з останнього рядка)
+      sticky_columns:
+        title: Закріплені колонки
+        p_one: Виділені стовпці є закріпленими та будуть скопійовані під час 
+          додавання нових рядків. Увімкніть/виключіть опцію «закріплення», 
+          натиснувши відповідний заголовок таблиці.
+        p_two: Натискання кнопки <strong>Додати рядок</strong> скопіює значення 
+          з останнього рядка. Кнопка <strong>+</strong> рядка скопіює значення з
+          рядка, на якому поточний фокус.
+    default_template: Шаблон за замовчуванням
+  term:
+    _frontend:
+      messages:
+        preview_pending: Попередній перегляд теми
+      action:
+        add: Додати термін/підрозділ
+  transfer:
+    ref: Цільовий репозиторій
+  update_monitor:
+    save_failed: <strong>Не вдалося зберегти зміни</strong>
+    stale_record: Цей запис було оновлено іншим користувачем. Будь ласка, 
+      оновіть сторінку, щоб отримати доступ до останньої версії.
+    other_editors: 'Цей запис наразі редагується іншим користувачем. Будь ласка, зв’яжіться
+      з такими користувачами, щоб переконатися у відсутності конфліктів: <strong>%{user_ids</strong>'
+    repository_changed: Цей запис неможливо зберегти, оскільки ваш активний 
+      репозиторій змінився. Щоб зберегти цей запис, відкрийте інше вікно та 
+      скиньте налаштування активного репозиторію.
+  job:
+    _frontend:
+      singular: ''
+      plural: Робота
+      actions:
+        add_file: Додати файл
+        follow_log: Журнал слідкування
+      section:
+        basic_information: Основна інформація
+        status: Статус роботи
+        logs: Журнал
+        generated_uris: Нові та змінені записи
+        active_jobs: Активні вакансії
+        archived_jobs: Архівні вакансії
+        files: Файли
+      messages:
+        status_changed_running: Завдання розпочато. Оновлення сторінки...
+        status_changed_completed: Роботу завершено.
+        status_changed_failed: Робота провалилася.
+        status_changed_canceled: Завдання скасовано.
+        no_active_jobs: Активних вакансій немає.
+        no_archived_jobs: Немає архівованих вакансій.
+        uploading: Завантаження завдання...
+        upload_successful: Завантаження успішне. Перенаправлення на сторінку 
+          вакансії...
+        import_type_missing: Будь ласка, виберіть тип імпорту
+        queue_position_next: Це завдання наступне в черзі.
+        queue_position: Це завдання знаходиться на %{position} позиції в черзі.
+  sub_container:
+    barcode_2_tooltip: |
+      <p>Штрих-код для ідентифікації контейнера другого рівня, в якому зберігається описаний матеріал.</p>
+    type_3: Тип онука
+    type_3_tooltip: |
+      <p>Тип контейнера третього рівня, в якому зберігається описаний матеріал.</p>
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    indicator_3: Індикатор онуків
+    indicator_3_tooltip: |
+      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера третього рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів третього рівня, наприклад, папки 1-16.</p>
+    _singular: Підконтейнер
+    _plural: Підконтейнери
+    _frontend:
+      action:
+        add: Додати екземпляр контейнера
+  top_container:
+    container_profile: Профіль контейнера
+    container_profile_tooltip: |
+      <p>Опис різних характеристик певного типу контейнера, включаючи розміри.</p>
+    indicator: Індикатор
+    indicator_tooltip: |
+      <p>ОБОВ'ЯЗКОВЕ ПОЛЕ. Буквено-цифровий вираз для позначення місця контейнера найвищого рівня, яке також може бути позицією контейнера в послідовності контейнерів.</p>
+    barcode: Штрих-код
+    barcode_tooltip: |
+      <p>Використовується для запису штрих-коду, який однозначно ідентифікує контейнер найвищого рівня.</p>
+    type: Тип контейнера
+    type_tooltip: |
+      <p>Тип контейнера найвищого рівня.</p>
+
+      <p>Значення в цьому списку контрольованих значень можна змінювати.</p>
+    ils_holding_id: Ідентифікатор холдингу ILS
+    ils_holding_id_tooltip: |
+      <p>Ідентифікатор пов'язаного запису про фонд у бібліотечній ILS</p>
+    ils_item_id: Ідентифікатор товару ILS
+    ils_item_id_tooltip: |
+      <p>Ідентифікатор, що надається API, для пов’язаного запису елемента в бібліотечній ILS (системне поле; не можна редагувати вручну)</p>
+    internal_note: Внутрішня примітка
+    internal_note_tooltip: |
+      <p>Нотатки для внутрішнього використання. Відображаються лише в інтерфейсі персоналу.</p>
+    exported_to_ils: Експортовано до ILS
+    not_exported: Не експортовано
+    restricted: Обмежено?
+    parent: Батьківський контейнер
+    has_location: Має місцезнаходження
+    managed_container_2_type: Тип дочірнього контейнера
+    managed_container_2_type_tooltip: |
+      <p>Тип контейнера другого рівня, в якому зберігається описаний матеріал.</p>
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    managed_container_2_indicator: Індикатор дочірнього контейнера

@@ -115,7 +115,6 @@ module SearchAndBrowseColumnConfig
     },
     "location" => {
       "title" => {:field => "title", :sortable => true, :sort_by => "title_sort"},
-      "publish" => {:field => "publish", :sortable => true, :type => "boolean"},
       "building" => {:field => "building", :sortable => true},
       "floor" => {:field => "floor", :sortable => true},
       "room" => {:field => "room", :sortable => true},
