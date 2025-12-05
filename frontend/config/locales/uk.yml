@@ -312,15 +312,52 @@ uk:
         скасувати вибір кількох попередніх рядків.
   agent_gender:
     _singular: Стать
+    _plural: Стать
+    _frontend:
+      action:
+        add: Додати стать
+    gender: Стать
+    note: Примітка
+    dates: Дати
   agent_place:
     _singular: Місце
     _plural: Місця
+    _frontend:
+      action:
+        add: Додати місце
+    section:
+      dates: Дати
+    place_role: Роль місця агента
+    text_note: Примітка
+    dates: Дати
+    subjects: Місця
+    publish: Опубліковано
   agent_occupation:
     _singular: Професія
     _plural: Професії
+    _frontend:
+      action:
+        add: Додати професію
+    section:
+      dates: Дати
+    text_note: Примітка
+    dates: Дати
+    subjects: Професії
+    places: Місця
+    publish: Опубліковано
   agent_topic:
     _singular: Тема
     _plural: Теми
+    _frontend:
+      action:
+        add: Додати тему
+    section:
+      dates: Дати
+    text_note: Примітка
+    dates: Дати
+    subjects: Теми
+    places: Місця
+    publish: Опубліковано
   agent_record_identifier:
     source: Джерело
     primary_identifier: Чи є основним ідентифікатором?
@@ -328,14 +365,35 @@ uk:
   agent_function:
     _plural: Функції
     _singular: Функція
+    _frontend:
+      action:
+        add: Додати функцію
+    section:
+      dates: Дати
+    text_note: Примітка
+    dates: Дати
+    subjects: Функції
+    places: Місця
+    publish: Опубліковано
   agent_identifier:
     identifier_type: Тип ідентифікатора
+    _plural: Ідентифікатори об'єктів
+    _singular: Ідентифікатор
+    _frontend:
+      action:
+        add: Додати ідентифікатор об'єкта
+    entity_identifier: Ідентифікатори об'єктів
   agent_resource:
     _singular: Пов'язаний зовнішній ресурс
     _plural: Пов’язані зовнішні ресурси
   used_language:
     _plural: Використані мови
     _singular: Використана мова
+    _frontend:
+      action:
+        add: Додати мову
+    language: Мова
+    script: Сценарій
   metadata_rights_declaration:
     _plural: Декларації прав на метадані
     descriptive_note: Описова примітка
@@ -1992,3 +2050,59 @@ uk:
     repo_set_description: Опис набору репозиторію
     sponsor_set_name: Назва набору спонсора
     sponsor_set_names: Імена спонсорів
+    sponsor_set_description: Опис набору спонсора
+    oai_leave_repo_form: Ці опції впливають на OAI-PMH лише для цього 
+      репозиторію. Натисніть нижче, щоб переглянути/редагувати глобальні опції 
+      OAI. Це призведе до збереження поточної форми без зміни.
+    _frontend:
+      section:
+        basic_information: Загальні налаштування
+      action:
+        create: Оновлення налаштувань OAI-PMH
+        updated: Налаштування OAI-PMH успішно оновлено!
+    _sidebar:
+      repo_set_section:
+        _plural: Набори репозиторіїв
+      sponsor_set_section:
+        _plural: Набори спонсорів
+      repo_settings:
+        _plural: Налаштування OAI-PMH для кожного репозиторію
+  agent_record_control:
+    _plural: Інформація про запис
+    _singular: Інформація про запис
+    _frontend:
+      action:
+        add: Додати інформацію про запис
+    maintenance_status: Стан ведення контролю записів
+    publication_status: Стан публікації контролю записів
+    romanization: романізація
+    government_agency_type: Тип державного органу з контролю за записами
+    reference_evaluation: Оцінювання посилань на контроль записів
+    name_type: Тип назви елемента керування записами
+    level_of_detail: Рівень деталізації контролю записів
+    modified_record: Змінений тип елемента керування записами
+    cataloging_source: Джерело каталогізації контролю записів
+    maintenance_agency: Агентство з технічного обслуговування
+    agency_name: Назва агентства
+    maintenance_agency_note: Примітка агентства з технічного обслуговування
+    language: Мова
+    script: Сценарій
+    language_note: Примітка щодо мови
+  place:
+    _plural: Місця
+    _frontend:
+      action:
+        add: Додати місце
+  agent_alternate_set:
+    _plural: Альтернативні набори
+    _singular: Альтернативний набір
+    _frontend:
+      action:
+        add: Додати альтернативний набір
+    set_component: Встановити компонент
+    descriptive_note: Описова примітка
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
