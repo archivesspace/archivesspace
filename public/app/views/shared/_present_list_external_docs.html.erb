@@ -8,9 +8,9 @@
 	<%= item['inherit'].html_safe %>
      <% end %>
      <% unless item['uri'].blank? %>
-     <a href="<%= item['uri'] %>">
+     <a href="<%= item['uri'] %>" target="_blank" rel="noopener noreferrer">
      <% end %>
-     <%= raw(process_mixed_content(item['title'])) %>
+     <%= raw(process_mixed_content(item['title'])) %> <i class="fa fa-external-link" aria-hidden="true"></i>
      <% unless item['uri'].blank? %>
      </a>
      <% end %>
@@ -33,9 +33,9 @@
        <% else %>
        <% if item.kind_of? Hash %>
         <% unless item['uri'].blank? %>
-         <a href="<%= item['uri'] %>">
+         <a href="<%= item['uri'] %>" target="_blank" rel="noopener noreferrer">
         <% end %>
-        <%= raw(process_mixed_content(item['title'])) %>
+        <%= raw(process_mixed_content(item['title'])) %> <i class="fa fa-external-link" aria-hidden="true"></i>
         <% unless item['uri'].blank? %>
          </a>
         <% end %>
