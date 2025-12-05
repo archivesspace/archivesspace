@@ -1716,3 +1716,205 @@ uk:
     extent_dimension_width: Ширина
     extent_dimension_width_tooltip: |
       <p>Числове значення ширини (розмір від борта до борта) контейнера.</p>
+    depth: Глибина
+    depth_tooltip: |
+      <p>Числове значення глибини (розмір від передньої до задньої частини) контейнера.</p>
+    height: Висота
+    height_tooltip: |
+      <p>Числове значення висоти (розмір зверху вниз) контейнера.</p>
+    width: Ширина
+    width_tooltip: |
+      <p>Числове значення ширини (розмір від борта до борта) контейнера.</p>
+    stacking_limit: Ліміт укладання
+    stacking_limit_tooltip: |
+      <p>Кількість цих контейнерів, які можна поставити один на одного. Залиште поле порожнім, якщо немає обмеження. Має бути додатним цілим числом.</p>
+    linker:
+      browse: Переглянути профілі контейнерів
+      create: Створити профіль контейнера
+      link_title: Посилання на профіль контейнера
+  rights_restriction:
+    begin: Початок обмеження
+    begin_tooltip: |
+      <p>Для обмеження з обмеженим часом – дата початку обмеження доступу. Має бути одна дата у форматі РРРР-ММ-ДД. Буде від’єднано від контейнерів після закінчення терміну дії. Використовуйте текст примітки, щоб вказати менш точну дату або проміжок часу.</p>
+    end: Кінець обмеження
+    end_tooltip: |
+      <p>Для обмеження з обмеженим часом – кінцева дата обмеження доступу. Має бути одна дата у форматі РРРР-ММ-ДД. Буде від’єднано від контейнерів після закінчення терміну дії. Використовуйте текст примітки, щоб вказати менш точну дату або проміжок часу.</p>
+    local_access_restriction_type: Тип обмеження локального доступу
+    local_access_restriction_type_inline_help: Утримуйте клавішу CTRL (Windows) 
+      / Command (Mac), щоб вибрати кілька опцій або скасувати вибір опції
+    local_access_restriction_type_tooltip: |
+      <p>Для обмежень, що не обмежені часом, вказівка причини обмеження.</p>
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    linked_records: Зв'язаний запис
+    restriction_note_type: Тип примітки
+  extent_calculator:
+    no_object_message: Будь ласка, вкажіть об'єкт, для якого потрібно запустити 
+      калькулятор екстенту.
+    report_title: Звіт про розрахований ступінь
+    container_profile_header: Профіль контейнера
+    count_header: Кількість
+    extent_header: Ступінь
+    no_profile: <span class="text-error">НЕМАЄ ПРОФІЛЮ</span>
+    all_containers_label: Усі контейнери
+    timestamp_label: Звіт створено о
+    extent_record_header: Запис обсягу
+    create_extent: Створити екстент
+    calculate_extent: Обчислити протяжність
+    create_extent_record_message: Запустіть калькулятор протяжності в режимі 
+      редагування, щоб мати можливість створити запис протяжності на основі 
+      звіту.
+    waiting_for_report_message: Обчислення протяжності ...
+    required_fields_alert_message: Будь ласка, переконайтеся, що всі обов'язкові
+      поля містять значення.
+    container_summary_type:
+      _singular: контейнер
+      _plural: контейнери
+  location_profile:
+    _singular: Профіль місцезнаходження
+    _plural: Профілі місцезнаходження
+    _frontend:
+      action:
+        save: Зберегти профіль місцезнаходження
+        edit: Редагувати профіль місцезнаходження
+        create: Створити профіль місцезнаходження
+      messages:
+        created: Профіль місцезнаходження створено
+        updated: Профіль місцезнаходження оновлено
+        fields_required_for_calculator: Зверніть увагу, що для калькулятора 
+          простору потрібні одиниці вимірювання, глибина, висота та ширина. 
+          Розташування буде пропущено з результатів, якщо будь-яке з цих значень
+          відсутнє.
+      section:
+        basic_information: Основна інформація
+    name: Ім'я
+    dimension_units: Одиниці виміру
+    depth: Глибина
+    height: Висота
+    width: Ширина
+    linker:
+      browse: Переглянути профілі місцезнаходження
+      create: Створити профіль місцезнаходження
+      link_title: Посилання на профіль місцезнаходження
+  space_calculator:
+    modal_title: Космічний калькулятор
+    modal_loading: Завантаження...
+    message_container_profile_required: Для використання калькулятора простору 
+      потрібно встановити профіль контейнера.
+    message_locations_required: Для використання калькулятора простору потрібно 
+      встановити одне або декілька місць розташування.
+    message_select_locations: 'Перевірте наявність вільних місць у наступних місцях):'
+    message_no_locations_with_space: Не знайдено місць із вільним місцем
+    message_total_spaces: 'Загальна кількість доступних місць для цього типу контейнера:
+      %{total_spaces}'
+    message_total_containers: 'Загальна кількість контейнерів цього типу, знайдених
+      у цих місцях: %{total_containers}'
+    message_loading: Завантаження...
+    count: Доступний простір (контейнерного типу)
+    calculate_space: Перевірте наявність місця
+    locations_without_space_details: Оцініть місця без місця
+    by_locations: За місцем розташування
+    by_building: Будуючи
+    result_filter: Фільтрувати результати
+    summary:
+      locations_with_space: 'Місця з вільними місцями: <strong>%{count</strong>'
+      locations_without_space: 'Місця, де немає вільних місць: <strong>%{count</strong>'
+      uncalculatable_locations: 'Не вдалося обчислити: <strong>%{count</strong>'
+    view_all_toggle: Показати місця без місця
+    reason:
+      location_lacks_a_profile: У місця розташування немає профілю
+      location_lacks_dimension_data: У профілі місцезнаходження відсутні дані 
+        про розміри
+      container_is_bigger: Контейнер більший за розташування принаймні в одному 
+        вимірі
+      container_at_location_lacks_profile: Принаймні один із контейнерів, що 
+        зараз знаходяться на місці, не має профілю
+      containers_at_location_dont_fit: Контейнери, що зараз знаходяться на 
+        місці, не підходять
+      location_cannot_fit_container: Наразі це місце не підходить для 
+        контейнерів цього типу.
+  date_calculator:
+    toolbar_button: Обчислити дати
+    calculate_button: Обчислити запис дати
+    modal_title: Обчислити дати
+    all_labels: Розрахувати для всіх дат
+    no_object_message: Запис не знайдено
+    results_title: Запис розрахованої дати
+    create_date_button: Створити запис дати
+    generic_create_error: Дата недійсна та не може бути створена
+    create_success: Дата успішного створення. Оновлення сторінки...
+    no_dates: Не знайдено відповідних дат
+    no_dates_for_label: Не знайдено відповідних дат %{label}
+  act:
+    _frontend:
+      action:
+        add: Додати акт
+  bulk_archival_object_update_spreadsheet:
+    title: Створення електронної таблиці для масового архівування об'єктів
+    description: Скористайтеся формою нижче, щоб вибрати архівні об’єкти, які ви
+      хочете масово оновити.
+    selected_records: Вибрані записи
+    selected: Вибрано
+    record_title: Назва запису
+    column_types_to_include_in_spreadsheet: Типи стовпців, які потрібно включити
+      до електронної таблиці
+    note_types: Типи нотаток
+    minimum_subrecords: Мінімальна кількість підзаписів
+    minimum_subrecords_description: Мінімальна кількість уже існуючих підзаписів
+      кожного типу, які потрібно включити.
+    extra_subrecords: Додаткові підзаписи
+    extra_subrecords_description: Кількість нових підзаписів, які потрібно 
+      включити на додаток до найбільшої кількості існуючих підзаписів, що вже 
+      знайдені в будь-якому з вибраних записів.
+    minimum_notes: Мінімальні примітки
+    minimum_notes_description: Мінімальна кількість вже існуючих підзаписів 
+      нотаток кожного типу, які потрібно включити.
+    download_spreadsheet: Завантажити електронну таблицю
+    download_spreadsheet_modal_message: Створення цієї електронної таблиці може 
+      зайняти кілька хвилин.
+  assessment:
+    _frontend:
+      form_header: Оцінка %{display_string}
+      formats: Типи / Формати матеріалів
+      ratings: Рейтинги
+      conservation_issues: Проблеми збереження
+      record_types: Типи записів
+      action:
+        create: Створити оцінювання
+        save: Зберегти оцінку
+        add_rating_note: Додати примітку
+        remove_rating_note: Видалити нотатку
+        create_for_record: Створити оцінювання
+      section:
+        basic_information: Основна інформація
+        existing_description: Існуючий опис
+        rating_attributes: Інформація про оцінювання
+        rating_attributes_empty: Інформація про оцінювання не введена
+        rating_attributes_additional: Додатковий(і) рейтинг(и)
+        format_attributes: Список типів/форматів матеріалів
+        format_attributes_empty: Не введено типи/формати матеріалів
+        format_attributes_additional: Додаткові типи/формати матеріалів
+        conservation_issue_attributes: Проблеми збереження
+        conservation_issue_attributes_empty: Проблеми збереження не внесені
+        conservation_issue_attributes_additional: Додаткові питання охорони 
+          природи
+      messages:
+        created: Оцінювання створено
+        updated: Оцінка оновлена
+        deleted: Оцінювання видалено
+        attributes_hint: Будь ласка, зверніться до свого адміністратора, щоб 
+          додати додаткові %{attribute_type}
+        manage_attributes_hint: Керуйте додатковим %{attribute_type} для цього 
+          репозиторію
+      assessment_review_required:
+        true_value: Так
+        false_value: Ні
+      assessment_sensitive_material:
+        true_value: Так
+        false_value: Ні
+      assessment_inactive:
+        true_value: Так
+        false_value: Ні
+      assessment_completed:
+        true_value: Так
+        false_value: Ні
+      browse_reviewers: Рецензенти
