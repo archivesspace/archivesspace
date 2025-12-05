@@ -1918,3 +1918,73 @@ uk:
         true_value: Так
         false_value: Ні
       browse_reviewers: Рецензенти
+      linked_records:
+        heading: Пов'язані записи
+        loading: Завантаження...
+        linked_via_assessment_records: Оцінювання
+        linked_via_assessment_surveyed_by: Оцінювання - Опитування проводив(ла)
+        linked_via_assessment_reviewer: Оцінювання - Рецензент
+        record_type: Тип запису
+        title: Назва
+        identifier: Ідентифікатор
+      ratings_list:
+        rating: Рейтинг
+        score: Рахунок
+        note: Примітка
+  assessment_attribute_definitions:
+    _frontend:
+      title: Атрибути оцінювання
+      section:
+        formats: Типи / Формати матеріалів
+        ratings: Рейтинги
+        conservation_issues: Проблеми збереження
+      global: Глобальний %{type}
+      repository: Глобальний %{type}
+      action:
+        save: Зберегти атрибути оцінювання
+        add_type: Додати %{type}
+        find_rating: Знайти записи з рейтингом %{rating_type}
+        find_format: Знайти записи з типом/форматом матеріалу %{format_type}
+        find_issue: Знайти записи з проблемою збереження %{issue_type}
+        remove_rating: Видалити рейтинг %{rating_type}
+        remove_format: Видалити тип/формат матеріалу %{format_type}
+        remove_issue: Видалити проблему збереження %{issue_type}
+      messages:
+        updated: Атрибути оцінювання оновлено
+        error: Помилка оновлення атрибутів оцінювання
+        conflict: 'Помилка оновлення атрибутів оцінювання. Наступні мітки конфліктують
+          з існуючими записами: %{conflicts}'
+        attribute_in_use: Не вдається видалити атрибут, який наразі 
+          використовується оцінюванням
+      database_value: Значення бази даних
+      translation: Переклад
+  custom_report_template:
+    new_title: Новий шаблон користувацького звіту
+    _frontend:
+      section:
+        template_information: Інформація про шаблон
+        basic_information_fields: Основні інформаційні поля
+        linked_records: Пов'язані записи
+        sort_by: Сортувати звіт за
+      action:
+        create: Створити шаблон
+        save: Зберегти шаблон
+        search_usernames: Пошук імен користувачів
+      messages:
+        copied: Шаблон спеціального звіту скопійовано
+        created: Шаблон спеціального звіту створено
+        updated: Шаблон спеціального звіту оновлено
+  oai_config:
+    title: Налаштування OAI-PMH
+    title_repo_section: Налаштування OAI-PMH для кожного репозиторію
+    general_section: Загальні налаштування
+    repo_set_section: Набір репозиторію
+    sponsor_set_section: Набір спонсора
+    repo_set_desc: Окрім наборів на основі рівня опису, ви можете визначити 
+      набір OAI на основі репозиторіїв.
+    sponsor_set_desc: Окрім наборів на основі рівня опису, ви можете визначити 
+      набір OAI на основі імен спонсорів.
+    oai_record_prefix: Префікс запису OAI
+    oai_admin_email: Електронна пошта адміністратора OAI
+    oai_repository_name: Назва репозиторію OAI
+    repo_set_name: Назва набору репозиторію
