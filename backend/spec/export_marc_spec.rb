@@ -373,6 +373,19 @@ describe 'MARC Export' do
       end
     end
 
+    it "maps dimensions to subfield c" do
+      @extents.each do |e|
+        next unless e.dimensions
+        expect(@marc).to have_tag "datafield[@tag='300']/subfield[@code='c']" => e.dimensions
+      end
+    end
+
+    it "maps physical details to subfield b" do
+      @extents.each do |e|
+        next unless e.physical_details
+        expect(@marc).to have_tag "datafield[@tag='300']/subfield[@code='b']" => e.physical_details
+      end
+    end
 
     it "maps arrangement and fileplan notes to datafield 351, and appends trailing punctuation" do
       @notes.each do |note|
