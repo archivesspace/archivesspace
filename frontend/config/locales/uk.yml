@@ -1713,3 +1713,6 @@ uk:
     extent_dimension_height: Висота
     extent_dimension_height_tooltip: |
       <p>Числове значення висоти (розмір зверху вниз) контейнера.</p>
+    extent_dimension_width: Ширина
+    extent_dimension_width_tooltip: |
+      <p>Числове значення ширини (розмір від борта до борта) контейнера.</p>
