@@ -7,12 +7,13 @@
      <% unless item['inherit'].blank? %>
 	<%= item['inherit'].html_safe %>
      <% end %>
-     <% unless item['uri'].blank? %>
-     <a href="<%= item['uri'] %>">
-     <% end %>
-     <%= raw(process_mixed_content(item['title'])) %>
-     <% unless item['uri'].blank? %>
+     <% if item['uri'].present? %>
+     <a href="<%= item['uri'] %>" target="_blank" rel="noopener noreferrer">
+      <%= raw(process_mixed_content(item['title'])) %>
+      <i class="fa fa-external-link" aria-hidden="true"></i>
      </a>
+     <% else %>
+      <%= raw(process_mixed_content(item['title'])) %>
      <% end %>
      </li>
    <% end %>
@@ -32,12 +33,13 @@
          <%= item['_terms'].map{|t| " -- #{t['term']}"}.join %>
        <% else %>
        <% if item.kind_of? Hash %>
-        <% unless item['uri'].blank? %>
-         <a href="<%= item['uri'] %>">
-        <% end %>
-        <%= raw(process_mixed_content(item['title'])) %>
-        <% unless item['uri'].blank? %>
+        <% if item['uri'].present? %>
+         <a href="<%= item['uri'] %>" target="_blank" rel="noopener noreferrer">
+          <%= raw(process_mixed_content(item['title'])) %>
+          <i class="fa fa-external-link" aria-hidden="true"></i>
          </a>
+        <% else %>
+          <%= raw(process_mixed_content(item['title'])) %>
         <% end %>
        <% else %>
          <%= item %>
