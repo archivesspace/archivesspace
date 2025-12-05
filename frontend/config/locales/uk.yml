@@ -1988,3 +1988,7 @@ uk:
     oai_admin_email: Електронна пошта адміністратора OAI
     oai_repository_name: Назва репозиторію OAI
     repo_set_name: Назва набору репозиторію
+    repo_set_codes: Репозиторії в наборі
+    repo_set_description: Опис набору репозиторію
+    sponsor_set_name: Назва набору спонсора
+    sponsor_set_names: Імена спонсорів
