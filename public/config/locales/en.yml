@@ -107,7 +107,6 @@ en:
       linked_agent_roles: Linked Agent Roles
       notes_published: Notes
       finding_aid_title: Finding Aid Title
-      finding_aid_filing_title: Finding Aid Filing Title
       instance_type_enum_s: Instance type
       acquisition_type: Acquisition Type
     page_title: "Found %{count} Results"

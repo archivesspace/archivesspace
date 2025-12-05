@@ -87,7 +87,6 @@ uk:
       linked_agent_roles: Ролі пов'язаних агентів
       notes_published: Нотатки
       finding_aid_title: Пошук допомоги Назва
-      finding_aid_filing_title: Пошук права на подання заяви про допомогу
       instance_type_enum_s: Тип екземпляра
       acquisition_type: Тип придбання
     anything: '*'

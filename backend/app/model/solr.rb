@@ -344,7 +344,7 @@ class Solr
         add_solr_param(:defType, "edismax")
         add_solr_param(:pf, "four_part_id^4")
         if @protect_unpublished
-          add_solr_param(:qf, "identifier_ws^3 title_ws^2 finding_aid_filing_title^2 fullrecord_published")
+          add_solr_param(:qf, "identifier_ws^3 title_ws^2 fullrecord_published")
         else
           add_solr_param(:qf, "identifier_ws^3 title_ws^2 finding_aid_filing_title^2 fullrecord")
         end

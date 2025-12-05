@@ -16,7 +16,7 @@ describe 'Search Listing', js: true do
 
     @accession_1 = create(:accession, title: "Accession 1 #{@now}")
     @accession_2 = create(:accession, title: "Accession 2 #{@now}", content_description: "Test content description #{@now}")
-    @resource = create(:resource, title: "Resource 1 #{@now}",)
+    @resource = create(:resource, title: "Resource 1 #{@now}", finding_aid_filing_title: "Finding aid filing title #{@now}")
     @archival_object_1 = create(:archival_object, title: "Archival Object Resource 1 #{@now}", resource: { ref: @resource.uri })
     @archival_object_2 = create(:archival_object, title: "Archival Object Resource 2 #{@now}", resource: { ref: @resource.uri })
     @archival_object_3 = create(:archival_object, title: "Archival Object Resource 3 #{@now}", resource: { ref: @resource.uri })
@@ -71,6 +71,17 @@ describe 'Search Listing', js: true do
 
       element = find('#tabledSearchResults')
       expect(element).to have_text @accession_2.title
+    end
+
+    context 'when search terms found in finding aid filing title only' do
+      it 'includes the record in the search results' do
+        element = find('#global-search-box')
+        element.fill_in with: "Finding aid filing title #{@now}"
+        find('#global-search-button').click
+
+        element = find('#tabledSearchResults')
+        expect(element).to have_text @resource.title
+      end
     end
 
     it 'displays search results with context' do
