@@ -341,6 +341,8 @@ describe 'Search', js: true do
       context 'when search terms found in finding aid filing title only' do
         let(:now) { now = Time.now.to_i }
 
+        let(:search_term) { "Finding aid filing title #{now}" }
+
         let(:searched_record) do
           person_1 = JSONModel(:name_person).new(primary_name: "Linked Agent 1 #{now}", name_order: 'direct')
           linked_agent_1 = create(:agent_person, names: [person_1], publish: true, dates_of_existence: [])
@@ -369,9 +371,9 @@ describe 'Search', js: true do
                            )
         end
 
-        it 'highlights the search term in the finding aid filing title only' do
-          expect(page).not_to highlight_term_in_title search_term
-          expect(page).to highlight_term_found_in "Found in Finding Aid Filing Title:", search_term
+        it 'does not include the record in the search results' do
+          expect(find_all('h3 .record-title').to_a).to be_empty
+          expect(page).to have_text('No Records Found')
         end
       end
     end
