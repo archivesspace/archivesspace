@@ -420,6 +420,85 @@ describe 'Locations', js: true do
           }
         end
 
+        # Optional third record for secondary sort tests
+        # Creates ties: floor="1" (same as record_2), temporary="conservation" (same as record_1)
+        let(:record_3) do
+          create(
+            :location,
+            building: "Building 3 #{now}",
+            floor: '1',
+            room: '3',
+            area: '3',
+            temporary: 'conservation'
+          )
+        end
+
+        # Secondary sort test cases
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary floor asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'floor',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            },
+            {
+              # Case 2: primary floor asc, secondary room desc - secondary changes order
+              # record_2 and record_3 both have floor="1", so they tie.
+              # After primary-only: "1" < "2", so floor="1" records first (record_2, record_3), then record_1.
+              #   Solr tie-breaks by ID, so record_2 before record_3.
+              # After secondary (room desc): within floor="1" group, "3" > "2", so record_3 moves first.
+              primary_key:   'floor',
+              primary_dir:   :asc,
+              secondary_key: 'room',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.title,
+                record_3.title,
+                record_1.title
+              ],
+              expected_after_both: [
+                record_3.title,
+                record_2.title,
+                record_1.title
+              ]
+            },
+            {
+              # Case 3: primary temporary asc, secondary building desc - secondary changes order
+              # record_1 and record_3 both have temporary="conservation", so they tie.
+              # After primary-only: "conservation" < "reading_room", so conservation records first.
+              #   Solr tie-breaks by ID, so record_1 before record_3.
+              # After secondary (building desc): within conservation group, "Building 3" > "Building 1",
+              #   so record_3 moves first.
+              primary_key:   'temporary',
+              primary_dir:   :asc,
+              secondary_key: 'building',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_1.title,
+                record_3.title,
+                record_2.title
+              ],
+              expected_after_both: [
+                record_3.title,
+                record_1.title,
+                record_2.title
+              ]
+            }
+          ]
+        end
+
         it_behaves_like 'results table sorting'
       end
     end

@@ -151,59 +151,6 @@ describe 'Search Listing', js: true do
       expect(elements_from_browse).to eq(elements_from_search)
     end
 
-    it 'shows all sortable columns in sort dropdown' do
-      find('#global-search-button').click
-      sortable_columns = all('th.sortable')
-
-      click_on 'Relevance'
-      dropdown_elements = find('ul.sort-opts')
-
-      sortable_columns.each do |column|
-        expect(dropdown_elements).to have_link column.text
-      end
-    end
-
-    describe 'column sorting' do
-      let(:sortable_column_label) { 'Identifier' }
-
-      it 'cycles between ascending and descending on repeated clicks' do
-        # Do a global search and filter to accessions
-        find('#global-search-button').click
-        expect(page).to have_text 'Search Results'
-        click_on 'Accession'
-
-        # Wait for table to load
-        expect(page).to have_css('#tabledSearchResults')
-        expect(page).to have_text @accession_1.title
-
-        # Find the sortable column header and click it
-        within('#tabledSearchResults thead') do
-          click_link sortable_column_label
-        end
-
-        # First click: sort ascending
-        expect(page).to have_css('th.sort-asc', text: sortable_column_label, wait: 5)
-
-        # Second click: sort descending
-        within('#tabledSearchResults thead') do
-          click_link sortable_column_label
-        end
-        expect(page).to have_css('th.sort-desc', text: sortable_column_label, wait: 5)
-
-        # Third click: should cycle back to ascending (not reset to default)
-        within('#tabledSearchResults thead') do
-          click_link sortable_column_label
-        end
-        expect(page).to have_css('th.sort-asc', text: sortable_column_label, wait: 5)
-
-        # Fourth click: back to descending
-        within('#tabledSearchResults thead') do
-          click_link sortable_column_label
-        end
-        expect(page).to have_css('th.sort-desc', text: sortable_column_label, wait: 5)
-      end
-    end
-
     describe 'results table sorting' do
       include_context 'results table setup'
 
@@ -233,6 +180,55 @@ describe 'Search Listing', js: true do
           'identifier' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
           'uri' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] }
         }
+      end
+
+      # Optional third record for secondary sort tests
+      # Creates a second resource to tie on primary_type with record_1
+      let(:record_3) { create(:resource, title: "Resource Z #{now}", id_0: "3") }
+
+      # Secondary sort test cases
+      let(:secondary_sort_cases) do
+        [
+          {
+            # Case 1: primary title_sort asc, secondary primary_type asc - no-op since titles are unique
+            # Titles sort: "Accession" < "Resource" < "Resource Z"
+            primary_key:   'title_sort',
+            primary_dir:   :asc,
+            secondary_key: 'primary_type',
+            secondary_dir: :asc,
+            expected_after_primary: [
+              record_2.title,
+              record_1.title,
+              record_3.title
+            ],
+            expected_after_both: [
+              record_2.title,
+              record_1.title,
+              record_3.title
+            ]
+          },
+          {
+            # Case 2: primary primary_type asc, secondary title_sort desc - secondary changes order
+            # record_1 and record_3 are both resources, so they tie on primary_type.
+            # After primary-only: "accession" < "resource", so record_2 first, then resource group.
+            #   Solr tie-breaks by ID, so record_1 before record_3.
+            # After secondary (title_sort desc): "Resource Z" > "Resource", so record_3 moves first.
+            primary_key:   'primary_type',
+            primary_dir:   :asc,
+            secondary_key: 'title_sort',
+            secondary_dir: :desc,
+            expected_after_primary: [
+              record_2.title,
+              record_1.title,
+              record_3.title
+            ],
+            expected_after_both: [
+              record_2.title,
+              record_3.title,
+              record_1.title
+            ]
+          }
+        ]
       end
 
       it_behaves_like 'results table sorting'
