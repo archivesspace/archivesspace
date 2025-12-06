@@ -362,6 +362,13 @@ uk:
     source: Джерело
     primary_identifier: Чи є основним ідентифікатором?
     record_identifier: Ідентифікатор запису
+    _plural: Ідентифікатори записів
+    _singular: Ідентифікатор запису
+    _frontend:
+      action:
+        add: Додати ідентифікатор запису
+    identifier_type: Тип ідентифікатора керування записами
+    primary: Первинний
   agent_function:
     _plural: Функції
     _singular: Функція
@@ -386,6 +393,25 @@ uk:
   agent_resource:
     _singular: Пов'язаний зовнішній ресурс
     _plural: Пов’язані зовнішні ресурси
+    _frontend:
+      action:
+        add: Додати пов'язаний зовнішній ресурс
+    section:
+      dates: Дати
+      places: Місця
+    dates: Дати
+    places: Місця
+    publish: Опубліковано
+    linked_agent_role: Тип зв'язку з ресурсом
+    linked_resource: Пов'язаний зовнішній ресурс
+    linked_resource_description: Опис
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
   used_language:
     _plural: Використані мови
     _singular: Використана мова
@@ -406,6 +432,9 @@ uk:
     xlink_arcrole_attribute: Атрибут Xlink Arcrole
     file_version_xlink_show_attribute: Атрибут Xlink Show
     last_verified_date: Дата останньої перевірки
+    _frontend:
+      action:
+        add: Додати декларацію про права на метадані
   dates_of_existence:
     _frontend:
       action:
@@ -2111,3 +2140,135 @@ uk:
   agent_conventions_declaration:
     _plural: Декларації Конвенції
     _singular: Декларація Конвенції
+    _frontend:
+      action:
+        add: Додати декларацію Конвенції
+    name_rule: Конвенція
+    citation: Цитування
+    descriptive_note: Описова примітка
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
+  agent_other_agency_code:
+    _plural: Інші коди агентств
+    _singular: Код іншого агентства
+    _frontend:
+      action:
+        add: Додати код агентства
+    agency_code_type: Тип коду агентства з контролю за записами
+    maintenance_agency: Агентство з технічного обслуговування
+  agent_maintenance_history:
+    _plural: Історія технічного обслуговування
+    _singular: Історія обслуговування агента
+    _frontend:
+      action:
+        add: Додати подію
+    maintenance_event_type: Тип події технічного обслуговування контролю записів
+    maintenance_agent_type: Тип агента з обслуговування контролю записів
+    agent: Агент
+    descriptive_note: Описова примітка
+    event_date: Дата події
+  agent_source:
+    _plural: Джерела
+    _singular: Джерело агента
+    _frontend:
+      action:
+        add: Додати джерело
+    source_entry: Запис джерела
+    descriptive_note: Описова примітка
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
+  agent_parallel_name:
+    _plural: Паралельні назви
+    use_dates: Використовуйте дати
+  agent_name:
+    use_dates: Використовуйте дати
+  subsections:
+    notes: Нотатки
+    dates: Дати
+  section_headings:
+    basic_information_tooltip: |
+      <p>У цьому розділі вказується тип агента та чи опубліковано агента.</p>
+    record_control_information_tooltip: |
+      <p>Цей розділ містить інформацію про сам запис, з урахуванням того, що він виник поза межами ArchivesSpace або буде передано системі, відмінній від ArchivesSpace.</p>
+    identity_information_tooltip: |
+      <p>Цей розділ містить основну інформацію про самого агента/агентку. Форма імені – єдиний обов’язковий підзапис у записі агента.</p>
+    description_information_tooltip: |
+      <p>Цей розділ містить основну інформацію про самого агента/агентку. Форма імені – єдиний обов’язковий підзапис у записі агента.</p>
+    relation_information_tooltip: |
+      <p>Цей розділ використовується для позначення зв'язків з іншими агентами або матеріалами всередині або за межами ArchivesSpace.</p>
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: Виберіть файл
+        add_archival_objects: Імпорт архівних об'єктів
+        add_digital_objects: Додавання цифрових об'єктів до архівних об'єктів
+        import: Імпорт з електронної таблиці
+        drag_drop: Перетягніть файл сюди
+        clip_btn: Копіювати в буфер обміну
+        only_validate: Тільки перевірка
+        link_top_containers: Контейнери з посиланнями Top
+      messages:
+        missing_file: Ви не додали файл
+        not_excel: Вибраний вами файл не є електронною таблицею Excel
+        not_excel_csv: Вибраний вами елемент керування fileRecord не є ні 
+          електронною таблицею Excel, ні файлом CSV.
+        processed: Файл оброблено
+        error: 'ПОМИЛКА: Виявлено помилку(и): '
+        copied: Скопійовано!
+        uncopied: Не вдалося скопіювати
+        submitted: <p>Завдання було надіслано до фонових завдань. <br/> 
+          Натисніть «Закрити», щоб оновити цей екран.</p>
+  bulk_import_job:
+    active: "Для цього запису активне завдання масового імпорту, спробуйте відредагувати
+      пізніше: <a href ='%{url}'>%{uri}<a>"
+    resource_id: Ідентифікатор ресурсу
+    format: Формат файлу завантаження
+    filename: Ім'я файлу електронної таблиці
+    not_direct: Наразі це завдання можна створити лише із запису ресурсу
+  bulk_archival_object_updater_job:
+    _singular: Завдання оновлення об'єктів масового архівування електронних 
+      таблиць
+    create_missing_top_containers: Створення відсутніх верхніх контейнерів
+  bulk_import_templates:
+    overview: |
+      <p>Це шаблони для завантаження даних електронних таблиць до ArchivesSpace за допомогою різних параметрів імпорту в області «Фонові завдання». Дані, необхідні для успішного імпорту, залежать від типу створюваного запису. Вам не потрібно заповнювати кожен рядок і стовпець.</p><p>Кожен шаблон CSV містить рядок зразків даних. Якщо ви не хочете створити запис зі зразками даних, видаліть зразки даних перед завантаженням електронної таблиці. <b>Не видаляйте рядок заголовка, не додавайте додаткові стовпці та не змінюйте порядок існуючих стовпців.</b></p><p>Шаблони Excel містять додаткові інструкції щодо використання шаблонів та перевірок для певних комірок. Не видаляйте інструкції чи перевірки.</p>
+    aspace_accession_import_template_csv: Створюйте записи про приєднання та 
+      записи, пов'язані з приєднаннями, такими як агенти, суб'єкти та події.
+    aspace_digital_object_import_template_csv: Створюйте записи цифрових 
+      об'єктів та записи, пов'язані з цифровими об'єктами, такими як агенти, 
+      суб'єкти та події.
+    bulk_import_template_csv: Створення архівних об'єктів, приєднаних до 
+      існуючого ресурсу. Містить опцію створення багатьох різних підзаписів та 
+      пов'язаних записів, включаючи дати, екстенти, нотатки, контейнери та 
+      цифрові об'єкти. Формат CSV призначений для тих, хто не має доступу до 
+      Microsoft Excel.
+    bulk_import_template_xlsx: Створення архівних об'єктів, приєднаних до 
+      існуючого ресурсу. Містить опцію створення багатьох різних підзаписів та 
+      пов'язаних записів, включаючи дати, екстенти, примітки, контейнери та 
+      цифрові об'єкти. Формат XLSX призначений для тих, хто має доступ до 
+      Microsoft Excel.
+    bulk_import_DO_template_csv: Створюйте та пов’язуйте цифрові об’єкти з 
+      існуючими архівними об’єктами в ресурсі. Формат CSV призначений для людей,
+      які не мають доступу до Microsoft Excel.
+    bulk_import_DO_template_xlsx: Створюйте та пов’язуйте цифрові об’єкти з 
+      існуючими архівними об’єктами в ресурсі. Формат XLSX призначений для тих, 
+      хто має доступ до Microsoft Excel.
+    aspace_location_import_template_csv: Створення нових записів про 
+      місцезнаходження. Зверніть увагу, що цей шаблон призначений для створення 
+      самих записів про місцезнаходження, а не для зв’язування матеріалів із 
+      місцезнаходженнями.
+    aspace_assessment_import_template_csv: Створюйте та пов’язуйте оцінювання з 
+      існуючими примірниками, ресурсами, архівними або цифровими об’єктами.
+    aspace_subject_import_template_csv: Створення нових записів тем. Зверніть 
+      увагу, що цей шаблон призначений для створення самих записів тем, а не для
+      їх зв’язування з іншими записами.
