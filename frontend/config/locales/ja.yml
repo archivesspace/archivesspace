@@ -1313,7 +1313,9 @@ ja:
         hide_inactive: 非アクティブなユーザーを非表示
         show_inactive: 非アクティブなユーザーを表示
         deactivate_user: 無効化
+        deactivate_user_confirm: このユーザーを無効化してもよろしいですか？
         activate_user: アクティベート
+        activate_user_confirm: このユーザーをアクティベートしてもよろしいですか？
 
         edit: ユーザーを編集
         show_active: アクティブユーザーを表示

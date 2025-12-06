@@ -27,25 +27,25 @@
        <table class="table table-striped table-bordered table-condensed">
          <thead>
            <tr>
-             <th>
+             <th class="username">
               <%= link_to t("user.username"), sort: :username, direction: sort_direction(:username, params, 'asc') %>
               <%= sort_pointer(:username, params, '&#x25B2;').html_safe %>
              </th>
-             <th><%= t("user.name") %></th>
+             <th class="name"><%= t("user.name") %></th>
              <% unless @manage_access %>
-               <th>
+               <th class="create_time">
                 <%= link_to t("user.create_time"), sort: :create_time, direction: sort_direction(:create_time, params, 'asc') %>
                 <%= sort_pointer(:create_time, params, '').html_safe %>
                </th>
-               <th>
+               <th class="user_mtime">
                 <%= link_to t("user.user_mtime"), sort: :user_mtime, direction: sort_direction(:user_mtime, params, 'desc') %>
                 <%= sort_pointer(:user_mtime, params, '').html_safe %>
                </th>
-               <th><%= t("user.admin") %></th>
-               <th><%= t("user.is_active_user") %></th>
-               <th><%= t("user.source") %></th>
+               <th class="admin"><%= t("user.admin") %></th>
+               <th class="is_active_user"><%= t("user.is_active_user") %></th>
+               <th class="source"><%= t("user.source") %></th>
              <% end %>
-             <th width="70px"><span class="sr-only"><%= t('search_results.actions') %></span></th>
+             <th class="actions" width="70px"><span class="sr-only"><%= t('search_results.actions') %></span></th>
            </tr>
          </thead>
          <tbody>
@@ -59,16 +59,16 @@
              <% end %>
              <tr class='<%= display_class %>'>
 
-               <td><%= user.username %></td>
-               <td><%= user.name %></td>
+               <td class="username"><%= user.username %></td>
+               <td class="name"><%= user.name %></td>
                <% unless @manage_access %>
-                 <td><%= Time.parse(user.create_time).getlocal %></td>
-                 <td><%= Time.parse(user.user_mtime).getlocal %></td>
-                 <td><%= user.is_admin %></td>
-                 <td><%= active %></td>
-                 <td><%= user.source %></td>
+                 <td class="create_time"><%= Time.parse(user.create_time).getlocal %></td>
+                 <td class="user_mtime"><%= Time.parse(user.user_mtime).getlocal %></td>
+                 <td class="admin"><%= user.is_admin %></td>
+                 <td class="is_active_user"><%= active %></td>
+                 <td class="source"><%= user.source %></td>
                <% end %>
-               <td>
+               <td class="actions">
                  <div class="btn-group" style="float: right">
                 <div class="btn-group" style="float: right">
                    <% disabled = (user.is_admin || user.is_system_user) ? " disabled" : "" %>
@@ -80,9 +80,9 @@
                      <%= link_to t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-sm btn-primary", :id => "edit_#{user.username}" %>
 
                      <% if !user.is_active_user %>
-                        <%= link_to t("user._frontend.action.activate_user"), user_activate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-sm btn-success", :id => "activate_#{user.username}" %>
+                       <%= link_to t("user._frontend.action.activate_user"), user_activate_path(user.id), data: { confirm: t("user._frontend.action.activate_user_confirm") }, :class => "btn btn-sm btn-success", :id => "activate_#{user.username}" %>
                      <% else %>
-                       <%= link_to t("user._frontend.action.deactivate_user"), user_deactivate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-sm btn-danger".concat(disabled), :id => "deactivate_#{user.username}" %>
+                       <%= link_to t("user._frontend.action.deactivate_user"), user_deactivate_path(user.id), data: { confirm: t("user._frontend.action.deactivate_user_confirm") }, :class => "btn btn-sm btn-danger".concat(disabled), :id => "deactivate_#{user.username}" %>
                      <% end %>
                    <% end %>
                  </div>
