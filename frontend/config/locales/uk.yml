@@ -1342,7 +1342,9 @@ uk:
         show_active: Показати активних користувачів
         show_inactive: Показати неактивних користувачів
         deactivate_user: Деактивувати
+        deactivate_user_confirm: Ви впевнені, що хочете деактивувати цього користувача?
         activate_user: Активувати
+        activate_user_confirm: Ви впевнені, що хочете активувати цього користувача?
         update_self: Керування обліковим записом користувача
   user_defined:
     _frontend:
