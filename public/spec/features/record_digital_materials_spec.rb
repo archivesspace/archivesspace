@@ -87,4 +87,16 @@ describe 'Digital Materials listing from a record context', js: true do
       expect(page).to have_content('Browse 3 digital objects in collection')
     end
   end
+
+  it 'has appropriate skip links' do
+    aggregate_failures do
+      within '.skipnav' do
+        expect(page).to have_css('a', count: 2)
+        expect(page).to have_link('Skip to main content', href: '#maincontent')
+        expect(page).to have_link('Skip to search results', href: '#searchresults')
+      end
+      expect(page).to have_css('#maincontent', visible: :hidden)
+      expect(page).to have_css('#searchresults', visible: :hidden)
+    end
+  end
 end

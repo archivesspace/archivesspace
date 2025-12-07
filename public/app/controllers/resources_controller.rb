@@ -274,6 +274,7 @@ class ResourcesController < ApplicationController
     @has_containers = has_containers?(uri) # enable inventory link
     tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
     @has_children = tree_root && tree_root['child_count'] > 0 # enable collection organization link
+    @no_statement = true # disable skipnav #toggleRefineSearch link
     ### END BOILERPLATE
 
     # digital material stuff ... sets @records
