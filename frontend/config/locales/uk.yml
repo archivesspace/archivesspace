@@ -312,30 +312,114 @@ uk:
         скасувати вибір кількох попередніх рядків.
   agent_gender:
     _singular: Стать
+    _plural: Стать
+    _frontend:
+      action:
+        add: Додати стать
+    gender: Стать
+    note: Примітка
+    dates: Дати
   agent_place:
     _singular: Місце
     _plural: Місця
+    _frontend:
+      action:
+        add: Додати місце
+    section:
+      dates: Дати
+    place_role: Роль місця агента
+    text_note: Примітка
+    dates: Дати
+    subjects: Місця
+    publish: Опубліковано
   agent_occupation:
     _singular: Професія
     _plural: Професії
+    _frontend:
+      action:
+        add: Додати професію
+    section:
+      dates: Дати
+    text_note: Примітка
+    dates: Дати
+    subjects: Професії
+    places: Місця
+    publish: Опубліковано
   agent_topic:
     _singular: Тема
     _plural: Теми
+    _frontend:
+      action:
+        add: Додати тему
+    section:
+      dates: Дати
+    text_note: Примітка
+    dates: Дати
+    subjects: Теми
+    places: Місця
+    publish: Опубліковано
   agent_record_identifier:
     source: Джерело
     primary_identifier: Чи є основним ідентифікатором?
     record_identifier: Ідентифікатор запису
+    _plural: Ідентифікатори записів
+    _singular: Ідентифікатор запису
+    _frontend:
+      action:
+        add: Додати ідентифікатор запису
+    identifier_type: Тип ідентифікатора керування записами
+    primary: Первинний
   agent_function:
     _plural: Функції
     _singular: Функція
+    _frontend:
+      action:
+        add: Додати функцію
+    section:
+      dates: Дати
+    text_note: Примітка
+    dates: Дати
+    subjects: Функції
+    places: Місця
+    publish: Опубліковано
   agent_identifier:
     identifier_type: Тип ідентифікатора
+    _plural: Ідентифікатори об'єктів
+    _singular: Ідентифікатор
+    _frontend:
+      action:
+        add: Додати ідентифікатор об'єкта
+    entity_identifier: Ідентифікатори об'єктів
   agent_resource:
     _singular: Пов'язаний зовнішній ресурс
     _plural: Пов’язані зовнішні ресурси
+    _frontend:
+      action:
+        add: Додати пов'язаний зовнішній ресурс
+    section:
+      dates: Дати
+      places: Місця
+    dates: Дати
+    places: Місця
+    publish: Опубліковано
+    linked_agent_role: Тип зв'язку з ресурсом
+    linked_resource: Пов'язаний зовнішній ресурс
+    linked_resource_description: Опис
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
   used_language:
     _plural: Використані мови
     _singular: Використана мова
+    _frontend:
+      action:
+        add: Додати мову
+    language: Мова
+    script: Сценарій
   metadata_rights_declaration:
     _plural: Декларації прав на метадані
     descriptive_note: Описова примітка
@@ -348,6 +432,9 @@ uk:
     xlink_arcrole_attribute: Атрибут Xlink Arcrole
     file_version_xlink_show_attribute: Атрибут Xlink Show
     last_verified_date: Дата останньої перевірки
+    _frontend:
+      action:
+        add: Додати декларацію про права на метадані
   dates_of_existence:
     _frontend:
       action:
@@ -1918,3 +2005,270 @@ uk:
         true_value: Так
         false_value: Ні
       browse_reviewers: Рецензенти
+      linked_records:
+        heading: Пов'язані записи
+        loading: Завантаження...
+        linked_via_assessment_records: Оцінювання
+        linked_via_assessment_surveyed_by: Оцінювання - Опитування проводив(ла)
+        linked_via_assessment_reviewer: Оцінювання - Рецензент
+        record_type: Тип запису
+        title: Назва
+        identifier: Ідентифікатор
+      ratings_list:
+        rating: Рейтинг
+        score: Рахунок
+        note: Примітка
+  assessment_attribute_definitions:
+    _frontend:
+      title: Атрибути оцінювання
+      section:
+        formats: Типи / Формати матеріалів
+        ratings: Рейтинги
+        conservation_issues: Проблеми збереження
+      global: Глобальний %{type}
+      repository: Глобальний %{type}
+      action:
+        save: Зберегти атрибути оцінювання
+        add_type: Додати %{type}
+        find_rating: Знайти записи з рейтингом %{rating_type}
+        find_format: Знайти записи з типом/форматом матеріалу %{format_type}
+        find_issue: Знайти записи з проблемою збереження %{issue_type}
+        remove_rating: Видалити рейтинг %{rating_type}
+        remove_format: Видалити тип/формат матеріалу %{format_type}
+        remove_issue: Видалити проблему збереження %{issue_type}
+      messages:
+        updated: Атрибути оцінювання оновлено
+        error: Помилка оновлення атрибутів оцінювання
+        conflict: 'Помилка оновлення атрибутів оцінювання. Наступні мітки конфліктують
+          з існуючими записами: %{conflicts}'
+        attribute_in_use: Не вдається видалити атрибут, який наразі 
+          використовується оцінюванням
+      database_value: Значення бази даних
+      translation: Переклад
+  custom_report_template:
+    new_title: Новий шаблон користувацького звіту
+    _frontend:
+      section:
+        template_information: Інформація про шаблон
+        basic_information_fields: Основні інформаційні поля
+        linked_records: Пов'язані записи
+        sort_by: Сортувати звіт за
+      action:
+        create: Створити шаблон
+        save: Зберегти шаблон
+        search_usernames: Пошук імен користувачів
+      messages:
+        copied: Шаблон спеціального звіту скопійовано
+        created: Шаблон спеціального звіту створено
+        updated: Шаблон спеціального звіту оновлено
+  oai_config:
+    title: Налаштування OAI-PMH
+    title_repo_section: Налаштування OAI-PMH для кожного репозиторію
+    general_section: Загальні налаштування
+    repo_set_section: Набір репозиторію
+    sponsor_set_section: Набір спонсора
+    repo_set_desc: Окрім наборів на основі рівня опису, ви можете визначити 
+      набір OAI на основі репозиторіїв.
+    sponsor_set_desc: Окрім наборів на основі рівня опису, ви можете визначити 
+      набір OAI на основі імен спонсорів.
+    oai_record_prefix: Префікс запису OAI
+    oai_admin_email: Електронна пошта адміністратора OAI
+    oai_repository_name: Назва репозиторію OAI
+    repo_set_name: Назва набору репозиторію
+    repo_set_codes: Репозиторії в наборі
+    repo_set_description: Опис набору репозиторію
+    sponsor_set_name: Назва набору спонсора
+    sponsor_set_names: Імена спонсорів
+    sponsor_set_description: Опис набору спонсора
+    oai_leave_repo_form: Ці опції впливають на OAI-PMH лише для цього 
+      репозиторію. Натисніть нижче, щоб переглянути/редагувати глобальні опції 
+      OAI. Це призведе до збереження поточної форми без зміни.
+    _frontend:
+      section:
+        basic_information: Загальні налаштування
+      action:
+        create: Оновлення налаштувань OAI-PMH
+        updated: Налаштування OAI-PMH успішно оновлено!
+    _sidebar:
+      repo_set_section:
+        _plural: Набори репозиторіїв
+      sponsor_set_section:
+        _plural: Набори спонсорів
+      repo_settings:
+        _plural: Налаштування OAI-PMH для кожного репозиторію
+  agent_record_control:
+    _plural: Інформація про запис
+    _singular: Інформація про запис
+    _frontend:
+      action:
+        add: Додати інформацію про запис
+    maintenance_status: Стан ведення контролю записів
+    publication_status: Стан публікації контролю записів
+    romanization: романізація
+    government_agency_type: Тип державного органу з контролю за записами
+    reference_evaluation: Оцінювання посилань на контроль записів
+    name_type: Тип назви елемента керування записами
+    level_of_detail: Рівень деталізації контролю записів
+    modified_record: Змінений тип елемента керування записами
+    cataloging_source: Джерело каталогізації контролю записів
+    maintenance_agency: Агентство з технічного обслуговування
+    agency_name: Назва агентства
+    maintenance_agency_note: Примітка агентства з технічного обслуговування
+    language: Мова
+    script: Сценарій
+    language_note: Примітка щодо мови
+  place:
+    _plural: Місця
+    _frontend:
+      action:
+        add: Додати місце
+  agent_alternate_set:
+    _plural: Альтернативні набори
+    _singular: Альтернативний набір
+    _frontend:
+      action:
+        add: Додати альтернативний набір
+    set_component: Встановити компонент
+    descriptive_note: Описова примітка
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
+  agent_conventions_declaration:
+    _plural: Декларації Конвенції
+    _singular: Декларація Конвенції
+    _frontend:
+      action:
+        add: Додати декларацію Конвенції
+    name_rule: Конвенція
+    citation: Цитування
+    descriptive_note: Описова примітка
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
+  agent_other_agency_code:
+    _plural: Інші коди агентств
+    _singular: Код іншого агентства
+    _frontend:
+      action:
+        add: Додати код агентства
+    agency_code_type: Тип коду агентства з контролю за записами
+    maintenance_agency: Агентство з технічного обслуговування
+  agent_maintenance_history:
+    _plural: Історія технічного обслуговування
+    _singular: Історія обслуговування агента
+    _frontend:
+      action:
+        add: Додати подію
+    maintenance_event_type: Тип події технічного обслуговування контролю записів
+    maintenance_agent_type: Тип агента з обслуговування контролю записів
+    agent: Агент
+    descriptive_note: Описова примітка
+    event_date: Дата події
+  agent_source:
+    _plural: Джерела
+    _singular: Джерело агента
+    _frontend:
+      action:
+        add: Додати джерело
+    source_entry: Запис джерела
+    descriptive_note: Описова примітка
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
+  agent_parallel_name:
+    _plural: Паралельні назви
+    use_dates: Використовуйте дати
+  agent_name:
+    use_dates: Використовуйте дати
+  subsections:
+    notes: Нотатки
+    dates: Дати
+  section_headings:
+    basic_information_tooltip: |
+      <p>У цьому розділі вказується тип агента та чи опубліковано агента.</p>
+    record_control_information_tooltip: |
+      <p>Цей розділ містить інформацію про сам запис, з урахуванням того, що він виник поза межами ArchivesSpace або буде передано системі, відмінній від ArchivesSpace.</p>
+    identity_information_tooltip: |
+      <p>Цей розділ містить основну інформацію про самого агента/агентку. Форма імені – єдиний обов’язковий підзапис у записі агента.</p>
+    description_information_tooltip: |
+      <p>Цей розділ містить основну інформацію про самого агента/агентку. Форма імені – єдиний обов’язковий підзапис у записі агента.</p>
+    relation_information_tooltip: |
+      <p>Цей розділ використовується для позначення зв'язків з іншими агентами або матеріалами всередині або за межами ArchivesSpace.</p>
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: Виберіть файл
+        add_archival_objects: Імпорт архівних об'єктів
+        add_digital_objects: Додавання цифрових об'єктів до архівних об'єктів
+        import: Імпорт з електронної таблиці
+        drag_drop: Перетягніть файл сюди
+        clip_btn: Копіювати в буфер обміну
+        only_validate: Тільки перевірка
+        link_top_containers: Контейнери з посиланнями Top
+      messages:
+        missing_file: Ви не додали файл
+        not_excel: Вибраний вами файл не є електронною таблицею Excel
+        not_excel_csv: Вибраний вами елемент керування fileRecord не є ні 
+          електронною таблицею Excel, ні файлом CSV.
+        processed: Файл оброблено
+        error: 'ПОМИЛКА: Виявлено помилку(и): '
+        copied: Скопійовано!
+        uncopied: Не вдалося скопіювати
+        submitted: <p>Завдання було надіслано до фонових завдань. <br/> 
+          Натисніть «Закрити», щоб оновити цей екран.</p>
+  bulk_import_job:
+    active: "Для цього запису активне завдання масового імпорту, спробуйте відредагувати
+      пізніше: <a href ='%{url}'>%{uri}<a>"
+    resource_id: Ідентифікатор ресурсу
+    format: Формат файлу завантаження
+    filename: Ім'я файлу електронної таблиці
+    not_direct: Наразі це завдання можна створити лише із запису ресурсу
+  bulk_archival_object_updater_job:
+    _singular: Завдання оновлення об'єктів масового архівування електронних 
+      таблиць
+    create_missing_top_containers: Створення відсутніх верхніх контейнерів
+  bulk_import_templates:
+    overview: |
+      <p>Це шаблони для завантаження даних електронних таблиць до ArchivesSpace за допомогою різних параметрів імпорту в області «Фонові завдання». Дані, необхідні для успішного імпорту, залежать від типу створюваного запису. Вам не потрібно заповнювати кожен рядок і стовпець.</p><p>Кожен шаблон CSV містить рядок зразків даних. Якщо ви не хочете створити запис зі зразками даних, видаліть зразки даних перед завантаженням електронної таблиці. <b>Не видаляйте рядок заголовка, не додавайте додаткові стовпці та не змінюйте порядок існуючих стовпців.</b></p><p>Шаблони Excel містять додаткові інструкції щодо використання шаблонів та перевірок для певних комірок. Не видаляйте інструкції чи перевірки.</p>
+    aspace_accession_import_template_csv: Створюйте записи про приєднання та 
+      записи, пов'язані з приєднаннями, такими як агенти, суб'єкти та події.
+    aspace_digital_object_import_template_csv: Створюйте записи цифрових 
+      об'єктів та записи, пов'язані з цифровими об'єктами, такими як агенти, 
+      суб'єкти та події.
+    bulk_import_template_csv: Створення архівних об'єктів, приєднаних до 
+      існуючого ресурсу. Містить опцію створення багатьох різних підзаписів та 
+      пов'язаних записів, включаючи дати, екстенти, нотатки, контейнери та 
+      цифрові об'єкти. Формат CSV призначений для тих, хто не має доступу до 
+      Microsoft Excel.
+    bulk_import_template_xlsx: Створення архівних об'єктів, приєднаних до 
+      існуючого ресурсу. Містить опцію створення багатьох різних підзаписів та 
+      пов'язаних записів, включаючи дати, екстенти, примітки, контейнери та 
+      цифрові об'єкти. Формат XLSX призначений для тих, хто має доступ до 
+      Microsoft Excel.
+    bulk_import_DO_template_csv: Створюйте та пов’язуйте цифрові об’єкти з 
+      існуючими архівними об’єктами в ресурсі. Формат CSV призначений для людей,
+      які не мають доступу до Microsoft Excel.
+    bulk_import_DO_template_xlsx: Створюйте та пов’язуйте цифрові об’єкти з 
+      існуючими архівними об’єктами в ресурсі. Формат XLSX призначений для тих, 
+      хто має доступ до Microsoft Excel.
+    aspace_location_import_template_csv: Створення нових записів про 
+      місцезнаходження. Зверніть увагу, що цей шаблон призначений для створення 
+      самих записів про місцезнаходження, а не для зв’язування матеріалів із 
+      місцезнаходженнями.
+    aspace_assessment_import_template_csv: Створюйте та пов’язуйте оцінювання з 
+      існуючими примірниками, ресурсами, архівними або цифровими об’єктами.
+    aspace_subject_import_template_csv: Створення нових записів тем. Зверніть 
+      увагу, що цей шаблон призначений для створення самих записів тем, а не для
+      їх зв’язування з іншими записами.
