@@ -16,6 +16,7 @@
   </div>
   <%= render partial: 'shared/search', locals: {:search_url => "#{@result['uri']}/search",
    :title => t('repository._singular'),
+   :header_size => '3',
    :limit_options =>  [["#{t('actions.search')} #{t('search-limits.all')}",''],
             [t('search-limit', :limit => t('search-limits.resources')),'resource'],
             [t('search-limit', :limit => t('search-limits.digital')),'digital_object']],

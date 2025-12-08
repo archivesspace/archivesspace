@@ -9,9 +9,18 @@
   </div>
   <div class="row align-items-start">
     <div class="information col-sm-9">
-      <div class="clear">
-        <span class="inline-label clear"><%= t('enumeration_names.subject_source') %>: </span><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %>
-      </div>
+      <% if @result['json']['source'].present? %>
+        <%
+          source_value = @result['json']['source']
+          # If source contains a colon it's already formatted (eg, 'AAT: Art & Architecture Thesaurus'),
+          # otherwise it's a code (eg, 'aat') so translate it
+          display_source = source_value.include?(':') ? source_value : t("enumerations.subject_source.#{source_value}", default: source_value)
+        %>
+        <p>
+          <span class="inline-label"><%= t('enumeration_names.subject_source') %>: </span><%= display_source %>
+        </p>
+      <% end %>
+
       <% if @result['json']['scope_note'].present? %>
         <span class="inline-label"><%= t('scope_note') %>:</span> <%= process_mixed_content( @result['json']['scope_note']).html_safe %>
       <% end %>
