@@ -17,6 +17,7 @@
 
 <div class="row mt-3">
   <div class="col-sm-9">
+    <a name="searchresults" id="searchresults"></a>
     <% unless @results.blank? || @results['total_hits'] == 0 %>
       <% @results.records.each do |result| %>
         <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
