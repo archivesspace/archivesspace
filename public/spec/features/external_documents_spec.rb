@@ -19,12 +19,14 @@ describe 'External Documents', js: true do
       visit @resource.uri
 
       aggregate_failures 'checking external document link' do
-        link = find('a[href="https://example.com"]')
+        within '#ext_doc_list' do
+          link = find('a[href="https://example.com"]')
 
-        expect(link['target']).to eq('_blank')
-        expect(link['rel']).to eq('noopener noreferrer')
+          expect(link['target']).to eq('_blank')
+          expect(link['rel']).to eq('noopener noreferrer')
 
-        expect(link).to have_css('i.fa.fa-external-link')
+          expect(link).to have_css('i.fa.fa-external-link')
+        end
       end
     end
   end
@@ -46,13 +48,11 @@ describe 'External Documents', js: true do
       visit @resource.uri
 
       aggregate_failures 'checking plain text display without link attributes' do
-        list_item = find('.external_docs li', text: "Reference Guide")
+        within '#ext_doc_list' do
+          expect(page).to have_content("Reference Guide")
+          expect(page).not_to have_css('a')
 
-        expect(list_item).to have_content("Reference Guide")
-        expect(list_item).not_to have_css('a')
-
-        # Plain text should NOT have external link icon
-        within '.external_docs' do
+          # Plain text should NOT have external link icon
           expect(page).not_to have_css('i.fa.fa-external-link')
         end
       end
