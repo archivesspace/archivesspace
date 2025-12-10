@@ -41,11 +41,13 @@ RSpec.shared_examples 'results table sorting' do
   # @param sort_params [Hash{Symbol=>String}] The sort parameters to expect:
   #   { heading: String, sort_key: String, direction: String }
   # @param is_initial_sort [Boolean] Whether this is the initial sort (default: false)
-  def expect_sorted_results(row_values, sort_params, is_initial_sort: false)
+  # @param fail_message [String] A custom failure message to use instead of the default
+  def expect_sorted_results(row_values, sort_params, is_initial_sort: false, fail_message: nil)
     heading, sort_key, direction = sort_params.values_at(:heading, :sort_key, :direction)
     opposite_direction = opposite_sort_direction(direction)
+    fail_message ||= "sorted results for #{heading} #{direction}"
 
-    aggregate_failures "sorted results for #{heading} #{direction}" do
+    aggregate_failures fail_message do
       verify_sort_buttons_text(heading, direction, is_initial_sort: is_initial_sort)
       verify_sort_menu_options(current_primary_heading: heading)
 
@@ -55,7 +57,7 @@ RSpec.shared_examples 'results table sorting' do
       end
     end
 
-    verify_url_params(sort_key, direction) unless is_initial_sort
+    verify_url_params(primary_key: sort_key, primary_dir: direction) unless is_initial_sort
   end
 
   def verify_primary_sort_menu_behavior
@@ -90,15 +92,15 @@ RSpec.shared_examples 'results table sorting' do
       click_sort_menu_option(:primary, primary_heading, primary_dir)
 
       if test_case[:expected_after_primary]
-        aggregate_failures "primary sort within secondary sort test case: #{primary_heading} #{primary_dir}" do
-          expect_sorted_results(
-            test_case[:expected_after_primary],
-            { heading: primary_heading, sort_key: primary_key, direction: primary_dir }
-          )
-        end
+        expect_sorted_results(
+          test_case[:expected_after_primary],
+          { heading: primary_heading, sort_key: primary_key, direction: primary_dir },
+          fail_message: "primary sort within secondary sort test case: #{primary_heading} #{primary_dir}"
+        )
       end
 
       click_sort_menu_option(:secondary, secondary_heading, secondary_dir)
+      verify_url_params(primary_key: primary_key, primary_dir: primary_dir, secondary_key: secondary_key, secondary_dir: secondary_dir)
 
       aggregate_failures "secondary sort: #{primary_heading} #{primary_dir}, then #{secondary_heading} #{secondary_dir}" do
         verify_sort_buttons_text(
@@ -191,14 +193,15 @@ RSpec.shared_examples 'results table sorting' do
   # @param secondary_heading [String] The secondary column heading (default: 'Select')
   # @param secondary_direction [Symbol, nil] The secondary sort direction (default: nil)
   # @param is_initial_sort [Boolean] Whether this is the initial page load sort (default: false)
-  def verify_sort_buttons_text(primary_heading, primary_direction, secondary_heading: 'Select', secondary_direction: nil, is_initial_sort: false)
+  # @param fail_message [String] A custom failure message to use instead of the default
+  def verify_sort_buttons_text(primary_heading, primary_direction, secondary_heading: 'Select', secondary_direction: nil, is_initial_sort: false, fail_message: nil)
     primary_expected_text = if multi_record_search_initial_sort?(is_initial_sort)
                               'Relevance'
                             else
                               "#{primary_heading} #{direction_text(primary_direction)}"
                             end
 
-    aggregate_failures 'sort buttons text' do
+    aggregate_failures fail_message || 'sort buttons text' do
       expect(page).to have_css('#pagination-summary-primary-sort-opts > button', text: primary_expected_text)
 
       # No secondary sort button when sorted by Relevance
@@ -277,12 +280,20 @@ RSpec.shared_examples 'results table sorting' do
     end
   end
 
-  # @param sort_key [String] The sort parameter key
-  # @param direction [Symbol] The sort direction
-  def verify_url_params(sort_key, direction)
+  # @param primary_key [String] The primary sort parameter key
+  # @param primary_dir [Symbol] The primary sort direction
+  # @param secondary_key [String, nil] The secondary sort parameter key (optional)
+  # @param secondary_dir [Symbol, nil] The secondary sort direction (optional)
+  def verify_url_params(primary_key:, primary_dir:, secondary_key: nil, secondary_dir: nil)
     return unless should_verify_url?
 
-    expect(page).to have_current_path(/sort=#{sort_key}\+#{direction}/)
+    primary_sort = "sort=#{primary_key}\\+#{primary_dir}"
+    if secondary_key && secondary_dir
+      secondary_sort = "%2C\\+#{secondary_key}\\+#{secondary_dir}"
+      expect(page).to have_current_path(/#{primary_sort}#{secondary_sort}/)
+    else
+      expect(page).to have_current_path(/#{primary_sort}/)
+    end
   end
 
   # @param sort_key [String] The sort parameter key
