@@ -192,7 +192,7 @@ describe 'Collection Management', js: true do
             collection_management: {
               "processing_status" => "in_progress",
               "processing_priority" => "high",
-              "processing_hours_total" => "3",
+              "processing_hours_total" => "2",
               "processing_funding_source" => "MMM"
             }
           )
@@ -240,20 +240,24 @@ describe 'Collection Management', js: true do
               ]
             },
             {
-              # Case 3: primary uri asc, secondary processing_status asc - no-op since URIs are unique
-              primary_key:   'uri',
+              # Case 3: primary processing_hours_total asc, secondary processing_status desc - secondary changes order
+              # record_1 and record_3 both have processing_hours_total="2", so they tie.
+              # After primary-only: 1 < 2, so record_2 first, then record_1 and record_3.
+              #   Solr tie-breaks by ID, so record_1 before record_3.
+              # After secondary (processing_status desc): "in_progress" < "completed", so record_3 moves before record_2.
+              primary_key:   'processing_hours_total',
               primary_dir:   :asc,
               secondary_key: 'processing_status',
-              secondary_dir: :asc,
+              secondary_dir: :desc,
               expected_after_primary: [
-                record_1.title,
                 record_2.title,
-                record_3.title
+                record_1.title,
+                record_3.title,
               ],
               expected_after_both: [
-                record_1.title,
                 record_2.title,
-                record_3.title
+                record_3.title,
+                record_1.title,
               ]
             }
           ]
