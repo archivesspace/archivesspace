@@ -2,21 +2,29 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'External Documents', js: true do
+  before(:all) do
+    @resource_with_uri = create(:resource_with_external_document, {
+      publish: true,
+      external_documents: [build(:external_document, {
+        title: "External Reference",
+        location: "https://example.com"
+      })]
+    })
+
+    @resource_with_text = create(:resource_with_external_document, {
+      publish: true,
+      external_documents: [build(:external_document, {
+        title: "Reference Guide",
+        location: "See the reference guide for more information"
+      })]
+    })
+
+    run_indexers
+  end
+
   describe 'resource with external document URI' do
-    before do
-      @resource = create(:resource_with_external_document, {
-        publish: true,
-        external_documents: [build(:external_document, {
-          title: "External Reference",
-          location: "https://example.com"
-        })]
-      })
-
-      run_indexers
-    end
-
     it 'opens external document links in new tab with icon' do
-      visit @resource.uri
+      visit @resource_with_uri.uri
 
       aggregate_failures 'checking external document link' do
         within '#ext_doc_list' do
@@ -32,27 +40,14 @@ describe 'External Documents', js: true do
   end
 
   describe 'resource with external document text' do
-    before do
-      @resource = create(:resource_with_external_document, {
-        publish: true,
-        external_documents: [build(:external_document, {
-          title: "Reference Guide",
-          location: "See the reference guide for more information"
-        })]
-      })
-
-      run_indexers
-    end
-
     it 'displays plain text without link attributes or icon' do
-      visit @resource.uri
+      visit @resource_with_text.uri
 
       aggregate_failures 'checking plain text display without link attributes' do
         within '#ext_doc_list' do
           expect(page).to have_content("Reference Guide")
           expect(page).not_to have_css('a')
 
-          # Plain text should NOT have external link icon
           expect(page).not_to have_css('i.fa.fa-external-link')
         end
       end
