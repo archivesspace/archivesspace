@@ -1517,6 +1517,7 @@ es:
     automate_title: Generar automáticamente el título
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: ¿Tiene una serie/subserie por encima sin publicar?
+    import_current_ark: Importar ARK actual
     _singular: Documento de archivo
     _plural: Objetos de archivo
 
