@@ -1701,33 +1701,43 @@ describe 'Resources', js: true do
       describe 'sorting' do
         let(:default_sort_key) { 'title_sort' }
 
-        def modal_go_to_results_table
-          visit '/resources/new'
-          click_on 'Add Related Accession'
-          expect(page).to have_css('#resource_related_accessions__0__ref__combobox')
-          within '#resource_related_accessions__0__ref__combobox' do
-            find('button.dropdown-toggle').click
-            expect(page).to have_css('ul.dropdown-menu.show')
-            click_on 'Browse'
-          end
-          expect(page).to have_css('#resource_related_accessions__0__ref__modal')
-        end
+        # def modal_go_to_results_table
+        #   visit '/resources/new'
+        #   click_on 'Add Related Accession'
+        #   expect(page).to have_css('#resource_related_accessions__0__ref__combobox')
+        #   within '#resource_related_accessions__0__ref__combobox' do
+        #     find('button.dropdown-toggle').click
+        #     expect(page).to have_css('ul.dropdown-menu.show')
+        #     click_on 'Browse'
+        #   end
+        #   expect(page).to have_css('#resource_related_accessions__0__ref__modal')
+        # end
 
-        def modal_clean_up_results_table
-          within '#resource_related_accessions__0__ref__modal' do
-            click_on 'Cancel'
-          end
-        end
+        # def modal_clean_up_results_table
+        #   within '#resource_related_accessions__0__ref__modal' do
+        #     click_on 'Cancel'
+        #   end
+        # end
 
         context 'with seven of ten sortable columns showing' do
           include_context 'results table setup'
 
           def go_to_results_table
-            modal_go_to_results_table
+            visit '/resources/new'
+            click_on 'Add Related Accession'
+            expect(page).to have_css('#resource_related_accessions__0__ref__combobox')
+            within '#resource_related_accessions__0__ref__combobox' do
+              find('button.dropdown-toggle').click
+              expect(page).to have_css('ul.dropdown-menu.show')
+              click_on 'Browse'
+            end
+            expect(page).to have_css('#resource_related_accessions__0__ref__modal')
           end
 
           def clean_up_results_table
-            modal_clean_up_results_table
+            within '#resource_related_accessions__0__ref__modal' do
+              click_on 'Cancel'
+            end
           end
 
           let(:additional_browse_columns) do
@@ -1851,11 +1861,21 @@ describe 'Resources', js: true do
           include_context 'results table setup'
 
           def go_to_results_table
-            modal_go_to_results_table
+            visit '/resources/new'
+            click_on 'Add Related Accession'
+            expect(page).to have_css('#resource_related_accessions__0__ref__combobox')
+            within '#resource_related_accessions__0__ref__combobox' do
+              find('button.dropdown-toggle').click
+              expect(page).to have_css('ul.dropdown-menu.show')
+              click_on 'Browse'
+            end
+            expect(page).to have_css('#resource_related_accessions__0__ref__modal')
           end
 
           def clean_up_results_table
-            modal_clean_up_results_table
+            within '#resource_related_accessions__0__ref__modal' do
+              click_on 'Cancel'
+            end
           end
 
           let(:additional_browse_columns) do
