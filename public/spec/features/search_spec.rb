@@ -7,8 +7,8 @@ describe 'Search', js: true do
     click_link 'Search The Archives'
     expect(current_path).to eq ('/search')
     finished_all_ajax_requests?
-    within all('.col-sm-12')[0] do
-      expect(page).to have_content('Search The Archives')
+    within '.search[role="search"]' do
+      expect(page).to have_css('h1', text: 'Search The Archives')
     end
 
     aggregate_failures 'supporting accessibility by not skipping heading levels' do
@@ -133,7 +133,7 @@ describe 'Search', js: true do
 
             click_on('Sort')
 
-            titles_desc = find_all('h3 .record-title').to_a
+            titles_desc = find_all('h2 .record-title').to_a
 
             expect(titles_desc[1].text.downcase > titles_desc[2].text.downcase).to be true
             expect(titles_desc[2].text.downcase > titles_desc[3].text.downcase).to be true
@@ -148,7 +148,7 @@ describe 'Search', js: true do
 
             click_on('Sort')
 
-            titles = find_all('h3 .record-title').to_a
+            titles = find_all('h2 .record-title').to_a
 
             expect(titles[1].text.downcase < titles[2].text.downcase).to be true
             expect(titles[2].text.downcase < titles[3].text.downcase).to be true
@@ -238,7 +238,7 @@ describe 'Search', js: true do
 
     matcher :highlight_term_found_in do |label, term|
       match_unless_raises do |page|
-        expect(page).to have_xpath "//div[contains(@class, 'recordrow')][h3[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')][strong[contains(., '#{label}')]]/span[contains(@class, 'searchterm')][contains(., '#{term}')]"
+        expect(page).to have_xpath "//div[contains(@class, 'recordrow')][h2[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')][strong[contains(., '#{label}')]]/span[contains(@class, 'searchterm')][contains(., '#{term}')]"
       end
     end
 
@@ -253,8 +253,8 @@ describe 'Search', js: true do
       )
     end
 
-    let(:result_title) { find('.recordrow > h3', text: searched_record.title) }
-    let(:result_highlights) { all(:xpath, "//div[contains(@class, 'recordrow')][h3[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')]") }
+    let(:result_title) { find('.recordrow > h2', text: searched_record.title) }
+    let(:result_highlights) { all(:xpath, "//div[contains(@class, 'recordrow')][h2[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')]") }
 
     before :each do
       set_repo repository
@@ -326,7 +326,7 @@ describe 'Search', js: true do
         it 'highlights the search term in the results title and found in sections' do
           expect(page).to highlight_term_in_title search_term
 
-          page.all(:xpath, "//div[contains(@class, 'recordrow')][h3[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')][strong[contains(., 'Found in Identifier:')]]/span[contains(@class, 'searchterm')]").each do |e|
+          page.all(:xpath, "//div[contains(@class, 'recordrow')][h2[contains(., '#{searched_record.title}')]]//div[contains(@class, 'highlighting')][strong[contains(., 'Found in Identifier:')]]/span[contains(@class, 'searchterm')]").each do |e|
             expect(e.text).to eq(search_term)
           end
 
@@ -372,7 +372,7 @@ describe 'Search', js: true do
         end
 
         it 'does not include the record in the search results' do
-          expect(find_all('h3 .record-title').to_a).to be_empty
+          expect(find_all('h2 .record-title').to_a).to be_empty
           expect(page).to have_text('No Records Found')
         end
       end
