@@ -332,6 +332,7 @@ RSpec.shared_examples 'results table sorting' do
 
   # @return [Array<String>] The text content of each dropdown menu option
   def extract_dropdown_menu_options
+    expect(page).to have_css('#tabledSearchResults')
     all('.dropdown-item > a', visible: false).map { |el| el.text(:all) }
   end
 
