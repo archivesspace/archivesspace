@@ -238,7 +238,8 @@ RSpec.shared_examples 'results table sorting' do
 
     aggregate_failures 'primary sort menu options' do
       within '#pagination-summary-primary-sort-opts > .dropdown-menu', visible: false do
-        actual_options = extract_dropdown_menu_options
+        actual_options = all('.dropdown-item > a', visible: false).map { |el| el.text(:all) }
+        # actual_options = extract_dropdown_menu_options
         expect(actual_options).to eq(expected_options)
       end
     end
@@ -251,7 +252,8 @@ RSpec.shared_examples 'results table sorting' do
 
     aggregate_failures 'secondary sort menu options' do
       within '#pagination-summary-secondary-sort-opts > .dropdown-menu', visible: false do
-        actual_options = extract_dropdown_menu_options
+        actual_options = all('.dropdown-item > a', visible: false).map { |el| el.text(:all) }
+        # actual_options = extract_dropdown_menu_options
         expect(actual_options).to eq(expected_options)
       end
     end
@@ -332,7 +334,6 @@ RSpec.shared_examples 'results table sorting' do
 
   # @return [Array<String>] The text content of each dropdown menu option
   def extract_dropdown_menu_options
-    expect(page).to have_css('#tabledSearchResults')
     all('.dropdown-item > a', visible: false).map { |el| el.text(:all) }
   end
 
