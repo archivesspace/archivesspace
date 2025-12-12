@@ -38,7 +38,7 @@ class DefaultValues
     uri = "/repositories/#{JSONModel.repository}/default_values/#{@json.record_type}"
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
-    response = JSONModel::HTTP.post_json(url, ASUtils.to_json((@json.to_hash)))
+    response = JSONModel::HTTP.post_json(url, ASUtils.to_json(@json.to_hash))
 
     if response.code != '200'
       raise response.body

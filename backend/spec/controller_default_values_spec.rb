@@ -1,6 +1,32 @@
 require 'spec_helper'
 
 describe 'Default Values' do
+  describe 'for Classification Terms' do
+    let(:creator) { create(:json_agent_person) }
+    let(:resource) { create(:json_resource) }
+    let(:defaults) {
+      {
+        'record_type' => 'classification_term',
+        'defaults' => {
+          'creator' => { 'ref' => creator.uri },
+          'linked_records' => [{ 'ref' => resource.uri }]
+        }
+      }
+    }
+
+    it "can create a default value set for a record type and get it back" do
+      uri = "/repositories/#{JSONModel.repository}/default_values/classification_terms"
+      url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+
+      response = JSONModel::HTTP.post_json(url, ASUtils.to_json(defaults))
+      expect(response.status).to eq(200)
+
+      defaults = JSONModel::HTTP.get_json(uri)
+      expect(defaults['defaults']['creator']['_resolved']['title']).to eq(creator.title)
+      expect(defaults['defaults']['linked_records'].first['_resolved']['title']).to eq(resource.title)
+    end
+  end
+
   describe 'for Resources' do
     let(:resource_defaults) {
       {
