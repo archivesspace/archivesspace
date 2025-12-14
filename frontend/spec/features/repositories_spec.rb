@@ -235,7 +235,6 @@ describe 'Repositories', js: true do
         include_context 'results table setup'
 
         let(:default_sort_key) { 'title_sort' }
-        let(:sorting_in_url) { true }
         let(:additional_browse_columns) { { 4 => 'URI' } }
         let(:column_headers) do
           {

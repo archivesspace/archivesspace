@@ -16,7 +16,8 @@
 #
 # Optional lets:
 # - primary_column_class [String] CSS class for the primary sortable column (default: 'title')
-# - sorting_in_url [Boolean] Whether to verify that sort parameters are reflected in the URL
+# - is_modal [Boolean] Whether the results table is in a modal context (default: false).
+#   When true, URL parameter verification is skipped.
 
 RSpec.shared_examples 'results table sorting' do
   # @param heading [String] The column heading to click
@@ -90,31 +91,24 @@ RSpec.shared_examples 'results table sorting' do
       secondary_heading = column_headers.key(secondary_key)
 
       click_sort_menu_option(:primary, primary_heading, primary_dir)
-
-      if test_case[:expected_after_primary]
-        expect_sorted_results(
-          test_case[:expected_after_primary],
-          { heading: primary_heading, sort_key: primary_key, direction: primary_dir },
-          fail_message: "primary sort within secondary sort test case: #{primary_heading} #{primary_dir}"
-        )
-      end
+      expect_sorted_results(
+        test_case[:expected_after_primary],
+        { heading: primary_heading, sort_key: primary_key, direction: primary_dir },
+        fail_message: "primary sort within secondary sort test case: #{primary_heading} #{primary_dir}"
+      )
 
       click_sort_menu_option(:secondary, secondary_heading, secondary_dir)
-      verify_url_params(primary_key: primary_key, primary_dir: primary_dir, secondary_key: secondary_key, secondary_dir: secondary_dir)
-
       aggregate_failures "secondary sort: #{primary_heading} #{primary_dir}, then #{secondary_heading} #{secondary_dir}" do
+        verify_url_params(primary_key: primary_key, primary_dir: primary_dir, secondary_key: secondary_key, secondary_dir: secondary_dir)
         verify_sort_buttons_text(
           primary_heading, primary_dir,
           secondary_heading: secondary_heading,
           secondary_direction: secondary_dir
         )
-
-        if test_case[:expected_after_both]
-          verify_primary_column_values_by_row(
-            test_case[:expected_after_both],
-            primary_column_class_name
-          )
-        end
+        verify_primary_column_values_by_row(
+          test_case.fetch(:expected_after_both),
+          primary_column_class_name
+        )
       end
     end
   end
@@ -339,7 +333,8 @@ RSpec.shared_examples 'results table sorting' do
 
   # @return [Boolean] True if URL params should be verified
   def should_verify_url?
-    respond_to?(:sorting_in_url) && sorting_in_url
+    is_modal_context = respond_to?(:is_modal) ? is_modal : false
+    !is_modal_context
   end
 
   # @param is_initial_sort [Boolean] Whether this is the initial page load sort

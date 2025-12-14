@@ -365,7 +365,6 @@ describe 'Events', js: true do
         include_context 'results table setup'
 
         let(:default_sort_key) { 'event_type' }
-        let(:sorting_in_url) { true }
         let(:primary_column_class) { 'event_type' }
         let(:additional_browse_columns) { { 5 => 'URI' } }
         let(:column_headers) { { 'Type' => 'event_type', 'Outcome' => 'outcome', 'URI' => 'uri' } }

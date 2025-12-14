@@ -1294,7 +1294,6 @@ describe 'Resources', js: true do
 
       describe 'sorting' do
         let(:default_sort_key) { 'title_sort' }
-        let(:sorting_in_url) { true }
 
         context 'with seven of eleven sortable columns showing' do
           include_context 'results table setup'
@@ -1700,6 +1699,7 @@ describe 'Resources', js: true do
 
       describe 'sorting' do
         let(:default_sort_key) { 'title_sort' }
+        let(:is_modal) { true }
 
         context 'with seven of ten sortable columns showing' do
           include_context 'results table setup'

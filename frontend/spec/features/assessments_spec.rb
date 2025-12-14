@@ -442,7 +442,6 @@ describe 'Assessments', js: true do
 
       describe 'sorting' do
         let(:default_sort_key) { 'assessment_id' }
-        let(:sorting_in_url) { true }
         let(:primary_column_class) { 'assessment_id' }
         let(:column_headers) do
           {

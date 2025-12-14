@@ -377,7 +377,6 @@ describe 'Locations', js: true do
         include_context 'results table setup'
 
         let(:default_sort_key) { 'title_sort' }
-        let(:sorting_in_url) { true }
         let(:additional_browse_columns) { { 6 => 'Temporary', 7 => 'URI' } }
         let(:column_headers) do
           {

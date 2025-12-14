@@ -160,7 +160,6 @@ describe 'Search Listing', js: true do
       let(:record_1) { create(:resource, title: "Resource #{now}", id_0: "1") }
       let(:record_2) { create(:accession, title: "Accession #{now}", id_0: "2") }
       let(:default_sort_key) { 'score' }
-      let(:sorting_in_url) { true }
       let(:filter_results) { true }
       let(:initial_sort) { [record_1.title, record_2.title] }
       let(:additional_browse_columns) { { 6 => 'URI' } }

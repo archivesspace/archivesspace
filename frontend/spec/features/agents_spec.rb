@@ -1422,7 +1422,6 @@ describe 'Agents', js: true do
 
       describe 'sorting' do
         let(:default_sort_key) { 'title_sort' }
-        let(:sorting_in_url) { true }
         let(:column_headers) do
           {
             'Agent Type' => 'primary_type',
