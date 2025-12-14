@@ -231,11 +231,8 @@ RSpec.shared_examples 'results table sorting' do
     end
 
     aggregate_failures 'primary sort menu options' do
-      within '#pagination-summary-primary-sort-opts > .dropdown-menu', visible: false do
-        actual_options = all('.dropdown-item > a', visible: false).map { |el| el.text(:all) }
-        # actual_options = extract_dropdown_menu_options
-        expect(actual_options).to eq(expected_options)
-      end
+      actual_options = extract_dropdown_options_via_js('#pagination-summary-primary-sort-opts > .dropdown-menu')
+      expect(actual_options).to eq(expected_options)
     end
   end
 
@@ -245,11 +242,8 @@ RSpec.shared_examples 'results table sorting' do
     expected_options.delete(current_primary_heading)
 
     aggregate_failures 'secondary sort menu options' do
-      within '#pagination-summary-secondary-sort-opts > .dropdown-menu', visible: false do
-        actual_options = all('.dropdown-item > a', visible: false).map { |el| el.text(:all) }
-        # actual_options = extract_dropdown_menu_options
-        expect(actual_options).to eq(expected_options)
-      end
+      actual_options = extract_dropdown_options_via_js('#pagination-summary-secondary-sort-opts > .dropdown-menu')
+      expect(actual_options).to eq(expected_options)
     end
   end
 
@@ -326,9 +320,17 @@ RSpec.shared_examples 'results table sorting' do
     direction == :asc ? 'Ascending' : 'Descending'
   end
 
+  # Extracts dropdown option text using JavaScript to avoid StaleElementReferenceError.
+  # This executes atomically in the browser, preventing race conditions between
+  # element collection and text extraction that occur in slower CI environments.
+  #
+  # @param menu_selector [String] CSS selector for the dropdown menu container
   # @return [Array<String>] The text content of each dropdown menu option
-  def extract_dropdown_menu_options
-    all('.dropdown-item > a', visible: false).map { |el| el.text(:all) }
+  def extract_dropdown_options_via_js(menu_selector)
+    page.evaluate_script(<<~JS)
+      Array.from(document.querySelectorAll('#{menu_selector} .dropdown-item > a'))
+        .map(el => el.textContent.trim())
+    JS
   end
 
   # @return [Boolean] True if URL params should be verified
