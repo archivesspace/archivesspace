@@ -3,83 +3,79 @@ Feature: User Defined Fields in Custom Reports
   I want to create custom reports that include user defined fields
   So that I can analyze custom data in my accessions
 
-  @e2e
   Scenario: Create and run custom report with user defined fields for an accession
-    Given I am logged in as admin
-    And I click the 'System' menu
-    And I click the 'Manage Controlled Value Lists' link
-    # Create controlled values for enum fields
-    And I select "User Defined Enum 1 (user_defined_enum_1)" from "List Name"
-    And I click the "Create Value" button
-    And I fill in "Value" with "Test Enum 1"
-    And I click the "Save" button
+    Given an administrator user is logged in
+     When the user clicks on 'System' menu
+      And the user clicks on 'Manage Controlled Value Lists' link
+      And the user selects "User Defined Enum 1 (user_defined_enum_1)" from "List Name"
+      And the user clicks on "Create Value" button
+      And the user fills in "Value" with "Test Enum 1"
+      And the user clicks on "Save" button
     
-    And I select "User Defined Enum 2 (user_defined_enum_2)" from "List Name"
-    And I click the "Create Value" button
-    And I fill in "Value" with "Test Enum 2"
-    And I click the "Save" button
+      And the user selects "User Defined Enum 2 (user_defined_enum_2)" from "List Name"
+      And the user clicks on "Create Value" button
+      And the user fills in "Value" with "Test Enum 2"
+      And the user clicks on "Save" button
     
-    And I select "User Defined Enum 3 (user_defined_enum_3)" from "List Name"
-    And I click the "Create Value" button
-    And I fill in "Value" with "Test Enum 3"
-    And I click the "Save" button
+      And the user selects "User Defined Enum 3 (user_defined_enum_3)" from "List Name"
+      And the user clicks on "Create Value" button
+      And the user fills in "Value" with "Test Enum 3"
+      And the user clicks on "Save" button
     
-    And I select "User Defined Enum 4 (user_defined_enum_4)" from "List Name"
-    And I click the "Create Value" button
-    And I fill in "Value" with "Test Enum 4"
-    And I click the "Save" button
+      And the user selects "User Defined Enum 4 (user_defined_enum_4)" from "List Name"
+      And the user clicks on "Create Value" button
+      And the user fills in "Value" with "Test Enum 4"
+      And the user clicks on "Save" button
 
-    # Create an accession with user defined fields
-    When I click the 'Create' menu
-    And I click the 'Accession' link
-    And I fill in "Title" with "Test Accession for User Defined Report"
-    And I fill in "Identifier" with "2025" in the 1st box
-    And I fill in "Identifier" with "10" in the 2nd box
-    And I fill in "Identifier" with "9" in the 3rd box
-    And I fill in "Identifier" with "1" in the 4th box
-    And I select "Test Enum 1" from "User Defined enum_1"
-    And I select "Test Enum 2" from "User Defined enum_2"
-    And I select "Test Enum 3" from "User Defined enum_3"
-    And I select "Test Enum 4" from "User Defined enum_4"
-    And I check "User Defined boolean_1"
-    And I check "User Defined boolean_2"
-    And I check "User Defined boolean_3"
-    And I fill in "User Defined integer_1" with "101"
-    And I fill in "User Defined integer_2" with "202"
-    And I fill in "User Defined integer_3" with "303"
-    And I fill in "User Defined real_1" with "1.23"
-    And I fill in "User Defined real_2" with "4.56"
-    And I fill in "User Defined real_3" with "7.89"
-    And I fill in "User Defined string_1" with "Test String 1"
-    And I fill in "User Defined string_2" with "Test String 2"
-    And I fill in "User Defined string_3" with "Test String 3"
-    And I fill in "User Defined string_4" with "Test String 4"
-    And I fill in "User Defined text_1" with "Test Text Area 1"
-    And I fill in "User Defined text_2" with "Test Text Area 2"
-    And I fill in "User Defined text_3" with "Test Text Area 3"
-    And I fill in "User Defined text_4" with "Test Text Area 4"
-    And I fill in "User Defined text_5" with "Test Text Area 5"
-    And I fill in "User Defined date_1" with "2025-10-09"
-    And I fill in "User Defined date_2" with "2025-10-10"
-    And I fill in "User Defined date_3" with "2025-10-11"
-    And I click the "Save Accession" button
-    Then I should see "Accession Test Accession for User Defined Report Created"
+     When the user clicks on 'Create' menu
+      And the user clicks on 'Accession' link
+      And the user fills in "Title" with "Test Accession for User Defined Report"
+      And the user fills in "Identifier" with "2025" in the 1st box
+      And the user fills in "Identifier" with "10" in the 2nd box
+      And the user fills in "Identifier" with "9" in the 3rd box
+      And the user fills in "Identifier" with "1" in the 4th box
+      And the user selects "Test Enum 1" from "User Defined enum_1"
+      And the user selects "Test Enum 2" from "User Defined enum_2"
+      And the user selects "Test Enum 3" from "User Defined enum_3"
+      And the user selects "Test Enum 4" from "User Defined enum_4"
+      And the user checks "User Defined boolean_1"
+      And the user checks "User Defined boolean_2"
+      And the user checks "User Defined boolean_3"
+      And the user fills in "User Defined integer_1" with "101"
+      And the user fills in "User Defined integer_2" with "202"
+      And the user fills in "User Defined integer_3" with "303"
+      And the user fills in "User Defined real_1" with "1.23"
+      And the user fills in "User Defined real_2" with "4.56"
+      And the user fills in "User Defined real_3" with "7.89"
+      And the user fills in "User Defined string_1" with "Test String 1"
+      And the user fills in "User Defined string_2" with "Test String 2"
+      And the user fills in "User Defined string_3" with "Test String 3"
+      And the user fills in "User Defined string_4" with "Test String 4"
+      And the user fills in "User Defined text_1" with "Test Text Area 1"
+      And the user fills in "User Defined text_2" with "Test Text Area 2"
+      And the user fills in "User Defined text_3" with "Test Text Area 3"
+      And the user fills in "User Defined text_4" with "Test Text Area 4"
+      And the user fills in "User Defined text_5" with "Test Text Area 5"
+      And the user fills in "User Defined date_1" with "2025-10-09"
+      And the user fills in "User Defined date_2" with "2025-10-10"
+      And the user fills in "User Defined date_3" with "2025-10-11"
+      And the user clicks on "Save Accession" button
+     Then the 'Accession' created message is displayed
 
-    # Create custom report
-    When I click the 'Create' menu
-    And I click the 'Custom Report' link
-    And I fill in "Name" with "User Defined Fields in Accessions"
-    And I select "Accessions" from "Record Type"
-    And I check "User Defined"
-    And I click the "Save Template" button
+     When the user clicks on 'Create' menu
+      And the user clicks on 'Custom Report' link
+      And the user fills in "Name" with "User Defined Fields in Accessions"
+      And the user selects "Accessions" from "Record Type"
+      And the user checks "User Defined"
+      And the user clicks on "Save Template" button
+     Then the 'Template' saved message is displayed
 
-    # Run the report
-    When I locate the "User Defined Fields in Accessions" template
-    And I click the "Run" button for that template
-    And I select "JSON" from "Format"
-    And I click the "Start Job" button
-    And I wait for the job to complete
-    Then I should see the following user defined values:
+     When the user locates the "User Defined Fields in Accessions" template
+      And the user clicks on "Run" button for that template
+      And the user selects "JSON" from "Format"
+      And the user clicks on "Start Job" button
+      And the user waits for the job to complete
+     Then the user should see the following user defined values:
       | field       | value           |
       | enum_1      | Test Enum 1     |
       | enum_2      | Test Enum 2     |

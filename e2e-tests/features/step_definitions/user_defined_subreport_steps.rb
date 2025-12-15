@@ -2,21 +2,17 @@
 
 require 'fileutils'
 
-Then('I should see a notification that the template was saved') do
-  expect(page).to have_content('+1')
-end
-
-When('I locate the {string} template') do |template_name|
+When('the user locates the {string} template') do |template_name|
   expect(page).to have_content(template_name)
 end
 
-When('I click the {string} button for that template') do |button_text|
+When('the user clicks on {string} button for that template') do |button_text|
   within(:xpath, "//div[contains(., 'User Defined Fields in Accessions')]/ancestor::div[contains(@class, 'row')]") do
     click_button(button_text)
   end
 end
 
-When('I wait for the job to complete') do
+When('the user waits for the job to complete') do
   Dir.glob(File.join(Dir.tmpdir, '*.json')).each do |file|
     File.delete(file)
   end
@@ -36,7 +32,7 @@ When('I wait for the job to complete') do
   expect(@downloaded_report).not_to be_nil
 end
 
-Then('I should see the following user defined values:') do |table|
+Then('the user should see the following user defined values:') do |table|
   require 'json'
   json_content = File.read(@downloaded_report)
   report_data = JSON.parse(json_content)
@@ -63,6 +59,16 @@ Then('I should see the following user defined values:') do |table|
   FileUtils.rm_f(@downloaded_report)
 end
 
-When('I wait for the report to complete') do
-  expect(page).to have_css('.report-content', wait: 30)
+When('the user fills in {string} with {string} in the {string} box') do |label, value, box_position|
+  box_index_map = {
+    '1st' => 0,
+    '2nd' => 1,
+    '3rd' => 2,
+    '4th' => 3,
+    '5th' => 4
+  }
+  
+  index = box_index_map[box_position] || (box_position.to_i - 1)
+  field_name = "accession_id_#{index}_"
+  fill_in field_name, with: value, match: :first
 end
