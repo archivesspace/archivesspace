@@ -101,7 +101,6 @@ When 'the user clicks on {string} in the tree toolbar' do |string|
 end
 
 Then 'only the top-level Archival Objects are displayed' do
-
   expect(page).to have_css('#tree-container .table .table-row', count: 2)
   expect(page).to have_css('#tree-container .table .table-row', text: "Archival Object 1 #{@uuid}")
   expect(page).to have_css('#tree-container .table .table-row', text: "Archival Object 2 #{@uuid}")
