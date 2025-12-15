@@ -324,6 +324,7 @@ class Solr
 
       if @highlighting
         add_solr_param(:hl, "true")
+        add_solr_param(:"hl.method", "original")
         add_solr_param(:"hl.fl", "*")
         add_solr_param(:"hl.simple.pre", '<span class="searchterm">')
         add_solr_param(:"hl.simple.post", "</span>")
