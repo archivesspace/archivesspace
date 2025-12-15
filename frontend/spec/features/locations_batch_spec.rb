@@ -204,12 +204,8 @@ describe 'Location batch', js: true do
     click_on 'Locations'
     click_on 'Create Batch Locations'
 
-    create_plus_one_buttons = all('.createPlusOneBtn')
-    expect(create_plus_one_buttons.length).to eq 2
-
-    create_plus_one_buttons.each do |button|
-      expect(button['type']).to eq 'submit'
-      expect(button[:id]).to eq 'createPlusOne'
-    end
+    expect(page).to have_css('.createPlusOneBtn', count: 2)
+    expect(page).to have_css(".createPlusOneBtn[type='submit']")
+    expect(page).to have_css(".createPlusOneBtn[id='createPlusOne']")
   end
 end
