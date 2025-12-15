@@ -198,7 +198,7 @@ describe 'Classifications', js: true do
             'URI' => 'uri'
           }
         }
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'title_sort' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
             'has_classification_terms' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
@@ -206,22 +206,8 @@ describe 'Classifications', js: true do
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
           }
         end
-
-        before do
-          # Create and update record_2 before 'sortable results table setup' to sort on has_classification_terms
-          record_1
-          record_2
-          child_record
-          updated_classification = JSONModel(:classification).find(record_2.id)
-          updated_classification.save
-          run_index_round
-        end
-
-        # Optional third record for secondary sort tests
         # Uses same identifier as record_2 to create a tie on identifier_sort
         let(:record_3) { create(:classification, title: "Classification 3 #{now}", identifier: "A") }
-
-        # Secondary sort test cases
         let(:secondary_sort_cases) do
           [
             {
@@ -243,10 +229,6 @@ describe 'Classifications', js: true do
             },
             {
               # Case 2: primary identifier_sort asc, secondary title_sort desc - secondary changes order
-              # record_2 and record_3 both have identifier "A", so they tie on identifier_sort.
-              # After primary-only: "A" < "Z", so record_2/record_3 first, then record_1.
-              #   Solr tie-breaks by ID, so record_2 before record_3.
-              # After secondary (title_sort desc): "Classification 3" > "Classification 2", so record_3 moves first.
               primary_key:   'identifier_sort',
               primary_dir:   :asc,
               secondary_key: 'title_sort',
@@ -280,6 +262,16 @@ describe 'Classifications', js: true do
               ]
             }
           ]
+        end
+
+        before do
+          # Create and update record_2 before 'sortable results table setup' to sort on has_classification_terms
+          record_1
+          record_2
+          child_record
+          updated_classification = JSONModel(:classification).find(record_2.id)
+          updated_classification.save
+          run_index_round
         end
 
         it_behaves_like 'results table sorting'

@@ -246,7 +246,7 @@ describe 'Subjects', js: true do
             'URI' => 'uri'
           }
         end
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'title_sort' => {
               asc: [record_1.title, record_2.title],
@@ -263,8 +263,6 @@ describe 'Subjects', js: true do
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
           }
         end
-
-        # Optional third record for secondary sort tests
         # Creates ties: source='local' (same as record_1), first_term_type='topical' (same as record_1)
         let(:record_3) do
           create(:subject,
@@ -272,13 +270,10 @@ describe 'Subjects', js: true do
             terms: [build(:term, { term: "C #{now}", term_type: 'topical' })]
           )
         end
-
-        # Secondary sort test cases
         let(:secondary_sort_cases) do
           [
             {
               # Case 1: primary title_sort asc, secondary source asc - no-op since titles are unique
-              # Titles sort: "A" < "B" < "C"
               primary_key:   'title_sort',
               primary_dir:   :asc,
               secondary_key: 'source',
@@ -296,10 +291,6 @@ describe 'Subjects', js: true do
             },
             {
               # Case 2: primary source asc, secondary title_sort desc - secondary changes order
-              # record_1 and record_3 both have source='local', so they tie.
-              # After primary-only: "aat" < "local", so record_2 first, then local group.
-              #   Solr tie-breaks by ID, so record_1 before record_3.
-              # After secondary (title_sort desc): "C" > "A", so record_3 moves first.
               primary_key:   'source',
               primary_dir:   :asc,
               secondary_key: 'title_sort',

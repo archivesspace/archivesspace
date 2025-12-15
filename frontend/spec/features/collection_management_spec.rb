@@ -152,7 +152,7 @@ describe 'Collection Management', js: true do
             'URI' => 'uri'
           }
         }
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
            'title_sort' => {
               asc: [record_1.title, record_2.title],
@@ -181,8 +181,6 @@ describe 'Collection Management', js: true do
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
           }
         end
-
-        # Optional third record for secondary sort tests
         # Uses same processing_priority ("high") as record_2 to create a tie
         let(:record_3) do
           create(
@@ -196,8 +194,6 @@ describe 'Collection Management', js: true do
             }
           )
         end
-
-        # Secondary sort test cases
         let(:secondary_sort_cases) do
           [
             {
@@ -219,10 +215,6 @@ describe 'Collection Management', js: true do
             },
             {
               # Case 2: primary processing_priority asc, secondary title_sort desc - secondary changes order
-              # record_2 and record_3 both have processing_priority="high", so they tie.
-              # After primary-only: "high" < "medium" alphabetically, so high records first.
-              #   Solr tie-breaks by ID, so record_2 before record_3.
-              # After secondary (title_sort desc): "Resource Z" > "Resource", so record_3 moves first.
               primary_key:   'processing_priority',
               primary_dir:   :asc,
               secondary_key: 'title_sort',
@@ -240,10 +232,6 @@ describe 'Collection Management', js: true do
             },
             {
               # Case 3: primary processing_hours_total asc, secondary processing_status desc - secondary changes order
-              # record_1 and record_3 both have processing_hours_total="2", so they tie.
-              # After primary-only: 1 < 2, so record_2 first, then record_1 and record_3.
-              #   Solr tie-breaks by ID, so record_1 before record_3.
-              # After secondary (processing_status desc): "in_progress" < "completed", so record_3 moves before record_2.
               primary_key:   'processing_hours_total',
               primary_dir:   :asc,
               secondary_key: 'processing_status',

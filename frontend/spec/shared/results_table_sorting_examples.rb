@@ -5,8 +5,8 @@
 # Required lets in the including context:
 # - initial_sort [Array<String>] The expected titles order on initial render (first N rows)
 # - column_headers [Hash{String=>String}] Mapping of column headers to their sort keys
-# - sort_expectations [Hash{String=>Hash{Symbol=>Array<String>}}] Expected titles order per
-#   sort key and direction, e.g. {
+# - primary_sort_expectations [Hash{String=>Hash{Symbol=>Array<String>}}] Expected titles order per
+#   sort key and direction for PRIMARY sort testing, e.g. {
 #     'identifier' => { asc: ['1', '2'], desc: ['2', '1'] },
 #     'title_sort' => { asc: ['A', 'B'], desc: ['B', 'A'] }
 #   }
@@ -70,7 +70,7 @@ RSpec.shared_examples 'results table sorting' do
       column_headers.to_a.each do |heading, sort_key|
         click_sort_menu_option(:primary, heading, direction)
         expect_sorted_results(
-          sort_expectations.dig(sort_key, direction),
+          primary_sort_expectations.dig(sort_key, direction),
           { heading: heading, sort_key: sort_key, direction: direction }
         )
       end
@@ -176,7 +176,7 @@ RSpec.shared_examples 'results table sorting' do
     sort_order.each do |direction|
       click_column_heading(heading)
       expect_sorted_results(
-        sort_expectations.dig(sort_key, direction),
+        primary_sort_expectations.dig(sort_key, direction),
         { heading: heading, sort_key: sort_key, direction: direction }
       )
     end

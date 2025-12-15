@@ -139,7 +139,7 @@ describe 'Container Profiles', js: true do
           }
         end
         let(:column_headers) { {'Title' => 'title_sort', 'URI' => 'uri'} }
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'title_sort' => {
               asc: [record_2.name, record_1.name],

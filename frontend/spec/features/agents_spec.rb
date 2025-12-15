@@ -1434,7 +1434,7 @@ describe 'Agents', js: true do
             # 'Published' => 'publish',
           }
         end
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'primary_type' => {
               asc: [record_2_name, record_1_name],
@@ -1458,12 +1458,10 @@ describe 'Agents', js: true do
             },
 
             'is_user' => {
-              # is_user is false for both records and doesn't change order for some reason
               asc: [record_1_name, record_2_name],
               desc: [record_1_name, record_2_name]
             },
             'uri' => {
-              # uris have different base strings, so sort by string unlike most record types
               asc: [record_2_name, record_1_name],
               desc: [record_1_name, record_2_name]
             },
@@ -1473,8 +1471,6 @@ describe 'Agents', js: true do
             # }
           }
         end
-
-        # Optional third record for secondary sort tests
         # Uses same primary_type (corporate_entity) and source as record_2 to create ties
         let(:record_3) {
           create(:agent_corporate_entity,
@@ -1488,8 +1484,6 @@ describe 'Agents', js: true do
           )
         }
         let(:record_3_name) { record_3.names.first['sort_name'] }
-
-        # Secondary sort test cases
         let(:secondary_sort_cases) do
           [
             {
@@ -1511,10 +1505,6 @@ describe 'Agents', js: true do
             },
             {
               # Case 2: primary primary_type asc, secondary title_sort desc - secondary changes order
-              # record_2 and record_3 are both agent_corporate_entity, so they tie on primary_type.
-              # After primary-only: corporates first (agent_corporate_entity < agent_person alphabetically),
-              #   Solr tie-breaks by ID, so record_2 before record_3.
-              # After secondary (title_sort desc): "AAAC" > "AAAB", so record_3 moves before record_2.
               primary_key:   'primary_type',
               primary_dir:   :asc,
               secondary_key: 'title_sort',
@@ -1556,7 +1546,6 @@ describe 'Agents', js: true do
       describe 'boolean columns' do
         let(:boolean_column_expectations) do
           {
-            # is_user is false for both records
             'is_user' => %w[False False]
           }
         end

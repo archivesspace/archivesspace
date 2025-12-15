@@ -618,7 +618,7 @@ describe 'Accessions', js: true do
               # 'Publish' => 'publish',
             }
           end
-          let(:sort_expectations) do
+          let(:primary_sort_expectations) do
             {
               'title_sort' => {
                 asc: [record_1.title, record_2.title],
@@ -650,8 +650,6 @@ describe 'Accessions', js: true do
               # },
             }
           end
-
-          # Optional third record for secondary sort tests
           # Uses same accession_date as record_2 to create a tie for testing
           let(:record_3) do
             create(:accession,
@@ -668,8 +666,6 @@ describe 'Accessions', js: true do
               extents: [build(:extent)]
             )
           end
-
-          # Secondary sort test cases
           let(:secondary_sort_cases) do
             [
               {
@@ -691,9 +687,6 @@ describe 'Accessions', js: true do
               },
               {
                 # Case 2: primary accession_date asc, secondary title_sort desc - secondary changes order
-                # record_2 and record_3 have the same accession_date, so they tie.
-                # After primary-only: Solr tie-breaks by ID, so record_2 before record_3.
-                # After secondary (title desc): "Accession 3" > "Accession 2", so record_3 moves first.
                 primary_key:   'accession_date',
                 primary_dir:   :asc,
                 secondary_key: 'title_sort',
@@ -750,7 +743,7 @@ describe 'Accessions', js: true do
               'URI' => 'uri'
             }
           end
-          let(:sort_expectations) do
+          let(:primary_sort_expectations) do
             {
               'title_sort' => {
                 asc: [record_1.title, record_2.title],

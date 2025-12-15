@@ -427,7 +427,7 @@ describe 'Digital Objects', js: true do
             'URI' => 'uri'
           }
         end
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'title_sort' => {
               asc: [record_1.title, record_2.title],
@@ -452,8 +452,6 @@ describe 'Digital Objects', js: true do
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
           }
         end
-
-        # Optional third record for secondary sort tests
         # Uses same level ("collection") and digital_object_type ("text") as record_2 to create ties
         let(:record_3) do
           create(:digital_object,
@@ -464,8 +462,6 @@ describe 'Digital Objects', js: true do
             publish: false
           )
         end
-
-        # Secondary sort test cases
         let(:secondary_sort_cases) do
           [
             {
@@ -487,10 +483,6 @@ describe 'Digital Objects', js: true do
             },
             {
               # Case 2: primary level asc, secondary title_sort desc - secondary changes order
-              # record_2 and record_3 both have level="collection", so they tie.
-              # After primary-only: "collection" < "image" alphabetically, so collection records first.
-              #   Solr tie-breaks by ID, so record_2 before record_3.
-              # After secondary (title_sort desc): "Digital Object 3" > "Digital Object 2", so record_3 moves first.
               primary_key:   'level',
               primary_dir:   :asc,
               secondary_key: 'title_sort',

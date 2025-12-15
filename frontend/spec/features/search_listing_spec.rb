@@ -171,7 +171,7 @@ describe 'Search Listing', js: true do
           'URI' => 'uri'
         }
       end
-      let(:sort_expectations) do
+      let(:primary_sort_expectations) do
         # Re: URI sorting, this is multi-record type so URIs should sort by record type string before id integer
         {
           'primary_type' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
@@ -180,17 +180,12 @@ describe 'Search Listing', js: true do
           'uri' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] }
         }
       end
-
-      # Optional third record for secondary sort tests
       # Creates a second resource to tie on primary_type with record_1
       let(:record_3) { create(:resource, title: "Resource Z #{now}", id_0: "3") }
-
-      # Secondary sort test cases
       let(:secondary_sort_cases) do
         [
           {
             # Case 1: primary title_sort asc, secondary primary_type asc - no-op since titles are unique
-            # Titles sort: "Accession" < "Resource" < "Resource Z"
             primary_key:   'title_sort',
             primary_dir:   :asc,
             secondary_key: 'primary_type',
@@ -208,10 +203,6 @@ describe 'Search Listing', js: true do
           },
           {
             # Case 2: primary primary_type asc, secondary title_sort desc - secondary changes order
-            # record_1 and record_3 are both resources, so they tie on primary_type.
-            # After primary-only: "accession" < "resource", so record_2 first, then resource group.
-            #   Solr tie-breaks by ID, so record_1 before record_3.
-            # After secondary (title_sort desc): "Resource Z" > "Resource", so record_3 moves first.
             primary_key:   'primary_type',
             primary_dir:   :asc,
             secondary_key: 'title_sort',

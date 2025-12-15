@@ -243,7 +243,7 @@ describe 'Repositories', js: true do
             "URI" => "uri"
           }
         end
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'title_sort' => {
               asc: [record_1.repo_code, record_2.repo_code],
@@ -256,8 +256,6 @@ describe 'Repositories', js: true do
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.repo_code })
           }
         end
-
-        # Optional third record for secondary sort tests
         # Uses same publish value (true) as record_1 to create a tie
         let(:record_3) do
           create(
@@ -267,8 +265,6 @@ describe 'Repositories', js: true do
             publish: true
           )
         end
-
-        # Secondary sort test cases
         let(:secondary_sort_cases) do
           [
             {
@@ -290,10 +286,6 @@ describe 'Repositories', js: true do
             },
             {
               # Case 2: primary publish asc, secondary title_sort desc - secondary changes order
-              # record_1 and record_3 both have publish=true, so they tie.
-              # After primary-only: false < true, so record_2 (false) first, then true group.
-              #   Solr tie-breaks by ID, so record_1 before record_3.
-              # After secondary (title_sort desc): within true group, "_3" > "_1", so record_3 moves first.
               primary_key:   'publish',
               primary_dir:   :asc,
               secondary_key: 'title_sort',

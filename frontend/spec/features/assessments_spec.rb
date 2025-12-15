@@ -454,7 +454,7 @@ describe 'Assessments', js: true do
             'URI' => 'uri'
           }
         end
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'assessment_id' => {
               asc: [record_1.id.to_s, record_2.id.to_s],
@@ -483,8 +483,6 @@ describe 'Assessments', js: true do
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.id })
           }
         end
-
-        # Optional third record for secondary sort tests
         let(:record_3) do
           create(:json_assessment, {
             'records' => [{'ref' => create(:resource).uri}],
@@ -495,8 +493,6 @@ describe 'Assessments', js: true do
             'inactive' => true
           })
         end
-
-        # Secondary sort test cases (only used by secondary context)
         let(:secondary_sort_cases) do
           [
             {
@@ -518,9 +514,6 @@ describe 'Assessments', js: true do
             },
             {
               # Case 2: primary date asc, secondary id desc – secondary changes order
-              # record_2 and record_3 both have survey_begin='2023-01-01', so they tie.
-              # After primary-only sort, Solr's default tie-breaker puts record_2 first (lower ID).
-              # After secondary (id desc), record_3 moves before record_2 within the tie group.
               primary_key:   'assessment_survey_begin',
               primary_dir:   :asc,
               secondary_key: 'assessment_id',

@@ -389,7 +389,7 @@ describe 'Locations', js: true do
             'URI' => 'uri'
           }
         end
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'title_sort' => {
               asc: [record_1.title, record_2.title],
@@ -418,8 +418,6 @@ describe 'Locations', js: true do
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
           }
         end
-
-        # Optional third record for secondary sort tests
         # Creates ties: floor="1" (same as record_2), temporary="conservation" (same as record_1)
         let(:record_3) do
           create(
@@ -431,8 +429,6 @@ describe 'Locations', js: true do
             temporary: 'conservation'
           )
         end
-
-        # Secondary sort test cases
         let(:secondary_sort_cases) do
           [
             {
@@ -454,10 +450,6 @@ describe 'Locations', js: true do
             },
             {
               # Case 2: primary floor asc, secondary room desc - secondary changes order
-              # record_2 and record_3 both have floor="1", so they tie.
-              # After primary-only: "1" < "2", so floor="1" records first (record_2, record_3), then record_1.
-              #   Solr tie-breaks by ID, so record_2 before record_3.
-              # After secondary (room desc): within floor="1" group, "3" > "2", so record_3 moves first.
               primary_key:   'floor',
               primary_dir:   :asc,
               secondary_key: 'room',
@@ -475,11 +467,6 @@ describe 'Locations', js: true do
             },
             {
               # Case 3: primary temporary asc, secondary building desc - secondary changes order
-              # record_1 and record_3 both have temporary="conservation", so they tie.
-              # After primary-only: "conservation" < "reading_room", so conservation records first.
-              #   Solr tie-breaks by ID, so record_1 before record_3.
-              # After secondary (building desc): within conservation group, "Building 3" > "Building 1",
-              #   so record_3 moves first.
               primary_key:   'temporary',
               primary_dir:   :asc,
               secondary_key: 'building',
