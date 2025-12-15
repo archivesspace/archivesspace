@@ -152,17 +152,17 @@ end
     uri = "/repositories/#{JSONModel.repository}/default_values/container_profile"
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
-    # Test setting width as default (see ANW-1023)
     response = JSONModel::HTTP.post_json(url, ASUtils.to_json(container_profile_defaults))
 
     expect(response.status).to eq(200)
 
     defaults = JSONModel::HTTP.get_json(uri)
 
-    expect(defaults['defaults']['name']).to eq('DEFAULT BOX')
-    expect(defaults['defaults']['extent_dimension']).to eq('width')
+    aggregate_failures do
+      expect(defaults['defaults']['name']).to eq('DEFAULT BOX')
+      expect(defaults['defaults']['extent_dimension']).to eq('width')
+    end
 
-    # Test changing default to height
     defaults['defaults']['extent_dimension'] = 'height'
 
     response = JSONModel::HTTP.post_json(url, ASUtils.to_json(defaults))
@@ -171,7 +171,9 @@ end
 
     updated_defaults = JSONModel::HTTP.get_json(uri)
 
-    expect(updated_defaults['defaults']['name']).to eq('DEFAULT BOX')
-    expect(updated_defaults['defaults']['extent_dimension']).to eq('height')
+    aggregate_failures do
+      expect(updated_defaults['defaults']['name']).to eq('DEFAULT BOX')
+      expect(updated_defaults['defaults']['extent_dimension']).to eq('height')
+    end
   end
 end

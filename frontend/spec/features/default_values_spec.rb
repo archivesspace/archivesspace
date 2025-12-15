@@ -59,7 +59,6 @@ describe 'Default Form Values', js: true do
     expect(page).to have_checked_field('preference[defaults][default_values]')
     expect(page).to have_content('Preferences updated')
 
-    # First verify that without any defaults set, new container profiles default to "Height"
     visit('/container_profiles/new')
     expect(page).to have_select('container_profile_extent_dimension_', selected: 'Height')
   end
