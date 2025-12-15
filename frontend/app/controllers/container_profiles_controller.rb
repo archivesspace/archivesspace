@@ -1,19 +1,16 @@
 class ContainerProfilesController < ApplicationController
 
-  set_access_control  "view_repository" => [:show, :index, :typeahead, :defaults],
+  set_access_control  "view_repository" => [:show, :index, :typeahead],
                       "update_container_profile_record" => [:new, :edit, :create, :update, :delete],
-                      "manage_repository" => [:update_defaults]
+                      "manage_repository" => [:defaults, :update_defaults]
 
   include ExportHelper
 
   def new
     @container_profile = JSONModel(:container_profile).new._always_valid!
 
-    if user_prefs['default_values']
-      defaults = DefaultValues.get 'container_profile'
-
-      @container_profile.update(defaults.values) if defaults
-    end
+    defaults = user_defaults('container_profile')
+    @container_profile.update(defaults.values) if defaults
 
     render_aspace_partial :partial => "container_profiles/new" if inline?
   end
