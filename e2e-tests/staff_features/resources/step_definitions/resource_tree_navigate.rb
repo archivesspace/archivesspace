@@ -53,6 +53,9 @@ Given 'a Resource with two Archival Objects has been created' do
 end
 
 Then 'the Resource is displayed as the top level of the navigation tree' do
+  wait_for_ajax
+  expect(page).to have_css('#tree-container .table .table-row', minimum: 1)
+  
   rows = all('#tree-container .table .table-row', visible: :all)
 
   expect(rows.length).to eq 4
@@ -60,6 +63,9 @@ Then 'the Resource is displayed as the top level of the navigation tree' do
 end
 
 Then 'the Resource is highlighted in the tree' do
+  wait_for_ajax
+  expect(page).to have_css('#tree-container .table .table-row', minimum: 1)
+  
   rows = all('#tree-container .table .table-row')
 
   expect(rows.length).to eq 2
@@ -68,6 +74,9 @@ Then 'the Resource is highlighted in the tree' do
 end
 
 Given 'only the first-level Archival Objects are displayed' do
+  wait_for_ajax
+  expect(page).to have_css('#tree-container .table .table-row', minimum: 1)
+  
   rows = all('#tree-container .table .table-row')
 
   expect(rows.length).to eq 2
@@ -98,12 +107,14 @@ When 'the user clicks on {string} in the tree toolbar' do |string|
   within '#tree-toolbar' do
     click_on_string string
   end
+  wait_for_ajax
 end
 
 Then 'only the top-level Archival Objects are displayed' do
+  wait_for_ajax
   expect(page).to have_css('#tree-container .table .table-row', count: 2)
   expect(page).to have_css('#tree-container .table .table-row', text: "Archival Object 1 #{@uuid}")
-  expect(page).to have_css('#tree-container .table .table-row', text: "Archival Object 2 #{@uuid}")
+  expect(page).to_not have_css('#tree-container .table .table-row', text: "Archival Object 2 #{@uuid}")
 end
 
 Given 'all levels of hierarchy in the tree are expanded' do
