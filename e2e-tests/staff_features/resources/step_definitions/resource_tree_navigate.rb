@@ -55,7 +55,7 @@ end
 Then 'the Resource is displayed as the top level of the navigation tree' do
   wait_for_ajax
   expect(page).to have_css('#tree-container .table .table-row', minimum: 1)
-  
+
   rows = all('#tree-container .table .table-row', visible: :all)
 
   expect(rows.length).to eq 4
@@ -65,7 +65,7 @@ end
 Then 'the Resource is highlighted in the tree' do
   wait_for_ajax
   expect(page).to have_css('#tree-container .table .table-row', minimum: 1)
-  
+
   rows = all('#tree-container .table .table-row')
 
   expect(rows.length).to eq 2
@@ -76,7 +76,7 @@ end
 Given 'only the first-level Archival Objects are displayed' do
   wait_for_ajax
   expect(page).to have_css('#tree-container .table .table-row', minimum: 1)
-  
+
   rows = all('#tree-container .table .table-row')
 
   expect(rows.length).to eq 2
