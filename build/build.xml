@@ -937,6 +937,19 @@
     </antcall>
   </target>
 
+  <target name="frontend:test:no-setup" depends="set-classpath, frontend:clean" description="Run the frontend capybara tests">
+    <property name="tag" value="~db"/>
+    <antcall target="rspec">
+      <param name="coverage_reports" value="true" />
+      <param name="coverage_report_dir" value="frontend" />
+      <param name="aspace.integration" value="true" />
+      <param name="dir" value="../frontend" />
+      <!-- feature tests copied from old selenium tests may be order-dependent -->
+      <param name="order" value="defined" />
+      <param name="tag" value="${tag}" />
+    </antcall>
+  </target>
+
   <target name="frontend:test:plugin" depends="set-classpath, setup-integration" description="Run the unit test suite">
     <property name="spec" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
