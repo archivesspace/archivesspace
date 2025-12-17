@@ -1014,104 +1014,6 @@ describe 'Resources', js: true do
     expect(elements.length).to eq 1
   end
 
-  it 'has the Include URIs checkbox checked by default inside the EAD Export dropdown menu' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-
-    visit "resources/#{resource.id}"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    within '#form_download_ead', visible: false do
-      element = find('#include-uris', visible: false)
-      expect(element.checked?).to eq true
-    end
-  end
-
-  it 'exports and downloads the resource to xml' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-
-    visit "resources/#{resource.id}"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
-    files.each do |file|
-      File.delete file
-    end
-
-    click_on 'Export'
-
-    wait_for_ajax
-
-    within('.dropdown-menu') do
-      click_link('Download EAD')
-    end
-
-    files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
-    expect(files.length).to eq 1
-    file = File.read(files[0])
-    expect(file).to include(resource.title)
-  end
-
-  it 'exports a prefilled CSV template to import digital objects to archival objects' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-    archival_objects = create_list(:archival_object, 10, title: "Archival Object Title #{now}", :resource => { ref: resource.uri })
-
-    visit "resources/#{resource.id}"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
-    files.each do |file|
-      File.delete file
-    end
-
-    click_on 'Export'
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
-    click_on 'Download Digital Object Template'
-
-    files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
-    expect(files.length).to eq 1
-    file = File.read(files[0])
-    csv_generated = CSV.parse(file)
-
-    # Load original CSV template
-    csv_template_path = File.join(ASUtils.find_base_directory, 'templates', 'bulk_import_DO_template.csv')
-    csv_template = CSV.read(csv_template_path)
-    csv_template_columns = csv_template[0]
-    csv_template_column_explanations = csv_template[1]
-
-    expect(csv_template_columns).to eq csv_generated[1]
-    expect(csv_template_column_explanations).to eq csv_generated[2]
-
-    for x in 0..(archival_objects.length - 1)
-      expect(csv_generated[x + 3]).to include resource.uri
-      expect(csv_generated[x + 3]).to include archival_objects[x].uri
-    end
-  end
-
-  it 'closes the export dropdown menu after Download EAD and Download MARCXML are clicked' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-
-    visit "resources/#{resource.id}"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
-    click_on 'Export'
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
-    click_on 'Download EAD'
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
-    click_on 'Export'
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
-    click_on 'Download MARCXML'
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
-  end
-
   it 'can apply and remove filters when browsing for linked agents in the linker modal' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
@@ -1459,85 +1361,215 @@ describe 'Resources', js: true do
     it_behaves_like 'not supporting is_primary on rights statement linked agents'
   end
 
-  describe 'export to pdf' do
-    shared_examples 'has the correct export-to-pdf configuration' do
-      it 'the print to pdf link href has the correct value for the include_unpublished parameter' do
-        expect(generate_pdf_btn['href']).to include "include_unpublished=#{include_unpublished?}"
+  context 'exports' do
+    describe 'dropdown behavior' do
+      it 'closes the export dropdown menu after Download EAD and Download MARCXML are clicked' do
+        now = Time.now.to_i
+        resource = create(:resource, title: "Resource Title #{now}")
+
+        visit "resources/#{resource.id}"
+
+        expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
+        click_on 'Export'
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
+        click_on 'Download EAD'
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
+        click_on 'Export'
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
+        click_on 'Download MARCXML'
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
+      end
+    end
+
+    describe 'EAD' do
+      it 'has the Include URIs checkbox checked by default inside the EAD Export dropdown menu' do
+        now = Time.now.to_i
+        resource = create(:resource, title: "Resource Title #{now}")
+
+        visit "resources/#{resource.id}"
+
+        expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+
+        within '#form_download_ead', visible: false do
+          element = find('#include-uris', visible: false)
+          expect(element.checked?).to eq true
+        end
       end
 
-      it 'the include unpublished checkbox has the correct state' do
-        if include_unpublished?
-          expect(include_unpublished_checkbox).to be_checked
-        else
-          expect(include_unpublished_checkbox).not_to be_checked
+      it 'exports and downloads the resource to xml' do
+        now = Time.now.to_i
+        resource = create(:resource, title: "Resource Title #{now}")
+
+        visit "resources/#{resource.id}"
+
+        expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+
+        files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
+        files.each do |file|
+          File.delete file
+        end
+
+        click_on 'Export'
+
+        wait_for_ajax
+
+        within('.dropdown-menu') do
+          click_link('Download EAD')
+        end
+
+        files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
+        expect(files.length).to eq 1
+        file = File.read(files[0])
+        expect(file).to include(resource.title)
+      end
+    end
+
+    describe 'digital object template' do
+      it 'exports a prefilled CSV template to import digital objects to archival objects' do
+        now = Time.now.to_i
+        resource = create(:resource, title: "Resource Title #{now}")
+        archival_objects = create_list(:archival_object, 10, title: "Archival Object Title #{now}", :resource => { ref: resource.uri })
+
+        visit "resources/#{resource.id}"
+
+        expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+
+        files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+        files.each do |file|
+          File.delete file
+        end
+
+        click_on 'Export'
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
+        click_on 'Download Digital Object Template'
+
+        files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+        expect(files.length).to eq 1
+        file = File.read(files[0])
+        csv_generated = CSV.parse(file)
+
+        # Load original CSV template
+        csv_template_path = File.join(ASUtils.find_base_directory, 'templates', 'bulk_import_DO_template.csv')
+        csv_template = CSV.read(csv_template_path)
+        csv_template_columns = csv_template[0]
+        csv_template_column_explanations = csv_template[1]
+
+        expect(csv_template_columns).to eq csv_generated[1]
+        expect(csv_template_column_explanations).to eq csv_generated[2]
+
+        for x in 0..(archival_objects.length - 1)
+          expect(csv_generated[x + 3]).to include resource.uri
+          expect(csv_generated[x + 3]).to include archival_objects[x].uri
         end
       end
     end
 
-    before :each do
-      set_repo @repository
-      login_admin
-      ensure_repository_access
-      select_repository(@repository)
-    end
+    describe 'PDF' do
+      let(:now) { Time.now.to_i }
+      let(:resource) { create(:resource, title: "Resource PDF export #{now}") }
 
-    let(:resource) { create(:resource, title: "Resource Title #{Time.now.to_i}") }
-
-    context 'when the user repository preferences sets "Include Unpublished Records in Exports?" to false' do
-      before :each do
-        find('#user-menu-dropdown').click
-        click_on 'Repository Preferences (admin)'
-        uncheck 'Include Unpublished Records in Exports?'
-        click_on 'Save Preferences'
+      it 'is not available to repository-managers' do
         visit "resources/#{resource.id}"
-        wait_for_ajax
+        expect(page).to have_css('#export-dropdown-toggle')
+        expect(page).not_to have_css('#print-to-pdf-dropdown', visible: :all)
       end
 
-      let(:generate_pdf_btn) { find('#print-to-pdf-link', visible: false) }
-      let(:include_unpublished_checkbox) { find('#include-unpublished-pdf', visible: false) }
-      let(:include_unpublished?) { false }
+      context 'options configuration' do
+        before do
+          login_admin
+          select_repository(@repository)
+        end
 
-      it_behaves_like 'has the correct export-to-pdf configuration'
-    end
+        it 'includes template parameters in its data-print-to-pdf-url attribute' do
+          visit "resources/#{resource.id}"
+          print_to_pdf_dropdown = find('#print-to-pdf-dropdown', visible: false)
 
-    context 'when the user repository preferences sets "Include Unpublished Records in Exports?" to true' do
-      before :each do
-        find('#user-menu-dropdown').click
-        click_on 'Repository Preferences (admin)'
-        check 'Include Unpublished Records in Exports?'
-        click_on 'Save Preferences'
-        visit "resources/#{resource.id}"
-        wait_for_ajax
-      end
+          expect(print_to_pdf_dropdown['data-print-to-pdf-url']).to include "include_unpublished=%24%7Binclude_unpublished%7D"
+          expect(print_to_pdf_dropdown['data-print-to-pdf-url']).to include "include_uris=%24%7Binclude_uris%7D"
+        end
 
-      let(:generate_pdf_btn) { find('#print-to-pdf-link', visible: false) }
-      let(:include_unpublished_checkbox) { find('#include-unpublished-pdf', visible: false) }
-      let(:include_unpublished?) { true }
+        describe 'include unpublished records checkbox' do
+          context 'when the user repository preferences sets "Include Unpublished Records in Exports?" to false' do
+            before :each do
+              find('#user-menu-dropdown').click
+              click_on 'Repository Preferences (admin)'
+              uncheck 'Include Unpublished Records in Exports?'
+              click_on 'Save Preferences'
+              visit "resources/#{resource.id}"
+            end
 
-      it_behaves_like 'has the correct export-to-pdf configuration'
-    end
+            it 'has the checkbox unchecked by default' do
+              include_unpublished_checkbox = find('#include-unpublished-pdf', visible: false)
+              expect(include_unpublished_checkbox).not_to be_checked
+            end
+          end
 
-    context 'when the user sets the "include unpublished" preference via the record pane toolbar' do
-      before :each do
-        visit "resources/#{resource.id}"
-        wait_for_ajax
-        find('#export-dropdown-toggle').click
-        find('#print-to-pdf-link').hover
-      end
+          context 'when the user repository preferences sets "Include Unpublished Records in Exports?" to true' do
+            before :each do
+              find('#user-menu-dropdown').click
+              click_on 'Repository Preferences (admin)'
+              check 'Include Unpublished Records in Exports?'
+              click_on 'Save Preferences'
+              visit "resources/#{resource.id}"
+            end
 
-      let(:generate_pdf_btn) { find('#print-to-pdf-link', visible: :all) }
-      let(:include_unpublished_checkbox) { find('#include-unpublished-pdf', visible: true) }
+            it 'has the checkbox checked by default' do
+              include_unpublished_checkbox = find('#include-unpublished-pdf', visible: false)
+              expect(include_unpublished_checkbox).to be_checked
+            end
+          end
 
-      it 'updates the PDF link href when toggling the checkbox' do
-        aggregate_failures "checkbox toggling updates href" do
-          include_unpublished_checkbox.uncheck
-          expect(generate_pdf_btn['href']).to include 'include_unpublished=false'
+          context 'when the user toggles the checkbox via the record pane toolbar' do
+            before :each do
+              visit "resources/#{resource.id}"
+              within '.record-toolbar' do
+                find('#export-dropdown-toggle').click
+                find('.print-to-pdf-action').hover
+              end
+            end
 
-          include_unpublished_checkbox.check
-          expect(generate_pdf_btn['href']).to include 'include_unpublished=true'
+            it 'allows toggling the checkbox on and off' do
+              include_unpublished_checkbox = find('#include-unpublished-pdf', visible: true)
+              aggregate_failures "include unpublishedcheckbox toggling" do
+                expect(include_unpublished_checkbox).to be_checked
 
-          include_unpublished_checkbox.uncheck
-          expect(generate_pdf_btn['href']).to include 'include_unpublished=false'
+                include_unpublished_checkbox.uncheck
+                expect(include_unpublished_checkbox).not_to be_checked
+
+                include_unpublished_checkbox.check
+                expect(include_unpublished_checkbox).to be_checked
+
+                include_unpublished_checkbox.uncheck
+                expect(include_unpublished_checkbox).not_to be_checked
+              end
+            end
+          end
+        end
+
+        describe 'include URIs checkbox' do
+          it 'allows toggling the checkbox on and off' do
+            visit "resources/#{resource.id}"
+            within '.record-toolbar' do
+              find('#export-dropdown-toggle').click
+              find('.print-to-pdf-action').hover
+            end
+
+            include_uris_checkbox = find('#include-uris-pdf', visible: true)
+            aggregate_failures "include URIs checkbox toggling" do
+              expect(include_uris_checkbox).not_to be_checked
+
+              include_uris_checkbox.check
+              expect(include_uris_checkbox).to be_checked
+
+              include_uris_checkbox.uncheck
+              expect(include_uris_checkbox).not_to be_checked
+
+              include_uris_checkbox.check
+              expect(include_uris_checkbox).to be_checked
+            end
+          end
         end
       end
     end
