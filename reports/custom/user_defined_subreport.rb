@@ -31,7 +31,11 @@ class UserDefinedSubreport < AbstractSubreport
 		    text_5,
 		    date_1,
 		    date_2,
-		    date_3
+		    date_3,
+		    enum_1_id as enum_1,
+		    enum_2_id as enum_2,
+		    enum_3_id as enum_3,
+		    enum_4_id as enum_4
 		from user_defined
 		where #{@id_type}_id = #{db.literal(@id)}"
 	end
@@ -39,6 +43,7 @@ class UserDefinedSubreport < AbstractSubreport
 	def fix_row(row)
 		ReportUtils.fix_boolean_fields(row, [:boolean_1, :boolean_2, :boolean_3])
 		ReportUtils.fix_decimal_format(row, [:real_1, :real_2, :real_3])
+		ReportUtils.get_enum_values(row, [:enum_1, :enum_2, :enum_3, :enum_4])
 	end
 
 	def self.field_name
