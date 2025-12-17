@@ -2933,7 +2933,7 @@ fr:
     descriptive_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur la notice d'autorité
       liée.</p>"
     file_uri_tooltip: "<p>Un URI pour un enregistrement équivalent dans un fichier d'autorité externe.
-      Exemple: http://id.loc.gov/authorities/names/n80060393 (pour Library of Congress Linked Data Serviceentry
+      Exemple: http://id.loc.gov/authorities/names/n80060393 (pour Library of Congress Linked Data Service entry
       pour Robert W. Service).</p>"
     file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit être résolu lors du
       rendu de l'enregistrement de l'agent.</p>"
