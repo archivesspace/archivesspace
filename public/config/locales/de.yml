@@ -508,11 +508,7 @@ de:
 
   languages:
     select: Sprache auswählen
-    en: Englisch
-    es: Spanisch
-    fr: Französisch
-    de: Deutsch
-    ja: Japanisch
+  
   pdf_error:
     title: Die Erzeugung der PDF Datei ist fehlgeschlagen.
     description: Es tut uns leid, aber es gab einen Fehler beim Erstellen dieses PDF-Findmittels. 

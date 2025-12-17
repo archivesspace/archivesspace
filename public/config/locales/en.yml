@@ -588,11 +588,6 @@ en:
 
   languages:
     select: Select Language
-    en: English
-    es: Spanish
-    fr: French
-    de: German
-    ja: Japanese
 
   pdf_error:
     title: There was an error generating this PDF.
