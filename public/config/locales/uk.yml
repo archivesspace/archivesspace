@@ -529,8 +529,4 @@ uk:
     archivesspace_home: Відвідайте <a href='http://archivesspace.org'>ArchivesSpace.org</a>
   languages:
     select: Виберіть мову
-    en: Англійська
-    es: Іспанська
-    fr: Французька
-    de: Німецька
-    ja: Японська
+  

@@ -614,11 +614,7 @@ fr:
 
   languages:
     select: Choisir la langue
-    en: Anglais
-    es: Espagnol
-    fr: Français
-    de: Allemand
-    ja: Japonais
+  
   pdf_error:
     headings:
       message: Message d'erreur

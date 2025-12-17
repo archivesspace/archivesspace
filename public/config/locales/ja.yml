@@ -512,8 +512,4 @@ ja:
 
   languages:
     select: 言語を選択する
-    en: 英語
-    es: スペイン語
-    fr: フランス語
-    de: ドイツ語
-    ja: 日本語
+  
