@@ -204,8 +204,8 @@ describe 'Location batch', js: true do
     click_on 'Locations'
     click_on 'Create Batch Locations'
 
-    expect(page).to have_css('.createPlusOneBtn', count: 2)
-    expect(page).to have_css(".createPlusOneBtn[type='submit']")
-    expect(page).to have_css(".createPlusOneBtn[id='createPlusOne']")
+    expect(page).to have_css('#createPlusOne.createPlusOneBtn', count: 2) # Multiple ids, see ANW-2576
+    expect(page).to have_css('#archivesSpaceSidebar .createPlusOneBtn')
+    expect(page).to have_css('.record-pane .createPlusOneBtn')
   end
 end
