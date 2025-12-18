@@ -1253,6 +1253,173 @@ describe 'Resources', js: true do
     it_behaves_like 'validating mixed content'
   end
 
+  context 'index view' do
+    describe 'results table' do
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'resource' }
+      let(:browse_path) { '/resources' }
+      let(:record_1) do
+        create(:resource,
+          title: "Resource 1 #{now}",
+          id_0: '1',
+          level: 'collection',
+          ead_id: "EAD_ID_2",
+          resource_type: 'collection',
+          finding_aid_status: 'completed',
+          publish: true,
+          restrictions: false,
+          collection_management: {
+            'processing_priority' => 'medium',
+            'processors' => 'Processor 1'
+          }
+        )
+      end
+      let(:record_2) do
+        create(:resource,
+          title: "Resource 2 #{now}",
+          id_0: '2',
+          level: 'item',
+          ead_id: "EAD_ID_1",
+          resource_type: 'papers',
+          finding_aid_status: 'in_progress',
+          publish: false,
+          restrictions: true,
+          collection_management: {
+            'processing_priority' => 'low',
+            'processors' => 'Processor 2'
+          }
+        )
+      end
+      let(:initial_sort) { [record_1.title, record_2.title] }
+
+      describe 'sorting' do
+        let(:default_sort_key) { 'title_sort' }
+        let(:sorting_in_url) { true }
+
+        context 'with seven of eleven sortable columns showing' do
+          include_context 'results table setup'
+
+          let(:additional_browse_columns) do
+            {
+              4 => 'Resource Type',
+              # 5 => 'Published',
+              6 => 'Restrictions',
+              7 => 'EAD ID'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Identifier' => 'identifier',
+              'Level' => 'level',
+              'Resource Type' => 'resource_type',
+              # 'Published' => 'publish',
+              'Restrictions' => 'restrictions',
+              'EAD ID' => 'ead_id'
+            }
+          end
+          let(:sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'identifier' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'level' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'resource_type' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              # 'publish' => {
+              #   asc: [record_2.title, record_1.title],
+              #   desc: [record_1.title, record_2.title]
+              # },
+              'restrictions' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'ead_id' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              }
+            }
+          end
+
+          it_behaves_like 'results table sorting'
+        end
+
+        context 'with the remaining four of eleven sortable columns showing, plus the title column' do
+          include_context 'results table setup'
+
+          let(:additional_browse_columns) do
+            {
+              2 => 'Finding Aid Status',
+              3 => 'Processing Priority',
+              4 => 'Processors',
+              5 => 'URI'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Finding Aid Status' => 'finding_aid_status',
+              'Processing Priority' => 'processing_priority',
+              'Processors' => 'processors',
+              'URI' => 'uri'
+            }
+          end
+          let(:sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'finding_aid_status' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'processing_priority' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'processors' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+            }
+          end
+
+          it_behaves_like 'results table sorting'
+        end
+      end
+
+      # Skipped due to ANW-2543 publish issue when running specs
+      xdescribe 'boolean columns' do
+        include_context 'results table setup'
+
+        let(:additional_browse_columns) do
+          {
+            5 => 'Published'
+          }
+        end
+        let(:boolean_column_expectations) do
+          {
+            'publish' => %w[True False]
+          }
+        end
+
+        it_behaves_like 'results table boolean columns'
+      end
+    end
+  end
+
   describe 'Linked Agents is_primary behavior' do
     let(:record_type) { 'resource' }
     let(:agent) { create(:agent_person) }
@@ -1279,6 +1446,12 @@ describe 'Resources', js: true do
     end
     let(:edit_path) { "/resources/#{record.id}/edit" }
 
+    before do
+      set_repo @repository
+      login_admin
+      select_repository(@repository)
+    end
+
     it_behaves_like 'supporting is_primary on top-level linked agents'
     it_behaves_like 'not supporting is_primary on rights statement linked agents'
   end
@@ -1299,6 +1472,7 @@ describe 'Resources', js: true do
     end
 
     before :each do
+      set_repo @repository
       login_admin
       ensure_repository_access
       select_repository(@repository)
@@ -1362,6 +1536,66 @@ describe 'Resources', js: true do
           include_unpublished_checkbox.uncheck
           expect(generate_pdf_btn['href']).to include 'include_unpublished=false'
         end
+      end
+    end
+  end
+
+  context 'Related Accessions browse modal' do
+    describe 'results table' do
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'accession' }
+      let(:record_1) {
+        create(:accession,
+          title: "Accession 1 #{now}",
+          id_0: "1",
+          accession_date: Time.now.strftime('%Y-%m-%d'),
+          dates: [build(:date)],
+          extents: [build(:extent)]
+        )
+      }
+      let(:record_2) {
+        create(:accession,
+          title: "Accession 2 #{now}",
+          id_0: "2",
+          accession_date: (Time.at(now) - 86400).strftime('%Y-%m-%d'),
+          dates: [build(:date)],
+          extents: [build(:extent)]
+        )
+      }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+
+      describe 'sorting' do
+        include_context 'results table setup'
+
+        let(:default_sort_key) { 'title_sort' }
+        let(:column_headers) do
+          {
+            'Accession Date' => 'accession_date',
+            'Identifier'     => 'identifier',
+            'Title'          => 'title_sort'
+          }
+        end
+        let(:sort_expectations) do
+          {
+            'accession_date' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
+            'identifier'     => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
+            'title_sort'     => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] }
+          }
+        end
+
+        def go_to_results_table
+          visit '/resources/new'
+          click_on 'Add Related Accession'
+          expect(page).to have_css('#resource_related_accessions__0__ref__combobox')
+          within '#resource_related_accessions__0__ref__combobox' do
+            find('button.dropdown-toggle').click
+            expect(page).to have_css('ul.dropdown-menu.show')
+            click_on 'Browse'
+          end
+          expect(page).to have_css('#resource_related_accessions__0__ref__modal')
+        end
+
+        it_behaves_like 'results table sorting'
       end
     end
   end

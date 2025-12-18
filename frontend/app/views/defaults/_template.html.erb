@@ -37,7 +37,7 @@
             </label>
             <div class="col-sm-9">
               <% default = @inherited_defaults["#{type}_browse_column_#{n}"] %>
-              <%= form.select("#{type}_browse_column_#{n}", form.possible_options_for("#{type}_browse_column_#{n}", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default ? t("search.#{type}.#{default}") : t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
+              <%= form.select("#{type}_browse_column_#{n}", form.possible_options_for("#{type}_browse_column_#{n}", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default && default != "no_value" ? t("search.#{type}.#{default}") : t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
             </div>
           </div>
         <% end %>

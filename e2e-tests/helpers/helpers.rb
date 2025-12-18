@@ -325,6 +325,7 @@ def extract_created_record_id(string)
 end
 
 def expect_form_values(form_values_table)
+  wait_for_ajax
   form_values = form_values_table.hashes
 
   form_values.each do |row|

@@ -8,6 +8,25 @@ describe 'User management', js: true do
     login_admin
   end
 
+  # @param [String] username
+  # @param [Boolean] is_active
+  # @param [String] row_class 'inactive' or nil
+  def expect_user_status_in_table(username, is_active:, row_class: nil)
+    selector = row_class ? "tr.#{row_class}" : 'tr'
+    within selector, text: username do
+      expect(page).to have_css('td.username', text: username)
+      expect(page).to have_css('td.is_active_user', text: is_active.to_s)
+      yield if block_given?
+    end
+  end
+
+  # @param [String] link_text 'Activate' or 'Deactivate'
+  def click_user_activation_link(link_text)
+    accept_confirm do
+      click_on link_text
+    end
+  end
+
   it 'can create a user account' do
     now = Time.now.to_i
 
@@ -296,5 +315,100 @@ describe 'User management', js: true do
 
     element = find('span.user-label')
     expect(element).to have_text "username_#{now}"
+  end
+
+  it "can toggle a user's active status from the users table" do
+    user = create_user({}, true)
+    visit '/users'
+
+    aggregate_failures do
+      expect_user_status_in_table(user.username, is_active: true) do
+        click_user_activation_link('Deactivate')
+      end
+
+      expect(page).to have_text 'User deactivated'
+      expect_user_status_in_table(user.username, is_active: false, row_class: 'inactive') do
+        click_user_activation_link('Activate')
+      end
+
+      expect(page).to have_text 'User activated'
+      expect_user_status_in_table(user.username, is_active: true)
+    end
+  end
+
+  it "can toggle a user's active status from the user account form" do
+    user = create_user({}, true)
+    visit '/users'
+    within 'tr', text: user.username do
+      expect(page).to have_css('td.username', text: user.username)
+      expect(page).to have_css('td.is_active_user', text: 'true')
+      click_on 'Edit'
+    end
+
+    expect(current_path).to eq "/users/#{user.id}/edit"
+    expect(page).to have_checked_field('user_is_active_user_')
+    uncheck 'user_is_active_user_'
+    find('button', text: 'Update Account', match: :first).click
+
+    expect(current_path).to eq '/users'
+    expect(page).to have_text 'User Saved'
+    within 'tr', text: user.username do
+      expect(page).to have_css('td.username', text: user.username)
+      expect(page).to have_css('td.is_active_user', text: 'false')
+      click_on 'Edit'
+    end
+
+    expect(current_path).to eq "/users/#{user.id}/edit"
+    expect(page).to have_unchecked_field('user_is_active_user_')
+    check 'user_is_active_user_'
+    find('button', text: 'Update Account', match: :first).click
+
+    expect(current_path).to eq '/users'
+    expect(page).to have_text 'User Saved'
+    within 'tr', text: user.username do
+      expect(page).to have_css('td.username', text: user.username)
+      expect(page).to have_css('td.is_active_user', text: 'true')
+      click_on 'Edit'
+    end
+
+    expect(current_path).to eq "/users/#{user.id}/edit"
+    expect(page).to have_checked_field('user_is_active_user_')
+  end
+
+  it "preserves a user's active status when editing other fields" do
+    user = create_user({}, false)
+    visit "/users/#{user.id}/edit"
+
+    expect(page).to have_unchecked_field('user_is_active_user_')
+    fill_in 'Full name', with: "Updated Full Name"
+    find('button', text: 'Update Account', match: :first).click
+
+    expect(page).to have_text 'User Saved'
+    within 'tr', text: user.username do
+      expect(page).to have_css('td.is_active_user', text: 'false')
+      click_on 'Edit'
+    end
+
+    expect(page).to have_unchecked_field('user_is_active_user_')
+    check('user_is_active_user_')
+    find('button', text: 'Update Account', match: :first).click
+
+    expect(page).to have_text 'User Saved'
+    within 'tr', text: user.username do
+      expect(page).to have_css('td.is_active_user', text: 'true')
+      click_on 'Edit'
+    end
+
+    expect(page).to have_checked_field('user_is_active_user_')
+    fill_in 'Full name', with: "Updated Full Name 2"
+    find('button', text: 'Update Account', match: :first).click
+
+    expect(page).to have_text 'User Saved'
+    within 'tr', text: user.username do
+      expect(page).to have_css('td.is_active_user', text: 'true')
+      click_on 'Edit'
+    end
+
+    expect(page).to have_checked_field('user_is_active_user_')
   end
 end

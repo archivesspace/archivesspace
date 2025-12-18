@@ -1409,7 +1409,9 @@ es:
         hide_inactive: Ocultar usuarios inactivos
         show_inactive: Mostrar usuarios inactivos
         deactivate_user: Desactivar
+        deactivate_user_confirm: ¿Está seguro de que desea desactivar este usuario?
         activate_user: Activar
+        activate_user_confirm: ¿Está seguro de que desea activar este usuario?
 
         edit: Editar usuario
         show_active: Mostrar usuarios activos

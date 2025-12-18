@@ -230,11 +230,6 @@ ArchivesSpace::Application.routes.draw do
 
     match 'enumerations/:id/enumeration_value/:enumeration_value_id' => 'enumerations#update_value', :via => [:post]
 
-
-
-    match 'reports' => 'reports#index', :via => [:get]
-    match 'reports/download' => 'reports#download', :via => [:post]
-
     match 'update_monitor/poll' => 'update_monitor#poll', :via => [:post]
 
     match 'batch_delete/archival_records' => 'batch_delete#archival_records', :via => [:post]

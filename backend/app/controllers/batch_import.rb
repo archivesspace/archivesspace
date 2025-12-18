@@ -7,7 +7,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Import a batch of records")
     .params(["batch_import", :body_stream, "The batch of records"],
             ["repo_id", :repo_id],
-            ["migration", String, "Param to indicate we are using a migrator", :optional => true ],
+            ["migration", BooleanParam, "Param to indicate we are using a migrator", :optional => true ],
             ["skip_results", BooleanParam, "If true, don't return the list of created record URIs",
              :optional => true ])
     .request_context(:create_enums => true)

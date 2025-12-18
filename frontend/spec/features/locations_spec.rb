@@ -344,4 +344,84 @@ describe 'Locations', js: true do
 
     expect(page).to have_text /Showing .*1.* of.*Results/
   end
+
+  context 'index view' do
+    describe 'results table' do
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'location' }
+      let(:browse_path) { '/locations' }
+      let(:record_1) do
+        create(
+          :location,
+          building: "Building 1 #{now}",
+          floor: '2',
+          room: '1',
+          area: '2',
+          temporary: 'conservation'
+        )
+      end
+      let(:record_2) do
+        create(
+          :location,
+          building: "Building 2 #{now}",
+          floor: '1',
+          room: '2',
+          area: '1',
+          temporary: 'reading_room'
+        )
+      end
+      let(:filter_results) { true }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+
+      describe 'sorting' do
+        include_context 'results table setup'
+
+        let(:default_sort_key) { 'title_sort' }
+        let(:sorting_in_url) { true }
+        let(:additional_browse_columns) { { 6 => 'Temporary', 7 => 'URI' } }
+        let(:column_headers) do
+          {
+            'Location' => 'title_sort',
+            'Building' => 'building',
+            'Floor' => 'floor',
+            'Room' => 'room',
+            'Area' => 'area',
+            'Temporary' => 'temporary',
+            'URI' => 'uri'
+          }
+        end
+        let(:sort_expectations) do
+          {
+            'title_sort' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
+            'building' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
+            'floor' => {
+              asc: [record_2.title, record_1.title],
+              desc: [record_1.title, record_2.title]
+            },
+            'room' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
+            'area' => {
+              asc: [record_2.title, record_1.title],
+              desc: [record_1.title, record_2.title]
+            },
+            'temporary' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
+            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+          }
+        end
+
+        it_behaves_like 'results table sorting'
+      end
+    end
+  end
 end

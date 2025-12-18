@@ -125,6 +125,11 @@ module AspaceFactories
         processing_hours_per_foot_estimate { "80" }
       end
 
+      factory :external_document, class: JSONModel(:external_document) do
+        title { generate(:generic_title) }
+        location { generate(:url) }
+        publish { true }
+      end
 
       factory :resource, class: JSONModel(:resource) do
         title { generate :resource_title }
@@ -149,6 +154,20 @@ module AspaceFactories
         finding_aid_language { [generate(:finding_aid_language)].sample }
         finding_aid_script { [generate(:finding_aid_script)].sample }
         notes { [build(:json_note_multipart)] }
+      end
+
+      factory :resource_with_external_document, class: JSONModel(:resource) do
+        title { generate :resource_title }
+        id_0 { generate :id_0 }
+        extents { [build(:extent)] }
+        dates { [build(:date)] }
+        level { "collection" }
+        lang_materials { [build(:lang_material)] }
+        finding_aid_language { [generate(:finding_aid_language)].sample }
+        finding_aid_script { [generate(:finding_aid_script)].sample }
+        finding_aid_language_note { nil_or_whatever }
+        instances { [] }
+        external_documents { [build(:external_document)] }
       end
 
       factory :archival_object, class: JSONModel(:archival_object) do

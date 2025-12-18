@@ -1371,7 +1371,7 @@ de:
           Minuten bis zur Fertigstellung dauern.
         ranges_info: Beachten Sie, dass jegliche Koordinaten-Felder, die in 
           obigem <strong>Basis-Standort</strong> eingegeben wurden, mit den 
-          Werten, die durch die Bereiche unten erzeugt wurden, ersetzt werden.  
+          Werten, die durch die Bereiche unten erzeugt wurden, ersetzt werden. 
           Maximal %{max_range} Standorte werden erstellt werden.
         updated: <strong>%{number_created} Standorte</strong> aktualisiert
       action:
@@ -1614,10 +1614,12 @@ de:
         show_active: Aktive Benutzer anzeigen
         show_inactive: Inaktive Benutzer anzeigen
         deactivate_user: Deaktivieren
+        deactivate_user_confirm: Sind Sie sicher, dass Sie diesen Benutzer deaktivieren möchten?
         edit: Benutzer bearbeiten
         update_account: Benutzerkonto aktualisieren
         create: Benutzer erstellen
         activate_user: Aktivieren
+        activate_user_confirm: Sind Sie sicher, dass Sie diesen Benutzer aktivieren möchten?
         update_self: Benutzerkonto verwalten
     source: Authentifizierung
   use_date:
