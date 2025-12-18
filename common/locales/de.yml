@@ -1683,6 +1683,7 @@ de:
     automate_title: Automatisch Titel generieren
     "[:resource_id, :ref_id]": Ref-ID
     has_unpublished_ancestor: Hat unveröffentlichten Vorfahren?
+    import_current_ark: Aktuellen ARK importieren
     _singular: Archiv-Objekt
     _plural: Archiv-Objekte
     title_tooltip: "<p>BEDINGT ERFORDERLICHES FELD: Der Titel, der dem beschriebenen Archivgut zugeordnet

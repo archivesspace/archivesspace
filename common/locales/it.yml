@@ -435,6 +435,7 @@ it:
     id_3: Identificatore 4
   archival_object:
     component_id: Identificatore unico del componente
+    import_current_ark: Importa ARK corrente
   resource:
     id_0: Identificatore
     id_1: Identificatore 2

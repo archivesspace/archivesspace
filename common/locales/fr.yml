@@ -1571,6 +1571,7 @@ fr:
     automate_title: Intitulé automatiquement généré
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: A un ancêtre publié?
+    import_current_ark: Importer l'ARK actuel
     _singular: Document d'archive
     _plural: Documents d'archive
 

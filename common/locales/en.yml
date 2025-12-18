@@ -1869,6 +1869,7 @@ en:
     automate_title: Automatically generate title
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: Has Unpublished Ancestor?
+    import_current_ark: Import Current ARK
     _singular: Archival Object
     _plural: Archival Objects
 

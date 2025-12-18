@@ -1097,6 +1097,7 @@ ja:
     automate_title: 自動的にタイトルを生成する
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: 祖先は未公開ですか？
+    import_current_ark: 現在のARKをインポート
     _singular: アーカイブオブジェクト
     _plural: アーカイブオブジェクト
     dates_tooltip: "<p>条件付きで必要なサブレコード。アーカイブオブジェクトには、タイトルまたは日付のサブレコードが必要です。</p>\n"
