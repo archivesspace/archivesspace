@@ -59,8 +59,7 @@ describe 'Enumeration Management', js: true do
 
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Value Created")
 
-    element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
-    within element do
+    within('.enumeration-list tr', text: "enumaration_value_#{@now}") do
       click_on 'Delete'
     end
 
@@ -84,8 +83,9 @@ describe 'Enumeration Management', js: true do
     create_enum_value(enumeration_b)
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
 
-    element = find('.enumeration-list tr', text: enumeration_b)
-    within element do
+    wait_for_ajax
+
+    within('.enumeration-list tr', text: enumeration_b) do
       click_on 'Merge'
     end
 
@@ -105,12 +105,11 @@ describe 'Enumeration Management', js: true do
   it 'lets you set a default enumeration (date_type)' do
     select_enum 'Date Type (date_type)'
 
-    elements = all('tr', text: 'Set as Default')
-    expect(elements.length > 0).to eq true
+    expect(page).to have_css('tr', text: 'Set as Default', minimum: 1)
 
-    default_value = elements[0].all('td').first.text
+    default_value = find('tr', text: 'Set as Default', match: :first).all('td').first.text
 
-    within elements[0] do
+    within('tr', text: 'Set as Default', match: :first) do
       click_on 'Set as Default'
     end
 
@@ -120,8 +119,7 @@ describe 'Enumeration Management', js: true do
     click_on 'Accession'
     click_on 'Add Date'
 
-    element = find('#accession_dates__0__date_type_')
-    expect(element.value).to eq default_value
+    expect(find('#accession_dates__0__date_type_').value).to eq default_value
   end
 
   it 'lets you add a new value to an enumeration, reorder it and then you can use it' do
@@ -231,15 +229,13 @@ describe 'Enumeration Management', js: true do
 
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Created')
 
-    element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
-    within element do
+    within('.enumeration-list tr', text: "enumaration_value_#{@now}") do
       click_on 'Suppress'
     end
 
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Value Updated')
 
-    element = find('.enumeration-list tr', text: "enumaration_value_#{@now}")
-    within element do
+    within('.enumeration-list tr', text: "enumaration_value_#{@now}") do
       click_on 'Delete'
     end
 
@@ -256,18 +252,15 @@ describe 'Enumeration Management', js: true do
   it 'lets you set a default value with another value suppressed' do
     select_enum 'Record Control Level of Detail (level_of_detail)'
 
-    element = find('.enumeration-list tr', text: 'natc')
-    within element do
+    within('.enumeration-list tr', text: 'natc') do
       click_on 'Suppress'
     end
 
-    element = find('.enumeration-list tr', text: 'not_applicable')
-    within element do
+    within('.enumeration-list tr', text: 'not_applicable') do
       click_on 'Set as Default'
     end
 
-    element = find('.enumeration-list tr', text: 'not_applicable')
-    within element do
+    within('.enumeration-list tr', text: 'not_applicable') do
       click_on 'Unset Default'
     end
   end
