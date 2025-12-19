@@ -43,6 +43,10 @@ Given 'a Repository with name {string} has been created' do |repository_name|
   end
 end
 
+When 'the user waits for the page to update' do
+  wait_for_ajax
+end
+
 When 'the user clicks on {string}' do |string|
   click_on_string string
 

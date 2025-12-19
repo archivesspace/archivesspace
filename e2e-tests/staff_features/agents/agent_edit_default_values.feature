@@ -35,6 +35,7 @@ Feature: Agent Edit Default Values
       And the user clicks on 'Corporate Entity' in the dropdown menu
       And the user clicks on 'Other Agency Codes'
       And the user clicks on 'Add Agency Code'
+      And the user waits for the page to update
       And the user fills in 'Maintenance Agency' with 'Test Agency'
       And the user clicks on 'Save Corporate Entity'
      Then the 'Defaults' updated message is displayed
