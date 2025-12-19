@@ -1196,6 +1196,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
+        wait_for_ajax
         expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
