@@ -52,6 +52,8 @@ class AccessionsController < ApplicationController
         flash[:spawned_from_accession] = acc.id
       end
     end
+
+    render_aspace_partial :partial => "accessions/new" if inline?
   end
 
 
@@ -109,8 +111,14 @@ class AccessionsController < ApplicationController
   def create
     handle_crud(:instance => :accession,
                 :model => Accession,
-                :on_invalid => ->() { render action: "new" },
+                :on_invalid => ->() {
+                  return render_aspace_partial :partial => "accessions/new" if inline?
+                  render action: "new"
+                },
                 :on_valid => ->(id) {
+                  if inline?
+                    render :json => @accession.to_hash
+                  else
                     flash[:success] = t("accession._frontend.messages.created", accession_display_string: clean_mixed_content(@accession.title))
                     if @accession["is_slug_auto"] == false &&
                        @accession["slug"] == nil &&
@@ -121,7 +129,9 @@ class AccessionsController < ApplicationController
                     end
                     redirect_to(:controller => :accessions,
                                 :action => :edit,
-                                :id => id) })
+                                :id => id)
+                  end
+                })
   end
 
   def update
