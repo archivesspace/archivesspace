@@ -524,8 +524,10 @@ describe 'Collection Organization', js: true do
     it 'shows the percentage of records that have been loaded after page load' do
       visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization"
 
+      wait_for_jquery
+
       loaded_waypoints = page.all('#infinite-records-container .waypoint.populated')
-      expect(loaded_waypoints.length).to eq 2
+      expect(loaded_waypoints.length).to eq 3
 
       loaded_records = page.all('#infinite-records-container .infinite-record-record')
       total_records = page.find('#infinite-records-container')['data-total-records']
