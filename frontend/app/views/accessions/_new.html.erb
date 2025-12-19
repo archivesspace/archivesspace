@@ -1,0 +1,6 @@
+<%= form_for @accession, :as => "accession", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
+  <%= form_context :accession, @accession do |form| %>
+    <%= hidden_field "inline", "true" %>
+    <%= render_aspace_partial :partial => "accessions/form_inline", :locals => {:form => form} %>
+  <% end %>
+<% end %>
