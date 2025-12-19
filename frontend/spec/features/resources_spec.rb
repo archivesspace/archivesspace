@@ -1209,14 +1209,17 @@ describe 'Resources', js: true do
 
     click_on 'Add Digital Object'
 
-    element = find("div[data-id-path='resource_instances__0__digital_object_']")
-    within element do
+    within "div[data-id-path='resource_instances__0__digital_object_']" do
       find('.dropdown-toggle').click
+    end
+
+    wait_for_ajax
+
+    within "div[data-id-path='resource_instances__0__digital_object_']" do
       click_on 'Create'
     end
 
-    element = find('#resource_instances__0__digital_object__ref__modal')
-    within element do
+    within '#resource_instances__0__digital_object__ref__modal' do
       fill_in 'Title', with: "Digital Object Title #{now}"
       fill_in 'Identifier', with: "Digital Object Identifier #{now}"
 
