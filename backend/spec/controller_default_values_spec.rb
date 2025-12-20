@@ -80,15 +80,15 @@ describe 'Default Values' do
       expect(defaults['defaults']['languages']['script']).to eq("Latn")
     end
 
-  let(:container_profile_defaults) {
-    {
-      "record_type" => "container_profile",
-      "defaults" => {
-        "name" => "DEFAULT BOX",
-        "extent_dimension" => "width"
+    let(:container_profile_defaults) {
+      {
+        "record_type" => "container_profile",
+        "defaults" => {
+          "name" => "DEFAULT BOX",
+          "extent_dimension" => "width"
+        }
       }
     }
-  }
 
 
     it "can set a default finding aid language and script and retrieve them" do
