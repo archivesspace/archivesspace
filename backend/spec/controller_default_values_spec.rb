@@ -27,6 +27,8 @@ describe 'Default Values' do
     end
   end
 
+  end
+
   describe 'for Resources' do
     let(:resource_defaults) {
       {
