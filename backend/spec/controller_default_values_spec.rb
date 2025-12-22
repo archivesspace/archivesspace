@@ -13,7 +13,7 @@ describe 'Default Values' do
         }
       }
     }
-  
+
   let(:container_profile_defaults) {
     {
       "record_type" => "container_profile",
