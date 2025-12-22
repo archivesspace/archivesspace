@@ -92,12 +92,22 @@ module CrudHelpers
   end
 
 
+  def check_agent_contact_permission(agent_data)
+    if !current_user.can?(:view_agent_contact_record_global) && agent_data['agent_contacts'] && !agent_data['agent_contacts'].empty?
+      raise AccessDeniedException.new(:target_agent => ["Creating agent with contacts permission denied"])
+    end
+  end
+
+
   private
 
   def listing_response(dataset, model)
     objs = dataset.respond_to?(:all) ? dataset.all : dataset
 
-    opts = {:calculate_linked_repositories => current_user.can?(:index_system)}
+    opts = {
+      calculate_linked_repositories: current_user.can?(:index_system),
+      hide_agent_contacts: !current_user.can?(:view_agent_contact_record_global)
+    }
 
     jsons = model.sequel_to_jsonmodel(objs, opts).map {|json|
       if json.is_a?(JSONModelType)

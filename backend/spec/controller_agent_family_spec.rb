@@ -1,7 +1,9 @@
 require 'spec_helper'
 require 'agent_spec_helper'
+require_relative 'agent_contact_permission_shared_examples'
 
 describe 'Family agent controller' do
+  include_examples "agent contact permissions", :agent_family, :json_agent_family, :json_name_family
 
   def create_family(opts = {})
     create(:json_agent_family, opts)

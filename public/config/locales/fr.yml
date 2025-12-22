@@ -109,7 +109,6 @@ fr:
       linked_agent_roles: Rôles d'agent liés
       notes_published: Remarques
       finding_aid_title: Titre de l'instrument de recherche
-      finding_aid_filing_title: Titre de classement de l'aide
       instance_type_enum_s: Type d'instance
       acquisition_type: Type d'acquisition
     page_title: "%{count} résultats trouvés"
@@ -615,11 +614,7 @@ fr:
 
   languages:
     select: Choisir la langue
-    en: Anglais
-    es: Espagnol
-    fr: Français
-    de: Allemand
-    ja: Japonais
+  
   pdf_error:
     headings:
       message: Message d'erreur

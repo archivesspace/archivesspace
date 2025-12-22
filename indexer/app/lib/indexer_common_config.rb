@@ -101,7 +101,8 @@ class IndexerCommonConfig
       "rules",
       "name_order",
       "repository",
-      "top_container"
+      "top_container",
+      "finding_aid_filing_title"
     ]
   end
 

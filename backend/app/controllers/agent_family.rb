@@ -7,6 +7,8 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
+    check_agent_contact_permission(params[:agent])
+
     with_record_conflict_reporting(AgentFamily, params[:agent]) do
       handle_create(AgentFamily, params[:agent])
     end
@@ -32,8 +34,12 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
+    opts = {
+      skip_agent_contacts: !current_user.can?(:view_agent_contact_record_global)
+    }
+
     with_record_conflict_reporting(AgentFamily, params[:agent]) do
-      handle_update(AgentFamily, params[:id], params[:agent])
+      handle_update(AgentFamily, params[:id], params[:agent], opts)
     end
   end
 
@@ -46,7 +52,10 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:agent_family)"],
              [404, "Not found"]) \
   do
-    opts = {:calculate_linked_repositories => current_user.can?(:index_system)}
+    opts = {
+      calculate_linked_repositories: current_user.can?(:index_system),
+      hide_agent_contacts: !current_user.can?(:view_agent_contact_record_global)
+    }
     json_response(resolve_references(AgentFamily.to_jsonmodel(AgentFamily.get_or_die(params[:id]), opts),
                                      params[:resolve]))
   end

@@ -276,8 +276,10 @@ describe SearchController, type: :controller do
         results = controller.instance_variable_get(:@results)
 
         expected_highlights_hash = {
+          "primary_type"=>["<span class=\"searchterm\">resource</span>"],
           "title" => ["<span class=\"searchterm\">Resource</span> <span class=\"searchterm\">Title</span> <span class=\"searchterm\">#{now}</span>"],
-          "title_ws" => ["<span class=\"searchterm\">Resource</span> <span class=\"searchterm\">Title</span> <span class=\"searchterm\">#{now}</span>"]
+          "title_ws" => ["<span class=\"searchterm\">Resource</span> <span class=\"searchterm\">Title</span> <span class=\"searchterm\">#{now}</span>"],
+          "types"=>["<span class=\"searchterm\">resource</span>"]
         }
 
         expect(results['total_hits']).to eq 1
@@ -365,8 +367,8 @@ describe SearchController, type: :controller do
                                                    "four_part_id" => ["id_0 <span class=\"searchterm\">#{now}</span> with spaces <span class=\"searchterm\">#{now}</span>"],
                                                    "creators_text" => ["Linked Agent 1 <span class=\"searchterm\">#{now}</span>"],
                                                    "agents_text" => ["Linked Agent 1 <span class=\"searchterm\">#{now}</span>"],
-                                                   "notes_published"=>["", "Note text <span class=\"searchterm\">#{now}</span>"],
-                                                   "notes"=>["", "Note text <span class=\"searchterm\">#{now}</span>"],
+                                                   "notes_published"=>["Note text <span class=\"searchterm\">#{now}</span>"],
+                                                   "notes"=>["Note text <span class=\"searchterm\">#{now}</span>"],
                                                    "summary"=>["Note text <span class=\"searchterm\">#{now}</span>\nUnpublished note text <span class=\"searchterm\">#{now}</span>"]
                                                  },
                                                  "/agents/people/#{linked_agent_1.id}" => {
@@ -397,8 +399,8 @@ describe SearchController, type: :controller do
                                                     "agents_text" => ["Linked Agent 1 <span class=\"searchterm\">#{now}</span>"],
                                                     "creators_text"=>["Linked Agent 1 <span class=\"searchterm\">#{now}</span>"],
                                                     "identifier_ws" => ["id_0 #{now}-with spaces <span class=\"searchterm\">#{now}</span>"],
-                                                    "notes" => ["", "Note text <span class=\"searchterm\">#{now}</span>"],
-                                                    "notes_published"=>["", "Note text <span class=\"searchterm\">#{now}</span>"],
+                                                    "notes" => ["Note text <span class=\"searchterm\">#{now}</span>"],
+                                                    "notes_published"=>["Note text <span class=\"searchterm\">#{now}</span>"],
                                                     "summary" => ["Note text <span class=\"searchterm\">#{now}</span>\nUnpublished note text <span class=\"searchterm\">#{now}</span>"],
                                                     "title" => ["Resource Title <span class=\"searchterm\">#{now}</span>"],
                                                     "title_ws" => ["Resource Title <span class=\"searchterm\">#{now}</span>"],

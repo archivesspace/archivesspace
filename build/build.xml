@@ -158,7 +158,20 @@
   <target name="backend:integration:coverage" depends="set-classpath, backend:integration" description="Generate coverage reports for the backend's integration tests">
   </target>
 
-  <target name="backend:test" depends="set-classpath, setup-integration" description="Run the unit test suite">
+  <target name="backend:test" depends="set-classpath, setup-integration" description="Run backend tests">
+    <dirset id="plugins" dir="../plugins">
+      <include name="**/backend/spec"/>
+    </dirset>
+    <pathconvert pathsep=" " property="plugin-spec-dirs" refid="plugins"/>
+    <antcall target="rspec">
+      <param name="dir" value="../backend" />
+      <param name="coverage_reports" value="true" />
+      <param name="coverage_report_dir" value="backend" />
+      <param name="extra-spec-paths" value="${plugin-spec-dirs}"/>
+    </antcall>
+  </target>
+
+  <target name="backend:test:no-setup" depends="set-classpath" description="Run backend tests without setting up the database, to be used while developing tests">
     <dirset id="plugins" dir="../plugins">
       <include name="**/backend/spec"/>
     </dirset>
@@ -912,6 +925,19 @@
   </target>
 
   <target name="frontend:test" depends="set-classpath, frontend:clean, setup-integration" description="Run the frontend capybara tests">
+    <property name="tag" value="~db"/>
+    <antcall target="rspec">
+      <param name="coverage_reports" value="true" />
+      <param name="coverage_report_dir" value="frontend" />
+      <param name="aspace.integration" value="true" />
+      <param name="dir" value="../frontend" />
+      <!-- feature tests copied from old selenium tests may be order-dependent -->
+      <param name="order" value="defined" />
+      <param name="tag" value="${tag}" />
+    </antcall>
+  </target>
+
+  <target name="frontend:test:no-setup" depends="set-classpath, frontend:clean" description="Run the frontend capybara tests">
     <property name="tag" value="~db"/>
     <antcall target="rspec">
       <param name="coverage_reports" value="true" />

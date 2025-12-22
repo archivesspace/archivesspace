@@ -1313,7 +1313,9 @@ ja:
         hide_inactive: 非アクティブなユーザーを非表示
         show_inactive: 非アクティブなユーザーを表示
         deactivate_user: 無効化
+        deactivate_user_confirm: このユーザーを無効化してもよろしいですか？
         activate_user: アクティベート
+        activate_user_confirm: このユーザーをアクティベートしてもよろしいですか？
 
         edit: ユーザーを編集
         show_active: アクティブユーザーを表示
@@ -1588,16 +1590,16 @@ ja:
         empty_false: いいえ
         search: サーチ
         update_ils_holding_ids: ILS保有IDを更新する
-        update_ils_holding_ids_help: 選択したすべてのコンテナのILS保留IDの値を入力します。  
+        update_ils_holding_ids_help: 選択したすべてのコンテナのILS保留IDの値を入力します。 
           現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         update_container_profiles: コンテナプロファイルの更新
-        update_container_profiles_help: 選択したすべてのコンテナのコンテナプロファイルを選択します。  
+        update_container_profiles_help: 選択したすべてのコンテナのコンテナプロファイルを選択します。 
           現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         update_locations_singular: 更新場所：単一の場所
-        update_locations_singular_help: 選択したすべてのコンテナの場所を選択します。  
+        update_locations_singular_help: 選択したすべてのコンテナの場所を選択します。 
           現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         update_locations_multiple: 更新場所：複数の場所
-        update_locations_multiple_help: 選択した各コンテナの場所を選択します。  
+        update_locations_multiple_help: 選択した各コンテナの場所を選択します。 
           現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         rapid_barcode_entry: 迅速なバーコード入力
         rapid_barcode_entry_existing_barcode: 既存のバーコード

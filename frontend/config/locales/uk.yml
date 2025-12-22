@@ -3,43 +3,423 @@ uk:
     close: Закрити
     add: Додати
     add_event: Додати подію
+    add_event_event_type: Тип
+    automate: Автоматично генерувати
+    batch: Пакет
+    browse: Переглянути
+    bulk_import: Завантажити через електронну таблицю
+    bulk_import_job: Завантажити через електронну таблицю
+    download_bulk_import_report: Завантажити звіт
+    download: Завантажити
+    cancel: Скасувати
+    check_all: Вибрати все
+    uncheck_all: Зняти всі прапорці
+    continue: Продовжити
+    confirm: Підтвердити
+    confirm_removal: Підтвердити видалення
+    container_labels: Завантажити етикетки контейнерів
+    create: Створити
+    cut: Вирізати
+    date_picker: Відкрити вибір дати
+    date_picker_toggle: Увімкнути/вимкнути вибір дати
+    defaults: Значення за замовчуванням
+    drop_before: Кинути раніше
+    drop_into: Видалити як дитину
+    drop_after: Падіння після
+    duplicate_resource: Дублікат ресурсу
+    duplicate_resource_confirm_message: Буде створено завдання для дублювання 
+      цього ресурсу з усіма його архівними об'єктами. Це може зайняти деякий час
+      залежно від кількості записів.
+    edit: Редагувати
+    edit_oai: Редагувати налаштування OAI
+    edit_batch: Редагувати пакет
+    edit_groups: Редагувати групи
+    edit_default_values: Редагувати значення за замовчуванням
+    edit_default_archival_object_values: Редагувати значення компонента за 
+      замовчуванням
+    edit_required_fields: Редагувати обов'язкові поля
+    edit_global_oai: Переглянути/редагувати глобальні налаштування OAI
+    required: Обов'язкові поля
+    require_subrecord: Вимагати підзапису
+    export: Експорт
+    view: Переглянути
+    spawn: Ікру
+    show_all: Показати все
+    transfer_record: Переказ
+    more: Більше
+    lightmode_toggle: Режим світла
+    link_to: Посилання на
+    link_to_record: Посилання на запис
+    add_prefix: Додати
+    merge_replace: Замінити
+    merge_add: Додати
+    merge_confirm_title: Об’єднати з цим записом?
+    merge_agent_compare_agent_details: Порівняти агентів
+    merge_from_browse_confirm_title: Об'єднати вибрані записи?
+    merge_subject_confirm_message: Вибрані записи будуть об'єднані з темою 
+      '%{source}'. Усі вибрані записи будуть видалені, а будь-які пов'язані 
+      записи будуть повторно пов'язані з цією темою.
+    merge_agent_confirm_message: Агент '%{source}' матиме об'єднаний вибраний 
+      запис. Вибраний запис буде видалено, а всі пов'язані записи будуть 
+      повторно пов'язані з цим агентом. Натискання кнопки «Порівняти агентів» 
+      відкриє екран, на якому ви зможете вибрати, які поля та підзаписи зберегти
+      з кожного запису.
+    merge_agent_from_browse_confirm_message: З першим вибраним агентом будуть 
+      об’єднані записи, вибрані наступним чином. Усі вибрані наступним чином 
+      записи будуть видалені, а будь-які пов’язані записи будуть повторно 
+      пов’язані з першим вибраним агентом.
+    merge_resource_confirm_message: Вибрані записи будуть об'єднані з ресурсом 
+      '%{source}'. Усі вибрані записи будуть видалені, а будь-які пов'язані 
+      записи будуть повторно пов'язані з цим ресурсом.
+    merge_container_profile_confirm_message: Вибрані записи будуть об'єднані з 
+      профілем контейнера '%{merge_destination}'. Усі вибрані записи будуть 
+      видалені, а будь-які пов'язані записи будуть повторно пов'язані з цим 
+      ресурсом.
+    batch_merge: Виберіть запис, у який буде об’єднано всі інші перелічені 
+      записи. Будь-які пов’язані записи будуть повторно пов’язані з цим записом,
+      а всю інформацію про інші записи буде видалено.
+    merge_n_records: Об'єднати %{n} записів
+    move: Перемістити
+    move_up_a_level: На новий рівень
+    move_up: Вгору
+    move_down: Вниз
+    move_down_into: Вниз у...
+    paste: Вставити
+    remove: Видалити
+    refresh_page: Оновити сторінку
+    new_prefix: Новий
+    save_prefix: Зберегти
+    save_plus_one: '+1'
+    save_anyway: Зберегти все одно
+    select: Виберіть
+    set_default: Встановити за замовчуванням
+    suppress: Придушити
+    suppress_confirm_title: Приховати цей запис?
+    suppress_confirm_message: Хоча прихований запис залишатиметься в базі даних,
+      він стане прихованим для більшості користувачів і недоступним для 
+      більшості функцій.
+    toggle_dropdown_menu: Перемикання випадаючого меню
+    transfer: Переказ
+    transfer_confirm_title: Перенести цей запис?
+    transfer_confirm_message: Запис '%{target}' буде перенесено до вибраного 
+      вами репозиторію
+    transfer_successful: Перенесення успішне. Записи можуть з’явитися в 
+      цільовому репозиторії деякий час під час переіндексації.
+    transfer_failed: Передача не вдалася
+    transfer_failed_records_using_digital_objects: Наведені нижче записи 
+      посилаються на цифрові об'єкти, які будуть передані, але це призведе до 
+      розриву їхніх посилань на екземпляри.
+    transfer_failed_digital_objects_linked_to_records: Цей цифровий об'єкт 
+      посилається на інші записи, що зберігаються в цьому сховищі. Щоб 
+      продовжити це перенесення, видаліть посилання в наступних записах
+    transfer_failed_top_containers_in_use: Наступні контейнери верхнього рівня 
+      пов'язані з іншими записами верхнього рівня в цьому репозиторії та не 
+      можуть бути передані, доки ці зв'язки не будуть розірвані.
+    transfer_failed_barcodes_in_use: Наведені нижче верхні контейнери 
+      використовують штрих-коди, що використовуються в цільовому репозиторії, і 
+      не можуть бути передані, доки ці конфлікти не будуть виправлені.
+    unset_default: Скасувати налаштування за замовчуванням
+    unsuppress: Розблокувати
+    unsuppress_confirm_title: Розблокувати цей запис?
+    unsuppress_confirm_message: хибний
+    unable_to_move_message: Не вдалося перемістити запис
+    move_ordering_problem_message: Проблема з порядком переміщення записів
+    delete: Видалити
+    delete_confirm_title: Видалити цей запис? %{title}
+    delete_confirm_message: <p>Зверніть увагу, що <strong>цю дію не можна 
+      скасувати</strong>.</p><p>Ця дія видалить запис з бази даних, включаючи 
+      будь-які посилання на інші записи.</p>
+    delete_repository_confirm_title: Видалити цей репозиторій? %{name}
+    delete_repository_confirm_message: <p>Зверніть увагу, що <strong>цю дію 
+      неможливо скасувати</strong>.</p><p>Ця дія видалить 
+      <strong>репозиторій</strong> та всі пов'язані з ним записи з бази даних, 
+      включаючи будь-які посилання на інші записи.</p><p>Щоб продовжити, введіть
+      '%{repository}' нижче:</p><p><input id='deleteRepoConfim' 
+      data-confirm-answer='%{repository}'></input></p>
+    delete_multiple: Видалити записи
+    delete_multiple_confirm_title: Видалити записи?
+    delete_multiple_confirm_message: <p>Зверніть увагу, що <strong>цю дію не 
+      можна скасувати</strong>.</p><p>Ця дія видалить ці записи з бази даних, 
+      включаючи будь-які посилання на інші записи.</p>
+    reset: Скинути налаштування за замовчуванням
+    reset_confirm_title: Скинути %{preftype} до налаштувань програми за 
+      замовчуванням?
+    reset_confirm_message: <p>Зверніть увагу, <strong>ви не можете скасувати цю 
+      дію</strong>.</p><p>Ця дія скине налаштування програми до значень за 
+      замовчуванням.</p>
+    edit_multiple: Редагувати записи
+    edit_multiple_confirm_title: Редагувати записи?
+    edit_multiple_confirm_message: <p>Це призведе до масового оновлення кількох 
+      записів.</p>
+    export_eac: Завантажити EAC-CPF
+    export_marc_auth: Завантажити MARCXML Authority
+    export_ead: Завантажити EAD
+    export_mods: Завантажити MODS
+    export_mets: Завантажити METS
+    export_marc: Завантажити MARCXML
+    export_dc: Завантажити DC
+    export_csv: Завантажити CSV
+    container_template: Завантажити шаблон контейнера
+    digital_object_template: Завантажити шаблон цифрового об'єкта
+    loading: Завантаження...
+    revert: Скасувати зміни
+    finish_editing: Закрити запис
+    merge: Об'єднати
+    form_changes_message: <small><span class='muted'>У вас є незбережені 
+      зміни</span></small>
+    toolbar_disabled_message: У вас є незбережені зміни. Зберегти або Скасувати,
+      щоб отримати доступ до панелі інструментів та дерева записів.
+    publish: Опублікувати все
+    publish_confirm_title: Опублікувати?
+    publish_confirm_message: <p>Виконання цієї дії опублікує цей запис, будь-які
+      підзаписи (зовнішні документи, нотатки тощо) та всі компоненти в 
+      ієрархії.</p>
+    unpublish: Скасувати публікацію всіх
+    unpublish_confirm_title: Скасувати публікацію?
+    unpublish_confirm_message: <p>Виконання цієї дії призведе до скасування 
+      публікації цього запису, будь-яких підзаписів (зовнішніх документів, 
+      нотаток тощо) та всіх компонентів в ієрархії.</p>
+    publish_archival_object: Опублікувати все
+    publish_archival_object_confirm_title: Опублікувати?
+    publish_archival_object_confirm_message: <p>Виконання цієї дії опублікує цей
+      запис, будь-які підзаписи (зовнішні документи, нотатки тощо) та всі 
+      компоненти, розташовані нижче цього запису в ієрархії.</p>
+    unpublish_archival_object: Скасувати публікацію всіх
+    unpublish_archival_object_confirm_title: Скасувати публікацію?
+    unpublish_archival_object_confirm_message: <p>Виконання цієї дії призведе до
+      скасування публікації цього запису, будь-яких підзаписів (зовнішніх 
+      документів, нотаток тощо) та всіх компонентів, розташованих нижче цього 
+      запису в ієрархії.</p>
+    view_search_results: Перейти до результатів пошуку
+    view_published: Переглянути опубліковано
+    print_to_pdf: Згенерувати PDF
+    resource_to_pdf: Ресурс для друку
+    download_pdf: Завантажити PDF-файл
+    download_report: Завантажити звіт
+    click_to_show: Будь ласка, натисніть, щоб завантажити записи.
+    rapid_data_entry: Швидке введення даних
+    enable_reorder: Увімкнути режим зміни порядку
+    reorder_active: Вимкнути режим зміни порядку
+    copy: Копіювати
+    run: Бігти
+    select_resource: Виберіть ресурс
+    expand_tree_mode_on: Автоматично розгорнути все
+    expand_tree_mode_off: Вимкнути автоматичне розгортання
+    collapse_tree: Згорнути дерево
+    reorder_successful: Репозиторії успішно перевпорядковано
   search_sorting:
     sort_by: 'Сортувати за:'
+    and: 'і:'
+    asc: Зростаючий
+    desc: Спадання
+    select: Виберіть
   advanced_search:
     operator:
       AND: И
       OR: Або
       NOT: Не
+      operator: Оператор
+    date_operator:
+      comparator: Компаратор
+      equal: дорівнює
+      greater_than: більше ніж
+      lesser_than: менше ніж
+      empty: непризначений
+    boolean_field:
+      boolean: Булеве значення
+      true_value: Правда
+      false_value: Хибно
+    button_text: Пошук
+    reset: Очистити
+    nav_switcher:
+      show: Показати розширені
+      hide: Показати розширені
+    index_switcher:
+      show: Показати розширений пошук
+      hide: Приховати розширений пошук
+    text_operator:
+      comparator: Компаратор
+      contains: містить
+      empty: порожній
+    enum_field:
+      empty: непризначений
+      label: Розширені переліки пошуку
+    search_field: Поле пошуку
+    search_text: Пошуковий текст
+    search_date: Дата
+    search_terms: Поля розширеного пошуку %{number}
+    remove_row: Видалити поля розширеного пошуку %{number}
+    add_row: Додати рядок
   navbar:
     toggle_navigation: Перемикання навігації
+    become-user: Стати користувачем
+    brand: АрхівзСпєс
+    create: Створити
+    import: Імпорт
+    import_eac: Файл EAC
+    import_ead: Файл EAD
+    import_marcxml: MARCXML
+    import_marcxml_subjects_and_agents: MARCXML (лише для суб'єктів та агентів)
+    import_accession_csv: CSV-файл приєднання
+    import_digital_object_csv: CSV-файл цифрового об'єкта
+    search_all: Усі записи
+    search_placeholder: Пошук у всіх записах
+    search_button_title: Пошук у всіх записах
+    show_advanced_search_button_title: Показати розширений пошук
+    hide_advanced_search_button_title: Приховати розширений пошук
+    plugins: Плагіни
+    repositories_manage: Керування репозиторіями
+    repository_settings: Налаштування репозиторію
+    oai_config: Керування налаштуваннями OAI-PMH
+    manage_groups: Керування групами
+    manage_users: Керування користувачами
+    manage_container_profiles: Керування профілями контейнерів
+    manage_location_profiles: Керування профілями місцезнаходження
+    manage_top_containers: Керування головними контейнерами
+    manage_enumerations: Керування списками контрольованих значень
+    global_preferences: Глобальні налаштування
+    global_settings: Глобальні налаштування
+    user_repo_preferences: Налаштування репозиторію
+    repo_preferences: Налаштування репозиторію за замовчуванням
+    manage_user_access: Керування доступом користувачів
+    logout: Вийти
+    register: Зареєструватися зараз
+    register_prefix: Потрібен обліковий запис?
+    list_reports: Звіти
+    global_admin: Система
+    system_info: Інформація про систему
+    unpublished: Неопубліковано
+    manage_assessment_attributes: Керування атрибутами оцінювання
   search_results:
     filtered_by: Відфільтровано за
+    title: Результати пошуку
+    context: Знайдено в
+    selected: Обраний?
+    no_results: Записів не знайдено
+    no_results_prefix: Не було результатів пошуку для
+    result_type: Тип запису
+    result_title: Назва
+    result_identifier: Ідентифікатор
+    modified: Остання зміна від
+    created: Створено
+    actions: Дії
+    text_placeholder: Фільтрувати за текстом
+    clear_all: Очистити все
+    component_switch: Показати компоненти
+    help:
+      row_selection: Клацніть рядок, щоб вибрати його для масових операцій. 
+        Утримуйте клавішу Alt під час натискання прапорця, щоб вибрати або 
+        скасувати вибір кількох попередніх рядків.
   agent_gender:
     _singular: Стать
+    _plural: Стать
+    _frontend:
+      action:
+        add: Додати стать
+    gender: Стать
+    note: Примітка
+    dates: Дати
   agent_place:
     _singular: Місце
     _plural: Місця
+    _frontend:
+      action:
+        add: Додати місце
+    section:
+      dates: Дати
+    place_role: Роль місця агента
+    text_note: Примітка
+    dates: Дати
+    subjects: Місця
+    publish: Опубліковано
   agent_occupation:
     _singular: Професія
     _plural: Професії
+    _frontend:
+      action:
+        add: Додати професію
+    section:
+      dates: Дати
+    text_note: Примітка
+    dates: Дати
+    subjects: Професії
+    places: Місця
+    publish: Опубліковано
   agent_topic:
     _singular: Тема
     _plural: Теми
+    _frontend:
+      action:
+        add: Додати тему
+    section:
+      dates: Дати
+    text_note: Примітка
+    dates: Дати
+    subjects: Теми
+    places: Місця
+    publish: Опубліковано
   agent_record_identifier:
     source: Джерело
     primary_identifier: Чи є основним ідентифікатором?
     record_identifier: Ідентифікатор запису
+    _plural: Ідентифікатори записів
+    _singular: Ідентифікатор запису
+    _frontend:
+      action:
+        add: Додати ідентифікатор запису
+    identifier_type: Тип ідентифікатора керування записами
+    primary: Первинний
   agent_function:
     _plural: Функції
     _singular: Функція
+    _frontend:
+      action:
+        add: Додати функцію
+    section:
+      dates: Дати
+    text_note: Примітка
+    dates: Дати
+    subjects: Функції
+    places: Місця
+    publish: Опубліковано
   agent_identifier:
     identifier_type: Тип ідентифікатора
+    _plural: Ідентифікатори об'єктів
+    _singular: Ідентифікатор
+    _frontend:
+      action:
+        add: Додати ідентифікатор об'єкта
+    entity_identifier: Ідентифікатори об'єктів
   agent_resource:
     _singular: Пов'язаний зовнішній ресурс
     _plural: Пов’язані зовнішні ресурси
+    _frontend:
+      action:
+        add: Додати пов'язаний зовнішній ресурс
+    section:
+      dates: Дати
+      places: Місця
+    dates: Дати
+    places: Місця
+    publish: Опубліковано
+    linked_agent_role: Тип зв'язку з ресурсом
+    linked_resource: Пов'язаний зовнішній ресурс
+    linked_resource_description: Опис
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
   used_language:
     _plural: Використані мови
     _singular: Використана мова
+    _frontend:
+      action:
+        add: Додати мову
+    language: Мова
+    script: Сценарій
   metadata_rights_declaration:
     _plural: Декларації прав на метадані
     descriptive_note: Описова примітка
@@ -52,6 +432,9 @@ uk:
     xlink_arcrole_attribute: Атрибут Xlink Arcrole
     file_version_xlink_show_attribute: Атрибут Xlink Show
     last_verified_date: Дата останньої перевірки
+    _frontend:
+      action:
+        add: Додати декларацію про права на метадані
   dates_of_existence:
     _frontend:
       action:
@@ -63,9 +446,1831 @@ uk:
       target='_blank'>Надіслати відгук або повідомити про проблему</a>
     archivesspace_home: Відвідайте <a 
       href='http://archivesspace.org'>ArchivesSpace.org</a>
+    public_interface: Переглянути <a href="%{public_url}">Загальнодоступний 
+      інтерфейс</a>
   note_contact_note:
     contact_notes_tooltip: "<p>Деталі взаємодії з контактом</p>\n"
     date_of_contact_tooltip: "<p>Використовується для запису конкретної дати або часових
       рамок взаємодії</p>\n"
   lang_material:
     _plural: Мови
+  database_warning:
+    message: <p><strong>Попередження щодо бази даних:</strong> Ви зараз 
+      використовуєте вбудовану базу даних (Apache Derby). Вбудована база даних 
+      призначена лише для тестування/демонстрації. Вам слід використовувати 
+      MySQL для будь-яких даних, призначених для виробництва, включаючи дані в 
+      тестовому екземплярі, які ви маєте намір перенести до виробничого 
+      екземпляра.</p>
+  export_options:
+    include_unpublished: Включити неопубліковані
+    include_daos: Включити теги &lt;dao&gt;
+    include_uris: Включити URI
+    numbered_cs: Використовуйте нумеровані теги &lt;c&gt;
+    ead3: Схема EAD3
+    use_mods: Використовуйте МОДИ
+    use_dc: Використовуйте Дублінське ядро
+  pagination:
+    first: Перший
+    last: Останній
+    previous: '&#171;'
+    previous_label: Попередній
+    next: '&#187;'
+    next_label: Далі
+    summary_prefix: Показ
+    summary_offset_connector: '-'
+    summary_total_connector: з
+    summary_suffix: Результати
+    page_prefix: Сторінка
+    page_connector: з
+  search:
+    accession:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      subjects: Тема
+      identifier: Ідентифікатор
+      acquisition_type: Тип придбання
+      accession_date: Дата вступу
+      resource_type: Тип ресурсу
+      restrictions_apply: Застосовуються обмеження
+      access_restrictions: Обмеження доступу
+      use_restrictions: Обмеження використання
+      audit_info: Інформація про аудит
+      creators: Творець
+      accession_date_year: Дата вступу
+      dates: Дати
+      extents: Ступінь
+      processing_priority: Пріоритет обробки
+      processors: Процесори
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+      representative_file_version: Мініатюра зображення
+    resource:
+      score: Релевантність
+      title: Релевантність
+      publish: Опубліковано
+      level: Рівень
+      identifier: Ідентифікатор
+      resource_type: Тип ресурсу
+      langcode: Мова матеріалів
+      restrictions: Обмеження
+      ead_id: Ідентифікатор EAD
+      finding_aid_status: Пошук статусу допомоги
+      audit_info: Інформація про аудит
+      classification_path: Шлях класифікації
+      subjects: Тема
+      dates: Дати
+      extents: Ступінь
+      processing_priority: Пріоритет обробки
+      processors: Процесори
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+      representative_file_version: Мініатюра зображення
+    archival_object:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      context: Батьківський ресурс
+      identifier: Ідентифікатор компонента
+      ref_id: Ідентифікатор посилання
+      level: Рівень
+      audit_info: Інформація про аудит
+      langcode: Мова матеріалів
+      dates: Дати
+      extents: Ступінь
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+      representative_file_version: Мініатюра зображення
+    subject:
+      score: Релевантність
+      source: Джерело
+      first_term_type: Тип терміна (перший)
+      title: Умови
+      publish: Опубліковано
+      audit_info: Інформація про аудит
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+    digital_object:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      subjects: Тема
+      level: Рівень
+      digital_object_type: Тип цифрового об'єкта
+      digital_object_id: Ідентифікатор цифрового об'єкта
+      restrictions: Обмеження
+      audit_info: Інформація про аудит
+      langcode: Мова матеріалів
+      dates: Дати
+      extents: Ступінь
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+      representative_file_version: Мініатюра зображення
+    digital_object_component:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      context: Знайдено в
+      audit_info: Інформація про аудит
+      langcode: Мова матеріалів
+      dates: Дати
+      extents: Ступінь
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+      representative_file_version: Мініатюра зображення
+    agent:
+      score: Релевантність
+      title: Ім'я
+      primary_type: Тип агента
+      publish: Опубліковано
+      authority_id: Ідентифікатор авторизації
+      source: Джерело
+      rules: Правила
+      is_user: Користувач?
+      audit_info: Інформація про аудит
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+    location:
+      score: Релевантність
+      title: Розташування
+      publish: Опубліковано
+      building: Будівля
+      floor: Підлога
+      room: Кімната
+      area: Площа
+      location_holdings: Матеріали для поточного репозиторію
+      location_no_holdings: Для цього репозиторію немає матеріалів.
+      location_one_top_container: 1 верхній контейнер.
+      location_top_containers: ' верхні контейнери.'
+      location_profile_display_string_u_ssort: Профіль місцезнаходження
+      owner_repo_display_string_u_ssort: Репозиторій
+      none: Жоден
+      audit_info: Інформація про аудит
+      temporary: Тимчасовий
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+    event:
+      score: Релевантність
+      agents: Агент
+      event_type: Тип
+      outcome: Результат
+      linked_records: Посилання на записи
+      audit_info: Інформація про аудит
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+    collection_management:
+      name: Управління колекціями
+      score: Релевантність
+      parent_title: Назва
+      parent_type: Тип запису
+      processing_priority: Пріоритет обробки
+      processing_status: Стан обробки
+      processing_hours_total: Загальна кількість годин
+      processing_funding_source: Джерело фінансування обробки
+      processors: Процесори
+      audit_info: Інформація про аудит
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+    classification:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      has_classification_terms: Має класифікаційні терміни?
+      identifier: Ідентифікатор
+      audit_info: Інформація про аудит
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+    assessment:
+      score: Релевантність
+      assessment_id: Ідентифікатор оцінювання
+      assessment_records: Запис
+      assessment_record_types: Тип запису
+      assessment_surveyors: Геодезист
+      assessment_survey_begin: Початок опитування
+      assessment_review_required: Необхідний огляд
+      assessment_sensitive_material: Чутливий матеріал
+      assessment_inactive: Неактивний
+      assessment_survey_year: Рік опитування
+      assessment_collections: Колекція
+      assessment_completed: Оцінювання завершено
+      assessment_formats: Формати
+      assessment_ratings: Рейтинги
+      assessment_conservation_issues: Проблеми збереження
+      audit_info: Інформація про аудит
+      assessment_reviewers: Рецензент
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+    repositories:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      audit_info: Інформація про аудит
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+    top_container:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      container_profile_display_string_u_sstr: Профіль контейнера
+      location_display_string_u_sstr: Розташування
+      type: Розташування
+      indicator: Індикатор
+      barcode: Штрих-код
+      context: Ресурс/Приєднання
+      audit_info: Інформація про аудит
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+      series_level_u_sstr: Серія
+      collection_identifier_stored_u_sstr: Колекція
+      ils_holding_id: Ідентифікатор холдингу ILS
+      exported_to_ils: Експортовано до ILS
+    top_container_mgmt:
+      resource_accession: Ресурс/Приєднання
+      series: Серія
+      container_profile: Профіль контейнера
+      type: Тип
+      indicator: Індикатор
+      barcode: Штрих-код
+      internal_note: Внутрішня примітка
+      location: Розташування
+      restricted: Обмежено
+      not_restricted: Не обмежено
+      ils_holding_id: Ідентифікатор холдингу ILS
+      exported_to_ils: Експортовано до ILS
+      not_exported_to_ils: Не експортовано
+      asc: Зростаючий
+      desc: Спадання
+    container_profile:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      container_profile_width_u_sstr: Ширина
+      container_profile_height_u_sstr: Висота
+      container_profile_depth_u_sstr: Глибина
+      container_profile_dimension_units_u_sstr: Одиниці виміру
+      audit_info: Інформація про аудит
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      notes: Примітка
+      uri: URI
+    location_profile:
+      score: Релевантність
+      title: Назва
+      publish: Опубліковано
+      location_profile_width_u_sstr: Ширина
+      location_profile_height_u_sstr: Висота
+      location_profile_depth_u_sstr: Глибина
+      location_profile_dimension_units_u_sstr: Одиниці виміру
+      audit_info: Інформація про аудит
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+    job:
+      score: Релевантність
+      status: Статус
+      job_type: Тип роботи
+      report_type: Тип звіту
+      job_report_type: Тип роботи
+      time_started: Час початку
+      time_finished: Час виконання
+      time_submitted: Час подання
+      job_data: Інформація про вакансію
+      audit_info: Інформація про аудит
+      user_mtime: Змінено
+      create_time: Створено
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+    multi:
+      score: Релевантність
+      primary_type: Тип запису
+      creators: Творець
+      subjects: Тема
+      title: Назва
+      context: Знайдено в
+      identifier: Ідентифікатор
+      audit_info: Інформація про аудит
+      query: Текст
+      relevance: Релевантність
+      user_mtime: Змінено
+      create_time: Створено
+      dates: Дати
+      extents: Ступінь
+      langcode: Мова матеріалів
+      asc: Зростаючий
+      desc: Спадання
+      uri: URI
+      representative_file_version: Мініатюра зображення
+    blank_facet_query_fields:
+      owner_repo_display_string_u_ssort: Репозиторій
+  become-user:
+    become-user: Стати користувачем
+    failed: Не вдалося перейти до вказаного користувача
+    success: Користувачів успішно переключено
+    username: Ім'я користувача
+  header:
+    staff_interface: Інтерфейс персоналу АрхівзСпєс
+  session:
+    gone: Ваш сеанс серверної частини не знайдено
+    expired: Ваш сеанс закінчився через неактивність
+    inline_login_title: Термін дії сеансу минув
+  batch_delete:
+    archival_records:
+      success: Записи видалено
+      error: 'Неможливо видалити записи:'
+    subjects:
+      success: Теми видалено
+      error: 'Не вдалося видалити теми:'
+    agents:
+      success: Агентів видалено
+      error: 'Не вдалося видалити агентів:'
+    locations:
+      success: Місця видалено
+      error: 'Не вдалося видалити місцезнаходження:'
+    assessments:
+      success: Оцінювання видалено
+      error: 'Неможливо видалити оцінювання:'
+  welcome:
+    heading: Ласкаво просимо до АрхівзСпєс
+    message: Ваш зручний інструмент для керування архівами.
+    message_logged_in: Ваш зручний інструмент для керування архівами.
+  login:
+    login: Увійти
+    login_please: Будь ласка, увійдіть
+    login_expired_link: Будь ласка, <a href ='%{link}'>увійдіть знову</a>.
+    login_fail: Невдала спроба входу
+    login_success: Вхід успішний. Перенаправлення...
+    username_placeholder: Ім'я користувача
+    password_placeholder: Пароль
+    confirm_password: Підтвердьте пароль
+    username_aria_label: Ім'я користувача
+    password_aria_label: Пароль користувача
+    lost_password: Забули пароль?
+    reset_password: Скинути пароль
+    recover_password: Відновити пароль
+    email_placeholder: Адреса електронної пошти
+    reset_form_instructions: Введіть електронну адресу, пов’язану з вашим 
+      обліковим записом користувача. Якщо для цієї адреси електронної пошти 
+      існує обліковий запис, на цю адресу буде надіслано посилання для скидання 
+      пароля.
+    new_password: Новий пароль
+    new_password_instructions: Створіть новий пароль для %{user} за допомогою 
+      форми, а потім знову увійдіть.
+    password_mismatch_error: Паролі не збігаються.
+    password_update_success: Пароль успішно оновлено.
+    password_update_error: Не вдалося оновити пароль. Спробуйте ще раз або 
+      зверніться до адміністратора.
+    password_too_simple: Цей пароль надто легко вгадати. Спробуйте додати кілька
+      слів або скористайтеся генератором випадкових паролів.
+  breadcrumb:
+    home: Дім
+  save_changes_modal:
+    body: У вас є деякі невиконані зміни. Збережіть або відхиліть ці зміни, щоб 
+      продовжити.
+    save: Зберегти зміни
+    dismiss: Відхилити зміни
+  linker:
+    link: Посилання
+    create_and_link: Створити та зв'язати
+    hint_text: Введіть текст, щоб знайти доступні записи..
+    placeholder: Введіть текст, щоб знайти доступні записи..
+    no_results: Відповідних результатів не знайдено. Спробуйте «Огляд».
+    searching: Пошук...
+    delete: '&разів;'
+    components:
+      browse: Переглянути компоненти
+  mixed_content:
+    wrap_prefix: 'Оберніть з:'
+    help: Змішаний вміст увімкнено#160;та#160;--&#160;&#160;&#160;&#160;Введіть 
+      '<' для елементів або виділіть текст для перенесення
+  import:
+    eac_title: Імпорт файлу EAC
+    ead_title: Імпортувати файл EAD
+    marcxml_title: Імпорт файлу MARCXML
+    marcxml_subjects_and_agents_title: Імпорт суб'єктів та агентів з файлу 
+      MARCXML
+    accession_csv_title: Імпорт записів про доступ з CSV-файлу
+    digital_object_csv_title: Імпорт записів цифрових об'єктів з CSV-файлу
+    import_report: Звіт про імпорт
+    import_another: Імпортувати інший файл
+    file_select: Виберіть файл для завантаження
+    submit: Імпорт
+    submit_busy_message: Імпорт...
+    messages:
+      missing_repo: Перед імпортом потрібно вибрати репозиторій
+      missing_file: Будь ласка, виберіть файл EAD для завантаження
+      error_prefix: Помилка імпорту файлу
+      complete: Імпорт завершено
+  default_values:
+    form_title:
+      archival_object: Значення за замовчуванням для запису компонента
+      resource: За замовчуванням для записів ресурсів
+      accession: За замовчуванням для записів доступу
+      subject: За замовчуванням для запису суб'єкта
+      agent_person: За замовчуванням записи агента (особа)
+      agent_family: За замовчуванням для записів агентів (сім'я)
+      agent_corporate_entity: За замовчуванням для записів агентів (корпоративна
+        організація)
+      agent_software: Налаштування записів агентів за замовчуванням (програмне 
+        забезпечення)
+      digital_object: Цифрові об'єкти за замовчуванням
+      digital_object_component: Значення за замовчуванням компонента цифрового 
+        об'єкта
+      location: Налаштування запису місцезнаходження за замовчуванням
+      event: За замовчуванням для запису подій
+      classification: За замовчуванням записів класифікації
+      classification_term: За замовчуванням термін класифікації
+    messages:
+      defaults_updated: Оновлено налаштування за замовчуванням
+  required_fields:
+    form_title:
+      agent_person: Обов'язкові поля запису агента (особа)
+      agent_family: Обов'язкові поля запису агента (сім'я)
+      agent_corporate_entity: Обов'язкові поля запису агента (корпоративна 
+        організація)
+      agent_software: Обов'язкові поля запису агента (програмне забезпечення)
+    messages:
+      required_fields_updated: Обов'язкові поля оновлено
+  tree:
+    drag_and_drop_actions:
+      before: Додати елементи перед
+      after: Додати елементи після
+      as_child: Додати елементи як дочірні
+    unexpected_failure: Ой! Виникла проблема з отриманням цього дерева. Будь 
+      ласка, спробуйте оновити сторінку.
+    resize: Перетягніть, щоб змінити висоту дерева
+    maximize: Максимізувати/мінімізувати висоту дерева
+  errors:
+    sidebar_label: Помилки та попередження
+    error_403: Не вдається отримати доступ до сторінки
+    error_403_message: Сторінка, до якої ви намагалися перейти, можливо, більше 
+      не існує, або у вас немає дозволу на її перегляд.
+    error_404: Запис не знайдено
+    error_404_message: Запис, до якого ви намагалися отримати доступ, можливо, 
+      більше не існує, або у вас немає дозволу на його перегляд.
+    error_tree_pane_ajax: Сталася помилка під час завантаження цієї форми.
+    merge_conflict: "Агент(и) об'єднання не зміг(ли) завершити: %{message}"
+    merge_too_many_merge_candidates: Для цього об'єднання може бути обраний лише
+      один агент.
+    merge_different_types: Агенти, вибрані для цього об'єднання, повинні бути 
+      одного типу.
+    merge_denied_for_system_user: Один або декілька агентів є системним 
+      користувачем.
+    merge_denied_relationship: Ці агенти мають зв'язок. Видаліть зв'язок, перш 
+      ніж продовжити об'єднання.
+    merge_restricted_contact_details: Об’єднання неможливо завершити, оскільки 
+      один або декілька агентів мають контактні дані, до яких у вас немає 
+      дозволу на доступ.
+    linked_to_assessment: Запис не можна видалити, оскільки він пов'язаний з 
+      оцінюванням
+    linked_to_user: Запис не можна видалити, оскільки він пов'язаний з 
+      користувачем
+    cannot_delete_repository_agent: Цей агент пов'язаний з репозиторієм і його 
+      не можна видалити.
+  component_link:
+    _plural: Посилання на компоненти
+    _singular: Посилання на компонент
+    _frontend:
+      action:
+        add: Додати посилання на компонент
+  accession_link:
+    _plural: Посилання для приєднання
+    _singular: Посилання для доступу
+    _frontend:
+      action:
+        add: Додати посилання для приєднання
+  accession:
+    component_link: Зв'язаний компонент
+    component_links: Зв'язані компоненти
+    _frontend:
+      messages:
+        created: Приєднання <strong>%{accession_display_string</strong> створено
+        unsuppressed: Приєднання <strong>%{accession_display_string</strong> 
+          розблоковано
+        updated: Приєднання <strong>%{accession_display_string</strong> оновлено
+        suppressed: Приєднання <strong>%{accession_display_string</strong> 
+          приховано
+        suppressed_info: Приєднання приховано та не може бути редагуване
+        deleted: Приєднання <strong>%{accession_display_string</strong> видалено
+        transfer_description: Перенести цей приєднання до...
+        transfer_target: Виберіть репозиторій для перенесення
+        spawned: Цей приєднання було створено з приєднання 
+          <strong>%{accession_display_string}<strong>. Цей запис не збережено. 
+          Щоб запис було створено в системі, потрібно натиснути кнопку 
+          «Зберегти».
+        delete_conflict: 'Не вдалося видалити приєднання: <pre>%{error}<pre>'
+      section:
+        basic_information: Основна інформація
+      action:
+        create: Створити приєднання
+        save: Зберегти приєднання
+  agent:
+    _frontend:
+      messages:
+        created: Агент створено
+        updated: Агента збережено
+        deleted: Агента видалено
+        published: Агент <strong>%{agent_title</strong>, його підзаписи та 
+          компоненти опубліковано
+        delete_conflict: 'Агента не вдалося видалити: <pre>%{error}<pre>'
+        merge_description: Виберіть агента для об'єднання
+        merged: Об'єднані агенти
+        please_select_a_agent_to_merge: Будь ласка, виберіть агента
+      section:
+        basic_information: Основна інформація
+        record_control_information: Інформація про контроль записів
+        identity_information: Інформація про особу
+  archival_object:
+    _frontend:
+      messages:
+        created_with_parent: Архівний об'єкт 
+          <strong>%{archival_object_display_string}<strong>, створений як 
+          дочірній об'єкт <strong>%{parent_display_string}<strong> на ресурсі 
+          <strong>%{resource_title}<strong>
+        updated: Архівний об'єкт 
+          <strong>%{archival_object_display_string</strong> оновлено
+        updated_with_parent: Архівний об'єкт 
+          <strong>%{archival_object_display_string</strong> оновлено
+        transfer_description: Виберіть ресурс, до якого потрібно перенести цей 
+          архівний об'єкт
+        please_select_a_resource_for_transfer: Будь ласка, виберіть ресурс
+        transfer_success: Архівний об'єкт 
+          <strong>%{archival_object_display_string</strong> успішно перенесено 
+          до ресурсу <strong>%{resource_title</strong>
+        transfer_error: "Не вдалося перенести архівний об'єкт через помилку або конфлікт:
+          <pre>%{exception}<pre>"
+        deleted: Архівний об'єкт 
+          <strong>%{archival_object_display_string</strong> видалено
+        published: Архівний об'єкт <strong>%{archival_object_title</strong>, 
+          його дочірні об'єкти, підзаписи та компоненти опубліковано
+        unpublished: Публікацію архівного об'єкта 
+          <strong>%{archival_object_title</strong>, його дочірніх об'єктів, 
+          підзаписів та компонентів скасовано
+        unsuppressed: Архівний об'єкт <strong>%{archival_object_title</strong> 
+          розблоковано
+        suppressed: Архівний об'єкт <strong>%{archival_object_title}<strong> 
+          приховано
+        suppressed_info: Архівний об'єкт приховано та не може бути редагуваний
+        has_unpublished_ancestor: Зверніть увагу, що цей запис має 
+          неопублікованого предка.
+        spawned: Цей архівний об’єкт було створено з об’єкта доступу 
+          <strong>%{accession_display_string}<strong>. Цей запис не збережено. 
+          Щоб запис було створено в системі, потрібно натиснути «Зберегти».
+        delete_conflict: "Архівний об'єкт не вдалося видалити: <pre>%{error}<pre>"
+        spawn_placeholder: <em>Створений компонент буде вставлено сюди</em>
+        spawn_menu_before: Вставити створений компонент перед
+        spawn_menu_child: Вставити породжений компонент як дочірній
+  classification_term:
+    _frontend:
+      messages:
+        created_with_parent: Термін класифікації 
+          <strong>%{classification_term_title}</strong> створено
+  location:
+    _frontend:
+      messages:
+        updated: Розташування збережено
+        deleted: Розташування видалено
+      section:
+        basic_information: Основна інформація
+        search_embedded: Пов'язані записи
+      action:
+        add_child: Додати підкомпонент
+        add_sibling: Додати рідного брата
+        create: Створити місце розташування
+        batch: Створення пакетних розташувань
+        batch_edit: Створення пакетних розташувань
+        save: Зберегти місцезнаходження
+        single: Єдине розташування
+        delete_confirm_message: <p>Зауважте, що ви <strong>не можете скасувати 
+          цю дію.</strong>.</p><p> Якщо це місце наразі пов’язане з одним чи 
+          кількома екземплярами, його не можна видалити.</p>
+        show_space_calculator: Знайдіть за допомогою калькулятора простору
+  location_batch:
+    _frontend:
+      section:
+        location: Розташування бази
+        ranges: Діапазони координат
+      messages:
+        created: <strong>%{number_created} місць</strong> створено
+        updated: <strong>%{number_created} місць</strong> оновлено
+        location_batch_info: Визначте базові значення, які застосовуватимуться 
+          до всіх місць, згенерованих на основі <strong>діапазонів 
+          координат</strong> нижче.
+        location_batch_update_info: Введіть значення, які потрібно застосувати.
+        ranges_info: Зверніть увагу, що будь-які поля «Координати», введені у 
+          вищевказане поле <strong>Базове розташування</strong>, будуть замінені
+          значеннями, згенерованими на основі наведених нижче діапазонів. Буде 
+          створено максимум %{max_range} розташування.
+        number_to_create: Кількість локацій
+        warning: Залежно від розміру ваших діапазонів, цей процес може тривати 
+          кілька хвилин.
+      action:
+        create: Створити місця розташування
+        update: Оновити місцезнаходження
+        preview: Попередній перегляд місць розташування
+        preview_short: Попередній перегляд
+        creating: Виконується пакет...
+  name:
+    _frontend:
+      section:
+        function_subject: Суб’єкт функції
+        occupation_subject: Тема професії
+        use_date: Дата(и) використання імені
+        dates: Дати
+        parallel_names: Паралельні назви
+        place_subject: Розмістити тему
+        topic_subject: Тема Тема
+        name_subject: Ім'я Тема
+      action:
+        add: Додайте форму імені
+        make_authorized: Введіть авторизоване ім’я
+        make_authorized_tooltip: Використовується для позначення форми імені як 
+          авторизованої версії імені, встановленої авторитетними джерелами, 
+          такими як LCNAF.
+        make_display_name: Зробити відображуваним ім'ям
+        make_display_name_tooltip: Використовується для позначення того, що ця 
+          форма імені має використовуватися для відображень, коли із записом 
+          агента пов’язано кілька форм імені.
+        make_primary: Зробити основним
+        make_primary_tooltip: Зробити основною підказкою
+  note:
+    _frontend:
+      preview:
+        raw: Сире
+        raw_title: Необроблений вміст нотатки
+        parsed: Відформатовано
+        parsed_title: Як примітка буде відображена у публічному додатку
+        content: Зміст
+      action:
+        note_definedlist_item: Додати елемент
+        expand: Розгорнути
+        collapse: Згорнути
+        apply_note_order: Застосувати стандартний порядок нот
+        add: Додати примітку
+        add_for_contact_note: Додати контактну примітку
+        add_content_item: Додати елемент контенту
+        add_note_orderedlist: Додати елемент
+        add_sub_note: Додати підпримітку
+        add_note_index_item: Додати елемент
+        add_note_chronology_item: Додати подію
+        add_event: Додати елемент події
+        add_note_bibliography_item: Додати елемент
+        add_note_outline_level_item: Додати елемент
+        add_note_outline_level_level: Додати рівень
+      note_outline:
+        placeholder: Додати текст примітки
+        empty_level: Порожній рівень -- Використовуйте кнопки вище, щоб додати 
+          нові елементи або підрівні
+      messages:
+        select_a_note_type: <em>Будь ласка, виберіть тип нотатки</em>
+  related_accession:
+    _frontend:
+      action:
+        add: Додати пов'язаний доступ
+  related_agent:
+    dates: Дати стосунків
+    _frontend:
+      messages:
+        select_a_type: <em>Будь ласка, виберіть тип зв'язку</em>
+      action:
+        add: Додати пов'язаного агента
+  related_resource:
+    _frontend:
+      action:
+        add: Додати пов'язаний ресурс
+  revision_statement:
+    _frontend:
+      action:
+        add: Додати звіт про редакцію
+  repository_oai:
+    oai_is_disabled: Збір даних OAI вимкнено?
+    oai_sets_available: Набори, що входять до OAI
+  repository:
+    _frontend:
+      messages:
+        created: Створено репозиторій
+        updated: Репозиторій збережено
+        deleted: Репозиторій видалено
+        selected: Репозиторій наразі вибрано
+        selected_short: Вибрано
+        changed: Репозиторій <strong>%{repository_repo_code</strong> тепер 
+          активний
+        create_first_repository: Щоб створити свій перший репозиторій, натисніть
+          меню <strong>Система</strong> вище, а потім виберіть <strong>Керування
+          репозиторіями</strong>.
+        no_access_to_repositories: <p>У вас немає доступу до жодних 
+          репозиторіїв.</p><p>Будь ласка, зверніться до свого системного 
+          адміністратора, щоб запросити доступ.</p>
+        continue_with_transfer: Продовжити переказ?
+        transfer_failed: Перенесення не вдалося завершити через такі помилки
+        transfer_target: Виберіть репозиторій для перенесення
+        transfer_warning: <strong>Попередження:</strong> Перенесення цього 
+          репозиторію призведе до переміщення <strong>всіх</strong> його записів
+          до вибраного вами репозиторію. <strong>Цю дію не можна 
+          скасувати</strong>
+        cannot_delete_nonempty: Неможливо видалити – сховище не порожнє
+      section:
+        all_fields: Поля репозиторію
+        oai_fields: Налаштування збору врожаю OAI
+        transfer: Репозиторій перенесення
+        oai_settings: Налаштування OAI
+      action:
+        select: Виберіть репозиторій
+        save: Зберегти репозиторій
+        create: Створити репозиторій
+        order_for_pui: Встановити порядок у публічному інтерфейсі
+    _sidebar:
+      oai_settings:
+        _plural: Налаштування збору врожаю OAI
+  resource:
+    _frontend:
+      messages:
+        deleted: Ресурс <strong>%{resource_title}<strong> видалено
+        published: Ресурс <strong>%{resource_title</strong>, його підзаписи та 
+          компоненти опубліковано
+        unpublished: Публікацію ресурсу <strong>%{resource_title</strong>, його 
+          дочірніх об'єктів, підзаписів та компонентів скасовано
+        merge_description: Виберіть ресурси нижче для об'єднання
+        please_select_a_resource_to_merge: Будь ласка, виберіть ресурс
+        merged: Об'єднані ресурси
+        transfer_description: Перенести цей ресурс до...
+        transfer_target: Виберіть репозиторій для перенесення
+        unsuppressed: Ресурс <strong>%{resource_title</strong> розблоковано
+        suppressed: Ресурс <strong>%{resource_title}<strong> приховано
+        suppressed_info: Ресурс приховано та не можна редагувати
+        delete_conflict: 'Ресурс не вдалося видалити: <pre>%{error}<pre>'
+        created: Ресурс <strong>%{resource_title}<strong> створено
+        updated: Ресурс <strong>%{resource_title}<strong> оновлено
+        spawned: Новий ресурс було створено з об’єкта доступу 
+          <strong>%{accession_display_string}<strong>. Цей запис не збережено. 
+          Щоб запис було створено в системі, потрібно натиснути «Зберегти».
+      section:
+        basic_information: Основна інформація
+        finding_aid: Пошук даних про допомогу
+      action:
+        add_child: Додати дитину
+        create: Створити ресурс
+        load_bulk: Завантажити через електронну таблицю
+        save: Зберегти ресурс
+        delete_multiple: Видалити ресурси
+      remove_subrecord: Видалити підзапис
+    external_ark_url: Зовнішня URL-адреса ARK
+    external_ark_url_tooltip: Постійний ідентифікатор ключа архівного ресурсу 
+      (ARK), згенерований поза межами АрхівзСпєс. Якщо це поле має значення, 
+      воно має пріоритет над ARK, згенерованим в АрхівзСпєс.
+    linker:
+      browse: Переглянути ресурси
+      link_title: Переглянути
+      link_to: Посилання на ресурс
+  preference:
+    _frontend:
+      messages:
+        updated: Налаштування оновлено
+        reset: Налаштування встановлено на значення за замовчуванням програми
+        reset_error: 'Не вдалося скинути налаштування через помилку: %{exception}'
+        no_access_to_preferences: Перш ніж керувати налаштуваннями, потрібно 
+          створити принаймні одне сховище
+      action:
+        save: Зберегти налаштування
+  rights_statement:
+    _frontend:
+      action:
+        add: Додати заяву про права
+  subject:
+    _frontend:
+      action:
+        save: Зберегти тему
+        add: Додати тему
+        create: Створити тему
+      messages:
+        created: Тему створено
+        updated: Тему збережено
+        deleted: Тему видалено
+        merged: Об'єднані теми
+        merge_description: Виберіть теми нижче для об'єднання
+        please_select_a_subject_to_merge: Будь ласка, виберіть тему
+        delete_conflict: 'Не вдалося видалити тему: <pre>%{error}<pre>'
+      section:
+        basic_information: Основна інформація
+        terms: Терміни та підрозділи
+        search_embedded: Пов'язані записи
+  user:
+    is_active_user: Активний
+    active: правда
+    inactive: хибний
+    source: Автентифікація
+    _frontend:
+      messages:
+        access_denied: Доступ заборонено. Увійдіть як адміністратор, щоб 
+          виконати цю дію.
+        created: Створено користувачем
+        updated: Збережено користувачем
+        deleted: Користувача видалено
+        error_update: Користувача не збережено
+        error_create: Користувача не створено
+        group_not_required: Користувач — це адміністратор або системний 
+          користувач, вибір групи не потрібен.
+        activated: Користувач активував
+        deactivated: Користувач деактивовано
+        error_activate: Користувач не активований
+        error_deactivate: Користувач не деактивовано
+        password_reset_email_sent: Якщо обліковий запис для %{email} існує, вам 
+          буде надіслано електронний лист з інструкціями щодо скидання пароля.
+        error_not_found: Не вдалося знайти обліковий запис користувача для 
+          %{email}. Зверніться по допомогу до адміністратора.
+        password_reset_not_allowed: Відновлення пароля заборонено. Зверніться до
+          адміністратора.
+        password_reset_fail: Не вдалося відновити пароль. Зверніться до 
+          адміністратора.
+      section:
+        manage_access: Керування доступом користувачів
+        account: Обліковий запис
+        edit_account: Редагувати обліковий запис
+        edit_account_submit: Оновити обліковий запис
+        new_account: Новий обліковий запис
+      action:
+        create_account: Створити обліковий запис
+        update_account: Оновити обліковий запис
+        create: Створити користувача
+        edit: Редагувати користувача
+        show_active: Показати активних користувачів
+        show_inactive: Показати неактивних користувачів
+        deactivate_user: Деактивувати
+        deactivate_user_confirm: Ви впевнені, що хочете деактивувати цього користувача?
+        activate_user: Активувати
+        activate_user_confirm: Ви впевнені, що хочете активувати цього користувача?
+        update_self: Керування обліковим записом користувача
+  user_defined:
+    _frontend:
+      action:
+        add: Додати поля, визначені користувачем
+  use_date:
+    _frontend:
+      action:
+        add: Додати дату використання
+  rde:
+    date_type: Тип дати
+    instance_type: Тип екземпляра
+    column_label: Колонка
+    messages:
+      error_prefix: Рядок
+      success: <div class='alert alert-success'>Діти створено. Оновлення 
+        сторінки...</div>
+      no_rows: Будь ласка, введіть значення принаймні для одного рядка
+      rows_with_errors: '%{count} рядків з помилкою – клацніть поле рядка, щоб переглянути
+        помилки для цього рядка'
+      rows_no_errors: Усі рядки дійсні
+      error_summary_header: 'Помилки в рядку:'
+      select_prompt: 'Помилки в рядку:'
+    sections:
+      basic_information: Основна інформація
+      language: Мова
+      date: Дата
+      extent: Ступінь
+      instance: Екземпляр
+      notes: Нотатки
+      file_version: Версія файлу
+    actions:
+      add_row: Додати рядок
+      add_rows: Додати рядки
+      submit: Зберегти рядки
+      reset: Скинути
+      showhide_prefix: 'Колонки:'
+      showhide_suffix: видимий
+      showhide_none: Усі стовпці відфільтровано
+      fill_toggle: Заповнити стовпець
+      reorder_toggle: Зміна порядку стовпців
+      validate_rows: Перевірити рядки
+      inline_errors_toggle: Переглянути вбудовані помилки
+      save_template: Зберегти як шаблон
+      select_template: Виберіть шаблон
+      manage_templates: Видалити шаблони
+    fill_column:
+      basic: Базовий
+      sequence: Послідовність
+      fill_value: Значення заповнення
+      select_a_column: Будь ласка, виберіть стовпець
+      sequence_count_warning: 'Рядків більше, ніж елементів у послідовності.'
+      apply_basic_fill: Застосувати заливку
+      preview_sequence: Попередній перегляд значень послідовності
+      apply_sequence_fill: Застосувати послідовність
+      sequence_summary: '%{count} елементів у послідовності:'
+      sequence_summary_with_maxsize: 'Для ваших рядків %{limit} значення послідовності
+        %{count} такі:'
+      sequence_from_required: Потрібно поле "Від"
+      sequence_to_required: Потрібно "К"
+    reorder_columns:
+      apply_order: Застосувати порядок стовпців
+    save_template:
+      save_template: Зберегти шаблон
+      template_name: Назва шаблону
+      confirm_removal: Підтвердити видалення
+    templates:
+      listing: Шаблони
+      no_templates: Шаблонів не визначено
+    help:
+      fill_column:
+        sequence_description: Щоб застосувати послідовність до стовпця, 
+          натисніть <strong>Заповнити стовпець</strong> та на вкладці 
+          <strong>Послідовність</strong> виберіть цільовий 
+          <strong>Стовпець</strong> і заповніть поля <strong>Значення 
+          заповнення</strong>, щоб створити потрібну послідовність. З’явиться 
+          попередження, якщо згенерована послідовність не заповнить кількість 
+          рядків у формі.
+        basic_title: Заповнити стовпець – базовий
+        basic_description: Щоб заповнити стовпець одним значенням, натисніть 
+          кнопку <strong>Заповнити стовпець</strong> та на вкладці 
+          <strong>Основні</strong> виберіть цільовий <strong>Стовпець</strong>, 
+          введіть потрібне <strong>Значення заповнення</strong> та натисніть 
+          <strong>Застосувати заповнення</strong>.
+        sequence_title: Заповнити стовпець – послідовність
+      reorder_columns:
+        title: Зміна порядку стовпців
+        description: Натисніть <strong>Змінити порядок стовпців</strong>, 
+          виберіть рядок(ки), порядок яких потрібно змінити, і за допомогою 
+          кнопок зі стрілками вгору/вниз змініть їхнє положення у списку. Коли 
+          вас влаштовує новий порядок, натисніть <strong>Застосувати порядок 
+          стовпців</strong>.
+      reset:
+        title: Скинути форму
+        description: Натисніть <strong>Скинути</strong>, щоб очистити форму та 
+          повернути значення за замовчуванням для закріплених, видимих і порядку
+          стовпців.
+      keyboard_shortcuts:
+        title: Комбінації клавіш
+        shift: ЗМІЩЕННЯ
+        arrow_keys: Клавіші зі стрілками
+        return: Повернення
+        move_term: Перехід з клітинки в клітинку
+        new_term: Створити новий рядок (з останнього рядка)
+      sticky_columns:
+        title: Закріплені колонки
+        p_one: Виділені стовпці є закріпленими та будуть скопійовані під час 
+          додавання нових рядків. Увімкніть/виключіть опцію «закріплення», 
+          натиснувши відповідний заголовок таблиці.
+        p_two: Натискання кнопки <strong>Додати рядок</strong> скопіює значення 
+          з останнього рядка. Кнопка <strong>+</strong> рядка скопіює значення з
+          рядка, на якому поточний фокус.
+    default_template: Шаблон за замовчуванням
+  term:
+    _frontend:
+      messages:
+        preview_pending: Попередній перегляд теми
+      action:
+        add: Додати термін/підрозділ
+  transfer:
+    ref: Цільовий репозиторій
+  update_monitor:
+    save_failed: <strong>Не вдалося зберегти зміни</strong>
+    stale_record: Цей запис було оновлено іншим користувачем. Будь ласка, 
+      оновіть сторінку, щоб отримати доступ до останньої версії.
+    other_editors: 'Цей запис наразі редагується іншим користувачем. Будь ласка, зв’яжіться
+      з такими користувачами, щоб переконатися у відсутності конфліктів: <strong>%{user_ids</strong>'
+    repository_changed: Цей запис неможливо зберегти, оскільки ваш активний 
+      репозиторій змінився. Щоб зберегти цей запис, відкрийте інше вікно та 
+      скиньте налаштування активного репозиторію.
+  job:
+    _frontend:
+      singular: 'Робота'
+      plural: Робота
+      actions:
+        add_file: Додати файл
+        follow_log: Журнал слідкування
+        create: Створити завдання
+        save: Розпочати завдання
+        new: Нова фонова робота
+        cancel: Скасувати завдання
+      section:
+        basic_information: Основна інформація
+        status: Статус роботи
+        logs: Журнал
+        generated_uris: Нові та змінені записи
+        active_jobs: Активні вакансії
+        archived_jobs: Архівні вакансії
+        files: Файли
+      messages:
+        status_changed_running: Завдання розпочато. Оновлення сторінки...
+        status_changed_completed: Роботу завершено.
+        status_changed_failed: Робота провалилася.
+        status_changed_canceled: Завдання скасовано.
+        no_active_jobs: Активних вакансій немає.
+        no_archived_jobs: Немає архівованих вакансій.
+        uploading: Завантаження завдання...
+        upload_successful: Завантаження успішне. Перенаправлення на сторінку 
+          вакансії...
+        import_type_missing: Будь ласка, виберіть тип імпорту
+        queue_position_next: Це завдання наступне в черзі.
+        queue_position: Це завдання знаходиться на %{position} позиції в черзі.
+        drag_and_drop_hint: Перетягніть файли сюди
+        find_and_replace_warning: Завдання пошуку та заміни можуть внести 
+          суттєві зміни до вашої бази даних. Наполегливо рекомендується створити
+          резервну копію бази даних ТА запустити завдання в тестовому 
+          екземплярі, перш ніж продовжувати. Скасування дій неможливе.
+        find_and_replace_instructions: Виберіть базовий запис для визначення 
+          області дії цієї операції пошуку та заміни. Потім виберіть тип запису 
+          для цільового використання та властивість цього типу. Операція 
+          виконуватиметься в кожному цільовому записі в дереві базового запису 
+          або в самому базовому записі, якщо цільовий тип – «Ресурс».
+        report_instructions: Виберіть звіт для запуску за допомогою кнопки 
+          <b>Вибрати</b>.
+        slug_lost_warning: <b>УВАГА! </b> Усі автоматично згенеровані слуги 
+          будуть перегенеровані! Це завдання застосовується до всіх записів у 
+          всіх репозиторіях.
+        slug_generation: Це завдання згенерує служебні файли (slug) для всіх 
+          <b>Ресурсів</b>, <b>Архівних об'єктів</b>, <b>Цифрових об'єктів</b>, 
+          <b>Компонентів цифрових об'єктів</b>, <b>Пристроїв</b>, 
+          <b>Класифікацій</b>, <b>Агентів</b>, <b>Предметів</b> та 
+          <b>Репозиторіїв</b>, до яких ще не додано служебний файл вручну. <br 
+          /><br /><em>Служеві файли, додані вручну, не будуть змінені, якщо не 
+          встановлено прапорець «Автоматично генерувати служебний файл» для 
+          запису, що вказує на необхідність заміни служебного файлу.</em>
+        slug_config_msg: <b>На основі ваших налаштувань конфігурації у файлі 
+          config.rb:</b>
+        slug_config_id: Слаги будуть згенеровані з використанням ідентифікатора 
+          сутності, де це доречно.
+        slug_config_title: Слаги будуть згенеровані з використанням назви або 
+          заголовка сутності.
+        slug_config_eadid: Слаги для <b>Ресурсів</b> будуть згенеровані з 
+          використанням ідентифікатора EAD, де це доречно.
+        slug_config_cuid: Слаги для <b>Архівних об'єктів</b> будуть згенеровані 
+          з використанням унікального ідентифікатора компонента, де це доречно.
+        ark_generation: Це завдання згенерує ARK для всіх <b>Ресурсів</b> та 
+          <b>Архівних об'єктів</b>, які ще не мають ARK. <br /><br 
+          /><em>Зовнішні ARK не будуть змінені.</em>
+      audit_data: Дані аудиту
+      external_repo: Запис належить до іншого сховища
+  sub_container:
+    barcode_2_tooltip: |
+      <p>Штрих-код для ідентифікації контейнера другого рівня, в якому зберігається описаний матеріал.</p>
+    type_3: Тип онука
+    type_3_tooltip: |
+      <p>Тип контейнера третього рівня, в якому зберігається описаний матеріал.</p>
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    indicator_3: Індикатор онуків
+    indicator_3_tooltip: |
+      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера третього рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів третього рівня, наприклад, папки 1-16.</p>
+    _singular: Підконтейнер
+    _plural: Підконтейнери
+    _frontend:
+      action:
+        add: Додати екземпляр контейнера
+    top_container: Верхній контейнер
+    top_container_tooltip: |
+      <p>ОБОВ'ЯЗКОВЕ ПОЛЕ. Контейнер найвищого рівня, в якому розміщено описуваний матеріал.</p>
+      <p>Може бути вибраний з існуючого списку контейнерів найвищого рівня за допомогою функцій попереднього введення або перегляду, або створений за допомогою функції створення.</p>
+    type_2: Тип дитини
+    type_2_tooltip: |
+      <p>Тип контейнера другого рівня, в якому зберігається описаний матеріал.</p>
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    indicator_2: Індикатор дитини
+    indicator_2_tooltip: |
+      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера другого рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів другого рівня, наприклад, папки 1-16.</p>
+    barcode_2: Штрих-код дочірнього контейнера
+  top_container:
+    container_profile: Профіль контейнера
+    container_profile_tooltip: |
+      <p>Опис різних характеристик певного типу контейнера, включаючи розміри.</p>
+    indicator: Індикатор
+    indicator_tooltip: |
+      <p>ОБОВ'ЯЗКОВЕ ПОЛЕ. Буквено-цифровий вираз для позначення місця контейнера найвищого рівня, яке також може бути позицією контейнера в послідовності контейнерів.</p>
+    barcode: Штрих-код
+    barcode_tooltip: |
+      <p>Використовується для запису штрих-коду, який однозначно ідентифікує контейнер найвищого рівня.</p>
+    type: Тип контейнера
+    type_tooltip: |
+      <p>Тип контейнера найвищого рівня.</p>
+
+      <p>Значення в цьому списку контрольованих значень можна змінювати.</p>
+    ils_holding_id: Ідентифікатор холдингу ILS
+    ils_holding_id_tooltip: |
+      <p>Ідентифікатор пов'язаного запису про фонд у бібліотечній ILS</p>
+    ils_item_id: Ідентифікатор товару ILS
+    ils_item_id_tooltip: |
+      <p>Ідентифікатор, що надається API, для пов’язаного запису елемента в бібліотечній ILS (системне поле; не можна редагувати вручну)</p>
+    internal_note: Внутрішня примітка
+    internal_note_tooltip: |
+      <p>Нотатки для внутрішнього використання. Відображаються лише в інтерфейсі персоналу.</p>
+    exported_to_ils: Експортовано до ILS
+    not_exported: Не експортовано
+    restricted: Обмежено?
+    parent: Батьківський контейнер
+    has_location: Має місцезнаходження
+    managed_container_2_type: Тип дочірнього контейнера
+    managed_container_2_type_tooltip: |
+      <p>Тип контейнера другого рівня, в якому зберігається описаний матеріал.</p>
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    managed_container_2_indicator: Індикатор дочірнього контейнера
+    managed_container_2_indicator_tooltip: |
+      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера другого рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів другого рівня, наприклад, папки 1-16.</p>
+    managed_container_3_type: Тип контейнера для онуків
+    managed_container_3_type_tooltip: |
+      <p>Тип контейнера третього рівня, в якому зберігається описаний матеріал.</p>
+
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    managed_container_3_indicator: Індикатор контейнера для онуків
+    managed_container_3_indicator_tooltip: |
+      <p>Буквено-цифровий вираз для позначення ідентифікатора контейнера третього рівня, який також може вказувати на позицію контейнера другого рівня в послідовності таких контейнерів. Також дозволено використовувати групові діапазони контейнерів третього рівня, наприклад, папки 1-16.</p>
+    barcode_length_for_this_repository: 'Довжина штрих-коду для цього репозиторію:'
+    characters: персонажі
+    batch_delete:
+      success: Найпопулярніші контейнери успішно видалено
+      error: Виникла проблема з видаленням найпопулярніших контейнерів
+    _singular: Верхній контейнер
+    _plural: Верхні контейнери
+    _frontend:
+      section:
+        active_restrictions: Активні обмеження
+        linked_records: Пов'язані записи
+        basic_information: Інформація про контейнер
+      action:
+        add: Додати верхній контейнер
+        create: Створення верхнього контейнера
+        save: Зберегти верхній контейнер
+      messages:
+        created: Створено верхній контейнер
+        updated: Верхній контейнер оновлено
+        filter_required: Будь ласка, надайте фільтр
+        max_results_limit_reached: Не всі результати перелічені. Будь ласка, 
+          уточніть пошук.
+        max_results_limit_details: Показано <strong>%{visible</strong> з 
+          <strong>%{num_found</strong> відповідних результатів
+        results_summary: 'Відповідні результати: <strong>%{num_found</strong>'
+        bulk_selection_sort_help: Клацніть стовпець, щоб встановити порядок 
+          сортування. Утримуйте клавішу Shift, щоб сортувати за кількома 
+          стовпцями.
+        merged: Верхні контейнери об'єднано
+        bulk_action_success: Найпопулярніші контейнери успішно оновлено
+        bulk_action_success_info: Зверніть увагу, що може знадобитися деякий 
+          час, перш ніж зміни відобразяться в результатах пошуку.
+        no_active_restrictions: Немає активних обмежень
+      bulk_operations:
+        title: Масові операції
+        collection_singular: Ресурс/Приєднання
+        collection_plural: Ресурси/Доступні матеріали
+        collection_resource_singular: Ресурс
+        collection_resource_plural: Ресурси
+        collection_accession_singular: Приєднання
+        collection_accession_plural: Приєднання
+        collection_resource_linker:
+          browse: Переглянути ресурси
+          create: Створити ресурс
+          link_title: Посилання на ресурс
+        collection_accession_linker:
+          browse: Переглянути приєднання
+          create: Створити приєднання
+          link_title: Посилання на приєднання
+        series: Серія
+        current_location: Поточне місцезнаходження
+        keyword_criteria: Ключове слово
+        barcodes_criteria: Штрих-код(и)
+        exported_to_ils_true: Так
+        exported_to_ils_false: Ні
+        empty: Непов'язані контейнери
+        empty_true: Так
+        empty_false: Ні
+        search: Пошук
+        update_ils_holding_ids: Оновити ідентифікатори зберігання ILS
+        update_ils_holding_ids_help: Введіть значення для ідентифікатора 
+          зберігання ILS для всіх вибраних контейнерів. Залиште це поле 
+          порожнім, щоб видалити поточне значення, не замінюючи його іншим.
+        update_container_profiles: Оновити профілі контейнерів
+        update_container_profiles_help: Виберіть профіль контейнера для всіх 
+          вибраних контейнерів. Залиште це поле порожнім, щоб видалити поточне 
+          значення без заміни його іншим значенням.
+        update_locations_singular: 'Оновити розташування: одне розташування'
+        update_locations_singular_help: Виберіть розташування для всіх вибраних 
+          контейнерів. Залиште це поле порожнім, щоб видалити поточне значення 
+          без заміни його іншим значенням.
+        update_locations_multiple: 'Оновити розташування: Кілька розташування'
+        update_locations_multiple_help: Виберіть розташування для кожного 
+          вибраного контейнера. Залиште це поле порожнім, щоб видалити поточне 
+          значення, не замінюючи його іншим значенням.
+        rapid_indicator_entry: Індикатори оновлення
+        rapid_indicator_entry_new_indicator: Новий індикатор
+        rapid_indicator_entry_help: Введіть індикатор для кожного вибраного 
+          контейнера. Залиште поле «Новий індикатор» порожнім, щоб залишити його
+          без змін.
+        rapid_barcode_entry: Швидке введення штрих-коду
+        rapid_barcode_entry_existing_barcode: Існуючий штрих-код
+        rapid_barcode_entry_new_barcode: Новий штрих-код
+        rapid_barcode_entry_help: Введіть штрих-код для кожного вибраного 
+          контейнера. Залиште поле «Новий штрих-код» порожнім, щоб видалити 
+          поточний штрих-код, не замінюючи його новим значенням.
+        batch_merge: Об'єднати верхні контейнери
+        batch_merge_instructions: Виберіть верхній контейнер, у який будуть 
+          об’єднані всі інші перелічені верхні контейнери. Пов’язані приєднання,
+          ресурси, компоненти ресурсів та події будуть повторно пов’язані з цим 
+          контейнером. Профілі контейнерів будуть переміщені до цього 
+          контейнера, лише якщо в ньому ще немає профілів. Розташування та вся 
+          інша інформація для інших верхніх контейнерів буде видалена.
+        batch_merge_confirm: Підтвердити об'єднання верхніх контейнерів
+        batch_merge_confirm_question: Ви впевнені, що хочете об'єднати верхні 
+          контейнери, як зазначено нижче? Цю дію неможливо скасувати.
+        batch_merge_container_profile_too_many_warning: Ці верхні контейнери 
+          мають різні профілі контейнерів. Жоден із цих профілів контейнерів не 
+          об’єднається з контейнером призначення об’єднання.
+        batch_merge_container_profile_mismatch_warning: Ці верхні контейнери 
+          мають інший профіль контейнера, ніж верхній контейнер місця 
+          призначення злиття. Профіль контейнера не буде об'єднано з контейнером
+          місця призначення злиття.
+        batch_merge_confirm_merge_candidates: "Об'єднати наступні верхні контейнери:"
+        batch_merge_confirm_merge_destination: 'У цей верхній контейнер:'
+        batch_delete: Видалити верхні контейнери
+        batch_delete_help: Видалити всі вибрані контейнери.
+        update_n_records: Оновити %{n} записів
+        select_merge_destination: Виберіть місце призначення об'єднання
+        merge_n_records: Об'єднати %{n} записів
+        delete_n_records: Видалити %{n} записів
+        update_locations_current_location: Поточне місцезнаходження
+        update_locations_new_location: Нове місцезнаходження
+        has_location_true: Так
+        has_location_false: Ні
+    linker:
+      browse: Переглянути найкращі контейнери
+      create: Створити верхній контейнер
+      link_title: Посилання на верхній контейнер
+  shortcuts:
+    quick_reference_window: 'Короткий довідник: Сполучення клавіш'
+    actions:
+      this_reference: Це посилання на скорочення
+      close_modal: Закрити модальне вікно (наприклад, це)
+      toggle_shortcuts: Увімкнути/вимкнути комбінації клавіш
+      save_record: Збережіть запис, що редагується
+      close_record: Закриття запису, що редагується
+      open_browse: Відкрити меню «Огляд»
+      open_create: Відкрити меню «Створити»
+  instance_container:
+    container: Контейнер
+  container_profile:
+    _singular: Профіль контейнера
+    _plural: Профілі контейнерів
+    _frontend:
+      action:
+        save: Зберегти профіль контейнера
+        edit: Редагувати профіль контейнера
+        create: Створити профіль контейнера
+        space_calculator: Космічний калькулятор
+      messages:
+        created: Профіль контейнера створено
+        updated: Профіль контейнера оновлено
+        merged: Об'єднані профілі контейнерів
+      section:
+        basic_information: Основна інформація
+      bulk_operations:
+        merge: Об'єднання профілів контейнерів
+        merge_instructions: Виберіть профіль контейнера, в який буде об’єднано 
+          всі інші перелічені профілі контейнера. Будь-які пов’язані записи 
+          будуть повторно пов’язані з цим профілем, а всю інформацію для інших 
+          профілів контейнера буде видалено.
+        merge_select_merge_destination: Виберіть місце призначення об'єднання
+        confirm_merge: Підтвердити об'єднання профілів контейнерів
+        confirm_merge_question: Ви впевнені, що хочете об’єднати профілі 
+          контейнерів, як зазначено нижче? Цю дію неможливо скасувати.
+        confirm_merge_candidates: "Об'єднати наступні профілі контейнерів:"
+        confirm_merge_destination: 'У цей профіль контейнера:'
+    notes: Примітка
+    notes_tooltip: |
+      <p>Примітка щодо різноманітної інформації/метаданих.</p>
+    name: Ім'я
+    name_tooltip: |
+      <p>ОБОВ'ЯЗКОВЕ ПОЛЕ. Назва профілю контейнера. Може бути загальною або конкретною.</p>
+      <p>Приклади:</p>
+      <ul>
+      <li>скринька для документів</li>
+      <li>Сторінка 15</li>
+      <li>маленька скринька для карток</li>
+      </ul>
+    url: URL-адреса
+    url_tooltip: |
+      <p>Гіперпосилання на зовнішній опис контейнера.</p>
+    dimension_units: Одиниці виміру
+    dimension_units_tooltip: |
+      <p>Одиниця вимірювання для розмірів.</p>
+      <p>Значення в цьому списку контрольованих значень можуть бути змінені.</p>
+    extent_dimension: Вимір протяжності
+    extent_dimension_tooltip: |
+      <p>Розмір, що використовується для розрахунку та визначення розміру протяжності матеріалів у контейнері. Це допомагає визначити, який розмір буде виміряно калькулятором протяжності.</p>
+    extent_dimension_depth: Глибина
+    extent_dimension_depth_tooltip: |
+      <p>Числове значення глибини (розмір від передньої до задньої частини) контейнера.</p>
+    extent_dimension_height: Висота
+    extent_dimension_height_tooltip: |
+      <p>Числове значення висоти (розмір зверху вниз) контейнера.</p>
+    extent_dimension_width: Ширина
+    extent_dimension_width_tooltip: |
+      <p>Числове значення ширини (розмір від борта до борта) контейнера.</p>
+    depth: Глибина
+    depth_tooltip: |
+      <p>Числове значення глибини (розмір від передньої до задньої частини) контейнера.</p>
+    height: Висота
+    height_tooltip: |
+      <p>Числове значення висоти (розмір зверху вниз) контейнера.</p>
+    width: Ширина
+    width_tooltip: |
+      <p>Числове значення ширини (розмір від борта до борта) контейнера.</p>
+    stacking_limit: Ліміт укладання
+    stacking_limit_tooltip: |
+      <p>Кількість цих контейнерів, які можна поставити один на одного. Залиште поле порожнім, якщо немає обмеження. Має бути додатним цілим числом.</p>
+    linker:
+      browse: Переглянути профілі контейнерів
+      create: Створити профіль контейнера
+      link_title: Посилання на профіль контейнера
+  rights_restriction:
+    begin: Початок обмеження
+    begin_tooltip: |
+      <p>Для обмеження з обмеженим часом – дата початку обмеження доступу. Має бути одна дата у форматі РРРР-ММ-ДД. Буде від’єднано від контейнерів після закінчення терміну дії. Використовуйте текст примітки, щоб вказати менш точну дату або проміжок часу.</p>
+    end: Кінець обмеження
+    end_tooltip: |
+      <p>Для обмеження з обмеженим часом – кінцева дата обмеження доступу. Має бути одна дата у форматі РРРР-ММ-ДД. Буде від’єднано від контейнерів після закінчення терміну дії. Використовуйте текст примітки, щоб вказати менш точну дату або проміжок часу.</p>
+    local_access_restriction_type: Тип обмеження локального доступу
+    local_access_restriction_type_inline_help: Утримуйте клавішу CTRL (Windows) 
+      / Command (Mac), щоб вибрати кілька опцій або скасувати вибір опції
+    local_access_restriction_type_tooltip: |
+      <p>Для обмежень, що не обмежені часом, вказівка причини обмеження.</p>
+      <p>Значення в цьому Списку контрольованих значень можуть бути змінені.</p>
+    linked_records: Зв'язаний запис
+    restriction_note_type: Тип примітки
+  extent_calculator:
+    no_object_message: Будь ласка, вкажіть об'єкт, для якого потрібно запустити 
+      калькулятор екстенту.
+    report_title: Звіт про розрахований ступінь
+    container_profile_header: Профіль контейнера
+    count_header: Кількість
+    extent_header: Ступінь
+    no_profile: <span class="text-error">НЕМАЄ ПРОФІЛЮ</span>
+    all_containers_label: Усі контейнери
+    timestamp_label: Звіт створено о
+    extent_record_header: Запис обсягу
+    create_extent: Створити екстент
+    calculate_extent: Обчислити протяжність
+    create_extent_record_message: Запустіть калькулятор протяжності в режимі 
+      редагування, щоб мати можливість створити запис протяжності на основі 
+      звіту.
+    waiting_for_report_message: Обчислення протяжності ...
+    required_fields_alert_message: Будь ласка, переконайтеся, що всі обов'язкові
+      поля містять значення.
+    container_summary_type:
+      _singular: контейнер
+      _plural: контейнери
+  location_profile:
+    _singular: Профіль місцезнаходження
+    _plural: Профілі місцезнаходження
+    _frontend:
+      action:
+        save: Зберегти профіль місцезнаходження
+        edit: Редагувати профіль місцезнаходження
+        create: Створити профіль місцезнаходження
+      messages:
+        created: Профіль місцезнаходження створено
+        updated: Профіль місцезнаходження оновлено
+        fields_required_for_calculator: Зверніть увагу, що для калькулятора 
+          простору потрібні одиниці вимірювання, глибина, висота та ширина. 
+          Розташування буде пропущено з результатів, якщо будь-яке з цих значень
+          відсутнє.
+      section:
+        basic_information: Основна інформація
+    name: Ім'я
+    dimension_units: Одиниці виміру
+    depth: Глибина
+    height: Висота
+    width: Ширина
+    linker:
+      browse: Переглянути профілі місцезнаходження
+      create: Створити профіль місцезнаходження
+      link_title: Посилання на профіль місцезнаходження
+  space_calculator:
+    modal_title: Космічний калькулятор
+    modal_loading: Завантаження...
+    message_container_profile_required: Для використання калькулятора простору 
+      потрібно встановити профіль контейнера.
+    message_locations_required: Для використання калькулятора простору потрібно 
+      встановити одне або декілька місць розташування.
+    message_select_locations: 'Перевірте наявність вільних місць у наступних місцях):'
+    message_no_locations_with_space: Не знайдено місць із вільним місцем
+    message_total_spaces: 'Загальна кількість доступних місць для цього типу контейнера:
+      %{total_spaces}'
+    message_total_containers: 'Загальна кількість контейнерів цього типу, знайдених
+      у цих місцях: %{total_containers}'
+    message_loading: Завантаження...
+    count: Доступний простір (контейнерного типу)
+    calculate_space: Перевірте наявність місця
+    locations_without_space_details: Оцініть місця без місця
+    by_locations: За місцем розташування
+    by_building: Будуючи
+    result_filter: Фільтрувати результати
+    summary:
+      locations_with_space: 'Місця з вільними місцями: <strong>%{count</strong>'
+      locations_without_space: 'Місця, де немає вільних місць: <strong>%{count</strong>'
+      uncalculatable_locations: 'Не вдалося обчислити: <strong>%{count</strong>'
+    view_all_toggle: Показати місця без місця
+    reason:
+      location_lacks_a_profile: У місця розташування немає профілю
+      location_lacks_dimension_data: У профілі місцезнаходження відсутні дані 
+        про розміри
+      container_is_bigger: Контейнер більший за розташування принаймні в одному 
+        вимірі
+      container_at_location_lacks_profile: Принаймні один із контейнерів, що 
+        зараз знаходяться на місці, не має профілю
+      containers_at_location_dont_fit: Контейнери, що зараз знаходяться на 
+        місці, не підходять
+      location_cannot_fit_container: Наразі це місце не підходить для 
+        контейнерів цього типу.
+  date_calculator:
+    toolbar_button: Обчислити дати
+    calculate_button: Обчислити запис дати
+    modal_title: Обчислити дати
+    all_labels: Розрахувати для всіх дат
+    no_object_message: Запис не знайдено
+    results_title: Запис розрахованої дати
+    create_date_button: Створити запис дати
+    generic_create_error: Дата недійсна та не може бути створена
+    create_success: Дата успішного створення. Оновлення сторінки...
+    no_dates: Не знайдено відповідних дат
+    no_dates_for_label: Не знайдено відповідних дат %{label}
+  act:
+    _frontend:
+      action:
+        add: Додати акт
+  bulk_archival_object_update_spreadsheet:
+    title: Створення електронної таблиці для масового архівування об'єктів
+    description: Скористайтеся формою нижче, щоб вибрати архівні об’єкти, які ви
+      хочете масово оновити.
+    selected_records: Вибрані записи
+    selected: Вибрано
+    record_title: Назва запису
+    column_types_to_include_in_spreadsheet: Типи стовпців, які потрібно включити
+      до електронної таблиці
+    note_types: Типи нотаток
+    minimum_subrecords: Мінімальна кількість підзаписів
+    minimum_subrecords_description: Мінімальна кількість уже існуючих підзаписів
+      кожного типу, які потрібно включити.
+    extra_subrecords: Додаткові підзаписи
+    extra_subrecords_description: Кількість нових підзаписів, які потрібно 
+      включити на додаток до найбільшої кількості існуючих підзаписів, що вже 
+      знайдені в будь-якому з вибраних записів.
+    minimum_notes: Мінімальні примітки
+    minimum_notes_description: Мінімальна кількість вже існуючих підзаписів 
+      нотаток кожного типу, які потрібно включити.
+    download_spreadsheet: Завантажити електронну таблицю
+    download_spreadsheet_modal_message: Створення цієї електронної таблиці може 
+      зайняти кілька хвилин.
+  assessment:
+    _frontend:
+      form_header: Оцінка %{display_string}
+      formats: Типи / Формати матеріалів
+      ratings: Рейтинги
+      conservation_issues: Проблеми збереження
+      record_types: Типи записів
+      action:
+        create: Створити оцінювання
+        save: Зберегти оцінку
+        add_rating_note: Додати примітку
+        remove_rating_note: Видалити нотатку
+        create_for_record: Створити оцінювання
+      section:
+        basic_information: Основна інформація
+        existing_description: Існуючий опис
+        rating_attributes: Інформація про оцінювання
+        rating_attributes_empty: Інформація про оцінювання не введена
+        rating_attributes_additional: Додатковий(і) рейтинг(и)
+        format_attributes: Список типів/форматів матеріалів
+        format_attributes_empty: Не введено типи/формати матеріалів
+        format_attributes_additional: Додаткові типи/формати матеріалів
+        conservation_issue_attributes: Проблеми збереження
+        conservation_issue_attributes_empty: Проблеми збереження не внесені
+        conservation_issue_attributes_additional: Додаткові питання охорони 
+          природи
+      messages:
+        created: Оцінювання створено
+        updated: Оцінка оновлена
+        deleted: Оцінювання видалено
+        attributes_hint: Будь ласка, зверніться до свого адміністратора, щоб 
+          додати додаткові %{attribute_type}
+        manage_attributes_hint: Керуйте додатковим %{attribute_type} для цього 
+          репозиторію
+      assessment_review_required:
+        true_value: Так
+        false_value: Ні
+      assessment_sensitive_material:
+        true_value: Так
+        false_value: Ні
+      assessment_inactive:
+        true_value: Так
+        false_value: Ні
+      assessment_completed:
+        true_value: Так
+        false_value: Ні
+      browse_reviewers: Рецензенти
+      linked_records:
+        heading: Пов'язані записи
+        loading: Завантаження...
+        linked_via_assessment_records: Оцінювання
+        linked_via_assessment_surveyed_by: Оцінювання - Опитування проводив(ла)
+        linked_via_assessment_reviewer: Оцінювання - Рецензент
+        record_type: Тип запису
+        title: Назва
+        identifier: Ідентифікатор
+      ratings_list:
+        rating: Рейтинг
+        score: Рахунок
+        note: Примітка
+  assessment_attribute_definitions:
+    _frontend:
+      title: Атрибути оцінювання
+      section:
+        formats: Типи / Формати матеріалів
+        ratings: Рейтинги
+        conservation_issues: Проблеми збереження
+      global: Глобальний %{type}
+      repository: Глобальний %{type}
+      action:
+        save: Зберегти атрибути оцінювання
+        add_type: Додати %{type}
+        find_rating: Знайти записи з рейтингом %{rating_type}
+        find_format: Знайти записи з типом/форматом матеріалу %{format_type}
+        find_issue: Знайти записи з проблемою збереження %{issue_type}
+        remove_rating: Видалити рейтинг %{rating_type}
+        remove_format: Видалити тип/формат матеріалу %{format_type}
+        remove_issue: Видалити проблему збереження %{issue_type}
+      messages:
+        updated: Атрибути оцінювання оновлено
+        error: Помилка оновлення атрибутів оцінювання
+        conflict: 'Помилка оновлення атрибутів оцінювання. Наступні мітки конфліктують
+          з існуючими записами: %{conflicts}'
+        attribute_in_use: Не вдається видалити атрибут, який наразі 
+          використовується оцінюванням
+      database_value: Значення бази даних
+      translation: Переклад
+  custom_report_template:
+    new_title: Новий шаблон користувацького звіту
+    _frontend:
+      section:
+        template_information: Інформація про шаблон
+        basic_information_fields: Основні інформаційні поля
+        linked_records: Пов'язані записи
+        sort_by: Сортувати звіт за
+      action:
+        create: Створити шаблон
+        save: Зберегти шаблон
+        search_usernames: Пошук імен користувачів
+      messages:
+        copied: Шаблон спеціального звіту скопійовано
+        created: Шаблон спеціального звіту створено
+        updated: Шаблон спеціального звіту оновлено
+  oai_config:
+    title: Налаштування OAI-PMH
+    title_repo_section: Налаштування OAI-PMH для кожного репозиторію
+    general_section: Загальні налаштування
+    repo_set_section: Набір репозиторію
+    sponsor_set_section: Набір спонсора
+    repo_set_desc: Окрім наборів на основі рівня опису, ви можете визначити 
+      набір OAI на основі репозиторіїв.
+    sponsor_set_desc: Окрім наборів на основі рівня опису, ви можете визначити 
+      набір OAI на основі імен спонсорів.
+    oai_record_prefix: Префікс запису OAI
+    oai_admin_email: Електронна пошта адміністратора OAI
+    oai_repository_name: Назва репозиторію OAI
+    repo_set_name: Назва набору репозиторію
+    repo_set_codes: Репозиторії в наборі
+    repo_set_description: Опис набору репозиторію
+    sponsor_set_name: Назва набору спонсора
+    sponsor_set_names: Імена спонсорів
+    sponsor_set_description: Опис набору спонсора
+    oai_leave_repo_form: Ці опції впливають на OAI-PMH лише для цього 
+      репозиторію. Натисніть нижче, щоб переглянути/редагувати глобальні опції 
+      OAI. Це призведе до збереження поточної форми без зміни.
+    _frontend:
+      section:
+        basic_information: Загальні налаштування
+      action:
+        create: Оновлення налаштувань OAI-PMH
+        updated: Налаштування OAI-PMH успішно оновлено!
+    _sidebar:
+      repo_set_section:
+        _plural: Набори репозиторіїв
+      sponsor_set_section:
+        _plural: Набори спонсорів
+      repo_settings:
+        _plural: Налаштування OAI-PMH для кожного репозиторію
+  agent_record_control:
+    _plural: Інформація про запис
+    _singular: Інформація про запис
+    _frontend:
+      action:
+        add: Додати інформацію про запис
+    maintenance_status: Стан ведення контролю записів
+    publication_status: Стан публікації контролю записів
+    romanization: романізація
+    government_agency_type: Тип державного органу з контролю за записами
+    reference_evaluation: Оцінювання посилань на контроль записів
+    name_type: Тип назви елемента керування записами
+    level_of_detail: Рівень деталізації контролю записів
+    modified_record: Змінений тип елемента керування записами
+    cataloging_source: Джерело каталогізації контролю записів
+    maintenance_agency: Агентство з технічного обслуговування
+    agency_name: Назва агентства
+    maintenance_agency_note: Примітка агентства з технічного обслуговування
+    language: Мова
+    script: Сценарій
+    language_note: Примітка щодо мови
+  place:
+    _plural: Місця
+    _frontend:
+      action:
+        add: Додати місце
+  agent_alternate_set:
+    _plural: Альтернативні набори
+    _singular: Альтернативний набір
+    _frontend:
+      action:
+        add: Додати альтернативний набір
+    set_component: Встановити компонент
+    descriptive_note: Описова примітка
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
+  agent_conventions_declaration:
+    _plural: Декларації Конвенції
+    _singular: Декларація Конвенції
+    _frontend:
+      action:
+        add: Додати декларацію Конвенції
+    name_rule: Конвенція
+    citation: Цитування
+    descriptive_note: Описова примітка
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
+  agent_other_agency_code:
+    _plural: Інші коди агентств
+    _singular: Код іншого агентства
+    _frontend:
+      action:
+        add: Додати код агентства
+    agency_code_type: Тип коду агентства з контролю за записами
+    maintenance_agency: Агентство з технічного обслуговування
+  agent_maintenance_history:
+    _plural: Історія технічного обслуговування
+    _singular: Історія обслуговування агента
+    _frontend:
+      action:
+        add: Додати подію
+    maintenance_event_type: Тип події технічного обслуговування контролю записів
+    maintenance_agent_type: Тип агента з обслуговування контролю записів
+    agent: Агент
+    descriptive_note: Описова примітка
+    event_date: Дата події
+  agent_source:
+    _plural: Джерела
+    _singular: Джерело агента
+    _frontend:
+      action:
+        add: Додати джерело
+    source_entry: Запис джерела
+    descriptive_note: Описова примітка
+    file_uri: URI файлу
+    xlink_title_attribute: Атрибут заголовка Xlink
+    xlink_role_attribute: Атрибут ролі Xlink
+    xlink_arcrole_attribute: Атрибут Xlink Arcrole
+    file_version_xlink_actuate_attribute: Атрибут активації Xlink
+    file_version_xlink_show_attribute: Атрибут Xlink Show
+    last_verified_date: Дата останньої перевірки
+  agent_parallel_name:
+    _plural: Паралельні назви
+    use_dates: Використовуйте дати
+  agent_name:
+    use_dates: Використовуйте дати
+  subsections:
+    notes: Нотатки
+    dates: Дати
+  section_headings:
+    basic_information_tooltip: |
+      <p>У цьому розділі вказується тип агента та чи опубліковано агента.</p>
+    record_control_information_tooltip: |
+      <p>Цей розділ містить інформацію про сам запис, з урахуванням того, що він виник поза межами ArchivesSpace або буде передано системі, відмінній від ArchivesSpace.</p>
+    identity_information_tooltip: |
+      <p>Цей розділ містить основну інформацію про самого агента/агентку. Форма імені – єдиний обов’язковий підзапис у записі агента.</p>
+    description_information_tooltip: |
+      <p>Цей розділ містить основну інформацію про самого агента/агентку. Форма імені – єдиний обов’язковий підзапис у записі агента.</p>
+    relation_information_tooltip: |
+      <p>Цей розділ використовується для позначення зв'язків з іншими агентами або матеріалами всередині або за межами ArchivesSpace.</p>
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: Виберіть файл
+        add_archival_objects: Імпорт архівних об'єктів
+        add_digital_objects: Додавання цифрових об'єктів до архівних об'єктів
+        import: Імпорт з електронної таблиці
+        drag_drop: Перетягніть файл сюди
+        clip_btn: Копіювати в буфер обміну
+        only_validate: Тільки перевірка
+        link_top_containers: Контейнери з посиланнями Top
+      messages:
+        missing_file: Ви не додали файл
+        not_excel: Вибраний вами файл не є електронною таблицею Excel
+        not_excel_csv: Вибраний вами елемент керування fileRecord не є ні 
+          електронною таблицею Excel, ні файлом CSV.
+        processed: Файл оброблено
+        error: 'ПОМИЛКА: Виявлено помилку(и): '
+        copied: Скопійовано!
+        uncopied: Не вдалося скопіювати
+        submitted: <p>Завдання було надіслано до фонових завдань. <br/> 
+          Натисніть «Закрити», щоб оновити цей екран.</p>
+  bulk_import_job:
+    active: "Для цього запису активне завдання масового імпорту, спробуйте відредагувати
+      пізніше: <a href ='%{url}'>%{uri}<a>"
+    resource_id: Ідентифікатор ресурсу
+    format: Формат файлу завантаження
+    filename: Ім'я файлу електронної таблиці
+    not_direct: Наразі це завдання можна створити лише із запису ресурсу
+  bulk_archival_object_updater_job:
+    _singular: Завдання оновлення об'єктів масового архівування електронних 
+      таблиць
+    create_missing_top_containers: Створення відсутніх верхніх контейнерів
+  bulk_import_templates:
+    overview: |
+      <p>Це шаблони для завантаження даних електронних таблиць до ArchivesSpace за допомогою різних параметрів імпорту в області «Фонові завдання». Дані, необхідні для успішного імпорту, залежать від типу створюваного запису. Вам не потрібно заповнювати кожен рядок і стовпець.</p><p>Кожен шаблон CSV містить рядок зразків даних. Якщо ви не хочете створити запис зі зразками даних, видаліть зразки даних перед завантаженням електронної таблиці. <b>Не видаляйте рядок заголовка, не додавайте додаткові стовпці та не змінюйте порядок існуючих стовпців.</b></p><p>Шаблони Excel містять додаткові інструкції щодо використання шаблонів та перевірок для певних комірок. Не видаляйте інструкції чи перевірки.</p>
+    aspace_accession_import_template_csv: Створюйте записи про приєднання та 
+      записи, пов'язані з приєднаннями, такими як агенти, суб'єкти та події.
+    aspace_digital_object_import_template_csv: Створюйте записи цифрових 
+      об'єктів та записи, пов'язані з цифровими об'єктами, такими як агенти, 
+      суб'єкти та події.
+    bulk_import_template_csv: Створення архівних об'єктів, приєднаних до 
+      існуючого ресурсу. Містить опцію створення багатьох різних підзаписів та 
+      пов'язаних записів, включаючи дати, екстенти, нотатки, контейнери та 
+      цифрові об'єкти. Формат CSV призначений для тих, хто не має доступу до 
+      Microsoft Excel.
+    bulk_import_template_xlsx: Створення архівних об'єктів, приєднаних до 
+      існуючого ресурсу. Містить опцію створення багатьох різних підзаписів та 
+      пов'язаних записів, включаючи дати, екстенти, примітки, контейнери та 
+      цифрові об'єкти. Формат XLSX призначений для тих, хто має доступ до 
+      Microsoft Excel.
+    bulk_import_DO_template_csv: Створюйте та пов’язуйте цифрові об’єкти з 
+      існуючими архівними об’єктами в ресурсі. Формат CSV призначений для людей,
+      які не мають доступу до Microsoft Excel.
+    bulk_import_DO_template_xlsx: Створюйте та пов’язуйте цифрові об’єкти з 
+      існуючими архівними об’єктами в ресурсі. Формат XLSX призначений для тих, 
+      хто має доступ до Microsoft Excel.
+    aspace_location_import_template_csv: Створення нових записів про 
+      місцезнаходження. Зверніть увагу, що цей шаблон призначений для створення 
+      самих записів про місцезнаходження, а не для зв’язування матеріалів із 
+      місцезнаходженнями.
+    aspace_assessment_import_template_csv: Створюйте та пов’язуйте оцінювання з 
+      існуючими примірниками, ресурсами, архівними або цифровими об’єктами.
+    aspace_subject_import_template_csv: Створення нових записів тем. Зверніть 
+      увагу, що цей шаблон призначений для створення самих записів тем, а не для
+      їх зв’язування з іншими записами.

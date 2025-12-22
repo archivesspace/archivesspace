@@ -77,7 +77,6 @@ de:
       linked_agent_roles: Verknüpfte Agentenrollen
       notes_published: Anmerkungen
       finding_aid_title: Titel des Findmittels
-      finding_aid_filing_title: Findmittel Ablagetitel
       instance_type_enum_s: Exemplar-Typ
       acquisition_type: Beschaffungs-Art
     result: Ergebnis
@@ -509,11 +508,7 @@ de:
 
   languages:
     select: Sprache auswählen
-    en: Englisch
-    es: Spanisch
-    fr: Französisch
-    de: Deutsch
-    ja: Japanisch
+  
   pdf_error:
     title: Die Erzeugung der PDF Datei ist fehlgeschlagen.
     description: Es tut uns leid, aber es gab einen Fehler beim Erstellen dieses PDF-Findmittels. 

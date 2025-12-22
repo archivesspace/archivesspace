@@ -485,6 +485,7 @@ class IndexerCommon
       if doc['primary_type'] == 'repository'
         doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
+        doc['title_sort'] = clean_for_sort(record['record']['display_string'])
         doc['repo_sort'] = record['record']['display_string']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
@@ -867,6 +868,7 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'container_profile'
         doc['title'] = record['record']['display_string']
+        doc['title_sort'] = clean_for_sort(record['record']['display_string'])
         doc['display_string'] = record['record']['display_string']
         doc['note'] = record['record']['note']
 
@@ -891,6 +893,7 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'location_profile'
         doc['title'] = record['record']['display_string']
+        doc['title_sort'] = clean_for_sort(record['record']['display_string'])
         doc['display_string'] = record['record']['display_string']
 
         ['width', 'height', 'depth'].each do |property|
@@ -974,13 +977,13 @@ class IndexerCommon
         doc['assessment_surveyors'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['_resolved']['title']}
         doc['assessment_survey_begin'] = "#{record['record']['survey_begin']}T00:00:00Z"
         doc['assessment_survey_end'] = "#{record['record']['survey_end']}T00:00:00Z" if record['record']['survey_end']
-        doc['assessment_review_required'] = record['record']['review_required']
-        doc['assessment_sensitive_material'] = record['record']['sensitive_material']
+        doc['assessment_review_required'] = record['record']['review_required'] || false
+        doc['assessment_sensitive_material'] = record['record']['sensitive_material'] || false
         if (ASUtils.wrap(record['record']['reviewer']).length > 0)
           doc['assessment_reviewer_uris'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['ref']}
           doc['assessment_reviewers'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['_resolved']['title']}
         end
-        doc['assessment_inactive'] = record['record']['inactive']
+        doc['assessment_inactive'] = record['record']['inactive'] || false
 
         doc['assessment_survey_year'] = IndexerCommon.generate_years_for_date_range(record['record']['survey_begin'], record['record']['survey_end'])
 
@@ -1105,6 +1108,7 @@ class IndexerCommon
     repo_id = get_record_scope(uri)
 
     return false if (repo_id == "global")
+    return false if values['repository'].nil? || values['repository']['_resolved'].nil?
 
     values['repository']['_resolved']['publish'] == false
   end

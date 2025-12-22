@@ -198,4 +198,14 @@ describe 'Location batch', js: true do
     expect(elements[1].text).to include "Building 2 BBB #{now}"
     expect(elements[2].text).to include "Building 3 CCC #{now}"
   end
+
+  it 'displays two submit buttons including createPlusOneBtn' do
+    click_on 'Browse'
+    click_on 'Locations'
+    click_on 'Create Batch Locations'
+
+    expect(page).to have_css('#createPlusOne.createPlusOneBtn', count: 2) # Multiple ids, see ANW-2576
+    expect(page).to have_css('#archivesSpaceSidebar .createPlusOneBtn')
+    expect(page).to have_css('.record-pane .createPlusOneBtn')
+  end
 end

@@ -5,7 +5,7 @@ version: '3.8'
 services:
   db1:
     container_name: as_dev_db
-    image: mysql:8.0
+    image: mysql:8
     command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
       - "3306:3306"
@@ -16,7 +16,7 @@ services:
       - ./build/mysql_db_fixtures:/docker-entrypoint-initdb.d
   db2:
     container_name: as_test_db
-    image: mysql:8.0
+    image: mysql:8
     command: --character-set-server=UTF8MB4 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
       - "3307:3306"

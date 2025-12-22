@@ -367,11 +367,7 @@ it:
     file_uri: File URI
   languages:
     select: Seleziona lingua
-    en: Inglese
-    es: Spagnolo
-    fr: Francese
-    de: Tedesco
-    ja: Giapponese
+  
   pdf_error:
     location:
       location_title_page: Un errore si è verificato durante la generazione della pagina del titolo.

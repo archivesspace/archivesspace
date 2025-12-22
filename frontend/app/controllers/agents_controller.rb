@@ -258,12 +258,6 @@ class AgentsController < ApplicationController
       return
     end
 
-    if !user_can?('view_agent_contact_record') && (@agent.agent_contacts.any? || @merge_candidate.agent_contacts.any?)
-      flash[:error] = t('errors.merge_restricted_contact_details')
-      redirect_to({ action: :show, id: params[:id] })
-      return
-    end
-
     render '_merge_selector'
   end
 
@@ -283,26 +277,26 @@ class AgentsController < ApplicationController
     if params['dry_run']
       uri += '?dry_run=true'
       response = JSONModel::HTTP.post_json(URI(uri), request.to_json)
-      merge_response = ASUtils.json_parse(response.body)
 
-      @agent = JSONModel(@agent_type).from_hash(merge_response['result'], find_opts)
-      render_aspace_partial partial: 'agents/merge_preview', locals: { object: @agent }
+      if response.code == '409'
+        flash[:error] = t('errors.merge_conflict', message: ASUtils.json_parse(response.body)['error'])
+        return redirect_to({ action: :show, id: params[:id] })
+      else
+        merge_response = ASUtils.json_parse(response.body)
+
+        @agent = JSONModel(@agent_type).from_hash(merge_response['result'], find_opts)
+        render_aspace_partial partial: 'agents/merge_preview', locals: { object: @agent }
+      end
     else
-      begin
-        response = JSONModel::HTTP.post_json(URI(uri), request.to_json)
+      response = JSONModel::HTTP.post_json(URI(uri), request.to_json)
 
+      if response.code == '409'
+        flash[:error] = t('errors.merge_conflict', message: ASUtils.json_parse(response.body)['error'])
+        return redirect_to({ action: :show, id: params[:id] })
+      else
         flash[:success] = t('agent._frontend.messages.merged')
         resolver = Resolver.new(request.merge_destination['ref'])
         redirect_to(resolver.view_uri)
-      rescue ValidationException => e
-        flash[:error] = e.errors.to_s
-        redirect_to({ action: :show, id: params[:id] }.merge(extra_params))
-      rescue ConflictException => e
-        flash[:error] = t('errors.merge_conflict', message: e.conflicts)
-        redirect_to({ action: :show, id: params[:id] }.merge(extra_params))
-      rescue RecordNotFound => e
-        flash[:error] = t('errors.error_404')
-        redirect_to({ action: :show, id: params[:id] }.merge(extra_params))
       end
     end
   end

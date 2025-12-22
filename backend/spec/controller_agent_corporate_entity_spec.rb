@@ -1,7 +1,9 @@
 require 'spec_helper'
 require 'agent_spec_helper'
+require_relative 'agent_contact_permission_shared_examples'
 
 describe 'Corporate entity agent controller' do
+  include_examples "agent contact permissions", :agent_corporate_entity, :json_agent_corporate_entity, :json_name_corporate_entity
 
   def create_corporate_entity(opts = {})
     create(:json_agent_corporate_entity, opts)

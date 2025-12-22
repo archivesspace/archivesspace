@@ -1,5 +1,7 @@
 # ArchivesSpace End-to-End Test Suite
 
+For a detailed presentation of the End-to-End test suite, how it works, how to use and contribute to it, see our [wiki-page](https://archivesspace.atlassian.net/wiki/spaces/ADC/pages/4606590990/How+to+contribute+End+to+End+test+scenarios).
+
 ## Recommended setup
 
 ### Using a Ruby version manager

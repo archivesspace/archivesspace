@@ -824,27 +824,43 @@ it:
       issued: Emesso
       modified: Modificato
     event_event_type:
-      deaccession: Deaccessione
+      accession: Accesso
+      accumulation: Accumulo
+      acknowledgement: Riconoscimento
+      acknowledgement_received: Riconoscimento ricevuto
+      acknowledgement_sent: Riconoscimento inviato
       agreement_received: Accordo ricevuto
       agreement_sent: Accordo inviato
-      appraisal: Valutazione
       agreement_signed: Accordo firmato
+      appraisal: Valutazione
+      assessment: Valutazione
+      capture: Cattura
+      cataloged: Catalogato
       collection: Collezione
+      component_transfer: Trasferimento componenti
       compression: Compressione
       contribution: Contributo
       copyright_transfer: Trasferimento del copyright
       custody_transfer: Trasferimento della custodia
-      deletion: Eliminazione
+      deaccession: Deaccessione
       decompression: Decompressione
       decryption: Decriptazione
+      deletion: Eliminazione
+      digital_signature_validation: Convalida della firma digitale
+      fixity_check: Controllo integrità
+      ingestion: Ingestione
+      message_digest_calculation: Calcolo digest messaggio
+      migration: Migrazione
       normalization: Normalizzazione
       processed: Processato
-      migration: Migrazione
-      replication: Riproduzione
+      processing_completed: Elaborazione completata
+      processing_in_progress: Elaborazione in corso
+      processing_new: Nuova elaborazione
+      processing_started: Elaborazione iniziata
       publication: Pubblicazione
-      request: ''
-      cataloged: Catalogato
-      digital_signature_validation: Convalida della firma digitale
+      replication: Riproduzione
+      request: Richiesta
+      rights_transferred: Diritti trasferiti
       validation: Convalida
       virus_check: Ispezione per i virus
     level_of_detail:

@@ -19,7 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   Endpoint.post('/locations/batch_update')
-  .description("Update a Location")
+  .description("Update a Batch of Locations")
   .params( ["location_batch_update", JSONModel(:location_batch_update), "The location batch data to update all locations", :body => true])
   .permissions([:update_location_record])
   .returns([200, :updated]) \

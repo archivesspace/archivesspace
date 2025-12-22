@@ -13,8 +13,7 @@ describe 'User Preferences', js: true do
   end
 
   before(:each) do
-    admin_user = BackendClientMethods::ASpaceUser.new('admin', 'admin')
-    login_user(admin_user)
+    login_admin
     select_repository(@repository)
   end
 
@@ -128,6 +127,28 @@ describe 'User Preferences', js: true do
     element = all('table thead tr th')
     expect(element[4]).to have_text 'Dates'
     expect(element[5]).to have_text 'Extent'
+  end
+
+  it 'displays [no value] correctly when inherited from Global preferences (ANW-1696)' do
+    set_browse_column_preference('accession', 5, '[no value]', scope: :global)
+    expect(page).to have_text 'Preferences updated'
+
+    find('#user-menu-dropdown').click
+    click_on 'Default Repository Preferences'
+    select_element = find('#preference_defaults__accession_browse_column_5_')
+    first_option = select_element.find('option[value=""]')
+    expect(first_option.text).to eq('> Accept Default: [no value]')
+    expect(page).not_to have_content('translation_missing')
+
+    find('#user-menu-dropdown').click
+    click_on 'Repository Preferences (admin)'
+    select_element = find('#preference_defaults__accession_browse_column_5_')
+    first_option = select_element.find('option[value=""]')
+    expect(first_option.text).to eq('> Accept Default: [no value]')
+    expect(page).not_to have_content('translation_missing')
+
+    reset_browse_column_preferences('accession', { 5 => '[no value]' }, scope: :global)
+    expect(page).to have_text 'Preferences updated'
   end
 end
 

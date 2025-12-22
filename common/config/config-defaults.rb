@@ -129,8 +129,9 @@ AppConfig[:default_page_size] = 10
 AppConfig[:max_boolean_queries] = 1024 # ArchivesSpace Solr default
 AppConfig[:max_page_size] = 250
 
-# An option to change the length of the abstracts on the collections overview page
-# If your Scope & Contents notes are very long you can increase this to show more
+# An option to change the length of the note snippets on the collections browse/search pages on the PUI
+# Note that while this configuration is labeled abstract, it is not specifically referring to the archival description note "Abstract"
+# Reference the configuration option AppConfig[:pui_readmore_max_characters] to control note truncation on the collection overview page
 AppConfig[:abstract_note_length] = 500
 
 # A prefix added to cookies used by the application.
@@ -529,7 +530,9 @@ AppConfig[:pui_collection_org_sidebar_position] = 'left'
 # Whether to display archival record identifiers in the PUI collection organization tree
 AppConfig[:pui_display_identifiers_in_resource_tree] = false
 
-# The number of characters to truncate before showing the 'Read More' link on notes
+# The number of characters to truncate before showing the 'Read More' link on notes on the collection overview page on the PUI
+# If your Scope & Contents notes are very long you can increase this to show more
+# Reference the configuration option AppConfig[:abstract_note_length] to control note truncation on the collection browse/search pages
 AppConfig[:pui_readmore_max_characters] = 1000
 
 # Whether to expand all additional information blocks at the bottom of record pages by default. `true` expands all blocks, `false` collapses all blocks.

@@ -38,16 +38,29 @@ end
     <% url = result.uri %>
 <% end %>
 
-<%= (props.fetch(:full,false)? '<h1>' : '<h3>').html_safe %>
-  <% if !props.fetch(:full,false) %>
+<%
+  if props.key?(:heading_level)
+    heading_level = props[:heading_level]
+  else
+    heading_level = props.fetch(:full, false) ? 1 : 2
+  end
+
+  h_open = heading_level == 1 ? '<h1>' : "<h#{heading_level} class='h3 mb-0'>"
+  h_close = "</h#{heading_level}>"
+
+  raw_title = props.fetch(:infinite_item, false) ? result.parse_full_title(true) : result.display_string
+  processed_title = process_mixed_content(raw_title)
+%>
+
+<%= h_open.html_safe %>
+  <% unless heading_level == 1 %>
     <a class="record-title" href="<%= app_prefix(url) %>">
-      <%== props.fetch(:infinite_item, false) ? process_mixed_content(result.parse_full_title(true)) : process_mixed_content(result.display_string) %>
+      <%== processed_title %>
     </a>
   <% else %>
-    <%== process_mixed_content(result.display_string)%>
+    <%== processed_title %>
   <% end %>
-<%= (props.fetch(:full,false)? '</h1>' : '</h3>').html_safe %>
-
+<%= h_close.html_safe %>
 
 <div class="badge-and-identifier">
   <div class="record-type-badge <%= (result.primary_type.start_with?('agent') ? 'agent' : result.primary_type) %>">

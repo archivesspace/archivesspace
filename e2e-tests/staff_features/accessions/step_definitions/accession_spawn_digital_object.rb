@@ -13,6 +13,7 @@ end
 
 Then 'the Create Digital Object modal is displayed' do
   expect(page).to have_css '#accession_instances__0__digital_object__ref__modal'
+  wait_for_ajax
 end
 
 Then 'the Digital Object title is filled in with the Accession Title' do
