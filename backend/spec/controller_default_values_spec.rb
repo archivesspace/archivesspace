@@ -14,6 +14,16 @@ describe 'Default Values' do
       }
     }
 
+  let(:container_profile_defaults) {
+    {
+      "record_type" => "container_profile",
+      "defaults" => {
+        "name" => "DEFAULT BOX",
+        "extent_dimension" => "width"
+      }
+    }
+  }
+
     it "can create a default value set for a record type and get it back" do
       uri = "/repositories/#{JSONModel.repository}/default_values/classification_terms"
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
