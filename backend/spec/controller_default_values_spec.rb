@@ -13,8 +13,7 @@ describe 'Default Values' do
         }
       }
     }
-  }
-
+  
   let(:container_profile_defaults) {
     {
       "record_type" => "container_profile",
@@ -35,6 +34,8 @@ describe 'Default Values' do
     defaults = JSONModel::HTTP.get_json(uri)
     expect(defaults['defaults']['creator']['_resolved']['title']).to eq(creator.title)
     expect(defaults['defaults']['linked_records'].first['_resolved']['title']).to eq(resource.title)
+  end
+
   end
 
   describe 'for Resources' do
