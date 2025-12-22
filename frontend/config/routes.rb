@@ -259,6 +259,8 @@ ArchivesSpace::Application.routes.draw do
     resources :rde_templates
     match 'rde_templates/batch_delete' => 'rde_templates#batch_delete', :via => [:post]
 
+    match 'container_profiles/defaults' => 'container_profiles#defaults', :via => [:get]
+    match 'container_profiles/defaults' => 'container_profiles#update_defaults', :via => [:post]
     resources :container_profiles
     match('container_profiles/search/typeahead' => 'container_profiles#typeahead', :via => [:get])
     match('container_profiles/bulk_operations/update_barcodes' => 'top_containers#update_barcodes', :via => [:post])

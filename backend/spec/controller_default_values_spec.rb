@@ -14,6 +14,16 @@ describe 'Default Values' do
       }
     }
 
+    let(:container_profile_defaults) {
+      {
+         "record_type" => "container_profile",
+         "defaults" => {
+           "name" => "DEFAULT BOX",
+           "extent_dimension" => "width"
+         }
+       }
+    }
+
     it "can create a default value set for a record type and get it back" do
       uri = "/repositories/#{JSONModel.repository}/default_values/classification_terms"
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
@@ -25,6 +35,7 @@ describe 'Default Values' do
       expect(defaults['defaults']['creator']['_resolved']['title']).to eq(creator.title)
       expect(defaults['defaults']['linked_records'].first['_resolved']['title']).to eq(resource.title)
     end
+
   end
 
   describe 'for Resources' do
@@ -143,6 +154,35 @@ describe 'Default Values' do
       defaults = JSONModel::HTTP.get_json(uri)
       expect(defaults['defaults']['language']).to eq("eng")
       expect(defaults['defaults']['script']).to eq("Latn")
+    end
+  end
+
+  it "can create and update default values for container profiles with different extent dimensions" do
+    uri = "/repositories/#{JSONModel.repository}/default_values/container_profile"
+    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+
+    response = JSONModel::HTTP.post_json(url, ASUtils.to_json(container_profile_defaults))
+
+    expect(response.status).to eq(200)
+
+    defaults = JSONModel::HTTP.get_json(uri)
+
+    aggregate_failures do
+      expect(defaults['defaults']['name']).to eq('DEFAULT BOX')
+      expect(defaults['defaults']['extent_dimension']).to eq('width')
+    end
+
+    defaults['defaults']['extent_dimension'] = 'height'
+
+    response = JSONModel::HTTP.post_json(url, ASUtils.to_json(defaults))
+
+    expect(response.status).to eq(200)
+
+    updated_defaults = JSONModel::HTTP.get_json(uri)
+
+    aggregate_failures do
+      expect(updated_defaults['defaults']['name']).to eq('DEFAULT BOX')
+      expect(updated_defaults['defaults']['extent_dimension']).to eq('height')
     end
   end
 end
