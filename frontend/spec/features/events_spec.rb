@@ -365,11 +365,10 @@ describe 'Events', js: true do
         include_context 'results table setup'
 
         let(:default_sort_key) { 'event_type' }
-        let(:sorting_in_url) { true }
         let(:primary_column_class) { 'event_type' }
         let(:additional_browse_columns) { { 5 => 'URI' } }
         let(:column_headers) { { 'Type' => 'event_type', 'Outcome' => 'outcome', 'URI' => 'uri' } }
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'event_type' => {
               asc: [record_1.event_type.titleize, record_2.event_type.titleize],
@@ -381,6 +380,46 @@ describe 'Events', js: true do
             },
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.event_type.titleize })
           }
+        end
+        # Uses same event_type ("virus_check") as record_2 but different outcome to create a tie
+        let(:record_3) { create(:event, event_type: 'virus_check', outcome: 'pass') }
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary outcome asc, secondary event_type asc - no-op since outcomes are unique
+              primary_key:   'outcome',
+              primary_dir:   :asc,
+              secondary_key: 'event_type',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_2.event_type.titleize,
+                record_1.event_type.titleize,
+                record_3.event_type.titleize
+              ],
+              expected_after_both: [
+                record_2.event_type.titleize,
+                record_1.event_type.titleize,
+                record_3.event_type.titleize
+              ]
+            },
+            {
+              # Case 2: primary event_type asc, secondary outcome desc - secondary changes order
+              primary_key:   'event_type',
+              primary_dir:   :asc,
+              secondary_key: 'outcome',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_1.event_type.titleize,
+                record_2.event_type.titleize,
+                record_3.event_type.titleize
+              ],
+              expected_after_both: [
+                record_1.event_type.titleize,
+                record_3.event_type.titleize,
+                record_2.event_type.titleize
+              ]
+            }
+          ]
         end
 
         it_behaves_like 'results table sorting'

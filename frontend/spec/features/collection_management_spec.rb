@@ -134,7 +134,6 @@ describe 'Collection Management', js: true do
         include_context 'results table setup'
 
         let(:default_sort_key) { 'title_sort' }
-        let(:sorting_in_url) { true }
         let(:primary_column_class) { 'parent_title' }
         let(:additional_browse_columns) do
           {
@@ -153,7 +152,7 @@ describe 'Collection Management', js: true do
             'URI' => 'uri'
           }
         }
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
            'title_sort' => {
               asc: [record_1.title, record_2.title],
@@ -181,6 +180,74 @@ describe 'Collection Management', js: true do
             },
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
           }
+        end
+        # Uses same processing_priority ("high") as record_2 to create a tie
+        let(:record_3) do
+          create(
+            :resource,
+            title: "Resource Z with Collection Management #{now}",
+            collection_management: {
+              "processing_status" => "in_progress",
+              "processing_priority" => "high",
+              "processing_hours_total" => "2",
+              "processing_funding_source" => "MMM"
+            }
+          )
+        end
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary processing_priority asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'processing_priority',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            },
+            {
+              # Case 2: primary processing_priority asc, secondary title_sort desc - secondary changes order
+              primary_key:   'processing_priority',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.title,
+                record_3.title,
+                record_1.title
+              ],
+              expected_after_both: [
+                record_3.title,
+                record_2.title,
+                record_1.title
+              ]
+            },
+            {
+              # Case 3: primary processing_hours_total asc, secondary processing_status desc - secondary changes order
+              primary_key:   'processing_hours_total',
+              primary_dir:   :asc,
+              secondary_key: 'processing_status',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.title,
+                record_1.title,
+                record_3.title,
+              ],
+              expected_after_both: [
+                record_2.title,
+                record_3.title,
+                record_1.title,
+              ]
+            }
+          ]
         end
 
         it_behaves_like 'results table sorting'

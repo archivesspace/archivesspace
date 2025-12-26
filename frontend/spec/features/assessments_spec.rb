@@ -442,21 +442,24 @@ describe 'Assessments', js: true do
 
       describe 'sorting' do
         let(:default_sort_key) { 'assessment_id' }
-        let(:sorting_in_url) { true }
         let(:primary_column_class) { 'assessment_id' }
         let(:column_headers) do
           {
+            'Assessment ID' => 'assessment_id',
             'Survey Begin' => 'assessment_survey_begin',
             'Review Required' => 'assessment_review_required',
             'Assessment Completed' => 'assessment_completed',
             'Sensitive Material' => 'assessment_sensitive_material',
             'Inactive' => 'assessment_inactive',
-            'URI' => 'uri',
-            'Assessment ID' => 'assessment_id'
+            'URI' => 'uri'
           }
         end
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
+            'assessment_id' => {
+              asc: [record_1.id.to_s, record_2.id.to_s],
+              desc: [record_2.id.to_s, record_1.id.to_s]
+            },
             'assessment_survey_begin' => {
               asc: [record_2.id.to_s, record_1.id.to_s],
               desc: [record_1.id.to_s, record_2.id.to_s]
@@ -477,12 +480,73 @@ describe 'Assessments', js: true do
               asc: [record_2.id.to_s, record_1.id.to_s],
               desc: [record_1.id.to_s, record_2.id.to_s]
             },
-            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.id }),
-            'assessment_id' => {
-              asc: [record_1.id.to_s, record_2.id.to_s],
-              desc: [record_2.id.to_s, record_1.id.to_s]
-            },
+            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.id })
           }
+        end
+        let(:record_3) do
+          create(:json_assessment, {
+            'records' => [{'ref' => create(:resource).uri}],
+            'surveyed_by' => [{'ref' => create(:agent_person).uri}],
+            'survey_begin' => '2023-01-01',
+            'review_required' => true,
+            'sensitive_material' => true,
+            'inactive' => true
+          })
+        end
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary boolean, secondary id (secondary effectively a no-op)
+              primary_key:   'assessment_review_required',
+              primary_dir:   :asc,
+              secondary_key: 'assessment_id',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.id.to_s,
+                record_2.id.to_s,
+                record_3.id.to_s
+              ],
+              expected_after_both: [
+                record_1.id.to_s,
+                record_2.id.to_s,
+                record_3.id.to_s
+              ]
+            },
+            {
+              # Case 2: primary date asc, secondary id desc – secondary changes order
+              primary_key:   'assessment_survey_begin',
+              primary_dir:   :asc,
+              secondary_key: 'assessment_id',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.id.to_s,
+                record_3.id.to_s,
+                record_1.id.to_s
+              ],
+              expected_after_both: [
+                record_3.id.to_s,
+                record_2.id.to_s,
+                record_1.id.to_s
+              ]
+            },
+            {
+              # Case 3: primary id, secondary boolean – secondary is a no-op
+              primary_key:   'assessment_id',
+              primary_dir:   :asc,
+              secondary_key: 'assessment_review_required',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.id.to_s,
+                record_2.id.to_s,
+                record_3.id.to_s
+              ],
+              expected_after_both: [
+                record_1.id.to_s,
+                record_2.id.to_s,
+                record_3.id.to_s
+              ]
+            }
+          ]
         end
 
         it_behaves_like 'results table sorting'

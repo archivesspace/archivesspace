@@ -595,7 +595,6 @@ describe 'Accessions', js: true do
 
       describe 'sorting' do
         let(:default_sort_key) { 'title_sort' }
-        let(:sorting_in_url) { true }
 
         context 'with seven of ten sortable columns showing' do
           include_context 'results table setup'
@@ -619,7 +618,7 @@ describe 'Accessions', js: true do
               # 'Publish' => 'publish',
             }
           end
-          let(:sort_expectations) do
+          let(:primary_sort_expectations) do
             {
               'title_sort' => {
                 asc: [record_1.title, record_2.title],
@@ -651,6 +650,77 @@ describe 'Accessions', js: true do
               # },
             }
           end
+          # Uses same accession_date as record_2 to create a tie for testing
+          let(:record_3) do
+            create(:accession,
+              title: "Accession 3 #{now}",
+              id_0: "3",
+              accession_date: (Time.at(now) - 86400).strftime('%Y-%m-%d'),
+              acquisition_type: 'purchase',
+              resource_type: 'records',
+              restrictions_apply: true,
+              publish: false,
+              access_restrictions: true,
+              use_restrictions: true,
+              dates: [build(:date)],
+              extents: [build(:extent)]
+            )
+          end
+          let(:secondary_sort_cases) do
+            [
+              {
+                # Case 1: primary title asc, secondary identifier asc - no-op since titles are unique
+                primary_key:   'title_sort',
+                primary_dir:   :asc,
+                secondary_key: 'identifier',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              },
+              {
+                # Case 2: primary accession_date asc, secondary title_sort desc - secondary changes order
+                primary_key:   'accession_date',
+                primary_dir:   :asc,
+                secondary_key: 'title_sort',
+                secondary_dir: :desc,
+                expected_after_primary: [
+                  record_2.title,
+                  record_3.title,
+                  record_1.title
+                ],
+                expected_after_both: [
+                  record_3.title,
+                  record_2.title,
+                  record_1.title
+                ]
+              },
+              {
+                # Case 3: primary identifier asc, secondary accession_date asc - no-op since identifiers are unique
+                primary_key:   'identifier',
+                primary_dir:   :asc,
+                secondary_key: 'accession_date',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              }
+            ]
+          end
 
           it_behaves_like 'results table sorting'
         end
@@ -673,7 +743,7 @@ describe 'Accessions', js: true do
               'URI' => 'uri'
             }
           end
-          let(:sort_expectations) do
+          let(:primary_sort_expectations) do
             {
               'title_sort' => {
                 asc: [record_1.title, record_2.title],
@@ -689,6 +759,84 @@ describe 'Accessions', js: true do
               },
               'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
             }
+          end
+
+          # Optional third record for secondary sort tests
+          # Uses same access_restrictions and use_restrictions as record_2 to create ties
+          let(:record_3) do
+            create(:accession,
+              title: "Accession 3 #{now}",
+              id_0: "3",
+              accession_date: (Time.at(now) - 86400).strftime('%Y-%m-%d'),
+              acquisition_type: 'purchase',
+              resource_type: 'records',
+              restrictions_apply: true,
+              publish: false,
+              access_restrictions: true,
+              use_restrictions: true,
+              dates: [build(:date)],
+              extents: [build(:extent)]
+            )
+          end
+
+          # Secondary sort test cases
+          let(:secondary_sort_cases) do
+            [
+              {
+                # Case 1: primary title asc, secondary access_restrictions asc - no-op since titles are unique
+                primary_key:   'title_sort',
+                primary_dir:   :asc,
+                secondary_key: 'access_restrictions',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              },
+              {
+                # Case 2: primary access_restrictions asc, secondary title_sort desc - secondary changes order
+                # record_2 and record_3 both have access_restrictions=true, so they tie.
+                # After primary-only: record_1 first (false), then Solr tie-breaks record_2/record_3 by ID.
+                # After secondary (title desc): within tie group, "Accession 3" > "Accession 2", so record_3 moves first.
+                primary_key:   'access_restrictions',
+                primary_dir:   :asc,
+                secondary_key: 'title_sort',
+                secondary_dir: :desc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_3.title,
+                  record_2.title
+                ]
+              },
+              {
+                # Case 3: primary uri asc, secondary use_restrictions asc - no-op since URIs are unique
+                primary_key:   'uri',
+                primary_dir:   :asc,
+                secondary_key: 'use_restrictions',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              }
+            ]
           end
 
           it_behaves_like 'results table sorting'
