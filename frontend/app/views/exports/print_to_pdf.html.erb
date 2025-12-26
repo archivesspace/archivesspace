@@ -11,4 +11,5 @@
     <%= f.hidden_field :jsonmodel_type, :value => "print_to_pdf_job" %>
     <%= f.hidden_field :job_type, :value => 'print_to_pdf_job' %>
     <%= f.check_box :include_unpublished, :checked => params[:include_unpublished] == 'true' %>
+    <%= f.check_box :include_uris, :checked => params[:include_uris] == 'true' %>
 <% end %>
