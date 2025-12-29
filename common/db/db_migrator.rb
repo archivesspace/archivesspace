@@ -281,13 +281,13 @@ EOF
         For more information on upgrading to ArchivesSpace 2.0.1, please see the upgrade
         guide:
 
-          https://archivesspace.github.io/tech-docs/administration/upgrading.html
+          https://docs.archivesspace.org/administration/upgrading_2_1_0/
 
         The upgrade guide for version 1.5.0 also contains specific instructions for
         the container upgrade that you will be performing, and the steps in this guide
         apply equally to version 2.0.1.  You can find that guide here:
 
-          https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md
+          https://docs.archivesspace.org/administration/upgrading_1_5_0/
 
         =======================================================================
 

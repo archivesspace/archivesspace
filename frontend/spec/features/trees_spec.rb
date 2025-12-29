@@ -243,7 +243,7 @@ describe 'Tree UI', js: true do
     end
   end
 
-  # TODO: Fix functionality and re-enable this spec. See also: https://github.com/archivesspace/archivesspace/blob/master/frontend/vendor/assets/javascripts/jquery.ba-hashchange.js
+  # TODO: Fix functionality and re-enable this spec. See also: https://github.com/archivesspace/archivesspace/blob/main/frontend/vendor/assets/javascripts/jquery.ba-hashchange.js
   xit 'can retain location hash when sidebar items are clicked' do
     click_link "Archival Object Title 1 #{@now}"
 
