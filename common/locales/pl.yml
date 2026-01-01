@@ -212,3 +212,7 @@ pl:
       <p>Dziesięć pudeł z materiałami zawierającymi notatki terenowe, pamiętniki i
       szkice map dokumentujące 10-letni pobyt pana Smitha na ranczu Otay Mesa.</p>
     condition_description: Opis stanu
+    condition_description_tooltip: |
+      <p>Opis stanu fizycznego zawartości zbioru, w tym wszelkie specjalne wymagania dotyczące obchodzenia się z materiałami.</p>
+      <p>Przykłady:</p>
+      <p>Mapy w pudełku nr 4 są kruche, a kilka z nich jest pokrytych pleśnią. Podczas pracy z nimi należy nosić maski ochronne.</p>
