@@ -2275,7 +2275,8 @@ de:
       oder Beziehungs-Teilaufzeichnungen besitzen
     ark_format_error: Einer der eingegebenen ARKs war kein gültiger ARK.
     missing_required_subrecord: Unteraufzeichnung ist erforderlich, fehlte aber
-    mixed_content_invalid_inline_ead: "Ungültiges EAD-Markup: Verwenden Sie gerade Anführungszeichen (\" oder ') für Attributwerte und stellen Sie sicher, dass die Tags korrekt aufgebaut sind."
+    mixed_content_invalid_inline_ead: "Ungültiges EAD-Markup: Verwenden Sie gerade Anführungszeichen (\"\
+      \ oder ') für Attributwerte und stellen Sie sicher, dass die Tags korrekt aufgebaut sind."
   import_job:
     bulk_import_csv: Massenimport von AO-CSV
     bulk_import_DO_xlsx: Massenimport von DO-XLSX
