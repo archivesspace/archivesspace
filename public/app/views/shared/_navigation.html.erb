@@ -15,7 +15,7 @@
             </li>
           <% end %>
           <% unless AppConfig[:pui_hide][:search_tab] %>
-            <li class="nav-item p-2"><a class="nav-link" href="<%=  app_prefix('/search?reset=true') %>" title="<%= I18n.t('search_tab', :target => t('archive._plural'))%>">
+            <li class="nav-item p-2"><a class="nav-link" href="<%= app_prefix('/search?reset=true') %>">
                 <span class="fa fa-search" aria-hidden="true"></span>
                 <span class="sr-only"><%= I18n.t('search_tab', :target => t('archive._plural')) %></span>
               </a>
