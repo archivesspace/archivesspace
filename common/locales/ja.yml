@@ -1109,8 +1109,9 @@ ja:
     member_usernames_tooltip: "<p>このグループのメンバーであるメンバー。 </p>"
     permissions: メンバーは：
     permission_types:
-      manage_repository: <b>ユーザー</b> をグループ (このリポジトリ内) に割り当てる<br/><b>グループ</b> 権限を設定する (このリポジトリ内)<br/><b>リポジトリ設定</b>
-        を設定する ( このリポジトリ内)<br/><b>必須フィールドとデフォルト値</b>を構成する(このリポジトリ内)<br/><b>バッチ検索および置換ジョブ</b>を作成して実行する(このリポジトリ内)
+      manage_repository: <b>ユーザー</b> をグループ (このリポジトリ内) に割り当てる<br/><b>グループ</b> 権限を設定する 
+        (このリポジトリ内)<br/><b>リポジトリ設定</b> を設定する ( 
+        このリポジトリ内)<br/><b>必須フィールドとデフォルト値</b>を構成する(このリポジトリ内)<br/><b>バッチ検索および置換ジョブ</b>を作成して実行する(このリポジトリ内)
         <br/><b>ロケーション</b>の作成/更新/削除 (システム全体)
       view_agent_contact_record: <b>エージェント</b> の連絡先詳細セクションを編集/表示します (このリポジトリ内)
       show_full_agents: フル モードで有効になっている <b>エージェント</b> の追加セクションを編集します (このリポジトリ内)
@@ -1118,8 +1119,8 @@ ja:
       update_resource_record: <b>リソース</b> を作成/更新します (このリポジトリ内)
       update_digital_object_record: <b>デジタル オブジェクト</b> を作成/更新します (このリポジトリ内)
       update_event_record: <b>イベント</b> を作成/更新します (このリポジトリ内)
-      view_repository: <b>すべてのレコード</b> を表示 (このリポジトリ内)<br/><b>エージェント</b> を表示 (システム全体)<br/><b>サブジェクト</b>
-        を表示 (システム全体)
+      view_repository: <b>すべてのレコード</b> を表示 (このリポジトリ内)<br/><b>エージェント</b> を表示 
+        (システム全体)<br/><b>サブジェクト</b> を表示 (システム全体)
       view_suppressed: <b>抑制されたレコード</b> を表示します (このリポジトリ内)
       suppress_archival_record: (このリポジトリ内の)<b>アクセス、アーカイブ オブジェクト、およびリソース</b>を抑制します。
       delete_archival_record: (このリポジトリ内の) <b>アクセス、アーカイブ オブジェクト、デジタル オブジェクトおよびリソース</b> を削除します。
@@ -1130,7 +1131,8 @@ ja:
       merge_archival_record: <b>デジタル オブジェクト</b> (このリポジトリ内) をマージします<br><b>リソース</b> (このリポジトリ内) をマージします
       manage_rde_templates: <b>高速データ入力テンプレート</b>を作成/削除します（このリポジトリ内）
       transfer_repository: <b>このリポジトリのコンテンツ全体</b>を別のリポジトリに転送します (宛先リポジトリでも同じ権限が必要です)
-      transfer_archival_record: 個々の<b>アクセス、デジタル オブジェクト、 リソース</b>を別のリポジトリに転送します (両方のリポジトリで転送されるタイプのレコードを作成/更新する権限も必要です)
+      transfer_archival_record: 個々の<b>アクセス、デジタル オブジェクト、 リソース</b>を別のリポジトリに転送します 
+        (両方のリポジトリで転送されるタイプのレコードを作成/更新する権限も必要です)
       manage_subject_record: <b>サブジェクト</b>の作成/更新/削除 (システム全体)
       manage_agent_record: <b>エージェント</b> の作成/更新/削除 (システム全体)
       manage_vocabulary_record: <b>語彙</b>の作成/更新/削除 (システム全体)
@@ -1418,11 +1420,13 @@ ja:
   preference:
     defaults: デフォルト
     global: グローバルプリファレンスのデフォルト
-    global_message: これらの値を編集して、システム全体のユーザー設定のデフォルトを設定します。これらの値は、リポジトリーのデフォルトまたはユーザー自身のプリファレンスによってオーバーライドできます。
+    global_message: 
+      これらの値を編集して、システム全体のユーザー設定のデフォルトを設定します。これらの値は、リポジトリーのデフォルトまたはユーザー自身のプリファレンスによってオーバーライドできます。
     repo: リポジトリの設定
     repo_message: これらの値を編集して、現在のリポジトリのユーザー設定のデフォルトを設定します。これらの値は、ユーザーの好みによって上書きできます。
     user_global: グローバル設定
-    user_global_message: これらの値を編集して、システム全体のユーザー設定を設定します。これらの値は、リポジトリーのデフォルトまたはリポジトリーの独自のプリファレンスによってオーバーライドできます。
+    user_global_message: 
+      これらの値を編集して、システム全体のユーザー設定を設定します。これらの値は、リポジトリーのデフォルトまたはリポジトリーの独自のプリファレンスによってオーバーライドできます。
     user_repo: ユーザー設定のデフォルト
     user_repo_message: これらの値を編集して、このリポジトリのユーザー設定を設定します。これらの値はオーバーライドできません。
     _singular: 設定
@@ -1495,7 +1499,8 @@ ja:
   validation_errors:
     or_date_expression_is_required: 日付には、少なくとも1つの日付式を指定する必要があります
     must_specify_either_a_single_or_ranged_date: 日付は、単一または範囲のいずれかとして指定する必要があります
-    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: 標準化された日付は標準化された形式である必要があります
+    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: 
+      標準化された日付は標準化された形式である必要があります
     generic_validation_error: 検証エラー
     requires_that_end_dates_are_after_begin_dates: 終了日は開始日より後でなければなりません
     must_specify_a_primary_subject: 説明情報：レコードに主要な件名がありません
@@ -1554,7 +1559,8 @@ ja:
     must_be_unique_to_its_level_in_the_tree: この値は、このレベルの階層で一意でなければなりません
     short_name_already_in_use: リポジトリのショートネームは、このArchivesSpace内で一意でなければなりません
     custom_report_template_name_not_unique: カスタムレポートテンプレートの名前は一意である必要があります。
-    custom_report_must_include_field_or_subreport: カスタムレポートテンプレートには、少なくとも1つのフィールドまたはサブレポートが含まれている必要があります。
+    custom_report_must_include_field_or_subreport: 
+      カスタムレポートテンプレートには、少なくとも1つのフィールドまたはサブレポートが含まれている必要があります。
     repo_set_desc_required: OAIリポジトリセットを作成するには、リポジトリセットの説明が必要です。
     repo_set_name_required: OAIリポジトリセットを作成するにはリポジトリセット名が必要です
     is_not_present: 必須フィールドがありません
@@ -1653,8 +1659,8 @@ ja:
     going_to_duplicate_job: ID %{resource_id} のリソースを複製します。
     success_message: リソース %{resource_source_id} をリソース %{resource_duplicated_id} に複製しました。
     resource_failure_message: ID %{resource_id} のリソースからリソースを複製できませんでした。 検証エラー %{メッセージ}。
-    archival_object_failure_message: ID %{resource_id} のリソースから ID %{archival_object_id} のアーカイブ オブジェクトを複製できませんでした。
-      検証エラー %{メッセージ}。
+    archival_object_failure_message: ID %{resource_id} のリソースから ID %{archival_object_id} のアーカイブ 
+      オブジェクトを複製できませんでした。 検証エラー %{メッセージ}。
     source_archival_object: ソース アーカイブ オブジェクト %{source_archival_object_inspect}。
     success_reload_message: すべて完了。 新しいリソースへのリンクを取得するには、[更新] をクリックしてください。
     job_failed: ジョブが失敗しました。
@@ -2237,14 +2243,17 @@ ja:
       ao_not_in_db: データベースの行％{row_num}にアーカイブオブジェクト％{ref_id}が見つかりません。
       instance_type_miss: '行％{row_num}アーカイブオブジェクト％{ref_id}のスプレッドシートにインスタンスタイプがありません。 '
       instance_type_does_not_exist: 'インスタンスタイプ％{instance_type}はデータベースに存在しません（行％{row_num}アーカイブオブジェクト％{ref_id}を参照）。 '
-      tc_indicator_and_record_no_miss: 行％{row_num}の％{ref_id}には、トップコンテナインジケータまたはTCレコード番号のいずれかが存在する必要があります。
+      tc_indicator_and_record_no_miss: 
+        行％{row_num}の％{ref_id}には、トップコンテナインジケータまたはTCレコード番号のいずれかが存在する必要があります。
       tc_indicator_and_record_no_exist: 行％{row_num}の％{ref_id}には、トップコンテナインジケータまたはTCレコード番号のみを表示できます。
       tc_barcode_exists: トップコンテナバーコード％{barcode}はデータベースにすでに存在します（行％{row_num}の％{ref_id}を参照）。
-      tc_barcode_differs: トップコンテナバーコード％{barcode}は、スプレッドシートの％{type}％{indicator}の別のエントリとは異なります（行％{row_num}の％{ref_id}を参照）。
+      tc_barcode_differs: 
+        トップコンテナバーコード％{barcode}は、スプレッドシートの％{type}％{indicator}の別のエントリとは異なります（行％{row_num}の％{ref_id}を参照）。
       tc_ind_ct_exists: 
         トップコンテナインジケータとコンテナタイプのコンボ％{tc_type}％{indicator}は、リソース％{ead_id}のAOのデータベースにすでに存在します（行％{row_num}の％{ref_id}を参照）。
       sc_barcode_exists: 子バーコード％{barcode}はデータベースにすでに存在します（行％{row_num}の％{ref_id}を参照）。
-      sc_barcode_differs: 子バーコード％{barcode}は、スプレッドシートの％{type}％{indicator}の別のエントリとは異なります（行％{row_num}の％{ref_id}を参照）。
+      sc_barcode_differs: 
+        子バーコード％{barcode}は、スプレッドシートの％{type}％{indicator}の別のエントリとは異なります（行％{row_num}の％{ref_id}を参照）。
       loc_not_in_db: 指定されたロケーションID％{loc_id}がデータベースに見つかりません（行％{row_num}の％{ref_id}を参照）。
       cp_not_in_db: 指定されたコンテナプロファイルID％{cp_id}がデータベースに見つかりません（行％{row_num}の％{ref_id}を参照）。
       no_tc: トップコンテナを作成できません（行％{row_num}の％{ref_id}を参照）：[％{why}]
@@ -2254,7 +2263,8 @@ ja:
       ead_id_miss: この行にはEADIDがありません:(行％{row_num}の％{ref_id}を参照）
       tc_record_no_missing: トップコンテナIDが見つかりません：％{tc_id}（行％{row_num}の％{ref_id}を参照）
       resource_not_in_db: 行％{row_num}のデータベースにリソース％{ead_id}が見つかりません
-      resources_do_not_match: スプレッドシート％{spreadsheet_resource}（EAD ID：％{ead_id}）のリソースが、行％{row_num}の現在のリソース％{current_resource}と一致しません
+      resources_do_not_match: スプレッドシート％{spreadsheet_resource}（EAD 
+        ID：％{ead_id}）のリソースが、行％{row_num}の現在のリソース％{current_resource}と一致しません
       job_file_empty: トップコンテナリンクのために処理するファイルがありません
     log_creating_linker: リポジトリ用の新しいトップコンテナリンカーの作成：％{repo_id}
     log_validate_only: 検証のみのオプションが有効になっているため、上位コンテナの作成とリンクをスキップします。
@@ -2269,8 +2279,8 @@ ja:
       International CreativeCommonsライセンスの下で利用可能になります。</p>\n<p>このレコードは、Attribution-NonCommercial-ShareAlike
       4.0 International CreativeCommonsライセンスの下で利用可能になります。</p>\n"
     descriptive_note_tooltip: "<p>メタデータを使用および再利用できる条件に関する非構造化情報。例：</p>\n<p> i。 Copyright Smith College、1985
-      </p>\n<p> ii。この発見支援は、あらゆる目的で複製することができます。</p>\n<p> iii。この作品はパブリックドメインに捧げられています。つまり、商業目的であっても、許可を求めることなく、作品をコピー、変更、配布、実行することができます。</p>\n
-      <p> iv。経歴の著作権はTedSmith、2015年にあります。他のすべてのメタデータはCC BY4.0でライセンスされています。</p>\n"
+      </p>\n<p> ii。この発見支援は、あらゆる目的で複製することができます。</p>\n<p> iii。この作品はパブリックドメインに捧げられています。つまり、商業目的であっても、許可を求めることなく、作品をコピー、変更、配布、実行することができます。</p>\n\
+      \ <p> iv。経歴の著作権はTedSmith、2015年にあります。他のすべてのメタデータはCC BY4.0でライセンスされています。</p>\n"
     file_uri_tooltip: "<p>ライセンスのオンラインロケーションのURI、またはメタデータを使用および再利用できる条件に関するその他の公開情報。例：https：//creativecommons.org/licenses/by/4.0/
       </p>\n"
     file_version_xlink_actuate_attribute_tooltip: "<p>エージェントレコードがレンダリングされるときに、関連付けられたURIを解決する必要があるかどうかを示します。</p>\n"

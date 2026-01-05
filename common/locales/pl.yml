@@ -2,9 +2,10 @@ pl:
   states:
     deleted: Usunięto
     auto_generated: System generuje po zapisaniu
-    suppressed: Powstrzymać
+    suppressed: Stłumione
   boolean:
     "true": Prawda
+    "false": Fałsz
   user_defined:
     boolean_3: Wartość logiczna 3
     integer_2: Liczba Całkowita 2
@@ -43,4 +44,249 @@ pl:
       indicator: Wskaźnik
       barcode: Kod Kreskowy
   validation_errors:
-    mixed_content_invalid_inline_ead: "Nieprawidłowy znacznik EAD: używaj prostych cudzysłowów (\" lub ') dla wartości atrybutów i upewnij się, że znaczniki są poprawnie sformatowane."
+    mixed_content_invalid_inline_ead: "Nieprawidłowy znacznik EAD: używaj prostych cudzysłowów (\" lub
+      ') dla wartości atrybutów i upewnij się, że znaczniki są poprawnie sformatowane."
+  assessment:
+    sensitive_material_true: Tak
+    sensitive_material_false: Nie
+    general_assessment_note: Ogólna nota oceniająca
+    general_assessment_note_tooltip: <p>Wszelkie dodatkowe uwagi dotyczące oceny.</p>
+    special_format_note: Uwaga dotycząca formatu specjalnego
+    special_format_note_tooltip: <p>Dodatkowe lub wyjaśniające informacje dotyczące zastosowanych 
+      formatów specjalnych.</p>
+    exhibition_value_note: Uwaga dotycząca wartości wystawowej
+    exhibition_value_note_tooltip: <p>Wskazuje, czy cała kolekcja lub poszczególne elementy w niej 
+      zawarte mogą być szczególnie odpowiednie do wystawienia. Na przykład, w tym polu można 
+      odnotować unikalny artefakt, list lub fotografię o znaczeniu historycznym.</p>
+    rating_attributes_value:
+      rating_none: Brak oceny
+      rating_1: '1'
+    id: ID
+    inactive: Nieaktywny?
+    inactive_tooltip: <p>Wskazuje, czy rekord oceny nie jest już uważany za „aktywny” i w związku z 
+      tym nie powinien być uwzględniany w wyszukiwaniach ani raportach.</p>
+    inactive_true: Tak
+    inactive_false: Nie
+    monetary_value: Wartość pieniężna
+    monetary_value_tooltip: <p>Oszacowana lub wyceniona wartość rynkowa ocenianych materiałów 
+      (wartość liczbowa).</p>
+    monetary_value_note: Uwaga dotycząca wartości pieniężnej
+    monetary_value_note_tooltip: <p>Wskazuje, kto oszacował wartość pieniężną, datę wyceny oraz 
+      wszelkie inne istotne informacje.</p>
+    surveyed_by: Przeprowadzone przez
+    surveyed_by_tooltip: |
+      <p>POLE WYMAGANE: Imię i nazwisko osoby/osób, które przeprowadziły ocenę. To pole jest dostępne tylko dla użytkowników posiadających konto w systemie ArchivesSpace.</p>
+    survey_begin: Data rozpoczęcia ankiety
+    survey_begin_tooltip: |
+      <p>POLE WYMAGANE: Data rozpoczęcia ankiety, w formacie rrrr-mm-dd.</p>
+    survey_end: Data zakończenia ankiety
+    survey_end_tooltip: <p>Data zakończenia ankiety, w formacie rrrr-mm-dd.</p>
+    surveyed_duration: Czas potrzebny na ukończenie przeglądu konserwatorskiego zbiorów archiwalnych
+    surveyed_duration_tooltip: Czas potrzebny na przeprowadzenie inwentaryzacji i oceny stanu 
+      zachowania zbiorów archiwalnych, mierzony w godzinach.
+    surveyed_extent: Zakres objęty badaniem
+    surveyed_extent_tooltip: <p>Zakres badanego materiału jest podawany w jednostkach takich jak 
+      metry bieżące.</p>
+  collection_management:
+    processing_total_extent_tooltip: |
+      <p>Wyrażenie liczbowe określające całkowitą wielkość (w metrach liniowych itp.) przetworzonego materiału.  Wraz z tym polem należy podać typ jednostki miary.</p>
+  rights_statement:
+    status: Status
+    status_tooltip: |
+      <p>Zakodowane oznaczenie statusu praw autorskich do obiektu w momencie rejestracji oświadczenia o prawach autorskich.</p>
+      <ul>
+        <li>Copyrighted = Objęte prawami autorskimi.</li>
+        <li>Public domain = W domenie publicznej.</li>
+        <li>Unknown = Status praw autorskich do zasobu jest nieznany.</li>
+      </ul>
+    license_terms: Warunki licencji
+    license_terms_tooltip: |
+      <p>Oświadczenie (fragment tekstu lub podsumowanie) dotyczące uprawnień przyznanych w ramach licencji.</p>
+    statute_citation: Odwołanie do statutu
+    statute_citation_tooltip: |
+      <p>Cytat, identyfikator URI lub inne odniesienie do aktu prawnego, z którym związane jest niniejsze oświadczenie dotyczące praw autorskich.</p>
+    jurisdiction: Jurysdykcja
+    jurisdiction_tooltip: |
+      <p>Prawa autorskie: Kraj, którego przepisy dotyczące praw autorskich mają zastosowanie.</p>
+      <p>Ustawa: Kraj lub inny podmiot polityczny, który uchwalił daną ustawę.</p>
+      <p>Zgodne z normą ISO 3166.</p>
+    type_note: Typ notatki
+    type_note_tooltip: |
+      <p>Wszelkie dodatkowe informacje dotyczące praw autorskich, licencji, przepisów prawnych lub polityki instytucjonalnej i/lub ich zastosowania do opisanych materiałów.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Ograniczenia w użytkowaniu: Niniejsze dzieło może być chronione prawem autorskim. Korzystanie z tego dzieła w sposób wykraczający poza zakres dozwolony przez obowiązujące przepisy prawa autorskiego wymaga pisemnej zgody właściciela praw autorskich. Odpowiedzialność za uzyskanie zezwoleń na wszelkie wykorzystanie i rozpowszechnianie tego dzieła spoczywa wyłącznie na użytkowniku, a nie na bibliotekach Uniwersytetu Kalifornijskiego w San Diego. Zapytania można kierować do Biblioteki Zbiorów Specjalnych Mandeville (http://libraries.ucsd.edu/locations/mscl/).</li>
+      </ul>
+    determination_date: Data ustalenia
+    determination_date_tooltip: |
+      <p>Prawa autorskie: Data, w której ustalono status praw autorskich.</p>
+      <p>Ustawa: Data, w której stwierdzono, że ustawa upoważnia do udzielenia wskazanych zezwoleń.</p>
+    start_date: Data rozpoczęcia
+    start_date_tooltip: |
+      <p>Data wejścia w życie oświadczenia dotyczącego praw autorskich.</p>
+    end_date: Data zakończenia
+    end_date_tooltip: |
+      <p>Data zakończenia obowiązywania oświadczenia o prawach autorskich.</p>
+    other_rights_basis: Inne podstawy prawne
+    other_rights_basis_tooltip: |
+      <p>Rodzaj praw: Inne oświadczenia dotyczące praw, które nie stanowią ustaw, licencji ani praw autorskich.</p>
+    _plural: Oświadczenia dotyczące praw autorskich
+    _singular: Oświadczenie dotyczące praw autorskich
+  date:
+    label: Etykieta
+    label_tooltip: |
+      <p>POLE WYMAGANE: Opisuje rodzaj czynności, do której odnosi się podana data.</p>
+    date_type: Typ
+    date_type_tooltip: |
+      <p>POLE WYMAGANE: Określa typ znormalizowanych informacji o dacie, tj. pojedynczą datę lub zakres dat (włącznie z datą początkową i końcową).</p>
+    date_type_message: Wybierz typ, aby wprowadzić znormalizowaną datę lub zakres dat.
+    expression: Wyrażenie
+    expression_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO: Wyrażenie w języku naturalnym określające datę lub zakres dat materiałów. Wymagane, gdy nie została zapisana znormalizowana data.</p>
+      <p>Patrz DACS 2.4</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>1968</li>
+      <li>1979-1993</li>
+      <li>1785-1960, głównie 1916-1958</li>
+      <li>1827, 1952-1978</li>
+      <li>około 1870-1879</li>
+      <li>1906, 17 marca</li>
+      <li>bez daty</li>
+      <li>nieznana <em>(w przypadku wydarzeń)</em></li>
+      </ul>
+    begin: Zaczynać
+    begin_inline_help: np. RRRR, RRRR-MM lub RRRR-MM-DD
+    begin_tooltip: |
+      <p>Znormalizowana data (w formacie RRRR, RRRR-MM lub RRRR-MM-DD) reprezentująca pojedynczą datę lub pierwszą datę w zakresie dat.</p>
+      <p>Patrz DACS 2.4.7-2.4.16</p>
+      <p>Lata naszej ery są wyrażane za pomocą czterech cyfr.</p>
+      <p>Lata przed naszą erą są wyrażane jako liczby ujemne, np. -214 dla roku 214 p.n.e.</p>
+    end: Koniec
+    end_inline_help: np. RRRR, RRRR-MM lub RRRR-MM-DD
+    end_tooltip: |
+      <p>Znormalizowana data (w formacie RRRR, RRRR-MM lub RRRR-MM-DD) reprezentująca drugą datę w zakresie dat.</p>
+      <p>Patrz DACS 2.4.7-2.4.16</p>
+      <p>Lata naszej ery są wyrażane za pomocą czterech cyfr.</p>
+      <p>Lata przed naszą erą są wyrażane jako liczby ujemne, np. -214 dla roku 214 p.n.e.</p>
+    certainty: Pewność
+    certainty_tooltip: |
+      <p>Poziom wiarygodności informacji podanych w oświadczeniu dotyczącym daty. Ta informacja jest opcjonalna i należy ją dodawać tylko wtedy, gdy informacje o dacie są potencjalnie niepewne na podstawie używanych zasad opisu lub katalogowania.</p>
+      <p>Zobacz atrybut EAD „certainty”.</p>
+    era: Era
+    era_tooltip: |
+      <p>Okres, w którym numerowane są lata i obliczane daty, np. p.n.e. lub n.e. Domyślną wartością jest „ce” (n.e.).</p>
+      <p>Zobacz atrybut EAD „era”.</p>
+    calendar: Kalendarz
+    calendar_tooltip: |
+      <p>System liczenia czasu, taki jak kalendarz gregoriański lub juliański. Wartość „gregorian” jest wartością domyślną.</p>
+      <p>Zobacz atrybut EAD „calendar” i DACS 2.4.5.</p>
+    _plural: Daty
+    _singular: Data
+  date_type_bulk:
+    bulk: daktyle luzem
+  accession:
+    accession_date: Data przystąpienia
+    accession_date_unknown: nieznany
+    accession_date_inline_help: np. RRRR-MM-DD
+    accession_date_tooltip: |
+      <p>Data przystąpienia do organizacji. Niekoniecznie jest to ta sama data, co data utworzenia rekordu.</p>
+    accession_id: Identyfikator
+    accession_id_tooltip: |
+      <p>Wewnętrzny numer identyfikacyjny rekordu w bazie danych.</p>
+    identifier: Identyfikator
+    id_0: Identyfikator
+    id_1: Identyfikator 2
+    id_2: Identyfikator 3
+    id_3: Identyfikator 4
+    id_0_tooltip: |
+      <p>POLE WYMAGANE: Unikalny identyfikator dla jednostki archiwalnej w repozytorium.</p>
+      <p>W systemie ArchivesSpace dostępne są cztery pola do rozdzielenia identyfikatora jednostki archiwalnej na jego poszczególne części. Każdy segment jest ograniczony do 50 znaków, co daje łącznie 200 znaków dla całego identyfikatora. Przynajmniej pierwsza część musi być wypełniona, aby rekord jednostki archiwalnej był poprawny.</p>
+      <p>Można użyć wartości domyślnych do wypełnienia części składowych, które są takie same dla wszystkich numerów jednostek archiwalnych.</p>
+      <p>Zobacz DACS 5.2.5</p>
+    content_description: Opis zawartości
+    content_description_tooltip: |
+      <p>Opis rodzajów dokumentów i tematycznej zawartości zbioru.</p>
+      <p>Patrz DACS 3.1.4-3.1.7</p>
+      <p>Przykłady:</p>
+      <p>Dziesięć pudeł z materiałami zawierającymi notatki terenowe, pamiętniki i
+      szkice map dokumentujące 10-letni pobyt pana Smitha na ranczu Otay Mesa.</p>
+    condition_description: Opis stanu
+    condition_description_tooltip: |
+      <p>Opis stanu fizycznego zawartości zbioru, w tym wszelkie specjalne wymagania dotyczące obchodzenia się z materiałami.</p>
+      <p>Przykłady:</p>
+      <p>Mapy w pudełku nr 4 są kruche, a kilka z nich jest pokrytych pleśnią. Podczas pracy z nimi należy nosić maski ochronne.</p>
+    disposition: Dyspozycja
+    disposition_tooltip: |
+      <p>Uwaga opisująca, w jaki sposób dany obiekt został przypisany do różnych zasobów.</p>
+      <p>Przykłady:</p>
+      <p>Zdjęcia zostały oddzielone i przypisane do zbioru Zdjęcia 025.</p>
+      <p>Listy do Williama Coltona zostały dodane do kolekcji korespondencji Williama Coltona, natomiast mapy lokalnych strumieni zostały dodane do dokumentacji kolekcji rzek hrabstwa.</p>
+    general_note: Uwaga ogólna
+    general_note_tooltip: |
+      <p>Pole na dodatkowe uwagi, przeznaczone na wszelkie informacje, które nie pasują do żadnego z bardziej szczegółowo zdefiniowanych pól.</p>
+    inventory: Inwentarz
+    inventory_tooltip: |
+      <p>Lista pojemników i ich zawartości, stanowiących część zbioru. Lista pudeł może być sporządzona w terenie, skopiowana i wklejona do odpowiedniego pola lub odwołująca się do dokumentu zewnętrznego. Odwołanie do dokumentu zewnętrznego można zapisać tutaj lub w podrekordzie „Dokumenty zewnętrzne”.</p>
+      <p>Przykład:</p>
+      <ul>
+      <li>Pudełko 1: Dzienniki</li>
+      <li>Pudełko 2: Listy do rodziny pana Smitha</li>
+      <li>Pudełko 3: Dokumenty osobiste pracowników rancza</li>
+      <li>Pudełko 4: Szkice map rancza</li>
+      </ul>
+    provenance: Pochodzenie
+    provenance_tooltip: |
+      <p>Notatka zawierająca informacje o pochodzeniu obiektu, takie jak historia przechowywania, szczegółowe informacje dotyczące nabycia itp.</p>
+      <p>Zobacz DACS 5.1-5.2</p>
+    retention_rule: Zasada retencji
+    retention_rule_tooltip: |
+      <p>Informacja wskazująca na przepisy lub zasady dotyczące przechowywania dokumentów.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Patrz harmonogram przechowywania dokumentów na terenie kampusu.</li>
+      </ul>
+    restrictions_apply: Czy obowiązują jakieś ograniczenia?
+    restrictions_apply_tooltip: |
+      <p>Informacja o ewentualnych ograniczeniach dotyczących dostępu do dokumentów.</p>
+      <p>Patrz DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.4-4.3.6</p>
+    resource_type: Typ zasobu
+    resource_type_tooltip: |
+      <p>Lista terminów używanych przez repozytorium do kategoryzowania zasobów według podstawowych typów.</p>
+      <p>Wartości na tej liście kontrolowanych wartości mogą być modyfikowane.</p>
+    language: Język opisu
+    language_tooltip: |
+      <p>Wskazuje wszystkie języki występujące w rekordzie wygenerowanym na podstawie opisu dokumentu.</p>
+    script: Skrypt opisu
+    script_tooltip: |
+      <p>Wskazuje wszystkie skrypty obecne w rekordzie wygenerowanym na podstawie opisu pozycji.</p>
+    access_restrictions: Ograniczenia dostępu?
+    access_restrictions_tooltip: |
+      <p>Pole wyboru służące do wskazania, że dostęp do materiałów jest ograniczony.</p>
+      <p>Zobacz DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.5-4.3.6</p>
+    access_restrictions_note: Uwaga dotycząca ograniczeń dostępu
+    access_restrictions_note_tooltip: |
+      <p>Oświadczenie wskazujące, do których materiałów w zbiorze dostęp jest ograniczony, na jakiej podstawie prawnej wprowadzono to ograniczenie oraz jak długo będzie ono obowiązywać. Dodatkowe informacje mogą być również zapisane w podrekordzie dotyczącym praw dostępu.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Dzienniki w pudełku dziesiątym są objęte ograniczeniem dostępu nałożonym przez darczyńcę do 2030 roku.</li>
+      </ul>
+    use_restrictions: Czy obowiązują jakieś ograniczenia w użytkowaniu?
+    use_restrictions_tooltip: |
+      <p>Pole wyboru wskazujące, że istnieją ograniczenia dotyczące wykorzystania materiałów wchodzących w skład zbioru.</p>
+    use_restrictions_note: Uwagi dotyczące ograniczeń użytkowania
+    use_restrictions_note_tooltip: |
+      <p>Oświadczenie wskazujące, które materiały podlegają ograniczeniom w użytkowaniu, w jaki sposób można z nich korzystać, na jakiej podstawie prawnej obowiązują te ograniczenia oraz jak długo będą obowiązywać. Dodatkowe informacje mogą być również zapisane w podrekordzie dotyczącym praw autorskich.</p>
+      <p>Przykłady:</p>
+      <p>Rękopisy w pudełku nr 33 są delikatne; należy korzystać z kopii.</p>
+    acquisition_type: Rodzaj przejęcia
+    acquisition_type_tooltip: |
+      <p>Kategoryczny opis rodzaju pozyskania danych. Repozytoria mogą dostosować listę wartości.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Darowizna</li>
+      <li>Zakup</li>
+      <li>Przekazanie</li>
+      </ul>
+    publish: Opublikuj?
+    publish_help: Zaznacz tę opcję, jeśli chcesz udostępnić te dane publicznie.
