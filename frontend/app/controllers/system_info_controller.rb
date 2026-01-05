@@ -1,6 +1,6 @@
 class SystemInfoController < ApplicationController
 
-  set_access_control "administer_system" => [ :show, :stream_log, :reload_config]
+  set_access_control "administer_system" => [ :show, :stream_log, :show_log, :reload_config]
   before_action :user_needs_to_be_global_admin
 
   def show
@@ -10,6 +10,10 @@ class SystemInfoController < ApplicationController
     else
       @info = ASUtils.get_diagnostics.reject { |k, v| k == :exception }
     end
+  end
+
+  def show_log
+    @app_context = params[:app_context] ? params[:app_context] : "frontend_log"
   end
 
   def stream_log

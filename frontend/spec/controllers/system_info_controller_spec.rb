@@ -23,6 +23,8 @@ describe SystemInfoController, type: :controller do
         expect(JSONModel::HTTP).to have_received(:get_json).with('/system/info')
         expect(response.status).to eq(200)
         expect(response.body).to include 'APPCONFIG'
+        expect(response.body).to include 'DB_INFO'
+        expect(response.body).to include 'SOLR_INFO'
         expect(response.body).to include 'Backend System Information'
       end
     end
@@ -34,7 +36,28 @@ describe SystemInfoController, type: :controller do
         expect(JSONModel::HTTP).not_to have_received(:get_json).with('/system/info')
         expect(response.status).to eq(200)
         expect(response.body).to include 'APPCONFIG'
+        expect(response.body).not_to include 'DB_INFO'
+        expect(response.body).not_to include 'SOLR_INFO'
         expect(response.body).to include 'Frontend System Information'
+      end
+    end
+  end
+
+  describe 'show system log action' do
+    context "with app_context: 'backend_log' param" do
+      it 'fetches the system log from the backend' do
+        get :show_log, params: { app_context: 'backend_log' }
+
+        expect(response.status).to eq(200)
+        expect(response.body).to include 'Backend Log'
+      end
+    end
+
+    context "with app_context: 'frontend_log' param" do
+      it 'fetches the system log from the frontend' do
+        get :show_log, params: { app_context: 'frontend_log' }
+        expect(response.status).to eq(200)
+        expect(response.body).to include 'Frontend Log'
       end
     end
   end
