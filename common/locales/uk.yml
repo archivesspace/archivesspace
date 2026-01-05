@@ -1459,6 +1459,7 @@ uk:
     automate_title: Автоматично генерувати заголовок
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: Має неопублікованого предка?
+    import_current_ark: Імпортувати поточний ARK
     _singular: Архівний об'єкт
     _plural: Архівні об'єкти
   group:
