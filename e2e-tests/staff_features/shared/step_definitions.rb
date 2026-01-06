@@ -50,13 +50,15 @@ end
 When 'the user clicks on {string}' do |string|
   click_on_string string
 
-  wait_for_ajax if
-    [
-      "resources/#{@resource_id}/edit",
-      "digital_objects/#{@digital_object_id}/edit",
-      'merge_selector',
-      'defaults'
-    ].any? { |s| current_url.include?(s) }
+  if [
+    "resources/#{@resource_id}/edit",
+    "digital_objects/#{@digital_object_id}/edit",
+    'merge_selector',
+    'defaults'
+  ].any? { |s| current_url.include?(s) }
+    wait_for_ajax
+    sleep 2
+  end
 end
 
 When 'the user hovers on {string} in the dropdown menu' do |string|
