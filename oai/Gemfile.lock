@@ -1,10 +1,10 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    base64 (0.2.0)
-    mustermann (3.0.3)
+    base64 (0.3.0)
+    mustermann (3.0.4)
       ruby2_keywords (~> 0.0.1)
-    rack (2.2.9)
+    rack (2.2.21)
     rack-protection (3.2.0)
       base64 (>= 0.1.0)
       rack (~> 2.2, >= 2.2.4)
@@ -14,15 +14,16 @@ GEM
       rack (~> 2.2, >= 2.2.4)
       rack-protection (= 3.2.0)
       tilt (~> 2.0)
-    tilt (2.4.0)
+    tilt (2.7.0)
 
 PLATFORMS
   universal-java-1.8
   universal-java-11
   universal-java-17
+  universal-java-21
 
 DEPENDENCIES
   sinatra (~> 3.2)
 
 BUNDLED WITH
-   2.5.15
+   2.6.9

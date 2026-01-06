@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 # Rakefile for build / release supporting tasks
+require 'logger'
 require 'date'
 require 'digest'
 require 'git'
 require 'net/http'
 require 'json'
 require 'yaml'
+
 require_relative 'scripts/tasks/check'
 require_relative 'scripts/tasks/release_notes'
 task default: ['check:multiple_gem_versions']

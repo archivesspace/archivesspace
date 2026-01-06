@@ -1,3 +1,4 @@
+require 'logger'
 require 'bundler'
 Bundler.require
 
