@@ -378,4 +378,29 @@ describe 'Search', js: true do
       end
     end
   end
+
+  describe 'add/remove search rows' do
+    it 'maintains correct button states when adding and removing rows' do
+      visit('/search')
+
+      expect(page).to have_css('.plusminus-btn[data-action="add"]', count: 1)
+      expect(page).to have_css('.plusminus-btn[data-action="remove"]', count: 0)
+
+      find('.plusminus-btn[data-action="add"]').click
+      expect(page).to have_css('.plusminus-btn[data-action="add"]', count: 1)
+      expect(page).to have_css('.plusminus-btn[data-action="remove"]', count: 1)
+
+      find('.plusminus-btn[data-action="add"]').click
+      expect(page).to have_css('.plusminus-btn[data-action="add"]', count: 1)
+      expect(page).to have_css('.plusminus-btn[data-action="remove"]', count: 2)
+
+      first('.plusminus-btn[data-action="remove"]').click
+      expect(page).to have_css('.plusminus-btn[data-action="add"]', count: 1)
+      expect(page).to have_css('.plusminus-btn[data-action="remove"]', count: 1)
+
+      find('.plusminus-btn[data-action="remove"]').click
+      expect(page).to have_css('.plusminus-btn[data-action="add"]', count: 1)
+      expect(page).to have_css('.plusminus-btn[data-action="remove"]', count: 0)
+    end
+  end
 end

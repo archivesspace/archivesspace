@@ -9,27 +9,56 @@ var minusText = "<%= I18n.t('actions.search_remove_row') %>";
 var plusFACss = "fa fa-plus";
 var minusFACss = "fa fa-minus";
 var fn_plusminus = function(e){
-    e.stopPropagation;
-    if ($(this).attr('title') === plusText) {
-        $(this).html("<i aria-hidden='true' class='" + minusFACss + "'></i>");
-    	$(this).attr('title', minusText);
-        $(this).attr('aria-label', minusText);
-        $(this).parents('.search_row').find('label.plusminus_label').html("<%= I18n.t('advanced_search.remove_row') %>");
-    	var $row = new_row_from_template();
-    	$(this).parents('.search_row').after($row);
-    	$row.find(".bool select").focus();
+    e.preventDefault();
+    e.stopPropagation();
+
+    const $button = $(this);
+    const action = $button.attr('data-action');
+
+    if (action === 'add') {
+        set_button_state($button, 'remove');
+
+        const $row = new_row_from_template();
+        $button.closest('.search_row').after($row);
+        $row.find(".bool select").focus();
     }
     else {
-        $(this).parents(".search_row").next(".search_row").remove();
-        if ($(this).closest('.search_row').index() == $as.find('.search_row').length) {
-            $(this).html("<i aria-hidden='true' class='" + plusFACss + "'></i>");
-            $(this).attr('title', plusText);
-            $(this).attr('aria-label', plusText);
-            $(this).parents('.search_row').find('label.plusminus_label').html("<%= I18n.t('advanced_search.add_row') %>");
-        }
+        $button.closest(".search_row").next(".search_row").remove();
+
+        const $lastRow = $as.find('.search_row').last();
+        const $lastButton = $lastRow.find('.plusminus-btn');
+        set_button_state($lastButton, 'add');
     }
+
     return false;
 }
+
+function set_button_state($button, mode) {
+    const $label = $button.closest('.search_row').find('.plusminus_label');
+
+    if (mode === 'add') {
+        $button.find('i').removeClass(minusFACss).addClass(plusFACss);
+        $button.attr('title', plusText);
+        $button.attr('aria-label', plusText);
+        $button.attr('data-action', 'add');
+        $label.html("<%= I18n.t('advanced_search.add_row') %>");
+    } else {
+        $button.find('i').removeClass(plusFACss).addClass(minusFACss);
+        $button.attr('title', minusText);
+        $button.attr('aria-label', minusText);
+        $button.attr('data-action', 'remove');
+        $label.html("<%= I18n.t('advanced_search.remove_row') %>");
+    }
+}
+
+function update_all_button_states() {
+    $as.find('.search_row').each(function(i) {
+        const $button = $(this).find('.plusminus-btn');
+        const isLastRow = (i == $as.find('.search_row').length - 1);
+        set_button_state($button, isLastRow ? 'add' : 'remove');
+    });
+}
+
 var submit_on_enter = function(e) {
     var key = e.which;
     if (key == 13) {
@@ -40,11 +69,9 @@ var submit_on_enter = function(e) {
 
 function initialize_search() {
     $as = $("#advanced_search");
-    /* create the + button, attach click event */
-    $as.find('.search_row').each(function(i) {
-        new_button($(this), $as.find('.search_row').length - 1 == i);
-    });
-    /* then save the first_row, so we don't always have to find it */
+    $as.find('.search_row .plusminus-btn').off('click').on('click', fn_plusminus);
+    update_all_button_states();
+    /* save the first_row, so we don't always have to find it */
     var $first = $($as.find("#search_row_0"));
     $template = $first.clone();
     $template.find(':input').each(function() {
@@ -70,26 +97,21 @@ function initialize_search() {
     return true;
 }
 
-function new_button($row, show_add) {
-    var $plus = $row.find(".plusminus");
-    if (show_add) {
-        $plus.html("<button class='btn btn-light border' title='" + plusText + "' aria-label='" + plusText + "'><i aria-hidden='true' class='" + plusFACss + "'></i></button>");
-    } else {
-        $plus.html("<button class='btn btn-light border' title='" + minusText + "' aria-label='" + minusText + "'><i aria-hidden='true' class='" + minusFACss + "'></i></button>");
-    }
-    $plus.find("button").click(fn_plusminus);
-    return true;
-}
-
 function new_row_from_template() {
-    var num = $as.find(".search_row").size();
-    var $row = $template.clone();
+    const num = $as.find(".search_row").size();
+    const $row = $template.clone();
     replace_id_ref($row, 'label', 'for', num);
     replace_id_ref($row, 'input', 'id', num);
     replace_id_ref($row, 'select', 'id', num);
-    replace_id_ref($row, 'span', 'id', num);
+    replace_id_ref($row, 'button', 'id', num);
     $row.attr("id", "search_row_" + num);
-    new_button($row, true);
+
+    const $button = $row.find('.plusminus-btn');
+    $button.find('i').removeClass(minusFACss).addClass(plusFACss);
+    $button.attr('title', plusText);
+    $button.attr('aria-label', plusText);
+    $button.attr('data-action', 'add');
+    $button.off('click').on('click', fn_plusminus);
 
     $row.keypress(submit_on_enter);
 
