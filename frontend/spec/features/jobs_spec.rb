@@ -138,4 +138,24 @@ describe 'Jobs', js: true do
     expect(page).to have_content('Completed')
   end
 
+  describe 'log feed' do
+    before(:each) do
+      click_button('Repository settings')
+      click_link('Background Jobs')
+      click_button('Create Job')
+      within('.dropdown-menu') do
+        click_link('Create Report')
+      end
+      within('.report-list') do
+        click_button('Accession Report')
+      end
+      select('CSV', from: 'Format')
+      click_button('Start Job')
+
+      expect(page).to have_css('#logSpool')
+    end
+
+    it_behaves_like 'log feed with auto-scroll control'
+  end
+
 end

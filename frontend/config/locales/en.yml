@@ -1545,6 +1545,7 @@ en:
         cancel: Cancel Job
         add_file: Add file
         follow_log: Follow Log
+        following_log: Following Log
       section:
         basic_information: Basic Information
         status: Job Status
