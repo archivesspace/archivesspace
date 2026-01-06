@@ -115,6 +115,20 @@
     }
   }
 }
+
+.btn-follow-log {
+  &.active {
+    color: $white;
+    background-color: var(--primary);
+    border-color: var(--primary);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--primary), black 10%);
+      border-color: color-mix(in srgb, var(--primary), black 15%);
+    }
+  }
+}
+
 #logSpool {
   background-color: #333;
   color: #3e3;

@@ -382,6 +382,7 @@ de:
         cancel: Aufgabe abbrechen
         add_file: Datei hinzufügen
         follow_log: Protokoll verfolgen
+        following_log: Protokoll wird verfolgt
       section:
         basic_information: Grundlegende Informationen
         status: Aufgaben-Status

@@ -1427,6 +1427,7 @@ ja:
         cancel: ジョブをキャンセルする
         add_file: ファイルを追加する
         follow_log: ログに従う
+        following_log: ログをフォロー中
       section:
         basic_information: 基本情報
         status: 仕事の状況

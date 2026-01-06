@@ -1694,6 +1694,7 @@ fr:
         cancel: Annuler tâche
         add_file: Ajouter fichier
         follow_log: Suivre le log
+        following_log: Suivi du log
       section:
         basic_information: Information de base
         status: Statut de la tâche

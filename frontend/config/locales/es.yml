@@ -1528,6 +1528,7 @@ es:
         cancel: Cancelar tarea
         add_file: Agregar archivo
         follow_log: Siga el Log
+        following_log: Siguiendo el Log
       section:
         basic_information: Información básica
         status: Estado de trabajo
