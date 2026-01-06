@@ -559,6 +559,9 @@ describe 'Accessions', js: true do
   context 'index view' do
     describe 'results table' do
       let(:now) { Time.now.to_i }
+      let(:shared_accession_date) { (Time.at(now) - 86400).strftime('%Y-%m-%d') }
+      let(:shared_access_restrictions) { true }
+      let(:shared_use_restrictions) { true }
       let(:record_type) { 'accession' }
       let(:browse_path) { '/accessions' }
       let(:record_1) do
@@ -580,13 +583,13 @@ describe 'Accessions', js: true do
         create(:accession,
           title: "Accession 2 #{now}",
           id_0: "2",
-          accession_date: (Time.at(now) - 86400).strftime('%Y-%m-%d'),
+          accession_date: shared_accession_date,
           acquisition_type: 'deposit',
           resource_type: 'collection',
           restrictions_apply: true,
           publish: false,
-          access_restrictions: true,
-          use_restrictions: true,
+          access_restrictions: shared_access_restrictions,
+          use_restrictions: shared_use_restrictions,
           dates: [build(:date)],
           extents: [build(:extent)]
         )
@@ -650,12 +653,11 @@ describe 'Accessions', js: true do
               # },
             }
           end
-          # Uses same accession_date as record_2 to create a tie for testing
           let(:record_3) do
             create(:accession,
               title: "Accession 3 #{now}",
               id_0: "3",
-              accession_date: (Time.at(now) - 86400).strftime('%Y-%m-%d'),
+              accession_date: shared_accession_date,
               acquisition_type: 'purchase',
               resource_type: 'records',
               restrictions_apply: true,
@@ -761,19 +763,17 @@ describe 'Accessions', js: true do
             }
           end
 
-          # Optional third record for secondary sort tests
-          # Uses same access_restrictions and use_restrictions as record_2 to create ties
           let(:record_3) do
             create(:accession,
               title: "Accession 3 #{now}",
               id_0: "3",
-              accession_date: (Time.at(now) - 86400).strftime('%Y-%m-%d'),
+              accession_date: shared_accession_date,
               acquisition_type: 'purchase',
               resource_type: 'records',
               restrictions_apply: true,
               publish: false,
-              access_restrictions: true,
-              use_restrictions: true,
+              access_restrictions: shared_access_restrictions,
+              use_restrictions: shared_use_restrictions,
               dates: [build(:date)],
               extents: [build(:extent)]
             )

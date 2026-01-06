@@ -172,10 +172,11 @@ describe 'Classifications', js: true do
   context 'index view' do
     describe 'results table' do
       let(:now) { Time.now.to_i }
+      let(:shared_identifier) { 'A' }
       let(:record_type) { 'classification' }
       let(:browse_path) { '/classifications' }
       let(:record_1) { create(:classification, title: "Classification 1 #{now}", identifier: "Z") }
-      let(:record_2) { create(:classification, title: "Classification 2 #{now}", identifier: "A") }
+      let(:record_2) { create(:classification, title: "Classification 2 #{now}", identifier: shared_identifier) }
       let(:child_record) { create(:classification_term, classification: { 'ref' => record_2.uri }) }
       let(:initial_sort) { [record_1.title, record_2.title] }
 
@@ -206,8 +207,7 @@ describe 'Classifications', js: true do
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
           }
         end
-        # Uses same identifier as record_2 to create a tie on identifier_sort
-        let(:record_3) { create(:classification, title: "Classification 3 #{now}", identifier: "A") }
+        let(:record_3) { create(:classification, title: "Classification 3 #{now}", identifier: shared_identifier) }
         let(:secondary_sort_cases) do
           [
             {

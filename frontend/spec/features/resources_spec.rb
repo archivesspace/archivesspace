@@ -1700,7 +1700,7 @@ describe 'Resources', js: true do
             expect(page).to have_css('#resource_related_accessions__0__ref__modal')
           end
 
-          def clean_up_results_table
+          after do
             within '#resource_related_accessions__0__ref__modal' do
               click_on 'Cancel'
             end
@@ -1832,7 +1832,7 @@ describe 'Resources', js: true do
             expect(page).to have_css('#resource_related_accessions__0__ref__modal')
           end
 
-          def clean_up_results_table
+          after do
             within '#resource_related_accessions__0__ref__modal' do
               click_on 'Cancel'
             end

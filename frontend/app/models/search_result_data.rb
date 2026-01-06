@@ -261,11 +261,7 @@ class SearchResultData
   def sort_index_for(field)
     return nil unless sorted?
 
-    @sort_data&.each_with_index do |entry, i|
-      return i if entry[:field] == field
-    end
-
-    nil
+    @sort_data&.find_index { |entry| entry[:field] == field }
   end
 
   def current_sort_direction(index = 0)

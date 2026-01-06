@@ -37,7 +37,6 @@ RSpec.shared_context 'results table setup' do
   end
 
   after do
-    clean_up_results_table
     reset_columns
   end
 
@@ -71,10 +70,6 @@ RSpec.shared_context 'results table setup' do
   def go_to_results_table
     visit browse_path if respond_to?(:browse_path)
     expect(page).to have_css('#tabledSearchResults')
-  end
-
-  def clean_up_results_table
-    # No-op by default; override in modal specs or other custom flows
   end
 
   def filter_results_for_comparison
