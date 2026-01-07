@@ -235,7 +235,6 @@ describe 'Repositories', js: true do
         include_context 'results table setup'
 
         let(:default_sort_key) { 'title_sort' }
-        let(:sorting_in_url) { true }
         let(:additional_browse_columns) { { 4 => 'URI' } }
         let(:column_headers) do
           {
@@ -244,7 +243,7 @@ describe 'Repositories', js: true do
             "URI" => "uri"
           }
         end
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'title_sort' => {
               asc: [record_1.repo_code, record_2.repo_code],
@@ -256,6 +255,53 @@ describe 'Repositories', js: true do
             },
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.repo_code })
           }
+        end
+        # Uses same publish value (true) as record_1 to create a tie
+        let(:record_3) do
+          create(
+            :repo,
+            repo_code: "repositories_index_sorting_#{now}_3",
+            name: "Repository 3 #{now}",
+            publish: true
+          )
+        end
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary publish asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'publish',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.repo_code,
+                record_2.repo_code,
+                record_3.repo_code
+              ],
+              expected_after_both: [
+                record_1.repo_code,
+                record_2.repo_code,
+                record_3.repo_code
+              ]
+            },
+            {
+              # Case 2: primary publish asc, secondary title_sort desc - secondary changes order
+              primary_key:   'publish',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.repo_code,
+                record_1.repo_code,
+                record_3.repo_code
+              ],
+              expected_after_both: [
+                record_2.repo_code,
+                record_3.repo_code,
+                record_1.repo_code
+              ]
+            }
+          ]
         end
 
         it_behaves_like 'results table sorting'

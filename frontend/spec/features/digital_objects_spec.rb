@@ -408,7 +408,6 @@ describe 'Digital Objects', js: true do
         include_context 'results table setup'
 
         let(:default_sort_key) { 'title_sort' }
-        let(:sorting_in_url) { true }
         let(:additional_browse_columns) do
           {
             2 => 'Digital Object ID',
@@ -428,7 +427,7 @@ describe 'Digital Objects', js: true do
             'URI' => 'uri'
           }
         end
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'title_sort' => {
               asc: [record_1.title, record_2.title],
@@ -452,6 +451,71 @@ describe 'Digital Objects', js: true do
             # },
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
           }
+        end
+        # Uses same level ("collection") and digital_object_type ("text") as record_2 to create ties
+        let(:record_3) do
+          create(:digital_object,
+            title: "Digital Object 3 #{now}",
+            digital_object_id: "3",
+            level: 'collection',
+            digital_object_type: 'text',
+            publish: false
+          )
+        end
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary level asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'level',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            },
+            {
+              # Case 2: primary level asc, secondary title_sort desc - secondary changes order
+              primary_key:   'level',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.title,
+                record_3.title,
+                record_1.title
+              ],
+              expected_after_both: [
+                record_3.title,
+                record_2.title,
+                record_1.title
+              ]
+            },
+            {
+              # Case 3: primary digital_object_id asc, secondary digital_object_type asc - no-op since IDs are unique
+              primary_key:   'digital_object_id',
+              primary_dir:   :asc,
+              secondary_key: 'digital_object_type',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_2.title,
+                record_1.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_2.title,
+                record_1.title,
+                record_3.title
+              ]
+            }
+          ]
         end
 
         it_behaves_like 'results table sorting'

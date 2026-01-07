@@ -172,18 +172,18 @@ describe 'Classifications', js: true do
   context 'index view' do
     describe 'results table' do
       let(:now) { Time.now.to_i }
+      let(:shared_identifier) { 'A' }
       let(:record_type) { 'classification' }
       let(:browse_path) { '/classifications' }
       let(:record_1) { create(:classification, title: "Classification 1 #{now}", identifier: "Z") }
-      let(:record_2) { create(:classification, title: "Classification 2 #{now}", identifier: "A") }
-      let(:record_3) { create(:classification_term, classification: { 'ref' => record_2.uri }) }
+      let(:record_2) { create(:classification, title: "Classification 2 #{now}", identifier: shared_identifier) }
+      let(:child_record) { create(:classification_term, classification: { 'ref' => record_2.uri }) }
       let(:initial_sort) { [record_1.title, record_2.title] }
 
       describe 'sorting' do
         include_context 'results table setup'
 
         let(:default_sort_key) { 'title_sort' }
-        let(:sorting_in_url) { true }
         let(:additional_browse_columns) do
           {
             2 => 'Has classification terms?',
@@ -199,7 +199,7 @@ describe 'Classifications', js: true do
             'URI' => 'uri'
           }
         }
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'title_sort' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
             'has_classification_terms' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
@@ -207,12 +207,68 @@ describe 'Classifications', js: true do
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
           }
         end
+        let(:record_3) { create(:classification, title: "Classification 3 #{now}", identifier: shared_identifier) }
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary identifier_sort asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'identifier_sort',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            },
+            {
+              # Case 2: primary identifier_sort asc, secondary title_sort desc - secondary changes order
+              primary_key:   'identifier_sort',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.title,
+                record_3.title,
+                record_1.title
+              ],
+              expected_after_both: [
+                record_3.title,
+                record_2.title,
+                record_1.title
+              ]
+            },
+            {
+              # Case 3: primary uri asc, secondary has_classification_terms asc - no-op since URIs are unique
+              primary_key:   'uri',
+              primary_dir:   :asc,
+              secondary_key: 'has_classification_terms',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            }
+          ]
+        end
 
         before do
           # Create and update record_2 before 'sortable results table setup' to sort on has_classification_terms
           record_1
           record_2
-          record_3
+          child_record
           updated_classification = JSONModel(:classification).find(record_2.id)
           updated_classification.save
           run_index_round
@@ -240,7 +296,7 @@ describe 'Classifications', js: true do
           # Create and update record_2 before 'sortable results table setup' to have classification terms
           record_1
           record_2
-          record_3
+          child_record
           updated_classification = JSONModel(:classification).find(record_2.id)
           updated_classification.save
           run_index_round

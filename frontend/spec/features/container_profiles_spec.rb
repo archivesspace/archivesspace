@@ -133,14 +133,13 @@ describe 'Container Profiles', js: true do
         include_context 'results table setup'
 
         let(:default_sort_key) { 'title_sort' }
-        let(:sorting_in_url) { true }
         let(:additional_browse_columns) do
           {
             2 => 'URI'
           }
         end
         let(:column_headers) { {'Title' => 'title_sort', 'URI' => 'uri'} }
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'title_sort' => {
               asc: [record_2.name, record_1.name],

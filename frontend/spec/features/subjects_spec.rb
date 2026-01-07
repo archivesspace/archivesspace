@@ -231,7 +231,6 @@ describe 'Subjects', js: true do
         include_context 'results table setup'
 
         let(:default_sort_key) { 'title_sort' }
-        let(:sorting_in_url) { true }
         let(:additional_browse_columns) do
           {
             2 => 'Source',
@@ -247,7 +246,7 @@ describe 'Subjects', js: true do
             'URI' => 'uri'
           }
         end
-        let(:sort_expectations) do
+        let(:primary_sort_expectations) do
           {
             'title_sort' => {
               asc: [record_1.title, record_2.title],
@@ -263,6 +262,51 @@ describe 'Subjects', js: true do
             },
             'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
           }
+        end
+        # Creates ties: source='local' (same as record_1), first_term_type='topical' (same as record_1)
+        let(:record_3) do
+          create(:subject,
+            source: 'local',
+            terms: [build(:term, { term: "C #{now}", term_type: 'topical' })]
+          )
+        end
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary source asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'source',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            },
+            {
+              # Case 2: primary source asc, secondary title_sort desc - secondary changes order
+              primary_key:   'source',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.title,
+                record_1.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_2.title,
+                record_3.title,
+                record_1.title
+              ]
+            }
+          ]
         end
 
         it_behaves_like 'results table sorting'
