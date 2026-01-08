@@ -33,10 +33,10 @@ describe 'Tree toolbar import help link', js: true do
     expect(page).to have_css($help_link_id, visible: true)
   end
 
-  it 'should display a tooltip above when hovered on edit resource page' do
+  it 'should display a tooltip when hovered on edit resource page' do
     page.should have_no_css("#$help_link_id[aria-describedby*='tooltip']")
     page.find($help_link_id).hover
-    page.should have_css("#$help_link_id[aria-describedby*='tooltip'][data-placement='top']")
+    page.should have_css("#$help_link_id[aria-describedby*='tooltip'][data-placement='auto']")
   end
 
   it 'should be hidden when resource tree is in reorder mode' do
@@ -51,10 +51,10 @@ describe 'Tree toolbar import help link', js: true do
     expect(page).to have_css($help_link_id, visible: true)
   end
 
-  it 'should display a tooltip above when hovered on edit archival object page' do
+  it 'should display a tooltip when hovered on edit archival object page' do
     page.should have_no_css("#$help_link_id[aria-describedby*='tooltip']")
     page.find($help_link_id).hover
-    page.should have_css("#$help_link_id[aria-describedby*='tooltip'][data-placement='top']")
+    page.should have_css("#$help_link_id[aria-describedby*='tooltip'][data-placement='auto']")
   end
 
   it 'should be hidden when archival object tree is in reorder mode' do
