@@ -363,3 +363,84 @@ pl:
     dates_of_existence: Daty istnienia
     dates_of_existence_tooltip: |
       <p>Daty, w których istniał dany podmiot.</p>
+    publish: Publikować
+    _singular: Osoba
+    _plural: Osoby
+    new_title:
+      agent_family: Nowa rodzina
+      agent_person: Nowa osoba
+      agent_corporate_entity: Nowy podmiot korporacyjny
+      agent_software: Nowe oprogramowanie
+    agent_record_controls_tooltip: |
+      <p>Informacje o rekordzie opisującym agenta.</p>
+    agent_alternate_sets_tooltip: |
+      <p>Służy do wskazywania powiązanych rekordów autorytatywnych w przypadku, gdy dwa lub więcej rekordów dotyczących tej samej jednostki pochodzi z dwóch lub więcej systemów autorytatywnych.</p>
+    agent_conventions_declarations_tooltip: |
+      <p>Standard treści wykorzystywany przy tworzeniu rekordów dotyczących podmiotów. Przykład: Opis archiwów: Standard treści. Ten podrekord może być używany zamiast wpisów w sekcji „Zasady” dla poszczególnych form nazw.</p>
+    agent_other_agency_codes_tooltip: |
+      <p>Informacje na temat alternatywnych kodów identyfikacyjnych agencji lub organizacji odpowiedzialnej za utworzenie lub aktualizację rekordu agenta.</p>
+    agent_maintenance_histories_tooltip: |
+      <p>Zdarzenia związane z tworzeniem lub aktualizacją rekordu agenta.</p>
+    agent_record_identifiers_tooltip: |
+      <p>Identyfikatory powiązane z rekordem agenta.</p>
+    agent_sources_tooltip: |
+      <p>Źródło wykorzystane przy opracowywaniu treści wpisu dotyczącego agenta.</p>
+    agent_identifiers_tooltip: |
+      <p>Identyfikatory powiązane z danym podmiotem, takie jak identyfikatory prawne przypisane przez uprawnioną agencję. Przykłady obejmują identyfikator ORCID dla osoby fizycznej lub kod repozytorium MARC dla podmiotu korporacyjnego.</p>
+    agent_genders_tooltip: Płeć badanego.
+    agent_places_tooltip: Umieść informacje dotyczące agenta.
+    agent_occupations_tooltip: Informacje dotyczące zawodu powiązanego z danym agentem.
+    agent_functions_tooltip: Terminy używane do identyfikacji funkcji, procesów, zadań, działań lub 
+      transakcji wykonywanych przez agenta.
+    agent_topics_tooltip: Podmiot powiązany z agentem.
+    agent_contacts_tooltip: |
+      <p>Dane kontaktowe agenta lub przedstawiciela działającego w jego imieniu.</p>
+    used_languages_tooltip: 'Język(i) powiązane z danym agentem. Przykład: angielski.'
+    agent_resources_tooltip: Zasoby i inne dokumenty związane z danym agentem.
+    related_agent_tooltip: Służy do łączenia innych podmiotów z danym podmiotem i wskazywania 
+      charakteru tej relacji.
+    publish_tooltip: |
+      <p>Wskazuje, czy agent jest uwzględniany w eksportach i publikowany w interfejsie publicznym (jeśli jest używany).</p>
+    linker:
+      create: Utwórz agenta
+      browse: Przeglądaj agentów
+      link_title: Link do agenta
+  agent_person:
+    _singular: Osoba
+    _plural: Ludzie
+  agent_family:
+    _singular: Rodzina
+    _plural: Rodziny
+  agent_software:
+    _singular: Oprogramowanie
+    _plural: Oprogramowanie
+  agent_corporate_entity:
+    _singular: Podmiot korporacyjny
+    _plural: Podmioty korporacyjne
+  related_agents_agent_person:
+    related_agents: Powiązani agenci
+  related_agents_agent_family:
+    related_agents: Powiązani agenci
+  related_agents_agent_software:
+    related_agents: Powiązani agenci
+  related_agents_agent_corporate_entity:
+    related_agents: Powiązani agenci
+  archival_object:
+    title: Tytuł
+    title_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO: Tytuł przypisany do opisywanych materiałów. Obiekt archiwalny musi posiadać albo tytuł, albo podrekord daty.</p>
+      <p>Patrz DACS 2.3</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Dokumenty Graciany Mirandy Archilli</li>
+      <li>Zbiór dokumentów „Miłość tworzy rodzinę”</li>
+      <li>Księga rachunkowa rodziny Cameron</li>
+      <li>Kolekcja karykatur i rysunków Caroline i Erwina Swannów</li>
+      <li>Korespondencja Narodowej Akademii Nauk</li>
+      <li>Nagrania audio i wideo</li>
+      </ul>
+    ref_id: Numer referencyjny
+    ref_id_tooltip: |
+      <p>Automatycznie generowany i aktualizowany identyfikator referencyjny, który może być wykorzystywany jako cel do tworzenia linków itp. Identyfikator referencyjny ma być generowany automatycznie lub importowany z istniejącego systemu i pozostawać niezmienny.</p>
+    ref_id_export_prefix: aspace_
+    dates: Daty
