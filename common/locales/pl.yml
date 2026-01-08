@@ -290,3 +290,76 @@ pl:
       </ul>
     publish: Opublikuj?
     publish_help: Zaznacz tę opcję, jeśli chcesz udostępnić te dane publicznie.
+    publish_tooltip: |
+      <p>Określa, czy ten rekord zostanie opublikowany w interfejsach dostępnych dla użytkowników (czytelników).</p>
+    restrictions: Ograniczenia?
+    restrictions_tooltip: |
+      <p>Informacja o ewentualnych ograniczeniach dotyczących dostępu do dokumentów.</p>
+      <p>Patrz DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
+    title: Tytuł
+    title_tooltip: |
+      <p>Tytuł przypisany do jednostki archiwalnej lub zasobu. Tytuł jednostki archiwalnej nie musi być taki sam jak tytuł zasobu. Ponadto, tytuł nie musi być jawnie podany w rekordzie jednostki archiwalnej, ponieważ może być dziedziczony z rekordu zasobu, z którym jednostka archiwalna jest powiązana.</p>
+      <p>Zobacz DACS 2.3.18-2.3.22</p>
+    related_resources_tooltip: |
+      <p>Służy do łączenia powiązanych zasobów z tym wpisem.</p>
+    relator: Agent nieruchomości
+    relator_type: Typ sprawozdawcy
+    created_by: Stworzone przez
+    last_modified_by: Ostatnia modyfikacja przez
+    create_time: Stworzony
+    user_mtime: Zmodyfikowany
+    _singular: Przystąpienie
+    _plural: Dostęp do dokumentów
+    new_title: Nowe przystąpienie
+    linker:
+      browse: Przeglądaj zbiory
+      create: Utwórz wpis
+      link_title: Link do dokumentu akcesyjnego
+  interrelated_accession:
+    _plural: Powiązane numery dostępowe
+    relationship_type: Typ relacji
+  accession_sibling_relationship:
+    _singular: Relacje między rodzeństwem
+    relator: To przystąpienie
+    sibling_of: Rodzeństwo
+    relator_type: Typ sprawozdawcy
+    bound_with: Relacja „powiązane z”
+  accession_parts_relationship:
+    _singular: Relacja „część czegoś”
+    part: Relacja „część czegoś”
+    relator: To przystąpienie
+    forms_part_of: Stanowi część
+    has_part: Ma część
+    relator_type: Typ sprawozdawcy
+  agent:
+    type: Typ agenta
+    type_tooltip: |
+      <p>Typ podmiotu reprezentowanego przez rekord Agenta.</p>
+      <p>Zobacz DACS 10.2 i encję Agenta w standardzie PREMIS.</p>
+    agent_type:
+      agent_family: Rodzina
+      agent_person: Osoba
+      agent_corporate_entity: Podmiot korporacyjny
+      agent_software: Oprogramowanie
+    is_user: Nazwa użytkownika
+    is_user_tooltip: |
+      <p>Jeśli rekord agenta istnieje, jest on powiązany z użytkownikiem aplikacji o podanej nazwie użytkownika.</p>
+    name: Imię agenta
+    names: Formy imion
+    names_tooltip: |
+      <p>WYMAGANY PODREKORD: Zawiera różne formy imienia i nazwiska agenta. Każdy rekord agenta musi zawierać co najmniej jeden podrekord z formą imienia i nazwiska.</p>
+    agent_contacts: Dane kontaktowe
+    contacts_tooltip: |
+      <p>Zawiera dane kontaktowe dotyczące konkretnego agenta.</p>
+    notes: Notatki
+    notes_tooltip: |
+      <p>Zawiera dodatkowe informacje opisowe dotyczące danego podmiotu, takie jak notka biograficzna lub historia administracyjna.</p>
+    agent_contact_notes_tooltip: |
+      <p>Uwagi dotyczące interakcji z agentem.</p>
+    related_agents_tooltip: |
+      <p>Umożliwia tworzenie powiązań między tym rekordem agenta a innymi rekordami w relacjach asocjacyjnych, hierarchicznych lub typu rodzic/dziecko.</p>
+    external_documents_tooltip: |
+      <p>Umożliwia dodawanie linków do zewnętrznej dokumentacji, np. plików biograficznych, dzieł referencyjnych itp., dotyczących tej osoby/podmiotu.</p>
+    dates_of_existence: Daty istnienia
+    dates_of_existence_tooltip: |
+      <p>Daty, w których istniał dany podmiot.</p>
