@@ -740,6 +740,20 @@ pl:
   digital_object:
     title: Tytuł
     digital_object_id: Identyfikator
+    digital_object_type_tooltip: |
+      <p>Ogólne określenie wskazujące na podstawowy typ zawartości obiektu cyfrowego. Domyślne opcje odpowiadają elementowi &lt;typeOfResource&gt; w standardzie MODS.</p>
+    restrictions: Ograniczenia?
+    restrictions_tooltip: |
+      <p>Pole wyboru służące do wskazania, że obowiązują ograniczenia. Ograniczenia można opisać za pomocą podrekordów „Uwagi” lub „Prawa”.</p>
+    file_versions_tooltip: |
+      <p>Łączy obiekt cyfrowy lub komponent obiektu cyfrowego z powiązanym plikiem treści, dostępnym za pośrednictwem adresu URI.</p>
+    _singular: Obiekt cyfrowy
+    _plural: Obiekty cyfrowe
+    new_title: Nowy obiekt cyfrowy
+    linker:
+      browse: Przeglądaj obiekty cyfrowe
+      create: Utwórz obiekt cyfrowy
+      link_title: Link do obiektu cyfrowego
   slug:
     public_url: Publiczny adres URL
     public_url_tooltip: |
@@ -793,3 +807,38 @@ pl:
       <p>Pola definiowane przez użytkownika służące do zapisywania dodatkowych informacji, które nie są uwzględnione w innych sekcjach aplikacji.</p>
   digital_object_component:
     dates: Daty
+    label: Etykieta
+    label_tooltip: |
+      <p>Termin używany do opisania części i jej położenia w obrębie opisywanego obiektu cyfrowego. Częściej stosowany w odniesieniu do poszczególnych części obiektu cyfrowego niż do głównego rekordu obiektu cyfrowego.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Audio: Taśma 1, Ścieżka 1, Sekcja 1 itd.</li>
+      <li>Obraz: Obraz 1, Zdjęcie 1 itd.</li>
+      <li>Tekst: Strona 1, Kartka 1, Pierwsza kartka, Rozdział 1, Sekcja 1 itd.</li>
+      <li>Wideo: Taśma 1, Część 1, Sekcja 1 itd.</li>
+      </ul>
+    component_id: Identyfikator
+    component_id_tooltip: |
+      <p>Unikalny identyfikator komponentu obiektu cyfrowego.</p>
+    has_unpublished_ancestor: Czy ma niepublikowanego przodka?
+    _singular: Cyfrowy komponent obiektu
+    _plural: Komponenty obiektów cyfrowych
+  location:
+    title: Lokalizacja
+    temporary_question: Temporary?
+    temporary: Typ tymczasowy
+    temporary_tooltip: |
+      <p>Służy do wskazania, czy dana lokalizacja jest określonym typem lokalizacji tymczasowej (np. przestrzenią wystawową).</p>
+    building: Budynek
+    building_tooltip: |
+      <p>POLE WYMAGANE. Służy do wskazania budynku, w którym znajduje się dana lokalizacja.</p>
+    floor: Piętro
+    floor_tooltip: |
+      <p>Służy do wskazania piętra, na którym znajduje się dana lokalizacja.</p>
+    room: Pokój
+    room_tooltip: |
+      <p>Służy do wskazania pomieszczenia, w którym znajduje się dana lokalizacja.</p>
+    area: Miejsce
+    area_tooltip: |
+      <p>Służy do wskazania obszaru (np. pomieszczenia), w którym znajduje się dana lokalizacja.</p>
+    barcode: Kod kreskowy
