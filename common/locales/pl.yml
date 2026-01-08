@@ -842,3 +842,6 @@ pl:
     area_tooltip: |
       <p>Służy do wskazania obszaru (np. pomieszczenia), w którym znajduje się dana lokalizacja.</p>
     barcode: Kod kreskowy
+    coordinate_3_indicator_tooltip: |
+      <p>Służy do zapisywania wskaźnika, takiego jak liczba lub litera, który jednoznacznie identyfikuje lokalizację w połączeniu z przypisaną etykietą współrzędnych.</p>
+    display_string: Wyświetl ciąg znaków
