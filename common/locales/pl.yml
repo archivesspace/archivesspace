@@ -754,6 +754,28 @@ pl:
       browse: Przeglądaj obiekty cyfrowe
       create: Utwórz obiekt cyfrowy
       link_title: Link do obiektu cyfrowego
+    title_tooltip: |
+      <p>Tytuł obiektu cyfrowego. Może być przepisany z samego obiektu, odziedziczony z rekordu zasobu źródłowego/komponentu zasobu lub dostarczony przez repozytorium.</p>
+      <p>Tytuł obiektu cyfrowego jako całości może być taki sam jak tytuł zasobu lub rekordu komponentu zasobu, z którym powiązany jest rekord obiektu cyfrowego. Może jednak różnić się od tytułu wyrażonego w powiązanym rekordzie zasobu.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Stanley Elkins, dziadek <em>(powiązany z rekordem komponentu zasobu o tytule „Portrety rodzinne”)</em></li>
+      <li>List do New Atlantic <em>(powiązany z rekordem komponentu zasobu o tytule „List do New Atlantic”)</em></li>
+      <li>Pożar Cedar Fire <em>(powiązany z rekordem komponentu zasobu o tytule „Pożar Cedar Fire”)</em></li>
+      </ul>
+    digital_object_id_tooltip: |
+      <p>Unikalny identyfikator całego obiektu cyfrowego. Może to być ARK, HANDLE, URI lub dowolny ciąg znaków jednoznacznie identyfikujący obiekt cyfrowy. Pole to musi być wypełnione, aby można było wyeksportować poprawny rekord METS.</p>
+      <p>Przykłady</p>
+      <ul>
+      <li>http://hdl.handle.net/1813/13524</li>
+      </ul>
+    publish: Publikować?
+    publish_tooltip: |
+      <p>Określa, czy ten obiekt cyfrowy lub jego komponent zostanie udostępniony w publicznych interfejsach (dla użytkowników).</p>
+    level: Poziom podstawowy VRA
+    level_tooltip: |
+      <p>Przeznaczone przede wszystkim do stosowania w wielopoziomowych rekordach zgodnych ze standardem VRA Core, w celu wskazania, czy opis dotyczy kolekcji, dzieła czy obrazu.</p>
+    digital_object_type: Typ obiektu cyfrowego
   slug:
     public_url: Publiczny adres URL
     public_url_tooltip: |
@@ -825,7 +847,7 @@ pl:
     _plural: Komponenty obiektów cyfrowych
   location:
     title: Lokalizacja
-    temporary_question: Temporary?
+    temporary_question: Tymczasowy?
     temporary: Typ tymczasowy
     temporary_tooltip: |
       <p>Służy do wskazania, czy dana lokalizacja jest określonym typem lokalizacji tymczasowej (np. przestrzenią wystawową).</p>
@@ -845,3 +867,6 @@ pl:
     coordinate_3_indicator_tooltip: |
       <p>Służy do zapisywania wskaźnika, takiego jak liczba lub litera, który jednoznacznie identyfikuje lokalizację w połączeniu z przypisaną etykietą współrzędnych.</p>
     display_string: Wyświetl ciąg znaków
+    barcode_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO: Pole Kod kreskowy, Klasyfikacja lub Etykieta współrzędnej 1 i Wskaźnik współrzędnej 1 muszą zawierać dane.</p>
+      <p>Służy do zapisywania kodu kreskowego, np. półki lub regału, który jednoznacznie identyfikuje lokalizację.</p>
