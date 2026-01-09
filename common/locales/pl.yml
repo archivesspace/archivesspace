@@ -20,6 +20,24 @@ pl:
     text_1: Tekst 1
     integer_1: Liczba całkowita 1
 
+    text_2: Tekst 2
+    text_3: Tekst 3
+    text_4: Tekst 4
+    text_5: Tekst 5
+    date_1: Data 1
+    date_2: Data 2
+    date_3: Data 3
+    boolean_1: Wartość logiczna 1
+    boolean_2: Wartość logiczna 2
+    date_1_inline_help: 'Wymagany format: RRRR-MM-DD'
+    date_2_inline_help: 'Wymagany format: RRRR-MM-DD'
+    date_3_inline_help: 'Wymagany format: RRRR-MM-DD'
+    enum_1: Kontrolowana wartość 1
+    enum_2: Kontrolowana wartość 2
+    enum_3: Kontrolowana wartość 3
+    enum_4: Kontrolowana wartość 4
+    _singular: Zdefiniowane przez użytkownika
+    _plural: Zdefiniowane przez użytkownika
   reports:
     parameters:
       from: Od
@@ -363,3 +381,881 @@ pl:
     dates_of_existence: Daty istnienia
     dates_of_existence_tooltip: |
       <p>Daty, w których istniał dany podmiot.</p>
+    publish: Publikować
+    _singular: Osoba
+    _plural: Osoby
+    new_title:
+      agent_family: Nowa rodzina
+      agent_person: Nowa osoba
+      agent_corporate_entity: Nowy podmiot korporacyjny
+      agent_software: Nowe oprogramowanie
+    agent_record_controls_tooltip: |
+      <p>Informacje o rekordzie opisującym agenta.</p>
+    agent_alternate_sets_tooltip: |
+      <p>Służy do wskazywania powiązanych rekordów autorytatywnych w przypadku, gdy dwa lub więcej rekordów dotyczących tej samej jednostki pochodzi z dwóch lub więcej systemów autorytatywnych.</p>
+    agent_conventions_declarations_tooltip: |
+      <p>Standard treści wykorzystywany przy tworzeniu rekordów dotyczących podmiotów. Przykład: Opis archiwów: Standard treści. Ten podrekord może być używany zamiast wpisów w sekcji „Zasady” dla poszczególnych form nazw.</p>
+    agent_other_agency_codes_tooltip: |
+      <p>Informacje na temat alternatywnych kodów identyfikacyjnych agencji lub organizacji odpowiedzialnej za utworzenie lub aktualizację rekordu agenta.</p>
+    agent_maintenance_histories_tooltip: |
+      <p>Zdarzenia związane z tworzeniem lub aktualizacją rekordu agenta.</p>
+    agent_record_identifiers_tooltip: |
+      <p>Identyfikatory powiązane z rekordem agenta.</p>
+    agent_sources_tooltip: |
+      <p>Źródło wykorzystane przy opracowywaniu treści wpisu dotyczącego agenta.</p>
+    agent_identifiers_tooltip: |
+      <p>Identyfikatory powiązane z danym podmiotem, takie jak identyfikatory prawne przypisane przez uprawnioną agencję. Przykłady obejmują identyfikator ORCID dla osoby fizycznej lub kod repozytorium MARC dla podmiotu korporacyjnego.</p>
+    agent_genders_tooltip: Płeć badanego.
+    agent_places_tooltip: Umieść informacje dotyczące agenta.
+    agent_occupations_tooltip: Informacje dotyczące zawodu powiązanego z danym agentem.
+    agent_functions_tooltip: Terminy używane do identyfikacji funkcji, procesów, zadań, działań lub 
+      transakcji wykonywanych przez agenta.
+    agent_topics_tooltip: Podmiot powiązany z agentem.
+    agent_contacts_tooltip: |
+      <p>Dane kontaktowe agenta lub przedstawiciela działającego w jego imieniu.</p>
+    used_languages_tooltip: 'Język(i) powiązane z danym agentem. Przykład: angielski.'
+    agent_resources_tooltip: Zasoby i inne dokumenty związane z danym agentem.
+    related_agent_tooltip: Służy do łączenia innych podmiotów z danym podmiotem i wskazywania 
+      charakteru tej relacji.
+    publish_tooltip: |
+      <p>Wskazuje, czy agent jest uwzględniany w eksportach i publikowany w interfejsie publicznym (jeśli jest używany).</p>
+    linker:
+      create: Utwórz agenta
+      browse: Przeglądaj agentów
+      link_title: Link do agenta
+  agent_person:
+    _singular: Osoba
+    _plural: Ludzie
+  agent_family:
+    _singular: Rodzina
+    _plural: Rodziny
+  agent_software:
+    _singular: Oprogramowanie
+    _plural: Oprogramowanie
+  agent_corporate_entity:
+    _singular: Podmiot korporacyjny
+    _plural: Podmioty korporacyjne
+  related_agents_agent_person:
+    related_agents: Powiązani agenci
+  related_agents_agent_family:
+    related_agents: Powiązani agenci
+  related_agents_agent_software:
+    related_agents: Powiązani agenci
+  related_agents_agent_corporate_entity:
+    related_agents: Powiązani agenci
+  archival_object:
+    title: Tytuł
+    title_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO: Tytuł przypisany do opisywanych materiałów. Obiekt archiwalny musi posiadać albo tytuł, albo podrekord daty.</p>
+      <p>Patrz DACS 2.3</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Dokumenty Graciany Mirandy Archilli</li>
+      <li>Zbiór dokumentów „Miłość tworzy rodzinę”</li>
+      <li>Księga rachunkowa rodziny Cameron</li>
+      <li>Kolekcja karykatur i rysunków Caroline i Erwina Swannów</li>
+      <li>Korespondencja Narodowej Akademii Nauk</li>
+      <li>Nagrania audio i wideo</li>
+      </ul>
+    ref_id: Numer referencyjny
+    ref_id_tooltip: |
+      <p>Automatycznie generowany i aktualizowany identyfikator referencyjny, który może być wykorzystywany jako cel do tworzenia linków itp. Identyfikator referencyjny ma być generowany automatycznie lub importowany z istniejącego systemu i pozostawać niezmienny.</p>
+    ref_id_export_prefix: aspace_
+    dates: Daty
+    dates_tooltip: |
+      <p>WARUNKOWO WYMAGANY PODREKORD. Obiekt archiwalny musi posiadać albo podrekord tytułu, albo podrekord daty.</p>
+    extents: Zakresy
+    lang_materials: Języki
+    ref_id_auto_generation_message: -- generowane automatycznie po zapisaniu --
+    component_id: Unikalny identyfikator komponentu
+    component_id_tooltip: |
+      <p>Określa unikalny identyfikator, w kontekście opisu zasobu, dla danej części składowej.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Seria I</li>
+      <li>Podseria 8</li>
+      <li>Numer inwentarzowy 2005-M-078</li>
+      </ul>
+    level: Poziom opisu
+    level_tooltip: |
+      <p>POLE WYMAGANE. Wskazuje poziom hierarchii opisywanych materiałów.</p>
+      <p>Patrz rozdział 1 DACS.</p>
+      <p>Dopuszczalne wartości są określone w schemacie EAD.</p>
+    other_level: Inny poziom
+    other_level_tooltip: |
+      <p>Pole wymagane, jeśli w polu „Poziom” wybrano wartość „Inny poziom”. Określa rodzaj poziomu inny niż wartości określone w schemacie EAD.</p>
+    container_summary: Podsumowanie dotyczące kontenerów
+    container_summary_tooltip: |
+      <p>Służy do rejestrowania liczby i rodzaju pojemników składających się na opis zasobu. Jest to podsumowanie tekstowe i nie jest identyczne z podrekordami dotyczącymi rozmiaru zasobu.</p>
+      <p>Patrz DACS 2.5</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>10 kartonów na dokumenty, 6 pudeł archiwizacyjnych, 3 teczki o dużych rozmiarach.</li>
+      <li>12 pudełek po butach.</li>
+      <li>4 pudełka archiwizacyjne, 32 tuby.</li>
+      </ul>
+    publish: Publikować?
+    publish_tooltip: |
+      <p>Określa, czy ten obiekt archiwalny zostanie opublikowany w interfejsach dostępnych dla użytkowników (czytelników).</p>
+    restrictions_apply: Czy obowiązują jakieś ograniczenia?
+    restrictions_apply_tooltip: |
+      <p>Wskazuje, czy opisane materiały podlegają jakimkolwiek ograniczeniom. Dodatkowy opis ograniczeń należy zamieścić w odpowiednich uwagach lub oświadczeniach dotyczących praw autorskich w rekordzie, w którym występuje dane ograniczenie.</p>
+      <p>Patrz DACS 4.1-4.4</p>
+    repository_processing_note: Uwaga dotycząca przetwarzania w repozytorium
+    repository_processing_note_tooltip: |
+      <p>Pole przeznaczone do wprowadzania informacji dotyczących przetwarzania materiałów. Ta notatka nie jest uwzględniana w żadnych eksportach ani raportach i nie jest wypełniana podczas importu danych.</p>
+    automate_title: Automatycznie wygeneruj tytuł
+    "[:resource_id, :ref_id]": Numer referencyjny
+    has_unpublished_ancestor: Czy ma niepublikowanego przodka?
+    import_current_ark: Importuj bieżący plik ARK
+    _singular: Obiekt archiwalny
+    _plural: Obiekty archiwalne
+  group:
+    group_code: Kod grupy
+    group_code_tooltip: |
+      <p>Skrócona wersja nazwy grupy.</p>
+    description: Opis
+    description_tooltip: |
+      <p>Krótki opis grupy w formie tekstowej.</p>
+      <p>Przykłady:
+      <ul>
+      <li>Stażyści z lata 2013 roku</li>
+      <li>Pracownicy działu zarządzania zbiorami</li>
+      </ul>
+    member_usernames: Członkowie
+    member_usernames_tooltip: |
+      <p>Członkowie należący do tej grupy.</p>
+    permissions: 'Członkowie mogą:'
+    default_group_names:
+      repository_managers: Administratorzy repozytorium %{repo_code}
+      repository_archivists: Archiwiści repozytorium %{repo_code}
+      project_managers: Menedżerowie projektu repozytorium %{repo_code}
+      advanced_data_entry: Zaawansowani użytkownicy wprowadzający dane do repozytorium %{repo_code}
+      basic_data_entry: Podstawowi użytkownicy wprowadzający dane do repozytorium %{repo_code}
+      repository_viewers: Widzowie repozytorium %{repo_code}
+    permission_types:
+      manage_repository: przypisywanie <b>użytkowników</b> do grup (w tym 
+        repozytorium)<br/>ustawianie uprawnień <b>grup</b> (w tym repozytorium)<br/>ustawianie 
+        <b>preferencji repozytorium</b> (w tym repozytorium)<br/>konfigurowanie <b>wymaganych pól i 
+        wartości domyślnych</b> (w tym repozytorium)<br/>tworzenie i uruchamianie <b>zadań 
+        wyszukiwania i zamiany wsadowej</b> (w tym 
+        repozytorium)<br/>tworzenie/aktualizowanie/usuwanie <b>lokalizacji</b> (w całym systemie)
+      view_agent_contact_record: sekcja edycji/przeglądania danych kontaktowych <b>agentów</b> (w 
+        tym repozytorium)
+      show_full_agents: Edytuj dodatkowe sekcje <b>agentów</b> dostępne w trybie pełnym (w tym 
+        repozytorium).
+      update_accession_record: tworzenie/aktualizacja <b>rekordów dostępu</b> (w tym repozytorium)
+      update_resource_record: Twórz/aktualizuj <b>zasoby</b> (w tym repozytorium)
+      update_digital_object_record: tworzenie/aktualizacja <b>obiektów cyfrowych</b> (w tym 
+        repozytorium)
+      update_event_record: Tworzenie/aktualizowanie <b>wydarzeń</b> (w tym repozytorium)
+      view_repository: Wyświetl <b>wszystkie rekordy</b> (w tym repozytorium)<br/>Wyświetl 
+        <b>agentów</b> (w całym systemie)<br/>Wyświetl <b>podmioty</b> (w całym systemie)
+      view_suppressed: Wyświetl <b>ukryte rekordy</b> (w tym repozytorium)
+      suppress_archival_record: ukryj <b>zbiory, obiekty archiwalne i zasoby</b> (w tym 
+        repozytorium)
+      delete_archival_record: Usuń <b>pozycje inwentarzowe, obiekty archiwalne, obiekty cyfrowe i 
+        zasoby</b> (w tym repozytorium).
+      delete_event_record: Usuń <b>zdarzenia</b> (w tym repozytorium)
+      update_classification_record: Twórz/aktualizuj <b>klasyfikacje</b> (w tym repozytorium)
+      delete_classification_record: Usuń <b>klasyfikacje</b> (w tym repozytorium)
+      merge_agents_and_subjects: Połącz <b>agentów</b> (w całym systemie)<br/>Połącz <b>podmioty</b>
+        (w całym systemie)
+      merge_archival_record: Połącz <b>obiekty cyfrowe</b> (w tym repozytorium)</br>Połącz 
+        <b>zasoby</b> (w tym repozytorium)
+      manage_rde_templates: Tworzenie/usuwanie <b>szablonów szybkiego wprowadzania danych</b> (w tym
+        repozytorium)
+      transfer_repository: Przenieś <b>całą zawartość tego repozytorium</b> do innego repozytorium 
+        (musisz mieć takie same uprawnienia w docelowym repozytorium).
+      transfer_archival_record: przenoszenie pojedynczych <b>pozycji, obiektów cyfrowych i 
+        zasobów</b> do innego repozytorium (wymagane jest również posiadanie uprawnień do 
+        tworzenia/aktualizacji rekordów danego typu w obu repozytoriach)
+      manage_subject_record: tworzenie/aktualizacja/usuwanie <b>przedmiotów</b> (w całym systemie)
+      manage_agent_record: tworzenie/aktualizacja/usuwanie <b>agentów</b> (w całym systemie)
+      manage_vocabulary_record: tworzenie/aktualizacja/usuwanie <b>słowników</b> (w obrębie całego 
+        systemu)
+      import_records: Twórz/uruchamiaj <b>zadania importu</b> (w tym repozytorium).
+      cancel_importer_job: Anuluj zadania importu (w tym repozytorium).
+      update_container_record: Twórz/aktualizuj <b>główne kontenery</b> (w tym repozytorium)
+      manage_container_record: Usuń/zaktualizuj zbiorczo <b>główne kontenery</b> (w tym 
+        repozytorium)
+      manage_container_profile_record: tworzenie/aktualizacja/usuwanie <b>profili kontenerów</b> (na
+        poziomie całego systemu)
+      manage_location_profile_record: tworzenie/aktualizacja/usuwanie <b>profili lokalizacji</b> (w 
+        całym systemie)
+      create_job: Tworzenie/uruchamianie <b>zadań w tle</b> (w tym repozytorium)
+      cancel_job: Anuluj <b>zadania działające w tle</b> (w tym repozytorium)
+      update_assessment_record: Twórz/aktualizuj <b>oceny</b> (w tym repozytorium).
+      delete_assessment_record: Usuń <b>oceny</b> (w tym repozytorium)
+      manage_assessment_attributes: Tworzenie/aktualizacja/usuwanie <b>definicji atrybutów oceny 
+        repozytorium</b> (w tym repozytorium)
+      manage_enumeration_record: tworzenie/aktualizacja/usuwanie <b>wartości kontrolowanych</b> (w 
+        całym systemie)
+      manage_custom_report_templates: Tworzenie/aktualizowanie/usuwanie <b>niestandardowych 
+        szablonów raportów</b> (w tym repozytorium)
+    _singular: Grupa
+    _plural: Grupy
+  resource:
+    id_0: Identyfikator
+    id_1: Identyfikator 2
+    id_2: Identyfikator 3
+    id_3: Identyfikator 4
+    id_0_tooltip: |
+      <p>POLE WYMAGANE. Numer identyfikacyjny przypisany do każdego pojedynczego zasobu w repozytorium.</p>
+      <p>Patrz DACS 2.1.3</p>
+      <p>Przykłady</p>
+      <ul>
+      <li>R.001 (Dwa elementy: „R” + „001”)</li>
+      <li>MSS 025 (Jeden element)</li>
+      <li>Archives.RSS.0333 (Trzy elementy: „Archives” + „RSS” + „0333”)</li>
+      </ul>
+    "[:id_0, :id_1, :id_2, :id_3]": Identyfikator
+    "[:repo_id, :identifier]": Identyfikator
+    identifier: Identyfikator
+    title_tooltip: |
+      <p>POLE WYMAGANE. Tytuł przypisany do zasobu.</p>
+      <p>Zobacz DACS 2.3</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Dokumenty Graciany Mirandy Archilli</li>
+      <li>Zbiór dokumentów „Miłość tworzy rodzinę”</li>
+      <li>Księga rachunkowa rodziny Cameron</li>
+      <li>Kolekcja karykatur i rysunków Caroline i Erwina Swannów</li>
+      <li>Korespondencja Narodowej Akademii Nauk</li>
+      <li>Nagrania audio i wideo</li>
+      </ul>
+    resource_type: Typ zasobu
+    resource_type_tooltip: |
+      <p>Lista terminów używanych przez repozytorium do kategoryzowania zasobów według podstawowych typów.</p>
+      <p>Wartości w tej liście kontrolowanych wartości mogą być modyfikowane.</p>
+    repository_processing_note: Uwaga dotycząca przetwarzania w repozytorium
+    extents_tooltip: |
+      <p>WYMAGANY PODREKORD: Służy do rejestrowania rozmiaru opisywanych materiałów.</p>
+      <p>Patrz DACS 2.5</p>
+    related_accessions_tooltip: |
+      <p>Służy do łączenia powiązanych pozycji w bazie danych z tym zasobem.</p>
+    publish_tooltip: |
+      <p>Określa, czy ten zasób zostanie opublikowany w interfejsach dostępnych dla użytkowników (czytelników).</p>
+    restrictions: Czy obowiązują jakieś ograniczenia?
+    restrictions_tooltip: |
+      <p>Wskazuje, czy opisane materiały podlegają jakimkolwiek ograniczeniom. Dodatkowy opis ograniczeń należy zamieścić w odpowiednich uwagach lub oświadczeniach dotyczących praw autorskich w rekordzie, w którym występuje dane ograniczenie.</p>
+      <p>Patrz DACS 4.1-4.4</p>
+    repository_processing_note_tooltip: |
+      <p>Pole przeznaczone do wprowadzania informacji dotyczących przetwarzania materiałów. Ta notatka nie jest uwzględniana w żadnych eksportach ani raportach i nie jest wypełniana podczas importu danych.</p>
+    ead_id: EAD ID
+    ead_id_tooltip: |
+      <p>Identyfikator pliku EAD wygenerowanego na podstawie opisu zasobu, zazwyczaj nazwa pliku. Musi być unikalny w kontekście repozytorium.</p>
+    ead_location: Lokalizacja EAD
+    ead_location_tooltip: |
+      <p>Lokalizacja pliku EAD, wygenerowanego na podstawie opisu zasobu, może być adresem URL strony internetowej lub ścieżką do katalogu plików. Zazwyczaj lokalizacja ta wskazuje na konkretny plik.</p>
+    finding_aid_tooltip: |
+      <p>Służy do rejestrowania danych administracyjnych dotyczących konkretnego opisu archiwalnego, zazwyczaj w przypadku eksportu opisu do formatu Encoded Archival Description (EAD).</p>
+    finding_aid_title: Tytuł przewodnika po zbiorach
+    finding_aid_title_tooltip: |
+      <p>Tytuł (bibliograficzny) inwentarza archiwalnego związanego z tym zasobem.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Rejestr zbioru Jasona Twirly'ego</li>
+      <li>Inwentarz dokumentów rodziny Reese</li>
+      <li>Lista rysunków i modeli firmy architektonicznej Simon i Simon</li>
+      </ul>
+    finding_aid_subtitle: Podtytuł przewodnika po zbiorach archiwalnych
+    finding_aid_filing_title: Tytuł dokumentu pomocniczego do wyszukiwania informacji
+    finding_aid_filing_title_tooltip: |
+      <p>Zmodyfikowana wersja formalnego tytułu inwentarza archiwalnego. Zaprojektowana, aby ułatwić przeglądanie i sortowanie list tytułów inwentarzy archiwalnych.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Dokumenty Bruce'a M. Wayne'a</li>
+      <li>Dokumenty rodziny Rooney</li>
+      <li>Akta Komunistycznej Partii Stanów Zjednoczonych</li>
+      </ul>
+    finding_aid_date: Data sporządzenia spisu pomocniczego
+    finding_aid_date_tooltip: |
+      <p>Wyrażenie daty określające, kiedy bieżący przewodnik po zasobach został wygenerowany na podstawie opisu zasobu.</p>
+    finding_aid_author: Autor przewodnika po zbiorach archiwalnych
+    finding_aid_author_tooltip: |
+      <p>Imię/imiona i nazwisko/nazwiska osób odpowiedzialnych za stworzenie treści inwentarza lub jego zakodowanie.</p>
+    finding_aid_description_rules: Opis zasad
+    finding_aid_description_rules_tooltip: |
+      <p>Wskazuje zasady opisowe stosowane do opisu zasobu.</p>
+      <p>Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
+    finding_aid_language: Język opisu
+    finding_aid_language_tooltip: |
+      <p>Wskazuje wszystkie języki występujące w dokumencie pomocniczym wygenerowanym na podstawie opisu zasobu.</p>
+    finding_aid_langusage_label: 'Opis został napisany w języku: '
+    finding_aid_script: Język skryptu opisu
+    finding_aid_script_tooltip: |
+      <p>Wskazuje wszystkie skrypty obecne w dokumencie pomocniczym wygenerowanym na podstawie opisu zasobu.</p>
+    finding_aid_language_note: Język opisu (Uwaga)
+    finding_aid_language_note_tooltip: |
+      <p>Uwagi dotyczące języków występujących w opisie zasobu, wygenerowanym na podstawie opisu źródła.</p>
+    finding_aid_sponsor: Sponsor
+    finding_aid_sponsor_tooltip: |
+      <p>Wskazuje sponsorów, którzy przyczynili się do opracowania opisu materiałów archiwalnych.</p>
+    finding_aid_edition_statement: Oświadczenie dotyczące wydania
+    finding_aid_edition_statement_tooltip: |
+      <p>Służy do zapisywania informacji o wydaniu inwentarza archiwalnego.</p>
+    finding_aid_series_statement: Oświadczenie dotyczące serii
+    finding_aid_series_statement_tooltip: |
+      <p>Wskazuje serię bibliograficzną, do której należy dany przewodnik archiwalny.</p>
+    finding_aid_status: Status dokumentu pomocniczego
+    finding_aid_status_tooltip: |
+      <p>Wskazuje status inwentarza archiwalnego.</p>
+    is_finding_aid_status_published: Czy przewodnik po zbiorach został opublikowany?
+    is_finding_aid_status_published_tooltip: |
+      <p>Określa, czy status pomocy w wyszukiwaniu jest publicznie dostępny.</p>
+    finding_aid_note: Uwaga dotycząca przewodnika po zbiorach
+    finding_aid_note_tooltip: |
+      <p>Służy do zapisywania wszelkich dodatkowych informacji dotyczących pomocy w wyszukiwaniu (a nie opisywanego zasobu), które nie zostały uwzględnione w innych elementach danych dotyczących pomocy w wyszukiwaniu.</p>
+    created_by: Stworzone przez
+    last_modified_by: Ostatnia modyfikacja przez
+    create_time: Stworzony
+    user_mtime: Zmodyfikowany
+    _singular: Zespól archiwalny
+    _plural: Zespoły archiwalne
+    new_title: Nowy zasób
+  resource_and_archival_object:
+    _singular: Zasób i/lub obiekt archiwalny
+    _plural: Zasoby i/lub obiekty archiwalne
+  related_accession:
+    _singular: Powiązany numer dostępowy
+    _plural: Powiązane numery dostępowe
+  revision_statement:
+    _singlular: Oświadczenie dotyczące poprawek
+    _plural: Oświadczenia dotyczące poprawek
+    date: Data ostatniej aktualizacji
+    date_tooltip: |
+      <p>Określa datę ostatniej aktualizacji inwentarza archiwalnego.</p>
+    description: Opis poprawki
+    description_tooltip: |
+      <p>Opis ostatnich zmian wprowadzonych do przewodnika po zbiorach.</p>
+    publish: Publikować?
+    publish_tooltip: |
+      <p>Określa, czy to oświadczenie dotyczące wersji jest publikowane w interfejsach dostępnych dla użytkowników (klientów).</p>
+  related_resource:
+    _singular: Powiązane zasób
+    _plural: Powiązane zasoby
+  repository:
+    repo_code: Krótka nazwa repozytorium
+  digital_object:
+    title: Tytuł
+    digital_object_id: Identyfikator
+    digital_object_type_tooltip: |
+      <p>Ogólne określenie wskazujące na podstawowy typ zawartości obiektu cyfrowego. Domyślne opcje odpowiadają elementowi &lt;typeOfResource&gt; w standardzie MODS.</p>
+    restrictions: Ograniczenia?
+    restrictions_tooltip: |
+      <p>Pole wyboru służące do wskazania, że obowiązują ograniczenia. Ograniczenia można opisać za pomocą podrekordów „Uwagi” lub „Prawa”.</p>
+    file_versions_tooltip: |
+      <p>Łączy obiekt cyfrowy lub komponent obiektu cyfrowego z powiązanym plikiem treści, dostępnym za pośrednictwem adresu URI.</p>
+    _singular: Obiekt cyfrowy
+    _plural: Obiekty cyfrowe
+    new_title: Nowy obiekt cyfrowy
+    linker:
+      browse: Przeglądaj obiekty cyfrowe
+      create: Utwórz obiekt cyfrowy
+      link_title: Link do obiektu cyfrowego
+    title_tooltip: |
+      <p>Tytuł obiektu cyfrowego. Może być przepisany z samego obiektu, odziedziczony z rekordu zasobu źródłowego/komponentu zasobu lub dostarczony przez repozytorium.</p>
+      <p>Tytuł obiektu cyfrowego jako całości może być taki sam jak tytuł zasobu lub rekordu komponentu zasobu, z którym powiązany jest rekord obiektu cyfrowego. Może jednak różnić się od tytułu wyrażonego w powiązanym rekordzie zasobu.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Stanley Elkins, dziadek <em>(powiązany z rekordem komponentu zasobu o tytule „Portrety rodzinne”)</em></li>
+      <li>List do New Atlantic <em>(powiązany z rekordem komponentu zasobu o tytule „List do New Atlantic”)</em></li>
+      <li>Pożar Cedar Fire <em>(powiązany z rekordem komponentu zasobu o tytule „Pożar Cedar Fire”)</em></li>
+      </ul>
+    digital_object_id_tooltip: |
+      <p>Unikalny identyfikator całego obiektu cyfrowego. Może to być ARK, HANDLE, URI lub dowolny ciąg znaków jednoznacznie identyfikujący obiekt cyfrowy. Pole to musi być wypełnione, aby można było wyeksportować poprawny rekord METS.</p>
+      <p>Przykłady</p>
+      <ul>
+      <li>http://hdl.handle.net/1813/13524</li>
+      </ul>
+    publish: Publikować?
+    publish_tooltip: |
+      <p>Określa, czy ten obiekt cyfrowy lub jego komponent zostanie udostępniony w publicznych interfejsach (dla użytkowników).</p>
+    level: Poziom podstawowy VRA
+    level_tooltip: |
+      <p>Przeznaczone przede wszystkim do stosowania w wielopoziomowych rekordach zgodnych ze standardem VRA Core, w celu wskazania, czy opis dotyczy kolekcji, dzieła czy obrazu.</p>
+    digital_object_type: Typ obiektu cyfrowego
+  slug:
+    public_url: Publiczny adres URL
+    public_url_tooltip: |
+      <p>Jeśli ten rekord zostanie opublikowany lub zaktualizowany w celu publikacji, pojawi się pełny adres URL tego rekordu w publicznym interfejsie użytkownika. Jeśli używane są przyjazne dla użytkownika adresy URL, na końcu adresu URL znajdzie się identyfikator (slug).</p>
+      <p>Niezależnie od tego, czy używane są przyjazne dla użytkownika adresy URL, oryginalny identyfikator URI tego rekordu zawsze pozostaje ważny.</p>
+    slug: Slug (adres URL)
+    slug_tooltip: |
+      <p>W przypadku używania przyjaznych dla użytkownika adresów URL, ostatnia część publicznego adresu URL dla tego rekordu w interfejsie publicznym ArchivesSpace.  Część ta może być dodana lub zaktualizowana ręcznie, lub generowana automatycznie na podstawie ustawień konfiguracji dotyczących przyjaznych dla użytkownika adresów URL w pliku config.rb na serwerze.</p>
+    is_slug_auto: Automatycznie generować adres URL (slug)?
+    is_slug_auto_tooltip: |
+      <p>Jeśli to pole jest zaznaczone, identyfikator URL dla tego rekordu zostanie automatycznie wygenerowany podczas zapisywania rekordu, na podstawie ustawień konfiguracji czytelnych dla człowieka adresów URL w pliku config.rb na serwerze.</p>
+    autogen_disabled: Na podstawie aktualnych ustawień konfiguracyjnych nie można automatycznie 
+      wygenerować identyfikatora URL na podstawie podanych danych.
+    autogen_repo_slug: Ponieważ identyfikator repozytorium nie został wprowadzony ręcznie, został on
+      automatycznie wygenerowany na podstawie krótkiej nazwy repozytorium.
+  content_items:
+    content: Treść
+    content_tooltip: |
+      <p>Treść notatki.</p>
+  section_tooltips:
+    lang_materials_tooltip: |
+      <p>Języki i systemy pisma reprezentowane w opisywanych materiałach.</p>
+      <p>Patrz DACS 4.5</p>
+    dates_tooltip: |
+      <p>Określa i rejestruje daty związane z tworzeniem, gromadzeniem, kompletowaniem i/lub konserwacją oraz wykorzystywaniem opisywanych materiałów.</p>
+      <p>Patrz DACS 2.4</p>
+    extents_tooltip: |
+      <p>Wskazuje zakres i fizyczny charakter opisywanych materiałów.</p>
+      <p>Zobacz DACS 2.5</p>
+    linked_agents_tooltip: |
+      <p>Przypisuje podmioty jako twórców, źródła lub podmioty związane z opisywanymi materiałami, aby dostarczyć informacji o ich kontekście.</p>
+    subjects_tooltip: |
+      <p>Służy do łączenia tematów z opisanymi materiałami.</p>
+    notes_tooltip: |
+      <p>Dodatkowe informacje opisowe dotyczące opisanych materiałów, zazwyczaj w formie tekstu lub uporządkowanych list.</p>
+    external_documents_tooltip: |
+      <p>Linki do informacji zawartych w innych systemach opisu lub zarządzania, takich jak pliki darczyńców, plany przetwarzania danych itp.</p>
+    rights_statements_tooltip: |
+      <p>Informacje na temat statusu praw autorskich do opisanych materiałów oraz ewentualnych ograniczeń lub zezwoleń.</p>
+    metadata_rights_declarations_tooltip: |
+      <p>Na podstawie norm DACS 8.2 i 13.11</p>
+    instances_tooltip: |
+      <p>Opis zawiera linki do informacji o fizycznych lub cyfrowych wersjach danego materiału.</p>
+    deaccessions_tooltip: |
+      <p>Zawiera informacje o materiałach, które mogły zostać oddzielone i wyrzucone, zwrócone darczyńcy lub przekazane innej instytucji.</p>
+    collection_management_tooltip: |
+      <p>Dodatkowe, wewnętrzne informacje dotyczące sposobu przetwarzania lub planowanego przetwarzania opisanych materiałów.</p>
+    classification_tooltip: |
+      <p>Służy do powiązania opisanych materiałów z klasyfikacją lub terminem klasyfikacyjnym (np. systemem grup dokumentów) zarządzanym w ramach aplikacji.</p>
+    user_defined_tooltip: |
+      <p>Pola definiowane przez użytkownika służące do zapisywania dodatkowych informacji, które nie są uwzględnione w innych sekcjach aplikacji.</p>
+  digital_object_component:
+    dates: Daty
+    label: Etykieta
+    label_tooltip: |
+      <p>Termin używany do opisania części i jej położenia w obrębie opisywanego obiektu cyfrowego. Częściej stosowany w odniesieniu do poszczególnych części obiektu cyfrowego niż do głównego rekordu obiektu cyfrowego.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Audio: Taśma 1, Ścieżka 1, Sekcja 1 itd.</li>
+      <li>Obraz: Obraz 1, Zdjęcie 1 itd.</li>
+      <li>Tekst: Strona 1, Kartka 1, Pierwsza kartka, Rozdział 1, Sekcja 1 itd.</li>
+      <li>Wideo: Taśma 1, Część 1, Sekcja 1 itd.</li>
+      </ul>
+    component_id: Identyfikator
+    component_id_tooltip: |
+      <p>Unikalny identyfikator komponentu obiektu cyfrowego.</p>
+    has_unpublished_ancestor: Czy ma niepublikowanego przodka?
+    _singular: Cyfrowy komponent obiektu
+    _plural: Komponenty obiektów cyfrowych
+  location:
+    title: Lokalizacja
+    temporary_question: Tymczasowy?
+    temporary: Typ tymczasowy
+    temporary_tooltip: |
+      <p>Służy do wskazania, czy dana lokalizacja jest określonym typem lokalizacji tymczasowej (np. przestrzenią wystawową).</p>
+    building: Budynek
+    building_tooltip: |
+      <p>POLE WYMAGANE. Służy do wskazania budynku, w którym znajduje się dana lokalizacja.</p>
+    floor: Piętro
+    floor_tooltip: |
+      <p>Służy do wskazania piętra, na którym znajduje się dana lokalizacja.</p>
+    room: Pokój
+    room_tooltip: |
+      <p>Służy do wskazania pomieszczenia, w którym znajduje się dana lokalizacja.</p>
+    area: Miejsce
+    area_tooltip: |
+      <p>Służy do wskazania obszaru (np. pomieszczenia), w którym znajduje się dana lokalizacja.</p>
+    barcode: Kod kreskowy
+    coordinate_3_indicator_tooltip: |
+      <p>Służy do zapisywania wskaźnika, takiego jak liczba lub litera, który jednoznacznie identyfikuje lokalizację w połączeniu z przypisaną etykietą współrzędnych.</p>
+    display_string: Wyświetl ciąg znaków
+    barcode_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO: Pole Kod kreskowy, Klasyfikacja lub Etykieta współrzędnej 1 i Wskaźnik współrzędnej 1 muszą zawierać dane.</p>
+      <p>Służy do zapisywania kodu kreskowego, np. półki lub regału, który jednoznacznie identyfikuje lokalizację.</p>
+    classification: Klasyfikacja
+    classification_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO: Pole kod kreskowy, klasyfikacja lub etykieta współrzędnej 1 i wskaźnik współrzędnej 1 muszą zawierać dane.</p>
+      <p>Służy do zapisywania numeru klasyfikacyjnego, który jednoznacznie identyfikuje lokalizację.</p>
+    coordinates: Współrzędne
+    coordinate_1_label: Etykieta współrzędnych 1
+    coordinate_1_label_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO: Dane muszą znajdować się w jednym z pól: kod kreskowy, klasyfikacja lub etykieta współrzędnej 1 i wskaźnik współrzędnej 1.</p>
+      <p>Służy do zapisywania etykiety (np. „Półka”, „Rząd”, „Szuflada”) dla określonej lokalizacji.</p>
+    coordinate_1_indicator: Wskaźnik współrzędnych 1
+    coordinate_1_indicator_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO: Pole kod kreskowy, klasyfikacja lub etykieta współrzędnej 1 i wskaźnik współrzędnej 1 muszą zawierać dane.</p>
+      <p>Służy do zapisywania wskaźnika, takiego jak liczba lub litera, który jednoznacznie identyfikuje lokalizację w połączeniu z powiązaną etykietą współrzędnej.</p>
+    coordinate_2_label: Etykieta współrzędnych 2
+    coordinate_2_label_tooltip: |
+      <p>Służy do przypisywania etykiety (np. „Półka”, „Regał”, „Szuflada”) do konkretnej lokalizacji.</p>
+    coordinate_2_indicator: Wskaźnik współrzędnych 2
+    coordinate_2_indicator_tooltip: |
+      <p>Służy do zapisywania wskaźnika, takiego jak liczba lub litera, który jednoznacznie identyfikuje lokalizację w połączeniu z przypisaną etykietą współrzędnych.</p>
+    coordinate_3_label: Etykieta współrzędnych 3
+    coordinate_3_label_tooltip: |
+      <p>Służy do przypisywania etykiety (np. „Półka”, „Regał”, „Szuflada”) do konkretnej lokalizacji.</p>
+    coordinate_3_indicator: Wskaźnik współrzędnych 3
+    has_unpublished_ancestor: Czy ma niepublikowanego przodka?
+    holdings: Posiadająca
+    owner_repo: Zarezerwowane dla
+    owner_repo_tooltip: Repozytorium, które zarezerwowało tę lokalizację.
+    _singular: Lokalizacja
+    _plural: Lokalizacje
+    new_title: Nowa lokalizacja
+    linker:
+      browse: Przeglądaj lokalizacje
+      create: Utwórz lokalizację
+      link_title: Link do lokalizacji
+  location_batch:
+    label: Etykieta
+    prefix: Prefiks
+    suffix: Przyrostek
+    coordinate_1_range: Zakres współrzędnych 1
+    coordinate_2_range: Zakres współrzędnych 2
+    coordinate_3_range: Zakres współrzędnych 3
+    start: Początek zakresu
+    end: Koniec zakresu
+    _singular: Lokalizacje partii
+    _plural: Lokalizacje partii
+  location_function:
+    location_function_type: Typ funkcji
+    _singular: Funkcja
+    _plural: Funkcje
+  function:
+    _singular: Funkcja
+    _plural: Funkcje
+    _frontend:
+      action:
+        add: Dodaj funkcję
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Dodaj datę
+  container_location:
+    status: Status
+    status_tooltip: |
+      <p>POLE WYMAGANE. Wskazuje, czy informacja o lokalizacji w tym rekordzie jest aktualna, czy odnosi się do poprzedniej lokalizacji opisywanego obiektu.</p>
+    start_date: Data rozpoczęcia
+    start_date_tooltip: |
+      <p>POLE WYMAGANE. Wskazuje datę, w której opisany obiekt został umieszczony w tej lokalizacji, lub znaną datę, od której materiały były przechowywane w tym miejscu.</p>
+    end_date: Data zakończenia
+    end_date_tooltip: |
+      <p>Wskazuje datę, w której opisany obiekt został przeniesiony z tej lokalizacji.</p>
+    note: Notatka
+    note_tooltip: |
+      <p>Służy do zapisywania dodatkowych informacji o danym obiekcie i jego związku z tą lokalizacją.</p>
+    location: Lokalizacja
+    ref: Lokalizacja
+    _singular: Lokalizacja
+    _plural: Lokalizacje
+  linked_record:
+    role: Rola
+    role_tooltip: |
+      <p>Rola, jaką powiązany rekord pełni w stosunku do bieżącego rekordu.</p>
+    ref: Zapis
+    ref_plural: Zapisy
+    _singular: Link do rekordu
+    _plural: Linki do rekordów
+    linker_ref:
+      browse: Przeglądaj rekordy
+      create: Utwórz rekord
+      link_title: Link do nagrania
+  linked_agent:
+    role: Rola
+    role_tooltip: |
+      <p>POLE WYMAGANE. Wskazanie funkcji (twórca, źródło lub podmiot), jaką pełni dany podmiot w odniesieniu do powiązanego z nim rekordu opisu.</p>
+    relator: Agent nieruchomości
+    relator_tooltip: |
+      <p>Wskazuje rolę, jaką dany podmiot pełni w odniesieniu do swojej funkcji, co jest widoczne w sposobie powiązania (np. twórca, źródło lub podmiot) z konkretnym rekordem opisu. Na przykład, podmiot może być powiązany z rekordem jako twórca, ale z bardziej szczegółową rolą „ilustratora”.</p>
+      <p>Zobacz listę kodów MARC dla relacji (https://www.loc.gov/marc/relators/).</p>
+    ref: Osobnik
+    ref_tooltip: |
+      <p>Agent to podmiot powiązany z materiałem opisanym w rekordzie.</p>
+      <p>Agentów można wyszukiwać za pomocą funkcji autouzupełniania, funkcji przeglądania lub tworzyć na żądanie.</p>
+    terms: Warunki
+    title: Tytuł
+    title_tooltip: |
+      <p>Pole opcjonalne: W tym miejscu należy wpisać autorytatywny tytuł dzieła, aby utworzyć nagłówek „Imię/Nazwisko – Tytuł” dla osoby powiązanej jako twórca lub podmiot:</p>
+      <p>Na przykład:</p>
+      <ul><li>Shakespeare, William, 1564-1616. King Lear</li><li> Pound, Ezra, 1885-1972. Cantos</li><li> Lincoln, Abraham, 1809-1865. Emancipation Proclamation</li></ul>
+    _singular: Połączenie agenta
+    _plural: Linki do agentów
+  event:
+    event_type: Typ
+    event_type_tooltip: |
+      <p>Kategoryzacja charakteru zdarzenia.</p>
+      <p>Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
+      <p>Zobacz PREMIS eventType</p>
+    outcome: Rezultat
+    outcome_tooltip: |
+      <p>Kategoryzacja ogólnego wyniku zdarzenia pod względem sukcesu, częściowego sukcesu lub niepowodzenia. Zaleca się stosowanie kontrolowanego słownictwa, na podstawie którego system może automatycznie podejmować działania. Bardziej szczegółowe informacje na temat wyniku można zapisać w notatce dotyczącej wyniku. Zaleca się definiowanie zdarzeń z wystarczającą szczegółowością, tak aby każde zdarzenie miało jeden wynik.</p>
+      <p>Wartości w tej kontrolowanej liście wartości mogą być modyfikowane.</p>
+    outcome_note: Nota dotycząca wyników
+    outcome_note_tooltip: |
+      <p>Szczegółowy opis wyniku lub produktu zdarzenia. Może służyć do rejestrowania wszystkich komunikatów o błędach i ostrzeżeniach generowanych przez program biorący udział w zdarzeniu lub do zapisywania wskaźnika do pliku dziennika błędów.</p>
+    date: Data/godzina wydarzenia
+    date_type: Typ wydarzenia
+    timestamp: Znacznik czasu UTC
+    timestamp_inline_help: RRRR-MM-DD GG:MM:SS
+    timestamp_tooltip: |
+      <p>Dokładna data i godzina, wskazująca moment, w którym miało miejsce zdarzenie. Domyślnie aplikacja zakłada, że znacznik czasu jest podany w strefie czasowej UTC.</p>
+    chronotype_label: Specyfikator daty/czasu
+    chronotype_label_tooltip: |
+      <p>Wskazuje, jaki rodzaj daty jest powiązany z tym wydarzeniem.</p>
+    chronotype:
+      subrecord: Podrekord daty
+      timestamp: Znacznik czasu UTC
+    date_tooltip: |
+      <p>Pojedyncza data i godzina lub zakres dat i godzin, w których miało miejsce zdarzenie.</p>
+      <p>Jeśli pojedyncza data/godzina lub data rozpoczęcia/zakończenia jest nieznana, wpisz „nieznane” w polu Wyrażenie daty.</p>
+    linked_agents_tooltip: |
+      <p>WYMAGANY PODREKORD: Przypisuje jednego lub więcej agentów jako uczestników tego wydarzenia.</p>
+    linked_records_tooltip: |
+      <p>WYMAGANY PODREKORD: Powiąż z tym wydarzeniem zbiory, obiekty cyfrowe lub zasoby.</p>
+    types:
+      accession: Accession
+      accumulation: Akumulacja
+      acknowledgement: Potwierdzenie
+      acknowledgement_sent: Potwierdzenie zostało wysłane.
+      agreement_signed: Umowa została podpisana.
+      agreement_received: Otrzymano zgodę
+      agreement_sent: Umowa została wysłana.
+      appraisal: Ocena
+      assessment: Ocena
+      capture: Brać
+      cataloged: Zarejestrowano w katalogu
+      collection: Kolekcja
+      compression: Kompresja
+      contribution: Contribution
+      copyright_transfer: Przeniesienie praw autorskich
+      custody_transfer: Przekazanie opieki
+      deaccession: Deakcesja
+      decompression: Dekompresja
+      decryption: Deszyfrowanie
+      deletion: Usunięcie
+      digital_signature_validation: Walidacja podpisu cyfrowego
+      fixity_check: Sprawdzenie stabilności
+      ingestion: Importowanie zasobów cyfrowych
+      message_digest_calculation: Obliczanie skrótu wiadomości
+      migration: Migracja danych
+      normalization: Normalizacja
+      processed: Obrobiony
+      publication: Publikacja
+      replication: Replikacja
+      resource_merge: Łączenie zasobów
+      resource_component_transfer: Transfer komponentów zasobów
+      validation: Walidacja
+      virus_check: Skanowanie antywirusowe
+    _singular: Wydarzenie
+    _plural: Wydarzenia
+    new_title: Nowe wydarzenie
+  deaccession:
+    scope: Część
+    scope_tooltip: |
+      <p>POLE WYMAGANE: Służy do określenia, czy oświadczenie dotyczące zakresu odnosi się do całości, czy tylko do części danego opisanego zbioru lub obiektu.</p>
+    description: Opis
+    description_tooltip: |
+      <p>POLE WYMAGANE: Opis materiałów, które zostały wycofane z kolekcji.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Czasopisma, wycinki prasowe i dokumenty finansowe rodziny.</li>
+      <li>Trofea zdobyte na wystawach psów.</li>
+      </ul>
+    reason: Powód
+    reason_tooltip: |
+      <p>Powód wycofania opisanych materiałów z kolekcji.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Darczyńca nie zamierzał przekazać tych materiałów.</li>
+      </ul>
+    disposition: Usposobienie
+    disposition_tooltip: |
+      <p>Opis wskazujący, co zrobiono z materiałami wycofanymi z kolekcji.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Dokumenty finansowe zwrócone rodzinie.</li>
+      <li>Trofea z wystaw psów zwrócone żonie darczyńcy.</li>
+      </ul>
+    notification: Czy powiadomienie zostało wysłane?
+    notification_tooltip: |
+      <p>Pole wyboru wskazujące, że powiadomienie o wycofaniu obiektu z kolekcji zostało przekazane.</p>
+    dates: Data wycofania z kolekcji
+    _plural: Wycofania z kolekcji
+    _singular: Deakcesja
+  parallel_name:
+    _frontend:
+      action:
+        add: Dodaj nazwę równoległą
+  agent_name:
+    authority_id: Identyfikator organu
+    authority_id_tooltip: |
+      <p>Unikalny identyfikator formy nazwy agenta w źródle, z którego została pozyskana (np. identyfikator rekordu MADS lub identyfikator rekordu EAC). Identyfikator może być przedstawiony jako URI.</p>
+      <p>Zobacz DACS 13.2</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>nr92045078 <em>dla nagłówka nazwy z LCNAF</em></li>
+      <li>500115393 <em>dla nagłówka nazwy z ULAN</em></li>
+      <li>http://viaf.org/viaf/134138653 <em>dla nagłówka nazwy z VIAF</em>
+      </ul>
+    source: Źródło
+    source_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO, jeśli nie są stosowane zasady dotyczące nazw. Wskaźnik autorytatywnego źródła, z którego pochodzi nazwa.</p>
+      <p>Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
+    rules: Zasady
+    rules_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO, jeśli nie użyto pola „Źródło nazwy”. Wskazuje zasady użyte do sformułowania wpisu nazwy.</p>
+      <p>Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
+    name_order: Kolejność nazwisk
+    name_order_tooltip: |
+      <p>Wskazuje, czy imię i nazwisko mają być wyświetlane w odwróconej kolejności (nazwisko, imię) czy w kolejności standardowej (imię, nazwisko).</p>
+    prefix: Prefiks
+    prefix_tooltip: |
+      <p>Dowolny termin związany z imieniem, który w standardowym użyciu poprzedzałby całe imię.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Pani</li>
+      </ul>
+    title: Tytuł
+    title_tooltip: |
+      <p>Tytuł stanowiący część imienia.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Sir <em>(np. dla Churchill, Winston, Sir, 1874-1965)</em></li>
+      <li>Wódz (np. dla Black Foot, Chief, zm. 1877)</li>
+      <li>Cesarz Wschodu <em>(np. dla Jan II Komnen, Cesarz Wschodu)</em></li>
+      </ul>
+    primary_name: Główna część nazwy
+    primary_name_tooltip: |
+      <p>Główna część formy nazwy (np. nazwisko osoby).</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Churchill <i>(dla Churchill, Winston, Sir, 1874-1965 [osoba])</i></li>
+      <li>Black Foot <i>(dla Black Foot, Chief, zm. 1877 [osoba])</i></li>
+      <li>International Business Machines <i>(dla International Business Machines. Microelectronics Division [podmiot korporacyjny])</i></li>
+      </ul>
+    rest_of_name: Pozostała część imienia
+    rest_of_name_tooltip: |
+      <p>Pierwsze imię lub imiona dodatkowe (np. drugie imię) osoby wymienionej w rekordzie.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Winston <em>(dla Churchill, Winston, Sir, 1874-1965)</em></li>
+      <li>Humphrey <em>(dla Ward, Humphrey, Mrs., 1851-1920)</em></li>
+      </ul>
+    suffix: Przyrostek
+    suffix_tooltip: |
+      <p>Określenie występujące po imieniu, które precyzuje to imię, ale nie jest tytułem.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Jr.</li>
+      <li>fils</li>
+      </ul>
+    fuller_form: Pełniejsza forma
+    fuller_form_tooltip: |
+      <p>Pełna forma imion i drugiego imienia, w przypadku ich skrócenia.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Hilda Doolittle <em>(dla H.D., Hilda Doolittle, 1886-1961)</em></li>
+      </ul>
+    number: Numer
+    number_tooltip: |
+      <p>Liczba, czasem wraz z dodatkowym określeniem, która precyzuje nazwę. W przypadku imion i nazwisk, często jest to cyfra rzymska lub cyfra rzymska i kolejna część imienia. W przypadku nazw instytucji, jest to numer części/sekcji lub posiedzenia.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>II Komnen <em>(dla Jana II Komnena, cesarza Wschodu)</em></li>
+      <li>II <em>(dla Jana Pawła II)</em></li>
+      <li>97., 2. sesja <em>(dla Kongresu Stanów Zjednoczonych, 97. kadencja, 2. sesja)</em></li>
+      </ul>
+    dates: Daty
+    dates_tooltip: |
+      <p>To pole służy do powiązania z rekordami autorytatywnymi MARC. Te daty, a nie daty istnienia, są dodawane do wpisu nazwiska w wyświetlanym rekordzie.</p>
+      <p>Daty istnienia podmiotu.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>1886-1961 <em>(dla H.D., Hilda Doolittle, 1886-1961)</em></li>
+      </ul>
+    use_dates: Daty użytkowania
+    use_dates_tooltip: |
+      <p>Daty, w których to imię było używane w odniesieniu do danego agenta.</p>
+    parallel_names_tooltip: |
+      <p>Może być używane do zapisywania równoległych form imienia w różnych językach i/lub systemach pisma, a także form transliterowanych.</p>
+    qualifier: Kwalifikator
+    qualifier_tooltip: |
+      <p>Termin lub fraza służąca do rozróżnienia dwóch form nazw, identycznych pod każdym innym względem, ale odnoszących się do dwóch różnych podmiotów. Terminem tym może być data, miejsce lub dowolny inny odpowiedni deskryptor.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Kwiaciarnie <em>(dla rodziny Smith (Kwiaciarnie))</em></li>
+      <li>Bronx, Nowy Jork, N.Y. <em>(dla kościoła św. Jakuba (Bronx, Nowy Jork, N.Y.))</em></li>
+      </ul>
+    sort_name: Nazwa sortowania
+    sort_name_tooltip: |
+      <p>Wersja imienia i nazwiska, w której połączone są wszystkie części imienia i nazwiska podane w danym rekordzie agenta. Używana do wyświetlania w aplikacji oraz w niektórych eksportach danych.</p>
+      <p>Nazwę do sortowania można edytować, odznaczając pole wyboru „Generuj automatycznie”, a następnie wpisując żądaną formę nazwy.</p>
+    authorized: Upoważniony
+    is_display_name: Nazwa wyświetlana
+    language: Język
+    language_tooltip: |
+      <p>Wskazuje język używany do zapisywania formy imienia. Przykład: rosyjski (dla Каспаров, Г. К. (Гарри Кимович))</p>
+    script: Skrypt językowy
+    script_tooltip: |
+      <p>Wskazuje skrypt używany do zapisywania formy imienia. Przykład: cyrylica (dla Каспаров, Г. К. (Гарри Кимович))</p>
+    transliteration: Transliteracja
+    transliteration_tooltip: |
+      <p>Wskazuje schemat transliteracji użyty do zapisu formy imienia.</p>
+    _singular: Formularz imienny
+    _plural: Formy imion
+  parallel_name_person:
+    _singular: Nazwa równoległa
+    _plural: Nazwy równoległe
+  name_family:
+    family_name: Nazwisko
+    family_name_tooltip: |
+      <p>Nazwisko rodowe, zazwyczaj uzupełnione o słowo „rodzina”.</p>
+    family_type: Typ rodziny
+    family_type_tooltip: |
+      <p>Typ rodziny używany jako kryterium rozróżniające podobne wpisy nazwisk. Przykłady: Rodzina, Dynastia, Ród królewski.</p>
+    location: Lokalizacja
+    location_tooltip: |
+      <p>Lokalizacja używana jako dodatkowe kryterium do rozróżniania podobnych nazw. Przykłady: Hrabstwo Trigg, Kentucky (dla Cunningham (Rodzina: 1795-: Hrabstwo Trigg, Kentucky)), Ambasada Kanady w Tokio (dla Konferencja partnerska Kanada-Japonia (1991: Ambasada Kanady w Tokio))</p>
+  name_corporate_entity:
+    subordinate_name_1: Imię podwładnego 1
+    subordinate_name_1_tooltip: |
+      <p>Jednostka hierarchiczna w ramach podmiotu korporacyjnego, którego nazwa widnieje w polu „Nazwa główna”.</p>
+      <p>Przykłady</p>
+      <ul>
+      <li>Dział Mikroelektroniki <em>(dla firmy International Business Machines. Dział Mikroelektroniki)</em></li>
+      </ul>
+    subordinate_name_2: Imię podwładnego 2
+    subordinate_name_2_tooltip: |
+      <p>Jednostka hierarchiczna, której nazwa znajduje się w polu „Nazwa główna” i która znajduje się niżej w hierarchii niż jednostka, której nazwa widnieje w polu „Nazwa podrzędna 1”.</p>
+    jurisdiction: Jurisdiction?
+    jurisdiction_tooltip: |
+      <p>Wskazuje, czy dany wpis dotyczy nazwy jurysdykcji prawnej.</p>
+    conference_meeting: Spotkanie konferencyjne?
+    conference_meeting_tooltip: |
+      <p>Wskazuje, czy dany podmiot jest standardową osobą prawną, czy też konferencją, spotkaniem lub innym wydarzeniem o określonej nazwie.</p>
+    location: Lokalizacja
+    location_tooltip: |
+      <p>Lokalizacja używana jako dodatkowe kryterium do rozróżniania podobnych nazw. Przykłady: Hrabstwo Trigg, Kentucky (dla Cunningham (Rodzina: 1795-: Hrabstwo Trigg, Kentucky)), Ambasada Kanady w Tokio (dla Konferencja partnerska Kanada-Japonia (1991: Ambasada Kanady w Tokio))</p>
+  name_software:
+    software_name: Nazwa oprogramowania
+    software_name_tooltip: |
+      <p>Nazwa pakietu oprogramowania.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Photoshop <em>(dla Adobe Photoshop CS3)</em></li>
+      <li>Bagger <em>(dla Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
+    version: Wersja
+    version_tooltip: |
+      <p>Numer wersji lub inny identyfikator konkretnej wersji pakietu oprogramowania.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>CS3 <em>(dla Adobe Photoshop CS3)</em></li>
+      <li>2.1.2 <em>(dla Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
+    manufacturer: Producent
+    manufacturer_tooltip: |
+      <p>Producent, twórca lub inny podmiot odpowiedzialny za dystrybucję, rozwój lub konserwację pakietu oprogramowania.</p>
+      <p>Przykłady</p>
+      <ul>
+      <li>Adobe <em>(dla Adobe Photoshop CS3)</em></li>
+      <li>Biblioteka Kongresu <em>(dla Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
