@@ -1123,3 +1123,139 @@ pl:
       <li>Cesarz Wschodu <em>(np. dla Jan II Komnen, Cesarz Wschodu)</em></li>
       </ul>
     primary_name: Główna część nazwy
+    primary_name_tooltip: |
+      <p>Główna część formy nazwy (np. nazwisko osoby).</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Churchill <i>(dla Churchill, Winston, Sir, 1874-1965 [osoba])</i></li>
+      <li>Black Foot <i>(dla Black Foot, Chief, zm. 1877 [osoba])</i></li>
+      <li>International Business Machines <i>(dla International Business Machines. Microelectronics Division [podmiot korporacyjny])</i></li>
+      </ul>
+    rest_of_name: Pozostała część imienia
+    rest_of_name_tooltip: |
+      <p>Pierwsze imię lub imiona dodatkowe (np. drugie imię) osoby wymienionej w rekordzie.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Winston <em>(dla Churchill, Winston, Sir, 1874-1965)</em></li>
+      <li>Humphrey <em>(dla Ward, Humphrey, Mrs., 1851-1920)</em></li>
+      </ul>
+    suffix: Przyrostek
+    suffix_tooltip: |
+      <p>Określenie występujące po imieniu, które precyzuje to imię, ale nie jest tytułem.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Jr.</li>
+      <li>fils</li>
+      </ul>
+    fuller_form: Pełniejsza forma
+    fuller_form_tooltip: |
+      <p>Pełna forma imion i drugiego imienia, w przypadku ich skrócenia.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Hilda Doolittle <em>(dla H.D., Hilda Doolittle, 1886-1961)</em></li>
+      </ul>
+    number: Numer
+    number_tooltip: |
+      <p>Liczba, czasem wraz z dodatkowym określeniem, która precyzuje nazwę. W przypadku imion i nazwisk, często jest to cyfra rzymska lub cyfra rzymska i kolejna część imienia. W przypadku nazw instytucji, jest to numer części/sekcji lub posiedzenia.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>II Komnen <em>(dla Jana II Komnena, cesarza Wschodu)</em></li>
+      <li>II <em>(dla Jana Pawła II)</em></li>
+      <li>97., 2. sesja <em>(dla Kongresu Stanów Zjednoczonych, 97. kadencja, 2. sesja)</em></li>
+      </ul>
+    dates: Daty
+    dates_tooltip: |
+      <p>To pole służy do powiązania z rekordami autorytatywnymi MARC. Te daty, a nie daty istnienia, są dodawane do wpisu nazwiska w wyświetlanym rekordzie.</p>
+      <p>Daty istnienia podmiotu.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>1886-1961 <em>(dla H.D., Hilda Doolittle, 1886-1961)</em></li>
+      </ul>
+    use_dates: Daty użytkowania
+    use_dates_tooltip: |
+      <p>Daty, w których to imię było używane w odniesieniu do danego agenta.</p>
+    parallel_names_tooltip: |
+      <p>Może być używane do zapisywania równoległych form imienia w różnych językach i/lub systemach pisma, a także form transliterowanych.</p>
+    qualifier: Kwalifikator
+    qualifier_tooltip: |
+      <p>Termin lub fraza służąca do rozróżnienia dwóch form nazw, identycznych pod każdym innym względem, ale odnoszących się do dwóch różnych podmiotów. Terminem tym może być data, miejsce lub dowolny inny odpowiedni deskryptor.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Kwiaciarnie <em>(dla rodziny Smith (Kwiaciarnie))</em></li>
+      <li>Bronx, Nowy Jork, N.Y. <em>(dla kościoła św. Jakuba (Bronx, Nowy Jork, N.Y.))</em></li>
+      </ul>
+    sort_name: Nazwa sortowania
+    sort_name_tooltip: |
+      <p>Wersja imienia i nazwiska, w której połączone są wszystkie części imienia i nazwiska podane w danym rekordzie agenta. Używana do wyświetlania w aplikacji oraz w niektórych eksportach danych.</p>
+      <p>Nazwę do sortowania można edytować, odznaczając pole wyboru „Generuj automatycznie”, a następnie wpisując żądaną formę nazwy.</p>
+    authorized: Upoważniony
+    is_display_name: Nazwa wyświetlana
+    language: Język
+    language_tooltip: |
+      <p>Wskazuje język używany do zapisywania formy imienia. Przykład: rosyjski (dla Каспаров, Г. К. (Гарри Кимович))</p>
+    script: Skrypt językowy
+    script_tooltip: |
+      <p>Wskazuje skrypt używany do zapisywania formy imienia. Przykład: cyrylica (dla Каспаров, Г. К. (Гарри Кимович))</p>
+    transliteration: Transliteracja
+    transliteration_tooltip: |
+      <p>Wskazuje schemat transliteracji użyty do zapisu formy imienia.</p>
+    _singular: Formularz imienny
+    _plural: Formy imion
+  parallel_name_person:
+    _singular: Nazwa równoległa
+    _plural: Nazwy równoległe
+  name_family:
+    family_name: Nazwisko
+    family_name_tooltip: |
+      <p>Nazwisko rodowe, zazwyczaj uzupełnione o słowo „rodzina”.</p>
+    family_type: Typ rodziny
+    family_type_tooltip: |
+      <p>Typ rodziny używany jako kryterium rozróżniające podobne wpisy nazwisk. Przykłady: Rodzina, Dynastia, Ród królewski.</p>
+    location: Lokalizacja
+    location_tooltip: |
+      <p>Lokalizacja używana jako dodatkowe kryterium do rozróżniania podobnych nazw. Przykłady: Hrabstwo Trigg, Kentucky (dla Cunningham (Rodzina: 1795-: Hrabstwo Trigg, Kentucky)), Ambasada Kanady w Tokio (dla Konferencja partnerska Kanada-Japonia (1991: Ambasada Kanady w Tokio))</p>
+  name_corporate_entity:
+    subordinate_name_1: Imię podwładnego 1
+    subordinate_name_1_tooltip: |
+      <p>Jednostka hierarchiczna w ramach podmiotu korporacyjnego, którego nazwa widnieje w polu „Nazwa główna”.</p>
+      <p>Przykłady</p>
+      <ul>
+      <li>Dział Mikroelektroniki <em>(dla firmy International Business Machines. Dział Mikroelektroniki)</em></li>
+      </ul>
+    subordinate_name_2: Imię podwładnego 2
+    subordinate_name_2_tooltip: |
+      <p>Jednostka hierarchiczna, której nazwa znajduje się w polu „Nazwa główna” i która znajduje się niżej w hierarchii niż jednostka, której nazwa widnieje w polu „Nazwa podrzędna 1”.</p>
+    jurisdiction: Jurisdiction?
+    jurisdiction_tooltip: |
+      <p>Wskazuje, czy dany wpis dotyczy nazwy jurysdykcji prawnej.</p>
+    conference_meeting: Spotkanie konferencyjne?
+    conference_meeting_tooltip: |
+      <p>Wskazuje, czy dany podmiot jest standardową osobą prawną, czy też konferencją, spotkaniem lub innym wydarzeniem o określonej nazwie.</p>
+    location: Lokalizacja
+    location_tooltip: |
+      <p>Lokalizacja używana jako dodatkowe kryterium do rozróżniania podobnych nazw. Przykłady: Hrabstwo Trigg, Kentucky (dla Cunningham (Rodzina: 1795-: Hrabstwo Trigg, Kentucky)), Ambasada Kanady w Tokio (dla Konferencja partnerska Kanada-Japonia (1991: Ambasada Kanady w Tokio))</p>
+  name_software:
+    software_name: Nazwa oprogramowania
+    software_name_tooltip: |
+      <p>Nazwa pakietu oprogramowania.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Photoshop <em>(dla Adobe Photoshop CS3)</em></li>
+      <li>Bagger <em>(dla Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
+    version: Wersja
+    version_tooltip: |
+      <p>Numer wersji lub inny identyfikator konkretnej wersji pakietu oprogramowania.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>CS3 <em>(dla Adobe Photoshop CS3)</em></li>
+      <li>2.1.2 <em>(dla Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
+    manufacturer: Producent
+    manufacturer_tooltip: |
+      <p>Producent, twórca lub inny podmiot odpowiedzialny za dystrybucję, rozwój lub konserwację pakietu oprogramowania.</p>
+      <p>Przykłady</p>
+      <ul>
+      <li>Adobe <em>(dla Adobe Photoshop CS3)</em></li>
+      <li>Biblioteka Kongresu <em>(dla Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
