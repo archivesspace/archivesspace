@@ -523,10 +523,10 @@ uk:
     ext: Додатковий телефонний номер
     number: Номер
   footer:
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Надіслати відгук або
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Надіслати відгук або
       повідомити про проблему</a>
-    staff_interface: <a href="%{staff_url}">Інтерфейс для персоналу</a>
-    archivesspace_home: Відвідайте <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    staff_interface_html: <a href="%{staff_url}">Інтерфейс для персоналу</a>
+    archivesspace_home_html: Відвідайте <a href='http://archivesspace.org'>ArchivesSpace.org</a>
   languages:
     select: Виберіть мову
   

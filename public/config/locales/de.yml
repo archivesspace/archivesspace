@@ -501,9 +501,9 @@ de:
   structured_date_label:
     date: Datum
   footer:
-    staff_interface: <a href="%{staff_url}">Verwaltungsoberfläche</a>
-    archivesspace_home: Besuchen Sie <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung geben 
+    staff_interface_html: <a href="%{staff_url}">Verwaltungsoberfläche</a>
+    archivesspace_home_html: Besuchen Sie <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung geben
       oder ein Problem melden</a>
 
   languages:
