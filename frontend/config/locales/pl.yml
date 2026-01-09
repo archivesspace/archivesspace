@@ -18,3 +18,7 @@ pl:
     create: Tworzyć
   states:
     auto_generated: System generuje po zapisaniu
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Dodaj datę
