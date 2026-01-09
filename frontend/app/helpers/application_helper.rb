@@ -94,7 +94,7 @@ module ApplicationHelper
 
     html = "<div class='"
     html += "token " if not opts[:inside_token_editor]
-    html += "#{opts[:type]} has-popover' data-toggle='popover' data-trigger='#{opts[:trigger] || "custom"}' data-html='true' data-placement='#{opts[:placement] || "bottom"}' data-content=\"#{CGI.escape_html(popover_content)}\" tabindex='1'>"
+    html += "#{opts[:type]} has-popover' data-toggle='popover' data-trigger='#{opts[:trigger] || "custom"}' data-html='true' data-placement='#{opts[:placement] || "auto"}' data-content=\"#{CGI.escape_html(popover_content)}\" tabindex='1'>"
 
     if opts[:icon_class]
       html += "<span class='icon-token #{opts[:icon_class]}'></span>"
@@ -132,7 +132,7 @@ module ApplicationHelper
               :title => title,
               :class => "context-help has-tooltip #{x_padding} #{klass}",
               :style => style,
-              "data-placement" => "bottom",
+              "data-placement" => "auto",
               "data-toggle" => "tooltip",
               "data-boundary" => "viewport"
             }.merge(opts[:link_opts] || {})
@@ -179,7 +179,7 @@ module ApplicationHelper
     else
       options = {}
       options[:title] = tooltip
-      options["data-placement"] = "bottom"
+      options["data-placement"] = "auto"
       options["data-html"] = true
       options["data-delay"] = 500
       options["data-trigger"] = "manual"

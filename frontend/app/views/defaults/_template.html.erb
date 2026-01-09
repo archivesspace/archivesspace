@@ -32,7 +32,7 @@
         <h3 id="<%= type %>_browse_section"><%= t "defaults.#{type}_browse_section" %></h3>
         <% (1..AppConfig[:max_search_columns]).to_a.each do |n| %>
           <div class="form-group">
-            <label for="<%= form.id_for("#{type}_browse_column_#{n}") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= t("defaults.browse_column_tooltip", :num => n) %>">
+            <label for="<%= form.id_for("#{type}_browse_column_#{n}") %>" class="col-sm-2 control-label has-tooltip" data-placement="auto" title="<%= t("defaults.browse_column_tooltip", :num => n) %>">
               <%= t("defaults.browse_column", :num => n) %>
             </label>
             <div class="col-sm-9">
@@ -42,7 +42,7 @@
           </div>
         <% end %>
         <div class="form-group">
-          <label for="<%= form.id_for("#{type}_sort_column") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= t("defaults.sort_column_tooltip") %>">
+          <label for="<%= form.id_for("#{type}_sort_column") %>" class="col-sm-2 control-label has-tooltip" data-placement="auto" title="<%= t("defaults.sort_column_tooltip") %>">
             <%= t("defaults.sort_column") %>
           </label>
           <div class="col-sm-9">
@@ -51,7 +51,7 @@
           </div>
         </div>
         <div class="form-group">
-          <label for="<%= form.id_for("#{type}_sort_direction") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= t("defaults.sort_direction_tooltip") %>">
+          <label for="<%= form.id_for("#{type}_sort_direction") %>" class="col-sm-2 control-label has-tooltip" data-placement="auto" title="<%= t("defaults.sort_direction_tooltip") %>">
             <%= t("defaults.sort_direction") %>
           </label>
           <div class="col-sm-9">
