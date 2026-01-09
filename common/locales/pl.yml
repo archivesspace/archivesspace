@@ -870,3 +870,256 @@ pl:
     barcode_tooltip: |
       <p>POLE WYMAGANE WARUNKOWO: Pole Kod kreskowy, Klasyfikacja lub Etykieta współrzędnej 1 i Wskaźnik współrzędnej 1 muszą zawierać dane.</p>
       <p>Służy do zapisywania kodu kreskowego, np. półki lub regału, który jednoznacznie identyfikuje lokalizację.</p>
+    classification: Klasyfikacja
+    classification_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO: Pole kod kreskowy, klasyfikacja lub etykieta współrzędnej 1 i wskaźnik współrzędnej 1 muszą zawierać dane.</p>
+      <p>Służy do zapisywania numeru klasyfikacyjnego, który jednoznacznie identyfikuje lokalizację.</p>
+    coordinates: Współrzędne
+    coordinate_1_label: Etykieta współrzędnych 1
+    coordinate_1_label_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO: Dane muszą znajdować się w jednym z pól: kod kreskowy, klasyfikacja lub etykieta współrzędnej 1 i wskaźnik współrzędnej 1.</p>
+      <p>Służy do zapisywania etykiety (np. „Półka”, „Rząd”, „Szuflada”) dla określonej lokalizacji.</p>
+    coordinate_1_indicator: Wskaźnik współrzędnych 1
+    coordinate_1_indicator_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO: Pole kod kreskowy, klasyfikacja lub etykieta współrzędnej 1 i wskaźnik współrzędnej 1 muszą zawierać dane.</p>
+      <p>Służy do zapisywania wskaźnika, takiego jak liczba lub litera, który jednoznacznie identyfikuje lokalizację w połączeniu z powiązaną etykietą współrzędnej.</p>
+    coordinate_2_label: Etykieta współrzędnych 2
+    coordinate_2_label_tooltip: |
+      <p>Służy do przypisywania etykiety (np. „Półka”, „Regał”, „Szuflada”) do konkretnej lokalizacji.</p>
+    coordinate_2_indicator: Wskaźnik współrzędnych 2
+    coordinate_2_indicator_tooltip: |
+      <p>Służy do zapisywania wskaźnika, takiego jak liczba lub litera, który jednoznacznie identyfikuje lokalizację w połączeniu z przypisaną etykietą współrzędnych.</p>
+    coordinate_3_label: Etykieta współrzędnych 3
+    coordinate_3_label_tooltip: |
+      <p>Służy do przypisywania etykiety (np. „Półka”, „Regał”, „Szuflada”) do konkretnej lokalizacji.</p>
+    coordinate_3_indicator: Wskaźnik współrzędnych 3
+    has_unpublished_ancestor: Czy ma niepublikowanego przodka?
+    holdings: Posiadająca
+    owner_repo: Zarezerwowane dla
+    owner_repo_tooltip: Repozytorium, które zarezerwowało tę lokalizację.
+    _singular: Lokalizacja
+    _plural: Lokalizacje
+    new_title: Nowa lokalizacja
+    linker:
+      browse: Przeglądaj lokalizacje
+      create: Utwórz lokalizację
+      link_title: Link do lokalizacji
+  location_batch:
+    label: Etykieta
+    prefix: Prefiks
+    suffix: Przyrostek
+    coordinate_1_range: Zakres współrzędnych 1
+    coordinate_2_range: Zakres współrzędnych 2
+    coordinate_3_range: Zakres współrzędnych 3
+    start: Początek zakresu
+    end: Koniec zakresu
+    _singular: Lokalizacje partii
+    _plural: Lokalizacje partii
+  location_function:
+    location_function_type: Typ funkcji
+    _singular: Funkcja
+    _plural: Funkcje
+  function:
+    _singular: Funkcja
+    _plural: Funkcje
+    _frontend:
+      action:
+        add: Dodaj funkcję
+  dates_of_existence:
+    _frontend:
+      action:
+        add: Dodaj datę
+  container_location:
+    status: Status
+    status_tooltip: |
+      <p>POLE WYMAGANE. Wskazuje, czy informacja o lokalizacji w tym rekordzie jest aktualna, czy odnosi się do poprzedniej lokalizacji opisywanego obiektu.</p>
+    start_date: Data rozpoczęcia
+    start_date_tooltip: |
+      <p>POLE WYMAGANE. Wskazuje datę, w której opisany obiekt został umieszczony w tej lokalizacji, lub znaną datę, od której materiały były przechowywane w tym miejscu.</p>
+    end_date: Data zakończenia
+    end_date_tooltip: |
+      <p>Wskazuje datę, w której opisany obiekt został przeniesiony z tej lokalizacji.</p>
+    note: Notatka
+    note_tooltip: |
+      <p>Służy do zapisywania dodatkowych informacji o danym obiekcie i jego związku z tą lokalizacją.</p>
+    location: Lokalizacja
+    ref: Lokalizacja
+    _singular: Lokalizacja
+    _plural: Lokalizacje
+  linked_record:
+    role: Rola
+    role_tooltip: |
+      <p>Rola, jaką powiązany rekord pełni w stosunku do bieżącego rekordu.</p>
+    ref: Zapis
+    ref_plural: Zapisy
+    _singular: Link do rekordu
+    _plural: Linki do rekordów
+    linker_ref:
+      browse: Przeglądaj rekordy
+      create: Utwórz rekord
+      link_title: Link do nagrania
+  linked_agent:
+    role: Rola
+    role_tooltip: |
+      <p>POLE WYMAGANE. Wskazanie funkcji (twórca, źródło lub podmiot), jaką pełni dany podmiot w odniesieniu do powiązanego z nim rekordu opisu.</p>
+    relator: Agent nieruchomości
+    relator_tooltip: |
+      <p>Wskazuje rolę, jaką dany podmiot pełni w odniesieniu do swojej funkcji, co jest widoczne w sposobie powiązania (np. twórca, źródło lub podmiot) z konkretnym rekordem opisu. Na przykład, podmiot może być powiązany z rekordem jako twórca, ale z bardziej szczegółową rolą „ilustratora”.</p>
+      <p>Zobacz listę kodów MARC dla relacji (https://www.loc.gov/marc/relators/).</p>
+    ref: Osobnik
+    ref_tooltip: |
+      <p>Agent to podmiot powiązany z materiałem opisanym w rekordzie.</p>
+      <p>Agentów można wyszukiwać za pomocą funkcji autouzupełniania, funkcji przeglądania lub tworzyć na żądanie.</p>
+    terms: Warunki
+    title: Tytuł
+    title_tooltip: |
+      <p>Pole opcjonalne: W tym miejscu należy wpisać autorytatywny tytuł dzieła, aby utworzyć nagłówek „Imię/Nazwisko – Tytuł” dla osoby powiązanej jako twórca lub podmiot:</p>
+      <p>Na przykład:</p>
+      <ul><li>Shakespeare, William, 1564-1616. King Lear</li><li> Pound, Ezra, 1885-1972. Cantos</li><li> Lincoln, Abraham, 1809-1865. Emancipation Proclamation</li></ul>
+    _singular: Połączenie agenta
+    _plural: Linki do agentów
+  event:
+    event_type: Typ
+    event_type_tooltip: |
+      <p>Kategoryzacja charakteru zdarzenia.</p>
+      <p>Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
+      <p>Zobacz PREMIS eventType</p>
+    outcome: Rezultat
+    outcome_tooltip: |
+      <p>Kategoryzacja ogólnego wyniku zdarzenia pod względem sukcesu, częściowego sukcesu lub niepowodzenia. Zaleca się stosowanie kontrolowanego słownictwa, na podstawie którego system może automatycznie podejmować działania. Bardziej szczegółowe informacje na temat wyniku można zapisać w notatce dotyczącej wyniku. Zaleca się definiowanie zdarzeń z wystarczającą szczegółowością, tak aby każde zdarzenie miało jeden wynik.</p>
+      <p>Wartości w tej kontrolowanej liście wartości mogą być modyfikowane.</p>
+    outcome_note: Nota dotycząca wyników
+    outcome_note_tooltip: |
+      <p>Szczegółowy opis wyniku lub produktu zdarzenia. Może służyć do rejestrowania wszystkich komunikatów o błędach i ostrzeżeniach generowanych przez program biorący udział w zdarzeniu lub do zapisywania wskaźnika do pliku dziennika błędów.</p>
+    date: Data/godzina wydarzenia
+    date_type: Typ wydarzenia
+    timestamp: Znacznik czasu UTC
+    timestamp_inline_help: RRRR-MM-DD GG:MM:SS
+    timestamp_tooltip: |
+      <p>Dokładna data i godzina, wskazująca moment, w którym miało miejsce zdarzenie. Domyślnie aplikacja zakłada, że znacznik czasu jest podany w strefie czasowej UTC.</p>
+    chronotype_label: Specyfikator daty/czasu
+    chronotype_label_tooltip: |
+      <p>Wskazuje, jaki rodzaj daty jest powiązany z tym wydarzeniem.</p>
+    chronotype:
+      subrecord: Podrekord daty
+      timestamp: Znacznik czasu UTC
+    date_tooltip: |
+      <p>Pojedyncza data i godzina lub zakres dat i godzin, w których miało miejsce zdarzenie.</p>
+      <p>Jeśli pojedyncza data/godzina lub data rozpoczęcia/zakończenia jest nieznana, wpisz „nieznane” w polu Wyrażenie daty.</p>
+    linked_agents_tooltip: |
+      <p>WYMAGANY PODREKORD: Przypisuje jednego lub więcej agentów jako uczestników tego wydarzenia.</p>
+    linked_records_tooltip: |
+      <p>WYMAGANY PODREKORD: Powiąż z tym wydarzeniem zbiory, obiekty cyfrowe lub zasoby.</p>
+    types:
+      accession: Accession
+      accumulation: Akumulacja
+      acknowledgement: Potwierdzenie
+      acknowledgement_sent: Potwierdzenie zostało wysłane.
+      agreement_signed: Umowa została podpisana.
+      agreement_received: Otrzymano zgodę
+      agreement_sent: Umowa została wysłana.
+      appraisal: Ocena
+      assessment: Ocena
+      capture: Brać
+      cataloged: Zarejestrowano w katalogu
+      collection: Kolekcja
+      compression: Kompresja
+      contribution: Contribution
+      copyright_transfer: Przeniesienie praw autorskich
+      custody_transfer: Przekazanie opieki
+      deaccession: Deakcesja
+      decompression: Dekompresja
+      decryption: Deszyfrowanie
+      deletion: Usunięcie
+      digital_signature_validation: Walidacja podpisu cyfrowego
+      fixity_check: Sprawdzenie stabilności
+      ingestion: Importowanie zasobów cyfrowych
+      message_digest_calculation: Obliczanie skrótu wiadomości
+      migration: Migracja danych
+      normalization: Normalizacja
+      processed: Obrobiony
+      publication: Publikacja
+      replication: Replikacja
+      resource_merge: Łączenie zasobów
+      resource_component_transfer: Transfer komponentów zasobów
+      validation: Walidacja
+      virus_check: Skanowanie antywirusowe
+    _singular: Wydarzenie
+    _plural: Wydarzenia
+    new_title: Nowe wydarzenie
+  deaccession:
+    scope: Część
+    scope_tooltip: |
+      <p>POLE WYMAGANE: Służy do określenia, czy oświadczenie dotyczące zakresu odnosi się do całości, czy tylko do części danego opisanego zbioru lub obiektu.</p>
+    description: Opis
+    description_tooltip: |
+      <p>POLE WYMAGANE: Opis materiałów, które zostały wycofane z kolekcji.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Czasopisma, wycinki prasowe i dokumenty finansowe rodziny.</li>
+      <li>Trofea zdobyte na wystawach psów.</li>
+      </ul>
+    reason: Powód
+    reason_tooltip: |
+      <p>Powód wycofania opisanych materiałów z kolekcji.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Darczyńca nie zamierzał przekazać tych materiałów.</li>
+      </ul>
+    disposition: Usposobienie
+    disposition_tooltip: |
+      <p>Opis wskazujący, co zrobiono z materiałami wycofanymi z kolekcji.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Dokumenty finansowe zwrócone rodzinie.</li>
+      <li>Trofea z wystaw psów zwrócone żonie darczyńcy.</li>
+      </ul>
+    notification: Czy powiadomienie zostało wysłane?
+    notification_tooltip: |
+      <p>Pole wyboru wskazujące, że powiadomienie o wycofaniu obiektu z kolekcji zostało przekazane.</p>
+    dates: Data wycofania z kolekcji
+    _plural: Wycofania z kolekcji
+    _singular: Deakcesja
+  parallel_name:
+    _frontend:
+      action:
+        add: Dodaj nazwę równoległą
+  agent_name:
+    authority_id: Identyfikator organu
+    authority_id_tooltip: |
+      <p>Unikalny identyfikator formy nazwy agenta w źródle, z którego została pozyskana (np. identyfikator rekordu MADS lub identyfikator rekordu EAC). Identyfikator może być przedstawiony jako URI.</p>
+      <p>Zobacz DACS 13.2</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>nr92045078 <em>dla nagłówka nazwy z LCNAF</em></li>
+      <li>500115393 <em>dla nagłówka nazwy z ULAN</em></li>
+      <li>http://viaf.org/viaf/134138653 <em>dla nagłówka nazwy z VIAF</em>
+      </ul>
+    source: Źródło
+    source_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO, jeśli nie są stosowane zasady dotyczące nazw. Wskaźnik autorytatywnego źródła, z którego pochodzi nazwa.</p>
+      <p>Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
+    rules: Zasady
+    rules_tooltip: |
+      <p>POLE WYMAGANE WARUNKOWO, jeśli nie użyto pola „Źródło nazwy”. Wskazuje zasady użyte do sformułowania wpisu nazwy.</p>
+      <p>Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
+    name_order: Kolejność nazwisk
+    name_order_tooltip: |
+      <p>Wskazuje, czy imię i nazwisko mają być wyświetlane w odwróconej kolejności (nazwisko, imię) czy w kolejności standardowej (imię, nazwisko).</p>
+    prefix: Prefiks
+    prefix_tooltip: |
+      <p>Dowolny termin związany z imieniem, który w standardowym użyciu poprzedzałby całe imię.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Pani</li>
+      </ul>
+    title: Tytuł
+    title_tooltip: |
+      <p>Tytuł stanowiący część imienia.</p>
+      <p>Przykłady:</p>
+      <ul>
+      <li>Sir <em>(np. dla Churchill, Winston, Sir, 1874-1965)</em></li>
+      <li>Wódz (np. dla Black Foot, Chief, zm. 1877)</li>
+      <li>Cesarz Wschodu <em>(np. dla Jan II Komnen, Cesarz Wschodu)</em></li>
+      </ul>
+    primary_name: Główna część nazwy
