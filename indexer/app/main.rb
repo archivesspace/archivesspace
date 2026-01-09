@@ -14,6 +14,7 @@ require_relative 'lib/pui_indexer'
 # ArchivesSpaceThreadDump.init(File.join(ASUtils.find_base_directory, "thread_dump_indexer.txt"))
 require 'active_support/inflector'
 
+require 'logger'
 require 'log'
 if AppConfig.changed?(:indexer_log)
   Log.logger(AppConfig[:indexer_log])

@@ -181,7 +181,7 @@ class ArchivesSpaceService < Sinatra::Base
         # Start the job scheduler
         if !settings.respond_to? :scheduler?
           Log.info("Starting job scheduler")
-          set :scheduler, Rufus::Scheduler.start_new
+          set :scheduler, Rufus::Scheduler.new
         end
 
 
