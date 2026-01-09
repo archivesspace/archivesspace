@@ -1,7 +1,31 @@
-<div class="container-fluid footer">
-   <div class="row">
-      <div class="col-md-12">
-        <p><% if AppConfig[:enable_public] %><%= t("footer.public_interface", :public_url => AppConfig[:public_proxy_url]) %> | <% end %><%= t("footer.archivesspace_home") %> | <%= ASConstants.VERSION %><% if AppConfig[:feedback_url] && !AppConfig[:feedback_url].blank? %> | <%= t("footer.feedback", :feedback_url => AppConfig[:feedback_url]) %> <% end %></p>
-      </div>
-   </div>
-</div>
+<%
+  custom_footer_parts = []
+
+  if AppConfig[:enable_public]
+    public_link = t("footer.public_interface_html", :public_url => AppConfig[:public_proxy_url])
+    custom_footer_parts << public_link
+  end
+
+  archivesspace_home = t("footer.archivesspace_home_html")
+  custom_footer_parts << archivesspace_home
+
+  version = ERB::Util.html_escape(ASConstants.VERSION)
+  custom_footer_parts << version
+
+  if AppConfig[:feedback_url] && !AppConfig[:feedback_url].blank?
+    feedback_link = t("footer.feedback_html", :feedback_url => AppConfig[:feedback_url])
+    custom_footer_parts << feedback_link
+  end
+%>
+
+<footer class="<%= local_assigns[:layout_class] %>">
+  <div class="global-footer">
+    <div class="footer-item">
+      <button type="button" class="keyboard-help-trigger"><%= t('footer.keyboard_shortcuts') %></button>
+    </div>
+    <% custom_footer_parts.each do |part| %>
+      <span class="footer-separator">|</span>
+      <div class="footer-item"><%= part %></div>
+    <% end %>
+  </div>
+</footer>

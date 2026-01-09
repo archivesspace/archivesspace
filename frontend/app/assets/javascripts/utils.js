@@ -27,7 +27,7 @@ $(function () {
 
         $modal
           .on('shown.bs.modal', function () {
-            $modal.find('input[type!=hidden]:first').focus();
+            $modal.find('.close').focus();
           })
           .on('hidden.bs.modal', function () {
             $modal.remove();
@@ -1028,6 +1028,15 @@ $(function () {
     var $form = $(this);
   };
 
+  const openShortcutsModal = function (e) {
+    e.preventDefault();
+    if (!$('#ASModal').length) {
+      AS.openAjaxModal(AS.app_prefix('shortcuts'));
+    }
+  };
+
+  $(document).on('click', '.keyboard-help-trigger', openShortcutsModal);
+
   $(document).bind('keydown', 'shift+/', function () {
     if (!$('#ASModal').length) {
       AS.openAjaxModal(AS.app_prefix('shortcuts'));
@@ -1040,24 +1049,36 @@ $(function () {
     }
   });
 
-  $(document).bind('keydown', 'ctrl+x', function () {
-    $(document).trigger('formclosed.aspace');
-  });
-
   $(document).bind('keydown', 'shift+b', function () {
-    $('li.browse-container a.dropdown-toggle').trigger('click.bs.dropdown');
+    $('li.browse-container .dropdown-toggle').trigger('click.bs.dropdown');
   });
 
   $(document).bind('keydown', 'shift+c', function () {
-    $('li.create-container a.dropdown-toggle').trigger('click.bs.dropdown');
+    $('li.create-container .dropdown-toggle').trigger('click.bs.dropdown');
   });
 
   $(window).bind('keydown', function (event) {
-    if (event.ctrlKey || event.metaKey) {
+    if (event.ctrlKey) {
       switch (String.fromCharCode(event.which).toLowerCase()) {
-        case 's':
+        case 's': {
           event.preventDefault();
+          const $form = $('form.aspace-record-form');
+          if ($form.length) {
+            var input = $('<input>')
+              .attr('type', 'hidden')
+              .attr('name', 'ignorewarnings')
+              .val('true');
+            $form.append($(input));
+            $form.submit();
+          }
           break;
+        }
+        case 'x': {
+          event.preventDefault();
+          const readonlyPath = location.pathname.replace(/\/edit$/, '');
+          window.location.href = readonlyPath + location.hash;
+          break;
+        }
       }
     }
   });

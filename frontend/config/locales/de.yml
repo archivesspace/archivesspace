@@ -2836,8 +2836,9 @@ de:
         add: Eingangs-Verknüpfung hinzufügen
     _singular: Eingangs-Verknüpfung
   footer:
-    public_interface: <a href="%{public_url}">Zum öffentlichen Katalog</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+    keyboard_shortcuts: Tastaturkürzel
+    public_interface_html: <a href="%{public_url}">Zum öffentlichen Katalog</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
       target='_blank'>Rückmeldung geben oder ein Problem melden</a>
-    archivesspace_home: Besuchen Sie <a 
+    archivesspace_home_html: Besuchen Sie <a
       href='http://archivesspace.org'>ArchivesSpace.org</a>

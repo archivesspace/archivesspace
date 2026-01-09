@@ -580,10 +580,10 @@ es:
     _singular: Declaraciones de derechos de metadatos
     _plural: Declaraciones de derechos de metadatos
   footer:
-    archivesspace_home: Visitar <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Enviar comentarios o informar
+    archivesspace_home_html: Visitar <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Enviar comentarios o informar
       un problema</a>
-    staff_interface: <a href="%{staff_url}">Interfaz de personal</a>
+    staff_interface_html: <a href="%{staff_url}">Interfaz de personal</a>
 
   languages:
     select: Seleccione el idioma

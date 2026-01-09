@@ -1,0 +1,26 @@
+.global-footer {
+  // Base styles in frontend/app/assets/stylesheets/themes/default/default.scss
+
+  .footer-separator {
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+  }
+
+  .keyboard-help-trigger {
+    display: inline-block;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    color: var(--bs-text-body);
+
+    &:hover {
+      color: black;
+    }
+
+    &:focus {
+      border-radius: 2px;
+      box-shadow: 0 0 0 2px #007bff, 0 0 0 3px white;
+      outline: none;
+    }
+  }
+}

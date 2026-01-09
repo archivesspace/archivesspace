@@ -3391,8 +3391,9 @@ es:
     aspace_assessment_import_template_csv: Cree y vincule evaluaciones a 
       accesiones, recursos, objetos de archivo u objetos digitales existentes.
   footer:
-    archivesspace_home: Visitar <a 
+    keyboard_shortcuts: Atajos de teclado
+    archivesspace_home_html: Visitar <a
       href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
       target='_blank'>Enviar comentarios o informar un problema</a>
-    public_interface: Vistar <a href="%{public_url}">Interfaz Pública</a>
+    public_interface_html: Vistar <a href="%{public_url}">Interfaz Pública</a>
