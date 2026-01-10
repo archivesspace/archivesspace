@@ -1479,3 +1479,5 @@ pl:
     warn:
       single_date_end: W przypadku pojedynczej daty %{date_str} data zakończenia zostanie 
         zignorowana.
+      disamuse: Znaleziono wiele pasujących wyników dla '%{which}'. Do rozróżnienia użyto już 
+        utworzonego elementu '%{name}'.
