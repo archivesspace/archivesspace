@@ -48,7 +48,7 @@ bundle install
 
 ### Just working on the e2e tests with Docker
 
-If you are just working on e2e tests and not touching the ArchivesSpace application, you can run e2e tests locally against the latest ArchivesSpace `master` branch build using Docker.
+If you are just working on e2e tests and not touching the ArchivesSpace application, you can run e2e tests locally against the latest ArchivesSpace `main` branch build using Docker.
 
 #### Install Docker Desktop
 
@@ -57,7 +57,7 @@ If you are just working on e2e tests and not touching the ArchivesSpace applicat
 #### Run the latest ArchivesSpace Docker image
 
 ```sh
-# Get the latest ArchivesSpace `master` branch build
+# Get the latest ArchivesSpace `main` branch build
 docker compose pull
 
 # Start ArchivesSpace servers
