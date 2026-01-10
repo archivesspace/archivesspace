@@ -1,12 +1,16 @@
 class ContainerProfilesController < ApplicationController
 
   set_access_control  "view_repository" => [:show, :index, :typeahead],
-                      "update_container_profile_record" => [:new, :edit, :create, :update, :delete]
+                      "update_container_profile_record" => [:new, :edit, :create, :update, :delete],
+                      "manage_repository" => [:defaults, :update_defaults]
 
   include ExportHelper
 
   def new
     @container_profile = JSONModel(:container_profile).new._always_valid!
+
+    defaults = user_defaults('container_profile')
+    @container_profile.update(defaults.values) if defaults
 
     render_aspace_partial :partial => "container_profiles/new" if inline?
   end
@@ -88,6 +92,35 @@ class ContainerProfilesController < ApplicationController
     search_params = search_params.merge("sort" => "typeahead_sort_key_u_sort asc")
 
     render :json => Search.all(session[:repo_id], search_params)
+  end
+
+  def defaults
+    defaults = DefaultValues.get 'container_profile'
+
+    values = defaults ? defaults.form_values : {}
+
+    @container_profile = JSONModel(:container_profile).new(values)._always_valid!
+    @form_title = t("default_values.form_title.container_profile")
+
+    render "defaults"
+  end
+
+  def update_defaults
+    begin
+      DefaultValues.from_hash({
+                                "record_type" => "container_profile",
+                                "lock_version" => params[:container_profile].delete('lock_version'),
+                                "defaults" => cleanup_params_for_schema(
+                                                                        params[:container_profile],
+                                                                        JSONModel(:container_profile).schema)
+                              }).save
+
+      flash[:success] = t("default_values.messages.defaults_updated")
+      redirect_to :controller => :container_profiles, :action => :defaults
+    rescue Exception => e
+      flash[:error] = e.message
+      redirect_to :controller => :container_profiles, :action => :defaults
+    end
   end
 
 

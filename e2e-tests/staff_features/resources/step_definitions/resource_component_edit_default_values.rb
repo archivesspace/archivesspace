@@ -22,7 +22,16 @@ Then 'the new Resource Component form has the following default values' do |form
     expect(section[:id]).to_not eq nil
 
     within section do
-      expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
+      field_name = row['form_field']
+      expected_value = row['form_value']
+
+      field = find_field(field_name, visible: true)
+
+      if field.tag_name == 'select'
+        expect(field.value).to eq expected_value.downcase
+      else
+        expect(page).to have_field(field_name, with: /#{Regexp.quote(expected_value)}/i, wait: 5)
+      end
     end
   end
 end
