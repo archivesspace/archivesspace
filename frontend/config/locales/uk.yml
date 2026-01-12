@@ -442,11 +442,12 @@ uk:
   states:
     auto_generated: Система генерує під час збереження
   footer:
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+    keyboard_shortcuts: Комбінації клавіш
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
       target='_blank'>Надіслати відгук або повідомити про проблему</a>
-    archivesspace_home: Відвідайте <a 
+    archivesspace_home_html: Відвідайте <a
       href='http://archivesspace.org'>ArchivesSpace.org</a>
-    public_interface: Переглянути <a href="%{public_url}">Загальнодоступний 
+    public_interface_html: Переглянути <a href="%{public_url}">Загальнодоступний
       інтерфейс</a>
   note_contact_note:
     contact_notes_tooltip: "<p>Деталі взаємодії з контактом</p>\n"

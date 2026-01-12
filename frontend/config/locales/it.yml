@@ -415,8 +415,9 @@ it:
   navbar:
     import_marcxml_subjects_and_agents: MARCXML (solo soggetti e agents)
   footer:
-    archivesspace_home: Visita <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Invia
+    keyboard_shortcuts: Scorciatoie da tastiera
+    archivesspace_home_html: Visita <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Invia
       feedback o riferisci un problema</a>
   import:
     marcxml_subjects_and_agents_title: Importa i soggetti e gli agents da un file

@@ -3613,11 +3613,12 @@ fr:
       sujet. Veuillez noter que ce modèle sert à créer les enregistrements de 
       sujet eux-mêmes, et non à les lier à d'autres enregistrements.
   footer:
-    archivesspace_home: Visitez <a 
+    keyboard_shortcuts: Raccourcis clavier
+    archivesspace_home_html: Visitez <a
       href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
       target='_blank'>Envoyer des commentaires ou signaler un problème</a>
-    public_interface: Afficher <a href="%{public_url}">Interface publique</a>
+    public_interface_html: Afficher <a href="%{public_url}">Interface publique</a>
   component_link:
     _plural: Liers des composants
     _singular: Lier de composant

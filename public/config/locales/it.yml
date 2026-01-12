@@ -431,10 +431,10 @@ it:
     _singular: Lingua usata
     _plural: Lingue usate
   footer:
-    staff_interface: <a href="%{staff_url}">Interfaccia staff</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Invia feedback o 
+    staff_interface_html: <a href="%{staff_url}">Interfaccia staff</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Invia feedback o
       riferisci un problema</a>
-    archivesspace_home: Visita <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    archivesspace_home_html: Visita <a href='http://archivesspace.org'>ArchivesSpace.org</a>
   skipnav:
     search_results: Passa ai risultati della ricerca
     main_content: Passa al contenuto principale

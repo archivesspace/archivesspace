@@ -2,17 +2,17 @@
   cuts = [
           ["this_reference", "Shift ?"],
           ["close_modal", "ESC"],
-          ["save_record", "Ctrl s"],
-          ["close_record", "Ctrl x"],
-          ["open_browse", "Shift b"],
-          ["open_create", "Shift c"]
+          ["save_record", "Ctrl S"],
+          ["close_record", "Ctrl X"],
+          ["open_browse", "Shift B"],
+          ["open_create", "Shift C"]
           ]
   
 %>
 
 
 
-<div class="container-fluid">
+<div class="keyboard-shortcuts-modal container-fluid">
   <table class="table">
     <thead>
       <tr>
@@ -24,7 +24,13 @@
       <% cuts.each do |cut| %>
         <tr>
           <td><%= t("shortcuts.actions.#{cut.shift}") %></td>
-          <td><%= cut.join(" then "); %></td>
+          <td>
+            <%
+              keys = cut.first.split(/\s+/)
+              formatted_keys = keys.map { |key| content_tag(:kbd, key) }
+            %>
+            <%= formatted_keys.join(' ').html_safe %>
+          </td>
         </tr>
       <% end %>
     </tbody>
