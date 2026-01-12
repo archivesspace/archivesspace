@@ -52,7 +52,7 @@ jobs:
       uses: coverallsapp/github-action@v2
       with:
         format: simplecov
-        compare-ref: master
+        compare-ref: main
         flag-name: indexer
         debug: false
         parallel: true

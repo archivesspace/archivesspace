@@ -9,7 +9,7 @@ on:
 
   push:
     branches:
-      - master
+      - main
       - 'ANW-*'
     tags:
       - 'v[2-9].[0-9].[0-9]*'  # matches v2.0.0, v3.1.4-beta, etc.

@@ -87,7 +87,7 @@ AppConfig[:solr_params] = { 'q.op' => 'AND' }
 AppConfig[:solr_verify_checksums] = true
 
 # Set the application's language (see the .yml files in
-# https://github.com/archivesspace/archivesspace/tree/master/common/locales for
+# https://github.com/archivesspace/archivesspace/tree/main/common/locales for
 # a list of available locale codes)
 AppConfig[:locale] = :en
 
