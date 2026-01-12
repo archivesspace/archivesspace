@@ -296,11 +296,9 @@ $(function () {
           $this.is('.btn-with-tooltip') ||
           $this.is('.subrecord-form-heading-label'));
 
-      // ANW-1325: Ensure tooltip content is focusable/hoverable by inserting in the DOM
-      // right after the triggering element.  Skipping `helpTooltips`, since those are
-      // made sticky in the block below.
       var tooltipOptions = {
-        container: !helpTooltips ? $this : 'body',
+        container: 'body',
+        placement: 'auto',
       };
       $this.tooltip(tooltipOptions).addClass('initialised');
 
