@@ -1259,3 +1259,225 @@ pl:
       <li>Adobe <em>(dla Adobe Photoshop CS3)</em></li>
       <li>Biblioteka Kongresu <em>(dla Library of Congress Bagger 2.1.2)</em></li>
       </ul>
+  location_profile:
+    new_title: Nowy profil lokalizacji
+  container_profile:
+    new_title: Nowy profil kontenera
+    title: '%{name} [wymiary: %{depth}d, %{height}h, %{width}w %{dimension_units}] zmierzone za pomocą
+      %{extent_dimension}'
+  arks:
+    ark_editor_errors:
+      ark_format_error: Jeden z dostarczonych identyfikatorów ARK nie był prawidłowym 
+        identyfikatorem ARK.
+      ark_collision: Jeden z udostępnionych systemów ARK jest już w użyciu.
+    only_current_ark_can_be_external: Obecnego certyfikatu ARK nie można wymienić, dopóki jest 
+      oznaczony jako zewnętrzny.
+    unsubmitted_input: Nie przesłałeś jeszcze wprowadzonych danych.
+    modal_title: Edytuj wpisy ARK dla bieżącego rekordu.
+    no_changes: Brak zmian do zapisania.
+    save: Ratujcie ARKi
+    set_current: Ustaw na bieżącą wartość.
+    add_new: Dodaj nowy ARK
+    remove_ark: Usunąć
+    current: aktualny
+    edit: Edytuj ARK-i
+    ark: ARK
+  user_mtime: Zmodyfikowany
+  create_time: Stworzony
+  last_modified_by: Ostatnia modyfikacja przez
+  created_by: Created by
+  groups:
+    _plural: Grupy
+  owner_repo:
+    _plural: Zarezerwowane dla
+  creator:
+    _plural: Twórcy
+  formats:
+    _plural: Formaty
+  reviewer:
+    _plural: Recenzenci
+  surveyed_by:
+    _plural: Przeprowadzone przez
+  conservation_issues:
+    _plural: Problemy związane z ochroną przyrody
+  ratings:
+    _plural: Oceny
+  metadata_rights_declaration:
+    last_verified_date_tooltip: |
+      <p>Ostatnia data lub data i godzina weryfikacji zasobu, do którego prowadzi odnośnik w powiązanym identyfikatorze URI.</p>
+    xlink_arcrole_attribute_tooltip: |
+      <p>Typ lub charakter zdalnego zasobu, do którego prowadzi powiązany adres URI.</p>
+    xlink_role_attribute_tooltip: |
+      <p>Typ lub charakter zdalnego zasobu, do którego prowadzi powiązany adres URI.</p>
+    xlink_title_attribute_tooltip: |
+      <p>Tytuł zdalnych zasobów, do których prowadzi powiązany adres URI, który może być wykorzystany jako podpis.</p>
+    file_version_xlink_show_attribute_tooltip: |
+      <p>Wskazuje, w którym miejscu ma zostać wyświetlony zdalny zasób, do którego prowadzi powiązany adres URI.</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+      <p>Wskazuje, czy powiązany identyfikator URI powinien zostać przetworzony podczas wyświetlania rekordu agenta.</p>
+    file_uri_tooltip: |
+      <p>Adres URI wskazujący lokalizację internetową licencji lub innych opublikowanych informacji na temat warunków, na jakich metadane są dostępne do użytku i ponownego wykorzystania. Przykład: https://creativecommons.org/licenses/by/4.0/</p>
+    descriptive_note_tooltip: |
+      <p>Nieustrukturyzowane informacje na temat warunków, na jakich metadane są dostępne do wykorzystania i ponownego użycia. Przykłady:</p>
+      <p>i. Prawa autorskie Smith College, 1985</p>
+      <p>ii. Niniejszy przewodnik można powielać w dowolnym celu.</p>
+      <p>iii. To dzieło zostało przekazane do domeny publicznej, co oznacza, że można je kopiować, modyfikować, rozpowszechniać i wykonywać, nawet w celach komercyjnych, bez konieczności uzyskiwania zgody.</p>
+      <p>iv. Nota biograficzna jest chroniona prawami autorskimi Teda Smitha, 2015. Wszystkie pozostałe metadane są objęte licencją CC BY 4.0.</p>
+    license_tooltip: |
+      <p>Nazwa licencji (jeśli taka istnieje), która określa warunki, na jakich metadane są dostępne do użytku i ponownego wykorzystania. Przykłady:</p>
+      <p>Niniejszy rekord jest udostępniany na podstawie licencji Creative Commons Universal 1.0 Public Domain Dedication.</p>
+      <p>Niniejszy rekord jest udostępniany na podstawie licencji Creative Commons Attribution-NonCommercial 4.0 International.</p>
+      <p>Niniejszy rekord jest udostępniany na podstawie licencji Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International.</p>
+      <p>Niniejszy rekord jest udostępniany na podstawie licencji Creative Commons Attribution-NoDerivatives 4.0 International.</p>
+      <p>Niniejszy rekord jest udostępniany na podstawie licencji Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International.</p>
+  top_container_linker:
+    log_creating_and_linking: Tworzenie i łączenie głównych kontenerów...
+    log_validating: Trwa weryfikacja danych w arkuszu kalkulacyjnym...
+    log_skipping_due_to_errors: Tworzenie i łączenie głównych kontenerów zostało pominięte z powodu 
+      błędów.
+    log_validate_only: Pomijanie tworzenia i łączenia głównych kontenerów, ponieważ włączona jest 
+      opcja sprawdzania poprawności.
+    log_creating_linker: 'Tworzenie nowego głównego linku do kontenera dla repozytorium: %{repo_id}'
+    error:
+      job_file_empty: Brak pliku do przetworzenia w celu powiązania z głównym kontenerem.
+      resources_do_not_match: 'Zasób w arkuszu kalkulacyjnym %{spreadsheet_resource} (identyfikator EAD:
+        %{ead_id}) nie odpowiada bieżącemu zasobowi %{current_resource} w wierszu %{row_num}.'
+      resource_not_in_db: Nie można znaleźć zasobu o identyfikatorze %{ead_id} w bazie danych w 
+        wierszu %{row_num}.
+      tc_record_no_missing: 'Nie znaleziono identyfikatora kontenera nadrzędnego: %{tc_id} (patrz %{ref_id}
+        w wierszu %{row_num})'
+      ead_id_miss: 'W tym wierszu brakuje identyfikatora EAD: (patrz %{ref_id} w wierszu %{row_num})'
+      error_linking_tc_to_ao: 'Wystąpił problem z powiązaniem obiektu archiwalnego z głównym pojemnikiem:
+        %{why}'
+      problem_setting_container_profile: 'Problem z ustawieniem profilu kontenera (patrz %{ref_id} w wierszu
+        %{row_num}): [%{why}]'
+      problem_adding_current_location: 'Wystąpił problem z dodaniem bieżącej lokalizacji (patrz %{ref_id}
+        w wierszu %{row_num}): [%{why}]'
+      no_tc: 'Nie udało się utworzyć kontenera głównego (patrz %{ref_id} w wierszu %{row_num}): [%{why}]'
+      cp_not_in_db: Podany identyfikator profilu kontenera, %{cp_id}, nie został znaleziony w bazie 
+        danych (patrz %{ref_id} w wierszu %{row_num}).
+      loc_not_in_db: Podany identyfikator lokalizacji, %{loc_id}, nie został znaleziony w bazie 
+        danych (patrz %{ref_id} w wierszu %{row_num}).
+      sc_barcode_differs: Kod kreskowy dziecka, %{barcode}, różni się od kodu w innym wpisie w 
+        arkuszu kalkulacyjnym dla typu %{type} %{indicator} (patrz %{ref_id} w wierszu %{row_num}).
+      sc_barcode_exists: Kod kreskowy dziecka, %{barcode}, już istnieje w bazie danych (patrz 
+        %{ref_id} w wierszu %{row_num}).
+      tc_ind_ct_exists: Kombinacja wskaźnika głównego kontenera i typu kontenera %{tc_type} 
+        %{indicator} już istnieje w bazie danych dla obiektu archiwalnego w zasobie %{ead_id} (patrz
+        %{ref_id} w wierszu %{row_num}).
+      tc_barcode_differs: Kod kreskowy głównego pojemnika, %{barcode}, różni się od kodu kreskowego 
+        innego wpisu w arkuszu kalkulacyjnym dla typu %{type} %{indicator} (patrz %{ref_id} w 
+        wierszu %{row_num}).
+      tc_barcode_exists: Kod kreskowy górnego pojemnika, %{barcode}, już istnieje w bazie danych 
+        (patrz %{ref_id} w wierszu %{row_num}).
+      tc_indicator_and_record_no_exist: 'Dla elementu %{ref_id} w wierszu %{row_num} może być obecny tylko
+        jeden z następujących identyfikatorów: wskaźnik kontenera głównego (Top Container Indicator) lub
+        numer rekordu TC (TC Record Number).'
+      tc_indicator_and_record_no_miss: 'Dla elementu %{ref_id} w wierszu %{row_num} może być obecny tylko
+        jeden z następujących identyfikatorów: wskaźnik kontenera głównego (Top Container Indicator) lub
+        numer rekordu TC (TC Record Number).'
+      instance_type_does_not_exist: 'Typ instancji %{instance_type} nie istnieje w bazie danych (patrz
+        wiersz %{row_num}, obiekt archiwalny %{ref_id}). '
+      instance_type_miss: 'W arkuszu kalkulacyjnym brakuje typu instancji dla wiersza %{row_num} obiektu
+        archiwalnego %{ref_id}. '
+      ao_not_in_db: Nie można znaleźć obiektu archiwalnego %{ref_id} w bazie danych w wierszu 
+        %{row_num}.
+      ref_id_miss: W wierszu %{row_num} arkusza kalkulacyjnego brakuje identyfikatora 
+        referencyjnego.
+  bulk_import:
+    error:
+      utf8: Ten arkusz kalkulacyjny zawiera nieprawidłowy lub uszkodzony tekst, którego nie można 
+        przetworzyć.
+      sc_barcode: Nie znaleziono podrzędnego pojemnika o podanym kodzie kreskowym %{barcode}.
+      cannot: Nie można kontynuować z powodu wcześniejszych błędów.
+      dig_obj_unique: Obiekt cyfrowy o identyfikatorze '%{id}' już istnieje.
+      wrong_file_type: Plik nie jest ani arkuszem kalkulacyjnym Excela, ani plikiem CSV.
+      file_too_big: Ten plik, znajdujący się pod adresem %{file_info}, przekracza limity rozmiaru 
+        i/lub liczby wierszy wynoszące %{limits}.
+      no_uri_or_ref: Nie podano ani identyfikatora URI obiektu archiwalnego, ani identyfikatora 
+        referencyjnego.
+      bad_ao: Nie można znaleźć obiektu archiwalnego %{errs}
+      bad_ao_ref_id: ' z numerem referencyjnym %{ref_id}'
+      bad_ao_uri: ' z identyfikatorem URI %{uri}'
+      process_error: 'Błąd podczas przetwarzania %{type} %{num}: %{why}'
+      script_code: Nie można zweryfikować skryptu językowego (%{script}).
+      lang_code: Nie można zweryfikować języka (%{lang})
+      validated: '%{what} zostało zweryfikowane'
+      validation_error: 'Nie można zweryfikować %{what}: %{err}'
+      ao_validation: 'Wystąpił błąd walidacji podczas próby zapisania obiektu archiwalnego: %{err}'
+      second_save_error: "Wystąpił błąd podczas próby ponownego zapisania obiektu archiwalnego o tytule
+        '%{title}' i pozycji: %{pos}. Oznacza to, że obiekt archiwalny został utworzony, ale prawdopodobnie
+        nie został powiązany z odpowiadającymi mu elementami (obiekt cyfrowy, główny pojemnik, temat itp.)
+        [%{what}]"
+      initial_save_error: Wystąpił problem podczas początkowego zapisywania pliku %{title} — %{msg}
+      dig_validation: Nie można utworzyć obiektu cyfrowego %{err}
+      dig_info_miss: Nie określono ani identyfikatora URI obiektu cyfrowego, ani identyfikatora URI 
+        miniatury.
+      ref_id_miss: Nie podano identyfikatora referencyjnego.
+      dig_unassoc: 'Nie udało się zapisać obiektu archiwalnego wraz z powiązanym obiektem cyfrowym: %{msg}'
+      has_dig_obj: Obiekt archiwalny posiada już powiązany obiekt cyfrowy.
+      role_invalid: 'Nie udało się utworzyć łącza do agenta z powodu problemu z rolą „%{label}”: %{why}'
+      bad_role: 'Nie można utworzyć łącza agenta: „%{label}” nie jest prawidłową rolą.'
+      relator_invalid: 'Nie udało się utworzyć łącza agenta z powodu problemu z podmiotem powiązanym „%{label}”:
+        %{why}'
+      bad_relator: 'Nie można utworzyć łącza agenta: „%{label}” nie jest prawidłowym identyfikatorem relacji.'
+      bad_note_type: Typ notatki „%{type}” nie jest obsługiwany.
+      bad_note: 'Notatka typu %{type} jest nieprawidłowo sformatowana: %{msg}'
+      no_move: 'Nie udało się przenieść obiektów archiwalnych z końca listy (kod odpowiedzi: %{code}).'
+      no_create: 'Nie udało się utworzyć: [%{why}]'
+      no_container_instance: 'Nie udało się utworzyć instancji kontenera %{number}: [%{why}]'
+      no_ao_be: Obiekt archiwalny nie zostanie utworzony.
+      no_ao: Nie utworzono żadnego obiektu archiwalnego.
+      missing_instance_type: Brakujący typ instancji kontenera
+      no_tc: 'Nie udało się utworzyć kontenera głównego %{number}: [%{why}]'
+      find_tc: 'Nie udało się znaleźć głównego kontenera o parametrach: %{where}.'
+      no_agent: 'Nie udało się utworzyć agenta %{num}: [%{why}]'
+      spreadsheet: 'Błędy podczas przetwarzania arkusza kalkulacyjnego: %{errs}'
+      no_data: Nie znaleziono żadnych wierszy danych nadających się do przetworzenia!
+      no_header: Nie znaleziono wiersza nagłówka (kodów pól); czy używasz właściwego szablonu?
+      extent_validation: 'Nie udało się zweryfikować zakresu (%{ext}): %{msg}'
+      extent_type: Brakujący typ zakresu
+      number: Brakujący numer zakresu
+      date: 'Data musi zawierać co najmniej jeden z następujących elementów: Data początkowa; Data końcowa;
+        lub Wyrażenie daty.'
+      level: Brak prawidłowego poziomu opisu.
+      hier_below_error_level: Nadrzędny obiekt archiwalny nie został utworzony.
+      hier_wrong_resource_validation: 'OSTRZEŻENIE: żadne dane poniżej tego wiersza nie zostały przetworzone.'
+      hier_wrong_resource: Czy zamierzałeś rozpocząć przetwarzanie po wybraniu obiektu archiwalnego?
+      hier_wrong: Hierarchia nie może być głębsza o więcej niż jeden poziom w stosunku do 
+        poprzedniego wiersza.
+      hier_zero: Hierarchia musi być większa od 0.
+      hier_miss: Brak hierarchii – musi to być liczba większa od 0.
+      title_and_date: Brak tytułu ORAZ prawidłowej definicji daty.
+      title: Brak tytułu
+      uri_mismatch: Podany identyfikator URI zasobu [%{res_uri}] nie zgadza się z identyfikatorem 
+        URI wiersza [%{row_uri}].
+      ead_mismatch: Identyfikator EAD formularza [%{res_ead}] nie zgadza się z identyfikatorem EAD 
+        wiersza [%{row_ead}].
+      row_missing_ead_uri: W tym wierszu brakuje zarówno identyfikatora EAD, jak i adresu URI.
+      row_ead: W tym wierszu brakuje identyfikatora EAD.
+      res_ead: W tym formularzu brakuje identyfikatora EAD.
+      duplicates: 'Ten arkusz kalkulacyjny zawiera zduplikowane kody pól ArchivesSpace: %{codes}'
+      stopped: Przetwarzanie zostało zatrzymane w wierszu %{row} [%{msg}]
+      initialize: Przetwarzanie zostało zakończone [%{msg}]
+      system: Wystąpił błąd systemowy [%{msg}].
+      file_name: Nie można określić nazwy pliku.
+      type_undef: Nie można określić typu.
+      too_many: W bazie danych znaleziono więcej niż jedno pasujące dopasowanie.
+      invalid_date_label: Nieprawidłowa definicja etykiety daty w pierwszej dacie (%{what})
+      invalid_date: Nieprawidłowa definicja daty (%{what}) dla %{date_str}. Data nie zostanie 
+        przetworzona.
+      error: 'BŁĄD: Wykryto błędy: %{term}'
+      enum: "NIEPRAWIDŁOWA WARTOŚĆ: %{which}: '%{label}'. Musi być jedną z następujących wartości: %{valid_values}"
+      below_bad_ao: Nie można przetworzyć, ponieważ jest to element podrzędny uszkodzonego obiektu 
+        archiwalnego.
+      certainty: 'Nieprawidłowa wartość parametru „pewność daty” została zignorowana dla %{date_str}:
+        (%{what})'
+      date_label: Etykieta daty [%{what}] jest nieprawidłowa dla %{date_str}. Data nie zostanie 
+        przetworzona.
+      date_type: Nieprawidłowy typ daty [%{what}] dla %{date_str}. Data nie zostanie przetworzona.
+    warn:
+      single_date_end: W przypadku pojedynczej daty %{date_str} data zakończenia zostanie 
+        zignorowana.
+      disamuse: Znaleziono wiele pasujących wyników dla '%{which}'. Do rozróżnienia użyto już 
+        utworzonego elementu '%{name}'.
