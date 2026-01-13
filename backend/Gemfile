@@ -15,7 +15,8 @@ gem 'nokogiri'
 gem 'rufus-lru'
 gem 'rufus-scheduler'
 gem 'rubyXL'
-gem 'saxerator'
+# pining saxerator to 0.9.2 as later versions switched from Nokogiri to ReXML output, that break our importers see: https://github.com/soulcutter/saxerator/commit/c865cf972320615b11d7625a9ce93cf736c80057
+gem 'saxerator', '= 0.9.2'
 gem 'saxon-rb'
 gem 'sequel'
 gem 'sinatra', '~> 3.2', require: false
