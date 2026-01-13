@@ -1,10 +1,10 @@
 <div class="container-fluid panel-footer p-3 bg-lightgray border-top-default">
   <div class="row">
      <div class="col-md-12">
-       <p class="footer-items mb-0"><%= I18n.t("footer.staff_interface_html", staff_url: AppConfig[:frontend_proxy_url]) %>
-         | <%= I18n.t("footer.archivesspace_home_html") %>
+       <p class="footer-items mb-0"><%= t("footer.staff_interface_html", staff_url: AppConfig[:frontend_proxy_url]) %>
+         | <%= t("footer.archivesspace_home_html") %>
          | <%= ERB::Util.html_escape(ASConstants.VERSION) %>
-         <% if AppConfig[:feedback_url] && !AppConfig[:feedback_url].blank? %> | <%= I18n.t("footer.feedback_html", :feedback_url => AppConfig[:feedback_url]) %><% end %></p>
+         <% if AppConfig[:feedback_url] && !AppConfig[:feedback_url].blank? %> | <%= t("footer.feedback_html", :feedback_url => AppConfig[:feedback_url]) %><% end %></p>
      </div>
   </div>
 </div>
