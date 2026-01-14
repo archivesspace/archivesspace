@@ -4,6 +4,10 @@ body {
   background: #e9e9e9 asset-url('themes/default/bg_body.png') repeat top left;
 }
 
+a {
+  color: $blue;
+}
+
 .content-pane {
   background-color: #f9f9f9;
   @include border-radius(4px);
@@ -38,7 +42,11 @@ body {
   padding: 20px;
 
   a {
-    color: var(--bs-text-body);
+    color: color-mix(in srgb, $blue, black 3%);
+
+    &:hover {
+      color: color-mix(in srgb, $blue, black 50%);
+    }
   }
 }
 

@@ -11,10 +11,10 @@
     border: none;
     padding: 0;
     background-color: transparent;
-    color: var(--bs-text-body);
+    color: color-mix(in srgb, $blue, black 3%);
 
     &:hover {
-      color: black;
+      color: color-mix(in srgb, $blue, black 50%);
     }
 
     &:focus {
