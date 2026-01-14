@@ -123,6 +123,7 @@ end
 
 Then 'the New Archival Object page is displayed' do
   wait_for_ajax
+
   if current_url.include? 'resources'
     expect(current_url).to include "resources/#{@resource_id}/edit#new"
   else
