@@ -97,6 +97,16 @@ class ArchivesSpaceClient
     results.first
   end
 
+  def do_login(username, password)
+    url = build_url("/users/#{username}/login", { password: password })
+    begin
+      results = do_search(url)
+    rescue RequestFailedException => error
+      Rails.logger.error("Login failed on #{username} : #{password} with #{error}")
+    end
+    results
+  end
+
   def search_repository( base, repo_id, page = 1, search_opts = {})
     search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
 
