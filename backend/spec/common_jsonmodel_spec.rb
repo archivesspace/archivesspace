@@ -93,9 +93,7 @@ describe 'JSON model' do
 
   end
 
-
   it "throws an exception with some useful accessors" do
-
     exception = false
     begin
       JSONModel(:testschema).from_hash({"elt_0" => "/!$"})
@@ -109,10 +107,8 @@ describe 'JSON model' do
     expect(exception.invalid_object.elt_0).to eq("/!$")
 
     # And you can get a list of its problems too
-    expect(exception.errors["elt_0"][0]).to eq "Did not match regular expression: ^[a-zA-Z0-9 ]*$"
-
+    expect(exception.errors["elt_0"][0]).to eq "Value '/!$' did not match regular expression: ^[a-zA-Z0-9 ]*$"
   end
-
 
   it "warns on missing properties instead of erroring" do
 
