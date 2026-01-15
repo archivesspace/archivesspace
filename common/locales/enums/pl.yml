@@ -66,3 +66,44 @@ pl:
     modified_record: Typ zmodyfikowanego rekordu kontrolnego
     name_type: Nazwa pola kontrolnego Typ rekordu
     maintenance_status: Status konserwacji i kontroli dokumentacji
+    note_langmaterial_type: 'Uwaga: Język materiałów, typ dokumentu'
+    publication_status: Status publikacji rekordu kontrolnego
+    reference_evaluation: Ocena odniesienia do kontroli rekordów
+    rights_statement_act_restriction: Oświadczenie o prawach Ograniczenia Ustawy
+    rights_statement_act_type: Oświadczenie dotyczące praw autorskich Rodzaj aktu prawnego
+    note_rights_statement_act_type: 'Uwaga: Oświadczenie dotyczące praw autorskich, rodzaj aktu prawnego'
+    place_role: Rola agenta w danym miejscu
+    restriction_type: Typ lokalnego ograniczenia dostępu
+    rights_statement_ip_status: Oświadczenie o prawach własność intelektualna
+    romanization: Romanizacja
+    script_iso15924: Kod języka według normy ISO 15924
+    subject_source: Źródło tematu
+    telephone_number_type: Typ numeru telefonu
+    transliteration: Transliteracja
+    user_defined_enum_1: Enum zdefiniowany przez użytkownika 1
+    user_defined_enum_2: Enum zdefiniowany przez użytkownika 2
+    user_defined_enum_3: Enum zdefiniowany przez użytkownika 3
+    user_defined_enum_4: Enum zdefiniowany przez użytkownika 4
+    note_digital_object_type: 'Uwaga: Typ obiektu cyfrowego'
+    note_index_item_type: Typ elementu indeksu notatek
+    note_index_type: Typ indeksu notatek
+    note_multipart_type: 'Uwaga: Typ wieloczęściowy'
+    note_rights_statement_type: Typ oświadczenia o prawach do notatki
+    resource_resource_type: Zasób Rodzaj zasobu
+    rights_statement_external_document_identifier_type: Oświadczenie dotyczące praw autorskich Typ 
+      zewnętrznego identyfikatora dokumentu
+    rights_statement_rights_type: Oświadczenie o prawach autorskich Rodzaj praw
+    subject_term_type: Typ terminu tematycznego
+  enumerations:
+    accession_acquisition_type:
+      transfer: Przenosić
+    accession_resource_type:
+      publications: Publikacje
+    agency_code_type:
+      local: Lokalny
+      oclc: OCLC
+    agent_contact_salutation:
+      madame: Pani
+      mr: Pan
+      mrs: Pani
+      sir: Pan
