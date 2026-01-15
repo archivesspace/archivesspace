@@ -104,6 +104,16 @@ pl:
       agent_genders: Pomoc dotycząca płci
       agent_external_documents: Pomoc dotycząca dokumentów zewnętrznych
       agent_required: Pomoc dotycząca edycji wymaganych pól
+      digital_object_finding_aid: Pomoc w inwentarz archiwalny
+      digital_object_component_finding_aid: Pomoc w inwentarz archiwalny
+      resource_linked_agents: Pomoc dotycząca linków do agentów
+      subject: Pomoc w nauce przedmiotów
+      agent_person: Pomoc dotycząca osób (agentów)
+      agent_person_names: Pomoc dotycząca imion
+      agent_person_notes: Pomoc dotycząca notatek
+      agent_person_related_agents: Pomoc dotycząca powiązanych agentów
+      agent_family: Pomoc dla rodziny (Agent)
+      agent_family_related_agents: Pomoc dotycząca powiązanych agentów
     help_center: Centrum Pomocy ArchivesSpace
     default_tooltip: Centrum Pomocy ArchivesSpace
     icon: <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
