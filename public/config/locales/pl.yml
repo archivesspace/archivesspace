@@ -72,6 +72,7 @@ pl:
     subject: temat
     agent: twórca treści
     agents: twórcy treści
+    resources: Zbiory
   search-field: Pole wyszukiwania
   search_results:
     highlighting:
@@ -79,8 +80,53 @@ pl:
       four_part_id: Identyfikator
       dates: Daty
       acquisition_type: Rodzaj przejęcia
+      published_agents: Agenty
+      linked_agent_roles: Powiązane role agentów
+      instance_type_enum_s: Typ instancji
+      creators_text: Twórcy
+      role_enum_s: Role
     result: Wynik
     results: Wyniki
     page_title: Znaleziono %{count} wyników
+    results_head: 'Wyświetlanie %{type}: %{start} - %{end} z %{total}'
+    search_for: Wyszukaj %{type}, spełniające warunki %{conditions}
+    keyword_contain: "<strong>Słowo kluczowe/słowa kluczowe</strong>: <span class='searchterm'>%{kw}</span>"
+    title_contain: Tytuł zawiera <span class='searchterm'>%{kw}</span>
+    creators_text_contain: Twórca zawiera <span class='searchterm'>%{kw}</span>
+    subjects_text_contain: Temat zawiera <span class='searchterm'>%{kw}</span>
+    search_term: Termin wyszukiwania
+    error: Wyszukiwanie nie mogło zostać zakończone z powodu nieoczekiwanego błędu.
+    no_results: Nie znaleziono żadnych rekordów.
+    identifier_contain: <strong>Identyfikator</strong> zawiera <span class='searchterm'>%{kw}</span>
+    anything: '*'
+    filtered_by: Filtrowane według
+    remove_filter: Usuń ten filtr.
+    more_facets: Więcej
+    fewer_facets: Mniej
+    op:
+      AND: i
+      OR: lub
+      NOT: a nie
+    op_first_row:
+      NOT: nie
+    filter:
+      head: Filtruj wyniki
+      query: Tekst
+      used_within_published_repository: Repozytorium
+      fullrecord: Słowo kluczowe
+      add: Dodatkowe filtry
+      form: Wyszukiwanie w obrębie wyników
+      show_fewer: Pokaż mniej
+      show_more: Show more
+      title: Tytuł
+      creators_text: Twórca
+      notes: Notatki
+      identifier: Identyfikator
+      years: Lata
+      from: Od
+      to: Do
+      langcode: Język
+    filter_by: Filtruj według
   search-limit: Ogranicz do %{limit}
   search-limiting: ograniczone do %{limit}
+  searched-field: wyszukiwanie w polu %{field}
