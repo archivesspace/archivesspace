@@ -57,6 +57,7 @@ pl:
       kopią swojego zgłoszenia.
     errors:
       email: Proszę podać poprawny adres e-mail.
+      name: Proszę podać swoje imię.
     email:
       subject: Prośba o %{title}
   search-button:
@@ -85,6 +86,8 @@ pl:
       instance_type_enum_s: Typ instancji
       creators_text: Twórcy
       role_enum_s: Role
+      notes_published: Notatki
+      finding_aid_title: Tytuł inwentarz archiwalny
     result: Wynik
     results: Wyniki
     page_title: Znaleziono %{count} wyników
@@ -127,6 +130,7 @@ pl:
       to: Do
       langcode: Język
     filter_by: Filtruj według
+    in_repository: ' w <strong>%{name}</strong>'
   search-limit: Ogranicz do %{limit}
   search-limiting: ograniczone do %{limit}
   searched-field: wyszukiwanie w polu %{field}
