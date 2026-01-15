@@ -16,6 +16,72 @@ pl:
     confirm_removal: Potwierdź Usunięcie
     container_labels: Pobierz Etykiety Pojemników
     create: Tworzyć
+    browse: Przeglądać
+    bulk_import: Wczytaj za pomocą arkusza kalkulacyjnego
+    bulk_import_job: Wczytaj za pomocą arkusza kalkulacyjnego
+    cut: Wyciąć
+    date_picker: Otwórz selektor daty
+    date_picker_toggle: Włącz/wyłącz selektor daty.
+    defaults: Wartości domyślne
+    drop_before: Upuść przed
+    duplicate_resource: Zduplikowany zasób
+    duplicate_resource_confirm_message: Zostanie utworzone zadanie polegające na
+      skopiowaniu tego zasobu wraz ze wszystkimi zawartymi w nim obiektami 
+      archiwalnymi. W zależności od liczby rekordów, może to potrwać pewien 
+      czas.
+    edit: Redagować
+    edit_oai: Edytuj ustawienia OAI
+    edit_batch: Edytuj partię
+    edit_groups: Edytuj grupy
+    edit_default_values: Edytuj wartości domyślne
+    edit_default_archival_object_values: Edytuj domyślne ustawienia komponentu
+    edit_required_fields: Edytuj wymagane pola
+    edit_global_oai: Wyświetl/Edytuj globalne ustawienia OAI
+    required: Pola wymagane
+    require_subrecord: Wymagany podrekord
+    export: Eksport
+    view: Pogląd
+    spawn: Powstać
+    show_all: Show All
+    transfer_record: Przenosić
+    more: Więcej
+    lightmode_toggle: Tryb jasny
+    link_to_record: Link do nagrania
+    add_prefix: Dodać
+    merge_replace: Zastępować
+    merge_add: Dodać
+    merge_confirm_title: Czy połączyć z tym rekordem?
+    merge_from_browse_confirm_title: Czy połączyć wybrane rekordy?
+    link_to: Link do
+    merge_agent_from_browse_confirm_message: Pierwszy wybrany agent zostanie 
+      połączony z kolejno wybranymi rekordami. Wszystkie kolejne wybrane rekordy
+      zostaną usunięte, a wszelkie powiązane z nimi rekordy zostaną ponownie 
+      powiązane z pierwszym wybranym agentem.
+    batch_merge: Wybierz rekord, z którym zostaną połączone wszystkie pozostałe 
+      wymienione rekordy. Wszystkie powiązane rekordy zostaną ponownie powiązane
+      z tym rekordem, a wszystkie informacje dotyczące pozostałych rekordów 
+      zostaną usunięte.
+    refresh_page: Odśwież stronę
+    save_plus_one: Dodać jeden
+    save_anyway: Zapisz mimo wszystko
+    select: Wybierać
+    set_default: Ustaw jako domyślne
+    suppress: Stłumić
+    suppress_confirm_title: Czy chcesz ukryć ten rekord?
+    merge_agent_compare_agent_details: Porównaj agentów
+    merge_agent_confirm_message: Wybrane rekordy zostaną połączone z zasobem 
+      „%{source}”. Wszystkie wybrane rekordy zostaną usunięte, a powiązane z 
+      nimi rekordy zostaną ponownie powiązane z tym zasobem.
+    merge_resource_confirm_message: Wybrane rekordy zostaną połączone z zasobem 
+      „%{source}”. Wszystkie wybrane rekordy zostaną usunięte, a powiązane z 
+      nimi rekordy zostaną ponownie powiązane z tym zasobem.
+    merge_container_profile_confirm_message: Do profilu kontenera 
+      „%{merge_destination}” zostaną scalone wybrane rekordy. Wszystkie wybrane 
+      rekordy zostaną usunięte, a powiązane z nimi rekordy zostaną ponownie 
+      powiązane z tym zasobem.
+    paste: Wklej
+    remove: Usunąć
+    new_prefix: Nowy
   states:
     auto_generated: System generuje po zapisaniu
   dates_of_existence:
