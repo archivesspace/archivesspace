@@ -81,5 +81,6 @@ pl:
       acquisition_type: Rodzaj przejęcia
     result: Wynik
     results: Wyniki
+    page_title: Znaleziono %{count} wyników
   search-limit: Ogranicz do %{limit}
   search-limiting: ograniczone do %{limit}
