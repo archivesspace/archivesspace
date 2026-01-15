@@ -13,5 +13,63 @@ pl:
       accession_user_defined: Pomoc Dotycząca Zdefiniowanych Przez Użytkownika
       accession_external_documents: Pomoc Dotycząca Dokumentów Zewnętrznych
       accession_metadata_rights_declarations: Pomoc Dotycząca Deklaracji Praw do Metadanych
+      accession_basic_information: Pomoc dotycząca podstawowych informacji
+      accession_extents: Pomoc dotycząca zakresów
+      accession_dates: Pomoc dotycząca dat
+      resource: Pomoc dotycząca zasobów
+      resource_basic_information: Pomoc dotycząca podstawowych informacji
+      resource_dates: Pomoc dotycząca dat
+      resource_extents: Pomoc dotycząca zakresów
+      resource_finding_aid: Pomoc w inwentarz archiwalny
+      resource_related_accessions: Pomoc dotycząca powiązanych pozycji
+      resource_subjects: Pomoc w nauce przedmiotów
+      resource_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      resource_rights_statements: Pomoc dotycząca oświadczeń o prawach autorskich
+      resource_instances: Pomoc dotycząca instancji
+      resource_deaccessions: Pomoc w zakresie wycofywania zbiorów z kolekcji
+      resource_collection_management: Pomoc w zarządzaniu kolekcjami
+      resource_metadata_rights_declarations: Pomoc dotycząca deklaracji praw do metadanych
+      resource_classification: Pomoc dotycząca klasyfikacji
+      resource_user_defined: Pomoc dotycząca funkcji zdefiniowanych przez użytkownika
+      resource_load_via_spreadsheet: Pomoc dotycząca ładowania danych za pomocą arkusza 
+        kalkulacyjnego
+      bulk_archival_object_updater_job: Pomoc dotycząca masowej aktualizacji obiektów archiwalnych
+      archival_object: Pomoc dotycząca obiektów archiwalnych
+      archival_object_basic_information: Pomoc dotycząca podstawowych informacji
+      archival_object_dates: Pomoc dotycząca dat
+      archival_object_extents: Pomoc dotycząca zakresów
+      archival_object_finding_aid: Pomoc w inwentarz archiwalny
+      archival_object_related_accessions: Pomoc dotycząca powiązanych pozycji
+      archival_object_subjects: Pomoc w nauce przedmiotów
+      archival_object_notes: Pomoc dotycząca notatek
+      archival_object_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      archival_object_instances: Pomoc dotycząca instancji
+      archival_object_deaccessions: Pomoc w zakresie wycofywania zbiorów z kolekcji
+      archival_object_collection_management: Pomoc w zarządzaniu kolekcjami
+      archival_object_classification: Pomoc dotycząca klasyfikacji
+      archival_object_user_defined: Pomoc dotycząca funkcji zdefiniowanych przez użytkownika
+      digital_object: Pomoc dotycząca obiektów cyfrowych
+      digital_object_basic_information: Pomoc dotycząca podstawowych informacji
+      digital_object_dates: Pomoc dotycząca dat
+      resource_notes: Pomoc dotycząca notatek
+      archival_object_rights_statements: Pomoc dotycząca oświadczeń o prawach autorskich
+      digital_object_extents: Pomoc dotycząca zakresów
+      digital_object_related_accessions: Pomoc dotycząca powiązanych pozycji
+      digital_object_linked_agents: Pomoc dotycząca linków do agentów
+      digital_object_subjects: Pomoc w nauce przedmiotów
+      digital_object_notes: Pomoc dotycząca notatek
+      digital_object_rights_statements: Pomoc dotycząca oświadczeń o prawach autorskich
+      digital_object_instances: Pomoc dotycząca instancji
+      digital_object_deaccessions: Pomoc w zakresie wycofywania zbiorów z kolekcji
+      digital_object_collection_management: Pomoc w zarządzaniu kolekcjami
+      digital_object_classification: Pomoc dotycząca klasyfikacji
+      digital_object_user_defined: Pomoc dotycząca funkcji zdefiniowanych przez użytkownika
+      digital_object_component: Pomoc dotycząca komponentów obiektów cyfrowych
+      digital_object_component_basic_information: Pomoc dotycząca podstawowych informacji
+      digital_object_component_dates: Pomoc dotycząca dat
+      digital_object_component_related_accessions: Pomoc dotycząca powiązanych pozycji
+      digital_object_component_extents: Pomoc dotycząca zakresów
+      digital_object_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      digital_object_metadata_rights_declarations: Pomoc dotycząca deklaracji praw do metadanych
     help_center: Centrum Pomocy ArchivesSpace
     default_tooltip: Centrum Pomocy ArchivesSpace
