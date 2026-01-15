@@ -21,7 +21,9 @@
 <footer class="<%= local_assigns[:layout_class] %>">
   <div class="global-footer">
     <div class="footer-item">
-      <button type="button" class="keyboard-help-trigger"><%= t('footer.keyboard_shortcuts') %></button>
+      <button type="button" class="keyboard-shortcuts-btn" data-js="keyboard-shortcuts">
+        <%= t('footer.keyboard_shortcuts') %>
+      </button>
     </div>
     <% custom_footer_parts.each do |part| %>
       <span class="footer-separator">|</span>

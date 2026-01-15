@@ -1033,7 +1033,7 @@ $(function () {
     }
   };
 
-  $(document).on('click', '.keyboard-help-trigger', openShortcutsModal);
+  $(document).on('click', '[data-js="keyboard-shortcuts"]', openShortcutsModal);
 
   $(document).bind('keydown', 'shift+/', function () {
     if (!$('#ASModal').length) {
