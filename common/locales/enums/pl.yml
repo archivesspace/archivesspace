@@ -99,12 +99,19 @@ pl:
     resource_finding_aid_status: Inwentarz archiwalny status
     resource_finding_aid_description_rules: Inwentarz archiwalny zasady opisu
     rights_statement_other_rights_basis: Oświadczenie dotyczące praw autorskich Inne podstawy prawne
+    name_person_name_order: Imię i nazwisko osoby zamawiającej
+    name_rule: Zasada nazewnictwa
   enumerations:
     accession_acquisition_type:
       transfer: Przenosić
       deposit: Depozyt
+      gift: Dar
+      purchase: Zakup
     accession_resource_type:
       publications: Publikacje
+      papers: Materiały osobiste
+      records: Akta
+      collection: Kolekcja
     agency_code_type:
       local: Lokalny
       oclc: OCLC
@@ -113,3 +120,37 @@ pl:
       mr: Pan
       mrs: Pani
       sir: Pan
+      ms: Pani
+    accession_parts_relator:
+      forms_part_of: Stanowi część
+      has_part: Czy ma część
+    accession_parts_relator_type:
+      part: Relacja „część”
+    agent_relationship_earlierlater_relator:
+      is_earlier_form_of: Wcześniejsza forma pokrewnego słowa
+      is_later_form_of: Późniejsza forma pokrewna
+    agent_relationship_family_relator:
+      is_related_with: Powiązany z relacjami między agentami
+    begin_date_standardized_type:
+      not_after: Nie później
+      not_before: Dopiero gdy
+    cataloging_source:
+      nat_bib_agency: Narodowa agencja bibliograficzna
+      other: Inny
+      unknown: Nieznany
+    collection_management_processing_priority:
+      high: Wysoki
+      low: Niski
+      medium: Średni
+      none: Nie określono
+    collection_management_processing_status:
+      completed: Zakończony
+      new: Nowy
+      in_progress: W toku
+    container_location_status:
+      previous: Poprzedni
+    archival_record_level:
+      collection: Kolekcja
+      otherlevel: Inny poziom
+      recordgrp: Zespół archiwalny
+      series: Szereg
