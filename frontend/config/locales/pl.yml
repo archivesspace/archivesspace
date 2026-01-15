@@ -177,6 +177,35 @@ pl:
     move_ordering_problem_message: Problem z kolejnością sortowania rekordów
     reset_confirm_title: Przywrócić domyślne ustawienia aplikacji dla 
       %{preftype}?
+    edit_multiple_confirm_message: <p>Ta funkcja umożliwi zbiorczą aktualizację 
+      wielu rekordów.</p>
+    export_ead: Pobierz EAD
+    finish_editing: Zamknij rekord
+    publish_confirm_message: <p>Wykonanie tej czynności spowoduje opublikowanie 
+      tego rekordu, wszystkich podrzędnych rekordów (dokumentów zewnętrznych, 
+      notatek itp.) oraz wszystkich elementów w hierarchii.</p>
+    publish_archival_object_confirm_message: <p>Wykonanie tej czynności 
+      spowoduje opublikowanie tego rekordu, wszystkich podrzędnych rekordów 
+      (dokumentów zewnętrznych, notatek itp.) oraz wszystkich elementów 
+      znajdujących się poniżej tego rekordu w hierarchii.</p>
+    unpublish_archival_object_confirm_message: <p>Wykonanie tej czynności 
+      spowoduje usunięcie publikacji tego rekordu, wszystkich podrzędnych 
+      rekordów (dokumentów zewnętrznych, notatek itp.) oraz wszystkich elementów
+      znajdujących się poniżej tego rekordu w hierarchii.</p>
+    view_published: Wyświetl opublikowane
+    print_to_pdf: Wygeneruj plik PDF
+    resource_to_pdf: Materiał do wydrukowania
+    download_pdf: Pobierz plik PDF
+    download_report: Pobierz raport
+    click_to_show: Kliknij, aby załadować rekordy.
+    rapid_data_entry: Szybkie wprowadzanie danych
+    enable_reorder: Włącz tryb zmiany kolejności
+    reorder_active: Wyłącz tryb zmiany kolejności
+    copy: Kopia
+    expand_tree_mode_on: Automatyczne rozwijanie wszystkich elementów
+    expand_tree_mode_off: Wyłącz automatyczne rozwijanie
+    collapse_tree: Zwiń drzewo
+    reorder_successful: Repozytoria zostały pomyślnie uporządkowane
   states:
     auto_generated: System generuje po zapisaniu
   dates_of_existence:
@@ -185,3 +214,21 @@ pl:
         add: Dodaj datę
   search_results:
     filtered_by: Filtrowane według
+  database_warning:
+    message: <p><strong>Ostrzeżenie dotyczące bazy danych:</strong> Obecnie 
+      używasz wbudowanej bazy danych (Apache Derby). Wbudowana baza danych służy
+      wyłącznie do celów testowych/demonstracyjnych. Do danych przeznaczonych do
+      użytku produkcyjnego należy używać bazy danych MySQL, dotyczy to również 
+      danych w instancji testowej, które zamierzasz przenieść do instancji 
+      produkcyjnej.</p>
+  export_options:
+    include_unpublished: Uwzględnij niepublikowane materiały.
+    include_uris: Dołącz identyfikatory URI
+    ead3: Schemat EAD3
+    use_dc: Użyj Dublin Core.
+    use_mods: Użyj MODS
+  pagination:
+    first: Pierwszy
+    last: Ostatni
+    summary_offset_connector: '-'
+    previous_label: Poprzedni
