@@ -88,6 +88,7 @@ pl:
       role_enum_s: Role
       notes_published: Notatki
       finding_aid_title: Tytuł inwentarz archiwalny
+      subjects_text: Przedmioty
     result: Wynik
     results: Wyniki
     page_title: Znaleziono %{count} wyników
@@ -129,8 +130,53 @@ pl:
       from: Od
       to: Do
       langcode: Język
+      subjects: Temat
+      primary_type: Typ
+      repository: Repozytorium
+      creators: Twórca
+      subjects_text: Temat
+      linked_agent_roles: Rola
+      from_year: Od roku
+      to_year: Do roku
+      years_include: Lata do uwzględnienia
+      year_now: Teraz
+      year_begin: początek
+      from_to: 'Lata: od %{begin} do %{end}'
+      type_enum_s: Typ
+      digital_object_type_enum_s: Typ
+      scope: Zakres
+      source: Źródło
+      classification_uri: Klasyfikacja
+      instance_type_enum_s: Typ instancji
     filter_by: Filtruj według
     in_repository: ' w <strong>%{name}</strong>'
+    notes_contain: <strong>Notatka</strong> zawiera <span class='searchterm'>%{kw}</span>
   search-limit: Ogranicz do %{limit}
   search-limiting: ograniczone do %{limit}
   searched-field: wyszukiwanie w polu %{field}
+  search_sorting:
+    title_sort: Tytuł
+    identifier: Identyfikator
+    year_sort: Rok
+    classification_identifier: Identyfikator
+    sort: Sortować
+    asc: (rosnąco)
+    desc: (malejąco)
+  inherit:
+    collection: Kolekcja
+    file: Plik
+    item: Przedmiot
+    otherlevel: Inny poziom
+    recordgrp: Akta zbiorowe
+  errors:
+    error_404_message: Rekord typu %{type}, do którego próbujesz uzyskać dostęp, nie istnieje lub 
+      został usunięty.
+    backend_down: Nie można połączyć się z bazą danych.
+    backend_down_message: System ArchivesSpace obecnie doświadcza problemów technicznych. 
+      Przepraszamy za niedogodności. Prosimy spróbować ponownie później.
+    unexpected_error: Twoje żądanie nie mogło zostać zrealizowane z powodu nieoczekiwanego błędu.
+  boolean:
+    "true": Tak
+    "false": Nie
+  navbar:
+    search_placeholder: Wprowadź wyszukiwane hasła.
