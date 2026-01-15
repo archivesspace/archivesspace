@@ -94,9 +94,15 @@ pl:
       zewnętrznego identyfikatora dokumentu
     rights_statement_rights_type: Oświadczenie o prawach autorskich Rodzaj praw
     subject_term_type: Typ terminu tematycznego
+    name_source: Źródło nazwy
+    note_bibliography_type: 'Uwaga: Typ bibliografii'
+    resource_finding_aid_status: Inwentarz archiwalny status
+    resource_finding_aid_description_rules: Inwentarz archiwalny zasady opisu
+    rights_statement_other_rights_basis: Oświadczenie dotyczące praw autorskich Inne podstawy prawne
   enumerations:
     accession_acquisition_type:
       transfer: Przenosić
+      deposit: Depozyt
     accession_resource_type:
       publications: Publikacje
     agency_code_type:
