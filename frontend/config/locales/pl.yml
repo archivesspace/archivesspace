@@ -82,9 +82,101 @@ pl:
     paste: Wklej
     remove: Usunąć
     new_prefix: Nowy
+    suppress_confirm_message: Chociaż ukryty rekord pozostanie w bazie danych, 
+      będzie niewidoczny dla większości użytkowników i niedostępny dla 
+      większości funkcji.
+    toggle_dropdown_menu: Przełącz menu rozwijane
+    transfer: Przenosić
+    transfer_confirm_title: Czy chcesz przenieść ten rekord?
+    transfer_confirm_message: Rekord '%{target}' zostanie przeniesiony do 
+      wybranego przez Ciebie repozytorium.
+    transfer_successful: Transfer zakończony pomyślnie.  Wyświetlenie rekordów w
+      docelowym repozytorium może potrwać chwilę ze względu na proces ponownego 
+      indeksowania.
+    transfer_failed: Transfer nie powiódł się
+    transfer_failed_records_using_digital_objects: Poniższe rekordy są powiązane
+      z obiektami cyfrowymi, które miałyby zostać przeniesione, ale ich 
+      przeniesienie spowodowałoby zerwanie istniejących powiązań.
+    transfer_failed_digital_objects_linked_to_records: Ten obiekt cyfrowy jest 
+      powiązany z innymi rekordami przechowywanymi w tym repozytorium. Aby 
+      kontynuować transfer, należy usunąć powiązania w następujących rekordach.
+    transfer_failed_top_containers_in_use: Poniższe główne kontenery są 
+      powiązane z innymi rekordami najwyższego poziomu w tym repozytorium i nie 
+      mogą zostać przeniesione, dopóki te powiązania nie zostaną zerwane.
+    merge_n_records: Połącz %{n} rekordów
+    move: Przenosić
+    save_prefix: Zachowaj
+    transfer_failed_barcodes_in_use: Następujące kontenery najwyższego poziomu 
+      wykorzystują kody kreskowe używane w docelowym repozytorium i nie mogą 
+      zostać przeniesione, dopóki te konflikty nie zostaną rozwiązane.
+    unsuppress: Przywróć
+    unsuppress_confirm_title: Czy chcesz przywrócić ten rekord?
+    unsuppress_confirm_message: fałsz
+    unable_to_move_message: Nie można przenieść rekordu.
+    delete: Usuwać
+    delete_confirm_title: Czy na pewno chcesz usunąć ten rekord? %{title}
+    delete_multiple: Usuń rekordy
+    delete_multiple_confirm_title: Usunąć rekordy?
+    edit_multiple: Edytuj rekordy
+    edit_multiple_confirm_title: Edytuj rekordy?
+    export_eac: Pobierz EAC-CPF
+    export_marc_auth: Pobierz dane autorytatywne w formacie MARCXML
+    export_mods: Pobierz MODS
+    export_mets: Pobierz METS
+    export_marc: Pobierz MARCXML
+    export_dc: Pobierz DC
+    export_csv: Pobierz CSV
+    container_template: Pobierz szablon kontenera
+    move_up_a_level: Poziom wyżej
+    move_up: W górę
+    move_down: W dół
+    move_down_into: W dół do...
+    unset_default: Usuń ustawienie domyślne
+    delete_confirm_message: <p>Należy pamiętać, że <strong>tej czynności nie 
+      można cofnąć</strong>.</p><p>Ta czynność spowoduje usunięcie rekordu z 
+      bazy danych, w tym wszelkich powiązań z innymi rekordami.</p>
+    delete_repository_confirm_title: Czy na pewno chcesz usunąć to repozytorium?
+      %{name}
+    delete_repository_confirm_message: <p>Pamiętaj, że <strong>tej czynności nie
+      można cofnąć</strong>.</p><p>Ta operacja usunie 
+      <strong>repozytorium</strong> i wszystkie powiązane z nim rekordy z bazy 
+      danych, w tym wszelkie odniesienia do innych rekordów.</p><p>Aby 
+      kontynuować, wpisz poniżej „%{repository}”:</p><p><input 
+      id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>
+    delete_multiple_confirm_message: <p>Należy pamiętać, że <strong>tej 
+      czynności nie można cofnąć</strong>.</p><p>Ta czynność spowoduje usunięcie
+      tych rekordów z bazy danych, w tym wszelkich powiązań z innymi 
+      rekordami.</p>
+    reset: Zresetuj ustawienia domyślne
+    reset_confirm_message: <p>Pamiętaj, że <strong>tej czynności nie można 
+      cofnąć</strong>.</p><p>Ta czynność przywróci domyślne ustawienia 
+      aplikacji.</p>
+    merge_subject_confirm_message: Wybrane rekordy zostaną połączone z rekordem 
+      '%{source}'. Wszystkie wybrane rekordy zostaną usunięte, a powiązane z 
+      nimi rekordy zostaną ponownie powiązane z tym rekordem.
+    digital_object_template: Pobierz szablon obiektu cyfrowego
+    loading: Załadunek...
+    revert: Przywróć zmiany
+    merge: Łączyć
+    toolbar_disabled_message: Masz niezapisane zmiany – zapisz je lub przywróć 
+      poprzednią wersję, aby uzyskać dostęp do paska narzędzi i drzewa rekordów.
+    publish: Opublikuj wszystko
+    publish_confirm_title: Publikować?
+    unpublish: Cofnij publikację wszystkich elementów.
+    unpublish_confirm_title: Cofnąć publikację?
+    unpublish_confirm_message: <p>Wykonanie tej czynności spowoduje usunięcie 
+      publikacji tego rekordu, wszystkich podrzędnych rekordów (dokumentów 
+      zewnętrznych, notatek itp.) oraz wszystkich elementów w hierarchii.</p>
+    publish_archival_object: Opublikuj wszystko
+    publish_archival_object_confirm_title: Publikować?
+    unpublish_archival_object: Cofnij publikację wszystkich elementów.
+    unpublish_archival_object_confirm_title: Cofnąć publikację?
+    view_search_results: Przejdź do wyników wyszukiwania.
   states:
     auto_generated: System generuje po zapisaniu
   dates_of_existence:
     _frontend:
       action:
         add: Dodaj datę
+  search_results:
+    filtered_by: Filtrowane według
