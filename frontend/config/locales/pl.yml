@@ -172,6 +172,11 @@ pl:
     unpublish_archival_object: Cofnij publikację wszystkich elementów.
     unpublish_archival_object_confirm_title: Cofnąć publikację?
     view_search_results: Przejdź do wyników wyszukiwania.
+    drop_after: Spadek po
+    drop_into: Upuść jako dziecko
+    move_ordering_problem_message: Problem z kolejnością sortowania rekordów
+    reset_confirm_title: Przywrócić domyślne ustawienia aplikacji dla 
+      %{preftype}?
   states:
     auto_generated: System generuje po zapisaniu
   dates_of_existence:
