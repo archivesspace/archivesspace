@@ -114,6 +114,43 @@ pl:
       agent_person_related_agents: Pomoc dotycząca powiązanych agentów
       agent_family: Pomoc dla rodziny (Agent)
       agent_family_related_agents: Pomoc dotycząca powiązanych agentów
+      agent_corporate_entity: Pomoc dotycząca podmiotu korporacyjnego (agenta)
+      agent_corporate_entity_dates_of_existence: Pomoc dotycząca dat istnienia
+      agent_corporate_entity_names: Pomoc dotycząca imion
+      agent_corporate_entity_notes: Pomoc dotycząca notatek
+      agent_corporate_entity_related_agents: Pomoc dotycząca powiązanych agentów
+      agent_maintenance_histories: Pomoc dotycząca historii konserwacji agentów
+      agent_other_agency_codes: Pomoc dotycząca kodów innych agencji
+      agent_conventions_declarations: Pomoc dotycząca deklaracji dotyczących konwencji agentów
+      agent_alternate_sets: Pomoc dotycząca alternatywnych zestawów agentów
+      agent_record_controls: Pomoc dotycząca kontrolek rekordów agentów
+      agent_topic: Pomoc dotycząca tematów
+      agent_used_language: Pomoc dotycząca używanego języka
+      location: Pomoc dotycząca lokalizacji
+      event_basic_information: Pomoc dotycząca podstawowych informacji
+      event_date: Pomoc dotycząca daty/godziny wydarzenia
+      event_linked_records: Pomoc dotycząca linków do rekordów
+      classification: Pomoc dotycząca klasyfikacji
+      classification_term: Pomoc dotycząca klasyfikacji
+      repository_groups: Pomoc w zarządzaniu grupami
+      repository_users: Pomoc dotycząca przypisywania użytkowników do grup
+      user: Pomoc w zarządzaniu użytkownikami
+      preference: Pomoc dotycząca preferencji
+      custom_report_templates: Pomoc dotycząca niestandardowych szablonów raportów
+      agent_software: Pomoc dotycząca oprogramowania (Agent)
+      agent_software_names: Pomoc dotycząca imion
+      agent_software_notes: Pomoc dotycząca notatek
+      agent_record_identifiers: Pomoc dotycząca identyfikatorów rekordów agentów
+      agent_place: Pomoc dotycząca miejsc
+      agent_occupation: Pomoc w wyborze zawodu
+      agent_function: Pomoc dotycząca funkcji
+      agent_related_agents: Pomoc dotycząca powiązanych agentów
+      event: Pomoc dotycząca wydarzeń
+      event_linked_agents: Pomoc dotycząca linków do agentów
+      import: Pomoc dotycząca importowania danych
+      search: Pomoc dotycząca wyszukiwania i przeglądania
+      repository: Pomoc w zarządzaniu repozytoriami
+      enumeration: Pomoc dotycząca list wartości kontrolowanych
     help_center: Centrum Pomocy ArchivesSpace
     default_tooltip: Centrum Pomocy ArchivesSpace
     icon: <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
