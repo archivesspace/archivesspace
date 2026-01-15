@@ -16,3 +16,53 @@ pl:
     begin_date_standardized_type: Data Rozpoczęcia Typ Standaryzowany
     agent_relationship_associative_relator: Relacja Agenta Relator Stowarzyszony
     agent_relationship_identity_relator: Relacja Tożsamość Agent Relator
+    accession_sibling_relator: Powiązanie rodzeństwa w procesie przystąpienia do organizacji
+    accession_sibling_relator_type: Typ relacji między powiązanymi rekordami dostępu
+    agency_code_type: Typ kodu agencji kontrolującej dokumentację
+    cataloging_source: Źródło katalogowania kontroli rekordów
+    collection_management_processing_priority: Priorytet przetwarzania w zarządzaniu kolekcjami
+    collection_management_processing_status: Status przetwarzania zarządzania kolekcją
+    container_location_status: Status lokalizacji kontenera
+    container_type: Typ kontenera
+    country_iso_3166: Kod kraju ISO 3166
+    date_calendar: Kalendarz dat
+    date_era: Era daty
+    date_label: Etykieta daty
+    date_role: Data Rola
+    date_standardized_type: Data, znormalizowany typ
+    date_type: Typ daty
+    date_type_structured: Typ daty
+    deaccession_scope: Zakres wycofania z kolekcji
+    digital_object_digital_object_type: Obiekt cyfrowy Typ obiektu cyfrowego
+    digital_object_level: Poziom obiektu cyfrowego
+    dimension_units: Jednostki wymiarów
+    end_date_standardized_type: Data zakończenia (typ znormalizowany)
+    event_event_type: Rodzaj wydarzenia
+    event_outcome: Wynik wydarzenia
+    extent_extent_type: Zakres Zakres Typ
+    extent_portion: Zakres części
+    file_version_checksum_methods: Metody sprawdzania sum kontrolnych wersji plików
+    file_version_file_format_name: Wersja pliku Nazwa formatu pliku
+    file_version_use_statement: Oświadczenie dotyczące wykorzystania wersji pliku
+    file_version_xlink_actuate_attribute: Atrybut aktywacji łącza Xlink wersji pliku
+    file_version_xlink_show_attribute: Wersja pliku Xlink Pokaż atrybut
+    government_agency_type: Typ agencji rządowej odpowiedzialnej za prowadzenie rejestrów
+    identifier_type: Typ identyfikatora kontroli rekordu
+    instance_instance_type: Typ instancji
+    job_type: Rodzaj pracy
+    language_iso639_2: Język ISO 639-2
+    level_of_detail: Poziom szczegółowości kontroli rekordów
+    linked_agent_archival_record_relators: Powiązane podmioty w archiwum agentów
+    linked_agent_event_roles: Powiązane role agentów w wydarzeniu
+    date_certainty: Pewność daty
+    gender: Płeć agenta
+    linked_agent_role: Powiązana rola agenta
+    linked_event_archival_record_roles: Powiązane role w archiwum zapisów wydarzeń
+    location_function_type: Lokalizacja Funkcja Typ
+    location_temporary: Lokalizacja tymczasowa
+    maintenance_agent_type: Typ agenta odpowiedzialnego za konserwację i kontrolę dokumentacji
+    maintenance_event_type: Typ zdarzenia konserwacji i kontroli dokumentacji
+    metadata_license: Licencja na metadane
+    modified_record: Typ zmodyfikowanego rekordu kontrolnego
+    name_type: Nazwa pola kontrolnego Typ rekordu
+    maintenance_status: Status konserwacji i kontroli dokumentacji
