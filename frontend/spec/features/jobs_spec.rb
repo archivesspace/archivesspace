@@ -151,8 +151,12 @@ describe 'Jobs', js: true do
       end
       select('CSV', from: 'Format')
       click_button('Start Job')
-
-      expect(page).to have_css('#logSpool')
+      expect(page).to have_css('#job_status')
+      if page.has_css?('#queueMessage', wait: 0)
+        expect(page).to have_no_css('#queueMessage', wait: Capybara.default_max_wait_time)
+      end
+      expect(page).to have_css('.btn-follow-log')
+      expect(page).to have_css('#logSpool', visible: :all)
     end
 
     it_behaves_like 'log feed with auto-scroll control'
