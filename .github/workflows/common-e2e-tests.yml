@@ -29,48 +29,60 @@ jobs:
     name: Run Tests
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - uses: browser-actions/setup-geckodriver@latest
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Get geckodriver and firefox versions
-      run: |
-        geckodriver --version
-        firefox --version
-    - name: Set up Docker
-      env:
-        IMAGE_TAG: ${{ inputs.image_tag }}
-      run: |
-        docker compose -f docker-compose.yml up --quiet-pull --detach
-    - name: Wait until the web server is ready
-      run: until curl -s -f -o /dev/null "http://localhost:8080"; do sleep 5; done
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.2.0'
-    - name: Cache gems
-      uses: actions/cache@v3
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-gems-
-    - name: Install gems
-      run: |
-        bundle config path vendor/bundle
-        bundle install --quiet --jobs 4 --retry 3
-    - name: Run rubocop
-      run: |
-        bundle exec rubocop
-    - name: Cucumber strict dry run to check for not implemented steps
-      run: |
-        bundle exec cucumber --dry-run --strict
-    - name: Run tests ${{ inputs.run-cmd }}
-      run: ${{ inputs.run-cmd }}
-    - name: Upload screenshots on failure
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: screenshots_${{ inputs.name }}
-        path: /tmp/screenshots/
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - uses: browser-actions/setup-geckodriver@latest
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get geckodriver and firefox versions
+        run: |
+          geckodriver --version
+          firefox --version
+      - name: Set up Docker
+        env:
+          IMAGE_TAG: ${{ inputs.image_tag }}
+          COVERAGE_REPORTS: true
+          ASPACE_INTEGRATION: true
+          COVERAGE_REPORT_DIR: e2e-${{ inputs.name }}
+
+        run: |
+          docker compose -f docker-compose.yml up --quiet-pull --detach
+      - name: Wait until the web server is ready
+        run: until curl -s -f -o /dev/null "http://localhost:8080"; do sleep 5; done
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2.0"
+      - name: Cache gems
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Install gems
+        run: |
+          bundle config path vendor/bundle
+          bundle install --quiet --jobs 4 --retry 3
+      - name: Run rubocop
+        run: |
+          bundle exec rubocop
+      - name: Cucumber strict dry run to check for not implemented steps
+        run: |
+          bundle exec cucumber --dry-run --strict
+      - name: Run tests ${{ inputs.run-cmd }}
+        run: ${{ inputs.run-cmd }}
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots_${{ inputs.name }}
+          path: /tmp/screenshots/
+      - name: Post Coverage to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          format: simplecov
+          compare-ref: master
+          flag-name: e2e-${{ inputs.name }}
+          debug: false
+          parallel: true

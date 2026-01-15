@@ -27,8 +27,13 @@ services:
       DB_NAME: archivesspace
       DB_USER: as
       DB_PASS: as123
+      COVERAGE_REPORTS: ${COVERAGE_REPORTS}
+      ASPACE_INTEGRATION: ${ASPACE_INTEGRATION}
+      COVERAGE_REPORT_DIR: ${COVERAGE_REPORT_DIR}
+
     volumes:
       - app-data:/archivesspace/data
+      - ../coverage:/archivesspace/data/coverage
 
   e2e-db:
     image: mysql:8
