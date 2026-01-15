@@ -119,6 +119,7 @@ describe 'System Information', js: true do
   end
 
   describe 'logs' do
+    let(:stop_log_spool_animations) { true }
     def visit_system_log(log_type)
       login_user(admin_user)
       visit '/system_info'
