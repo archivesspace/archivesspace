@@ -71,5 +71,39 @@ pl:
       digital_object_component_extents: Pomoc dotycząca zakresów
       digital_object_external_documents: Pomoc dotycząca dokumentów zewnętrznych
       digital_object_metadata_rights_declarations: Pomoc dotycząca deklaracji praw do metadanych
+      digital_object_component_linked_agents: Pomoc dotycząca linków do agentów
+      digital_object_component_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      digital_object_component_rights_statements: Pomoc dotycząca oświadczeń o prawach autorskich
+      digital_object_component_instances: Pomoc dotycząca instancji
+      digital_object_component_deaccessions: Pomoc w zakresie wycofywania zbiorów z kolekcji
+      digital_object_component_collection_management: Pomoc w zarządzaniu kolekcjami
+      digital_object_component_classification: Pomoc dotycząca klasyfikacji
+      archival_object_linked_agents: Pomoc dotycząca linków do agentów
+      digital_object_component_subjects: Pomoc w nauce przedmiotów
+      digital_object_component_user_defined: Pomoc dotycząca funkcji zdefiniowanych przez 
+        użytkownika
+      subject_basic_information: Pomoc dotycząca podstawowych informacji
+      subject_terms: Pomoc dotycząca terminów i podziałów
+      subject_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_person_dates_of_existence: Pomoc dotycząca dat istnienia
+      agent_person_contact_details: Pomoc dotycząca danych kontaktowych
+      agent_person_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_corporate_entity_contact_details: Pomoc dotycząca danych kontaktowych
+      digital_object_component_notes: Pomoc dotycząca notatek
+      agent_family_dates_of_existence: Pomoc dotycząca dat istnienia
+      agent_family_names: Pomoc dotycząca imion
+      agent_family_contact_details: Pomoc dotycząca danych kontaktowych
+      agent_family_notes: Pomoc dotycząca notatek
+      agent_family_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_corporate_entity_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_software_dates_of_existence: Pomoc dotycząca dat istnienia
+      agent_software_contact_details: Pomoc dotycząca danych kontaktowych
+      agent_software_related_agents: Pomoc dotycząca powiązanych agentów
+      agent_software_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_identifiers: Pomoc dotycząca identyfikatorów jednostek
+      agent_genders: Pomoc dotycząca płci
+      agent_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_required: Pomoc dotycząca edycji wymaganych pól
     help_center: Centrum Pomocy ArchivesSpace
     default_tooltip: Centrum Pomocy ArchivesSpace
+    icon: <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
