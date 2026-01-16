@@ -148,6 +148,12 @@ pl:
       source: Źródło
       classification_uri: Klasyfikacja
       instance_type_enum_s: Typ instancji
+      published_agents: Imiona
+      agents_text: Imiona
+      child_container_u_sstr: Pojemnik na dziecko
+      grand_child_container_u_sstr: Kontener dla wnuka
+      published_series_title_u_sstr: Seria
+      extent_type_enum_s: Zakres
     filter_by: Filtruj według
     in_repository: ' w <strong>%{name}</strong>'
     notes_contain: <strong>Notatka</strong> zawiera <span class='searchterm'>%{kw}</span>
@@ -162,12 +168,22 @@ pl:
     sort: Sortować
     asc: (rosnąco)
     desc: (malejąco)
+    sort_by: 'Sortuj według:'
+    relevance: Znaczenie
+    sorting: '%{type} %{direction}'
   inherit:
     collection: Kolekcja
     file: Plik
     item: Przedmiot
     otherlevel: Inny poziom
     recordgrp: Akta zbiorowe
+    inherited: 'Z poziomu %{level}:'
+    series: Seria
+    sub-series: Podseria
+    class: Klasa
+    fonds: Zespół
+    subfonds: Podfundusze
+    subgrp: Podgrupa
   errors:
     error_404_message: Rekord typu %{type}, do którego próbujesz uzyskać dostęp, nie istnieje lub 
       został usunięty.
@@ -175,6 +191,7 @@ pl:
     backend_down_message: System ArchivesSpace obecnie doświadcza problemów technicznych. 
       Przepraszamy za niedogodności. Prosimy spróbować ponownie później.
     unexpected_error: Twoje żądanie nie mogło zostać zrealizowane z powodu nieoczekiwanego błędu.
+    error_404: Nie znaleziono rekordu typu %{type}
   boolean:
     "true": Tak
     "false": Nie
