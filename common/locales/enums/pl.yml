@@ -101,6 +101,8 @@ pl:
     rights_statement_other_rights_basis: Oświadczenie dotyczące praw autorskich Inne podstawy prawne
     name_person_name_order: Imię i nazwisko osoby zamawiającej
     name_rule: Zasada nazewnictwa
+    note_orderedlist_enumeration: 'Uwaga: Lista uporządkowana (numerowana)'
+    note_singlepart_type: 'Uwaga: Typ pojedynczej części'
   enumerations:
     accession_acquisition_type:
       transfer: Przenosić
@@ -134,10 +136,13 @@ pl:
     begin_date_standardized_type:
       not_after: Nie później
       not_before: Dopiero gdy
+      standard: Standard
     cataloging_source:
       nat_bib_agency: Narodowa agencja bibliograficzna
       other: Inny
       unknown: Nieznany
+      ccp: Program katalogowania we współpracy z innymi instytucjami
+      natc: Nie podjęto próby napisania kodu.
     collection_management_processing_priority:
       high: Wysoki
       low: Niski
@@ -147,10 +152,41 @@ pl:
       completed: Zakończony
       new: Nowy
       in_progress: W toku
+      none: Nie określono
     container_location_status:
       previous: Poprzedni
+      current: Aktualny
     archival_record_level:
       collection: Kolekcja
       otherlevel: Inny poziom
       recordgrp: Zespół archiwalny
       series: Szereg
+      class: Podseria
+      file: Plik
+      fonds: Zespół
+      item: Przedmiot
+      subfonds: Podfundusze
+      subgrp: Podgrupa
+      subseries: Podseria
+    accession_sibling_relator:
+      sibling_of: Czy jest rodzeństwem
+    accession_sibling_relator_type:
+      bound_with: Relacja „powiązane z”
+    agent_relationship_associative_relator:
+      is_associative_with: Powiązane z podobnymi
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: Hierarchiczna relacja między agentami
+    agent_relationship_identity_relator:
+      is_identified_with: Zidentyfikowano powiązanie agenta z osobą zgłaszającą sprawę.
+    agent_relationship_parentchild_relator:
+      is_child_of: Dziecko osoby spokrewnionej
+      is_parent_of: Rodzic osoby spokrewnionej
+    agent_relationship_subordinatesuperior_relator:
+      is_subordinate_to: Czy podrzędny jest powiązany?
+      is_superior_of: Jest lepszy od pokrewnego
+    agent_relationship_temporal_relator:
+      is_temporal_with: Relacja czasowa między agentami
+    container_type:
+      box: Pudełko
+      carton: Karton
+      case: Skrzynka
