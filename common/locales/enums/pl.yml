@@ -193,6 +193,10 @@ pl:
       container: Pojemnik
       folder: Teczka
       page: Strona
+      frame: Rama
+      object: Obiekt
+      reel: Szpulka
+      volume: Tom
     country_iso_3166:
       AD: Andora
       AE: Emiraty Arabskie
@@ -210,3 +214,15 @@ pl:
       BB: Barbados
       BD: Bangladesz
       BE: Belgia
+      AO: Angola
+      AR: Argentyna
+      AS: Samoa Amerykańskie
+      AT: Austria
+      BF: Burkina Faso
+      BG: Bułgaria
+      BH: Bahrajn
+      BI: Burundi
+      BJ: Benin
+      BL: Święty Bartłomiej
+      BM: Bermudy
+      BN: Brunei Darussalam
