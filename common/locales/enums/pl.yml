@@ -190,3 +190,23 @@ pl:
       box: Pudełko
       carton: Karton
       case: Skrzynka
+      container: Pojemnik
+      folder: Teczka
+      page: Strona
+    country_iso_3166:
+      AD: Andora
+      AE: Emiraty Arabskie
+      AF: Afganistan
+      AG: Antigua i Barbuda
+      AI: Anguilla
+      AL: Albania
+      AM: Armenia
+      AQ: Antarktyda
+      AU: Australia
+      AW: Aruba
+      AX: Wyspy Alandzkie
+      AZ: Azerbejdżan
+      BA: Bośnia i Hercegowina
+      BB: Barbados
+      BD: Bangladesz
+      BE: Belgia
