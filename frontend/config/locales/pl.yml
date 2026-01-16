@@ -218,6 +218,21 @@ pl:
         add: Dodaj datę
   search_results:
     filtered_by: Filtrowane według
+    title: Wyniki wyszukiwania
+    context: Znaleziono w
+    selected: Wybrany?
+    no_results: Nie znaleziono żadnych rekordów.
+    no_results_prefix: 'Nie znaleziono żadnych wyników wyszukiwania dla:'
+    result_type: Typ rekordu
+    result_title: Tytuł
+    modified: Ostatnia modyfikacja dokonana przez
+    text_placeholder: Filtruj według tekstu
+    clear_all: Wyczyść wszystko
+    component_switch: Pokaż komponenty
+    help:
+      row_selection: Kliknij wiersz, aby go zaznaczyć do operacji zbiorczych. 
+        Przytrzymaj klawisz Alt podczas klikania pola wyboru, aby zaznaczyć lub 
+        odznaczyć wiele poprzednich wierszy.
   database_warning:
     message: <p><strong>Ostrzeżenie dotyczące bazy danych:</strong> Obecnie 
       używasz wbudowanej bazy danych (Apache Derby). Wbudowana baza danych służy
@@ -238,5 +253,19 @@ pl:
     last: Ostatni
     summary_offset_connector: '-'
     previous_label: Poprzedni
+    next_label: Następny
+    summary_total_connector: z
+    summary_suffix: Wyniki
+    page_prefix: Strona
+    page_connector: z
   search_sorting:
     sort_by: 'Sortuj według:'
+    and: 'i:'
+    asc: Wznoszący się
+  navbar:
+    toggle_navigation: Przełącz nawigację
+  advanced_search:
+    operator:
+      AND: I
+      OR: Lub
+      NOT: Nie
