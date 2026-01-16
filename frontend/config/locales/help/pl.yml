@@ -151,6 +151,9 @@ pl:
       search: Pomoc dotycząca wyszukiwania i przeglądania
       repository: Pomoc w zarządzaniu repozytoriami
       enumeration: Pomoc dotycząca list wartości kontrolowanych
+      agent_sources: Pomoc dotycząca źródeł informacji o agentach
+      agent_external_resources: Pomoc dotycząca powiązanych zasobów zewnętrznych
+      agent_merge: Pomoc dotycząca łączenia agentów
     help_center: Centrum Pomocy ArchivesSpace
     default_tooltip: Centrum Pomocy ArchivesSpace
     icon: <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
