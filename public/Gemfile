@@ -2,13 +2,13 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '6.1.6'
+gem 'rails', '~> 6.1.6'
 
 # For handling HTML enities when processing exports as XML
 gem 'htmlentities'
 gem 'i18n'
 
-gem 'nokogiri', '~> 1.13.10'
+gem 'nokogiri'
 
 # Gems used only for assets and not required in production environments by default.
 # Assets group was deprecated with Rails 4, but we still need it as we need to avoid using gems that include
@@ -23,21 +23,22 @@ group :assets do
   gem 'execjs'
 end
 
-gem 'atomic', '= 1.0.1'
+gem 'atomic'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
 gem 'excon', '>= 0.76.0'
 gem 'json'
-gem 'json-schema', '1.0.10'
-gem 'multipart-post', '~> 2.4.0'
+gem 'json-schema', '~> 1.0.10'
+gem 'multipart-post'
 gem 'net-http-persistent', '>= 4.0.1'
 
 # support clipboard
 gem 'clipboard-rails'
 
-gem 'rubyzip', '< 1.4'
+gem 'rubyzip', '~> 2.4.1'
+
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks'
@@ -55,7 +56,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'puma'
+  gem 'puma', '~> 6.4'
 end
 
 group :test do
@@ -64,9 +65,9 @@ group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'dumb_delegator'
-  gem 'factory_bot', '= 6.2.1'
+  gem 'factory_bot'
   gem 'factory_bot_rails'
-  gem 'fog-aws', '2.0.0', require: false
+  gem 'fog-aws', '~> 2.0.0', require: false
   gem 'launchy'
   gem 'rails-controller-testing'
   gem 'rspec'

@@ -4,25 +4,29 @@
   <!-- This section contains configuration used by the build tasks -->
 
   <!-- Don't forget to change any jruby versions in any Gemfiles! -->
-  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.4.8.0/jruby-complete-9.4.8.0.jar" />
-  <property name="jruby_file" value="jruby-complete-9.4.8.0.jar" />
+
   <!-- This needs to match version installed by bundler 2.x: `./build/run bootstrap` -->
+  <property name="jruby_version" value="9.4.9.0" />
   <!-- Then find version at: build/gems/jruby/$version -->
   <property name="jruby_build_version" value="3.1.0" />
   <!-- Path to jruby bin directory relative to aspace ./build -->
   <property name="jruby_build_bin_path" value="./gems/jruby/${jruby_build_version}/bin" />
   <!-- Properties for ArchivesSpace build of the JRuby Rack jar -->
   <!-- The versions need to match the gem versions in: build/gems/jruby/$version  -->
-  <property name="jruby_rack_version" value="1.2.2" />
-  <property name="rack_version" value="2.2.9" />
-  <property name="bundler_version" value="2.5.15" />
+  <property name="jruby_rack_version" value="1.2.6" />
+  <property name="rack_version" value="2.2.21" />
+  <property name="bundler_version" value="2.6.9" />
+  <property name="jetty_version" value="10.0.26" />
   <property name="jruby_rack_file" value="jruby-rack-${jruby_rack_version}.jar" />
-  <property name="jruby_rack_url" value="https://repo1.maven.org/maven2/org/jruby/rack/jruby-rack/${jruby_rack_version}/jruby-rack-${jruby_rack_version}.jar" />
 
-  <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/10.0.22/jetty-runner-10.0.22.jar" />
-  <property name="jettyrunner_file" value="jetty-runner-10.0.22.jar" />
-  <property name="jettywebapp_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-webapp/10.0.22/jetty-webapp-10.0.22.jar" />
-  <property name="jettywebapp_file" value="jetty-webapp-10.0.22.jar" />
+  <property name="jruby_rack_url" value="https://repo1.maven.org/maven2/org/jruby/rack/jruby-rack/${jruby_rack_version}/jruby-rack-${jruby_rack_version}.jar" />
+  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/${jruby_version}/jruby-complete-${jruby_version}.jar" />
+  <property name="jruby_file" value="jruby-complete-${jruby_version}.jar" />
+
+  <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/${jetty_version}/jetty-runner-${jetty_version}.jar" />
+  <property name="jettyrunner_file" value="jetty-runner-${jettry_version}.jar" />
+  <property name="jettywebapp_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-webapp/${jetty_version}/jetty-webapp-${jetty_version}.jar" />
+  <property name="jettywebapp_file" value="jetty-webapp-${jetty_version}.jar" />
 
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
@@ -77,8 +81,8 @@
     </condition>
     <antcall target="bundler">
       <param name="gemfile" value="../Gemfile" />
+      <param name="excluded-gem-groups" value="default development test release_notes docs thor" />
       <param name="included-gem-groups" value="rubocop" />
-      <param name="excluded-gem-groups" value="default" />
     </antcall>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
@@ -591,7 +595,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="gems/bin/bundle update --jobs=8 --gemfile='${gemfile}' ${only-gem}" />
+      <arg line="gems/bin/bundle update --ruby --jobs=8 --gemfile='${gemfile}' ${only-gem}" />
     </java>
   </target>
 

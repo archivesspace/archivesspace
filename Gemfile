@@ -6,14 +6,14 @@ source 'https://rubygems.org'
 gem 'rake'
 
 group :release_notes do
-  gem 'pry'
-  gem 'pry-debugger-jruby'
-  gem 'pry-nav'
   gem 'git', '~> 2.3'
   gem 'github_api'
 end
 
-gem 'rubocop', group: :rubocop
+group :rubocop do
+  gem 'rubocop', '~> 1.64.1', require: false
+end
+
 gem 'thor', group: [:docs, :thor, :release_notes]
 gem 'yard', group: :docs
 gem 'erb',  group: :docs
