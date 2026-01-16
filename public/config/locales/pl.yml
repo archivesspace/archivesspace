@@ -207,8 +207,10 @@ pl:
   internal_links:
     main: Główna treść
     search_collection: Szukaj w obrębie kolekcji
+    filter: Filtruj wyniki
   accordion:
     collapse: Zwiń wszystko
+    expand: Rozwiń wszystko
   advanced_search:
     operator:
       AND: I
@@ -217,8 +219,20 @@ pl:
     limit_label: Ogranicz według typu rekordu
     add_row: Dodaj wiersz
     remove_row: Usuń wiersz
+    operator_label: Operator
   coll_obj:
     _singular: Kolekcja lub zapis
     _plural: Kolekcje i/lub zbiory dokumentów
   scope_note: Uwaga dotycząca zakresu
   multiple_containers: Wiele kontenerów
+  contains: Zawiera %{count} %{type}
+  found: Znaleziono w %{count} %{type}
+  extent_number_type: '%{liczba} %{typ}'
+  extent_phys_details: ' : %{deets}'
+  extent_dims: ' ; %{wymiary}'
+  external_docs: Dokumenty zewnętrzne
+  more_about: More about
+  list: Lista %{type}
+  cont_arr: Organizacja kolekcji
+  dig_cont_arr: Organizacja obiektów cyfrowych
+  subgroups: Podgrupy
