@@ -233,6 +233,9 @@ pl:
       row_selection: Kliknij wiersz, aby go zaznaczyć do operacji zbiorczych. 
         Przytrzymaj klawisz Alt podczas klikania pola wyboru, aby zaznaczyć lub 
         odznaczyć wiele poprzednich wierszy.
+    result_identifier: Identyfikator
+    created: Stworzone przez
+    actions: Działania
   database_warning:
     message: <p><strong>Ostrzeżenie dotyczące bazy danych:</strong> Obecnie 
       używasz wbudowanej bazy danych (Apache Derby). Wbudowana baza danych służy
@@ -258,10 +261,15 @@ pl:
     summary_suffix: Wyniki
     page_prefix: Strona
     page_connector: z
+    previous: '&#171;'
+    next: '&#187;'
+    summary_prefix: Pokazywanie
   search_sorting:
     sort_by: 'Sortuj według:'
     and: 'i:'
     asc: Wznoszący się
+    desc: Zstępujący
+    select: Wybierać
   navbar:
     toggle_navigation: Przełącz nawigację
   advanced_search:
@@ -269,3 +277,12 @@ pl:
       AND: I
       OR: Lub
       NOT: Nie
+  search:
+    accession:
+      score: Znaczenie
+      title: Tytuł
+      publish: Opublikowany
+      subjects: Temat
+      identifier: Identyfikator
+      acquisition_type: Rodzaj przejęcia
+      accession_date: Data przystąpienia
