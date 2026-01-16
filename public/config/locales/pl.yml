@@ -192,6 +192,7 @@ pl:
       Przepraszamy za niedogodności. Prosimy spróbować ponownie później.
     unexpected_error: Twoje żądanie nie mogło zostać zrealizowane z powodu nieoczekiwanego błędu.
     error_404: Nie znaleziono rekordu typu %{type}
+    invalid_search_params: Nieprawidłowy parametr wyszukiwania „%{value}” dla pola „%{field}”.
   boolean:
     "true": Tak
     "false": Nie
