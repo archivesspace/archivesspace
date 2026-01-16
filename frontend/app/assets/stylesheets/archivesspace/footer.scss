@@ -6,7 +6,7 @@
     margin-right: 0.25rem;
   }
 
-  .keyboard-help-trigger {
+  .keyboard-shortcuts-btn {
     display: inline-block;
     border: none;
     padding: 0;
@@ -15,6 +15,7 @@
 
     &:hover {
       color: color-mix(in srgb, $blue, black 50%);
+      text-decoration: underline;
     }
 
     &:focus {
