@@ -198,3 +198,27 @@ pl:
     "false": Nie
   navbar:
     search_placeholder: Wprowadź wyszukiwane hasła.
+    error_no_term: Nie wprowadzono żadnych wyszukiwanych haseł.
+    toggle_navigation: Przełącz nawigację
+  navigation:
+    hierarchical: nawigacja hierarchiczna
+    top_level: nawigacja najwyższego poziomu
+    mobile_menu: Menu nawigacyjne dla mniejszych urządzeń
+  internal_links:
+    main: Główna treść
+    search_collection: Szukaj w obrębie kolekcji
+  accordion:
+    collapse: Zwiń wszystko
+  advanced_search:
+    operator:
+      AND: I
+      OR: Lub
+      NOT: Nie
+    limit_label: Ogranicz według typu rekordu
+    add_row: Dodaj wiersz
+    remove_row: Usuń wiersz
+  coll_obj:
+    _singular: Kolekcja lub zapis
+    _plural: Kolekcje i/lub zbiory dokumentów
+  scope_note: Uwaga dotycząca zakresu
+  multiple_containers: Wiele kontenerów
