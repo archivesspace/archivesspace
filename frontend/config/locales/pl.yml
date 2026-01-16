@@ -206,6 +206,10 @@ pl:
     expand_tree_mode_off: Wyłącz automatyczne rozwijanie
     collapse_tree: Zwiń drzewo
     reorder_successful: Repozytoria zostały pomyślnie uporządkowane
+    form_changes_message: <small><span class='muted'>Masz niezapisane 
+      zmiany</span></small>
+    run: Uruchom
+    select_resource: Wybierz zasób
   states:
     auto_generated: System generuje po zapisaniu
   dates_of_existence:
@@ -227,8 +231,12 @@ pl:
     ead3: Schemat EAD3
     use_dc: Użyj Dublin Core.
     use_mods: Użyj MODS
+    include_daos: Dodaj znaczniki <dao>.
+    numbered_cs: Użyj numerowanych znaczników <c>.
   pagination:
     first: Pierwszy
     last: Ostatni
     summary_offset_connector: '-'
     previous_label: Poprzedni
+  search_sorting:
+    sort_by: 'Sortuj według:'
