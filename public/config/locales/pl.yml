@@ -236,3 +236,14 @@ pl:
   cont_arr: Organizacja kolekcji
   dig_cont_arr: Organizacja obiektów cyfrowych
   subgroups: Podgrupy
+  accessed: Dostęp
+  containers: Informacje dotyczące fizycznego przechowywania danych
+  related_accessions: Powiązane nieprzetworzone materiały
+  related_resources: Powiązane kolekcje
+  linked_instances: Powiązane rekordy
+  linked_digital_objects: Materiały cyfrowe
+  context: Znaleziono w
+  context_delimiter: /
+  bulk:
+    _singular: Większość materiałów pochodzi z okresu %{dates}.
+    _plural: Większość materiałów pochodzi z okresu %{dates}.
