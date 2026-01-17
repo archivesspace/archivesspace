@@ -296,3 +296,10 @@ pl:
       dates: Daty
       extents: Zakres
       processing_priority: Priorytet opracowywanie
+      processors: Procesory
+      user_mtime: Zmodyfikowany
+      create_time: Stworzony
+      asc: Wznoszący się
+      desc: Zstępujący
+      uri: URI
+      representative_file_version: Obraz miniatury
