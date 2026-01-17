@@ -286,3 +286,13 @@ pl:
       identifier: Identyfikator
       acquisition_type: Rodzaj przejęcia
       accession_date: Data przystąpienia
+      resource_type: Typ zasobu
+      restrictions_apply: Obowiązują ograniczenia.
+      access_restrictions: Ograniczenia dostępu
+      use_restrictions: Ograniczenia dostępu
+      audit_info: Informacje dotyczące audytu
+      creators: Twórca
+      accession_date_year: Data przystąpienia
+      dates: Daty
+      extents: Zakres
+      processing_priority: Priorytet opracowywanie
