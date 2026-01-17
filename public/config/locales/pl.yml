@@ -247,3 +247,15 @@ pl:
   bulk:
     _singular: Większość materiałów pochodzi z okresu %{dates}.
     _plural: Większość materiałów pochodzi z okresu %{dates}.
+  archive:
+    _singular: Archiwum
+    _plural: Archiwa
+  accession:
+    _singular: Nieprzetworzony materiał
+    _plural: Nieprzetworzone materiały
+    _public:
+      section:
+        acquisition_type: Rodzaj przejęcia
+        provenance: Pochodzenie
+        language: Język opisu
+        script: Skrypt opisu
