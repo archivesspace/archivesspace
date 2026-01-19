@@ -320,3 +320,27 @@ pl:
       dates: Daty
       extents: Zakres
       processing_priority: Priorytet opracowanie
+      processors: Opracowujący
+      user_mtime: Zmodyfikowany
+      create_time: Stworzony
+      asc: Wznoszący się
+      desc: Zstępujący
+      uri: URI
+      representative_file_version: Obraz miniatury
+    archival_object:
+      score: Znaczenie
+      title: Tytuł
+      publish: Opublikowany
+      context: Zasoby dla rodziców
+      identifier: Identyfikator komponentu
+      ref_id: Numer referencyjny
+      level: Poziom
+      audit_info: Informacje dotyczące audytu
+      langcode: Język materiałów
+      desc: Zstępujący
+      uri: URI
+      representative_file_version: Obraz miniatury
+      dates: Daty
+    subject:
+      score: Znaczenie
+      source: Źródło
