@@ -233,6 +233,9 @@ pl:
       row_selection: Kliknij wiersz, aby go zaznaczyć do operacji zbiorczych. 
         Przytrzymaj klawisz Alt podczas klikania pola wyboru, aby zaznaczyć lub 
         odznaczyć wiele poprzednich wierszy.
+    result_identifier: Identyfikator
+    created: Stworzone przez
+    actions: Działania
   database_warning:
     message: <p><strong>Ostrzeżenie dotyczące bazy danych:</strong> Obecnie 
       używasz wbudowanej bazy danych (Apache Derby). Wbudowana baza danych służy
@@ -258,10 +261,15 @@ pl:
     summary_suffix: Wyniki
     page_prefix: Strona
     page_connector: z
+    previous: '&#171;'
+    next: '&#187;'
+    summary_prefix: Pokazywanie
   search_sorting:
     sort_by: 'Sortuj według:'
     and: 'i:'
     asc: Wznoszący się
+    desc: Zstępujący
+    select: Wybierać
   navbar:
     toggle_navigation: Przełącz nawigację
   advanced_search:
@@ -269,3 +277,70 @@ pl:
       AND: I
       OR: Lub
       NOT: Nie
+  search:
+    accession:
+      score: Znaczenie
+      title: Tytuł
+      publish: Opublikowany
+      subjects: Temat
+      identifier: Identyfikator
+      acquisition_type: Rodzaj przejęcia
+      accession_date: Data przystąpienia
+      resource_type: Typ zasobu
+      restrictions_apply: Obowiązują ograniczenia.
+      access_restrictions: Ograniczenia dostępu
+      use_restrictions: Ograniczenia dostępu
+      audit_info: Informacje dotyczące audytu
+      creators: Twórca
+      accession_date_year: Data przystąpienia
+      dates: Daty
+      extents: Zakres
+      processing_priority: Priorytet opracowywanie
+      processors: Procesory
+      user_mtime: Zmodyfikowany
+      create_time: Stworzony
+      asc: Wznoszący się
+      desc: Zstępujący
+      uri: URI
+      representative_file_version: Obraz miniatury
+    resource:
+      score: Znaczenie
+      title: Tytuł
+      publish: Opublikowany
+      level: Poziom opisu
+      identifier: Identyfikator
+      resource_type: Typ zasobu
+      langcode: Język materiałów
+      restrictions: Ograniczenia
+      ead_id: Identyfikator EAD
+      finding_aid_status: Status dokumentu pomocniczego
+      audit_info: Informacje dotyczące audytu
+      classification_path: Ścieżka klasyfikacji
+      subjects: Temat
+      dates: Daty
+      extents: Zakres
+      processing_priority: Priorytet opracowanie
+      processors: Opracowujący
+      user_mtime: Zmodyfikowany
+      create_time: Stworzony
+      asc: Wznoszący się
+      desc: Zstępujący
+      uri: URI
+      representative_file_version: Obraz miniatury
+    archival_object:
+      score: Znaczenie
+      title: Tytuł
+      publish: Opublikowany
+      context: Zasoby dla rodziców
+      identifier: Identyfikator komponentu
+      ref_id: Numer referencyjny
+      level: Poziom
+      audit_info: Informacje dotyczące audytu
+      langcode: Język materiałów
+      desc: Zstępujący
+      uri: URI
+      representative_file_version: Obraz miniatury
+      dates: Daty
+    subject:
+      score: Znaczenie
+      source: Źródło
