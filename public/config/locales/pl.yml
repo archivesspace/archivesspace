@@ -279,3 +279,26 @@ pl:
     _singular: Repozytorium
     _plural: Repozytoria
     what: Co znajduje się w tym repozytorium?
+    details: Szczegóły repozytorium
+    part: Część
+  resource:
+    _singular: Zbiór
+    _plural: Zbiory
+    identifier_separator: ':'
+    _public:
+      identifier: Identyfikator
+      identifier_pdf: ID
+      identifier_ark: ID [ark]
+      ark_link_name: Trwały identyfikator (ARK)
+      extent: Zakres
+      extent_full: Pełny zakres
+      extent_partial: Częściowy zakres
+      dates: Daty
+      lang: Język materiałów
+      lang_pdf: Język materiału
+      finding_aid:
+        title: Tytuł
+        subtitle: Podtytuł
+        author: Autor
+        date: Data
+      digital_object: Obiekt cyfrowy
