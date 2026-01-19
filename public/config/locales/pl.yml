@@ -259,3 +259,23 @@ pl:
         provenance: Pochodzenie
         language: Język opisu
         script: Skrypt opisu
+        access_restrictions: Ograniczenia dostępu
+        access_restrictions_apply: Obowiązują ograniczenia dostępu.
+        use_restrictions: Ograniczenia użytkowania
+        use_restrictions_apply: Obowiązują ograniczenia w użytkowaniu.
+        content_description: Opis zawartości
+        inventory: Spis
+      related_accessions:
+        accessions: Powiązane nieprzetworzone materiały
+        deaccessions: Materiały wycofane z kolekcji
+        forms_part_of: Relacja między częściami
+        has_part: Relacja między częściami
+        sibling_of: Relacje między rodzeństwem
+  archival_object:
+    _public:
+      header:
+        ref_id: Identyfikator referencyjny
+  repository:
+    _singular: Repozytorium
+    _plural: Repozytoria
+    what: Co znajduje się w tym repozytorium?
