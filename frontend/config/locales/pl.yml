@@ -303,3 +303,20 @@ pl:
       desc: Zstępujący
       uri: URI
       representative_file_version: Obraz miniatury
+    resource:
+      score: Znaczenie
+      title: Tytuł
+      publish: Opublikowany
+      level: Poziom opisu
+      identifier: Identyfikator
+      resource_type: Typ zasobu
+      langcode: Język materiałów
+      restrictions: Ograniczenia
+      ead_id: Identyfikator EAD
+      finding_aid_status: Status dokumentu pomocniczego
+      audit_info: Informacje dotyczące audytu
+      classification_path: Ścieżka klasyfikacji
+      subjects: Temat
+      dates: Daty
+      extents: Zakres
+      processing_priority: Priorytet opracowanie
