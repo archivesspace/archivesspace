@@ -14,6 +14,7 @@ require 'asutils'
 require 'aspace_i18n'
 
 require 'aspace_logger'
+require 'ostruct'
 
 
 if defined?(Bundler)
