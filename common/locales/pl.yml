@@ -737,6 +737,8 @@ pl:
     _plural: Powiązane zasoby
   repository:
     repo_code: Krótka nazwa repozytorium
+    _singular: Repozytorium
+    _plural: Repozytoria
   digital_object:
     title: Tytuł
     digital_object_id: Identyfikator

@@ -3,6 +3,7 @@ if ENV['COVERAGE_REPORTS'] == 'true'
   ASpaceCoverage.start('indexer')
 end
 
+require 'logger'
 require 'rspec'
 require 'ashttp'
 require 'spec/lib/jsonmodel_factories'

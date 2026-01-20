@@ -1,6 +1,6 @@
 FROM ubuntu:24.04 as build_release
 
-# Please note: Docker is supported as an install method starting with ArchivesSpace v4.0.0, see: https://docs.archivesspace.org/administration/docker/
+# Please note: Docker is supported as an installation method starting with ArchivesSpace v4.0.0, see: https://docs.archivesspace.org/administration/docker/
 
 ENV DEBIAN_FRONTEND=noninteractive \
   JDK_JAVA_OPTIONS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED" \
@@ -11,7 +11,7 @@ RUN apt-get update && \
   build-essential \
   git \
   nodejs \
-  openjdk-17-jre-headless \
+  openjdk-21-jre-headless \
   shared-mime-info \
   wget \
   unzip

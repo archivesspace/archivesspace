@@ -207,8 +207,10 @@ pl:
   internal_links:
     main: Główna treść
     search_collection: Szukaj w obrębie kolekcji
+    filter: Filtruj wyniki
   accordion:
     collapse: Zwiń wszystko
+    expand: Rozwiń wszystko
   advanced_search:
     operator:
       AND: I
@@ -217,8 +219,86 @@ pl:
     limit_label: Ogranicz według typu rekordu
     add_row: Dodaj wiersz
     remove_row: Usuń wiersz
+    operator_label: Operator
   coll_obj:
     _singular: Kolekcja lub zapis
     _plural: Kolekcje i/lub zbiory dokumentów
   scope_note: Uwaga dotycząca zakresu
   multiple_containers: Wiele kontenerów
+  contains: Zawiera %{count} %{type}
+  found: Znaleziono w %{count} %{type}
+  extent_number_type: '%{liczba} %{typ}'
+  extent_phys_details: ' : %{deets}'
+  extent_dims: ' ; %{wymiary}'
+  external_docs: Dokumenty zewnętrzne
+  more_about: More about
+  list: Lista %{type}
+  cont_arr: Organizacja kolekcji
+  dig_cont_arr: Organizacja obiektów cyfrowych
+  subgroups: Podgrupy
+  accessed: Dostęp
+  containers: Informacje dotyczące fizycznego przechowywania danych
+  related_accessions: Powiązane nieprzetworzone materiały
+  related_resources: Powiązane kolekcje
+  linked_instances: Powiązane rekordy
+  linked_digital_objects: Materiały cyfrowe
+  context: Znaleziono w
+  context_delimiter: /
+  bulk:
+    _singular: Większość materiałów pochodzi z okresu %{dates}.
+    _plural: Większość materiałów pochodzi z okresu %{dates}.
+  archive:
+    _singular: Archiwum
+    _plural: Archiwa
+  accession:
+    _singular: Nieprzetworzony materiał
+    _plural: Nieprzetworzone materiały
+    _public:
+      section:
+        acquisition_type: Rodzaj przejęcia
+        provenance: Pochodzenie
+        language: Język opisu
+        script: Skrypt opisu
+        access_restrictions: Ograniczenia dostępu
+        access_restrictions_apply: Obowiązują ograniczenia dostępu.
+        use_restrictions: Ograniczenia użytkowania
+        use_restrictions_apply: Obowiązują ograniczenia w użytkowaniu.
+        content_description: Opis zawartości
+        inventory: Spis
+      related_accessions:
+        accessions: Powiązane nieprzetworzone materiały
+        deaccessions: Materiały wycofane z kolekcji
+        forms_part_of: Relacja między częściami
+        has_part: Relacja między częściami
+        sibling_of: Relacje między rodzeństwem
+  archival_object:
+    _public:
+      header:
+        ref_id: Identyfikator referencyjny
+  repository:
+    _singular: Repozytorium
+    _plural: Repozytoria
+    what: Co znajduje się w tym repozytorium?
+    details: Szczegóły repozytorium
+    part: Część
+  resource:
+    _singular: Zbiór
+    _plural: Zbiory
+    identifier_separator: ':'
+    _public:
+      identifier: Identyfikator
+      identifier_pdf: ID
+      identifier_ark: ID [ark]
+      ark_link_name: Trwały identyfikator (ARK)
+      extent: Zakres
+      extent_full: Pełny zakres
+      extent_partial: Częściowy zakres
+      dates: Daty
+      lang: Język materiałów
+      lang_pdf: Język materiału
+      finding_aid:
+        title: Tytuł
+        subtitle: Podtytuł
+        author: Autor
+        date: Data
+      digital_object: Obiekt cyfrowy

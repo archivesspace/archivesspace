@@ -2,39 +2,40 @@
 
 source 'https://rubygems.org'
 
-gem 'atomic', '= 1.0.1'
-gem 'bcrypt', '3.1.7'
-gem 'childprocess', '~> 5.0'
-gem 'jdbc-derby', '10.12.1.1'
+gem 'atomic'
+gem 'bcrypt'
+gem 'childprocess'
+gem 'jdbc-derby'
 gem 'jdbc-mysql', '>=8.0', group: :development
 gem 'jruby-jars', '= 9.4.8.0'
 gem 'json'
-gem 'json-schema', '1.0.10'
-gem 'net-ldap', '~> 0.16.0'
-gem 'nokogiri', '~> 1.13.10'
-gem 'rufus-lru', '1.0.5'
-gem 'rufus-scheduler', '~> 2.0.24'
-gem 'rubyXL', '~> 3.4', '>= 3.4.9'
+gem 'json-schema', '~> 1.0.10'
+gem 'net-ldap'
+gem 'nokogiri'
+gem 'rufus-lru'
+gem 'rufus-scheduler'
+gem 'rubyXL'
+# pining saxerator to 0.9.2 as later versions switched from Nokogiri to ReXML output, that break our importers see: https://github.com/soulcutter/saxerator/commit/c865cf972320615b11d7625a9ce93cf736c80057
 gem 'saxerator', '= 0.9.2'
-gem 'saxon-rb', '~> 0.8.3'
-gem 'sequel', '~> 5.84.0'
+gem 'saxon-rb'
+gem 'sequel'
 gem 'sinatra', '~> 3.2', require: false
 gem 'sinatra-contrib', '~> 3.2', require: false
 gem 'tzinfo'
 
-gem 'warbler', '2.0.5', group: :build
+gem 'warbler', group: :build
 
-gem 'activesupport', '6.1.6'
+gem 'activesupport', '~> 6.1.6'
 gem 'i18n', '~> 1.0'
 gem 'oai', '~> 1.2'
 gem 'rexml'
 
 gem 'rrtf'
-gem 'addressable', '= 2.8.7'
+gem 'addressable'
 gem 'faraday', '< 2'
 
 group :test do
-  gem 'factory_bot', '= 6.2.1'
+  gem 'factory_bot'
   gem 'rack-test'
   gem 'rspec'
   gem 'rspec-core'
@@ -43,6 +44,9 @@ end
 
 group :development, :test do
   gem 'mizuno-aspace'
+end
+
+group :development, :test, :release_notes  do
   gem 'pry'
   gem 'pry-debugger-jruby'
   gem 'pry-nav'
@@ -58,7 +62,9 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 require 'asutils'
 ASUtils.load_plugin_gems(self)
 
-gem "actionmailer", "6.1.6"
-gem "write_xlsx", "1.01.0"
+gem "actionmailer", '~> 6.1.6'
+gem "write_xlsx"
 
 gem 'xlsx_streaming_reader', git: 'https://github.com/hudmol/xlsx_streaming_reader.git'
+
+gem "date", '3.3.3' # for compatibility with bundler 2.6.9

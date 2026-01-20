@@ -193,6 +193,10 @@ pl:
       container: Pojemnik
       folder: Teczka
       page: Strona
+      frame: Rama
+      object: Obiekt
+      reel: Szpulka
+      volume: Tom
     country_iso_3166:
       AD: Andora
       AE: Emiraty Arabskie
@@ -210,3 +214,72 @@ pl:
       BB: Barbados
       BD: Bangladesz
       BE: Belgia
+      AO: Angola
+      AR: Argentyna
+      AS: Samoa Amerykańskie
+      AT: Austria
+      BF: Burkina Faso
+      BG: Bułgaria
+      BH: Bahrajn
+      BI: Burundi
+      BJ: Benin
+      BL: Święty Bartłomiej
+      BM: Bermudy
+      BN: Brunei Darussalam
+      BO: Boliwia
+      BQ: Bonaire, Sint Eustatius i Saba
+      BR: Brazylia
+      BS: Bahamy
+      BT: Bhutan
+      BV: Wyspa Bouveta
+      BW: Botswana
+      BY: Białoruś
+      BZ: Belize
+      CA: Kanada
+      CC: Wyspy Kokosowe (Keelinga)
+      CD: Demokratyczna Republika Kongo
+      CF: Republika Środkowoafrykańska
+      CG: Kongo
+      CH: Szwajcaria
+      CI: Wybrzeże Kości Słoniowej
+      CK: Wyspy Cooka
+      CL: Chile
+      CM: Kamerun
+      CN: Chiny
+      CO: Kolumbia
+      CR: Kostaryka
+      CU: Kuba
+      CV: Republika Zielonego Przylądka
+      CW: Curaçao
+      CX: Wyspa Bożego Narodzenia
+      CY: Cypr
+      CZ: Czechy
+      DE: Niemcy
+      DJ: Dżibuti
+      DK: Dania
+      DM: Dominika
+      DO: Republika Dominikańska
+      DZ: Algieria
+      EC: Ekwador
+      EE: Estonia
+      EG: Egipt
+      EH: Sahara Zachodnia
+      ER: Erytrea
+      ES: Hiszpania
+      ET: Etiopia
+      FI: Finlandia
+      FJ: Fidżi
+      FK: Falklandy (Malwiny)
+      FM: Mikronezja, Sfederowane Stany
+      FO: Wyspy Owcze
+      FR: Francja
+      GA: Gabon
+      GB: Zjednoczone Królestwo
+      GL: Grenlandia
+      GM: Gambia
+      GN: Gwinea
+      GP: Gwadelupa
+      GQ: Gwinea Równikowa
+      GD: Grenada
+      GE: Gruzja
+      GF: Gujana Francuska

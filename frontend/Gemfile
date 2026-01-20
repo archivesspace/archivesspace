@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '6.1.6'
+gem 'rails', '~> 6.1.6'
 
 gem 'i18n'
 gem 'loofah'
@@ -25,9 +25,9 @@ end
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'json'
-gem 'json-schema', '1.0.10'
+gem 'json-schema', '~> 1.0.10'
 
-gem 'atomic', '= 1.0.1'
+gem 'atomic'
 gem 'jruby-jars', '= 9.4.8.0'
 
 group :test do
@@ -41,7 +41,7 @@ group :test do
   gem 'simplecov'
 
   # selenium stuff
-  gem 'factory_bot', '= 6.2.1'
+  gem 'factory_bot'
   gem 'factory_bot_rails'
   gem 'mechanize'
   gem 'parallel_tests'
@@ -51,30 +51,30 @@ group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
   # need access to ActiveSupport for helpers
-  gem 'activesupport'
+  gem 'activesupport', '~> 6.1.6'
   # if the indexer requires it, our test suite requires it
-  gem 'fog-aws', '2.0.0', require: false
+  gem 'fog-aws', '~> 2.0.0', require: false
 
-  gem 'rubyzip', '< 1.4'
+  gem 'rubyzip', '~> 2.4.1'
 end
 
 group :development, :test do
   gem 'pry-debugger-jruby', '>= 1.2.2'
   gem 'pry-nav'
   gem 'pry-rails'
-  gem 'puma'
-  gem 'rubyXL', '~> 3.4', '>= 3.4.9'
+  gem 'puma', '~> 6.4'
+  gem 'rubyXL'
 end
 
 group :development do
   gem 'web-console'
 end
 
-gem 'multi_json', '~> 1.15.0'
-gem 'multipart-post', '~> 2.4'
+gem 'multi_json'
+gem 'multipart-post'
 gem 'net-http-persistent', '>= 4.0.1'
 
-gem 'nokogiri', '~> 1.13.10'
+gem 'nokogiri'
 
 require 'asutils'
 
