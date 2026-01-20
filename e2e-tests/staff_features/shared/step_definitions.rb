@@ -143,6 +143,7 @@ When 'the user clicks on {string} in the dropdown menu in the {string} form' do 
     within '.dropdown-menu' do
       click_on string
     end
+    wait_for_ajax
   end
 end
 
@@ -344,6 +345,14 @@ Then 'the following error message is displayed' do |messages|
 
   messages.raw.each do |message|
     expect(page).to have_text message[0]
+  end
+end
+
+Then 'the following error messages are displayed in the modal' do |messages|
+  within '.modal-content' do
+    messages.raw.each do |message|
+      expect(page).to have_text message[0]
+    end
   end
 end
 
