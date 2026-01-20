@@ -27,45 +27,37 @@ describe PdfController, type: :controller do
       # File may already be unlinked by controller
     end
 
-    it 'returns a successful response' do
+    it 'generates a PDF with correct response headers' do
       post(:resource, params: { rid: @repo.id, id: @resource.id })
 
-      expect(response).to have_http_status(200)
-    end
+      aggregate_failures 'returns a successful response' do
+        expect(response).to have_http_status(200)
+      end
 
-    it 'sets Content-Type header to application/pdf' do
-      post(:resource, params: { rid: @repo.id, id: @resource.id })
+      aggregate_failures 'sets Content-Type header to application/pdf' do
+        expect(response.headers['Content-Type']).to eq('application/pdf')
+      end
 
-      expect(response.headers['Content-Type']).to eq('application/pdf')
-    end
+      aggregate_failures 'sets Content-Length header' do
+        expect(response.headers['Content-Length']).to be_present
+        expect(response.headers['Content-Length'].to_i).to be > 0
+      end
 
-    it 'sets Content-Length header' do
-      post(:resource, params: { rid: @repo.id, id: @resource.id })
+      aggregate_failures 'sets Content-Disposition header with attachment and filename' do
+        content_disposition = response.headers['Content-Disposition']
+        expect(content_disposition).to start_with('attachment')
+        expect(content_disposition).to include('filename=')
+        expect(content_disposition).to include('.pdf')
+      end
 
-      expect(response.headers['Content-Length']).to be_present
-      expect(response.headers['Content-Length'].to_i).to be > 0
-    end
+      aggregate_failures 'sets Content-Disposition header with RFC 5987 filename* parameter' do
+        content_disposition = response.headers['Content-Disposition']
+        expect(content_disposition).to include("filename*=UTF-8''")
+      end
 
-    it 'sets Content-Disposition header with attachment and filename' do
-      post(:resource, params: { rid: @repo.id, id: @resource.id })
-      content_disposition = response.headers['Content-Disposition']
-
-      expect(content_disposition).to start_with('attachment')
-      expect(content_disposition).to include('filename=')
-      expect(content_disposition).to include('.pdf')
-    end
-
-    it 'sets Content-Disposition header with RFC 5987 filename* parameter' do
-      post(:resource, params: { rid: @repo.id, id: @resource.id })
-      content_disposition = response.headers['Content-Disposition']
-
-      expect(content_disposition).to include("filename*=UTF-8''")
-    end
-
-    it 'sets X-Content-Type-Options header to nosniff' do
-      post(:resource, params: { rid: @repo.id, id: @resource.id })
-
-      expect(response.headers['X-Content-Type-Options']).to eq('nosniff')
+      aggregate_failures 'sets X-Content-Type-Options header to nosniff' do
+        expect(response.headers['X-Content-Type-Options']).to eq('nosniff')
+      end
     end
   end
 end
