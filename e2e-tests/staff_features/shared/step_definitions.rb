@@ -143,6 +143,7 @@ When 'the user clicks on {string} in the dropdown menu in the {string} form' do 
     within '.dropdown-menu' do
       click_on string
     end
+    wait_for_ajax
   end
 end
 

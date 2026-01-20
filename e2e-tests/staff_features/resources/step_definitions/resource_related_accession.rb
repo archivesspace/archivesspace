@@ -7,55 +7,20 @@ When('the user clicks the dropdown toggle for related accessions') do
   wait_for_ajax
 end
 
-When('the user clicks {string} in the dropdown menu') do |menu_item|
-  within '#resource_related_accessions__0__ref__combobox' do
-    within '.dropdown-menu' do
-      click_on menu_item
-    end
-  end
-  wait_for_ajax
-end
-
-Then('the related accession creation modal should be displayed') do
-  expect(page).to have_css('#resource_related_accessions__0__ref__modal', visible: true)
-  within '#resource_related_accessions__0__ref__modal' do
+Then('the Related Accession creation modal is displayed') do
+  expect(page).to have_css('.modal-content', visible: true)
+  within '.modal-content' do
     expect(page).to have_content('Accession')
     expect(page).to have_button('Create and Link')
   end
 end
 
-When('the user fills in the inline accession form') do |table|
-  @accession_data = {}
-
-  within '#resource_related_accessions__0__ref__modal' do
-    table.hashes.each do |row|
-      field = row['field']
-      value = row['value']
-
-      value = "ACC_#{Time.now.to_i}" if field == 'Identifier'
-
-      normalized_key = field.downcase.gsub(' ', '_')
-      @accession_data[normalized_key] = value
-
-      case field
-      when 'Identifier'
-        fill_in 'accession_id_0_', with: value
-      when 'Title'
-        fill_in 'accession_title_', with: value
-      when 'Accession Date'
-        fill_in 'accession_accession_date_', with: value
-      end
-    end
-  end
-end
-
 Then('the modal should close') do
-  expect(page).not_to have_css('#resource_related_accessions__0__ref__modal', visible: true)
+  expect(page).not_to have_css('.modal-content', visible: true)
 end
 
-Then('the accession should appear in the related accessions linker') do
+Then('the accession {string} should appear in the related accessions linker') do |title|
   within '#resource_related_accessions__0__ref__combobox' do
-    title = @accession_data['title'] || 'Test Related Accession'
     expect(page).to have_text(title)
   end
 end
@@ -75,25 +40,21 @@ end
 
 Then('the related accession link should be preserved') do
   within '#resource_related_accessions__0__ref__combobox' do
-    title = @accession_data['title'] || 'Test Related Accession'
-    expect(page).to have_text(title)
+    expect(page).to have_text('Test Related Accession')
     expect(page).to have_css('.token-input-token')
   end
 end
 
 When('the user attempts to create an accession without required fields') do
-  @accession_data = {}
-  @accession_data['title'] = 'Incomplete Accession'
-
-  within '#resource_related_accessions__0__ref__modal' do
-    fill_in 'accession_title_', with: @accession_data['title']
+  within '.modal-content' do
+    fill_in 'accession_title_', with: 'Incomplete Accession'
     click_on 'Create and Link'
   end
   wait_for_ajax
 end
 
 Then('the following error messages are displayed in the modal') do |table|
-  within '#resource_related_accessions__0__ref__modal' do
+  within '.modal-content' do
     table.raw.flatten.each do |error_message|
       expect(page).to have_css('.alert.alert-danger', text: /#{Regexp.escape(error_message.split(' - ')[1])}/i)
     end
@@ -101,11 +62,11 @@ Then('the following error messages are displayed in the modal') do |table|
 end
 
 Then('the modal should remain open') do
-  expect(page).to have_css('#resource_related_accessions__0__ref__modal', visible: true)
+  expect(page).to have_css('.modal-content', visible: true)
 end
 
 When('the user fills in the missing required fields') do
-  within '#resource_related_accessions__0__ref__modal' do
+  within '.modal-content' do
     fill_in 'accession_id_0_', with: "ACC_#{Time.now.to_i}"
     fill_in 'accession_accession_date_', with: '2026-01-05'
   end

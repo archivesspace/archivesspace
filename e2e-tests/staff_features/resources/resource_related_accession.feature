@@ -17,17 +17,15 @@ Feature: Resource Related Accession Create and Link
     And the user fills in 'Script of Description' with 'Latin' and selects 'Latin' in the 'Finding Aid Data' form
     And the user clicks on 'Add Related Accession'
     And the user clicks the dropdown toggle for related accessions
-    And the user clicks 'Create' in the dropdown menu
-    Then the related accession creation modal should be displayed
+    And the user clicks on 'Create' in the dropdown menu in the 'Related Accessions' form
+    Then the Related Accession creation modal is displayed
 
-    When the user fills in the inline accession form
-      | field           | value                     |
-      | Identifier      | auto                      |
-      | Title           | Test Related Accession    |
-      | Accession Date  | 2026-01-05                |
+    When the user fills in 'accession_id_0_' with a unique identifier in the modal
+    And the user fills in 'accession_title_' with 'Test Related Accession' in the modal
+    And the user fills in 'accession_accession_date_' with '2026-01-05' in the modal
     And the user clicks on 'Create and Link' in the modal
     Then the modal should close
-    And the accession should appear in the related accessions linker
+    And the accession 'Test Related Accession' should appear in the related accessions linker
 
     When the user saves the resource
     Then the resource created message is displayed
@@ -47,7 +45,7 @@ Feature: Resource Related Accession Create and Link
     And the user fills in 'Script of Description' with 'Latin' and selects 'Latin' in the 'Finding Aid Data' form
     And the user clicks on 'Add Related Accession'
     And the user clicks the dropdown toggle for related accessions
-    And the user clicks 'Create' in the dropdown menu
+    And the user clicks on 'Create' in the dropdown menu in the 'Related Accessions' form
     And the user attempts to create an accession without required fields
     Then the following error messages are displayed in the modal
       | Identifier - Property is required but was missing |
@@ -56,7 +54,7 @@ Feature: Resource Related Accession Create and Link
     When the user fills in the missing required fields
     And the user clicks on 'Create and Link' in the modal
     Then the modal should close
-    And the accession should appear in the related accessions linker
+    And the accession 'Incomplete Accession' should appear in the related accessions linker
 
   Scenario: Create multiple related accessions for a single resource
     Given the user is on the New Resource page
