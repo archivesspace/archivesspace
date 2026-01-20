@@ -185,6 +185,7 @@ en:
   search_results:
     title: Search Results
     context: Found in
+    select_record: "Select %{title}"
     selected: Selected?
     no_results: No records found
     no_results_prefix: There were no search results for

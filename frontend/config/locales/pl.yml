@@ -222,6 +222,7 @@ pl:
     filtered_by: Filtrowane według
     title: Wyniki wyszukiwania
     context: Znaleziono w
+    select_record: "Wybierz %{title}"
     selected: Wybrany?
     no_results: Nie znaleziono żadnych rekordów.
     no_results_prefix: 'Nie znaleziono żadnych wyników wyszukiwania dla:'

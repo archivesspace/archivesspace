@@ -9,11 +9,22 @@
   linker_id ||= "ref"
 %>
 <div class="form-group row required">
-  <label class="control-label col-sm-2 text-right"><%= field_label %></label>
+  <label class="control-label col-sm-2 text-right"
+         id="<%= form.id_for(linker_id) %>_label"
+         for="<%= form.id_for(linker_id) %>">
+    <%= field_label %>
+  </label>
   <div class="controls col-sm-9">
-    <div class="input-group linker-wrapper">
+    <div class="input-group linker-wrapper"
+         role="combobox"
+         aria-expanded="false"
+         aria-controls="<%= form.id_for(linker_id) %>_listbox"
+         id="<%= form.id_for(linker_id) %>_combobox">
       <input type="text" class="linker"
              id="<%= form.id_for(linker_id) %>"
+             aria-autocomplete="both"
+             aria-controls="<%= form.id_for(linker_id) %>_listbox"
+             aria-labelledby="<%= form.id_for(linker_id) %>_label"
              data-label_link="<%= t("accession_link._frontend.action.add") %>"
              data-label_browse="<%= t("top_container._frontend.bulk_operations.collection_accession_linker.browse") %>"
              data-path="<%= form.path %>"
@@ -23,9 +34,7 @@
              data-selected="<%= selected_json %>"
              data-format_property="display_string"
              data-multiplicity="one"
-             data-sortable="true"
              data-types='["accession"]'
-             aria-label="Link to accession"
       />
 
        <% if form.obj.has_key?('_resolved') %>

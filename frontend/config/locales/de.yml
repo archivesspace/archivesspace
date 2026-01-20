@@ -221,6 +221,7 @@ de:
     filtered_by: Gefiltert durch
     title: Suchergebnisse
     context: Gefunden in
+    select_record: "%{title} auswählen"
     selected: Gewählt?
     no_results: Keine Aufzeichnungen gefunden
     no_results_prefix: Es gab keine Suchergebnisse für

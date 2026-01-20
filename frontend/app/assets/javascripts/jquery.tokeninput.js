@@ -282,15 +282,11 @@
         }
         token_list.addClass($(input).data('settings').classes.focused);
 
-        var $combobox = token_list.closest('div.controls');
-        $combobox.attr('aria-expanded', true);
+        var $combobox = token_list.closest('.linker-wrapper[role="combobox"]');
+        $combobox.attr('aria-expanded', 'true');
       })
       .blur(function () {
         hide_dropdown();
-        token_list
-          .closest('div.controls')
-          .find("input[role='searchbox']")
-          .removeAttr('aria-controls');
         $(this).val('');
         token_list.removeClass($(input).data('settings').classes.focused);
 
@@ -300,7 +296,9 @@
           $(this).val('');
         }
         token_list.removeClass($(input).data('settings').classes.focused);
-        token_list.closest('div.controls').attr('aria-expanded', false);
+        token_list
+          .closest('.linker-wrapper[role="combobox"]')
+          .attr('aria-expanded', 'false');
       })
       .bind('keyup keydown blur update', resize_input)
       .keydown(function (event) {
