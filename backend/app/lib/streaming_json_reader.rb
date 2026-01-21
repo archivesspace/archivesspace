@@ -1,6 +1,8 @@
 # Reads a large file of JSON records in a manner that only keeps one record in
 # memory at a time.
 
+require_relative 'jackson_jars'
+
 class StreamingJsonReader
 
   def initialize(filename)
