@@ -566,3 +566,29 @@ Then 'the {string} button is disabled' do |text|
     expect(button.disabled?).to eq true
   end
 end
+
+When 'the user clicks on {string} that opens in a new tab' do |text|
+  @new_window = window_opened_by do
+    click_on text
+  end
+end
+
+Then 'the {string} button is present in the new tab' do |text|
+  within_window @new_window do
+    expect(page).to have_selector('button', text: text)
+  end
+end
+
+Then 'the {string} button is not present in the new tab' do |text|
+  within_window @new_window do
+    expect(page).not_to have_selector('button', text: text)
+  end
+end
+
+Then 'the {string} link is visible' do |link_text|
+  expect(page).to have_link(link_text, visible: true)
+end
+
+Then 'the {string} link is not visible' do |link_text|
+  expect(page).not_to have_link(link_text)
+end

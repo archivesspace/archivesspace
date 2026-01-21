@@ -549,8 +549,9 @@ AppConfig[:pui_search_collection_from_collection_organization] = false
 
 # when a user is authenticated, add a link back to the staff interface from the specified record
 AppConfig[:pui_enable_staff_link] = true
-# by default, staff link will open record in staff interface in edit mode,
-# change this to 'readonly' for it to open in readonly mode
+# Mode for "Staff Only" button in PUI
+# - Users with update permissions: use this config value ('edit' or 'readonly')
+# - Users with only view_repository permission: always get 'readonly' mode
 AppConfig[:pui_staff_link_mode] = 'edit'
 
 # PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)

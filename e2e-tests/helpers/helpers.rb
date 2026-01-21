@@ -72,6 +72,51 @@ def login_archivist
   end
 end
 
+def login_viewer
+  uuid = SecureRandom.uuid
+
+  login_admin
+
+  visit "#{STAFF_URL}/users/new"
+
+  fill_in 'user_username_', with: "viewer-user-#{uuid}"
+  fill_in 'user_name_', with: "viewer-user-#{uuid}"
+  fill_in 'user_password_', with: "viewer-user-#{uuid}"
+  fill_in 'user_confirm_password_', with: "viewer-user-#{uuid}"
+
+  find('#create_account').click
+
+  expect(page).to have_text "User Created: viewer-user-#{uuid}"
+
+  visit "#{STAFF_URL}/users/manage_access"
+
+  find_user_element = find_user_table_row_in_manage_user_access_page("viewer-user-#{uuid}")
+
+  within find_user_element do
+    click_on 'Edit Groups'
+  end
+
+  check 'repository-viewers'
+
+  click_on 'Update Account'
+
+  expect(page).to have_text 'User Saved'
+
+  visit "#{STAFF_URL}/logout"
+
+  fill_in 'username', with: "viewer-user-#{uuid}"
+  fill_in 'password', with: "viewer-user-#{uuid}"
+
+  click_on 'Sign In'
+
+  begin
+    element = find('.alert.alert-danger.with-hide-alert')
+    raise "Login failed for user: viewer-user-#{uuid}" if element.text == 'Login attempt failed'
+  rescue Capybara::ElementNotFound
+    # Pass on successful login
+  end
+end
+
 # Ensure the system has at least one repository
 def ensure_test_repository_exists
   menu_items = all('.global-header .global-header-nav li')

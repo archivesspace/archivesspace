@@ -21,9 +21,9 @@ $(function () {
     },
   })
     .done(function (data) {
-      if (data === true) {
+      if (data.can_access && data.mode) {
         var staff = $('#staff-link');
-        const link = `${FRONTEND_URL}/resolve/${STAFF_LINK_MODE}?uri=${RECORD_URI}&autoselect_repo=true`;
+        const link = `${FRONTEND_URL}/resolve/${data.mode}?uri=${RECORD_URI}&autoselect_repo=true`;
         staff.attr('href', link);
         staff.removeClass('d-none');
 
