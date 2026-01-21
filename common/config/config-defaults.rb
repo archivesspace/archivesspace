@@ -359,6 +359,9 @@ AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
 
 # Public User Interface (PUI) Settings
 #
+# Place the PUI behind authentication.  Default is false.
+AppConfig[:pui_require_authentication] = false
+#
 # PUI Inheritance
 # Define the fields for a record type that are inherited from ancestors
 # if they don't have a value in the record itself.
