@@ -341,6 +341,22 @@ pl:
       uri: URI
       representative_file_version: Obraz miniatury
       dates: Daty
+      extents: Zakres
+      user_mtime: Zmodyfikowany
+      create_time: Stworzony
+      asc: Wznoszący się
     subject:
       score: Znaczenie
       source: Źródło
+      title: Warunki
+      publish: Opublikowany
+      audit_info: Informacje dotyczące audytu
+      user_mtime: Zmodyfikowany
+      create_time: Stworzony
+      asc: Wznoszący się
+      desc: Zstępujący
+      uri: URI
+    digital_object:
+      score: Znaczenie
+      title: Tytuł
+      publish: Opublikowany
