@@ -504,7 +504,7 @@
       <arg line="-Iapp/lib scripts/export_config.rb target/archivesspace/config/config.rb" />
     </java>
     <zip zipfile="../archivesspace-${version}.zip" level="9">
-      <zipfileset dir="target" excludes="**/mysql-connector-java*.jar" />
+      <zipfileset dir="target" excludes="**/mysql-connector-j*.jar" />
       <zipfileset dir=".." includes="README.md" prefix="archivesspace" filemode="644" />
       <zipfileset dir=".." includes="COPYING" prefix="archivesspace" filemode="644" />
       <zipfileset dir=".." includes="launcher_rc.rb" prefix="archivesspace" filemode="644" />

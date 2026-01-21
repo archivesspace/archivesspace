@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/vscode/devcontainers/java:11
 
 ARG GECKODRIVER_VERSION=0.30.0
-ARG MYSQL_CONNECTOR_VERSION=
+ARG MYSQL_CONNECTOR_VERSION=9.1.0
 
 COPY . /archivesspace
 WORKDIR /archivesspace
@@ -40,7 +40,7 @@ RUN echo 'Downloading Packages' && \
 
 RUN mkdir -p /var/log/supervisor && \
     cd /archivesspace/common/lib && \
-    wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar && \
+    wget https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/${MYSQL_CONNECTOR_VERSION}/mysql-connector-j-${MYSQL_CONNECTOR_VERSION}.jar && \
     cd - && \
     ./build/run bootstrap
 

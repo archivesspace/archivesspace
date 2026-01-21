@@ -20,7 +20,7 @@ sudo su - solr -c "/opt/solr/bin/solr create -p 8983 -c asdev -d /workspaces/arc
 sudo su - solr -c "/opt/solr/bin/solr create -p 8983 -c astest -d /workspaces/archivesspace/solr"
 
 echo "Downloading MySQL connector"
-wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/$MYSQL_CONNECTOR_VERSION/mysql-connector-java-$MYSQL_CONNECTOR_VERSION.jar && mv mysql-connector-java-$MYSQL_CONNECTOR_VERSION.jar ./common/lib/
+wget https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/$MYSQL_CONNECTOR_VERSION/mysql-connector-j-$MYSQL_CONNECTOR_VERSION.jar && mv mysql-connector-j-$MYSQL_CONNECTOR_VERSION.jar ./common/lib/
 
 echo "Creating dev & test DB"
 sudo mysql -u root <<SQL

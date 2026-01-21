@@ -94,7 +94,7 @@ GEM
       concurrent-ruby (~> 1.0)
     jdbc-derby (10.12.1.1)
     jdbc-mysql (9.1.0.1)
-    jruby-jars (9.4.8.0)
+    jruby-jars (9.4.9.0)
     jruby-rack (1.2.6)
     json (2.18.0-java)
     json-schema (1.0.12)
@@ -253,11 +253,11 @@ DEPENDENCIES
   childprocess
   date (= 3.3.3)
   factory_bot
-  faraday (< 2)
+  faraday
   i18n (~> 1.0)
   jdbc-derby
   jdbc-mysql (>= 8.0)
-  jruby-jars (= 9.4.8.0)
+  jruby-jars (= 9.4.9.0)
   json
   json-schema (~> 1.0.10)
   mizuno-aspace
