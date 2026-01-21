@@ -301,4 +301,13 @@ pl:
         subtitle: Podtytuł
         author: Autor
         date: Data
+        status: Status
+        identifier: Identyfikator
+        language: Język opisu
+        language_note: Język notatki opisowej
+        sponsor: Sponsor
+        revision: Oświadczenia dotyczące poprawek
       digital_object: Obiekt cyfrowy
+      physdesc: Opis fizyczny
+      storage: Informacje o kontenerze
+      additional: Dodatkowy opis
