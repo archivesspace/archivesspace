@@ -60,7 +60,7 @@ GEM
       ruby2_keywords (~> 0.0.1)
     net-http-persistent (4.0.8)
       connection_pool (>= 2.2.4, < 4)
-    nokogiri (1.18.10-java)
+    nokogiri (1.13.10-java)
       racc (~> 1.4)
     pry (0.14.2-java)
       coderay (~> 1.1)
@@ -141,7 +141,7 @@ DEPENDENCIES
   multi_json
   multipart-post (~> 2.4)
   net-http-persistent (>= 4.0.1)
-  nokogiri
+  nokogiri (~> 1.13.10)
   pry
   pry-debugger-jruby
   pry-nav

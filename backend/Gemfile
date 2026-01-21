@@ -11,7 +11,7 @@ gem 'jruby-jars', '= 9.4.8.0'
 gem 'json'
 gem 'json-schema', '~> 1.0.10'
 gem 'net-ldap'
-gem 'nokogiri'
+gem 'nokogiri', '~> 1.13.10' # keep compatible with saxon-rb used in exports
 gem 'rufus-lru'
 gem 'rufus-scheduler'
 gem 'rubyXL'

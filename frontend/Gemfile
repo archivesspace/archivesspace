@@ -74,7 +74,7 @@ gem 'multi_json'
 gem 'multipart-post'
 gem 'net-http-persistent', '>= 4.0.1'
 
-gem 'nokogiri'
+gem 'nokogiri', '~> 1.13.10' # keep compatible with saxon-rb used in exports
 
 require 'asutils'
 
