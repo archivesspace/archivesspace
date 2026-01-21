@@ -7,7 +7,7 @@ gem 'bcrypt'
 gem 'childprocess'
 gem 'jdbc-derby'
 gem 'jdbc-mysql', '>=8.0', group: :development
-gem 'jruby-jars', '= 9.4.8.0'
+gem 'jruby-jars', '= 9.4.9.0'
 gem 'json'
 gem 'json-schema', '~> 1.0.10'
 gem 'net-ldap'
@@ -32,7 +32,7 @@ gem 'rexml'
 
 gem 'rrtf'
 gem 'addressable'
-gem 'faraday', '< 2'
+gem 'faraday'
 
 group :test do
   gem 'factory_bot'

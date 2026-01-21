@@ -28,7 +28,7 @@ gem 'json'
 gem 'json-schema', '~> 1.0.10'
 
 gem 'atomic'
-gem 'jruby-jars', '= 9.4.8.0'
+gem 'jruby-jars', '= 9.4.9.0'
 
 group :test do
   gem 'rails-controller-testing'

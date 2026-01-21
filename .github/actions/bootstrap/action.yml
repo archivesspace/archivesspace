@@ -4,7 +4,7 @@ inputs:
   mysql-connector-url:
     description: 'URL for mysql connector'
     required: true
-    default: 'https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar'
+    default: 'https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/9.1.0/mysql-connector-j-9.1.0.jar'
   backend:
     description: "install backend gems"
     default: false
