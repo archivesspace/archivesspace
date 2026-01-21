@@ -8,4 +8,11 @@
                :show_delete => user_can?('delete_classification_record')
               })
   %>
+<% elsif user_can_view_only?('classification_term') %>
+  <%= render_aspace_partial(:partial => '/shared/component_toolbar',
+             :locals => {
+               :record => @classification_term,
+               :view_only => true
+              })
+  %>
 <% end %>

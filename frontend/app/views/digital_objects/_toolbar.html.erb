@@ -33,4 +33,12 @@
               :record => @digital_object,
              })
   %>
+<% elsif user_can_view_only?('digital_object') %>
+  <%= render_aspace_partial(:partial => '/shared/resource_toolbar',
+             :locals => {
+              :record_type => 'digital_object',
+              :record => @digital_object,
+              :view_only => true,
+             })
+  %>
 <% end %>
