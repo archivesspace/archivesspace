@@ -272,11 +272,30 @@ pl:
     select: Wybierać
   navbar:
     toggle_navigation: Przełącz nawigację
+    brand: ArchivesSpace
+    create: Tworzyć
+    import: Import
+    unpublished: Nieopublikowane
+    search_button_title: Przeszukaj wszystkie rekordy
+    show_advanced_search_button_title: Pokaż zaawansowane wyszukiwanie
+    hide_advanced_search_button_title: Ukryj wyszukiwanie zaawansowane
   advanced_search:
     operator:
       AND: I
       OR: Lub
       NOT: Nie
+    button_text: Szukaj
+    boolean_field:
+      true_value: Prawda
+    index_switcher:
+      show: Pokaż zaawansowane wyszukiwanie
+      hide: Ukryj wyszukiwanie zaawansowane
+    text_operator:
+      contains: zawiera
+    enum_field:
+      label: Zaawansowane opcje wyszukiwania (wyliczenia)
+    search_field: Pole wyszukiwania
+    search_date: Data
   search:
     accession:
       score: Znaczenie
@@ -369,6 +388,9 @@ pl:
       dates: Daty
       desc: Zstępujący
       asc: Wznoszący się
+      langcode: Język materiałów
+      extents: Zakres
+      create_time: Stworzony
     digital_object_component:
       context: Znaleziono w
       dates: Daty
@@ -382,6 +404,8 @@ pl:
       desc: Zstępujący
       audit_info: Informacje dotyczące audytu
       asc: Wznoszący się
+      langcode: Język materiałów
+      extents: Zakres
     agent:
       uri: URI
       create_time: Stworzony
@@ -391,6 +415,7 @@ pl:
       desc: Zstępujący
       audit_info: Informacje dotyczące audytu
       asc: Wznoszący się
+      authority_id: Identyfikator organu
     location:
       title: Lokalizacja
       create_time: Stworzony
@@ -402,21 +427,194 @@ pl:
       asc: Wznoszący się
       desc: Zstępujący
       audit_info: Informacje dotyczące audytu
+      building: Budynek
+      floor: Piętro
+      location_profile_display_string_u_ssort: Profil lokalizacji
+      temporary: Tymczasowy
     event:
       score: Znaczenie
       event_type: Typ
       uri: URI
       audit_info: Informacje dotyczące audytu
       asc: Wznoszący się
+      user_mtime: Zmodyfikowany
+      create_time: Stworzony
+      desc: Zstępujący
     collection_management:
       parent_title: Tytuł
       uri: URI
       audit_info: Informacje dotyczące audytu
       asc: Wznoszący się
+      score: Znaczenie
+      processing_hours_total: Łączna liczba godzin
+      processing_funding_source: Przetwarzanie źródła finansowania
+      user_mtime: Zmodyfikowany
+      create_time: Stworzony
+      desc: Zstępujący
     classification:
       title: Tytuł
+      create_time: Stworzony
+      desc: Zstępujący
+      score: Znaczenie
+      publish: Opublikowany
+      identifier: Identyfikator
+      user_mtime: Zmodyfikowany
+      audit_info: Informacje dotyczące audytu
+      uri: URI
+      asc: Wznoszący się
+    assessment:
+      score: Znaczenie
+      uri: URI
+      assessment_id: Identyfikator oceny
+      assessment_surveyors: Inspektor
+      assessment_inactive: Nieaktywny
+      assessment_completed: Ocena zakończona
+      create_time: Stworzony
+      user_mtime: Zmodyfikowany
+      asc: Wznoszący się
+      desc: Zstępujący
+      audit_info: Informacje dotyczące audytu
+      assessment_reviewers: Recenzent
+    repositories:
+      uri: URI
+      user_mtime: Zmodyfikowany
+      title: Tytuł
+      asc: Wznoszący się
+      desc: Zstępujący
+      score: Znaczenie
+      create_time: Stworzony
+      audit_info: Informacje dotyczące audytu
+      publish: Opublikowany
+    top_container:
+      title: Tytuł
+      barcode: Kod kreskowy
+      user_mtime: Zmodyfikowany
+      indicator: Wskaźnik
+      type: Typ
+      uri: URI
+      asc: Wznoszący się
+      desc: Zstępujący
+      score: Znaczenie
+      create_time: Stworzony
+      audit_info: Informacje dotyczące audytu
+      publish: Opublikowany
+    container_profile:
+      title: Tytuł
+      create_time: Stworzony
+      uri: URI
+      asc: Wznoszący się
+      desc: Zstępujący
+      score: Znaczenie
+      audit_info: Informacje dotyczące audytu
+      container_profile_dimension_units_u_sstr: Jednostki wymiarów
+      user_mtime: Zmodyfikowany
+      container_profile_width_u_sstr: Szerokość
+      container_profile_height_u_sstr: Wysokość
+      publish: Opublikowany
+    location_profile:
+      title: Tytuł
+      score: Znaczenie
+      audit_info: Informacje dotyczące audytu
+      user_mtime: Zmodyfikowany
+      location_profile_width_u_sstr: Szerokość
+      location_profile_height_u_sstr: Wysokość
+      location_profile_dimension_units_u_sstr: Jednostki wymiarów
+      create_time: Stworzony
+      uri: URI
+      asc: Wznoszący się
+      publish: Opublikowany
+    top_container_mgmt:
+      asc: Wznoszący się
+      desc: Zstępujący
+      type: Typ
+    job:
+      audit_info: Informacje dotyczące audytu
+      user_mtime: Zmodyfikowany
+      create_time: Stworzony
+      score: Znaczenie
+      asc: Wznoszący się
+    multi:
+      score: Znaczenie
+      relevance: Znaczenie
+      asc: Wznoszący się
+      title: Tytuł
+      identifier: Identyfikator
+      create_time: Stworzony
+      dates: Daty
+      langcode: Język materiałów
+      uri: URI
+      representative_file_version: Obraz miniatury
   agent_gender:
     _singular: Płeć
   agent_occupation:
     _singular: Zawód
     _plural: Zawody
+  become-user:
+    failed: Nie udało się przełączyć na wskazanego użytkownika.
+    username: Nazwa użytkownika
+  header:
+    staff_interface: Interfejs dla personelu ArchivesSpace
+  footer:
+    keyboard_shortcuts: Skróty klawiaturowe
+  login:
+    login: Zalogować się
+    username_placeholder: Nazwa użytkownika
+    username_aria_label: Nazwa użytkownika
+    password_aria_label: Hasło użytkownika
+    reset_password: Nie pamiętasz hasła?
+    recover_password: Odzyskaj hasło
+    email_placeholder: Adres e-mail
+    new_password: Nowe hasło
+  linker:
+    create_and_link: Utwórz i połącz
+  session:
+    inline_login_title: Sesja wygasła
+  batch_delete:
+    archival_records:
+      success: Rekordy usunięte
+      error: 'Nie można usunąć rekordów:'
+    locations:
+      success: Usunięto lokalizacje.
+      error: 'Nie można usunąć lokalizacji:'
+    assessments:
+      error: 'Nie można usunąć ocen:'
+  welcome:
+    heading: Witamy w ArchivesSpace!
+    message_logged_in: Twoje przyjazne narzędzie do zarządzania archiwami.
+    message: Twoje przyjazne narzędzie do zarządzania archiwami.
+  agent:
+    _frontend:
+      section:
+        contacts: Dane kontaktowe
+        basic_information: Podstawowe informacje
+  structured_date_single:
+    _frontend:
+      action:
+        add: Dodaj pojedynczą datę
+  structured_date_range:
+    _frontend:
+      action:
+        add: Dodaj zakres dat
+  archival_object:
+    _frontend:
+      messages:
+        updated: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> został 
+          zaktualizowany.
+        delete_conflict: 'Nie udało się usunąć obiektu archiwalnego: <pre>%{error}</pre>'
+      section:
+        basic_information: Podstawowe informacje
+      tree:
+        duplicated_record_title: Utwórz zduplikowany obiekt archiwalny
+  classification:
+    _frontend:
+      section:
+        basic_information: Podstawowe informacje
+  classification_term:
+    _frontend:
+      section:
+        basic_information: Podstawowe informacje
+  accession:
+    _frontend:
+      section:
+        basic_information: Podstawowe informacje
