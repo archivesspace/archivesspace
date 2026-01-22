@@ -360,3 +360,63 @@ pl:
       score: Znaczenie
       title: Tytuł
       publish: Opublikowany
+      subjects: Temat
+      digital_object_id: Cyfrowy identyfikator obiektu
+      audit_info: Informacje dotyczące audytu
+      uri: URI
+      representative_file_version: Obraz miniatury
+      user_mtime: Zmodyfikowany
+      dates: Daty
+      desc: Zstępujący
+      asc: Wznoszący się
+    digital_object_component:
+      context: Znaleziono w
+      dates: Daty
+      uri: URI
+      representative_file_version: Obraz miniatury
+      title: Tytuł
+      create_time: Stworzony
+      score: Znaczenie
+      user_mtime: Zmodyfikowany
+      publish: Opublikowany
+      desc: Zstępujący
+      audit_info: Informacje dotyczące audytu
+      asc: Wznoszący się
+    agent:
+      uri: URI
+      create_time: Stworzony
+      score: Znaczenie
+      user_mtime: Zmodyfikowany
+      publish: Opublikowany
+      desc: Zstępujący
+      audit_info: Informacje dotyczące audytu
+      asc: Wznoszący się
+    location:
+      title: Lokalizacja
+      create_time: Stworzony
+      uri: URI
+      score: Znaczenie
+      user_mtime: Zmodyfikowany
+      publish: Opublikowany
+      room: Pokój
+      asc: Wznoszący się
+      desc: Zstępujący
+      audit_info: Informacje dotyczące audytu
+    event:
+      score: Znaczenie
+      event_type: Typ
+      uri: URI
+      audit_info: Informacje dotyczące audytu
+      asc: Wznoszący się
+    collection_management:
+      parent_title: Tytuł
+      uri: URI
+      audit_info: Informacje dotyczące audytu
+      asc: Wznoszący się
+    classification:
+      title: Tytuł
+  agent_gender:
+    _singular: Płeć
+  agent_occupation:
+    _singular: Zawód
+    _plural: Zawody
