@@ -104,6 +104,8 @@ When 'the user clicks on {string} in the dropdown menu' do |string|
       end
     end
   end
+
+  wait_for_ajax
 end
 
 When 'the user clicks on {string} in the spawn dropdown menu' do |string|
