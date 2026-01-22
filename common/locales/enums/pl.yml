@@ -385,3 +385,43 @@ pl:
       PS: Terytorium palestyńskie, okupowane
       NP: Nepal
       RS: Serbia
+      PA: Panama
+      PK: Pakistan
+      PL: Polska
+      PM: Saint-Pierre i Miquelon
+      SH: Święta Helena, Wyspa Wniebowstąpienia i Tristan da Cunha
+      SI: Słowenia
+      SJ: Svalbard i Jan Mayen
+      SK: Słowacja
+      SL: Sierra Leone
+      SV: Salwador
+      UA: Ukraina
+      UM: Małe Wyspy Odległe Stanów Zjednoczonych
+      US: Stany Zjednoczone
+      VA: Stolica Apostolska (Państwo Watykańskie)
+      VC: Saint Vincent i Grenadyny
+      VG: Wyspy Dziewicze, Brytyjskie
+      VI: Wyspy Dziewicze, Stany Zjednoczone
+      VN: Wietnam
+      WF: Wallis i Futuna
+      YE: Jemen
+      ZA: Republika Południowej Afryki
+      ZM: Zambia
+      ZW: Zimbabwe
+      ST: Wyspy Świętego Tomasza i Książęca
+    date_role:
+      begin: Zaczynać
+      end: Koniec
+    event_event_type:
+      assessment: Ocena
+      digital_signature_validation: Walidacja podpisu cyfrowego
+    extent_extent_type:
+      terabytes: Terabajty
+    identifier_type:
+      loc: Biblioteka Kongresu
+    language_iso639_2:
+      bai: Języki Bamileke
+      ber: Języki berberyjskie
+      cau: Języki kaukaskie
+      egy: Egipski (starożytny)
+      eng: Angielski
