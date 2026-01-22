@@ -1276,6 +1276,7 @@ pl:
       oznaczony jako zewnętrzny.
     unsubmitted_input: Nie przesłałeś jeszcze wprowadzonych danych.
     modal_title: Edytuj wpisy ARK dla bieżącego rekordu.
+    actions: Akcje
     no_changes: Brak zmian do zapisania.
     save: Ratujcie ARKi
     set_current: Ustaw na bieżącą wartość.

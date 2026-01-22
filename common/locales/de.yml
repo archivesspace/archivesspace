@@ -2911,6 +2911,7 @@ de:
       ark_format_error: Einer der bereitgestellten ARKs war kein gültiger ARK.
     no_changes: Keine Änderungen zu speichern
     modal_title: ARKs für aktuelle Aufzeichnung bearbeiten
+    actions: Aktionen
   bulk_import_template:
     _singular: Vorlage für den Massenimport
     _plural: Vorlagen für den Massenimport

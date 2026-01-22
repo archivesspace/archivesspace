@@ -3245,6 +3245,7 @@ fr:
     ark: ARK
     edit: Editez ARKs
     modal_title: Editez ARKs pour l'enregistrement actuel
+    actions: Actions
     current: Actuelle
     remove_ark: Supprimer
     add_new: Ajouter une nouvelle ARK

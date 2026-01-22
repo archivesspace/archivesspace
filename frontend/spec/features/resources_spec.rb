@@ -97,6 +97,10 @@ describe 'Resources', js: true do
 
         expect(page).to have_css "div.record-toolbar"
 
+        aggregate_failures 'toolbar is axe_clean' do
+          expect(page).to be_axe_clean.within '.record-toolbar'
+        end
+
         aggregate_failures 'does not have any <a> tags without a @href attributes' do
           expect(page).to have_no_xpath("//a[not(@href)]")
         end
