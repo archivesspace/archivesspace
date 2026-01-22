@@ -63,3 +63,4 @@ plugins/*/gems/*
 docker-compose.override.yml
 launcher/lib/*
 *~undo-tree~
+.github/copilot-instructions.md
