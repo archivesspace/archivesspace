@@ -311,3 +311,43 @@ pl:
       physdesc: Opis fizyczny
       storage: Informacje o kontenerze
       additional: Dodatkowy opis
+      related_accessions:
+        deaccessions: Dokumentacja dotycząca wycofania zbiorów
+    load_records:
+      alert: Ta kolekcja zawiera dużą liczbę nagrań.
+      percent_convention: '%'
+      loading: Wczytywanie
+  digital_object:
+    _public:
+      additional: Dodatkowe wersje plików
+      url_encoded_data: Dane zakodowane w formacie URL
+      thumbnail: Obraz miniatury
+      badge_label: Poziom cyfrowy %{level}
+  subject:
+    _singular: Temat
+    _plural: Tematy
+  classification:
+    identifier_separator: .
+  classification_term:
+    identifier_separator: /
+  pui_agent:
+    also_known_as: 'Znany również pod następującymi nazwami:'
+  agent:
+    _public:
+      section:
+        dates: Daty
+        related_agent_dates: Daty
+        related_agent_description: Opis
+  agent_gender:
+    _plural: Płeć
+    _singular: Płeć
+  agent_occupation:
+    _singular: Zawód
+    _plural: Zawody
+  number_of: 'Liczba %{type}:'
+  email: Wyślij e-mail
+  agent_corporate_entity:
+    _singular: Organizacja
+  pdf_reports:
+    table_of_contents: Spis treści
+    return_to_table_of_contents: Powrót do spisu treści
