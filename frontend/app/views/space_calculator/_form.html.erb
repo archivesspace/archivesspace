@@ -5,7 +5,7 @@
 <% else %>
   <header class="modal-header flex-column">
     <div class="w-100 d-flex justify-content-between">
-      <h3><%= t("space_calculator.modal_title") %></h3>
+      <h3 id="spaceCalculatorModalTitle"><%= t("space_calculator.modal_title") %></h3>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -19,41 +19,41 @@
     <%= form_tag({:controller => :space_calculator, :action => :calculate}, {:class => "form-horizontal", :id => "space_calculator" }) do |f| %>
       <%= hidden_field_tag 'container_profile[ref]', @container_profile_ref %>
       <%= hidden_field_tag 'selectable', @selectable %>
-      <div class="accordion" id="spaceCalculatorAccordion" role="tablist" aria-multiselectable="true">
+      <div class="accordion" id="spaceCalculatorAccordion">
         <% unless @buildings.blank? %>
           <section class="card">
             <script>
               AS.building_data = <%= raw(@buildings.to_json) %>;
             </script>
-            <header class="card-header" role="tab" id="byBuildingHeader">
+            <header class="card-header" id="byBuildingHeader">
               <h4 class="mb-0">
                 <button type="button" class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#byBuilding" aria-expanded="true" aria-controls="byBuilding">
                   <%= t("space_calculator.by_building") %>
                 </button>
               </h4>
             </header>
-            <div id="byBuilding" class="collapse show" data-parent="#spaceCalculatorAccordion" role="tabpanel" aria-labelledby="byBuildingHeader">
+            <div id="byBuilding" class="collapse show" data-parent="#spaceCalculatorAccordion" aria-labelledby="byBuildingHeader">
               <div class="card-body">
                 <div class="form-group w-100 row required">
-                  <label class="col-sm-2 control-label text-md-right"><%= t("location.building") %></label>
+                  <label class="col-sm-2 control-label text-md-right" for="building"><%= t("location.building") %></label>
                   <div class="col-sm-4">
                     <%= select_tag "building", options_for_select([""].concat(@buildings.keys)), :class => "form-control" %>
                   </div>
                 </div>
                 <div class="form-group w-100 row by-building-floor">
-                  <label class="col-sm-2 control-label text-md-right"><%= t("location.floor") %></label>
+                  <label class="col-sm-2 control-label text-md-right" for="floor"><%= t("location.floor") %></label>
                   <div class="col-sm-4">
                     <%= select_tag "floor", '', :class => "form-control", :disabled => true %>
                   </div>
                 </div>
                 <div class="form-group w-100 row by-building-room">
-                  <label class="col-sm-2 control-label text-md-right"><%= t("location.room") %></label>
+                  <label class="col-sm-2 control-label text-md-right" for="room"><%= t("location.room") %></label>
                   <div class="col-sm-4">
                     <%= select_tag "room", '', :class => "form-control", :disabled => true %>
                   </div>
                 </div>
                 <div class="form-group w-100 row by-building-area">
-                  <label class="col-sm-2 control-label text-md-right"><%= t("location.area") %></label>
+                  <label class="col-sm-2 control-label text-md-right" for="area"><%= t("location.area") %></label>
                   <div class="col-sm-4">
                     <%= select_tag "area", '', :class => "form-control", :disabled => true %>
                   </div>
@@ -63,18 +63,23 @@
           </section>
         <% end %>
         <section class="card">
-          <header class="card-header" role="tab" id="byLocationHeader">
+          <header class="card-header" id="byLocationHeader">
             <h4 class="mb-0">
               <button type="button" class="btn btn-link btn-block text-left" data-toggle="collapse" data-target="#byLocation" aria-expanded="true" aria-controls="byLocation">
                 <%= t("space_calculator.by_locations") %>
               </button>
             </h4>
           </header>
-          <div id="byLocation" class="collapse <% if @buildings.blank? %>show<% end %>" data-parent="#spaceCalculatorAccordion" role="tabpanel" aria-labelledby="byLocationHeader">
+          <div id="byLocation" class="collapse <% if @buildings.blank? %>show<% end %>" data-parent="#spaceCalculatorAccordion" aria-labelledby="byLocationHeader">
             <div class="card-body mb-5">
               <%# ANW-1821 Margin-bottom added above because the dropdown menu visually stops at
               the card body border, so manually give space for it to show until that bug is fixed. %>
               <p><%= t("space_calculator.message_select_locations") %></p>
+              <label class="sr-only"
+                     id="location_label"
+                     for="location">
+                <%= t("location._plural") %>
+              </label>
               <div class="input-group linker-wrapper">
                 <input type="text" class="linker"
                         id="location"
@@ -91,7 +96,7 @@
                         data-types='["location"]'
                 />
                 <div class="input-group-append">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"></button>
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-label="<%= t("location.linker.link_title") %>"><span class="caret"></span></button>
                   <ul class="dropdown-menu dropdown-menu-right">
                     <li><button type="button" class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"><%= t("actions.browse") %></button></li>
                   </ul>

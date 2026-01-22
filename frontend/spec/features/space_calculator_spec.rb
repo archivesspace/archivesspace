@@ -226,4 +226,17 @@ describe 'Space Calculator', js: true do
     element = find("#_locations_#{@location.id}")
     expect(element).to have_text @location.title
   end
+
+  it 'is axe clean' do
+    login_admin
+    select_repository(@repository)
+
+    visit "container_profiles/#{@container_profile.id}"
+    expect(page).to have_text @container_profile.name
+
+    click_on 'Space Calculator'
+    expect(page).to be_axe_clean
+      .within('#spaceCalculatorModal')
+      .skipping(:'landmark-no-duplicate-banner') # Ignore the modal's <header>
+  end
 end

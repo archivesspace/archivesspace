@@ -85,6 +85,7 @@ function SpaceCalculatorModal(options) {
     },
     success: function (html) {
       $('.alert', self.$modal).replaceWith(html);
+      self.$modal.attr('aria-labelledby', 'spaceCalculatorModalTitle');
       self.setupForm(self.$modal.find('form'));
       $(window).trigger('resize');
     },
