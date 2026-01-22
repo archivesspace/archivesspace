@@ -409,6 +409,8 @@ pl:
       ZM: Zambia
       ZW: Zimbabwe
       ST: Wyspy Świętego Tomasza i Książęca
+      SY: Republika Syryjska
+      TC: Wyspy Turks i Caicos
     date_role:
       begin: Zaczynać
       end: Koniec
@@ -425,3 +427,21 @@ pl:
       cau: Języki kaukaskie
       egy: Egipski (starożytny)
       eng: Angielski
+      abk: Abchaski
+      aze: Azerbejdżański
+      bad: Języki Banda
+      bel: Białoruski
+      ben: Bengalski
+      btk: Języki Batak
+      crp: Języki kreolskie i pidżynowe
+      nai: Języki Indian Ameryki Północnej
+      nep: Nepalski
+      roa: Języki romańskie
+      rus: rosyjski
+      sam: Samaryjski aramejski
+      sgn: Języki migowe
+    file_version_xlink_show_attribute:
+      new: nowy
+    instance_instance_type:
+      computer_disks: Dyski komputerowe
+      maps: Mapy
