@@ -351,3 +351,10 @@ pl:
   pdf_reports:
     table_of_contents: Spis treści
     return_to_table_of_contents: Powrót do spisu treści
+    administrative_information: Informacje administracyjne
+  description: O
+  readmore:
+    see_more: Zobacz więcej
+    see_less: Pokaż mniej
+  skipnav:
+    search: Przejdź do wyszukiwania
