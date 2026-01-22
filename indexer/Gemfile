@@ -10,7 +10,7 @@ gem 'i18n'
 gem 'json'
 gem 'mime-types'
 gem 'multi_json'
-gem 'nokogiri'
+gem 'nokogiri', '~> 1.13.10' # keep compatible with saxon-rb used in exports
 gem 'sinatra', '~> 3.2', require: false
 gem 'sinatra-contrib', '~> 3.2', require: false
 gem 'multipart-post', '~> 2.4'
