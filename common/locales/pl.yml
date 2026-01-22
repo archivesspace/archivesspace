@@ -1483,3 +1483,6 @@ pl:
         zignorowana.
       disamuse: Znaleziono wiele pasujących wyników dla '%{which}'. Do rozróżnienia użyto już 
         utworzonego elementu '%{name}'.
+  subject:
+    _singular: Temat
+    _plural: Tematy
