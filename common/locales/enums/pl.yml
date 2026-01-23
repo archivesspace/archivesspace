@@ -411,6 +411,42 @@ pl:
       ST: Wyspy Świętego Tomasza i Książęca
       SY: Republika Syryjska
       TC: Wyspy Turks i Caicos
+      JE: Wyspa Jersey
+      NR: Nauru
+      NU: Niue
+      PN: Wyspy Pitcairn
+      RE: Wyspa Reunion
+      SC: Seszele
+      SG: Singapur
+      SM: San Marino
+      SN: Senegal
+      SO: Somali
+      SR: Surinam
+      SS: Sudan Południowy
+      SX: Sint Maarten (część holenderska)
+      SZ: Suazi
+      TD: Czad
+      TF: Francuskie Terytoria Południowe
+      TG: Republika Togo
+      TH: Tajlandia
+      TJ: Tadżykistan
+      TK: Tokelau
+      TL: Timor Wschodni
+      TM: Turkmenia
+      TN: Tunezja
+      TO: Tonga
+      TR: Turcja
+      TT: Trynidad i Tobago
+      TV: Tuvalu
+      TW: Tajwan
+      TZ: Tanzania, Republika Zjednoczona
+      UG: Uganda
+      UY: Urugwaj
+      UZ: Uzbekistan
+      VE: Wenezuela
+      VU: Vanuatu
+      WS: Samoa
+      YT: Majotta
     date_role:
       begin: Zaczynać
       end: Koniec
@@ -445,3 +481,7 @@ pl:
     instance_instance_type:
       computer_disks: Dyski komputerowe
       maps: Mapy
+    date_calendar:
+      gregorian: Gregoriański
+    date_certainty:
+      questionable: Wątpliwy
