@@ -358,3 +358,7 @@ pl:
     see_less: Pokaż mniej
   skipnav:
     search: Przejdź do wyszukiwania
+  footer:
+    archivesspace_home_html: Odwiedź stronę <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Prześlij opinię
+      lub zgłoś problem</a>
