@@ -216,6 +216,8 @@ pl:
     _frontend:
       action:
         add: Dodaj datę
+    _singular: Data istnienia
+    _plural: Daty istnienia
   search_results:
     filtered_by: Filtrowane według
     title: Wyniki wyszukiwania
@@ -318,11 +320,14 @@ pl:
     button_text: Szukaj
     boolean_field:
       true_value: Prawda
+      boolean: Wartość logiczna
+      false_value: FAŁSZ
     index_switcher:
       show: Pokaż zaawansowane wyszukiwanie
       hide: Ukryj wyszukiwanie zaawansowane
     text_operator:
       contains: zawiera
+      empty: jest puste
     enum_field:
       label: Zaawansowane opcje wyszukiwania (wyliczenia)
       empty: nieprzypisane
@@ -332,6 +337,14 @@ pl:
     search_terms: Zaawansowane pola wyszukiwania %{number}
     remove_row: Usuń zaawansowane pola wyszukiwania %{number}
     add_row: Dodaj wiersz
+    date_operator:
+      equal: równa się
+      greater_than: większe niż
+      lesser_than: mniej niż
+    reset: Wyczyść
+    nav_switcher:
+      show: Pokaż zaawansowane opcje
+      hide: Ukryj zaawansowane opcje
   search:
     accession:
       score: Znaczenie
@@ -472,6 +485,13 @@ pl:
       floor: Piętro
       location_profile_display_string_u_ssort: Profil lokalizacji
       temporary: Tymczasowy
+      area: Obszar
+      location_holdings: Zasoby bieżącego repozytorium
+      location_no_holdings: Brak zasobów w tym repozytorium.
+      location_one_top_container: 1 pojemnik na górze.
+      location_top_containers: ' górne pojemniki.'
+      owner_repo_display_string_u_ssort: Repozytorium
+      none: Nic
     event:
       score: Znaczenie
       event_type: Typ
@@ -481,6 +501,7 @@ pl:
       user_mtime: Zmodyfikowany
       create_time: Stworzony
       desc: Zstępujący
+      outcome: Wynik
     collection_management:
       parent_title: Tytuł
       uri: URI
@@ -492,6 +513,10 @@ pl:
       user_mtime: Zmodyfikowany
       create_time: Stworzony
       desc: Zstępujący
+      name: Zarządzanie kolekcją
+      processing_priority: Priorytet opracowania
+      processing_status: Stan opracowania
+      processors: Archiwiści
     classification:
       title: Tytuł
       create_time: Stworzony
@@ -503,6 +528,7 @@ pl:
       audit_info: Informacje dotyczące audytu
       uri: URI
       asc: Wznoszący się
+      has_classification_terms: Czy istnieją terminy klasyfikacyjne?
     assessment:
       score: Znaczenie
       uri: URI
@@ -516,6 +542,9 @@ pl:
       desc: Zstępujący
       audit_info: Informacje dotyczące audytu
       assessment_reviewers: Recenzent
+      assessment_sensitive_material: Materiały wrażliwe
+      assessment_formats: Formaty
+      assessment_conservation_issues: Problemy związane z ochroną przyrody
     repositories:
       uri: URI
       user_mtime: Zmodyfikowany
@@ -539,6 +568,9 @@ pl:
       create_time: Stworzony
       audit_info: Informacje dotyczące audytu
       publish: Opublikowany
+      ils_holding_id: Identyfikator ILS Holding
+      exported_to_ils: Wyeksportowano do ILS
+      location_display_string_u_sstr: Lokalizacja
     container_profile:
       title: Tytuł
       create_time: Stworzony
@@ -552,6 +584,7 @@ pl:
       container_profile_width_u_sstr: Szerokość
       container_profile_height_u_sstr: Wysokość
       publish: Opublikowany
+      container_profile_depth_u_sstr: Głębokość
     location_profile:
       title: Tytuł
       score: Znaczenie
@@ -564,16 +597,24 @@ pl:
       uri: URI
       asc: Wznoszący się
       publish: Opublikowany
+      location_profile_depth_u_sstr: Głębokość
+      desc: Zstępujący
     top_container_mgmt:
       asc: Wznoszący się
       desc: Zstępujący
       type: Typ
+      barcode: Kod kreskowy
+      exported_to_ils: Wyeksportowano do ILS
+      ils_holding_id: Identyfikator ILS Holding
+      not_exported_to_ils: Nie wyeksportowano
     job:
       audit_info: Informacje dotyczące audytu
       user_mtime: Zmodyfikowany
       create_time: Stworzony
       score: Znaczenie
       asc: Wznoszący się
+      desc: Zstępujący
+      uri: URI
     multi:
       score: Znaczenie
       relevance: Znaczenie
@@ -585,6 +626,9 @@ pl:
       langcode: Język materiałów
       uri: URI
       representative_file_version: Obraz miniatury
+      desc: Zstępujący
+      query: Tekst
+      user_mtime: Zmodyfikowany
   agent_gender:
     _singular: Płeć
   agent_occupation:
@@ -672,6 +716,12 @@ pl:
       section:
         contacts: Dane kontaktowe
         basic_information: Podstawowe informacje
+        date_of_existence: Data istnienia
+        dates_of_existence: Daty istnienia
+        merge_candidate_record: Ten rekord zostanie usunięty.
+        merge_destination_record: Ten rekord zostanie zaktualizowany.
+      action:
+        preview: Podgląd scalania
   structured_date_single:
     _frontend:
       action:
@@ -687,25 +737,389 @@ pl:
           <strong>%{archival_object_display_string}</strong> został 
           zaktualizowany.
         delete_conflict: 'Nie udało się usunąć obiektu archiwalnego: <pre>%{error}</pre>'
+        spawned: Ten obiekt archiwalny został utworzony na podstawie wpisu 
+          <strong>%{accession_display_string}</strong>. Ten rekord nie został 
+          jeszcze zapisany. Aby utworzyć rekord w systemie, należy kliknąć 
+          przycisk Zapisz.
+        spawn_placeholder: <em>Wygenerowany komponent zostanie wstawiony w tym 
+          miejscu</em>
+        spawn_menu_before: Wstaw wygenerowany komponent przed
+        spawn_menu_child: Wstaw wygenerowany komponent jako element podrzędny.
+        spawn_menu_after: Wstaw wygenerowany komponent po
       section:
         basic_information: Podstawowe informacje
       tree:
         duplicated_record_title: Utwórz zduplikowany obiekt archiwalny
+      action:
+        select_parent_and_position: Wybierz pozycję komponentu
+    external_ark_url: Zewnętrzny adres URL ARK
+    external_ark_url_tooltip: Zewnętrzne narzędzie do wyświetlania podpowiedzi 
+      URL ARK
   classification:
     _frontend:
       section:
         basic_information: Podstawowe informacje
+      messages:
+        deleted: Klasyfikacja <strong>%{classification_title}</strong> została 
+          usunięta.
+      action:
+        add: Dodaj klasyfikację
+        create: Utwórz klasyfikację
+        save: Zapisz klasyfikację
   classification_term:
     _frontend:
       section:
         basic_information: Podstawowe informacje
+        search_embedded: Powiązane rekordy
+      messages:
+        updated_with_parent: Termin klasyfikacji 
+          <strong>%{classification_term_title}</strong> został zaktualizowany.
+        updated: Termin klasyfikacji 
+          <strong>%{classification_term_title}</strong> został zaktualizowany.
+        created_with_parent: Termin klasyfikacji 
+          <strong>%{classification_term_title}</strong> został zaktualizowany.
+        created: Termin klasyfikacji 
+          <strong>%{classification_term_title}</strong> został zaktualizowany.
+        deleted: Termin klasyfikacyjny 
+          <strong>%{classification_term_title}</strong> został usunięty.
+      action:
+        add_child: Dodaj dziecko
+        save: Zapisz termin klasyfikacji
+      tree:
+        new_record_title: Nowy termin klasyfikacyjny
   accession:
     _frontend:
       section:
         basic_information: Podstawowe informacje
+      messages:
+        transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane.
+        spawned: Ten wpis został utworzony na podstawie wpisu 
+          <strong>%{accession_display_string}</strong>. Ten rekord nie został 
+          jeszcze zapisany. Aby utworzyć rekord w systemie, należy kliknąć 
+          przycisk Zapisz.
+        delete_conflict: 'Nie udało się usunąć wpisu: <pre>%{error}</pre>'
+    component_link: Połączony komponent
+    component_links: Połączone komponenty
   breadcrumb:
     home: Strona główna
   save_changes_modal:
     body: Masz niezapisane zmiany. Zapisz je lub odrzuć, aby kontynuować.
     save: Zapisz zmiany
     dismiss: Odrzuć zmiany
+  import:
+    eac_title: Zaimportuj plik EAC.
+    ead_title: Importuj plik EAD
+    marcxml_title: Zaimportuj plik MARCXML
+    marcxml_subjects_and_agents_title: Importuj podmioty i agentów z pliku 
+      MARCXML.
+    accession_csv_title: Importowanie rekordów dostępu z pliku CSV.
+    digital_object_csv_title: Importowanie cyfrowych rekordów obiektów z pliku 
+      CSV.
+    import_report: Raport z importu
+    import_another: Zaimportuj inny plik
+    file_select: Wybierz plik do przesłania.
+    submit: Import
+    submit_busy_message: Trwa importowanie...
+    messages:
+      missing_repo: Przed rozpoczęciem importu należy wybrać repozytorium.
+      missing_file: Proszę wybrać plik EAD do przesłania.
+      error_prefix: Błąd podczas importowania pliku.
+      complete: Import zakończony
+  default_values:
+    form_title:
+      archival_object: Domyślne ustawienia rekordów komponentów
+      digital_object: Domyślne ustawienia obiektów cyfrowych
+      classification_term: Domyślne wartości terminów klasyfikacji
+    messages:
+      defaults_updated: Domyślne zaktualizowano
+  required_fields:
+    messages:
+      required_fields_updated: Zaktualizowano wymagane pola.
+  tree:
+    drag_and_drop_actions:
+      after: Dodaj elementy po
+    unexpected_failure: Ups! Wystąpił problem z wczytywaniem tego drzewa. 
+      Spróbuj odświeżyć stronę.
+    resize: Przeciągnij, aby zmienić wysokość drzewa.
+    maximize: Maksymalizacja/minimalizacja wysokości drzewa.
+  errors:
+    sidebar_label: Błędy i ostrzeżenia
+    error_403: Nie można uzyskać dostępu do strony.
+    error_403_message: Strona, do której próbujesz uzyskać dostęp, mogła zostać 
+      usunięta lub nie masz uprawnień do jej przeglądania.
+    error_404_message: Rekord, do którego próbujesz uzyskać dostęp, mógł zostać 
+      usunięty lub nie masz uprawnień do jego przeglądania.
+    error_tree_pane_ajax: Wystąpił błąd podczas ładowania formularza.
+    merge_conflict: 'Proces łączenia danych nie powiódł się: %{message}'
+    merge_too_many_merge_candidates: Do tego połączenia można wybrać tylko 
+      jednego agenta.
+    merge_different_types: Agenci wybrani do połączenia muszą być tego samego 
+      typu.
+    merge_denied_for_system_user: Jeden lub więcej agentów to użytkownicy 
+      systemu.
+    merge_denied_relationship: Ci agenci są ze sobą powiązani. Usuń powiązanie 
+      przed kontynuowaniem procesu łączenia.
+    merge_restricted_contact_details: Połączenie nie może zostać zakończone, 
+      ponieważ co najmniej jeden z agentów posiada dane kontaktowe, do których 
+      nie masz dostępu.
+    linked_to_assessment: Nie można usunąć tego rekordu, ponieważ jest on 
+      powiązany z oceną.
+    linked_to_user: Nie można usunąć rekordu, ponieważ jest on powiązany z 
+      użytkownikiem.
+    cannot_delete_repository_agent: Ten agent jest powiązany z repozytorium i 
+      nie można go usunąć.
+    error_404: Nie znaleziono rekordu
+  component_link:
+    _plural: Linki do komponentów
+    _singular: Łącze komponentu
+    _frontend:
+      action:
+        add: Dodaj łącze do komponentu
+  agent_contact:
+    notes_tooltip: |
+      Dodatkowe uwagi lub inne informacje dotyczące kontaktu.
+    _frontend:
+      action:
+        add: Dodaj kontakt
+        make_representative: Wybierz preferowaną formę kontaktu.
+  telephone:
+    _frontend:
+      action:
+        add: Dodaj numer telefonu
+  agent_corporate_entity:
+    _frontend:
+      action:
+        save: Zapisz podmiot korporacyjny
+  date:
+    _frontend:
+      expression_placeholder: Opisz datę lub zakres dat.
+      action:
+        add: Dodaj datę
+  enumeration:
+    _frontend:
+      messages:
+        merge_tip: Ta wartość może zostać połączona z inną.
+        merge_error: Nie udało się połączyć wartości.
+        name_selector_tooltip: |
+          <p>Lista wartości, które mają zostać zmodyfikowane.</p>
+        no_name_provided: Przed utworzeniem nowej wartości należy wybrać listę 
+          wartości.
+        one_related_item: 1 powiązany element.
+        delete_error: Nie udało się usunąć wartości.
+        delete_conflict: Nie można usunąć wartości, ponieważ jest ona obecnie 
+          używana przez inny rekord.
+        default_set: Ustawiono wartość domyślną.
+        created: Value Created
+        merged: Scalona wartość
+        no_selection: Proszę wybrać listę wartości kontrolowanych.
+      action:
+        create_value: Twórz wartość
+        delete_value: Usuń wartość
+        merge_value: Połącz wartość
+        download_csv: Pobierz plik CSV
+  event:
+    _frontend:
+      messages:
+        created: Wydarzenie zostało utworzone.
+        updated: Wydarzenie zostało zapisane.
+        deleted: Wydarzenie usunięte
+        suppressed_info: Wydarzenie zostało zablokowane i nie można go edytować.
+      section:
+        basic_information: Podstawowe informacje
+        date: Data/godzina wydarzenia
+      action:
+        save: Zapisz wydarzenie
+        create: Utwórz wydarzenie
+    linked_agents: Linki do agentów
+  extent:
+    _frontend:
+      action:
+        add: Dodaj zakres
+  external_document:
+    _frontend:
+      action:
+        add: Dodaj dokument zewnętrzny
+  file_version:
+    _frontend:
+      action:
+        add: Dodaj wersję pliku
+        make_representative_tooltip: Służy do wskazania, że ten obraz powinien 
+          być wyświetlany, gdy z danym rekordem powiązanych jest wiele wersji 
+          pliku.
+        make_representative: Wyznacz przedstawiciela
+  location_batch:
+    _frontend:
+      messages:
+        location_batch_update_info: Proszę wprowadzić wartości, które mają 
+          zostać zastosowane.
+        location_batch_info: Zdefiniuj wartości bazowe, które zostaną 
+          zastosowane do wszystkich lokalizacji wygenerowanych na podstawie 
+          poniższych <strong>zakresów współrzędnych</strong>.
+        ranges_info: Należy pamiętać, że wszelkie współrzędne wprowadzone w polu
+          <strong>Lokalizacja bazowa</strong> zostaną zastąpione wartościami 
+          wygenerowanymi na podstawie poniższych zakresów. Zostanie utworzonych 
+          maksymalnie %{max_range} lokalizacji.
+        warning: W zależności od wielkości zakresów danych, ten proces może 
+          potrwać kilka minut.
+      action:
+        update: Aktualizuj lokalizacje
+        preview: Podgląd lokalizacji
+  name:
+    _frontend:
+      section:
+        dates: Daty
+      action:
+        make_display_name_tooltip: Użyj tej opcji, aby wskazać, że ta forma 
+          imienia powinna być używana do wyświetlania, gdy w rekordzie agenta 
+          występuje wiele form imienia.
+  collection_management:
+    _frontend:
+      action:
+        add: Dodaj pola do zarządzania kolekcjami.
+  container:
+    _frontend:
+      action:
+        add: Dodaj kontener
+  container_location:
+    _frontend:
+      action:
+        add: Dodaj lokalizację
+  structured_date_label_common_fields:
+    date_type_structured: Typ daty
+  digital_object_component:
+    _frontend:
+      messages:
+        deleted: Składnik obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> został 
+          usunięty.
+        unsuppressed: Komponent obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> został 
+          przywrócony.
+        updated: Składnik obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> został 
+          zaktualizowany.
+        suppressed_info: Komponent obiektu cyfrowego jest zablokowany i nie 
+          można go edytować.
+        has_unpublished_ancestor: Należy pamiętać, że ten rekord ma przodka, 
+          który nie został jeszcze opublikowany.
+      section:
+        basic_information: Podstawowe informacje
+      action:
+        save: Zapisz komponent obiektu cyfrowego
+      tree:
+        new_record_title: Nowy komponent obiektu cyfrowego
+  group:
+    _frontend:
+      action:
+        create: Utwórz grupę
+        save: Zapisz grupę
+  instance:
+    _frontend:
+      messages:
+        select_a_type: Proszę wybrać typ instancji.
+      action:
+        add_digital_object: Dodaj obiekt cyfrowy
+        add: Dodaj instancję
+  lang_material:
+    _plural: Języki
+    _frontend:
+      action:
+        add: Dodaj język
+        add_note: Dodaj notatkę językową
+  linked_agent:
+    is_primary: Podstawowy
+    _frontend:
+      action:
+        make_primary: Ustaw jako główny
+  linked_record:
+    _frontend:
+      action:
+        add: Dodaj łącze do rekordu
+  location:
+    _frontend:
+      messages:
+        created: Lokalizacja utworzona
+        updated: Lokalizacja zapisana
+        deleted: Lokalizacja usunięta
+      section:
+        basic_information: Podstawowe informacje
+        search_embedded: Powiązane rekordy
+      action:
+        add_child: Dodaj podkomponent
+        add_sibling: Dodaj rodzeństwo
+        create: Utwórz lokalizację
+        batch: Utwórz lokalizacje partii
+        batch_edit: Edytuj lokalizacje partii
+        save: Zapisz lokalizację
+        single: Jedna lokalizacja
+        delete_confirm_message: <p>Pamiętaj, że <strong>tej czynności nie można 
+          cofnąć.</strong></p><p> Jeśli ta lokalizacja jest obecnie powiązana z 
+          jednym lub wieloma innymi elementami, nie można jej usunąć.</p>
+        show_space_calculator: Znajdź za pomocą kalkulatora przestrzeni
+  note:
+    _frontend:
+      preview:
+        parsed_title: W jaki sposób notatka zostanie wyświetlona w aplikacji 
+          publicznej?
+      action:
+        add_note_chronology_item: Dodaj wydarzenie
+        add_event: Dodaj element wydarzenia
+  repository:
+    _frontend:
+      messages:
+        create_first_repository: Aby utworzyć pierwsze repozytorium, kliknij 
+          menu <strong>System</strong> powyżej, a następnie <strong>Zarządzaj 
+          repozytoriami</strong>.
+        no_access_to_repositories: <p>Nie masz dostępu do żadnych 
+          repozytoriów.</p><p>Skontaktuj się z administratorem systemu, aby 
+          uzyskać dostęp.</p>
+        continue_with_transfer: Kontynuować transfer?
+        transfer_failed: 'Transferu nie udało się zakończyć z powodu następujących
+          błędów:'
+        transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane.
+        cannot_delete_nonempty: Nie można usunąć – repozytorium nie jest puste.
+      section:
+        oai_fields: Ustawienia zbierania danych OAI
+        transfer: Repozytorium transferów
+  resource:
+    external_ark_url_tooltip: Trwały identyfikator Archival Resource Key (ARK) 
+      wygenerowany poza systemem ArchivesSpace. Jeśli to pole zawiera wartość, 
+      ma ona pierwszeństwo przed identyfikatorem ARK wygenerowanym w systemie 
+      ArchivesSpace.
+  preference:
+    _frontend:
+      messages:
+        reset: Ustawienia przywrócono do wartości domyślnych aplikacji.
+        reset_error: 'Nie udało się zresetować ustawień z powodu błędu: %{exception}'
+        no_access_to_preferences: Aby móc zarządzać preferencjami, musisz 
+          utworzyć co najmniej jedno repozytorium.
+      action:
+        save: Zapisz preferencje
+  user:
+    _frontend:
+      messages:
+        group_not_required: Użytkownik jest administratorem lub użytkownikiem 
+          systemowym, wybór grupy nie jest wymagany.
+        activated: Użytkownika aktywowane
+        deactivated: Konto dezaktywowane
+        password_reset_email_sent: Jeśli istnieje konto powiązane z adresem 
+          e-mail %{email}, zostanie wysłana wiadomość e-mail z instrukcjami 
+          dotyczącymi resetowania hasła.
+      action:
+        activate_user_confirm: Czy na pewno chcesz aktywować tego użytkownika?
+        update_self: Zarządzaj kontem użytkownika
+  user_defined:
+    _frontend:
+      action:
+        add: Dodaj pola zdefiniowane przez użytkownika
+  rde:
+    date_type: Typ daty
+    sections:
+      language: Język
+    actions:
+      submit: Zapisz wiersze
+      showhide_none: Wszystkie kolumny zostały przefiltrowane.
+      reorder_toggle: Zmień kolejność kolumn
+      validate_rows: Sprawdź poprawność wierszy
+      save_template: Zapisz jako szablon
+      select_template: Wybierz szablon
