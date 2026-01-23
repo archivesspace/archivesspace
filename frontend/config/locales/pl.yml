@@ -279,6 +279,37 @@ pl:
     search_button_title: Przeszukaj wszystkie rekordy
     show_advanced_search_button_title: Pokaż zaawansowane wyszukiwanie
     hide_advanced_search_button_title: Ukryj wyszukiwanie zaawansowane
+    become-user: Zostań użytkownikiem
+    import_eac: Plik EAC
+    import_ead: Plik EAD
+    import_marcxml: MARCXML
+    import_marcxml_subjects_and_agents: MARCXML (tylko tematy i autorzy)
+    import_accession_csv: Dostęp do pliku CSV
+    import_digital_object_csv: Obiekt cyfrowy CSV
+    search_all: Wszystkie rekordy
+    search_placeholder: Przeszukaj wszystkie rekordy
+    plugins: Wtyczki
+    repositories_manage: Zarządzaj repozytoriami
+    repository_settings: Ustawienia repozytorium
+    oai_config: Zarządzaj ustawieniami OAI-PMH
+    manage_groups: Zarządzaj grupami
+    manage_users: Zarządzaj użytkownikami
+    manage_container_profiles: Zarządzaj profilami kontenerów
+    manage_location_profiles: Zarządzaj profilami lokalizacji
+    manage_top_containers: Zarządzaj najlepszymi kontenerami
+    manage_enumerations: Zarządzaj listami wartości kontrolowanych
+    global_preferences: Preferencje globalne
+    global_settings: Ustawienia globalne
+    user_repo_preferences: Preferencje repozytorium
+    repo_preferences: Domyślne preferencje repozytorium
+    manage_user_access: Zarządzaj dostępem użytkowników
+    logout: Wyloguj
+    register: Zarejestruj się teraz
+    register_prefix: Potrzebujesz konta?
+    list_reports: Raporty
+    global_admin: Sieć
+    system_info: Informacje o systemie
+    manage_assessment_attributes: Zarządzaj atrybutami oceny
   advanced_search:
     operator:
       AND: I
@@ -294,8 +325,13 @@ pl:
       contains: zawiera
     enum_field:
       label: Zaawansowane opcje wyszukiwania (wyliczenia)
+      empty: nieprzypisane
     search_field: Pole wyszukiwania
     search_date: Data
+    search_text: Wyszukaj tekst
+    search_terms: Zaawansowane pola wyszukiwania %{number}
+    remove_row: Usuń zaawansowane pola wyszukiwania %{number}
+    add_row: Dodaj wiersz
   search:
     accession:
       score: Znaczenie
@@ -391,6 +427,8 @@ pl:
       langcode: Język materiałów
       extents: Zakres
       create_time: Stworzony
+      digital_object_type: Typ obiektu cyfrowego
+      restrictions: Ograniczenia
     digital_object_component:
       context: Znaleziono w
       dates: Daty
@@ -416,6 +454,7 @@ pl:
       audit_info: Informacje dotyczące audytu
       asc: Wznoszący się
       authority_id: Identyfikator organu
+      primary_type: Typ agenta
     location:
       title: Lokalizacja
       create_time: Stworzony
@@ -552,10 +591,18 @@ pl:
   become-user:
     failed: Nie udało się przełączyć na wskazanego użytkownika.
     username: Nazwa użytkownika
+    become-user: Zostań użytkownikiem
+    success: Pomyślnie zmieniono użytkownika.
   header:
     staff_interface: Interfejs dla personelu ArchivesSpace
   footer:
     keyboard_shortcuts: Skróty klawiaturowe
+    public_interface_html: Zobacz <a href="%{public_url}">interfejs 
+      publiczny</a>
+    archivesspace_home_html: Odwiedź stronę <a 
+      href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+      target='_blank'>Prześlij opinię lub zgłoś problem</a>
   login:
     login: Zalogować się
     username_placeholder: Nazwa użytkownika
@@ -565,10 +612,39 @@ pl:
     recover_password: Odzyskaj hasło
     email_placeholder: Adres e-mail
     new_password: Nowe hasło
+    login_please: Proszę się zalogować.
+    login_expired_link: Proszę <a href ='%{link}'>zalogować się ponownie</a>.
+    login_fail: Próba logowania nie powiodła się.
+    login_success: Logowanie zakończone sukcesem. Przekierowywanie...
+    password_placeholder: Hasło
+    confirm_password: Potwierdź hasło
+    lost_password: Nie pamiętasz hasła?
+    reset_form_instructions: Wprowadź adres e-mail powiązany z Twoim kontem 
+      użytkownika. Jeśli konto o podanym adresie e-mail istnieje, na ten adres 
+      zostanie wysłany link do zresetowania hasła.
+    new_password_instructions: Utwórz nowe hasło dla użytkownika %{user} za 
+      pomocą formularza, a następnie zaloguj się ponownie.
+    password_mismatch_error: Hasła nie pasują do siebie.
+    password_update_success: Hasło zostało pomyślnie zaktualizowane.
+    password_update_error: Nie udało się zaktualizować hasła. Spróbuj ponownie 
+      lub skontaktuj się z administratorem.
+    password_too_simple: To hasło jest zbyt łatwe do odgadnięcia. Spróbuj dodać 
+      więcej słów lub użyj generatora losowych haseł.
   linker:
     create_and_link: Utwórz i połącz
+    link: Link
+    hint_text: Wpisz tekst, aby wyszukać dostępne rekordy...
+    placeholder: Wpisz tekst, aby wyszukać dostępne rekordy...
+    no_results: Nie znaleziono pasujących wyników. Spróbuj skorzystać z opcji 
+      „Przeglądaj”.
+    searching: Szukanie...
+    delete: '&times;'
+    components:
+      browse: Przeglądaj komponenty
   session:
     inline_login_title: Sesja wygasła
+    gone: Nie znaleziono sesji po stronie serwera.
+    expired: Twoja sesja wygasła z powodu braku aktywności.
   batch_delete:
     archival_records:
       success: Rekordy usunięte
@@ -578,6 +654,13 @@ pl:
       error: 'Nie można usunąć lokalizacji:'
     assessments:
       error: 'Nie można usunąć ocen:'
+      success: Oceny zostały usunięte.
+    subjects:
+      success: Usunięto tematy.
+      error: 'Nie można usunąć przedmiotów:'
+    agents:
+      success: Agenci usunięci
+      error: 'Nie można usunąć agentów:'
   welcome:
     heading: Witamy w ArchivesSpace!
     message_logged_in: Twoje przyjazne narzędzie do zarządzania archiwami.
@@ -618,3 +701,9 @@ pl:
     _frontend:
       section:
         basic_information: Podstawowe informacje
+  breadcrumb:
+    home: Strona główna
+  save_changes_modal:
+    body: Masz niezapisane zmiany. Zapisz je lub odrzuć, aby kontynuować.
+    save: Zapisz zmiany
+    dismiss: Odrzuć zmiany
