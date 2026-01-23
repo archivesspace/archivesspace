@@ -39,6 +39,9 @@
         <li><%= link_to t("navbar.repositories_manage"), {:controller => :repositories, :action => :index}, :class => "dropdown-item" %></li>
       <% end %>
       <% if user_can?('create_repository') %>
+        <li><%= link_to t("navbar.pui_config"), {:controller => :pui_config, :action => :edit}, :class => "dropdown-item" %></li>
+      <% end %>
+      <% if user_can?('create_repository') %>
         <li><%= link_to t("navbar.oai_config"), {:controller => :oai_config, :action => :edit}, :class => "dropdown-item" %></li>
       <% end %>
       <% if user_can?('manage_users') %>

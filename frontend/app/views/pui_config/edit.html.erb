@@ -1,0 +1,167 @@
+<%= setup_context(:title => t("pui_config.title")) %>
+
+<div class="d-flex">
+  <div class="col-md-3">
+    <div id="archivesSpaceSidebar" class="sidebar d-flex position-sticky top-1rem flex-column">
+      <ul role='tablist' class="nav as-nav-list d-flex flex-column">
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="record-pane">
+      <h2 class="mb-4"><%= I18n.t("pui_config.title") %></h2>
+
+      <div class="form-messages"></div>
+
+      <fieldset id="pui_config">
+        <!-- Display Settings Section -->
+        <section id="display_settings" class="mb-4">
+          <h3><%= t("pui_config.display_settings_section") %></h3>
+          
+          <div class="form-group w-100 row">
+            <label for="pui_display_identifiers_in_resource_tree" class="col-sm-2 control-label has-tooltip" data-placement="auto" title="<%= t("pui_config.pui_display_identifiers_in_resource_tree_tooltip") %>">
+              <%= t("pui_config.pui_display_identifiers_in_resource_tree") %>
+            </label>
+            <div class="col-sm-9 checkbox">
+              <input type="checkbox" id="pui_display_identifiers_in_resource_tree" name="pui_config[pui_display_identifiers_in_resource_tree]" value="1" <%= AppConfig[:pui_display_identifiers_in_resource_tree] ? 'checked="checked"' : '' %>>
+            </div>
+          </div>
+
+          <div class="form-group w-100 row">
+            <label for="pui_expand_all" class="col-sm-2 control-label">
+              <%= t("pui_config.pui_expand_all") %>
+            </label>
+            <div class="col-sm-9 checkbox">
+              <input type="checkbox" id="pui_expand_all" name="pui_config[pui_expand_all]" value="1" <%= AppConfig[:pui_expand_all] ? 'checked="checked"' : '' %>>
+            </div>
+          </div>
+        </section>
+
+        <!-- Content Settings Section -->
+        <section id="content_settings" class="mb-4">
+          <h3><%= t("pui_config.content_settings_section") %></h3>
+          
+          <div class="form-group w-100 row">
+            <label for="abstract_note_length" class="col-sm-2 control-label">
+              <%= t("pui_config.abstract_note_length") %>
+            </label>
+            <div class="col-sm-9">
+              <input type="number" id="abstract_note_length" name="pui_config[abstract_note_length]" value="<%= AppConfig[:abstract_note_length] || 500 %>" min="50" step="10" class="form-control">
+            </div>
+          </div>
+        </section>
+
+        <!-- Navigation Tabs Section -->
+        <section id="navigation_tabs" class="mb-4">
+          <h3><%= t("pui_config.navigation_tabs_section") %></h3>
+          <p><%= t("pui_config.navigation_tabs_description") %></p>
+          
+          <% 
+            tabs = [
+              { key: :repositories, label: t("pui_config.tab_repositories"), placeholder: "Repositories" },
+              { key: :resources, label: t("pui_config.tab_resources"), placeholder: "Resources" },
+              { key: :digital_objects, label: t("pui_config.tab_digital_objects"), placeholder: "Digital Objects" },
+              { key: :accessions, label: t("pui_config.tab_accessions"), placeholder: "Accessions" },
+              { key: :subjects, label: t("pui_config.tab_subjects"), placeholder: "Subjects" },
+              { key: :agents, label: t("pui_config.tab_agents"), placeholder: "Agents" },
+              { key: :classifications, label: t("pui_config.tab_classifications"), placeholder: "Classifications" }
+            ]
+            pui_hide = AppConfig[:pui_hide] || {}
+          %>
+          
+          <% tabs.each do |tab| %>
+            <div class="form-group w-100 row">
+              <label for="pui_hide_<%= tab[:key] %>" class="col-sm-2 control-label">
+                <input type="checkbox" id="pui_hide_<%= tab[:key] %>" name="pui_config[pui_hide][<%= tab[:key] %>]" value="1" <%= (pui_hide[tab[:key]] == false || pui_hide[tab[:key]].nil?) ? 'checked="checked"' : '' %>>
+                <%= tab[:label] %>
+              </label>
+              <div class="col-sm-9">
+                <input type="text" disabled placeholder="<%= tab[:placeholder] %>" class="form-control">
+              </div>
+            </div>
+          <% end %>
+        </section>
+
+        <!-- Repository Badges Section -->
+        <section id="repository_badges" class="mb-4">
+          <h3><%= t("pui_config.repository_badges_section") %></h3>
+          <p><%= t("pui_config.repository_badges_description") %></p>
+          
+          <% 
+            badges = [
+              { key: :resource_badge, label: t("pui_config.badge_resource"), placeholder: "Resources" },
+              { key: :record_badge, label: t("pui_config.badge_record"), placeholder: "Records" },
+              { key: :digital_object_badge, label: t("pui_config.badge_digital_object"), placeholder: "Digital Materials" },
+              { key: :accession_badge, label: t("pui_config.badge_accession"), placeholder: "Unprocessed Materials" },
+              { key: :subject_badge, label: t("pui_config.badge_subject"), placeholder: "Subjects" },
+              { key: :agent_badge, label: t("pui_config.badge_agent"), placeholder: "Names" },
+              { key: :classification_badge, label: t("pui_config.badge_classification"), placeholder: "Record Groups" }
+            ]
+          %>
+          
+          <% badges.each do |badge| %>
+            <div class="form-group w-100 row">
+              <label for="pui_hide_<%= badge[:key] %>" class="col-sm-2 control-label">
+                <input type="checkbox" id="pui_hide_<%= badge[:key] %>" name="pui_config[pui_hide][<%= badge[:key] %>]" value="1" <%= (pui_hide[badge[:key]] == false || pui_hide[badge[:key]].nil?) ? 'checked="checked"' : '' %>>
+                <%= badge[:label] %>
+              </label>
+              <div class="col-sm-9">
+                <input type="text" disabled placeholder="<%= badge[:placeholder] %>" class="form-control">
+              </div>
+            </div>
+          <% end %>
+        </section>
+
+        <!-- Help Configuration Section -->
+        <section id="help_configuration" class="mb-4">
+          <h3><%= t("pui_config.help_configuration_section") %></h3>
+          
+          <div class="form-group w-100 row">
+            <label for="help_enabled" class="col-sm-2 control-label">
+              <%= t("pui_config.help_enabled") %>
+            </label>
+            <div class="col-sm-9 checkbox">
+              <input type="checkbox" id="help_enabled" name="pui_config[help_enabled]" value="1" <%= AppConfig[:help_enabled] ? 'checked="checked"' : '' %>>
+            </div>
+          </div>
+
+          <div class="form-group w-100 row">
+            <label for="help_url" class="col-sm-2 control-label">
+              <%= t("pui_config.help_url") %>
+            </label>
+            <div class="col-sm-9">
+              <input type="url" id="help_url" name="pui_config[help_url]" value="<%= AppConfig[:help_url] || 'https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/overview' %>" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group w-100 row">
+            <label for="help_topic_base_url" class="col-sm-2 control-label">
+              <%= t("pui_config.help_topic_base_url") %>
+            </label>
+            <div class="col-sm-9">
+              <input type="url" id="help_topic_base_url" name="pui_config[help_topic_base_url]" value="<%= AppConfig[:help_topic_base_url] || 'https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/' %>" class="form-control">
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer Settings Section -->
+        <section id="footer_settings" class="mb-4">
+          <h3><%= t("pui_config.footer_settings_section") %></h3>
+          
+          <div class="form-group w-100 row">
+            <label for="feedback_url" class="col-sm-2 control-label has-tooltip" data-placement="auto" title="<%= t("pui_config.feedback_url_tooltip") %>">
+              <%= t("pui_config.feedback_url") %>
+            </label>
+            <div class="col-sm-9">
+              <input type="url" id="feedback_url" name="pui_config[feedback_url]" value="<%= AppConfig[:feedback_url] || 'https://archivesspace.org/contact' %>" class="form-control">
+            </div>
+          </div>
+        </section>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary"><%= t("pui_config._frontend.action.save") %></button>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</div>

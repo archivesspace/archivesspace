@@ -602,6 +602,7 @@ en:
     repositories_manage: Manage Repositories
     repository_settings: Repository settings
     oai_config: Manage OAI-PMH Settings
+    pui_config: Manage PUI Settings
     manage_groups: Manage Groups
     manage_users: Manage Users
     manage_container_profiles: Manage Container Profiles
@@ -2091,6 +2092,12 @@ en:
         _plural: Sponsor Sets
       repo_settings:
         _plural: Per Repository OAI-PMH Settings
+
+  pui_config:
+    title: Manage PUI Settings
+    _frontend:
+      action:
+        save: Save PUI Settings
 
   agent_record_control: &agent_record_control_attributes
     _plural: Record Info
