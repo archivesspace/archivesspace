@@ -1486,3 +1486,5 @@ pl:
   subject:
     _singular: Temat
     _plural: Tematy
+  lang_material:
+    _plural: Języki
