@@ -455,6 +455,8 @@ pl:
       asc: Wznoszący się
       authority_id: Identyfikator organu
       primary_type: Typ agenta
+      source: Źródło
+      is_user: Czy to użytkownik?
     location:
       title: Lokalizacja
       create_time: Stworzony
