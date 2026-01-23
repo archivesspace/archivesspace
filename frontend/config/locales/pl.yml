@@ -1123,3 +1123,37 @@ pl:
       validate_rows: Sprawdź poprawność wierszy
       save_template: Zapisz jako szablon
       select_template: Wybierz szablon
+      manage_templates: Usuń szablony
+    fill_column:
+      select_a_column: Proszę wybrać kolumnę.
+      sequence_count_warning: Liczba wierszy jest większa niż liczba elementów w
+        sekwencji.
+    save_template:
+      save_template: Zapisz szablon
+      template_name: Nazwa szablonu
+      confirm_removal: Potwierdź usunięcie
+    messages:
+      no_rows: Proszę wprowadzić wartości dla co najmniej jednego wiersza.
+      select_prompt: Zastosuj szablon RDE
+    help:
+      keyboard_shortcuts:
+        title: Skróty klawiaturowe
+      sticky_columns:
+        p_one: Wyróżnione kolumny są „przyklejone” i zostaną powielone po 
+          dodaniu nowych wierszy. Funkcję „przyklejania” można włączyć lub 
+          wyłączyć, klikając odpowiedni nagłówek tabeli.
+  structured_date_single_fields:
+    date_expression: Wyrażenie daty
+    date_standardized: Znormalizowana data
+    date_standardized_type: Standaryzowany typ daty
+  structured_date_range_fields:
+    begin_date_expression: Wyrażenie daty rozpoczęcia
+    begin_date_standardized: Początek daty w formacie standardowym
+    begin_date_standardized_type: Rozpocznij standardowy format daty
+    end_date_expression: Wyrażenie daty zakończenia
+    end_date_standardized: Data zakończenia (standardowa)
+    end_date_standardized_type: Zakończ standardowy typ daty
+  digital_object:
+    _frontend:
+      messages:
+        transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane.
