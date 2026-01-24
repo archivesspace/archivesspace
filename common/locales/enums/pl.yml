@@ -485,3 +485,39 @@ pl:
       gregorian: Gregoriański
     date_certainty:
       questionable: Wątpliwy
+      approximate: Przybliżony
+      inferred: Wywnioskowano
+    date_era:
+      ce: n.e.
+    date_label:
+      acquisition: Przejmowanie
+      agent_relation: Relacje z agentami
+      broadcast: Audycja
+      copyright: Prawo autorskie
+      creation: Tworzenie
+      deaccession: Wyłączenie z kolekcji
+      digitized: Zdigitalizowane
+      event: Wydarzenie
+      existence: Istnienie
+      issued: Wydany
+      modified: Zmodyfikowany
+      other: Inny
+      publication: Publikacja
+      record_keeping: Prowadzenie dokumentacji
+      usage: Stosowanie
+    date_standardized_type:
+      not_after: Nie później
+      not_before: Dopiero gdy
+      standard: Standard
+    date_type:
+      bulk: Daktyle luzem
+      expression: Wyrażenie
+      inclusive: Daty włącznie
+      range: Zakres
+      single: Pojedynczy
+    date_type_structured:
+      range: Zakres
+      single: Pojedynczy
+    deaccession_scope:
+      part: Część
+      whole: Cały
