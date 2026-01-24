@@ -453,10 +453,44 @@ pl:
     event_event_type:
       assessment: Ocena
       digital_signature_validation: Walidacja podpisu cyfrowego
+      accession: Przejęcie materiałów archiwalnych
+      accumulation: Akumulacja
+      acknowledgement: Potwierdzenie
+      acknowledgement_received: Potwierdzenie otrzymano.
+      acknowledgement_sent: Potwierdzenie wysłane.
+      agreement_received: Otrzymano zgodę
+      agreement_sent: Umowa została wysłana.
+      agreement_signed: Umowa została podpisana.
+      appraisal: Wartościowanie
+      capture: Przechwytywanie
+      cataloged: Zarejestrowano w katalogu
+      collection: Kolekcja
+      compression: Kompresja
+      copyright_transfer: Przeniesienie praw autorskich
+      custody_transfer: Przekazanie materiałów archiwalnych
+      deaccession: Wycofanie z zasobu
+      decryption: Deszyfrowanie
+      deletion: Usunięcie
+      fixity_check: Sprawdzenie stabilności
+      message_digest_calculation: Obliczanie skrótu wiadomości
+      request: Zamówienie
+      rights_transferred: Przeniesione prawa
+      validation: Walidacja
+      virus_check: Skanowanie antywirusowe
+      component_transfer: Transfer komponentów
+      decompression: Dekompresja
     extent_extent_type:
       terabytes: Terabajty
+      photographic_prints: Odbitki fotograficzne
+      photographic_slides: Slajdy fotograficzne
+      reels: Rolki
+      cubic_feet: Stopy sześcienne
+      gigabytes: Gigabajty
+      linear_feet: Stopy liniowe
+      megabytes: Megabajty
     identifier_type:
       loc: Biblioteka Kongresu
+      lac: Biblioteka i Archiwa Kanady
     language_iso639_2:
       bai: Języki Bamileke
       ber: Języki berberyjskie
@@ -476,11 +510,17 @@ pl:
       rus: rosyjski
       sam: Samaryjski aramejski
       sgn: Języki migowe
+      ace: Acehczycy
+      ach: Acoli
     file_version_xlink_show_attribute:
       new: nowy
     instance_instance_type:
       computer_disks: Dyski komputerowe
       maps: Mapy
+      books: Książki
+      microform: Mikroforma
+      moving_images: Ruchome obrazy
+      text: Tekst
     date_calendar:
       gregorian: Gregoriański
     date_certainty:
@@ -495,7 +535,7 @@ pl:
       broadcast: Audycja
       copyright: Prawo autorskie
       creation: Tworzenie
-      deaccession: Wyłączenie z kolekcji
+      deaccession: Wycofanie z zasobu
       digitized: Zdigitalizowane
       event: Wydarzenie
       existence: Istnienie
@@ -524,3 +564,85 @@ pl:
     digital_object_digital_object_type:
       cartographic: Kartograficzny
       mixed_materials: Materiały mieszane
+      moving_image: Obraz ruchomy
+      notated_music: Muzyka zapisana nutami
+      software_multimedia: Oprogramowanie, Multimedia
+      sound_recording: Nagrywanie dźwięku
+      sound_recording_musical: Nagranie dźwiękowe (muzyczne)
+      sound_recording_nonmusical: Nagrania dźwiękowe (niemające charakteru muzycznego)
+      still_image: Obraz statyczny
+      text: Tekst
+    digital_object_level:
+      image: Obraz
+      collection: Kolekcja
+      work: Dzieło
+    dimension_units:
+      centimeters: Centymetry
+      feet: Stopy
+      inches: Cale
+      meters: Metry
+      millimeters: Milimetry
+      yards: Jardy
+    end_date_standardized_type:
+      not_after: Nie później
+      not_before: Dopiero gdy
+      standard: Standard
+    event_outcome:
+      cancelled: Odwołany
+      fail: Niepowodzenie
+      partial pass: Częściowe zaliczenie
+    file_version_checksum_methods:
+      md5: MD5
+      sha-1: SHA-1
+      sha-256: SHA-256
+      sha-384: SHA-384
+      sha-512: SHA-512
+    file_version_file_format_name:
+      gif: Format wymiany grafiki
+      jpeg: Format wymiany plików JPEG
+      mp3: MPEG Audio Warstwa 3
+      pdf: Przenośny format dokumentów
+      tiff: Format pliku obrazu z tagami
+      txt: Plik tekstowy
+      aiff: Format pliku wymiany danych audio
+      avi: Format audio/wideo z przeplotem
+    file_version_use_statement:
+      audio-clip: Plik audio
+      audio-master: Audio-Mistrz
+      audio-master-edited: Audio zmontowane przez mistrza dźwięku
+      audio-service: Usługa audio
+      audio-streaming: Przesyłanie strumieniowe audio
+      image-master: Mistrz Obrazu
+      image-master-edited: Obraz-Mistrz-Edytowany
+      image-service: Usługa obrazowania
+      image-service-edited: Obraz-Usługa-Edytowany
+      image-thumbnail: Miniatura obrazu
+      text-codebook: Księga kodów tekstowych
+      text-data: Dane tekstowe
+      text-georeference: Georeferencja tekstu
+      text-ocr-edited: Tekst przetworzony za pomocą OCR.
+      text-ocr-unedited: Tekst po przetworzeniu przez OCR (nieedytowany)
+      text-tei-transcripted: Tekst przepisany za pomocą Text-Tei.
+      text-tei-translated: Tekst przetłumaczony przez Tei
+      video-clip: Teledysk
+      video-master: Video-Mistrz
+      video-master-edited: Wideo-Zmontowane przez mistrza
+      video-service: Usługa wideo
+      video-streaming: Przesyłanie strumieniowe wideo
+      text-data_definition: Definicja danych tekstowych
+    file_version_xlink_actuate_attribute:
+      onLoad: Przy ładowaniu
+      onRequest: Na żądanie
+    government_agency_type:
+      ngo: Organizacja pozarządowa
+      provincial: Stanowe, prowincjonalne, terytorialne, zależne itp.
+      sac: Autonomiczny lub półautonomiczny komponent
+      undetermined: Rodzaj agencji rządowej – nieokreślony.
+      unknown: Nie wiadomo, czy jest to agencja rządowa.
+      fed: Federalny/krajowy
+      int_gov: Międzynarodowe międzyrządowe
+    extent_portion:
+      part: Część
+      whole: Cały
+    gender:
+      not_specified: Nie określono
