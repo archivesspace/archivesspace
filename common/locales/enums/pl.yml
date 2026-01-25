@@ -512,6 +512,73 @@ pl:
       sgn: Języki migowe
       ace: Acehczycy
       ach: Acoli
+      ada: Dangme
+      ady: Adygejski
+      afa: Języki afroazjatyckie
+      afh: Afrihili
+      afr: Afrykanerski
+      ain: Ainu
+      aka: Akan
+      akk: Akadyjski
+      alb: Albański
+      ale: Akan
+      alg: Języki algonkińskie
+      alt: Południowy Ałtaj
+      amh: Amharski
+      ang: Język angielski staroangielski (ok. 450-1100)
+      anp: Angika
+      apa: Języki Apaczów
+      ara: Arabski
+      arc: Oficjalny język aramejski (700-300 p.n.e.); aramejski cesarski (700-300 p.n.e.)
+      arg: Aragoński
+      arm: Ormiański
+      arn: Mapudungun; Mapuche
+      arp: Arapaho
+      art: Języki sztuczne
+      cat: Kataloński; Walencki
+      ceb: Cebuański
+      cel: Języki celtyckie
+      cha: Czamorro
+      frs: Wschodniofryzyjski
+      fry: Zachodniofryzyjski
+      gem: Języki germańskie
+      ger: Niemiecki
+      goh: Język niemiecki, staro-wysokoniemiecki (ok. 750-1050)
+      haw: Hawajski
+      heb: Hebrajski
+      hin: Hinduski
+      hrv: Chorwacki
+      hun: Węgierski
+      iro: Języki irokeskie
+      ira: Języki irańskie
+      khi: Języki khoisańskie
+      lit: Litewski
+      mun: Języki Munda
+      myn: Języki Majów
+      nah: Języki nahuatl
+      nor: Norweski
+      nwc: Klasyczny Newari; Stare Newari; Klasyczny Nepal Bhasa
+      paa: Języki papuaskie
+      phi: Języki filipińskie
+      pol: Polski
+      pra: Języki prakryckie
+      sal: Języki saliszańskie
+      sem: Języki semickie
+      sio: Języki siouańskie
+      sit: Języki chińsko-tybetańskie
+      sla: Języki słowiańskie
+      sma: Południowosami
+      sme: Północnosami
+      smi: Języki samijskie
+      ssa: Języki nilo-saharyjskie
+      syc: Klasyczny język syryjski
+      tai: Języki tajskie
+      yid: Jidysz
+      ypk: Języki Yupik
+      zgh: Standardowy marokański język tamazight
+      aus: Języki australijskie
+      cus: Języki kuszyckie
+      kar: Języki kareńskie
     file_version_xlink_show_attribute:
       new: nowy
     instance_instance_type:
@@ -521,6 +588,8 @@ pl:
       microform: Mikroforma
       moving_images: Ruchome obrazy
       text: Tekst
+      graphic_materials: Materiały graficzne
+      realia: Materiały realne
     date_calendar:
       gregorian: Gregoriański
     date_certainty:
@@ -646,3 +715,19 @@ pl:
       whole: Cały
     gender:
       not_specified: Nie określono
+    linked_agent_archival_record_relators:
+      aut: Autor
+      bjd: Projektant okładek książek
+      bpd: Projektant ekslibrisów
+      brl: Wytłaczarka Braille'a
+      chr: Choreograf
+      clb: Współpracownik
+      cll: Kaligraf
+      cmm: Komentator
+      cmp: Kompozytor
+      cnd: Dyrygent
+      cng: Operator filmowy
+      cns: Cenzor
+      con: Konserwator
+      cou: Sąd rządził
+      cpc: Osoba ubiegająca się o prawa autorskie
