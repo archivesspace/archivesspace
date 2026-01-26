@@ -3103,6 +3103,7 @@ en:
     save: Save ARKs
     no_changes: No changes to save
     modal_title: Edit ARKs for current record
+    actions: Actions
     unsubmitted_input: You have unsubmitted input
     only_current_ark_can_be_external: The current ARK cannot be replaced while it is marked as external.
     ark_editor_errors:

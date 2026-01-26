@@ -2649,6 +2649,7 @@ uk:
     save: Зберегти ARKий
     no_changes: Немає змін для збереження
     modal_title: Редагувати ARKий для поточного запису
+    actions: Дії
     unsubmitted_input: Ви не надіслали інформацію
     only_current_ark_can_be_external: Поточний ARK не можна замінити, поки він позначений як 
       зовнішній.

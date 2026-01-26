@@ -3190,6 +3190,7 @@ es:
       como externo.
     no_changes: No hay cambios para guardar
     modal_title: Editar ARK para el registro actual
+    actions: Acciones
     current: Actual
     remove_ark: Eliminar
     ark: ARK

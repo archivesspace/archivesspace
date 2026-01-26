@@ -9,7 +9,10 @@
         <div class="alert alert-danger ark-errors" style="display: none"></div>
 
         <table class="table ark-table">
-            <tr><th><%= t('arks.ark') %></th><th><!-- actions --></th></tr>
+            <tr>
+                <th><%= t('arks.ark') %></th>
+                <th class="visually-hidden"><%= t('arks.actions') %></th>
+            </tr>
 
             <tr class="current-ark-value">
                 <td class="ark-value"></td>
@@ -49,7 +52,7 @@
             <label for="new-ark-value"><%= t('arks.add_new') %></label>
             <div class="row">
                 <div class="col-md-8">
-                    <input type="text" class="new-ark-value form-control" name="new_ark_value">
+                    <input type="text" id="new-ark-value" class="new-ark-value form-control" name="new_ark_value">
                 </div>
                 <div class="col-md-4">
                     <button class="add-new-ark btn btn-primary"><%= t('arks.add_new') %></button>
