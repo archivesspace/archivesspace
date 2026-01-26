@@ -453,10 +453,60 @@ pl:
     event_event_type:
       assessment: Ocena
       digital_signature_validation: Walidacja podpisu cyfrowego
+      accession: Przejęcie materiałów archiwalnych
+      accumulation: Akumulacja
+      acknowledgement: Potwierdzenie
+      acknowledgement_received: Potwierdzenie otrzymano.
+      acknowledgement_sent: Potwierdzenie wysłane.
+      agreement_received: Otrzymano zgodę
+      agreement_sent: Umowa została wysłana.
+      agreement_signed: Umowa została podpisana.
+      appraisal: Wartościowanie
+      capture: Przechwytywanie
+      cataloged: Zarejestrowano w katalogu
+      collection: Kolekcja
+      compression: Kompresja
+      copyright_transfer: Przeniesienie praw autorskich
+      custody_transfer: Przekazanie materiałów archiwalnych
+      deaccession: Wycofanie z zasobu
+      decryption: Deszyfrowanie
+      deletion: Usunięcie
+      fixity_check: Sprawdzenie stabilności
+      message_digest_calculation: Obliczanie skrótu wiadomości
+      request: Zamówienie
+      rights_transferred: Przeniesione prawa
+      validation: Walidacja
+      virus_check: Skanowanie antywirusowe
+      component_transfer: Transfer komponentów
+      decompression: Dekompresja
+      contribution: Składka
+      ingestion: Przyjmowanie
+      migration: Migracja
+      normalization: Normalizacja
+      processed: Została przetworzona
+      processing_completed: Przetwarzanie zakończone.
+      processing_in_progress: Przetwarzanie w toku
+      processing_new: Przetwarzanie nowych danych
+      processing_started: Rozpoczęto przetwarzanie
+      publication: Publikacja
+      replication: Replikacja
     extent_extent_type:
       terabytes: Terabajty
+      photographic_prints: Odbitki fotograficzne
+      photographic_slides: Slajdy fotograficzne
+      reels: Rolki
+      cubic_feet: Stopy sześcienne
+      gigabytes: Gigabajty
+      linear_feet: Stopy liniowe
+      megabytes: Megabajty
+      cassettes: Kasety
+      files: Pliki
+      leaves: Kartki
+      sheets: Arkusze
+      volumes: Tomy
     identifier_type:
       loc: Biblioteka Kongresu
+      lac: Biblioteka i Archiwa Kanady
     language_iso639_2:
       bai: Języki Bamileke
       ber: Języki berberyjskie
@@ -476,12 +526,388 @@ pl:
       rus: rosyjski
       sam: Samaryjski aramejski
       sgn: Języki migowe
+      ace: Acehczycy
+      ach: Acoli
+      ada: Dangme
+      ady: Adygejski
+      afa: Języki afroazjatyckie
+      afh: Afrihili
+      afr: Afrykanerski
+      ain: Ainu
+      aka: Akan
+      akk: Akadyjski
+      alb: Albański
+      ale: Akan
+      alg: Języki algonkińskie
+      alt: Południowy Ałtaj
+      amh: Amharski
+      ang: Język angielski staroangielski (ok. 450-1100)
+      anp: Angika
+      apa: Języki Apaczów
+      ara: Arabski
+      arc: Oficjalny język aramejski (700-300 p.n.e.); aramejski cesarski (700-300 p.n.e.)
+      arg: Aragoński
+      arm: Ormiański
+      arn: Mapudungun; Mapuche
+      arp: Arapaho
+      art: Języki sztuczne
+      cat: Kataloński; Walencki
+      ceb: Cebuański
+      cel: Języki celtyckie
+      cha: Czamorro
+      frs: Wschodniofryzyjski
+      fry: Zachodniofryzyjski
+      gem: Języki germańskie
+      ger: Niemiecki
+      goh: Język niemiecki, staro-wysokoniemiecki (ok. 750-1050)
+      haw: Hawajski
+      heb: Hebrajski
+      hin: Hinduski
+      hrv: Chorwacki
+      hun: Węgierski
+      iro: Języki irokeskie
+      ira: Języki irańskie
+      khi: Języki khoisańskie
+      lit: Litewski
+      mun: Języki Munda
+      myn: Języki Majów
+      nah: Języki nahuatl
+      nor: Norweski
+      nwc: Klasyczny Newari; Stare Newari; Klasyczny Nepal Bhasa
+      paa: Języki papuaskie
+      phi: Języki filipińskie
+      pol: Polski
+      pra: Języki prakryckie
+      sal: Języki saliszańskie
+      sem: Języki semickie
+      sio: Języki siouańskie
+      sit: Języki chińsko-tybetańskie
+      sla: Języki słowiańskie
+      sma: Południowosami
+      sme: Północnosami
+      smi: Języki samijskie
+      ssa: Języki nilo-saharyjskie
+      syc: Klasyczny język syryjski
+      tai: Języki tajskie
+      yid: Jidysz
+      ypk: Języki Yupik
+      zgh: Standardowy marokański język tamazight
+      aus: Języki australijskie
+      cus: Języki kuszyckie
+      kar: Języki kareńskie
+      aar: Afar
+      arw: Arawacki
+      asm: Asamski
+      ast: Asturleoński.
+      ath: Athabaskańskie
+      ava: Język awarski
+      ave: Awestyjski
+      awa: Awadhi
+      aym: Język ajmara
+      bak: Baszkirski
+      bal: Beludżi
+      bam: Bambara
+      ban: Balijskie
+      baq: Baskijski
+      bas: Basa
+      bat: Bałtyckie
+      bej: Bedża
+      bem: Bemba
+      bho: Bhodźpuri
+      bih: Języki biharskie
+      bik: Bikolski
+      bin: Bini; Edo
+      bis: Bislama
+      bla: Siksika
+      bnt: Bantu
+      bos: Bośniacki
+      bra: Braj
+      bre: Bretoński
+      bua: Buriacki
+      bug: Buginezyjczycy
+      bul: Bułgarski
+      bur: Birmańczyk
+      cai: Języki Indian Ameryki Środkowej
+      che: Czeczeński
+      chg: Czagataj
+      chi: Chiński
+      chn: Chinook
+      cho: Czaktaw
+      chr: Czirokezi
+      cmc: Czamskie
+      cos: Korsykański
+      cze: Czeski
+      dan: Duński
+      del: Delaware
+      epo: Esperanto
+      est: Estoński
+      fin: Fiński
+      fre: Francuski
+      gle: Irlandzki
+      glg: Galicyjski
+      got: Gotyk
+      hmo: Hiri motu
+      ice: Islandzki
+      ind: Indonezyjski
+      jav: Jawajski
+      jpn: Japoński
+      kbd: Kabardyński
+      kmb: Kimbundu
+      kor: Koreański
+      kur: Kurdyjski
+      lat: Łacina
+      lav: Łotewski
+      mac: Macedoński
+      mah: Marszalski
+      mis: Języki niezakodowane
+      tam: Tamilski
+      zul: Zuluski
+      zxx: Brak treści językowej; nie dotyczy
     file_version_xlink_show_attribute:
       new: nowy
     instance_instance_type:
       computer_disks: Dyski komputerowe
       maps: Mapy
+      books: Książki
+      microform: Mikroforma
+      moving_images: Ruchome obrazy
+      text: Tekst
+      graphic_materials: Materiały graficzne
+      realia: Materiały realne
+      mixed_materials: Materiały mieszane
     date_calendar:
       gregorian: Gregoriański
     date_certainty:
       questionable: Wątpliwy
+      approximate: Przybliżony
+      inferred: Wywnioskowano
+    date_era:
+      ce: n.e.
+    date_label:
+      acquisition: Przejmowanie
+      agent_relation: Relacje z agentami
+      broadcast: Audycja
+      copyright: Prawo autorskie
+      creation: Tworzenie
+      deaccession: Wycofanie z zasobu
+      digitized: Zdigitalizowane
+      event: Wydarzenie
+      existence: Istnienie
+      issued: Wydany
+      modified: Zmodyfikowany
+      other: Inny
+      publication: Publikacja
+      record_keeping: Prowadzenie dokumentacji
+      usage: Stosowanie
+    date_standardized_type:
+      not_after: Nie później
+      not_before: Dopiero gdy
+      standard: Standard
+    date_type:
+      bulk: Daktyle luzem
+      expression: Wyrażenie
+      inclusive: Daty włącznie
+      range: Zakres
+      single: Pojedynczy
+    date_type_structured:
+      range: Zakres
+      single: Pojedynczy
+    deaccession_scope:
+      part: Część
+      whole: Cały
+    digital_object_digital_object_type:
+      cartographic: Kartograficzny
+      mixed_materials: Materiały mieszane
+      moving_image: Obraz ruchomy
+      notated_music: Muzyka zapisana nutami
+      software_multimedia: Oprogramowanie, Multimedia
+      sound_recording: Nagrywanie dźwięku
+      sound_recording_musical: Nagranie dźwiękowe (muzyczne)
+      sound_recording_nonmusical: Nagrania dźwiękowe (niemające charakteru muzycznego)
+      still_image: Obraz statyczny
+      text: Tekst
+    digital_object_level:
+      image: Obraz
+      collection: Kolekcja
+      work: Dzieło
+    dimension_units:
+      centimeters: Centymetry
+      feet: Stopy
+      inches: Cale
+      meters: Metry
+      millimeters: Milimetry
+      yards: Jardy
+    end_date_standardized_type:
+      not_after: Nie później
+      not_before: Dopiero gdy
+      standard: Standard
+    event_outcome:
+      cancelled: Odwołany
+      fail: Niepowodzenie
+      partial pass: Częściowe zaliczenie
+      fulfilled: Spełniony
+      pending: Oczekujący
+      pass: Zaliczony
+    file_version_checksum_methods:
+      md5: MD5
+      sha-1: SHA-1
+      sha-256: SHA-256
+      sha-384: SHA-384
+      sha-512: SHA-512
+    file_version_file_format_name:
+      gif: Format wymiany grafiki
+      jpeg: Format wymiany plików JPEG
+      mp3: MPEG Audio Warstwa 3
+      pdf: Przenośny format dokumentów
+      tiff: Format pliku obrazu z tagami
+      txt: Plik tekstowy
+      aiff: Format pliku wymiany danych audio
+      avi: Format audio/wideo z przeplotem
+    file_version_use_statement:
+      audio-clip: Plik audio
+      audio-master: Audio-Mistrz
+      audio-master-edited: Audio zmontowane przez mistrza dźwięku
+      audio-service: Usługa audio
+      audio-streaming: Przesyłanie strumieniowe audio
+      image-master: Mistrz Obrazu
+      image-master-edited: Obraz-Mistrz-Edytowany
+      image-service: Usługa obrazowania
+      image-service-edited: Obraz-Usługa-Edytowany
+      image-thumbnail: Miniatura obrazu
+      text-codebook: Księga kodów tekstowych
+      text-data: Dane tekstowe
+      text-georeference: Georeferencja tekstu
+      text-ocr-edited: Tekst przetworzony za pomocą OCR.
+      text-ocr-unedited: Tekst po przetworzeniu przez OCR (nieedytowany)
+      text-tei-transcripted: Tekst przepisany za pomocą Text-Tei.
+      text-tei-translated: Tekst przetłumaczony przez Tei
+      video-clip: Teledysk
+      video-master: Video-Mistrz
+      video-master-edited: Wideo-Zmontowane przez mistrza
+      video-service: Usługa wideo
+      video-streaming: Przesyłanie strumieniowe wideo
+      text-data_definition: Definicja danych tekstowych
+    file_version_xlink_actuate_attribute:
+      onLoad: Przy ładowaniu
+      onRequest: Na żądanie
+      none: Nic
+    government_agency_type:
+      ngo: Organizacja pozarządowa
+      provincial: Stanowe, prowincjonalne, terytorialne, zależne itp.
+      sac: Autonomiczny lub półautonomiczny komponent
+      undetermined: Rodzaj agencji rządowej – nieokreślony.
+      unknown: Nie wiadomo, czy jest to agencja rządowa.
+      fed: Federalny/krajowy
+      int_gov: Międzynarodowe międzyrządowe
+    extent_portion:
+      part: Część
+      whole: Cały
+    gender:
+      not_specified: Nie określono
+    linked_agent_archival_record_relators:
+      aut: Autor
+      bjd: Projektant okładek książek
+      bpd: Projektant ekslibrisów
+      brl: Wytłaczarka Braille'a
+      chr: Choreograf
+      clb: Współpracownik
+      cll: Kaligraf
+      cmm: Komentator
+      cmp: Kompozytor
+      cnd: Dyrygent
+      cng: Operator filmowy
+      cns: Cenzor
+      con: Konserwator
+      cou: Sąd rządził
+      cpc: Osoba ubiegająca się o prawa autorskie
+      anl: Analityk
+      anm: Animator
+      ann: Anotator
+      arc: Architekt
+      ard: Dyrektor artystyczny
+      art: Artysta
+      ato: Autograf
+      auc: Licytator
+      bkd: Projektant książek
+      blw: Autor tekstu reklamowego
+      bsl: Księgarz
+      ccp: Konceptor
+      clr: Kolorysta
+      cor: Rejestrator kolekcji
+      cos: Zawodnik
+      cph: Właściciel praw autorskich
+      cre: Twórca
+      crp: Korespondent
+      cst: Projektant kostiumów
+      ctg: Kartograf
+      ctr: Wykonawca
+      cur: Kurator wystawy
+      cwt: Komentator tekstu pisanego
+      dfd: Oskarżony
+      dis: Dysertant
+      dnc: Tancerz
+      dnr: Dawca
+      dpc: Przedstawione
+      dpt: Depozytor
+      drm: Rysownik
+      drt: Dyrektor
+      dsr: Projektant
+      dst: Dystrybutor
+      dtc: Osoba dostarczająca dane
+      dtm: Menedżer danych
+      edc: Redaktor zbioru
+      inv: Wynalazca
+      isb: Organ wydający
+      itr: Instrumentalista
+      ive: Osoba przeprowadzająca wywiad
+      ivr: Przeprowadzający wywiad
+      jug: Jurysdykcja regulowana przez prawo
+      lbr: Laboratorium
+      lbt: Librecista
+      ldr: Dyrektor laboratorium
+      lgd: Projektant oświetlenia
+      ltg: Litograf
+      lyr: Liryk
+      mcp: Kopiista muzyczny
+      mfr: Producent
+      mrk: Edytor znaczników
+      msd: Dyrektor muzyczny
+      mus: Muzyk
+      nrt: Narrator
+      opn: Przeciwnik
+      pbd: Dyrektor wydawniczy
+      pdr: Dyrektor projektu
+      pfr: Korektor
+      pht: Fotograf
+      pmn: Kierownik produkcji
+      pop: Drukarka do płyt
+      ppm: Producent papieru
+      ppt: Lalkarz
+      prf: Wykonawca
+      prm: Grafik
+      prp: Miejsce produkcji
+      prs: Scenograf
+      pta: Zgłaszający patent
+      ptf: Powód
+      pup: Miejsce publikacji
+      rdd: Dyrektor radiowy
+      res: Badacz
+      rpc: Producent radiowy
+      sad: Doradca naukowy
+      scl: Rzeźbiarz
+      sds: Projektant dźwięku
+      sgd: Reżyser teatralny
+      sng: Piosenkarz
+      stl: Anegdociarz
+      stm: Kierownik sceny
+      tcd: Dyrektor techniczny
+      ths: Promotor pracy dyplomowej
+      tld: Reżyser telewizyjny
+      tlp: Producent telewizyjny
+      trl: Tłumaczyć
+      tyg: Typograf
+      vac: Aktor głosowy
+      wam: Autor materiałów towarzyszących
+      win: Autor wstępu
+      wpr: Autor przedmowy
+      wst: Autor dodatkowych treści tekstowych
