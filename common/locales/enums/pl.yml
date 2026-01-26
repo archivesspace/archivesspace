@@ -499,6 +499,11 @@ pl:
       gigabytes: Gigabajty
       linear_feet: Stopy liniowe
       megabytes: Megabajty
+      cassettes: Kasety
+      files: Pliki
+      leaves: Kartki
+      sheets: Arkusze
+      volumes: Tomy
     identifier_type:
       loc: Biblioteka Kongresu
       lac: Biblioteka i Archiwa Kanady
@@ -590,6 +595,74 @@ pl:
       aus: Języki australijskie
       cus: Języki kuszyckie
       kar: Języki kareńskie
+      aar: Afar
+      arw: Arawacki
+      asm: Asamski
+      ast: Asturleoński.
+      ath: Athabaskańskie
+      ava: Język awarski
+      ave: Awestyjski
+      awa: Awadhi
+      aym: Język ajmara
+      bak: Baszkirski
+      bal: Beludżi
+      bam: Bambara
+      ban: Balijskie
+      baq: Baskijski
+      bas: Basa
+      bat: Bałtyckie
+      bej: Bedża
+      bem: Bemba
+      bho: Bhodźpuri
+      bih: Języki biharskie
+      bik: Bikolski
+      bin: Bini; Edo
+      bis: Bislama
+      bla: Siksika
+      bnt: Bantu
+      bos: Bośniacki
+      bra: Braj
+      bre: Bretoński
+      bua: Buriacki
+      bug: Buginezyjczycy
+      bul: Bułgarski
+      bur: Birmańczyk
+      cai: Języki Indian Ameryki Środkowej
+      che: Czeczeński
+      chg: Czagataj
+      chi: Chiński
+      chn: Chinook
+      cho: Czaktaw
+      chr: Czirokezi
+      cmc: Czamskie
+      cos: Korsykański
+      cze: Czeski
+      dan: Duński
+      del: Delaware
+      epo: Esperanto
+      est: Estoński
+      fin: Fiński
+      fre: Francuski
+      gle: Irlandzki
+      glg: Galicyjski
+      got: Gotyk
+      hmo: Hiri motu
+      ice: Islandzki
+      ind: Indonezyjski
+      jav: Jawajski
+      jpn: Japoński
+      kbd: Kabardyński
+      kmb: Kimbundu
+      kor: Koreański
+      kur: Kurdyjski
+      lat: Łacina
+      lav: Łotewski
+      mac: Macedoński
+      mah: Marszalski
+      mis: Języki niezakodowane
+      tam: Tamilski
+      zul: Zuluski
+      zxx: Brak treści językowej; nie dotyczy
     file_version_xlink_show_attribute:
       new: nowy
     instance_instance_type:
@@ -601,6 +674,7 @@ pl:
       text: Tekst
       graphic_materials: Materiały graficzne
       realia: Materiały realne
+      mixed_materials: Materiały mieszane
     date_calendar:
       gregorian: Gregoriański
     date_certainty:
@@ -671,6 +745,9 @@ pl:
       cancelled: Odwołany
       fail: Niepowodzenie
       partial pass: Częściowe zaliczenie
+      fulfilled: Spełniony
+      pending: Oczekujący
+      pass: Zaliczony
     file_version_checksum_methods:
       md5: MD5
       sha-1: SHA-1
@@ -713,6 +790,7 @@ pl:
     file_version_xlink_actuate_attribute:
       onLoad: Przy ładowaniu
       onRequest: Na żądanie
+      none: Nic
     government_agency_type:
       ngo: Organizacja pozarządowa
       provincial: Stanowe, prowincjonalne, terytorialne, zależne itp.
@@ -742,3 +820,18 @@ pl:
       con: Konserwator
       cou: Sąd rządził
       cpc: Osoba ubiegająca się o prawa autorskie
+      anl: Analityk
+      anm: Animator
+      ann: Anotator
+      arc: Architekt
+      ard: Dyrektor artystyczny
+      art: Artysta
+      ato: Autograf
+      auc: Licytator
+      bkd: Projektant książek
+      blw: Autor tekstu reklamowego
+      bsl: Księgarz
+      ccp: Konceptor
+      clr: Kolorysta
+      cor: Rejestrator kolekcji
+      cos: Zawodnik
