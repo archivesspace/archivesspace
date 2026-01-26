@@ -479,6 +479,17 @@ pl:
       virus_check: Skanowanie antywirusowe
       component_transfer: Transfer komponentów
       decompression: Dekompresja
+      contribution: Składka
+      ingestion: Przyjmowanie
+      migration: Migracja
+      normalization: Normalizacja
+      processed: Została przetworzona
+      processing_completed: Przetwarzanie zakończone.
+      processing_in_progress: Przetwarzanie w toku
+      processing_new: Przetwarzanie nowych danych
+      processing_started: Rozpoczęto przetwarzanie
+      publication: Publikacja
+      replication: Replikacja
     extent_extent_type:
       terabytes: Terabajty
       photographic_prints: Odbitki fotograficzne
