@@ -19,8 +19,12 @@ end
 Then 'the new Digital Object Component form has the following default values' do |form_values_table|
   visit "#{STAFF_URL}/digital_objects/#{@digital_object_id}/edit"
   wait_for_ajax
+  expect(page).to have_selector('h2', visible: true, text: 'Digital Object')
+
   click_on 'Add Child'
+
   wait_for_ajax
+  expect(page).to have_selector('h2', visible: true, text: 'Digital Object Component')
 
   form_values = form_values_table.hashes
 
