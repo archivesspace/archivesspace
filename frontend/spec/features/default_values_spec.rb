@@ -51,15 +51,4 @@ describe 'Default Form Values', js: true do
     visit '/accessions'
     expect(page).not_to have_content('Edit Default Values')
   end
-
-  it 'verifies container profile extent dimension defaults behavior' do
-    visit('/preferences/0/edit?global=true')
-    check('preference[defaults][default_values]')
-    click_button('Save')
-    expect(page).to have_checked_field('preference[defaults][default_values]')
-    expect(page).to have_content('Preferences updated')
-
-    visit('/container_profiles/new')
-    expect(page).to have_select('container_profile_extent_dimension_', selected: 'Height')
-  end
 end

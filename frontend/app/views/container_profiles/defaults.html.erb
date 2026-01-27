@@ -7,14 +7,15 @@
         <%= render_aspace_partial :partial => "container_profiles/sidebar" %>
       </div>
       <div class="col-md-9">
+        <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
-          <%= link_to_help :topic => "container_profile" %>
-          <h2><%= I18n.t("default_values.form_title.container_profile") %>  <span class="label label-info badge"><%= I18n.t("container_profile._singular") %></span></h2>
-          <br/>
-
+          <header class="d-flex align-items-center">
+            <h2><%= t("container_profile._singular") %> <%= t("actions.defaults") %> <span class="label label-info badge"><%= t("container_profile._singular") %></span></h2>
+            <%= link_to_help :topic => "container_profile", :style => "margin-left: auto;" %>
+          </header>
           <%= render_aspace_partial :partial => "container_profiles/form", :locals => {:form => form} %>
 
-          <div class="form-actions">
+          <div class="form-actions mt-3 pl-0">
             <div class="btn-group">
               <button type="submit" class="btn btn-primary"><%= t("actions.save_prefix") %> <%= t("container_profile._singular") %></button>
             </div>
