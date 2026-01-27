@@ -114,9 +114,9 @@ Then 'all the Top Containers are not selected' do
 end
 
 Given 'the Top Container A is selected' do
-  checkboxes = all('#bulk_operation_results tbody tr input')
-
-  checkboxes[0].check
+  within('#bulk_operation_results tbody') do
+    find('tr', text: "Indicator A #{@uuid}").find('input').check
+  end
 end
 
 Given 'the the two Top Containers are displayed in the search results' do
@@ -130,9 +130,14 @@ When 'the user fills in and selects Container Profile in the modal' do
 end
 
 When 'the user selects Location in the modal' do
-  rows = all('#tabledSearchResults tbody tr')
+  fill_in 'filter-text', with: 'test_location'
+  find('.search-filter button').click
 
-  rows.first.click
+  wait_for_ajax
+
+  within '#tabledSearchResults' do
+    find('input', match: :first).click
+  end
 end
 
 When 'the user clicks on the dropdown in the Bulk Update form' do
@@ -142,6 +147,8 @@ end
 When 'the user selects Container Profile in the modal' do
   fill_in 'filter-text', with: 'test_container_profile'
   find('.search-filter button').click
+
+  wait_for_ajax
 
   within '#tabledSearchResults' do
     find('input', match: :first).click
@@ -157,6 +164,8 @@ When 'the user clicks on {string} in the Browse Container Profiles modal' do |st
 end
 
 Then 'the Top Container A profile is linked to the Container Profile' do
+  sleep 3 # ensure the changes are indexed
+
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
   expect(page).to have_css('.container_profile', text: 'test_container_profile')
@@ -189,6 +198,8 @@ When 'the user clicks on {string} in the Browse Locations modal' do |string|
 end
 
 Then 'the Top Container profile is linked to the Location' do
+  sleep 3 # ensure changes are indexed
+
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
 
   element = find('.location')
@@ -212,7 +223,10 @@ When 'the user clicks on {string} in the Create Location modal' do |string|
 end
 
 Then 'the Top Container profile is linked to the created Location' do
+  sleep 3 # ensure changes are indexed
+
   visit "#{STAFF_URL}/top_containers/#{@top_container_first_id}/edit"
+
   expect(page).to have_selector('h2', visible: true, text: 'Top Container')
   expect(page).to have_css('.location', text: 'Test Building')
 end
