@@ -153,4 +153,107 @@ describe 'Container Profiles', js: true do
       end
     end
   end
+
+  describe 'default values' do
+    let(:base_defaults) do
+      {
+        'container_profile_name_' => { value: '', type: :text },
+        'container_profile_url_' => { value: '', type: :text },
+        'container_profile_dimension_units_' => { value: 'Inches', type: :select },
+        'container_profile_extent_dimension_' => { value: 'Height', type: :select },
+        'container_profile_depth_' => { value: '', type: :text },
+        'container_profile_height_' => { value: '', type: :text },
+        'container_profile_width_' => { value: '', type: :text },
+        'container_profile_stacking_limit_' => { value: '', type: :text },
+        'container_profile_notes_' => { value: '', type: :text }
+      }
+    end
+
+    let(:custom_defaults) do
+      {
+        'container_profile_name_' => { value: 'Default Box Name', type: :text },
+        'container_profile_url_' => { value: 'https://example.com/default', type: :text },
+        'container_profile_dimension_units_' => { value: 'Centimeters', type: :select },
+        'container_profile_extent_dimension_' => { value: 'Width', type: :select },
+        'container_profile_depth_' => { value: '10', type: :text },
+        'container_profile_height_' => { value: '20', type: :text },
+        'container_profile_width_' => { value: '30', type: :text },
+        'container_profile_stacking_limit_' => { value: '5', type: :text },
+        'container_profile_notes_' => { value: 'Default notes for container profile', type: :text }
+      }
+    end
+
+    before(:each) do
+      login_admin
+      expect(page).to have_css('#user-menu-dropdown + .dropdown-menu', visible: false)
+      within '.user-container' do
+        click_on 'user-menu-dropdown'
+        click_on 'Repository Preferences (admin)'
+      end
+      expect(page).to have_content('Edit these values to set your preferences for this repository.')
+    end
+
+    def set_prepopulate_records(enabled:)
+      if enabled
+        check('preference[defaults][default_values]')
+      else
+        uncheck('preference[defaults][default_values]')
+      end
+      click_on 'Save'
+      expect(page).to have_content('Preferences updated')
+    end
+
+    def fill_default_values(values)
+      values.each do |field_id, config|
+        if config[:type] == :select
+          select config[:value], from: field_id
+        else
+          fill_in field_id, with: config[:value]
+        end
+      end
+    end
+
+    def expect_field_values(values)
+      aggregate_failures do
+        values.each do |field_id, config|
+          if config[:type] == :select
+            expect(page).to have_select(field_id, selected: config[:value])
+          else
+            expect(page).to have_field(field_id, with: config[:value])
+          end
+        end
+      end
+    end
+
+    context 'when Repository Preferences do not pre-populate records' do
+      before do
+        set_prepopulate_records(enabled: false)
+      end
+
+      it 'show the base defaults on the new container profile form' do
+        visit('/container_profiles/new')
+        expect_field_values(base_defaults)
+      end
+    end
+
+    context 'when Repository Preferences do pre-populate records' do
+      before do
+        set_prepopulate_records(enabled: true)
+      end
+
+      context 'when default values are customized' do
+        before do
+          visit('/container_profiles/defaults')
+          fill_default_values(custom_defaults)
+          click_on 'Save'
+          expect(page).to have_content('Defaults Updated')
+        end
+
+        it 'show the customized defaults on the new container profile form' do
+          visit('/container_profiles/new')
+          expect_field_values(custom_defaults)
+        end
+      end
+    end
+  end
 end

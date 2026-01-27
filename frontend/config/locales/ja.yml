@@ -680,6 +680,7 @@ ja:
       event: イベント記録のデフォルト
       classification: 分類レコードのデフォルト
       classification_term: 分類用語のデフォルト
+      container_profile: コンテナプロファイルのデフォルト
     messages:
       defaults_updated: 更新されたデフォルト
 

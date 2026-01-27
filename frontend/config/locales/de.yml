@@ -902,6 +902,7 @@ de:
         (Körperschaft)
       accession: Standardwerte von Eingangs-Aufzeichnungen
       agent_software: Standardwerte einer Akteur-Aufzeichnung (Software)
+      container_profile: Standardwerte eines Behältnis-Profils
     messages:
       defaults_updated: Standardwerte aktualisiert
   required_fields:

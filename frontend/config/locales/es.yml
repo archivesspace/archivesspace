@@ -728,6 +728,7 @@ es:
       event: Registros de eventos por defecto
       classification: Registros de clasificación por defecto
       classification_term: Términos de clasificación por defecto
+      container_profile: Registros de perfil de contenedor por defecto
     messages:
       defaults_updated: Valores por defecto actualizados
 

@@ -927,6 +927,7 @@ uk:
       event: За замовчуванням для запису подій
       classification: За замовчуванням записів класифікації
       classification_term: За замовчуванням термін класифікації
+      container_profile: Стандартні налаштування профілю контейнера
     messages:
       defaults_updated: Оновлено налаштування за замовчуванням
   required_fields:
