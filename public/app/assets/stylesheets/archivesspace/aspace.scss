@@ -88,10 +88,13 @@ a img {
       color: $secondary-color;
     }
   }
-  .more-facets__facets,
   .more-facets__less {
     display: none;
   }
+}
+
+.more-facets__facets {
+  display: none;
 }
 
 .tabbing.nav-pills > li > a {

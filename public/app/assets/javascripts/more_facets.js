@@ -1,5 +1,5 @@
-function MoreFacets($more_facets_div) {
-  this.$more_facets_div = $more_facets_div;
+function MoreFacets($more_facets_dd) {
+  this.$more_facets_dd = $more_facets_dd;
 
   this.bind_events();
 }
@@ -7,16 +7,25 @@ function MoreFacets($more_facets_div) {
 MoreFacets.prototype.bind_events = function () {
   var self = this;
 
-  self.$more_facets_div.find('.more-facets__more').on('click', function (e) {
-    $(this).siblings('.more-facets__facets').show();
-    $(this).siblings('.more-facets__less').show();
+  self.$more_facets_dd.find('.more-facets__more').on('click', function (e) {
+    const $lessBtn = $(this).siblings('.more-facets__less');
+    const $revealedFacets = self.$more_facets_dd.siblings(
+      '.more-facets__facets'
+    );
+
+    $revealedFacets.show();
+    $lessBtn.show();
     $(this).hide();
+    $revealedFacets.first().find('a').trigger('focus');
   });
 
-  self.$more_facets_div.find('.more-facets__less').on('click', function (e) {
-    $(this).siblings('.more-facets__facets').hide();
+  self.$more_facets_dd.find('.more-facets__less').on('click', function (e) {
+    const $moreBtn = $(this).siblings('.more-facets__more');
+
+    self.$more_facets_dd.siblings('.more-facets__facets').hide();
     $(this).hide();
-    $(this).siblings('.more-facets__more').show();
+    $moreBtn.show();
+    $moreBtn.trigger('focus');
   });
 };
 
