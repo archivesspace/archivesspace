@@ -1489,3 +1489,58 @@ pl:
     _plural: Tematy
   lang_material:
     _plural: Języki
+  agent_record_identifiers:
+    identifier_type_tooltip: |
+      <p>Wskazuje typ lub format identyfikatora rekordu autorytatywnego. Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
+    source_tooltip: |
+      <p>Wskazuje źródłowy plik autorytatywny powiązanego identyfikatora. Przykład: NAF (dla nr2003017069). Wartości na tej liście kontrolowanych wartości mogą być modyfikowane.</p>
+    record_identifier_tooltip: |
+      <p>Identyfikator rekordu agenta, zazwyczaj składający się z unikalnego ciągu znaków alfanumerycznych. Identyfikator może pochodzić z zewnętrznego pliku autorytatywnego lub być generowany lokalnie.</p>
+  agent_record_control:
+    maintenance_status_tooltip: |
+      <p>Wskazuje aktualny stan rekordu.</p>
+    publication_status_tooltip: |
+      <p>Wskazuje, czy rekord agenta powinien być publicznie dostępny.</p>
+    romanization_tooltip: |
+      <p>Wskazuje, czy autoryzowana forma imienia i nazwiska została zromanizowana z alfabetu innego niż łaciński, oraz jaki rodzaj schematu romanizacji zastosowano. Przykład: Standard biblioteki narodowej lub agencji bibliograficznej (np. tabela romanizacji ALA-LC (np. Kasparov, G. K. (Garri Kimovich) dla Каспаров, Г. К. (Гарри Кимович)).</p>
+    government_agency_type_tooltip: |
+      <p>Wskazuje rodzaj agencji lub jurysdykcji reprezentowanej przez autoryzowaną formę nazwy.</p>
+    reference_evaluation_tooltip: |
+      <p>Wskazuje poziom spójności między zatwierdzoną formą imienia/nazwiska a innymi formami imienia/nazwiska w rekordzie osoby/instytucji. Jeśli nie ma dodatkowych form, pole należy oznaczyć jako „Nie dotyczy”.</p>
+    name_type_tooltip: |
+      <p>Wskazuje na unikalność autoryzowanej formy imienia/nazwiska w module Agentów. Unikalne wpisy imion/nazwisk powinny być oznaczane jako „Zróżnicowane”, natomiast rekordy Agentów służące do grupowania wielu Agentów o identycznych imionach/nazwiskach powinny być oznaczane jako „Niezróżnicowane”.</p>
+    level_of_detail_tooltip: |
+      <p>Wskazuje stopień kompletności danych dotyczących agenta zgodnie z wymogami konsorcjum lub lokalnymi przepisami.</p>
+    modified_record_tooltip: |
+      <p>Wskazuje, czy rekord agenta został zmodyfikowany i w jaki sposób.</p>
+    cataloging_source_tooltip: |
+      <p>Wskazuje pochodzenie rekordu dotyczącego agenta. Rekordy utworzone lokalnie, które nie zostały przesłane do programu katalogowania współpracującego, powinny być oznaczone jako „Inne”.</p>
+    maintenance_agency_tooltip: |
+      <p>Kod identyfikujący agencję lub organizację odpowiedzialną za utworzenie lub utrzymywanie rekordu agenta. Kod powinien pochodzić z rejestru i być zapisany zgodnie z konwencjami normy ISO 15511. Przykład: US-UPB (dla Uniwersytetu Brighama Younga, z wykorzystaniem kodu organizacji MARC Biblioteki Kongresu).</p>
+    agency_name_tooltip: |
+      <p>Nazwa agencji lub organizacji odpowiedzialnej za utworzenie lub utrzymywanie rekordu dotyczącego agenta. Zarejestrowana nazwa powinna odpowiadać formie nazwy powiązanej z wartością kodu w rejestrze. Przykład: Brigham Young University, Harold B. Lee Library (dla wartości kodu UPB, zgodnie z kodem organizacji MARC Biblioteki Kongresu).</p>
+    maintenance_agency_note_tooltip: |
+      <p>Treść notatki zawiera szczegółowe informacje na temat agencji odpowiedzialnej za konserwację i opis agenta.</p>
+    language_tooltip: |
+      <p>Język użyty do przygotowania opisu agenta. Przykład: angielski.</p>
+    script_tooltip: |
+      <p>Skrypt tekstowy użyty do przygotowania opisu agenta. Przykład: łacina.</p>
+    language_note_tooltip: |
+      <p>Treść notatki zawiera szczegółowe informacje na temat języka i systemów pisma użytych do przygotowania opisu agenta.</p>
+  agent_alternate_set:
+    set_component_tooltip: |
+      <p>Podpis służący do identyfikacji i dostępu do odpowiadającego mu powiązanego rekordu w bazie danych.</p>
+    descriptive_note_tooltip: |
+      <p>Treść notatki zawierająca szczegółowe informacje na temat powiązanego rekordu w bazie danych urzędu.</p>
+    file_uri_tooltip: |
+      <p>URI do odpowiadającego rekordu w zewnętrznym pliku autorytatywnym.</p>
+      <p>Przykład: http://id.loc.gov/authorities/names/n80060393 (wpis w usłudze danych powiązanych Biblioteki Kongresu dla Roberta W. Service'a).</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+      <p>Wskazuje, czy powiązany identyfikator URI powinien zostać przetworzony podczas wyświetlania rekordu agenta.</p>
+    file_version_xlink_show_attribute_tooltip: |
+      <p>Wskazuje, gdzie powinien zostać wyświetlony zdalny zasób, do którego prowadzi powiązany adres URI.</p>
+  agent_conventions_declaration:
+    citation_tooltip: |
+      <p>Odnośnik bibliograficzny do konwencji stosowanej przy tworzeniu opisu podmiotu. Przykład: Society of American Archivists. Describing Archives: A Content Standard (Chicago: Society of American Archivists, 2013).</p>
+    descriptive_note_tooltip: |
+      <p>Treść notatki, zawierająca szczegółowe informacje na temat konwencji, została wykorzystana przy opracowywaniu opisu agenta. Przykład: Wykorzystano ją do sformułowania treści notatki biograficznej (zgodnie ze standardem opisu archiwów: DACS).</p>
