@@ -424,6 +424,7 @@ pl:
       asc: Wznoszący się
       desc: Zstępujący
       uri: URI
+      first_term_type: Typ semestru (pierwszy)
     digital_object:
       score: Znaczenie
       title: Tytuł
