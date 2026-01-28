@@ -28,47 +28,47 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  cucumber_a_g:
-    name: Run Tests Group A - B
+  cucumber_a:
+    name: Run Tests Group A
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
-      name: 'a-b'
+      name: 'a'
       image_tag: ${{ inputs.image_tag }}
       run-cmd: |
-        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[a-b]*' | tr '\n' ' ')
+        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[a]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
           bundle exec cucumber --strict $dirs
         fi
-  cucumber_h_m:
-    name: Run Tests Group C - M
+  cucumber_b_l:
+    name: Run Tests Group B - L
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
-      name: 'c-m'
+      name: 'b-l'
       image_tag: ${{ inputs.image_tag }}
       run-cmd: |
-        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[c-m]*' | tr '\n' ' ')
+        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[b-l]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
           bundle exec cucumber --strict $dirs
         fi
-  cucumber_n_s:
-    name: Run Tests Group N - S
+  cucumber_m_r:
+    name: Run Tests Group M - R
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
-      name: 'n-s'
+      name: 'm-r'
       image_tag: ${{ inputs.image_tag }}
       run-cmd: |
-        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[n-s]*' | tr '\n' ' ')
+        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[m-r]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
           bundle exec cucumber --strict $dirs
         fi
-  cucumber_t_z:
-    name: Run Tests Group T - Z
+  cucumber_s_z:
+    name: Run Tests Group S - Z
     uses: './.github/workflows/common-e2e-tests.yml'
     with:
-      name: 't-z'
+      name: 's-z'
       image_tag: ${{ inputs.image_tag }}
       run-cmd: |
-        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[t-z]*' | tr '\n' ' ')
+        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[s-z]*' | tr '\n' ' ')
         if [ -n "$dirs" ]; then
           bundle exec cucumber --strict $dirs
         fi
