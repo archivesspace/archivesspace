@@ -403,4 +403,25 @@ describe 'Search', js: true do
       expect(page).to have_css('.plusminus-btn[data-action="remove"]', count: 0)
     end
   end
+
+  describe 'filter accessibility' do
+    let(:now) { Time.now.to_i }
+    let(:subject) { create(:subject, terms: [build(:term, term: "Test Subject #{now}")]) }
+
+    before(:each) do
+      create(:digital_object, title: "Digital Object 1 #{now}", publish: true, subjects: [{'ref' => subject.uri}])
+      create(:digital_object, title: "Digital Object 2 #{now}", publish: true, subjects: [{'ref' => subject.uri}])
+
+      run_indexers
+
+      visit('/')
+      click_link 'Digital Materials'
+    end
+
+    it 'includes filter counts inside filter links for screen readers' do
+      within '#facets' do
+        expect(page).to have_css('dd a .badge')
+      end
+    end
+  end
 end
