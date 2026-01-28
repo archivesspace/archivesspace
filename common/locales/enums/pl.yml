@@ -507,6 +507,7 @@ pl:
     identifier_type:
       loc: Biblioteka Kongresu
       lac: Biblioteka i Archiwa Kanady
+      local: Lokalny
     language_iso639_2:
       bai: Języki Bamileke
       ber: Języki berberyjskie
@@ -663,8 +664,15 @@ pl:
       tam: Tamilski
       zul: Zuluski
       zxx: Brak treści językowej; nie dotyczy
+      cad: Caddo
+      car: Galibi
+      cnr: Czarnogórski
     file_version_xlink_show_attribute:
       new: nowy
+      embed: Wbudować
+      none: nic
+      other: inny
+      replace: zastępować
     instance_instance_type:
       computer_disks: Dyski komputerowe
       maps: Mapy
@@ -675,6 +683,8 @@ pl:
       graphic_materials: Materiały graficzne
       realia: Materiały realne
       mixed_materials: Materiały mieszane
+      accession: Przystąpienie
+      audio: Audio
     date_calendar:
       gregorian: Gregoriański
     date_certainty:
@@ -791,6 +801,7 @@ pl:
       onLoad: Przy ładowaniu
       onRequest: Na żądanie
       none: Nic
+      other: Inny
     government_agency_type:
       ngo: Organizacja pozarządowa
       provincial: Stanowe, prowincjonalne, terytorialne, zależne itp.
@@ -799,6 +810,11 @@ pl:
       unknown: Nie wiadomo, czy jest to agencja rządowa.
       fed: Federalny/krajowy
       int_gov: Międzynarodowe międzyrządowe
+      local: Lokalny
+      multilocal: Wielomiejscowy
+      multistate: Wielostanowy
+      natc: Nie podjęto próby napisania kodu.
+      other: Inny
     extent_portion:
       part: Część
       whole: Cały
