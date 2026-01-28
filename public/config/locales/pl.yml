@@ -307,22 +307,30 @@ pl:
         language_note: Język notatki opisowej
         sponsor: Sponsor
         revision: Oświadczenia dotyczące poprawek
+        description_rules: Zasady opisu
+        edition_statement: Informacja o wydaniu
+        series_statement: Oświadczenie dotyczące serii
       digital_object: Obiekt cyfrowy
       physdesc: Opis fizyczny
       storage: Informacje o kontenerze
       additional: Dodatkowy opis
       related_accessions:
         deaccessions: Dokumentacja dotycząca wycofania zbiorów
+      uri: ID [aspace_uri]
     load_records:
       alert: Ta kolekcja zawiera dużą liczbę nagrań.
       percent_convention: '%'
       loading: Wczytywanie
+      load: Załaduj rekordy
+      load_all: Załaduj wszystkie rekordy.
+      all: Nagle
   digital_object:
     _public:
       additional: Dodatkowe wersje plików
       url_encoded_data: Dane zakodowane w formacie URL
       thumbnail: Obraz miniatury
       badge_label: Poziom cyfrowy %{level}
+      go: Przejdź do pliku
   subject:
     _singular: Temat
     _plural: Tematy
@@ -362,3 +370,6 @@ pl:
     archivesspace_home_html: Odwiedź stronę <a href='http://archivesspace.org'>ArchivesSpace.org</a>
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Prześlij opinię
       lub zgłoś problem</a>
+  top_container:
+    _singular: Pojemnik
+    _plural: Pojemniki
