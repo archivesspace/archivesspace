@@ -230,6 +230,7 @@ es:
   search_results:
     title: Resultados de la búsqueda
     context: Encontrado en
+    select_record: "Seleccionar %{title}"
     selected: ¿Seleccionado?
     no_results: Registros no encontrados
     no_results_prefix: No hay resultados de la búsqueda

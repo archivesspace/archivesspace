@@ -287,10 +287,11 @@ module SearchHelper
   def add_linker_column
     add_column(sr_only('Linker'), {},
       proc { |record|
+        label_text = I18n.t('search_results.select_record', :title => record['title'] || record['display_string'])
         if params[:multiplicity] === 'many'
-          check_box_tag "linker-item", record["id"], false, :"data-object" => record.to_json
+          check_box_tag "linker-item", record["id"], false, :"data-object" => record.to_json, :"aria-label" => label_text
         else
-          radio_button_tag "linker-item", record["id"], false, :"data-object" => record.to_json
+          radio_button_tag "linker-item", record["id"], false, :"data-object" => record.to_json, :"aria-label" => label_text
         end
       })
   end

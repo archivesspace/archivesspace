@@ -203,6 +203,7 @@ ja:
   search_results:
     title: の検索結果
     context: 見つかった
+    select_record: "%{title}を選択"
     selected: 選択しましたか？
     no_results: レコードが見つかりません
     no_results_prefix: の検索結果はありませんでした

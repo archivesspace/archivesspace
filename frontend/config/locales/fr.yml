@@ -244,7 +244,8 @@ fr:
   search_results:
     title: Résultats de la recherche
     context: Trouvé dans
-    selected: Choisi ?
+    select_record: "Sélectionner %{title}"
+    selected: Choisi ?
     no_results: Aucune notice trouvée
     no_results_prefix: Pas de résultat pour
     result_type: Type de notice

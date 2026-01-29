@@ -179,6 +179,7 @@ it:
     previous: '&#171;'
   search_results:
     context: Trovato in
+    select_record: "Seleziona %{title}"
     selected: Selezionato?
     no_results: Records non trovati
     no_results_prefix: Non ci sono risultati della ricerca per

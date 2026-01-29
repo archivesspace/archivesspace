@@ -294,6 +294,7 @@ uk:
     filtered_by: Відфільтровано за
     title: Результати пошуку
     context: Знайдено в
+    select_record: "Вибрати %{title}"
     selected: Обраний?
     no_results: Записів не знайдено
     no_results_prefix: Не було результатів пошуку для

@@ -44,6 +44,16 @@ $(function () {
         exclude_ids: $this.data('exclude') || [],
       };
 
+      // Derive an accessible label for the token-input field
+      const labelElementId = $this.attr('id') + '_label';
+      const labelFromElement = $('#' + labelElementId)
+        .text()
+        .trim();
+      const labelFromAria = $this.attr('aria-label');
+
+      config.label =
+        labelFromAria || labelFromElement || config.label_link || '';
+
       config.allow_multiple = config.multiplicity === 'many';
 
       if (
@@ -570,18 +580,25 @@ $(function () {
 
         setTimeout(function () {
           $this.tokenInput(config.url, tokenInputConfig);
-          $(
+
+          const $searchInput = $(
             '> :input[type=text]',
             $('.token-input-input-token', $this.parent())
-          )
+          );
+
+          $searchInput
             .attr('placeholder', AS.linker_locales.hintText)
-            .attr('aria-label', config.label)
             .attr('role', 'searchbox')
-            .attr('aria-multiline', 'false');
-          $(
-            '> :input[type=text]',
-            $('.token-input-input-token', $this.parent())
-          ).addClass('form-control');
+            .attr('aria-multiline', 'false')
+            .attr('aria-autocomplete', 'both');
+
+          if ($('#' + labelElementId).length) {
+            $searchInput.attr('aria-labelledby', labelElementId);
+          } else if (config.label) {
+            $searchInput.attr('aria-label', config.label);
+          }
+
+          $searchInput.addClass('form-control');
 
           $this.parent().addClass('multiplicity-' + config.multiplicity);
 
