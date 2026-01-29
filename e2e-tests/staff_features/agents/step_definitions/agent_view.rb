@@ -44,46 +44,55 @@ Given 'the two Agents are displayed sorted by ascending name' do
 end
 
 Then 'the two Agents are displayed sorted by descending name' do
+  wait_for_ajax
   expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_b_uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_a_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending type' do
+  wait_for_ajax
   expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: "A #{@agent_a_uuid} #{@shared_agent_uuid}, Rest of name A")
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: "B #{@agent_b_uuid} #{@shared_agent_uuid}, Rest of name B")
 end
 
 Then 'the two Agents are displayed sorted by ascending level' do
+  wait_for_ajax
   expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_b_uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_a_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending Authority ID' do
+  wait_for_ajax
   expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending source' do
+  wait_for_ajax
   expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending rule' do
+  wait_for_ajax
   expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending created date' do
+  wait_for_ajax
   expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 Then 'Sort Agents by modified date' do
+  wait_for_ajax
   expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
 
 Then 'the two Agents are displayed sorted by ascending modified date' do
+  wait_for_ajax
   expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @agent_a_uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @agent_b_uuid)
 end
