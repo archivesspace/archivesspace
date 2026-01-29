@@ -30,7 +30,7 @@ MoreFacets.prototype.bind_events = function () {
 };
 
 $(function () {
-  $('.more-facets').each(function () {
+  $('.more-facets__controls').each(function () {
     new MoreFacets($(this));
   });
 });
