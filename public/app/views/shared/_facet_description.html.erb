@@ -1,4 +1,4 @@
-<dd>
+<dd class="<%= local_assigns[:container_class] %>">
   <a href="<%= app_prefix("#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(facet.key)}") %>"
     rel="nofollow"
     title="<%= t('search_results.filter_by')%> '<%= facet.label %>'">
