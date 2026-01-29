@@ -7,14 +7,22 @@ describe 'Facets', js: true do
     expect(page).to have_css('#facets')
   end
 
-  it 'is axe_clean' do
-    expect(page).to be_axe_clean.within('#facets')
+  describe 'accessibility' do
+    it 'is axe_clean' do
+      expect(page).to be_axe_clean.within('#facets')
+    end
+
+    it 'includes record counts inside facet links for screen readers' do
+      within '#facets' do
+        expect(page).to have_css('dd a .record-count')
+      end
+    end
   end
 
   context 'More facets' do
     it 'are shown when a facet type has more than 5 facets' do
-      expect(page).to have_selector('#language-facet .more-facets')
-      expect(page).to_not have_selector('#subject-facet .more-facets')
+      expect(page).to have_selector('#language-facet .more-facets__controls')
+      expect(page).to_not have_selector('#subject-facet .more-facets__controls')
     end
 
     it 'are shown/hidden on click with proper focus management' do
