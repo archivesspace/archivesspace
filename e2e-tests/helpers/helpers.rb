@@ -326,15 +326,17 @@ end
 
 def expect_form_values(form_values_table)
   wait_for_ajax
-  form_values = form_values_table.hashes
+  sleep 2
 
-  form_values.each do |row|
-    section_title = find('h3', text: row['form_section'], match: :first)
-    section = section_title.ancestor('section', match: :first)
-    expect(section[:id]).to_not eq nil
+  aggregate_failures do
+    form_values_table.hashes.each do |row|
+      section_title = find('h3', text: row['form_section'], match: :first)
+      section = section_title.ancestor('section', match: :first)
+      expect(section[:id]).to_not eq nil
 
-    within section do
-      expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
+      within section do
+        expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
+      end
     end
   end
 end
