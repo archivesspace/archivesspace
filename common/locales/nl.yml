@@ -2,3 +2,4 @@ nl:
   states:
     suppressed: Onderdrukt
     deleted: Verwijderd
+    auto_generated: Wordt automatisch gegenereerd bij registratie
