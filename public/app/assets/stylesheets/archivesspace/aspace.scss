@@ -299,7 +299,7 @@ a img {
 }
 
 .record-header {
-  word-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .record-toolbar {
@@ -890,14 +890,12 @@ span.head {
 }
 
 .panel-heading {
-  word-break: break-word;
   white-space: normal;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .tab-pane,
 .page-actions {
-  word-break: break-word;
   overflow-wrap: anywhere;
 }
 

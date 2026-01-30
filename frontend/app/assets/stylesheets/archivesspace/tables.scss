@@ -61,7 +61,7 @@ table {
     }
 
     /* allow break of words to ensure table doesn't expand beyond layout */
-    word-break: break-word;
+    overflow-wrap: anywhere;
   }
   .table-record-actions {
     .btn-group {
