@@ -1,1 +1,5 @@
 nl:
+  help:
+    help_center: ArchivesSpace Helpcentrum
+    icon: <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
+    default_tooltip: ArchivesSpace Helpcentrum
