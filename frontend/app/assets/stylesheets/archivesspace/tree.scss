@@ -157,10 +157,14 @@
 .spinner:not(:required) {
   animation: spinner 1500ms infinite linear;
   border-radius: 0.5em;
-  box-shadow: rgba(0, 0, 51, 0.3) 1.5em 0 0 0,
-    rgba(0, 0, 51, 0.3) 1.1em 1.1em 0 0, rgba(0, 0, 51, 0.3) 0 1.5em 0 0,
-    rgba(0, 0, 51, 0.3) -1.1em 1.1em 0 0, rgba(0, 0, 51, 0.3) -1.5em 0 0 0,
-    rgba(0, 0, 51, 0.3) -1.1em -1.1em 0 0, rgba(0, 0, 51, 0.3) 0 -1.5em 0 0,
+  box-shadow:
+    rgba(0, 0, 51, 0.3) 1.5em 0 0 0,
+    rgba(0, 0, 51, 0.3) 1.1em 1.1em 0 0,
+    rgba(0, 0, 51, 0.3) 0 1.5em 0 0,
+    rgba(0, 0, 51, 0.3) -1.1em 1.1em 0 0,
+    rgba(0, 0, 51, 0.3) -1.5em 0 0 0,
+    rgba(0, 0, 51, 0.3) -1.1em -1.1em 0 0,
+    rgba(0, 0, 51, 0.3) 0 -1.5em 0 0,
     rgba(0, 0, 51, 0.3) 1.1em -1.1em 0 0;
   display: inline-block;
   font-size: 10px;

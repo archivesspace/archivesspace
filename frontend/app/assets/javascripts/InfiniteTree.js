@@ -616,8 +616,8 @@
       return nextSiblingIsAPlaceholder
         ? +el.nextElementSibling.getAttribute('data-batch-placeholder')
         : prevSiblingIsAPlaceholder
-        ? +el.previousElementSibling.getAttribute('data-batch-placeholder')
-        : null;
+          ? +el.previousElementSibling.getAttribute('data-batch-placeholder')
+          : null;
     }
   }
 
