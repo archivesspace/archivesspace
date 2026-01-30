@@ -373,3 +373,11 @@ pl:
   top_container:
     _singular: Pojemnik
     _plural: Pojemniki
+  parent_inst: Instytucja macierzysta
+  agent_record_identifier:
+    snac: Identyfikator sieci społecznościowych i kontekstu archiwalnego (SNAC)
+  agent_contact:
+    address_1: Adres 1
+    address_2: Adres 2
+    address_3: Adres 3
+    city: Miasto
