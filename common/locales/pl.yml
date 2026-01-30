@@ -1544,3 +1544,35 @@ pl:
       <p>Odnośnik bibliograficzny do konwencji stosowanej przy tworzeniu opisu podmiotu. Przykład: Society of American Archivists. Describing Archives: A Content Standard (Chicago: Society of American Archivists, 2013).</p>
     descriptive_note_tooltip: |
       <p>Treść notatki, zawierająca szczegółowe informacje na temat konwencji, została wykorzystana przy opracowywaniu opisu agenta. Przykład: Wykorzystano ją do sformułowania treści notatki biograficznej (zgodnie ze standardem opisu archiwów: DACS).</p>
+    file_version_xlink_show_attribute_tooltip: |
+      <p>Wskazuje, w którym miejscu ma zostać wyświetlony zdalny zasób, do którego prowadzi powiązany adres URI.</p>
+    xlink_title_attribute_tooltip: |
+      <p>Tytuł zdalnych zasobów, do których prowadzi powiązany adres URI, który może być wykorzystany jako podpis.</p>
+    xlink_role_attribute_tooltip: |
+      <p>Typ lub charakter zdalnego zasobu, do którego prowadzi powiązany adres URI.</p>
+    xlink_arcrole_attribute_tooltip: |
+      <p>Typ lub charakter zdalnego zasobu, do którego prowadzi powiązany adres URI.</p>
+    last_verified_date_tooltip: |
+      <p>Ostatnia data lub data i godzina weryfikacji zasobu, do którego prowadzi odnośnik w powiązanym identyfikatorze URI.</p>
+  agent_other_agency_codes:
+    agency_code_type_tooltip: |
+      <p>Źródło kodu agencji odpowiedzialnej za konserwację danych. Przykład: OCLC.</p>
+    maintenance_agency_tooltip: |
+      <p>Alternatywne kody identyfikacyjne dla agencji lub organizacji odpowiedzialnej za tworzenie lub utrzymywanie rekordu agenta. Wartość kodu powinna pochodzić z rejestru i być zapisana zgodnie z konwencjami normy ISO 15511. Przykład: OCLC-UBY (dla Stanów Zjednoczonych, Uniwersytet Brighama Younga, z wykorzystaniem symbolu OCLC).</p>
+  agent_resource:
+    linked_resource_description_tooltip: |
+      <p>Pole tekstowe do wprowadzania informacji bibliograficznych, informacji dotyczących powiązanych zbiorów itp.</p>
+    file_uri_tooltip: |
+      <p>Adres URI wskazujący lokalizację źródła internetowego wykorzystanego do przygotowania opisu agenta. Przykład: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (wpis w serwisie Find-A-Grave dotyczący Roberta W. Service'a).</p>
+    file_version_xlink_actuate_attribute_tooltip: |
+      <p>Wskazuje, czy powiązany identyfikator URI powinien zostać przetworzony podczas wyświetlania rekordu agenta.</p>
+    file_version_xlink_show_attribute_tooltip: |
+      <p>Wskazuje, w którym miejscu ma zostać wyświetlony zdalny zasób, do którego prowadzi powiązany adres URI.</p>
+    xlink_title_attribute_tooltip: |
+      <p>Tytuł zdalnych zasobów, do których prowadzi powiązany adres URI, który może być wykorzystany jako podpis.</p>
+    xlink_role_attribute_tooltip: |
+      <p>Typ lub charakter zdalnego zasobu, do którego prowadzi powiązany adres URI.</p>
+    xlink_arcrole_attribute_tooltip: |
+      <p>Typ lub charakter zdalnego zasobu, do którego prowadzi powiązany adres URI.</p>
+    last_verified_date_tooltip: |
+      <p>Ostatnia data lub data i godzina weryfikacji zasobu, do którego prowadzi odnośnik w powiązanym identyfikatorze URI.</p>
