@@ -9,7 +9,7 @@ pt:
     search_remove_row: Remova a linha abaixo
     staff_link: Somente pessoal autorizado
     close: Fechar
-    search_in: Pesquisar %{tipo}
+    search_in: Pesquisar %{type}
     refine_search: Refinar Pesquisa
     print: Baixar PDF
     search_header: Pesquisar nos Arquivos
@@ -68,11 +68,11 @@ pt:
       year_now: agora
       year_begin: o início
       from: A partir de
-      from_to: 'Anos: %{começar} a %{fim}'
+      from_to: 'Anos: %{begin} a %{end}'
       child_container_u_sstr: Contentor criança
       grand_child_container_u_sstr: Contentor neto
-    page_title: Encontrado %{contar} Resultados
-    in_repository: ' em <strong>%{nome}</strong>'
+    page_title: Encontrado %{count} Resultados
+    in_repository: ' em <strong>%{name}</strong>'
     anything: '*'
     search_term: Termo de pesquisa
     error: Sua pesquisa não pôde ser concluída devido a um erro inesperado
@@ -89,11 +89,11 @@ pt:
     op_first_row:
       NOT: não
     results: Resultados
-    results_head: 'Mostrando %{tipo}: %{início} - %{fim} de %{total}'
+    results_head: 'Mostrando %{type}: %{start} - %{end} de %{total}'
     result: Resultado
     identifier_contain: o <strong>identificador</strong> contém <span class='searchterm'>%{kw}</span>
     subjects_text_contain: o <strong>assunto</strong> contém <span class='searchterm'>%{kw}</span>
-    search_for: Pesquisa %{tipo} onde %{condições}
+    search_for: Pesquisa %{type} onde %{conditions}
     creators_text_contain: o <strong>criador</strong> contém <span class='searchterm'>%{kw}</span>
     keyword_contain: "<strong>palavra-chave(s)</strong>: <span class='searchterm'>%{kw}</span>"
     title_contain: o <strong>título</strong> contém <span class='searchterm'>%{kw}</span>
@@ -115,7 +115,7 @@ pt:
     user_email: O seu endereço de e-mail
     date: Data prevista de chegada
     note: Nota para o pessoal
-    visit: Enviar um pedido para visitar %{repo_nome} para ver <strong>%{objeto_de_arquivo}</strong>
+    visit: Enviar um pedido para visitar %{repo_name} para ver <strong>%{archival_object}</strong>
     submit: Enviar solicitação
     submitted: Obrigado, seu solicitação foi apresentado. Em breve você receberá um e-mail com uma cópia
       de sua solicitação.
@@ -123,12 +123,12 @@ pt:
       name: Por favor introduza o seu nome
       email: Por favor introduza um endereço de e-mail válido
     email:
-      subject: Solicitação de %{título}
+      subject: Solicitação de %{title}
     required: necessário
   search-button:
     label: Procurar
-  search-limit: Limite a %{limite}
-  search-limiting: limitado a %{limite}
+  search-limit: Limite a %{limit}
+  search-limiting: limitado a %{limit}
   search-limits:
     all: todos os tipos de registro
     repository: repositórios
@@ -142,7 +142,7 @@ pt:
     agent: criador de conteúdo
     agents: criadores de conteúdo
   search-field: Campo de pesquisa
-  searched-field: pesquisando% {campo}
+  searched-field: pesquisando %{field}
 
   resource:
     load_records:

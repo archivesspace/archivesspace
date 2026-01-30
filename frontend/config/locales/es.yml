@@ -882,7 +882,7 @@ es:
           <strong>%{archival_object_display_string}</strong>
         created_with_parent: Documento de archivo 
           <strong>%{archival_object_display_string}</strong> creado como niño de
-          <strong>%{parent.display_string}</strong> del fondo 
+          <strong>%{parent_display_string}</strong> del fondo 
           <strong>%{resource_title}</strong>
         updated: Documento de archivo <strong>{archival_object_display_string} 
           %</strong> actualizado
@@ -938,15 +938,15 @@ es:
   classification_term:
     _frontend:
       messages:
-        created: "Término de clasificación <strong>%{classification_term.title}</strong>
+        created: "Término de clasificación <strong>%{classification_term_title}</strong>
           creado"
-        created_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong>
+        created_with_parent: "Término de clasificación <strong>%{classification_term_title}</strong>
           creado"
-        updated: "Término de clasificación <strong>%{classification_term.title}</strong>
+        updated: "Término de clasificación <strong>%{classification_term_title}</strong>
           actualizado"
-        updated_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong>
+        updated_with_parent: "Término de clasificación <strong>%{classification_term_title}</strong>
           actualizado"
-        deleted: "Término de clasificación <strong>%{classification_term.title}</strong>
+        deleted: "Término de clasificación <strong>%{classification_term_title}</strong>
           borrado"
       section:
         basic_information: Información básica
@@ -1372,7 +1372,7 @@ es:
         merged: La(s) materia(s) se fusionaron
         merge_description: Seleccione materias abajo para fusionar en
         please_select_a_subject_to_merge: Por favor, seleccione un materia
-        delete_conflict: 'No se pudo eliminar el asunto: <pre>% {error} </pre>'
+        delete_conflict: 'No se pudo eliminar el asunto: <pre> %{error} </pre>'
       section:
         basic_information: Información básica
         terms: Descriptores
@@ -1698,7 +1698,7 @@ es:
         filter_required: Por favor proporcionar un filtro
         max_results_limit_reached: No se han incluido todos los resultados. Por 
           favor refine su búsqueda.
-        max_results_limit_details: "Mostrando <strong>% {visibles} </strong> de <strong>
+        max_results_limit_details: "Mostrando <strong> %{visibles} </strong> de <strong>
           %{num_found} </strong> Resultados de la búsqueda"
         results_summary: "Los resultados coinciden con: <strong> %{num_found} </strong>"
         bulk_selection_sort_help: Haga clic en una columna para establecer el 
@@ -1921,10 +1921,8 @@ es:
     message_select_locations: "Calcula el espacio en las siguientes ubicaciones:"
     message_no_locations_with_space: No se han encontrado ubicaciones con 
       espacio
-    message_total_spaces: "Cantidad total de espacios disponibles para este tipo de
-      contenedores: %{total_spaces}"
-    message_total_containers: "Número total de contenedores de este tipo que se encuentran
-      en estas ubicaciones: %{total_containers}"
+    message_total_spaces: "Cantidad total de espacios disponibles para este tipo de contenedores: '%{total_spaces}'"
+    message_total_containers: "Número total de contenedores de este tipo que se encuentran en estas ubicaciones: %{total_containers}"
     message_loading: Cargando...
     count: Espacio disponible (de tipo de contenedor)
     calculate_space: Calcula el espacio

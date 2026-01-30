@@ -2350,10 +2350,10 @@ de:
       top_container_linker_job: Haupt-Behältnis-Verknüpfer
   resource_duplicate_job:
     going_to_duplicate_job: Die Ressource wird mit der ID %{resource_id} dupliziert.
-    success_message: Ressource erfolgreich dupliziert %{ressource_Ursprung_id} zu ressource 
-      %{ressource_dupliziert_id}.
-    resource_failure_message: Ressource %{resource_source_id} wurde erfolgreich auf Ressource 
-      %{resource_duplicated_id} dupliziert.
+    success_message: Ressource erfolgreich dupliziert %{resource_source_id} zu ressource 
+      %{resource_duplicated_id}.
+    resource_failure_message: Ressource %{resource_id} wurde erfolgreich auf Ressource 
+      %{message} dupliziert.
     archival_object_failure_message: Das Duplizieren des Archivierungsobjekts mit der ID 
       %{archival_object_id} aus der Ressource mit der ID %{resource_id} ist fehlgeschlagen. 
       Validierungsfehler %{message}.
@@ -2693,8 +2693,7 @@ de:
       no_tc: 'Haupt-Behältnis %{number} konnte nicht erstellt werden: [%{why}]'
       missing_instance_type: Fehlender Behältnis-Instanz-Typ
       no_ao: Kein Archiv-Objekt erstellt
-      relator_invalid: "Akteur-Verknüpfung kann aufgrund eines Problems mit Relator '%{label}' nicht erstellt
-        werden: %{why}"
+      relator_invalid: "Akteur-Verknüpfung kann aufgrund eines Problems mit Relator '%{label}' nicht erstellt werden: %{why}"
       bad_role: "Akteur-Verknüpfung kann nicht erstellt werden: '%{label}' ist keine gültige Rolle"
       dig_unassoc: 'Archiv-Objekt mit zugehörigem digitalen Objekt kann nicht gespeichert werden: %{msg}'
       dig_validation: Das digitale Objekt kann nicht erstellt werden %{err}
@@ -2729,8 +2728,7 @@ de:
         %{code})
       no_create: 'Kann nicht erstellt werden: [%{why}]'
       bad_note: '%{type} Anmerkung ist nicht wohlgeformt: %{msg}'
-      role_invalid: "Akteur-Verknüpfung kann aufgrund eines Problems mit der Rolle '%{label}' nicht erstellt
-        werden: %{why}"
+      role_invalid: "Akteur-Verknüpfung kann aufgrund eines Problems mit der Rolle '%{label}' nicht erstellt werden: %{why}"
       no_uri_or_ref: Es wurde weder ein URI für ein Archiv-Objekt noch eine Ref-ID angegeben
       row_missing_ead_uri: In dieser Zeile fehlen sowohl eine EAD-ID als auch eine URI
       ead_mismatch: Die EAD-ID des Formulars [%{res_ead}] stimmt nicht mit der EAD-ID der Zeile 
@@ -2764,7 +2762,7 @@ de:
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
     clip_header: "Zeile\tStatus\tTitel\tURI\tRef ID\tInfo oder Fehler"
     log_complete: Import von %{file} abgeschlossen
-    log_validation: Validierung von %{Datei} abgeschlossen
+    log_validation: Validierung von %{file} abgeschlossen
     log_created: '%{row}: Erstellt %{what}'
     log_created_be: '%{row}: %{what} würde erstellt werden'
     log_info: "%{row}:\t%{what}"

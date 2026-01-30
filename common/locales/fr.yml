@@ -2382,7 +2382,7 @@ fr:
   resource_duplicate_job:
     going_to_duplicate_job: Je vais dupliquer la ressource avec l'identifiant %{resource_id}.
     success_message: La ressource %{resource_source_id} a été dupliquée avec succès vers la ressource
-      %{resource_duplicate_id}.
+      %{resource_duplicated_id}.
     resource_failure_message: Échec de la duplication de la ressource à partir de la ressource avec l'ID %{resource_id} ;
       Erreur de validation %{message}.
     archival_object_failure_message: Échec de la duplication de l'objet d'archives avec l'ID %{archival_object_id}
@@ -2780,8 +2780,8 @@ fr:
     warn:
       dup: "Gérée Liste des valeurs contrôlée %{which} a plusieurs instances pour la traduction '%{trans}'.
         '%{used}' sera utilisé comme valeur."
-      disam: "Correspondance multiple (s) trouvé pour '%{what}'. Création '%{name}' pour disabiguation."
-      disamuse: "Correspondance multiple (s) trouvé pour '%{what}'. En utilisant déjà créé '%{name}' pour
+      disam: "Correspondance multiple (s) trouvé pour '%{which}'. Création '%{name}' pour disabiguation."
+      disamuse: "Correspondance multiple (s) trouvé pour '%{which}'. En utilisant déjà créé '%{name}' pour
         disabiguation."
       single_date_end: "Date unique %{date_str} a la date de fin qui sera ignoré."
     error:

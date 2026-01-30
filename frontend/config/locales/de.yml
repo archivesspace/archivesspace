@@ -1050,7 +1050,7 @@ de:
           <strong>%{archival_object_display_string}</strong>
         created_with_parent: Archiv-Objekt 
           <strong>%{archival_object_display_string}</strong> als Kind von 
-          <strong>%{parent.display_string}</strong> für Aufzeichnung 
+          <strong>%{parent_display_string}</strong> für Aufzeichnung 
           <strong>%{resource_title}</strong> erstellt
         updated_with_parent: Archiv-Objekt 
           <strong>%{archival_object_display_string}</strong> aktualisiert
@@ -2409,10 +2409,8 @@ de:
     message_locations_required: Der Platz-Rechner benötigt eine oder mehrere 
       gesetzte Standorte.
     message_no_locations_with_space: Keine Standorte mit freiem Platz gefunden
-    message_total_spaces: 'Gesamtanzahl der verfügbaren Bereiche für diesen Behältnis-Typ:
-      %{total_spaces}'
-    message_total_containers: 'Gesamtanzahl der Behältnisse dieses Typs an diesen
-      Standorten: %{total_containers}'
+    message_total_spaces: 'Gesamtanzahl der verfügbaren Bereiche für diesen Behältnis-Typ: %{total_spaces}'
+    message_total_containers: 'Gesamtanzahl der Behältnisse dieses Typs an diesen Standorten: "%{total_containers}"'
     message_loading: Lade...
     count: Freier Platz (nach Behältnis-Typ)
     calculate_space: Freien Platz überprüfen

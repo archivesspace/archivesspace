@@ -112,7 +112,7 @@ ja:
     delete_multiple_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。
       </p><p>このアクションは、他のレコードに対する参照を含めて、これらのレコードをデータベースから削除します。 </p>"
     reset: デフォルトにリセット
-    reset_confirm_title: "％{preftype}をアプリケーションのデフォルトにリセットしますか？"
+    reset_confirm_title: " %{preftype}をアプリケーションのデフォルトにリセットしますか？"
     reset_confirm_message: "<p><strong>この操作を元に戻すことはできません</strong>。</p><p>このアクションにより、設定がアプリケーションのデフォルトにリセットされます。</p>"
     edit_multiple: レコードを編集する
     edit_multiple_confirm_title: レコードを編集する？
@@ -748,7 +748,7 @@ ja:
         updated: エージェントが保存されました
         deleted: エージェントが削除されました
         published: 
-          「エージェント<strong>％{agent_title}</strong>、そのサブレコードとコンポーネントが公開されました」
+          「エージェント<strong> %{agent_title}</strong>、そのサブレコードとコンポーネントが公開されました」
         delete_conflict: エージェントを削除できませんでした： <pre> %{error} </pre>
         merge_description: マージするエージェントを選択する
         merged: エージェントが結合されました
@@ -829,12 +829,12 @@ ja:
           </pre>
         deleted: 
           アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>削除されました
-        published: アーカイブオブジェクト<strong>%{archival_object.title}</strong> 
+        published: アーカイブオブジェクト<strong>%{archival_object_title}</strong> 
           、そのサブレコードとコンポーネントが公開されました
-        unpublished: アーカイブオブジェクト<strong>%{archival_object.title}</strong> 
+        unpublished: アーカイブオブジェクト<strong>%{archival_object_title}</strong> 
           、そのサブレコードとコンポーネントが非公開されました
         unsuppressed: 
-          アーカイブオブジェクト<strong>%{archival_object.title}</strong>抑制されていません
+          アーカイブオブジェクト<strong>%{archival_object_title}</strong>抑制されていません
         suppressed: 
           アーカイブオブジェクト<strong>%{archival_object.title}</strong>され<strong>%{archival_object.title}</strong>
         suppressed_info: アーカイブオブジェクトは抑制されており、編集できません
@@ -870,13 +870,13 @@ ja:
   classification_term:
     _frontend:
       messages:
-        created: 分類用語<strong>%{classification_term.title}</strong>作成されました
+        created: 分類用語<strong>%{classification_term_title}</strong>作成されました
         created_with_parent: 
-          分類用語<strong>%{classification_term.title}</strong>作成されました
-        updated: 分類用語<strong>%{classification_term.title}</strong>更新されました
+          分類用語<strong>%{classification_term_title}</strong>作成されました
+        updated: 分類用語<strong>%{classification_term_title}</strong>更新されました
         updated_with_parent: 
-          分類用語<strong>%{classification_term.title}</strong>更新されました
-        deleted: 分類用語<strong>%{classification_term.title}</strong>削除されました
+          分類用語<strong>%{classification_term_title}</strong>更新されました
+        deleted: 分類用語<strong>%{classification_term_title}</strong>削除されました
       section:
         basic_information: 基本情報
         search_embedded: リンクされたレコード
@@ -951,7 +951,7 @@ ja:
     _frontend:
       messages:
         created_with_parent: 
-          デジタルオブジェクト<strong>%{digital_object_component_display_string}</strong>の<strong>%{parent.display_string}</strong>子として作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object_title}</strong>
+          デジタルオブジェクト<strong>%{digital_object_component_display_string}</strong>の<strong>%{parent_display_string}</strong>子として作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object_title}</strong>
         created: 
           デジタルオブジェクト<strong>%{digital_object_component_display_string}</strong>作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object_component_display_string}</strong>
           <strong>%{digital_object_title}</strong>
@@ -1249,7 +1249,7 @@ ja:
       messages:
         updated: プリファレンスの更新
         reset: アプリケーションのデフォルトに設定されたプリファレンス
-        reset_error: "エラーのために設定をリセットできません：％{exception}"
+        reset_error: "エラーのために設定をリセットできません： %{exception}"
         no_access_to_preferences: "少なくとも1つのリポジトリを作成する前に、プリファレンスを管理できません"
       action:
         save: 設定を保存
@@ -1278,7 +1278,7 @@ ja:
         merged: 結合された主題
         merge_description: 次のサブジェクトを選択してマージする
         please_select_a_subject_to_merge: 件名を選択してください
-        delete_conflict: 件名を削除できませんでした：<pre>％{error} </pre>
+        delete_conflict: 件名を削除できませんでした：<pre> %{error} </pre>
       section:
         basic_information: 基本情報
         terms: 用語と細分
@@ -1876,12 +1876,12 @@ ja:
       action:
         save: アセスメント属性を保存する
         add_type: 追加 %{type}
-        find_rating: ％{rating_type} 評価のレコードを検索
-        find_format: ％{format_type} マテリアルタイプ/フォーマットのレコードを検索します
-        find_issue: ％{issue_type} 保全問題のあるレコードを検索する
-        remove_rating: ％{rating_type} レーティングを削除
-        remove_format: ％{format_type} マテリアルタイプ/フォーマットを削除します
-        remove_issue: ％{issue_type} 保護の問題を削除します
+        find_rating: "%{rating_type} 評価のレコードを検索"
+        find_format: "%{format_type} マテリアルタイプ/フォーマットのレコードを検索します"
+        find_issue: "%{issue_type} 保全問題のあるレコードを検索する"
+        remove_rating: "%{rating_type} レーティングを削除"
+        remove_format: "%{format_type} マテリアルタイプ/フォーマットを削除します"
+        remove_issue: "%{issue_type} 保護の問題を削除します"
       messages:
         updated: 評価アトリビュートが更新されました
         error: アセスメント属性の更新中にエラーが発生しました
