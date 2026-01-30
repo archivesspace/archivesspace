@@ -694,6 +694,9 @@ fr:
     expired: Votre session a expiré pour cause d'inactivité
     inline_login_title: Session expirée
 
+  skipnav:
+    main_content: Passer au contenu principal
+
   batch_delete:
     archival_records:
       success: Notices supprimées

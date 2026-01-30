@@ -548,3 +548,5 @@ it:
     message: Il tuo amichevole strumento di gestione per gli archivi.
     message_logged_in: Il tuo amichevole strumento di gestione per gli archivi.
     heading: Benvenuto in ArchivesSpace
+  skipnav:
+    main_content: Passa al contenuto principale

@@ -822,6 +822,8 @@ uk:
     gone: Ваш сеанс серверної частини не знайдено
     expired: Ваш сеанс закінчився через неактивність
     inline_login_title: Термін дії сеансу минув
+  skipnav:
+    main_content: Перейти до основного вмісту
   batch_delete:
     archival_records:
       success: Записи видалено

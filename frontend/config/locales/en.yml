@@ -637,6 +637,9 @@ en:
     expired: Your session expired due to inactivity
     inline_login_title: Session Expired
 
+  skipnav:
+    main_content: Skip to main content
+
   batch_delete:
     archival_records:
       success: Records deleted

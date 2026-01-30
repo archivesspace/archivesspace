@@ -44,6 +44,7 @@
   <% end %>
 </head>
 <body data-spy="scroll" data-target="#archivesSpaceSidebar" class="action-<%= controller.action_name %>">
+  <%= render "shared/skipnav" %>
 
   <div class="min-vh-100 d-flex flex-column container-fluid center-block"><!-- this could be deleted -->
     <header>
@@ -54,6 +55,7 @@
      <% if current_repo %>
          <%= render "shared/header_repository" %>
      <% end %>
+     <a id="maincontent" tabindex="-1"></a>
      <%= yield %>
    </div>
 
