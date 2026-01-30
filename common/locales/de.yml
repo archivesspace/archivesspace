@@ -2764,7 +2764,7 @@ de:
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
     clip_header: "Zeile\tStatus\tTitel\tURI\tRef ID\tInfo oder Fehler"
     log_complete: Import von %{file} abgeschlossen
-    log_validation: Validierung von %{Datei} abgeschlossen
+    log_validation: Validierung von %{file} abgeschlossen
     log_created: '%{row}: Erstellt %{what}'
     log_created_be: '%{row}: %{what} würde erstellt werden'
     log_info: "%{row}:\t%{what}"

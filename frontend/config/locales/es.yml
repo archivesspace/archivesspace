@@ -938,15 +938,15 @@ es:
   classification_term:
     _frontend:
       messages:
-        created: "Término de clasificación <strong>%{classification_term.title}</strong>
+        created: "Término de clasificación <strong>%{classification_term_title}</strong>
           creado"
-        created_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong>
+        created_with_parent: "Término de clasificación <strong>%{classification_term_title}</strong>
           creado"
-        updated: "Término de clasificación <strong>%{classification_term.title}</strong>
+        updated: "Término de clasificación <strong>%{classification_term_title}</strong>
           actualizado"
-        updated_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong>
+        updated_with_parent: "Término de clasificación <strong>%{classification_term_title}</strong>
           actualizado"
-        deleted: "Término de clasificación <strong>%{classification_term.title}</strong>
+        deleted: "Término de clasificación <strong>%{classification_term_title}</strong>
           borrado"
       section:
         basic_information: Información básica

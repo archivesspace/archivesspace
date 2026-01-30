@@ -2780,8 +2780,8 @@ fr:
     warn:
       dup: "Gérée Liste des valeurs contrôlée %{which} a plusieurs instances pour la traduction '%{trans}'.
         '%{used}' sera utilisé comme valeur."
-      disam: "Correspondance multiple (s) trouvé pour '%{what}'. Création '%{name}' pour disabiguation."
-      disamuse: "Correspondance multiple (s) trouvé pour '%{what}'. En utilisant déjà créé '%{name}' pour
+      disam: "Correspondance multiple (s) trouvé pour '%{which}'. Création '%{name}' pour disabiguation."
+      disamuse: "Correspondance multiple (s) trouvé pour '%{which}'. En utilisant déjà créé '%{name}' pour
         disabiguation."
       single_date_end: "Date unique %{date_str} a la date de fin qui sera ignoré."
     error:

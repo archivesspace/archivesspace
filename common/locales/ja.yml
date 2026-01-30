@@ -1659,9 +1659,9 @@ ja:
   resource_duplicate_job:
     going_to_duplicate_job: ID %{resource_id} のリソースを複製します。
     success_message: リソース %{resource_source_id} をリソース %{resource_duplicated_id} に複製しました。
-    resource_failure_message: ID %{resource_id} のリソースからリソースを複製できませんでした。 検証エラー %{メッセージ}。
+    resource_failure_message: ID %{resource_id} のリソースからリソースを複製できませんでした。 検証エラー %{message}。
     archival_object_failure_message: ID %{resource_id} のリソースから ID %{archival_object_id} のアーカイブ 
-      オブジェクトを複製できませんでした。 検証エラー %{メッセージ}。
+      オブジェクトを複製できませんでした。 検証エラー %{message}。
     source_archival_object: ソース アーカイブ オブジェクト %{source_archival_object_inspect}。
     success_reload_message: すべて完了。 新しいリソースへのリンクを取得するには、[更新] をクリックしてください。
     job_failed: ジョブが失敗しました。
@@ -1952,7 +1952,7 @@ ja:
     dig: デジタルオブジェクト
     cont_inst: コンテナインスタンス
     unfound_id: "%{type} IDが%{id}見つかりません。これはプレースホルダです"
-    ref_id_notfound: 「行%{row}"
+    ref_id_notfound: 「行%{refid}"
     processed: ファイルが処理されています
     file_info: "%{size}K 行の%{rows}"
     max_file_info: "%{size}K と%{rows}行"
@@ -1962,8 +1962,8 @@ ja:
     date_type_default: 日付タイプが指定されていません。デフォルトは「包括的」です。
     warn:
       dup: "制御値リストは、 『%{which}』翻訳のための複数のインスタンスを持っている%{trans}マネージド 『%{used}』値として使用されます。"
-      disam: "複数の一致（ES）は、 '%{what}' 件見つかりました。disabiguationは '%{name}' を作成します。"
-      disamuse: "複数の一致（ES）は、 『%{what}』件見つかりました。disabiguationは 『%{name}』は既に作成されたを使用しました。"
+      disam: "複数の一致（ES）は、 '%{which}' 件見つかりました。disabiguationは '%{name}' を作成します。"
+      disamuse: "複数の一致（ES）は、 『%{which}』件見つかりました。disabiguationは 『%{name}』は既に作成されたを使用しました。"
       single_date_end: "シングル日付%{date_str}は無視されます終了日を持っています。"
     error:
       date_type: "日付型[%{what}]のための無効を%{date_str}。 『包括的』にデフォルト設定"
