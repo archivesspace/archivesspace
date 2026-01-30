@@ -3,3 +3,6 @@ nl:
     add: Toevoegen
     add_event: Voeg gebeurtenis toe
     add_event_event_type: Type
+    automate: Automatisch genereren
+  states:
+    auto_generated: Wordt automatisch gegenereerd bij registratie
