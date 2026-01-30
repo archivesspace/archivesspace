@@ -64,7 +64,7 @@ Given 'two Subjects have been created with a common keyword in their term' do
   fill_in 'subject_terms__0__term_', with: "Subject A #{@subject_a_uuid} #{@shared_subject_uuid}"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
-  click_on 'Save'
+  click_on 'Save Subject', match: :first
   wait_for_ajax
   within '#form_messages' do
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
@@ -78,7 +78,7 @@ Given 'two Subjects have been created with a common keyword in their term' do
   fill_in 'subject_terms__0__term_', with: "Subject B #{@subject_b_uuid} #{@shared_subject_uuid}"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
-  click_on 'Save'
+  click_on 'Save Subject', match: :first
   wait_for_ajax
   within '#form_messages' do
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')

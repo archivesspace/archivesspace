@@ -36,17 +36,3 @@ Then 'the Repository Short Name field has the original value' do
 
   expect(page).to have_field('Repository Short Name', with: "repository_test_#{@uuid}")
 end
-
-Then 'the Repository form has the following values' do |form_values_table|
-  form_values = form_values_table.hashes
-
-  form_values.each do |row|
-    section_title = find('h3', text: row['form_section'])
-    section = section_title.ancestor('section')
-    expect(section[:id]).to_not eq nil
-
-    within section do
-      expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
-    end
-  end
-end

@@ -237,12 +237,15 @@ end
 
 When 'the user selects {string} from {string}' do |option, label|
   select option, from: label, match: :first
+  wait_for_ajax
 end
 
 When 'the user selects {string} in the modal' do |select_option|
   within '.modal-content' do
     find('#label').select select_option
   end
+
+  wait_for_ajax
 end
 
 When 'the user selects {string} from {string} in the modal' do |option, label|
@@ -251,6 +254,8 @@ When 'the user selects {string} from {string} in the modal' do |option, label|
   within '.modal-content' do
     select option, from: label
   end
+
+  wait_for_ajax
 end
 
 When 'the user selects {string} from {string} in the {string} form' do |option, label, form_title|
@@ -261,6 +266,8 @@ When 'the user selects {string} from {string} in the {string} form' do |option, 
   within section do
     select option, from: label
   end
+
+  wait_for_ajax
 end
 
 When 'the user checks {string}' do |label|
