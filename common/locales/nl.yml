@@ -1,1 +1,4 @@
 nl:
+  states:
+    suppressed: Onderdrukt
+    deleted: Verwijderd
