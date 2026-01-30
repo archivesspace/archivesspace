@@ -1576,3 +1576,51 @@ pl:
       <p>Typ lub charakter zdalnego zasobu, do którego prowadzi powiązany adres URI.</p>
     last_verified_date_tooltip: |
       <p>Ostatnia data lub data i godzina weryfikacji zasobu, do którego prowadzi odnośnik w powiązanym identyfikatorze URI.</p>
+  subrecord_subject_agent_place:
+    subjects_tooltip: |
+      <p>Lokalizacja geograficzna powiązana z danym podmiotem.</p>
+  subrecord_subject_agent_function:
+    subjects_tooltip: |
+      <p>Terminy używane do identyfikacji funkcji, procesów, zadań, działań lub transakcji wykonywanych przez agenta.</p>
+  subrecord_subject_agent_function_place:
+    places_tooltip: |
+      <p>Lokalizacja geograficzna związana z danymi funkcjami.</p>
+  agent_contact:
+    address_1: Adres 1
+    address_2: Adres 2
+    address_3: Adres 3
+    city: Miasto
+    address_1_tooltip: |
+      <p>Adres osoby kontaktowej.</p>
+  subrecord_subject_agent_topic:
+    subjects_tooltip: |
+      <p>Podmiot powiązany z agentem.</p>
+  structured_date_label:
+    date_label_tooltip: |
+      <p>Opisuje, jaki rodzaj aktywności reprezentuje dana data.</p>
+    date_type_structured_tooltip: |
+      <p>Wskazuje typ informacji dotyczących daty: pojedyncza data lub zakres dat.</p>
+    date_certainty_tooltip: |
+      <p>Poziom wiarygodności informacji podanych w oświadczeniu dotyczącym daty. Ta informacja jest opcjonalna i powinna być dodawana tylko wtedy, gdy informacje o dacie są potencjalnie niepewne na podstawie obowiązujących zasad opisu lub katalogowania.</p>
+    date_calendar_tooltip: |
+      <p>System liczenia czasu, taki jak kalendarz gregoriański lub kalendarz juliański. Wartość „gregorian” jest wartością domyślną.</p>
+  structured_date_single:
+    date_role_tooltip: |
+      <p>W przypadku pojedynczej daty, parametr ten służy do wskazania, czy data ma być rozumiana jako data początkowa, czy końcowa. Domyślnie ustawiona jest data początkowa.</p>
+    date_expression_tooltip: |
+      <p>Wyrażenie w języku naturalnym określające datę lub zakres dat. Wymagane, gdy nie została zapisana data w standardowym formacie.</p>
+    date_standardized_tooltip: |
+      <p>Wyrażenie w języku naturalnym określające datę lub zakres dat. Wymagane, gdy nie została zapisana data w standardowym formacie.</p>
+    date_standardized_type_tooltip: |
+      <p>Służy do wskazania, czy znormalizowana data odzwierciedla rzeczywistą datę, czy też jest szacunkową datą najwcześniejszego lub najpóźniejszego możliwego wystąpienia danego zdarzenia.</p>
+  structured_date_range:
+    begin_date_expression_tooltip: |
+      <p>Wyrażenie w języku naturalnym określające początek zakresu dat. Wymagane, gdy nie zarejestrowano znormalizowanej daty.</p>
+    begin_date_standardized_tooltip: |
+      <p>Data (w formacie RRRR, RRRR-MM lub RRRR-MM-DD) reprezentująca pojedynczą datę lub pierwszą datę w przedziale dat.</p>
+    begin_date_standardized_type_tooltip: |
+      <p>Służy do wskazania, czy ustandaryzowana data początkowa odzwierciedla rzeczywistą datę, czy też jest szacunkową datą najwcześniejszego lub najpóźniejszego możliwego wystąpienia danego zdarzenia.</p>
+    end_date_expression_tooltip: |
+      <p>Wyrażenie w języku naturalnym określające koniec zakresu dat. Wymagane, gdy nie zarejestrowano daty w standardowym formacie.</p>
+    end_date_standardized_tooltip: |
+      <p>Data (w formacie RRRR, RRRR-MM lub RRRR-MM-DD) reprezentująca ostatnią datę w danym przedziale czasowym.</p>
