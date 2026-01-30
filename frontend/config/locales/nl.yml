@@ -1,1 +1,5 @@
 nl:
+  actions:
+    add: Toevoegen
+    add_event: Voeg gebeurtenis toe
+    add_event_event_type: Type
