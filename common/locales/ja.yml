@@ -1230,7 +1230,7 @@ ja:
     _plural: 関連するアクセス
 
   revision_statement:
-    _singlular: リビジョン・ステートメント
+    _singular: リビジョン・ステートメント
     _plural: 改訂ステートメント
     date: 改訂日
     date_tooltip: "<p>援助援助が最後に改訂された日付を指定します。 </p>"

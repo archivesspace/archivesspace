@@ -2068,7 +2068,7 @@ en:
     _plural: Related Accessions
 
   revision_statement:
-    _singlular: Revision Statement
+    _singular: Revision Statement
     _plural: Revision Statements
     date: Revision Date
     date_tooltip: |

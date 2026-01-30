@@ -1787,7 +1787,7 @@ fr:
     _plural: Entrées associées
 
   revision_statement:
-    _singlular: Mention de révision
+    _singular: Mention de révision
     _plural: Mentions de révision
     date: Date de révision
     date_tooltip: |
