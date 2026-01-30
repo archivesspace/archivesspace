@@ -965,7 +965,7 @@ fr:
           <strong>%{archival_object_display_string}</strong>
         created_with_parent: Document d'archives 
           <strong>%{archival_object_display_string}</strong> créé en tant que 
-          fils de <strong>%{parent.display_string}</strong> de la ressource 
+          fils de <strong>%{parent_display_string}</strong> de la ressource 
           <strong>%{resource_title}</strong>
         updated: Document d'archives 
           <strong>%{archival_object_display_string}</strong> actualisé
@@ -1472,8 +1472,7 @@ fr:
       messages:
         updated: Préférences actualisées
         reset: Préférences définies sur les valeurs par défaut de l'application
-        reset_error: "Impossible de réinitialiser les préférences en raison d'une
-          erreur: %{exception}"
+        reset_error: "Impossible de réinitialiser les préférences en raison d'une erreur: '%{exception}'"
         no_access_to_preferences: "Vous devez créer au moins un service d'archives
           avant de pouvoir gérer les préférences"
       action:

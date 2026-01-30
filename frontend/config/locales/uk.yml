@@ -995,14 +995,14 @@ uk:
     component_links: Зв'язані компоненти
     _frontend:
       messages:
-        created: Приєднання <strong>%{accession_display_string</strong> створено
-        unsuppressed: Приєднання <strong>%{accession_display_string</strong> 
+        created: Приєднання <strong>%{accession_display_string}</strong> створено
+        unsuppressed: Приєднання <strong>%{accession_display_string}</strong> 
           розблоковано
-        updated: Приєднання <strong>%{accession_display_string</strong> оновлено
-        suppressed: Приєднання <strong>%{accession_display_string</strong> 
+        updated: Приєднання <strong>%{accession_display_string}</strong> оновлено
+        suppressed: Приєднання <strong>%{accession_display_string}</strong> 
           приховано
         suppressed_info: Приєднання приховано та не може бути редагуване
-        deleted: Приєднання <strong>%{accession_display_string</strong> видалено
+        deleted: Приєднання <strong>%{accession_display_string}</strong> видалено
         transfer_description: Перенести цей приєднання до...
         transfer_target: Виберіть репозиторій для перенесення
         spawned: Цей приєднання було створено з приєднання 
@@ -1021,7 +1021,7 @@ uk:
         created: Агент створено
         updated: Агента збережено
         deleted: Агента видалено
-        published: Агент <strong>%{agent_title</strong>, його підзаписи та 
+        published: Агент <strong>%{agent_title}</strong>, його підзаписи та 
           компоненти опубліковано
         delete_conflict: 'Агента не вдалося видалити: <pre>%{error}<pre>'
         merge_description: Виберіть агента для об'єднання
@@ -1039,25 +1039,25 @@ uk:
           дочірній об'єкт <strong>%{parent_display_string}<strong> на ресурсі 
           <strong>%{resource_title}<strong>
         updated: Архівний об'єкт 
-          <strong>%{archival_object_display_string</strong> оновлено
+          <strong>%{archival_object_display_string}</strong> оновлено
         updated_with_parent: Архівний об'єкт 
-          <strong>%{archival_object_display_string</strong> оновлено
+          <strong>%{archival_object_display_string}</strong> оновлено
         transfer_description: Виберіть ресурс, до якого потрібно перенести цей 
           архівний об'єкт
         please_select_a_resource_for_transfer: Будь ласка, виберіть ресурс
         transfer_success: Архівний об'єкт 
-          <strong>%{archival_object_display_string</strong> успішно перенесено 
-          до ресурсу <strong>%{resource_title</strong>
+          <strong>%{archival_object_display_string}</strong> успішно перенесено 
+          до ресурсу <strong>%{resource_title}</strong>
         transfer_error: "Не вдалося перенести архівний об'єкт через помилку або конфлікт:
           <pre>%{exception}<pre>"
         deleted: Архівний об'єкт 
-          <strong>%{archival_object_display_string</strong> видалено
-        published: Архівний об'єкт <strong>%{archival_object_title</strong>, 
+          <strong>%{archival_object_display_string}</strong> видалено
+        published: Архівний об'єкт <strong>%{archival_object_title}</strong>, 
           його дочірні об'єкти, підзаписи та компоненти опубліковано
         unpublished: Публікацію архівного об'єкта 
-          <strong>%{archival_object_title</strong>, його дочірніх об'єктів, 
+          <strong>%{archival_object_title}</strong>, його дочірніх об'єктів, 
           підзаписів та компонентів скасовано
-        unsuppressed: Архівний об'єкт <strong>%{archival_object_title</strong> 
+        unsuppressed: Архівний об'єкт <strong>%{archival_object_title}</strong> 
           розблоковано
         suppressed: Архівний об'єкт <strong>%{archival_object_title}<strong> 
           приховано
@@ -1204,7 +1204,7 @@ uk:
         deleted: Репозиторій видалено
         selected: Репозиторій наразі вибрано
         selected_short: Вибрано
-        changed: Репозиторій <strong>%{repository_repo_code</strong> тепер 
+        changed: Репозиторій <strong>%{repository_repo_code}</strong> тепер 
           активний
         create_first_repository: Щоб створити свій перший репозиторій, натисніть
           меню <strong>Система</strong> вище, а потім виберіть <strong>Керування
@@ -1237,16 +1237,16 @@ uk:
     _frontend:
       messages:
         deleted: Ресурс <strong>%{resource_title}<strong> видалено
-        published: Ресурс <strong>%{resource_title</strong>, його підзаписи та 
+        published: Ресурс <strong>%{resource_title}</strong>, його підзаписи та 
           компоненти опубліковано
-        unpublished: Публікацію ресурсу <strong>%{resource_title</strong>, його 
+        unpublished: Публікацію ресурсу <strong>%{resource_title}</strong>, його 
           дочірніх об'єктів, підзаписів та компонентів скасовано
         merge_description: Виберіть ресурси нижче для об'єднання
         please_select_a_resource_to_merge: Будь ласка, виберіть ресурс
         merged: Об'єднані ресурси
         transfer_description: Перенести цей ресурс до...
         transfer_target: Виберіть репозиторій для перенесення
-        unsuppressed: Ресурс <strong>%{resource_title</strong> розблоковано
+        unsuppressed: Ресурс <strong>%{resource_title}</strong> розблоковано
         suppressed: Ресурс <strong>%{resource_title}<strong> приховано
         suppressed_info: Ресурс приховано та не можна редагувати
         delete_conflict: 'Ресурс не вдалося видалити: <pre>%{error}<pre>'
@@ -1476,7 +1476,7 @@ uk:
     stale_record: Цей запис було оновлено іншим користувачем. Будь ласка, 
       оновіть сторінку, щоб отримати доступ до останньої версії.
     other_editors: 'Цей запис наразі редагується іншим користувачем. Будь ласка, зв’яжіться
-      з такими користувачами, щоб переконатися у відсутності конфліктів: <strong>%{user_ids</strong>'
+      з такими користувачами, щоб переконатися у відсутності конфліктів: <strong>%{user_ids}</strong>'
     repository_changed: Цей запис неможливо зберегти, оскільки ваш активний 
       репозиторій змінився. Щоб зберегти цей запис, відкрийте інше вікно та 
       скиньте налаштування активного репозиторію.
@@ -1644,9 +1644,9 @@ uk:
         filter_required: Будь ласка, надайте фільтр
         max_results_limit_reached: Не всі результати перелічені. Будь ласка, 
           уточніть пошук.
-        max_results_limit_details: Показано <strong>%{visible</strong> з 
-          <strong>%{num_found</strong> відповідних результатів
-        results_summary: 'Відповідні результати: <strong>%{num_found</strong>'
+        max_results_limit_details: Показано <strong>%{visible}</strong> з 
+          <strong>%{num_found}</strong> відповідних результатів
+        results_summary: 'Відповідні результати: <strong>%{num_found}</strong>'
         bulk_selection_sort_help: Клацніть стовпець, щоб встановити порядок 
           сортування. Утримуйте клавішу Shift, щоб сортувати за кількома 
           стовпцями.
@@ -1911,9 +1911,9 @@ uk:
     by_building: Будуючи
     result_filter: Фільтрувати результати
     summary:
-      locations_with_space: 'Місця з вільними місцями: <strong>%{count</strong>'
-      locations_without_space: 'Місця, де немає вільних місць: <strong>%{count</strong>'
-      uncalculatable_locations: 'Не вдалося обчислити: <strong>%{count</strong>'
+      locations_with_space: 'Місця з вільними місцями: <strong>%{count}</strong>'
+      locations_without_space: 'Місця, де немає вільних місць: <strong>%{count}</strong>'
+      uncalculatable_locations: 'Не вдалося обчислити: <strong>%{count}</strong>'
     view_all_toggle: Показати місця без місця
     reason:
       location_lacks_a_profile: У місця розташування немає профілю
