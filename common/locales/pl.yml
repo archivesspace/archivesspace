@@ -721,7 +721,7 @@ pl:
     _singular: Powiązany numer dostępowy
     _plural: Powiązane numery dostępowe
   revision_statement:
-    _singlular: Oświadczenie dotyczące poprawek
+    _singular: Oświadczenie dotyczące poprawek
     _plural: Oświadczenia dotyczące poprawek
     date: Data ostatniej aktualizacji
     date_tooltip: |

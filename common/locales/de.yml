@@ -1888,7 +1888,7 @@ de:
     is_finding_aid_status_published_tooltip: "<p>Beschreibt, ob der Findmittel-Status öffentlich aufscheint.</p>\n"
   revision_statement:
     publish: Veröffentlichen?
-    _singlular: Überarbeitungs-Erklärung
+    _singular: Überarbeitungs-Erklärung
     _plural: Überarbeitungs-Erklärungen
     date: Datum der Überarbeitung
     date_tooltip: "<p>Gibt das Datum der letzten Überarbeitung des Findmittels an.</p>\n"
