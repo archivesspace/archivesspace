@@ -27,6 +27,8 @@
              aria-labelledby="<%= form.id_for(linker_id) %>_label"
              data-label_link="<%= t("accession_link._frontend.action.add") %>"
              data-label_browse="<%= t("top_container._frontend.bulk_operations.collection_accession_linker.browse") %>"
+             data-label_create="<%= t("accession.linker.create") %>"
+             data-label_create_and_link="<%= t("linker.create_and_link") %>"
              data-path="<%= form.path %>"
              data-name="ref"
              data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
@@ -66,6 +68,15 @@
               class="btn btn-sm rounded-0 dropdown-item linker-browse-btn"
             ><%= t("actions.browse") %></button>
           </li>
+          <% if user_can?('update_accession_record') %>
+          <li>
+            <button
+              type="button"
+              data-target="<%= url_for :controller => :accessions, :action => :new, :inline => true %>"
+              class="btn btn-sm rounded-0 dropdown-item linker-create-btn"
+            ><%= I18n.t("actions.create") %></button>
+          </li>
+          <% end %>
         </ul>
       </div>
     </div>
