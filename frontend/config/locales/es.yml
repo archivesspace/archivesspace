@@ -633,6 +633,9 @@ es:
     expired: Su sesión expiró debido a la inactividad
     inline_login_title: Sesión caducada
 
+  skipnav:
+    main_content: Saltar al contenido principal
+
   batch_delete:
     archival_records:
       success: Registros eliminados

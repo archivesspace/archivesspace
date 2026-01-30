@@ -798,6 +798,8 @@ de:
     inline_login_title: Sitzung abgelaufen
     gone: Ihre Backend-Sitzung wurde nicht gefunden
     expired: Ihre Sitzung ist wegen Inaktivität abgelaufen
+  skipnav:
+    main_content: Zum Inhalt springen
   batch_delete:
     archival_records:
       success: Aufzeichnungen gelöscht

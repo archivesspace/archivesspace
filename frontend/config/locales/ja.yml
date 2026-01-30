@@ -595,6 +595,9 @@ ja:
     expired: あなたのセッションは非アクティブのため失効しました
     inline_login_title: セッションの有効期限が切れ
 
+  skipnav:
+    main_content: メインコンテンツへスキップ
+
   batch_delete:
     archival_records:
       success: レコードが削除された

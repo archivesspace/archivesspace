@@ -366,3 +366,8 @@ td .btn-group {
   white-space: nowrap;
   border: 0;
 }
+
+// Accessibility: Skip navigation
+.skipnav a:focus {
+  position: absolute;
+}
