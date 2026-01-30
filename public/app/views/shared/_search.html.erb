@@ -3,7 +3,7 @@
   header_size = '2' if header_size.nil?
 %>
 <div class="search pt-3" role="search">
-  <a name="search" id="search"></a>
+  <a id="search" tabindex="-1"></a>
   <% if show_header %>
     <h<%= header_size %>><%=  t('actions.search_header') %></h<%= header_size %>>
   <% end %>
