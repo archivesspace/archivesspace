@@ -832,12 +832,12 @@ ja:
           </pre>
         deleted: 
           アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>削除されました
-        published: アーカイブオブジェクト<strong>%{archival_object.title}</strong> 
+        published: アーカイブオブジェクト<strong>%{archival_object_title}</strong> 
           、そのサブレコードとコンポーネントが公開されました
-        unpublished: アーカイブオブジェクト<strong>%{archival_object.title}</strong> 
+        unpublished: アーカイブオブジェクト<strong>%{archival_object_title}</strong> 
           、そのサブレコードとコンポーネントが非公開されました
         unsuppressed: 
-          アーカイブオブジェクト<strong>%{archival_object.title}</strong>抑制されていません
+          アーカイブオブジェクト<strong>%{archival_object_title}</strong>抑制されていません
         suppressed: 
           アーカイブオブジェクト<strong>%{archival_object.title}</strong>され<strong>%{archival_object.title}</strong>
         suppressed_info: アーカイブオブジェクトは抑制されており、編集できません
@@ -873,13 +873,13 @@ ja:
   classification_term:
     _frontend:
       messages:
-        created: 分類用語<strong>%{classification_term.title}</strong>作成されました
+        created: 分類用語<strong>%{classification_term_title}</strong>作成されました
         created_with_parent: 
-          分類用語<strong>%{classification_term.title}</strong>作成されました
-        updated: 分類用語<strong>%{classification_term.title}</strong>更新されました
+          分類用語<strong>%{classification_term_title}</strong>作成されました
+        updated: 分類用語<strong>%{classification_term_title}</strong>更新されました
         updated_with_parent: 
-          分類用語<strong>%{classification_term.title}</strong>更新されました
-        deleted: 分類用語<strong>%{classification_term.title}</strong>削除されました
+          分類用語<strong>%{classification_term_title}</strong>更新されました
+        deleted: 分類用語<strong>%{classification_term_title}</strong>削除されました
       section:
         basic_information: 基本情報
         search_embedded: リンクされたレコード
@@ -954,7 +954,7 @@ ja:
     _frontend:
       messages:
         created_with_parent: 
-          デジタルオブジェクト<strong>%{digital_object_component_display_string}</strong>の<strong>%{parent.display_string}</strong>子として作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object_title}</strong>
+          デジタルオブジェクト<strong>%{digital_object_component_display_string}</strong>の<strong>%{parent_display_string}</strong>子として作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object_title}</strong>
         created: 
           デジタルオブジェクト<strong>%{digital_object_component_display_string}</strong>作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object_component_display_string}</strong>
           <strong>%{digital_object_title}</strong>

@@ -2118,7 +2118,7 @@ es:
     too_few_items: "Por lo menos los elementos %{min_items} es necesario"
     must_contain_at_least_one_subnote: Debe contener al menos una nota secundaria
     must_contain_at_least_one_language: Debe contener al menos un idioma
-    invalid_value: "Valor no válido '%{valor}'. Debe ser uno de '%{valid_set}'"
+    invalid_value: "Valor no válido '%{value}'. Debe ser uno de '%{valid_set}'"
     wrong_type: "Debe ser un %{desired_type} (proporcionó un %{actual_type})"
     must_be_one_of: "Debe ser uno de %{allowed_types} (proporcionó un %{actual_type})"
     id_already_in_use: Ese ID ya está en uso
@@ -2705,8 +2705,8 @@ es:
     warn:
       dup: "Logró controlada Lista de valores %{which} tiene varias copias de la traducción '%{trans}'.
         '%{used}' se utilizará como el valor."
-      disam: "Coincidencia múltiple (es) encontrados '%{what}'. La creación de '%{name}' para disabiguation."
-      disamuse: "Coincidencia múltiple (es) encontrados '%{what}'. Usando ya creado, '%{name}' para disabiguation."
+      disam: "Coincidencia múltiple (es) encontrados '%{which}'. La creación de '%{name}' para disabiguation."
+      disamuse: "Coincidencia múltiple (es) encontrados '%{which}'. Usando ya creado, '%{name}' para disabiguation."
       single_date_end: "Fecha única %{date_str} tiene fecha de finalización que será ignorada."
     error:
       date_type: "Tipo de fecha [%{what}] %{date_str} válido para. Defaulting a 'incluido'"
