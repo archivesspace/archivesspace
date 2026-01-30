@@ -20,7 +20,9 @@
 
     &:focus {
       border-radius: 2px;
-      box-shadow: 0 0 0 2px #007bff, 0 0 0 3px white;
+      box-shadow:
+        0 0 0 2px #007bff,
+        0 0 0 3px white;
       outline: none;
     }
   }

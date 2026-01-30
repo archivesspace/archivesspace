@@ -20,13 +20,13 @@
 @import 'archivesspace/colors';
 @import 'archivesspace/variables';
 
-@import 'bootstrap/scss/bootstrap.scss';
+@import 'bootstrap/scss/bootstrap';
 @import 'archivesspace/bootstrap-overrides';
 
-@import 'font-awesome/font-awesome.scss';
+@import 'font-awesome/font-awesome';
 
-/* stylelint-disable-next-line scss/at-import-no-partial-leading-underscore */
-@import 'foundation/_functions.scss';
+/* stylelint-disable-next-line scss/load-no-partial-leading-underscore */
+@import 'foundation/_functions';
 @import 'archivesspace/aspace';
 @import 'archivesspace/record-type-badge';
 @import 'archivesspace/result-linked-instances';
@@ -38,6 +38,6 @@
 @import 'archivesspace/mixed-content';
 @import 'archivesspace/read-more-notes';
 
-@import 'archivesspace/helpers.scss';
+@import 'archivesspace/helpers';
 
 @import 'archivesspace/print';

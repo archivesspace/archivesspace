@@ -950,8 +950,7 @@ $(function () {
               acc[key] = template.defaults[key];
             }
             return acc;
-          },
-          {});
+          }, {});
 
           $.ajax({
             url: $rde_form.data('save-template-uri'),

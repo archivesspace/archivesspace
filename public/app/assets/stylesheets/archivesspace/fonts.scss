@@ -3,7 +3,8 @@
 @font-face {
   font-family: 'PT Sans';
   src: font-url('PTS55F-webfont.eot');
-  src: font-url('PTS55F-webfont.eot?#iefix') format('embedded-opentype'),
+  src:
+    font-url('PTS55F-webfont.eot?#iefix') format('embedded-opentype'),
     font-url('PTS55F-webfont.woff') format('woff'),
     font-url('PTS55F-webfont.ttf') format('truetype'),
     font-url('PTS55F-webfont.svg#pt_sansregular') format('svg');
@@ -14,7 +15,8 @@
 @font-face {
   font-family: 'PT Sans';
   src: font-url('PTS56F-webfont.eot');
-  src: font-url('PTS56F-webfont.eot?#iefix') format('embedded-opentype'),
+  src:
+    font-url('PTS56F-webfont.eot?#iefix') format('embedded-opentype'),
     font-url('PTS56F-webfont.woff') format('woff'),
     font-url('PTS56F-webfont.ttf') format('truetype'),
     font-url('PTS56F-webfont.svg#pt_sansitalic') format('svg');
@@ -25,7 +27,8 @@
 @font-face {
   font-family: 'PT Sans';
   src: font-url('PTS75F-webfont.eot');
-  src: font-url('PTS75F-webfont.eot?#iefix') format('embedded-opentype'),
+  src:
+    font-url('PTS75F-webfont.eot?#iefix') format('embedded-opentype'),
     font-url('PTS75F-webfont.woff') format('woff'),
     font-url('PTS75F-webfont.ttf') format('truetype'),
     font-url('PTS75F-webfont.svg#pt_sansbold') format('svg');
@@ -36,7 +39,8 @@
 @font-face {
   font-family: 'PT Sans';
   src: font-url('PTS76F-webfont.eot');
-  src: font-url('PTS76F-webfont.eot?#iefix') format('embedded-opentype'),
+  src:
+    font-url('PTS76F-webfont.eot?#iefix') format('embedded-opentype'),
     font-url('PTS76F-webfont.woff') format('woff'),
     font-url('PTS76F-webfont.ttf') format('truetype'),
     font-url('PTS76F-webfont.svg#pt_sansbold_italic') format('svg');
@@ -48,9 +52,9 @@
 
 @font-face {
   font-family: 'Roboto Slab';
-  font-family: 'roboto_slabregular';
   src: font-url('RobotoSlab-Regular-webfont.eot');
-  src: font-url('RobotoSlab-Regular-webfont.eot?#iefix')
+  src:
+    font-url('RobotoSlab-Regular-webfont.eot?#iefix')
       format('embedded-opentype'),
     font-url('RobotoSlab-Regular-webfont.woff') format('woff'),
     font-url('RobotoSlab-Regular-webfont.ttf') format('truetype'),
@@ -62,8 +66,8 @@
 @font-face {
   font-family: 'Roboto Slab';
   src: font-url('RobotoSlab-Bold-webfont.eot');
-  src: font-url('RobotoSlab-Bold-webfont.eot?#iefix')
-      format('embedded-opentype'),
+  src:
+    font-url('RobotoSlab-Bold-webfont.eot?#iefix') format('embedded-opentype'),
     font-url('RobotoSlab-Bold-webfont.woff') format('woff'),
     font-url('RobotoSlab-Bold-webfont.ttf') format('truetype'),
     font-url('RobotoSlab-Bold-webfont.svg#roboto_slabbold') format('svg');
