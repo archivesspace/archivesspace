@@ -318,10 +318,13 @@ $(function () {
           if (openedViaClick) return;
 
           clearTimeout(hideTimeout);
-          showTimeout = setTimeout(function () {
-            showTimeout = null;
-            $this.tooltip('show');
-          }, $this.data('delay') || 500);
+          showTimeout = setTimeout(
+            function () {
+              showTimeout = null;
+              $this.tooltip('show');
+            },
+            $this.data('delay') || 500
+          );
           $this.off('mouseleave').on('mouseleave', onMouseLeave);
         };
 

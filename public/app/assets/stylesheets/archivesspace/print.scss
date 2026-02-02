@@ -47,7 +47,7 @@
   }
 
   /* Extend bootstrap/_print.scss anchors */
-  a[href]:not([href^='#']):not([href^='javascript:']) {
+  a[href]:not([href^='#'], [href^='javascript:']) {
     color: blue !important;
     text-decoration: underline !important;
   }
@@ -261,7 +261,7 @@
     size: auto; /* enables orientation options in print dialog */
   }
 
-  a[href]:not([href^='#']):not([href^='javascript:'])::after {
+  a[href]:not([href^='#'], [href^='javascript:'])::after {
     content: ' (' attr(href) ')';
   }
 

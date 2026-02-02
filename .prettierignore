@@ -4,7 +4,9 @@
 *.json
 frontend/app/assets/stylesheets/vendor/
 frontend/app/assets/stylesheets/jquery.*
+frontend/app/assets/**/fattable.*
 frontend/vendor/
 public/app/assets/javascripts/bootstrap-accessibility/
+public/app/assets/javascripts/scrollend.js
 public/vendor/assets/
 public/app/assets/stylesheets/font-awesome/
