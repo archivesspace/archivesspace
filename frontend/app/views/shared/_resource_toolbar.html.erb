@@ -13,6 +13,9 @@
       </div>
     <% end %>
     <% if ['edit', 'update'].include?(controller.action_name) %>
+      <div class="close-record">
+        <%= link_to t("actions.finish_editing"), {:action => :show, :id => record.id, :anchor => "tree::#{record_type}_#{record.id}"}, :class => "btn btn-primary btn-sm btn-success finish-editing" %>
+      </div>
       <div class="align-items-center revert-changes">
         <%= link_to t("actions.revert"), {:action => :edit, :id => record.id}, :class => "btn btn-sm btn-default flex-shrink-0" %>
       </div>
