@@ -124,6 +124,16 @@ When 'the user clicks on the first dropdown in the {string} form' do |form_title
   end
 end
 
+When 'the user clicks on the last dropdown in the {string} form' do |form_title|
+  section_title = find('h3', text: form_title)
+  section = section_title.ancestor('section')
+  expect(section[:id]).to_not eq nil
+
+  within "##{section[:id]}" do
+    all('.input-group-append .dropdown-toggle').last.click
+  end
+end
+
 When 'the user clicks on {string} in the {string} form' do |string, form_title|
   section_title = find('h3', text: form_title)
   section = section_title.ancestor('section')
@@ -154,10 +164,8 @@ When 'the user fills in {string}' do |label|
 end
 
 When 'the user fills in {string} in the modal' do |label|
-  @uuid = SecureRandom.uuid if @uuid.nil?
-
   within '.modal-content' do
-    fill_in label, with: @uuid, match: :first
+    fill_in label, with: SecureRandom.uuid, match: :first
   end
 end
 
