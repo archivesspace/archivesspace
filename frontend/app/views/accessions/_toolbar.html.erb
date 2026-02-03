@@ -102,4 +102,14 @@
       </div>
     <% end %>
   </section>
+<% elsif user_can_view_only?('accession') %>
+  <section class="d-flex flex-column">
+    <div class="d-flex align-items-center gap-x-2 record-toolbar" role="toolbar">
+      <div class="btn-group ml-auto" data-allow-disabled>
+        <% if AppConfig[:enable_public] %>
+          <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @accession} %>
+        <% end %>
+      </div>
+    </div>
+  </section>
 <% end %>
