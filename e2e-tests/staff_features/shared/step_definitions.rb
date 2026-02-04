@@ -564,3 +564,28 @@ Then 'the {string} button is disabled' do |text|
     expect(button.disabled?).to eq true
   end
 end
+
+Then('the {string} link opens a new tab with {string} access') do |link_text, access_level|
+  new_window = window_opened_by do
+    click_link link_text
+  end
+
+  within_window new_window do
+    case access_level
+    when 'edit'
+      expect(page).to have_selector('button', text: 'Save')
+    when 'readonly'
+      expect(page).not_to have_selector('button', text: 'Save')
+    else
+      raise "Unknown access level: #{access_level}"
+    end
+  end
+end
+
+Then 'the {string} link is {string}' do |link_text, state|
+  if state == 'displayed'
+    expect(page).to have_link(link_text, visible: true)
+  else
+    expect(page).not_to have_link(link_text)
+  end
+end
