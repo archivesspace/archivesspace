@@ -11,6 +11,7 @@ on:
     branches:
       - master
       - 'ANW-*'
+      - 'release-*'
     tags:
       - 'v[2-9].[0-9].[0-9]*'  # matches v2.0.0, v3.1.4-beta, etc.
 
@@ -86,6 +87,7 @@ jobs:
             type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
             type=raw,value=latest,enable={{is_default_branch}}
             type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=raw,value=${{ github.ref_name }},enable=${{ startsWith(github.ref_name, 'release-') }}
 
       # Solr Metadata
       - name: Extract Solr metadata
@@ -97,6 +99,7 @@ jobs:
             type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
             type=raw,value=latest,enable={{is_default_branch}}
             type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=raw,value=${{ github.ref_name }},enable=${{ startsWith(github.ref_name, 'release-') }}
 
       # Proxy Metadata
       - name: Extract Proxy metadata
@@ -108,6 +111,7 @@ jobs:
             type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
             type=raw,value=latest,enable={{is_default_branch}}
             type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=raw,value=${{ github.ref_name }},enable=${{ startsWith(github.ref_name, 'release-') }}
 
       - name: Build and push ArchivesSpace image
         uses: docker/build-push-action@v5
