@@ -64,6 +64,7 @@ pl:
   validation_errors:
     mixed_content_invalid_inline_ead: "Nieprawidłowy znacznik EAD: używaj prostych cudzysłowów (\" lub
       ') dla wartości atrybutów i upewnij się, że znaczniki są poprawnie sformatowane."
+    mixed_content_disallowed_tag: "Wykryto niedozwolony znacznik HTML. Ze względów bezpieczeństwa znaczniki takie jak &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; i elementy formularzy nie są dozwolone w polach ze zmienną zawartością."
   assessment:
     sensitive_material_true: Tak
     sensitive_material_false: Nie

@@ -2191,6 +2191,7 @@ es:
     ark_format_error: Uno de los ARK proporcionados no era un ARK válido.
     mixed_content_invalid_inline_ead: "Marcado EAD no válido: use comillas rectas (\" o ') para los valores
       de los atributos y asegúrese de que las etiquetas estén bien formadas."
+    mixed_content_disallowed_tag: "Se detectó una etiqueta HTML no permitida. Por razones de seguridad, etiquetas como &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; y elementos de formulario no están permitidos en campos de contenido mixto."
   job:
     _singular: Tarea en el background
     _plural: Tareas en el background

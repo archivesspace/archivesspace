@@ -1571,6 +1571,7 @@ ja:
     invalid_characters: 無効な文字が含まれています
     subrecord_not_allowed_for_agent_software: ソフトウェアエージェントは、レコード制御または関係サブレコードを持つことはできません
     mixed_content_invalid_inline_ead: "無効な EAD マークアップです。属性値には直線の引用符（\" または '）を使用し、タグが正しく構成されていることを確認してください。"
+    mixed_content_disallowed_tag: "許可されていない HTML タグが検出されました。セキュリティ上の理由から、&lt;script&gt;、&lt;style&gt;、&lt;iframe&gt; などのタグやフォーム要素は、混合コンテンツフィールドでは使用できません。"
   job:
     _singular: バックグラウンドジョブ
     _plural: バックグラウンドジョブ
