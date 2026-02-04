@@ -2282,6 +2282,7 @@ fr:
       indiquer une date de fin.
     missing_required_subrecord: Le sous-enregistrement est requis mais manquait
     mixed_content_invalid_inline_ead: "Balisage EAD non valide : utilisez des guillemets droits (\" ou ') pour les valeurs d'attribut et veillez à ce que les balises soient bien formées."
+    mixed_content_disallowed_tag: "Balise HTML non autorisée détectée. Pour des raisons de sécurité, les balises telles que &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; et les éléments de formulaire ne sont pas autorisés dans les champs à contenu mixte."
   job:
     _singular: Tâche d'arrière-plan
     _plural: Tâches d'arrière-plan

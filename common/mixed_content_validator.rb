@@ -2,8 +2,14 @@
 
 # Validates inline EAD markup is well formed.
 module MixedContentValidator
-  # Returns an i18n validation_errors key if invalid, otherwise nil
+  DISALLOWED_TAGS = %w[
+    script style iframe object embed applet
+    meta link base form input button select
+    textarea option optgroup label fieldset
+  ].freeze
+
   def self.error_for_inline_ead(content)
+    return 'mixed_content_disallowed_tag' unless allowed_tags?(content)
     return nil if valid_inline_ead?(content)
 
     'mixed_content_invalid_inline_ead'
@@ -21,6 +27,15 @@ module MixedContentValidator
     end
 
     attributes_ok && tags_are_well_formed?(content)
+  end
+
+  def self.allowed_tags?(content)
+    return true if content.nil? || content.strip.empty?
+    return true unless content.include?('<')
+
+    content.scan(/<\/?([A-Za-z][A-Za-z0-9:_-]*)/).all? do |tag_name,|
+      !DISALLOWED_TAGS.include?(tag_name.downcase)
+    end
   end
 
   def self.tags_are_well_formed?(content)
@@ -65,5 +80,5 @@ module MixedContentValidator
     !remainder.include?('=')
   end
 
-  private_class_method :tags_are_well_formed?, :attributes_are_well_quoted?
+  private_class_method :tags_are_well_formed?, :attributes_are_well_quoted?, :allowed_tags?
 end

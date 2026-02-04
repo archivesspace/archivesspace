@@ -2525,6 +2525,7 @@ en:
     external_ark_collision: External ARK already in use
     ark_format_error: One of the ARKs provided was not a valid ARK.
     mixed_content_invalid_inline_ead: "Invalid EAD markup: use straight quotes (\" or ') for attribute values and ensure tags are well-formed."
+    mixed_content_disallowed_tag: "Disallowed HTML tag detected. For security reasons, tags like &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt;, and form elements are not permitted in mixed content fields."
 
   job:
     _singular: Background Job

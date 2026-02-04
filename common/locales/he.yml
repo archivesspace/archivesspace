@@ -1,1 +1,4 @@
 he:
+  validation_errors:
+    mixed_content_invalid_inline_ead: "סימון EAD לא חוקי: השתמש במירכאות ישרות (\" או ') עבור ערכי תכונות וודא שהתגים מעוצבים כהלכה."
+    mixed_content_disallowed_tag: "התגלה תג HTML לא מורשה. מטעמי אבטחה, תגים כגון &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; ואלמנטי טפסים אינם מורשים בשדות תוכן מעורב."
