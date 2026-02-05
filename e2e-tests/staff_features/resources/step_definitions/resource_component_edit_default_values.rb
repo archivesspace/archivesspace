@@ -2,6 +2,7 @@
 
 Given 'the user is on the Component Record Default page' do
   visit "#{STAFF_URL}/archival_objects/defaults"
+  wait_for_ajax
 end
 
 Then 'the Component Record Defaults page is displayed' do

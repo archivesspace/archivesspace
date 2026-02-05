@@ -10,6 +10,7 @@ end
 
 Given 'the user is on the Resource Record Default page' do
   visit "#{STAFF_URL}/resources/defaults"
+  wait_for_ajax
 end
 
 Then 'the new Resource form has the following default values' do |form_values_table|
