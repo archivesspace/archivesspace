@@ -50,9 +50,10 @@ class SessionController < ApplicationController
     response.headers['Access-Control-Allow-Credentials'] = 'true'
 
     if session[:session] && params[:uri]
-      render json: user_can_edit?(params)
+      access_info = check_user_access(params)
+      render json: access_info
     else
-      render json: false
+      render json: { can_access: false, mode: nil }
     end
   end
 
@@ -99,5 +100,32 @@ class SessionController < ApplicationController
     when 'top_container'
       user_can?('update_container_record', record_info[:repository])
     end
+  end
+
+  def check_user_access(params)
+    record_info = JSONModel.parse_reference(params[:uri])
+
+    # Check if user can edit the record
+    can_edit = user_can_edit?(params)
+
+    # Check if user has view permission
+    can_view = user_can?('view_repository', record_info[:repository])
+
+    # Determine access mode
+    if can_edit
+      # User can edit: use configured mode (default 'edit')
+      mode = AppConfig[:pui_staff_link_mode] || 'edit'
+    elsif can_view
+      # User can only view: force readonly mode
+      mode = 'readonly'
+    else
+      # No access
+      mode = nil
+    end
+
+    {
+      can_access: can_edit || can_view,
+      mode: mode
+    }
   end
 end

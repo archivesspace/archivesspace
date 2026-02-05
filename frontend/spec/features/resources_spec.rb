@@ -2080,4 +2080,48 @@ describe 'Resources', js: true do
       end
     end
   end
+
+  describe 'view-only permissions' do
+    before(:all) do
+      @view_only_repo = create(:repo, repo_code: "view_only_resources_#{Time.now.to_i}", publish: true)
+      set_repo(@view_only_repo)
+      @published_resource = create(:resource, title: "Published Resource #{Time.now.to_i}", publish: true)
+      @view_only_user = create_user(@view_only_repo => ['repository-viewers'])
+      run_index_round
+    end
+
+    before(:each) do
+      login_user(@view_only_user)
+      ensure_repository_access
+      select_repository(@view_only_repo)
+    end
+
+    it 'sees only the View Published button on resource show page' do
+      visit "/resources/#{@published_resource.id}"
+      wait_for_ajax
+
+      within '.record-toolbar' do
+        expect(page).to have_link('View Published')
+        expect(page).not_to have_link('Edit')
+        expect(page).not_to have_button('Save')
+        expect(page).not_to have_css('#merge-dropdown')
+        expect(page).not_to have_css('#transfer-dropdown')
+      end
+    end
+
+    it 'cannot access the resource edit page' do
+      visit "/resources/#{@published_resource.id}/edit"
+      expect(page).to have_text('Unable to Access Page')
+    end
+
+    it 'can click View Published to open PUI' do
+      visit "/resources/#{@published_resource.id}"
+      wait_for_ajax
+
+      view_published_link = find_link('View Published')
+      expect(view_published_link[:href]).to include('/repositories/')
+      expect(view_published_link[:href]).to include('/resources/')
+      expect(view_published_link[:target]).to eq('_blank')
+    end
+  end
 end
