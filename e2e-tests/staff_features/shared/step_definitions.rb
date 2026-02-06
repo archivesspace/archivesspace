@@ -437,9 +437,13 @@ Given 'the Pre-populate Records option is checked in Repository Preferences' do
   end
   check('preference_defaults__default_values_')
   click_on 'Save'
+  sleep 3
+  check('Include Unpublished Records in Exports?')
+  click_on 'Save' # update the preferences two times to ensure that REFRESH_PREFERENCES notification reaches SUI
 
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Preferences updated')
   expect(page).to have_checked_field('preference_defaults__default_values_')
+  expect(page).to have_checked_field('Include Unpublished Records in Exports?')
 end
 
 When 'the user clears {string} in the {string} form' do |label, form_title|
