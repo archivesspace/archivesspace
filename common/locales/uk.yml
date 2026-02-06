@@ -1803,7 +1803,7 @@ uk:
     default_values_tooltip: Чи слід попередньо заповнювати нові записи доступу та ресурсів 
       значеннями за замовчуванням.
     digital_object_spawn: Створити опис екземплярів цифрових об'єктів зі зв'язаного запису
-    browse_column: Колонка %{число}
+    browse_column: Колонка %{num}
     browse_column_tooltip: Поле, яке потрібно відобразити у стовпці %{num}.
     sort_column: Стовпець сортування за замовчуванням
     sort_column_tooltip: Поле за замовчуванням для сортування результатів.
@@ -1986,7 +1986,7 @@ uk:
     status_running: Біг
     status_failed: Не вдалося
     status_canceled: Скасовано
-    queue_position: № %{позиція}
+    queue_position: № %{position}
     time_submitted: Час подання
     time_started: Час початку
     time_finished: Час виконання
@@ -2423,7 +2423,7 @@ uk:
     row_error: 'Рядок %{row} не буде оброблено через помилки: %{errs}'
     created: '%{what} створив: %{id}'
     could_be: '%{what} буде створено'
-    updated: '%{що}: %{є}'
+    updated: '%{what}: %{id}'
     clip_btn: Копіювати в буфер обміну
     clip_created: "\t%{what} створив: %{nm} %{id} %{ref_id}"
     clip_what: "\t%{what} : %{nm} %{id} %{ref_id}"

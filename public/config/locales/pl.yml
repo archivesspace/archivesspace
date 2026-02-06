@@ -227,9 +227,9 @@ pl:
   multiple_containers: Wiele kontenerów
   contains: Zawiera %{count} %{type}
   found: Znaleziono w %{count} %{type}
-  extent_number_type: '%{liczba} %{typ}'
+  extent_number_type: '%{number} %{type}'
   extent_phys_details: ' : %{deets}'
-  extent_dims: ' ; %{wymiary}'
+  extent_dims: ' ; %{dimensions}'
   external_docs: Dokumenty zewnętrzne
   more_about: More about
   list: Lista %{type}
