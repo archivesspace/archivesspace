@@ -1,0 +1,24 @@
+<%
+  image_alt_text = thumbnail.fetch('caption', t("thumbnail.fallback_caption", :default => "Thumbnail"))
+  image_link_url = defined?(override_link_url) ? override_link_url : thumbnail['link_url']
+  image_link_target = defined?(override_link_target) ? override_link_target : '_blank'
+%>
+<div class="digital-object-thumbnail">
+  <%= link_to image_link_url, :target => image_link_target do %>
+    <% if thumbnail['image_url'] %>
+      <%= image_tag thumbnail.fetch('image_url'), :alt => image_alt_text, 'onError' => 'this.closest(".digital-object-thumbnail").style.display = "none";' %>
+    <% else %>
+      <%= content_tag(:i, nil, {
+        :title => image_alt_text,
+        :class => 'digital-object-thumbnail-icon glyphicon glyphicon-file'
+      }) %>
+    <% end %>
+  <% end %>
+  <% if (caption = thumbnail.fetch('caption', nil)) %>
+    <div class="digital-object-thumbnail-caption">
+      <%== caption %>
+    </div>
+  <% end %>
+</div>
+
+<div class="clearfix"></div>

@@ -3,6 +3,8 @@
     <h3 class="subrecord-form-heading">
       <%= form.button_with_tooltip(t("file_version._frontend.action.make_representative_tooltip"), t("file_version.is_representative"), [], ["badge badge-pill badge-primary fs-14px is-representative-label"], false) %>
       <%= form.button_with_tooltip(t("file_version._frontend.action.make_representative_tooltip"), t("file_version._frontend.action.make_representative"), [], ["btn", "btn-sm", "btn-default", "is-representative-toggle"]) %>
+      <%= form.button_with_tooltip(t("file_version._frontend.action.make_display_thumbnail_tooltip"), t("file_version.is_display_thumbnail"), [], ["badge badge-pill badge-info fs-14px is-thumbnail-label"], false) %>
+      <%= form.button_with_tooltip(t("file_version._frontend.action.make_display_thumbnail_tooltip"), t("file_version._frontend.action.make_display_thumbnail"), [], ["btn", "btn-sm", "btn-default", "is-thumbnail-toggle"]) %>
     </h3>
     <%= form.label_and_textarea("file_uri") %>
     <%= form.label_and_boolean("publish", {:class => "js-file-version-publish"}, user_prefs["publish"]) %>
@@ -18,5 +20,6 @@
 
       <%= form.label_and_textfield("caption") %>
       <%= form.hidden_input "is_representative", form["is_representative"] ? 1 : 0 %>
+      <%= form.hidden_input "is_display_thumbnail", form["is_display_thumbnail"] ? 1 : 0 %>
   </div>
 <% end %>

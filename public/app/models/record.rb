@@ -105,6 +105,15 @@ class Record
     end
   end
 
+  def has_thumbnail?
+    !!json['thumbnail']
+  end
+
+  def thumbnail
+    json['thumbnail']
+  end
+
+
   private
 
   def parse_identifier

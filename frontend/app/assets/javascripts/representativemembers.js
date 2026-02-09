@@ -99,4 +99,47 @@ $(function () {
       }
     }
   );
+
+  function toggleThumbnail($subform, toggleOnOrOff) {
+    if (toggleOnOrOff === 'off') {
+      $subform.removeClass('is-thumbnail');
+      $subform.find(':hidden[name$="[is_display_thumbnail]"]').val(0);
+    } else {
+      $subform.addClass('is-thumbnail');
+      $subform.find(':hidden[name$="[is_display_thumbnail]"]').val(1);
+    }
+  }
+
+  $(document).bind(
+    'subrecordcreated.aspace',
+    function (event, object_name, subform) {
+      if (object_name === 'file_version') {
+        const $subform = $(subform);
+        const $section = $subform.closest('section.subrecord-form');
+
+        if (
+          $subform.find(':hidden[name$="[is_display_thumbnail]"]').val() === '1'
+        ) {
+          $subform.addClass('is-thumbnail');
+        }
+
+        $subform.find('.is-thumbnail-toggle').click(function (e) {
+          e.preventDefault();
+
+          $(this).parent().off('click');
+
+          toggleThumbnail($section.find('.is-thumbnail'), 'off');
+          toggleThumbnail($subform, 'on');
+        });
+
+        $subform.find('.is-thumbnail-label').click(function (e) {
+          e.preventDefault();
+
+          $(this).parent().off('click');
+
+          toggleThumbnail($subform, 'off');
+        });
+      }
+    }
+  );
 });
