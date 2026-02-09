@@ -47,3 +47,16 @@ Add the following extensions via the VS Code command palette or the Extensions p
 It's important to note that since these extensions work in tandem with the [VS Code settings file](settings.json), these settings only impact your ArchivesSpace VS Code Workspace, not your global VS Code User settings.
 
 The extensions should now work out of the box at this point providing error messages and autocorrecting fixable errors on file save!
+
+### Optional: Cucumber E2E extension
+
+If you use the [Cucumber](https://marketplace.visualstudio.com/items?itemName=CucumberOpen.cucumber-official) extension for Gherkin and step definitions, you can optionally use the example configs in this folder:
+
+- **example.settings.json** — Copy or merge these settings into your workspace `settings.json` to set feature/glue paths and Cucumber-specific editor options.
+- **example.tasks.json** — Copy or merge into your workspace `tasks.json` to get “Cucumber: Run e2e-test” and “Cucumber: Dry Run” tasks (they use `e2e-tests/` and the documented env vars).
+
+“Workspace” here means the ArchivesSpace repository root you have open; its config lives in this `.vscode/` directory.
+
+These are optional; the main setup above does not require them.
+
+For full technical and development documentation (API, architecture, deployment, etc.), see the [ArchivesSpace TechDocs](https://docs.archivesspace.org/development/) site.

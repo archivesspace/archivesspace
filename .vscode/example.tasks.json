@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "cucumberArgs",
+      "type": "promptString",
+      "description": "Cucumber args (feature path, :line, or --tags …)",
+      "default": ""
+    }
+  ],
+  "tasks": [
+    {
+      "label": "Cucumber: Run e2e-test",
+      "type": "shell",
+      "command": "STAFF_URL='http://localhost:3000' PUBLIC_URL='http://localhost:3001' mise exec -- bundle exec cucumber ${input:cucumberArgs}",
+      "options": {
+        "cwd": "e2e-tests"
+      },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Cucumber: Dry Run (e2e-tests)",
+      "type": "shell",
+      "command": "STAFF_URL='http://localhost:3000' mise exec -- bundle exec cucumber --dry-run",
+      "options": {
+        "cwd": "e2e-tests"
+      },
+      "group": "test",
+      "problemMatcher": []
+    }
+  ]
+}
