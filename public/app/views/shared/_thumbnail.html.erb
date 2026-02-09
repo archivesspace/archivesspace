@@ -1,0 +1,29 @@
+<%
+  show_spacer = true unless defined?(show_spacer)
+
+  if defined?(thumbnail_link) && thumbnail_link
+    same_window = true
+  else
+    same_window = false
+  end
+%>
+<% if result.has_thumbnail? %>
+  <%
+    thumbnail_link ||= result.thumbnail.fetch('link_url')
+  %>
+  <div class="pui-thumbnail">
+    <%= link_to thumbnail_link, :target => same_window ? '_self' : '_blank' do %>
+      <div class="pui-thumbnail-help-text"><%= I18n.t('thumbnails.access_help_text') %></div>
+      <% if (image_url = result.thumbnail.fetch('image_url', nil)) %>
+        <%= image_tag image_url, :alt => strip_mixed_content(result.thumbnail.fetch('caption')), 'onError' => 'this.closest(".pui-thumbnail").style.display = "none";' %>
+      <% else %>
+        <%= content_tag(:i, nil, {:title => strip_mixed_content(result.thumbnail.fetch('caption')), :class => 'pui-thumbnail-icon fa fa-th'}) %>
+      <% end %>
+    <% end %>
+    <% if result.thumbnail.fetch('caption') %>
+      <div class="pui-thumbnail-caption"><%== result.thumbnail.fetch('caption') %></div>
+    <% end %>
+  </div>
+<% elsif show_spacer %>
+  <div class="pui-thumbnail-spacer"></div>
+<% end %>

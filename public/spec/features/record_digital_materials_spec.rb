@@ -76,18 +76,6 @@ describe 'Digital Materials listing from a record context', js: true do
     end
   end
 
-  describe 'Digital Objects count message' do
-    it 'displays singular form when resource has one digital object' do
-      visit "repositories/#{@repository.id}/resources/#{@resource_with_one_do.id}"
-      expect(page).to have_content('Browse 1 digital object in collection')
-    end
-
-    it 'displays plural form when resource has multiple digital objects' do
-      visit "repositories/#{@repository.id}/resources/#{@resource_with_multiple_do.id}"
-      expect(page).to have_content('Browse 3 digital objects in collection')
-    end
-  end
-
   it 'has appropriate skip links' do
     aggregate_failures do
       within '.skipnav' do

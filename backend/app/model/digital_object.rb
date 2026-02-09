@@ -25,9 +25,9 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Events
   include Publishable
   include Assessments::LinkedRecord
-  include RepresentativeFileVersion
   include TouchRecords
   include MixedContentValidatable
+  include Thumbnails
 
   enable_suppression
 

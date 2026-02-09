@@ -1,0 +1,64 @@
+.digital-object-thumbnail {
+  float: right;
+  border: 1px solid #ccc;
+  padding: 4px;
+  min-width: 120px;
+  text-align: center;
+  border-radius: 5px;
+  margin: 0 0 10px;
+
+  > a {
+    display: inline-block;
+  }
+
+  img {
+    max-height: 120px;
+    max-width: 240px;
+  }
+
+  .digital-object-thumbnail-caption {
+    background: #eee;
+    padding: 10px;
+    text-align: center;
+    margin: 4px -4px -4px;
+    border-radius: 0 0 5px 5px;
+  }
+}
+
+.digital-object-thumbnail-icon {
+  font-size: 50px;
+  padding: 20px;
+}
+
+.thumbnail-column {
+  text-align: center;
+}
+
+#tabledSearchResults {
+  .thumbnail-column {
+    width: 80px;
+  }
+  .digital-object-thumbnail {
+    float: none;
+    border: none;
+    min-width: 80px;
+
+    img {
+      object-fit: cover;
+      object-position: center;
+      height: 80px;
+      width: 80px;
+    }
+
+    .digital-object-thumbnail-caption {
+      display: none;
+    }
+  }
+}
+
+#digital_object_file_versions_ {
+  .digital-object-thumbnail {
+    margin-top: 8px;
+    margin-right: 8px;
+  }
+}
