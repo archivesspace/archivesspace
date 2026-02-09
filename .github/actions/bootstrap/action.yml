@@ -20,6 +20,9 @@ inputs:
   oai:
     description: "install oai gems"
     default: false
+  root:
+    description: "install root Gemfile gems"
+    default: false
   java-version:
     description: Java version to install
     required: true
@@ -93,3 +96,9 @@ runs:
       shell: bash
       run: |
         ./build/run bundler -Dexcluded-gem-groups="development doc" -Dgemfile="../oai/Gemfile"
+
+    - name: Install root Gemfile gems
+      if: ${{ inputs.root == 'true' }}
+      shell: bash
+      run: |
+        ./build/run bundler -Dexcluded-gem-groups="development doc" -Dgemfile="../Gemfile"
