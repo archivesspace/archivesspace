@@ -12,20 +12,23 @@
             <div class="col-md-1">
               <span class="glyphicon"></span>
             </div>
-            <div class="col-md-11">
+            <div class="col-md-8">
               <%= file_version['file_uri'] %>
+            </div>
+            <div class="col-md-3">
+              <% if file_version['publish'] %><span class="badge badge-success pull-right" style="margin-left: 5px;">Published</span><% end %>
+              <% if file_version['is_representative'] %><span class="badge badge-info pull-right" style="margin-left: 5px;">Representative</span><% end %>
+              <% if file_version['is_display_thumbnail'] %><span class="badge badge-info pull-right" style="margin-left: 5px;">Display Thumbnail</span><% end %>
             </div>
           </div>
         </div>
         <div id="<%= section_id %>_file_version_<%= index %>" class="accordion-body collapse">
-          <div class="form-horizontal">
-            <% if can_embed?(file_version) %>
-              <% alt_text = file_version['caption'] ? file_version['caption'] : title %>
-              <%= render_aspace_partial :partial => "file_versions/image", :locals => {:file => file_version, :alt_text => alt_text } %>
-            <% end %>
-            <%= render_aspace_partial :partial => "file_versions/file_uri", :locals => {:file_uri => uri_or_string( file_version['file_uri'] ) } %>
-          </div>
-          <%= read_only_view(file_version) %>
+          <%= render_aspace_partial :partial => "shared/content_and_thumbnail", :locals => {:record => file_version, content: capture { %>
+            <div class="form-horizontal">
+              <%= render_aspace_partial :partial => "file_versions/file_uri", :locals => {:file_uri => uri_or_string( file_version['file_uri'] ) } %>
+            </div>
+            <%= read_only_view(file_version) %>
+          <% }} %>
         </div>
       </div>
     <% end %>

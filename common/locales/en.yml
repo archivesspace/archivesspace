@@ -1287,6 +1287,7 @@ en:
     identifier: Identifier
     caption: Caption
     is_representative: Representative
+    is_display_thumbnail: Display Thumbnail
 
   extent: &extent_attributes
     portion: Portion

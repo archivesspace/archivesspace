@@ -36,11 +36,7 @@
    <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
  </div>
   <div class="col-12 col-lg-9 px-3 resizable-content-pane">
-    <%= render partial: 'shared/digital', locals: {
-      :dig_objs => @dig,
-      record: @result,
-      n_digital_objects: @n_digital_objects
-    } %>
+    <%= render partial: 'shared/thumbnail', locals: {result: @result} %>
     <%= render partial: 'shared/record_innards' %>
   </div>
 </div>

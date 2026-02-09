@@ -2,8 +2,18 @@ class FileVersion < Sequel::Model(:file_version)
   include ASModel
   include Publishable
   include Representative
+  include Thumbnails
 
   corresponds_to JSONModel(:file_version)
+
+  def before_validation
+    super
+
+    # Uniq constraint for only one display thumbnail per DO
+    # only works if non-thumbnail file versions have a null
+    # is_display_thumbnail column value.
+    self.is_display_thumbnail = nil if self.is_display_thumbnail != 1
+  end
 
   def representative_for_types
     { is_representative: [:digital_object, :digital_object_component] }
@@ -38,6 +48,12 @@ class FileVersion < Sequel::Model(:file_version)
 
     if !is_published && is_representative
       errors.add(:is_representative, 'representative_file_version_must_be_published')
+    end
+
+    if self[:is_display_thumbnail] == true || self[:is_display_thumbnail] == 1
+      validates_unique([:is_display_thumbnail, :digital_object_id],
+                       :message => "A digital object can only have one display thumbnail file version")
+      map_validation_to_json_property([:is_display_thumbnail, :digital_object_id], :is_display_thumbnail)
     end
 
     super
