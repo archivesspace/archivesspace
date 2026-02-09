@@ -16,10 +16,7 @@
   </section>
 
   <div class="col-sm-9">
-
-    <% if @result['json']['representative_file_version'].present? %>
-      <%= render partial: 'shared/digital', locals: {record: @result} %>
-    <% end %>
+    <%= render partial: 'shared/thumbnail', locals: {result: @result} %>
 
   <% if @result.content_description %>
     <h2><%= t('accession._public.section.content_description') %></h2>

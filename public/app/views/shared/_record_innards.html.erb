@@ -70,10 +70,13 @@
 	      :p_id => 'add_desc', :p_body => x } %>
 	<% end %>
   <%
-    additional_published_fvs = []
-    if @result.json['file_versions'].present? && @result.json['representative_file_version'].present?
-      additional_published_fvs = @result.json['file_versions'].select { |fv| fv['publish'] && fv['file_uri'] != @result.json['representative_file_version']['file_uri'] }
-    end
+    # consider any fv with a different file_uri to the thumbnail's image_url
+    # to be an "additional file version"
+    additional_published_fvs =
+      ASUtils.wrap(@result.json['file_versions'])
+        .select { |fv| fv['publish'] &&
+          fv['file_uri'] != @result.json.dig('thumbnail', 'image_url')
+        }
   %>
   <% unless additional_published_fvs.empty? %>
     <%

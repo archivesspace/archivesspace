@@ -4,51 +4,62 @@ describe ResourcesController, type: :controller do
   render_views
 
   before(:all) do
-    @fv_uri = 'https://www.archivesspace.org/demos/Congreave%20E-4/ms292_008.jpg'
-    @fv_caption = 'digital_object_with_rep_file_ver caption'
+    @fv_thumbnail_uri = 'https://www.archivesspace.org/demos/Congreave%20E-4/ms292_008.jpg'
+    @fv_master_uri = 'https://www.archivesspace.org/demos/Congreave%20E-4/ms292_008.jpg'
+    @fv_caption = 'digital_object_with_thumbnail caption'
 
     @repo = create(:repo, repo_code: "resources_test_#{Time.now.to_i}",
-                          publish: true)
+                   publish: true)
     set_repo @repo
     @accession = create(:accession,
                         collection_management: build(:collection_management))
     @digital_object = create(:digital_object)
-    @digital_object_with_rep_file_ver = create(:digital_object,
-      publish: true,
-      title: 'Digital object with representative file version',
-      :file_versions => [build(:file_version, {
-        :publish => true,
-        :is_representative => true,
-        :file_uri => @fv_uri,
-        :caption => @fv_caption,
-        :use_statement => 'image-service'
-      })]
+    @digital_object_with_thumbnail = create(:digital_object,
+                                            publish: true,
+                                            title: 'Digital object with representative file version',
+                                            :file_versions => [
+                                              build(:file_version, {
+                                                :publish => true,
+                                                :is_representative => false,
+                                                :file_uri => @fv_thumbnail_uri,
+                                                :use_statement => 'image-thumbnail',
+                                                :xlink_show_attribute => 'embed',
+                                              }),
+                                              build(:file_version, {
+                                                :publish => true,
+                                                :is_representative => true,
+                                                :file_uri => @fv_master_uri,
+                                                :caption => @fv_caption,
+                                                :use_statement => 'image-service'
+                                              })
+                                            ]
     )
     @resource = create(:resource, publish: true,
                        instances: [build(:instance_digital, digital_object: { ref: @digital_object.uri })])
+
     @resource_with_rep_instance = create(:resource,
-      publish: true,
-      title: "Resource with representative file version",
-      instances: [build(:instance_digital,
-        digital_object: {'ref' => @digital_object_with_rep_file_ver.uri},
-        is_representative: true
-      )]
+                                         publish: true,
+                                         title: "Resource with representative file version",
+                                         instances: [build(:instance_digital,
+                                                           digital_object: {'ref' => @digital_object_with_thumbnail.uri},
+                                                           is_representative: true
+                                                     )]
     )
     @resource_with_rep_instance_2 = create(:resource,
-      publish: true,
-      title: "Yet another Resource with representative file version",
-      instances: [build(:instance_digital,
-        digital_object: {'ref' => @digital_object_with_rep_file_ver.uri},
-        is_representative: true
-      )]
+                                           publish: true,
+                                           title: "Yet another Resource with representative file version",
+                                           instances: [build(:instance_digital,
+                                                             digital_object: {'ref' => @digital_object_with_thumbnail.uri},
+                                                             is_representative: true
+                                                       )]
     )
     @unpublished_resource = create(:resource)
 
     subject = create(:subject, terms: [build(:term, {term: 'Term 1', term_type: 'temporal'}), build(:term, term: 'Term 2')])
     @resource_with_subj = create(:resource, title: "Resource with Subject from Controller",
-                    publish: true,
-                    instances: [build(:instance_digital)],
-                    subjects: [{'ref' => subject.uri}])
+                                 publish: true,
+                                 instances: [build(:instance_digital)],
+                                 subjects: [{'ref' => subject.uri}])
 
     @a1 = create(:archival_object,
                  publish: true, resource: { ref: @resource.uri })
@@ -121,7 +132,7 @@ describe ResourcesController, type: :controller do
 
     it 'should return a 404 when it cannot find the tree waypoint' do
       get(:tree_waypoint, params: { rid: @repo.id, id: @resource.id,
-                                node: @resource.uri, offset: 100 })
+                                    node: @resource.uri, offset: 100 })
       expect(response.status).to eq(404)
     end
 
@@ -145,16 +156,17 @@ describe ResourcesController, type: :controller do
       expect(instance_data[0]['caption']).to eq(@digital_object.title)
     end
 
-    it 'displays a representative file version image, caption and link to view all digital objects when set' do
+    it 'displays a thumbnail' do
       get(:show, params: {rid: @repo.id, id: @resource_with_rep_instance.id})
 
-      expect(response).to render_template("shared/_representative_file_version_record")
+      expect(response).to render_template("shared/_thumbnail")
       page = Capybara.string(response.body)
-      expect(page).to have_css("figure[data-rep-file-version-wrapper] img[src='#{@fv_uri}']")
-      page.find(:css, 'figure[data-rep-file-version-wrapper] figcaption') do |fc|
+
+      expect(page).to have_css(".pui-thumbnail img[src='#{@fv_thumbnail_uri}']")
+      expect(page).to have_css(".pui-thumbnail a[href='#{@fv_master_uri}']")
+      page.find(:css, '.pui-thumbnail .pui-thumbnail-caption') do |fc|
         expect(fc.text).to have_content(@fv_caption)
       end
-      expect(response.body).to have_css(".objectimage a[data-view-all-digital-objects]")
     end
   end
 
@@ -164,11 +176,11 @@ describe ResourcesController, type: :controller do
 
       page = Capybara.string(response.body)
 
-      page.find(:css, ".recordrow[data-uri='#{@digital_object_with_rep_file_ver.uri}'] ol.result_linked_instances_tree li:first-of-type span.resource_name") do |span|
+      page.find(:css, ".recordrow[data-uri='#{@digital_object_with_thumbnail.uri}'] ol.result_linked_instances_tree li:first-of-type span.resource_name") do |span|
         expect(span).to have_content @resource_with_rep_instance.title
       end
 
-      page.find(:css, ".recordrow[data-uri='#{@digital_object_with_rep_file_ver.uri}'] ol.result_linked_instances_tree li:last-of-type span.resource_name") do |span|
+      page.find(:css, ".recordrow[data-uri='#{@digital_object_with_thumbnail.uri}'] ol.result_linked_instances_tree li:last-of-type span.resource_name") do |span|
         expect(span).to have_content @resource_with_rep_instance_2.title
       end
     end
