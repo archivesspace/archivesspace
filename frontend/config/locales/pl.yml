@@ -384,7 +384,6 @@ pl:
       asc: Wznoszący się
       desc: Zstępujący
       uri: URI
-      representative_file_version: Obraz miniatury
     resource:
       score: Znaczenie
       title: Tytuł
@@ -408,7 +407,6 @@ pl:
       asc: Wznoszący się
       desc: Zstępujący
       uri: URI
-      representative_file_version: Obraz miniatury
     archival_object:
       score: Znaczenie
       title: Tytuł
@@ -421,7 +419,6 @@ pl:
       langcode: Język materiałów
       desc: Zstępujący
       uri: URI
-      representative_file_version: Obraz miniatury
       dates: Daty
       extents: Zakres
       user_mtime: Zmodyfikowany
@@ -447,7 +444,6 @@ pl:
       digital_object_id: Cyfrowy identyfikator obiektu
       audit_info: Informacje dotyczące audytu
       uri: URI
-      representative_file_version: Obraz miniatury
       user_mtime: Zmodyfikowany
       dates: Daty
       desc: Zstępujący
@@ -462,7 +458,6 @@ pl:
       context: Znaleziono w
       dates: Daty
       uri: URI
-      representative_file_version: Obraz miniatury
       title: Tytuł
       create_time: Stworzony
       score: Znaczenie
@@ -675,7 +670,6 @@ pl:
       dates: Daty
       langcode: Język materiałów
       uri: URI
-      representative_file_version: Obraz miniatury
       desc: Zstępujący
       query: Tekst
       user_mtime: Zmodyfikowany
