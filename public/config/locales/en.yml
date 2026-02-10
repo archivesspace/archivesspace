@@ -360,7 +360,7 @@ en:
         accessions: Accession Records
         deaccessions: Deaccession Records
     load_records:
-      alert: This collection contains a large number of records
+      alert: This collection contains %{count} records.
       showing: Showing
       percent_convention: "%"
       load: Load records

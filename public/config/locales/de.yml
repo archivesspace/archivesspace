@@ -283,7 +283,7 @@ de:
         accessions: Eingangs-Aufzeichnung
         deaccessions: Abgangs-Aufzeichnung
     load_records:
-      alert: "Diese Sammlung enthält eine große Anzahl von Datensätzen"
+      alert: "Diese Sammlung enthält %{count} Datensätze."
       showing: "Anzeigen"
       percent_convention: "%"
       load: "Datensätze laden"

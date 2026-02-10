@@ -343,7 +343,7 @@ es:
       uri: ID [aspace_uri]
       identifier_pdf: ID
     load_records:
-      alert: "Esta colección contiene un gran número de registros"
+      alert: "Esta colección contiene %{count} registros."
       showing: "Mostrando"
       percent_convention: " %"
       load: "Cargar registros"
