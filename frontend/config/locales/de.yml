@@ -1052,7 +1052,7 @@ de:
           <strong>%{archival_object_display_string}</strong>
         created_with_parent: Archiv-Objekt 
           <strong>%{archival_object_display_string}</strong> als Kind von 
-          <strong>%{parent.display_string}</strong> für Aufzeichnung 
+          <strong>%{parent_display_string}</strong> für Aufzeichnung 
           <strong>%{resource_title}</strong> erstellt
         updated_with_parent: Archiv-Objekt 
           <strong>%{archival_object_display_string}</strong> aktualisiert
