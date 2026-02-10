@@ -318,7 +318,7 @@ pl:
         deaccessions: Dokumentacja dotycząca wycofania zbiorów
       uri: ID [aspace_uri]
     load_records:
-      alert: Ta kolekcja zawiera dużą liczbę nagrań.
+      alert: Ta kolekcja zawiera %{count} rekordów.
       percent_convention: '%'
       loading: Wczytywanie
       load: Załaduj rekordy
