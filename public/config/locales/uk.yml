@@ -286,7 +286,7 @@ uk:
       identifier_ark: ідентифікатор [кар]
       uri: Ідентифікатор [acпєс_URI]
     load_records:
-      alert: Ця колекція містить велику кількість записів
+      alert: Ця колекція містить %{count} записів.
       showing: Показ
       percent_convention: '%'
       scroll: При прокручуванні

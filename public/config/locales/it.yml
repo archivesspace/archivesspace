@@ -287,7 +287,7 @@ it:
       showing: Mostrando
       load_all: Carica tutte le unità archivistiche
       loading: Caricando
-      alert: Questa collezione contiene un gran numero di unità archivistiche
+      alert: Questa collezione contiene %{count} unità archivistiche.
       percent_convention: '%'
       load: Carica unità archivistiche
       all: ''

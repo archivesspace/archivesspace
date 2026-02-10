@@ -518,7 +518,7 @@ describe 'Collection Organization', js: true do
       visit "/repositories/#{@repo.id}/resources/#{@res_4wp.id}/collection_organization"
       total = page.find('#infinite-records-container')['data-total-records']
       load_all = page.find('#load-all-section')
-      expect(load_all).to have_text("This collection contains a large number of records (#{total}).")
+      expect(load_all).to have_text("This collection contains #{total} records.")
     end
 
     it 'shows the percentage of records that have been loaded after page load' do
