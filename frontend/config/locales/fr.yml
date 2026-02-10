@@ -965,7 +965,7 @@ fr:
           <strong>%{archival_object_display_string}</strong>
         created_with_parent: Document d'archives 
           <strong>%{archival_object_display_string}</strong> créé en tant que 
-          fils de <strong>%{parent.display_string}</strong> de la ressource 
+          fils de <strong>%{parent_display_string}</strong> de la ressource 
           <strong>%{resource_title}</strong>
         updated: Document d'archives 
           <strong>%{archival_object_display_string}</strong> actualisé
