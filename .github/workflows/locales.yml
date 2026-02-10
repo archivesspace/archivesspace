@@ -18,10 +18,10 @@ on:
   pull_request:
     branches:
       - '**'
-    paths:
-      - 'common/locales/**/*'
-      - 'public/config/locales/**/*'
-      - 'frontend/config/locales/**/*'
+    # paths:
+    #   - 'common/locales/**/*'
+    #   - 'public/config/locales/**/*'
+    #   - 'frontend/config/locales/**/*'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
