@@ -120,7 +120,6 @@ GEM
     jwt (2.10.2)
       base64
     language_server-protocol (3.17.0.5)
-    less2sass (1.2.0)
     logger (1.7.0)
     loofah (2.25.0)
       crass (~> 1.0.2)
@@ -323,7 +322,6 @@ DEPENDENCIES
   jruby-jars (= 9.4.9.0)
   json
   json-schema (~> 1.0.10)
-  less2sass
   mizuno-aspace
   multipart-post (~> 2.4)
   net-http-persistent (>= 4.0.1)
