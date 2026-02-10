@@ -1660,7 +1660,7 @@ ja:
   resource_duplicate_job:
     going_to_duplicate_job: ID %{resource_id} のリソースを複製します。
     success_message: リソース %{resource_source_id} をリソース %{resource_duplicated_id} に複製しました。
-    resource_failure_message: ID %{resource_id} のリソースからリソースを複製できませんでした。 検証エラー %{メッセージ}。
+    resource_failure_message: ID %{resource_id} のリソースからリソースを複製できませんでした。 検証エラー %{message}。
     archival_object_failure_message: ID %{resource_id} のリソースから ID %{archival_object_id} のアーカイブ 
       オブジェクトを複製できませんでした。 検証エラー %{メッセージ}。
     source_archival_object: ソース アーカイブ オブジェクト %{source_archival_object_inspect}。
@@ -1953,7 +1953,7 @@ ja:
     dig: デジタルオブジェクト
     cont_inst: コンテナインスタンス
     unfound_id: "%{type} IDが%{id}見つかりません。これはプレースホルダです"
-    ref_id_notfound: 「行%{row}"
+    ref_id_notfound: 「行%{refid}"
     processed: ファイルが処理されています
     file_info: "%{size}K 行の%{rows}"
     max_file_info: "%{size}K と%{rows}行"
@@ -1963,8 +1963,8 @@ ja:
     date_type_default: 日付タイプが指定されていません。デフォルトは「包括的」です。
     warn:
       dup: "制御値リストは、 『%{which}』翻訳のための複数のインスタンスを持っている%{trans}マネージド 『%{used}』値として使用されます。"
-      disam: "複数の一致（ES）は、 '%{what}' 件見つかりました。disabiguationは '%{name}' を作成します。"
-      disamuse: "複数の一致（ES）は、 『%{what}』件見つかりました。disabiguationは 『%{name}』は既に作成されたを使用しました。"
+      disam: "複数の一致（ES）は、 '%{which}' 件見つかりました。disabiguationは '%{name}' を作成します。"
+      disamuse: "複数の一致（ES）は、 『%{which}』件見つかりました。disabiguationは 『%{name}』は既に作成されたを使用しました。"
       single_date_end: "シングル日付%{date_str}は無視されます終了日を持っています。"
     error:
       date_type: "日付型[%{what}]のための無効を%{date_str}。 『包括的』にデフォルト設定"
@@ -2039,8 +2039,8 @@ ja:
       dig_obj_unique: "デジタルオブジェクトID '%{id}' もう存在している。"
       cannot: 以前のエラーのため続行できません
 
-      find_tc: params：％{where}のトップコンテナが見つかりません。
-      sc_barcode: この子バーコード％{barcode}のサブコンテナが見つかりません
+      find_tc: params： %{where}のトップコンテナが見つかりません。
+      sc_barcode: この子バーコード %{barcode}のサブコンテナが見つかりません
   dates_of_existence:
     _frontend:
       action:
@@ -2241,34 +2241,34 @@ ja:
       top_container_linker_job: トップコンテナリンカー
   top_container_linker:
     error:
-      ref_id_miss: 行％{row_num}のスプレッドシートに参照IDがありません。
-      ao_not_in_db: データベースの行％{row_num}にアーカイブオブジェクト％{ref_id}が見つかりません。
-      instance_type_miss: '行％{row_num}アーカイブオブジェクト％{ref_id}のスプレッドシートにインスタンスタイプがありません。 '
-      instance_type_does_not_exist: 'インスタンスタイプ％{instance_type}はデータベースに存在しません（行％{row_num}アーカイブオブジェクト％{ref_id}を参照）。 '
+      ref_id_miss: 行 %{row_num}のスプレッドシートに参照IDがありません。
+      ao_not_in_db: データベースの行 %{row_num}にアーカイブオブジェクト %{ref_id}が見つかりません。
+      instance_type_miss: '行 %{row_num}アーカイブオブジェクト %{ref_id}のスプレッドシートにインスタンスタイプがありません。 '
+      instance_type_does_not_exist: 'インスタンスタイプ %{instance_type}はデータベースに存在しません（行 %{row_num}アーカイブオブジェクト %{ref_id}を参照）。 '
       tc_indicator_and_record_no_miss: 
-        行％{row_num}の％{ref_id}には、トップコンテナインジケータまたはTCレコード番号のいずれかが存在する必要があります。
-      tc_indicator_and_record_no_exist: 行％{row_num}の％{ref_id}には、トップコンテナインジケータまたはTCレコード番号のみを表示できます。
-      tc_barcode_exists: トップコンテナバーコード％{barcode}はデータベースにすでに存在します（行％{row_num}の％{ref_id}を参照）。
+        行 %{row_num}の %{ref_id}には、トップコンテナインジケータまたはTCレコード番号のいずれかが存在する必要があります。
+      tc_indicator_and_record_no_exist: 行 %{row_num}の %{ref_id}には、トップコンテナインジケータまたはTCレコード番号のみを表示できます。
+      tc_barcode_exists: トップコンテナバーコード %{barcode}はデータベースにすでに存在します（行 %{row_num}の %{ref_id}を参照）。
       tc_barcode_differs: 
-        トップコンテナバーコード％{barcode}は、スプレッドシートの％{type}％{indicator}の別のエントリとは異なります（行％{row_num}の％{ref_id}を参照）。
+        トップコンテナバーコード %{barcode}は、スプレッドシートの %{type} %{indicator}の別のエントリとは異なります（行 %{row_num}の %{ref_id}を参照）。
       tc_ind_ct_exists: 
-        トップコンテナインジケータとコンテナタイプのコンボ％{tc_type}％{indicator}は、リソース％{ead_id}のAOのデータベースにすでに存在します（行％{row_num}の％{ref_id}を参照）。
-      sc_barcode_exists: 子バーコード％{barcode}はデータベースにすでに存在します（行％{row_num}の％{ref_id}を参照）。
+        トップコンテナインジケータとコンテナタイプのコンボ %{tc_type} %{indicator}は、リソース %{ead_id}のAOのデータベースにすでに存在します（行 %{row_num}の %{ref_id}を参照）。
+      sc_barcode_exists: 子バーコード %{barcode}はデータベースにすでに存在します（行 %{row_num}の %{ref_id}を参照）。
       sc_barcode_differs: 
-        子バーコード％{barcode}は、スプレッドシートの％{type}％{indicator}の別のエントリとは異なります（行％{row_num}の％{ref_id}を参照）。
-      loc_not_in_db: 指定されたロケーションID％{loc_id}がデータベースに見つかりません（行％{row_num}の％{ref_id}を参照）。
-      cp_not_in_db: 指定されたコンテナプロファイルID％{cp_id}がデータベースに見つかりません（行％{row_num}の％{ref_id}を参照）。
-      no_tc: トップコンテナを作成できません（行％{row_num}の％{ref_id}を参照）：[％{why}]
-      problem_adding_current_location: 現在の場所の追加で問題が発生しました（行％{row_num}の％{ref_id}を参照）：[％{why}]
-      problem_setting_container_profile: コンテナプロファイルの設定の問題（行％{row_num}の％{ref_id}を参照）：[％{why}]
-      error_linking_tc_to_ao: アーカイブオブジェクトとトップコンテナのリンクに問題がありました：％{why}
-      ead_id_miss: この行にはEADIDがありません:(行％{row_num}の％{ref_id}を参照）
-      tc_record_no_missing: トップコンテナIDが見つかりません：％{tc_id}（行％{row_num}の％{ref_id}を参照）
-      resource_not_in_db: 行％{row_num}のデータベースにリソース％{ead_id}が見つかりません
-      resources_do_not_match: スプレッドシート％{spreadsheet_resource}（EAD 
-        ID：％{ead_id}）のリソースが、行％{row_num}の現在のリソース％{current_resource}と一致しません
+        子バーコード %{barcode}は、スプレッドシートの %{type} %{indicator}の別のエントリとは異なります（行 %{row_num}の %{ref_id}を参照）。
+      loc_not_in_db: 指定されたロケーションID %{loc_id}がデータベースに見つかりません（行 %{row_num}の %{ref_id}を参照）。
+      cp_not_in_db: 指定されたコンテナプロファイルID %{cp_id}がデータベースに見つかりません（行 %{row_num}の %{ref_id}を参照）。
+      no_tc: トップコンテナを作成できません（行 %{row_num}の %{ref_id}を参照）：[ %{why}]
+      problem_adding_current_location: 現在の場所の追加で問題が発生しました（行 %{row_num}の %{ref_id}を参照）：[ %{why}]
+      problem_setting_container_profile: コンテナプロファイルの設定の問題（行 %{row_num}の %{ref_id}を参照）：[ %{why}]
+      error_linking_tc_to_ao: アーカイブオブジェクトとトップコンテナのリンクに問題がありました： %{why}
+      ead_id_miss: この行にはEADIDがありません:(行 %{row_num}の %{ref_id}を参照）
+      tc_record_no_missing: トップコンテナIDが見つかりません： %{tc_id}（行 %{row_num}の %{ref_id}を参照）
+      resource_not_in_db: 行 %{row_num}のデータベースにリソース %{ead_id}が見つかりません
+      resources_do_not_match: スプレッドシート %{spreadsheet_resource}（EAD 
+        ID： %{ead_id}）のリソースが、行 %{row_num}の現在のリソース %{current_resource}と一致しません
       job_file_empty: トップコンテナリンクのために処理するファイルがありません
-    log_creating_linker: リポジトリ用の新しいトップコンテナリンカーの作成：％{repo_id}
+    log_creating_linker: リポジトリ用の新しいトップコンテナリンカーの作成： %{repo_id}
     log_validate_only: 検証のみのオプションが有効になっているため、上位コンテナの作成とリンクをスキップします。
     log_skipping_due_to_errors: エラーのため、トップコンテナの作成とリンクをスキップします。
     log_validating: スプレッドシートデータの検証...
