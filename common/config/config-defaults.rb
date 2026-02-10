@@ -795,6 +795,10 @@ AppConfig[:bulk_archival_object_updater_apply_deletes] = false
 
 AppConfig[:bulk_archival_object_updater_create_missing_top_containers] = false
 
+# Sets a maximum number of spreadsheet rows allowed in a single Bulk Archival
+# Object Updater job
+AppConfig[:bulk_archival_object_updater_max_rows] = 1000
+
 # Default search scope setting
 # Options: 'all_record_types', 'collections_only'
 AppConfig[:search_default_scope] = 'all_record_types'

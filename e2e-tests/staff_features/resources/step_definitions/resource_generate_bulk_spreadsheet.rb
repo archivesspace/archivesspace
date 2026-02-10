@@ -10,11 +10,29 @@ Then 'the Generate Bulk Archival Object Spreadsheet page is displayed' do
   expect(current_url).to include @resource_id
 end
 
-Then 'the user selects the Archival Object on the Generate Bulk Archival Object Spreadsheet page' do
+Then 'the user selects all Archival Objects on the Generate Bulk Archival Object Spreadsheet page' do
   input_fields = all('#bulk_archival_object_updater_table input')
 
   expect(input_fields.length).to eq 2
-  input_fields[1].click
+  input_fields[0].click
+end
+
+When 'AppConfig[:bulk_archival_object_updater_max_rows] is overridden by localStorage' do
+  execute_script("window.localStorage.setItem('APPCONFIG_MAX_ROWS', '0');")
+
+  override = page.evaluate_script("window.localStorage.getItem('APPCONFIG_MAX_ROWS');")
+  expect(override).to eq('0')
+end
+
+Then 'the too many rows warning is displayed' do
+  expect(page).to have_text "The number of rows that will be generated in this spreadsheet exceeds the number of rows that can be updated via the Bulk Archival Object Updater background job."
+end
+
+Then 'APPCONFIG_MAX_ROWS is removed from localStorage' do
+  execute_script("window.localStorage.removeItem('APPCONFIG_MAX_ROWS');")
+
+  override = page.evaluate_script("window.localStorage.getItem('APPCONFIG_MAX_ROWS');")
+  expect(override).to be_nil
 end
 
 Then 'the Bulk Update Resource spreadsheet is downloaded' do
