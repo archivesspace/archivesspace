@@ -32,8 +32,10 @@ class Job < Sequel::Model(:job)
     end
 
 
-    def store(file)
-      filename = SecureRandom.hex
+    def store(file, original_filename = nil)
+      # Extract and preserve just the extension from the original filename
+      extension = original_filename ? File.extname(original_filename) : ''
+      filename = "#{SecureRandom.hex}#{extension}"
       target = File.join(@job_path, filename)
 
       FileUtils.cp(file.path, target)
@@ -145,8 +147,8 @@ class Job < Sequel::Model(:job)
   end
 
 
-  def add_file(io)
-    add_job_file(JobFile.new(:file_path => file_store.store(io)))
+  def add_file(io, original_filename = nil)
+    add_job_file(JobFile.new(:file_path => file_store.store(io, original_filename)))
   end
 
 
