@@ -66,7 +66,7 @@ class ArchivesSpaceService < Sinatra::Base
     job = Job.create_from_json(params[:job], :user => current_user)
 
     params[:files].each do |file|
-      job.add_file(file.tempfile, file.filename)
+      job.add_file(file.tempfile)
     end
 
     created_response(job, params[:job])
@@ -229,25 +229,8 @@ class ArchivesSpaceService < Sinatra::Base
   .returns([200, "Returns the file"]) \
 do
   file = JobFile.filter(  :id => params[:file_id], :job_id => params[:id] ).select(:file_path).first
-
-  # Extract extension from stored file path to determine content type
-  extension = File.extname(file.file_path).downcase
-
-  # Map extension to proper MIME type
-  content_type_map = {
-    '.csv' => 'text/csv',
-    '.xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    '.xls' => 'application/vnd.ms-excel',
-    '.pdf' => 'application/pdf'
-  }
-
-  # Use mapped content type or fall back to generic binary
-  mime_type = content_type_map[extension] || 'application/octet-stream'
-  content_type mime_type
-
-  # Set Content-Disposition with proper filename including extension
-  headers['Content-Disposition'] = "attachment; filename=\"job_#{params[:id]}_file_#{params[:file_id]}#{extension}\""
-
+  # ANW-267: Windows will corrupt PDFs with DOS line endings unless we return the file as a binary.
+  content_type 'application/octect-stream'
   IO.binread(file.full_file_path)
 end
 
