@@ -2788,9 +2788,9 @@ es:
       dig_obj_unique: "ID de objeto digital '%{id}' ya existe."
       cannot: No se puede continuar debido a errores anteriores.
 
-      find_tc: No se puede encontrar el contenedor superior con los parámetros:% {where}.
+      find_tc: No se puede encontrar el contenedor superior con los parámetros: %{where}.
       sc_barcode: No se puede encontrar un contenedor secundario con este código de barras 
-        secundario% {código de barras}
+        secundario %{código de barras}
     templates: Plantillas de importación masiva
   dates_of_existence:
     _frontend:
@@ -2814,7 +2814,7 @@ es:
   parallel_name_software:
     <<: *agent_software_attributes
   agent_record_identifiers:
-    identifier_type_tooltip: "<p>Indica el tipo o formato del identificador de registro de autoridad.
+    identifier_type_tooltip: <p>Indica el tipo o formato del identificador de registro de autoridad.
       Los valores de esta Lista de valores controlados pueden modificarse.</p>"
     source_tooltip: "<p>Indica el archivo de autoridad de origen de un identificador asociado. Ejemplo:
       NAF (para nr2003017069). Los valores de esta Lista de valores controlados pueden modificarse.</p>"
@@ -3071,52 +3071,43 @@ es:
     _singular: Idioma
   top_container_linker:
     error:
-      ref_id_miss: Falta el ID de referencia en la hoja de cálculo en la fila% {row_num}.
-      ao_not_in_db: No se puede encontrar el objeto de archivo% {ref_id} en la base de datos en la 
-        fila% {row_num}.
-      instance_type_miss: 'Falta el tipo de instancia en la hoja de cálculo para la fila% {row_num} Objeto
-        de archivo% {ref_id}. '
-      instance_type_does_not_exist: 'El tipo de instancia% {instance_type} no existe en la base de datos
-        (consulte la fila% {row_num} Objeto de archivo% {ref_id}). '
+      ref_id_miss: Falta el ID de referencia en la hoja de cálculo en la fila %{row_num}.
+      ao_not_in_db: No se puede encontrar el objeto de archivo %{ref_id} en la base de datos en la 
+        fila %{row_num}.
+      instance_type_miss: 'Falta el tipo de instancia en la hoja de cálculo para la fila %{row_num} Objeto
+        de archivo %{ref_id}. '
+      instance_type_does_not_exist: 'El tipo de instancia %{instance_type} no existe en la base de datos
+        (consulte la fila %{row_num} Objeto de archivo %{ref_id}). '
       tc_indicator_and_record_no_miss: Debe estar presente un indicador de contenedor superior o un 
-        número de registro TC para% {ref_id} en la fila% {row_num}.
+        número de registro TC para %{ref_id} en la fila %{row_num}.
       tc_indicator_and_record_no_exist: Solo un indicador de contenedor superior O un número de 
-        registro TC puede estar presente para% {ref_id} en la fila% {row_num}.
-      tc_barcode_exists: El código de barras del contenedor superior,% {código de barras} ya existe 
-        en la base de datos (consulte% {ref_id} en la fila% {row_num}).
-      tc_barcode_differs: El código de barras del contenedor superior,% {código de barras} es 
-        diferente de otra entrada en su hoja de cálculo para% {type}% {indicador} (consulte% 
-        {ref_id} en la fila% {row_num}).
-      tc_ind_ct_exists: La combinación de indicador de contenedor superior y tipo de contenedor% 
-        {tc_type}% {indicador} ya existe en la base de datos para un AO en el recurso% {ead_id} 
-        (consulte% {ref_id} en la fila% {row_num}).
-      sc_barcode_exists: El código de barras secundario,% {código de barras} ya existe en la base de
-        datos (consulte% {ref_id} en la fila% {row_num}).
-      sc_barcode_differs: El código de barras secundario,% {código de barras} es diferente a otra 
-        entrada en su hoja de cálculo para% {type}% {indicador} (vea% {ref_id} en la fila% 
-        {row_num}).
-      loc_not_in_db: El ID de ubicación proporcionado,% {loc_id} no se puede encontrar en la base de
-        datos (consulte% {ref_id} en la fila% {row_num}).
-      cp_not_in_db: El ID de perfil de contenedor proporcionado,% {cp_id}, no se puede encontrar en 
-        la base de datos (consulte% {ref_id} en la fila% {row_num}).
-      no_tc: 'No se puede crear el contenedor superior (consulte% {ref_id} en la fila% {row_num}): [%
-        {why}]'
-      problem_adding_current_location: 'Problema al agregar la ubicación actual (ver% {ref_id} en la fila%
-        {row_num}): [% {why}]'
-      problem_setting_container_profile: 'Problema al configurar el perfil del contenedor (consulte% {ref_id}
-        en la fila% {row_num}): [% {why}]'
+        registro TC puede estar presente para %{ref_id} en la fila %{row_num}.
+      tc_barcode_exists: El código de barras del contenedor superior,%{código de barras} ya existe 
+        en la base de datos (consulte %{ref_id} en la fila %{row_num}).
+      tc_barcode_differs: El código de barras del contenedor superior,%{código de barras} es 
+        diferente de otra entrada en su hoja de cálculo para %{type}%{indicador} (consulte %{ref_id} en la fila %{row_num}).
+      tc_ind_ct_exists: La combinación de indicador de contenedor superior y tipo de contenedor %{tc_type}%{indicador} ya existe en la base de datos para un AO en el recurso %{ead_id} 
+        (consulte %{ref_id} en la fila %{row_num}).
+      sc_barcode_exists: El código de barras secundario,%{código de barras} ya existe en la base de
+        datos (consulte %{ref_id} en la fila %{row_num}).
+      sc_barcode_differs: El código de barras secundario,%{código de barras} es diferente a otra 
+        entrada en su hoja de cálculo para %{type}%{indicador} (vea %{ref_id} en la fila %{row_num}).
+      loc_not_in_db: El ID de ubicación proporcionado,%{loc_id} no se puede encontrar en la base de
+        datos (consulte %{ref_id} en la fila %{row_num}).
+      cp_not_in_db: El ID de perfil de contenedor proporcionado,%{cp_id}, no se puede encontrar en 
+        la base de datos (consulte %{ref_id} en la fila %{row_num}).
+      no_tc: 'No se puede crear el contenedor superior (consulte %{ref_id} en la fila %{row_num}): [%{why}]'
+      problem_adding_current_location: 'Problema al agregar la ubicación actual (ver %{ref_id} en la fila %{row_num}): [%{why}]'
+      problem_setting_container_profile: 'Problema al configurar el perfil del contenedor (consulte %{ref_id}
+        en la fila %{row_num}): [%{why}]'
       error_linking_tc_to_ao: Hubo un problema al vincular el objeto de archivo con el contenedor 
-        superior:% {why}
-      ead_id_miss: 'A esta fila le falta un ID de EAD: (consulte% {ref_id} en la fila% {row_num})'
-      tc_record_no_missing: No se puede encontrar el ID del contenedor superior:% {tc_id} (consulte%
-        {ref_id} en la fila% {row_num})
-      resource_not_in_db: No se puede encontrar el recurso% {ead_id} en la base de datos en la fila%
-        {row_num}
-      resources_do_not_match: El recurso en la hoja de cálculo% {spreadsheet_resource} (ID de EAD:% 
-        {ead_id}) no coincide con el recurso actual% {current_resource} en la fila% {row_num}
+        superior: %{why}
+      ead_id_miss: A esta fila le falta un ID de EAD: (consulte %{ref_id} en la fila %{row_num})'
+      tc_record_no_missing: "No se puede encontrar el ID del contenedor superior: %{tc_id} (consulte %{ref_id} en la fila %{row_num})"
+      resource_not_in_db: No se puede encontrar el recurso %{ead_id} en la base de datos en la fila %{row_num}
+      resources_do_not_match: "El recurso en la hoja de cálculo %{spreadsheet_resource} (ID de EAD: %{ead_id}) no coincide con el recurso actual %{current_resource} en la fila %{row_num}"
       job_file_empty: No hay archivo para procesar para la vinculación del contenedor superior
-    log_creating_linker: Creando un nuevo vinculador de contenedor superior para el repositorio:% 
-      {repo_id}
+    log_creating_linker: "Creando un nuevo vinculador de contenedor superior para el repositorio: %{repo_id}"
     log_validate_only: Omitir la creación y vinculación de contenedores superiores ya que la opción 
       de validación única está habilitada.
     log_skipping_due_to_errors: Omitir creación y vinculación de contenedores superiores debido a 
