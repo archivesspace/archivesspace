@@ -4,5 +4,6 @@ nl:
     add_event: Voeg gebeurtenis toe
     add_event_event_type: Type
     automate: Automatisch genereren
+    close: Sluiten
   states:
     auto_generated: Wordt automatisch gegenereerd bij registratie
