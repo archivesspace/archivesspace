@@ -2351,10 +2351,10 @@ de:
       top_container_linker_job: Haupt-Behältnis-Verknüpfer
   resource_duplicate_job:
     going_to_duplicate_job: Die Ressource wird mit der ID %{resource_id} dupliziert.
-    success_message: Ressource erfolgreich dupliziert %{ressource_Ursprung_id} zu ressource 
-      %{ressource_dupliziert_id}.
-    resource_failure_message: Ressource %{resource_source_id} wurde erfolgreich auf Ressource 
-      %{resource_duplicated_id} dupliziert.
+    success_message: Ressource erfolgreich dupliziert %{resource_source_id} zu ressource 
+      %{resource_duplicated_id}.
+    resource_failure_message: Ressource %{resource_id} wurde erfolgreich auf Ressource 
+      %{message} dupliziert.
     archival_object_failure_message: Das Duplizieren des Archivierungsobjekts mit der ID 
       %{archival_object_id} aus der Ressource mit der ID %{resource_id} ist fehlgeschlagen. 
       Validierungsfehler %{message}.
@@ -2765,7 +2765,7 @@ de:
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
     clip_header: "Zeile\tStatus\tTitel\tURI\tRef ID\tInfo oder Fehler"
     log_complete: Import von %{file} abgeschlossen
-    log_validation: Validierung von %{Datei} abgeschlossen
+    log_validation: Validierung von %{file} abgeschlossen
     log_created: '%{row}: Erstellt %{what}'
     log_created_be: '%{row}: %{what} würde erstellt werden'
     log_info: "%{row}:\t%{what}"
