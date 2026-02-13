@@ -4,10 +4,18 @@ When 'the {string} setting is enabled in the Repository Preferences' do |reposit
   find('#user-menu-dropdown').click
   click_on 'Repository Preferences (admin)'
 
-  check repository_setting_checkbox_label
-
+  # unchecking and checking two times to ensure that the REFRESH_PREFERENCES notification reaches SUI
+  uncheck repository_setting_checkbox_label
   click_on 'Save'
-
+  sleep 3
+  check repository_setting_checkbox_label
+  click_on 'Save'
+  sleep 3
+  uncheck repository_setting_checkbox_label
+  click_on 'Save'
+  sleep 3
+  check repository_setting_checkbox_label
+  click_on 'Save'
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Preferences updated')
 end
 

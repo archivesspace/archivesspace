@@ -400,17 +400,6 @@ Then 'the {string} section is displayed' do |section_heading|
 end
 
 Given 'the Pre-populate Records option is checked in Repository Preferences' do
-  find('#user-menu-dropdown').click
-  within '.dropdown-menu' do
-    click_on 'Default Repository Preferences'
-  end
-
-  page.check('preference_defaults__default_values_') if page.has_unchecked_field?('preference_defaults__default_values_')
-
-  click_on 'Save'
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Preferences updated')
-  expect(page).to have_checked_field('preference_defaults__default_values_')
-
   visit "#{STAFF_URL}/repositories/new"
 
   fill_in 'repository_repository__repo_code_', with: "repository_test_default_values_#{@uuid}"
@@ -437,9 +426,13 @@ Given 'the Pre-populate Records option is checked in Repository Preferences' do
   end
   check('preference_defaults__default_values_')
   click_on 'Save'
+  sleep 3
+  check('Include Unpublished Records in Exports?')
+  click_on 'Save' # update the preferences two times to ensure that REFRESH_PREFERENCES notification reaches SUI
 
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Preferences updated')
   expect(page).to have_checked_field('preference_defaults__default_values_')
+  expect(page).to have_checked_field('Include Unpublished Records in Exports?')
 end
 
 When 'the user clears {string} in the {string} form' do |label, form_title|
