@@ -3,3 +3,25 @@ nl:
     title: ArchivesSpace Publieke Interface
     title_link_text: Ga terug naar de ArchivesSpace homepage
     welcome_head: Welkom bij ArchivesSpace
+    welcome_message: |
+      <p>Zoek in onze collecties, gedigitaliseerde materialen en meer.</p>
+    welcome_page_title: ArchivesSpace Publieke Interface
+  actions:
+    search: Zoek
+    search_header: Doorzoek de archieven
+    search_within: Zoek binnen de resultaten
+    search_in: Zoek %{type}
+    new_search: Nieuwe zoekopdracht
+    refine_search: Verfijn zoekopdracht
+    close: Sluiten
+    backup: Ga terug naar de vorige pagina
+    backup_abbr: Ga terug
+    cite: Citatie
+    cite_item: Citeer item
+    digitized: Bekijk Digitaal Materiaal
+    request: Aanvragen
+    print: Download PDF
+    collection_overview: Collectieoverzicht
+    hierarch: Collectie Organisatie
+    numeric: Container Inventaris
+    clipboard: Kopieer naar klembord
