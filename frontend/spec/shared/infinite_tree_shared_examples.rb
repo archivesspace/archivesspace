@@ -68,7 +68,7 @@ RSpec.shared_examples 'infinite tree record show view' do |record_config|
     if record_config[:max_batch_scenarios] >= 3
       it_behaves_like 'root node with three batches of children'
     end
-    
+
     if record_config[:max_batch_scenarios] >= 4
       it_behaves_like 'root node with four batches of children'
     end
@@ -78,11 +78,11 @@ RSpec.shared_examples 'infinite tree record show view' do |record_config|
     it_behaves_like 'parent node with one child'
     it_behaves_like 'parent node with ten children'
     it_behaves_like 'parent node with two batches of children'
-    
+
     if record_config[:max_batch_scenarios] >= 3
       it_behaves_like 'parent node with three batches of children'
     end
-    
+
     if record_config[:max_batch_scenarios] >= 4
       it_behaves_like 'parent node with four batches of children'
       it_behaves_like 'parent node lazy loading behavior'
