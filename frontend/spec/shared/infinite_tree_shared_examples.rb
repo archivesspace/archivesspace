@@ -1,5 +1,5 @@
-# Shared examples for Infinite Tree functionality across different record types,
-# resources, digital_objects, and classifications
+# Shared examples for Infinite Tree functionality across resources,
+# digital_objects, and classifications
 
 RSpec.shared_examples 'infinite tree record show view' do |record_config|
   let(:record_type) { record_config[:record_type] }
@@ -94,7 +94,11 @@ RSpec.shared_examples 'infinite tree record show view' do |record_config|
   end
 
   describe 'columns' do
-    it_behaves_like 'column rendering behavior'
+    if record_config[:columns][:conditional]
+      it_behaves_like 'column rendering with conditionals'
+    else
+      it_behaves_like 'simple column rendering'
+    end
   end
 
   if record_config[:supports_suppression]
@@ -661,7 +665,26 @@ RSpec.shared_examples 'leaf node behavior' do
   it_behaves_like 'node has no children'
 end
 
-RSpec.shared_examples 'column rendering behavior' do
+RSpec.shared_examples 'simple column rendering' do
+  let(:root_record) { create(root_factory, { title: "#{record_type.humanize} #{unique_id}" }.merge(additional_root_attrs)) }
+  let(:child_record) do
+    create(child_factory, {
+      root_relationship_key => { 'ref' => root_record.uri },
+      title: "#{child_type.humanize} #{unique_id}"
+    }.merge(additional_child_attrs))
+  end
+
+  let(:tree) do
+    child_record # Ensure record exists
+    visit show_path.call(root_record.id)
+    wait_for_ajax
+    find('.infinite-tree')
+  end
+
+  it_behaves_like 'renders base columns'
+end
+
+RSpec.shared_examples 'column rendering with conditionals' do
   let(:root_record) { create(root_factory, { title: "#{record_type.humanize} #{unique_id}" }.merge(additional_root_attrs)) }
   let(:child_record) do
     create(child_factory, {
@@ -696,22 +719,18 @@ end
 
 RSpec.shared_examples 'shows conditional columns when enabled' do
   before(:each) do
-    if columns_config && columns_config[:conditional]
-      allow(AppConfig).to receive(:[]).and_call_original
-      columns_config[:conditional].each do |column_name, config_key|
-        allow(AppConfig).to receive(:[])
-          .with(config_key.to_sym)
-          .and_return(true)
-      end
+    allow(AppConfig).to receive(:[]).and_call_original
+    columns_config[:conditional].each do |column_name, config_key|
+      allow(AppConfig).to receive(:[])
+        .with(config_key.to_sym)
+        .and_return(true)
     end
   end
 
   it 'shows conditional columns when enabled' do
-    if columns_config && columns_config[:conditional]
-      aggregate_failures do
-        columns_config[:conditional].each do |column_name, config_key|
-          expect(tree).to have_css("[data-column=\"#{column_name}\"]", visible: :all)
-        end
+    aggregate_failures do
+      columns_config[:conditional].each do |column_name, config_key|
+        expect(tree).to have_css("[data-column=\"#{column_name}\"]", visible: :all)
       end
     end
   end
@@ -719,22 +738,18 @@ end
 
 RSpec.shared_examples 'hides conditional columns when disabled' do
   before(:each) do
-    if columns_config && columns_config[:conditional]
-      allow(AppConfig).to receive(:[]).and_call_original
-      columns_config[:conditional].each do |column_name, config_key|
-        allow(AppConfig).to receive(:[])
-          .with(config_key.to_sym)
-          .and_return(false)
-      end
+    allow(AppConfig).to receive(:[]).and_call_original
+    columns_config[:conditional].each do |column_name, config_key|
+      allow(AppConfig).to receive(:[])
+        .with(config_key.to_sym)
+        .and_return(false)
     end
   end
 
   it 'hides conditional columns when disabled' do
-    if columns_config && columns_config[:conditional]
-      aggregate_failures do
-        columns_config[:conditional].each do |column_name, config_key|
-          expect(tree).not_to have_css("[data-column=\"#{column_name}\"]", visible: :all)
-        end
+    aggregate_failures do
+      columns_config[:conditional].each do |column_name, config_key|
+        expect(tree).not_to have_css("[data-column=\"#{column_name}\"]", visible: :all)
       end
     end
   end
