@@ -13,8 +13,8 @@ module InfiniteTreeSpecHelpers
       show_path: ->(id) { "/resources/#{id}" },
       columns: {
         base: ['title', 'level', 'type', 'container'],
-        conditional: { 
-          identifier: 'display_identifiers_in_largetree_container' 
+        conditional: {
+          identifier: 'display_identifiers_in_largetree_container'
         }
       },
       supports_mixed_content: true,
@@ -89,13 +89,13 @@ module InfiniteTreeSpecHelpers
     # Evaluate Proc-based attrs per invocation (avoid merging a Proc)
     additional_root_attrs = additional_root_attrs.respond_to?(:call) ? additional_root_attrs.call("batch_#{timestamp}") : (additional_root_attrs || {})
     additional_child_attrs = additional_child_attrs.respond_to?(:call) ? additional_child_attrs.call("batch_#{timestamp}") : (additional_child_attrs || {})
-    
+
     # Create multiple root records for different batch scenarios
     roots = create_multiple_roots(root_factory, timestamp, additional_root_attrs)
-    
+
     # Create children with different batch counts for each root
     create_batch_children_for_roots(roots, child_factory, root_relationship_key, timestamp, additional_child_attrs)
-    
+
     roots
   end
 
@@ -103,33 +103,33 @@ module InfiniteTreeSpecHelpers
 
   def create_multiple_roots(factory, timestamp, additional_attrs)
     roots = {}
-    
+
     # Create roots with different child counts
     roots[:single_child] = create(factory, {
       title: "#{factory.to_s.humanize} Single Child #{timestamp}",
       publish: true
     }.merge(additional_attrs))
-    
+
     roots[:multiple_children] = create(factory, {
       title: "#{factory.to_s.humanize} Multiple Children #{timestamp}",
       publish: true
     }.merge(additional_attrs))
-    
+
     roots[:two_batches] = create(factory, {
       title: "#{factory.to_s.humanize} Two Batches #{timestamp}",
       publish: true
     }.merge(additional_attrs))
-    
+
     roots[:three_batches] = create(factory, {
       title: "#{factory.to_s.humanize} Three Batches #{timestamp}",
       publish: true
     }.merge(additional_attrs))
-    
+
     roots[:four_batches] = create(factory, {
       title: "#{factory.to_s.humanize} Four Batches #{timestamp}",
       publish: true
     }.merge(additional_attrs))
-    
+
     roots
   end
 
@@ -149,7 +149,7 @@ module InfiniteTreeSpecHelpers
         publish: true
       }.merge(additional_attrs))
     end
-    
+
     (batch_size + 1).times do |i|
       create(child_factory, {
         root_relationship_key => { 'ref' => roots[:two_batches].uri },
