@@ -188,12 +188,12 @@ RSpec.shared_examples 'infinite tree page load with uri fragment' do |record_con
     additional_root_attrs = config[:additional_root_attrs] || {}
     additional_child_attrs = config[:additional_child_attrs] || {}
     prefix = config[:child_prefix]
-    
+
     timestamp = @now
-    
+
     # Create main root records for testing
     create_main_test_records(factory, child_factory, root_relationship_key, timestamp, additional_root_attrs, additional_child_attrs, prefix)
-    
+
     # Create additional roots with different batch counts
     create_additional_batch_roots(factory, child_factory, root_relationship_key, timestamp, additional_root_attrs, additional_child_attrs, prefix)
   end
