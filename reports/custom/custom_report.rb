@@ -70,7 +70,7 @@ class CustomReport < AbstractReport
         if field[:data_type] == 'Enum'
           enum_narrow(template, field_name, field)
         else
-          self.send("#{field[:data_type].downcase}_narrow", template, field_name)
+          self.send("#{field[:data_type].underscore}_narrow", template, field_name)
         end
       end
 
