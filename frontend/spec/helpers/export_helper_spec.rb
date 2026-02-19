@@ -43,6 +43,21 @@ describe ExportHelper do
       expect(result).to eq(expected_backend_fields)
     end
 
+    it 'maps top container management field names to backend field names' do
+      requested_fields = ['resource_accession', 'series', 'container_profile', 'location', 'internal_note', 'exported_to_ils']
+      expected_backend_fields = [
+        'collection_display_string_u_sstr',
+        'series_title_u_sstr',
+        'container_profile_display_string_u_sstr',
+        'location_display_string_u_sstr',
+        'notes',
+        'exported_u_sbool'
+      ]
+
+      result = helper.map_fields_for_backend(requested_fields)
+      expect(result).to eq(expected_backend_fields)
+    end
+
     it 'handles context field specially by including ancestor fields' do
       requested_fields = ['title', 'context', 'type']
       expected_backend_fields = [
@@ -92,7 +107,7 @@ describe ExportHelper do
     before do
       @collection = create(:resource, title: 'Test Collection', level: 'collection')
       @series = create(:archival_object, title: 'Test Series', level: 'series', resource: {ref: @collection.uri})
-      @top_container = create(:top_container, type: 'box', indicator: '1', barcode: 'BC001')
+      @top_container = create(:top_container, type: 'box', indicator: '1', barcode: "BC#{SecureRandom.hex(4)}")
 
       run_index_round
     end
@@ -241,6 +256,15 @@ describe ExportHelper do
         result = converter.send(:build_header_row, old_headers)
 
         expect(result).to eq(['Title', 'Unknown Field'])
+      end
+
+      it 'creates human-readable headers for top container management fields' do
+        converter = ExportHelper::CSVMappingConverter.new(['resource_accession', 'series', 'internal_note', 'exported_to_ils'])
+        old_headers = ['collection_display_string_u_sstr', 'series_title_u_sstr', 'notes', 'exported_u_sbool']
+
+        result = converter.send(:build_header_row, old_headers)
+
+        expect(result).to eq(['Resource/Accession', 'Series', 'Internal Note', 'Exported to ILS'])
       end
     end
 
