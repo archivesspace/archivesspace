@@ -39,15 +39,15 @@ server {
     proxy_pass http://app_public;
   }
 
-  location /oai {
-    proxy_pass http://app_oai/;
-  }
+  # location /oai {
+  #   proxy_pass http://app_oai/;
+  # }
 
   location /staff/ {
     proxy_pass http://app_staff;
   }
 
-  location /staff/api/ {
-    proxy_pass http://app_api/;
-  }
+  # location /staff/api/ {
+  #   proxy_pass http://app_api/;
+  # }
 }
