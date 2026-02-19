@@ -40,6 +40,10 @@ module HandleFaceting
     elsif k == 'type_enum_s'
       # Lookup container type
       pv = I18n.t("enumerations.container_type.#{v}", :default => v)
+    elsif k.end_with?('_type_enum_s')
+      facet_base_type = k.delete_suffix('_enum_s')
+      facet_base_obj = facet_base_type.delete_suffix('_type')
+      pv = I18n.t("enumerations.#{facet_base_obj}_#{facet_base_type}.#{v}", :default => v)
     elsif %w(repository used_within_published_repository).include?(k)
       repos = Repository.get_repos
       if repos[v].nil?
