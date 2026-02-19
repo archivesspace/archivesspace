@@ -66,27 +66,40 @@ module ExportHelper
   # Handles header mapping and field transformations for CSV exports
   class CSVMappingConverter
 
-    # Define header mappings from backend field names to user-friendly names
-    # Using I18n translations with fallbacks for test environment
+    # Headers must use the same I18n keys as the browse table (_results.html.erb),
+    # which renders column headers via t("search.top_container_mgmt.#{field}").
+    # Using the same keys here ensures CSV headers stay in sync with the UI. (PR #3710)
+    # Fallback defaults are provided as a safety net for missing or misspelled keys.
     def self.header_mappings
       @header_mappings ||= begin
         {
-          'context' => I18n.t('reports.headings.context', :default => 'Resource/Accession'),
-          'container_profile_display_string_u_sstr' => I18n.t('reports.headings.container_profile', :default => 'Container Profile'),
-          'location_display_string_u_sstr' => I18n.t('reports.headings.location', :default => 'Location'),
-          'title' => I18n.t('reports.headings.title', :default => 'Title'),
-          'type_enum_s' => I18n.t('reports.headings.type', :default => 'Type'),
-          'indicator_u_icusort' => I18n.t('reports.headings.indicator', :default => 'Indicator'),
-          'barcode_u_sstr' => I18n.t('reports.headings.barcode', :default => 'Barcode')
+          'context'                                 => I18n.t('search.top_container_mgmt.resource_accession', :default => 'Resource/Accession'),
+          'collection_display_string_u_sstr'        => I18n.t('search.top_container_mgmt.resource_accession', :default => 'Resource/Accession'),
+          'series_title_u_sstr'                     => I18n.t('search.top_container_mgmt.series',             :default => 'Series'),
+          'container_profile_display_string_u_sstr' => I18n.t('search.top_container_mgmt.container_profile',  :default => 'Container Profile'),
+          'location_display_string_u_sstr'          => I18n.t('search.top_container_mgmt.location',           :default => 'Location'),
+          'title'                                   => I18n.t('reports.headings.title',                       :default => 'Title'),
+          'type_enum_s'                             => I18n.t('search.top_container_mgmt.type',               :default => 'Type'),
+          'indicator_u_icusort'                     => I18n.t('search.top_container_mgmt.indicator',          :default => 'Indicator'),
+          'barcode_u_sstr'                          => I18n.t('search.top_container_mgmt.barcode',            :default => 'Barcode'),
+          'notes'                                   => I18n.t('search.top_container_mgmt.internal_note',      :default => 'Internal Note'),
+          'exported_u_sbool'                        => I18n.t('search.top_container_mgmt.exported_to_ils',    :default => 'Exported to ILS'),
+          'ils_holding_id'                          => I18n.t('search.top_container_mgmt.ils_holding_id',     :default => 'ILS Holding ID')
         }
       end
     end
 
     # Map user-requested field names to actual backend field names
     FIELD_NAME_MAPPINGS = {
-      'type' => 'type_enum_s',
-      'indicator' => 'indicator_u_icusort',
-      'barcode' => 'barcode_u_sstr'
+      'type'               => 'type_enum_s',
+      'indicator'          => 'indicator_u_icusort',
+      'barcode'            => 'barcode_u_sstr',
+      'resource_accession' => 'collection_display_string_u_sstr',
+      'series'             => 'series_title_u_sstr',
+      'container_profile'  => 'container_profile_display_string_u_sstr',
+      'location'           => 'location_display_string_u_sstr',
+      'internal_note'      => 'notes',
+      'exported_to_ils'    => 'exported_u_sbool'
     }.freeze
 
     # Cached ancestor fields for performance
