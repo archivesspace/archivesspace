@@ -201,6 +201,15 @@ class ArchivesSpaceService
                       :implied_by => 'view_agent_contact_record',
                       :level => "global")
 
+    Permission.define("view_pui",
+                      "The ability to view the PUI",
+                      :level => "repository")
+
+    Permission.define("view_pui_global",
+                      "The ability to view the PUI",
+                      :implied_by => 'view_pui',
+                      :level => "global")
+
     Permission.define("manage_vocabulary_record",
                       "The ability to create, modify and delete a vocabulary record",
                       :level => "repository")
@@ -324,6 +333,11 @@ class ArchivesSpaceService
       group.grant "delete_event_record"
       group.save
     end
+
+    Group.each do |group|
+      group.grant "view_pui"
+      group.save
+    end
   end
 
 
@@ -349,7 +363,6 @@ class ArchivesSpaceService
     self.create_group(Group.STAFF_GROUP_CODE, "Staff System Group", [User.STAFF_USERNAME],
                       ["mediate_edits"])
   end
-
 
   set_up_base_permissions
   create_search_user

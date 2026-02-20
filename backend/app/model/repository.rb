@@ -66,7 +66,7 @@ class Repository < Sequel::Model(:repository)
                                                  "manage_location_profile_record", "import_records", "cancel_job",
                                                  "update_assessment_record", "delete_assessment_record", "manage_assessment_attributes",
                                                  "update_enumeration_record", "manage_enumeration_record",
-                                                 "show_full_agents", "manage_custom_report_templates"]
+                                                 "show_full_agents", "manage_custom_report_templates", "view_pui", "view_pui_global"]
                        },
                        {
                          :group_code => "repository-archivists",
@@ -79,7 +79,7 @@ class Repository < Sequel::Model(:repository)
                                                  "manage_container_profile_record", "manage_location_profile_record", "import_records",
                                                  "update_assessment_record", "delete_assessment_record", "create_job", "cancel_job",
                                                  "update_enumeration_record", "manage_enumeration_record",
-                                                 "show_full_agents", "manage_custom_report_templates"]
+                                                 "show_full_agents", "manage_custom_report_templates", "view_pui", "view_pui_global"]
                        },
                        {
                          :group_code => "repository-project-managers",
@@ -93,7 +93,7 @@ class Repository < Sequel::Model(:repository)
                                                  "manage_container_record", "manage_container_profile_record",
                                                  "manage_location_profile_record", "import_records", 'merge_agents_and_subjects',
                                                  "update_assessment_record", "delete_assessment_record", "update_enumeration_record",
-                                                 "manage_enumeration_record"]
+                                                 "manage_enumeration_record", "view_pui", "view_pui_global"]
                        },
                        {
                          :group_code => "repository-advanced-data-entry",
@@ -106,18 +106,23 @@ class Repository < Sequel::Model(:repository)
                                                  "manage_vocabulary_record", "manage_container_record",
                                                  "manage_container_profile_record", "manage_location_profile_record",
                                                  "import_records", "update_assessment_record", "delete_assessment_record",
-                                                 "update_enumeration_record", "manage_enumeration_record"]
+                                                 "update_enumeration_record", "manage_enumeration_record", "view_pui", "view_pui_global"]
                        },
                        {
                          :group_code => "repository-basic-data-entry",
                          :description => I18n.t("group.default_group_names.basic_data_entry", :repo_code => repo_code),
                          :grants_permissions => ["view_repository", "update_accession_record", "update_resource_record",
-                                                 "update_digital_object_record", "create_job"]
+                                                 "update_digital_object_record", "create_job", "view_pui", "view_pui_global"]
                        },
                        {
                          :group_code => "repository-viewers",
                          :description => I18n.t("group.default_group_names.repository_viewers", :repo_code => repo_code),
-                         :grants_permissions => ["view_repository"]
+                         :grants_permissions => ["view_repository", "view_pui", "view_pui_global"]
+                       },
+                       {
+                         :group_code => "repository-pui-viewers",
+                         :description => I18n.t("group.default_group_names.pui_viewers"),
+                         :grants_permissions => ["view_pui", "view_pui_global"]
                        }]
 
     RequestContext.open(:repo_id => self.id) do

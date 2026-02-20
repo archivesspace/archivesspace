@@ -53,6 +53,8 @@
 		<%= render partial: 'shared/navigation' %>
 	</div>
 
+	<input type="hidden" id="authenticated" name="authenticated" value="false">
+
 	<section id="content" class="container-fluid mt-2 pt-2 flex-grow-1">
 		<a id="maincontent" tabindex="-1"></a>
 		<%= flash_messages %>
@@ -69,6 +71,12 @@
 				STAFF_LINK_MODE = "<%= j(AppConfig[:pui_staff_link_mode]) %>";
 			</script>
 		<% end %>
+	<% end %>
+
+	<% if AppConfig[:pui_require_authentication] %>
+		<script>
+			FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
+		</script>
 	<% end %>
 
 </body>

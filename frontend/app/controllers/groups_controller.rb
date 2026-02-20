@@ -2,7 +2,6 @@ class GroupsController < ApplicationController
 
   set_access_control "manage_repository" => [:new, :index, :edit, :create, :update, :show, :delete]
 
-
   def new
     @group = JSONModel(:group).new._always_valid!
   end
@@ -10,6 +9,10 @@ class GroupsController < ApplicationController
 
   def index
     @groups = JSONModel(:group).all
+    # Hide if functionality not on.  Or do we want to show it by have it inactive/uneditable a la enumeration values?
+    if AppConfig[:pui_require_authentication] == false
+      @groups = @groups.reject { |grp| grp.group_code == 'repository-pui-viewers' }
+    end
   end
 
 
@@ -40,7 +43,7 @@ class GroupsController < ApplicationController
     params[:group][:member_usernames] ||= []
 
     handle_crud(:instance => :group,
-                :model => Accession,
+                :model => JSONModel(:group),
                 :obj => JSONModel(:group).find(params[:id]),
                 :replace => false,
                 :on_invalid => ->() {
