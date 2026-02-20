@@ -36,12 +36,12 @@
     }
 
     static parseTreeId(treeId) {
-      const match = treeId.match(/([a-z_]+)([0-9]+)/);
+      const match = treeId.match(/^([a-z_]+)_([0-9]+)$/);
       if (!match) return null;
 
-      const [, rowType, rowId] = match;
+      const [, type, id] = match;
 
-      return { type: rowType.replace(/_$/, ''), id: rowId };
+      return { type, id };
     }
 
     static uriToLocationHash(uri) {
@@ -50,11 +50,11 @@
 
     /**
      *
-     * @param {string} hash the URI fragment returned from window.location.hash
+     * @param {string} hash the URI fragment with or without a '#' prefix
      * @returns {string} the HTML id of the node
      */
     static locationHashToHtmlId(hash) {
-      return hash.replace('#tree::', '');
+      return hash.replace(/^#?tree::/, '');
     }
 
     static treeLinkUrl(uri) {
@@ -66,7 +66,7 @@
     }
 
     static locationHashToFrontendUri(hash) {
-      const treeId = hash.replace('tree::', '');
+      const treeId = hash.replace(/^#?tree::/, '');
       const parts = this.parseTreeId(treeId);
 
       return `/${parts.type}s/${parts.id}`;
