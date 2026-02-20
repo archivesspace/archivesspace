@@ -45,32 +45,6 @@ Projects with pre-existing codebases need to complete Contributor Agreements wit
 IP holders prior to formal acceptance by ArchivesSpace.
 
 
-Contributor License Agreements may be submitted to ArchivesSpace in the following ways:
+Contributor License Agreements must be submitted to ArchivesSpace via email at ArchivesSpaceHome@lyrasis.org ( Scanned signed copy in PDF form ).
 
 
-Postal Mail:
-```
-ArchivesSpace
-LYRASIS
-1438 West Peachtree Street, NW Suite 150
-Atlanta, GA 30309
-USA
-```
-
-Email ( Scanned signed copy in PDF form )
-
-```
-archivesspacehome@lyrasis.org
-```
-
-
-Fax
-
-```
-+1 404.892.7879
-Attention: ArchivesSpace Home
-```
-
-
-
-The content of this  document was adapted from the Apereo Foundation Contributor License Agreements
