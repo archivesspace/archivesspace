@@ -98,8 +98,6 @@ AppConfig[:plugins] = ['local', 'lcnaf']
 # Resist the urge to set this to a big number as it will affect performance
 AppConfig[:job_thread_count] = 2
 
-AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
-
 AppConfig[:oai_ead_options] = {}
 # Example: AppConfig[:oai_ead_options] = { :include_daos => true, :use_numbered_c_tags => true, :include_uris => false }
 
@@ -120,13 +118,19 @@ AppConfig[:default_admin_password] = "admin"
 #
 AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")
 
+# Directory to store automated backups when using the embedded demo database (Apache Derby instead of MySQL)
 AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }
 
+# The number of seconds between each run of the SUI indexer. The indexer will perform and indexing cycle every configured number of seconds.
 AppConfig[:solr_indexing_frequency_seconds] = 30
+
+# The maximum number of distinct facet terms Solr will include in the response for a given field.
 AppConfig[:solr_facet_limit] = 100
 
 AppConfig[:default_page_size] = 10
 AppConfig[:max_boolean_queries] = 1024 # ArchivesSpace Solr default
+
+# Requests to the backend api can define a custom page_size param. This is the maximum allowed page size.
 AppConfig[:max_page_size] = 250
 
 # An option to change the length of the note snippets on the collections browse/search pages on the PUI
@@ -147,19 +151,39 @@ AppConfig[:cookie_prefix] = "archivesspace"
 # and the amount of memory that will be consumed by the indexing process (more
 # cores and/or more records per thread means more memory used).
 AppConfig[:indexer_records_per_thread] = 25
+
+# The number of worker-thread to be used by the SUI indexer. More worker-threads means that more CPU cores will be used.
 AppConfig[:indexer_thread_count] = 4
+
+# The indexer is making requests to solr in order to push updated records to the solr index.
+# This is the maximum number of seconds that the indexer will wait for solr to respond to a request.
 AppConfig[:indexer_solr_timeout_seconds] = 300
 
 # PUI Indexer Settings
+# If false no pui indexer is started. Set to false if not using the PUI at all.
 AppConfig[:pui_indexer_enabled] = true
+
+# The number of seconds between each run of the PUI indexer. The indexer will perform and indexing cycle every configured number of seconds.
 AppConfig[:pui_indexing_frequency_seconds] = 30
+
+# The size of each batch of records passed to each indexer worker-thread to process and push to solr.
+# The PUI indexer can run using multiple threads to take advantage of
+# multiple CPU cores. By setting these two options, you can control how many
+# CPU cores are used, and the amount of memory that will be consumed by the
+# indexing process (more cores and/or more records per thread means more memory used).
 AppConfig[:pui_indexer_records_per_thread] = 25
+
+# The number of worker-thread to be used by the PUI indexer. More worker-threads means that more CPU cores will be used.
 AppConfig[:pui_indexer_thread_count] = 1
 
-AppConfig[:index_state_class] = 'IndexState' # set to 'IndexStateS3' for amazon s3
-# # store indexer state in amazon s3 (optional)
+# The indexer needs a place to store it's state (keep track of which records have already been indexed).
+# Set to 'IndexState' (default) to store the state in the local `data` directory.
+# Set to 'IndexStateS3' (optional) to store the state in an AWS S3 bucket in the Amazon Cloud.
+
+AppConfig[:index_state_class] = 'IndexState'
+# If using S3 storage for the indexer state in amazon s3 (optional), you need to configure the access to S3.
 # # NOTE: s3 charges for read / update requests and the pui indexer is continually
-# # writing to state files so you may want to increase pui_indexing_frequency_seconds
+# # writing to state files so you may want to increase pui_indexing_frequency_seconds and `solr_indexing_frequency_seconds`
 # AppConfig[:index_state_s3] = {
 #   region: ENV.fetch("AWS_REGION"),
 #   aws_access_key_id: ENV.fetch("AWS_ACCESS_KEY_ID"),
@@ -168,17 +192,29 @@ AppConfig[:index_state_class] = 'IndexState' # set to 'IndexStateS3' for amazon 
 #   prefix: proc { "#{AppConfig[:cookie_prefix]}_" },
 # }
 
+
+# Allow assigning the special enumeration value other_unmapped for dynamic enum (controlled value) fields. When set to 'true', 'other_unmapped' is treated as a valid value for all enumeration (controlled value) fields. The 'other_unmapped' value is added as a possible value for all controlled value lists.
+# This feature is designed for handling unmapped or unknown enumeration values, eventually useful during data migrations where source data may have values not yet defined in controlled value lists, or generally importing external data that uses values that are not already defined in a controlled value list.
 AppConfig[:allow_other_unmapped] = false
 
+# This is how the database url (which includes the database username and password) will appear in the logs. The default replaces the username and password with `REDACTED`, so that:
+#   "user=john&password=secret123"
+# becomes
+#   "user=[REDACTED]&password=[REDACTED]"
 AppConfig[:db_url_redacted] = proc { AppConfig[:db_url].gsub(/(user|password)=(.*?)(&|$)/, '\1=[REDACTED]\3') }
 
 
+# When using the embedded demo database (Apache Derby instead of MySQL) this is the schedule of the automated backups, in cron format. By default, it is at 4AM every day.
 AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
 
-AppConfig[:allow_unsupported_database] = false
-AppConfig[:allow_non_utf8_mysql_database] = false
-
+# How many backups to keep available when using the embedded demo database
 AppConfig[:demo_db_backup_number_to_keep] = 7
+
+# Set this to true if you are determined to use a database other than MySQL or the embedded demo database based on Apache Derby (not recommended!).
+AppConfig[:allow_unsupported_database] = false
+
+# Set this to true to skip the standard validation of the character encoding of MySQL tables being set to UTF8 (not-recommended!)
+AppConfig[:allow_non_utf8_mysql_database] = false
 
 # Proxy URLs
 # If you are serving user-facing applications via proxy
@@ -186,6 +222,7 @@ AppConfig[:demo_db_backup_number_to_keep] = 7
 # recommended that you record those URLs in your configuration
 AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
 AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
+AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
 
 # Don't override _prefix or _proxy_prefix unless you know what you're doing
 AppConfig[:frontend_proxy_prefix] = proc { "#{URI(AppConfig[:frontend_proxy_url]).path}/".gsub(%r{/+$}, "/") }
@@ -225,7 +262,11 @@ AppConfig[:jetty_shutdown_path] = "/xkcd"
 #
 AppConfig[:backend_instance_urls] = proc { [AppConfig[:backend_url]] }
 
+# For theming customization, see https://docs.archivesspace.org/customization/theming/
+# Name of the theme to use on the Staff UI
 AppConfig[:frontend_theme] = "default"
+
+# Name of the theme to use on the Public UI
 AppConfig[:public_theme] = "default"
 
 # Sessions marked as expirable will timeout after this number of seconds of inactivity
@@ -234,15 +275,23 @@ AppConfig[:session_expire_after_seconds] = 3600
 # Sessions marked as non-expirable will eventually expire too, but after a longer period.
 AppConfig[:session_nonexpirable_force_expire_after_seconds] = 604800
 
+# Hidden (not viewable on the Staff UI User management) system users are automatically created to be used by the indexer, the PUI and the Staff UI in order to access the backend API.
+
+# The user name of the hidden system user that the indexer uses to access the backend API
 AppConfig[:search_username] = "search_indexer"
 
+# The user name of the hidden system user that the PUI uses to access the backend API
 AppConfig[:public_username] = "public_anonymous"
 
+# The user name of the hidden system user that the Staff UI uses to access the backend API
 AppConfig[:staff_username] = "staff_system"
 
+# Additional authentication sources are configured here, see for example: https://github.com/lyrasis/aspace-oauth?tab=readme-ov-file#configuration
 AppConfig[:authentication_sources] = []
+
 # When 'true' restrict authentication attempts to only the source already set for the user
 AppConfig[:authentication_restricted_by_source] = false # default: allow any source
+
 
 AppConfig[:realtime_index_backlog_ms] = 60000
 
