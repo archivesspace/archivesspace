@@ -72,21 +72,31 @@ module ExportHelper
       @header_mappings ||= begin
         {
           'context' => I18n.t('reports.headings.context', :default => 'Resource/Accession'),
+          'collection_display_string_u_sstr' => I18n.t('reports.headings.resource_accession', :default => 'Resource/Accession'),
+          'series_title_u_sstr' => I18n.t('reports.headings.series', :default => 'Series'),
           'container_profile_display_string_u_sstr' => I18n.t('reports.headings.container_profile', :default => 'Container Profile'),
           'location_display_string_u_sstr' => I18n.t('reports.headings.location', :default => 'Location'),
           'title' => I18n.t('reports.headings.title', :default => 'Title'),
           'type_enum_s' => I18n.t('reports.headings.type', :default => 'Type'),
           'indicator_u_icusort' => I18n.t('reports.headings.indicator', :default => 'Indicator'),
-          'barcode_u_sstr' => I18n.t('reports.headings.barcode', :default => 'Barcode')
+          'barcode_u_sstr' => I18n.t('reports.headings.barcode', :default => 'Barcode'),
+          'notes' => I18n.t('reports.headings.internal_note', :default => 'Internal Note'),
+          'exported_u_sbool' => I18n.t('reports.headings.exported_to_ils', :default => 'Exported to ILS')
         }
       end
     end
 
     # Map user-requested field names to actual backend field names
     FIELD_NAME_MAPPINGS = {
-      'type' => 'type_enum_s',
-      'indicator' => 'indicator_u_icusort',
-      'barcode' => 'barcode_u_sstr'
+      'type'               => 'type_enum_s',
+      'indicator'          => 'indicator_u_icusort',
+      'barcode'            => 'barcode_u_sstr',
+      'resource_accession' => 'collection_display_string_u_sstr',
+      'series'             => 'series_title_u_sstr',
+      'container_profile'  => 'container_profile_display_string_u_sstr',
+      'location'           => 'location_display_string_u_sstr',
+      'internal_note'      => 'notes',
+      'exported_to_ils'    => 'exported_u_sbool'
     }.freeze
 
     # Cached ancestor fields for performance
