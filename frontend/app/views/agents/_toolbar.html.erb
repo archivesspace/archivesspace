@@ -66,4 +66,6 @@
     </div>
   <% end %>
 </section>
+<% elsif user_can_view_only?(@agent.agent_type) %>
+  <%= render_aspace_partial :partial => "shared/view_only_toolbar", :locals => {:record => @agent} %>
 <% end %>

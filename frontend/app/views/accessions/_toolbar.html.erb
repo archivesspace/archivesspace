@@ -102,4 +102,6 @@
       </div>
     <% end %>
   </section>
+<% elsif user_can_view_only?('accession') %>
+  <%= render_aspace_partial :partial => "shared/view_only_toolbar", :locals => {:record => @accession} %>
 <% end %>
