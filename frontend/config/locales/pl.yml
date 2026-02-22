@@ -329,6 +329,7 @@ pl:
     text_operator:
       contains: zawiera
       empty: jest puste
+      comparator: Komparator
     enum_field:
       label: Zaawansowane opcje wyszukiwania (wyliczenia)
       empty: nieprzypisane
@@ -342,6 +343,8 @@ pl:
       equal: równa się
       greater_than: większe niż
       lesser_than: mniej niż
+      comparator: Komparator
+      empty: nieprzypisany
     reset: Wyczyść
     nav_switcher:
       show: Pokaż zaawansowane opcje
@@ -621,6 +624,13 @@ pl:
       exported_to_ils: Wyeksportowano do ILS
       ils_holding_id: Identyfikator ILS Holding
       not_exported_to_ils: Nie wyeksportowano
+      resource_accession: Zasób/Przystąpienie
+      container_profile: Profil kontenera
+      indicator: Wskaźnik
+      internal_note: Notatka wewnętrzna
+      location: Lokalizacja
+      restricted: Ograniczony
+      not_restricted: Nie ograniczone
     job:
       audit_info: Informacje dotyczące audytu
       user_mtime: Zmodyfikowany
@@ -629,6 +639,14 @@ pl:
       asc: Wznoszący się
       desc: Zstępujący
       uri: URI
+      status: Status
+      job_type: Zadanie w tle typ
+      report_type: Typ raportu
+      job_report_type: Zadanie w tle typ
+      time_started: Czas rozpoczęty
+      time_finished: Czas ukończony
+      time_submitted: Czas przesłany
+      job_data: Informacje o zadanie w tle
     multi:
       score: Znaczenie
       relevance: Znaczenie
@@ -643,6 +661,12 @@ pl:
       desc: Zstępujący
       query: Tekst
       user_mtime: Zmodyfikowany
+      primary_type: Typ rekordu
+      creators: Twórca
+      subjects: Temat
+      context: Znaleziono w
+      audit_info: Informacje o audycie
+      extents: Zakres
   agent_gender:
     _singular: Płeć
   agent_occupation:
@@ -734,8 +758,30 @@ pl:
         dates_of_existence: Daty istnienia
         merge_candidate_record: Ten rekord zostanie usunięty.
         merge_destination_record: Ten rekord zostanie zaktualizowany.
+        record_control_information: Zapis informacji kontrolnych
+        identity_information: Informacje dotyczące tożsamości
+        description_information: Opis Informacje
+        relation_information: Informacje o związku
+        name: Formularze nazw
+        search_embedded: Powiązane rekordy
+        linked_via_rights_statement: Powiązane rekordy za pośrednictwem 
+          oświadczenia o prawach
+        events: Wydarzenia
+        structured_date_single_fields: Pojedyncza randka
+        structured_date_range_fields: Data zakresu
       action:
         preview: Podgląd scalania
+        create: Utwórz agenta
+      messages:
+        created: Utworzono agenta
+        updated: Agent zapisany
+        deleted: Agent usunięty
+        published: Agent <strong>%{agent_title}</strong>, jego podrekordów i 
+          komponentów zostały opublikowane
+        delete_conflict: 'Nie można usunąć agenta: <pre>%{error}</pre>'
+        merge_description: Wybierz agenta, z którym chcesz się połączyć
+        merged: Połączono agentów
+        please_select_a_agent_to_merge: Wybierz agenta
   structured_date_single:
     _frontend:
       action:
@@ -812,6 +858,18 @@ pl:
           jeszcze zapisany. Aby utworzyć rekord w systemie, należy kliknąć 
           przycisk Zapisz.
         delete_conflict: 'Nie udało się usunąć wpisu: <pre>%{error}</pre>'
+        created: Utworzono <strong>%{accession_display_string}</strong>
+        unsuppressed: Akcesja <strong>%{accession_display_string}</strong> nie 
+          została wstrzymana
+        updated: Zaktualizowano <strong>%{accession_display_string}</strong>
+        suppressed: Przystąpienie <strong>%{accession_display_string}</strong> 
+          zostało pominięte
+        suppressed_info: Akcesja jest usunięta i nie można jej edytować
+        deleted: Usunięto <strong>%{accession_display_string}</strong>
+        transfer_description: Przenieś tę akcesję do...
+      action:
+        create: Utwórz przystąpienie
+        save: Zapisz przystąpienie
     component_link: Połączony komponent
     component_links: Połączone komponenty
   breadcrumb:
@@ -844,14 +902,35 @@ pl:
       archival_object: Domyślne ustawienia rekordów komponentów
       digital_object: Domyślne ustawienia obiektów cyfrowych
       classification_term: Domyślne wartości terminów klasyfikacji
+      resource: Domyślne ustawienia rekordów zasobów
+      accession: Domyślne ustawienia rekordu akcesji
+      subject: Domyślne ustawienia rekordu tematu
+      agent_person: Domyślne ustawienia rekordu agenta (osoba)
+      agent_family: Domyślne ustawienia rekordu agenta (rodzina)
+      agent_corporate_entity: Domyślne ustawienia rekordu agenta (podmiot 
+        korporacyjny)
+      agent_software: Domyślne ustawienia rekordów agenta (oprogramowanie)
+      digital_object_component: Domyślne ustawienia komponentu obiektu cyfrowego
+      location: Domyślne ustawienia rekordu lokalizacji
+      event: Domyślne ustawienia rekordu zdarzenia
+      classification: Domyślne ustawienia rekordu klasyfikacji
+      container_profile: Domyślne ustawienia profilu kontenera
     messages:
       defaults_updated: Domyślne zaktualizowano
   required_fields:
     messages:
       required_fields_updated: Zaktualizowano wymagane pola.
+    form_title:
+      agent_person: Wymagane pola w rekordzie agenta (osoba)
+      agent_family: Wymagane pola w rekordzie agenta (rodzina)
+      agent_corporate_entity: Wymagane pola w rekordzie agenta (podmiot 
+        korporacyjny)
+      agent_software: Wymagane pola rekordu agenta (oprogramowanie)
   tree:
     drag_and_drop_actions:
       after: Dodaj elementy po
+      before: Dodaj elementy przed
+      as_child: Dodaj elementy jako dzieci
     unexpected_failure: Ups! Wystąpił problem z wczytywaniem tego drzewa. 
       Spróbuj odświeżyć stronę.
     resize: Przeciągnij, aby zmienić wysokość drzewa.
@@ -896,6 +975,7 @@ pl:
       action:
         add: Dodaj kontakt
         make_representative: Wybierz preferowaną formę kontaktu.
+    is_representative: Preferowane
   telephone:
     _frontend:
       action:
@@ -1195,3 +1275,17 @@ pl:
     file_version_xlink_actuate_attribute: Atrybut Xlink Actuate
     file_version_xlink_show_attribute: Atrybut pokazu Xlink
     last_verified_date: Ostatnia zweryfikowana data
+  mixed_content:
+    wrap_prefix: 'Owiń:'
+    help: Włączono zawartość mieszaną&#160;&#160;--&#160;&#160;Wpisz '<' dla 
+      elementów lub zaznacz tekst, który chcesz zawinąć
+  accession_link:
+    _plural: Linki akcesyjne
+    _singular: Link do przystąpienia
+    _frontend:
+      action:
+        add: Dodaj łącze akcesyjne
+  agent_family:
+    _frontend:
+      action:
+        save: Zapisz rodzinę
