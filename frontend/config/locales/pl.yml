@@ -472,6 +472,8 @@ pl:
       primary_type: Typ agenta
       source: Źródło
       is_user: Czy to użytkownik?
+      title: Nazwa
+      rules: Zasady
     location:
       title: Lokalizacja
       create_time: Stworzony
@@ -504,6 +506,8 @@ pl:
       create_time: Stworzony
       desc: Zstępujący
       outcome: Wynik
+      agents: Agent
+      linked_records: Linki do nagrań
     collection_management:
       parent_title: Tytuł
       uri: URI
@@ -519,6 +523,7 @@ pl:
       processing_priority: Priorytet opracowania
       processing_status: Stan opracowania
       processors: Archiwiści
+      parent_type: Typ rekordu
     classification:
       title: Tytuł
       create_time: Stworzony
@@ -547,6 +552,11 @@ pl:
       assessment_sensitive_material: Materiały wrażliwe
       assessment_formats: Formaty
       assessment_conservation_issues: Problemy związane z ochroną przyrody
+      assessment_record_types: Typ rekordu
+      assessment_survey_begin: Rozpoczęcie ankiety
+      assessment_review_required: Wymagana recenzja
+      assessment_survey_year: Rok badania
+      assessment_ratings: Oceny
     repositories:
       uri: URI
       user_mtime: Zmodyfikowany
@@ -573,6 +583,7 @@ pl:
       ils_holding_id: Identyfikator ILS Holding
       exported_to_ils: Wyeksportowano do ILS
       location_display_string_u_sstr: Lokalizacja
+      container_profile_display_string_u_sstr: Profil kontenera
     container_profile:
       title: Tytuł
       create_time: Stworzony
@@ -1159,3 +1170,27 @@ pl:
     _frontend:
       messages:
         transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane.
+  agent_function:
+    _singular: Funkcjonować
+    _plural: Funkcje
+  agent_resource:
+    _singular: Powiązane zasoby zewnętrzne
+    _plural: Powiązane zasoby zewnętrzne
+  skipnav:
+    main_content: Przejdź do treści głównej
+  agent_record_identifier:
+    primary_identifier: Czy jest to identyfikator podstawowy?
+  agent_identifier:
+    identifier_type: Typ identyfikatora
+  used_language:
+    _plural: Używane języki
+    _singular: Używany język
+  metadata_rights_declaration:
+    _plural: Deklaracje praw do metadanych
+    _singular: Deklaracja praw do metadanych
+    xlink_title_attribute: Atrybut tytułu Xlink
+    xlink_role_attribute: Atrybut roli Xlink
+    xlink_arcrole_attribute: Atrybut Arcrole Xlink
+    file_version_xlink_actuate_attribute: Atrybut Xlink Actuate
+    file_version_xlink_show_attribute: Atrybut pokazu Xlink
+    last_verified_date: Ostatnia zweryfikowana data
