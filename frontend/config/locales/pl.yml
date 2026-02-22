@@ -584,6 +584,7 @@ pl:
       exported_to_ils: Wyeksportowano do ILS
       location_display_string_u_sstr: Lokalizacja
       container_profile_display_string_u_sstr: Profil kontenera
+      context: Zasób/Przystąpienie
     container_profile:
       title: Tytuł
       create_time: Stworzony
