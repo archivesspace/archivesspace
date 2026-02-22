@@ -64,7 +64,9 @@ pl:
   validation_errors:
     mixed_content_invalid_inline_ead: "Nieprawidłowy znacznik EAD: używaj prostych cudzysłowów (\" lub
       ') dla wartości atrybutów i upewnij się, że znaczniki są poprawnie sformatowane."
-    mixed_content_disallowed_tag: "Wykryto niedozwolony znacznik HTML. Ze względów bezpieczeństwa znaczniki takie jak &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; i elementy formularzy nie są dozwolone w polach ze zmienną zawartością."
+    mixed_content_disallowed_tag: "Wykryto niedozwolony znacznik HTML. Ze względów bezpieczeństwa znaczniki
+      takie jak &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; i elementy formularzy nie są dozwolone w
+      polach ze zmienną zawartością."
   assessment:
     sensitive_material_true: Tak
     sensitive_material_false: Nie
@@ -1593,6 +1595,13 @@ pl:
     city: Miasto
     address_1_tooltip: |
       <p>Adres osoby kontaktowej.</p>
+    name: Nazwa kontaktu
+    salutation: Zwrot grzecznościowy
+    region: Stan/Region
+    country: Kraj
+    post_code: Kod pocztowy
+    fax: Faks
+    email: E-mail
   subrecord_subject_agent_topic:
     subjects_tooltip: |
       <p>Podmiot powiązany z agentem.</p>
@@ -1625,3 +1634,10 @@ pl:
       <p>Wyrażenie w języku naturalnym określające koniec zakresu dat. Wymagane, gdy nie zarejestrowano daty w standardowym formacie.</p>
     end_date_standardized_tooltip: |
       <p>Data (w formacie RRRR, RRRR-MM lub RRRR-MM-DD) reprezentująca ostatnią datę w danym przedziale czasowym.</p>
+  classification:
+    creator: Twórca
+  telephone:
+    _plural: Numery telefonów
+    number_type: Typ numeru
+    number: Numer
+    ext: Rozszerzenie telefoniczne
