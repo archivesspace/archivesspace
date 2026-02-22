@@ -806,15 +806,53 @@ pl:
         spawn_menu_before: Wstaw wygenerowany komponent przed
         spawn_menu_child: Wstaw wygenerowany komponent jako element podrzędny.
         spawn_menu_after: Wstaw wygenerowany komponent po
+        created: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> w zasobie 
+          <strong>%{resource_title}</strong> został utworzony
+        duplicated: Obiekt archiwalny zduplikowany z 
+          <strong>%{archival_object_display_string}</strong>
+        created_with_parent: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> został utworzony 
+          jako element podrzędny <strong>%{parent_display_string}</strong> w 
+          zasobie <strong>%{resource_title}</strong>
+        updated_with_parent: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> został 
+          zaktualizowany
+        transfer_description: Wybierz zasób, do którego chcesz przenieść ten 
+          obiekt archiwalny
+        please_select_a_resource_for_transfer: Wybierz zasób
+        transfer_success: Pomyślnie przeniesiono obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> do zasobu 
+          <strong>%{resource_title}</strong>
+        transfer_error: 'Nie można przenieść obiektu archiwalnego z powodu błędu lub
+          konfliktu: <pre>%{exception}</pre>'
+        deleted: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> został usunięty
+        published: Obiekt archiwalny <strong>%{archival_object_title}</strong>, 
+          jego elementy podrzędne, podrekordy i komponenty zostały opublikowane
+        unpublished: Obiekt archiwalny 
+          <strong>%{archival_object_title}</strong>, jego elementy podrzędne, 
+          podrekordy i komponenty zostały wycofane z publikacji
+        unsuppressed: Obiekt archiwalny 
+          <strong>%{archival_object_title}</strong> nie został wyłączony
+        suppressed: Obiekt archiwalny <strong>%{archival_object_title}</strong> 
+          został pominięty
+        suppressed_info: Obiekt archiwalny jest wyłączony i nie można go 
+          edytować
+        has_unpublished_ancestor: Należy pamiętać, że ten rekord ma 
+          nieopublikowanego przodka.
       section:
         basic_information: Podstawowe informacje
       tree:
         duplicated_record_title: Utwórz zduplikowany obiekt archiwalny
       action:
         select_parent_and_position: Wybierz pozycję komponentu
+        add_duplicate: Dodaj duplikat
+        save: Zapisz obiekt archiwalny
     external_ark_url: Zewnętrzny adres URL ARK
     external_ark_url_tooltip: Zewnętrzne narzędzie do wyświetlania podpowiedzi 
       URL ARK
+    new_title: Nowy obiekt archiwalny
   classification:
     _frontend:
       section:
@@ -1175,11 +1213,56 @@ pl:
       section:
         oai_fields: Ustawienia zbierania danych OAI
         transfer: Repozytorium transferów
+      action:
+        select: Wybierz Repozytorium
+        save: Zapisz repozytorium
+        create: Utwórz repozytorium
+        order_for_pui: Ustaw kolejność w interfejsie publicznym
+    _sidebar:
+      oai_settings:
+        _plural: Ustawienia zbiorów OAI
   resource:
     external_ark_url_tooltip: Trwały identyfikator Archival Resource Key (ARK) 
       wygenerowany poza systemem ArchivesSpace. Jeśli to pole zawiera wartość, 
       ma ona pierwszeństwo przed identyfikatorem ARK wygenerowanym w systemie 
       ArchivesSpace.
+    _frontend:
+      messages:
+        created: Zasób <strong>%{resource_title}</strong> został utworzony
+        updated: Zasób <strong>%{resource_title}</strong> zaktualizowano
+        spawned: Nowy zasób został utworzony z akcesji 
+          <strong>%{accession_display_string}</strong>. Ten rekord nie został 
+          zapisany. Aby utworzyć rekord w systemie, należy kliknąć przycisk 
+          „Zapisz”.
+        deleted: Zasób <strong>%{resource_title}</strong> został usunięty
+        published: Zasób <strong>%{resource_title}</strong>, jego podrekordów i 
+          komponentów zostały opublikowane
+        unpublished: Zasób <strong>%{resource_title}</strong>, jego elementy 
+          podrzędne, podrekordów i komponentów zostały wycofane z publikacji
+        merge_description: Wybierz zasoby poniżej, aby je połączyć
+        please_select_a_resource_to_merge: Wybierz zasób
+        merged: Połączono zasoby
+        transfer_description: Przenieś ten zasób do...
+        transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane
+        unsuppressed: Zasób <strong>%{resource_title}</strong> nie został 
+          wstrzymany
+        suppressed: Zasób <strong>%{resource_title}</strong> został wyłączony
+        suppressed_info: Zasób jest zablokowany i nie można go edytować
+        delete_conflict: 'Nie można usunąć zasobu: <pre>%{error}</pre>'
+      section:
+        basic_information: Podstawowe informacje
+        finding_aid: Dane inwentarz archiwalny
+      action:
+        create: Utwórz zasób
+        load_bulk: Załaduj za pomocą arkusza kalkulacyjnego
+        save: Zapisz zasób
+        delete_multiple: Usuń zasoby
+      remove_subrecord: Usuń podrekord
+    external_ark_url: Zewnętrzny adres URL ARK
+    linker:
+      browse: Przeglądaj zasoby
+      link_title: Przeglądać
+      link_to: Link do zasobu
   preference:
     _frontend:
       messages:
@@ -1187,6 +1270,7 @@ pl:
         reset_error: 'Nie udało się zresetować ustawień z powodu błędu: %{exception}'
         no_access_to_preferences: Aby móc zarządzać preferencjami, musisz 
           utworzyć co najmniej jedno repozytorium.
+        updated: Preferencje zaktualizowane
       action:
         save: Zapisz preferencje
   user:
@@ -1199,9 +1283,39 @@ pl:
         password_reset_email_sent: Jeśli istnieje konto powiązane z adresem 
           e-mail %{email}, zostanie wysłana wiadomość e-mail z instrukcjami 
           dotyczącymi resetowania hasła.
+        access_denied: Dostęp zabroniony. Zaloguj się jako administrator, aby 
+          wykonać tę czynność.
+        created: Utworzono użytkownika
+        updated: Użytkownik zapisany
+        deleted: Użytkownik usunięty
+        error_update: Użytkownik nie został zapisany
+        error_create: Użytkownik nie został utworzony
+        error_activate: Użytkownik nie został aktywowany
+        error_deactivate: Użytkownik nie został dezaktywowany
+        error_not_found: Nie znaleziono konta użytkownika %{email}. Skontaktuj 
+          się z administratorem, aby uzyskać pomoc.
+        password_reset_not_allowed: Odzyskiwanie hasła jest niedozwolone. 
+          Skontaktuj się z administratorem.
+        password_reset_fail: Odzyskiwanie hasła nie powiodło się. Skontaktuj się
+          z administratorem.
       action:
         activate_user_confirm: Czy na pewno chcesz aktywować tego użytkownika?
         update_self: Zarządzaj kontem użytkownika
+        create_account: Utwórz konto
+        update_account: Zaktualizuj konto
+        create: Utwórz użytkownika
+        edit: Edytuj użytkownika
+        show_active: Pokaż aktywnych użytkowników
+        show_inactive: Pokaż nieaktywnych użytkowników
+      section:
+        manage_access: Zarządzaj dostępem użytkowników
+        account: Konto
+        edit_account: Edytuj konto
+        edit_account_submit: Zaktualizuj konto
+        new_account: Nowe konto
+    active: prawda
+    inactive: fałsz
+    source: Uwierzytelnianie
   user_defined:
     _frontend:
       action:
@@ -1289,3 +1403,39 @@ pl:
     _frontend:
       action:
         save: Zapisz rodzinę
+  agent_person:
+    _frontend:
+      action:
+        save: Zapisz osobę
+  agent_software:
+    _frontend:
+      action:
+        save: Zapisz oprogramowanie
+  rights_statement:
+    _frontend:
+      action:
+        add: Dodaj Oświadczenie o prawach
+  term:
+    _frontend:
+      messages:
+        preview_pending: Podgląd tematu
+      action:
+        add: Dodaj termin/podział
+  subject:
+    _frontend:
+      messages:
+        created: Temat stworzony
+        updated: Temat zapisany
+        deleted: Temat usunięty
+        merged: Połączono tematy
+        merge_description: Wybierz poniższe tematy, aby je połączyć
+        please_select_a_subject_to_merge: Proszę wybrać temat
+        delete_conflict: 'Nie można usunąć tematu: <pre>%{error}</pre>'
+      section:
+        basic_information: Podstawowe informacje
+        terms: Terminy i podziały
+        search_embedded: Powiązane rekordy
+      action:
+        create: Utwórz temat
+        save: Zapisz temat
+        add: Dodaj temat
