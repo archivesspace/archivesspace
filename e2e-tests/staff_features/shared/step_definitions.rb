@@ -424,19 +424,19 @@ Given 'the Pre-populate Records option is checked in Repository Preferences' do
   within '.dropdown-menu' do
     click_on 'Repository Preferences (admin)'
   end
-  uncheck('preference_defaults__default_values_')
+  uncheck('Pre-populate Records?')
   click_on 'Save'
   sleep 3
 
-  check('preference_defaults__default_values_')
+  check('Pre-populate Records?')
   click_on 'Save'
   sleep 3
 
-  uncheck('preference_defaults__default_values_')
+  check('Include Unpublished Records in Exports?')
   click_on 'Save'
   sleep 3
 
-  check('preference_defaults__default_values_')
+  uncheck('Include Unpublished Records in Exports?')
   click_on 'Save'
   sleep 3 # update the preferences two times to ensure that REFRESH_PREFERENCES notification reaches SUI
 
