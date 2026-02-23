@@ -94,4 +94,12 @@
               :record => @resource,
              })
   %>
+<% elsif user_can_view_only?('resource') %>
+  <%= render_aspace_partial(:partial => '/shared/resource_toolbar',
+             :locals => {
+              :record_type => 'resource',
+              :record => @resource,
+              :view_only => true,
+             })
+  %>
 <% end %>

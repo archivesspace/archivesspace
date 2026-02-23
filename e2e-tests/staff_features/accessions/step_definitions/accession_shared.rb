@@ -101,6 +101,8 @@ Given 'an Accession has been created' do
 
   click_on 'Save'
   expect(page).to have_text "Accession Accession Title #{@uuid} created"
+
+  @accession_id = current_url.split('/')[-2]
 end
 
 Given 'an Accession with a Top Container has been created' do

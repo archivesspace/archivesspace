@@ -6,4 +6,11 @@
                :show_delete => user_can?('delete_archival_record')
               })
   %>
+<% elsif user_can_view_only?('digital_object_component') %>
+  <%= render_aspace_partial(:partial => '/shared/component_toolbar',
+             :locals => {
+               :record => @digital_object_component,
+               :view_only => true
+              })
+  %>
 <% end %>

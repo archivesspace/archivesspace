@@ -1,3 +1,6 @@
+<% if local_assigns[:view_only] %>
+  <%= render_aspace_partial :partial => "shared/view_only_toolbar", :locals => {:record => record} %>
+<% else %>
 <section class="d-flex flex-column">
   <div class="d-flex align-items-center gap-x-2 record-toolbar" role="toolbar">
     <% if !record.suppressed %>
@@ -181,3 +184,4 @@
   <% end %>
 
 </section>
+<% end %>

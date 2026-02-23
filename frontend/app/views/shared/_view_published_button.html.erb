@@ -1,11 +1,8 @@
 <% if record.publish %>
-
   <% if current_repo.publish || !record.repository %>
-
     <% record_type = record.jsonmodel_type %>
 
     <div class="btn-group">
-
       <% if AppConfig[:use_human_readable_urls] && !record['slug'].nil? && !record['slug'].empty? %>
         <% if ['agent_person', 'agent_family', 'agent_corporate_entity', 'agent_software'].include?(record_type) %>
           <%= link_to t("actions.view_published"), File.join(AppConfig[:public_proxy_url], 'agents', @agent['slug']).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
@@ -17,11 +14,7 @@
       <% else %>
         <%= link_to t("actions.view_published"), File.join(AppConfig[:public_proxy_url], record.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
       <% end %>
-
     </div>
 
   <% end %>
-
 <% end %>
-
-
