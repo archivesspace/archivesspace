@@ -37,6 +37,9 @@ RUN cd /source && \
 ADD docker-startup.sh /archivesspace/startup.sh
 RUN chmod u+x /archivesspace/startup.sh
 
+RUN mkdir -p /certs && \
+    wget -O /certs/global-bundle.pem https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem
+
 FROM ubuntu:24.04
 
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
