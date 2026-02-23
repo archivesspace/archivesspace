@@ -329,6 +329,7 @@ pl:
     text_operator:
       contains: zawiera
       empty: jest puste
+      comparator: Komparator
     enum_field:
       label: Zaawansowane opcje wyszukiwania (wyliczenia)
       empty: nieprzypisane
@@ -342,6 +343,8 @@ pl:
       equal: równa się
       greater_than: większe niż
       lesser_than: mniej niż
+      comparator: Komparator
+      empty: nieprzypisany
     reset: Wyczyść
     nav_switcher:
       show: Pokaż zaawansowane opcje
@@ -472,6 +475,8 @@ pl:
       primary_type: Typ agenta
       source: Źródło
       is_user: Czy to użytkownik?
+      title: Nazwa
+      rules: Zasady
     location:
       title: Lokalizacja
       create_time: Stworzony
@@ -504,6 +509,8 @@ pl:
       create_time: Stworzony
       desc: Zstępujący
       outcome: Wynik
+      agents: Agent
+      linked_records: Linki do nagrań
     collection_management:
       parent_title: Tytuł
       uri: URI
@@ -519,6 +526,7 @@ pl:
       processing_priority: Priorytet opracowania
       processing_status: Stan opracowania
       processors: Archiwiści
+      parent_type: Typ rekordu
     classification:
       title: Tytuł
       create_time: Stworzony
@@ -547,6 +555,11 @@ pl:
       assessment_sensitive_material: Materiały wrażliwe
       assessment_formats: Formaty
       assessment_conservation_issues: Problemy związane z ochroną przyrody
+      assessment_record_types: Typ rekordu
+      assessment_survey_begin: Rozpoczęcie ankiety
+      assessment_review_required: Wymagana recenzja
+      assessment_survey_year: Rok badania
+      assessment_ratings: Oceny
     repositories:
       uri: URI
       user_mtime: Zmodyfikowany
@@ -573,6 +586,8 @@ pl:
       ils_holding_id: Identyfikator ILS Holding
       exported_to_ils: Wyeksportowano do ILS
       location_display_string_u_sstr: Lokalizacja
+      container_profile_display_string_u_sstr: Profil kontenera
+      context: Zasób/Przystąpienie
     container_profile:
       title: Tytuł
       create_time: Stworzony
@@ -609,6 +624,13 @@ pl:
       exported_to_ils: Wyeksportowano do ILS
       ils_holding_id: Identyfikator ILS Holding
       not_exported_to_ils: Nie wyeksportowano
+      resource_accession: Zasób/Przystąpienie
+      container_profile: Profil kontenera
+      indicator: Wskaźnik
+      internal_note: Notatka wewnętrzna
+      location: Lokalizacja
+      restricted: Ograniczony
+      not_restricted: Nie ograniczone
     job:
       audit_info: Informacje dotyczące audytu
       user_mtime: Zmodyfikowany
@@ -617,6 +639,14 @@ pl:
       asc: Wznoszący się
       desc: Zstępujący
       uri: URI
+      status: Status
+      job_type: Zadanie w tle typ
+      report_type: Typ raportu
+      job_report_type: Zadanie w tle typ
+      time_started: Czas rozpoczęty
+      time_finished: Czas ukończony
+      time_submitted: Czas przesłany
+      job_data: Informacje o zadanie w tle
     multi:
       score: Znaczenie
       relevance: Znaczenie
@@ -631,6 +661,12 @@ pl:
       desc: Zstępujący
       query: Tekst
       user_mtime: Zmodyfikowany
+      primary_type: Typ rekordu
+      creators: Twórca
+      subjects: Temat
+      context: Znaleziono w
+      audit_info: Informacje o audycie
+      extents: Zakres
   agent_gender:
     _singular: Płeć
   agent_occupation:
@@ -722,8 +758,30 @@ pl:
         dates_of_existence: Daty istnienia
         merge_candidate_record: Ten rekord zostanie usunięty.
         merge_destination_record: Ten rekord zostanie zaktualizowany.
+        record_control_information: Zapis informacji kontrolnych
+        identity_information: Informacje dotyczące tożsamości
+        description_information: Opis Informacje
+        relation_information: Informacje o związku
+        name: Formularze nazw
+        search_embedded: Powiązane rekordy
+        linked_via_rights_statement: Powiązane rekordy za pośrednictwem 
+          oświadczenia o prawach
+        events: Wydarzenia
+        structured_date_single_fields: Pojedyncza randka
+        structured_date_range_fields: Data zakresu
       action:
         preview: Podgląd scalania
+        create: Utwórz agenta
+      messages:
+        created: Utworzono agenta
+        updated: Agent zapisany
+        deleted: Agent usunięty
+        published: Agent <strong>%{agent_title}</strong>, jego podrekordów i 
+          komponentów zostały opublikowane
+        delete_conflict: 'Nie można usunąć agenta: <pre>%{error}</pre>'
+        merge_description: Wybierz agenta, z którym chcesz się połączyć
+        merged: Połączono agentów
+        please_select_a_agent_to_merge: Wybierz agenta
   structured_date_single:
     _frontend:
       action:
@@ -748,15 +806,53 @@ pl:
         spawn_menu_before: Wstaw wygenerowany komponent przed
         spawn_menu_child: Wstaw wygenerowany komponent jako element podrzędny.
         spawn_menu_after: Wstaw wygenerowany komponent po
+        created: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> w zasobie 
+          <strong>%{resource_title}</strong> został utworzony
+        duplicated: Obiekt archiwalny zduplikowany z 
+          <strong>%{archival_object_display_string}</strong>
+        created_with_parent: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> został utworzony 
+          jako element podrzędny <strong>%{parent_display_string}</strong> w 
+          zasobie <strong>%{resource_title}</strong>
+        updated_with_parent: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> został 
+          zaktualizowany
+        transfer_description: Wybierz zasób, do którego chcesz przenieść ten 
+          obiekt archiwalny
+        please_select_a_resource_for_transfer: Wybierz zasób
+        transfer_success: Pomyślnie przeniesiono obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> do zasobu 
+          <strong>%{resource_title}</strong>
+        transfer_error: 'Nie można przenieść obiektu archiwalnego z powodu błędu lub
+          konfliktu: <pre>%{exception}</pre>'
+        deleted: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> został usunięty
+        published: Obiekt archiwalny <strong>%{archival_object_title}</strong>, 
+          jego elementy podrzędne, podrekordy i komponenty zostały opublikowane
+        unpublished: Obiekt archiwalny 
+          <strong>%{archival_object_title}</strong>, jego elementy podrzędne, 
+          podrekordy i komponenty zostały wycofane z publikacji
+        unsuppressed: Obiekt archiwalny 
+          <strong>%{archival_object_title}</strong> nie został wyłączony
+        suppressed: Obiekt archiwalny <strong>%{archival_object_title}</strong> 
+          został pominięty
+        suppressed_info: Obiekt archiwalny jest wyłączony i nie można go 
+          edytować
+        has_unpublished_ancestor: Należy pamiętać, że ten rekord ma 
+          nieopublikowanego przodka.
       section:
         basic_information: Podstawowe informacje
       tree:
         duplicated_record_title: Utwórz zduplikowany obiekt archiwalny
       action:
         select_parent_and_position: Wybierz pozycję komponentu
+        add_duplicate: Dodaj duplikat
+        save: Zapisz obiekt archiwalny
     external_ark_url: Zewnętrzny adres URL ARK
     external_ark_url_tooltip: Zewnętrzne narzędzie do wyświetlania podpowiedzi 
       URL ARK
+    new_title: Nowy obiekt archiwalny
   classification:
     _frontend:
       section:
@@ -800,6 +896,18 @@ pl:
           jeszcze zapisany. Aby utworzyć rekord w systemie, należy kliknąć 
           przycisk Zapisz.
         delete_conflict: 'Nie udało się usunąć wpisu: <pre>%{error}</pre>'
+        created: Utworzono <strong>%{accession_display_string}</strong>
+        unsuppressed: Akcesja <strong>%{accession_display_string}</strong> nie 
+          została wstrzymana
+        updated: Zaktualizowano <strong>%{accession_display_string}</strong>
+        suppressed: Przystąpienie <strong>%{accession_display_string}</strong> 
+          zostało pominięte
+        suppressed_info: Akcesja jest usunięta i nie można jej edytować
+        deleted: Usunięto <strong>%{accession_display_string}</strong>
+        transfer_description: Przenieś tę akcesję do...
+      action:
+        create: Utwórz przystąpienie
+        save: Zapisz przystąpienie
     component_link: Połączony komponent
     component_links: Połączone komponenty
   breadcrumb:
@@ -832,14 +940,35 @@ pl:
       archival_object: Domyślne ustawienia rekordów komponentów
       digital_object: Domyślne ustawienia obiektów cyfrowych
       classification_term: Domyślne wartości terminów klasyfikacji
+      resource: Domyślne ustawienia rekordów zasobów
+      accession: Domyślne ustawienia rekordu akcesji
+      subject: Domyślne ustawienia rekordu tematu
+      agent_person: Domyślne ustawienia rekordu agenta (osoba)
+      agent_family: Domyślne ustawienia rekordu agenta (rodzina)
+      agent_corporate_entity: Domyślne ustawienia rekordu agenta (podmiot 
+        korporacyjny)
+      agent_software: Domyślne ustawienia rekordów agenta (oprogramowanie)
+      digital_object_component: Domyślne ustawienia komponentu obiektu cyfrowego
+      location: Domyślne ustawienia rekordu lokalizacji
+      event: Domyślne ustawienia rekordu zdarzenia
+      classification: Domyślne ustawienia rekordu klasyfikacji
+      container_profile: Domyślne ustawienia profilu kontenera
     messages:
       defaults_updated: Domyślne zaktualizowano
   required_fields:
     messages:
       required_fields_updated: Zaktualizowano wymagane pola.
+    form_title:
+      agent_person: Wymagane pola w rekordzie agenta (osoba)
+      agent_family: Wymagane pola w rekordzie agenta (rodzina)
+      agent_corporate_entity: Wymagane pola w rekordzie agenta (podmiot 
+        korporacyjny)
+      agent_software: Wymagane pola rekordu agenta (oprogramowanie)
   tree:
     drag_and_drop_actions:
       after: Dodaj elementy po
+      before: Dodaj elementy przed
+      as_child: Dodaj elementy jako dzieci
     unexpected_failure: Ups! Wystąpił problem z wczytywaniem tego drzewa. 
       Spróbuj odświeżyć stronę.
     resize: Przeciągnij, aby zmienić wysokość drzewa.
@@ -884,6 +1013,7 @@ pl:
       action:
         add: Dodaj kontakt
         make_representative: Wybierz preferowaną formę kontaktu.
+    is_representative: Preferowane
   telephone:
     _frontend:
       action:
@@ -1083,11 +1213,56 @@ pl:
       section:
         oai_fields: Ustawienia zbierania danych OAI
         transfer: Repozytorium transferów
+      action:
+        select: Wybierz Repozytorium
+        save: Zapisz repozytorium
+        create: Utwórz repozytorium
+        order_for_pui: Ustaw kolejność w interfejsie publicznym
+    _sidebar:
+      oai_settings:
+        _plural: Ustawienia zbiorów OAI
   resource:
     external_ark_url_tooltip: Trwały identyfikator Archival Resource Key (ARK) 
       wygenerowany poza systemem ArchivesSpace. Jeśli to pole zawiera wartość, 
       ma ona pierwszeństwo przed identyfikatorem ARK wygenerowanym w systemie 
       ArchivesSpace.
+    _frontend:
+      messages:
+        created: Zasób <strong>%{resource_title}</strong> został utworzony
+        updated: Zasób <strong>%{resource_title}</strong> zaktualizowano
+        spawned: Nowy zasób został utworzony z akcesji 
+          <strong>%{accession_display_string}</strong>. Ten rekord nie został 
+          zapisany. Aby utworzyć rekord w systemie, należy kliknąć przycisk 
+          „Zapisz”.
+        deleted: Zasób <strong>%{resource_title}</strong> został usunięty
+        published: Zasób <strong>%{resource_title}</strong>, jego podrekordów i 
+          komponentów zostały opublikowane
+        unpublished: Zasób <strong>%{resource_title}</strong>, jego elementy 
+          podrzędne, podrekordów i komponentów zostały wycofane z publikacji
+        merge_description: Wybierz zasoby poniżej, aby je połączyć
+        please_select_a_resource_to_merge: Wybierz zasób
+        merged: Połączono zasoby
+        transfer_description: Przenieś ten zasób do...
+        transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane
+        unsuppressed: Zasób <strong>%{resource_title}</strong> nie został 
+          wstrzymany
+        suppressed: Zasób <strong>%{resource_title}</strong> został wyłączony
+        suppressed_info: Zasób jest zablokowany i nie można go edytować
+        delete_conflict: 'Nie można usunąć zasobu: <pre>%{error}</pre>'
+      section:
+        basic_information: Podstawowe informacje
+        finding_aid: Dane inwentarz archiwalny
+      action:
+        create: Utwórz zasób
+        load_bulk: Załaduj za pomocą arkusza kalkulacyjnego
+        save: Zapisz zasób
+        delete_multiple: Usuń zasoby
+      remove_subrecord: Usuń podrekord
+    external_ark_url: Zewnętrzny adres URL ARK
+    linker:
+      browse: Przeglądaj zasoby
+      link_title: Przeglądać
+      link_to: Link do zasobu
   preference:
     _frontend:
       messages:
@@ -1095,6 +1270,7 @@ pl:
         reset_error: 'Nie udało się zresetować ustawień z powodu błędu: %{exception}'
         no_access_to_preferences: Aby móc zarządzać preferencjami, musisz 
           utworzyć co najmniej jedno repozytorium.
+        updated: Preferencje zaktualizowane
       action:
         save: Zapisz preferencje
   user:
@@ -1107,9 +1283,39 @@ pl:
         password_reset_email_sent: Jeśli istnieje konto powiązane z adresem 
           e-mail %{email}, zostanie wysłana wiadomość e-mail z instrukcjami 
           dotyczącymi resetowania hasła.
+        access_denied: Dostęp zabroniony. Zaloguj się jako administrator, aby 
+          wykonać tę czynność.
+        created: Utworzono użytkownika
+        updated: Użytkownik zapisany
+        deleted: Użytkownik usunięty
+        error_update: Użytkownik nie został zapisany
+        error_create: Użytkownik nie został utworzony
+        error_activate: Użytkownik nie został aktywowany
+        error_deactivate: Użytkownik nie został dezaktywowany
+        error_not_found: Nie znaleziono konta użytkownika %{email}. Skontaktuj 
+          się z administratorem, aby uzyskać pomoc.
+        password_reset_not_allowed: Odzyskiwanie hasła jest niedozwolone. 
+          Skontaktuj się z administratorem.
+        password_reset_fail: Odzyskiwanie hasła nie powiodło się. Skontaktuj się
+          z administratorem.
       action:
         activate_user_confirm: Czy na pewno chcesz aktywować tego użytkownika?
         update_self: Zarządzaj kontem użytkownika
+        create_account: Utwórz konto
+        update_account: Zaktualizuj konto
+        create: Utwórz użytkownika
+        edit: Edytuj użytkownika
+        show_active: Pokaż aktywnych użytkowników
+        show_inactive: Pokaż nieaktywnych użytkowników
+      section:
+        manage_access: Zarządzaj dostępem użytkowników
+        account: Konto
+        edit_account: Edytuj konto
+        edit_account_submit: Zaktualizuj konto
+        new_account: Nowe konto
+    active: prawda
+    inactive: fałsz
+    source: Uwierzytelnianie
   user_defined:
     _frontend:
       action:
@@ -1159,3 +1365,77 @@ pl:
     _frontend:
       messages:
         transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane.
+  agent_function:
+    _singular: Funkcjonować
+    _plural: Funkcje
+  agent_resource:
+    _singular: Powiązane zasoby zewnętrzne
+    _plural: Powiązane zasoby zewnętrzne
+  skipnav:
+    main_content: Przejdź do treści głównej
+  agent_record_identifier:
+    primary_identifier: Czy jest to identyfikator podstawowy?
+  agent_identifier:
+    identifier_type: Typ identyfikatora
+  used_language:
+    _plural: Używane języki
+    _singular: Używany język
+  metadata_rights_declaration:
+    _plural: Deklaracje praw do metadanych
+    _singular: Deklaracja praw do metadanych
+    xlink_title_attribute: Atrybut tytułu Xlink
+    xlink_role_attribute: Atrybut roli Xlink
+    xlink_arcrole_attribute: Atrybut Arcrole Xlink
+    file_version_xlink_actuate_attribute: Atrybut Xlink Actuate
+    file_version_xlink_show_attribute: Atrybut pokazu Xlink
+    last_verified_date: Ostatnia zweryfikowana data
+  mixed_content:
+    wrap_prefix: 'Owiń:'
+    help: Włączono zawartość mieszaną&#160;&#160;--&#160;&#160;Wpisz '<' dla 
+      elementów lub zaznacz tekst, który chcesz zawinąć
+  accession_link:
+    _plural: Linki akcesyjne
+    _singular: Link do przystąpienia
+    _frontend:
+      action:
+        add: Dodaj łącze akcesyjne
+  agent_family:
+    _frontend:
+      action:
+        save: Zapisz rodzinę
+  agent_person:
+    _frontend:
+      action:
+        save: Zapisz osobę
+  agent_software:
+    _frontend:
+      action:
+        save: Zapisz oprogramowanie
+  rights_statement:
+    _frontend:
+      action:
+        add: Dodaj Oświadczenie o prawach
+  term:
+    _frontend:
+      messages:
+        preview_pending: Podgląd tematu
+      action:
+        add: Dodaj termin/podział
+  subject:
+    _frontend:
+      messages:
+        created: Temat stworzony
+        updated: Temat zapisany
+        deleted: Temat usunięty
+        merged: Połączono tematy
+        merge_description: Wybierz poniższe tematy, aby je połączyć
+        please_select_a_subject_to_merge: Proszę wybrać temat
+        delete_conflict: 'Nie można usunąć tematu: <pre>%{error}</pre>'
+      section:
+        basic_information: Podstawowe informacje
+        terms: Terminy i podziały
+        search_embedded: Powiązane rekordy
+      action:
+        create: Utwórz temat
+        save: Zapisz temat
+        add: Dodaj temat
