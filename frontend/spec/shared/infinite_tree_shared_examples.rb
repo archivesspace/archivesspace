@@ -1,5 +1,3 @@
-# Shared examples for Infinite Tree functionality across record types
-
 RSpec.shared_examples 'infinite tree record show view' do |record_config|
   let(:record_type) { record_config[:record_type] }
   let(:child_type) { record_config[:child_type] }
