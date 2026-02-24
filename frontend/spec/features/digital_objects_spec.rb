@@ -348,16 +348,8 @@ describe 'Digital Objects', js: true do
 
     expect(page).to have_selector('h2', visible: true, text: "#{digital_object_component.title} Digital Object Component")
 
-    expand_elements = all('#digital_object_component_file_versions_ .glyphicon')
-    expect(expand_elements.length).to eq 2
-
-    expand_elements[0].click
-    element = find('#digital_object_component_file_versions__file_version_0')
-    expect(element).to have_text "File Format Caption 1 #{now}"
-
-    expand_elements[1].click
-    element = find('#digital_object_component_file_versions__file_version_1')
-    expect(element).to have_text "File Format Caption 2 #{now}"
+    expect(page).to have_css('#digital_object_component_file_versions__file_version_0', visible: false, text: "File Format Caption 1 #{now}")
+    expect(page).to have_css('#digital_object_component_file_versions__file_version_1', visible: false, text: "File Format Caption 2 #{now}")
   end
 
   describe 'title field mixed content validation' do
