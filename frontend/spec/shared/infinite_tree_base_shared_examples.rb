@@ -1,6 +1,3 @@
-# Base shared examples for Infinite Tree feature specs consumed by
-# frontend/spec/shared/infinite_tree_shared_examples.rb
-
 RSpec.shared_examples 'basic node markup' do
   it 'has the correct role and data-uri' do
     aggregate_failures do

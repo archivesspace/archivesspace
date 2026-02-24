@@ -38,7 +38,7 @@ describe 'Infinite Tree Page Load', js: true do
     end
   end
 
-  shared_examples 'loading the first batch' do
+  shared_examples 'loads the first batch' do
     it 'contains the first batch' do
       aggregate_failures 'includes the first node of the batch' do
         curr_node_id = instance_variable_get("@#{child_prefix}1_of_#{parent}").id
@@ -61,7 +61,7 @@ describe 'Infinite Tree Page Load', js: true do
     end
   end
 
-  shared_examples 'loading middle batches' do
+  shared_examples 'loads middle batches' do
     it 'loads middle batches of nodes in the correct order' do
       expected_populated_batches.each do |batch_offset|
         next if batch_offset == 0 # skip first batch, already tested
@@ -101,7 +101,7 @@ describe 'Infinite Tree Page Load', js: true do
     end
   end
 
-  shared_examples 'loading the last batch' do
+  shared_examples 'loads the last batch' do
     it 'loads the last batch' do
       batch_offset = total_batches - 1
       second_to_last_batch_last_node_id = instance_variable_get("@#{child_prefix}#{batch_offset * @tree_batch_size}_of_#{parent}").id
@@ -134,7 +134,7 @@ describe 'Infinite Tree Page Load', js: true do
     end
   end
 
-  shared_examples 'including placeholders for non-loaded batches' do
+  shared_examples 'includes placeholders for non-loaded batches' do
     it 'includes placeholders for batches that are not populated' do
       expected_batch_placeholders.each do |batch_offset|
         prev_batch_was_populated = expected_populated_batches.include?(batch_offset - 1)
@@ -153,7 +153,7 @@ describe 'Infinite Tree Page Load', js: true do
     end
   end
 
-  shared_examples 'including the last batch placeholder' do
+  shared_examples 'includes the last batch placeholder' do
     it 'includes the last batch placeholder' do
       expect(parent_list).to have_css(":scope > [data-batch-placeholder='#{total_batches - 1}']:last-child", visible: :all)
     end
@@ -175,7 +175,7 @@ describe 'Infinite Tree Page Load', js: true do
     end
   end
 
-  shared_examples 'having all nodes loaded' do
+  shared_examples 'has all nodes loaded' do
     it 'has all sibling nodes loaded' do
       expect(parent_list).to have_css('.node', count: total_nodes)
       expect(parent_list).not_to have_css('[data-batch-placeholder]', visible: false)
@@ -296,7 +296,7 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 1 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'has all nodes loaded'
 
             describe 'the parent list' do
               it 'contains the node' do
@@ -321,7 +321,7 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 2 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'has all nodes loaded'
 
             describe 'the parent list' do
               it 'contains the first batch' do
@@ -364,9 +364,9 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 15 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads the last batch'
+            it_behaves_like 'has all nodes loaded'
           end
 
           context 'and the target node is in the second batch' do
@@ -377,9 +377,9 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 31 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads the last batch'
+            it_behaves_like 'has all nodes loaded'
           end
         end
 
@@ -395,10 +395,10 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 15 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads middle batches'
+            it_behaves_like 'includes placeholders for non-loaded batches'
+            it_behaves_like 'includes the last batch placeholder'
             it_behaves_like 'scrolling loads remaining batches'
           end
 
@@ -410,10 +410,10 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 45 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads middle batches'
+            it_behaves_like 'loads the last batch'
+            it_behaves_like 'has all nodes loaded'
           end
 
           context 'and the target node is in the third batch' do
@@ -424,10 +424,10 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 61 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads middle batches'
+            it_behaves_like 'loads the last batch'
+            it_behaves_like 'has all nodes loaded'
           end
         end
 
@@ -443,10 +443,10 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 25 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads middle batches'
+            it_behaves_like 'includes placeholders for non-loaded batches'
+            it_behaves_like 'includes the last batch placeholder'
             it_behaves_like 'scrolling loads remaining batches'
           end
 
@@ -458,10 +458,10 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 45 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'including placeholders for non-loaded batches'
-            it_behaves_like 'including the last batch placeholder'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads middle batches'
+            it_behaves_like 'includes placeholders for non-loaded batches'
+            it_behaves_like 'includes the last batch placeholder'
             it_behaves_like 'scrolling loads remaining batches'
           end
 
@@ -473,10 +473,10 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 75 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads middle batches'
+            it_behaves_like 'loads the last batch'
+            it_behaves_like 'has all nodes loaded'
           end
 
           context 'and the target node is in the fourth batch' do
@@ -487,10 +487,10 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 91 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading middle batches'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'including placeholders for non-loaded batches'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads middle batches'
+            it_behaves_like 'loads the last batch'
+            it_behaves_like 'includes placeholders for non-loaded batches'
             it_behaves_like 'scrolling loads remaining batches'
           end
         end
@@ -512,7 +512,7 @@ describe 'Infinite Tree Page Load', js: true do
           let(:expected_node_count_on_page_load) { 7 }
 
           it_behaves_like 'basic details of uri fragment batch rendering'
-          it_behaves_like 'having all nodes loaded'
+          it_behaves_like 'has all nodes loaded'
         end
 
         context 'when the root node has 2 batches of child nodes' do
@@ -523,7 +523,7 @@ describe 'Infinite Tree Page Load', js: true do
           let(:expected_batch_placeholders) { [1] }
 
           it_behaves_like 'basic details of uri fragment batch rendering'
-          it_behaves_like 'loading the first batch'
+          it_behaves_like 'loads the first batch'
           it_behaves_like 'scrolling loads remaining batches'
         end
 
@@ -535,7 +535,7 @@ describe 'Infinite Tree Page Load', js: true do
           let(:expected_batch_placeholders) { [1, 2] }
 
           it_behaves_like 'basic details of uri fragment batch rendering'
-          it_behaves_like 'loading the first batch'
+          it_behaves_like 'loads the first batch'
           it_behaves_like 'scrolling loads remaining batches'
         end
 
@@ -547,7 +547,7 @@ describe 'Infinite Tree Page Load', js: true do
           let(:expected_batch_placeholders) { [1, 2, 3] }
 
           it_behaves_like 'basic details of uri fragment batch rendering'
-          it_behaves_like 'loading the first batch'
+          it_behaves_like 'loads the first batch'
           it_behaves_like 'scrolling loads remaining batches'
         end
       end
@@ -658,7 +658,7 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 1 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'has all nodes loaded'
 
             describe 'the parent list' do
               it 'contains the node' do
@@ -683,7 +683,7 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 2 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'has all nodes loaded'
 
             describe 'the parent list' do
               it 'contains the first batch' do
@@ -726,9 +726,9 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 15 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads the last batch'
+            it_behaves_like 'has all nodes loaded'
           end
 
           context 'and the target node is in the second batch' do
@@ -739,9 +739,9 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 31 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads the last batch'
+            it_behaves_like 'has all nodes loaded'
           end
         end
       end
@@ -762,7 +762,7 @@ describe 'Infinite Tree Page Load', js: true do
           let(:expected_node_count_on_page_load) { 5 }
 
           it_behaves_like 'basic details of uri fragment batch rendering'
-          it_behaves_like 'having all nodes loaded'
+          it_behaves_like 'has all nodes loaded'
         end
 
         context 'when the root node has 2 batches of child nodes' do
@@ -773,7 +773,7 @@ describe 'Infinite Tree Page Load', js: true do
           let(:expected_batch_placeholders) { [1] }
 
           it_behaves_like 'basic details of uri fragment batch rendering'
-          it_behaves_like 'loading the first batch'
+          it_behaves_like 'loads the first batch'
           it_behaves_like 'scrolling loads remaining batches'
         end
       end
@@ -881,7 +881,7 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 1 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'has all nodes loaded'
 
             describe 'the parent list' do
               it 'contains the node' do
@@ -906,7 +906,7 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 2 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'has all nodes loaded'
 
             describe 'the parent list' do
               it 'contains the first batch' do
@@ -949,9 +949,9 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 15 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads the last batch'
+            it_behaves_like 'has all nodes loaded'
           end
 
           context 'and the target node is in the second batch' do
@@ -962,9 +962,9 @@ describe 'Infinite Tree Page Load', js: true do
             let(:node_position) { 31 }
 
             it_behaves_like 'basic details of uri fragment batch rendering'
-            it_behaves_like 'loading the first batch'
-            it_behaves_like 'loading the last batch'
-            it_behaves_like 'having all nodes loaded'
+            it_behaves_like 'loads the first batch'
+            it_behaves_like 'loads the last batch'
+            it_behaves_like 'has all nodes loaded'
           end
         end
       end
@@ -985,7 +985,7 @@ describe 'Infinite Tree Page Load', js: true do
           let(:expected_node_count_on_page_load) { 3 }
 
           it_behaves_like 'basic details of uri fragment batch rendering'
-          it_behaves_like 'having all nodes loaded'
+          it_behaves_like 'has all nodes loaded'
         end
 
         context 'when the root node has 2 batches of child nodes' do
@@ -996,7 +996,7 @@ describe 'Infinite Tree Page Load', js: true do
           let(:expected_batch_placeholders) { [1] }
 
           it_behaves_like 'basic details of uri fragment batch rendering'
-          it_behaves_like 'loading the first batch'
+          it_behaves_like 'loads the first batch'
           it_behaves_like 'scrolling loads remaining batches'
         end
       end
