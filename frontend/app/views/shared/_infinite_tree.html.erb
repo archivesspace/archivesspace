@@ -10,17 +10,17 @@
 <%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
 <%= javascript_include_tag "InfiniteTreeIds.js" %>
 
-<div
-  id="infinite-tree-container"
-  data-root-uri="<%= root_record.uri %>"
-  class="mb-2"
->
-</div>
+<div id="infinite-tree-container" class="mb-2"></div>
 <%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
 <%= render_aspace_partial :partial => "shared/infinite_tree_record_pane" %>
 
 <template id="infinite-tree-root-list-template">
-  <ol class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>" role="tree"></ol>
+  <ol
+    class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>"
+    data-record-type="<%= root_type %>"
+    data-root-uri="<%= root_record.uri %>"
+    role="tree"
+  ></ol>
 </template>
 
 

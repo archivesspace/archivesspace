@@ -4,17 +4,16 @@
   --tree-indent-unit-width: calc(
     var(--tree-indent-width) + var(--tree-line-width)
   );
-
-  // Original largetree column widths
-  --tree-column-width-sm: 8%;
-  --tree-column-width-md: 18%;
-  --tree-column-width-lg: 28%;
-  --tree-column-width-xl: 46%;
-  --tree-column-title-width: var(--tree-column-width-xl);
-  --tree-column-container-width: var(--tree-column-width-lg);
-  --tree-column-identifier-width: calc(
-    var(--tree-column-width-lg) - var(--tree-column-width-md)
-  );
+  --tree-column-resource-title-width: 46%;
+  --tree-column-resource-level-width: 8%;
+  --tree-column-resource-type-width: 18%;
+  --tree-column-resource-container-width: 28%;
+  --tree-column-resource-identifier-width: 10%;
+  --tree-column-resource-container-with-id-width: 18%;
+  --tree-column-do-title-width: 46%;
+  --tree-column-do-type-width: 12%;
+  --tree-column-do-file-uri-width: 42%;
+  --tree-column-classification-title-width: 100%;
 
   // ANW-2251 Yet another color scheme in addition to variables.scss and common.scss
   // for parity with original largetree
@@ -65,8 +64,30 @@
   font-size: 1rem;
   background-color: $white;
 
-  &.has-identifier-column {
-    --tree-column-container-width: var(--tree-column-width-md);
+  &[data-record-type='resource'] {
+    --tree-column-title-width: var(--tree-column-resource-title-width);
+    --tree-column-level-width: var(--tree-column-resource-level-width);
+    --tree-column-type-width: var(--tree-column-resource-type-width);
+    --tree-column-container-width: var(--tree-column-resource-container-width);
+
+    &.has-identifier-column {
+      --tree-column-identifier-width: var(
+        --tree-column-resource-identifier-width
+      );
+      --tree-column-container-width: var(
+        --tree-column-resource-container-with-id-width
+      );
+    }
+  }
+
+  &[data-record-type='digital_object'] {
+    --tree-column-title-width: var(--tree-column-do-title-width);
+    --tree-column-type-width: var(--tree-column-do-type-width);
+    --tree-column-file-uri-width: var(--tree-column-do-file-uri-width);
+  }
+
+  &[data-record-type='classification'] {
+    --tree-column-title-width: var(--tree-column-classification-title-width);
   }
 }
 
@@ -144,11 +165,11 @@
   }
 
   > .node-column[data-column='level'] {
-    flex: 0 0 var(--tree-column-width-sm);
+    flex: 0 0 var(--tree-column-level-width);
   }
 
   > .node-column[data-column='type'] {
-    flex: 0 0 var(--tree-column-width-md);
+    flex: 0 0 var(--tree-column-type-width);
   }
 
   > .node-column[data-column='container'] {
@@ -157,6 +178,10 @@
 
   > .node-column[data-column='identifier'] {
     flex: 0 0 var(--tree-column-identifier-width);
+  }
+
+  > .node-column[data-column='file_uri'] {
+    flex: 0 0 var(--tree-column-do-file-uri-width);
   }
 
   &:hover {
