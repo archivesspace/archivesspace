@@ -330,6 +330,7 @@
   <target name="build-docker-conf-package" depends="set-classpath" description="Bundle the default configuration, plugins and docker-compose file into a zip file">
     <delete failonerror="true" dir="docker_prod" />
     <mkdir dir="docker_prod/archivesspace/config" />
+    <mkdir dir="docker_prod/archivesspace/stylesheets" />
     <mkdir dir="docker_prod/archivesspace/backups" />
     <mkdir dir="docker_prod/archivesspace/locales" />
     <mkdir dir="docker_prod/archivesspace/locales/public" />
@@ -351,6 +352,9 @@
     <property name="version" value="${DSTAMP}-${TSTAMP}"/>
     <property name="docker-tag" value="latest"/>
 
+    <copy todir="docker_prod/archivesspace/stylesheets">
+      <fileset dir="../stylesheets" />
+    </copy>
     <copy todir="docker_prod/archivesspace/locales">
       <fileset dir="../common/locales" />
     </copy>
