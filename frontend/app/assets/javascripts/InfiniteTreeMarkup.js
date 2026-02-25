@@ -227,6 +227,7 @@
                 .content.cloneNode(true);
               titleEl.prepend(suppressedBadge);
             }
+
             break;
           }
 
@@ -234,6 +235,7 @@
             const levelText = this.i18n.t('archival_record_level', data.level);
             column.textContent = levelText;
             column.title = levelText;
+
             break;
           }
 
@@ -246,7 +248,7 @@
                 data.digital_object_type
               );
             } else {
-              // Non-digital objects
+              // Resource
               typeText = this.#buildTypeSummary(data);
             }
 
@@ -264,13 +266,7 @@
           case 'container': {
             let containerText = '';
 
-            if (data.file_uri_summary) {
-              // Digital Object
-              containerText = data.file_uri_summary;
-            } else {
-              // Resource
-              containerText = this.#buildContainerSummary(data);
-            }
+            containerText = this.#buildContainerSummary(data);
 
             column.textContent = containerText;
 
@@ -283,11 +279,30 @@
             break;
           }
 
+          case 'file_uri': {
+            let fileUriText = '';
+
+            if (data.file_uri_summary) {
+              fileUriText = data.file_uri_summary;
+            }
+
+            column.textContent = fileUriText;
+
+            if (fileUriText !== '') {
+              column.title = fileUriText;
+            } else {
+              column.removeAttribute('title');
+            }
+
+            break;
+          }
+
           case 'identifier': {
             if (data.identifier) {
               column.textContent = data.identifier;
               column.title = data.identifier;
             }
+
             break;
           }
         }

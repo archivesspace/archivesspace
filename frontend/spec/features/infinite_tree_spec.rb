@@ -30,7 +30,7 @@ describe 'Infinite Tree', js: true do
       root_relationship_key: :digital_object,
       show_path: ->(id) { "/digital_objects/#{id}" },
       columns: {
-        base: ['title', 'type', 'container']
+        base: ['title', 'type', 'file_uri']
       },
       supports_mixed_content: true,
       supports_suppression: true,
