@@ -69,7 +69,7 @@
       const treeId = hash.replace('tree::', '');
       const parts = this.parseTreeId(treeId);
 
-      return `/${parts.type}s/${parts.id}`;
+      return AS.app_prefix(`/${parts.type}s/${parts.id}`);
     }
   }
 
