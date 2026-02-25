@@ -854,6 +854,148 @@ pl:
       nog: Nogaj
       non: Nordycki, stary
       nqo: N'Ko
+      nso: Pedi; Sepedi; Północny Sotho
+      nub: Języki nubijskie
+      nya: Chichewa; Chewa; Nyanja
+      nym: Nyamwezi
+      nyn: Nyankole
+      nyo: Nyoro
+      nzi: Nzima
+      oci: Oksytański (po 1500 r.); Prowansalski
+      oji: Ojibwa
+      ori: Orija
+      orm: Oromo
+      osa: Osag
+      oss: Osetyjski; Osetyjski
+      ota: Turecki, Osmański (1500-1928)
+      oto: Języki otomskie
+      pag: Pangasinan
+      pal: Pahlavi
+      pam: Pampanga; Kapampangan
+      pan: Pendżabski; Pendżabski
+      pap: Papiamento
+      pau: Palauan
+      peo: Perski, stary (ok. 600-400 p.n.e.)
+      per: Perski
+      phn: Fenicki
+      pli: Palijski
+      pon: Pohnpeiana
+      por: Portugalski
+      pro: Prowansalski, stary (do 1500)
+      pus: Paszto; paszto
+      que: Keczua
+      raj: Radżastani
+      rap: Rapanui
+      rar: Rarotongan; Maorysi z Wysp Cooka
+      roh: Retoromański
+      rom: Cygański
+      rum: Rumuński; Mołdawski; Mołdawski
+      run: Rundi
+      rup: Arumuński; Arumuński; Macedo-Rumuński
+      sad: Sandawe
+      sag: Sango
+      sah: Jakut
+      sai: Indianin Ameryki Południowej (inny)
+      san: Sanskryt
+      sas: Sasak
+      sat: Santali
+      scn: Sycylijski
+      sco: Szkoci
+      sel: Selekcja
+      sga: Irlandzki, stary (do 900)
+      shn: Shan
+      sid: Sidamo
+      sin: Syngaleski; Syngaleski
+      slo: Słowacki
+      slv: Słoweński
+      smj: Lule Sami
+      smn: Inari Sami
+      smo: Samoański
+      sms: Skolt Sami
+      sna: Shona
+      snd: Sindhi
+      snk: Soninke
+      sog: Sogdian
+      som: Somalijski
+      son: Języki Songhai
+      sot: Sotho, Południowy
+      spa: Hiszpański; Kastylijski
+      srd: Sardyński
+      srn: Sranan Tongo
+      srp: Serbski
+      srr: Serer
+      ssw: Swati
+      suk: Sukuma
+      sun: Sundajczyk
+      sus: Susu
+      sux: Sumeryjski
+      swa: Suahili
+      swe: Szwedzki
+      syr: Syryjski
+      tah: Tahitański
+      tat: Tatar
+      tel: Telugu
+      tem: Temne
+      ter: Tereno
+      tet: Tetum
+      tgk: Tadżycki
+      tgl: Tagalski
+      tha: Tajski
+      tib: Tybetański
+      tig: Tygrys
+      tir: Tigrinia
+      tiv: Tiw
+      tkl: Tokelau
+      tlh: Klingon; tlhIngan-Hol
+      tli: Tlingit
+      tmh: Tamaszek
+      tog: Tonga (Nyasa)
+      ton: Tonga (Wyspy Tonga)
+      tpi: Tok Pisin
+      tsi: Tsimshian
+      tsn: Tswana
+      tso: Tsonga
+      tuk: Turkmenów
+      tum: Tumbuka
+      tup: Języki Tupi
+      tur: Turecki
+      tut: Języki ałtajskie
+      tvl: Tuvalu
+      twi: Twi
+      tyv: Tuwiński
+      udm: Udmurt
+      uga: Ugarycki
+      uig: Ujgurski
+      ukr: Ukraiński
+      umb: Umbundu
+      und: Nieokreślony
+      urd: Urdu
+      uzb: Uzbecki
+      vai: Vai
+      ven: Venda
+      vie: Wietnamski
+      vol: Volapük
+      vot: Wotycki
+      wak: Języki wakasańskie
+      wal: Walamo
+      war: Waraya
+      was: Washo
+      wel: Walijski
+      wen: Języki łużyckie
+      wln: Walonia
+      wol: Wolof
+      xal: Kalmyk; Oirat
+      xho: Xhosa
+      yao: Yao
+      yap: Yapese
+      yor: Joruba
+      zap: Zapotek
+      zbl: Symbole Błogości; Symbole Błogości; Błogość
+      zen: Zenaga
+      zha: Zhuang; Chuang
+      znd: Języki Zande
+      zun: Zuni
+      zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
     file_version_xlink_show_attribute:
       new: nowy
       embed: Wbudować
@@ -1116,3 +1258,7 @@ pl:
       win: Autor wstępu
       wpr: Autor przedmowy
       wst: Autor dodatkowych treści tekstowych
+    level_of_detail:
+      fully_established: W pełni ugruntowany
+      memorandum: Memorandum
+      natc: Żadnej próby kodowania
