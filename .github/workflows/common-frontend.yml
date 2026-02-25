@@ -100,11 +100,11 @@ jobs:
         name: failed_spec_saved_pages(${{ inputs.name }})_Java_${{ inputs.java-version || 17 }}
         path: 'ci_logs'
 
-    - name: Post Coverage to Coveralls
-      uses: coverallsapp/github-action@v2
-      with:
-        format: simplecov
-        compare-ref: ${{ github.event.repository.default_branch }}
-        flag-name: ${{ inputs.name }}
-        debug: false
-        parallel: true
+    # - name: Post Coverage to Coveralls
+    #   uses: coverallsapp/github-action@v2
+    #   with:
+    #     format: simplecov
+    #     compare-ref: ${{ github.event.repository.default_branch }}
+    #     flag-name: ${{ inputs.name }}
+    #     debug: false
+    #     parallel: true
