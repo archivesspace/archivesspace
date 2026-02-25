@@ -5,7 +5,6 @@ When "the 'Spawn description for Digital Object instances from linked record' se
   click_on 'Repository Preferences (admin)'
 
   # unchecking and checking two times to ensure that the REFRESH_PREFERENCES notification reaches SUI
-
   uncheck 'Spawn description for Digital Object instances from linked record'
   click_on 'Save'
   sleep 3
