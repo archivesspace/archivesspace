@@ -7,25 +7,25 @@ Feature: Digital Object Delete
       And the user clicks on 'Digital Objects'
       And the user filters by text with the Digital Object title
       And the user checks the checkbox of the Digital Object
-      And the user clicks on 'Delete'
-      And the user clicks on 'Delete Records'
+      And the user clicks on 'Delete' in the record toolbar
+      And the user clicks on 'Delete Records' in the modal
      Then the 'Records' deleted message is displayed
       And the Digital Object is deleted
   Scenario: Digital Object is deleted from the view page
     Given the user is on the Digital Object view page
-     When the user clicks on 'Delete'
+     When the user clicks on 'Delete' in the record toolbar
       And the user clicks on 'Delete' in the modal
      Then the Digital Objects page is displayed
       And the 'Digital Object' deleted message is displayed
       And the Digital Object is deleted
   Scenario: Cancel Digital Object delete from the view page
     Given the user is on the Digital Object view page
-     When the user clicks on 'Delete'
+     When the user clicks on 'Delete' in the record toolbar
       And the user clicks on 'Cancel'
      Then the user is still on the Digital Object view page
   Scenario: Digital Object is deleted from the edit page
     Given the user is on the Digital Object edit page
-     When the user clicks on 'Delete'
+     When the user clicks on 'Delete' in the record toolbar
       And the user clicks on 'Delete' in the modal
      Then the Digital Objects page is displayed
       And the 'Digital Object' deleted message is displayed

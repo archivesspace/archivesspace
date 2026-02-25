@@ -1,11 +1,20 @@
 # frozen_string_literal: true
 
-When 'the {string} setting is enabled in the Repository Preferences' do |repository_setting_checkbox_label|
+When "the 'Spawn description for Digital Object instances from linked record' setting is enabled in the Repository Preferences" do
   find('#user-menu-dropdown').click
   click_on 'Repository Preferences (admin)'
 
-  check repository_setting_checkbox_label
-
+  # unchecking and checking two times to ensure that the REFRESH_PREFERENCES notification reaches SUI
+  uncheck 'Spawn description for Digital Object instances from linked record'
+  click_on 'Save'
+  sleep 3
+  check 'Spawn description for Digital Object instances from linked record'
+  click_on 'Save'
+  sleep 3
+  uncheck 'Publish?'
+  click_on 'Save'
+  sleep 3
+  check 'Publish?'
   click_on 'Save'
 
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Preferences updated')
