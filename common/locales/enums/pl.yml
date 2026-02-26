@@ -667,6 +667,335 @@ pl:
       cad: Caddo
       car: Galibi
       cnr: Czarnogórski
+      byn: Blin; Bilin
+      chb: Chibcha
+      chk: Chuukese
+      chm: Mari
+      chp: Chipewyan; Dene Suline
+      chu: Cerkiewnosłowiański; starosłowiański; cerkiewnosłowiański; starobułgarski; 
+        starocerkiewnosłowiański
+      chv: Czuwasz
+      chy: Czejenne
+      cop: Koptyjski
+      cor: Kornwalijski
+      cpe: Kreole i pidżyny, oparte na języku angielskim
+      cpf: Kreole i pidżyny, oparte na języku francuskim
+      cpp: Kreole i pidżyny, oparte na języku portugalskim
+      cre: Cree
+      crh: Krymskotatarski; Krymskoturecki
+      csb: Kaszubski
+      dak: Dakota
+      dar: Dargwa
+      day: Języki Land Dayaków
+      den: Niewolnik (Atapaskan)
+      dgr: Dogrib
+      din: Dinka
+      div: Divehi; Dhivehi; Malediwski
+      doi: Dogri
+      dra: Języki Drawidy
+      dsb: Dolnołużycki
+      dua: Duala
+      dum: Holenderski, średni (ok. 1050-1350)
+      dut: Holenderski; flamandzki
+      dyu: Dyula
+      dzo: Dzongkha
+      efi: Efik
+      eka: Ekajuk
+      elx: Elamit
+      enm: Angielski, Średni (1100-1500)
+      ewe: Ewe
+      ewo: Ewondo
+      fan: Fang
+      fao: Farerski
+      fat: Fanti
+      fij: Fidżi
+      fil: Filipiński; Pilipino
+      fiu: Języki ugrofińskie
+      fon: Fon
+      frm: Francuski, Średniowieczny (ok. 1400-1600)
+      fro: Francuski, stary (842-ok.1400)
+      frr: Północno-fryzyjski
+      ful: Fula
+      fur: Friulski
+      gaa: Ga
+      gay: Gayo
+      gba: Gbaya
+      geo: Gruziński
+      gez: Ge'ez
+      gil: Gilbertańczyk
+      gla: Gaelicki; szkocki gaelicki
+      glv: Mański
+      gmh: Niemiecki, średnio-wysoko-angielski (ok. 1050-1500)
+      gon: Gondi
+      gor: Gorontalo
+      grb: Grebo
+      grc: Grecki, starożytny (do 1453 r.)
+      gre: Grecki, nowożytny (1453-)
+      grn: Guarani
+      gsw: Szwajcarski niemiecki; alemański; alzacki
+      guj: Gudżarati
+      gwi: Gwich'in
+      hai: Haida
+      hat: Haitański; Kreolski haitański
+      hau: Hausa
+      her: Herero
+      hil: Hiligajnon
+      him: Języki himachali; Języki zachodnio-pahari
+      hit: Hetycki
+      hmn: Hmong; Mong
+      hsb: Górnołużycki
+      hup: Hupa
+      iba: Ibana
+      ibo: Ibo
+      ido: Ido
+      iii: Syczuan Yi; Nuosu
+      ijo: Języki Ijo
+      iku: Inuktitut
+      ile: Interlingue; zachodni
+      ilo: Iloko
+      ina: Interlingua (Międzynarodowe Stowarzyszenie Języków Pomocniczych)
+      inc: Języki indyjskie
+      ine: Języki indoeuropejskie
+      inh: Inguski
+      ipk: Inupiaq
+      ita: Włoski
+      jbo: Lożban
+      jpr: Judeo-perski
+      jrb: Judeo-arabski
+      kaa: Kara-Kalpak
+      kab: Kabyle
+      kac: Kachin; Jingpho
+      kal: Kalaallisut; grenlandzki
+      kam: Kamba
+      kan: Kannada
+      kas: Kaszmirski
+      kau: Kanuri
+      kaw: Kawi
+      kaz: Kazachski
+      kha: Khasi
+      khm: Środkowy Khmer
+      kho: Khotański; sakanski
+      kik: Kikuyu; Gikuyu
+      kin: Kinyarwanda
+      kir: Kirgiski; Kirgiski
+      kok: Konkani
+      kom: Komi
+      kon: Kongo
+      kos: Kosraean
+      kpe: Kpelle
+      krc: Karaczajo-Bałkary
+      krl: Karelski
+      kro: Języki Kru
+      kru: Kurukh
+      kua: Kuanyama; Kwanyama
+      kum: Kumyk
+      kut: Kutenai
+      lad: Ladino
+      lah: Lahnda
+      lam: Lamba
+      lao: Laotański
+      lez: Lezghian
+      lim: Limburgczyk; Limburger; Limburgish
+      lin: Lingala
+      lol: Mongo
+      loz: Lozi
+      ltz: Luksemburski; Letzeburski
+      lua: Luba-Lulua
+      lub: Luba-Katanga
+      lug: Ganda
+      lui: Luiseno
+      lun: Lunda
+      luo: Luo (Kenia i Tanzania)
+      lus: Lushai
+      mad: Madurese
+      mag: Magahi
+      mai: Maithili
+      mak: Makasaru
+      mal: Malajalam
+      man: Mandingo
+      mao: Maoryski
+      map: Języki austronezyjskie
+      mar: Marathi
+      mas: Masaj
+      may: Malajski
+      mdf: Moksza
+      mdr: Mandara
+      men: Mende
+      mga: Irlandzki, średni (900-1200)
+      mic: Mikmakowie
+      min: Minangkabau
+      mkh: Języki mon-khmerskie
+      mlg: Malgaski
+      mlt: Maltański
+      mnc: Mandżurski
+      mni: Manipuri
+      mno: Języki Manobo
+      moh: Mohawk
+      mon: Mongolski
+      mos: Mossi
+      mul: Wiele języków
+      mus: Creek; Muskogi
+      mwl: Mirandese
+      mwr: Marwari
+      myv: Erzya
+      nap: Neapolitański
+      nau: Nauru
+      nav: Nawaho
+      nbl: Ndebele, Południe; Południowy Ndebele
+      nde: Ndebele, Północ; Północne Ndebele
+      ndo: Ndonga
+      nds: Dolnosaksoński; niemiecki, dolnosaksoński; saksoński, dolnosaksoński
+      new: Nepal Bhasa; Newari
+      nia: Nias
+      nic: Języki nigero-kordofańskie
+      niu: Niuean
+      nno: Norweski Nynorsk; Nynorsk, Norweg
+      nob: Norweski Bokmål; Bokmål, Norweski
+      nog: Nogaj
+      non: Nordycki, stary
+      nqo: N'Ko
+      nso: Pedi; Sepedi; Północny Sotho
+      nub: Języki nubijskie
+      nya: Chichewa; Chewa; Nyanja
+      nym: Nyamwezi
+      nyn: Nyankole
+      nyo: Nyoro
+      nzi: Nzima
+      oci: Oksytański (po 1500 r.); Prowansalski
+      oji: Ojibwa
+      ori: Orija
+      orm: Oromo
+      osa: Osag
+      oss: Osetyjski; Osetyjski
+      ota: Turecki, Osmański (1500-1928)
+      oto: Języki otomskie
+      pag: Pangasinan
+      pal: Pahlavi
+      pam: Pampanga; Kapampangan
+      pan: Pendżabski; Pendżabski
+      pap: Papiamento
+      pau: Palauan
+      peo: Perski, stary (ok. 600-400 p.n.e.)
+      per: Perski
+      phn: Fenicki
+      pli: Palijski
+      pon: Pohnpeiana
+      por: Portugalski
+      pro: Prowansalski, stary (do 1500)
+      pus: Paszto; paszto
+      que: Keczua
+      raj: Radżastani
+      rap: Rapanui
+      rar: Rarotongan; Maorysi z Wysp Cooka
+      roh: Retoromański
+      rom: Cygański
+      rum: Rumuński; Mołdawski; Mołdawski
+      run: Rundi
+      rup: Arumuński; Arumuński; Macedo-Rumuński
+      sad: Sandawe
+      sag: Sango
+      sah: Jakut
+      sai: Indianin Ameryki Południowej (inny)
+      san: Sanskryt
+      sas: Sasak
+      sat: Santali
+      scn: Sycylijski
+      sco: Szkoci
+      sel: Selekcja
+      sga: Irlandzki, stary (do 900)
+      shn: Shan
+      sid: Sidamo
+      sin: Syngaleski; Syngaleski
+      slo: Słowacki
+      slv: Słoweński
+      smj: Lule Sami
+      smn: Inari Sami
+      smo: Samoański
+      sms: Skolt Sami
+      sna: Shona
+      snd: Sindhi
+      snk: Soninke
+      sog: Sogdian
+      som: Somalijski
+      son: Języki Songhai
+      sot: Sotho, Południowy
+      spa: Hiszpański; Kastylijski
+      srd: Sardyński
+      srn: Sranan Tongo
+      srp: Serbski
+      srr: Serer
+      ssw: Swati
+      suk: Sukuma
+      sun: Sundajczyk
+      sus: Susu
+      sux: Sumeryjski
+      swa: Suahili
+      swe: Szwedzki
+      syr: Syryjski
+      tah: Tahitański
+      tat: Tatar
+      tel: Telugu
+      tem: Temne
+      ter: Tereno
+      tet: Tetum
+      tgk: Tadżycki
+      tgl: Tagalski
+      tha: Tajski
+      tib: Tybetański
+      tig: Tygrys
+      tir: Tigrinia
+      tiv: Tiw
+      tkl: Tokelau
+      tlh: Klingon; tlhIngan-Hol
+      tli: Tlingit
+      tmh: Tamaszek
+      tog: Tonga (Nyasa)
+      ton: Tonga (Wyspy Tonga)
+      tpi: Tok Pisin
+      tsi: Tsimshian
+      tsn: Tswana
+      tso: Tsonga
+      tuk: Turkmenów
+      tum: Tumbuka
+      tup: Języki Tupi
+      tur: Turecki
+      tut: Języki ałtajskie
+      tvl: Tuvalu
+      twi: Twi
+      tyv: Tuwiński
+      udm: Udmurt
+      uga: Ugarycki
+      uig: Ujgurski
+      ukr: Ukraiński
+      umb: Umbundu
+      und: Nieokreślony
+      urd: Urdu
+      uzb: Uzbecki
+      vai: Vai
+      ven: Venda
+      vie: Wietnamski
+      vol: Volapük
+      vot: Wotycki
+      wak: Języki wakasańskie
+      wal: Walamo
+      war: Waraya
+      was: Washo
+      wel: Walijski
+      wen: Języki łużyckie
+      wln: Walonia
+      wol: Wolof
+      xal: Kalmyk; Oirat
+      xho: Xhosa
+      yao: Yao
+      yap: Yapese
+      yor: Joruba
+      zap: Zapotek
+      zbl: Symbole Błogości; Symbole Błogości; Błogość
+      zen: Zenaga
+      zha: Zhuang; Chuang
+      znd: Języki Zande
+      zun: Zuni
+      zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
     file_version_xlink_show_attribute:
       new: nowy
       embed: Wbudować
@@ -685,6 +1014,8 @@ pl:
       mixed_materials: Materiały mieszane
       accession: Przystąpienie
       audio: Audio
+      digital_object: Obiekt cyfrowy
+      digital_object_link: Cyfrowe łącze obiektu
     date_calendar:
       gregorian: Gregoriański
     date_certainty:
@@ -927,3 +1258,7 @@ pl:
       win: Autor wstępu
       wpr: Autor przedmowy
       wst: Autor dodatkowych treści tekstowych
+    level_of_detail:
+      fully_established: W pełni ugruntowany
+      memorandum: Memorandum
+      natc: Żadnej próby kodowania
