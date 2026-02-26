@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 When 'the user checks the checkbox of the Digital Object' do
-  find('#multiselect-item').check
+  check('multiselect-item')
 end
 
 Then 'the Digital Object is deleted' do
