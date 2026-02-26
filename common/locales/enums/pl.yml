@@ -1258,7 +1258,39 @@ pl:
       win: Autor wstępu
       wpr: Autor przedmowy
       wst: Autor dodatkowych treści tekstowych
+      abr: Skrót
+      acp: Kopista sztuki
+      act: Aktor
+      adi: Dyrektor artystyczny
+      adp: Adapter
+      aft: Autor posłowia, kolofonu itp.
+      ant: Poprzednik bibliograficzny
+      ape: Apelujący
+      apl: Wnoszący apelację
+      app: Petent
+      aqt: Autor w cytatach lub streszczeniach tekstowych
+      arr: Aranżer
+      asg: Mandatariusz
+      asn: Powiązana nazwa
+      att: Przypisana nazwa
+      aud: Autor dialogu
+      aui: Autor wstępu itp.
+      aus: Autor scenariuszy itp.
+      bdd: Projektant opraw
+      bkp: Producent książek
+      bnd: Introligator(ka)
+      brd: Nadawca
+      cas: Odlewnik
+      cli: Klient
+      clt: Kolotyp
+      cmt: Składacz
+      coe: Uczestnik-odwołujący się
+      col: Kolekcjoner/ka
+      com: Kompilator
     level_of_detail:
       fully_established: W pełni ugruntowany
       memorandum: Memorandum
       natc: Żadnej próby kodowania
+      not_applicable: Nie dotyczy
+      preliminary: Wstępny
+      provisional: Tymczasowy
