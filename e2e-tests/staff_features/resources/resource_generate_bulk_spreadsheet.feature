@@ -7,8 +7,14 @@ Feature: Resource generate bulk spreadsheet
      When the user clicks on 'More'
       And the user clicks on 'Generate Bulk Archival Object Spreadsheet'
      Then the Generate Bulk Archival Object Spreadsheet page is displayed
+  Scenario: Resource Bulk Archival Object Spreadsheet exceeds AppConfig[:bulk_archival_object_updater_max_rows]
+    Given the user is on the Generate Bulk Archival Object Spreadsheet page
+      And AppConfig[:bulk_archival_object_updater_max_rows] is overridden by localStorage
+     When the user selects all Archival Objects on the Generate Bulk Archival Object Spreadsheet page
+     Then the too many rows warning is displayed
+     Then APPCONFIG_MAX_ROWS is removed from localStorage
   Scenario: Resource Bulk Archival Object Spreadsheet is downloaded
     Given the user is on the Generate Bulk Archival Object Spreadsheet page
-     When the user selects the Archival Object on the Generate Bulk Archival Object Spreadsheet page
+     When the user selects all Archival Objects on the Generate Bulk Archival Object Spreadsheet page
       And the user clicks on 'Download Spreadsheet'
      Then the Bulk Update Resource spreadsheet is downloaded

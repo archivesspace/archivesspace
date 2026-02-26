@@ -193,8 +193,11 @@ describe 'Bulk Archival Object Updater' do
       it 'ensures that the app config has default values and can be successfully read from bulk updater' do
         bulk_archival_object_updater_apply_deletes = AppConfig[:bulk_archival_object_updater_apply_deletes]
         bulk_archival_object_updater_create_missing_top_containers = AppConfig[:bulk_archival_object_updater_create_missing_top_containers]
+        bulk_archival_object_updater_max_rows = AppConfig[:bulk_archival_object_updater_max_rows] = 1000
+
         expect(bulk_archival_object_updater_apply_deletes).to eq false
         expect(bulk_archival_object_updater_create_missing_top_containers).to eq false
+        expect(bulk_archival_object_updater_max_rows).to eq 1000
 
         expect(bulk_archival_object_updater.apply_deletes?).to eq bulk_archival_object_updater_apply_deletes
         expect(bulk_archival_object_updater.create_missing_top_containers?).to eq bulk_archival_object_updater_create_missing_top_containers
@@ -558,6 +561,54 @@ describe 'Bulk Archival Object Updater' do
         expect(reload_archival_object_1.title).to eq "Archival Object Title 1 #{uuid}"
         expect(reload_archival_object_2.title).to eq "Archival Object Title 2 #{uuid}"
         expect(reload_archival_object_from_another_resource.title).to eq "Archival Object Title Belongs to Another Resource #{uuid}"
+
+        total_records_count_after = total_records_count
+        expect(total_records_count_before).to eq total_records_count_after
+      end
+    end
+
+    context 'because the number of ao rows in the sheet exceeds that set in AppConfig[:bulk_archival_object_updater_max_rows]', :disable_database_transaction do
+      before do
+        AppConfig[:bulk_archival_object_updater_max_rows] = 1
+      end
+
+      after do
+        AppConfig[:bulk_archival_object_updater_max_rows] = 1000
+      end
+
+      it 'does not update any of the archival objects and displays maximum rows error', :disable_database_transaction do
+        expect(column_names.length).to eq 177
+        total_records_count_before = total_records_count
+
+        # Change the title of archival objects in the downloaded excel.
+        sheet[2][2].change_contents('Updated Archival Object Title 1')
+        sheet[3][2].change_contents('Updated Archival Object Title 2')
+
+        # Save excel file after updates
+        excel_file.write(excel_filename)
+
+        updated_records = {}
+
+        expect do
+          updated_records = bulk_archival_object_updater.run
+        end.to raise_error BulkArchivalObjectUpdater::BulkUpdateFailed do |bulk_update_failed|
+          expect(bulk_update_failed.errors).to eq [
+            {
+              :sheet => "Updates",
+              :row => "N/A",
+              :column => "id",
+              :errors => ["The number of rows in this sheet exceeds the maximum allowable set in AppConfig[:bulk_archival_object_updater_max_rows]."]
+            }
+          ]
+        end
+
+        expect(updated_records).to eq({})
+
+        # Ensure archival object titles were not updated.
+        reload_archival_object_1 = ::ArchivalObject.where(id: archival_object_1.id).first
+        reload_archival_object_2 = ::ArchivalObject.where(id: archival_object_2.id).first
+        expect(reload_archival_object_1.title).to eq "Archival Object Title 1 #{uuid}"
+        expect(reload_archival_object_2.title).to eq "Archival Object Title 2 #{uuid}"
 
         total_records_count_after = total_records_count
         expect(total_records_count_before).to eq total_records_count_after

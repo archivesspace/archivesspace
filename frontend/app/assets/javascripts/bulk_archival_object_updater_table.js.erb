@@ -89,6 +89,27 @@
     }).length;
 
     $('#selectedCount').html(selected_count);
+
+    // Check if the spreadsheet being generated exceeds the max number of rows our configuration let's us ingest.
+    // Using localStorage as a way to be able to e2e test.
+    var max_rows = localStorage.getItem('APPCONFIG_MAX_ROWS')
+      ? Number(localStorage.getItem('APPCONFIG_MAX_ROWS'))
+      : '<%= AppConfig[:bulk_archival_object_updater_max_rows] %>';
+    // selected_count includes the resource record itself, so subtract 1
+    if (selected_count - 1 > max_rows) {
+      if (
+        $('#selectedCount').next('.bulk-updater-count-warning').length === 0
+      ) {
+        $('#selectedCount').after(
+          AS.renderTemplate(
+            'bulk_archival_object_updater_row_count_warning_template'
+          )
+        );
+      }
+    } else {
+      $('div.bulk-updater-count-warning').remove();
+    }
+
     $('#selectedCountInModal').html(selected_count);
     $('.submit-btn').prop('disabled', selected_count === 0);
 
