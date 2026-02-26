@@ -2075,6 +2075,7 @@ es:
       pdf: PDF
       html: HTML
       rtf: RTF
+    linked_records_in_json: Registros vinculados en JSON
     headings:
       context: Recurso/Accesión
       container_profile: Perfil de Contenedor

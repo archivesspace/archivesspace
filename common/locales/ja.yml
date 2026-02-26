@@ -1488,6 +1488,7 @@ ja:
       pdf: PDF
       html: HTML
       rtf: RTF
+    linked_records_in_json: JSON形式のリンクされたレコード
     headings:
       context: リソース/収集
       container_profile: コンテナプロファイル
