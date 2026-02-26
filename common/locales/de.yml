@@ -2149,6 +2149,7 @@ de:
       pdf: PDF
       html: HTML
       rtf: RTF
+    linked_records_in_json: Verknüpfte Aufzeichnungen in JSON
     parameters:
       locations: Standorte
       scope_by_date: Geltungsbereich nach Datum

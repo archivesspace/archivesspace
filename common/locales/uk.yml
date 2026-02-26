@@ -1850,6 +1850,7 @@ uk:
       pdf: PDF-файл
       html: HTML
       rtf: RTF
+    linked_records_in_json: Пов'язані записи в JSON
     headings:
       context: Ресурс/Приєднання
       container_profile: Профіль Контейнера

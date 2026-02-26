@@ -83,7 +83,9 @@ describe 'Jobs', js: true do
     within('.report-list') do
       click_button('Accession Report')
     end
+    expect(page).to have_css('#job_job_params_csv_show_json', visible: false)
     select('CSV', from: 'Format')
+    expect(page).to have_css('#job_job_params_csv_show_json', visible: true)
     click_button('Start Job')
     wait_for_job_to_complete(page)
     expect(page).to have_content('report_job')
