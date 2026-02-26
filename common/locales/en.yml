@@ -2438,6 +2438,7 @@ en:
       pdf: PDF
       html: HTML
       rtf: RTF
+    linked_records_in_json: Linked Records in JSON
     headings:
       context: Resource/Accession
       container_profile: Container Profile

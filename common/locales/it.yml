@@ -497,6 +497,7 @@ it:
       pdf: PDF
       html: HTML
       rtf: RTF
+    linked_records_in_json: Record collegati in JSON
     headings:
       context: Risorsa/Accesso
       container_profile: Profilo del Contenitore
