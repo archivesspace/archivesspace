@@ -367,7 +367,7 @@ fr:
       lang_pdf: Langue du matériel
       ark_link_name: Clé de Ressource d'Archives
     load_records:
-      alert: "Cette collection contient un grand nombre d'enregistrements"
+      alert: "Cette collection contient %{count} enregistrements."
       showing: "Affichage"
       percent_convention: "%"
       load: "Charger les enregistrements"

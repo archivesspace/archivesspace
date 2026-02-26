@@ -52,6 +52,7 @@ jobs:
       backend: ${{ steps.filter.outputs.backend }}
       indexer: ${{ steps.filter.outputs.indexer }}
       public: ${{ steps.filter.outputs.public }}
+      common: ${{ steps.filter.outputs.common }}
     steps:
     - uses: dorny/paths-filter@v3
       id: filter
@@ -77,6 +78,9 @@ jobs:
             - 'common/**'
             - 'solr/**'
             - 'indexer/**'
+          common:
+            - '.github/workflows/common.yml'
+            - 'common/**'
 
   frontend:
     needs: changes
@@ -87,6 +91,14 @@ jobs:
       java-version: ${{ inputs.java-version || 17 }}
       group-choice: 'all'
       browser: ${{ inputs.browser || 'firefox' }}
+
+  common:
+    needs: changes
+    if: ${{ needs.changes.outputs.common == 'true' }}
+    uses: ./.github/workflows/common.yml
+    secrets: inherit
+    with:
+      java-version: ${{ inputs.java-version || 17 }}
 
   backend:
     needs: changes
@@ -113,19 +125,19 @@ jobs:
       java-version: ${{ inputs.java-version || 17 }}
       browser: ${{ inputs.browser || 'firefox' }}
 
-  coveralls:
-    runs-on: ubuntu-latest
-    needs: [
-       frontend,
-       backend,
-       indexer,
-       public
-    ]
-    if: ${{ always() && !cancelled() }}
-    steps:
-      - name: Post end of parallel tests to Coveralls
-        uses: coverallsapp/github-action@v2
-        with:
-          debug: false
-          parallel-finished: true
-          carryforward: "backend,indexer,public,aa-af,ag-az,b-c,d-l,m-q,r,s-z,models_and_controllers"
+  # coveralls:
+  #   runs-on: ubuntu-latest
+  #   needs: [
+  #      frontend,
+  #      backend,
+  #      indexer,
+  #      public
+  #   ]
+  #   if: ${{ always() && !cancelled() }}
+  #   steps:
+  #     - name: Post end of parallel tests to Coveralls
+  #       uses: coverallsapp/github-action@v2
+  #       with:
+  #         debug: false
+  #         parallel-finished: true
+  #         carryforward: "backend,indexer,public,aa-af,ag-az,b-c,d-l,m-q,r,s-z,models_and_controllers"

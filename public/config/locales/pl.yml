@@ -227,9 +227,9 @@ pl:
   multiple_containers: Wiele kontenerów
   contains: Zawiera %{count} %{type}
   found: Znaleziono w %{count} %{type}
-  extent_number_type: '%{liczba} %{typ}'
+  extent_number_type: '%{number} %{type}'
   extent_phys_details: ' : %{deets}'
-  extent_dims: ' ; %{wymiary}'
+  extent_dims: ' ; %{dimensions}'
   external_docs: Dokumenty zewnętrzne
   more_about: More about
   list: Lista %{type}
@@ -310,20 +310,26 @@ pl:
         description_rules: Zasady opisu
         edition_statement: Informacja o wydaniu
         series_statement: Oświadczenie dotyczące serii
+        head: Znajdowanie pomocy i informacji administracyjnych
+        script: Skrypt opisu
+        note: Notatka
       digital_object: Obiekt cyfrowy
       physdesc: Opis fizyczny
       storage: Informacje o kontenerze
       additional: Dodatkowy opis
       related_accessions:
         deaccessions: Dokumentacja dotycząca wycofania zbiorów
+        accessions: Zapisy o przystąpieniu
       uri: ID [aspace_uri]
+      script: Skrypt
     load_records:
-      alert: Ta kolekcja zawiera dużą liczbę nagrań.
+      alert: Ta kolekcja zawiera %{count} rekordów.
       percent_convention: '%'
       loading: Wczytywanie
       load: Załaduj rekordy
       load_all: Załaduj wszystkie rekordy.
       all: Nagle
+      scroll: Na przewijaniu
   digital_object:
     _public:
       additional: Dodatkowe wersje plików
@@ -331,21 +337,42 @@ pl:
       thumbnail: Obraz miniatury
       badge_label: Poziom cyfrowy %{level}
       go: Przejdź do pliku
+      link: Link do obiektu cyfrowego
+      browse_number_digital_objects_in_collection:
+        one: Przeglądaj %{num} obiektów cyfrowych w kolekcji
+        few: Przeglądaj %{num} obiektów cyfrowych w kolekcji
+        many: Przeglądaj %{num} obiektów cyfrowych w kolekcji
+    _singular: Zapis cyfrowy
+    _plural: Materiały cyfrowe
   subject:
     _singular: Temat
     _plural: Tematy
   classification:
     identifier_separator: .
+    _singular: Grupa rekordów
+    _plural: Grupy rekordów
+    creator: Twórca
+    _public:
+      actions:
+        show_subgroups: Pokaż podgrupy
   classification_term:
     identifier_separator: /
+    _singular: Rekordowy termin grupy
+    _plural: Rejestruj warunki grupy
   pui_agent:
     also_known_as: 'Znany również pod następującymi nazwami:'
+    _singular: Nazwa
+    _plural: Imiona
+    parallel: Nazwy równoległe
+    related: Powiązane nazwy
   agent:
     _public:
       section:
         dates: Daty
         related_agent_dates: Daty
         related_agent_description: Opis
+        other_names: Formularze nazw
+        related_agents: Powiązane nazwy
   agent_gender:
     _plural: Płeć
     _singular: Płeć
@@ -356,28 +383,116 @@ pl:
   email: Wyślij e-mail
   agent_corporate_entity:
     _singular: Organizacja
+    _plural: Organizacje
   pdf_reports:
     table_of_contents: Spis treści
     return_to_table_of_contents: Powrót do spisu treści
     administrative_information: Informacje administracyjne
+    collection_inventory: Inwentarz kolekcji
+    summary_information: Informacje podsumowujące
+    controlled_access_headings: Nagłówki dostępu kontrolowanego
+    finding_aid_date_prefix: Ta pomoc wyszukiwawcza została stworzona przy użyciu ArchivesSpace na
+    finding_aid_written_in: Pomoc w znalezieniu napisanych w
+    your_finding_aid_pdf: Pomoc w wyszukiwaniu plików PDF dla „%{title}”
+    your_finding_aid_is_attached: W załączniku znajduje się pomoc wyszukiwawcza, o którą prosiłeś.
+    accessrestrict: Warunki dostępu
+    userestrict: Warunki korzystania
+    accruals: Accruals
+    acqinfo: Bezpośrednie źródło nabycia
   description: O
   readmore:
     see_more: Zobacz więcej
     see_less: Pokaż mniej
   skipnav:
     search: Przejdź do wyszukiwania
+    main_content: Przejdź do treści głównej
+    search_results: Przejdź do wyników wyszukiwania
   footer:
     archivesspace_home_html: Odwiedź stronę <a href='http://archivesspace.org'>ArchivesSpace.org</a>
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Prześlij opinię
       lub zgłoś problem</a>
+    staff_interface_html: <a href="%{staff_url}">Interfejs personelu</a>
   top_container:
     _singular: Pojemnik
     _plural: Pojemniki
+    restricted: Ograniczony
   parent_inst: Instytucja macierzysta
   agent_record_identifier:
     snac: Identyfikator sieci społecznościowych i kontekstu archiwalnego (SNAC)
+    identifier_type: Typ identyfikatora
+    primary_identifier: Czy jest to identyfikator podstawowy?
   agent_contact:
     address_1: Adres 1
     address_2: Adres 2
     address_3: Adres 3
     city: Miasto
+    name: Nazwa kontaktu
+    salutation: Zwrot grzecznościowy
+    region: Stan/Region
+    country: Kraj
+    post_code: Kod pocztowy
+    fax: Faks
+    email: E-mail
+  an_agent: Nazwa
+  record_group:
+    _singular: Grupa rekordów
+    _plural: Grupy rekordów
+  agent_function:
+    _singular: Funkcjonować
+    _plural: Funkcje
+  agent_resource:
+    _singular: Powiązane zasoby zewnętrzne
+    _plural: Powiązane zasoby zewnętrzne
+  fax: Faks
+  search_tab: Wyszukaj %{target}
+  agent_identifier:
+    identifier_type: Typ identyfikatora
+    entity_identifier: Identyfikator jednostki
+  use_date:
+    _plural: Użyj dat
+    _singular: Użyj daty
+  used_language:
+    _plural: Używane języki
+    _singular: Używany język
+  telephone:
+    _plural: Numery telefonów
+    number_type: Typ numeru
+    number: Numer
+    ext: Rozszerzenie telefoniczne
+  agent_notes:
+    persistent_id: Stały identyfikator
+    type: Typ notatki
+    note_bioghist: Biografia
+    note_legal_status: Stan prawny
+    note_structure_or_genealogy: Struktura lub genealogia
+  metadata_rights_declaration:
+    _plural: Deklaracje praw do metadanych
+    _singular: Deklaracja praw do metadanych
+    xlink_title_attribute: Atrybut tytułu Xlink
+    xlink_role_attribute: Atrybut roli Xlink
+    xlink_arcrole_attribute: Atrybut Arcrole Xlink
+    file_version_xlink_actuate_attribute: Atrybut Xlink Actuate
+    file_version_xlink_show_attribute: Atrybut pokazu Xlink
+    last_verified_date: Ostatnia zweryfikowana data
+  languages:
+    select: Wybierz Język
+  pdf_error:
+    title: Wystąpił błąd podczas generowania tego pliku PDF.
+    description: Przepraszamy, wystąpił błąd podczas generowania tego pliku PDF z pomocą w 
+      wyszukiwaniu. Oto kilka informacji diagnostycznych, które pomogą ustalić przyczynę problemu.
+    headings:
+      location: Lokalizacja błędu
+      message: Komunikat o błędzie
+      type: Typ błędu
+      additional_info: Dodatkowe informacje
+    location:
+      location_header: Wystąpił błąd podczas generowania nagłówka.
+      location_title_page: Wystąpił błąd podczas generowania strony tytułowej.
+      location_toc: Wystąpił błąd podczas generowania spisu treści.
+      location_resource: Błąd wystąpił podczas generowania sekcji odnoszących się do rekordu zasobu,
+        który obejmuje sekcje Informacje podsumowujące, Nagłówki kontrolowanego dostępu i Notatki.
+      location_archival_object: Wystąpił błąd podczas generowania inwentarza kolekcji.
+      location_footer: Wystąpił błąd podczas generowania stopki.
+    additional_info:
+      invalid_markup: Błąd ten może być spowodowany nieprawidłowym oznaczeniem w notatce lub 
+        podrekordach.

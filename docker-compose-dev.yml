@@ -2,6 +2,7 @@
 # docker-compose -f docker-compose-dev.yml up --detach
 
 version: '3.8'
+name: archivesspace-dev
 services:
   db1:
     container_name: as_dev_db

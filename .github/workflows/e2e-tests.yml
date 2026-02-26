@@ -1,8 +1,8 @@
 name: E2E Tests
-
 permissions:
   contents: read
-  pull-requests: write
+  packages: read
+  pull-requests: read
 
 on:
   workflow_call:
@@ -19,56 +19,152 @@ on:
         type: string
         default: 'latest'
 
-defaults:
-  run:
-    working-directory: ./e2e-tests
 
 concurrency:
   group: e2e-tests-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  cucumber_a_g:
-    name: Run Tests Group A - B
-    uses: './.github/workflows/common-e2e-tests.yml'
-    with:
-      name: 'a-b'
-      image_tag: ${{ inputs.image_tag }}
-      run-cmd: |
-        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[a-b]*' | tr '\n' ' ')
-        if [ -n "$dirs" ]; then
-          bundle exec cucumber --strict $dirs
-        fi
-  cucumber_h_m:
-    name: Run Tests Group C - M
-    uses: './.github/workflows/common-e2e-tests.yml'
-    with:
-      name: 'c-m'
-      image_tag: ${{ inputs.image_tag }}
-      run-cmd: |
-        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[c-m]*' | tr '\n' ' ')
-        if [ -n "$dirs" ]; then
-          bundle exec cucumber --strict $dirs
-        fi
-  cucumber_n_s:
-    name: Run Tests Group N - S
-    uses: './.github/workflows/common-e2e-tests.yml'
-    with:
-      name: 'n-s'
-      image_tag: ${{ inputs.image_tag }}
-      run-cmd: |
-        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[n-s]*' | tr '\n' ' ')
-        if [ -n "$dirs" ]; then
-          bundle exec cucumber --strict $dirs
-        fi
-  cucumber_t_z:
-    name: Run Tests Group T - Z
-    uses: './.github/workflows/common-e2e-tests.yml'
-    with:
-      name: 't-z'
-      image_tag: ${{ inputs.image_tag }}
-      run-cmd: |
-        dirs=$(find ./staff_features -mindepth 1 -maxdepth 1 -type d -iname '[t-z]*' | tr '\n' ' ')
-        if [ -n "$dirs" ]; then
-          bundle exec cucumber --strict $dirs
-        fi
+  setup:
+    name: Setup Matrix
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.set-matrix.outputs.shards }}
+    steps:
+      - id: set-matrix
+        run: |
+          # Use repository variable E2E_SHARD_COUNT, default to 6 if not set
+          SHARD_COUNT=${{ vars.E2E_SHARD_COUNT || 6 }}
+          shards=$(seq 1 $SHARD_COUNT | jq -c --slurp)
+          echo "shards=$shards" >> $GITHUB_OUTPUT
+          echo "Generated matrix for $SHARD_COUNT shards: $shards"
+
+  e2e-tests:
+    name: E2E Tests (Shard ${{ matrix.shard }})
+    needs: setup
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./e2e-tests
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJson(needs.setup.outputs.shards) }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.0'
+          working-directory: e2e-tests
+      - name: Cache gems
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Install gems
+        run: |
+          gem install parallel_tests
+          bundle config path vendor/bundle
+          bundle install --quiet --jobs 4 --retry 3
+      - name: Run rubocop
+        run: |
+          bundle exec rubocop
+      - name: Cucumber strict dry run to check for not implemented steps
+        run: |
+          bundle exec cucumber --dry-run --strict
+      - uses: browser-actions/setup-geckodriver@latest
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get geckodriver and firefox versions
+        run: |
+          geckodriver --version
+          firefox --version
+      - name: Set up Docker
+        env:
+          IMAGE_TAG: ${{ inputs.image_tag }}
+        run: |
+          docker compose -f docker-compose.yml up --quiet-pull --detach
+      - name: Wait until the web server is ready
+        run: |
+          echo "Waiting for ArchivesSpace to start..."
+          timeout 120 bash -c 'until curl -sf http://localhost:8080 > /dev/null; do sleep 2; done' || echo "Timeout waiting for ArchivesSpace"
+      - name: Get feature files for this shard
+        id: shard-files
+        working-directory: e2e-tests
+        run: |
+          # Split feature files across shards
+          TOTAL_SHARDS=${{ strategy.job-total }}
+          CURRENT_SHARD=${{ matrix.shard }}
+
+          # Get all feature files
+          ALL_FILES=(staff_features/**/*.feature)
+          TOTAL_FILES=${#ALL_FILES[@]}
+
+          # Calculate files per shard
+          FILES_PER_SHARD=$(( (TOTAL_FILES + TOTAL_SHARDS - 1) / TOTAL_SHARDS ))
+          START_INDEX=$(( (CURRENT_SHARD - 1) * FILES_PER_SHARD ))
+          END_INDEX=$(( START_INDEX + FILES_PER_SHARD ))
+
+          # Get files for this shard
+          SHARD_FILES="${ALL_FILES[@]:$START_INDEX:$FILES_PER_SHARD}"
+
+          echo "Running tests for shard $CURRENT_SHARD of $TOTAL_SHARDS"
+          echo "Files to test: $SHARD_FILES"
+          echo "files=$SHARD_FILES" >> $GITHUB_OUTPUT
+
+      - name: Run Cucumber tests (Shard ${{ matrix.shard }}/${{ strategy.job-total }})
+        working-directory: e2e-tests
+        run: |
+          mkdir reports
+          bundle exec cucumber \
+            --publish-quiet \
+            --format pretty \
+            --format json --out reports/cucumber_shard_${{ matrix.shard }}.json \
+            --format html --out reports/cucumber_shard_${{ matrix.shard }}.html \
+            --tags "not @wip" \
+            ${{ steps.shard-files.outputs.files }}
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-results-shard-${{ matrix.shard }}
+          path: |
+            e2e-tests/reports/
+          retention-days: 7
+
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-failure-screenshots-shard-${{ matrix.shard }}
+          path: /tmp/screenshots/
+
+  # Summary job to check overall status
+  test-summary:
+    name: Test Summary
+    needs: e2e-tests
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Check test results
+        run: |
+          echo "## E2E Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All shards completed. Check individual shard results above." >> $GITHUB_STEP_SUMMARY
+
+          # This job will fail if any shard failed
+          if [ "${{ needs.e2e-tests.result }}" != "success" ]; then
+            echo "❌ Some tests failed" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          else
+            echo "✅ All tests passed" >> $GITHUB_STEP_SUMMARY
+          fi
