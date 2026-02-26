@@ -324,14 +324,14 @@ describe 'Mixed Content in title fields', js: true do
 
       it 'for digital objects and digital object components' do
         visit "/digital_objects/#{@do.id}"
-        expect(page).to have_css "#tree-container a.record-title span#{@title_selector}", text: "Digital object #{@now}"
-        expect(page).to have_css "#tree-container a.record-title span#{@emph_italic_selector}", text: "Digital object component #{@now}"
+        expect(page).to have_css "#infinite-tree-container a.record-title span#{@title_selector}", text: "Digital object #{@now}"
+        expect(page).to have_css "#infinite-tree-container a.record-title span#{@emph_italic_selector}", text: "Digital object component #{@now}"
       end
 
       it 'for classifications and classification terms' do
         visit "/classifications/#{@classification.id}"
-        expect(page).to have_css "#tree-container a.record-title span#{@emph_selector}", text: "Classification #{@now}"
-        expect(page).to have_css "#tree-container a.record-title span#{@emph_selector}", text: "Classification #{@now}"
+        expect(page).to have_css "#infinite-tree-container a.record-title span#{@emph_selector}", text: "Classification #{@now}"
+        expect(page).to have_css "#infinite-tree-container a.record-title span#{@emph_selector}", text: "Classification #{@now}"
       end
     end
 

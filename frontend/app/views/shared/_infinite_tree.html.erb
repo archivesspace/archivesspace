@@ -1,5 +1,6 @@
 <%
-   show_identifiers = AppConfig[:display_identifiers_in_largetree_container]
+   root_type = root_record.jsonmodel_type
+   show_identifiers = root_type == 'resource' && AppConfig[:display_identifiers_in_largetree_container]
    read_only = false if read_only.blank?
 %>
 
@@ -9,36 +10,19 @@
 <%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
 <%= javascript_include_tag "InfiniteTreeIds.js" %>
 
-<div
-  id="infinite-tree-container"
-  data-resource-uri="<%= @resource.uri %>"
-  class="mb-2"
->
-</div>
+<div id="infinite-tree-container" class="mb-2"></div>
 <%= render_aspace_partial :partial => "shared/infinite_tree_resizer" %>
 <%= render_aspace_partial :partial => "shared/infinite_tree_record_pane" %>
 
 <template id="infinite-tree-root-list-template">
-  <ol class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>" role="tree"></ol>
+  <ol
+    class="infinite-tree<%= ' has-identifier-column' if show_identifiers %>"
+    data-record-type="<%= root_type %>"
+    data-root-uri="<%= root_record.uri %>"
+    role="tree"
+  ></ol>
 </template>
 
-<template id="infinite-tree-root-node-template">
-  <li class="root node" role="treeitem" id data-uri>
-    <div class="node-row">
-      <div class="node-body" title>
-        <div class="node-column" data-column="title">
-          <a class="record-title" href></a>
-        </div>
-        <div class="node-column" data-column="level"></div>
-        <div class="node-column" data-column="type"></div>
-        <div class="node-column" data-column="container"></div>
-        <% if show_identifiers %>
-          <div class="node-column" data-column="identifier"></div>
-        <% end %>
-      </div>
-    </div>
-  </li>
-</template>
 
 <template id="infinite-tree-node-list-template">
   <ol
@@ -50,24 +34,6 @@
   ></ol>
 </template>
 
-<template id="infinite-tree-node-template">
-  <li class="node" role="treeitem" id data-uri>
-    <div class="node-row">
-      <div class="node-body" title>
-        <div class="node-indentation"></div>
-        <div class="node-column" data-column="title">
-          <a class="record-title" href></a>
-        </div>
-        <div class="node-column" data-column="level"></div>
-        <div class="node-column" data-column="type"></div>
-        <div class="node-column" data-column="container"></div>
-        <% if show_identifiers %>
-          <div class="node-column" data-column="identifier"></div>
-        <% end %>
-      </div>
-    </div>
-  </li>
-</template>
 
 <template id="infinite-tree-expand-button-template">
   <button class="node-expand" type="button">
@@ -84,8 +50,14 @@
   <span class="badge badge-warning"><%= I18n.t("states.suppressed") %></span>
 </template>
 
+<% if root_type == 'resource' %>
+  <%= render_aspace_partial partial: 'resources/infinite_tree_templates', locals: { show_identifiers: show_identifiers } %>
+<% else %>
+  <%= render_aspace_partial partial: "#{root_type}s/infinite_tree_templates" %>
+<% end %>
+
 <script>
-const rootUri = "<%= @resource.uri %>";
+const rootUri = "<%= root_record.uri %>";
 
 const initialContext = new InfiniteTreeInitialContext(rootUri).context;
 
@@ -125,7 +97,7 @@ const infiniteTree = new InfiniteTree(
   initialContext,
   "<%= Rails.configuration.infinite_tree_batch_size %>",
   {
-    sep: "<%= I18n.t("resource.identifier_separator") %>",
+    sep: "<%= I18n.t("#{root_type}.identifier_separator") %>",
     bulk: "<%= I18n.t("date_type_bulk.bulk") %>",
     enumerations: EnumerationTranslations2
   }
