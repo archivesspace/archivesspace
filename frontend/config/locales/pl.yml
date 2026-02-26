@@ -318,6 +318,7 @@ pl:
       AND: I
       OR: Lub
       NOT: Nie
+      operator: Operator
     button_text: Szukaj
     boolean_field:
       true_value: Prawda
@@ -447,6 +448,7 @@ pl:
       create_time: Stworzony
       digital_object_type: Typ obiektu cyfrowego
       restrictions: Ograniczenia
+      level: Poziom opisu
     digital_object_component:
       context: Znaleziono w
       dates: Daty
@@ -560,6 +562,8 @@ pl:
       assessment_review_required: Wymagana recenzja
       assessment_survey_year: Rok badania
       assessment_ratings: Oceny
+      assessment_records: Akta
+      assessment_collections: Zbiór
     repositories:
       uri: URI
       user_mtime: Zmodyfikowany
@@ -588,6 +592,8 @@ pl:
       location_display_string_u_sstr: Lokalizacja
       container_profile_display_string_u_sstr: Profil kontenera
       context: Zasób/Przystąpienie
+      series_level_u_sstr: Seria
+      collection_identifier_stored_u_sstr: Zbiór
     container_profile:
       title: Tytuł
       create_time: Stworzony
@@ -602,6 +608,7 @@ pl:
       container_profile_height_u_sstr: Wysokość
       publish: Opublikowany
       container_profile_depth_u_sstr: Głębokość
+      notes: Notatka
     location_profile:
       title: Tytuł
       score: Znaczenie
@@ -631,6 +638,7 @@ pl:
       location: Lokalizacja
       restricted: Ograniczony
       not_restricted: Nie ograniczone
+      series: Seria
     job:
       audit_info: Informacje dotyczące audytu
       user_mtime: Zmodyfikowany
@@ -667,6 +675,8 @@ pl:
       context: Znaleziono w
       audit_info: Informacje o audycie
       extents: Zakres
+    blank_facet_query_fields:
+      owner_repo_display_string_u_ssort: Repozytorium
   agent_gender:
     _singular: Płeć
   agent_occupation:
@@ -845,10 +855,16 @@ pl:
         basic_information: Podstawowe informacje
       tree:
         duplicated_record_title: Utwórz zduplikowany obiekt archiwalny
+        new_record_title: Nowy obiekt archiwalny
       action:
         select_parent_and_position: Wybierz pozycję komponentu
         add_duplicate: Dodaj duplikat
         save: Zapisz obiekt archiwalny
+        add_child: Dodaj dziecko
+        add_sibling: Dodaj rodzeństwo
+        bulk_import: Załaduj za pomocą arkusza kalkulacyjnego
+        select_resource: Wybierz Zasób
+        leave_parent_empty: Zamknij / Nie przypisuj rodzica
     external_ark_url: Zewnętrzny adres URL ARK
     external_ark_url_tooltip: Zewnętrzne narzędzie do wyświetlania podpowiedzi 
       URL ARK
@@ -857,13 +873,19 @@ pl:
     _frontend:
       section:
         basic_information: Podstawowe informacje
+        search_embedded: Powiązane rekordy
       messages:
         deleted: Klasyfikacja <strong>%{classification_title}</strong> została 
           usunięta.
+        created: Klasyfikacja <strong>%{classification_title}</strong> została 
+          utworzona
+        updated: Klasyfikacja <strong>%{classification_title}</strong> została 
+          zaktualizowana
       action:
         add: Dodaj klasyfikację
         create: Utwórz klasyfikację
         save: Zapisz klasyfikację
+        add_child: Dodaj dziecko
   classification_term:
     _frontend:
       section:
@@ -883,6 +905,7 @@ pl:
       action:
         add_child: Dodaj dziecko
         save: Zapisz termin klasyfikacji
+        add_sibling: Dodaj rodzeństwo
       tree:
         new_record_title: Nowy termin klasyfikacyjny
   accession:
@@ -1108,6 +1131,7 @@ pl:
     _frontend:
       action:
         add: Dodaj pola do zarządzania kolekcjami.
+      title_prefix: Opracowanie archiwalne
   container:
     _frontend:
       action:
@@ -1118,6 +1142,10 @@ pl:
         add: Dodaj lokalizację
   structured_date_label_common_fields:
     date_type_structured: Typ daty
+    date_label: Etykieta
+    date_certainty: Pewność
+    date_era: Era
+    date_calendar: Kalendarz
   digital_object_component:
     _frontend:
       messages:
@@ -1354,6 +1382,7 @@ pl:
     date_expression: Wyrażenie daty
     date_standardized: Znormalizowana data
     date_standardized_type: Standaryzowany typ daty
+    date_role: Rola daty
   structured_date_range_fields:
     begin_date_expression: Wyrażenie daty rozpoczęcia
     begin_date_standardized: Początek daty w formacie standardowym
@@ -1439,3 +1468,10 @@ pl:
         create: Utwórz temat
         save: Zapisz temat
         add: Dodaj temat
+  deaccession:
+    _frontend:
+      action:
+        add: Dodaj Deakcesję
+  date_type_structured:
+    single: Pojedyncza data
+    range: Zakres dat
