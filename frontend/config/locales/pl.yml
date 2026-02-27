@@ -1067,6 +1067,12 @@ pl:
         created: Value Created
         merged: Scalona wartość
         no_selection: Proszę wybrać listę wartości kontrolowanych.
+        value_updated: Wartość zaktualizowana
+        deleted: Wartość usunięta
+        create_error: Nie udało się utworzyć wartości
+        name_selector: Nazwa listy
+        not_used: Nie używany.
+        related_items: ' powiązane elementy.'
       action:
         create_value: Twórz wartość
         delete_value: Usuń wartość
@@ -1162,10 +1168,24 @@ pl:
           można go edytować.
         has_unpublished_ancestor: Należy pamiętać, że ten rekord ma przodka, 
           który nie został jeszcze opublikowany.
+        created_with_parent: Komponent obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> utworzony 
+          jako element podrzędny <strong>%{parent_display_string}</strong> w 
+          obiekcie cyfrowym <strong>%{digital_object_title}</strong>
+        created: Komponent obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> utworzony 
+          w obiekcie cyfrowym <strong>%{digital_object_title}</strong>
+        updated_with_parent: Zaktualizowano komponent obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong>
+        suppressed: Komponent obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> został 
+          pominięty
       section:
         basic_information: Podstawowe informacje
       action:
         save: Zapisz komponent obiektu cyfrowego
+        add_child: Dodaj dziecko
+        add_sibling: Dodaj rodzeństwo
       tree:
         new_record_title: Nowy komponent obiektu cyfrowego
   group:
@@ -1191,6 +1211,7 @@ pl:
     _frontend:
       action:
         make_primary: Ustaw jako główny
+        add: Dodaj łącze agenta
   linked_record:
     _frontend:
       action:
@@ -1394,6 +1415,31 @@ pl:
     _frontend:
       messages:
         transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane.
+        created: Obiekt cyfrowy <strong>%{digital_object_title}</strong> został 
+          utworzony
+        updated: Obiekt cyfrowy <strong>%{digital_object_title}</strong> 
+          zaktualizowano
+        deleted: Obiekt cyfrowy <strong>%{digital_object_title}</strong> został 
+          usunięty
+        published: Obiekt cyfrowy <strong>%{digital_object_title}</strong>, jego
+          podrekordy i komponenty zostały opublikowane
+        merge_description: Wybierz poniżej obiekty cyfrowe, które chcesz 
+          połączyć
+        please_select_a_digital_object_to_merge: Proszę wybrać obiekt cyfrowy
+        merged: Obiekt(y) cyfrowe połączone
+        transfer_description: Przenieś ten zasób do...
+        unsuppressed: Obiekt cyfrowy <strong>%{digital_object_title}</strong> 
+          nie został wyłączony
+        suppressed: Obiekt cyfrowy <strong>%{digital_object_title}</strong> 
+          został pominięty
+        suppressed_info: Obiekt cyfrowy jest ukryty i nie można go edytować
+        delete_conflict: 'Nie można usunąć obiektu cyfrowego: <pre>%{error}</pre>'
+      section:
+        basic_information: Podstawowe informacje
+      action:
+        add_child: Dodaj dziecko
+        create: Utwórz obiekt cyfrowy
+        save: Zapisz obiekt cyfrowy
   agent_function:
     _singular: Funkcjonować
     _plural: Funkcje
