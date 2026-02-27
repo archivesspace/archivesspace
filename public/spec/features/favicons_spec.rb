@@ -2,8 +2,8 @@ require 'spec_helper.rb'
 require 'rails_helper.rb'
 
 describe 'Favicons', js: true do
-  let(:png) { 'link[rel="icon"][type="image/png"][href*="favicon-AS"]' }
   let(:svg) { 'link[rel="icon"][type="image/svg+xml"][href*="favicon-AS"]' }
+  let(:png) { 'link[rel="alternate icon"][type="image/png"][href*="favicon-AS"]' }
   let(:apple) { 'link[rel="apple-touch-icon"][type="image/png"][href*="favicon-AS"]' }
 
   it 'are present by default as png and svg' do
