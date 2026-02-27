@@ -528,15 +528,25 @@ AppConfig[:record_inheritance_resolves] = [
 # TODO: Clean up configuration options
 
 AppConfig[:pui_search_results_page_size] = 10
+# Set this to '/assets/images/custom-logo.svg' and add a custom-logo.svg (adjust the filename accordingly) in directory: plugins/local/public/assets/images to customize the branding logo on the Public UI
 AppConfig[:pui_branding_img] = 'ArchivesSpaceLogo.svg'
 AppConfig[:pui_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'
 AppConfig[:pui_show_favicon] = true # whether or not to show a favicon
+# Set these to:
+# '/assets/images/custom-favicon.png'
+# '/assets/images/custom-favicon.svg'
+# and add custom-favicon.png custom-favicon.svg, (adjust the filenames accordingly) in directory: plugins/local/public/assets/images to customize the favicon on the Public UI
 AppConfig[:pui_png_favicon] = 'favicon-AS.png'
 AppConfig[:pui_svg_favicon] = 'favicon-AS.svg'
 
+# Set this to '/assets/images/custom-logo.svg' and add a custom-logo.svg (adjust the filename accordingly) in directory: plugins/local/frontend/assets/images to customize the branding logo on the Staff UI
 AppConfig[:frontend_branding_img] = 'archivesspace/ArchivesSpaceLogo.svg'
 AppConfig[:frontend_branding_img_alt_text] = 'ArchivesSpace - a community served by Lyrasis.'
 AppConfig[:frontend_show_favicon] = true # whether or not to show a favicon
+# Set these to:
+# '/assets/images/custom-favicon.png'
+# '/assets/images/custom-favicon.svg'
+# and add custom-favicon.png custom-favicon.svg, (adjust the filenames accordingly) in directory: plugins/local/archivesspace/assets/images to customize the favicon on the Staff UI
 AppConfig[:frontend_png_favicon] = 'archivesspace/favicon-AS.png'
 AppConfig[:frontend_svg_favicon] = 'archivesspace/favicon-AS.svg'
 
