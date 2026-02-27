@@ -53,6 +53,7 @@ pl:
       pdf: PDF
       html: HTML
       rtf: RTF
+    linked_records_in_json: Powiązane rekordy w JSON
     headings:
       context: Zasób/Przystąpienie
       container_profile: Profil Kontenera
