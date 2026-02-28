@@ -41,7 +41,7 @@ module ASModel
         self.class.fire_update(self.class.to_jsonmodel(self.id), self)
       end
 
-      if model == Resource || model == Accession
+      if self.class == Resource || self.class == Accession
         reindex_top_containers
       end
 
@@ -59,7 +59,7 @@ module ASModel
         model.handle_publish_flag(ids, setting)
       end
 
-      if model == Resource || model == Accession
+      if self.class == Resource || self.class == Accession
         reindex_top_containers
       end
     end

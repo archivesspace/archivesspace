@@ -1,5 +1,7 @@
 class ResourceRestrictionsListReport < AbstractReport
-  register_report
+  register_report(
+    params: [['include_suppressed', 'IncludeSuppressed', 'Include suppressed records']]
+  )
 
   def query
     results = db.fetch(query_string)
@@ -36,7 +38,7 @@ class ResourceRestrictionsListReport < AbstractReport
         group by resource_id) as extent_cnt
         
     where resource.restrictions
-      and repo_id = #{db.literal(@repo_id)}"
+      and repo_id = #{db.literal(@repo_id)}#{suppressed_filter('resource')}"
   end
 
   def fix_row(row)
