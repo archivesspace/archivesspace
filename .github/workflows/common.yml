@@ -48,11 +48,11 @@ jobs:
       env:
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
 
-    # - name: Post Coverage to Coveralls
-    #   uses: coverallsapp/github-action@v2
-    #   with:
-    #     format: simplecov
-    #     compare-ref: ${{ github.event.repository.default_branch }}
-    #     flag-name: common
-    #     debug: false
-    #     parallel: true
+    - name: Post Coverage to Coveralls
+      uses: coverallsapp/github-action@v2
+      with:
+        format: simplecov
+        compare-ref: ${{ github.event.repository.default_branch }}
+        flag-name: common
+        debug: false
+        parallel: true
