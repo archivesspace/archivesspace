@@ -2429,6 +2429,7 @@ en:
       to: To
       locations: Locations
       scope_by_date: Scope by Date
+      include_suppressed: Include suppressed records
       template: Template
       rating: Rating
       values: Values
@@ -2439,6 +2440,7 @@ en:
       html: HTML
       rtf: RTF
     linked_records_in_json: Linked Records in JSON
+    include_suppressed: "Include suppressed records"
     headings:
       context: Resource/Accession
       container_profile: Container Profile

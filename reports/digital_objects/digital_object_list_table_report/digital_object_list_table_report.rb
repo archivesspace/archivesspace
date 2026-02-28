@@ -1,6 +1,8 @@
 class DigitalObjectListTableReport < AbstractReport
 
-  register_report
+  register_report(
+    params: [['include_suppressed', 'IncludeSuppressed', 'Include suppressed records']]
+  )
 
   def query_string
     "select
@@ -33,7 +35,7 @@ class DigitalObjectListTableReport < AbstractReport
         on resource.id = instance.resource_id
           or resource.id = archival_object.root_record_id
 
-    where digital_object.repo_id = #{db.literal(@repo_id)}
+    where digital_object.repo_id = #{db.literal(@repo_id)}#{suppressed_filter('digital_object')}
 
     group by digital_object.id"
   end

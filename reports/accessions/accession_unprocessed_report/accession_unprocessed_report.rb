@@ -1,6 +1,8 @@
 class AccessionUnprocessedReport < AbstractReport
 
-  register_report
+  register_report(
+    params: [['include_suppressed', 'IncludeSuppressed', 'Include suppressed records']]
+  )
 
   def query
     results = db.fetch(query_string)
@@ -59,7 +61,7 @@ class AccessionUnprocessedReport < AbstractReport
       group by event_link_rlshp.accession_id) as cataloged
       
     where repo_id = #{db.literal(@repo_id)}
-      and processed is null"
+      and processed is null#{suppressed_filter('accession')}"
   end
 
   def fix_row(row)
