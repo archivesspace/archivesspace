@@ -546,7 +546,7 @@ AppConfig[:frontend_show_favicon] = true # whether or not to show a favicon
 # Set these to:
 # '/assets/images/custom-favicon.png'
 # '/assets/images/custom-favicon.svg'
-# and add custom-favicon.png custom-favicon.svg, (adjust the filenames accordingly) in directory: plugins/local/archivesspace/assets/images to customize the favicon on the Staff UI
+# and add custom-favicon.png custom-favicon.svg, (adjust the filenames accordingly) in directory: plugins/local/frontend/assets/images to customize the favicon on the Staff UI
 AppConfig[:frontend_png_favicon] = 'archivesspace/favicon-AS.png'
 AppConfig[:frontend_svg_favicon] = 'archivesspace/favicon-AS.svg'
 
