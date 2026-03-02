@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 When 'the user checks the checkbox of the Digital Object' do
-  check('multiselect-item')
+  within '#tabledSearchResults tbody .col.multiselect-column' do
+    check('multiselect-item')
+  end
 end
 
 Then 'the Digital Object is deleted' do
