@@ -10,6 +10,9 @@ class TopContainersController < ApplicationController
 
   include ExportHelper
 
+  # Fields that cannot be exported to CSV because they are computed display values, not raw Solr fields (e.g. 'restricted' is derived from active restriction records).
+  NON_CSV_FIELDS = %w[restricted].freeze
+
   def index
     respond_to do |format|
       format.html {
@@ -42,14 +45,23 @@ class TopContainersController < ApplicationController
                                        params_for_backend_search.merge('facet[]' => SearchResultData.TOP_CONTAINER_FACETS))
       }
       format.csv {
-        params[:fields] -= %w[title context type indicator barcode]
-        params[:fields] += %w[type_enum_s indicator_u_icusort barcode_u_sstr]
-        params[:fields].prepend('collection_display_string_u_sstr', 'series_title_u_sstr')
-        csv_response(
-          "/repositories/#{session[:repo_id]}/search",
-          prepare_search.merge('facet[]' => SearchResultData.TOP_CONTAINER_FACETS),
-          "#{t('top_container._plural').downcase}."
+        get_browse_col_prefs
+        csv_fields = @pref_cols.reject { |f| NON_CSV_FIELDS.include?(f) }
+
+        self.response.headers['Content-Type'] = 'text/csv'
+        self.response.headers['Content-Disposition'] =
+          "attachment; filename=#{t('top_container._plural').downcase}.#{Time.now.to_i}.csv"
+        self.response.headers['Last-Modified'] = Time.now.ctime.to_s
+
+        search_params = prepare_search.merge(
+          'facet[]' => SearchResultData.TOP_CONTAINER_FACETS,
+          'fields[]' => csv_fields
         )
+
+        render plain: csv_export_with_mappings(
+          "/repositories/#{session[:repo_id]}/search",
+          search_params
+        ), content_type: 'text/csv'
       }
     end
   end
