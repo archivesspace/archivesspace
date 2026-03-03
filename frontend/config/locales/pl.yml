@@ -1122,17 +1122,41 @@ pl:
           maksymalnie %{max_range} lokalizacji.
         warning: W zależności od wielkości zakresów danych, ten proces może 
           potrwać kilka minut.
+        created: <strong>%{number_created} lokalizacji</strong> utworzono
+        updated: <strong>%{number_created} Lokalizacje</strong> zaktualizowane
+        number_to_create: Liczba lokalizacji
       action:
         update: Aktualizuj lokalizacje
         preview: Podgląd lokalizacji
+        create: Twórz lokalizacje
+        preview_short: Zapowiedź
+        creating: Partia w toku...
+      section:
+        location: Lokalizacja bazy
+        ranges: Zakresy współrzędnych
   name:
     _frontend:
       section:
         dates: Daty
+        use_date: Data(y) użycia nazwy
+        parallel_names: Nazwy równoległe
+        place_subject: Umieść temat
+        topic_subject: Temat Przedmiot
+        name_subject: Nazwa Temat
+        function_subject: Funkcja Temat
+        occupation_subject: Zawód Przedmiot
       action:
         make_display_name_tooltip: Użyj tej opcji, aby wskazać, że ta forma 
           imienia powinna być używana do wyświetlania, gdy w rekordzie agenta 
           występuje wiele form imienia.
+        add: Dodaj formularz nazwy
+        make_authorized: Utwórz autoryzowaną nazwę
+        make_authorized_tooltip: Użyj tego symbolu, aby wskazać, że forma nazwy 
+          jest wersją nazwy zatwierdzoną przez wiarygodne źródła, takie jak 
+          LCNAF.
+        make_display_name: Utwórz nazwę wyświetlaną
+        make_primary: Ustaw jako podstawowy
+        make_primary_tooltip: Utwórz podpowiedź podstawową
   collection_management:
     _frontend:
       action:
@@ -1212,6 +1236,9 @@ pl:
       action:
         make_primary: Ustaw jako główny
         add: Dodaj łącze agenta
+        make_primary_tooltip: |
+          <p>Użyj tego, aby wskazać, który agent powiązany z rekordem jest agentem głównym. Tylko jeden powiązany agent może być oznaczony jako główny.</p>
+          <p>W eksporcie MARCXML agentem głównym będzie wartość 1XX.</p> 
   linked_record:
     _frontend:
       action:
@@ -1242,6 +1269,8 @@ pl:
       preview:
         parsed_title: W jaki sposób notatka zostanie wyświetlona w aplikacji 
           publicznej?
+        raw: Podgląd surowy
+        raw_title: Surowa treść notatki
       action:
         add_note_chronology_item: Dodaj wydarzenie
         add_event: Dodaj element wydarzenia
