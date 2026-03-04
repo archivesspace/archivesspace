@@ -51,7 +51,12 @@ module ReleaseNotes
       'Mark Cooper',
       'Brian Zelip',
       'Donald Smith',
-      'dependabot[bot]'
+      'dependabot[bot]',
+      'Martha',
+      'Thimios',
+      'Zeff Morgan',
+      'Blake Carver',
+      'Anonymous'
     ]
 
     def initialize(current_tag:, log:, previous_tag:, style:)
