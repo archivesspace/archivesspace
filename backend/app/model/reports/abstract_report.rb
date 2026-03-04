@@ -14,15 +14,21 @@ class AbstractReport
   attr_accessor :info
   attr_accessor :page_break
   attr_accessor :expand_csv
+  attr_accessor :include_suppressed
 
   def initialize(params, job, db)
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ''
     @format = params[:format] if params.has_key?(:format) && params[:format] != ''
     @expand_csv = !(params.has_key?('csv_show_json') ? params['csv_show_json'] : false)
+    @include_suppressed = params['include_suppressed'] == true || params['include_suppressed'] == 'true'
     @params = params
     @db = db
     @job = job
     @info = {}
+  end
+
+  def suppressed_filter(table_name)
+    @include_suppressed ? '' : " AND #{table_name}.suppressed = 0"
   end
 
   def page_break
