@@ -701,6 +701,17 @@
     </java>
   </target>
 
+  <target name="db:user_password_reset" depends="set-classpath" description="Reset the password of a user, e.g. ./build/run db:user_password_reset -Dusername='admin' -Dpassword='test'">
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="APPCONFIG_DB_URL" value="${env.APPCONFIG_DB_URL}" />
+      <arg line="-Iapp/lib ../launcher/password_reset/lib/password-reset.rb ${username} ${password}" />
+    </java>
+  </target>
+
   <target name="db:migrate:test" depends="set-classpath" description="Run migrations against the test database">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
