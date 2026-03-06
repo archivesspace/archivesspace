@@ -1,4 +1,3 @@
-require_relative '../../launcher_init'
 require 'config/config-distribution'
 require 'bcrypt'
 require 'sequel'
