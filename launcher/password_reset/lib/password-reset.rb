@@ -1,4 +1,10 @@
-require_relative '../../launcher_init'
+
+if $0 =~ /scripts[\/\\][\/\\]password-reset.rb$/
+  # This script runs in two contexts: build/run as a part of development, and
+  # password-reset.(sh|bat) from the distribution zip file.  Allow for both.
+  require_relative '../../launcher/launcher_init'
+end
+
 require 'config/config-distribution'
 require 'bcrypt'
 require 'sequel'
