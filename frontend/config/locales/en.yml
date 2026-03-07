@@ -1958,6 +1958,12 @@ en:
     minimum_notes_description: The minimum number of already extant note subrecords of each type to be included.
     download_spreadsheet: Download Spreadsheet
     download_spreadsheet_modal_message: Generating this spreadsheet may take a few moments.
+    too_many_rows_warning:
+      "Warning: The number of rows that will be generated in this spreadsheet exceeds the number of rows that can be updated
+      via the Bulk Archival Object Updater background job. If you plan to run the Bulk Archival Object Updater job using
+      this spreadsheet, you will need to reduce the number of rows in this sheet to less than or equal to 
+      <strong>%{max_row_count} rows</strong> prior to ingest. Consider generating a smaller spreadsheet now.  
+      This warning can be safely ignored if you do not intend to run a Bulk Archival Object Updater job with this data."
 
   assessment:
     _frontend:

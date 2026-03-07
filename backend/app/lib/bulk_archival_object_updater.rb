@@ -1250,8 +1250,21 @@ class BulkArchivalObjectUpdater
   def check_sheet(filename)
     errors = []
 
-    # Check AOs exist
     ao_ids = extract_ao_ids(filename)
+
+    # Check we're not working with a giant spreadsheet
+    if AppConfig[:bulk_archival_object_updater_max_rows]&.is_a?(Numeric)
+      if ao_ids.count > AppConfig[:bulk_archival_object_updater_max_rows]
+        errors << {
+          sheet: SpreadsheetBuilder::SHEET_NAME,
+          row: 'N/A',
+          column: 'id',
+          errors: ["The number of rows in this sheet exceeds the maximum allowable set in AppConfig[:bulk_archival_object_updater_max_rows]."]
+        }
+      end
+    end
+
+    # Check AOs exist
     existing_ao_ids = ArchivalObject
                         .filter(:id => ao_ids)
                         .select(:id)
