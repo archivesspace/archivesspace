@@ -21,10 +21,14 @@
           this.submitActiveForm();
         }
       );
+
+      this.container.addEventListener('infiniteTree:showRecordNotFound', () => {
+        this.#showRecordNotFound();
+      });
     }
 
     /**
-     * @param {HTMLElement} node - The tree node  corresponding to the record to load
+     * @param {HTMLElement} node - The tree node corresponding to the record to load
      */
     async loadRecord(node) {
       let recordPath = AS.app_prefix(
@@ -40,16 +44,15 @@
       try {
         const html = await this.#fetchRecordHtml(url);
 
-        this.container.innerHTML = html;
-
-        // Initialize Rails/ASpace behaviors first
-        this.#initializeRecordForm();
-        // Then watch the (potential) form for dirty/submit
-        this.#bindForm();
+        this.#renderNewForm(html);
       } catch (error) {
-        this.container.appendChild(this.#errorMessageFragment(error));
+        if (error.status === 404) {
+          this.#showRecordNotFound();
+        } else {
+          this.container.appendChild(this.#loadErrorMessageFragment(error));
 
-        this.#setDirty(false);
+          this.#setDirty(false);
+        }
       } finally {
         this.#unblockUI();
       }
@@ -100,6 +103,7 @@
       this.form.addEventListener('submit', e => {
         e.preventDefault();
         e.stopPropagation();
+
         this.submitActiveForm();
       });
     }
@@ -136,14 +140,8 @@
 
         const html = await response.text();
 
-        // Replace pane content with response HTML and re-bind
-        this.container.innerHTML = html;
+        this.#renderNewForm(html);
 
-        this.#initializeRecordForm();
-
-        this.#bindForm();
-
-        // Heuristic: presence of .error indicates validation errors
         const hasError = this.container.querySelector('.error') !== null;
 
         if (response.ok && !hasError) {
@@ -158,11 +156,13 @@
           // Unblock UI before firing success events to prevent race condition
           // with redisplayAndShow triggering loadRecord while pane is still blocked
           this.#unblockUI();
+
           if (submitButton) submitButton.removeAttribute('disabled');
 
           this.#dispatch('infiniteTreeRecordPane:submitSuccess', {
             uri: savedUri,
           });
+
           this.#dispatch('infiniteTreeRecordPane:submitted', { success: true });
         } else {
           this.#setDirty(true);
@@ -170,25 +170,28 @@
           this.#dispatch('infiniteTreeRecordPane:submitError', {
             status: response.status,
           });
+
           this.#dispatch('infiniteTreeRecordPane:submitted', {
             success: false,
           });
         }
       } catch (error) {
         // Show an error banner and emit error
-        this.container.appendChild(this.#errorMessageFragment(error));
+        this.container.appendChild(this.#loadErrorMessageFragment(error));
 
         this.#setDirty(true);
 
         this.#dispatch('infiniteTreeRecordPane:submitError', {
           error: String(error),
         });
+
         this.#dispatch('infiniteTreeRecordPane:submitted', { success: false });
       } finally {
         // Only unblock and re-enable if not already done in success case
         if (this.container.classList.contains('blocked')) {
           this.#unblockUI();
         }
+
         if (submitButton && submitButton.hasAttribute('disabled')) {
           submitButton.removeAttribute('disabled');
         }
@@ -235,10 +238,29 @@
       });
 
       if (!response.ok) {
+        if (response.status === 404) {
+          const err = new Error('Record not found');
+
+          err.status = 404;
+
+          throw err;
+        }
+
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       return await response.text();
+    }
+
+    /**
+     * Renders form HTML into the pane and wires it up
+     */
+    #renderNewForm(html) {
+      this.container.innerHTML = html;
+
+      this.#initializeRecordForm();
+
+      this.#bindForm();
     }
 
     /**
@@ -251,13 +273,14 @@
     }
 
     /**
+     * Builds a fragment for non-404 fetch errors
      * @param {Error} error - The error object
      * @returns {DocumentFragment} - The error message fragment
      */
-    #errorMessageFragment(error) {
+    #loadErrorMessageFragment(error) {
       const errorFrag = new DocumentFragment();
       const errorTemplate = document
-        .getElementById('infinite-tree-record-pane-error-template')
+        .getElementById('infinite-tree-record-pane-load-error-template')
         .content.cloneNode(true);
       const errorSlot = errorTemplate.querySelector('pre');
 
@@ -266,6 +289,19 @@
       errorFrag.appendChild(errorTemplate);
 
       return errorFrag;
+    }
+
+    /**
+     * Shows the Record Not Found alert
+     */
+    #showRecordNotFound() {
+      const template = document.getElementById(
+        'infinite-tree-record-pane-record-not-found-template'
+      );
+
+      this.container.replaceChildren(template.content.cloneNode(true));
+
+      this.#setDirty(false);
     }
   }
 

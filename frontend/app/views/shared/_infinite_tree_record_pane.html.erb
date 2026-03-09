@@ -1,8 +1,15 @@
 <div id="infinite-tree-record-pane"></div>
 
-<template id="infinite-tree-record-pane-error-template">
+<template id="infinite-tree-record-pane-load-error-template">
   <div class="m-3 alert alert-warning" role="alert">
     <p><%= I18n.t('errors.error_tree_pane_ajax') %></p>
     <pre></pre>
+  </div>
+</template>
+
+<template id="infinite-tree-record-pane-record-not-found-template">
+  <div class="m-3 alert alert-danger" role="alert">
+    <h2><%= I18n.t('errors.error_404') %></h2>
+    <p><%= I18n.t('errors.error_404_message') %></p>
   </div>
 </template>
