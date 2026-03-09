@@ -126,18 +126,14 @@
 
       rootListElement.appendChild(rootNodeFrag);
 
-      this.container.replaceChildren(); // In case there is some possible future use case where `renderRoot` is called without a page refresh
-
-      this.container.appendChild(rootListFrag);
+      this.container.replaceChildren(rootListFrag);
 
       return rootNodeElement;
-      // Removing the .selected class add above and returning the root node element here
-      // allows optional setting of selected node later, ie: if the child node of interest
-      // via the location hash doesn't exist, then load the root w/ no selected node
     }
 
     /**
-     * Orchestrates the rendering of a node with all its ancestors on page load
+     * Orchestrates the rendering of a node with all its ancestors on page load, falling
+     * back to the root if the node does not exist
      * @param {string} locationHash - The location hash representing the node to render
      */
     loadNodeWithAncestors(locationHash) {
@@ -162,10 +158,14 @@
 
           this.#renderAncestors(data, nodeElementId);
         })
-        .catch(error => {
+        .catch(async error => {
           console.error('Error in #fetchAncestorBatches:', error);
 
-          this.renderRoot();
+          await this.renderRoot();
+
+          this.recordPaneEl.dispatchEvent(
+            new CustomEvent('infiniteTree:showRecordNotFound')
+          );
         });
     }
 
@@ -308,6 +308,10 @@
      */
     async #fetchAncestorBatches(id) {
       const ancestors = await this.fetch.ancestors(id);
+
+      if (!ancestors || !ancestors[id] || ancestors[id].length === 0) {
+        throw new Error('Node not found in tree');
+      }
 
       return Promise.all(
         ancestors[id].map(ancestor =>
