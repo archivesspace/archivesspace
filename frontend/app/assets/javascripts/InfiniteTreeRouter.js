@@ -32,7 +32,6 @@
     }
 
     addListeners() {
-      // Track dirty/clean events from the record pane
       this.recordPaneEl.addEventListener('infiniteTreeRecordPane:dirty', () => {
         this.isDirty = true;
       });
@@ -138,7 +137,7 @@
 
         this.dispatchNodeSelect(newHash);
       } else {
-        // Revert visual hash and show guard
+        // Navigation not allowed, revert hash and show guard
         const target = newHash;
 
         this._ignoreHashChange = true;
@@ -153,14 +152,12 @@
       // Save target for later
       this._pendingHash = targetHash;
 
-      // Open the existing Save Changes modal template
       AS.openCustomModal(
         'saveYourChangesModal',
         this.i18n.saveChangesTitle,
         AS.renderTemplate('save_changes_modal_template')
       );
 
-      // Hook up modal actions
       $('#saveChangesButton', '#saveYourChangesModal').on('click', () => {
         $('.btn', '#saveYourChangesModal').addClass('disabled');
         // Capture the currently selected node's URI in case the form doesn't provide one
@@ -174,14 +171,11 @@
         } catch (e) {
           this._pendingSavedUri = null;
         }
-        // Ask record pane to submit the form
-        this.recordPaneEl.dispatchEvent(
-          new CustomEvent('infiniteTreeRouter:requestSubmit')
-        );
+
+        this.#requestFormSubmit();
       });
 
       $('#dismissChangesButton', '#saveYourChangesModal').on('click', () => {
-        // Discard changes and proceed
         this.isDirty = false;
 
         this.#proceedToHash(this._pendingHash);
@@ -192,7 +186,6 @@
       });
 
       $('.btn-cancel', '#saveYourChangesModal').on('click', () => {
-        // Cancel: do nothing
         this._pendingHash = null;
 
         $('#saveYourChangesModal').modal('hide');
@@ -205,6 +198,12 @@
       this.setHash(hash);
 
       this.dispatchNodeSelect(window.location.hash);
+    }
+
+    #requestFormSubmit() {
+      this.recordPaneEl.dispatchEvent(
+        new CustomEvent('infiniteTreeRouter:requestSubmit')
+      );
     }
 
     dispatchNodeSelect(hash) {
@@ -238,22 +237,20 @@
     }
 
     /**
-     * Completes the save transaction by closing modal and navigating to target
+     * Completes the save transaction by closing modal, navigating to target,
+     * and clearing transaction state
      */
     #completeTransaction() {
       if (!this._pendingTransaction) return;
 
       const { target } = this._pendingTransaction;
 
-      // Close the modal now that everything is complete
       $('#saveYourChangesModal').modal('hide');
 
-      // Navigate to the pending target if there is one
       if (target) {
         this.setHash(target);
       }
 
-      // Clear transaction state
       this._pendingTransaction = null;
     }
   }
