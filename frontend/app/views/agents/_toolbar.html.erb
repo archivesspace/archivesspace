@@ -10,6 +10,9 @@
       </div>
     <% end %>
     <% if edit_mode? %>
+      <div class="close-record">
+        <%= link_to t("actions.finish_editing"), {:controller => :agents, :action => :show, :id => @agent.id, :agent_type => @agent.agent_type}, :class => "btn btn-primary btn-sm btn-success finish-editing" %>
+      </div>
       <div class="align-items-center revert-changes">
         <%= link_to t("actions.revert"), {:controller => :agents, :action => :edit, :id => @agent.id}, :class => "btn btn-sm btn-default" %>
       </div>
