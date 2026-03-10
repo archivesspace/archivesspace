@@ -251,6 +251,7 @@ module SearchAndBrowseColumnConfig
     },
     "top_container_mgmt" => {
       "resource_accession" => {:field => "context", :sortable => true},
+      "resource_accession_id" => {:field => "collection_identifier_stored_u_sstr", :sortable => false},
       "series" => {:field => "series_level_u_sstr", :sortable => true},
       "container_profile" => {:field => ":container_profile_display_string", :sortable => true},
       "type" => {:field => "type", :sortable => true},
@@ -260,7 +261,7 @@ module SearchAndBrowseColumnConfig
       "location" => {:field => "location", :sortable => true},
       "restricted" => {:field => "restricted", :sortable => true},
       "ils_holding_id" => {:field => "ils_holding_id", :sortable => true},
-      "exported_to_ils" => {:field => "exported_to_ils", :sortable => true},
+      "exported_to_ils" => {:field => "exported_to_ils", :sortable => true}
     },
     "job" => {
       "status" => {:field => "status", :sortable => true},

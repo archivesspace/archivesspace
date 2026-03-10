@@ -58,6 +58,11 @@ describe ExportHelper do
       expect(result).to eq(expected_backend_fields)
     end
 
+    it 'maps resource_accession_id field name to backend field name' do
+      result = helper.map_fields_for_backend(['resource_accession_id'])
+      expect(result).to eq(['collection_identifier_stored_u_sstr'])
+    end
+
     it 'handles context field specially by including ancestor fields' do
       requested_fields = ['title', 'context', 'type']
       expected_backend_fields = [
@@ -265,6 +270,15 @@ describe ExportHelper do
         result = converter.send(:build_header_row, old_headers)
 
         expect(result).to eq(['Resource/Accession', 'Series', 'Internal Note', 'Exported to ILS'])
+      end
+
+      it 'maps resource_accession_id to Resource/Accession ID header' do
+        converter = ExportHelper::CSVMappingConverter.new(['resource_accession_id'])
+        old_headers = ['collection_identifier_stored_u_sstr']
+
+        result = converter.send(:build_header_row, old_headers)
+
+        expect(result).to eq(['Resource/Accession ID'])
       end
     end
 
