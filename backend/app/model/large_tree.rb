@@ -131,6 +131,7 @@ class LargeTree
                                                       "uri" => node_record.uri,
                                                       "position" => node_position,
                                                       "jsonmodel_type" => @node_table.to_s,
+                                                      "parsed_title" => MixedContentParser.parse(node_record.display_string, '/'),
                                                       "has_digital_instance" => digital_instance)
 
       @decorators.each do |decorator|
