@@ -69,7 +69,7 @@ Given 'two Subjects have been created with a common keyword in their term' do
   expect(page).to have_selector('h2', visible: true, text: "Subject A #{@subject_a_uuid} #{@shared_subject_uuid}")
 
   within '#form_messages' do
-    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
+    expect(page).to have_css('.alert.alert-success', text: 'Subject Created')
   end
   uri_parts = current_url.split('/')
   uri_parts.pop
@@ -84,7 +84,7 @@ Given 'two Subjects have been created with a common keyword in their term' do
   wait_for_ajax
   expect(page).to have_selector('h2', visible: true, text: "Subject B #{@subject_b_uuid} #{@shared_subject_uuid}")
   within '#form_messages' do
-    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
+    expect(page).to have_css('.alert.alert-success', text: 'Subject Created')
   end
   uri_parts = current_url.split('/')
   uri_parts.pop
