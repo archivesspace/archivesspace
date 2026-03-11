@@ -548,6 +548,33 @@ describe 'Infinite Tree Page Load', js: true do
           it_behaves_like 'scrolling loads remaining batches'
         end
       end
+
+      context 'when the location hash is invalid' do
+        context 'with a malformed hash' do
+          it 'renders the tree and record pane for the root record' do
+            visit "/resources/#{@resource.id}#invalid_hash"
+
+            aggregate_failures do
+              expect(page).to have_css('#infinite-tree-container .infinite-tree .root.current')
+              expect(page).to have_css('#infinite-tree-record-pane .readonly-context')
+              within('#infinite-tree-record-pane') do
+                expect(page).to have_css('h2', text: @resource.title)
+              end
+            end
+          end
+        end
+
+        context 'with valid shape but non-existent record id' do
+          it 'renders the tree for the root and shows error in the record pane' do
+            visit "/resources/#{@resource.id}#tree::archival_object_999999"
+
+            aggregate_failures do
+              expect(page).to have_css('#infinite-tree-container .infinite-tree .root.current')
+              expect(page).to have_css('#infinite-tree-record-pane .alert.alert-danger', text: 'Record Not Found')
+            end
+          end
+        end
+      end
     end
   end
 end
