@@ -567,6 +567,7 @@ ja:
     plugins: プラグイン
     repositories_manage: リポジトリの管理
     oai_config: OAI-PMH設定を管理する
+    pui_config: PUI設定を管理
     manage_groups: グループの管理
     manage_users: ユーザーの管理
     manage_container_profiles: コンテナプロファイルの管理
@@ -1940,6 +1941,47 @@ ja:
         _plural: スポンサーセット
       repo_settings:
         _plural: リポジトリごとのOAI-PMH設定
+  pui_config:
+    title: PUI設定を管理
+    display_settings: 表示設定
+    navigation_tabs: ナビゲーションタブ
+    navigation_tabs_description: グローバルヘッダーナビゲーションタブの設定
+    tab_checkbox_tooltip: このタブを表示するかどうか、および表示する場合のタブラベル。
+    tab_repositories: リポジトリ
+    tab_resources: リソース
+    tab_digital_objects: デジタルオブジェクト
+    tab_accessions: アクセッション
+    tab_subjects: 件名
+    tab_agents: エージェント
+    tab_classifications: 分類
+    repository_badges: リポジトリバッジ
+    repository_badges_description: リポジトリページのバッジの設定
+    badge_checkbox_tooltip: このバッジを表示するかどうか、および表示する場合のバッジラベル。
+    badge_resource: リソース
+    badge_record: 記録
+    badge_digital_object: デジタル資料
+    badge_accession: 未処理資料
+    badge_subject: 件名
+    badge_agent: 名前
+    badge_classification: 記録グループ
+    help_configuration: ヘルプ設定
+    help_enabled: ヘルプを有効にする
+    help_url: ヘルプURL
+    help_url_tooltip: ヘルプが有効な場合、ヘルプリンクの転送先URL。
+    help_topic_base_url: ヘルプトピックベースURL
+    help_topic_base_url_tooltip: ヘルプが有効な場合、トピックベースリンクの転送先URL。
+    footer_settings: フッター設定
+    feedback_url: フィードバックURL
+    feedback_url_tooltip: フィードバックリンクのURL。値を空にするとフッターから削除できます。
+    pui_display_identifiers_in_resource_tree: コレクション編成ツリーにコンポーネント固有識別子を表示する？
+    pui_display_identifiers_in_resource_tree_tooltip: PUIコレクション編成ツリーにコンポーネント固有識別子を表示するかどうか
+    pui_expand_all: すべて展開？
+    pui_expand_all_tooltip: リソースページの追加情報ブロックをデフォルトですべて展開するかどうか
+    abstract_note_length: 抄録の長さ
+    abstract_note_length_tooltip: コレクション概要の注記サブセクション（範囲と内容、経歴／歴史など）で表示される文字数
+    _frontend:
+      action:
+        save: PUI設定を保存
   bulk_import:
     _frontend:
       actions:

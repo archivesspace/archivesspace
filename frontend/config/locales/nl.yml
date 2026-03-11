@@ -7,3 +7,46 @@ nl:
     close: Sluiten
   states:
     auto_generated: Wordt automatisch gegenereerd bij registratie
+  navbar:
+    pui_config: Beheer PUI-instellingen
+  pui_config:
+    title: PUI-instellingen beheren
+    display_settings: Weergave-instellingen
+    navigation_tabs: Navigatietabbladen
+    navigation_tabs_description: Voorkeuren voor navigatietabbladen in de globale header
+    tab_checkbox_tooltip: Of dit tabblad wordt weergegeven en zo ja, het tabbladelabel.
+    tab_repositories: Repositoria
+    tab_resources: Bronnen
+    tab_digital_objects: Digitale objecten
+    tab_accessions: Aanwinsten
+    tab_subjects: Onderwerpen
+    tab_agents: Agenten
+    tab_classifications: Classificaties
+    repository_badges: Repositoriumbadges
+    repository_badges_description: Voorkeuren voor badges op repositoriumpagina's
+    badge_checkbox_tooltip: Of deze badge wordt weergegeven en zo ja, het badgelabel.
+    badge_resource: Bronnen
+    badge_record: Dossiers
+    badge_digital_object: Digitaal materiaal
+    badge_accession: Onverwerkt materiaal
+    badge_subject: Onderwerpen
+    badge_agent: Namen
+    badge_classification: Dossiergroepen
+    help_configuration: Helpconfiguratie
+    help_enabled: Help ingeschakeld
+    help_url: Help-URL
+    help_url_tooltip: Als help is ingeschakeld, de URL waarnaar de helplink doorverwijst.
+    help_topic_base_url: Basis-URL helponderwerpen
+    help_topic_base_url_tooltip: Als help is ingeschakeld, de URL waarnaar de basisonderwerpenlink doorverwijst.
+    footer_settings: Voettekstinstellingen
+    feedback_url: Feedback-URL
+    feedback_url_tooltip: URL voor de feedbacklink. U kunt deze uit de voettekst verwijderen door de waarde leeg te laten.
+    pui_display_identifiers_in_resource_tree: Unieke componentidentifiers weergeven in de collectie-organisatieboom?
+    pui_display_identifiers_in_resource_tree_tooltip: Of unieke componentidentifiers worden weergegeven in de PUI-collectie-organisatieboom
+    pui_expand_all: Alles uitvouwen?
+    pui_expand_all_tooltip: Of alle aanvullende informatieblokken standaard worden uitgevouwen op bronpagina's
+    abstract_note_length: Lengte abstract
+    abstract_note_length_tooltip: Aantal zichtbare tekens in Notities-subsecties (Scope en inhoud, Biografisch/Historisch, etc.) in het collectieoverzicht
+    _frontend:
+      action:
+        save: PUI-instellingen opslaan

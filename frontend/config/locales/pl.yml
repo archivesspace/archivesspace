@@ -295,6 +295,7 @@ pl:
     repositories_manage: Zarządzaj repozytoriami
     repository_settings: Ustawienia repozytorium
     oai_config: Zarządzaj ustawieniami OAI-PMH
+    pui_config: Zarządzaj ustawieniami PUI
     manage_groups: Zarządzaj grupami
     manage_users: Zarządzaj użytkownikami
     manage_container_profiles: Zarządzaj profilami kontenerów
@@ -1351,6 +1352,47 @@ pl:
         updated: Preferencje zaktualizowane
       action:
         save: Zapisz preferencje
+  pui_config:
+    title: Zarządzaj ustawieniami PUI
+    display_settings: Ustawienia wyświetlania
+    navigation_tabs: Zakładki nawigacji
+    navigation_tabs_description: Preferencje dotyczące zakładek nawigacji w globalnym nagłówku
+    tab_checkbox_tooltip: Czy wyświetlać tę zakładkę i, jeśli tak, etykietę zakładki.
+    tab_repositories: Repozytoria
+    tab_resources: Zasoby
+    tab_digital_objects: Obiekty cyfrowe
+    tab_accessions: Nabytki
+    tab_subjects: Tematy
+    tab_agents: Agenci
+    tab_classifications: Klasyfikacje
+    repository_badges: Odznaki repozytorium
+    repository_badges_description: Preferencje dotyczące odznak na stronach repozytorium
+    badge_checkbox_tooltip: Czy wyświetlać tę odznakę i, jeśli tak, etykietę odznaki.
+    badge_resource: Zasoby
+    badge_record: Zapisy
+    badge_digital_object: Materiały cyfrowe
+    badge_accession: Nieprzetworzone materiały
+    badge_subject: Tematy
+    badge_agent: Nazwy
+    badge_classification: Grupy zapisów
+    help_configuration: Konfiguracja pomocy
+    help_enabled: Pomoc włączona
+    help_url: URL pomocy
+    help_url_tooltip: Jeśli pomoc jest włączona, adres URL, do którego prowadzi link pomocy.
+    help_topic_base_url: Bazowy URL tematów pomocy
+    help_topic_base_url_tooltip: Jeśli pomoc jest włączona, adres URL, do którego prowadzi link bazowy tematów.
+    footer_settings: Ustawienia stopki
+    feedback_url: URL opinii
+    feedback_url_tooltip: Adres URL linku opinii. Można usunąć go ze stopki, pozostawiając wartość pustą.
+    pui_display_identifiers_in_resource_tree: Wyświetlać unikalne identyfikatory komponentów w drzewie organizacji kolekcji?
+    pui_display_identifiers_in_resource_tree_tooltip: Czy wyświetlać unikalne identyfikatory komponentów w drzewie organizacji kolekcji PUI
+    pui_expand_all: Rozwiń wszystko?
+    pui_expand_all_tooltip: Czy rozszerzać domyślnie wszystkie dodatkowe bloki informacji na stronach zasobów
+    abstract_note_length: Długość streszczenia
+    abstract_note_length_tooltip: Liczba widocznych znaków w podsekcjach Notatek (Zakres i zawartość, Biograficzne/Historyczne itp.) w przeglądzie kolekcji
+    _frontend:
+      action:
+        save: Zapisz ustawienia PUI
   user:
     _frontend:
       messages:

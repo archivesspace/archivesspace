@@ -603,6 +603,7 @@ es:
     plugins: Plug-ins
     repositories_manage: Gestionar repositorios
     oai_config: Administrar la configuración de OAI-PMH
+    pui_config: Gestionar configuración de PUI
     manage_groups: Administrar grupos
     manage_users: Gestionar usuarios
     manage_container_profiles: Gestionar Container Profiles
@@ -2139,6 +2140,47 @@ es:
         _plural: Conjuntos de patrocinadores
       repo_settings:
         _plural: Configuraciones por repositorio OAI-PMH
+  pui_config:
+    title: Gestionar configuración de PUI
+    display_settings: Ajustes de visualización
+    navigation_tabs: Pestañas de navegación
+    navigation_tabs_description: Preferencias para las pestañas de navegación del encabezado global
+    tab_checkbox_tooltip: Si se muestra esta pestaña y, en caso afirmativo, la etiqueta de la pestaña.
+    tab_repositories: Repositorios
+    tab_resources: Recursos
+    tab_digital_objects: Objetos digitales
+    tab_accessions: Accesiones
+    tab_subjects: Materias
+    tab_agents: Agentes
+    tab_classifications: Clasificaciones
+    repository_badges: Insignias de repositorio
+    repository_badges_description: Preferencias para insignias en páginas de repositorio
+    badge_checkbox_tooltip: Si se muestra esta insignia y, en caso afirmativo, la etiqueta de la insignia.
+    badge_resource: Recursos
+    badge_record: Registros
+    badge_digital_object: Materiales digitales
+    badge_accession: Materiales sin procesar
+    badge_subject: Materias
+    badge_agent: Nombres
+    badge_classification: Grupos de registros
+    help_configuration: Configuración de ayuda
+    help_enabled: Ayuda habilitada
+    help_url: URL de ayuda
+    help_url_tooltip: Si la ayuda está habilitada, la URL a la que dirigirá el enlace de ayuda.
+    help_topic_base_url: URL base de temas de ayuda
+    help_topic_base_url_tooltip: Si la ayuda está habilitada, la URL a la que dirigirá el enlace base de temas.
+    footer_settings: Ajustes del pie de página
+    feedback_url: URL de comentarios
+    feedback_url_tooltip: URL para el enlace de comentarios. Puede eliminar esto del pie de página dejando el valor en blanco.
+    pui_display_identifiers_in_resource_tree: ¿Mostrar identificadores únicos de componentes en el árbol de organización de la colección?
+    pui_display_identifiers_in_resource_tree_tooltip: Si se muestran los identificadores únicos de componentes en el árbol de organización de la colección PUI
+    pui_expand_all: ¿Expandir todo?
+    pui_expand_all_tooltip: Si se expanden todos los bloques de información adicional en las páginas de recursos por defecto
+    abstract_note_length: Longitud de nota del resumen
+    abstract_note_length_tooltip: Número de caracteres visibles en las subsecciones de Notas (Alcance y contenido, Biográfico/Histórico, etc.) de la vista general de la colección
+    _frontend:
+      action:
+        save: Guardar configuración de PUI
   bulk_import:
     _frontend:
       actions:

@@ -415,6 +415,7 @@ it:
       uri: URI
   navbar:
     import_marcxml_subjects_and_agents: MARCXML (solo soggetti e agents)
+    pui_config: Gestisci impostazioni PUI
   footer:
     keyboard_shortcuts: Scorciatoie da tastiera
     archivesspace_home_html: Visita <a href='http://archivesspace.org'>ArchivesSpace.org</a>
@@ -548,5 +549,46 @@ it:
     message: Il tuo amichevole strumento di gestione per gli archivi.
     message_logged_in: Il tuo amichevole strumento di gestione per gli archivi.
     heading: Benvenuto in ArchivesSpace
+  pui_config:
+    title: Gestisci impostazioni PUI
+    display_settings: Impostazioni di visualizzazione
+    navigation_tabs: Schede di navigazione
+    navigation_tabs_description: Preferenze per le schede di navigazione nell'intestazione globale
+    tab_checkbox_tooltip: Se visualizzare questa scheda e, in caso affermativo, l'etichetta della scheda.
+    tab_repositories: Repositori
+    tab_resources: Risorse
+    tab_digital_objects: Oggetti digitali
+    tab_accessions: Accessioni
+    tab_subjects: Soggetti
+    tab_agents: Agenti
+    tab_classifications: Classificazioni
+    repository_badges: Badge del repositorio
+    repository_badges_description: Preferenze per i badge nelle pagine del repositorio
+    badge_checkbox_tooltip: Se visualizzare questo badge e, in caso affermativo, l'etichetta del badge.
+    badge_resource: Risorse
+    badge_record: Registri
+    badge_digital_object: Materiali digitali
+    badge_accession: Materiali non elaborati
+    badge_subject: Soggetti
+    badge_agent: Nomi
+    badge_classification: Gruppi di registri
+    help_configuration: Configurazione help
+    help_enabled: Help abilitato
+    help_url: URL help
+    help_url_tooltip: Se l'help è abilitato, l'URL a cui reindirizzerà il link help.
+    help_topic_base_url: URL base argomenti help
+    help_topic_base_url_tooltip: Se l'help è abilitato, l'URL a cui reindirizzerà il link base argomenti.
+    footer_settings: Impostazioni piè di pagina
+    feedback_url: URL feedback
+    feedback_url_tooltip: URL per il link feedback. È possibile rimuoverlo dal piè di pagina lasciando il valore vuoto.
+    pui_display_identifiers_in_resource_tree: Visualizzare gli identificatori univoci dei componenti nell'albero di organizzazione della collezione?
+    pui_display_identifiers_in_resource_tree_tooltip: Se vengono visualizzati gli identificatori univoci dei componenti nell'albero di organizzazione della collezione PUI
+    pui_expand_all: Espandi tutto?
+    pui_expand_all_tooltip: Se espandere tutti i blocchi di informazioni aggiuntive nelle pagine delle risorse per impostazione predefinita
+    abstract_note_length: Lunghezza abstract
+    abstract_note_length_tooltip: Numero di caratteri visibili nelle sottosezioni Note (Ambito e contenuto, Biografico/Storico, ecc.) nella panoramica della collezione
+    _frontend:
+      action:
+        save: Salva impostazioni PUI
   skipnav:
     main_content: Passa al contenuto principale

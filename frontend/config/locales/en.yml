@@ -2095,6 +2095,42 @@ en:
 
   pui_config:
     title: Manage PUI Settings
+    display_settings: Display Settings
+    navigation_tabs: Navigation Tabs
+    navigation_tabs_description: Preferences for global header navigation tabs
+    tab_checkbox_tooltip: Whether to display this tab and if displayed, the tab label.
+    tab_repositories: Repositories
+    tab_resources: Resources
+    tab_digital_objects: Digital Objects
+    tab_accessions: Accessions
+    tab_subjects: Subjects
+    tab_agents: Agents
+    tab_classifications: Classifications
+    repository_badges: Repository Badges
+    repository_badges_description: Preferences for badges on repository pages
+    badge_checkbox_tooltip: Whether to display this badge and if displayed, the badge label.
+    badge_resource: Resources
+    badge_record: Records
+    badge_digital_object: Digital Materials
+    badge_accession: Unprocessed Materials
+    badge_subject: Subjects
+    badge_agent: Names
+    badge_classification: Record Groups
+    help_configuration: Help Configuration
+    help_enabled: Help Enabled
+    help_url: Help URL
+    help_url_tooltip: If help is enabled, the URL where the help link will direct to.
+    help_topic_base_url: Help Topic Base URL
+    help_topic_base_url_tooltip: If help is enabled, the URL where the topic base link will direct to.
+    footer_settings: Footer Settings
+    feedback_url: Feedback URL
+    feedback_url_tooltip: URL to direct the feedback link. You can remove this from the footer by making the value blank.
+    pui_display_identifiers_in_resource_tree: Display Component Unique Identifiers in Collection Organization Tree?
+    pui_display_identifiers_in_resource_tree_tooltip: Whether to display Component Unique Identifiers in the PUI Collection Organization tree
+    pui_expand_all: Expand All?
+    pui_expand_all_tooltip: Whether to expand all additional information blocks in resource record pages by default
+    abstract_note_length: Abstract Note Length
+    abstract_note_length_tooltip: Number of characters visible in Notes sub-sections (Scope and Contents, Biographical / Historical, etc) from Collection Overview
     _frontend:
       action:
         save: Save PUI Settings

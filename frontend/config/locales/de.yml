@@ -300,6 +300,7 @@ de:
     repositories_manage: Aufbewahrungsorte verwalten
     repository_settings: Einstellungen für Aufbewahrungsorte
     oai_config: OAI-PMH Einstellungen verwalten
+    pui_config: PUI Einstellungen verwalten
     manage_users: Benutzer verwalten
     manage_container_profiles: Behältnis-Profile verwalten
     manage_location_profiles: Standort-Profile verwalten
@@ -2628,6 +2629,47 @@ de:
     oai_leave_repo_form: Diese Optionen beeinflussen OAI-PHM nur für diesen 
       Aufbewahrungsort. Klicken Sie unten, um globale OAI-Optionen anzuzeigen 
       oder zu bearbeiten. Dies verlässt das aktuelle Formular ohne zu speichern.
+  pui_config:
+    title: PUI Einstellungen verwalten
+    display_settings: Anzeigeeinstellungen
+    navigation_tabs: Navigationsregister
+    navigation_tabs_description: Einstellungen für die Navigationsregister in der globalen Kopfzeile
+    tab_checkbox_tooltip: Ob diese Registerkarte angezeigt wird und falls ja, die Registerkartenbezeichnung.
+    tab_repositories: Aufbewahrungsorte
+    tab_resources: Ressourcen
+    tab_digital_objects: Digitalobjekte
+    tab_accessions: Zugänge
+    tab_subjects: Themen
+    tab_agents: Personen/Körperschaften
+    tab_classifications: Klassifikationen
+    repository_badges: Aufbewahrungsort-Abzeichen
+    repository_badges_description: Einstellungen für Abzeichen auf Aufbewahrungsort-Seiten
+    badge_checkbox_tooltip: Ob dieses Abzeichen angezeigt wird und falls ja, die Abzeichenbezeichnung.
+    badge_resource: Ressourcen
+    badge_record: Dossiers
+    badge_digital_object: Digitale Materialien
+    badge_accession: Unbearbeitete Materialien
+    badge_subject: Themen
+    badge_agent: Namen
+    badge_classification: Dossiergruppen
+    help_configuration: Hilfekonfiguration
+    help_enabled: Hilfe aktiviert
+    help_url: Hilfe-URL
+    help_url_tooltip: Falls Hilfe aktiviert ist, die URL, zu der der Hilfelink weiterleitet.
+    help_topic_base_url: Hilfe-Themen-Basis-URL
+    help_topic_base_url_tooltip: Falls Hilfe aktiviert ist, die URL, zu der der Themen-Basis-Link weiterleitet.
+    footer_settings: Fußzeilen-Einstellungen
+    feedback_url: Feedback-URL
+    feedback_url_tooltip: URL für den Feedback-Link. Sie können dies aus der Fußzeile entfernen, indem Sie den Wert leer lassen.
+    pui_display_identifiers_in_resource_tree: Komponenten-eindeutige Kennungen in der Sammlungsorganisationsstruktur anzeigen?
+    pui_display_identifiers_in_resource_tree_tooltip: Ob Komponenten-eindeutige Kennungen in der PUI-Sammlungsorganisationsstruktur angezeigt werden
+    pui_expand_all: Alles erweitern?
+    pui_expand_all_tooltip: Ob alle zusätzlichen Informationsblöcke auf Ressourcenseiten standardmäßig erweitert werden
+    abstract_note_length: Länge des Abstracts
+    abstract_note_length_tooltip: Anzahl der sichtbaren Zeichen in Notiz-Unterabschnitten (Umfang und Inhalt, Biografisch/Historisch, etc.) in der Sammlungsübersicht
+    _frontend:
+      action:
+        save: PUI Einstellungen speichern
   agent_record_control: &agent_record_control_attributes
     language: Sprache
     cataloging_source: Aufzeichnungs-Steuerung Katalogisierungs-Quelle

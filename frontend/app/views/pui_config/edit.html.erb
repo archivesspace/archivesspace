@@ -14,12 +14,11 @@
       <div class="form-messages"></div>
 
       <fieldset id="pui_config">
-        <!-- Display Settings Section -->
         <section id="display_settings" class="mb-4">
-          <h3><%= t("pui_config.display_settings_section") %></h3>
+          <h3><%= t("pui_config.display_settings") %></h3>
           
           <div class="form-group w-100 row">
-            <label for="pui_display_identifiers_in_resource_tree" class="col-sm-2 control-label has-tooltip" data-placement="auto" title="<%= t("pui_config.pui_display_identifiers_in_resource_tree_tooltip") %>">
+            <label for="pui_display_identifiers_in_resource_tree" class="col-sm-2 control-label text-right has-tooltip" data-placement="auto" title="<%= t("pui_config.pui_display_identifiers_in_resource_tree_tooltip") %>">
               <%= t("pui_config.pui_display_identifiers_in_resource_tree") %>
             </label>
             <div class="col-sm-9 checkbox">
@@ -28,21 +27,16 @@
           </div>
 
           <div class="form-group w-100 row">
-            <label for="pui_expand_all" class="col-sm-2 control-label">
+            <label for="pui_expand_all" class="col-sm-2 control-label text-right has-tooltip" data-placement="auto" title="<%= t("pui_config.pui_expand_all_tooltip") %>">
               <%= t("pui_config.pui_expand_all") %>
             </label>
             <div class="col-sm-9 checkbox">
               <input type="checkbox" id="pui_expand_all" name="pui_config[pui_expand_all]" value="1" <%= AppConfig[:pui_expand_all] ? 'checked="checked"' : '' %>>
             </div>
           </div>
-        </section>
 
-        <!-- Content Settings Section -->
-        <section id="content_settings" class="mb-4">
-          <h3><%= t("pui_config.content_settings_section") %></h3>
-          
           <div class="form-group w-100 row">
-            <label for="abstract_note_length" class="col-sm-2 control-label">
+            <label for="abstract_note_length" class="col-sm-2 control-label text-right has-tooltip" data-placement="auto" title="<%= t("pui_config.abstract_note_length_tooltip") %>">
               <%= t("pui_config.abstract_note_length") %>
             </label>
             <div class="col-sm-9">
@@ -51,73 +45,92 @@
           </div>
         </section>
 
-        <!-- Navigation Tabs Section -->
         <section id="navigation_tabs" class="mb-4">
-          <h3><%= t("pui_config.navigation_tabs_section") %></h3>
+          <h3><%= t("pui_config.navigation_tabs") %></h3>
           <p><%= t("pui_config.navigation_tabs_description") %></p>
           
           <% 
             tabs = [
-              { key: :repositories, label: t("pui_config.tab_repositories"), placeholder: "Repositories" },
-              { key: :resources, label: t("pui_config.tab_resources"), placeholder: "Resources" },
-              { key: :digital_objects, label: t("pui_config.tab_digital_objects"), placeholder: "Digital Objects" },
-              { key: :accessions, label: t("pui_config.tab_accessions"), placeholder: "Accessions" },
-              { key: :subjects, label: t("pui_config.tab_subjects"), placeholder: "Subjects" },
-              { key: :agents, label: t("pui_config.tab_agents"), placeholder: "Agents" },
-              { key: :classifications, label: t("pui_config.tab_classifications"), placeholder: "Classifications" }
+              { key: :repositories, label: t("pui_config.tab_repositories"), placeholder: t("pui_config.tab_repositories") },
+              { key: :resources, label: t("pui_config.tab_resources"), placeholder: t("pui_config.tab_resources") },
+              { key: :digital_objects, label: t("pui_config.tab_digital_objects"), placeholder: t("pui_config.tab_digital_objects") },
+              { key: :accessions, label: t("pui_config.tab_accessions"), placeholder: t("pui_config.tab_accessions") },
+              { key: :subjects, label: t("pui_config.tab_subjects"), placeholder: t("pui_config.tab_subjects") },
+              { key: :agents, label: t("pui_config.tab_agents"), placeholder: t("pui_config.tab_agents") },
+              { key: :classifications, label: t("pui_config.tab_classifications"), placeholder: t("pui_config.tab_classifications") }
             ]
             pui_hide = AppConfig[:pui_hide] || {}
           %>
           
           <% tabs.each do |tab| %>
-            <div class="form-group w-100 row">
-              <label for="pui_hide_<%= tab[:key] %>" class="col-sm-2 control-label">
-                <input type="checkbox" id="pui_hide_<%= tab[:key] %>" name="pui_config[pui_hide][<%= tab[:key] %>]" value="1" <%= (pui_hide[tab[:key]] == false || pui_hide[tab[:key]].nil?) ? 'checked="checked"' : '' %>>
+            <% tab_visible = (pui_hide[tab[:key]] == false || pui_hide[tab[:key]].nil?) %>
+            <div class="form-group w-100 row align-items-center">
+              <label for="pui_hide_<%= tab[:key] %>" class="col-sm-2 mb-0 control-label text-right has-tooltip" data-placement="auto" title="<%= t("pui_config.tab_checkbox_tooltip") %>">
                 <%= tab[:label] %>
               </label>
-              <div class="col-sm-9">
-                <input type="text" disabled placeholder="<%= tab[:placeholder] %>" class="form-control">
+              <div class="col-sm-9 d-flex align-items-center">
+                <div class="checkbox mb-0 mr-2">
+                  <input type="checkbox" id="pui_hide_<%= tab[:key] %>" name="pui_config[pui_hide][<%= tab[:key] %>]" value="1" <%= tab_visible ? 'checked="checked"' : '' %> data-tab-input="pui_tab_label_<%= tab[:key] %>">
+                </div>
+                <input type="text" id="pui_tab_label_<%= tab[:key] %>" placeholder="<%= tab[:placeholder] %>" class="form-control flex-grow-1" <%= tab_visible ? '' : 'disabled' %>>
               </div>
             </div>
           <% end %>
         </section>
+        <script>
+          $(function() {
+            $('#navigation_tabs').on('change', 'input[data-tab-input]', function() {
+              var inputId = $(this).data('tab-input');
+              $('#' + inputId).prop('disabled', !this.checked);
+            });
+          });
+        </script>
 
-        <!-- Repository Badges Section -->
         <section id="repository_badges" class="mb-4">
-          <h3><%= t("pui_config.repository_badges_section") %></h3>
+          <h3><%= t("pui_config.repository_badges") %></h3>
           <p><%= t("pui_config.repository_badges_description") %></p>
           
           <% 
             badges = [
-              { key: :resource_badge, label: t("pui_config.badge_resource"), placeholder: "Resources" },
-              { key: :record_badge, label: t("pui_config.badge_record"), placeholder: "Records" },
-              { key: :digital_object_badge, label: t("pui_config.badge_digital_object"), placeholder: "Digital Materials" },
-              { key: :accession_badge, label: t("pui_config.badge_accession"), placeholder: "Unprocessed Materials" },
-              { key: :subject_badge, label: t("pui_config.badge_subject"), placeholder: "Subjects" },
-              { key: :agent_badge, label: t("pui_config.badge_agent"), placeholder: "Names" },
-              { key: :classification_badge, label: t("pui_config.badge_classification"), placeholder: "Record Groups" }
+              { key: :resource_badge, label: t("pui_config.badge_resource"), placeholder: t("pui_config.badge_resource") },
+              { key: :record_badge, label: t("pui_config.badge_record"), placeholder: t("pui_config.badge_record") },
+              { key: :digital_object_badge, label: t("pui_config.badge_digital_object"), placeholder: t("pui_config.badge_digital_object") },
+              { key: :accession_badge, label: t("pui_config.badge_accession"), placeholder: t("pui_config.badge_accession") },
+              { key: :subject_badge, label: t("pui_config.badge_subject"), placeholder: t("pui_config.badge_subject") },
+              { key: :agent_badge, label: t("pui_config.badge_agent"), placeholder: t("pui_config.badge_agent") },
+              { key: :classification_badge, label: t("pui_config.badge_classification"), placeholder: t("pui_config.badge_classification") }
             ]
           %>
           
           <% badges.each do |badge| %>
-            <div class="form-group w-100 row">
-              <label for="pui_hide_<%= badge[:key] %>" class="col-sm-2 control-label">
-                <input type="checkbox" id="pui_hide_<%= badge[:key] %>" name="pui_config[pui_hide][<%= badge[:key] %>]" value="1" <%= (pui_hide[badge[:key]] == false || pui_hide[badge[:key]].nil?) ? 'checked="checked"' : '' %>>
+            <% badge_visible = (pui_hide[badge[:key]] == false || pui_hide[badge[:key]].nil?) %>
+            <div class="form-group w-100 row align-items-center">
+              <label for="pui_hide_<%= badge[:key] %>" class="col-sm-2 mb-0 control-label text-right has-tooltip" data-placement="auto" title="<%= t("pui_config.badge_checkbox_tooltip") %>">
                 <%= badge[:label] %>
               </label>
-              <div class="col-sm-9">
-                <input type="text" disabled placeholder="<%= badge[:placeholder] %>" class="form-control">
+              <div class="col-sm-9 d-flex align-items-center">
+                <div class="checkbox mb-0 mr-2">
+                  <input type="checkbox" id="pui_hide_<%= badge[:key] %>" name="pui_config[pui_hide][<%= badge[:key] %>]" value="1" <%= badge_visible ? 'checked="checked"' : '' %> data-badge-input="pui_badge_label_<%= badge[:key] %>">
+                </div>
+                <input type="text" id="pui_badge_label_<%= badge[:key] %>" placeholder="<%= badge[:placeholder] %>" class="form-control flex-grow-1" <%= badge_visible ? '' : 'disabled' %>>
               </div>
             </div>
           <% end %>
         </section>
+        <script>
+          $(function() {
+            $('#repository_badges').on('change', 'input[data-badge-input]', function() {
+              var inputId = $(this).data('badge-input');
+              $('#' + inputId).prop('disabled', !this.checked);
+            });
+          });
+        </script>
 
-        <!-- Help Configuration Section -->
         <section id="help_configuration" class="mb-4">
-          <h3><%= t("pui_config.help_configuration_section") %></h3>
+          <h3><%= t("pui_config.help_configuration") %></h3>
           
           <div class="form-group w-100 row">
-            <label for="help_enabled" class="col-sm-2 control-label">
+            <label for="help_enabled" class="col-sm-2 control-label text-right">
               <%= t("pui_config.help_enabled") %>
             </label>
             <div class="col-sm-9 checkbox">
@@ -126,7 +139,7 @@
           </div>
 
           <div class="form-group w-100 row">
-            <label for="help_url" class="col-sm-2 control-label">
+            <label for="help_url" class="col-sm-2 control-label text-right has-tooltip" data-placement="auto" title="<%= t("pui_config.help_url_tooltip") %>">
               <%= t("pui_config.help_url") %>
             </label>
             <div class="col-sm-9">
@@ -135,7 +148,7 @@
           </div>
 
           <div class="form-group w-100 row">
-            <label for="help_topic_base_url" class="col-sm-2 control-label">
+            <label for="help_topic_base_url" class="col-sm-2 control-label text-right has-tooltip" data-placement="auto" title="<%= t("pui_config.help_topic_base_url_tooltip") %>">
               <%= t("pui_config.help_topic_base_url") %>
             </label>
             <div class="col-sm-9">
@@ -144,12 +157,11 @@
           </div>
         </section>
 
-        <!-- Footer Settings Section -->
         <section id="footer_settings" class="mb-4">
-          <h3><%= t("pui_config.footer_settings_section") %></h3>
+          <h3><%= t("pui_config.footer_settings") %></h3>
           
           <div class="form-group w-100 row">
-            <label for="feedback_url" class="col-sm-2 control-label has-tooltip" data-placement="auto" title="<%= t("pui_config.feedback_url_tooltip") %>">
+            <label for="feedback_url" class="col-sm-2 control-label text-right has-tooltip" data-placement="auto" title="<%= t("pui_config.feedback_url_tooltip") %>">
               <%= t("pui_config.feedback_url") %>
             </label>
             <div class="col-sm-9">

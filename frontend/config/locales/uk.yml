@@ -271,6 +271,7 @@ uk:
     repositories_manage: Керування репозиторіями
     repository_settings: Налаштування репозиторію
     oai_config: Керування налаштуваннями OAI-PMH
+    pui_config: Керування налаштуваннями PUI
     manage_groups: Керування групами
     manage_users: Керування користувачами
     manage_container_profiles: Керування профілями контейнерів
@@ -2104,6 +2105,47 @@ uk:
         _plural: Набори спонсорів
       repo_settings:
         _plural: Налаштування OAI-PMH для кожного репозиторію
+  pui_config:
+    title: Керування налаштуваннями PUI
+    display_settings: Налаштування відображення
+    navigation_tabs: Вкладки навігації
+    navigation_tabs_description: Налаштування для глобальних вкладок навігації в заголовку
+    tab_checkbox_tooltip: Чи відображати цю вкладку та, якщо так, мітку вкладки.
+    tab_repositories: Репозиторії
+    tab_resources: Ресурси
+    tab_digital_objects: Цифрові об'єкти
+    tab_accessions: Надходження
+    tab_subjects: Теми
+    tab_agents: Агенти
+    tab_classifications: Класифікації
+    repository_badges: Значки репозиторію
+    repository_badges_description: Налаштування для значків на сторінках репозиторію
+    badge_checkbox_tooltip: Чи відображати цей значок та, якщо так, мітку значка.
+    badge_resource: Ресурси
+    badge_record: Записи
+    badge_digital_object: Цифрові матеріали
+    badge_accession: Неопрацьовані матеріали
+    badge_subject: Теми
+    badge_agent: Імена
+    badge_classification: Групи записів
+    help_configuration: Налаштування довідки
+    help_enabled: Довідка увімкнена
+    help_url: URL довідки
+    help_url_tooltip: Якщо довідка увімкнена, URL, на який веде посилання довідки.
+    help_topic_base_url: Базова URL теми довідки
+    help_topic_base_url_tooltip: Якщо довідка увімкнена, URL, на який веде базове посилання теми.
+    footer_settings: Налаштування нижнього колонтитула
+    feedback_url: URL зворотного зв'язку
+    feedback_url_tooltip: URL посилання зворотного зв'язку. Ви можете видалити його з нижнього колонтитула, залишивши значення порожнім.
+    pui_display_identifiers_in_resource_tree: Показувати унікальні ідентифікатори компонентів у структурі організації колекції?
+    pui_display_identifiers_in_resource_tree_tooltip: Чи відображаються унікальні ідентифікатори компонентів у структурі організації колекції PUI
+    pui_expand_all: Розгорнути все?
+    pui_expand_all_tooltip: Чи розгортати всі додаткові інформаційні блоки на сторінках ресурсів за замовчуванням
+    abstract_note_length: Довжина анотації
+    abstract_note_length_tooltip: Кількість видимих символів у підрозділах Примітки (Обсяг і зміст, Біографічна/Історична інформація тощо) у огляді колекції
+    _frontend:
+      action:
+        save: Зберегти налаштування PUI
   agent_record_control:
     _plural: Інформація про запис
     _singular: Інформація про запис

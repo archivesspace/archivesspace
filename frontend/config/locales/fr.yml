@@ -664,6 +664,7 @@ fr:
     plugins: Plug-ins
     repositories_manage: Gérer services d'archives
     oai_config: Gérer les paramètres OAI-PMH
+    pui_config: Gérer les paramètres PUI
     manage_groups: Gérer groupes
     manage_users: Gérer utilisateurs
     manage_container_profiles: Gérer profils de conditionnements
@@ -2346,6 +2347,47 @@ fr:
         _plural: Sets de sponsors
       repo_settings:
         _plural: Paramètres OAI-PMH par référentiel
+  pui_config:
+    title: Gérer les paramètres PUI
+    display_settings: Paramètres d'affichage
+    navigation_tabs: Onglets de navigation
+    navigation_tabs_description: Préférences pour les onglets de navigation de l'en-tête global
+    tab_checkbox_tooltip: Si cet onglet est affiché et, le cas échéant, le libellé de l'onglet.
+    tab_repositories: Référentiels
+    tab_resources: Ressources
+    tab_digital_objects: Objets numériques
+    tab_accessions: Entrées
+    tab_subjects: Sujets
+    tab_agents: Agents
+    tab_classifications: Classifications
+    repository_badges: Badges de référentiel
+    repository_badges_description: Préférences pour les badges sur les pages de référentiel
+    badge_checkbox_tooltip: Si ce badge est affiché et, le cas échéant, le libellé du badge.
+    badge_resource: Ressources
+    badge_record: Dossiers
+    badge_digital_object: Documents numériques
+    badge_accession: Documents non traités
+    badge_subject: Sujets
+    badge_agent: Noms
+    badge_classification: Groupes de dossiers
+    help_configuration: Configuration d'aide
+    help_enabled: Aide activée
+    help_url: URL d'aide
+    help_url_tooltip: Si l'aide est activée, l'URL vers laquelle le lien d'aide redirigera.
+    help_topic_base_url: URL de base des sujets d'aide
+    help_topic_base_url_tooltip: Si l'aide est activée, l'URL vers laquelle le lien de base des sujets redirigera.
+    footer_settings: Paramètres du pied de page
+    feedback_url: URL de commentaires
+    feedback_url_tooltip: URL du lien de commentaires. Vous pouvez le supprimer du pied de page en laissant la valeur vide.
+    pui_display_identifiers_in_resource_tree: Afficher les identifiants uniques des composants dans l'arborescence d'organisation de la collection ?
+    pui_display_identifiers_in_resource_tree_tooltip: Si les identifiants uniques des composants sont affichés dans l'arborescence d'organisation de la collection PUI
+    pui_expand_all: Tout développer ?
+    pui_expand_all_tooltip: Si tous les blocs d'informations supplémentaires sont développés par défaut sur les pages de ressources
+    abstract_note_length: Longueur de la note de résumé
+    abstract_note_length_tooltip: Nombre de caractères visibles dans les sous-sections Notes (Portée et contenu, Biographique/Historique, etc.) de la vue d'ensemble de la collection
+    _frontend:
+      action:
+        save: Enregistrer les paramètres PUI
   bulk_import:
     _frontend:
       actions:

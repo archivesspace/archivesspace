@@ -1,1 +1,44 @@
 he:
+  navbar:
+    pui_config: ניהול הגדרות PUI
+  pui_config:
+    title: ניהול הגדרות PUI
+    display_settings: הגדרות תצוגה
+    navigation_tabs: כרטיסיות ניווט
+    navigation_tabs_description: העדפות לכרטיסיות הניווט בכותרת הגלובלית
+    tab_checkbox_tooltip: האם להציג כרטיסייה זו ואם כן, תווית הכרטיסייה.
+    tab_repositories: מאגרים
+    tab_resources: משאבים
+    tab_digital_objects: אובייקטים דיגיטליים
+    tab_accessions: רכישות
+    tab_subjects: נושאים
+    tab_agents: סוכנים
+    tab_classifications: סיווגים
+    repository_badges: תגי מאגר
+    repository_badges_description: העדפות לתגים בדפי מאגר
+    badge_checkbox_tooltip: האם להציג תג זה ואם כן, תווית התג.
+    badge_resource: משאבים
+    badge_record: רשומות
+    badge_digital_object: חומרים דיגיטליים
+    badge_accession: חומרים לא מעובדים
+    badge_subject: נושאים
+    badge_agent: שמות
+    badge_classification: קבוצות רשומות
+    help_configuration: הגדרות עזרה
+    help_enabled: עזרה מופעלת
+    help_url: כתובת עזרה
+    help_url_tooltip: אם עזרה מופעלת, הכתובת שאליה קישור העזרה יפנה.
+    help_topic_base_url: כתובת בסיס לנושאי עזרה
+    help_topic_base_url_tooltip: אם עזרה מופעלת, הכתובת שאליה קישור בסיס הנושאים יפנה.
+    footer_settings: הגדרות כותרת תחתונה
+    feedback_url: כתובת משוב
+    feedback_url_tooltip: כתובת לקישור המשוב. ניתן להסיר זאת מכותרת התחתונה על ידי השארת הערך ריק.
+    pui_display_identifiers_in_resource_tree: להציג מזהים ייחודיים של רכיבים בעץ ארגון האוסף?
+    pui_display_identifiers_in_resource_tree_tooltip: האם להציג מזהים ייחודיים של רכיבים בעץ ארגון האוסף של PUI
+    pui_expand_all: להרחיב הכל?
+    pui_expand_all_tooltip: האם להרחיב את כל בלוקי המידע הנוספים בדפי משאבים כברירת מחדל
+    abstract_note_length: אורך תקציר
+    abstract_note_length_tooltip: מספר התווים הנראים בתת-סעיפי הערות (היקף ותוכן, ביוגרפי/היסטורי וכו') בתצוגת האוסף
+    _frontend:
+      action:
+        save: שמור הגדרות PUI
