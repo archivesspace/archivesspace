@@ -87,15 +87,31 @@
      * @param {string} locationHash - The location hash representing the node to render
      */
     loadNodeWithAncestors(locationHash) {
-      const nodeId = InfiniteTreeIds.parseTreeId(locationHash).id;
       const nodeElementId = InfiniteTreeIds.locationHashToHtmlId(locationHash);
+      const parsed = InfiniteTreeIds.parseTreeId(nodeElementId);
+
+      if (!parsed) {
+        this.renderRoot();
+
+        return;
+      }
+
+      const nodeId = parsed.id;
 
       this.#fetchAncestorBatches(nodeId)
         .then(data => {
+          if (!Array.isArray(data) || data.length === 0) {
+            this.renderRoot();
+
+            return;
+          }
+
           this.#renderAncestors(data, nodeElementId);
         })
         .catch(error => {
           console.error('Error in #fetchAncestorBatches:', error);
+
+          this.renderRoot();
         });
     }
 
