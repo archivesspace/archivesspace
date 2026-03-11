@@ -262,7 +262,7 @@ RSpec.shared_examples 'infinite tree record show view' do |record_config|
 
   if record_config[:supports_suppression]
     describe 'suppressed badge' do
-      it_behaves_like 'suppressed badge behavior'
+      it_behaves_like 'adding a badge on suppressed records'
     end
   end
 
@@ -542,7 +542,7 @@ RSpec.shared_examples 'hides conditional columns when disabled' do
   end
 end
 
-RSpec.shared_examples 'suppressed badge behavior' do
+RSpec.shared_examples 'adding a badge on suppressed records' do
   let(:root_record) { @suppressed_root }
   let(:suppressed_record) { @suppressed_child }
   let(:tree) do
