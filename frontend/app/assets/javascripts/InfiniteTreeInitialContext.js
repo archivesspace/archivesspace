@@ -31,7 +31,7 @@
     }
 
     /**
-     * Ensures a canonical location hash exists when the hash is empty (root).
+     * Ensures a canonical location hash exists when the hash is empty or invalid
      *
      * @returns {string} - The document's location hash after processing
      */
@@ -39,6 +39,14 @@
       const currentHash = window.location.hash;
 
       if (currentHash === '') {
+        window.location.hash = InfiniteTreeIds.uriToLocationHash(this.rootUri);
+
+        return window.location.hash;
+      }
+
+      const treeId = currentHash.replace(/^#tree::?/, '');
+
+      if (!InfiniteTreeIds.parseTreeId(treeId)) {
         window.location.hash = InfiniteTreeIds.uriToLocationHash(this.rootUri);
 
         return window.location.hash;
