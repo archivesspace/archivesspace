@@ -43,7 +43,7 @@ RSpec.shared_examples 'having X children visible' do
   end
 end
 
-RSpec.shared_examples 'node has X children hidden' do
+RSpec.shared_examples 'having X children hidden' do
   it 'is collapsed with the correct number of hidden children' do
     aggregate_failures do
       expect(node['aria-expanded']).to eq('false')
@@ -52,6 +52,16 @@ RSpec.shared_examples 'node has X children hidden' do
       expect(node).to have_css(':scope > .node-children > .node', count: child_count, visible: false)
     end
   end
+end
+
+RSpec.shared_examples 'being collapsed after a single expand' do
+  before do
+    node.find(':scope > .node-row .node-expand').click
+    wait_for_ajax
+    node.find(':scope > .node-row .node-expand').click
+  end
+
+  it_behaves_like 'having X children hidden'
 end
 
 RSpec.shared_examples 'having not been expanded yet' do
@@ -195,29 +205,6 @@ RSpec.shared_examples 'lazy loading the remaining batches of children on scroll'
       expect(child_list).to have_css(':scope > li', count: total_child_count, visible: :all)
       expect(child_list).to have_css(':scope > li.node', count: total_child_count, visible: true)
       expect(child_list).not_to have_css(':scope > li[data-batch-placeholder]', visible: :all)
-    end
-  end
-end
-
-RSpec.shared_examples 'hiding all previously loaded children on collapse' do
-  it 'collapses and hides all previously loaded children' do
-    aggregate_failures do
-      batches_to_load.each_with_index do |batch_number, i|
-        if node['aria-expanded'] == 'false'
-          node.find(':scope > .node-row .node-expand').click
-          wait_for_ajax
-        end
-
-        observer_node = child_list.find("[data-observe-offset='#{batch_number}']", match: :first)
-        container.scroll_to(observer_node, align: :center)
-        wait_for_ajax
-
-        node.find(':scope > .node-row .node-expand').click
-        wait_for_ajax
-
-        expected_child_count = [child_count_on_initial_expand + (i + 1) * Rails.configuration.infinite_tree_batch_size, total_child_count].min
-        expect(child_list).to have_css(':scope > li.node', count: expected_child_count, visible: false)
-      end
     end
   end
 end

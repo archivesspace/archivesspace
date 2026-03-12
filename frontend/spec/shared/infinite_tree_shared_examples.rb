@@ -366,6 +366,10 @@ RSpec.shared_examples 'a node having three children' do
     it_behaves_like 'having the correct data-total-child-batches attribute'
     it_behaves_like 'having not been expanded yet'
     it_behaves_like 'having expand and collapse behavior'
+
+    describe 'when collapsed after expanding' do
+      it_behaves_like 'being collapsed after a single expand'
+    end
   end
 end
 
@@ -408,6 +412,10 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
     it_behaves_like 'having not been expanded yet'
     it_behaves_like 'having expand and collapse behavior'
 
+    describe 'when collapsed after expanding' do
+      it_behaves_like 'being collapsed after a single expand'
+    end
+
     describe 'after initial expansion' do
       before do
         node.find(':scope > .node-row .node-expand').click
@@ -420,6 +428,21 @@ RSpec.shared_examples 'a node having N batches of children' do |batch_count|
       it_behaves_like 'having an observer node for the second batch'
       it_behaves_like 'having the correct number of batch placeholders'
       it_behaves_like 'lazy loading the remaining batches of children on scroll'
+
+      describe 'when collapsed after loading all batches' do
+        before do
+          batches_not_yet_loaded.each do |batch_number|
+            observer_node = child_list.find("[data-observe-offset='#{batch_number}']", match: :first)
+            container.scroll_to(observer_node, align: :center)
+            wait_for_ajax
+          end
+          node.find(':scope > .node-row .node-expand').click
+        end
+
+        let(:child_count) { total_child_count }
+
+        it_behaves_like 'having X children hidden'
+      end
     end
   end
 end
@@ -446,7 +469,29 @@ RSpec.shared_examples 'having lazy loading behavior' do
     let(:child_count_on_initial_expand) { @batch_size }
     let(:batches_to_load) { [1, 2, 3] }
 
-    it_behaves_like 'hiding all previously loaded children on collapse'
+    [1, 2, 3].each do |num_batches_loaded|
+      describe "when collapsed with #{num_batches_loaded + 1} batch(es) loaded" do
+        let(:child_count) do
+          [@batch_size * (num_batches_loaded + 1), total_child_count].min
+        end
+
+        before do
+          num_batches_loaded.times do |i|
+            if node['aria-expanded'] == 'false'
+              node.find(':scope > .node-row .node-expand').click
+              wait_for_ajax
+            end
+            observer_node = child_list.find("[data-observe-offset='#{i + 1}']", match: :first)
+            container.scroll_to(observer_node, align: :center)
+            wait_for_ajax
+          end
+          node.find(':scope > .node-row .node-expand').click
+        end
+
+        it_behaves_like 'having X children hidden'
+      end
+    end
+
     it_behaves_like 'showing all previously loaded children on expand'
   end
 end
