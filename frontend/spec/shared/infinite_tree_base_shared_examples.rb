@@ -1,4 +1,4 @@
-RSpec.shared_examples 'basic node markup' do
+RSpec.shared_examples 'having basic node markup' do
   it 'has the correct role and data-uri' do
     aggregate_failures do
       expect(node['role']).to eq('treeitem')
@@ -7,7 +7,7 @@ RSpec.shared_examples 'basic node markup' do
   end
 end
 
-RSpec.shared_examples 'node has no children' do
+RSpec.shared_examples 'having no children' do
   it 'has no children' do
     aggregate_failures do
       expect(node).not_to have_css('[aria-expanded]')
@@ -18,7 +18,7 @@ RSpec.shared_examples 'node has no children' do
   end
 end
 
-RSpec.shared_examples 'node has correct data-total-child-batches attribute' do
+RSpec.shared_examples 'having the correct data-total-child-batches attribute' do
   it 'has the correct data-total-child-batches attribute' do
     if node[:class].include?('root')
       # root node only has the attribute on its .node-children list
@@ -32,7 +32,7 @@ RSpec.shared_examples 'node has correct data-total-child-batches attribute' do
   end
 end
 
-RSpec.shared_examples 'node has X children visible' do
+RSpec.shared_examples 'having X children visible' do
   it 'is expanded with the correct number of children visible' do
     aggregate_failures do
       expect(node['aria-expanded']).to eq('true')
@@ -54,7 +54,7 @@ RSpec.shared_examples 'node has X children hidden' do
   end
 end
 
-RSpec.shared_examples 'parent node has not been expanded' do
+RSpec.shared_examples 'having not been expanded yet' do
   it 'has not been expanded' do
     aggregate_failures do
       expect(node['aria-expanded']).to eq('false')
@@ -65,7 +65,7 @@ RSpec.shared_examples 'parent node has not been expanded' do
   end
 end
 
-RSpec.shared_examples 'parent node expand and collapse behavior' do
+RSpec.shared_examples 'having expand and collapse behavior' do
   def verify_expanded_state(node, child_count)
     expect(node['aria-expanded']).to eq('true')
     expect(node['data-has-expanded']).to eq('true') unless node[:class].include?('root')
@@ -162,13 +162,13 @@ RSpec.shared_examples 'parent node expand and collapse behavior' do
   end
 end
 
-RSpec.shared_examples 'child list has an observer node for the second batch' do
+RSpec.shared_examples 'having an observer node for the second batch' do
   it 'has an observer node for the second batch' do
     expect(child_list).to have_css('[data-observe-node][data-observe-offset="1"]')
   end
 end
 
-RSpec.shared_examples 'child list has the correct number of batch placeholders' do
+RSpec.shared_examples 'having the correct number of batch placeholders' do
   it 'has the correct number of batch placeholders' do
     aggregate_failures do
       expect(child_list).to have_css(':scope > li[data-batch-placeholder]', count: batches_not_yet_loaded.size, visible: false)
@@ -180,7 +180,7 @@ RSpec.shared_examples 'child list has the correct number of batch placeholders' 
   end
 end
 
-RSpec.shared_examples 'child list lazy loads the remaining batches of children on scroll' do
+RSpec.shared_examples 'lazy loading the remaining batches of children on scroll' do
   it 'loads batches of children on scroll' do
     aggregate_failures do
       batches_not_yet_loaded.each do |batch_number|
@@ -199,7 +199,7 @@ RSpec.shared_examples 'child list lazy loads the remaining batches of children o
   end
 end
 
-RSpec.shared_examples 'collapsing hides all previously loaded children' do
+RSpec.shared_examples 'hiding all previously loaded children on collapse' do
   it 'collapses and hides all previously loaded children' do
     aggregate_failures do
       batches_to_load.each_with_index do |batch_number, i|
@@ -222,7 +222,7 @@ RSpec.shared_examples 'collapsing hides all previously loaded children' do
   end
 end
 
-RSpec.shared_examples 'expanding shows all previously loaded children' do
+RSpec.shared_examples 'showing all previously loaded children on expand' do
   it 'expands and shows all previously loaded children' do
     aggregate_failures do
       batches_to_load.each_with_index do |batch_number, i|

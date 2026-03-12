@@ -1,4 +1,4 @@
-RSpec.shared_examples 'infinite tree record show view' do |record_config|
+RSpec.shared_examples 'having an infinite tree on the read-only view' do |record_config|
   let(:record_type) { record_config[:record_type] }
   let(:child_type) { record_config[:child_type] }
   let(:root_factory) { record_config[:root_factory] }
@@ -221,40 +221,40 @@ RSpec.shared_examples 'infinite tree record show view' do |record_config|
   end
 
   context 'root node' do
-    it_behaves_like 'root node with no children'
-    it_behaves_like 'root node with three children'
-    it_behaves_like 'root node with N batches of children', 2
+    it_behaves_like 'a root node having no children'
+    it_behaves_like 'a root node having three children'
+    it_behaves_like 'a root node having N batches of children', 2
 
     if record_config[:max_batch_scenarios] >= 3
-      it_behaves_like 'root node with N batches of children', 3
+      it_behaves_like 'a root node having N batches of children', 3
     end
 
     if record_config[:max_batch_scenarios] >= 4
-      it_behaves_like 'root node with N batches of children', 4
+      it_behaves_like 'a root node having N batches of children', 4
     end
   end
 
   context 'parent node' do
-    it_behaves_like 'parent node with three children'
-    it_behaves_like 'parent node with N batches of children', 2
+    it_behaves_like 'a node having three children'
+    it_behaves_like 'a node having N batches of children', 2
 
     if record_config[:max_batch_scenarios] >= 3
-      it_behaves_like 'parent node with N batches of children', 3
+      it_behaves_like 'a node having N batches of children', 3
     end
 
     if record_config[:max_batch_scenarios] >= 4
-      it_behaves_like 'parent node with N batches of children', 4
-      it_behaves_like 'parent node lazy loading behavior'
+      it_behaves_like 'a node having N batches of children', 4
+      it_behaves_like 'having lazy loading behavior'
     end
   end
 
   context 'leaf node' do
-    it_behaves_like 'leaf node behavior'
+    it_behaves_like 'being a leaf node'
   end
 
   describe 'columns' do
     if record_config[:columns][:conditional]
-      it_behaves_like 'column rendering with conditionals'
+      it_behaves_like 'column rendering with conditional columns'
     else
       it_behaves_like 'simple column rendering'
     end
@@ -262,18 +262,18 @@ RSpec.shared_examples 'infinite tree record show view' do |record_config|
 
   if record_config[:supports_suppression]
     describe 'suppressed badge' do
-      it_behaves_like 'adding a badge on suppressed records'
+      it_behaves_like 'showing a badge on suppressed records'
     end
   end
 
   if record_config[:supports_mixed_content]
     describe 'mixed content in title column' do
-      it_behaves_like 'mixed content behavior'
+      it_behaves_like 'having mixed content behavior'
     end
   end
 end
 
-RSpec.shared_examples 'root node with no children' do
+RSpec.shared_examples 'a root node having no children' do
   describe 'with no children' do
     let(:root_record) { @root_no_children }
     let(:node) { tree.find("##{record_type}_#{root_record.id}") }
@@ -284,12 +284,12 @@ RSpec.shared_examples 'root node with no children' do
       find('.infinite-tree')
     end
 
-    it_behaves_like 'basic node markup'
-    it_behaves_like 'node has no children'
+    it_behaves_like 'having basic node markup'
+    it_behaves_like 'having no children'
   end
 end
 
-RSpec.shared_examples 'root node with three children' do
+RSpec.shared_examples 'a root node having three children' do
   describe 'with three children' do
     let(:root_record) { @root_three_children }
     let(:children) { @root_three_children_children }
@@ -303,13 +303,13 @@ RSpec.shared_examples 'root node with three children' do
       find('.infinite-tree')
     end
 
-    it_behaves_like 'basic node markup'
-    it_behaves_like 'node has correct data-total-child-batches attribute'
-    it_behaves_like 'node has X children visible'
+    it_behaves_like 'having basic node markup'
+    it_behaves_like 'having the correct data-total-child-batches attribute'
+    it_behaves_like 'having X children visible'
   end
 end
 
-RSpec.shared_examples 'root node with N batches of children' do |batch_count|
+RSpec.shared_examples 'a root node having N batches of children' do |batch_count|
   describe "with #{batch_count} batches of children" do
     let(:root_record) do
       case batch_count
@@ -338,16 +338,16 @@ RSpec.shared_examples 'root node with N batches of children' do |batch_count|
       find('.infinite-tree')
     end
 
-    it_behaves_like 'basic node markup'
-    it_behaves_like 'node has correct data-total-child-batches attribute'
-    it_behaves_like 'node has X children visible'
-    it_behaves_like 'child list has an observer node for the second batch'
-    it_behaves_like 'child list has the correct number of batch placeholders'
-    it_behaves_like 'child list lazy loads the remaining batches of children on scroll'
+    it_behaves_like 'having basic node markup'
+    it_behaves_like 'having the correct data-total-child-batches attribute'
+    it_behaves_like 'having X children visible'
+    it_behaves_like 'having an observer node for the second batch'
+    it_behaves_like 'having the correct number of batch placeholders'
+    it_behaves_like 'lazy loading the remaining batches of children on scroll'
   end
 end
 
-RSpec.shared_examples 'parent node with three children' do
+RSpec.shared_examples 'a node having three children' do
   describe 'with three children' do
     let(:root_record) { @parent_three_children_root }
     let(:parent_record) { @parent_three_children }
@@ -362,14 +362,14 @@ RSpec.shared_examples 'parent node with three children' do
       find('.infinite-tree')
     end
 
-    it_behaves_like 'basic node markup'
-    it_behaves_like 'node has correct data-total-child-batches attribute'
-    it_behaves_like 'parent node has not been expanded'
-    it_behaves_like 'parent node expand and collapse behavior'
+    it_behaves_like 'having basic node markup'
+    it_behaves_like 'having the correct data-total-child-batches attribute'
+    it_behaves_like 'having not been expanded yet'
+    it_behaves_like 'having expand and collapse behavior'
   end
 end
 
-RSpec.shared_examples 'parent node with N batches of children' do |batch_count|
+RSpec.shared_examples 'a node having N batches of children' do |batch_count|
   describe "with #{batch_count} batches of children" do
     let(:root_record) do
       case batch_count
@@ -403,10 +403,10 @@ RSpec.shared_examples 'parent node with N batches of children' do |batch_count|
       find('.infinite-tree')
     end
 
-    it_behaves_like 'basic node markup'
-    it_behaves_like 'node has correct data-total-child-batches attribute'
-    it_behaves_like 'parent node has not been expanded'
-    it_behaves_like 'parent node expand and collapse behavior'
+    it_behaves_like 'having basic node markup'
+    it_behaves_like 'having the correct data-total-child-batches attribute'
+    it_behaves_like 'having not been expanded yet'
+    it_behaves_like 'having expand and collapse behavior'
 
     describe 'after initial expansion' do
       before do
@@ -417,14 +417,14 @@ RSpec.shared_examples 'parent node with N batches of children' do |batch_count|
       let(:child_list) { node.find(':scope > .node-children') }
       let(:batches_not_yet_loaded) { (1...batch_count).to_a }
 
-      it_behaves_like 'child list has an observer node for the second batch'
-      it_behaves_like 'child list has the correct number of batch placeholders'
-      it_behaves_like 'child list lazy loads the remaining batches of children on scroll'
+      it_behaves_like 'having an observer node for the second batch'
+      it_behaves_like 'having the correct number of batch placeholders'
+      it_behaves_like 'lazy loading the remaining batches of children on scroll'
     end
   end
 end
 
-RSpec.shared_examples 'parent node lazy loading behavior' do
+RSpec.shared_examples 'having lazy loading behavior' do
   context 'after batches are lazy loaded' do
     let(:root_record) { @lazy_loading_root }
     let(:parent_record) { @lazy_loading_parent }
@@ -446,12 +446,12 @@ RSpec.shared_examples 'parent node lazy loading behavior' do
     let(:child_count_on_initial_expand) { @batch_size }
     let(:batches_to_load) { [1, 2, 3] }
 
-    it_behaves_like 'collapsing hides all previously loaded children'
-    it_behaves_like 'expanding shows all previously loaded children'
+    it_behaves_like 'hiding all previously loaded children on collapse'
+    it_behaves_like 'showing all previously loaded children on expand'
   end
 end
 
-RSpec.shared_examples 'leaf node behavior' do
+RSpec.shared_examples 'being a leaf node' do
   let(:root_record) { @leaf_root }
   let(:leaf_record) { @leaf_record }
   let(:node) { tree.find("##{child_type}_#{leaf_record.id}") }
@@ -462,8 +462,8 @@ RSpec.shared_examples 'leaf node behavior' do
     find('.infinite-tree')
   end
 
-  it_behaves_like 'basic node markup'
-  it_behaves_like 'node has no children'
+  it_behaves_like 'having basic node markup'
+  it_behaves_like 'having no children'
 end
 
 RSpec.shared_examples 'simple column rendering' do
@@ -475,10 +475,10 @@ RSpec.shared_examples 'simple column rendering' do
     find('.infinite-tree')
   end
 
-  it_behaves_like 'renders base columns'
+  it_behaves_like 'rendering the base columns'
 end
 
-RSpec.shared_examples 'column rendering with conditionals' do
+RSpec.shared_examples 'column rendering with conditional columns' do
   let(:root_record) { @columns_root }
   let(:child_record) { @columns_child }
   let(:tree) do
@@ -487,12 +487,12 @@ RSpec.shared_examples 'column rendering with conditionals' do
     find('.infinite-tree')
   end
 
-  it_behaves_like 'renders base columns'
-  it_behaves_like 'shows conditional columns when enabled'
-  it_behaves_like 'hides conditional columns when disabled'
+  it_behaves_like 'rendering the base columns'
+  it_behaves_like 'showing conditional columns that are enabled'
+  it_behaves_like 'hiding conditional columns that are disabled'
 end
 
-RSpec.shared_examples 'renders base columns' do
+RSpec.shared_examples 'rendering the base columns' do
   it 'renders the base columns' do
     if columns_config && columns_config[:base]
       aggregate_failures do
@@ -504,7 +504,7 @@ RSpec.shared_examples 'renders base columns' do
   end
 end
 
-RSpec.shared_examples 'shows conditional columns when enabled' do
+RSpec.shared_examples 'showing conditional columns that are enabled' do
   before(:each) do
     allow(AppConfig).to receive(:[]).and_call_original
     columns_config[:conditional].each do |column_name, config_key|
@@ -514,7 +514,7 @@ RSpec.shared_examples 'shows conditional columns when enabled' do
     end
   end
 
-  it 'shows conditional columns when enabled' do
+  it 'shows conditional columns that are enabled' do
     aggregate_failures do
       columns_config[:conditional].each do |column_name, config_key|
         expect(tree).to have_css("[data-column=\"#{column_name}\"]", visible: :all)
@@ -523,7 +523,7 @@ RSpec.shared_examples 'shows conditional columns when enabled' do
   end
 end
 
-RSpec.shared_examples 'hides conditional columns when disabled' do
+RSpec.shared_examples 'hiding conditional columns that are disabled' do
   before(:each) do
     allow(AppConfig).to receive(:[]).and_call_original
     columns_config[:conditional].each do |column_name, config_key|
@@ -533,7 +533,7 @@ RSpec.shared_examples 'hides conditional columns when disabled' do
     end
   end
 
-  it 'hides conditional columns when disabled' do
+  it 'hides conditional columns that are disabled' do
     aggregate_failures do
       columns_config[:conditional].each do |column_name, config_key|
         expect(tree).not_to have_css("[data-column=\"#{column_name}\"]", visible: :all)
@@ -542,7 +542,7 @@ RSpec.shared_examples 'hides conditional columns when disabled' do
   end
 end
 
-RSpec.shared_examples 'adding a badge on suppressed records' do
+RSpec.shared_examples 'showing a badge on suppressed records' do
   let(:root_record) { @suppressed_root }
   let(:suppressed_record) { @suppressed_child }
   let(:tree) do
@@ -564,7 +564,7 @@ RSpec.shared_examples 'adding a badge on suppressed records' do
   end
 end
 
-RSpec.shared_examples 'mixed content behavior' do
+RSpec.shared_examples 'having mixed content behavior' do
   let(:root_record) { @mixed_content_root }
   let(:mixed_content_child) { @mixed_content_child }
   let(:plain_child) { @plain_content_child }

@@ -58,7 +58,7 @@ describe 'Infinite Tree', js: true do
 
   RECORD_TYPE_CONFIGS.each do |record_type, config|
     context "on the #{record_type.to_s.humanize.titleize} show view" do
-      it_behaves_like 'infinite tree record show view', config
+      it_behaves_like 'having an infinite tree on the read-only view', config
     end
   end
 end
