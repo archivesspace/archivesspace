@@ -1,7 +1,8 @@
 class CustomReport < AbstractReport
 
   register_report(params: [['template', CustomReportTemplate,
-    'Template to use for the custom report.']]) if AppConfig[:enable_custom_reports]
+    'Template to use for the custom report.'],
+    ['include_suppressed', 'IncludeSuppressed', 'Include suppressed records']]) if AppConfig[:enable_custom_reports]
 
   attr_accessor :record_type, :subreports
 
@@ -45,6 +46,14 @@ class CustomReport < AbstractReport
       @conditions = ["1 = 1"]
     else
       @conditions = ["repo_id = #{@repo_id} or repo_id is null"]
+    end
+
+    begin
+      record_model = Kernel.const_get(@record_type.camelize)
+      if record_model.respond_to?(:suppressible?) && record_model.suppressible?
+        @conditions.push('suppressed = 0') unless @include_suppressed
+      end
+    rescue NameError
     end
 
 
