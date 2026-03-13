@@ -426,9 +426,10 @@ module SearchHelper
 
     # let's rename this method?
     def class
-      @classes << " sortable" if sortable?
-      @classes << " sort-#{@search_data.current_sort_direction}" if sortable? && @search_data.sorted_by === @sort_by
-      @classes
+      result = @classes.dup
+      result << " sortable" if sortable?
+      result << " sort-#{@search_data.current_sort_direction}" if sortable? && @search_data.sorted_by === @sort_by
+      result
     end
 
   end
