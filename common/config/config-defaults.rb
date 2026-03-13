@@ -773,7 +773,7 @@ AppConfig[:arks_allow_external_arks] = true
 AppConfig[:limit_csv_fields] = true
 
 # Use to specify the maximum number of columns to display when searching or browsing
-AppConfig[:max_search_columns] = 7
+AppConfig[:max_search_columns] = 8
 
 # For Bulk Import:
 # specifies whether the "Load Digital Objects" button is available at the Resource Level

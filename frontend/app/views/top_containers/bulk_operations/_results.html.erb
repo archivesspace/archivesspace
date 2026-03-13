@@ -62,9 +62,18 @@
                 <ul class="linked-records-listing count-<%= Array(container_json['collection']).length %>">
                   <% Array(container_json['collection']).each do |c| %>
                     <li>
-                      <span class="collection-identifier"><%= c['identifier'] %></span>,
                       <span class="collection-display-string"><%= c['display_string'] %></span>
                     </li>
+                  <% end %>
+                </ul>
+              <% end %>
+            </td>
+          <% elsif field == 'resource_accession_id' %>
+            <td class="top-container-resource-accession-id">
+              <% if container_json['collection'].present? %>
+                <ul class="linked-records-listing count-<%= Array(container_json['collection']).length %>">
+                  <% Array(container_json['collection']).each do |c| %>
+                    <li><span class="collection-identifier"><%= c['identifier'] %></span></li>
                   <% end %>
                 </ul>
               <% end %>

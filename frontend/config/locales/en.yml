@@ -456,6 +456,7 @@ en:
       exported_to_ils: Exported to ILS
     top_container_mgmt:
       resource_accession: Resource/Accession
+      resource_accession_id: "Resource/Accession ID"
       series: Series
       container_profile: Container Profile
       type: Type
