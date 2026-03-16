@@ -2044,7 +2044,7 @@ fr:
       <p>Une valeur numérique pour la largeur de l'unité de conditionnement.</p>
     stacking_limit: Limite d'empilement
     stacking_limit_tooltip: |
-      <p>Le nombre de ces conditionnements pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif.</p>
+      <p>Le nombre de ces conditionnements pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif ou zéro.</p>
 
     linker:
       create: Créer profil de conditionnements
