@@ -1685,7 +1685,7 @@ ja:
     width: 幅
     width_tooltip: "<p>コンテナの幅（左右の寸法）の数値。 </p>"
     stacking_limit: スタッキング限界
-    stacking_limit_tooltip: "<p>互いに積み重ねられるこれらの容器の数。制限がない場合は空白のままにします。正の整数でなければなりません。
+    stacking_limit_tooltip: "<p>互いに積み重ねられるこれらの容器の数。制限がない場合は空白のままにします。正の整数でなければなりませんまたはゼロ。
       </p>"
 
   rights_restriction:
