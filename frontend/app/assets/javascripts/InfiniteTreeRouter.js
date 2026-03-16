@@ -15,7 +15,6 @@
       this.currentHash = window.location.hash;
       this.treeContainer = document.querySelector('#infinite-tree-container');
       this.recordPaneEl = document.querySelector('#infinite-tree-record-pane');
-
       this.rootUri = rootUri;
       this.isReadOnly = isReadOnly === 'true';
       this.i18n = i18n;
@@ -40,7 +39,7 @@
         this.isDirty = false;
       });
 
-      // React to submit results during dirty guard Save
+      // Respond to submit results during dirty guard Save
       this.recordPaneEl.addEventListener(
         'infiniteTreeRecordPane:submitSuccess',
         e => {
@@ -76,7 +75,6 @@
       this.treeContainer.addEventListener(
         'infiniteTree:refreshNodeComplete',
         () => {
-          // Only handle if this is part of a pending transaction
           if (this._pendingTransaction) {
             this.#completeTransaction();
           }
@@ -111,7 +109,7 @@
     }
 
     init() {
-      if (this.currentHash === '') {
+      if (this.currentHash === '' || !this.#isValidTreeHash(this.currentHash)) {
         const hash = InfiniteTreeIds.treeLinkUrl(this.rootUri);
 
         // Set the hash and rely on hashchange to dispatch the first navigation
@@ -131,6 +129,14 @@
 
       const newHash = window.location.hash;
 
+      if (!this.#isValidTreeHash(newHash)) {
+        // Silently revert invalid hash to current hash
+        this._ignoreHashChange = true;
+        window.location.hash = this.currentHash;
+
+        return;
+      }
+
       if (this.isReadOnly || !this.isDirty) {
         // Navigation allowed
         this.currentHash = newHash;
@@ -141,7 +147,6 @@
         const target = newHash;
 
         this._ignoreHashChange = true;
-
         window.location.hash = this.currentHash;
 
         this.#openDirtyModal(target);
@@ -222,7 +227,6 @@
       const normalized = this.#normalizeHash(hash);
 
       window.location.hash = normalized;
-
       this.currentHash = window.location.hash;
     }
 
@@ -234,6 +238,18 @@
      */
     #normalizeHash(hash) {
       return hash.replace(/^#/, '');
+    }
+
+    /**
+     * Checks whether a location hash resolves to a valid tree node ID
+     * @param {string} hash - The location hash to validate
+     * @returns {boolean}
+     * @private
+     */
+    #isValidTreeHash(hash) {
+      const id = InfiniteTreeIds.locationHashToHtmlId(hash);
+
+      return InfiniteTreeIds.parseTreeId(id) !== null;
     }
 
     /**

@@ -554,12 +554,13 @@ describe 'Infinite Tree Page Load', js: true do
 
       context 'when the location hash is invalid' do
         context 'with a malformed hash' do
-          it 'renders the tree root without selecting a node' do
+          it 'rewrites the hash to root, rendering the tree root and selecting the root node' do
             visit "/resources/#{@resource.id}#invalid_hash"
+            wait_for_ajax
 
             aggregate_failures do
-              expect(page).to have_css('#infinite-tree-container .infinite-tree .root')
-              expect(page).not_to have_css('#infinite-tree-container .selected')
+              expect(page.current_url).to match(%r{/resources/#{@resource.id}#tree::resource_#{@resource.id}})
+              expect(page).to have_css('#infinite-tree-container .infinite-tree .root.selected')
             end
           end
         end
