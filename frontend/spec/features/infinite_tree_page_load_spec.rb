@@ -554,15 +554,12 @@ describe 'Infinite Tree Page Load', js: true do
 
       context 'when the location hash is invalid' do
         context 'with a malformed hash' do
-          it 'renders the tree and record pane for the root record' do
+          it 'renders the tree root without selecting a node' do
             visit "/resources/#{@resource.id}#invalid_hash"
 
             aggregate_failures do
-              expect(page).to have_css('#infinite-tree-container .infinite-tree .root.current')
-              expect(page).to have_css('#infinite-tree-record-pane .readonly-context')
-              within('#infinite-tree-record-pane') do
-                expect(page).to have_css('h2', text: @resource.title)
-              end
+              expect(page).to have_css('#infinite-tree-container .infinite-tree .root')
+              expect(page).not_to have_css('#infinite-tree-container .selected')
             end
           end
         end
@@ -572,7 +569,8 @@ describe 'Infinite Tree Page Load', js: true do
             visit "/resources/#{@resource.id}#tree::archival_object_999999"
 
             aggregate_failures do
-              expect(page).to have_css('#infinite-tree-container .infinite-tree .root.current')
+              expect(page).to have_css('#infinite-tree-container .infinite-tree .root')
+              expect(page).not_to have_css('#infinite-tree-container .selected')
               expect(page).to have_css('#infinite-tree-record-pane .alert.alert-danger', text: 'Record Not Found')
             end
           end
@@ -669,7 +667,7 @@ describe 'Infinite Tree Page Load', js: true do
           visit "/digital_objects/#{@digital_object.id}/#tree::digital_object_component_#{node_record_id}"
           wait_for_ajax
 
-          find("#digital_object_component_#{node_record_id}.current")
+          find("#digital_object_component_#{node_record_id}.selected")
         end
 
         let(:parent_list) { node.find(:xpath, '..') }
@@ -778,7 +776,7 @@ describe 'Infinite Tree Page Load', js: true do
           visit "/digital_objects/#{digital_object_id}#tree::digital_object_#{digital_object_id}"
           wait_for_ajax
 
-          find('.infinite-tree .root.current')
+          find('.infinite-tree .root.selected')
         end
 
         let(:parent_list) { node.find(':scope > .node-children') }
@@ -892,7 +890,7 @@ describe 'Infinite Tree Page Load', js: true do
           visit "/classifications/#{@classification.id}/#tree::classification_term_#{node_record_id}"
           wait_for_ajax
 
-          find("#classification_term_#{node_record_id}.current")
+          find("#classification_term_#{node_record_id}.selected")
         end
 
         let(:parent_list) { node.find(:xpath, '..') }
@@ -1001,7 +999,7 @@ describe 'Infinite Tree Page Load', js: true do
           visit "/classifications/#{classification_id}#tree::classification_#{classification_id}"
           wait_for_ajax
 
-          find('.infinite-tree .root.current')
+          find('.infinite-tree .root.selected')
         end
 
         let(:parent_list) { node.find(':scope > .node-children') }
