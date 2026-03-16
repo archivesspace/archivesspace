@@ -2187,7 +2187,7 @@ de:
     container_2_requires_both_a_type_and_indicator: Sie müssen einen Indikator angeben, wenn Sie 
       einen Typ angeben
     container_profile_name_not_unique: Der Name des Behältnisprofils muss eindeutig sein
-    must_be_a_positive_integer: Muss eine positive ganze Zahl sein
+    must_be_a_positive_integer: Muss eine positive ganze Zahl sein oder Null sein
     length_must_be_within_the_range_set_in_configuration: Die Länge muss innerhalb des in der 
       Konfiguration festgelegten Bereichs liegen
     is_required_if_status_is_previous: ist erforderlich, wenn 'Status' 'Vorheriger' ist
