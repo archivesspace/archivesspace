@@ -65,6 +65,13 @@
 
           const nodeElementId =
             InfiniteTreeIds.locationHashToHtmlId(targetHash);
+
+          if (!InfiniteTreeIds.parseTreeId(nodeElementId)) {
+            await this.renderRoot();
+
+            return;
+          }
+
           const selectedNode = this.container.querySelector(
             `#${nodeElementId}`
           );
