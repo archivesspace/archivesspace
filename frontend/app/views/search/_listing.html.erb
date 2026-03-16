@@ -6,33 +6,35 @@
 
   <% has_thumbnails_enabled = false %>
 
-  <table id="tabledSearchResults" class="table table-striped table-bordered table-hover table-sortable table-search-results table-responsive d-block d-md-table" <%= 'data-multiselect="true"' if allow_multiselect? %>>
-    <thead>
-      <tr>
-        <% @columns.each do |col| %>
-          <% has_thumbnails_enabled = true if col.field == 'representative_file_version' %>
-          <th class="<%= col.class %>">
-            <% if col.sortable? %>
-              <%= link_to col.label, build_search_params("sort" => @search_data.sort_filter_for(col.sort_by)) %>
-            <% else %>
-              <%= col.label %>
-            <% end %>
-          </th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <% @search_data['results'].each do |result| %>
+  <div class="table-responsive">
+    <table id="tabledSearchResults" class="table table-striped table-bordered table-hover table-sortable table-search-results" <%= 'data-multiselect="true"' if allow_multiselect? %>>
+      <thead>
         <tr>
           <% @columns.each do |col| %>
-            <td class="<%= col.class %>">
-              <%= col.value_for(result) %>
-            </td>
+            <% has_thumbnails_enabled = true if col.field == 'representative_file_version' %>
+            <th class="<%= col.class %>">
+              <% if col.sortable? %>
+                <%= link_to col.label, build_search_params("sort" => @search_data.sort_filter_for(col.sort_by)) %>
+              <% else %>
+                <%= col.label %>
+              <% end %>
+            </th>
           <% end %>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @search_data['results'].each do |result| %>
+          <tr>
+            <% @columns.each do |col| %>
+              <td class="<%= col.class %>">
+                <%= col.value_for(result) %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
   <% if has_thumbnails_enabled %>
     <script>
