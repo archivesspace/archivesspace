@@ -122,7 +122,7 @@
      * @param {boolean} shouldObserve - Whether or not to observe the node
      * in order to populate a next empty batch
      * @param {number} [parentId=null] - Optional ID of the node's parent; if null
-     * then parent is assumed to be the root resource
+     * then parent is assumed to be the root record
      * @param {number} [offset=null] - Optional offset of the next batch to
      * populate; required if `shouldObserve` is true
      * @returns {DocumentFragment} - A <li>
@@ -161,7 +161,7 @@
     nodeBody(data, uri, currentNode = null) {
       // Determine which template to use based on URI
       const parts = InfiniteTreeIds.uriToParts(uri);
-      const isRoot = parts.type === 'resource';
+      const isRoot = parts.type === this.rootType;
 
       // Get the appropriate template
       const templateId = isRoot
@@ -200,8 +200,8 @@
      * @private
      */
     #setRootMetadata(rootElement, data) {
-      rootElement.id = `resource_${this.resourceId}`;
-      rootElement.setAttribute('data-uri', this.resourceUri);
+      rootElement.id = `${data.jsonmodel_type}_${this.rootId}`;
+      rootElement.setAttribute('data-uri', this.rootUri);
       rootElement.setAttribute('title', this.#titleHelper(data).cleaned);
 
       if (data.child_count > 0)
@@ -216,7 +216,7 @@
      * @param {boolean} shouldObserve - Whether or not to observe the node
      * in order to populate a next empty batch
      * @param {number} [parentId=null] - Optional ID of the node's parent; if null
-     * then parent is assumed to be the root resource
+     * then parent is assumed to be the root record
      * @param {number} [offset=null] - Optional offset of the next batch to
      * populate; required if `shouldObserve` is true
      * @private
