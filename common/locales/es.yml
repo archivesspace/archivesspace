@@ -2158,7 +2158,7 @@ es:
       la configuración
     is_required_if_status_is_previous: se necesita si el 'Stado' es 'Previo'
     location_profile_name_not_unique: El nombre del Location Profile tiene que ser único
-    must_be_a_positive_integer: Tiene que ser un entero positivo
+    must_be_a_positive_integer: Tiene que ser un entero positivo o cero
     must_be_unique_to_its_level_in_the_tree: Este valor debe ser único para este nivel de la 
       jerarquía.
     short_name_already_in_use: El nombre corto del repositorio debe ser único dentro de este 
