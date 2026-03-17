@@ -2290,7 +2290,7 @@ de:
       der Ober- zur Unterseite) des Behältnisses.</p>\n"
     stacking_limit_tooltip: "<p>Die Anzahl von Behältnissen, die übereinander gestapelt
       werden können. Leer lassen, wenn es keine Obergrenze gibt. Muss eine positive
-      Ganzzahl sein oder Null sein.</p>\n"
+      Ganzzahl oder Null sein.</p>\n"
     _singular: Behältnis-Profil
     _plural: Behältnis-Profile
     name_tooltip: "<p>ERFORDERLICHES FELD. Der Name des Behältnis-Profils. Kann generisch
