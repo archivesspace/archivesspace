@@ -94,7 +94,7 @@ jobs:
         SELENIUM_CHROME: ${{ inputs.browser == 'chrome' }}
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v6
       if: failure()
       with:
         name: failed_spec_saved_pages(${{ inputs.name }})_Java_${{ inputs.java-version || 17 }}

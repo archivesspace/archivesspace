@@ -101,7 +101,7 @@ jobs:
 
     - name: Upload the ci logs
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: failed_spec_saved_pages(public)_Java_${{ inputs.java-version || 17 }}
         path: ci_logs/*
