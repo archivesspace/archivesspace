@@ -67,8 +67,8 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
     - run: geckodriver --version
     - run: firefox --version
-    - uses: actions/checkout@v4
-    - uses: actions/setup-java@v4
+    - uses: actions/checkout@v6
+    - uses: actions/setup-java@v5
       with:
         java-version: ${{ inputs.java-version || 17  }} # https://github.com/actions/runner/issues/2372
         distribution: temurin
