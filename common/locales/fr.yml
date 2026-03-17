@@ -2254,7 +2254,7 @@ fr:
       définie dans la configuration
     is_required_if_status_is_previous: est requis si 'statut' est 'précédent'
     location_profile_name_not_unique: Un nom de profil localisation doit être unique
-    must_be_a_positive_integer: Doit être un entier positif
+    must_be_a_positive_integer: Doit être un entier positif ou zéro
     must_be_unique_to_its_level_in_the_tree: Cette valeur doit être unique à ce niveau de la hiérarchie
     short_name_already_in_use: Le service d'archives doit être unique dans cet ArchivesSpace
     custom_report_template_name_not_unique: Le nom du modèle de rapport personnalisé doit être unique.

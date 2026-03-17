@@ -1854,7 +1854,7 @@ es:
       <p>Valor numérico para la anchura del contenedor.</p>
     stacking_limit: Límite de apilamiento
     stacking_limit_tooltip: |
-      <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo.</p>
+      <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo o cero.</p>
 
   rights_restriction:
     begin: Comienzo de la restricción
