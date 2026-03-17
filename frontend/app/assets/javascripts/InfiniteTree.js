@@ -66,6 +66,7 @@
           const nodeElementId =
             InfiniteTreeIds.locationHashToHtmlId(targetHash);
 
+          // Defensive guard in case a malformed hash slips through router validation
           if (!InfiniteTreeIds.parseTreeId(nodeElementId)) {
             await this.renderRoot();
 
@@ -77,7 +78,6 @@
           );
 
           if (selectedNode) {
-            // Node already exists, we are likely responding to a title click that was confirmed by the router + dirty guard
             this.selectNode(selectedNode);
 
             return;
@@ -99,6 +99,7 @@
         'infiniteTreeRouter:redisplayAndShow',
         e => {
           const { targetHash } = e.detail;
+
           this.redisplayAndShow(targetHash);
         }
       );
