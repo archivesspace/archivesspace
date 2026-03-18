@@ -148,6 +148,8 @@ class JobsController < ApplicationController
       format = params[:ext].delete_prefix('.')
     elsif @job.job.has_key?("format") && !@job.job["format"].blank?
       format = @job.job["format"]
+    elsif @job.job.has_key?("content_type") && !@job.job["content_type"].blank?
+      format = @job.job["content_type"]
     else
       format = "pdf"
     end

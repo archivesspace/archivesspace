@@ -1,4 +1,20 @@
 nl:
+  reports:
+    formats:
+      json: JSON
+      csv: CSV
+      pdf: PDF
+      html: HTML
+      rtf: RTF
+    linked_records_in_json: Gekoppelde records in JSON
+    headings:
+      context: Bron/Toewijzing
+      container_profile: Containerprofiel
+      location: Locatie
+      title: Titel
+      type: Type
+      indicator: Indicator
+      barcode: Barcode
   states:
     suppressed: Onderdrukt
     deleted: Verwijderd

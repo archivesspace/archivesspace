@@ -20,6 +20,9 @@ inputs:
   oai:
     description: "install oai gems"
     default: false
+  root:
+    description: "install root Gemfile gems"
+    default: false
   java-version:
     description: Java version to install
     required: true
@@ -31,7 +34,7 @@ runs:
   steps:
     - name: Cache JRuby
       id: cache-jruby
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         key: ${{ runner.os }}-java${{ inputs.java-version || 11 }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         path: |
@@ -45,7 +48,7 @@ runs:
 
     - name: Cache gems directory
       id: cache-gems
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         key: ${{ runner.os }}-java${{ inputs.java-version || 11 }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         path: |
@@ -53,7 +56,7 @@ runs:
 
     - name: Cache mysql connector
       id: cache-mysql-connector
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         key: ${{ inputs.mysql-connector-url }}
         path: |
@@ -93,3 +96,9 @@ runs:
       shell: bash
       run: |
         ./build/run bundler -Dexcluded-gem-groups="development doc" -Dgemfile="../oai/Gemfile"
+
+    - name: Install root Gemfile gems
+      if: ${{ inputs.root == 'true' }}
+      shell: bash
+      run: |
+        ./build/run bundler -Dexcluded-gem-groups="development doc" -Dgemfile="../Gemfile"

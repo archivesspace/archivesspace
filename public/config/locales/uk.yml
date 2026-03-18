@@ -10,7 +10,7 @@ uk:
     search_header: Пошук в архівах
     new_search: Новий Пошук
     search_within: Пошук у результатах
-    search_in: Пошук %{тип}
+    search_in: Пошук %{type}
     close: Закрити
     refine_search: Уточнити пошук
     backup: Повернутися на попередню сторінку
@@ -34,22 +34,22 @@ uk:
     next: Далі
     previous: Попередній
   errors:
-    error_404_message: Запис %{тип} до якого ви намагалися отримати доступ, не існує або, можливо, 
+    error_404_message: Запис %{type} до якого ви намагалися отримати доступ, не існує або, можливо, 
       його було видалено.
-    error_404: '%{тип} Запис не знайдено'
+    error_404: '%{type} Запис не знайдено'
     backend_down: Не вдається підключитися до бази даних
     backend_down_message: Наразі у ArchivesSpace виникли технічні проблеми. Вибачте за незручності. 
       Будь ласка, спробуйте пізніше.
     unexpected_error: Ваш запит не вдалося виконати через неочікувану помилку
-    invalid_search_params: Недійсний параметр пошуку '%{значення}' для поля '%{поле}'
+    invalid_search_params: Недійсний параметр пошуку '%{value}' для поля '%{field}'
   page_actions: Дії на сторінці
   request:
     email_header: Дякуємо за ваш запит
     user_email: Ваша адреса електронної пошти
     date: Очікувана дата прибуття
     note: Примітка для персоналу
-    visit: Надіслати запит на відвідування %{назва_репозиторію} для перегляду 
-      <strong>%{архівний_об'єкт}</strong>
+    visit: Надіслати запит на відвідування %{repo_name} для перегляду 
+      <strong>%{archival_object}</strong>
     required: необхідний
     user_name: Ваше ім'я
     submit: Надіслати запит
@@ -59,7 +59,7 @@ uk:
       name: Будь ласка, введіть своє ім'я
       email: Будь ласка, введіть дійсну адресу електронної пошти
     email:
-      subject: Запит на %{титул}
+      subject: Запит на %{title}
   search-limiting: обмежено до %{limit}
   search-limits:
     all: усі типи записів
@@ -131,11 +131,11 @@ uk:
       notes: Нотатки
       identifier: Ідентифікатор
       from_year: З року
-    page_title: Знайдено %{рахувати} результатів
-    results_head: 'Показано %{тип}: %{початок} - %{закінчення} від %{загальна сума}'
+    page_title: Знайдено %{count} результатів
+    results_head: 'Показано %{type}: %{start} - %{end} від %{total}'
     result: Результат
     results: Результати
-    search_for: Пошук %{тип}, де %{обставини}
+    search_for: Пошук %{type}, де %{conditions}
     more_facets: Більше
     filtered_by: Відфільтровано за
     fewer_facets: Менше
@@ -156,7 +156,7 @@ uk:
     keyword_contain: <strong>ключове слово(a)</strong>:<span class='searchterm'>%{кс}</span>
     notes_contain: <strong>нотатка</strong> містить<span class='searchterm'>%{кс}</span>
     identifier_contain: <strong> ідентифікатор</strong> містить  <span 
-      class='searchterm'>%{кс}</span>
+      class='searchterm'>%{kw}</span>
     in_repository: ' in <strong>%{ім''я}</strong>'
   search_sorting:
     desc: (за спаданням)
@@ -166,14 +166,14 @@ uk:
     relevance: Релевантність
     classification_identifier: Ідентифікатор
     year_sort: Рік
-    sorting: '%{тип} %{напрямок}'
+    sorting: '%{type} %{direction}'
     title_sort: Назва
     identifier: Ідентифікатор
   inherit:
     subfonds: Субфонди
     subgrp: Підгрупа
     class: Клас
-    inherited: З %{рівень}
+    inherited: З %{level}
     collection: Колекція
     series: Серія
     sub-series: Підсерія
@@ -231,14 +231,14 @@ uk:
     _singular: Необроблений матеріал
     _plural: Необроблені матеріалий
   multiple_containers: Кілька контейнерів
-  extent_number_type: '%{ряд} %{тип}'
+  extent_number_type: '%{number} %{type}'
   archival_object:
     _public:
       header:
         ref_id: Ідентифікатор посилання
   search-button:
     label: Пошук
-  search-limit: Обмеження до %{ліміт}
+  search-limit: Обмеження до %{limit}
   containers: Інформація про фізичне сховище
   related_accessions: Супутні необроблені матеріали
   related_resources: Пов'язані колекції
@@ -300,10 +300,10 @@ uk:
     _singular: Колекція або запис
     _plural: Колекції та/або записи
   scope_note: Примітка щодо сфери застосування
-  contains: Містить %{підрахунок} %{тип}
-  found: Знайдено в %{підрахунок} %{тип}
-  extent_dims: ' ; %{розміри}'
-  list: '%{тип} Список'
+  contains: Містить %{count} %{type}
+  found: Знайдено в %{count} %{type}
+  extent_dims: ' ; %{dimensions}'
+  list: '%{type} Список'
   cont_arr: Організація збору коштів
   external_docs: Зовнішні документи
   more_about: Більше про
@@ -323,7 +323,7 @@ uk:
     _public:
       thumbnail: ніготь великого пальця
       link: Посилання на цифровий об'єкт
-      badge_label: Цифровий %{рівень}
+      badge_label: Цифровий %{level}
       go: Перейти до файлу
       additional: Додаткові версії файлів
       url_encoded_data: Дані, закодовані за допомогою URL-адреси
@@ -353,13 +353,13 @@ uk:
     table_of_contents: Зміст
     return_to_table_of_contents: Повернутися до змісту
     publication_statement: Заява про публікацію
-    your_finding_aid_pdf: Ваш PDF-допоміжний засіб для пошуку "%{титул}"
+    your_finding_aid_pdf: Ваш PDF-допоміжний засіб для пошуку "%{title}"
     your_finding_aid_is_attached: Запитаний вами довідник з пошуку додається.
     accessrestrict: Умови доступу
     userestrict: Умови використання
     accruals: Нарахування
     acqinfo: Безпосереднє джерело придбання
-  extent_phys_details: ' : %{деталі}'
+  extent_phys_details: ' : %{deets}'
   subject:
     _singular: Суб'єкт
     _plural: Суб'єкти
@@ -415,7 +415,7 @@ uk:
     _singular: Тема
   description: Про нас
   contact: Контакти
-  number_of: 'Кількість %{тип}:'
+  number_of: 'Кількість %{type}:'
   parent_inst: Материнська установа
   email: Надіслати електронного листа
   fax: Факс
@@ -432,7 +432,7 @@ uk:
     main_content: Перейти до основного вмісту
     search: Перейти до пошуку
     search_results: Перейти до результатів пошуку
-  search_tab: Пошук %{ціль}
+  search_tab: Пошук %{target}
   agent_identifier:
     identifier_type: Тип ідентифікатора
     entity_identifier: Сутність Ідентифікатор

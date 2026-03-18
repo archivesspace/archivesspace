@@ -10,8 +10,31 @@ require 'json'
 require 'yaml'
 
 require_relative 'scripts/tasks/check'
+require_relative 'scripts/tasks/locale_utils'
 require_relative 'scripts/tasks/release_notes'
 task default: ['check:multiple_gem_versions']
+
+namespace :locales do
+  # bundle exec rake locales:report_missing_keys
+  desc 'Check for missing keys in locale files compared to :en'
+  task :report_missing_keys do
+    Check.run(Check::Locales.new(LOCALES_DIRS))
+  end
+
+  # bundle exec rake locales:fix_variables
+  desc 'Fix translated variable names in locale files (replace with English variable names from en.yml)'
+  task :fix_variables do
+    LocaleUtils::LocaleFileProcessor.new(LOCALES_DIRS).check
+  end
+
+  # bundle exec rake locales:validate_yaml
+  desc 'Validate that all locale YAML files can be parsed without errors'
+  task :validate_yaml do
+    validator = LocaleUtils::YamlValidator.new(LOCALES_DIRS)
+    invalid_count = validator.validate
+    exit(1) if invalid_count > 0
+  end
+end
 
 namespace :check do
   GEMS_PATH = File.join(__dir__, 'build', 'gems', 'jruby', '3.1.0', 'gems', '*')
@@ -22,12 +45,6 @@ namespace :check do
     File.join(__dir__, 'frontend', 'config', 'locales', 'help'),
     File.join(__dir__, 'public', 'config', 'locales')
   ]
-
-  # bundle exec rake check:locales
-  desc 'Check for missing keys in locale files compared to :en'
-  task :locales do
-    Check.run(Check::Locales.new(LOCALES_DIRS))
-  end
 
   # bundle exec rake check:multiple_gem_versions
   desc 'Check for multiple versions of a gem in the build directory'

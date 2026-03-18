@@ -911,4 +911,46 @@ describe 'Accessions', js: true do
       expect(page).to have_text('Identifier Descending')
     end
   end
+
+end
+
+describe 'Accessions (view-only permissions)', js: true do
+  before(:all) do
+    @view_only_repo = create(:repo, repo_code: "view_only_test_#{Time.now.to_i}", publish: true)
+    set_repo(@view_only_repo)
+    @published_accession = create(:json_accession, publish: true)
+    @view_only_user = create_user(@view_only_repo => ['repository-viewers'])
+    run_index_round
+  end
+
+  before(:each) do
+    login_user(@view_only_user)
+    select_repository(@view_only_repo)
+  end
+
+  it 'sees only the View Published button on accession show page' do
+    visit "/accessions/#{@published_accession.id}"
+
+    within '.record-toolbar' do
+      expect(page).to have_link('View Published')
+      expect(page).not_to have_link('Edit')
+      expect(page).not_to have_button('Save')
+      expect(page).not_to have_button('Spawn')
+      expect(page).not_to have_button('Delete')
+    end
+  end
+
+  it 'cannot access the accession edit page' do
+    visit "/accessions/#{@published_accession.id}/edit"
+
+    expect(page).to have_text('Unable to Access Page')
+  end
+
+  it 'can click View Published to open PUI' do
+    visit "/accessions/#{@published_accession.id}"
+
+    view_published_link = find_link('View Published')
+    expect(view_published_link[:href]).to include('/accessions/')
+    expect(view_published_link[:target]).to eq('_blank')
+  end
 end

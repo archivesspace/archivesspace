@@ -1803,7 +1803,7 @@ uk:
     default_values_tooltip: Чи слід попередньо заповнювати нові записи доступу та ресурсів 
       значеннями за замовчуванням.
     digital_object_spawn: Створити опис екземплярів цифрових об'єктів зі зв'язаного запису
-    browse_column: Колонка %{число}
+    browse_column: Колонка %{num}
     browse_column_tooltip: Поле, яке потрібно відобразити у стовпці %{num}.
     sort_column: Стовпець сортування за замовчуванням
     sort_column_tooltip: Поле за замовчуванням для сортування результатів.
@@ -1850,6 +1850,7 @@ uk:
       pdf: PDF-файл
       html: HTML
       rtf: RTF
+    linked_records_in_json: Пов'язані записи в JSON
     headings:
       context: Ресурс/Приєднання
       container_profile: Профіль Контейнера
@@ -1922,7 +1923,7 @@ uk:
     is_required_if_status_is_previous: обов'язкове, якщо для параметра «Статус» встановлено значення
       «Попередній»
     location_profile_name_not_unique: Назва профілю місцезнаходження має бути унікальною
-    must_be_a_positive_integer: Має бути додатним цілим числом
+    must_be_a_positive_integer: Має бути додатним цілим числом або нулем
     must_be_unique_to_its_level_in_the_tree: Це значення має бути унікальним для цього рівня 
       ієрархії.
     short_name_already_in_use: Скорочена назва репозиторію має бути унікальною в межах цього 
@@ -1986,7 +1987,7 @@ uk:
     status_running: Біг
     status_failed: Не вдалося
     status_canceled: Скасовано
-    queue_position: № %{позиція}
+    queue_position: № %{position}
     time_submitted: Час подання
     time_started: Час початку
     time_finished: Час виконання
@@ -2423,7 +2424,7 @@ uk:
     row_error: 'Рядок %{row} не буде оброблено через помилки: %{errs}'
     created: '%{what} створив: %{id}'
     could_be: '%{what} буде створено'
-    updated: '%{що}: %{є}'
+    updated: '%{what}: %{id}'
     clip_btn: Копіювати в буфер обміну
     clip_created: "\t%{what} створив: %{nm} %{id} %{ref_id}"
     clip_what: "\t%{what} : %{nm} %{id} %{ref_id}"

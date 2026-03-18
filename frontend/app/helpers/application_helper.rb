@@ -425,6 +425,29 @@ module ApplicationHelper
     user_can?("show_full_agents") || user_can?("administer_system")
   end
 
+  def user_can_view_only?(record_type)
+    update_permission = case record_type
+                        when 'accession'
+                          'update_accession_record'
+                        when 'resource', 'archival_object'
+                          'update_resource_record'
+                        when 'digital_object', 'digital_object_component'
+                          'update_digital_object_record'
+                        when /^agent/
+                          'update_agent_record'
+                        when 'subject'
+                          'update_subject_record'
+                        when 'top_container'
+                          'update_container_record'
+                        when 'classification', 'classification_term'
+                          'update_classification_record'
+                        end
+
+    return false unless update_permission
+
+    user_can?('view_repository') && !user_can?(update_permission)
+  end
+
   def has_agent_subrecords?(agent)
     # agent_person has all agent subrecord types so is ideal for finding any potential subrecord
     JSONModel(:agent_person).properties_by_tag('agent_subrecord').map(&:first).map(&:to_sym).find do |subrecord|

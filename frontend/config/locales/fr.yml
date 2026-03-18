@@ -965,7 +965,7 @@ fr:
           <strong>%{archival_object_display_string}</strong>
         created_with_parent: Document d'archives 
           <strong>%{archival_object_display_string}</strong> créé en tant que 
-          fils de <strong>%{parent.display_string}</strong> de la ressource 
+          fils de <strong>%{parent_display_string}</strong> de la ressource 
           <strong>%{resource_title}</strong>
         updated: Document d'archives 
           <strong>%{archival_object_display_string}</strong> actualisé
@@ -2044,7 +2044,7 @@ fr:
       <p>Une valeur numérique pour la largeur de l'unité de conditionnement.</p>
     stacking_limit: Limite d'empilement
     stacking_limit_tooltip: |
-      <p>Le nombre de ces conditionnements pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif.</p>
+      <p>Le nombre de ces conditionnements pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif ou zéro.</p>
 
     linker:
       create: Créer profil de conditionnements

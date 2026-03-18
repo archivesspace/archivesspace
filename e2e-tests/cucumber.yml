@@ -6,3 +6,4 @@ default: |
   --require env.rb
   --require helpers
   --require staff_features
+  --tags "not @skip"

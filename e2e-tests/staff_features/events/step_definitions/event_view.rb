@@ -58,6 +58,7 @@ Given 'two Events have been created with a common keyword in their record link t
   fill_in 'token-input-event_linked_records__0__ref_', with: "Accession A #{@accession_a_uuid} #{@shared_accession_uuid}"
   dropdown_items = all('li.token-input-dropdown-item2')
   dropdown_items.first.click
+  select 'Cancelled', from: 'Outcome'
   find('button', text: 'Save Event', match: :first).click
   expect(find('.alert.alert-success').text).to eq 'Event Created'
   url_parts = current_url.split('events').pop.split('/')
@@ -79,6 +80,7 @@ Given 'two Events have been created with a common keyword in their record link t
   dropdown_items = all('li.token-input-dropdown-item2')
   dropdown_items.first.click
   select 'Accumulation', from: 'event_event_type_'
+  select 'Pending', from: 'Outcome'
   find('button', text: 'Save Event', match: :first).click
   expect(find('.alert.alert-success').text).to eq 'Event Created'
   url_parts = current_url.split('events').pop.split('/')

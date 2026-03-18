@@ -116,4 +116,35 @@ describe 'Custom Report Template model' do
       expect(acquisition_filter).not_to include(enum_val.id.to_s)
     end
   end
+
+  it 'can filter agents by type' do
+    repo = create(:repo, repo_code: "test_agent_type_#{Time.now.to_i}")
+    RequestContext.put(:repo_id, repo.id)
+    JSONModel.set_repository(repo.id)
+
+    template_data = {
+      "custom_record_type" => "agent",
+      "fields" => {
+        "type" => {
+          "include" => "1",
+          "values" => ["agent_person"]
+        }
+      }
+    }
+
+    template = JSONModel(:custom_report_template).from_hash({
+      "name" => "Agent Report with Type Filter #{Time.now.to_i}",
+      "limit" => 10,
+      "data" => template_data.to_json
+    })
+
+    template_id = CustomReportTemplate.create_from_json(template).id
+
+    mock_job = double('Job')
+    allow(mock_job).to receive(:write_output)
+
+    expect {
+      CustomReport.new({'template' => template_id.to_s, :repo_id => repo.id}, mock_job, $testdb)
+    }.not_to raise_error
+  end
 end
