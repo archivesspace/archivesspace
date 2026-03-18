@@ -867,3 +867,8 @@ AppConfig[:bulk_archival_object_updater_max_rows] = 1000
 # Default search scope setting
 # Options: 'all_record_types', 'collections_only'
 AppConfig[:search_default_scope] = 'all_record_types'
+
+# Default language and script used for Multilingual Content (MLC) when no
+# language context is set and the record has no primary language of description.
+AppConfig[:mlc_default_language] = 'eng'
+AppConfig[:mlc_default_script]   = 'Latn'
