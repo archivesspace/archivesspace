@@ -2,11 +2,11 @@
   title = t("search_results.title") if title.nil?
 %>
 
-<div class="d-flex">
-  <div class="col-md-3">
+<div class="d-flex flex-column flex-md-row">
+  <div class="col-md-3 order-2 order-md-1">
     <%= render_aspace_partial :partial => "search/filter" %>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-9 order-1 order-md-2">
     <div class="record-toolbar  d-flex align-items-center">
       <% unless @hide_csv_download %>
         <div class="btn-group ml-auto">

@@ -4,13 +4,13 @@
    @show_multiselect_column = user_can?("delete_classification_record")
 %>
 
-<div class="d-flex">
-   <div class="col-md-3">
+<div class="d-flex flex-column flex-md-row">
+   <div class="col-md-3 order-2 order-md-1">
      <div class="sidebar">
        <%= render_aspace_partial :partial => "search/filter" %>
      </div>
    </div>
-   <div class="col-md-9">
+   <div class="col-md-9 order-1 order-md-2">
      <% if user_can?('update_classification_record') %>
        <div class="record-toolbar d-flex align-items-center">
           <div class="btn-group ml-auto">
