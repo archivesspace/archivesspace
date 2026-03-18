@@ -33,7 +33,7 @@ jobs:
     name: fix_locales
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.ref || github.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
@@ -65,7 +65,7 @@ jobs:
             echo "should_proceed=true" >> $GITHUB_OUTPUT
             echo "Will create commit with message: $EXPECTED_MESSAGE"
           fi
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         if: steps.check-last-commit.outputs.should_proceed == 'true'
         with:
           java-version: ${{ inputs.java-version || 17  }} # https://github.com/actions/runner/issues/2372

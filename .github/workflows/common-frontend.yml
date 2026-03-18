@@ -52,8 +52,8 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
     - run: geckodriver --version
     - run: firefox --version
-    - uses: actions/checkout@v4
-    - uses: actions/setup-java@v4
+    - uses: actions/checkout@v6
+    - uses: actions/setup-java@v5
       with:
         java-version: ${{ inputs.java-version || 17 }}
         distribution: temurin
@@ -94,7 +94,7 @@ jobs:
         SELENIUM_CHROME: ${{ inputs.browser == 'chrome' }}
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v6
       if: failure()
       with:
         name: failed_spec_saved_pages(${{ inputs.name }})_Java_${{ inputs.java-version || 17 }}
