@@ -1,0 +1,172 @@
+module MultilingualContent
+
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
+
+  module ClassMethods
+    # Declares translatable fields and overrides their Sequel column accessors
+    # with language-aware getters and setters backed by the record's +_mlc+ table.
+    #
+    # @param fields [Array<Symbol, String>] names of the fields to make translatable
+    def translatable_fields(*fields)
+      @translatable_fields = fields.map(&:to_sym)
+      fields.each do |field|
+        define_method(field) do
+          get_field_value(field)
+        end
+        define_method(:"#{field}=") do |value|
+          set_field_value(field, value)
+        end
+      end
+    end
+
+    # @return [Array<Symbol>] the translatable field names declared on this model
+    def get_translatable_fields
+      @translatable_fields || []
+    end
+
+    # @return [Symbol] the name of the +_mlc+ table for this model
+    def mlc_table
+      :"#{table_name}_mlc"
+    end
+
+    # Deletes all rows in the +_mlc+ table for the given IDs before removing
+    # the parent records, satisfying the foreign key constraint.
+    def handle_delete(ids_to_delete)
+      db[mlc_table].where(:"#{table_name}_id" => ids_to_delete).delete
+      super
+    end
+  end
+
+  # Returns the value of +field_name+ for the current language context,
+  # falling back to the primary language, then to the configured
+  # +AppConfig[:mlc_default_language]+ / +AppConfig[:mlc_default_script]+.
+  #
+  # @param field_name [Symbol, String] the translatable field to read
+  # @return [String, nil] the field value, or +nil+ if no matching row exists
+  def get_field_value(field_name)
+    lang = current_description_language || primary_description_language || configured_default_language
+    return nil unless lang
+    row = db_mlc_table.where(
+      :"#{self.class.table_name}_id" => id,
+      :language_id => lang[:language_id],
+      :script_id   => lang[:script_id]
+    ).first
+    row ? row[field_name.to_sym] : nil
+  end
+
+  # Upserts +value+ into the +_mlc+ table for +field_name+ under the current
+  # language context, falling back to the primary language, then to the
+  # configured +AppConfig[:mlc_default_language]+ / +AppConfig[:mlc_default_script]+.
+  #
+  # If the record has not yet been persisted (id is nil), the value is buffered
+  # and flushed to the database in +after_save+.
+  #
+  # @param field_name [Symbol, String] the translatable field to write
+  # @param value [String, nil] the value to store
+  def set_field_value(field_name, value)
+    if id.nil?
+      @_mlc_pending ||= {}
+      @_mlc_pending[field_name.to_sym] = value
+      return
+    end
+
+    lang = current_description_language || primary_description_language || configured_default_language
+    return unless lang
+    fk = :"#{self.class.table_name}_id"
+    existing = db_mlc_table.where(
+      fk           => id,
+      :language_id => lang[:language_id],
+      :script_id   => lang[:script_id]
+    )
+    if existing.count > 0
+      existing.update(field_name.to_sym => value)
+    else
+      db_mlc_table.insert(
+        fk                 => id,
+        :language_id       => lang[:language_id],
+        :script_id         => lang[:script_id],
+        field_name.to_sym  => value
+      )
+    end
+  end
+
+  # Flushes any field values buffered before the record was first saved.
+  def after_save
+    return unless @_mlc_pending
+    @_mlc_pending.each { |field_name, value| set_field_value(field_name, value) }
+    @_mlc_pending = nil
+  end
+
+  # Overrides Sequel's raw column reader so that +record[:title]+ is equivalent
+  # to +record.title+ for translatable fields.
+  #
+  # @param column [Symbol, String]
+  # @return [Object]
+  def [](column)
+    return get_field_value(column) if self.class.get_translatable_fields.include?(column.to_sym)
+    super
+  end
+
+  # Overrides Sequel's raw column writer so that +record[:title] = "foo"+ is
+  # equivalent to +record.title = "foo"+ for translatable fields.
+  #
+  # @param column [Symbol, String]
+  # @param value [Object]
+  def []=(column, value)
+    return set_field_value(column, value) if self.class.get_translatable_fields.include?(column.to_sym)
+    super
+  end
+
+  # Overrides Sequel's +values+ hash to include translatable fields sourced
+  # from the +_mlc+ table.  This ensures that code which reads +obj.values+
+  # directly (e.g. +NestedRecordResolver+) sees the correct field values.
+  #
+  # @return [Hash]
+  def values
+    mlc_values = self.class.get_translatable_fields.each_with_object({}) do |field, h|
+      h[field] = get_field_value(field)
+    end
+    super.merge(mlc_values)
+  end
+
+  private
+
+  def db_mlc_table
+    self.class.db[self.class.mlc_table]
+  end
+
+  # Resolves +AppConfig[:mlc_default_language]+ and +AppConfig[:mlc_default_script]+
+  # to their enumeration IDs, or +nil+ if either value is not found in the DB.
+  #
+  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
+  def configured_default_language
+    return @_configured_default_lang if defined?(@_configured_default_lang)
+    lang_enum = Enumeration.filter(:name => 'language_iso639_2').get(:id)
+    script_enum = Enumeration.filter(:name => 'script_iso15924').get(:id)
+    lang_id = EnumerationValue.filter(:enumeration_id => lang_enum,
+                                              :value => AppConfig[:mlc_default_language]).get(:id)
+    script_id = EnumerationValue.filter(:enumeration_id => script_enum,
+                                              :value => AppConfig[:mlc_default_script]).get(:id)
+    @_configured_default_lang = (lang_id && script_id) ? { language_id: lang_id, script_id: script_id } : nil
+  end
+
+  # Returns the language/script pair stored in +RequestContext+, or +nil+.
+  #
+  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
+  def current_description_language
+    RequestContext.get(:language_of_description)
+  end
+
+  # Returns the language/script pair for the record's primary
+  # +LanguageAndScriptOfDescription+ entry, or +nil+ if none is marked primary.
+  # Result is memoised on the instance.
+  #
+  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
+  def primary_description_language
+    return @_primary_lang if defined?(@_primary_lang)
+    entry = language_and_script_of_description.find { |ld| ld.is_primary == 1 }
+    @_primary_lang = entry ? {language_id: entry[:language_id], script_id: entry[:script_id]} : nil
+  end
+end

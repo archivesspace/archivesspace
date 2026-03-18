@@ -9,6 +9,9 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Subjects
   include Extents
   include LangMaterials
+  include LangDescriptions
+  include MultilingualContent
+  translatable_fields :title
   include Dates
   include ExternalDocuments
   include RightsStatements

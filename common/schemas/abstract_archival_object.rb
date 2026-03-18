@@ -54,6 +54,7 @@
 
       "extents" => {"type" => "array", "items" => {"type" => "JSONModel(:extent) object"}},
       "lang_materials" => {"type" => "array", "items" => {"type" => "JSONModel(:lang_material) object"}},
+      "lang_descriptions" => {"type" => "array", "items" => {"type" => "JSONModel(:language_and_script_of_description) object"}},
       "dates" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
       "rights_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:rights_statement) object"}},

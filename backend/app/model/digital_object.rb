@@ -8,6 +8,9 @@ class DigitalObject < Sequel::Model(:digital_object)
   include Subjects
   include Extents
   include LangMaterials
+  include LangDescriptions
+  include MultilingualContent
+  translatable_fields :title
   include Dates
   include Classifications
   include ExternalDocuments
