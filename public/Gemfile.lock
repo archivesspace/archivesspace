@@ -63,12 +63,9 @@ GEM
     addressable (2.8.8)
       public_suffix (>= 2.0.2, < 8.0)
     atomic (1.1.101-java)
-    axe-core-api (4.11.0)
     autoprefixer-rails (10.4.19.0)
       execjs (~> 2)
-      dumb_delegator
-      ostruct
-      virtus
+    axe-core-api (4.11.0)
     axe-core-rspec (4.11.0)
       axe-core-api (= 4.11.0)
       dumb_delegator
