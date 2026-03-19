@@ -1,4 +1,4 @@
-## Contributing
+# Contributing
 
 Thank you for considering contributing to ArchivesSpace. It's people
 like you that make ArchivesSpace such a wonderful application.
@@ -43,11 +43,11 @@ ArchivesSpace has several test suites that can be run individually or all at
 once. NOTE: running all test suites can take a while to run. The test suites that
 are most applicable are:
 
-* backend:test - database and API unit tests
-* frontend:test - staff interface unit tests
-* public:test - public user interface unit tests
-* indexer:test - indexer unit tests
-* headless-tests - runs all unit test suites
+- backend:test - database and API unit tests
+- frontend:test - staff interface unit tests
+- public:test - public user interface unit tests
+- indexer:test - indexer unit tests
+- headless-tests - runs all unit test suites
 
 To run any (or all) of the test suites, use the build system. To run the backend
 unit tests:
@@ -61,8 +61,8 @@ build/run backend:test
 At this point, you're ready to make your changes! Feel free to ask for help;
 remember everyone is a beginner at first
 
-* ArchivesSpace Core Committer's Group - ArchivesSpaceCoreCommitters@lyrasis.org
-* ArchivesSpace Program Team - ArchivesSpaceHome@lyrasis.org
+- ArchivesSpace Core Committer's Group - ArchivesSpaceCoreCommitters@lyrasis.org
+- ArchivesSpace Program Team - ArchivesSpaceHome@lyrasis.org
 
 ## Look at the impact of your changes
 
@@ -78,15 +78,19 @@ the devservers will spin up an Apache Derby database which will disappear once t
 devservers have been stopped.
 
 #### Database and API
+
     build/run backend:devserver
 
 #### Staff Interface
+
     build/run frontend:devserver
 
-#### Public User Interface    
+#### Public User Interface
+
     build/run public:devserver
 
 #### Indexer for both interfaces
+
     build/run indexer
 
 These development servers should be run in different terminal/command window
@@ -98,8 +102,8 @@ the backend and frontend devservers and the indexer.
 You should now be able to open <http://localhost:3000> in your browser and see
 the staff interface. You can log in using:
 
-*User*: admin
-*Password*: admin
+_User_: admin
+_Password_: admin
 
 For the public user interface, you will need to start up the backend and public
 devservers and the indexer.
@@ -145,8 +149,8 @@ Pull Request. Once the comment/questions have been answered/resolved, a Pull
 Request can only be accepted and merged into the core code base by a core
 committer if:
 
-* All test suites are passing.
-* It is up-to-date with current master.
+- All test suites are passing.
+- It is up-to-date with current master.
 
 ### Keeping your Pull Request updated
 
