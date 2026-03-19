@@ -11,7 +11,8 @@ class Accession < Sequel::Model(:accession)
   include MultilingualContent
   translatable_fields :title, :content_description, :condition_description,
                       :disposition, :inventory, :provenance,
-                      :general_note, :access_restrictions_note, :use_restrictions_note
+                      :general_note, :access_restrictions_note, :use_restrictions_note,
+                      :display_string
   include Subjects
   include Dates
   include ExternalDocuments
