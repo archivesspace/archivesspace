@@ -3,7 +3,7 @@
 - [ ] Consider running the code
 - [ ] Are all locale changes for all languages included?
 - [ ] Does documentation need to be updated, if so what?
-        - Contact Jessica if User Manual changes are needed.
+        - Add the "user documentation needed" tag on the JIRA ticket if User Manual changes are needed.
         - Consider whether tech docs updates are needed.
 - [ ] Code Style reviewing:
         - keep methods smaller than ?? lines
