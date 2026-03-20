@@ -24,21 +24,31 @@
       <%= render_plugin_partials("top_of_basic_information_resource",
                                  :form => form,
                                  :record => @resource) %>
-
-      <%= form.label_and_textarea "title", :field_opts => {
-        :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
-      } %>
-      <%= form.label_and_fourpartid %>
+      <% edit_mode = ['edit', 'update'].include?(controller.action_name) %>
+      <%= form.label_and_textarea "title",
+                                  :control_class => (edit_mode ? "lang-dependent-field" : nil),
+                                  :field_opts => {
+                                    :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
+                                  } %>
+      <% if edit_mode %>
+        <div class="lang-independent-field">
+          <%= form.label_and_fourpartid %>
+        </div>
+      <% else %>
+        <%= form.label_and_fourpartid %>
+      <% end %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @resource} if AppConfig[:use_human_readable_urls] %>
 
-      <%= form.label_and_textfield "external_ark_url" if AppConfig[:arks_enabled] && AppConfig[:arks_allow_external_arks] %>
-      <%= form.label_and_select "level", form.possible_options_for("level", true) %>
-      <%= form.label_and_textfield "other_level", :required => true %>
-      <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
-      <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
-      <%= form.label_and_boolean "restrictions", {}, form.default_for("restrictions") %>
-      <%= form.label_and_textarea "repository_processing_note" %>
+      <% if AppConfig[:arks_enabled] && AppConfig[:arks_allow_external_arks] %>
+        <%= form.label_and_textfield "external_ark_url", :control_class => (edit_mode ? "lang-independent-field" : nil) %>
+      <% end %>
+      <%= form.label_and_select "level", form.possible_options_for("level", true), :control_class => (edit_mode ? "lang-independent-field" : nil) %>
+      <%= form.label_and_textfield "other_level", :required => true, :control_class => (edit_mode ? "lang-independent-field" : nil) %>
+      <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true), :control_class => (edit_mode ? "lang-independent-field" : nil) %>
+      <%= form.label_and_boolean "publish", {:control_class => (edit_mode ? "lang-independent-field" : nil)}, user_prefs["publish"] %>
+      <%= form.label_and_boolean "restrictions", {:control_class => (edit_mode ? "lang-independent-field" : nil)}, form.default_for("restrictions") %>
+      <%= form.label_and_textarea "repository_processing_note", :control_class => (edit_mode ? "lang-dependent-field" : nil) %>
 
       <%= render_plugin_partials("basic_information_resource",
                                  :form => form,

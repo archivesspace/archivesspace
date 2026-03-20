@@ -21,6 +21,41 @@
       </div>
     <% end %>
     <div class="btn-group ml-auto" data-allow-disabled>
+      <% if ['resource'].include?(record_type) %>
+        <div class="btn-group dropdown" id="language-of-description-dropdown">
+          <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Languages
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li class="dropdown-item p-0">
+              <label class="d-flex align-items-center gap-x-1 py-1 px-4 mb-0" for="language-description-eng">
+                <input type="radio" id="language-description-eng" name="language_of_description" value="eng" checked="checked" />
+                <span>English</span>
+                <span class="ml-auto d-inline-block rounded-circle bg-primary" title="Primary language" aria-hidden="true" style="width: 0.5rem; height: 0.5rem;"></span>
+                <span class="sr-only">Primary language</span>
+              </label>
+            </li>
+            <li class="dropdown-item p-0">
+              <label class="d-flex align-items-center gap-x-1 py-1 px-4 mb-0" for="language-description-spa">
+                <input type="radio" id="language-description-spa" name="language_of_description" value="spa" />
+                <span>Spanish</span>
+              </label>
+            </li>
+            <li class="dropdown-item p-0">
+              <label class="d-flex align-items-center gap-x-1 py-1 px-4 mb-0" for="language-description-fre">
+                <input type="radio" id="language-description-fre" name="language_of_description" value="fre" />
+                <span>French</span>
+              </label>
+            </li>
+            <li class="dropdown-item p-0">
+              <label class="d-flex align-items-center gap-x-1 py-1 px-4 mb-0" for="language-description-ger">
+                <input type="radio" id="language-description-ger" name="language_of_description" value="ger" />
+                <span>German</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      <% end %>
       <% if user_can?('update_event_record') && !record.suppressed %>
         <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
       <% end %>
