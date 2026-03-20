@@ -215,7 +215,7 @@ it:
       <em>(for University of Illinois Archives)</em></li>\n</ul>\n"
   section_tooltips:
     dates_tooltip: "<p>Identifica e registra la/le data/e che riguardano creazione, raggruppamento, accumulo
-      e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4</p>\n"
+      e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4, ISAD(G) 3.1.3/p>\n"
     classification_tooltip: "<p>Usato per linkare i materiali descritti a una classificazione o un termine
       di classificazione (ad es. un sistema gruppo di unità archivistiche) gestiti all'interno dell'applicazione.</p>\n"
     deaccessions_tooltip: '<p>Registra le informazioni su materiali che possono essere stati separati

@@ -165,7 +165,7 @@ pl:
     expression: Wyrażenie
     expression_tooltip: |
       <p>POLE WYMAGANE WARUNKOWO: Wyrażenie w języku naturalnym określające datę lub zakres dat materiałów. Wymagane, gdy nie została zapisana znormalizowana data.</p>
-      <p>Patrz DACS 2.4</p>
+      <p>Patrz DACS 2.4, ISAD(G) 3.1.3</p>
       <p>Przykłady:</p>
       <ul>
       <li>1968</li>
@@ -181,14 +181,14 @@ pl:
     begin_inline_help: np. RRRR, RRRR-MM lub RRRR-MM-DD
     begin_tooltip: |
       <p>Znormalizowana data (w formacie RRRR, RRRR-MM lub RRRR-MM-DD) reprezentująca pojedynczą datę lub pierwszą datę w zakresie dat.</p>
-      <p>Patrz DACS 2.4.7-2.4.16</p>
+      <p>Patrz DACS 2.4.7-2.4.16, ISAD(G) 3.1.3</p>
       <p>Lata naszej ery są wyrażane za pomocą czterech cyfr.</p>
       <p>Lata przed naszą erą są wyrażane jako liczby ujemne, np. -214 dla roku 214 p.n.e.</p>
     end: Koniec
     end_inline_help: np. RRRR, RRRR-MM lub RRRR-MM-DD
     end_tooltip: |
       <p>Znormalizowana data (w formacie RRRR, RRRR-MM lub RRRR-MM-DD) reprezentująca drugą datę w zakresie dat.</p>
-      <p>Patrz DACS 2.4.7-2.4.16</p>
+      <p>Patrz DACS 2.4.7-2.4.16, ISAD(G) 3.1.3</p>
       <p>Lata naszej ery są wyrażane za pomocą czterech cyfr.</p>
       <p>Lata przed naszą erą są wyrażane jako liczby ujemne, np. -214 dla roku 214 p.n.e.</p>
     certainty: Pewność
@@ -321,7 +321,7 @@ pl:
     title: Tytuł
     title_tooltip: |
       <p>Tytuł przypisany do jednostki archiwalnej lub zasobu. Tytuł jednostki archiwalnej nie musi być taki sam jak tytuł zasobu. Ponadto, tytuł nie musi być jawnie podany w rekordzie jednostki archiwalnej, ponieważ może być dziedziczony z rekordu zasobu, z którym jednostka archiwalna jest powiązana.</p>
-      <p>Zobacz DACS 2.3.18-2.3.22</p>
+      <p>Zobacz DACS 2.3.18-2.3.22, ISAD(G) 3.1.2</p>
     related_resources_tooltip: |
       <p>Służy do łączenia powiązanych zasobów z tym wpisem.</p>
     relator: Agent nieruchomości
@@ -451,7 +451,7 @@ pl:
     title: Tytuł
     title_tooltip: |
       <p>POLE WYMAGANE WARUNKOWO: Tytuł przypisany do opisywanych materiałów. Obiekt archiwalny musi posiadać albo tytuł, albo podrekord daty.</p>
-      <p>Patrz DACS 2.3</p>
+      <p>Patrz DACS 2.3, ISAD(G) 3.1.2</p>
       <p>Przykłady:</p>
       <ul>
       <li>Dokumenty Graciany Mirandy Archilli</li>
@@ -483,7 +483,7 @@ pl:
     level: Poziom opisu
     level_tooltip: |
       <p>POLE WYMAGANE. Wskazuje poziom hierarchii opisywanych materiałów.</p>
-      <p>Patrz rozdział 1 DACS.</p>
+      <p>Patrz rozdział 1 DACS, ISAD(G) 3.1.4.</p>
       <p>Dopuszczalne wartości są określone w schemacie EAD.</p>
     other_level: Inny poziom
     other_level_tooltip: |
@@ -491,7 +491,7 @@ pl:
     container_summary: Podsumowanie dotyczące kontenerów
     container_summary_tooltip: |
       <p>Służy do rejestrowania liczby i rodzaju pojemników składających się na opis zasobu. Jest to podsumowanie tekstowe i nie jest identyczne z podrekordami dotyczącymi rozmiaru zasobu.</p>
-      <p>Patrz DACS 2.5</p>
+      <p>Patrz DACS 2.5, ISAD(G) 3.1.5</p>
       <p>Przykłady:</p>
       <ul>
       <li>10 kartonów na dokumenty, 6 pudeł archiwizacyjnych, 3 teczki o dużych rozmiarach.</li>
@@ -618,7 +618,7 @@ pl:
     identifier: Identyfikator
     title_tooltip: |
       <p>POLE WYMAGANE. Tytuł przypisany do zasobu.</p>
-      <p>Zobacz DACS 2.3</p>
+      <p>Zobacz DACS 2.3, ISAD(G) 3.1.2</p>
       <p>Przykłady:</p>
       <ul>
       <li>Dokumenty Graciany Mirandy Archilli</li>
@@ -635,7 +635,7 @@ pl:
     repository_processing_note: Uwaga dotycząca przetwarzania w repozytorium
     extents_tooltip: |
       <p>WYMAGANY PODREKORD: Służy do rejestrowania rozmiaru opisywanych materiałów.</p>
-      <p>Patrz DACS 2.5</p>
+      <p>Patrz DACS 2.5, ISAD(G) 3.1.5/p>
     related_accessions_tooltip: |
       <p>Służy do łączenia powiązanych pozycji w bazie danych z tym zasobem.</p>
     publish_tooltip: |
@@ -807,10 +807,10 @@ pl:
       <p>Patrz DACS 4.5</p>
     dates_tooltip: |
       <p>Określa i rejestruje daty związane z tworzeniem, gromadzeniem, kompletowaniem i/lub konserwacją oraz wykorzystywaniem opisywanych materiałów.</p>
-      <p>Patrz DACS 2.4</p>
+      <p>Patrz DACS 2.4, ISAD(G) 3.1.3</p>
     extents_tooltip: |
       <p>Wskazuje zakres i fizyczny charakter opisywanych materiałów.</p>
-      <p>Zobacz DACS 2.5</p>
+      <p>Zobacz DACS 2.5, ISAD(G) 3.1.5</p>
     linked_agents_tooltip: |
       <p>Przypisuje podmioty jako twórców, źródła lub podmioty związane z opisywanymi materiałami, aby dostarczyć informacji o ich kontekście.</p>
     subjects_tooltip: |

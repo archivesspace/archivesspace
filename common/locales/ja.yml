@@ -66,8 +66,8 @@ ja:
     lang_materials_tooltip: |
       ""<p>説明されている資料に示されている言語およびスクリプト。</p>
       <p>See DACS 4.5</p>""
-    dates_tooltip: "<p>記載されている資料の作成、組み立て、蓄積、および/または保守および使用に関連する日付を識別し、記録する。 </p><p> DACS 2.4を参照</p>"
-    extents_tooltip: "<p>記載されている材料の範囲と物理的性質を示します。 </p><p>DACS 2.5を参照</p>"
+    dates_tooltip: "<p>記載されている資料の作成、組み立て、蓄積、および/または保守および使用に関連する日付を識別し、記録する。 </p><p> DACS 2.4、ISAD(G) 3.1.3を参照</p>"
+    extents_tooltip: "<p>記載されている材料の範囲と物理的性質を示します。 </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p>"
     linked_agents_tooltip: "<p>エージェントは、そのコンテキストに関する情報を提供するために記述されたマテリアルの作成者、ソース、または主体としてエージェントを関連付けます。
       </p>"
     subjects_tooltip: "<p>説明されている資料とSubjectをリンクするために使用されます。 </p>"
@@ -747,18 +747,18 @@ ja:
       2.5.7を参照</p>"
     number: 数
     number_tooltip: "<p>REQIURED FIELD：エクステント文の単位数を示す数値。たとえば、5,11.5,245など。エクステントタイプと組み合わせて使用​​して、構造化エクステント文を提供します。
-      </p><p>DACS 2.5を参照</p>"
+      </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p>"
     extent_type: タイプ
     extent_type_tooltip: &extent_type_tooltip |
       <p>必須フィールド：記載された材料の程度を測定するために使用されるユニットのタイプを示す用語。 </p><p>この管理された値リストの値は変更することができます。
-      </p><p>DACS 2.5を参照</p>
+      </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p>
     container_summary: コンテナの概要
     container_summary_tooltip: "<p>コンポーネントレコードに記述されているマテリアルを格納するコンテナおよびコンテナのタイプのリスト。 </p><p>例： </p><ul><li>
       10個のレコードカートン、6個のアーカイブボックス、3個の特大のフォルダ。 </li><li> 12靴箱。 </li><li>ボックス4個、チューブ32個。 </li></ul>"
     physical_details: 物理的詳細
-    physical_details_tooltip: "<p>記述された材料の他の物理的詳細、例えば、アナログ、白黒、ネガ。 </p><p>DACS 2.5を参照</p>"
+    physical_details_tooltip: "<p>記述された材料の他の物理的詳細、例えば、アナログ、白黒、ネガ。 </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p>"
     dimensions: 寸法
-    dimensions_tooltip: "<p>記載されている材料の寸法。 </p><p>DACS 2.5を参照</p><p>例： </p><ul><li> 29 cm </li><li> 7 1/4
+    dimensions_tooltip: "<p>記載されている材料の寸法。 </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p><p>例： </p><ul><li> 29 cm </li><li> 7 1/4
       x 3 1/2インチ</li><li> 1/2インチのテープ</li></ul>"
     _plural: エクステント
     _singular: エクステント
@@ -850,22 +850,22 @@ ja:
 
   date: &date_attributes
     label: ラベル
-    label_tooltip: "<p>必須フィールド：日付が意味する活動の種類を記述する。 </p><p>DACS 2.4および2.4.3を参照</p>"
+    label_tooltip: "<p>必須フィールド：日付が意味する活動の種類を記述する。 </p><p>DACS 2.4および2.4.3、ISAD(G) 3.1.3を参照</p>"
     date_type: タイプ
     date_type_tooltip: "<p>必須フィールド：正規化された日付情報のタイプ（単一の日付または日付範囲（両端を含む）またはバルク）を示します。 </p>"
     date_type_message: 正規化された日付または日付範囲を入力するにはタイプを選択してください
     expression: 式
     expression_tooltip: "<p>CONDITIONALLY REQUIRED FIELD：材料の日付または日付範囲を指定する自然言語式。正規化された日付が記録されていない場合に必要です。
-      </p><p>DACS 2.4を参照</p><p>例： </p><ul><li> 1968 </li><li> 1979-1993 </li><li> 1785-1960、バルク1916-1958
+      </p><p>DACS 2.4、ISAD(G) 3.1.3を参照</p><p>例： </p><ul><li> 1968 </li><li> 1979-1993 </li><li> 1785-1960、バルク1916-1958
       </li><li> 1827年、1952年〜1978年</li><li> 1870-1879年頃</li><li> 1906年3月17日</li><li>死んだ</li><li>不明<em>（イベントの場合）</em>
       </li></ul>"
     begin: ベギン
     begin_inline_help: 例：YYYY、YYYY-MM、またはYYYY-MM-DD
-    begin_tooltip: "<p>単一の日付または日付範囲の最初の日付を表す正規化された日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。 </p><p>DACS 2.4.7-2.4.16を参照</p><p>AD年は4桁で表されます。
+    begin_tooltip: "<p>単一の日付または日付範囲の最初の日付を表す正規化された日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。 </p><p>DACS 2.4.7-2.4.16、ISAD(G) 3.1.3を参照</p><p>AD年は4桁で表されます。
       </p><p>BC年は負の数で表されます。たとえば、紀元前214年は-214 </p>"
     end: 終わり
     end_inline_help: 例：YYYY、YYYY-MM、またはYYYY-MM-DD
-    end_tooltip: "<p>日付範囲の2番目の日付を表す正規化された日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。 </p><p> DACS 2.4.7-2.4.16を参照</p><p>AD年は4桁で表されます。
+    end_tooltip: "<p>日付範囲の2番目の日付を表す正規化された日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。 </p><p> DACS 2.4.7-2.4.16、ISAD(G) 3.1.3を参照</p><p>AD年は4桁で表されます。
       </p><p>BC年は負の数で表されます。たとえば、紀元前214年は-214 </p>"
     certainty: 確実
     certainty_tooltip: "<p>日付ステートメントで与えられた情報に対する信頼度。この情報はオプションであり、使用中の説明または目録規則に基づいて潜在的に不確実な日付情報を適格とする場合にのみ追加する必要があります。
@@ -977,7 +977,7 @@ ja:
       \  -  4.3.6 </p>"
     title: タイトル
     title_tooltip: "<p>アクセス権またはリソースに割り当てられたタイトル。アクセス権のタイトルは、リソースのタイトルと同じである必要はありません。さらに、タイトルは、アクセス記録がリンクされているリソースレコードから暗黙的に継承され得るので、アクセス記録のために表現される必要はない。
-      </p><p>DACS 2.3.18-2.3.22を参照</p>"
+      </p><p>DACS 2.3.18-2.3.22、ISAD(G) 3.1.2を参照</p>"
     related_resources_tooltip: "<p>関連付けられたリソースをこのアクセッションにリンクするために使用されます。 </p>"
     relator: 報告者
     relator_type: リレータイプ
@@ -1066,7 +1066,7 @@ ja:
     <<: [*section_tooltips, *slug_attributes]
     title: タイトル
     title_tooltip: "<p>条件付き必須フィールド：説明されたマテリアルに割り当てられたタイトル。アーカイブオブジェクトには、TitleまたはDateのいずれかのサブレコードが必要です。
-      </p><p>DACS 2.3を参照</p><p>例： </p><ul><li> Graciany Miranda Archillaの論文</li><li>愛は家族の記録を作る</li><li>キャメロンファミリーアカウントブック</li><li>キャロラインとアーウィンスワンの漫画と漫画のコレクション</li><li>国立科学アカデミーの対応</li><li>オーディオとビデオの録音</li></ul>"
+      </p><p>DACS 2.3、ISAD(G) 3.1.2を参照</p><p>例： </p><ul><li> Graciany Miranda Archillaの論文</li><li>愛は家族の記録を作る</li><li>キャメロンファミリーアカウントブック</li><li>キャロラインとアーウィンスワンの漫画と漫画のコレクション</li><li>国立科学アカデミーの対応</li><li>オーディオとビデオの録音</li></ul>"
     ref_id: Ref ID
     ref_id_tooltip: "<p>自動的に提供され、更新可能な参照ID（リンクIDなど）は、自動的に生成されるか、既存のシステムからインポートされ、永続性を維持するためのものです。 </p>"
     ref_id_export_prefix: aspace_
@@ -1084,7 +1084,7 @@ ja:
     other_level_tooltip: "<p>「その他のレベル」が「レベル」で選択された値であれば、必要なフィールド。 EADスキーマで指定された値の範囲外のレベルのタイプを表現します。 </p>"
     container_summary: コンテナの概要
     container_summary_tooltip: "<p>リソース記述を含むコンテナの数と種類を記録するため。これは、テキストサマリーとみなされ、エクステントサブレコードと同一ではありません。
-      </p><p>DACS 2.5を参照</p><p>例： </p><ul><li> 10個のレコードカートン、6個のアーカイブボックス、3個の特大のフォルダ。 </li><li> 12靴箱。 </li><li>ボックス4個、チューブ32個。
+      </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p><p>例： </p><ul><li> 10個のレコードカートン、6個のアーカイブボックス、3個の特大のフォルダ。 </li><li> 12靴箱。 </li><li>ボックス4個、チューブ32個。
       </li></ul>"
     publish: 公開しますか？
     publish_tooltip: "<p>このアーカイブオブジェクトをパブリック（パトロン）インターフェイスに公開するかどうかを決定します。 </p>"
@@ -1167,12 +1167,12 @@ ja:
     "[:id_0, :id_1, :id_2, :id_3]": 識別
     "[:repo_id, :identifier]": 識別
     identifier: 識別
-    title_tooltip: "<p>必要なフィールド。リソースに割り当てられたタイトル。 </p><p>DACS 2.3を参照</p><p>例： </p><ul><li> Graciany Miranda
+    title_tooltip: "<p>必要なフィールド。リソースに割り当てられたタイトル。 </p><p>DACS 2.3、ISAD(G) 3.1.2を参照</p><p>例： </p><ul><li> Graciany Miranda
       Archillaの論文</li><li>愛は家族の記録を作る</li><li>キャメロンファミリーアカウントブック</li><li>キャロラインとアーウィンスワンの漫画と漫画のコレクション</li><li>国立科学アカデミーの対応</li><li>オーディオとビデオの録音</li></ul>"
     resource_type: リソースタイプ
     resource_type_tooltip: "<p>リポジトリがリソースを基本タイプに分類するために使用する用語のリスト。 </p><p>この管理された値リストの値は変更することができます。 </p>"
     repository_processing_note: リポジトリ処理の注意
-    extents_tooltip: "<p>REQUIRED SUBRECORD：記載された材料のサイズを記録するのに使用される。 </p><p>DACS 2.5を参照</p>"
+    extents_tooltip: "<p>REQUIRED SUBRECORD：記載された材料のサイズを記録するのに使用される。 </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p>"
     related_accessions_tooltip: "<p>関連するアクセスをこのリソースにリンクするために使用されます。 </p>"
     publish_tooltip: "<p>このリソースをパブリック（パトラン）インターフェイスに公開するかどうかを決定します。 </p>"
     restrictions: 制限が適用されます？

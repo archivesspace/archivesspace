@@ -69,10 +69,10 @@ es:
       <p>Ver DACS 4.5</p>
     dates_tooltip: |
       <p>Identifica y registra las fechas que corresponden a la creación, Asamblea, acumulación, o mantenimiento y utilización de los materiales que se está describiendo.</p>
-      <p>Ver DACS 2.4</p>
+      <p>Ver DACS 2.4, ISAD(G) 3.1.3</p>
     extents_tooltip: |
       <p>Indica el alcance y la naturaleza física de los materiales que se está describiendo.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
     linked_agents_tooltip: |
       <p>Autoridades asociadas como un creador, fuente o tema de los materiales descritos para proporcionar información sobre su contexto.</p>
     subjects_tooltip: |
@@ -979,12 +979,12 @@ es:
     number: Cantidad
     number_tooltip: |
       <p>Un valor numérico para indicar el volumen de las unidades del fondo, por ejemplo, 5, 11.5, 245. Se utiliza en conjunción con el tipo de medida que se selecciona a continuación.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
     extent_type: Tipo
     extent_type_tooltip: &extent_type_tooltip |
       <p>Un término que indica el tipo de unidad que se utiliza para medir el grado de materiales descritos.</p>
       <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
     container_summary: Resumen
     container_summary_tooltip: |
       <p>Descripción de la extensión del fondo (contenedor).</p>
@@ -997,11 +997,11 @@ es:
     physical_details: Detalles físicos
     physical_details_tooltip: |
       <p>Otros detalles físicos de los materiales describen, por ejemplo, negativos analógicos, b&w.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
     dimensions: Dimensiones
     dimensions_tooltip: |
       <p>Dimensiones de los materiales descritos.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
       <p>Ejemplos</p>
       <ul>
       <li>29 cm</li>
@@ -1130,7 +1130,7 @@ es:
     label: Etiqueta
     label_tooltip: |
       <p>CAMPO OBLIGATORIO
-      <p>Ver DACS 2.4 y 2.4.3</p>
+      <p>Ver DACS 2.4 y 2.4.3, ISAD(G) 3.1.3</p>
     date_type: Tipo
     date_type_tooltip: |
       <p>Indica el tipo de información de fecha normalizada, ya sea una sola fecha o un rango de fechas (inclusivo o a granel).</p>
@@ -1138,7 +1138,7 @@ es:
     expression: Expresión
     expression_tooltip: |
       <p>Campo obligatorio en caso de no disponer de fecha normalizada</p>
-      <p>Ver DACS 2.4</p>
+      <p>Ver DACS 2.4, ISAD(G) 3.1.3</p>
       <p>Ejemplos:</p>
       <ul>
       <li>1968</li>
@@ -1161,7 +1161,7 @@ es:
     end_inline_help: por ejemplo AAAA, AAAA-MM o YYYY-MM-DD
     end_tooltip: |
       <p>Una fecha normalizada (en la forma AAAA, AAAA-MM o YYYY-MM-DD) que representa la segunda fecha en un intervalo de fechas.</p>
-      <p>Ver 2.4.7-2.4.16 DACS</p>
+      <p>Ver 2.4.7-2.4.16 DACS, ISAD(G) 3.1.3</p>
       <p>Años A.D. se expresan con cuatro dígitos.</p>
       <p>Años antes de Cristo se expresan como un número negativo, por ejemplo,-214 para 214 A.C.</p>
     certainty: Fiabilidad de la fecha
@@ -1329,7 +1329,7 @@ es:
     title: Título
     title_tooltip: |
       <p>El título asignado a una accesión o recurso. El título de la accesión no necesita ser el mismo que el título del recurso. Además, no es necesario expresar un título para el registro de acceso, ya que puede heredarse implícitamente del registro de recursos al que está vinculado el acceso. </p>
-      <p>Ver 2.3.18-2.3.22 DACS</p>
+      <p>Ver 2.3.18-2.3.22 DACS, ISAD(G) 3.1.2</p>
     related_resources_tooltip: |
       <p>Utilizado para vincular los recursos asociados con este proceso de entrada.</p>
     relator: Tipo de relación
@@ -1458,7 +1458,7 @@ es:
     title: Título
     title_tooltip: |
       <p>CAMPO OBLIGATORIO CONDICIONAL
-      <p>Ver DACS 2.3</p>
+      <p>Ver DACS 2.3, ISAD(G) 3.1.2</p>
       <p>Ejemplos</p>
       <ul>
       <li>Papeles Graciany Miranda Archilla</li>
@@ -1489,8 +1489,8 @@ es:
       </ul>
     level: Nivel de descripción
     level_tooltip: |
-      <p>CAMPO OBLIGATORIO. Indica. el nivel jerárquico de los materiales que se está describiendo.</p>
-      <p>Consulte el capítulo 1 de la DACS</p>
+      <p>CAMPO OBLIGATORIO. Indica el nivel jerárquico de los materiales que se está describiendo.</p>
+      <p>Consulte el capítulo 1 de la DACS, ISAD(G) 3.1.4</p>
       <p>Los valores son prescritos por el esquema EAD.</p>
     other_level: Otro nivel
     other_level_tooltip: |
@@ -1498,7 +1498,7 @@ es:
     container_summary: Resumen de contenedor
     container_summary_tooltip: |
       <p>Para registrar el número y tipo de contenedores que comprende una descripción del recurso. Esto se considera un texto Resumen y no idénticos con los subregistros de medida.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
       <p>Ejemplos</p>
       <ul>
       <li>10 cartones récord, 6 archivos de cajas, 3 carpetas de gran tamaño.</li>
@@ -1622,7 +1622,7 @@ es:
     identifier: Identificador
     title_tooltip: |
       <p>CAMPO OBLIGATORIO. El título asignado al fondo.</p>
-      <p>Ver DACS 2.3</p>
+      <p>Ver DACS 2.3, ISAD(G) 3.1.2</p>
       <p>Ejemplos</p>
       <ul>
       <li>Papeles Graciany Miranda Archilla</li>
@@ -1639,7 +1639,7 @@ es:
     repository_processing_note: Nota relativa al proceso técnico
     extents_tooltip: |
       <p>SUBREGISTRO REQUERIDO
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
     related_accessions_tooltip: |
       <p>Se utiliza para vincular accesiones asociadas con este recurso.</p>
     publish_tooltip: |
