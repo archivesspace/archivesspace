@@ -459,6 +459,7 @@ en:
       resource_accession_id: "Resource/Accession ID"
       series: Series
       container_profile: Container Profile
+      location_profile: Location Profile
       type: Type
       indicator: Indicator
       barcode: Barcode
