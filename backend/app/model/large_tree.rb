@@ -296,6 +296,26 @@ class LargeTree
 
   private
 
+  # Fetches MLC display strings for a batch of node IDs for the language in the current request context.
+  #
+  # @param db [Sequel::Database] the open database connection
+  # @param ids [Array<Integer>] node record IDs
+  # @return [Hash{Integer=>String}] map of record ID to display_string
+  def mlc_display_strings(db, ids)
+    return {} if ids.empty?
+
+    lang = RequestContext.description_language
+    return {} unless lang
+
+    mlc_table = :"#{@node_type}_mlc"
+    mlc_fk    = :"#{@node_type}_id"
+
+    db[mlc_table]
+      .filter(mlc_fk => ids, :language_id => lang[:language_id], :script_id => lang[:script_id])
+      .select(mlc_fk, :display_string)
+      .each_with_object({}) { |row, h| h[row[mlc_fk]] = row[:display_string] }
+  end
+
   def digital_instances(db, table, ids)
     published_filter = @published_only ? [1] : [0, 1]
     db[:instance_do_link_rlshp]
