@@ -16,16 +16,32 @@ class LargeTreeDigitalObject
   def waypoint(response, record_ids)
     file_uri_by_digital_object_component = {}
 
-    DigitalObjectComponent
-      .filter(:digital_object_component__id => record_ids)
-      .where(Sequel.~(:digital_object_component__label => nil))
-      .select(Sequel.as(:digital_object_component__id, :id),
-              Sequel.as(:digital_object_component__label, :label))
-      .each do |row|
-      id = row[:id]
-      result_for_record = response.fetch(record_ids.index(id))
+    # +label+ is a translatable field stored in +digital_object_component_mlc+.
+    # Resolve the language using the same fallback chain as MultilingualContent.
+    lang = RequestContext.get(:language_of_description)
+    unless lang
+      db = DigitalObjectComponent.db
+      lang_enum   = db[:enumeration].filter(:name => 'language_iso639_2').get(:id)
+      script_enum = db[:enumeration].filter(:name => 'script_iso15924').get(:id)
+      lang_id     = db[:enumeration_value]
+                      .filter(:enumeration_id => lang_enum, :value => AppConfig[:mlc_default_language]).get(:id)
+      script_id   = db[:enumeration_value]
+                      .filter(:enumeration_id => script_enum, :value => AppConfig[:mlc_default_script]).get(:id)
+      lang = (lang_id && script_id) ? { language_id: lang_id, script_id: script_id } : nil
+    end
 
-      result_for_record['label'] = row[:label]
+    if lang
+      DigitalObjectComponent.db[:digital_object_component_mlc]
+        .filter(:digital_object_component_id => record_ids,
+                :language_id => lang[:language_id],
+                :script_id   => lang[:script_id])
+        .where(Sequel.~(:label => nil))
+        .select(:digital_object_component_id, :label)
+        .each do |row|
+          id = row[:digital_object_component_id]
+          result_for_record = response.fetch(record_ids.index(id))
+          result_for_record['label'] = row[:label]
+        end
     end
 
     ASDate
