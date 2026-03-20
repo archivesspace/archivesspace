@@ -16,19 +16,7 @@ class LargeTreeDigitalObject
   def waypoint(response, record_ids)
     file_uri_by_digital_object_component = {}
 
-    # +label+ is a translatable field stored in +digital_object_component_mlc+.
-    # Resolve the language using the same fallback chain as MultilingualContent.
-    lang = RequestContext.get(:language_of_description)
-    unless lang
-      db = DigitalObjectComponent.db
-      lang_enum   = db[:enumeration].filter(:name => 'language_iso639_2').get(:id)
-      script_enum = db[:enumeration].filter(:name => 'script_iso15924').get(:id)
-      lang_id     = db[:enumeration_value]
-                      .filter(:enumeration_id => lang_enum, :value => AppConfig[:mlc_default_language]).get(:id)
-      script_id   = db[:enumeration_value]
-                      .filter(:enumeration_id => script_enum, :value => AppConfig[:mlc_default_script]).get(:id)
-      lang = (lang_id && script_id) ? { language_id: lang_id, script_id: script_id } : nil
-    end
+    lang = RequestContext.description_language
 
     if lang
       DigitalObjectComponent.db[:digital_object_component_mlc]
