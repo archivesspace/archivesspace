@@ -25,30 +25,26 @@
                                  :form => form,
                                  :record => @resource) %>
       <% edit_mode = ['edit', 'update'].include?(controller.action_name) %>
+      <% dependent_icon = '<span class="lang-marker has-tooltip" title="Language dependent" aria-hidden="true">🌐</span>'.html_safe %>
+      <% independent_icon = '<span class="lang-marker has-tooltip" title="Language independent" aria-hidden="true">🔗</span>'.html_safe %>
       <%= form.label_and_textarea "title",
-                                  :control_class => (edit_mode ? "lang-dependent-field" : nil),
+                                  :label_opts => (edit_mode ? {:prefix_html => dependent_icon} : {}),
                                   :field_opts => {
                                     :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
                                   } %>
-      <% if edit_mode %>
-        <div class="lang-independent-field">
-          <%= form.label_and_fourpartid %>
-        </div>
-      <% else %>
-        <%= form.label_and_fourpartid %>
-      <% end %>
+      <%= form.label_and_fourpartid(:label_opts => (edit_mode ? {:prefix_html => independent_icon} : {})) %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @resource} if AppConfig[:use_human_readable_urls] %>
 
       <% if AppConfig[:arks_enabled] && AppConfig[:arks_allow_external_arks] %>
-        <%= form.label_and_textfield "external_ark_url", :control_class => (edit_mode ? "lang-independent-field" : nil) %>
+        <%= form.label_and_textfield "external_ark_url", :label_opts => (edit_mode ? {:prefix_html => independent_icon} : {}) %>
       <% end %>
-      <%= form.label_and_select "level", form.possible_options_for("level", true), :control_class => (edit_mode ? "lang-independent-field" : nil) %>
-      <%= form.label_and_textfield "other_level", :required => true, :control_class => (edit_mode ? "lang-independent-field" : nil) %>
-      <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true), :control_class => (edit_mode ? "lang-independent-field" : nil) %>
-      <%= form.label_and_boolean "publish", {:control_class => (edit_mode ? "lang-independent-field" : nil)}, user_prefs["publish"] %>
-      <%= form.label_and_boolean "restrictions", {:control_class => (edit_mode ? "lang-independent-field" : nil)}, form.default_for("restrictions") %>
-      <%= form.label_and_textarea "repository_processing_note", :control_class => (edit_mode ? "lang-dependent-field" : nil) %>
+      <%= form.label_and_select "level", form.possible_options_for("level", true), :label_opts => (edit_mode ? {:prefix_html => independent_icon} : {}) %>
+      <%= form.label_and_textfield "other_level", :required => true, :label_opts => (edit_mode ? {:prefix_html => independent_icon} : {}) %>
+      <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true), :label_opts => (edit_mode ? {:prefix_html => independent_icon} : {}) %>
+      <%= form.label_and_boolean "publish", {:label_opts => (edit_mode ? {:prefix_html => independent_icon} : {})}, user_prefs["publish"] %>
+      <%= form.label_and_boolean "restrictions", {:label_opts => (edit_mode ? {:prefix_html => independent_icon} : {})}, form.default_for("restrictions") %>
+      <%= form.label_and_textarea "repository_processing_note", :label_opts => (edit_mode ? {:prefix_html => dependent_icon} : {}) %>
 
       <%= render_plugin_partials("basic_information_resource",
                                  :form => form,

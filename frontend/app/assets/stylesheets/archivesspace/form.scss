@@ -142,13 +142,10 @@ form .form-group {
   }
 }
 
-form .form-group.lang-dependent-field > .control-label::before {
-  content: '🌐 ';
-}
-
-form .form-group.lang-independent-field > .control-label::before,
-.lang-independent-field .form-group.identifier-fields > .control-label::before {
-  content: '🔗 ';
+.lang-marker {
+  display: inline-block;
+  margin-right: 4px;
+  cursor: default;
 }
 
 .form-group.active {
