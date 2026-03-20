@@ -31,6 +31,15 @@ module MultilingualContent
       :"#{table_name}_mlc"
     end
 
+    # Returns a dataset of records whose MLC table contains a row matching +title+
+    # in any language.
+    #
+    # @param title [String] the title to search for
+    # @return [Sequel::Dataset]
+    def find_by_mlc_title(title)
+      where(:id => db[mlc_table].where(:title => title).select(:"#{table_name}_id"))
+    end
+
     # Deletes all rows in the +_mlc+ table for the given IDs before removing
     # the parent records, satisfying the foreign key constraint.
     def handle_delete(ids_to_delete)
@@ -46,7 +55,13 @@ module MultilingualContent
   # @param field_name [Symbol, String] the translatable field to read
   # @return [String, nil] the field value, or +nil+ if no matching row exists
   def get_field_value(field_name)
-    lang = current_description_language || primary_description_language || configured_default_language
+    # For new (unsaved) records, values are buffered in @_mlc_pending — read
+    # from there so that validation sees the in-flight value before the first save.
+    if @_mlc_pending&.key?(field_name.to_sym)
+      return @_mlc_pending[field_name.to_sym]
+    end
+
+    lang = RequestContext.description_language
     return nil unless lang
     row = db_mlc_table.where(
       :"#{self.class.table_name}_id" => id,
@@ -72,7 +87,7 @@ module MultilingualContent
       return
     end
 
-    lang = current_description_language || primary_description_language || configured_default_language
+    lang = RequestContext.description_language
     return unless lang
     fk = :"#{self.class.table_name}_id"
     existing = db_mlc_table.where(
@@ -137,28 +152,6 @@ module MultilingualContent
     self.class.db[self.class.mlc_table]
   end
 
-  # Resolves +AppConfig[:mlc_default_language]+ and +AppConfig[:mlc_default_script]+
-  # to their enumeration IDs, or +nil+ if either value is not found in the DB.
-  #
-  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
-  def configured_default_language
-    return @_configured_default_lang if defined?(@_configured_default_lang)
-    lang_enum = Enumeration.filter(:name => 'language_iso639_2').get(:id)
-    script_enum = Enumeration.filter(:name => 'script_iso15924').get(:id)
-    lang_id = EnumerationValue.filter(:enumeration_id => lang_enum,
-                                              :value => AppConfig[:mlc_default_language]).get(:id)
-    script_id = EnumerationValue.filter(:enumeration_id => script_enum,
-                                              :value => AppConfig[:mlc_default_script]).get(:id)
-    @_configured_default_lang = (lang_id && script_id) ? { language_id: lang_id, script_id: script_id } : nil
-  end
-
-  # Returns the language/script pair stored in +RequestContext+, or +nil+.
-  #
-  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
-  def current_description_language
-    RequestContext.get(:language_of_description)
-  end
-
   # Returns the language/script pair for the record's primary
   # +LanguageAndScriptOfDescription+ entry, or +nil+ if none is marked primary.
   # Result is memoised on the instance.
@@ -166,7 +159,11 @@ module MultilingualContent
   # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
   def primary_description_language
     return @_primary_lang if defined?(@_primary_lang)
-    entry = language_and_script_of_description.find { |ld| ld.is_primary == 1 }
-    @_primary_lang = entry ? {language_id: entry[:language_id], script_id: entry[:script_id]} : nil
+    if respond_to?(:language_and_script_of_description)
+      entry = language_and_script_of_description.find { |ld| ld.is_primary == 1 }
+      @_primary_lang = entry ? {language_id: entry[:language_id], script_id: entry[:script_id]} : nil
+    else
+      @_primary_lang = nil
+    end
   end
 end

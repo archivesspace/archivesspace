@@ -3,18 +3,22 @@ require 'spec_helper'
 describe 'MultilingualContent mixin' do
 
   def eng_id
-    lang_enum = DB[:enumeration].filter(:name => 'language_iso639_2').get(:id)
-    DB[:enumeration_value].filter(:enumeration_id => lang_enum, :value => 'eng').get(:id)
+    enum_id = Enumeration.filter(:name => 'language_iso639_2').get(:id)
+    EnumerationValue.filter(:enumeration_id => enum_id, :value => 'eng').get(:id)
   end
 
-  def fra_id
-    lang_enum = DB[:enumeration].filter(:name => 'language_iso639_2').get(:id)
-    DB[:enumeration_value].filter(:enumeration_id => lang_enum, :value => 'fra').get(:id)
+  def fre_id
+    enum_id = Enumeration.filter(:name => 'language_iso639_2').get(:id)
+    EnumerationValue.filter(:enumeration_id => enum_id, :value => 'fre').get(:id)
   end
 
   def latn_id
-    script_enum = DB[:enumeration].filter(:name => 'script_iso15924').get(:id)
-    DB[:enumeration_value].filter(:enumeration_id => script_enum, :value => 'Latn').get(:id)
+    enum_id = Enumeration.filter(:name => 'script_iso15924').get(:id)
+    EnumerationValue.filter(:enumeration_id => enum_id, :value => 'Latn').get(:id)
+  end
+
+  def resource_mlc
+    Resource.db[:resource_mlc]
   end
 
   def create_resource_with_primary_lang
@@ -71,6 +75,8 @@ describe 'MultilingualContent mixin' do
     context "when no mlc row exists for the record" do
       it "returns nil" do
         resource = create_resource_with_primary_lang
+        # after_save writes the factory title to resource_mlc; clear it to test the empty-row case
+        resource_mlc.where(:resource_id => resource.id).delete
         expect(resource.get_field_value(:title)).to be_nil
       end
     end
@@ -78,7 +84,8 @@ describe 'MultilingualContent mixin' do
     context "when no language context is set" do
       it "returns the value from the primary language" do
         resource = create_resource_with_primary_lang
-        DB[:resource_mlc].insert(
+        resource_mlc.where(:resource_id => resource.id).delete
+        resource_mlc.insert(
           :resource_id => resource.id,
           :language_id => eng_id,
           :script_id   => latn_id,
@@ -94,27 +101,29 @@ describe 'MultilingualContent mixin' do
     context "when a language context is set" do
       it "returns the value for that language" do
         resource = create_resource_with_primary_lang
-        DB[:resource_mlc].insert(
+        resource_mlc.where(:resource_id => resource.id).delete
+        resource_mlc.insert(
           :resource_id => resource.id,
           :language_id => eng_id,
           :script_id   => latn_id,
           :title       => "English title"
         )
-        DB[:resource_mlc].insert(
+        resource_mlc.insert(
           :resource_id => resource.id,
-          :language_id => fra_id,
+          :language_id => fre_id,
           :script_id   => latn_id,
           :title       => "Titre français"
         )
 
-        with_language_context(language_id: fra_id, script_id: latn_id) do
+        with_language_context(language_id: fre_id, script_id: latn_id) do
           expect(resource.get_field_value(:title)).to eq("Titre français")
         end
       end
 
       it "falls back to the primary language when no row exists for that language" do
         resource = create_resource_with_primary_lang
-        DB[:resource_mlc].insert(
+        resource_mlc.where(:resource_id => resource.id).delete
+        resource_mlc.insert(
           :resource_id => resource.id,
           :language_id => eng_id,
           :script_id   => latn_id,
@@ -132,10 +141,11 @@ describe 'MultilingualContent mixin' do
     context "when no mlc row exists" do
       it "inserts a new row" do
         resource = create_resource_with_primary_lang
+        resource_mlc.where(:resource_id => resource.id).delete
 
         resource.set_field_value(:title, "Inserted title")
 
-        row = DB[:resource_mlc].where(:resource_id => resource.id).first
+        row = resource_mlc.where(:resource_id => resource.id).first
         expect(row).not_to be_nil
         expect(row[:title]).to eq("Inserted title")
       end
@@ -144,7 +154,8 @@ describe 'MultilingualContent mixin' do
     context "when an mlc row already exists" do
       it "updates the existing row rather than inserting a duplicate" do
         resource = create_resource_with_primary_lang
-        DB[:resource_mlc].insert(
+        resource_mlc.where(:resource_id => resource.id).delete
+        resource_mlc.insert(
           :resource_id => resource.id,
           :language_id => eng_id,
           :script_id   => latn_id,
@@ -153,7 +164,7 @@ describe 'MultilingualContent mixin' do
 
         resource.set_field_value(:title, "Updated title")
 
-        rows = DB[:resource_mlc].where(:resource_id => resource.id).all
+        rows = resource_mlc.where(:resource_id => resource.id).all
         expect(rows.length).to eq(1)
         expect(rows.first[:title]).to eq("Updated title")
       end
@@ -162,19 +173,20 @@ describe 'MultilingualContent mixin' do
     context "when a language context is set" do
       it "writes to that language's row without affecting other languages" do
         resource = create_resource_with_primary_lang
-        DB[:resource_mlc].insert(
+        resource_mlc.where(:resource_id => resource.id).delete
+        resource_mlc.insert(
           :resource_id => resource.id,
           :language_id => eng_id,
           :script_id   => latn_id,
           :title       => "English title"
         )
 
-        with_language_context(language_id: fra_id, script_id: latn_id) do
+        with_language_context(language_id: fre_id, script_id: latn_id) do
           resource.set_field_value(:title, "Titre français")
         end
 
-        expect(DB[:resource_mlc].where(:resource_id => resource.id, :language_id => fra_id).first[:title]).to eq("Titre français")
-        expect(DB[:resource_mlc].where(:resource_id => resource.id, :language_id => eng_id).first[:title]).to eq("English title")
+        expect(resource_mlc.where(:resource_id => resource.id, :language_id => fre_id).first[:title]).to eq("Titre français")
+        expect(resource_mlc.where(:resource_id => resource.id, :language_id => eng_id).first[:title]).to eq("English title")
       end
     end
 
@@ -186,14 +198,14 @@ describe 'MultilingualContent mixin' do
           resource.set_field_value(:title, "Default language title")
         end
 
-        lang_enum   = DB[:enumeration].filter(:name => 'language_iso639_2').get(:id)
-        script_enum = DB[:enumeration].filter(:name => 'script_iso15924').get(:id)
-        default_lang_id   = DB[:enumeration_value].filter(:enumeration_id => lang_enum,
-                                                          :value => AppConfig[:mlc_default_language]).get(:id)
-        default_script_id = DB[:enumeration_value].filter(:enumeration_id => script_enum,
-                                                          :value => AppConfig[:mlc_default_script]).get(:id)
+        default_lang_enum_id   = Enumeration.filter(:name => 'language_iso639_2').get(:id)
+        default_script_enum_id = Enumeration.filter(:name => 'script_iso15924').get(:id)
+        default_lang_id   = EnumerationValue.filter(:enumeration_id => default_lang_enum_id,
+                                                    :value => AppConfig[:mlc_default_language]).get(:id)
+        default_script_id = EnumerationValue.filter(:enumeration_id => default_script_enum_id,
+                                                    :value => AppConfig[:mlc_default_script]).get(:id)
 
-        row = DB[:resource_mlc].where(
+        row = resource_mlc.where(
           :resource_id => resource.id,
           :language_id => default_lang_id,
           :script_id   => default_script_id
