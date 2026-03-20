@@ -16,6 +16,10 @@
     <div class="w-100 d-flex align-items-center border-bottom bg-asFormHeadingBg">
       <h3 class="flex-grow-1 mb-0 border-0">
         <%= t("resource._frontend.section.basic_information") %>
+        <% if ['edit', 'update'].include?(controller.action_name) %>
+          <span class="ml-1" aria-hidden="true">🇺🇸</span>
+          <span class="ml-1 fs-14px">EN-US</span>
+        <% end %>
       </h3>
       <%= link_to_help :topic => "resource_basic_information" %>
     </div>
