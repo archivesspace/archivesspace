@@ -14,11 +14,10 @@
 
   <section id="basic_information">
     <div class="w-100 d-flex align-items-center border-bottom bg-asFormHeadingBg">
-      <h3 class="flex-grow-1 mb-0 border-0">
+      <h3 class="flex-grow-1 d-flex align-items-center mb-0 border-0">
         <%= t("resource._frontend.section.basic_information") %>
         <% if ['edit', 'update'].include?(controller.action_name) %>
-          <span class="ml-1" aria-hidden="true">🇺🇸</span>
-          <span class="ml-1 fs-14px">EN-US</span>
+          <span class="ml-1 fs-14px label label-info badge" style="font-family: monospace;">ENG</span>
         <% end %>
       </h3>
       <%= link_to_help :topic => "resource_basic_information" %>
@@ -30,24 +29,45 @@
                                  :record => @resource) %>
       <% edit_mode = ['edit', 'update'].include?(controller.action_name) %>
       <% dependent_icon = '<span class="lang-marker has-tooltip" title="Language dependent" aria-hidden="true">🌐</span>'.html_safe %>
-      <% independent_icon = '<span class="lang-marker has-tooltip" title="Language independent" aria-hidden="true">🔗</span>'.html_safe %>
+      <% if edit_mode %>
+        <div class="form-group w-100 row mb-0">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-9">
+            <details class="mb-1">
+              <summary class="fs-14px" style="font-family: monospace;">SPA</summary>
+              <p class="mt-1 mb-0 fs-14px text-muted">Colección de registros históricos importantes</p>
+            </details>
+          </div>
+        </div>
+      <% end %>
       <%= form.label_and_textarea "title",
                                   :label_opts => (edit_mode ? {:prefix_html => dependent_icon} : {}),
                                   :field_opts => {
                                     :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
                                   } %>
-      <%= form.label_and_fourpartid(:label_opts => (edit_mode ? {:prefix_html => independent_icon} : {})) %>
+      <%= form.label_and_fourpartid %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @resource} if AppConfig[:use_human_readable_urls] %>
 
       <% if AppConfig[:arks_enabled] && AppConfig[:arks_allow_external_arks] %>
-        <%= form.label_and_textfield "external_ark_url", :label_opts => (edit_mode ? {:prefix_html => independent_icon} : {}) %>
+        <%= form.label_and_textfield "external_ark_url" %>
       <% end %>
-      <%= form.label_and_select "level", form.possible_options_for("level", true), :label_opts => (edit_mode ? {:prefix_html => independent_icon} : {}) %>
-      <%= form.label_and_textfield "other_level", :required => true, :label_opts => (edit_mode ? {:prefix_html => independent_icon} : {}) %>
-      <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true), :label_opts => (edit_mode ? {:prefix_html => independent_icon} : {}) %>
-      <%= form.label_and_boolean "publish", {:label_opts => (edit_mode ? {:prefix_html => independent_icon} : {})}, user_prefs["publish"] %>
-      <%= form.label_and_boolean "restrictions", {:label_opts => (edit_mode ? {:prefix_html => independent_icon} : {})}, form.default_for("restrictions") %>
+      <%= form.label_and_select "level", form.possible_options_for("level", true) %>
+      <%= form.label_and_textfield "other_level", :required => true %>
+      <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
+      <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
+      <%= form.label_and_boolean "restrictions", {}, form.default_for("restrictions") %>
+      <% if edit_mode %>
+        <div class="form-group w-100 row mb-0">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-9">
+            <details class="mb-1">
+              <summary class="fs-14px" style="font-family: monospace;">SPA</summary>
+              <p class="mt-1 mb-0 fs-14px text-muted">Este recurso requiere revisión adicional antes de su publicación. Se recomienda verificar la integridad de los documentos adjuntos. Los materiales fueron digitalizados en enero de dos mil veinticinco. Toda corrección debe ser aprobada por el equipo de archivo.</p>
+            </details>
+          </div>
+        </div>
+      <% end %>
       <%= form.label_and_textarea "repository_processing_note", :label_opts => (edit_mode ? {:prefix_html => dependent_icon} : {}) %>
 
       <%= render_plugin_partials("basic_information_resource",
