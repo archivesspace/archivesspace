@@ -36,9 +36,9 @@ it:
     merge_confirm_title: Unisci a questo record?
     merge_agent_compare_agent_details: Compara agenti
     merge_from_browse_confirm_title: Unisci i record selezionati?
-    batch_merge: Seleziona il record dentro cui tutti gli altri record(s) elencati
-      saranno uniti. Ogni record linkato sarà linkato nuovamente a questo record e
-      ogni informazione per gli altri record(s) sarà eliminata.
+    batch_merge: Seleziona il record dentro cui tutti gli altri record(s) 
+      elencati saranno uniti. Ogni record linkato sarà linkato nuovamente a 
+      questo record e ogni informazione per gli altri record(s) sarà eliminata.
     merge_n_records: Unisci %{n} records
     move: Muovi
     move_down: Sotto
@@ -52,8 +52,8 @@ it:
     suppress: Sopprimi
     transfer: Trasferisci
     transfer_confirm_title: Trasferire questo record?
-    transfer_confirm_message: Il record '%{target}' sarà trasferito nella repository
-      da te selezionata
+    transfer_confirm_message: Il record '%{target}' sarà trasferito nella 
+      repository da te selezionata
     transfer_successful: Trasferimento andato a buon fine. ????
     transfer_failed: Trasferimento fallito
     unsuppress_confirm_message: falso
@@ -63,8 +63,9 @@ it:
     delete_multiple: Elimina records
     delete_multiple_confirm_title: Eliminare i records?
     reset: Ripristino predefiniti
-    reset_confirm_message: <p>Attenzione! <strong>Non potrai annullare questa azione</strong>.</p><p>Questa
-      azione ripristinerà le preferenze alle impostazioni predefinite.</p>
+    reset_confirm_message: <p>Attenzione! <strong>Non potrai annullare questa 
+      azione</strong>.</p><p>Questa azione ripristinerà le preferenze alle 
+      impostazioni predefinite.</p>
     reset_confirm_title: Ripristinare %{preftype} alle impostazioni predefinite?
     edit_multiple: Modifica più records
     edit_multiple_confirm_title: Modificare più records?
@@ -82,7 +83,8 @@ it:
     publish: Pubblica tutto
     publish_confirm_title: Pubblicare?
     merge: Unisci
-    form_changes_message: <small><span class='muted'>Hai dei cambiamenti non salvati</span></small>
+    form_changes_message: <small><span class='muted'>Hai dei cambiamenti non 
+      salvati</span></small>
     publish_archival_object: Pubblica tutto
     view_search_results: Vai ai risultati della ricerca
     resource_to_pdf: Risorsa da stampare
@@ -102,58 +104,62 @@ it:
     date_picker_toggle: Attiva selettore data
     drop_before: ''
     download: Scarica
-    duplicate_resource_confirm_message: Un lavoro sarà creato per duplicare questa
-      risorsa con tutti i suoi oggetti d'archivio. Questa operazione può richiedere
-      un po' di tempo a seconda del numero di record.
+    duplicate_resource_confirm_message: Un lavoro sarà creato per duplicare 
+      questa risorsa con tutti i suoi oggetti d'archivio. Questa operazione può 
+      richiedere un po' di tempo a seconda del numero di record.
     download_bulk_import_report: Scarica il report
     edit_batch: Modifica serie
     edit_groups: Modifica gruppi
     bulk_import_job: Carica tramite foglio di calcolo
     edit_default_values: Modifica valori predefiniti
-    merge_resource_confirm_message: I record selezionati saranno uniti all'interno
-      della risorsa '%{source}'. Tutti i record selezionati saranno eliminati e ogni
-      record linkato sarà linkato nuovamente a questa risorsa.
+    merge_resource_confirm_message: I record selezionati saranno uniti 
+      all'interno della risorsa '%{source}'. Tutti i record selezionati saranno 
+      eliminati e ogni record linkato sarà linkato nuovamente a questa risorsa.
     drop_after: ''
     edit_default_archival_object_values: Modifica componenti predefiniti
     refresh_page: Ricarica pagina
-    merge_agent_confirm_message: I record selezionati saranno uniti all'interno dell'agent
-      '%{source}'. I record selezionati saranno eliminati e ogni record linkato sarà
-      linkato nuovamente a questo agent. Cliccando il pulsante 'Compara Agents' si
-      aprirà una finestra che darà l'opzione di scegliere quali campi e sub-records
-      conservare da ogni record.
-    merge_container_profile_confirm_message: I record selezionati saranno uniti all'interno
-      del profilo container '%{merge_destination}'. Tutti i record selezionati saranno
+    merge_agent_confirm_message: I record selezionati saranno uniti all'interno 
+      dell'agent '%{source}'. I record selezionati saranno eliminati e ogni 
+      record linkato sarà linkato nuovamente a questo agent. Cliccando il 
+      pulsante 'Compara Agents' si aprirà una finestra che darà l'opzione di 
+      scegliere quali campi e sub-records conservare da ogni record.
+    merge_container_profile_confirm_message: I record selezionati saranno uniti 
+      all'interno del profilo container '%{merge_destination}'. Tutti i record 
+      selezionati saranno eliminati e ogni record linkato sarà linkato 
+      nuovamente a questo soggetto.
+    merge_agent_from_browse_confirm_message: Il primo agent selezionato avrà i 
+      records successivamente selezionati uniti all'interno. Tutti i records 
+      selezionati successivamente saranno eliminati e ogni record linkato sarà 
+      linkato nuovamente al primo agent selezionato.
+    merge_subject_confirm_message: I record selezionati saranno uniti 
+      all'interno del soggetto '%{source}'. Tutti i record selezionati saranno 
       eliminati e ogni record linkato sarà linkato nuovamente a questo soggetto.
-    merge_agent_from_browse_confirm_message: Il primo agent selezionato avrà i records
-      successivamente selezionati uniti all'interno. Tutti i records selezionati successivamente
-      saranno eliminati e ogni record linkato sarà linkato nuovamente al primo agent
-      selezionato.
-    merge_subject_confirm_message: I record selezionati saranno uniti all'interno
-      del soggetto '%{source}'. Tutti i record selezionati saranno eliminati e ogni
-      record linkato sarà linkato nuovamente a questo soggetto.
     save_anyway: Salva comunque
     set_default: Imposta come predefinito
-    delete_multiple_confirm_message: <p>Attenzione! <strong>Non potrai annullare questa
-      azione</strong>.</p><p>Questa azione rimuoverà questi records dal database,
-      incluso ogni riferimento degli stessi presenti in altri records.</p>
-    delete_confirm_message: <p>Attenzione! <strong>Non potrai annullare questa azione</strong>.</p><p>Questa
-      azione rimuoverà il record dal database, incluso ogni riferimento dello stesso
-      presente in altri records.</p>
-    delete_repository_confirm_message: <p>Attenzione! <strong>Non potrai annullare
-      questa azione</strong>.</p><p>Questa azione rimuoverà la <strong>repository</strong>
-      e tutti i records associati dal database, incluso ogni riferimento della stessa
-      presente in altri records.</p><p>Per continuare per favore inserisci '%{repository}'
-      sotto:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>
+    delete_multiple_confirm_message: <p>Attenzione! <strong>Non potrai annullare
+      questa azione</strong>.</p><p>Questa azione rimuoverà questi records dal 
+      database, incluso ogni riferimento degli stessi presenti in altri 
+      records.</p>
+    delete_confirm_message: <p>Attenzione! <strong>Non potrai annullare questa 
+      azione</strong>.</p><p>Questa azione rimuoverà il record dal database, 
+      incluso ogni riferimento dello stesso presente in altri records.</p>
+    delete_repository_confirm_message: <p>Attenzione! <strong>Non potrai 
+      annullare questa azione</strong>.</p><p>Questa azione rimuoverà la 
+      <strong>repository</strong> e tutti i records associati dal database, 
+      incluso ogni riferimento della stessa presente in altri records.</p><p>Per
+      continuare per favore inserisci '%{repository}' sotto:</p><p><input 
+      id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>
     publish_archival_object_confirm_title: Pubblicare?
-    publish_archival_object_confirm_message: <p>Effettuando questa operazione pubblicherai
-      il record, ogni sub-records (documenti esterni, note, etc) e tutti i componenti
-      al di sotto di esso nella gerarchia.</p>
+    publish_archival_object_confirm_message: <p>Effettuando questa operazione 
+      pubblicherai il record, ogni sub-records (documenti esterni, note, etc) e 
+      tutti i componenti al di sotto di esso nella gerarchia.</p>
     toggle_dropdown_menu: Attiva il menu a tendina
     delete_confirm_title: Eliminare questo record? %{title}
-    edit_multiple_confirm_message: <p>Questo aggiornerà più records simultaneamente.</p>
-    publish_confirm_message: <p>Effettuando questa operazione pubblicherai il record,
-      ogni sub-records (documenti esterni, note, etc) e tutti i componenti nella sua
-      gerarchia.</p>
+    edit_multiple_confirm_message: <p>Questo aggiornerà più records 
+      simultaneamente.</p>
+    publish_confirm_message: <p>Effettuando questa operazione pubblicherai il 
+      record, ogni sub-records (documenti esterni, note, etc) e tutti i 
+      componenti nella sua gerarchia.</p>
     view_published: Visualizza i pubblicati
     print_to_pdf: Genera PDF
   states:
@@ -194,9 +200,9 @@ it:
     text_placeholder: Filtrato per testo
     component_switch: Mostra componenti
     help:
-      row_selection: Clicca una riga per selezionarla per le operazioni in blocco.
-        Tieni premuto ALT mentre clicchi una casella di spunta per selezionare, o
-        deselezionare, precedenti righe multiple.
+      row_selection: Clicca una riga per selezionarla per le operazioni in 
+        blocco. Tieni premuto ALT mentre clicchi una casella di spunta per 
+        selezionare, o deselezionare, precedenti righe multiple.
   search_sorting:
     sort_by: 'Ordina per:'
     asc: Ascendente
@@ -415,33 +421,35 @@ it:
       uri: URI
   navbar:
     import_marcxml_subjects_and_agents: MARCXML (solo soggetti e agents)
+    toggle_navigation: Attiva/disattiva navigazione
   footer:
     keyboard_shortcuts: Scorciatoie da tastiera
-    archivesspace_home_html: Visita <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Invia
-      feedback o riferisci un problema</a>
+    archivesspace_home_html: Visita <a 
+      href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+      target='_blank'>Invia feedback o riferisci un problema</a>
   import:
-    marcxml_subjects_and_agents_title: Importa i soggetti e gli agents da un file
-      MARCXML
+    marcxml_subjects_and_agents_title: Importa i soggetti e gli agents da un 
+      file MARCXML
   errors:
-    merge_restricted_contact_details: Questa unione non può essere completata perché
-      uno o più degli agents ha dettagli di contatto a cui non hai il permesso di
-      accedere.
-    merge_different_types: Gli agents selezionati per questa unione devono essere
-      dello stesso tipo.
+    merge_restricted_contact_details: Questa unione non può essere completata 
+      perché uno o più degli agents ha dettagli di contatto a cui non hai il 
+      permesso di accedere.
+    merge_different_types: Gli agents selezionati per questa unione devono 
+      essere dello stesso tipo.
     merge_denied_for_system_user: Uno o più agents è un utente del sistema.
-    merge_denied_relationship: Questi agents hanno una relazione. Rimuovi la relazione
-      prima di procedere con l'unione.
-    cannot_delete_repository_agent: Questo agent è linkato a una repository e non
-      può essere rimosso.
+    merge_denied_relationship: Questi agents hanno una relazione. Rimuovi la 
+      relazione prima di procedere con l'unione.
+    cannot_delete_repository_agent: Questo agent è linkato a una repository e 
+      non può essere rimosso.
     merge_conflict: 'Non è stato possibile unire gli agent(s): %{message}'
-    merge_too_many_merge_candidates: Solo un agent può essere selezionato per questa
-      unione.
+    merge_too_many_merge_candidates: Solo un agent può essere selezionato per 
+      questa unione.
   agent:
     _frontend:
       messages:
-        published: L'agent <strong>%{agent_title}</strong>, i suoi sub-records e componenti
-          sono stati pubblicati
+        published: L'agent <strong>%{agent_title}</strong>, i suoi sub-records e
+          componenti sono stati pubblicati
         created: Agent creato
         updated: Agent salvato
         deleted: Agent eliminato
@@ -454,7 +462,8 @@ it:
         dates_of_existence: Date di esistenza
         basic_information: Informazioni di base
         search_embedded: Records linkati
-        linked_via_rights_statement: Records linkati tramite dichiarazione di diritti
+        linked_via_rights_statement: Records linkati tramite dichiarazione di 
+          diritti
         events: Eventi
         merge_destination_record: Questo record sarà aggiornato
         structured_date_single_fields: Singola data
@@ -488,12 +497,20 @@ it:
     _plural: Occupazioni
   agent_record_identifier:
     source: Fonte
+    primary_identifier: Qual è l'identificativo primario?
+    record_identifier: Identificatore del record
   agent_resource:
     file_uri: File URI
+    _singular: Risorsa esterna correlata
+    _plural: Risorse esterne correlate
   metadata_rights_declaration:
     license: Licenza
     file_uri: File URI
     descriptive_note: Nota descrittiva
+    _plural: Dichiarazioni sui diritti sui metadati
+    _singular: Dichiarazione dei diritti sui metadati
+    xlink_title_attribute: Attributo Titolo Xlink
+    xlink_role_attribute: Attributo ruolo Xlink
   job:
     _frontend:
       audit_data: Dati dell'audit
