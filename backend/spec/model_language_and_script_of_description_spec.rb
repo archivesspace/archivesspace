@@ -4,7 +4,7 @@ describe 'LanguageAndScriptOfDescription model' do
   it "defaults is_primary to false" do
     record = LanguageAndScriptOfDescription.create_from_json(
       JSONModel(:language_and_script_of_description).from_hash(
-        "language" => "fra",
+        "language" => "fre",
         "script"   => "Latn"
       )
     )
