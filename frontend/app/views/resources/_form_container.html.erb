@@ -17,7 +17,7 @@
       <h3 class="flex-grow-1 d-flex align-items-center mb-0 border-0">
         <%= t("resource._frontend.section.basic_information") %>
         <% if ['edit', 'update'].include?(controller.action_name) %>
-          <span class="ml-1 fs-14px label label-info badge" style="font-family: monospace;">ENG</span>
+          <span class="ml-2 fs-12px label label-info badge">ENG</span>
         <% end %>
       </h3>
       <%= link_to_help :topic => "resource_basic_information" %>
@@ -28,13 +28,13 @@
                                  :form => form,
                                  :record => @resource) %>
       <% edit_mode = ['edit', 'update'].include?(controller.action_name) %>
-      <% dependent_icon = '<span class="lang-marker has-tooltip" title="Language dependent" aria-hidden="true">🌐</span>'.html_safe %>
+      <% dependent_icon = '<span class="lang-marker has-tooltip" title="The value of this field can change based on the current language of description" aria-hidden="true">🌐</span>'.html_safe %>
       <% if edit_mode %>
-        <div class="form-group w-100 row mb-0">
+        <div class="w-100 row mt-1 mr-0 mb-0 ml-0">
           <div class="col-sm-2"></div>
           <div class="col-sm-9">
-            <details class="mb-1">
-              <summary class="fs-14px" style="font-family: monospace;">SPA</summary>
+            <details>
+              <summary class="fs-14px">SPA</summary>
               <p class="mt-1 mb-0 fs-14px text-muted">Colección de registros históricos importantes</p>
             </details>
           </div>
@@ -58,11 +58,11 @@
       <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
       <%= form.label_and_boolean "restrictions", {}, form.default_for("restrictions") %>
       <% if edit_mode %>
-        <div class="form-group w-100 row mb-0">
+        <div class="w-100 row mt-1 mr-0 mb-0 ml-0">
           <div class="col-sm-2"></div>
           <div class="col-sm-9">
-            <details class="mb-1">
-              <summary class="fs-14px" style="font-family: monospace;">SPA</summary>
+            <details>
+              <summary class="fs-14px">SPA</summary>
               <p class="mt-1 mb-0 fs-14px text-muted">Este recurso requiere revisión adicional antes de su publicación. Se recomienda verificar la integridad de los documentos adjuntos. Los materiales fueron digitalizados en enero de dos mil veinticinco. Toda corrección debe ser aprobada por el equipo de archivo.</p>
             </details>
           </div>
