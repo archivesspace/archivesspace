@@ -46,6 +46,8 @@ it:
       acquisition_type: Tipo di acquisizione
       published_agents: Agenti
       finding_aid_title: Titolo degli strumenti di ricerca
+      linked_agent_roles: Ruoli dell'agente collegato
+      instance_type_enum_s: Tipo di istanza
     results_head: 'Mostrando %{type}: %{start} - %{end} di %{total}'
     result: Risultato
     page_title: Trovati %{count} risultati
@@ -62,7 +64,7 @@ it:
       title: Titolo
       creators_text: Creatore
       notes: Note
-      scope: ''
+      scope: 'Ambito'
       source: Fonte
       to: A
       type_enum_s: Tipo
@@ -92,6 +94,10 @@ it:
       from: Da
       years_include: Anni da includere
       digital_object_type_enum_s: Tipo
+      child_container_u_sstr: Contenitore per bambini
+      grand_child_container_u_sstr: Contenitore per nipoti
+      instance_type_enum_s: Tipo di istanza
+      extent_type_enum_s: Estensione
     identifier_contain: l' <strong>identificativo</strong> contiene <span 
       class='searchterm'>%{kw}</span>
     title_contain: il <strong>titolo</strong> contiene  <span class='searchterm'>%{kw}</span>
@@ -131,6 +137,7 @@ it:
         dates: Date
         related_agent_description: Descrizione
         related_agents: Nomi correlati
+        other_names: Moduli di nome
     _plural: Nomi
   request:
     email_header: Grazie per la tua richiesta
@@ -193,9 +200,11 @@ it:
   navigation:
     hierarchical: navigazione gerarchica
     mobile_menu: Navigazione menu per piccoli dispositivi
+    top_level: navigazione di primo livello
   navbar:
     search_placeholder: Inserisci i tuoi termini di ricerca
     error_no_term: Nessun termine di ricerca inserito.
+    toggle_navigation: Attiva/disattiva navigazione
   internal_links:
     main: Contenuto principale
     search_collection: Cerca all'interno della collezione
@@ -267,6 +276,8 @@ it:
         status: Stato
         revision: Dichiarazioni di revisione
         series_statement: Dichiarazione delle serie
+        head: Guida alla ricerca e informazioni amministrative
+        edition_statement: Dichiarazione di edizione
       digital_object: Oggetto digitale
       lang_pdf: Lingua del materiale
       physdesc: Descrizione fisica
@@ -290,7 +301,8 @@ it:
       alert: Questa collezione contiene %{count} unità archivistiche.
       percent_convention: '%'
       load: Carica unità archivistiche
-      all: ''
+      all: 'Tutto in una volta'
+      scroll: A scorrimento
   digital_object:
     _singular: Unità archivistica digitale
     _public:
@@ -303,6 +315,7 @@ it:
         one: Sfoglia %{num} l'oggetto digitale nella collezione
         many: Sfoglia %{num} gli oggetti digitali nella collezione
         other:
+      url_encoded_data: Dati codificati in URL
     _plural: Materiali digitali
   subject:
     _singular: Soggetto
@@ -331,12 +344,25 @@ it:
     administrative_information: Informazioni amministrative
     accruals: Accumulo
     collection_inventory: Inventario della collezione
-    summary_information: ''
+    summary_information: 'Informazioni di riepilogo'
     table_of_contents: Indice
     return_to_table_of_contents: Ritorna all'indice
+    publication_statement: Dichiarazione di pubblicazione
+    controlled_access_headings: Intestazioni di accesso controllato
+    finding_aid_date_prefix: Questo strumento di ricerca è stato prodotto utilizzando ArchivesSpace 
+      su
+    finding_aid_written_in: Guida alla ricerca scritta in
+    your_finding_aid_pdf: Il PDF con le informazioni di ricerca per "%{title}"
+    your_finding_aid_is_attached: Lo strumento di ricerca richiesto è allegato.
+    accessrestrict: Condizioni che regolano l'accesso
+    userestrict: Condizioni d'uso
+    acqinfo: Fonte di acquisizione immediata
   agent_record_identifier:
     source: Fonte
     identifier_type: Tipo di identificativo
+    primary_identifier: Qual è l'identificativo primario?
+    record_identifier: Identificatore del record
+    snac: Identificatore SNAC (Social Networks and Archival Context)
   agent_contact:
     address_2: Indirizzo 2
     address_3: Indirizzo 3
@@ -361,13 +387,18 @@ it:
     type: Tipo di nota
     note_legal_status: Stato legale
     note_mandate: Mandato
+    persistent_id: ID persistente
   metadata_rights_declaration:
     license: Licenza
     descriptive_note: Nota descrittiva
     file_uri: File URI
+    _plural: Dichiarazioni sui diritti sui metadati
+    _singular: Dichiarazione dei diritti sui metadati
+    xlink_title_attribute: Attributo Titolo Xlink
+    xlink_role_attribute: Attributo ruolo Xlink
   languages:
     select: Seleziona lingua
-  
+
   pdf_error:
     location:
       location_title_page: Un errore si è verificato durante la generazione della pagina del titolo.
@@ -401,6 +432,7 @@ it:
     number: Numero
     number_type: Tipo di numero
     _plural: Numeri telefonici
+    ext: Interno telefonico
   agent_function:
     _singular: Funzione
     _plural: Funzioni
@@ -427,13 +459,14 @@ it:
     _plural: Luoghi
   agent_identifier:
     identifier_type: Tipo di identificativo
+    entity_identifier: Identificativo dell'entità
   used_language:
     _singular: Lingua usata
     _plural: Lingue usate
   footer:
     staff_interface_html: <a href="%{staff_url}">Interfaccia staff</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Invia feedback o
-      riferisci un problema</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Invia feedback 
+      o riferisci un problema</a>
     archivesspace_home_html: Visita <a href='http://archivesspace.org'>ArchivesSpace.org</a>
   skipnav:
     search_results: Passa ai risultati della ricerca
@@ -445,6 +478,8 @@ it:
     see_less: Vedi meno
   classification_term:
     identifier_separator: /
+    _singular: Registra termine del gruppo
+    _plural: Termini del gruppo di registrazione
   an_agent: Nome
   record:
     _singular: Unità archivistica
@@ -457,6 +492,7 @@ it:
     _singular: Famiglia
   accordion:
     collapse: Riduci tutto
+    expand: Espandi tutto
   linked_digital_objects: Materiale digitale
   context: Trovato in
   number_of: 'Numero di %{type}:'
@@ -478,3 +514,14 @@ it:
       header:
         ref_id: Identificatore di riferimento
   page_actions: Azioni sulla pagina
+  scope_note: Nota sull'ambito
+  agent_resource:
+    _singular: Risorsa esterna correlata
+    _plural: Risorse esterne correlate
+  parent_inst: Istituzione madre
+  date_label:
+    existence: Esistenza
+    usage: Utilizzo
+  use_date:
+    _plural: Usa le date
+    _singular: Usa data
