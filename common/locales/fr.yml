@@ -1263,12 +1263,12 @@ fr:
       Le premier champ au moins doit être renseigné pour avoir une  notice d'entrée valide.</p>
       <p>On peut recourir à des valeurs par défaut pour remplir des composants
       invariables, présents dans tous les numéros d'entrées.</p>
-      <p>Voir DACS 5.2.5</p>
+      <p>Voir DACS 5.2.5, ISAD(G) 3.2.4</p>
     content_description: Présentation du contenu
     content_description_tooltip: |
       <p>Une description des types de documents et des contenus topiques
       de l'entrée.</p>
-      <p>Voir DACS 3.1.4-3.1.7</p>
+      <p>Voir DACS 3.1.4-3.1.7, ISAD(G) 3.3.1</p>
       <p>Exemples:</p>
       <p>Dix cartons de documents, comprenant des notes prises sur le terrain, des journaux intimes,
       et des brouillons de cartes documentant les 10 années pendant lesquelles Mr. Smith's 10 résida
@@ -1302,7 +1302,7 @@ fr:
     provenance: Provenance
     provenance_tooltip: |
       <p>Une note indiquant la provenance d'une entrée, sous forme d'historique de la conservation, d'énoncé détaillé des modalités de l'acquisition, etc.</p>
-      <p>Voir DACS 5.1-5.2</p>
+      <p>Voir DACS 5.1-5.2, ISAD(G) 3.2.3-3.2.4</p>
     retention_rule: Règle de conservation
     retention_rule_tooltip: |
       <p>Une note indiquant l'autorité ou la règle de conservation valant pour l'entrée.

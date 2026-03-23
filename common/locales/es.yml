@@ -1231,11 +1231,11 @@ es:
       <p>CAMPO REQUERIDO: el identificador único para una accesión dentro de un repositorio. </p>
       <p>En ArchivesSpace, se proporcionan cuatro campos para analizar un identificador de acceso en sus partes componentes. Cada segmento está limitado a 50 caracteres, o 200 caracteres en total para el identificador. Al menos la primera parte debe usarse para un registro de acceso válido. </p>
       <p>Los valores predeterminados se pueden usar para completar las partes componentes que son iguales en todos los números de acceso. </p>
-      <p>Ver DACS 5.2.5</p>
+      <p>Ver DACS 5.2.5, ISAD(G) 3.2.4</p>
     content_description: Descripción de contenido
     content_description_tooltip: |
       <p>Una descripción de los tipos de documentos y contenidos temáticos de la adhesión. </p>
-      <p>Ver DACS 3.1.4-3.1.7 </p>
+      <p>Ver DACS 3.1.4-3.1.7, ISAD(G) 3.3.1</p>
       <p>Ejemplos: </p>
       <p>Diez cartones de materiales que contienen notas de campo, diarios y borradores de mapas que documentan los 10 años de residencia del Sr. Smith en Otay Mesa Ranch. </p>
     condition_description: Descripción de la condición
@@ -1267,7 +1267,7 @@ es:
     provenance: Procedencia
     provenance_tooltip: |
       <p>Una nota que proporciona información de procedencia sobre un acta de ingreso, como custodia historia, información detallada de entrada, etc..</p>
-      <p>Ver DACS 5.1-5.2</p>
+      <p>Ver DACS 5.1-5.2, ISAD(G) 3.2.3-3.2.4</p>
     retention_rule: Regla de retención
     retention_rule_tooltip: |
       <p>Una nota indicando la retención autoridad o regla para la entrada.

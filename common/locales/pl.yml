@@ -225,11 +225,11 @@ pl:
       <p>POLE WYMAGANE: Unikalny identyfikator dla jednostki archiwalnej w repozytorium.</p>
       <p>W systemie ArchivesSpace dostępne są cztery pola do rozdzielenia identyfikatora jednostki archiwalnej na jego poszczególne części. Każdy segment jest ograniczony do 50 znaków, co daje łącznie 200 znaków dla całego identyfikatora. Przynajmniej pierwsza część musi być wypełniona, aby rekord jednostki archiwalnej był poprawny.</p>
       <p>Można użyć wartości domyślnych do wypełnienia części składowych, które są takie same dla wszystkich numerów jednostek archiwalnych.</p>
-      <p>Zobacz DACS 5.2.5</p>
+      <p>Zobacz DACS 5.2.5, ISAD(G) 3.2.4</p>
     content_description: Opis zawartości
     content_description_tooltip: |
       <p>Opis rodzajów dokumentów i tematycznej zawartości zbioru.</p>
-      <p>Patrz DACS 3.1.4-3.1.7</p>
+      <p>Patrz DACS 3.1.4-3.1.7, ISAD(G) 3.3.1</p>
       <p>Przykłady:</p>
       <p>Dziesięć pudeł z materiałami zawierającymi notatki terenowe, pamiętniki i
       szkice map dokumentujące 10-letni pobyt pana Smitha na ranczu Otay Mesa.</p>
@@ -260,7 +260,7 @@ pl:
     provenance: Pochodzenie
     provenance_tooltip: |
       <p>Notatka zawierająca informacje o pochodzeniu obiektu, takie jak historia przechowywania, szczegółowe informacje dotyczące nabycia itp.</p>
-      <p>Zobacz DACS 5.1-5.2</p>
+      <p>Zobacz DACS 5.1-5.2, ISAD(G) 3.2.3-3.2.4</p>
     retention_rule: Zasada retencji
     retention_rule_tooltip: |
       <p>Informacja wskazująca na przepisy lub zasady dotyczące przechowywania dokumentów.</p>
