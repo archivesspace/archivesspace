@@ -72,6 +72,7 @@ it:
     _plural: Numeri telefonici
     number_type: Tipo di numero
     number: Numero
+    ext: Interno telefonico
   agent_person:
     _singular: Persona
     _plural: Persone
@@ -507,5 +508,8 @@ it:
       indicator: Indicatore
       barcode: Codice a Barre
   validation_errors:
-    mixed_content_invalid_inline_ead: "Markup EAD non valido: usa virgolette dritte (\" o ') per i valori degli attributi e assicurati che i tag siano ben formati."
-    mixed_content_disallowed_tag: "Tag HTML non consentito rilevato. Per motivi di sicurezza, tag come &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; ed elementi di modulo non sono consentiti nei campi a contenuto misto."
+    mixed_content_invalid_inline_ead: "Markup EAD non valido: usa virgolette dritte (\" o ') per i valori
+      degli attributi e assicurati che i tag siano ben formati."
+    mixed_content_disallowed_tag: "Tag HTML non consentito rilevato. Per motivi di sicurezza, tag come
+      &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; ed elementi di modulo non sono consentiti nei campi
+      a contenuto misto."
