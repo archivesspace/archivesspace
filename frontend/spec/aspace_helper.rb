@@ -80,4 +80,11 @@ module ASpaceHelpers
   rescue Selenium::WebDriver::Error::JavascriptError
     false
   end
+
+  def skip_if_infinite_tree_toolbar_active
+    return unless page.has_css?('#infinite-tree-toolbar', wait: 1)
+
+    skip('Resource edit view is using InfiniteTree toolbar on this branch')
+  end
+
 end
