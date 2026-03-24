@@ -9,6 +9,7 @@
 <%= javascript_include_tag "InfiniteTreeResizer.js" %>
 <%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
 <%= javascript_include_tag "InfiniteTreeIds.js" %>
+<%= javascript_include_tag "InfiniteTreeToolbar.js" %>
 
 <div
   id="infinite-tree-component"
@@ -115,4 +116,8 @@ const infiniteTreeRecordPane = new InfiniteTreeRecordPane();
 const infiniteTreeRouter = new InfiniteTreeRouter({
     saveChangesTitle: "<%= I18n.t('save_changes_modal.save') %>"
 });
+
+if (!<%= read_only %>) {
+  new InfiniteTreeToolbar();
+}
 </script>
