@@ -374,3 +374,16 @@
     }
   }
 }
+
+#infinite-tree-toolbar {
+  margin-bottom: .5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  display: flex;
+  align-items: center;
+  background-image: linear-gradient(to bottom, #f3f3f3 0%, #ededed 100%);
+}
