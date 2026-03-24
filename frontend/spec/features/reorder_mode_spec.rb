@@ -29,6 +29,12 @@ describe 'Reorder Mode', js: true do
       expect(page).to have_css '#tree-container.drag-enabled'
     end
 
+    it 'returns to non-reorder mode when disabled' do
+      click_on 'Disable Reorder Mode'
+      expect(page).to have_css '#tree-toolbar .drag-toggle', text: 'Enable Reorder Mode'
+      expect(page).not_to have_css '#tree-container.drag-enabled'
+    end
+
     it 'presents toolbar buttons in correct order' do
       toolbar = find('#tree-toolbar')
       expect(toolbar).to have_css '.btn-group:first-child .btn', text: 'Disable Reorder Mode'
@@ -40,6 +46,55 @@ describe 'Reorder Mode', js: true do
       expect(toolbar).to have_css '.btn-group:nth-child(4)', visible: false
       expect(toolbar).to have_css '.btn-group:nth-child(5) .btn', text: 'Close Record'
       expect(toolbar).to have_css '.btn-group:nth-child(6)', visible: false
+    end
+
+    it 'hides non-reorder actions while reorder mode is active' do
+      toolbar = find('#tree-toolbar')
+      expect(toolbar).to have_no_button('Auto-Expand All')
+      expect(toolbar).to have_no_button('Collapse Tree')
+      expect(toolbar).to have_no_button('Load via Spreadsheet')
+      expect(toolbar).to have_no_button('Rapid Data Entry')
+    end
+
+    it 'shows paste control in reorder mode before any cut action' do
+      expect(page).to have_css '#tree-toolbar .paste-selection'
+      expect(page).to have_no_css '.cut'
+    end
+
+    it 'cuts the current row and enables paste' do
+      click_on @children.first.title
+      click_on 'Cut'
+
+      expect(page).to have_css ".cut##{@child_type}_#{@children.first.id}"
+      expect(page).to have_no_css '#tree-toolbar .paste-selection.disabled'
+    end
+
+    it 'does not cut the root row' do
+      click_on @children.first.title
+      click_on 'Cut'
+      expect(page).to have_css '.cut'
+
+      find('.root-row .record-title').click
+      click_on 'Cut'
+      expect(page).to have_no_css '.cut'
+    end
+
+    it 'shows move action for non-root rows only' do
+      expect(page).to have_no_css '#tree-toolbar .move-node'
+
+      click_on @children.first.title
+      expect(page).to have_css '#tree-toolbar .move-node'
+    end
+
+    it 'persists selected drop behavior across reloads' do
+      find('label[for="drop-after"]').click
+      expect(find('#drop-after', visible: false)).to be_checked
+      expect(page.evaluate_script("window.localStorage.getItem('AS_Drop_Behavior')")).to eq('after')
+
+      visit "/#{@collection_path}/#{@parent.id}/edit"
+      wait_for_ajax
+      click_on 'Enable Reorder Mode'
+      expect(find('#drop-after', visible: false)).to be_checked
     end
 
     it 'hides root node drag handle' do
@@ -100,6 +155,21 @@ describe 'Reorder Mode', js: true do
       run_indexer
     end
 
+    before(:each) do
+      visit "/#{@collection_path}/#{@parent.id}/edit"
+      skip_if_infinite_tree_toolbar_active
+    end
+
     it_behaves_like 'supporting reorder mode'
+
+    it 'disables reorder mode toggle when the form is dirty' do
+      skip_if_infinite_tree_toolbar_active
+
+      click_on @ao.title
+      wait_for_ajax
+
+      fill_in 'Title', with: "Dirty title #{@now}"
+      expect(page).to have_css '#tree-toolbar .drag-toggle.disabled'
+    end
   end
 end
