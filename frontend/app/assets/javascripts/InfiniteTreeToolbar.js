@@ -88,9 +88,6 @@ class InfiniteTreeToolbar {
         case 'rde':
           this.#emitContextualEvent('infiniteTreeToolbar:rdeRequested');
           break;
-        case 'transfer':
-          this.#emitContextualEvent('infiniteTreeToolbar:transferRequested');
-          break;
         case 'expand-mode':
           this.#onExpandModeToggle(event, target);
           break;
@@ -153,7 +150,6 @@ class InfiniteTreeToolbar {
       '.js-itree-toolbar-add-duplicate,' +
       '.js-itree-toolbar-load-bulk,' +
       '.js-itree-toolbar-rde,' +
-      '.js-itree-toolbar-transfer,' +
       '.js-itree-toolbar-finish-editing';
 
     this.toolbarEl.querySelectorAll(selector).forEach(btn => {
