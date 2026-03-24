@@ -65,7 +65,7 @@ ja:
   section_tooltips: &section_tooltips
     lang_materials_tooltip: |
       ""<p>説明されている資料に示されている言語およびスクリプト。</p>
-      <p>See DACS 4.5</p>""
+      <p>See DACS 4.5、ISAD(G) 3.4.3</p>""
     dates_tooltip: "<p>記載されている資料の作成、組み立て、蓄積、および/または保守および使用に関連する日付を識別し、記録する。 </p><p> DACS 2.4、ISAD(G) 3.1.3を参照</p>"
     extents_tooltip: "<p>記載されている材料の範囲と物理的性質を示します。 </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p>"
     linked_agents_tooltip: "<p>エージェントは、そのコンテキストに関する情報を提供するために記述されたマテリアルの作成者、ソース、または主体としてエージェントを関連付けます。
@@ -772,10 +772,11 @@ ja:
     language: 言語
     language_tooltip: &language_language_tooltip |
       <p>必須フィールド：説明されている資料に記載されている言語の用語およびコード。 ISO 639-2bから引き出されたコード：言語名の表現のためのコード。</p>
+      <p>See DACS 4.5、ISAD(G) 3.4.3</p>
     script: スクリプト
     script_tooltip: &language_script_tooltip |
       <p>説明されている資料に記載されているスクリプトの用語とコード。 ISO 15924から引用したコード：スクリプトの名前を表すためのコード。</p>
-      <p>See DACS 4.5</p>
+      <p>See DACS 4.5、ISAD(G) 3.4.3</p>
 
   language_note:
     <<: *lang_material_attributes
@@ -1029,7 +1030,7 @@ ja:
     related_agent_tooltip: エージェントとの関係を持つ他のエージェントをリンクし、関係の性質を示すために使用されます。
     publish_tooltip: "<p>エージェントがエクスポートに含まれ、パブリックインターフェイスに公開されているかどうかを示します（使用されている場合）</p>"
     type: エージェントの種類
-    type_tooltip: "<p>エージェントレコードによって表されるエンティティのタイプ。 </p><p>DACS 10.2およびPREMISエージェントエンティティを参照</p>"
+    type_tooltip: "<p>エージェントレコードによって表されるエンティティのタイプ。 </p><p>DACS 10.2、ISAAR (CPF) 5.1.1,およびPREMISエージェントエンティティを参照</p>"
     agent_type:
       agent_family: 家族
       agent_person: 人

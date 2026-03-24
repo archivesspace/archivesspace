@@ -330,7 +330,7 @@ de:
     notes: Anmerkungen
     type: Akteur-Typ
     type_tooltip: "<p>Der Typ der Entität, die durch Die Akteur-Aufzeichnung repräsentiert wird.</p>\n\
-      \ <p>Siehe DACS 10.2 und PREMIS Agent-Entität</p>\n"
+      \ <p>Siehe DACS 10.2, ISAAR (CPF) 5.1.1, und PREMIS Agent-Entität</p>\n"
     agent_type:
       agent_family: Familie
       agent_person: Person

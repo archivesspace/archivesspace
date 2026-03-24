@@ -360,7 +360,7 @@ pl:
     type: Typ agenta
     type_tooltip: |
       <p>Typ podmiotu reprezentowanego przez rekord Agenta.</p>
-      <p>Zobacz DACS 10.2 i encję Agenta w standardzie PREMIS.</p>
+      <p>Zobacz DACS 10.2, ISAAR (CPF) 5.1.1, i encję Agenta w standardzie PREMIS.</p>
     agent_type:
       agent_family: Rodzina
       agent_person: Osoba
@@ -808,7 +808,7 @@ pl:
   section_tooltips:
     lang_materials_tooltip: |
       <p>Języki i systemy pisma reprezentowane w opisywanych materiałach.</p>
-      <p>Patrz DACS 4.5</p>
+      <p>Patrz DACS 4.5, ISAD(G) 3.4.3</p>
     dates_tooltip: |
       <p>Określa i rejestruje daty związane z tworzeniem, gromadzeniem, kompletowaniem i/lub konserwacją oraz wykorzystywaniem opisywanych materiałów.</p>
       <p>Patrz DACS 2.4, ISAD(G) 3.1.3</p>

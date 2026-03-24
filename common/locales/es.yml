@@ -66,7 +66,7 @@ es:
   section_tooltips: &section_tooltips
     lang_materials_tooltip: |
       <p>Los lenguajes y scripts representados en los materiales descritos.</p>
-      <p>Ver DACS 4.5</p>
+      <p>Ver DACS 4.5, ISAD(G) 3.4.3</p>
     dates_tooltip: |
       <p>Identifica y registra las fechas que corresponden a la creación, Asamblea, acumulación, o mantenimiento y utilización de los materiales que se está describiendo.</p>
       <p>Ver DACS 2.4, ISAD(G) 3.1.3</p>
@@ -1021,10 +1021,11 @@ es:
     language: Idioma
     language_tooltip: &language_language_tooltip |
       <p>CAMPO REQUERIDO: El término de idioma y el código representado en el (los) material (es) descrito (s). Códigos extraídos de ISO 639-2b: Códigos para la representación de nombres de idiomas.</p>
+      <p>Ver DACS 4.5, ISAD(G) 3.4.3</p>
     script: Guión
     script_tooltip: &language_script_tooltip |
       <p>El término de script y el código representado en el (los) material (es) descrito (s). Códigos extraídos de ISO 15924: Códigos para la representación de nombres de scripts.</p>
-      <p>Ver DACS 4.5</p>
+      <p>Ver DACS 4.5, ISAD(G) 3.4.3</p>
 
   language_note:
     <<: *lang_material_attributes
@@ -1399,7 +1400,7 @@ es:
     type: Tipo de autoridad
     type_tooltip: |
       <p>El tipo de entidad representada por el registro del autoridad.</p>
-      <p>Ver entidad DACS 10.2 y autoridad PREMIS</p>
+      <p>Ver entidad DACS 10.2, ISAAR (CPF) 5.1.1, y autoridad PREMIS</p>
     agent_type:
       agent_family: Familia
       agent_person: Persona

@@ -227,7 +227,7 @@ it:
       in altre sezioni dell'applicazione.</p>\n"
     subjects_tooltip: "<p>Usato per linkare i soggetti coi materiali descritti.</p>\n"
     lang_materials_tooltip: "<p>Le lingue e gli scripts rappresentati nel materiale/i descritto/i.</p>\n\
-      \ <p>Vedere DACS 4.5</p>\n"
+      \ <p>Vedere DACS 4.5, ISAD(G) 3.4.3</p>\n"
     notes_tooltip: "<p>Ulteriori informazioni descrittive sui materiali descritti, solitamente in forma
       di testo o liste strutturate.</p>\n"
     rights_statements_tooltip: "<p>Informazioni riguardo lo stato dei diritti dei materiali descritti

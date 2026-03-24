@@ -62,7 +62,7 @@ en:
   section_tooltips: &section_tooltips
     lang_materials_tooltip: |
         <p>The languages and scripts represented in the material(s) described.</p>
-        <p>See DACS 4.5</p>
+        <p>See DACS 4.5, ISAD(G) 3.4.3</p>
     dates_tooltip: |
         <p>Identifies and records the date(s) that pertain to the creation, assembly, accumulation, and/or maintenance and use of the materials being described.</p>
         <p>See DACS 2.4, ISAD(G) 3.1.3</p>
@@ -1342,10 +1342,11 @@ en:
     language: Language
     language_tooltip: &language_language_tooltip |
         <p>REQUIRED FIELD: The language term and code represented in the material(s) described. Codes drawn from ISO 639-2b: Codes for the Representation of Names of Languages.</p>
+        <p>See DACS 4.5, ISAD(G) 3.4.3</p>
     script: Script
     script_tooltip: &language_script_tooltip |
         <p>The script term and code represented in the material(s) described. Codes drawn from ISO 15924: Codes for the representation of names of scripts.</p>
-        <p>See DACS 4.5</p>
+        <p>See DACS 4.5, ISAD(G) 3.4.3</p>
 
   language_note:
     <<: *lang_material_attributes
@@ -1620,7 +1621,7 @@ en:
         <p>Indicates all the languages present in the record generated from the accession description.</p>
     script: Script of Description
     script_tooltip: |
-        <p>Indicates all the scripts present in the record generated from the accession description.</p>
+        <p>Indicates all the scripts present in the record generated from the accession description. See DACS 4.5, ISAD(G) 3.4.3</p>
     access_restrictions: Access Restrictions?
     access_restrictions_tooltip: |
         <p>A checkbox for indicating access to the materials is restricted.</p>
@@ -1710,7 +1711,7 @@ en:
     type: Agent Type
     type_tooltip: |
         <p>The type of entity represented by the Agent record.</p>
-        <p>See DACS 10.2 and PREMIS Agent entity</p>
+        <p>See DACS 10.2, ISAAR (CPF) 5.1.1, and PREMIS Agent entity</p>
     agent_type:
       agent_family: Family
       agent_person: Person
