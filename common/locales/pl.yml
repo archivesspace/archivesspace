@@ -271,7 +271,7 @@ pl:
     restrictions_apply: Czy obowiązują jakieś ograniczenia?
     restrictions_apply_tooltip: |
       <p>Informacja o ewentualnych ograniczeniach dotyczących dostępu do dokumentów.</p>
-      <p>Patrz DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.4-4.3.6</p>
+      <p>Patrz DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     resource_type: Typ zasobu
     resource_type_tooltip: |
       <p>Lista terminów używanych przez repozytorium do kategoryzowania zasobów według podstawowych typów.</p>
@@ -285,10 +285,11 @@ pl:
     access_restrictions: Ograniczenia dostępu?
     access_restrictions_tooltip: |
       <p>Pole wyboru służące do wskazania, że dostęp do materiałów jest ograniczony.</p>
-      <p>Zobacz DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.5-4.3.6</p>
+      <p>Zobacz DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
     access_restrictions_note: Uwaga dotycząca ograniczeń dostępu
     access_restrictions_note_tooltip: |
       <p>Oświadczenie wskazujące, do których materiałów w zbiorze dostęp jest ograniczony, na jakiej podstawie prawnej wprowadzono to ograniczenie oraz jak długo będzie ono obowiązywać. Dodatkowe informacje mogą być również zapisane w podrekordzie dotyczącym praw dostępu.</p>
+      <p>Zobacz DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
       <p>Przykłady:</p>
       <ul>
       <li>Dzienniki w pudełku dziesiątym są objęte ograniczeniem dostępu nałożonym przez darczyńcę do 2030 roku.</li>
@@ -296,9 +297,11 @@ pl:
     use_restrictions: Czy obowiązują jakieś ograniczenia w użytkowaniu?
     use_restrictions_tooltip: |
       <p>Pole wyboru wskazujące, że istnieją ograniczenia dotyczące wykorzystania materiałów wchodzących w skład zbioru.</p>
+      <p>Zobacz DACS 4.4; ISAD(G) 3.4.2</p>
     use_restrictions_note: Uwagi dotyczące ograniczeń użytkowania
     use_restrictions_note_tooltip: |
       <p>Oświadczenie wskazujące, które materiały podlegają ograniczeniom w użytkowaniu, w jaki sposób można z nich korzystać, na jakiej podstawie prawnej obowiązują te ograniczenia oraz jak długo będą obowiązywać. Dodatkowe informacje mogą być również zapisane w podrekordzie dotyczącym praw autorskich.</p>
+      <p>Zobacz DACS 4.4; ISAD(G) 3.4.2</p>
       <p>Przykłady:</p>
       <p>Rękopisy w pudełku nr 33 są delikatne; należy korzystać z kopii.</p>
     acquisition_type: Rodzaj przejęcia
@@ -317,7 +320,7 @@ pl:
     restrictions: Ograniczenia?
     restrictions_tooltip: |
       <p>Informacja o ewentualnych ograniczeniach dotyczących dostępu do dokumentów.</p>
-      <p>Patrz DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
+      <p>Patrz DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     title: Tytuł
     title_tooltip: |
       <p>Tytuł przypisany do jednostki archiwalnej lub zasobu. Tytuł jednostki archiwalnej nie musi być taki sam jak tytuł zasobu. Ponadto, tytuł nie musi być jawnie podany w rekordzie jednostki archiwalnej, ponieważ może być dziedziczony z rekordu zasobu, z którym jednostka archiwalna jest powiązana.</p>
@@ -504,7 +507,7 @@ pl:
     restrictions_apply: Czy obowiązują jakieś ograniczenia?
     restrictions_apply_tooltip: |
       <p>Wskazuje, czy opisane materiały podlegają jakimkolwiek ograniczeniom. Dodatkowy opis ograniczeń należy zamieścić w odpowiednich uwagach lub oświadczeniach dotyczących praw autorskich w rekordzie, w którym występuje dane ograniczenie.</p>
-      <p>Patrz DACS 4.1-4.4</p>
+      <p>Patrz DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note: Uwaga dotycząca przetwarzania w repozytorium
     repository_processing_note_tooltip: |
       <p>Pole przeznaczone do wprowadzania informacji dotyczących przetwarzania materiałów. Ta notatka nie jest uwzględniana w żadnych eksportach ani raportach i nie jest wypełniana podczas importu danych.</p>
@@ -643,7 +646,7 @@ pl:
     restrictions: Czy obowiązują jakieś ograniczenia?
     restrictions_tooltip: |
       <p>Wskazuje, czy opisane materiały podlegają jakimkolwiek ograniczeniom. Dodatkowy opis ograniczeń należy zamieścić w odpowiednich uwagach lub oświadczeniach dotyczących praw autorskich w rekordzie, w którym występuje dane ograniczenie.</p>
-      <p>Patrz DACS 4.1-4.4</p>
+      <p>Patrz DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note_tooltip: |
       <p>Pole przeznaczone do wprowadzania informacji dotyczących przetwarzania materiałów. Ta notatka nie jest uwzględniana w żadnych eksportach ani raportach i nie jest wypełniana podczas importu danych.</p>
     ead_id: EAD ID
@@ -751,6 +754,7 @@ pl:
     restrictions: Ograniczenia?
     restrictions_tooltip: |
       <p>Pole wyboru służące do wskazania, że obowiązują ograniczenia. Ograniczenia można opisać za pomocą podrekordów „Uwagi” lub „Prawa”.</p>
+      <p>Patrz DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     file_versions_tooltip: |
       <p>Łączy obiekt cyfrowy lub komponent obiektu cyfrowego z powiązanym plikiem treści, dostępnym za pośrednictwem adresu URI.</p>
     _singular: Obiekt cyfrowy

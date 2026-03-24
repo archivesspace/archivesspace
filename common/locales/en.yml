@@ -125,6 +125,7 @@ en:
     restrictions: Restrictions?
     restrictions_tooltip: |
         <p>A check box for indicating that restrictions apply. The restrictions can be explained using Note subrecords or Rights subrecords.</p>
+        <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     file_versions_tooltip: |
         <p>Links a digital object or digital object component to an associated content file, addressable by URI.</p>
     _singular: Digital Object
@@ -1609,7 +1610,7 @@ en:
     restrictions_apply: Restrictions Apply?
     restrictions_apply_tooltip: |
         <p>Indication if restrictions apply to the accession.</p>
-        <p>See DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.4-4.3.6</p>
+        <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p></p>
     resource_type: Resource Type
     resource_type_tooltip: |
         <p>A list of terms used by a repository for categorizing its resources into basic types.</p>
@@ -1623,20 +1624,23 @@ en:
     access_restrictions: Access Restrictions?
     access_restrictions_tooltip: |
         <p>A checkbox for indicating access to the materials is restricted.</p>
-        <p>See DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.5-4.3.6</p>
+        <p>See DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
     access_restrictions_note: Access Restrictions Note
     access_restrictions_note_tooltip: |
         <p>A statement indicating what materials in the accession have access to them restricted, what the authority of the restriction is, and for how long the restriction will be in effect. Additional information may also be recorded in a Rights subrecord.</p>
+        <p>See DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
         <p>Examples:</p>
         <ul>
-        <li>Diaries in box ten have are restricted by the donor until 2030.</li>
+        <li>Diaries in box ten are restricted by the donor until 2030.</li>
         </ul>
     use_restrictions: Use Restrictions?
     use_restrictions_tooltip: |
         <p>A check box to indicate that there are use restrictions for materials in the accession.</p>
+        <p>See DACS 4.4, ISAD(G) 3.4.2</p>
     use_restrictions_note: Use Restrictions Note
     use_restrictions_note_tooltip: |
         <p>A statement indicating which materials have use restrictions, how the materials can be used, what the authority of the restriction is, and for how long the restriction will be in effect. Additional information may also be recorded in a Rights subrecord.</p>
+        <p>See DACS 4.4, ISAD(G) 3.4.2</p>
         <p>Examples:</p>
         <p>Manuscripts in box 33 are fragile; photocopies must be used instead.</p>
     acquisition_type: Acquisition Type
@@ -1656,7 +1660,7 @@ en:
     restrictions: Restrictions?
     restrictions_tooltip: |
         <p>Indication if restrictions apply to the accession.</p>
-        <p>See DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
+        <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     title: Title
     title_tooltip: |
         <p>The title assigned to an accession or resource. The accession title
@@ -1862,7 +1866,7 @@ en:
     restrictions_apply: Restrictions Apply?
     restrictions_apply_tooltip: |
         <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
-        <p>See DACS 4.1-4.4</p>
+        <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note: Repository Processing Note
     repository_processing_note_tooltip: |
          <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
@@ -1983,7 +1987,7 @@ en:
     restrictions: Restrictions Apply?
     restrictions_tooltip: |
         <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
-        <p>See DACS 4.1-4.4</p>
+        <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note_tooltip: |
         <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     ead_id: EAD ID

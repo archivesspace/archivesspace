@@ -459,28 +459,30 @@ de:
       angibt.\n<p>Beispiele:</p>\n<ul>\n<li>Siehe Aufbewahrungszeitplan des Campus.</li>\n</ul>\n"
     restrictions_apply: Gelten Einschränkungen?
     restrictions_apply_tooltip: "<p>Angabe, ob Einschränkungen für den Eingang gelten.</p>\n<p>Siehe DACS
-      4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.4-4.3.6, ISAD(G) 3.4.1; 3.4.4</p>\n"
+      4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>\n"
     resource_type: Art der Ressource
     language: Sprache der Beschreibung
     script_tooltip: "<p>Gibt alle Schriften an, die in der aus der Eingangsbeschreibung erstellten Aufzeichnung
       vorhanden sind.</p>\n"
     access_restrictions: Zugangsbeschränkungen?
     access_restrictions_tooltip: "<p>Ein Kontrollkästchen zur Angabe, dass der Zugang zum Archivgut eingeschränkt
-      ist.</p>\n<p>Siehe DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.5-4.3.6, ISAD(G) 3.4.1; 3.4.4</p>\n"
+      ist.</p>\n<p>Siehe DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>\n"
     access_restrictions_note: Anmerkung zu Zugangsbeschränkungen
     publish: Veröffentlichen?
     access_restrictions_note_tooltip: "<p>Eine Erklärung zur Angabe für welches Archivgut im Eingang eine
       Zugangsbeschränkung besteht, woher diese Einschränkung kommt und für welchen Zeitraum sie gilt.
-      Zusätzliche Informationen können auch in einer Teilaufzeichnung für Rechte erfasst werden.</p>\n\
-      \ <p>Beispiele:</p>\n<ul>\n<li>Die Tagebücher in Karton zehn sind vom Geber bis 2030 gesperrt.</li>\n\
+      Zusätzliche Informationen können auch in einer Teilaufzeichnung für Rechte erfasst werden.</p>\n<p>Siehe DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>\n
+      <p>Beispiele:</p>\n<ul>\n<li>Die Tagebücher in Karton zehn sind vom Geber bis 2030 gesperrt.</li>\n\
       </ul>\n"
     use_restrictions: Nutzungsbeschränkungen?
     use_restrictions_tooltip: "<p>Ein Kontrollkästchen zur Angabe von Nutzungsbeschränkungen für das Archivgut
-      im Eingang.</p>\n"
+      im Eingang.</p>\n
+      <p>Siehe DACS 4.4; ISAD(G) 3.4.2</p>\n"
     use_restrictions_note: Anmerkung zu Nutzungsbeschränkungen
     use_restrictions_note_tooltip: "<p>Eine Erklärung zur Angabe welches Archivgut Nutzungsbeschränkungen
       unterliegt, wie das Archivgut genutzt werden kann, woher die Einschränkung kommt und wie lange sie
-      gilt. Zusätzliche Informationen können auch in einer Teilaufzeichnung für Rechte erfasst werden.</p>\n\
+      gilt. Zusätzliche Informationen können auch in einer Teilaufzeichnung für Rechte erfasst werden.</p>\n
+      <p>Siehe DACS 4.4; ISAD(G) 3.4.2</p>\n
       \ <p>Beispiele:</p>\n<p>Manuskripte in Karton 33 sind brüchig; stattdessen müssen Fotokopien verwendet
       werden.</p>\n"
     acquisition_type: Bezugsart
@@ -519,8 +521,7 @@ de:
       bearbeitet werden.</p>\n"
     language_tooltip: "<p>Gibt alle Sprachen an, die in der aus der Eingangsbeschreibung erstellten Aufzeichnung
       vorhanden sind.</p>\n"
-    restrictions_tooltip: "<p>Angabe, ob Einschränkungen für den Eingang gelten.</p>\n<p>Siehe DACS 4.1.5
-      - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6, ISAD(G) 3.4.1; 3.4.4</p>\n"
+    restrictions_tooltip: "<p>Angabe, ob Einschränkungen für den Eingang gelten.</p>\n<p>Siehe DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>"
     title_tooltip: "<p>Der einem Eingang oder Ressource zugewiesene Titel. Der Titel des Eingangs\nmuss
       nicht mit dem Titel der Ressource identisch sein. Außerdem muss ein Titel nicht\nfür die Eingangs-Aufzeichnung
       angegeben werden, da er implizit\nvon der Ressourcen-Aufzeichnung geerbt wird, mit dem der Eingang\n\
@@ -565,7 +566,8 @@ de:
       um anzugeben, dass sich die Beschreibung auf eine Sammlung, ein Werk oder ein Bild bezieht.</p>\n"
     restrictions: Einschränkungen?
     restrictions_tooltip: "<p>Ein Kontrollkästchen, das anzeigt, dass Einschränkungen gelten. Die Einschränkungen
-      können mit Hilfe von Anmerkungs-Teilaufzeichnungen für Hinweise oder Rechte erläutert werden.</p>\n"
+      können mit Hilfe von Anmerkungs-Teilaufzeichnungen für Hinweise oder Rechte erläutert werden.</p>\n
+      <p>Siehe DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>"
     linker:
       browse: Digitale Objekte durchsuchen
       create: Digitales Objekt erstellen
@@ -1493,7 +1495,8 @@ de:
       <p>Der in dem beschriebenen Archivgut dargestellte Schriftbegriff und Code. Die Codes stammen aus ISO 15924: Codes für die Darstellung von Namen von Schriften.</p>
       <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>
     language_tooltip: |
-      <p> ERFORDERLICHES FELD: Der Sprachbegriff und der Code, der im beschriebenen Archivgut enthalten ist. Die Codes stammen aus ISO 639-2b: Codes für die Repräsentation von Namen von Sprachen.</p>
+      <p>ERFORDERLICHES FELD: Der Sprachbegriff und der Code, der im beschriebenen Archivgut enthalten ist. Die Codes stammen aus ISO 639-2b: Codes für die Repräsentation von Namen von Sprachen.</p>
+      <p>Siehe DACS 4.5, ISAD(G) 3.4.3</p>
     language: Sprache
   language_note:
     <<: *lang_material_attributes
@@ -1699,8 +1702,8 @@ de:
       und wird von Importen nicht befüllt.</p>\n"
     restrictions_apply_tooltip: "<p>Gibt an, ob das beschriebene Archivgut in irgendeiner Weise eingeschränkt
       sind. Eine zusätzliche Beschreibung der Einschränkung sollte in den entsprechenden Anmerkungen oder
-      Rechteerklärungen für die Aufzeichnung, in dem die Einschränkung auftritt, gegeben werden.</p>\n\
-      \ <p>Siehe DACS 4.1-4.4, ISAD(G) 3.4.1; 3.4.2; 3.4.4</p>\n"
+      Rechteerklärungen für die Aufzeichnung, in dem die Einschränkung auftritt, gegeben werden.</p>\n
+      <p>Siehe DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>\n"
   related_agents_agent_person:
     related_agents: Verwandte Akteure
   related_agents_agent_family:
@@ -1861,7 +1864,7 @@ de:
     restrictions_tooltip: "<p>Gibt an, ob das beschriebene Archivgut in irgendeiner Weise eingeschränkt
       sind. Eine zusätzliche Beschreibung der Einschränkung sollte in den entsprechenden Anmerkungen oder
       Rechteerklärungen für die Aufzeichnung, in dem die Einschränkung auftritt, gegeben werden.</p>\n\
-      \ <p>Siehe DACS 4.1-4.4, ISAD(G) 3.4.1; 3.4.2; 3.4.4</p>\n"
+      \ <p>Siehe DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>\n"
     title_tooltip: "<p>ERFORDERLICHES FELD. Der Titel, welcher der Ressource zugewiesen wurde.</p>\n<p>Siehe
       DACS 2.3, ISAD(G) 3.1.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Graciany Miranda Archilla Arbeiten</li>\n\
       \ <li>Liebe macht eine Familie Aufzeichnungen</li>\n<li>Kontobuch der Familie Cameron</li>\n<li>Karoline

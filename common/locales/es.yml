@@ -128,6 +128,7 @@ es:
     restrictions: ¿Restricciones?
     restrictions_tooltip: |
       <p>Una casilla de verificación para indicar que se aplican restricciones. Las restricciones pueden explicarse mediante los subregistros nota o subregistros de derechos.</p>
+      <p>Ver DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     file_versions_tooltip: |
       <p>Enlaza un objeto digital o un componente de objeto digital a un archivo de contenido asociado, direccionable por URI.</p>
     _singular: Objeto digital
@@ -1278,7 +1279,7 @@ es:
     restrictions_apply: ¿Se aplican restricciones?
     restrictions_apply_tooltip: |
       <p>Indicación de si se aplican restricciones al acta de ingreso.</p>
-      <p>Ver DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.4-4.3.6</p>
+      <p>Ver DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     resource_type: Tipo de recurso
     resource_type_tooltip: |
       <p>Una lista de términos utilizados por un repositorio para categorizar sus recursos en tipos básicos.</p>
@@ -1292,20 +1293,23 @@ es:
     access_restrictions: ¿Restricciones de acceso?
     access_restrictions_tooltip: |
       <p>Una casilla de verificación para indicar el acceso a los materiales está restringido.</p>
-      <p>Ver DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.5-4.3.6</p>
+      <p>Ver DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
     access_restrictions_note: Nota de las restricciones de acceso
     access_restrictions_note_tooltip: |
       <p>Una declaración indicando qué materiales en el acta de ingreso tienen acceso restringido, lo que la autoridad de la restricción es y por cuánto tiempo la restricción estará en efecto. Información adicional también puede grabarse en un subregistro de derechos.</p>
+      <p>Ver DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
       <p>Ejemplos</p>
       <ul>
-      <li>Diarios en cuadro de diez tienen están restringidos por el donante hasta el 2030.</li>
+      <li>Diarios en cuadro de diez están restringidos por el donante hasta el 2030.</li>
       </ul>
     use_restrictions: ¿Restricciones de uso?
     use_restrictions_tooltip: |
       <p>Una casilla de verificación para indicar que hay restricciones de uso de materiales en la entrada.</p>
+      <p>Ver DACS 4.4, ISAD(G) 3.4.2</p>
     use_restrictions_note: Nota de las restricciones de uso
     use_restrictions_note_tooltip: |
       <p>Una declaración indicando que los materiales tienen restricciones de uso, cómo pueden utilizarse los materiales, lo que la autoridad de la restricción es y por cuánto tiempo la restricción estará en efecto. Información adicional también puede grabarse en un subregistro de derechos.</p>
+      <p>Ver DACS 4.4, ISAD(G) 3.4.2</p>
       <p>Ejemplos</p>
       <p>En la casilla 33 manuscritos son frágiles; fotocopias deben utilizarse en su lugar.</p>
     acquisition_type: Tipo de acta de ingreso
@@ -1325,7 +1329,7 @@ es:
     restrictions: ¿Restricciones?
     restrictions_tooltip: |
       <p>Indicación de si se aplican restricciones al acta de ingreso.</p>
-      <p>Ver DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
+      <p>Ver DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     title: Título
     title_tooltip: |
       <p>El título asignado a una accesión o recurso. El título de la accesión no necesita ser el mismo que el título del recurso. Además, no es necesario expresar un título para el registro de acceso, ya que puede heredarse implícitamente del registro de recursos al que está vinculado el acceso. </p>
@@ -1511,7 +1515,7 @@ es:
     restrictions_apply: ¿Se aplican restricciones?
     restrictions_apply_tooltip: |
       <p>Indica si los materiales descritos tienen algún tipo de limitación legal. En la nota apropiada se describirá la restricción o normativa en cuestión.</p>
-      <p>Ver DACS 4.1-4.4</p>
+      <p>Ver DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note: Nota relativa al proceso técnico
     repository_processing_note_tooltip: |
       <p>Un campo específico de la aplicación para registrar información sobre el procesamiento de los materiales. Esta nota no se incluye en ninguna exportación o informe, y no está poblada por importaciones.</p>
@@ -1647,7 +1651,7 @@ es:
     restrictions: ¿Restricciones?
     restrictions_tooltip: |
       <p>Indica si los materiales descritos están restringidos de alguna manera. Se debe proporcionar una descripción adicional de la restricción en Notas o Declaraciones de Derechos apropiadas para el registro donde se produce la restricción.</p>
-      <p>Ver DACS 4.1-4.4</p>
+      <p>Ver DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note_tooltip: |
       <p>Un campo para registrar información específica sobre el proceso técnico de los materiales. Esta nota es de uso interno y no se exporta en el instrumento de descripción.</p>
     ead_id: Identificador EAD

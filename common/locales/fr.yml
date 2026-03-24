@@ -135,6 +135,7 @@ fr:
     restrictions: Restrictions?
     restrictions_tooltip: |
       <p>Une case à cocher pour indiquer que des restrictions s'appliquent. Les restrictions peuvent être spécifiées en recourant aux sous-notices Note ou aux sous-notices Droits.</p>
+      <p>Ver DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     file_versions_tooltip: |
       <p>Lie un objet numérique ou un composant d'objet numérique à un fichier de contenu associé, adressable par URI.</p>
     _singular: Objet numérique
@@ -1313,7 +1314,7 @@ fr:
     restrictions_apply: Des restrictions s'appliquent?
     restrictions_apply_tooltip: |
       <p>Indiquer si des restrictions s'appliquent à l'entrée.</p>
-      <p>Voir DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.4-4.3.6</p>
+      <p>Voir DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     resource_type: Type de ressource
     resource_type_tooltip: |
       <p>Une liste de termes utilisés par un service d'archives pour catégoriser ses ressources en types de base.</p>
@@ -1327,10 +1328,11 @@ fr:
     access_restrictions: Restrictions de consultation?
     access_restrictions_tooltip: |
       <p>Une case à cocher pour indiquer que l'accès aux documents est soumis à des restrictions.</p>
-      <p>Voir DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.5-4.3.6</p>
+      <p>Voir DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
     access_restrictions_note: Note de restrictions de consultation
     access_restrictions_note_tooltip: |
       <p>Une mention indiquant que la consultation de tels et tels documents collectés est soumise à des restrictions, formulées par telle autorité, et valables pour tant de temps. Un complément d'information peut aussi être consigné dans une sous-notice droits d'auteur.</p>
+      <p>Voir DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
       <p>Exemples:</p>
       <ul>
       <li>Les journaux intimes conservés dans la boîte 10 ne pas communicables avant 2030 par décision du donateur.</li>
@@ -1338,9 +1340,11 @@ fr:
     use_restrictions: Restrictions d'utilisation?
     use_restrictions_tooltip: |
       <p>Une case à cocher pour indiquer que des restrictions d'utilisation s'appliquent à certains des documents collectés.</p>
+      <p>Voir DACS 4.4, ISAD(G) 3.4.2</p>
     use_restrictions_note: Note de restrictions d'utilisation
     use_restrictions_note_tooltip: |
       <p>Une mention indiquant les documents concernés par les restrictions d'utilisation, comment ils peuvent être utilisés, quelle autorité a formulé les restrictions et pour combien de temps elles sont valables. Un complément d'information peut aussi être consigné dans une sous-notice droits d'auteur.</p>
+      <p>Voir DACS 4.4, ISAD(G) 3.4.2</p>
       <p>Exemples:</p>
       <p>Les manuscrits de la boîte 33 sont fragiles; utiliser les photocopies à la place.</p>
     acquisition_type: Type d'acquisition
@@ -1360,7 +1364,7 @@ fr:
     restrictions: Restrictions?
     restrictions_tooltip: |
       <p>Indique si des restrictions s'appliquent à l'entrée.</p>
-      <p>Voir DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
+      <p>Voir DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     title: Intitulé
     title_tooltip: |
       <p>L'intitulé assigné à une entrée ou à une ressource. L'intitulé de l'entrée
@@ -1564,7 +1568,7 @@ fr:
     restrictions_apply: Des restrictions s'appliquent?
     restrictions_apply_tooltip: |
       <p>Indique si les documents décrits sont soumis à quelque restriction que ce soit. Les précisions relatives à la restriction doivent être saisies dans les notes appropriées ou dans les mentions de droits à l'endroit de la notice concerné par la restriction.</p>
-      <p>Voir DACS 4.1-4.4</p>
+      <p>Voir DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note: Note de traitement de dépôt
     repository_processing_note_tooltip: |
       <p>Champ spécifique à l'application pour enregistrer une information concernant le traitement des documents. Cette note n'est incluse dans aucun rapport ou export, et n'est pas renseignée par import.</p>
@@ -1706,7 +1710,7 @@ fr:
     restrictions: Des restrictions s'appliquent?
     restrictions_tooltip: |
       <p>Indique si les documents décrits sous soumis à quelque restriction que ce soit. Des précisions concernant la restriction sont à fournir dans les notes ou la déclaration de droits appropriée pour la notice concernée.</p>
-      <p>See DACS 4.1-4.4</p>
+      <p>Voir DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note_tooltip: |
       <p>Champ spécifique à l'application pour enregistrer une information relative au traitement des documents. Cette note n'est inclue dans aucun export ou rapport, et n'est pas remplie par import.</p>
     ead_id: Identifiant EAD
