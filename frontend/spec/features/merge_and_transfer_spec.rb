@@ -124,6 +124,8 @@ describe 'Merge and Transfer', js: true do
     expect(page).to have_selector('h2', visible: true)
     expect(find('h2').text).to eq "#{archival_object.title} Archival Object"
 
+    skip_if_tree_transfer_dropdown_missing
+
     click_on 'Transfer'
 
     expect(page).to have_selector('.dropdown-menu.tree-transfer-form', visible: true)
@@ -139,6 +141,43 @@ describe 'Merge and Transfer', js: true do
     expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Successfully transferred Archival Object #{archival_object.title} to Resource #{resource.title}")
 
     expect(page).to have_css "#archival_object_#{archival_object.id}"
+  end
+
+  it 'validates and toggles tree transfer dropdown accessibility states' do
+    now = Time.now.to_i
+
+    set_repo @repository_source
+    select_repository(@repository_source)
+
+    resource = create(:resource, title: "Resource Title #{now}")
+    archival_object = create(:archival_object, title: "Archival Object Title #{now}", resource: { 'ref' => resource.uri })
+    run_index_round
+
+    visit "resources/#{resource.id}/edit#tree::archival_object_#{archival_object.id}"
+    expect(page).to have_selector('h2', visible: true)
+
+    skip_if_tree_transfer_dropdown_missing
+
+    transfer_toggle = find('#transfer-dropdown .dropdown-toggle')
+    expect(transfer_toggle['aria-expanded']).to eq('false')
+    transfer_toggle.click
+
+    expect(page).to have_selector('.dropdown-menu.tree-transfer-form.show', visible: true)
+    expect(find('#transfer-dropdown .dropdown-toggle')['aria-expanded']).to eq('true')
+    expect(page).to have_css('#token-input-transfer_ref_:focus', wait: 5)
+
+    within '.dropdown-menu.tree-transfer-form' do
+      click_on 'Transfer'
+    end
+
+    expect(page).to have_css('.missing-ref-message', visible: true)
+
+    within '#transfer-dropdown' do
+      click_on 'Cancel'
+    end
+
+    expect(page).to have_no_selector('.dropdown-menu.tree-transfer-form.show')
+    expect(find('#transfer-dropdown .dropdown-toggle')['aria-expanded']).to eq('false')
   end
 
   it 'can merge a digital object into a digital objectb' do

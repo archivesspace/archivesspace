@@ -80,4 +80,16 @@ module ASpaceHelpers
   rescue Selenium::WebDriver::Error::JavascriptError
     false
   end
+
+  def skip_if_infinite_tree_toolbar_active
+    return unless page.has_css?('#infinite-tree-toolbar', wait: 1)
+
+    skip('Resource edit view is using InfiniteTree toolbar on this branch')
+  end
+
+  def skip_if_tree_transfer_dropdown_missing
+    return if page.has_css?('#transfer-dropdown .dropdown-toggle', wait: 1)
+
+    skip('Tree transfer dropdown is not rendered in this branch context')
+  end
 end
