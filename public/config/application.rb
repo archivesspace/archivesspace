@@ -100,6 +100,10 @@ module ArchivesSpacePublic
   end
 end
 
+Rails.application.config.after_initialize do
+  Search.init
+end
+
 # Load plugin init.rb files (if present)
 ASUtils.order_plugins(ASUtils.find_local_directories('public')).each do |dir|
   init_file = File.join(dir, "plugin_init.rb")

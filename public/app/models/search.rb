@@ -1,30 +1,28 @@
 class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter_fields, :filter_values, :filter_q, :filter_from_year, :filter_to_year, :recordtypes, :dates_searched, :sort, :dates_within, :text_within, :search_statement)
 
   @@BooleanOpts = []
-
-  def Search.get_boolean_opts
-    if @@BooleanOpts.empty?
-      %w(AND OR NOT).each do |opt|
-        @@BooleanOpts.push([ I18n.t("advanced_search.operator.#{opt}"), opt])
-      end
-    end
-    @@BooleanOpts
-  end
-
-  # we create all the possible sort options here, then refine them according to what's being sorted
   @@SortOpts = {}
 
-  def Search.get_sort_opts
-    if @@SortOpts.empty?
-      @@SortOpts['relevance'] = [I18n.t('search_sorting.relevance'), ""]
-      # the things we do for I18n!
-      %w(title_sort year_sort identifier).each do |type|
-        %w(asc desc).each do |dir|
-          @@SortOpts["#{type}_#{dir}"] = [I18n.t('search_sorting.sorting', :type => I18n.t("search_sorting.#{type}"), :direction => I18n.t("search_sorting.#{dir}")), "#{type} #{dir}"]
-        end
+  def self.init
+    %w(AND OR NOT).each do |opt|
+      @@BooleanOpts.push([ I18n.t("advanced_search.operator.#{opt}"), opt])
+    end
+    @@SortOpts['relevance'] = [I18n.t('search_sorting.relevance'), ""]
+    # the things we do for I18n!
+    %w(title_sort year_sort identifier).each do |type|
+      %w(asc desc).each do |dir|
+        @@SortOpts["#{type}_#{dir}"] = [I18n.t('search_sorting.sorting', :type => I18n.t("search_sorting.#{type}"), :direction => I18n.t("search_sorting.#{dir}")), "#{type} #{dir}"]
       end
     end
-    @@SortOpts
+  end
+
+  def Search.get_boolean_opts
+    @@BooleanOpts.dup
+  end
+
+
+  def Search.get_sort_opts
+    @@SortOpts.dup
   end
 
 
