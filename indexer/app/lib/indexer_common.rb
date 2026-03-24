@@ -115,7 +115,7 @@ class IndexerCommon
     e = end_date.scan(/\A[0-9]{1,4}/).first
 
     if b && e
-      (b .. e).to_a
+      (b..e).to_a
     else
       []
     end
@@ -216,8 +216,8 @@ class IndexerCommon
   def add_agents(doc, record)
     if record['record']['linked_agents']
       # index all linked agents first
-      doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['display_name']['sort_name']}
-      doc['agent_uris'] = record['record']['linked_agents'].collect{|link| link['ref']}
+      doc['agents'] = record['record']['linked_agents'].collect {|link| link['_resolved']['display_name']['sort_name']}
+      doc['agent_uris'] = record['record']['linked_agents'].collect {|link| link['ref']}
 
       # only published agents
       doc['published_agents'] = []
@@ -230,15 +230,15 @@ class IndexerCommon
       end
 
       # index the creators only
-      creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
-      doc['creators'] = creators.collect{|link| link['_resolved']['display_name']['sort_name']} if not creators.empty?
+      creators = record['record']['linked_agents'].select {|link| link['role'] === 'creator'}
+      doc['creators'] = creators.collect {|link| link['_resolved']['display_name']['sort_name']} if not creators.empty?
     end
   end
 
   def add_subjects(doc, record)
     if record['record']['subjects']
       doc['subjects'] = record['record']['subjects'].map {|s| s['_resolved']['title']}.compact
-      doc['subject_uris'] = record['record']['subjects'].collect{|link| link['ref']}
+      doc['subject_uris'] = record['record']['subjects'].collect {|link| link['ref']}
     end
   end
 
@@ -252,7 +252,7 @@ class IndexerCommon
         next unless sr[type]
 
         doc['subjects'].concat(sr[type].map {|s| s['_resolved']['title']}.compact)
-        doc['subject_uris'].concat(sr[type].collect{|link| link['ref']})
+        doc['subject_uris'].concat(sr[type].collect {|link| link['ref']})
       end
     end
   end
@@ -341,7 +341,7 @@ class IndexerCommon
     return @enum_fields if @enum_fields
 
     enum_fields = []
-    queue = JSONModel.models.map {|_,model| model.schema['properties']}.flatten.uniq
+    queue = JSONModel.models.map {|_, model| model.schema['properties']}.flatten.uniq
 
     while !queue.empty?
       elt = queue.shift
@@ -376,7 +376,6 @@ class IndexerCommon
 
 
   def configure_doc_rules
-
     add_document_prepare_hook {|doc, record|
       found_keys = Set.new
 
@@ -504,8 +503,8 @@ class IndexerCommon
         doc['area'] = record['record']['area']
         if record['record']['owner_repo']
           repo = JSONModel::HTTP.get_json(record['record']['owner_repo']['ref'])
-            doc['owner_repo_uri_u_sstr'] = record['record']['owner_repo']['ref']
-            doc['owner_repo_display_string_u_ssort'] = repo["repo_code"]
+          doc['owner_repo_uri_u_sstr'] = record['record']['owner_repo']['ref']
+          doc['owner_repo_display_string_u_ssort'] = repo["repo_code"]
         end
       end
     }
@@ -532,7 +531,7 @@ class IndexerCommon
         doc['ead_id'] = record['record']['ead_id']
         doc['finding_aid_status'] = record['record']['finding_aid_status']
         doc['related_accession_uris'] = record['record']['related_accessions'].
-                                           collect{|accession| accession["ref"]}.
+                                           collect {|accession| accession["ref"]}.
                                            compact.uniq
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
@@ -554,7 +553,7 @@ class IndexerCommon
 
         doc['collection_uri_u_sstr'] = record['record']['collection'].map {|collection| collection['ref']}
         doc['linked_instance_uris'] = record['record']['linked_instances'].
-                                         collect{|instance| instance["ref"]}.
+                                         collect {|instance| instance["ref"]}.
                                          compact.uniq
       end
     }
@@ -641,7 +640,7 @@ class IndexerCommon
 
         doc['linked_agent_roles'] = record['record']['linked_agent_roles']
 
-        doc['related_agent_uris'] = ASUtils.wrap(record['record']['related_agents']).collect{|ra| ra['ref']}
+        doc['related_agent_uris'] = ASUtils.wrap(record['record']['related_agents']).collect {|ra| ra['ref']}
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
 
@@ -676,14 +675,14 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if ['classification', 'classification_term'].include?(doc['primary_type'])
         doc['classification_path'] = ASUtils.to_json(record['record']['path_from_root'])
-        doc['agent_uris'] = ASUtils.wrap(record['record']['creator']).collect{|agent| agent['ref']}
+        doc['agent_uris'] = ASUtils.wrap(record['record']['creator']).collect {|agent| agent['ref']}
         doc['published_agent_uris'] = []
         if !record.dig(:record, :creator, :_resolved).nil?
-           if record['record']['creator']['_resolved']['publish'] && !record['record']['creator']['ref'].nil?
-             doc['published_agent_uris'] << record['record']['creator']['ref']
-           end
+          if record['record']['creator']['_resolved']['publish'] && !record['record']['creator']['ref'].nil?
+            doc['published_agent_uris'] << record['record']['creator']['ref']
+          end
         end
-        doc['agents'] = ASUtils.wrap(record['record']['creator']).collect{|link| link['_resolved']['display_name']['sort_name']}
+        doc['agents'] = ASUtils.wrap(record['record']['creator']).collect {|link| link['_resolved']['display_name']['sort_name']}
         doc['identifier_sort'] = IndexerCommon.generate_sort_string_for_identifier(record['record']['identifier'])
         doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
         doc['has_classification_terms'] = record['record']['has_classification_terms']
@@ -748,13 +747,13 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if ['resource', 'archival_object', 'accession'].include?(doc['primary_type']) && record['record']['instances'] && record['record']['instances'].length > 0
         doc['location_uris'] = record['record']['instances'].
-                                  collect{|instance| instance["sub_container"]}.compact.
-                                  collect{|sub_container| sub_container["top_container"]["_resolved"]}.compact.
-                                  collect{|top_container| top_container["container_locations"]}.flatten.
-                                  collect{|container_location| container_location["ref"]}.uniq
+                                  collect {|instance| instance["sub_container"]}.compact.
+                                  collect {|sub_container| sub_container["top_container"]["_resolved"]}.compact.
+                                  collect {|top_container| top_container["container_locations"]}.flatten.
+                                  collect {|container_location| container_location["ref"]}.uniq
         doc['digital_object_uris'] = record['record']['instances'].
-                                        collect{|instance| instance["digital_object"]}.compact.
-                                        collect{|digital_object_instance| digital_object_instance["ref"]}.
+                                        collect {|instance| instance["digital_object"]}.compact.
+                                        collect {|digital_object_instance| digital_object_instance["ref"]}.
                                         flatten.uniq
       end
     }
@@ -786,7 +785,7 @@ class IndexerCommon
             IndexerCommon.generate_permutations_for_identifier(series['identifier'])
           }.flatten
 
-          record['record']['series'].select{|series| series['publish']}.each do |series|
+          record['record']['series'].select {|series| series['publish']}.each do |series|
             doc['published_series_uri_u_sstr'] ||= []
             doc['published_series_uri_u_sstr'] << series['ref']
             doc['published_series_title_u_sstr'] ||= []
@@ -813,13 +812,19 @@ class IndexerCommon
           doc['location_uri_u_sstr'] = []
           doc['location_uris'] = []
           doc['location_display_string_u_sstr'] = []
+          doc['location_profile_display_string_u_sstr'] = []
           record['record']['container_locations'].each do |container_location|
             if container_location['status'] == 'current'
               doc['location_uri_u_sstr'] << container_location['ref']
               doc['location_uris'] << container_location['ref']
               doc['location_display_string_u_sstr'] << container_location['_resolved']['title']
+              if container_location['_resolved']['location_profile']
+                lp_resolved = container_location['_resolved']['location_profile']['_resolved']
+                doc['location_profile_display_string_u_sstr'] << lp_resolved['display_string'] if lp_resolved
+              end
             end
           end
+          doc['location_profile_display_string_u_sstr'].uniq!
         else
           doc['has_location_u_sbool'] = false
         end
@@ -847,7 +852,7 @@ class IndexerCommon
         doc.delete('location_uris')
 
         # index the top_container's linked via a sub_container
-        ASUtils.wrap(record['record']['instances']).each{|instance|
+        ASUtils.wrap(record['record']['instances']).each {|instance|
           if instance['sub_container'] && instance['sub_container']['top_container']
             doc['top_container_uri_u_sstr'] ||= []
             doc['top_container_uri_u_sstr'] << instance['sub_container']['top_container']['ref']
@@ -970,31 +975,31 @@ class IndexerCommon
         doc['title'] = record['record']['display_string']
         doc['display_string'] = record['record']['display_string']
 
-        doc['assessment_record_uris'] = ASUtils.wrap(record['record']['records']).map{|r| r['ref']}
-        doc['assessment_records'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
-        doc['assessment_record_types'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['jsonmodel_type']}.uniq.sort
-        doc['assessment_surveyor_uris'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['ref']}
-        doc['assessment_surveyors'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['_resolved']['title']}
+        doc['assessment_record_uris'] = ASUtils.wrap(record['record']['records']).map {|r| r['ref']}
+        doc['assessment_records'] = ASUtils.wrap(record['record']['records']).map {|r| r['_resolved']['display_string'] || r['_resolved']['title']}
+        doc['assessment_record_types'] = ASUtils.wrap(record['record']['records']).map {|r| r['_resolved']['jsonmodel_type']}.uniq.sort
+        doc['assessment_surveyor_uris'] = ASUtils.wrap(record['record']['surveyed_by']).map {|r| r['ref']}
+        doc['assessment_surveyors'] = ASUtils.wrap(record['record']['surveyed_by']).map {|r| r['_resolved']['title']}
         doc['assessment_survey_begin'] = "#{record['record']['survey_begin']}T00:00:00Z"
         doc['assessment_survey_end'] = "#{record['record']['survey_end']}T00:00:00Z" if record['record']['survey_end']
         doc['assessment_review_required'] = record['record']['review_required'] || false
         doc['assessment_sensitive_material'] = record['record']['sensitive_material'] || false
         if (ASUtils.wrap(record['record']['reviewer']).length > 0)
-          doc['assessment_reviewer_uris'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['ref']}
-          doc['assessment_reviewers'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['_resolved']['title']}
+          doc['assessment_reviewer_uris'] = ASUtils.wrap(record['record']['reviewer']).map {|r| r['ref']}
+          doc['assessment_reviewers'] = ASUtils.wrap(record['record']['reviewer']).map {|r| r['_resolved']['title']}
         end
         doc['assessment_inactive'] = record['record']['inactive'] || false
 
         doc['assessment_survey_year'] = IndexerCommon.generate_years_for_date_range(record['record']['survey_begin'], record['record']['survey_end'])
 
-        doc['assessment_collection_uris'] = ASUtils.wrap(record['record']['collections']).map{|r| r['ref']}
-        doc['assessment_collections'] = ASUtils.wrap(record['record']['collections']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
+        doc['assessment_collection_uris'] = ASUtils.wrap(record['record']['collections']).map {|r| r['ref']}
+        doc['assessment_collections'] = ASUtils.wrap(record['record']['collections']).map {|r| r['_resolved']['display_string'] || r['_resolved']['title']}
 
         doc['assessment_completed'] = !record['record']['survey_end'].nil?
 
-        doc['assessment_formats'] = record['record']['formats'].select{|r| r.has_key?('value')}.map{|r| r['label']}
-        doc['assessment_ratings'] = record['record']['ratings'].select{|r| r.has_key?('value') || r.has_key?('note')}.map{|r| r['label']}
-        doc['assessment_conservation_issues'] = record['record']['conservation_issues'].select{|r| r.has_key?('value')}.map{|r| r['label']}
+        doc['assessment_formats'] = record['record']['formats'].select {|r| r.has_key?('value')}.map {|r| r['label']}
+        doc['assessment_ratings'] = record['record']['ratings'].select {|r| r.has_key?('value') || r.has_key?('note')}.map {|r| r['label']}
+        doc['assessment_conservation_issues'] = record['record']['conservation_issues'].select {|r| r.has_key?('value')}.map {|r| r['label']}
 
         doc['title_sort'] = doc['assessment_id'].to_s.rjust(10, '0')
       end
@@ -1012,7 +1017,6 @@ class IndexerCommon
         doc['langcode'].uniq!
       end
     }
-
   end
 
 
@@ -1115,7 +1119,6 @@ class IndexerCommon
 
 
   def delete_records(records, opts = {})
-
     return if records.empty?
 
     req = Net::HTTP::Post.new("#{solr_url.path}/update")
