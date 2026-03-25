@@ -348,7 +348,7 @@ describe 'Bulk Archival Object Updater', js: true do
                resource: {
                  ref: resource.uri
                })
-      end   
+      end
 
       visit "/bulk_archival_object_updater/download?resource=%2Frepositories%2F#{@repository.id}%2Fresources%2F#{resource.id}"
 
@@ -374,7 +374,7 @@ describe 'Bulk Archival Object Updater', js: true do
                resource: {
                  ref: resource.uri
                })
-      end   
+      end
 
       visit "/bulk_archival_object_updater/download?resource=%2Frepositories%2F#{@repository.id}%2Fresources%2F#{resource.id}"
 
