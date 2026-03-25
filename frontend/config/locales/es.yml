@@ -1008,7 +1008,7 @@ es:
         please_select_a_digital_object_to_merge: Por favor, seleccione un objeto
           digital
         merged: Objetos digitales unificados
-        transfer_description: Transferencia de este fondo a...
+        transfer_description: Transferencia de este objeto digital a...
         transfer_target: Seleccione un repositorio para transferir a
         unsuppressed: Objetos digitales <strong>%{digital_object_title}</strong>
           desbloqueado

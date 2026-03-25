@@ -1104,7 +1104,7 @@ fr:
         please_select_a_digital_object_to_merge: Veuillez sélectionner un objet 
           numérique
         merged: Objet(s) numérique(s) fusionné(s)
-        transfer_description: Transférer cette ressource dans...
+        transfer_description: Transférer cet objet numérique dans...
         transfer_target: Sélectionnez un service d'archives cible pour le 
           transfert
         unsuppressed: Objet numérique <strong>%{digital_object_title}</strong> 

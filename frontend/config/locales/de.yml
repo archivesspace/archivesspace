@@ -1218,7 +1218,7 @@ de:
         suppressed_info: Digitales Objekt ist unterdrückt und kann nicht 
           bearbeitet werden
         delete_conflict: 'Digitales Objekt konnte nicht gelöscht werden: <pre>%{error}</pre>'
-        transfer_description: Übertrage diese Aufzeichnung nach...
+        transfer_description: Übertrage dieses digitale Objekt nach...
         transfer_target: Wählen Sie einen Aufbewahrungsort für die Übertragung
         merged: Digitale Objekte zusammengeführt
       action:

@@ -935,7 +935,7 @@ ja:
         merge_description: 以下のデジタルオブジェクトを選択してマージする
         please_select_a_digital_object_to_merge: デジタルオブジェクトを選択してください
         merged: デジタルオブジェクトが結合されました
-        transfer_description: このリソースを転送する...
+        transfer_description: このデジタルオブジェクトを転送する...
         transfer_target: 移行するリポジトリを選択する
         unsuppressed: 
           デジタルオブジェクト<strong>%{digital_object_title}</strong>抑制されていません
