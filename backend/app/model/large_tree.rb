@@ -302,10 +302,20 @@ class LargeTree
   def mlc_display_strings(db, ids)
     return {} if ids.empty?
 
+    node_model = @root_record.class.node_model
+
+    unless node_model.respond_to?(:mlc_table)
+      # Non-MLC node types: fetch display_string directly from the node table.
+      return db[@node_table]
+               .filter(:id => ids)
+               .select(:id, :display_string)
+               .each_with_object({}) { |row, h| h[row[:id]] = row[:display_string] }
+    end
+
     lang = RequestContext.description_language
     return {} unless lang
 
-    mlc_table = :"#{@node_type}_mlc"
+    mlc_table = node_model.mlc_table
     mlc_fk    = :"#{@node_type}_id"
 
     db[mlc_table]

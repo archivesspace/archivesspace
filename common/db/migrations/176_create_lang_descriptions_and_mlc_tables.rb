@@ -15,11 +15,9 @@ Sequel.migration do
       apply_mtime_columns
     end
     alter_table(:language_and_script_of_description) do
-      add_foreign_key([:resource_id],                 :resource,                 :key => :id)
-      add_foreign_key([:accession_id],                :accession,                :key => :id)
-      add_foreign_key([:archival_object_id],          :archival_object,          :key => :id)
-      add_foreign_key([:digital_object_id],           :digital_object,           :key => :id)
-      add_foreign_key([:digital_object_component_id], :digital_object_component, :key => :id)
+      add_foreign_key([:resource_id],       :resource,       :key => :id)
+      add_foreign_key([:accession_id],      :accession,      :key => :id)
+      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
     end
 
     create_table(:resource_mlc) do
