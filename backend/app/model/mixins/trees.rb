@@ -202,14 +202,36 @@ module Trees
 
     self.class.node_model
       .filter(:root_record_id => self.id)
-      .select(:id, :position, :parent_id, :display_string, :publish, :suppressed).each do |row|
+      .select(:id, :position, :parent_id, :publish, :suppressed).each do |row|
       id_positions[row[:id]] = row[:position]
-      id_display_strings[row[:id]] = row[:display_string]
       parent_to_child_id[row[:parent_id]] ||= []
       parent_to_child_id[row[:parent_id]] << row[:id]
 
       if row[:publish] == 0 || row[:suppressed] == 1
         excluded_rows[row[:id]] = true
+      end
+    end
+
+    # Batch-fetch display_string from the MLC table for all collected node IDs.
+    all_node_ids = id_positions.keys
+    if !all_node_ids.empty?
+      node_model = self.class.node_model
+      if node_model.respond_to?(:mlc_table)
+        lang = RequestContext.get(:language_of_description) || RequestContext.description_language
+        if lang
+          mlc_fk = :"#{self.class.node_type}_id"
+          node_model.db[node_model.mlc_table]
+            .filter(mlc_fk => all_node_ids,
+                    :language_id => lang[:language_id],
+                    :script_id   => lang[:script_id])
+            .select(mlc_fk, :display_string)
+            .each { |row| id_display_strings[row[mlc_fk]] = row[:display_string] }
+        end
+      else
+        node_model.db[node_model.table_name]
+          .filter(:id => all_node_ids)
+          .select(:id, :display_string)
+          .each { |row| id_display_strings[row[:id]] = row[:display_string] }
       end
     end
 
@@ -247,7 +269,7 @@ module Trees
       'depth' => 0}.merge(extra_root_properties.fetch(self.id, {}))] +
       result.map {|id| {
                     'ref' => self.class.node_model.uri_for(self.class.node_type, id),
-                    'display_string' => id_display_strings.fetch(id),
+                    'display_string' => id_display_strings.fetch(id, nil),
                     'depth' => id_depths.fetch(id),
                   }.merge(extra_node_properties.fetch(id, {}))}
   end
