@@ -396,6 +396,10 @@ it:
     _singular: Dichiarazione dei diritti sui metadati
     xlink_title_attribute: Attributo Titolo Xlink
     xlink_role_attribute: Attributo ruolo Xlink
+    xlink_arcrole_attribute: Attributo Xlink Arcrole
+    file_version_xlink_actuate_attribute: Attributo Xlink Actuate
+    file_version_xlink_show_attribute: Attributo Xlink Show
+    last_verified_date: Ultima data verificata
   languages:
     select: Seleziona lingua
 
@@ -407,6 +411,9 @@ it:
       location_header: Un errore si è verificato durante la generazione dell'intestazione.
       location_archival_object: Un errore è avvenuto durante la generazione dell'inventario della 
         collezione.
+      location_resource: Si è verificato un errore durante la generazione delle sezioni relative al 
+        record Risorsa, che includono le sezioni Informazioni di riepilogo, Intestazioni di accesso 
+        controllato e Note.
     additional_info:
       invalid_markup: Questo errore può derivare dal markup non valido presente in una nota o 
         sub-unità archivistica.
@@ -414,7 +421,11 @@ it:
       additional_info: Informazioni aggiuntive
       type: Tipo d'errore
       message: Messaggio d'errore
+      location: Posizione dell'errore
     title: C'è stato un errore nella generazione di questo PDF.
+    description: Ci scusiamo, si è verificato un errore durante la generazione di questo strumento 
+      di ricerca in formato PDF. Di seguito sono riportate alcune informazioni diagnostiche per 
+      aiutarci a capire cosa è andato storto.
   contact: Contatto
   agent_software:
     _singular: Software
