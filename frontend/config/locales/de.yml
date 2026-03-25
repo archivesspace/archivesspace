@@ -2459,6 +2459,12 @@ de:
     download_spreadsheet: Tabelle herunterladen
     download_spreadsheet_modal_message: Das Erstellen dieser Tabelle kann einige
       Augenblicke dauern.
+    too_many_rows_warning:
+      "Warnung: Die Anzahl der Zeilen, die in dieser Tabelle generiert werden, übersteigt die Anzahl der Zeilen, die aktualisiert werden können
+      über den Hintergrundjob Bulk Archival Object Updater. Wenn Sie planen, den Bulk Archival Object Updater-Job mit auszuführen
+      Um diese Tabelle zu verwenden, müssen Sie die Anzahl der Zeilen in dieser Tabelle auf kleiner oder gleich reduzieren 
+      <strong>%{max_row_count} Zeilen</strong> vor der Aufnahme. Erwägen Sie jetzt die Erstellung einer kleineren Tabelle.  
+      Diese Warnung kann getrost ignoriert werden, wenn Sie nicht beabsichtigen, mit diesen Daten einen Bulk Archival Object Updater-Job auszuführen."
   assessment:
     _frontend:
       record_types: Aufzeichnung-Typen

@@ -193,7 +193,7 @@ describe 'Bulk Archival Object Updater' do
       it 'ensures that the app config has default values and can be successfully read from bulk updater' do
         bulk_archival_object_updater_apply_deletes = AppConfig[:bulk_archival_object_updater_apply_deletes]
         bulk_archival_object_updater_create_missing_top_containers = AppConfig[:bulk_archival_object_updater_create_missing_top_containers]
-        bulk_archival_object_updater_max_rows = AppConfig[:bulk_archival_object_updater_max_rows] = 1000
+        bulk_archival_object_updater_max_rows = AppConfig[:bulk_archival_object_updater_max_rows]
 
         expect(bulk_archival_object_updater_apply_deletes).to eq false
         expect(bulk_archival_object_updater_create_missing_top_containers).to eq false
@@ -567,7 +567,7 @@ describe 'Bulk Archival Object Updater' do
       end
     end
 
-    context 'because the number of ao rows in the sheet exceeds that set in AppConfig[:bulk_archival_object_updater_max_rows]', :disable_database_transaction do
+    context 'when the number of ao rows in the sheet exceeds that set in AppConfig[:bulk_archival_object_updater_max_rows]', :disable_database_transaction do
       before do
         AppConfig[:bulk_archival_object_updater_max_rows] = 1
       end
