@@ -1045,7 +1045,7 @@ en:
         merge_description: Select digital objects below to merge into
         please_select_a_digital_object_to_merge: Please select a digital object
         merged: Digital object(s) Merged
-        transfer_description: Transfer this resource to...
+        transfer_description: Transfer this digital object to...
         transfer_target: Select a repository to transfer into
         unsuppressed: Digital Object <strong>%{digital_object_title}</strong> unsuppressed
         suppressed: Digital Object <strong>%{digital_object_title}</strong> suppressed

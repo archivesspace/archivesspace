@@ -1456,7 +1456,7 @@ pl:
           połączyć
         please_select_a_digital_object_to_merge: Proszę wybrać obiekt cyfrowy
         merged: Obiekt(y) cyfrowe połączone
-        transfer_description: Przenieś ten zasób do...
+        transfer_description: Przenieś ten obiekt cyfrowy do...
         unsuppressed: Obiekt cyfrowy <strong>%{digital_object_title}</strong> 
           nie został wyłączony
         suppressed: Obiekt cyfrowy <strong>%{digital_object_title}</strong> 
