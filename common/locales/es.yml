@@ -410,7 +410,8 @@ es:
 
   agent_name: &agent_name_attributes
     parallel_names_tooltip: "<p>Se puede utilizar para registrar una forma paralela del nombre en diferentes
-      idiomas y / o escrituras o formas transliteradas del nombre.</p>"
+      idiomas y / o escrituras o formas transliteradas del nombre.</p>
+      <p>Ver DACS 10.3.1, ISAAR (CPF) 5.1.3</p>"
     language: Idioma
     language_tooltip: "<p>Indica el idioma utilizado en la grabación del formulario de nombre. Ejemplo:
       ruso (para Каспаров, Г. К. (Гарри Кимович))</p>"
@@ -438,6 +439,7 @@ es:
     rules_tooltip: |
       <p>CONDITIONALLY requiere campo, si no se utiliza el nombre de fuente. Una indicación de las reglas usadas para formular la entrada de nombre.</p>
       <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
+      <p>Ver DACS 10.3.2, ISAAR (CPF) 5.1.4</p>
     name_order: Nombre de orden
     name_order_tooltip: |
       <p>Indica si la forma debe mostrarse en invertida (apellido, primer nombre) ordenar o directo en orden (nombre apellido).</p>
@@ -1413,6 +1415,7 @@ es:
     names: Formularios de nombre
     names_tooltip: |
       <p>SUBRECORDO REQUERIDO: Registra diferentes formas del nombre de un Agente. Cada registro de agente debe tener al menos un subrecord de formulario de nombre.</p>
+      <p>Ver DACS 10.1, 10.3.3; ISAAR (CPF) 5.1.2, 5.1.5</p>
     agent_contacts: Detalles de contacto
     contacts_tooltip: |
       <p>Registros de información sobre un autoridad particular de contacto.</p>

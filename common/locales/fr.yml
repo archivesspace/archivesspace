@@ -433,7 +433,8 @@ fr:
 
   agent_name: &agent_name_attributes
     parallel_names_tooltip: "<p>Peut être utilisé pour enregistrer une forme parallèle du nom dans différentes
-      langues et / ou scripts ou formes translittérées du nom.</p>\n"
+      langues et / ou scripts ou formes translittérées du nom.</p>\n
+      <p>Voir DACS 10.3.1, ISAAR (CPF) 5.1.3</p>"
     language: Langue
     language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du nom. Exemple: russe
       (pour Каспаров, Г. К. (Гарри Кимович))</p>\n"
@@ -461,6 +462,7 @@ fr:
     rules_tooltip: |
       <p>CHAMP OBLIGATOIRE CONDITIONNEL, si Source n'est pas utilisé. Une indication des règles utilisées pour former le nom saisi.</p>
       <p>Les valeurs dans cette liste contrôlée peuvent être modifiées.</p>
+      <p>Voir DACS 10.3.2, ISAAR (CPF) 5.1.4</p>
     name_order: Ordre du nom
     name_order_tooltip: |
       <p>Indique si la forme du nom doit être inversée à l'affichage (nom, prénom), ou rester dans l'ordre direct (prénom, nom).</p>
@@ -1458,6 +1460,7 @@ fr:
     names: Formes de nom
     names_tooltip: |
       <p>SOUS-CHAMP OBLIGATOIRE. Enregistre différentes façons de formuler le nom d'un même agent. Toute notice agent doit avoir au moins une sous-notice forme de nom.</p>
+      <p>Voir DACS 10.1, 10.3.3; ISAAR (CPF) 5.1.2, 5.1.5</p>
     agent_contacts: Détails du contact
     contacts_tooltip: |
       <p>Enregistre une information sur la façon de contacter tel agent particulier.</p>

@@ -373,6 +373,7 @@ pl:
     names: Formy imion
     names_tooltip: |
       <p>WYMAGANY PODREKORD: Zawiera różne formy imienia i nazwiska agenta. Każdy rekord agenta musi zawierać co najmniej jeden podrekord z formą imienia i nazwiska.</p>
+      <p>Patrz DACS 10.1, 10.3.3; ISAAR (CPF) 5.1.2, 5.1.5</p>
     agent_contacts: Dane kontaktowe
     contacts_tooltip: |
       <p>Zawiera dane kontaktowe dotyczące konkretnego agenta.</p>
@@ -1113,6 +1114,7 @@ pl:
     rules_tooltip: |
       <p>POLE WYMAGANE WARUNKOWO, jeśli nie użyto pola „Źródło nazwy”. Wskazuje zasady użyte do sformułowania wpisu nazwy.</p>
       <p>Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
+      <p>Patrz DACS 10.3.2, ISAAR (CPF) 5.1.4</p>
     name_order: Kolejność nazwisk
     name_order_tooltip: |
       <p>Wskazuje, czy imię i nazwisko mają być wyświetlane w odwróconej kolejności (nazwisko, imię) czy w kolejności standardowej (imię, nazwisko).</p>
@@ -1186,6 +1188,7 @@ pl:
       <p>Daty, w których to imię było używane w odniesieniu do danego agenta.</p>
     parallel_names_tooltip: |
       <p>Może być używane do zapisywania równoległych form imienia w różnych językach i/lub systemach pisma, a także form transliterowanych.</p>
+      <p>Patrz DACS 10.3.1, ISAAR (CPF) 5.1.3</p>
     qualifier: Kwalifikator
     qualifier_tooltip: |
       <p>Termin lub fraza służąca do rozróżnienia dwóch form nazw, identycznych pod każdym innym względem, ale odnoszących się do dwóch różnych podmiotów. Terminem tym może być data, miejsce lub dowolny inny odpowiedni deskryptor.</p>

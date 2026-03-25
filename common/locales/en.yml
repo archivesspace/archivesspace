@@ -449,6 +449,7 @@ en:
     rules_tooltip: |
         <p>CONDITIONALLY REQUIRED FIELD, if Name Source is not used. An indication of the rules used to formulate the name entry.</p>
         <p>Values in this Controlled Value List may be modified.</p>
+        <p>See DACS 10.3.2, ISAAR (CPF) 5.1.4</p>
     name_order: Name Order
     name_order_tooltip: |
         <p>Indicates if the name form should be displayed in inverted (last name, first name) order or in direct order (first name last name).</p>
@@ -522,6 +523,7 @@ en:
         <p>Dates in which this name was used for the agent.</p>
     parallel_names_tooltip: |
         <p>Can be used to record a parallel form of the name in different languages and/or scripts or transliterated forms of the name.</p>
+        <p>See DACS 10.3.1, ISAAR (CPF) 5.1.3</p>
     qualifier: Qualifier
     qualifier_tooltip: |
         <p>A term or phrase for distinguishing two name forms identical in all other respects but identifying two different entities.  The term may be a date, a place, or any other suitable descriptor.</p>
@@ -1724,6 +1726,7 @@ en:
     names: Name Forms
     names_tooltip: |
         <p>REQUIRED SUBRECORD: Records different forms of an Agent's name. Each Agent record must have at least one Name Form subrecord.</p>
+        <p>See DACS 10.1, 10.3.3; ISAAR (CPF) 5.1.2, 5.1.5</p>
     agent_contacts: Contact Details
     contacts_tooltip: |
         <p>Records contact information about a particular Agent.</p>
