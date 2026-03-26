@@ -1,13 +1,13 @@
 <%= setup_context :title => t("digital_object._plural") %>
 
-<div class="d-flex">
-  <div class="col-md-3">
+<div class="d-flex flex-column flex-md-row">
+  <div class="col-md-3 order-2 order-md-1">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/components_switch" %>
       <%= render_aspace_partial :partial => "search/filter" %>
     </div>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-9 order-1 order-md-2">
     <% if user_can?('update_digital_object_record') %>
       <div class="record-toolbar d-flex">
         <div class="btn-group ml-auto">
