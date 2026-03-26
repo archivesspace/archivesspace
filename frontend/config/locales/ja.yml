@@ -1808,6 +1808,12 @@ ja:
     minimum_notes_description: 含める各タイプの既存のメモ サブレコードの最小数。
     download_spreadsheet: スプレッドシートをダウンロード
     download_spreadsheet_modal_message: このスプレッドシートの生成には数分かかる場合があります。
+    too_many_rows_warning:
+      "警告: このスプレッドシートで生成される行数は、更新できる行数を超えています
+      Bulk Archival Object Updater バックグラウンド ジョブ経由。を使用して一括アーカイブ オブジェクト アップデーター ジョブを実行する予定の場合は、
+      このスプレッドシートでは、このシートの行数を以下に減らす必要があります。 
+      取り込む前に <strong>%{max_row_count} 行</strong>。今すぐ、より小さなスプレッドシートを生成することを検討してください。  
+      このデータを使用して一括アーカイブ オブジェクト アップデーター ジョブを実行する予定がない場合、この警告は無視しても問題ありません。"
 
   assessment:
     _frontend:
