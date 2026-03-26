@@ -1,0 +1,48 @@
+<div id="ao-transfer-dropdown" class="btn-group" data-no-change-tracking="true">
+  <button
+    type="button"
+    class="btn btn-sm btn-default dropdown-toggle transfer-action"
+    data-toggle="dropdown"
+    role="button"
+    aria-expanded="false"
+    title="<%= t('actions.transfer') %>"
+  >
+    <%= t('actions.transfer') %>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-right transfer-form" role="none">
+    <li>
+      <p class="mb-0"><%= t('archival_object._frontend.messages.transfer_description') %></p>
+      <%= form_context :transfer, {} do |form| %>
+        <fieldset class="mt-3 mb-4 p-0">
+          <%= form.hidden_input 'current_resource_id', JSONModel(:resource).id_for(record.resource['ref']) %>
+          <div class="alert alert-danger missing-ref-message" style="display: none;">
+            <%= t('archival_object._frontend.messages.please_select_a_resource_for_transfer') %>
+          </div>
+          <%= render_aspace_partial :partial => 'resources/linker',
+                                    :locals => {
+                                      :form => form,
+                                      :exclude_ids => [JSONModel(:resource).id_for(record.resource['ref'])],
+                                      :layout => 'stacked'
+                                    } %>
+        </fieldset>
+        <section class="pl-0 py-1 d-flex justify-content-between form-actions">
+          <%= button_confirm_action(t('actions.transfer'),
+                url_for(:controller => :archival_objects, :action => :transfer, :id => record.id),
+                {
+                  :class => 'btn btn-primary transfer-button',
+                  :'data-title' => t('actions.transfer_confirm_title'),
+                  :'data-message' => t('archival_object._frontend.messages.transfer_confirm_message',
+                                       :ao => clean_mixed_content(record.display_string || record.title)),
+                  :'data-transfer-confirm-message-template' => t('archival_object._frontend.messages.transfer_confirm_message_with_resource',
+                                                                 :ao => '%{ao}',
+                                                                 :resource => '%{resource}'),
+                  :'data-record-title' => clean_mixed_content(record.display_string || record.title),
+                  :'data-confirm-btn-label' => t('actions.transfer'),
+                  :'data-confirm-btn-class' => 'btn'
+                }) %>
+          <button type="button" class="btn ml-auto btn-default btn-cancel"><%= t('actions.cancel') %></button>
+        </section>
+      <% end %>
+    </li>
+  </ul>
+</div>

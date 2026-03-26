@@ -880,16 +880,19 @@ $(function () {
 
       $this.addClass('initialised');
 
-      var template_data = {
-        message: $this.data('message') || '',
-        title: $this.data('title') || 'Are you sure?',
-        confirm_label: $this.data('confirm-btn-label') || false,
-        confirm_class: $this.data('confirm-btn-class') || false,
+      const getTemplateData = function () {
+        return {
+          message: $this.data('message') || '',
+          title: $this.data('title') || 'Are you sure?',
+          confirm_label: $this.data('confirm-btn-label') || false,
+          confirm_class: $this.data('confirm-btn-class') || false,
+        };
       };
 
       var onClick = function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
+        const template_data = getTemplateData();
 
         AS.openCustomModal(
           'confirmChangesModal',

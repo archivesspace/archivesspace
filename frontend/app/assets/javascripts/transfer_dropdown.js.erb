@@ -1,14 +1,16 @@
 $(function () {
 
-  var init = function () {
-    $('.transfer-form .btn-cancel').on('click', function () {
-      $('.transfer-action').trigger("click");
+  const init = function () {
+    $('.transfer-form .linker:not(.initialised)').linker();
+
+    $('.transfer-form .btn-cancel').off('click.transferDropdown').on('click.transferDropdown', function () {
+      $(this).closest('.btn-group').find('.transfer-action').trigger('click');
     });
 
     // Override the default bootstrap dropdown behaviour here to
     // ensure that this modal stays open even when another modal is
     // opened within it.
-    $(".transfer-action").on("click", function(event) {
+    $(".transfer-action").off('click.transferDropdown').on("click.transferDropdown", function(event) {
       event.preventDefault();
       event.stopImmediatePropagation();
 
@@ -16,48 +18,149 @@ $(function () {
         return;
       }
 
-      if ($(".transfer-form")[0].style.display === "block") {
+      const $transferForm = $(this).siblings('.transfer-form');
+
+      if ($transferForm[0] && $transferForm[0].style.display === "block") {
         // Hide it
         $(this).attr('aria-expanded', 'false');
-        $(".transfer-form").css("display", "");
+        $transferForm.css("display", "");
       } else {
         // Show it
-        $(".transfer-form").css("display", "block");
+        $transferForm.css("display", "block");
         $(this).attr('aria-expanded', 'true');
       }
     });
 
     // Stop the modal from being hidden by clicks within the form
-    $(".transfer-form").on("click", function(event) {
+    $(".transfer-form").off('click.transferDropdown').on("click.transferDropdown", function(event) {
       event.stopPropagation();
     });
 
 
-    $(".transfer-form .linker-wrapper .dropdown-toggle").on("click", function(event) {
+    $(".transfer-form .linker-wrapper .dropdown-toggle").off('click.transferDropdown').on("click.transferDropdown", function(event) {
       event.stopPropagation();
       $(this).parent().toggleClass("open");
     });
 
 
-    $(".transfer-form .transfer-button").on("click", function(event) {
-      var formvals = $(".transfer-form").serializeObject();
-      if (!formvals["transfer[ref]"]) {
-        $(".missing-ref-message", ".transfer-form").show();
+    $(".transfer-form .transfer-button").off('click.transferDropdown').on("click.transferDropdown", function(event) {
+      const $transferForm = $(this).closest('.transfer-form');
+      const transferValues = getTransferValues($transferForm);
+
+      if (!transferValues.ref) {
+        $(".missing-ref-message", $transferForm).show();
         event.preventDefault();
         event.stopImmediatePropagation();
+
         return false;
       } else {
-        $(".missing-ref-message", ".transfer-form").hide();
-        $(this).data("form-data", {"ref": formvals["transfer[ref]"]});
+        const selectedResourceTitle = getSelectedResourceTitle($transferForm);
+        const recordTitle = $(this).data('record-title');
+        const messageTemplate = $(this).data('transfer-confirm-message-template');
+
+        if (selectedResourceTitle && recordTitle && messageTemplate) {
+          const message = messageTemplate
+            .replace('%{ao}', recordTitle)
+            .replace('%{resource}', selectedResourceTitle);
+
+          $(this).data('message', message);
+        }
+
+        $(".missing-ref-message", $transferForm).hide();
+        $(this).data('form-data', buildTransferPayload(transferValues));
       }
     });
   };
-
 
   if ($('.transfer-form').length > 0) {
     init();
   } else {
     $(document).bind("loadedrecordform.aspace", init);
   }
-
 });
+
+/**
+ * Extracts canonical transfer values from nested transfer form fields
+ * produced by form_context(:transfer).
+ *
+ * @param {JQuery} $transferForm
+ * @returns {{ref: (string|null), current_resource_id: (string|null)}}
+ */
+function getTransferValues($transferForm) {
+  const formvals = $transferForm.serializeObject();
+  const transferRef = getTokenRefValue($transferForm) || formvals['transfer[ref]'] || null;
+  const currentResourceId =
+    $("[name='transfer[current_resource_id]']", $transferForm).val() ||
+    formvals['transfer[current_resource_id]'] ||
+    null;
+
+  return {
+    ref: transferRef,
+    current_resource_id: currentResourceId
+  };
+};
+
+/**
+ * Reads the selected target resource title from linker resolved JSON,
+ * used to render a contextual confirm modal message.
+ *
+ * @param {JQuery} $transferForm
+ * @returns {string|null}
+ */
+function getSelectedResourceTitle($transferForm) {
+  const resolvedValues = $("input[name='transfer[_resolved]']", $transferForm)
+    .map(function () { return $(this).val(); })
+    .get()
+    .filter(value => value && value.length > 0);
+
+  if (resolvedValues.length === 0) {
+    return null;
+  }
+
+  try {
+    const selected = JSON.parse(resolvedValues[resolvedValues.length - 1]);
+
+    return selected.display_string || selected.title || null;
+  } catch (e) {
+    return null;
+  }
+};
+
+/**
+ * Builds confirm-submit payload for button_confirm_action using
+ * top-level keys because transfer endpoints consume params[:ref].
+ * Most transfer flows (resource, digital object, accession, repository)
+ * only need ref. Archival object transfer may also provide
+ * current_resource_id as a redirect fallback, so it is included only when present.
+ *
+ * @param {{ref: (string|null), current_resource_id: (string|null)}} transferValues
+ * @returns {{ref: (string|null), current_resource_id?: string}}
+ */
+function buildTransferPayload(transferValues) {
+  const payload = { ref: transferValues.ref };
+
+  if (transferValues.current_resource_id) {
+    payload.current_resource_id = transferValues.current_resource_id;
+  }
+
+  return payload;
+};
+
+/**
+ * Returns transfer[ref] from the currently selected linker token even when
+ * multiple matching hidden inputs exist.
+ *
+ * @param {JQuery} $transferForm
+ * @returns {string|null}
+ */
+function getTokenRefValue($transferForm) {
+  const $token = $('.linker-wrapper .token-input-list li.token-input-token', $transferForm).last();
+
+  if ($token.length === 0) {
+    return null;
+  }
+
+  const ref = $("input[name='transfer[ref]']", $token).val();
+
+  return ref && ref.length > 0 ? ref : null;
+};

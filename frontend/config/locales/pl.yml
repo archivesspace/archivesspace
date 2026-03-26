@@ -831,6 +831,8 @@ pl:
         transfer_description: Wybierz zasób, do którego chcesz przenieść ten 
           obiekt archiwalny
         please_select_a_resource_for_transfer: Wybierz zasób
+        transfer_confirm_message: "Rekord '%{ao}' zostanie przeniesiony do wybranego zasobu"
+        transfer_confirm_message_with_resource: "Rekord '%{ao}' zostanie przeniesiony do zasobu '%{resource}'"
         transfer_success: Pomyślnie przeniesiono obiekt archiwalny 
           <strong>%{archival_object_display_string}</strong> do zasobu 
           <strong>%{resource_title}</strong>

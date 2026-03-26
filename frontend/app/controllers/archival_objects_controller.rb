@@ -190,9 +190,14 @@ class ArchivalObjectsController < ApplicationController
 
 
   def transfer
+    transfer_ref = params["ref"].presence
+    current_resource_id = params["current_resource_id"].presence
+
     begin
+      raise "No target resource provided" if transfer_ref.blank?
+
       post_data = {
-        :target_resource => params["transfer"]["ref"],
+        :target_resource => transfer_ref,
         :component => JSONModel(:archival_object).uri_for(params[:id])
       }
 
@@ -202,14 +207,18 @@ class ArchivalObjectsController < ApplicationController
         @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
         resource = @archival_object['resource']['_resolved']
         flash[:success] = t("archival_object._frontend.messages.transfer_success", archival_object_display_string: clean_mixed_content(@archival_object.title), resource_title: clean_mixed_content(resource['title']))
-        redirect_to :controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(params["transfer"]["ref"]), :anchor => "tree::archival_object_#{params[:id]}"
+        redirect_to :controller => :resources, :action => :edit, :id => JSONModel(:resource).id_for(transfer_ref), :anchor => "tree::archival_object_#{params[:id]}"
       else
         raise ASUtils.json_parse(response.body)['error'].to_s
       end
 
     rescue Exception => e
+      fallback_resource_id = current_resource_id
+      if fallback_resource_id.nil?
+        fallback_resource_id = JSONModel(:resource).id_for(JSONModel(:archival_object).find(params[:id], find_opts).resource['ref']) rescue nil
+      end
       flash[:error] = t("archival_object._frontend.messages.transfer_error", :exception => e)
-      redirect_to :controller => :resources, :action => :edit, :id => params["transfer"]["current_resource_id"], :anchor => "tree::archival_object_#{params[:id]}"
+      redirect_to :controller => :resources, :action => :edit, :id => fallback_resource_id, :anchor => "tree::archival_object_#{params[:id]}"
     end
   end
 

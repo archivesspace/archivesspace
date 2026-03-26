@@ -972,6 +972,8 @@ fr:
         updated_with_parent: Document d'archives 
           <strong>%{archival_object_display_string}</strong> actualisé
         please_select_a_resource_for_transfer: Veuillez choisir une ressource
+        transfer_confirm_message: "La notice '%{ao}' sera transférée vers la ressource que vous avez sélectionnée"
+        transfer_confirm_message_with_resource: "La notice '%{ao}' sera transférée vers la ressource '%{resource}'"
         transfer_success: Document d'archives 
           <strong>%{archival_object_display_string}</strong> transféré avec 
           succès vers la ressource <strong>%{resource_title}</strong>

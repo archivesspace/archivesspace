@@ -1045,6 +1045,8 @@ uk:
         transfer_description: Виберіть ресурс, до якого потрібно перенести цей 
           архівний об'єкт
         please_select_a_resource_for_transfer: Будь ласка, виберіть ресурс
+        transfer_confirm_message: "Запис '%{ao}' буде перенесено до вибраного ресурсу"
+        transfer_confirm_message_with_resource: "Запис '%{ao}' буде перенесено до ресурсу '%{resource}'"
         transfer_success: Архівний об'єкт 
           <strong>%{archival_object_display_string</strong> успішно перенесено 
           до ресурсу <strong>%{resource_title</strong>
