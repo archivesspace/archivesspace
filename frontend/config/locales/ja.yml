@@ -826,6 +826,8 @@ ja:
         updated_with_parent: 
           アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>更新されました
         please_select_a_resource_for_transfer: リソースを選択してください
+        transfer_confirm_message: "レコード '%{ao}' は選択したリソースに転送されます"
+        transfer_confirm_message_with_resource: "レコード '%{ao}' はリソース '%{resource}' に転送されます"
         transfer_success: 
           アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>をリソース<strong>%{resource_title}</strong>転送しました<strong>%{resource_title}</strong>
         transfer_error: エラーまたは競合のためアーカイブオブジェクトを転送できません： <pre> %{exception} 

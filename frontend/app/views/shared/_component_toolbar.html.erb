@@ -65,6 +65,9 @@
           <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
         <% end %>
       <% end %>
+      <% if record.jsonmodel_type == 'archival_object' && user_can?('update_resource_record') %>
+        <%= render_aspace_partial :partial => 'archival_objects/transfer_dropdown', :locals => {:record => record} %>
+      <% end %>
 
       <% if ['archival_object'].include?(record.jsonmodel_type) %>
         <div class="btn-group dropdown" id="other-dropdown">
