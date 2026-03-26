@@ -1237,8 +1237,8 @@ it:
       Ugar: Ugarito
       Zsye: Simboli (variante Emoji)
       Zinh: Codice per scritture ereditate
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, sistema di scrittura
-        orizzontale quadrata)
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, sistema di 
+        scrittura orizzontale quadrata)
       Zmth: Notazione matematica
       Zzzz: Codice per scritture non codificate
       Avst: Avestano
@@ -1470,7 +1470,7 @@ it:
       novalue: Nessun valore definito
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
-    date_calendar: ''
+    date_calendar: 'Calendario delle date'
     language_iso639_2: Lingua ISO 639-2
     metadata_license: Licenza dei metadata
     romanization: Romanizzazione
@@ -1483,3 +1483,40 @@ it:
     user_defined_enum_2: Enum 2 definito dall'utente
     user_defined_enum_3: Enum 3 definito dall'utente
     user_defined_enum_4: Enum 4 definito dall'utente
+    accession_acquisition_type: Tipo di acquisizione dell'accesso
+    accession_parts_relator: Addetto alla gestione dei ricambi
+    accession_parts_relator_type: Tipo di referente per le parti di accesso
+    accession_resource_type: Tipo di risorsa di accesso
+    accession_sibling_relator: Fratello/sorella di acquisizione
+    accession_sibling_relator_type: Tipo di parente fratello/sorella di accesso
+    agency_code_type: Tipo di codice dell'agenzia di controllo dei documenti
+    agent_contact_salutation: Saluto di contatto dell'agente
+    agent_relationship_associative_relator: Agente immobiliare associato alle relazioni con i 
+      clienti
+    agent_relationship_earlierlater_relator: Rapporto con l'agente Prima Dopo Agente immobiliare
+    agent_relationship_family_relator: Relazione con l'agente Relazione familiare
+    agent_relationship_hierarchical_relator: Relazione tra agenti - Relazione gerarchica
+    agent_relationship_identity_relator: Relazione tra agente e identità del relazionatore
+    agent_relationship_parentchild_relator: Relazione agente genitore-figlio relazionale
+    agent_relationship_specific_relator: Relazione dell'agente Specifico relazionale
+    agent_relationship_subordinatesuperior_relator: Rapporto agente Subordinato Superiore Agente 
+      immobiliare
+    agent_relationship_temporal_relator: Relazione tra agente e agente, relazionatore temporale
+    archival_record_level: Livello di record d'archivio
+    begin_date_standardized_type: Data di inizio Tipo standardizzato
+    cataloging_source: Fonte di catalogazione per il controllo dei record
+    collection_management_processing_priority: Gestione della riscossione - Priorità di elaborazione
+    collection_management_processing_status: Stato di elaborazione della gestione della raccolta
+    container_location_status: Stato della posizione del container
+    container_type: Tipo di contenitore
+    date_certainty: Data di certezza
+    date_era: Era data
+    date_label: Etichetta della data
+    date_role: Ruolo della data
+    date_standardized_type: Tipo standardizzato della data
+    date_type: Tipo di data
+    date_type_structured: Tipo di data
+    deaccession_scope: Ambito della dismissione
+    digital_object_digital_object_type: Oggetto digitale Tipo di oggetto digitale
+    digital_object_level: Livello di oggetto digitale
+    dimension_units: Unità di misura
