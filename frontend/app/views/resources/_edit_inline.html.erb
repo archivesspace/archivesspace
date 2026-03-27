@@ -1,10 +1,10 @@
 <%= form_for @resource, :as => "resource", :url => {:action => :update, :id => @resource.id}, :html => {:class => 'form-horizontal aspace-record-form', :id => "resource_form"}.merge(update_monitor_params(@resource)) do |f| %>
   <%= form_context :resource, @resource do |form| %>
     <div class="d-flex">
-      <div class="col-md-3">
+      <div class="col-md-2">
         <%= render_aspace_partial :partial => "resources/sidebar" %>
       </div>
-      <div class="col-md-9">
+      <div class="col-md-10">
         <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
            <%= render_aspace_partial :partial => "resources/form_container", :locals => {:form => form} %>
