@@ -16,6 +16,7 @@ gem 'nokogiri', '~> 1.13.10' # keep compatible with saxon-rb used in exports
 group :assets do
   gem 'sprockets-rails'
   gem 'sassc-rails'
+  gem 'bootstrap', '~> 5.3', '>= 5.3.3'
   gem 'sass-rails'
   # Use CoffeeScript for .coffee assets and views
   gem 'coffee-rails'
