@@ -16,16 +16,20 @@ class LargeTreeDigitalObject
   def waypoint(response, record_ids)
     file_uri_by_digital_object_component = {}
 
-    DigitalObjectComponent
-      .filter(:digital_object_component__id => record_ids)
-      .where(Sequel.~(:digital_object_component__label => nil))
-      .select(Sequel.as(:digital_object_component__id, :id),
-              Sequel.as(:digital_object_component__label, :label))
-      .each do |row|
-      id = row[:id]
-      result_for_record = response.fetch(record_ids.index(id))
+    lang = RequestContext.description_language
 
-      result_for_record['label'] = row[:label]
+    if lang
+      DigitalObjectComponent.db[:digital_object_component_mlc]
+        .filter(:digital_object_component_id => record_ids,
+                :language_id => lang[:language_id],
+                :script_id   => lang[:script_id])
+        .where(Sequel.~(:label => nil))
+        .select(:digital_object_component_id, :label)
+        .each do |row|
+          id = row[:digital_object_component_id]
+          result_for_record = response.fetch(record_ids.index(id))
+          result_for_record['label'] = row[:label]
+        end
     end
 
     ASDate

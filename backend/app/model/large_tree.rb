@@ -162,16 +162,18 @@ class LargeTree
         db[@node_table]
           .filter(:id => nodes_to_expand)
           .filter(published_filter)
-          .select(:id, :parent_id, :root_record_id, :position, :display_string).each do |row|
+          .select(:id, :parent_id, :root_record_id, :position).each do |row|
           child_to_parent_map[row[:id]] = row[:parent_id]
           node_to_position_map[row[:id]] = row[:position]
-          node_to_title_map[row[:id]] = row[:display_string]
           node_to_root_record_map[row[:id]] = row[:root_record_id]
           next_nodes_to_expand << row[:parent_id]
         end
 
         nodes_to_expand = next_nodes_to_expand.compact.uniq
       end
+
+      all_node_ids = (child_to_parent_map.keys + child_to_parent_map.values).compact.uniq
+      node_to_title_map = mlc_display_strings(db, all_node_ids)
 
       ## Calculate the waypoint that each node will fall into
       node_to_waypoint_map = {}
@@ -187,16 +189,10 @@ class LargeTree
         node_to_waypoint_map[node_id] = (this_position / WAYPOINT_SIZE)
       end
 
-      root_record_titles = {}
-      db[@root_table]
-        .join(@node_table, :root_record_id => :id)
-        .filter(Sequel.qualify(@node_table, :id) => node_ids)
-        .select(Sequel.qualify(@root_table, :id),
-                Sequel.qualify(@root_table, :title))
-        .distinct
-        .each do |row|
-        root_record_titles[row[:id]] = row[:title]
-      end
+      # Replacing the original join query here under the assumption that a LargeTree is always scoped
+      # to a single root record, so all node_ids are guaranteed to belong to @root_record.
+
+      root_record_titles = { @root_record.id => @root_record.title }
 
       ## Build up the path of waypoints for each node
       node_ids.each do |node_id|
@@ -233,7 +229,6 @@ class LargeTree
     result
   end
 
-
   def waypoint(parent_id, offset)
     record_ids = []
     records = {}
@@ -246,13 +241,15 @@ class LargeTree
                 :parent_id => parent_id)
         .filter(published_filter)
         .order(:position)
-        .select(:id, :repo_id, :title, :position, :slug, :suppressed)
+        .select(:id, :repo_id, :position, :slug, :suppressed)
         .offset(offset * WAYPOINT_SIZE)
         .limit(WAYPOINT_SIZE)
         .each do |row|
           record_ids << row[:id]
           records[row[:id]] = row
         end
+
+      titles = mlc_display_strings(db, record_ids)
 
       # Count up their children
       child_counts = Hash[db[@node_table]
@@ -274,9 +271,10 @@ class LargeTree
         digital_instance = child_digital_instances.include?(id)
 
         # ANW-617: generate a slugged URL for inclusion in the JSON for the standard node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
-        waypoint_response(child_count).merge("title" => row[:title],
+        title = titles.fetch(id, nil)
+        waypoint_response(child_count).merge("title" => title,
                                              "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@node_type.to_s, row[:repo_id], row[:slug]),
-                                             "parsed_title" => MixedContentParser.parse(row[:title], '/'),
+                                             "parsed_title" => MixedContentParser.parse(title, '/'),
                                              "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
                                              "position" => (offset * WAYPOINT_SIZE) + idx,
                                              "parent_id" => parent_id,
@@ -295,6 +293,36 @@ class LargeTree
   end
 
   private
+
+  # Fetches MLC display strings for a batch of node IDs for the language in the current request context.
+  #
+  # @param db [Sequel::Database] the open database connection
+  # @param ids [Array<Integer>] node record IDs
+  # @return [Hash{Integer=>String}] map of record ID to display_string
+  def mlc_display_strings(db, ids)
+    return {} if ids.empty?
+
+    node_model = @root_record.class.node_model
+
+    unless node_model.respond_to?(:mlc_table)
+      # Non-MLC node types: fetch display_string directly from the node table.
+      return db[@node_table]
+               .filter(:id => ids)
+               .select(:id, :display_string)
+               .each_with_object({}) { |row, h| h[row[:id]] = row[:display_string] }
+    end
+
+    lang = RequestContext.description_language
+    return {} unless lang
+
+    mlc_table = node_model.mlc_table
+    mlc_fk    = :"#{@node_type}_id"
+
+    db[mlc_table]
+      .filter(mlc_fk => ids, :language_id => lang[:language_id], :script_id => lang[:script_id])
+      .select(mlc_fk, :display_string)
+      .each_with_object({}) { |row, h| h[row[mlc_fk]] = row[:display_string] }
+  end
 
   def digital_instances(db, table, ids)
     published_filter = @published_only ? [1] : [0, 1]

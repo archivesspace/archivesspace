@@ -150,6 +150,23 @@ class SpreadsheetBuilder
   class AccessionLookupColumn < StringColumn
   end
 
+  # Maps record types that have MLC tables to their table, FK column, and
+  # translatable fields. Each entry in :fields maps the MLC column name to the
+  # alias used when selecting it (they differ for :digital_object to avoid
+  # ambiguity with other columns in the same query).
+  MLC_FIELDS_OF_INTEREST = {
+    archival_object: {
+      mlc_table: :archival_object_mlc,
+      fk:        :archival_object_id,
+      fields:    { title: :title }
+    },
+    digital_object: {
+      mlc_table: :digital_object_mlc,
+      fk:        :digital_object_id,
+      fields:    { title: :digital_object_title }
+    }
+  }.freeze
+
   SUBRECORDS_OF_INTEREST = [:date, :extent]
   FIELDS_OF_INTEREST = {
     :archival_object => [
@@ -523,11 +540,15 @@ class SpreadsheetBuilder
   def dataset_iterator(&block)
     DB.open do |db|
       @ao_ids.each_slice(BATCH_SIZE) do |batch|
-        base_fields = [:id, :lock_version] + FIELDS_OF_INTEREST.fetch(:archival_object).map {|field| field.column}
+        ao_mlc    = MLC_FIELDS_OF_INTEREST[:archival_object]
+        ao_mlc_fields = ao_mlc[:fields].keys
+        ao_base_fields = ([:id, :lock_version] + FIELDS_OF_INTEREST.fetch(:archival_object).map {|f| f.column}) - ao_mlc_fields
+        ao_mlc_selects = ao_mlc[:fields].map {|col, ali| Sequel.as(Sequel.qualify(ao_mlc[:mlc_table], col), ali)}
         base = ArchivalObject
-                .filter(:id => batch)
-                .order(Sequel.lit("FIELD(id, #{batch.join(',')})"))
-                .select(*base_fields)
+                .left_join(ao_mlc[:mlc_table], mlc_join_condition(:archival_object, :archival_object))
+                .filter(Sequel.qualify(:archival_object, :id) => batch)
+                .order(Sequel.lit("FIELD(archival_object.id, #{batch.join(',')})"))
+                .select(*ao_base_fields.map {|f| Sequel.qualify(:archival_object, f)}, *ao_mlc_selects)
 
         subrecord_datasets = {}
         SUBRECORDS_OF_INTEREST.each do |subrecord|
@@ -588,9 +609,11 @@ class SpreadsheetBuilder
           # - only support editing one file version per digital object
           #   (or one row per digital object instance)
           seen_file_versions = {}
+          mlc_fields_of_interest = MLC_FIELDS_OF_INTEREST[:digital_object]
           db[:instance]
             .join(:instance_do_link_rlshp, Sequel.qualify(:instance_do_link_rlshp, :instance_id) => Sequel.qualify(:instance, :id))
             .join(:digital_object, Sequel.qualify(:digital_object, :id) => Sequel.qualify(:instance_do_link_rlshp, :digital_object_id))
+            .left_join(mlc_fields_of_interest[:mlc_table], mlc_join_condition(:digital_object, :digital_object))
             .left_join(:file_version, Sequel.qualify(:file_version, :digital_object_id) => Sequel.qualify(:digital_object, :id))
             .filter(Sequel.qualify(:instance, :archival_object_id) => batch)
             .filter(Sequel.qualify(:instance, :instance_type_id) => BackendEnumSource.id_for_value('instance_instance_type', 'digital_object'))
@@ -598,7 +621,7 @@ class SpreadsheetBuilder
               Sequel.as(Sequel.qualify(:instance, :archival_object_id), :archival_object_id),
               Sequel.as(Sequel.qualify(:instance_do_link_rlshp, :id), :rlshp_id),
               Sequel.as(Sequel.qualify(:digital_object, :digital_object_id), :digital_object_id),
-              Sequel.as(Sequel.qualify(:digital_object, :title), :digital_object_title),
+              Sequel.as(Sequel.qualify(mlc_fields_of_interest[:mlc_table], :title), :digital_object_title),
               Sequel.as(Sequel.qualify(:digital_object, :publish), :digital_object_publish),
               Sequel.as(Sequel.qualify(:file_version, :id), :file_version_id),
               Sequel.as(Sequel.qualify(:file_version, :file_uri), :file_version_file_uri),
@@ -760,6 +783,21 @@ class SpreadsheetBuilder
   end
 
   ColumnAndValue = Struct.new(:value, :column)
+
+  # Builds the Sequel LEFT JOIN condition for an MLC table. Returns a hash
+  # when a description language is resolved, or a never-matching literal when
+  # no language can be determined (so the join produces NULLs rather than
+  # failing).
+  def mlc_join_condition(record_type, primary_table)
+    info = MLC_FIELDS_OF_INTEREST.fetch(record_type)
+    lang = RequestContext.description_language
+    return Sequel.lit('1=0') unless lang
+    {
+      Sequel.qualify(info[:mlc_table], info[:fk])         => Sequel.qualify(primary_table, :id),
+      Sequel.qualify(info[:mlc_table], :language_id)      => lang[:language_id],
+      Sequel.qualify(info[:mlc_table], :script_id)        => lang[:script_id],
+    }
+  end
 
   def to_stream
     io = StringIO.new
