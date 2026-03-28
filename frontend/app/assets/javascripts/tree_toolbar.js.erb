@@ -345,24 +345,6 @@ var SHARED_TOOLBAR_ACTIONS = [
             return !tree.large_tree.read_only && tree.dragdrop;
         },
     },
-
-    // go back to the read only page
-    // Close Record
-    {
-        label: '<%= I18n.t("actions.finish_editing") %>',
-        cssClasses: 'btn-success finish-editing',
-        groupCssClasses: 'ml-auto order-1',
-        onRender: function(btn, node, tree, toolbarRenderer) {
-            var readonlyPath = location.pathname.replace(/\/edit$/, '');
-            btn.attr('href', readonlyPath + location.hash);
-        },
-        isEnabled: function(node, tree, toolbarRenderer) {
-            return true;
-        },
-        isVisible: function(node, tree, toolbarRenderer) {
-            return !tree.large_tree.read_only;
-        }
-    },
 ];
 
 var EXPAND_MODE_ACTIONS = [
