@@ -633,6 +633,7 @@ pl:
       not_exported_to_ils: Nie wyeksportowano
       resource_accession: Zasób/Przystąpienie
       container_profile: Profil kontenera
+      location_profile: Profil lokalizacji
       indicator: Wskaźnik
       internal_note: Notatka wewnętrzna
       location: Lokalizacja

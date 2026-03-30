@@ -599,6 +599,7 @@ fr:
       resource_accession: Ressource/Entrée
       series: Série
       container_profile: Profils de conditionnements
+      location_profile: Profil de localisation
       type: Type
       indicator: Indicateur
   advanced_search:

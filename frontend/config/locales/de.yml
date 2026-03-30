@@ -783,6 +783,7 @@ de:
       barcode: Strichcode
       exported_to_ils: Exportiert ins IBS
       container_profile: Behältnis-Profil
+      location_profile: Standortprofil
       internal_note: Interne Anmerkung
       location: Standort
       type: Typ

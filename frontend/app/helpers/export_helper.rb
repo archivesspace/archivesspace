@@ -81,7 +81,8 @@ module ExportHelper
           'notes'                                   => I18n.t('search.top_container_mgmt.internal_note',      :default => 'Internal Note'),
           'exported_u_sbool'                        => I18n.t('search.top_container_mgmt.exported_to_ils',    :default => 'Exported to ILS'),
           'ils_holding_id_u_sstr'                   => I18n.t('search.top_container_mgmt.ils_holding_id',     :default => 'ILS Holding ID'),
-          'collection_identifier_stored_u_sstr'     => I18n.t('search.top_container_mgmt.resource_accession_id', :default => 'Resource/Accession ID')
+          'collection_identifier_stored_u_sstr'     => I18n.t('search.top_container_mgmt.resource_accession_id', :default => 'Resource/Accession ID'),
+          'location_profile_display_string_u_sstr'  => I18n.t('search.top_container_mgmt.location_profile',      :default => 'Location Profile')
         }
       end
     end
@@ -97,7 +98,8 @@ module ExportHelper
       'internal_note'      => 'notes',
       'exported_to_ils'    => 'exported_u_sbool',
       'ils_holding_id'     => 'ils_holding_id_u_sstr',
-      'resource_accession_id' => 'collection_identifier_stored_u_sstr'
+      'resource_accession_id' => 'collection_identifier_stored_u_sstr',
+      'location_profile'      => 'location_profile_display_string_u_sstr'
     }.freeze
 
     def self.ancestor_fields

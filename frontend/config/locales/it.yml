@@ -393,6 +393,7 @@ it:
       desc: Discendente
       asc: Ascendente
       location: Ubicazione
+      location_profile: Profilo di ubicazione
     container_profile:
       score: Rilevanza
       audit_info: Informazioni sull'audit
