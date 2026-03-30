@@ -1077,6 +1077,8 @@ de:
           <strong>%{archival_object_display_string}</strong> aktualisiert
         transfer_error: 'Konnte das Archiv-Objekt wegen einem Fehler oder Konflikt
           nicht übertragen: <pre>%{exception}</pre>'
+        transfer_confirm_message: Die Aufzeichnung '%{ao}' wird zur von Ihnen ausgewählten Aufzeichnung übertragen
+        transfer_confirm_message_with_resource: Die Aufzeichnung '%{ao}' wird zu der Aufzeichnung '%{resource}' übertragen
         transfer_success: Archiv-Objekt 
           <strong>%{archival_object_display_string}</strong> erfolgreich zu 
           Aufzeichnung <strong>%{resource_title}</strong> übertragen

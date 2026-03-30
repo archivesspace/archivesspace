@@ -892,6 +892,8 @@ es:
         updated_with_parent: Documento de archivo 
           <strong>{archival_object_display_string} %</strong> actualizado
         please_select_a_resource_for_transfer: Por favor, elija un fondo
+        transfer_confirm_message: "El registro '%{ao}' se transferirá al fondo que seleccionó"
+        transfer_confirm_message_with_resource: "El registro '%{ao}' se transferirá al fondo '%{resource}'"
         transfer_success: Transferido con éxito el objeto de archivo 
           <strong>%{archival_object_display_string}</strong> al fondo 
           <strong>%{resource_title}</strong>
