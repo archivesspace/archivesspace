@@ -48,7 +48,7 @@ it:
       BJ: Benin
       BL: Saint-Barthélemy
       BM: Bermuda
-      BN: Brunei
+      BN: Brunei Darussalam
       BO: Bolivia
       BR: Brasile
       BS: Bahamas
@@ -751,34 +751,36 @@ it:
       collection: Collezione
       papers: Documenti
       publications: Pubblicazioni
-      records: Records
+      records: Registri
     accession_sibling_relator:
       sibling_of: È fratello di
     agency_code_type:
       local: Locale
       oclc: OCLC
     agent_contact_salutation:
-      madame: Madama
+      madame: Signora
       mr: Sig.
-      mrs: Sig.ra
+      mrs: Sig.ra.
       ms: Sig.ra
-      sir: Sig.
+      sir: Signore
     archival_record_level:
       collection: Collezione
       file: File
       fonds: Fondi
-      item: Item
+      item: Articolo
       otherlevel: Altro livello
       series: Serie
       subgrp: Sottogruppo
       subfonds: Sotto-fondi
       class: Classe
       subseries: Sotto-serie
+      recordgrp: Gruppo discografico
     cataloging_source:
       ccp: Programma di catalogazione cooperativa
       nat_bib_agency: Agenzia bibliografica nazionale
       other: Altro
       unknown: Sconosciuto
+      natc: Nessun tentativo di programmazione
     collection_management_processing_priority:
       high: Alto
       low: Basso
@@ -790,12 +792,12 @@ it:
       new: Nuovo
       none: Non specificato
     container_type:
-      carton: Scatolone
-      reel: Rotolo
+      carton: Cartone
+      reel: Bobina
       volume: Volume
       folder: Cartella
       box: Scatola
-      case: Cassa
+      case: Caso
       container: Contenitore
       frame: Cornice
       object: Oggetto
@@ -1468,6 +1470,29 @@ it:
       novalue: Nessun valore definito
     user_defined_enum_3:
       novalue: Nessun valore definito
+    accession_parts_relator_type:
+      part: relazione "Parte"
+    accession_sibling_relator_type:
+      bound_with: Relazione "legata con"
+    agent_relationship_associative_relator:
+      is_associative_with: Associativo con correlato
+    agent_relationship_earlierlater_relator:
+      is_earlier_form_of: Forma precedente di correlato
+      is_later_form_of: Forma successiva di correlato
+    agent_relationship_family_relator:
+      is_related_with: Relazione tra agente e relazionale
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: Relazione tra agenti - Relazione gerarchica
+    agent_relationship_identity_relator:
+      is_identified_with: Rapporto di agenzia identificato con il denunciante
+    agent_relationship_parentchild_relator:
+      is_child_of: Figlio di parente
+      is_parent_of: Genitore di correlato
+    agent_relationship_subordinatesuperior_relator:
+      is_subordinate_to: È subordinato a correlato
+      is_superior_of: È superiore a correlato
+    agent_relationship_temporal_relator:
+      is_temporal_with: Relazione tra agente e agente, relazionatore temporale
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: 'Calendario delle date'
@@ -1476,7 +1501,7 @@ it:
     romanization: Romanizzazione
     script_iso15924: Script lingua ISO 15924
     transliteration: Traslitterazione
-    subject_source: Fonte del soggetto
+    subject_source: Fonte dell'argomento
     subject_term_type: Tipo di termine soggetto
     telephone_number_type: Tipo di numero di telefono
     user_defined_enum_1: Enum 1 definito dall'utente
@@ -1520,3 +1545,59 @@ it:
     digital_object_digital_object_type: Oggetto digitale Tipo di oggetto digitale
     digital_object_level: Livello di oggetto digitale
     dimension_units: Unità di misura
+    end_date_standardized_type: Data di fine Tipo standardizzato
+    event_event_type: Tipo di evento
+    event_outcome: Esito dell'evento
+    extent_extent_type: Estensione Tipo di estensione
+    extent_portion: Porzione di estensione
+    file_version_checksum_methods: Metodi di checksum della versione del file
+    file_version_file_format_name: Versione del file Formato del file Nome
+    file_version_use_statement: Dichiarazione sull'utilizzo della versione del file
+    file_version_xlink_actuate_attribute: Versione file Attributo Xlink Actuate
+    file_version_xlink_show_attribute: Versione file Xlink Mostra attributo
+    gender: Genere dell'agente
+    government_agency_type: Controllo dei documenti - Tipo di agenzia governativa
+    identifier_type: Tipo di identificatore di controllo record
+    instance_instance_type: Istanza Tipo di istanza
+    job_type: Tipo di lavoro
+    level_of_detail: Livello di dettaglio del controllo dei record
+    linked_agent_archival_record_relators: Relazioni con record archivistici di agenti collegati
+    linked_agent_event_roles: Ruoli degli eventi dell'agente collegato
+    linked_agent_role: Ruolo dell'agente collegato
+    linked_event_archival_record_roles: Ruoli dei record di archiviazione degli eventi collegati
+    location_function_type: Tipo di funzione di localizzazione
+    location_temporary: Posizione temporanea
+    maintenance_agent_type: Tipo di agente addetto alla manutenzione del controllo dei record
+    maintenance_event_type: Tipo di evento di manutenzione del controllo record
+    maintenance_status: Stato di manutenzione del controllo dei record
+    modified_record: Controllo dei record di tipo modificato
+    name_person_name_order: Nome Nome della persona Ordine
+    name_rule: Regola del nome
+    name_source: Fonte del nome
+    name_type: Nome del controllo record Tipo
+    note_bibliography_type: Nota Bibliografia Tipo
+    note_digital_object_type: 'Nota: tipo di oggetto digitale'
+    note_index_item_type: Nota Indice Tipo di elemento
+    note_index_type: Nota Tipo di indice
+    note_langmaterial_type: Nota Lingua del tipo di materiale
+    note_multipart_type: Nota Tipo multiparte
+    note_orderedlist_enumeration: "Nota: Enumerazione dell'elenco ordinato"
+    note_rights_statement_act_type: Nota Dichiarazione sui diritti Tipo di atto
+    note_rights_statement_type: Nota sui diritti di nota
+    note_singlepart_type: 'Nota: Tipo monocomponente'
+    place_role: Ruolo dell'agente
+    publication_status: Stato di pubblicazione del controllo dei record
+    reference_evaluation: Valutazione di riferimento per il controllo dei record
+    resource_finding_aid_description_rules: Regole di descrizione dello strumento di ricerca delle 
+      risorse
+    resource_finding_aid_status: Stato dello strumento di ricerca risorse
+    resource_resource_type: Risorsa Tipo di risorsa
+    restriction_type: Tipo di restrizione di accesso locale
+    rights_statement_act_restriction: Restrizione ai sensi della legge sulla dichiarazione dei 
+      diritti
+    rights_statement_act_type: Dichiarazione dei diritti Tipo di atto
+    rights_statement_external_document_identifier_type: Dichiarazione dei diritti Identificatore del
+      documento esterno Tipo
+    rights_statement_ip_status: Dichiarazione dei diritti Stato della proprietà intellettuale
+    rights_statement_other_rights_basis: Dichiarazione dei diritti Altre basi dei diritti
+    rights_statement_rights_type: Dichiarazione dei diritti Tipo di diritti
