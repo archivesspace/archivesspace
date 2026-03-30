@@ -1,0 +1,7 @@
+addReviewers: true
+numberOfReviewers: 2
+teams:
+  - code-reviewers
+skipKeywords:
+  - wip
+  - draft
