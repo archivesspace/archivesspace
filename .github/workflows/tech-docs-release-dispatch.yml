@@ -1,0 +1,30 @@
+# Notifies archivesspace/tech-docs when a new release is published to auto-update
+# its mention of the latest release.
+
+name: Tech-docs release dispatch
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  dispatch-tech-docs:
+    if: ${{ !github.event.release.prerelease }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.ASPACE_CI_BOT_TOKEN }}
+          script: |
+            await github.rest.repos.createDispatchEvent({
+              owner: 'archivesspace',
+              repo: 'tech-docs',
+              event_type: 'new-archivesspace-release',
+              client_payload: {
+                tag_name: context.payload.release.tag_name,
+                html_url: context.payload.release.html_url,
+              },
+            })
