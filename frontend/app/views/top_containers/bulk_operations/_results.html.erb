@@ -97,6 +97,19 @@
                   <%= container_json['container_profile']['_resolved']['display_string'] %>
                 <% end %>
               </td>
+            <% elsif field == 'location_profile' %>
+              <td class="top-container-location-profile">
+                <%
+                  location_profiles = Array(doc['location_profile_display_string_u_sstr']).compact.uniq
+                %>
+                <% if location_profiles.any? %>
+                  <ul class="linked-records-listing count-<%= location_profiles.length %>">
+                    <% location_profiles.each do |lp| %>
+                      <li><span class="location-profile-display-string"><%= lp %></span></li>
+                    <% end %>
+                  </ul>
+                <% end %>
+              </td>
             <% elsif field == 'location' %>
               <td class="top-container-current-location">
                 <% if container_json['container_locations'].present? %>

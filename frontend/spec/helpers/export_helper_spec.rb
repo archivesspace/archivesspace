@@ -84,7 +84,8 @@ describe ExportHelper do
         'internal_note',
         'exported_to_ils',
         'resource_accession_id',
-        'ils_holding_id'
+        'ils_holding_id',
+        'location_profile'
       ]
       expected_backend_fields = [
         'collection_display_string_u_sstr',
@@ -94,7 +95,8 @@ describe ExportHelper do
         'notes',
         'exported_u_sbool',
         'collection_identifier_stored_u_sstr',
-        'ils_holding_id_u_sstr'
+        'ils_holding_id_u_sstr',
+        'location_profile_display_string_u_sstr'
       ]
 
       result = helper.map_fields_for_backend(requested_fields)
@@ -302,12 +304,12 @@ describe ExportHelper do
       end
 
       it 'creates human-readable headers for top container management fields' do
-        converter = ExportHelper::CSVMappingConverter.new(['resource_accession', 'series', 'internal_note', 'exported_to_ils', 'resource_accession_id', 'ils_holding_id'])
-        old_headers = ['collection_display_string_u_sstr', 'series_title_u_sstr', 'notes', 'exported_u_sbool', 'collection_identifier_stored_u_sstr', 'ils_holding_id_u_sstr']
+        converter = ExportHelper::CSVMappingConverter.new(['resource_accession', 'series', 'internal_note', 'exported_to_ils', 'resource_accession_id', 'ils_holding_id', 'location_profile'])
+        old_headers = ['collection_display_string_u_sstr', 'series_title_u_sstr', 'notes', 'exported_u_sbool', 'collection_identifier_stored_u_sstr', 'ils_holding_id_u_sstr', 'location_profile_display_string_u_sstr']
 
         result = converter.send(:build_header_row, old_headers)
 
-        expect(result).to eq(['Resource/Accession', 'Series', 'Internal Note', 'Exported to ILS', 'Resource/Accession ID', 'ILS Holding ID'])
+        expect(result).to eq(['Resource/Accession', 'Series', 'Internal Note', 'Exported to ILS', 'Resource/Accession ID', 'ILS Holding ID', 'Location Profile'])
       end
     end
 

@@ -54,15 +54,15 @@ describe "indexer common config" do
   end
   describe "resolved_attributes" do
     it "has the correct number of resolved_attributes" do
-      expect(@resolved_attributes.length).to eq(23)
+      expect(@resolved_attributes.length).to eq(24)
     end
     it "has the correct resolved_attributes" do
       attrs = %w( location_profile container_profile container_locations subjects
           linked_agents linked_records classifications digital_object agent_representation
           repository repository::agent_representation related_agents top_container
-          top_container::container_profile related_agents
+          top_container::container_profile related_agents container_locations::location_profile
           records collections surveyed_by reviewer )
-      expect(attrs.length).to eq(19)
+      expect(attrs.length).to eq(20)
       attrs.each { |attr| expect(@resolved_attributes).to include(attr) }
     end
     it "does not include any blank values" do

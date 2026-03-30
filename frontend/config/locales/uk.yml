@@ -732,6 +732,7 @@ uk:
       resource_accession: Ресурс/Приєднання
       series: Серія
       container_profile: Профіль контейнера
+      location_profile: Профіль розташування
       type: Тип
       indicator: Індикатор
       barcode: Штрих-код
