@@ -287,6 +287,12 @@
   </div>
 --></div>
 
+<div id="bulk_archival_object_updater_row_count_warning_template"><!--
+   <div class="alert alert-warning bulk-updater-count-warning">
+      <%= t "bulk_archival_object_update_spreadsheet.too_many_rows_warning", max_row_count: AppConfig[:bulk_archival_object_updater_max_rows] %>
+   </div>
+--></div>
+
 <div id="as_nav_list_errors_item_template"><!--
   <li class='alert-danger update-monitor-error'>
     <a href='#form_messages'><%= t("errors.sidebar_label") %> <span class='glyphicon glyphicon-chevron-right'></span></a>

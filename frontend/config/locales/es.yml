@@ -1996,6 +1996,12 @@ es:
     download_spreadsheet: Descargar hoja de cálculo
     download_spreadsheet_modal_message: Generar esta hoja de cálculo puede 
       tardar unos minutos.
+    too_many_rows_warning:
+      "Advertencia: la cantidad de filas que se generarán en esta hoja de cálculo excede la cantidad de filas que se pueden actualizar
+      a través del trabajo en segundo plano del Actualizador masivo de objetos de archivo. Si planea ejecutar el trabajo de actualización masiva de objetos de archivo usando
+      esta hoja de cálculo, deberá reducir el número de filas de esta hoja a menos o igual que 
+      <strong>%{max_row_count} filas</strong> antes de la ingesta. Considere generar una hoja de cálculo más pequeña ahora.  
+      Esta advertencia se puede ignorar de forma segura si no tiene intención de ejecutar un trabajo de actualización masiva de objetos de archivo con estos datos."
 
   assessment:
     _frontend:

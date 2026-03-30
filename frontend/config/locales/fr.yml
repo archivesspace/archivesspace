@@ -2202,6 +2202,12 @@ fr:
     download_spreadsheet: Télécharger la feuille de calcul
     download_spreadsheet_modal_message: La génération de cette feuille de calcul
       peut prendre quelques instants.
+    too_many_rows_warning:
+      "Attention: Le nombre de lignes qui seront générées dans cette feuille de calcul dépasse le nombre de lignes pouvant être mises à jour.
+      via le travail en arrière-plan Bulk Archival Object Updater. Si vous envisagez d'exécuter le travail Bulk Archival Object Updater à l'aide de
+      cette feuille de calcul, vous devrez réduire le nombre de lignes de cette feuille à un niveau inférieur ou égal à 
+      <strong>%{max_row_count}lignes</strong> avant l'ingestion. Pensez à générer une feuille de calcul plus petite dès maintenant.  
+      Cet avertissement peut être ignoré en toute sécurité si vous n'avez pas l'intention d'exécuter une tâche de mise à jour d'objets d'archivage en masse avec ces données."
 
   assessment:
     _frontend:
