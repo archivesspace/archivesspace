@@ -23,8 +23,8 @@ describe 'Infinite Tree Page Load', js: true do
     within '#infinite-tree-component' do
       expect(page).to have_css('#infinite-tree-toolbar')
       expect(page).to have_button(I18n.t('actions.enable_reorder'))
-      expect(page).to have_button(I18n.t('actions.cut'))
-      expect(page).to have_button(I18n.t('actions.paste'))
+      expect(page).to have_no_button(I18n.t('actions.cut'))
+      expect(page).to have_no_button(I18n.t('actions.paste'))
       expect(page).to have_button(I18n.t('actions.expand_tree_mode_on'))
       expect(page).to have_button(I18n.t('actions.collapse_tree'))
       expect(page).to have_link(I18n.t('actions.finish_editing'))
