@@ -15,7 +15,7 @@
     </button>
   </div>
 
-  <div class="btn-group infinite-tree-toolbar__group ml-1" role="group" aria-label="<%= I18n.t('actions.cut_paste_group', default: 'Cut and paste') %>">
+  <div class="btn-group infinite-tree-toolbar__group ml-1 js-itree-toolbar-cut-paste-group" role="group" aria-label="<%= I18n.t('actions.cut_paste_group', default: 'Cut and paste') %>">
     <button
       type="button"
       class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-cut"
@@ -33,7 +33,7 @@
   </div>
 
   <ol
-    class="btn-group btn-group__radio infinite-tree-toolbar__group ml-1"
+    class="btn-group btn-group__radio infinite-tree-toolbar__group ml-1 js-itree-toolbar-drop-behavior-group"
     role="group"
     data-radio-group="drop-behavior"
     aria-label="<%= I18n.t('actions.drop_behavior_group', default: 'Drop behavior') %>"
@@ -46,7 +46,7 @@
         value="before"
       />
       <label
-        class="mb-0 btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-drop-before"
+        class="mb-0 btn btn-sm btn-default infinite-tree-toolbar__btn drop-before js-itree-toolbar-drop-before"
         data-radio-btn
         for="infinite-drop-before"
       >
@@ -61,7 +61,7 @@
         value="into"
       />
       <label
-        class="mb-0 btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-drop-into"
+        class="mb-0 btn btn-sm btn-default infinite-tree-toolbar__btn drop-into js-itree-toolbar-drop-into"
         data-radio-btn
         for="infinite-drop-into"
       >
@@ -76,7 +76,7 @@
         value="after"
       />
       <label
-        class="mb-0 btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-drop-after"
+        class="mb-0 btn btn-sm btn-default infinite-tree-toolbar__btn drop-after js-itree-toolbar-drop-after"
         data-radio-btn
         for="infinite-drop-after"
       >
@@ -86,7 +86,7 @@
   </ol>
 
   <div
-    class="btn-group dropdown infinite-tree-toolbar__group ml-1"
+    class="btn-group dropdown infinite-tree-toolbar__group ml-1 js-itree-toolbar-move-group"
     role="group"
     aria-label="<%= I18n.t('actions.move_group', default: 'Move node') %>"
   >
@@ -101,6 +101,27 @@
       <%= I18n.t('actions.move') %>
     </button>
     <ul class="dropdown-menu js-itree-toolbar-move-menu"></ul>
+  </div>
+
+  <div
+    class="btn-group infinite-tree-toolbar__group ml-2 js-itree-toolbar-expand-group"
+    role="group"
+    aria-label="<%= I18n.t('actions.expand_collapse_group', default: 'Expand and collapse tree') %>"
+  >
+    <button
+      type="button"
+      class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-expand-mode"
+      data-itree-action="expand-mode"
+    >
+      <%= I18n.t('actions.expand_tree_mode_on') %>
+    </button>
+    <button
+      type="button"
+      class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-collapse-tree"
+      data-itree-action="collapse-tree"
+    >
+      <%= I18n.t('actions.collapse_tree') %>
+    </button>
   </div>
 
   <!-- Per-record-type actions: record-agnostic shell, populated/enabled by JS based on selection/jsonmodel_type -->
@@ -143,27 +164,6 @@
       data-itree-action="rde"
     >
       <%= I18n.t('actions.rapid_data_entry') %>
-    </button>
-  </div>
-
-  <div
-    class="btn-group infinite-tree-toolbar__group ml-2 js-itree-toolbar-expand-group"
-    role="group"
-    aria-label="<%= I18n.t('actions.expand_collapse_group', default: 'Expand and collapse tree') %>"
-  >
-    <button
-      type="button"
-      class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-expand-mode"
-      data-itree-action="expand-mode"
-    >
-      <%= I18n.t('actions.expand_tree_mode_on') %>
-    </button>
-    <button
-      type="button"
-      class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-collapse-tree"
-      data-itree-action="collapse-tree"
-    >
-      <%= I18n.t('actions.collapse_tree') %>
     </button>
   </div>
 

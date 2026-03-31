@@ -8,7 +8,7 @@ class InfiniteTreeToolbar {
       '#infinite-tree-container'
     );
     this.recordPaneEl = this.componentEl.querySelector(
-      '[data-infinite-tree-record-pane]'
+      '#infinite-tree-record-pane'
     );
 
     this.readOnly =
@@ -28,14 +28,17 @@ class InfiniteTreeToolbar {
 
     this.#bindEvents();
     this.#syncDropBehaviorInputs();
+    this.#applyReorderState();
+    this.#applySelectionState();
   }
 
   #bindEvents() {
     if (!this.toolbarEl) return;
 
-    if (this.treeContainerEl) {
-      this.treeContainerEl.addEventListener(
-        'infiniteTree:selectionChanged',
+    if (this.recordPaneEl) {
+      // InfiniteTree dispatches node selection to the record pane.
+      this.recordPaneEl.addEventListener(
+        'infiniteTree:nodeSelect',
         this.#handleSelectionChanged.bind(this)
       );
     }
@@ -124,20 +127,44 @@ class InfiniteTreeToolbar {
   #applySelectionState() {
     if (!this.toolbarEl) return;
 
-    const isRoot =
-      this.currentNode && this.currentNode.classList.contains('root');
+    const isArchivalObjectSelected = this.#isArchivalObjectSelected();
+    const showMove = this.reorderMode && isArchivalObjectSelected;
 
     const moveToggle = this.toolbarEl.querySelector(
       '.js-itree-toolbar-move-toggle'
     );
     if (moveToggle) {
-      if (isRoot) {
+      if (!showMove) {
         moveToggle.classList.add('disabled');
         moveToggle.setAttribute('aria-disabled', 'true');
       } else {
         moveToggle.classList.remove('disabled');
         moveToggle.removeAttribute('aria-disabled');
       }
+    }
+
+    const moveGroup = this.toolbarEl.querySelector(
+      '.js-itree-toolbar-move-group'
+    );
+    if (moveGroup) {
+      moveGroup.style.display = showMove ? '' : 'none';
+    }
+    if (showMove) {
+      this.#renderMoveMenu();
+    }
+
+    const siblingBtn = this.toolbarEl.querySelector(
+      '.js-itree-toolbar-add-sibling'
+    );
+    if (siblingBtn) {
+      siblingBtn.style.display = isArchivalObjectSelected ? '' : 'none';
+    }
+
+    const duplicateBtn = this.toolbarEl.querySelector(
+      '.js-itree-toolbar-add-duplicate'
+    );
+    if (duplicateBtn) {
+      duplicateBtn.style.display = isArchivalObjectSelected ? '' : 'none';
     }
   }
 
@@ -168,12 +195,16 @@ class InfiniteTreeToolbar {
     if (this.isDirty) return;
 
     this.reorderMode = !this.reorderMode;
-    btn.classList.toggle('btn-success', this.reorderMode);
-    btn.classList.toggle('active', this.reorderMode);
+    if (btn) {
+      btn.classList.toggle('btn-success', this.reorderMode);
+      btn.classList.toggle('active', this.reorderMode);
+      btn.textContent = this.reorderMode
+        ? this.#translate('actions.reorder_active', 'Disable Reorder Mode')
+        : this.#translate('actions.enable_reorder', 'Enable Reorder Mode');
+    }
 
-    btn.textContent = this.reorderMode
-      ? AS.I18n.t('actions.reorder_active')
-      : AS.I18n.t('actions.enable_reorder');
+    this.#applyReorderState();
+    this.#applySelectionState();
 
     this.#emitSimpleEvent('infiniteTreeToolbar:reorderModeChanged', {
       enabled: this.reorderMode,
@@ -184,11 +215,12 @@ class InfiniteTreeToolbar {
     event.preventDefault();
 
     this.expandAllMode = !this.expandAllMode;
-    btn.classList.toggle('btn-success', this.expandAllMode);
-
-    btn.textContent = this.expandAllMode
-      ? AS.I18n.t('actions.expand_tree_mode_off')
-      : AS.I18n.t('actions.expand_tree_mode_on');
+    if (btn) {
+      btn.classList.toggle('btn-success', this.expandAllMode);
+      btn.textContent = this.expandAllMode
+        ? this.#translate('actions.expand_tree_mode_off', 'Disable Auto-Expand')
+        : this.#translate('actions.expand_tree_mode_on', 'Auto-Expand All');
+    }
 
     this.#emitSimpleEvent('infiniteTreeToolbar:expandModeChanged', {
       enabled: this.expandAllMode,
@@ -252,6 +284,17 @@ class InfiniteTreeToolbar {
     }
   }
 
+  #translate(key, fallback) {
+    if (
+      window.AS &&
+      window.AS.I18n &&
+      typeof window.AS.I18n.t === 'function'
+    ) {
+      return window.AS.I18n.t(key);
+    }
+    return fallback;
+  }
+
   #syncDropBehaviorInputs() {
     if (!this.toolbarEl) return;
     const selector = 'input[type="radio"][name="drop-behavior"]';
@@ -259,5 +302,134 @@ class InfiniteTreeToolbar {
     radios.forEach(radio => {
       radio.checked = radio.value === this.dropBehavior;
     });
+  }
+
+  #applyReorderState() {
+    if (!this.toolbarEl) return;
+
+    const showReorderControls = this.reorderMode;
+    const showNonReorderControls = !this.reorderMode;
+    const cutPasteGroup = this.toolbarEl.querySelector(
+      '.js-itree-toolbar-cut-paste-group'
+    );
+    const dropBehaviorGroup = this.toolbarEl.querySelector(
+      '.js-itree-toolbar-drop-behavior-group'
+    );
+    const expandGroup = this.toolbarEl.querySelector(
+      '.js-itree-toolbar-expand-group'
+    );
+    const primaryActionsGroup = this.toolbarEl.querySelector(
+      '.js-itree-toolbar-primary-actions'
+    );
+
+    if (cutPasteGroup) {
+      cutPasteGroup.style.display = showReorderControls ? '' : 'none';
+    }
+    if (dropBehaviorGroup) {
+      // toolbar.scss defaults this radio group to display:none; use flex when active.
+      dropBehaviorGroup.style.display = showReorderControls ? 'flex' : 'none';
+    }
+    if (expandGroup) {
+      expandGroup.style.display = showNonReorderControls ? '' : 'none';
+    }
+    if (primaryActionsGroup) {
+      primaryActionsGroup.style.display = showNonReorderControls ? '' : 'none';
+    }
+  }
+
+  #isArchivalObjectSelected() {
+    const node = this.currentNode || this.#getSelectedNode();
+    if (!node) return false;
+    if (node.classList.contains('root')) return false;
+    return (node.id || '').indexOf('archival_object_') === 0;
+  }
+
+  #getSelectedNode() {
+    if (!this.treeContainerEl) return null;
+    return this.treeContainerEl.querySelector('.node.selected');
+  }
+
+  #renderMoveMenu() {
+    if (!this.toolbarEl) return;
+    const menuEl = this.toolbarEl.querySelector('.js-itree-toolbar-move-menu');
+    if (!menuEl) return;
+
+    const node = this.currentNode || this.#getSelectedNode();
+    if (!node) {
+      menuEl.innerHTML = '';
+      return;
+    }
+
+    const parentList = node.parentElement;
+    const siblingsAtLevel = parentList
+      ? Array.prototype.filter.call(parentList.children, function (child) {
+          return child.matches('li.node') && child !== node;
+        })
+      : [];
+
+    const prevSibling = node.previousElementSibling;
+    const nextSibling = node.nextElementSibling;
+    const level = this.#getNodeLevel(node);
+    const canMoveUp = !!(prevSibling && prevSibling.matches('li.node'));
+    const canMoveDown = !!(nextSibling && nextSibling.matches('li.node'));
+    const canMoveUpLevel = level > 1;
+
+    const siblingsMenuItems = siblingsAtLevel
+      .map(sibling => {
+        const titleEl = sibling.querySelector('.node-column[data-column="title"]');
+        const title = titleEl ? titleEl.textContent.trim() : sibling.id || '';
+        return (
+          '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down-into" data-target-node-id="' +
+          sibling.id +
+          '">' +
+          title +
+          '</button></li>'
+        );
+      })
+      .join('');
+
+    const menuParts = [];
+    if (canMoveUpLevel) {
+      menuParts.push(
+        '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="up-level">' +
+          this.#translate('actions.move_up_a_level', 'Up a Level') +
+          '</button></li>'
+      );
+    }
+    if (canMoveUp) {
+      menuParts.push(
+        '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="up">' +
+          this.#translate('actions.move_up', 'Up') +
+          '</button></li>'
+      );
+    }
+    if (canMoveDown) {
+      menuParts.push(
+        '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down">' +
+          this.#translate('actions.move_down', 'Down') +
+          '</button></li>'
+      );
+    }
+    if (siblingsAtLevel.length > 0) {
+      menuParts.push(
+        '<li class="dropdown-submenu dropdown-item p-0">' +
+          '<button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-toggle="dropdown" data-move-action="down-into">' +
+          this.#translate('actions.move_down_into', 'Down Into...') +
+          '</button>' +
+          '<ul class="dropdown-menu move-node-into-menu">' +
+          siblingsMenuItems +
+          '</ul>' +
+          '</li>'
+      );
+    }
+
+    menuEl.innerHTML = menuParts.join('');
+  }
+
+  #getNodeLevel(node) {
+    if (!node || !node.className) return 0;
+    const match = (node.className || '').match(/indent-level-(\d+)/);
+    if (!match) return 0;
+    return parseInt(match[1], 10);
   }
 }
