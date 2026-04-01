@@ -386,4 +386,16 @@
   display: flex;
   align-items: center;
   background-image: linear-gradient(to bottom, #f3f3f3 0%, #ededed 100%);
+
+  // Load via Spreadsheet + help: same hover background as .btn-default:hover on both
+  // when the primary button is hovered; hovering only the help link does not restyle the button.
+  .js-itree-toolbar-load-bulk-group:has(
+      .js-itree-toolbar-load-bulk:not(.disabled):hover
+    ) {
+    .js-itree-toolbar-load-bulk,
+    .js-itree-load-via-spreadsheet-help {
+      color: var(--bs-text-body);
+      background-color: $gray-200;
+    }
+  }
 }
