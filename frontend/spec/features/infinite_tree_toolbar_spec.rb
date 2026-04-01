@@ -23,6 +23,7 @@ describe 'Infinite Tree Toolbar', js: true do
         expect(page).to have_css('.js-itree-toolbar-collapse-tree', text: I18n.t('actions.collapse_tree'))
         expect(page).to have_css('.js-itree-toolbar-add-child', text: I18n.t('resource._frontend.action.add_child'))
         expect(page).to have_css('.js-itree-toolbar-load-bulk', text: I18n.t('resource._frontend.action.load_bulk'))
+        expect(page).to have_css('#load_via_spreadsheet_help_icon', visible: true)
         expect(page).to have_css('.js-itree-toolbar-rde', text: I18n.t('actions.rapid_data_entry'))
         expect(page).to have_css('.js-itree-toolbar-finish-editing', text: I18n.t('actions.finish_editing'))
         expect(page).to have_no_css('.js-itree-toolbar-cut', visible: true)
@@ -67,6 +68,7 @@ describe 'Infinite Tree Toolbar', js: true do
         expect(page).to have_no_css('.js-itree-toolbar-add-sibling', visible: true)
         expect(page).to have_no_css('.js-itree-toolbar-add-duplicate', visible: true)
         expect(page).to have_no_css('.js-itree-toolbar-load-bulk', visible: true)
+        expect(page).to have_css('#load_via_spreadsheet_help_icon', visible: :hidden)
         expect(page).to have_no_css('.js-itree-toolbar-rde', visible: true)
         expect(page).to have_css('.js-itree-toolbar-finish-editing', text: I18n.t('actions.finish_editing'))
       end
