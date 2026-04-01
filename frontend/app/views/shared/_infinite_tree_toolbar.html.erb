@@ -151,13 +151,31 @@
     >
       <%= I18n.t('archival_object._frontend.action.add_duplicate') %>
     </button>
-    <button
-      type="button"
-      class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-load-bulk"
-      data-itree-action="load-bulk"
+    <div
+      class="btn-group js-itree-toolbar-load-bulk-group"
+      role="group"
+      aria-label="<%= I18n.t('resource._frontend.action.load_bulk') %>"
     >
-      <%= I18n.t('resource._frontend.action.load_bulk') %>
-    </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-default infinite-tree-toolbar__btn border-right-0 js-itree-toolbar-load-bulk"
+        data-itree-action="load-bulk"
+      >
+        <%= I18n.t('resource._frontend.action.load_bulk') %>
+      </button>
+      <a
+        target="_blank"
+        class="btn btn-sm btn-default border-left-0 has-tooltip js-itree-load-via-spreadsheet-help"
+        id="load_via_spreadsheet_help_icon"
+        href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>"
+        data-toggle="tooltip"
+        data-placement="auto"
+        title="<%= t('help.topics.resource_load_via_spreadsheet') %>"
+        data-container="body"
+      >
+        <span class="context-help-icon glyphicon glyphicon-question-sign"></span>
+      </a>
+    </div>
     <button
       type="button"
       class="btn btn-sm btn-default infinite-tree-toolbar__btn js-itree-toolbar-rde"
