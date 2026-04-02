@@ -111,7 +111,17 @@ When 'the user expands the first Digital Object Component' do
 end
 
 When 'the user selects the second Digital Object Component' do
-  click_on "Digital Object Component B Label #{@uuid}"
+  wait_for_ajax
+
+  within "#digital_object_component_#{@digital_object_component_second_id}" do
+    click_on "Digital Object Component B Label #{@uuid}"
+  end
+end
+
+When 'the user selects the Digital Object' do
+  within '#tree-container' do
+    click_on "Digital Object Title #{@uuid}"
+  end
 end
 
 When 'the user selects the first Digital Object Component' do
@@ -120,9 +130,10 @@ When 'the user selects the first Digital Object Component' do
   wait_for_ajax
 end
 
-Then 'the second Digital Object Component is pasted as a child of the Digital Object Component' do
+Then 'the second Digital Object Component is pasted as a child of the Digital Object' do
+  wait_for_ajax
   expect(page).to have_css "#digital_object_component_#{@digital_object_component_first_id}.indent-level-1"
-  expect(page).to have_css "#digital_object_component_#{@digital_object_component_second_id}.indent-level-2"
+  expect(page).to have_css "#digital_object_component_#{@digital_object_component_second_id}.indent-level-1"
 end
 
 Then 'the second Digital Object Component moves a level up' do
