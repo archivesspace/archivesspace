@@ -62,10 +62,10 @@ jobs:
           submodules: 'true'
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -80,7 +80,7 @@ jobs:
       # ArchivesSpace Metadata
       - name: Extract ArchivesSpace metadata
         id: meta_archivesspace
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: archivesspace/archivesspace
           tags: |
@@ -92,7 +92,7 @@ jobs:
       # Solr Metadata
       - name: Extract Solr metadata
         id: meta_solr
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: archivesspace/solr
           tags: |
@@ -104,7 +104,7 @@ jobs:
       # Proxy Metadata
       - name: Extract Proxy metadata
         id: meta_proxy
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: archivesspace/proxy
           tags: |
@@ -114,7 +114,7 @@ jobs:
             type=raw,value=${{ github.ref_name }},enable=${{ startsWith(github.ref_name, 'release-') }}
 
       - name: Build and push ArchivesSpace image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: true
@@ -122,7 +122,7 @@ jobs:
           labels: ${{ steps.meta_archivesspace.outputs.labels }}
 
       - name: Build and push Solr image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: ./solr
           push: true
@@ -130,7 +130,7 @@ jobs:
           labels: ${{ steps.meta_solr.outputs.labels }}
 
       - name: Build and push Proxy image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: ./proxy
           push: true
