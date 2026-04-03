@@ -12,7 +12,7 @@
       <li class="sidebar-entry-location"><a href='#'>Locations to Update:</a>
         <ul>
           <% @location_batch.record_uris.each do |uri| %>
-            <% url = "#{AppConfig[:frontend_proxy_url]}#{uri}" %>
+            <% url = "#{AppConfig[:frontend_proxy_url].chomp('/')}#{uri}" %>
             <li><%= link_to uri, url %></li>
           <% end %>
         </ul>

@@ -4,7 +4,7 @@ class AgentCorporateEntity < Record
     md = {
       '@context' => "http://schema.org/",
       '@type' => 'Organization',
-      '@id' => AppConfig[:public_proxy_url] + uri,
+      '@id' => AppConfig[:public_proxy_url].chomp('/') + uri,
       'name' => json['display_name']['sort_name'],
       'sameAs' => raw['authority_id'],
       'alternateName' => json['names'].select {|n| !n['is_display_name']}.map {|n| n['sort_name']}

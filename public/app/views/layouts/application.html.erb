@@ -64,7 +64,7 @@
 	<% if AppConfig[:pui_enable_staff_link] %>
 		<% if AppConfig.has_key?(:frontend_proxy_url) && defined?(@result) && @result.respond_to?(:uri) %>
 			<script>
-				FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
+				FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url].chomp('/')) %>";
 				RECORD_URI = "<%= j(@result.uri) %>";
 			</script>
 		<% end %>

@@ -157,7 +157,7 @@ class ResourcesController < ApplicationController
     if active_job
       flash[:active_bulk_import_job] = t(
         'bulk_import_job.active',
-        url: "#{AppConfig[:frontend_proxy_url]}/resolve/readonly?uri=#{active_job['uri']}",
+        url: "#{AppConfig[:frontend_proxy_url].chomp('/')}/resolve/readonly?uri=#{active_job['uri']}",
         uri: active_job['uri']
       )
       return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
