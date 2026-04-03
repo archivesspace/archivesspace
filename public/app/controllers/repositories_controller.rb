@@ -82,7 +82,7 @@ class RepositoriesController < ApplicationController
     md = {
           '@context' => "http://schema.org/",
           '@type' => 'ArchiveOrganization',
-          '@id' => AppConfig[:public_proxy_url] + @result['uri'],
+          '@id' => AppConfig[:public_proxy_url].chomp('/') + @result['uri'],
           #this next bit will always be the repo name, not the name associated with the agent record (which is overwritten if the repo record is updated)
           'name' => @result['agent_representation']['_resolved']['display_name']['sort_name'],
           'url' => @result['url'],

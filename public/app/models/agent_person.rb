@@ -4,7 +4,7 @@ class AgentPerson < Record
     md = {
       '@context' => "http://schema.org/",
       '@type' => 'Person',
-      '@id' => AppConfig[:public_proxy_url] + uri,
+      '@id' => AppConfig[:public_proxy_url].chomp('/') + uri,
       'name' => json['display_name']['sort_name'],
       'sameAs' => raw['authority_id'],
       'alternateName' => json['names'].select {|n| !n['is_display_name']}.map {|n| n['sort_name']}
@@ -27,7 +27,7 @@ class AgentPerson < Record
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']
       out['name'] = res['display_name']['sort_name']
-      out['url'] = AppConfig[:public_proxy_url] + res['uri']
+      out['url'] = AppConfig[:public_proxy_url].chomp('/') + res['uri']
 
       knows = {}
 
@@ -49,7 +49,7 @@ class AgentPerson < Record
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']
       out['name'] = res['display_name']['sort_name']
-      out['url'] = AppConfig[:public_proxy_url] + res['uri']
+      out['url'] = AppConfig[:public_proxy_url].chomp('/') + res['uri']
 
       out
     end
@@ -59,7 +59,7 @@ class AgentPerson < Record
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']
       out['name'] = res['display_name']['sort_name']
-      out['url'] = AppConfig[:public_proxy_url] + res['uri']
+      out['url'] = AppConfig[:public_proxy_url].chomp('/') + res['uri']
 
       out
     end
@@ -70,7 +70,7 @@ class AgentPerson < Record
       out = {}
       out['@id'] = res['display_name']['authority_id'] if res['display_name']['authority_id']
       out['name'] = res['display_name']['sort_name']
-      out['url'] = AppConfig[:public_proxy_url] + res['uri']
+      out['url'] = AppConfig[:public_proxy_url].chomp('/') + res['uri']
 
       out
     end
