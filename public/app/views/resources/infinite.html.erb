@@ -49,7 +49,7 @@ const resourceUri = '<%= @result["uri"] %>';
 const treeWaypointSize = '<%= tree_waypoint_size %>';
 const identifier_separator = '<%= I18n.t("resource.identifier_separator") %>';
 const date_type_bulk = '<%= I18n.t("date_type_bulk.bulk") %>';
-const appUrlPrefix = '<%= AppConfig[:public_proxy_url] %>';
+const appUrlPrefix = '<%= AppConfig[:public_proxy_url].chomp('/') %>';
 const workerPath = '<%= asset_path('infiniteRecordsWorker.js') %>';
 const mainMaxFetches = <%= Rails.configuration.infinite_records_main_max_concurrent_waypoint_fetches %>;
 const workerMaxFetches = <%= Rails.configuration.infinite_records_worker_max_concurrent_waypoint_fetches %>;
