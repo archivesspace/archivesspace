@@ -89,7 +89,7 @@
                     <td><%= r[:name] %>
                     <td class="table-record-actions">
                       <div class="btn-group">
-                        <a class="btn btn-sm btn-primary" href="<%= AppConfig[:frontend_proxy_url] + r[:uri] + "/edit#oai_settings" %>" ><%= I18n.t('actions.edit_oai') %></a>
+                        <a class="btn btn-sm btn-primary" href="<%= AppConfig[:frontend_proxy_url].chomp('/') + r[:uri] + "/edit#oai_settings" %>" ><%= I18n.t('actions.edit_oai') %></a>
                       </div>
                     </td>
                   </tr>
