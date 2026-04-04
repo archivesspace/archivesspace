@@ -220,6 +220,7 @@ AppConfig[:allow_non_utf8_mysql_database] = false
 # If you are serving user-facing applications via proxy
 # (i.e., another domain or port, or via https, or for a prefix) it is
 # recommended that you record those URLs in your configuration
+# NOTE: ensure no trailing slashes on these URLs
 AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
 AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
 AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
