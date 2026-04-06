@@ -825,6 +825,8 @@ it:
       acquisition: Acquisizione
       issued: Emesso
       modified: Modificato
+      agent_relation: Relazione con l'agente
+      record_keeping: Tenuta dei registri
     event_event_type:
       accession: Accesso
       accumulation: Accumulo
@@ -1362,10 +1364,14 @@ it:
       end: Fine
     date_standardized_type:
       standard: Standard
+      not_after: Non dopo
+      not_before: Non prima
     date_type:
       expression: Espressione
       range: Intervallo
       single: Singolo
+      bulk: Datteri sfusi
+      inclusive: Date estreme
     date_type_structured:
       range: Intervallo
       single: Singolo
@@ -1393,6 +1399,8 @@ it:
       millimeters: Millimetri
     end_date_standardized_type:
       standard: Standard
+      not_after: Non dopo
+      not_before: Non prima
     extent_extent_type:
       cassettes: Audiocassetta
       gigabytes: Gigabytes
@@ -1409,6 +1417,8 @@ it:
       fulfilled: Realizzato
       cancelled: Cancellato
       fail: Fallimento
+      partial pass: Passaggio parziale
+      pass: accadere
     file_version_xlink_show_attribute:
       other: altro
       new: nuovo
@@ -1493,6 +1503,9 @@ it:
       is_superior_of: È superiore a correlato
     agent_relationship_temporal_relator:
       is_temporal_with: Relazione tra agente e agente, relazionatore temporale
+    deaccession_scope:
+      part: Parte
+      whole: Totale
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: 'Calendario delle date'
