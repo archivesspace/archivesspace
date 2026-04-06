@@ -6,6 +6,7 @@ gem 'byebug'
 gem 'capybara'
 gem 'capybara-screenshot'
 gem 'cucumber'
+gem 'cucumber-cucumber-expressions', '~> 18.0' # TODO: remove this line once:  cucumber/cucumber-ruby#1820 is resolved
 gem 'cuke_linter'
 gem 'rspec-expectations'
 gem 'rubocop', require: false
