@@ -1412,6 +1412,7 @@ it:
       photographic_slides: Diapositive fotografiche
       terabytes: Terabytes
       volumes: Volumi
+      files: File
     event_outcome:
       pending: In attesa
       fulfilled: Realizzato
