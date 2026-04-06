@@ -111,11 +111,7 @@ When 'the user expands the first Digital Object Component' do
 end
 
 When 'the user selects the second Digital Object Component' do
-  wait_for_ajax
-
-  within "#digital_object_component_#{@digital_object_component_second_id}" do
-    click_on "Digital Object Component B Label #{@uuid}"
-  end
+  find("#tree-container .table-row-group .table-row-group #digital_object_component_#{@digital_object_component_second_id} .table-cell.title").click
 end
 
 When 'the user selects the Digital Object' do
@@ -125,9 +121,7 @@ When 'the user selects the Digital Object' do
 end
 
 When 'the user selects the first Digital Object Component' do
-  wait_for_ajax
-  click_on "Digital Object Component A Label #{@uuid}"
-  wait_for_ajax
+  find('.table-cell.title', text: "Digital Object Component A Label #{@uuid}").click
 end
 
 Then 'the second Digital Object Component is pasted as a child of the Digital Object' do
