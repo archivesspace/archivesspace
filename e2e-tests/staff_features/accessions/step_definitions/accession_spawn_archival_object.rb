@@ -18,7 +18,7 @@ end
 
 When 'the user clicks on an Archival Object in the Component Position modal' do
   within '#linkResourceModal' do
-    click_on "Archival Object #{@uuid}"
+    find('.table-cell.title', text: "Archival Object #{@uuid}").click
   end
 end
 
