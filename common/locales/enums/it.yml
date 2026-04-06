@@ -1413,6 +1413,8 @@ it:
       terabytes: Terabytes
       volumes: Volumi
       files: File
+      reels: Reel
+      sheets: Fogli
     event_outcome:
       pending: In attesa
       fulfilled: Realizzato
@@ -1425,6 +1427,7 @@ it:
       new: nuovo
       none: nessuno
       replace: sostituisci
+      embed: Incorpora
     government_agency_type:
       int_gov: Internazionale intergovernativa
       ngo: Organizzazione non governativa
@@ -1465,12 +1468,34 @@ it:
       tiff: Tagged Image File Format (.tiff)
       txt: File di testo generico (.txt)
     file_version_use_statement:
-      audio-master: ''
+      audio-master: 'Audio-Master'
       image-thumbnail: Immagine-Thumbnail
-      audio-clip: ''
+      audio-clip: 'Clip audio'
+      audio-master-edited: Audio masterizzato
+      audio-service: Servizio audio
+      audio-streaming: Streaming audio
+      image-master: Maestro dell'immagine
+      image-master-edited: Immagine principale (modificata)
+      image-service: Servizio immagini
+      image-service-edited: Servizio immagini – Modificato
+      text-codebook: Libro codice testuale
+      text-data: Dati testuali
+      text-data_definition: Definizione dei dati testuali
+      text-georeference: Georeferenziazione testuale
+      text-ocr-edited: Testo elaborato tramite OCR
+      text-ocr-unedited: Testo OCR non modificato
+      text-tei-transcripted: Trascrizione TEI del testo
+      text-tei-translated: Testo tradotto in TEI
+      video-master-edited: Video - Master Editato
+      video-clip: Videoclip
+      video-master: Maestro del video
+      video-service: Servizio video
+      video-streaming: Streaming video
     file_version_xlink_actuate_attribute:
       none: nessuno
       other: altro
+      onLoad: Al caricamento
+      onRequest: Su richiesta
     gender:
       not_specified: Non specificato
     user_defined_enum_4:
@@ -1505,6 +1530,9 @@ it:
     agent_relationship_temporal_relator:
       is_temporal_with: Relazione tra agente e agente, relazionatore temporale
     deaccession_scope:
+      part: Parte
+      whole: Totale
+    extent_portion:
       part: Parte
       whole: Totale
   enumeration_names:
