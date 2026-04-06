@@ -311,7 +311,7 @@ describe 'Managed Container model' do
       ArchivesSpaceService.wait(:long)
 
       json = Accession.to_jsonmodel(accession.id)
-      json.title = "New accession title"
+      json.titles.first['title'] = "New accession title"
 
       accession.update_from_json(json)
 

@@ -354,6 +354,11 @@
             }
         ],
         "suppressed": false,
-        "title": "Archival_Object 1",
-        "uri": "/repositories/2/archival_objects/import_1"
+        "uri": "/repositories/2/archival_objects/import_1",
+        "titles": [
+          {
+            "title": "Archival_Object 1",
+            "type": "devised"
+          }
+        ]
     }

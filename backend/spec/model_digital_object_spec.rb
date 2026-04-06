@@ -8,7 +8,7 @@ describe 'Digital object model' do
 
     digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
 
-    expect(DigitalObject[digital_object[:id]].title[0].title).to eq(json.titles[0].title)
+    expect(DigitalObject[digital_object[:id]].titles[0].title).to eq(json.titles[0].title)
   end
 
 

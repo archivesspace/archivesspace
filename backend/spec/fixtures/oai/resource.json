@@ -465,6 +465,11 @@
             }
         ],
         "suppressed": false,
-        "title": "Resource 1",
+        "titles": [
+            {
+               "title": "Resource 1",
+               "type": "devised"
+            } 
+         ],
         "uri": "/repositories/2/resources/import_1"
     }

@@ -16,8 +16,7 @@ describe 'Update feed controller' do
 
     consumer.join
     expect(consumer.value.count).to eq(1)
-
-    expect(consumer.value.first['record']['title']).to eq(created_accession.title)
+    expect(consumer.value.first['record']['titles'][0]['title']).to eq(created_accession.titles[0]['title'])
   end
 
 

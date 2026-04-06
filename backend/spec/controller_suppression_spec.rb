@@ -7,7 +7,7 @@ describe 'Record Suppression' do
     test_accession.set_suppressed(true)
 
     test_accession = JSONModel(:accession).find(test_accession.id)
-    test_accession.title = "A new update"
+    test_accession.titles.first['title'] = "A new update"
 
     expect {
       test_accession.save

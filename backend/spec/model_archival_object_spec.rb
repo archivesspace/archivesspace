@@ -11,7 +11,7 @@ describe 'ArchivalObject model' do
                                                 ),
                                           :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].title[0].title).to eq('A new archival object')
+    expect(ArchivalObject[ao[:id]].titles[0].title).to eq('A new archival object')
   end
 
 
@@ -77,14 +77,13 @@ describe 'ArchivalObject model' do
 
   it "will generate a label if requested" do
     opts = {
-      :title => "",
+      :titles => [],
       :dates => [{
                    "date_type" => "single",
                    "label" => "creation",
                    "begin" => generate(:yyyy_mm_dd),
                  }]
     }
-
     ao = ArchivalObject.create_from_json(build(:json_archival_object, opts),
                                          :repo_id => $repo_id)
 

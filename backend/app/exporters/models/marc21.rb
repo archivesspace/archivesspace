@@ -13,7 +13,7 @@ class MARCModel < ASpaceExport::ExportModel
 
   @archival_object_map = {
     [:repository, :finding_aid_language] => :handle_repo_code,
-    [:title, :linked_agents, :dates] => :handle_title,
+    [:titles, :linked_agents, :dates] => :handle_titles,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
     :extents => :handle_extents,
@@ -169,7 +169,8 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
-  def handle_title(title, linked_agents, dates)
+  def handle_titles(titles, linked_agents, dates)
+    title = titles.first['title']
     creator = linked_agents.find {|a| a['role'] == 'creator'}
     date_codes = []
 

@@ -178,7 +178,8 @@ describe 'EAD converter' do
     parsed = JSON(IO.read(converter.get_output_path))
 
     expect(parsed.length).to eq(6)
-    expect(parsed.find {|r| r['ref_id'] == '1'}['title']).to eq('oh well')
+
+    expect(parsed.find {|r| r['ref_id'] == '1'}['titles'].first['title']).to eq('oh well')
     expect(parsed.find {|r| r['ref_id'] == '1'}['dates'][0]['expression']).to eq("1907-1911")
 
   end
@@ -224,7 +225,8 @@ describe 'EAD converter' do
 
       @archival_objects = parsed.select {|rec| rec['jsonmodel_type'] == 'archival_object'}.
                                  inject({}) {|result, a|
-        a['title'].match(/C([0-9]{2})/) do |m|
+
+        a['titles'].first['title'].match(/C([0-9]{2})/) do |m|
           result[m[1]] = a
         end
 
@@ -304,9 +306,9 @@ describe 'EAD converter' do
 
     it "maps '<unittitle>' correctly" do
       #   IF nested in <archdesc><did>
-      expect(@resource["title"]).to eq('Resource--<title render="italic">Title</title>-AT')
+      expect(@resource["titles"].first['title']).to eq('Resource--<title render="italic">Title</title>-AT')
       #   IF nested in <c><did>
-      expect(@archival_objects['12']['title']).to eq("Resource-C12-AT")
+      expect(@archival_objects['12']['titles'].first['title']).to eq("Resource-C12-AT")
     end
 
 
@@ -756,7 +758,7 @@ describe 'EAD converter' do
       links = @archival_objects['01']['instances'].select {|i| i.has_key?('digital_object')}.map {|i| i['digital_object']['ref']}
       expect(links.sort).to eq(@digital_objects.map {|d| d['uri']}.sort)
       #   @titles
-      expect(@digital_objects.map {|d| d['title']}.include?("DO.Child2Title-AT")).to be_truthy
+      expect(@digital_objects.map {|d| d['titles'].first['title']}).to include("DO.Child2Title-AT")
       #   @role
       uses = @digital_objects.map {|d| d['file_versions'].map {|f| f['use_statement']}}.flatten
       expect(uses.uniq.sort).to eq(["Image-Service", "Image-Master", "Image-Thumbnail"].sort)
@@ -1025,7 +1027,7 @@ describe 'EAD converter' do
     it "maps the unittitle tag correctly" do
       json = convert(test_doc)
       resource = json.find {|r| r['jsonmodel_type'] == 'resource'}
-      expect(resource['title']).to eq("一般行政文件 [2]")
+      expect(resource['titles'].first['title']).to eq("一般行政文件 [2]")
     end
 
   end

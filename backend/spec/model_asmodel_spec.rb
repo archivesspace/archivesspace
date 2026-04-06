@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative 'container_spec_helper'
 
 describe 'ASModel' do
 
