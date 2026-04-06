@@ -1387,7 +1387,7 @@ es:
       asignados por una agencia autorizada. Los ejemplos incluyen un identificador ORCID para una persona
       o un código de depósito MARC para una entidad corporativa.</p>"
     agent_genders_tooltip: Género del sujeto.
-    agent_places_tooltip: Coloque la información asociada con el agente.
+    agent_places_tooltip: Coloque la información asociada con el agente. Ver DACS 11.3, ISAAR (CPF) 5.2.3
     agent_occupations_tooltip: Información de ocupación asociada con el agente.
     agent_functions_tooltip: Términos utilizados para identificar las funciones, procesos, tareas, 
       actividades o transacciones realizadas por el agente.
@@ -1428,7 +1428,7 @@ es:
       <p>Permite enlaces a la documentación externa, por ejemplo archivos biográficos, obras de referencia, etc. acerca de este autoridad.</p>
     dates_of_existence: Fechas de existencia
     dates_of_existence_tooltip: |
-      <p>Fechas en las cuales el autoridad existió.</p>
+      <p>Fechas en las cuales el autoridad existió. Ver DACS 11.1, ISAAR (CPF) 5.2.1</p>
     publish: Publicar
     _singular: Autoridad
     _plural: Autoridades
@@ -2951,7 +2951,7 @@ es:
 
   agent_identifiers:
     entity_identifier_tooltip: "<p>Registra identificadores asociados con una entidad, como identificadores
-      legales asignados por una agencia autorizada.</p>"
+      legales asignados por una agencia autorizada. Ver DACS 10.4, ISAAR (CPF) 5.1.6</p>"
     identifier_type_tooltip: "<p>Indica el tipo o fuente del identificador de entidad registrado.</p>"
   used_language:
     language_tooltip: "<p>El (los) idioma (s) asociados con el agente. Ejemplo: inglés.</p>"

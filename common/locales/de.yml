@@ -354,7 +354,7 @@ de:
     dates_of_existence: Existenzdaten
     external_documents_tooltip: "<p>Ermöglicht Verknüpfungen mit externer Dokumentation, z. B. biografische
       Dateien, Referenzwerke usw. über diesen Akteur.</p>\n"
-    dates_of_existence_tooltip: "<p>Daten, in denen der Akteur existierte.</p>\n"
+    dates_of_existence_tooltip: "<p>Daten, in denen der Akteur existierte. Siehe DACS 11.1, ISAAR (CPF) 5.2.1</p>\n"
     publish: Veröffentlichen
     _plural: Akteure
     new_title:
@@ -375,7 +375,7 @@ de:
       verwendet wird.</p>\n"
     agent_genders_tooltip: Geschlecht des Subjekts.
     agent_occupations_tooltip: Dem Akteur zugeordnete Berufsinformationen.
-    agent_places_tooltip: Dem Akteur zugeordnete Ortsinformationen.
+    agent_places_tooltip: Dem Akteur zugeordnete Ortsinformationen. Siehe DACS 11.3, ISAAR (CPF) 5.2.3
     agent_functions_tooltip: Begriffe zur Identifizierung der Funktionen, Prozesse, Aufgaben, 
       Aktivitäten oder Transaktionen, die vom Akteur ausgeführt werden.
     agent_topics_tooltip: Ein mit dem Akteur verbundenes Thema.
@@ -1108,7 +1108,7 @@ de:
   agent_identifiers:
     identifier_type_tooltip: "<p> Gibt die Art oder Quelle des erfassten Entitäts-Bezeichners an.</p>\n"
     entity_identifier_tooltip: "<p>Erfasst zu einer Entität zugeordnete Bezeichner, wie rechtsgültige
-      Bezeichner, die von einer Autoritäts-Organisation vergeben werden.</p>\n"
+      Bezeichner, die von einer Autoritäts-Organisation vergeben werden. Siehe DACS 10.4, ISAAR (CPF) 5.1.6</p>\n"
   used_language:
     language_tooltip: "<p>Die Sprache(n), die dem Akteur zugeordnet sind. Beispiel: Englisch.</p>\n"
     script_tooltip: "<p>Die dem Akteur zugeordnete Schrift. Beispiel: Lateinische Schrift.</p>\n"

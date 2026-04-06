@@ -754,7 +754,7 @@ en:
 
   agent_identifiers:
     entity_identifier_tooltip: |
-        <p>Records identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency.</p>
+        <p>Records identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency. See DACS 10.4, ISAAR (CPF) 5.1.6</p>
     identifier_type_tooltip: |
         <p>Indicates the type or source of the entity identifier recorded.</p>
 
@@ -1741,7 +1741,7 @@ en:
         <p>Allows links to external documentation, e.g. biographical files, reference works, etc. about this Agent.</p>
     dates_of_existence: Dates of Existence
     dates_of_existence_tooltip: |
-        <p>Dates in which the agent existed.</p>
+        <p>Dates in which the agent existed. See DACS 11.1, ISAAR (CPF) 5.2.1</p>
     publish: Publish
     _singular: Agent
     _plural: Agents
@@ -1767,7 +1767,7 @@ en:
     agent_identifiers_tooltip: |
         <p>Identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency. Examples include an ORCID identifier for a person or a MARC Repository Code for a corporate entity.</p>
     agent_genders_tooltip: Gender of the subject.
-    agent_places_tooltip: Place information associated with the agent.
+    agent_places_tooltip: Place information associated with the agent. See DACS 11.3, ISAAR (CPF) 5.2.3 
     agent_occupations_tooltip: Occupation information associated with the agent.
     agent_functions_tooltip: Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent.
     agent_topics_tooltip: A subject associated with the agent.

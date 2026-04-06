@@ -388,7 +388,7 @@ pl:
       <p>Umożliwia dodawanie linków do zewnętrznej dokumentacji, np. plików biograficznych, dzieł referencyjnych itp., dotyczących tej osoby/podmiotu.</p>
     dates_of_existence: Daty istnienia
     dates_of_existence_tooltip: |
-      <p>Daty, w których istniał dany podmiot.</p>
+      <p>Daty, w których istniał dany podmiot. Patrz DACS 11.1, ISAAR (CPF) 5.2.1</p>
     publish: Publikować
     _singular: Osoba
     _plural: Osoby
@@ -414,7 +414,7 @@ pl:
     agent_identifiers_tooltip: |
       <p>Identyfikatory powiązane z danym podmiotem, takie jak identyfikatory prawne przypisane przez uprawnioną agencję. Przykłady obejmują identyfikator ORCID dla osoby fizycznej lub kod repozytorium MARC dla podmiotu korporacyjnego.</p>
     agent_genders_tooltip: Płeć badanego.
-    agent_places_tooltip: Umieść informacje dotyczące agenta.
+    agent_places_tooltip: Umieść informacje dotyczące agenta. Patrz DACS 11.3, ISAAR (CPF) 5.2.3
     agent_occupations_tooltip: Informacje dotyczące zawodu powiązanego z danym agentem.
     agent_functions_tooltip: Terminy używane do identyfikacji funkcji, procesów, zadań, działań lub 
       transakcji wykonywanych przez agenta.

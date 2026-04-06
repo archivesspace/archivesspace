@@ -1022,7 +1022,7 @@ ja:
     agent_sources_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるソース。</p>"
     agent_identifiers_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子。例には、個人のORCID識別子または企業エンティティのMARCリポジトリコードが含まれます。</p>"
     agent_genders_tooltip: 主題の性別。
-    agent_places_tooltip: エージェントに関連付けられた情報を配置します。
+    agent_places_tooltip: エージェントに関連付けられた情報を配置します。 DACS 11.3、ISAAR (CPF) 5.2.3を参照 
     agent_occupations_tooltip: エージェントに関連付けられている職業情報。
     agent_functions_tooltip: エージェントによって実行される機能、プロセス、タスク、アクティビティ、またはトランザクションを識別するために使用される用語。
     agent_topics_tooltip: エージェントに関連付けられているサブジェクト。
@@ -1053,7 +1053,7 @@ ja:
     related_agents_tooltip: "<p>アソシエーティブ、階層、または親/子関係で、このエージェントレコードから別のエージェントレコードへのリンクを許可します。 </p>"
     external_documents_tooltip: "<p>このエージェントに関する外部の文書（例えば、経歴ファイル、参照作業など）へのリンクを許可します。 </p>"
     dates_of_existence: 存在の日付
-    dates_of_existence_tooltip: "<p>エージェントが存在した日付。 </p>"
+    dates_of_existence_tooltip: "<p>エージェントが存在した日付。 DACS 11.1、ISAAR (CPF) 5.2.1を参照</p>"
     publish: 公開する
     _singular: エージェント
     _plural: エージェント
@@ -2134,7 +2134,7 @@ ja:
     xlink_arcrole_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
     last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリンクされたリソースが検証された最後の日付または日時。</p>"
   agent_identifiers:
-    entity_identifier_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子を記録します。</p>"
+    entity_identifier_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子を記録します。 DACS 10.4、ISAAR (CPF) 5.1.6を参照</p>"
     identifier_type_tooltip: "<p>記録されたエンティティ識別子のタイプまたはソースを示します。</p>"
   used_language:
     language_tooltip: "<p>エージェントに関連付けられている言語。例：英語。</p>"
