@@ -434,7 +434,7 @@ en:
     authority_id: Authority ID
     authority_id_tooltip: |
         <p>The unique identifier for the Name Form for an Agent within the source from which it was acquired, (i.e., a MADS record identifier or EAC record identifier). The identifier may be represented as a URI.</p>
-        <p>See DACS 13.2</p>
+        <p>See DACS 13.2, ISAAR (CPF) 5.4.1</p>
         <p>Examples:</p>
         <ul>
         <li>nr92045078 <em>for a LCNAF name heading</em></li>
@@ -443,13 +443,13 @@ en:
         </ul>
     source: Source
     source_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD, if Name Rules is not used. An indicator of the authoritative source from which the name was taken.</p>
+        <p>CONDITIONALLY REQUIRED FIELD, if Name Rules is not used. An indicator of the authoritative source from which the name was taken. See DACS 13.1, ISAAR (CPF) 5.4.2</p>
         <p>Values in this Controlled Value List may be modified.</p>
     rules: Rules
     rules_tooltip: |
         <p>CONDITIONALLY REQUIRED FIELD, if Name Source is not used. An indication of the rules used to formulate the name entry.</p>
         <p>Values in this Controlled Value List may be modified.</p>
-        <p>See DACS 10.3.2, ISAAR (CPF) 5.1.4</p>
+        <p>See DACS 13.3, ISAAR (CPF) 5.4.3</p>
     name_order: Name Order
     name_order_tooltip: |
         <p>Indicates if the name form should be displayed in inverted (last name, first name) order or in direct order (first name last name).</p>
@@ -633,14 +633,14 @@ en:
     identifier_type_tooltip: |
         <p>Indicates the type or format of the authority record identifier. Values in this Controlled Value List may be modified.</p>
     source_tooltip: |
-        <p>Indicates the originating authority file of an associated identifier. Example: NAF (for nr2003017069). Values in this Controlled Value List may be modified.</p>
+        <p>Indicates the originating authority file of an associated identifier. See DACS 13.1, ISAAR (CPF) 5.4.2. Example: NAF (for nr2003017069). Values in this Controlled Value List may be modified.</p>
     record_identifier_tooltip: |
-        <p>The identifier for the Agent record, usually consisting of a unique alpha-numeric string. Identifier may originate in an external authority file, or be generated locally.</p>
+        <p>The identifier for the Agent record, usually consisting of a unique alpha-numeric string. Identifier may originate in an external authority file, or be generated locally. See DACS 13.2, ISAAR (CPF) 5.4.1</p>
     is_primary: Primary
 
   agent_record_control:
     maintenance_status_tooltip: |
-        <p>Indicates the current state of the record.</p>
+        <p>Indicates the current state of the record. See DACS 13.4, ISAAR (CPF) 5.4.4</p>
     publication_status_tooltip: |
         <p>Indicates whether an Agent record should be publicly available.</p>
     romanization_tooltip: |
@@ -652,15 +652,15 @@ en:
     name_type_tooltip: |
         <p>Indicates the uniqueness of the authorized name form within the Agents module. Unique name entries should be recorded as "Differentiated", while Agent records used to gather multiple Agents with identical names should be marked as "Undifferentiated".</p>
     level_of_detail_tooltip: |
-        <p>Indicates the completeness of the Agent record according to consortial or local requirements.</p>
+        <p>Indicates the completeness of the Agent record according to consortial or local requirements. See DACS 13.5, ISAAR (CPF) 5.4.5</p>
     modified_record_tooltip: |
         <p>Indicates whether an Agent record has been modified, and how it has been changed.</p>
     cataloging_source_tooltip: |
         <p>Indicates where an Agent record originated. Locally produced records not submitted to a cooperative cataloging program should be recorded as "Other".</p>
     maintenance_agency_tooltip: |
-        <p>Code value for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions. Example: US-UPB (for Brigham Young University, using Library of Congress MARC Organization Code).</p>
+        <p>Code value for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions. See DACS 13.1, ISAAR (CPF) 5.4.2. Example: US-UPB (for Brigham Young University, using Library of Congress MARC Organization Code).</p>
     agency_name_tooltip: |
-        <p>The name of the agency or organization responsible for creating or maintaining an Agent record. Name recorded should correspond with the name form associated in with the code value in the registry. Example: Brigham Young University, Harold B. Lee Library (for code value UPB, using Library of Congress MARC Organization Code).</p>
+        <p>The name of the agency or organization responsible for creating or maintaining an Agent record. Name recorded should correspond with the name form associated in with the code value in the registry. See ISAAR (CPF) 5.4.2. Example: Brigham Young University, Harold B. Lee Library (for code value UPB, using Library of Congress MARC Organization Code).</p>
     maintenance_agency_note_tooltip: |
         <p>The content of the note, providing details about the maintenance agency responsible for the Agent description.</p>
     language_tooltip: |
@@ -717,7 +717,7 @@ en:
     agency_code_type_tooltip: |
         <p>The source of the maintenance agency code. Example: OCLC.</p>
     maintenance_agency_tooltip: |
-        <p>Alternative code values for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions. Example: OCLC-UBY (for United States, Brigham Young University, using the OCLC symbol).</p>
+        <p>Alternative code values for the agency or organization responsible for creating or maintaining an Agent record. Code value should be taken from a registry and be recorded using ISO 15511 conventions. Example: OCLC-UBY (for United States, Brigham Young University, using the OCLC symbol). See DACS 13.1, ISAAR (CPF) 5.4.2</p>
 
 
   agent_maintenance_histories:
@@ -1000,19 +1000,19 @@ en:
 
   related_agent: &related_agent_attributes
     relationship_type: General Relationship Type
-    relationship_type_tooltip: A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent.
+    relationship_type_tooltip: <p>A controlled term describing, in broad terms, the nature of the relationship between the primary agent and the related agent. See DACS 12.3.1, ISAAR (CPF) 5.3.2</p>
     relator: Directional Relationship Type
     specific_relator: Specific Relationship Type
-    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent.
+    specific_relator_tooltip: A controlled term more specifically describing the nature of the relationship between the primary agent and the related agent. See DACS 12.3.2, ISAAR (CPF) 5.3.3
     relationship_uri: Relationship URI
     relationship_uri_tooltip: A URI that points to an entry in an ontology or other resource for types of relationships between agents. Primarily used for the purposes of EAC-CPF.
     relator_tooltip: When a general relationship type is part of a pair with two possibilities for direction (such as Parent-Child), a controlled term indicating the direction of the relationship.
     description: Description
-    description_tooltip: A free text description of the nature of the relationship.
+    description_tooltip: A free text description of the nature of the relationship. See DACS 12.3.2, ISAAR (CPF) 5.3.3
     date: Date
     dates: Dates
     ref: Related Agent
-    related_agent_tooltip: The person, family, or corporate entity related to the primary agent.
+    related_agent_tooltip: <p>The person, family, or corporate entity related to the primary agent. See DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
     _singular: Related Agent
     _plural: Related Agents
 
@@ -1755,11 +1755,11 @@ en:
     agent_alternate_sets_tooltip: |
         <p>Used to point to linked authority records when two or more records for the same entity were derived from two or more authority systems.</p>
     agent_conventions_declarations_tooltip: |
-        <p>A content standard used in the formulation of the Agent record content. Example: Describing Archives: A Content Standard. This sub-record can be used instead of Rules entries on individual name forms.</p>
+        <p>A content standard used in the formulation of the Agent record content. See DACS 13.3, ISAAR (CPF) 5.4.3. Example: Describing Archives: A Content Standard. This sub-record can be used instead of Rules entries on individual name forms.</p>
     agent_other_agency_codes_tooltip: |
         <p>Information on alternative codes for the agency or organization responsible for creating or maintaining an Agent record.</p>
     agent_maintenance_histories_tooltip: |
-        <p>Events associated with the creation or maintenance of the Agent record.</p>
+        <p>Events associated with the creation or maintenance of the Agent record. See DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>
     agent_record_identifiers_tooltip: |
         <p>Identifiers associated with the Agent record.</p>
     agent_sources_tooltip: |
@@ -1768,8 +1768,8 @@ en:
         <p>Identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency. Examples include an ORCID identifier for a person or a MARC Repository Code for a corporate entity.</p>
     agent_genders_tooltip: Gender of the subject.
     agent_places_tooltip: Place information associated with the agent. See DACS 11.3, ISAAR (CPF) 5.2.3 
-    agent_occupations_tooltip: Occupation information associated with the agent.
-    agent_functions_tooltip: Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent.
+    agent_occupations_tooltip: Occupation information associated with the agent. See DACS 11.5, ISAAR (CPF) 5.2.5
+    agent_functions_tooltip: Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent. See DACS 11.5, ISAAR (CPF) 5.2.5
     agent_topics_tooltip: A subject associated with the agent.
     agent_contacts_tooltip: |
         <p>Contact information for the agent or a representative working on the behalf.</p>

@@ -338,15 +338,15 @@ ja:
     transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
     authority_id: オーソリティID
     authority_id_tooltip: "<p>取得元のエージェントの名前フォーム（つまり、MADSレコード識別子またはEACレコード識別子）の名前フォームの一意の識別子。識別子はURIとして表すことができる。
-      </p><p>DACS 13.2を参照</p><p>例： </p><ul><li> nr92045078 <em>LCNAF名見出しの場合</em> </li><li> ULAN <em>名見出しの場合は500115393</em>
+      </p><p>DACS 13.2、ISAAR (CPF) 5.4.1を参照</p><p>例： </p><ul><li> nr92045078 <em>LCNAF名見出しの場合</em> </li><li> ULAN <em>名見出しの場合は500115393</em>
       </li><li> <em>VIAFの見出しのための</em> http://viaf.org/viaf/134138653 </ul>"
     source: ソース
-    source_tooltip: "<p>名前規則が使用されていない場合は、条件付き必須フィールド。名前の由来となった信頼できるソースのインジケータ。 </p><p>この管理された値リストの値は変更することができます。
+    source_tooltip: "<p>名前規則が使用されていない場合は、条件付き必須フィールド。名前の由来となった信頼できるソースのインジケータ。DACS 13.1、ISAAR (CPF) 5.4.2を参照。</p><p>この管理された値リストの値は変更することができます。
       </p>"
     rules: ルール
     rules_tooltip: "<p>名前ソースが使用されていない場合は、条件付き必須フィールド。名前の入力を定式化するために使用される規則の指示。 </p><p>この管理された値リストの値は変更することができます。
       </p>
-      <p>DACS 10.3.2、ISAAR (CPF) 5.1.4を参照</p>"
+      <p>DACS 13.3、ISAAR (CPF) 5.4.3を参照</p>"
     name_order: 名前の順序
     name_order_tooltip: "<p>名前の書式を逆順（姓、名）の順に表示するか、直接の順序（名字の姓）で表示するかを示します。 </p>"
     prefix: 接頭辞
@@ -532,11 +532,11 @@ ja:
     dates: 日付
     ref: 関連エージェント
 
-    relationship_type_tooltip: 一次エージェントと関連エージェントの間の関係の性質を大まかに説明する管理された用語。
-    specific_relator_tooltip: プライマリエージェントと関連エージェント間の関係の性質をより具体的に説明する管理された用語。
+    relationship_type_tooltip: <p>一次エージェントと関連エージェントの間の関係の性質を大まかに説明する管理された用語。DACS 12.3.1、ISAAR (CPF) 5.3.2を参照</p>
+    specific_relator_tooltip: プライマリエージェントと関連エージェント間の関係の性質をより具体的に説明する管理された用語。 DACS 12.3.2、ISAAR (CPF) 5.3.3を参照 
     relationship_uri_tooltip: エージェント間の関係のタイプについて、オントロジーまたはその他のリソースのエントリを指すURI。主にEAC-CPFの目的で使用されます。
-    description_tooltip: 関係の性質のフリーテキストの説明。
-    related_agent_tooltip: プライマリエージェントに関連する個人、家族、または企業体。
+    description_tooltip: 関係の性質のフリーテキストの説明。DACS 12.3.2、ISAAR (CPF) 5.3.3を参照 
+    related_agent_tooltip: <p>プライマリエージェントに関連する個人、家族、または企業体。DACS 12.1-12.2、ISAAR (CPF) 5.3.1を参照</p>
   agent_relationship_parentchild:
     <<: *related_agent_attributes
     _singular: 親子関係
@@ -1015,16 +1015,16 @@ ja:
     agent_contact_notes_tooltip: "<p>エージェントとのやり取りに関するメモ。</p>"
     agent_record_controls_tooltip: "<p>エージェントを説明するレコードに関する情報。</p>"
     agent_alternate_sets_tooltip: "<p>同じエンティティの2つ以上のレコードが2つ以上の権限システムから派生した場合に、リンクされた権限レコードを指すために使用されます。</p>"
-    agent_conventions_declarations_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるコンテンツ標準。例：アーカイブの説明：コンテンツ標準。このサブレコードは、個々の名前フォームのルールエントリの代わりに使用できます。</p>"
+    agent_conventions_declarations_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるコンテンツ標準。DACS 13.3、ISAAR (CPF) 5.4.3を参照。例：アーカイブの説明：コンテンツ標準。このサブレコードは、個々の名前フォームのルールエントリの代わりに使用できます。</p>"
     agent_other_agency_codes_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コードに関する情報。</p>"
-    agent_maintenance_histories_tooltip: "<p>エージェントレコードの作成または保守に関連するイベント。</p>"
+    agent_maintenance_histories_tooltip: "<p>エージェントレコードの作成または保守に関連するイベント。DACS 13.6、13.9; ISAAR (CPF) 5.4.6、5.4.9を参照</p>"
     agent_record_identifiers_tooltip: "<p>エージェントレコードに関連付けられている識別子。</p>"
     agent_sources_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるソース。</p>"
     agent_identifiers_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子。例には、個人のORCID識別子または企業エンティティのMARCリポジトリコードが含まれます。</p>"
     agent_genders_tooltip: 主題の性別。
-    agent_places_tooltip: エージェントに関連付けられた情報を配置します。 DACS 11.3、ISAAR (CPF) 5.2.3を参照 
-    agent_occupations_tooltip: エージェントに関連付けられている職業情報。
-    agent_functions_tooltip: エージェントによって実行される機能、プロセス、タスク、アクティビティ、またはトランザクションを識別するために使用される用語。
+    agent_places_tooltip: エージェントに関連付けられた情報を配置します。 DACS 11.3、ISAAR (CPF) 5.2.3を参照
+    agent_occupations_tooltip: エージェントに関連付けられている職業情報。 DACS 11.5、ISAAR (CPF) 5.2.5を参照
+    agent_functions_tooltip: エージェントによって実行される機能、プロセス、タスク、アクティビティ、またはトランザクションを識別するために使用される用語。DACS 11.5、ISAAR (CPF) 5.2.5を参照
     agent_topics_tooltip: エージェントに関連付けられているサブジェクト。
     agent_contacts_tooltip: "<p>エージェントまたは代理で働く代表者の連絡先情報。</p>"
     used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
@@ -2070,22 +2070,22 @@ ja:
     <<: *agent_software_attributes
   agent_record_identifiers:
     identifier_type_tooltip: "<p>権限レコードIDのタイプまたはフォーマットを示します。この管理値リストの値は変更される可能性があります。</p>"
-    source_tooltip: "<p>関連する識別子の発信元の典拠ファイルを示します。例：NAF（nr2003017069の場合）。この管理値リストの値は変更される可能性があります。</p>"
-    record_identifier_tooltip: "<p>エージェントレコードの識別子。通常、一意の英数字の文字列で構成されます。識別子は、外部の典拠ファイルに由来する場合もあれば、ローカルで生成される場合もあります。</p>"
+    source_tooltip: "<p>関連する識別子の発信元の典拠ファイルを示します。DACS 13.1、ISAAR (CPF) 5.4.2を参照。例：NAF（nr2003017069の場合）。この管理値リストの値は変更される可能性があります。</p>"
+    record_identifier_tooltip: "<p>エージェントレコードの識別子。通常、一意の英数字の文字列で構成されます。識別子は、外部の典拠ファイルに由来する場合もあれば、ローカルで生成される場合もあります。DACS 13.2、ISAAR (CPF) 5.4.1を参照</p>"
     is_primary: プライマリ
   agent_record_control:
-    maintenance_status_tooltip: "<p>レコードの現在の状態を示します。</p>"
+    maintenance_status_tooltip: "<p>レコードの現在の状態を示します。DACS 13.4、ISAAR (CPF) 5.4.4を参照</p>"
     publication_status_tooltip: "<p>エージェントレコードを公開する必要があるかどうかを示します。</p>"
     romanization_tooltip: "<p>許可された名前の形式が非ラテン文字からローマ字化されたかどうか、およびローマ化スキームのタイプを示します。例：国立図書館または書誌機関の標準（ALA-LCローマ字表記表（例：カスパロフ、GK（Garri
       Kimovich）forКаспаров、Г.К。（ГарриКимович））。</p>"
     government_agency_type_tooltip: "<p>承認された名前フォームで表される機関または管轄のタイプを示します。</p>"
     reference_evaluation_tooltip: "<p>許可された名前フォームとエージェントレコード内の他の名前フォームの間の整合性のレベルを示します。追加のフォームがない場合、フィールドは「該当なし」として記録する必要があります。</p>"
     name_type_tooltip: "<p>エージェントモジュール内の承認された名前フォームの一意性を示します。一意の名前のエントリは「Differentiated」として記録する必要がありますが、同じ名前の複数のエージェントを収集するために使用されるAgentレコードは、「Undifferentiated」としてマークする必要があります。</p>"
-    level_of_detail_tooltip: "<p>コンソーシアムまたはローカルの要件に従って、エージェントレコードの完全性を示します。</p>"
+    level_of_detail_tooltip: "<p>コンソーシアムまたはローカルの要件に従って、エージェントレコードの完全性を示します。DACS 13.5、ISAAR (CPF) 5.4.5を参照</p>"
     modified_record_tooltip: "<p>エージェントレコードが変更されたかどうか、およびどのように変更されたかを示します。</p>"
     cataloging_source_tooltip: "<p>エージェントレコードの発信元を示します。共同目録プログラムに提出されていない現地で作成された記録は、「その他」として記録する必要があります。</p>"
-    maintenance_agency_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織のコード値。コード値はレジストリから取得し、ISO15511規則を使用して記録する必要があります。例：US-UPB（ブリガムヤング大学の場合、米国議会図書館のMARC組織コードを使用）。</p>"
-    agency_name_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の名前。記録される名前は、レジストリのコード値に関連付けられている名前の形式に対応している必要があります。例：ブリガムヤング大学、ハロルドB.リー図書館（コード値UPBの場合、米国議会図書館のMARC組織コードを使用）。</p>"
+    maintenance_agency_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織のコード値。コード値はレジストリから取得し、ISO15511規則を使用して記録する必要があります。DACS 13.1、ISAAR (CPF) 5.4.2を参照。例：US-UPB（ブリガムヤング大学の場合、米国議会図書館のMARC組織コードを使用）。</p>"
+    agency_name_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の名前。記録される名前は、レジストリのコード値に関連付けられている名前の形式に対応している必要があります。ISAAR (CPF) 5.4.2を参照。例：ブリガムヤング大学、ハロルドB.リー図書館（コード値UPBの場合、米国議会図書館のMARC組織コードを使用）。</p>"
     maintenance_agency_note_tooltip: "<p>メモの内容。エージェントの説明を担当する保守機関に関する詳細を提供します。</p>"
     language_tooltip: "<p>エージェントの説明の準備に使用される言語。例：英語。</p>"
     script_tooltip: "<p>エージェントの説明の準備に使用されるテキストスクリプト。例：ラテン語。</p>"
@@ -2115,7 +2115,7 @@ ja:
     last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリンクされたリソースが検証された最後の日付または日時。</p>"
   agent_other_agency_codes:
     agency_code_type_tooltip: "<p>保守機関コードのソース。例：OCLC。</p>"
-    maintenance_agency_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コード値。コード値はレジストリから取得し、ISO15511規則を使用して記録する必要があります。例：OCLC-UBY（米国の場合、ブリガムヤング大学、OCLCシンボルを使用）。</p>"
+    maintenance_agency_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コード値。コード値はレジストリから取得し、ISO15511規則を使用して記録する必要があります。DACS 13.1、ISAAR (CPF) 5.4.2を参照。 例：OCLC-UBY（米国の場合、ブリガムヤング大学、OCLCシンボルを使用）。</p>"
   agent_maintenance_histories:
     maintenance_event_type_tooltip: "<p>メンテナンスイベントの種類を示します。</p>"
     maintenance_agent_type_tooltip: "<p>メンテナンスイベントが人によって実行されたのか、ソフトウェアシステムによって実行されたのかを示します。</p>"
