@@ -39,6 +39,34 @@ jobs:
         run: |
           ./build/run rubocop
 
+  rubocop-e2e:
+    name: Rubocop-e2e
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: e2e-tests
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.0'
+      - name: Cache gems
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Install gems
+        run: |
+          gem install parallel_tests
+          bundle config path vendor/bundle
+          bundle install --quiet --jobs 4 --retry 3
+      - name: Run rubocop
+        run: |
+          bundle exec rubocop
+
   eslint:
     name: ESLint_Java_v${{ inputs.java-version || 17 }}
     runs-on: ubuntu-latest
