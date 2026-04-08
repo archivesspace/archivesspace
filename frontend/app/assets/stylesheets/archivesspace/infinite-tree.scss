@@ -22,6 +22,7 @@
   --gray-100: #fafafa;
   --gray-150: #f1f1f1;
   --gray-200: #eee;
+  --gray-400: rgb(110, 110, 110);
   --gray-500: #555;
 
   // Blues from lightest to darkest
@@ -38,7 +39,8 @@
   --tree-row-even-bg: var(--gray-100);
   --tree-row-hover-bg: var(--gray-100);
   --tree-current-bg: var(--blue-50);
-  --tree-expand-text: var(--gray-500);
+  --tree-expand-btn-color: var(--gray-500);
+  --tree-expand-btn-color-disabled: var(--gray-400);
   --tree-current-border: var(--blue-500);
   --tree-link-hover: var(--blue-800);
   --tree-expand-hover: var(--blue-950);
@@ -240,12 +242,17 @@
   justify-content: center;
   flex-shrink: 0;
   font-size: 0.875rem;
-  color: var(--tree-expand-text);
+  color: var(--tree-expand-btn-color);
   background-color: var(--tree-bg-subtle);
   cursor: pointer;
 
   &:hover {
     color: var(--tree-expand-hover);
+  }
+
+  &.disabled {
+    color: var(--tree-expand-btn-color-disabled);
+    cursor: default !important;
   }
 }
 
