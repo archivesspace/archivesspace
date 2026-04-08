@@ -402,12 +402,12 @@ it:
     authorized: Autorizzato
     is_display_name: Nome visualizzato
     language: Lingua
-    language_tooltip: "<p>Indica la lingua usata nella registrazione del nome. Esempio: Russo (per Каспаров,
+    language_tooltip: "<p>Indica la lingua usata nella registrazione del nome. Vedi DACS 13.7, ISAAR (CPF) 5.4.7. Esempio: Russo (per Каспаров,
       Г. К. (Гарри Кимович))</p>\n"
     script: Script
     transliteration: Traslitterazione
     transliteration_tooltip: "<p>Indica lo schema di traslitterazione usato nella registrazione del nome.</p>\n"
-    script_tooltip: "<p>Indica lo script usato nella registrazione del nome. Esempio: Cirillico (per Каспаров,
+    script_tooltip: "<p>Indica lo script usato nella registrazione del nome. Vedi DACS 13.7, ISAAR (CPF) 5.4.7. Esempio: Cirillico (per Каспаров,
       Г. К. (Гарри Кимович))</p>\n"
     qualifier_tooltip: "<p>Un termine o una frase per distinguere due nomi identici in tutti gli aspetti
       ma che identificano due entità differenti.  Il termine può essere una data, un luogo od ogni altro

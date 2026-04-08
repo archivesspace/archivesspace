@@ -540,10 +540,10 @@ en:
     is_display_name: Display Name
     language: Language
     language_tooltip: |
-        <p>Indicates the language used in recording the name form. Example: Russian (for Каспаров, Г. К. (Гарри Кимович))</p>
+        <p>Indicates the language used in recording the name form. See DACS 13.7, ISAAR (CPF) 5.4.7. Example: Russian (for Каспаров, Г. К. (Гарри Кимович))</p>
     script: Script
     script_tooltip: |
-        <p>Indicates the script used in recording the name form. Example: Cyrillic (for Каспаров, Г. К. (Гарри Кимович))</p>
+        <p>Indicates the script used in recording the name form. See DACS 13.7, ISAAR (CPF) 5.4.7. Example: Cyrillic (for Каспаров, Г. К. (Гарри Кимович))</p>
     transliteration: Transliteration
     transliteration_tooltip: |
         <p>Indicates the transliteration scheme used in recording the name form.</p>
@@ -664,9 +664,9 @@ en:
     maintenance_agency_note_tooltip: |
         <p>The content of the note, providing details about the maintenance agency responsible for the Agent description.</p>
     language_tooltip: |
-        <p>The language used in the preparation of the Agent description. Example: English.</p>
+        <p>The language used in the preparation of the Agent description. See DACS 13.7, ISAAR (CPF) 5.4.7. Example: English.</p>
     script_tooltip: |
-        <p>The text script used in the preparation of the Agent description. Example: Latin.</p>
+        <p>The text script used in the preparation of the Agent description. See DACS 13.7, ISAAR (CPF) 5.4.7. Example: Latin.</p>
     language_note_tooltip: |
         <p>The content of the note, providing details about the language and scripts used in the preparation of the Agent description.</p>
 
@@ -777,7 +777,7 @@ en:
     linked_agent_role_tooltip: |
         <p>REQUIRED FIELD: The type of relation of entity being described to the resource.</p>
     linked_resource_tooltip: |
-        <p>A resource related to the agent/entity.</p>
+        <p>A resource related to the agent/entity. See DACS 14.1, ISAAR (CPF) 6.1</p>
     linked_resource_description_tooltip: |
         <p>Free text field for recording bibliographic information, related collection information, etc.</p>
     file_uri_tooltip: |
@@ -1738,7 +1738,7 @@ en:
     related_agents_tooltip: |
         <p>Allows links from this Agent record to another in associative, hierarchical, or parent/child relationships.</p>
     external_documents_tooltip: |
-        <p>Allows links to external documentation, e.g. biographical files, reference works, etc. about this Agent.</p>
+        <p>Allows links to external documentation, e.g. biographical files, reference works, etc. about this Agent. See DACS 14.1, ISAAR (CPF) 6.1</p>
     dates_of_existence: Dates of Existence
     dates_of_existence_tooltip: |
         <p>Dates in which the agent existed. See DACS 11.1, ISAAR (CPF) 5.2.1</p>
@@ -1763,7 +1763,7 @@ en:
     agent_record_identifiers_tooltip: |
         <p>Identifiers associated with the Agent record.</p>
     agent_sources_tooltip: |
-        <p>A source used in the formulation of the Agent record content.</p>
+        <p>A source used in the formulation of the Agent record content. See DACS 13.8, ISAAR (CPF) 5.4.8</p>
     agent_identifiers_tooltip: |
         <p>Identifiers associated with an entity, such as legal identifiers assigned by an authoritative agency. Examples include an ORCID identifier for a person or a MARC Repository Code for a corporate entity.</p>
     agent_genders_tooltip: Gender of the subject.

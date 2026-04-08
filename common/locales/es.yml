@@ -413,11 +413,11 @@ es:
       idiomas y / o escrituras o formas transliteradas del nombre.</p>
       <p>Ver DACS 10.3.1, ISAAR (CPF) 5.1.3</p>"
     language: Idioma
-    language_tooltip: "<p>Indica el idioma utilizado en la grabación del formulario de nombre. Ejemplo:
+    language_tooltip: "<p>Indica el idioma utilizado en la grabación del formulario de nombre. Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
       ruso (para Каспаров, Г. К. (Гарри Кимович))</p>"
     script: Texto
     script_tooltip: "<p>Indica la secuencia de comandos utilizada para registrar el formulario de nombre.
-      Ejemplo: cirílico (para Каспаров, Г. К. (Гарри Кимович))</p>"
+      Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo: cirílico (para Каспаров, Г. К. (Гарри Кимович))</p>"
     transliteration: Transcripción
     transliteration_tooltip: "<p>Indica el esquema de transliteración utilizado para registrar la forma
       del nombre.</p>"
@@ -1382,7 +1382,7 @@ es:
     agent_maintenance_histories_tooltip: "<p>Eventos asociados con la creación o mantenimiento del registro
       de Agente. Ver DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>"
     agent_record_identifiers_tooltip: "<p>Identificadores asociados con el registro del Agente.</p>"
-    agent_sources_tooltip: "<p>Una fuente utilizada en la formulación del contenido del registro del Agente.</p>"
+    agent_sources_tooltip: "<p>Una fuente utilizada en la formulación del contenido del registro del Agente. Ver DACS 13.8, ISAAR (CPF) 5.4.8</p>"
     agent_identifiers_tooltip: "<p>Identificadores asociados con una entidad, como identificadores legales
       asignados por una agencia autorizada. Los ejemplos incluyen un identificador ORCID para una persona
       o un código de depósito MARC para una entidad corporativa.</p>"
@@ -1425,7 +1425,7 @@ es:
     related_agents_tooltip: |
       <p>Permite enlaces de este registro de autoridad a otro en asociativa, jerárquica, o las relaciones padre-hijo.</p>
     external_documents_tooltip: |
-      <p>Permite enlaces a la documentación externa, por ejemplo archivos biográficos, obras de referencia, etc. acerca de este autoridad.</p>
+      <p>Permite enlaces a la documentación externa, por ejemplo archivos biográficos, obras de referencia, etc. acerca de este autoridad. Ver DACS 14.1, ISAAR (CPF) 6.1</p>
     dates_of_existence: Fechas de existencia
     dates_of_existence_tooltip: |
       <p>Fechas en las cuales el autoridad existió. Ver DACS 11.1, ISAAR (CPF) 5.2.1</p>
@@ -2864,9 +2864,9 @@ es:
       (para el valor de código UPB, utilizando el Código de organización MARC de la Biblioteca del Congreso).</p>"
     maintenance_agency_note_tooltip: "<p>El contenido de la nota, que proporciona detalles sobre la agencia
       de mantenimiento responsable de la descripción del Agente.</p>"
-    language_tooltip: "<p>El idioma utilizado en la preparación de la descripción del Agente. Ejemplo:
+    language_tooltip: "<p>El idioma utilizado en la preparación de la descripción del Agente. Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
       inglés.</p>"
-    script_tooltip: "<p>El guión de texto utilizado en la preparación de la descripción del agente. Ejemplo:
+    script_tooltip: "<p>El guión de texto utilizado en la preparación de la descripción del agente. Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
       latín.</p>"
     language_note_tooltip: "<p>El contenido de la nota, que proporciona detalles sobre el idioma y las
       escrituras utilizadas en la preparación de la descripción del Agente.</p>"
@@ -2967,7 +2967,7 @@ es:
   agent_resource:
     linked_agent_role_tooltip: "<p>CAMPO REQUERIDO: El tipo de relación de la entidad que se describe
       con el recurso.</p>"
-    linked_resource_tooltip: "<p>Un recurso relacionado con el agente / entidad.</p>"
+    linked_resource_tooltip: "<p>Un recurso relacionado con el agente / entidad. Ver DACS 14.1, ISAAR (CPF) 6.1</p>"
     linked_resource_description_tooltip: "<p>Campo de texto libre para registrar información bibliográfica,
       información de colección relacionada, etc.</p>"
     file_uri_tooltip: "<p>Un URI para la ubicación en línea de la fuente utilizada en la preparación de

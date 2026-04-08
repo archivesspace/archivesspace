@@ -331,9 +331,9 @@ ja:
     parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p>
     <p>DACS 10.3.1、ISAAR (CPF) 5.1.3を参照</p>"
     language: 言語
-    language_tooltip: "<p>名前フォームの記録に使用される言語を示します。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    language_tooltip: "<p>名前フォームの記録に使用される言語を示します。DACS 13.7、ISAAR (CPF) 5.4.7を参照。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
     script: 脚本
-    script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
+    script_tooltip: "<p>名前フォームの記録に使用されるスクリプトを示します。DACS 13.7、ISAAR (CPF) 5.4.7を参照。例：キリル文字（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
     transliteration: 文字変換
     transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
     authority_id: オーソリティID
@@ -1019,7 +1019,7 @@ ja:
     agent_other_agency_codes_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コードに関する情報。</p>"
     agent_maintenance_histories_tooltip: "<p>エージェントレコードの作成または保守に関連するイベント。DACS 13.6、13.9; ISAAR (CPF) 5.4.6、5.4.9を参照</p>"
     agent_record_identifiers_tooltip: "<p>エージェントレコードに関連付けられている識別子。</p>"
-    agent_sources_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるソース。</p>"
+    agent_sources_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるソース。DACS 13.8、ISAAR (CPF) 5.4.8を参照</p>"
     agent_identifiers_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子。例には、個人のORCID識別子または企業エンティティのMARCリポジトリコードが含まれます。</p>"
     agent_genders_tooltip: 主題の性別。
     agent_places_tooltip: エージェントに関連付けられた情報を配置します。 DACS 11.3、ISAAR (CPF) 5.2.3を参照
@@ -1051,7 +1051,7 @@ ja:
     notes: ノート
     notes_tooltip: "<p>経歴書や管理履歴など、エージェントに関する追加の説明的な情報を記録します。 </p>"
     related_agents_tooltip: "<p>アソシエーティブ、階層、または親/子関係で、このエージェントレコードから別のエージェントレコードへのリンクを許可します。 </p>"
-    external_documents_tooltip: "<p>このエージェントに関する外部の文書（例えば、経歴ファイル、参照作業など）へのリンクを許可します。 </p>"
+    external_documents_tooltip: "<p>このエージェントに関する外部の文書（例えば、経歴ファイル、参照作業など）へのリンクを許可します。 DACS 14.1、ISAAR (CPF) 6.1を参照</p>"
     dates_of_existence: 存在の日付
     dates_of_existence_tooltip: "<p>エージェントが存在した日付。 DACS 11.1、ISAAR (CPF) 5.2.1を参照</p>"
     publish: 公開する
@@ -2087,8 +2087,8 @@ ja:
     maintenance_agency_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織のコード値。コード値はレジストリから取得し、ISO15511規則を使用して記録する必要があります。DACS 13.1、ISAAR (CPF) 5.4.2を参照。例：US-UPB（ブリガムヤング大学の場合、米国議会図書館のMARC組織コードを使用）。</p>"
     agency_name_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の名前。記録される名前は、レジストリのコード値に関連付けられている名前の形式に対応している必要があります。ISAAR (CPF) 5.4.2を参照。例：ブリガムヤング大学、ハロルドB.リー図書館（コード値UPBの場合、米国議会図書館のMARC組織コードを使用）。</p>"
     maintenance_agency_note_tooltip: "<p>メモの内容。エージェントの説明を担当する保守機関に関する詳細を提供します。</p>"
-    language_tooltip: "<p>エージェントの説明の準備に使用される言語。例：英語。</p>"
-    script_tooltip: "<p>エージェントの説明の準備に使用されるテキストスクリプト。例：ラテン語。</p>"
+    language_tooltip: "<p>エージェントの説明の準備に使用される言語。DACS 13.7、ISAAR (CPF) 5.4.7を参照。 例：英語。</p>"
+    script_tooltip: "<p>エージェントの説明の準備に使用されるテキストスクリプト。DACS 13.7、ISAAR (CPF) 5.4.7を参照。 例：ラテン語。</p>"
     language_note_tooltip: "<p>メモの内容。エージェントの説明の準備に使用された言語とスクリプトに関する詳細を提供します。</p>"
   agent_alternate_set:
     set_component_tooltip: "<p>同等のリンクされた機関レコードへの識別とアクセスを提供するキャプション。</p>"
@@ -2103,7 +2103,7 @@ ja:
     last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリンクされたリソースが検証された最後の日付または日時。</p>"
   agent_conventions_declaration:
     name_rule_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるコンテンツ標準。例：アーカイブの説明：コンテンツ標準。</p>"
-    citation_tooltip: "<p>エージェントレコードコンテンツの作成に使用される規則の書誌引用。例：Society of AmericanArchivists。アーカイブの説明：コンテンツ標準（シカゴ：Society
+    citation_tooltip: "<p>エージェントレコードコンテンツの作成に使用される規則の書誌引用。例：Society of American Archivists。アーカイブの説明：コンテンツ標準（シカゴ：Society
       of American Archivists、2013年）。</p>"
     descriptive_note_tooltip: "<p>規約の詳細を提供するメモの内容は、エージェントの説明の作成に使用されました。例：伝記の履歴メモの内容を作成するために使用されます。 （アーカイブの記述用：コンテンツ標準）。</p>"
     file_uri_tooltip: "<p>エージェント記述の準備に使用される規則のオンラインロケーションのURI。例：http：//www2.archivists.org/standards/DACS/（アーカイブの説明：コンテンツ標準）。</p>"
@@ -2145,7 +2145,7 @@ ja:
     place_role_tooltip: "<p>地理的な場所とエージェントの関係を示します。</p>"
   agent_resource:
     linked_agent_role_tooltip: "<p>必須フィールド：リソースに記述されているエンティティの関係のタイプ。</p>"
-    linked_resource_tooltip: "<p>エージェント/エンティティに関連するリソース。</p>"
+    linked_resource_tooltip: "<p>エージェント/エンティティに関連するリソース。DACS 14.1、ISAAR (CPF) 6.1を参照</p>"
     linked_resource_description_tooltip: "<p>書誌情報、関連するコレクション情報などを記録するためのフリーテキストフィールド。</p>"
     file_uri_tooltip: "<p>エージェント記述の準備に使用されたソースのオンラインロケーションのURI。例：http：//www.findagrave.com/cgi-bin/fg.cgi？page
       = gr＆GRid = 8373（Robert W. ServiceのFind-A-Graveエントリの場合）。</p>"

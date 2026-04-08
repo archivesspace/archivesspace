@@ -353,7 +353,7 @@ de:
       in assoziativen, hierarchischen oder Eltern/Kind-Beziehungen.</p>\n"
     dates_of_existence: Existenzdaten
     external_documents_tooltip: "<p>Ermöglicht Verknüpfungen mit externer Dokumentation, z. B. biografische
-      Dateien, Referenzwerke usw. über diesen Akteur.</p>\n"
+      Dateien, Referenzwerke usw. über diesen Akteur. Siehe DACS 14.1, ISAAR (CPF) 6.1</p>\n"
     dates_of_existence_tooltip: "<p>Daten, in denen der Akteur existierte. Siehe DACS 11.1, ISAAR (CPF) 5.2.1</p>\n"
     publish: Veröffentlichen
     _plural: Akteure
@@ -372,7 +372,7 @@ de:
       der Akteur-Aufzeichnung. Siehe DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>\n"
     agent_record_identifiers_tooltip: "<p>Signaturen, die der Akteur-Aufzeichnung zugeordnet sind.</p>\n"
     agent_sources_tooltip: "<p>Eine Quelle, die bei der Formulierung des Inhalts der Akteur-Aufzeichnung
-      verwendet wird.</p>\n"
+      verwendet wird. Siehe DACS 13.8, ISAAR (CPF) 5.4.8</p>\n"
     agent_genders_tooltip: Geschlecht des Subjekts.
     agent_occupations_tooltip: Dem Akteur zugeordnete Berufsinformationen. Siehe DACS 11.5, ISAAR (CPF) 5.2.5
     agent_places_tooltip: Dem Akteur zugeordnete Ortsinformationen. Siehe DACS 11.3, ISAAR (CPF) 5.2.3
@@ -886,10 +886,10 @@ de:
     authorized: Autorisiert
     is_display_name: Anzeigename
     language: Sprache
-    language_tooltip: "<p>Gibt die Sprache an, in der die Namensform aufgezeichnet wurde. Beispiel: Russisch
+    language_tooltip: "<p>Gibt die Sprache an, in der die Namensform aufgezeichnet wurde. Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel: Russisch
       (für Каспаров, Г. К. (Гарри Кимович))</p>\n"
     script: Schrift
-    script_tooltip: "<p>Gibt die Schrift an, die bei der Aufzeichnung der Namensform verwendet wird. Beispiel:
+    script_tooltip: "<p>Gibt die Schrift an, die bei der Aufzeichnung der Namensform verwendet wird. Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel:
       Kyrillisch (für Каспаров, Г. К. (Гарри Кимович))</p>\n"
     transliteration: Transliteration
     transliteration_tooltip: "<p>Gibt das Transliterationsschema an, das bei der Aufzeichnung der Namensform
@@ -1016,9 +1016,9 @@ de:
       oder Pflege einer Akteur-Aufzeichnung verantwortlich ist. Der Code-Wert sollte einem Register entnommen
       und nach den Konventionen der ISO 15511 aufgezeichnet werden. Siehe DACS 13.1, ISAAR (CPF) 5.4.2. Beispiel: US-UPB (für Brigham Young
       University, unter Verwendung des Library of Congress MARC Organization Code).</p>\n"
-    language_tooltip: "<p>Die bei der Erstellung der Akteurbeschreibung verwendete Sprache. Beispiel:
+    language_tooltip: "<p>Die bei der Erstellung der Akteurbeschreibung verwendete Sprache. Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel:
       Englisch.</p>\n"
-    script_tooltip: "<p>Die Schrift, die bei der Erstellung der Akteurbeschreibung verwendet wird. Beispiel:
+    script_tooltip: "<p>Die Schrift, die bei der Erstellung der Akteurbeschreibung verwendet wird. Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel:
       Lateinische Schrift.</p>\n"
     maintenance_agency_note_tooltip: "<p>Der Inhalt der Anmerkung mit Angaben über die für die Akteur-Aufzeichnung
       zuständige Organisation.</p>\n"
@@ -1116,7 +1116,7 @@ de:
     gender_tooltip: "<p>Geschlecht des Subjekts.</p></br><p>Werte für diese Liste können über das Menü
       System -> Aufzählungs-Listen verwalten hinzugefügt oder geändert werden.</p>\n"
   agent_resource:
-    linked_resource_tooltip: "<p>Eine Ressource, die sich auf den Akteur/die Entität bezieht.</p>\n"
+    linked_resource_tooltip: "<p>Eine Ressource, die sich auf den Akteur/die Entität bezieht. Siehe DACS 14.1, ISAAR (CPF) 6.1</p>\n"
     file_version_xlink_actuate_attribute_tooltip: "<p>Gibt an, ob der zugehörige URI beim Anzeigen der
       Akteur-Beschreibung aufgelöst werden soll.</p>\n"
     file_version_xlink_show_attribute_tooltip: "<p>Gibt an, wo die im zugehörigen URI verknüpfte entfernte

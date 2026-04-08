@@ -436,10 +436,10 @@ fr:
       langues et / ou scripts ou formes translittérées du nom.</p>\n
       <p>Voir DACS 10.3.1, ISAAR (CPF) 5.1.3</p>"
     language: Langue
-    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du nom. Exemple: russe
+    language_tooltip: "<p>Indique la langue utilisée pour enregistrer la forme du nom. Voir DACS 13.7, ISAAR (CPF) 5.4.7. Exemple: russe
       (pour Каспаров, Г. К. (Гарри Кимович))</p>\n"
     script: Scénario
-    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom. Exemple: cyrillique
+    script_tooltip: "<p>Indique le script utilisé pour enregistrer la forme du nom. Voir DACS 13.7, ISAAR (CPF) 5.4.7. Exemple: cyrillique
       (pour Каспаров, Г. К. (Гарри Кимович))</p>\n"
     transliteration: Translitération
     transliteration_tooltip: "<p>Indique le schéma de translittération utilisé pour enregistrer la forme
@@ -1427,7 +1427,7 @@ fr:
       l'enregistrement de l'agent. Voir DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>"
     agent_record_identifiers_tooltip: "<p>Identifiants associés à l'enregistrement d'agent.</p>"
     agent_sources_tooltip: "<p>Une source utilisée dans la formulation du contenu de l'enregistrement
-      de l'agent.</p>"
+      de l'agent. Voir DACS 13.8, ISAAR (CPF) 5.4.8</p>"
     agent_identifiers_tooltip: "<p>Identifiants associés à une entité, tels que les identifiants légaux
       attribués par une agence faisant autorité. Les exemples incluent un identifiant ORCID pour une personne
       ou un code de référentiel MARC pour une personne morale.</p>"
@@ -1470,7 +1470,7 @@ fr:
     related_agents_tooltip: |
       <p>Permet d'établir entre cette notice agent et une autre un rapport d'association, de hiérarchie ou de type parent/enfant.</p>
     external_documents_tooltip: |
-      <p>Permet des liens vers une documentation externe, par ex. des fichiers biographiques, des ouvrages de référence, etc. concernant cet agent.</p>
+      <p>Permet des liens vers une documentation externe, par ex. des fichiers biographiques, des ouvrages de référence, etc. concernant cet agent. Voir DACS 14.1, ISAAR (CPF) 6.1</p>
     dates_of_existence: Dates d'existence
     dates_of_existence_tooltip: |
       <p>Dates entre lequelles l'agent a existé. Voir DACS 11.1, ISAAR (CPF) 5.2.1</p>
@@ -2931,9 +2931,9 @@ fr:
       Congrès).</p>"
     maintenance_agency_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur l'agence de
       maintenance responsable de la description de l'agent.</p>"
-    language_tooltip: "<p>La langue utilisée dans la préparation de la description de l'agent. Exemple:
+    language_tooltip: "<p>La langue utilisée dans la préparation de la description de l'agent. Voir DACS 13.7, ISAAR (CPF) 5.4.7. Exemple:
       anglais.</p>"
-    script_tooltip: "<p>Le script de texte utilisé dans la préparation de la description de l'agent. Exemple:
+    script_tooltip: "<p>Le script de texte utilisé dans la préparation de la description de l'agent. Voir DACS 13.7, ISAAR (CPF) 5.4.7. Exemple:
       latin.</p>"
     language_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur la langue et les scripts
       utilisés dans la préparation de la description de l'agent.</p>"
@@ -3033,7 +3033,7 @@ fr:
 
   agent_resource:
     linked_agent_role_tooltip: "<p>CHAMP REQUIS: Le type de relation d'entité décrite avec la ressource.</p>"
-    linked_resource_tooltip: "<p>Une ressource liée à l'agent / l'entité.</p>"
+    linked_resource_tooltip: "<p>Une ressource liée à l'agent / l'entité. Voir DACS 14.1, ISAAR (CPF) 6.1</p>"
     linked_resource_description_tooltip: "<p>Champ de texte libre pour enregistrer des informations bibliographiques,
       des informations de collection associées, etc.</p>"
     file_uri_tooltip: "<p>Un URI pour l'emplacement en ligne de la source utilisée dans la préparation
