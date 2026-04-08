@@ -106,6 +106,35 @@ describe 'Infinite Tree Toolbar', js: true do
     expect(page).to have_no_css('.js-itree-toolbar-expand-mode.btn-success')
   end
 
+  context 'with a nested archival object' do
+    let(:ao_nested) do
+      create(
+        :archival_object,
+        resource: { 'ref' => resource.uri },
+        parent: { 'ref' => ao.uri },
+        title: "Nested Archival Object #{now}"
+      )
+    end
+
+    before do
+      ao_nested
+      visit edit_path
+      wait_for_ajax
+    end
+
+    it 'toggles expand-all on the container and collapses expanded nodes (LargeTree parity)' do
+      expect(page).to have_no_css('#infinite-tree-container.expand-all')
+
+      click_on I18n.t('actions.expand_tree_mode_on')
+      expect(page).to have_css('#infinite-tree-container.expand-all', wait: 10)
+      expect(page).to have_link(ao_nested.title, wait: 15)
+
+      click_on I18n.t('actions.collapse_tree')
+      expect(page).to have_no_css('#infinite-tree-container.expand-all', wait: 10)
+      expect(page).to have_no_css('li.node:not(.root)[aria-expanded="true"]', wait: 15)
+    end
+  end
+
   it 'disables and re-enables mutating controls for dirty and clean record pane states' do
     within '#infinite-tree-container' do
       click_link ao.title
