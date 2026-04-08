@@ -16,6 +16,7 @@
   data-batch-size="<%= Rails.configuration.infinite_tree_batch_size %>"
   data-is-read-only="<%= read_only %>"
   data-root-uri="<%= root_record.uri %>"
+  data-record-type="<%= root_type %>"
 >
   <% if !read_only %>
     <%= render_aspace_partial :partial => "shared/infinite_tree_toolbar" %>

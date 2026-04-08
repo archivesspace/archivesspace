@@ -14,11 +14,7 @@ class InfiniteTreeToolbar {
     this.readOnly =
       this.componentEl.getAttribute('data-is-read-only') === 'true';
     this.rootUri = this.componentEl.getAttribute('data-root-uri');
-    this.rootType = this.componentEl.querySelector('[data-record-type]')
-      ? this.componentEl
-          .querySelector('[data-record-type]')
-          .getAttribute('data-record-type')
-      : null;
+    this.rootType = this.componentEl.getAttribute('data-record-type');
 
     this.currentNode = null;
     this.isDirty = false;
@@ -30,13 +26,19 @@ class InfiniteTreeToolbar {
     this.#syncDropBehaviorInputs();
     this.#applyReorderState();
     this.#applySelectionState();
+
+    if (this.treeContainerEl) {
+      this.treeContainerEl.addEventListener(
+        'infiniteTree:autoExpandBusy',
+        this.#onAutoExpandBusy.bind(this)
+      );
+    }
   }
 
   #bindEvents() {
     if (!this.toolbarEl) return;
 
     if (this.recordPaneEl) {
-      // InfiniteTree dispatches node selection to the record pane.
       this.recordPaneEl.addEventListener(
         'infiniteTree:nodeSelect',
         this.#handleSelectionChanged.bind(this)
@@ -48,6 +50,7 @@ class InfiniteTreeToolbar {
         this.isDirty = true;
         this.#applyDirtyState();
       });
+
       this.recordPaneEl.addEventListener('infiniteTreeRecordPane:clean', () => {
         this.isDirty = false;
         this.#applyDirtyState();
@@ -59,52 +62,66 @@ class InfiniteTreeToolbar {
       if (!target || target.classList.contains('disabled')) return;
 
       const action = target.getAttribute('data-itree-action');
+
       switch (action) {
         case 'reorder-toggle':
           this.#onReorderToggle(event, target);
+
           break;
         case 'cut':
           this.#emitSimpleEvent('infiniteTreeToolbar:cutRequested');
           event.preventDefault();
+
           break;
         case 'paste':
           this.#emitSimpleEvent('infiniteTreeToolbar:pasteRequested');
           event.preventDefault();
+
           break;
         case 'move-menu':
           this.#emitSimpleEvent('infiniteTreeToolbar:moveMenuRequested');
+
           break;
         case 'add-child':
           this.#emitContextualEvent('infiniteTreeToolbar:addChildRequested');
+
           break;
         case 'add-sibling':
           this.#emitContextualEvent('infiniteTreeToolbar:addSiblingRequested');
+
           break;
         case 'add-duplicate':
           this.#emitContextualEvent(
             'infiniteTreeToolbar:addDuplicateRequested'
           );
+
           break;
         case 'load-bulk':
           this.#emitContextualEvent('infiniteTreeToolbar:loadBulkRequested');
+
           break;
         case 'rde':
           this.#emitContextualEvent('infiniteTreeToolbar:rdeRequested');
+
           break;
         case 'expand-mode':
           this.#onExpandModeToggle(event, target);
+
           break;
         case 'collapse-tree':
-          this.#emitSimpleEvent('infiniteTreeToolbar:collapseTreeRequested');
+          this.#onCollapseTree(event);
+
           break;
         case 'finish-editing':
-          this.#onFinishEditingClick(event, target);
+          this.#onFinishEditingClick(event);
+
           break;
       }
     });
 
     this.toolbarEl.addEventListener('change', event => {
       const radio = event.target;
+
       if (
         radio.name === 'drop-behavior' &&
         radio.checked &&
@@ -129,10 +146,10 @@ class InfiniteTreeToolbar {
 
     const isArchivalObjectSelected = this.#isArchivalObjectSelected();
     const showMove = this.reorderMode && isArchivalObjectSelected;
-
     const moveToggle = this.toolbarEl.querySelector(
       '.js-itree-toolbar-move-toggle'
     );
+
     if (moveToggle) {
       if (!showMove) {
         moveToggle.classList.add('disabled');
@@ -146,9 +163,11 @@ class InfiniteTreeToolbar {
     const moveGroup = this.toolbarEl.querySelector(
       '.js-itree-toolbar-move-group'
     );
+
     if (moveGroup) {
       moveGroup.style.display = showMove ? '' : 'none';
     }
+
     if (showMove) {
       this.#renderMoveMenu();
     }
@@ -195,6 +214,7 @@ class InfiniteTreeToolbar {
     if (this.isDirty) return;
 
     this.reorderMode = !this.reorderMode;
+
     if (btn) {
       btn.classList.toggle('btn-success', this.reorderMode);
       btn.classList.toggle('active', this.reorderMode);
@@ -205,7 +225,6 @@ class InfiniteTreeToolbar {
 
     this.#applyReorderState();
     this.#applySelectionState();
-
     this.#emitSimpleEvent('infiniteTreeToolbar:reorderModeChanged', {
       enabled: this.reorderMode,
     });
@@ -213,8 +232,8 @@ class InfiniteTreeToolbar {
 
   #onExpandModeToggle(event, btn) {
     event.preventDefault();
-
     this.expandAllMode = !this.expandAllMode;
+
     if (btn) {
       btn.classList.toggle('btn-success', this.expandAllMode);
       btn.textContent = this.expandAllMode
@@ -227,7 +246,50 @@ class InfiniteTreeToolbar {
     });
   }
 
-  #onFinishEditingClick(event, btn) {
+  #onCollapseTree(event) {
+    event.preventDefault();
+
+    if (this.expandAllMode) {
+      this.expandAllMode = false;
+      const expandBtn = this.toolbarEl
+        ? this.toolbarEl.querySelector('.js-itree-toolbar-expand-mode')
+        : null;
+
+      if (expandBtn) {
+        expandBtn.classList.remove('btn-success');
+        expandBtn.textContent = this.#translate(
+          'actions.expand_tree_mode_on',
+          'Auto-Expand All'
+        );
+      }
+
+      this.#emitSimpleEvent('infiniteTreeToolbar:expandModeChanged', {
+        enabled: false,
+      });
+    }
+
+    this.#emitSimpleEvent('infiniteTreeToolbar:collapseTreeRequested');
+  }
+
+  #onAutoExpandBusy(e) {
+    const busy = !!(e.detail && e.detail.busy);
+    const expandBtn = this.toolbarEl
+      ? this.toolbarEl.querySelector('.js-itree-toolbar-expand-mode')
+      : null;
+    if (!expandBtn) return;
+
+    if (busy) {
+      expandBtn.classList.add('disabled');
+      expandBtn.setAttribute('disabled', 'disabled');
+      expandBtn.setAttribute('aria-disabled', 'true');
+    } else {
+      expandBtn.classList.remove('disabled');
+      expandBtn.removeAttribute('disabled');
+      expandBtn.removeAttribute('aria-disabled');
+    }
+  }
+
+  #onFinishEditingClick(event) {
     event.preventDefault();
 
     const readonlyPath = window.location.pathname.replace(/\/edit$/, '');
@@ -242,16 +304,19 @@ class InfiniteTreeToolbar {
 
   #emitSimpleEvent(name, detail) {
     if (!this.treeContainerEl) return;
+
     const event = new CustomEvent(name, {
       bubbles: true,
       cancelable: true,
       detail: detail || {},
     });
+
     this.treeContainerEl.dispatchEvent(event);
   }
 
   #emitContextualEvent(name) {
     if (!this.treeContainerEl) return;
+
     const event = new CustomEvent(name, {
       bubbles: true,
       cancelable: true,
@@ -261,6 +326,7 @@ class InfiniteTreeToolbar {
         rootUri: this.rootUri,
       },
     });
+
     this.treeContainerEl.dispatchEvent(event);
   }
 
@@ -273,6 +339,7 @@ class InfiniteTreeToolbar {
     } catch (e) {
       // ignore storage errors
     }
+
     return 'before';
   }
 
@@ -285,20 +352,19 @@ class InfiniteTreeToolbar {
   }
 
   #translate(key, fallback) {
-    if (
-      window.AS &&
-      window.AS.I18n &&
-      typeof window.AS.I18n.t === 'function'
-    ) {
+    if (window.AS && window.AS.I18n && typeof window.AS.I18n.t === 'function') {
       return window.AS.I18n.t(key);
     }
+
     return fallback;
   }
 
   #syncDropBehaviorInputs() {
     if (!this.toolbarEl) return;
+
     const selector = 'input[type="radio"][name="drop-behavior"]';
     const radios = this.toolbarEl.querySelectorAll(selector);
+
     radios.forEach(radio => {
       radio.checked = radio.value === this.dropBehavior;
     });
@@ -325,13 +391,15 @@ class InfiniteTreeToolbar {
     if (cutPasteGroup) {
       cutPasteGroup.style.display = showReorderControls ? '' : 'none';
     }
+
     if (dropBehaviorGroup) {
-      // toolbar.scss defaults this radio group to display:none; use flex when active.
       dropBehaviorGroup.style.display = showReorderControls ? 'flex' : 'none';
     }
+
     if (expandGroup) {
       expandGroup.style.display = showNonReorderControls ? '' : 'none';
     }
+
     if (primaryActionsGroup) {
       primaryActionsGroup.style.display = showNonReorderControls ? '' : 'none';
     }
@@ -340,17 +408,21 @@ class InfiniteTreeToolbar {
   #isArchivalObjectSelected() {
     const node = this.currentNode || this.#getSelectedNode();
     if (!node) return false;
+
     if (node.classList.contains('root')) return false;
+
     return (node.id || '').indexOf('archival_object_') === 0;
   }
 
   #getSelectedNode() {
     if (!this.treeContainerEl) return null;
+
     return this.treeContainerEl.querySelector('.node.selected');
   }
 
   #renderMoveMenu() {
     if (!this.toolbarEl) return;
+
     const menuEl = this.toolbarEl.querySelector('.js-itree-toolbar-move-menu');
     if (!menuEl) return;
 
@@ -373,10 +445,11 @@ class InfiniteTreeToolbar {
     const canMoveUp = !!(prevSibling && prevSibling.matches('li.node'));
     const canMoveDown = !!(nextSibling && nextSibling.matches('li.node'));
     const canMoveUpLevel = level > 1;
-
     const siblingsMenuItems = siblingsAtLevel
       .map(sibling => {
-        const titleEl = sibling.querySelector('.node-column[data-column="title"]');
+        const titleEl = sibling.querySelector(
+          '.node-column[data-column="title"]'
+        );
         const title = titleEl ? titleEl.textContent.trim() : sibling.id || '';
         return (
           '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down-into" data-target-node-id="' +
@@ -387,8 +460,8 @@ class InfiniteTreeToolbar {
         );
       })
       .join('');
-
     const menuParts = [];
+
     if (canMoveUpLevel) {
       menuParts.push(
         '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="up-level">' +
@@ -396,6 +469,7 @@ class InfiniteTreeToolbar {
           '</button></li>'
       );
     }
+
     if (canMoveUp) {
       menuParts.push(
         '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="up">' +
@@ -403,6 +477,7 @@ class InfiniteTreeToolbar {
           '</button></li>'
       );
     }
+
     if (canMoveDown) {
       menuParts.push(
         '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down">' +
@@ -410,6 +485,7 @@ class InfiniteTreeToolbar {
           '</button></li>'
       );
     }
+
     if (siblingsAtLevel.length > 0) {
       menuParts.push(
         '<li class="dropdown-submenu dropdown-item p-0">' +
@@ -428,8 +504,10 @@ class InfiniteTreeToolbar {
 
   #getNodeLevel(node) {
     if (!node || !node.className) return 0;
+
     const match = (node.className || '').match(/indent-level-(\d+)/);
     if (!match) return 0;
+
     return parseInt(match[1], 10);
   }
 }

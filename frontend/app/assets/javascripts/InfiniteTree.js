@@ -4,9 +4,19 @@
 //= require InfiniteTreeIds
 
 (function (exports) {
+  /** @see largetree.js.erb SCROLL_DELAY_MS / THRESHOLD_EMS (considerExpandingRow) */
+  const ITREE_SCROLL_DELAY_MS = 100;
+  const ITREE_THRESHOLD_EMS = 300;
+
   class InfiniteTree {
     static EVENT_TYPE_NODE_SELECT = 'infiniteTree:nodeSelect';
     static EVENT_TYPE_TITLE_CLICK = 'infiniteTree:titleClick';
+
+    #autoExpandEnabled = false;
+    #autoExpandLocked = false;
+
+    /** @type {ReturnType<typeof setTimeout>|null} */
+    #autoExpandScrollTimer = null;
 
     /**
      * @constructor
@@ -45,6 +55,23 @@
           rootMargin: '-30% 0px -30% 0px', // middle 40% of container
           threshold: 0,
         }
+      );
+
+      this.container.addEventListener(
+        'infiniteTreeToolbar:expandModeChanged',
+        this.#onToolbarExpandModeChanged.bind(this)
+      );
+      this.container.addEventListener(
+        'infiniteTreeToolbar:collapseTreeRequested',
+        this.#onToolbarCollapseTreeRequested.bind(this)
+      );
+
+      this.container.addEventListener(
+        'scroll',
+        () => {
+          this.#onTreeContainerScroll();
+        },
+        { passive: true }
       );
 
       this.container.addEventListener('click', e => {
@@ -662,7 +689,8 @@
         node.setAttribute('data-has-expanded', 'true');
       }
 
-      node.querySelector('.node-expand-icon').classList.add('expanded');
+      const icon = node.querySelector('.node-expand-icon');
+      if (icon) icon.classList.add('expanded');
       node.setAttribute('aria-expanded', 'true');
     }
 
@@ -670,7 +698,8 @@
      * @param {HTMLElement} node - The node to collapse
      */
     #collapseNode(node) {
-      node.querySelector('.node-expand-icon').classList.remove('expanded');
+      const icon = node.querySelector('.node-expand-icon');
+      if (icon) icon.classList.remove('expanded');
       node.setAttribute('aria-expanded', 'false');
     }
 
@@ -680,45 +709,59 @@
      * @param {IntersectionObserver} observer - The observer instance
      */
     #batchObserverHandler(entries, observer) {
-      entries.forEach(async entry => {
+      entries.forEach(entry => {
         if (!entry.isIntersecting) return;
 
-        const node = entry.target;
-        const parentNodeUri = node.getAttribute('data-observe-node');
-        const siblingList = node.closest('.node-children');
-        const batchOffset = Number(node.getAttribute('data-observe-offset'));
-        const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
+        const observedNode = entry.target;
 
-        if (!batchData) {
-          console.error('#batchObserverHandler failed to fetch batch');
-          return;
-        }
+        (async () => {
+          const parentNodeUri = observedNode.getAttribute('data-observe-node');
+          const siblingList = observedNode.closest('.node-children');
+          const batchOffset = Number(
+            observedNode.getAttribute('data-observe-offset')
+          );
+          const batchData = await this.fetch.batch(parentNodeUri, batchOffset);
 
-        const batchOffsetPlaceholderEl = siblingList.querySelector(
-          `li[data-batch-placeholder="${batchOffset}"]`
-        );
-        const observeForBatch = this.#observeForBatch(batchOffsetPlaceholderEl);
+          if (!batchData) {
+            console.error('#batchObserverHandler failed to fetch batch');
+            return;
+          }
 
-        this.#renderBatch(siblingList, batchData, batchOffset, observeForBatch);
-
-        node.removeAttribute('data-observe-next-batch');
-        node.removeAttribute('data-observe-node');
-        node.removeAttribute('data-observe-offset');
-        observer.unobserve(node);
-
-        if (observeForBatch !== null) {
-          const nextNode = siblingList.querySelector(
-            `[data-observe-next-batch][data-observe-offset="${observeForBatch}"]`
+          const batchOffsetPlaceholderEl = siblingList.querySelector(
+            `li[data-batch-placeholder="${batchOffset}"]`
+          );
+          const observeForBatch = this.#observeForBatch(
+            batchOffsetPlaceholderEl
           );
 
-          if (nextNode) {
-            observer.observe(nextNode);
-          } else {
-            console.error(
-              `#batchObserverHandler could not find node to observe for batch ${observeForBatch}`
+          this.#renderBatch(
+            siblingList,
+            batchData,
+            batchOffset,
+            observeForBatch
+          );
+
+          observedNode.removeAttribute('data-observe-next-batch');
+          observedNode.removeAttribute('data-observe-node');
+          observedNode.removeAttribute('data-observe-offset');
+          observer.unobserve(observedNode);
+
+          if (observeForBatch !== null) {
+            const nextNode = siblingList.querySelector(
+              `[data-observe-next-batch][data-observe-offset="${observeForBatch}"]`
             );
+
+            if (nextNode) {
+              observer.observe(nextNode);
+            } else {
+              console.error(
+                `#batchObserverHandler could not find node to observe for batch ${observeForBatch}`
+              );
+            }
           }
-        }
+
+          this.#scheduleConsiderAutoExpandingNext();
+        })();
       });
     }
 
@@ -726,6 +769,11 @@
      * @param {Event} e - The click event
      */
     async #expandClickHandler(e) {
+      if (this.#autoExpandEnabled) {
+        e.preventDefault();
+        return;
+      }
+
       const node = e.target.closest('.node');
       const isExpanded = node.getAttribute('aria-expanded') === 'true';
 
@@ -836,6 +884,244 @@
           detail: { uri, succeeded },
         })
       );
+    }
+
+    /**
+     * @param {CustomEvent} e
+     */
+    #onToolbarExpandModeChanged(e) {
+      const enabled = !!(e.detail && e.detail.enabled);
+
+      this.#applyAutoExpandEnabled(enabled);
+    }
+
+    #onToolbarCollapseTreeRequested() {
+      this.#collapseAllExpandedNodesStaggered();
+    }
+
+    #onTreeContainerScroll() {
+      if (this.#autoExpandScrollTimer !== null) {
+        clearTimeout(this.#autoExpandScrollTimer);
+      }
+      this.#autoExpandScrollTimer = setTimeout(() => {
+        this.#autoExpandScrollTimer = null;
+        this.#scheduleConsiderAutoExpandingNext();
+      }, ITREE_SCROLL_DELAY_MS);
+    }
+
+    /**
+     * @param {boolean} enabled
+     */
+    #applyAutoExpandEnabled(enabled) {
+      this.#autoExpandEnabled = enabled;
+      this.container.classList.toggle('expand-all', enabled);
+
+      if (enabled) {
+        this.#setNodeExpandButtonsDisabled(true);
+        this.#scheduleConsiderAutoExpandingNext();
+      } else {
+        this.#setNodeExpandButtonsDisabled(false);
+        this.#dispatchAutoExpandBusy(false);
+      }
+    }
+
+    #setNodeExpandButtonsDisabled(disabled) {
+      this.container.querySelectorAll('.node-expand').forEach(btn => {
+        if (disabled) {
+          btn.classList.add('disabled');
+          btn.setAttribute('disabled', 'disabled');
+          btn.setAttribute('aria-disabled', 'true');
+        } else {
+          btn.classList.remove('disabled');
+          btn.removeAttribute('disabled');
+          btn.removeAttribute('aria-disabled');
+        }
+      });
+    }
+
+    #dispatchAutoExpandBusy(busy) {
+      this.container.dispatchEvent(
+        new CustomEvent('infiniteTree:autoExpandBusy', {
+          bubbles: true,
+          detail: { busy },
+        })
+      );
+    }
+
+    /**
+     * Collapsed nodes that can be expanded (non-root, with an expand control).
+     * @returns {HTMLElement[]}
+     */
+    #listCollapsedExpandableNodes() {
+      const out = [];
+
+      this.container.querySelectorAll('li.node:not(.root)').forEach(li => {
+        if (li.getAttribute('aria-expanded') !== 'false') return;
+
+        const btn = li.querySelector('.node-expand');
+
+        if (!btn || btn.getAttribute('aria-hidden') === 'true') return;
+        out.push(li);
+      });
+      return out;
+    }
+
+    /**
+     * @returns {HTMLElement|null}
+     */
+    #pickVisibleCollapsedExpandableNode() {
+      const allExpandables = this.#listCollapsedExpandableNodes();
+
+      if (allExpandables.length === 0) return null;
+
+      const emHeight = parseFloat(
+        getComputedStyle(document.body).fontSize || '16px'
+      );
+      const thresholdPx = emHeight * ITREE_THRESHOLD_EMS;
+      const containerRect = this.container.getBoundingClientRect();
+      const containerTop = containerRect.top;
+      const containerHeight = containerRect.height;
+      const rootList = this.container.querySelector('ol.infinite-tree');
+      const contentHeight = rootList ? rootList.scrollHeight : 1;
+      const scrollPercent =
+        contentHeight > 0 ? this.container.scrollTop / contentHeight : 0;
+      const startIdx = Math.floor(scrollPercent * allExpandables.length);
+
+      /** @type {{ elt: HTMLElement; top: number }|null} */
+      let rowToExpand = null;
+
+      const evaluateExpandableFn = btn => {
+        const btnRect = btn.getBoundingClientRect();
+        const eltTop = btnRect.top - containerTop;
+        const eltBottom = eltTop + btnRect.height;
+        const btnVisible =
+          Math.abs(eltTop) <= containerHeight + thresholdPx ||
+          Math.abs(eltBottom) <= containerHeight + thresholdPx ||
+          (eltTop < 0 && eltBottom > 0);
+
+        if (btnVisible) {
+          const candidate = { elt: btn.closest('li.node'), top: eltTop };
+
+          if (
+            candidate.elt &&
+            (!rowToExpand || rowToExpand.top > candidate.top)
+          ) {
+            rowToExpand = candidate;
+          }
+
+          return true;
+        }
+        return false;
+      };
+
+      for (let i = startIdx; i >= 0; i--) {
+        const li = allExpandables[i];
+        const btn = li.querySelector('.node-expand');
+
+        if (!btn) continue;
+
+        const visible = evaluateExpandableFn(btn);
+
+        if (!visible && i < startIdx) break;
+      }
+
+      for (let i = startIdx + 1; i < allExpandables.length; i++) {
+        const li = allExpandables[i];
+        if (li.getAttribute('aria-expanded') === 'true') continue;
+
+        const btn = li.querySelector('.node-expand');
+        if (!btn) continue;
+
+        const visible = evaluateExpandableFn(btn);
+        if (!visible) break;
+      }
+
+      return rowToExpand ? rowToExpand.elt : null;
+    }
+
+    #scheduleConsiderAutoExpandingNext() {
+      if (!this.#autoExpandEnabled) return;
+
+      queueMicrotask(() => {
+        this.#considerAutoExpandingNext();
+      });
+    }
+
+    async #considerAutoExpandingNext() {
+      if (!this.#autoExpandEnabled) {
+        this.#dispatchAutoExpandBusy(false);
+
+        return;
+      }
+
+      if (this.#autoExpandLocked) return;
+
+      const node = this.#pickVisibleCollapsedExpandableNode();
+
+      if (!node) {
+        this.#dispatchAutoExpandBusy(false);
+
+        return;
+      }
+
+      this.#autoExpandLocked = true;
+      this.#dispatchAutoExpandBusy(true);
+
+      try {
+        await this.#expandNode(node);
+        this.#setNodeExpandButtonsDisabled(true);
+      } catch (err) {
+        console.error('InfiniteTree auto-expand failed:', err);
+      } finally {
+        this.#autoExpandLocked = false;
+      }
+
+      setTimeout(() => {
+        this.#considerAutoExpandingNext();
+      }, 100);
+    }
+
+    /**
+     * @param {HTMLElement} node
+     * @returns {number}
+     */
+    #getNodeIndentLevel(node) {
+      if (!node || !node.className) return 0;
+
+      const match = node.className.match(/indent-level-(\d+)/);
+
+      return match ? parseInt(match[1], 10) : 0;
+    }
+
+    #collapseAllExpandedNodesStaggered() {
+      const nodes = Array.from(
+        this.container.querySelectorAll(
+          'li.node[aria-expanded="true"]:not(.root)'
+        )
+      ).filter(n => n.querySelector('.node-expand'));
+
+      if (nodes.length === 0) return;
+
+      nodes.sort(
+        (a, b) => this.#getNodeIndentLevel(b) - this.#getNodeIndentLevel(a)
+      );
+
+      this.#dispatchAutoExpandBusy(true);
+      let remaining = nodes.length;
+
+      nodes.forEach(node => {
+        const level = this.#getNodeIndentLevel(node);
+        const delay = Math.max(0, 600 - 50 * level);
+
+        setTimeout(() => {
+          this.#collapseNode(node);
+          remaining -= 1;
+
+          if (remaining === 0) {
+            this.#dispatchAutoExpandBusy(false);
+          }
+        }, delay);
+      });
     }
   }
 
