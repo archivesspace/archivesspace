@@ -871,6 +871,9 @@ it:
       not_applicable: Non applicabile
       preliminary: Preliminare
       provisional: Provvisorio
+      fully_established: Pienamente consolidato
+      memorandum: Memorandum
+      natc: Nessun tentativo di programmare
     linked_agent_archival_record_relators:
       acp: Copista d'arte
       abr: Compendiatore
@@ -1064,7 +1067,7 @@ it:
       rcp: Destinatario (lettere)
       rce: Tecnico della registrazione
       rdd: Regista radiofonico
-      red: Portavoce
+      red: Redattore
       ren: Raffiguratore
       res: Ricercatore
       rev: Recensore
@@ -1438,6 +1441,9 @@ it:
       multilocal: Multilocale
       multistate: Multistato
       provincial: Stato, provinciale, territoriale, dipendente, ecc.
+      natc: Nessun tentativo di programmare
+      undetermined: Agenzia governativa – Tipologia indeterminata
+      unknown: Non è chiaro se la dicitura sia "agenzia governativa".
     identifier_type:
       lac: Biblioteca e archivi Canada
       loc: Biblioteca del Congresso
@@ -1445,13 +1451,17 @@ it:
     instance_instance_type:
       digital_object: Oggetto digitale
       graphic_materials: Materiali grafici
-      computer_disks: Computer Disks
+      computer_disks: Dischi per computer
       maps: Mappe
       audio: Audio
       books: Libri
       mixed_materials: Materiali misti
       moving_images: Immagini in movimento
       text: Testo
+      accession: accessione
+      digital_object_link: Digital Object Link
+      microform: Microforma
+      realia: Realtà
     file_version_checksum_methods:
       md5: MD5
       sha-1: SHA-1
@@ -1535,6 +1545,8 @@ it:
     extent_portion:
       part: Parte
       whole: Totale
+    linked_agent_event_roles:
+      authorizer: Autorizzatore
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: 'Calendario delle date'
