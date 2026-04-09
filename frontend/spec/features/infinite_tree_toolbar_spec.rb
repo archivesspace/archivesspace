@@ -106,32 +106,218 @@ describe 'Infinite Tree Toolbar', js: true do
     expect(page).to have_no_css('.js-itree-toolbar-expand-mode.btn-success')
   end
 
-  context 'with a nested archival object' do
-    let(:ao_nested) do
+  describe 'expand and collapse tree functionalities' do
+    let!(:ao_child_01) do
+      create(:archival_object, resource: { 'ref' => resource.uri }, title: "Child 01 #{now}")
+    end
+    let!(:ao_child_01_child_01) do
       create(
         :archival_object,
         resource: { 'ref' => resource.uri },
-        parent: { 'ref' => ao.uri },
-        title: "Nested Archival Object #{now}"
+        parent: { 'ref' => ao_child_01.uri },
+        title: "Child 01 Child 01 #{now}"
       )
     end
+    let!(:ao_child_01_child_02) do
+      create(
+        :archival_object,
+        resource: { 'ref' => resource.uri },
+        parent: { 'ref' => ao_child_01.uri },
+        title: "Child 01 Child 02 #{now}"
+      )
+    end
+    let!(:ao_child_01_child_02_child_02) do
+      create(
+        :archival_object,
+        resource: { 'ref' => resource.uri },
+        parent: { 'ref' => ao_child_01_child_02.uri },
+        title: "Child 01 Child 02 Child 02 #{now}"
+      )
+    end
+    let!(:ao_deep_leaf) do
+      create(
+        :archival_object,
+        resource: { 'ref' => resource.uri },
+        parent: { 'ref' => ao_child_01_child_02_child_02.uri },
+        title: "Child 01 Child 02 Child 02 Child 01 Child 01 #{now}"
+      )
+    end
+    let!(:ao_child_02) do
+      create(:archival_object, resource: { 'ref' => resource.uri }, title: "Child 02 #{now}")
+    end
+    let!(:ao_child_02_child_01) do
+      create(
+        :archival_object,
+        resource: { 'ref' => resource.uri },
+        parent: { 'ref' => ao_child_02.uri },
+        title: "Child 02 Child 01 #{now}"
+      )
+    end
+    let!(:ao_child_02_child_01_child_01) do
+      create(
+        :archival_object,
+        resource: { 'ref' => resource.uri },
+        parent: { 'ref' => ao_child_02_child_01.uri },
+        title: "Child 02 Child 01 Child 01 #{now}"
+      )
+    end
+    let!(:ao_child_03) do
+      create(:archival_object, resource: { 'ref' => resource.uri }, title: "Child 03 #{now}")
+    end
+    let(:parent_count) { 5 }
+    let(:expand_mode_toggle_button) { find('.js-itree-toolbar-expand-mode') }
+    let(:collapse_tree_button) { find('.js-itree-toolbar-collapse-tree') }
+    let(:parent_selector_base) { 'li.node:not(.root)' }
+    let(:collapsed_parent_selector) { "#{parent_selector_base}[aria-expanded='false']" }
+    let(:expanded_parent_selector) { "#{parent_selector_base}[aria-expanded='true']" }
+    let(:parent_expand_button_selector) { "#{parent_selector_base} > .node-row .node-expand" }
+    let(:disabled_parent_expand_button_selector) { "#{parent_expand_button_selector}.disabled" }
+    let(:enabled_parent_expand_button_selector) { "#{parent_expand_button_selector}:not(.disabled)" }
 
     before do
-      ao_nested
       visit edit_path
       wait_for_ajax
     end
 
-    it 'toggles expand-all on the container and collapses expanded nodes (LargeTree parity)' do
-      expect(page).to have_no_css('#infinite-tree-container.expand-all')
+    context 'auto-expand mode' do
+      before do
+        expect(page).to have_no_css('#infinite-tree-container.expand-all')
+        expect(page).to have_css('.js-itree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_on'))
+        expect(page).to have_no_css(expanded_parent_selector)
+      end
 
-      click_on I18n.t('actions.expand_tree_mode_on')
-      expect(page).to have_css('#infinite-tree-container.expand-all', wait: 10)
-      expect(page).to have_link(ao_nested.title, wait: 15)
+      it 'expands, and disables the expand buttons for, all parent nodes in and near the viewport' do
+        expand_mode_toggle_button.click
 
-      click_on I18n.t('actions.collapse_tree')
-      expect(page).to have_no_css('#infinite-tree-container.expand-all', wait: 10)
-      expect(page).to have_no_css('li.node:not(.root)[aria-expanded="true"]', wait: 15)
+        aggregate_failures do
+          expect(page).to have_css('#infinite-tree-container.expand-all')
+          expect(page).to have_css('.js-itree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_off'))
+          expect(page).to have_css(expanded_parent_selector, count: parent_count)
+          expect(page).to have_css(disabled_parent_expand_button_selector, count: parent_count)
+          expect(page).to have_css("#archival_object_#{ao_child_01_child_01.id}", visible: true)
+          expect(page).to have_css("#archival_object_#{ao_child_02_child_01_child_01.id}", visible: true)
+          expect(page).to have_css("#archival_object_#{ao_deep_leaf.id}", visible: true)
+        end
+      end
+
+      context 'root records with many children' do
+        let(:edit_path) { "/resources/#{scroll_resource.id}/edit" }
+        let(:scroll_resource) { create(:resource, title: "Scroll Expand Resource #{now}") }
+        let(:total_root_children) { 152 }
+        let(:first_root_child) { scroll_root_children[0] }
+        let(:second_root_child) { scroll_root_children[1] }
+        let(:scroll_trigger_child) { scroll_root_children[129] } # "Scroll Root Child 130 ..."
+        let(:penultimate_root_child) { scroll_root_children[150] }
+        let(:last_root_child) { scroll_root_children[151] }
+        let(:root_child_selector) { '#infinite-tree-container .root.node > .node-children > li.node.indent-level-1' }
+        let!(:scroll_root_children) do
+          Array.new(total_root_children) do |i|
+            create(
+              :archival_object,
+              resource: { 'ref' => scroll_resource.uri },
+              title: "Scroll Root Child #{i + 1} #{now}"
+            )
+          end
+        end
+        let!(:scroll_nested_chains) do
+          [0, 1, total_root_children - 2, total_root_children - 1].map do |idx|
+            child = create(
+              :archival_object,
+              resource: { 'ref' => scroll_resource.uri },
+              parent: { 'ref' => scroll_root_children[idx].uri },
+              title: "Scroll Root Child #{idx + 1} Child #{now}"
+            )
+
+            create(
+              :archival_object,
+              resource: { 'ref' => scroll_resource.uri },
+              parent: { 'ref' => child.uri },
+              title: "Scroll Root Child #{idx + 1} Child Child #{now}"
+            )
+          end
+        end
+
+        before do
+          scroll_root_children
+          scroll_nested_chains
+          visit edit_path
+          wait_for_ajax
+        end
+
+        it 'expands parent nodes that are far away when the user scrolls close to them' do
+          expect(page).to have_css('.root.node > .node-children[data-total-child-batches="6"]')
+          expect(page).to have_css(root_child_selector, count: 30)
+
+          # Scroll down the tree to populate remaining batches of root children
+          tree_container = find('#infinite-tree-container')
+          (1..5).each do |offset|
+            observer_node = find("[data-observe-offset='#{offset}']", visible: :all)
+            tree_container.scroll_to(observer_node, align: :center)
+            wait_for_ajax
+          end
+
+          expect(page).to have_css(root_child_selector, count: total_root_children)
+
+          # Scroll back to the top
+          tree_container.scroll_to(find('#infinite-tree-container .root.node > .node-row'), align: :top)
+          wait_for_ajax
+
+          expand_mode_toggle_button.click
+          expect(page).to have_css('#infinite-tree-container.expand-all')
+          expect(page).to have_css("#archival_object_#{first_root_child.id}[aria-expanded='true']")
+          expect(page).to have_css("#archival_object_#{second_root_child.id}[aria-expanded='true']")
+          expect(page).to have_css("#archival_object_#{penultimate_root_child.id}[aria-expanded='false']")
+          expect(page).to have_css("#archival_object_#{last_root_child.id}[aria-expanded='false']")
+
+          # Scroll near the bottom of the tree
+          tree_container.scroll_to(find("#archival_object_#{scroll_trigger_child.id}", visible: :all), align: :center)
+          wait_for_ajax
+
+          expect(page).to have_css("#archival_object_#{penultimate_root_child.id}[aria-expanded='true']")
+          expect(page).to have_css("#archival_object_#{last_root_child.id}[aria-expanded='true']")
+        end
+      end
+
+      context 'when toggled off' do
+        before do
+          expand_mode_toggle_button.click
+          wait_for_ajax
+        end
+
+        it 're-enables the expand buttons for all expanded parent nodes in the tree' do
+          expand_mode_toggle_button.click
+
+          aggregate_failures do
+            expect(page).to have_css('#infinite-tree-container:not(.expand-all)')
+            expect(page).to have_css('.js-itree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_on'))
+            expect(page).to have_css(expanded_parent_selector, count: parent_count)
+            expect(page).to have_css(enabled_parent_expand_button_selector, count: parent_count)
+            expect(page).to have_css("#archival_object_#{ao_child_01_child_01.id}", visible: true)
+            expect(page).to have_css("#archival_object_#{ao_child_02_child_01_child_01.id}", visible: true)
+            expect(page).to have_css("#archival_object_#{ao_deep_leaf.id}", visible: true)
+          end
+        end
+      end
+    end
+
+    describe 'collapse tree behavior' do
+      before do
+        expand_mode_toggle_button.click
+        wait_for_ajax
+      end
+
+      it 'collapses all expanded parent nodes and turns off auto-expand mode if it is on' do
+        collapse_tree_button.click
+
+        aggregate_failures do
+          expect(page).to have_css('#infinite-tree-container:not(.expand-all)')
+          expect(page).to have_css('.js-itree-toolbar-expand-mode', exact_text: I18n.t('actions.expand_tree_mode_on'))
+          expect(page).to have_css(collapsed_parent_selector, visible: :all, count: parent_count)
+          expect(page).to have_css("#archival_object_#{ao_child_01_child_01.id}", visible: false)
+          expect(page).to have_css("#archival_object_#{ao_child_02_child_01_child_01.id}", visible: false)
+          expect(page).to have_css("#archival_object_#{ao_deep_leaf.id}", visible: false)
+        end
+      end
     end
   end
 
