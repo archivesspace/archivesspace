@@ -1,15 +1,15 @@
 <%= setup_context(:title => t("collection_management._plural")) %>
 
-<div class="d-flex">
-  <div class="col-md-3">
+<div class="d-flex flex-column flex-md-row">
+  <div class="col-md-3 order-2 order-md-1">
     <%= render_aspace_partial :partial => "search/filter" %>
   </div>
-  <div class="col-md-9">
-    <div class="record-toolbar d-flex justify-content-end">
+  <div class="col-md-9 order-1 order-md-2">
+    <%= render :layout => 'shared/record_toolbar' do %>
       <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv,
         :fields => fields}
           ), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
-    </div>
+    <% end %>
     <div class="record-pane">
       <%= link_to_help :topic => "search" %>
 

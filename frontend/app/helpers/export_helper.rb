@@ -80,7 +80,7 @@ module ExportHelper
           'barcode_u_sstr'                          => I18n.t('search.top_container_mgmt.barcode',            :default => 'Barcode'),
           'notes'                                   => I18n.t('search.top_container_mgmt.internal_note',      :default => 'Internal Note'),
           'exported_u_sbool'                        => I18n.t('search.top_container_mgmt.exported_to_ils',    :default => 'Exported to ILS'),
-          'ils_holding_id'                          => I18n.t('search.top_container_mgmt.ils_holding_id',     :default => 'ILS Holding ID'),
+          'ils_holding_id_u_sstr'                   => I18n.t('search.top_container_mgmt.ils_holding_id',     :default => 'ILS Holding ID'),
           'collection_identifier_stored_u_sstr'     => I18n.t('search.top_container_mgmt.resource_accession_id', :default => 'Resource/Accession ID')
         }
       end
@@ -96,6 +96,7 @@ module ExportHelper
       'location'           => 'location_display_string_u_sstr',
       'internal_note'      => 'notes',
       'exported_to_ils'    => 'exported_u_sbool',
+      'ils_holding_id'     => 'ils_holding_id_u_sstr',
       'resource_accession_id' => 'collection_identifier_stored_u_sstr'
     }.freeze
 

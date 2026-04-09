@@ -1,25 +1,23 @@
 <%= setup_context(:title => t("assessment._plural")) %>
 
-<div class="d-flex">
-  <div class="col-md-3">
+<div class="d-flex flex-column flex-md-row">
+  <div class="col-md-3 order-2 order-md-1">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
     </div>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-9 order-1 order-md-2">
     <% if user_can?('update_assessment_record') %>
-      <div class="record-toolbar d-flex align-items-center">
-        <div class="btn-group ml-auto">
-          <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv,
-            :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
-          <% if user_can?("update_assessment_record") %>
-            <%= link_to t("assessment._frontend.action.create"), {:controller => :assessments, :action => :new}, :class => "btn btn-sm btn-default" %>
-          <% end %>
-          <% if user_can?("delete_assessment_record") %>
-            <%= button_delete_multiple_action(:assessments) %>
-          <% end %>
-        </div>
-      </div>
+      <%= render :layout => 'shared/record_toolbar' do %>
+        <%= link_to t("actions.export_csv"), request.parameters.merge({ :format => :csv,
+          :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
+        <% if user_can?("update_assessment_record") %>
+          <%= link_to t("assessment._frontend.action.create"), {:controller => :assessments, :action => :new}, :class => "btn btn-sm btn-default" %>
+        <% end %>
+        <% if user_can?("delete_assessment_record") %>
+          <%= button_delete_multiple_action(:assessments) %>
+        <% end %>
+      <% end %>
     <% end %>
     <div class="record-pane">
       <%= link_to_help :topic => "search" %>
