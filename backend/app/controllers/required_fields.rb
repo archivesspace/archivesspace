@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.post('/repositories/:repo_id/required_fields/:record_type')
-    .description("Require fields for a record type")
+    .description("Add or change repository-level required fields for an agent record type")
     .params(["required_fields", JSONModel(:required_fields), "The fields required", :body => true],
             ["repo_id", :repo_id],
             ["record_type", String])
@@ -17,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/required_fields/:record_type')
-    .description("Get required fields for a record type")
+    .description("Get custom, repository-level required fields for an agent record type")
     .params(["repo_id", :repo_id],
             ["record_type", String])
     .permissions([:view_repository])
