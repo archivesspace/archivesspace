@@ -52,6 +52,12 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/required_fields/:record_type')
     .description("Get custom, repository-level required fields for an agent record type")
+    .example("shell") do
+      <<~CONTENTS
+        curl -H "X-ArchivesSpace-Session: $SESSION" \
+          "http://localhost:8089/repositories/2/required_fields/agent_person"
+       CONTENTS
+    end
     .params(["repo_id", :repo_id],
             ["record_type", String])
     .permissions([:view_repository])
