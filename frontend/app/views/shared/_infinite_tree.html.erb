@@ -10,6 +10,7 @@
 <%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
 <%= javascript_include_tag "InfiniteTreeIds.js" %>
 <%= javascript_include_tag "InfiniteTreeToolbar.js" %>
+<%= javascript_include_tag "InfiniteTreeToolbarActions.js" %>
 
 <div
   id="infinite-tree-component"
@@ -120,5 +121,6 @@ const infiniteTreeRouter = new InfiniteTreeRouter({
 
 if (!<%= read_only %>) {
   new InfiniteTreeToolbar();
+  new InfiniteTreeToolbarActions();
 }
 </script>
