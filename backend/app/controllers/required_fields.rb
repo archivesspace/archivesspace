@@ -39,11 +39,15 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:manage_repository])
     .returns([200, :created],
              [400, :error]) \
-  do
-    obj = RequiredFields.create_or_update(params[:required_fields], params[:repo_id], params[:record_type])
+    do
+      unless params[:record_type].start_with?("agent_")
+        raise(NotAllowed.new, "You can only customize required fields for agents")
+      end
 
-    updated_response(obj)
-  end
+      obj = RequiredFields.create_or_update(params[:required_fields], params[:repo_id], params[:record_type])
+
+      updated_response(obj)
+    end
 
 
   Endpoint.get('/repositories/:repo_id/required_fields/:record_type')
