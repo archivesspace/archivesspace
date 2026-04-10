@@ -22,6 +22,8 @@ Given 'a Resource with a Top Container has been created' do
   fill_in 'top_container_indicator_', with: @uuid
   click_on 'Create and Link'
 
+  sleep 3
+
   languages = all('#resource_lang_materials_ .subrecord-form-list li')
   click_on 'Add Language' if languages.length == 0
 

@@ -270,6 +270,7 @@ ArchivesSpace::Application.routes.draw do
     match('container_profiles/:id' => 'container_profiles#update', :via => [:post])
     match('container_profiles/:id/delete' => 'container_profiles#delete', :via => [:post])
 
+    match('top_containers/access_top_containers' => 'top_containers#access_top_containers', :via => [:get, :post])
     resources :top_containers
     match('top_containers/search/typeahead' => 'top_containers#typeahead', :via => [:get])
     match('top_containers/bulk_operations/search' => 'top_containers#bulk_operations', :via => [:get])

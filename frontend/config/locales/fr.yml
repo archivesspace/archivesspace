@@ -670,6 +670,7 @@ fr:
     manage_container_profiles: Gérer profils de conditionnements
     manage_location_profiles: Gérer profils de localisations
     manage_top_containers: Gérer Top conditionnements
+    view_top_containers: Voir les Top conditionnements
     manage_enumerations: Gérer listes de valeurs contrôlées
     global_preferences: Préférences globales
     user_repo_preferences: Préférences par défaut de service d'archives

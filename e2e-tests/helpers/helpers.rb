@@ -139,6 +139,22 @@ def ensure_test_repository_exists
   end
 
   select_test_repository
+rescue Capybara::ElementNotFound
+  visit STAFF_URL
+  click_on 'System'
+  click_on 'Manage Repositories'
+  click_on 'Create Repository'
+
+  fill_in 'repository_repository__repo_code_', with: 'repository_test'
+  fill_in 'repository_repository__name_', with: 'Repository Test'
+  find('#repository_repository__publish_').check
+  click_on 'Save'
+
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Repository Created')
+  expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Repository is Currently Selected')
+
+  visit STAFF_URL
+  select_test_repository
 end
 
 def select_test_repository

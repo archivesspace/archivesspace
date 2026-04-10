@@ -319,6 +319,7 @@ de:
     search_button_title: Alle Aufzeichnungen durchsuchen
     manage_groups: Gruppen verwalten
     manage_top_containers: Haupt-Behältnisse verwalten
+    view_top_containers: Haupt-Behältnisse anzeigen
     import_ead: EAD-Datei
     register_prefix: Benötigen Sie einen Zugang?
   job:

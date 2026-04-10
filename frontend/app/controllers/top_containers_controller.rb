@@ -4,7 +4,7 @@ require 'advanced_query_builder'
 
 class TopContainersController < ApplicationController
 
-  set_access_control  'view_repository' => [:bulk_operations_browse, :bulk_operation_search, :index, :show, :typeahead],
+  set_access_control  'view_repository' => [:bulk_operations_browse, :bulk_operation_search, :index, :show, :typeahead, :access_top_containers],
                       'update_container_record' => [:new, :create, :edit, :update],
                       'manage_container_record' => [:delete, :batch_delete, :batch_merge, :bulk_operations, :bulk_operation_update, :update_barcodes, :update_indicators, :update_locations]
 
@@ -106,11 +106,13 @@ class TopContainersController < ApplicationController
 
   def show
     @top_container = JSONModel(:top_container).find(params[:id], find_opts)
+    render_aspace_partial :partial => 'top_containers/show_inline' if inline?
   end
 
 
   def edit
     @top_container = JSONModel(:top_container).find(params[:id], find_opts)
+    render_aspace_partial :partial => 'top_containers/edit_inline' if inline?
   end
 
 
@@ -119,11 +121,17 @@ class TopContainersController < ApplicationController
                 :model => JSONModel(:top_container),
                 :obj => JSONModel(:top_container).find(params[:id], find_opts),
                 :on_invalid => ->() {
-                  return render action: 'edit'
+                  return render_aspace_partial :partial => 'top_containers/edit_inline' if inline?
+                  render action: 'edit'
                 },
                 :on_valid => ->(id) {
-                  flash[:success] = t('top_container._frontend.messages.updated')
-                  redirect_to :controller => :top_containers, :action => :show, :id => id
+                  if inline?
+                    @top_container.refetch
+                    render :json => @top_container.to_hash
+                  else
+                    flash[:success] = t('top_container._frontend.messages.updated')
+                    redirect_to :controller => :top_containers, :action => :show, :id => id
+                  end
                 })
   end
 
@@ -240,6 +248,47 @@ class TopContainersController < ApplicationController
 
     get_browse_col_prefs
     render_aspace_partial :partial => 'top_containers/bulk_operations/browse', :locals => {:results => results}
+  end
+
+
+  def access_top_containers
+    @top_container_previous_search = {}
+
+    if params['record_uri']
+      record_type = params['record_type']
+
+      if ['resource', 'accession'].include?(record_type)
+        if record_type == 'resource'
+          params['collection_resource'] = { 'ref' => params['record_uri'] }
+        elsif record_type == 'accession'
+          params['collection_accession'] = { 'ref' => params['record_uri'] }
+        end
+
+        @top_container_previous_search[record_type] = {
+          'uri'            => params['record_uri'],
+          'id'             => params['record_uri'],
+          'title'          => params['record_title'],
+          'jsonmodel_type' => record_type
+        }
+
+        begin
+          results = perform_search
+        rescue MissingFilterException
+          results = nil
+        end
+      end
+    end
+
+    get_browse_col_prefs
+    csv_fields = @pref_cols.reject { |f| NON_CSV_FIELDS.include?(f) }
+    record_type = params['record_type']
+    export_url = if %w[resource accession].include?(record_type)
+                   url_for(controller: :top_containers, action: :index, format: :csv,
+                           :"collection_#{record_type}" => { ref: params['record_uri'] }, 'fields[]' => csv_fields)
+                 end
+    flash_message = params[:saved] == 'true' ? t('top_container._frontend.messages.updated') : nil
+    render_aspace_partial :partial => 'top_containers/bulk_operations/manage_for_record',
+                          :locals  => { :results => results, :flash_message => flash_message, :export_url => export_url }
   end
 
 

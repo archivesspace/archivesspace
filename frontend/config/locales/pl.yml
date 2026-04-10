@@ -300,6 +300,7 @@ pl:
     manage_container_profiles: Zarządzaj profilami kontenerów
     manage_location_profiles: Zarządzaj profilami lokalizacji
     manage_top_containers: Zarządzaj najlepszymi kontenerami
+    view_top_containers: Przeglądaj najlepsze kontenery
     manage_enumerations: Zarządzaj listami wartości kontrolowanych
     global_preferences: Preferencje globalne
     global_settings: Ustawienia globalne

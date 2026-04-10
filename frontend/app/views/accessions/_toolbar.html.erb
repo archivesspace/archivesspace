@@ -62,6 +62,15 @@
             <% if user_can?('update_assessment_record') %>
               <li><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => @accession.uri}, :class => "dropdown-item" %></li>
             <% end %>
+            <li>
+              <button type="button"
+                      class="btn rounded-0 dropdown-item access-top-containers-btn"
+                      data-record-uri="<%= @accession.uri %>"
+                      data-record-type="accession"
+                      data-record-title="<%= h(strip_tags(clean_mixed_content(@accession.title))) %>">
+                <%= (user_can?('update_container_record') || user_can?('manage_container_record')) ? t("navbar.manage_top_containers") : t("navbar.view_top_containers") %>
+              </button>
+            </li>
           </ul>
         </div>
         <% if user_can?('suppress_archival_record') || user_can?('delete_archival_record') %>

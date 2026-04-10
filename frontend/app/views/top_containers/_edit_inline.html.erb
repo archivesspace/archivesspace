@@ -1,0 +1,10 @@
+<%= form_for @top_container, :as => "top_container", :url => {:action => :update, :id => @top_container.id}, :html => {:class => 'form-horizontal aspace-record-form', :id => "edit_top_container_inline"} do |f| %>
+  <%= form_context :top_container, @top_container do |form| %>
+    <%= render_aspace_partial :partial => "form", :locals => {:form => form} %>
+
+    <div class="form-actions pl-0">
+      <button type="submit" class="btn btn-primary"><%= t("top_container._frontend.action.save") %></button>
+      <button type="button" class="btn btn-default" data-dismiss="modal"><%= t("actions.cancel") %></button>
+    </div>
+  <% end %>
+<% end %>

@@ -3,6 +3,7 @@
 <%
   multiselect = true if multiselect.nil?
   show_edit_actions = true if show_edit_actions.nil?
+  inline_actions = false if !defined?(inline_actions)
   top_containers = results['response']['docs']
   num_found = results['response']["numFound"].to_i
   rows = results['responseHeader']['params']['rows'].to_i
@@ -52,7 +53,7 @@
           </td>
           <% @pref_cols.each do |field| %>
             <% next if field == 'no_value' %>
-            <% if field == 'resource_accession'%>
+            <% if field == 'resource_accession' %>
               <td class="top-container-collection">
                 <% if container_json['collection'].present? %>
                   <%
@@ -133,16 +134,22 @@
                 <td><%= t('search.top_container_mgmt.not_restricted') %></td>
               <% end %>
             <% else %>
-                <td class="top-container-<%=field%>"> <%= container_json[field] %> </td>
+                <td class="top-container-<%=field%>"><%= container_json[field] %></td>
             <% end %>
           <% end %>
 
           <% if show_edit_actions %>
           <td>
             <div class="btn-group">
-              <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]}, :class => "btn btn-sm btn-default" %>
+              <%= link_to I18n.t("actions.view"),
+                    {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]},
+                    :class => "btn btn-sm btn-default #{'inline-tc-view-btn' if inline_actions}",
+                    :"data-tc-uri" => (inline_actions ? container_json["uri"] : nil) %>
               <% if can_edit %>
-                <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]}, :class => "btn btn-sm btn-primary" %>
+                <%= link_to I18n.t("actions.edit"),
+                      {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]},
+                      :class => "btn btn-sm btn-primary #{'inline-tc-edit-btn' if inline_actions}",
+                      :"data-tc-uri" => (inline_actions ? container_json["uri"] : nil) %>
               <% end %>
             </div>
           </td>

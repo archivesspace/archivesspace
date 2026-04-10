@@ -1,0 +1,23 @@
+<div id="topContainersManageForRecord">
+  <% if flash_message %>
+    <div class="alert alert-success alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <%= flash_message %>
+    </div>
+  <% end %>
+  <% if results.nil? %>
+    <p><%= t("search.no_results") %></p>
+  <% else %>
+    <% csv_fields = @pref_cols.reject { |f| %w[restricted].include?(f) } %>
+    <%= render_aspace_partial :partial => "top_containers/bulk_operations/toolbar",
+          :locals => { :fields => csv_fields, :export_url => export_url } %>
+    <div id="bulk_operation_results" class="record-pane">
+      <%= render_aspace_partial :partial => "top_containers/bulk_operations/results",
+            :locals => { :results => results, :inline_actions => true, :multiselect => user_can?('manage_container_record') } %>
+    </div>
+    <%= render_aspace_partial :partial => "top_containers/bulk_operations/toolbar",
+          :locals => { :fields => csv_fields, :export_url => export_url } %>
+  <% end %>
+
+  <%= render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_templates" %>
+</div>
