@@ -11,7 +11,7 @@ class Resource < Sequel::Model(:resource)
   include LangMaterials
   include LangDescriptions
   include MultilingualContent
-  translatable_fields :title, :finding_aid_title, :finding_aid_subtitle, :finding_aid_author,
+  multilingual_fields :title, :finding_aid_title, :finding_aid_subtitle, :finding_aid_author,
                       :finding_aid_sponsor, :finding_aid_edition_statement,
                       :finding_aid_series_statement, :finding_aid_note,
                       :repository_processing_note, :finding_aid_filing_title

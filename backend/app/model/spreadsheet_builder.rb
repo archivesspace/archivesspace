@@ -151,7 +151,7 @@ class SpreadsheetBuilder
   end
 
   # Maps record types that have MLC tables to their table, FK column, and
-  # translatable fields. Each entry in :fields maps the MLC column name to the
+  # multilingual fields. Each entry in :fields maps the MLC column name to the
   # alias used when selecting it (they differ for :digital_object to avoid
   # ambiguity with other columns in the same query).
   MLC_FIELDS_OF_INTEREST = {
