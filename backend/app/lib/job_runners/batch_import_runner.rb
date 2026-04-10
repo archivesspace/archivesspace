@@ -29,15 +29,17 @@ class BatchImportRunner < JobRunner
     import_subjects     = @json.job["import_subjects"] == "1" ? true : false
     import_repository   = @json.job["import_repository"] == "1" ? true : false
 
+	input_file_paths = @job.job_files.map(&:full_file_path)
+
     # Wrap the import in a transaction if the DB supports MVCC
     begin
       DB.open(DB.supports_mvcc?,
               :retry_on_optimistic_locking_fail => true) do
         created_uris = []
         begin
-          @job.job_files.each_with_index do |input_file, i|
+          input_file_paths.each_with_index do |input_file, i|
             ticker.log(("=" * 50) + "\n#{filenames[i]}\n" + ("=" * 50)) if filenames[i]
-            converter = Converter.for(@json.job['import_type'], input_file.full_file_path, {:import_events => import_maint_events, :import_subjects => import_subjects, :import_repository => import_repository})
+            converter = Converter.for(@json.job['import_type'], file_path, {:import_events => import_maint_events, :import_subjects => import_subjects, :import_repository => import_repository})
             begin
               RequestContext.open(:create_enums => true,
                                   :current_username => @job.owner.username,

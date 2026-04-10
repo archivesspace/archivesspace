@@ -17,11 +17,17 @@ class BulkImportRunner < JobRunner
     ticker.log("Start new bulk_import for job: #{@job.id}")
     last_error = nil
     # Wrap the import in a transaction if the DB supports MVCC
+
+	# Get the job input file and prep output variables.
+	input_file_path = @job.job_files[0].full_file_path
+	output_file = nil
+	created_uris = []
+
     begin
       DB.open(DB.supports_mvcc?,
               :retry_on_optimistic_locking_fail => true) do
         begin
-          @input_file = @job.job_files[0].full_file_path
+          @input_file = input_file_path
           @current_user = User.find(:username => @job.owner.username)
           @load_type = @json.job["load_type"]
           @validate_only = @json.job["only_validate"] == "true"
@@ -45,12 +51,12 @@ class BulkImportRunner < JobRunner
               ticker.log(("=" * 50) + "\n")
               ticker.log(I18n.t(@validate_only ? "bulk_import.log_validation" : "bulk_import.log_complete", :file => @json.job["filename"]))
               ticker.log("\n" + ("=" * 50) + "\n")
-              file = ASUtils.tempfile("load_spreadsheet_job_")
-              generate_csv(file, report)
-              file.rewind
+              output_file = ASUtils.tempfile("load_spreadsheet_job_")
+              generate_csv(output_file, report)
+              output_file.rewind
               @job.write_output(I18n.t("bulk_import.log_results"))
-              @job.add_file(file)
-              @job.record_created_uris(importer.record_uris) unless @validate_only
+
+              created_uris = importer.record_uris unless @validate_only
             end
           end
         rescue JSONModel::ValidationException, BulkImportException => e
@@ -61,6 +67,17 @@ class BulkImportRunner < JobRunner
       last_error = $!
     end
     self.success!
+	if output_file
+		DB.open do
+			@job.add_file(output_file)
+		end
+	end
+	unless created_uris.nil? || created_uris.empty?
+		DB.open do
+			@job.record_created_uris(created_uris)
+		end
+	end
+
     if last_error
       ticker.log("\n\n")
       ticker.log("!" * 50)
