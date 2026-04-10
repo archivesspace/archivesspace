@@ -55,15 +55,16 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["repo_id", :repo_id],
             ["record_type", String])
     .permissions([:view_repository])
-    .returns([200, :created],
-             [400, :error]) \
-  do
-    id = "#{params[:repo_id]}_#{params[:record_type]}"
-    json = RequiredFields.to_jsonmodel(id)
+    .returns([200, "[(:required_fields)]"],
+             [400, :error],
+             [404, '{"error" => "RequiredFields not found"}, returned if no custom required '\
+              'fields have been defined for agent record type, or non-agent '\
+              'record type given']) \
+    do
+      id = "#{params[:repo_id]}_#{params[:record_type]}"
+      json = RequiredFields.to_jsonmodel(id)
 
-    json_response(json)
-  end
-
-
+      json_response(json)
+    end
 
 end
