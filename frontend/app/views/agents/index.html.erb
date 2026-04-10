@@ -1,15 +1,14 @@
 <%= setup_context(:title => t("agent._plural")) %>
 
-<div class="d-flex">
-  <div class="col-md-3">
+<div class="d-flex flex-column flex-md-row">
+  <div class="col-md-3 order-2 order-md-1">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
     </div>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-9 order-1 order-md-2">
     <% if user_can?('update_agent_record') %>
-      <div class="record-toolbar d-flex align-items-center">
-        <div class="btn-group ml-auto">
+      <%= render :layout => 'shared/record_toolbar' do %>
           <% if user_can?('manage_repository') %>
             <div class="btn-group">
               <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
@@ -66,8 +65,7 @@
                   })
             %>
           <%# end %>
-        </div>
-      </div>
+      <% end %>
     <% end %>
     <div class="record-pane">
       <%= link_to_help :topic => "search" %>
