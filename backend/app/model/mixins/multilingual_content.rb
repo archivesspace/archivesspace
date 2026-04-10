@@ -5,12 +5,12 @@ module MultilingualContent
   end
 
   module ClassMethods
-    # Declares translatable fields and overrides their Sequel column accessors
+    # Declares multilingual fields and overrides their Sequel column accessors
     # with language-aware getters and setters backed by the record's +_mlc+ table.
     #
-    # @param fields [Array<Symbol, String>] names of the fields to make translatable
-    def translatable_fields(*fields)
-      @translatable_fields = fields.map(&:to_sym)
+    # @param fields [Array<Symbol, String>] names of the fields to make multilingual
+    def multilingual_fields(*fields)
+      @multilingual_fields = fields.map(&:to_sym)
       fields.each do |field|
         define_method(field) do
           get_field_value(field)
@@ -21,9 +21,9 @@ module MultilingualContent
       end
     end
 
-    # @return [Array<Symbol>] the translatable field names declared on this model
-    def get_translatable_fields
-      @translatable_fields || []
+    # @return [Array<Symbol>] the multilingual field names declared on this model
+    def get_multilingual_fields
+      @multilingual_fields || []
     end
 
     # @return [Symbol] the name of the +_mlc+ table for this model
@@ -52,7 +52,7 @@ module MultilingualContent
   # falling back to the primary language, then to the configured
   # +AppConfig[:mlc_default_language]+ / +AppConfig[:mlc_default_script]+.
   #
-  # @param field_name [Symbol, String] the translatable field to read
+  # @param field_name [Symbol, String] the multilingual field to read
   # @return [String, nil] the field value, or +nil+ if no matching row exists
   def get_field_value(field_name)
     # For new (unsaved) records, values are buffered in @_mlc_pending — read
@@ -78,7 +78,7 @@ module MultilingualContent
   # If the record has not yet been persisted (id is nil), the value is buffered
   # and flushed to the database in +after_save+.
   #
-  # @param field_name [Symbol, String] the translatable field to write
+  # @param field_name [Symbol, String] the multilingual field to write
   # @param value [String, nil] the value to store
   def set_field_value(field_name, value)
     if id.nil?
@@ -115,32 +115,32 @@ module MultilingualContent
   end
 
   # Overrides Sequel's raw column reader so that +record[:title]+ is equivalent
-  # to +record.title+ for translatable fields.
+  # to +record.title+ for multilingual fields.
   #
   # @param column [Symbol, String]
   # @return [Object]
   def [](column)
-    return get_field_value(column) if self.class.get_translatable_fields.include?(column.to_sym)
+    return get_field_value(column) if self.class.get_multilingual_fields.include?(column.to_sym)
     super
   end
 
   # Overrides Sequel's raw column writer so that +record[:title] = "foo"+ is
-  # equivalent to +record.title = "foo"+ for translatable fields.
+  # equivalent to +record.title = "foo"+ for multilingual fields.
   #
   # @param column [Symbol, String]
   # @param value [Object]
   def []=(column, value)
-    return set_field_value(column, value) if self.class.get_translatable_fields.include?(column.to_sym)
+    return set_field_value(column, value) if self.class.get_multilingual_fields.include?(column.to_sym)
     super
   end
 
-  # Overrides Sequel's +values+ hash to include translatable fields sourced
+  # Overrides Sequel's +values+ hash to include multilingual fields sourced
   # from the +_mlc+ table.  This ensures that code which reads +obj.values+
   # directly (e.g. +NestedRecordResolver+) sees the correct field values.
   #
   # @return [Hash]
   def values
-    mlc_values = self.class.get_translatable_fields.each_with_object({}) do |field, h|
+    mlc_values = self.class.get_multilingual_fields.each_with_object({}) do |field, h|
       h[field] = get_field_value(field)
     end
     super.merge(mlc_values)

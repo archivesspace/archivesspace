@@ -47,10 +47,10 @@ describe 'MultilingualContent mixin' do
     RequestContext.put(:language_of_description, orig)
   end
 
-  describe '.translatable_fields' do
+  describe '.multilingual_fields' do
     it "records declared field names on the class" do
-      expect(Resource.get_translatable_fields).to include(:title)
-      expect(Resource.get_translatable_fields).to include(:finding_aid_title)
+      expect(Resource.get_multilingual_fields).to include(:title)
+      expect(Resource.get_multilingual_fields).to include(:finding_aid_title)
     end
 
     it "defines getter and setter instance methods for each field" do
