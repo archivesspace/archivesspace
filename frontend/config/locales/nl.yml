@@ -7,3 +7,59 @@ nl:
     close: Sluiten
   states:
     auto_generated: Wordt automatisch gegenereerd bij registratie
+  search_results:
+    filtered_by: Gefilterd op
+  search_sorting:
+    sort_by: 'Sorteren op:'
+  navbar:
+    toggle_navigation: Navigatie in-/uitschakelen
+  advanced_search:
+    operator:
+      AND: En
+      OR: Of
+      NOT: Niet
+  agent_function:
+    _singular: Functie
+    _plural: Functies
+  agent_gender:
+    _singular: Geslacht
+  agent_place:
+    _singular: Plaats
+    _plural: Plaatsen
+  agent_resource:
+    _singular: Gerelateerde externe bron
+    _plural: Gerelateerde externe bronnen
+  agent_occupation:
+    _singular: Beroep
+    _plural: Beroepen
+  agent_topic:
+    _singular: Onderwerp
+    _plural: Onderwerpen
+  skipnav:
+    main_content: Ga naar de belangrijkste inhoud
+  agent_record_identifier:
+    source: Bron
+    primary_identifier: Is primaire identificatiecode?
+    record_identifier: Identificatiecode van het record
+  agent_identifier:
+    identifier_type: Type identificatiecode
+  used_language:
+    _plural: Gebruikte talen
+    _singular: Gebruikte taal
+  metadata_rights_declaration:
+    _plural: Metadata-rechtenverklaringen
+    _singular: Metadata-rechtenverklaring
+    license: Licentie
+    descriptive_note: Beschrijvende annotatie
+    file_uri: Bestands-URI
+    xlink_title_attribute: Xlink Title-attribuut
+    xlink_role_attribute: Xlink Role-attribuut
+    xlink_arcrole_attribute: Xlink Arcrole-attribuut
+    file_version_xlink_actuate_attribute: Xlink Actuate-attribuut
+    file_version_xlink_show_attribute: Xlink Show-attribuut
+    last_verified_date: Laatst gecontroleerd op
+  footer:
+    archivesspace_home_html: Bezoek <a 
+      href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+      target='_blank'>Stuur feedback of meld een probleem</a>
