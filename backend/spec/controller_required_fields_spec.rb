@@ -31,5 +31,25 @@ describe 'Required Fields' do
    expect(required_fields["subrecord_requirements"].first["required_fields"]).to eq(["xlink_title_attribute", "xlink_role_attribute"])
     # at least one subrecord is required
    expect(required_fields["subrecord_requirements"].first["required"]).to be true
- end
+  end
+
+  it "prevents you posting a requirements definition for a repository and non-agent record type" do
+    uri = "/repositories/#{$repo_id}/required_fields/resource"
+    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+    required_fields = JSONModel(:required_fields).from_hash(
+      {
+        repo_id: $repo_id,
+        record_type: "resource",
+        subrecord_requirements: [
+          {
+            record_type: "metadata_rights_declaration",
+            property: "metadata_rights_declarations",
+            required: true,
+            required_fields: ["xlink_title_attribute", "xlink_role_attribute"]
+          }
+        ]
+      })
+    response = JSONModel::HTTP.post_json(url, ASUtils.to_json(required_fields))
+    expect(response.status).to eq(400)
+  end
 end

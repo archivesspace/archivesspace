@@ -3,6 +3,36 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/required_fields/:record_type')
     .description("Add or change repository-level required fields for an agent record type")
+    .example("shell") do
+      <<~CONTENTS
+        # Add required field to agent_person in repository 2
+        curl -H 'Content-Type: text/json' -H "X-ArchivesSpace-Session: $SESSION" \
+          "http://localhost:8089/repositories/2/required_fields/agent_person" \
+          -d '{
+               "jsonmodel_type": "required_fields",
+               "record_type": "agent_person",
+               "subrecord_requirements": [
+                 {
+                   "property": "metadata_rights_declarations",
+                   "record_type": "metadata_rights_declaration",
+                   "required": true,
+                   "required_fields": [
+                     "descriptive_note"
+                   ]
+                 }
+               ]
+             }'
+
+        # Remove required fields from agent_person in repository 2
+        curl -H 'Content-Type: text/json' -H "X-ArchivesSpace-Session: $SESSION" \
+          "http://localhost:8089/repositories/2/required_fields/agent_person" \
+          -d '{
+               "jsonmodel_type": "required_fields",
+               "record_type": "agent_person",
+               "subrecord_requirements": []
+             }'
+       CONTENTS
+    end
     .params(["required_fields", JSONModel(:required_fields), "The fields required", :body => true],
             ["repo_id", :repo_id],
             ["record_type", String])
