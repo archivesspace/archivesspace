@@ -49,6 +49,31 @@ describe 'Infinite Tree Toolbar', js: true do
     end
   end
 
+  it 'opens the bulk import modal when Load via Spreadsheet is clicked' do
+    find('.js-itree-toolbar-load-bulk').click
+
+    aggregate_failures do
+      expect(page).to have_css('#bulkIngestFileModal')
+      expect(page).to have_css('#bulkFileButton')
+      expect(page).to have_css('#excel_file', visible: :all)
+    end
+  end
+
+  it 'opens the RDE modal when Rapid Data Entry is clicked' do
+    within '#infinite-tree-container' do
+      click_link ao.title
+    end
+    wait_for_ajax
+
+    find('.js-itree-toolbar-rde').click
+
+    aggregate_failures do
+      expect(page).to have_css('#rapidDataEntryModal')
+      expect(page).to have_css('#rapidDataEntryModal .rde-wrapper')
+      expect(page).to have_css('#rapidDataEntryModal #rde_form')
+    end
+  end
+
   it 'shows cut/paste and move only in reorder mode for archival object selection' do
     find('.js-itree-toolbar-reorder-toggle').click
 
