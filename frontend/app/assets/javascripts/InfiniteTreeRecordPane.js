@@ -1,13 +1,18 @@
+//= require InfiniteTreeIds
+
 (function (exports) {
   class InfiniteTreeRecordPane {
     constructor() {
       this.container = document.querySelector('#infinite-tree-record-pane');
+      this.treeContainerEl = document.querySelector('#infinite-tree-container');
 
       this.isReadOnly =
         document.querySelector('#infinite-tree-component').dataset
           .isReadOnly === 'true';
       this.form = null;
       this.isDirty = false;
+      /** @type {HTMLElement|null} Parent tree node when the pane shows archival_objects new_inline (for Cancel). */
+      this._inlineCreateParentNode = null;
 
       // Respond to tree selection
       this.container.addEventListener('infiniteTree:nodeSelect', e => {
@@ -25,12 +30,78 @@
       this.container.addEventListener('infiniteTree:showRecordNotFound', () => {
         this.#showRecordNotFound();
       });
+
+      if (this.treeContainerEl && !this.isReadOnly) {
+        this.treeContainerEl.addEventListener(
+          'infiniteTreeToolbar:addChildRequested',
+          e => this.#onAddChildRequested(e)
+        );
+      }
+
+      // Cancel on new_inline uses link_to :back; intercept for inline tree UX
+      this.container.addEventListener(
+        'click',
+        e => this.#onCancelClick(e),
+        true
+      );
+    }
+
+    /**
+     * @param {Event} e
+     */
+    #onAddChildRequested(e) {
+      if (this.isReadOnly) return;
+
+      const node =
+        (e.detail && e.detail.node) ||
+        (this.treeContainerEl &&
+          this.treeContainerEl.querySelector('li.node.selected'));
+
+      if (!node) return;
+
+      const parts = InfiniteTreeIds.uriToParts(node.getAttribute('data-uri'));
+      if (!parts || parts.type !== 'resource') return;
+
+      this.loadNewArchivalObjectUnderResource(node);
+    }
+
+    /**
+     * @param {Event} e
+     */
+    #onCancelClick(e) {
+      const cancel = e.target.closest('.form-actions .btn-cancel');
+      if (!cancel || !this.form || !this.form.contains(cancel)) return;
+
+      if (
+        !this.#isArchivalObjectCreateForm(this.form) ||
+        !this._inlineCreateParentNode
+      ) {
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const parent = this._inlineCreateParentNode;
+      this._inlineCreateParentNode = null;
+
+      this.loadRecord(parent);
     }
 
     /**
      * @param {HTMLElement} node - The tree node corresponding to the record to load
      */
     async loadRecord(node) {
+      this._inlineCreateParentNode = null;
+
+      if (this.treeContainerEl) {
+        this.treeContainerEl.dispatchEvent(
+          new CustomEvent('infiniteTree:removeSyntheticNewArchivalObject', {
+            bubbles: true,
+          })
+        );
+      }
+
       let recordPath = AS.app_prefix(
         node.dataset.uri.split('/').slice(-2).join('/')
       ); // ie: /repositories/2/archival_objects/4 --> /archival_objects/4
@@ -55,6 +126,91 @@
         }
       } finally {
         this.#unblockUI();
+      }
+    }
+
+    /**
+     * Load new archival object form with resource as parent (Add Child on resource).
+     * @param {HTMLElement} parentNode - Selected root resource tree node
+     */
+    async loadNewArchivalObjectUnderResource(parentNode) {
+      const parts = InfiniteTreeIds.uriToParts(parentNode.getAttribute('data-uri'));
+      if (!parts || parts.type !== 'resource') return;
+
+      this._inlineCreateParentNode = parentNode;
+
+      if (this.treeContainerEl) {
+        this.treeContainerEl.dispatchEvent(
+          new CustomEvent('infiniteTree:showSyntheticNewArchivalObject', {
+            bubbles: true,
+            detail: { parentNode },
+          })
+        );
+      }
+
+      const qs = new URLSearchParams({
+        inline: 'true',
+        resource_id: String(parts.id),
+      });
+      const url = `${AS.app_prefix('archival_objects/new')}?${qs.toString()}`;
+
+      this.#blockUI();
+
+      try {
+        const html = await this.#fetchRecordHtml(url);
+
+        this.#renderNewForm(html);
+        this.#setDirty(true);
+      } catch (error) {
+        this._inlineCreateParentNode = null;
+
+        if (this.treeContainerEl) {
+          this.treeContainerEl.dispatchEvent(
+            new CustomEvent('infiniteTree:removeSyntheticNewArchivalObject', {
+              bubbles: true,
+            })
+          );
+        }
+
+        if (error.status === 404) {
+          this.#showRecordNotFound();
+        } else {
+          this.container.appendChild(this.#loadErrorMessageFragment(error));
+
+          this.#setDirty(false);
+        }
+      } finally {
+        this.#unblockUI();
+      }
+    }
+
+    /**
+     * @param {HTMLFormElement} form
+     * @returns {boolean}
+     */
+    #isArchivalObjectCreateForm(form) {
+      return this.#isArchivalObjectCreateSubmission(form);
+    }
+
+    /**
+     * True when the form POSTs to archival_objects#create (inline new record).
+     * @param {HTMLFormElement} form
+     * @returns {boolean}
+     */
+    #isArchivalObjectCreateSubmission(form) {
+      const method = (form.getAttribute('method') || 'GET').toUpperCase();
+      if (method !== 'POST') return false;
+
+      const action = form.getAttribute('action');
+      if (!action) return false;
+
+      try {
+        const path = new URL(action, window.location.origin)
+          .pathname.replace(/\/$/, '');
+
+        return /\/archival_objects$/.test(path);
+      } catch {
+        return false;
       }
     }
 
@@ -90,7 +246,7 @@
           if (!ctxEl || ctxEl === this.form || this.form.contains(ctxEl)) {
             markDirty();
           }
-        } catch (e) {
+        } catch {
           // Fallback: mark dirty if we can't safely inspect context
           markDirty();
         }
@@ -117,6 +273,8 @@
       const submitButton = this.form.querySelector('.btn-primary');
 
       if (submitButton) submitButton.setAttribute('disabled', 'disabled');
+
+      const isCreateSubmission = this.#isArchivalObjectCreateSubmission(this.form);
 
       // Prepare FormData and include inline=true (to receive partial HTML)
       const formData = new FormData(this.form);
@@ -145,6 +303,8 @@
         const hasError = this.container.querySelector('.error') !== null;
 
         if (response.ok && !hasError) {
+          this._inlineCreateParentNode = null;
+
           this.#setDirty(false);
 
           // Try to extract the saved record URI from the updated pane (common hidden field id="uri")
@@ -161,6 +321,7 @@
 
           this.#dispatch('infiniteTreeRecordPane:submitSuccess', {
             uri: savedUri,
+            created: isCreateSubmission,
           });
 
           this.#dispatch('infiniteTreeRecordPane:submitted', { success: true });
