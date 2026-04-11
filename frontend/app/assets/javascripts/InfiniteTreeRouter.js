@@ -44,12 +44,13 @@
         'infiniteTreeRecordPane:submitSuccess',
         e => {
           const target = this._pendingHash;
-          const { uri: savedUri } = e.detail || {};
+          const { uri: savedUri, created } = e.detail || {};
 
           // Store transaction state for completion handler
           this._pendingTransaction = {
             target: target,
             savedUri: savedUri,
+            created: !!created,
           };
 
           // Clear pending hash now that we've captured it
@@ -57,16 +58,40 @@
           this._pendingSavedUri = null;
           this.isDirty = false;
 
-          // Start the refresh process
-          if (savedUri) {
+          if (!savedUri) {
+            this.#completeTransaction();
+
+            return;
+          }
+
+          if (created) {
+            const newRecordHash = InfiniteTreeIds.treeLinkUrl(savedUri);
+
+            if (target) {
+              const pendingHash = target.startsWith('#') ? target : `#${target}`;
+
+              this.#setHashSilently(pendingHash);
+
+              this.treeContainer.dispatchEvent(
+                new CustomEvent('infiniteTreeRouter:redisplayAndShow', {
+                  detail: { targetHash: pendingHash },
+                })
+              );
+            } else {
+              this.#setHashSilently(newRecordHash);
+
+              this.treeContainer.dispatchEvent(
+                new CustomEvent('infiniteTreeRouter:redisplayAndShow', {
+                  detail: { targetHash: newRecordHash },
+                })
+              );
+            }
+          } else {
             this.treeContainer.dispatchEvent(
               new CustomEvent('infiniteTreeRouter:refreshNode', {
                 detail: { uri: savedUri },
               })
             );
-          } else {
-            // No refresh needed, complete transaction immediately
-            this.#completeTransaction();
           }
         }
       );
@@ -74,6 +99,15 @@
       // Listen for refresh completion to finish the transaction
       this.treeContainer.addEventListener(
         'infiniteTree:refreshNodeComplete',
+        () => {
+          if (this._pendingTransaction) {
+            this.#completeTransaction();
+          }
+        }
+      );
+
+      this.treeContainer.addEventListener(
+        'infiniteTree:redisplayAndShowComplete',
         () => {
           if (this._pendingTransaction) {
             this.#completeTransaction();
@@ -226,6 +260,18 @@
     setHash(hash) {
       const normalized = this.#normalizeHash(hash);
 
+      window.location.hash = normalized;
+      this.currentHash = window.location.hash;
+    }
+
+    /**
+     * Sets location hash without running the hashchange navigation path (programmatic sync).
+     * @param {string} hash - With or without leading #
+     */
+    #setHashSilently(hash) {
+      const normalized = this.#normalizeHash(hash);
+
+      this._ignoreHashChange = true;
       window.location.hash = normalized;
       this.currentHash = window.location.hash;
     }
