@@ -124,10 +124,18 @@
       // Rebuild the tree and show a target node (full redisplay)
       this.container.addEventListener(
         'infiniteTreeRouter:redisplayAndShow',
-        e => {
+        async e => {
           const { targetHash } = e.detail;
 
-          this.redisplayAndShow(targetHash);
+          try {
+            await this.redisplayAndShow(targetHash);
+          } finally {
+            this.container.dispatchEvent(
+              new CustomEvent('infiniteTree:redisplayAndShowComplete', {
+                detail: {},
+              })
+            );
+          }
         }
       );
 
@@ -142,6 +150,23 @@
           await this.refreshNodeByUri(uri);
         }
       );
+
+      this.container.addEventListener(
+        'infiniteTree:showSyntheticNewArchivalObject',
+        async e => {
+          const parentNode = e.detail && e.detail.parentNode;
+          if (!parentNode) return;
+
+          await this.#showSyntheticNewArchivalObject(parentNode);
+        }
+      );
+
+      this.container.addEventListener(
+        'infiniteTree:removeSyntheticNewArchivalObject',
+        () => {
+          this.#removeSyntheticNewArchivalObject();
+        }
+      );
     }
 
     /**
@@ -149,6 +174,8 @@
      * @returns {HTMLElement} The live root node element
      */
     async renderRoot() {
+      this._syntheticNewNode = null;
+
       const rootData = await this.fetch.node();
       const rootListFrag = this.markup.rootList();
       const rootListElement = rootListFrag.querySelector('ol');
@@ -209,6 +236,10 @@
      * @param {HTMLElement} node - The node to select corresponding to the record pane
      */
     selectNode(node) {
+      if (!node.classList.contains('js-itree-synthetic-new')) {
+        this.#removeSyntheticNewArchivalObject();
+      }
+
       const old = this.container.querySelector('.selected');
 
       if (old) old.classList.remove('selected');
@@ -486,6 +517,8 @@
      * @param {string} locationHash - The location hash representing the node to render
      */
     async redisplayAndShow(locationHash) {
+      this._syntheticNewNode = null;
+
       // Normalize hash to include # prefix
       const fragment =
         locationHash && locationHash.startsWith('#')
@@ -652,7 +685,14 @@
         const el = this.container.querySelector(`#${treeId}`);
 
         if (!el) {
-          this.#dispatchRefreshComplete(uri, false);
+          try {
+            await this.redisplayAndShow(InfiniteTreeIds.treeLinkUrl(uri));
+            this.#dispatchRefreshComplete(uri, true);
+          } catch (err) {
+            console.error('refreshNodeByUri redisplay fallback error:', err);
+            this.#dispatchRefreshComplete(uri, false);
+          }
+
           return;
         }
 
@@ -792,6 +832,12 @@
 
       const node = e.target.closest('.node');
 
+      if (node && node.classList.contains('js-itree-synthetic-new')) {
+        e.stopPropagation();
+
+        return;
+      }
+
       this.#dispatchTitleClickEvent(node);
     }
 
@@ -846,10 +892,94 @@
      * @param {HTMLElement} node - The selected node
      */
     #dispatchNodeSelectEvent(node) {
+      if (node.classList.contains('js-itree-synthetic-new')) {
+        return;
+      }
+
       const target = this.recordPaneEl;
       const type = InfiniteTree.EVENT_TYPE_NODE_SELECT;
 
       this.#dispatchEvent(target, type, { node });
+    }
+
+    /**
+     * Inserts a placeholder li (parity with legacy largetree tr#new) for Add Child → new_inline.
+     * @param {HTMLElement} parentNode - Resource root li
+     */
+    async #showSyntheticNewArchivalObject(parentNode) {
+      this.#removeSyntheticNewArchivalObject();
+
+      const tmpl = document.querySelector(
+        '#infinite-tree-synthetic-new-node-template'
+      );
+      if (!tmpl) return;
+
+      const component = document.querySelector('#infinite-tree-component');
+      const titleText =
+        (component && component.dataset.newChildPlaceholderTitle) || '';
+
+      if (!parentNode.querySelector(':scope > ol.node-children')) {
+        await this.#expandNode(parentNode);
+      }
+
+      const frag = tmpl.content.cloneNode(true);
+      const synthetic = frag.querySelector('li');
+      const titleEl = frag.querySelector('.record-title');
+
+      if (titleEl) titleEl.textContent = titleText;
+
+      let list = parentNode.querySelector(':scope > ol.node-children');
+      if (!list) {
+        list = document.createElement('ol');
+        list.className = 'node-children';
+        list.setAttribute('role', 'group');
+        list.setAttribute('data-parent-id', parentNode.id);
+        list.setAttribute('data-tree-level', '1');
+        list.setAttribute('data-total-child-batches', '0');
+        parentNode.appendChild(list);
+        parentNode.setAttribute('aria-expanded', 'true');
+      }
+
+      list.appendChild(synthetic);
+
+      const prev = this.container.querySelector('.node.selected');
+      if (prev) prev.classList.remove('selected');
+
+      synthetic.classList.add('selected');
+
+      this._syntheticNewNode = synthetic;
+
+      if (titleEl) titleEl.focus();
+    }
+
+    /**
+     * Removes the Add Child placeholder row and an empty child list we created for a childless root.
+     */
+    #removeSyntheticNewArchivalObject() {
+      if (!this._syntheticNewNode) return;
+
+      const list = this._syntheticNewNode.parentElement;
+
+      this._syntheticNewNode.remove();
+      this._syntheticNewNode = null;
+
+      if (
+        list &&
+        list.classList.contains('node-children') &&
+        list.childElementCount === 0
+      ) {
+        const parentLi = list.parentElement;
+
+        list.remove();
+
+        if (
+          parentLi &&
+          parentLi.classList.contains('root') &&
+          !parentLi.querySelector('ol.node-children')
+        ) {
+          parentLi.setAttribute('aria-expanded', 'false');
+        }
+      }
     }
 
     /**
