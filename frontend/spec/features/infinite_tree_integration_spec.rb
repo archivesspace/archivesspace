@@ -164,6 +164,38 @@ describe 'Infinite Tree Integration', js: true do
       end
     end
 
+    context 'Add Child from toolbar (resource)' do
+      it 'loads new archival object form and Cancel returns to resource edit' do
+        visit "#{edit_path}#{root_hash}"
+        wait_for_ajax
+
+        find('.js-itree-toolbar-add-child').click
+        wait_for_ajax
+
+        aggregate_failures do
+          within('#infinite-tree-container') do
+            expect(page).to have_css('li#archival_object_new.js-itree-synthetic-new.selected')
+          end
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('#archival_object_form')
+            expect(page).to have_button('Save Archival Object', match: :first)
+          end
+          expect(page.current_url).to match(%r{#{Regexp.escape(root_hash)}})
+        end
+
+        within('#infinite-tree-record-pane') { find('.btn-cancel').click }
+        wait_for_ajax
+
+        aggregate_failures do
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('#form_resource')
+            expect(page).to have_css('h2', text: resource.title)
+          end
+          expect(page.current_url).to match(%r{#{Regexp.escape(root_hash)}})
+        end
+      end
+    end
+
     context 'after successful save' do
       it 'form has no unsaved changes; navigation proceeds without modal' do
         visit "#{edit_path}#{ao_hash}"
