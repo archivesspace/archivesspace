@@ -2,13 +2,25 @@
    root_type = root_record.jsonmodel_type
    show_identifiers = root_type == 'resource' && AppConfig[:display_identifiers_in_largetree_container]
    read_only = false if read_only.blank?
+
+   # Title for synthetic "new child" tree row (matches ajaxtree title_for_new_node / tree_toolbar add-child flows)
+   new_child_placeholder_title = case root_type
+                                 when 'resource'
+                                   I18n.t('archival_object._frontend.tree.new_record_title')
+                                 when 'digital_object'
+                                   I18n.t('digital_object_component._frontend.tree.new_record_title')
+                                 when 'classification'
+                                   I18n.t('classification_term._frontend.tree.new_record_title')
+                                 else
+                                   ''
+                                 end
 %>
 
 <%= javascript_include_tag "InfiniteTreeRouter.js" %>
+<%= javascript_include_tag "InfiniteTreeIds.js" %>
 <%= javascript_include_tag "InfiniteTree.js" %>
 <%= javascript_include_tag "InfiniteTreeResizer.js" %>
 <%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
-<%= javascript_include_tag "InfiniteTreeIds.js" %>
 <%= javascript_include_tag "InfiniteTreeToolbar.js" %>
 <%= javascript_include_tag "InfiniteTreeToolbarActions.js" %>
 
@@ -18,6 +30,7 @@
   data-is-read-only="<%= read_only %>"
   data-root-uri="<%= root_record.uri %>"
   data-record-type="<%= root_type %>"
+  data-new-child-placeholder-title="<%= new_child_placeholder_title %>"
 >
   <% if !read_only %>
     <%= render_aspace_partial :partial => "shared/infinite_tree_toolbar" %>
