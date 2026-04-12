@@ -12,6 +12,15 @@ describe 'Infinite Tree Integration', js: true do
   let(:edit_path) { "/resources/#{resource.id}/edit" }
   let(:root_hash) { "#tree::resource_#{resource.id}" }
   let(:ao_hash) { "#tree::archival_object_#{ao.id}" }
+  let(:ao_child) do
+    create(
+      :archival_object,
+      resource: { 'ref' => resource.uri },
+      parent: { 'ref' => ao.uri },
+      title: "Nested Archival Object #{now}"
+    )
+  end
+  let(:ao_child_hash) { "#tree::archival_object_#{ao_child.id}" }
 
   describe 'on initial load' do
     context 'when the URL has no record hash' do
@@ -164,6 +173,44 @@ describe 'Infinite Tree Integration', js: true do
       end
     end
 
+    context 'Add Child from toolbar (child under archival object)' do
+      it 'loads new child form with correct scoping, synthetic row depth, and Cancel returns to parent edit' do
+        ao_child
+        visit "#{edit_path}#{ao_child_hash}"
+        wait_for_ajax
+
+        find('.js-itree-toolbar-add-child').click
+        wait_for_ajax
+
+        aggregate_failures do
+          within('#infinite-tree-container') do
+            expect(page).to have_css('li#archival_object_new.js-itree-synthetic-new.selected.indent-level-3')
+            expect(page).to have_css('ol.node-children[data-tree-level="3"]')
+          end
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('#archival_object_form')
+            expect(page).to have_button('Save Archival Object', match: :first)
+          end
+          expect(page.current_url).to match(%r{#{Regexp.escape(ao_child_hash)}})
+        end
+
+        within('#infinite-tree-record-pane') { find('.btn-cancel').click }
+        wait_for_ajax
+
+        aggregate_failures do
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('#form_archival_object')
+            expect(page).to have_css('h2', text: ao_child.title)
+          end
+          expect(page.current_url).to match(%r{#{Regexp.escape(ao_child_hash)}})
+          expect(page).to have_css(
+            "#infinite-tree-container li#archival_object_#{ao_child.id}.selected",
+            visible: :all
+          )
+        end
+      end
+    end
+
     context 'Add Child from toolbar (resource)' do
       it 'loads new archival object form and Cancel returns to resource edit' do
         visit "#{edit_path}#{root_hash}"
@@ -192,6 +239,10 @@ describe 'Infinite Tree Integration', js: true do
             expect(page).to have_css('h2', text: resource.title)
           end
           expect(page.current_url).to match(%r{#{Regexp.escape(root_hash)}})
+          expect(page).to have_css(
+            "#infinite-tree-container li#resource_#{resource.id}.selected",
+            visible: :all
+          )
         end
       end
     end
