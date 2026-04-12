@@ -14,8 +14,10 @@
       /** @type {HTMLElement|null} Parent tree node when the pane shows archival_objects new_inline (for Cancel). */
       this._inlineCreateParentNode = null;
 
-      // Respond to tree selection
+      // Respond to tree selection (skip when InfiniteTree already loaded this record and only syncs chrome)
       this.container.addEventListener('infiniteTree:nodeSelect', e => {
+        if (e.detail && e.detail.suppressPaneReload) return;
+
         this.loadRecord(e.detail.node);
       });
 
@@ -59,10 +61,117 @@
 
       if (!node) return;
 
-      const parts = InfiniteTreeIds.uriToParts(node.getAttribute('data-uri'));
-      if (!parts || parts.type !== 'resource') return;
+      this.#loadNewChildRecord(node);
+    }
 
-      this.loadNewArchivalObjectUnderResource(node);
+    /**
+     * Query string for GET new child form: root scope + optional parent scope.
+     * @param {string} rootUri
+     * @param {{ type: string, id: string }} parentParts
+     * @returns {URLSearchParams|null}
+     */
+    #buildNewChildQuery(rootUri, parentParts) {
+      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      if (!rootMeta || !parentParts) return null;
+
+      const { type: rootType, id: rootId, childType } = rootMeta;
+
+      // First slice: resource tree → new archival object only
+      if (rootType !== 'resource' || childType !== 'archival_object') {
+        return null;
+      }
+
+      const qs = new URLSearchParams({ inline: 'true' });
+
+      if (parentParts.type === 'resource') {
+        qs.set('resource_id', String(parentParts.id));
+        return qs;
+      }
+
+      if (parentParts.type === 'archival_object') {
+        qs.set('resource_id', String(rootId));
+        qs.set('archival_object_id', String(parentParts.id));
+        return qs;
+      }
+
+      return null;
+    }
+
+    /**
+     * @param {string} childType - from InfiniteTreeIds.rootUriToParts(...).childType
+     * @returns {string|null} path segment under app prefix, e.g. archival_objects/new
+     */
+    #newChildFormPath(childType) {
+      if (childType === 'archival_object') return 'archival_objects/new';
+
+      return null;
+    }
+
+    #dispatchShowSyntheticNewChild(parentNode) {
+      if (!this.treeContainerEl) return;
+
+      this.treeContainerEl.dispatchEvent(
+        new CustomEvent('infiniteTree:showSyntheticNewChild', {
+          bubbles: true,
+          detail: { parentNode },
+        })
+      );
+    }
+
+    #dispatchRemoveSyntheticNewChild() {
+      if (!this.treeContainerEl) return;
+
+      this.treeContainerEl.dispatchEvent(
+        new CustomEvent('infiniteTree:removeSyntheticNewChild', {
+          bubbles: true,
+        })
+      );
+    }
+
+    /**
+     * Load new child record form for the selected tree node (root or child record).
+     * @param {HTMLElement} parentNode
+     */
+    async #loadNewChildRecord(parentNode) {
+      const component = document.querySelector('#infinite-tree-component');
+      const rootUri = component && component.dataset.rootUri;
+      const uri = parentNode.getAttribute('data-uri');
+      const parentParts = InfiniteTreeIds.uriToParts(uri);
+
+      const qs = this.#buildNewChildQuery(rootUri, parentParts);
+      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      const path = rootMeta && this.#newChildFormPath(rootMeta.childType);
+
+      if (!qs || !path) return;
+
+      this._inlineCreateParentNode = parentNode;
+
+      this.#dispatchShowSyntheticNewChild(parentNode);
+
+      const url = `${AS.app_prefix(path)}?${qs.toString()}`;
+
+      this.#blockUI();
+
+      try {
+        const html = await this.#fetchRecordHtml(url);
+
+        this.#renderNewForm(html);
+        this.#setDirty(true);
+      } catch (error) {
+        this._inlineCreateParentNode = null;
+
+        this.#dispatchRemoveSyntheticNewChild();
+
+        if (error.status === 404) {
+          this.#showRecordNotFound();
+        } else {
+          this.container.appendChild(this.#loadErrorMessageFragment(error));
+
+          this.#setDirty(false);
+        }
+      } finally {
+        this.#unblockUI();
+      }
     }
 
     /**
@@ -85,7 +194,33 @@
       const parent = this._inlineCreateParentNode;
       this._inlineCreateParentNode = null;
 
-      this.loadRecord(parent);
+      void this.#restoreTreeSelectionAfterCancelNewChild(parent);
+    }
+
+    /**
+     * Reload parent record from Cancel, then restore tree .selected (loadRecord alone does not select).
+     */
+    async #restoreTreeSelectionAfterCancelNewChild(parent) {
+      await this.loadRecord(parent);
+
+      this.#requestTreeSelectionSync(parent);
+    }
+
+    /**
+     * After pane HTML matches `node`, restore tree .selected and toolbar (e.g. Add Child → Cancel).
+     * @param {HTMLElement} node
+     */
+    #requestTreeSelectionSync(node) {
+      if (!this.treeContainerEl || !node) return;
+
+      if (node.classList.contains('js-itree-synthetic-new')) return;
+
+      this.treeContainerEl.dispatchEvent(
+        new CustomEvent('infiniteTree:syncTreeSelection', {
+          bubbles: true,
+          detail: { node },
+        })
+      );
     }
 
     /**
@@ -95,11 +230,7 @@
       this._inlineCreateParentNode = null;
 
       if (this.treeContainerEl) {
-        this.treeContainerEl.dispatchEvent(
-          new CustomEvent('infiniteTree:removeSyntheticNewArchivalObject', {
-            bubbles: true,
-          })
-        );
+        this.#dispatchRemoveSyntheticNewChild();
       }
 
       let recordPath = AS.app_prefix(
@@ -117,61 +248,6 @@
 
         this.#renderNewForm(html);
       } catch (error) {
-        if (error.status === 404) {
-          this.#showRecordNotFound();
-        } else {
-          this.container.appendChild(this.#loadErrorMessageFragment(error));
-
-          this.#setDirty(false);
-        }
-      } finally {
-        this.#unblockUI();
-      }
-    }
-
-    /**
-     * Load new archival object form with resource as parent (Add Child on resource).
-     * @param {HTMLElement} parentNode - Selected root resource tree node
-     */
-    async loadNewArchivalObjectUnderResource(parentNode) {
-      const parts = InfiniteTreeIds.uriToParts(parentNode.getAttribute('data-uri'));
-      if (!parts || parts.type !== 'resource') return;
-
-      this._inlineCreateParentNode = parentNode;
-
-      if (this.treeContainerEl) {
-        this.treeContainerEl.dispatchEvent(
-          new CustomEvent('infiniteTree:showSyntheticNewArchivalObject', {
-            bubbles: true,
-            detail: { parentNode },
-          })
-        );
-      }
-
-      const qs = new URLSearchParams({
-        inline: 'true',
-        resource_id: String(parts.id),
-      });
-      const url = `${AS.app_prefix('archival_objects/new')}?${qs.toString()}`;
-
-      this.#blockUI();
-
-      try {
-        const html = await this.#fetchRecordHtml(url);
-
-        this.#renderNewForm(html);
-        this.#setDirty(true);
-      } catch (error) {
-        this._inlineCreateParentNode = null;
-
-        if (this.treeContainerEl) {
-          this.treeContainerEl.dispatchEvent(
-            new CustomEvent('infiniteTree:removeSyntheticNewArchivalObject', {
-              bubbles: true,
-            })
-          );
-        }
-
         if (error.status === 404) {
           this.#showRecordNotFound();
         } else {
@@ -205,8 +281,10 @@
       if (!action) return false;
 
       try {
-        const path = new URL(action, window.location.origin)
-          .pathname.replace(/\/$/, '');
+        const path = new URL(action, window.location.origin).pathname.replace(
+          /\/$/,
+          ''
+        );
 
         return /\/archival_objects$/.test(path);
       } catch {
@@ -274,7 +352,9 @@
 
       if (submitButton) submitButton.setAttribute('disabled', 'disabled');
 
-      const isCreateSubmission = this.#isArchivalObjectCreateSubmission(this.form);
+      const isCreateSubmission = this.#isArchivalObjectCreateSubmission(
+        this.form
+      );
 
       // Prepare FormData and include inline=true (to receive partial HTML)
       const formData = new FormData(this.form);
