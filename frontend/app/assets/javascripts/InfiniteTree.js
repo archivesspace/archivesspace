@@ -11,6 +11,8 @@
   class InfiniteTree {
     static EVENT_TYPE_NODE_SELECT = 'infiniteTree:nodeSelect';
     static EVENT_TYPE_TITLE_CLICK = 'infiniteTree:titleClick';
+    /** Record pane: restore tree .selected + toolbar after inline new-child Cancel (pane already shows the parent). */
+    static EVENT_TYPE_SYNC_TREE_SELECTION = 'infiniteTree:syncTreeSelection';
 
     #autoExpandEnabled = false;
     #autoExpandLocked = false;
@@ -151,20 +153,40 @@
         }
       );
 
-      this.container.addEventListener(
-        'infiniteTree:showSyntheticNewArchivalObject',
-        async e => {
-          const parentNode = e.detail && e.detail.parentNode;
-          if (!parentNode) return;
+      const onShowSyntheticNewChild = async e => {
+        const parentNode = e.detail && e.detail.parentNode;
+        if (!parentNode) return;
 
-          await this.#showSyntheticNewArchivalObject(parentNode);
-        }
+        await this.#showSyntheticNewChild(parentNode);
+      };
+
+      this.container.addEventListener(
+        'infiniteTree:showSyntheticNewChild',
+        onShowSyntheticNewChild
+      );
+
+      const onRemoveSyntheticNewChild = () => {
+        this.#removeSyntheticNewChild();
+      };
+
+      this.container.addEventListener(
+        'infiniteTree:removeSyntheticNewChild',
+        onRemoveSyntheticNewChild
       );
 
       this.container.addEventListener(
-        'infiniteTree:removeSyntheticNewArchivalObject',
-        () => {
-          this.#removeSyntheticNewArchivalObject();
+        InfiniteTree.EVENT_TYPE_SYNC_TREE_SELECTION,
+        e => {
+          const n = e.detail && e.detail.node;
+          if (!n || n.classList.contains('js-itree-synthetic-new')) return;
+
+          this.selectNode(n, { notifyPane: false });
+
+          this.recordPaneEl.dispatchEvent(
+            new CustomEvent(InfiniteTree.EVENT_TYPE_NODE_SELECT, {
+              detail: { node: n, suppressPaneReload: true },
+            })
+          );
         }
       );
     }
@@ -234,10 +256,13 @@
     /**
      * Sets the selected node, expanding it if collapsed, and notifies the record pane
      * @param {HTMLElement} node - The node to select corresponding to the record pane
+     * @param {{ notifyPane?: boolean }} [options] - When notifyPane is false, only updates tree chrome (used after pane already loaded the same record).
      */
-    selectNode(node) {
+    selectNode(node, options = {}) {
+      const notifyPane = options.notifyPane !== false;
+
       if (!node.classList.contains('js-itree-synthetic-new')) {
-        this.#removeSyntheticNewArchivalObject();
+        this.#removeSyntheticNewChild();
       }
 
       const old = this.container.querySelector('.selected');
@@ -249,7 +274,9 @@
       if (node.getAttribute('aria-expanded') === 'false')
         this.#expandNode(node);
 
-      this.#dispatchNodeSelectEvent(node);
+      if (notifyPane) {
+        this.#dispatchNodeSelectEvent(node);
+      }
     }
 
     /**
@@ -903,11 +930,26 @@
     }
 
     /**
-     * Inserts a placeholder li (parity with legacy largetree tr#new) for Add Child → new_inline.
-     * @param {HTMLElement} parentNode - Resource root li
+     * Tree level of a parent li (0 = root). Matches InfiniteTreeToolbar#getNodeLevel.
+     * @param {HTMLElement} parentNode
+     * @returns {number}
      */
-    async #showSyntheticNewArchivalObject(parentNode) {
-      this.#removeSyntheticNewArchivalObject();
+    #getParentTreeLevel(parentNode) {
+      if (!parentNode) return 0;
+
+      if (parentNode.classList.contains('root')) return 0;
+
+      const match = (parentNode.className || '').match(/indent-level-(\d+)/);
+
+      return match ? parseInt(match[1], 10) : 0;
+    }
+
+    /**
+     * Inserts a placeholder li (parity with legacy largetree tr#new) for Add Child → new_inline.
+     * @param {HTMLElement} parentNode - Root or child record li
+     */
+    async #showSyntheticNewChild(parentNode) {
+      this.#removeSyntheticNewChild();
 
       const tmpl = document.querySelector(
         '#infinite-tree-synthetic-new-node-template'
@@ -928,16 +970,26 @@
 
       if (titleEl) titleEl.textContent = titleText;
 
+      const parentLevel = this.#getParentTreeLevel(parentNode);
+      const childLevel = parentLevel + 1;
+
+      synthetic.className = (synthetic.className || '')
+        .replace(/\bindent-level-\d+\b/g, '')
+        .trim();
+      synthetic.classList.add(`indent-level-${childLevel}`);
+
       let list = parentNode.querySelector(':scope > ol.node-children');
       if (!list) {
         list = document.createElement('ol');
         list.className = 'node-children';
         list.setAttribute('role', 'group');
         list.setAttribute('data-parent-id', parentNode.id);
-        list.setAttribute('data-tree-level', '1');
+        list.setAttribute('data-tree-level', String(childLevel));
         list.setAttribute('data-total-child-batches', '0');
         parentNode.appendChild(list);
         parentNode.setAttribute('aria-expanded', 'true');
+      } else {
+        list.setAttribute('data-tree-level', String(childLevel));
       }
 
       list.appendChild(synthetic);
@@ -953,9 +1005,9 @@
     }
 
     /**
-     * Removes the Add Child placeholder row and an empty child list we created for a childless root.
+     * Removes the Add Child placeholder row and collapses an empty child list we injected.
      */
-    #removeSyntheticNewArchivalObject() {
+    #removeSyntheticNewChild() {
       if (!this._syntheticNewNode) return;
 
       const list = this._syntheticNewNode.parentElement;
@@ -974,7 +1026,6 @@
 
         if (
           parentLi &&
-          parentLi.classList.contains('root') &&
           !parentLi.querySelector('ol.node-children')
         ) {
           parentLi.setAttribute('aria-expanded', 'false');
