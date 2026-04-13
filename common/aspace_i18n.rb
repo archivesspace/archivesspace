@@ -22,7 +22,7 @@ I18n.load_path += Dir[File.join(ASUtils.find_base_directory, 'reports', '**', '*
 
 I18n.default_locale = AppConfig[:locale]
 I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
-I18n.fallbacks = I18n::Locale::Fallbacks.new(de: :en, es: :en, fr: :en, ja: :en, uk: :en)
+I18n.fallbacks = I18n::Locale::Fallbacks.new(de: :en, es: :en, fr: :en, ja: :en, uk: :en, nl: :en)
 module I18n
 
   LOCALES = {
@@ -31,7 +31,8 @@ module I18n
     'fr' => 'fre',
     'ja' => 'jpn',
     'de' => 'ger',
-    'uk' => 'ukr'
+    'uk' => 'ukr',
+    'nl' => 'dut'
   }.sort_by { |_, v| v }.to_h.freeze
 
   def self.supported_locales
