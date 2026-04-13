@@ -610,7 +610,7 @@ pl:
     id_3: Identyfikator 4
     id_0_tooltip: |
       <p>POLE WYMAGANE. Numer identyfikacyjny przypisany do każdego pojedynczego zasobu w repozytorium.</p>
-      <p>Patrz DACS 2.1.3</p>
+      <p>Patrz DACS 2.1, ISAD(g) 3.1.1. Zasady ISAD(g) stanowią, że w celu wymiany międzynarodowej konieczne jest podanie kodu kraju (zgodnie z normą ISO 3166), kodu repozytorium oraz określonego lokalnego kodu referencyjnego, numeru kontrolnego lub innego unikalnego identyfikatora; kody kraju i repozytorium można dodać tutaj lub w rekordzie repozytorium (w polach Kod kraju i Kod organizacji/agencji).</p>
       <p>Przykłady</p>
       <ul>
       <li>R.001 (Dwa elementy: „R” + „001”)</li>
@@ -682,10 +682,10 @@ pl:
       <p>Wyrażenie daty określające, kiedy bieżący przewodnik po zasobach został wygenerowany na podstawie opisu zasobu.</p>
     finding_aid_author: Autor przewodnika po zbiorach archiwalnych
     finding_aid_author_tooltip: |
-      <p>Imię/imiona i nazwisko/nazwiska osób odpowiedzialnych za stworzenie treści inwentarza lub jego zakodowanie.</p>
+      <p>Imię/imiona i nazwisko/nazwiska osób odpowiedzialnych za stworzenie treści inwentarza lub jego zakodowanie. Patrz DACS 8.1.5, ISAD(g) 3.7.1</p>
     finding_aid_description_rules: Opis zasad
     finding_aid_description_rules_tooltip: |
-      <p>Wskazuje zasady opisowe stosowane do opisu zasobu.</p>
+      <p>Wskazuje zasady opisowe stosowane do opisu zasobu. Patrz DACS 8.1.4, ISAD(g) 3.7.2</p>
       <p>Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
     finding_aid_language: Język opisu
     finding_aid_language_tooltip: |
@@ -733,7 +733,7 @@ pl:
     _plural: Oświadczenia dotyczące poprawek
     date: Data ostatniej aktualizacji
     date_tooltip: |
-      <p>Określa datę ostatniej aktualizacji inwentarza archiwalnego.</p>
+      <p>Określa datę ostatniej aktualizacji inwentarza archiwalnego. Patrz DACS 8.1.5, ISAD(g) 3.7.3</p>
     description: Opis poprawki
     description_tooltip: |
       <p>Opis ostatnich zmian wprowadzonych do przewodnika po zbiorach.</p>
@@ -1108,7 +1108,7 @@ pl:
       </ul>
     source: Źródło
     source_tooltip: |
-      <p>POLE WYMAGANE WARUNKOWO, jeśli nie są stosowane zasady dotyczące nazw. Wskaźnik autorytatywnego źródła, z którego pochodzi nazwa. Patrz DACS 13.1, ISAAR (CPF) 5.4.2.</p>
+      <p>POLE WYMAGANE WARUNKOWO, jeśli nie są stosowane zasady dotyczące nazw. Wskaźnik autorytatywnego źródła, z którego pochodzi nazwa.</p>
       <p>Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
     rules: Zasady
     rules_tooltip: |
@@ -1504,9 +1504,9 @@ pl:
     identifier_type_tooltip: |
       <p>Wskazuje typ lub format identyfikatora rekordu autorytatywnego. Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
     source_tooltip: |
-      <p>Wskazuje źródłowy plik autorytatywny powiązanego identyfikatora. Patrz DACS 13.1, ISAAR (CPF) 5.4.2. Przykład: NAF (dla nr2003017069). Wartości na tej liście kontrolowanych wartości mogą być modyfikowane.</p>
+      <p>Wskazuje źródłowy plik autorytatywny powiązanego identyfikatora. Przykład: NAF (dla nr2003017069). Wartości na tej liście kontrolowanych wartości mogą być modyfikowane.</p>
     record_identifier_tooltip: |
-      <p>Identyfikator rekordu agenta, zazwyczaj składający się z unikalnego ciągu znaków alfanumerycznych. Identyfikator może pochodzić z zewnętrznego pliku autorytatywnego lub być generowany lokalnie. Patrz DACS 13.2, ISAAR (CPF) 5.4.1</p>
+      <p>Identyfikator rekordu agenta, zazwyczaj składający się z unikalnego ciągu znaków alfanumerycznych. Identyfikator może pochodzić z zewnętrznego pliku autorytatywnego lub być generowany lokalnie.</p>
   agent_record_control:
     maintenance_status_tooltip: |
       <p>Wskazuje aktualny stan rekordu. Patrz DACS 13.4, ISAAR (CPF) 5.4.4</p>
@@ -1574,7 +1574,7 @@ pl:
     linked_resource_description_tooltip: |
       <p>Pole tekstowe do wprowadzania informacji bibliograficznych, informacji dotyczących powiązanych zbiorów itp.</p>
     file_uri_tooltip: |
-      <p>Adres URI wskazujący lokalizację źródła internetowego wykorzystanego do przygotowania opisu agenta. Przykład: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (wpis w serwisie Find-A-Grave dotyczący Roberta W. Service'a).</p>
+      <p>Identyfikator URI określający lokalizację online zasobu powiązanego z agentem/jednostką. Patrz DACS 14.1, ISAAR (CPF) 6.1</p>
     file_version_xlink_actuate_attribute_tooltip: |
       <p>Wskazuje, czy powiązany identyfikator URI powinien zostać przetworzony podczas wyświetlania rekordu agenta.</p>
     file_version_xlink_show_attribute_tooltip: |

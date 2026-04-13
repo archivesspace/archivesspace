@@ -456,7 +456,7 @@ fr:
       </ul>
     source: Source
     source_tooltip: |
-      <p>CHAMP OBLIGATOIRE CONDITIONNEL, si Règles n'est pas utilisé. Un indicateur de la source autorisée d'où le nom a été tiré. Voir DACS 13.1, ISAAR (CPF) 5.4.2.</p>
+      <p>CHAMP OBLIGATOIRE CONDITIONNEL, si Règles n'est pas utilisé. Un indicateur de la source autorisée d'où le nom a été tiré.</p>
       <p>Les valeurs dans cette liste contrôlée peuvent être modifiée.</p>
     rules: Règles
     rules_tooltip: |
@@ -752,10 +752,10 @@ fr:
     dates: Dates
     ref: Agent associé
 
-    relationship_type_tooltip: <p>Terme contrôlé décrivant, en termes généraux, la nature de la relation
-      entre l'agent principal et l'agent associé. Voir DACS 12.3.1, ISAAR (CPF) 5.3.2</p>
+    relationship_type_tooltip: Terme contrôlé décrivant, en termes généraux, la nature de la relation
+      entre l'agent principal et l'agent associé. Voir DACS 12.3.1, ISAAR (CPF) 5.3.2
     description_tooltip: Une description en texte libre de la nature de la relation. Voir DACS 12.3.2, ISAAR (CPF) 5.3.3
-    related_agent_tooltip: <p>La personne, la famille ou la personne morale liée à l'agent principal. Voir DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
+    related_agent_tooltip: La personne, la famille ou la personne morale liée à l'agent principal. Voir DACS 12.1-12.2, ISAAR (CPF) 5.3.1
     specific_relator_tooltip: Terme contrôlé décrivant plus spécifiquement la nature de la relation entre
       l'agent principal et l'agent associé. Voir DACS 12.3.2, ISAAR (CPF) 5.3.3
     relationship_uri_tooltip: Un URI qui pointe vers une entrée dans une ontologie ou une autre ressource
@@ -1677,7 +1677,7 @@ fr:
     id_3: Identifiant 4
     id_0_tooltip: |
       <p>CHAMP OBLIGATOIRE. Le numéro d'identification assigné à chaque ressource distincte au sein d'un service d'archives.</p>
-      <p>Voir DACS 2.1.3</p>
+      <p>Voir DACS 2.1, ISAD(g) 3.1.1. Les règles ISAD(g) stipulent qu'un code pays (conformément à la norme ISO 3166), un code de dépôt et un code de référence local spécifique, un numéro de contrôle ou un autre identifiant unique doivent être présents pour les échanges internationaux ; les codes pays et dépôt peuvent être ajoutés ici ou dans l'enregistrement du dépôt (dans les champs Code pays et Code organisation/agence).</p>
       <p>Exemples</p>
       <ul>
       <li>R.001 (deux éléments: "R" + "001")</li>
@@ -1749,10 +1749,10 @@ fr:
       <p>Expression indiquant la date à laquelle l'instrument de recherche a été élaboré à partir de la description de ressource.</p>
     finding_aid_author: Auteur de l'aide
     finding_aid_author_tooltip: |
-      <p>Nom(s) des agents responsables de la création du contenu de l'aide ou de son encodage.</p>
+      <p>Nom(s) des agents responsables de la création du contenu de l'aide ou de son encodage. Voir DACS 8.1.5, ISAD(g) 3.7.1</p>
     finding_aid_description_rules: Règles de description
     finding_aid_description_rules_tooltip: |
-      <p>Indique les règles utilisées pour guider la description de la ressource.</p>
+      <p>Indique les règles utilisées pour guider la description de la ressource. Voir DACS 8.1.4, ISAD(g) 3.7.2</p>
       <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
     finding_aid_language: Langue de description
     finding_aid_language_tooltip: |
@@ -1799,7 +1799,7 @@ fr:
     _plural: Mentions de révision
     date: Date de révision
     date_tooltip: |
-      <p>Indique la date à laquelle l'aide a été révisée pour la dernière fois.</p>
+      <p>Indique la date à laquelle l'aide a été révisée pour la dernière fois. Voir DACS 8.1.5, ISAD(g) 3.7.3</p>
     description: Description de la révision
     description_tooltip: |
       <p>Une description de la dernière révision de l'instrument de recherche.</p>
@@ -2890,11 +2890,11 @@ fr:
   agent_record_identifiers:
     identifier_type_tooltip: "<p>Indique le type ou le format de l'identifiant de la notice d'autorité.
       Les valeurs de cette liste de valeurs contrôlées peuvent être modifiées.</p>"
-    source_tooltip: "<p>Indique le fichier d'autorité d'origine d'un identifiant associé. Voir DACS 13.1, ISAAR (CPF) 5.4.2. Exemple: NAF
+    source_tooltip: "<p>Indique le fichier d'autorité d'origine d'un identifiant associé. Exemple: NAF
       (pour nr2003017069). Les valeurs de cette liste de valeurs contrôlées peuvent être modifiées.</p>"
     record_identifier_tooltip: "<p>Identificateur de l'enregistrement Agent, généralement constitué d'une
       chaîne alphanumérique unique. L'identifiant peut provenir d'un fichier d'autorité externe ou être
-      généré localement. Voir DACS 13.2, ISAAR (CPF) 5.4.1</p>"
+      généré localement.</p>"
     is_primary: Primaire
 
   agent_record_control:
@@ -3036,9 +3036,7 @@ fr:
     linked_resource_tooltip: "<p>Une ressource liée à l'agent / l'entité. Voir DACS 14.1, ISAAR (CPF) 6.1</p>"
     linked_resource_description_tooltip: "<p>Champ de texte libre pour enregistrer des informations bibliographiques,
       des informations de collection associées, etc.</p>"
-    file_uri_tooltip: "<p>Un URI pour l'emplacement en ligne de la source utilisée dans la préparation
-      de la description de l'agent. Exemple: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373
-      (pour l'entrée Find-A-Grave pour Robert W. Service).</p>"
+    file_uri_tooltip: "<p>Un URI désignant l'emplacement en ligne de la ressource liée à l'agent/entité. Voir DACS 14.1, ISAAR (CPF) 6.1</p>"
     file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit être résolu lors du
       rendu de l'enregistrement de l'agent.</p>"
     file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante liée dans l'URI associé

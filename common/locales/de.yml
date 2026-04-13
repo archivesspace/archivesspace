@@ -843,7 +843,7 @@ de:
     authority_id: Autoritäts-ID
     source: Quelle
     source_tooltip: "<p>BEDINGT ERFORDERLICHES FELD, wenn keine Namensregeln verwendet werden. Ein Indikator
-      für die maßgebliche Quelle, aus welcher der Name entnommen wurde. Siehe DACS 13.1, ISAAR (CPF) 5.4.2. </p>\n<p>Werte in dieser Aufzählungs-Liste
+      für die maßgebliche Quelle, aus welcher der Name entnommen wurde. </p>\n<p>Werte in dieser Aufzählungs-Liste
       können geändert werden.</p>\n"
     rules: Regeln
     rules_tooltip: "<p>BEDINGT ERFORDERLICHES FELD, wenn Namensquelle nicht verwendet wird. Eine Angabe
@@ -989,8 +989,8 @@ de:
     is_primary: Primär
     record_identifier_tooltip: "<p>Die Signatur für die Akteur-Aufzeichnung, die normalerweise aus einer
       eindeutigen alphanumerischen Zeichenfolge besteht. Die Signatur kann aus einer externen Autoritäts-Datei
-      stammen oder lokal erzeugt werden. Siehe DACS 13.2, ISAAR (CPF) 5.4.1</p>\n"
-    source_tooltip: "<p>Gibt die Autoritäts-Datei einer zugehörigen Signatur an. Siehe DACS 13.1, ISAAR (CPF) 5.4.2. Beispiel: NAF (für nr2003017069).
+      stammen oder lokal erzeugt werden.</p>\n"
+    source_tooltip: "<p>Gibt die Autoritäts-Datei einer zugehörigen Signatur an. Beispiel: NAF (für nr2003017069).
       Die Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n"
   agent_record_control:
     maintenance_status_tooltip: "<p>Zeigt den aktuellen Status der Aufzeichnung an. Siehe DACS 13.4, ISAAR (CPF) 5.4.4</p>\n"
@@ -1129,9 +1129,7 @@ de:
       URI verknüpften Ressource.</p>\n"
     linked_agent_role_tooltip: "<p> ERFORDERLICHES FELD: Die Art der Beziehung der beschriebenen Entität
       zur Ressource.</p>\n"
-    file_uri_tooltip: "<p>Eine URI für den Speicherort der Quelle, die bei der Erstellung der Akteur-Aufzeichnung
-      verwendet wurde. Beispiel: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (für Find-A-Grave-Eintrag
-      für Robert W. Service).</p>\n"
+    file_uri_tooltip: "<p>Ein URI für den Online-Speicherort der Ressource, die mit dem Agenten/der Entität verknüpft ist. Siehe DACS 14.1, ISAAR (CPF) 6.1</p>\n"
     linked_resource_description_tooltip: "<p>Freies Textfeld zur Aufnahme bibliografischer Informationen,
       Informationen über die zugehörige Sammlung usw.</p>\n"
   subrecord_subject_agent_occupation:
@@ -1249,12 +1247,12 @@ de:
     ref: Verwandter Akteur
     _plural: Verwandte Akteure
     relationship_type: Allgemeine Beziehungsart
-    relationship_type_tooltip: <p>Ein kontrollierter Begriff, der grob gesagt die Art der Beziehung 
-      zwischen dem Hauptakteur und dem verbundenen Akteur beschreibt. Siehe DACS 12.3.1, ISAAR (CPF) 5.3.2</p>
+    relationship_type_tooltip: Ein kontrollierter Begriff, der grob gesagt die Art der Beziehung 
+      zwischen dem Hauptakteur und dem verbundenen Akteur beschreibt. Siehe DACS 12.3.1, ISAAR (CPF) 5.3.2
     description: Beschreibung
     _singular: Verwandter Akteur
-    related_agent_tooltip: <p>Die Person, Familie oder Körperschaft, die mit dem Hauptakteur verwandt 
-      ist. Siehe DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
+    related_agent_tooltip: Die Person, Familie oder Körperschaft, die mit dem Hauptakteur verwandt 
+      ist. Siehe DACS 12.1-12.2, ISAAR (CPF) 5.3.1
   related_agents:
     <<: *related_agent_attributes
   agent_relationship_earlierlater:
@@ -1824,10 +1822,10 @@ de:
       aus der Ressourcenbeschreibung erstellt wurde.</p>\n"
     finding_aid_author: Autor des Findmittels
     finding_aid_author_tooltip: "<p>Die Namen der Akteure, die für die Erstellung des Inhalts des Findmittels
-      oder seiner Kodierung verantwortlich sind.</p>\n"
+      oder seiner Kodierung verantwortlich sind. Siehe DACS 8.1.5, ISAD(g) 3.7.1</p>\n"
     finding_aid_description_rules: Beschreibungs-Regeln
     finding_aid_description_rules_tooltip: "<p>Gibt die beschreibenden Regeln an, die zur Beschreibung
-      der Ressource verwendet werden.</p>\n<p>Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n"
+      der Ressource verwendet werden. Siehe DACS 8.1.4, ISAD(g) 3.7.2</p>\n<p>Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n"
     finding_aid_language: Sprache der Beschreibung
     finding_aid_language_tooltip: "<p>Gibt alle Sprachen an, die in dem aus der Ressourcenbeschreibung
       erzeugten Findmittel vorhanden sind.</p>\n"
@@ -1857,7 +1855,7 @@ de:
     _plural: Ressourcen
     new_title: Neue Ressource
     id_0_tooltip: "<p>ERFORDERLICHES FELD. Die Identifikationsnummer, die jeder einzelnen Ressource innerhalb
-      eines Aufbewahrungsorts zugewiesen wird.</p>\n<p>Siehe DACS 2.1.3, ISAD(G) 3.1.1</p>\n<p>Beispiele</p>\n\
+      eines Aufbewahrungsorts zugewiesen wird.</p>\n<p>Siehe DACS 2.1.3, ISAD(G) 3.1.1. Die ISAD(g) regeln schreiben vor, dass für den internationalen Austausch ein Ländercode (nach ISO 3166), ein Repositoriumcode sowie ein spezifischer lokaler Referenzcode, eine Kontrollnummer oder eine andere eindeutige Kennung vorhanden sein müssen; Ländercodes und Repositoriumcodes können hier oder im Repositoriumdatensatz (in den Feldern „Ländercode“ und „Code der Organisation/Behörde“) hinzugefügt werden.</p>\n<p>Beispiele</p>\n\
       \ <ul>\n<li>R.001 (Zwei Elemente \"R\" + \"001\")</li>\n<li>MSS 025 (Ein einzelnes Element)</li>\n\
       \ <li>Archiv.RSS.0333 (Drei Elemente \"Archiv\" + \"RSS\" + \"0333\")</li>\n</ul>\n"
     resource_type_tooltip: "<p>Eine Liste von Begriffen, die von einem Aufbewahrungsort zur Kategorisierung
@@ -1896,7 +1894,7 @@ de:
     _singular: Überarbeitungs-Erklärung
     _plural: Überarbeitungs-Erklärungen
     date: Datum der Überarbeitung
-    date_tooltip: "<p>Gibt das Datum der letzten Überarbeitung des Findmittels an.</p>\n"
+    date_tooltip: "<p>Gibt das Datum der letzten Überarbeitung des Findmittels an. Siehe DACS 8.1.5, ISAD(g) 3.7.3</p>\n"
     description_tooltip: "<p>Eine Beschreibung der letzten Überarbeitung(en), die am Findmittel vorgenommen
       wurde(n).</p>\n"
     publish_tooltip: "<p>Gibt an, ob diese Überarbeitungs-Erklärung auf öffentlichen Besucher-Schnittstellen

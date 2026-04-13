@@ -433,7 +433,7 @@ es:
       </ul>
     source: Fuente
     source_tooltip: |
-      <p>CONDITIONALLY requiere campo, si no se utiliza el nombre de reglas. Un indicador de la fuente de donde se extrajo el nombre. Ver DACS 13.1, ISAAR (CPF) 5.4.2.</p>
+      <p>CONDITIONALLY requiere campo, si no se utiliza el nombre de reglas. Un indicador de la fuente de donde se extrajo el nombre.</p>
       <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
     rules: Reglas
     rules_tooltip: |
@@ -730,15 +730,15 @@ es:
     dates: fechas
     ref: Agente relacionado
 
-    relationship_type_tooltip: <p>Término controlado que describe, en términos generales, la naturaleza
-      de la relación entre el agente primario y el agente relacionado. Ver DACS 12.3.1, ISAAR (CPF) 5.3.2</p>
+    relationship_type_tooltip: Término controlado que describe, en términos generales, la naturaleza
+      de la relación entre el agente primario y el agente relacionado. Ver DACS 12.3.1, ISAAR (CPF) 5.3.2
     specific_relator_tooltip: Término controlado que describe más específicamente la naturaleza de 
       la relación entre el agente primario y el agente relacionado. Ver DACS 12.3.2, ISAAR (CPF) 5.3.3
     relationship_uri_tooltip: Un URI que apunta a una entrada en una ontología u otro recurso para 
       tipos de relaciones entre agentes. Se utiliza principalmente para los fines de EAC-CPF.
     description_tooltip: Una descripción de texto libre de la naturaleza de la relación. Ver DACS 12.3.2, ISAAR (CPF) 5.3.3
-    related_agent_tooltip: <p>La persona, familia o entidad corporativa relacionada con el agente 
-      principal. Ver DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
+    related_agent_tooltip: La persona, familia o entidad corporativa relacionada con el agente 
+      principal. Ver DACS 12.1-12.2, ISAAR (CPF) 5.3.1
   agent_relationship_parentchild:
     <<: *related_agent_attributes
     _singular: Relación padre/hijo
@@ -1618,7 +1618,7 @@ es:
     id_3: Identificador 4
     id_0_tooltip: |
       <p>CAMPO REQUERIDO. El número de identificación asignado a cada Recurso discreto dentro de un Repositorio.</p>
-      <p>Ver DACS 2.1.3</p>
+      <p>Ver DACS 2.1, ISAD(g) 3.1.1. Las normas ISAD(g) establecen que, para el intercambio internacional, deben figurar un código de país (conforme a la norma ISO 3166), un código de repositorio y un código de referencia local específico, un número de control u otro identificador único; los códigos de país y de repositorio pueden añadirse aquí o en el registro del repositorio (en los campos «Código de país» y «Código de organización/agencia»).</p>
       <p>Ejemplos</p>
       <ul>
       <li>R.001 (Dos elementos "R" + "001")</li>
@@ -1630,7 +1630,7 @@ es:
     identifier: Identificador
     title_tooltip: |
       <p>CAMPO OBLIGATORIO. El título asignado al fondo.</p>
-      <p>Ver DACS 2.3, ISAD(G) 3.1.2</p>
+      <p>Ver DACS 2.3, ISAD(g) 3.1.2</p>
       <p>Ejemplos</p>
       <ul>
       <li>Papeles Graciany Miranda Archilla</li>
@@ -1690,10 +1690,10 @@ es:
       <p>La expresión de la fecha para cuando se generó la actual ayuda de hallazgo de la descripción del recurso.</p>
     finding_aid_author: Autor del instrumento de descripción
     finding_aid_author_tooltip: |
-      <p>Los nombres (s) de los autoridades responsables de crear el contenido de la ayuda de encontrar o su codificación.</p>
+      <p>Los nombres (s) de los autoridades responsables de crear el contenido de la ayuda de encontrar o su codificación. Ver DACS 8.1.5, ISAD(g) 3.7.1</p>
     finding_aid_description_rules: Reglas de Descripción
     finding_aid_description_rules_tooltip: |
-      <p>Indica las reglas descriptivas usadas para guiar la descripción del recurso.</p>
+      <p>Indica las reglas descriptivas usadas para guiar la descripción del recurso. Ver DACS 8.1.4, ISAD(g) 3.7.2</p>
       <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
     finding_aid_language: Lengua del instrumento de descripción
     finding_aid_language_tooltip: |
@@ -1736,7 +1736,7 @@ es:
     _plural: Revision Statements
     date: Revision Date
     date_tooltip: |
-      <p>Specifies the date the instrumento de descripción was last revised.</p>
+      <p>Especifica la fecha de la última revisión de la descripción. Ver DACS 8.1.5, ISAD(g) 3.7.3</p>
     description: Revision Description
     description_tooltip: |
       <p>A description of the last revision(s) done to the instrumento de descripción.</p>
@@ -2825,11 +2825,11 @@ es:
   agent_record_identifiers:
     identifier_type_tooltip: "<p>Indica el tipo o formato del identificador de registro de autoridad.
       Los valores de esta Lista de valores controlados pueden modificarse.</p>"
-    source_tooltip: "<p>Indica el archivo de autoridad de origen de un identificador asociado. Ver DACS 13.1, ISAAR (CPF) 5.4.2. Ejemplo:
+    source_tooltip: "<p>Indica el archivo de autoridad de origen de un identificador asociado. Ejemplo:
       NAF (para nr2003017069). Los valores de esta Lista de valores controlados pueden modificarse.</p>"
     record_identifier_tooltip: "<p>El identificador del registro del Agente, que generalmente consta de
       una cadena alfanumérica única. El identificador puede originarse en un archivo de autoridad externa
-      o generarse localmente. Ver DACS 13.2, ISAAR (CPF) 5.4.1</p>"
+      o generarse localmente.</p>"
     is_primary: Primario
 
   agent_record_control:
@@ -2970,9 +2970,7 @@ es:
     linked_resource_tooltip: "<p>Un recurso relacionado con el agente / entidad. Ver DACS 14.1, ISAAR (CPF) 6.1</p>"
     linked_resource_description_tooltip: "<p>Campo de texto libre para registrar información bibliográfica,
       información de colección relacionada, etc.</p>"
-    file_uri_tooltip: "<p>Un URI para la ubicación en línea de la fuente utilizada en la preparación de
-      la descripción del agente. Ejemplo: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (para
-      la entrada de Find-A-Grave para Robert W. Service).</p>"
+    file_uri_tooltip: "<p>Un URI para la ubicación en línea del recurso relacionado con el agente/entidad. Ver DACS 14.1, ISAAR (CPF) 6.1.</p>"
     file_version_xlink_actuate_attribute_tooltip: "<p>Indica si el URI asociado debe resolverse cuando
       se procesa el registro del agente.</p>"
     file_version_xlink_show_attribute_tooltip: "<p>Indica dónde se debe representar el recurso remoto

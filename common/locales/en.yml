@@ -1012,7 +1012,7 @@ en:
     date: Date
     dates: Dates
     ref: Related Agent
-    related_agent_tooltip: <p>The person, family, or corporate entity related to the primary agent. See DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
+    related_agent_tooltip: "The person, family, or corporate entity related to the primary agent. See DACS 12.1-12.2, ISAAR (CPF) 5.3.1"
     _singular: Related Agent
     _plural: Related Agents
 
