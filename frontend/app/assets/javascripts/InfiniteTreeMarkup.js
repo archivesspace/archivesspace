@@ -236,6 +236,17 @@
       nodeElement.classList.add(`indent-level-${level}`);
       nodeElement.setAttribute('data-uri', data.uri);
 
+      if (typeof data.position !== 'undefined' && data.position !== null) {
+        nodeElement.setAttribute('data-tree-position', String(data.position));
+      }
+
+      if (typeof data.parent_id !== 'undefined' && data.parent_id !== null) {
+        nodeElement.setAttribute(
+          'data-tree-parent-record-id',
+          String(data.parent_id)
+        );
+      }
+
       if (data.child_count > 0) {
         const totalBatches = Math.ceil(data.child_count / this.BATCH_SIZE);
         nodeElement.setAttribute('data-total-child-batches', totalBatches);
