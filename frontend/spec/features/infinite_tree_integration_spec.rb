@@ -211,6 +211,43 @@ describe 'Infinite Tree Integration', js: true do
       end
     end
 
+    context 'Add Sibling from toolbar (archival object)' do
+      it 'loads new sibling form with correct scoping, synthetic row at anchor depth, and Cancel returns to anchor edit' do
+        visit "#{edit_path}#{ao_hash}"
+        wait_for_ajax
+
+        find('.js-itree-toolbar-add-sibling').click
+        wait_for_ajax
+
+        aggregate_failures do
+          within('#infinite-tree-container') do
+            expect(page).to have_css('li#archival_object_new.js-itree-synthetic-new.selected.indent-level-1')
+            expect(page).to have_css("#infinite-tree-container li#archival_object_#{ao.id} + li#archival_object_new")
+          end
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('#archival_object_form')
+            expect(page).to have_button('Save Archival Object', match: :first)
+          end
+          expect(page.current_url).to match(%r{#{Regexp.escape(ao_hash)}})
+        end
+
+        within('#infinite-tree-record-pane') { find('.btn-cancel').click }
+        wait_for_ajax
+
+        aggregate_failures do
+          within('#infinite-tree-record-pane') do
+            expect(page).to have_css('#form_archival_object')
+            expect(page).to have_css('h2', text: ao.title)
+          end
+          expect(page.current_url).to match(%r{#{Regexp.escape(ao_hash)}})
+          expect(page).to have_css(
+            "#infinite-tree-container li#archival_object_#{ao.id}.selected",
+            visible: :all
+          )
+        end
+      end
+    end
+
     context 'Add Child from toolbar (resource)' do
       it 'loads new archival object form and Cancel returns to resource edit' do
         visit "#{edit_path}#{root_hash}"

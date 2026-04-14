@@ -174,6 +174,18 @@
         onRemoveSyntheticNewChild
       );
 
+      const onShowSyntheticNewSibling = async e => {
+        const anchorNode = e.detail && e.detail.anchorNode;
+        if (!anchorNode) return;
+
+        await this.#showSyntheticNewSibling(anchorNode);
+      };
+
+      this.container.addEventListener(
+        'infiniteTree:showSyntheticNewSibling',
+        onShowSyntheticNewSibling
+      );
+
       this.container.addEventListener(
         InfiniteTree.EVENT_TYPE_SYNC_TREE_SELECTION,
         e => {
@@ -993,6 +1005,47 @@
       }
 
       list.appendChild(synthetic);
+
+      const prev = this.container.querySelector('.node.selected');
+      if (prev) prev.classList.remove('selected');
+
+      synthetic.classList.add('selected');
+
+      this._syntheticNewNode = synthetic;
+
+      if (titleEl) titleEl.focus();
+    }
+
+    /**
+     * Inserts a placeholder li after the anchor (Add Sibling → new_inline), same depth as anchor.
+     * @param {HTMLElement} anchorNode - Selected archival object li
+     */
+    async #showSyntheticNewSibling(anchorNode) {
+      this.#removeSyntheticNewChild();
+
+      const tmpl = document.querySelector(
+        '#infinite-tree-synthetic-new-node-template'
+      );
+      if (!tmpl) return;
+
+      const component = document.querySelector('#infinite-tree-component');
+      const titleText =
+        (component && component.dataset.newChildPlaceholderTitle) || '';
+
+      const frag = tmpl.content.cloneNode(true);
+      const synthetic = frag.querySelector('li');
+      const titleEl = frag.querySelector('.record-title');
+
+      if (titleEl) titleEl.textContent = titleText;
+
+      const level = this.#getParentTreeLevel(anchorNode);
+
+      synthetic.className = (synthetic.className || '')
+        .replace(/\bindent-level-\d+\b/g, '')
+        .trim();
+      synthetic.classList.add(`indent-level-${level}`);
+
+      anchorNode.insertAdjacentElement('afterend', synthetic);
 
       const prev = this.container.querySelector('.node.selected');
       if (prev) prev.classList.remove('selected');

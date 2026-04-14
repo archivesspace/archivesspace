@@ -11,8 +11,8 @@
           .isReadOnly === 'true';
       this.form = null;
       this.isDirty = false;
-      /** @type {HTMLElement|null} Parent tree node when the pane shows archival_objects new_inline (for Cancel). */
-      this._inlineCreateParentNode = null;
+      /** @type {HTMLElement|null} Anchor tree node when the pane shows archival_objects new_inline (Cancel restores this record). */
+      this._inlineCreateAnchorNode = null;
 
       // Respond to tree selection (skip when InfiniteTree already loaded this record and only syncs chrome)
       this.container.addEventListener('infiniteTree:nodeSelect', e => {
@@ -38,6 +38,11 @@
           'infiniteTreeToolbar:addChildRequested',
           e => this.#onAddChildRequested(e)
         );
+
+        this.treeContainerEl.addEventListener(
+          'infiniteTreeToolbar:addSiblingRequested',
+          e => this.#onAddSiblingRequested(e)
+        );
       }
 
       // Cancel on new_inline uses link_to :back; intercept for inline tree UX
@@ -62,6 +67,27 @@
       if (!node) return;
 
       this.#loadNewChildRecord(node);
+    }
+
+    /**
+     * @param {Event} e
+     */
+    #onAddSiblingRequested(e) {
+      if (this.isReadOnly) return;
+
+      const node =
+        (e.detail && e.detail.node) ||
+        (this.treeContainerEl &&
+          this.treeContainerEl.querySelector('li.node.selected'));
+
+      if (!node) return;
+
+      const uri = node.getAttribute('data-uri');
+      const parts = InfiniteTreeIds.uriToParts(uri);
+
+      if (!parts || parts.type !== 'archival_object') return;
+
+      this.#loadNewSiblingRecord(node);
     }
 
     /**
@@ -98,6 +124,43 @@
     }
 
     /**
+     * Query string for GET new sibling form (legacy AjaxTree sibling branch).
+     * @param {string} rootUri
+     * @param {HTMLElement} anchorNode - Selected archival object li
+     * @returns {URLSearchParams|null}
+     */
+    #buildNewSiblingQuery(rootUri, anchorNode) {
+      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      if (!rootMeta || !anchorNode) return null;
+
+      const { type: rootType, id: rootId, childType } = rootMeta;
+
+      if (rootType !== 'resource' || childType !== 'archival_object') {
+        return null;
+      }
+
+      const posStr = anchorNode.getAttribute('data-tree-position');
+      if (posStr === null || posStr === '') return null;
+
+      const pos = Number(posStr);
+      if (Number.isNaN(pos)) return null;
+
+      const qs = new URLSearchParams({ inline: 'true' });
+
+      qs.set('resource_id', String(rootId));
+      qs.set('position', String(pos + 1));
+
+      const parentRecordId = anchorNode.getAttribute(
+        'data-tree-parent-record-id'
+      );
+      if (parentRecordId) {
+        qs.set('archival_object_id', parentRecordId);
+      }
+
+      return qs;
+    }
+
+    /**
      * @param {string} childType - from InfiniteTreeIds.rootUriToParts(...).childType
      * @returns {string|null} path segment under app prefix, e.g. archival_objects/new
      */
@@ -128,6 +191,17 @@
       );
     }
 
+    #dispatchShowSyntheticNewSibling(anchorNode) {
+      if (!this.treeContainerEl) return;
+
+      this.treeContainerEl.dispatchEvent(
+        new CustomEvent('infiniteTree:showSyntheticNewSibling', {
+          bubbles: true,
+          detail: { anchorNode },
+        })
+      );
+    }
+
     /**
      * Load new child record form for the selected tree node (root or child record).
      * @param {HTMLElement} parentNode
@@ -144,7 +218,7 @@
 
       if (!qs || !path) return;
 
-      this._inlineCreateParentNode = parentNode;
+      this._inlineCreateAnchorNode = parentNode;
 
       this.#dispatchShowSyntheticNewChild(parentNode);
 
@@ -158,7 +232,51 @@
         this.#renderNewForm(html);
         this.#setDirty(true);
       } catch (error) {
-        this._inlineCreateParentNode = null;
+        this._inlineCreateAnchorNode = null;
+
+        this.#dispatchRemoveSyntheticNewChild();
+
+        if (error.status === 404) {
+          this.#showRecordNotFound();
+        } else {
+          this.container.appendChild(this.#loadErrorMessageFragment(error));
+
+          this.#setDirty(false);
+        }
+      } finally {
+        this.#unblockUI();
+      }
+    }
+
+    /**
+     * Load new sibling archival object form (same parent as anchor; position after anchor).
+     * @param {HTMLElement} anchorNode
+     */
+    async #loadNewSiblingRecord(anchorNode) {
+      const component = document.querySelector('#infinite-tree-component');
+      const rootUri = component && component.dataset.rootUri;
+
+      const qs = this.#buildNewSiblingQuery(rootUri, anchorNode);
+      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      const path = rootMeta && this.#newChildFormPath(rootMeta.childType);
+
+      if (!qs || !path) return;
+
+      this._inlineCreateAnchorNode = anchorNode;
+
+      this.#dispatchShowSyntheticNewSibling(anchorNode);
+
+      const url = `${AS.app_prefix(path)}?${qs.toString()}`;
+
+      this.#blockUI();
+
+      try {
+        const html = await this.#fetchRecordHtml(url);
+
+        this.#renderNewForm(html);
+        this.#setDirty(true);
+      } catch (error) {
+        this._inlineCreateAnchorNode = null;
 
         this.#dispatchRemoveSyntheticNewChild();
 
@@ -183,7 +301,7 @@
 
       if (
         !this.#isArchivalObjectCreateForm(this.form) ||
-        !this._inlineCreateParentNode
+        !this._inlineCreateAnchorNode
       ) {
         return;
       }
@@ -191,10 +309,10 @@
       e.preventDefault();
       e.stopPropagation();
 
-      const parent = this._inlineCreateParentNode;
-      this._inlineCreateParentNode = null;
+      const anchor = this._inlineCreateAnchorNode;
+      this._inlineCreateAnchorNode = null;
 
-      void this.#restoreTreeSelectionAfterCancelNewChild(parent);
+      void this.#restoreTreeSelectionAfterCancelNewChild(anchor);
     }
 
     /**
@@ -227,7 +345,7 @@
      * @param {HTMLElement} node - The tree node corresponding to the record to load
      */
     async loadRecord(node) {
-      this._inlineCreateParentNode = null;
+      this._inlineCreateAnchorNode = null;
 
       if (this.treeContainerEl) {
         this.#dispatchRemoveSyntheticNewChild();
@@ -383,7 +501,7 @@
         const hasError = this.container.querySelector('.error') !== null;
 
         if (response.ok && !hasError) {
-          this._inlineCreateParentNode = null;
+          this._inlineCreateAnchorNode = null;
 
           this.#setDirty(false);
 
