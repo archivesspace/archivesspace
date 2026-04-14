@@ -989,8 +989,8 @@ es:
       <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
       <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
     container_summary: Resumen
-    container_summary_tooltip: |
-      <p>Descripción de la extensión del fondo (contenedor).</p>
+    container_summary_tooltip:
+      <p>Descripción de la extensión del fondo (contenedor). Ver DACS 2.5, ISAD(G) 3.1.5</p>
       <p>Ejemplos</p>
       <ul>
       <li>10 metros lineales, 6 Gigabytes de correos electrónicos.</li>
@@ -1762,7 +1762,7 @@ es:
     name: Nombre del repositorio
     name_tooltip: |
       <p>CAMPO OBLIGATORIO. El nombre del repositorio que tiene responsabilidad administrativa y la custodia de los materiales descritos en la entrada, recursos y módulos objeto digital de la aplicación.</p>
-      <p>Ver DACS 2.2</p>
+      <p>Ver DACS 2.2, ISDIAH 5.1.2</p>
       <p>Ejemplos</p>
       <ul>
       <li>Tu nombre aquí biblioteca colecciones especiales</li>
@@ -1771,7 +1771,7 @@ es:
       </ul>
     org_code: Organización / Código de agencia
     org_code_tooltip: |
-      <p>Un código compatible con ISO/DIS 15511 información y documentación internacional identificador estándar para bibliotecas y organizaciones afines (ISIL). Para las instituciones de Estados Unidos, esto incluye los códigos de la lista de códigos MARC organización.</p>
+      <p>Un código compatible con ISO/DIS 15511 información y documentación internacional identificador estándar para bibliotecas y organizaciones afines (ISIL). Para las instituciones de Estados Unidos, esto incluye los códigos de la lista de códigos MARC organización. Ver ISDIAH 5.1.1</p>
       <p>Ejemplos</p>
       <ul>
       <li>NNU-TL <em>(para Tamiment biblioteca y archivos laborales Robert F. Wagner)</em></li>

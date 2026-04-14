@@ -211,7 +211,7 @@ it:
     _plural: Depositi
     org_code_tooltip: "<p>Un codice conforme con ISO/DIS 15511 ISIL (Information and Documentation International
       Standard Identifier for Libraries and Related Organizations). Per le istituzioni degli Stati Uniti
-      d'America, questo include codici dalla lista MARC Organization Code.</p>\n<p>Esempi:</p>\n<ul>\n\
+      d'America, questo include codici dalla lista MARC Organization Code. Vedi ISDIAH 5.1.1</p>\n<p>Esempi:</p>\n<ul>\n\
       \ <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>\n<li>IU-Ar
       <em>(for University of Illinois Archives)</em></li>\n</ul>\n"
   section_tooltips:

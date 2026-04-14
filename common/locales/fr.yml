@@ -1015,7 +1015,7 @@ fr:
       <p>Voir DACS 2.5, ISAD(G) 3.1.5</p>
     container_summary: Conditionnement
     container_summary_tooltip: |
-      <p>Une liste de conditionnements et de types de conditionnements abritant les documents décrits dans la notice composant.</p>
+      <p>Une liste de conditionnements et de types de conditionnements abritant les documents décrits dans la notice composant. Voir DACS 2.5, ISAD(G) 3.1.5</p>
       <p>Exemples:</p>
       <ul>
       <li>10 conteneurs d'archivage, 6 boîtes archives, 3 grands portfolios.</li>
@@ -1825,7 +1825,7 @@ fr:
     name: Nom du service
     name_tooltip: |
       <p>CHAMP OBLIGATOIRE. Le nom du service d'archives qui a la résponsabilité administrative de la conservation des documents décrits dans les modules entrée, ressource et objet numérique de l'application.</p>
-      <p>Voir DACS 2.2</p>
+      <p>Voir DACS 2.2, ISDIAH 5.1.2</p>
       <p>Exemples:</p>
       <ul>
       <li>Your Name Here Special Collections Library</li>
@@ -1834,7 +1834,7 @@ fr:
       </ul>
     org_code: Organisation / Code d'agence
     org_code_tooltip: |
-      <p>Un code conforme à la norme ISO/DIS 15511 (Information and Documentation International Standard Identifier for Libraries and Related Organizations, ISIL).Pour les institutions U.S., cela inclut les codes de la MARC Organization Code list.</p>
+      <p>Un code conforme à la norme ISO/DIS 15511 (Information and Documentation International Standard Identifier for Libraries and Related Organizations, ISIL).Pour les institutions U.S., cela inclut les codes de la MARC Organization Code list. Voir ISDIAH 5.1.1</p>
       <p>Exemples:</p>
       <ul>
       <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>
