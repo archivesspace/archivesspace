@@ -1547,6 +1547,24 @@ it:
       whole: Totale
     linked_agent_event_roles:
       authorizer: Autorizzatore
+      executing_program: Esecuzione del programma
+      implementer: Implementatore
+      recipient: Destinatario
+      requester: Richiedente
+      transmitter: Trasmettitore
+      validator: Abilitatore
+    linked_agent_role:
+      creator: Creatore
+      source: Fonte
+      subject: Soggetto
+    linked_event_archival_record_roles:
+      context: Contesto
+      outcome: Risultato
+      requested: richiesto
+      source: Fonte
+      transfer: Trasferire
+    location_function_type:
+      arrivals: Arrivi
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: 'Calendario delle date'
