@@ -7,6 +7,7 @@
      * @param {string} rootRecordUri - The backend URI of the root record, e.g. "/repositories/1/resources/3"
      */
     constructor(rootRecordUri) {
+      this.rootRecordUri = rootRecordUri;
       const baseUrl =
         InfiniteTreeIds.backendUriToFrontendUri(rootRecordUri) + '/tree';
       const rootParts = InfiniteTreeIds.rootUriToParts(rootRecordUri);
@@ -17,6 +18,24 @@
       this.ancestorsUrl = baseUrl + '/node_from_root'; // TODO: rename endpoint to /ancestors
       this.nodeSearchParamsBase =
         '/repositories/' + rootParts.repoId + '/' + rootParts.childType + 's/';
+    }
+
+    /**
+     * Fetches a node by backend URI, including root URI.
+     * @param {string} uri - Backend URI of the node
+     * @returns {Object|null}
+     */
+    async nodeByUri(uri) {
+      if (!uri) return null;
+
+      if (uri === this.rootRecordUri) {
+        return this.#root();
+      }
+
+      const parts = InfiniteTreeIds.uriToParts(uri);
+      if (!parts) return null;
+
+      return this.#node(Number(parts.id));
     }
 
     /**
@@ -74,6 +93,56 @@
     }
 
     /**
+     * Posts child move request to frontend accept_children endpoint.
+     * @param {string} targetUri - Backend URI of destination parent record
+     * @param {string[]} childUris - Backend URIs to move
+     * @param {number} index - Insert index under destination parent
+     * @returns {Object|null}
+     */
+    async acceptChildren(targetUri, childUris, index) {
+      if (!targetUri) throw new Error('acceptChildren requires targetUri');
+      if (!Array.isArray(childUris) || childUris.length === 0) {
+        throw new Error('acceptChildren requires at least one child URI');
+      }
+
+      const target = InfiniteTreeIds.backendUriToFrontendUri(targetUri);
+      const url = `${target}/accept_children`;
+      const body = new URLSearchParams();
+
+      childUris.forEach(childUri => {
+        body.append('children[]', childUri);
+      });
+      body.append('index', String(index));
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          Accept: 'application/json',
+          'X-CSRF-Token': this.#csrfToken(),
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        credentials: 'same-origin',
+        body: body.toString(),
+      });
+
+      if (!response.ok) {
+        const err = new Error(
+          `accept_children request failed with status ${response.status}`
+        );
+
+        err.status = response.status;
+        throw err;
+      }
+
+      try {
+        return await response.json();
+      } catch (_error) {
+        return null;
+      }
+    }
+
+    /**
      * @returns {Object} - Root object returned from the server
      */
     async #root() {
@@ -102,6 +171,12 @@
       } catch (err) {
         console.error(err);
       }
+    }
+
+    #csrfToken() {
+      const token = document.querySelector('meta[name="csrf-token"]');
+
+      return token ? token.getAttribute('content') || '' : '';
     }
   }
 

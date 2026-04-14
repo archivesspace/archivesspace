@@ -9,6 +9,7 @@
       this.isReadOnly =
         document.querySelector('#infinite-tree-component').dataset
           .isReadOnly === 'true';
+      this.reorderModeEnabled = false;
       this.form = null;
       this.isDirty = false;
       /** @type {HTMLElement|null} Anchor tree node when the pane shows archival_objects new_inline (Cancel restores this record). */
@@ -34,6 +35,11 @@
       });
 
       if (this.treeContainerEl && !this.isReadOnly) {
+        this.treeContainerEl.addEventListener(
+          'infiniteTreeToolbar:reorderModeChanged',
+          e => this.#onReorderModeChanged(e)
+        );
+
         this.treeContainerEl.addEventListener(
           'infiniteTreeToolbar:addChildRequested',
           e => this.#onAddChildRequested(e)
@@ -63,6 +69,7 @@
      */
     #onAddChildRequested(e) {
       if (this.isReadOnly) return;
+      if (this.reorderModeEnabled) return;
 
       const node =
         (e.detail && e.detail.node) ||
@@ -79,6 +86,7 @@
      */
     #onAddSiblingRequested(e) {
       if (this.isReadOnly) return;
+      if (this.reorderModeEnabled) return;
 
       const node =
         (e.detail && e.detail.node) ||
@@ -100,6 +108,7 @@
      */
     #onAddDuplicateRequested(e) {
       if (this.isReadOnly) return;
+      if (this.reorderModeEnabled) return;
 
       const node =
         (e.detail && e.detail.node) ||
@@ -461,6 +470,8 @@
      * @param {HTMLElement} node - The tree node corresponding to the record to load
      */
     async loadRecord(node) {
+      if (this.reorderModeEnabled) return;
+
       this._inlineCreateAnchorNode = null;
 
       if (this.treeContainerEl) {
@@ -697,6 +708,11 @@
 
     #unblockUI() {
       this.container.classList.remove('blocked');
+    }
+
+    #onReorderModeChanged(event) {
+      this.reorderModeEnabled = !!(event.detail && event.detail.enabled);
+      this.container.hidden = this.reorderModeEnabled;
     }
 
     /**

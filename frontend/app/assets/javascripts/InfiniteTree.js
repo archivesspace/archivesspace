@@ -127,10 +127,10 @@
       this.container.addEventListener(
         'infiniteTreeRouter:redisplayAndShow',
         async e => {
-          const { targetHash } = e.detail;
+          const { targetHash, options } = e.detail;
 
           try {
-            await this.redisplayAndShow(targetHash);
+            await this.redisplayAndShow(targetHash, options || {});
           } finally {
             this.container.dispatchEvent(
               new CustomEvent('infiniteTree:redisplayAndShowComplete', {
@@ -559,9 +559,20 @@
     /**
      * Rebuilds the entire tree and selects the node pointed to by locationHash
      * @param {string} locationHash - The location hash representing the node to render
+     * @param {{ preserveScroll?: boolean, scrollToNode?: boolean, ensureVisibleUri?: string, selectedUri?: string, highlightUris?: string[] }} [options]
      */
-    async redisplayAndShow(locationHash) {
+    async redisplayAndShow(locationHash, options = {}) {
       this._syntheticNewNode = null;
+      const preserveScroll = !!options.preserveScroll;
+      const scrollToNode = options.scrollToNode !== false;
+      const ensureVisibleUri = options.ensureVisibleUri || null;
+      const selectedUri = options.selectedUri || null;
+      const highlightUris = Array.isArray(options.highlightUris)
+        ? options.highlightUris
+        : [];
+      const previousScrollTop = preserveScroll
+        ? this.container.scrollTop
+        : null;
 
       // Normalize hash to include # prefix
       const fragment =
@@ -569,16 +580,32 @@
           ? locationHash
           : `#${locationHash}`;
 
-      // Clear the container completely
-      this.container.replaceChildren();
-
       if (fragment === InfiniteTreeIds.treeLinkUrl(this.rootMeta.uri)) {
         const rootNodeElement = await this.renderRoot();
+
         this.selectNode(rootNodeElement);
-        rootNodeElement.scrollIntoView({
-          behavior: 'instant',
-          block: 'center',
-        });
+
+        if (scrollToNode) {
+          rootNodeElement.scrollIntoView({
+            behavior: 'instant',
+            block: 'center',
+          });
+        } else if (previousScrollTop !== null) {
+          this.container.scrollTop = previousScrollTop;
+        }
+
+        if (ensureVisibleUri) {
+          this.#ensureNodeUriVisible(ensureVisibleUri);
+        }
+
+        if (selectedUri) {
+          this.#selectUriIfRendered(selectedUri);
+        }
+
+        if (highlightUris.length > 0) {
+          this.#highlightNodesByUri(highlightUris);
+        }
+
         return;
       }
 
@@ -588,7 +615,26 @@
 
       try {
         const data = await this.#fetchAncestorBatches(nodeId);
-        await this.#renderAncestors(data, nodeElementId, { replace: false });
+        await this.#renderAncestors(data, nodeElementId, {
+          scrollToNode,
+          selectNodeOfInterest: !selectedUri,
+        });
+
+        if (previousScrollTop !== null) {
+          this.container.scrollTop = previousScrollTop;
+        }
+
+        if (ensureVisibleUri) {
+          this.#ensureNodeUriVisible(ensureVisibleUri);
+        }
+
+        if (selectedUri) {
+          this.#selectUriIfRendered(selectedUri);
+        }
+
+        if (highlightUris.length > 0) {
+          this.#highlightNodesByUri(highlightUris);
+        }
       } catch (error) {
         console.error('Error in redisplayAndShow:', error);
       }
@@ -598,14 +644,11 @@
      * Builds the ancestor tree list
      * @param {Array} ancestorBatches - The ancestor batches to build the tree from
      * @param {string} nodeElementId - The HTML ID of the node element to scroll to
-     * @param {Object} [options] - Options for rendering
-     * @param {boolean} [options.replace=true] - Whether to replace container content first
+     * @param {{ scrollToNode?: boolean, selectNodeOfInterest?: boolean }} [options]
      */
-    async #renderAncestors(
-      ancestorBatches,
-      nodeElementId,
-      { replace = true } = {}
-    ) {
+    async #renderAncestors(ancestorBatches, nodeElementId, options = {}) {
+      const scrollToNode = options.scrollToNode !== false;
+      const selectNodeOfInterest = options.selectNodeOfInterest !== false;
       const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
         const numBatches = batch.waypoints;
         const ancestorHtmlId = batch.ancestorHtmlId;
@@ -684,9 +727,7 @@
         }
       }, new DocumentFragment());
 
-      if (replace) this.container.replaceChildren();
-
-      this.container.appendChild(ancestorsFrag);
+      this.container.replaceChildren(ancestorsFrag);
 
       const nodeOfInterest = this.container.querySelector(`#${nodeElementId}`);
       const nodesToObserve = this.container.querySelectorAll(
@@ -694,8 +735,15 @@
       );
 
       if (nodeOfInterest) {
-        this.selectNode(nodeOfInterest);
-        nodeOfInterest.scrollIntoView({ behavior: 'instant', block: 'center' });
+        if (selectNodeOfInterest) {
+          this.selectNode(nodeOfInterest);
+        }
+        if (scrollToNode) {
+          nodeOfInterest.scrollIntoView({
+            behavior: 'instant',
+            block: 'center',
+          });
+        }
       }
 
       nodesToObserve.forEach(node => {
@@ -1085,10 +1133,7 @@
 
         list.remove();
 
-        if (
-          parentLi &&
-          !parentLi.querySelector('ol.node-children')
-        ) {
+        if (parentLi && !parentLi.querySelector('ol.node-children')) {
           parentLi.setAttribute('aria-expanded', 'false');
         }
       }
@@ -1363,6 +1408,66 @@
             this.#dispatchAutoExpandBusy(false);
           }
         }, delay);
+      });
+    }
+
+    /**
+     * Ensure a node is visible in the current container viewport with minimal scroll movement.
+     * @param {string} uri
+     */
+    #ensureNodeUriVisible(uri) {
+      const treeId = InfiniteTreeIds.uriToTreeId(uri);
+      const node = this.container.querySelector(`#${treeId}`);
+
+      if (this.#isElementFullyVisibleInContainer(node)) return;
+
+      node.scrollIntoView({ behavior: 'instant', block: 'nearest' });
+    }
+
+    /**
+     * @param {HTMLElement} elt
+     * @returns {boolean}
+     */
+    #isElementFullyVisibleInContainer(elt) {
+      const containerRect = this.container.getBoundingClientRect();
+      const rect = elt.getBoundingClientRect();
+
+      return (
+        rect.top >= containerRect.top && rect.bottom <= containerRect.bottom
+      );
+    }
+
+    /**
+     * Restore selected row without reloading record pane.
+     * @param {string} uri
+     */
+    #selectUriIfRendered(uri) {
+      const treeId = InfiniteTreeIds.uriToTreeId(uri);
+      const node = this.container.querySelector(`#${treeId}`);
+
+      this.selectNode(node, { notifyPane: false });
+    }
+
+    /**
+     * Apply a temporary highlight for one or more moved records.
+     * @param {string[]} uris
+     */
+    #highlightNodesByUri(uris) {
+      uris.forEach(uri => {
+        const treeId = InfiniteTreeIds.uriToTreeId(uri);
+        const node = this.container.querySelector(`#${treeId}`);
+
+        node.classList.remove('reparented');
+        node.classList.add('reparented-highlight');
+
+        setTimeout(() => {
+          node.classList.remove('reparented-highlight');
+          node.classList.add('reparented');
+
+          setTimeout(() => {
+            node.classList.remove('reparented');
+          }, 1500);
+        }, 500);
       });
     }
   }

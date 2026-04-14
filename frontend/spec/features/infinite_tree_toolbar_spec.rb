@@ -75,6 +75,11 @@ describe 'Infinite Tree Toolbar', js: true do
   end
 
   it 'shows cut/paste and move only in reorder mode for archival object selection' do
+    expect(page).to have_no_css(
+      '#infinite-tree-container .node-drag-handle',
+      visible: true
+    )
+
     find('.js-itree-toolbar-reorder-toggle').click
 
     within '#infinite-tree-toolbar' do
@@ -98,6 +103,19 @@ describe 'Infinite Tree Toolbar', js: true do
         expect(page).to have_css('.js-itree-toolbar-finish-editing', text: I18n.t('actions.finish_editing'))
       end
     end
+
+    expect(page).to have_css(
+      '#infinite-tree-container.reorder-enabled .node-drag-handle',
+      visible: true
+    )
+    expect(page).to have_no_css(
+      '#infinite-tree-container.reorder-enabled li.root > .node-row > .node-body > .node-drag-handle',
+      visible: true
+    )
+    expect(page).to have_css(
+      '#infinite-tree-container.reorder-enabled li.root > .node-row > .node-body > .node-drag-spacer',
+      visible: true
+    )
 
     within '#infinite-tree-container' do
       click_link ao.title
@@ -129,6 +147,88 @@ describe 'Infinite Tree Toolbar', js: true do
 
     expand_btn.click
     expect(page).to have_no_css('.js-itree-toolbar-expand-mode.btn-success')
+  end
+
+  it 'hides record pane while reorder mode is enabled' do
+    pane_display = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('#infinite-tree-record-pane')).display"
+    )
+    expect(pane_display).not_to eq('none')
+
+    find('.js-itree-toolbar-reorder-toggle').click
+    pane_display = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('#infinite-tree-record-pane')).display"
+    )
+    expect(pane_display).to eq('none')
+
+    find('.js-itree-toolbar-reorder-toggle').click
+    pane_display = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('#infinite-tree-record-pane')).display"
+    )
+    expect(pane_display).not_to eq('none')
+  end
+
+  it 'does not allow cutting the root node' do
+    find('.js-itree-toolbar-reorder-toggle').click
+
+    expect(page).to have_css('.js-itree-toolbar-cut.disabled')
+
+    find('.js-itree-toolbar-cut').click
+
+    expect(page).to have_no_css('#infinite-tree-container li.node.cut', visible: :all)
+    expect(page).to have_css('.js-itree-toolbar-paste.disabled')
+  end
+
+  context 'cut and paste in reorder mode' do
+    let!(:ao2) do
+      create(
+        :archival_object,
+        resource: { 'ref' => resource.uri },
+        title: "Cut Paste Destination #{now}"
+      )
+    end
+
+    before do
+      ao2
+      visit edit_path
+      wait_for_ajax
+      find('.js-itree-toolbar-reorder-toggle').click
+    end
+
+    it 'cuts selected node and pastes it as the last child of selected destination' do
+      within '#infinite-tree-container' do
+        click_link ao.title
+      end
+      wait_for_ajax
+
+      find('.js-itree-toolbar-cut').click
+
+      expect(page).to have_css("#infinite-tree-container li#archival_object_#{ao.id}.cut", visible: :all)
+      expect(page).to have_no_css('.js-itree-toolbar-paste.disabled')
+
+      within '#infinite-tree-container' do
+        click_link ao2.title
+      end
+      wait_for_ajax
+
+      find('.js-itree-toolbar-paste').click
+      wait_for_ajax
+
+      expect(page).to have_no_css("#infinite-tree-container li#archival_object_#{ao.id}.cut", visible: :all)
+      expect(page).to have_css('.js-itree-toolbar-paste.disabled')
+      expect(page).to have_css("#infinite-tree-container li#archival_object_#{ao2.id}.selected", visible: :all)
+      expect(page).to have_no_css("#infinite-tree-container li#archival_object_#{ao.id}.selected", visible: :all)
+
+      within "#archival_object_#{ao2.id}" do
+        find('.node-expand').click
+      end
+      wait_for_ajax
+
+      expect(page).to have_css(
+        "#infinite-tree-container li#archival_object_#{ao.id}[data-tree-parent-record-id='#{ao2.id}']",
+        visible: :all
+      )
+    end
   end
 
   describe 'expand and collapse tree functionalities' do

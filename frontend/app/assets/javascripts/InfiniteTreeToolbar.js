@@ -20,6 +20,7 @@ class InfiniteTreeToolbar {
     this.isDirty = false;
     this.reorderMode = false;
     this.expandAllMode = false;
+    this.hasCutSelection = false;
     this.dropBehavior = this.#loadDropBehavior();
 
     this.#bindEvents();
@@ -31,6 +32,11 @@ class InfiniteTreeToolbar {
       this.treeContainerEl.addEventListener(
         'infiniteTree:autoExpandBusy',
         this.#onAutoExpandBusy.bind(this)
+      );
+
+      this.treeContainerEl.addEventListener(
+        'infiniteTreeToolbar:cutStateChanged',
+        this.#onCutStateChanged.bind(this)
       );
     }
   }
@@ -142,7 +148,16 @@ class InfiniteTreeToolbar {
   }
 
   #applySelectionState() {
-    if (!this.toolbarEl) return;
+    const selectedNode = this.currentNode || this.#getSelectedNode();
+    const selectedIsRoot = !!(
+      selectedNode && selectedNode.classList.contains('root')
+    );
+    const canCut = this.reorderMode && !!selectedNode && !selectedIsRoot;
+    const cutBtn = this.toolbarEl.querySelector('.js-itree-toolbar-cut');
+
+    if (cutBtn) {
+      this.#setButtonDisabled(cutBtn, !canCut);
+    }
 
     const isArchivalObjectSelected = this.#isArchivalObjectSelected();
     const showMove = this.reorderMode && isArchivalObjectSelected;
@@ -289,6 +304,11 @@ class InfiniteTreeToolbar {
     }
   }
 
+  #onCutStateChanged(e) {
+    this.hasCutSelection = !!(e.detail && e.detail.hasCut);
+    this.#applyCutPasteState();
+  }
+
   #onFinishEditingClick(event) {
     event.preventDefault();
 
@@ -402,6 +422,39 @@ class InfiniteTreeToolbar {
 
     if (primaryActionsGroup) {
       primaryActionsGroup.style.display = showNonReorderControls ? '' : 'none';
+    }
+
+    if (this.treeContainerEl) {
+      this.treeContainerEl.classList.toggle(
+        'reorder-enabled',
+        showReorderControls
+      );
+    }
+
+    if (!showReorderControls) {
+      this.hasCutSelection = false;
+    }
+
+    this.#applyCutPasteState();
+  }
+
+  #applyCutPasteState() {
+    const pasteBtn = this.toolbarEl.querySelector('.js-itree-toolbar-paste');
+
+    if (pasteBtn) {
+      const enablePaste = this.reorderMode && this.hasCutSelection;
+
+      this.#setButtonDisabled(pasteBtn, !enablePaste);
+    }
+  }
+
+  #setButtonDisabled(buttonEl, disabled) {
+    if (disabled) {
+      buttonEl.classList.add('disabled');
+      buttonEl.setAttribute('aria-disabled', 'true');
+    } else {
+      buttonEl.classList.remove('disabled');
+      buttonEl.removeAttribute('aria-disabled');
     }
   }
 

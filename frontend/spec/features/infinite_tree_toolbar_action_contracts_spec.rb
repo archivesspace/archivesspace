@@ -33,6 +33,7 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
         'infiniteTreeToolbar:moveMenuRequested',
         'infiniteTreeToolbar:cutRequested',
         'infiniteTreeToolbar:pasteRequested',
+        'infiniteTreeToolbar:cutStateChanged',
         'infiniteTreeToolbar:finishEditingRequested'
       ];
       names.forEach(function(name) {
@@ -76,6 +77,17 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
 
   def last_event_detail
     evaluate_js('window.__itreeToolbarEvents[window.__itreeToolbarEvents.length - 1].detail')
+  end
+
+  def first_event_detail(name)
+    evaluate_js(<<~JS)
+      (function() {
+        var ev = window.__itreeToolbarEvents.find(function(e) {
+          return e.name === '#{name}';
+        });
+        return ev ? ev.detail : null;
+      })();
+    JS
   end
 
   it 'emits reorder/expand/collapse events with expected details' do
@@ -184,5 +196,22 @@ describe 'Infinite Tree Toolbar Action Contracts', js: true do
     finish_target = evaluate_js("window.sessionStorage.getItem('itreeFinishTarget')")
     expect(finish_target).to include("/resources/#{resource.id}")
     expect(finish_target).to include(root_hash)
+  end
+
+  it 'emits cut and cut-state events with expected payloads' do
+    find('.js-itree-toolbar-reorder-toggle').click
+
+    within '#infinite-tree-container' do
+      click_link ao.title
+    end
+    wait_for_ajax
+
+    find('.js-itree-toolbar-cut').click
+
+    expect(event_names).to include('infiniteTreeToolbar:cutRequested')
+    expect(event_names).to include('infiniteTreeToolbar:cutStateChanged')
+
+    expect(first_event_detail('infiniteTreeToolbar:cutRequested')).to eq({})
+    expect(first_event_detail('infiniteTreeToolbar:cutStateChanged')).to include('hasCut' => true)
   end
 end
