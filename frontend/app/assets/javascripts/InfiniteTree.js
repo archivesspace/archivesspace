@@ -178,7 +178,12 @@
         const anchorNode = e.detail && e.detail.anchorNode;
         if (!anchorNode) return;
 
-        await this.#showSyntheticNewSibling(anchorNode);
+        const placeholderTitle =
+          e.detail && typeof e.detail.placeholderTitle === 'string'
+            ? e.detail.placeholderTitle
+            : null;
+
+        await this.#showSyntheticNewSibling(anchorNode, placeholderTitle);
       };
 
       this.container.addEventListener(
@@ -1017,10 +1022,11 @@
     }
 
     /**
-     * Inserts a placeholder li after the anchor (Add Sibling → new_inline), same depth as anchor.
+     * Inserts a placeholder li after the anchor (Add Sibling / Add Duplicate → new_inline), same depth as anchor.
      * @param {HTMLElement} anchorNode - Selected archival object li
+     * @param {string|null} [placeholderTitle] - When non-null and non-empty, overrides row title (duplicate flow).
      */
-    async #showSyntheticNewSibling(anchorNode) {
+    async #showSyntheticNewSibling(anchorNode, placeholderTitle = null) {
       this.#removeSyntheticNewChild();
 
       const tmpl = document.querySelector(
@@ -1030,7 +1036,9 @@
 
       const component = document.querySelector('#infinite-tree-component');
       const titleText =
-        (component && component.dataset.newChildPlaceholderTitle) || '';
+        placeholderTitle != null && placeholderTitle !== ''
+          ? placeholderTitle
+          : (component && component.dataset.newChildPlaceholderTitle) || '';
 
       const frag = tmpl.content.cloneNode(true);
       const synthetic = frag.querySelector('li');

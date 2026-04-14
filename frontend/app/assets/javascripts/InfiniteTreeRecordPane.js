@@ -43,6 +43,11 @@
           'infiniteTreeToolbar:addSiblingRequested',
           e => this.#onAddSiblingRequested(e)
         );
+
+        this.treeContainerEl.addEventListener(
+          'infiniteTreeToolbar:addDuplicateRequested',
+          e => this.#onAddDuplicateRequested(e)
+        );
       }
 
       // Cancel on new_inline uses link_to :back; intercept for inline tree UX
@@ -91,6 +96,27 @@
     }
 
     /**
+     * @param {Event} e
+     */
+    #onAddDuplicateRequested(e) {
+      if (this.isReadOnly) return;
+
+      const node =
+        (e.detail && e.detail.node) ||
+        (this.treeContainerEl &&
+          this.treeContainerEl.querySelector('li.node.selected'));
+
+      if (!node) return;
+
+      const uri = node.getAttribute('data-uri');
+      const parts = InfiniteTreeIds.uriToParts(uri);
+
+      if (!parts || parts.type !== 'archival_object') return;
+
+      this.#loadNewDuplicateRecord(node);
+    }
+
+    /**
      * Query string for GET new child form: root scope + optional parent scope.
      * @param {string} rootUri
      * @param {{ type: string, id: string }} parentParts
@@ -124,12 +150,12 @@
     }
 
     /**
-     * Query string for GET new sibling form (legacy AjaxTree sibling branch).
+     * Shared placement query for sibling and duplicate (legacy AjaxTree sibling branch).
      * @param {string} rootUri
-     * @param {HTMLElement} anchorNode - Selected archival object li
+     * @param {HTMLElement} anchorNode - Selected child-record li
      * @returns {URLSearchParams|null}
      */
-    #buildNewSiblingQuery(rootUri, anchorNode) {
+    #buildSiblingPlacementQuery(rootUri, anchorNode) {
       const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
       if (!rootMeta || !anchorNode) return null;
 
@@ -158,6 +184,36 @@
       }
 
       return qs;
+    }
+
+    /**
+     * @param {string} rootUri
+     * @param {HTMLElement} anchorNode
+     * @returns {URLSearchParams|null}
+     */
+    #buildNewSiblingQuery(rootUri, anchorNode) {
+      return this.#buildSiblingPlacementQuery(rootUri, anchorNode);
+    }
+
+    /**
+     * Nested duplicate source params for GET new (child-type specific).
+     * @param {URLSearchParams} qs
+     * @param {{ childType?: string }} rootMeta - from InfiniteTreeIds.rootUriToParts
+     * @param {string} sourceUri - URI of the record to duplicate
+     * @returns {boolean} false when this tree/child type has no duplicate contract yet
+     */
+    #appendDuplicateSourceParams(qs, rootMeta, sourceUri) {
+      if (!qs || !rootMeta || !sourceUri) return false;
+
+      const { childType } = rootMeta;
+
+      if (childType === 'archival_object') {
+        qs.set('duplicate_from_archival_object[uri]', sourceUri);
+
+        return true;
+      }
+
+      return false;
     }
 
     /**
@@ -191,13 +247,23 @@
       );
     }
 
-    #dispatchShowSyntheticNewSibling(anchorNode) {
+    /**
+     * @param {HTMLElement} anchorNode
+     * @param {string} [placeholderTitle] - when set, synthetic row title (Add Duplicate); sibling omits
+     */
+    #dispatchShowSyntheticNewSibling(anchorNode, placeholderTitle) {
       if (!this.treeContainerEl) return;
+
+      const detail = { anchorNode };
+
+      if (typeof placeholderTitle === 'string' && placeholderTitle !== '') {
+        detail.placeholderTitle = placeholderTitle;
+      }
 
       this.treeContainerEl.dispatchEvent(
         new CustomEvent('infiniteTree:showSyntheticNewSibling', {
           bubbles: true,
-          detail: { anchorNode },
+          detail,
         })
       );
     }
@@ -265,6 +331,56 @@
       this._inlineCreateAnchorNode = anchorNode;
 
       this.#dispatchShowSyntheticNewSibling(anchorNode);
+
+      const url = `${AS.app_prefix(path)}?${qs.toString()}`;
+
+      this.#blockUI();
+
+      try {
+        const html = await this.#fetchRecordHtml(url);
+
+        this.#renderNewForm(html);
+        this.#setDirty(true);
+      } catch (error) {
+        this._inlineCreateAnchorNode = null;
+
+        this.#dispatchRemoveSyntheticNewChild();
+
+        if (error.status === 404) {
+          this.#showRecordNotFound();
+        } else {
+          this.container.appendChild(this.#loadErrorMessageFragment(error));
+
+          this.#setDirty(false);
+        }
+      } finally {
+        this.#unblockUI();
+      }
+    }
+
+    /**
+     * Load duplicate archival object form (sibling placement + duplicate_from_* source URI).
+     * @param {HTMLElement} anchorNode
+     */
+    async #loadNewDuplicateRecord(anchorNode) {
+      const component = document.querySelector('#infinite-tree-component');
+      const rootUri = component && component.dataset.rootUri;
+      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      const path = rootMeta && this.#newChildFormPath(rootMeta.childType);
+      const sourceUri = anchorNode.getAttribute('data-uri');
+
+      const qs = this.#buildSiblingPlacementQuery(rootUri, anchorNode);
+
+      if (!qs || !path || !sourceUri) return;
+
+      if (!this.#appendDuplicateSourceParams(qs, rootMeta, sourceUri)) return;
+
+      const dupTitle =
+        (component && component.dataset.newDuplicatePlaceholderTitle) || '';
+
+      this._inlineCreateAnchorNode = anchorNode;
+
+      this.#dispatchShowSyntheticNewSibling(anchorNode, dupTitle);
 
       const url = `${AS.app_prefix(path)}?${qs.toString()}`;
 
