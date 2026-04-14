@@ -92,7 +92,6 @@ class Preference < Sequel::Model(:preference)
     filter = {:repo_id => repo_id, :user_uniq => [user_id.to_s, 'GLOBAL_USER']}
     json_prefs = {'defaults' => {}}
     prefs = {}
-    defaults = {}
 
     if repo_id != Repository.global_repo_id
       self.filter(filter).each do |pref|
@@ -135,7 +134,9 @@ class Preference < Sequel::Model(:preference)
     jsons = super
 
     jsons.zip(objs).each do |json, obj|
-      json['defaults'] = JSONModel(:defaults).from_json(obj.defaults)
+      parsed = ASUtils.json_parse(obj.defaults)
+      parsed['locale'] ||= AppConfig[:locale].to_s
+      json['defaults'] = JSONModel(:defaults).from_hash(parsed)
     end
 
     jsons
