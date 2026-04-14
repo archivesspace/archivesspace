@@ -14,6 +14,13 @@
                                  else
                                    ''
                                  end
+
+   new_duplicate_placeholder_title = case root_type
+                                     when 'resource'
+                                       I18n.t('archival_object._frontend.tree.duplicated_record_title')
+                                     else
+                                       ''
+                                     end
 %>
 
 <%= javascript_include_tag "InfiniteTreeRouter.js" %>
@@ -31,6 +38,7 @@
   data-root-uri="<%= root_record.uri %>"
   data-record-type="<%= root_type %>"
   data-new-child-placeholder-title="<%= new_child_placeholder_title %>"
+  data-new-duplicate-placeholder-title="<%= new_duplicate_placeholder_title %>"
 >
   <% if !read_only %>
     <%= render_aspace_partial :partial => "shared/infinite_tree_toolbar" %>
