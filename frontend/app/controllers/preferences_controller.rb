@@ -17,7 +17,7 @@ class PreferencesController < ApplicationController
       pref = JSONModel(:preference).from_hash(@current_prefs[user_scope])
     else
       pref = JSONModel(:preference).new({
-                                        :defaults => {},
+                                        :defaults => { 'locale' => AppConfig[:locale].to_s },
                                         :user_id => params['repo'] ? nil : JSONModel(:user).id_for(session[:user_uri])
                                       })
       pref.save(opts)
