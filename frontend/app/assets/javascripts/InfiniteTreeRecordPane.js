@@ -585,6 +585,34 @@
 
         this.submitActiveForm();
       });
+
+      const revertChangesButton = this.form.querySelector(
+        '.record-toolbar .revert-changes .btn'
+      );
+
+      if (revertChangesButton) {
+        revertChangesButton.addEventListener('click', e => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const selectedNode =
+            this.treeContainerEl &&
+            this.treeContainerEl.querySelector('li.node.selected');
+
+          if (selectedNode) {
+            this.#setDirty(false);
+            void this.loadRecord(selectedNode);
+
+            return;
+          }
+
+          const href = revertChangesButton.getAttribute('href');
+
+          if (href) {
+            window.location.assign(href);
+          }
+        });
+      }
     }
 
     /**

@@ -117,6 +117,64 @@ describe 'Infinite Tree Integration', js: true do
       within('#infinite-tree-record-pane') { expect(page).to have_css('h2', text: ao.title) }
     end
 
+    describe 'Revert Changes' do
+      context 'for root' do
+        it 'dismisses unsaved changes and reloads selected resource record' do
+          visit "#{edit_path}#{root_hash}"
+          wait_for_ajax
+
+          initial_title = find_field('resource_title_').value
+
+          fill_in 'resource_title_', with: "#{initial_title} "
+          wait_for_ajax
+
+          expect(page).to have_css('#infinite-tree-record-pane .record-toolbar.formchanged')
+
+          within('#infinite-tree-record-pane .record-toolbar') do
+            click_link 'Revert Changes'
+          end
+          wait_for_ajax
+
+          aggregate_failures do
+            within('#infinite-tree-record-pane') do
+              expect(page).to have_css('#form_resource')
+              expect(page).to have_field('resource_title_', with: initial_title)
+            end
+            expect(page).to have_no_css('#infinite-tree-record-pane .record-toolbar.formchanged')
+            expect(page.current_url).to match(%r{#{Regexp.escape(root_hash)}})
+          end
+        end
+      end
+
+      context 'for child' do
+        it 'dismisses unsaved changes and reloads selected archival object record' do
+          visit "#{edit_path}#{ao_hash}"
+          wait_for_ajax
+
+          initial_title = find_field('archival_object_title_').value
+
+          fill_in 'archival_object_title_', with: "#{initial_title} "
+          wait_for_ajax
+
+          expect(page).to have_css('#infinite-tree-record-pane .record-toolbar.formchanged')
+
+          within('#infinite-tree-record-pane .record-toolbar') do
+            click_link 'Revert Changes'
+          end
+          wait_for_ajax
+
+          aggregate_failures do
+            within('#infinite-tree-record-pane') do
+              expect(page).to have_css('#form_archival_object')
+              expect(page).to have_field('archival_object_title_', with: initial_title)
+            end
+            expect(page).to have_no_css('#infinite-tree-record-pane .record-toolbar.formchanged')
+            expect(page.current_url).to match(%r{#{Regexp.escape(ao_hash)}})
+          end
+        end
+      end
+    end
+
     describe 'modal actions' do
       it 'Save submits form, closes modal, and navigates to new record' do
         visit "#{edit_path}#{ao_hash}"
