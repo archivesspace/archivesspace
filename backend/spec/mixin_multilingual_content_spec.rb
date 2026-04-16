@@ -216,4 +216,147 @@ describe 'MultilingualContent mixin' do
     end
   end
 
+  describe '.to_mlc_hash' do
+    it "returns a hash keyed by <lang>_<script> with only the field values" do
+      resource = create_resource_with_primary_lang
+      resource_mlc.where(:resource_id => resource.id).delete
+      resource_mlc.insert(
+        :resource_id => resource.id,
+        :language_id => eng_id,
+        :script_id   => latn_id,
+        :title       => "English title",
+        :finding_aid_title => "English finding aid"
+      )
+      resource_mlc.insert(
+        :resource_id => resource.id,
+        :language_id => fre_id,
+        :script_id   => latn_id,
+        :title       => "Titre français"
+      )
+
+      hash = Resource.to_mlc_hash(resource)
+
+      expect(hash.keys).to contain_exactly("eng_Latn", "fre_Latn")
+      expect(hash["eng_Latn"]).to include("title" => "English title",
+                                         "finding_aid_title" => "English finding aid")
+      expect(hash["fre_Latn"]).to include("title" => "Titre français")
+    end
+
+    it "omits fields whose values are nil or blank" do
+      resource = create_resource_with_primary_lang
+      resource_mlc.where(:resource_id => resource.id).delete
+      resource_mlc.insert(
+        :resource_id => resource.id,
+        :language_id => eng_id,
+        :script_id   => latn_id,
+        :title       => "English title",
+        :finding_aid_title => ""
+      )
+
+      hash = Resource.to_mlc_hash(resource)
+
+      expect(hash["eng_Latn"]).to have_key("title")
+      expect(hash["eng_Latn"]).not_to have_key("finding_aid_title")
+    end
+  end
+
+  describe '.primary_description_language_for_record' do
+    it "returns the language/script pair of the primary lang_descriptions row" do
+      resource = create_resource_with_primary_lang
+
+      expect(Resource.primary_description_language_for_record(resource))
+        .to eq(language_id: eng_id, script_id: latn_id)
+    end
+
+    it "returns nil when the model has no language_and_script_of_description association" do
+      # ArchivalObject does not include LangDescriptions
+      ao_stub = double('ArchivalObject')
+      expect(ArchivalObject.primary_description_language_for_record(ao_stub)).to be_nil
+    end
+
+    it "returns nil when no entry is marked primary" do
+      resource = create_resource(:lang_descriptions => [
+        {"language" => "eng", "script" => "Latn", "is_primary" => false}
+      ])
+
+      expect(Resource.primary_description_language_for_record(resource)).to be_nil
+    end
+  end
+
+  describe '.attach_mlc_fields_to_jsons!' do
+    it "attaches mlc_fields keyed by <lang>_<script> to each json" do
+      resource = create_resource_with_primary_lang
+      resource_mlc.where(:resource_id => resource.id).delete
+      resource_mlc.insert(
+        :resource_id => resource.id,
+        :language_id => eng_id,
+        :script_id   => latn_id,
+        :title       => "English title"
+      )
+      resource_mlc.insert(
+        :resource_id => resource.id,
+        :language_id => fre_id,
+        :script_id   => latn_id,
+        :title       => "Titre français"
+      )
+
+      jsons = [{}]
+      Resource.attach_mlc_fields_to_jsons!([resource], jsons)
+
+      expect(jsons.first['mlc_fields'].keys).to contain_exactly("eng_Latn", "fre_Latn")
+      expect(jsons.first['mlc_fields']["fre_Latn"]).to include("title" => "Titre français")
+    end
+
+    it "overwrites scalar multilingual fields with the primary-language value, " \
+       "even when RequestContext.description_language resolves to a different language" do
+      resource = create_resource_with_primary_lang
+      resource_mlc.where(:resource_id => resource.id).delete
+      resource_mlc.insert(
+        :resource_id => resource.id,
+        :language_id => eng_id,
+        :script_id   => latn_id,
+        :title       => "English primary"
+      )
+      resource_mlc.insert(
+        :resource_id => resource.id,
+        :language_id => fre_id,
+        :script_id   => latn_id,
+        :title       => "Titre français"
+      )
+
+      # Simulate the indexer's blank context: description_language resolves to
+      # AppConfig's default (eng/Latn).  The scalar on the json should still
+      # reflect the record's primary language, which happens to be eng here.
+      # Flip to a record whose primary is fre and verify the scalar follows.
+      fre_resource = create_resource(:lang_descriptions => [
+        {"language" => "fre", "script" => "Latn", "is_primary" => true}
+      ])
+      resource_mlc.where(:resource_id => fre_resource.id).delete
+      resource_mlc.insert(
+        :resource_id => fre_resource.id,
+        :language_id => eng_id,
+        :script_id   => latn_id,
+        :title       => "English variant"
+      )
+      resource_mlc.insert(
+        :resource_id => fre_resource.id,
+        :language_id => fre_id,
+        :script_id   => latn_id,
+        :title       => "Titre primaire"
+      )
+
+      jsons = [{}, {}]
+      with_language_context(language_id: eng_id, script_id: latn_id) do
+        Resource.attach_mlc_fields_to_jsons!([resource, fre_resource], jsons)
+      end
+
+      expect(jsons[0]['title']).to eq("English primary")
+      expect(jsons[1]['title']).to eq("Titre primaire")
+    end
+
+    it "is a no-op for an empty objs list" do
+      expect { Resource.attach_mlc_fields_to_jsons!([], []) }.not_to raise_error
+    end
+  end
+
 end

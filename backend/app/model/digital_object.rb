@@ -114,6 +114,7 @@ class DigitalObject < Sequel::Model(:digital_object)
       json["collection"].uniq!
     end
 
+    attach_mlc_fields_to_jsons!(objs, jsons)
     jsons
   end
 

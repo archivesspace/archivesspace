@@ -78,6 +78,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
     AncestorListing.add_ancestors(objs, jsons)
+    attach_mlc_fields_to_jsons!(objs, jsons)
     jsons
   end
 
