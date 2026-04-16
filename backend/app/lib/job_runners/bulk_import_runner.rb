@@ -18,10 +18,10 @@ class BulkImportRunner < JobRunner
     last_error = nil
     # Wrap the import in a transaction if the DB supports MVCC
 
-	# Get the job input file and prep output variables.
-	input_file_path = @job.job_files[0].full_file_path
-	output_file = nil
-	created_uris = []
+    # Get the job input file and prep output variables.
+    input_file_path = @job.job_files[0].full_file_path
+    output_file = nil
+    created_uris = []
 
     begin
       DB.open(DB.supports_mvcc?,
@@ -67,16 +67,16 @@ class BulkImportRunner < JobRunner
       last_error = $!
     end
     self.success!
-	if output_file
-		DB.open do
-			@job.add_file(output_file)
-		end
-	end
-	unless created_uris.nil? || created_uris.empty?
-		DB.open do
-			@job.record_created_uris(created_uris)
-		end
-	end
+    if output_file
+      DB.open do
+        @job.add_file(output_file)
+      end
+    end
+    unless created_uris.nil? || created_uris.empty?
+      DB.open do
+        @job.record_created_uris(created_uris)
+      end
+    end
 
     if last_error
       ticker.log("\n\n")
