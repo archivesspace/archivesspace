@@ -64,15 +64,10 @@ class BulkImportRunner < JobRunner
       last_error = $!
     end
     self.success!
-    if output_file
-      DB.open do
-        @job.add_file(output_file)
-      end
-    end
-    unless created_uris.nil? || created_uris.empty?
-      DB.open do
-        @job.record_created_uris(created_uris)
-      end
+
+    DB.open do
+      @job.add_file(output_file) if output_file
+      @job.record_created_uris(created_uris) unless Array(created_uris).empty?
     end
 
     if last_error
