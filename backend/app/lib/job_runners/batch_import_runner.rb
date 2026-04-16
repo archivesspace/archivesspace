@@ -22,7 +22,6 @@ class BatchImportRunner < JobRunner
 
     last_error = nil
     batch = nil
-    success = false
 
     filenames = @json.job['filenames'] || []
     import_maint_events = @json.job["import_events"]   == "1" ? true : false
@@ -31,7 +30,6 @@ class BatchImportRunner < JobRunner
 
     input_file_paths = @job.job_files.map(&:full_file_path)
 
-    # Wrap the import in a transaction if the DB supports MVCC
     begin
       DB.open(DB.supports_mvcc?,
               :retry_on_optimistic_locking_fail => true) do
