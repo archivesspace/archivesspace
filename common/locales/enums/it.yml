@@ -1151,6 +1151,8 @@ it:
       derived: Derivato
       cancelled: Cancellato
       created: Creato
+      revised: Rivisto
+      updated: Aggiornato
     _note_types:
       appraisal: Valutazione
     script_iso15924:
@@ -1565,6 +1567,19 @@ it:
       transfer: Trasferire
     location_function_type:
       arrivals: Arrivi
+      av_materials: Materiali audiovisivi
+      shared: Condivisa
+    location_temporary:
+      conservation: Conservazione
+      exhibit: Mostra
+      loan: Prestito
+      reading_room: Sala di lettura
+    maintenance_agent_type:
+      human: Umano
+      machine: Macchina
+    maintenance_status:
+      cancelled_obsolete: Annullato/Obsoleto
+      deleted: Eliminato
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: 'Calendario delle date'
