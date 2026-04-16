@@ -1,16 +1,24 @@
+//= require InfiniteTreeIds
+
 (function (exports) {
   class InfiniteTreeRecordPane {
     constructor() {
       this.container = document.querySelector('#infinite-tree-record-pane');
+      this.treeContainerEl = document.querySelector('#infinite-tree-container');
 
       this.isReadOnly =
         document.querySelector('#infinite-tree-component').dataset
           .isReadOnly === 'true';
+      this.reorderModeEnabled = false;
       this.form = null;
       this.isDirty = false;
+      /** @type {HTMLElement|null} Anchor tree node when the pane shows archival_objects new_inline (Cancel restores this record). */
+      this._inlineCreateAnchorNode = null;
 
-      // Respond to tree selection
+      // Respond to tree selection (skip when InfiniteTree already loaded this record and only syncs chrome)
       this.container.addEventListener('infiniteTree:nodeSelect', e => {
+        if (e.detail && e.detail.suppressPaneReload) return;
+
         this.loadRecord(e.detail.node);
       });
 
@@ -25,12 +33,451 @@
       this.container.addEventListener('infiniteTree:showRecordNotFound', () => {
         this.#showRecordNotFound();
       });
+
+      if (this.treeContainerEl && !this.isReadOnly) {
+        this.treeContainerEl.addEventListener(
+          'infiniteTreeToolbar:reorderModeChanged',
+          e => this.#onReorderModeChanged(e)
+        );
+
+        this.treeContainerEl.addEventListener(
+          'infiniteTreeToolbar:addChildRequested',
+          e => this.#onAddChildRequested(e)
+        );
+
+        this.treeContainerEl.addEventListener(
+          'infiniteTreeToolbar:addSiblingRequested',
+          e => this.#onAddSiblingRequested(e)
+        );
+
+        this.treeContainerEl.addEventListener(
+          'infiniteTreeToolbar:addDuplicateRequested',
+          e => this.#onAddDuplicateRequested(e)
+        );
+      }
+
+      // Cancel on new_inline uses link_to :back; intercept for inline tree UX
+      this.container.addEventListener(
+        'click',
+        e => this.#onCancelClick(e),
+        true
+      );
+    }
+
+    /**
+     * @param {Event} e
+     */
+    #onAddChildRequested(e) {
+      if (this.isReadOnly) return;
+      if (this.reorderModeEnabled) return;
+
+      const node =
+        (e.detail && e.detail.node) ||
+        (this.treeContainerEl &&
+          this.treeContainerEl.querySelector('li.node.selected'));
+
+      if (!node) return;
+
+      this.#loadNewChildRecord(node);
+    }
+
+    /**
+     * @param {Event} e
+     */
+    #onAddSiblingRequested(e) {
+      if (this.isReadOnly) return;
+      if (this.reorderModeEnabled) return;
+
+      const node =
+        (e.detail && e.detail.node) ||
+        (this.treeContainerEl &&
+          this.treeContainerEl.querySelector('li.node.selected'));
+
+      if (!node) return;
+
+      const uri = node.getAttribute('data-uri');
+      const parts = InfiniteTreeIds.uriToParts(uri);
+
+      if (!parts || parts.type !== 'archival_object') return;
+
+      this.#loadNewSiblingRecord(node);
+    }
+
+    /**
+     * @param {Event} e
+     */
+    #onAddDuplicateRequested(e) {
+      if (this.isReadOnly) return;
+      if (this.reorderModeEnabled) return;
+
+      const node =
+        (e.detail && e.detail.node) ||
+        (this.treeContainerEl &&
+          this.treeContainerEl.querySelector('li.node.selected'));
+
+      if (!node) return;
+
+      const uri = node.getAttribute('data-uri');
+      const parts = InfiniteTreeIds.uriToParts(uri);
+
+      if (!parts || parts.type !== 'archival_object') return;
+
+      this.#loadNewDuplicateRecord(node);
+    }
+
+    /**
+     * Query string for GET new child form: root scope + optional parent scope.
+     * @param {string} rootUri
+     * @param {{ type: string, id: string }} parentParts
+     * @returns {URLSearchParams|null}
+     */
+    #buildNewChildQuery(rootUri, parentParts) {
+      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      if (!rootMeta || !parentParts) return null;
+
+      const { type: rootType, id: rootId, childType } = rootMeta;
+
+      // First slice: resource tree → new archival object only
+      if (rootType !== 'resource' || childType !== 'archival_object') {
+        return null;
+      }
+
+      const qs = new URLSearchParams({ inline: 'true' });
+
+      if (parentParts.type === 'resource') {
+        qs.set('resource_id', String(parentParts.id));
+        return qs;
+      }
+
+      if (parentParts.type === 'archival_object') {
+        qs.set('resource_id', String(rootId));
+        qs.set('archival_object_id', String(parentParts.id));
+        return qs;
+      }
+
+      return null;
+    }
+
+    /**
+     * Shared placement query for sibling and duplicate (legacy AjaxTree sibling branch).
+     * @param {string} rootUri
+     * @param {HTMLElement} anchorNode - Selected child-record li
+     * @returns {URLSearchParams|null}
+     */
+    #buildSiblingPlacementQuery(rootUri, anchorNode) {
+      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      if (!rootMeta || !anchorNode) return null;
+
+      const { type: rootType, id: rootId, childType } = rootMeta;
+
+      if (rootType !== 'resource' || childType !== 'archival_object') {
+        return null;
+      }
+
+      const posStr = anchorNode.getAttribute('data-tree-position');
+      if (posStr === null || posStr === '') return null;
+
+      const pos = Number(posStr);
+      if (Number.isNaN(pos)) return null;
+
+      const qs = new URLSearchParams({ inline: 'true' });
+
+      qs.set('resource_id', String(rootId));
+      qs.set('position', String(pos + 1));
+
+      const parentRecordId = anchorNode.getAttribute(
+        'data-tree-parent-record-id'
+      );
+      if (parentRecordId) {
+        qs.set('archival_object_id', parentRecordId);
+      }
+
+      return qs;
+    }
+
+    /**
+     * @param {string} rootUri
+     * @param {HTMLElement} anchorNode
+     * @returns {URLSearchParams|null}
+     */
+    #buildNewSiblingQuery(rootUri, anchorNode) {
+      return this.#buildSiblingPlacementQuery(rootUri, anchorNode);
+    }
+
+    /**
+     * Nested duplicate source params for GET new (child-type specific).
+     * @param {URLSearchParams} qs
+     * @param {{ childType?: string }} rootMeta - from InfiniteTreeIds.rootUriToParts
+     * @param {string} sourceUri - URI of the record to duplicate
+     * @returns {boolean} false when this tree/child type has no duplicate contract yet
+     */
+    #appendDuplicateSourceParams(qs, rootMeta, sourceUri) {
+      if (!qs || !rootMeta || !sourceUri) return false;
+
+      const { childType } = rootMeta;
+
+      if (childType === 'archival_object') {
+        qs.set('duplicate_from_archival_object[uri]', sourceUri);
+
+        return true;
+      }
+
+      return false;
+    }
+
+    /**
+     * @param {string} childType - from InfiniteTreeIds.rootUriToParts(...).childType
+     * @returns {string|null} path segment under app prefix, e.g. archival_objects/new
+     */
+    #newChildFormPath(childType) {
+      if (childType === 'archival_object') return 'archival_objects/new';
+
+      return null;
+    }
+
+    #dispatchShowSyntheticNewChild(parentNode) {
+      if (!this.treeContainerEl) return;
+
+      this.treeContainerEl.dispatchEvent(
+        new CustomEvent('infiniteTree:showSyntheticNewChild', {
+          bubbles: true,
+          detail: { parentNode },
+        })
+      );
+    }
+
+    #dispatchRemoveSyntheticNewChild() {
+      if (!this.treeContainerEl) return;
+
+      this.treeContainerEl.dispatchEvent(
+        new CustomEvent('infiniteTree:removeSyntheticNewChild', {
+          bubbles: true,
+        })
+      );
+    }
+
+    /**
+     * @param {HTMLElement} anchorNode
+     * @param {string} [placeholderTitle] - when set, synthetic row title (Add Duplicate); sibling omits
+     */
+    #dispatchShowSyntheticNewSibling(anchorNode, placeholderTitle) {
+      if (!this.treeContainerEl) return;
+
+      const detail = { anchorNode };
+
+      if (typeof placeholderTitle === 'string' && placeholderTitle !== '') {
+        detail.placeholderTitle = placeholderTitle;
+      }
+
+      this.treeContainerEl.dispatchEvent(
+        new CustomEvent('infiniteTree:showSyntheticNewSibling', {
+          bubbles: true,
+          detail,
+        })
+      );
+    }
+
+    /**
+     * Load new child record form for the selected tree node (root or child record).
+     * @param {HTMLElement} parentNode
+     */
+    async #loadNewChildRecord(parentNode) {
+      const component = document.querySelector('#infinite-tree-component');
+      const rootUri = component && component.dataset.rootUri;
+      const uri = parentNode.getAttribute('data-uri');
+      const parentParts = InfiniteTreeIds.uriToParts(uri);
+
+      const qs = this.#buildNewChildQuery(rootUri, parentParts);
+      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      const path = rootMeta && this.#newChildFormPath(rootMeta.childType);
+
+      if (!qs || !path) return;
+
+      this._inlineCreateAnchorNode = parentNode;
+
+      this.#dispatchShowSyntheticNewChild(parentNode);
+
+      const url = `${AS.app_prefix(path)}?${qs.toString()}`;
+
+      this.#blockUI();
+
+      try {
+        const html = await this.#fetchRecordHtml(url);
+
+        this.#renderNewForm(html);
+        this.#setDirty(true);
+      } catch (error) {
+        this._inlineCreateAnchorNode = null;
+
+        this.#dispatchRemoveSyntheticNewChild();
+
+        if (error.status === 404) {
+          this.#showRecordNotFound();
+        } else {
+          this.container.appendChild(this.#loadErrorMessageFragment(error));
+
+          this.#setDirty(false);
+        }
+      } finally {
+        this.#unblockUI();
+      }
+    }
+
+    /**
+     * Load new sibling archival object form (same parent as anchor; position after anchor).
+     * @param {HTMLElement} anchorNode
+     */
+    async #loadNewSiblingRecord(anchorNode) {
+      const component = document.querySelector('#infinite-tree-component');
+      const rootUri = component && component.dataset.rootUri;
+
+      const qs = this.#buildNewSiblingQuery(rootUri, anchorNode);
+      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      const path = rootMeta && this.#newChildFormPath(rootMeta.childType);
+
+      if (!qs || !path) return;
+
+      this._inlineCreateAnchorNode = anchorNode;
+
+      this.#dispatchShowSyntheticNewSibling(anchorNode);
+
+      const url = `${AS.app_prefix(path)}?${qs.toString()}`;
+
+      this.#blockUI();
+
+      try {
+        const html = await this.#fetchRecordHtml(url);
+
+        this.#renderNewForm(html);
+        this.#setDirty(true);
+      } catch (error) {
+        this._inlineCreateAnchorNode = null;
+
+        this.#dispatchRemoveSyntheticNewChild();
+
+        if (error.status === 404) {
+          this.#showRecordNotFound();
+        } else {
+          this.container.appendChild(this.#loadErrorMessageFragment(error));
+
+          this.#setDirty(false);
+        }
+      } finally {
+        this.#unblockUI();
+      }
+    }
+
+    /**
+     * Load duplicate archival object form (sibling placement + duplicate_from_* source URI).
+     * @param {HTMLElement} anchorNode
+     */
+    async #loadNewDuplicateRecord(anchorNode) {
+      const component = document.querySelector('#infinite-tree-component');
+      const rootUri = component && component.dataset.rootUri;
+      const rootMeta = InfiniteTreeIds.rootUriToParts(rootUri);
+      const path = rootMeta && this.#newChildFormPath(rootMeta.childType);
+      const sourceUri = anchorNode.getAttribute('data-uri');
+
+      const qs = this.#buildSiblingPlacementQuery(rootUri, anchorNode);
+
+      if (!qs || !path || !sourceUri) return;
+
+      if (!this.#appendDuplicateSourceParams(qs, rootMeta, sourceUri)) return;
+
+      const dupTitle =
+        (component && component.dataset.newDuplicatePlaceholderTitle) || '';
+
+      this._inlineCreateAnchorNode = anchorNode;
+
+      this.#dispatchShowSyntheticNewSibling(anchorNode, dupTitle);
+
+      const url = `${AS.app_prefix(path)}?${qs.toString()}`;
+
+      this.#blockUI();
+
+      try {
+        const html = await this.#fetchRecordHtml(url);
+
+        this.#renderNewForm(html);
+        this.#setDirty(true);
+      } catch (error) {
+        this._inlineCreateAnchorNode = null;
+
+        this.#dispatchRemoveSyntheticNewChild();
+
+        if (error.status === 404) {
+          this.#showRecordNotFound();
+        } else {
+          this.container.appendChild(this.#loadErrorMessageFragment(error));
+
+          this.#setDirty(false);
+        }
+      } finally {
+        this.#unblockUI();
+      }
+    }
+
+    /**
+     * @param {Event} e
+     */
+    #onCancelClick(e) {
+      const cancel = e.target.closest('.form-actions .btn-cancel');
+      if (!cancel || !this.form || !this.form.contains(cancel)) return;
+
+      if (
+        !this.#isArchivalObjectCreateForm(this.form) ||
+        !this._inlineCreateAnchorNode
+      ) {
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const anchor = this._inlineCreateAnchorNode;
+      this._inlineCreateAnchorNode = null;
+
+      void this.#restoreTreeSelectionAfterCancelNewChild(anchor);
+    }
+
+    /**
+     * Reload parent record from Cancel, then restore tree .selected (loadRecord alone does not select).
+     */
+    async #restoreTreeSelectionAfterCancelNewChild(parent) {
+      await this.loadRecord(parent);
+
+      this.#requestTreeSelectionSync(parent);
+    }
+
+    /**
+     * After pane HTML matches `node`, restore tree .selected and toolbar (e.g. Add Child → Cancel).
+     * @param {HTMLElement} node
+     */
+    #requestTreeSelectionSync(node) {
+      if (!this.treeContainerEl || !node) return;
+
+      if (node.classList.contains('js-itree-synthetic-new')) return;
+
+      this.treeContainerEl.dispatchEvent(
+        new CustomEvent('infiniteTree:syncTreeSelection', {
+          bubbles: true,
+          detail: { node },
+        })
+      );
     }
 
     /**
      * @param {HTMLElement} node - The tree node corresponding to the record to load
      */
     async loadRecord(node) {
+      if (this.reorderModeEnabled) return;
+
+      this._inlineCreateAnchorNode = null;
+
+      if (this.treeContainerEl) {
+        this.#dispatchRemoveSyntheticNewChild();
+      }
+
       let recordPath = AS.app_prefix(
         node.dataset.uri.split('/').slice(-2).join('/')
       ); // ie: /repositories/2/archival_objects/4 --> /archival_objects/4
@@ -55,6 +502,38 @@
         }
       } finally {
         this.#unblockUI();
+      }
+    }
+
+    /**
+     * @param {HTMLFormElement} form
+     * @returns {boolean}
+     */
+    #isArchivalObjectCreateForm(form) {
+      return this.#isArchivalObjectCreateSubmission(form);
+    }
+
+    /**
+     * True when the form POSTs to archival_objects#create (inline new record).
+     * @param {HTMLFormElement} form
+     * @returns {boolean}
+     */
+    #isArchivalObjectCreateSubmission(form) {
+      const method = (form.getAttribute('method') || 'GET').toUpperCase();
+      if (method !== 'POST') return false;
+
+      const action = form.getAttribute('action');
+      if (!action) return false;
+
+      try {
+        const path = new URL(action, window.location.origin).pathname.replace(
+          /\/$/,
+          ''
+        );
+
+        return /\/archival_objects$/.test(path);
+      } catch {
+        return false;
       }
     }
 
@@ -90,7 +569,7 @@
           if (!ctxEl || ctxEl === this.form || this.form.contains(ctxEl)) {
             markDirty();
           }
-        } catch (e) {
+        } catch {
           // Fallback: mark dirty if we can't safely inspect context
           markDirty();
         }
@@ -106,6 +585,34 @@
 
         this.submitActiveForm();
       });
+
+      const revertChangesButton = this.form.querySelector(
+        '.record-toolbar .revert-changes .btn'
+      );
+
+      if (revertChangesButton) {
+        revertChangesButton.addEventListener('click', e => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const selectedNode =
+            this.treeContainerEl &&
+            this.treeContainerEl.querySelector('li.node.selected');
+
+          if (selectedNode) {
+            this.#setDirty(false);
+            void this.loadRecord(selectedNode);
+
+            return;
+          }
+
+          const href = revertChangesButton.getAttribute('href');
+
+          if (href) {
+            window.location.assign(href);
+          }
+        });
+      }
     }
 
     /**
@@ -117,6 +624,10 @@
       const submitButton = this.form.querySelector('.btn-primary');
 
       if (submitButton) submitButton.setAttribute('disabled', 'disabled');
+
+      const isCreateSubmission = this.#isArchivalObjectCreateSubmission(
+        this.form
+      );
 
       // Prepare FormData and include inline=true (to receive partial HTML)
       const formData = new FormData(this.form);
@@ -145,6 +656,8 @@
         const hasError = this.container.querySelector('.error') !== null;
 
         if (response.ok && !hasError) {
+          this._inlineCreateAnchorNode = null;
+
           this.#setDirty(false);
 
           // Try to extract the saved record URI from the updated pane (common hidden field id="uri")
@@ -161,6 +674,7 @@
 
           this.#dispatch('infiniteTreeRecordPane:submitSuccess', {
             uri: savedUri,
+            created: isCreateSubmission,
           });
 
           this.#dispatch('infiniteTreeRecordPane:submitted', { success: true });
@@ -222,6 +736,11 @@
 
     #unblockUI() {
       this.container.classList.remove('blocked');
+    }
+
+    #onReorderModeChanged(event) {
+      this.reorderModeEnabled = !!(event.detail && event.detail.enabled);
+      this.container.hidden = this.reorderModeEnabled;
     }
 
     /**

@@ -202,6 +202,7 @@
     #setRootMetadata(rootElement, data) {
       rootElement.id = `${data.jsonmodel_type}_${this.rootId}`;
       rootElement.setAttribute('data-uri', this.rootUri);
+      rootElement.setAttribute('data-child-count', String(data.child_count || 0));
       rootElement.setAttribute('title', this.#titleHelper(data).cleaned);
 
       if (data.child_count > 0)
@@ -235,6 +236,18 @@
       nodeElement.id = nodeElementId;
       nodeElement.classList.add(`indent-level-${level}`);
       nodeElement.setAttribute('data-uri', data.uri);
+      nodeElement.setAttribute('data-child-count', String(data.child_count || 0));
+
+      if (typeof data.position !== 'undefined' && data.position !== null) {
+        nodeElement.setAttribute('data-tree-position', String(data.position));
+      }
+
+      if (typeof data.parent_id !== 'undefined' && data.parent_id !== null) {
+        nodeElement.setAttribute(
+          'data-tree-parent-record-id',
+          String(data.parent_id)
+        );
+      }
 
       if (data.child_count > 0) {
         const totalBatches = Math.ceil(data.child_count / this.BATCH_SIZE);

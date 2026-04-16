@@ -76,6 +76,8 @@ describe 'Tree UI', js: true do
 
     visit "resources/#{@resource.id}/edit"
     expect(page).to have_text @resource.title
+
+    skip_if_infinite_tree_toolbar_active
   end
 
   it 'can add a sibling' do
@@ -260,5 +262,24 @@ describe 'Tree UI', js: true do
     elements = all('#tree-container .record-title .badge', text: 'Suppressed')
     expect(elements.length).to eq(1)
     expect(elements[0].find(:xpath, '..')['title']).to eq(@archival_object_4.title)
+  end
+
+  it 'toggles expand mode and can collapse expanded nodes' do
+    expect(page).not_to have_css('#tree-container.expand-all')
+    click_on 'Auto-Expand All'
+    expect(page).to have_css('#tree-container.expand-all')
+
+    click_on 'Collapse Tree'
+    expect(page).to have_no_css('.expandme[aria-expanded="true"]', wait: 10)
+  end
+
+  it 'preserves the tree hash when finishing editing' do
+    click_link "Archival Object Title 1 #{@now}"
+    expect(current_url).to include('#tree::archival_object_')
+
+    click_on 'Close Record'
+    expect(page).to have_current_path(%r{/resources/#{@resource.id}(#tree::archival_object_#{@archival_object_1.id})?$}, url: true)
+    expect(current_url).not_to include('/edit')
+    expect(current_url).to include("#tree::archival_object_#{@archival_object_1.id}")
   end
 end

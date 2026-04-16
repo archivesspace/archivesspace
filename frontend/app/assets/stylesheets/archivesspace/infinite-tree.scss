@@ -22,6 +22,7 @@
   --gray-100: #fafafa;
   --gray-150: #f1f1f1;
   --gray-200: #eee;
+  --gray-400: rgb(110, 110, 110);
   --gray-500: #555;
 
   // Blues from lightest to darkest
@@ -38,7 +39,8 @@
   --tree-row-even-bg: var(--gray-100);
   --tree-row-hover-bg: var(--gray-100);
   --tree-current-bg: var(--blue-50);
-  --tree-expand-text: var(--gray-500);
+  --tree-expand-btn-color: var(--gray-500);
+  --tree-expand-btn-color-disabled: var(--gray-400);
   --tree-current-border: var(--blue-500);
   --tree-link-hover: var(--blue-800);
   --tree-expand-hover: var(--blue-950);
@@ -104,8 +106,8 @@
       The border-bottom above creates a white line under the root's last child row, which is consistent with
       all other rows, and matches the old largetree. But it also creates a visual bug where, when the root
       has only one immediate child that is a parent, and the root is the .selected node, the child's
-      .node-expand button overlays and covers up the root row’s .selected outline for the width of the button.
-      The solution is z-index: 1 on .node.selected > .node-row > .node-body::after.
+      .node-expand button paints over part of the root row's selected outline. The fix is to keep the
+      z-index of .node.selected > .node-row > .node-body::after above indentation, expand, and drag-handle layers.
     */
   }
 }
@@ -128,13 +130,64 @@
     &::after {
       content: '';
       position: absolute;
-      z-index: 1; // See note in root.node > .node-children > .node:last-child > .node-row > .node-body
+      z-index: 2; // Keep selected outline above reorder drag-handle slot and indentation/expand layers.
       top: 0;
       left: 0;
       right: 0;
       bottom: -1px;
       border: 1px solid var(--tree-current-border);
       pointer-events: none;
+    }
+  }
+
+  &.cut > .node-row > .node-body {
+    background-color: #ccc;
+    box-shadow: inset 0 1px 2px #999;
+  }
+
+  &.reparented-highlight > .node-row > .node-body::before,
+  &.reparented > .node-row > .node-body::before {
+    content: '';
+    position: absolute;
+    z-index: 1; // Above .node-indentation paint so border edges are visible
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    border: 1px solid #4cae4c;
+    pointer-events: none;
+  }
+
+  &.reparented-highlight > .node-row > .node-body {
+    background-color: #93d093;
+    transition: background-color 0.5s linear;
+
+    > .node-drag-handle,
+    > .node-drag-spacer {
+      background-color: #93d093;
+      transition: background-color 0.5s linear;
+    }
+
+    &::before {
+      opacity: 1;
+      transition: opacity 0.5s linear;
+    }
+  }
+
+  &.reparented > .node-row > .node-body {
+    // Release phase: fade body tint and border in lockstep for a single perceived animation.
+    background-color: transparent;
+    transition: background-color 1.5s linear;
+
+    > .node-drag-handle,
+    > .node-drag-spacer {
+      background-color: transparent;
+      transition: background-color 1.5s linear;
+    }
+
+    &::before {
+      opacity: 0;
+      transition: opacity 1.5s linear;
     }
   }
 }
@@ -189,6 +242,49 @@
   }
 }
 
+.node-drag-handle,
+.node-drag-spacer {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--tree-indent-unit-width);
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  pointer-events: none;
+  background-color: inherit;
+}
+
+.node-drag-handle {
+  z-index: 2;
+  color: var(--tree-expand-btn-color-disabled);
+
+  .drag-handle-grip {
+    display: inline-block;
+    font-size: 0.7rem;
+    line-height: 1;
+    letter-spacing: -0.08rem;
+    transform: translateY(-0.05rem);
+  }
+}
+
+#infinite-tree-container.reorder-enabled {
+  .node-drag-handle,
+  .node-drag-spacer {
+    display: inline-flex;
+  }
+
+  .node-indentation {
+    left: var(--tree-indent-unit-width);
+  }
+
+  li.root > .node-row > .node-body > .node-column[data-column='title'] {
+    padding-left: var(--tree-indent-unit-width);
+  }
+}
+
 .node-indentation {
   position: absolute;
   top: 0;
@@ -230,6 +326,18 @@
   }
 }
 
+#infinite-tree-container.reorder-enabled {
+  @for $i from 1 through 12 {
+    .node-children[data-tree-level='#{$i}'] {
+      .node-column[data-column='title'] {
+        padding-left: calc(
+          var(--tree-indent-unit-width) * #{$i} + var(--tree-indent-unit-width)
+        );
+      }
+    }
+  }
+}
+
 .node-expand {
   height: 2rem;
   width: var(--tree-indent-width);
@@ -240,12 +348,17 @@
   justify-content: center;
   flex-shrink: 0;
   font-size: 0.875rem;
-  color: var(--tree-expand-text);
+  color: var(--tree-expand-btn-color);
   background-color: var(--tree-bg-subtle);
   cursor: pointer;
 
   &:hover {
     color: var(--tree-expand-hover);
+  }
+
+  &.disabled {
+    color: var(--tree-expand-btn-color-disabled);
+    cursor: default !important;
   }
 }
 
@@ -371,6 +484,31 @@
       background: var(--tree-blockout-overlay);
       z-index: 100;
       pointer-events: auto;
+    }
+  }
+}
+
+#infinite-tree-toolbar {
+  margin-bottom: .5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  display: flex;
+  align-items: center;
+  background-image: linear-gradient(to bottom, #f3f3f3 0%, #ededed 100%);
+
+  // Load via Spreadsheet + help: same hover background as .btn-default:hover on both
+  // when the primary button is hovered; hovering only the help link does not restyle the button.
+  .js-itree-toolbar-load-bulk-group:has(
+      .js-itree-toolbar-load-bulk:not(.disabled):hover
+    ) {
+    .js-itree-toolbar-load-bulk,
+    .js-itree-load-via-spreadsheet-help {
+      color: var(--bs-text-body);
+      background-color: $gray-200;
     }
   }
 }
