@@ -4,6 +4,23 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Reorder Mode', js: true do
+  def modified_click(element, key:)
+    page.driver.browser.action
+        .key_down(key)
+        .move_to(element.native)
+        .click
+        .key_up(key)
+        .perform
+  end
+
+  def ctrl_click(element)
+    modified_click(element, key: :control)
+  end
+
+  def shift_click(element)
+    modified_click(element, key: :shift)
+  end
+
   before(:all) do
     @now = Time.now.to_i
     @repo = create(:repo, repo_code: "reorder_mode_test_#{@now}")
@@ -132,11 +149,138 @@ describe 'Reorder Mode', js: true do
       @parent = create(:digital_object, title: "Digital Object #{@now}")
       @doc = create(:digital_object_component, digital_object: { ref: @parent.uri }, title: "Digital Object Component #{@now}")
       @doc2 = create(:digital_object_component, digital_object: { ref: @parent.uri }, title: "Digital Object Component 2 #{@now}")
-      @doc3 = create(:digital_object_component, digital_object: { ref: @parent.uri }, parent: { ref: @doc2.uri }, title: "Digital Object Component 3 #{@now}")
+      @doc3 = create(:digital_object_component, digital_object: { ref: @parent.uri }, title: "Digital Object Component 3 #{@now}")
+      @doc2_child = create(:digital_object_component, digital_object: { ref: @parent.uri }, parent: { ref: @doc2.uri }, title: "Digital Object Component 2 Child #{@now}")
       @child_type = 'digital_object_component'
-      @children = [@doc, @doc2]
+      @children = [@doc, @doc2, @doc3]
 
       run_indexer
+    end
+
+    context 'legacy multi-select' do
+      before(:each) do
+        visit "/#{@collection_path}/#{@parent.id}/edit"
+        wait_for_ajax
+        expect(page).not_to have_css '#tree-container.drag-enabled'
+        click_on 'Enable Reorder Mode'
+        wait_for_ajax
+        expect(page).to have_css '#tree-container.drag-enabled'
+
+        expect(page).to have_css "#digital_object_component_#{@doc.id}"
+        expect(page).to have_css "#digital_object_component_#{@doc2.id}"
+        expect(page).to have_css "#digital_object_component_#{@doc3.id}"
+      end
+
+      def row_for(id)
+        find("#digital_object_component_#{id}")
+      end
+
+      def expect_row_selected(id)
+        expect(row_for(id)[:class].to_s.split).to include('multiselected-row')
+      end
+
+      def expect_row_not_selected(id)
+        expect(row_for(id)[:class].to_s.split).not_to include('multiselected-row')
+      end
+
+      def expect_row_cut(id)
+        expect(row_for(id)[:class].to_s.split).to include('cut')
+      end
+
+      def ctrl_select_row(id)
+        execute_script(<<~JS)
+          (function () {
+            var row = document.querySelector('#digital_object_component_#{id}');
+            if (!row) return;
+            row.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, ctrlKey: true }));
+          })();
+        JS
+      end
+
+      def shift_select_row(id)
+        execute_script(<<~JS)
+          (function () {
+            var row = document.querySelector('#digital_object_component_#{id}');
+            if (!row) return;
+            row.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, shiftKey: true }));
+          })();
+        JS
+      end
+
+      it 'supports ctrl multiselect toggle add/remove' do
+        ctrl_select_row(@doc.id)
+        expect(row_for(@doc.id)).to have_css('.drag-handle.multiselected')
+        expect_row_selected(@doc.id)
+
+        ctrl_select_row(@doc2.id)
+        expect_row_selected(@doc.id)
+        expect_row_selected(@doc2.id)
+
+        ctrl_select_row(@doc.id)
+        expect_row_not_selected(@doc.id)
+        expect_row_selected(@doc2.id)
+      end
+
+      it 'supports shift range selection using last-selected anchor and same-level filtering' do
+        find("#digital_object_component_#{@doc2.id} button.expandme").click
+        expect(page).to have_css("#digital_object_component_#{@doc2_child.id}", visible: true)
+
+        ctrl_select_row(@doc.id)
+        shift_select_row(@doc3.id)
+
+        expect_row_selected(@doc.id)
+        expect_row_selected(@doc2.id)
+        expect_row_selected(@doc3.id)
+
+        expect_row_not_selected(@doc2_child.id)
+      end
+
+      it 'clears transient multiselection when clicking outside tree/toolbar' do
+        ctrl_select_row(@doc.id)
+        ctrl_select_row(@doc2.id)
+        expect(page).to have_css('#tree-container .multiselected-row', count: 2)
+
+        execute_script("document.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));")
+        expect(page).to have_no_css('#tree-container .multiselected')
+        expect(page).to have_no_css('#tree-container .multiselected-row')
+      end
+
+      it 'prunes hidden selections when collapsing a node' do
+        find("#digital_object_component_#{@doc2.id} button.expandme").click
+        expect(page).to have_css("#digital_object_component_#{@doc2_child.id}", visible: true)
+
+        ctrl_select_row(@doc2_child.id)
+        ctrl_select_row(@doc3.id)
+        expect(page).to have_css('#tree-container .multiselected-row', count: 2)
+
+        find("#digital_object_component_#{@doc2.id} button.expandme").click
+
+        expect_row_selected(@doc3.id)
+        expect(page).to have_css('#tree-container .multiselected-row', count: 1)
+        expect(page).to have_no_css("#digital_object_component_#{@doc2_child.id}.multiselected-row", visible: :all)
+      end
+
+      it 'cuts the multiselection set and clears transient selection' do
+        ctrl_select_row(@doc.id)
+        ctrl_select_row(@doc2.id)
+        click_on 'Cut'
+
+        expect_row_cut(@doc.id)
+        expect_row_cut(@doc2.id)
+        expect(page).to have_no_css('#tree-container .multiselected')
+        expect(page).to have_no_css('#tree-container .multiselected-row')
+      end
+
+      it 'uses the last-selected item as the shift-range anchor' do
+        ctrl_select_row(@doc.id)
+        ctrl_select_row(@doc2.id)
+        ctrl_select_row(@doc.id) # remove doc, leaving doc2 as last selection anchor
+        shift_select_row(@doc3.id)
+
+        expect_row_not_selected(@doc.id)
+        expect_row_selected(@doc2.id)
+        expect_row_selected(@doc3.id)
+      end
     end
 
     it_behaves_like 'supporting reorder mode'
