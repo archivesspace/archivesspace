@@ -16,9 +16,8 @@ class BulkImportRunner < JobRunner
     ticker = Ticker.new(@job)
     ticker.log("Start new bulk_import for job: #{@job.id}")
     last_error = nil
-    # Wrap the import in a transaction if the DB supports MVCC
 
-    # Get the job input file and prep output variables.
+
     input_file_path = @job.job_files[0].full_file_path
     output_file = nil
     created_uris = []
@@ -38,8 +37,6 @@ class BulkImportRunner < JobRunner
             RequestContext.open(:create_enums => true,
                                 :current_username => @job.owner.username,
                                 :repo_id => @job.repo_id) do
-              #               converter.run(@job[:job_blob])
-              success = true
               importer = get_importer(@json.job["content_type"], params, ticker.method(:log))
               report = importer.run
               if !report.terminal_error.nil?
