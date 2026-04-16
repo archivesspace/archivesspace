@@ -29,7 +29,7 @@ class BatchImportRunner < JobRunner
     import_subjects     = @json.job["import_subjects"] == "1" ? true : false
     import_repository   = @json.job["import_repository"] == "1" ? true : false
 
-	input_file_paths = @job.job_files.map(&:full_file_path)
+    input_file_paths = @job.job_files.map(&:full_file_path)
 
     # Wrap the import in a transaction if the DB supports MVCC
     begin
