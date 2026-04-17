@@ -599,6 +599,7 @@ fr:
       resource_accession: Ressource/Entrée
       series: Série
       container_profile: Profils de conditionnements
+      location_profile: Profil de localisation
       type: Type
       indicator: Indicateur
   advanced_search:
@@ -972,6 +973,8 @@ fr:
         updated_with_parent: Document d'archives 
           <strong>%{archival_object_display_string}</strong> actualisé
         please_select_a_resource_for_transfer: Veuillez choisir une ressource
+        transfer_confirm_message: "La notice '%{ao}' sera transférée vers la ressource que vous avez sélectionnée"
+        transfer_confirm_message_with_resource: "La notice '%{ao}' sera transférée vers la ressource '%{resource}'"
         transfer_success: Document d'archives 
           <strong>%{archival_object_display_string}</strong> transféré avec 
           succès vers la ressource <strong>%{resource_title}</strong>
@@ -1104,7 +1107,7 @@ fr:
         please_select_a_digital_object_to_merge: Veuillez sélectionner un objet 
           numérique
         merged: Objet(s) numérique(s) fusionné(s)
-        transfer_description: Transférer cette ressource dans...
+        transfer_description: Transférer cet objet numérique dans...
         transfer_target: Sélectionnez un service d'archives cible pour le 
           transfert
         unsuppressed: Objet numérique <strong>%{digital_object_title}</strong> 
@@ -2200,6 +2203,12 @@ fr:
     download_spreadsheet: Télécharger la feuille de calcul
     download_spreadsheet_modal_message: La génération de cette feuille de calcul
       peut prendre quelques instants.
+    too_many_rows_warning:
+      "Attention: Le nombre de lignes qui seront générées dans cette feuille de calcul dépasse le nombre de lignes pouvant être mises à jour.
+      via le travail en arrière-plan Bulk Archival Object Updater. Si vous envisagez d'exécuter le travail Bulk Archival Object Updater à l'aide de
+      cette feuille de calcul, vous devrez réduire le nombre de lignes de cette feuille à un niveau inférieur ou égal à 
+      <strong>%{max_row_count}lignes</strong> avant l'ingestion. Pensez à générer une feuille de calcul plus petite dès maintenant.  
+      Cet avertissement peut être ignoré en toute sécurité si vous n'avez pas l'intention d'exécuter une tâche de mise à jour d'objets d'archivage en masse avec ces données."
 
   assessment:
     _frontend:

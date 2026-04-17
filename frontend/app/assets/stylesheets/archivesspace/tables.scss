@@ -27,9 +27,6 @@ table {
       }
     }
     .col {
-      &.primary-type {
-        width: 100px;
-      }
       &.audit-info {
         min-width: 150px;
       }
@@ -60,8 +57,7 @@ table {
       color: $errorText;
     }
 
-    /* allow break of words to ensure table doesn't expand beyond layout */
-    overflow-wrap: anywhere;
+    overflow-wrap: normal;
   }
   .table-record-actions {
     .btn-group {

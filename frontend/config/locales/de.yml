@@ -783,6 +783,7 @@ de:
       barcode: Strichcode
       exported_to_ils: Exportiert ins IBS
       container_profile: Behältnis-Profil
+      location_profile: Standortprofil
       internal_note: Interne Anmerkung
       location: Standort
       type: Typ
@@ -1077,6 +1078,8 @@ de:
           <strong>%{archival_object_display_string}</strong> aktualisiert
         transfer_error: 'Konnte das Archiv-Objekt wegen einem Fehler oder Konflikt
           nicht übertragen: <pre>%{exception}</pre>'
+        transfer_confirm_message: Die Aufzeichnung '%{ao}' wird zur von Ihnen ausgewählten Aufzeichnung übertragen
+        transfer_confirm_message_with_resource: Die Aufzeichnung '%{ao}' wird zu der Aufzeichnung '%{resource}' übertragen
         transfer_success: Archiv-Objekt 
           <strong>%{archival_object_display_string}</strong> erfolgreich zu 
           Aufzeichnung <strong>%{resource_title}</strong> übertragen
@@ -1218,7 +1221,7 @@ de:
         suppressed_info: Digitales Objekt ist unterdrückt und kann nicht 
           bearbeitet werden
         delete_conflict: 'Digitales Objekt konnte nicht gelöscht werden: <pre>%{error}</pre>'
-        transfer_description: Übertrage diese Aufzeichnung nach...
+        transfer_description: Übertrage dieses digitale Objekt nach...
         transfer_target: Wählen Sie einen Aufbewahrungsort für die Übertragung
         merged: Digitale Objekte zusammengeführt
       action:
@@ -2459,6 +2462,12 @@ de:
     download_spreadsheet: Tabelle herunterladen
     download_spreadsheet_modal_message: Das Erstellen dieser Tabelle kann einige
       Augenblicke dauern.
+    too_many_rows_warning:
+      "Warnung: Die Anzahl der Zeilen, die in dieser Tabelle generiert werden, übersteigt die Anzahl der Zeilen, die aktualisiert werden können
+      über den Hintergrundjob Bulk Archival Object Updater. Wenn Sie planen, den Bulk Archival Object Updater-Job mit auszuführen
+      Um diese Tabelle zu verwenden, müssen Sie die Anzahl der Zeilen in dieser Tabelle auf kleiner oder gleich reduzieren 
+      <strong>%{max_row_count} Zeilen</strong> vor der Aufnahme. Erwägen Sie jetzt die Erstellung einer kleineren Tabelle.  
+      Diese Warnung kann getrost ignoriert werden, wenn Sie nicht beabsichtigen, mit diesen Daten einen Bulk Archival Object Updater-Job auszuführen."
   assessment:
     _frontend:
       record_types: Aufzeichnung-Typen

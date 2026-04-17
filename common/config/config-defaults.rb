@@ -220,6 +220,7 @@ AppConfig[:allow_non_utf8_mysql_database] = false
 # If you are serving user-facing applications via proxy
 # (i.e., another domain or port, or via https, or for a prefix) it is
 # recommended that you record those URLs in your configuration
+# NOTE: ensure no trailing slashes on these URLs
 AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }
 AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }
 AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
@@ -858,6 +859,10 @@ AppConfig[:bulk_archival_object_updater_apply_deletes] = false
 # `create_missing_top_containers` parameter to the import job.
 
 AppConfig[:bulk_archival_object_updater_create_missing_top_containers] = false
+
+# Sets a maximum number of spreadsheet rows allowed in a single Bulk Archival
+# Object Updater job
+AppConfig[:bulk_archival_object_updater_max_rows] = 1000
 
 # Default search scope setting
 # Options: 'all_record_types', 'collections_only'

@@ -633,6 +633,7 @@ pl:
       not_exported_to_ils: Nie wyeksportowano
       resource_accession: Zasób/Przystąpienie
       container_profile: Profil kontenera
+      location_profile: Profil lokalizacji
       indicator: Wskaźnik
       internal_note: Notatka wewnętrzna
       location: Lokalizacja
@@ -831,6 +832,8 @@ pl:
         transfer_description: Wybierz zasób, do którego chcesz przenieść ten 
           obiekt archiwalny
         please_select_a_resource_for_transfer: Wybierz zasób
+        transfer_confirm_message: "Rekord '%{ao}' zostanie przeniesiony do wybranego zasobu"
+        transfer_confirm_message_with_resource: "Rekord '%{ao}' zostanie przeniesiony do zasobu '%{resource}'"
         transfer_success: Pomyślnie przeniesiono obiekt archiwalny 
           <strong>%{archival_object_display_string}</strong> do zasobu 
           <strong>%{resource_title}</strong>
@@ -1456,7 +1459,7 @@ pl:
           połączyć
         please_select_a_digital_object_to_merge: Proszę wybrać obiekt cyfrowy
         merged: Obiekt(y) cyfrowe połączone
-        transfer_description: Przenieś ten zasób do...
+        transfer_description: Przenieś ten obiekt cyfrowy do...
         unsuppressed: Obiekt cyfrowy <strong>%{digital_object_title}</strong> 
           nie został wyłączony
         suppressed: Obiekt cyfrowy <strong>%{digital_object_title}</strong> 

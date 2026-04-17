@@ -657,55 +657,6 @@ var TreeToolbarConfiguration = {
                 },
             }
         ],
-        // Transfer
-        {
-            label: '<%= I18n.t("actions.transfer") %>',
-            cssClasses: 'btn-default dropdown-toggle transfer-node',
-            groupCssClasses: 'dropdown',
-            onRender: function(btn, node, tree, toolbarRenderer) {
-                var $li = btn.parent();
-                btn.replaceWith(AS.renderTemplate('tree_toolbar_transfer_action', {
-                                    node_id: TreeIds.uri_to_parts(node.data('uri')).id,
-                                    root_object_id: TreeIds.uri_to_parts(tree.large_tree.root_uri).id,
-                                }));
-                $(".linker:not(.initialised)", $li).linker()
-
-                var $form = $li.find('form');
-                $form.on('submit', function(event) {
-                    if ($(this).serializeObject()['transfer[ref]']) {
-                        // continue with the POST
-                        return;
-                    } else {
-                        event.stopPropagation();
-                        event.preventDefault();
-                        $(".missing-ref-message", $form).show();
-                        return true;
-                    }
-                }).on('click', '.btn-cancel', function(event) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    $(this).closest('.btn-group.dropdown').toggleClass("open");
-                }).on('click', ':input', function(event) {
-                    event.stopPropagation();
-                }).on("click", ".dropdown-toggle", function(event) {
-                    event.stopPropagation();
-                    $(this).parent().toggleClass("show");
-                    $(this).siblings('.dropdown-menu').toggleClass("show");
-                    $(this).attr('aria-expanded', ($(this).parent().hasClass("show") ? 'true' : 'false'));
-                }).on('click', '[data-resource-linker-browse-btn]', function(event) {
-                    $(this).closest('.dropdown-menu.show').removeClass('show');
-                    $(this).closest('.input-group-append.show').removeClass('show');
-                    $(this).closest('.dropdown-toggle[aria-expanded="true"]')
-                        .attr('aria-expanded', 'false');
-                });
-                $li.on('shown.bs.dropdown', function() {
-                    $("#token-input-transfer_ref_", $form).focus();
-                });
-            },
-            isVisible: function(node, tree, toolbarRenderer) {
-                return !tree.large_tree.read_only;
-            },
-        },
     ]),
 
     digital_object: [].concat(SHARED_TOOLBAR_ACTIONS).concat([

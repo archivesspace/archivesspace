@@ -732,6 +732,7 @@ uk:
       resource_accession: Ресурс/Приєднання
       series: Серія
       container_profile: Профіль контейнера
+      location_profile: Профіль розташування
       type: Тип
       indicator: Індикатор
       barcode: Штрих-код
@@ -1045,6 +1046,8 @@ uk:
         transfer_description: Виберіть ресурс, до якого потрібно перенести цей 
           архівний об'єкт
         please_select_a_resource_for_transfer: Будь ласка, виберіть ресурс
+        transfer_confirm_message: "Запис '%{ao}' буде перенесено до вибраного ресурсу"
+        transfer_confirm_message_with_resource: "Запис '%{ao}' буде перенесено до ресурсу '%{resource}'"
         transfer_success: Архівний об'єкт 
           <strong>%{archival_object_display_string</strong> успішно перенесено 
           до ресурсу <strong>%{resource_title</strong>
@@ -1966,6 +1969,12 @@ uk:
     download_spreadsheet: Завантажити електронну таблицю
     download_spreadsheet_modal_message: Створення цієї електронної таблиці може 
       зайняти кілька хвилин.
+    too_many_rows_warning:
+      "Попередження: кількість рядків, які буде згенеровано в цій електронній таблиці, перевищує кількість рядків, які можна оновити
+      через фонове завдання Bulk Archival Object Updater. Якщо ви плануєте запустити завдання Bulk Archival Object Updater за допомогою
+      цієї електронної таблиці, вам потрібно буде зменшити кількість рядків у цьому аркуші до менше або дорівнює 
+      <strong>%{max_row_count} рядків</strong> до введення. Розгляньте можливість створити меншу електронну таблицю зараз.  
+      Це попередження можна безпечно проігнорувати, якщо ви не збираєтеся запускати завдання Bulk Archival Object Updater із цими даними."
   assessment:
     _frontend:
       form_header: Оцінка %{display_string}

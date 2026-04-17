@@ -459,6 +459,7 @@ en:
       resource_accession_id: "Resource/Accession ID"
       series: Series
       container_profile: Container Profile
+      location_profile: Location Profile
       type: Type
       indicator: Indicator
       barcode: Barcode
@@ -905,6 +906,8 @@ en:
         updated: Archival Object <strong>%{archival_object_display_string}</strong> updated
         updated_with_parent: Archival Object <strong>%{archival_object_display_string}</strong> updated
         transfer_description: Select a resource to transfer this archival object into
+        transfer_confirm_message: "The record '%{ao}' will be transferred to the resource you selected"
+        transfer_confirm_message_with_resource: "The record '%{ao}' will be transferred to resource '%{resource}'"
         please_select_a_resource_for_transfer: Please choose a Resource
         transfer_success: Successfully transferred Archival Object <strong>%{archival_object_display_string}</strong> to Resource <strong>%{resource_title}</strong>
         transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
@@ -1045,7 +1048,7 @@ en:
         merge_description: Select digital objects below to merge into
         please_select_a_digital_object_to_merge: Please select a digital object
         merged: Digital object(s) Merged
-        transfer_description: Transfer this resource to...
+        transfer_description: Transfer this digital object to...
         transfer_target: Select a repository to transfer into
         unsuppressed: Digital Object <strong>%{digital_object_title}</strong> unsuppressed
         suppressed: Digital Object <strong>%{digital_object_title}</strong> suppressed
@@ -1959,6 +1962,12 @@ en:
     minimum_notes_description: The minimum number of already extant note subrecords of each type to be included.
     download_spreadsheet: Download Spreadsheet
     download_spreadsheet_modal_message: Generating this spreadsheet may take a few moments.
+    too_many_rows_warning:
+      "Warning: The number of rows that will be generated in this spreadsheet exceeds the number of rows that can be updated
+      via the Bulk Archival Object Updater background job. If you plan to run the Bulk Archival Object Updater job using
+      this spreadsheet, you will need to reduce the number of rows in this sheet to less than or equal to 
+      <strong>%{max_row_count} rows</strong> prior to ingest. Consider generating a smaller spreadsheet now.  
+      This warning can be safely ignored if you do not intend to run a Bulk Archival Object Updater job with this data."
 
   assessment:
     _frontend:

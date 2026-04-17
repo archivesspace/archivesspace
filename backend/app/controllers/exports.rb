@@ -234,7 +234,7 @@ class ArchivesSpaceService < Sinatra::Base
         curl -s -F password="admin" "http://localhost:8089/users/admin/login"
         set SESSION="session_id"
         curl -H "X-ArchivesSpace-Session: $SESSION" \\
-        "http://localhost:8089/repositories/2/resources/marc21/577.xml?include_unpublished_marc=true;include_unpublished_notes=false" //
+        "http://localhost:8089/repositories/2/resources/marc21/577.xml?include_unpublished_marc=true&include_unpublished_notes=false" //
         --output marc21.xml
       SHELL
     end

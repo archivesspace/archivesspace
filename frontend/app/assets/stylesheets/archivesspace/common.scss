@@ -216,6 +216,10 @@ td .btn-group {
   column-gap: 15px; // because bootstrap `.row`s
 }
 
+.row-gap-1 {
+  row-gap: 0.25rem;
+}
+
 .gap-2 {
   gap: 0.5rem;
 }
@@ -289,6 +293,18 @@ td .btn-group {
   border-bottom-right-radius: 0.25rem !important;
   border-bottom-left-radius: 0 !important;
   border-top-left-radius: 0 !important;
+}
+
+.rounded-left-only {
+  border-top-left-radius: 0.25rem !important;
+  border-bottom-left-radius: 0.25rem !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+
+  &.btn-sm {
+    border-top-left-radius: 0.2rem !important;
+    border-bottom-left-radius: 0.2rem !important;
+  }
 }
 
 .hover-no-underline:hover {
