@@ -1580,6 +1580,37 @@ it:
     maintenance_status:
       cancelled_obsolete: Annullato/Obsoleto
       deleted: Eliminato
+      deleted_replaced: Eliminato-Sostituito
+      deleted_merged: Eliminato-Unito
+      deleted_split: Eliminato-Diviso
+      derived: Derivata
+      new: Nuova
+      revised_corrected: Revisionato/Corretto
+      upgraded: Aggiornato
+    metadata_license:
+      no_derivatives: Questa registrazione è resa disponibile con licenza Creative Commons 
+        Attribuzione-Non opere derivate 4.0 Internazionale.
+      non_commercial: Questa registrazione è resa disponibile con licenza Creative Commons 
+        Attribuzione-Non commerciale 4.0 Internazionale.
+      non_commercial_no_derivatives: Questa registrazione è resa disponibile con licenza Creative 
+        Commons Attribuzione-Non commerciale-Non opere derivate 4.0 Internazionale.
+      non_commercial_share_a_like: Questo documento è reso disponibile con licenza Creative Commons 
+        Attribuzione-Non commerciale-Condividi allo stesso modo 4.0 Internazionale.
+      other: Licenza non specificata o personalizzata.
+      public_domain: Questo documento è reso disponibile sotto una licenza Creative Commons 
+        Universal 1.0 Public Domain Dedication.
+      share_a_like: Questa registrazione è resa disponibile con licenza Creative Commons 
+        Attribuzione-Condividi allo stesso modo 4.0 Internazionale.
+    modified_record:
+      missing_characters: caratteri mancanti
+      natc: Nessun tentativo di programmazione
+      not_modified: Non modificato
+      shortened: Accorciato
+    name_person_name_order:
+      direct: Diretto
+      inverted: Indiretta
+    name_rule:
+      aacr: Regole di catalogazione anglo-americane
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: 'Calendario delle date'
