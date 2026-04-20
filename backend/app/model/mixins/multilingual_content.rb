@@ -9,7 +9,7 @@ module MultilingualContent
     # with language-aware getters and setters backed by the record's +_mlc+ table.
     #
     # @param fields [Array<Symbol, String>] names of the fields to make multilingual
-    def multilingual_fields(*fields)
+    def set_multilingual_fields(*fields)
       @multilingual_fields = fields.map(&:to_sym)
       fields.each do |field|
         define_method(field) do

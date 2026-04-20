@@ -10,7 +10,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include LangMaterials
   include LangDescriptions
   include MultilingualContent
-  multilingual_fields :title
+  set_multilingual_fields :title
   include Dates
   include Classifications
   include ExternalDocuments

@@ -9,7 +9,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include Extents
   include LangMaterials
   include MultilingualContent
-  multilingual_fields :title, :label, :display_string
+  set_multilingual_fields :title, :label, :display_string
   include Dates
   include ExternalDocuments
   include Agents

@@ -9,7 +9,7 @@ class Accession < Sequel::Model(:accession)
   include LangMaterials
   include LangDescriptions
   include MultilingualContent
-  multilingual_fields :title, :content_description, :condition_description,
+  set_multilingual_fields :title, :content_description, :condition_description,
                       :disposition, :inventory, :provenance,
                       :general_note, :access_restrictions_note, :use_restrictions_note,
                       :display_string
