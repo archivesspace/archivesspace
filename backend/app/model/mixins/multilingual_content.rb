@@ -31,15 +31,6 @@ module MultilingualContent
       :"#{table_name}_mlc"
     end
 
-    # Returns a dataset of records whose MLC table contains a row matching +title+
-    # in any language.
-    #
-    # @param title [String] the title to search for
-    # @return [Sequel::Dataset]
-    def find_by_mlc_title(title)
-      where(:id => db[mlc_table].where(:title => title).select(:"#{table_name}_id"))
-    end
-
     # Deletes all rows in the +_mlc+ table for the given IDs before removing
     # the parent records, satisfying the foreign key constraint.
     def handle_delete(ids_to_delete)

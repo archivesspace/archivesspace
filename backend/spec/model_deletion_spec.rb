@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative 'mlc_spec_helper'
 
 describe "Deletion of Archival Records" do
 
@@ -11,13 +12,13 @@ describe "Deletion of Archival Records" do
 
 
   it "can delete an accession" do
-    resource = Resource.find_by_mlc_title("A test resource").first
+    resource = find_by_mlc_title(Resource, "A test resource").first
     expect(resource.my_relationships(:spawned)).not_to eq([])
 
-    acc = Accession.find_by_mlc_title("A test accession").first
+    acc = find_by_mlc_title(Accession, "A test accession").first
     expect(acc).not_to be_nil
     acc.delete
-    expect(Accession.find_by_mlc_title("A test accession").first).to be_nil
+    expect(find_by_mlc_title(Accession, "A test accession").first).to be_nil
 
     # No more relationship either
     expect(resource.my_relationships(:spawned)).to eq([])
@@ -25,8 +26,8 @@ describe "Deletion of Archival Records" do
 
 
   it "can delete an archival object (possibly with children)" do
-    ao_with_child = ArchivalObject.find_by_mlc_title("test archival object 1").first
-    ao_without_child = ArchivalObject.find_by_mlc_title("test archival object 2").first
+    ao_with_child = find_by_mlc_title(ArchivalObject, "test archival object 1").first
+    ao_without_child = find_by_mlc_title(ArchivalObject, "test archival object 2").first
 
     expect(ao_with_child).not_to be_nil
     expect(ao_without_child).not_to be_nil
@@ -35,28 +36,28 @@ describe "Deletion of Archival Records" do
     ao_without_child.delete
 
     # All gone!
-    expect(ArchivalObject.find_by_mlc_title("test archival object 1").first).to be_nil
-    expect(ArchivalObject.find_by_mlc_title("test archival object 1.5").first).to be_nil
-    expect(ArchivalObject.find_by_mlc_title("test archival object 2").first).to be_nil
+    expect(find_by_mlc_title(ArchivalObject, "test archival object 1").first).to be_nil
+    expect(find_by_mlc_title(ArchivalObject, "test archival object 1.5").first).to be_nil
+    expect(find_by_mlc_title(ArchivalObject, "test archival object 2").first).to be_nil
   end
 
 
   it "can delete a resource (and all children)" do
-    acc = Accession.find_by_mlc_title("A test accession").first
+    acc = find_by_mlc_title(Accession, "A test accession").first
     expect(acc.my_relationships(:spawned)).not_to eq([])
 
-    resource = Resource.find_by_mlc_title("A test resource").first
+    resource = find_by_mlc_title(Resource, "A test resource").first
     expect(resource).not_to be_nil
 
     resource.delete
 
     # The resource is gone
-    expect(Resource.find_by_mlc_title("A test resource").first).to be_nil
+    expect(find_by_mlc_title(Resource, "A test resource").first).to be_nil
 
     # And all the Archival Objects underneath it are gone too
-    expect(ArchivalObject.find_by_mlc_title("test archival object 1").first).to be_nil
-    expect(ArchivalObject.find_by_mlc_title("test archival object 1.5").first).to be_nil
-    expect(ArchivalObject.find_by_mlc_title("test archival object 2").first).to be_nil
+    expect(find_by_mlc_title(ArchivalObject, "test archival object 1").first).to be_nil
+    expect(find_by_mlc_title(ArchivalObject, "test archival object 1.5").first).to be_nil
+    expect(find_by_mlc_title(ArchivalObject, "test archival object 2").first).to be_nil
 
     # The accession has no related resource any more
     expect(acc.my_relationships(:spawned)).to eq([])
@@ -64,18 +65,18 @@ describe "Deletion of Archival Records" do
 
 
   it "can delete a digital object (and all children)" do
-    digital_object = DigitalObject.find_by_mlc_title("A test digital object").first
+    digital_object = find_by_mlc_title(DigitalObject, "A test digital object").first
     expect(digital_object).not_to be_nil
 
     digital_object.delete
 
     # The digital object is gone
-    expect(DigitalObject.find_by_mlc_title("A test digital object").first).to be_nil
+    expect(find_by_mlc_title(DigitalObject, "A test digital object").first).to be_nil
 
     # And all the Digital Object Components underneath it are gone too
-    expect(DigitalObjectComponent.find_by_mlc_title("digital object child 1").first).to be_nil
-    expect(DigitalObjectComponent.find_by_mlc_title("digital object child 1.5").first).to be_nil
-    expect(DigitalObjectComponent.find_by_mlc_title("digital object child 2").first).to be_nil
+    expect(find_by_mlc_title(DigitalObjectComponent, "digital object child 1").first).to be_nil
+    expect(find_by_mlc_title(DigitalObjectComponent, "digital object child 1.5").first).to be_nil
+    expect(find_by_mlc_title(DigitalObjectComponent, "digital object child 2").first).to be_nil
   end
 
 
@@ -102,7 +103,7 @@ describe "Deletion of Archival Records" do
 
 
   it "can delete a subject" do
-    r = Resource.find_by_mlc_title("A test resource").first
+    r = find_by_mlc_title(Resource, "A test resource").first
 
     expect(r.my_relationships(:subject).count).to eq(1)
 
