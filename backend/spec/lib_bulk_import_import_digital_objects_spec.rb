@@ -1,6 +1,7 @@
 # test ingest
 require "spec_helper"
 require_relative "../app/lib/bulk_import/import_digital_objects.rb"
+require_relative "mlc_spec_helper"
 
 require 'rubyXL/convenience_methods/cell'
 
@@ -117,7 +118,7 @@ describe "Import Digital Objects" do
     expect(report.rows[0].archival_object_id).to eq @archival_object.uri
     expect(report.rows[0].archival_object_display).to include @archival_object.title
 
-    digital_objects_created = DigitalObject.find_by_mlc_title("Digital Object Title #{@now}").all
+    digital_objects_created = find_by_mlc_title(DigitalObject, "Digital Object Title #{@now}").all
     expect(digital_objects_created.count).to eq 1
 
     expect(digital_objects_created[0]).to have_attributes(
@@ -214,7 +215,7 @@ describe "Import Digital Objects" do
     expect(report.rows[0].archival_object_id).to eq @archival_object.uri
     expect(report.rows[0].archival_object_display).to include @archival_object.title
 
-    digital_objects_created = DigitalObject.find_by_mlc_title("Digital Object Title #{@now}").all
+    digital_objects_created = find_by_mlc_title(DigitalObject, "Digital Object Title #{@now}").all
     expect(digital_objects_created.count).to eq 1
 
     expect(digital_objects_created[0]).to have_attributes(
@@ -314,7 +315,7 @@ describe "Import Digital Objects" do
     expect(report.rows[0].archival_object_id).to eq @archival_object.uri
     expect(report.rows[0].archival_object_display).to include @archival_object.title
 
-    digital_objects_created = DigitalObject.find_by_mlc_title("Digital Object Title #{@now}").all
+    digital_objects_created = find_by_mlc_title(DigitalObject, "Digital Object Title #{@now}").all
     expect(digital_objects_created.count).to eq 1
 
     expect(digital_objects_created[0]).to have_attributes(
@@ -401,7 +402,7 @@ describe "Import Digital Objects" do
     expect(report.rows[0].archival_object_id).to eq @archival_object.uri
     expect(report.rows[0].archival_object_display).to include @archival_object.title
 
-    digital_objects_created = DigitalObject.find_by_mlc_title("Digital Object Title #{@now}").all
+    digital_objects_created = find_by_mlc_title(DigitalObject, "Digital Object Title #{@now}").all
     expect(digital_objects_created.count).to eq 1
 
     expect(digital_objects_created[0]).to have_attributes(
@@ -486,7 +487,7 @@ describe "Import Digital Objects" do
     expect(report.rows[0].archival_object_id).to eq @archival_object.uri
     expect(report.rows[0].archival_object_display).to include @archival_object.title
 
-    digital_objects_created = DigitalObject.find_by_mlc_title("Digital Object Title #{@now}").all
+    digital_objects_created = find_by_mlc_title(DigitalObject, "Digital Object Title #{@now}").all
     expect(digital_objects_created.count).to eq 1
 
     # Find level_id
@@ -569,7 +570,7 @@ describe "Import Digital Objects" do
     expect(report.rows[0].archival_object_id).to eq @archival_object.uri
     expect(report.rows[0].archival_object_display).to include @archival_object.title
 
-    digital_objects_created = DigitalObject.find_by_mlc_title("Digital Object Title #{@now}").all
+    digital_objects_created = find_by_mlc_title(DigitalObject, "Digital Object Title #{@now}").all
     expect(digital_objects_created.count).to eq 1
 
     # Find level_id
@@ -643,7 +644,7 @@ describe "Import Digital Objects" do
         digital_object_count_after = ::DigitalObject.count
         expect(digital_object_count_after).to eq digital_object_count_before + 1
 
-        digital_objects_created = DigitalObject.find_by_mlc_title("Digital Object Title #{@now}").all
+        digital_objects_created = find_by_mlc_title(DigitalObject, "Digital Object Title #{@now}").all
         expect(digital_objects_created.count).to eq 1
         digital_object = ::DigitalObject.to_jsonmodel(digital_objects_created[0].id)
 
@@ -706,7 +707,7 @@ describe "Import Digital Objects" do
         digital_object_count_after = ::DigitalObject.count
         expect(digital_object_count_after).to eq digital_object_count_before + 1
 
-        digital_objects_created = DigitalObject.find_by_mlc_title("Digital Object Title #{@now}").all
+        digital_objects_created = find_by_mlc_title(DigitalObject, "Digital Object Title #{@now}").all
         expect(digital_objects_created.count).to eq 1
         digital_object = ::DigitalObject.to_jsonmodel(digital_objects_created[0].id)
 
@@ -895,7 +896,7 @@ describe "Import Digital Objects" do
         digital_object_count_after = ::DigitalObject.count
         expect(digital_object_count_after).to eq digital_object_count_before + 1
 
-        digital_objects_created = DigitalObject.find_by_mlc_title("Digital Object Title #{@now}").all
+        digital_objects_created = find_by_mlc_title(DigitalObject, "Digital Object Title #{@now}").all
         expect(digital_objects_created.count).to eq 1
         digital_object = ::DigitalObject.to_jsonmodel(digital_objects_created[0].id)
 
@@ -957,7 +958,7 @@ describe "Import Digital Objects" do
         digital_object_count_after = ::DigitalObject.count
         expect(digital_object_count_after).to eq digital_object_count_before + 1
 
-        digital_objects_created = DigitalObject.find_by_mlc_title("Digital Object Title #{@now}").all
+        digital_objects_created = find_by_mlc_title(DigitalObject, "Digital Object Title #{@now}").all
         expect(digital_objects_created.count).to eq 1
         digital_object = ::DigitalObject.to_jsonmodel(digital_objects_created[0].id)
 
