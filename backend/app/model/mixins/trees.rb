@@ -192,7 +192,6 @@ module Trees
     end
 
     id_positions = {}
-    id_display_strings = {}
     id_depths = {nil => 0}
     parent_to_child_id = {}
 
@@ -212,28 +211,7 @@ module Trees
       end
     end
 
-    # Batch-fetch display_string from the MLC table for all collected node IDs.
-    all_node_ids = id_positions.keys
-    if !all_node_ids.empty?
-      node_model = self.class.node_model
-      if node_model.respond_to?(:mlc_table)
-        lang = RequestContext.get(:language_of_description) || RequestContext.description_language
-        if lang
-          mlc_fk = :"#{self.class.node_type}_id"
-          node_model.db[node_model.mlc_table]
-            .filter(mlc_fk => all_node_ids,
-                    :language_id => lang[:language_id],
-                    :script_id   => lang[:script_id])
-            .select(mlc_fk, :display_string)
-            .each { |row| id_display_strings[row[mlc_fk]] = row[:display_string] }
-        end
-      else
-        node_model.db[node_model.table_name]
-          .filter(:id => all_node_ids)
-          .select(:id, :display_string)
-          .each { |row| id_display_strings[row[:id]] = row[:display_string] }
-      end
-    end
+    id_display_strings = node_display_strings(id_positions.keys)
 
     excluded_rows = apply_exclusions_to_descendants(excluded_rows, parent_to_child_id)
 
@@ -380,6 +358,34 @@ module Trees
   end
 
   private
+
+  # Batch-fetch display_string for every node id, resolving against the
+  # node model's +_mlc+ table (when present) using the current
+  # +language_of_description+ context, and falling back to the node table's
+  # scalar +display_string+ column for non-MLC models.
+  def node_display_strings(node_ids)
+    return {} if node_ids.empty?
+
+    node_model = self.class.node_model
+
+    unless node_model.respond_to?(:mlc_table)
+      return node_model.db[node_model.table_name]
+        .filter(:id => node_ids)
+        .select(:id, :display_string)
+        .each_with_object({}) { |row, h| h[row[:id]] = row[:display_string] }
+    end
+
+    lang = RequestContext.description_language
+    return {} unless lang
+
+    mlc_fk = :"#{self.class.node_type}_id"
+    node_model.db[node_model.mlc_table]
+      .filter(mlc_fk => node_ids,
+              :language_id => lang[:language_id],
+              :script_id   => lang[:script_id])
+      .select(mlc_fk, :display_string)
+      .each_with_object({}) { |row, h| h[row[mlc_fk]] = row[:display_string] }
+  end
 
   def bulk_archival_object_updater_containers_ds
     TopContainer.linked_instance_ds
