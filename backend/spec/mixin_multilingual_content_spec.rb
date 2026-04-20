@@ -47,7 +47,7 @@ describe 'MultilingualContent mixin' do
     RequestContext.put(:language_of_description, orig)
   end
 
-  describe '.multilingual_fields' do
+  describe '.set_multilingual_fields' do
     it "records declared field names on the class" do
       expect(Resource.get_multilingual_fields).to include(:title)
       expect(Resource.get_multilingual_fields).to include(:finding_aid_title)

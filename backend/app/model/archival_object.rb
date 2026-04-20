@@ -10,7 +10,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include Extents
   include LangMaterials
   include MultilingualContent
-  multilingual_fields :title, :display_string
+  set_multilingual_fields :title, :display_string
   include Dates
   include ExternalDocuments
   include RightsStatements
