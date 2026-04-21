@@ -201,7 +201,7 @@ class LargeTree
       end
 
       all_node_ids = (child_to_parent_map.keys + child_to_parent_map.values).compact.uniq
-      node_to_title_map = mlc_display_strings(db, all_node_ids)
+      node_to_title_map = display_strings_for(db, all_node_ids)
 
       ## Calculate the waypoint that each node will fall into
       node_to_waypoint_map = {}
@@ -269,7 +269,7 @@ class LargeTree
           records[row[:id]] = row
         end
 
-      titles = mlc_display_strings(db, record_ids)
+      titles = display_strings_for(db, record_ids)
 
       # Count up their children
       child_counts = Hash[db[@node_table]
@@ -314,27 +314,40 @@ class LargeTree
 
   private
 
-  # Fetches MLC display strings for a batch of node IDs for the language in the current request context.
+  # Fetches display strings for a batch of node IDs for the language in the current request context.
   #
   # @param db [Sequel::Database] the open database connection
   # @param ids [Array<Integer>] node record IDs
   # @return [Hash{Integer=>String}] map of record ID to display_string
-  def mlc_display_strings(db, ids)
+  def display_strings_for(db, ids)
     return {} if ids.empty?
 
     node_model = @root_record.class.node_model
-
-    unless node_model.respond_to?(:mlc_table)
-      # Non-MLC node types: fetch display_string directly from the node table.
-      return db[@node_table]
-               .filter(:id => ids)
-               .select(:id, :display_string)
-               .each_with_object({}) { |row, h| h[row[:id]] = row[:display_string] }
+    if node_model.respond_to?(:mlc_table)
+      mlc_display_strings(db, ids)
+    else
+      non_mlc_display_strings(db, ids)
     end
+  end
+
+  # Fetches display strings for nodes whose model does not have an mlc table
+  def non_mlc_display_strings(db, ids)
+    return {} if ids.empty?
+
+    db[@node_table]
+      .filter(:id => ids)
+      .select(:id, :display_string)
+      .each_with_object({}) { |row, h| h[row[:id]] = row[:display_string] }
+  end
+
+  # Fetches display strings for nodes whose model has an mlc table
+  def mlc_display_strings(db, ids)
+    return {} if ids.empty?
 
     lang = RequestContext.description_language
     return {} unless lang
 
+    node_model = @root_record.class.node_model
     mlc_table = node_model.mlc_table
     mlc_fk    = :"#{@node_type}_id"
 
