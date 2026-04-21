@@ -30,6 +30,7 @@
 <%= javascript_include_tag "InfiniteTreeRecordPane.js" %>
 <%= javascript_include_tag "InfiniteTreeToolbar.js" %>
 <%= javascript_include_tag "InfiniteTreeToolbarActions.js" %>
+<%= javascript_include_tag "InfiniteTreeSelection.js" %>
 
 <div
   id="infinite-tree-component"
@@ -143,5 +144,6 @@ const infiniteTreeRouter = new InfiniteTreeRouter({
 if (!<%= read_only %>) {
   new InfiniteTreeToolbar();
   new InfiniteTreeToolbarActions();
+  new InfiniteTreeSelection(); // Should this be called MultiSelection?
 }
 </script>
