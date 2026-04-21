@@ -143,10 +143,38 @@ class LargeTree
     end
   end
 
+  # Given leaf node IDs belonging to the tree rooted at +@root_record+, return the
+  # chain of ancestors each one hangs off along with the waypoint page number the
+  # InfiniteTree client has to load to reveal each ancestor.
+  #
+  # Paths read root -> leaf's parent; the leaf itself is never included because the
+  # caller already knows which node it asked about.
+  #
+  # Used by the InfiniteTree widgets in both staff (+largetree.js.erb+) and public
+  # (+InfiniteTreeFetch.js+, as +ancestors(id)+) UIs to expand a tree to a specific
+  # deep-linked node, and by the PUI indexer (+large_tree_doc_indexer.rb+) which
+  # precomputes one +tree_node_from_root+ Solr doc per node so PUI tree navigation
+  # doesn't have to hit the live backend.
+  #
+  # @param node_ids [Array<Integer>] IDs of nodes whose ancestor paths are
+  #   requested.  Every ID must belong to +@root_record+
+  # @param repo_id [Integer] repository ID used to build ancestor node URIs
+  #   in the returned segments.
+  #
+  # @return [Hash{Integer => Array<Hash>}] map of input +node_id+ to its path,
+  #   where each path is an array of segment hashes ordered root -> leaf's parent.
+  #   Each segment hash has the shape:
+  #     {
+  #       "node"            => String or nil, # uri of this ancestor; nil for the root segment
+  #       "root_record_uri" => String,        # @root_record.uri
+  #       "jsonmodel_type"  => Symbol,        # @node_type for ancestors, @root_type for the root segment
+  #       "title"           => String,        # ancestor display_string, or @root_record.title
+  #       "parsed_title"    => Object,        # mixed-content-parsed title
+  #       "offset"          => Integer        # waypoint page number to load to render this node
+  #     }
   def node_from_root(node_ids, repo_id)
     child_to_parent_map = {}
     node_to_position_map = {}
-    node_to_root_record_map = {}
     node_to_title_map = {}
 
     result = {}
@@ -161,11 +189,11 @@ class LargeTree
 
         db[@node_table]
           .filter(:id => nodes_to_expand)
+          .filter(:root_record_id => @root_record.id)
           .filter(published_filter)
-          .select(:id, :parent_id, :root_record_id, :position).each do |row|
+          .select(:id, :parent_id, :position).each do |row|
           child_to_parent_map[row[:id]] = row[:parent_id]
           node_to_position_map[row[:id]] = row[:position]
-          node_to_root_record_map[row[:id]] = row[:root_record_id]
           next_nodes_to_expand << row[:parent_id]
         end
 
@@ -181,7 +209,7 @@ class LargeTree
       (child_to_parent_map.keys + child_to_parent_map.values).compact.uniq.each do |node_id|
         this_position = db[@node_type]
                         .filter(:parent_id => child_to_parent_map[node_id])
-                        .filter(:root_record_id => node_to_root_record_map[node_id])
+                        .filter(:root_record_id => @root_record.id)
                         .filter(published_filter)
                         .where { position <= node_to_position_map[node_id] }
                         .count
@@ -189,16 +217,8 @@ class LargeTree
         node_to_waypoint_map[node_id] = (this_position / WAYPOINT_SIZE)
       end
 
-      # Replacing the original join query here under the assumption that a LargeTree is always scoped
-      # to a single root record, so all node_ids are guaranteed to belong to @root_record.
-
-      root_record_titles = { @root_record.id => @root_record.title }
-
       ## Build up the path of waypoints for each node
       node_ids.each do |node_id|
-        root_record_id = node_to_root_record_map.fetch(node_id)
-        root_record_uri = JSONModel(@root_type).uri_for(root_record_id, :repo_id => repo_id)
-
         path = []
 
         current_node = node_id
@@ -206,7 +226,7 @@ class LargeTree
           parent_node = child_to_parent_map[current_node]
 
           path << {"node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
-                   "root_record_uri" => root_record_uri,
+                   "root_record_uri" => @root_record.uri,
                    "jsonmodel_type" => @node_type,
                    "title" => node_to_title_map.fetch(parent_node),
                    "offset" => node_to_waypoint_map.fetch(current_node),
@@ -216,11 +236,11 @@ class LargeTree
         end
 
         path << {"node" => nil,
-                 "root_record_uri" => root_record_uri,
+                 "root_record_uri" => @root_record.uri,
                  "offset" => node_to_waypoint_map.fetch(current_node),
                  "jsonmodel_type" => @root_type,
-                 "title" => root_record_titles[root_record_id],
-                 "parsed_title" => MixedContentParser.parse(root_record_titles[root_record_id], '/')}
+                 "title" => @root_record.title,
+                 "parsed_title" => MixedContentParser.parse(@root_record.title, '/')}
 
         result[node_id] = path.reverse
       end
