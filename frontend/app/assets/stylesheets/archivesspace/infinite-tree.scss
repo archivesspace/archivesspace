@@ -139,6 +139,26 @@
       pointer-events: none;
     }
   }
+
+  // Reorder-mode multi-selection. Colors mirror legacy .multiselected-row in
+  // largetree.scss so the two trees look familiar during the migration.
+  &.multiselected > .node-row > .node-body {
+    background-color: #b6def5;
+    outline: 1px solid #0a6aa1;
+  }
+
+  // Ancestors/descendants of any currently-selected row are locked out of
+  // selection (see InfiniteTreeSelection#isLockedRelativeToSelection).
+  &.selection-locked > .node-row > .node-body {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+#infinite-tree-container.reorder-mode {
+  .node:not(.root) > .node-row {
+    cursor: pointer;
+  }
 }
 
 .node-row {
