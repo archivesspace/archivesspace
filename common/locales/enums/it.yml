@@ -1155,6 +1155,8 @@ it:
       updated: Aggiornato
     _note_types:
       appraisal: Valutazione
+      abstract: Astratto
+      accessrestrict: Condizioni che regolano l'accesso
     script_iso15924:
       Adlm: Adlam
       Bali: Balinese
@@ -1611,6 +1613,52 @@ it:
       inverted: Indiretta
     name_rule:
       aacr: Regole di catalogazione anglo-americane
+      ccr: Catalogazione delle risorse culturali
+      dacs: 'Descrivere gli archivi: uno standard di contenuto'
+      isaar: Standard internazionale per la registrazione di autorità archivistica per enti 
+        societari, persone fisiche e famiglie
+      local: Norme locali
+      rad: Regole per la descrizione archivistica
+      rda: Descrizione e accesso alla risorsa
+    name_source:
+      cash: Intestazioni di soggetto canadesi
+      ingest: Fonte di ingestione non specificata
+      lcnaf: File di autorità dei nomi della Biblioteca del Congresso
+      lcshac: Intestazioni di soggetto per bambini della Biblioteca del Congresso
+      local: Fonti locali
+      nad: Database di autorità dei nomi NAD/ARK II
+      naf: Fascicolo di autorizzazione NACO
+      nal: Soggetti della Biblioteca Nazionale di Agricoltura
+      ram: Elenco delle autorità RAMEAU
+      rvm: Elenco delle star del settore
+      snac: SPUNTINO
+      ulan: Elenco sindacale dei nomi degli artisti
+    name_type:
+      differentiated: Differenziato
+      natc: Nessun tentativo di programmazione
+      not_applicable: Non applicabile
+      undifferentiated: Indifferenziato
+    note_index_item_type:
+      corporate_entity: Entità aziendale
+      family: Famiglia
+      function: Funzione
+      genre_form: Genere / Forma
+      geographic_name: Nome geografico
+      name: Nome
+      occupation: Occupazione
+      person: Persona
+      subject: Soggetta
+      title: Titolo
+    note_rights_statement_act_type:
+      additional_information: Informazioni aggiuntive
+      expiration: Scadenza
+      extension: Estensione
+      permissions: Autorizzazioni
+      restrictions: Restrizioni
+    note_rights_statement_type:
+      additional_information: Informazioni aggiuntive
+      materials: Materiali
+      type_note: Tipo Nota
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: 'Calendario delle date'
