@@ -14,11 +14,7 @@ class AccessionReport < AbstractReport
 
   def query_string
     lang = RequestContext.description_language
-    lang_condition = if lang
-                       "accession_mlc.language_id = #{db.literal(lang[:language_id])} and accession_mlc.script_id = #{db.literal(lang[:script_id])}"
-                     else
-                       '1=0'
-                     end
+    lang_condition = "accession_mlc.language_id = #{db.literal(lang[:language_id])} and accession_mlc.script_id = #{db.literal(lang[:script_id])}"
 
     "select
       accession.id as accession_id,
