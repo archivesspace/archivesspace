@@ -47,6 +47,7 @@ Sequel.migration do
       DynamicEnum :language_id,  :null => false
       DynamicEnum :script_id,    :null => false
       TextField :title
+      TextField :display_string
       TextField :content_description
       TextField :condition_description
       TextField :disposition
@@ -68,6 +69,7 @@ Sequel.migration do
       DynamicEnum :language_id,        :null => false
       DynamicEnum :script_id,          :null => false
       TextField :title
+      TextField :display_string
       primary_key [:archival_object_id, :language_id, :script_id]
     end
     alter_table(:archival_object_mlc) do
@@ -95,6 +97,7 @@ Sequel.migration do
       DynamicEnum :script_id,                   :null => false
       TextField :title
       TextField :label
+      TextField :display_string
       primary_key [:digital_object_component_id, :language_id, :script_id]
     end
     alter_table(:digital_object_component_mlc) do
@@ -107,20 +110,20 @@ Sequel.migration do
 
     lang_enum   = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
     script_enum = self[:enumeration].filter(:name => 'script_iso15924').get(:id)
-    language_id  = self[:enumeration_value].filter(:enumeration_id => lang_enum,   :value => AppConfig[:mlc_default_language]).get(:id)
-    script_id = self[:enumeration_value].filter(:enumeration_id => script_enum, :value => AppConfig[:mlc_default_script]).get(:id)
+    language_id = self[:enumeration_value].filter(:enumeration_id => lang_enum, :value => AppConfig[:mlc_default_language]).get(:id)
+    script_id   = self[:enumeration_value].filter(:enumeration_id => script_enum, :value => AppConfig[:mlc_default_script]).get(:id)
 
     {
       :resource => %i[title finding_aid_title finding_aid_subtitle finding_aid_author
                       finding_aid_sponsor finding_aid_edition_statement
                       finding_aid_series_statement finding_aid_note
                       repository_processing_note finding_aid_filing_title],
-      :accession => %i[title content_description condition_description disposition
+      :accession => %i[title display_string content_description condition_description disposition
                        inventory provenance general_note
                        access_restrictions_note use_restrictions_note],
-      :archival_object          => %i[title],
+      :archival_object          => %i[title display_string],
       :digital_object           => %i[title],
-      :digital_object_component => %i[title label],
+      :digital_object_component => %i[title label display_string],
     }.each do |record_type, fields|
       mlc_table = :"#{record_type}_mlc"
       fk        = :"#{record_type}_id"
@@ -149,6 +152,7 @@ Sequel.migration do
 
     alter_table(:accession) do
       drop_column :title
+      drop_column :display_string
       drop_column :content_description
       drop_column :condition_description
       drop_column :disposition
@@ -161,6 +165,7 @@ Sequel.migration do
 
     alter_table(:archival_object) do
       drop_column :title
+      drop_column :display_string
     end
 
     alter_table(:digital_object) do
@@ -170,6 +175,7 @@ Sequel.migration do
     alter_table(:digital_object_component) do
       drop_column :title
       drop_column :label
+      drop_column :display_string
     end
   end
 end
