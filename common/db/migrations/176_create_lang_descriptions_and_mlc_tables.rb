@@ -104,12 +104,11 @@ Sequel.migration do
     end
 
     # --- Data migration: move existing field values to _mlc tables ---
-    # Default to English (eng) + Latin (Latn)
 
     lang_enum   = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
     script_enum = self[:enumeration].filter(:name => 'script_iso15924').get(:id)
-    eng_id  = self[:enumeration_value].filter(:enumeration_id => lang_enum,   :value => 'eng').get(:id)
-    latn_id = self[:enumeration_value].filter(:enumeration_id => script_enum, :value => 'Latn').get(:id)
+    language_id  = self[:enumeration_value].filter(:enumeration_id => lang_enum,   :value => AppConfig[:mlc_default_language]).get(:id)
+    script_id = self[:enumeration_value].filter(:enumeration_id => script_enum, :value => AppConfig[:mlc_default_script]).get(:id)
 
     {
       :resource => %i[title finding_aid_title finding_aid_subtitle finding_aid_author
@@ -128,8 +127,8 @@ Sequel.migration do
       self[record_type].each do |row|
         self[mlc_table].insert(
           fk           => row[:id],
-          :language_id => eng_id,
-          :script_id   => latn_id,
+          :language_id => language_id,
+          :script_id   => script_id,
           **fields.each_with_object({}) { |f, h| h[f] = row[f] }
         )
       end
