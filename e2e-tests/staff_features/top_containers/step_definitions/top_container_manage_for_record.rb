@@ -22,14 +22,7 @@ def open_top_containers_panel_with_retry
   end
 end
 
-Given 'the top container management panel is open for a resource' do
-  visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
-  expect(page).to have_selector('h2', visible: true, text: 'Resource')
-  wait_for_ajax
-  open_top_containers_panel_with_retry
-end
-
-When 'the archivist opens the top container management panel for the resource' do
+When 'the archivist manages top containers for the resource' do
   open_top_containers_panel_with_retry
 end
 
