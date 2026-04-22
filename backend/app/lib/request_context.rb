@@ -52,8 +52,7 @@ class RequestContext
   # otherwise falls back to the enumeration IDs for
   # +AppConfig[:mlc_default_language]+ / +AppConfig[:mlc_default_script]+.
   #
-  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or
-  #   +nil+ if neither can be resolved.
+  # @return Hash{Symbol=>Integer} +{ language_id:, script_id: }+
   def self.description_language
     lang = get(:language_of_description)
     return lang if lang
