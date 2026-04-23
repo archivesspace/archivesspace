@@ -69,7 +69,8 @@ class ArchivesSpaceService < Sinatra::Base
     .documentation("Includes the first set of immediate children, which are grouped into 'waypoints'. Additional API requests may be required to retrieve all children if there are too many to include in the first response. See Returns below for details.")
     .params(["id", :id],
             ["repo_id", :repo_id],
-            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+
+            ["description_language", String, "Language tag '<iso639_2>_<iso15924>' (e.g. 'fre_Latn') for multilingual content.  Defaults to the root record's primary language of description.", :optional => true])
     .example("shell") do
       <<~SHELL
         curl -H "X-ArchivesSpace-Session: $SESSION" \\
@@ -88,7 +89,8 @@ class ArchivesSpaceService < Sinatra::Base
             ["repo_id", :repo_id],
             ["offset", Integer, "The page of records to return"],
             ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true],
-            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false],
+            ["description_language", String, "Language tag '<iso639_2>_<iso15924>' (e.g. 'fre_Latn') for multilingual content.  Defaults to the root record's primary language of description.", :optional => true])
     .example("shell") do
       <<~SHELL
         curl -H "X-ArchivesSpace-Session: $SESSION" \\
@@ -115,7 +117,8 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["node_uri", String, "The URI of the Classification Term record of interest"],
-            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false],
+            ["description_language", String, "Language tag '<iso639_2>_<iso15924>' (e.g. 'fre_Latn') for multilingual content.  Defaults to the root record's primary language of description.", :optional => true])
     .example("shell") do
       <<~SHELL
         curl -H "X-ArchivesSpace-Session: $SESSION" \\
@@ -135,7 +138,8 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["node_ids", [Integer], "The IDs of the Classification Term records of interest"],
-            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false],
+            ["description_language", String, "Language tag '<iso639_2>_<iso15924>' (e.g. 'fre_Latn') for multilingual content.  Defaults to the root record's primary language of description.", :optional => true])
     .example("shell") do
       <<~SHELL
         curl -H "X-ArchivesSpace-Session: $SESSION" \\
@@ -153,7 +157,10 @@ class ArchivesSpaceService < Sinatra::Base
   def large_tree_for_classification(largetree_opts = {})
     classification = Classification.get_or_die(params[:id])
 
-    large_tree = LargeTree.new(classification, {:published_only => params[:published_only]}.merge(largetree_opts))
+    large_tree = LargeTree.new(classification, {
+                                 :published_only => params[:published_only],
+                                 :description_language => params[:description_language]
+                               }.merge(largetree_opts))
     large_tree.add_decorator(LargeTreeClassification.new)
 
     large_tree

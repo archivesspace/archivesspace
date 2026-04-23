@@ -37,6 +37,112 @@ module MultilingualContent
       db[mlc_table].where(:"#{table_name}_id" => ids_to_delete).delete
       super
     end
+
+    # Returns every +_mlc+ row for +obj+, keyed by
+    # +"<language_iso639_2>_<script_iso15924>"+, stripped of the FK and enum
+    # ID columns so only the translated field values remain.
+    #
+    # @param obj [Sequel::Model]
+    # @return [Hash{String=>Hash{String=>String}}]
+    def to_mlc_hash(obj)
+      fk = :"#{table_name}_id"
+      field_syms = get_multilingual_fields
+      rows = db[mlc_table].where(fk => obj.id).all
+      rows.each_with_object({}) do |row, acc|
+        lang   = BackendEnumSource.value_for_id('language_iso639_2', row[:language_id])
+        script = BackendEnumSource.value_for_id('script_iso15924',   row[:script_id])
+        next unless lang && script
+        acc["#{lang}_#{script}"] = field_syms.each_with_object({}) do |field, h|
+          val = row[field]
+          h[field.to_s] = val unless val.nil? || val.to_s.empty?
+        end
+      end
+    end
+
+    # Returns the language/script pair for +obj+'s primary
+    # +LanguageAndScriptOfDescription+ entry, or +nil+ if the record has no
+    # such association or none is marked primary.
+    #
+    # @param obj [Sequel::Model]
+    # @return [Hash{Symbol=>Integer}, nil]
+    def primary_description_language_for_record(obj)
+      return nil unless associations.include?(:language_and_script_of_description)
+
+      entry = obj.language_and_script_of_description.find { |ld| ld.is_primary == 1 }
+      entry ? { language_id: entry[:language_id], script_id: entry[:script_id] } : nil
+    end
+
+    # Batch-attaches MLC data to a set of serialised +jsons+ for +objs+.
+    #
+    # For every record:
+    #   1. Sets +json['mlc_fields']+ to the +to_mlc_hash+ structure so the
+    #      indexer can emit +<field>_<lang>_mlc+ dynamic fields and walk every
+    #      variant into +fullrecord+ / +fullrecord_published+.
+    #   2. Overwrites each declared multilingual scalar on the json with the
+    #      value from the record's primary +lang_descriptions+ row, fixing the
+    #      indexer bug where scalars reflected whatever
+    #      +RequestContext.description_language+ happened to resolve to
+    #      (eng/Latn by default) rather than the record's primary language.
+    #
+    # Callers invoke this at the bottom of their +sequel_to_jsonmodel+ so the
+    # returned JSONModels carry +mlc_fields+ in +@data+.  +mlc_fields+ is
+    # declared in +abstract_archival_object+ and +accession+ schemas so it
+    # survives +to_hash(:trusted)+.
+    #
+    # @param objs  [Array<Sequel::Model>]
+    # @param jsons [Array<JSONModel>]
+    # @return [Array<JSONModel>] the same +jsons+ passed in
+    def attach_mlc_fields_to_jsons!(objs, jsons)
+      return jsons if objs.empty?
+
+      fk           = :"#{table_name}_id"
+      field_syms   = get_multilingual_fields
+      rows_by_obj  = db[mlc_table].where(fk => objs.map(&:id)).all.group_by { |r| r[fk] }
+      primary_map  = batch_primary_languages(objs)
+
+      objs.zip(jsons).each do |obj, json|
+        obj_rows = rows_by_obj.fetch(obj.id, [])
+
+        json['mlc_fields'] = obj_rows.each_with_object({}) do |row, acc|
+          lang   = BackendEnumSource.value_for_id('language_iso639_2', row[:language_id])
+          script = BackendEnumSource.value_for_id('script_iso15924',   row[:script_id])
+          next unless lang && script
+          acc["#{lang}_#{script}"] = field_syms.each_with_object({}) do |field, h|
+            val = row[field]
+            h[field.to_s] = val unless val.nil? || val.to_s.empty?
+          end
+        end
+
+        primary = primary_map[obj.id]
+        next unless primary
+        primary_row = obj_rows.find { |r|
+          r[:language_id] == primary[:language_id] && r[:script_id] == primary[:script_id]
+        }
+        next unless primary_row
+        field_syms.each do |field|
+          val = primary_row[field]
+          json[field.to_s] = val unless val.nil?
+        end
+      end
+
+      jsons
+    end
+
+    # Returns +{obj_id => {language_id:, script_id:}}+ for each obj that has
+    # a primary +language_and_script_of_description+ row, using a single
+    # batched SELECT.  Empty when the model has no such association.
+    def batch_primary_languages(objs)
+      return {} if objs.empty?
+      return {} unless associations.include?(:language_and_script_of_description)
+
+      fk = :"#{table_name}_id"
+      db[:language_and_script_of_description]
+        .where(fk => objs.map(&:id), :is_primary => 1)
+        .select(fk, :language_id, :script_id)
+        .each_with_object({}) do |row, h|
+          h[row[fk]] = { language_id: row[:language_id], script_id: row[:script_id] }
+        end
+    end
   end
 
   # Returns the value of +field_name+ for the current language context,

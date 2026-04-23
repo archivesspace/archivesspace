@@ -376,6 +376,30 @@ class IndexerCommon
 
 
   def configure_doc_rules
+    # Emit per-language dynamic fields from mlc_fields, one
+    # <field>_<iso639-2>_mlc entry per (language, field) pair.  The scalar
+    # fields on the Solr doc already carry the primary-language value
+    # (populated by MultilingualContent.attach_mlc_fields_to_jsons! before
+    # serialisation); this hook covers every non-primary variant for search.
+    # fullrecord is independent — extract_string_values walks mlc_fields on
+    # its own via build_fullrecord.
+    add_document_prepare_hook {|doc, record|
+      mlc = record['record']['mlc_fields']
+      next unless mlc.is_a?(Hash)
+
+      mlc.each do |lang_script, fields|
+        next unless fields.is_a?(Hash)
+        lang_code = lang_script.to_s.split('_', 2).first
+        next if lang_code.nil? || lang_code.empty?
+
+        fields.each do |field_name, value|
+          next if value.nil? || value.to_s.empty?
+          next if IndexerCommonConfig.fullrecord_excludes.include?(field_name.to_s)
+          doc["#{field_name}_#{lang_code}_mlc"] = value
+        end
+      end
+    }
+
     add_document_prepare_hook {|doc, record|
       found_keys = Set.new
 

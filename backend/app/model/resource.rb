@@ -111,6 +111,12 @@ class Resource < Sequel::Model(:resource)
     [res[:id_0], res[:id_1], res[:id_2], res[:id_3]].compact.join(".")
   end
 
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
+    attach_mlc_fields_to_jsons!(objs, jsons)
+    jsons
+  end
+
   # For resources, we want the level returned in our ordered_record response
   def self.ordered_record_properties(record_ids)
     result = super.clone

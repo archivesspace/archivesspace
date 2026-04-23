@@ -210,6 +210,17 @@
         "type" => "JSONModel(:file_version) object",
         "readonly" => true
       },
+
+      # Per-language translations of multilingual fields, keyed by
+      # "<language_iso639_2>_<script_iso15924>".  Populated by
+      # +MultilingualContent.attach_mlc_fields_to_jsons!+ at serialisation time;
+      # consumed by the indexer to emit +*_<lang>_mlc+ dynamic Solr fields and
+      # by +build_fullrecord+ for cross-language search.
+      "mlc_fields" => {
+        "type" => "object",
+        "readonly" => "true",
+        "required" => false
+      },
     },
   },
 }

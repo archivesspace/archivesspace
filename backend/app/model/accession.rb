@@ -95,4 +95,10 @@ class Accession < Sequel::Model(:accession)
     super
   end
 
+  def self.sequel_to_jsonmodel(objs, opts = {})
+    jsons = super
+    attach_mlc_fields_to_jsons!(objs, jsons)
+    jsons
+  end
+
 end
