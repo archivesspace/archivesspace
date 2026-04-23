@@ -13,4 +13,4 @@ for dir in ../gems/gems/jruby-*; do
 done
 
 
-java $JAVA_OPTS -cp "../lib/*$JRUBY" org.jruby.Main ../launcher/password_reset/lib/password-reset.rb ${1+"$@"}
+java $JAVA_OPTS -cp "../lib/*$JRUBY" org.jruby.Main -r../launcher/launcher_init ../launcher/password_reset/lib/password-reset.rb ${1+"$@"}

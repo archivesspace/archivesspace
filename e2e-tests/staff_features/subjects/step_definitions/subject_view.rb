@@ -11,9 +11,12 @@ Given 'a Subject has been created' do
 
   @subject_number_of_external_documents = 0
 
-  click_on 'Save'
-  expect(page).to have_selector('h2', visible: true, text: 'Subject')
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
+  click_on 'Save Subject', match: :first
+  wait_for_ajax
+  expect(page).to have_selector('h2', visible: true, text: "subject_term_#{@uuid}")
+  within '#form_messages' do
+    expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
+  end
 
   uri_parts = current_url.split('/')
   uri_parts.pop
@@ -61,8 +64,13 @@ Given 'two Subjects have been created with a common keyword in their term' do
   fill_in 'subject_terms__0__term_', with: "Subject A #{@subject_a_uuid} #{@shared_subject_uuid}"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
-  click_on 'Save'
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
+  click_on 'Save Subject', match: :first
+  wait_for_ajax
+  expect(page).to have_selector('h2', visible: true, text: "Subject A #{@subject_a_uuid} #{@shared_subject_uuid}")
+
+  within '#form_messages' do
+    expect(page).to have_css('.alert.alert-success', text: 'Subject Created')
+  end
   uri_parts = current_url.split('/')
   uri_parts.pop
   @subject_a_id = uri_parts.pop
@@ -72,8 +80,12 @@ Given 'two Subjects have been created with a common keyword in their term' do
   fill_in 'subject_terms__0__term_', with: "Subject B #{@subject_b_uuid} #{@shared_subject_uuid}"
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
-  click_on 'Save'
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
+  click_on 'Save Subject', match: :first
+  wait_for_ajax
+  expect(page).to have_selector('h2', visible: true, text: "Subject B #{@subject_b_uuid} #{@shared_subject_uuid}")
+  within '#form_messages' do
+    expect(page).to have_css('.alert.alert-success', text: 'Subject Created')
+  end
   uri_parts = current_url.split('/')
   uri_parts.pop
   @subject_b_id = uri_parts.pop

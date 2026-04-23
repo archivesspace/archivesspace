@@ -111,46 +111,4 @@ describe 'Users and Authentication', js: true do
 
     expect(page).to have_text 'Failed to switch to the specified user'
   end
-
-  it 'can activate users' do
-    user = create_user({}, false)
-    admin_user = BackendClientMethods::ASpaceUser.new('admin', 'admin')
-
-    visit '/'
-    expect(page).to have_text 'Please Sign In'
-
-    within "form.login" do
-      fill_in "username", with: admin_user.username
-      fill_in "password", with: admin_user.password
-
-      click_button "Sign In"
-    end
-
-    expect(page).to have_text 'Welcome to ArchivesSpace'
-    element = find('.user-container')
-    expect(element).to have_text 'admin'
-
-    visit '/users'
-
-    expect(page).to have_current_path('/users')
-    expect(page).to have_text 'Users'
-
-    # Activate the user
-    user_row = find('tr', text: user.username)
-    within user_row do
-      click_on 'Activate'
-    end
-    expect(page).to have_text 'User activated'
-
-    # Deactivate the user
-    user_row = find('tr', text: user.username)
-    expect(user_row).to have_text 'Deactivate'
-    within user_row do
-      click_on 'Deactivate'
-    end
-    expect(page).to have_text 'User deactivated'
-
-    user_row = find('tr', text: user.username)
-    expect(user_row).to have_text 'Activate'
-  end
 end

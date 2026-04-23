@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'logger'
 require 'nokogiri'
 require 'i18n'
 require 'asutils'

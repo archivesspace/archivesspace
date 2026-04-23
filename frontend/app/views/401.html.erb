@@ -1,4 +1,4 @@
 <div class="alert alert-danger">
   <p><%= @message %></p>
-  <p><%= t("login.login_expired_link"), :controller => :welcome, :action => :index, :login => true)).html_safe %></p>
+  <p><%= t("login.login_expired_link", :link => url_for(:controller => :welcome, :action => :index, :login => true)).html_safe %></p>
 </div>

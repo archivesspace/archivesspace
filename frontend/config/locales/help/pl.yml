@@ -13,5 +13,147 @@ pl:
       accession_user_defined: Pomoc Dotycząca Zdefiniowanych Przez Użytkownika
       accession_external_documents: Pomoc Dotycząca Dokumentów Zewnętrznych
       accession_metadata_rights_declarations: Pomoc Dotycząca Deklaracji Praw do Metadanych
+      accession_basic_information: Pomoc dotycząca podstawowych informacji
+      accession_extents: Pomoc dotycząca zakresów
+      accession_dates: Pomoc dotycząca dat
+      resource: Pomoc dotycząca zasobów
+      resource_basic_information: Pomoc dotycząca podstawowych informacji
+      resource_dates: Pomoc dotycząca dat
+      resource_extents: Pomoc dotycząca zakresów
+      resource_finding_aid: Pomoc w inwentarz archiwalny
+      resource_related_accessions: Pomoc dotycząca powiązanych pozycji
+      resource_subjects: Pomoc w nauce przedmiotów
+      resource_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      resource_rights_statements: Pomoc dotycząca oświadczeń o prawach autorskich
+      resource_instances: Pomoc dotycząca instancji
+      resource_deaccessions: Pomoc w zakresie wycofywania zbiorów z kolekcji
+      resource_collection_management: Pomoc w zarządzaniu kolekcjami
+      resource_metadata_rights_declarations: Pomoc dotycząca deklaracji praw do metadanych
+      resource_classification: Pomoc dotycząca klasyfikacji
+      resource_user_defined: Pomoc dotycząca funkcji zdefiniowanych przez użytkownika
+      resource_load_via_spreadsheet: Pomoc dotycząca ładowania danych za pomocą arkusza 
+        kalkulacyjnego
+      bulk_archival_object_updater_job: Pomoc dotycząca masowej aktualizacji obiektów archiwalnych
+      archival_object: Pomoc dotycząca obiektów archiwalnych
+      archival_object_basic_information: Pomoc dotycząca podstawowych informacji
+      archival_object_dates: Pomoc dotycząca dat
+      archival_object_extents: Pomoc dotycząca zakresów
+      archival_object_finding_aid: Pomoc w inwentarz archiwalny
+      archival_object_related_accessions: Pomoc dotycząca powiązanych pozycji
+      archival_object_subjects: Pomoc w nauce przedmiotów
+      archival_object_notes: Pomoc dotycząca notatek
+      archival_object_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      archival_object_instances: Pomoc dotycząca instancji
+      archival_object_deaccessions: Pomoc w zakresie wycofywania zbiorów z kolekcji
+      archival_object_collection_management: Pomoc w zarządzaniu kolekcjami
+      archival_object_classification: Pomoc dotycząca klasyfikacji
+      archival_object_user_defined: Pomoc dotycząca funkcji zdefiniowanych przez użytkownika
+      digital_object: Pomoc dotycząca obiektów cyfrowych
+      digital_object_basic_information: Pomoc dotycząca podstawowych informacji
+      digital_object_dates: Pomoc dotycząca dat
+      resource_notes: Pomoc dotycząca notatek
+      archival_object_rights_statements: Pomoc dotycząca oświadczeń o prawach autorskich
+      digital_object_extents: Pomoc dotycząca zakresów
+      digital_object_related_accessions: Pomoc dotycząca powiązanych pozycji
+      digital_object_linked_agents: Pomoc dotycząca linków do agentów
+      digital_object_subjects: Pomoc w nauce przedmiotów
+      digital_object_notes: Pomoc dotycząca notatek
+      digital_object_rights_statements: Pomoc dotycząca oświadczeń o prawach autorskich
+      digital_object_instances: Pomoc dotycząca instancji
+      digital_object_deaccessions: Pomoc w zakresie wycofywania zbiorów z kolekcji
+      digital_object_collection_management: Pomoc w zarządzaniu kolekcjami
+      digital_object_classification: Pomoc dotycząca klasyfikacji
+      digital_object_user_defined: Pomoc dotycząca funkcji zdefiniowanych przez użytkownika
+      digital_object_component: Pomoc dotycząca komponentów obiektów cyfrowych
+      digital_object_component_basic_information: Pomoc dotycząca podstawowych informacji
+      digital_object_component_dates: Pomoc dotycząca dat
+      digital_object_component_related_accessions: Pomoc dotycząca powiązanych pozycji
+      digital_object_component_extents: Pomoc dotycząca zakresów
+      digital_object_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      digital_object_metadata_rights_declarations: Pomoc dotycząca deklaracji praw do metadanych
+      digital_object_component_linked_agents: Pomoc dotycząca linków do agentów
+      digital_object_component_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      digital_object_component_rights_statements: Pomoc dotycząca oświadczeń o prawach autorskich
+      digital_object_component_instances: Pomoc dotycząca instancji
+      digital_object_component_deaccessions: Pomoc w zakresie wycofywania zbiorów z kolekcji
+      digital_object_component_collection_management: Pomoc w zarządzaniu kolekcjami
+      digital_object_component_classification: Pomoc dotycząca klasyfikacji
+      archival_object_linked_agents: Pomoc dotycząca linków do agentów
+      digital_object_component_subjects: Pomoc w nauce przedmiotów
+      digital_object_component_user_defined: Pomoc dotycząca funkcji zdefiniowanych przez 
+        użytkownika
+      subject_basic_information: Pomoc dotycząca podstawowych informacji
+      subject_terms: Pomoc dotycząca terminów i podziałów
+      subject_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_person_dates_of_existence: Pomoc dotycząca dat istnienia
+      agent_person_contact_details: Pomoc dotycząca danych kontaktowych
+      agent_person_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_corporate_entity_contact_details: Pomoc dotycząca danych kontaktowych
+      digital_object_component_notes: Pomoc dotycząca notatek
+      agent_family_dates_of_existence: Pomoc dotycząca dat istnienia
+      agent_family_names: Pomoc dotycząca imion
+      agent_family_contact_details: Pomoc dotycząca danych kontaktowych
+      agent_family_notes: Pomoc dotycząca notatek
+      agent_family_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_corporate_entity_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_software_dates_of_existence: Pomoc dotycząca dat istnienia
+      agent_software_contact_details: Pomoc dotycząca danych kontaktowych
+      agent_software_related_agents: Pomoc dotycząca powiązanych agentów
+      agent_software_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_identifiers: Pomoc dotycząca identyfikatorów jednostek
+      agent_genders: Pomoc dotycząca płci
+      agent_external_documents: Pomoc dotycząca dokumentów zewnętrznych
+      agent_required: Pomoc dotycząca edycji wymaganych pól
+      digital_object_finding_aid: Pomoc w inwentarz archiwalny
+      digital_object_component_finding_aid: Pomoc w inwentarz archiwalny
+      resource_linked_agents: Pomoc dotycząca linków do agentów
+      subject: Pomoc w nauce przedmiotów
+      agent_person: Pomoc dotycząca osób (agentów)
+      agent_person_names: Pomoc dotycząca imion
+      agent_person_notes: Pomoc dotycząca notatek
+      agent_person_related_agents: Pomoc dotycząca powiązanych agentów
+      agent_family: Pomoc dla rodziny (Agent)
+      agent_family_related_agents: Pomoc dotycząca powiązanych agentów
+      agent_corporate_entity: Pomoc dotycząca podmiotu korporacyjnego (agenta)
+      agent_corporate_entity_dates_of_existence: Pomoc dotycząca dat istnienia
+      agent_corporate_entity_names: Pomoc dotycząca imion
+      agent_corporate_entity_notes: Pomoc dotycząca notatek
+      agent_corporate_entity_related_agents: Pomoc dotycząca powiązanych agentów
+      agent_maintenance_histories: Pomoc dotycząca historii konserwacji agentów
+      agent_other_agency_codes: Pomoc dotycząca kodów innych agencji
+      agent_conventions_declarations: Pomoc dotycząca deklaracji dotyczących konwencji agentów
+      agent_alternate_sets: Pomoc dotycząca alternatywnych zestawów agentów
+      agent_record_controls: Pomoc dotycząca kontrolek rekordów agentów
+      agent_topic: Pomoc dotycząca tematów
+      agent_used_language: Pomoc dotycząca używanego języka
+      location: Pomoc dotycząca lokalizacji
+      event_basic_information: Pomoc dotycząca podstawowych informacji
+      event_date: Pomoc dotycząca daty/godziny wydarzenia
+      event_linked_records: Pomoc dotycząca linków do rekordów
+      classification: Pomoc dotycząca klasyfikacji
+      classification_term: Pomoc dotycząca klasyfikacji
+      repository_groups: Pomoc w zarządzaniu grupami
+      repository_users: Pomoc dotycząca przypisywania użytkowników do grup
+      user: Pomoc w zarządzaniu użytkownikami
+      preference: Pomoc dotycząca preferencji
+      custom_report_templates: Pomoc dotycząca niestandardowych szablonów raportów
+      agent_software: Pomoc dotycząca oprogramowania (Agent)
+      agent_software_names: Pomoc dotycząca imion
+      agent_software_notes: Pomoc dotycząca notatek
+      agent_record_identifiers: Pomoc dotycząca identyfikatorów rekordów agentów
+      agent_place: Pomoc dotycząca miejsc
+      agent_occupation: Pomoc w wyborze zawodu
+      agent_function: Pomoc dotycząca funkcji
+      agent_related_agents: Pomoc dotycząca powiązanych agentów
+      event: Pomoc dotycząca wydarzeń
+      event_linked_agents: Pomoc dotycząca linków do agentów
+      import: Pomoc dotycząca importowania danych
+      search: Pomoc dotycząca wyszukiwania i przeglądania
+      repository: Pomoc w zarządzaniu repozytoriami
+      enumeration: Pomoc dotycząca list wartości kontrolowanych
+      agent_sources: Pomoc dotycząca źródeł informacji o agentach
+      agent_external_resources: Pomoc dotycząca powiązanych zasobów zewnętrznych
+      agent_merge: Pomoc dotycząca łączenia agentów
     help_center: Centrum Pomocy ArchivesSpace
     default_tooltip: Centrum Pomocy ArchivesSpace
+    icon: <span class='context-help-icon glyphicon glyphicon-question-sign'></span>

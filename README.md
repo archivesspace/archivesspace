@@ -6,7 +6,7 @@ ArchivesSpace
 
 Built for archives by archivists, ArchivesSpace is the open source archives information management application for managing and providing web access to archives, manuscripts and digital objects.
 
-[Build ArchivesSpace release package](https://github.com/archivesspace/archivesspace/workflows/Build%20ArchivesSpace%20release%20package/badge.svg?branch=master)
+[![Build ArchivesSpace release package](https://github.com/archivesspace/archivesspace/actions/workflows/release.yml/badge.svg)](https://github.com/archivesspace/archivesspace/actions/workflows/release.yml)
 
 * [archivesspace.org](http://archivesspace.org)
 * [User Documentation](https://archivesspace.atlassian.net/wiki/spaces/ADC/pages/917045261/ArchivesSpace+Help+Center) (member benefit)

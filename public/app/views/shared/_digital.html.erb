@@ -47,9 +47,9 @@
                           '(sound_recording_nonmusical)' => 'fa-file-audio-o' ,
                           '(still_image)' => 'fa-file-image-o' ,
                           '(text)' =>  'fa-file-text-o'}.fetch( d_file['material'], 'fa-file-o' ) %> fa-4x"></i>
-              <h5 class="ws-normal">
+              <h2 class="h5 ws-normal">
                 <%= d_file['caption'].blank? ? "#{t('enumerations.instance_instance_type.digital_object')} #{d_file['material']}" : d_file['caption'].html_safe %>
-              </h5>
+              </h2>
               <p class="external-digital-object__content-btn">
                 <%= t('digital_object._public.go')%> <i class="fa fa-external-link" aria-hidden="true"></i>
               </p>

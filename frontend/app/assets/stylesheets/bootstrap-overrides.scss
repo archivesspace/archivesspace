@@ -1,11 +1,11 @@
 // overrides to bring frontend custom styles into alignment after bootstrap upgrade
 
 // Bootstrap v3 Glyphicons (deprecated) from the Softserv updates
-@import 'vendor/glyphicons.scss';
+@import 'vendor/glyphicons';
 
-@import './vendor/bootstrap/scss/functions.scss';
-@import './vendor/bootstrap/scss/variables.scss';
-@import './vendor/bootstrap/scss/mixins.scss';
+@import './vendor/bootstrap/scss/functions';
+@import './vendor/bootstrap/scss/variables';
+@import './vendor/bootstrap/scss/mixins';
 
 html {
   font-size: 100%;

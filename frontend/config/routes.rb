@@ -232,11 +232,6 @@ ArchivesSpace::Application.routes.draw do
 
     match 'enumerations/:id/enumeration_value/:enumeration_value_id' => 'enumerations#update_value', :via => [:post]
 
-
-
-    match 'reports' => 'reports#index', :via => [:get]
-    match 'reports/download' => 'reports#download', :via => [:post]
-
     match 'update_monitor/poll' => 'update_monitor#poll', :via => [:post]
 
     match 'batch_delete/archival_records' => 'batch_delete#archival_records', :via => [:post]
@@ -266,6 +261,8 @@ ArchivesSpace::Application.routes.draw do
     resources :rde_templates
     match 'rde_templates/batch_delete' => 'rde_templates#batch_delete', :via => [:post]
 
+    match 'container_profiles/defaults' => 'container_profiles#defaults', :via => [:get]
+    match 'container_profiles/defaults' => 'container_profiles#update_defaults', :via => [:post]
     resources :container_profiles
     match('container_profiles/search/typeahead' => 'container_profiles#typeahead', :via => [:get])
     match('container_profiles/bulk_operations/update_barcodes' => 'top_containers#update_barcodes', :via => [:post])
@@ -343,6 +340,7 @@ ArchivesSpace::Application.routes.draw do
 
     match "system_info" => "system_info#show", :via => [ :get ]
     match "system_info/log" => "system_info#stream_log", :via => [:get]
+    match "system_info/show_log" => "system_info#show_log", :via => [:get]
 
     root :to => 'welcome#index'
   end

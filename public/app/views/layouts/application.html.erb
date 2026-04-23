@@ -56,7 +56,7 @@
 	<%= render partial: 'shared/pui_authentication' %>
 
 	<section id="content" class="container-fluid mt-2 pt-2 flex-grow-1">
-		<a name="maincontent" id="maincontent"></a>
+		<a id="maincontent" tabindex="-1"></a>
 		<%= flash_messages %>
 		<%= yield %>
 	</section>
@@ -68,7 +68,6 @@
 			<script>
 				FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
 				RECORD_URI = "<%= j(@result.uri) %>";
-				STAFF_LINK_MODE = "<%= j(AppConfig[:pui_staff_link_mode]) %>";
 			</script>
 		<% end %>
 	<% end %>

@@ -117,4 +117,26 @@ describe 'System Information', js: true do
       expect(page).to have_text 'CPU_COUNT'
     end
   end
+
+  describe 'logs' do
+    def visit_system_log(log_type)
+      login_user(admin_user)
+      visit '/system_info'
+      click_on log_type == 'frontend' ? 'Frontend UI' : 'Backend'
+      click_on log_type == 'frontend' ? 'Frontend Log' : 'Backend Log'
+      expect(page).to have_css('#logSpool')
+    end
+
+    describe 'frontend' do
+      before(:each) { visit_system_log('frontend') }
+
+      it_behaves_like 'log feed with auto-scroll control'
+    end
+
+    describe 'backend' do
+      before(:each) { visit_system_log('backend') }
+
+      it_behaves_like 'log feed with auto-scroll control'
+    end
+  end
 end

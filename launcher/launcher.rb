@@ -89,6 +89,8 @@ def start_server(port, *webapps)
   end
 
   server.start
+
+  server
 end
 
 
@@ -140,27 +142,29 @@ def main
     end
   end
 
+  servers = []
+
   begin
     aspace_base = java.lang.System.get_property("ASPACE_LAUNCHER_BASE")
-    start_server(URI(AppConfig[:backend_url]).port, {:war => File.join(aspace_base, 'wars', 'backend.war'), :path => '/'}) if AppConfig[:enable_backend]
+    servers << start_server(URI(AppConfig[:backend_url]).port, {:war => File.join(aspace_base, 'wars', 'backend.war'), :path => '/'}) if AppConfig[:enable_backend]
 
-    start_server(URI(AppConfig[:indexer_url]).port,
+    servers << start_server(URI(AppConfig[:indexer_url]).port,
                  {:war => File.join(aspace_base, 'wars', 'indexer.war'), :path => '/aspace-indexer'}) if AppConfig[:enable_indexer]
 
-    start_server(URI(AppConfig[:frontend_url]).port,
+    servers << start_server(URI(AppConfig[:frontend_url]).port,
                  {:war => File.join(aspace_base, 'wars', 'frontend.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("frontend/assets"),
                        :path => "#{AppConfig[:frontend_proxy_prefix]}assets"}) if AppConfig[:enable_frontend]
 
-    start_server(URI(AppConfig[:public_url]).port,
+    servers << start_server(URI(AppConfig[:public_url]).port,
                  {:war => File.join(aspace_base, 'wars', 'public.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("public/assets"),
                         :path => "#{AppConfig[:public_proxy_prefix]}assets"}) if AppConfig[:enable_public]
 
-    start_server(URI(AppConfig[:docs_url]).port,
+    servers << start_server(URI(AppConfig[:docs_url]).port,
                  {:static_dirs => File.join(aspace_base, "docs", "_site"), :path => '/archivesspace'}) if AppConfig[:enable_docs]
 
-    start_server(URI(AppConfig[:oai_url]).port,
+    servers << start_server(URI(AppConfig[:oai_url]).port,
                  {:war => File.join(aspace_base, 'wars', 'oai.war'), :path => '/'}) if AppConfig[:enable_oai]
 
 
@@ -175,6 +179,8 @@ def main
       You can now point your browser to #{AppConfig[:frontend_url]}
     ************************************************************
   EOF
+
+  servers.first&.join
 end
 
 

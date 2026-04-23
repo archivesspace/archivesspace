@@ -205,4 +205,120 @@ describe 'Repositories', js: true do
     expect(page).to have_content('Set Order in Public Interface')
   end
 
+  context 'index view' do
+    describe 'results table' do
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'repository' }
+      let(:browse_path) { '/repositories' }
+      let(:use_repo_for_sorting_context) { false }
+      # Repo names are not present in the table but are used here to filter by now with out underscores
+      let(:record_1) do
+        create(
+          :repo,
+          repo_code: "repositories_index_sorting_#{now}_1",
+          name: "Repository 1 #{now}",
+          publish: true
+        )
+      end
+      let(:record_2) do
+        create(
+          :repo,
+          repo_code: "repositories_index_sorting_#{now}_2",
+          name: "Repository 2 #{now}",
+          publish: false
+        )
+      end
+      let(:filter_results) { true }
+      let(:initial_sort) { [record_1.repo_code, record_2.repo_code] }
+
+      describe 'sorting' do
+        include_context 'results table setup'
+
+        let(:default_sort_key) { 'title_sort' }
+        let(:additional_browse_columns) { { 4 => 'URI' } }
+        let(:column_headers) do
+          {
+            'Title' => 'title_sort',
+            'Published' => 'publish', # Solr reindexing of publish works for repositories but not yet for other record types
+            "URI" => "uri"
+          }
+        end
+        let(:primary_sort_expectations) do
+          {
+            'title_sort' => {
+              asc: [record_1.repo_code, record_2.repo_code],
+              desc: [record_2.repo_code, record_1.repo_code]
+            },
+            'publish' => {
+              asc: [record_2.repo_code, record_1.repo_code],
+              desc: [record_1.repo_code, record_2.repo_code]
+            },
+            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.repo_code })
+          }
+        end
+        # Uses same publish value (true) as record_1 to create a tie
+        let(:record_3) do
+          create(
+            :repo,
+            repo_code: "repositories_index_sorting_#{now}_3",
+            name: "Repository 3 #{now}",
+            publish: true
+          )
+        end
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary publish asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'publish',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.repo_code,
+                record_2.repo_code,
+                record_3.repo_code
+              ],
+              expected_after_both: [
+                record_1.repo_code,
+                record_2.repo_code,
+                record_3.repo_code
+              ]
+            },
+            {
+              # Case 2: primary publish asc, secondary title_sort desc - secondary changes order
+              primary_key:   'publish',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.repo_code,
+                record_1.repo_code,
+                record_3.repo_code
+              ],
+              expected_after_both: [
+                record_2.repo_code,
+                record_3.repo_code,
+                record_1.repo_code
+              ]
+            }
+          ]
+        end
+
+        it_behaves_like 'results table sorting'
+      end
+
+      describe 'boolean columns' do
+        include_context 'results table setup'
+
+        let(:boolean_column_expectations) do
+          {
+            'publish' => %w[True False]
+          }
+        end
+
+        it_behaves_like 'results table boolean columns'
+      end
+    end
+  end
+
 end

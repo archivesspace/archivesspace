@@ -11,6 +11,7 @@ on:
     branches:
       - master
       - 'ANW-*'
+      - 'release-*'
     tags:
       - 'v[2-9].[0-9].[0-9]*'  # matches v2.0.0, v3.1.4-beta, etc.
 
@@ -56,15 +57,15 @@ jobs:
       image_tag: ${{ steps.meta_archivesspace.outputs.version }}
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: 'true'
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -79,38 +80,41 @@ jobs:
       # ArchivesSpace Metadata
       - name: Extract ArchivesSpace metadata
         id: meta_archivesspace
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: archivesspace/archivesspace
           tags: |
             type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
             type=raw,value=latest,enable={{is_default_branch}}
             type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=raw,value=${{ github.ref_name }},enable=${{ startsWith(github.ref_name, 'release-') }}
 
       # Solr Metadata
       - name: Extract Solr metadata
         id: meta_solr
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: archivesspace/solr
           tags: |
             type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
             type=raw,value=latest,enable={{is_default_branch}}
             type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=raw,value=${{ github.ref_name }},enable=${{ startsWith(github.ref_name, 'release-') }}
 
       # Proxy Metadata
       - name: Extract Proxy metadata
         id: meta_proxy
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: archivesspace/proxy
           tags: |
             type=raw,value=${{ steps.extract.outputs.ticket }},enable=${{ steps.extract.outputs.ticket != '' }}
             type=raw,value=latest,enable={{is_default_branch}}
             type=semver,pattern={{version}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=raw,value=${{ github.ref_name }},enable=${{ startsWith(github.ref_name, 'release-') }}
 
       - name: Build and push ArchivesSpace image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: true
@@ -118,7 +122,7 @@ jobs:
           labels: ${{ steps.meta_archivesspace.outputs.labels }}
 
       - name: Build and push Solr image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: ./solr
           push: true
@@ -126,7 +130,7 @@ jobs:
           labels: ${{ steps.meta_solr.outputs.labels }}
 
       - name: Build and push Proxy image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: ./proxy
           push: true

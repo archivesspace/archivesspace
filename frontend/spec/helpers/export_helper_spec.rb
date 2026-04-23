@@ -9,6 +9,38 @@ describe ExportHelper do
     set_repo @repo
   end
 
+  describe 'top container CSV data export' do
+    before :all do
+      create(:top_container,
+        type: 'box',
+        indicator: 'TC-EXPORT-001',
+        barcode: 'BC-EXPORT-001',
+        ils_holding_id: 'HOLD-TEST-123',
+        exported_to_ils: Time.now.iso8601,
+        internal_note: 'Test internal note'
+      )
+      run_index_round
+    end
+
+    it 'includes correct data values for top container fields in CSV export' do
+      criteria = {
+        'fields[]' => ['type', 'indicator', 'barcode', 'ils_holding_id', 'exported_to_ils', 'internal_note'],
+        'q' => '*',
+        'page' => '1',
+        'filter_term[]' => [{'primary_type' => 'top_container'}.to_json]
+      }
+      export = csv_export_with_mappings "#{@repo.uri}/search", Search.build_filters(criteria)
+      aggregate_failures do
+        expect(export).to include('box')
+        expect(export).to include('TC-EXPORT-001')
+        expect(export).to include('BC-EXPORT-001')
+        expect(export).to include('HOLD-TEST-123')
+        expect(export).to include('true')
+        expect(export).to include('Test internal note')
+      end
+    end
+  end
+
   it 'can convert the ancestor refs from a search to a user-friendly context column for CSV downloads' do
     accession = create(:accession, title: "יחסי ציבור")
     collection = create(:resource, title: 'ExportHelper collection', level: 'collection')
@@ -38,6 +70,34 @@ describe ExportHelper do
     it 'maps user field names to backend field names' do
       requested_fields = ['type', 'indicator', 'barcode', 'title']
       expected_backend_fields = ['type_enum_s', 'indicator_u_icusort', 'barcode_u_sstr', 'title']
+
+      result = helper.map_fields_for_backend(requested_fields)
+      expect(result).to eq(expected_backend_fields)
+    end
+
+    it 'maps top container management field names to backend field names' do
+      requested_fields = [
+        'resource_accession',
+        'series',
+        'container_profile',
+        'location',
+        'internal_note',
+        'exported_to_ils',
+        'resource_accession_id',
+        'ils_holding_id',
+        'location_profile'
+      ]
+      expected_backend_fields = [
+        'collection_display_string_u_sstr',
+        'series_title_u_sstr',
+        'container_profile_display_string_u_sstr',
+        'location_display_string_u_sstr',
+        'notes',
+        'exported_u_sbool',
+        'collection_identifier_stored_u_sstr',
+        'ils_holding_id_u_sstr',
+        'location_profile_display_string_u_sstr'
+      ]
 
       result = helper.map_fields_for_backend(requested_fields)
       expect(result).to eq(expected_backend_fields)
@@ -92,7 +152,7 @@ describe ExportHelper do
     before do
       @collection = create(:resource, title: 'Test Collection', level: 'collection')
       @series = create(:archival_object, title: 'Test Series', level: 'series', resource: {ref: @collection.uri})
-      @top_container = create(:top_container, type: 'box', indicator: '1', barcode: 'BC001')
+      @top_container = create(:top_container, type: 'box', indicator: '1', barcode: "BC#{SecureRandom.hex(4)}")
 
       run_index_round
     end
@@ -241,6 +301,15 @@ describe ExportHelper do
         result = converter.send(:build_header_row, old_headers)
 
         expect(result).to eq(['Title', 'Unknown Field'])
+      end
+
+      it 'creates human-readable headers for top container management fields' do
+        converter = ExportHelper::CSVMappingConverter.new(['resource_accession', 'series', 'internal_note', 'exported_to_ils', 'resource_accession_id', 'ils_holding_id', 'location_profile'])
+        old_headers = ['collection_display_string_u_sstr', 'series_title_u_sstr', 'notes', 'exported_u_sbool', 'collection_identifier_stored_u_sstr', 'ils_holding_id_u_sstr', 'location_profile_display_string_u_sstr']
+
+        result = converter.send(:build_header_row, old_headers)
+
+        expect(result).to eq(['Resource/Accession', 'Series', 'Internal Note', 'Exported to ILS', 'Resource/Accession ID', 'ILS Holding ID', 'Location Profile'])
       end
     end
 

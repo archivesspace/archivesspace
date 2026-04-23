@@ -112,7 +112,7 @@ ja:
     delete_multiple_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。
       </p><p>このアクションは、他のレコードに対する参照を含めて、これらのレコードをデータベースから削除します。 </p>"
     reset: デフォルトにリセット
-    reset_confirm_title: "％{preftype}をアプリケーションのデフォルトにリセットしますか？"
+    reset_confirm_title: "%{preftype}をアプリケーションのデフォルトにリセットしますか？"
     reset_confirm_message: "<p><strong>この操作を元に戻すことはできません</strong>。</p><p>このアクションにより、設定がアプリケーションのデフォルトにリセットされます。</p>"
     edit_multiple: レコードを編集する
     edit_multiple_confirm_title: レコードを編集する？
@@ -203,6 +203,7 @@ ja:
   search_results:
     title: の検索結果
     context: 見つかった
+    select_record: "%{title}を選択"
     selected: 選択しましたか？
     no_results: レコードが見つかりません
     no_results_prefix: の検索結果はありませんでした
@@ -594,6 +595,9 @@ ja:
     expired: あなたのセッションは非アクティブのため失効しました
     inline_login_title: セッションの有効期限が切れ
 
+  skipnav:
+    main_content: メインコンテンツへスキップ
+
   batch_delete:
     archival_records:
       success: レコードが削除された
@@ -680,6 +684,7 @@ ja:
       event: イベント記録のデフォルト
       classification: 分類レコードのデフォルト
       classification_term: 分類用語のデフォルト
+      container_profile: コンテナプロファイルのデフォルト
     messages:
       defaults_updated: 更新されたデフォルト
 
@@ -746,7 +751,7 @@ ja:
         updated: エージェントが保存されました
         deleted: エージェントが削除されました
         published: 
-          「エージェント<strong>％{agent_title}</strong>、そのサブレコードとコンポーネントが公開されました」
+          「エージェント<strong>%{agent_title}</strong>、そのサブレコードとコンポーネントが公開されました」
         delete_conflict: エージェントを削除できませんでした： <pre> %{error} </pre>
         merge_description: マージするエージェントを選択する
         merged: エージェントが結合されました
@@ -814,13 +819,15 @@ ja:
         duplicated: アーカイブ オブジェクトが 
           <strong>%{archival_object_display_string}</strong> から複製されました
         created_with_parent: 
-          リソース<strong>%{resource_title}</strong>上の<strong>%{parent.display_string}</strong>子として作成されたアーカイブオブジェクト<strong>%{archival_object_display_string}</strong>
+          リソース<strong>%{resource_title}</strong>上の<strong>%{parent_display_string}</strong>子として作成されたアーカイブオブジェクト<strong>%{archival_object_display_string}</strong>
           <strong>%{resource_title}</strong>
         updated: 
           アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>更新されました
         updated_with_parent: 
           アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>更新されました
         please_select_a_resource_for_transfer: リソースを選択してください
+        transfer_confirm_message: "レコード '%{ao}' は選択したリソースに転送されます"
+        transfer_confirm_message_with_resource: "レコード '%{ao}' はリソース '%{resource}' に転送されます"
         transfer_success: 
           アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>をリソース<strong>%{resource_title}</strong>転送しました<strong>%{resource_title}</strong>
         transfer_error: エラーまたは競合のためアーカイブオブジェクトを転送できません： <pre> %{exception} 
@@ -930,7 +937,7 @@ ja:
         merge_description: 以下のデジタルオブジェクトを選択してマージする
         please_select_a_digital_object_to_merge: デジタルオブジェクトを選択してください
         merged: デジタルオブジェクトが結合されました
-        transfer_description: このリソースを転送する...
+        transfer_description: このデジタルオブジェクトを転送する...
         transfer_target: 移行するリポジトリを選択する
         unsuppressed: 
           デジタルオブジェクト<strong>%{digital_object_title}</strong>抑制されていません
@@ -1247,7 +1254,7 @@ ja:
       messages:
         updated: プリファレンスの更新
         reset: アプリケーションのデフォルトに設定されたプリファレンス
-        reset_error: "エラーのために設定をリセットできません：％{exception}"
+        reset_error: "エラーのために設定をリセットできません：%{exception}"
         no_access_to_preferences: "少なくとも1つのリポジトリを作成する前に、プリファレンスを管理できません"
       action:
         save: 設定を保存
@@ -1276,7 +1283,7 @@ ja:
         merged: 結合された主題
         merge_description: 次のサブジェクトを選択してマージする
         please_select_a_subject_to_merge: 件名を選択してください
-        delete_conflict: 件名を削除できませんでした：<pre>％{error} </pre>
+        delete_conflict: 件名を削除できませんでした：<pre>%{error} </pre>
       section:
         basic_information: 基本情報
         terms: 用語と細分
@@ -1313,7 +1320,9 @@ ja:
         hide_inactive: 非アクティブなユーザーを非表示
         show_inactive: 非アクティブなユーザーを表示
         deactivate_user: 無効化
+        deactivate_user_confirm: このユーザーを無効化してもよろしいですか？
         activate_user: アクティベート
+        activate_user_confirm: このユーザーをアクティベートしてもよろしいですか？
 
         edit: ユーザーを編集
         show_active: アクティブユーザーを表示
@@ -1425,6 +1434,7 @@ ja:
         cancel: ジョブをキャンセルする
         add_file: ファイルを追加する
         follow_log: ログに従う
+        following_log: ログをフォロー中
       section:
         basic_information: 基本情報
         status: 仕事の状況
@@ -1677,7 +1687,7 @@ ja:
     width: 幅
     width_tooltip: "<p>コンテナの幅（左右の寸法）の数値。 </p>"
     stacking_limit: スタッキング限界
-    stacking_limit_tooltip: "<p>互いに積み重ねられるこれらの容器の数。制限がない場合は空白のままにします。正の整数でなければなりません。
+    stacking_limit_tooltip: "<p>互いに積み重ねられるこれらの容器の数。制限がない場合は空白のままにします。正の整数でなければなりませんまたはゼロ。
       </p>"
 
   rights_restriction:
@@ -1800,6 +1810,12 @@ ja:
     minimum_notes_description: 含める各タイプの既存のメモ サブレコードの最小数。
     download_spreadsheet: スプレッドシートをダウンロード
     download_spreadsheet_modal_message: このスプレッドシートの生成には数分かかる場合があります。
+    too_many_rows_warning:
+      "警告: このスプレッドシートで生成される行数は、更新できる行数を超えています
+      Bulk Archival Object Updater バックグラウンド ジョブ経由。を使用して一括アーカイブ オブジェクト アップデーター ジョブを実行する予定の場合は、
+      このスプレッドシートでは、このシートの行数を以下に減らす必要があります。 
+      取り込む前に <strong>%{max_row_count} 行</strong>。今すぐ、より小さなスプレッドシートを生成することを検討してください。  
+      このデータを使用して一括アーカイブ オブジェクト アップデーター ジョブを実行する予定がない場合、この警告は無視しても問題ありません。"
 
   assessment:
     _frontend:
@@ -1871,12 +1887,12 @@ ja:
       action:
         save: アセスメント属性を保存する
         add_type: 追加 %{type}
-        find_rating: ％{rating_type} 評価のレコードを検索
-        find_format: ％{format_type} マテリアルタイプ/フォーマットのレコードを検索します
-        find_issue: ％{issue_type} 保全問題のあるレコードを検索する
-        remove_rating: ％{rating_type} レーティングを削除
-        remove_format: ％{format_type} マテリアルタイプ/フォーマットを削除します
-        remove_issue: ％{issue_type} 保護の問題を削除します
+        find_rating: "%{rating_type} 評価のレコードを検索"
+        find_format: "%{format_type} マテリアルタイプ/フォーマットのレコードを検索します"
+        find_issue: "%{issue_type} 保全問題のあるレコードを検索する"
+        remove_rating: "%{rating_type} レーティングを削除"
+        remove_format: "%{format_type} マテリアルタイプ/フォーマットを削除します"
+        remove_issue: "%{issue_type} 保護の問題を削除します"
       messages:
         updated: 評価アトリビュートが更新されました
         error: アセスメント属性の更新中にエラーが発生しました

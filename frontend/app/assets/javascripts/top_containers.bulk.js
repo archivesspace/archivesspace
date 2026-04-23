@@ -886,8 +886,7 @@ function BulkActionMerge(bulkContainerSearch) {
           acc.push(mergeCandidate.display_string);
         }
         return acc;
-      },
-      []);
+      }, []);
 
       // Init modal2
       AS.openCustomModal(

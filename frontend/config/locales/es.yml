@@ -230,6 +230,7 @@ es:
   search_results:
     title: Resultados de la búsqueda
     context: Encontrado en
+    select_record: "Seleccionar %{title}"
     selected: ¿Seleccionado?
     no_results: Registros no encontrados
     no_results_prefix: No hay resultados de la búsqueda
@@ -632,6 +633,9 @@ es:
     expired: Su sesión expiró debido a la inactividad
     inline_login_title: Sesión caducada
 
+  skipnav:
+    main_content: Saltar al contenido principal
+
   batch_delete:
     archival_records:
       success: Registros eliminados
@@ -728,6 +732,7 @@ es:
       event: Registros de eventos por defecto
       classification: Registros de clasificación por defecto
       classification_term: Términos de clasificación por defecto
+      container_profile: Registros de perfil de contenedor por defecto
     messages:
       defaults_updated: Valores por defecto actualizados
 
@@ -880,13 +885,15 @@ es:
           <strong>%{archival_object_display_string}</strong>
         created_with_parent: Documento de archivo 
           <strong>%{archival_object_display_string}</strong> creado como niño de
-          <strong>%{parent.display_string}</strong> del fondo 
+          <strong>%{parent_display_string}</strong> del fondo 
           <strong>%{resource_title}</strong>
         updated: Documento de archivo <strong>{archival_object_display_string} 
           %</strong> actualizado
         updated_with_parent: Documento de archivo 
           <strong>{archival_object_display_string} %</strong> actualizado
         please_select_a_resource_for_transfer: Por favor, elija un fondo
+        transfer_confirm_message: "El registro '%{ao}' se transferirá al fondo que seleccionó"
+        transfer_confirm_message_with_resource: "El registro '%{ao}' se transferirá al fondo '%{resource}'"
         transfer_success: Transferido con éxito el objeto de archivo 
           <strong>%{archival_object_display_string}</strong> al fondo 
           <strong>%{resource_title}</strong>
@@ -1003,7 +1010,7 @@ es:
         please_select_a_digital_object_to_merge: Por favor, seleccione un objeto
           digital
         merged: Objetos digitales unificados
-        transfer_description: Transferencia de este fondo a...
+        transfer_description: Transferencia de este objeto digital a...
         transfer_target: Seleccione un repositorio para transferir a
         unsuppressed: Objetos digitales <strong>%{digital_object_title}</strong>
           desbloqueado
@@ -1370,7 +1377,7 @@ es:
         merged: La(s) materia(s) se fusionaron
         merge_description: Seleccione materias abajo para fusionar en
         please_select_a_subject_to_merge: Por favor, seleccione un materia
-        delete_conflict: 'No se pudo eliminar el asunto: <pre>% {error} </pre>'
+        delete_conflict: 'No se pudo eliminar el asunto: <pre>%{error} </pre>'
       section:
         basic_information: Información básica
         terms: Descriptores
@@ -1409,7 +1416,9 @@ es:
         hide_inactive: Ocultar usuarios inactivos
         show_inactive: Mostrar usuarios inactivos
         deactivate_user: Desactivar
+        deactivate_user_confirm: ¿Está seguro de que desea desactivar este usuario?
         activate_user: Activar
+        activate_user_confirm: ¿Está seguro de que desea activar este usuario?
 
         edit: Editar usuario
         show_active: Mostrar usuarios activos
@@ -1526,6 +1535,7 @@ es:
         cancel: Cancelar tarea
         add_file: Agregar archivo
         follow_log: Siga el Log
+        following_log: Siguiendo el Log
       section:
         basic_information: Información básica
         status: Estado de trabajo
@@ -1693,7 +1703,7 @@ es:
         filter_required: Por favor proporcionar un filtro
         max_results_limit_reached: No se han incluido todos los resultados. Por 
           favor refine su búsqueda.
-        max_results_limit_details: "Mostrando <strong>% {visibles} </strong> de <strong>
+        max_results_limit_details: "Mostrando <strong>%{visibles} </strong> de <strong>
           %{num_found} </strong> Resultados de la búsqueda"
         results_summary: "Los resultados coinciden con: <strong> %{num_found} </strong>"
         bulk_selection_sort_help: Haga clic en una columna para establecer el 
@@ -1846,7 +1856,7 @@ es:
       <p>Valor numérico para la anchura del contenedor.</p>
     stacking_limit: Límite de apilamiento
     stacking_limit_tooltip: |
-      <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo.</p>
+      <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo o cero.</p>
 
   rights_restriction:
     begin: Comienzo de la restricción
@@ -1986,6 +1996,12 @@ es:
     download_spreadsheet: Descargar hoja de cálculo
     download_spreadsheet_modal_message: Generar esta hoja de cálculo puede 
       tardar unos minutos.
+    too_many_rows_warning:
+      "Advertencia: la cantidad de filas que se generarán en esta hoja de cálculo excede la cantidad de filas que se pueden actualizar
+      a través del trabajo en segundo plano del Actualizador masivo de objetos de archivo. Si planea ejecutar el trabajo de actualización masiva de objetos de archivo usando
+      esta hoja de cálculo, deberá reducir el número de filas de esta hoja a menos o igual que 
+      <strong>%{max_row_count} filas</strong> antes de la ingesta. Considere generar una hoja de cálculo más pequeña ahora.  
+      Esta advertencia se puede ignorar de forma segura si no tiene intención de ejecutar un trabajo de actualización masiva de objetos de archivo con estos datos."
 
   assessment:
     _frontend:
@@ -3388,8 +3404,9 @@ es:
     aspace_assessment_import_template_csv: Cree y vincule evaluaciones a 
       accesiones, recursos, objetos de archivo u objetos digitales existentes.
   footer:
-    archivesspace_home: Visitar <a 
+    keyboard_shortcuts: Atajos de teclado
+    archivesspace_home_html: Visitar <a
       href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
       target='_blank'>Enviar comentarios o informar un problema</a>
-    public_interface: Vistar <a href="%{public_url}">Interfaz Pública</a>
+    public_interface_html: Vistar <a href="%{public_url}">Interfaz Pública</a>

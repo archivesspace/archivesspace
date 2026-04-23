@@ -1,5 +1,5 @@
 <div id="modal_custom_template"><!--
-   <div class="modal {if fill} ${fill}{/if}" id="${id}">
+   <div class="modal {if fill} ${fill}{/if}" id="${id}" role="dialog" aria-modal="true">
      <div class="modal-dialog {if dialogClass} ${dialogClass}{/if}">
        <div class="modal-content">
          {if defined("title") && title.length > 0}
@@ -287,6 +287,12 @@
   </div>
 --></div>
 
+<div id="bulk_archival_object_updater_row_count_warning_template"><!--
+   <div class="alert alert-warning bulk-updater-count-warning">
+      <%= t "bulk_archival_object_update_spreadsheet.too_many_rows_warning", max_row_count: AppConfig[:bulk_archival_object_updater_max_rows] %>
+   </div>
+--></div>
+
 <div id="as_nav_list_errors_item_template"><!--
   <li class='alert-danger update-monitor-error'>
     <a href='#form_messages'><%= t("errors.sidebar_label") %> <span class='glyphicon glyphicon-chevron-right'></span></a>
@@ -335,7 +341,7 @@
 --></div>
 
 <div id="template_load_via_spreadsheet_help_icon"><!--
-  <a target='_blank' class='btn btn-sm btn-default border-left-0 has-tooltip initialised' id='load_via_spreadsheet_help_icon' href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>" data-toggle="tooltip" data-placement="top" title="<%= t("help.topics.resource_load_via_spreadsheet")%>" data-container="body">
+  <a target='_blank' class='btn btn-sm btn-default border-left-0 has-tooltip initialised' id='load_via_spreadsheet_help_icon' href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>" data-toggle="tooltip" data-placement="auto" title="<%= t("help.topics.resource_load_via_spreadsheet")%>" data-container="body">
     <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
   </a>
 --></div>

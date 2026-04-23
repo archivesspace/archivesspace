@@ -80,7 +80,6 @@ ja:
       linked_agent_roles: リンクされたエージェントの役割
       notes_published: ノート
       finding_aid_title: 援助のタイトルを見つける
-      finding_aid_filing_title: 援助申請のタイトルを探す
       instance_type_enum_s: インスタンスの種類
       acquisition_type: 獲得タイプ
     page_title: 見つかった%{count}結果
@@ -310,7 +309,7 @@ ja:
         accessions: 受付記録
         deaccessions: デアクセスレコード
     load_records:
-      alert: "このコレクションには大量のレコードが含まれています"
+      alert: "このコレクションには%{count}件のレコードが含まれています。"
       showing: "表示中"
       percent_convention: "%"
       load: "レコードを読み込む"
@@ -513,8 +512,4 @@ ja:
 
   languages:
     select: 言語を選択する
-    en: 英語
-    es: スペイン語
-    fr: フランス語
-    de: ドイツ語
-    ja: 日本語
+  

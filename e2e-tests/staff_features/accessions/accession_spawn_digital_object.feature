@@ -1,7 +1,7 @@
 Feature: Accession spawn Digital Object
   Background:
     Given an administrator user is logged in
-      And the "Spawn description for Digital Object instances from linked record" setting is enabled in the Repository Preferences
+      And the 'Spawn description for Digital Object instances from linked record' setting is enabled in the Repository Preferences
       And an Accession has been created
       And the Accession is opened in edit mode
   Scenario: Digital Object form is prefilled with Accession data

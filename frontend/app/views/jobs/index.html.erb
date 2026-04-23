@@ -1,16 +1,16 @@
 <%= setup_context(:title => t("job._plural")) %>
 
-<div class="d-flex">
-  <div class="col-md-3">
+<div class="d-flex flex-column flex-md-row">
+  <div class="col-md-3 order-2 order-md-1">
     <div class="sidebar">
       <%= render_aspace_partial :partial => "search/filter" %>
     </div>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-9 order-1 order-md-2">
     <% if user_can?('create_job') %>
-      <div class="record-toolbar d-flex justify-content-end">
+      <%= render :layout => 'shared/record_toolbar' do %>
+        <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
         <div class="btn-group">
-          <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields => fields}), id: "searchExport",  class:  "btn btn-sm btn-primary" %>
           <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
             <%= I18n.t("job._frontend.actions.create") %>
           </button>
@@ -28,7 +28,7 @@
             <% end %>
           </ul>
         </div>
-      </div>
+      <% end %>
     <% end %>
     <div class="record-pane">
       <%= link_to_help :topic => "search" %>

@@ -55,7 +55,7 @@ class Resource < Record
       '@context' => "http://schema.org/",
       '@id' => AppConfig[:public_proxy_url] + uri,
       '@type' => level_for_md_mapping,
-      'name' => display_string,
+      'name' => strip_mixed_content(display_string),
       'identifier' => raw['four_part_id'],
     }
 

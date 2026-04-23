@@ -1,3 +1,16 @@
+<% if local_assigns[:view_only] %>
+<section class="d-flex flex-column">
+  <div class="d-flex align-items-center gap-x-2 record-toolbar" role="toolbar">
+    <div class="btn-group ml-auto" data-allow-disabled>
+      <% if ['archival_object', 'digital_object_component'].include?(record.jsonmodel_type) %>
+        <% if AppConfig[:enable_public] && !record.has_unpublished_ancestor %>
+          <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</section>
+<% else %>
 <%
    delete_action_title = record.respond_to?(:display_string) ? record.display_string : record.title
    suppressible = true if suppressible.nil?
@@ -51,6 +64,9 @@
         <% if AppConfig[:enable_public] && !record.has_unpublished_ancestor %>
           <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
         <% end %>
+      <% end %>
+      <% if record.jsonmodel_type == 'archival_object' && user_can?('update_resource_record') %>
+        <%= render_aspace_partial :partial => 'archival_objects/transfer_dropdown', :locals => {:record => record} %>
       <% end %>
 
       <% if ['archival_object'].include?(record.jsonmodel_type) %>
@@ -113,3 +129,4 @@
     </div>
   <% end %>
 </section>
+<% end %>

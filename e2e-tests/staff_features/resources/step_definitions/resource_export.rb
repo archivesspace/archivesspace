@@ -55,12 +55,9 @@ Then 'the {string} job page is displayed' do |job_title|
   switch_to_window page.windows[1]
 
   tries = 0
-  while current_url == 'about:blank'
-    sleep 3
-
+  while !current_url.include?('jobs') && tries < 5
+    sleep 1
     tries += 1
-
-    break if tries == 5
   end
 
   expect(current_url).to include 'jobs'

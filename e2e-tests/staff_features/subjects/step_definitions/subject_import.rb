@@ -9,6 +9,7 @@ When 'the user checks {string} in the LCNAF Import form' do |string|
 end
 
 When 'the user selects the first Subject from the search results' do
-  elements = all('#results div.lcnaf-result')
-  elements[0].find('button').click
+  wait_for_ajax
+
+  find('#results div.lcnaf-result button', match: :first).click
 end

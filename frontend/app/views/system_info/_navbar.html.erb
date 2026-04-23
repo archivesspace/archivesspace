@@ -5,7 +5,7 @@
     </button>
     <ul class='dropdown-menu'>
       <li class="dropdown-item"><%= link_to I18n.t("system_info.frontend_info"), {:controller => :system_info, :action => :show, :app_context => "frontend_info" } %></li>
-      <li class="dropdown-item"><%= link_to I18n.t("system_info.frontend_log"), {:controller => :system_info, :action => :show, :app_context => "frontend_log" } %></li>
+      <li class="dropdown-item"><%= link_to I18n.t("system_info.frontend_log"), {:controller => :system_info, :action => :show_log, :app_context => "frontend_log" } %></li>
     </ul>
   </div>
   <div class="btn-group">
@@ -14,7 +14,7 @@
     </button>
     <ul class='dropdown-menu'>
       <li class="dropdown-item"><%= link_to I18n.t("system_info.backend_info"), {:controller => :system_info, :action => :show, :app_context => "backend_info" } %></li>
-      <li class="dropdown-item"><%= link_to I18n.t("system_info.backend_log"), {:controller => :system_info, :action => :show, :app_context => "backend_log" } %></li>
+      <li class="dropdown-item"><%= link_to I18n.t("system_info.backend_log"), {:controller => :system_info, :action => :show_log, :app_context => "backend_log" } %></li>
     </ul>
   </div>
 </div>

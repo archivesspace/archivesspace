@@ -539,12 +539,12 @@ module AspaceFormHelper
 
     def add_tooltip_options(tooltip, options)
       options[:title] = tooltip
-      options['data-placement'] = 'bottom'
+      options['data-placement'] = 'auto'
       options['data-boundary'] = 'viewport'
       options['data-html'] = true
       options['data-delay'] = 500
       options['data-trigger'] = 'manual'
-      options['data-template'] = '<div class="tooltip archivesspace-help"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+      options['data-template'] = '<div class="tooltip archivesspace-help"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
       options[:class] ||= ''
       options[:class] += ' has-tooltip'
       options

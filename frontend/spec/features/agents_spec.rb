@@ -1196,6 +1196,7 @@ describe 'Agents', js: true do
 
         # Click on save
         find('button', text: 'Save Subject', match: :first).click
+        wait_for_ajax
         expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Subject Created")
 
         run_index_round
@@ -1374,6 +1375,183 @@ describe 'Agents', js: true do
             expect(element.text).to eq "This agent is linked to a repository and can't be removed."
           end
         end
+      end
+    end
+  end
+
+  context 'index view' do
+    describe 'results table' do
+      include_context 'results table setup'
+
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'agent' }
+      let(:browse_path) { '/agents' }
+      let(:filter_results) { true }
+      let(:record_1) {
+        create(:agent_person,
+          names: [build(:name_person,
+            primary_name: "AAAA Agent 1 #{now}",
+            rest_of_name: "AAAA",
+            authority_id: "auth1-#{now}",
+            source: 'local',
+            rules: 'local'
+          )],
+          publish: true
+        )
+      }
+      let(:record_2) {
+        create(:agent_corporate_entity,
+          names: [build(:json_name_corporate_entity,
+            primary_name: "AAAB Agent 2 #{now}",
+            authority_id: "auth2-#{now}",
+            source: 'naf',
+            rules: 'aacr'
+          )],
+          publish: false
+        )
+      }
+      let(:record_1_name) { record_1.names.first['sort_name'] }
+      let(:record_2_name) { record_2.names.first['sort_name'] }
+      let(:initial_sort) { [record_1_name, record_2_name] }
+      let(:additional_browse_columns) do
+        {
+          6 => 'Is User?',
+          7 => 'URI',
+          # 8 => 'Published'
+        }
+      end
+
+      describe 'sorting' do
+        let(:default_sort_key) { 'title_sort' }
+        let(:column_headers) do
+          {
+            'Agent Type' => 'primary_type',
+            'Name' => 'title_sort',
+            'Authority ID' => 'authority_id',
+            'Source' => 'source',
+            'Rules' => 'rules',
+            'Is User?' => 'is_user',
+            'URI' => 'uri',
+            # 'Published' => 'publish',
+          }
+        end
+        let(:primary_sort_expectations) do
+          {
+            'primary_type' => {
+              asc: [record_2_name, record_1_name],
+              desc: [record_1_name, record_2_name]
+            },
+            'title_sort' => {
+              asc: [record_1_name, record_2_name],
+              desc: [record_2_name, record_1_name]
+            },
+            'authority_id' => {
+              asc: [record_1_name, record_2_name],
+              desc: [record_2_name, record_1_name]
+            },
+            'source' => {
+              asc: [record_1_name, record_2_name],
+              desc: [record_2_name, record_1_name]
+            },
+            'rules' => {
+              asc: [record_2_name, record_1_name],
+              desc: [record_1_name, record_2_name]
+            },
+
+            'is_user' => {
+              asc: [record_1_name, record_2_name],
+              desc: [record_1_name, record_2_name]
+            },
+            'uri' => {
+              asc: [record_2_name, record_1_name],
+              desc: [record_1_name, record_2_name]
+            },
+            # 'publish' => {
+            #   asc: [record_2_name, record_1_name],
+            #   desc: [record_1_name, record_2_name]
+            # }
+          }
+        end
+        # Uses same primary_type (corporate_entity) and source as record_2 to create ties
+        let(:record_3) {
+          create(:agent_corporate_entity,
+            names: [build(:json_name_corporate_entity,
+              primary_name: "AAAC Agent 3 #{now}",
+              authority_id: "auth3-#{now}",
+              source: 'naf',
+              rules: 'aacr'
+            )],
+            publish: false
+          )
+        }
+        let(:record_3_name) { record_3.names.first['sort_name'] }
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary source asc - no-op since names are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'source',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1_name,
+                record_2_name,
+                record_3_name
+              ],
+              expected_after_both: [
+                record_1_name,
+                record_2_name,
+                record_3_name
+              ]
+            },
+            {
+              # Case 2: primary primary_type asc, secondary title_sort desc - secondary changes order
+              primary_key:   'primary_type',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2_name,
+                record_3_name,
+                record_1_name
+              ],
+              expected_after_both: [
+                record_3_name,
+                record_2_name,
+                record_1_name
+              ]
+            },
+            {
+              # Case 3: primary authority_id asc, secondary rules asc - no-op since authority_ids are unique
+              primary_key:   'authority_id',
+              primary_dir:   :asc,
+              secondary_key: 'rules',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1_name,
+                record_2_name,
+                record_3_name
+              ],
+              expected_after_both: [
+                record_1_name,
+                record_2_name,
+                record_3_name
+              ]
+            }
+          ]
+        end
+
+        it_behaves_like 'results table sorting'
+      end
+
+      describe 'boolean columns' do
+        let(:boolean_column_expectations) do
+          {
+            'is_user' => %w[False False]
+          }
+        end
+
+        it_behaves_like 'results table boolean columns'
       end
     end
   end

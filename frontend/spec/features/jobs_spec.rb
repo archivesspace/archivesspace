@@ -83,7 +83,9 @@ describe 'Jobs', js: true do
     within('.report-list') do
       click_button('Accession Report')
     end
+    expect(page).to have_css('#job_job_params_csv_show_json', visible: false)
     select('CSV', from: 'Format')
+    expect(page).to have_css('#job_job_params_csv_show_json', visible: true)
     click_button('Start Job')
     wait_for_job_to_complete(page)
     expect(page).to have_content('report_job')
@@ -136,6 +138,30 @@ describe 'Jobs', js: true do
     click_button('Refresh Page')
     sleep 1.seconds
     expect(page).to have_content('Completed')
+  end
+
+  describe 'log feed' do
+    before(:each) do
+      click_button('Repository settings')
+      click_link('Background Jobs')
+      click_button('Create Job')
+      within('.dropdown-menu') do
+        click_link('Create Report')
+      end
+      within('.report-list') do
+        click_button('Accession Report')
+      end
+      select('CSV', from: 'Format')
+      click_button('Start Job')
+      expect(page).to have_css('#job_status')
+      if page.has_css?('#queueMessage', wait: 0)
+        expect(page).to have_no_css('#queueMessage', wait: Capybara.default_max_wait_time)
+      end
+      expect(page).to have_css('.btn-follow-log')
+      expect(page).to have_css('#logSpool', visible: :all)
+    end
+
+    it_behaves_like 'log feed with auto-scroll control'
   end
 
 end

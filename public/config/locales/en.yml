@@ -107,7 +107,6 @@ en:
       linked_agent_roles: Linked Agent Roles
       notes_published: Notes
       finding_aid_title: Finding Aid Title
-      finding_aid_filing_title: Finding Aid Filing Title
       instance_type_enum_s: Instance type
       acquisition_type: Acquisition Type
     page_title: "Found %{count} Results"
@@ -370,7 +369,7 @@ en:
         accessions: Accession Records
         deaccessions: Deaccession Records
     load_records:
-      alert: This collection contains a large number of records
+      alert: This collection contains %{count} records.
       showing: Showing
       percent_convention: "%"
       load: Load records
@@ -592,17 +591,12 @@ en:
     last_verified_date: Last Verified Date
 
   footer:
-    staff_interface: <a href="%{staff_url}">Staff Interface</a>
-    archivesspace_home: Visit <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Send Feedback or Report a Problem</a>
+    staff_interface_html: <a href="%{staff_url}">Staff Interface</a>
+    archivesspace_home_html: Visit <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Send Feedback or Report a Problem</a>
 
   languages:
     select: Select Language
-    en: English
-    es: Spanish
-    fr: French
-    de: German
-    ja: Japanese
 
   pdf_error:
     title: There was an error generating this PDF.

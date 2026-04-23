@@ -72,14 +72,14 @@ rescue Sequel::AdapterNotFound => e
 You have configured ArchivesSpace to use MySQL but seem to be missing the MySQL
 JDBC driver (#{e}).
 
-Please download the latest version of 'mysql-connector-java-X.Y.Z.jar' and place
+Please download the latest version of 'mysql-connector-j-X.Y.Z.jar' and place
 it in the following directory:
 
   #{libdir}
 
 You can find the latest version at the following URL:
 
-  http://mvnrepository.com/artifact/mysql/mysql-connector-java/
+  https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
 
 Once you have installed the MySQL connector, please re-run this script.
 

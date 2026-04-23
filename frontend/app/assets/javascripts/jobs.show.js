@@ -23,7 +23,14 @@ $(function () {
     }
 
     $followLogBtn.on('click', function () {
-      $(this).toggleClass('active');
+      var $btn = $(this);
+      $btn.toggleClass('active');
+
+      if ($btn.hasClass('active')) {
+        $btn.text($btn.data('text-active'));
+      } else {
+        $btn.text($btn.data('text-inactive'));
+      }
     });
 
     var offset = 0;

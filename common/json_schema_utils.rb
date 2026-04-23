@@ -58,9 +58,9 @@ module JSONSchemaUtils
 
      {
        :failed_attribute => ['Pattern'],
-       :pattern => /The property '#\/.*?' did not match the regex '(.*?)' in schema/,
-       :do => ->(msgs, message, path, regexp) {
-         msgs[:errors][fragment_join(path)] = ["Did not match regular expression: #{regexp}"]
+       :pattern => /The property '#\/.*?' value "(.*?)" did not match the regex '(.*?)' in schema/,
+       :do => ->(msgs, message, path, value, regexp) {
+         msgs[:errors][fragment_join(path)] = ["Value '#{value}' did not match regular expression: #{regexp}"]
        }
      },
 

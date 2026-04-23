@@ -512,14 +512,14 @@
                   )
                 )
               : batchOffsetPlaceholderEl.previousElementSibling?.matches(
-                  'li[data-batch-placeholder]'
-                )
-              ? Number(
-                  batchOffsetPlaceholderEl.previousElementSibling.getAttribute(
-                    'data-batch-placeholder'
+                    'li[data-batch-placeholder]'
                   )
-                )
-              : null;
+                ? Number(
+                    batchOffsetPlaceholderEl.previousElementSibling.getAttribute(
+                      'data-batch-placeholder'
+                    )
+                  )
+                : null;
 
           this.renderBatch(
             siblingList,

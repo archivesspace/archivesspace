@@ -22,6 +22,21 @@ describe 'Top Containers and Instances', js: true do
              container_locations: [container_location]
     end
 
+    @resource_container = create(:top_container, type: 'box', indicator: 'Resource Box 1')
+    create(:archival_object,
+      title: 'Resource Box 1 Object',
+      resource: {ref: @resource.uri},
+      instances: [build(:json_instance, :sub_container => build(:json_sub_container, :top_container => { :ref => @resource_container.uri }))]
+    )
+
+    @location_profile = create(:location_profile)
+    location_with_profile = create(:location, location_profile: { ref: @location_profile.uri })
+    profile_container_location = build(:container_location, ref: location_with_profile.uri)
+    @location_profile_container = create(:top_container,
+      indicator: 'Location Profile Box',
+      container_locations: [profile_container_location]
+    )
+
     run_all_indexers
   end
 
@@ -326,5 +341,36 @@ describe 'Top Containers and Instances', js: true do
 
     expect(extent_headings.length).to eq 1
     expect(extent_headings[0].text).to match(/^\d.*/)
+  end
+
+  it 'displays resource/accession identifier in the resource_accession_id browse table column' do
+    expected_id = [@resource.id_0, @resource.id_1, @resource.id_2, @resource.id_3].compact.reject(&:empty?).join('--')
+
+    visit '/top_containers'
+    fill_in id: 'q', with: 'Resource Box 1'
+    click_button 'Search'
+
+    within('#bulk_operation_results tbody tr', text: 'Resource Box 1') do
+      expect(page).to have_selector('td.top-container-resource-accession-id ul li span.collection-identifier', text: expected_id)
+    end
+  end
+
+  it 'displays location profile in the location_profile browse table column' do
+    visit '/'
+    click_button id: 'user-menu-dropdown'
+    click_link 'Global Preferences (admin)'
+    select 'Location Profile', from: 'preference[defaults][top_container_mgmt_browse_column_1]'
+    click_button 'Save Preferences'
+
+    visit '/top_containers'
+    fill_in id: 'q', with: 'Location Profile Box'
+    click_button 'Search'
+
+    within('#bulk_operation_results tbody tr', text: 'Location Profile Box') do
+      expect(page).to have_selector(
+        'td.top-container-location-profile ul li span.location-profile-display-string',
+        text: @location_profile.display_string
+      )
+    end
   end
 end

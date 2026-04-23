@@ -13,9 +13,9 @@ Feature: Digital Object Component Reorder
       And the user expands the first Digital Object Component
       And the user selects the second Digital Object Component
       And the user clicks on 'Cut'
-      And the user selects the first Digital Object Component
+      And the user selects the Digital Object
       And the user clicks on 'Paste'
-     Then the second Digital Object Component is pasted as a child of the Digital Object Component
+     Then the second Digital Object Component is pasted as a child of the Digital Object
   Scenario: Move a Digital Object Component up a level
     Given a Digital Object with two nested Digital Object Components has been created
      When the user selects the second Digital Object Component

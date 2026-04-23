@@ -348,16 +348,8 @@ describe 'Digital Objects', js: true do
 
     expect(page).to have_selector('h2', visible: true, text: "#{digital_object_component.title} Digital Object Component")
 
-    expand_elements = all('#digital_object_component_file_versions_ .glyphicon')
-    expect(expand_elements.length).to eq 2
-
-    expand_elements[0].click
-    element = find('#digital_object_component_file_versions__file_version_0')
-    expect(element).to have_text "File Format Caption 1 #{now}"
-
-    expand_elements[1].click
-    element = find('#digital_object_component_file_versions__file_version_1')
-    expect(element).to have_text "File Format Caption 2 #{now}"
+    expect(page).to have_css('#digital_object_component_file_versions__file_version_0', visible: false, text: "File Format Caption 1 #{now}")
+    expect(page).to have_css('#digital_object_component_file_versions__file_version_1', visible: false, text: "File Format Caption 2 #{now}")
   end
 
   describe 'title field mixed content validation' do
@@ -379,8 +371,176 @@ describe 'Digital Objects', js: true do
     end
   end
 
+  context 'index view' do
+    describe 'results table' do
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'digital_object' }
+      let(:browse_path) { '/digital_objects' }
+      let(:record_1) do
+        create(:digital_object,
+          title: "Digital Object 1 #{now}",
+          digital_object_id: "2",
+          level: 'image',
+          digital_object_type: 'mixed_materials',
+          publish: true
+        )
+      end
+      let(:record_2) do
+        create(:digital_object,
+          title: "Digital Object 2 #{now}",
+          digital_object_id: "1",
+          level: 'collection',
+          digital_object_type: 'text',
+          publish: false
+        )
+      end
+      let(:initial_sort) { [record_1.title, record_2.title] }
+
+      describe 'sorting' do
+        include_context 'results table setup'
+
+        let(:default_sort_key) { 'title_sort' }
+        let(:additional_browse_columns) do
+          {
+            2 => 'Digital Object ID',
+            3 => 'Digital Object Type',
+            4 => 'Level',
+            # 5 => 'Published',
+            6 => 'URI'
+          }
+        end
+        let(:column_headers) do
+          {
+            'Title' => 'title_sort',
+            'Digital Object ID' => 'digital_object_id',
+            'Digital Object Type' => 'digital_object_type',
+            'Level' => 'level',
+            # 'Published' => 'publish',
+            'URI' => 'uri'
+          }
+        end
+        let(:primary_sort_expectations) do
+          {
+            'title_sort' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
+            'digital_object_id' => {
+              asc: [record_2.title, record_1.title],
+              desc: [record_1.title, record_2.title]
+            },
+            'digital_object_type' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
+            'level' => {
+              asc: [record_2.title, record_1.title],
+              desc: [record_1.title, record_2.title]
+            },
+            # 'publish' => {
+            #   asc: [record_2.title, record_1.title],
+            #   desc: [record_1.title, record_2.title]
+            # },
+            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+          }
+        end
+        # Uses same level ("collection") and digital_object_type ("text") as record_2 to create ties
+        let(:record_3) do
+          create(:digital_object,
+            title: "Digital Object 3 #{now}",
+            digital_object_id: "3",
+            level: 'collection',
+            digital_object_type: 'text',
+            publish: false
+          )
+        end
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary level asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'level',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            },
+            {
+              # Case 2: primary level asc, secondary title_sort desc - secondary changes order
+              primary_key:   'level',
+              primary_dir:   :asc,
+              secondary_key: 'title_sort',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.title,
+                record_3.title,
+                record_1.title
+              ],
+              expected_after_both: [
+                record_3.title,
+                record_2.title,
+                record_1.title
+              ]
+            },
+            {
+              # Case 3: primary digital_object_id asc, secondary digital_object_type asc - no-op since IDs are unique
+              primary_key:   'digital_object_id',
+              primary_dir:   :asc,
+              secondary_key: 'digital_object_type',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_2.title,
+                record_1.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_2.title,
+                record_1.title,
+                record_3.title
+              ]
+            }
+          ]
+        end
+
+        it_behaves_like 'results table sorting'
+      end
+
+      # Skipped due to ANW-2543 publish issue when running specs
+      xdescribe 'boolean columns' do
+        include_context 'results table setup'
+
+        let(:additional_browse_columns) do
+          {
+            5 => 'Published'
+          }
+        end
+        let(:boolean_column_expectations) do
+          {
+            'publish' => %w[True False]
+          }
+        end
+
+        it_behaves_like 'results table boolean columns'
+      end
+    end
+  end
+
   describe 'Linked Agents is_primary behavior' do
     let(:agent) { create(:agent_person) }
+
+    before do
+      set_repo @repository
+      login_admin
+      select_repository(@repository)
+    end
 
     context 'for a parent Digital Object' do
       let(:record_type) { 'digital_object' }

@@ -109,7 +109,6 @@ fr:
       linked_agent_roles: Rôles d'agent liés
       notes_published: Remarques
       finding_aid_title: Titre de l'instrument de recherche
-      finding_aid_filing_title: Titre de classement de l'aide
       instance_type_enum_s: Type d'instance
       acquisition_type: Type d'acquisition
     page_title: "%{count} résultats trouvés"
@@ -368,7 +367,7 @@ fr:
       lang_pdf: Langue du matériel
       ark_link_name: Clé de Ressource d'Archives
     load_records:
-      alert: "Cette collection contient un grand nombre d'enregistrements"
+      alert: "Cette collection contient %{count} enregistrements."
       showing: "Affichage"
       percent_convention: "%"
       load: "Charger les enregistrements"
@@ -608,18 +607,14 @@ fr:
     _singular: Déclaration des droits sur les métadonnées
     _plural: Déclarations de droits sur les métadonnées
   footer:
-    archivesspace_home: Visitez <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer des commentaires
+    archivesspace_home_html: Visitez <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer des commentaires
       ou signaler un problème</a>
-    staff_interface: <a href="%{staff_url}">Interface personnel</a>
+    staff_interface_html: <a href="%{staff_url}">Interface personnel</a>
 
   languages:
     select: Choisir la langue
-    en: Anglais
-    es: Espagnol
-    fr: Français
-    de: Allemand
-    ja: Japonais
+  
   pdf_error:
     headings:
       message: Message d'erreur

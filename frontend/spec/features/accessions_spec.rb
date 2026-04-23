@@ -472,50 +472,6 @@ describe 'Accessions', js: true do
     expect(page).to have_text "Accession #{accession.title} updated"
   end
 
-  it 'can show a browse list of accessions' do
-    now = Time.now.to_i
-    accession_first = create(:json_accession, title: "First Accession #{now}")
-    accession_second = create(:json_accession, title: "Second Accession #{now}")
-    accession_third = create(:json_accession, title: "Third Accession #{now}")
-    run_index_round
-
-    click_on('Browse')
-    click_on('Accessions')
-
-    # Search for accession and check results table
-    input_text = find('#filter-text')
-    input_text.fill_in with: accession_first.title
-    input_text.send_keys(:enter)
-    find('td', text: accession_first.title)
-
-    # Search for accession and check results table
-    input_text = find('#filter-text')
-    input_text.fill_in with: accession_second.title
-    input_text.send_keys(:enter)
-    find('td', text: accession_second.title)
-
-    # Search for accession and check results table
-    input_text = find('#filter-text')
-    input_text.fill_in with: accession_third.title
-    input_text.send_keys(:enter)
-    find('td', text: accession_third.title)
-  end
-
-  it 'can define a second level sort for a browse list of accessions' do
-    create(:json_accession)
-    create(:json_accession)
-
-    run_index_round
-    click_on('Browse')
-    click_on('Accessions')
-
-    click_on('Select')
-
-    element = first('a', text: 'Identifier')
-    element.click
-    expect(page).to have_text('Identifier Descending')
-  end
-
   context 'when user is a repository manager of the current repo' do
     let(:user) do
       user = create_user(repo => ['repository-managers'])
@@ -598,5 +554,403 @@ describe 'Accessions', js: true do
 
     it_behaves_like 'supporting is_primary on top-level linked agents'
     it_behaves_like 'not supporting is_primary on rights statement linked agents'
+  end
+
+  context 'index view' do
+    describe 'results table' do
+      let(:now) { Time.now.to_i }
+      let(:shared_accession_date) { (Time.at(now) - 86400).strftime('%Y-%m-%d') }
+      let(:shared_access_restrictions) { true }
+      let(:shared_use_restrictions) { true }
+      let(:record_type) { 'accession' }
+      let(:browse_path) { '/accessions' }
+      let(:record_1) do
+        create(:accession,
+          title: "Accession 1 #{now}",
+          id_0: "1",
+          accession_date: Time.now.strftime('%Y-%m-%d'),
+          acquisition_type: 'gift',
+          resource_type: 'papers',
+          restrictions_apply: false,
+          publish: true,
+          access_restrictions: false,
+          use_restrictions: false,
+          dates: [build(:date)],
+          extents: [build(:extent)]
+        )
+      end
+      let(:record_2) do
+        create(:accession,
+          title: "Accession 2 #{now}",
+          id_0: "2",
+          accession_date: shared_accession_date,
+          acquisition_type: 'deposit',
+          resource_type: 'collection',
+          restrictions_apply: true,
+          publish: false,
+          access_restrictions: shared_access_restrictions,
+          use_restrictions: shared_use_restrictions,
+          dates: [build(:date)],
+          extents: [build(:extent)]
+        )
+      end
+      let(:initial_sort) { [record_1.title, record_2.title] }
+
+      describe 'sorting' do
+        let(:default_sort_key) { 'title_sort' }
+
+        context 'with seven of ten sortable columns showing' do
+          include_context 'results table setup'
+
+          let(:additional_browse_columns) do
+            {
+              4 => 'Acquisition Type',
+              5 => 'Resource Type',
+              6 => 'Restrictions Apply',
+              # 7 => 'Published'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Identifier' => 'identifier',
+              'Accession Date' => 'accession_date',
+              'Acquisition Type' => 'acquisition_type',
+              'Resource Type' => 'resource_type',
+              'Restrictions Apply' => 'restrictions_apply'
+              # 'Publish' => 'publish',
+            }
+          end
+          let(:primary_sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'identifier' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'accession_date' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'acquisition_type' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'resource_type' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'restrictions_apply' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              }
+              # 'publish' => {
+              #   asc: [record_2.title, record_1.title],
+              #   desc: [record_1.title, record_2.title]
+              # },
+            }
+          end
+          let(:record_3) do
+            create(:accession,
+              title: "Accession 3 #{now}",
+              id_0: "3",
+              accession_date: shared_accession_date,
+              acquisition_type: 'purchase',
+              resource_type: 'records',
+              restrictions_apply: true,
+              publish: false,
+              access_restrictions: true,
+              use_restrictions: true,
+              dates: [build(:date)],
+              extents: [build(:extent)]
+            )
+          end
+          let(:secondary_sort_cases) do
+            [
+              {
+                # Case 1: primary title asc, secondary identifier asc - no-op since titles are unique
+                primary_key:   'title_sort',
+                primary_dir:   :asc,
+                secondary_key: 'identifier',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              },
+              {
+                # Case 2: primary accession_date asc, secondary title_sort desc - secondary changes order
+                primary_key:   'accession_date',
+                primary_dir:   :asc,
+                secondary_key: 'title_sort',
+                secondary_dir: :desc,
+                expected_after_primary: [
+                  record_2.title,
+                  record_3.title,
+                  record_1.title
+                ],
+                expected_after_both: [
+                  record_3.title,
+                  record_2.title,
+                  record_1.title
+                ]
+              },
+              {
+                # Case 3: primary identifier asc, secondary accession_date asc - no-op since identifiers are unique
+                primary_key:   'identifier',
+                primary_dir:   :asc,
+                secondary_key: 'accession_date',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              }
+            ]
+          end
+
+          it_behaves_like 'results table sorting'
+        end
+
+        context 'with the remaining three of ten sortable columns showing, plus the title column' do
+          include_context 'results table setup'
+
+          let(:additional_browse_columns) do
+            {
+              2 => 'Access Restrictions',
+              3 => 'Use Restrictions',
+              4 => 'URI'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Access Restrictions' => 'access_restrictions',
+              'Use Restrictions' => 'use_restrictions',
+              'URI' => 'uri'
+            }
+          end
+          let(:primary_sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'access_restrictions' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'use_restrictions' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+            }
+          end
+
+          let(:record_3) do
+            create(:accession,
+              title: "Accession 3 #{now}",
+              id_0: "3",
+              accession_date: shared_accession_date,
+              acquisition_type: 'purchase',
+              resource_type: 'records',
+              restrictions_apply: true,
+              publish: false,
+              access_restrictions: shared_access_restrictions,
+              use_restrictions: shared_use_restrictions,
+              dates: [build(:date)],
+              extents: [build(:extent)]
+            )
+          end
+
+          # Secondary sort test cases
+          let(:secondary_sort_cases) do
+            [
+              {
+                # Case 1: primary title asc, secondary access_restrictions asc - no-op since titles are unique
+                primary_key:   'title_sort',
+                primary_dir:   :asc,
+                secondary_key: 'access_restrictions',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              },
+              {
+                # Case 2: primary access_restrictions asc, secondary title_sort desc - secondary changes order
+                # record_2 and record_3 both have access_restrictions=true, so they tie.
+                # After primary-only: record_1 first (false), then Solr tie-breaks record_2/record_3 by ID.
+                # After secondary (title desc): within tie group, "Accession 3" > "Accession 2", so record_3 moves first.
+                primary_key:   'access_restrictions',
+                primary_dir:   :asc,
+                secondary_key: 'title_sort',
+                secondary_dir: :desc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_3.title,
+                  record_2.title
+                ]
+              },
+              {
+                # Case 3: primary uri asc, secondary use_restrictions asc - no-op since URIs are unique
+                primary_key:   'uri',
+                primary_dir:   :asc,
+                secondary_key: 'use_restrictions',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              }
+            ]
+          end
+
+          it_behaves_like 'results table sorting'
+        end
+      end
+
+      describe 'boolean columns' do
+        include_context 'results table setup'
+
+        let(:additional_browse_columns) do
+          {
+            4 => 'Restrictions Apply',
+            # 5 => 'Published',
+            6 => 'Access Restrictions',
+            7 => 'Use Restrictions'
+          }
+        end
+        let(:boolean_column_expectations) do
+          {
+            'restrictions_apply'   => %w[False True],
+            # 'publish'              => %w[True False],
+            'access_restrictions'  => %w[False True],
+            'use_restrictions'     => %w[False True]
+          }
+        end
+
+        it_behaves_like 'results table boolean columns'
+      end
+    end
+
+    it 'can show a browse list of accessions' do
+      now = Time.now.to_i
+      accession_first = create(:json_accession, title: "First Accession #{now}")
+      accession_second = create(:json_accession, title: "Second Accession #{now}")
+      accession_third = create(:json_accession, title: "Third Accession #{now}")
+      run_index_round
+
+      click_on('Browse')
+      click_on('Accessions')
+
+      # Search for accession and check results table
+      input_text = find('#filter-text')
+      input_text.fill_in with: accession_first.title
+      input_text.send_keys(:enter)
+      find('td', text: accession_first.title)
+
+      # Search for accession and check results table
+      input_text = find('#filter-text')
+      input_text.fill_in with: accession_second.title
+      input_text.send_keys(:enter)
+      find('td', text: accession_second.title)
+
+      # Search for accession and check results table
+      input_text = find('#filter-text')
+      input_text.fill_in with: accession_third.title
+      input_text.send_keys(:enter)
+      find('td', text: accession_third.title)
+    end
+
+    it 'can define a second level sort for a browse list of accessions' do
+      create(:json_accession)
+      create(:json_accession)
+
+      run_index_round
+      click_on('Browse')
+      click_on('Accessions')
+
+      click_on('Select')
+
+      element = first('a', text: 'Identifier')
+      element.click
+      expect(page).to have_text('Identifier Descending')
+    end
+  end
+
+end
+
+describe 'Accessions (view-only permissions)', js: true do
+  before(:all) do
+    @view_only_repo = create(:repo, repo_code: "view_only_test_#{Time.now.to_i}", publish: true)
+    set_repo(@view_only_repo)
+    @published_accession = create(:json_accession, publish: true)
+    @view_only_user = create_user(@view_only_repo => ['repository-viewers'])
+    run_index_round
+  end
+
+  before(:each) do
+    login_user(@view_only_user)
+    select_repository(@view_only_repo)
+  end
+
+  it 'sees only the View Published button on accession show page' do
+    visit "/accessions/#{@published_accession.id}"
+
+    within '.record-toolbar' do
+      expect(page).to have_link('View Published')
+      expect(page).not_to have_link('Edit')
+      expect(page).not_to have_button('Save')
+      expect(page).not_to have_button('Spawn')
+      expect(page).not_to have_button('Delete')
+    end
+  end
+
+  it 'cannot access the accession edit page' do
+    visit "/accessions/#{@published_accession.id}/edit"
+
+    expect(page).to have_text('Unable to Access Page')
+  end
+
+  it 'can click View Published to open PUI' do
+    visit "/accessions/#{@published_accession.id}"
+
+    view_published_link = find_link('View Published')
+    expect(view_published_link[:href]).to include('/accessions/')
+    expect(view_published_link[:target]).to eq('_blank')
   end
 end

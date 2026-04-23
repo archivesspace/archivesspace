@@ -1,3 +1,4 @@
+require 'logger'
 require 'thor'
 require_relative 'release_notes'
 

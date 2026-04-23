@@ -8,7 +8,9 @@ Given 'two Subjects A & B have been created' do
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
 
-  click_on 'Save'
+  click_on 'Save Subject', match: :first
+  wait_for_ajax
+  expect(page).to have_selector('h2', visible: true, text: "subject_term_A_#{@uuid}")
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
 
   uri_parts = current_url.split('/')
@@ -22,7 +24,9 @@ Given 'two Subjects A & B have been created' do
   select 'Art & Architecture Thesaurus', from: 'subject_source_'
   select 'Cultural context', from: 'subject_terms__0__term_type_'
 
-  click_on 'Save'
+  click_on 'Save Subject', match: :first
+  wait_for_ajax
+  expect(page).to have_selector('h2', visible: true, text: "subject_term_B_#{@uuid}")
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Subject Created')
 
   uri_parts = current_url.split('/')

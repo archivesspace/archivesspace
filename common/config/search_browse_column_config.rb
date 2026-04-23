@@ -115,7 +115,6 @@ module SearchAndBrowseColumnConfig
     },
     "location" => {
       "title" => {:field => "title", :sortable => true, :sort_by => "title_sort"},
-      "publish" => {:field => "publish", :sortable => true, :type => "boolean"},
       "building" => {:field => "building", :sortable => true},
       "floor" => {:field => "floor", :sortable => true},
       "room" => {:field => "room", :sortable => true},
@@ -252,8 +251,10 @@ module SearchAndBrowseColumnConfig
     },
     "top_container_mgmt" => {
       "resource_accession" => {:field => "context", :sortable => true},
+      "resource_accession_id" => {:field => "collection_identifier_stored_u_sstr", :sortable => false},
       "series" => {:field => "series_level_u_sstr", :sortable => true},
-      "container_profile" => {:field => ":container_profile_display_string", :sortable => true},
+      "container_profile" => {:field => "container_profile_display_string_u_sstr", :sortable => true},
+      "location_profile" => {:field => "location_profile_display_string_u_sstr", :sortable => true},
       "type" => {:field => "type", :sortable => true},
       "indicator" => {:field => "indicator", :sortable => true},
       "barcode" => {:field => "barcode", :sortable => true},
@@ -261,7 +262,7 @@ module SearchAndBrowseColumnConfig
       "location" => {:field => "location", :sortable => true},
       "restricted" => {:field => "restricted", :sortable => true},
       "ils_holding_id" => {:field => "ils_holding_id", :sortable => true},
-      "exported_to_ils" => {:field => "exported_to_ils", :sortable => true},
+      "exported_to_ils" => {:field => "exported_to_ils", :sortable => true}
     },
     "job" => {
       "status" => {:field => "status", :sortable => true},

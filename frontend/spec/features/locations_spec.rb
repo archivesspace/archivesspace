@@ -344,4 +344,149 @@ describe 'Locations', js: true do
 
     expect(page).to have_text /Showing .*1.* of.*Results/
   end
+
+  context 'index view' do
+    describe 'results table' do
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'location' }
+      let(:browse_path) { '/locations' }
+      let(:record_1) do
+        create(
+          :location,
+          building: "Building 1 #{now}",
+          floor: '2',
+          room: '1',
+          area: '2',
+          temporary: 'conservation'
+        )
+      end
+      let(:record_2) do
+        create(
+          :location,
+          building: "Building 2 #{now}",
+          floor: '1',
+          room: '2',
+          area: '1',
+          temporary: 'reading_room'
+        )
+      end
+      let(:filter_results) { true }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+
+      describe 'sorting' do
+        include_context 'results table setup'
+
+        let(:default_sort_key) { 'title_sort' }
+        let(:additional_browse_columns) { { 6 => 'Temporary', 7 => 'URI' } }
+        let(:column_headers) do
+          {
+            'Location' => 'title_sort',
+            'Building' => 'building',
+            'Floor' => 'floor',
+            'Room' => 'room',
+            'Area' => 'area',
+            'Temporary' => 'temporary',
+            'URI' => 'uri'
+          }
+        end
+        let(:primary_sort_expectations) do
+          {
+            'title_sort' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
+            'building' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
+            'floor' => {
+              asc: [record_2.title, record_1.title],
+              desc: [record_1.title, record_2.title]
+            },
+            'room' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
+            'area' => {
+              asc: [record_2.title, record_1.title],
+              desc: [record_1.title, record_2.title]
+            },
+            'temporary' => {
+              asc: [record_1.title, record_2.title],
+              desc: [record_2.title, record_1.title]
+            },
+            'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+          }
+        end
+        # Creates ties: floor="1" (same as record_2), temporary="conservation" (same as record_1)
+        let(:record_3) do
+          create(
+            :location,
+            building: "Building 3 #{now}",
+            floor: '1',
+            room: '3',
+            area: '3',
+            temporary: 'conservation'
+          )
+        end
+        let(:secondary_sort_cases) do
+          [
+            {
+              # Case 1: primary title_sort asc, secondary floor asc - no-op since titles are unique
+              primary_key:   'title_sort',
+              primary_dir:   :asc,
+              secondary_key: 'floor',
+              secondary_dir: :asc,
+              expected_after_primary: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ],
+              expected_after_both: [
+                record_1.title,
+                record_2.title,
+                record_3.title
+              ]
+            },
+            {
+              # Case 2: primary floor asc, secondary room desc - secondary changes order
+              primary_key:   'floor',
+              primary_dir:   :asc,
+              secondary_key: 'room',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_2.title,
+                record_3.title,
+                record_1.title
+              ],
+              expected_after_both: [
+                record_3.title,
+                record_2.title,
+                record_1.title
+              ]
+            },
+            {
+              # Case 3: primary temporary asc, secondary building desc - secondary changes order
+              primary_key:   'temporary',
+              primary_dir:   :asc,
+              secondary_key: 'building',
+              secondary_dir: :desc,
+              expected_after_primary: [
+                record_1.title,
+                record_3.title,
+                record_2.title
+              ],
+              expected_after_both: [
+                record_3.title,
+                record_1.title,
+                record_2.title
+              ]
+            }
+          ]
+        end
+
+        it_behaves_like 'results table sorting'
+      end
+    end
+  end
 end

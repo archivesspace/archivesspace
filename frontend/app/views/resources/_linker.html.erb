@@ -18,16 +18,18 @@
           for="<%= form.id_for("ref") %>_combobox">
      <%= field_label %>
    </label>
-   <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>"
-        role="combobox"
-        aria-owns="<%= form.id_for("ref") %>_listbox"
-        aria-expanded="false"
-        id="<%= form.id_for("ref") %>_combobox">
-       <div class="input-group linker-wrapper">
+   <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>">
+       <div class="input-group linker-wrapper"
+            role="combobox"
+            aria-expanded="false"
+            aria-controls="<%= form.id_for("ref") %>_listbox"
+            id="<%= form.id_for("ref") %>_combobox">
           <input type="text"
             class="linker"
             id="<%= form.id_for("ref") %>"
             aria-autocomplete="both"
+            aria-controls="<%= form.id_for("ref") %>_listbox"
+            aria-labelledby="<%= form.id_for("ref") %>_label"
             data-label_create="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.create") %>"
             data-label_browse="<%= t("top_container._frontend.bulk_operations.collection_resource_linker.browse") %>"
             data-label_link="<%= t("linker.link") %>"

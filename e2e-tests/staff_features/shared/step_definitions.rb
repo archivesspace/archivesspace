@@ -43,12 +43,22 @@ Given 'a Repository with name {string} has been created' do |repository_name|
   end
 end
 
+When 'the user waits for the page to update' do
+  wait_for_ajax
+end
+
 When 'the user clicks on {string}' do |string|
   click_on_string string
 
-  wait_for_ajax if current_url.include?("resources/#{@resource_id}/edit") ||
-                   current_url.include?("digital_objects/#{@digital_object_id}/edit") ||
-                   current_url.include?('merge_selector')
+  if [
+    "resources/#{@resource_id}/edit",
+    "digital_objects/#{@digital_object_id}/edit",
+    'merge_selector',
+    'defaults'
+  ].any? { |s| current_url.include?(s) }
+    wait_for_ajax
+    sleep 2
+  end
 end
 
 When 'the user hovers on {string} in the dropdown menu' do |string|
@@ -94,6 +104,8 @@ When 'the user clicks on {string} in the dropdown menu' do |string|
       end
     end
   end
+
+  wait_for_ajax
 end
 
 When 'the user clicks on {string} in the spawn dropdown menu' do |string|
@@ -109,6 +121,16 @@ When 'the user clicks on the first dropdown in the {string} form' do |form_title
 
   within "##{section[:id]}" do
     find('.input-group-append .dropdown-toggle', match: :first).click
+  end
+end
+
+When 'the user clicks on the last dropdown in the {string} form' do |form_title|
+  section_title = find('h3', text: form_title)
+  section = section_title.ancestor('section')
+  expect(section[:id]).to_not eq nil
+
+  within "##{section[:id]}" do
+    all('.input-group-append .dropdown-toggle').last.click
   end
 end
 
@@ -131,6 +153,7 @@ When 'the user clicks on {string} in the dropdown menu in the {string} form' do 
     within '.dropdown-menu' do
       click_on string
     end
+    wait_for_ajax
   end
 end
 
@@ -141,10 +164,8 @@ When 'the user fills in {string}' do |label|
 end
 
 When 'the user fills in {string} in the modal' do |label|
-  @uuid = SecureRandom.uuid if @uuid.nil?
-
   within '.modal-content' do
-    fill_in label, with: @uuid, match: :first
+    fill_in label, with: SecureRandom.uuid, match: :first
   end
 end
 
@@ -225,12 +246,15 @@ end
 
 When 'the user selects {string} from {string}' do |option, label|
   select option, from: label, match: :first
+  wait_for_ajax
 end
 
 When 'the user selects {string} in the modal' do |select_option|
   within '.modal-content' do
     find('#label').select select_option
   end
+
+  wait_for_ajax
 end
 
 When 'the user selects {string} from {string} in the modal' do |option, label|
@@ -239,6 +263,8 @@ When 'the user selects {string} from {string} in the modal' do |option, label|
   within '.modal-content' do
     select option, from: label
   end
+
+  wait_for_ajax
 end
 
 When 'the user selects {string} from {string} in the {string} form' do |option, label, form_title|
@@ -249,6 +275,8 @@ When 'the user selects {string} from {string} in the {string} form' do |option, 
   within section do
     select option, from: label
   end
+
+  wait_for_ajax
 end
 
 When 'the user checks {string}' do |label|
@@ -335,6 +363,14 @@ Then 'the following error message is displayed' do |messages|
   end
 end
 
+Then 'the following error messages are displayed in the modal' do |messages|
+  within '.modal-content' do
+    messages.raw.each do |message|
+      expect(page).to have_text message[0]
+    end
+  end
+end
+
 Then 'the {string} has value {string}' do |label, value|
   expect(page).to have_field(label, with: value)
 end
@@ -364,17 +400,6 @@ Then 'the {string} section is displayed' do |section_heading|
 end
 
 Given 'the Pre-populate Records option is checked in Repository Preferences' do
-  find('#user-menu-dropdown').click
-  within '.dropdown-menu' do
-    click_on 'Default Repository Preferences'
-  end
-
-  page.check('preference_defaults__default_values_') if page.has_unchecked_field?('preference_defaults__default_values_')
-
-  click_on 'Save'
-  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Preferences updated')
-  expect(page).to have_checked_field('preference_defaults__default_values_')
-
   visit "#{STAFF_URL}/repositories/new"
 
   fill_in 'repository_repository__repo_code_', with: "repository_test_default_values_#{@uuid}"
@@ -399,8 +424,21 @@ Given 'the Pre-populate Records option is checked in Repository Preferences' do
   within '.dropdown-menu' do
     click_on 'Repository Preferences (admin)'
   end
-  check('preference_defaults__default_values_')
+  uncheck('Pre-populate Records?')
   click_on 'Save'
+  sleep 3
+
+  check('Pre-populate Records?')
+  click_on 'Save'
+  sleep 3
+
+  check('Include Unpublished Records in Exports?')
+  click_on 'Save'
+  sleep 3
+
+  uncheck('Include Unpublished Records in Exports?')
+  click_on 'Save'
+  sleep 3 # update the preferences two times to ensure that REFRESH_PREFERENCES notification reaches SUI
 
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Preferences updated')
   expect(page).to have_checked_field('preference_defaults__default_values_')
@@ -527,4 +565,30 @@ Then 'the {string} button is disabled' do |text|
   buttons.each do |button|
     expect(button.disabled?).to eq true
   end
+end
+
+When 'the user clicks on {string} that opens in a new tab' do |text|
+  @new_window = window_opened_by do
+    click_on text
+  end
+end
+
+Then 'the {string} button is present in the new tab' do |text|
+  within_window @new_window do
+    expect(page).to have_selector('button', text: text)
+  end
+end
+
+Then 'the {string} button is not present in the new tab' do |text|
+  within_window @new_window do
+    expect(page).not_to have_selector('button', text: text)
+  end
+end
+
+Then 'the {string} link is visible' do |link_text|
+  expect(page).to have_link(link_text, visible: true)
+end
+
+Then 'the {string} link is not visible' do |link_text|
+  expect(page).not_to have_link(link_text)
 end

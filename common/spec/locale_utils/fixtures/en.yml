@@ -1,0 +1,20 @@
+en:
+  greeting: Hello
+  search:
+    results: "Found %{count} results"
+    filters: "Filtered by %{filter_name}"
+  errors:
+    not_found: "%{type} not found"
+    invalid: "Invalid %{field} value"
+    malformed: "Error with %{variable} items"
+  nested:
+    deep:
+      value: "User %{user_name} has %{item_count} items"
+  messages:
+    multiline_literal: |
+      This is a multiline message with a variable %{variable_name}.
+      It spans multiple lines with %{line_count} total lines and should be handled correctly.
+      The variable should be detected and replaced if translated.
+    multiline_folded: >
+      This folded multiline text contains %{count} items
+      and %{status} information that needs to be processed.

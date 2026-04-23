@@ -16,7 +16,7 @@ describe 'Search Listing', js: true do
 
     @accession_1 = create(:accession, title: "Accession 1 #{@now}")
     @accession_2 = create(:accession, title: "Accession 2 #{@now}", content_description: "Test content description #{@now}")
-    @resource = create(:resource, title: "Resource 1 #{@now}",)
+    @resource = create(:resource, title: "Resource 1 #{@now}", finding_aid_filing_title: "Finding aid filing title #{@now}")
     @archival_object_1 = create(:archival_object, title: "Archival Object Resource 1 #{@now}", resource: { ref: @resource.uri })
     @archival_object_2 = create(:archival_object, title: "Archival Object Resource 2 #{@now}", resource: { ref: @resource.uri })
     @archival_object_3 = create(:archival_object, title: "Archival Object Resource 3 #{@now}", resource: { ref: @resource.uri })
@@ -71,6 +71,17 @@ describe 'Search Listing', js: true do
 
       element = find('#tabledSearchResults')
       expect(element).to have_text @accession_2.title
+    end
+
+    context 'when search terms found in finding aid filing title only' do
+      it 'includes the record in the search results' do
+        element = find('#global-search-box')
+        element.fill_in with: "Finding aid filing title #{@now}"
+        find('#global-search-button').click
+
+        element = find('#tabledSearchResults')
+        expect(element).to have_text @resource.title
+      end
     end
 
     it 'displays search results with context' do
@@ -140,16 +151,77 @@ describe 'Search Listing', js: true do
       expect(elements_from_browse).to eq(elements_from_search)
     end
 
-    it 'shows all sortable columns in sort dropdown' do
-      find('#global-search-button').click
-      sortable_columns = all('th.sortable')
+    describe 'results table sorting' do
+      include_context 'results table setup'
 
-      click_on 'Relevance'
-      dropdown_elements = find('ul.sort-opts')
-
-      sortable_columns.each do |column|
-        expect(dropdown_elements).to have_link column.text
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'multi' }
+      let(:browse_path) { '/search' }
+      let(:record_1) { create(:resource, title: "Resource #{now}", id_0: "1") }
+      let(:record_2) { create(:accession, title: "Accession #{now}", id_0: "2") }
+      let(:default_sort_key) { 'score' }
+      let(:filter_results) { true }
+      let(:initial_sort) { [record_1.title, record_2.title] }
+      let(:additional_browse_columns) { { 6 => 'URI' } }
+      let(:column_headers) do
+        {
+          'Record Type' => 'primary_type',
+          'Title' => 'title_sort',
+          'Identifier' => 'identifier',
+          'URI' => 'uri'
+        }
       end
+      let(:primary_sort_expectations) do
+        # Re: URI sorting, this is multi-record type so URIs should sort by record type string before id integer
+        {
+          'primary_type' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
+          'title_sort' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] },
+          'identifier' => { asc: [record_1.title, record_2.title], desc: [record_2.title, record_1.title] },
+          'uri' => { asc: [record_2.title, record_1.title], desc: [record_1.title, record_2.title] }
+        }
+      end
+      # Creates a second resource to tie on primary_type with record_1
+      let(:record_3) { create(:resource, title: "Resource Z #{now}", id_0: "3") }
+      let(:secondary_sort_cases) do
+        [
+          {
+            # Case 1: primary title_sort asc, secondary primary_type asc - no-op since titles are unique
+            primary_key:   'title_sort',
+            primary_dir:   :asc,
+            secondary_key: 'primary_type',
+            secondary_dir: :asc,
+            expected_after_primary: [
+              record_2.title,
+              record_1.title,
+              record_3.title
+            ],
+            expected_after_both: [
+              record_2.title,
+              record_1.title,
+              record_3.title
+            ]
+          },
+          {
+            # Case 2: primary primary_type asc, secondary title_sort desc - secondary changes order
+            primary_key:   'primary_type',
+            primary_dir:   :asc,
+            secondary_key: 'title_sort',
+            secondary_dir: :desc,
+            expected_after_primary: [
+              record_2.title,
+              record_1.title,
+              record_3.title
+            ],
+            expected_after_both: [
+              record_2.title,
+              record_3.title,
+              record_1.title
+            ]
+          }
+        ]
+      end
+
+      it_behaves_like 'results table sorting'
     end
   end
 

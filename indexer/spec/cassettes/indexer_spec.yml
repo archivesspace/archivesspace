@@ -368,7 +368,7 @@ http_interactions:
   recorded_at: Thu, 25 May 2023 17:29:06 GMT
 - request:
     method: get
-    uri: http://localhost:4567/repositories/4/resources/1?resolve%5B%5D=agent_representation&resolve%5B%5D=classifications&resolve%5B%5D=collections&resolve%5B%5D=container_locations&resolve%5B%5D=container_profile&resolve%5B%5D=creator&resolve%5B%5D=digital_object&resolve%5B%5D=linked_agents&resolve%5B%5D=linked_records&resolve%5B%5D=location_profile&resolve%5B%5D=notes&resolve%5B%5D=places&resolve%5B%5D=records&resolve%5B%5D=related_accessions&resolve%5B%5D=related_agents&resolve%5B%5D=related_agents&resolve%5B%5D=repository&resolve%5B%5D=repository::agent_representation&resolve%5B%5D=reviewer&resolve%5B%5D=subjects&resolve%5B%5D=surveyed_by&resolve%5B%5D=top_container&resolve%5B%5D=top_container::container_profile
+    uri: http://localhost:4567/repositories/4/resources/1?resolve%5B%5D=agent_representation&resolve%5B%5D=classifications&resolve%5B%5D=collections&resolve%5B%5D=container_locations&resolve%5B%5D=container_locations::location_profile&resolve%5B%5D=container_profile&resolve%5B%5D=creator&resolve%5B%5D=digital_object&resolve%5B%5D=linked_agents&resolve%5B%5D=linked_records&resolve%5B%5D=location_profile&resolve%5B%5D=notes&resolve%5B%5D=places&resolve%5B%5D=records&resolve%5B%5D=related_accessions&resolve%5B%5D=related_agents&resolve%5B%5D=related_agents&resolve%5B%5D=repository&resolve%5B%5D=repository::agent_representation&resolve%5B%5D=reviewer&resolve%5B%5D=subjects&resolve%5B%5D=surveyed_by&resolve%5B%5D=top_container&resolve%5B%5D=top_container::container_profile
     body:
       encoding: US-ASCII
       string: ''

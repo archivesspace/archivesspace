@@ -16,3 +16,1281 @@ pl:
     begin_date_standardized_type: Data Rozpoczęcia Typ Standaryzowany
     agent_relationship_associative_relator: Relacja Agenta Relator Stowarzyszony
     agent_relationship_identity_relator: Relacja Tożsamość Agent Relator
+    accession_sibling_relator: Powiązanie rodzeństwa w procesie przystąpienia do organizacji
+    accession_sibling_relator_type: Typ relacji między powiązanymi rekordami dostępu
+    agency_code_type: Typ kodu agencji kontrolującej dokumentację
+    cataloging_source: Źródło katalogowania kontroli rekordów
+    collection_management_processing_priority: Priorytet przetwarzania w zarządzaniu kolekcjami
+    collection_management_processing_status: Status przetwarzania zarządzania kolekcją
+    container_location_status: Status lokalizacji kontenera
+    container_type: Typ kontenera
+    country_iso_3166: Kod kraju ISO 3166
+    date_calendar: Kalendarz dat
+    date_era: Era daty
+    date_label: Etykieta daty
+    date_role: Data Rola
+    date_standardized_type: Data, znormalizowany typ
+    date_type: Typ daty
+    date_type_structured: Typ daty
+    deaccession_scope: Zakres wycofania z kolekcji
+    digital_object_digital_object_type: Obiekt cyfrowy Typ obiektu cyfrowego
+    digital_object_level: Poziom obiektu cyfrowego
+    dimension_units: Jednostki wymiarów
+    end_date_standardized_type: Data zakończenia (typ znormalizowany)
+    event_event_type: Rodzaj wydarzenia
+    event_outcome: Wynik wydarzenia
+    extent_extent_type: Zakres Zakres Typ
+    extent_portion: Zakres części
+    file_version_checksum_methods: Metody sprawdzania sum kontrolnych wersji plików
+    file_version_file_format_name: Wersja pliku Nazwa formatu pliku
+    file_version_use_statement: Oświadczenie dotyczące wykorzystania wersji pliku
+    file_version_xlink_actuate_attribute: Atrybut aktywacji łącza Xlink wersji pliku
+    file_version_xlink_show_attribute: Wersja pliku Xlink Pokaż atrybut
+    government_agency_type: Typ agencji rządowej odpowiedzialnej za prowadzenie rejestrów
+    identifier_type: Typ identyfikatora kontroli rekordu
+    instance_instance_type: Typ instancji
+    job_type: Rodzaj pracy
+    language_iso639_2: Język ISO 639-2
+    level_of_detail: Poziom szczegółowości kontroli rekordów
+    linked_agent_archival_record_relators: Powiązane podmioty w archiwum agentów
+    linked_agent_event_roles: Powiązane role agentów w wydarzeniu
+    date_certainty: Pewność daty
+    gender: Płeć agenta
+    linked_agent_role: Powiązana rola agenta
+    linked_event_archival_record_roles: Powiązane role w archiwum zapisów wydarzeń
+    location_function_type: Lokalizacja Funkcja Typ
+    location_temporary: Lokalizacja tymczasowa
+    maintenance_agent_type: Typ agenta odpowiedzialnego za konserwację i kontrolę dokumentacji
+    maintenance_event_type: Typ zdarzenia konserwacji i kontroli dokumentacji
+    metadata_license: Licencja na metadane
+    modified_record: Typ zmodyfikowanego rekordu kontrolnego
+    name_type: Nazwa pola kontrolnego Typ rekordu
+    maintenance_status: Status konserwacji i kontroli dokumentacji
+    note_langmaterial_type: 'Uwaga: Język materiałów, typ dokumentu'
+    publication_status: Status publikacji rekordu kontrolnego
+    reference_evaluation: Ocena odniesienia do kontroli rekordów
+    rights_statement_act_restriction: Oświadczenie o prawach Ograniczenia Ustawy
+    rights_statement_act_type: Oświadczenie dotyczące praw autorskich Rodzaj aktu prawnego
+    note_rights_statement_act_type: 'Uwaga: Oświadczenie dotyczące praw autorskich, rodzaj aktu prawnego'
+    place_role: Rola agenta w danym miejscu
+    restriction_type: Typ lokalnego ograniczenia dostępu
+    rights_statement_ip_status: Oświadczenie o prawach własność intelektualna
+    romanization: Romanizacja
+    script_iso15924: Kod języka według normy ISO 15924
+    subject_source: Źródło tematu
+    telephone_number_type: Typ numeru telefonu
+    transliteration: Transliteracja
+    user_defined_enum_1: Enum zdefiniowany przez użytkownika 1
+    user_defined_enum_2: Enum zdefiniowany przez użytkownika 2
+    user_defined_enum_3: Enum zdefiniowany przez użytkownika 3
+    user_defined_enum_4: Enum zdefiniowany przez użytkownika 4
+    note_digital_object_type: 'Uwaga: Typ obiektu cyfrowego'
+    note_index_item_type: Typ elementu indeksu notatek
+    note_index_type: Typ indeksu notatek
+    note_multipart_type: 'Uwaga: Typ wieloczęściowy'
+    note_rights_statement_type: Typ oświadczenia o prawach do notatki
+    resource_resource_type: Zasób Rodzaj zasobu
+    rights_statement_external_document_identifier_type: Oświadczenie dotyczące praw autorskich Typ 
+      zewnętrznego identyfikatora dokumentu
+    rights_statement_rights_type: Oświadczenie o prawach autorskich Rodzaj praw
+    subject_term_type: Typ terminu tematycznego
+    name_source: Źródło nazwy
+    note_bibliography_type: 'Uwaga: Typ bibliografii'
+    resource_finding_aid_status: Inwentarz archiwalny status
+    resource_finding_aid_description_rules: Inwentarz archiwalny zasady opisu
+    rights_statement_other_rights_basis: Oświadczenie dotyczące praw autorskich Inne podstawy prawne
+    name_person_name_order: Imię i nazwisko osoby zamawiającej
+    name_rule: Zasada nazewnictwa
+    note_orderedlist_enumeration: 'Uwaga: Lista uporządkowana (numerowana)'
+    note_singlepart_type: 'Uwaga: Typ pojedynczej części'
+  enumerations:
+    accession_acquisition_type:
+      transfer: Przenosić
+      deposit: Depozyt
+      gift: Dar
+      purchase: Zakup
+    accession_resource_type:
+      publications: Publikacje
+      papers: Materiały osobiste
+      records: Akta
+      collection: Kolekcja
+    agency_code_type:
+      local: Lokalny
+      oclc: OCLC
+    agent_contact_salutation:
+      madame: Pani
+      mr: Pan
+      mrs: Pani
+      sir: Pan
+      ms: Pani
+    accession_parts_relator:
+      forms_part_of: Stanowi część
+      has_part: Czy ma część
+    accession_parts_relator_type:
+      part: Relacja „część”
+    agent_relationship_earlierlater_relator:
+      is_earlier_form_of: Wcześniejsza forma pokrewnego słowa
+      is_later_form_of: Późniejsza forma pokrewna
+    agent_relationship_family_relator:
+      is_related_with: Powiązany z relacjami między agentami
+    begin_date_standardized_type:
+      not_after: Nie później
+      not_before: Dopiero gdy
+      standard: Standard
+    cataloging_source:
+      nat_bib_agency: Narodowa agencja bibliograficzna
+      other: Inny
+      unknown: Nieznany
+      ccp: Program katalogowania we współpracy z innymi instytucjami
+      natc: Nie podjęto próby napisania kodu.
+    collection_management_processing_priority:
+      high: Wysoki
+      low: Niski
+      medium: Średni
+      none: Nie określono
+    collection_management_processing_status:
+      completed: Zakończony
+      new: Nowy
+      in_progress: W toku
+      none: Nie określono
+    container_location_status:
+      previous: Poprzedni
+      current: Aktualny
+    archival_record_level:
+      collection: Kolekcja
+      otherlevel: Inny poziom
+      recordgrp: Zespół archiwalny
+      series: Szereg
+      class: Podseria
+      file: Plik
+      fonds: Zespół
+      item: Przedmiot
+      subfonds: Podfundusze
+      subgrp: Podgrupa
+      subseries: Podseria
+    accession_sibling_relator:
+      sibling_of: Czy jest rodzeństwem
+    accession_sibling_relator_type:
+      bound_with: Relacja „powiązane z”
+    agent_relationship_associative_relator:
+      is_associative_with: Powiązane z podobnymi
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: Hierarchiczna relacja między agentami
+    agent_relationship_identity_relator:
+      is_identified_with: Zidentyfikowano powiązanie agenta z osobą zgłaszającą sprawę.
+    agent_relationship_parentchild_relator:
+      is_child_of: Dziecko osoby spokrewnionej
+      is_parent_of: Rodzic osoby spokrewnionej
+    agent_relationship_subordinatesuperior_relator:
+      is_subordinate_to: Czy podrzędny jest powiązany?
+      is_superior_of: Jest lepszy od pokrewnego
+    agent_relationship_temporal_relator:
+      is_temporal_with: Relacja czasowa między agentami
+    container_type:
+      box: Pudełko
+      carton: Karton
+      case: Skrzynka
+      container: Pojemnik
+      folder: Teczka
+      page: Strona
+      frame: Rama
+      object: Obiekt
+      reel: Szpulka
+      volume: Tom
+    country_iso_3166:
+      AD: Andora
+      AE: Emiraty Arabskie
+      AF: Afganistan
+      AG: Antigua i Barbuda
+      AI: Anguilla
+      AL: Albania
+      AM: Armenia
+      AQ: Antarktyda
+      AU: Australia
+      AW: Aruba
+      AX: Wyspy Alandzkie
+      AZ: Azerbejdżan
+      BA: Bośnia i Hercegowina
+      BB: Barbados
+      BD: Bangladesz
+      BE: Belgia
+      AO: Angola
+      AR: Argentyna
+      AS: Samoa Amerykańskie
+      AT: Austria
+      BF: Burkina Faso
+      BG: Bułgaria
+      BH: Bahrajn
+      BI: Burundi
+      BJ: Benin
+      BL: Święty Bartłomiej
+      BM: Bermudy
+      BN: Brunei Darussalam
+      BO: Boliwia
+      BQ: Bonaire, Sint Eustatius i Saba
+      BR: Brazylia
+      BS: Bahamy
+      BT: Bhutan
+      BV: Wyspa Bouveta
+      BW: Botswana
+      BY: Białoruś
+      BZ: Belize
+      CA: Kanada
+      CC: Wyspy Kokosowe (Keelinga)
+      CD: Demokratyczna Republika Kongo
+      CF: Republika Środkowoafrykańska
+      CG: Kongo
+      CH: Szwajcaria
+      CI: Wybrzeże Kości Słoniowej
+      CK: Wyspy Cooka
+      CL: Chile
+      CM: Kamerun
+      CN: Chiny
+      CO: Kolumbia
+      CR: Kostaryka
+      CU: Kuba
+      CV: Republika Zielonego Przylądka
+      CW: Curaçao
+      CX: Wyspa Bożego Narodzenia
+      CY: Cypr
+      CZ: Czechy
+      DE: Niemcy
+      DJ: Dżibuti
+      DK: Dania
+      DM: Dominika
+      DO: Republika Dominikańska
+      DZ: Algieria
+      EC: Ekwador
+      EE: Estonia
+      EG: Egipt
+      EH: Sahara Zachodnia
+      ER: Erytrea
+      ES: Hiszpania
+      ET: Etiopia
+      FI: Finlandia
+      FJ: Fidżi
+      FK: Falklandy (Malwiny)
+      FM: Mikronezja, Sfederowane Stany
+      FO: Wyspy Owcze
+      FR: Francja
+      GA: Gabon
+      GB: Zjednoczone Królestwo
+      GL: Grenlandia
+      GM: Gambia
+      GN: Gwinea
+      GP: Gwadelupa
+      GQ: Gwinea Równikowa
+      GD: Grenada
+      GE: Gruzja
+      GF: Gujana Francuska
+      GG: Guernsey
+      GH: Ghana
+      GI: Gibraltar
+      GR: Grecja
+      GS: Georgia Południowa i Sandwich Południowy
+      GT: Gwatemala
+      GU: Guam
+      GW: Gwinea Bissau
+      GY: Gujana
+      HK: Hongkong
+      HM: Wyspy Heard i McDonalda
+      HN: Honduras
+      HR: Chorwacja
+      HT: Haiti
+      HU: Węgry
+      ID: Indonezja
+      IE: Irlandia
+      IL: Izrael
+      KM: Komory
+      KN: Saint Kitts i Nevis
+      KP: Koreańska Republika Ludowo-Demokratyczna
+      KR: Republika Korei
+      KW: Kuwejt
+      KY: Kajmany
+      KZ: Kazachstan
+      LA: Laotańska Republika Ludowo-Demokratyczna
+      LB: Liban
+      LC: Święta Łucja
+      LI: Liechtenstein
+      LK: Sri Lanka
+      LR: Liberia
+      LS: Lesoto
+      LT: Litwa
+      LU: Luksemburg
+      LV: Łotwa
+      LY: Libia
+      MA: Maroko
+      MC: Monako
+      MD: Mołdawia, Republika
+      ME: Czarnogóra
+      MF: Saint Martin (część francuska)
+      MG: Madagaskar
+      MH: Wyspy Marshalla
+      MK: Macedonia, była Jugosłowiańska Republika
+      ML: Mali
+      MM: Myanmar
+      IM: Wyspa Man
+      IN: Indie
+      IO: Brytyjskie Terytorium Oceanu Indyjskiego
+      IQ: Irak
+      IR: Iran, Republika Islamska
+      IS: Islandia
+      IT: Włochy
+      JM: Jamajka
+      JO: Jordania
+      JP: Japonia
+      KE: Kenia
+      KG: Kirgistan
+      KH: Kambodża
+      KI: Kiribati
+      MN: Mongolia
+      MO: Makao
+      MP: Mariany Północne
+      MQ: Martynika
+      MR: Mauretania
+      MS: Montserrat
+      MT: Malta
+      MU: Mauritius
+      MV: Malediwy
+      MW: Malawi
+      MX: Meksyk
+      MY: Malezja
+      MZ: Mozambik
+      NE: Niger
+      NF: Wyspa Norfolk
+      NG: Nigeria
+      NC: Nowa Kaledonia
+      NA: Namibia
+      NI: Nikaragua
+      NL: Niderlandy
+      "NO": Norwegia
+      NZ: Nowa Zelandia
+      PE: Peru
+      PF: Polinezja Francuska
+      PG: Papua Nowa Gwinea
+      PH: Filipiny
+      PT: Portugalia
+      PW: Palau
+      PY: Paragwaj
+      QA: Katar
+      RO: Rumunia
+      RU: Federacja Rosyjska
+      RW: Rwanda
+      SA: Arabia Saudyjska
+      SB: Wyspy Salomona
+      SD: Sudan
+      SE: Szwecja
+      OM: Oman
+      PR: Portoryko
+      PS: Terytorium palestyńskie, okupowane
+      NP: Nepal
+      RS: Serbia
+      PA: Panama
+      PK: Pakistan
+      PL: Polska
+      PM: Saint-Pierre i Miquelon
+      SH: Święta Helena, Wyspa Wniebowstąpienia i Tristan da Cunha
+      SI: Słowenia
+      SJ: Svalbard i Jan Mayen
+      SK: Słowacja
+      SL: Sierra Leone
+      SV: Salwador
+      UA: Ukraina
+      UM: Małe Wyspy Odległe Stanów Zjednoczonych
+      US: Stany Zjednoczone
+      VA: Stolica Apostolska (Państwo Watykańskie)
+      VC: Saint Vincent i Grenadyny
+      VG: Wyspy Dziewicze, Brytyjskie
+      VI: Wyspy Dziewicze, Stany Zjednoczone
+      VN: Wietnam
+      WF: Wallis i Futuna
+      YE: Jemen
+      ZA: Republika Południowej Afryki
+      ZM: Zambia
+      ZW: Zimbabwe
+      ST: Wyspy Świętego Tomasza i Książęca
+      SY: Republika Syryjska
+      TC: Wyspy Turks i Caicos
+      JE: Wyspa Jersey
+      NR: Nauru
+      NU: Niue
+      PN: Wyspy Pitcairn
+      RE: Wyspa Reunion
+      SC: Seszele
+      SG: Singapur
+      SM: San Marino
+      SN: Senegal
+      SO: Somali
+      SR: Surinam
+      SS: Sudan Południowy
+      SX: Sint Maarten (część holenderska)
+      SZ: Suazi
+      TD: Czad
+      TF: Francuskie Terytoria Południowe
+      TG: Republika Togo
+      TH: Tajlandia
+      TJ: Tadżykistan
+      TK: Tokelau
+      TL: Timor Wschodni
+      TM: Turkmenia
+      TN: Tunezja
+      TO: Tonga
+      TR: Turcja
+      TT: Trynidad i Tobago
+      TV: Tuvalu
+      TW: Tajwan
+      TZ: Tanzania, Republika Zjednoczona
+      UG: Uganda
+      UY: Urugwaj
+      UZ: Uzbekistan
+      VE: Wenezuela
+      VU: Vanuatu
+      WS: Samoa
+      YT: Majotta
+    date_role:
+      begin: Zaczynać
+      end: Koniec
+    event_event_type:
+      assessment: Ocena
+      digital_signature_validation: Walidacja podpisu cyfrowego
+      accession: Przejęcie materiałów archiwalnych
+      accumulation: Akumulacja
+      acknowledgement: Potwierdzenie
+      acknowledgement_received: Potwierdzenie otrzymano.
+      acknowledgement_sent: Potwierdzenie wysłane.
+      agreement_received: Otrzymano zgodę
+      agreement_sent: Umowa została wysłana.
+      agreement_signed: Umowa została podpisana.
+      appraisal: Wartościowanie
+      capture: Przechwytywanie
+      cataloged: Zarejestrowano w katalogu
+      collection: Kolekcja
+      compression: Kompresja
+      copyright_transfer: Przeniesienie praw autorskich
+      custody_transfer: Przekazanie materiałów archiwalnych
+      deaccession: Wycofanie z zasobu
+      decryption: Deszyfrowanie
+      deletion: Usunięcie
+      fixity_check: Sprawdzenie stabilności
+      message_digest_calculation: Obliczanie skrótu wiadomości
+      request: Zamówienie
+      rights_transferred: Przeniesione prawa
+      validation: Walidacja
+      virus_check: Skanowanie antywirusowe
+      component_transfer: Transfer komponentów
+      decompression: Dekompresja
+      contribution: Składka
+      ingestion: Przyjmowanie
+      migration: Migracja
+      normalization: Normalizacja
+      processed: Została przetworzona
+      processing_completed: Przetwarzanie zakończone.
+      processing_in_progress: Przetwarzanie w toku
+      processing_new: Przetwarzanie nowych danych
+      processing_started: Rozpoczęto przetwarzanie
+      publication: Publikacja
+      replication: Replikacja
+    extent_extent_type:
+      terabytes: Terabajty
+      photographic_prints: Odbitki fotograficzne
+      photographic_slides: Slajdy fotograficzne
+      reels: Rolki
+      cubic_feet: Stopy sześcienne
+      gigabytes: Gigabajty
+      linear_feet: Stopy liniowe
+      megabytes: Megabajty
+      cassettes: Kasety
+      files: Pliki
+      leaves: Kartki
+      sheets: Arkusze
+      volumes: Tomy
+    identifier_type:
+      loc: Biblioteka Kongresu
+      lac: Biblioteka i Archiwa Kanady
+      local: Lokalny
+    language_iso639_2:
+      bai: Języki Bamileke
+      ber: Języki berberyjskie
+      cau: Języki kaukaskie
+      egy: Egipski (starożytny)
+      eng: Angielski
+      abk: Abchaski
+      aze: Azerbejdżański
+      bad: Języki Banda
+      bel: Białoruski
+      ben: Bengalski
+      btk: Języki Batak
+      crp: Języki kreolskie i pidżynowe
+      nai: Języki Indian Ameryki Północnej
+      nep: Nepalski
+      roa: Języki romańskie
+      rus: rosyjski
+      sam: Samaryjski aramejski
+      sgn: Języki migowe
+      ace: Acehczycy
+      ach: Acoli
+      ada: Dangme
+      ady: Adygejski
+      afa: Języki afroazjatyckie
+      afh: Afrihili
+      afr: Afrykanerski
+      ain: Ainu
+      aka: Akan
+      akk: Akadyjski
+      alb: Albański
+      ale: Akan
+      alg: Języki algonkińskie
+      alt: Południowy Ałtaj
+      amh: Amharski
+      ang: Język angielski staroangielski (ok. 450-1100)
+      anp: Angika
+      apa: Języki Apaczów
+      ara: Arabski
+      arc: Oficjalny język aramejski (700-300 p.n.e.); aramejski cesarski (700-300 p.n.e.)
+      arg: Aragoński
+      arm: Ormiański
+      arn: Mapudungun; Mapuche
+      arp: Arapaho
+      art: Języki sztuczne
+      cat: Kataloński; Walencki
+      ceb: Cebuański
+      cel: Języki celtyckie
+      cha: Czamorro
+      frs: Wschodniofryzyjski
+      fry: Zachodniofryzyjski
+      gem: Języki germańskie
+      ger: Niemiecki
+      goh: Język niemiecki, staro-wysokoniemiecki (ok. 750-1050)
+      haw: Hawajski
+      heb: Hebrajski
+      hin: Hinduski
+      hrv: Chorwacki
+      hun: Węgierski
+      iro: Języki irokeskie
+      ira: Języki irańskie
+      khi: Języki khoisańskie
+      lit: Litewski
+      mun: Języki Munda
+      myn: Języki Majów
+      nah: Języki nahuatl
+      nor: Norweski
+      nwc: Klasyczny Newari; Stare Newari; Klasyczny Nepal Bhasa
+      paa: Języki papuaskie
+      phi: Języki filipińskie
+      pol: Polski
+      pra: Języki prakryckie
+      sal: Języki saliszańskie
+      sem: Języki semickie
+      sio: Języki siouańskie
+      sit: Języki chińsko-tybetańskie
+      sla: Języki słowiańskie
+      sma: Południowosami
+      sme: Północnosami
+      smi: Języki samijskie
+      ssa: Języki nilo-saharyjskie
+      syc: Klasyczny język syryjski
+      tai: Języki tajskie
+      yid: Jidysz
+      ypk: Języki Yupik
+      zgh: Standardowy marokański język tamazight
+      aus: Języki australijskie
+      cus: Języki kuszyckie
+      kar: Języki kareńskie
+      aar: Afar
+      arw: Arawacki
+      asm: Asamski
+      ast: Asturleoński.
+      ath: Athabaskańskie
+      ava: Język awarski
+      ave: Awestyjski
+      awa: Awadhi
+      aym: Język ajmara
+      bak: Baszkirski
+      bal: Beludżi
+      bam: Bambara
+      ban: Balijskie
+      baq: Baskijski
+      bas: Basa
+      bat: Bałtyckie
+      bej: Bedża
+      bem: Bemba
+      bho: Bhodźpuri
+      bih: Języki biharskie
+      bik: Bikolski
+      bin: Bini; Edo
+      bis: Bislama
+      bla: Siksika
+      bnt: Bantu
+      bos: Bośniacki
+      bra: Braj
+      bre: Bretoński
+      bua: Buriacki
+      bug: Buginezyjczycy
+      bul: Bułgarski
+      bur: Birmańczyk
+      cai: Języki Indian Ameryki Środkowej
+      che: Czeczeński
+      chg: Czagataj
+      chi: Chiński
+      chn: Chinook
+      cho: Czaktaw
+      chr: Czirokezi
+      cmc: Czamskie
+      cos: Korsykański
+      cze: Czeski
+      dan: Duński
+      del: Delaware
+      epo: Esperanto
+      est: Estoński
+      fin: Fiński
+      fre: Francuski
+      gle: Irlandzki
+      glg: Galicyjski
+      got: Gotyk
+      hmo: Hiri motu
+      ice: Islandzki
+      ind: Indonezyjski
+      jav: Jawajski
+      jpn: Japoński
+      kbd: Kabardyński
+      kmb: Kimbundu
+      kor: Koreański
+      kur: Kurdyjski
+      lat: Łacina
+      lav: Łotewski
+      mac: Macedoński
+      mah: Marszalski
+      mis: Języki niezakodowane
+      tam: Tamilski
+      zul: Zuluski
+      zxx: Brak treści językowej; nie dotyczy
+      cad: Caddo
+      car: Galibi
+      cnr: Czarnogórski
+      byn: Blin; Bilin
+      chb: Chibcha
+      chk: Chuukese
+      chm: Mari
+      chp: Chipewyan; Dene Suline
+      chu: Cerkiewnosłowiański; starosłowiański; cerkiewnosłowiański; starobułgarski; 
+        starocerkiewnosłowiański
+      chv: Czuwasz
+      chy: Czejenne
+      cop: Koptyjski
+      cor: Kornwalijski
+      cpe: Kreole i pidżyny, oparte na języku angielskim
+      cpf: Kreole i pidżyny, oparte na języku francuskim
+      cpp: Kreole i pidżyny, oparte na języku portugalskim
+      cre: Cree
+      crh: Krymskotatarski; Krymskoturecki
+      csb: Kaszubski
+      dak: Dakota
+      dar: Dargwa
+      day: Języki Land Dayaków
+      den: Niewolnik (Atapaskan)
+      dgr: Dogrib
+      din: Dinka
+      div: Divehi; Dhivehi; Malediwski
+      doi: Dogri
+      dra: Języki Drawidy
+      dsb: Dolnołużycki
+      dua: Duala
+      dum: Holenderski, średni (ok. 1050-1350)
+      dut: Holenderski; flamandzki
+      dyu: Dyula
+      dzo: Dzongkha
+      efi: Efik
+      eka: Ekajuk
+      elx: Elamit
+      enm: Angielski, Średni (1100-1500)
+      ewe: Ewe
+      ewo: Ewondo
+      fan: Fang
+      fao: Farerski
+      fat: Fanti
+      fij: Fidżi
+      fil: Filipiński; Pilipino
+      fiu: Języki ugrofińskie
+      fon: Fon
+      frm: Francuski, Średniowieczny (ok. 1400-1600)
+      fro: Francuski, stary (842-ok.1400)
+      frr: Północno-fryzyjski
+      ful: Fula
+      fur: Friulski
+      gaa: Ga
+      gay: Gayo
+      gba: Gbaya
+      geo: Gruziński
+      gez: Ge'ez
+      gil: Gilbertańczyk
+      gla: Gaelicki; szkocki gaelicki
+      glv: Mański
+      gmh: Niemiecki, średnio-wysoko-angielski (ok. 1050-1500)
+      gon: Gondi
+      gor: Gorontalo
+      grb: Grebo
+      grc: Grecki, starożytny (do 1453 r.)
+      gre: Grecki, nowożytny (1453-)
+      grn: Guarani
+      gsw: Szwajcarski niemiecki; alemański; alzacki
+      guj: Gudżarati
+      gwi: Gwich'in
+      hai: Haida
+      hat: Haitański; Kreolski haitański
+      hau: Hausa
+      her: Herero
+      hil: Hiligajnon
+      him: Języki himachali; Języki zachodnio-pahari
+      hit: Hetycki
+      hmn: Hmong; Mong
+      hsb: Górnołużycki
+      hup: Hupa
+      iba: Ibana
+      ibo: Ibo
+      ido: Ido
+      iii: Syczuan Yi; Nuosu
+      ijo: Języki Ijo
+      iku: Inuktitut
+      ile: Interlingue; zachodni
+      ilo: Iloko
+      ina: Interlingua (Międzynarodowe Stowarzyszenie Języków Pomocniczych)
+      inc: Języki indyjskie
+      ine: Języki indoeuropejskie
+      inh: Inguski
+      ipk: Inupiaq
+      ita: Włoski
+      jbo: Lożban
+      jpr: Judeo-perski
+      jrb: Judeo-arabski
+      kaa: Kara-Kalpak
+      kab: Kabyle
+      kac: Kachin; Jingpho
+      kal: Kalaallisut; grenlandzki
+      kam: Kamba
+      kan: Kannada
+      kas: Kaszmirski
+      kau: Kanuri
+      kaw: Kawi
+      kaz: Kazachski
+      kha: Khasi
+      khm: Środkowy Khmer
+      kho: Khotański; sakanski
+      kik: Kikuyu; Gikuyu
+      kin: Kinyarwanda
+      kir: Kirgiski; Kirgiski
+      kok: Konkani
+      kom: Komi
+      kon: Kongo
+      kos: Kosraean
+      kpe: Kpelle
+      krc: Karaczajo-Bałkary
+      krl: Karelski
+      kro: Języki Kru
+      kru: Kurukh
+      kua: Kuanyama; Kwanyama
+      kum: Kumyk
+      kut: Kutenai
+      lad: Ladino
+      lah: Lahnda
+      lam: Lamba
+      lao: Laotański
+      lez: Lezghian
+      lim: Limburgczyk; Limburger; Limburgish
+      lin: Lingala
+      lol: Mongo
+      loz: Lozi
+      ltz: Luksemburski; Letzeburski
+      lua: Luba-Lulua
+      lub: Luba-Katanga
+      lug: Ganda
+      lui: Luiseno
+      lun: Lunda
+      luo: Luo (Kenia i Tanzania)
+      lus: Lushai
+      mad: Madurese
+      mag: Magahi
+      mai: Maithili
+      mak: Makasaru
+      mal: Malajalam
+      man: Mandingo
+      mao: Maoryski
+      map: Języki austronezyjskie
+      mar: Marathi
+      mas: Masaj
+      may: Malajski
+      mdf: Moksza
+      mdr: Mandara
+      men: Mende
+      mga: Irlandzki, średni (900-1200)
+      mic: Mikmakowie
+      min: Minangkabau
+      mkh: Języki mon-khmerskie
+      mlg: Malgaski
+      mlt: Maltański
+      mnc: Mandżurski
+      mni: Manipuri
+      mno: Języki Manobo
+      moh: Mohawk
+      mon: Mongolski
+      mos: Mossi
+      mul: Wiele języków
+      mus: Creek; Muskogi
+      mwl: Mirandese
+      mwr: Marwari
+      myv: Erzya
+      nap: Neapolitański
+      nau: Nauru
+      nav: Nawaho
+      nbl: Ndebele, Południe; Południowy Ndebele
+      nde: Ndebele, Północ; Północne Ndebele
+      ndo: Ndonga
+      nds: Dolnosaksoński; niemiecki, dolnosaksoński; saksoński, dolnosaksoński
+      new: Nepal Bhasa; Newari
+      nia: Nias
+      nic: Języki nigero-kordofańskie
+      niu: Niuean
+      nno: Norweski Nynorsk; Nynorsk, Norweg
+      nob: Norweski Bokmål; Bokmål, Norweski
+      nog: Nogaj
+      non: Nordycki, stary
+      nqo: N'Ko
+      nso: Pedi; Sepedi; Północny Sotho
+      nub: Języki nubijskie
+      nya: Chichewa; Chewa; Nyanja
+      nym: Nyamwezi
+      nyn: Nyankole
+      nyo: Nyoro
+      nzi: Nzima
+      oci: Oksytański (po 1500 r.); Prowansalski
+      oji: Ojibwa
+      ori: Orija
+      orm: Oromo
+      osa: Osag
+      oss: Osetyjski; Osetyjski
+      ota: Turecki, Osmański (1500-1928)
+      oto: Języki otomskie
+      pag: Pangasinan
+      pal: Pahlavi
+      pam: Pampanga; Kapampangan
+      pan: Pendżabski; Pendżabski
+      pap: Papiamento
+      pau: Palauan
+      peo: Perski, stary (ok. 600-400 p.n.e.)
+      per: Perski
+      phn: Fenicki
+      pli: Palijski
+      pon: Pohnpeiana
+      por: Portugalski
+      pro: Prowansalski, stary (do 1500)
+      pus: Paszto; paszto
+      que: Keczua
+      raj: Radżastani
+      rap: Rapanui
+      rar: Rarotongan; Maorysi z Wysp Cooka
+      roh: Retoromański
+      rom: Cygański
+      rum: Rumuński; Mołdawski; Mołdawski
+      run: Rundi
+      rup: Arumuński; Arumuński; Macedo-Rumuński
+      sad: Sandawe
+      sag: Sango
+      sah: Jakut
+      sai: Indianin Ameryki Południowej (inny)
+      san: Sanskryt
+      sas: Sasak
+      sat: Santali
+      scn: Sycylijski
+      sco: Szkoci
+      sel: Selekcja
+      sga: Irlandzki, stary (do 900)
+      shn: Shan
+      sid: Sidamo
+      sin: Syngaleski; Syngaleski
+      slo: Słowacki
+      slv: Słoweński
+      smj: Lule Sami
+      smn: Inari Sami
+      smo: Samoański
+      sms: Skolt Sami
+      sna: Shona
+      snd: Sindhi
+      snk: Soninke
+      sog: Sogdian
+      som: Somalijski
+      son: Języki Songhai
+      sot: Sotho, Południowy
+      spa: Hiszpański; Kastylijski
+      srd: Sardyński
+      srn: Sranan Tongo
+      srp: Serbski
+      srr: Serer
+      ssw: Swati
+      suk: Sukuma
+      sun: Sundajczyk
+      sus: Susu
+      sux: Sumeryjski
+      swa: Suahili
+      swe: Szwedzki
+      syr: Syryjski
+      tah: Tahitański
+      tat: Tatar
+      tel: Telugu
+      tem: Temne
+      ter: Tereno
+      tet: Tetum
+      tgk: Tadżycki
+      tgl: Tagalski
+      tha: Tajski
+      tib: Tybetański
+      tig: Tygrys
+      tir: Tigrinia
+      tiv: Tiw
+      tkl: Tokelau
+      tlh: Klingon; tlhIngan-Hol
+      tli: Tlingit
+      tmh: Tamaszek
+      tog: Tonga (Nyasa)
+      ton: Tonga (Wyspy Tonga)
+      tpi: Tok Pisin
+      tsi: Tsimshian
+      tsn: Tswana
+      tso: Tsonga
+      tuk: Turkmenów
+      tum: Tumbuka
+      tup: Języki Tupi
+      tur: Turecki
+      tut: Języki ałtajskie
+      tvl: Tuvalu
+      twi: Twi
+      tyv: Tuwiński
+      udm: Udmurt
+      uga: Ugarycki
+      uig: Ujgurski
+      ukr: Ukraiński
+      umb: Umbundu
+      und: Nieokreślony
+      urd: Urdu
+      uzb: Uzbecki
+      vai: Vai
+      ven: Venda
+      vie: Wietnamski
+      vol: Volapük
+      vot: Wotycki
+      wak: Języki wakasańskie
+      wal: Walamo
+      war: Waraya
+      was: Washo
+      wel: Walijski
+      wen: Języki łużyckie
+      wln: Walonia
+      wol: Wolof
+      xal: Kalmyk; Oirat
+      xho: Xhosa
+      yao: Yao
+      yap: Yapese
+      yor: Joruba
+      zap: Zapotek
+      zbl: Symbole Błogości; Symbole Błogości; Błogość
+      zen: Zenaga
+      zha: Zhuang; Chuang
+      znd: Języki Zande
+      zun: Zuni
+      zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
+    file_version_xlink_show_attribute:
+      new: nowy
+      embed: Wbudować
+      none: nic
+      other: inny
+      replace: zastępować
+    instance_instance_type:
+      computer_disks: Dyski komputerowe
+      maps: Mapy
+      books: Książki
+      microform: Mikroforma
+      moving_images: Ruchome obrazy
+      text: Tekst
+      graphic_materials: Materiały graficzne
+      realia: Materiały realne
+      mixed_materials: Materiały mieszane
+      accession: Przystąpienie
+      audio: Audio
+      digital_object: Obiekt cyfrowy
+      digital_object_link: Cyfrowe łącze obiektu
+    date_calendar:
+      gregorian: Gregoriański
+    date_certainty:
+      questionable: Wątpliwy
+      approximate: Przybliżony
+      inferred: Wywnioskowano
+    date_era:
+      ce: n.e.
+    date_label:
+      acquisition: Przejmowanie
+      agent_relation: Relacje z agentami
+      broadcast: Audycja
+      copyright: Prawo autorskie
+      creation: Tworzenie
+      deaccession: Wycofanie z zasobu
+      digitized: Zdigitalizowane
+      event: Wydarzenie
+      existence: Istnienie
+      issued: Wydany
+      modified: Zmodyfikowany
+      other: Inny
+      publication: Publikacja
+      record_keeping: Prowadzenie dokumentacji
+      usage: Stosowanie
+    date_standardized_type:
+      not_after: Nie później
+      not_before: Dopiero gdy
+      standard: Standard
+    date_type:
+      bulk: Daktyle luzem
+      expression: Wyrażenie
+      inclusive: Daty włącznie
+      range: Zakres
+      single: Pojedynczy
+    date_type_structured:
+      range: Zakres
+      single: Pojedynczy
+    deaccession_scope:
+      part: Część
+      whole: Cały
+    digital_object_digital_object_type:
+      cartographic: Kartograficzny
+      mixed_materials: Materiały mieszane
+      moving_image: Obraz ruchomy
+      notated_music: Muzyka zapisana nutami
+      software_multimedia: Oprogramowanie, Multimedia
+      sound_recording: Nagrywanie dźwięku
+      sound_recording_musical: Nagranie dźwiękowe (muzyczne)
+      sound_recording_nonmusical: Nagrania dźwiękowe (niemające charakteru muzycznego)
+      still_image: Obraz statyczny
+      text: Tekst
+    digital_object_level:
+      image: Obraz
+      collection: Kolekcja
+      work: Dzieło
+    dimension_units:
+      centimeters: Centymetry
+      feet: Stopy
+      inches: Cale
+      meters: Metry
+      millimeters: Milimetry
+      yards: Jardy
+    end_date_standardized_type:
+      not_after: Nie później
+      not_before: Dopiero gdy
+      standard: Standard
+    event_outcome:
+      cancelled: Odwołany
+      fail: Niepowodzenie
+      partial pass: Częściowe zaliczenie
+      fulfilled: Spełniony
+      pending: Oczekujący
+      pass: Zaliczony
+    file_version_checksum_methods:
+      md5: MD5
+      sha-1: SHA-1
+      sha-256: SHA-256
+      sha-384: SHA-384
+      sha-512: SHA-512
+    file_version_file_format_name:
+      gif: Format wymiany grafiki
+      jpeg: Format wymiany plików JPEG
+      mp3: MPEG Audio Warstwa 3
+      pdf: Przenośny format dokumentów
+      tiff: Format pliku obrazu z tagami
+      txt: Plik tekstowy
+      aiff: Format pliku wymiany danych audio
+      avi: Format audio/wideo z przeplotem
+    file_version_use_statement:
+      audio-clip: Plik audio
+      audio-master: Audio-Mistrz
+      audio-master-edited: Audio zmontowane przez mistrza dźwięku
+      audio-service: Usługa audio
+      audio-streaming: Przesyłanie strumieniowe audio
+      image-master: Mistrz Obrazu
+      image-master-edited: Obraz-Mistrz-Edytowany
+      image-service: Usługa obrazowania
+      image-service-edited: Obraz-Usługa-Edytowany
+      image-thumbnail: Miniatura obrazu
+      text-codebook: Księga kodów tekstowych
+      text-data: Dane tekstowe
+      text-georeference: Georeferencja tekstu
+      text-ocr-edited: Tekst przetworzony za pomocą OCR.
+      text-ocr-unedited: Tekst po przetworzeniu przez OCR (nieedytowany)
+      text-tei-transcripted: Tekst przepisany za pomocą Text-Tei.
+      text-tei-translated: Tekst przetłumaczony przez Tei
+      video-clip: Teledysk
+      video-master: Video-Mistrz
+      video-master-edited: Wideo-Zmontowane przez mistrza
+      video-service: Usługa wideo
+      video-streaming: Przesyłanie strumieniowe wideo
+      text-data_definition: Definicja danych tekstowych
+    file_version_xlink_actuate_attribute:
+      onLoad: Przy ładowaniu
+      onRequest: Na żądanie
+      none: Nic
+      other: Inny
+    government_agency_type:
+      ngo: Organizacja pozarządowa
+      provincial: Stanowe, prowincjonalne, terytorialne, zależne itp.
+      sac: Autonomiczny lub półautonomiczny komponent
+      undetermined: Rodzaj agencji rządowej – nieokreślony.
+      unknown: Nie wiadomo, czy jest to agencja rządowa.
+      fed: Federalny/krajowy
+      int_gov: Międzynarodowe międzyrządowe
+      local: Lokalny
+      multilocal: Wielomiejscowy
+      multistate: Wielostanowy
+      natc: Nie podjęto próby napisania kodu.
+      other: Inny
+    extent_portion:
+      part: Część
+      whole: Cały
+    gender:
+      not_specified: Nie określono
+    linked_agent_archival_record_relators:
+      aut: Autor
+      bjd: Projektant okładek książek
+      bpd: Projektant ekslibrisów
+      brl: Wytłaczarka Braille'a
+      chr: Choreograf
+      clb: Współpracownik
+      cll: Kaligraf
+      cmm: Komentator
+      cmp: Kompozytor
+      cnd: Dyrygent
+      cng: Operator filmowy
+      cns: Cenzor
+      con: Konserwator
+      cou: Sąd rządził
+      cpc: Osoba ubiegająca się o prawa autorskie
+      anl: Analityk
+      anm: Animator
+      ann: Anotator
+      arc: Architekt
+      ard: Dyrektor artystyczny
+      art: Artysta
+      ato: Autograf
+      auc: Licytator
+      bkd: Projektant książek
+      blw: Autor tekstu reklamowego
+      bsl: Księgarz
+      ccp: Konceptor
+      clr: Kolorysta
+      cor: Rejestrator kolekcji
+      cos: Zawodnik
+      cph: Właściciel praw autorskich
+      cre: Twórca
+      crp: Korespondent
+      cst: Projektant kostiumów
+      ctg: Kartograf
+      ctr: Wykonawca
+      cur: Kurator wystawy
+      cwt: Komentator tekstu pisanego
+      dfd: Oskarżony
+      dis: Dysertant
+      dnc: Tancerz
+      dnr: Dawca
+      dpc: Przedstawione
+      dpt: Depozytor
+      drm: Rysownik
+      drt: Dyrektor
+      dsr: Projektant
+      dst: Dystrybutor
+      dtc: Osoba dostarczająca dane
+      dtm: Menedżer danych
+      edc: Redaktor zbioru
+      inv: Wynalazca
+      isb: Organ wydający
+      itr: Instrumentalista
+      ive: Osoba przeprowadzająca wywiad
+      ivr: Przeprowadzający wywiad
+      jug: Jurysdykcja regulowana przez prawo
+      lbr: Laboratorium
+      lbt: Librecista
+      ldr: Dyrektor laboratorium
+      lgd: Projektant oświetlenia
+      ltg: Litograf
+      lyr: Liryk
+      mcp: Kopiista muzyczny
+      mfr: Producent
+      mrk: Edytor znaczników
+      msd: Dyrektor muzyczny
+      mus: Muzyk
+      nrt: Narrator
+      opn: Przeciwnik
+      pbd: Dyrektor wydawniczy
+      pdr: Dyrektor projektu
+      pfr: Korektor
+      pht: Fotograf
+      pmn: Kierownik produkcji
+      pop: Drukarka do płyt
+      ppm: Producent papieru
+      ppt: Lalkarz
+      prf: Wykonawca
+      prm: Grafik
+      prp: Miejsce produkcji
+      prs: Scenograf
+      pta: Zgłaszający patent
+      ptf: Powód
+      pup: Miejsce publikacji
+      rdd: Dyrektor radiowy
+      res: Badacz
+      rpc: Producent radiowy
+      sad: Doradca naukowy
+      scl: Rzeźbiarz
+      sds: Projektant dźwięku
+      sgd: Reżyser teatralny
+      sng: Piosenkarz
+      stl: Anegdociarz
+      stm: Kierownik sceny
+      tcd: Dyrektor techniczny
+      ths: Promotor pracy dyplomowej
+      tld: Reżyser telewizyjny
+      tlp: Producent telewizyjny
+      trl: Tłumaczyć
+      tyg: Typograf
+      vac: Aktor głosowy
+      wam: Autor materiałów towarzyszących
+      win: Autor wstępu
+      wpr: Autor przedmowy
+      wst: Autor dodatkowych treści tekstowych
+      abr: Skrót
+      acp: Kopista sztuki
+      act: Aktor
+      adi: Dyrektor artystyczny
+      adp: Adapter
+      aft: Autor posłowia, kolofonu itp.
+      ant: Poprzednik bibliograficzny
+      ape: Apelujący
+      apl: Wnoszący apelację
+      app: Petent
+      aqt: Autor w cytatach lub streszczeniach tekstowych
+      arr: Aranżer
+      asg: Mandatariusz
+      asn: Powiązana nazwa
+      att: Przypisana nazwa
+      aud: Autor dialogu
+      aui: Autor wstępu itp.
+      aus: Autor scenariuszy itp.
+      bdd: Projektant opraw
+      bkp: Producent książek
+      bnd: Introligator(ka)
+      brd: Nadawca
+      cas: Odlewnik
+      cli: Klient
+      clt: Kolotyp
+      cmt: Składacz
+      coe: Uczestnik-odwołujący się
+      col: Kolekcjoner/ka
+      com: Kompilator
+    level_of_detail:
+      fully_established: W pełni ugruntowany
+      memorandum: Memorandum
+      natc: Żadnej próby kodowania
+      not_applicable: Nie dotyczy
+      preliminary: Wstępny
+      provisional: Tymczasowy

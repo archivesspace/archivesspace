@@ -165,7 +165,8 @@ module SearchHelper
                 end
               else
                 proc do |record|
-                  v = Array(record[opts[:field]] || ASUtils.json_parse(record['json'])[opts[:field]])
+                  field_value = record.has_key?(opts[:field]) ? record[opts[:field]] : ASUtils.json_parse(record['json'])[opts[:field]]
+                  v = Array(field_value)
                   if v.length > 1
                     content_tag('ul', :style => 'padding-left: 20px;') {
                       Array(v).collect { |i|
@@ -286,10 +287,11 @@ module SearchHelper
   def add_linker_column
     add_column(sr_only('Linker'), {},
       proc { |record|
+        label_text = I18n.t('search_results.select_record', :title => record['title'] || record['display_string'])
         if params[:multiplicity] === 'many'
-          check_box_tag "linker-item", record["id"], false, :"data-object" => record.to_json
+          check_box_tag "linker-item", record["id"], false, :"data-object" => record.to_json, :"aria-label" => label_text
         else
-          radio_button_tag "linker-item", record["id"], false, :"data-object" => record.to_json
+          radio_button_tag "linker-item", record["id"], false, :"data-object" => record.to_json, :"aria-label" => label_text
         end
       })
   end
@@ -424,9 +426,10 @@ module SearchHelper
 
     # let's rename this method?
     def class
-      @classes << " sortable" if sortable?
-      @classes << " sort-#{@search_data.current_sort_direction}" if sortable? && @search_data.sorted_by === @sort_by
-      @classes
+      result = @classes.dup
+      result << " sortable" if sortable?
+      result << " sort-#{@search_data.current_sort_direction}" if sortable? && @search_data.sorted_by === @sort_by
+      result
     end
 
   end

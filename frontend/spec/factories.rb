@@ -285,6 +285,12 @@ module Factories
         barcode { '8675309' }
       end
 
+      factory :event, class: JSONModel(:event) do
+        event_type { generate(:event_type) }
+        date { build(:date) }
+        linked_agents { [{'ref' => create(:agent_person).uri, 'role' => generate(:agent_role)}] }
+        linked_records { [{'ref' => create(:accession).uri, 'role' => generate(:record_role)}] }
+      end
       factory :vocab, class: JSONModel(:vocabulary) do
         name { generate(:vocab_name) }
         ref_id { generate(:vocab_refid) }

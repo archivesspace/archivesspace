@@ -216,6 +216,10 @@ td .btn-group {
   column-gap: 15px; // because bootstrap `.row`s
 }
 
+.row-gap-1 {
+  row-gap: 0.25rem;
+}
+
 .gap-2 {
   gap: 0.5rem;
 }
@@ -291,6 +295,18 @@ td .btn-group {
   border-top-left-radius: 0 !important;
 }
 
+.rounded-left-only {
+  border-top-left-radius: 0.25rem !important;
+  border-bottom-left-radius: 0.25rem !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+
+  &.btn-sm {
+    border-top-left-radius: 0.2rem !important;
+    border-bottom-left-radius: 0.2rem !important;
+  }
+}
+
 .hover-no-underline:hover {
   text-decoration: none;
 }
@@ -352,4 +368,21 @@ td .btn-group {
 
 .word-break-normal {
   word-break: normal;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Accessibility: Skip navigation
+.skipnav a:focus {
+  position: absolute;
 }

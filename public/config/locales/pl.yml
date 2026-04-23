@@ -17,3 +17,482 @@ pl:
     cite_item_description: Cytuj Opis Przedmiotu
     digitized: Zobacz Materiały Cyfrowe
     request: Prośba
+    search: Szukaj
+    search_header: Przeszukaj archiwa
+    search_within: Szukaj w wynikach wyszukiwania
+    print: Pobierz plik PDF
+    print-generating: Generowanie
+    collection_overview: Przegląd kolekcji
+    hierarch: Organizacja kolekcji
+    numeric: Inwentarz kontenerów
+    clipboard: Skopiuj do schowka
+    cilpboard_cite_item: Skopiuj cytat do schowka.
+    search_remove_row: Usuń wiersz poniżej.
+    staff_link: Tylko dla personelu
+    next: Następny
+    previous: Poprzedni
+    cilpboard_cite_item_description: Skopiuj odnośnik do opisu przedmiotu do schowka.
+    search_add_row: Dodaj wiersz wyszukiwania
+  agent_person:
+    _singular: Osoba
+    _plural: Ludzie
+  agent_family:
+    _singular: Rodzina
+    _plural: Rodziny
+  agent_software:
+    _singular: Oprogramowanie
+    _plural: Oprogramowanie
+  page_actions: Działania na stronie
+  request:
+    email_header: Dziękujemy za przesłanie zapytania.
+    required: wymagany
+    user_name: Nazwa użytkownika
+    user_email: Twój adres e-mail
+    date: Przewidywana data przybycia
+    note: Informacja dla personelu
+    visit: Złóż wniosek o dostęp do repozytorium %{repo_name}, aby wyświetlić 
+      <strong>%{archival_object}</strong>.
+    submit: Prześlij zapytanie
+    submitted: Dziękujemy, Twoje zgłoszenie zostało przesłane. Wkrótce otrzymasz wiadomość e-mail z 
+      kopią swojego zgłoszenia.
+    errors:
+      email: Proszę podać poprawny adres e-mail.
+      name: Proszę podać swoje imię.
+    email:
+      subject: Prośba o %{title}
+  search-button:
+    label: Szukaj
+  search-limits:
+    all: wszystkie typy rekordów
+    repository: repozytoria
+    repositories: repozytoria
+    resource: kolekcje
+    digital: materiały cyfrowe
+    digital_object: materiały cyfrowe
+    objects: akta archiwalne lub cyfrowe
+    subject: temat
+    agent: twórca treści
+    agents: twórcy treści
+    resources: Zbiory
+  search-field: Pole wyszukiwania
+  search_results:
+    highlighting:
+      found_in: Znaleziono w
+      four_part_id: Identyfikator
+      dates: Daty
+      acquisition_type: Rodzaj przejęcia
+      published_agents: Agenty
+      linked_agent_roles: Powiązane role agentów
+      instance_type_enum_s: Typ instancji
+      creators_text: Twórcy
+      role_enum_s: Role
+      notes_published: Notatki
+      finding_aid_title: Tytuł inwentarz archiwalny
+      subjects_text: Przedmioty
+    result: Wynik
+    results: Wyniki
+    page_title: Znaleziono %{count} wyników
+    results_head: 'Wyświetlanie %{type}: %{start} - %{end} z %{total}'
+    search_for: Wyszukaj %{type}, spełniające warunki %{conditions}
+    keyword_contain: "<strong>Słowo kluczowe/słowa kluczowe</strong>: <span class='searchterm'>%{kw}</span>"
+    title_contain: Tytuł zawiera <span class='searchterm'>%{kw}</span>
+    creators_text_contain: Twórca zawiera <span class='searchterm'>%{kw}</span>
+    subjects_text_contain: Temat zawiera <span class='searchterm'>%{kw}</span>
+    search_term: Termin wyszukiwania
+    error: Wyszukiwanie nie mogło zostać zakończone z powodu nieoczekiwanego błędu.
+    no_results: Nie znaleziono żadnych rekordów.
+    identifier_contain: <strong>Identyfikator</strong> zawiera <span class='searchterm'>%{kw}</span>
+    anything: '*'
+    filtered_by: Filtrowane według
+    remove_filter: Usuń ten filtr.
+    more_facets: Więcej
+    fewer_facets: Mniej
+    op:
+      AND: i
+      OR: lub
+      NOT: a nie
+    op_first_row:
+      NOT: nie
+    filter:
+      head: Filtruj wyniki
+      query: Tekst
+      used_within_published_repository: Repozytorium
+      fullrecord: Słowo kluczowe
+      add: Dodatkowe filtry
+      form: Wyszukiwanie w obrębie wyników
+      show_fewer: Pokaż mniej
+      show_more: Show more
+      title: Tytuł
+      creators_text: Twórca
+      notes: Notatki
+      identifier: Identyfikator
+      years: Lata
+      from: Od
+      to: Do
+      langcode: Język
+      subjects: Temat
+      primary_type: Typ
+      repository: Repozytorium
+      creators: Twórca
+      subjects_text: Temat
+      linked_agent_roles: Rola
+      from_year: Od roku
+      to_year: Do roku
+      years_include: Lata do uwzględnienia
+      year_now: Teraz
+      year_begin: początek
+      from_to: 'Lata: od %{begin} do %{end}'
+      type_enum_s: Typ
+      digital_object_type_enum_s: Typ
+      scope: Zakres
+      source: Źródło
+      classification_uri: Klasyfikacja
+      instance_type_enum_s: Typ instancji
+      published_agents: Imiona
+      agents_text: Imiona
+      child_container_u_sstr: Pojemnik na dziecko
+      grand_child_container_u_sstr: Kontener dla wnuka
+      published_series_title_u_sstr: Seria
+      extent_type_enum_s: Zakres
+    filter_by: Filtruj według
+    in_repository: ' w <strong>%{name}</strong>'
+    notes_contain: <strong>Notatka</strong> zawiera <span class='searchterm'>%{kw}</span>
+  search-limit: Ogranicz do %{limit}
+  search-limiting: ograniczone do %{limit}
+  searched-field: wyszukiwanie w polu %{field}
+  search_sorting:
+    title_sort: Tytuł
+    identifier: Identyfikator
+    year_sort: Rok
+    classification_identifier: Identyfikator
+    sort: Sortować
+    asc: (rosnąco)
+    desc: (malejąco)
+    sort_by: 'Sortuj według:'
+    relevance: Znaczenie
+    sorting: '%{type} %{direction}'
+  inherit:
+    collection: Kolekcja
+    file: Plik
+    item: Przedmiot
+    otherlevel: Inny poziom
+    recordgrp: Akta zbiorowe
+    inherited: 'Z poziomu %{level}:'
+    series: Seria
+    sub-series: Podseria
+    class: Klasa
+    fonds: Zespół
+    subfonds: Podfundusze
+    subgrp: Podgrupa
+  errors:
+    error_404_message: Rekord typu %{type}, do którego próbujesz uzyskać dostęp, nie istnieje lub 
+      został usunięty.
+    backend_down: Nie można połączyć się z bazą danych.
+    backend_down_message: System ArchivesSpace obecnie doświadcza problemów technicznych. 
+      Przepraszamy za niedogodności. Prosimy spróbować ponownie później.
+    unexpected_error: Twoje żądanie nie mogło zostać zrealizowane z powodu nieoczekiwanego błędu.
+    error_404: Nie znaleziono rekordu typu %{type}
+    invalid_search_params: Nieprawidłowy parametr wyszukiwania „%{value}” dla pola „%{field}”.
+  boolean:
+    "true": Tak
+    "false": Nie
+  navbar:
+    search_placeholder: Wprowadź wyszukiwane hasła.
+    error_no_term: Nie wprowadzono żadnych wyszukiwanych haseł.
+    toggle_navigation: Przełącz nawigację
+  navigation:
+    hierarchical: nawigacja hierarchiczna
+    top_level: nawigacja najwyższego poziomu
+    mobile_menu: Menu nawigacyjne dla mniejszych urządzeń
+  internal_links:
+    main: Główna treść
+    search_collection: Szukaj w obrębie kolekcji
+    filter: Filtruj wyniki
+  accordion:
+    collapse: Zwiń wszystko
+    expand: Rozwiń wszystko
+  advanced_search:
+    operator:
+      AND: I
+      OR: Lub
+      NOT: Nie
+    limit_label: Ogranicz według typu rekordu
+    add_row: Dodaj wiersz
+    remove_row: Usuń wiersz
+    operator_label: Operator
+  coll_obj:
+    _singular: Kolekcja lub zapis
+    _plural: Kolekcje i/lub zbiory dokumentów
+  scope_note: Uwaga dotycząca zakresu
+  multiple_containers: Wiele kontenerów
+  contains: Zawiera %{count} %{type}
+  found: Znaleziono w %{count} %{type}
+  extent_number_type: '%{number} %{type}'
+  extent_phys_details: ' : %{deets}'
+  extent_dims: ' ; %{dimensions}'
+  external_docs: Dokumenty zewnętrzne
+  more_about: More about
+  list: Lista %{type}
+  cont_arr: Organizacja kolekcji
+  dig_cont_arr: Organizacja obiektów cyfrowych
+  subgroups: Podgrupy
+  accessed: Dostęp
+  containers: Informacje dotyczące fizycznego przechowywania danych
+  related_accessions: Powiązane nieprzetworzone materiały
+  related_resources: Powiązane kolekcje
+  linked_instances: Powiązane rekordy
+  linked_digital_objects: Materiały cyfrowe
+  context: Znaleziono w
+  context_delimiter: /
+  bulk:
+    _singular: Większość materiałów pochodzi z okresu %{dates}.
+    _plural: Większość materiałów pochodzi z okresu %{dates}.
+  archive:
+    _singular: Archiwum
+    _plural: Archiwa
+  accession:
+    _singular: Nieprzetworzony materiał
+    _plural: Nieprzetworzone materiały
+    _public:
+      section:
+        acquisition_type: Rodzaj przejęcia
+        provenance: Pochodzenie
+        language: Język opisu
+        script: Skrypt opisu
+        access_restrictions: Ograniczenia dostępu
+        access_restrictions_apply: Obowiązują ograniczenia dostępu.
+        use_restrictions: Ograniczenia użytkowania
+        use_restrictions_apply: Obowiązują ograniczenia w użytkowaniu.
+        content_description: Opis zawartości
+        inventory: Spis
+      related_accessions:
+        accessions: Powiązane nieprzetworzone materiały
+        deaccessions: Materiały wycofane z kolekcji
+        forms_part_of: Relacja między częściami
+        has_part: Relacja między częściami
+        sibling_of: Relacje między rodzeństwem
+  archival_object:
+    _public:
+      header:
+        ref_id: Identyfikator referencyjny
+  repository:
+    _singular: Repozytorium
+    _plural: Repozytoria
+    what: Co znajduje się w tym repozytorium?
+    details: Szczegóły repozytorium
+    part: Część
+  resource:
+    _singular: Zbiór
+    _plural: Zbiory
+    identifier_separator: ':'
+    _public:
+      identifier: Identyfikator
+      identifier_pdf: ID
+      identifier_ark: ID [ark]
+      ark_link_name: Trwały identyfikator (ARK)
+      extent: Zakres
+      extent_full: Pełny zakres
+      extent_partial: Częściowy zakres
+      dates: Daty
+      lang: Język materiałów
+      lang_pdf: Język materiału
+      finding_aid:
+        title: Tytuł
+        subtitle: Podtytuł
+        author: Autor
+        date: Data
+        status: Status
+        identifier: Identyfikator
+        language: Język opisu
+        language_note: Język notatki opisowej
+        sponsor: Sponsor
+        revision: Oświadczenia dotyczące poprawek
+        description_rules: Zasady opisu
+        edition_statement: Informacja o wydaniu
+        series_statement: Oświadczenie dotyczące serii
+        head: Znajdowanie pomocy i informacji administracyjnych
+        script: Skrypt opisu
+        note: Notatka
+      digital_object: Obiekt cyfrowy
+      physdesc: Opis fizyczny
+      storage: Informacje o kontenerze
+      additional: Dodatkowy opis
+      related_accessions:
+        deaccessions: Dokumentacja dotycząca wycofania zbiorów
+        accessions: Zapisy o przystąpieniu
+      uri: ID [aspace_uri]
+      script: Skrypt
+    load_records:
+      alert: Ta kolekcja zawiera %{count} rekordów.
+      percent_convention: '%'
+      loading: Wczytywanie
+      load: Załaduj rekordy
+      load_all: Załaduj wszystkie rekordy.
+      all: Nagle
+      scroll: Na przewijaniu
+  digital_object:
+    _public:
+      additional: Dodatkowe wersje plików
+      url_encoded_data: Dane zakodowane w formacie URL
+      thumbnail: Obraz miniatury
+      badge_label: Poziom cyfrowy %{level}
+      go: Przejdź do pliku
+      link: Link do obiektu cyfrowego
+      browse_number_digital_objects_in_collection:
+        one: Przeglądaj %{num} obiektów cyfrowych w kolekcji
+        few: Przeglądaj %{num} obiektów cyfrowych w kolekcji
+        many: Przeglądaj %{num} obiektów cyfrowych w kolekcji
+    _singular: Zapis cyfrowy
+    _plural: Materiały cyfrowe
+  subject:
+    _singular: Temat
+    _plural: Tematy
+  classification:
+    identifier_separator: .
+    _singular: Grupa rekordów
+    _plural: Grupy rekordów
+    creator: Twórca
+    _public:
+      actions:
+        show_subgroups: Pokaż podgrupy
+  classification_term:
+    identifier_separator: /
+    _singular: Rekordowy termin grupy
+    _plural: Rejestruj warunki grupy
+  pui_agent:
+    also_known_as: 'Znany również pod następującymi nazwami:'
+    _singular: Nazwa
+    _plural: Imiona
+    parallel: Nazwy równoległe
+    related: Powiązane nazwy
+  agent:
+    _public:
+      section:
+        dates: Daty
+        related_agent_dates: Daty
+        related_agent_description: Opis
+        other_names: Formularze nazw
+        related_agents: Powiązane nazwy
+  agent_gender:
+    _plural: Płeć
+    _singular: Płeć
+  agent_occupation:
+    _singular: Zawód
+    _plural: Zawody
+  number_of: 'Liczba %{type}:'
+  email: Wyślij e-mail
+  agent_corporate_entity:
+    _singular: Organizacja
+    _plural: Organizacje
+  pdf_reports:
+    table_of_contents: Spis treści
+    return_to_table_of_contents: Powrót do spisu treści
+    administrative_information: Informacje administracyjne
+    collection_inventory: Inwentarz kolekcji
+    summary_information: Informacje podsumowujące
+    controlled_access_headings: Nagłówki dostępu kontrolowanego
+    finding_aid_date_prefix: Ta pomoc wyszukiwawcza została stworzona przy użyciu ArchivesSpace na
+    finding_aid_written_in: Pomoc w znalezieniu napisanych w
+    your_finding_aid_pdf: Pomoc w wyszukiwaniu plików PDF dla „%{title}”
+    your_finding_aid_is_attached: W załączniku znajduje się pomoc wyszukiwawcza, o którą prosiłeś.
+    accessrestrict: Warunki dostępu
+    userestrict: Warunki korzystania
+    accruals: Accruals
+    acqinfo: Bezpośrednie źródło nabycia
+  description: O
+  readmore:
+    see_more: Zobacz więcej
+    see_less: Pokaż mniej
+  skipnav:
+    search: Przejdź do wyszukiwania
+    main_content: Przejdź do treści głównej
+    search_results: Przejdź do wyników wyszukiwania
+  footer:
+    archivesspace_home_html: Odwiedź stronę <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Prześlij opinię
+      lub zgłoś problem</a>
+    staff_interface_html: <a href="%{staff_url}">Interfejs personelu</a>
+  top_container:
+    _singular: Pojemnik
+    _plural: Pojemniki
+    restricted: Ograniczony
+  parent_inst: Instytucja macierzysta
+  agent_record_identifier:
+    snac: Identyfikator sieci społecznościowych i kontekstu archiwalnego (SNAC)
+    identifier_type: Typ identyfikatora
+    primary_identifier: Czy jest to identyfikator podstawowy?
+  agent_contact:
+    address_1: Adres 1
+    address_2: Adres 2
+    address_3: Adres 3
+    city: Miasto
+    name: Nazwa kontaktu
+    salutation: Zwrot grzecznościowy
+    region: Stan/Region
+    country: Kraj
+    post_code: Kod pocztowy
+    fax: Faks
+    email: E-mail
+  an_agent: Nazwa
+  record_group:
+    _singular: Grupa rekordów
+    _plural: Grupy rekordów
+  agent_function:
+    _singular: Funkcjonować
+    _plural: Funkcje
+  agent_resource:
+    _singular: Powiązane zasoby zewnętrzne
+    _plural: Powiązane zasoby zewnętrzne
+  fax: Faks
+  search_tab: Wyszukaj %{target}
+  agent_identifier:
+    identifier_type: Typ identyfikatora
+    entity_identifier: Identyfikator jednostki
+  use_date:
+    _plural: Użyj dat
+    _singular: Użyj daty
+  used_language:
+    _plural: Używane języki
+    _singular: Używany język
+  telephone:
+    _plural: Numery telefonów
+    number_type: Typ numeru
+    number: Numer
+    ext: Rozszerzenie telefoniczne
+  agent_notes:
+    persistent_id: Stały identyfikator
+    type: Typ notatki
+    note_bioghist: Biografia
+    note_legal_status: Stan prawny
+    note_structure_or_genealogy: Struktura lub genealogia
+  metadata_rights_declaration:
+    _plural: Deklaracje praw do metadanych
+    _singular: Deklaracja praw do metadanych
+    xlink_title_attribute: Atrybut tytułu Xlink
+    xlink_role_attribute: Atrybut roli Xlink
+    xlink_arcrole_attribute: Atrybut Arcrole Xlink
+    file_version_xlink_actuate_attribute: Atrybut Xlink Actuate
+    file_version_xlink_show_attribute: Atrybut pokazu Xlink
+    last_verified_date: Ostatnia zweryfikowana data
+  languages:
+    select: Wybierz Język
+  pdf_error:
+    title: Wystąpił błąd podczas generowania tego pliku PDF.
+    description: Przepraszamy, wystąpił błąd podczas generowania tego pliku PDF z pomocą w 
+      wyszukiwaniu. Oto kilka informacji diagnostycznych, które pomogą ustalić przyczynę problemu.
+    headings:
+      location: Lokalizacja błędu
+      message: Komunikat o błędzie
+      type: Typ błędu
+      additional_info: Dodatkowe informacje
+    location:
+      location_header: Wystąpił błąd podczas generowania nagłówka.
+      location_title_page: Wystąpił błąd podczas generowania strony tytułowej.
+      location_toc: Wystąpił błąd podczas generowania spisu treści.
+      location_resource: Błąd wystąpił podczas generowania sekcji odnoszących się do rekordu zasobu,
+        który obejmuje sekcje Informacje podsumowujące, Nagłówki kontrolowanego dostępu i Notatki.
+      location_archival_object: Wystąpił błąd podczas generowania inwentarza kolekcji.
+      location_footer: Wystąpił błąd podczas generowania stopki.
+    additional_info:
+      invalid_markup: Błąd ten może być spowodowany nieprawidłowym oznaczeniem w notatce lub 
+        podrekordach.

@@ -1459,6 +1459,7 @@ uk:
     automate_title: Автоматично генерувати заголовок
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: Має неопублікованого предка?
+    import_current_ark: Імпортувати поточний ARK
     _singular: Архівний об'єкт
     _plural: Архівні об'єкти
   group:
@@ -1637,7 +1638,7 @@ uk:
     _singular: Пов'язане приєднання
     _plural: Пов'язані приєднання
   revision_statement:
-    _singlular: Заява про перегляд
+    _singular: Заява про перегляд
     _plural: Заяви про перегляд
     date: Дата перегляду
     date_tooltip: "<p>Вказує дату останнього перегляду допоміжного посібника.</p>\n"
@@ -1802,7 +1803,7 @@ uk:
     default_values_tooltip: Чи слід попередньо заповнювати нові записи доступу та ресурсів 
       значеннями за замовчуванням.
     digital_object_spawn: Створити опис екземплярів цифрових об'єктів зі зв'язаного запису
-    browse_column: Колонка %{число}
+    browse_column: Колонка %{num}
     browse_column_tooltip: Поле, яке потрібно відобразити у стовпці %{num}.
     sort_column: Стовпець сортування за замовчуванням
     sort_column_tooltip: Поле за замовчуванням для сортування результатів.
@@ -1849,6 +1850,7 @@ uk:
       pdf: PDF-файл
       html: HTML
       rtf: RTF
+    linked_records_in_json: Пов'язані записи в JSON
     headings:
       context: Ресурс/Приєднання
       container_profile: Профіль Контейнера
@@ -1921,7 +1923,7 @@ uk:
     is_required_if_status_is_previous: обов'язкове, якщо для параметра «Статус» встановлено значення
       «Попередній»
     location_profile_name_not_unique: Назва профілю місцезнаходження має бути унікальною
-    must_be_a_positive_integer: Має бути додатним цілим числом
+    must_be_a_positive_integer: Має бути додатним цілим числом або нулем
     must_be_unique_to_its_level_in_the_tree: Це значення має бути унікальним для цього рівня 
       ієрархії.
     short_name_already_in_use: Скорочена назва репозиторію має бути унікальною в межах цього 
@@ -1955,7 +1957,9 @@ uk:
       адміністратора.
     external_ark_collision: Зовнішній ARK вже використовується
     ark_format_error: Один із наданих ARK не був дійсним ARK.
-    mixed_content_invalid_inline_ead: "Некоректна розмітка EAD: використовуйте прямі лапки (\" або ') для значень атрибутів і переконайтеся, що теги правильно сформовані."
+    mixed_content_invalid_inline_ead: "Некоректна розмітка EAD: використовуйте прямі лапки (\" або ')
+      для значень атрибутів і переконайтеся, що теги правильно сформовані."
+    mixed_content_disallowed_tag: "Виявлено заборонений HTML-тег. З міркувань безпеки теги, такі як &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; та елементи форми, не дозволені в полях зі змішаним вмістом."
   job:
     _singular: Фонова робота
     _plural: Фонові завдання
@@ -1983,7 +1987,7 @@ uk:
     status_running: Біг
     status_failed: Не вдалося
     status_canceled: Скасовано
-    queue_position: № %{позиція}
+    queue_position: № %{position}
     time_submitted: Час подання
     time_started: Час початку
     time_finished: Час виконання
@@ -2420,7 +2424,7 @@ uk:
     row_error: 'Рядок %{row} не буде оброблено через помилки: %{errs}'
     created: '%{what} створив: %{id}'
     could_be: '%{what} буде створено'
-    updated: '%{що}: %{є}'
+    updated: '%{what}: %{id}'
     clip_btn: Копіювати в буфер обміну
     clip_created: "\t%{what} створив: %{nm} %{id} %{ref_id}"
     clip_what: "\t%{what} : %{nm} %{id} %{ref_id}"
@@ -2647,6 +2651,7 @@ uk:
     save: Зберегти ARKий
     no_changes: Немає змін для збереження
     modal_title: Редагувати ARKий для поточного запису
+    actions: Дії
     unsubmitted_input: Ви не надіслали інформацію
     only_current_ark_can_be_external: Поточний ARK не можна замінити, поки він позначений як 
       зовнішній.

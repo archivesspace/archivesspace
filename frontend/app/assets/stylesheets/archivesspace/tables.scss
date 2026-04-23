@@ -27,9 +27,6 @@ table {
       }
     }
     .col {
-      &.primary-type {
-        width: 100px;
-      }
       &.audit-info {
         min-width: 150px;
       }
@@ -60,8 +57,7 @@ table {
       color: $errorText;
     }
 
-    /* allow break of words to ensure table doesn't expand beyond layout */
-    word-break: break-word;
+    overflow-wrap: normal;
   }
   .table-record-actions {
     .btn-group {
@@ -81,15 +77,17 @@ table.table-sortable {
       position: relative;
 
       > a {
-        padding: 4px 5px;
-        display: block;
+        padding: 0.75rem;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 4px;
         text-decoration: none !important;
 
         &::after {
           content: '';
-          position: absolute;
-          right: 5px;
-          top: 1em;
+          margin-left: auto;
           border-width: 0 4px 4px;
           border-style: solid;
           border-color: #000 transparent;
@@ -104,7 +102,6 @@ table.table-sortable {
       @include vertical(#f0f7fa, #dcf1fa);
 
       > a {
-        padding-right: 15px;
         &::after {
           visibility: visible;
           @include opacity(60);
@@ -115,7 +112,6 @@ table.table-sortable {
       @include vertical(#f0f7fa, #dcf1fa);
 
       > a {
-        padding-right: 20px;
         &::after {
           visibility: visible;
           @include opacity(60);

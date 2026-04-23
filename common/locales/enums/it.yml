@@ -48,7 +48,7 @@ it:
       BJ: Benin
       BL: Saint-Barthélemy
       BM: Bermuda
-      BN: Brunei
+      BN: Brunei Darussalam
       BO: Bolivia
       BR: Brasile
       BS: Bahamas
@@ -751,34 +751,36 @@ it:
       collection: Collezione
       papers: Documenti
       publications: Pubblicazioni
-      records: Records
+      records: Registri
     accession_sibling_relator:
       sibling_of: È fratello di
     agency_code_type:
       local: Locale
       oclc: OCLC
     agent_contact_salutation:
-      madame: Madama
+      madame: Signora
       mr: Sig.
-      mrs: Sig.ra
+      mrs: Sig.ra.
       ms: Sig.ra
-      sir: Sig.
+      sir: Signore
     archival_record_level:
       collection: Collezione
       file: File
       fonds: Fondi
-      item: Item
+      item: Articolo
       otherlevel: Altro livello
       series: Serie
       subgrp: Sottogruppo
       subfonds: Sotto-fondi
       class: Classe
       subseries: Sotto-serie
+      recordgrp: Gruppo discografico
     cataloging_source:
       ccp: Programma di catalogazione cooperativa
       nat_bib_agency: Agenzia bibliografica nazionale
       other: Altro
       unknown: Sconosciuto
+      natc: Nessun tentativo di programmazione
     collection_management_processing_priority:
       high: Alto
       low: Basso
@@ -790,12 +792,12 @@ it:
       new: Nuovo
       none: Non specificato
     container_type:
-      carton: Scatolone
-      reel: Rotolo
+      carton: Cartone
+      reel: Bobina
       volume: Volume
       folder: Cartella
       box: Scatola
-      case: Cassa
+      case: Caso
       container: Contenitore
       frame: Cornice
       object: Oggetto
@@ -823,6 +825,8 @@ it:
       acquisition: Acquisizione
       issued: Emesso
       modified: Modificato
+      agent_relation: Relazione con l'agente
+      record_keeping: Tenuta dei registri
     event_event_type:
       accession: Accesso
       accumulation: Accumulo
@@ -867,6 +871,9 @@ it:
       not_applicable: Non applicabile
       preliminary: Preliminare
       provisional: Provvisorio
+      fully_established: Pienamente consolidato
+      memorandum: Memorandum
+      natc: Nessun tentativo di programmare
     linked_agent_archival_record_relators:
       acp: Copista d'arte
       abr: Compendiatore
@@ -1060,7 +1067,7 @@ it:
       rcp: Destinatario (lettere)
       rce: Tecnico della registrazione
       rdd: Regista radiofonico
-      red: Portavoce
+      red: Redattore
       ren: Raffiguratore
       res: Ricercatore
       rev: Recensore
@@ -1144,8 +1151,12 @@ it:
       derived: Derivato
       cancelled: Cancellato
       created: Creato
+      revised: Rivisto
+      updated: Aggiornato
     _note_types:
       appraisal: Valutazione
+      abstract: Astratto
+      accessrestrict: Condizioni che regolano l'accesso
     script_iso15924:
       Adlm: Adlam
       Bali: Balinese
@@ -1237,8 +1248,8 @@ it:
       Ugar: Ugarito
       Zsye: Simboli (variante Emoji)
       Zinh: Codice per scritture ereditate
-      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, sistema di scrittura
-        orizzontale quadrata)
+      Zanb: Zanabazar Square (Zanabazarin Dörböljin Useg, Xewtee Dörböljin Bicig, sistema di 
+        scrittura orizzontale quadrata)
       Zmth: Notazione matematica
       Zzzz: Codice per scritture non codificate
       Avst: Avestano
@@ -1360,10 +1371,14 @@ it:
       end: Fine
     date_standardized_type:
       standard: Standard
+      not_after: Non dopo
+      not_before: Non prima
     date_type:
       expression: Espressione
       range: Intervallo
       single: Singolo
+      bulk: Datteri sfusi
+      inclusive: Date estreme
     date_type_structured:
       range: Intervallo
       single: Singolo
@@ -1391,6 +1406,8 @@ it:
       millimeters: Millimetri
     end_date_standardized_type:
       standard: Standard
+      not_after: Non dopo
+      not_before: Non prima
     extent_extent_type:
       cassettes: Audiocassetta
       gigabytes: Gigabytes
@@ -1402,16 +1419,22 @@ it:
       photographic_slides: Diapositive fotografiche
       terabytes: Terabytes
       volumes: Volumi
+      files: File
+      reels: Reel
+      sheets: Fogli
     event_outcome:
       pending: In attesa
       fulfilled: Realizzato
       cancelled: Cancellato
       fail: Fallimento
+      partial pass: Passaggio parziale
+      pass: accadere
     file_version_xlink_show_attribute:
       other: altro
       new: nuovo
       none: nessuno
       replace: sostituisci
+      embed: Incorpora
     government_agency_type:
       int_gov: Internazionale intergovernativa
       ngo: Organizzazione non governativa
@@ -1422,6 +1445,9 @@ it:
       multilocal: Multilocale
       multistate: Multistato
       provincial: Stato, provinciale, territoriale, dipendente, ecc.
+      natc: Nessun tentativo di programmare
+      undetermined: Agenzia governativa – Tipologia indeterminata
+      unknown: Non è chiaro se la dicitura sia "agenzia governativa".
     identifier_type:
       lac: Biblioteca e archivi Canada
       loc: Biblioteca del Congresso
@@ -1429,13 +1455,17 @@ it:
     instance_instance_type:
       digital_object: Oggetto digitale
       graphic_materials: Materiali grafici
-      computer_disks: Computer Disks
+      computer_disks: Dischi per computer
       maps: Mappe
       audio: Audio
       books: Libri
       mixed_materials: Materiali misti
       moving_images: Immagini in movimento
       text: Testo
+      accession: accessione
+      digital_object_link: Digital Object Link
+      microform: Microforma
+      realia: Realtà
     file_version_checksum_methods:
       md5: MD5
       sha-1: SHA-1
@@ -1452,12 +1482,34 @@ it:
       tiff: Tagged Image File Format (.tiff)
       txt: File di testo generico (.txt)
     file_version_use_statement:
-      audio-master: ''
+      audio-master: 'Audio-Master'
       image-thumbnail: Immagine-Thumbnail
-      audio-clip: ''
+      audio-clip: 'Clip audio'
+      audio-master-edited: Audio masterizzato
+      audio-service: Servizio audio
+      audio-streaming: Streaming audio
+      image-master: Maestro dell'immagine
+      image-master-edited: Immagine principale (modificata)
+      image-service: Servizio immagini
+      image-service-edited: Servizio immagini – Modificato
+      text-codebook: Libro codice testuale
+      text-data: Dati testuali
+      text-data_definition: Definizione dei dati testuali
+      text-georeference: Georeferenziazione testuale
+      text-ocr-edited: Testo elaborato tramite OCR
+      text-ocr-unedited: Testo OCR non modificato
+      text-tei-transcripted: Trascrizione TEI del testo
+      text-tei-translated: Testo tradotto in TEI
+      video-master-edited: Video - Master Editato
+      video-clip: Videoclip
+      video-master: Maestro del video
+      video-service: Servizio video
+      video-streaming: Streaming video
     file_version_xlink_actuate_attribute:
       none: nessuno
       other: altro
+      onLoad: Al caricamento
+      onRequest: Su richiesta
     gender:
       not_specified: Non specificato
     user_defined_enum_4:
@@ -1468,18 +1520,250 @@ it:
       novalue: Nessun valore definito
     user_defined_enum_3:
       novalue: Nessun valore definito
+    accession_parts_relator_type:
+      part: relazione "Parte"
+    accession_sibling_relator_type:
+      bound_with: Relazione "legata con"
+    agent_relationship_associative_relator:
+      is_associative_with: Associativo con correlato
+    agent_relationship_earlierlater_relator:
+      is_earlier_form_of: Forma precedente di correlato
+      is_later_form_of: Forma successiva di correlato
+    agent_relationship_family_relator:
+      is_related_with: Relazione tra agente e relazionale
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: Relazione tra agenti - Relazione gerarchica
+    agent_relationship_identity_relator:
+      is_identified_with: Rapporto di agenzia identificato con il denunciante
+    agent_relationship_parentchild_relator:
+      is_child_of: Figlio di parente
+      is_parent_of: Genitore di correlato
+    agent_relationship_subordinatesuperior_relator:
+      is_subordinate_to: È subordinato a correlato
+      is_superior_of: È superiore a correlato
+    agent_relationship_temporal_relator:
+      is_temporal_with: Relazione tra agente e agente, relazionatore temporale
+    deaccession_scope:
+      part: Parte
+      whole: Totale
+    extent_portion:
+      part: Parte
+      whole: Totale
+    linked_agent_event_roles:
+      authorizer: Autorizzatore
+      executing_program: Esecuzione del programma
+      implementer: Implementatore
+      recipient: Destinatario
+      requester: Richiedente
+      transmitter: Trasmettitore
+      validator: Abilitatore
+    linked_agent_role:
+      creator: Creatore
+      source: Fonte
+      subject: Soggetto
+    linked_event_archival_record_roles:
+      context: Contesto
+      outcome: Risultato
+      requested: richiesto
+      source: Fonte
+      transfer: Trasferire
+    location_function_type:
+      arrivals: Arrivi
+      av_materials: Materiali audiovisivi
+      shared: Condivisa
+    location_temporary:
+      conservation: Conservazione
+      exhibit: Mostra
+      loan: Prestito
+      reading_room: Sala di lettura
+    maintenance_agent_type:
+      human: Umano
+      machine: Macchina
+    maintenance_status:
+      cancelled_obsolete: Annullato/Obsoleto
+      deleted: Eliminato
+      deleted_replaced: Eliminato-Sostituito
+      deleted_merged: Eliminato-Unito
+      deleted_split: Eliminato-Diviso
+      derived: Derivata
+      new: Nuova
+      revised_corrected: Revisionato/Corretto
+      upgraded: Aggiornato
+    metadata_license:
+      no_derivatives: Questa registrazione è resa disponibile con licenza Creative Commons 
+        Attribuzione-Non opere derivate 4.0 Internazionale.
+      non_commercial: Questa registrazione è resa disponibile con licenza Creative Commons 
+        Attribuzione-Non commerciale 4.0 Internazionale.
+      non_commercial_no_derivatives: Questa registrazione è resa disponibile con licenza Creative 
+        Commons Attribuzione-Non commerciale-Non opere derivate 4.0 Internazionale.
+      non_commercial_share_a_like: Questo documento è reso disponibile con licenza Creative Commons 
+        Attribuzione-Non commerciale-Condividi allo stesso modo 4.0 Internazionale.
+      other: Licenza non specificata o personalizzata.
+      public_domain: Questo documento è reso disponibile sotto una licenza Creative Commons 
+        Universal 1.0 Public Domain Dedication.
+      share_a_like: Questa registrazione è resa disponibile con licenza Creative Commons 
+        Attribuzione-Condividi allo stesso modo 4.0 Internazionale.
+    modified_record:
+      missing_characters: caratteri mancanti
+      natc: Nessun tentativo di programmazione
+      not_modified: Non modificato
+      shortened: Accorciato
+    name_person_name_order:
+      direct: Diretto
+      inverted: Indiretta
+    name_rule:
+      aacr: Regole di catalogazione anglo-americane
+      ccr: Catalogazione delle risorse culturali
+      dacs: 'Descrivere gli archivi: uno standard di contenuto'
+      isaar: Standard internazionale per la registrazione di autorità archivistica per enti 
+        societari, persone fisiche e famiglie
+      local: Norme locali
+      rad: Regole per la descrizione archivistica
+      rda: Descrizione e accesso alla risorsa
+    name_source:
+      cash: Intestazioni di soggetto canadesi
+      ingest: Fonte di ingestione non specificata
+      lcnaf: File di autorità dei nomi della Biblioteca del Congresso
+      lcshac: Intestazioni di soggetto per bambini della Biblioteca del Congresso
+      local: Fonti locali
+      nad: Database di autorità dei nomi NAD/ARK II
+      naf: Fascicolo di autorizzazione NACO
+      nal: Soggetti della Biblioteca Nazionale di Agricoltura
+      ram: Elenco delle autorità RAMEAU
+      rvm: Elenco delle star del settore
+      snac: SPUNTINO
+      ulan: Elenco sindacale dei nomi degli artisti
+    name_type:
+      differentiated: Differenziato
+      natc: Nessun tentativo di programmazione
+      not_applicable: Non applicabile
+      undifferentiated: Indifferenziato
+    note_index_item_type:
+      corporate_entity: Entità aziendale
+      family: Famiglia
+      function: Funzione
+      genre_form: Genere / Forma
+      geographic_name: Nome geografico
+      name: Nome
+      occupation: Occupazione
+      person: Persona
+      subject: Soggetta
+      title: Titolo
+    note_rights_statement_act_type:
+      additional_information: Informazioni aggiuntive
+      expiration: Scadenza
+      extension: Estensione
+      permissions: Autorizzazioni
+      restrictions: Restrizioni
+    note_rights_statement_type:
+      additional_information: Informazioni aggiuntive
+      materials: Materiali
+      type_note: Tipo Nota
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
-    date_calendar: ''
+    date_calendar: 'Calendario delle date'
     language_iso639_2: Lingua ISO 639-2
     metadata_license: Licenza dei metadata
     romanization: Romanizzazione
     script_iso15924: Script lingua ISO 15924
     transliteration: Traslitterazione
-    subject_source: Fonte del soggetto
+    subject_source: Fonte dell'argomento
     subject_term_type: Tipo di termine soggetto
     telephone_number_type: Tipo di numero di telefono
     user_defined_enum_1: Enum 1 definito dall'utente
     user_defined_enum_2: Enum 2 definito dall'utente
     user_defined_enum_3: Enum 3 definito dall'utente
     user_defined_enum_4: Enum 4 definito dall'utente
+    accession_acquisition_type: Tipo di acquisizione dell'accesso
+    accession_parts_relator: Addetto alla gestione dei ricambi
+    accession_parts_relator_type: Tipo di referente per le parti di accesso
+    accession_resource_type: Tipo di risorsa di accesso
+    accession_sibling_relator: Fratello/sorella di acquisizione
+    accession_sibling_relator_type: Tipo di parente fratello/sorella di accesso
+    agency_code_type: Tipo di codice dell'agenzia di controllo dei documenti
+    agent_contact_salutation: Saluto di contatto dell'agente
+    agent_relationship_associative_relator: Agente immobiliare associato alle relazioni con i 
+      clienti
+    agent_relationship_earlierlater_relator: Rapporto con l'agente Prima Dopo Agente immobiliare
+    agent_relationship_family_relator: Relazione con l'agente Relazione familiare
+    agent_relationship_hierarchical_relator: Relazione tra agenti - Relazione gerarchica
+    agent_relationship_identity_relator: Relazione tra agente e identità del relazionatore
+    agent_relationship_parentchild_relator: Relazione agente genitore-figlio relazionale
+    agent_relationship_specific_relator: Relazione dell'agente Specifico relazionale
+    agent_relationship_subordinatesuperior_relator: Rapporto agente Subordinato Superiore Agente 
+      immobiliare
+    agent_relationship_temporal_relator: Relazione tra agente e agente, relazionatore temporale
+    archival_record_level: Livello di record d'archivio
+    begin_date_standardized_type: Data di inizio Tipo standardizzato
+    cataloging_source: Fonte di catalogazione per il controllo dei record
+    collection_management_processing_priority: Gestione della riscossione - Priorità di elaborazione
+    collection_management_processing_status: Stato di elaborazione della gestione della raccolta
+    container_location_status: Stato della posizione del container
+    container_type: Tipo di contenitore
+    date_certainty: Data di certezza
+    date_era: Era data
+    date_label: Etichetta della data
+    date_role: Ruolo della data
+    date_standardized_type: Tipo standardizzato della data
+    date_type: Tipo di data
+    date_type_structured: Tipo di data
+    deaccession_scope: Ambito della dismissione
+    digital_object_digital_object_type: Oggetto digitale Tipo di oggetto digitale
+    digital_object_level: Livello di oggetto digitale
+    dimension_units: Unità di misura
+    end_date_standardized_type: Data di fine Tipo standardizzato
+    event_event_type: Tipo di evento
+    event_outcome: Esito dell'evento
+    extent_extent_type: Estensione Tipo di estensione
+    extent_portion: Porzione di estensione
+    file_version_checksum_methods: Metodi di checksum della versione del file
+    file_version_file_format_name: Versione del file Formato del file Nome
+    file_version_use_statement: Dichiarazione sull'utilizzo della versione del file
+    file_version_xlink_actuate_attribute: Versione file Attributo Xlink Actuate
+    file_version_xlink_show_attribute: Versione file Xlink Mostra attributo
+    gender: Genere dell'agente
+    government_agency_type: Controllo dei documenti - Tipo di agenzia governativa
+    identifier_type: Tipo di identificatore di controllo record
+    instance_instance_type: Istanza Tipo di istanza
+    job_type: Tipo di lavoro
+    level_of_detail: Livello di dettaglio del controllo dei record
+    linked_agent_archival_record_relators: Relazioni con record archivistici di agenti collegati
+    linked_agent_event_roles: Ruoli degli eventi dell'agente collegato
+    linked_agent_role: Ruolo dell'agente collegato
+    linked_event_archival_record_roles: Ruoli dei record di archiviazione degli eventi collegati
+    location_function_type: Tipo di funzione di localizzazione
+    location_temporary: Posizione temporanea
+    maintenance_agent_type: Tipo di agente addetto alla manutenzione del controllo dei record
+    maintenance_event_type: Tipo di evento di manutenzione del controllo record
+    maintenance_status: Stato di manutenzione del controllo dei record
+    modified_record: Controllo dei record di tipo modificato
+    name_person_name_order: Nome Nome della persona Ordine
+    name_rule: Regola del nome
+    name_source: Fonte del nome
+    name_type: Nome del controllo record Tipo
+    note_bibliography_type: Nota Bibliografia Tipo
+    note_digital_object_type: 'Nota: tipo di oggetto digitale'
+    note_index_item_type: Nota Indice Tipo di elemento
+    note_index_type: Nota Tipo di indice
+    note_langmaterial_type: Nota Lingua del tipo di materiale
+    note_multipart_type: Nota Tipo multiparte
+    note_orderedlist_enumeration: "Nota: Enumerazione dell'elenco ordinato"
+    note_rights_statement_act_type: Nota Dichiarazione sui diritti Tipo di atto
+    note_rights_statement_type: Nota sui diritti di nota
+    note_singlepart_type: 'Nota: Tipo monocomponente'
+    place_role: Ruolo dell'agente
+    publication_status: Stato di pubblicazione del controllo dei record
+    reference_evaluation: Valutazione di riferimento per il controllo dei record
+    resource_finding_aid_description_rules: Regole di descrizione dello strumento di ricerca delle 
+      risorse
+    resource_finding_aid_status: Stato dello strumento di ricerca risorse
+    resource_resource_type: Risorsa Tipo di risorsa
+    restriction_type: Tipo di restrizione di accesso locale
+    rights_statement_act_restriction: Restrizione ai sensi della legge sulla dichiarazione dei 
+      diritti
+    rights_statement_act_type: Dichiarazione dei diritti Tipo di atto
+    rights_statement_external_document_identifier_type: Dichiarazione dei diritti Identificatore del
+      documento esterno Tipo
+    rights_statement_ip_status: Dichiarazione dei diritti Stato della proprietà intellettuale
+    rights_statement_other_rights_basis: Dichiarazione dei diritti Altre basi dei diritti
+    rights_statement_rights_type: Dichiarazione dei diritti Tipo di diritti

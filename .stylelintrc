@@ -13,6 +13,7 @@
     "alpha-value-notation": null,
     "at-rule-no-unknown": null,
     "color-function-notation": null,
+    "color-function-alias-notation": null,
     "declaration-block-no-redundant-longhand-properties": null,
     "font-family-no-missing-generic-family-keyword": [
       true,
@@ -31,7 +32,7 @@
     "selector-id-pattern": null,
     "shorthand-property-no-redundant-values": null,
     "value-no-vendor-prefix": null,
-    "scss/at-import-partial-extension": null,
+    "media-feature-range-notation": null,
     "scss/at-rule-no-unknown": true,
     "scss/dollar-variable-empty-line-before": null,
     "scss/dollar-variable-pattern": null,

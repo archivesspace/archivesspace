@@ -1,0 +1,535 @@
+nl:
+  brand:
+    title: ArchivesSpace Publieksinterface
+    title_link_text: Terug naar de startpagina van ArchivesSpace
+    welcome_head: Welkom bij ArchivesSpace
+    welcome_message: |
+      <p>Zoek in onze collecties, digitale objecten en meer.</p>
+    welcome_page_title: ArchivesSpace Publieksinterface
+  actions:
+    search: Zoeken
+    search_header: Zoek in de archieven en collecties
+    search_within: Zoek binnen resultaten
+    search_in: Zoek %{type}
+    new_search: Nieuwe zoekopdracht
+    refine_search: Zoekopdracht verfijnen
+    close: Sluiten
+    backup: Terug naar de vorige pagina
+    backup_abbr: Ga terug
+    cite: Citeerinstructie
+    cite_item: Item citeren
+    digitized: Digitale objecten bekijken
+    request: Aanvragen
+    print: PDF downloaden
+    collection_overview: Collectieoverzicht
+    hierarch: Structuur van de collectie
+    numeric: Containerinventaris
+    clipboard: Kopiëren naar klembord
+    cite_item_description: Itembeschrijving citeren
+    print-generating: Bezig met genereren
+    cilpboard_cite_item: Citeerinstructie voor dit item naar klembord kopiëren
+    cilpboard_cite_item_description: Bronvermelding van itembeschrijving naar klembord kopiëren
+    search_add_row: Zoekregel toevoegen
+    search_remove_row: Regel eronder verwijderen
+    staff_link: Alleen voor medewerkers
+    next: Volgende
+    previous: Vorige
+  page_actions: Acties op deze pagina
+  request:
+    email_header: Dank u voor uw aanvraag
+    required: verplicht
+    user_name: Uw naam
+    user_email: Uw e‑mailadres
+    date: Verwachte bezoekdatum
+    note: Opmerking voor de medewerkers
+    visit: Dien een aanvraag in om %{repo_name} te bezoeken om <strong>%{archival_object}</strong> 
+      te bekijken
+    submit: Aanvraag versturen
+    submitted: Dank u, uw aanvraag is verstuurd. U ontvangt binnenkort een e‑mail met een kopie van 
+      uw aanvraag.
+    errors:
+      name: Vul uw naam in
+      email: Vul een geldig e‑mailadres in
+    email:
+      subject: Aanvraag voor %{title}
+  search-button:
+    label: Zoeken
+  search-limit: Beperk tot %{limit}
+  search-limiting: beperkt tot %{limit}
+  search-limits:
+    all: alle soorten records
+    repository: collectiebeherende instellingen
+    repositories: collectiebeherende instellingen
+    resource: collecties
+    resources: collecties
+    digital: digitale objecten
+    digital_object: digitale objecten
+    objects: beschrijvingen van archiefonderdelen of digitale objecten
+    subject: onderwerp
+    agent: maker van de inhoud
+    agents: makers van de inhoud
+  search-field: Zoekveld
+  searched-field: zoeken in %{field}
+  search_results:
+    highlighting:
+      found_in: Gevonden in
+      four_part_id: Identificatiecode
+      dates: Datering
+      subjects_text: Onderwerpen
+      published_agents: Namen van personen, families en organisaties
+      creators_text: Archiefvormers en verzamelaars
+      role_enum_s: Rollen
+      linked_agent_roles: Rollen van gekoppelde namen
+      notes_published: Annotaties
+      finding_aid_title: Titel van de collectiebeschrijving
+      instance_type_enum_s: Type instantie
+      acquisition_type: Verwervingswijze
+    page_title: '%{count} resultaten gevonden'
+    results_head: 'Toont %{type}: %{start}–%{end} van %{total}'
+    result: Resultaat
+    results: Resultaten
+    search_for: Zoek %{type} waar %{conditions}
+    keyword_contain: "<strong>trefwoord(en)</strong>: <span class='searchterm'>%{kw}</span>"
+    title_contain: de <strong>titel</strong> bevat <span class='searchterm'>%{kw}</span>
+    notes_contain: de <strong>annotatie</strong> bevat <span class='searchterm'>%{kw}</span>
+    creators_text_contain: de <strong>archiefvormer of verzamelaar</strong> bevat <span 
+      class='searchterm'>%{kw}</span>
+    subjects_text_contain: het <strong>onderwerp</strong> bevat <span 
+      class='searchterm'>%{kw}</span>
+    identifier_contain: de <strong>identificatiecode</strong> bevat <span 
+      class='searchterm'>%{kw}</span>
+    in_repository: ' in <strong>%{name}</strong>'
+    anything: '*'
+    search_term: Zoekterm
+    error: Uw zoekopdracht kon door een onverwachte fout niet worden voltooid
+    no_results: Geen records gevonden
+    filter_by: Filter op
+    filtered_by: Gefilterd op
+    remove_filter: Dit filter verwijderen
+    more_facets: Meer
+    fewer_facets: Minder
+    op:
+      AND: en
+      OR: of
+      NOT: en niet
+    op_first_row:
+      NOT: niet
+    filter:
+      head: Resultaten filteren
+      add: Aanvullende filters
+      form: Zoeken binnen resultaten
+      show_fewer: Minder tonen
+      show_more: Meer tonen
+      query: Tekst
+      subjects: Onderwerp
+      primary_type: Type
+      repository: Collectiebeherende instelling
+      used_within_published_repository: Collectiebeherende instelling
+      creators: Archiefvormer of verzamelaar
+      fullrecord: Trefwoord
+      subjects_text: Onderwerp
+      title: Titel
+      creators_text: Archiefvormer of verzamelaar
+      scope: Inhoud en samenstelling
+      notes: Annotaties
+      identifier: Identificatiecode
+      source: Bron
+      published_agents: Namen
+      agents_text: Namen
+      classification_uri: Classificatie
+      linked_agent_roles: Rol
+      from_year: Vanaf jaar
+      to_year: Tot jaar
+      years: Jaren
+      from: Van
+      to: Tot
+      years_include: Op te nemen jaren
+      year_now: nu
+      year_begin: het begin
+      from_to: 'Jaren: %{begin} tot %{end}'
+      child_container_u_sstr: Subcontainer
+      grand_child_container_u_sstr: Sub-subcontainer
+      type_enum_s: Type
+      published_series_title_u_sstr: Rubriek
+      instance_type_enum_s: Soort instantie
+      langcode: Taal
+      digital_object_type_enum_s: Type
+      extent_type_enum_s: Omvang
+  search_sorting:
+    sort_by: 'Sorteren op:'
+    sort: Sorteren
+    asc: (oplopend)
+    desc: (aflopend)
+    relevance: Relevantie
+    title_sort: Titel
+    identifier: Identificatiecode
+    year_sort: Jaar
+    sorting: '%{type} %{direction}'
+    classification_identifier: Identificatiecode
+  inherit:
+    inherited: 'Uit de %{level}:'
+    collection: Collectie
+    series: Rubriek
+    sub-series: Subrubriek
+    class: Klasse
+    file: Verzamelbeschrijving
+    fonds: Archief
+    item: Aanvraagbare eenheid
+    otherlevel: Ander niveau
+    recordgrp: Recordgroep
+    subfonds: Deelarchief
+    subgrp: Subgroep
+  errors:
+    error_404: '%{type}-record niet gevonden'
+    error_404_message: Het %{type}-record dat u probeert te openen bestaat niet of is mogelijk 
+      verwijderd.
+    backend_down: Kan geen verbinding maken met de database
+    backend_down_message: ArchivesSpace ondervindt momenteel technische problemen. Onze excuses voor
+      het ongemak. Probeer het later opnieuw.
+    unexpected_error: Uw verzoek kon door een onverwachte fout niet worden voltooid
+    invalid_search_params: Ongeldige zoekparameter '%{value}' voor veld '%{field}'
+  boolean:
+    "true": Ja
+    "false": Nee
+  navbar:
+    search_placeholder: Voer uw zoektermen in
+    error_no_term: Geen zoekterm(en) ingevoerd.
+    toggle_navigation: Navigatie in-/uitschakelen
+  navigation:
+    hierarchical: hiërarchische navigatie
+    top_level: navigatie op hoogste niveau
+    mobile_menu: Navigatiemenu voor kleinere apparaten
+  internal_links:
+    main: Belangrijkste inhoud
+    filter: Resultaten filteren
+    search_collection: Zoek binnen de collectie
+  accordion:
+    expand: Alles uitklappen
+    collapse: Alles inklappen
+  advanced_search:
+    operator_label: Operator
+    operator:
+      AND: En
+      OR: Of
+      NOT: Niet
+    limit_label: Beperk op recordtype
+    add_row: Regel toevoegen
+    remove_row: Regel verwijderen
+  contains: Bevat %{count} %{type}
+  found: Gevonden in %{count} %{type}
+  coll_obj:
+    _singular: Collectie of record
+    _plural: Collecties en/of records
+  scope_note: Toelichting op inhoud
+  multiple_containers: Meerdere containers
+  extent_number_type: '%{number} %{type}'
+  extent_phys_details: ' : %{deets}'
+  extent_dims: ' ; %{dimensions}'
+  external_docs: Externe documenten
+  more_about: Meer over
+  list: Lijst met %{type}
+  cont_arr: Structuur van de collectie
+  dig_cont_arr: Structuur van de digitale objecten
+  subgroups: Subgroepen
+  accessed: Geraadpleegd
+  containers: Informatie over fysieke opslag
+  related_accessions: Verwant nog niet ontsloten materiaal
+  related_resources: Verwante collecties
+  linked_instances: Gekoppelde records
+  linked_digital_objects: Digitale objecten
+  context: Gevonden in
+  context_delimiter: /
+  bulk:
+    _singular: Grootste deel van het materiaal uit %{dates}
+    _plural: Grootste deel van het materiaal binnen %{dates}
+  archive:
+    _singular: Het archief
+    _plural: De archieven
+  accession:
+    _singular: Nog niet ontsloten materiaal
+    _plural: Nog niet ontsloten materiaal
+    _public:
+      section:
+        acquisition_type: Verwervingswijze
+        provenance: Herkomst
+        language: Taal van de beschrijving
+        script: Schrift van de beschrijving
+        access_restrictions: Toegangsbeperkingen
+        access_restrictions_apply: Toegangsbeperkingen van toepassing
+        use_restrictions: Beperkingen aan het gebruik
+        use_restrictions_apply: Beperkingen aan het gebruik van toepassing
+        content_description: Inhoudsbeschrijving
+        inventory: Inventaris
+      related_accessions:
+        accessions: Verwant nog niet ontsloten materiaal
+        deaccessions: Afgestoten materiaal
+        forms_part_of: Deelrelatie
+        has_part: Deelrelatie
+        sibling_of: Zusterrelatie
+  archival_object:
+    _public:
+      header:
+        ref_id: Referentie-identificatie
+  repository:
+    _singular: Collectiebeherende instelling
+    _plural: Collectiebeherende instellingen
+    what: Wat bevindt zich bij deze collectiebeherende instelling?
+    details: Details van de collectiebeherende instelling
+    part: Onderdeel van
+  resource:
+    _singular: Collectie
+    _plural: Collecties
+    identifier_separator: ':'
+    _public:
+      identifier: Identificatiecode
+      identifier_pdf: ID
+      identifier_ark: ID [ark]
+      ark_link_name: Archival Resource Key (permanente link)
+      extent: Omvang
+      extent_full: Volledige omvang
+      extent_partial: Gedeeltelijke omvang
+      dates: Datering
+      lang: Taal van het materiaal
+      lang_pdf: Taal van het materiaal
+      script: Schrift
+      digital_object: Digitaal object
+      physdesc: Beschrijving van het fysieke materiaal
+      storage: Containerinformatie
+      additional: Aanvullende beschrijving
+      uri: ID [aspace_uri]
+      finding_aid:
+        head: Informatie over de collectiebeschrijving
+        title: Titel
+        subtitle: Ondertitel
+        status: Status
+        author: Auteur
+        date: Datum
+        description_rules: Beschrijvingsregels
+        identifier: Identificatiecode
+        language: Taal van de beschrijving
+        script: Schrift van de beschrijving
+        language_note: Taal van de beschrijving
+        sponsor: Sponsor
+        edition_statement: Editievermelding
+        series_statement: Serievermelding
+        note: Annotatie
+        revision: Aantekeningen betreffende wijzigingen
+      related_accessions:
+        accessions: Aanwinstbeschrijvingen
+        deaccessions: Records betreffende afstoot
+    load_records:
+      alert: Deze collectie bevat %{count} records.
+      showing: Toont
+      percent_convention: '%'
+      load: Records laden
+      load_all: Alle records laden
+      scroll: Bij scrollen
+      all: Alles in één keer
+      loading: Bezig met laden
+  top_container:
+    _singular: Container
+    _plural: Containers
+    restricted: Beperkt toegankelijk
+  digital_object:
+    _singular: Record betreffende een digitaal object
+    _plural: Digitale objecten
+    _public:
+      thumbnail: miniatuurafbeelding
+      link: Link naar digitaal object
+      badge_label: Digitaal %{level}
+      go: Ga naar bestand
+      additional: Aanvullende bestandsversies
+      url_encoded_data: URL-gecodeerde gegevens
+      browse_number_digital_objects_in_collection:
+        one: Blader door %{num} digitaal object in de collectie
+        other: Blader door %{num} digitaal objecten in de collectie
+  subject:
+    _singular: Onderwerp
+    _plural: Onderwerpen
+  classification:
+    _singular: Recordgroep
+    _plural: Recordgroepen
+    creator: Archiefvormer of verzamelaar
+    identifier_separator: .
+    _public:
+      actions:
+        show_subgroups: Subgroepen tonen
+  classification_term:
+    _singular: Term van recordgroep
+    _plural: Termen van recordgroepen
+    identifier_separator: /
+  an_agent: Naam
+  pui_agent:
+    _singular: Naam
+    _plural: Namen
+    parallel: Parallelle namen
+    related: Gerelateerde namen
+    also_known_as: Ook bekend onder de volgende namen
+  record:
+    _singular: Record
+    _plural: Records
+  record_group:
+    _singular: Recordgroep
+    _plural: Recordgroepen
+  agent:
+    _singular: Naam
+    _plural: Namen
+    _public:
+      section:
+        other_names: Naamvormen
+        related_agents: Gerelateerde namen
+        dates: Datering
+        related_agent_description: Beschrijving
+        related_agent_dates: Datering
+  agent_person:
+    _singular: Persoon
+    _plural: Personen
+  agent_family:
+    _singular: Familie
+    _plural: Families
+  agent_corporate_entity:
+    _singular: Organisatie
+    _plural: Organisaties
+  agent_software:
+    _singular: Software
+    _plural: Software
+  agent_function:
+    _singular: Functie
+    _plural: Functies
+  agent_gender:
+    _singular: Geslacht
+    _plural: Geslacht
+  agent_place:
+    _singular: Plaats
+    _plural: Plaatsen
+  agent_resource:
+    _singular: Gerelateerde externe bron
+    _plural: Gerelateerde externe bronnen
+  agent_occupation:
+    _singular: Beroep
+    _plural: Beroepen
+  agent_topic:
+    _singular: Onderwerp
+    _plural: Onderwerpen
+  description: Over
+  contact: Contact
+  number_of: 'Aantal %{type}:'
+  parent_inst: Moederinstelling
+  email: E‑mail verzenden
+  fax: Fax
+  pdf_reports:
+    administrative_information: Administratieve informatie
+    collection_inventory: Inventaris
+    summary_information: Samenvattende informatie
+    table_of_contents: Inhoudsopgave
+    return_to_table_of_contents: Terug naar de inhoudsopgave
+    publication_statement: Publicatievermelding
+    controlled_access_headings: Geautoriseerde trefwoorden
+    finding_aid_date_prefix: Deze collectiebeschrijving is opgesteld met ArchivesSpace op
+    finding_aid_written_in: Collectiebeschrijving geschreven in
+    your_finding_aid_pdf: Uw PDF-versie van de collectiebeschrijving voor "%{title}"
+    your_finding_aid_is_attached: De door u aangevraagde collectiebeschrijving is als bijlage 
+      toegevoegd.
+    accessrestrict: Openbaarheidsbeperkingen
+    userestrict: Beperkingen aan het gebruik
+    accruals: Toekomstige aanvullingen
+    acqinfo: Informatie over de verwerving
+  readmore:
+    see_more: Meer weergeven
+    see_less: Minder weergeven
+  skipnav:
+    main_content: Ga naar de belangrijkste inhoud
+    search: Ga naar zoeken
+    search_results: Ga naar zoekresultaten
+  search_tab: Zoek %{target}
+  agent_record_identifier:
+    identifier_type: Soort identificatiecode
+    source: Bron
+    primary_identifier: Is primaire identificatiecode?
+    record_identifier: Identificatiecode van het record
+    snac: Social Networks and Archival Context (SNAC)-identificatiecode
+  agent_identifier:
+    identifier_type: Type identificatiecode
+    entity_identifier: Entiteit-ID
+  date_label:
+    existence: Bestaan
+    usage: Gebruik
+  use_date:
+    _plural: Gebruiksdatering
+    _singular: Gebruiksdatering
+  used_language:
+    _plural: Gebruikte talen
+    _singular: Gebruikte taal
+  structured_date_label:
+    date: Datering
+  agent_contact:
+    name: Naam contactpersoon
+    salutation: Aanhef
+    address_1: Adres 1
+    address_2: Adres 2
+    address_3: Adres 3
+    city: Plaats
+    region: Staat/regio
+    country: Land
+    post_code: Postcode
+    fax: Fax
+    email: E‑mail
+  telephone:
+    _plural: Telefoonnummers
+    number_type: Soort nummer
+    number: Nummer
+    ext: Doorkiesnummer
+  agent_notes:
+    _singular: Annotaties
+    _plural: Annotaties
+    persistent_id: Persistente ID
+    type: Soort annotatie
+    content: Inhoud
+    note_citation: Bronvermelding
+    note_bioghist: Biografie
+    note_general_context: Algemene context
+    note_legal_status: Juridische status
+    note_mandate: Mandaat
+    note_structure_or_genealogy: Structuur of genealogie
+    note_text: Annotatie
+  metadata_rights_declaration:
+    _plural: Metadata-rechtenverklaringen
+    _singular: Metadata-rechtenverklaring
+    license: Licentie
+    descriptive_note: Beschrijvende annotatie
+    file_uri: Bestands-URI
+    xlink_title_attribute: Xlink Title-attribuut
+    xlink_role_attribute: Xlink Role-attribuut
+    xlink_arcrole_attribute: Xlink Arcrole-attribuut
+    file_version_xlink_actuate_attribute: Xlink Actuate-attribuut
+    file_version_xlink_show_attribute: Xlink Show-attribuut
+    last_verified_date: Laatst gecontroleerd op
+  footer:
+    staff_interface_html: <a href="%{staff_url}">Stafinterface</a>
+    archivesspace_home_html: Bezoek <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Stuur feedback 
+      of meld een probleem</a>
+  languages:
+    select: Taal kiezen
+  pdf_error:
+    title: Er is een fout opgetreden bij het genereren van deze PDF.
+    description: Het spijt ons, er is een fout opgetreden bij het genereren van deze PDF van de 
+      collectiebeschrijving. Hieronder vindt u diagnostische informatie om te helpen vaststellen wat
+      er misging.
+    headings:
+      location: Foutlocatie
+      message: Foutmelding
+      type: Soort fout
+      additional_info: Aanvullende informatie
+    location:
+      location_header: De fout trad op tijdens het genereren van de koptekst.
+      location_title_page: De fout trad op tijdens het genereren van de titelpagina.
+      location_toc: De fout trad op tijdens het genereren van de inhoudsopgave.
+      location_resource: De fout trad op tijdens het genereren van de secties met betrekking tot de 
+        collectiebeschrijving, waaronder samenvattende informatie, geautoriseerde trefwoorden en de 
+        annotatiesecties.
+      location_archival_object: De fout trad op tijdens het genereren van de inventaris.
+      location_footer: De fout trad op tijdens het genereren van de voettekst.
+    additional_info:
+      invalid_markup: Deze fout kan worden veroorzaakt door ongeldige opmaak in een annotatie of 
+        subrecord.

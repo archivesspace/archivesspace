@@ -191,8 +191,8 @@
   <div id="format">
     <% formats = @report_data["formats"] || %w{ json csv html pdf } %>
     <%= form.label_and_select :format, formats.collect{|format| [t("reports.formats.#{format}", :default => format), format]} %>
-    <div class="form-group csv_options" hidden="true">
-      <label class="col-sm-2 control-label">Linked Records in JSON</label>
+    <div class="form-group w-100 row csv_options">
+      <label class="col-sm-2 control-label text-right"><%= t("reports.linked_records_in_json") %></label>
       <div class="col-sm-9 checkbox">
         <%= check_box_tag("job[job_params][csv_show_json]") %>
       </div>

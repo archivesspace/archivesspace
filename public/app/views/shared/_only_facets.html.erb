@@ -29,22 +29,28 @@
           <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>
         <% end %>
       <% else %>
-        <% facet_group.slice(0, max_facets_on_load).each do |facet| %>
+        <%
+          visible_facets = facet_group.slice(0, max_facets_on_load)
+          hidden_facets = facet_group.slice(max_facets_on_load, facet_group.length - 1)
+        %>
+        <% visible_facets.each do |facet| %>
           <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>
         <% end %>
-        <div class="more-facets">
+        <% hidden_facets.each do |facet| %>
+          <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet, container_class: 'more-facets__facets' } %>
+        <% end %>
+        <dd class="more-facets__controls">
+        <%# NOTE: Wrapping buttons in <dd> is semantically imperfect but satisfies the
+            accessibility rule that <div> wrappers inside <dl> can only contain <dt>
+            and <dd> elements as direct children. In the future consider replacing the
+            <dl> structure with <nav>/<ul>/<li> or <section> elements for facets %>
           <button type="button" class="more-facets__more mb-1 btn btn-sm">
             <%= t('search_results.more_facets') %> <i class="fa fa-chevron-down"></i>
           </button>
-          <div class="more-facets__facets">
-            <% facet_group.slice(max_facets_on_load, facet_group.length - 1).each do |facet| %>
-              <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>
-            <% end %>
-          </div>
           <button type="button" class="more-facets__less mb-1 btn btn-sm">
             <%= t('search_results.fewer_facets') %> <i class="fa fa-chevron-up"></i>
           </button>
-        </div>
+        </dd>
       <% end %>
     </div>
   <% end %>

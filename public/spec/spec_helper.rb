@@ -5,6 +5,7 @@ if ENV['COVERAGE_REPORTS'] == 'true'
   ASpaceCoverage.start('public', 'rails')
 end
 
+require 'logger'
 require 'ashttp'
 require "uri"
 require "json"

@@ -45,6 +45,21 @@ describe 'Classification controllers' do
     expect(tree["precomputed_waypoints"][term.uri]["0"][0]['title']).to eq(second_term.title)
   end
 
+  describe 'Creating classification terms with creator and linked records' do
+    it 'creates a classification with creator and linked records' do
+      resource = create(:json_resource)
+      term = create_classification_term(
+        classification,
+        creator: { 'ref' => creator['uri'] },
+        linked_records: [{ 'ref' => resource['uri'] }]
+      )
+
+      loaded_term = JSONModel(:classification_term).find(term.id, "resolve[]" => ["creator", "linked_records"])
+
+      expect(loaded_term.creator).to deep_include(term.creator)
+      expect(loaded_term.linked_records.first['ref']).to eq(resource.uri)
+    end
+  end
 
   it "can delete a classification tree" do
     term1 = create_classification_term(classification,

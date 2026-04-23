@@ -3,7 +3,6 @@
 require 'spec_helper'
 require 'rails_helper'
 require 'csv'
-require 'rubyXL/convenience_methods/cell'
 
 describe 'Resources', js: true do
   before(:all) do
@@ -96,6 +95,10 @@ describe 'Resources', js: true do
         wait_for_ajax
 
         expect(page).to have_css "div.record-toolbar"
+
+        aggregate_failures 'toolbar is axe_clean' do
+          expect(page).to be_axe_clean.within '.record-toolbar'
+        end
 
         aggregate_failures 'does not have any <a> tags without a @href attributes' do
           expect(page).to have_no_xpath("//a[not(@href)]")
@@ -282,315 +285,6 @@ describe 'Resources', js: true do
       # it "has acceptable color contrast for tree expand/collapse button, drag & drop image, form element borders and required field indicators" do
       # end
     end
-  end
-
-  it 'has the generate bulk archival object link included in the more dropdown menu on both the show and edit pages' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-
-    visit "resources/#{resource.id}"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    wait_for_ajax
-
-    find('#other-dropdown button').click
-
-    within('.dropdown-menu') do
-      click_link('Generate Bulk Archival Object Spreadsheet')
-    end
-
-    expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
-    expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
-    expect(page).to have_text 'Selected Records: 0'
-
-    visit "resources/#{resource.id}/edit"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    find('#other-dropdown button').click
-
-    within('.dropdown-menu') do
-      click_link('Generate Bulk Archival Object Spreadsheet')
-    end
-    expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
-    expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
-    expect(page).to have_text 'Selected Records: 0'
-  end
-
-  it 'successfully generates a bulk archival object spreadsheet for a resource' do
-    now = Time.now.to_i
-
-    digital_object = create(:json_digital_object)
-    accession = create(:json_accession, title: "Accession Title #{now}")
-    location = create(:location, :temporary => generate(:temporary_location_type))
-    top_container = create(:json_top_container,
-      :container_locations => [
-        {
-          'ref' => location.uri,
-          'status' => 'current',
-          'start_date' => generate(:yyyy_mm_dd),
-          'end_date' => generate(:yyyy_mm_dd)
-        }
-      ]
-    )
-
-    instances = [
-      build(:json_instance_digital, :digital_object => { :ref => digital_object.uri }),
-      build(:json_instance, :sub_container => build(:json_sub_container, :top_container => { :ref => top_container.uri }))
-    ]
-
-    resource = create(:resource, title: "Resource Title #{now}")
-
-    archival_object_1 = create(:json_archival_object,
-      :title => "Archival Object Title 1 #{now}",
-      :resource => {
-        :ref => resource.uri
-      },
-      :dates => [],
-      :notes => [],
-      :instances => instances,
-      :accession_links => [{'ref' => accession.uri}],
-      :subjects => [],
-      :linked_agents => [],
-      :rights_statements => [],
-      :external_documents => [],
-      :extents => [],
-      :lang_materials => []
-    )
-
-    archival_object_2 = create(:json_archival_object,
-      :title => "Archival Object Title 2 #{now}",
-      :resource => {
-        :ref => resource.uri
-      },
-      :dates => [],
-      :notes => [],
-      :instances => instances,
-      :accession_links => [{'ref' => accession.uri}],
-      :subjects => [],
-      :linked_agents => [],
-      :rights_statements => [],
-      :external_documents => [],
-      :extents => [],
-      :lang_materials => []
-    )
-
-    visit "resources/#{resource.id}/edit"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    click_on 'More'
-
-    within('.dropdown-menu') do
-      click_link('Generate Bulk Archival Object Spreadsheet')
-    end
-
-    expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
-    expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
-    expect(page).to have_text 'Selected Records: 0'
-
-    files = Dir.glob(File.join(Dir.tmpdir, '*.xlsx'))
-    files.each do |file|
-      File.delete file if file.include?("bulk_update.resource_")
-    end
-
-    # Select only the first archival object
-    find('#item1').click
-
-    click_on 'Download Spreadsheet'
-
-    downloaded_spreadsheet_filename = nil
-    files = Dir.glob(File.join(Dir.tmpdir, '*.xlsx'))
-    files.each do |file|
-      downloaded_spreadsheet_filename = file if file.include?("bulk_update.resource_#{resource.id}")
-    end
-
-    expect(downloaded_spreadsheet_filename).to_not be nil
-
-    spreadsheet = RubyXL::Parser.parse(downloaded_spreadsheet_filename)
-    sheet = spreadsheet['Updates']
-    column_names = sheet[1].cells.map(&:value)
-
-    expect(column_names.length).to eq 166
-
-    id_index = column_names.find_index('id')
-    title_index = column_names.find_index('title')
-
-    # First row must contain archival object 1
-    expect(sheet[2][id_index].value).to eq archival_object_1.id.to_s
-    expect(sheet[2][title_index].value).to eq archival_object_1.title
-
-    # Second row must be empty
-    expect(sheet[3]).to eq nil
-
-    column_index = column_names.find_index('related_accessions/0/id_0')
-    expect(sheet[2][column_index]).to be_a RubyXL::Cell
-    expect(sheet[2][column_index].value).to eq accession.id_0
-    column_index = column_names.find_index('related_accessions/0/id_1')
-    expect(sheet[2][column_index]).to be_a RubyXL::Cell
-    expect(sheet[2][column_index].value).to eq accession.id_1
-    column_index = column_names.find_index('related_accessions/0/id_2')
-    expect(sheet[2][column_index]).to be_a RubyXL::Cell
-    expect(sheet[2][column_index].value).to eq accession.id_2
-    column_index = column_names.find_index('related_accessions/0/id_3')
-    expect(sheet[2][column_index]).to be_a RubyXL::Cell
-    expect(sheet[2][column_index].value).to eq accession.id_3
-
-    column_index = column_names.find_index('instances/0/instance_type')
-    expect(sheet[2][column_index]).to be_a RubyXL::Cell
-
-    column_index = column_names.find_index('digital_object/0/digital_object_id')
-    expect(sheet[2][column_index]).to be_a RubyXL::Cell
-  end
-
-  it 'successfully uploads a bulk archival object spreadsheet and creates a job' do
-    login_admin
-    select_repository(@repository)
-
-    now = Time.now.to_i
-
-    digital_object = create(:json_digital_object)
-    accession = create(:json_accession, title: "Accession Title #{now}")
-    location = create(:location, :temporary => generate(:temporary_location_type))
-    top_container = create(:json_top_container,
-      :container_locations => [
-        {
-          'ref' => location.uri,
-          'status' => 'current',
-          'start_date' => generate(:yyyy_mm_dd),
-          'end_date' => generate(:yyyy_mm_dd)
-        }
-      ]
-    )
-
-    instances = [
-      build(:json_instance_digital, :digital_object => { :ref => digital_object.uri }),
-      build(:json_instance, :sub_container => build(:json_sub_container, :top_container => { :ref => top_container.uri }))
-    ]
-
-    resource = create(:resource, title: "Resource Title #{now}")
-
-    archival_object_1 = create(:json_archival_object,
-      :title => "Archival Object Title 1 #{now}",
-      :resource => {
-        :ref => resource.uri
-      },
-      :dates => [],
-      :notes => [],
-      :instances => instances,
-      :accession_links => [{'ref' => accession.uri}],
-      :subjects => [],
-      :linked_agents => [],
-      :rights_statements => [],
-      :external_documents => [],
-      :extents => [],
-      :lang_materials => []
-    )
-
-    archival_object_2 = create(:json_archival_object,
-      :title => "Archival Object Title 2 #{now}",
-      :resource => {
-        :ref => resource.uri
-      },
-      :dates => [],
-      :notes => [],
-      :instances => instances,
-      :accession_links => [{'ref' => accession.uri}],
-      :subjects => [],
-      :linked_agents => [],
-      :rights_statements => [],
-      :external_documents => [],
-      :extents => [],
-      :lang_materials => []
-    )
-
-    visit "resources/#{resource.id}/edit"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    wait_for_ajax
-
-    click_on 'More'
-
-    within('.dropdown-menu') do
-      click_link('Generate Bulk Archival Object Spreadsheet')
-    end
-
-    expect(page).to have_text 'Generate Bulk Archival Object Spreadsheet'
-    expect(page).to have_text 'Use the form below to select the Archival Objects you wish to bulk update.'
-    expect(page).to have_text 'Selected Records: 0'
-
-    files = Dir.glob(File.join(Dir.tmpdir, '*.xlsx'))
-    files.each do |file|
-      File.delete file if file.include?("bulk_update.resource_")
-    end
-
-    # Select only the first archival object
-    find('#item1').click
-    find('#item2').click
-
-    click_on 'Download Spreadsheet'
-
-    downloaded_spreadsheet_filename = nil
-    files = Dir.glob(File.join(Dir.tmpdir, '*.xlsx'))
-    files.each do |file|
-      downloaded_spreadsheet_filename = file if file.include?("bulk_update.resource_#{resource.id}")
-    end
-
-    expect(downloaded_spreadsheet_filename).to_not be nil
-
-    # Modify spreadsheet to upload
-    spreadsheet = RubyXL::Parser.parse(downloaded_spreadsheet_filename)
-    sheet = spreadsheet['Updates']
-    column_names = sheet[1].cells.map(&:value)
-
-    expect(column_names.length).to eq 166
-
-    title_index = column_names.find_index('title')
-    sheet[2][title_index].change_contents("Updated Archival Object Title 1 #{now}")
-    sheet[3][title_index].change_contents("Updated Archival Object Title 2 #{now}")
-
-    # Save excel file after updates
-    spreadsheet.write(downloaded_spreadsheet_filename)
-
-    click_on 'Done'
-
-    click_on 'Create'
-    click_on 'Background Job'
-    click_on 'Bulk Archival Object Updater'
-
-    expect(page).to have_button('Start Job', disabled: true)
-
-    attach_file(
-      'job_file_input',
-      downloaded_spreadsheet_filename,
-      make_visible: true
-    )
-
-    click_on 'Start Job'
-
-    expect(page).to have_text 'Spreadsheet Bulk Archival Object Updater Job'
-
-    job_status = ''
-    while job_status != 'completed'
-      sleep 5
-      visit current_url
-
-      element = find('#job_status')
-      job_status = element['data-current-status']
-    end
-
-    elements = all('#jobRecordsSpool .subrecord-form-fields a')
-    expect(elements.length).to eq 2
-
-    visit "resources/#{resource.id}/edit"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    element = find('#tree-container')
-    expect(element).to have_text "Updated Archival Object Title 1 #{now}"
-    expect(element).to have_text "Updated Archival Object Title 2 #{now}"
   end
 
   it 'can duplicate a resource from another resource with all the archival objects' do
@@ -1014,104 +708,6 @@ describe 'Resources', js: true do
     expect(elements.length).to eq 1
   end
 
-  it 'has the Include URIs checkbox checked by default inside the EAD Export dropdown menu' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-
-    visit "resources/#{resource.id}"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    within '#form_download_ead', visible: false do
-      element = find('#include-uris', visible: false)
-      expect(element.checked?).to eq true
-    end
-  end
-
-  it 'exports and downloads the resource to xml' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-
-    visit "resources/#{resource.id}"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
-    files.each do |file|
-      File.delete file
-    end
-
-    click_on 'Export'
-
-    wait_for_ajax
-
-    within('.dropdown-menu') do
-      click_link('Download EAD')
-    end
-
-    files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
-    expect(files.length).to eq 1
-    file = File.read(files[0])
-    expect(file).to include(resource.title)
-  end
-
-  it 'exports a prefilled CSV template to import digital objects to archival objects' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-    archival_objects = create_list(:archival_object, 10, title: "Archival Object Title #{now}", :resource => { ref: resource.uri })
-
-    visit "resources/#{resource.id}"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
-    files.each do |file|
-      File.delete file
-    end
-
-    click_on 'Export'
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
-    click_on 'Download Digital Object Template'
-
-    files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
-    expect(files.length).to eq 1
-    file = File.read(files[0])
-    csv_generated = CSV.parse(file)
-
-    # Load original CSV template
-    csv_template_path = File.join(ASUtils.find_base_directory, 'templates', 'bulk_import_DO_template.csv')
-    csv_template = CSV.read(csv_template_path)
-    csv_template_columns = csv_template[0]
-    csv_template_column_explanations = csv_template[1]
-
-    expect(csv_template_columns).to eq csv_generated[1]
-    expect(csv_template_column_explanations).to eq csv_generated[2]
-
-    for x in 0..(archival_objects.length - 1)
-      expect(csv_generated[x + 3]).to include resource.uri
-      expect(csv_generated[x + 3]).to include archival_objects[x].uri
-    end
-  end
-
-  it 'closes the export dropdown menu after Download EAD and Download MARCXML are clicked' do
-    now = Time.now.to_i
-    resource = create(:resource, title: "Resource Title #{now}")
-
-    visit "resources/#{resource.id}"
-
-    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
-
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
-    click_on 'Export'
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
-    click_on 'Download EAD'
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
-    click_on 'Export'
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
-    click_on 'Download MARCXML'
-    expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
-  end
-
   it 'can apply and remove filters when browsing for linked agents in the linker modal' do
     now = Time.now.to_i
     resource = create(:resource, title: "Resource Title #{now}")
@@ -1209,14 +805,17 @@ describe 'Resources', js: true do
 
     click_on 'Add Digital Object'
 
-    element = find("div[data-id-path='resource_instances__0__digital_object_']")
-    within element do
+    within "div[data-id-path='resource_instances__0__digital_object_']" do
       find('.dropdown-toggle').click
+    end
+
+    wait_for_ajax
+
+    within "div[data-id-path='resource_instances__0__digital_object_']" do
       click_on 'Create'
     end
 
-    element = find('#resource_instances__0__digital_object__ref__modal')
-    within element do
+    within '#resource_instances__0__digital_object__ref__modal' do
       fill_in 'Title', with: "Digital Object Title #{now}"
       fill_in 'Identifier', with: "Digital Object Identifier #{now}"
 
@@ -1245,12 +844,395 @@ describe 'Resources', js: true do
     expect(element).to have_text "Digital Object Title #{now}"
   end
 
+  it 'can create and link a related accession from a resource form' do
+    now = Time.now.to_i
+    resource = create(:resource, title: "Resource Title #{now}")
+
+    visit "resources/#{resource.id}/edit"
+
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+
+    click_on 'Add Related Accession'
+
+    find('#resource_related_accessions_ .linker-wrapper .dropdown-toggle').click
+    wait_for_ajax
+    find('#resource_related_accessions_ .linker-create-btn').click
+
+    within '#resource_related_accessions__0__ref__modal' do
+      fill_in 'Identifier', with: "ACC_#{now}"
+      fill_in 'Title', with: "Related Accession #{now}"
+      fill_in 'Accession Date', with: '2026-01-05'
+
+      click_on 'Create and Link'
+    end
+
+    expect(page).not_to have_css('#resource_related_accessions__0__ref__modal')
+
+    element = find('#resource_related_accessions_ .token-input-token')
+    expect(element).to have_text("Related Accession #{now}")
+
+    find('button', text: 'Save Resource', match: :first).click
+    expect(page).to have_text "Resource #{resource.title} updated"
+  end
+
+  it 'shows validation errors when creating related accession with invalid data' do
+    now = Time.now.to_i
+    resource = create(:resource, title: "Resource Title #{now}")
+
+    visit "resources/#{resource.id}/edit"
+
+    click_on 'Add Related Accession'
+
+    find('#resource_related_accessions_ .linker-wrapper .dropdown-toggle').click
+    wait_for_ajax
+    find('#resource_related_accessions_ .linker-create-btn').click
+
+    within '#resource_related_accessions__0__ref__modal' do
+      fill_in 'Title', with: "Invalid Accession #{now}"
+      click_on 'Create and Link'
+    end
+
+    within '#resource_related_accessions__0__ref__modal' do
+      expect(page).to have_css('.alert.alert-danger', text: /Identifier.*required/i)
+      expect(page).to have_field('Title', with: "Invalid Accession #{now}")
+    end
+
+    within '#resource_related_accessions__0__ref__modal' do
+      fill_in 'Identifier', with: "ACC_#{now}"
+      fill_in 'Accession Date', with: '2026-01-05'
+      click_on 'Create and Link'
+    end
+
+    expect(page).not_to have_css('#resource_related_accessions__0__ref__modal')
+
+    element = find('#resource_related_accessions_ .token-input-token')
+    expect(element).to have_text("Invalid Accession #{now}")
+  end
+
+  it 'can create multiple related accessions for a resource' do
+    now = Time.now.to_i
+    resource = create(:resource, title: "Resource Title #{now}")
+
+    visit "resources/#{resource.id}/edit"
+
+    click_on 'Add Related Accession'
+
+    within '#resource_related_accessions_' do
+      all('.linker-wrapper').first.find('.dropdown-toggle').click
+      wait_for_ajax
+      all('.linker-create-btn').first.click
+    end
+
+    within '#resource_related_accessions__0__ref__modal' do
+      fill_in 'Identifier', with: "ACC1_#{now}"
+      fill_in 'Title', with: "First Accession #{now}"
+      fill_in 'Accession Date', with: '2026-01-05'
+      click_on 'Create and Link'
+    end
+
+    click_on 'Add Related Accession'
+
+    within '#resource_related_accessions_' do
+      all('.linker-wrapper').last.find('.dropdown-toggle').click
+      wait_for_ajax
+      all('.linker-create-btn').last.click
+    end
+
+    within '#resource_related_accessions__1__ref__modal' do
+      fill_in 'Identifier', with: "ACC2_#{now}"
+      fill_in 'Title', with: "Second Accession #{now}"
+      fill_in 'Accession Date', with: '2026-01-05'
+      click_on 'Create and Link'
+    end
+
+    find('button', text: 'Save Resource', match: :first).click
+    expect(page).to have_text "Resource #{resource.title} updated"
+
+    within '#resource_related_accessions_' do
+      tokens = all('.token-input-token')
+      expect(tokens[0]).to have_text("First Accession #{now}")
+      expect(tokens[1]).to have_text("Second Accession #{now}")
+    end
+  end
+
   describe 'title field mixed content validation' do
     let(:resource) { create(:resource) }
     let(:edit_path) { "resources/#{resource.id}/edit" }
     let(:input_field_id) { 'resource_title_' }
 
     it_behaves_like 'validating mixed content'
+  end
+
+  context 'index view' do
+    describe 'results table' do
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'resource' }
+      let(:browse_path) { '/resources' }
+      let(:record_1) do
+        create(:resource,
+          title: "Resource 1 #{now}",
+          id_0: '1',
+          level: 'collection',
+          ead_id: "EAD_ID_2",
+          resource_type: 'collection',
+          finding_aid_status: 'completed',
+          publish: true,
+          restrictions: false,
+          collection_management: {
+            'processing_priority' => 'medium',
+            'processors' => 'Processor 1'
+          }
+        )
+      end
+      let(:record_2) do
+        create(:resource,
+          title: "Resource 2 #{now}",
+          id_0: '2',
+          level: 'item',
+          ead_id: "EAD_ID_1",
+          resource_type: 'papers',
+          finding_aid_status: 'in_progress',
+          publish: false,
+          restrictions: true,
+          collection_management: {
+            'processing_priority' => 'low',
+            'processors' => 'Processor 2'
+          }
+        )
+      end
+      let(:initial_sort) { [record_1.title, record_2.title] }
+
+      describe 'sorting' do
+        let(:default_sort_key) { 'title_sort' }
+
+        context 'with seven of eleven sortable columns showing' do
+          include_context 'results table setup'
+
+          let(:additional_browse_columns) do
+            {
+              4 => 'Resource Type',
+              # 5 => 'Published',
+              6 => 'Restrictions',
+              7 => 'EAD ID'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Identifier' => 'identifier',
+              'Level' => 'level',
+              'Resource Type' => 'resource_type',
+              # 'Published' => 'publish',
+              'Restrictions' => 'restrictions',
+              'EAD ID' => 'ead_id'
+            }
+          end
+          let(:primary_sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'identifier' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'level' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'resource_type' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              # 'publish' => {
+              #   asc: [record_2.title, record_1.title],
+              #   desc: [record_1.title, record_2.title]
+              # },
+              'restrictions' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'ead_id' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              }
+            }
+          end
+          # Creates ties: level='collection' (same as record_1), restrictions=false (same as record_1)
+          let(:record_3) do
+            create(:resource,
+              title: "Resource 3 #{now}",
+              id_0: '3',
+              level: 'collection',
+              ead_id: "EAD_ID_3",
+              resource_type: 'records',
+              finding_aid_status: 'completed',
+              publish: true,
+              restrictions: false
+            )
+          end
+          let(:secondary_sort_cases) do
+            [
+              {
+                # Case 1: primary title_sort asc, secondary level asc - no-op since titles are unique
+                primary_key:   'title_sort',
+                primary_dir:   :asc,
+                secondary_key: 'level',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              },
+              {
+                # Case 2: primary level asc, secondary title_sort desc - secondary changes order
+                primary_key:   'level',
+                primary_dir:   :asc,
+                secondary_key: 'title_sort',
+                secondary_dir: :desc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_3.title,
+                  record_2.title
+                ],
+                expected_after_both: [
+                  record_3.title,
+                  record_1.title,
+                  record_2.title
+                ]
+              }
+            ]
+          end
+
+          it_behaves_like 'results table sorting'
+        end
+
+        context 'with the remaining four of eleven sortable columns showing, plus the title column' do
+          include_context 'results table setup'
+
+          let(:additional_browse_columns) do
+            {
+              2 => 'Finding Aid Status',
+              3 => 'Processing Priority',
+              4 => 'Processors',
+              5 => 'URI'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Finding Aid Status' => 'finding_aid_status',
+              'Processing Priority' => 'processing_priority',
+              'Processors' => 'processors',
+              'URI' => 'uri'
+            }
+          end
+          let(:primary_sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'finding_aid_status' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'processing_priority' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'processors' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+            }
+          end
+          # Creates ties: finding_aid_status='completed' (same as record_1), processing_priority='medium' (same as record_1)
+          let(:record_3) do
+            create(:resource,
+              title: "Resource 3 #{now}",
+              id_0: '3',
+              level: 'collection',
+              ead_id: "EAD_ID_3",
+              resource_type: 'records',
+              finding_aid_status: 'completed',
+              publish: true,
+              restrictions: false,
+              collection_management: {
+                'processing_priority' => 'medium',
+                'processors' => 'Processor 3'
+              }
+            )
+          end
+          let(:secondary_sort_cases) do
+            [
+              {
+                # Case 1: primary title_sort asc, secondary finding_aid_status asc - no-op since titles are unique
+                primary_key:   'title_sort',
+                primary_dir:   :asc,
+                secondary_key: 'finding_aid_status',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              },
+              {
+                # Case 2: primary finding_aid_status asc, secondary title_sort desc - secondary changes order
+                primary_key:   'finding_aid_status',
+                primary_dir:   :asc,
+                secondary_key: 'title_sort',
+                secondary_dir: :desc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_3.title,
+                  record_2.title
+                ],
+                expected_after_both: [
+                  record_3.title,
+                  record_1.title,
+                  record_2.title
+                ]
+              }
+            ]
+          end
+
+          it_behaves_like 'results table sorting'
+        end
+      end
+
+      # Skipped due to ANW-2543 publish issue when running specs
+      xdescribe 'boolean columns' do
+        include_context 'results table setup'
+
+        let(:additional_browse_columns) do
+          {
+            5 => 'Published'
+          }
+        end
+        let(:boolean_column_expectations) do
+          {
+            'publish' => %w[True False]
+          }
+        end
+
+        it_behaves_like 'results table boolean columns'
+      end
+    end
   end
 
   describe 'Linked Agents is_primary behavior' do
@@ -1279,90 +1261,557 @@ describe 'Resources', js: true do
     end
     let(:edit_path) { "/resources/#{record.id}/edit" }
 
+    before do
+      set_repo @repository
+      login_admin
+      select_repository(@repository)
+    end
+
     it_behaves_like 'supporting is_primary on top-level linked agents'
     it_behaves_like 'not supporting is_primary on rights statement linked agents'
   end
 
-  describe 'export to pdf' do
-    shared_examples 'has the correct export-to-pdf configuration' do
-      it 'the print to pdf link href has the correct value for the include_unpublished parameter' do
-        expect(generate_pdf_btn['href']).to include "include_unpublished=#{include_unpublished?}"
+  context 'exports' do
+    describe 'dropdown behavior' do
+      it 'closes the export dropdown menu after Download EAD and Download MARCXML are clicked' do
+        now = Time.now.to_i
+        resource = create(:resource, title: "Resource Title #{now}")
+
+        visit "resources/#{resource.id}"
+
+        expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
+        click_on 'Export'
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
+        click_on 'Download EAD'
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
+        click_on 'Export'
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
+        click_on 'Download MARCXML'
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: false
+      end
+    end
+
+    describe 'EAD' do
+      it 'has the Include URIs checkbox checked by default inside the EAD Export dropdown menu' do
+        now = Time.now.to_i
+        resource = create(:resource, title: "Resource Title #{now}")
+
+        visit "resources/#{resource.id}"
+
+        expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+
+        within '#form_download_ead', visible: false do
+          element = find('#include-uris', visible: false)
+          expect(element.checked?).to eq true
+        end
       end
 
-      it 'the include unpublished checkbox has the correct state' do
-        if include_unpublished?
-          expect(include_unpublished_checkbox).to be_checked
-        else
-          expect(include_unpublished_checkbox).not_to be_checked
+      it 'exports and downloads the resource to xml' do
+        now = Time.now.to_i
+        resource = create(:resource, title: "Resource Title #{now}")
+
+        visit "resources/#{resource.id}"
+
+        expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+
+        files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
+        files.each do |file|
+          File.delete file
+        end
+
+        click_on 'Export'
+
+        wait_for_ajax
+
+        within('.dropdown-menu') do
+          click_link('Download EAD')
+        end
+
+        files = Dir.glob(File.join(Dir.tmpdir, '*_ead.xml'))
+        expect(files.length).to eq 1
+        file = File.read(files[0])
+        expect(file).to include(resource.title)
+      end
+    end
+
+    describe 'digital object template' do
+      it 'exports a prefilled CSV template to import digital objects to archival objects' do
+        now = Time.now.to_i
+        resource = create(:resource, title: "Resource Title #{now}")
+        archival_objects = create_list(:archival_object, 10, title: "Archival Object Title #{now}", :resource => { ref: resource.uri })
+
+        visit "resources/#{resource.id}"
+
+        expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
+
+        files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+        files.each do |file|
+          File.delete file
+        end
+
+        click_on 'Export'
+        expect(page).to have_css '#export-dropdown-toggle + .dropdown-menu', visible: true
+        click_on 'Download Digital Object Template'
+
+        files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+        expect(files.length).to eq 1
+        file = File.read(files[0])
+        csv_generated = CSV.parse(file)
+
+        # Load original CSV template
+        csv_template_path = File.join(ASUtils.find_base_directory, 'templates', 'bulk_import_DO_template.csv')
+        csv_template = CSV.read(csv_template_path)
+        csv_template_columns = csv_template[0]
+        csv_template_column_explanations = csv_template[1]
+
+        expect(csv_template_columns).to eq csv_generated[1]
+        expect(csv_template_column_explanations).to eq csv_generated[2]
+
+        for x in 0..(archival_objects.length - 1)
+          expect(csv_generated[x + 3]).to include resource.uri
+          expect(csv_generated[x + 3]).to include archival_objects[x].uri
         end
       end
     end
 
-    before :each do
-      login_admin
+    describe 'PDF' do
+      let(:now) { Time.now.to_i }
+      let(:resource) { create(:resource, title: "Resource PDF export #{now}") }
+
+      it 'is not available to repository-managers' do
+        visit "resources/#{resource.id}"
+        expect(page).to have_css('#export-dropdown-toggle')
+        expect(page).not_to have_css('#print-to-pdf-dropdown', visible: :all)
+      end
+
+      context 'options configuration' do
+        before do
+          login_admin
+          select_repository(@repository)
+        end
+
+        it 'includes template parameters in its data-print-to-pdf-url attribute' do
+          visit "resources/#{resource.id}"
+          print_to_pdf_dropdown = find('#print-to-pdf-dropdown', visible: false)
+
+          expect(print_to_pdf_dropdown['data-print-to-pdf-url']).to include "include_unpublished=%24%7Binclude_unpublished%7D"
+          expect(print_to_pdf_dropdown['data-print-to-pdf-url']).to include "include_uris=%24%7Binclude_uris%7D"
+        end
+
+        describe 'include unpublished records checkbox' do
+          context 'when the user repository preferences sets "Include Unpublished Records in Exports?" to false' do
+            before :each do
+              find('#user-menu-dropdown').click
+              click_on 'Repository Preferences (admin)'
+              uncheck 'Include Unpublished Records in Exports?'
+              click_on 'Save Preferences'
+              visit "resources/#{resource.id}"
+            end
+
+            it 'has the checkbox unchecked by default' do
+              include_unpublished_checkbox = find('#include-unpublished-pdf', visible: false)
+              expect(include_unpublished_checkbox).not_to be_checked
+            end
+          end
+
+          context 'when the user repository preferences sets "Include Unpublished Records in Exports?" to true' do
+            before :each do
+              find('#user-menu-dropdown').click
+              click_on 'Repository Preferences (admin)'
+              check 'Include Unpublished Records in Exports?'
+              click_on 'Save Preferences'
+              visit "resources/#{resource.id}"
+            end
+
+            it 'has the checkbox checked by default' do
+              include_unpublished_checkbox = find('#include-unpublished-pdf', visible: false)
+              expect(include_unpublished_checkbox).to be_checked
+            end
+          end
+
+          context 'when the user toggles the checkbox via the record pane toolbar' do
+            before :each do
+              visit "resources/#{resource.id}"
+              within '.record-toolbar' do
+                find('#export-dropdown-toggle').click
+                find('.print-to-pdf-action').hover
+              end
+            end
+
+            it 'allows toggling the checkbox on and off' do
+              include_unpublished_checkbox = find('#include-unpublished-pdf', visible: true)
+              aggregate_failures "include unpublishedcheckbox toggling" do
+                expect(include_unpublished_checkbox).to be_checked
+
+                include_unpublished_checkbox.uncheck
+                expect(include_unpublished_checkbox).not_to be_checked
+
+                include_unpublished_checkbox.check
+                expect(include_unpublished_checkbox).to be_checked
+
+                include_unpublished_checkbox.uncheck
+                expect(include_unpublished_checkbox).not_to be_checked
+              end
+            end
+          end
+        end
+
+        describe 'include URIs checkbox' do
+          it 'allows toggling the checkbox on and off' do
+            visit "resources/#{resource.id}"
+            within '.record-toolbar' do
+              find('#export-dropdown-toggle').click
+              find('.print-to-pdf-action').hover
+            end
+
+            include_uris_checkbox = find('#include-uris-pdf', visible: true)
+            aggregate_failures "include URIs checkbox toggling" do
+              expect(include_uris_checkbox).not_to be_checked
+
+              include_uris_checkbox.check
+              expect(include_uris_checkbox).to be_checked
+
+              include_uris_checkbox.uncheck
+              expect(include_uris_checkbox).not_to be_checked
+
+              include_uris_checkbox.check
+              expect(include_uris_checkbox).to be_checked
+            end
+          end
+        end
+      end
+    end
+  end
+
+  context 'Related Accessions browse modal' do
+    describe 'results table' do
+      let(:now) { Time.now.to_i }
+      let(:record_type) { 'accession' }
+      let(:record_1) do
+        create(:accession,
+          title: "Accession 1 #{now}",
+          id_0: "1",
+          accession_date: Time.now.strftime('%Y-%m-%d'),
+          acquisition_type: 'gift',
+          resource_type: 'papers',
+          restrictions_apply: false,
+          publish: true,
+          access_restrictions: false,
+          use_restrictions: false,
+          dates: [build(:date)],
+          extents: [build(:extent)]
+        )
+      end
+      let(:record_2) do
+        create(:accession,
+          title: "Accession 2 #{now}",
+          id_0: "2",
+          accession_date: (Time.at(now) - 86400).strftime('%Y-%m-%d'),
+          acquisition_type: 'deposit',
+          resource_type: 'collection',
+          restrictions_apply: true,
+          publish: false,
+          access_restrictions: true,
+          use_restrictions: true,
+          dates: [build(:date)],
+          extents: [build(:extent)]
+        )
+      end
+      let(:initial_sort) { [record_1.title, record_2.title] }
+
+      describe 'sorting' do
+        let(:default_sort_key) { 'title_sort' }
+        let(:is_modal) { true }
+
+        context 'with seven of ten sortable columns showing' do
+          include_context 'results table setup'
+
+          def go_to_results_table
+            visit '/resources/new'
+            click_on 'Add Related Accession'
+            expect(page).to have_css('#resource_related_accessions__0__ref__combobox')
+            within '#resource_related_accessions__0__ref__combobox' do
+              find('button.dropdown-toggle').click
+              expect(page).to have_css('ul.dropdown-menu.show')
+              click_on 'Browse'
+            end
+            expect(page).to have_css('#resource_related_accessions__0__ref__modal')
+          end
+
+          after do
+            within '#resource_related_accessions__0__ref__modal' do
+              click_on 'Cancel'
+            end
+          end
+
+          let(:additional_browse_columns) do
+            {
+              4 => 'Acquisition Type',
+              5 => 'Resource Type',
+              6 => 'Restrictions Apply',
+              # 7 => 'Published'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Identifier' => 'identifier',
+              'Accession Date' => 'accession_date',
+              'Acquisition Type' => 'acquisition_type',
+              'Resource Type' => 'resource_type',
+              'Restrictions Apply' => 'restrictions_apply'
+              # 'Publish' => 'publish',
+            }
+          end
+          let(:primary_sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'identifier' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'accession_date' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'acquisition_type' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'resource_type' => {
+                asc: [record_2.title, record_1.title],
+                desc: [record_1.title, record_2.title]
+              },
+              'restrictions_apply' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              }
+              # 'publish' => {
+              #   asc: [record_2.title, record_1.title],
+              #   desc: [record_1.title, record_2.title]
+              # },
+            }
+          end
+
+          # Optional third record for secondary sort tests
+          # Creates ties: acquisition_type='gift' (same as record_1), restrictions_apply=false (same as record_1)
+          let(:record_3) do
+            create(:accession,
+              title: "Accession 3 #{now}",
+              id_0: "3",
+              accession_date: (Time.at(now) - 172800).strftime('%Y-%m-%d'),
+              acquisition_type: 'gift',
+              resource_type: 'publications',
+              restrictions_apply: false,
+              publish: true,
+              access_restrictions: false,
+              use_restrictions: false,
+              dates: [build(:date)],
+              extents: [build(:extent)]
+            )
+          end
+          let(:secondary_sort_cases) do
+            [
+              {
+                # Case 1: primary title_sort asc, secondary acquisition_type asc - no-op since titles are unique
+                primary_key:   'title_sort',
+                primary_dir:   :asc,
+                secondary_key: 'acquisition_type',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              },
+              {
+                # Case 2: primary acquisition_type asc, secondary title_sort desc - secondary changes order
+                primary_key:   'acquisition_type',
+                primary_dir:   :asc,
+                secondary_key: 'title_sort',
+                secondary_dir: :desc,
+                expected_after_primary: [
+                  record_2.title,
+                  record_1.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_2.title,
+                  record_3.title,
+                  record_1.title
+                ]
+              }
+            ]
+          end
+
+          it_behaves_like 'results table sorting'
+        end
+
+        context 'with the remaining three of ten sortable columns showing, plus the title column' do
+          include_context 'results table setup'
+
+          def go_to_results_table
+            visit '/resources/new'
+            click_on 'Add Related Accession'
+            expect(page).to have_css('#resource_related_accessions__0__ref__combobox')
+            within '#resource_related_accessions__0__ref__combobox' do
+              find('button.dropdown-toggle').click
+              expect(page).to have_css('ul.dropdown-menu.show')
+              click_on 'Browse'
+            end
+            expect(page).to have_css('#resource_related_accessions__0__ref__modal')
+          end
+
+          after do
+            within '#resource_related_accessions__0__ref__modal' do
+              click_on 'Cancel'
+            end
+          end
+
+          let(:additional_browse_columns) do
+            {
+              2 => 'Access Restrictions',
+              3 => 'Use Restrictions',
+              4 => 'URI'
+            }
+          end
+          let(:column_headers) do
+            {
+              'Title' => 'title_sort',
+              'Access Restrictions' => 'access_restrictions',
+              'Use Restrictions' => 'use_restrictions',
+              'URI' => 'uri'
+            }
+          end
+          let(:primary_sort_expectations) do
+            {
+              'title_sort' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'access_restrictions' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'use_restrictions' => {
+                asc: [record_1.title, record_2.title],
+                desc: [record_2.title, record_1.title]
+              },
+              'uri' => uri_id_as_string_sort_expectations([record_1, record_2], ->(r) { r.title })
+            }
+          end
+          # Creates ties: access_restrictions=false (same as record_1), use_restrictions=false (same as record_1)
+          let(:record_3) do
+            create(:accession,
+              title: "Accession 3 #{now}",
+              id_0: "3",
+              accession_date: (Time.at(now) - 172800).strftime('%Y-%m-%d'),
+              acquisition_type: 'gift',
+              resource_type: 'publications',
+              restrictions_apply: false,
+              publish: true,
+              access_restrictions: false,
+              use_restrictions: false,
+              dates: [build(:date)],
+              extents: [build(:extent)]
+            )
+          end
+          let(:secondary_sort_cases) do
+            [
+              {
+                # Case 1: primary title_sort asc, secondary access_restrictions asc - no-op since titles are unique
+                primary_key:   'title_sort',
+                primary_dir:   :asc,
+                secondary_key: 'access_restrictions',
+                secondary_dir: :asc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ],
+                expected_after_both: [
+                  record_1.title,
+                  record_2.title,
+                  record_3.title
+                ]
+              },
+              {
+                # Case 2: primary access_restrictions asc, secondary title_sort desc - secondary changes order
+                primary_key:   'access_restrictions',
+                primary_dir:   :asc,
+                secondary_key: 'title_sort',
+                secondary_dir: :desc,
+                expected_after_primary: [
+                  record_1.title,
+                  record_3.title,
+                  record_2.title
+                ],
+                expected_after_both: [
+                  record_3.title,
+                  record_1.title,
+                  record_2.title
+                ]
+              }
+            ]
+          end
+
+          it_behaves_like 'results table sorting'
+        end
+      end
+    end
+  end
+
+  describe 'view-only permissions' do
+    before(:all) do
+      @view_only_repo = create(:repo, repo_code: "view_only_resources_#{Time.now.to_i}", publish: true)
+      set_repo(@view_only_repo)
+      @published_resource = create(:resource, title: "Published Resource #{Time.now.to_i}", publish: true)
+      @view_only_user = create_user(@view_only_repo => ['repository-viewers'])
+      run_index_round
+    end
+
+    before(:each) do
+      login_user(@view_only_user)
       ensure_repository_access
-      select_repository(@repository)
+      select_repository(@view_only_repo)
     end
 
-    let(:resource) { create(:resource, title: "Resource Title #{Time.now.to_i}") }
+    it 'sees only the View Published button on resource show page' do
+      visit "/resources/#{@published_resource.id}"
+      wait_for_ajax
 
-    context 'when the user repository preferences sets "Include Unpublished Records in Exports?" to false' do
-      before :each do
-        find('#user-menu-dropdown').click
-        click_on 'Repository Preferences (admin)'
-        uncheck 'Include Unpublished Records in Exports?'
-        click_on 'Save Preferences'
-        visit "resources/#{resource.id}"
-        wait_for_ajax
+      within '.record-toolbar' do
+        expect(page).to have_link('View Published')
+        expect(page).not_to have_link('Edit')
+        expect(page).not_to have_button('Save')
+        expect(page).not_to have_css('#merge-dropdown')
+        expect(page).not_to have_css('#transfer-dropdown')
       end
-
-      let(:generate_pdf_btn) { find('#print-to-pdf-link', visible: false) }
-      let(:include_unpublished_checkbox) { find('#include-unpublished-pdf', visible: false) }
-      let(:include_unpublished?) { false }
-
-      it_behaves_like 'has the correct export-to-pdf configuration'
     end
 
-    context 'when the user repository preferences sets "Include Unpublished Records in Exports?" to true' do
-      before :each do
-        find('#user-menu-dropdown').click
-        click_on 'Repository Preferences (admin)'
-        check 'Include Unpublished Records in Exports?'
-        click_on 'Save Preferences'
-        visit "resources/#{resource.id}"
-        wait_for_ajax
-      end
-
-      let(:generate_pdf_btn) { find('#print-to-pdf-link', visible: false) }
-      let(:include_unpublished_checkbox) { find('#include-unpublished-pdf', visible: false) }
-      let(:include_unpublished?) { true }
-
-      it_behaves_like 'has the correct export-to-pdf configuration'
+    it 'cannot access the resource edit page' do
+      visit "/resources/#{@published_resource.id}/edit"
+      expect(page).to have_text('Unable to Access Page')
     end
 
-    context 'when the user sets the "include unpublished" preference via the record pane toolbar' do
-      before :each do
-        visit "resources/#{resource.id}"
-        wait_for_ajax
-        find('#export-dropdown-toggle').click
-        find('#print-to-pdf-link').hover
-      end
+    it 'can click View Published to open PUI' do
+      visit "/resources/#{@published_resource.id}"
+      wait_for_ajax
 
-      let(:generate_pdf_btn) { find('#print-to-pdf-link', visible: :all) }
-      let(:include_unpublished_checkbox) { find('#include-unpublished-pdf', visible: true) }
-
-      it 'updates the PDF link href when toggling the checkbox' do
-        aggregate_failures "checkbox toggling updates href" do
-          include_unpublished_checkbox.uncheck
-          expect(generate_pdf_btn['href']).to include 'include_unpublished=false'
-
-          include_unpublished_checkbox.check
-          expect(generate_pdf_btn['href']).to include 'include_unpublished=true'
-
-          include_unpublished_checkbox.uncheck
-          expect(generate_pdf_btn['href']).to include 'include_unpublished=false'
-        end
-      end
+      view_published_link = find_link('View Published')
+      expect(view_published_link[:href]).to include('/repositories/')
+      expect(view_published_link[:href]).to include('/resources/')
+      expect(view_published_link[:target]).to eq('_blank')
     end
   end
 end

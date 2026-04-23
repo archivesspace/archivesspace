@@ -2,7 +2,7 @@
 
 <div class="filters my-3">
  <% unless @filters.blank? && @search.filters_blank? %>
-    <h3><%= t('search_results.filtered_by')%> </h3>
+    <h2><%= t('search_results.filtered_by')%> </h2>
        <ul class='p-0 mt-4 mb-5'>
         <% @search.get_filter_q_arr(@page_search).each do |f_q| %>
     <% unless f_q['v'].blank? %>
@@ -33,7 +33,7 @@
 </div>
 
 <% if @search[:dates_within] || @search[:text_within] %>
-<h3 class=''><%= t('search_results.filter.head') %></h3>
+<h2 class=''><%= t('search_results.filter.head') %></h2>
  <div class="filter_more">
    <%= form_tag(app_prefix("#{@base_search}"), method: 'get', :class=> "form-horizontal container mx-0 mt-4 mb-5") do %>
         <%= render partial: 'shared/hidden_params', :locals => { :no_ids => true } %>

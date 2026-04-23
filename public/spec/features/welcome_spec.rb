@@ -25,4 +25,8 @@ describe 'Welcome page', js: true do
 
     expect(page).to be_axe_clean.checking_only :'color-contrast'
   end
+
+  it 'has a skip link anchor' do
+    expect(page).to have_css('#maincontent[tabindex="-1"]', visible: :hidden)
+  end
 end

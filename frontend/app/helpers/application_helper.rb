@@ -94,7 +94,7 @@ module ApplicationHelper
 
     html = "<div class='"
     html += "token " if not opts[:inside_token_editor]
-    html += "#{opts[:type]} has-popover' data-toggle='popover' data-trigger='#{opts[:trigger] || "custom"}' data-html='true' data-placement='#{opts[:placement] || "bottom"}' data-content=\"#{CGI.escape_html(popover_content)}\" tabindex='1'>"
+    html += "#{opts[:type]} has-popover' data-toggle='popover' data-trigger='#{opts[:trigger] || "custom"}' data-html='true' data-placement='#{opts[:placement] || "auto"}' data-content=\"#{CGI.escape_html(popover_content)}\" tabindex='0'>"
 
     if opts[:icon_class]
       html += "<span class='icon-token #{opts[:icon_class]}'></span>"
@@ -132,7 +132,7 @@ module ApplicationHelper
               :title => title,
               :class => "context-help has-tooltip #{x_padding} #{klass}",
               :style => style,
-              "data-placement" => "bottom",
+              "data-placement" => "auto",
               "data-toggle" => "tooltip",
               "data-boundary" => "viewport"
             }.merge(opts[:link_opts] || {})
@@ -179,7 +179,7 @@ module ApplicationHelper
     else
       options = {}
       options[:title] = tooltip
-      options["data-placement"] = "bottom"
+      options["data-placement"] = "auto"
       options["data-html"] = true
       options["data-delay"] = 500
       options["data-trigger"] = "manual"
@@ -423,6 +423,29 @@ module ApplicationHelper
 
   def full_mode?
     user_can?("show_full_agents") || user_can?("administer_system")
+  end
+
+  def user_can_view_only?(record_type)
+    update_permission = case record_type
+                        when 'accession'
+                          'update_accession_record'
+                        when 'resource', 'archival_object'
+                          'update_resource_record'
+                        when 'digital_object', 'digital_object_component'
+                          'update_digital_object_record'
+                        when /^agent/
+                          'update_agent_record'
+                        when 'subject'
+                          'update_subject_record'
+                        when 'top_container'
+                          'update_container_record'
+                        when 'classification', 'classification_term'
+                          'update_classification_record'
+                        end
+
+    return false unless update_permission
+
+    user_can?('view_repository') && !user_can?(update_permission)
   end
 
   def has_agent_subrecords?(agent)

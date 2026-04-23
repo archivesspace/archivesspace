@@ -72,6 +72,51 @@ def login_archivist
   end
 end
 
+def login_viewer
+  uuid = SecureRandom.uuid
+
+  login_admin
+
+  visit "#{STAFF_URL}/users/new"
+
+  fill_in 'user_username_', with: "viewer-user-#{uuid}"
+  fill_in 'user_name_', with: "viewer-user-#{uuid}"
+  fill_in 'user_password_', with: "viewer-user-#{uuid}"
+  fill_in 'user_confirm_password_', with: "viewer-user-#{uuid}"
+
+  find('#create_account').click
+
+  expect(page).to have_text "User Created: viewer-user-#{uuid}"
+
+  visit "#{STAFF_URL}/users/manage_access"
+
+  find_user_element = find_user_table_row_in_manage_user_access_page("viewer-user-#{uuid}")
+
+  within find_user_element do
+    click_on 'Edit Groups'
+  end
+
+  check 'repository-viewers'
+
+  click_on 'Update Account'
+
+  expect(page).to have_text 'User Saved'
+
+  visit "#{STAFF_URL}/logout"
+
+  fill_in 'username', with: "viewer-user-#{uuid}"
+  fill_in 'password', with: "viewer-user-#{uuid}"
+
+  click_on 'Sign In'
+
+  begin
+    element = find('.alert.alert-danger.with-hide-alert')
+    raise "Login failed for user: viewer-user-#{uuid}" if element.text == 'Login attempt failed'
+  rescue Capybara::ElementNotFound
+    # Pass on successful login
+  end
+end
+
 # Ensure the system has at least one repository
 def ensure_test_repository_exists
   menu_items = all('.global-header .global-header-nav li')
@@ -325,15 +370,18 @@ def extract_created_record_id(string)
 end
 
 def expect_form_values(form_values_table)
-  form_values = form_values_table.hashes
+  wait_for_ajax
+  sleep 2
 
-  form_values.each do |row|
-    section_title = find('h3', text: row['form_section'], match: :first)
-    section = section_title.ancestor('section', match: :first)
-    expect(section[:id]).to_not eq nil
+  aggregate_failures do
+    form_values_table.hashes.each do |row|
+      section_title = find('h3', text: row['form_section'], match: :first)
+      section = section_title.ancestor('section', match: :first)
+      expect(section[:id]).to_not eq nil
 
-    within section do
-      expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
+      within section do
+        expect(page).to have_field(row['form_field'], with: /#{Regexp.quote(row['form_value'])}/i)
+      end
     end
   end
 end

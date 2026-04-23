@@ -52,8 +52,9 @@ jobs:
       backend: ${{ steps.filter.outputs.backend }}
       indexer: ${{ steps.filter.outputs.indexer }}
       public: ${{ steps.filter.outputs.public }}
+      common: ${{ steps.filter.outputs.common }}
     steps:
-    - uses: dorny/paths-filter@v3
+    - uses: dorny/paths-filter@v4
       id: filter
       with:
         filters: |
@@ -77,6 +78,9 @@ jobs:
             - 'common/**'
             - 'solr/**'
             - 'indexer/**'
+          common:
+            - '.github/workflows/common.yml'
+            - 'common/**'
 
   frontend:
     needs: changes
@@ -87,6 +91,14 @@ jobs:
       java-version: ${{ inputs.java-version || 17 }}
       group-choice: 'all'
       browser: ${{ inputs.browser || 'firefox' }}
+
+  common:
+    needs: changes
+    if: ${{ needs.changes.outputs.common == 'true' }}
+    uses: ./.github/workflows/common.yml
+    secrets: inherit
+    with:
+      java-version: ${{ inputs.java-version || 17 }}
 
   backend:
     needs: changes

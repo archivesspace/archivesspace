@@ -1,0 +1,61 @@
+nl:
+  reports:
+    formats:
+      json: JSON
+      csv: CSV
+      pdf: PDF
+      html: HTML
+      rtf: RTF
+    linked_records_in_json: Gekoppelde records in JSON
+    headings:
+      context: Bron/Toewijzing
+      container_profile: Containerprofiel
+      location: Locatie
+      title: Titel
+      type: Type
+      indicator: Indicator
+      barcode: Barcode
+  states:
+    suppressed: Onderdrukt
+    deleted: Verwijderd
+    auto_generated: Wordt automatisch gegenereerd bij registratie
+  validation_errors:
+    mixed_content_invalid_inline_ead: "Ongeldige EAD-opmaak: gebruik rechte aanhalingstekens (\" of ')
+      voor attribuutwaarden en zorg ervoor dat tags goed gevormd zijn."
+    mixed_content_disallowed_tag: "Niet-toegestane HTML-tag gedetecteerd. Om veiligheidsredenen zijn tags
+      zoals &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; en formulierelementen niet toegestaan in velden
+      met gemengde inhoud."
+  repository:
+    _singular: Collectiebeherende instelling
+    _plural: Collectiebeherende instellingen
+  subject:
+    _singular: Onderwerp
+    _plural: Onderwerpen
+  classification:
+    creator: Archiefvormer of verzamelaar
+  agent_person:
+    _singular: Persoon
+    _plural: Personen
+  agent_family:
+    _singular: Familie
+    _plural: Families
+  agent_software:
+    _singular: Software
+    _plural: Software
+  agent_contact:
+    name: Naam contactpersoon
+    salutation: Aanhef
+    address_1: Adres 1
+    address_2: Adres 2
+    address_3: Adres 3
+    city: Plaats
+    region: Staat/regio
+    country: Land
+    post_code: Postcode
+    fax: Fax
+    email: E‑mail
+  telephone:
+    _plural: Telefoonnummers
+    number_type: Soort nummer
+    number: Nummer
+    ext: Doorkiesnummer

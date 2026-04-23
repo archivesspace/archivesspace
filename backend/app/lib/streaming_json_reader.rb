@@ -1,6 +1,8 @@
 # Reads a large file of JSON records in a manner that only keeps one record in
 # memory at a time.
 
+require_relative 'jackson_jars'
+
 class StreamingJsonReader
 
   def initialize(filename)
@@ -24,7 +26,7 @@ class StreamingJsonReader
     # exception, which adds a lot of overhead (about 30 seconds per import cycle
     # for 500,000 records instead of ~5 seconds using this method).
     #
-    @skip_next_character = org.codehaus.jackson.impl.ReaderBasedParser.java_class.declared_method("_skipWSOrEnd")
+    @skip_next_character = com.fasterxml.jackson.core.json.ReaderBasedJsonParser.java_class.declared_method("_skipWSOrEnd")
     @skip_next_character.accessible = true
   end
 
@@ -45,7 +47,7 @@ class StreamingJsonReader
     result = 0
 
     with_record_stream do |stream|
-      mapper = org.codehaus.jackson.map.ObjectMapper.new
+      mapper = com.fasterxml.jackson.databind.ObjectMapper.new
       parser = mapper.getJsonFactory.createJsonParser(stream)
 
       while parser.nextToken
@@ -67,7 +69,7 @@ class StreamingJsonReader
 
     @record_index = -1
     with_record_stream do |stream|
-      mapper = org.codehaus.jackson.map.ObjectMapper.new
+      mapper = com.fasterxml.jackson.databind.ObjectMapper.new
       parser = mapper.getJsonFactory.createJsonParser(stream)
 
       while parser.nextToken

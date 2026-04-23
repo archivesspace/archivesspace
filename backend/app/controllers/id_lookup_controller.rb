@@ -50,7 +50,7 @@ class ArchivesSpaceService < Sinatra::Base
         # Finding resources with ARKs
         
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/:repo_id:/find_by_id/resources?ark[]=ark%3A%2F####%2F######;resolve[]=resources"
+        "http://localhost:8089/repositories/:repo_id:/find_by_id/resources?ark[]=ark%3A%2F####%2F######&resolve[]=resources"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # ark%3A%2F####%2F###### with the ARK you are searching for - NOTE, make sure to encode any characters like 
         # : into %3A and / into %2F - and only add resolve[]=resources if you want the JSON for the returned record - 
@@ -132,21 +132,21 @@ class ArchivesSpaceService < Sinatra::Base
         # If using Git Bash, replace set with export
   
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/:repo_id:/find_by_id/archival_objects?component_id[]=hello_im_a_component_id;resolve[]=archival_objects"
+        "http://localhost:8089/repositories/:repo_id:/find_by_id/archival_objects?component_id[]=hello_im_a_component_id&resolve[]=archival_objects"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # "hello_im_a_component_id" with the component ID you are searching for, and only add 
         # "resolve[]=archival_objects" if you want the JSON for the returned record - otherwise, it will return the 
         # record URI only
   
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/:repo_id:/find_by_id/archival_objects?ref_id[]=hello_im_a_ref_id;resolve[]=archival_objects"
+        "http://localhost:8089/repositories/:repo_id:/find_by_id/archival_objects?ref_id[]=hello_im_a_ref_id&resolve[]=archival_objects"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # "hello_im_a_ref_id" with the ref ID you are searching for, and only add 
         # "resolve[]=archival_objects" if you want the JSON for the returned record - otherwise, it will return the 
         # record URI only
 
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/:repo_id:/find_by_id/archival_objects?ark[]=ark%3A%2F####%2F######;resolve[]=archival_objects"
+        "http://localhost:8089/repositories/:repo_id:/find_by_id/archival_objects?ark[]=ark%3A%2F####%2F######&resolve[]=archival_objects"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # "ark%3A%2F####%2F######" with the ark you are searching for - NOTE, make sure to encode any characters like 
         # : into %3A and / into %2F - and only add "resolve[]=archival_objects" if you want the JSON for the returned 
@@ -221,7 +221,7 @@ class ArchivesSpaceService < Sinatra::Base
         # If using Git Bash, replace set with export
   
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/:repo_id:/find_by_id/digital_object_components?component_id[]=im_a_do_component_id;resolve[]=digital_object_components"
+        "http://localhost:8089/repositories/:repo_id:/find_by_id/digital_object_components?component_id[]=im_a_do_component_id&resolve[]=digital_object_components"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # "im_a_do_component_id" with the component ID you are searching for, and only add 
         # "resolve[]=digital_object_components" if you want the JSON for the returned record - otherwise, it will return
@@ -270,7 +270,7 @@ class ArchivesSpaceService < Sinatra::Base
         # If using Git Bash, replace set with export
   
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/:repo_id:/find_by_id/digital_objects?digital_object_id[]=hello_im_a_digobj_id;resolve[]=digital_objects"
+        "http://localhost:8089/repositories/:repo_id:/find_by_id/digital_objects?digital_object_id[]=hello_im_a_digobj_id&resolve[]=digital_objects"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # "hello_im_a_digobj_id" with the digital object ID you are searching for, and only add 
         # "resolve[]=digital_objects" if you want the JSON for the returned record - otherwise, it will return the 
@@ -319,14 +319,14 @@ class ArchivesSpaceService < Sinatra::Base
         # If using Git Bash, replace set with export
     
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/:repo_id:/find_by_id/top_containers?indicator[]=123;resolve[]=top_containers"
+        "http://localhost:8089/repositories/:repo_id:/find_by_id/top_containers?indicator[]=123&resolve[]=top_containers"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # "123" with the indicator you are searching for, and only add 
         # "resolve[]=top_containers" if you want the JSON for the returned record - otherwise, it will return the 
         # record URI only
     
         curl -H "X-ArchivesSpace-Session: $SESSION" //
-        "http://localhost:8089/repositories/:repo_id:/find_by_id/top_containers?barcode[]=123456789;resolve[]=top_containers"
+        "http://localhost:8089/repositories/:repo_id:/find_by_id/top_containers?barcode[]=123456789&resolve[]=top_containers"
         # Replace "http://localhost:8089" with your ASpace API URL, :repo_id: with the repository ID, 
         # "123456789" with the barcode you are searching for, and only add 
         # "resolve[]=top_containers" if you want the JSON for the returned record - otherwise, it will return the 

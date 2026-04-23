@@ -221,6 +221,7 @@ de:
     filtered_by: Gefiltert durch
     title: Suchergebnisse
     context: Gefunden in
+    select_record: "%{title} auswählen"
     selected: Gewählt?
     no_results: Keine Aufzeichnungen gefunden
     no_results_prefix: Es gab keine Suchergebnisse für
@@ -382,6 +383,7 @@ de:
         cancel: Aufgabe abbrechen
         add_file: Datei hinzufügen
         follow_log: Protokoll verfolgen
+        following_log: Protokoll wird verfolgt
       section:
         basic_information: Grundlegende Informationen
         status: Aufgaben-Status
@@ -781,6 +783,7 @@ de:
       barcode: Strichcode
       exported_to_ils: Exportiert ins IBS
       container_profile: Behältnis-Profil
+      location_profile: Standortprofil
       internal_note: Interne Anmerkung
       location: Standort
       type: Typ
@@ -796,6 +799,8 @@ de:
     inline_login_title: Sitzung abgelaufen
     gone: Ihre Backend-Sitzung wurde nicht gefunden
     expired: Ihre Sitzung ist wegen Inaktivität abgelaufen
+  skipnav:
+    main_content: Zum Inhalt springen
   batch_delete:
     archival_records:
       success: Aufzeichnungen gelöscht
@@ -901,6 +906,7 @@ de:
         (Körperschaft)
       accession: Standardwerte von Eingangs-Aufzeichnungen
       agent_software: Standardwerte einer Akteur-Aufzeichnung (Software)
+      container_profile: Standardwerte eines Behältnis-Profils
     messages:
       defaults_updated: Standardwerte aktualisiert
   required_fields:
@@ -1047,7 +1053,7 @@ de:
           <strong>%{archival_object_display_string}</strong>
         created_with_parent: Archiv-Objekt 
           <strong>%{archival_object_display_string}</strong> als Kind von 
-          <strong>%{parent.display_string}</strong> für Aufzeichnung 
+          <strong>%{parent_display_string}</strong> für Aufzeichnung 
           <strong>%{resource_title}</strong> erstellt
         updated_with_parent: Archiv-Objekt 
           <strong>%{archival_object_display_string}</strong> aktualisiert
@@ -1072,6 +1078,8 @@ de:
           <strong>%{archival_object_display_string}</strong> aktualisiert
         transfer_error: 'Konnte das Archiv-Objekt wegen einem Fehler oder Konflikt
           nicht übertragen: <pre>%{exception}</pre>'
+        transfer_confirm_message: Die Aufzeichnung '%{ao}' wird zur von Ihnen ausgewählten Aufzeichnung übertragen
+        transfer_confirm_message_with_resource: Die Aufzeichnung '%{ao}' wird zu der Aufzeichnung '%{resource}' übertragen
         transfer_success: Archiv-Objekt 
           <strong>%{archival_object_display_string}</strong> erfolgreich zu 
           Aufzeichnung <strong>%{resource_title}</strong> übertragen
@@ -1213,7 +1221,7 @@ de:
         suppressed_info: Digitales Objekt ist unterdrückt und kann nicht 
           bearbeitet werden
         delete_conflict: 'Digitales Objekt konnte nicht gelöscht werden: <pre>%{error}</pre>'
-        transfer_description: Übertrage diese Aufzeichnung nach...
+        transfer_description: Übertrage dieses digitale Objekt nach...
         transfer_target: Wählen Sie einen Aufbewahrungsort für die Übertragung
         merged: Digitale Objekte zusammengeführt
       action:
@@ -1614,10 +1622,12 @@ de:
         show_active: Aktive Benutzer anzeigen
         show_inactive: Inaktive Benutzer anzeigen
         deactivate_user: Deaktivieren
+        deactivate_user_confirm: Sind Sie sicher, dass Sie diesen Benutzer deaktivieren möchten?
         edit: Benutzer bearbeiten
         update_account: Benutzerkonto aktualisieren
         create: Benutzer erstellen
         activate_user: Aktivieren
+        activate_user_confirm: Sind Sie sicher, dass Sie diesen Benutzer aktivieren möchten?
         update_self: Benutzerkonto verwalten
     source: Authentifizierung
   use_date:
@@ -2283,7 +2293,7 @@ de:
       der Ober- zur Unterseite) des Behältnisses.</p>\n"
     stacking_limit_tooltip: "<p>Die Anzahl von Behältnissen, die übereinander gestapelt
       werden können. Leer lassen, wenn es keine Obergrenze gibt. Muss eine positive
-      Ganzzahl sein.</p>\n"
+      Ganzzahl oder Null sein.</p>\n"
     _singular: Behältnis-Profil
     _plural: Behältnis-Profile
     name_tooltip: "<p>ERFORDERLICHES FELD. Der Name des Behältnis-Profils. Kann generisch
@@ -2452,6 +2462,12 @@ de:
     download_spreadsheet: Tabelle herunterladen
     download_spreadsheet_modal_message: Das Erstellen dieser Tabelle kann einige
       Augenblicke dauern.
+    too_many_rows_warning:
+      "Warnung: Die Anzahl der Zeilen, die in dieser Tabelle generiert werden, übersteigt die Anzahl der Zeilen, die aktualisiert werden können
+      über den Hintergrundjob Bulk Archival Object Updater. Wenn Sie planen, den Bulk Archival Object Updater-Job mit auszuführen
+      Um diese Tabelle zu verwenden, müssen Sie die Anzahl der Zeilen in dieser Tabelle auf kleiner oder gleich reduzieren 
+      <strong>%{max_row_count} Zeilen</strong> vor der Aufnahme. Erwägen Sie jetzt die Erstellung einer kleineren Tabelle.  
+      Diese Warnung kann getrost ignoriert werden, wenn Sie nicht beabsichtigen, mit diesen Daten einen Bulk Archival Object Updater-Job auszuführen."
   assessment:
     _frontend:
       record_types: Aufzeichnung-Typen
@@ -2833,8 +2849,9 @@ de:
         add: Eingangs-Verknüpfung hinzufügen
     _singular: Eingangs-Verknüpfung
   footer:
-    public_interface: <a href="%{public_url}">Zum öffentlichen Katalog</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+    keyboard_shortcuts: Tastaturkürzel
+    public_interface_html: <a href="%{public_url}">Zum öffentlichen Katalog</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
       target='_blank'>Rückmeldung geben oder ein Problem melden</a>
-    archivesspace_home: Besuchen Sie <a 
+    archivesspace_home_html: Besuchen Sie <a
       href='http://archivesspace.org'>ArchivesSpace.org</a>

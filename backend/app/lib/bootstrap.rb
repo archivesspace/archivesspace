@@ -27,6 +27,7 @@ require "ashttp"
 require "asconstants"
 require 'open-uri'
 require 'aspace_i18n'
+require 'logger'
 require 'log'
 require_relative 'exceptions'
 require 'config/config-distribution'

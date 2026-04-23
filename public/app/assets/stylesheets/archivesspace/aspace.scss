@@ -77,7 +77,7 @@ a img {
   border-color: $white;
 }
 
-.more-facets {
+.more-facets__controls {
   .btn {
     border: 1px solid $primary-color;
     color: $primary-color;
@@ -88,10 +88,13 @@ a img {
       color: $secondary-color;
     }
   }
-  .more-facets__facets,
   .more-facets__less {
     display: none;
   }
+}
+
+.more-facets__facets {
+  display: none;
 }
 
 .tabbing.nav-pills > li > a {
@@ -296,7 +299,7 @@ a img {
 }
 
 .record-header {
-  word-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .record-toolbar {
@@ -400,22 +403,13 @@ a:hover {
 }
 
 h1,
-.h1 {
+.h1,
+.site-title {
   font-family: $sans-font;
-  font-size: rem-calc(30);
+  font-size: rem-calc(24);
   font-weight: bold;
   color: $primary-color;
-}
 
-h1,
-.h1 {
-  font-size: rem-calc(24);
-}
-
-/* we want to shrink the font size of h1 in smaller sizes */
-
-h1,
-.h1 {
   @include media-breakpoint-down(sm) {
     font-size: rem-calc(22);
   }
@@ -896,14 +890,12 @@ span.head {
 }
 
 .panel-heading {
-  word-break: break-word;
   white-space: normal;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .tab-pane,
 .page-actions {
-  word-break: break-word;
   overflow-wrap: anywhere;
 }
 

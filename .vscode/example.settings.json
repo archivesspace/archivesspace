@@ -1,0 +1,12 @@
+{
+  "cucumber.features": [
+    "e2e-tests/**/*.feature"
+  ],
+  "cucumber.glue": [
+    "e2e-tests/staff_features/shared/step_definitions.rb",
+    "e2e-tests/**/step_definitions/**/*.rb"
+  ],
+  "[cucumber]": {
+    "editor.formatOnSave": true
+  }
+}

@@ -72,6 +72,7 @@ it:
     _plural: Numeri telefonici
     number_type: Tipo di numero
     number: Numero
+    ext: Interno telefonico
   agent_person:
     _singular: Persona
     _plural: Persone
@@ -435,6 +436,7 @@ it:
     id_3: Identificatore 4
   archival_object:
     component_id: Identificatore unico del componente
+    import_current_ark: Importa ARK corrente
   resource:
     id_0: Identificatore
     id_1: Identificatore 2
@@ -496,6 +498,7 @@ it:
       pdf: PDF
       html: HTML
       rtf: RTF
+    linked_records_in_json: Record collegati in JSON
     headings:
       context: Risorsa/Accesso
       container_profile: Profilo del Contenitore
@@ -505,4 +508,8 @@ it:
       indicator: Indicatore
       barcode: Codice a Barre
   validation_errors:
-    mixed_content_invalid_inline_ead: "Markup EAD non valido: usa virgolette dritte (\" o ') per i valori degli attributi e assicurati che i tag siano ben formati."
+    mixed_content_invalid_inline_ead: "Markup EAD non valido: usa virgolette dritte (\" o ') per i valori
+      degli attributi e assicurati che i tag siano ben formati."
+    mixed_content_disallowed_tag: "Tag HTML non consentito rilevato. Per motivi di sicurezza, tag come
+      &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; ed elementi di modulo non sono consentiti nei campi
+      a contenuto misto."

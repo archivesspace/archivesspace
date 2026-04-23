@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/vscode/devcontainers/java:11
 
 ARG GECKODRIVER_VERSION=0.30.0
-ARG MYSQL_CONNECTOR_VERSION=
+ARG MYSQL_CONNECTOR_VERSION=9.1.0
 
 COPY . /archivesspace
 WORKDIR /archivesspace
@@ -20,7 +20,7 @@ RUN echo 'Downloading Packages' && \
       mycli \
       netbase \
       npm \
-      openjdk-17-jre-headless \
+      openjdk-21-jre-headless \
       python3-pkg-resources \
       python3-setuptools \
       ruby-dev \
@@ -30,19 +30,17 @@ RUN echo 'Downloading Packages' && \
       vim \
       wget \
     && \
-    curl https://sh.rustup.rs -sSf | bash -s -- -y && \
     gem install bundler rubocop solargraph && \
-    mkdir -p /opt && cd /opt && \
-    git clone https://github.com/mozilla/geckodriver.git && cd geckodriver  && \
-    git checkout v${GECKODRIVER_VERSION} && \
-    /root/.cargo/bin/cargo build && \
-    mv ./target/debug/geckodriver /usr/local/bin && \
+    wget -q https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz && \
+    tar -xzf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -C /usr/local/bin && \
+    chmod +x /usr/local/bin/geckodriver && \
+    rm geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p /var/log/supervisor && \
     cd /archivesspace/common/lib && \
-    wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.23/mysql-connector-java-8.0.23.jar && \
+    wget https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/${MYSQL_CONNECTOR_VERSION}/mysql-connector-j-${MYSQL_CONNECTOR_VERSION}.jar && \
     cd - && \
     ./build/run bootstrap
 

@@ -673,7 +673,8 @@ en:
     descriptive_note_tooltip: |
         <p>The content of the note, providing details about the linked authority record.</p>
     file_uri_tooltip: |
-        <p>A URI for an equivalent record in an external authority file. Example: http://id.loc.gov/authorities/names/n80060393 (for Library of Congress Linked Data Serviceentry for Robert W. Service).</p>
+        <p>A URI for an equivalent record in an external authority file.</p>
+        <p>Example: http://id.loc.gov/authorities/names/n80060393 (for Library of Congress Linked Data Service entry for Robert W. Service).</p>
     file_version_xlink_actuate_attribute_tooltip: |
         <p>Indicates whether associated URI should be resolved when the Agent record is rendered.</p>
     file_version_xlink_show_attribute_tooltip: |
@@ -1864,10 +1865,11 @@ en:
         <p>See DACS 4.1-4.4</p>
     repository_processing_note: Repository Processing Note
     repository_processing_note_tooltip: |
-         <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
+         <p>An application-specific field for recording information about processing of the materials. This note is not included in EAD exports, but is available through other exports, reports, or plugins.</p>
     automate_title: Automatically generate title
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: Has Unpublished Ancestor?
+    import_current_ark: Import Current ARK
     _singular: Archival Object
     _plural: Archival Objects
 
@@ -2068,7 +2070,7 @@ en:
     _plural: Related Accessions
 
   revision_statement:
-    _singlular: Revision Statement
+    _singular: Revision Statement
     _plural: Revision Statements
     date: Revision Date
     date_tooltip: |
@@ -2438,6 +2440,7 @@ en:
       pdf: PDF
       html: HTML
       rtf: RTF
+    linked_records_in_json: Linked Records in JSON
     headings:
       context: Resource/Accession
       container_profile: Container Profile
@@ -2499,7 +2502,7 @@ en:
     length_must_be_within_the_range_set_in_configuration: Length must be within the range set in configuration
     is_required_if_status_is_previous: is required if 'Status' is 'Previous'
     location_profile_name_not_unique: Location Profile name must be unique
-    must_be_a_positive_integer: Must be a positive integer
+    must_be_a_positive_integer: Must be a positive integer or zero
     must_be_unique_to_its_level_in_the_tree: This value must be unique for this level of the hierarchy
     short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
     custom_report_template_name_not_unique: The custom report template's name must be unique.
@@ -2525,6 +2528,7 @@ en:
     external_ark_collision: External ARK already in use
     ark_format_error: One of the ARKs provided was not a valid ARK.
     mixed_content_invalid_inline_ead: "Invalid EAD markup: use straight quotes (\" or ') for attribute values and ensure tags are well-formed."
+    mixed_content_disallowed_tag: "Disallowed HTML tag detected. For security reasons, tags like &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt;, and form elements are not permitted in mixed content fields."
 
   job:
     _singular: Background Job
@@ -3103,6 +3107,7 @@ en:
     save: Save ARKs
     no_changes: No changes to save
     modal_title: Edit ARKs for current record
+    actions: Actions
     unsubmitted_input: You have unsubmitted input
     only_current_ark_can_be_external: The current ARK cannot be replaced while it is marked as external.
     ark_editor_errors:

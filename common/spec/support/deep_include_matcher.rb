@@ -4,7 +4,7 @@ RSpec::Matchers.define :deep_include do |expected|
   end
 
   failure_message do |actual|
-    "expected #{actual.inspect} to deep-include #{expected.inspect}"
+    "expected:\n #{actual} \nto deep-include:\n #{expected}"
   end
 
   def deep_include?(actual, expected)

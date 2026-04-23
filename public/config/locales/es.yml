@@ -48,7 +48,7 @@ es:
     user_email: Tu correo electrónico
     date: Fecha de llegada prevista
     note: Nota para el personal
-    visit: "Envíe una solicitud para visitar%{repo_name} para ver <strong>%{archival_object}</strong>"
+    visit: "Envíe una solicitud para visitar %{repo_name} para ver <strong>%{archival_object}</strong>"
     submit: Enviar solicitud
     submitted: Gracias, su solicitud ha sido enviada.  Pronto recibirá un correo electrónico con una copia
       de su solicitud.
@@ -56,7 +56,7 @@ es:
       name: por favor, escriba su nombre
       email: Por favor, introduce una dirección de correo electrónico válida
     email:
-      subject: "Solicitud de% {title}"
+      subject: "Solicitud de %{title}"
 
   search-button:
     label: Buscar
@@ -90,7 +90,6 @@ es:
       linked_agent_roles: Roles de agente vinculada
       notes_published: Notas
       finding_aid_title: Título del instrumento de descripción
-      finding_aid_filing_title: Título abreviado del instrumento de descripción
       instance_type_enum_s: Tipo de representación
       acquisition_type: Tipo de entrada
     page_title: "Encontrado %{count} resultados"
@@ -188,8 +187,8 @@ es:
     subgrp: Subgrupo
     sub-series: Subserie
   errors:
-    error_404: "% {type} registro no encontrado"
-    error_404_message: "El registro% {type} al que ha intentado acceder no existe o puede que se haya
+    error_404: "%{type} registro no encontrado"
+    error_404_message: "El registro %{type} al que ha intentado acceder no existe o puede que se haya
       eliminado."
     backend_down: No se puede conectar a la base de datos
     backend_down_message: ArchivesSpace está experimentando dificultades técnicas. Pedimos disculpas por
@@ -344,7 +343,7 @@ es:
       uri: ID [aspace_uri]
       identifier_pdf: ID
     load_records:
-      alert: "Esta colección contiene un gran número de registros"
+      alert: "Esta colección contiene %{count} registros."
       showing: "Mostrando"
       percent_convention: " %"
       load: "Cargar registros"
@@ -581,15 +580,10 @@ es:
     _singular: Declaraciones de derechos de metadatos
     _plural: Declaraciones de derechos de metadatos
   footer:
-    archivesspace_home: Visitar <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Enviar comentarios o informar
+    archivesspace_home_html: Visitar <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Enviar comentarios o informar
       un problema</a>
-    staff_interface: <a href="%{staff_url}">Interfaz de personal</a>
+    staff_interface_html: <a href="%{staff_url}">Interfaz de personal</a>
 
   languages:
     select: Seleccione el idioma
-    en: Inglés
-    es: Español
-    fr: Francés
-    de: Alemán
-    ja: Japonés

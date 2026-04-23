@@ -18,4 +18,4 @@ Feature: Repository View
     Given two Repositories have been created with a common keyword in their title
       And the two Repositories are displayed sorted by ascending title in the searh results
      When the user clicks on 'Title'
-     Then the two Repositories are displayed sorted by ascending title
+     Then the two Repositories are displayed sorted by descending title

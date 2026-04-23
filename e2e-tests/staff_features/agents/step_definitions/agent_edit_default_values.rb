@@ -74,6 +74,7 @@ end
 
 Then 'the new Agent Software form has the following default values' do |form_values_table|
   visit "#{STAFF_URL}/agents/agent_software/new"
+  expect(page).to have_selector('h2', visible: true, text: 'Agent')
 
   expect_form_values(form_values_table)
 end

@@ -244,7 +244,8 @@ fr:
   search_results:
     title: Résultats de la recherche
     context: Trouvé dans
-    selected: Choisi ?
+    select_record: "Sélectionner %{title}"
+    selected: Choisi ?
     no_results: Aucune notice trouvée
     no_results_prefix: Pas de résultat pour
     result_type: Type de notice
@@ -598,6 +599,7 @@ fr:
       resource_accession: Ressource/Entrée
       series: Série
       container_profile: Profils de conditionnements
+      location_profile: Profil de localisation
       type: Type
       indicator: Indicateur
   advanced_search:
@@ -692,6 +694,9 @@ fr:
     gone: Session backend introuvable
     expired: Votre session a expiré pour cause d'inactivité
     inline_login_title: Session expirée
+
+  skipnav:
+    main_content: Passer au contenu principal
 
   batch_delete:
     archival_records:
@@ -809,6 +814,7 @@ fr:
       event: Valeurs par défaut d'une notice Evénement
       classification: Valeurs par défaut d'une notice Classement
       classification_term: Valeurs par défaut Terme de classement
+      container_profile: Valeurs par défaut Profil de conditionnement
     messages:
       defaults_updated: Valeurs par défaut actualisées
 
@@ -960,13 +966,15 @@ fr:
           <strong>%{archival_object_display_string}</strong>
         created_with_parent: Document d'archives 
           <strong>%{archival_object_display_string}</strong> créé en tant que 
-          fils de <strong>%{parent.display_string}</strong> de la ressource 
+          fils de <strong>%{parent_display_string}</strong> de la ressource 
           <strong>%{resource_title}</strong>
         updated: Document d'archives 
           <strong>%{archival_object_display_string}</strong> actualisé
         updated_with_parent: Document d'archives 
           <strong>%{archival_object_display_string}</strong> actualisé
         please_select_a_resource_for_transfer: Veuillez choisir une ressource
+        transfer_confirm_message: "La notice '%{ao}' sera transférée vers la ressource que vous avez sélectionnée"
+        transfer_confirm_message_with_resource: "La notice '%{ao}' sera transférée vers la ressource '%{resource}'"
         transfer_success: Document d'archives 
           <strong>%{archival_object_display_string}</strong> transféré avec 
           succès vers la ressource <strong>%{resource_title}</strong>
@@ -1099,7 +1107,7 @@ fr:
         please_select_a_digital_object_to_merge: Veuillez sélectionner un objet 
           numérique
         merged: Objet(s) numérique(s) fusionné(s)
-        transfer_description: Transférer cette ressource dans...
+        transfer_description: Transférer cet objet numérique dans...
         transfer_target: Sélectionnez un service d'archives cible pour le 
           transfert
         unsuppressed: Objet numérique <strong>%{digital_object_title}</strong> 
@@ -1549,7 +1557,9 @@ fr:
         hide_inactive: Masquer les utilisateurs inactifs
         show_inactive: Afficher les utilisateurs inactifs
         deactivate_user: Désactiver
+        deactivate_user_confirm: Êtes-vous sûr de vouloir désactiver cet utilisateur ?
         activate_user: Activer
+        activate_user_confirm: Êtes-vous sûr de vouloir activer cet utilisateur ?
 
         show_active: Afficher les utilisateurs actifs
         edit: Editer l'utilisateur
@@ -1692,6 +1702,7 @@ fr:
         cancel: Annuler tâche
         add_file: Ajouter fichier
         follow_log: Suivre le log
+        following_log: Suivi du log
       section:
         basic_information: Information de base
         status: Statut de la tâche
@@ -2036,7 +2047,7 @@ fr:
       <p>Une valeur numérique pour la largeur de l'unité de conditionnement.</p>
     stacking_limit: Limite d'empilement
     stacking_limit_tooltip: |
-      <p>Le nombre de ces conditionnements pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif.</p>
+      <p>Le nombre de ces conditionnements pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif ou zéro.</p>
 
     linker:
       create: Créer profil de conditionnements
@@ -2192,6 +2203,12 @@ fr:
     download_spreadsheet: Télécharger la feuille de calcul
     download_spreadsheet_modal_message: La génération de cette feuille de calcul
       peut prendre quelques instants.
+    too_many_rows_warning:
+      "Attention: Le nombre de lignes qui seront générées dans cette feuille de calcul dépasse le nombre de lignes pouvant être mises à jour.
+      via le travail en arrière-plan Bulk Archival Object Updater. Si vous envisagez d'exécuter le travail Bulk Archival Object Updater à l'aide de
+      cette feuille de calcul, vous devrez réduire le nombre de lignes de cette feuille à un niveau inférieur ou égal à 
+      <strong>%{max_row_count}lignes</strong> avant l'ingestion. Pensez à générer une feuille de calcul plus petite dès maintenant.  
+      Cet avertissement peut être ignoré en toute sécurité si vous n'avez pas l'intention d'exécuter une tâche de mise à jour d'objets d'archivage en masse avec ces données."
 
   assessment:
     _frontend:
@@ -3610,11 +3627,12 @@ fr:
       sujet. Veuillez noter que ce modèle sert à créer les enregistrements de 
       sujet eux-mêmes, et non à les lier à d'autres enregistrements.
   footer:
-    archivesspace_home: Visitez <a 
+    keyboard_shortcuts: Raccourcis clavier
+    archivesspace_home_html: Visitez <a
       href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
       target='_blank'>Envoyer des commentaires ou signaler un problème</a>
-    public_interface: Afficher <a href="%{public_url}">Interface publique</a>
+    public_interface_html: Afficher <a href="%{public_url}">Interface publique</a>
   component_link:
     _plural: Liers des composants
     _singular: Lier de composant

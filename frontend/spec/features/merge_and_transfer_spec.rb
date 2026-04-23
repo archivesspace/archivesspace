@@ -109,7 +109,7 @@ describe 'Merge and Transfer', js: true do
     expect(ids.sort == ids_from_dom.sort).to eq true
   end
 
-  it 'can merge an archival object into a resource' do
+  it 'can transfer an archival object to another resource' do
     now = Time.now.to_i
 
     set_repo @repository_source
@@ -126,13 +126,17 @@ describe 'Merge and Transfer', js: true do
 
     click_on 'Transfer'
 
-    expect(page).to have_selector('.dropdown-menu.tree-transfer-form', visible: true)
+    expect(page).to have_selector('#ao-transfer-dropdown .dropdown-menu.transfer-form', visible: true)
 
-    within '.dropdown-menu.tree-transfer-form' do
+    within '#ao-transfer-dropdown .dropdown-menu.transfer-form' do
       fill_in 'token-input-transfer_ref_', with: resource.title
       dropdown_items = all('li.token-input-dropdown-item2')
       dropdown_items.first.click
 
+      click_on 'Transfer'
+    end
+
+    within '#confirmChangesModal' do
       click_on 'Transfer'
     end
 

@@ -37,37 +37,32 @@ class IndexerCommonConfig
 
   def self.resolved_attributes
     [
-      'location_profile',
-      'container_profile',
       'container_locations',
-      'subjects',
+      'container_locations::location_profile',
+      'container_profile',
+      'location_profile',
       'places',
+      'subjects',
 
       # EAD export depends on this
+      'agent_representation',
+      'classifications',
+      'digital_object',
       'linked_agents',
       'linked_records',
-      'classifications',
-
-      # EAD export depends on this
-      'digital_object',
-      'agent_representation',
+      'related_agents',
       'repository',
       'repository::agent_representation',
-      'related_agents',
-
-      # EAD export depends on this
       'top_container',
-
-      # EAD export depends on this
       'top_container::container_profile',
 
       # Assessment module depends on these
-      'related_agents',
-      'records',
       'collections',
-      'surveyed_by',
-      'reviewer',
       'creator',
+      'records',
+      'related_agents',
+      'reviewer',
+      'surveyed_by',
 
       #Accessions module depends on these
       'related_accessions',
@@ -101,7 +96,8 @@ class IndexerCommonConfig
       "rules",
       "name_order",
       "repository",
-      "top_container"
+      "top_container",
+      "finding_aid_filing_title"
     ]
   end
 
