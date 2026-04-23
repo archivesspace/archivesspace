@@ -48,23 +48,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     if AppConfig[:pui_require_authentication]
-      unless session[:pui_username]
-        uri = URI("#{AppConfig[:frontend_proxy_url]}/check_pui_session")
-        http = Net::HTTP.new(uri.host, uri.port)
-        request = Net::HTTP::Get.new(uri.request_uri)
-        # We really can't do this, but in the interests of getting something working for the time being...
-        request['Cookie'] = "archivesspace_session=#{cookies[:archivesspace_session]}".to_s
-        response = http.request(request)
-        if response.code == "200"
-          session[:session] = JSON.parse(response.body)['session']
-          session[:username] = JSON.parse(response.body)['username']
-        else
-          session[:session] = nil
-          session[:username] = nil
-        end
-      end
-
-      if session[:session]
+      if session[:pui_username]
         uri = URI("#{AppConfig[:backend_url]}/users/pui")
         http = Net::HTTP.new(uri.host, uri.port)
         request = Net::HTTP::Get.new(uri.request_uri)
@@ -82,7 +66,7 @@ class ApplicationController < ActionController::Base
           return
         end
       else
-        render 'shared/login'
+        Rails.logger.error("Lora in controller #{params.inspect}")
         return
       end
     end

@@ -53,7 +53,7 @@
 		<%= render partial: 'shared/navigation' %>
 	</div>
 
-	<input type="hidden" id="authenticated" name="authenticated" value="false">
+	<%= render partial: 'shared/pui_authentication' %>
 
 	<section id="content" class="container-fluid mt-2 pt-2 flex-grow-1">
 		<a name="maincontent" id="maincontent"></a>
@@ -76,6 +76,8 @@
 	<% if AppConfig[:pui_require_authentication] %>
 		<script>
 			FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
+			PUI_USER = "<%= j(session[:username]) %>";
+			STAFF_USER = "<%= j(session[:username]) %>";
 		</script>
 	<% end %>
 

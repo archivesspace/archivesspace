@@ -1,6 +1,6 @@
 class SessionController < ApplicationController
 
-  set_access_control  :public => [:login, :token_login, :logout, :check_session, :check_pui_session, :has_session, :login_inline],
+  set_access_control  :public => [:login, :token_login, :logout, :check_session, :check_pui_session, :logout_pui_session, :has_session, :login_inline],
                       "become_user" => [:select_user, :become_user]
 
 
@@ -60,8 +60,20 @@ class SessionController < ApplicationController
     response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
     response.headers['Access-Control-Allow-Credentials'] = 'true'
 
-    render json: { username: session[:user], session: session[:session], view_pui: user_can_view_pui? }
+    render json: { username: session[:user], view_pui: user_can_view_pui? }
   end
+
+  def logout_pui_session
+    response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+
+    if session[:session]
+      Rails.logger.error("Lora staff session #{session[:session].inspect}")
+      reset_session
+      redirect_to :root
+    end
+  end
+
 
   def has_session
     render :json => {:has_session => !session[:user].nil?}
@@ -108,6 +120,6 @@ class SessionController < ApplicationController
   end
 
   def user_can_view_pui?
-    user_can?('view_pui')
+    user_can?('view_pui_global')
   end
 end
