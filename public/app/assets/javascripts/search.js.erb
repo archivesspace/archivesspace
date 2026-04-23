@@ -62,8 +62,11 @@ function update_all_button_states() {
 var submit_on_enter = function(e) {
     var key = e.which;
     if (key == 13) {
-        $("#submit_search").click();
-        return false;
+        // Only submit if the enter key wasn't pressed on a plus/minus button
+        if (!$(e.target).closest('.plusminus').length) {
+            $("#submit_search").click();
+            return false;
+        }
     }
 }
 
