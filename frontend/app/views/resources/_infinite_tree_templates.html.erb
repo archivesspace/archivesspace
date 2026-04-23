@@ -2,6 +2,7 @@
   <li class="root node" role="treeitem" id data-uri>
     <div class="node-row">
       <div class="node-body" title>
+        <div class="node-column" data-column="drag-handle"></div>
         <div class="node-column" data-column="title">
           <a class="record-title" href></a>
         </div>
@@ -21,6 +22,10 @@
     <div class="node-row">
       <div class="node-body" title>
         <div class="node-indentation"></div>
+        <div class="node-column" data-column="drag-handle">
+          <%= render_aspace_partial :partial => "shared/grip_svg" %>
+          <span class="selection-order-badge" aria-hidden="true"></span>
+        </div>
         <div class="node-column" data-column="title">
           <a class="record-title" href></a>
         </div>
@@ -43,6 +48,7 @@
         <div class="node-indentation">
           <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
         </div>
+        <div class="node-column" data-column="drag-handle"></div>
         <div class="node-column" data-column="title">
           <span class="record-title" tabindex="0"></span>
         </div>

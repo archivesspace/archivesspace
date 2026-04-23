@@ -170,9 +170,7 @@ class InfiniteTreeSelection {
    */
   #shiftExtend(li) {
     const anchor =
-      this.selected.length > 0
-        ? this.selected[this.selected.length - 1]
-        : null;
+      this.selected.length > 0 ? this.selected[this.selected.length - 1] : null;
 
     if (!anchor) {
       this.#toggle(li);
@@ -287,6 +285,29 @@ class InfiniteTreeSelection {
     });
 
     this.#writeSelectionUrisAttr();
+    this.#renderBadges();
+  }
+
+  /**
+   * Update `.selection-order-badge` text on every row in the tree so that the
+   * selected rows show their 1-based position in the selection order. Matches
+   * LargeTreeDragDrop#refreshAnnotations parity: only show a numeric badge when
+   * more than one row is selected; a single selection leaves every badge empty
+   * and the CSS `:not(:empty)` rule hides the pill.
+   */
+  #renderBadges() {
+    this.containerEl.querySelectorAll('.selection-order-badge').forEach(el => {
+      el.textContent = '';
+    });
+
+    if (this.selected.length <= 1) return;
+
+    this.selected.forEach((li, idx) => {
+      const badge = li.querySelector(
+        ':scope > .node-row > .node-body > [data-column="drag-handle"] > .selection-order-badge'
+      );
+      if (badge) badge.textContent = String(idx + 1);
+    });
   }
 
   #writeSelectionUrisAttr() {
@@ -322,9 +343,7 @@ class InfiniteTreeSelection {
    * @returns {boolean}
    */
   #isRowHidden(li) {
-    let parent = li.parentElement
-      ? li.parentElement.closest('li.node')
-      : null;
+    let parent = li.parentElement ? li.parentElement.closest('li.node') : null;
 
     while (parent) {
       if (parent.getAttribute('aria-expanded') === 'false') return true;
