@@ -608,6 +608,7 @@ es:
     manage_container_profiles: Gestionar Container Profiles
     manage_location_profiles: Gestionar Location Profiles
     manage_top_containers: Gestionar Top Containers
+    view_top_containers: Ver Top Containers
     manage_enumerations: Administrar listas de valores controlados
     global_preferences: Preferencias globales
     user_repo_preferences: Valores predeterminados de preferencia de usuario

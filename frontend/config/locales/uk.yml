@@ -276,6 +276,7 @@ uk:
     manage_container_profiles: Керування профілями контейнерів
     manage_location_profiles: Керування профілями місцезнаходження
     manage_top_containers: Керування головними контейнерами
+    view_top_containers: Перегляд головних контейнерів
     manage_enumerations: Керування списками контрольованих значень
     global_preferences: Глобальні налаштування
     global_settings: Глобальні налаштування

@@ -125,6 +125,8 @@ Given 'an Accession with a Top Container has been created' do
   fill_in 'top_container_indicator_', with: @uuid
   click_on 'Create and Link'
 
+  sleep 3
+
   click_on 'Save'
   expect(page).to have_text "Accession Accession Title #{@uuid} created"
 end
@@ -148,6 +150,8 @@ Given 'the Accession is opened in edit mode' do
   end
 
   click_on 'Edit'
+
+  expect(page).to have_selector('h2', visible: true, text: 'Accession')
 end
 
 Then 'a new Extent is added to the Accession with the following values' do |form_values_table|

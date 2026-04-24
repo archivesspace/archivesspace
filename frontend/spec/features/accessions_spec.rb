@@ -912,6 +912,38 @@ describe 'Accessions', js: true do
     end
   end
 
+  describe 'Manage Top Containers modal' do
+    before(:all) do
+      @tc_repo = create(:repo, repo_code: "accession_tc_test_#{Time.now.to_i}")
+      set_repo(@tc_repo)
+      @accession_container = create(:top_container, indicator: "Accession Box #{Time.now.to_i}")
+      @tc_accession = create(:accession,
+        title: "TC Accession #{Time.now.to_i}",
+        instances: [build(:json_instance,
+          sub_container: build(:json_sub_container,
+            top_container: { ref: @accession_container.uri }))]
+      )
+      run_all_indexers
+    end
+
+    before(:each) do
+      login_admin
+      select_repository(@tc_repo)
+    end
+
+    it 'opens from the accession edit toolbar and shows linked containers' do
+      visit "/accessions/#{@tc_accession.id}/edit"
+
+      find('#other-dropdown button').click
+      click_button 'Manage Top Containers'
+
+      within '#accessTopContainersModal' do
+        wait_for_ajax
+        expect(page).to have_css('#bulk_operation_results tbody tr')
+        expect(page).to have_content(@accession_container.indicator)
+      end
+    end
+  end
 end
 
 describe 'Accessions (view-only permissions)', js: true do
@@ -952,5 +984,16 @@ describe 'Accessions (view-only permissions)', js: true do
     view_published_link = find_link('View Published')
     expect(view_published_link[:href]).to include('/accessions/')
     expect(view_published_link[:target]).to eq('_blank')
+  end
+
+  it 'can open the View Top Containers modal from the accession show page' do
+    visit "/accessions/#{@published_accession.id}"
+
+    click_button 'View Top Containers'
+
+    within '#accessTopContainersModal' do
+      wait_for_ajax
+      expect(page).to have_css('#topContainersManageForRecord')
+    end
   end
 end

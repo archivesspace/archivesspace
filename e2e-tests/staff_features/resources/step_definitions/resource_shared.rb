@@ -3,8 +3,6 @@
 Given 'a Resource with a Top Container has been created' do
   visit "#{STAFF_URL}/resources/new"
 
-  visit "#{STAFF_URL}/resources/new"
-
   fill_in 'resource_title_', with: "Resource #{@uuid}"
   fill_in 'resource_id_0_', with: "Resource #{@uuid}"
   find('#resource_publish_').check
@@ -22,10 +20,9 @@ Given 'a Resource with a Top Container has been created' do
   fill_in 'top_container_indicator_', with: @uuid
   click_on 'Create and Link'
 
-  languages = all('#resource_lang_materials_ .subrecord-form-list li')
-  click_on 'Add Language' if languages.length == 0
+  click_on 'Add Language'
 
-  within '#resource_lang_materials_ li.sort-enabled.initialised' do
+  within('#resource_lang_materials_ li.sort-enabled.initialised', match: :first) do
     element = find('#resource_lang_materials__0__language_and_script__language_')
     element.send_keys(ORIGINAL_LANGUAGE)
     element.send_keys(:tab)
@@ -69,7 +66,7 @@ Given 'the Resource is opened in the view mode' do
   visit "#{STAFF_URL}/resources/#{@resource_id}"
 end
 
-Given 'the Resource is opened in edit mode' do
+Given 'the Resource is being edited' do
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
   expect(page).to have_selector('h2', visible: true, text: 'Resource')
   wait_for_ajax # still needed for dropdown menus to become active

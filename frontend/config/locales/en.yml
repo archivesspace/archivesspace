@@ -609,6 +609,7 @@ en:
     manage_container_profiles: Manage Container Profiles
     manage_location_profiles: Manage Location Profiles
     manage_top_containers: Manage Top Containers
+    view_top_containers: View Top Containers
     manage_enumerations: Manage Controlled Value Lists
     global_preferences: Global Preferences
     global_settings: Global Settings

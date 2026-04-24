@@ -572,6 +572,7 @@ ja:
     manage_container_profiles: コンテナプロファイルの管理
     manage_location_profiles: ロケーションプロファイルを管理する
     manage_top_containers: トップコンテナを管理する
+    view_top_containers: トップコンテナを表示する
     manage_enumerations: 管理された値リストの管理
     global_preferences: グローバル設定
     user_repo_preferences: ユーザー設定

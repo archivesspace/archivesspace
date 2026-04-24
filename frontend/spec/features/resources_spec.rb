@@ -1771,6 +1771,70 @@ describe 'Resources', js: true do
     end
   end
 
+  describe 'Manage Top Containers modal' do
+    before(:all) do
+      set_repo @repository
+      @managed_resource = create(:resource, title: "Managed Resource #{Time.now.to_i}")
+      @managed_container = create(:top_container, indicator: "Managed Box #{Time.now.to_i}")
+      create(:archival_object,
+        title: "Managed Resource Object #{Time.now.to_i}",
+        resource: { ref: @managed_resource.uri },
+        instances: [build(:json_instance,
+          :sub_container => build(:json_sub_container,
+            :top_container => { ref: @managed_container.uri }))]
+      )
+      run_all_indexers
+    end
+
+    it 'opens from the resource edit toolbar and shows linked containers' do
+      visit "/resources/#{@managed_resource.id}/edit"
+
+      find('#other-dropdown button').click
+      click_button 'Manage Top Containers'
+
+      within '#accessTopContainersModal' do
+        wait_for_ajax
+        expect(page).to have_css('#bulk_operation_results tbody tr')
+        expect(page).to have_content(@managed_container.indicator)
+      end
+    end
+
+    it 'allows inline editing of a container and shows a success message' do
+      new_indicator = "Updated Box #{Time.now.to_i}"
+
+      visit "/resources/#{@managed_resource.id}/edit"
+
+      find('#other-dropdown button').click
+      click_button 'Manage Top Containers'
+
+      within '#accessTopContainersModal' do
+        wait_for_ajax
+        within '#bulk_operation_results tbody tr', text: @managed_container.indicator do
+          find('.inline-tc-edit-btn').click
+        end
+      end
+
+      within '#accessTopContainerSubModal' do
+        fill_in 'top_container[indicator]', with: new_indicator
+        find("button[type='submit']").click
+      end
+
+      within '#accessTopContainersModal' do
+        wait_for_ajax
+        expect(page).to have_css('.alert.alert-success')
+
+        within '#bulk_operation_results tbody tr' do
+          find('.inline-tc-view-btn').click
+        end
+      end
+
+      within '#accessTopContainerSubModal' do
+        wait_for_ajax
+        expect(page).to have_content(new_indicator)
+      end
+    end
+  end
+
   describe 'view-only permissions' do
     before(:all) do
       @view_only_repo = create(:repo, repo_code: "view_only_resources_#{Time.now.to_i}", publish: true)
@@ -1812,6 +1876,30 @@ describe 'Resources', js: true do
       expect(view_published_link[:href]).to include('/repositories/')
       expect(view_published_link[:href]).to include('/resources/')
       expect(view_published_link[:target]).to eq('_blank')
+    end
+
+    it 'can open the View Top Containers modal from the resource show page' do
+      visit "/resources/#{@published_resource.id}"
+      wait_for_ajax
+
+      click_button 'View Top Containers'
+
+      within '#accessTopContainersModal' do
+        wait_for_ajax
+        expect(page).to have_css('#topContainersManageForRecord')
+      end
+    end
+
+    it 'does not show Edit buttons in the View Top Containers modal' do
+      visit "/resources/#{@published_resource.id}"
+      wait_for_ajax
+
+      click_button 'View Top Containers'
+
+      within '#accessTopContainersModal' do
+        wait_for_ajax
+        expect(page).not_to have_css('.inline-tc-edit-btn')
+      end
     end
   end
 end
