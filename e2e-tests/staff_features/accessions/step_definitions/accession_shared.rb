@@ -150,6 +150,8 @@ Given 'the Accession is opened in edit mode' do
   end
 
   click_on 'Edit'
+
+  expect(page).to have_selector('h2', visible: true, text: 'Accession')
 end
 
 Then 'a new Extent is added to the Accession with the following values' do |form_values_table|

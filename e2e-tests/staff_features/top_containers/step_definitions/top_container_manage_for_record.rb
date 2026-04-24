@@ -1,31 +1,5 @@
 # frozen_string_literal: true
 
-def open_top_containers_panel_with_retry
-  retries = 0
-  loop do
-    within '#other-dropdown' do
-      find('.dropdown-toggle').click
-    end
-    find('.access-top-containers-btn').click
-    wait_for_ajax
-
-    break if page.has_css?('#accessTopContainersModal #bulk_operation_results tbody tr', wait: 5)
-
-    page.execute_script("$('#accessTopContainersModal').modal('hide')")
-    wait_for_ajax
-    sleep 1
-
-    retries += 1
-    raise 'Top containers did not appear in the management panel after multiple attempts' if retries >= 4
-
-    sleep 2
-  end
-end
-
-When 'the archivist manages top containers for the resource' do
-  open_top_containers_panel_with_retry
-end
-
 Then 'all top containers linked to that resource are displayed' do
   within '#accessTopContainersModal' do
     expect(page).to have_css('#bulk_operation_results tbody tr', text: @uuid)
@@ -96,10 +70,26 @@ Then 'the affected top containers reflect the updated barcode' do
   expect(page).to have_field('Barcode', with: @new_barcode)
 end
 
-When 'the archivist opens the top container management panel for the accession' do
-  expect(page).to have_selector('h2', visible: true, text: 'Accession')
-  wait_for_ajax
-  open_top_containers_panel_with_retry
+When 'the user opens the top container management panel' do
+  retries = 0
+  loop do
+    within '#other-dropdown' do
+      find('.dropdown-toggle').click
+    end
+    find('.access-top-containers-btn').click
+    wait_for_ajax
+
+    break if page.has_css?('#accessTopContainersModal #bulk_operation_results tbody tr', wait: 5)
+
+    page.execute_script("$('#accessTopContainersModal').modal('hide')")
+    wait_for_ajax
+    sleep 1
+
+    retries += 1
+    raise 'Top containers did not appear in the management panel after multiple attempts' if retries >= 4
+
+    sleep 2
+  end
 end
 
 Then 'all top containers linked to that accession are displayed' do
