@@ -2279,7 +2279,9 @@ de:
     missing_required_subrecord: Unteraufzeichnung ist erforderlich, fehlte aber
     mixed_content_invalid_inline_ead: "Ungültiges EAD-Markup: Verwenden Sie gerade Anführungszeichen (\"\
       \ oder ') für Attributwerte und stellen Sie sicher, dass die Tags korrekt aufgebaut sind."
-    mixed_content_disallowed_tag: "Nicht erlaubtes HTML-Tag erkannt. Aus Sicherheitsgründen sind Tags wie &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; und Formularelemente in Feldern mit gemischtem Inhalt nicht zulässig."
+    mixed_content_disallowed_tag: "Nicht erlaubtes HTML-Tag erkannt. Aus Sicherheitsgründen sind Tags
+      wie &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; und Formularelemente in Feldern mit gemischtem
+      Inhalt nicht zulässig."
   import_job:
     bulk_import_csv: Massenimport von AO-CSV
     bulk_import_DO_xlsx: Massenimport von DO-XLSX
@@ -2354,8 +2356,8 @@ de:
     going_to_duplicate_job: Die Ressource wird mit der ID %{resource_id} dupliziert.
     success_message: Ressource erfolgreich dupliziert %{resource_source_id} zu ressource 
       %{resource_duplicated_id}.
-    resource_failure_message: Ressource %{resource_id} wurde erfolgreich auf Ressource 
-      %{message} dupliziert.
+    resource_failure_message: Ressource %{resource_id} wurde erfolgreich auf Ressource %{message} 
+      dupliziert.
     archival_object_failure_message: Das Duplizieren des Archivierungsobjekts mit der ID 
       %{archival_object_id} aus der Ressource mit der ID %{resource_id} ist fehlgeschlagen. 
       Validierungsfehler %{message}.
