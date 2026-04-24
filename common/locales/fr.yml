@@ -624,10 +624,10 @@ fr:
       de date. Ces informations sont facultatives et ne doivent être ajoutées que lorsque les informations
       de date sont qualifiées de potentiellement incertaines en fonction de la description ou des règles
       de catalogage utilisées.</p>"
-    date_era_tooltip: <p>Période pendant laquelle les années sont numérotées et les dates calculées, comme
-      BC ou CE La valeur "ce" est la valeur par défaut.</p>
-    date_calendar_tooltip: <p>Système de calcul du temps, tel que le calendrier grégorien ou le calendrier
-      julien. La valeur "grégorien" est la valeur par défaut.</p>
+    date_era_tooltip: <p>Période pendant laquelle les années sont numérotées et les dates calculées,
+      comme BC ou CE La valeur "ce" est la valeur par défaut.</p>
+    date_calendar_tooltip: <p>Système de calcul du temps, tel que le calendrier grégorien ou le 
+      calendrier julien. La valeur "grégorien" est la valeur par défaut.</p>
 
   agent_contact:
     name: Nom du contact
@@ -749,14 +749,15 @@ fr:
     dates: Dates
     ref: Agent associé
 
-    relationship_type_tooltip: Terme contrôlé décrivant, en termes généraux, la nature de la relation
-      entre l'agent principal et l'agent associé.
+    relationship_type_tooltip: Terme contrôlé décrivant, en termes généraux, la nature de la 
+      relation entre l'agent principal et l'agent associé.
     description_tooltip: Une description en texte libre de la nature de la relation.
     related_agent_tooltip: La personne, la famille ou la personne morale liée à l'agent principal.
-    specific_relator_tooltip: Terme contrôlé décrivant plus spécifiquement la nature de la relation entre
-      l'agent principal et l'agent associé.
-    relationship_uri_tooltip: Un URI qui pointe vers une entrée dans une ontologie ou une autre ressource
-      pour les types de relations entre les agents. Principalement utilisé aux fins de l'EAC-CPF.
+    specific_relator_tooltip: Terme contrôlé décrivant plus spécifiquement la nature de la relation 
+      entre l'agent principal et l'agent associé.
+    relationship_uri_tooltip: Un URI qui pointe vers une entrée dans une ontologie ou une autre 
+      ressource pour les types de relations entre les agents. Principalement utilisé aux fins de 
+      l'EAC-CPF.
   agent_relationship_parentchild:
     <<: *related_agent_attributes
     _singular: Relation parent/enfant
@@ -820,8 +821,8 @@ fr:
 
   note_index_item:
     value: Valeur
-    value_tooltip: Le contenu de chaque entrée de la bibliographie. Il en faut au moins une pour un index
-      de note.
+    value_tooltip: Le contenu de chaque entrée de la bibliographie. Il en faut au moins une pour un 
+      index de note.
     type: Type
     type_tooltip: Le type d'entrée indexée.
     reference: Référence
@@ -1160,7 +1161,8 @@ fr:
     date_type: Type
     date_type_tooltip: |
       <p>Indique le type pour une information de date normalisée, soit une date précise, soit une fourchette de dates (extrêmes ou de la grosse masse).</p>
-    date_type_message: Sélectionnez un type pour saisir une date ou une fourchette de dates normalisée
+    date_type_message: Sélectionnez un type pour saisir une date ou une fourchette de dates 
+      normalisée
     expression: Expression
     expression_tooltip: |
       <p>CHAMP OBLIGATOIRE CONDITIONNEL. Une expression en langage naturel spécifiant la date ou la fourchette de dates de l'entrée. Requis quand aucune date normalisée n'est enregistrée.</p>
@@ -1427,14 +1429,14 @@ fr:
     agent_genders_tooltip: Sexe du sujet.
     agent_places_tooltip: Placez les informations associées à l'agent.
     agent_occupations_tooltip: Information sur la profession associée à l'agent.
-    agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus, tâches, activités
-      ou transactions effectuées par l'agent.
+    agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus, tâches, 
+      activités ou transactions effectuées par l'agent.
     agent_topics_tooltip: Un sujet associé à l'agent.
     agent_contacts_tooltip: "<p>Coordonnées de l'agent ou d'un représentant travaillant pour le compte.</p>"
     used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
     agent_resources_tooltip: Ressources et autres enregistrements associés à l'agent.
-    related_agent_tooltip: Utilisé pour lier d'autres agents ayant une relation avec l'agent et indiquer
-      la nature de la relation.
+    related_agent_tooltip: Utilisé pour lier d'autres agents ayant une relation avec l'agent et 
+      indiquer la nature de la relation.
     publish_tooltip: "<p>Indique si l'agent est inclus ou non dans les exportations et publié sur l'interface
       publique (le cas échéant)</p>"
     type: Type d'agent
@@ -1592,70 +1594,78 @@ fr:
       <p>Membres appartenant à ce groupe.</p>
     permissions: "Les membres peuvent:"
     permission_types:
-      manage_repository: attribuer des <b>utilisateurs</b> à des groupes (dans ce référentiel)<br/>définir
-        les autorisations <b>de groupe</b> (dans ce référentiel)<br/>définir les <b>préférences du référentiel</b>
-        ( dans ce référentiel)<br/>configurer les <b>champs obligatoires et les valeurs par défaut</b>
-        (dans ce référentiel)<br/>créer et exécuter des <b>tâches de recherche et de remplacement par
-        lots</b> (dans ce référentiel) <br/>créer/mettre à jour/supprimer des <b>emplacements</b> (à l'échelle
-        du système)
-      view_agent_contact_record: modifier/afficher la section des coordonnées des <b>agents</b> (dans
-        ce référentiel)
-      show_full_agents: modifier des sections supplémentaires des <b>agents</b> activés en mode complet
+      manage_repository: attribuer des <b>utilisateurs</b> à des groupes (dans ce 
+        référentiel)<br/>définir les autorisations <b>de groupe</b> (dans ce 
+        référentiel)<br/>définir les <b>préférences du référentiel</b> ( dans ce 
+        référentiel)<br/>configurer les <b>champs obligatoires et les valeurs par défaut</b> (dans 
+        ce référentiel)<br/>créer et exécuter des <b>tâches de recherche et de remplacement par 
+        lots</b> (dans ce référentiel) <br/>créer/mettre à jour/supprimer des <b>emplacements</b> (à
+        l'échelle du système)
+      view_agent_contact_record: modifier/afficher la section des coordonnées des <b>agents</b> 
         (dans ce référentiel)
+      show_full_agents: modifier des sections supplémentaires des <b>agents</b> activés en mode 
+        complet (dans ce référentiel)
       update_accession_record: créer/mettre à jour les <b>adhésions</b> (dans ce référentiel)
       update_resource_record: créer/mettre à jour des <b>ressources</b> (dans ce référentiel)
-      update_digital_object_record: créer/mettre à jour des <b>objets numériques</b> (dans ce référentiel)
+      update_digital_object_record: créer/mettre à jour des <b>objets numériques</b> (dans ce 
+        référentiel)
       update_event_record: créer/mettre à jour des <b>événements</b> (dans ce référentiel)
-      view_repository: afficher <b>tous les enregistrements</b> (dans ce référentiel)<br/>afficher les
-        <b>agents</b> (à l'échelle du système)<br/>afficher les <b>sujets</b> (à l'échelle du système)
-      view_suppressed: afficher les <b>enregistrements supprimés</b> (dans ce référentiel)
-      suppress_archival_record: supprimer les <b>adhésions, objets d'archives et ressources</b> (dans
-        ce référentiel)
-      delete_archival_record: supprimer les <b>adhésions, objets d'archives, objets et ressources numériques</b>
-        (dans ce référentiel)
-      delete_event_record: supprimer les <b>événements</b> (dans ce référentiel)
-      update_classification_record: créer/mettre à jour des <b>classifications</b> (dans ce référentiel)
-      delete_classification_record: supprimer les <b>classifications</b> (dans ce référentiel)
-      merge_agents_and_subjects: fusionner les <b>agents</b> (à l'échelle du système)<br/>fusionner les
-        <b>sujets</b> (à l'échelle du système)
-      merge_archival_record: fusionner des <b>objets numériques</b> (dans ce référentiel)</br>fusionner
-        des <b>ressources</b> (dans ce référentiel)
-      manage_rde_templates: créer/supprimer des <b>modèles de saisie rapide de données</b> (dans ce référentiel)
-      transfer_repository: transférer <b>l'intégralité du contenu de ce référentiel</b> vers un autre
-        référentiel (doit également avoir la même autorisation dans le référentiel de destination)
-      transfer_archival_record: transférer des <b>entrées, objets numériques et ressources</b> individuels
-        vers un autre référentiel (doit également avoir l'autorisation de créer/mettre à jour des enregistrements
-        du type transféré dans les deux référentiels)
-      manage_subject_record: créer/mettre à jour/supprimer des <b>sujets</b> (à l'échelle du système)
-      manage_agent_record: créer/mettre à jour/supprimer des <b>agents</b> (à l'échelle du système)
-      manage_vocabulary_record: créer/mettre à jour/supprimer des <b>vocabulaires</b> (à l'échelle du
+      view_repository: afficher <b>tous les enregistrements</b> (dans ce référentiel)<br/>afficher 
+        les <b>agents</b> (à l'échelle du système)<br/>afficher les <b>sujets</b> (à l'échelle du 
         système)
+      view_suppressed: afficher les <b>enregistrements supprimés</b> (dans ce référentiel)
+      suppress_archival_record: supprimer les <b>adhésions, objets d'archives et ressources</b> 
+        (dans ce référentiel)
+      delete_archival_record: supprimer les <b>adhésions, objets d'archives, objets et ressources 
+        numériques</b> (dans ce référentiel)
+      delete_event_record: supprimer les <b>événements</b> (dans ce référentiel)
+      update_classification_record: créer/mettre à jour des <b>classifications</b> (dans ce 
+        référentiel)
+      delete_classification_record: supprimer les <b>classifications</b> (dans ce référentiel)
+      merge_agents_and_subjects: fusionner les <b>agents</b> (à l'échelle du système)<br/>fusionner 
+        les <b>sujets</b> (à l'échelle du système)
+      merge_archival_record: fusionner des <b>objets numériques</b> (dans ce 
+        référentiel)</br>fusionner des <b>ressources</b> (dans ce référentiel)
+      manage_rde_templates: créer/supprimer des <b>modèles de saisie rapide de données</b> (dans ce 
+        référentiel)
+      transfer_repository: transférer <b>l'intégralité du contenu de ce référentiel</b> vers un 
+        autre référentiel (doit également avoir la même autorisation dans le référentiel de 
+        destination)
+      transfer_archival_record: transférer des <b>entrées, objets numériques et ressources</b> 
+        individuels vers un autre référentiel (doit également avoir l'autorisation de créer/mettre à
+        jour des enregistrements du type transféré dans les deux référentiels)
+      manage_subject_record: créer/mettre à jour/supprimer des <b>sujets</b> (à l'échelle du 
+        système)
+      manage_agent_record: créer/mettre à jour/supprimer des <b>agents</b> (à l'échelle du système)
+      manage_vocabulary_record: créer/mettre à jour/supprimer des <b>vocabulaires</b> (à l'échelle 
+        du système)
       import_records: créer/exécuter des <b>tâches d'importation</b> (dans ce référentiel)
       cancel_importer_job: annuler les <b>tâches d'importation</b> (dans ce référentiel)
       update_container_record: créer/mettre à jour les <b>top conteneurs</b> (dans ce référentiel)
-      manage_container_record: supprimer/mettre à jour en masse les <b>principaux conteneurs</b> (dans
-        ce référentiel)
-      manage_container_profile_record: créer/mettre à jour/supprimer des <b>profils de conteneur</b> (à
-        l'échelle du système)
-      manage_location_profile_record: créer/mettre à jour/supprimer des <b>profils d'emplacement</b> (à
-        l'échelle du système)
+      manage_container_record: supprimer/mettre à jour en masse les <b>principaux conteneurs</b> 
+        (dans ce référentiel)
+      manage_container_profile_record: créer/mettre à jour/supprimer des <b>profils de conteneur</b>
+        (à l'échelle du système)
+      manage_location_profile_record: créer/mettre à jour/supprimer des <b>profils d'emplacement</b>
+        (à l'échelle du système)
       create_job: créer/exécuter des <b>tâches en arrière-plan</b> (dans ce référentiel)
       cancel_job: annuler les <b>tâches en arrière-plan</b> (dans ce référentiel)
       update_assessment_record: créer/mettre à jour des <b>évaluations</b> (dans ce référentiel)
       delete_assessment_record: supprimer les <b>évaluations</b> (dans ce référentiel)
-      manage_assessment_attributes: créer/mettre à jour/supprimer des <b>définitions d'attributs d'évaluation
-        du référentiel</b> (dans ce référentiel)
-      manage_enumeration_record: créer/mettre à jour/supprimer des <b>valeurs contrôlées</b> (à l'échelle
-        du système)
-      manage_custom_report_templates: créer/mettre à jour/supprimer des <b>modèles de rapport personnalisés</b>
-        (dans ce référentiel)
+      manage_assessment_attributes: créer/mettre à jour/supprimer des <b>définitions d'attributs 
+        d'évaluation du référentiel</b> (dans ce référentiel)
+      manage_enumeration_record: créer/mettre à jour/supprimer des <b>valeurs contrôlées</b> (à 
+        l'échelle du système)
+      manage_custom_report_templates: créer/mettre à jour/supprimer des <b>modèles de rapport 
+        personnalisés</b> (dans ce référentiel)
     _singular: Groupe
     _plural: Groupes
 
     default_group_names:
       repository_managers: Gestionnaires du service d'archives %{repo_code}
       repository_archivists: Archivistes du service d'archives %{repo_code}
-      advanced_data_entry: Utilisateurs de saisie de données avancée du service d'archives %{repo_code}
+      advanced_data_entry: Utilisateurs de saisie de données avancée du service d'archives 
+        %{repo_code}
       basic_data_entry: Utilisateurs de saisie de données basique du service d'archives %{repo_code}
       repository_viewers: Téléspectateurs du service d'archives %{repo_code}
       project_managers: Chefs de projet du service d'archives %{repo_code}
@@ -2089,32 +2099,33 @@ fr:
   preference:
     defaults: Valeurs par défaut
     global: Valeurs par défaut de préférences globales
-    global_message: Editez ces valeurs pour définir les préférences utilisateur par défaut à l'échelle
-      du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives
-      ou par les préférences propres d'un utilisateur.
+    global_message: Editez ces valeurs pour définir les préférences utilisateur par défaut à 
+      l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service
+      d'archives ou par les préférences propres d'un utilisateur.
     repo: Préférences Service
-    repo_message: Editez ces valeurs pour définir les préférences pour tout utilisateurs pour le service
-      d'archives actif. Ces valeurs peuvent être écrasées par les préférences propres d'un utilisateur.
+    repo_message: Editez ces valeurs pour définir les préférences pour tout utilisateurs pour le 
+      service d'archives actif. Ces valeurs peuvent être écrasées par les préférences propres d'un 
+      utilisateur.
     user_global: Mes préférences globales
-    user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système.
-      Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives ou par vos propres
-      préférences pour un service d'archives.
+    user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du 
+      système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives 
+      ou par vos propres préférences pour un service d'archives.
     user_repo: Valeurs par défauts des préférences utilisateur
-    user_repo_message: Editez ces valeurs pour définir vos préférences utilisateur pour ce service d'archives.
-      Ces valeurs ne peuvent pas être écrasées.
+    user_repo_message: Editez ces valeurs pour définir vos préférences utilisateur pour ce service 
+      d'archives. Ces valeurs ne peuvent pas être écrasées.
     _singular: Préférences
     _plural: Préférences
 
   defaults:
     general_section: Configuration générale
     show_suppressed: Montrer les notices bloquées?
-    show_suppressed_tooltip: Faut-il ou non montrer dans l'explorateur les notices bloquées que vous avez
-      la permission de voir.
+    show_suppressed_tooltip: Faut-il ou non montrer dans l'explorateur les notices bloquées que vous
+      avez la permission de voir.
     publish: Publier ?
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
-    default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des valeurs
-      par défaut.
+    default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des 
+      valeurs par défaut.
     browse_column: Colonne %{num}
     browse_column_tooltip: Le champ à montrer dans la colonne %{num}.
     sort_column: Colonne de tri par défaut
@@ -2149,8 +2160,8 @@ fr:
 
     rde_sort_alpha: Afficher les modèles RDE par ordre alphabétique ?
     include_unpublished: Inclure les enregistrements non publiés dans les exportations ?
-    digital_object_spawn: Description de génération pour les instances d'objets numériques à partir d'enregistrements
-      liés
+    digital_object_spawn: Description de génération pour les instances d'objets numériques à partir 
+      d'enregistrements liés
     top_container_mgmt_browse_section: Colonnes de navigation des gestion des conteneurs supérieurs
   reports:
     parameters:
@@ -2180,30 +2191,30 @@ fr:
 
   validation_errors:
     or_date_expression_is_required: Les dates doivent spécifier au moins une expression de date
-    must_specify_either_a_single_or_ranged_date: Les dates doivent être spécifiées comme simples ou à
-      distance
-    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Les dates normalisées doivent
-      être dans un format normalisé
+    must_specify_either_a_single_or_ranged_date: Les dates doivent être spécifiées comme simples ou 
+      à distance
+    must_be_in_yyyy[yyy][yy][y]__yyyy[yyy][yy][y]-mm__or_yyyy-mm-dd_format: Les dates normalisées 
+      doivent être dans un format normalisé
     generic_validation_error: erreur de validation
-    requires_that_end_dates_are_after_begin_dates: Les dates de fin doivent être postérieures aux dates
-      de début
+    requires_that_end_dates_are_after_begin_dates: Les dates de fin doivent être postérieures aux 
+      dates de début
     must_specify_a_primary_subject: 'Information sur la description: il manque un sujet principal à l''enregistrement'
     agent_must_be_unique: Il ne peut y avoir deux notices d'agents identiques
     subject_must_be_unique: Il ne peut y avoir deux notices sujets identiques
-    subject_heading_identifier_must_be_unique_within_source: L'identifiant de la vedette-matière doit
-      être unique dans la source
+    subject_heading_identifier_must_be_unique_within_source: L'identifiant de la vedette-matière 
+      doit être unique dans la source
     conflicting_record: Afficher les enregistrements en conflit
     missing_required_property: Propriété requise qui manquait
     missing_property: Propriété manquante
     not_a_valid_date: N'est pas une date valide
     must_not_be_before_begin: ne doit pas précéder début
     must_be_in_yyyy-mm-dd_format: La date doit être au format aaaa-mm-jj
-    is_required_unless_a_begin_or_end_date_is_given: est requis à moins qu'une date de début ou de fin
-      ne soit donnée
-    is_required_unless_an_expression_or_an_end_date_is_given: est requis à moins qu'une expression ou
-      date de fin ne soit donnée
-    is_required_unless_an_expression_or_a_begin_date_is_given: est requis à moins qu'une expression ou
-      date de début ne soit donnée
+    is_required_unless_a_begin_or_end_date_is_given: est requis à moins qu'une date de début ou de 
+      fin ne soit donnée
+    is_required_unless_an_expression_or_an_end_date_is_given: est requis à moins qu'une expression 
+      ou date de fin ne soit donnée
+    is_required_unless_an_expression_or_a_begin_date_is_given: est requis à moins qu'une expression 
+      ou date de début ne soit donnée
     must_specify_either_a_date_or_a_timestamp: Il faut spécifier soit une date, soit un horodatage
     did_not_match_regular_expression: Ne correspond pas au modèle attendu %{regexp}
     too_few_characters: Doit comporter au moins %{min_length} caractères
@@ -2221,8 +2232,8 @@ fr:
     password_did_not_match: La valeur saisie ne correspond pas au mot de passe
     group_code_already_in_use: Un code de groupe doit être unique dans un service d'archives
     one_or_more_required_(or_enter_a_title): un ou plus requis (ou bien entrez un titre)
-    must_not_be_an_empty_string_(or_enter_a_date): ne doit pas être une chaîne de caractères vide (ou
-      bien entrez une date)
+    must_not_be_an_empty_string_(or_enter_a_date): ne doit pas être une chaîne de caractères vide 
+      (ou bien entrez une date)
     is_required_when__source__is_blank: est requis quand 'source' est laissé blanc
     is_required_when__rules__is_blank: est requis quand 'règles' est laissé blanc
     is_required_if_there_is_an_authority_id: est requis s'il y a un 'identifiant d'autorité'
@@ -2231,59 +2242,65 @@ fr:
       Vous devez spécifier un code-barres ou un classement, ou les deux, comme label
       de coordonnée 1 et indicateur de coordonnée 1
     location_must_be_unique_within_a_record: Doit être unique dans une notice
-    location_cannot_be_deleted_if_linked: La notice de localisation est actuellement liée à une ou plusieurs
-      notices d'instances et ne peut être supprimée. Veuillez lier ces instances à de nouvelles localisation
-      avant d'effectuer la suppression.
-    cannot_be_previous_if_location_is_not_temporary: Impossible de transférer à la précédente si la localisation
-      n'est pas temporaire.
+    location_cannot_be_deleted_if_linked: La notice de localisation est actuellement liée à une ou 
+      plusieurs notices d'instances et ne peut être supprimée. Veuillez lier ces instances à de 
+      nouvelles localisation avant d'effectuer la suppression.
+    cannot_be_previous_if_location_is_not_temporary: Impossible de transférer à la précédente si la 
+      localisation n'est pas temporaire.
     authority_id_must_be_unique: Identifiant d'autorité déjà utilisé
-    either_type_1_or_barcode_is_required: Un conditionnement doit contenir un type de conditionnement
-      1 ou un code-barres.
-    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Doit être un nombre ne comprenant
-      pas plus de 9 chiffres et 5 décimales.
-    container_2_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous fournissez
-      un type
-    container_3_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous fournissez
-      un type
-    container_2_is_required_if_container_3_is_provided: Vous devez fournir un conditionnement fils si
-      vous fournissez un conditionnement petit-fils
-    a_barcode_must_be_unique_within_a_repository: Un code-barres doit être unique au sein du service d'archives
+    either_type_1_or_barcode_is_required: Un conditionnement doit contenir un type de 
+      conditionnement 1 ou un code-barres.
+    must_be_a_number_with_no_more_than_nine_digits_and_five_decimal_places: Doit être un nombre ne 
+      comprenant pas plus de 9 chiffres et 5 décimales.
+    container_2_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous 
+      fournissez un type
+    container_3_requires_both_a_type_and_indicator: Vous devez fournir un indicateur si vous 
+      fournissez un type
+    container_2_is_required_if_container_3_is_provided: Vous devez fournir un conditionnement fils 
+      si vous fournissez un conditionnement petit-fils
+    a_barcode_must_be_unique_within_a_repository: Un code-barres doit être unique au sein du service
+      d'archives
     container_profile_name_not_unique: Un nom de profil conditionnement doit être unique
     must_be_a_number_with_no_more_than_2_decimal_places: Doit être un nombre à 2 décimales au plus
-    length_must_be_within_the_range_set_in_configuration: La longueur ne doit pas sortir de la fourchette
-      définie dans la configuration
+    length_must_be_within_the_range_set_in_configuration: La longueur ne doit pas sortir de la 
+      fourchette définie dans la configuration
     is_required_if_status_is_previous: est requis si 'statut' est 'précédent'
     location_profile_name_not_unique: Un nom de profil localisation doit être unique
     must_be_a_positive_integer: Doit être un entier positif ou zéro
-    must_be_unique_to_its_level_in_the_tree: Cette valeur doit être unique à ce niveau de la hiérarchie
+    must_be_unique_to_its_level_in_the_tree: Cette valeur doit être unique à ce niveau de la 
+      hiérarchie
     short_name_already_in_use: Le service d'archives doit être unique dans cet ArchivesSpace
-    custom_report_template_name_not_unique: Le nom du modèle de rapport personnalisé doit être unique.
-    custom_report_must_include_field_or_subreport: Le modèle de rapport personnalisé doit inclure au moins
-      un champ ou sous-rapport.
+    custom_report_template_name_not_unique: Le nom du modèle de rapport personnalisé doit être 
+      unique.
+    custom_report_must_include_field_or_subreport: Le modèle de rapport personnalisé doit inclure au
+      moins un champ ou sous-rapport.
     must_be_a_valid_email_address: Le champ d'adresse email doit contenir une adresse valide
-    repo_set_desc_required: La description d'un ensemble de référentiels est requise pour créer un ensemble
-      de référentiels OAI
-    repo_set_name_required: Le nom de l'ensemble de référentiel est requis pour créer un ensemble de référentiels
-      OAI
+    repo_set_desc_required: La description d'un ensemble de référentiels est requise pour créer un 
+      ensemble de référentiels OAI
+    repo_set_name_required: Le nom de l'ensemble de référentiel est requis pour créer un ensemble de
+      référentiels OAI
     is_not_present: Champ obligatoire manquant
-    sponsor_set_desc_required: La description du jeu de sponsors est requise pour créer un jeu de sponsors
-      OAI
+    sponsor_set_desc_required: La description du jeu de sponsors est requise pour créer un jeu de 
+      sponsors OAI
     sponsor_set_name_required: Le nom du sponsor est requis pour créer un sponsor OAI
     invalid_characters: Contient des caractères non valides
 
-    subrecord_not_allowed_for_agent_software: Les agents logiciels ne peuvent pas avoir de contrôle d'enregistrement
-      ou de sous-enregistrements de relation
-    ark_collision: Un problème est survenu lors de la génération d'une ARK pour cet enregistrement. Veuillez
-      contacter votre administrateur système.
+    subrecord_not_allowed_for_agent_software: Les agents logiciels ne peuvent pas avoir de contrôle 
+      d'enregistrement ou de sous-enregistrements de relation
+    ark_collision: Un problème est survenu lors de la génération d'une ARK pour cet enregistrement. 
+      Veuillez contacter votre administrateur système.
     external_ark_collision: ARK externe déjà utilisé
     ark_format_error: L'une des ARK fournies n'était pas une ARK valide.
-    missing_start_filter_date: Les dates de début et de fin sont nécessaires pour filtrer par date. Veuillez
-      indiquer une date de début.
-    missing_end_filter_date: Les dates de début et de fin sont nécessaires pour filtrer par date. Veuillez
-      indiquer une date de fin.
+    missing_start_filter_date: Les dates de début et de fin sont nécessaires pour filtrer par date. 
+      Veuillez indiquer une date de début.
+    missing_end_filter_date: Les dates de début et de fin sont nécessaires pour filtrer par date. 
+      Veuillez indiquer une date de fin.
     missing_required_subrecord: Le sous-enregistrement est requis mais manquait
-    mixed_content_invalid_inline_ead: "Balisage EAD non valide : utilisez des guillemets droits (\" ou ') pour les valeurs d'attribut et veillez à ce que les balises soient bien formées."
-    mixed_content_disallowed_tag: "Balise HTML non autorisée détectée. Pour des raisons de sécurité, les balises telles que &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; et les éléments de formulaire ne sont pas autorisés dans les champs à contenu mixte."
+    mixed_content_invalid_inline_ead: "Balisage EAD non valide : utilisez des guillemets droits (\" ou
+      ') pour les valeurs d'attribut et veillez à ce que les balises soient bien formées."
+    mixed_content_disallowed_tag: "Balise HTML non autorisée détectée. Pour des raisons de sécurité, les
+      balises telles que &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; et les éléments de formulaire ne
+      sont pas autorisés dans les champs à contenu mixte."
   job:
     _singular: Tâche d'arrière-plan
     _plural: Tâches d'arrière-plan
@@ -2378,20 +2395,21 @@ fr:
       digital: Charge de l'objet numérique
 
   trim_whitespace_job:
-    description: Supprime les espaces blancs de début et de fin des titres des ressources, entrées, objets
-      numériques, objets d'archivage et composants d'objet numérique.
+    description: Supprime les espaces blancs de début et de fin des titres des ressources, entrées, 
+      objets numériques, objets d'archivage et composants d'objet numérique.
 
   resource_duplicate_job:
     going_to_duplicate_job: Je vais dupliquer la ressource avec l'identifiant %{resource_id}.
-    success_message: La ressource %{resource_source_id} a été dupliquée avec succès vers la ressource
-      %{resource_duplicated_id}.
-    resource_failure_message: Échec de la duplication de la ressource à partir de la ressource avec l'ID %{resource_id} ;
-      Erreur de validation %{message}.
-    archival_object_failure_message: Échec de la duplication de l'objet d'archives avec l'ID %{archival_object_id}
-      à partir de la ressource avec l'ID %{resource_id} ; Erreur de validation %{message}.
+    success_message: La ressource %{resource_source_id} a été dupliquée avec succès vers la 
+      ressource %{resource_duplicated_id}.
+    resource_failure_message: Échec de la duplication de la ressource à partir de la ressource avec 
+      l'ID %{resource_id} ; Erreur de validation %{message}.
+    archival_object_failure_message: Échec de la duplication de l'objet d'archives avec 
+      l'ID %{archival_object_id} à partir de la ressource avec l'ID %{resource_id} ; Erreur de 
+      validation %{message}.
     source_archival_object: Objet d'archives source %{source_archival_object_inspect}.
-    success_reload_message: Terminé. Veuillez cliquer sur Actualiser pour obtenir un lien vers la nouvelle
-      ressource.
+    success_reload_message: Terminé. Veuillez cliquer sur Actualiser pour obtenir un lien vers la 
+      nouvelle ressource.
     job_failed: Le travail a échoué.
     could_not_find_resource: Impossible de trouver la ressource fournie avec l'ID %{resource_id}.
 
@@ -2476,12 +2494,12 @@ fr:
     collections: Collections
     control_file: Collection/Fichier de contrôle
     conservation_note: Note de conservation
-    conservation_note_tooltip: <p>Indique des secteurs prioritaires en ce qui concerne la conservation
-      de la collection.</p>
+    conservation_note_tooltip: <p>Indique des secteurs prioritaires en ce qui concerne la 
+      conservation de la collection.</p>
     deed_of_gift: Acte de donation
     existing_description_notes: Notes descriptives existantes
-    existing_description_notes_tooltip: <p>Tout surcroît d'information concernant la description existante
-      des documents.</p>
+    existing_description_notes_tooltip: <p>Tout surcroît d'information concernant la description 
+      existante des documents.</p>
     finding_aid_ead: Instrument de recherche (EAD-encoding)
     finding_aid_online: Instrument de recherche (en ligne)
     finding_aid_paper: Instrument de recherche (uniquement sur papier)
@@ -2489,14 +2507,16 @@ fr:
     finding_aid_spreadsheet: Instrument de recherche (tableur)
     id: ID
     inactive: Inactive?
-    inactive_tooltip: <p>Indique que la notice d'évaluation n'est plus considérée comme “active” et de
-      ce fait ne devrait plus être incluse dans les recherches et les rapports.</p>
+    inactive_tooltip: <p>Indique que la notice d'évaluation n'est plus considérée comme “active” et 
+      de ce fait ne devrait plus être incluse dans les recherches et les rapports.</p>
     inactive_true: "Oui"
     inactive_false: "Non"
     monetary_value: Valeur marchande
-    monetary_value_tooltip: <p>Evaluation ou estimation du prix des documents évalués (valeur numérique).</p>
+    monetary_value_tooltip: <p>Evaluation ou estimation du prix des documents évalués (valeur 
+      numérique).</p>
     monetary_value_note: Valeur marchande Note
-    monetary_value_note_tooltip: <p>Indique qui a fourni la valeur marchande, à quelle date, etc.</p>
+    monetary_value_note_tooltip: <p>Indique qui a fourni la valeur marchande, à quelle date, 
+      etc.</p>
     surveyed_by: Passé en revue par
     surveyed_by_tooltip: |
       <p>CHAMP OBLIGATOIRE. Nom(s) de la/des personne(s) qui ont réalisé l'évaluation. Champ restreint aux utilisateurs qui ont un compte dans ArchivesSpace.</p>
@@ -2504,26 +2524,28 @@ fr:
     survey_begin_tooltip: |
       <p>CHAMP OBLIGATOIRE. Date de début du passage en revue, au format aaaa-mm-jj.</p>
     survey_end: Fin du passage en revue
-    survey_end_tooltip: <p>Date à laquelle le passage en revue s'est terminé, au format aaaa-mm-jj.</p>
+    survey_end_tooltip: <p>Date à laquelle le passage en revue s'est terminé, au format 
+      aaaa-mm-jj.</p>
     surveyed_duration: Temps passé au passage en revue complet
-    surveyed_duration_tooltip: <p>Temps passé au passage en revue complet, par incrément d'une heure.</p>
+    surveyed_duration_tooltip: <p>Temps passé au passage en revue complet, par incrément d'une 
+      heure.</p>
     surveyed_extent: Quantité passée en revue
-    surveyed_extent_tooltip: <p>Dimensions des documents passés en revue, exprimée en mètres linéaires
-      ou cubes.</p>
+    surveyed_extent_tooltip: <p>Dimensions des documents passés en revue, exprimée en mètres 
+      linéaires ou cubes.</p>
     related_eac_records: Notice(s) EAC liée(s)
     research_value: Valeur pour la recherche
-    research_value_tooltip: <p>Valeur automatiquement calculée en ajoutant la valeur renseignée dans le
-      champ Qualité de la documentation à celle du champ Intérêt.</p>
+    research_value_tooltip: <p>Valeur automatiquement calculée en ajoutant la valeur renseignée dans
+      le champ Qualité de la documentation à celle du champ Intérêt.</p>
     review_required: Passage en revue requis?
-    review_required_tooltip: <p>Indique si le format, le sujet, ou les circonstances, rendent nécessaire
-      un passage en revue de la collection.</p>
+    review_required_tooltip: <p>Indique si le format, le sujet, ou les circonstances, rendent 
+      nécessaire un passage en revue de la collection.</p>
     review_required_true: "Oui"
     review_required_false: "Non"
     review_note: Note de passage en revue
     review_note_tooltip: <p>Explication des résultats d'un passage en revue.</p>
     reviewer: Qui doit passer en revue
-    reviewer_tooltip: <p>Indique qui doit effectuer le passage en revue. Champ restreint aux personnes
-      ayant ont un compte utilisateur dans ArchivesSpace.</p>
+    reviewer_tooltip: <p>Indique qui doit effectuer le passage en revue. Champ restreint aux 
+      personnes ayant ont un compte utilisateur dans ArchivesSpace.</p>
     purpose: But de l'évaluation
     purpose_tooltip: |
       <p>Indique la raison pour laquelle on a procédé à l'évaluation. Par exemples: priorités de conservation, de traitement, expertise, etc.</p>
@@ -2537,12 +2559,12 @@ fr:
     general_assessment_note: Note d'évaluation globale
     general_assessment_note_tooltip: <p>Toute note supplémentaire concernant une évaluation.</p>
     special_format_note: Note de format spécial
-    special_format_note_tooltip: <p>Information supplémentaire ou explicative concernant les formats spéciaux
-      attestés.</p>
+    special_format_note_tooltip: <p>Information supplémentaire ou explicative concernant les formats
+      spéciaux attestés.</p>
     exhibition_value_note: Note d'intérêt pour une expo
-    exhibition_value_note_tooltip: <p>Indique si la collection elle-même ou certains de ses éléments se
-      prêtent spécialement à une exposition. Par exemple, on peut renseigner un artefact, une lettre ou
-      une photographie d'un haut intérêt pour l'histoire.</p>
+    exhibition_value_note_tooltip: <p>Indique si la collection elle-même ou certains de ses éléments
+      se prêtent spécialement à une exposition. Par exemple, on peut renseigner un artefact, une 
+      lettre ou une photographie d'un haut intérêt pour l'histoire.</p>
     rating_attributes_value:
       rating_none: Pas de note
       rating_1: "1"
@@ -2560,34 +2582,36 @@ fr:
   assessment_attribute:
     rating:
       "Reformatting Readiness": Aptitude au reformatage
-      "Reformatting Readiness_tooltip": <p>Une note de 1 à 5 pour indiquer la facilité des documents à
-        être reformatés.</p>
+      "Reformatting Readiness_tooltip": <p>Une note de 1 à 5 pour indiquer la facilité des documents
+        à être reformatés.</p>
       "Housing Quality": Qualité de l'abri
-      "Housing Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la façon dont l'ensemble de la
-        collection est abrité; certains éléments ou groupes d'éléments de la collection peuvent bénéficier
-        d'un abri meilleur que celui indiqué par la note.</p>
+      "Housing Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la façon dont l'ensemble de 
+        la collection est abrité; certains éléments ou groupes d'éléments de la collection peuvent 
+        bénéficier d'un abri meilleur que celui indiqué par la note.</p>
       "Physical Condition": Etat matériel
-      "Physical Condition_tooltip": <p>Une note de 1 à 5 pour caractériser l'état général des documents
-        d'une collection; les éléments ou groupes d'éléments préoccupants seront signalés dans la Note
-        de conservation.</p>
+      "Physical Condition_tooltip": <p>Une note de 1 à 5 pour caractériser l'état général des 
+        documents d'une collection; les éléments ou groupes d'éléments préoccupants seront signalés 
+        dans la Note de conservation.</p>
       "Physical Access (arrangement)": Accès physique (classement)
-      "Physical Access (arrangement)_tooltip": <p>Une note de 1 à 5 pour caractériser l'agencement global
-        d'une collection, en tenant compte de la complexité et de la taille de la collection. Par exemple,
-        une petite collection, relativement homogène et sommairement rangée est en général plus accessible
-        qu'une collection importante, hétérogène, sommairement rangée, ce que doit réfléter la note. (Noter
-        qu'un classement au niveau de l'élément n'est pas souhaitable pour bien des collections; une note
-        de 4 pourrait bien être le maximum souhaitable pour une collection.)</p>
+      "Physical Access (arrangement)_tooltip": <p>Une note de 1 à 5 pour caractériser l'agencement 
+        global d'une collection, en tenant compte de la complexité et de la taille de la collection.
+        Par exemple, une petite collection, relativement homogène et sommairement rangée est en 
+        général plus accessible qu'une collection importante, hétérogène, sommairement rangée, ce 
+        que doit réfléter la note. (Noter qu'un classement au niveau de l'élément n'est pas 
+        souhaitable pour bien des collections; une note de 4 pourrait bien être le maximum 
+        souhaitable pour une collection.)</p>
       "Intellectual Access (description)": Accès intellectuel (description)
-      "Intellectual Access (description)_tooltip": <p>Une note de 1 à 5 pour caractériser la description
-        intellectuelle d'une collection et l'accessibilité de cette description pour les utilisateurs.</p>
+      "Intellectual Access (description)_tooltip": <p>Une note de 1 à 5 pour caractériser la 
+        description intellectuelle d'une collection et l'accessibilité de cette description pour les
+        utilisateurs.</p>
       "Interest": Intérêt
-      "Interest_tooltip": <p>Une note de 1 à 5 qui indique l'intérêt que présentent les documents pour
-        le chercheur, le donateur ou l'histoire locale. Intérêt + Qualité de la documentation déterminent
-        le niveau de "Valeur pour la recherche".</p>
+      "Interest_tooltip": <p>Une note de 1 à 5 qui indique l'intérêt que présentent les documents 
+        pour le chercheur, le donateur ou l'histoire locale. Intérêt + Qualité de la documentation 
+        déterminent le niveau de "Valeur pour la recherche".</p>
       "Documentation Quality": Qualité de la documentation
-      "Documentation Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la richesse de la documentation
-        disponible dans une collection. Intérêt + Qualité de la documentation détermine le niveau de "Valeur
-        pour la recherche".</p>
+      "Documentation Quality_tooltip": <p>Une note de 1 à 5 pour caractériser la richesse de la 
+        documentation disponible dans une collection. Intérêt + Qualité de la documentation 
+        détermine le niveau de "Valeur pour la recherche".</p>
       "Documentation Quality_values_tooltip": "<ul><li><b>Note 1</b>: Faible</li><li><b>Note 2</b>: Occasionnellement
         précieux</li><li><b>Note 3</b>: Assez riche</li><li><b>Note 4</b>: Riche</li><li><b>Note 5</b>:
         Très riche</li></ul>"
@@ -2783,8 +2807,8 @@ fr:
       dup: "Gérée Liste des valeurs contrôlée %{which} a plusieurs instances pour la traduction '%{trans}'.
         '%{used}' sera utilisé comme valeur."
       disam: "Correspondance multiple (s) trouvé pour '%{which}'. Création '%{name}' pour disabiguation."
-      disamuse: "Correspondance multiple (s) trouvé pour '%{which}'. En utilisant déjà créé '%{name}' pour
-        disabiguation."
+      disamuse: "Correspondance multiple (s) trouvé pour '%{which}'. En utilisant déjà créé '%{name}'
+        pour disabiguation."
       single_date_end: "Date unique %{date_str} a la date de fin qui sera ignoré."
     error:
       date_type: "Type Date [%{what}] non valide pour %{date_str}. Défaillant à 'inclusive'"
@@ -2812,7 +2836,8 @@ fr:
       hier_miss: Manquant hierachy - doit être un nombre supérieur à 0
       hier_zero: Hiérarchie doit être supérieure à 0
       hier_wrong: Hiérarchie ne peut pas être plus d'un niveau plus profond que la ligne précédente
-      hier_wrong_resource: avez-vous l'intention de commencer à traiter avec un objet d'archivage sélectionné?
+      hier_wrong_resource: avez-vous l'intention de commencer à traiter avec un objet d'archivage 
+        sélectionné?
       hier_wrong_resource_validation: "ATTENTION: rien en dessous de cette ligne n'aurait été traité"
       hier_below_error_level: L'objet d'archivage mère n'a pas été créé
       level: Manquant valide niveau Description
@@ -2866,7 +2891,8 @@ fr:
 
       find_tc: Impossible de trouver le conteneur supérieur avec les paramètres : %{where}.
       sc_barcode: Impossible de trouver un sous-conteneur avec ce code-barres enfant %{barcode}
-      utf8: Cette feuille de calcul contient du texte non valide ou corrompu qui ne peut pas être traité.
+      utf8: Cette feuille de calcul contient du texte non valide ou corrompu qui ne peut pas être 
+        traité.
     templates: Modèles d'importation en bloc
   parallel_name_person:
     <<: *agent_name_attributes
@@ -2936,8 +2962,8 @@ fr:
     descriptive_note_tooltip: "<p>Le contenu de la note, fournissant des détails sur la notice d'autorité
       liée.</p>"
     file_uri_tooltip: "<p>Un URI pour un enregistrement équivalent dans un fichier d'autorité externe.
-      Exemple: http://id.loc.gov/authorities/names/n80060393 (pour Library of Congress Linked Data Service entry
-      pour Robert W. Service).</p>"
+      Exemple: http://id.loc.gov/authorities/names/n80060393 (pour Library of Congress Linked Data Service
+      entry pour Robert W. Service).</p>"
     file_version_xlink_actuate_attribute_tooltip: "<p>Indique si l'URI associé doit être résolu lors du
       rendu de l'enregistrement de l'agent.</p>"
     file_version_xlink_show_attribute_tooltip: "<p>Indique où la ressource distante liée dans l'URI associé
@@ -3145,31 +3171,32 @@ fr:
   top_container_linker:
     error:
       ref_id_miss: ID de référence manquant dans la feuille de calcul à la ligne %{row_num} .
-      tc_indicator_and_record_no_exist: Seul un indicateur de conteneur supérieur OU un numéro d'enregistrement
-        TC peut être présent pour %{ref_id} dans la ligne %{row_num}.
+      tc_indicator_and_record_no_exist: Seul un indicateur de conteneur supérieur OU un numéro 
+        d'enregistrement TC peut être présent pour %{ref_id} dans la ligne %{row_num}.
       instance_type_does_not_exist: "Le type d'instance %{instance_type} n'existe pas dans la base de
         données (voir la ligne %{row_num} Archival Object %{ref_id}). "
-      tc_indicator_and_record_no_miss: Un indicateur de conteneur supérieur ou un numéro d’enregistrement
-        TC doit être présent pour %{ref_id} à la ligne %{row_num}.
-      sc_barcode_exists: Le code-barres enfant, %{barcode} existe déjà dans la base de données (voir %{ref_id}
-        à la ligne %{row_num}).
-      tc_record_no_missing: L'ID du conteneur supérieur est introuvable : %{tc_id} (voir %{ref_id} à la
-        ligne %{row_num})
+      tc_indicator_and_record_no_miss: Un indicateur de conteneur supérieur ou un numéro 
+        d’enregistrement TC doit être présent pour %{ref_id} à la ligne %{row_num}.
+      sc_barcode_exists: Le code-barres enfant, %{barcode} existe déjà dans la base de données (voir
+        %{ref_id} à la ligne %{row_num}).
+      tc_record_no_missing: L'ID du conteneur supérieur est introuvable : %{tc_id} (voir %{ref_id} à
+        la ligne %{row_num})
       resources_do_not_match: 'La ressource dans la feuille de calcul %{spreadsheet_resource} (ID EAD :
         %{ead_id}) ne correspond pas à la ressource actuelle %{current_resource} dans la ligne %{row_num}'
-      tc_barcode_exists: Le Top Container Barcode, %{barcode} existe déjà dans la base de données (voir
-        %{ref_id} à la ligne %{row_num}).
-      tc_barcode_differs: Le code-barres du conteneur supérieur, %{barcode} est différent d'une autre
-        entrée de votre feuille de calcul pour %{type} %{indicator} (voir %{ref_id} à la ligne %{row_num}).
-      tc_ind_ct_exists: La combinaison Top Container Indicator et Container Type %{tc_type} %{indicator}
-        existe déjà dans la base de données pour un AO dans la ressource %{ead_id} (voir %{ref_id} dans
-        la ligne %{row_num}).
-      sc_barcode_differs: Le code-barres enfant, %{barcode} est différent d'une autre entrée de votre
-        feuille de calcul pour %{type} %{indicator} (voir %{ref_id} à la ligne %{row_num}).
-      loc_not_in_db: L'ID d'emplacement donné, %{loc_id} est introuvable dans la base de données (voir
-        %{ref_id} à la ligne %{row_num}).
-      cp_not_in_db: L'ID de profil de conteneur donné, %{cp_id} est introuvable dans la base de données
+      tc_barcode_exists: Le Top Container Barcode, %{barcode} existe déjà dans la base de données 
         (voir %{ref_id} à la ligne %{row_num}).
+      tc_barcode_differs: Le code-barres du conteneur supérieur, %{barcode} est différent d'une 
+        autre entrée de votre feuille de calcul pour %{type} %{indicator} (voir %{ref_id} à la ligne
+        %{row_num}).
+      tc_ind_ct_exists: La combinaison Top Container Indicator et Container Type %{tc_type} 
+        %{indicator} existe déjà dans la base de données pour un AO dans la ressource %{ead_id} 
+        (voir %{ref_id} dans la ligne %{row_num}).
+      sc_barcode_differs: Le code-barres enfant, %{barcode} est différent d'une autre entrée de 
+        votre feuille de calcul pour %{type} %{indicator} (voir %{ref_id} à la ligne %{row_num}).
+      loc_not_in_db: L'ID d'emplacement donné, %{loc_id} est introuvable dans la base de données 
+        (voir %{ref_id} à la ligne %{row_num}).
+      cp_not_in_db: L'ID de profil de conteneur donné, %{cp_id} est introuvable dans la base de 
+        données (voir %{ref_id} à la ligne %{row_num}).
       problem_adding_current_location: 'Problème lors de l’ajout de l’emplacement actuel (voir %{ref_id}
         dans la ligne %{row_num}) : [%{why}]'
       problem_setting_container_profile: 'Problème de configuration du profil du conteneur (voir %{ref_id}
@@ -3177,21 +3204,21 @@ fr:
       no_tc: 'Impossible de créer le conteneur supérieur (voir %{ref_id} dans la ligne %{row_num}) : [%{why}]'
       error_linking_tc_to_ao: "Un problème est survenu lors de l'association de l'objet d'archivage au
         conteneur supérieur : %{why}"
-      resource_not_in_db: Impossible de trouver la ressource %{ead_id} dans la base de données à la ligne
-        %{row_num}
+      resource_not_in_db: Impossible de trouver la ressource %{ead_id} dans la base de données à la 
+        ligne %{row_num}
       job_file_empty: Aucun fichier à traiter pour la liaison du conteneur supérieur
-      ao_not_in_db: Impossible de trouver l’objet d’archivage %{ref_id} dans la base de données de la
-        ligne %{row_num}.
+      ao_not_in_db: Impossible de trouver l’objet d’archivage %{ref_id} dans la base de données de 
+        la ligne %{row_num}.
       instance_type_miss: "Type d'instance manquant dans la feuille de calcul pour la ligne %{row_num}
         Objet d'archivage %{ref_id}. "
       ead_id_miss: 'Il manque un ID EAD à cette ligne : (voir %{ref_id} dans la ligne %{row_num})'
-    log_validate_only: Ignorer la création et la liaison des conteneurs supérieurs puisque l'option de
-      validation uniquement est activée.
+    log_validate_only: Ignorer la création et la liaison des conteneurs supérieurs puisque l'option 
+      de validation uniquement est activée.
     log_creating_linker: "Création d'un nouvel éditeur de liens de conteneur supérieur pour le référentiel :
       %{repo_id}"
     log_validating: Validation des données de la feuille de calcul...
-    log_skipping_due_to_errors: Ignorer la création et la liaison des conteneurs supérieurs en raison
-      d'erreurs.
+    log_skipping_due_to_errors: Ignorer la création et la liaison des conteneurs supérieurs en 
+      raison d'erreurs.
     log_creating_and_linking: Créer et lier les meilleurs conteneurs...
   metadata_rights_declaration:
     license_tooltip: "<p>Nom de la licence (le cas échéant) qui régit les conditions dans lesquelles les
@@ -3253,8 +3280,8 @@ fr:
     add_new: Ajouter une nouvelle ARK
     set_current: Définir sur actuel
     unsubmitted_input: Vous avez une entrée non soumise
-    only_current_ark_can_be_external: L'ARK actuelle ne peut pas être remplacée tant qu'elle est marquée
-      comme externe.
+    only_current_ark_can_be_external: L'ARK actuelle ne peut pas être remplacée tant qu'elle est 
+      marquée comme externe.
   bulk_import_template:
     _singular: Modèle d'importation en bloc
     _plural: Modèles d'importation en bloc
