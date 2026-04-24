@@ -413,10 +413,10 @@ es:
       idiomas y / o escrituras o formas transliteradas del nombre.</p>
       <p>Ver DACS 10.3.1, ISAAR (CPF) 5.1.3</p>"
     language: Idioma
-    language_tooltip: "<p>Indica el idioma utilizado en la grabación del formulario de nombre. Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
+    language_tooltip: "<p>Indica el idioma utilizado en la grabación del formulario de nombre.</p><p>Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
       ruso (para Каспаров, Г. К. (Гарри Кимович))</p>"
     script: Texto
-    script_tooltip: "<p>Indica la secuencia de comandos utilizada para registrar el formulario de nombre.
+    script_tooltip: "<p>Indica la secuencia de comandos utilizada para registrar el formulario de nombre.</p><p>
       Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo: cirílico (para Каспаров, Г. К. (Гарри Кимович))</p>"
     transliteration: Transcripción
     transliteration_tooltip: "<p>Indica el esquema de transliteración utilizado para registrar la forma
@@ -424,7 +424,6 @@ es:
     authority_id: Identificador de autoridad
     authority_id_tooltip: |
       <p>El identificador único para la forma del nombre de un autoridad dentro de la fuente de la cual fue adquirida, (es decir, un identificador de registro MADS o identificador récord EAC). El identificador puede ser representado como un URI.</p>
-      <p>Ver DACS 13.2, ISAAR (CPF) 5.4.1</p>
       <p>Ejemplos</p>
       <ul>
       <li>nr92045078 <em>para una partida de nombre LCNAF</em></li>
@@ -730,15 +729,15 @@ es:
     dates: fechas
     ref: Agente relacionado
 
-    relationship_type_tooltip: Término controlado que describe, en términos generales, la naturaleza
-      de la relación entre el agente primario y el agente relacionado. Ver DACS 12.3.1, ISAAR (CPF) 5.3.2
-    specific_relator_tooltip: Término controlado que describe más específicamente la naturaleza de 
-      la relación entre el agente primario y el agente relacionado. Ver DACS 12.3.2, ISAAR (CPF) 5.3.3
+    relationship_type_tooltip: <p>Término controlado que describe, en términos generales, la naturaleza
+      de la relación entre el agente primario y el agente relacionado.</p><p>Ver DACS 12.3.1, ISAAR (CPF) 5.3.2</p>
+    specific_relator_tooltip: <p>Término controlado que describe más específicamente la naturaleza de 
+      la relación entre el agente primario y el agente relacionado.</p><p>Ver DACS 12.3.2, ISAAR (CPF) 5.3.3</p>
     relationship_uri_tooltip: Un URI que apunta a una entrada en una ontología u otro recurso para 
       tipos de relaciones entre agentes. Se utiliza principalmente para los fines de EAC-CPF.
-    description_tooltip: Una descripción de texto libre de la naturaleza de la relación. Ver DACS 12.3.2, ISAAR (CPF) 5.3.3
-    related_agent_tooltip: La persona, familia o entidad corporativa relacionada con el agente 
-      principal. Ver DACS 12.1-12.2, ISAAR (CPF) 5.3.1
+    description_tooltip: <p>Una descripción de texto libre de la naturaleza de la relación. </p><p>Ver DACS 12.3.2, ISAAR (CPF) 5.3.3</p>
+    related_agent_tooltip: <p>La persona, familia o entidad corporativa relacionada con el agente 
+      principal. </p><p>Ver DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
   agent_relationship_parentchild:
     <<: *related_agent_attributes
     _singular: Relación padre/hijo
@@ -1375,22 +1374,22 @@ es:
     agent_alternate_sets_tooltip: "<p>Se utiliza para señalar registros de autoridad vinculados cuando
       dos o más registros de la misma entidad se derivan de dos o más sistemas de autoridad.</p>"
     agent_conventions_declarations_tooltip: "<p>Estándar de contenido utilizado en la formulación del
-      contenido del registro del Agente. Ver DACS 13.3, ISAAR (CPF) 5.4.3. Ejemplo: Descripción de archivos: un estándar de contenido. Este
+      contenido del registro del Agente.</p><p>Ver DACS 13.3, ISAAR (CPF) 5.4.3. Ejemplo: Descripción de archivos: un estándar de contenido. Este
       subregistro se puede utilizar en lugar de las entradas de Reglas en formularios de nombres individuales.</p>"
     agent_other_agency_codes_tooltip: "<p>Información sobre códigos alternativos para la agencia u organización
       responsable de crear o mantener un registro de Agente.</p>"
     agent_maintenance_histories_tooltip: "<p>Eventos asociados con la creación o mantenimiento del registro
-      de Agente. Ver DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>"
+      de Agente.</p><p>Ver DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>"
     agent_record_identifiers_tooltip: "<p>Identificadores asociados con el registro del Agente.</p>"
     agent_sources_tooltip: "<p>Una fuente utilizada en la formulación del contenido del registro del Agente. Ver DACS 13.8, ISAAR (CPF) 5.4.8</p>"
     agent_identifiers_tooltip: "<p>Identificadores asociados con una entidad, como identificadores legales
       asignados por una agencia autorizada. Los ejemplos incluyen un identificador ORCID para una persona
       o un código de depósito MARC para una entidad corporativa.</p>"
     agent_genders_tooltip: Género del sujeto.
-    agent_places_tooltip: Coloque la información asociada con el agente. Ver DACS 11.3, ISAAR (CPF) 5.2.3
-    agent_occupations_tooltip: Información de ocupación asociada con el agente. Ver DACS 11.5, ISAAR (CPF) 5.2.5 
-    agent_functions_tooltip: Términos utilizados para identificar las funciones, procesos, tareas, 
-      actividades o transacciones realizadas por el agente. Ver DACS 11.5, ISAAR (CPF) 5.2.5
+    agent_places_tooltip: <p>Coloque la información asociada con el agente.</p><p>Ver DACS 11.3, ISAAR (CPF) 5.2.3</p>
+    agent_occupations_tooltip: <p>Información de ocupación asociada con el agente.</p><p>Ver DACS 11.5, ISAAR (CPF) 5.2.5 </p>
+    agent_functions_tooltip: <p>Términos utilizados para identificar las funciones, procesos, tareas, 
+      actividades o transacciones realizadas por el agente.</p><p>Ver DACS 11.5, ISAAR (CPF) 5.2.5</p>
     agent_topics_tooltip: Un sujeto asociado con el agente.
     agent_contacts_tooltip: "<p>Información de contacto del agente o representante que trabaja en su nombre.</p>"
     used_languages_tooltip: 'El (los) idioma (s) asociados con el agente. Ejemplo: inglés.'
@@ -1425,10 +1424,10 @@ es:
     related_agents_tooltip: |
       <p>Permite enlaces de este registro de autoridad a otro en asociativa, jerárquica, o las relaciones padre-hijo.</p>
     external_documents_tooltip: |
-      <p>Permite enlaces a la documentación externa, por ejemplo archivos biográficos, obras de referencia, etc. acerca de este autoridad. Ver DACS 14.1, ISAAR (CPF) 6.1</p>
+      <p>Permite enlaces a la documentación externa, por ejemplo archivos biográficos, obras de referencia, etc. acerca de este autoridad.</p><p>Ver DACS 14.1, ISAAR (CPF) 6.1</p>
     dates_of_existence: Fechas de existencia
     dates_of_existence_tooltip: |
-      <p>Fechas en las cuales el autoridad existió. Ver DACS 11.1, ISAAR (CPF) 5.2.1</p>
+      <p>Fechas en las cuales el autoridad existió.</p><p>Ver DACS 11.1, ISAAR (CPF) 5.2.1</p>
     publish: Publicar
     _singular: Autoridad
     _plural: Autoridades
@@ -1690,10 +1689,10 @@ es:
       <p>La expresión de la fecha para cuando se generó la actual ayuda de hallazgo de la descripción del recurso.</p>
     finding_aid_author: Autor del instrumento de descripción
     finding_aid_author_tooltip: |
-      <p>Los nombres (s) de los autoridades responsables de crear el contenido de la ayuda de encontrar o su codificación. Ver DACS 8.1.5, ISAD(g) 3.7.1</p>
+      <p>Los nombres (s) de los autoridades responsables de crear el contenido de la ayuda de encontrar o su codificación.</p><p>Ver DACS 8.1.5, ISAD(g) 3.7.1</p>
     finding_aid_description_rules: Reglas de Descripción
     finding_aid_description_rules_tooltip: |
-      <p>Indica las reglas descriptivas usadas para guiar la descripción del recurso. Ver DACS 8.1.4, ISAD(g) 3.7.2</p>
+      <p>Indica las reglas descriptivas usadas para guiar la descripción del recurso.</p><p>Ver DACS 8.1.4, ISAD(g) 3.7.2</p>
       <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
     finding_aid_language: Lengua del instrumento de descripción
     finding_aid_language_tooltip: |
@@ -1736,7 +1735,7 @@ es:
     _plural: Revision Statements
     date: Revision Date
     date_tooltip: |
-      <p>Especifica la fecha de la última revisión de la descripción. Ver DACS 8.1.5, ISAD(g) 3.7.3</p>
+      <p>Especifica la fecha de la última revisión de la descripción.</p><p>Ver DACS 8.1.5, ISAD(g) 3.7.3</p>
     description: Revision Description
     description_tooltip: |
       <p>A description of the last revision(s) done to the instrumento de descripción.</p>
@@ -2829,11 +2828,11 @@ es:
       NAF (para nr2003017069). Los valores de esta Lista de valores controlados pueden modificarse.</p>"
     record_identifier_tooltip: "<p>El identificador del registro del Agente, que generalmente consta de
       una cadena alfanumérica única. El identificador puede originarse en un archivo de autoridad externa
-      o generarse localmente.</p>"
+      o generarse localmente.</p><p>Ver DACS 13.2, ISAAR (CPF) 5.4.1</p>"
     is_primary: Primario
 
   agent_record_control:
-    maintenance_status_tooltip: "<p>Indica el estado actual del registro. Ver DACS 13.4, ISAAR (CPF) 5.4.4</p>"
+    maintenance_status_tooltip: "<p>Indica el estado actual del registro.</p><p>Ver DACS 13.4, ISAAR (CPF) 5.4.4</p>"
     publication_status_tooltip: "<p>Indica si un registro de agente debe estar disponible públicamente.</p>"
     romanization_tooltip: "<p>Indica si la forma de nombre autorizada se romanizó a partir de una escritura
       no latina y el tipo de esquema de romanización. Ejemplo: estándar de biblioteca nacional o agencia
@@ -2849,24 +2848,24 @@ es:
       los registros de agentes utilizados para reunir varios Agentes con nombres idénticos deben 
       marcarse como "Indiferenciados".</p>
     level_of_detail_tooltip: "<p>Indica la integridad del registro del agente de acuerdo con los requisitos
-      locales o consorciados. Ver DACS 13.5, ISAAR (CPF) 5.4.5</p>"
+      locales o consorciados.</p><p>Ver DACS 13.5, ISAAR (CPF) 5.4.5</p>"
     modified_record_tooltip: "<p>Indica si se ha modificado un registro de agente y cómo se ha modificado.</p>"
     cataloging_source_tooltip: <p>Indica dónde se originó un registro de agente. Los registros 
       producidos localmente que no se envíen a un programa cooperativo de catalogación deben 
       registrarse como "Otro".</p>
     maintenance_agency_tooltip: "<p>Valor de código para la agencia u organización responsable de crear
       o mantener un registro de Agente. El valor del código debe tomarse de un registro y registrarse
-      utilizando las convenciones ISO 15511. Ver DACS 13.1, ISAAR (CPF) 5.4.2. Ejemplo: US-UPB (para la Universidad Brigham Young, utilizando
+      utilizando las convenciones ISO 15511.</p><p>Ver DACS 13.1, ISAAR (CPF) 5.4.2. Ejemplo: US-UPB (para la Universidad Brigham Young, utilizando
       el código de organización MARC de la Biblioteca del Congreso).</p>"
     agency_name_tooltip: "<p>El nombre de la agencia u organización responsable de crear o mantener un
       registro de Agente. El nombre registrado debe corresponder con la forma del nombre asociada con
-      el valor del código en el registro. Ver ISAAR (CPF) 5.4.2. Ejemplo: Universidad Brigham Young, Biblioteca Harold B. Lee
+      el valor del código en el registro.</p><p>Ver ISAAR (CPF) 5.4.2.</p><p>Ejemplo: Universidad Brigham Young, Biblioteca Harold B. Lee
       (para el valor de código UPB, utilizando el Código de organización MARC de la Biblioteca del Congreso).</p>"
     maintenance_agency_note_tooltip: "<p>El contenido de la nota, que proporciona detalles sobre la agencia
       de mantenimiento responsable de la descripción del Agente.</p>"
-    language_tooltip: "<p>El idioma utilizado en la preparación de la descripción del Agente. Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
+    language_tooltip: "<p>El idioma utilizado en la preparación de la descripción del Agente.</p><p>Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
       inglés.</p>"
-    script_tooltip: "<p>El guión de texto utilizado en la preparación de la descripción del agente. Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
+    script_tooltip: "<p>El guión de texto utilizado en la preparación de la descripción del agente.</p><p>Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
       latín.</p>"
     language_note_tooltip: "<p>El contenido de la nota, que proporciona detalles sobre el idioma y las
       escrituras utilizadas en la preparación de la descripción del Agente.</p>"
@@ -2917,7 +2916,7 @@ es:
     agency_code_type_tooltip: "<p>La fuente del código de la agencia de mantenimiento. Ejemplo: OCLC.</p>"
     maintenance_agency_tooltip: "<p>Valores de código alternativos para la agencia u organización responsable
       de crear o mantener un registro de Agente. El valor del código debe tomarse de un registro y registrarse
-      utilizando las convenciones ISO 15511. Ver DACS 13.1, ISAAR (CPF) 5.4.2. Ejemplo: OCLC-UBY (para Estados Unidos, Universidad Brigham
+      utilizando las convenciones ISO 15511.</p><p>Ver DACS 13.1, ISAAR (CPF) 5.4.2.</p><p>Ejemplo: OCLC-UBY (para Estados Unidos, Universidad Brigham
       Young, con el símbolo de OCLC).</p>"
 
   agent_maintenance_histories:
@@ -2951,7 +2950,7 @@ es:
 
   agent_identifiers:
     entity_identifier_tooltip: "<p>Registra identificadores asociados con una entidad, como identificadores
-      legales asignados por una agencia autorizada. Ver DACS 10.4, ISAAR (CPF) 5.1.6</p>"
+      legales asignados por una agencia autorizada.</p><p>Ver DACS 10.4, ISAAR (CPF) 5.1.6</p>"
     identifier_type_tooltip: "<p>Indica el tipo o fuente del identificador de entidad registrado.</p>"
   used_language:
     language_tooltip: "<p>El (los) idioma (s) asociados con el agente. Ejemplo: inglés.</p>"
@@ -2967,7 +2966,7 @@ es:
   agent_resource:
     linked_agent_role_tooltip: "<p>CAMPO REQUERIDO: El tipo de relación de la entidad que se describe
       con el recurso.</p>"
-    linked_resource_tooltip: "<p>Un recurso relacionado con el agente / entidad. Ver DACS 14.1, ISAAR (CPF) 6.1</p>"
+    linked_resource_tooltip: "<p>Un recurso relacionado con el agente / entidad.</p><p>Ver DACS 14.1, ISAAR (CPF) 6.1</p>"
     linked_resource_description_tooltip: "<p>Campo de texto libre para registrar información bibliográfica,
       información de colección relacionada, etc.</p>"
     file_uri_tooltip: "<p>Un URI para la ubicación en línea del recurso relacionado con el agente/entidad. Ver DACS 14.1, ISAAR (CPF) 6.1.</p>"

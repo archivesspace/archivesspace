@@ -300,12 +300,12 @@ de:
       das in der Benutzeroberfläche besser untergebracht werden kann.</p>\n<p>Beispiele:</p>\n<ul>\n<li>INHBS
       <em>(für Ihr Name Hier Bibliothek für besondere Sammlungen)</em></li>\n<li>OENB <em>(für Österreichische
       Nationalbibliothek)</em></li>\n<li>GStA PK <em>(für Geheimes Staatsarchiv Preußischer Kulturbesitz)</em></li>\n\
-      </ul>\n"
-    name_tooltip: "<p>ERFORDERLICHES FELD. Name des Aufbewahrungsorts, der die administrative Verantwortung
+      </ul>\n
+    name_tooltip: <p>ERFORDERLICHES FELD. Name des Aufbewahrungsorts, der die administrative Verantwortung
       für das in den Modulen \"Eingang\", \"Ressource\" und \"Digitales Objekt\" der Anwendung beschriebenen
-      Archivguts trägt und diese verwahrt.</p>\n<p>Siehe DACS 2.2, ISDIAH 5.1.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Ihr
+      Archivguts trägt und diese verwahrt.</p><p>Siehe DACS 2.2, ISDIAH 5.1.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Ihr
       Name Hier Bibliothek für besondere Sammlungen</li>\n<li>Österreichische Nationalbibliothek</li>\n\
-      \ <li>Geheimes Staatsarchiv Preußischer Kulturbesitz</li>\n</ul>\n"
+      \ <li>Geheimes Staatsarchiv Preußischer Kulturbesitz</li>\n</ul>\n
     linker:
       browse: Aufbewahrungsorte durchsuchen
       create: Aufbewahrungsort erstellen
@@ -331,7 +331,7 @@ de:
     notes: Anmerkungen
     type: Akteur-Typ
     type_tooltip: "<p>Der Typ der Entität, die durch Die Akteur-Aufzeichnung repräsentiert wird.</p>\n\
-      \ <p>Siehe DACS 10.2, ISAAR (CPF) 5.1.1, und PREMIS Agent-Entität</p>\n"
+      \ <p>Siehe DACS 10.2, ISAAR (CPF) 5.1.1, und PREMIS Agent-Entität</p>\n
     agent_type:
       agent_family: Familie
       agent_person: Person
@@ -354,8 +354,8 @@ de:
       in assoziativen, hierarchischen oder Eltern/Kind-Beziehungen.</p>\n"
     dates_of_existence: Existenzdaten
     external_documents_tooltip: "<p>Ermöglicht Verknüpfungen mit externer Dokumentation, z. B. biografische
-      Dateien, Referenzwerke usw. über diesen Akteur. Siehe DACS 14.1, ISAAR (CPF) 6.1</p>\n"
-    dates_of_existence_tooltip: "<p>Daten, in denen der Akteur existierte. Siehe DACS 11.1, ISAAR (CPF) 5.2.1</p>\n"
+      Dateien, Referenzwerke usw. über diesen Akteur.</p><p>Siehe DACS 14.1, ISAAR (CPF) 6.1</p>\n"
+    dates_of_existence_tooltip: "<p>Daten, in denen der Akteur existierte.</p><p>Siehe DACS 11.1, ISAAR (CPF) 5.2.1</p>\n"
     publish: Veröffentlichen
     _plural: Akteure
     new_title:
@@ -370,15 +370,15 @@ de:
     agent_other_agency_codes_tooltip: "<p>Informationen über alternative Codes für die Agentur oder Organisation,
       die für die Erstellung oder Pflege einer Akteur-Aufzeichnung verantwortlich ist.</p>\n"
     agent_maintenance_histories_tooltip: "<p>Ereignisse im Zusammenhang mit der Erstellung oder Pflege
-      der Akteur-Aufzeichnung. Siehe DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>\n"
+      der Akteur-Aufzeichnung.</p><p>Siehe DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>\n"
     agent_record_identifiers_tooltip: "<p>Signaturen, die der Akteur-Aufzeichnung zugeordnet sind.</p>\n"
     agent_sources_tooltip: "<p>Eine Quelle, die bei der Formulierung des Inhalts der Akteur-Aufzeichnung
-      verwendet wird. Siehe DACS 13.8, ISAAR (CPF) 5.4.8</p>\n"
+      verwendet wird.</p><p>Siehe DACS 13.8, ISAAR (CPF) 5.4.8</p>\n"
     agent_genders_tooltip: Geschlecht des Subjekts.
-    agent_occupations_tooltip: Dem Akteur zugeordnete Berufsinformationen. Siehe DACS 11.5, ISAAR (CPF) 5.2.5
-    agent_places_tooltip: Dem Akteur zugeordnete Ortsinformationen. Siehe DACS 11.3, ISAAR (CPF) 5.2.3
+    agent_occupations_tooltip: Dem Akteur zugeordnete Berufsinformationen.</p><p>Siehe DACS 11.5, ISAAR (CPF) 5.2.5
+    agent_places_tooltip: Dem Akteur zugeordnete Ortsinformationen.</p><p>Siehe DACS 11.3, ISAAR (CPF) 5.2.3
     agent_functions_tooltip: Begriffe zur Identifizierung der Funktionen, Prozesse, Aufgaben, 
-      Aktivitäten oder Transaktionen, die vom Akteur ausgeführt werden. Siehe DACS 11.5, ISAAR (CPF) 5.2.5
+      Aktivitäten oder Transaktionen, die vom Akteur ausgeführt werden.</p><p>Siehe DACS 11.5, ISAAR (CPF) 5.2.5
     agent_topics_tooltip: Ein mit dem Akteur verbundenes Thema.
     agent_contacts_tooltip: "<p>Kontaktinformationen für den Akteur oder einen Vertreter, der in seinem
       Namen handelt.</p>\n"
@@ -387,7 +387,7 @@ de:
     related_agent_tooltip: Wird verwendet, um andere Akteure mit einer Beziehung zum Akteur zu 
       verknüpfen und die Art der Beziehung anzugeben.
     agent_conventions_declarations_tooltip: "<p>Ein Inhaltsstandard, der bei der Formulierung des Inhalts
-      der Akteur-Aufzeichnung verwendet wird. Siehe DACS 13.3, ISAAR (CPF) 5.4.3. Beispiel: ISAD(G) - Internationale Grundsätze für die archivische
+      der Akteur-Aufzeichnung verwendet wird.</p><p>Siehe DACS 13.3, ISAAR (CPF) 5.4.3. Beispiel: ISAD(G) - Internationale Grundsätze für die archivische
       Verzeichnung. Diese Teilaufzeichnung kann anstelle von Regel-Eintragungen auf einzelnen Namensformen
       verwendet werden.</p>\n"
     agent_identifiers_tooltip: "<p>Bezeichner, die mit einer Entität verbunden sind, wie z. B. rechtliche
@@ -887,10 +887,10 @@ de:
     authorized: Autorisiert
     is_display_name: Anzeigename
     language: Sprache
-    language_tooltip: "<p>Gibt die Sprache an, in der die Namensform aufgezeichnet wurde. Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel: Russisch
+    language_tooltip: "<p>Gibt die Sprache an, in der die Namensform aufgezeichnet wurde.</p><p>Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel: Russisch
       (für Каспаров, Г. К. (Гарри Кимович))</p>\n"
     script: Schrift
-    script_tooltip: "<p>Gibt die Schrift an, die bei der Aufzeichnung der Namensform verwendet wird. Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel:
+    script_tooltip: "<p>Gibt die Schrift an, die bei der Aufzeichnung der Namensform verwendet wird.</p><p>Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel:
       Kyrillisch (für Каспаров, Г. К. (Гарри Кимович))</p>\n"
     transliteration: Transliteration
     transliteration_tooltip: "<p>Gibt das Transliterationsschema an, das bei der Aufzeichnung der Namensform
@@ -904,7 +904,7 @@ de:
       die Karl-Borromäus-Kirche (Zentralfriedhof Wien, Österreich))</em></li>\n</ul>\n"
     authority_id_tooltip: "Der eindeutige Bezeichner für die Namensform eines Akteurs innerhalb der Quelle,
       aus der dieser gewonnen wurde (d. h. ein MADS-Datensatzbezeichner oder EAC-Datensatzbezeichner).
-      Der Bezeichner kann als URI dargestellt werden;\n<p>Siehe DACS 13.2, ISAAR (CPF) 5.4.1</p>\n<p>Beispiele:</p>\n<ul>\n\
+      Der Bezeichner kann als URI dargestellt werden;\n\n<ul>\n\
       \ <li>nr92045078 <em>für eine LCNAF-Namensüberschrift</em></li>\n<li>500115393 <em>für eine ULAN-Namensüberschrift</em></li>\n\
       \ <li>http://viaf.org/viaf/134138653 <em>für eine VIAF-Namensüberschrift</em>\n</ul>\n"
     title_tooltip: "<p>Ein Titel, der Teil des Namens ist.</p>\n<p>Beispiele:</p>\n<ul>\n<li>Sir <em>(für
@@ -990,11 +990,11 @@ de:
     is_primary: Primär
     record_identifier_tooltip: "<p>Die Signatur für die Akteur-Aufzeichnung, die normalerweise aus einer
       eindeutigen alphanumerischen Zeichenfolge besteht. Die Signatur kann aus einer externen Autoritäts-Datei
-      stammen oder lokal erzeugt werden.</p>\n"
+      stammen oder lokal erzeugt werden.</p><p>See DACS 13.2, ISAAR (CPF) 5.4.1</p>\n"
     source_tooltip: "<p>Gibt die Autoritäts-Datei einer zugehörigen Signatur an. Beispiel: NAF (für nr2003017069).
       Die Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n"
   agent_record_control:
-    maintenance_status_tooltip: "<p>Zeigt den aktuellen Status der Aufzeichnung an. Siehe DACS 13.4, ISAAR (CPF) 5.4.4</p>\n"
+    maintenance_status_tooltip: "<p>Zeigt den aktuellen Status der Aufzeichnung an.</p><p>Siehe DACS 13.4, ISAAR (CPF) 5.4.4</p>\n"
     publication_status_tooltip: "<p> Gibt an, ob eine Akteur-Aufzeichnung öffentlich verfügbar sein soll.
       </p>\n"
     government_agency_type_tooltip: "<p> Gibt die Art der Behörde oder der Gerichtsbarkeit an, die durch
@@ -1007,7 +1007,7 @@ de:
       die zur Erfassung mehrerer Akteure mit identischen Namen verwendet werden, als \"Undifferenziert\"\
       \ gekennzeichnet werden sollten.</p>\n"
     level_of_detail_tooltip: "<p>Gibt die Vollständigkeit der Akteur-Aufzeichnung gemäß den Anforderungen
-      des Konsortiums oder lokalen Anforderungen an. Siehe DACS 13.5, ISAAR (CPF) 5.4.5</p>\n"
+      des Konsortiums oder lokalen Anforderungen an.</p><p>Siehe DACS 13.5, ISAAR (CPF) 5.4.5</p>\n"
     modified_record_tooltip: "<p>Gibt an, ob eine Akteur-Aufzeichnung geändert wurde und wie sie geändert
       wurde.</p>\n"
     cataloging_source_tooltip: "<p>Gibt an, woher eine Akteur-Aufzeichnung stammt. Lokal produzierte Aufzeichnungen,
@@ -1015,11 +1015,11 @@ de:
       \ erfasst werden.</p>\n"
     maintenance_agency_tooltip: "<p>Code-Wert für die Behörde oder Organisation, die für die Erstellung
       oder Pflege einer Akteur-Aufzeichnung verantwortlich ist. Der Code-Wert sollte einem Register entnommen
-      und nach den Konventionen der ISO 15511 aufgezeichnet werden. Siehe DACS 13.1, ISAAR (CPF) 5.4.2. Beispiel: US-UPB (für Brigham Young
+      und nach den Konventionen der ISO 15511 aufgezeichnet werden.</p><p>Siehe DACS 13.1, ISAAR (CPF) 5.4.2. Beispiel: US-UPB (für Brigham Young
       University, unter Verwendung des Library of Congress MARC Organization Code).</p>\n"
-    language_tooltip: "<p>Die bei der Erstellung der Akteurbeschreibung verwendete Sprache. Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel:
+    language_tooltip: "<p>Die bei der Erstellung der Akteurbeschreibung verwendete Sprache.</p><p>Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel:
       Englisch.</p>\n"
-    script_tooltip: "<p>Die Schrift, die bei der Erstellung der Akteurbeschreibung verwendet wird. Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel:
+    script_tooltip: "<p>Die Schrift, die bei der Erstellung der Akteurbeschreibung verwendet wird.</p><p>Siehe DACS 13.7, ISAAR (CPF) 5.4.7. Beispiel:
       Lateinische Schrift.</p>\n"
     maintenance_agency_note_tooltip: "<p>Der Inhalt der Anmerkung mit Angaben über die für die Akteur-Aufzeichnung
       zuständige Organisation.</p>\n"
@@ -1029,7 +1029,7 @@ de:
       für Каспаров, Г. К. (Гарри Кимович)).</p>\n"
     agency_name_tooltip: "<p>Der Name der Behörde oder Organisation, die für die Erstellung oder Pflege
       einer Akteur-Aufzeichnung verantwortlich ist. Der erfasste Name sollte mit der, mit dem Code-Wert
-      im Register verknüpften, Namensform übereinstimmen. Siehe ISAAR (CPF) 5.4.2. Beispiel: Brigham Young University, Harold B.
+      im Register verknüpften, Namensform übereinstimmen. </p><p>Siehe ISAAR (CPF) 5.4.2. </p><p>Beispiel: Brigham Young University, Harold B.
       Lee Library (für den Code-Wert UPB, unter Verwendung des Library of Congress MARC Organization Code).</p>\n"
     language_note_tooltip: "<p>Der Inhalt der Anmerkung mit Angaben über die Sprache und die Schriften,
       die bei der Erstellung der Akteurbeschreibung verwendet wurden.</p>\n"
@@ -1077,7 +1077,7 @@ de:
     agency_code_type_tooltip: "<p>Die Quelle des Codes der Organisation. Beispiel: OCLC.</p>\n"
     maintenance_agency_tooltip: "<p>Alternative Code-Werte für die Behörde oder Organisation, die für
       die Erstellung oder Pflege einer Akteur-Aufzeichnung verantwortlich ist. Der Codewert sollte einem
-      Register entnommen und nach den Konventionen der ISO 15511 aufgezeichnet werden. Siehe DACS 13.1, ISAAR (CPF) 5.4.2. Beispiel: OCLC-UBY
+      Register entnommen und nach den Konventionen der ISO 15511 aufgezeichnet werden.</p><p>Siehe DACS 13.1, ISAAR (CPF) 5.4.2. Beispiel: OCLC-UBY
       (für Vereinigte Staaten, Brigham Young University, unter Verwendung des OCLC-Symbols).</p>\n"
   agent_maintenance_histories:
     maintenance_event_type_tooltip: "<p>Gibt die Art des Wartungsereignisses an.</p>\n"
@@ -1109,7 +1109,7 @@ de:
   agent_identifiers:
     identifier_type_tooltip: "<p> Gibt die Art oder Quelle des erfassten Entitäts-Bezeichners an.</p>\n"
     entity_identifier_tooltip: "<p>Erfasst zu einer Entität zugeordnete Bezeichner, wie rechtsgültige
-      Bezeichner, die von einer Autoritäts-Organisation vergeben werden. Siehe DACS 10.4, ISAAR (CPF) 5.1.6</p>\n"
+      Bezeichner, die von einer Autoritäts-Organisation vergeben werden.</p><p>Siehe DACS 10.4, ISAAR (CPF) 5.1.6</p>\n"
   used_language:
     language_tooltip: "<p>Die Sprache(n), die dem Akteur zugeordnet sind. Beispiel: Englisch.</p>\n"
     script_tooltip: "<p>Die dem Akteur zugeordnete Schrift. Beispiel: Lateinische Schrift.</p>\n"
@@ -1117,7 +1117,7 @@ de:
     gender_tooltip: "<p>Geschlecht des Subjekts.</p></br><p>Werte für diese Liste können über das Menü
       System -> Aufzählungs-Listen verwalten hinzugefügt oder geändert werden.</p>\n"
   agent_resource:
-    linked_resource_tooltip: "<p>Eine Ressource, die sich auf den Akteur/die Entität bezieht. Siehe DACS 14.1, ISAAR (CPF) 6.1</p>\n"
+    linked_resource_tooltip: "<p>Eine Ressource, die sich auf den Akteur/die Entität bezieht.</p><p>Siehe DACS 14.1, ISAAR (CPF) 6.1</p>\n"
     file_version_xlink_actuate_attribute_tooltip: "<p>Gibt an, ob der zugehörige URI beim Anzeigen der
       Akteur-Beschreibung aufgelöst werden soll.</p>\n"
     file_version_xlink_show_attribute_tooltip: "<p>Gibt an, wo die im zugehörigen URI verknüpfte entfernte
@@ -1130,7 +1130,7 @@ de:
       URI verknüpften Ressource.</p>\n"
     linked_agent_role_tooltip: "<p> ERFORDERLICHES FELD: Die Art der Beziehung der beschriebenen Entität
       zur Ressource.</p>\n"
-    file_uri_tooltip: "<p>Ein URI für den Online-Speicherort der Ressource, die mit dem Agenten/der Entität verknüpft ist. Siehe DACS 14.1, ISAAR (CPF) 6.1</p>\n"
+    file_uri_tooltip: "<p>Ein URI für den Online-Speicherort der Ressource, die mit dem Agenten/der Entität verknüpft ist.</p><p>Siehe DACS 14.1, ISAAR (CPF) 6.1</p>\n"
     linked_resource_description_tooltip: "<p>Freies Textfeld zur Aufnahme bibliografischer Informationen,
       Informationen über die zugehörige Sammlung usw.</p>\n"
   subrecord_subject_agent_occupation:
@@ -1234,8 +1234,8 @@ de:
   related_agent: &related_agent_attributes
     relator: Richtungsabhängige Beziehungsart
     specific_relator: Spezifische Beziehungsart
-    specific_relator_tooltip: Ein kontrollierter Begriff, der die Art der Beziehung zwischen dem 
-      Hauptakteur und dem verbundenen Akteur genauer beschreibt. Siehe DACS 12.3.2, ISAAR (CPF) 5.3.3
+    specific_relator_tooltip: <p>Ein kontrollierter Begriff, der die Art der Beziehung zwischen dem 
+      Hauptakteur und dem verbundenen Akteur genauer beschreibt.</p><p>Siehe DACS 12.3.2, ISAAR (CPF) 5.3.3</p>
     relationship_uri: Beziehungs-URI
     relationship_uri_tooltip: Ein URI, der auf einen Eintrag in einer Ontologie oder einer anderen 
       Ressource für Beziehungstypen zwischen Akteuren verweist. Wird vorwiegend für die Zwecke von 
@@ -1243,17 +1243,17 @@ de:
     relator_tooltip: Wenn ein allgemeiner Beziehungstyp Teil eines Paares mit zwei 
       Richtungsmöglichkeiten ist (z. B. Eltern-Kind), wird ein kontrollierter Begriff verwendet, der
       die Richtung der Beziehung angibt.
-    description_tooltip: Eine Freitextbeschreibung der Art der Beziehung. Siehe DACS 12.3.2, ISAAR (CPF) 5.3.3
+    description_tooltip: <p>Eine Freitextbeschreibung der Art der Beziehung.</p><p>Siehe DACS 12.3.2, ISAAR (CPF) 5.3.3</p>
     date: Datum
     ref: Verwandter Akteur
     _plural: Verwandte Akteure
     relationship_type: Allgemeine Beziehungsart
-    relationship_type_tooltip: Ein kontrollierter Begriff, der grob gesagt die Art der Beziehung 
-      zwischen dem Hauptakteur und dem verbundenen Akteur beschreibt. Siehe DACS 12.3.1, ISAAR (CPF) 5.3.2
+    relationship_type_tooltip: <p>Ein kontrollierter Begriff, der grob gesagt die Art der Beziehung 
+      zwischen dem Hauptakteur und dem verbundenen Akteur beschreibt.</p><p>Siehe DACS 12.3.1, ISAAR (CPF) 5.3.2</p>
     description: Beschreibung
     _singular: Verwandter Akteur
-    related_agent_tooltip: Die Person, Familie oder Körperschaft, die mit dem Hauptakteur verwandt 
-      ist. Siehe DACS 12.1-12.2, ISAAR (CPF) 5.3.1
+    related_agent_tooltip: <p>Die Person, Familie oder Körperschaft, die mit dem Hauptakteur verwandt 
+      ist.</p><p>Siehe DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
   related_agents:
     <<: *related_agent_attributes
   agent_relationship_earlierlater:
@@ -1465,7 +1465,7 @@ de:
     _plural: Umfänge
     _singular: Umfang
     container_summary_tooltip: "<p>Eine Liste von Behältnissen und Behältnis-Typen, die das in der Komponenten-Aufzeichnung
-      beschriebene Archivgut enthalten. Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n<p>Beispiele:</p>\n<ul>\n<li>10 Aktenkartons, 6 Archivkartons,
+      beschriebene Archivgut enthalten. </p><p>Siehe DACS 2.5, ISAD(G) 3.1.5</p>\n<p>Beispiele:</p>\n<ul>\n<li>10 Aktenkartons, 6 Archivkartons,
       3 Überformatordner.</li>\n<li>12 Schuhkartons.</li>\n<li>4 Archivschachteln, 32 Röhren.</li>\n</ul>\n"
   external_document: &external_document_attributes
     publish: Veröffentlichen?
@@ -1823,10 +1823,10 @@ de:
       aus der Ressourcenbeschreibung erstellt wurde.</p>\n"
     finding_aid_author: Autor des Findmittels
     finding_aid_author_tooltip: "<p>Die Namen der Akteure, die für die Erstellung des Inhalts des Findmittels
-      oder seiner Kodierung verantwortlich sind. Siehe DACS 8.1.5, ISAD(g) 3.7.1</p>\n"
+      oder seiner Kodierung verantwortlich sind.</p><p>Siehe DACS 8.1.5, ISAD(g) 3.7.1</p>\n"
     finding_aid_description_rules: Beschreibungs-Regeln
     finding_aid_description_rules_tooltip: "<p>Gibt die beschreibenden Regeln an, die zur Beschreibung
-      der Ressource verwendet werden. Siehe DACS 8.1.4, ISAD(g) 3.7.2</p>\n<p>Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n"
+      der Ressource verwendet werden.</p><p>Siehe DACS 8.1.4, ISAD(g) 3.7.2</p>\n<p>Werte in dieser Aufzählungs-Liste können bearbeitet werden.</p>\n"
     finding_aid_language: Sprache der Beschreibung
     finding_aid_language_tooltip: "<p>Gibt alle Sprachen an, die in dem aus der Ressourcenbeschreibung
       erzeugten Findmittel vorhanden sind.</p>\n"
@@ -1895,7 +1895,7 @@ de:
     _singular: Überarbeitungs-Erklärung
     _plural: Überarbeitungs-Erklärungen
     date: Datum der Überarbeitung
-    date_tooltip: "<p>Gibt das Datum der letzten Überarbeitung des Findmittels an. Siehe DACS 8.1.5, ISAD(g) 3.7.3</p>\n"
+    date_tooltip: "<p>Gibt das Datum der letzten Überarbeitung des Findmittels an.</p><p>Siehe DACS 8.1.5, ISAD(g) 3.7.3</p>\n"
     description_tooltip: "<p>Eine Beschreibung der letzten Überarbeitung(en), die am Findmittel vorgenommen
       wurde(n).</p>\n"
     publish_tooltip: "<p>Gibt an, ob diese Überarbeitungs-Erklärung auf öffentlichen Besucher-Schnittstellen

@@ -228,7 +228,7 @@ it:
       in altre sezioni dell'applicazione.</p>\n"
     subjects_tooltip: "<p>Usato per linkare i soggetti coi materiali descritti.</p>\n"
     lang_materials_tooltip: "<p>Le lingue e gli scripts rappresentati nel materiale/i descritto/i.</p>\n\
-      \ <p>Vedere DACS 4.5, ISAD(G) 3.4.3</p>\n"
+      \ <p>Vedi DACS 4.5, ISAD(G) 3.4.3</p>\n"
     notes_tooltip: "<p>Ulteriori informazioni descrittive sui materiali descritti, solitamente in forma
       di testo o liste strutturate.</p>\n"
     rights_statements_tooltip: "<p>Informazioni riguardo lo stato dei diritti dei materiali descritti
@@ -403,12 +403,12 @@ it:
     authorized: Autorizzato
     is_display_name: Nome visualizzato
     language: Lingua
-    language_tooltip: "<p>Indica la lingua usata nella registrazione del nome. Vedi DACS 13.7, ISAAR (CPF) 5.4.7. Esempio: Russo (per Каспаров,
+    language_tooltip: "<p>Indica la lingua usata nella registrazione del nome.</p><p>Vedi DACS 13.7, ISAAR (CPF) 5.4.7. Esempio: Russo (per Каспаров,
       Г. К. (Гарри Кимович))</p>\n"
     script: Script
     transliteration: Traslitterazione
     transliteration_tooltip: "<p>Indica lo schema di traslitterazione usato nella registrazione del nome.</p>\n"
-    script_tooltip: "<p>Indica lo script usato nella registrazione del nome. Vedi DACS 13.7, ISAAR (CPF) 5.4.7. Esempio: Cirillico (per Каспаров,
+    script_tooltip: "<p>Indica lo script usato nella registrazione del nome.</p><p>Vedi DACS 13.7, ISAAR (CPF) 5.4.7. Esempio: Cirillico (per Каспаров,
       Г. К. (Гарри Кимович))</p>\n"
     qualifier_tooltip: "<p>Un termine o una frase per distinguere due nomi identici in tutti gli aspetti
       ma che identificano due entità differenti.  Il termine può essere una data, un luogo od ogni altro
@@ -419,7 +419,7 @@ it:
     is_primary: Primario
   agent_identifiers:
     entity_identifier_tooltip: "<p>Registra gli identificatori associati a un'entità, come un identificatore
-      legale assegnato da un'agenzia autorevole. Vedi DACS 10.4, ISAAR (CPF) 5.1.6</p>\n"
+      legale assegnato da un'agenzia autorevole.</p><p>Vedi DACS 10.4, ISAAR (CPF) 5.1.6</p>\n"
     identifier_type_tooltip: "<p>Indica il tipo o la fonte dell'identificatore dell'entità registrata.</p>\n"
   rights_statement_external_document:
     identifier_type: Tipo di identificatore
