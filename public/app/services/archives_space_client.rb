@@ -102,7 +102,7 @@ class ArchivesSpaceClient
     begin
       results = do_search(url)
     rescue RequestFailedException => error
-      Rails.logger.error("Login failed on #{username} : #{password} with #{error}")
+      Rails.logger.error("Login failed for user: #{username} - #{error.message}")
     end
     results
   end

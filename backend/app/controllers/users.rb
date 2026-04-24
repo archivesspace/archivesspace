@@ -84,19 +84,15 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/users/pui')
     .description('')
     .permissions([])
-    .returns([200, ""]) \
+    .returns([200, "true or false"]) \
   do
     if session
-      user_id = User.find(username: session[:user]).id
-      raise NotFoundException.new unless user_id
+      user = User.find(username: session[:user])
+      raise NotFoundException.new unless user
 
-      user = User[user_id]
-      user_perms = user.permissions.values.flatten.uniq
-      response = user_perms.include?('view_pui')
-
-      json_response(response)
+      json_response(user.permissions.values.flatten.include?('view_pui'))
     else
-      json_response('status' => 'no_active_session')
+      false
     end
   end
 

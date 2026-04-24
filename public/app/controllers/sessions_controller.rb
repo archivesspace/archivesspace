@@ -14,9 +14,7 @@ class SessionsController < ApplicationController
       session[:pui_username] = response['user']['username']
       redirect_to ('/')
     else
-      flash.now[:alert] = "Invalid."
       raise LoginFailedException.new("#{response}")
-      redirect_to ('/')
     end
   end
 
@@ -27,6 +25,6 @@ class SessionsController < ApplicationController
     request['X-ArchivesSpace-Session'] = session[:session]
     response = http.request(request)
     reset_session
-    redirect_to ('/'), notice: "Logged out successfully."
+    redirect_to '/', notice: "Logged out successfully."
   end
 end

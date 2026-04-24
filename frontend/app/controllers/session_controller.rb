@@ -57,19 +57,17 @@ class SessionController < ApplicationController
     end
   end
 
-  def check_pui_session
-    response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
-    response.headers['Access-Control-Allow-Credentials'] = 'true'
 
+  def check_pui_session
+    set_pui_cors_headers
     render json: { username: session[:user], view_pui: user_can_view_pui? }
   end
 
+
   def logout_pui_session
-    response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
-    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    set_pui_cors_headers
 
     if session[:session]
-      Rails.logger.error("Lora staff session #{session[:session].inspect}")
       reset_session
       redirect_to :root
     end
@@ -139,6 +137,11 @@ class SessionController < ApplicationController
       can_access: can_edit || can_view,
       mode: mode
     }
+  end
+
+  def set_pui_cors_headers
+    response.headers['Access-Control-Allow-Origin'] = AppConfig[:public_proxy_url]
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
   end
 
   def user_can_view_pui?

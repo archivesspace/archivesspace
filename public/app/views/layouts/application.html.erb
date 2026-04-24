@@ -14,6 +14,14 @@
 		<meta name="referrer" content="origin-when-cross-origin" />
 	<% end %>
 
+	<% if AppConfig[:pui_require_authentication] %>
+		<script>
+			FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
+			PUI_USER = "<%= j(session[:username]) %>";
+			STAFF_USER = "<%= j(session[:username]) %>";
+		</script>
+	<% end %>
+
 	<script>
 	 var APP_PATH = '<%= PrefixHelper.app_prefix("") %>';
 	 var SHOW_IDENTIFIERS_IN_TREE = <%= AppConfig[:pui_display_identifiers_in_resource_tree] %>;
@@ -46,39 +54,46 @@
 		<!-- End plugin layout -->
 	<% end %>
 
-	<%= render partial: 'shared/skipnav' %>
-
-	<div class="container-fluid no-pad">
-		<%= render partial: 'shared/header' %>
-		<%= render partial: 'shared/navigation' %>
+	<% if AppConfig[:pui_require_authentication] && request.path != '/login' %>
+	<div id="auth-check">
+		<div class="d-flex justify-content-center align-items-center vh-100">
+			<div class="text-center">
+				<div class="spinner-border text-primary" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+				<p class="mt-3">Verifying access...</p>
+			</div>
+		</div>
 	</div>
+	<% end %>
 
-	<%= render partial: 'shared/pui_authentication' %>
+	<div id="pui-container" style="<%= AppConfig[:pui_require_authentication] && request.path != '/login' ? 'display: none;' : '' %>">
+		<%= render partial: 'shared/skipnav' %>
 
-	<section id="content" class="container-fluid mt-2 pt-2 flex-grow-1">
-		<a id="maincontent" tabindex="-1"></a>
-		<%= flash_messages %>
-		<%= yield %>
-	</section>
+		<div class="container-fluid no-pad">
+			<%= render partial: 'shared/header' %>
+			<%= render partial: 'shared/navigation' %>
+		</div>
 
-	<%= render partial: 'shared/footer' %>
+		<%= render partial: 'shared/pui_authentication' %>
 
-	<% if AppConfig[:pui_enable_staff_link] %>
-		<% if AppConfig.has_key?(:frontend_proxy_url) && defined?(@result) && @result.respond_to?(:uri) %>
-			<script>
-				FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
-				RECORD_URI = "<%= j(@result.uri) %>";
-			</script>
+		<section id="content" class="container-fluid mt-2 pt-2 flex-grow-1">
+			<a id="maincontent" tabindex="-1"></a>
+			<%= flash_messages %>
+			<%= yield %>
+		</section>
+
+		<%= render partial: 'shared/footer' %>
+
+		<% if AppConfig[:pui_enable_staff_link] %>
+			<% if AppConfig.has_key?(:frontend_proxy_url) && defined?(@result) && @result.respond_to?(:uri) %>
+				<script>
+					FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
+					RECORD_URI = "<%= j(@result.uri) %>";
+				</script>
+			<% end %>
 		<% end %>
-	<% end %>
 
-	<% if AppConfig[:pui_require_authentication] %>
-		<script>
-			FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
-			PUI_USER = "<%= j(session[:username]) %>";
-			STAFF_USER = "<%= j(session[:username]) %>";
-		</script>
-	<% end %>
-
+	</div>
 </body>
 </html>

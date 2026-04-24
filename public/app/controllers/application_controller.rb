@@ -47,28 +47,22 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate_user!
-    if AppConfig[:pui_require_authentication]
-      if session[:pui_username]
-        uri = URI("#{AppConfig[:backend_url]}/users/pui")
-        http = Net::HTTP.new(uri.host, uri.port)
-        request = Net::HTTP::Get.new(uri.request_uri)
-        request['X-ArchivesSpace-Session'] = session[:session]
-        response = http.request(request)
-        if response.code == '200'
-          if !JSON.parse(response.body)
-            flash[:error] = "User `#{session[:username]}` does not have permission to view the PUI."
-            render 'shared/login'
-          end
-        else
-          # Something is up with our session, so stop future problems
-          session[:session] = nil
-          render 'shared/login'
-          return
-        end
-      else
-        Rails.logger.error("Lora in controller #{params.inspect}")
-        return
-      end
+    return unless AppConfig[:pui_require_authentication]
+    return unless session[:pui_username]
+
+    uri = URI("#{AppConfig[:backend_url]}/users/pui")
+    http = Net::HTTP.new(uri.host, uri.port)
+    request = Net::HTTP::Get.new(uri.request_uri)
+    request['X-ArchivesSpace-Session'] = session[:session]
+
+    response = http.request(request)
+
+    if response.code == '200' && !JSON.parse(response.body)
+      flash.now[:error] = "User `#{session[:username]}` does not have permission to view the PUI."
+      render 'shared/login'
+    elsif response.code != '200'
+      session[:session] = nil
+      render 'shared/login'
     end
   end
 
