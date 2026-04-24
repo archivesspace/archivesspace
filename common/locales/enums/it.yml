@@ -1157,6 +1157,11 @@ it:
       appraisal: Valutazione
       abstract: Astratto
       accessrestrict: Condizioni che regolano l'accesso
+      accruals: Accantonamenti
+      acqinfo: Fonte di acquisizione immediata
+      altformavail: Esistenza e ubicazione delle copie
+      arrangement: Disposizione
+      bibliography: Bibliografia
     script_iso15924:
       Adlm: Adlam
       Bali: Balinese
