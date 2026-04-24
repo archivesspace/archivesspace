@@ -98,7 +98,8 @@ it:
       deve essere completato per un valido METS record affinché possa essere esportato.</p>\n<p>Esempi</p>\n\
       <ul>\n<li>http://hdl.handle.net/1813/13524</li>\n</ul>\n"
     restrictions_tooltip: "<p>Una casella di spunta per indicare che si applicano delle restrizioni. Le
-      restrizioni possono essere spiegate usando nota sub-unità archivistica o diritti sub-unità archivistica.</p>\n"
+      restrizioni possono essere spiegate usando nota sub-unità archivistica o diritti sub-unità archivistica.</p>\n
+      <p>Vedi DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>"
     title_tooltip: "<p>Una espressione del titolo per l'oggetto digitale.  Può essere trascritto dall'oggetto,
       o ereditato da una fonte risorsa/risorsa compontente dell'unità archivistica, o assegnato dal deposito.</p>\n\
       \ <p>Il titolo dell'oggetto digitale può complessivamente essere lo stesso della risorsa o della
@@ -211,12 +212,12 @@ it:
     _plural: Depositi
     org_code_tooltip: "<p>Un codice conforme con ISO/DIS 15511 ISIL (Information and Documentation International
       Standard Identifier for Libraries and Related Organizations). Per le istituzioni degli Stati Uniti
-      d'America, questo include codici dalla lista MARC Organization Code.</p>\n<p>Esempi:</p>\n<ul>\n\
+      d'America, questo include codici dalla lista MARC Organization Code. Vedi ISDIAH 5.1.1</p>\n<p>Esempi:</p>\n<ul>\n\
       \ <li>NNU-TL <em>(for Tamiment Library and Robert F. Wagner Labor Archives)</em></li>\n<li>IU-Ar
       <em>(for University of Illinois Archives)</em></li>\n</ul>\n"
   section_tooltips:
     dates_tooltip: "<p>Identifica e registra la/le data/e che riguardano creazione, raggruppamento, accumulo
-      e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4</p>\n"
+      e/o mantenimento e uso dei materiali descritti.</p>\n<p>Vedi DACS 2.4, ISAD(G) 3.1.3/p>\n"
     classification_tooltip: "<p>Usato per linkare i materiali descritti a una classificazione o un termine
       di classificazione (ad es. un sistema gruppo di unità archivistiche) gestiti all'interno dell'applicazione.</p>\n"
     deaccessions_tooltip: '<p>Registra le informazioni su materiali che possono essere stati separati
@@ -227,7 +228,7 @@ it:
       in altre sezioni dell'applicazione.</p>\n"
     subjects_tooltip: "<p>Usato per linkare i soggetti coi materiali descritti.</p>\n"
     lang_materials_tooltip: "<p>Le lingue e gli scripts rappresentati nel materiale/i descritto/i.</p>\n\
-      \ <p>Vedere DACS 4.5</p>\n"
+      \ <p>Vedi DACS 4.5, ISAD(G) 3.4.3</p>\n"
     notes_tooltip: "<p>Ulteriori informazioni descrittive sui materiali descritti, solitamente in forma
       di testo o liste strutturate.</p>\n"
     rights_statements_tooltip: "<p>Informazioni riguardo lo stato dei diritti dei materiali descritti
@@ -402,12 +403,12 @@ it:
     authorized: Autorizzato
     is_display_name: Nome visualizzato
     language: Lingua
-    language_tooltip: "<p>Indica la lingua usata nella registrazione del nome. Esempio: Russo (per Каспаров,
+    language_tooltip: "<p>Indica la lingua usata nella registrazione del nome.</p><p>Vedi DACS 13.7, ISAAR (CPF) 5.4.7. Esempio: Russo (per Каспаров,
       Г. К. (Гарри Кимович))</p>\n"
     script: Script
     transliteration: Traslitterazione
     transliteration_tooltip: "<p>Indica lo schema di traslitterazione usato nella registrazione del nome.</p>\n"
-    script_tooltip: "<p>Indica lo script usato nella registrazione del nome. Esempio: Cirillico (per Каспаров,
+    script_tooltip: "<p>Indica lo script usato nella registrazione del nome.</p><p>Vedi DACS 13.7, ISAAR (CPF) 5.4.7. Esempio: Cirillico (per Каспаров,
       Г. К. (Гарри Кимович))</p>\n"
     qualifier_tooltip: "<p>Un termine o una frase per distinguere due nomi identici in tutti gli aspetti
       ma che identificano due entità differenti.  Il termine può essere una data, un luogo od ogni altro
@@ -418,7 +419,7 @@ it:
     is_primary: Primario
   agent_identifiers:
     entity_identifier_tooltip: "<p>Registra gli identificatori associati a un'entità, come un identificatore
-      legale assegnato da un'agenzia autorevole.</p>\n"
+      legale assegnato da un'agenzia autorevole.</p><p>Vedi DACS 10.4, ISAAR (CPF) 5.1.6</p>\n"
     identifier_type_tooltip: "<p>Indica il tipo o la fonte dell'identificatore dell'entità registrata.</p>\n"
   rights_statement_external_document:
     identifier_type: Tipo di identificatore

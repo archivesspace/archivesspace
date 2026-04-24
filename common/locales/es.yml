@@ -66,13 +66,13 @@ es:
   section_tooltips: &section_tooltips
     lang_materials_tooltip: |
       <p>Los lenguajes y scripts representados en los materiales descritos.</p>
-      <p>Ver DACS 4.5</p>
+      <p>Ver DACS 4.5, ISAD(G) 3.4.3</p>
     dates_tooltip: |
       <p>Identifica y registra las fechas que corresponden a la creación, Asamblea, acumulación, o mantenimiento y utilización de los materiales que se está describiendo.</p>
-      <p>Ver DACS 2.4</p>
+      <p>Ver DACS 2.4, ISAD(G) 3.1.3</p>
     extents_tooltip: |
       <p>Indica el alcance y la naturaleza física de los materiales que se está describiendo.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
     linked_agents_tooltip: |
       <p>Autoridades asociadas como un creador, fuente o tema de los materiales descritos para proporcionar información sobre su contexto.</p>
     subjects_tooltip: |
@@ -128,6 +128,7 @@ es:
     restrictions: ¿Restricciones?
     restrictions_tooltip: |
       <p>Una casilla de verificación para indicar que se aplican restricciones. Las restricciones pueden explicarse mediante los subregistros nota o subregistros de derechos.</p>
+      <p>Ver DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     file_versions_tooltip: |
       <p>Enlaza un objeto digital o un componente de objeto digital a un archivo de contenido asociado, direccionable por URI.</p>
     _singular: Objeto digital
@@ -409,20 +410,20 @@ es:
 
   agent_name: &agent_name_attributes
     parallel_names_tooltip: "<p>Se puede utilizar para registrar una forma paralela del nombre en diferentes
-      idiomas y / o escrituras o formas transliteradas del nombre.</p>"
+      idiomas y / o escrituras o formas transliteradas del nombre.</p>
+      <p>Ver DACS 10.3.1, ISAAR (CPF) 5.1.3</p>"
     language: Idioma
-    language_tooltip: "<p>Indica el idioma utilizado en la grabación del formulario de nombre. Ejemplo:
+    language_tooltip: "<p>Indica el idioma utilizado en la grabación del formulario de nombre.</p><p>Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
       ruso (para Каспаров, Г. К. (Гарри Кимович))</p>"
     script: Texto
-    script_tooltip: "<p>Indica la secuencia de comandos utilizada para registrar el formulario de nombre.
-      Ejemplo: cirílico (para Каспаров, Г. К. (Гарри Кимович))</p>"
+    script_tooltip: "<p>Indica la secuencia de comandos utilizada para registrar el formulario de nombre.</p><p>
+      Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo: cirílico (para Каспаров, Г. К. (Гарри Кимович))</p>"
     transliteration: Transcripción
     transliteration_tooltip: "<p>Indica el esquema de transliteración utilizado para registrar la forma
       del nombre.</p>"
     authority_id: Identificador de autoridad
     authority_id_tooltip: |
       <p>El identificador único para la forma del nombre de un autoridad dentro de la fuente de la cual fue adquirida, (es decir, un identificador de registro MADS o identificador récord EAC). El identificador puede ser representado como un URI.</p>
-      <p>Ver DACS 13.2</p>
       <p>Ejemplos</p>
       <ul>
       <li>nr92045078 <em>para una partida de nombre LCNAF</em></li>
@@ -437,6 +438,7 @@ es:
     rules_tooltip: |
       <p>CONDITIONALLY requiere campo, si no se utiliza el nombre de fuente. Una indicación de las reglas usadas para formular la entrada de nombre.</p>
       <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
+      <p>Ver DACS 13.3, ISAAR (CPF) 5.4.3</p>
     name_order: Nombre de orden
     name_order_tooltip: |
       <p>Indica si la forma debe mostrarse en invertida (apellido, primer nombre) ordenar o directo en orden (nombre apellido).</p>
@@ -727,15 +729,15 @@ es:
     dates: fechas
     ref: Agente relacionado
 
-    relationship_type_tooltip: Término controlado que describe, en términos generales, la naturaleza
-      de la relación entre el agente primario y el agente relacionado.
-    specific_relator_tooltip: Término controlado que describe más específicamente la naturaleza de 
-      la relación entre el agente primario y el agente relacionado.
+    relationship_type_tooltip: <p>Término controlado que describe, en términos generales, la naturaleza
+      de la relación entre el agente primario y el agente relacionado.</p><p>Ver DACS 12.3.1, ISAAR (CPF) 5.3.2</p>
+    specific_relator_tooltip: <p>Término controlado que describe más específicamente la naturaleza de 
+      la relación entre el agente primario y el agente relacionado.</p><p>Ver DACS 12.3.2, ISAAR (CPF) 5.3.3</p>
     relationship_uri_tooltip: Un URI que apunta a una entrada en una ontología u otro recurso para 
       tipos de relaciones entre agentes. Se utiliza principalmente para los fines de EAC-CPF.
-    description_tooltip: Una descripción de texto libre de la naturaleza de la relación.
-    related_agent_tooltip: La persona, familia o entidad corporativa relacionada con el agente 
-      principal.
+    description_tooltip: <p>Una descripción de texto libre de la naturaleza de la relación. </p><p>Ver DACS 12.3.2, ISAAR (CPF) 5.3.3</p>
+    related_agent_tooltip: <p>La persona, familia o entidad corporativa relacionada con el agente 
+      principal. </p><p>Ver DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
   agent_relationship_parentchild:
     <<: *related_agent_attributes
     _singular: Relación padre/hijo
@@ -979,15 +981,15 @@ es:
     number: Cantidad
     number_tooltip: |
       <p>Un valor numérico para indicar el volumen de las unidades del fondo, por ejemplo, 5, 11.5, 245. Se utiliza en conjunción con el tipo de medida que se selecciona a continuación.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
     extent_type: Tipo
     extent_type_tooltip: &extent_type_tooltip |
       <p>Un término que indica el tipo de unidad que se utiliza para medir el grado de materiales descritos.</p>
       <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
     container_summary: Resumen
-    container_summary_tooltip: |
-      <p>Descripción de la extensión del fondo (contenedor).</p>
+    container_summary_tooltip:
+      <p>Descripción de la extensión del fondo (contenedor). Ver DACS 2.5, ISAD(G) 3.1.5</p>
       <p>Ejemplos</p>
       <ul>
       <li>10 metros lineales, 6 Gigabytes de correos electrónicos.</li>
@@ -997,11 +999,11 @@ es:
     physical_details: Detalles físicos
     physical_details_tooltip: |
       <p>Otros detalles físicos de los materiales describen, por ejemplo, negativos analógicos, b&w.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
     dimensions: Dimensiones
     dimensions_tooltip: |
       <p>Dimensiones de los materiales descritos.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
       <p>Ejemplos</p>
       <ul>
       <li>29 cm</li>
@@ -1020,10 +1022,11 @@ es:
     language: Idioma
     language_tooltip: &language_language_tooltip |
       <p>CAMPO REQUERIDO: El término de idioma y el código representado en el (los) material (es) descrito (s). Códigos extraídos de ISO 639-2b: Códigos para la representación de nombres de idiomas.</p>
+      <p>Ver DACS 4.5, ISAD(G) 3.4.3</p>
     script: Guión
     script_tooltip: &language_script_tooltip |
       <p>El término de script y el código representado en el (los) material (es) descrito (s). Códigos extraídos de ISO 15924: Códigos para la representación de nombres de scripts.</p>
-      <p>Ver DACS 4.5</p>
+      <p>Ver DACS 4.5, ISAD(G) 3.4.3</p>
 
   language_note:
     <<: *lang_material_attributes
@@ -1130,7 +1133,7 @@ es:
     label: Etiqueta
     label_tooltip: |
       <p>CAMPO OBLIGATORIO
-      <p>Ver DACS 2.4 y 2.4.3</p>
+      <p>Ver DACS 2.4 y 2.4.3, ISAD(G) 3.1.3</p>
     date_type: Tipo
     date_type_tooltip: |
       <p>Indica el tipo de información de fecha normalizada, ya sea una sola fecha o un rango de fechas (inclusivo o a granel).</p>
@@ -1138,7 +1141,7 @@ es:
     expression: Expresión
     expression_tooltip: |
       <p>Campo obligatorio en caso de no disponer de fecha normalizada</p>
-      <p>Ver DACS 2.4</p>
+      <p>Ver DACS 2.4, ISAD(G) 3.1.3</p>
       <p>Ejemplos:</p>
       <ul>
       <li>1968</li>
@@ -1161,7 +1164,7 @@ es:
     end_inline_help: por ejemplo AAAA, AAAA-MM o YYYY-MM-DD
     end_tooltip: |
       <p>Una fecha normalizada (en la forma AAAA, AAAA-MM o YYYY-MM-DD) que representa la segunda fecha en un intervalo de fechas.</p>
-      <p>Ver 2.4.7-2.4.16 DACS</p>
+      <p>Ver 2.4.7-2.4.16 DACS, ISAD(G) 3.1.3</p>
       <p>Años A.D. se expresan con cuatro dígitos.</p>
       <p>Años antes de Cristo se expresan como un número negativo, por ejemplo,-214 para 214 A.C.</p>
     certainty: Fiabilidad de la fecha
@@ -1231,11 +1234,11 @@ es:
       <p>CAMPO REQUERIDO: el identificador único para una accesión dentro de un repositorio. </p>
       <p>En ArchivesSpace, se proporcionan cuatro campos para analizar un identificador de acceso en sus partes componentes. Cada segmento está limitado a 50 caracteres, o 200 caracteres en total para el identificador. Al menos la primera parte debe usarse para un registro de acceso válido. </p>
       <p>Los valores predeterminados se pueden usar para completar las partes componentes que son iguales en todos los números de acceso. </p>
-      <p>Ver DACS 5.2.5</p>
+      <p>Ver DACS 5.2.5, ISAD(G) 3.2.4</p>
     content_description: Descripción de contenido
     content_description_tooltip: |
       <p>Una descripción de los tipos de documentos y contenidos temáticos de la adhesión. </p>
-      <p>Ver DACS 3.1.4-3.1.7 </p>
+      <p>Ver DACS 3.1.4-3.1.7, ISAD(G) 3.3.1</p>
       <p>Ejemplos: </p>
       <p>Diez cartones de materiales que contienen notas de campo, diarios y borradores de mapas que documentan los 10 años de residencia del Sr. Smith en Otay Mesa Ranch. </p>
     condition_description: Descripción de la condición
@@ -1267,7 +1270,7 @@ es:
     provenance: Procedencia
     provenance_tooltip: |
       <p>Una nota que proporciona información de procedencia sobre un acta de ingreso, como custodia historia, información detallada de entrada, etc..</p>
-      <p>Ver DACS 5.1-5.2</p>
+      <p>Ver DACS 5.1-5.2, ISAD(G) 3.2.3-3.2.4</p>
     retention_rule: Regla de retención
     retention_rule_tooltip: |
       <p>Una nota indicando la retención autoridad o regla para la entrada.
@@ -1278,7 +1281,7 @@ es:
     restrictions_apply: ¿Se aplican restricciones?
     restrictions_apply_tooltip: |
       <p>Indicación de si se aplican restricciones al acta de ingreso.</p>
-      <p>Ver DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.4-4.3.6</p>
+      <p>Ver DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     resource_type: Tipo de recurso
     resource_type_tooltip: |
       <p>Una lista de términos utilizados por un repositorio para categorizar sus recursos en tipos básicos.</p>
@@ -1292,20 +1295,23 @@ es:
     access_restrictions: ¿Restricciones de acceso?
     access_restrictions_tooltip: |
       <p>Una casilla de verificación para indicar el acceso a los materiales está restringido.</p>
-      <p>Ver DACS 4.1.5-4.1.6; 4.2.5-4.2.7, 4.3.5-4.3.6</p>
+      <p>Ver DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
     access_restrictions_note: Nota de las restricciones de acceso
     access_restrictions_note_tooltip: |
       <p>Una declaración indicando qué materiales en el acta de ingreso tienen acceso restringido, lo que la autoridad de la restricción es y por cuánto tiempo la restricción estará en efecto. Información adicional también puede grabarse en un subregistro de derechos.</p>
+      <p>Ver DACS 4.1-4.3; ISAD(G) 3.4.1, 3.4.4</p>
       <p>Ejemplos</p>
       <ul>
-      <li>Diarios en cuadro de diez tienen están restringidos por el donante hasta el 2030.</li>
+      <li>Diarios en cuadro de diez están restringidos por el donante hasta el 2030.</li>
       </ul>
     use_restrictions: ¿Restricciones de uso?
     use_restrictions_tooltip: |
       <p>Una casilla de verificación para indicar que hay restricciones de uso de materiales en la entrada.</p>
+      <p>Ver DACS 4.4, ISAD(G) 3.4.2</p>
     use_restrictions_note: Nota de las restricciones de uso
     use_restrictions_note_tooltip: |
       <p>Una declaración indicando que los materiales tienen restricciones de uso, cómo pueden utilizarse los materiales, lo que la autoridad de la restricción es y por cuánto tiempo la restricción estará en efecto. Información adicional también puede grabarse en un subregistro de derechos.</p>
+      <p>Ver DACS 4.4, ISAD(G) 3.4.2</p>
       <p>Ejemplos</p>
       <p>En la casilla 33 manuscritos son frágiles; fotocopias deben utilizarse en su lugar.</p>
     acquisition_type: Tipo de acta de ingreso
@@ -1325,11 +1331,11 @@ es:
     restrictions: ¿Restricciones?
     restrictions_tooltip: |
       <p>Indicación de si se aplican restricciones al acta de ingreso.</p>
-      <p>Ver DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
+      <p>Ver DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     title: Título
     title_tooltip: |
       <p>El título asignado a una accesión o recurso. El título de la accesión no necesita ser el mismo que el título del recurso. Además, no es necesario expresar un título para el registro de acceso, ya que puede heredarse implícitamente del registro de recursos al que está vinculado el acceso. </p>
-      <p>Ver 2.3.18-2.3.22 DACS</p>
+      <p>Ver 2.3.18-2.3.22 DACS, ISAD(G) 3.1.2</p>
     related_resources_tooltip: |
       <p>Utilizado para vincular los recursos asociados con este proceso de entrada.</p>
     relator: Tipo de relación
@@ -1368,22 +1374,22 @@ es:
     agent_alternate_sets_tooltip: "<p>Se utiliza para señalar registros de autoridad vinculados cuando
       dos o más registros de la misma entidad se derivan de dos o más sistemas de autoridad.</p>"
     agent_conventions_declarations_tooltip: "<p>Estándar de contenido utilizado en la formulación del
-      contenido del registro del Agente. Ejemplo: Descripción de archivos: un estándar de contenido. Este
+      contenido del registro del Agente.</p><p>Ver DACS 13.3, ISAAR (CPF) 5.4.3. Ejemplo: Descripción de archivos: un estándar de contenido. Este
       subregistro se puede utilizar en lugar de las entradas de Reglas en formularios de nombres individuales.</p>"
     agent_other_agency_codes_tooltip: "<p>Información sobre códigos alternativos para la agencia u organización
       responsable de crear o mantener un registro de Agente.</p>"
     agent_maintenance_histories_tooltip: "<p>Eventos asociados con la creación o mantenimiento del registro
-      de Agente.</p>"
+      de Agente.</p><p>Ver DACS 13.6, 13.9; ISAAR (CPF) 5.4.6, 5.4.9</p>"
     agent_record_identifiers_tooltip: "<p>Identificadores asociados con el registro del Agente.</p>"
-    agent_sources_tooltip: "<p>Una fuente utilizada en la formulación del contenido del registro del Agente.</p>"
+    agent_sources_tooltip: "<p>Una fuente utilizada en la formulación del contenido del registro del Agente. Ver DACS 13.8, ISAAR (CPF) 5.4.8</p>"
     agent_identifiers_tooltip: "<p>Identificadores asociados con una entidad, como identificadores legales
       asignados por una agencia autorizada. Los ejemplos incluyen un identificador ORCID para una persona
       o un código de depósito MARC para una entidad corporativa.</p>"
     agent_genders_tooltip: Género del sujeto.
-    agent_places_tooltip: Coloque la información asociada con el agente.
-    agent_occupations_tooltip: Información de ocupación asociada con el agente.
-    agent_functions_tooltip: Términos utilizados para identificar las funciones, procesos, tareas, 
-      actividades o transacciones realizadas por el agente.
+    agent_places_tooltip: <p>Coloque la información asociada con el agente.</p><p>Ver DACS 11.3, ISAAR (CPF) 5.2.3</p>
+    agent_occupations_tooltip: <p>Información de ocupación asociada con el agente.</p><p>Ver DACS 11.5, ISAAR (CPF) 5.2.5 </p>
+    agent_functions_tooltip: <p>Términos utilizados para identificar las funciones, procesos, tareas, 
+      actividades o transacciones realizadas por el agente.</p><p>Ver DACS 11.5, ISAAR (CPF) 5.2.5</p>
     agent_topics_tooltip: Un sujeto asociado con el agente.
     agent_contacts_tooltip: "<p>Información de contacto del agente o representante que trabaja en su nombre.</p>"
     used_languages_tooltip: 'El (los) idioma (s) asociados con el agente. Ejemplo: inglés.'
@@ -1395,7 +1401,7 @@ es:
     type: Tipo de autoridad
     type_tooltip: |
       <p>El tipo de entidad representada por el registro del autoridad.</p>
-      <p>Ver entidad DACS 10.2 y autoridad PREMIS</p>
+      <p>Ver entidad DACS 10.2, ISAAR (CPF) 5.1.1, y autoridad PREMIS</p>
     agent_type:
       agent_family: Familia
       agent_person: Persona
@@ -1408,6 +1414,7 @@ es:
     names: Formularios de nombre
     names_tooltip: |
       <p>SUBRECORDO REQUERIDO: Registra diferentes formas del nombre de un Agente. Cada registro de agente debe tener al menos un subrecord de formulario de nombre.</p>
+      <p>Ver DACS 10.1, 10.3.3; ISAAR (CPF) 5.1.2, 5.1.5</p>
     agent_contacts: Detalles de contacto
     contacts_tooltip: |
       <p>Registros de información sobre un autoridad particular de contacto.</p>
@@ -1417,10 +1424,10 @@ es:
     related_agents_tooltip: |
       <p>Permite enlaces de este registro de autoridad a otro en asociativa, jerárquica, o las relaciones padre-hijo.</p>
     external_documents_tooltip: |
-      <p>Permite enlaces a la documentación externa, por ejemplo archivos biográficos, obras de referencia, etc. acerca de este autoridad.</p>
+      <p>Permite enlaces a la documentación externa, por ejemplo archivos biográficos, obras de referencia, etc. acerca de este autoridad.</p><p>Ver DACS 14.1, ISAAR (CPF) 6.1</p>
     dates_of_existence: Fechas de existencia
     dates_of_existence_tooltip: |
-      <p>Fechas en las cuales el autoridad existió.</p>
+      <p>Fechas en las cuales el autoridad existió.</p><p>Ver DACS 11.1, ISAAR (CPF) 5.2.1</p>
     publish: Publicar
     _singular: Autoridad
     _plural: Autoridades
@@ -1458,7 +1465,7 @@ es:
     title: Título
     title_tooltip: |
       <p>CAMPO OBLIGATORIO CONDICIONAL
-      <p>Ver DACS 2.3</p>
+      <p>Ver DACS 2.3, ISAD(G) 3.1.2</p>
       <p>Ejemplos</p>
       <ul>
       <li>Papeles Graciany Miranda Archilla</li>
@@ -1489,8 +1496,8 @@ es:
       </ul>
     level: Nivel de descripción
     level_tooltip: |
-      <p>CAMPO OBLIGATORIO. Indica. el nivel jerárquico de los materiales que se está describiendo.</p>
-      <p>Consulte el capítulo 1 de la DACS</p>
+      <p>CAMPO OBLIGATORIO. Indica el nivel jerárquico de los materiales que se está describiendo.</p>
+      <p>Consulte el capítulo 1 de la DACS, ISAD(G) 3.1.4</p>
       <p>Los valores son prescritos por el esquema EAD.</p>
     other_level: Otro nivel
     other_level_tooltip: |
@@ -1498,7 +1505,7 @@ es:
     container_summary: Resumen de contenedor
     container_summary_tooltip: |
       <p>Para registrar el número y tipo de contenedores que comprende una descripción del recurso. Esto se considera un texto Resumen y no idénticos con los subregistros de medida.</p>
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
       <p>Ejemplos</p>
       <ul>
       <li>10 cartones récord, 6 archivos de cajas, 3 carpetas de gran tamaño.</li>
@@ -1511,7 +1518,7 @@ es:
     restrictions_apply: ¿Se aplican restricciones?
     restrictions_apply_tooltip: |
       <p>Indica si los materiales descritos tienen algún tipo de limitación legal. En la nota apropiada se describirá la restricción o normativa en cuestión.</p>
-      <p>Ver DACS 4.1-4.4</p>
+      <p>Ver DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note: Nota relativa al proceso técnico
     repository_processing_note_tooltip: |
       <p>Un campo específico de la aplicación para registrar información sobre el procesamiento de los materiales. Esta nota no se incluye en ninguna exportación o informe, y no está poblada por importaciones.</p>
@@ -1610,7 +1617,7 @@ es:
     id_3: Identificador 4
     id_0_tooltip: |
       <p>CAMPO REQUERIDO. El número de identificación asignado a cada Recurso discreto dentro de un Repositorio.</p>
-      <p>Ver DACS 2.1.3</p>
+      <p>Ver DACS 2.1, ISAD(g) 3.1.1. Las normas ISAD(g) establecen que, para el intercambio internacional, deben figurar un código de país (conforme a la norma ISO 3166), un código de repositorio y un código de referencia local específico, un número de control u otro identificador único; los códigos de país y de repositorio pueden añadirse aquí o en el registro del repositorio (en los campos «Código de país» y «Código de organización/agencia»).</p>
       <p>Ejemplos</p>
       <ul>
       <li>R.001 (Dos elementos "R" + "001")</li>
@@ -1622,7 +1629,7 @@ es:
     identifier: Identificador
     title_tooltip: |
       <p>CAMPO OBLIGATORIO. El título asignado al fondo.</p>
-      <p>Ver DACS 2.3</p>
+      <p>Ver DACS 2.3, ISAD(g) 3.1.2</p>
       <p>Ejemplos</p>
       <ul>
       <li>Papeles Graciany Miranda Archilla</li>
@@ -1639,7 +1646,7 @@ es:
     repository_processing_note: Nota relativa al proceso técnico
     extents_tooltip: |
       <p>SUBREGISTRO REQUERIDO
-      <p>Ver DACS 2.5</p>
+      <p>Ver DACS 2.5, ISAD(G) 3.1.5</p>
     related_accessions_tooltip: |
       <p>Se utiliza para vincular accesiones asociadas con este recurso.</p>
     publish_tooltip: |
@@ -1647,7 +1654,7 @@ es:
     restrictions: ¿Restricciones?
     restrictions_tooltip: |
       <p>Indica si los materiales descritos están restringidos de alguna manera. Se debe proporcionar una descripción adicional de la restricción en Notas o Declaraciones de Derechos apropiadas para el registro donde se produce la restricción.</p>
-      <p>Ver DACS 4.1-4.4</p>
+      <p>Ver DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note_tooltip: |
       <p>Un campo para registrar información específica sobre el proceso técnico de los materiales. Esta nota es de uso interno y no se exporta en el instrumento de descripción.</p>
     ead_id: Identificador EAD
@@ -1682,10 +1689,10 @@ es:
       <p>La expresión de la fecha para cuando se generó la actual ayuda de hallazgo de la descripción del recurso.</p>
     finding_aid_author: Autor del instrumento de descripción
     finding_aid_author_tooltip: |
-      <p>Los nombres (s) de los autoridades responsables de crear el contenido de la ayuda de encontrar o su codificación.</p>
+      <p>Los nombres (s) de los autoridades responsables de crear el contenido de la ayuda de encontrar o su codificación.</p><p>Ver DACS 8.1.5, ISAD(g) 3.7.1</p>
     finding_aid_description_rules: Reglas de Descripción
     finding_aid_description_rules_tooltip: |
-      <p>Indica las reglas descriptivas usadas para guiar la descripción del recurso.</p>
+      <p>Indica las reglas descriptivas usadas para guiar la descripción del recurso.</p><p>Ver DACS 8.1.4, ISAD(g) 3.7.2</p>
       <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
     finding_aid_language: Lengua del instrumento de descripción
     finding_aid_language_tooltip: |
@@ -1728,7 +1735,7 @@ es:
     _plural: Revision Statements
     date: Revision Date
     date_tooltip: |
-      <p>Specifies the date the instrumento de descripción was last revised.</p>
+      <p>Especifica la fecha de la última revisión de la descripción.</p><p>Ver DACS 8.1.5, ISAD(g) 3.7.3</p>
     description: Revision Description
     description_tooltip: |
       <p>A description of the last revision(s) done to the instrumento de descripción.</p>
@@ -1754,7 +1761,7 @@ es:
     name: Nombre del repositorio
     name_tooltip: |
       <p>CAMPO OBLIGATORIO. El nombre del repositorio que tiene responsabilidad administrativa y la custodia de los materiales descritos en la entrada, recursos y módulos objeto digital de la aplicación.</p>
-      <p>Ver DACS 2.2</p>
+      <p>Ver DACS 2.2, ISDIAH 5.1.2</p>
       <p>Ejemplos</p>
       <ul>
       <li>Tu nombre aquí biblioteca colecciones especiales</li>
@@ -1763,7 +1770,7 @@ es:
       </ul>
     org_code: Organización / Código de agencia
     org_code_tooltip: |
-      <p>Un código compatible con ISO/DIS 15511 información y documentación internacional identificador estándar para bibliotecas y organizaciones afines (ISIL). Para las instituciones de Estados Unidos, esto incluye los códigos de la lista de códigos MARC organización.</p>
+      <p>Un código compatible con ISO/DIS 15511 información y documentación internacional identificador estándar para bibliotecas y organizaciones afines (ISIL). Para las instituciones de Estados Unidos, esto incluye los códigos de la lista de códigos MARC organización. Ver ISDIAH 5.1.1</p>
       <p>Ejemplos</p>
       <ul>
       <li>NNU-TL <em>(para Tamiment biblioteca y archivos laborales Robert F. Wagner)</em></li>
@@ -2821,11 +2828,11 @@ es:
       NAF (para nr2003017069). Los valores de esta Lista de valores controlados pueden modificarse.</p>"
     record_identifier_tooltip: "<p>El identificador del registro del Agente, que generalmente consta de
       una cadena alfanumérica única. El identificador puede originarse en un archivo de autoridad externa
-      o generarse localmente.</p>"
+      o generarse localmente.</p><p>Ver DACS 13.2, ISAAR (CPF) 5.4.1</p>"
     is_primary: Primario
 
   agent_record_control:
-    maintenance_status_tooltip: "<p>Indica el estado actual del registro.</p>"
+    maintenance_status_tooltip: "<p>Indica el estado actual del registro.</p><p>Ver DACS 13.4, ISAAR (CPF) 5.4.4</p>"
     publication_status_tooltip: "<p>Indica si un registro de agente debe estar disponible públicamente.</p>"
     romanization_tooltip: "<p>Indica si la forma de nombre autorizada se romanizó a partir de una escritura
       no latina y el tipo de esquema de romanización. Ejemplo: estándar de biblioteca nacional o agencia
@@ -2841,24 +2848,24 @@ es:
       los registros de agentes utilizados para reunir varios Agentes con nombres idénticos deben 
       marcarse como "Indiferenciados".</p>
     level_of_detail_tooltip: "<p>Indica la integridad del registro del agente de acuerdo con los requisitos
-      locales o consorciados.</p>"
+      locales o consorciados.</p><p>Ver DACS 13.5, ISAAR (CPF) 5.4.5</p>"
     modified_record_tooltip: "<p>Indica si se ha modificado un registro de agente y cómo se ha modificado.</p>"
     cataloging_source_tooltip: <p>Indica dónde se originó un registro de agente. Los registros 
       producidos localmente que no se envíen a un programa cooperativo de catalogación deben 
       registrarse como "Otro".</p>
     maintenance_agency_tooltip: "<p>Valor de código para la agencia u organización responsable de crear
       o mantener un registro de Agente. El valor del código debe tomarse de un registro y registrarse
-      utilizando las convenciones ISO 15511. Ejemplo: US-UPB (para la Universidad Brigham Young, utilizando
+      utilizando las convenciones ISO 15511.</p><p>Ver DACS 13.1, ISAAR (CPF) 5.4.2. Ejemplo: US-UPB (para la Universidad Brigham Young, utilizando
       el código de organización MARC de la Biblioteca del Congreso).</p>"
     agency_name_tooltip: "<p>El nombre de la agencia u organización responsable de crear o mantener un
       registro de Agente. El nombre registrado debe corresponder con la forma del nombre asociada con
-      el valor del código en el registro. Ejemplo: Universidad Brigham Young, Biblioteca Harold B. Lee
+      el valor del código en el registro.</p><p>Ver ISAAR (CPF) 5.4.2.</p><p>Ejemplo: Universidad Brigham Young, Biblioteca Harold B. Lee
       (para el valor de código UPB, utilizando el Código de organización MARC de la Biblioteca del Congreso).</p>"
     maintenance_agency_note_tooltip: "<p>El contenido de la nota, que proporciona detalles sobre la agencia
       de mantenimiento responsable de la descripción del Agente.</p>"
-    language_tooltip: "<p>El idioma utilizado en la preparación de la descripción del Agente. Ejemplo:
+    language_tooltip: "<p>El idioma utilizado en la preparación de la descripción del Agente.</p><p>Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
       inglés.</p>"
-    script_tooltip: "<p>El guión de texto utilizado en la preparación de la descripción del agente. Ejemplo:
+    script_tooltip: "<p>El guión de texto utilizado en la preparación de la descripción del agente.</p><p>Ver DACS 13.7, ISAAR (CPF) 5.4.7. Ejemplo:
       latín.</p>"
     language_note_tooltip: "<p>El contenido de la nota, que proporciona detalles sobre el idioma y las
       escrituras utilizadas en la preparación de la descripción del Agente.</p>"
@@ -2909,7 +2916,7 @@ es:
     agency_code_type_tooltip: "<p>La fuente del código de la agencia de mantenimiento. Ejemplo: OCLC.</p>"
     maintenance_agency_tooltip: "<p>Valores de código alternativos para la agencia u organización responsable
       de crear o mantener un registro de Agente. El valor del código debe tomarse de un registro y registrarse
-      utilizando las convenciones ISO 15511. Ejemplo: OCLC-UBY (para Estados Unidos, Universidad Brigham
+      utilizando las convenciones ISO 15511.</p><p>Ver DACS 13.1, ISAAR (CPF) 5.4.2.</p><p>Ejemplo: OCLC-UBY (para Estados Unidos, Universidad Brigham
       Young, con el símbolo de OCLC).</p>"
 
   agent_maintenance_histories:
@@ -2943,7 +2950,7 @@ es:
 
   agent_identifiers:
     entity_identifier_tooltip: "<p>Registra identificadores asociados con una entidad, como identificadores
-      legales asignados por una agencia autorizada.</p>"
+      legales asignados por una agencia autorizada.</p><p>Ver DACS 10.4, ISAAR (CPF) 5.1.6</p>"
     identifier_type_tooltip: "<p>Indica el tipo o fuente del identificador de entidad registrado.</p>"
   used_language:
     language_tooltip: "<p>El (los) idioma (s) asociados con el agente. Ejemplo: inglés.</p>"
@@ -2959,12 +2966,10 @@ es:
   agent_resource:
     linked_agent_role_tooltip: "<p>CAMPO REQUERIDO: El tipo de relación de la entidad que se describe
       con el recurso.</p>"
-    linked_resource_tooltip: "<p>Un recurso relacionado con el agente / entidad.</p>"
+    linked_resource_tooltip: "<p>Un recurso relacionado con el agente / entidad.</p><p>Ver DACS 14.1, ISAAR (CPF) 6.1</p>"
     linked_resource_description_tooltip: "<p>Campo de texto libre para registrar información bibliográfica,
       información de colección relacionada, etc.</p>"
-    file_uri_tooltip: "<p>Un URI para la ubicación en línea de la fuente utilizada en la preparación de
-      la descripción del agente. Ejemplo: http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=8373 (para
-      la entrada de Find-A-Grave para Robert W. Service).</p>"
+    file_uri_tooltip: "<p>Un URI para la ubicación en línea del recurso relacionado con el agente/entidad. Ver DACS 14.1, ISAAR (CPF) 6.1.</p>"
     file_version_xlink_actuate_attribute_tooltip: "<p>Indica si el URI asociado debe resolverse cuando
       se procesa el registro del agente.</p>"
     file_version_xlink_show_attribute_tooltip: "<p>Indica dónde se debe representar el recurso remoto
