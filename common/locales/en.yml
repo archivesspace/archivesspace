@@ -1896,6 +1896,7 @@ en:
       advanced_data_entry: "Advanced Data Entry users of the %{repo_code} repository"
       basic_data_entry: "Basic Data Entry users of the %{repo_code} repository"
       repository_viewers: "Viewers of the %{repo_code} repository"
+      pui_viewers: "Viewers of the PUI (system-wide)"
     permission_types:
       manage_repository: assign <b>users</b> to groups (in this repository)<br/>set <b>group</b> permissions (in this repository)<br/>set <b>repository preferences</b> (in this repository)<br/>configure <b>required fields and default values</b> (in this repository)<br/>create and run <b>batch find and replace jobs</b> (in this repository)<br/>create/update/delete <b>locations</b> (system-wide)
       view_agent_contact_record: edit/view contact details section of <b>agents</b> (in this repository)
@@ -1932,6 +1933,7 @@ en:
       manage_assessment_attributes: create/update/delete <b>repository assessment attributes definitions</b> (in this repository)
       manage_enumeration_record: create/update/delete <b>controlled values</b> (system-wide)
       manage_custom_report_templates: create/update/delete <b>custom report templates</b> (in this repository)
+      view_pui: view all records in the <b>PUI</b> (system-wide)
     _singular: Group
     _plural: Groups
 
