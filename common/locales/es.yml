@@ -2192,7 +2192,9 @@ es:
     ark_format_error: Uno de los ARK proporcionados no era un ARK válido.
     mixed_content_invalid_inline_ead: "Marcado EAD no válido: use comillas rectas (\" o ') para los valores
       de los atributos y asegúrese de que las etiquetas estén bien formadas."
-    mixed_content_disallowed_tag: "Se detectó una etiqueta HTML no permitida. Por razones de seguridad, etiquetas como &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; y elementos de formulario no están permitidos en campos de contenido mixto."
+    mixed_content_disallowed_tag: "Se detectó una etiqueta HTML no permitida. Por razones de seguridad,
+      etiquetas como &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; y elementos de formulario no están
+      permitidos en campos de contenido mixto."
   job:
     _singular: Tarea en el background
     _plural: Tareas en el background
@@ -3083,30 +3085,36 @@ es:
         número de registro TC para %{ref_id} en la fila %{row_num}.
       tc_indicator_and_record_no_exist: Solo un indicador de contenedor superior O un número de 
         registro TC puede estar presente para %{ref_id} en la fila %{row_num}.
-      tc_barcode_exists: El código de barras del contenedor superior,%{barcode} ya existe 
-        en la base de datos (consulte %{ref_id} en la fila %{row_num}).
-      tc_barcode_differs: El código de barras del contenedor superior,%{barcode} es 
-        diferente de otra entrada en su hoja de cálculo para %{type}%{indicator} (consulte %{ref_id} en la fila %{row_num}).
-      tc_ind_ct_exists: La combinación de indicador de contenedor superior y tipo de contenedor %{tc_type}%{indicator} ya existe en la base de datos para un AO en el recurso %{ead_id} 
+      tc_barcode_exists: El código de barras del contenedor superior,%{barcode} ya existe en la base
+        de datos (consulte %{ref_id} en la fila %{row_num}).
+      tc_barcode_differs: El código de barras del contenedor superior,%{barcode} es diferente de 
+        otra entrada en su hoja de cálculo para %{type}%{indicator} (consulte %{ref_id} en la fila 
+        %{row_num}).
+      tc_ind_ct_exists: La combinación de indicador de contenedor superior y tipo de contenedor 
+        %{tc_type}%{indicator} ya existe en la base de datos para un AO en el recurso %{ead_id} 
         (consulte %{ref_id} en la fila %{row_num}).
-      sc_barcode_exists: El código de barras secundario,%{barcode} ya existe en la base de
-        datos (consulte %{ref_id} en la fila %{row_num}).
-      sc_barcode_differs: El código de barras secundario,%{barcode} es diferente a otra 
-        entrada en su hoja de cálculo para %{type}%{indicator} (vea %{ref_id} en la fila %{row_num}).
-      loc_not_in_db: El ID de ubicación proporcionado,%{loc_id} no se puede encontrar en la base de
+      sc_barcode_exists: El código de barras secundario,%{barcode} ya existe en la base de datos 
+        (consulte %{ref_id} en la fila %{row_num}).
+      sc_barcode_differs: El código de barras secundario,%{barcode} es diferente a otra entrada en 
+        su hoja de cálculo para %{type}%{indicator} (vea %{ref_id} en la fila %{row_num}).
+      loc_not_in_db: El ID de ubicación proporcionado,%{loc_id} no se puede encontrar en la base de 
         datos (consulte %{ref_id} en la fila %{row_num}).
       cp_not_in_db: El ID de perfil de contenedor proporcionado,%{cp_id}, no se puede encontrar en 
         la base de datos (consulte %{ref_id} en la fila %{row_num}).
       no_tc: 'No se puede crear el contenedor superior (consulte %{ref_id} en la fila %{row_num}): [%{why}]'
-      problem_adding_current_location: 'Problema al agregar la ubicación actual (ver %{ref_id} en la fila %{row_num}): [%{why}]'
+      problem_adding_current_location: 'Problema al agregar la ubicación actual (ver %{ref_id} en la fila
+        %{row_num}): [%{why}]'
       problem_setting_container_profile: 'Problema al configurar el perfil del contenedor (consulte %{ref_id}
         en la fila %{row_num}): [%{why}]'
       error_linking_tc_to_ao: Hubo un problema al vincular el objeto de archivo con el contenedor 
         superior:% {why}
       ead_id_miss: 'A esta fila le falta un ID de EAD: (consulte %{ref_id} en la fila %{row_num})'
-      tc_record_no_missing: "No se puede encontrar el ID del contenedor superior: %{tc_id} (consulte %{ref_id} en la fila %{row_num})"
-      resource_not_in_db: No se puede encontrar el recurso %{ead_id} en la base de datos en la fila %{row_num}
-      resources_do_not_match: "El recurso en la hoja de cálculo %{spreadsheet_resource} (ID de EAD: %{ead_id}) no coincide con el recurso actual %{current_resource} en la fila %{row_num}"
+      tc_record_no_missing: "No se puede encontrar el ID del contenedor superior: %{tc_id} (consulte %{ref_id}
+        en la fila %{row_num})"
+      resource_not_in_db: No se puede encontrar el recurso %{ead_id} en la base de datos en la fila 
+        %{row_num}
+      resources_do_not_match: "El recurso en la hoja de cálculo %{spreadsheet_resource} (ID de EAD: %{ead_id})
+        no coincide con el recurso actual %{current_resource} en la fila %{row_num}"
       job_file_empty: No hay archivo para procesar para la vinculación del contenedor superior
     log_creating_linker: "Creando un nuevo vinculador de contenedor superior para el repositorio: %{repo_id}"
     log_validate_only: Omitir la creación y vinculación de contenedores superiores ya que la opción 
