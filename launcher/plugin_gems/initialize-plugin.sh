@@ -2,35 +2,24 @@
 
 plugin="$1"
 
+if [ "$plugin" = "" ]; then
+  echo "Usage: $0 <plugin name>"
+  exit 1
+fi
+
 # We'll provide our own values for these
 unset GEM_HOME
 unset GEM_PATH
 
-export ASPACE_LAUNCHER_BASE="$("`dirname $0`"/find-base.sh)"
-
-cd "$ASPACE_LAUNCHER_BASE/gems/gems"
-BUNDLER_VERSION=$(ls | grep bundler | cut -d'-' -f 2)
-
-cd "$ASPACE_LAUNCHER_BASE/plugins/$plugin"
-
-if [ "$plugin" = "" ]; then
-    echo "Usage: $0 <plugin name>"
-    exit
-fi
-
-if [ "$?" != "0" ]; then
-    echo "Failed to find plugin: $plugin"
-    exit
-fi
+export ASPACE_LAUNCHER_BASE="$("$(dirname $0)"/find-base.sh)"
 
 export JRUBY=
 for dir in "$ASPACE_LAUNCHER_BASE"/gems/gems/jruby-*; do
-    JRUBY="$JRUBY:$dir/lib/*"
+  JRUBY="$JRUBY:$dir/lib/*"
 done
 
-export GEM_HOME=gems
+export ASPACE_JRUBY_CLASSPATH="$ASPACE_LAUNCHER_BASE/lib/*$JRUBY"
+export ASPACE_JAVA_OPTS="$JAVA_OPTS"
 
-java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main -S gem install bundler -v "$BUNDLER_VERSION"
-java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main "$ASPACE_LAUNCHER_BASE"/gems/bin/bundle install --gemfile=Gemfile
-
-
+java $JAVA_OPTS -cp "$ASPACE_JRUBY_CLASSPATH" \
+  org.jruby.Main "$ASPACE_LAUNCHER_BASE/scripts/rb/initialize_plugin.rb" "$plugin"
