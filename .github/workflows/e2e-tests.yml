@@ -73,9 +73,6 @@ jobs:
           gem install parallel_tests
           bundle config path vendor/bundle
           bundle install --quiet --jobs 4 --retry 3
-      - name: Cucumber strict dry run to check for not implemented steps
-        run: |
-          bundle exec cucumber --dry-run --strict
       - uses: browser-actions/setup-geckodriver@latest
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

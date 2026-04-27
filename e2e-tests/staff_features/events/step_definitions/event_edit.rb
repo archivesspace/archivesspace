@@ -54,10 +54,6 @@ Given 'the Event is opened in the view mode' do
   visit "#{STAFF_URL}/events/#{@event_id}"
 end
 
-When 'the user clears the {string} field at {string} form' do |_string, _string2|
-  pending # Write code here that turns the phrase above into concrete actions
-end
-
 Then 'the Event Type field has the original value' do
   visit "#{STAFF_URL}/events/#{@event_id}/edit"
 

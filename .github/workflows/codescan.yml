@@ -40,7 +40,7 @@ jobs:
           ./build/run rubocop
 
   rubocop-e2e:
-    name: Rubocop-e2e
+    name: E2E-rubocop
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -66,6 +66,40 @@ jobs:
       - name: Run rubocop
         run: |
           bundle exec rubocop
+
+  cucumber-dry-run:
+    name: E2E-ensure-all-steps-implemented
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: e2e-tests
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.0'
+      - name: Cache gems
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Install gems
+        run: |
+          gem install parallel_tests
+          bundle config path vendor/bundle
+          bundle install --quiet --jobs 4 --retry 3
+      - name: Cucumber strict dry run to check for not implemented steps
+        run: |
+          set -o pipefail
+          bundle exec cucumber --dry-run --strict --no-color | tee cucumber-dry-run.out
+          # cucumber --dry-run always exits 0; parse the summary line to fail on undefined/pending steps.
+          if grep -Eq '^[0-9]+ steps? \(.*\b(undefined|pending)\b' cucumber-dry-run.out; then
+            echo "::error::Cucumber dry run found undefined or pending steps"
+            exit 1
+          fi
 
   eslint:
     name: ESLint_Java_v${{ inputs.java-version || 17 }}
