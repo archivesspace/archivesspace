@@ -202,23 +202,66 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
       end
     end
 
-    describe 'Shift + click extends selection at same level only' do
+    describe 'Shift + click extends selection across all depths' do
       before do
         expand_node(ao2.uri)
         wait_for_ajax
-        # Guard the precondition: the level-2 child_ao is now in the DOM between
-        # the two level-1 siblings ao2 and ao3, so the same-level filter is
-        # actually being exercised.
+        # Guard the precondition: the level-2 child_ao is now in the DOM
+        # between the two level-1 siblings ao2 and ao3, so cross-depth range
+        # behavior is actually being exercised.
         expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
       end
 
-      it 'adds same-level siblings and skips the deeper child' do
+      it 'extends across same-level siblings and includes deeper rows in the range' do
         click_row(ao.uri, meta: true)
         click_row(ao3.uri, shift: true)
 
         uris = data_selection_uris.split(',')
-        expect(uris).to include(ao.uri, ao2.uri, ao3.uri)
-        expect(uris).not_to include(child_ao.uri)
+        expect(uris).to eq([ao.uri, ao2.uri, child_ao.uri, ao3.uri])
+      end
+
+      it 'extends from a level-1 anchor to a level-2 endpoint inside an expanded parent' do
+        click_row(ao.uri, meta: true)
+        click_row(child_ao.uri, shift: true)
+
+        uris = data_selection_uris.split(',')
+        expect(uris).to eq([ao.uri, ao2.uri, child_ao.uri])
+
+        evt = last_changed_event
+        expect(evt['detail']['selectedUris']).to eq([ao.uri, ao2.uri, child_ao.uri])
+        expect(evt['detail']['anchorUri']).to eq(child_ao.uri)
+      end
+
+      it 'extends from a level-2 anchor to a level-1 endpoint, walking backward across depths' do
+        click_row(child_ao.uri, meta: true)
+        click_row(ao.uri, shift: true)
+
+        uris = data_selection_uris.split(',')
+        expect(uris).to eq([child_ao.uri, ao.uri, ao2.uri])
+      end
+    end
+
+    describe 'ancestor/descendant overlap is allowed in the explicit selection' do
+      before do
+        expand_node(ao2.uri)
+        wait_for_ajax
+        expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
+      end
+
+      it 'lets Cmd/Ctrl + click add a descendant after its ancestor is already selected' do
+        click_row(ao2.uri, meta: true)
+        click_row(child_ao.uri, meta: true)
+
+        uris = data_selection_uris.split(',')
+        expect(uris).to eq([ao2.uri, child_ao.uri])
+      end
+
+      it 'lets Cmd/Ctrl + click add an ancestor after its descendant is already selected' do
+        click_row(child_ao.uri, meta: true)
+        click_row(ao2.uri, meta: true)
+
+        uris = data_selection_uris.split(',')
+        expect(uris).to eq([child_ao.uri, ao2.uri])
       end
     end
 
@@ -264,53 +307,39 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
       end
     end
 
-    describe 'ancestor/descendant lockout' do
-      before do
-        expand_node(ao2.uri)
-        wait_for_ajax
-        expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
-      end
-
-      it 'marks descendants with .selection-locked and rejects their selection' do
-        click_row(ao2.uri, meta: true)
-
-        expect(page).to have_css(
-          "li.node[data-uri='#{child_ao.uri}'].selection-locked"
-        )
-
-        click_row(child_ao.uri, meta: true)
-
-        expect(data_selection_uris).to eq(ao2.uri)
-      end
-
-      it 'marks ancestors with .selection-locked when a descendant is selected' do
-        click_row(child_ao.uri, meta: true)
-
-        expect(page).to have_css(
-          "li.node[data-uri='#{ao2.uri}'].selection-locked"
-        )
-
-        click_row(ao2.uri, meta: true)
-
-        expect(data_selection_uris).to eq(child_ao.uri)
-      end
-    end
-
-    describe 'collapse prune' do
-      # This is parity with the largetree but is questionable behavior in my opinion.
+    describe 'expand and collapse do not mutate the selection' do
       before do
         expand_node(ao2.uri)
         wait_for_ajax
       end
 
-      it 'drops selected rows that become hidden after an ancestor collapses' do
+      it 'preserves selected descendants in the explicit selection when their ancestor collapses' do
         click_row(child_ao.uri, meta: true)
         expect(data_selection_uris).to eq(child_ao.uri)
 
         collapse_node(ao2.uri)
         wait_for_ajax
 
-        expect(data_selection_uris).to be_nil
+        expect(data_selection_uris).to eq(child_ao.uri)
+      end
+
+      it 'preserves a multi-row selection across collapse + re-expand' do
+        click_row(ao.uri, meta: true)
+        click_row(child_ao.uri, meta: true)
+        expect(data_selection_uris).to eq("#{ao.uri},#{child_ao.uri}")
+
+        collapse_node(ao2.uri)
+        wait_for_ajax
+
+        expect(data_selection_uris).to eq("#{ao.uri},#{child_ao.uri}")
+
+        expand_node(ao2.uri)
+        wait_for_ajax
+
+        expect(data_selection_uris).to eq("#{ao.uri},#{child_ao.uri}")
+        expect(page).to have_css(
+          "li.node[data-uri='#{child_ao.uri}'].multiselected"
+        )
       end
     end
 
