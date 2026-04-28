@@ -280,11 +280,11 @@ en:
   linked_agent: &linked_agent_attributes
     role: Role
     role_tooltip: |
-        <p>REQUIRED FIELD. An indication of what function (creator, source, or subject) the Agent has in regards to its link to a certain description record.</p>
+        <p>REQUIRED FIELD. An indication of what function (creator, source, or subject) the Agent has in regards to its link to a certain description record.</p><p>See DACS 14.3, ISAAR (CPF) 6.3</p>
     relator: Relator
     relator_tooltip: |
         <p>An indication of what role the Agent has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, an Agent may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
-        <p>See MARC Code List for Relators (https://www.loc.gov/marc/relators/).</p>
+        <p>See DACS 14.3, ISAAR (CPF) 6.3 and MARC Code List for Relators (https://www.loc.gov/marc/relators/).</p>
     ref: Agent
     # ref_tooltip is not displaying
     ref_tooltip: |
@@ -772,7 +772,7 @@ en:
 
   agent_resource:
     linked_agent_role_tooltip: |
-        <p>REQUIRED FIELD: The type of relation of entity being described to the resource.</p>
+        <p>REQUIRED FIELD: The type of relation of entity being described to the resource.</p><p>See DACS 14.3, ISAAR (CPF) 6.3</p>
     linked_resource_tooltip: |
         <p>A resource related to the agent/entity.</p><p>See DACS 14.1, ISAAR (CPF) 6.1</p>
     linked_resource_description_tooltip: |
@@ -1620,7 +1620,7 @@ en:
         <p>Indicates all the languages present in the record generated from the accession description.</p>
     script: Script of Description
     script_tooltip: |
-        <p>Indicates all the scripts present in the record generated from the accession description. See DACS 4.5, ISAD(G) 3.4.3</p>
+        <p>Indicates all the scripts present in the record generated from the accession description.<p></p>See DACS 4.5, ISAD(G) 3.4.3</p>
     access_restrictions: Access Restrictions?
     access_restrictions_tooltip: |
         <p>A checkbox for indicating access to the materials is restricted.</p>
@@ -1870,7 +1870,7 @@ en:
         <p>See DACS 4.1-4.4; ISAD(G) 3.4.1, 3.4.2, 3.4.4</p>
     repository_processing_note: Repository Processing Note
     repository_processing_note_tooltip: |
-         <p>An application-specific field for recording information about processing of the materials. This note is not included in EAD exports, but is available through other exports, reports, or plugins.</p>
+         <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     automate_title: Automatically generate title
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: Has Unpublished Ancestor?
