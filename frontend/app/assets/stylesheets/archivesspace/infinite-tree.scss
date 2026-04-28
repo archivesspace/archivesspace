@@ -141,18 +141,11 @@
     }
   }
 
-  // Reorder-mode multi-selection. Colors mirror legacy .multiselected-row in
-  // largetree.scss so the two trees look familiar during the migration.
+  // Reorder-mode multi-selection highlight. See
+  // INFINITETREE_MULTISELECT_BEHAVIOR_SPEC.md for the selection model.
   &.multiselected > .node-row > .node-body {
     background-color: #b6def5;
     outline: 1px solid #0a6aa1;
-  }
-
-  // Ancestors/descendants of any currently-selected row are locked out of
-  // selection (see InfiniteTreeSelection#isLockedRelativeToSelection).
-  &.selection-locked > .node-row > .node-body {
-    opacity: 0.5;
-    cursor: not-allowed;
   }
 }
 
