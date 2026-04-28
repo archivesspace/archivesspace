@@ -285,11 +285,11 @@ fr:
   linked_agent: &linked_agent_attributes
     role: Rôle
     role_tooltip: |
-      <p>CHAMP OBLIGATOIRE. Une indication concernant le statut (créateur, source, ou sujet) de l'agent par rapport à une notice descriptive déterminée.</p>
+      <p>CHAMP OBLIGATOIRE. Une indication concernant le statut (créateur, source, ou sujet) de l'agent par rapport à une notice descriptive déterminée.</p><p>Voir DACS 14.3, ISAAR (CPF) 6.3</p>
     relator: Fonction
     relator_tooltip: |
       <p>Une indication sur la façon dont l'agent assume son statut (de créateur, source, ou sujet) vis-à-vis de telle notice descriptive déterminée. Par ex., un agent peut être lié à une notice en tant que créateur, mais avec la fonction plus spécifique d'"illustrateur".</p>
-      <p>Voir la liste des codes de fonction en UNIMARC.</p>
+      <p>Voir DACS 14.3, ISAAR (CPF) 6.3 et la liste des codes de fonction en UNIMARC.</p>
     ref: Agent
     # ref_tooltip is not displaying
     ref_tooltip: |
@@ -3075,7 +3075,7 @@ fr:
     place_role_tooltip: "<p>Indique la relation entre l'emplacement géographique et l'agent.</p>"
 
   agent_resource:
-    linked_agent_role_tooltip: "<p>CHAMP REQUIS: Le type de relation d'entité décrite avec la ressource.</p>"
+    linked_agent_role_tooltip: "<p>CHAMP REQUIS: Le type de relation d'entité décrite avec la ressource.</p><p>Voir DACS 14.3, ISAAR (CPF) 6.3</p>"
     linked_resource_tooltip: "<p>Une ressource liée à l'agent / l'entité.</p><p>Voir DACS 14.1, ISAAR (CPF) 6.1</p>"
     linked_resource_description_tooltip: "<p>Champ de texte libre pour enregistrer des informations bibliographiques,
       des informations de collection associées, etc.</p>"

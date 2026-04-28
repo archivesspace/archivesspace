@@ -972,11 +972,11 @@ pl:
   linked_agent:
     role: Rola
     role_tooltip: |
-      <p>POLE WYMAGANE. Wskazanie funkcji (twórca, źródło lub podmiot), jaką pełni dany podmiot w odniesieniu do powiązanego z nim rekordu opisu.</p>
+      <p>POLE WYMAGANE. Wskazanie funkcji (twórca, źródło lub podmiot), jaką pełni dany podmiot w odniesieniu do powiązanego z nim rekordu opisu.</p><p>Patrz DACS 14.3, ISAAR (CPF) 6.3</p>
     relator: Agent nieruchomości
     relator_tooltip: |
       <p>Wskazuje rolę, jaką dany podmiot pełni w odniesieniu do swojej funkcji, co jest widoczne w sposobie powiązania (np. twórca, źródło lub podmiot) z konkretnym rekordem opisu. Na przykład, podmiot może być powiązany z rekordem jako twórca, ale z bardziej szczegółową rolą „ilustratora”.</p>
-      <p>Zobacz listę kodów MARC dla relacji (https://www.loc.gov/marc/relators/).</p>
+      <p>Zobacz DACS 14.3, ISAAR (CPF) 6.3, i listę kodów MARC dla relacji (https://www.loc.gov/marc/relators/).</p>
     ref: Osobnik
     ref_tooltip: |
       <p>Agent to podmiot powiązany z materiałem opisanym w rekordzie.</p>

@@ -712,11 +712,11 @@ de:
       ist:</p>\n<p>Zum Beispiel</p>\n<ul><li>Shakespeare, William, 1564-1616. König Lear</li><li> Kafka,
       Franz, 1883-1924. Der Prozess</li><li> Franz Joseph I., 1830-1916. Oktoberdiplom</li></ul>\n"
     role_tooltip: "<p>ERFORDERLICHES FELD. Angabe der Funktion (Urheber, Quelle oder Subjekt), die der
-      Akteur in Bezug auf seine Verbindung zu einem bestimmten Beschreibungsdatensatz hat.</p>\n"
+      Akteur in Bezug auf seine Verbindung zu einem bestimmten Beschreibungsdatensatz hat.</p> <p>Siehe DACS 14.3, ISAAR (CPF) 6.3</p>\n"
     relator_tooltip: "<p>Eine Angabe der Rolle des Akteurs in Bezug auf seine Funktion, wie sie in der
       Verknüpfung (z. B. Urheber, Quelle oder Subjekt) mit einem bestimmten Beschreibungsdatensatz festgelegt
       ist. Zum Beispiel kann ein Akteur als Urheber mit der spezielleren Rolle des \"Illustrators\" mit
-      einer Aufzeichnung verknüpft sein.</p>\n<p>Siehe MARC Code-Liste für Relatoren (https://www.loc.gov/marc/relators/).</p>\n"
+      einer Aufzeichnung verknüpft sein.</p>\n<p>Siehe DACS 14.3, ISAAR (CPF) 6.3 und MARC Code-Liste für Relatoren (https://www.loc.gov/marc/relators/).</p>\n"
     ref: Akteur
     ref_tooltip: "<p>Der Akteur in Beziehung zu dem in der Aufzeichnung beschriebenen Archivgut.</p>\n\
       \ <p>Akteure können mit Auto-Vervollständigen oder mit der Blättern-Funktion gesucht werden oder
@@ -1129,7 +1129,7 @@ de:
     last_verified_date_tooltip: "<p>Letztes Datum oder Datum und Uhrzeit der Überprüfung der im zugehörigen
       URI verknüpften Ressource.</p>\n"
     linked_agent_role_tooltip: "<p> ERFORDERLICHES FELD: Die Art der Beziehung der beschriebenen Entität
-      zur Ressource.</p>\n"
+      zur Ressource.</p><p>Siehe DACS 14.3, ISAAR (CPF) 6.3</p>"
     file_uri_tooltip: "<p>Ein URI für den Online-Speicherort der Ressource, die mit dem Agenten/der Entität verknüpft ist.</p><p>Siehe DACS 14.1, ISAAR (CPF) 6.1</p>\n"
     linked_resource_description_tooltip: "<p>Freies Textfeld zur Aufnahme bibliografischer Informationen,
       Informationen über die zugehörige Sammlung usw.</p>\n"

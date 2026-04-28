@@ -263,11 +263,11 @@ es:
   linked_agent: &linked_agent_attributes
     role: Función
     role_tooltip: |
-      <p>CAMPO OBLIGATORIO. Una indicación de qué función (autor, donante o materia) el autoridad tiene en lo que respecta a su relación con un determinado registro descripción.</p>
+      <p>CAMPO OBLIGATORIO. Una indicación de qué función (autor, donante o materia) el autoridad tiene en lo que respecta a su relación con un determinado registro descripción.</p><p>Ver DACS 14.3, ISAAR (CPF) 6.3</p>
     relator: Tipo de función
     relator_tooltip: |
       <p>Una indicación de qué papel tiene la autoridad en lo que respecta a su función (por ejemplo, autor, donante o materia) a un determinado registro descripción. Por ejemplo, una autoridad puede estar vinculada como autor pero con el papel más específico de "ilustrador".</p>
-      <p>Ver la lista de códigos MARC para relatores.</p>
+      <p>Ver DACS 14.3, ISAAR (CPF) 6.3 y la lista de códigos MARC para relatores.</p>
     ref: Autoridad
     # ref_tooltip is not displaying:
     ref_tooltip: |
@@ -1157,7 +1157,7 @@ es:
     begin_inline_help: por ejemplo AAAA, AAAA-MM o YYYY-MM-DD
     begin_tooltip: |
       <p>Una fecha normalizada (en la forma AAAA, AAAA-MM o YYYY-MM-DD) que representa una sola fecha o la primera cita en un intervalo de fechas.</p>
-      <p>Ver 2.4.7-2.4.16 DACS</p>
+      <p>Ver DACS 2.4.7-2.4.16, ISAD(G) 3.1.3</p>
       <p>Años A.D. se expresan con cuatro dígitos.</p>
       <p>Años antes de Cristo se expresan como un número negativo, por ejemplo,-214 para 214 A.C.</p>
     end: Final
@@ -2967,7 +2967,7 @@ es:
 
   agent_resource:
     linked_agent_role_tooltip: "<p>CAMPO REQUERIDO: El tipo de relación de la entidad que se describe
-      con el recurso.</p>"
+      con el recurso.</p><p>Ver DACS 14.3, ISAAR (CPF) 6.3</p>"
     linked_resource_tooltip: "<p>Un recurso relacionado con el agente / entidad.</p><p>Ver DACS 14.1, ISAAR (CPF) 6.1</p>"
     linked_resource_description_tooltip: "<p>Campo de texto libre para registrar información bibliográfica,
       información de colección relacionada, etc.</p>"
