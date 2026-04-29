@@ -174,7 +174,7 @@
     visibility: hidden;
   }
 
-  .node:not(.root).multiselected .node-column[data-column='drag-handle'] {
+  .node:not(.root).multiselected > .node-row .node-column[data-column='drag-handle'] {
     background-color: #b6def5;
   }
 
