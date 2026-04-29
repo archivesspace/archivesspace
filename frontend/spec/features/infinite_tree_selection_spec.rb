@@ -190,7 +190,7 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
         expect(cleared_event_count).to be >= 1
       end
 
-      it 'adds rows with ctrl key and preserves order in data-selection-uris' do
+      it 'adds rows with ctrl key and reflects DOM order in data-selection-uris' do
         click_row(ao.uri, ctrl: true)
         click_row(ao3.uri, ctrl: true)
 
@@ -199,6 +199,18 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
         evt = last_changed_event
         expect(evt['detail']['selectedUris']).to eq([ao.uri, ao3.uri])
         expect(evt['detail']['anchorUri']).to eq(ao3.uri)
+      end
+
+      it 'orders Cmd/Ctrl + click selection by visible DOM position regardless of click order' do
+        click_row(ao3.uri, meta: true)
+        click_row(ao.uri, meta: true)
+
+        uris = data_selection_uris.split(',')
+        expect(uris).to eq([ao.uri, ao3.uri])
+
+        evt = last_changed_event
+        expect(evt['detail']['selectedUris']).to eq([ao.uri, ao3.uri])
+        expect(evt['detail']['anchorUri']).to eq(ao.uri)
       end
     end
 
@@ -237,7 +249,7 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
         click_row(ao.uri, shift: true)
 
         uris = data_selection_uris.split(',')
-        expect(uris).to eq([child_ao.uri, ao.uri, ao2.uri])
+        expect(uris).to eq([ao.uri, ao2.uri, child_ao.uri])
       end
     end
 
@@ -261,7 +273,7 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
         click_row(ao2.uri, meta: true)
 
         uris = data_selection_uris.split(',')
-        expect(uris).to eq([child_ao.uri, ao2.uri])
+        expect(uris).to eq([ao2.uri, child_ao.uri])
       end
     end
 
@@ -356,66 +368,6 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
       end
     end
 
-    describe 'selection-order badges' do
-      def badge_text(uri)
-        evaluate_js(<<~JS)
-          (function() {
-            var li = document.querySelector(
-              '#infinite-tree-container li.node[data-uri="#{uri}"]'
-            );
-            if (!li) return null;
-            var badge = li.querySelector(
-              ':scope > .node-row > .node-body > [data-column="drag-handle"] > .selection-order-badge'
-            );
-            return badge ? badge.textContent : null;
-          })();
-        JS
-      end
-
-      it 'leaves every badge empty when exactly one row is selected' do
-        click_row(ao.uri, meta: true)
-
-        expect(badge_text(ao.uri)).to eq('')
-      end
-
-      it 'numbers selected rows in selection order when multiple rows are selected' do
-        click_row(ao.uri, meta: true)
-        click_row(ao3.uri, meta: true)
-
-        expect(badge_text(ao.uri)).to eq('1')
-        expect(badge_text(ao3.uri)).to eq('2')
-      end
-
-      it 'appends subsequent selections and renumbers when a middle row is removed' do
-        click_row(ao.uri, meta: true)
-        click_row(ao2.uri, meta: true)
-        click_row(ao3.uri, meta: true)
-
-        expect(badge_text(ao.uri)).to eq('1')
-        expect(badge_text(ao2.uri)).to eq('2')
-        expect(badge_text(ao3.uri)).to eq('3')
-
-        click_row(ao2.uri, meta: true)
-
-        expect(badge_text(ao.uri)).to eq('1')
-        expect(badge_text(ao2.uri)).to eq('')
-        expect(badge_text(ao3.uri)).to eq('2')
-      end
-
-      it 'clears all badge text and data-selection-uris when reorder mode turns off' do
-        click_row(ao.uri, meta: true)
-        click_row(ao3.uri, meta: true)
-
-        expect(badge_text(ao.uri)).to eq('1')
-        expect(badge_text(ao3.uri)).to eq('2')
-
-        find('.js-itree-toolbar-reorder-toggle').click
-
-        expect(badge_text(ao.uri)).to eq('')
-        expect(badge_text(ao3.uri)).to eq('')
-        expect(data_selection_uris).to be_nil
-      end
-    end
   end
 
   context 'drag-handle column visibility and widths' do
