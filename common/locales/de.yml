@@ -296,11 +296,14 @@ de:
 </p>\n<p>Beispiele:</p>\n\
       \ <ul>\n<li>AT-OeNB <em>(für Österreichische Nationalbibliothek)</em></li>\n<li>DE-2884 <em>(für
       Geheimes Staatsarchiv Preußischer Kulturbesitz)</em></li>\n</ul>\n"
-    repo_code_tooltip: "<p>ERFORDERLICHES FELD. Eine Abkürzung oder ein Akronym des Namens des Aufbewahrungsorts,
-      das in der Benutzeroberfläche besser untergebracht werden kann.</p>\n<p>Beispiele:</p>\n<ul>\n<li>INHBS
-      <em>(für Ihr Name Hier Bibliothek für besondere Sammlungen)</em></li>\n<li>OENB <em>(für Österreichische
-      Nationalbibliothek)</em></li>\n<li>GStA PK <em>(für Geheimes Staatsarchiv Preußischer Kulturbesitz)</em></li>\n\
-      </ul>\n
+    repo_code_tooltip: |
+      <p>ERFORDERLICHES FELD. Eine Abkürzung oder ein Akronym des Namens des Aufbewahrungsorts, das in der Benutzeroberfläche besser untergebracht werden kann.</p>
+      <p>Beispiele:</p>
+      <ul>
+      <li>INHBS <em>(für Ihr Name Hier Bibliothek für besondere Sammlungen)</em></li>
+      <li>OENB <em>(für Österreichische Nationalbibliothek)</em></li>
+      <li>GStA PK <em>(für Geheimes Staatsarchiv Preußischer Kulturbesitz)</em></li>
+      </ul>
     name_tooltip: <p>ERFORDERLICHES FELD. Name des Aufbewahrungsorts, der die administrative Verantwortung
       für das in den Modulen \"Eingang\", \"Ressource\" und \"Digitales Objekt\" der Anwendung beschriebenen
       Archivguts trägt und diese verwahrt.</p><p>Siehe DACS 2.2, ISDIAH 5.1.2</p>\n<p>Beispiele:</p>\n<ul>\n<li>Ihr
@@ -330,8 +333,9 @@ de:
     _singular: Akteur
     notes: Anmerkungen
     type: Akteur-Typ
-    type_tooltip: "<p>Der Typ der Entität, die durch Die Akteur-Aufzeichnung repräsentiert wird.</p>\n\
-      \ <p>Siehe DACS 10.2, ISAAR (CPF) 5.1.1, und PREMIS Agent-Entität</p>\n
+    type_tooltip: |
+      <p>Der Typ der Entität, die durch Die Akteur-Aufzeichnung repräsentiert wird.</p>
+      <p>Siehe DACS 10.2, ISAAR (CPF) 5.1.1, und PREMIS Agent-Entität</p>
     agent_type:
       agent_family: Familie
       agent_person: Person

@@ -751,7 +751,6 @@ fr:
     dates: Dates
     ref: Agent associé
 
-<<<<<<< ANW-2676-Add-ICA-standards-references-to-tooltips
     relationship_type_tooltip: <p>Terme contrôlé décrivant, en termes généraux, la nature de la relation
       entre l'agent principal et l'agent associé.</p><p>Voir DACS 12.3.1, ISAAR (CPF) 5.3.2</p>
     description_tooltip: <p>Une description en texte libre de la nature de la relation.</p><p>Voir DACS 12.3.2, ISAAR (CPF) 5.3.3</p>
@@ -760,17 +759,6 @@ fr:
       l'agent principal et l'agent associé.</p><p>Voir DACS 12.3.2, ISAAR (CPF) 5.3.3</p>
     relationship_uri_tooltip: Un URI qui pointe vers une entrée dans une ontologie ou une autre ressource
       pour les types de relations entre les agents. Principalement utilisé aux fins de l'EAC-CPF.
-=======
-    relationship_type_tooltip: Terme contrôlé décrivant, en termes généraux, la nature de la 
-      relation entre l'agent principal et l'agent associé.
-    description_tooltip: Une description en texte libre de la nature de la relation.
-    related_agent_tooltip: La personne, la famille ou la personne morale liée à l'agent principal.
-    specific_relator_tooltip: Terme contrôlé décrivant plus spécifiquement la nature de la relation 
-      entre l'agent principal et l'agent associé.
-    relationship_uri_tooltip: Un URI qui pointe vers une entrée dans une ontologie ou une autre 
-      ressource pour les types de relations entre les agents. Principalement utilisé aux fins de 
-      l'EAC-CPF.
->>>>>>> master
   agent_relationship_parentchild:
     <<: *related_agent_attributes
     _singular: Relation parent/enfant
@@ -1444,17 +1432,10 @@ fr:
       attribués par une agence faisant autorité. Les exemples incluent un identifiant ORCID pour une personne
       ou un code de référentiel MARC pour une personne morale.</p>"
     agent_genders_tooltip: Sexe du sujet.
-<<<<<<< ANW-2676-Add-ICA-standards-references-to-tooltips
     agent_places_tooltip: <p>Placez les informations associées à l'agent. </p><p>Voir DACS 11.3, ISAAR (CPF) 5.2.3</p>
     agent_occupations_tooltip: <p>Information sur la profession associée à l'agent. </p><p>Voir DACS 11.5, ISAAR (CPF) 5.2.5</p>
     agent_functions_tooltip: <p>Termes utilisés pour identifier les fonctions, processus, tâches, activités
       ou transactions effectuées par l'agent.</p><p>Voir DACS 11.5, ISAAR (CPF) 5.2.5</p>
-=======
-    agent_places_tooltip: Placez les informations associées à l'agent.
-    agent_occupations_tooltip: Information sur la profession associée à l'agent.
-    agent_functions_tooltip: Termes utilisés pour identifier les fonctions, processus, tâches, 
-      activités ou transactions effectuées par l'agent.
->>>>>>> master
     agent_topics_tooltip: Un sujet associé à l'agent.
     agent_contacts_tooltip: "<p>Coordonnées de l'agent ou d'un représentant travaillant pour le compte.</p>"
     used_languages_tooltip: 'La ou les langues associées à l''agent. Exemple: anglais.'
