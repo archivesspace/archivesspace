@@ -276,6 +276,10 @@ class TopContainersController < ApplicationController
         rescue MissingFilterException
           results = nil
         end
+
+        if params['count_only'] == 'true'
+          return render json: { count: results ? results['response']['numFound'].to_i : 0 }
+        end
       end
     end
 

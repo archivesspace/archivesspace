@@ -610,6 +610,10 @@ en:
     manage_location_profiles: Manage Location Profiles
     manage_top_containers: Manage Top Containers
     view_top_containers: View Top Containers
+    top_containers_for: "Top Containers for %{record_title}"
+    no_top_containers: No linked top containers
+    edit_top_container: Edit Top Container
+    view_top_container: Top Container
     manage_enumerations: Manage Controlled Value Lists
     global_preferences: Global Preferences
     global_settings: Global Settings

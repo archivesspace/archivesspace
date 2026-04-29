@@ -320,6 +320,10 @@ de:
     manage_groups: Gruppen verwalten
     manage_top_containers: Haupt-Behältnisse verwalten
     view_top_containers: Haupt-Behältnisse anzeigen
+    top_containers_for: "Haupt-Behältnisse für %{record_title}"
+    no_top_containers: Keine verknüpften Haupt-Behältnisse
+    edit_top_container: Haupt-Behältnis bearbeiten
+    view_top_container: Haupt-Behältnis
     import_ead: EAD-Datei
     register_prefix: Benötigen Sie einen Zugang?
   job:

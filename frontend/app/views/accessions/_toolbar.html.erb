@@ -63,13 +63,15 @@
               <li><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => @accession.uri}, :class => "dropdown-item" %></li>
             <% end %>
             <li>
-              <button type="button"
-                      class="btn rounded-0 dropdown-item access-top-containers-btn"
-                      data-record-uri="<%= @accession.uri %>"
-                      data-record-type="accession"
-                      data-record-title="<%= h(strip_tags(clean_mixed_content(@accession.title))) %>">
-                <%= (user_can?('update_container_record') || user_can?('manage_container_record')) ? t("navbar.manage_top_containers") : t("navbar.view_top_containers") %>
-              </button>
+              <%= render_aspace_partial :partial => "shared/access_top_containers_button",
+                                        :locals => {
+                                          :record_uri      => @accession.uri,
+                                          :record_type     => 'accession',
+                                          :record_title    => h(strip_tags(clean_mixed_content(@accession.title))),
+                                          :button_classes  => "btn rounded-0 dropdown-item",
+                                          :wrapper_classes => "d-block w-100",
+                                          :loading_state   => false
+                                        } %>
             </li>
           </ul>
         </div>

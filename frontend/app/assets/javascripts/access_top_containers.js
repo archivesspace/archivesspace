@@ -3,9 +3,9 @@
 // so a second backdrop never dims the modal beneath it.
 // I added these twohandlers to escalate each new modal and its backdrop above the existing stack.
 $(document).on('show.bs.modal', '.modal', function () {
-  var openCount = $('.modal.show').length;
+  const openCount = $('.modal.show').length;
   if (openCount > 0) {
-    var backdropZ = 1040 + openCount * 20;
+    const backdropZ = 1040 + openCount * 20;
     $(this).css('z-index', backdropZ + 10);
     setTimeout(function () {
       $('.modal-backdrop').last().css('z-index', backdropZ);
@@ -20,15 +20,15 @@ $(document).on('hidden.bs.modal', '.modal', function () {
 });
 
 $(document).on('click', '.access-top-containers-btn', function () {
-  var $btn = $(this);
-  var recordUri = $btn.data('record-uri');
-  var recordType = $btn.data('record-type');
-  var recordTitle = $btn.data('record-title');
+  const $btn = $(this);
+  const recordUri = $btn.data('record-uri');
+  const recordType = $btn.data('record-type');
+  const recordTitle = $btn.data('record-title');
 
-  var $modal = AS.openCustomModal(
+  const $modal = AS.openCustomModal(
     'accessTopContainersModal',
-    recordTitle,
-    '<div class="modal-body"><div class="p-4"><p>Loading...</p></div></div>',
+    $btn.data('modal-title'),
+    `<div class="modal-body"><div class="p-4"><p>${AS.locales.loading}</p></div></div>`,
     'full'
   );
 
@@ -44,7 +44,7 @@ function loadAccessTopContainersModal(
   recordUri,
   recordType,
   recordTitle,
-  saved
+  saved = false
 ) {
   $.ajax({
     url: AS.app_prefix('top_containers/access_top_containers'),
@@ -52,7 +52,7 @@ function loadAccessTopContainersModal(
       record_uri: recordUri,
       record_type: recordType,
       record_title: recordTitle,
-      saved: saved || false,
+      saved: saved,
     },
     type: 'GET',
     success: function (html) {
@@ -75,15 +75,17 @@ function loadAccessTopContainersModal(
 }
 
 function openTopContainerSubModal(tcId, mode) {
-  var title = mode === 'edit' ? 'Edit Top Container' : 'Top Container';
-  var $subModal = AS.openCustomModal(
+  const title = mode === 'edit'
+    ? AS.access_top_containers_locales.edit_top_container
+    : AS.access_top_containers_locales.view_top_container;
+  const $subModal = AS.openCustomModal(
     'accessTopContainerSubModal',
     title,
-    '<div class="modal-body"><div class="p-4"><p>Loading...</p></div></div>',
+    `<div class="modal-body"><div class="p-4"><p>${AS.locales.loading}</p></div></div>`,
     'large'
   );
 
-  var url = AS.app_prefix(
+  const url = AS.app_prefix(
     'top_containers/' + tcId + (mode === 'edit' ? '/edit' : '')
   );
 
@@ -116,13 +118,13 @@ function topContainerIdFromUri(uri) {
   if (!uri) {
     return null;
   }
-  var parts = uri.split('/');
+  const parts = uri.split('/');
   return parts[parts.length - 1];
 }
 
 $(document).on('click', '.inline-tc-view-btn', function (event) {
   event.preventDefault();
-  var id = topContainerIdFromUri($(this).data('tc-uri'));
+  const id = topContainerIdFromUri($(this).data('tc-uri'));
   if (!id) {
     return;
   }
@@ -131,7 +133,7 @@ $(document).on('click', '.inline-tc-view-btn', function (event) {
 
 $(document).on('click', '.inline-tc-edit-btn', function (event) {
   event.preventDefault();
-  var id = topContainerIdFromUri($(this).data('tc-uri'));
+  const id = topContainerIdFromUri($(this).data('tc-uri'));
   if (!id) {
     return;
   }
@@ -144,27 +146,27 @@ $(document).on(
   function (event) {
     event.preventDefault();
 
-    var $form = $(this);
-    var $subModal = $form.closest('#accessTopContainerSubModal');
-    var $outerModal = $('#accessTopContainersModal');
+    const $form = $(this);
+    const $subModal = $form.closest('#accessTopContainerSubModal');
+    const $outerModal = $('#accessTopContainersModal');
 
     $.ajax({
       url: $form.attr('action'),
       data: $form.serialize() + '&inline=true',
       type: 'POST',
       success: function (response, _ignoredStatus, jqXHR) {
-        var contentType = jqXHR.getResponseHeader('Content-Type') || '';
+        const contentType = jqXHR.getResponseHeader('Content-Type') || '';
 
         if (contentType.indexOf('application/json') !== -1) {
           $subModal.modal('hide');
 
-          var recordUri = $outerModal.data('record-uri');
-          var recordType = $outerModal.data('record-type');
-          var recordTitle = $outerModal.data('record-title');
+          const recordUri = $outerModal.data('record-uri');
+          const recordType = $outerModal.data('record-type');
+          const recordTitle = $outerModal.data('record-title');
 
           $outerModal
             .find('.modal-body')
-            .html('<div class="p-4"><p>Loading...</p></div>');
+            .html(`<div class="p-4"><p>${AS.locales.loading}</p></div>`);
           loadAccessTopContainersModal(
             $outerModal,
             recordUri,
@@ -192,3 +194,44 @@ $(document).on(
     });
   }
 );
+
+$(document).on('loadedrecordform.aspace', function () {
+  $('.access-top-containers-btn:not([data-tc-initialized])').each(function () {
+    const $btn = $(this);
+    $btn.attr('data-tc-initialized', 'true');
+    const $wrapper = $btn.closest('.access-top-containers-wrapper');
+
+    $.ajax({
+      url: AS.app_prefix('top_containers/access_top_containers'),
+      data: {
+        record_uri: $btn.data('record-uri'),
+        record_type: $btn.data('record-type'),
+        count_only: true
+      },
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        console.log('[TC] count_only response:', JSON.stringify(data), 'count:', data && data.count, 'type:', typeof (data && data.count));
+        $btn.find('.tc-btn-spinner').addClass('d-none');
+        $btn.find('.tc-btn-label').removeClass('d-none');
+
+        if (data.count > 0) {
+          $btn.prop('disabled', false);
+        } else {
+          $btn.prop('disabled', true).css('pointer-events', 'none');
+          $wrapper
+            .attr('data-toggle', 'tooltip')
+            .attr('data-placement', 'auto')
+            .attr('title', AS.access_top_containers_locales.no_top_containers)
+            .addClass('has-tooltip');
+          $wrapper.tooltip({ container: 'body', placement: 'auto' }).addClass('initialised');
+        }
+      },
+      error: function () {
+        $btn.find('.tc-btn-spinner').addClass('d-none');
+        $btn.find('.tc-btn-label').removeClass('d-none');
+        $btn.prop('disabled', false);
+      }
+    });
+  });
+});

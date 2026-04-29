@@ -671,6 +671,10 @@ fr:
     manage_location_profiles: Gérer profils de localisations
     manage_top_containers: Gérer Top conditionnements
     view_top_containers: Voir les Top conditionnements
+    top_containers_for: "Top conditionnements pour %{record_title}"
+    no_top_containers: Aucun top conditionnement lié
+    edit_top_container: Modifier le top conditionnement
+    view_top_container: Top conditionnement
     manage_enumerations: Gérer listes de valeurs contrôlées
     global_preferences: Préférences globales
     user_repo_preferences: Préférences par défaut de service d'archives

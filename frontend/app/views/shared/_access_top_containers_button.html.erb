@@ -1,0 +1,16 @@
+<span class="access-top-containers-wrapper <%= wrapper_classes %>">
+  <button type="button"
+          class="<%= button_classes %> access-top-containers-btn"
+          data-record-uri="<%= record_uri %>"
+          data-record-type="<%= record_type %>"
+          data-record-title="<%= record_title %>"
+          data-modal-title="<%= t('navbar.top_containers_for', record_title: record_title) %>"
+          <%= "disabled='disabled'" if local_assigns[:loading_state] %>>
+    <% if local_assigns[:loading_state] %>
+      <span class="tc-btn-spinner spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    <% end %>
+    <span class="tc-btn-label<%= " d-none" if local_assigns[:loading_state] %>">
+      <%= (user_can?('update_container_record') || user_can?('manage_container_record')) ? t("navbar.manage_top_containers") : t("navbar.view_top_containers") %>
+    </span>
+  </button>
+</span>

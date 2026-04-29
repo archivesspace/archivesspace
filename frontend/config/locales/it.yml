@@ -423,6 +423,12 @@ it:
   navbar:
     import_marcxml_subjects_and_agents: MARCXML (solo soggetti e agents)
     toggle_navigation: Attiva/disattiva navigazione
+    manage_top_containers: Gestisci Top Container
+    view_top_containers: Visualizza Top Container
+    top_containers_for: "Top Container per %{record_title}"
+    no_top_containers: Nessun top container collegato
+    edit_top_container: Modifica Top Container
+    view_top_container: Top Container
   footer:
     keyboard_shortcuts: Scorciatoie da tastiera
     archivesspace_home_html: Visita <a 

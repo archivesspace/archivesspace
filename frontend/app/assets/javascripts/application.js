@@ -25,5 +25,3 @@
 //= require bootstrap_overrides
 //= require bootstrap3-typeahead
 //= require jquery.matchHeight
-//= require top_containers.bulk
-//= require access_top_containers
