@@ -32,9 +32,11 @@
  *   - infiniteTreeSelection:changed { selectedNodes: HTMLElement[], anchorNode: HTMLElement|null }
  *   - infiniteTreeSelection:cleared (no detail)
  *
- * Ordering is also mirrored to #infinite-tree-container[data-selection-uris="uri1,uri2,..."]
- * so manual verification and feature specs can read the ordered selection without
- * evaluating live JS state.
+ * Selection ordering is mirrored to
+ * #infinite-tree-container[data-selection-uris="uri1,uri2,..."] in visible DOM
+ * order so manual verification and feature specs can read the ordered selection
+ * without evaluating live JS state. Anchor is tracked separately via internal
+ * click history and emitted as anchorNode on changed events.
  */
 class InfiniteTreeSelection {
   static EVENT_CHANGED = 'infiniteTreeSelection:changed';
@@ -54,8 +56,10 @@ class InfiniteTreeSelection {
 
     this.reorderMode = false;
 
-    /** @type {HTMLElement[]} ordered, most-recent last; anchor = last */
+    /** @type {HTMLElement[]} ordered by visible DOM position after each mutation */
     this.selected = [];
+    /** @type {HTMLElement[]} click history, most-recent last; anchor = last */
+    this.pushOrder = [];
 
     this.#bindEvents();
   }
@@ -144,8 +148,12 @@ class InfiniteTreeSelection {
 
     if (idx !== -1) {
       this.selected.splice(idx, 1);
+      const pushIdx = this.pushOrder.indexOf(li);
+      if (pushIdx !== -1) this.pushOrder.splice(pushIdx, 1);
     } else {
       this.selected.push(li);
+      this.pushOrder.push(li);
+      this.#sortSelectedByDom();
     }
 
     if (this.selected.length === 0) {
@@ -165,7 +173,9 @@ class InfiniteTreeSelection {
    */
   #shiftExtend(li) {
     const anchor =
-      this.selected.length > 0 ? this.selected[this.selected.length - 1] : null;
+      this.pushOrder.length > 0
+        ? this.pushOrder[this.pushOrder.length - 1]
+        : null;
 
     if (!anchor) {
       this.#toggle(li);
@@ -189,11 +199,13 @@ class InfiniteTreeSelection {
       if (this.selected.indexOf(candidate) !== -1) continue;
 
       this.selected.push(candidate);
+      this.pushOrder.push(candidate);
       changed = true;
     }
 
     if (!changed) return;
 
+    this.#sortSelectedByDom();
     this.#applyClasses();
     this.#emitChanged();
   }
@@ -205,6 +217,7 @@ class InfiniteTreeSelection {
    */
   #replaceWithSingle(li) {
     this.selected = [li];
+    this.pushOrder = [li];
     this.#applyClasses();
     this.#emitChanged();
   }
@@ -217,8 +230,20 @@ class InfiniteTreeSelection {
     if (this.selected.length === 0) return;
 
     this.selected = [];
+    this.pushOrder = [];
     this.#applyClasses();
     this.#emitCleared();
+  }
+
+  #sortSelectedByDom() {
+    if (this.selected.length <= 1) return;
+
+    const all = Array.from(this.containerEl.querySelectorAll('li.node'));
+    const indexByNode = new Map(all.map((el, i) => [el, i]));
+
+    this.selected.sort(
+      (a, b) => (indexByNode.get(a) ?? -1) - (indexByNode.get(b) ?? -1)
+    );
   }
 
   /**
@@ -233,29 +258,6 @@ class InfiniteTreeSelection {
     this.selected.forEach(li => li.classList.add('multiselected'));
 
     this.#writeSelectionUrisAttr();
-    this.#renderBadges();
-  }
-
-  /**
-   * Update `.selection-order-badge` text on every row in the tree so that the
-   * selected rows show their 1-based position in the selection order. Matches
-   * LargeTreeDragDrop#refreshAnnotations parity: only show a numeric badge when
-   * more than one row is selected; a single selection leaves every badge empty
-   * and the CSS `:not(:empty)` rule hides the pill.
-   */
-  #renderBadges() {
-    this.containerEl.querySelectorAll('.selection-order-badge').forEach(el => {
-      el.textContent = '';
-    });
-
-    if (this.selected.length <= 1) return;
-
-    this.selected.forEach((li, idx) => {
-      const badge = li.querySelector(
-        ':scope > .node-row > .node-body > [data-column="drag-handle"] > .selection-order-badge'
-      );
-      if (badge) badge.textContent = String(idx + 1);
-    });
   }
 
   #writeSelectionUrisAttr() {
@@ -278,8 +280,8 @@ class InfiniteTreeSelection {
         detail: {
           selectedNodes: this.selected.slice(),
           anchorNode:
-            this.selected.length > 0
-              ? this.selected[this.selected.length - 1]
+            this.pushOrder.length > 0
+              ? this.pushOrder[this.pushOrder.length - 1]
               : null,
         },
       })
