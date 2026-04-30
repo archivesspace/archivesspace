@@ -17,3 +17,9 @@ Feature: Accession Edit Default Values
     And the new Accession form has the following default values
       | form_section      | form_field | form_value         |
       | Basic Information | Title      | Default Test Title |
+
+  Scenario: Archivist user cannot edit default values
+    Given an archivist user is logged in
+    When the user clicks on 'Browse'
+    And the user clicks on 'Accessions'
+    Then the 'Edit Default Values' button is not present on the page
