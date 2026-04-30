@@ -139,6 +139,48 @@ module ApplicationHelper
            )
   end
 
+  def mlc_textarea_field(form, name, opts = {})
+    if ["new", "create"].include?(controller.action_name)
+      form.label_and_textarea(name, opts.merge({label_opts: mlc_content_badge}))
+    else
+      mlc_textarea do
+        form.label_and_textarea(name, opts.merge({label_opts: mlc_content_badge}))
+      end
+    end
+  end
+
+  def mlc_textarea(&block)
+    return unless edit_mode?
+
+    prepended_html = content_tag(:div, class: "w-100 row mt-1 mr-0 mb-0 ml-0") do
+                        content_tag(:div, "", class: "col-sm-2") +
+                        content_tag(:div, class: "col-sm-9") do
+                          content_tag(:details) do
+                            content_tag(:summary, "SPA", class: "fs-14px") +
+                            content_tag(:p, "Este recurso requiere revisión adicional antes de su publicación. Se recomienda verificar la integridad de los documentos adjuntos. Los materiales fueron digitalizados en enero de dos mil veinticinco. Toda corrección debe ser aprobada por el equipo de archivo.", class: "mt-1 mb-0 fs-14px text-muted")
+                          end
+                        end
+                      end
+
+    main_content = capture(&block)
+
+    concat(prepended_html)
+    concat(main_content)
+    nil
+  end
+
+  def mlc_content_badge
+    return unless edit_mode?
+
+    prefix = content_tag(:span, class: "lang-marker has-tooltip",
+                                title: I18n.t("lang_description.mlc_field"),
+                                aria: { hidden: true }) do
+      I18n.t("lang_description.icon").html_safe
+    end
+
+    { prefix_html: prefix }
+  end
+
   def edit_mode?
     ['edit', 'update'].include?(controller.action_name)
   end

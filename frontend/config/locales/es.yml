@@ -1,5 +1,3 @@
-# NOTE: Many of the translations in this file have been generated using
-# Google translate
 es:
   actions:
     lightmode_toggle: Modo de luz
@@ -24,9 +22,9 @@ es:
     date_picker_toggle: Cambia el selector de fecha
     defaults: Valores por defecto
     duplicate_resource: Recurso duplicado
-    duplicate_resource_confirm_message: Se creará un trabajo para duplicar este 
-      recurso con todos sus objetos de archivo. Esto puede tardar un poco según 
-      la cantidad de registros.
+    duplicate_resource_confirm_message: >-
+      Se creará un trabajo para duplicar este recurso con todos sus objetos de
+      archivo. Esto puede tardar un poco según la cantidad de registros.
     edit: Editar
     edit_oai: Editar la configuración de OAI
     edit_batch: Editar en bloque
@@ -50,28 +48,35 @@ es:
     merge_confirm_title: ¿Se combinan en este registro?
     merge_agent_compare_agent_details: Comparar les autoridades
     merge_from_browse_confirm_title: Fusionar registros seleccionados?
-    merge_subject_confirm_message: "La materia '%{source}' tendrá los registros seleccionados
-      fusionados con él. Se eliminarán todos los registros de selectos y cualquier
-      registros vinculados será nuevamente vinculados a esta materia."
-    merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados
-      fusionados con él. Se eliminarán todos los registros de selectos y cualquier
-      registros vinculados será nuevamente vinculados a este autoridad. Al hacer clic
-      en el botón Comparar les autoridades, aparecerá una pantalla que le brinda la
-      opción de elegir qué campos y sub-registros retener de cada registro. "
-    merge_agent_from_browse_confirm_message: "El primer autoridad seleccionado tendrá
-      los registros seleccionados posteriormente fusionados en él. Todos los registros
-      seleccionados posteriormente se eliminarán y los registros vinculados se volverán
-      a vincular al primer autoridad seleccionado."
-    merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados
-      fusionados con él. Se eliminarán todos los registros de selectos y cualquier
-      registros vinculados será nuevamente vinculados a este fondo."
-    merge_container_profile_confirm_message: "El perfil de contenedor '%{merge_destination}'
-      tendrá los registros seleccionados fusionados en él. Todos los registros seleccionados
-      se eliminarán y los registros vinculados se volverán a vincular a este recurso."
-    batch_merge: "Seleccione el registro en el que se fusionarán todos los demás registros
-      enumerados. Todos los registros vinculados se volverán a vincular a este registro
-      y se eliminará toda la información de los otros registros."
-    merge_n_records: "Fusionar %{n} registros"
+    merge_subject_confirm_message: >-
+      La materia '%{source}' tendrá los registros seleccionados fusionados con
+      él. Se eliminarán todos los registros de selectos y cualquier registros
+      vinculados será nuevamente vinculados a esta materia.
+    merge_agent_confirm_message: >-
+      La autoridad '%{source}' tendrá los registros seleccionados fusionados con
+      él. Se eliminarán todos los registros de selectos y cualquier registros
+      vinculados será nuevamente vinculados a este autoridad. Al hacer clic en
+      el botón Comparar les autoridades, aparecerá una pantalla que le brinda la
+      opción de elegir qué campos y sub-registros retener de cada registro. 
+    merge_agent_from_browse_confirm_message: >-
+      El primer autoridad seleccionado tendrá los registros seleccionados
+      posteriormente fusionados en él. Todos los registros seleccionados
+      posteriormente se eliminarán y los registros vinculados se volverán a
+      vincular al primer autoridad seleccionado.
+    merge_resource_confirm_message: >-
+      El fondo '%{source}' tendrá los registros seleccionados fusionados con él.
+      Se eliminarán todos los registros de selectos y cualquier registros
+      vinculados será nuevamente vinculados a este fondo.
+    merge_container_profile_confirm_message: >-
+      El perfil de contenedor '%{merge_destination}' tendrá los registros
+      seleccionados fusionados en él. Todos los registros seleccionados se
+      eliminarán y los registros vinculados se volverán a vincular a este
+      recurso.
+    batch_merge: >-
+      Seleccione el registro en el que se fusionarán todos los demás registros
+      enumerados. Todos los registros vinculados se volverán a vincular a este
+      registro y se eliminará toda la información de los otros registros.
+    merge_n_records: Fusionar %{n} registros
     move: Mover
     move_up_a_level: Un nivel
     move_up: Arriba
@@ -82,60 +87,66 @@ es:
     refresh_page: Cargar página de nuevo
     new_prefix: Nuevo
     save_prefix: Guardar
-    save_plus_one: "+ 1"
+    save_plus_one: + 1
     save_anyway: Guardar
     select: Seleccionar
     set_default: Marcar como predeterminado
     suppress: Bloquear
     suppress_confirm_title: ¿Bloquear este registro?
-    suppress_confirm_message: "Mientras que un registro bloqueado permanecerá en la
-      base de datos, se convertirá en ocultos a la mayoría de los usuarios y a la
-      mayoría de las funciones de carácter."
+    suppress_confirm_message: >-
+      Mientras que un registro bloqueado permanecerá en la base de datos, se
+      convertirá en ocultos a la mayoría de los usuarios y a la mayoría de las
+      funciones de carácter.
     toggle_dropdown_menu: Alternar menú desplegable
     transfer: Transferencia
     transfer_confirm_title: ¿La transferencia de este registro?
-    transfer_confirm_message: "El registro '%{target}' se transferirá en el repositorio
-      seleccionado"
-    transfer_successful: Transferencia exitosa.  Los registros pueden tardar un 
-      momento en aparecer en el repositorio de destino mientras nueva indexación
-      se lleva a cabo.
+    transfer_confirm_message: El registro '%{target}' se transferirá en el repositorio seleccionado
+    transfer_successful: >-
+      Transferencia exitosa.  Los registros pueden tardar un momento en aparecer
+      en el repositorio de destino mientras nueva indexación se lleva a cabo.
     transfer_failed: Transferencia fallida
-    transfer_failed_records_using_digital_objects: "Los siguientes registros se vinculan
-      a objetos digitales que se transferirían, pero hacerlo rompería sus enlaces
-      de instancia"
-    transfer_failed_digital_objects_linked_to_records: "Este objeto digital se vincula
-      a otros registros contenidos en este repositorio. Para continuar con esta transferencia,
-      elimine los enlaces en los siguientes registros"
+    transfer_failed_records_using_digital_objects: >-
+      Los siguientes registros se vinculan a objetos digitales que se
+      transferirían, pero hacerlo rompería sus enlaces de instancia
+    transfer_failed_digital_objects_linked_to_records: >-
+      Este objeto digital se vincula a otros registros contenidos en este
+      repositorio. Para continuar con esta transferencia, elimine los enlaces en
+      los siguientes registros
     unset_default: Desactivada por defecto
     unsuppress: Desactivar
     unsuppress_confirm_title: ¿Bloquear este registro?
-    unsuppress_confirm_message: "falso"
-    unable_to_move_message: "No se pudo mover el registro"
-    move_ordering_problem_message: "Grabar problema de pedido de movimiento"
+    unsuppress_confirm_message: falso
+    unable_to_move_message: No se pudo mover el registro
+    move_ordering_problem_message: Grabar problema de pedido de movimiento
     delete: Borrar
     delete_confirm_title: ¿Desea eliminar este registro? %{title}
-    delete_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede
-      deshacer esta acción</strong>.</p><p>Esta acción eliminará el registro de la
-      base de datos, incluyendo cualquier referencia que se tiene con otros registros.</p>"
+    delete_confirm_message: >-
+      <p>Por favor, ser conscientes de que <strong>no puede deshacer esta
+      acción</strong>.</p><p>Esta acción eliminará el registro de la base de
+      datos, incluyendo cualquier referencia que se tiene con otros
+      registros.</p>
     delete_repository_confirm_title: ¿Borrar este repositorio? %{name}
-    delete_repository_confirm_message: "<p><strong>No puedes deshacer este cambio</strong>.</p><p>Esta
-      acción eliminará el <strong>repositorio</strong> y todos los registros asociados
-      incluidas las referencias a otros registros.</p><p>Para seguir adelante por
-      favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_repository_confirm_message: >-
+      <p><strong>No puedes deshacer este cambio</strong>.</p><p>Esta acción
+      eliminará el <strong>repositorio</strong> y todos los registros asociados
+      incluidas las referencias a otros registros.</p><p>Para seguir adelante
+      por favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim'
+      data-confirm-answer='%{repository}'></input></p>
     delete_multiple: Borrar registros
     delete_multiple_confirm_title: ¿Borrar registros?
-    delete_multiple_confirm_message: "<p>Por favor, ser conscientes de que <strong>no
-      puede deshacer esta acción</strong>.</p><p>Esta acción eliminará estos registros
-      de la base de datos, incluyendo referencias tienen a otros registros.</p>"
+    delete_multiple_confirm_message: >-
+      <p>Por favor, ser conscientes de que <strong>no puede deshacer esta
+      acción</strong>.</p><p>Esta acción eliminará estos registros de la base de
+      datos, incluyendo referencias tienen a otros registros.</p>
     reset: Restablecer predeterminados
-    reset_confirm_title: "¿Restablecer %{preftype} a los valores predeterminados de
-      la aplicación?"
-    reset_confirm_message: "<p>Tenga en cuenta que <strong>no puede deshacer esta
-      acción</strong>.</p><p>Esta acción restablecerá las preferencias a los valores
-      predeterminados de la aplicación.</p>"
+    reset_confirm_title: ¿Restablecer %{preftype} a los valores predeterminados de la aplicación?
+    reset_confirm_message: >-
+      <p>Tenga en cuenta que <strong>no puede deshacer esta
+      acción</strong>.</p><p>Esta acción restablecerá las preferencias a los
+      valores predeterminados de la aplicación.</p>
     edit_multiple: Editar múltiples registros
     edit_multiple_confirm_title: ¿Editar registros?
-    edit_multiple_confirm_message: "<p>Esto actualizará múltiples registros.</p>"
+    edit_multiple_confirm_message: <p>Esto actualizará múltiples registros.</p>
     export_eac: Descargar EAC-CPF
     export_ead: Descargar EAD
     export_mods: Descargar MODS
@@ -147,29 +158,34 @@ es:
     revert: Revertir los cambios
     finish_editing: Finalizar edición
     merge: Fusión
-    form_changes_message: "<small><span class='muted'>Hay cambios sin guardar</span></small>"
-    toolbar_disabled_message: "Tiene cambios no guardados: guarde o revierta para
-      acceder a la barra de herramientas y al árbol de registros."
+    form_changes_message: <small><span class='muted'>Hay cambios sin guardar</span></small>
+    toolbar_disabled_message: >-
+      Tiene cambios no guardados: guarde o revierta para acceder a la barra de
+      herramientas y al árbol de registros.
     publish: Publicar todos
     publish_confirm_title: ¿Publicar?
-    publish_confirm_message: "<p>Realizar esta acción va a publicar este documento,
-      los registros secundarios (documentos externos, notas, etc.) y todos los componentes
-      de la jerarquía.</p>"
+    publish_confirm_message: >-
+      <p>Realizar esta acción va a publicar este documento, los registros
+      secundarios (documentos externos, notas, etc.) y todos los componentes de
+      la jerarquía.</p>
     unpublish: Despublicar todos
     unpublish_confirm_title: ¿Despublicar?
-    unpublish_confirm_message: "<p>Realizar esta acción va a despublicar este documento,
-      los registros secundarios (documentos externos, notas, etc.) y todos los componentes
-      de la jerarquía.</p>"
+    unpublish_confirm_message: >-
+      <p>Realizar esta acción va a despublicar este documento, los registros
+      secundarios (documentos externos, notas, etc.) y todos los componentes de
+      la jerarquía.</p>
     publish_archival_object: Publicar todos
     publish_archival_object_confirm_title: ¿Publicar?
-    publish_archival_object_confirm_message: "<p>Realizar esta acción va a publicar
-      este documento de archivo, los registros secundarios (documentos externos, notas,
-      etc.) y todos los componentes más bajos de la jerarquía.</p>"
+    publish_archival_object_confirm_message: >-
+      <p>Realizar esta acción va a publicar este documento de archivo, los
+      registros secundarios (documentos externos, notas, etc.) y todos los
+      componentes más bajos de la jerarquía.</p>
     unpublish_archival_object: Despublicar todos
     unpublish_archival_object_confirm_title: ¿Despublicar?
-    unpublish_archival_object_confirm_message: "<p>Realizar esta acción va a despublicar
-      este documento, los registros secundarios (documentos externos, notas, etc.)
-      y todos los componentes más bajos de la jerarquía.</p>"
+    unpublish_archival_object_confirm_message: >-
+      <p>Realizar esta acción va a despublicar este documento, los registros
+      secundarios (documentos externos, notas, etc.) y todos los componentes más
+      bajos de la jerarquía.</p>
     view_search_results: Ir a los resultados de búsqueda
     view_published: Ver publicados
     print_to_pdf: Generar PDF
@@ -181,14 +197,15 @@ es:
     enable_reorder: Habilitar el modo de reorden
     reorder_active: Deshabilitar el modo de reorden
     copy: Dupdo
-
-    transfer_failed_barcodes_in_use: Los siguientes contenedores superiores 
-      utilizan códigos de barras que se utilizan en el repositorio de destino y 
-      no se pueden transferir hasta que se solucionen esos conflictos
+    transfer_failed_barcodes_in_use: >-
+      Los siguientes contenedores superiores utilizan códigos de barras que se
+      utilizan en el repositorio de destino y no se pueden transferir hasta que
+      se solucionen esos conflictos
     add_event_event_type: Tipo
-    transfer_failed_top_containers_in_use: Los siguientes contenedores 
-      superiores están vinculados a otros registros de nivel superior en este 
-      repositorio y no se pueden transferir hasta que esos vínculos se corten
+    transfer_failed_top_containers_in_use: >-
+      Los siguientes contenedores superiores están vinculados a otros registros
+      de nivel superior en este repositorio y no se pueden transferir hasta que
+      esos vínculos se corten
     container_template: Descargar plantilla de contenedor
     digital_object_template: Descargar plantilla de objetos digitales
     run: Huir
@@ -197,13 +214,12 @@ es:
     download: Descargar
     drop_before: Soltar antes
   database_warning:
-    message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la
-      base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar
-      MySQL para sistemas en producción.</p>"
-
+    message: >-
+      <p><strong>Advertencia de base de datos:</strong> Estas utilizando la base
+      de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar
+      MySQL para sistemas en producción.</p>
   states:
     auto_generated: Generado automáticamente
-
   export_options:
     include_unpublished: Incluir sin publicar
     include_daos: Incluir etiquetas &lt; dao &gt;
@@ -212,25 +228,23 @@ es:
     ead3: EAD3 esquema
     use_mods: Utilizar MODS
     use_dc: Utilizar Dublin Core
-
   pagination:
     first: Primero
     last: Último
-    previous: "&#171;"
+    previous: '&#171;'
     previous_label: Anterior
     next: «&#187;»
     next_label: Próxima
     summary_prefix: Mostrando
-    summary_offset_connector: "-"
+    summary_offset_connector: '-'
     summary_total_connector: de
     summary_suffix: Resultados
     page_prefix: Página
     page_connector: de
-
   search_results:
     title: Resultados de la búsqueda
     context: Encontrado en
-    select_record: "Seleccionar %{title}"
+    select_record: Seleccionar %{title}
     selected: ¿Seleccionado?
     no_results: Registros no encontrados
     no_results_prefix: No hay resultados de la búsqueda
@@ -245,19 +259,16 @@ es:
     clear_all: Borrar todo
     component_switch: Mostrar componentes
     help:
-      row_selection: Haga clic en una fila para seleccionarla para operaciones 
-        masivas. Mantenga la tecla ALT mientras hace clic en una casilla de 
-        verificación para seleccionar o anular la selección, múltiples filas 
-        anteriores.
-
-
+      row_selection: >-
+        Haga clic en una fila para seleccionarla para operaciones masivas.
+        Mantenga la tecla ALT mientras hace clic en una casilla de verificación
+        para seleccionar o anular la selección, múltiples filas anteriores.
   search_sorting:
-    sort_by: "Ordenar por:"
-    and: "y"
+    sort_by: 'Ordenar por:'
+    and: 'y'
     asc: Ascendente
     desc: Descendente
     select: Seleccione
-
   search:
     accession:
       score: Relevancia
@@ -386,7 +397,7 @@ es:
       location_holdings: Ejemplares
       location_no_holdings: No hay existencias para este repositorio.
       location_one_top_container: 1 contenedor superior.
-      location_top_containers: " contenedores superiores."
+      location_top_containers: ' contenedores superiores.'
       location_profile_display_string_u_ssort: Perfil de location
       owner_repo_display_string_u_ssort: Repositorio
       none: Ninguno
@@ -539,14 +550,12 @@ es:
       desc: Descendente
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Repositorio
-
-
   advanced_search:
     operator:
       operator: Operadora
-      AND: "Y"
-      OR: "O"
-      NOT: "No"
+      AND: 'Y'
+      OR: O
+      NOT: 'No'
     date_operator:
       comparator: Comparador
       equal: es igual a
@@ -555,8 +564,8 @@ es:
       empty: sin asignar
     boolean_field:
       boolean: Booleano
-      true_value: "Verdadero"
-      false_value: "Falso"
+      true_value: Verdadero
+      false_value: Falso
     button_text: Búsqueda
     reset: Limpiar
     nav_switcher:
@@ -576,13 +585,11 @@ es:
     search_date: Fecha
     search_terms: Campos de búsqueda avanzada %{number}
     remove_row: Eliminar campos de búsqueda avanzada %{number}
-
     add_row: Agregar fila
   become-user:
     become-user: Convertirse en usuario
     failed: Error al cambiar al usuario especificado
     success: Usuarios con éxito conmutados
-
     username: Nombre de usuario
   navbar:
     become-user: Convertirse en usuario
@@ -622,63 +629,54 @@ es:
     unpublished: Inédito
     manage_assessment_attributes: Gestionar atributos de evaluación
     toggle_navigation: Navegación de palanca
-
     repository_settings: Configuración del repositorio
     global_settings: Configuración global
   header:
     staff_interface: ArchivesSpace interfaz de personal
-
   session:
     gone: No se encontró su sesión backend
     expired: Su sesión expiró debido a la inactividad
     inline_login_title: Sesión caducada
-
   skipnav:
     main_content: Saltar al contenido principal
-
   batch_delete:
     archival_records:
       success: Registros eliminados
-      error: "No se puede eliminar registros"
+      error: No se puede eliminar registros
     subjects:
       success: Materias eliminadas
-      error: "No se puede eliminar materias"
+      error: No se puede eliminar materias
     agents:
       success: Autoridades eliminadas
-      error: "No se puede eliminar autoridades"
+      error: No se puede eliminar autoridades
     locations:
       success: Ubicaciones eliminadas
-      error: "No se puede eliminar ubicaciones:"
+      error: 'No se puede eliminar ubicaciones:'
     assessments:
       success: Evaluaciones eliminadas
-      error: "No se pueden eliminar evaluaciones:"
-
+      error: 'No se pueden eliminar evaluaciones:'
   welcome:
     heading: Bienvenido a ArchivesSpace
     message: Tu herramienta de administración de archivos.
     message_logged_in: Tu herramienta de administración de archivos.
-
   login:
     login: Registrarse
     login_please: Por favor, registrese
-    login_expired_link: Por favor, <a href ='%{link}'>inicie sesión de 
-      nuevo</a>.
+    login_expired_link: Por favor, <a href ='%{link}'>inicie sesión de nuevo</a>.
     login_fail: Fallo de inicio de sesión
     login_success: Inicio de sesión correcto. Redireccionando...
-
     username_placeholder: Nombre de usuario
     password_placeholder: Contraseña
     username_aria_label: Nombre de usuario
     password_aria_label: Contraseña de usuario
   breadcrumb:
     home: Página de inicio
-
   save_changes_modal:
-    body: Tienes algunos cambios pendientes. Por favor guarde estos cambios para
+    body: >-
+      Tienes algunos cambios pendientes. Por favor guarde estos cambios para
       continuar.
     save: Guardar cambios
     dismiss: Descartar cambios
-
   linker:
     link: Enlace
     create_and_link: Crear y vincular
@@ -686,25 +684,21 @@ es:
     placeholder: Empieza a escribir para buscar registros disponibles...
     no_results: No hay resultados coincidentes.  Trate de 'Examinar'.
     searching: Buscando...
-    delete: "x"
+    delete: x
     components:
       browse: Explorar componentes
-
   mixed_content:
-    wrap_prefix: "Envolver con"
-    help: "De tipo mixto activado contenido--' <' para elementos o texto resaltado
-      envolver"
-
+    wrap_prefix: Envolver con
+    help: >-
+      De tipo mixto activado contenido--' <' para elementos o texto resaltado
+      envolver
   import:
     eac_title: Importar un archivo de EAC
     ead_title: Importar un archivo de EAD
     marcxml_title: Importar un archivo MARCXML
-    marcxml_subjects_and_agents_title: Materias y autoridades de importación 
-      desde un archivo MARCXML
-    accession_csv_title: Importación de registros de actas de ingresos desde un 
-      archivo CSV
-    digital_object_csv_title: Importación de registros de objeto Digital desde 
-      un archivo CSV
+    marcxml_subjects_and_agents_title: Materias y autoridades de importación desde un archivo MARCXML
+    accession_csv_title: Importación de registros de actas de ingresos desde un archivo CSV
+    digital_object_csv_title: Importación de registros de objeto Digital desde un archivo CSV
     import_report: Informe de importación
     import_another: Importar archivo de otro
     file_select: Seleccione un archivo para cargarlo
@@ -715,7 +709,6 @@ es:
       missing_file: Por favor, seleccione un archivo EAD para cargar
       error_prefix: Archivo de importación de error
       complete: Importación completa
-
   default_values:
     form_title:
       archival_object: Registros de documentos de archivo por defecto
@@ -735,86 +728,84 @@ es:
       container_profile: Registros de perfil de contenedor por defecto
     messages:
       defaults_updated: Valores por defecto actualizados
-
   required_fields:
     form_title:
       agent_person: Registro de agente campos obligatorios (persona)
       agent_family: Registro de agente campos obligatorios (familia)
-      agent_corporate_entity: Campos de registro de agente requeridos (entidad 
-        corporativa)
+      agent_corporate_entity: Campos de registro de agente requeridos (entidad corporativa)
       agent_software: Campos obligatorios de registro del agente (software)
     messages:
       required_fields_updated: Campos obligatorios actualizados
-
   tree:
     drag_and_drop_actions:
       before: Añadir artículos antes
       after: Añadir artículos después
       as_child: Añadir artículos como niños
-    unexpected_failure: Ups! Estamos teniendo problemas para ir a buscar este 
-      árbol. Por favor, intente actualizar la página.
+    unexpected_failure: >-
+      Ups! Estamos teniendo problemas para ir a buscar este árbol. Por favor,
+      intente actualizar la página.
     resize: Arrastrar para cambiar la altura del árbol
     maximize: Maximizar/minimizar la altura del árbol
-
   errors:
     merge_denied_for_system_user: Uno o más agentes es un usuario del sistema.
-    merge_restricted_contact_details: La fusión no se puede completar porque uno
-      o más de los agentes tiene detalles de contacto a los que no tiene permiso
-      para acceder.
+    merge_restricted_contact_details: >-
+      La fusión no se puede completar porque uno o más de los agentes tiene
+      detalles de contacto a los que no tiene permiso para acceder.
     sidebar_label: Errores y advertencias
     error_403: Incapaz de acceder la página
-    error_403_message: "Has intentado acceder a la página ya no existan o que no tenga
-      permiso para verlo."
+    error_403_message: >-
+      Has intentado acceder a la página ya no existan o que no tenga permiso
+      para verlo.
     error_404: Registros no encontrados
-    error_404_message: "El récord que has intentado acceder ya no existan o que no
-      tenga permiso para ver."
+    error_404_message: >-
+      El récord que has intentado acceder ya no existan o que no tenga permiso
+      para ver.
     error_tree_pane_ajax: Se ha producido un error al cargar este formulario.
-    merge_conflict: "Los agentes fusionados no pudieron completar: %{message}"
-    merge_too_many_merge_candidates: Solo se puede seleccionar un agente para 
-      una fusión detallada.
-    merge_different_types: Los agentes seleccionados para la fusión detallada 
-      deben ser del mismo tipo.
-    linked_to_assessment: El registro no se puede eliminar ya que está vinculado
-      a una evaluación
-    linked_to_user: El registro no se puede eliminar porque está vinculado a un 
-      usuario
-    merge_denied_relationship: Estos agentes tienen una relación. Elimine la 
-      relación antes de continuar con la fusión.
-    cannot_delete_repository_agent: Este agente está vinculado a un repositorio 
-      y no se puede eliminar.
+    merge_conflict: 'Los agentes fusionados no pudieron completar: %{message}'
+    merge_too_many_merge_candidates: Solo se puede seleccionar un agente para una fusión detallada.
+    merge_different_types: >-
+      Los agentes seleccionados para la fusión detallada deben ser del mismo
+      tipo.
+    linked_to_assessment: El registro no se puede eliminar ya que está vinculado a una evaluación
+    linked_to_user: El registro no se puede eliminar porque está vinculado a un usuario
+    merge_denied_relationship: >-
+      Estos agentes tienen una relación. Elimine la relación antes de continuar
+      con la fusión.
+    cannot_delete_repository_agent: Este agente está vinculado a un repositorio y no se puede eliminar.
   accession:
     _frontend:
       messages:
-        created: Acta de ingreso <strong>%{accession_display_string}</strong> 
-          creada
-        unsuppressed: Acta de ingreso 
-          <strong>%{accession_display_string}</strong> desbloqueada
-        updated: Acta de ingreso <strong>%{accession_display_string}</strong> 
+        created: Acta de ingreso <strong>%{accession_display_string}</strong> creada
+        unsuppressed: >-
+          Acta de ingreso <strong>%{accession_display_string}</strong>
+          desbloqueada
+        updated: >-
+          Acta de ingreso <strong>%{accession_display_string}</strong>
           actualizada
-        suppressed: Acta de ingreso <strong>%{accession_display_string}</strong>
-          bloqueada
+        suppressed: Acta de ingreso <strong>%{accession_display_string}</strong> bloqueada
         suppressed_info: Acta de ingreso se bloquea y no se pueden editar
-        deleted: Acta de ingreso <strong>%{accession_display_string}</strong> 
-          borrada
+        deleted: Acta de ingreso <strong>%{accession_display_string}</strong> borrada
         transfer_description: Transferencia de este acta de ingreso a...
         transfer_target: Seleccione un repositorio al que transferir
-        spawned: "Este acta de ingreso ha sido generada de entrada <strong>%{accession_display_string}</strong>"
-        delete_conflict: "La adhesión no pudo ser eliminada: <pre>%{error}</pre>"
+        spawned: >-
+          Este acta de ingreso ha sido generada de entrada
+          <strong>%{accession_display_string}</strong>
+        delete_conflict: 'La adhesión no pudo ser eliminada: <pre>%{error}</pre>'
       section:
         basic_information: Información básica
       action:
         create: Crear acta de ingreso
         save: Guardar el acta de ingreso
-
   agent:
     _frontend:
       messages:
         created: Autoridad creada
         updated: Autoridad guardada
         deleted: Autoridad eliminada
-        published: "El Agente <strong>%{agent_title}</strong>, sus subregistros y
-          componentes se han publicado"
-        delete_conflict: "El agente no pudo ser eliminado: <pre>%{error}</pre>"
+        published: >-
+          El Agente <strong>%{agent_title}</strong>, sus subregistros y
+          componentes se han publicado
+        delete_conflict: 'El agente no pudo ser eliminado: <pre>%{error}</pre>'
         merge_description: Seleccione el agente para fusionar en
         merged: Autoridad(es) se unificaron
         please_select_a_agent_to_merge: Por favor seleccione una autoridad
@@ -824,8 +815,7 @@ es:
         name: Formas conocidas
         contacts: Los datos de contacto
         search_embedded: Registros vinculados
-        linked_via_rights_statement: Registros vinculados mediante declaración 
-          de derechos
+        linked_via_rights_statement: Registros vinculados mediante declaración de derechos
         merge_destination_record: Este registro será actualizado
         merge_candidate_record: Este registro será eliminado
         record_control_information: Información de control de registros
@@ -839,80 +829,84 @@ es:
       action:
         create: Crear autoridad
         preview: Vista previa de combinación
-
   agent_contact:
     is_representative: Privilegiado
     _frontend:
       action:
         add: Agregar contacto
         make_representative: Hacer contacto preferido
-    notes_tooltip: "<p>Notas adicionales u otra información sobre el contacto.</p>"
-
+    notes_tooltip: <p>Notas adicionales u otra información sobre el contacto.</p>
   telephone:
     _frontend:
       action:
         add: Agregar número de teléfono
-
   agent_corporate_entity:
     _frontend:
       action:
         save: Guardar la entidad corporativa
-
   agent_family:
     _frontend:
       action:
         save: Guardar familia
-
   agent_person:
     _frontend:
       action:
         save: Guardar persona
-
   agent_software:
     _frontend:
       action:
         save: Guardar Software
-
   archival_object:
     external_ark_url: External ARK URL
     external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
-        created: Documento de archivo 
-          <strong>%{archival_object_display_string}</strong> del fondo 
+        created: >-
+          Documento de archivo
+          <strong>%{archival_object_display_string}</strong> del fondo
           <strong>%{resource_title}</strong> creado
-        duplicated: Objeto de archivo duplicado de 
+        duplicated: >-
+          Objeto de archivo duplicado de
           <strong>%{archival_object_display_string}</strong>
-        created_with_parent: Documento de archivo 
+        created_with_parent: >-
+          Documento de archivo
           <strong>%{archival_object_display_string}</strong> creado como niño de
-          <strong>%{parent_display_string}</strong> del fondo 
+          <strong>%{parent_display_string}</strong> del fondo
           <strong>%{resource_title}</strong>
-        updated: Documento de archivo <strong>{archival_object_display_string} 
+        updated: >-
+          Documento de archivo <strong>{archival_object_display_string}
           %</strong> actualizado
-        updated_with_parent: Documento de archivo 
-          <strong>{archival_object_display_string} %</strong> actualizado
+        updated_with_parent: >-
+          Documento de archivo <strong>{archival_object_display_string}
+          %</strong> actualizado
         please_select_a_resource_for_transfer: Por favor, elija un fondo
-        transfer_confirm_message: "El registro '%{ao}' se transferirá al fondo que seleccionó"
-        transfer_confirm_message_with_resource: "El registro '%{ao}' se transferirá al fondo '%{resource}'"
-        transfer_success: Transferido con éxito el objeto de archivo 
-          <strong>%{archival_object_display_string}</strong> al fondo 
+        transfer_confirm_message: El registro '%{ao}' se transferirá al fondo que seleccionó
+        transfer_confirm_message_with_resource: El registro '%{ao}' se transferirá al fondo '%{resource}'
+        transfer_success: >-
+          Transferido con éxito el objeto de archivo
+          <strong>%{archival_object_display_string}</strong> al fondo
           <strong>%{resource_title}</strong>
-        transfer_error: "No se puede transferir objeto de archivo debido a un error
-          o conflicto"
-        deleted: "Documento de archivo <strong>{archival_object_display_string} %</strong>
-          eliminado"
-        published: "Documento de archivo <strong>{archival_object.title}</strong>,
-          sus subregistros y sus componentes han sido publicados"
-        unpublished: "Documento de archivo <strong>{archival_object.title}</strong>,
-          sus subregistros y sus componentes han sido despublicados"
-        unsuppressed: Documento de archivo 
-          <strong>%{archival_object.title}</strong> desbloqueado
-        suppressed: Documento de archivo 
-          <strong>%{archival_object.title}</strong> bloqueado
+        transfer_error: No se puede transferir objeto de archivo debido a un error o conflicto
+        deleted: >-
+          Documento de archivo <strong>{archival_object_display_string}
+          %</strong> eliminado
+        published: >-
+          Documento de archivo <strong>{archival_object.title}</strong>, sus
+          subregistros y sus componentes han sido publicados
+        unpublished: >-
+          Documento de archivo <strong>{archival_object.title}</strong>, sus
+          subregistros y sus componentes han sido despublicados
+        unsuppressed: >-
+          Documento de archivo <strong>%{archival_object.title}</strong>
+          desbloqueado
+        suppressed: >-
+          Documento de archivo <strong>%{archival_object.title}</strong>
+          bloqueado
         suppressed_info: Documento de archivo se bloquea y no se pueden editar
-        has_unpublished_ancestor: Por favor tenga en cuenta que este registro 
-          tiene un padre que es inédito.
-        delete_conflict: "Objeto de archivo no pudo ser eliminado: <pre>%{error}</pre>"
+        has_unpublished_ancestor: >-
+          Por favor tenga en cuenta que este registro tiene un padre que es
+          inédito.
+        delete_conflict: 'Objeto de archivo no pudo ser eliminado: <pre>%{error}</pre>'
       section:
         basic_information: Información básica
       action:
@@ -924,13 +918,12 @@ es:
       tree:
         new_record_title: Nuevo objeto de archivo
         duplicated_record_title: Crear objeto de archivo duplicado
-
   classification:
     _frontend:
       messages:
-        created: "Clasificación <strong>%{classification_title}</strong> creada"
-        updated: "Clasificación <strong>%{classification_title}</strong> actualizada"
-        deleted: "Clasificación <strong>%{classification_title}</strong> borrada"
+        created: Clasificación <strong>%{classification_title}</strong> creada
+        updated: Clasificación <strong>%{classification_title}</strong> actualizada
+        deleted: Clasificación <strong>%{classification_title}</strong> borrada
       section:
         basic_information: Información básica
         search_embedded: Registros vinculados
@@ -939,20 +932,24 @@ es:
         create: Crear clasificación
         save: Guardar clasificación
         add: Agregue clasificación
-
   classification_term:
     _frontend:
       messages:
-        created: "Término de clasificación <strong>%{classification_term.title}</strong>
-          creado"
-        created_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong>
-          creado"
-        updated: "Término de clasificación <strong>%{classification_term.title}</strong>
-          actualizado"
-        updated_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong>
-          actualizado"
-        deleted: "Término de clasificación <strong>%{classification_term.title}</strong>
-          borrado"
+        created: >-
+          Término de clasificación <strong>%{classification_term.title}</strong>
+          creado
+        created_with_parent: >-
+          Término de clasificación <strong>%{classification_term.title}</strong>
+          creado
+        updated: >-
+          Término de clasificación <strong>%{classification_term.title}</strong>
+          actualizado
+        updated_with_parent: >-
+          Término de clasificación <strong>%{classification_term.title}</strong>
+          actualizado
+        deleted: >-
+          Término de clasificación <strong>%{classification_term.title}</strong>
+          borrado
       section:
         basic_information: Información básica
         search_embedded: Registros vinculados
@@ -962,95 +959,93 @@ es:
         save: Guardar el término clasificación
       tree:
         new_record_title: Nuevo término de clasificación
-
   collection_management:
     _frontend:
       title_prefix: Procesamiento
       action:
         add: Agregar campos de gestión de colección
-
   container:
     _frontend:
       action:
         add: Agregar contenedor
-
   container_location:
     _frontend:
       action:
         add: Añadir ubicación
-
   date:
     _frontend:
       expression_placeholder: Describe la fecha o el rango de fechas
       action:
         add: Agregar fecha
-
   dates_of_existence:
     _frontend:
       action:
         add: Agregar fecha
     _singular: Fecha de existencia
     _plural: Fechas de existencia
-
   deaccession:
     _frontend:
       action:
         add: Añadir expurgo
-
   digital_object:
     _frontend:
       messages:
-        created: "Objeto digital <strong>%{digital_object_title}</strong> creado"
-        updated: "Objeto digital <strong>%{digital_object_title}</strong> actualizado"
-        deleted: "Objeto digital <strong>%{digital_object_title}</strong> borrado"
-        published: "El objeto Digital <strong>%{digital_object_title}</strong>, sus
-          subregistros y sus componentes han sido publicados"
-        merge_description: Seleccionar objetos digitales más abajo para fusionar
-          en
-        please_select_a_digital_object_to_merge: Por favor, seleccione un objeto
-          digital
+        created: Objeto digital <strong>%{digital_object_title}</strong> creado
+        updated: Objeto digital <strong>%{digital_object_title}</strong> actualizado
+        deleted: Objeto digital <strong>%{digital_object_title}</strong> borrado
+        published: >-
+          El objeto Digital <strong>%{digital_object_title}</strong>, sus
+          subregistros y sus componentes han sido publicados
+        merge_description: Seleccionar objetos digitales más abajo para fusionar en
+        please_select_a_digital_object_to_merge: Por favor, seleccione un objeto digital
         merged: Objetos digitales unificados
         transfer_description: Transferencia de este objeto digital a...
         transfer_target: Seleccione un repositorio para transferir a
-        unsuppressed: Objetos digitales <strong>%{digital_object_title}</strong>
+        unsuppressed: >-
+          Objetos digitales <strong>%{digital_object_title}</strong>
           desbloqueado
-        suppressed: Objetos digitales <strong>%{digital_object_title}</strong> 
-          bloqueado
+        suppressed: Objetos digitales <strong>%{digital_object_title}</strong> bloqueado
         suppressed_info: Objeto digital se suprime y no se pueden editar
-        delete_conflict: "Objeto digital no pudo ser eliminado: <pre>%{error}</pre>"
+        delete_conflict: 'Objeto digital no pudo ser eliminado: <pre>%{error}</pre>'
       section:
         basic_information: Información básica
       action:
         add_child: Agregar hijo
         create: Crear objeto Digital
         save: Guardar objeto Digital
-
   digital_object_component:
     _frontend:
       messages:
-        created_with_parent: Componente de objeto digital 
-          <strong>%{digital_object_component_display_string}</strong> creado 
-          como hijo de <strong>%{parent.display_string}</strong> del objeto 
+        created_with_parent: >-
+          Componente de objeto digital
+          <strong>%{digital_object_component_display_string}</strong> creado
+          como hijo de <strong>%{parent.display_string}</strong> del objeto
           Digital <strong>%{digital_object_title}</strong>
-        created: Componente de objeto digital 
-          <strong>%{digital_object_component_display_string}</strong> creado el 
+        created: >-
+          Componente de objeto digital
+          <strong>%{digital_object_component_display_string}</strong> creado el
           objeto Digital <strong>%{digital_object_title}</strong>
-        updated_with_parent: Componente de objeto digital 
-          <strong>%{digital_object_component_display_string}</strong> 
-          actualizado
-        updated: Componente de objeto digital 
-          <strong>%{digital_object_component_display_string}</strong> 
-          actualizado
-        deleted: Componente de objeto digital 
-          <strong>%{digital_object_component_display_string}</strong> borrado
-        unsuppressed: Desbloqueados componentes de objeto digital 
+        updated_with_parent: >-
+          Componente de objeto digital
           <strong>%{digital_object_component_display_string}</strong>
-        suppressed: Componente de objeto digital 
+          actualizado
+        updated: >-
+          Componente de objeto digital
+          <strong>%{digital_object_component_display_string}</strong>
+          actualizado
+        deleted: >-
+          Componente de objeto digital
+          <strong>%{digital_object_component_display_string}</strong> borrado
+        unsuppressed: >-
+          Desbloqueados componentes de objeto digital
+          <strong>%{digital_object_component_display_string}</strong>
+        suppressed: >-
+          Componente de objeto digital
           <strong>%{digital_object_component_display_string}</strong> bloqueado
-        suppressed_info: Componente objeto digital se bloquea y no se pueden 
-          editar
-        has_unpublished_ancestor: Por favor tenga en cuenta que este registro 
-          tiene un padre que es inédito.
+        suppressed_info: Componente objeto digital se bloquea y no se pueden editar
+        has_unpublished_ancestor: >-
+          Por favor tenga en cuenta que este registro tiene un padre que es
+          inédito.
       section:
         basic_information: Información básica
       action:
@@ -1059,15 +1054,15 @@ es:
         save: Guardar objeto Digital componente
       tree:
         new_record_title: Nuevo componente de objeto digital
-
   enumeration:
     _frontend:
       messages:
         value_updated: Valor actualizado
         deleted: Valor eliminado
         delete_error: No se pudo eliminar el valor
-        delete_conflict: "No se puede eliminar el valor como lo es actualmente que
-          se hace referencia mediante un registro"
+        delete_conflict: >-
+          No se puede eliminar el valor como lo es actualmente que se hace
+          referencia mediante un registro
         default_set: Conjunto de valores predeterminado
         created: Valor creado
         create_error: No se pudo crear valor
@@ -1078,8 +1073,7 @@ es:
         name_selector: Nombre de lista
         name_selector_tooltip: |
           <p>La lista de valores controlada para editar.</p>
-        no_name_provided: Seleccione una lista de valores antes de crear un 
-          nuevo valor
+        no_name_provided: Seleccione una lista de valores antes de crear un nuevo valor
         not_used: No utilizado.
         one_related_item: 1 artículo relacionado.
         related_items: ' artículos relacionados.'
@@ -1088,7 +1082,6 @@ es:
         delete_value: Eliminar valor
         merge_value: Combinar valor
         download_csv: Descargar CSV
-
   event:
     _frontend:
       messages:
@@ -1103,29 +1096,24 @@ es:
         save: Guardar el evento
         create: Crear evento
     linked_agents: Enlaces de agentes
-
   extent:
     _frontend:
       action:
         add: Agregar punto
-
   external_document:
     _frontend:
       action:
         add: Añadir documento externo
-
   file_version:
     _frontend:
       action:
         add: Añadir la versión del archivo
         make_representative: Hacer representante
-
   group:
     _frontend:
       action:
         create: Crear grupo
         save: Guardar grupo
-
   instance:
     _frontend:
       messages:
@@ -1133,29 +1121,29 @@ es:
       action:
         add_digital_object: Agregar objeto Digital
         add: Añadir representación
-
   lang_material:
     _frontend:
       action:
         add: Añadir idioma
         add_note: Añadir nota de idioma
     _plural: Idiomas
-
   linked_agent:
     is_primary: Primario
     _frontend:
       action:
         add: Añadir enlace autoridad
         make_primary: Hacer primario
-        make_primary_tooltip: |
-          <p>Se utiliza para indicar qué autoridad vinculado al registro es el autoridad primario. Solo se puede designar un autoridad vinculado como primario.</p>
-          <p>En la exportación MARCXML, el autoridad primario será el valor 1XX.</p>
+        make_primary_tooltip: >
+          <p>Se utiliza para indicar qué autoridad vinculado al registro es el
+          autoridad primario. Solo se puede designar un autoridad vinculado como
+          primario.</p>
 
+          <p>En la exportación MARCXML, el autoridad primario será el valor
+          1XX.</p>
   linked_record:
     _frontend:
       action:
         add: Añadir el enlace al registro
-
   location:
     _frontend:
       messages:
@@ -1173,38 +1161,39 @@ es:
         batch_edit: Editar lote de ubicaciones
         save: Guardar ubicación
         single: Ubicación única
-        delete_confirm_message: "<p>Tenga en cuenta <strong>no se puede deshacer esta
-          acción.</strong>.</p><p>Si esta ubicación está actualmente vinculada a una
-          o más instancias no se puede eliminar.</p>"
+        delete_confirm_message: >-
+          <p>Tenga en cuenta <strong>no se puede deshacer esta
+          acción.</strong>.</p><p>Si esta ubicación está actualmente vinculada a
+          una o más instancias no se puede eliminar.</p>
         show_space_calculator: Encuentra con la calculadora espacial
-
   location_batch:
     _frontend:
       section:
         location: Seleccione la ubicación base
         ranges: Rangos de coordenadas
       messages:
-        created: "<strong>%{number_created} ubicaciones</strong> creado"
-        updated: "<strong>%{number_created} ubicaciones</strong> Actualizado"
-        location_batch_info: "Definir los valores base que serán aplicados a todas
-          las ubicaciones generadas a partir de las <strong>Coordenadas rangos</strong>
-          por debajo."
-        location_batch_update_info: "Por favor introduce los valores que quieres aplicar
-          abajo."
-        ranges_info: "Tenga en cuenta que cualquier coordenados campos entró en la
-          anterior <strong>Base ubicación</strong> serán reemplazados con los valores
-          generados por las gamas más abajo.  Un máximo de ubicaciones %{max_range}
-          será creado."
+        created: <strong>%{number_created} ubicaciones</strong> creado
+        updated: <strong>%{number_created} ubicaciones</strong> Actualizado
+        location_batch_info: >-
+          Definir los valores base que serán aplicados a todas las ubicaciones
+          generadas a partir de las <strong>Coordenadas rangos</strong> por
+          debajo.
+        location_batch_update_info: Por favor introduce los valores que quieres aplicar abajo.
+        ranges_info: >-
+          Tenga en cuenta que cualquier coordenados campos entró en la anterior
+          <strong>Base ubicación</strong> serán reemplazados con los valores
+          generados por las gamas más abajo.  Un máximo de ubicaciones
+          %{max_range} será creado.
         number_to_create: Número de ubicaciones
-        warning: Dependiendo del tamaño de sus gamas, este proceso puede tardar 
-          unos minutos para completar.
+        warning: >-
+          Dependiendo del tamaño de sus gamas, este proceso puede tardar unos
+          minutos para completar.
       action:
         create: Crear ubicaciones
         update: Actualiza ubicaciones
         preview: Muestras de las ubicaciones
         preview_short: Vista previa
         creating: Lote en progreso...
-
   name:
     _frontend:
       section:
@@ -1215,7 +1204,6 @@ es:
         add: Agregar un formulario de nombre
         make_authorized: Convertir en nombre autorizado
         make_display_name: Convertir en nombre a presentar en pantalla
-
   note:
     _frontend:
       preview:
@@ -1225,7 +1213,7 @@ es:
         parsed_title: Cómo se visualizará la nota
         content: Contenido
       messages:
-        select_a_note_type: "<em>Por favor seleccione un tipo de nota</em>"
+        select_a_note_type: <em>Por favor seleccione un tipo de nota</em>
       action:
         add: Agregar Nota
         add_content_item: Añadir elemento de contenido
@@ -1242,38 +1230,33 @@ es:
         collapse: Colapsar
         apply_note_order: Aplicar el orden de notas estandar
         add_for_contact_note: Agregar nota de contacto
-
       note_outline:
         placeholder: Agregar texto de nota
-        empty_level: 'Nivel vacío: use los botones de arriba para agregar nuevos elementos
-          o subniveles'
+        empty_level: >-
+          Nivel vacío: use los botones de arriba para agregar nuevos elementos o
+          subniveles
   related_accession:
     _frontend:
       action:
         add: Añadir acta de ingreso relacionada
-
   related_agent:
     _frontend:
       messages:
-        select_a_type: "<em>Por favor seleccione un tipo de relación</em>"
+        select_a_type: <em>Por favor seleccione un tipo de relación</em>
       action:
         add: Agregue la autoridad relacionada
     dates: Fechas de relación
-
   related_resource:
     _frontend:
       action:
         add: Añadir fondos
-
   revision_statement:
     _frontend:
       action:
         add: Agregar nota de revisión
-
   repository_oai:
     oai_is_disabled: OAI Cosecha de discapacitados?
     oai_sets_available: Conjuntos incluidos en OAI
-
   repository:
     _frontend:
       messages:
@@ -1282,15 +1265,18 @@ es:
         deleted: Repositorio eliminado
         selected: Repositorio seleccionado
         selected_short: Seleccionado
-        changed: Ahora está activado el repositorio 
+        changed: >-
+          Ahora está activado el repositorio
           <strong>%{repository_repo_code}</strong>
-        create_first_repository: "Para crear su primer repositorio, haga clic en el
-          menú del <strong>sistema</strong> anterior y luego <strong>Gestionar repositorios</strong>."
-        no_access_to_repositories: "<p>No tiene acceso a los repositorios.</p><p>Póngase
-          en contacto con el administrador del sistema para solicitar el acceso.</p>"
+        create_first_repository: >-
+          Para crear su primer repositorio, haga clic en el menú del
+          <strong>sistema</strong> anterior y luego <strong>Gestionar
+          repositorios</strong>.
+        no_access_to_repositories: >-
+          <p>No tiene acceso a los repositorios.</p><p>Póngase en contacto con
+          el administrador del sistema para solicitar el acceso.</p>
         continue_with_transfer: ¿Continuar con la transferencia?
-        transfer_failed: Transferencia no se pudo completar debido a los 
-          siguientes errores
+        transfer_failed: Transferencia no se pudo completar debido a los siguientes errores
         transfer_target: Seleccione un repositorio al que transferir
         transfer_warning: <strong>ADVERTENCIA</strong>
         cannot_delete_nonempty: No se puede eliminar - repositorio no vacío
@@ -1306,18 +1292,21 @@ es:
     _sidebar:
       oai_settings:
         _plural: Ajustes de cosecha OAI
-
   resource:
     _frontend:
       messages:
-        created: "Fondo <strong>%{resource_title}</strong> creado"
-        updated: "fondo <strong>%{resource_title}</strong> actualizado"
-        spawned: "Ha sido generado un nuevo fondo de acta de ingreso <strong>%{accession_display_string}</strong>"
-        deleted: "Fondo <strong>%{resource_title}</strong> borrado"
-        published: "El fondo <strong>%{resource_title}</strong>, sus subregistros
-          y sus componentes han sido publicados"
-        unpublished: "El fondo <strong>%{resource_title}</strong>, sus subregistros
-          y sus componentes han sido despublicados"
+        created: Fondo <strong>%{resource_title}</strong> creado
+        updated: fondo <strong>%{resource_title}</strong> actualizado
+        spawned: >-
+          Ha sido generado un nuevo fondo de acta de ingreso
+          <strong>%{accession_display_string}</strong>
+        deleted: Fondo <strong>%{resource_title}</strong> borrado
+        published: >-
+          El fondo <strong>%{resource_title}</strong>, sus subregistros y sus
+          componentes han sido publicados
+        unpublished: >-
+          El fondo <strong>%{resource_title}</strong>, sus subregistros y sus
+          componentes han sido despublicados
         merge_description: Seleccione los fondos abajo para fusionar en
         please_select_a_resource_to_merge: Por favor, seleccione un fondo
         merged: Los fondos se fusionaron
@@ -1326,7 +1315,7 @@ es:
         unsuppressed: Fondo <strong>%{resource_title}</strong> suprimidas
         suppressed: Fondo <strong>%{resource_title}</strong> bloqueado
         suppressed_info: Se suprimieron y no se pueden editar fondos
-        delete_conflict: "El recurso no pudo ser eliminado: <pre>%{error}</pre>"
+        delete_conflict: 'El recurso no pudo ser eliminado: <pre>%{error}</pre>'
       section:
         basic_information: Información básica
         finding_aid: Datos del instrumento de descripción
@@ -1337,37 +1326,37 @@ es:
         save: Guardar fondos
         delete_multiple: Eliminar fondos
     external_ark_url: External ARK URL
-    external_ark_url_tooltip: Identificador persistente de Archival Resource Key
-      (ARK) generado fuera de ArchivesSpace. Si este campo tiene un valor, tiene
-      prioridad sobre un ARK generado dentro de ArchivesSpace.
+    external_ark_url_tooltip: >-
+      Identificador persistente de Archival Resource Key (ARK) generado fuera de
+      ArchivesSpace. Si este campo tiene un valor, tiene prioridad sobre un ARK
+      generado dentro de ArchivesSpace.
   preference:
     _frontend:
       messages:
         updated: Preferencias actualizadas
-        reset: Preferencias establecidas en los valores predeterminados de la 
+        reset: >-
+          Preferencias establecidas en los valores predeterminados de la
           aplicación
-        reset_error: "No se pueden restablecer las preferencias debido a un error:
-          %{exception}"
-        no_access_to_preferences: "Debe crear al menos un repositorio antes de administrar
-          las preferencias"
+        reset_error: >-
+          No se pueden restablecer las preferencias debido a un error:
+          %{exception}
+        no_access_to_preferences: >-
+          Debe crear al menos un repositorio antes de administrar las
+          preferencias
       action:
         save: Guardar preferencias
-
   rights_statement:
     _frontend:
       action:
         add: Agregue la declaración de los derechos
-
   term:
     _frontend:
       messages:
         preview_pending: Vista previa de la materia
       action:
         add: Añadir término/subdivisión
-
   transfer:
     ref: Repositorio de destino
-
   subject:
     _frontend:
       messages:
@@ -1386,20 +1375,21 @@ es:
         create: Crear materia
         save: Guardar materia
         add: Agregar materia
-
   user:
     is_active_user: Usuario activo
     _frontend:
       messages:
-        access_denied: Acceso denegado. Inicie sesión como el usuario 
-          administrador para realizar esta acción.
+        access_denied: >-
+          Acceso denegado. Inicie sesión como el usuario administrador para
+          realizar esta acción.
         created: Usuario creado
         updated: Usuario actualizado
         deleted: Usuario borrado
         error_update: Usuario no guardado
         error_create: Usuario no creado
-        group_not_required: El usuario es un administrador o un usuario del 
-          sistema, no se requiere la selección de grupos.
+        group_not_required: >-
+          El usuario es un administrador o un usuario del sistema, no se
+          requiere la selección de grupos.
         activated: Usuario activado
         deactivated: Usuario desactivado
         error_activate: Usuario no activado
@@ -1419,7 +1409,6 @@ es:
         deactivate_user_confirm: ¿Está seguro de que desea desactivar este usuario?
         activate_user: Activar
         activate_user_confirm: ¿Está seguro de que desea activar este usuario?
-
         edit: Editar usuario
         show_active: Mostrar usuarios activos
     active: 'true'
@@ -1428,12 +1417,10 @@ es:
     _frontend:
       action:
         add: Agregar campos definidos por el usuario
-
   use_date:
     _frontend:
       action:
         add: Añadir fecha de uso
-
   rde:
     date_type: Tipo de fecha
     instance_type: Tipo de representación
@@ -1451,7 +1438,7 @@ es:
       add_rows: Agregar filas
       submit: Guardar filas
       reset: LIMPIAR
-      showhide_prefix: "Columnas"
+      showhide_prefix: Columnas
       showhide_suffix: visible
       showhide_none: Todas las columnas filtradas
       fill_toggle: Rellene la columna
@@ -1470,9 +1457,8 @@ es:
       apply_sequence_fill: Aplicar la secuencia
       sequence_count_warning: Hay más filas que elementos en la secuencia.
       preview_sequence: Valores de secuencia de vista previa
-      sequence_summary: "%{count} elementos de la secuencia"
-      sequence_summary_with_maxsize: "Para sus filas %{limit}, los valores de secuencia
-        de %{count} son"
+      sequence_summary: '%{count} elementos de la secuencia'
+      sequence_summary_with_maxsize: Para sus filas %{limit}, los valores de secuencia de %{count} son
       sequence_from_required: Requeridas
       sequence_to_required: Necesarias
     reorder_columns:
@@ -1487,44 +1473,81 @@ es:
     default_template: Plantilla por defecto
     messages:
       error_prefix: Fila
-      success: "<div class='alert alert-success'>Hijos creados. Actualiza la página...</div>"
+      success: >-
+        <div class='alert alert-success'>Hijos creados. Actualiza la
+        página...</div>
       no_rows: Por favor, introduzca valores para al menos una fila
-      rows_with_errors: "%{count} filas con un error - haga clic en un campo de fila
-        para ver los errores de esa fila"
-      rows_no_errors: "Todas las filas son válidas"
-      error_summary_header: "Errores en fila"
+      rows_with_errors: >-
+        %{count} filas con un error - haga clic en un campo de fila para ver los
+        errores de esa fila
+      rows_no_errors: Todas las filas son válidas
+      error_summary_header: Errores en fila
       select_prompt: Aplicar una plantilla RDE
     help:
-      keyboard_shortcuts: |
+      keyboard_shortcuts: >
         <div><strong>Atajos de teclado</strong></div>
-        <div class="row"><small><span class="span3">Salto de celda a celda: Mayús + teclas de flecha
-        <div class="row"><small><span class="span3">Crear una nueva linea: Mayús + Retorno
-      sticky_columns: |
+
+        <div class="row"><small><span class="span3">Salto de celda a celda:
+        Mayús + teclas de flecha
+
+        <div class="row"><small><span class="span3">Crear una nueva linea: Mayús
+        + Retorno
+      sticky_columns: >
         <div><strong>Columnas pegajosas </strong></div>
-        <div><small>Columnas resaltadas son pegajosas y se replicarán cuando se agregan nuevas filas. Alternar 'pegajosa' haciendo clic en el encabezado de la tabla correspondiente.</small></div>
-        <div><small>Al hacer clic en <strong> Añadir fila </strong> copiará los valores de la última fila; La fila de <strong> + </strong> para copiar los valores de la fila centrado actualmente.</small></div>
-      fill_column: |
+
+        <div><small>Columnas resaltadas son pegajosas y se replicarán cuando se
+        agregan nuevas filas. Alternar 'pegajosa' haciendo clic en el encabezado
+        de la tabla correspondiente.</small></div>
+
+        <div><small>Al hacer clic en <strong> Añadir fila </strong> copiará los
+        valores de la última fila; La fila de <strong> + </strong> para copiar
+        los valores de la fila centrado actualmente.</small></div>
+      fill_column: >
         <div><strong>Llenar la Columna - Básico</strong></div>
-        <div><small>Para llenar una columna con un valor único, haga clic en <strong> Rellenar Columna </strong> y en el <strong> Basic </strong> seleccionar el objetivo <strong> Columna </strong>, introduzca la deseada <strong> Llene valor </strong> y haga clic en <strong> Aplicar relleno</strong>.</small></div>
+
+        <div><small>Para llenar una columna con un valor único, haga clic en
+        <strong> Rellenar Columna </strong> y en el <strong> Basic </strong>
+        seleccionar el objetivo <strong> Columna </strong>, introduzca la
+        deseada <strong> Llene valor </strong> y haga clic en <strong> Aplicar
+        relleno</strong>.</small></div>
+
         <br/>
+
         <div><strong>Rellenar Columna - Secuencia</strong></div>
-        <div><small>Para solicitar una secuencia de una columna, haga clic en <strong> Rellenar Columna </strong> y bajo la <strong> Secuencia de </strong> seleccionar el objetivo <strong> Columna </strong> y finalice el <strong> Rellenar Valor </strong> campos para generar la secuencia que usted desea. Un mensaje de advertencia aparecerá si la secuencia generada no cumplirá el número de filas de la forma.</small></div>
-      resize_and_reorder_columns: |
+
+        <div><small>Para solicitar una secuencia de una columna, haga clic en
+        <strong> Rellenar Columna </strong> y bajo la <strong> Secuencia de
+        </strong> seleccionar el objetivo <strong> Columna </strong> y finalice
+        el <strong> Rellenar Valor </strong> campos para generar la secuencia
+        que usted desea. Un mensaje de advertencia aparecerá si la secuencia
+        generada no cumplirá el número de filas de la forma.</small></div>
+      resize_and_reorder_columns: >
         <div><strong>Reordenar Columnas</strong></div>
-        <div><small>Click <strong>Reordenar columnas </strong>, seleccione la fila (s) que desea reordenar y utilizar los / abajo botones de flecha arriba para cambiar su posición en la lista. Cuando feliz con su nuevo pedido, haga clic en <strong> Aplicar orden de las columnas</strong></small></div>
-      reset: |
+
+        <div><small>Click <strong>Reordenar columnas </strong>, seleccione la
+        fila (s) que desea reordenar y utilizar los / abajo botones de flecha
+        arriba para cambiar su posición en la lista. Cuando feliz con su nuevo
+        pedido, haga clic en <strong> Aplicar orden de las
+        columnas</strong></small></div>
+      reset: >
         <div><strong>Limpiar Formulario</strong></div>
-        <div><small>Click <strong>Cambiar</strong> para borrar el formulario y revertir la pegajosa, visible y el orden de las columnas a los valores predeterminados.</small></div>
+
+        <div><small>Click <strong>Cambiar</strong> para borrar el formulario y
+        revertir la pegajosa, visible y el orden de las columnas a los valores
+        predeterminados.</small></div>
   update_monitor:
     save_failed: <strong>Error al guardar los cambios</strong>
-    stale_record: Este documento ha sido actualizado por otro usuario. Por 
-      favor, actualice la página para acceder a la versión más reciente.
-    other_editors: "Este documento se está editando actualmente por otro usuario.\
-      \  Por favor, póngase en contacto con los usuarios siguientes para asegurar
-      que sin conflictos se producen"
-    repository_changed: "Este registro no puede guardarse, porque ha cambiado su repositorio
-      activo. Para guardar este registro, abra otra ventana y restablecer su repositorio
-      activo."
+    stale_record: >-
+      Este documento ha sido actualizado por otro usuario. Por favor, actualice
+      la página para acceder a la versión más reciente.
+    other_editors: >-
+      Este documento se está editando actualmente por otro usuario.  Por favor,
+      póngase en contacto con los usuarios siguientes para asegurar que sin
+      conflictos se producen
+    repository_changed: >-
+      Este registro no puede guardarse, porque ha cambiado su repositorio
+      activo. Para guardar este registro, abra otra ventana y restablecer su
+      repositorio activo.
   job:
     _frontend:
       audit_data: Datos de auditoría
@@ -1540,154 +1563,191 @@ es:
         basic_information: Información básica
         status: Estado de trabajo
         logs: Registro
-        generated_uris: "Registros nuevos y modificados"
+        generated_uris: Registros nuevos y modificados
         active_jobs: Trabajos activos
         archived_jobs: Trabajos archivados
         files: Files
       messages:
-        status_changed_running: El trabajo de importación ha comenzado. 
-          Actualiza la página...
+        status_changed_running: El trabajo de importación ha comenzado. Actualiza la página...
         status_changed_completed: Ha completado el trabajo de importación.
         status_changed_failed: El trabajo de importación ha fallado.
         status_changed_canceled: El trabajo de importación ha sido cancelado.
         no_active_jobs: No hay trabajos de importación activos.
         no_archived_jobs: No hay trabajos de importación archivados.
         uploading: Subiendo el trabajo...
-        upload_successful: Imagen subida con exito. Redirigiendo a la página de 
-          trabajo...
+        upload_successful: Imagen subida con exito. Redirigiendo a la página de trabajo...
         import_type_missing: Por favor, seleccione un tipo de importación
         queue_position_next: Esta importación es la siguiente.
-        queue_position: "Esta importación es la {posición} % en la cola."
+        queue_position: Esta importación es la {posición} % en la cola.
         drag_and_drop_hint: Arrastrar y soltar archivos aquí
-        find_and_replace_warning: Find and replace jobs can and will make major 
-          changes to your database. You are <strong>strongly</strong> advised to
-          backup your database AND to run your job in a test instance before 
-          proceeding. There is no "undo".
-        find_and_replace_instructions: Seleccione un registro base para 
-          delimitar esta operación de búsqueda y reemplazo. A continuación, 
-          seleccione un tipo de registro para fusionar el destino y una 
-          propiedad de ese tipo. La operación se ejecutará en cada registro de 
-          destino de fusión en el árbol del registro base, o en el propio 
-          registro base si el tipo de destino de fusión es "Recurso".
-        report_instructions: Elige el informe utilizando el botón 
-          <b>Seleccionar</b>.
-        slug_lost_warning: <b> ¡ADVERTENCIA! </b> ¡Todas las babosas generadas 
-          automáticamente serán regeneradas! Este trabajo se aplica a todos los 
-          registros en todos los repositorios.
-        slug_generation: Este trabajo generará slugs y marcará el cuadro de 
-          generación automática de slug para todos los <b> Recursos </b>, <b> 
-          Objetos de archivo </b>, <b> Objetos digitales </b>, <b> Componentes 
-          de objetos digitales </b>, <b> Accesiones </b>, <b> Clasificaciones 
-          </b>, <b> Agentes </b>, <b> Temas </b> y <b> Repositorios </b> que no 
-          tienen ya una babosa. <br /> <em> Las babosas que se han agregado 
-          manualmente no se cambiarán, a menos que indique en esos registros que
-          deben reemplazarse al marcar la casilla de generación automática. 
-          </em>
+        find_and_replace_warning: >-
+          Find and replace jobs can and will make major changes to your
+          database. You are <strong>strongly</strong> advised to backup your
+          database AND to run your job in a test instance before proceeding.
+          There is no "undo".
+        find_and_replace_instructions: >-
+          Seleccione un registro base para delimitar esta operación de búsqueda
+          y reemplazo. A continuación, seleccione un tipo de registro para
+          fusionar el destino y una propiedad de ese tipo. La operación se
+          ejecutará en cada registro de destino de fusión en el árbol del
+          registro base, o en el propio registro base si el tipo de destino de
+          fusión es "Recurso".
+        report_instructions: Elige el informe utilizando el botón <b>Seleccionar</b>.
+        slug_lost_warning: >-
+          <b> ¡ADVERTENCIA! </b> ¡Todas las babosas generadas automáticamente
+          serán regeneradas! Este trabajo se aplica a todos los registros en
+          todos los repositorios.
+        slug_generation: >-
+          Este trabajo generará slugs y marcará el cuadro de generación
+          automática de slug para todos los <b> Recursos </b>, <b> Objetos de
+          archivo </b>, <b> Objetos digitales </b>, <b> Componentes de objetos
+          digitales </b>, <b> Accesiones </b>, <b> Clasificaciones </b>, <b>
+          Agentes </b>, <b> Temas </b> y <b> Repositorios </b> que no tienen ya
+          una babosa. <br /> <em> Las babosas que se han agregado manualmente no
+          se cambiarán, a menos que indique en esos registros que deben
+          reemplazarse al marcar la casilla de generación automática. </em>
         slug_config_msg: <b> Según sus ajustes de configuración en config.rb</b>
-        slug_config_id: Las babosas se generarán usando el identificador de la 
-          entidad cuando sea apropiado.
-        slug_config_title: Las babosas se generarán usando el nombre o título de
-          la entidad.
-        slug_config_eadid: Las babosas para <b> Recursos </b> se generarán 
-          utilizando el ID de EAD cuando sea apropiado.
-        slug_config_cuid: Los slugs para <b> Objetos de archivo </b> se 
-          generarán usando la ID Única del Componente cuando sea apropiado.
-        ark_generation: Este trabajo generará ARK para todos los <b> Recursos 
-          </b> y <b> Objetos de archivo </b> que aún no tienen un ARK. <br/> 
-          <br/> <em> ARK externos no se cambiarán. </em>
-
+        slug_config_id: >-
+          Las babosas se generarán usando el identificador de la entidad cuando
+          sea apropiado.
+        slug_config_title: Las babosas se generarán usando el nombre o título de la entidad.
+        slug_config_eadid: >-
+          Las babosas para <b> Recursos </b> se generarán utilizando el ID de
+          EAD cuando sea apropiado.
+        slug_config_cuid: >-
+          Los slugs para <b> Objetos de archivo </b> se generarán usando la ID
+          Única del Componente cuando sea apropiado.
+        ark_generation: >-
+          Este trabajo generará ARK para todos los <b> Recursos </b> y <b>
+          Objetos de archivo </b> que aún no tienen un ARK. <br/> <br/> <em> ARK
+          externos no se cambiarán. </em>
   shortcuts:
-    quick_reference_window: "Referencia: accesos directos del teclado "
+    quick_reference_window: 'Referencia: accesos directos del teclado '
     actions:
-      this_reference: "Referencia de acceso directo"
-      close_modal: "Cerrar una ventana (e.g., esta misma)"
-      toggle_shortcuts: "Activar / desactivar accesos directos del teclado"
-      save_record: "Guardar el registro que se está editando"
-      close_record: "Cerrar el registro que se está editando"
-      open_browse: "Abrir el menú de navegación"
-      open_create: "Abrir el menú de creación"
-
+      this_reference: Referencia de acceso directo
+      close_modal: Cerrar una ventana (e.g., esta misma)
+      toggle_shortcuts: Activar / desactivar accesos directos del teclado
+      save_record: Guardar el registro que se está editando
+      close_record: Cerrar el registro que se está editando
+      open_browse: Abrir el menú de navegación
+      open_create: Abrir el menú de creación
   instance_container:
     container: Container
-
   sub_container:
     top_container: Contenedor Top
-    top_container_tooltip: |
-      <p>CAMPO REQUERIDO. El contenedor más alto nivel en el que se aloja el material descrito.</p>
-      <p>Se puede seleccionar de una lista existente de los mejores contenedores mediante el tipo de adelante o Explorar las funciones o creadas mediante la función Crear.</p>
+    top_container_tooltip: >
+      <p>CAMPO REQUERIDO. El contenedor más alto nivel en el que se aloja el
+      material descrito.</p>
+
+      <p>Se puede seleccionar de una lista existente de los mejores contenedores
+      mediante el tipo de adelante o Explorar las funciones o creadas mediante
+      la función Crear.</p>
     type_2: Tipo hijo
-    type_2_tooltip: |
-      <p>El tipo de contenedor de segundo nivel en el que se aloja el material descrito.</p>
-      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+    type_2_tooltip: >
+      <p>El tipo de contenedor de segundo nivel en el que se aloja el material
+      descrito.</p>
+
+      <p>Los valores de esta lista de valores controlada pueden ser
+      modificados.</p>
     indicator_2: Indicador de hijo
-    indicator_2_tooltip: |
-      <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de segundo nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
+    indicator_2_tooltip: >
+      <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo
+      nivel, que también puede indicar la posición del recipiente de segundo
+      nivel dentro de una secuencia de tales contenedores. gamas de contenedores
+      a granel de segundo nivel también son permisibles, por ejemplo, Carpetas
+      1-16.</p>
     barcode_2: Niño de contenedores de código de barras
-    barcode_2_tooltip: |
-      <p>Un código de barras para identificar el recipiente de segundo nivel en el que se aloja el material descrito.</p>"
+    barcode_2_tooltip: >
+      <p>Un código de barras para identificar el recipiente de segundo nivel en
+      el que se aloja el material descrito.</p>"
     type_3: Tipo nieto
-    type_3_tooltip: |
-      <p>El tipo de contenedor de tercer nivel en el que se aloja el material descrito.</p>
-      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+    type_3_tooltip: >
+      <p>El tipo de contenedor de tercer nivel en el que se aloja el material
+      descrito.</p>
+
+      <p>Los valores de esta lista de valores controlada pueden ser
+      modificados.</p>
     indicator_3: Indicador de nieto
-    indicator_3_tooltip: |
-      <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de tercer nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
+    indicator_3_tooltip: >
+      <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer
+      nivel, que también puede indicar la posición del recipiente de segundo
+      nivel dentro de una secuencia de tales contenedores. gamas de contenedores
+      a granel de tercer nivel también son permisibles, por ejemplo, Carpetas
+      1-16.</p>
     _singular: Sub Contenedor
     _plural: Sub Contenedores
     _frontend:
       action:
         add: Añadir contenedor
-
   top_container:
     container_profile: Perfil de contenedor
-    container_profile_tooltip: |
-      <p>Una descripción de varias características de un tipo particular de contenedor, incluidas las dimensiones.</p>
+    container_profile_tooltip: >
+      <p>Una descripción de varias características de un tipo particular de
+      contenedor, incluidas las dimensiones.</p>
     indicator: Indicador
-    indicator_tooltip: |
-      <p>CAMPO REQUERIDO. Una expresión alfanumérica para indicar el lugar del recipiente más alto nivel, que puede ser también la posición del recipiente en una secuencia de contenedores.</p>
+    indicator_tooltip: >
+      <p>CAMPO REQUERIDO. Una expresión alfanumérica para indicar el lugar del
+      recipiente más alto nivel, que puede ser también la posición del
+      recipiente en una secuencia de contenedores.</p>
     barcode: Código de barras
-    barcode_tooltip: |
-      <p>Se utiliza para registrar el código de barras que identifica de manera única el contenedor más alto nivel.</p>
+    barcode_tooltip: >
+      <p>Se utiliza para registrar el código de barras que identifica de manera
+      única el contenedor más alto nivel.</p>
     type: Tipo de contenedor
-    type_tooltip: |
+    type_tooltip: >
       <p>El tipo de contenedor de nivel más alto.</p>
-      <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
+
+      <p>Los valores en esta lista de valores controlados pueden ser
+      modificados.</p>
     ils_holding_id: ILS Holding ID
-    ils_holding_id_tooltip: |
-      <p>Identificador de registro de explotación correspondiente en las normas internacionales del trabajo de la biblioteca</p>
+    ils_holding_id_tooltip: >
+      <p>Identificador de registro de explotación correspondiente en las normas
+      internacionales del trabajo de la biblioteca</p>
     ils_item_id: ILS Item ID
-    ils_item_id_tooltip: |
-      <p>Identificador, suministrada por la API, para un registro elemento asociado en la biblioteca ILS (sistema de campo; no se pueden editar manualmente)</p>
+    ils_item_id_tooltip: >
+      <p>Identificador, suministrada por la API, para un registro elemento
+      asociado en la biblioteca ILS (sistema de campo; no se pueden editar
+      manualmente)</p>
     exported_to_ils: Exportar a ILS
     not_exported: No exportado
     restricted: Restringido?
     parent: Contenedor padre
     has_location: Tiene ubicación
-
     managed_container_2_type: Tipo de contenedor hijo
-    managed_container_2_type_tooltip: |
-      <p>El tipo de contenedor de segundo nivel en el que se aloja el material descrito.</p>
-      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
-    managed_container_2_indicator: Indicador de contenido hijo
-    managed_container_2_indicator_tooltip: |
-      <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de segundo nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
-    managed_container_3_type: Contenedor de tipo nieto
-    managed_container_3_type_tooltip: |
-      <p>El tipo de contenedor de tercer nivel en el que se aloja el material descrito.</p>
-      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
-    managed_container_3_indicator: Grandchild Container Indicator
-    managed_container_3_indicator_tooltip: |
-      <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de tercer nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
-    barcode_length_for_this_repository: "Longitud de código de barras para este repositorio:"
-    characters: caracteres
+    managed_container_2_type_tooltip: >
+      <p>El tipo de contenedor de segundo nivel en el que se aloja el material
+      descrito.</p>
 
+      <p>Los valores de esta lista de valores controlada pueden ser
+      modificados.</p>
+    managed_container_2_indicator: Indicador de contenido hijo
+    managed_container_2_indicator_tooltip: >
+      <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo
+      nivel, que también puede indicar la posición del recipiente de segundo
+      nivel dentro de una secuencia de tales contenedores. gamas de contenedores
+      a granel de segundo nivel también son permisibles, por ejemplo, Carpetas
+      1-16.</p>
+    managed_container_3_type: Contenedor de tipo nieto
+    managed_container_3_type_tooltip: >
+      <p>El tipo de contenedor de tercer nivel en el que se aloja el material
+      descrito.</p>
+
+      <p>Los valores de esta lista de valores controlada pueden ser
+      modificados.</p>
+    managed_container_3_indicator: Grandchild Container Indicator
+    managed_container_3_indicator_tooltip: >
+      <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer
+      nivel, que también puede indicar la posición del recipiente de segundo
+      nivel dentro de una secuencia de tales contenedores. gamas de contenedores
+      a granel de tercer nivel también son permisibles, por ejemplo, Carpetas
+      1-16.</p>
+    barcode_length_for_this_repository: 'Longitud de código de barras para este repositorio:'
+    characters: caracteres
     batch_delete:
       success: Los contenedores top se han eliminado correctamente
       error: Ha habido un problema borrando los contenedores top
-
     _singular: Contenedor Top
     _plural: Contenedores Top
-
     _frontend:
       section:
         active_restrictions: Restricciones activas
@@ -1701,18 +1761,19 @@ es:
         created: Contenedor Top creado
         updated: Contenedor Top actualizado
         filter_required: Por favor proporcionar un filtro
-        max_results_limit_reached: No se han incluido todos los resultados. Por 
-          favor refine su búsqueda.
-        max_results_limit_details: "Mostrando <strong>%{visibles} </strong> de <strong>
-          %{num_found} </strong> Resultados de la búsqueda"
-        results_summary: "Los resultados coinciden con: <strong> %{num_found} </strong>"
-        bulk_selection_sort_help: Haga clic en una columna para establecer el 
-          orden de clasificación. Deja la tecla shift presionada para ordenar 
-          por varias columnas.
+        max_results_limit_reached: No se han incluido todos los resultados. Por favor refine su búsqueda.
+        max_results_limit_details: >-
+          Mostrando <strong>%{visibles} </strong> de <strong> %{num_found}
+          </strong> Resultados de la búsqueda
+        results_summary: 'Los resultados coinciden con: <strong> %{num_found} </strong>'
+        bulk_selection_sort_help: >-
+          Haga clic en una columna para establecer el orden de clasificación.
+          Deja la tecla shift presionada para ordenar por varias columnas.
         merged: Contenedor (es) superior (es) fusionados
         bulk_action_success: Contenedores Top actualizado
-        bulk_action_success_info: Tenga en cuenta que antes de que los cambios 
-          se reflejen en los resultados de búsqueda puede pasar un rato.
+        bulk_action_success_info: >-
+          Tenga en cuenta que antes de que los cambios se reflejen en los
+          resultados de búsqueda puede pasar un rato.
         no_active_restrictions: Sin restricciones activas
       bulk_operations:
         title: Operaciones masivas
@@ -1726,69 +1787,71 @@ es:
         current_location: Ubicación actual
         keyword_criteria: Palabra clave
         barcodes_criteria: Código(s) de barra(s)
-        exported_to_ils_true: "Si"
-        exported_to_ils_false: "No"
+        exported_to_ils_true: Si
+        exported_to_ils_false: 'No'
         empty: Contenedores sin asociar
-        empty_true: "Si"
-        empty_false: "No"
+        empty_true: Si
+        empty_false: 'No'
         search: Buscar
         update_ils_holding_ids: Actualzar ILS Holding IDs
-        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all 
-          selected containers.  Déjelo en blanco para eliminar el valor actual 
-          sin reemplazarlo por otro valor.
+        update_ils_holding_ids_help: >-
+          Enter a value for ILS Holding ID for all selected containers.  Déjelo
+          en blanco para eliminar el valor actual sin reemplazarlo por otro
+          valor.
         update_container_profiles: Actualizar perfiles de contenedores
-        update_container_profiles_help: Elige un perfil de contenedor para los 
-          contenedores seleccionados.  Déjelo en blanco para eliminar el valor 
-          actual sin reemplazarlo por otro valor.
-        update_locations_singular: "Actualizar ubicaciones: Ubicación simple"
-        update_locations_singular_help: Elige ubicación para los contenedores 
-          seleccionados.  Déjelo en blanco para eliminar el valor actual sin 
-          reemplazarlo por otro valor.
-        update_locations_multiple: "Actualizar ubicaciones: ubicaciones multiples"
-        update_locations_multiple_help: Elige ubicación para cada uno de los 
-          contenedores seleccionados.  Déjelo en blanco para eliminar el valor 
-          actual sin reemplazarlo por otro valor.
+        update_container_profiles_help: >-
+          Elige un perfil de contenedor para los contenedores seleccionados. 
+          Déjelo en blanco para eliminar el valor actual sin reemplazarlo por
+          otro valor.
+        update_locations_singular: 'Actualizar ubicaciones: Ubicación simple'
+        update_locations_singular_help: >-
+          Elige ubicación para los contenedores seleccionados.  Déjelo en blanco
+          para eliminar el valor actual sin reemplazarlo por otro valor.
+        update_locations_multiple: 'Actualizar ubicaciones: ubicaciones multiples'
+        update_locations_multiple_help: >-
+          Elige ubicación para cada uno de los contenedores seleccionados. 
+          Déjelo en blanco para eliminar el valor actual sin reemplazarlo por
+          otro valor.
         rapid_barcode_entry: Entrada rápida de código de barras rápida
         rapid_barcode_entry_existing_barcode: Código de barras existente
         rapid_barcode_entry_new_barcode: Nuevo código de barras
-        rapid_barcode_entry_help: Ingrese un código de barras para cada 
-          contenedor seleccionado. Deje en blanco el campo Nuevo código de 
-          barras para eliminar el código de barras actual sin reemplazarlo por 
-          un nuevo valor.
+        rapid_barcode_entry_help: >-
+          Ingrese un código de barras para cada contenedor seleccionado. Deje en
+          blanco el campo Nuevo código de barras para eliminar el código de
+          barras actual sin reemplazarlo por un nuevo valor.
         batch_merge: Fusionar contenedores superiores
-        batch_merge_instructions: Seleccione el contenedor superior en el que se
-          fusionarán todos los demás contenedores superiores enumerados. Las 
-          accesiones vinculadas, los recursos, los componentes de recursos y los
-          eventos se volverán a vincular a este contenedor. Los perfiles de 
-          contenedor se moverán a este contenedor solo cuando aún no lo tenga. 
-          Se eliminarán las ubicaciones y toda otra información para los otros 
-          contenedores superiores.
+        batch_merge_instructions: >-
+          Seleccione el contenedor superior en el que se fusionarán todos los
+          demás contenedores superiores enumerados. Las accesiones vinculadas,
+          los recursos, los componentes de recursos y los eventos se volverán a
+          vincular a este contenedor. Los perfiles de contenedor se moverán a
+          este contenedor solo cuando aún no lo tenga. Se eliminarán las
+          ubicaciones y toda otra información para los otros contenedores
+          superiores.
         batch_merge_confirm: Confirmar combinación de contenedores superiores
-        batch_merge_confirm_question: ¿Está seguro de que desea fusionar los 
-          contenedores superiores como se enumeran a continuación? Esta acción 
-          es irreversible.
-        batch_merge_container_profile_too_many_warning: Estos contenedores 
-          superiores tienen diferentes perfiles de contenedores. Ninguno de 
-          estos perfiles de contenedores se fusionará con el contenedor de 
-          destino.
-        batch_merge_container_profile_mismatch_warning: Estos contenedores 
-          superiores tienen un perfil de recipiente diferente que el recipiente 
-          superior objetivo. El perfil contenedor no se fusionará con el 
-          contenedor de destino.
-        batch_merge_confirm_merge_candidates: "Combinar los siguientes contenedores
-          superiores:"
-        batch_merge_confirm_merge_destination: "En este contenedor superior:"
+        batch_merge_confirm_question: >-
+          ¿Está seguro de que desea fusionar los contenedores superiores como se
+          enumeran a continuación? Esta acción es irreversible.
+        batch_merge_container_profile_too_many_warning: >-
+          Estos contenedores superiores tienen diferentes perfiles de
+          contenedores. Ninguno de estos perfiles de contenedores se fusionará
+          con el contenedor de destino.
+        batch_merge_container_profile_mismatch_warning: >-
+          Estos contenedores superiores tienen un perfil de recipiente diferente
+          que el recipiente superior objetivo. El perfil contenedor no se
+          fusionará con el contenedor de destino.
+        batch_merge_confirm_merge_candidates: 'Combinar los siguientes contenedores superiores:'
+        batch_merge_confirm_merge_destination: 'En este contenedor superior:'
         batch_delete: Borrar Contenedores Top
         batch_delete_help: Borrar todos los contenedores seleccionados.
-        update_n_records: "Actualizar %{n} registros"
+        update_n_records: Actualizar %{n} registros
         select_merge_destination: Seleccionar objetivo de fusión
-        merge_n_records: "Va %{n} registros"
-        delete_n_records: "Borrar %{n} registros"
+        merge_n_records: Va %{n} registros
+        delete_n_records: Borrar %{n} registros
         update_locations_current_location: Ubicación actual
         update_locations_new_location: Nueva ubicación
-        has_location_true: "Si"
-        has_location_false: "No"
-
+        has_location_true: Si
+        has_location_false: 'No'
   container_profile:
     _singular: Perfil de contenedor
     _plural: Perfiles de contenedores
@@ -1806,36 +1869,48 @@ es:
         basic_information: Información básica
       bulk_operations:
         merge: Fusionar perfiles de contenedores
-        merge_instructions: Seleccione el perfil de contenedor en el que se 
-          fusionarán todos los demás perfiles de contenedor enumerados. Todos 
-          los registros vinculados se volverán a vincular a este perfil y se 
-          eliminará toda la información para los otros perfiles de contenedor.
+        merge_instructions: >-
+          Seleccione el perfil de contenedor en el que se fusionarán todos los
+          demás perfiles de contenedor enumerados. Todos los registros
+          vinculados se volverán a vincular a este perfil y se eliminará toda la
+          información para los otros perfiles de contenedor.
         merge_select_merge_destination: Seleccionar objetivo de fusión
         confirm_merge: Confirmar perfiles de contenedor de fusión
-        confirm_merge_question: ¿Está seguro de que desea fusionar los perfiles 
-          del contenedor como se enumeran a continuación? Esta acción es 
-          irreversible.
-        confirm_merge_candidates: "Combinar los siguientes perfiles de contenedor:"
-        confirm_merge_destination: "En este perfil de contenedor:"
+        confirm_merge_question: >-
+          ¿Está seguro de que desea fusionar los perfiles del contenedor como se
+          enumeran a continuación? Esta acción es irreversible.
+        confirm_merge_candidates: 'Combinar los siguientes perfiles de contenedor:'
+        confirm_merge_destination: 'En este perfil de contenedor:'
     name: Nombre
-    name_tooltip: |
-      <p>CAMPO REQUERIDO. El nombre del perfil de contenedores. Pueden ser genéricos o específicos.</p>
+    name_tooltip: >
+      <p>CAMPO REQUERIDO. El nombre del perfil de contenedores. Pueden ser
+      genéricos o específicos.</p>
+
       <p>Ejemplos:</p>
+
       <ul>
+
       <li>document box</li>
+
       <li>Paige 15</li>
+
       <li>small card file box</li>
+
       </ul>
     url: URL
     url_tooltip: |
       <p>Un hipervínculo para una descripción externa del contenedor.</p>
     dimension_units: Unidades de dimensión
-    dimension_units_tooltip: |
+    dimension_units_tooltip: >
       <p>Unidades de dimensiones</p>
-      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+
+      <p>Los valores de esta lista de valores controlada pueden ser
+      modificados.</p>
     extent_dimension: Dimensión de extensión
-    extent_dimension_tooltip: |
-      <p>La dimensión utiliza para calcular e indicando la dimensión medida de los materiales en el contenedor. Esto ayuda a determinar qué dimensión se mide por la calculadora de medida.</p>
+    extent_dimension_tooltip: >
+      <p>La dimensión utiliza para calcular e indicando la dimensión medida de
+      los materiales en el contenedor. Esto ayuda a determinar qué dimensión se
+      mide por la calculadora de medida.</p>
     extent_dimension_depth: Profundidad
     extent_dimension_depth_tooltip: |
       <p>Valor numérico para la profundidad del contenedor.</p>
@@ -1855,25 +1930,31 @@ es:
     width_tooltip: |
       <p>Valor numérico para la anchura del contenedor.</p>
     stacking_limit: Límite de apilamiento
-    stacking_limit_tooltip: |
-      <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo o cero.</p>
-
+    stacking_limit_tooltip: >
+      <p>El número de estos contenedores que se pueden apilar una encima de
+      otro. Dejar en blanco si no hay límite. Debe ser un entero positivo o
+      cero.</p>
   rights_restriction:
     begin: Comienzo de la restricción
-    begin_tooltip: |
-      <p>Fecha de inicio de una restricción de acceso. Serán disociados de los contenedores una vez que caduque</p>
+    begin_tooltip: >
+      <p>Fecha de inicio de una restricción de acceso. Serán disociados de los
+      contenedores una vez que caduque</p>
     end: Finalización de la restricción
-    end_tooltip: |
-      <p>Fecha de finalización de una restricción de acceso. Serán disociados de los contenedores una vez que caduque</p>
+    end_tooltip: >
+      <p>Fecha de finalización de una restricción de acceso. Serán disociados de
+      los contenedores una vez que caduque</p>
     local_access_restriction_type: Restricción de tipo de acceso local
-    local_access_restriction_type_inline_help: "Mantenga pulsados  CTRL (Windows)
-      / Command (Mac) para seleccionar varias opciones o anular la selección"
-    local_access_restriction_type_tooltip: |
-      <p>Para aquellas restricciones sin tiempo indicar la razón de la restricción.</p>
-      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+    local_access_restriction_type_inline_help: >-
+      Mantenga pulsados  CTRL (Windows) / Command (Mac) para seleccionar varias
+      opciones o anular la selección
+    local_access_restriction_type_tooltip: >
+      <p>Para aquellas restricciones sin tiempo indicar la razón de la
+      restricción.</p>
+
+      <p>Los valores de esta lista de valores controlada pueden ser
+      modificados.</p>
     linked_records: Registro enlazado
     restriction_note_type: Tipo de nota
-
   extent_calculator:
     no_object_message: Especifica un objeto
     report_title: Informe de cálculo de extensión
@@ -1886,14 +1967,13 @@ es:
     extent_record_header: Registro de extensión
     create_extent: Crear extensión
     calculate_extent: Calcular extensión
-    create_extent_record_message: Ejecutar la calculadora de Extensión en el 
-      modo de edición para tener la opción de crear un registro de medida basado
-      en el informe.
+    create_extent_record_message: >-
+      Ejecutar la calculadora de Extensión en el modo de edición para tener la
+      opción de crear un registro de medida basado en el informe.
     waiting_for_report_message: Calculando extensión ...
     container_summary_type:
       _singular: contenedor
       _plural: contenedores
-
   location_profile:
     _singular: Perfil de ubicación
     _plural: Perfiles de ubicación
@@ -1905,10 +1985,11 @@ es:
       messages:
         created: Perfil de ubicación creado
         updated: Perfil de ubicación actualizado
-        fields_required_for_calculator: Tenga en cuenta que las unidades de 
-          dimensión, profundidad, altura y anchura son todos los datos 
-          necesarios para la calculadora espacio. Las ubicaciones serán omitidas
-          de los resultados si cualquiera de estos valores no están.
+        fields_required_for_calculator: >-
+          Tenga en cuenta que las unidades de dimensión, profundidad, altura y
+          anchura son todos los datos necesarios para la calculadora espacio.
+          Las ubicaciones serán omitidas de los resultados si cualquiera de
+          estos valores no están.
       section:
         basic_information: Información básica
     name: Nombre
@@ -1916,20 +1997,19 @@ es:
     depth: Profundidad
     height: Altura
     width: Anchura
-
   space_calculator:
     modal_title: Calculadora de espacio
     modal_loading: Cargando...
-    message_container_profile_required: La Calculadora de espacio requiere un 
-      perfil de contenedores establecido
+    message_container_profile_required: La Calculadora de espacio requiere un perfil de contenedores establecido
     message_locations_required: La Calculadora de espacio requiere ubicaciones
-    message_select_locations: "Calcula el espacio en las siguientes ubicaciones:"
-    message_no_locations_with_space: No se han encontrado ubicaciones con 
-      espacio
-    message_total_spaces: "Cantidad total de espacios disponibles para este tipo de
-      contenedores: %{total_spaces}"
-    message_total_containers: "Número total de contenedores de este tipo que se encuentran
-      en estas ubicaciones: %{total_containers}"
+    message_select_locations: 'Calcula el espacio en las siguientes ubicaciones:'
+    message_no_locations_with_space: No se han encontrado ubicaciones con espacio
+    message_total_spaces: >-
+      Cantidad total de espacios disponibles para este tipo de contenedores:
+      %{total_spaces}
+    message_total_containers: >-
+      Número total de contenedores de este tipo que se encuentran en estas
+      ubicaciones: %{total_containers}
     message_loading: Cargando...
     count: Espacio disponible (de tipo de contenedor)
     calculate_space: Calcula el espacio
@@ -1938,23 +2018,19 @@ es:
     by_building: Por edificio
     result_filter: Filtra resultados
     summary:
-      locations_with_space: "Ubicaciones con espacio: <strong>%{count}</strong>"
-      locations_without_space: "Ubicaciones sin espacio: <strong>%{count}</strong>"
-      uncalculatable_locations: "No se puede calcular: <strong>%{count}</strong>"
+      locations_with_space: 'Ubicaciones con espacio: <strong>%{count}</strong>'
+      locations_without_space: 'Ubicaciones sin espacio: <strong>%{count}</strong>'
+      uncalculatable_locations: 'No se puede calcular: <strong>%{count}</strong>'
     view_all_toggle: Muestra ubicaciones sin espacio
     reason:
       location_lacks_a_profile: Ubicación sin perfil
-      location_lacks_dimension_data: Perfil de ubicación sin datos de 
-        dimensiones
-      container_is_bigger: El contenedor es más grande que la ubicación en al 
-        menos una dimensión
-      container_at_location_lacks_profile: Al menos uno de los contenedores 
-        actualmente en la ubicación carece de un perfil
-      containers_at_location_dont_fit: Los contenedores en la ubicacion no se 
-        ajustan
-      location_cannot_fit_container: La ubicación no se ajusta a ningún 
-        contenedor de este tipo
-
+      location_lacks_dimension_data: Perfil de ubicación sin datos de dimensiones
+      container_is_bigger: El contenedor es más grande que la ubicación en al menos una dimensión
+      container_at_location_lacks_profile: >-
+        Al menos uno de los contenedores actualmente en la ubicación carece de
+        un perfil
+      containers_at_location_dont_fit: Los contenedores en la ubicacion no se ajustan
+      location_cannot_fit_container: La ubicación no se ajusta a ningún contenedor de este tipo
   date_calculator:
     toolbar_button: Calcular fechas
     calculate_button: Calcular registro de fecha
@@ -1967,42 +2043,46 @@ es:
     create_success: Fecha de creación con éxito. Página refrescante ...
     no_dates: No se encontraron fechas adecuadas
     no_dates_for_label: Inadecuado %{label} fechas encontradas
-
   act:
     _frontend:
       action:
         add: Añadir ley
-
   bulk_archival_object_update_spreadsheet:
     title: Generar hoja de cálculo de objetos archivados en masa
-    description: Utilice el formulario a continuación para seleccionar los 
-      objetos de archivo que desea actualizar de forma masiva.
+    description: >-
+      Utilice el formulario a continuación para seleccionar los objetos de
+      archivo que desea actualizar de forma masiva.
     selected_records: Registros Seleccionados
     selected: Seleccionada
     record_title: Título del registro
-    column_types_to_include_in_spreadsheet: Tipos de columnas para incluir en la
-      hoja de cálculo
+    column_types_to_include_in_spreadsheet: Tipos de columnas para incluir en la hoja de cálculo
     note_types: Tipos de notas
     minimum_subrecords: Subregistros mínimos
-    minimum_subrecords_description: El número mínimo de subregistros ya 
-      existentes de cada tipo que se incluirán.
+    minimum_subrecords_description: >-
+      El número mínimo de subregistros ya existentes de cada tipo que se
+      incluirán.
     extra_subrecords: Subregistros adicionales
-    extra_subrecords_description: La cantidad de nuevos subregistros que se 
-      incluirán además de la mayor cantidad de subregistros existentes ya 
-      encontrados en cualquiera de los registros seleccionados.
+    extra_subrecords_description: >-
+      La cantidad de nuevos subregistros que se incluirán además de la mayor
+      cantidad de subregistros existentes ya encontrados en cualquiera de los
+      registros seleccionados.
     minimum_notes: Notas mínimas
-    minimum_notes_description: El número mínimo de subregistros de notas ya 
-      existentes de cada tipo que se deben incluir.
+    minimum_notes_description: >-
+      El número mínimo de subregistros de notas ya existentes de cada tipo que
+      se deben incluir.
     download_spreadsheet: Descargar hoja de cálculo
-    download_spreadsheet_modal_message: Generar esta hoja de cálculo puede 
-      tardar unos minutos.
-    too_many_rows_warning:
-      "Advertencia: la cantidad de filas que se generarán en esta hoja de cálculo excede la cantidad de filas que se pueden actualizar
-      a través del trabajo en segundo plano del Actualizador masivo de objetos de archivo. Si planea ejecutar el trabajo de actualización masiva de objetos de archivo usando
-      esta hoja de cálculo, deberá reducir el número de filas de esta hoja a menos o igual que 
-      <strong>%{max_row_count} filas</strong> antes de la ingesta. Considere generar una hoja de cálculo más pequeña ahora.  
-      Esta advertencia se puede ignorar de forma segura si no tiene intención de ejecutar un trabajo de actualización masiva de objetos de archivo con estos datos."
-
+    download_spreadsheet_modal_message: Generar esta hoja de cálculo puede tardar unos minutos.
+    too_many_rows_warning: >-
+      Advertencia: la cantidad de filas que se generarán en esta hoja de cálculo
+      excede la cantidad de filas que se pueden actualizar a través del trabajo
+      en segundo plano del Actualizador masivo de objetos de archivo. Si planea
+      ejecutar el trabajo de actualización masiva de objetos de archivo usando
+      esta hoja de cálculo, deberá reducir el número de filas de esta hoja a
+      menos o igual que  <strong>%{max_row_count} filas</strong> antes de la
+      ingesta. Considere generar una hoja de cálculo más pequeña ahora.   Esta
+      advertencia se puede ignorar de forma segura si no tiene intención de
+      ejecutar un trabajo de actualización masiva de objetos de archivo con
+      estos datos.
   assessment:
     _frontend:
       form_header: Evaluación %{display_string}
@@ -2023,34 +2103,31 @@ es:
         rating_attributes_empty: No se ingresó información de evaluación
         rating_attributes_additional: Calificación adicional(s)
         format_attributes: Lista de tipos de materiales / formatos
-        format_attributes_empty: No se han introducido tipos / formatos de 
-          material
+        format_attributes_empty: No se han introducido tipos / formatos de material
         format_attributes_additional: Tipos de materiales adicionales / formatos
         conservation_issue_attributes: Problemas de conservación
-        conservation_issue_attributes_empty: No se han introducido problemas de 
-          conservación.
-        conservation_issue_attributes_additional: Problemas adicionales de 
-          conservación
+        conservation_issue_attributes_empty: No se han introducido problemas de conservación.
+        conservation_issue_attributes_additional: Problemas adicionales de conservación
       messages:
         created: Evaluación creada
         updated: Evaluación actualizada
         deleted: Evaluación eliminada
-        attributes_hint: Por favor, póngase en contacto con su administrador 
-          para agregar más %{attribute_type}
-        manage_attributes_hint: Administrar el adicional %{attribute_type} para 
-          este repositorio
+        attributes_hint: >-
+          Por favor, póngase en contacto con su administrador para agregar más
+          %{attribute_type}
+        manage_attributes_hint: Administrar el adicional %{attribute_type} para este repositorio
       assessment_review_required:
-        true_value: "Si"
-        false_value: "No"
+        true_value: Si
+        false_value: 'No'
       assessment_sensitive_material:
-        true_value: "Si"
-        false_value: "No"
+        true_value: Si
+        false_value: 'No'
       assessment_inactive:
-        true_value: "Si"
-        false_value: "No"
+        true_value: Si
+        false_value: 'No'
       assessment_completed:
-        true_value: "Si"
-        false_value: "No"
+        true_value: Si
+        false_value: 'No'
       browse_reviewers: Revisores
       linked_records:
         heading: Registros vinculados
@@ -2065,7 +2142,6 @@ es:
         rating: Clasificación
         score: Puntuación
         note: Nota
-
   assessment_attribute_definitions:
     _frontend:
       title: Atributos de evaluación
@@ -2079,23 +2155,23 @@ es:
         save: Guardar atributos de evaluación
         add_type: Añadir %{type}
         find_rating: Buscar registros con una calificación %{rating_type}
-        find_format: Buscar registros con un %{format_type} tipo / formato de 
-          material
-        find_issue: Buscar registros con un problema de conservación 
-          %{issue_type}
+        find_format: Buscar registros con un %{format_type} tipo / formato de material
+        find_issue: Buscar registros con un problema de conservación %{issue_type}
         remove_rating: Quitar calificación de %{rating_type}
         remove_format: Quitar %{format_type} tipo / formato de material
         remove_issue: Eliminar %{issue_type} problema de conservación
       messages:
         updated: Atributos de evaluación actualizados
         error: Error al actualizar los atributos de evaluación
-        conflict: "Error al actualizar los atributos de evaluación. Las siguientes
-          etiquetas entran en conflicto con las entradas existentes: %{conflicts}"
-        attribute_in_use: No se puede eliminar un atributo que está actualmente 
-          en uso por una evaluación
+        conflict: >-
+          Error al actualizar los atributos de evaluación. Las siguientes
+          etiquetas entran en conflicto con las entradas existentes:
+          %{conflicts}
+        attribute_in_use: >-
+          No se puede eliminar un atributo que está actualmente en uso por una
+          evaluación
       database_value: Valor de la base de datos
       translation: Traducción
-
   custom_report_template:
     _frontend:
       new_title: Nueva plantilla de informe personalizado
@@ -2117,11 +2193,12 @@ es:
     general_section: Configuración general
     repo_set_section: Conjunto de repositorio
     sponsor_set_section: Conjunto Patrocinador
-    repo_set_desc: Además de los conjuntos basados en el nivel de descripción, 
-      puede definir un conjunto OAI basado en repositorios.
-    sponsor_set_desc: Además de los conjuntos basados en el nivel de 
-      descripción, puede definir un conjunto OAI basado en los nombres de los 
-      patrocinadores.
+    repo_set_desc: >-
+      Además de los conjuntos basados en el nivel de descripción, puede definir
+      un conjunto OAI basado en repositorios.
+    sponsor_set_desc: >-
+      Además de los conjuntos basados en el nivel de descripción, puede definir
+      un conjunto OAI basado en los nombres de los patrocinadores.
     oai_record_prefix: Prefijo de registro OAI
     oai_admin_email: Correo electrónico del administrador de OAI
     oai_repository_name: Nombre del repositorio OAI
@@ -2131,9 +2208,10 @@ es:
     sponsor_set_name: Nombre del Patrocinador
     sponsor_set_names: Nombres de patrocinadores
     sponsor_set_description: Patrocinador Descripción del conjunto
-    oai_leave_repo_form: Estas opciones afectan a OAI-PMH solo para este 
-      repositorio. Haga clic a continuación para ver / editar las opciones 
-      globales de OAI. Esto dejará la forma actual sin guardar los cambios.
+    oai_leave_repo_form: >-
+      Estas opciones afectan a OAI-PMH solo para este repositorio. Haga clic a
+      continuación para ver / editar las opciones globales de OAI. Esto dejará
+      la forma actual sin guardar los cambios.
     _frontend:
       section:
         basic_information: Configuración general
@@ -2161,60 +2239,55 @@ es:
       messages:
         missing_file: No ha añadido un archivo
         not_excel: El archivo que ha elegido no es una hoja de cálculo de Excel
-        not_excel_csv: El archivo que ha elegido no es una hoja de cálculo de 
-          Excel o CSV
+        not_excel_csv: El archivo que ha elegido no es una hoja de cálculo de Excel o CSV
         processed: El archivo ha sido procesado
-        error: "ERROR: Error (s) detectada:"
+        error: 'ERROR: Error (s) detectada:'
         copied: Copiado!
         uncopied: No se puede copiar
-        submitted: "<p>El trabajo se ha enviado a Trabajos en segundo plano.<br/>
-          Haga clic en 'Cerrar' para actualizar esta pantalla.</p>"
+        submitted: >-
+          <p>El trabajo se ha enviado a Trabajos en segundo plano.<br/> Haga
+          clic en 'Cerrar' para actualizar esta pantalla.</p>
   bulk_import_job:
-    active: "Hay un trabajo de importación masiva activo para este registro, intente
-      editar más tarde:<a href ='%{url}'>%{uri}</a>"
+    active: >-
+      Hay un trabajo de importación masiva activo para este registro, intente
+      editar más tarde:<a href ='%{url}'>%{uri}</a>
     resource_id: Recurso ID
     format: Descargar formato de archivo
     filename: Nombre del archivo de la hoja de cálculo
-    not_direct: En este momento, este trabajo solo se puede crear desde el 
-      registro de recursos
-
+    not_direct: >-
+      En este momento, este trabajo solo se puede crear desde el registro de
+      recursos
   structured_date_single:
     _frontend:
       action:
         add: Agregar fecha única
-
   structured_date_range:
     _frontend:
       action:
         add: Agregar fecha de rango
-
   structured_date_label_common_fields:
     date_label: Etiqueta
     date_type_structured: Tipo de fecha
     date_certainty: Certeza
     date_era: Era
     date_calendar: Calendario
-
   structured_date_label_existence:
     date_label: Etiqueta
     date_type_structured: Tipo de fecha
     date_certainty: Certeza
     date_era: Era
     date_calendar: Calendario
-
   structured_date_label_usage:
     date_label: Etiqueta
     date_type_structured: Tipo de fecha
     date_certainty: Certeza
     date_era: Era
     date_calendar: Calendario
-
   structured_date_single_fields:
     date_role: Función de fecha
     date_expression: Expresión de fecha
     date_standardized: Fecha estandarizada
     date_standardized_type: Tipo de fecha estandarizada
-
   structured_date_range_fields:
     begin_date_expression: Expresión de fecha de inicio
     begin_date_standardized: Fecha de inicio estandarizada
@@ -2222,11 +2295,9 @@ es:
     end_date_expression: Expresión de fecha de finalización
     end_date_standardized: Fecha estandarizada de finalización
     end_date_standardized_type: Tipo de fecha estandarizada de finalización
-
   date_type_structured:
     single: Unique
     range: Rango
-
   agent_record_control:
     _plural: Información de registro
     _singular: Información de registro
@@ -2236,8 +2307,7 @@ es:
     maintenance_status: Estado de mantenimiento de control de registros
     publication_status: Estado de publicación de control de registros
     romanization: Romanización
-    government_agency_type: Tipo de agencia gubernamental de control de 
-      registros
+    government_agency_type: Tipo de agencia gubernamental de control de registros
     reference_evaluation: Evaluación de referencia de control de registros
     name_type: Tipo de nombre de control de registro
     level_of_detail: Nivel de detalle de control de registros
@@ -2249,7 +2319,6 @@ es:
     language: Idioma
     script: Texto
     language_note: Nota de idioma
-
   agent_record_controls:
     _plural: Información de registro
     _singular: Información de registro
@@ -2259,8 +2328,7 @@ es:
     maintenance_status: Estado de mantenimiento de control de registros
     publication_status: Estado de publicación de control de registros
     romanization: Romanización
-    government_agency_type: Tipo de agencia gubernamental de control de 
-      registros
+    government_agency_type: Tipo de agencia gubernamental de control de registros
     reference_evaluation: Evaluación de referencia de control de registros
     name_type: Tipo de nombre de control de registro
     level_of_detail: Nivel de detalle de control de registros
@@ -2272,7 +2340,6 @@ es:
     language: Idioma
     script: Texto
     language_note: Nota de idioma
-
   agent_record_control_required:
     _plural: Información de registro
     _singular: Información de registro
@@ -2282,8 +2349,7 @@ es:
     maintenance_status: Estado de mantenimiento de control de registros
     publication_status: Estado de publicación de control de registros
     romanization: Romanización
-    government_agency_type: Tipo de agencia gubernamental de control de 
-      registros
+    government_agency_type: Tipo de agencia gubernamental de control de registros
     reference_evaluation: Evaluación de referencia de control de registros
     name_type: Tipo de nombre de control de registro
     level_of_detail: Nivel de detalle de control de registros
@@ -2295,7 +2361,6 @@ es:
     language: Idioma
     script: Texto
     language_note: Nota de idioma
-
   agent_record_control_merge_destination:
     _plural: Información de registro
     _singular: Información de registro
@@ -2305,8 +2370,7 @@ es:
     maintenance_status: Estado de mantenimiento de control de registros
     publication_status: Estado de publicación de control de registros
     romanization: Romanización
-    government_agency_type: Tipo de agencia gubernamental de control de 
-      registros
+    government_agency_type: Tipo de agencia gubernamental de control de registros
     reference_evaluation: Evaluación de referencia de control de registros
     name_type: Tipo de nombre de control de registro
     level_of_detail: Nivel de detalle de control de registros
@@ -2318,7 +2382,6 @@ es:
     language: Idioma
     script: Texto
     language_note: Nota de idioma
-
   agent_record_control_merge_candidate:
     _plural: Información de registro
     _singular: Información de registro
@@ -2328,8 +2391,7 @@ es:
     maintenance_status: Estado de mantenimiento de control de registros
     publication_status: Estado de publicación de control de registros
     romanization: Romanización
-    government_agency_type: Tipo de agencia gubernamental de control de 
-      registros
+    government_agency_type: Tipo de agencia gubernamental de control de registros
     reference_evaluation: Evaluación de referencia de control de registros
     name_type: Tipo de nombre de control de registro
     level_of_detail: Nivel de detalle de control de registros
@@ -2341,7 +2403,6 @@ es:
     language: Idioma
     script: Texto
     language_note: Nota de idioma
-
   agent_gender:
     _plural: Géneros de agentes
     _singular: Género del agente
@@ -2351,7 +2412,6 @@ es:
     gender: Género
     note: Nota
     dates: fechas
-
   agent_genders:
     _plural: Géneros de agentes
     _singular: Género del agente
@@ -2361,7 +2421,6 @@ es:
     gender: Género
     note: Nota
     dates: fechas
-
   agent_gender_required:
     _plural: Géneros de agentes
     _singular: Género del agente
@@ -2371,7 +2430,6 @@ es:
     gender: Género
     note: Nota
     dates: fechas
-
   agent_gender_merge_destination:
     _plural: Géneros de agentes
     _singular: Género del agente
@@ -2381,7 +2439,6 @@ es:
     gender: Género
     note: Nota
     dates: fechas
-
   used_language:
     _plural: Idiomas
     _singular: Idioma
@@ -2390,7 +2447,6 @@ es:
         add: Agregar idioma
     language: Idioma
     script: Texto
-
   used_language_required:
     _plural: Idiomas
     _singular: Idioma
@@ -2399,7 +2455,6 @@ es:
         add: Agregar idioma
     language: Idioma
     script: Texto
-
   used_languages:
     _plural: Idiomas
     _singular: Idioma
@@ -2408,7 +2463,6 @@ es:
         add: Agregar idioma
     language: Idioma
     script: Texto
-
   used_language_merge_candidate:
     _plural: Idiomas
     _singular: Idioma
@@ -2417,7 +2471,6 @@ es:
         add: Agregar idioma
     language: Idioma
     script: Texto
-
   used_language_merge_destination:
     _plural: Idiomas
     _singular: Idioma
@@ -2426,7 +2479,6 @@ es:
         add: Agregar idioma
     language: Idioma
     script: Texto
-
   agent_gender_merge_candidate:
     _plural: Géneros de agentes
     _singular: Género del agente
@@ -2436,7 +2488,6 @@ es:
     gender: Género
     note: Nota
     dates: fechas
-
   agent_identifier:
     _plural: ID de entidad
     _singular: Identificador
@@ -2445,7 +2496,6 @@ es:
         add: Agregar ID de entidad
     identifier_type: Tipo de identificador
     entity_identifier: ID de entidad
-
   agent_identifiers:
     _plural: ID de entidad
     _singular: Identificador
@@ -2454,7 +2504,6 @@ es:
         add: Agregar ID de entidad
     identifier_type: Tipo de identificador
     entity_identifier: ID de entidad
-
   agent_identifier_required:
     _plural: ID de entidad
     _singular: Identificador
@@ -2463,7 +2512,6 @@ es:
         add: Agregar ID de entidad
     identifier_type: Tipo de identificador
     entity_identifier: ID de entidad
-
   agent_identifier_merge_destination:
     _plural: ID de entidad
     _singular: Identificador
@@ -2472,7 +2520,6 @@ es:
         add: Agregar ID de entidad
     identifier_type: Tipo de identificador
     entity_identifier: ID de entidad
-
   agent_identifier_merge_candidate:
     _plural: ID de entidad
     _singular: Identificador
@@ -2481,7 +2528,6 @@ es:
         add: Agregar ID de entidad
     identifier_type: Tipo de identificador
     entity_identifier: ID de entidad
-
   agent_place:
     _frontend:
       action:
@@ -2495,7 +2541,6 @@ es:
     dates: fechas
     subjects: Lugares
     publish: Publicado
-
   agent_place_required:
     _frontend:
       action:
@@ -2509,7 +2554,6 @@ es:
     dates: fechas
     subjects: Lugares
     publish: Publicado
-
   agent_places:
     _frontend:
       action:
@@ -2523,7 +2567,6 @@ es:
     dates: fechas
     subjects: Lugares
     publish: Publicado
-
   agent_place_merge_destination:
     _frontend:
       action:
@@ -2537,7 +2580,6 @@ es:
     dates: fechas
     subjects: Lugares
     publish: Publicado
-
   agent_place_merge_candidate:
     _frontend:
       action:
@@ -2551,7 +2593,6 @@ es:
     dates: fechas
     subjects: Lugares
     publish: Publicado
-
   agent_occupation:
     _frontend:
       action:
@@ -2565,7 +2606,6 @@ es:
     subjects: Ocupaciones
     places: Lugares
     publish: Publicado
-
   agent_occupation_required:
     _frontend:
       action:
@@ -2579,7 +2619,6 @@ es:
     subjects: Ocupaciones
     places: Lugares
     publish: Publicado
-
   agent_occupations:
     _frontend:
       action:
@@ -2593,7 +2632,6 @@ es:
     subjects: Ocupaciones
     places: Lugares
     publish: Publicado
-
   agent_occupation_merge_destination:
     _frontend:
       action:
@@ -2607,7 +2645,6 @@ es:
     subjects: Ocupaciones
     places: Lugares
     publish: Publicado
-
   agent_occupation_merge_candidate:
     _frontend:
       action:
@@ -2621,7 +2658,6 @@ es:
     subjects: Ocupaciones
     places: Lugares
     publish: Publicado
-
   agent_function:
     _frontend:
       action:
@@ -2635,7 +2671,6 @@ es:
     subjects: Funciones
     places: Lugares
     publish: Publicado
-
   agent_function_required:
     _frontend:
       action:
@@ -2649,7 +2684,6 @@ es:
     subjects: Funciones
     places: Lugares
     publish: Publicado
-
   agent_functions:
     _frontend:
       action:
@@ -2663,7 +2697,6 @@ es:
     subjects: Funciones
     places: Lugares
     publish: Publicado
-
   agent_function_merge_destination:
     _frontend:
       action:
@@ -2677,7 +2710,6 @@ es:
     subjects: Funciones
     places: Lugares
     publish: Publicado
-
   agent_function_merge_candidate:
     _frontend:
       action:
@@ -2691,7 +2723,6 @@ es:
     subjects: Funciones
     places: Lugares
     publish: Publicado
-
   agent_topic:
     _frontend:
       action:
@@ -2705,7 +2736,6 @@ es:
     subjects: Temas
     places: Lugares
     publish: Publicado
-
   agent_topic_required:
     _frontend:
       action:
@@ -2719,7 +2749,6 @@ es:
     subjects: Temas
     places: Lugares
     publish: Publicado
-
   agent_topics:
     _frontend:
       action:
@@ -2733,7 +2762,6 @@ es:
     subjects: Temas
     places: Lugares
     publish: Publicado
-
   agent_topic_merge_destination:
     _frontend:
       action:
@@ -2747,7 +2775,6 @@ es:
     subjects: Temas
     places: Lugares
     publish: Publicado
-
   agent_topic_merge_candidate:
     _frontend:
       action:
@@ -2761,13 +2788,11 @@ es:
     subjects: Temas
     places: Lugares
     publish: Publicado
-
   place:
     _plural: Lugares
     _frontend:
       action:
         add: Añadir lugar
-
   agent_alternate_set:
     _plural: Conjuntos alternativos
     _singular: Conjunto alternativo
@@ -2783,7 +2808,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_alternate_sets:
     _plural: Conjuntos alternativos
     _singular: Conjunto alternativo
@@ -2799,7 +2823,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_alternate_set_required:
     _plural: Conjuntos alternativos
     _singular: Conjunto alternativo
@@ -2815,7 +2838,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_alternate_set_merge_destination:
     _plural: Conjuntos alternativos
     _singular: Conjunto alternativo
@@ -2831,7 +2853,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_alternate_set_merge_candidate:
     _plural: Conjuntos alternativos
     _singular: Conjunto alternativo
@@ -2847,7 +2868,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_conventions_declaration:
     _plural: Declaraciones de la Convención
     _singular: Declaración de la Convención
@@ -2864,7 +2884,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_conventions_declarations:
     _plural: Declaraciones de la Convención
     _singular: Declaración de la Convención
@@ -2881,7 +2900,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_conventions_declaration_required:
     _plural: Declaraciones de la Convención
     _singular: Declaración de la Convención
@@ -2898,7 +2916,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_conventions_declaration_merge_destination:
     _plural: Declaraciones de la Convención
     _singular: Declaración de la Convención
@@ -2915,7 +2932,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_conventions_declaration_merge_candidate:
     _plural: Declaraciones de la Convención
     _singular: Declaración de la Convención
@@ -2932,7 +2948,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_other_agency_code:
     _plural: Otros códigos de agencia
     _singular: Otro código de agencia
@@ -2941,7 +2956,6 @@ es:
         add: Agregar código de agencia
     agency_code_type: Tipo de código de la agencia de control de registros
     maintenance_agency: Agencia de mantenimiento
-
   agent_other_agency_codes:
     _plural: Otros códigos de agencia
     _singular: Otro código de agencia
@@ -2950,7 +2964,6 @@ es:
         add: Agregar código de agencia
     agency_code_type: Tipo de código de la agencia de control de registros
     maintenance_agency: Agencia de mantenimiento
-
   agent_other_agency_code_required:
     _plural: Otros códigos de agencia
     _singular: Otro código de agencia
@@ -2959,7 +2972,6 @@ es:
         add: Agregar código de agencia
     agency_code_type: Tipo de código de la agencia de control de registros
     maintenance_agency: Agencia de mantenimiento
-
   agent_other_agency_code_merge_destination:
     _plural: Otros códigos de agencia
     _singular: Otro código de agencia
@@ -2968,7 +2980,6 @@ es:
         add: Agregar código de agencia
     agency_code_type: Tipo de código de la agencia de control de registros
     maintenance_agency: Agencia de mantenimiento
-
   agent_other_agency_code_merge_candidate:
     _plural: Otros códigos de agencia
     _singular: Otro código de agencia
@@ -2977,77 +2988,61 @@ es:
         add: Agregar código de agencia
     agency_code_type: Tipo de código de la agencia de control de registros
     maintenance_agency: Agencia de mantenimiento
-
   agent_maintenance_history:
     _plural: Historial de mantenimiento
     _singular: Historial de mantenimiento del agente
     _frontend:
       action:
         add: Añadir evento
-    maintenance_event_type: Tipo de evento de mantenimiento de control de 
-      registros
-    maintenance_agent_type: Tipo de agente de mantenimiento de control de 
-      registros
+    maintenance_event_type: Tipo de evento de mantenimiento de control de registros
+    maintenance_agent_type: Tipo de agente de mantenimiento de control de registros
     agent: Agente
     descriptive_note: Nota descriptiva
     event_date: Fecha del evento
-
   agent_maintenance_histories:
     _plural: Historial de mantenimiento
     _singular: Historial de mantenimiento del agente
     _frontend:
       action:
         add: Añadir evento
-    maintenance_event_type: Tipo de evento de mantenimiento de control de 
-      registros
-    maintenance_agent_type: Tipo de agente de mantenimiento de control de 
-      registros
+    maintenance_event_type: Tipo de evento de mantenimiento de control de registros
+    maintenance_agent_type: Tipo de agente de mantenimiento de control de registros
     agent: Agente
     descriptive_note: Nota descriptiva
     event_date: Fecha del evento
-
   agent_maintenance_history_required:
     _plural: Historial de mantenimiento
     _singular: Historial de mantenimiento del agente
     _frontend:
       action:
         add: Añadir evento
-    maintenance_event_type: Tipo de evento de mantenimiento de control de 
-      registros
-    maintenance_agent_type: Tipo de agente de mantenimiento de control de 
-      registros
+    maintenance_event_type: Tipo de evento de mantenimiento de control de registros
+    maintenance_agent_type: Tipo de agente de mantenimiento de control de registros
     agent: Agente
     descriptive_note: Nota descriptiva
     event_date: Fecha del evento
-
   agent_maintenance_history_merge_destination:
     _plural: Historial de mantenimiento
     _singular: Historial de mantenimiento del agente
     _frontend:
       action:
         add: Añadir evento
-    maintenance_event_type: Tipo de evento de mantenimiento de control de 
-      registros
-    maintenance_agent_type: Tipo de agente de mantenimiento de control de 
-      registros
+    maintenance_event_type: Tipo de evento de mantenimiento de control de registros
+    maintenance_agent_type: Tipo de agente de mantenimiento de control de registros
     agent: Agente
     descriptive_note: Nota descriptiva
     event_date: Fecha del evento
-
   agent_maintenance_history_merge_candidate:
     _plural: Historial de mantenimiento
     _singular: Historial de mantenimiento del agente
     _frontend:
       action:
         add: Añadir evento
-    maintenance_event_type: Tipo de evento de mantenimiento de control de 
-      registros
-    maintenance_agent_type: Tipo de agente de mantenimiento de control de 
-      registros
+    maintenance_event_type: Tipo de evento de mantenimiento de control de registros
+    maintenance_agent_type: Tipo de agente de mantenimiento de control de registros
     agent: Agente
     descriptive_note: Nota descriptiva
     event_date: Fecha del evento
-
   agent_record_identifier:
     _plural: ID de registro
     _singular: ID de registro
@@ -3056,10 +3051,9 @@ es:
         add: Agregar ID de registro
     identifier_type: Tipo de identificador de control de registro
     source: Fuente
-    primary_identifier: "¿Es el identificador principal?"
+    primary_identifier: ¿Es el identificador principal?
     primary: Primario
     record_identifier: Identificador de registro
-
   agent_record_identifiers:
     _plural: ID de registro
     _singular: ID de registro
@@ -3068,10 +3062,9 @@ es:
         add: Agregar ID de registro
     identifier_type: Tipo de identificador de control de registro
     source: Fuente
-    primary_identifier: "¿Es el identificador principal?"
+    primary_identifier: ¿Es el identificador principal?
     primary: Primario
     record_identifier: Identificador de registro
-
   agent_record_identifier_required:
     _plural: ID de registro
     _singular: ID de registro
@@ -3080,10 +3073,9 @@ es:
         add: Agregar ID de registro
     identifier_type: Tipo de identificador de control de registro
     source: Fuente
-    primary_identifier: "¿Es el identificador principal?"
+    primary_identifier: ¿Es el identificador principal?
     primary: Primario
     record_identifier: Identificador de registro
-
   agent_record_identifier_merge_destination:
     _plural: ID de registro
     _singular: ID de registro
@@ -3092,10 +3084,9 @@ es:
         add: Agregar ID de registro
     identifier_type: Tipo de identificador de control de registro
     source: Fuente
-    primary_identifier: "¿Es el identificador principal?"
+    primary_identifier: ¿Es el identificador principal?
     primary: Primario
     record_identifier: Identificador de registro
-
   agent_record_identifier_merge_candidate:
     _plural: ID de registro
     _singular: ID de registro
@@ -3104,10 +3095,9 @@ es:
         add: Agregar ID de registro
     identifier_type: Tipo de identificador de control de registro
     source: Fuente
-    primary_identifier: "¿Es el identificador principal?"
+    primary_identifier: ¿Es el identificador principal?
     primary: Primario
     record_identifier: Identificador de registro
-
   agent_source:
     _plural: Fuentes
     _singular: Fuente del agente
@@ -3123,7 +3113,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_sources:
     _plural: Fuentes
     _singular: Fuente del agente
@@ -3139,7 +3128,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_source_required:
     _plural: Fuentes
     _singular: Fuente del agente
@@ -3155,7 +3143,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_source_merge_destination:
     _plural: Fuentes
     _singular: Fuente del agente
@@ -3171,7 +3158,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_source_merge_candidate:
     _plural: Fuentes
     _singular: Fuente del agente
@@ -3187,14 +3173,11 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_parallel_name:
     _plural: Nombres paralelos
     use_dates: Usar fechas
-
   agent_name:
     use_dates: Usar fechas
-
   agent_resource:
     _frontend:
       action:
@@ -3217,7 +3200,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_resources:
     _frontend:
       action:
@@ -3240,7 +3222,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_resource_required:
     _frontend:
       action:
@@ -3263,7 +3244,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_resource_merge_candidate:
     _frontend:
       action:
@@ -3286,7 +3266,6 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   agent_resource_merge_destination:
     _frontend:
       action:
@@ -3309,36 +3288,37 @@ es:
     file_version_xlink_actuate_attribute: Atributo de activación de Xlink
     file_version_xlink_show_attribute: Atributo de Xlink Show
     last_verified_date: Última fecha de verificación
-
   subsections:
     notes: Notas
     dates: fechas
-
   section_headings:
-    basic_information_tooltip: "<p>Esta sección indica el tipo de agente y si el agente
-      está publicado o no.</p>"
-    record_control_information_tooltip: "<p>Esta sección contiene información sobre
-      el registro en sí, con la expectativa de que se originó fuera de ArchivesSpace
-      o se compartirá con un sistema que no sea ArchivesSpace.</p>"
-    identity_information_tooltip: "<p>Esta sección es la información principal sobre
-      el agente en sí. Un formulario de nombre es el único subregistro obligatorio
-      en un registro de agente.</p>"
-    description_information_tooltip: "<p>Esta sección es la información principal
-      sobre el agente en sí. Un formulario de nombre es el único subregistro obligatorio
-      en un registro de agente.</p>"
-    relation_information_tooltip: "<p>Esta sección se utiliza para indicar relaciones
-      con otros agentes o materiales dentro o fuera de ArchivesSpace.</p>"
-
+    basic_information_tooltip: >-
+      <p>Esta sección indica el tipo de agente y si el agente está publicado o
+      no.</p>
+    record_control_information_tooltip: >-
+      <p>Esta sección contiene información sobre el registro en sí, con la
+      expectativa de que se originó fuera de ArchivesSpace o se compartirá con
+      un sistema que no sea ArchivesSpace.</p>
+    identity_information_tooltip: >-
+      <p>Esta sección es la información principal sobre el agente en sí. Un
+      formulario de nombre es el único subregistro obligatorio en un registro de
+      agente.</p>
+    description_information_tooltip: >-
+      <p>Esta sección es la información principal sobre el agente en sí. Un
+      formulario de nombre es el único subregistro obligatorio en un registro de
+      agente.</p>
+    relation_information_tooltip: >-
+      <p>Esta sección se utiliza para indicar relaciones con otros agentes o
+      materiales dentro o fuera de ArchivesSpace.</p>
   bulk_archival_object_updater_job:
-    _singular: Trabajo de actualización masiva de objetos archivados en hojas de
-      cálculo
+    _singular: Trabajo de actualización masiva de objetos archivados en hojas de cálculo
     create_missing_top_containers: Crear contenedores superiores faltantes
-
   note_contact_note:
-    contact_notes_tooltip: "<p>Detalles sobre la interacción con el contacto</p>"
-    date_of_contact_tooltip: "<p>Se utiliza para registrar la fecha o el período de
-      tiempo específicos de una interacción.</p>"
-  metadata_rights_declaration: &metadata_rights_declaration_attributes
+    contact_notes_tooltip: <p>Detalles sobre la interacción con el contacto</p>
+    date_of_contact_tooltip: >-
+      <p>Se utiliza para registrar la fecha o el período de tiempo específicos
+      de una interacción.</p>
+  metadata_rights_declaration:
     descriptive_note: Nota descriptiva
     file_uri: URI Archivo
     xlink_title_attribute: Atributo de título de Xlink
@@ -3353,60 +3333,119 @@ es:
       action:
         add: Agregar declaración de derechos de metadatos
     license: Licencia
-
   metadata_rights_declarations:
-    <<: *metadata_rights_declaration_attributes
-
+    descriptive_note: Nota descriptiva
+    file_uri: URI Archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de título de Xlink
+    xlink_arcrole_attribute: Atributo de Xlink Arcrole
+    file_version_xlink_actuate_attribute: Accionar atributo XLink
+    file_version_xlink_show_attribute: Mostrar atributo XLink
+    last_verified_date: Última fecha de verificación
+    _plural: Declaraciones de derechos de metadatos
+    _singular: Declaraciones de derechos de metadatos
+    _frontend:
+      action:
+        add: Agregar declaración de derechos de metadatos
+    license: Licencia
   metadata_rights_declaration_required:
-    <<: *metadata_rights_declaration_attributes
-
+    descriptive_note: Nota descriptiva
+    file_uri: URI Archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de título de Xlink
+    xlink_arcrole_attribute: Atributo de Xlink Arcrole
+    file_version_xlink_actuate_attribute: Accionar atributo XLink
+    file_version_xlink_show_attribute: Mostrar atributo XLink
+    last_verified_date: Última fecha de verificación
+    _plural: Declaraciones de derechos de metadatos
+    _singular: Declaraciones de derechos de metadatos
+    _frontend:
+      action:
+        add: Agregar declaración de derechos de metadatos
+    license: Licencia
   metadata_rights_declaration_merge_destination:
-    <<: *metadata_rights_declaration_attributes
-
+    descriptive_note: Nota descriptiva
+    file_uri: URI Archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de título de Xlink
+    xlink_arcrole_attribute: Atributo de Xlink Arcrole
+    file_version_xlink_actuate_attribute: Accionar atributo XLink
+    file_version_xlink_show_attribute: Mostrar atributo XLink
+    last_verified_date: Última fecha de verificación
+    _plural: Declaraciones de derechos de metadatos
+    _singular: Declaraciones de derechos de metadatos
+    _frontend:
+      action:
+        add: Agregar declaración de derechos de metadatos
+    license: Licencia
   metadata_rights_declaration_merge_candidate:
-    <<: *metadata_rights_declaration_attributes
+    descriptive_note: Nota descriptiva
+    file_uri: URI Archivo
+    xlink_title_attribute: Atributo de título de Xlink
+    xlink_role_attribute: Atributo de título de Xlink
+    xlink_arcrole_attribute: Atributo de Xlink Arcrole
+    file_version_xlink_actuate_attribute: Accionar atributo XLink
+    file_version_xlink_show_attribute: Mostrar atributo XLink
+    last_verified_date: Última fecha de verificación
+    _plural: Declaraciones de derechos de metadatos
+    _singular: Declaraciones de derechos de metadatos
+    _frontend:
+      action:
+        add: Agregar declaración de derechos de metadatos
+    license: Licencia
   bulk_import_templates:
-    aspace_accession_import_template_csv: Cree registros de accesiones y 
-      registros vinculados a accesiones como agentes, sujetos y eventos.
-    bulk_import_DO_template_xlsx: Cree y vincule objetos digitales a objetos de 
-      archivo existentes en un recurso. El formato XLSX es para quienes tienen 
-      acceso a Microsoft Excel.
-    overview: "<p> Estas son plantillas para cargar datos de hojas de cálculo en ArchivesSpace
-      usando las diferentes opciones de importación en el área de Trabajos en segundo
-      plano. Los datos necesarios para una importación exitosa dependen del tipo de
-      registro que se está creando. No es necesario que complete todas las filas y
-      columnas. </p> <p> Cada plantilla CSV incluye una fila de datos de muestra.
-      A menos que desee crear un registro con los datos de muestra, elimine los datos
-      de muestra antes de cargar su hoja de cálculo. <b> No elimine la fila de encabezado,
-      agregue columnas adicionales o reorganice las columnas existentes. </b> </p>
-      <p> Las plantillas de Excel incluyen instrucciones adicionales para usar las
-      plantillas y validaciones para ciertas celdas. No elimine las instrucciones
-      o validaciones. </p>\n"
-    aspace_digital_object_import_template_csv: Cree registros de objetos 
-      digitales y registros vinculados a objetos digitales como agentes, sujetos
-      y eventos.
-    bulk_import_template_xlsx: Crea objetos de archivo adjuntos a un recurso 
-      existente. Incluye la opción de crear muchos subregistros diferentes y 
-      registros vinculados, incluidas fechas, extensiones, notas, contenedores y
-      objetos digitales. El formato XLSX es para quienes tienen acceso a 
-      Microsoft Excel.
-    bulk_import_template_csv: Crea objetos de archivo adjuntos a un recurso 
-      existente. Incluye la opción de crear muchos subregistros diferentes y 
-      registros vinculados, incluidas fechas, extensiones, notas, contenedores y
-      objetos digitales. El formato CSV es para personas que no tienen acceso a 
-      Microsoft Excel.
-    bulk_import_DO_template_csv: Cree y vincule objetos digitales a objetos de 
-      archivo existentes en un recurso. El formato CSV es para personas que no 
-      tienen acceso a Microsoft Excel.
-    aspace_location_import_template_csv: Crea nuevos registros de ubicación. 
-      Tenga en cuenta que esta plantilla es para crear los propios registros de 
-      ubicación, no para vincular materiales a ubicaciones.
-    aspace_assessment_import_template_csv: Cree y vincule evaluaciones a 
-      accesiones, recursos, objetos de archivo u objetos digitales existentes.
+    aspace_accession_import_template_csv: >-
+      Cree registros de accesiones y registros vinculados a accesiones como
+      agentes, sujetos y eventos.
+    bulk_import_DO_template_xlsx: >-
+      Cree y vincule objetos digitales a objetos de archivo existentes en un
+      recurso. El formato XLSX es para quienes tienen acceso a Microsoft Excel.
+    overview: >
+      <p> Estas son plantillas para cargar datos de hojas de cálculo en
+      ArchivesSpace usando las diferentes opciones de importación en el área de
+      Trabajos en segundo plano. Los datos necesarios para una importación
+      exitosa dependen del tipo de registro que se está creando. No es necesario
+      que complete todas las filas y columnas. </p> <p> Cada plantilla CSV
+      incluye una fila de datos de muestra. A menos que desee crear un registro
+      con los datos de muestra, elimine los datos de muestra antes de cargar su
+      hoja de cálculo. <b> No elimine la fila de encabezado, agregue columnas
+      adicionales o reorganice las columnas existentes. </b> </p> <p> Las
+      plantillas de Excel incluyen instrucciones adicionales para usar las
+      plantillas y validaciones para ciertas celdas. No elimine las
+      instrucciones o validaciones. </p>
+    aspace_digital_object_import_template_csv: >-
+      Cree registros de objetos digitales y registros vinculados a objetos
+      digitales como agentes, sujetos y eventos.
+    bulk_import_template_xlsx: >-
+      Crea objetos de archivo adjuntos a un recurso existente. Incluye la opción
+      de crear muchos subregistros diferentes y registros vinculados, incluidas
+      fechas, extensiones, notas, contenedores y objetos digitales. El formato
+      XLSX es para quienes tienen acceso a Microsoft Excel.
+    bulk_import_template_csv: >-
+      Crea objetos de archivo adjuntos a un recurso existente. Incluye la opción
+      de crear muchos subregistros diferentes y registros vinculados, incluidas
+      fechas, extensiones, notas, contenedores y objetos digitales. El formato
+      CSV es para personas que no tienen acceso a Microsoft Excel.
+    bulk_import_DO_template_csv: >-
+      Cree y vincule objetos digitales a objetos de archivo existentes en un
+      recurso. El formato CSV es para personas que no tienen acceso a Microsoft
+      Excel.
+    aspace_location_import_template_csv: >-
+      Crea nuevos registros de ubicación. Tenga en cuenta que esta plantilla es
+      para crear los propios registros de ubicación, no para vincular materiales
+      a ubicaciones.
+    aspace_assessment_import_template_csv: >-
+      Cree y vincule evaluaciones a accesiones, recursos, objetos de archivo u
+      objetos digitales existentes.
   footer:
     keyboard_shortcuts: Atajos de teclado
-    archivesspace_home_html: Visitar <a
-      href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
-      target='_blank'>Enviar comentarios o informar un problema</a>
+    archivesspace_home_html: Visitar <a href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: >-
+      <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Enviar
+      comentarios o informar un problema</a>
     public_interface_html: Vistar <a href="%{public_url}">Interfaz Pública</a>
+  lang_description:
+    mlc_field: >-
+      El valor de este campo puede cambiar según el idioma actual de
+      descripción.
+    icon: <span class="mlc-icon glifo glifo-globo"></span>

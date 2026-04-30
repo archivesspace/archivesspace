@@ -27,7 +27,10 @@ en:
     drop_into: Drop as Child
     drop_after: Drop After
     duplicate_resource: Duplicate Resource
-    duplicate_resource_confirm_message: A job is going to be created to duplicate this resource with all its archival objects. This may take a while according to the amount of records.
+    duplicate_resource_confirm_message: >-
+      A job is going to be created to duplicate this resource with all its
+      archival objects. This may take a while according to the amount of
+      records.
     edit: Edit
     edit_oai: Edit OAI Settings
     edit_batch: Edit Batch
@@ -53,13 +56,33 @@ en:
     merge_confirm_title: Merge into this record?
     merge_agent_compare_agent_details: Compare Agents
     merge_from_browse_confirm_title: Merge selected records?
-    merge_subject_confirm_message: "The subject '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this subject."
-    merge_agent_confirm_message: "The agent '%{source}' will have the selected record merged into it. The selected record will be deleted and any linked records will be re-linked to this agent. Clicking the Compare Agents button will bring up a screen that gives you the option to choose which fields and sub-records to retain from each record."
-    merge_agent_from_browse_confirm_message: "The first agent selected will have the subsequently selected records merged into it. All subsequently selected records will be deleted and any linked records will be re-linked to the first agent selected."
-    merge_resource_confirm_message: "The resource '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
-    merge_container_profile_confirm_message: "The container profile '%{merge_destination}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
-    batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
-    merge_n_records: "Merge %{n} records"
+    merge_subject_confirm_message: >-
+      The subject '%{source}' will have the selected records merged into it. All
+      selected records will be deleted and any linked records will be re-linked
+      to this subject.
+    merge_agent_confirm_message: >-
+      The agent '%{source}' will have the selected record merged into it. The
+      selected record will be deleted and any linked records will be re-linked
+      to this agent. Clicking the Compare Agents button will bring up a screen
+      that gives you the option to choose which fields and sub-records to retain
+      from each record.
+    merge_agent_from_browse_confirm_message: >-
+      The first agent selected will have the subsequently selected records
+      merged into it. All subsequently selected records will be deleted and any
+      linked records will be re-linked to the first agent selected.
+    merge_resource_confirm_message: >-
+      The resource '%{source}' will have the selected records merged into it.
+      All selected records will be deleted and any linked records will be
+      re-linked to this resource.
+    merge_container_profile_confirm_message: >-
+      The container profile '%{merge_destination}' will have the selected
+      records merged into it. All selected records will be deleted and any
+      linked records will be re-linked to this resource.
+    batch_merge: >-
+      Select the record into which all of the other listed record(s) will merge.
+      Any linked records will be re-linked to this record and all information
+      for the other record(s) will be deleted.
+    merge_n_records: Merge %{n} records
     move: Move
     move_up_a_level: Up a Level
     move_up: Up
@@ -70,43 +93,70 @@ en:
     refresh_page: Refresh Page
     new_prefix: New
     save_prefix: Save
-    save_plus_one: "+1"
+    save_plus_one: '+1'
     save_anyway: Save Anyway
     select: Select
     set_default: Set as Default
     suppress: Suppress
     suppress_confirm_title: Suppress this Record?
-    suppress_confirm_message: "While a suppressed record will remain in the database, it will become hidden to most users and unavailable to most functions."
+    suppress_confirm_message: >-
+      While a suppressed record will remain in the database, it will become
+      hidden to most users and unavailable to most functions.
     toggle_dropdown_menu: Toggle dropdown menu
     transfer: Transfer
     transfer_confirm_title: Transfer this record?
-    transfer_confirm_message: "The record '%{target}' will be transferred to the repository you selected"
-    transfer_successful: Transfer Successful. Records may take a moment to appear in the target repository while re-indexing takes place.
+    transfer_confirm_message: The record '%{target}' will be transferred to the repository you selected
+    transfer_successful: >-
+      Transfer Successful. Records may take a moment to appear in the target
+      repository while re-indexing takes place.
     transfer_failed: Transfer Failed
-    transfer_failed_records_using_digital_objects: "The following records link to digital objects that would be transferred, but doing so would break their instance links"
-    transfer_failed_digital_objects_linked_to_records: "This digital object links to other records held in this repository. To proceed with this transfer, remove the links in the following records"
-    transfer_failed_top_containers_in_use: "The following top containers are linked to other top-level records in this repository, and cannot be transferred until those links are severed"
-    transfer_failed_barcodes_in_use: "The following top containers use barcodes that are used in the target repository, and cannot be transferred until those conflicts are fixed"
+    transfer_failed_records_using_digital_objects: >-
+      The following records link to digital objects that would be transferred,
+      but doing so would break their instance links
+    transfer_failed_digital_objects_linked_to_records: >-
+      This digital object links to other records held in this repository. To
+      proceed with this transfer, remove the links in the following records
+    transfer_failed_top_containers_in_use: >-
+      The following top containers are linked to other top-level records in this
+      repository, and cannot be transferred until those links are severed
+    transfer_failed_barcodes_in_use: >-
+      The following top containers use barcodes that are used in the target
+      repository, and cannot be transferred until those conflicts are fixed
     unset_default: Unset Default
     unsuppress: Unsuppress
     unsuppress_confirm_title: Unsuppress this Record?
-    unsuppress_confirm_message: "false"
-    unable_to_move_message: "Unable to Move Record"
-    move_ordering_problem_message: "Record Move Ordering Issue"
+    unsuppress_confirm_message: 'false'
+    unable_to_move_message: Unable to Move Record
+    move_ordering_problem_message: Record Move Ordering Issue
     delete: Delete
-    delete_confirm_title: "Delete this Record? %{title}"
-    delete_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the record from the database, including any references it has to other records.</p>"
-    delete_repository_confirm_title: "Delete this Repository? %{name}"
-    delete_repository_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove the <strong>repository</strong> and all associated records from the database, including any references it has to other records.</p><p>To continue please enter '%{repository}' below:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_confirm_title: Delete this Record? %{title}
+    delete_confirm_message: >-
+      <p>Please be aware <strong>you cannot undo this
+      action</strong>.</p><p>This action will remove the record from the
+      database, including any references it has to other records.</p>
+    delete_repository_confirm_title: Delete this Repository? %{name}
+    delete_repository_confirm_message: >-
+      <p>Please be aware <strong>you cannot undo this
+      action</strong>.</p><p>This action will remove the
+      <strong>repository</strong> and all associated records from the database,
+      including any references it has to other records.</p><p>To continue please
+      enter '%{repository}' below:</p><p><input id='deleteRepoConfim'
+      data-confirm-answer='%{repository}'></input></p>
     delete_multiple: Delete Records
     delete_multiple_confirm_title: Delete Records?
-    delete_multiple_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove these records from the database, including any references they have to other records.</p>"
+    delete_multiple_confirm_message: >-
+      <p>Please be aware <strong>you cannot undo this
+      action</strong>.</p><p>This action will remove these records from the
+      database, including any references they have to other records.</p>
     reset: Reset Defaults
-    reset_confirm_title: "Reset %{preftype} to application defaults?"
-    reset_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will reset preferences to application defaults.</p>"
+    reset_confirm_title: Reset %{preftype} to application defaults?
+    reset_confirm_message: >-
+      <p>Please be aware <strong>you cannot undo this
+      action</strong>.</p><p>This action will reset preferences to application
+      defaults.</p>
     edit_multiple: Edit Records
     edit_multiple_confirm_title: Edit Records?
-    edit_multiple_confirm_message: "<p>This will bulk update multiple records.</p>"
+    edit_multiple_confirm_message: <p>This will bulk update multiple records.</p>
     export_eac: Download EAC-CPF
     export_marc_auth: Download MARCXML Authority
     export_ead: Download EAD
@@ -121,20 +171,32 @@ en:
     revert: Revert Changes
     finish_editing: Close Record
     merge: Merge
-    form_changes_message: "<small><span class='muted'>You have unsaved changes</span></small>"
-    toolbar_disabled_message: You have unsaved changes - Save or Revert to access the toolbar and record tree
+    form_changes_message: <small><span class='muted'>You have unsaved changes</span></small>
+    toolbar_disabled_message: >-
+      You have unsaved changes - Save or Revert to access the toolbar and record
+      tree
     publish: Publish All
     publish_confirm_title: Publish?
-    publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
+    publish_confirm_message: >-
+      <p>Performing this action will publish this record, any sub-records
+      (External Documents, Notes, etc) and all components in the hierarchy.</p>
     unpublish: Unpublish All
     unpublish_confirm_title: Unpublish?
-    unpublish_confirm_message: "<p>Performing this action will unpublish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
+    unpublish_confirm_message: >-
+      <p>Performing this action will unpublish this record, any sub-records
+      (External Documents, Notes, etc) and all components in the hierarchy.</p>
     publish_archival_object: Publish All
     publish_archival_object_confirm_title: Publish?
-    publish_archival_object_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components below this record in the hierarchy.</p>"
+    publish_archival_object_confirm_message: >-
+      <p>Performing this action will publish this record, any sub-records
+      (External Documents, Notes, etc) and all components below this record in
+      the hierarchy.</p>
     unpublish_archival_object: Unpublish All
     unpublish_archival_object_confirm_title: Unpublish?
-    unpublish_archival_object_confirm_message: "<p>Performing this action will unpublish this record, any sub-records (External Documents, Notes, etc) and all components below this record in the hierarchy.</p>"
+    unpublish_archival_object_confirm_message: >-
+      <p>Performing this action will unpublish this record, any sub-records
+      (External Documents, Notes, etc) and all components below this record in
+      the hierarchy.</p>
     view_search_results: Go to Search Results
     view_published: View Published
     print_to_pdf: Generate PDF
@@ -152,13 +214,15 @@ en:
     expand_tree_mode_off: Disable Auto-Expand
     collapse_tree: Collapse Tree
     reorder_successful: Repositories successfully reordered
-
   database_warning:
-    message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
-
+    message: >-
+      <p><strong>Database Warning:</strong> You are currently using the embedded
+      database (Apache Derby). The embedded database is for testing/demo
+      purposes only. You should use MySQL for any data intended for production,
+      including data in a test instance that you intend to move over to a
+      production instance.</p>
   states:
     auto_generated: System generates when saved
-
   export_options:
     include_unpublished: Include unpublished
     include_daos: Include &lt;dao&gt; tags
@@ -167,25 +231,23 @@ en:
     ead3: EAD3 schema
     use_mods: Use MODS
     use_dc: Use Dublin Core
-
   pagination:
     first: First
     last: Last
-    previous: "&#171;"
+    previous: '&#171;'
     previous_label: Previous
-    next: "&#187;"
+    next: '&#187;'
     next_label: Next
     summary_prefix: Showing
-    summary_offset_connector: "-"
+    summary_offset_connector: '-'
     summary_total_connector: of
     summary_suffix: Results
     page_prefix: Page
     page_connector: of
-
   search_results:
     title: Search Results
     context: Found in
-    select_record: "Select %{title}"
+    select_record: Select %{title}
     selected: Selected?
     no_results: No records found
     no_results_prefix: There were no search results for
@@ -200,16 +262,15 @@ en:
     clear_all: Clear All
     component_switch: Show Components
     help:
-      row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multiple previous rows.
-
-
+      row_selection: >-
+        Click a row to select it for bulk operations. Hold alt while clicking a
+        checkbox to select, or unselect, multiple previous rows.
   search_sorting:
-    sort_by: "Sort by:"
-    and: "and:"
+    sort_by: 'Sort by:'
+    and: 'and:'
     asc: Ascending
     desc: Descending
     select: Select
-
   search:
     accession:
       score: Relevance
@@ -350,7 +411,7 @@ en:
       location_holdings: Holdings for Current Repository
       location_no_holdings: No holdings for this repository.
       location_one_top_container: 1 top container.
-      location_top_containers: " top containers."
+      location_top_containers: ' top containers.'
       location_profile_display_string_u_ssort: Location Profile
       owner_repo_display_string_u_ssort: Repository
       none: None
@@ -456,7 +517,7 @@ en:
       exported_to_ils: Exported to ILS
     top_container_mgmt:
       resource_accession: Resource/Accession
-      resource_accession_id: "Resource/Accession ID"
+      resource_accession_id: Resource/Accession ID
       series: Series
       container_profile: Container Profile
       location_profile: Location Profile
@@ -539,7 +600,6 @@ en:
       representative_file_version: Thumbnail Image
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Repository
-
   advanced_search:
     operator:
       operator: Operator
@@ -554,8 +614,8 @@ en:
       empty: unassigned
     boolean_field:
       boolean: Boolean
-      true_value: "True"
-      false_value: "False"
+      true_value: 'True'
+      false_value: 'False'
     button_text: Search
     reset: Clear
     nav_switcher:
@@ -577,13 +637,11 @@ en:
     search_terms: Advanced Search Fields %{number}
     remove_row: Remove Advanced Search Fields %{number}
     add_row: Add Row
-
   become-user:
     become-user: Become User
     failed: Failed to switch to the specified user
     success: Successfully switched users
     username: Username
-
   navbar:
     become-user: Become User
     brand: ArchivesSpace
@@ -624,46 +682,41 @@ en:
     unpublished: Unpublished
     manage_assessment_attributes: Manage Assessment Attributes
     toggle_navigation: Toggle Navigation
-
   header:
     staff_interface: ArchivesSpace Staff Interface
-
   footer:
     keyboard_shortcuts: Keyboard Shortcuts
     public_interface_html: View <a href="%{public_url}">Public Interface</a>
     archivesspace_home_html: Visit <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Send Feedback or Report a Problem</a>
-
+    feedback_html: >-
+      <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Send
+      Feedback or Report a Problem</a>
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity
     inline_login_title: Session Expired
-
   skipnav:
     main_content: Skip to main content
-
   batch_delete:
     archival_records:
       success: Records deleted
-      error: "Unable to delete records:"
+      error: 'Unable to delete records:'
     subjects:
       success: Subjects deleted
-      error: "Unable to delete subjects:"
+      error: 'Unable to delete subjects:'
     agents:
       success: Agents deleted
-      error: "Unable to delete agents:"
+      error: 'Unable to delete agents:'
     locations:
       success: Locations deleted
-      error: "Unable to delete locations:"
+      error: 'Unable to delete locations:'
     assessments:
       success: Assessments deleted
-      error: "Unable to delete assessments:"
-
+      error: 'Unable to delete assessments:'
   welcome:
     heading: Welcome to ArchivesSpace
     message: Your friendly archives management tool.
     message_logged_in: Your friendly archives management tool.
-
   login:
     login: Sign In
     login_please: Please Sign In
@@ -679,22 +732,26 @@ en:
     reset_password: Reset Password
     recover_password: Recover Password
     email_placeholder: Email Address
-    reset_form_instructions: Enter the email associated with your user account. If an account exists for that email address, a link to reset your password will be sent to that email address.
+    reset_form_instructions: >-
+      Enter the email associated with your user account. If an account exists
+      for that email address, a link to reset your password will be sent to that
+      email address.
     new_password: New Password
     new_password_instructions: Create a new password for %{user} using the form, then login again.
     password_mismatch_error: Passwords do not match.
     password_update_success: Password successfully updated.
     password_update_error: Password could not be updated. Try again or contact an administrator.
-    password_too_simple: This password is too easy to guess. Try adding words or use a random password generator.
-
+    password_too_simple: >-
+      This password is too easy to guess. Try adding words or use a random
+      password generator.
   breadcrumb:
     home: Home
-
   save_changes_modal:
-    body: You have some outstanding changes.  Please save or dismiss these changes to continue.
+    body: >-
+      You have some outstanding changes.  Please save or dismiss these changes
+      to continue.
     save: Save Changes
     dismiss: Dismiss Changes
-
   linker:
     link: Link
     create_and_link: Create and Link
@@ -702,14 +759,14 @@ en:
     placeholder: Type to search available records..
     no_results: No matching results.  Try 'Browse'.
     searching: Searching...
-    delete: "&times;"
+    delete: '&times;'
     components:
       browse: Browse Components
-
   mixed_content:
-    wrap_prefix: "Wrap with:"
-    help: "Mixed Content Enabled&#160;&#160;--&#160;&#160;Type '<' for elements or highlight text to wrap"
-
+    wrap_prefix: 'Wrap with:'
+    help: >-
+      Mixed Content Enabled&#160;&#160;--&#160;&#160;Type '<' for elements or
+      highlight text to wrap
   import:
     eac_title: Import an EAC file
     ead_title: Import an EAD File
@@ -727,7 +784,6 @@ en:
       missing_file: Please select an EAD file to upload
       error_prefix: Error importing file
       complete: Import Complete
-
   default_values:
     form_title:
       archival_object: Component Record Defaults
@@ -747,7 +803,6 @@ en:
       container_profile: Container Profile Defaults
     messages:
       defaults_updated: Defaults Updated
-
   required_fields:
     form_title:
       agent_person: Agent Record Required Fields (Person)
@@ -756,47 +811,52 @@ en:
       agent_software: Agent Record Required Fields (Software)
     messages:
       required_fields_updated: Required Fields Updated
-
   tree:
     drag_and_drop_actions:
       before: Add Items Before
       after: Add Items After
       as_child: Add Items as Children
-    unexpected_failure: Oops! We're having trouble fetching this tree. Please try refreshing the page.
+    unexpected_failure: >-
+      Oops! We're having trouble fetching this tree. Please try refreshing the
+      page.
     resize: Drag to resize the tree height
     maximize: Maximize/minimize the tree height
-
   errors:
     sidebar_label: Errors and Warnings
     error_403: Unable to Access Page
-    error_403_message: "The page you've tried to access may no longer exist or you may not have permission to view it."
+    error_403_message: >-
+      The page you've tried to access may no longer exist or you may not have
+      permission to view it.
     error_404: Record Not Found
-    error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
+    error_404_message: >-
+      The record you've tried to access may no longer exist or you may not have
+      permission to view it.
     error_tree_pane_ajax: An error occurred loading this form.
-    merge_conflict: "Merging agent(s) could not complete: %{message}"
+    merge_conflict: 'Merging agent(s) could not complete: %{message}'
     merge_too_many_merge_candidates: Only one agent may be selected for this merge.
     merge_different_types: Agents selected for this merge must be of the same type.
     merge_denied_for_system_user: One or more agents is a system user.
-    merge_denied_relationship: These agents have a relationship. Remove relationship before proceeding with merge.
-    merge_restricted_contact_details: The merge cannot be completed because one or more of the agents has contact details you do not have permission to access.
+    merge_denied_relationship: >-
+      These agents have a relationship. Remove relationship before proceeding
+      with merge.
+    merge_restricted_contact_details: >-
+      The merge cannot be completed because one or more of the agents has
+      contact details you do not have permission to access.
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
     linked_to_user: Record cannot be deleted as it is linked to a user
     cannot_delete_repository_agent: This agent is linked to a repository and can't be removed.
-
   component_link:
     _plural: Component Links
     _singular: Component Link
     _frontend:
       action:
         add: Add Component Link
-
   accession_link:
     _plural: Accession Links
     _singular: Accesssion Link
     _frontend:
       action:
         add: Add Accession Link
-
   accession:
     component_link: Linked Component
     component_links: Linked Components
@@ -810,22 +870,26 @@ en:
         deleted: Accession <strong>%{accession_display_string}</strong> deleted
         transfer_description: Transfer this accession to...
         transfer_target: Select a repository to transfer into
-        spawned: "This Accession has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
-        delete_conflict: "Accession could not be deleted: <pre>%{error}</pre>"
+        spawned: >-
+          This Accession has been spawned from Accession
+          <strong>%{accession_display_string}</strong>. This record is unsaved.
+          You must click Save for the record to be created in the system.
+        delete_conflict: 'Accession could not be deleted: <pre>%{error}</pre>'
       section:
         basic_information: Basic Information
       action:
         create: Create Accession
         save: Save Accession
-
-  agent: &agent_attributes
+  agent:
     _frontend:
       messages:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
-        published: "The Agent <strong>%{agent_title}</strong>, its subrecords and components have been published"
-        delete_conflict: "Agent could not be deleted: <pre>%{error}</pre>"
+        published: >-
+          The Agent <strong>%{agent_title}</strong>, its subrecords and
+          components have been published
+        delete_conflict: 'Agent could not be deleted: <pre>%{error}</pre>'
         merge_description: Select the agent to merge into
         merged: Agent(s) Merged
         please_select_a_agent_to_merge: Please select an agent
@@ -849,78 +913,94 @@ en:
       action:
         create: Create Agent
         preview: Merge Preview
-
   agent_contact:
     is_representative: Preferred
     notes_tooltip: |
-        <p>Additional notes or other information about the contact.</p>
+      <p>Additional notes or other information about the contact.</p>
     _frontend:
       action:
         add: Add Contact
         make_representative: Make preferred contact
-
   telephone:
     _frontend:
       action:
         add: Add Telephone Number
-
   agent_corporate_entity:
     _frontend:
       action:
         save: Save Corporate Entity
-
   agent_family:
     _frontend:
       action:
         save: Save Family
-
   agent_person:
     _frontend:
       action:
         save: Save Person
-
   agent_software:
     _frontend:
       action:
         save: Save Software
-
   structured_date_single:
     _frontend:
       action:
         add: Add Single Date
-
   structured_date_range:
     _frontend:
       action:
         add: Add Range Date
-
   archival_object:
     external_ark_url: External ARK URL
     external_ark_url_tooltip: External ARK URL Tooltip
     new_title: New Archival Object
     _frontend:
       messages:
-        created: Archival Object <strong>%{archival_object_display_string}</strong> on Resource <strong>%{resource_title}</strong> created
-        duplicated: Archival Object duplicated from <strong>%{archival_object_display_string}</strong>
-        created_with_parent: Archival Object <strong>%{archival_object_display_string}</strong> created as child of <strong>%{parent_display_string}</strong> on Resource <strong>%{resource_title}</strong>
-        updated: Archival Object <strong>%{archival_object_display_string}</strong> updated
-        updated_with_parent: Archival Object <strong>%{archival_object_display_string}</strong> updated
+        created: >-
+          Archival Object <strong>%{archival_object_display_string}</strong> on
+          Resource <strong>%{resource_title}</strong> created
+        duplicated: >-
+          Archival Object duplicated from
+          <strong>%{archival_object_display_string}</strong>
+        created_with_parent: >-
+          Archival Object <strong>%{archival_object_display_string}</strong>
+          created as child of <strong>%{parent_display_string}</strong> on
+          Resource <strong>%{resource_title}</strong>
+        updated: >-
+          Archival Object <strong>%{archival_object_display_string}</strong>
+          updated
+        updated_with_parent: >-
+          Archival Object <strong>%{archival_object_display_string}</strong>
+          updated
         transfer_description: Select a resource to transfer this archival object into
-        transfer_confirm_message: "The record '%{ao}' will be transferred to the resource you selected"
-        transfer_confirm_message_with_resource: "The record '%{ao}' will be transferred to resource '%{resource}'"
+        transfer_confirm_message: The record '%{ao}' will be transferred to the resource you selected
+        transfer_confirm_message_with_resource: The record '%{ao}' will be transferred to resource '%{resource}'
         please_select_a_resource_for_transfer: Please choose a Resource
-        transfer_success: Successfully transferred Archival Object <strong>%{archival_object_display_string}</strong> to Resource <strong>%{resource_title}</strong>
-        transfer_error: "Unable to transfer Archival Object due to an error or conflict: <pre>%{exception}</pre>"
-        deleted: "Archival Object <strong>%{archival_object_display_string}</strong> deleted"
-        published: "The Archival Object <strong>%{archival_object_title}</strong>, its children, subrecords and components have been published"
-        unpublished: "The Archival Object <strong>%{archival_object_title}</strong>, its children, subrecords and components have been unpublished"
+        transfer_success: >-
+          Successfully transferred Archival Object
+          <strong>%{archival_object_display_string}</strong> to Resource
+          <strong>%{resource_title}</strong>
+        transfer_error: >-
+          Unable to transfer Archival Object due to an error or conflict:
+          <pre>%{exception}</pre>
+        deleted: >-
+          Archival Object <strong>%{archival_object_display_string}</strong>
+          deleted
+        published: >-
+          The Archival Object <strong>%{archival_object_title}</strong>, its
+          children, subrecords and components have been published
+        unpublished: >-
+          The Archival Object <strong>%{archival_object_title}</strong>, its
+          children, subrecords and components have been unpublished
         unsuppressed: Archival Object <strong>%{archival_object_title}</strong> unsuppressed
         suppressed: Archival Object <strong>%{archival_object_title}</strong> suppressed
         suppressed_info: Archival Object is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
-        spawned: "This Archival Object has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
-        delete_conflict: "Archival Object could not be deleted: <pre>%{error}</pre>"
-        spawn_placeholder: "<em>Spawned component will be inserted here</em>"
+        spawned: >-
+          This Archival Object has been spawned from Accession
+          <strong>%{accession_display_string}</strong>. This record is unsaved.
+          You must click Save for the record to be created in the system.
+        delete_conflict: 'Archival Object could not be deleted: <pre>%{error}</pre>'
+        spawn_placeholder: <em>Spawned component will be inserted here</em>
         spawn_menu_before: Insert spawned component before
         spawn_menu_child: Insert spawned component as child
         spawn_menu_after: Insert spawned component after
@@ -935,17 +1015,15 @@ en:
         select_resource: Select Resource
         select_parent_and_position: Select Component Position
         leave_parent_empty: Close / Do not Assign Parent
-
       tree:
         new_record_title: New Archival Object
         duplicated_record_title: Create Duplicate Archival Object
-
   classification:
     _frontend:
       messages:
-        created: "Classification <strong>%{classification_title}</strong> created"
-        updated: "Classification <strong>%{classification_title}</strong> updated"
-        deleted: "Classification <strong>%{classification_title}</strong> deleted"
+        created: Classification <strong>%{classification_title}</strong> created
+        updated: Classification <strong>%{classification_title}</strong> updated
+        deleted: Classification <strong>%{classification_title}</strong> deleted
       section:
         basic_information: Basic Information
         search_embedded: Linked Records
@@ -954,15 +1032,24 @@ en:
         create: Create Classification
         save: Save Classification
         add: Add Classification
-
   classification_term:
     _frontend:
       messages:
-        created: "Classification Term <strong>%{classification_term_title}</strong> created"
-        created_with_parent: "Classification Term <strong>%{classification_term_title}</strong> created"
-        updated: "Classification Term <strong>%{classification_term_title}</strong> updated"
-        updated_with_parent: "Classification Term <strong>%{classification_term_title}</strong> updated"
-        deleted: "Classification Term <strong>%{classification_term_title}</strong> deleted"
+        created: >-
+          Classification Term <strong>%{classification_term_title}</strong>
+          created
+        created_with_parent: >-
+          Classification Term <strong>%{classification_term_title}</strong>
+          created
+        updated: >-
+          Classification Term <strong>%{classification_term_title}</strong>
+          updated
+        updated_with_parent: >-
+          Classification Term <strong>%{classification_term_title}</strong>
+          updated
+        deleted: >-
+          Classification Term <strong>%{classification_term_title}</strong>
+          deleted
       section:
         basic_information: Basic Information
         search_embedded: Linked Records
@@ -972,60 +1059,57 @@ en:
         save: Save Classification Term
       tree:
         new_record_title: New Classification Term
-
-  collection_management: &collection_management_attributes
+  collection_management:
     _frontend:
       title_prefix: Processing
       action:
         add: Add Collection Management Fields
-
   container:
     _frontend:
       action:
         add: Add Container
-
   container_location:
     _frontend:
       action:
         add: Add Location
-
   date:
     _frontend:
       expression_placeholder: Describe the date or date range
       action:
         add: Add Date
-
   dates_of_existence:
     _singular: Date of Existence
     _plural: Dates of Existence
     _frontend:
       action:
         add: Add Date
-
   deaccession:
     _frontend:
       action:
         add: Add Deaccession
-
-  structured_date_label_common_fields: &structured_date_label_attributes
+  structured_date_label_common_fields:
     date_label: Label
     date_type_structured: Date Type
     date_certainty: Certainty
     date_era: Era
     date_calendar: Calendar
-
   structured_date_label_existence:
-    <<: *structured_date_label_attributes
-
+    date_label: Label
+    date_type_structured: Date Type
+    date_certainty: Certainty
+    date_era: Era
+    date_calendar: Calendar
   structured_date_label_usage:
-    <<: *structured_date_label_attributes
-
+    date_label: Label
+    date_type_structured: Date Type
+    date_certainty: Certainty
+    date_era: Era
+    date_calendar: Calendar
   structured_date_single_fields:
     date_role: Date Role
     date_expression: Date Expression
     date_standardized: Standardized Date
     date_standardized_type: Standardized Date Type
-
   structured_date_range_fields:
     begin_date_expression: Begin Date Expression
     begin_date_standardized: Begin Standardized Date
@@ -1033,18 +1117,18 @@ en:
     end_date_expression: End Date Expression
     end_date_standardized: End Standardized Date
     end_date_standardized_type: End Standardized Date Type
-
   date_type_structured:
     single: Single
     range: Range
-
   digital_object:
     _frontend:
       messages:
-        created: "Digital Object <strong>%{digital_object_title}</strong> created"
-        updated: "Digital Object <strong>%{digital_object_title}</strong> updated"
-        deleted: "Digital Object <strong>%{digital_object_title}</strong> deleted"
-        published: "The Digital Object <strong>%{digital_object_title}</strong>, its subrecords and components have been published"
+        created: Digital Object <strong>%{digital_object_title}</strong> created
+        updated: Digital Object <strong>%{digital_object_title}</strong> updated
+        deleted: Digital Object <strong>%{digital_object_title}</strong> deleted
+        published: >-
+          The Digital Object <strong>%{digital_object_title}</strong>, its
+          subrecords and components have been published
         merge_description: Select digital objects below to merge into
         please_select_a_digital_object_to_merge: Please select a digital object
         merged: Digital object(s) Merged
@@ -1053,24 +1137,41 @@ en:
         unsuppressed: Digital Object <strong>%{digital_object_title}</strong> unsuppressed
         suppressed: Digital Object <strong>%{digital_object_title}</strong> suppressed
         suppressed_info: Digital Object is suppressed and cannot be edited
-        delete_conflict: "Digital Object could not be deleted: <pre>%{error}</pre>"
+        delete_conflict: 'Digital Object could not be deleted: <pre>%{error}</pre>'
       section:
         basic_information: Basic Information
       action:
         add_child: Add Child
         create: Create Digital Object
         save: Save Digital Object
-
   digital_object_component:
     _frontend:
       messages:
-        created_with_parent: Digital Object Component <strong>%{digital_object_component_display_string}</strong> created as child of <strong>%{parent_display_string}</strong> on Digital Object <strong>%{digital_object_title}</strong>
-        created: Digital Object Component <strong>%{digital_object_component_display_string}</strong> created on Digital Object <strong>%{digital_object_title}</strong>
-        updated_with_parent: Digital Object Component <strong>%{digital_object_component_display_string}</strong> updated
-        updated: Digital Object Component <strong>%{digital_object_component_display_string}</strong> updated
-        deleted: Digital Object Component <strong>%{digital_object_component_display_string}</strong> deleted
-        unsuppressed: Digital Object Component <strong>%{digital_object_component_display_string}</strong> unsuppressed
-        suppressed: Digital Object Component <strong>%{digital_object_component_display_string}</strong> suppressed
+        created_with_parent: >-
+          Digital Object Component
+          <strong>%{digital_object_component_display_string}</strong> created as
+          child of <strong>%{parent_display_string}</strong> on Digital Object
+          <strong>%{digital_object_title}</strong>
+        created: >-
+          Digital Object Component
+          <strong>%{digital_object_component_display_string}</strong> created on
+          Digital Object <strong>%{digital_object_title}</strong>
+        updated_with_parent: >-
+          Digital Object Component
+          <strong>%{digital_object_component_display_string}</strong> updated
+        updated: >-
+          Digital Object Component
+          <strong>%{digital_object_component_display_string}</strong> updated
+        deleted: >-
+          Digital Object Component
+          <strong>%{digital_object_component_display_string}</strong> deleted
+        unsuppressed: >-
+          Digital Object Component
+          <strong>%{digital_object_component_display_string}</strong>
+          unsuppressed
+        suppressed: >-
+          Digital Object Component
+          <strong>%{digital_object_component_display_string}</strong> suppressed
         suppressed_info: Digital Object Component is suppressed and cannot be edited
         has_unpublished_ancestor: Please be aware this record has an ancestor that is unpublished.
       section:
@@ -1081,14 +1182,13 @@ en:
         save: Save Digital Object Component
       tree:
         new_record_title: New Digital Object Component
-
   enumeration:
     _frontend:
       messages:
         value_updated: Value Updated
         deleted: Value Deleted
         delete_error: Failed to delete Value
-        delete_conflict: "Unable to delete Value as it's currently being referenced by a record"
+        delete_conflict: Unable to delete Value as it's currently being referenced by a record
         default_set: Default Value Set
         created: Value Created
         create_error: Failed to create Value
@@ -1098,17 +1198,16 @@ en:
         no_selection: Please select a Controlled Value List
         name_selector: List Name
         name_selector_tooltip: |
-            <p>The Controlled Value List to edit.</p>
+          <p>The Controlled Value List to edit.</p>
         no_name_provided: Select a Value List before creating a new value
         not_used: Not Used.
         one_related_item: 1 related item.
-        related_items: " related items."
+        related_items: ' related items.'
       action:
         create_value: Create Value
         delete_value: Delete Value
         merge_value: Merge Value
         download_csv: Download CSV
-
   event:
     _frontend:
       messages:
@@ -1123,30 +1222,27 @@ en:
         save: Save Event
         create: Create Event
     linked_agents: Agent Links
-
   extent:
     _frontend:
       action:
         add: Add Extent
-
   external_document:
     _frontend:
       action:
         add: Add External Document
-
   file_version:
     _frontend:
       action:
         add: Add File Version
         make_representative: Make Representative
-        make_representative_tooltip: Use to indicate that this image should be displayed when there are multiple file versions associated with the record.
-
+        make_representative_tooltip: >-
+          Use to indicate that this image should be displayed when there are
+          multiple file versions associated with the record.
   group:
     _frontend:
       action:
         create: Create Group
         save: Save Group
-
   instance:
     _frontend:
       messages:
@@ -1154,29 +1250,33 @@ en:
       action:
         add_digital_object: Add Digital Object
         add: Add Instance
-
+  lang_description:
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    mlc_field: >-
+      The value of this field can change based on the current language of
+      description.
   lang_material:
     _plural: Languages
     _frontend:
       action:
         add: Add Language
         add_note: Add Language Note
-
   linked_agent:
     is_primary: Primary
     _frontend:
       action:
         add: Add Agent Link
-        make_primary_tooltip: |
-            <p>Use to indicate which agent linked to the record is the primary agent. Only one linked agent can be designated as primary.</p> 
-            <p>In the MARCXML export, the primary agent will be the 1XX value.</p> 
-        make_primary: Make Primary
+        make_primary_tooltip: >
+          <p>Use to indicate which agent linked to the record is the primary
+          agent. Only one linked agent can be designated as primary.</p> 
 
+          <p>In the MARCXML export, the primary agent will be the 1XX
+          value.</p> 
+        make_primary: Make Primary
   linked_record:
     _frontend:
       action:
         add: Add Record Link
-
   location:
     _frontend:
       messages:
@@ -1194,29 +1294,37 @@ en:
         batch_edit: Edit Batch Locations
         save: Save Location
         single: Single Location
-        delete_confirm_message: "<p>Please be aware you <strong>cannot undo this action.</strong>.</p><p> If this Location is currently linked to one or more instances it cannot be deleted.</p>"
+        delete_confirm_message: >-
+          <p>Please be aware you <strong>cannot undo this
+          action.</strong>.</p><p> If this Location is currently linked to one
+          or more instances it cannot be deleted.</p>
         show_space_calculator: Find with Space Calculator
-
   location_batch:
     _frontend:
       section:
         location: Base Location
         ranges: Coordinate Ranges
       messages:
-        created: "<strong>%{number_created} Locations</strong> Created"
-        updated: "<strong>%{number_created} Locations</strong> Updated"
-        location_batch_info: "Define the base values that will be applied to all locations generated from the <strong>Coordinate Ranges</strong> below."
-        location_batch_update_info: "Please enter the values to be applied."
-        ranges_info: "Please note, any Coordinate fields entered in the above <strong>Base Location</strong> will be replaced with the values generated by the ranges below.  A maximum of %{max_range} locations will be created."
+        created: <strong>%{number_created} Locations</strong> Created
+        updated: <strong>%{number_created} Locations</strong> Updated
+        location_batch_info: >-
+          Define the base values that will be applied to all locations generated
+          from the <strong>Coordinate Ranges</strong> below.
+        location_batch_update_info: Please enter the values to be applied.
+        ranges_info: >-
+          Please note, any Coordinate fields entered in the above <strong>Base
+          Location</strong> will be replaced with the values generated by the
+          ranges below.  A maximum of %{max_range} locations will be created.
         number_to_create: Number of Locations
-        warning: Depending on the size of your ranges, this process may take a few minutes to complete.
+        warning: >-
+          Depending on the size of your ranges, this process may take a few
+          minutes to complete.
       action:
         create: Create Locations
         update: Update Locations
         preview: Preview Locations
         preview_short: Preview
         creating: Batch In Progress...
-
   name:
     _frontend:
       section:
@@ -1231,12 +1339,15 @@ en:
       action:
         add: Add Name Form
         make_authorized: Make Authorized Name
-        make_authorized_tooltip: Use to indicate the name form is the authorized version of the name by authoritative sources such as LCNAF.
+        make_authorized_tooltip: >-
+          Use to indicate the name form is the authorized version of the name by
+          authoritative sources such as LCNAF.
         make_display_name: Make Display Name
-        make_display_name_tooltip: Use to indicate that this form of the name should be used for displays when there are multiple name forms associated with the agent record.
+        make_display_name_tooltip: >-
+          Use to indicate that this form of the name should be used for displays
+          when there are multiple name forms associated with the agent record.
         make_primary: Make Primary
         make_primary_tooltip: Make Primary Tooltip
-
   note:
     _frontend:
       preview:
@@ -1246,7 +1357,7 @@ en:
         parsed_title: How the note will be rendered in the Public application
         content: Content
       messages:
-        select_a_note_type: "<em>Please select a Note Type</em>"
+        select_a_note_type: <em>Please select a Note Type</em>
       action:
         add: Add Note
         add_for_contact_note: Add Contact Note
@@ -1266,34 +1377,28 @@ en:
       note_outline:
         placeholder: Add Note Text
         empty_level: Empty Level -- Use buttons above to add new items or sublevels
-
   related_accession:
     _frontend:
       action:
         add: Add Related Accession
-
   related_agent:
     dates: Relationship Dates
     _frontend:
       messages:
-        select_a_type: "<em>Please select a Relationship Type</em>"
+        select_a_type: <em>Please select a Relationship Type</em>
       action:
         add: Add Related Agent
-
   related_resource:
     _frontend:
       action:
         add: Add Related Resource
-
   revision_statement:
     _frontend:
       action:
         add: Add Revision Statement
-
   repository_oai:
     oai_is_disabled: OAI Harvesting Disabled?
     oai_sets_available: Sets included in OAI
-
   repository:
     _frontend:
       messages:
@@ -1303,12 +1408,19 @@ en:
         selected: Repository is Currently Selected
         selected_short: Selected
         changed: The Repository <strong>%{repository_repo_code}</strong> is now active
-        create_first_repository: "To create your first Repository, click the <strong>System</strong> menu above and then <strong>Manage Repositories</strong>."
-        no_access_to_repositories: "<p>You do not have access to any Repositories.</p><p>Please contact your System Administrator to request access.</p>"
+        create_first_repository: >-
+          To create your first Repository, click the <strong>System</strong>
+          menu above and then <strong>Manage Repositories</strong>.
+        no_access_to_repositories: >-
+          <p>You do not have access to any Repositories.</p><p>Please contact
+          your System Administrator to request access.</p>
         continue_with_transfer: Continue with transfer?
         transfer_failed: Transfer could not complete due to the following errors
         transfer_target: Select a repository to transfer into
-        transfer_warning: <strong>Warning:</strong> Transferring this repository will move <strong>all</strong> of its records into the repository you select.  <strong>This action cannot be reversed</strong>
+        transfer_warning: >-
+          <strong>Warning:</strong> Transferring this repository will move
+          <strong>all</strong> of its records into the repository you select. 
+          <strong>This action cannot be reversed</strong>
         cannot_delete_nonempty: Cannot delete - repository not empty
       section:
         all_fields: Repository Fields
@@ -1323,16 +1435,22 @@ en:
     _sidebar:
       oai_settings:
         _plural: OAI Harvest Settings
-
   resource:
     _frontend:
       messages:
-        created: "Resource <strong>%{resource_title}</strong> created"
-        updated: "Resource <strong>%{resource_title}</strong> updated"
-        spawned: "A new Resource has been spawned from Accession <strong>%{accession_display_string}</strong>. This record is unsaved. You must click Save for the record to be created in the system."
-        deleted: "Resource <strong>%{resource_title}</strong> deleted"
-        published: "The Resource <strong>%{resource_title}</strong>, its subrecords and components have been published"
-        unpublished: "The Resource <strong>%{resource_title}</strong>, its children, subrecords and components have been unpublished"
+        created: Resource <strong>%{resource_title}</strong> created
+        updated: Resource <strong>%{resource_title}</strong> updated
+        spawned: >-
+          A new Resource has been spawned from Accession
+          <strong>%{accession_display_string}</strong>. This record is unsaved.
+          You must click Save for the record to be created in the system.
+        deleted: Resource <strong>%{resource_title}</strong> deleted
+        published: >-
+          The Resource <strong>%{resource_title}</strong>, its subrecords and
+          components have been published
+        unpublished: >-
+          The Resource <strong>%{resource_title}</strong>, its children,
+          subrecords and components have been unpublished
         merge_description: Select resources below to merge into
         please_select_a_resource_to_merge: Please select a resource
         merged: Resource(s) Merged
@@ -1341,7 +1459,7 @@ en:
         unsuppressed: Resource <strong>%{resource_title}</strong> unsuppressed
         suppressed: Resource <strong>%{resource_title}</strong> suppressed
         suppressed_info: Resource is suppressed and cannot be edited
-        delete_conflict: "Resource could not be deleted: <pre>%{error}</pre>"
+        delete_conflict: 'Resource could not be deleted: <pre>%{error}</pre>'
       section:
         basic_information: Basic Information
         finding_aid: Finding Aid Data
@@ -1353,38 +1471,35 @@ en:
         delete_multiple: Delete Resources
       remove_subrecord: Remove sub-record
     external_ark_url: External ARK URL
-    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
+    external_ark_url_tooltip: >-
+      Archival Resource Key (ARK) persistent identifier generated outside of
+      ArchivesSpace. If this field has a value it takes precedence over an ARK
+      generated within ArchivesSpace.
     linker:
-      browse:
-        Browse Resources
+      browse: Browse Resources
       link_title: Browse
       link_to: Link to Resource
-
   preference:
     _frontend:
       messages:
         updated: Preferences updated
         reset: Preferences set to application defaults
-        reset_error: "Unable to reset preferences due to an error: %{exception}"
-        no_access_to_preferences: "You must create at least one repository before managing preferences"
+        reset_error: 'Unable to reset preferences due to an error: %{exception}'
+        no_access_to_preferences: You must create at least one repository before managing preferences
       action:
         save: Save Preferences
-
   rights_statement:
     _frontend:
       action:
         add: Add Rights Statement
-
   term:
     _frontend:
       messages:
         preview_pending: Subject Preview
       action:
         add: Add Term/Subdivision
-
   transfer:
     ref: Destination Repository
-
   subject:
     _frontend:
       messages:
@@ -1394,7 +1509,7 @@ en:
         merged: Subject(s) Merged
         merge_description: Select subjects below to merge into
         please_select_a_subject_to_merge: Please select a subject
-        delete_conflict: "Subject could not be deleted: <pre>%{error}</pre>"
+        delete_conflict: 'Subject could not be deleted: <pre>%{error}</pre>'
       section:
         basic_information: Basic Information
         terms: Terms and Subdivisions
@@ -1403,11 +1518,10 @@ en:
         create: Create Subject
         save: Save Subject
         add: Add Subject
-
   user:
     is_active_user: Active
-    active: "true"
-    inactive: "false"
+    active: 'true'
+    inactive: 'false'
     source: Authentication
     _frontend:
       messages:
@@ -1417,13 +1531,19 @@ en:
         deleted: User Deleted
         error_update: User not saved
         error_create: User not created
-        group_not_required: User is an administrator or system user, group selection is not required.
+        group_not_required: >-
+          User is an administrator or system user, group selection is not
+          required.
         activated: User activated
         deactivated: User deactivated
         error_activate: User not activated
         error_deactivate: User not deactivated
-        password_reset_email_sent: If an account for %{email} exists, an email with instructions for resetting your password will be sent.
-        error_not_found: A username account for %{email} could not be found. Contact your administrator for help.
+        password_reset_email_sent: >-
+          If an account for %{email} exists, an email with instructions for
+          resetting your password will be sent.
+        error_not_found: >-
+          A username account for %{email} could not be found. Contact your
+          administrator for help.
         password_reset_not_allowed: Password Recovery is not allowed. Contact your administrator.
         password_reset_fail: Password Recovery failed. Contact your administrator.
       section:
@@ -1444,18 +1564,14 @@ en:
         activate_user: Activate
         activate_user_confirm: Are you sure you want to activate this user?
         update_self: Manage User Account
-
-
   user_defined:
     _frontend:
       action:
         add: Add User Defined Fields
-
   use_date:
     _frontend:
       action:
         add: Add Use Date
-
   rde:
     date_type: Date Type
     instance_type: Instance Type
@@ -1473,7 +1589,7 @@ en:
       add_rows: Add Rows
       submit: Save Rows
       reset: Reset
-      showhide_prefix: "Columns:"
+      showhide_prefix: 'Columns:'
       showhide_suffix: visible
       showhide_none: All Columns Filtered
       fill_toggle: Fill Column
@@ -1492,8 +1608,8 @@ en:
       apply_sequence_fill: Apply Sequence
       sequence_count_warning: There are more rows than there are items in the sequence.
       preview_sequence: Preview Sequence Values
-      sequence_summary: "%{count} items in the sequence:"
-      sequence_summary_with_maxsize: "For your %{limit} rows, the %{count} sequence values are:"
+      sequence_summary: '%{count} items in the sequence:'
+      sequence_summary_with_maxsize: 'For your %{limit} rows, the %{count} sequence values are:'
       sequence_from_required: From is required
       sequence_to_required: To is required
     reorder_columns:
@@ -1508,11 +1624,15 @@ en:
     default_template: Default Template
     messages:
       error_prefix: Row
-      success: "<div class='alert alert-success'>Children Created. Refreshing page...</div>"
+      success: >-
+        <div class='alert alert-success'>Children Created. Refreshing
+        page...</div>
       no_rows: Please enter values for at least one row
-      rows_with_errors: "%{count} row(s) with an error - click a row field to view the errors for that row"
-      rows_no_errors: "All rows are valid"
-      error_summary_header: "Errors in row:"
+      rows_with_errors: >-
+        %{count} row(s) with an error - click a row field to view the errors for
+        that row
+      rows_no_errors: All rows are valid
+      error_summary_header: 'Errors in row:'
       select_prompt: Apply an RDE Template
     help:
       keyboard_shortcuts:
@@ -1521,27 +1641,55 @@ en:
         arrow_keys: Arrow Keys
         return: Return
         move_term: Jump from cell to cell
-        new_term: "Create a new row (from last row)"
+        new_term: Create a new row (from last row)
       sticky_columns:
         title: Sticky Columns
-        p_one: "Highlighted columns are sticky and will be replicated when new rows are added. Toggle 'sticky' by clicking the corresponding table heading."
-        p_two: "Clicking <strong>Add Row</strong> will copy values from the last row. The row's <strong>+</strong> button will copy values from the currently focused row."
+        p_one: >-
+          Highlighted columns are sticky and will be replicated when new rows
+          are added. Toggle 'sticky' by clicking the corresponding table
+          heading.
+        p_two: >-
+          Clicking <strong>Add Row</strong> will copy values from the last row.
+          The row's <strong>+</strong> button will copy values from the
+          currently focused row.
       fill_column:
         basic_title: Fill Column - Basic
-        basic_description: To fill a column with a single value, click <strong>Fill Column</strong> and under the <strong>Basic</strong> tab select the target <strong>Column</strong>, enter the desired <strong>Fill Value</strong> and click <strong>Apply Fill</strong>.
+        basic_description: >-
+          To fill a column with a single value, click <strong>Fill
+          Column</strong> and under the <strong>Basic</strong> tab select the
+          target <strong>Column</strong>, enter the desired <strong>Fill
+          Value</strong> and click <strong>Apply Fill</strong>.
         sequence_title: Fill Column - Sequence
-        sequence_description: To apply a sequence to a column, click <strong>Fill Column</strong> and under the <strong>Sequence</strong> tab select the target <strong>Column</strong> and complete the <strong>Fill Value</strong> fields to generate the sequence you desire.  A warning will be displayed if the sequence generated will not fulfil the number of rows in the form.
+        sequence_description: >-
+          To apply a sequence to a column, click <strong>Fill Column</strong>
+          and under the <strong>Sequence</strong> tab select the target
+          <strong>Column</strong> and complete the <strong>Fill Value</strong>
+          fields to generate the sequence you desire.  A warning will be
+          displayed if the sequence generated will not fulfil the number of rows
+          in the form.
       reorder_columns:
         title: Reorder Columns
-        description: "Click <strong>Reorder columns</strong>, select the row(s) you wish to reorder and use the up/down arrow buttons to change their position in the list. When happy with your new ordering, click <strong>Apply Column Order</strong>."
+        description: >-
+          Click <strong>Reorder columns</strong>, select the row(s) you wish to
+          reorder and use the up/down arrow buttons to change their position in
+          the list. When happy with your new ordering, click <strong>Apply
+          Column Order</strong>.
       reset:
         title: Reset Form
-        description: "Click <strong>Reset</strong> to clear the form and revert the sticky, visible and order of the columns to the default values."
+        description: >-
+          Click <strong>Reset</strong> to clear the form and revert the sticky,
+          visible and order of the columns to the default values.
   update_monitor:
     save_failed: <strong>Failed to save your changes</strong>
-    stale_record: This record has been updated by another user. Please refresh the page to access the latest version.
-    other_editors: "This record is currently being edited by another user.  Please contact the following users to ensure no conflicts occur: <strong>%{user_ids}</strong>"
-    repository_changed: "This record can't be saved, because your active repository has changed. To save this record, open another window and reset your active repository."
+    stale_record: >-
+      This record has been updated by another user. Please refresh the page to
+      access the latest version.
+    other_editors: >-
+      This record is currently being edited by another user.  Please contact the
+      following users to ensure no conflicts occur: <strong>%{user_ids}</strong>
+    repository_changed: >-
+      This record can't be saved, because your active repository has changed. To
+      save this record, open another window and reset your active repository.
   job:
     _frontend:
       singular: Job
@@ -1575,116 +1723,161 @@ en:
         upload_successful: Upload Successful. Redirecting to Job page...
         import_type_missing: Please select an Import Type
         queue_position_next: This job is next in the queue.
-        queue_position: "This job is %{position} in the queue."
+        queue_position: This job is %{position} in the queue.
         drag_and_drop_hint: Drag and drop files here
-        find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
-        find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
+        find_and_replace_warning: >-
+          Find and replace jobs can and will make major changes to your
+          database. You are <strong>strongly</strong> advised to backup your
+          database AND to run your job in a test instance before proceeding.
+          There is no "undo".
+        find_and_replace_instructions: >-
+          Choose a base record to scope this find and replace operation. Then
+          choose a record type to target and a property of that type. The
+          operation will run in every target record in the tree of the base
+          record, or in the base record itself if the target type is "Resource".
         report_instructions: Choose a report to run by using the <b>Select</b> button.
-        slug_lost_warning: <b>WARNING! </b> All auto-generated slugs will be regenerated! This job applies to all records across all repositories.
-        slug_generation: This job will generate slugs for all <b>Resources</b>, <b>Archival Objects</b>, <b>Digital Objects</b>, <b>Digital Object Components</b>, <b>Accessions</b>, <b>Classifications</b>, <b>Agents</b>, <b>Subjects</b>, and <b>Repositories</b> that do not already have a manually added slug. <br /><br /><em>Slugs that have been manually added will not be changed, unless the Automatically Generate Slug box on the record has been checked to indicate that the slug should be replaced.</em>
+        slug_lost_warning: >-
+          <b>WARNING! </b> All auto-generated slugs will be regenerated! This
+          job applies to all records across all repositories.
+        slug_generation: >-
+          This job will generate slugs for all <b>Resources</b>, <b>Archival
+          Objects</b>, <b>Digital Objects</b>, <b>Digital Object Components</b>,
+          <b>Accessions</b>, <b>Classifications</b>, <b>Agents</b>,
+          <b>Subjects</b>, and <b>Repositories</b> that do not already have a
+          manually added slug. <br /><br /><em>Slugs that have been manually
+          added will not be changed, unless the Automatically Generate Slug box
+          on the record has been checked to indicate that the slug should be
+          replaced.</em>
         slug_config_msg: <b>Based on your configuration settings in config.rb:</b>
         slug_config_id: Slugs will be generated using the entity identifier where appropriate.
         slug_config_title: Slugs will be generated using the entity name or title.
-        slug_config_eadid: Slugs for <b>Resources</b> will be generated using the EAD ID where appropriate.
-        slug_config_cuid: Slugs for <b>Archival Objects</b> will be generated using the Component Unique ID where appropriate.
-        ark_generation: This job will generate ARKs for all <b>Resources</b> and <b>Archival Objects</b> that do not already have an ARK. <br /><br /><em>External ARKs will not be changed.</em>
-
+        slug_config_eadid: >-
+          Slugs for <b>Resources</b> will be generated using the EAD ID where
+          appropriate.
+        slug_config_cuid: >-
+          Slugs for <b>Archival Objects</b> will be generated using the
+          Component Unique ID where appropriate.
+        ark_generation: >-
+          This job will generate ARKs for all <b>Resources</b> and <b>Archival
+          Objects</b> that do not already have an ARK. <br /><br /><em>External
+          ARKs will not be changed.</em>
   shortcuts:
-    quick_reference_window: "Quick Reference: Keyboard Shortcuts"
+    quick_reference_window: 'Quick Reference: Keyboard Shortcuts'
     actions:
-      this_reference: "This shortcut reference"
-      close_modal: "Close a modal window (e.g., this one)"
-      toggle_shortcuts: "Enable / disable keyboard shortcuts"
-      save_record: "Save the record being edited"
-      close_record: "Close a record being edited"
-      open_browse: "Open Browse menu"
-      open_create: "Open Create menu"
-
+      this_reference: This shortcut reference
+      close_modal: Close a modal window (e.g., this one)
+      toggle_shortcuts: Enable / disable keyboard shortcuts
+      save_record: Save the record being edited
+      close_record: Close a record being edited
+      open_browse: Open Browse menu
+      open_create: Open Create menu
   instance_container:
     container: Container
-
   sub_container:
     top_container: Top Container
-    top_container_tooltip: |
-        <p>REQUIRED FIELD. The highest level container in which the described material is housed.</p>
-        <p>May be selected from an existing list of top containers using the type ahead or Browse functions or created using the Create function.</p>
+    top_container_tooltip: >
+      <p>REQUIRED FIELD. The highest level container in which the described
+      material is housed.</p>
+
+      <p>May be selected from an existing list of top containers using the type
+      ahead or Browse functions or created using the Create function.</p>
     type_2: Child Type
-    type_2_tooltip: |
-        <p>The type of the second-level container in which the described material is housed.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+    type_2_tooltip: >
+      <p>The type of the second-level container in which the described material
+      is housed.</p>
+
+      <p>Values in this Controlled Value List may be modified.</p>
     indicator_2: Child Indicator
-    indicator_2_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
+    indicator_2_tooltip: >
+      <p>An alphanumeric expression for indicating the ID of the second-level
+      container, which may also indicate the second-level container's position
+      within a sequence of such containers. Bulk ranges of second-level
+      containers are also permissible, e.g. Folders 1-16.</p>
     barcode_2: Child Container Barcode
-    barcode_2_tooltip: |
-        <p>A barcode to identify the second-level container in which the described material is housed.</p>
+    barcode_2_tooltip: >
+      <p>A barcode to identify the second-level container in which the described
+      material is housed.</p>
     type_3: Grandchild Type
-    type_3_tooltip: |
-        <p>The type of the third-level container in which the described material is housed.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+    type_3_tooltip: >
+      <p>The type of the third-level container in which the described material
+      is housed.</p>
+
+      <p>Values in this Controlled Value List may be modified.</p>
     indicator_3: Grandchild Indicator
-    indicator_3_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
+    indicator_3_tooltip: >
+      <p>An alphanumeric expression for indicating the ID of the third-level
+      container, which may also indicate the second-level container's position
+      within a sequence of such containers. Bulk ranges of third-level
+      containers are also permissible, e.g. Folders 1-16.</p>
     _singular: Sub Container
     _plural: Sub Containers
     _frontend:
       action:
         add: Add Container Instance
-
   top_container:
     container_profile: Container Profile
-    container_profile_tooltip: |
-        <p>A description of various characteristics of a particular kind of container, including dimensions.</p>
+    container_profile_tooltip: >
+      <p>A description of various characteristics of a particular kind of
+      container, including dimensions.</p>
     indicator: Indicator
-    indicator_tooltip: |
-        <p>REQUIRED FIELD. An alphanumeric expression for indicating the place of the highest level container, which may also be the position of the container in a sequence of containers.</p>
+    indicator_tooltip: >
+      <p>REQUIRED FIELD. An alphanumeric expression for indicating the place of
+      the highest level container, which may also be the position of the
+      container in a sequence of containers.</p>
     barcode: Barcode
-    barcode_tooltip: |
-        <p>Used to record the barcode that uniquely identifies the highest level container.</p>
+    barcode_tooltip: >
+      <p>Used to record the barcode that uniquely identifies the highest level
+      container.</p>
     type: Container Type
     type_tooltip: |
-        <p>The type of the highest level container.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+      <p>The type of the highest level container.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
-        <p>Identifier of associated holding record in the library ILS</p>
+      <p>Identifier of associated holding record in the library ILS</p>
     ils_item_id: ILS Item ID
-    ils_item_id_tooltip: |
-        <p>Identifier, supplied by the API, for an associated item record in the library ILS (system field; cannot be edited manually)</p>
-
+    ils_item_id_tooltip: >
+      <p>Identifier, supplied by the API, for an associated item record in the
+      library ILS (system field; cannot be edited manually)</p>
     internal_note: Internal Note
     internal_note_tooltip: |
-        <p>Notes for internal use. Only visible in staff interface.</p>
+      <p>Notes for internal use. Only visible in staff interface.</p>
     exported_to_ils: Exported to ILS
     not_exported: Not exported
     restricted: Restricted?
     parent: Parent Container
     has_location: Has Location
-
     managed_container_2_type: Child Container Type
-    managed_container_2_type_tooltip: |
-        <p>The type of the second-level container in which the described material is housed.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-    managed_container_2_indicator: Child Container Indicator
-    managed_container_2_indicator_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
-    managed_container_3_type: Grandchild Container Type
-    managed_container_3_type_tooltip: |
-        <p>The type of the third-level container in which the described material is housed.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-    managed_container_3_indicator: Grandchild Container Indicator
-    managed_container_3_indicator_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
-    barcode_length_for_this_repository: "Barcode length for this repository:"
-    characters: characters
+    managed_container_2_type_tooltip: >
+      <p>The type of the second-level container in which the described material
+      is housed.</p>
 
+      <p>Values in this Controlled Value List may be modified.</p>
+    managed_container_2_indicator: Child Container Indicator
+    managed_container_2_indicator_tooltip: >
+      <p>An alphanumeric expression for indicating the ID of the second-level
+      container, which may also indicate the second-level container's position
+      within a sequence of such containers. Bulk ranges of second-level
+      containers are also permissible, e.g. Folders 1-16.</p>
+    managed_container_3_type: Grandchild Container Type
+    managed_container_3_type_tooltip: >
+      <p>The type of the third-level container in which the described material
+      is housed.</p>
+
+      <p>Values in this Controlled Value List may be modified.</p>
+    managed_container_3_indicator: Grandchild Container Indicator
+    managed_container_3_indicator_tooltip: >
+      <p>An alphanumeric expression for indicating the ID of the third-level
+      container, which may also indicate the second-level container's position
+      within a sequence of such containers. Bulk ranges of third-level
+      containers are also permissible, e.g. Folders 1-16.</p>
+    barcode_length_for_this_repository: 'Barcode length for this repository:'
+    characters: characters
     batch_delete:
       success: Top Containers successfully deleted
       error: There was a problem deleting Top Containers
-
     _singular: Top Container
     _plural: Top Containers
-
     _frontend:
       section:
         active_restrictions: Active Restrictions
@@ -1699,12 +1892,18 @@ en:
         updated: Top Container Updated
         filter_required: Please provide a filter
         max_results_limit_reached: Not all results have been listed. Please refine your search.
-        max_results_limit_details: "Showing <strong>%{visible}</strong> of <strong>%{num_found}</strong> matching results"
-        results_summary: "Matching results: <strong>%{num_found}</strong>"
-        bulk_selection_sort_help: Click a column to set the sort ordering.  Hold shift to sort by multiple columns.
+        max_results_limit_details: >-
+          Showing <strong>%{visible}</strong> of <strong>%{num_found}</strong>
+          matching results
+        results_summary: 'Matching results: <strong>%{num_found}</strong>'
+        bulk_selection_sort_help: >-
+          Click a column to set the sort ordering.  Hold shift to sort by
+          multiple columns.
         merged: Top Container(s) Merged
         bulk_action_success: Top Containers successfully updated
-        bulk_action_success_info: Please be aware it may take a moment before changes are reflected in the search results.
+        bulk_action_success_info: >-
+          Please be aware it may take a moment before changes are reflected in
+          the search results.
         no_active_restrictions: No Active Restrictions
       bulk_operations:
         title: Bulk Operations
@@ -1726,50 +1925,77 @@ en:
         current_location: Current Location
         keyword_criteria: Keyword
         barcodes_criteria: Barcode(s)
-        exported_to_ils_true: "Yes"
-        exported_to_ils_false: "No"
+        exported_to_ils_true: 'Yes'
+        exported_to_ils_false: 'No'
         empty: Unassociated containers
-        empty_true: "Yes"
-        empty_false: "No"
+        empty_true: 'Yes'
+        empty_false: 'No'
         search: Search
         update_ils_holding_ids: Update ILS Holding IDs
-        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.  Leave this blank to remove the current value without replacing it with another value.
+        update_ils_holding_ids_help: >-
+          Enter a value for ILS Holding ID for all selected containers.  Leave
+          this blank to remove the current value without replacing it with
+          another value.
         update_container_profiles: Update Container Profiles
-        update_container_profiles_help: Choose a Container Profile for all selected containers.  Leave this blank to remove the current value without replacing it with another value.
-        update_locations_singular: "Update Locations: Single Location"
-        update_locations_singular_help: Choose a Location for all selected containers.  Leave this blank to remove the current value without replacing it with another value.
-        update_locations_multiple: "Update Locations: Multiple Locations"
-        update_locations_multiple_help: Choose a Location for each selected container.  Leave this blank to remove the current value without replacing it with another value.
+        update_container_profiles_help: >-
+          Choose a Container Profile for all selected containers.  Leave this
+          blank to remove the current value without replacing it with another
+          value.
+        update_locations_singular: 'Update Locations: Single Location'
+        update_locations_singular_help: >-
+          Choose a Location for all selected containers.  Leave this blank to
+          remove the current value without replacing it with another value.
+        update_locations_multiple: 'Update Locations: Multiple Locations'
+        update_locations_multiple_help: >-
+          Choose a Location for each selected container.  Leave this blank to
+          remove the current value without replacing it with another value.
         rapid_indicator_entry: Update Indicators
         rapid_indicator_entry_new_indicator: New Indicator
-        rapid_indicator_entry_help: Enter an indicator for each selected container.  Leave the New Indicator field blank to leave it unchanged.
+        rapid_indicator_entry_help: >-
+          Enter an indicator for each selected container.  Leave the New
+          Indicator field blank to leave it unchanged.
         rapid_barcode_entry: Rapid Barcode Entry
         rapid_barcode_entry_existing_barcode: Existing Barcode
         rapid_barcode_entry_new_barcode: New Barcode
-        rapid_barcode_entry_help: Enter a barcode for each selected container.  Leave the New Barcode field blank to remove the current barcode without replacing it with a new value.
+        rapid_barcode_entry_help: >-
+          Enter a barcode for each selected container.  Leave the New Barcode
+          field blank to remove the current barcode without replacing it with a
+          new value.
         batch_merge: Merge Top Containers
-        batch_merge_instructions: Select the top container into which all of the other listed top container(s) will merge. Linked accessions, resources, resource components, and events will be re-linked to this container. Container profiles will be moved to this container only when it does not already have one. Locations and all other information for the other top container(s) will be deleted.
+        batch_merge_instructions: >-
+          Select the top container into which all of the other listed top
+          container(s) will merge. Linked accessions, resources, resource
+          components, and events will be re-linked to this container. Container
+          profiles will be moved to this container only when it does not already
+          have one. Locations and all other information for the other top
+          container(s) will be deleted.
         batch_merge_confirm: Confirm Merge Top Containers
-        batch_merge_confirm_question: Are you sure you want to merge the top containers as listed below? This action is irreversible.
-        batch_merge_container_profile_too_many_warning: These top containers have different container profiles. None of these container profiles will merge into the merge destination container.
-        batch_merge_container_profile_mismatch_warning: These top containers have a different container profile than the merge destination top container. The container profile will not merge into the merge destination container.
-        batch_merge_confirm_merge_candidates: "Merge the following top container(s):"
-        batch_merge_confirm_merge_destination: "Into this top container:"
+        batch_merge_confirm_question: >-
+          Are you sure you want to merge the top containers as listed below?
+          This action is irreversible.
+        batch_merge_container_profile_too_many_warning: >-
+          These top containers have different container profiles. None of these
+          container profiles will merge into the merge destination container.
+        batch_merge_container_profile_mismatch_warning: >-
+          These top containers have a different container profile than the merge
+          destination top container. The container profile will not merge into
+          the merge destination container.
+        batch_merge_confirm_merge_candidates: 'Merge the following top container(s):'
+        batch_merge_confirm_merge_destination: 'Into this top container:'
         batch_delete: Delete Top Containers
         batch_delete_help: Delete all selected containers.
-        update_n_records: "Update %{n} records"
+        update_n_records: Update %{n} records
         select_merge_destination: Select merge destination
-        merge_n_records: "Merge %{n} records"
-        delete_n_records: "Delete %{n} records"
+        merge_n_records: Merge %{n} records
+        delete_n_records: Delete %{n} records
         update_locations_current_location: Current Location
         update_locations_new_location: New Location
-        has_location_true: "Yes"
-        has_location_false: "No"
+        has_location_true: 'Yes'
+        has_location_false: 'No'
     linker:
       browse: Browse Top Containers
       create: Create Top Container
       link_title: Link to top container
-
   container_profile:
     _singular: Container Profile
     _plural: Container Profiles
@@ -1787,75 +2013,106 @@ en:
         basic_information: Basic Information
       bulk_operations:
         merge: Merge Container Profiles
-        merge_instructions: Select the container profile into which all of the other listed container profile(s) will merge. Any linked records will be re-linked to this profile and all information for the other container profile(s) will be deleted.
+        merge_instructions: >-
+          Select the container profile into which all of the other listed
+          container profile(s) will merge. Any linked records will be re-linked
+          to this profile and all information for the other container profile(s)
+          will be deleted.
         merge_select_merge_destination: Select merge destination
         confirm_merge: Confirm Merge Container Profiles
-        confirm_merge_question: Are you sure you want to merge the container profiles as listed below? This action is irreversible.
-        confirm_merge_candidates: "Merge the following container profile(s):"
-        confirm_merge_destination: "Into this container profile:"
+        confirm_merge_question: >-
+          Are you sure you want to merge the container profiles as listed below?
+          This action is irreversible.
+        confirm_merge_candidates: 'Merge the following container profile(s):'
+        confirm_merge_destination: 'Into this container profile:'
     notes: Note
     notes_tooltip: |
       <p>A note for miscellaneous information/metadata.</p>
     name: Name
-    name_tooltip: |
-        <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>document box</li>
-        <li>Paige 15</li>
-        <li>small card file box</li>
-        </ul>
+    name_tooltip: >
+      <p>REQUIRED FIELD. The name of the container profile. May be generic or
+      specific.</p>
+
+      <p>Examples:</p>
+
+      <ul>
+
+      <li>document box</li>
+
+      <li>Paige 15</li>
+
+      <li>small card file box</li>
+
+      </ul>
     url: URL
     url_tooltip: |
-        <p>A hyperlink for an external description of the container.</p>
+      <p>A hyperlink for an external description of the container.</p>
     dimension_units: Dimension Units
     dimension_units_tooltip: |
-        <p>Unit of measurement for dimensions.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+      <p>Unit of measurement for dimensions.</p>
+      <p>Values in this Controlled Value List may be modified.</p>
     extent_dimension: Extent Dimension
-    extent_dimension_tooltip: |
-        <p>The dimension used for calculating and stating the extent dimension of the materials in the container. This helps determine which dimension will be measured by the extent calculator.</p>
+    extent_dimension_tooltip: >
+      <p>The dimension used for calculating and stating the extent dimension of
+      the materials in the container. This helps determine which dimension will
+      be measured by the extent calculator.</p>
     extent_dimension_depth: Depth
-    extent_dimension_depth_tooltip: |
-        <p>Numeric value for the depth (front to back dimension) of the container.</p>
+    extent_dimension_depth_tooltip: >
+      <p>Numeric value for the depth (front to back dimension) of the
+      container.</p>
     extent_dimension_height: Height
-    extent_dimension_height_tooltip: |
-        <p>Numeric value for the height (top to bottom dimension) of the container.</p>
+    extent_dimension_height_tooltip: >
+      <p>Numeric value for the height (top to bottom dimension) of the
+      container.</p>
     extent_dimension_width: Width
-    extent_dimension_width_tooltip: |
-        <p>Numeric value for the width (side to side dimension) of the container.</p>
+    extent_dimension_width_tooltip: >
+      <p>Numeric value for the width (side to side dimension) of the
+      container.</p>
     depth: Depth
-    depth_tooltip: |
-        <p>Numeric value for the depth (front to back dimension) of the container.</p>
+    depth_tooltip: >
+      <p>Numeric value for the depth (front to back dimension) of the
+      container.</p>
     height: Height
-    height_tooltip: |
-        <p>Numeric value for the height (top to bottom dimension) of the container.</p>
+    height_tooltip: >
+      <p>Numeric value for the height (top to bottom dimension) of the
+      container.</p>
     width: Width
-    width_tooltip: |
-        <p>Numeric value for the width (side to side dimension) of the container.</p>
+    width_tooltip: >
+      <p>Numeric value for the width (side to side dimension) of the
+      container.</p>
     stacking_limit: Stacking Limit
-    stacking_limit_tooltip: |
-        <p>The number of these containers that can be stacked on top of one another. Leave blank if there is no limit. Must be a positive integer or zero.</p>
+    stacking_limit_tooltip: >
+      <p>The number of these containers that can be stacked on top of one
+      another. Leave blank if there is no limit. Must be a positive integer or
+      zero.</p>
     linker:
       browse: Browse Container Profiles
       create: Create Container Profile
       link_title: Link to container profile
-
   rights_restriction:
     begin: Restriction Begin
-    begin_tooltip: |
-        <p>For a time-bound restriction, the beginning date for a restriction on access. Must be a single date in the form YYYY-MM-DD. Will be disassociated from the containers once it expires. Use the note text to indicate a less precise date or date span.</p>
+    begin_tooltip: >
+      <p>For a time-bound restriction, the beginning date for a restriction on
+      access. Must be a single date in the form YYYY-MM-DD. Will be
+      disassociated from the containers once it expires. Use the note text to
+      indicate a less precise date or date span.</p>
     end: Restriction End
-    end_tooltip: |
-        <p>For a time-bound restriction, the ending date for a restriction on access. Must be a single date in the form YYYY-MM-DD. Will be disassociated from the containers once it expires. Use the note text to indicate a less precise date or date span.</p>
+    end_tooltip: >
+      <p>For a time-bound restriction, the ending date for a restriction on
+      access. Must be a single date in the form YYYY-MM-DD. Will be
+      disassociated from the containers once it expires. Use the note text to
+      indicate a less precise date or date span.</p>
     local_access_restriction_type: Local Access Restriction Type
-    local_access_restriction_type_inline_help: "Hold down  CTRL (Windows) / Command (Mac) to select multiple options or deselect an option"
-    local_access_restriction_type_tooltip: |
-        <p>For restrictions that are not time-bound, an indication of the reason for the restriction.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
+    local_access_restriction_type_inline_help: >-
+      Hold down  CTRL (Windows) / Command (Mac) to select multiple options or
+      deselect an option
+    local_access_restriction_type_tooltip: >
+      <p>For restrictions that are not time-bound, an indication of the reason
+      for the restriction.</p>
+
+      <p>Values in this Controlled Value List may be modified.</p>
     linked_records: Linked Record
     restriction_note_type: Note Type
-
   extent_calculator:
     no_object_message: Please specify an object to run the extent calculator on.
     report_title: Calculated Extent Report
@@ -1868,13 +2125,14 @@ en:
     extent_record_header: Extent Record
     create_extent: Create Extent
     calculate_extent: Calculate Extent
-    create_extent_record_message: Run the Extent Calculator in edit mode to have the option of creating an extent record based on the report.
+    create_extent_record_message: >-
+      Run the Extent Calculator in edit mode to have the option of creating an
+      extent record based on the report.
     waiting_for_report_message: Calculating extent ...
     required_fields_alert_message: Please ensure that all required fields contain a value.
     container_summary_type:
       _singular: container
       _plural: containers
-
   location_profile:
     _singular: Location Profile
     _plural: Location Profiles
@@ -1886,7 +2144,10 @@ en:
       messages:
         created: Location Profile Created
         updated: Location Profile Updated
-        fields_required_for_calculator: Please note, dimension units, depth, height and width are all required by the space calculator. Locations will be omitted from the results if any of these values are missing.
+        fields_required_for_calculator: >-
+          Please note, dimension units, depth, height and width are all required
+          by the space calculator. Locations will be omitted from the results if
+          any of these values are missing.
       section:
         basic_information: Basic Information
     name: Name
@@ -1898,16 +2159,17 @@ en:
       browse: Browse Location Profiles
       create: Create Location Profile
       link_title: Link to location profile
-
   space_calculator:
     modal_title: Space Calculator
     modal_loading: Loading...
     message_container_profile_required: The Space Calculator requires a Container Profile to be set.
     message_locations_required: The Space Calculator requires one or more locations to be set.
-    message_select_locations: "Check for space in the following Location(s):"
+    message_select_locations: 'Check for space in the following Location(s):'
     message_no_locations_with_space: No locations with space found
-    message_total_spaces: "Total number of spaces available for this container type: %{total_spaces}"
-    message_total_containers: "Total number of containers of this type found at these locations: %{total_containers}"
+    message_total_spaces: 'Total number of spaces available for this container type: %{total_spaces}'
+    message_total_containers: >-
+      Total number of containers of this type found at these locations:
+      %{total_containers}
     message_loading: Loading...
     count: Space Available (of container type)
     calculate_space: Check for Space
@@ -1916,9 +2178,9 @@ en:
     by_building: By Building
     result_filter: Filter Results
     summary:
-      locations_with_space: "Locations with space available: <strong>%{count}</strong>"
-      locations_without_space: "Locations with no space available: <strong>%{count}</strong>"
-      uncalculatable_locations: "Unable to calculate: <strong>%{count}</strong>"
+      locations_with_space: 'Locations with space available: <strong>%{count}</strong>'
+      locations_without_space: 'Locations with no space available: <strong>%{count}</strong>'
+      uncalculatable_locations: 'Unable to calculate: <strong>%{count}</strong>'
     view_all_toggle: Show locations without space
     reason:
       location_lacks_a_profile: Location lacks a profile
@@ -1927,7 +2189,6 @@ en:
       container_at_location_lacks_profile: At least one of the containers currently at the location lacks a profile
       containers_at_location_dont_fit: The containers currently at the location don't fit
       location_cannot_fit_container: The location cannot currently fit any containers of this type
-
   date_calculator:
     toolbar_button: Calculate Dates
     calculate_button: Calculate Date Record
@@ -1940,12 +2201,10 @@ en:
     create_success: Date Created Successfully.  Refreshing page...
     no_dates: No suitable dates found
     no_dates_for_label: No suitable %{label} dates found
-
   act:
     _frontend:
       action:
         add: Add Act
-
   bulk_archival_object_update_spreadsheet:
     title: Generate Bulk Archival Object Spreadsheet
     description: Use the form below to select the Archival Objects you wish to bulk update.
@@ -1955,20 +2214,28 @@ en:
     column_types_to_include_in_spreadsheet: Column types to include in spreadsheet
     note_types: Note Types
     minimum_subrecords: Minimum Subrecords
-    minimum_subrecords_description: The minimum number of already extant subrecords of each type to be included.
+    minimum_subrecords_description: >-
+      The minimum number of already extant subrecords of each type to be
+      included.
     extra_subrecords: Extra subrecords
-    extra_subrecords_description: The number of new subrecords to include in addition to the greatest number of extant subrecords already found in any of the selected records.
+    extra_subrecords_description: >-
+      The number of new subrecords to include in addition to the greatest number
+      of extant subrecords already found in any of the selected records.
     minimum_notes: Minimum Notes
-    minimum_notes_description: The minimum number of already extant note subrecords of each type to be included.
+    minimum_notes_description: >-
+      The minimum number of already extant note subrecords of each type to be
+      included.
     download_spreadsheet: Download Spreadsheet
     download_spreadsheet_modal_message: Generating this spreadsheet may take a few moments.
-    too_many_rows_warning:
-      "Warning: The number of rows that will be generated in this spreadsheet exceeds the number of rows that can be updated
-      via the Bulk Archival Object Updater background job. If you plan to run the Bulk Archival Object Updater job using
-      this spreadsheet, you will need to reduce the number of rows in this sheet to less than or equal to 
-      <strong>%{max_row_count} rows</strong> prior to ingest. Consider generating a smaller spreadsheet now.  
-      This warning can be safely ignored if you do not intend to run a Bulk Archival Object Updater job with this data."
-
+    too_many_rows_warning: >-
+      Warning: The number of rows that will be generated in this spreadsheet
+      exceeds the number of rows that can be updated via the Bulk Archival
+      Object Updater background job. If you plan to run the Bulk Archival Object
+      Updater job using this spreadsheet, you will need to reduce the number of
+      rows in this sheet to less than or equal to  <strong>%{max_row_count}
+      rows</strong> prior to ingest. Consider generating a smaller spreadsheet
+      now.   This warning can be safely ignored if you do not intend to run a
+      Bulk Archival Object Updater job with this data.
   assessment:
     _frontend:
       form_header: Assessment %{display_string}
@@ -2001,17 +2268,17 @@ en:
         attributes_hint: Please contact your administrator to add additional %{attribute_type}
         manage_attributes_hint: Manage the additional %{attribute_type} for this repository
       assessment_review_required:
-        true_value: "Yes"
-        false_value: "No"
+        true_value: 'Yes'
+        false_value: 'No'
       assessment_sensitive_material:
-        true_value: "Yes"
-        false_value: "No"
+        true_value: 'Yes'
+        false_value: 'No'
       assessment_inactive:
-        true_value: "Yes"
-        false_value: "No"
+        true_value: 'Yes'
+        false_value: 'No'
       assessment_completed:
-        true_value: "Yes"
-        false_value: "No"
+        true_value: 'Yes'
+        false_value: 'No'
       browse_reviewers: Reviewers
       linked_records:
         heading: Linked Records
@@ -2026,7 +2293,6 @@ en:
         rating: Rating
         score: Score
         note: Note
-
   assessment_attribute_definitions:
     _frontend:
       title: Assessment Attributes
@@ -2048,11 +2314,14 @@ en:
       messages:
         updated: Assessment Attributes updated
         error: Error updating Assessment Attributes
-        conflict: "Error updating Assessment Attributes. The following labels conflict with existing entries: %{conflicts}"
-        attribute_in_use: Unable to delete an attribute that is currently in use by an assessment
+        conflict: >-
+          Error updating Assessment Attributes. The following labels conflict
+          with existing entries: %{conflicts}
+        attribute_in_use: >-
+          Unable to delete an attribute that is currently in use by an
+          assessment
       database_value: Database Value
       translation: Translation
-
   custom_report_template:
     new_title: New Custom Report Template
     _frontend:
@@ -2069,15 +2338,18 @@ en:
         copied: Custom Report Template copied
         created: Custom Report Template created
         updated: Custom Report Template updated
-
   oai_config:
     title: OAI-PMH Settings
     title_repo_section: Per Repository OAI-PMH Settings
     general_section: General Settings
     repo_set_section: Repository Set
     sponsor_set_section: Sponsor Set
-    repo_set_desc: In addition to sets based on level of description, you can define an OAI Set based on repositories.
-    sponsor_set_desc: In addition to sets based on level of description, you can define an OAI Set based on sponsor names.
+    repo_set_desc: >-
+      In addition to sets based on level of description, you can define an OAI
+      Set based on repositories.
+    sponsor_set_desc: >-
+      In addition to sets based on level of description, you can define an OAI
+      Set based on sponsor names.
     oai_record_prefix: OAI Record Prefix
     oai_admin_email: OAI Admin Email
     oai_repository_name: OAI Repository Name
@@ -2087,7 +2359,10 @@ en:
     sponsor_set_name: Sponsor Set Name
     sponsor_set_names: Sponsor Names
     sponsor_set_description: Sponsor Set Description
-    oai_leave_repo_form: These options affect OAI-PMH for this repository only. Click below to view/edit global OAI options. This will leave current form without saving changes.
+    oai_leave_repo_form: >-
+      These options affect OAI-PMH for this repository only. Click below to
+      view/edit global OAI options. This will leave current form without saving
+      changes.
     _frontend:
       section:
         basic_information: General Settings
@@ -2101,8 +2376,7 @@ en:
         _plural: Sponsor Sets
       repo_settings:
         _plural: Per Repository OAI-PMH Settings
-
-  agent_record_control: &agent_record_control_attributes
+  agent_record_control:
     _plural: Record Info
     _singular: Record Info
     _frontend:
@@ -2123,20 +2397,91 @@ en:
     language: Language
     script: Script
     language_note: Language Note
-
   agent_record_controls:
-    <<: *agent_record_control_attributes
-
+    _plural: Record Info
+    _singular: Record Info
+    _frontend:
+      action:
+        add: Add Record Info
+    maintenance_status: Record Control Maintenance Status
+    publication_status: Record Control Publication Status
+    romanization: Romanization
+    government_agency_type: Record Control Government Agency Type
+    reference_evaluation: Record Control Reference Evaluation
+    name_type: Record Control Name Type
+    level_of_detail: Record Control Level of Detail
+    modified_record: Record Control Modified Type
+    cataloging_source: Record Control Cataloging Source
+    maintenance_agency: Maintenance Agency
+    agency_name: Agency Name
+    maintenance_agency_note: Maintenance Agency Note
+    language: Language
+    script: Script
+    language_note: Language Note
   agent_record_control_required:
-    <<: *agent_record_control_attributes
-
+    _plural: Record Info
+    _singular: Record Info
+    _frontend:
+      action:
+        add: Add Record Info
+    maintenance_status: Record Control Maintenance Status
+    publication_status: Record Control Publication Status
+    romanization: Romanization
+    government_agency_type: Record Control Government Agency Type
+    reference_evaluation: Record Control Reference Evaluation
+    name_type: Record Control Name Type
+    level_of_detail: Record Control Level of Detail
+    modified_record: Record Control Modified Type
+    cataloging_source: Record Control Cataloging Source
+    maintenance_agency: Maintenance Agency
+    agency_name: Agency Name
+    maintenance_agency_note: Maintenance Agency Note
+    language: Language
+    script: Script
+    language_note: Language Note
   agent_record_control_merge_destination:
-    <<: *agent_record_control_attributes
-
+    _plural: Record Info
+    _singular: Record Info
+    _frontend:
+      action:
+        add: Add Record Info
+    maintenance_status: Record Control Maintenance Status
+    publication_status: Record Control Publication Status
+    romanization: Romanization
+    government_agency_type: Record Control Government Agency Type
+    reference_evaluation: Record Control Reference Evaluation
+    name_type: Record Control Name Type
+    level_of_detail: Record Control Level of Detail
+    modified_record: Record Control Modified Type
+    cataloging_source: Record Control Cataloging Source
+    maintenance_agency: Maintenance Agency
+    agency_name: Agency Name
+    maintenance_agency_note: Maintenance Agency Note
+    language: Language
+    script: Script
+    language_note: Language Note
   agent_record_control_merge_candidate:
-    <<: *agent_record_control_attributes
-
-  agent_gender: &agent_gender_attributes
+    _plural: Record Info
+    _singular: Record Info
+    _frontend:
+      action:
+        add: Add Record Info
+    maintenance_status: Record Control Maintenance Status
+    publication_status: Record Control Publication Status
+    romanization: Romanization
+    government_agency_type: Record Control Government Agency Type
+    reference_evaluation: Record Control Reference Evaluation
+    name_type: Record Control Name Type
+    level_of_detail: Record Control Level of Detail
+    modified_record: Record Control Modified Type
+    cataloging_source: Record Control Cataloging Source
+    maintenance_agency: Maintenance Agency
+    agency_name: Agency Name
+    maintenance_agency_note: Maintenance Agency Note
+    language: Language
+    script: Script
+    language_note: Language Note
+  agent_gender:
     _plural: Genders
     _singular: Gender
     _frontend:
@@ -2145,20 +2490,43 @@ en:
     gender: Gender
     note: Note
     dates: Dates
-
   agent_genders:
-    <<: *agent_gender_attributes
-
+    _plural: Genders
+    _singular: Gender
+    _frontend:
+      action:
+        add: Add Gender
+    gender: Gender
+    note: Note
+    dates: Dates
   agent_gender_required:
-    <<: *agent_gender_attributes
-
+    _plural: Genders
+    _singular: Gender
+    _frontend:
+      action:
+        add: Add Gender
+    gender: Gender
+    note: Note
+    dates: Dates
   agent_gender_merge_destination:
-    <<: *agent_gender_attributes
-
+    _plural: Genders
+    _singular: Gender
+    _frontend:
+      action:
+        add: Add Gender
+    gender: Gender
+    note: Note
+    dates: Dates
   agent_gender_merge_candidate:
-    <<: *agent_gender_attributes
-
-  used_language: &used_language_attributes
+    _plural: Genders
+    _singular: Gender
+    _frontend:
+      action:
+        add: Add Gender
+    gender: Gender
+    note: Note
+    dates: Dates
+  used_language:
     _plural: Languages Used
     _singular: Language Used
     _frontend:
@@ -2166,20 +2534,39 @@ en:
         add: Add Language
     language: Language
     script: Script
-
   used_language_required:
-    <<: *used_language_attributes
-
+    _plural: Languages Used
+    _singular: Language Used
+    _frontend:
+      action:
+        add: Add Language
+    language: Language
+    script: Script
   used_languages:
-    <<: *used_language_attributes
-
+    _plural: Languages Used
+    _singular: Language Used
+    _frontend:
+      action:
+        add: Add Language
+    language: Language
+    script: Script
   used_language_merge_candidate:
-    <<: *used_language_attributes
-
+    _plural: Languages Used
+    _singular: Language Used
+    _frontend:
+      action:
+        add: Add Language
+    language: Language
+    script: Script
   used_language_merge_destination:
-    <<: *used_language_attributes
-
-  agent_identifier: &agent_identifier_attributes
+    _plural: Languages Used
+    _singular: Language Used
+    _frontend:
+      action:
+        add: Add Language
+    language: Language
+    script: Script
+  agent_identifier:
     _plural: Entity IDs
     _singular: Identifier
     _frontend:
@@ -2187,20 +2574,39 @@ en:
         add: Add Entity ID
     identifier_type: Identifier Type
     entity_identifier: Entity IDs
-
   agent_identifiers:
-    <<: *agent_identifier_attributes
-
+    _plural: Entity IDs
+    _singular: Identifier
+    _frontend:
+      action:
+        add: Add Entity ID
+    identifier_type: Identifier Type
+    entity_identifier: Entity IDs
   agent_identifier_required:
-    <<: *agent_identifier_attributes
-
+    _plural: Entity IDs
+    _singular: Identifier
+    _frontend:
+      action:
+        add: Add Entity ID
+    identifier_type: Identifier Type
+    entity_identifier: Entity IDs
   agent_identifier_merge_destination:
-    <<: *agent_identifier_attributes
-
+    _plural: Entity IDs
+    _singular: Identifier
+    _frontend:
+      action:
+        add: Add Entity ID
+    identifier_type: Identifier Type
+    entity_identifier: Entity IDs
   agent_identifier_merge_candidate:
-    <<: *agent_identifier_attributes
-
-  agent_place: &agent_place_attributes
+    _plural: Entity IDs
+    _singular: Identifier
+    _frontend:
+      action:
+        add: Add Entity ID
+    identifier_type: Identifier Type
+    entity_identifier: Entity IDs
+  agent_place:
     _frontend:
       action:
         add: Add Place
@@ -2213,20 +2619,59 @@ en:
     dates: Dates
     subjects: Places
     publish: Published
-
   agent_place_required:
-    <<: *agent_place_attributes
-
+    _frontend:
+      action:
+        add: Add Place
+    section:
+      dates: Dates
+    _plural: Places
+    _singular: Place
+    place_role: Agent Place Role
+    text_note: Note
+    dates: Dates
+    subjects: Places
+    publish: Published
   agent_places:
-    <<: *agent_place_attributes
-
+    _frontend:
+      action:
+        add: Add Place
+    section:
+      dates: Dates
+    _plural: Places
+    _singular: Place
+    place_role: Agent Place Role
+    text_note: Note
+    dates: Dates
+    subjects: Places
+    publish: Published
   agent_place_merge_destination:
-    <<: *agent_place_attributes
-
+    _frontend:
+      action:
+        add: Add Place
+    section:
+      dates: Dates
+    _plural: Places
+    _singular: Place
+    place_role: Agent Place Role
+    text_note: Note
+    dates: Dates
+    subjects: Places
+    publish: Published
   agent_place_merge_candidate:
-    <<: *agent_place_attributes
-
-  agent_occupation: &agent_occupation_attributes
+    _frontend:
+      action:
+        add: Add Place
+    section:
+      dates: Dates
+    _plural: Places
+    _singular: Place
+    place_role: Agent Place Role
+    text_note: Note
+    dates: Dates
+    subjects: Places
+    publish: Published
+  agent_occupation:
     _frontend:
       action:
         add: Add Occupation
@@ -2239,20 +2684,59 @@ en:
     subjects: Occupations
     places: Places
     publish: Published
-
   agent_occupation_required:
-    <<: *agent_occupation_attributes
-
+    _frontend:
+      action:
+        add: Add Occupation
+    section:
+      dates: Dates
+    _plural: Occupations
+    _singular: Occupation
+    text_note: Note
+    dates: Dates
+    subjects: Occupations
+    places: Places
+    publish: Published
   agent_occupations:
-    <<: *agent_occupation_attributes
-
+    _frontend:
+      action:
+        add: Add Occupation
+    section:
+      dates: Dates
+    _plural: Occupations
+    _singular: Occupation
+    text_note: Note
+    dates: Dates
+    subjects: Occupations
+    places: Places
+    publish: Published
   agent_occupation_merge_destination:
-    <<: *agent_occupation_attributes
-
+    _frontend:
+      action:
+        add: Add Occupation
+    section:
+      dates: Dates
+    _plural: Occupations
+    _singular: Occupation
+    text_note: Note
+    dates: Dates
+    subjects: Occupations
+    places: Places
+    publish: Published
   agent_occupation_merge_candidate:
-    <<: *agent_occupation_attributes
-
-  agent_function: &agent_function_attributes
+    _frontend:
+      action:
+        add: Add Occupation
+    section:
+      dates: Dates
+    _plural: Occupations
+    _singular: Occupation
+    text_note: Note
+    dates: Dates
+    subjects: Occupations
+    places: Places
+    publish: Published
+  agent_function:
     _frontend:
       action:
         add: Add Function
@@ -2265,20 +2749,59 @@ en:
     subjects: Functions
     places: Places
     publish: Published
-
   agent_function_required:
-    <<: *agent_function_attributes
-
+    _frontend:
+      action:
+        add: Add Function
+    section:
+      dates: Dates
+    _plural: Functions
+    _singular: Function
+    text_note: Note
+    dates: Dates
+    subjects: Functions
+    places: Places
+    publish: Published
   agent_functions:
-    <<: *agent_function_attributes
-
+    _frontend:
+      action:
+        add: Add Function
+    section:
+      dates: Dates
+    _plural: Functions
+    _singular: Function
+    text_note: Note
+    dates: Dates
+    subjects: Functions
+    places: Places
+    publish: Published
   agent_function_merge_destination:
-    <<: *agent_function_attributes
-
+    _frontend:
+      action:
+        add: Add Function
+    section:
+      dates: Dates
+    _plural: Functions
+    _singular: Function
+    text_note: Note
+    dates: Dates
+    subjects: Functions
+    places: Places
+    publish: Published
   agent_function_merge_candidate:
-    <<: *agent_function_attributes
-
-  agent_topic: &agent_topic_attributes
+    _frontend:
+      action:
+        add: Add Function
+    section:
+      dates: Dates
+    _plural: Functions
+    _singular: Function
+    text_note: Note
+    dates: Dates
+    subjects: Functions
+    places: Places
+    publish: Published
+  agent_topic:
     _frontend:
       action:
         add: Add Topic
@@ -2291,26 +2814,64 @@ en:
     subjects: Topics
     places: Places
     publish: Published
-
   agent_topic_required:
-    <<: *agent_topic_attributes
-
+    _frontend:
+      action:
+        add: Add Topic
+    section:
+      dates: Dates
+    _plural: Topics
+    _singular: Topic
+    text_note: Note
+    dates: Dates
+    subjects: Topics
+    places: Places
+    publish: Published
   agent_topics:
-    <<: *agent_topic_attributes
-
+    _frontend:
+      action:
+        add: Add Topic
+    section:
+      dates: Dates
+    _plural: Topics
+    _singular: Topic
+    text_note: Note
+    dates: Dates
+    subjects: Topics
+    places: Places
+    publish: Published
   agent_topic_merge_destination:
-    <<: *agent_topic_attributes
-
+    _frontend:
+      action:
+        add: Add Topic
+    section:
+      dates: Dates
+    _plural: Topics
+    _singular: Topic
+    text_note: Note
+    dates: Dates
+    subjects: Topics
+    places: Places
+    publish: Published
   agent_topic_merge_candidate:
-    <<: *agent_topic_attributes
-
+    _frontend:
+      action:
+        add: Add Topic
+    section:
+      dates: Dates
+    _plural: Topics
+    _singular: Topic
+    text_note: Note
+    dates: Dates
+    subjects: Topics
+    places: Places
+    publish: Published
   place:
     _plural: Places
     _frontend:
       action:
         add: Add Place
-
-  agent_alternate_set: &agent_alternate_set_attributes
+  agent_alternate_set:
     _plural: Alternate Sets
     _singular: Alternate Set
     _frontend:
@@ -2325,20 +2886,67 @@ en:
     file_version_xlink_actuate_attribute: Xlink Actuate Attribute
     file_version_xlink_show_attribute: Xlink Show Attribute
     last_verified_date: Last Verified Date
-
   agent_alternate_sets:
-    <<: *agent_alternate_set_attributes
-
+    _plural: Alternate Sets
+    _singular: Alternate Set
+    _frontend:
+      action:
+        add: Add Alternative Set
+    set_component: Set Component
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_alternate_set_required:
-    <<: *agent_alternate_set_attributes
-
+    _plural: Alternate Sets
+    _singular: Alternate Set
+    _frontend:
+      action:
+        add: Add Alternative Set
+    set_component: Set Component
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_alternate_set_merge_destination:
-    <<: *agent_alternate_set_attributes
-
+    _plural: Alternate Sets
+    _singular: Alternate Set
+    _frontend:
+      action:
+        add: Add Alternative Set
+    set_component: Set Component
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_alternate_set_merge_candidate:
-    <<: *agent_alternate_set_attributes
-
-  agent_conventions_declaration: &agent_conventions_declaration_attributes
+    _plural: Alternate Sets
+    _singular: Alternate Set
+    _frontend:
+      action:
+        add: Add Alternative Set
+    set_component: Set Component
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+  agent_conventions_declaration:
     _plural: Convention Declarations
     _singular: Convention Declaration
     _frontend:
@@ -2354,20 +2962,71 @@ en:
     file_version_xlink_actuate_attribute: Xlink Actuate Attribute
     file_version_xlink_show_attribute: Xlink Show Attribute
     last_verified_date: Last Verified Date
-
   agent_conventions_declarations:
-    <<: *agent_conventions_declaration_attributes
-
+    _plural: Convention Declarations
+    _singular: Convention Declaration
+    _frontend:
+      action:
+        add: Add Convention Declaration
+    name_rule: Convention
+    citation: Citation
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_conventions_declaration_required:
-    <<: *agent_conventions_declaration_attributes
-
+    _plural: Convention Declarations
+    _singular: Convention Declaration
+    _frontend:
+      action:
+        add: Add Convention Declaration
+    name_rule: Convention
+    citation: Citation
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_conventions_declaration_merge_destination:
-    <<: *agent_conventions_declaration_attributes
-
+    _plural: Convention Declarations
+    _singular: Convention Declaration
+    _frontend:
+      action:
+        add: Add Convention Declaration
+    name_rule: Convention
+    citation: Citation
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_conventions_declaration_merge_candidate:
-    <<: *agent_conventions_declaration_attributes
-
-  agent_other_agency_code: &agent_other_agency_code_attributes
+    _plural: Convention Declarations
+    _singular: Convention Declaration
+    _frontend:
+      action:
+        add: Add Convention Declaration
+    name_rule: Convention
+    citation: Citation
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
+  agent_other_agency_code:
     _plural: Other Agency Codes
     _singular: Other Agency Code
     _frontend:
@@ -2375,20 +3034,39 @@ en:
         add: Add Agency Code
     agency_code_type: Record Control Agency Code Type
     maintenance_agency: Maintenance Agency
-
   agent_other_agency_codes:
-    <<: *agent_other_agency_code_attributes
-
+    _plural: Other Agency Codes
+    _singular: Other Agency Code
+    _frontend:
+      action:
+        add: Add Agency Code
+    agency_code_type: Record Control Agency Code Type
+    maintenance_agency: Maintenance Agency
   agent_other_agency_code_required:
-    <<: *agent_other_agency_code_attributes
-
+    _plural: Other Agency Codes
+    _singular: Other Agency Code
+    _frontend:
+      action:
+        add: Add Agency Code
+    agency_code_type: Record Control Agency Code Type
+    maintenance_agency: Maintenance Agency
   agent_other_agency_code_merge_destination:
-    <<: *agent_other_agency_code_attributes
-
+    _plural: Other Agency Codes
+    _singular: Other Agency Code
+    _frontend:
+      action:
+        add: Add Agency Code
+    agency_code_type: Record Control Agency Code Type
+    maintenance_agency: Maintenance Agency
   agent_other_agency_code_merge_candidate:
-    <<: *agent_other_agency_code_attributes
-
-  agent_maintenance_history: &agent_maintenance_history_attributes
+    _plural: Other Agency Codes
+    _singular: Other Agency Code
+    _frontend:
+      action:
+        add: Add Agency Code
+    agency_code_type: Record Control Agency Code Type
+    maintenance_agency: Maintenance Agency
+  agent_maintenance_history:
     _plural: Maintenance History
     _singular: Agent Maintenance History
     _frontend:
@@ -2399,20 +3077,51 @@ en:
     agent: Agent
     descriptive_note: Descriptive Note
     event_date: Event Date
-
   agent_maintenance_histories:
-    <<: *agent_maintenance_history_attributes
-
+    _plural: Maintenance History
+    _singular: Agent Maintenance History
+    _frontend:
+      action:
+        add: Add Event
+    maintenance_event_type: Record Control Maintenance Event Type
+    maintenance_agent_type: Record Control Maintenance Agent Type
+    agent: Agent
+    descriptive_note: Descriptive Note
+    event_date: Event Date
   agent_maintenance_history_required:
-    <<: *agent_maintenance_history_attributes
-
+    _plural: Maintenance History
+    _singular: Agent Maintenance History
+    _frontend:
+      action:
+        add: Add Event
+    maintenance_event_type: Record Control Maintenance Event Type
+    maintenance_agent_type: Record Control Maintenance Agent Type
+    agent: Agent
+    descriptive_note: Descriptive Note
+    event_date: Event Date
   agent_maintenance_history_merge_destination:
-    <<: *agent_maintenance_history_attributes
-
+    _plural: Maintenance History
+    _singular: Agent Maintenance History
+    _frontend:
+      action:
+        add: Add Event
+    maintenance_event_type: Record Control Maintenance Event Type
+    maintenance_agent_type: Record Control Maintenance Agent Type
+    agent: Agent
+    descriptive_note: Descriptive Note
+    event_date: Event Date
   agent_maintenance_history_merge_candidate:
-    <<: *agent_maintenance_history_attributes
-
-  agent_record_identifier: &agent_record_identifier_attributes
+    _plural: Maintenance History
+    _singular: Agent Maintenance History
+    _frontend:
+      action:
+        add: Add Event
+    maintenance_event_type: Record Control Maintenance Event Type
+    maintenance_agent_type: Record Control Maintenance Agent Type
+    agent: Agent
+    descriptive_note: Descriptive Note
+    event_date: Event Date
+  agent_record_identifier:
     _plural: Record IDs
     _singular: Record ID
     _frontend:
@@ -2423,20 +3132,51 @@ en:
     primary_identifier: Is Primary Identifier?
     primary: Primary
     record_identifier: Record Identifier
-
   agent_record_identifiers:
-    <<: *agent_record_identifier_attributes
-
+    _plural: Record IDs
+    _singular: Record ID
+    _frontend:
+      action:
+        add: Add Record ID
+    identifier_type: Record Control Identifier Type
+    source: Source
+    primary_identifier: Is Primary Identifier?
+    primary: Primary
+    record_identifier: Record Identifier
   agent_record_identifier_required:
-    <<: *agent_record_identifier_attributes
-
+    _plural: Record IDs
+    _singular: Record ID
+    _frontend:
+      action:
+        add: Add Record ID
+    identifier_type: Record Control Identifier Type
+    source: Source
+    primary_identifier: Is Primary Identifier?
+    primary: Primary
+    record_identifier: Record Identifier
   agent_record_identifier_merge_destination:
-    <<: *agent_record_identifier_attributes
-
+    _plural: Record IDs
+    _singular: Record ID
+    _frontend:
+      action:
+        add: Add Record ID
+    identifier_type: Record Control Identifier Type
+    source: Source
+    primary_identifier: Is Primary Identifier?
+    primary: Primary
+    record_identifier: Record Identifier
   agent_record_identifier_merge_candidate:
-    <<: *agent_record_identifier_attributes
-
-  agent_source: &agent_source_attributes
+    _plural: Record IDs
+    _singular: Record ID
+    _frontend:
+      action:
+        add: Add Record ID
+    identifier_type: Record Control Identifier Type
+    source: Source
+    primary_identifier: Is Primary Identifier?
+    primary: Primary
+    record_identifier: Record Identifier
+  agent_source:
     _plural: Sources
     _singular: Agent Source
     _frontend:
@@ -2451,27 +3191,72 @@ en:
     file_version_xlink_actuate_attribute: Xlink Actuate Attribute
     file_version_xlink_show_attribute: Xlink Show Attribute
     last_verified_date: Last Verified Date
-
   agent_sources:
-    <<: *agent_source_attributes
-
+    _plural: Sources
+    _singular: Agent Source
+    _frontend:
+      action:
+        add: Add Source
+    source_entry: Source Entry
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_source_required:
-    <<: *agent_source_attributes
-
+    _plural: Sources
+    _singular: Agent Source
+    _frontend:
+      action:
+        add: Add Source
+    source_entry: Source Entry
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_source_merge_destination:
-    <<: *agent_source_attributes
-
+    _plural: Sources
+    _singular: Agent Source
+    _frontend:
+      action:
+        add: Add Source
+    source_entry: Source Entry
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_source_merge_candidate:
-    <<: *agent_source_attributes
-
+    _plural: Sources
+    _singular: Agent Source
+    _frontend:
+      action:
+        add: Add Source
+    source_entry: Source Entry
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_parallel_name:
     _plural: Parallel Names
     use_dates: Use Dates
-
   agent_name:
     use_dates: Use Dates
-
-  agent_resource: &agent_resource_attributes
+  agent_resource:
     _frontend:
       action:
         add: Add Related External Resource
@@ -2493,40 +3278,116 @@ en:
     file_version_xlink_actuate_attribute: Xlink Actuate Attribute
     file_version_xlink_show_attribute: Xlink Show Attribute
     last_verified_date: Last Verified Date
-
   agent_resources:
-    <<: *agent_resource_attributes
-
+    _frontend:
+      action:
+        add: Add Related External Resource
+    section:
+      dates: Dates
+      places: Places
+    _plural: Related External Resources
+    _singular: Related External Resource
+    dates: Dates
+    places: Places
+    publish: Published
+    linked_agent_role: Resource Relation Type
+    linked_resource: Related External Resource
+    linked_resource_description: Description
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_resource_required:
-    <<: *agent_resource_attributes
-
+    _frontend:
+      action:
+        add: Add Related External Resource
+    section:
+      dates: Dates
+      places: Places
+    _plural: Related External Resources
+    _singular: Related External Resource
+    dates: Dates
+    places: Places
+    publish: Published
+    linked_agent_role: Resource Relation Type
+    linked_resource: Related External Resource
+    linked_resource_description: Description
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_resource_merge_candidate:
-    <<: *agent_resource_attributes
-
+    _frontend:
+      action:
+        add: Add Related External Resource
+    section:
+      dates: Dates
+      places: Places
+    _plural: Related External Resources
+    _singular: Related External Resource
+    dates: Dates
+    places: Places
+    publish: Published
+    linked_agent_role: Resource Relation Type
+    linked_resource: Related External Resource
+    linked_resource_description: Description
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   agent_resource_merge_destination:
-    <<: *agent_resource_attributes
-
+    _frontend:
+      action:
+        add: Add Related External Resource
+    section:
+      dates: Dates
+      places: Places
+    _plural: Related External Resources
+    _singular: Related External Resource
+    dates: Dates
+    places: Places
+    publish: Published
+    linked_agent_role: Resource Relation Type
+    linked_resource: Related External Resource
+    linked_resource_description: Description
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   subsections:
     notes: Notes
     dates: Dates
-
   section_headings:
-    basic_information_tooltip: |
-      <p>This section indicates the agent type and whether the agent is published or not.</p>
-
-    record_control_information_tooltip: |
-      <p>This section contains information about the record itself, with the expectation that it originated outside of ArchivesSpace or is going to be shared with a system other than ArchivesSpace.</p>
-
-    identity_information_tooltip: |
-      <p>This section is the core information about the agent him/her/themselves. A Name Form is the only required sub-record in an Agent record.</p>
-
-    description_information_tooltip: |
-      <p>This section is the core information about the agent him/her/themselves. A Name Form is the only required sub-record in an Agent record.</p>
-
-    relation_information_tooltip: |
-      <p>This section is used to indicate relationships to other agents or materials inside or outside ArchivesSpace.</p>
-
-
+    basic_information_tooltip: >
+      <p>This section indicates the agent type and whether the agent is
+      published or not.</p>
+    record_control_information_tooltip: >
+      <p>This section contains information about the record itself, with the
+      expectation that it originated outside of ArchivesSpace or is going to be
+      shared with a system other than ArchivesSpace.</p>
+    identity_information_tooltip: >
+      <p>This section is the core information about the agent
+      him/her/themselves. A Name Form is the only required sub-record in an
+      Agent record.</p>
+    description_information_tooltip: >
+      <p>This section is the core information about the agent
+      him/her/themselves. A Name Form is the only required sub-record in an
+      Agent record.</p>
+    relation_information_tooltip: >
+      <p>This section is used to indicate relationships to other agents or
+      materials inside or outside ArchivesSpace.</p>
   bulk_import:
     _frontend:
       actions:
@@ -2541,31 +3402,33 @@ en:
       messages:
         missing_file: You have not added a file
         not_excel: The file you have chosen is not an Excel Spreadsheet
-        not_excel_csv: The fileRecord Control  you have chosen is neither an Excel Spreadsheet nor a CSV file
+        not_excel_csv: >-
+          The fileRecord Control  you have chosen is neither an Excel
+          Spreadsheet nor a CSV file
         processed: The file has been processed
-        error: "ERROR: Error(s) detected: "
+        error: 'ERROR: Error(s) detected: '
         copied: Copied!
         uncopied: Unable to copy
-        submitted: "<p>Job had been submitted to Background Jobs. <br/> Click 'Close' to refresh this screen.</p>"
+        submitted: >-
+          <p>Job had been submitted to Background Jobs. <br/> Click 'Close' to
+          refresh this screen.</p>
   bulk_import_job:
-    active: "There is a bulk import job active for this record, try editing later: <a href ='%{url}'>%{uri}</a>"
+    active: >-
+      There is a bulk import job active for this record, try editing later: <a
+      href ='%{url}'>%{uri}</a>
     resource_id: Resource ID
     format: Download File Format
     filename: Spreadsheet file name
     not_direct: At this time, this job can only be created from the Resource record
-
   bulk_archival_object_updater_job:
     _singular: Spreadsheet Bulk Archival Object Updater Job
     create_missing_top_containers: Create Missing Top Containers
-
   note_contact_note:
     contact_notes_tooltip: |
-        <p>Details about the interaction with the contact</p>
-
+      <p>Details about the interaction with the contact</p>
     date_of_contact_tooltip: |
-        <p>Used to record the specific date or timeframe of an interaction</p>
-
-  metadata_rights_declaration: &metadata_rights_declaration_attributes
+      <p>Used to record the specific date or timeframe of an interaction</p>
+  metadata_rights_declaration:
     _plural: Metadata Rights Declarations
     _singular: Metadata Rights Declaration
     _frontend:
@@ -2580,28 +3443,108 @@ en:
     file_version_xlink_actuate_attribute: Xlink Actuate Attribute
     file_version_xlink_show_attribute: Xlink Show Attribute
     last_verified_date: Last Verified Date
-
   metadata_rights_declarations:
-    <<: *metadata_rights_declaration_attributes
-
+    _plural: Metadata Rights Declarations
+    _singular: Metadata Rights Declaration
+    _frontend:
+      action:
+        add: Add Metadata Rights Declaration
+    license: License
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   metadata_rights_declaration_required:
-    <<: *metadata_rights_declaration_attributes
-
+    _plural: Metadata Rights Declarations
+    _singular: Metadata Rights Declaration
+    _frontend:
+      action:
+        add: Add Metadata Rights Declaration
+    license: License
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   metadata_rights_declaration_merge_destination:
-    <<: *metadata_rights_declaration_attributes
-
+    _plural: Metadata Rights Declarations
+    _singular: Metadata Rights Declaration
+    _frontend:
+      action:
+        add: Add Metadata Rights Declaration
+    license: License
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   metadata_rights_declaration_merge_candidate:
-    <<: *metadata_rights_declaration_attributes
-
+    _plural: Metadata Rights Declarations
+    _singular: Metadata Rights Declaration
+    _frontend:
+      action:
+        add: Add Metadata Rights Declaration
+    license: License
+    descriptive_note: Descriptive Note
+    file_uri: File URI
+    xlink_title_attribute: Xlink Title Attribute
+    xlink_role_attribute: Xlink Role Attribute
+    xlink_arcrole_attribute: Xlink Arcrole Attribute
+    file_version_xlink_actuate_attribute: Xlink Actuate Attribute
+    file_version_xlink_show_attribute: Xlink Show Attribute
+    last_verified_date: Last Verified Date
   bulk_import_templates:
-    overview: |
-      <p>These are templates for uploading spreadsheet data into ArchivesSpace using the different import options in the Background Jobs area. The data required for a successful import depends on the type of record being created. You do not have to fill out every row and column.</p><p>Each CSV template includes a row of sample data. Unless you want to create a record with the sample data, please delete the sample data before uploading your spreadsheet. <b>Do not delete the header row, add additional columns or rearrange existing columns.</b></p><p>The Excel templates include additional instructions for using the templates and validations for certain cells. Do not delete the instructions or validations.</p>
-    aspace_accession_import_template_csv: Create accession records and records linked to accessions like agents, subjects, and events.
-    aspace_digital_object_import_template_csv: Create digital object records and records linked to digital objects like agents, subjects, and events.
-    bulk_import_template_csv: Create archival objects attached to an existing resource. Includes option to create many different sub-records and linked records including dates, extents, notes, containers, and digital objects. The CSV format is for people who do not have access to Microsoft Excel.
-    bulk_import_template_xlsx: Create archival objects attached to an existing resource. Includes option to create many different sub-records and linked records including dates, extents, notes, containers, and digital objects. The XLSX format is for those who have access to Microsoft Excel.
-    bulk_import_DO_template_csv: Create and link digital objects to existing archival objects in a resource. The CSV format is for people who do not have access to Microsoft Excel.
-    bulk_import_DO_template_xlsx: Create and link digital objects to existing archival objects in a resource. The XLSX format is for those who have access to Microsoft Excel.
-    aspace_location_import_template_csv: Create new location records. Please note that this template is for creating the location records themselves, not linking materials to locations.
-    aspace_assessment_import_template_csv: Create and link assessments to existing accessions, resources, archival objects, or digital objects.
-    aspace_subject_import_template_csv: Create new Subject records. Please note that this template is for creating the subject records themselves, not linking them to other records.
+    overview: >
+      <p>These are templates for uploading spreadsheet data into ArchivesSpace
+      using the different import options in the Background Jobs area. The data
+      required for a successful import depends on the type of record being
+      created. You do not have to fill out every row and column.</p><p>Each CSV
+      template includes a row of sample data. Unless you want to create a record
+      with the sample data, please delete the sample data before uploading your
+      spreadsheet. <b>Do not delete the header row, add additional columns or
+      rearrange existing columns.</b></p><p>The Excel templates include
+      additional instructions for using the templates and validations for
+      certain cells. Do not delete the instructions or validations.</p>
+    aspace_accession_import_template_csv: >-
+      Create accession records and records linked to accessions like agents,
+      subjects, and events.
+    aspace_digital_object_import_template_csv: >-
+      Create digital object records and records linked to digital objects like
+      agents, subjects, and events.
+    bulk_import_template_csv: >-
+      Create archival objects attached to an existing resource. Includes option
+      to create many different sub-records and linked records including dates,
+      extents, notes, containers, and digital objects. The CSV format is for
+      people who do not have access to Microsoft Excel.
+    bulk_import_template_xlsx: >-
+      Create archival objects attached to an existing resource. Includes option
+      to create many different sub-records and linked records including dates,
+      extents, notes, containers, and digital objects. The XLSX format is for
+      those who have access to Microsoft Excel.
+    bulk_import_DO_template_csv: >-
+      Create and link digital objects to existing archival objects in a
+      resource. The CSV format is for people who do not have access to Microsoft
+      Excel.
+    bulk_import_DO_template_xlsx: >-
+      Create and link digital objects to existing archival objects in a
+      resource. The XLSX format is for those who have access to Microsoft Excel.
+    aspace_location_import_template_csv: >-
+      Create new location records. Please note that this template is for
+      creating the location records themselves, not linking materials to
+      locations.
+    aspace_assessment_import_template_csv: >-
+      Create and link assessments to existing accessions, resources, archival
+      objects, or digital objects.
+    aspace_subject_import_template_csv: >-
+      Create new Subject records. Please note that this template is for creating
+      the subject records themselves, not linking them to other records.
