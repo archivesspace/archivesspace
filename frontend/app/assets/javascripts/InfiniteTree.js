@@ -1085,10 +1085,7 @@
 
         list.remove();
 
-        if (
-          parentLi &&
-          !parentLi.querySelector('ol.node-children')
-        ) {
+        if (parentLi && !parentLi.querySelector('ol.node-children')) {
           parentLi.setAttribute('aria-expanded', 'false');
         }
       }
