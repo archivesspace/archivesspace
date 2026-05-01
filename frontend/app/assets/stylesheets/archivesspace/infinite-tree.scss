@@ -1,3 +1,5 @@
+@import 'infinite_tree_drop_indicator';
+
 :root {
   --tree-indent-width: 1.5rem;
   --tree-line-width: 1px;
@@ -45,6 +47,7 @@
   --tree-current-border: var(--blue-500);
   --tree-link-hover: var(--blue-800);
   --tree-expand-hover: var(--blue-950);
+  --tree-reorder-row-hover-bg: #e7f3fa;
   --tree-blockout-overlay: rgba(0, 0, 0, 0.2);
 }
 
@@ -128,6 +131,15 @@
     position: relative;
     background-color: var(--tree-current-bg);
 
+    .node-indentation {
+      --indent-fill: var(--tree-current-bg);
+      --indent-line: transparent;
+    }
+
+    .node-expand {
+      background-color: var(--tree-current-bg);
+    }
+
     &::after {
       content: '';
       position: absolute;
@@ -144,8 +156,35 @@
   // Reorder-mode multi-selection highlight. See
   // INFINITETREE_MULTISELECT_BEHAVIOR_SPEC.md for the selection model.
   &.multiselected > .node-row > .node-body {
+    position: relative;
     background-color: #b6def5;
-    outline: 1px solid #0a6aa1;
+
+    .node-indentation {
+      --indent-fill: #b6def5;
+      --indent-line: transparent;
+    }
+
+    .node-expand {
+      background-color: #b6def5;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      border: 1px solid #0a6aa1;
+      pointer-events: none;
+    }
+  }
+
+  // In reorder mode, keep a single border treatment when current selection and
+  // multiselect overlap, using the multiselect stroke for consistency.
+  &.selected.multiselected > .node-row > .node-body::after {
+    border-color: #0a6aa1;
   }
 }
 
@@ -153,8 +192,31 @@
   user-select: none;
   -webkit-user-select: none;
 
+  // In reorder mode, hovering a multiselected row should increase contrast
+  // (slightly darker) instead of washing it out.
+  .node.multiselected > .node-row:hover > .node-body,
+  .node.multiselected > .node-row > .node-body:hover {
+    background-color: #a8d4ee;
+
+    .node-indentation {
+      --indent-fill: #a8d4ee;
+    }
+
+    .node-expand {
+      background-color: #a8d4ee;
+    }
+  }
+
   .node:not(.root) > .node-row {
     cursor: pointer;
+  }
+
+  // Keep indentation lane aligned with non-selected row hover background.
+  .node:not(.selected, .multiselected) > .node-row:hover > .node-body {
+    .node-indentation {
+      --indent-fill: var(--tree-reorder-row-hover-bg);
+      --indent-line: transparent;
+    }
   }
 
   .node-body > .node-column[data-column='drag-handle'] {
@@ -170,12 +232,12 @@
     left: var(--tree-column-drag-handle-width);
   }
 
-  .node.root > .node-row > .node-body > .node-column[data-column='drag-handle'] > * {
+  .node.root
+    > .node-row
+    > .node-body
+    > .node-column[data-column='drag-handle']
+    > * {
     visibility: hidden;
-  }
-
-  .node:not(.root).multiselected > .node-row .node-column[data-column='drag-handle'] {
-    background-color: #b6def5;
   }
 
   .selection-order-badge:not(:empty) {
@@ -249,6 +311,9 @@
 }
 
 .node-indentation {
+  --indent-fill: var(--tree-bg-subtle);
+  --indent-line: var(--tree-line-color);
+
   position: absolute;
   top: 0;
   left: 0;
@@ -259,13 +324,14 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  background-color: var(--tree-bg-subtle);
+  z-index: 0;
+  background-color: var(--indent-fill);
   background-image: repeating-linear-gradient(
     90deg,
-    var(--tree-bg-subtle),
-    var(--tree-bg-subtle) var(--tree-indent-width),
-    var(--tree-line-color) var(--tree-indent-width),
-    var(--tree-line-color) var(--tree-indent-unit-width)
+    var(--indent-fill),
+    var(--indent-fill) var(--tree-indent-width),
+    var(--indent-line) var(--tree-indent-width),
+    var(--indent-line) var(--tree-indent-unit-width)
   );
 
   /* Gradient args:
@@ -300,7 +366,7 @@
   flex-shrink: 0;
   font-size: 0.875rem;
   color: var(--tree-expand-btn-color);
-  background-color: var(--tree-bg-subtle);
+  background-color: inherit;
   cursor: pointer;
 
   &:hover {
@@ -440,7 +506,7 @@
 }
 
 #infinite-tree-toolbar {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   margin-left: 1rem;
   margin-right: 1rem;
   padding-top: 0.5rem;
@@ -454,8 +520,8 @@
   // Load via Spreadsheet + help: same hover background as .btn-default:hover on both
   // when the primary button is hovered; hovering only the help link does not restyle the button.
   .js-itree-toolbar-load-bulk-group:has(
-      .js-itree-toolbar-load-bulk:not(.disabled):hover
-    ) {
+    .js-itree-toolbar-load-bulk:not(.disabled):hover
+  ) {
     .js-itree-toolbar-load-bulk,
     .js-itree-load-via-spreadsheet-help {
       color: var(--bs-text-body);
