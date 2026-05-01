@@ -71,6 +71,12 @@ class InfiniteTreeSelection {
     );
 
     this.containerEl.addEventListener(
+      'mousedown',
+      this.#onContainerMouseDownCapture.bind(this),
+      true
+    );
+
+    this.containerEl.addEventListener(
       'click',
       this.#onContainerClickCapture.bind(this),
       true
@@ -122,6 +128,34 @@ class InfiniteTreeSelection {
     } else {
       this.#replaceWithSingle(li);
     }
+  }
+
+  /**
+   * Capture-phase mousedown handler. Plain mousedown in reorder mode should
+   * immediately reset any existing multi-selection to the pressed row so drag
+   * start sees the intended single-row source set.
+   * @param {MouseEvent} event
+   */
+  #onContainerMouseDownCapture(event) {
+    if (!this.reorderMode) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+    if (event.button !== 0) return;
+    if (event.target.closest('.node-expand')) return;
+
+    const row = event.target.closest('.node-row');
+    if (!row) return;
+
+    const li = row.closest('li.node');
+    if (!li || li.classList.contains('root')) return;
+    if (!this.containerEl.contains(li)) return;
+
+    // Keep an existing multiselection intact when mousing down on one of its
+    // members so a subsequent drag can move the whole set. If this row is not
+    // selected, immediately reset to single-select so dragstart sees the
+    // intended source row.
+    if (this.selected.indexOf(li) !== -1) return;
+
+    this.#replaceWithSingle(li);
   }
 
   #onDocumentMouseDown(event) {
@@ -216,6 +250,8 @@ class InfiniteTreeSelection {
    * @param {HTMLElement} li
    */
   #replaceWithSingle(li) {
+    if (this.selected.length === 1 && this.selected[0] === li) return;
+
     this.selected = [li];
     this.pushOrder = [li];
     this.#applyClasses();
