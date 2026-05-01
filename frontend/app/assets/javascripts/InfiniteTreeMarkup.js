@@ -203,6 +203,10 @@
       rootElement.id = `${data.jsonmodel_type}_${this.rootId}`;
       rootElement.setAttribute('data-uri', this.rootUri);
       rootElement.setAttribute('title', this.#titleHelper(data).cleaned);
+      rootElement.setAttribute(
+        'data-child-count',
+        String(data.child_count || 0)
+      );
 
       if (data.child_count > 0)
         rootElement.setAttribute('aria-expanded', 'true');
@@ -235,6 +239,10 @@
       nodeElement.id = nodeElementId;
       nodeElement.classList.add(`indent-level-${level}`);
       nodeElement.setAttribute('data-uri', data.uri);
+      nodeElement.setAttribute(
+        'data-child-count',
+        String(data.child_count || 0)
+      );
 
       if (typeof data.position !== 'undefined' && data.position !== null) {
         nodeElement.setAttribute('data-tree-position', String(data.position));
