@@ -72,6 +72,8 @@ jobs:
           indexer:
             - '.github/workflows/indexer.yml'
             - 'indexer/**'
+            - 'common/**'
+            - 'solr/**'
           public:
             - '.github/workflows/public.yml'
             - 'public/**'

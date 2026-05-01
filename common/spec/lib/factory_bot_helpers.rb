@@ -833,6 +833,12 @@ FactoryBot.define do
     script { generate(:script) }
   end
 
+  factory :json_language_and_script_of_description, class: JSONModel(:language_and_script_of_description) do
+    language { generate(:language) }
+    script { generate(:script) }
+    is_primary { false }
+  end
+
   factory :json_location_batch_update, class: JSONModel(:location_batch_update) do
     building { generate(:alphanumstr) }
     record_uris { [create(:json_location).uri, create(:json_location).uri] }
