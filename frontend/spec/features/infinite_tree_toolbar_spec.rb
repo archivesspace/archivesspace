@@ -75,6 +75,7 @@ describe 'Infinite Tree Toolbar', js: true do
   end
 
   it 'shows cut/paste and move only in reorder mode for archival object selection' do
+    expect(page).to have_css('#infinite-tree-record-pane', visible: true)
     find('.js-itree-toolbar-reorder-toggle').click
 
     within '#infinite-tree-toolbar' do
@@ -82,10 +83,7 @@ describe 'Infinite Tree Toolbar', js: true do
         expect(page).to have_css('.js-itree-toolbar-reorder-toggle', text: I18n.t('actions.reorder_active'))
         expect(page).to have_css('.js-itree-toolbar-cut', text: I18n.t('actions.cut'))
         expect(page).to have_css('.js-itree-toolbar-paste', text: I18n.t('actions.paste'))
-        expect(page).to have_css('.js-itree-toolbar-drop-behavior-group', visible: true)
-        expect(page).to have_css('#infinite-drop-before', visible: false)
-        expect(page).to have_css('#infinite-drop-into', visible: false)
-        expect(page).to have_css('#infinite-drop-after', visible: false)
+        expect(page).to have_css('.js-itree-toolbar-paste.disabled')
         expect(page).to have_no_css('.js-itree-toolbar-move-toggle', visible: true)
         expect(page).to have_no_css('.js-itree-toolbar-expand-mode', visible: true)
         expect(page).to have_no_css('.js-itree-toolbar-collapse-tree', visible: true)
@@ -99,6 +97,8 @@ describe 'Infinite Tree Toolbar', js: true do
       end
     end
 
+    expect(page).to have_css('#infinite-tree-record-pane', visible: false)
+
     within '#infinite-tree-container' do
       click_link ao.title
     end
@@ -106,12 +106,25 @@ describe 'Infinite Tree Toolbar', js: true do
     within '#infinite-tree-toolbar' do
       expect(page).to have_css('.js-itree-toolbar-move-toggle', text: I18n.t('actions.move'))
     end
+
+    find('.js-itree-toolbar-reorder-toggle').click
+
+    expect(page).to have_css('#infinite-tree-record-pane', visible: true)
   end
 
-  it 'defaults to before drop behavior' do
-    expect(find('#infinite-drop-before', visible: false)).to be_checked
-    expect(find('#infinite-drop-into', visible: false)).not_to be_checked
-    expect(find('#infinite-drop-after', visible: false)).not_to be_checked
+  it 'enables paste after cut and disables it when reorder mode is toggled off' do
+    find('.js-itree-toolbar-reorder-toggle').click
+    expect(page).to have_css('.js-itree-toolbar-paste.disabled')
+
+    within '#infinite-tree-container' do
+      click_link ao.title
+    end
+    find('.js-itree-toolbar-cut').click
+    expect(page).to have_no_css('.js-itree-toolbar-paste.disabled')
+
+    find('.js-itree-toolbar-reorder-toggle').click
+    find('.js-itree-toolbar-reorder-toggle').click
+    expect(page).to have_css('.js-itree-toolbar-paste.disabled')
   end
 
   it 'toggles reorder and expand mode button labels' do
