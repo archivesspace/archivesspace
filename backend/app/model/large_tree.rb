@@ -143,10 +143,38 @@ class LargeTree
     end
   end
 
+  # Given leaf node IDs belonging to the tree rooted at +@root_record+, return the
+  # chain of ancestors each one hangs off along with the waypoint page number the
+  # InfiniteTree client has to load to reveal each ancestor.
+  #
+  # Paths read root -> leaf's parent; the leaf itself is never included because the
+  # caller already knows which node it asked about.
+  #
+  # Used by the InfiniteTree widgets in both staff (+largetree.js.erb+) and public
+  # (+InfiniteTreeFetch.js+, as +ancestors(id)+) UIs to expand a tree to a specific
+  # deep-linked node, and by the PUI indexer (+large_tree_doc_indexer.rb+) which
+  # precomputes one +tree_node_from_root+ Solr doc per node so PUI tree navigation
+  # doesn't have to hit the live backend.
+  #
+  # @param node_ids [Array<Integer>] IDs of nodes whose ancestor paths are
+  #   requested.  Every ID must belong to +@root_record+
+  # @param repo_id [Integer] repository ID used to build ancestor node URIs
+  #   in the returned segments.
+  #
+  # @return [Hash{Integer => Array<Hash>}] map of input +node_id+ to its path,
+  #   where each path is an array of segment hashes ordered root -> leaf's parent.
+  #   Each segment hash has the shape:
+  #     {
+  #       "node"            => String or nil, # uri of this ancestor; nil for the root segment
+  #       "root_record_uri" => String,        # @root_record.uri
+  #       "jsonmodel_type"  => Symbol,        # @node_type for ancestors, @root_type for the root segment
+  #       "title"           => String,        # ancestor display_string, or @root_record.title
+  #       "parsed_title"    => Object,        # mixed-content-parsed title
+  #       "offset"          => Integer        # waypoint page number to load to render this node
+  #     }
   def node_from_root(node_ids, repo_id)
     child_to_parent_map = {}
     node_to_position_map = {}
-    node_to_root_record_map = {}
     node_to_title_map = {}
 
     result = {}
@@ -161,17 +189,19 @@ class LargeTree
 
         db[@node_table]
           .filter(:id => nodes_to_expand)
+          .filter(:root_record_id => @root_record.id)
           .filter(published_filter)
-          .select(:id, :parent_id, :root_record_id, :position, :display_string).each do |row|
+          .select(:id, :parent_id, :position).each do |row|
           child_to_parent_map[row[:id]] = row[:parent_id]
           node_to_position_map[row[:id]] = row[:position]
-          node_to_title_map[row[:id]] = row[:display_string]
-          node_to_root_record_map[row[:id]] = row[:root_record_id]
           next_nodes_to_expand << row[:parent_id]
         end
 
         nodes_to_expand = next_nodes_to_expand.compact.uniq
       end
+
+      all_node_ids = (child_to_parent_map.keys + child_to_parent_map.values).compact.uniq
+      node_to_title_map = display_strings_for(db, all_node_ids)
 
       ## Calculate the waypoint that each node will fall into
       node_to_waypoint_map = {}
@@ -179,7 +209,7 @@ class LargeTree
       (child_to_parent_map.keys + child_to_parent_map.values).compact.uniq.each do |node_id|
         this_position = db[@node_type]
                         .filter(:parent_id => child_to_parent_map[node_id])
-                        .filter(:root_record_id => node_to_root_record_map[node_id])
+                        .filter(:root_record_id => @root_record.id)
                         .filter(published_filter)
                         .where { position <= node_to_position_map[node_id] }
                         .count
@@ -187,22 +217,8 @@ class LargeTree
         node_to_waypoint_map[node_id] = (this_position / WAYPOINT_SIZE)
       end
 
-      root_record_titles = {}
-      db[@root_table]
-        .join(@node_table, :root_record_id => :id)
-        .filter(Sequel.qualify(@node_table, :id) => node_ids)
-        .select(Sequel.qualify(@root_table, :id),
-                Sequel.qualify(@root_table, :title))
-        .distinct
-        .each do |row|
-        root_record_titles[row[:id]] = row[:title]
-      end
-
       ## Build up the path of waypoints for each node
       node_ids.each do |node_id|
-        root_record_id = node_to_root_record_map.fetch(node_id)
-        root_record_uri = JSONModel(@root_type).uri_for(root_record_id, :repo_id => repo_id)
-
         path = []
 
         current_node = node_id
@@ -210,7 +226,7 @@ class LargeTree
           parent_node = child_to_parent_map[current_node]
 
           path << {"node" => JSONModel(@node_type).uri_for(parent_node, :repo_id => repo_id),
-                   "root_record_uri" => root_record_uri,
+                   "root_record_uri" => @root_record.uri,
                    "jsonmodel_type" => @node_type,
                    "title" => node_to_title_map.fetch(parent_node),
                    "offset" => node_to_waypoint_map.fetch(current_node),
@@ -220,11 +236,11 @@ class LargeTree
         end
 
         path << {"node" => nil,
-                 "root_record_uri" => root_record_uri,
+                 "root_record_uri" => @root_record.uri,
                  "offset" => node_to_waypoint_map.fetch(current_node),
                  "jsonmodel_type" => @root_type,
-                 "title" => root_record_titles[root_record_id],
-                 "parsed_title" => MixedContentParser.parse(root_record_titles[root_record_id], '/')}
+                 "title" => @root_record.title,
+                 "parsed_title" => MixedContentParser.parse(@root_record.title, '/')}
 
         result[node_id] = path.reverse
       end
@@ -232,7 +248,6 @@ class LargeTree
 
     result
   end
-
 
   def waypoint(parent_id, offset)
     record_ids = []
@@ -246,13 +261,15 @@ class LargeTree
                 :parent_id => parent_id)
         .filter(published_filter)
         .order(:position)
-        .select(:id, :repo_id, :title, :position, :slug, :suppressed)
+        .select(:id, :repo_id, :position, :slug, :suppressed)
         .offset(offset * WAYPOINT_SIZE)
         .limit(WAYPOINT_SIZE)
         .each do |row|
           record_ids << row[:id]
           records[row[:id]] = row
         end
+
+      titles = display_strings_for(db, record_ids)
 
       # Count up their children
       child_counts = Hash[db[@node_table]
@@ -274,9 +291,10 @@ class LargeTree
         digital_instance = child_digital_instances.include?(id)
 
         # ANW-617: generate a slugged URL for inclusion in the JSON for the standard node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
-        waypoint_response(child_count).merge("title" => row[:title],
+        title = titles.fetch(id, nil)
+        waypoint_response(child_count).merge("title" => title,
                                              "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@node_type.to_s, row[:repo_id], row[:slug]),
-                                             "parsed_title" => MixedContentParser.parse(row[:title], '/'),
+                                             "parsed_title" => MixedContentParser.parse(title, '/'),
                                              "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
                                              "position" => (offset * WAYPOINT_SIZE) + idx,
                                              "parent_id" => parent_id,
@@ -295,6 +313,49 @@ class LargeTree
   end
 
   private
+
+  # Fetches display strings for a batch of node IDs for the language in the current request context.
+  #
+  # @param db [Sequel::Database] the open database connection
+  # @param ids [Array<Integer>] node record IDs
+  # @return [Hash{Integer=>String}] map of record ID to display_string
+  def display_strings_for(db, ids)
+    return {} if ids.empty?
+
+    node_model = @root_record.class.node_model
+    if node_model.respond_to?(:mlc_table)
+      mlc_display_strings(db, ids)
+    else
+      non_mlc_display_strings(db, ids)
+    end
+  end
+
+  # Fetches display strings for nodes whose model does not have an mlc table
+  def non_mlc_display_strings(db, ids)
+    return {} if ids.empty?
+
+    db[@node_table]
+      .filter(:id => ids)
+      .select(:id, :display_string)
+      .each_with_object({}) { |row, h| h[row[:id]] = row[:display_string] }
+  end
+
+  # Fetches display strings for nodes whose model has an mlc table
+  def mlc_display_strings(db, ids)
+    return {} if ids.empty?
+
+    lang = RequestContext.description_language
+    return {} unless lang
+
+    node_model = @root_record.class.node_model
+    mlc_table = node_model.mlc_table
+    mlc_fk    = :"#{@node_type}_id"
+
+    db[mlc_table]
+      .filter(mlc_fk => ids, :language_id => lang[:language_id], :script_id => lang[:script_id])
+      .select(mlc_fk, :display_string)
+      .each_with_object({}) { |row, h| h[row[mlc_fk]] = row[:display_string] }
+  end
 
   def digital_instances(db, table, ids)
     published_filter = @published_only ? [1] : [0, 1]

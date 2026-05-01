@@ -272,6 +272,25 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  # Reads the +X-ArchivesSpace-Description-Language+ request header and
+  # resolves it to an MLC language/script pair.  Header value format:
+  # +"<iso639_2>_<iso15924>"+ (e.g. +"fre_Latn"+).
+  #
+  # Returns +nil+ when the header is absent, malformed, or references codes
+  # that are not in the +language_iso639_2+ / +script_iso15924+ enumerations —
+  # in which case downstream callers fall through to the
+  # +AppConfig[:mlc_default_language]+ / +:mlc_default_script+ default.
+  #
+  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
+  def description_language_from_request
+    tag = env["HTTP_X_ARCHIVESSPACE_DESCRIPTION_LANGUAGE"]
+    return nil if tag.nil? || tag.empty?
+
+    language_tag, script_tag = tag.split('_', 2)
+    RequestContext.resolve_language_pair(language_tag, script_tag)
+  end
+
+
   class RequestWrappingMiddleware
 
     Session.init

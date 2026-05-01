@@ -9,6 +9,12 @@ class Resource < Sequel::Model(:resource)
   include Extents
   include Dates
   include LangMaterials
+  include LangDescriptions
+  include MultilingualContent
+  set_multilingual_fields :title, :finding_aid_title, :finding_aid_subtitle, :finding_aid_author,
+                      :finding_aid_sponsor, :finding_aid_edition_statement,
+                      :finding_aid_series_statement, :finding_aid_note,
+                      :repository_processing_note, :finding_aid_filing_title
   include ExternalDocuments
   include RightsStatements
   include Instances
