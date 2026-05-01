@@ -31,6 +31,8 @@
 <%= javascript_include_tag "InfiniteTreeToolbar.js" %>
 <%= javascript_include_tag "InfiniteTreeToolbarActions.js" %>
 <%= javascript_include_tag "InfiniteTreeSelection.js" %>
+<%= javascript_include_tag "InfiniteTreeDropHitbox.js" %>
+<%= javascript_include_tag "InfiniteTreeDragDrop.js" %>
 
 <div
   id="infinite-tree-component"
@@ -145,5 +147,6 @@ if (!<%= read_only %>) {
   new InfiniteTreeToolbar();
   new InfiniteTreeToolbarActions();
   new InfiniteTreeSelection(); // Should this be called MultiSelection?
+  new InfiniteTreeDragDrop();
 }
 </script>
