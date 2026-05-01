@@ -140,12 +140,12 @@ module ApplicationHelper
   end
 
   def mlc_textarea_field(form, name, opts = {})
-    if ["new", "create"].include?(controller.action_name)
-      form.label_and_textarea(name, opts.merge({label_opts: mlc_content_badge}))
-    else
+    if ["edit", "update"].include?(controller.action_name)
       mlc_textarea do
         form.label_and_textarea(name, opts.merge({label_opts: mlc_content_badge}))
       end
+    else
+      form.label_and_textarea(name, opts.merge({label_opts: mlc_content_badge}))
     end
   end
 
