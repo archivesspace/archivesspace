@@ -68,7 +68,9 @@
             const newRecordHash = InfiniteTreeIds.treeLinkUrl(savedUri);
 
             if (target) {
-              const pendingHash = target.startsWith('#') ? target : `#${target}`;
+              const pendingHash = target.startsWith('#')
+                ? target
+                : `#${target}`;
 
               this.#setHashSilently(pendingHash);
 
