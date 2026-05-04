@@ -74,6 +74,48 @@
     }
 
     /**
+     * Reparents child records under the given parent via the legacy accept_children endpoint.
+     * @param {string} parentUri - Backend URI of the destination parent
+     * @param {string[]} childUris - Backend URIs of records to move
+     * @param {number} index - Destination insertion index
+     * @returns {Object} - JSON acknowledgement returned by the frontend proxy
+     */
+    async acceptChildren(parentUri, childUris, index) {
+      const target =
+        InfiniteTreeIds.backendUriToFrontendUri(parentUri) + '/accept_children';
+      const body = new URLSearchParams();
+
+      childUris.forEach(uri => body.append('children[]', uri));
+      body.append('index', index);
+
+      const headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      };
+      const csrfToken = document.querySelector('meta[name="csrf-token"]');
+
+      if (csrfToken) {
+        headers['X-CSRF-Token'] = csrfToken.getAttribute('content');
+      }
+
+      const response = await fetch(target, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers,
+        body,
+      });
+
+      if (!response.ok) {
+        const message = await response.text();
+        throw new Error(
+          message || `accept_children failed: ${response.status}`
+        );
+      }
+
+      return response.json();
+    }
+
+    /**
      * @returns {Object} - Root object returned from the server
      */
     async #root() {
