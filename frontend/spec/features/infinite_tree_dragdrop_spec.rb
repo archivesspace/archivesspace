@@ -103,7 +103,22 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
   def install_drag_helpers_and_capture
     execute_js(<<~JS)
       window.__itreeDropIntents = [];
+      window.__itreeReorderEvents = [];
+      window.__itreeAcceptChildrenRequests = [];
       window.__itreeLastDragOver = null;
+
+      var originalFetch = window.fetch.bind(window);
+      window.fetch = function(input, init) {
+        var url = typeof input === 'string' ? input : input.url;
+        if (url && url.indexOf('/accept_children') !== -1) {
+          window.__itreeAcceptChildrenRequests.push({
+            url: url,
+            method: init && init.method,
+            body: init && init.body ? init.body.toString() : ''
+          });
+        }
+        return originalFetch(input, init);
+      };
 
       document.addEventListener('infiniteTreeDragDrop:dropIntent', function(event) {
         var detail = event.detail || {};
@@ -115,6 +130,26 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
           targetParentUri: detail.targetParentUri || null,
           targetIndex: detail.targetIndex,
           sameParentMove: !!detail.sameParentMove
+        });
+      });
+
+      [
+        'infiniteTreeReorder:moveStart',
+        'infiniteTreeReorder:moveSuccess',
+        'infiniteTreeReorder:moveError',
+        'infiniteTreeReorder:moveSkipped'
+      ].forEach(function(name) {
+        document.addEventListener(name, function(event) {
+          var detail = event.detail || {};
+          window.__itreeReorderEvents.push({
+            name: event.type,
+            reason: detail.reason || null,
+            childUris: detail.childUris || [],
+            targetParentUri: detail.targetParentUri || null,
+            rawIndex: detail.rawIndex,
+            adjustedIndex: detail.adjustedIndex,
+            error: detail.error || null
+          });
         });
       });
 
@@ -183,11 +218,76 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     evaluate_js('window.__itreeDropIntents[window.__itreeDropIntents.length - 1] || null')
   end
 
+  def last_accept_children_request
+    evaluate_js('window.__itreeAcceptChildrenRequests[window.__itreeAcceptChildrenRequests.length - 1] || null')
+  end
+
+  def last_accept_children_params
+    evaluate_js(<<~JS)
+      (function() {
+        var req = window.__itreeAcceptChildrenRequests[window.__itreeAcceptChildrenRequests.length - 1];
+        if (!req) return null;
+        var params = new URLSearchParams(req.body);
+        return {
+          children: params.getAll('children[]'),
+          index: params.get('index')
+        };
+      })()
+    JS
+  end
+
+  def accept_children_request_count
+    evaluate_js('window.__itreeAcceptChildrenRequests.length')
+  end
+
+  def reorder_events(name)
+    evaluate_js("window.__itreeReorderEvents.filter(function(e) { return e.name === '#{name}'; })")
+  end
+
+  def wait_for_reorder_idle
+    expect(page).to have_no_css('#infinite-tree-container[data-reorder-move-in-flight]')
+  end
+
+  def root_child_uris
+    evaluate_js(<<~JS)
+      Array.prototype.map.call(
+        document.querySelectorAll('#infinite-tree-container .root.node > .node-children > li.node'),
+        function(node) { return node.getAttribute('data-uri'); }
+      )
+    JS
+  end
+
+  def child_uris_for(parent_uri)
+    evaluate_js(<<~JS)
+      (function() {
+        var parent = document.querySelector("#infinite-tree-container li.node[data-uri='#{parent_uri}']");
+        if (!parent) return [];
+        return Array.prototype.map.call(
+          parent.querySelectorAll(':scope > .node-children > li.node'),
+          function(node) { return node.getAttribute('data-uri'); }
+        );
+      })()
+    JS
+  end
+
+  def selected_uri
+    evaluate_js("document.querySelector('#infinite-tree-container li.node.selected')?.getAttribute('data-uri')")
+  end
+
+  def tree_hash_for(uri)
+    parts = uri.split('/')
+    "tree::#{parts[-2].sub(/s$/, '')}_#{parts[-1]}"
+  end
+
   before do
     visit "#{edit_path}#{root_hash}"
     wait_for_ajax
     enable_reorder_mode
     install_drag_helpers_and_capture
+  end
+
+  after do
+    wait_for_reorder_idle if page.has_css?('#infinite-tree-container')
   end
 
   it 'maps standardHitbox boundaries at 25% and 75%' do
@@ -264,6 +364,84 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     expect(intent['targetUri']).to eq(ao3.uri)
   end
 
+  it 'persists a top-edge drop, adjusts the same-parent index, and selects the moved row' do
+    before_order = root_child_uris
+    source_uri = before_order.first
+    target_uri = before_order.last
+    expected_order = before_order - [source_uri]
+    expected_index = expected_order.index(target_uri)
+    expected_order.insert(expected_index, source_uri)
+
+    dragstart_from(source_uri)
+    dragover_row(target_uri, 0.1)
+    drop_row(target_uri, 0.1)
+    wait_for_reorder_idle
+
+    params = last_accept_children_params
+
+    aggregate_failures do
+      expect(params['children']).to eq([source_uri])
+      expect(params['index']).to eq(expected_index.to_s)
+      expect(root_child_uris).to eq(expected_order)
+      expect(selected_uri).to eq(source_uri)
+      expect(page.current_url).to include("##{tree_hash_for(source_uri)}")
+      expect(page).to have_css(
+        "li.node[data-uri='#{source_uri}'].reparented, " \
+        "li.node[data-uri='#{source_uri}'].reparented-highlight"
+      )
+    end
+  end
+
+  it 'persists a bottom-edge drop after the target row' do
+    before_order = root_child_uris
+    source_uri = before_order.first
+    target_uri = before_order.last
+    expected_order = before_order - [source_uri]
+    expected_order.insert(expected_order.index(target_uri) + 1, source_uri)
+
+    dragstart_from(source_uri)
+    dragover_row(target_uri, 0.9)
+    drop_row(target_uri, 0.9)
+    wait_for_reorder_idle
+
+    aggregate_failures do
+      expect(last_accept_children_params['children']).to eq([source_uri])
+      expect(root_child_uris).to eq(expected_order)
+      expect(selected_uri).to eq(source_uri)
+    end
+  end
+
+  it 'persists an into-edge drop as a child of the target row' do
+    dragstart_from(ao.uri)
+    dragover_row(ao3.uri, 0.5)
+    drop_row(ao3.uri, 0.5)
+    wait_for_reorder_idle
+
+    aggregate_failures do
+      expect(last_accept_children_params['children']).to eq([ao.uri])
+      expect(root_child_uris).not_to include(ao.uri)
+      expect(child_uris_for(ao3.uri)).to include(ao.uri)
+      expect(selected_uri).to eq(ao.uri)
+    end
+  end
+
+  it 'skips adjacent same-parent no-op drops without calling accept_children' do
+    before_requests = accept_children_request_count
+    before_order = root_child_uris
+    source_uri = before_order.first
+    next_uri = before_order.second
+
+    dragstart_from(source_uri)
+    dragover_row(next_uri, 0.1)
+    drop_row(next_uri, 0.1)
+
+    aggregate_failures do
+      expect(accept_children_request_count).to eq(before_requests)
+      expect(reorder_events('infiniteTreeReorder:moveSkipped').last['reason']).to eq('noop')
+      expect(root_child_uris).to eq(before_order)
+    end
+  end
+
   it 'plain mousedown resets prior multiselection before dragstart' do
     click_row(ao.uri, meta: true)
     click_row(ao2.uri, meta: true)
@@ -326,6 +504,8 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     expect(intent['sourceUris']).to eq([ao2.uri, child_ao.uri])
     expect(intent['effectiveSourceUris']).to eq([ao2.uri])
     expect(intent['edge']).to eq('bottom')
+    wait_for_reorder_idle
+    expect(last_accept_children_params['children']).to eq([ao2.uri])
   end
 
   it 'blocks drops onto descendants of a dragged source subtree' do
@@ -334,6 +514,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
     click_row(ao2.uri, meta: true)
     dragstart_from(ao2.uri)
+    before_requests = accept_children_request_count
     dragover_row(child_ao.uri, 0.5)
 
     blocked = evaluate_js(<<~JS)
@@ -348,6 +529,8 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
 
     expect(blocked['blockedAttr']).to eq('true')
     expect(blocked['prevented']).to eq(false)
+    drop_row(child_ao.uri, 0.5)
+    expect(accept_children_request_count).to eq(before_requests)
   end
 
   it 'cleans drag state and indicators after dragend' do

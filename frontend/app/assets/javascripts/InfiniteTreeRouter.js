@@ -117,6 +117,15 @@
         }
       );
 
+      this.treeContainer.addEventListener(
+        'infiniteTreeRouter:replaceHash',
+        e => {
+          const { targetHash } = e.detail || {};
+
+          if (targetHash) this.#setHashSilently(targetHash);
+        }
+      );
+
       this.recordPaneEl.addEventListener(
         'infiniteTreeRecordPane:submitError',
         () => {}
