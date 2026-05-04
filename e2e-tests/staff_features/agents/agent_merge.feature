@@ -1,7 +1,7 @@
 Feature: Agent merge
   Background:
     Given an administrator user is logged in
-     And two Agents A & B have been created
+      And two Agents A & B have been created
   Scenario: Merge two Agents by browsing
     Given the Agent A is opened in edit mode
      When the user clicks on 'Merge'

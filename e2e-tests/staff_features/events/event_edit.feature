@@ -16,11 +16,11 @@ Feature: Event Edit
       And the user clicks on 'Save'
      Then the 'Event' saved message is displayed
       And the field '<Field>' has value '<NewValue>'
-       Examples:
-        | Field        | NewValue           |
-        | Type         | Component Transfer |
-        | Outcome      | Pass               |
-        | Outcome Note | Test Note          |
+        Examples:
+          | Field        | NewValue           |
+          | Type         | Component Transfer |
+          | Outcome      | Pass               |
+          | Outcome Note | Test Note          |
   Scenario: Event is not updated after changes are reverted
     Given the Event is opened in edit mode
      When the user changes the 'Type' field to 'Accumulation'

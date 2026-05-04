@@ -16,9 +16,9 @@ Feature: Resource Edit
       And the user clicks on 'Save'
      Then the 'Resource' updated message is displayed
      Then the field '<Field>' has value '<NewValue>'
-      Examples:
-       | Field | NewValue              |
-       | Title | Updated Test Resource |
+       Examples:
+         | Field | NewValue              |
+         | Title | Updated Test Resource |
   Scenario: Resource is not updated after changes are reverted
     Given the Resource is opened in edit mode
      When the user changes the 'Title' field
@@ -38,8 +38,8 @@ Feature: Resource Edit
       And the user clicks on 'Confirm Removal'
       And the user clicks on 'Save'
      Then the following error messages are displayed
-      | Languages - At least 1 item(s) is required |
-      | Must contain at least one Language         |
+       | Languages - At least 1 item(s) is required |
+       | Must contain at least one Language         |
       And the Resource has one Language with the original values
   Scenario: Delete sub-record of a Resource
     Given the Resource is opened in edit mode

@@ -10,6 +10,6 @@ Feature: Subject Edit Default Values
       And the user clicks on 'Save'
      Then the 'Defaults' updated message is displayed
       And the new Subject form has the following default values
-       | form_section      | form_field   | form_value |
-       | Basic Information | Authority ID | Test ID    |
-       | Basic Information | Scope Note   | Text       |
+        | form_section      | form_field   | form_value |
+        | Basic Information | Authority ID | Test ID    |
+        | Basic Information | Scope Note   | Text       |

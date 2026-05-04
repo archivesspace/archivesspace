@@ -16,10 +16,10 @@ Feature: Accession Edit
       And the user clicks on 'Save'
      Then the 'Accession' updated message is displayed
      Then the field '<Field>' has value '<NewValue>'
-     Examples:
-      | Field    | NewValue                 |
-      | Title    | Updated Test Accession   |
-      | Accession Date     | 2024-10-03               |
+       Examples:
+         | Field    | NewValue                 |
+         | Title    | Updated Test Accession   |
+         | Accession Date     | 2024-10-03               |
   Scenario: Accession is not updated after changes are reverted
     Given the Accession is opened in edit mode
      When the user changes the 'Title' field
