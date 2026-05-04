@@ -811,6 +811,17 @@ it:
       previous: Precedente
     rights_statement_external_document_identifier_type:
       fast: 'Faceted Application of Subject Terminology (Dublin, Ohio: OCLC)'
+      agrovoc: "AGROVOC: dizionario dei sinonimi e contrari multilingue per l'agricoltura. (Roma: APIMONDIA)"
+      allmovie: AllMovie
+      allmusic: AllMusic
+      allocine: AlloCiné
+      amnbo: Biografia nazionale americana online
+      ansi: Numero dell'American National Standards Institute e della National Information Standards
+        Organisation per uno standard ANSI o ANSI/NISO.
+      artsy: Artistica
+      bdusc: Repertorio biografico del Congresso degli Stati Uniti (Congresso degli Stati Uniti)
+      bfi: BFI - British Film Institute
+      bnfcg: 'Catalogo generale della BnF (Parigi: Biblioteca Nazionale di Francia)'
     date_label:
       deaccession: Deaccessione
       copyright: Diritto d'autore
@@ -1703,6 +1714,47 @@ it:
       place_of_birth: Luogo di nascita
       place_of_death: Luogo della morte
       residence: Residenza
+    publication_status:
+      approved: Approvato
+      in_process: In corso
+    reference_evaluation:
+      natc: Nessun tentativo di programmazione
+      not_applicable: Non applicabile
+      tr_consistent: Tracce coerenti con le intestazioni
+      tr_inconsistent: Tracce incoerenti con le intestazioni
+    resource_finding_aid_description_rules:
+      aacr: Regole di catalogazione anglo-americane
+      cco: Catalogazione dei beni culturali
+      dacs: 'Descrivere gli archivi: uno standard di contenuto'
+      isadg: Norma internazionale per la descrizione archivistica - Generale
+      rad: Regole per la descrizione archivistica
+    resource_finding_aid_status:
+      completed: Completato
+      in_progress: In corso
+      under_revision: In fase di revisione
+      unprocessed: non elaborato
+    resource_resource_type:
+      collection: Collezione
+      papers: Documenti
+      publications: pubblicazioni
+      records: Registri
+    restriction_type:
+      ColdStorageBrbl: 5 - Altro
+      InProcessSpecColl: 4 - Restrizioni in corso
+      RestrictedCurApprSpecColl: 2 - Restrizione di accesso imposta dal repository
+      RestrictedFragileSpecColl: 3 - Fragile e soggetto a restrizioni
+      RestrictedSpecColl: 1 - Restrizione di accesso imposta dal donatore/università
+    rights_statement_act_restriction:
+      allow: Permettere
+      conditional: Condizionale
+      disallow: Vietare
+    rights_statement_act_type:
+      delete: Eliminare
+      disseminate: Diffondere
+      migrate: Migrare
+      modify: Modificare
+      replicate: Replicare
+      use: Utilizzo
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: 'Calendario delle date'
