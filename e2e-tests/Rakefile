@@ -1,0 +1,49 @@
+# frozen_string_literal: true
+
+require 'rake'
+require_relative 'lib/feature_formatter'
+
+def feature_paths_for(env_files)
+  files = (env_files || '').split(',').map(&:strip).reject(&:empty?)
+  files.empty? ? FeatureFormatter.feature_paths(__dir__) : files
+end
+
+namespace :format do
+  desc 'Reformat .feature files with right-aligned step keywords. Pass FILES=path[,path...] to limit scope.'
+  task :features do
+    changed = feature_paths_for(ENV.fetch('FILES', nil)).filter_map do |path|
+      original = File.read(path)
+      formatted = FeatureFormatter.format(original)
+      next if original == formatted
+
+      File.write(path, formatted)
+      path
+    end
+
+    if changed.empty?
+      puts 'format:features: no changes'
+    else
+      puts "format:features: rewrote #{changed.size} file(s)"
+      changed.each { |p| puts "  #{p}" }
+    end
+  end
+
+  desc 'Check that .feature files are correctly formatted; exit non-zero on diff. Pass FILES=path[,path...] to limit scope.'
+  task :check do
+    misformatted = feature_paths_for(ENV.fetch('FILES', nil)).reject do |path|
+      original = File.read(path)
+      original == FeatureFormatter.format(original)
+    end
+
+    if misformatted.empty?
+      puts 'format:check: ok'
+    else
+      warn 'format:check: the following files are not right-aligned:'
+      misformatted.each { |p| warn "  #{p}" }
+      warn 'Run `bundle exec rake format:features` to fix.'
+      exit 1
+    end
+  end
+end
+
+task default: 'format:features'

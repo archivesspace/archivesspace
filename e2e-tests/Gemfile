@@ -7,6 +7,7 @@ gem 'capybara'
 gem 'capybara-screenshot'
 gem 'cucumber'
 gem 'cuke_linter'
+gem 'rake'
 gem 'rspec-expectations'
 gem 'rubocop', require: false
 gem 'selenium-webdriver'

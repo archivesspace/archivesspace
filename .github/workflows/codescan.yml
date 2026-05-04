@@ -67,6 +67,33 @@ jobs:
         run: |
           bundle exec rubocop
 
+  format-features:
+    name: E2E-format-features
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: e2e-tests
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.0'
+      - name: Cache gems
+        uses: actions/cache@v3
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Install gems
+        run: |
+          bundle config path vendor/bundle
+          bundle install --quiet --jobs 4 --retry 3
+      - name: Check .feature files are right-aligned
+        run: |
+          bundle exec rake format:check
+
   cucumber-dry-run:
     name: E2E-ensure-all-steps-implemented
     runs-on: ubuntu-latest
