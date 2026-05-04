@@ -59,10 +59,10 @@ nl:
     file_version_xlink_show_attribute: Xlink Show-attribuut
     last_verified_date: Laatst gecontroleerd op
   footer:
-    archivesspace_home_html: Bezoek <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: >-
-      <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Stuur
-      feedback of meld een probleem</a>
+    archivesspace_home_html: Bezoek <a 
+      href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+      target='_blank'>Stuur feedback of meld een probleem</a>
   lang_description:
     mlc_field: >-
       De waarde van dit veld kan veranderen op basis van de huidige

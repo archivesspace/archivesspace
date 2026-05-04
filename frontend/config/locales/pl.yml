@@ -25,10 +25,10 @@ pl:
     defaults: Wartości domyślne
     drop_before: Upuść przed
     duplicate_resource: Zduplikowany zasób
-    duplicate_resource_confirm_message: >-
-      Zostanie utworzone zadanie polegające na skopiowaniu tego zasobu wraz ze
-      wszystkimi zawartymi w nim obiektami archiwalnymi. W zależności od liczby
-      rekordów, może to potrwać pewien czas.
+    duplicate_resource_confirm_message: Zostanie utworzone zadanie polegające na
+      skopiowaniu tego zasobu wraz ze wszystkimi zawartymi w nim obiektami 
+      archiwalnymi. W zależności od liczby rekordów, może to potrwać pewien 
+      czas.
     edit: Redagować
     edit_oai: Edytuj ustawienia OAI
     edit_batch: Edytuj partię
@@ -53,15 +53,14 @@ pl:
     merge_confirm_title: Czy połączyć z tym rekordem?
     merge_from_browse_confirm_title: Czy połączyć wybrane rekordy?
     link_to: Link do
-    merge_agent_from_browse_confirm_message: >-
-      Pierwszy wybrany agent zostanie połączony z kolejno wybranymi rekordami.
-      Wszystkie kolejne wybrane rekordy zostaną usunięte, a wszelkie powiązane z
-      nimi rekordy zostaną ponownie powiązane z pierwszym wybranym agentem.
-    batch_merge: >-
-      Wybierz rekord, z którym zostaną połączone wszystkie pozostałe wymienione
-      rekordy. Wszystkie powiązane rekordy zostaną ponownie powiązane z tym
-      rekordem, a wszystkie informacje dotyczące pozostałych rekordów zostaną
-      usunięte.
+    merge_agent_from_browse_confirm_message: Pierwszy wybrany agent zostanie 
+      połączony z kolejno wybranymi rekordami. Wszystkie kolejne wybrane rekordy
+      zostaną usunięte, a wszelkie powiązane z nimi rekordy zostaną ponownie 
+      powiązane z pierwszym wybranym agentem.
+    batch_merge: Wybierz rekord, z którym zostaną połączone wszystkie pozostałe 
+      wymienione rekordy. Wszystkie powiązane rekordy zostaną ponownie powiązane
+      z tym rekordem, a wszystkie informacje dotyczące pozostałych rekordów 
+      zostaną usunięte.
     refresh_page: Odśwież stronę
     save_plus_one: Dodać jeden
     save_anyway: Zapisz mimo wszystko
@@ -70,54 +69,46 @@ pl:
     suppress: Stłumić
     suppress_confirm_title: Czy chcesz ukryć ten rekord?
     merge_agent_compare_agent_details: Porównaj agentów
-    merge_agent_confirm_message: >-
-      Wybrane rekordy zostaną połączone z zasobem „%{source}”. Wszystkie wybrane
-      rekordy zostaną usunięte, a powiązane z nimi rekordy zostaną ponownie
+    merge_agent_confirm_message: Wybrane rekordy zostaną połączone z zasobem 
+      „%{source}”. Wszystkie wybrane rekordy zostaną usunięte, a powiązane z 
+      nimi rekordy zostaną ponownie powiązane z tym zasobem.
+    merge_resource_confirm_message: Wybrane rekordy zostaną połączone z zasobem 
+      „%{source}”. Wszystkie wybrane rekordy zostaną usunięte, a powiązane z 
+      nimi rekordy zostaną ponownie powiązane z tym zasobem.
+    merge_container_profile_confirm_message: Do profilu kontenera 
+      „%{merge_destination}” zostaną scalone wybrane rekordy. Wszystkie wybrane 
+      rekordy zostaną usunięte, a powiązane z nimi rekordy zostaną ponownie 
       powiązane z tym zasobem.
-    merge_resource_confirm_message: >-
-      Wybrane rekordy zostaną połączone z zasobem „%{source}”. Wszystkie wybrane
-      rekordy zostaną usunięte, a powiązane z nimi rekordy zostaną ponownie
-      powiązane z tym zasobem.
-    merge_container_profile_confirm_message: >-
-      Do profilu kontenera „%{merge_destination}” zostaną scalone wybrane
-      rekordy. Wszystkie wybrane rekordy zostaną usunięte, a powiązane z nimi
-      rekordy zostaną ponownie powiązane z tym zasobem.
     paste: Wklej
     remove: Usunąć
     new_prefix: Nowy
-    suppress_confirm_message: >-
-      Chociaż ukryty rekord pozostanie w bazie danych, będzie niewidoczny dla
-      większości użytkowników i niedostępny dla większości funkcji.
+    suppress_confirm_message: Chociaż ukryty rekord pozostanie w bazie danych, 
+      będzie niewidoczny dla większości użytkowników i niedostępny dla 
+      większości funkcji.
     toggle_dropdown_menu: Przełącz menu rozwijane
     transfer: Przenosić
     transfer_confirm_title: Czy chcesz przenieść ten rekord?
-    transfer_confirm_message: >-
-      Rekord '%{target}' zostanie przeniesiony do wybranego przez Ciebie
-      repozytorium.
-    transfer_successful: >-
-      Transfer zakończony pomyślnie.  Wyświetlenie rekordów w docelowym
-      repozytorium może potrwać chwilę ze względu na proces ponownego
+    transfer_confirm_message: Rekord '%{target}' zostanie przeniesiony do 
+      wybranego przez Ciebie repozytorium.
+    transfer_successful: Transfer zakończony pomyślnie.  Wyświetlenie rekordów w
+      docelowym repozytorium może potrwać chwilę ze względu na proces ponownego 
       indeksowania.
     transfer_failed: Transfer nie powiódł się
-    transfer_failed_records_using_digital_objects: >-
-      Poniższe rekordy są powiązane z obiektami cyfrowymi, które miałyby zostać
-      przeniesione, ale ich przeniesienie spowodowałoby zerwanie istniejących
-      powiązań.
-    transfer_failed_digital_objects_linked_to_records: >-
-      Ten obiekt cyfrowy jest powiązany z innymi rekordami przechowywanymi w tym
-      repozytorium. Aby kontynuować transfer, należy usunąć powiązania w
-      następujących rekordach.
-    transfer_failed_top_containers_in_use: >-
-      Poniższe główne kontenery są powiązane z innymi rekordami najwyższego
-      poziomu w tym repozytorium i nie mogą zostać przeniesione, dopóki te
-      powiązania nie zostaną zerwane.
+    transfer_failed_records_using_digital_objects: Poniższe rekordy są powiązane
+      z obiektami cyfrowymi, które miałyby zostać przeniesione, ale ich 
+      przeniesienie spowodowałoby zerwanie istniejących powiązań.
+    transfer_failed_digital_objects_linked_to_records: Ten obiekt cyfrowy jest 
+      powiązany z innymi rekordami przechowywanymi w tym repozytorium. Aby 
+      kontynuować transfer, należy usunąć powiązania w następujących rekordach.
+    transfer_failed_top_containers_in_use: Poniższe główne kontenery są 
+      powiązane z innymi rekordami najwyższego poziomu w tym repozytorium i nie 
+      mogą zostać przeniesione, dopóki te powiązania nie zostaną zerwane.
     merge_n_records: Połącz %{n} rekordów
     move: Przenosić
     save_prefix: Zachowaj
-    transfer_failed_barcodes_in_use: >-
-      Następujące kontenery najwyższego poziomu wykorzystują kody kreskowe
-      używane w docelowym repozytorium i nie mogą zostać przeniesione, dopóki te
-      konflikty nie zostaną rozwiązane.
+    transfer_failed_barcodes_in_use: Następujące kontenery najwyższego poziomu 
+      wykorzystują kody kreskowe używane w docelowym repozytorium i nie mogą 
+      zostać przeniesione, dopóki te konflikty nie zostaną rozwiązane.
     unsuppress: Przywróć
     unsuppress_confirm_title: Czy chcesz przywrócić ten rekord?
     unsuppress_confirm_message: fałsz
@@ -141,45 +132,41 @@ pl:
     move_down: W dół
     move_down_into: W dół do...
     unset_default: Usuń ustawienie domyślne
-    delete_confirm_message: >-
-      <p>Należy pamiętać, że <strong>tej czynności nie można
-      cofnąć</strong>.</p><p>Ta czynność spowoduje usunięcie rekordu z bazy
-      danych, w tym wszelkich powiązań z innymi rekordami.</p>
-    delete_repository_confirm_title: Czy na pewno chcesz usunąć to repozytorium? %{name}
-    delete_repository_confirm_message: >-
-      <p>Pamiętaj, że <strong>tej czynności nie można cofnąć</strong>.</p><p>Ta
-      operacja usunie <strong>repozytorium</strong> i wszystkie powiązane z nim
-      rekordy z bazy danych, w tym wszelkie odniesienia do innych
-      rekordów.</p><p>Aby kontynuować, wpisz poniżej
-      „%{repository}”:</p><p><input id='deleteRepoConfim'
-      data-confirm-answer='%{repository}'></input></p>
-    delete_multiple_confirm_message: >-
-      <p>Należy pamiętać, że <strong>tej czynności nie można
-      cofnąć</strong>.</p><p>Ta czynność spowoduje usunięcie tych rekordów z
+    delete_confirm_message: <p>Należy pamiętać, że <strong>tej czynności nie 
+      można cofnąć</strong>.</p><p>Ta czynność spowoduje usunięcie rekordu z 
       bazy danych, w tym wszelkich powiązań z innymi rekordami.</p>
+    delete_repository_confirm_title: Czy na pewno chcesz usunąć to repozytorium?
+      %{name}
+    delete_repository_confirm_message: <p>Pamiętaj, że <strong>tej czynności nie
+      można cofnąć</strong>.</p><p>Ta operacja usunie 
+      <strong>repozytorium</strong> i wszystkie powiązane z nim rekordy z bazy 
+      danych, w tym wszelkie odniesienia do innych rekordów.</p><p>Aby 
+      kontynuować, wpisz poniżej „%{repository}”:</p><p><input 
+      id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>
+    delete_multiple_confirm_message: <p>Należy pamiętać, że <strong>tej 
+      czynności nie można cofnąć</strong>.</p><p>Ta czynność spowoduje usunięcie
+      tych rekordów z bazy danych, w tym wszelkich powiązań z innymi 
+      rekordami.</p>
     reset: Zresetuj ustawienia domyślne
-    reset_confirm_message: >-
-      <p>Pamiętaj, że <strong>tej czynności nie można cofnąć</strong>.</p><p>Ta
-      czynność przywróci domyślne ustawienia aplikacji.</p>
-    merge_subject_confirm_message: >-
-      Wybrane rekordy zostaną połączone z rekordem '%{source}'. Wszystkie
-      wybrane rekordy zostaną usunięte, a powiązane z nimi rekordy zostaną
-      ponownie powiązane z tym rekordem.
+    reset_confirm_message: <p>Pamiętaj, że <strong>tej czynności nie można 
+      cofnąć</strong>.</p><p>Ta czynność przywróci domyślne ustawienia 
+      aplikacji.</p>
+    merge_subject_confirm_message: Wybrane rekordy zostaną połączone z rekordem 
+      '%{source}'. Wszystkie wybrane rekordy zostaną usunięte, a powiązane z 
+      nimi rekordy zostaną ponownie powiązane z tym rekordem.
     digital_object_template: Pobierz szablon obiektu cyfrowego
     loading: Załadunek...
     revert: Przywróć zmiany
     merge: Łączyć
-    toolbar_disabled_message: >-
-      Masz niezapisane zmiany – zapisz je lub przywróć poprzednią wersję, aby
-      uzyskać dostęp do paska narzędzi i drzewa rekordów.
+    toolbar_disabled_message: Masz niezapisane zmiany – zapisz je lub przywróć 
+      poprzednią wersję, aby uzyskać dostęp do paska narzędzi i drzewa rekordów.
     publish: Opublikuj wszystko
     publish_confirm_title: Publikować?
     unpublish: Cofnij publikację wszystkich elementów.
     unpublish_confirm_title: Cofnąć publikację?
-    unpublish_confirm_message: >-
-      <p>Wykonanie tej czynności spowoduje usunięcie publikacji tego rekordu,
-      wszystkich podrzędnych rekordów (dokumentów zewnętrznych, notatek itp.)
-      oraz wszystkich elementów w hierarchii.</p>
+    unpublish_confirm_message: <p>Wykonanie tej czynności spowoduje usunięcie 
+      publikacji tego rekordu, wszystkich podrzędnych rekordów (dokumentów 
+      zewnętrznych, notatek itp.) oraz wszystkich elementów w hierarchii.</p>
     publish_archival_object: Opublikuj wszystko
     publish_archival_object_confirm_title: Publikować?
     unpublish_archival_object: Cofnij publikację wszystkich elementów.
@@ -188,24 +175,23 @@ pl:
     drop_after: Spadek po
     drop_into: Upuść jako dziecko
     move_ordering_problem_message: Problem z kolejnością sortowania rekordów
-    reset_confirm_title: Przywrócić domyślne ustawienia aplikacji dla %{preftype}?
-    edit_multiple_confirm_message: <p>Ta funkcja umożliwi zbiorczą aktualizację wielu rekordów.</p>
+    reset_confirm_title: Przywrócić domyślne ustawienia aplikacji dla 
+      %{preftype}?
+    edit_multiple_confirm_message: <p>Ta funkcja umożliwi zbiorczą aktualizację 
+      wielu rekordów.</p>
     export_ead: Pobierz EAD
     finish_editing: Zamknij rekord
-    publish_confirm_message: >-
-      <p>Wykonanie tej czynności spowoduje opublikowanie tego rekordu,
-      wszystkich podrzędnych rekordów (dokumentów zewnętrznych, notatek itp.)
-      oraz wszystkich elementów w hierarchii.</p>
-    publish_archival_object_confirm_message: >-
-      <p>Wykonanie tej czynności spowoduje opublikowanie tego rekordu,
-      wszystkich podrzędnych rekordów (dokumentów zewnętrznych, notatek itp.)
-      oraz wszystkich elementów znajdujących się poniżej tego rekordu w
-      hierarchii.</p>
-    unpublish_archival_object_confirm_message: >-
-      <p>Wykonanie tej czynności spowoduje usunięcie publikacji tego rekordu,
-      wszystkich podrzędnych rekordów (dokumentów zewnętrznych, notatek itp.)
-      oraz wszystkich elementów znajdujących się poniżej tego rekordu w
-      hierarchii.</p>
+    publish_confirm_message: <p>Wykonanie tej czynności spowoduje opublikowanie 
+      tego rekordu, wszystkich podrzędnych rekordów (dokumentów zewnętrznych, 
+      notatek itp.) oraz wszystkich elementów w hierarchii.</p>
+    publish_archival_object_confirm_message: <p>Wykonanie tej czynności 
+      spowoduje opublikowanie tego rekordu, wszystkich podrzędnych rekordów 
+      (dokumentów zewnętrznych, notatek itp.) oraz wszystkich elementów 
+      znajdujących się poniżej tego rekordu w hierarchii.</p>
+    unpublish_archival_object_confirm_message: <p>Wykonanie tej czynności 
+      spowoduje usunięcie publikacji tego rekordu, wszystkich podrzędnych 
+      rekordów (dokumentów zewnętrznych, notatek itp.) oraz wszystkich elementów
+      znajdujących się poniżej tego rekordu w hierarchii.</p>
     view_published: Wyświetl opublikowane
     print_to_pdf: Wygeneruj plik PDF
     resource_to_pdf: Materiał do wydrukowania
@@ -220,7 +206,8 @@ pl:
     expand_tree_mode_off: Wyłącz automatyczne rozwijanie
     collapse_tree: Zwiń drzewo
     reorder_successful: Repozytoria zostały pomyślnie uporządkowane
-    form_changes_message: <small><span class='muted'>Masz niezapisane zmiany</span></small>
+    form_changes_message: <small><span class='muted'>Masz niezapisane 
+      zmiany</span></small>
     run: Uruchom
     select_resource: Wybierz zasób
   states:
@@ -235,7 +222,7 @@ pl:
     filtered_by: Filtrowane według
     title: Wyniki wyszukiwania
     context: Znaleziono w
-    select_record: Wybierz %{title}
+    select_record: "Wybierz %{title}"
     selected: Wybrany?
     no_results: Nie znaleziono żadnych rekordów.
     no_results_prefix: 'Nie znaleziono żadnych wyników wyszukiwania dla:'
@@ -246,20 +233,18 @@ pl:
     clear_all: Wyczyść wszystko
     component_switch: Pokaż komponenty
     help:
-      row_selection: >-
-        Kliknij wiersz, aby go zaznaczyć do operacji zbiorczych. Przytrzymaj
-        klawisz Alt podczas klikania pola wyboru, aby zaznaczyć lub odznaczyć
-        wiele poprzednich wierszy.
+      row_selection: Kliknij wiersz, aby go zaznaczyć do operacji zbiorczych. 
+        Przytrzymaj klawisz Alt podczas klikania pola wyboru, aby zaznaczyć lub 
+        odznaczyć wiele poprzednich wierszy.
     result_identifier: Identyfikator
     created: Stworzone przez
     actions: Działania
   database_warning:
-    message: >-
-      <p><strong>Ostrzeżenie dotyczące bazy danych:</strong> Obecnie używasz
-      wbudowanej bazy danych (Apache Derby). Wbudowana baza danych służy
+    message: <p><strong>Ostrzeżenie dotyczące bazy danych:</strong> Obecnie 
+      używasz wbudowanej bazy danych (Apache Derby). Wbudowana baza danych służy
       wyłącznie do celów testowych/demonstracyjnych. Do danych przeznaczonych do
-      użytku produkcyjnego należy używać bazy danych MySQL, dotyczy to również
-      danych w instancji testowej, które zamierzasz przenieść do instancji
+      użytku produkcyjnego należy używać bazy danych MySQL, dotyczy to również 
+      danych w instancji testowej, które zamierzasz przenieść do instancji 
       produkcyjnej.</p>
   export_options:
     include_unpublished: Uwzględnij niepublikowane materiały.
@@ -707,11 +692,12 @@ pl:
     staff_interface: Interfejs dla personelu ArchivesSpace
   footer:
     keyboard_shortcuts: Skróty klawiaturowe
-    public_interface_html: Zobacz <a href="%{public_url}">interfejs publiczny</a>
-    archivesspace_home_html: Odwiedź stronę <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: >-
-      <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Prześlij
-      opinię lub zgłoś problem</a>
+    public_interface_html: Zobacz <a href="%{public_url}">interfejs 
+      publiczny</a>
+    archivesspace_home_html: Odwiedź stronę <a 
+      href='http://archivesspace.org'>ArchivesSpace.org</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
+      target='_blank'>Prześlij opinię lub zgłoś problem</a>
   login:
     login: Zalogować się
     username_placeholder: Nazwa użytkownika
@@ -728,28 +714,23 @@ pl:
     password_placeholder: Hasło
     confirm_password: Potwierdź hasło
     lost_password: Nie pamiętasz hasła?
-    reset_form_instructions: >-
-      Wprowadź adres e-mail powiązany z Twoim kontem użytkownika. Jeśli konto o
-      podanym adresie e-mail istnieje, na ten adres zostanie wysłany link do
-      zresetowania hasła.
-    new_password_instructions: >-
-      Utwórz nowe hasło dla użytkownika %{user} za pomocą formularza, a
-      następnie zaloguj się ponownie.
+    reset_form_instructions: Wprowadź adres e-mail powiązany z Twoim kontem 
+      użytkownika. Jeśli konto o podanym adresie e-mail istnieje, na ten adres 
+      zostanie wysłany link do zresetowania hasła.
+    new_password_instructions: Utwórz nowe hasło dla użytkownika %{user} za 
+      pomocą formularza, a następnie zaloguj się ponownie.
     password_mismatch_error: Hasła nie pasują do siebie.
     password_update_success: Hasło zostało pomyślnie zaktualizowane.
-    password_update_error: >-
-      Nie udało się zaktualizować hasła. Spróbuj ponownie lub skontaktuj się z
-      administratorem.
-    password_too_simple: >-
-      To hasło jest zbyt łatwe do odgadnięcia. Spróbuj dodać więcej słów lub
-      użyj generatora losowych haseł.
+    password_update_error: Nie udało się zaktualizować hasła. Spróbuj ponownie 
+      lub skontaktuj się z administratorem.
+    password_too_simple: To hasło jest zbyt łatwe do odgadnięcia. Spróbuj dodać 
+      więcej słów lub użyj generatora losowych haseł.
   linker:
     create_and_link: Utwórz i połącz
     link: Link
     hint_text: Wpisz tekst, aby wyszukać dostępne rekordy...
     placeholder: Wpisz tekst, aby wyszukać dostępne rekordy...
-    no_results: >-
-      Nie znaleziono pasujących wyników. Spróbuj skorzystać z opcji
+    no_results: Nie znaleziono pasujących wyników. Spróbuj skorzystać z opcji 
       „Przeglądaj”.
     searching: Szukanie...
     delete: '&times;'
@@ -794,7 +775,8 @@ pl:
         relation_information: Informacje o związku
         name: Formularze nazw
         search_embedded: Powiązane rekordy
-        linked_via_rights_statement: Powiązane rekordy za pośrednictwem oświadczenia o prawach
+        linked_via_rights_statement: Powiązane rekordy za pośrednictwem 
+          oświadczenia o prawach
         events: Wydarzenia
         structured_date_single_fields: Pojedyncza randka
         structured_date_range_fields: Data zakresu
@@ -805,9 +787,8 @@ pl:
         created: Utworzono agenta
         updated: Agent zapisany
         deleted: Agent usunięty
-        published: >-
-          Agent <strong>%{agent_title}</strong>, jego podrekordów i komponentów
-          zostały opublikowane
+        published: Agent <strong>%{agent_title}</strong>, jego podrekordów i 
+          komponentów zostały opublikowane
         delete_conflict: 'Nie można usunąć agenta: <pre>%{error}</pre>'
         merge_description: Wybierz agenta, z którym chcesz się połączyć
         merged: Połączono agentów
@@ -823,62 +804,56 @@ pl:
   archival_object:
     _frontend:
       messages:
-        updated: >-
-          Obiekt archiwalny <strong>%{archival_object_display_string}</strong>
-          został zaktualizowany.
+        updated: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> został 
+          zaktualizowany.
         delete_conflict: 'Nie udało się usunąć obiektu archiwalnego: <pre>%{error}</pre>'
-        spawned: >-
-          Ten obiekt archiwalny został utworzony na podstawie wpisu
-          <strong>%{accession_display_string}</strong>. Ten rekord nie został
-          jeszcze zapisany. Aby utworzyć rekord w systemie, należy kliknąć
+        spawned: Ten obiekt archiwalny został utworzony na podstawie wpisu 
+          <strong>%{accession_display_string}</strong>. Ten rekord nie został 
+          jeszcze zapisany. Aby utworzyć rekord w systemie, należy kliknąć 
           przycisk Zapisz.
-        spawn_placeholder: <em>Wygenerowany komponent zostanie wstawiony w tym miejscu</em>
+        spawn_placeholder: <em>Wygenerowany komponent zostanie wstawiony w tym 
+          miejscu</em>
         spawn_menu_before: Wstaw wygenerowany komponent przed
         spawn_menu_child: Wstaw wygenerowany komponent jako element podrzędny.
         spawn_menu_after: Wstaw wygenerowany komponent po
-        created: >-
-          Obiekt archiwalny <strong>%{archival_object_display_string}</strong> w
-          zasobie <strong>%{resource_title}</strong> został utworzony
-        duplicated: >-
-          Obiekt archiwalny zduplikowany z
+        created: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> w zasobie 
+          <strong>%{resource_title}</strong> został utworzony
+        duplicated: Obiekt archiwalny zduplikowany z 
           <strong>%{archival_object_display_string}</strong>
-        created_with_parent: >-
-          Obiekt archiwalny <strong>%{archival_object_display_string}</strong>
-          został utworzony jako element podrzędny
-          <strong>%{parent_display_string}</strong> w zasobie
-          <strong>%{resource_title}</strong>
-        updated_with_parent: >-
-          Obiekt archiwalny <strong>%{archival_object_display_string}</strong>
-          został zaktualizowany
-        transfer_description: Wybierz zasób, do którego chcesz przenieść ten obiekt archiwalny
+        created_with_parent: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> został utworzony 
+          jako element podrzędny <strong>%{parent_display_string}</strong> w 
+          zasobie <strong>%{resource_title}</strong>
+        updated_with_parent: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> został 
+          zaktualizowany
+        transfer_description: Wybierz zasób, do którego chcesz przenieść ten 
+          obiekt archiwalny
         please_select_a_resource_for_transfer: Wybierz zasób
-        transfer_confirm_message: Rekord '%{ao}' zostanie przeniesiony do wybranego zasobu
-        transfer_confirm_message_with_resource: Rekord '%{ao}' zostanie przeniesiony do zasobu '%{resource}'
-        transfer_success: >-
-          Pomyślnie przeniesiono obiekt archiwalny
-          <strong>%{archival_object_display_string}</strong> do zasobu
+        transfer_confirm_message: "Rekord '%{ao}' zostanie przeniesiony do wybranego zasobu"
+        transfer_confirm_message_with_resource: "Rekord '%{ao}' zostanie przeniesiony do zasobu '%{resource}'"
+        transfer_success: Pomyślnie przeniesiono obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> do zasobu 
           <strong>%{resource_title}</strong>
-        transfer_error: >-
-          Nie można przenieść obiektu archiwalnego z powodu błędu lub konfliktu:
-          <pre>%{exception}</pre>
-        deleted: >-
-          Obiekt archiwalny <strong>%{archival_object_display_string}</strong>
-          został usunięty
-        published: >-
-          Obiekt archiwalny <strong>%{archival_object_title}</strong>, jego
-          elementy podrzędne, podrekordy i komponenty zostały opublikowane
-        unpublished: >-
-          Obiekt archiwalny <strong>%{archival_object_title}</strong>, jego
-          elementy podrzędne, podrekordy i komponenty zostały wycofane z
-          publikacji
-        unsuppressed: >-
-          Obiekt archiwalny <strong>%{archival_object_title}</strong> nie został
-          wyłączony
-        suppressed: >-
-          Obiekt archiwalny <strong>%{archival_object_title}</strong> został
-          pominięty
-        suppressed_info: Obiekt archiwalny jest wyłączony i nie można go edytować
-        has_unpublished_ancestor: Należy pamiętać, że ten rekord ma nieopublikowanego przodka.
+        transfer_error: 'Nie można przenieść obiektu archiwalnego z powodu błędu lub
+          konfliktu: <pre>%{exception}</pre>'
+        deleted: Obiekt archiwalny 
+          <strong>%{archival_object_display_string}</strong> został usunięty
+        published: Obiekt archiwalny <strong>%{archival_object_title}</strong>, 
+          jego elementy podrzędne, podrekordy i komponenty zostały opublikowane
+        unpublished: Obiekt archiwalny 
+          <strong>%{archival_object_title}</strong>, jego elementy podrzędne, 
+          podrekordy i komponenty zostały wycofane z publikacji
+        unsuppressed: Obiekt archiwalny 
+          <strong>%{archival_object_title}</strong> nie został wyłączony
+        suppressed: Obiekt archiwalny <strong>%{archival_object_title}</strong> 
+          został pominięty
+        suppressed_info: Obiekt archiwalny jest wyłączony i nie można go 
+          edytować
+        has_unpublished_ancestor: Należy pamiętać, że ten rekord ma 
+          nieopublikowanego przodka.
       section:
         basic_information: Podstawowe informacje
       tree:
@@ -894,7 +869,8 @@ pl:
         select_resource: Wybierz Zasób
         leave_parent_empty: Zamknij / Nie przypisuj rodzica
     external_ark_url: Zewnętrzny adres URL ARK
-    external_ark_url_tooltip: Zewnętrzne narzędzie do wyświetlania podpowiedzi URL ARK
+    external_ark_url_tooltip: Zewnętrzne narzędzie do wyświetlania podpowiedzi 
+      URL ARK
     new_title: Nowy obiekt archiwalny
   classification:
     _frontend:
@@ -902,14 +878,11 @@ pl:
         basic_information: Podstawowe informacje
         search_embedded: Powiązane rekordy
       messages:
-        deleted: >-
-          Klasyfikacja <strong>%{classification_title}</strong> została
+        deleted: Klasyfikacja <strong>%{classification_title}</strong> została 
           usunięta.
-        created: >-
-          Klasyfikacja <strong>%{classification_title}</strong> została
+        created: Klasyfikacja <strong>%{classification_title}</strong> została 
           utworzona
-        updated: >-
-          Klasyfikacja <strong>%{classification_title}</strong> została
+        updated: Klasyfikacja <strong>%{classification_title}</strong> została 
           zaktualizowana
       action:
         add: Dodaj klasyfikację
@@ -922,21 +895,16 @@ pl:
         basic_information: Podstawowe informacje
         search_embedded: Powiązane rekordy
       messages:
-        updated_with_parent: >-
-          Termin klasyfikacji <strong>%{classification_term_title}</strong>
-          został zaktualizowany.
-        updated: >-
-          Termin klasyfikacji <strong>%{classification_term_title}</strong>
-          został zaktualizowany.
-        created_with_parent: >-
-          Termin klasyfikacji <strong>%{classification_term_title}</strong>
-          został zaktualizowany.
-        created: >-
-          Termin klasyfikacji <strong>%{classification_term_title}</strong>
-          został zaktualizowany.
-        deleted: >-
-          Termin klasyfikacyjny <strong>%{classification_term_title}</strong>
-          został usunięty.
+        updated_with_parent: Termin klasyfikacji 
+          <strong>%{classification_term_title}</strong> został zaktualizowany.
+        updated: Termin klasyfikacji 
+          <strong>%{classification_term_title}</strong> został zaktualizowany.
+        created_with_parent: Termin klasyfikacji 
+          <strong>%{classification_term_title}</strong> został zaktualizowany.
+        created: Termin klasyfikacji 
+          <strong>%{classification_term_title}</strong> został zaktualizowany.
+        deleted: Termin klasyfikacyjny 
+          <strong>%{classification_term_title}</strong> został usunięty.
       action:
         add_child: Dodaj dziecko
         save: Zapisz termin klasyfikacji
@@ -949,20 +917,17 @@ pl:
         basic_information: Podstawowe informacje
       messages:
         transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane.
-        spawned: >-
-          Ten wpis został utworzony na podstawie wpisu
-          <strong>%{accession_display_string}</strong>. Ten rekord nie został
-          jeszcze zapisany. Aby utworzyć rekord w systemie, należy kliknąć
+        spawned: Ten wpis został utworzony na podstawie wpisu 
+          <strong>%{accession_display_string}</strong>. Ten rekord nie został 
+          jeszcze zapisany. Aby utworzyć rekord w systemie, należy kliknąć 
           przycisk Zapisz.
         delete_conflict: 'Nie udało się usunąć wpisu: <pre>%{error}</pre>'
         created: Utworzono <strong>%{accession_display_string}</strong>
-        unsuppressed: >-
-          Akcesja <strong>%{accession_display_string}</strong> nie została
-          wstrzymana
+        unsuppressed: Akcesja <strong>%{accession_display_string}</strong> nie 
+          została wstrzymana
         updated: Zaktualizowano <strong>%{accession_display_string}</strong>
-        suppressed: >-
-          Przystąpienie <strong>%{accession_display_string}</strong> zostało
-          pominięte
+        suppressed: Przystąpienie <strong>%{accession_display_string}</strong> 
+          zostało pominięte
         suppressed_info: Akcesja jest usunięta i nie można jej edytować
         deleted: Usunięto <strong>%{accession_display_string}</strong>
         transfer_description: Przenieś tę akcesję do...
@@ -981,9 +946,11 @@ pl:
     eac_title: Zaimportuj plik EAC.
     ead_title: Importuj plik EAD
     marcxml_title: Zaimportuj plik MARCXML
-    marcxml_subjects_and_agents_title: Importuj podmioty i agentów z pliku MARCXML.
+    marcxml_subjects_and_agents_title: Importuj podmioty i agentów z pliku 
+      MARCXML.
     accession_csv_title: Importowanie rekordów dostępu z pliku CSV.
-    digital_object_csv_title: Importowanie cyfrowych rekordów obiektów z pliku CSV.
+    digital_object_csv_title: Importowanie cyfrowych rekordów obiektów z pliku 
+      CSV.
     import_report: Raport z importu
     import_another: Zaimportuj inny plik
     file_select: Wybierz plik do przesłania.
@@ -1004,7 +971,8 @@ pl:
       subject: Domyślne ustawienia rekordu tematu
       agent_person: Domyślne ustawienia rekordu agenta (osoba)
       agent_family: Domyślne ustawienia rekordu agenta (rodzina)
-      agent_corporate_entity: Domyślne ustawienia rekordu agenta (podmiot korporacyjny)
+      agent_corporate_entity: Domyślne ustawienia rekordu agenta (podmiot 
+        korporacyjny)
       agent_software: Domyślne ustawienia rekordów agenta (oprogramowanie)
       digital_object_component: Domyślne ustawienia komponentu obiektu cyfrowego
       location: Domyślne ustawienia rekordu lokalizacji
@@ -1019,41 +987,44 @@ pl:
     form_title:
       agent_person: Wymagane pola w rekordzie agenta (osoba)
       agent_family: Wymagane pola w rekordzie agenta (rodzina)
-      agent_corporate_entity: Wymagane pola w rekordzie agenta (podmiot korporacyjny)
+      agent_corporate_entity: Wymagane pola w rekordzie agenta (podmiot 
+        korporacyjny)
       agent_software: Wymagane pola rekordu agenta (oprogramowanie)
   tree:
     drag_and_drop_actions:
       after: Dodaj elementy po
       before: Dodaj elementy przed
       as_child: Dodaj elementy jako dzieci
-    unexpected_failure: >-
-      Ups! Wystąpił problem z wczytywaniem tego drzewa. Spróbuj odświeżyć
-      stronę.
+    unexpected_failure: Ups! Wystąpił problem z wczytywaniem tego drzewa. 
+      Spróbuj odświeżyć stronę.
     resize: Przeciągnij, aby zmienić wysokość drzewa.
     maximize: Maksymalizacja/minimalizacja wysokości drzewa.
   errors:
     sidebar_label: Błędy i ostrzeżenia
     error_403: Nie można uzyskać dostępu do strony.
-    error_403_message: >-
-      Strona, do której próbujesz uzyskać dostęp, mogła zostać usunięta lub nie
-      masz uprawnień do jej przeglądania.
-    error_404_message: >-
-      Rekord, do którego próbujesz uzyskać dostęp, mógł zostać usunięty lub nie
-      masz uprawnień do jego przeglądania.
+    error_403_message: Strona, do której próbujesz uzyskać dostęp, mogła zostać 
+      usunięta lub nie masz uprawnień do jej przeglądania.
+    error_404_message: Rekord, do którego próbujesz uzyskać dostęp, mógł zostać 
+      usunięty lub nie masz uprawnień do jego przeglądania.
     error_tree_pane_ajax: Wystąpił błąd podczas ładowania formularza.
     merge_conflict: 'Proces łączenia danych nie powiódł się: %{message}'
-    merge_too_many_merge_candidates: Do tego połączenia można wybrać tylko jednego agenta.
-    merge_different_types: Agenci wybrani do połączenia muszą być tego samego typu.
-    merge_denied_for_system_user: Jeden lub więcej agentów to użytkownicy systemu.
-    merge_denied_relationship: >-
-      Ci agenci są ze sobą powiązani. Usuń powiązanie przed kontynuowaniem
-      procesu łączenia.
-    merge_restricted_contact_details: >-
-      Połączenie nie może zostać zakończone, ponieważ co najmniej jeden z
-      agentów posiada dane kontaktowe, do których nie masz dostępu.
-    linked_to_assessment: Nie można usunąć tego rekordu, ponieważ jest on powiązany z oceną.
-    linked_to_user: Nie można usunąć rekordu, ponieważ jest on powiązany z użytkownikiem.
-    cannot_delete_repository_agent: Ten agent jest powiązany z repozytorium i nie można go usunąć.
+    merge_too_many_merge_candidates: Do tego połączenia można wybrać tylko 
+      jednego agenta.
+    merge_different_types: Agenci wybrani do połączenia muszą być tego samego 
+      typu.
+    merge_denied_for_system_user: Jeden lub więcej agentów to użytkownicy 
+      systemu.
+    merge_denied_relationship: Ci agenci są ze sobą powiązani. Usuń powiązanie 
+      przed kontynuowaniem procesu łączenia.
+    merge_restricted_contact_details: Połączenie nie może zostać zakończone, 
+      ponieważ co najmniej jeden z agentów posiada dane kontaktowe, do których 
+      nie masz dostępu.
+    linked_to_assessment: Nie można usunąć tego rekordu, ponieważ jest on 
+      powiązany z oceną.
+    linked_to_user: Nie można usunąć rekordu, ponieważ jest on powiązany z 
+      użytkownikiem.
+    cannot_delete_repository_agent: Ten agent jest powiązany z repozytorium i 
+      nie można go usunąć.
     error_404: Nie znaleziono rekordu
   component_link:
     _plural: Linki do komponentów
@@ -1089,12 +1060,12 @@ pl:
         merge_error: Nie udało się połączyć wartości.
         name_selector_tooltip: |
           <p>Lista wartości, które mają zostać zmodyfikowane.</p>
-        no_name_provided: Przed utworzeniem nowej wartości należy wybrać listę wartości.
+        no_name_provided: Przed utworzeniem nowej wartości należy wybrać listę 
+          wartości.
         one_related_item: 1 powiązany element.
         delete_error: Nie udało się usunąć wartości.
-        delete_conflict: >-
-          Nie można usunąć wartości, ponieważ jest ona obecnie używana przez
-          inny rekord.
+        delete_conflict: Nie można usunąć wartości, ponieważ jest ona obecnie 
+          używana przez inny rekord.
         default_set: Ustawiono wartość domyślną.
         created: Value Created
         merged: Scalona wartość
@@ -1136,26 +1107,24 @@ pl:
     _frontend:
       action:
         add: Dodaj wersję pliku
-        make_representative_tooltip: >-
-          Służy do wskazania, że ten obraz powinien być wyświetlany, gdy z danym
-          rekordem powiązanych jest wiele wersji pliku.
+        make_representative_tooltip: Służy do wskazania, że ten obraz powinien 
+          być wyświetlany, gdy z danym rekordem powiązanych jest wiele wersji 
+          pliku.
         make_representative: Wyznacz przedstawiciela
   location_batch:
     _frontend:
       messages:
-        location_batch_update_info: Proszę wprowadzić wartości, które mają zostać zastosowane.
-        location_batch_info: >-
-          Zdefiniuj wartości bazowe, które zostaną zastosowane do wszystkich
-          lokalizacji wygenerowanych na podstawie poniższych <strong>zakresów
-          współrzędnych</strong>.
-        ranges_info: >-
-          Należy pamiętać, że wszelkie współrzędne wprowadzone w polu
-          <strong>Lokalizacja bazowa</strong> zostaną zastąpione wartościami
-          wygenerowanymi na podstawie poniższych zakresów. Zostanie utworzonych
+        location_batch_update_info: Proszę wprowadzić wartości, które mają 
+          zostać zastosowane.
+        location_batch_info: Zdefiniuj wartości bazowe, które zostaną 
+          zastosowane do wszystkich lokalizacji wygenerowanych na podstawie 
+          poniższych <strong>zakresów współrzędnych</strong>.
+        ranges_info: Należy pamiętać, że wszelkie współrzędne wprowadzone w polu
+          <strong>Lokalizacja bazowa</strong> zostaną zastąpione wartościami 
+          wygenerowanymi na podstawie poniższych zakresów. Zostanie utworzonych 
           maksymalnie %{max_range} lokalizacji.
-        warning: >-
-          W zależności od wielkości zakresów danych, ten proces może potrwać
-          kilka minut.
+        warning: W zależności od wielkości zakresów danych, ten proces może 
+          potrwać kilka minut.
         created: <strong>%{number_created} lokalizacji</strong> utworzono
         updated: <strong>%{number_created} Lokalizacje</strong> zaktualizowane
         number_to_create: Liczba lokalizacji
@@ -1180,14 +1149,14 @@ pl:
         function_subject: Funkcja Temat
         occupation_subject: Zawód Przedmiot
       action:
-        make_display_name_tooltip: >-
-          Użyj tej opcji, aby wskazać, że ta forma imienia powinna być używana
-          do wyświetlania, gdy w rekordzie agenta występuje wiele form imienia.
+        make_display_name_tooltip: Użyj tej opcji, aby wskazać, że ta forma 
+          imienia powinna być używana do wyświetlania, gdy w rekordzie agenta 
+          występuje wiele form imienia.
         add: Dodaj formularz nazwy
         make_authorized: Utwórz autoryzowaną nazwę
-        make_authorized_tooltip: >-
-          Użyj tego symbolu, aby wskazać, że forma nazwy jest wersją nazwy
-          zatwierdzoną przez wiarygodne źródła, takie jak LCNAF.
+        make_authorized_tooltip: Użyj tego symbolu, aby wskazać, że forma nazwy 
+          jest wersją nazwy zatwierdzoną przez wiarygodne źródła, takie jak 
+          LCNAF.
         make_display_name: Utwórz nazwę wyświetlaną
         make_primary: Ustaw jako podstawowy
         make_primary_tooltip: Utwórz podpowiedź podstawową
@@ -1213,37 +1182,30 @@ pl:
   digital_object_component:
     _frontend:
       messages:
-        deleted: >-
-          Składnik obiektu cyfrowego
-          <strong>%{digital_object_component_display_string}</strong> został
+        deleted: Składnik obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> został 
           usunięty.
-        unsuppressed: >-
-          Komponent obiektu cyfrowego
-          <strong>%{digital_object_component_display_string}</strong> został
+        unsuppressed: Komponent obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> został 
           przywrócony.
-        updated: >-
-          Składnik obiektu cyfrowego
-          <strong>%{digital_object_component_display_string}</strong> został
+        updated: Składnik obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> został 
           zaktualizowany.
-        suppressed_info: Komponent obiektu cyfrowego jest zablokowany i nie można go edytować.
-        has_unpublished_ancestor: >-
-          Należy pamiętać, że ten rekord ma przodka, który nie został jeszcze
-          opublikowany.
-        created_with_parent: >-
-          Komponent obiektu cyfrowego
-          <strong>%{digital_object_component_display_string}</strong> utworzony
-          jako element podrzędny <strong>%{parent_display_string}</strong> w
+        suppressed_info: Komponent obiektu cyfrowego jest zablokowany i nie 
+          można go edytować.
+        has_unpublished_ancestor: Należy pamiętać, że ten rekord ma przodka, 
+          który nie został jeszcze opublikowany.
+        created_with_parent: Komponent obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> utworzony 
+          jako element podrzędny <strong>%{parent_display_string}</strong> w 
           obiekcie cyfrowym <strong>%{digital_object_title}</strong>
-        created: >-
-          Komponent obiektu cyfrowego
-          <strong>%{digital_object_component_display_string}</strong> utworzony
+        created: Komponent obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> utworzony 
           w obiekcie cyfrowym <strong>%{digital_object_title}</strong>
-        updated_with_parent: >-
-          Zaktualizowano komponent obiektu cyfrowego
+        updated_with_parent: Zaktualizowano komponent obiektu cyfrowego 
           <strong>%{digital_object_component_display_string}</strong>
-        suppressed: >-
-          Komponent obiektu cyfrowego
-          <strong>%{digital_object_component_display_string}</strong> został
+        suppressed: Komponent obiektu cyfrowego 
+          <strong>%{digital_object_component_display_string}</strong> został 
           pominięty
       section:
         basic_information: Podstawowe informacje
@@ -1277,11 +1239,8 @@ pl:
       action:
         make_primary: Ustaw jako główny
         add: Dodaj łącze agenta
-        make_primary_tooltip: >
-          <p>Użyj tego, aby wskazać, który agent powiązany z rekordem jest
-          agentem głównym. Tylko jeden powiązany agent może być oznaczony jako
-          główny.</p>
-
+        make_primary_tooltip: |
+          <p>Użyj tego, aby wskazać, który agent powiązany z rekordem jest agentem głównym. Tylko jeden powiązany agent może być oznaczony jako główny.</p>
           <p>W eksporcie MARCXML agentem głównym będzie wartość 1XX.</p> 
   linked_record:
     _frontend:
@@ -1304,15 +1263,15 @@ pl:
         batch_edit: Edytuj lokalizacje partii
         save: Zapisz lokalizację
         single: Jedna lokalizacja
-        delete_confirm_message: >-
-          <p>Pamiętaj, że <strong>tej czynności nie można
-          cofnąć.</strong></p><p> Jeśli ta lokalizacja jest obecnie powiązana z
+        delete_confirm_message: <p>Pamiętaj, że <strong>tej czynności nie można 
+          cofnąć.</strong></p><p> Jeśli ta lokalizacja jest obecnie powiązana z 
           jednym lub wieloma innymi elementami, nie można jej usunąć.</p>
         show_space_calculator: Znajdź za pomocą kalkulatora przestrzeni
   note:
     _frontend:
       preview:
-        parsed_title: W jaki sposób notatka zostanie wyświetlona w aplikacji publicznej?
+        parsed_title: W jaki sposób notatka zostanie wyświetlona w aplikacji 
+          publicznej?
         raw: Podgląd surowy
         raw_title: Surowa treść notatki
       action:
@@ -1321,15 +1280,15 @@ pl:
   repository:
     _frontend:
       messages:
-        create_first_repository: >-
-          Aby utworzyć pierwsze repozytorium, kliknij menu
-          <strong>System</strong> powyżej, a następnie <strong>Zarządzaj
+        create_first_repository: Aby utworzyć pierwsze repozytorium, kliknij 
+          menu <strong>System</strong> powyżej, a następnie <strong>Zarządzaj 
           repozytoriami</strong>.
-        no_access_to_repositories: >-
-          <p>Nie masz dostępu do żadnych repozytoriów.</p><p>Skontaktuj się z
-          administratorem systemu, aby uzyskać dostęp.</p>
+        no_access_to_repositories: <p>Nie masz dostępu do żadnych 
+          repozytoriów.</p><p>Skontaktuj się z administratorem systemu, aby 
+          uzyskać dostęp.</p>
         continue_with_transfer: Kontynuować transfer?
-        transfer_failed: 'Transferu nie udało się zakończyć z powodu następujących błędów:'
+        transfer_failed: 'Transferu nie udało się zakończyć z powodu następujących
+          błędów:'
         transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane.
         cannot_delete_nonempty: Nie można usunąć – repozytorium nie jest puste.
       section:
@@ -1344,33 +1303,30 @@ pl:
       oai_settings:
         _plural: Ustawienia zbiorów OAI
   resource:
-    external_ark_url_tooltip: >-
-      Trwały identyfikator Archival Resource Key (ARK) wygenerowany poza
-      systemem ArchivesSpace. Jeśli to pole zawiera wartość, ma ona
-      pierwszeństwo przed identyfikatorem ARK wygenerowanym w systemie
+    external_ark_url_tooltip: Trwały identyfikator Archival Resource Key (ARK) 
+      wygenerowany poza systemem ArchivesSpace. Jeśli to pole zawiera wartość, 
+      ma ona pierwszeństwo przed identyfikatorem ARK wygenerowanym w systemie 
       ArchivesSpace.
     _frontend:
       messages:
         created: Zasób <strong>%{resource_title}</strong> został utworzony
         updated: Zasób <strong>%{resource_title}</strong> zaktualizowano
-        spawned: >-
-          Nowy zasób został utworzony z akcesji
-          <strong>%{accession_display_string}</strong>. Ten rekord nie został
-          zapisany. Aby utworzyć rekord w systemie, należy kliknąć przycisk
+        spawned: Nowy zasób został utworzony z akcesji 
+          <strong>%{accession_display_string}</strong>. Ten rekord nie został 
+          zapisany. Aby utworzyć rekord w systemie, należy kliknąć przycisk 
           „Zapisz”.
         deleted: Zasób <strong>%{resource_title}</strong> został usunięty
-        published: >-
-          Zasób <strong>%{resource_title}</strong>, jego podrekordów i
+        published: Zasób <strong>%{resource_title}</strong>, jego podrekordów i 
           komponentów zostały opublikowane
-        unpublished: >-
-          Zasób <strong>%{resource_title}</strong>, jego elementy podrzędne,
-          podrekordów i komponentów zostały wycofane z publikacji
+        unpublished: Zasób <strong>%{resource_title}</strong>, jego elementy 
+          podrzędne, podrekordów i komponentów zostały wycofane z publikacji
         merge_description: Wybierz zasoby poniżej, aby je połączyć
         please_select_a_resource_to_merge: Wybierz zasób
         merged: Połączono zasoby
         transfer_description: Przenieś ten zasób do...
         transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane
-        unsuppressed: Zasób <strong>%{resource_title}</strong> nie został wstrzymany
+        unsuppressed: Zasób <strong>%{resource_title}</strong> nie został 
+          wstrzymany
         suppressed: Zasób <strong>%{resource_title}</strong> został wyłączony
         suppressed_info: Zasób jest zablokowany i nie można go edytować
         delete_conflict: 'Nie można usunąć zasobu: <pre>%{error}</pre>'
@@ -1393,26 +1349,23 @@ pl:
       messages:
         reset: Ustawienia przywrócono do wartości domyślnych aplikacji.
         reset_error: 'Nie udało się zresetować ustawień z powodu błędu: %{exception}'
-        no_access_to_preferences: >-
-          Aby móc zarządzać preferencjami, musisz utworzyć co najmniej jedno
-          repozytorium.
+        no_access_to_preferences: Aby móc zarządzać preferencjami, musisz 
+          utworzyć co najmniej jedno repozytorium.
         updated: Preferencje zaktualizowane
       action:
         save: Zapisz preferencje
   user:
     _frontend:
       messages:
-        group_not_required: >-
-          Użytkownik jest administratorem lub użytkownikiem systemowym, wybór
-          grupy nie jest wymagany.
+        group_not_required: Użytkownik jest administratorem lub użytkownikiem 
+          systemowym, wybór grupy nie jest wymagany.
         activated: Użytkownika aktywowane
         deactivated: Konto dezaktywowane
-        password_reset_email_sent: >-
-          Jeśli istnieje konto powiązane z adresem e-mail %{email}, zostanie
-          wysłana wiadomość e-mail z instrukcjami dotyczącymi resetowania hasła.
-        access_denied: >-
-          Dostęp zabroniony. Zaloguj się jako administrator, aby wykonać tę
-          czynność.
+        password_reset_email_sent: Jeśli istnieje konto powiązane z adresem 
+          e-mail %{email}, zostanie wysłana wiadomość e-mail z instrukcjami 
+          dotyczącymi resetowania hasła.
+        access_denied: Dostęp zabroniony. Zaloguj się jako administrator, aby 
+          wykonać tę czynność.
         created: Utworzono użytkownika
         updated: Użytkownik zapisany
         deleted: Użytkownik usunięty
@@ -1420,13 +1373,12 @@ pl:
         error_create: Użytkownik nie został utworzony
         error_activate: Użytkownik nie został aktywowany
         error_deactivate: Użytkownik nie został dezaktywowany
-        error_not_found: >-
-          Nie znaleziono konta użytkownika %{email}. Skontaktuj się z
-          administratorem, aby uzyskać pomoc.
-        password_reset_not_allowed: >-
-          Odzyskiwanie hasła jest niedozwolone. Skontaktuj się z
-          administratorem.
-        password_reset_fail: Odzyskiwanie hasła nie powiodło się. Skontaktuj się z administratorem.
+        error_not_found: Nie znaleziono konta użytkownika %{email}. Skontaktuj 
+          się z administratorem, aby uzyskać pomoc.
+        password_reset_not_allowed: Odzyskiwanie hasła jest niedozwolone. 
+          Skontaktuj się z administratorem.
+        password_reset_fail: Odzyskiwanie hasła nie powiodło się. Skontaktuj się
+          z administratorem.
       action:
         activate_user_confirm: Czy na pewno chcesz aktywować tego użytkownika?
         update_self: Zarządzaj kontem użytkownika
@@ -1463,7 +1415,8 @@ pl:
       manage_templates: Usuń szablony
     fill_column:
       select_a_column: Proszę wybrać kolumnę.
-      sequence_count_warning: Liczba wierszy jest większa niż liczba elementów w sekwencji.
+      sequence_count_warning: Liczba wierszy jest większa niż liczba elementów w
+        sekwencji.
     save_template:
       save_template: Zapisz szablon
       template_name: Nazwa szablonu
@@ -1475,10 +1428,9 @@ pl:
       keyboard_shortcuts:
         title: Skróty klawiaturowe
       sticky_columns:
-        p_one: >-
-          Wyróżnione kolumny są „przyklejone” i zostaną powielone po dodaniu
-          nowych wierszy. Funkcję „przyklejania” można włączyć lub wyłączyć,
-          klikając odpowiedni nagłówek tabeli.
+        p_one: Wyróżnione kolumny są „przyklejone” i zostaną powielone po 
+          dodaniu nowych wierszy. Funkcję „przyklejania” można włączyć lub 
+          wyłączyć, klikając odpowiedni nagłówek tabeli.
   structured_date_single_fields:
     date_expression: Wyrażenie daty
     date_standardized: Znormalizowana data
@@ -1495,26 +1447,23 @@ pl:
     _frontend:
       messages:
         transfer_target: Wybierz repozytorium, do którego chcesz przenieść dane.
-        created: >-
-          Obiekt cyfrowy <strong>%{digital_object_title}</strong> został
+        created: Obiekt cyfrowy <strong>%{digital_object_title}</strong> został 
           utworzony
-        updated: Obiekt cyfrowy <strong>%{digital_object_title}</strong> zaktualizowano
-        deleted: >-
-          Obiekt cyfrowy <strong>%{digital_object_title}</strong> został
+        updated: Obiekt cyfrowy <strong>%{digital_object_title}</strong> 
+          zaktualizowano
+        deleted: Obiekt cyfrowy <strong>%{digital_object_title}</strong> został 
           usunięty
-        published: >-
-          Obiekt cyfrowy <strong>%{digital_object_title}</strong>, jego
+        published: Obiekt cyfrowy <strong>%{digital_object_title}</strong>, jego
           podrekordy i komponenty zostały opublikowane
-        merge_description: Wybierz poniżej obiekty cyfrowe, które chcesz połączyć
+        merge_description: Wybierz poniżej obiekty cyfrowe, które chcesz 
+          połączyć
         please_select_a_digital_object_to_merge: Proszę wybrać obiekt cyfrowy
         merged: Obiekt(y) cyfrowe połączone
         transfer_description: Przenieś ten obiekt cyfrowy do...
-        unsuppressed: >-
-          Obiekt cyfrowy <strong>%{digital_object_title}</strong> nie został
-          wyłączony
-        suppressed: >-
-          Obiekt cyfrowy <strong>%{digital_object_title}</strong> został
-          pominięty
+        unsuppressed: Obiekt cyfrowy <strong>%{digital_object_title}</strong> 
+          nie został wyłączony
+        suppressed: Obiekt cyfrowy <strong>%{digital_object_title}</strong> 
+          został pominięty
         suppressed_info: Obiekt cyfrowy jest ukryty i nie można go edytować
         delete_conflict: 'Nie można usunąć obiektu cyfrowego: <pre>%{error}</pre>'
       section:
@@ -1549,8 +1498,7 @@ pl:
     last_verified_date: Ostatnia zweryfikowana data
   mixed_content:
     wrap_prefix: 'Owiń:'
-    help: >-
-      Włączono zawartość mieszaną&#160;&#160;--&#160;&#160;Wpisz '<' dla
+    help: Włączono zawartość mieszaną&#160;&#160;--&#160;&#160;Wpisz '<' dla 
       elementów lub zaznacz tekst, który chcesz zawinąć
   accession_link:
     _plural: Linki akcesyjne
