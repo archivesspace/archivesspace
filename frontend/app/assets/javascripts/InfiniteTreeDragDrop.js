@@ -316,10 +316,14 @@ class InfiniteTreeDragDrop {
   #targetPosition(targetLi, edge) {
     if (edge === 'into') {
       const list = targetLi.querySelector(':scope > .node-children');
-      const childCount = list
-        ? list.querySelectorAll(':scope > li.node:not(.js-itree-synthetic-new)')
-            .length
-        : 0;
+      const childCountAttr = targetLi.getAttribute('data-child-count');
+      const childCount = childCountAttr
+        ? parseInt(childCountAttr, 10)
+        : list
+          ? list.querySelectorAll(
+              ':scope > li.node:not(.js-itree-synthetic-new)'
+            ).length
+          : 0;
       return {
         parentUri: targetLi.getAttribute('data-uri') || this.rootUri,
         index: childCount,
