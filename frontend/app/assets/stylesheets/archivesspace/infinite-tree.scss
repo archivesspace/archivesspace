@@ -186,6 +186,41 @@
   &.selected.multiselected > .node-row > .node-body::after {
     border-color: #0a6aa1;
   }
+
+  &.reparented-highlight > .node-row > .node-body,
+  &.reparented > .node-row > .node-body {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      border: 2px solid #14866d;
+      pointer-events: none;
+    }
+  }
+
+  &.reparented-highlight > .node-row > .node-body {
+    background-color: #d8f3dc;
+
+    .node-indentation {
+      --indent-fill: #d8f3dc;
+      --indent-line: transparent;
+    }
+
+    .node-expand {
+      background-color: #d8f3dc;
+    }
+  }
+
+  &.reparented > .node-row > .node-body::before {
+    opacity: 0;
+    transition: opacity 2s ease-out;
+  }
 }
 
 #infinite-tree-container.reorder-mode {
@@ -216,6 +251,14 @@
     .node-indentation {
       --indent-fill: var(--tree-reorder-row-hover-bg);
       --indent-line: transparent;
+    }
+  }
+
+  &.reorder-move-in-flight {
+    cursor: wait;
+
+    .node-row[draggable='true'] {
+      cursor: wait;
     }
   }
 
