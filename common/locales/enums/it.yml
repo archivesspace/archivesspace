@@ -822,6 +822,72 @@ it:
       bdusc: Repertorio biografico del Congresso degli Stati Uniti (Congresso degli Stati Uniti)
       bfi: BFI - British Film Institute
       bnfcg: 'Catalogo generale della BnF (Parigi: Biblioteca Nazionale di Francia)'
+      cantic: CANTIC (Catalogo delle autorità di nomi e titoli della Catalogna) (Biblioteca della 
+        Catalogna)
+      cgndb: Database dei nomi geografici canadesi (Risorse naturali Canada)
+      danacode: 'Danacode (Bnei Brak, Israele: DANA Systems)'
+      datoses: data.bne.es (Biblioteca Nazionale di Spagna)
+      discogs: Discogs
+      dkfilm: Database dei film del Film Institute danese
+      doi: Identificatore di oggetto digitale
+      ean: International Article Number
+      eidr: 'EIDR: registro degli identificatori di intrattenimento'
+      filmport: filmportal.de
+      findagr: Trova una tomba
+      freebase: Base libera
+      gec: Grande enciclopedia catalana
+      geogndb: Database dei nomi geografici
+      geonames: GeoNames
+      gettytgn: Getty Thesaurus dei nomi geografici online (J. Paul Getty Trust)
+      gettyulan: Elenco sindacale dei nomi degli artisti online (J. Paul Getty Trust)
+      gnd: 'File di autorità comune (Lipsia, Francoforte: Biblioteca nazionale tedesca)'
+      gnis: Sistema informativo sui nomi geografici (GNIS) (United States Geological Survey, Board 
+        on Geographic Names)
+      gtin-14: Numero di identificazione commerciale globale 14 (EAN/UCC-128 o ITF-14)
+      hdl: Maniglia
+      ibdb: IBDB - Database Internet di Broadway
+      idref: "IdRef: l'archivio delle autorità Sudoc (L'agenzia bibliografica per l'istruzione superiore
+        (ABES))"
+      imdb: 'IMDb: database di film su Internet'
+      isan: Numero audiovisivo standard internazionale
+      isbn: Numero del libro standard internazionale
+      isbn-a: Numero di libro standard internazionale (ISBN utilizzabile) (International DOI 
+        Foundation (IDF))
+      isbnre: Elemento registrante ISBN (International Standard Book Number).
+      isil: ISIL (Identificatore standard internazionale per biblioteche e organizzazioni correlate)
+      ismn: Numero musicale standard internazionale
+      isni: Identificatore del nome standard internazionale
+      iso: Numero dell'Organizzazione internazionale per la standardizzazione per uno standard ISO
+      isrc: Codice di registrazione standard internazionale
+      issn: Numero di serie standard internazionale
+      issn-l: Collegamento del numero di serie standard internazionale
+      issue-number: Numero del problema della registrazione audio
+      istc: Codice di testo standard internazionale
+      iswc: Codice dell'opera musicale standard internazionale
+      itar: ITAR (Servizio di importazione e registri delle autorità)
+      kinopo: KinoPoisk = KinoPoisk
+      lccn: Numero di controllo della Biblioteca del Congresso
+      lcmd: 'Divisione manoscritti della Biblioteca del Congresso (Washington, DC: Biblioteca del Congresso)'
+      lcmpt: 'Library of Congress Medium of Performance Thesaurus for Music (LCMPT) (Washington, DC: Library
+        of Congress)'
+      libaus: Biblioteche Australia (Biblioteca nazionale dell'Australia)
+      local: Identificatore definito localmente
+      matrix-number: Numero di matrice della registrazione del suono
+      moma: 'Museo di Arte Moderna (New York: Museo di Arte Moderna)'
+      munzing: Munzinger (Archivio Munzinger)
+      music-plate: Numero di targa musicale dell'editore
+      music-publisher: Numero musicale assegnato dall'editore
+      musicb: MusicBrainz
+      natgazfid: Identificatore del nome della funzione del dizionario geografico nazionale degli 
+        Stati Uniti
+      nga: "Galleria Nazionale d'Arte (Washington DC: Galleria Nazionale d'Arte)"
+      nipo: Numero identificativo delle pubblicazioni ufficiali
+      nndb: NNDB (Database dei nomi notevoli)
+      npg: 'National Portrait Gallery (Londra: National Portrait Gallery)'
+      odnb: Dizionario di biografia nazionale di Oxford (Oxford University Press)
+      opensm: OpenStreetMap
+      orcid: Apri ID ricercatore e collaboratore
+      oxforddnb: Indice biografico di Oxford
     date_label:
       deaccession: Deaccessione
       copyright: Diritto d'autore
