@@ -141,6 +141,38 @@
         }
       );
 
+      // Rebuild the tree, restore selected context, and reveal a separate target.
+      this.container.addEventListener(
+        'infiniteTreeRouter:redisplayAndReopen',
+        async e => {
+          const detail = e.detail || {};
+          let succeeded = true;
+
+          try {
+            await this.redisplayAndReopen(detail);
+          } catch (error) {
+            succeeded = false;
+            console.error('Error in redisplayAndReopen:', error);
+
+            if (detail.revealUri) {
+              await this.redisplayAndShow(
+                InfiniteTreeIds.treeLinkUrl(detail.revealUri)
+              );
+            }
+          } finally {
+            this.container.dispatchEvent(
+              new CustomEvent('infiniteTree:redisplayAndReopenComplete', {
+                detail: {
+                  selectedUri: detail.selectedUri || null,
+                  revealUri: detail.revealUri || null,
+                  succeeded,
+                },
+              })
+            );
+          }
+        }
+      );
+
       // Refresh a node’s visible data after a save
       this.container.addEventListener(
         'infiniteTreeRouter:refreshNode',
@@ -595,6 +627,106 @@
     }
 
     /**
+     * Rebuilds the tree from server data while separating selected record from revealed row.
+     * @param {Object} options
+     * @param {string[]} [options.reopenUris] - Expanded/source/destination context to reopen
+     * @param {string|null} [options.selectedUri] - URI that should remain selected
+     * @param {string} options.revealUri - URI that must be visible after recovery
+     * @param {number|null} [options.scrollTop] - Previous container scroll position
+     * @param {string} [options.revealStrategy] - Scroll behavior after rebuild
+     */
+    async redisplayAndReopen({
+      reopenUris = [],
+      selectedUri = null,
+      revealUri,
+      scrollTop = null,
+      revealStrategy = 'restore-scroll-then-reveal-if-needed',
+    }) {
+      this._syntheticNewNode = null;
+
+      const contextUris = this.#uniqueUris([
+        revealUri,
+        selectedUri,
+        ...reopenUris,
+      ]);
+      const nonRootContextUris = contextUris.filter(
+        uri => uri && uri !== this.rootMeta.uri
+      );
+
+      this.container.replaceChildren();
+
+      if (nonRootContextUris.length === 0) {
+        await this.renderRoot();
+      } else {
+        const contextBatches =
+          await this.#fetchMergedAncestorBatches(nonRootContextUris);
+
+        if (contextBatches.length === 0) {
+          await this.renderRoot();
+        } else {
+          const revealNodeId = revealUri
+            ? InfiniteTreeIds.uriToTreeId(revealUri)
+            : contextBatches[0].ancestorHtmlId;
+
+          await this.#renderAncestors(contextBatches, revealNodeId, {
+            replace: false,
+            select: false,
+            center: false,
+          });
+        }
+      }
+
+      await this.#reopenNodesByUri(reopenUris);
+      await this.#selectUriWithoutPaneReload(selectedUri || this.rootMeta.uri);
+      this.#restoreScrollThenReveal(revealUri, scrollTop, revealStrategy);
+    }
+
+    async #fetchMergedAncestorBatches(uris) {
+      const contexts = await Promise.all(
+        this.#uniqueUris(uris).map(async uri => {
+          const parts = InfiniteTreeIds.uriToParts(uri);
+
+          if (!parts) return [];
+
+          return this.#fetchAncestorBatches(Number(parts.id));
+        })
+      );
+
+      return this.#mergeAncestorContexts(contexts);
+    }
+
+    #mergeAncestorContexts(contexts) {
+      const byAncestor = new Map();
+
+      contexts.forEach(context => {
+        context.forEach((batch, level) => {
+          const key = batch.ancestorHtmlId;
+          const existing = byAncestor.get(key);
+
+          if (!existing) {
+            byAncestor.set(key, {
+              ...batch,
+              batches: { ...batch.batches },
+              _level: level,
+            });
+
+            return;
+          }
+
+          existing.batches = {
+            ...existing.batches,
+            ...batch.batches,
+          };
+          existing._level = Math.min(existing._level, level);
+        });
+      });
+
+      return Array.from(byAncestor.values()).sort(
+        (a, b) => a._level - b._level
+      );
+    }
+
+    /**
      * Builds the ancestor tree list
      * @param {Array} ancestorBatches - The ancestor batches to build the tree from
      * @param {string} nodeElementId - The HTML ID of the node element to scroll to
@@ -604,11 +736,12 @@
     async #renderAncestors(
       ancestorBatches,
       nodeElementId,
-      { replace = true } = {}
+      { replace = true, select = true, center = true } = {}
     ) {
       const ancestorsFrag = ancestorBatches.reduce((acc, batch, i) => {
         const numBatches = batch.waypoints;
         const ancestorHtmlId = batch.ancestorHtmlId;
+        const treeLevel = Number.isFinite(batch._level) ? batch._level : i;
 
         if (i === 0) {
           const treeListFrag = this.markup.rootList();
@@ -619,7 +752,7 @@
 
           const nodeListFrag = this.markup.nodeList(
             ancestorHtmlId,
-            i + 1,
+            treeLevel + 1,
             numBatches
           );
           const nodeListElement = nodeListFrag.querySelector('ol');
@@ -627,7 +760,7 @@
           Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
             const batchFragment = this.#buildBatchFragment(
               batchData.nodes,
-              i + 1,
+              treeLevel + 1,
               ancestorHtmlId,
               Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
                 ? Number(batchData.observeForBatch)
@@ -649,11 +782,21 @@
         } else {
           // Handle non-root ancestor nodes
           const nodeElement = acc.querySelector(`li#${ancestorHtmlId}`);
+
+          if (!nodeElement) {
+            console.error('Could not find ancestor node while rendering:', {
+              ancestorHtmlId,
+              batch,
+            });
+
+            return acc;
+          }
+
           const icon = nodeElement.querySelector('.node-expand-icon');
 
           const nodeListFrag = this.markup.nodeList(
             ancestorHtmlId,
-            i + 1,
+            treeLevel + 1,
             numBatches
           );
 
@@ -662,7 +805,7 @@
           Object.entries(batch.batches).forEach(([batchNumber, batchData]) => {
             const batchFragment = this.#buildBatchFragment(
               batchData.nodes,
-              i + 1,
+              treeLevel + 1,
               ancestorHtmlId,
               Object.prototype.hasOwnProperty.call(batchData, 'observeForBatch')
                 ? Number(batchData.observeForBatch)
@@ -678,7 +821,7 @@
 
           nodeElement.setAttribute('data-has-expanded', 'true');
           nodeElement.setAttribute('aria-expanded', 'true');
-          icon.classList.add('expanded');
+          if (icon) icon.classList.add('expanded');
 
           return acc;
         }
@@ -694,13 +837,88 @@
       );
 
       if (nodeOfInterest) {
-        this.selectNode(nodeOfInterest);
-        nodeOfInterest.scrollIntoView({ behavior: 'instant', block: 'center' });
+        if (select) this.selectNode(nodeOfInterest);
+        if (center)
+          nodeOfInterest.scrollIntoView({
+            behavior: 'instant',
+            block: 'center',
+          });
       }
 
       nodesToObserve.forEach(node => {
         this.batchObserver.observe(node);
       });
+    }
+
+    async #reopenNodesByUri(uris) {
+      const nodes = this.#uniqueUris(uris)
+        .map(uri => this.#nodeByUri(uri))
+        .filter(Boolean)
+        .sort(
+          (a, b) => this.#getNodeIndentLevel(a) - this.#getNodeIndentLevel(b)
+        );
+
+      for (const node of nodes) {
+        if (node.classList.contains('root')) continue;
+        if (node.getAttribute('aria-expanded') !== 'true') {
+          await this.#expandNode(node);
+        }
+      }
+    }
+
+    async #selectUriWithoutPaneReload(uri) {
+      const node = this.#nodeByUri(uri) || this.#nodeByUri(this.rootMeta.uri);
+
+      if (!node) return;
+
+      const old = this.container.querySelector('.selected');
+
+      if (old) old.classList.remove('selected');
+
+      node.classList.add('selected');
+
+      if (node.getAttribute('aria-expanded') === 'false') {
+        await this.#expandNode(node);
+      }
+    }
+
+    #restoreScrollThenReveal(uri, scrollTop, revealStrategy) {
+      const revealNode = this.#nodeByUri(uri);
+      const canRestoreScroll = Number.isFinite(Number(scrollTop));
+
+      if (canRestoreScroll) {
+        this.container.scrollTop = Number(scrollTop);
+      }
+
+      if (!revealNode) return;
+
+      const shouldReveal =
+        revealStrategy !== 'restore-scroll' &&
+        (!canRestoreScroll || !this.#isNodeFullyVisible(revealNode));
+
+      if (shouldReveal) {
+        revealNode.scrollIntoView({ behavior: 'instant', block: 'center' });
+      }
+    }
+
+    #isNodeFullyVisible(node) {
+      const row = node.querySelector(':scope > .node-row') || node;
+      const treeRect = this.container.getBoundingClientRect();
+      const rowRect = row.getBoundingClientRect();
+
+      return rowRect.top >= treeRect.top && rowRect.bottom <= treeRect.bottom;
+    }
+
+    #nodeByUri(uri) {
+      if (!uri) return null;
+
+      const treeId = InfiniteTreeIds.uriToTreeId(uri);
+
+      return this.container.querySelector(`#${treeId}`);
+    }
+
+    #uniqueUris(uris) {
+      return Array.from(new Set(uris.filter(Boolean)));
     }
 
     /**
