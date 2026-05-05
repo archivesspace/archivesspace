@@ -1,4 +1,11 @@
 pt:
   lang_description:
-    mlc_field: O valor deste campo pode mudar com base no idioma de descrição atual.
+    current_language: Idioma atual
+    default: Padrão
     icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: Inglês
+      spa: Espanhol
+      fre: Francês
+      ger: Alemão
+    mlc_field: O valor deste campo pode mudar com base no idioma de descrição atual.

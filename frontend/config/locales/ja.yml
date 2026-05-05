@@ -3053,5 +3053,12 @@ ja:
     <<: *metadata_rights_declaration_attributes
   
   lang_description:
-    mlc_field: このフィールドの値は、現在の説明言語に基づいて変更される可能性があります。
+    current_language: 現在の言語
+    default: デフォルト
     icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: 英語
+      spa: スペイン語
+      fre: フランス語
+      ger: ドイツ語
+    mlc_field: このフィールドの値は、現在の説明言語に基づいて変更される可能性があります。

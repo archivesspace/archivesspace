@@ -3411,7 +3411,14 @@ es:
       target='_blank'>Enviar comentarios o informar un problema</a>
     public_interface_html: Vistar <a href="%{public_url}">Interfaz Pública</a>
   lang_description:
+    current_language: Idioma actual
+    default: Por defecto
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: Inglés
+      spa: Español
+      fre: Francés
+      ger: Alemán
     mlc_field: >-
       El valor de este campo puede cambiar según el idioma actual de
       descripción.
-    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
