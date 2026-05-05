@@ -876,6 +876,18 @@ it:
       moma: 'Museo di Arte Moderna (New York: Museo di Arte Moderna)'
       munzing: Munzinger (Archivio Munzinger)
       music-plate: Numero di targa musicale dell'editore
+      music-publisher: Numero musicale assegnato dall'editore
+      musicb: MusicBrainz
+      natgazfid: Identificatore del nome della funzione del dizionario geografico nazionale degli 
+        Stati Uniti
+      nga: "Galleria Nazionale d'Arte (Washington DC: Galleria Nazionale d'Arte)"
+      nipo: Numero identificativo delle pubblicazioni ufficiali
+      nndb: NNDB (Database dei nomi notevoli)
+      npg: 'National Portrait Gallery (Londra: National Portrait Gallery)'
+      odnb: Dizionario di biografia nazionale di Oxford (Oxford University Press)
+      opensm: OpenStreetMap
+      orcid: Apri ID ricercatore e collaboratore
+      oxforddnb: Indice biografico di Oxford
     date_label:
       deaccession: Deaccessione
       copyright: Diritto d'autore
