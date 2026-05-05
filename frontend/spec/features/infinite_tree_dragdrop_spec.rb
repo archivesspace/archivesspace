@@ -106,6 +106,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       window.__itreeReorderEvents = [];
       window.__itreeAcceptChildrenRequests = [];
       window.__itreeLastDragOver = null;
+      window.__itreePageLoadMarker = 'drag-drop-spec-marker';
 
       var originalFetch = window.fetch.bind(window);
       window.fetch = function(input, init) {
@@ -274,6 +275,40 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     evaluate_js("document.querySelector('#infinite-tree-container li.node.selected')?.getAttribute('data-uri')")
   end
 
+  def row_in_tree_viewport?(uri)
+    evaluate_js(<<~JS)
+      (function() {
+        var tree = document.querySelector('#infinite-tree-container');
+        var node = document.querySelector("#infinite-tree-container li.node[data-uri='#{uri}'] > .node-row");
+        if (!tree || !node) return false;
+        var treeRect = tree.getBoundingClientRect();
+        var nodeRect = node.getBoundingClientRect();
+        return nodeRect.top >= treeRect.top && nodeRect.bottom <= treeRect.bottom;
+      })()
+    JS
+  end
+
+  def page_load_marker_present?
+    evaluate_js("window.__itreePageLoadMarker === 'drag-drop-spec-marker'")
+  end
+
+  def select_tree_record(uri)
+    target_hash = "##{tree_hash_for(uri)}"
+
+    execute_js(<<~JS)
+      (function() {
+        var container = document.querySelector('#infinite-tree-container');
+        container.dispatchEvent(new CustomEvent('infiniteTreeRouter:replaceHash', {
+          detail: { targetHash: '#{target_hash}' }
+        }));
+        container.dispatchEvent(new CustomEvent('infiniteTreeRouter:nodeSelect', {
+          detail: { targetHash: '#{target_hash}' }
+        }));
+      })();
+    JS
+    expect(page).to have_css("li.node[data-uri='#{uri}'].selected")
+  end
+
   def tree_hash_for(uri)
     parts = uri.split('/')
     "tree::#{parts[-2].sub(/s$/, '')}_#{parts[-1]}"
@@ -364,7 +399,7 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     expect(intent['targetUri']).to eq(ao3.uri)
   end
 
-  it 'persists a top-edge drop, adjusts the same-parent index, and selects the moved row' do
+  it 'persists a top-edge drop, adjusts the same-parent index, and reveals the moved row' do
     before_order = root_child_uris
     source_uri = before_order.first
     target_uri = before_order.last
@@ -383,8 +418,10 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       expect(params['children']).to eq([source_uri])
       expect(params['index']).to eq(expected_index.to_s)
       expect(root_child_uris).to eq(expected_order)
-      expect(selected_uri).to eq(source_uri)
-      expect(page.current_url).to include("##{tree_hash_for(source_uri)}")
+      expect(selected_uri).to eq(resource.uri)
+      expect(page.current_url).to include(root_hash)
+      expect(row_in_tree_viewport?(source_uri)).to eq(true)
+      expect(page_load_marker_present?).to eq(true)
       expect(page).to have_css(
         "li.node[data-uri='#{source_uri}'].reparented, " \
         "li.node[data-uri='#{source_uri}'].reparented-highlight"
@@ -407,7 +444,8 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     aggregate_failures do
       expect(last_accept_children_params['children']).to eq([source_uri])
       expect(root_child_uris).to eq(expected_order)
-      expect(selected_uri).to eq(source_uri)
+      expect(selected_uri).to eq(resource.uri)
+      expect(row_in_tree_viewport?(source_uri)).to eq(true)
     end
   end
 
@@ -421,7 +459,28 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
       expect(last_accept_children_params['children']).to eq([ao.uri])
       expect(root_child_uris).not_to include(ao.uri)
       expect(child_uris_for(ao3.uri)).to include(ao.uri)
-      expect(selected_uri).to eq(ao.uri)
+      expect(selected_uri).to eq(resource.uri)
+      expect(row_in_tree_viewport?(ao.uri)).to eq(true)
+    end
+  end
+
+  it 'preserves a selected record that is different from the first moved row' do
+    select_tree_record(ao2.uri)
+
+    dragstart_from(ao.uri)
+    dragover_row(ao3.uri, 0.5)
+    drop_row(ao3.uri, 0.5)
+    wait_for_reorder_idle
+
+    aggregate_failures do
+      expect(selected_uri).to eq(ao2.uri)
+      expect(page.current_url).to include("##{tree_hash_for(ao2.uri)}")
+      expect(row_in_tree_viewport?(ao.uri)).to eq(true)
+      expect(page_load_marker_present?).to eq(true)
+      expect(page).to have_css(
+        "li.node[data-uri='#{ao.uri}'].reparented, " \
+        "li.node[data-uri='#{ao.uri}'].reparented-highlight"
+      )
     end
   end
 
@@ -478,6 +537,18 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     expect(intent['sourceUris']).to eq([ao.uri, ao2.uri])
     expect(intent['effectiveSourceUris']).to eq([ao.uri, ao2.uri])
     expect(intent['targetUri']).to eq(ao3.uri)
+
+    wait_for_reorder_idle
+
+    aggregate_failures 'highlights moved rows that are present after recovery' do
+      expect(last_accept_children_params['children']).to eq([ao.uri, ao2.uri])
+      [ao.uri, ao2.uri].each do |uri|
+        expect(page).to have_css(
+          "li.node[data-uri='#{uri}'].reparented, " \
+          "li.node[data-uri='#{uri}'].reparented-highlight"
+        )
+      end
+    end
   end
 
   it 'plain click on an already selected row collapses multiselection to that row' do

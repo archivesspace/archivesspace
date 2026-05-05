@@ -17,6 +17,7 @@ class InfiniteTreeReorderActions {
     if (!this.containerEl) return;
 
     this.rootUri = this.componentEl.getAttribute('data-root-uri') || '';
+    this.rootParts = InfiniteTreeIds.rootUriToParts(this.rootUri);
     this.fetch = new InfiniteTreeFetch(this.rootUri);
     this.inFlight = false;
     this.pendingHighlightUris = [];
@@ -31,8 +32,8 @@ class InfiniteTreeReorderActions {
     );
 
     this.containerEl.addEventListener(
-      'infiniteTree:redisplayAndShowComplete',
-      this.#onRedisplayAndShowComplete.bind(this)
+      'infiniteTree:redisplayAndReopenComplete',
+      this.#onRedisplayAndReopenComplete.bind(this)
     );
   }
 
@@ -61,6 +62,7 @@ class InfiniteTreeReorderActions {
     this.#dispatch(InfiniteTreeReorderActions.EVENT_MOVE_START, move);
 
     try {
+      const recovery = this.#recoveryStateForMove(move);
       const response = await this.fetch.acceptChildren(
         move.targetParentUri,
         move.childUris,
@@ -72,7 +74,7 @@ class InfiniteTreeReorderActions {
         response,
       });
 
-      this.#redisplayMovedNode(move.childUris);
+      this.#redisplayAndReopen(recovery);
     } catch (error) {
       console.error('InfiniteTree reorder move failed:', error);
       this.#showMoveError();
@@ -158,34 +160,97 @@ class InfiniteTreeReorderActions {
     return move.adjustedIndex === source.position;
   }
 
-  #redisplayMovedNode(childUris) {
-    const firstMovedUri = childUris[0];
-    const targetHash = InfiniteTreeIds.treeLinkUrl(firstMovedUri);
+  #recoveryStateForMove(move) {
+    const selectedUri = this.#selectedUri();
+    const sourceParentUris = move.sourcePositions
+      .map(source => source.parentUri)
+      .filter(Boolean);
+    const expandedParentUris = Array.from(
+      this.containerEl.querySelectorAll(
+        'li.node[aria-expanded="true"]:not(.js-itree-synthetic-new)'
+      )
+    )
+      .map(node => node.getAttribute('data-uri'))
+      .filter(Boolean);
+    const reopenUris = this.#uniqueUris([
+      move.targetParentUri,
+      ...sourceParentUris,
+      ...expandedParentUris,
+    ]);
 
-    this.pendingHighlightUris = childUris.slice();
+    return {
+      reopenUris,
+      selectedUri,
+      revealUri: move.childUris[0],
+      highlightUris: move.childUris.slice(),
+      scrollTop: this.containerEl.scrollTop,
+      revealStrategy: 'restore-scroll-then-reveal-if-needed',
+    };
+  }
+
+  #redisplayAndReopen(recovery) {
+    if (!recovery.revealUri) {
+      this.#clearInFlight();
+      return;
+    }
+
+    const selectedHash = InfiniteTreeIds.treeLinkUrl(
+      recovery.selectedUri || this.rootUri
+    );
+    this.pendingHighlightUris = recovery.highlightUris.slice();
 
     this.containerEl.dispatchEvent(
       new CustomEvent('infiniteTreeRouter:replaceHash', {
-        detail: { targetHash },
+        detail: { targetHash: selectedHash },
       })
     );
 
     this.containerEl.dispatchEvent(
-      new CustomEvent('infiniteTreeRouter:redisplayAndShow', {
-        detail: { targetHash },
+      new CustomEvent('infiniteTreeRouter:redisplayAndReopen', {
+        detail: recovery,
       })
     );
   }
 
-  #onRedisplayAndShowComplete() {
+  #onRedisplayAndReopenComplete(event) {
+    const succeeded = event.detail ? event.detail.succeeded !== false : true;
+
     if (this.pendingHighlightUris.length > 0) {
-      this.#highlightMovedRows(this.pendingHighlightUris);
+      if (succeeded) this.#highlightMovedRows(this.pendingHighlightUris);
       this.pendingHighlightUris = [];
     }
 
     if (this.inFlight) {
       this.#clearInFlight();
     }
+  }
+
+  #selectedUri() {
+    const selectedNode = this.containerEl.querySelector('li.node.selected');
+
+    if (selectedNode) {
+      return selectedNode.getAttribute('data-uri') || this.rootUri;
+    }
+
+    return this.#uriFromHash(window.location.hash) || this.rootUri;
+  }
+
+  #uriFromHash(hash) {
+    if (!hash || !this.rootParts) return null;
+
+    const treeId = InfiniteTreeIds.locationHashToHtmlId(hash);
+    const parts = InfiniteTreeIds.parseTreeId(treeId);
+
+    if (!parts) return null;
+    if (parts.type === this.rootParts.type && parts.id === this.rootParts.id) {
+      return this.rootUri;
+    }
+
+    return `/repositories/${this.rootParts.repoId}/${parts.type}s/${parts.id}`;
+  }
+
+  #uniqueUris(uris) {
+    return Array.from(new Set(uris.filter(Boolean)));
   }
 
   #highlightMovedRows(uris) {
