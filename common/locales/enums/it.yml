@@ -874,6 +874,8 @@ it:
       local: Identificatore definito localmente
       matrix-number: Numero di matrice della registrazione del suono
       moma: 'Museo di Arte Moderna (New York: Museo di Arte Moderna)'
+      munzing: Munzinger (Archivio Munzinger)
+      music-plate: Numero di targa musicale dell'editore
     date_label:
       deaccession: Deaccessione
       copyright: Diritto d'autore
