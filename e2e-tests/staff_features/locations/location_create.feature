@@ -32,11 +32,11 @@ Feature: Location Create
      Then the following error messages are displayed
        | Building - Property is required but was missing           |
        | Coordinate Range 1 - Property is required but was missing |
-    Scenario: Number of Locations is previewed
-      Given the New Batch Location page is displayed
-       When the user fills in 'Building'
-        And the user fills in Coordinate Range 1 Label with 'Test'
-        And the user fills in Coordinate Range 1 Range Start with '1'
-        And the user fills in Coordinate Range 1 Range End with '3'
-        And the user clicks on 'Preview Locations'
-       Then the Preview Locations modal with the number of Locations is displayed
+  Scenario: Number of Locations is previewed
+    Given the New Batch Location page is displayed
+     When the user fills in 'Building'
+      And the user fills in Coordinate Range 1 Label with 'Test'
+      And the user fills in Coordinate Range 1 Range Start with '1'
+      And the user fills in Coordinate Range 1 Range End with '3'
+      And the user clicks on 'Preview Locations'
+     Then the Preview Locations modal with the number of Locations is displayed

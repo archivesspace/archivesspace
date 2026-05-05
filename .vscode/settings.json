@@ -36,5 +36,19 @@
   },
   "[scss]": {
     "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+  "[feature]": {
+    "editor.formatOnSave": false,
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+  },
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "e2e-tests/.*\\.feature$",
+        "isAsync": false,
+        "cmd": "cd '${workspaceFolder}/e2e-tests' && FILES='${file}' rake format:features"
+      }
+    ]
   }
 }

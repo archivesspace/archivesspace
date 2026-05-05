@@ -35,5 +35,5 @@ Feature: Accession Event Create
       And the user fills in 'Begin' with '2020-22-22' in the 'Event Date/Time' form
       And the user links an Agent
       And the user clicks on 'Save'
-    Then only the following error message is displayed
-      | Begin - Not a valid date |
+     Then only the following error message is displayed
+       | Begin - Not a valid date |

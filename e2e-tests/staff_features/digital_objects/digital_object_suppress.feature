@@ -1,8 +1,8 @@
 Feature: Digital Object Suppress
   Background:
     Given an administrator user is logged in
-     And a Digital Object has been created
-     And the Digital Object is opened in edit mode
+      And a Digital Object has been created
+      And the Digital Object is opened in edit mode
   Scenario: Digital Object is suppressed
     Given the Digital Object is not suppressed
      When the user clicks on 'Suppress'

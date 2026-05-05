@@ -17,9 +17,9 @@ Feature: Container Profile Edit
       And the user clicks on 'Save'
       And the user clicks on 'Edit'
      Then the field '<Field>' has value '<NewValue>'
-      Examples:
-        | Field | NewValue                       |
-        | Width | 10                             |
+       Examples:
+         | Field | NewValue                       |
+         | Width | 10                             |
   Scenario: Container Profile is not updated after changes are reverted
     Given the Container Profile is opened in edit mode
      When the user changes the 'Name' field

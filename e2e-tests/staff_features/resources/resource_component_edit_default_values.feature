@@ -15,6 +15,6 @@ Feature: Resource Component Edit Default Values
       And the user clicks on 'Save'
      Then the 'Defaults' updated message is displayed
       And the new Resource Component form has the following default values
-       | form_section       | form_field                    | form_value                      |
-       | Basic Information  | Title                         | Default Component Test          |
-       | Basic Information  | Level of Description          | File                            |
+        | form_section       | form_field                    | form_value                      |
+        | Basic Information  | Title                         | Default Component Test          |
+        | Basic Information  | Level of Description          | File                            |

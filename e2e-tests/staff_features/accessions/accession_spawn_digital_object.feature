@@ -11,5 +11,5 @@ Feature: Accession spawn Digital Object
      Then the Create Digital Object modal is displayed
       And the Digital Object title is filled in with the Accession Title
       And the following Digital Object forms have the same values as the Accession
-       | Languages  |
-       | Dates      |
+        | Languages  |
+        | Dates      |

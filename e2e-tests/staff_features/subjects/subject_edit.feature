@@ -16,9 +16,9 @@ Feature: Subject Edit
       And the user clicks on 'Save'
      Then the 'Subject' saved message is displayed
      Then the field '<Field>' has value '<NewValue>'
-      Examples:
-       | Field        | NewValue        |
-       | Scope Note   | Test Scope Note |
+       Examples:
+         | Field        | NewValue        |
+         | Scope Note   | Test Scope Note |
   Scenario: Subject is not updated
     Given the Subject is opened in edit mode
      When the user clears 'Source' in the 'Basic Information' form
