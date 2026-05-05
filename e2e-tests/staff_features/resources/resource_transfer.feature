@@ -10,4 +10,4 @@ Feature: Resource Transfer
       And the user clicks on 'Transfer' in the transfer form
       And the user clicks on 'Transfer' in the modal
      Then the following message is displayed
-      | Transfer Successful. Records may take a moment to appear in the target repository while re-indexing takes place. |
+       | Transfer Successful. Records may take a moment to appear in the target repository while re-indexing takes place. |

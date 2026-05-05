@@ -10,6 +10,6 @@ Feature: Event Edit Default Values
       And the user clicks on 'Save'
      Then the 'Defaults' updated message is displayed
       And the new Event form has the following default values
-       | form_section      | form_field   | form_value |
-       | Basic Information | Type         | Collection |
-       | Basic Information | Outcome Note | Default Event Outcome Note |
+        | form_section      | form_field   | form_value |
+        | Basic Information | Type         | Collection |
+        | Basic Information | Outcome Note | Default Event Outcome Note |

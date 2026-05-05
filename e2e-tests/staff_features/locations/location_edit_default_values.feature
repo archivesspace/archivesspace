@@ -10,6 +10,6 @@ Feature: Location Edit Default Values
       And the user clicks on 'Save Location'
      Then the 'Defaults' updated message is displayed
       And the new Location form has the following default values
-       | form_field | form_value    |
-       | Building   | Test Building |
-       | Barcode    | 12345678      |
+        | form_field | form_value    |
+        | Building   | Test Building |
+        | Barcode    | 12345678      |

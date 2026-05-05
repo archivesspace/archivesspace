@@ -16,9 +16,9 @@ Feature: Location Edit
       And the user clicks on 'Save'
      Then the 'Location' saved message is displayed
       And the field '<Field>' has value '<NewValue>'
-      Examples:
-      | Field    | NewValue      |
-      | Building | Test Building |
+        Examples:
+          | Field    | NewValue      |
+          | Building | Test Building |
   Scenario: Location is not updated after changes are reverted
     Given the Location is opened in edit mode
      When the user fills in 'Building' with 'New Building'

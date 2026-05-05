@@ -2,7 +2,7 @@ Feature: Agent Edit
   Background:
     Given an administrator user is logged in
       And an Agent has been created
-   Scenario: Agent is opened in the edit mode from the browse menu
+  Scenario: Agent is opened in the edit mode from the browse menu
     Given the Agent appears in the search results list
      When the user clicks on 'Edit'
      Then the Agent is opened in the edit mode
