@@ -592,3 +592,7 @@ end
 Then 'the {string} link is not visible' do |link_text|
   expect(page).not_to have_link(link_text)
 end
+
+Then 'the {string} button is not present on the page' do |string|
+  expect(page).to_not have_selector('button', text: text)
+end

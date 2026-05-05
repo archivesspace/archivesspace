@@ -12,3 +12,8 @@ Feature: Accession Create
      When the user clicks on 'Save'
      Then the following error messages are displayed
        | Identifier - Property is required but was missing  |
+  Scenario: Accession cannot be created by user with view-only permissions
+    Given a viewer user is logged in
+     When the user clicks on 'Browse'
+      And the user clicks on 'Accessions'
+     Then the 'Create Accession' button is not present on the page
