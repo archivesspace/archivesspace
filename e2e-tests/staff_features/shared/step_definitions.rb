@@ -593,14 +593,14 @@ Then 'the {string} link is not visible' do |link_text|
   expect(page).not_to have_link(link_text)
 end
 
-Then('I should see the MLC default language preview before the {string} {string} label') do |record_type, field|
+Then('the user sees the MLC default language preview before the {string} {string} label') do |record_type, field|
   label = find("label[for*='#{record_type}_#{field}_']")
   field_container = label.ancestor('.form-group')
   badge = field_container.find(:xpath, "preceding-sibling::div[contains(@class, 'mt-1')][1]")
   expect(badge).to have_css('details summary', text: 'SPA')
 end
 
-Then('I should not see the MLC default language preview before the {string} {string} label') do |record_type, field|
+Then('the user should not see the MLC default language preview before the {string} {string} label') do |record_type, field|
   if page.has_css?("label[for*='#{record_type}_#{field}']")
     label = find("label[for*='#{record_type}_#{field}']")
     field_container = label.ancestor('.form-group')
@@ -611,7 +611,7 @@ Then('I should not see the MLC default language preview before the {string} {str
   end
 end
 
-Then('I should see the default language preview summary text {string}') do |summary_text|
+Then('the user sees the default language preview summary text {string}') do |summary_text|
   expect(page).to have_css('details summary', text: summary_text)
 end
 
@@ -619,12 +619,12 @@ Then('the default language preview should be present but hidden') do
   expect(page).to have_css('details p.text-muted', visible: :hidden)
 end
 
-Then('I should see a globe icon on the {string} {string} label') do |record_type, field|
+Then('the user sees a globe icon on the {string} {string} label') do |record_type, field|
   label = find("label[for*='#{record_type}_#{field}']")
   expect(label).to have_css('span.glyphicon-globe')
 end
 
-Then('I should not see a globe icon on the {string} {string} label') do |record_type, field|
+Then('the user should not see a globe icon on the {string} {string} label') do |record_type, field|
   if page.has_css?("label[for*='#{record_type}_#{field}']")
     label = find("label[for*='#{record_type}_#{field}']")
     expect(label).not_to have_css('span.glyphicon-globe')
@@ -634,11 +634,7 @@ Then('I should not see a globe icon on the {string} {string} label') do |record_
   end
 end
 
-When('I click the {string} dropdown button') do |button_text|
-  click_button button_text
-end
-
-Then('I should see {string} as an option in the {string} dropdown') do |option, button_text|
+Then('the user sees the {string} option in the {string} dropdown') do |option, button_text|
   dropdown = find('button', text: button_text).ancestor('.btn-group', match: :first)
   expect(dropdown).to have_css('span', text: option)
 end
