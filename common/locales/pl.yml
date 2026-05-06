@@ -414,8 +414,10 @@ pl:
     agent_identifiers_tooltip: |
       <p>Identyfikatory powiązane z danym podmiotem, takie jak identyfikatory prawne przypisane przez uprawnioną agencję. Przykłady obejmują identyfikator ORCID dla osoby fizycznej lub kod repozytorium MARC dla podmiotu korporacyjnego.</p>
     agent_genders_tooltip: Płeć badanego.
-    agent_places_tooltip: Umieść informacje dotyczące agenta.</p><p>Patrz DACS 11.3, ISAAR (CPF) 5.2.3
-    agent_occupations_tooltip: Informacje dotyczące zawodu powiązanego z danym agentem.</p><p>Patrz DACS 11.5, ISAAR (CPF) 5.2.5
+    agent_places_tooltip: Umieść informacje dotyczące agenta.</p><p>Patrz DACS 11.3, ISAAR (CPF) 
+      5.2.3
+    agent_occupations_tooltip: Informacje dotyczące zawodu powiązanego z danym agentem.</p><p>Patrz 
+      DACS 11.5, ISAAR (CPF) 5.2.5
     agent_functions_tooltip: Terminy używane do identyfikacji funkcji, procesów, zadań, działań lub 
       transakcji wykonywanych przez agenta.</p><p>Patrz DACS 11.5, ISAAR (CPF) 5.2.5
     agent_topics_tooltip: Podmiot powiązany z agentem.

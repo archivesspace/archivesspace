@@ -101,7 +101,8 @@ ja:
     digital_object_type_tooltip: "<p>デジタルオブジェクトの基本コンテンツタイプを示す総称用語。デフォルトのオプションは、MODS &lt;typeOfResource&gt;要素に対応します。
       </p>"
     restrictions: 制限？
-    restrictions_tooltip: "<p>制限が適用されることを示すチェックボックス。この制限は、NoteサブレコードまたはRightsサブレコードを使用して説明できます。</p><p>DACS 4.1-4.4、ISAD(G) 3.4.1、3.4.2、3.4.4を参照</p>"
+    restrictions_tooltip: "<p>制限が適用されることを示すチェックボックス。この制限は、NoteサブレコードまたはRightsサブレコードを使用して説明できます。</p><p>DACS
+      4.1-4.4、ISAD(G) 3.4.1、3.4.2、3.4.4を参照</p>"
     file_versions_tooltip: "<p>デジタルオブジェクトまたはデジタルオブジェクトコンポーネントをURIでアドレス指定可能な関連コンテンツファイルにリンクします。</p>"
     _singular: デジタルオブジェクト
     _plural: デジタルオブジェクト
@@ -212,10 +213,12 @@ ja:
 
   linked_agent: &linked_agent_attributes
     role: 役割
-    role_tooltip: "<p>必要なフィールド。エージェントが特定の説明レコードへのリンクに関してどのような機能（作成者、ソース、またはサブジェクト）を持っているかを示す。</p><p>DACS 14.3、ISAAR (CPF) 6.3を参照</p>"
+    role_tooltip: "<p>必要なフィールド。エージェントが特定の説明レコードへのリンクに関してどのような機能（作成者、ソース、またはサブジェクト）を持っているかを示す。</p><p>DACS
+      14.3、ISAAR (CPF) 6.3を参照</p>"
     relator: 報告者
     relator_tooltip: "<p>特定の記述レコードにどのようにリンクされているか（例えば、作成者、ソース、またはサブジェクト）に示されているように、エージェントがその機能に関してどのような役割を果たしているかの表示。たとえば、エージェントはレコードの作成者としてリンクされることができますが、「イラストレーター」のより具体的な役割があります。
-      </p><p>リレーに関するDACS 14.3、ISAAR (CPF) 6.3、MARCコード一覧（https://www.loc.gov/marc/relators/）を参照してください。 </p>"
+      </p><p>リレーに関するDACS 14.3、ISAAR (CPF) 6.3、MARCコード一覧（https://www.loc.gov/marc/relators/）を参照してください。
+      </p>"
     ref: エージェント
     ref_tooltip: "<p>エージェントはレコードに記載されている資料に関連しています。 </p><p>エージェントは、ブラウズ機能を使用して自動補完を使用して検索することも、オンデマンドで作成することもできます。
       </p>"
@@ -328,8 +331,8 @@ ja:
     _singular: デアクセス
 
   agent_name: &agent_name_attributes
-    parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p>
-    <p>DACS 10.3.1、ISAAR (CPF) 5.1.3を参照</p>"
+    parallel_names_tooltip: "<p>異なる言語やスクリプトで名前の並列形式、または名前の音訳形式を記録するために使用できます。</p> <p>DACS 10.3.1、ISAAR
+      (CPF) 5.1.3を参照</p>"
     language: 言語
     language_tooltip: "<p>名前フォームの記録に使用される言語を示します。DACS 13.7、ISAAR (CPF) 5.4.7を参照。例：ロシア語（Каспаров、Г.К。（ГарриКимович）の場合）</p>"
     script: 脚本
@@ -338,15 +341,14 @@ ja:
     transliteration_tooltip: "<p>名前フォームの記録に使用される音訳スキームを示します。</p>"
     authority_id: オーソリティID
     authority_id_tooltip: "<p>取得元のエージェントの名前フォーム（つまり、MADSレコード識別子またはEACレコード識別子）の名前フォームの一意の識別子。識別子はURIとして表すことができる。
-      </p><p>DACS 13.2、ISAAR (CPF) 5.4.1を参照</p><p>例： </p><ul><li> nr92045078 <em>LCNAF名見出しの場合</em> </li><li> ULAN <em>名見出しの場合は500115393</em>
-      </li><li> <em>VIAFの見出しのための</em> http://viaf.org/viaf/134138653 </ul>"
+      </p><p>DACS 13.2、ISAAR (CPF) 5.4.1を参照</p><p>例： </p><ul><li> nr92045078 <em>LCNAF名見出しの場合</em> </li><li>
+      ULAN <em>名見出しの場合は500115393</em> </li><li> <em>VIAFの見出しのための</em> http://viaf.org/viaf/134138653 </ul>"
     source: ソース
     source_tooltip: "<p>名前規則が使用されていない場合は、条件付き必須フィールド。名前の由来となった信頼できるソースのインジケータ。</p><p>この管理された値リストの値は変更することができます。
       </p>"
     rules: ルール
     rules_tooltip: "<p>名前ソースが使用されていない場合は、条件付き必須フィールド。名前の入力を定式化するために使用される規則の指示。 </p><p>この管理された値リストの値は変更することができます。
-      </p>
-      <p>DACS 13.3、ISAAR (CPF) 5.4.3を参照</p>"
+      </p> <p>DACS 13.3、ISAAR (CPF) 5.4.3を参照</p>"
     name_order: 名前の順序
     name_order_tooltip: "<p>名前の書式を逆順（姓、名）の順に表示するか、直接の順序（名字の姓）で表示するかを示します。 </p>"
     prefix: 接頭辞
@@ -532,10 +534,12 @@ ja:
     dates: 日付
     ref: 関連エージェント
 
-    relationship_type_tooltip: 一次エージェントと関連エージェントの間の関係の性質を大まかに説明する管理された用語。DACS 12.3.1、ISAAR (CPF) 5.3.2を参照
-    specific_relator_tooltip: プライマリエージェントと関連エージェント間の関係の性質をより具体的に説明する管理された用語。 DACS 12.3.2、ISAAR (CPF) 5.3.3を参照 
+    relationship_type_tooltip: 一次エージェントと関連エージェントの間の関係の性質を大まかに説明する管理された用語。DACS 12.3.1、ISAAR (CPF) 
+      5.3.2を参照
+    specific_relator_tooltip: プライマリエージェントと関連エージェント間の関係の性質をより具体的に説明する管理された用語。 DACS 12.3.2、ISAAR (CPF)
+      5.3.3を参照
     relationship_uri_tooltip: エージェント間の関係のタイプについて、オントロジーまたはその他のリソースのエントリを指すURI。主にEAC-CPFの目的で使用されます。
-    description_tooltip: 関係の性質のフリーテキストの説明。DACS 12.3.2、ISAAR (CPF) 5.3.3を参照 
+    description_tooltip: 関係の性質のフリーテキストの説明。DACS 12.3.2、ISAAR (CPF) 5.3.3を参照
     related_agent_tooltip: プライマリエージェントに関連する個人、家族、または企業体。DACS 12.1-12.2、ISAAR (CPF) 5.3.1を参照
   agent_relationship_parentchild:
     <<: *related_agent_attributes
@@ -755,13 +759,13 @@ ja:
       <p>必須フィールド：記載された材料の程度を測定するために使用されるユニットのタイプを示す用語。 </p><p>この管理された値リストの値は変更することができます。
       </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p>
     container_summary: コンテナの概要
-    container_summary_tooltip: "<p>コンポーネントレコードに記述されているマテリアルを格納するコンテナおよびコンテナのタイプのリスト。DACS 2.5、ISAD(G) 3.1.5を参照</p><p>例： </p><ul><li>
-      10個のレコードカートン、6個のアーカイブボックス、3個の特大のフォルダ。 </li><li> 12靴箱。 </li><li>ボックス4個、チューブ32個。 </li></ul>"
+    container_summary_tooltip: "<p>コンポーネントレコードに記述されているマテリアルを格納するコンテナおよびコンテナのタイプのリスト。DACS 2.5、ISAD(G) 3.1.5を参照</p><p>例：
+      </p><ul><li> 10個のレコードカートン、6個のアーカイブボックス、3個の特大のフォルダ。 </li><li> 12靴箱。 </li><li>ボックス4個、チューブ32個。 </li></ul>"
     physical_details: 物理的詳細
     physical_details_tooltip: "<p>記述された材料の他の物理的詳細、例えば、アナログ、白黒、ネガ。 </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p>"
     dimensions: 寸法
-    dimensions_tooltip: "<p>記載されている材料の寸法。 </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p><p>例： </p><ul><li> 29 cm </li><li> 7 1/4
-      x 3 1/2インチ</li><li> 1/2インチのテープ</li></ul>"
+    dimensions_tooltip: "<p>記載されている材料の寸法。 </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p><p>例： </p><ul><li> 29 cm
+      </li><li> 7 1/4 x 3 1/2インチ</li><li> 1/2インチのテープ</li></ul>"
     _plural: エクステント
     _singular: エクステント
 
@@ -864,12 +868,12 @@ ja:
       </li></ul>"
     begin: ベギン
     begin_inline_help: 例：YYYY、YYYY-MM、またはYYYY-MM-DD
-    begin_tooltip: "<p>単一の日付または日付範囲の最初の日付を表す正規化された日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。 </p><p>DACS 2.4.7-2.4.16、ISAD(G) 3.1.3を参照</p><p>AD年は4桁で表されます。
-      </p><p>BC年は負の数で表されます。たとえば、紀元前214年は-214 </p>"
+    begin_tooltip: "<p>単一の日付または日付範囲の最初の日付を表す正規化された日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。 </p><p>DACS 2.4.7-2.4.16、ISAD(G)
+      3.1.3を参照</p><p>AD年は4桁で表されます。 </p><p>BC年は負の数で表されます。たとえば、紀元前214年は-214 </p>"
     end: 終わり
     end_inline_help: 例：YYYY、YYYY-MM、またはYYYY-MM-DD
-    end_tooltip: "<p>日付範囲の2番目の日付を表す正規化された日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。 </p><p> DACS 2.4.7-2.4.16、ISAD(G) 3.1.3を参照</p><p>AD年は4桁で表されます。
-      </p><p>BC年は負の数で表されます。たとえば、紀元前214年は-214 </p>"
+    end_tooltip: "<p>日付範囲の2番目の日付を表す正規化された日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。 </p><p> DACS 2.4.7-2.4.16、ISAD(G)
+      3.1.3を参照</p><p>AD年は4桁で表されます。 </p><p>BC年は負の数で表されます。たとえば、紀元前214年は-214 </p>"
     certainty: 確実
     certainty_tooltip: "<p>日付ステートメントで与えられた情報に対する信頼度。この情報はオプションであり、使用中の説明または目録規則に基づいて潜在的に不確実な日付情報を適格とする場合にのみ追加する必要があります。
       </p><p>EAD属性「確実性」を参照。 </p>"
@@ -930,8 +934,8 @@ ja:
     id_0_tooltip: "<p>REQUIRED FIELD：リポジトリ内のアクセッションの一意の識別子。 </p><p>ArchivesSpaceでは、受託識別子をその構成部分に解析するための4つのフィールドが用意されています。各セグメントは、50文字に制限されています。識別子の合計文字数は200文字です。少なくとも最初の部分は、有効なアクセス記録に使用する必要があります。
       </p><p>デフォルト値を使用して、すべてのアクセッション番号で同じ構成部分を移入することができます。 </p><p>DACS 5.2.5、ISAD(G) 3.2.4を参照</p>"
     content_description: コンテンツの説明
-    content_description_tooltip: "<p>アクセス権の文書タイプとトピック内容の説明。 </p><p>DACS 3.1.4-3.1.7、ISAD(G) 3.3.1を参照</p><p>例： </p><p>フィールドメモ、日記、地図の草案を含む10カートンの素材で、Smith氏の10年間の住居をオテイメサ牧場で記録しています。
-      </p>"
+    content_description_tooltip: "<p>アクセス権の文書タイプとトピック内容の説明。 </p><p>DACS 3.1.4-3.1.7、ISAD(G) 3.3.1を参照</p><p>例：
+      </p><p>フィールドメモ、日記、地図の草案を含む10カートンの素材で、Smith氏の10年間の住居をオテイメサ牧場で記録しています。 </p>"
     condition_description: 条件説明
     condition_description_tooltip: "<p>特別扱い要件を含む、加入の内容の体調に関する記述。 </p><p>例： </p><p>ボックス4の地図は脆く、いくつかは型で覆われています。処理中に吸入ガードを着用してください。
       </p>"
@@ -963,13 +967,13 @@ ja:
     access_restrictions_tooltip: "<p>資料へのアクセスを示すチェックボックスは制限されています。 </p><p>DACS 4.1-4.3、ISAD(G) 3.4.1、3.4.4を参照
       </p>"
     access_restrictions_note: アクセス制限
-    access_restrictions_note_tooltip: "<p>加盟国のどのような資料にアクセスが制限されているか、制限の権限は何か、制限の有効期間は何かを示す声明。追加情報は、権利サブ記録に記録することもできます。</p><p>DACS 4.1-4.3、ISAD(G) 3.4.1、3.4.4を参照
-      </p><p>例： </p><ul><li>ボックス10の日記は、2030年までドナーによって制限されています。 </li></ul>"
+    access_restrictions_note_tooltip: "<p>加盟国のどのような資料にアクセスが制限されているか、制限の権限は何か、制限の有効期間は何かを示す声明。追加情報は、権利サブ記録に記録することもできます。</p><p>DACS
+      4.1-4.3、ISAD(G) 3.4.1、3.4.4を参照 </p><p>例： </p><ul><li>ボックス10の日記は、2030年までドナーによって制限されています。 </li></ul>"
     use_restrictions: 制限を使用しますか？
     use_restrictions_tooltip: "<p>アクティベーションの品目に使用制限があることを示すチェックボックス。</p><p>DACS 4.4、ISAD(G) 3.4.2を参照</p>"
     use_restrictions_note: 使用制限事項
-    use_restrictions_note_tooltip: "<p>どの材料に使用制限があるか、どのように材料を使用できるか、制限の権限は何か、制限の有効期間は何かを示す声明。追加情報は、権利サブ記録に記録することもできます。</p><p>DACS 4.4、ISAD(G) 3.4.2を参照
-      </p><p>例： </p><p>ボックス33の原稿は壊れやすい。代わりにフォトコピーを使用する必要があります。 </p>"
+    use_restrictions_note_tooltip: "<p>どの材料に使用制限があるか、どのように材料を使用できるか、制限の権限は何か、制限の有効期間は何かを示す声明。追加情報は、権利サブ記録に記録することもできます。</p><p>DACS
+      4.4、ISAD(G) 3.4.2を参照 </p><p>例： </p><p>ボックス33の原稿は壊れやすい。代わりにフォトコピーを使用する必要があります。 </p>"
     acquisition_type: 獲得タイプ
     acquisition_type_tooltip: "<p>獲得のタイプのためのカテゴリー記述子。リポジトリは、データ値のリストをカスタマイズすることができます。 </p><p>例： </p><ul><li>贈り物</li><li>購入</li><li>転送</li></ul>"
     publish: 公開しますか？
@@ -1014,7 +1018,8 @@ ja:
     agent_contact_notes_tooltip: "<p>エージェントとのやり取りに関するメモ。</p>"
     agent_record_controls_tooltip: "<p>エージェントを説明するレコードに関する情報。</p>"
     agent_alternate_sets_tooltip: "<p>同じエンティティの2つ以上のレコードが2つ以上の権限システムから派生した場合に、リンクされた権限レコードを指すために使用されます。</p>"
-    agent_conventions_declarations_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるコンテンツ標準。DACS 13.3、ISAAR (CPF) 5.4.3を参照。例：アーカイブの説明：コンテンツ標準。このサブレコードは、個々の名前フォームのルールエントリの代わりに使用できます。</p>"
+    agent_conventions_declarations_tooltip: "<p>エージェントレコードコンテンツの作成に使用されるコンテンツ標準。DACS 13.3、ISAAR (CPF)
+      5.4.3を参照。例：アーカイブの説明：コンテンツ標準。このサブレコードは、個々の名前フォームのルールエントリの代わりに使用できます。</p>"
     agent_other_agency_codes_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コードに関する情報。</p>"
     agent_maintenance_histories_tooltip: "<p>エージェントレコードの作成または保守に関連するイベント。DACS 13.6、13.9; ISAAR (CPF) 5.4.6、5.4.9を参照</p>"
     agent_record_identifiers_tooltip: "<p>エージェントレコードに関連付けられている識別子。</p>"
@@ -1023,7 +1028,8 @@ ja:
     agent_genders_tooltip: 主題の性別。
     agent_places_tooltip: エージェントに関連付けられた情報を配置します。 DACS 11.3、ISAAR (CPF) 5.2.3を参照
     agent_occupations_tooltip: エージェントに関連付けられている職業情報。 DACS 11.5、ISAAR (CPF) 5.2.5を参照
-    agent_functions_tooltip: エージェントによって実行される機能、プロセス、タスク、アクティビティ、またはトランザクションを識別するために使用される用語。DACS 11.5、ISAAR (CPF) 5.2.5を参照
+    agent_functions_tooltip: エージェントによって実行される機能、プロセス、タスク、アクティビティ、またはトランザクションを識別するために使用される用語。DACS 
+      11.5、ISAAR (CPF) 5.2.5を参照
     agent_topics_tooltip: エージェントに関連付けられているサブジェクト。
     agent_contacts_tooltip: "<p>エージェントまたは代理で働く代表者の連絡先情報。</p>"
     used_languages_tooltip: エージェントに関連付けられている言語。例：英語。
@@ -1043,14 +1049,15 @@ ja:
     name: エージェント名
     names: 名前フォーム
     names_tooltip: "<p>必要なサブワード：エージェントの名前の異なる形式を記録します。各エージェントレコードには少なくとも1つのName Formサブレコードが必要です。 </p>
-    <p>DACS 10.1、10.3.3、ISAAR (CPF) 5.1.2、5.1.5を参照</p>"
+      <p>DACS 10.1、10.3.3、ISAAR (CPF) 5.1.2、5.1.5を参照</p>"
 
     agent_contacts: 連絡先の詳細
     contacts_tooltip: "<p>特定のエージェントに関する連絡先情報を記録します。 </p>"
     notes: ノート
     notes_tooltip: "<p>経歴書や管理履歴など、エージェントに関する追加の説明的な情報を記録します。 </p>"
     related_agents_tooltip: "<p>アソシエーティブ、階層、または親/子関係で、このエージェントレコードから別のエージェントレコードへのリンクを許可します。 </p>"
-    external_documents_tooltip: "<p>このエージェントに関する外部の文書（例えば、経歴ファイル、参照作業など）へのリンクを許可します。 DACS 14.1、ISAAR (CPF) 6.1を参照</p>"
+    external_documents_tooltip: "<p>このエージェントに関する外部の文書（例えば、経歴ファイル、参照作業など）へのリンクを許可します。 DACS 14.1、ISAAR (CPF)
+      6.1を参照</p>"
     dates_of_existence: 存在の日付
     dates_of_existence_tooltip: "<p>エージェントが存在した日付。 DACS 11.1、ISAAR (CPF) 5.2.1を参照</p>"
     publish: 公開する
@@ -1088,8 +1095,8 @@ ja:
     other_level_tooltip: "<p>「その他のレベル」が「レベル」で選択された値であれば、必要なフィールド。 EADスキーマで指定された値の範囲外のレベルのタイプを表現します。 </p>"
     container_summary: コンテナの概要
     container_summary_tooltip: "<p>リソース記述を含むコンテナの数と種類を記録するため。これは、テキストサマリーとみなされ、エクステントサブレコードと同一ではありません。
-      </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p><p>例： </p><ul><li> 10個のレコードカートン、6個のアーカイブボックス、3個の特大のフォルダ。 </li><li> 12靴箱。 </li><li>ボックス4個、チューブ32個。
-      </li></ul>"
+      </p><p>DACS 2.5、ISAD(G) 3.1.5を参照</p><p>例： </p><ul><li> 10個のレコードカートン、6個のアーカイブボックス、3個の特大のフォルダ。 </li><li>
+      12靴箱。 </li><li>ボックス4個、チューブ32個。 </li></ul>"
     publish: 公開しますか？
     publish_tooltip: "<p>このアーカイブオブジェクトをパブリック（パトロン）インターフェイスに公開するかどうかを決定します。 </p>"
     restrictions_apply: 制限が適用されます？
@@ -1165,14 +1172,16 @@ ja:
     id_1: 2を特定する
     id_2: 識別3
     id_3: 識別4
-    id_0_tooltip: "<p>必要なフィールド。リポジトリ内の各個別リソースに割り当てられた識別番号。 </p><p>DACS 2.1.3、ISAD(g) 3.1.1を参照。ISAD(g) 規則では、国際交換のためには国コード（ISO 3166 規格に準拠）、リポジトリ コード、および特定のローカル参照コード、管理番号、またはその他の固有識別子が必要であると規定されています。国コードとリポジトリ コードは、ここで追加することも、リポジトリ レコード（国コードと組織/機関コード フィールド）に追加することもできます。</p><p>例</p><ul><li> R.001（2つの要素「R」+「001」）
+    id_0_tooltip: "<p>必要なフィールド。リポジトリ内の各個別リソースに割り当てられた識別番号。 </p><p>DACS 2.1.3、ISAD(g) 3.1.1を参照。ISAD(g)
+      規則では、国際交換のためには国コード（ISO 3166 規格に準拠）、リポジトリ コード、および特定のローカル参照コード、管理番号、またはその他の固有識別子が必要であると規定されています。国コードとリポジトリ
+      コードは、ここで追加することも、リポジトリ レコード（国コードと組織/機関コード フィールド）に追加することもできます。</p><p>例</p><ul><li> R.001（2つの要素「R」+「001」）
       </li><li> MSS 025（単一要素） </li><li> Archives.RSS.0333（3つの要素 &quot;Archives&quot; + &quot;RSS&quot;
       + &quot;0333&quot;） </li></ul>"
     "[:id_0, :id_1, :id_2, :id_3]": 識別
     "[:repo_id, :identifier]": 識別
     identifier: 識別
-    title_tooltip: "<p>必要なフィールド。リソースに割り当てられたタイトル。 </p><p>DACS 2.3、ISAD(G) 3.1.2を参照</p><p>例： </p><ul><li> Graciany Miranda
-      Archillaの論文</li><li>愛は家族の記録を作る</li><li>キャメロンファミリーアカウントブック</li><li>キャロラインとアーウィンスワンの漫画と漫画のコレクション</li><li>国立科学アカデミーの対応</li><li>オーディオとビデオの録音</li></ul>"
+    title_tooltip: "<p>必要なフィールド。リソースに割り当てられたタイトル。 </p><p>DACS 2.3、ISAD(G) 3.1.2を参照</p><p>例： </p><ul><li>
+      Graciany Miranda Archillaの論文</li><li>愛は家族の記録を作る</li><li>キャメロンファミリーアカウントブック</li><li>キャロラインとアーウィンスワンの漫画と漫画のコレクション</li><li>国立科学アカデミーの対応</li><li>オーディオとビデオの録音</li></ul>"
     resource_type: リソースタイプ
     resource_type_tooltip: "<p>リポジトリがリソースを基本タイプに分類するために使用する用語のリスト。 </p><p>この管理された値リストの値は変更することができます。 </p>"
     repository_processing_note: リポジトリ処理の注意
@@ -1258,8 +1267,8 @@ ja:
       2.2、ISDIAH 5.1.2を参照</p><p>例： </p><ul><li>あなたの名前はここにありますSpecial Collections Library </li><li>マンデルビル特別収集図書館</li><li>
       Tamiment LibraryとRobert F. Wagner Labor Archives </li></ul>"
     org_code: 組織/代理店コード
-    org_code_tooltip: "<p>ISO / DIS1511情報およびドキュメンテーションライブラリおよび関連組織の国際標準識別子（ISIL）に準拠するコード。米国の機関には、MARC組織コードリストのコードが含まれています。ISDIAH 5.1.1を参照
-      </p><p>例： </p><ul><li> NNU-TL <em>（タミテイ図書館とロバート・ワーグナー労働記録庫）</em> </li><li> IU-Ar <em>（イリノイ大学アーカイブス用）</em>
+    org_code_tooltip: "<p>ISO / DIS1511情報およびドキュメンテーションライブラリおよび関連組織の国際標準識別子（ISIL）に準拠するコード。米国の機関には、MARC組織コードリストのコードが含まれています。ISDIAH
+      5.1.1を参照 </p><p>例： </p><ul><li> NNU-TL <em>（タミテイ図書館とロバート・ワーグナー労働記録庫）</em> </li><li> IU-Ar <em>（イリノイ大学アーカイブス用）</em>
       </li></ul>"
     parent_institution_name: 親機関名
     parent_institution_name_tooltip: "<p>リポジトリの一部である親機関の名前。 </p><p>例： </p><ul><li>イリノイ大学（イリノイ<em>大学アーカイブス）</em>
@@ -1576,7 +1585,8 @@ ja:
     invalid_characters: 無効な文字が含まれています
     subrecord_not_allowed_for_agent_software: ソフトウェアエージェントは、レコード制御または関係サブレコードを持つことはできません
     mixed_content_invalid_inline_ead: "無効な EAD マークアップです。属性値には直線の引用符（\" または '）を使用し、タグが正しく構成されていることを確認してください。"
-    mixed_content_disallowed_tag: "許可されていない HTML タグが検出されました。セキュリティ上の理由から、&lt;script&gt;、&lt;style&gt;、&lt;iframe&gt; などのタグやフォーム要素は、混合コンテンツフィールドでは使用できません。"
+    mixed_content_disallowed_tag: "許可されていない HTML タグが検出されました。セキュリティ上の理由から、&lt;script&gt;、&lt;style&gt;、&lt;iframe&gt;
+      などのタグやフォーム要素は、混合コンテンツフィールドでは使用できません。"
   job:
     _singular: バックグラウンドジョブ
     _plural: バックグラウンドジョブ
@@ -2083,8 +2093,10 @@ ja:
     level_of_detail_tooltip: "<p>コンソーシアムまたはローカルの要件に従って、エージェントレコードの完全性を示します。DACS 13.5、ISAAR (CPF) 5.4.5を参照</p>"
     modified_record_tooltip: "<p>エージェントレコードが変更されたかどうか、およびどのように変更されたかを示します。</p>"
     cataloging_source_tooltip: "<p>エージェントレコードの発信元を示します。共同目録プログラムに提出されていない現地で作成された記録は、「その他」として記録する必要があります。</p>"
-    maintenance_agency_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織のコード値。コード値はレジストリから取得し、ISO15511規則を使用して記録する必要があります。DACS 13.1、ISAAR (CPF) 5.4.2を参照。例：US-UPB（ブリガムヤング大学の場合、米国議会図書館のMARC組織コードを使用）。</p>"
-    agency_name_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の名前。記録される名前は、レジストリのコード値に関連付けられている名前の形式に対応している必要があります。ISAAR (CPF) 5.4.2を参照。例：ブリガムヤング大学、ハロルドB.リー図書館（コード値UPBの場合、米国議会図書館のMARC組織コードを使用）。</p>"
+    maintenance_agency_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織のコード値。コード値はレジストリから取得し、ISO15511規則を使用して記録する必要があります。DACS
+      13.1、ISAAR (CPF) 5.4.2を参照。例：US-UPB（ブリガムヤング大学の場合、米国議会図書館のMARC組織コードを使用）。</p>"
+    agency_name_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の名前。記録される名前は、レジストリのコード値に関連付けられている名前の形式に対応している必要があります。ISAAR
+      (CPF) 5.4.2を参照。例：ブリガムヤング大学、ハロルドB.リー図書館（コード値UPBの場合、米国議会図書館のMARC組織コードを使用）。</p>"
     maintenance_agency_note_tooltip: "<p>メモの内容。エージェントの説明を担当する保守機関に関する詳細を提供します。</p>"
     language_tooltip: "<p>エージェントの説明の準備に使用される言語。DACS 13.7、ISAAR (CPF) 5.4.7を参照。 例：英語。</p>"
     script_tooltip: "<p>エージェントの説明の準備に使用されるテキストスクリプト。DACS 13.7、ISAAR (CPF) 5.4.7を参照。 例：ラテン語。</p>"
@@ -2114,7 +2126,8 @@ ja:
     last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリンクされたリソースが検証された最後の日付または日時。</p>"
   agent_other_agency_codes:
     agency_code_type_tooltip: "<p>保守機関コードのソース。例：OCLC。</p>"
-    maintenance_agency_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コード値。コード値はレジストリから取得し、ISO15511規則を使用して記録する必要があります。DACS 13.1、ISAAR (CPF) 5.4.2を参照。 例：OCLC-UBY（米国の場合、ブリガムヤング大学、OCLCシンボルを使用）。</p>"
+    maintenance_agency_tooltip: "<p>エージェントレコードの作成または維持を担当する機関または組織の代替コード値。コード値はレジストリから取得し、ISO15511規則を使用して記録する必要があります。DACS
+      13.1、ISAAR (CPF) 5.4.2を参照。 例：OCLC-UBY（米国の場合、ブリガムヤング大学、OCLCシンボルを使用）。</p>"
   agent_maintenance_histories:
     maintenance_event_type_tooltip: "<p>メンテナンスイベントの種類を示します。</p>"
     maintenance_agent_type_tooltip: "<p>メンテナンスイベントが人によって実行されたのか、ソフトウェアシステムによって実行されたのかを示します。</p>"
@@ -2133,7 +2146,8 @@ ja:
     xlink_arcrole_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
     last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリンクされたリソースが検証された最後の日付または日時。</p>"
   agent_identifiers:
-    entity_identifier_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子を記録します。 DACS 10.4、ISAAR (CPF) 5.1.6を参照</p>"
+    entity_identifier_tooltip: "<p>権限のある機関によって割り当てられた法的識別子など、エンティティに関連付けられた識別子を記録します。 DACS 10.4、ISAAR
+      (CPF) 5.1.6を参照</p>"
     identifier_type_tooltip: "<p>記録されたエンティティ識別子のタイプまたはソースを示します。</p>"
   used_language:
     language_tooltip: "<p>エージェントに関連付けられている言語。例：英語。</p>"
@@ -2145,7 +2159,8 @@ ja:
   agent_resource:
     linked_agent_role_tooltip: "<p>必須フィールド：リソースに記述されているエンティティの関係のタイプ。</p><p>DACS 14.3、ISAAR (CPF) 6.3を参照</p>"
     linked_resource_tooltip: "<p>エージェント/エンティティに関連するリソース。DACS 14.1、ISAAR (CPF) 6.1を参照</p>"
-    linked_resource_description_tooltip: "<p>エージェント/エンティティに関連するリソースのオンライン上の場所を示すURI。DACS 14.1、ISAAR (CPF) 6.1を参照</p>"
+    linked_resource_description_tooltip: "<p>エージェント/エンティティに関連するリソースのオンライン上の場所を示すURI。DACS 14.1、ISAAR (CPF)
+      6.1を参照</p>"
     file_version_xlink_actuate_attribute_tooltip: "<p>エージェントレコードがレンダリングされるときに、関連付けられたURIを解決する必要があるかどうかを示します。</p>"
     file_version_xlink_show_attribute_tooltip: "<p>関連するURIでリンクされているリモートリソースをどこにレンダリングするかを示します。</p>"
     xlink_title_attribute_tooltip: "<p>関連付けられたURIにリンクされているリモートリソースのタイトル。キャプションとして使用できます。</p>"
