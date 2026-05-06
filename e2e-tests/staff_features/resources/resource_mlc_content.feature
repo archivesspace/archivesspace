@@ -1,7 +1,5 @@
 Feature: MLC content display
   Background:
-        # This is painfully slow since these run for every scenario and are expensive, but I'm wary
-        # of starting to refactor already heavily used step definitions for idempotency
     Given an administrator user is logged in
     Given a Resource has been created
   Scenario: Current Language selector from edit mode resource toolbar
