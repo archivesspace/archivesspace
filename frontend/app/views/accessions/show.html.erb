@@ -3,10 +3,10 @@
 <%= render_aspace_partial :partial => "transfer/transfer_failures", :locals => { :transfer_errors => @transfer_errors } %>
 
 <div class="d-flex">
-   <div class="col-md-3">
+   <div class="col-md-2">
       <%= render_aspace_partial :partial => "sidebar" %>
    </div>
-   <div class="col-md-9">
+   <div class="col-md-10">
     <%= render_aspace_partial :partial => "accessions/toolbar" %>
     <div class="record-pane">
       <%= readonly_context :accession, @accession do |readonly| %>

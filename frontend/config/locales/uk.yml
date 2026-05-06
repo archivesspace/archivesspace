@@ -2294,3 +2294,13 @@ uk:
     aspace_subject_import_template_csv: Створення нових записів тем. Зверніть 
       увагу, що цей шаблон призначений для створення самих записів тем, а не для
       їх зв’язування з іншими записами.
+  lang_description:
+    current_language: Поточна мова
+    default: За замовчуванням
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: англійська
+      spa: Іспанська
+      fre: французька
+      ger: Німецький
+    mlc_field: Значення цього поля може змінюватися залежно від поточної мови опису.

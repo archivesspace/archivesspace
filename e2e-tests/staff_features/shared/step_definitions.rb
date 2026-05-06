@@ -596,3 +596,49 @@ end
 Then 'the {string} button is not present on the page' do |string|
   expect(page).to_not have_selector('button', text: string)
 end
+
+Then('the user sees the MLC default language preview before the {string} {string} label') do |record_type, field|
+  label = find("label[for*='#{record_type}_#{field}_']")
+  field_container = label.ancestor('.form-group')
+  badge = field_container.find(:xpath, "preceding-sibling::div[contains(@class, 'mt-1')][1]")
+  expect(badge).to have_css('details summary', text: 'SPA')
+end
+
+Then('the user should not see the MLC default language preview before the {string} {string} label') do |record_type, field|
+  if page.has_css?("label[for*='#{record_type}_#{field}']")
+    label = find("label[for*='#{record_type}_#{field}']")
+    field_container = label.ancestor('.form-group')
+    expect(field_container).not_to have_xpath("preceding-sibling::div[contains(@class, 'mt-1')][1]")
+  else
+    # field is blank and not rendered in view mode, so no preview to check for
+    true
+  end
+end
+
+Then('the user sees the default language preview summary text {string}') do |summary_text|
+  expect(page).to have_css('details summary', text: summary_text)
+end
+
+Then('the default language preview should be present but hidden') do
+  expect(page).to have_css('details p.text-muted', visible: :hidden)
+end
+
+Then('the user sees a globe icon on the {string} {string} label') do |record_type, field|
+  label = find("label[for*='#{record_type}_#{field}']")
+  expect(label).to have_css('span.glyphicon-globe')
+end
+
+Then('the user should not see a globe icon on the {string} {string} label') do |record_type, field|
+  if page.has_css?("label[for*='#{record_type}_#{field}']")
+    label = find("label[for*='#{record_type}_#{field}']")
+    expect(label).not_to have_css('span.glyphicon-globe')
+  else
+    # field is blank and not rendered in view mode, so no preview to check for
+    true
+  end
+end
+
+Then('the user sees the {string} option in the {string} dropdown') do |option, button_text|
+  dropdown = find('button', text: button_text).ancestor('.btn-group', match: :first)
+  expect(dropdown).to have_css('span', text: option)
+end

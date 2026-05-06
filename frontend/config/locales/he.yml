@@ -1,1 +1,11 @@
 he:
+  lang_description:
+    current_language: שפה נוכחית
+    default: בְּרִירַת מֶחדָל
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: אַנגְלִית
+      spa: סְפָרַדִית
+      fre: צָרְפָתִית
+      ger: גֶרמָנִיָת
+    mlc_field: הערך של שדה זה יכול להשתנות בהתאם לשפת התיאור הנוכחית.

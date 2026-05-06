@@ -632,3 +632,15 @@ it:
       destinati alla produzione, inclusi i dati presenti in un'istanza di test 
       che intendi trasferire in un'istanza di produzione, dovresti utilizzare 
       MySQL.</p>
+  lang_description:
+    current_language: Lingua attuale
+    default: Predefinito
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: Inglese
+      spa: spagnolo
+      fre: francese
+      ger: tedesco
+    mlc_field: >-
+      Il valore di questo campo può cambiare in base alla lingua di descrizione
+      corrente.

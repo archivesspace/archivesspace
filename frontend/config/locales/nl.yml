@@ -63,3 +63,15 @@ nl:
       href='http://archivesspace.org'>ArchivesSpace.org</a>
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
       target='_blank'>Stuur feedback of meld een probleem</a>
+  lang_description:
+    current_language: Huidige taal
+    default: Standaard
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: Engels
+      spa: Spaans
+      fre: Frans
+      ger: Duits
+    mlc_field: >-
+      De waarde van dit veld kan veranderen op basis van de huidige
+      beschrijvingstaal.
