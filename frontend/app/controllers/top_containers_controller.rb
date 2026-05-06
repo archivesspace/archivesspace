@@ -253,6 +253,7 @@ class TopContainersController < ApplicationController
 
   def access_top_containers
     @top_container_previous_search = {}
+    results = nil
 
     if params['record_uri']
       record_type = params['record_type']

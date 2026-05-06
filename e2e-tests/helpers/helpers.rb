@@ -138,7 +138,7 @@ def ensure_test_repository_exists
     visit STAFF_URL
   end
 
-  select_test_repository
+  ensure_test_repository_selected
 rescue Capybara::ElementNotFound
   visit STAFF_URL
   click_on 'System'
@@ -154,10 +154,10 @@ rescue Capybara::ElementNotFound
   expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Repository is Currently Selected')
 
   visit STAFF_URL
-  select_test_repository
+  ensure_test_repository_selected
 end
 
-def select_test_repository
+def ensure_test_repository_selected
   click_on 'Select Repository'
   within '.dropdown-menu' do
     find('select').select 'repository_test'

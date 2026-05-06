@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-Then 'all top containers linked to that resource are displayed' do
+Then 'the top container appears linked in the modal' do
   within '#accessTopContainersModal' do
     expect(page).to have_css('#bulk_operation_results tbody tr', text: @uuid)
   end
 end
 
-When "the archivist views a top container's details" do
+When "the user views a top container's details" do
   within '#accessTopContainersModal' do
     find('.inline-tc-view-btn', match: :first).click
   end
@@ -19,7 +19,7 @@ Then 'the top container information is displayed in full' do
   end
 end
 
-When 'the archivist updates the barcode of a top container' do
+When 'the user updates the barcode of a top container' do
   @new_barcode = SecureRandom.uuid
   within '#accessTopContainersModal' do
     find('.inline-tc-edit-btn', match: :first).click
@@ -32,7 +32,7 @@ When 'the archivist updates the barcode of a top container' do
   wait_for_ajax
 end
 
-Then 'the archivist remains within the resource context' do
+Then 'the user remains within the resource context' do
   expect(current_url).to include "/resources/#{@resource_id}"
 end
 
@@ -42,7 +42,7 @@ Then 'the updated barcode is reflected in the top container management view' do
   end
 end
 
-When 'the archivist applies a bulk barcode update to the selected top containers' do
+When 'the user applies a bulk barcode update to the selected top containers' do
   @new_barcode = SecureRandom.uuid
   within '#accessTopContainersModal #bulk_operation_results tbody' do
     find('input[type="checkbox"]', match: :first).click
@@ -57,9 +57,6 @@ When 'the archivist applies a bulk barcode update to the selected top containers
     click_on 'Update 1 records'
   end
   wait_for_ajax
-end
-
-Then 'the bulk barcode update is confirmed' do
   within '#bulkActionBarcodeRapidEntryModal' do
     expect(page).to have_css('.alert-success')
   end
@@ -73,27 +70,25 @@ end
 When 'the user opens the top container management panel' do
   retries = 0
   loop do
+    expect(page).to have_selector('h2', visible: true, wait: 15)
+    expect(page).to have_css('.access-top-containers-btn[data-tc-initialized]', visible: :all, wait: 10)
+    wait_for_ajax
+
+    if find('.access-top-containers-btn', visible: :all).disabled?
+      retries += 1
+      raise 'Top containers button never became enabled after multiple attempts' if retries >= 10
+      sleep 3
+      page.evaluate_script('window.location.reload()')
+      sleep 0.5
+      next
+    end
+
     within '#other-dropdown' do
       find('.dropdown-toggle').click
     end
+    sleep 0.3
     find('.access-top-containers-btn').click
     wait_for_ajax
-
-    break if page.has_css?('#accessTopContainersModal #bulk_operation_results tbody tr', wait: 5)
-
-    page.execute_script("$('#accessTopContainersModal').modal('hide')")
-    wait_for_ajax
-    sleep 1
-
-    retries += 1
-    raise 'Top containers did not appear in the management panel after multiple attempts' if retries >= 4
-
-    sleep 2
-  end
-end
-
-Then 'all top containers linked to that accession are displayed' do
-  within '#accessTopContainersModal' do
-    expect(page).to have_css('#bulk_operation_results tbody tr', text: @uuid)
+    break
   end
 end

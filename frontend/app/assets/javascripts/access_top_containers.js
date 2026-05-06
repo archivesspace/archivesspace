@@ -1,7 +1,7 @@
 // Stacked-modal backdrop fix. This seems to be the best solution I could find for the problem.
 // Bootstrap assigns all modals z-index:1050 and all backdrops z-index:1040,
 // so a second backdrop never dims the modal beneath it.
-// I added these twohandlers to escalate each new modal and its backdrop above the existing stack.
+// Added these two handlers to escalate each new modal and its backdrop above the existing stack.
 $(document).on('show.bs.modal', '.modal', function () {
   const openCount = $('.modal.show').length;
   if (openCount > 0) {
@@ -75,9 +75,10 @@ function loadAccessTopContainersModal(
 }
 
 function openTopContainerSubModal(tcId, mode) {
-  const title = mode === 'edit'
-    ? AS.access_top_containers_locales.edit_top_container
-    : AS.access_top_containers_locales.view_top_container;
+  const title =
+    mode === 'edit'
+      ? AS.access_top_containers_locales.edit_top_container
+      : AS.access_top_containers_locales.view_top_container;
   const $subModal = AS.openCustomModal(
     'accessTopContainerSubModal',
     title,
@@ -206,12 +207,11 @@ $(document).on('loadedrecordform.aspace', function () {
       data: {
         record_uri: $btn.data('record-uri'),
         record_type: $btn.data('record-type'),
-        count_only: true
+        count_only: true,
       },
       type: 'GET',
       dataType: 'json',
       success: function (data) {
-        console.log('[TC] count_only response:', JSON.stringify(data), 'count:', data && data.count, 'type:', typeof (data && data.count));
         $btn.find('.tc-btn-spinner').addClass('d-none');
         $btn.find('.tc-btn-label').removeClass('d-none');
 
@@ -224,14 +224,16 @@ $(document).on('loadedrecordform.aspace', function () {
             .attr('data-placement', 'auto')
             .attr('title', AS.access_top_containers_locales.no_top_containers)
             .addClass('has-tooltip');
-          $wrapper.tooltip({ container: 'body', placement: 'auto' }).addClass('initialised');
+          $wrapper
+            .tooltip({ container: 'body', placement: 'auto' })
+            .addClass('initialised');
         }
       },
       error: function () {
         $btn.find('.tc-btn-spinner').addClass('d-none');
         $btn.find('.tc-btn-label').removeClass('d-none');
         $btn.prop('disabled', false);
-      }
+      },
     });
   });
 });

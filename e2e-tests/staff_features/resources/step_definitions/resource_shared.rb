@@ -19,6 +19,7 @@ Given 'a Resource with a Top Container has been created' do
 
   fill_in 'top_container_indicator_', with: @uuid
   click_on 'Create and Link'
+  expect(page).to have_css('.top_container', wait: 10)
 
   click_on 'Add Language'
 
@@ -66,7 +67,7 @@ Given 'the Resource is opened in the view mode' do
   visit "#{STAFF_URL}/resources/#{@resource_id}"
 end
 
-Given 'the Resource is being edited' do
+Given 'the Resource is opened in edit mode' do
   visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
   expect(page).to have_selector('h2', visible: true, text: 'Resource')
   wait_for_ajax # still needed for dropdown menus to become active

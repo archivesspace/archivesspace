@@ -124,8 +124,7 @@ Given 'an Accession with a Top Container has been created' do
 
   fill_in 'top_container_indicator_', with: @uuid
   click_on 'Create and Link'
-
-  sleep 3
+  expect(page).to have_css('.top_container', wait: 10)
 
   click_on 'Save'
   expect(page).to have_text "Accession Accession Title #{@uuid} created"
