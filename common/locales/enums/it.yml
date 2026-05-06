@@ -888,6 +888,49 @@ it:
       opensm: OpenStreetMap
       orcid: Apri ID ricercatore e collaboratore
       oxforddnb: Indice biografico di Oxford
+      porthu: PORT.hu
+      rbmsbt: 'Vocabolario controllato RBMS: termini di rilegatura (Sezione Libri rari e manoscritti,
+        Associazione delle biblioteche universitarie e di ricerca)'
+      rbmsgt: 'Vocabolario controllato RBMS: termini di genere (Sezione Libri rari e manoscritti, Associazione
+        delle biblioteche universitarie e di ricerca)'
+      rbmspe: 'Vocabolari controllati RBMS: prove di provenienza (Sezione Libri rari e manoscritti, Associazione
+        delle biblioteche universitarie e di ricerca)'
+      rbmsppe: 'Vocabolari controllati RBMS: prove di stampa ed editoria (Sezione Libri rari e manoscritti,
+        Associazione delle biblioteche universitarie e di ricerca)'
+      rbmspt: "Vocabolario controllato RBMS: Termini relativi ai documenti (Sezione Libri rari e manoscritti
+        dell'Associazione delle biblioteche universitarie e di ricerca)"
+      rbmsrd: 'Vocabolari controllati RBMS: designatori di relazione (Sezione Libri rari e manoscritti,
+        Associazione delle biblioteche universitarie e di ricerca)'
+      rbmste: 'Vocabolari controllati RBMS: prove tipografiche (Sezione Libri rari e manoscritti, Associazione
+        delle biblioteche universitarie e di ricerca)'
+      rid: ResearcherID (Thomson Reuters)
+      rkda: "RKDartists& (L'Aia: Istituto olandese per la storia dell'arte)"
+      saam: 'Smithsonian American Art Museum (Washington DC: Smithsonian Institution)'
+      scholaru: Universo degli studiosi
+      scope: Ambito di applicazione
+      scopus: Identificativo autore Scopus
+      sici: Identificativo seriale dell'articolo e del contributo
+      spotify: Spotify
+      sprfbsb: 'Riferimento sportivo: Baseball'
+      sprfbsk: 'Riferimento sportivo: Pallacanestro'
+      sprfcbb: 'Riferimento sportivo: basket universitario'
+      sprfcfb: 'Riferimento sportivo: football universitario'
+      sprfhoc: 'Riferimento sportivo: Hockey'
+      sprfoly: 'Riferimento sportivo: sport olimpici'
+      sprfpfb: 'Riferimento sportivo: calcio professionistico'
+      stock-number: Numero di stock dell'editore, del distributore o del fornitore
+      strn: Numero del rapporto tecnico standard
+      svfilm: Banca dati cinematografica svedese
+      tatearid: Identificativo dell'artista Tate
+      theatr: Teatralità
+      trove: Trove (Biblioteca nazionale australiana)
+      upc: Codice prodotto universale
+      uri: Identificatore uniforme della risorsa
+      urn: Nome della risorsa uniforme
+      viaf: Autorità virtuale internazionale Numero di pratica
+      videorecording-identifier: Numero di videoregistrazione assegnato dall'editore
+      wikidata: Wikidata (Wikimedia Foundation)
+      wndla: 'Autorità NDL sul Web (Tokyo: Biblioteca della Dieta Nazionale (NDL))'
     date_label:
       deaccession: Deaccessione
       copyright: Diritto d'autore
@@ -1475,6 +1518,8 @@ it:
       Zyyy: Codice per scritture non determinate
     source:
       local: Locale
+      naf: NAF
+      snac: SPUNTINO
     date_certainty:
       approximate: Approssimativa
       inferred: Desunta
@@ -1821,6 +1866,40 @@ it:
       modify: Modificare
       replicate: Replicare
       use: Utilizzo
+    rights_statement_ip_status:
+      copyrighted: Protetto da copyright
+      public_domain: Dominio pubblico
+      unknown: Sconosciuto
+    rights_statement_other_rights_basis:
+      donor: Donatore
+      policy: Politica
+    rights_statement_rights_type:
+      copyright: Copyright
+      license: Licenza
+      other: Altro
+      statute: Statuto
+    romanization:
+      conv_rom_cat_agency: Romanizzazione convenzionale o forma convenzionale del nome nella lingua 
+        dell'ente di catalogazione
+      int_std: Standard internazionale
+      local_standard: Norma locale
+      nat_std: Standard nazionale
+      nl_assoc_std: standard dell'associazione nazionale delle biblioteche
+      nl_bib_agency_std: standard della biblioteca nazionale o dell'agenzia bibliografica
+      not_applicable: Non applicabile
+      unknown_standard: Standard di origine sconosciuta
+    subject_source:
+      aat: Dizionario dei sinonimi di arte e architettura
+      cash: Intestazioni di soggetto canadesi
+      gmgpc: TGM II, termini relativi al genere e alle caratteristiche fisiche
+      ingest: Fonte di ingestione non specificata
+      lcgft: Termini di genere/forma della Biblioteca del Congresso
+      lcsh: Soggetti della Biblioteca del Congresso
+    transliteration:
+      ala-lc: Tabelle di romanizzazione ALA-LC
+    subject_term_type:
+      uniform_title: Primo titolo
+      topical: Argomenti di attualità
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: 'Calendario delle date'
