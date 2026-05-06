@@ -10,6 +10,11 @@ Feature: Accession Edit
     Given the Accession is opened in the view mode
      When the user clicks on 'Edit'
      Then the Accession is opened in the edit mode
+  Scenario: Accession cannot be edited by user with view-only permissions
+    Given a viewer user is logged in
+     When the user clicks on 'Browse'
+      And the user clicks on 'Accessions'
+     Then the 'Edit' button is not present on the page
   Scenario Outline: Accession is successfully updated
     Given the Accession is opened in edit mode
      When the user changes the '<Field>' field to '<NewValue>'
