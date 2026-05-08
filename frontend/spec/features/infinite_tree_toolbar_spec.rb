@@ -75,6 +75,7 @@ describe 'Infinite Tree Toolbar', js: true do
   end
 
   it 'shows cut/paste and move only in reorder mode for archival object selection' do
+    expect(page).to have_css('#infinite-tree-record-pane', visible: true)
     find('.js-itree-toolbar-reorder-toggle').click
 
     within '#infinite-tree-toolbar' do
@@ -99,6 +100,8 @@ describe 'Infinite Tree Toolbar', js: true do
       end
     end
 
+    expect(page).to have_css('#infinite-tree-record-pane', visible: false)
+
     within '#infinite-tree-container' do
       click_link ao.title
     end
@@ -106,6 +109,10 @@ describe 'Infinite Tree Toolbar', js: true do
     within '#infinite-tree-toolbar' do
       expect(page).to have_css('.js-itree-toolbar-move-toggle', text: I18n.t('actions.move'))
     end
+
+    find('.js-itree-toolbar-reorder-toggle').click
+
+    expect(page).to have_css('#infinite-tree-record-pane', visible: true)
   end
 
   it 'defaults to before drop behavior' do

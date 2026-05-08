@@ -25,17 +25,32 @@
   --gray-100: #fafafa;
   --gray-150: #f1f1f1;
   --gray-200: #eee;
+  --gray-225: #ededed;
+  --gray-250: #e9e9e9;
+  --gray-300: #ddd;
+  --gray-325: #d9d9d9;
+  --gray-350: #919191;
+  --gray-375: #787878;
   --gray-400: rgb(110, 110, 110);
   --gray-500: #555;
 
   // Blues from lightest to darkest
   --blue-50: #effaff;
+  --blue-100: #e7f3fa;
+  --blue-150: #b6def5;
+  --blue-200: #a8d4ee;
   --blue-500: #007bff;
+  --blue-700: #0a6aa1;
   --blue-800: #004080;
   --blue-950: #001f4d;
 
+  // Greens from lightest to darkest
+  --green-300: #93d093;
+  --green-600: #5f9f5f;
+
   // Semantic usage
   --tree-bg-subtle: var(--gray-150);
+  --tree-bg-default: var(--gray-0);
   --tree-container-border: var(--gray-200);
   --tree-container-bg: var(--gray-200);
   --tree-line-color: var(--gray-0);
@@ -45,10 +60,26 @@
   --tree-expand-btn-color: var(--gray-500);
   --tree-expand-btn-color-disabled: var(--gray-400);
   --tree-current-border: var(--blue-500);
+  --tree-current-hover-bg: var(--blue-100);
+  --tree-multiselect-hover-bg: var(--blue-200);
   --tree-link-hover: var(--blue-800);
   --tree-expand-hover: var(--blue-950);
-  --tree-reorder-row-hover-bg: #e7f3fa;
+  --tree-reorder-row-hover-bg: var(--blue-100);
+  --tree-multiselect-bg: var(--blue-150);
+  --tree-multiselect-border: var(--blue-700);
+  --tree-reparent-highlight-bg: var(--green-300);
+  --tree-reparent-highlight-border: var(--green-600);
   --tree-blockout-overlay: rgba(0, 0, 0, 0.2);
+  --tree-resizer-bg: var(--gray-200);
+  --tree-resizer-border-top: var(--gray-300);
+  --tree-resizer-border-bottom: var(--gray-325);
+  --tree-resizer-hover-bg: var(--gray-250);
+  --tree-resize-toggle-bg: rgba(0, 0, 0, 0.1);
+  --tree-resize-toggle-color: var(--gray-375);
+  --tree-resize-toggle-maximized-bg: var(--gray-350);
+  --tree-resize-toggle-maximized-color: var(--gray-0);
+  --tree-toolbar-gradient-start: #f3f3f3;
+  --tree-toolbar-gradient-end: var(--gray-225);
 }
 
 #infinite-tree-container {
@@ -57,6 +88,16 @@
   border: 1px solid var(--tree-container-border);
   background-color: var(--tree-container-bg);
   overflow-y: auto;
+}
+
+.infinite-tree-snapshot-overlay {
+  opacity: 1;
+  transition: opacity 160ms ease-out;
+  box-sizing: border-box;
+}
+
+.infinite-tree-snapshot-overlay.is-removing {
+  opacity: 0;
 }
 
 .infinite-tree,
@@ -68,7 +109,7 @@
 
 .infinite-tree {
   font-size: 1rem;
-  background-color: $white;
+  background-color: var(--tree-bg-default);
 
   &[data-record-type='resource'] {
     --tree-column-title-width: var(--tree-column-resource-title-width);
@@ -157,15 +198,15 @@
   // INFINITETREE_MULTISELECT_BEHAVIOR_SPEC.md for the selection model.
   &.multiselected > .node-row > .node-body {
     position: relative;
-    background-color: #b6def5;
+    background-color: var(--tree-multiselect-bg);
 
     .node-indentation {
-      --indent-fill: #b6def5;
+      --indent-fill: var(--tree-multiselect-bg);
       --indent-line: transparent;
     }
 
     .node-expand {
-      background-color: #b6def5;
+      background-color: var(--tree-multiselect-bg);
     }
 
     &::after {
@@ -176,7 +217,7 @@
       left: 0;
       right: 0;
       bottom: -1px;
-      border: 1px solid #0a6aa1;
+      border: 1px solid var(--tree-multiselect-border);
       pointer-events: none;
     }
   }
@@ -184,13 +225,15 @@
   // In reorder mode, keep a single border treatment when current selection and
   // multiselect overlap, using the multiselect stroke for consistency.
   &.selected.multiselected > .node-row > .node-body::after {
-    border-color: #0a6aa1;
+    border-color: var(--tree-multiselect-border);
   }
 
   &.reparented-highlight > .node-row > .node-body,
   &.reparented > .node-row > .node-body {
     position: relative;
 
+    // Full-row green overlay. Fades during reparented, always visible during
+    // reparented-highlight. pointer-events: none so interactions pass through.
     &::before {
       content: '';
       position: absolute;
@@ -199,46 +242,137 @@
       left: 0;
       right: 0;
       bottom: -1px;
-      border: 2px solid #14866d;
+      background-color: var(--tree-reparent-highlight-bg);
+      border: 1px solid var(--tree-reparent-highlight-border);
       pointer-events: none;
+    }
+
+    > .node-column {
+      position: relative;
+      z-index: 2;
+    }
+
+    // Kept at z-index: 2 in both states so the expand button icon is never
+    // hidden by the row-level ::before overlay.
+    .node-indentation {
+      z-index: 2;
+    }
+
+    // Inner overlay that covers the gradient background and fades in sync with
+    // the row ::before. Sits at z-index: 1 inside the indentation stacking
+    // context — above the gradient (stacking-context background, effectively
+    // z-index: 0) but below .node-expand (z-index: 2) — so the button icon
+    // stays visible throughout the fade. border-top mirrors the row ::before
+    // border in the indentation zone.
+    .node-indentation::before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--tree-reparent-highlight-bg);
+      border-top: 1px solid var(--tree-reparent-highlight-border);
+      pointer-events: none;
+    }
+
+    // Position above the inner indentation overlay so the icon stays visible.
+    .node-indentation .node-expand {
+      position: relative;
+      z-index: 2;
     }
   }
 
   &.reparented-highlight > .node-row > .node-body {
-    background-color: #d8f3dc;
+    background-color: var(--tree-reparent-highlight-bg) !important;
+    transition: background-color 0.5s linear;
 
+    // Transparent fill lets the solid green body show through the indentation
+    // zone uniformly. The inner .node-indentation::before provides the green
+    // coverage and its own border-top in the indentation zone.
     .node-indentation {
-      --indent-fill: #d8f3dc;
+      --indent-fill: transparent;
       --indent-line: transparent;
     }
 
-    .node-expand {
-      background-color: #d8f3dc;
+    .node-indentation::before {
+      opacity: 1;
+    }
+
+    &::before {
+      opacity: 1;
     }
   }
 
   &.reparented > .node-row > .node-body::before {
     opacity: 0;
-    transition: opacity 2s ease-out;
+    transition: opacity 1.5s linear;
   }
+
+  // Fade the inner indentation overlay in sync with the row overlay so the
+  // gradient is revealed at the same rate as the rest of the row. Keep the
+  // button transparent so the inner overlay shows through it as it fades —
+  // avoiding any background snap when --indent-fill reverts to normal.
+  &.reparented > .node-row > .node-body {
+    .node-indentation::before {
+      opacity: 0;
+      transition: opacity 1.5s linear;
+    }
+
+    .node-indentation .node-expand {
+      background-color: transparent;
+    }
+  }
+
+  // Keep reparented highlight dominant during hover interactions.
+  &.reparented-highlight > .node-row:hover > .node-body,
+  &.reparented-highlight > .node-row > .node-body:hover {
+    background-color: var(--tree-reparent-highlight-bg);
+  }
+
 }
 
-#infinite-tree-container.reorder-mode {
+#infinite-tree-container.reorder-mode,
+.infinite-tree-snapshot-overlay.reorder-mode {
   user-select: none;
   -webkit-user-select: none;
 
-  // In reorder mode, hovering a multiselected row should increase contrast
-  // (slightly darker) instead of washing it out.
-  .node.multiselected > .node-row:hover > .node-body,
-  .node.multiselected > .node-row > .node-body:hover {
-    background-color: #a8d4ee;
+  // Keep selected (record-pane current) rows visually unified on hover.
+  .node.selected:not(.multiselected, .reparented-highlight)
+    > .node-row:hover
+    > .node-body,
+  .node.selected:not(.multiselected, .reparented-highlight)
+    > .node-row
+    > .node-body:hover {
+    background-color: var(--tree-current-hover-bg);
 
     .node-indentation {
-      --indent-fill: #a8d4ee;
+      --indent-fill: var(--tree-current-hover-bg);
+      --indent-line: transparent;
     }
 
     .node-expand {
-      background-color: #a8d4ee;
+      background-color: var(--tree-current-hover-bg);
+    }
+  }
+
+  // In reorder mode, hovering a multiselected row should increase contrast
+  // (slightly darker) instead of washing it out.
+  .node.multiselected:not(.reparented, .reparented-highlight)
+    > .node-row:hover
+    > .node-body,
+  .node.multiselected:not(.reparented, .reparented-highlight)
+    > .node-row
+    > .node-body:hover {
+    background-color: var(--tree-multiselect-hover-bg);
+
+    .node-indentation {
+      --indent-fill: var(--tree-multiselect-hover-bg);
+    }
+
+    .node-expand {
+      background-color: var(--tree-multiselect-hover-bg);
     }
   }
 
@@ -247,7 +381,12 @@
   }
 
   // Keep indentation lane aligned with non-selected row hover background.
-  .node:not(.selected, .multiselected) > .node-row:hover > .node-body {
+  // .reparented is intentionally not excluded: during the fade phase the fill
+  // should already be set to the hover color so that it reveals correctly as
+  // ::before fades out, avoiding the green → normal → hover flicker.
+  .node:not(.selected, .multiselected, .reparented-highlight)
+    > .node-row:hover
+    > .node-body {
     .node-indentation {
       --indent-fill: var(--tree-reorder-row-hover-bg);
       --indent-line: transparent;
@@ -291,8 +430,8 @@
     height: 1rem;
     padding: 0 0.2rem;
     border-radius: 0.5rem;
-    background-color: #0a6aa1;
-    color: #fff;
+    background-color: var(--tree-multiselect-border);
+    color: var(--gray-0);
     font-size: 0.7rem;
     line-height: 1rem;
     text-align: center;
@@ -462,16 +601,16 @@
     bottom: 0;
     left: 0;
     height: 8px;
-    background-color: #eee;
+    background-color: var(--tree-resizer-bg);
     background-image: asset-url('archivesspace/drag_handle.png');
     background-repeat: no-repeat;
     background-position: center center;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #d9d9d9;
+    border-top: 1px solid var(--tree-resizer-border-top);
+    border-bottom: 1px solid var(--tree-resizer-border-bottom);
     cursor: ns-resize;
 
     &:hover {
-      background-color: #e9e9e9;
+      background-color: var(--tree-resizer-hover-bg);
     }
 
     .resize-toggle {
@@ -483,9 +622,9 @@
       top: 0;
       padding: 0 20px;
       cursor: pointer;
-      background: rgba(0, 0, 0, 0.1);
+      background: var(--tree-resize-toggle-bg);
       line-height: 8px;
-      color: #787878;
+      color: var(--tree-resize-toggle-color);
 
       &::before {
         content: '\e114';
@@ -506,9 +645,9 @@
         top: 0;
         padding: 0 20px;
         cursor: pointer;
-        background-color: #919191;
+        background-color: var(--tree-resize-toggle-maximized-bg);
         line-height: 8px;
-        color: #fff;
+        color: var(--tree-resize-toggle-maximized-color);
 
         &::before {
           content: '\e113';
@@ -558,7 +697,11 @@
   padding-right: 0.25rem;
   display: flex;
   align-items: center;
-  background-image: linear-gradient(to bottom, #f3f3f3 0%, #ededed 100%);
+  background-image: linear-gradient(
+    to bottom,
+    var(--tree-toolbar-gradient-start) 0%,
+    var(--tree-toolbar-gradient-end) 100%
+  );
 
   // Load via Spreadsheet + help: same hover background as .btn-default:hover on both
   // when the primary button is hovered; hovering only the help link does not restyle the button.
