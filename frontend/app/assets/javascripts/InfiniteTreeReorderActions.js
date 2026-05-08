@@ -21,6 +21,7 @@ class InfiniteTreeReorderActions {
     this.fetch = new InfiniteTreeFetch(this.rootUri);
     this.inFlight = false;
     this.pendingHighlightUris = [];
+    this.activeOverlay = null;
 
     this.#bindEvents();
   }
@@ -63,6 +64,7 @@ class InfiniteTreeReorderActions {
 
     try {
       const recovery = this.#recoveryStateForMove(move);
+      this.activeOverlay = this.#createSnapshotOverlay(recovery.scrollTop);
       const response = await this.fetch.acceptChildren(
         move.targetParentUri,
         move.childUris,
@@ -77,6 +79,7 @@ class InfiniteTreeReorderActions {
       this.#redisplayAndReopen(recovery);
     } catch (error) {
       console.error('InfiniteTree reorder move failed:', error);
+      this.#removeSnapshotOverlay();
       this.#showMoveError();
       this.#dispatch(InfiniteTreeReorderActions.EVENT_MOVE_ERROR, {
         ...move,
@@ -220,6 +223,8 @@ class InfiniteTreeReorderActions {
       this.pendingHighlightUris = [];
     }
 
+    this.#removeSnapshotOverlay({ fade: true });
+
     if (this.inFlight) {
       this.#clearInFlight();
     }
@@ -254,18 +259,26 @@ class InfiniteTreeReorderActions {
   }
 
   #highlightMovedRows(uris) {
+    const highlightDurationMs = 500;
+    const fadeDurationMs = 1500;
+
     uris.forEach(uri => {
       const id = InfiniteTreeIds.uriToTreeId(uri);
       const node = this.containerEl.querySelector(`#${id}`);
 
       if (!node) return;
 
+      node.classList.remove('reparented');
       node.classList.add('reparented-highlight');
 
       setTimeout(() => {
         node.classList.remove('reparented-highlight');
         node.classList.add('reparented');
-      }, 500);
+      }, highlightDurationMs);
+
+      setTimeout(() => {
+        node.classList.remove('reparented');
+      }, highlightDurationMs + fadeDurationMs);
     });
   }
 
@@ -273,6 +286,61 @@ class InfiniteTreeReorderActions {
     this.inFlight = false;
     this.containerEl.classList.remove('reorder-move-in-flight');
     this.containerEl.removeAttribute('data-reorder-move-in-flight');
+  }
+
+  #createSnapshotOverlay(scrollTop) {
+    this.#removeSnapshotOverlay();
+
+    const sourceRect = this.containerEl.getBoundingClientRect();
+    const overlay = this.containerEl.cloneNode(true);
+    const containerStyles = window.getComputedStyle(this.containerEl);
+
+    overlay
+      .querySelectorAll('[id]')
+      .forEach(node => node.removeAttribute('id'));
+    overlay.removeAttribute('id');
+    overlay.classList.add('infinite-tree-snapshot-overlay');
+    overlay.setAttribute('aria-hidden', 'true');
+    overlay.style.position = 'fixed';
+    overlay.style.top = `${sourceRect.top}px`;
+    overlay.style.left = `${sourceRect.left}px`;
+    overlay.style.width = `${sourceRect.width}px`;
+    overlay.style.height = `${sourceRect.height}px`;
+    overlay.style.zIndex = '10';
+    overlay.style.margin = '0';
+    // Preserve container box model on the clone to avoid pixel shifts
+    // when ID-scoped styles no longer apply.
+    overlay.style.border = containerStyles.border;
+    overlay.style.padding = containerStyles.padding;
+    overlay.style.backgroundColor = containerStyles.backgroundColor;
+    overlay.style.overflow = 'auto';
+    overlay.style.pointerEvents = 'none';
+
+    document.body.prepend(overlay);
+    overlay.scrollTop = Number.isFinite(scrollTop)
+      ? scrollTop
+      : this.containerEl.scrollTop;
+
+    return {
+      element: overlay,
+      remove: ({ fade = false } = {}) => {
+        if (!overlay.isConnected) return;
+
+        if (!fade) {
+          overlay.remove();
+          return;
+        }
+
+        overlay.classList.add('is-removing');
+        setTimeout(() => overlay.remove(), 160);
+      },
+    };
+  }
+
+  #removeSnapshotOverlay(options = {}) {
+    if (!this.activeOverlay) return;
+    this.activeOverlay.remove(options);
+    this.activeOverlay = null;
   }
 
   #showMoveError() {

@@ -403,6 +403,10 @@ class InfiniteTreeToolbar {
     if (primaryActionsGroup) {
       primaryActionsGroup.style.display = showNonReorderControls ? '' : 'none';
     }
+
+    if (this.recordPaneEl) {
+      this.recordPaneEl.style.display = showNonReorderControls ? '' : 'none';
+    }
   }
 
   #isArchivalObjectSelected() {

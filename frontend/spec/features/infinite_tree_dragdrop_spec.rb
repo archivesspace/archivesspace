@@ -551,13 +551,41 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     end
   end
 
-  it 'plain click on an already selected row collapses multiselection to that row' do
+  # Plain clicks no longer collapse the multi-selection: that would block
+  # navigation to record links in reorder mode. Selection collapse is now the
+  # mousedown handler's job, and it only fires when the pressed row is outside
+  # the current multi-selection (so an already-multiselected row can still be
+  # dragged as a group).
+  it 'mousedown on a row outside the multi-selection collapses to that row before drag' do
     click_row(ao.uri, meta: true)
     click_row(ao2.uri, meta: true)
     expect(selection_uris).to eq([ao.uri, ao2.uri])
 
-    click_row(ao2.uri)
-    expect(selection_uris).to eq([ao2.uri])
+    mousedown_row(ao3.uri)
+    expect(selection_uris).to eq([ao3.uri])
+  end
+
+  it 'mousedown on an already-selected row preserves the multi-selection so a group can be dragged' do
+    click_row(ao.uri, meta: true)
+    click_row(ao2.uri, meta: true)
+    expect(selection_uris).to eq([ao.uri, ao2.uri])
+
+    mousedown_row(ao2.uri)
+    expect(selection_uris).to eq([ao.uri, ao2.uri])
+  end
+
+  it 'plain record-link click clears multiselection and navigates' do
+    click_row(ao.uri, meta: true)
+    click_row(ao2.uri, meta: true)
+    expect(selection_uris).to eq([ao.uri, ao2.uri])
+
+    within '#infinite-tree-container' do
+      click_link ao3.title
+    end
+    wait_for_ajax
+
+    expect(selection_uris).to eq([])
+    expect(page.current_url).to include("##{tree_hash_for(ao3.uri)}")
   end
 
   it 'dedupes ancestor and descendant in effectiveSourceUris' do

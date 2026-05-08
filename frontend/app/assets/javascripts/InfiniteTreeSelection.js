@@ -14,9 +14,15 @@
  *   - Shift + click extends the selection from the anchor (last row pushed) through
  *     the clicked row in visible DOM order, inclusive, at any indent level. No
  *     same-level filter, no level promotion.
- *   - Plain click replaces the selection with just the clicked row and does NOT
- *     navigate (capture-phase stopImmediatePropagation prevents InfiniteTree's
- *     bubble-phase .record-title handler from routing).
+ *   - Plain click on a record title clears multiselection state, then bubbles
+ *     to InfiniteTree's record-title router so the URL hash and page-level
+ *     selected record update normally. This is required for the Cut/Paste and
+ *     Move workflows where users click a target record after multi-selecting
+ *     source rows. Multi-selection itself is driven by non-link row clicks.
+ *     Plain mousedown on a non-link row that is not part of the multi-selection
+ *     eagerly collapses to that single row so a follow-on drag operates on a
+ *     single source; mousedown on an already-multiselected row leaves the set
+ *     intact so the whole group can be dragged.
  *   - mousedown outside the tree/toolbar/resizer without a modifier key clears
  *     transient selection.
  *   - Expanding/collapsing a parent does NOT mutate the selection. Hidden
@@ -102,14 +108,25 @@ class InfiniteTreeSelection {
   }
 
   /**
-   * Capture-phase handler. Runs before InfiniteTree's bubble-phase click handler
-   * so stopImmediatePropagation can prevent .record-title routing to the pane.
+   * Capture-phase handler. Intercepts only modifier-key clicks (Cmd/Ctrl/Shift)
+   * to drive multi-selection without routing. Plain record-title clicks clear
+   * multiselection and then fall through to InfiniteTree's bubble-phase router
+   * so navigation still occurs in reorder mode (required for Cut/Paste/Move
+   * target selection). Plain non-link click selection state is managed by the
+   * mousedown handler.
    * @param {MouseEvent} event
    */
   #onContainerClickCapture(event) {
     if (!this.reorderMode) return;
 
     if (event.target.closest('.node-expand')) return;
+
+    const onRecordLink = !!event.target.closest('.record-title');
+    const hasModifier = event.metaKey || event.ctrlKey || event.shiftKey;
+    if (!hasModifier) {
+      if (onRecordLink) this.#clearAll();
+      return;
+    }
 
     const row = event.target.closest('.node-row');
     if (!row) return;
@@ -125,8 +142,6 @@ class InfiniteTreeSelection {
       this.#toggle(li);
     } else if (event.shiftKey) {
       this.#shiftExtend(li);
-    } else {
-      this.#replaceWithSingle(li);
     }
   }
 
@@ -141,6 +156,7 @@ class InfiniteTreeSelection {
     if (event.metaKey || event.ctrlKey || event.shiftKey) return;
     if (event.button !== 0) return;
     if (event.target.closest('.node-expand')) return;
+    if (event.target.closest('.record-title')) return;
 
     const row = event.target.closest('.node-row');
     if (!row) return;
@@ -245,8 +261,10 @@ class InfiniteTreeSelection {
   }
 
   /**
-   * Plain click: clear any existing selection and single-select the clicked row.
-   * Does not navigate (caller stopped propagation).
+   * Reset selection to a single row. Invoked from the mousedown capture handler
+   * when the pressed row is not part of the current multi-selection so a
+   * follow-on drag sees a clean single-row source set. Plain clicks themselves
+   * are not intercepted; navigation is handled downstream by the router.
    * @param {HTMLElement} li
    */
   #replaceWithSingle(li) {
