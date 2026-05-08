@@ -31,6 +31,10 @@ class InfiniteTreeReorderActions {
       InfiniteTreeDragDrop.EVENT_DROP_INTENT,
       this.#onDropIntent.bind(this)
     );
+    this.containerEl.addEventListener(
+      InfiniteTreeCutPaste.EVENT_PASTE_INTENT,
+      this.#onDropIntent.bind(this)
+    );
 
     this.containerEl.addEventListener(
       'infiniteTree:redisplayAndReopenComplete',
