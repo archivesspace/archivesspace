@@ -6,7 +6,7 @@
   --tree-indent-unit-width: calc(
     var(--tree-indent-width) + var(--tree-line-width)
   );
-  --tree-column-drag-handle-width: 2rem;
+  --tree-column-drag-handle-width: var(--tree-indent-unit-width);
   --tree-column-resource-title-width: 46%;
   --tree-column-resource-level-width: 8%;
   --tree-column-resource-type-width: 18%;
