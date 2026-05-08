@@ -817,7 +817,7 @@ it:
       allocine: AlloCiné
       amnbo: Biografia nazionale americana online
       ansi: Numero dell'American National Standards Institute e della National Information Standards
-        Organisation per uno standard ANSI o ANSI/NISO.
+        Organisation per uno standard ANSI o ANSI/NISO
       artsy: Artistica
       bdusc: Repertorio biografico del Congresso degli Stati Uniti (Congresso degli Stati Uniti)
       bfi: BFI - British Film Institute
@@ -884,7 +884,7 @@ it:
       nipo: Numero identificativo delle pubblicazioni ufficiali
       nndb: NNDB (Database dei nomi notevoli)
       npg: 'National Portrait Gallery (Londra: National Portrait Gallery)'
-      odnb: Dizionario di biografia nazionale di Oxford (Oxford University Press)
+      odnb: Dizionario biografico nazionale di Oxford (Oxford University Press)
       opensm: OpenStreetMap
       orcid: Apri ID ricercatore e collaboratore
       oxforddnb: Indice biografico di Oxford
@@ -1607,7 +1607,7 @@ it:
       provincial: Stato, provinciale, territoriale, dipendente, ecc.
       natc: Nessun tentativo di programmare
       undetermined: Agenzia governativa – Tipologia indeterminata
-      unknown: Non è chiaro se la dicitura sia "agenzia governativa".
+      unknown: Non è chiaro se la testata sia un'agenzia governativa
     identifier_type:
       lac: Biblioteca e archivi Canada
       loc: Biblioteca del Congresso
@@ -1656,10 +1656,10 @@ it:
       text-data: Dati testuali
       text-data_definition: Definizione dei dati testuali
       text-georeference: Georeferenziazione testuale
-      text-ocr-edited: Testo elaborato tramite OCR
+      text-ocr-edited: Testo OCR modificato
       text-ocr-unedited: Testo OCR non modificato
-      text-tei-transcripted: Trascrizione TEI del testo
-      text-tei-translated: Testo tradotto in TEI
+      text-tei-transcripted: Testo-Tei-Trascritto
+      text-tei-translated: Testo tradotto da Tei
       video-master-edited: Video - Master Editato
       video-clip: Videoclip
       video-master: Maestro del video
@@ -1895,11 +1895,31 @@ it:
       ingest: Fonte di ingestione non specificata
       lcgft: Termini di genere/forma della Biblioteca del Congresso
       lcsh: Soggetti della Biblioteca del Congresso
+      lcshac: Soggetti della Biblioteca del Congresso per bambini e ragazzi
+      local: Fonti locali
+      mesh: Intestazioni di soggetto medico
+      nal: Archivio di autorità tematica della Biblioteca nazionale di agricoltura
+      not_applicable: Non applicabile
+      not_specified: Fonte non specificata
+      other: Altro
+      ram: Elenco delle autorità RAMEAU
+      rbgenr: 'Termini di genere: un thesaurus per la catalogazione di libri rari e collezioni speciali'
+      rvm: Elenco delle star del settore
+      sears: Elenco di argomenti di Sears
+      tgn: Dizionario dei nomi geografici Getty
     transliteration:
       ala-lc: Tabelle di romanizzazione ALA-LC
     subject_term_type:
       uniform_title: Primo titolo
       topical: Argomenti di attualità
+      cultural_context: Contesto culturale
+      function: Funzione
+      genre_form: Genere / Forma
+      geographic: Geografica
+      occupation: Occupazione
+      style_period: Stile / Periodo
+      technique: Tecnica
+      temporal: Temporale
   enumeration_names:
     country_iso_3166: Nazione ISO 3166
     date_calendar: 'Calendario delle date'
