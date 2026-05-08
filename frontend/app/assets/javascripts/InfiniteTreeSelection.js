@@ -17,9 +17,10 @@
  *     direction.
  *   - Selection order badges (1, 2, 3...) display on each selected row when
  *     multiple rows are selected.
- *   - Plain click on a record title clears multiselection state, then bubbles
- *     to InfiniteTree's record-title router so URL hash updates (required for
- *     Cut/Paste target selection workflow).
+ *   - Plain click on a record title replaces multiselection with the single
+ *     clicked row (.replaceWithSingle) for cut/drag workflows, then bubbles to
+ *     InfiniteTree's record-title router so URL hash updates (updates
+ *     `.selected` for Paste and navigation).
  *   - Plain mousedown on a non-link row immediately resets to single-row selection
  *     so drag can operate on the intended source.
  *   - mousedown outside tree/toolbar/resizer without modifier key clears selection.
@@ -109,11 +110,12 @@ class InfiniteTreeSelection {
 
   /**
    * Capture-phase handler. Intercepts only modifier-key clicks (Cmd/Ctrl/Shift)
-   * to drive multi-selection without routing. Plain record-title clicks clear
-   * multiselection and then fall through to InfiniteTree's bubble-phase router
-   * so navigation still occurs in reorder mode (required for Cut/Paste/Move
-   * target selection). Plain non-link click selection state is managed by the
-   * mousedown handler.
+   * to drive multi-selection without routing. Plain record-title clicks replace
+   * multiselection with the single clicked row (#replaceWithSingle) so the row
+   * acts as the paste destination, then fall through to InfiniteTree's
+   * bubble-phase router so navigation still occurs in reorder mode (required
+   * for Cut and Move workflows and `.selected` navigation). Plain non-link click selection state
+   * is managed by the mousedown handler.
    * @param {MouseEvent} event
    */
   #onContainerClickCapture(event) {
@@ -124,7 +126,19 @@ class InfiniteTreeSelection {
     const onRecordLink = !!event.target.closest('.record-title');
     const hasModifier = event.metaKey || event.ctrlKey || event.shiftKey;
     if (!hasModifier) {
-      if (onRecordLink) this.#clearAll();
+      if (onRecordLink) {
+        const row = event.target.closest('.node-row');
+        const li = row ? row.closest('li.node') : null;
+        if (
+          li &&
+          !li.classList.contains('root') &&
+          this.containerEl.contains(li)
+        ) {
+          this.#replaceWithSingle(li);
+        } else {
+          this.#clearAll();
+        }
+      }
       return;
     }
 
@@ -367,10 +381,11 @@ class InfiniteTreeSelection {
   }
 
   /**
-   * Reset selection to a single row. Invoked from the mousedown capture handler
-   * when the pressed row is not part of the current multi-selection so a
-   * follow-on drag sees a clean single-row source set. Plain clicks themselves
-   * are not intercepted; navigation is handled downstream by the router.
+   * Reset selection to a single row. Called from two paths:
+   *   1. Plain record-title click in reorder mode — sets the clicked row as the
+   *      sole .multiselected row before navigation routes.
+   *   2. Mousedown capture on a non-link row that is not already selected — so a
+   *      follow-on drag sees the intended single-row source set.
    * @param {HTMLElement} li
    */
   #replaceWithSingle(li) {
