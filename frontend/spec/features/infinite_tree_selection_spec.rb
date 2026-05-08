@@ -494,10 +494,10 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
     end
 
     describe 'plain click on record links' do
-      # Record-title clicks in reorder mode are for page-level navigation and
-      # destination targeting, not multiselect mutations. The click clears
-      # transient multiselect state and then routes through InfiniteTree.
-      it 'navigates and clears multiselect state' do
+      # Record-title clicks in reorder mode serve as navigation AND destination
+      # pick. A plain click replaces any existing multi-selection with the
+      # single clicked row (.multiselected), then routes through InfiniteTree.
+      it 'navigates and replaces multiselect with the clicked destination row' do
         click_row(ao.uri, ctrl: true)
         click_row(ao3.uri, ctrl: true)
         expect(data_selection_uris).to eq("#{ao.uri},#{ao3.uri}")
@@ -508,7 +508,8 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
         wait_for_ajax
 
         expect(page.current_url).to include("tree::archival_object_#{ao2.id}")
-        expect(data_selection_uris).to be_nil
+        expect(data_selection_uris).to eq(ao2.uri)
+        expect(page).to have_css("li.node[data-uri='#{ao2.uri}'].multiselected")
       end
     end
 
