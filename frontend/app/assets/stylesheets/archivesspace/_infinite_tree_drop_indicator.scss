@@ -5,7 +5,7 @@
 // The variable geometry model is intentionally preserved.
 
 #infinite-tree-container.reorder-mode {
-  --drop-stroke-color: #0c66e4;
+  --drop-stroke-color: var(--green-600);
   --drop-stroke-color-blocked: #ae2a19;
   --drop-stroke-width: 2px;
   --drop-terminal-diameter: 8px;
