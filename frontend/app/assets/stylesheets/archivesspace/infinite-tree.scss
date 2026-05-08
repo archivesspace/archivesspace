@@ -252,15 +252,33 @@
 
   // Locked ancestors: cannot be selected because a descendant is selected.
   // Dimmed appearance with not-allowed cursor.
+
+  /* Locked rows (ancestors/descendants of selected nodes) get dimmed appearance */
   &.selection-locked > .node-row > .node-body {
     opacity: 0.5;
     cursor: not-allowed;
   }
 
+  // Cut rows: solid fill only (same pattern as multiselect/implicit fills).
   &.cut > .node-row > .node-body {
-    opacity: 0.55;
+    background-color: var(--tree-cut-bg);
+
+    .node-indentation {
+      --indent-fill: var(--tree-cut-bg);
+      --indent-line: transparent;
+    }
+
+    .node-expand {
+      background-color: var(--tree-cut-bg);
+    }
   }
-  
+
+  // When cut overlaps selection borders, show fill only.
+  &.cut.selected > .node-row > .node-body::after,
+  &.cut.multiselected > .node-row > .node-body::after {
+    display: none;
+  }
+
   &.reparented-highlight > .node-row > .node-body,
   &.reparented > .node-row > .node-body {
     position: relative;
@@ -371,10 +389,10 @@
   -webkit-user-select: none;
 
   // Keep selected (record-pane current) rows visually unified on hover.
-  .node.selected:not(.multiselected, .reparented-highlight)
+  .node.selected:not(.multiselected, .reparented-highlight, .cut)
     > .node-row:hover
     > .node-body,
-  .node.selected:not(.multiselected, .reparented-highlight)
+  .node.selected:not(.multiselected, .reparented-highlight, .cut)
     > .node-row
     > .node-body:hover {
     background-color: var(--tree-current-hover-bg);
@@ -389,9 +407,23 @@
     }
   }
 
+  .node.cut > .node-row:hover > .node-body,
+  .node.cut > .node-row > .node-body:hover {
+    background-color: var(--tree-cut-bg);
+
+    .node-indentation {
+      --indent-fill: var(--tree-cut-bg);
+      --indent-line: transparent;
+    }
+
+    .node-expand {
+      background-color: var(--tree-cut-bg);
+    }
+  }
+
   // In reorder mode, hovering a multiselected row should increase contrast
   // (slightly darker) instead of washing it out.
-  .node.multiselected:not(.reparented, .reparented-highlight)
+  .node.multiselected:not(.reparented, .reparented-highlight, .cut)
     > .node-row:hover
     > .node-body,
   .node.multiselected:not(.reparented, .reparented-highlight)
@@ -416,7 +448,7 @@
   // .reparented is intentionally not excluded: during the fade phase the fill
   // should already be set to the hover color so that it reveals correctly as
   // ::before fades out, avoiding the green → normal → hover flicker.
-  .node:not(.selected, .multiselected, .reparented-highlight)
+  .node:not(.selected, .multiselected, .reparented-highlight, .cut)
     > .node-row:hover
     > .node-body {
     .node-indentation {
