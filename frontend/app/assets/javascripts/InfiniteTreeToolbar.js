@@ -20,10 +20,9 @@ class InfiniteTreeToolbar {
     this.isDirty = false;
     this.reorderMode = false;
     this.expandAllMode = false;
-    this.dropBehavior = this.#loadDropBehavior();
+    this.cutActive = false;
 
     this.#bindEvents();
-    this.#syncDropBehaviorInputs();
     this.#applyReorderState();
     this.#applySelectionState();
 
@@ -116,22 +115,6 @@ class InfiniteTreeToolbar {
           this.#onFinishEditingClick(event);
 
           break;
-      }
-    });
-
-    this.toolbarEl.addEventListener('change', event => {
-      const radio = event.target;
-
-      if (
-        radio.name === 'drop-behavior' &&
-        radio.checked &&
-        !radio.closest('.disabled')
-      ) {
-        this.dropBehavior = radio.value;
-        this.#persistDropBehavior(this.dropBehavior);
-        this.#emitSimpleEvent('infiniteTreeToolbar:dropBehaviorChanged', {
-          dropBehavior: this.dropBehavior,
-        });
       }
     });
   }
@@ -330,44 +313,12 @@ class InfiniteTreeToolbar {
     this.treeContainerEl.dispatchEvent(event);
   }
 
-  #loadDropBehavior() {
-    try {
-      const stored = window.localStorage.getItem('AS_Drop_Behavior');
-      if (stored === 'before' || stored === 'into' || stored === 'after') {
-        return stored;
-      }
-    } catch (e) {
-      // ignore storage errors
-    }
-
-    return 'before';
-  }
-
-  #persistDropBehavior(value) {
-    try {
-      window.localStorage.setItem('AS_Drop_Behavior', value);
-    } catch (e) {
-      // ignore storage errors
-    }
-  }
-
   #translate(key, fallback) {
     if (window.AS && window.AS.I18n && typeof window.AS.I18n.t === 'function') {
       return window.AS.I18n.t(key);
     }
 
     return fallback;
-  }
-
-  #syncDropBehaviorInputs() {
-    if (!this.toolbarEl) return;
-
-    const selector = 'input[type="radio"][name="drop-behavior"]';
-    const radios = this.toolbarEl.querySelectorAll(selector);
-
-    radios.forEach(radio => {
-      radio.checked = radio.value === this.dropBehavior;
-    });
   }
 
   #applyReorderState() {
@@ -378,9 +329,6 @@ class InfiniteTreeToolbar {
     const cutPasteGroup = this.toolbarEl.querySelector(
       '.js-itree-toolbar-cut-paste-group'
     );
-    const dropBehaviorGroup = this.toolbarEl.querySelector(
-      '.js-itree-toolbar-drop-behavior-group'
-    );
     const expandGroup = this.toolbarEl.querySelector(
       '.js-itree-toolbar-expand-group'
     );
@@ -390,10 +338,6 @@ class InfiniteTreeToolbar {
 
     if (cutPasteGroup) {
       cutPasteGroup.style.display = showReorderControls ? '' : 'none';
-    }
-
-    if (dropBehaviorGroup) {
-      dropBehaviorGroup.style.display = showReorderControls ? 'flex' : 'none';
     }
 
     if (expandGroup) {
