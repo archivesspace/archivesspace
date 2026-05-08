@@ -6,6 +6,14 @@ require 'rails_helper'
 describe 'Infinite Tree Toolbar', js: true do
   include_context 'infinite tree integration setup'
 
+  let!(:ao2) do
+    create(
+      :archival_object,
+      resource: { 'ref' => resource.uri },
+      title: "Second AO #{now}"
+    )
+  end
+
   let(:edit_path) { "/resources/#{resource.id}/edit" }
   let(:root_hash) { "#tree::resource_#{resource.id}" }
   let(:ao_hash) { "#tree::archival_object_#{ao.id}" }
@@ -82,6 +90,7 @@ describe 'Infinite Tree Toolbar', js: true do
       aggregate_failures do
         expect(page).to have_css('.js-itree-toolbar-reorder-toggle', text: I18n.t('actions.reorder_active'))
         expect(page).to have_css('.js-itree-toolbar-cut', text: I18n.t('actions.cut'))
+        expect(page).to have_css('.js-itree-toolbar-cut.disabled')
         expect(page).to have_css('.js-itree-toolbar-paste', text: I18n.t('actions.paste'))
         expect(page).to have_css('.js-itree-toolbar-paste.disabled')
         expect(page).to have_no_css('.js-itree-toolbar-move-toggle', visible: true)
@@ -104,6 +113,7 @@ describe 'Infinite Tree Toolbar', js: true do
     end
 
     within '#infinite-tree-toolbar' do
+      expect(page).to have_no_css('.js-itree-toolbar-cut.disabled')
       expect(page).to have_css('.js-itree-toolbar-move-toggle', text: I18n.t('actions.move'))
     end
 
@@ -112,14 +122,35 @@ describe 'Infinite Tree Toolbar', js: true do
     expect(page).to have_css('#infinite-tree-record-pane', visible: true)
   end
 
-  it 'enables paste after cut and disables it when reorder mode is toggled off' do
+  it 'disables Cut when only the root is selected and enables Cut for a non-root row' do
+    visit "#{edit_path}#{root_hash}"
+    wait_for_ajax
+
     find('.js-itree-toolbar-reorder-toggle').click
-    expect(page).to have_css('.js-itree-toolbar-paste.disabled')
+    expect(page).to have_css('.js-itree-toolbar-cut.disabled')
 
     within '#infinite-tree-container' do
       click_link ao.title
     end
+    expect(page).to have_no_css('.js-itree-toolbar-cut.disabled')
+  end
+
+  it 'enables paste after cut once a non-cut .selected destination exists, and disables it when reorder mode is toggled off' do
+    within '#infinite-tree-container' do
+      click_link ao.title
+    end
+    wait_for_ajax
+
+    find('.js-itree-toolbar-reorder-toggle').click
+    expect(page).to have_css('.js-itree-toolbar-paste.disabled')
+
     find('.js-itree-toolbar-cut').click
+    expect(page).to have_css('.js-itree-toolbar-paste.disabled')
+
+    within '#infinite-tree-container' do
+      click_link ao2.title
+    end
+    wait_for_ajax
     expect(page).to have_no_css('.js-itree-toolbar-paste.disabled')
 
     find('.js-itree-toolbar-reorder-toggle').click

@@ -56,6 +56,25 @@ class InfiniteTreeToolbar {
       });
     }
 
+    if (this.treeContainerEl) {
+      this.treeContainerEl.addEventListener(
+        InfiniteTreeCutPaste.EVENT_CUT_PERFORMED,
+        this.#onCutPerformed.bind(this)
+      );
+      this.treeContainerEl.addEventListener(
+        InfiniteTreeCutPaste.EVENT_CUT_CLEARED,
+        this.#onCutCleared.bind(this)
+      );
+      this.treeContainerEl.addEventListener(
+        InfiniteTreeSelection.EVENT_CHANGED,
+        this.#onSelectionChanged.bind(this)
+      );
+      this.treeContainerEl.addEventListener(
+        InfiniteTreeSelection.EVENT_CLEARED,
+        this.#onSelectionCleared.bind(this)
+      );
+    }
+
     this.toolbarEl.addEventListener('click', event => {
       const target = event.target.closest('[data-itree-action]');
       if (!target || target.classList.contains('disabled')) return;
@@ -122,6 +141,9 @@ class InfiniteTreeToolbar {
   #handleSelectionChanged(e) {
     this.currentNode = e.detail && e.detail.node ? e.detail.node : null;
     this.#applySelectionState();
+    if (this.reorderMode) {
+      this.#applyCutPasteState();
+    }
   }
 
   #applySelectionState() {
@@ -197,6 +219,7 @@ class InfiniteTreeToolbar {
     if (this.isDirty) return;
 
     this.reorderMode = !this.reorderMode;
+    if (!this.reorderMode) this.cutActive = false;
 
     if (btn) {
       btn.classList.toggle('btn-success', this.reorderMode);
@@ -227,6 +250,24 @@ class InfiniteTreeToolbar {
     this.#emitSimpleEvent('infiniteTreeToolbar:expandModeChanged', {
       enabled: this.expandAllMode,
     });
+  }
+
+  #onCutPerformed() {
+    this.cutActive = true;
+    this.#applyCutPasteState();
+  }
+
+  #onCutCleared() {
+    this.cutActive = false;
+    this.#applyCutPasteState();
+  }
+
+  #onSelectionChanged() {
+    if (this.reorderMode || this.cutActive) this.#applyCutPasteState();
+  }
+
+  #onSelectionCleared() {
+    if (this.reorderMode || this.cutActive) this.#applyCutPasteState();
   }
 
   #onCollapseTree(event) {
@@ -351,6 +392,67 @@ class InfiniteTreeToolbar {
     if (this.recordPaneEl) {
       this.recordPaneEl.style.display = showNonReorderControls ? '' : 'none';
     }
+
+    this.#applyCutPasteState();
+  }
+
+  #applyCutPasteState() {
+    if (!this.toolbarEl) return;
+
+    const cutBtn = this.toolbarEl.querySelector('.js-itree-toolbar-cut');
+    if (cutBtn) {
+      const cutEnabled = this.reorderMode && this.#hasEligibleCutNode();
+      if (cutEnabled) {
+        cutBtn.classList.remove('disabled');
+        cutBtn.removeAttribute('aria-disabled');
+      } else {
+        cutBtn.classList.add('disabled');
+        cutBtn.setAttribute('aria-disabled', 'true');
+      }
+    }
+
+    const pasteBtn = this.toolbarEl.querySelector('.js-itree-toolbar-paste');
+    if (!pasteBtn) return;
+
+    const pasteEnabled =
+      this.reorderMode && this.cutActive && this.#hasEligiblePasteTarget();
+    if (pasteEnabled) {
+      pasteBtn.classList.remove('disabled');
+      pasteBtn.removeAttribute('aria-disabled');
+    } else {
+      pasteBtn.classList.add('disabled');
+      pasteBtn.setAttribute('aria-disabled', 'true');
+    }
+  }
+
+  /**
+   * Whether at least one row can be cut: multiselected non-root rows, or a
+   * selected non-root row when no multiselected rows exist.
+   * @returns {boolean}
+   */
+  #hasEligibleCutNode() {
+    if (!this.treeContainerEl) return false;
+
+    const multiselected = this.treeContainerEl.querySelectorAll(
+      'li.node.multiselected:not(.root)'
+    );
+    if (multiselected.length > 0) return true;
+
+    const selected = this.treeContainerEl.querySelector(
+      'li.node.selected:not(.root)'
+    );
+    return !!selected;
+  }
+
+  /**
+   * Whether a valid paste destination exists: the current `.selected` row
+   * that is not `.cut`, including root.
+   * @returns {boolean}
+   */
+  #hasEligiblePasteTarget() {
+    if (!this.treeContainerEl) return false;
+
+    return !!this.treeContainerEl.querySelector('li.node.selected:not(.cut)');
   }
 
   #isArchivalObjectSelected() {
