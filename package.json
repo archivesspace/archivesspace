@@ -8,10 +8,12 @@
     "stylelint:ci": "stylelint '{frontend,public}/**/*.{css,less,scss}' -f verbose",
     "stylelint:fix": "stylelint '{frontend,public}/**/*.{css,less,scss}' -f verbose --fix",
     "prettier:ci": "prettier --check frontend/ public/",
-    "prettier:fix": "prettier --write frontend/ public/"
+    "prettier:fix": "prettier --write frontend/ public/",
+    "herb:ci": "herb-lint --simple"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@herb-tools/linter": "^0.10.1",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.2.0",
