@@ -22,7 +22,6 @@ Summarize the context the reviewer should have in mind.
 ## Checklist:
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
 <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
-- [ ] I have read the [**CONTRIBUTING** document](/CONTRIBUTING.md).
+- [ ] I have read and agree to the [**CONTRIBUTING** document](/CONTRIBUTING.md).
 - [ ] I have authority to submit this code. - See our [licensing](/contribution_files/CONTRIBUTING_README.md)
 - [ ] Have you added tests to cover these changes? If not why:
-- [ ] All new and existing tests passed.
