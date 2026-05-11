@@ -23,11 +23,17 @@
         "postcss",
         "scss"
     ],
+    "files.associations": {
+      "*.js.erb": "javascript",
+    },
     "[css]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[erb]": {
+      "editor.defaultFormatter": "marcoroth.herb-lsp"
     },
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode",
