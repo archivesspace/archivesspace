@@ -198,7 +198,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
         if AppConfig[:db_url] == AppConfig.demo_db_url &&
-            settings.scheduler.find_by_tag('demo_db_backup').empty?
+            settings.scheduler.jobs(tag: 'demo_db_backup').empty?
 
           Log.info("Enabling backups for the embedded demo database " +
                    "running at schedule: #{AppConfig[:demo_db_backup_schedule]}")
