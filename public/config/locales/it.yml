@@ -100,7 +100,7 @@ it:
       extent_type_enum_s: Estensione
     identifier_contain: l' <strong>identificativo</strong> contiene <span 
       class='searchterm'>%{kw}</span>
-    title_contain: il <strong>titolo</strong> contiene  <span class='searchterm'>%{kw}</span>
+    title_contain: il <strong>titolo</strong> contiene   <span class='searchterm'>%{kw}</span>
     keyword_contain: "<strong>parola/e chiave</strong>: <span class='searchterm'>%{kw}</span>"
     creators_text_contain: il <strong>creatore</strong> contiene <span 
       class='searchterm'>%{kw}</span>
@@ -165,12 +165,12 @@ it:
     repositories: depositi
     resource: collezioni
     resources: collezioni
-    objects: unità archivistiche fisiche o digitali
+    objects: Unità archivistiche fisiche o digitali
     subject: soggetto
     agent: creatore del contenuto
     agents: creatori del contenuto
     digital_object: materiali digitali
-    repository: depositi
+    repository: deposito
     digital: materiali digitali
   search-field: Campo di ricerca
   searched-field: cercando %{field}
