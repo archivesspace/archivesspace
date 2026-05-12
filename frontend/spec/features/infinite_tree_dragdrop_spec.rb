@@ -588,6 +588,40 @@ describe 'Infinite Tree Drag and Drop (drop intent layer)', js: true do
     expect(page.current_url).to include("##{tree_hash_for(ao3.uri)}")
   end
 
+  it 'clicking a record title after drag-and-drop immediately updates the .selected class' do
+    dragstart_from(ao.uri)
+    dragover_row(ao3.uri, 0.5)
+    drop_row(ao3.uri, 0.5)
+    wait_for_reorder_idle
+
+    expect(selected_uri).to eq(resource.uri)
+    expect(page).to have_css("li.node[data-uri='#{resource.uri}'].selected")
+
+    within '#infinite-tree-container' do
+      click_link ao2.title
+    end
+    wait_for_ajax
+
+    aggregate_failures do
+      expect(selected_uri).to eq(ao2.uri)
+      expect(page).to have_css("li.node[data-uri='#{ao2.uri}'].selected")
+      expect(page).to have_no_css("li.node[data-uri='#{resource.uri}'].selected")
+      expect(page.current_url).to include("##{tree_hash_for(ao2.uri)}")
+    end
+
+    within '#infinite-tree-container' do
+      click_link ao3.title
+    end
+    wait_for_ajax
+
+    aggregate_failures do
+      expect(selected_uri).to eq(ao3.uri)
+      expect(page).to have_css("li.node[data-uri='#{ao3.uri}'].selected")
+      expect(page).to have_no_css("li.node[data-uri='#{ao2.uri}'].selected")
+      expect(page.current_url).to include("##{tree_hash_for(ao3.uri)}")
+    end
+  end
+
   it 'dedupes ancestor and descendant in effectiveSourceUris' do
     expand_node(ao2.uri)
     wait_for_ajax
