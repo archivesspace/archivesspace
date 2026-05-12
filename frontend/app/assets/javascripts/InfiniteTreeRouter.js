@@ -122,7 +122,18 @@
         e => {
           const { targetHash } = e.detail || {};
 
-          if (targetHash) this.#setHashSilently(targetHash);
+          if (!targetHash) return;
+
+          this.#setHashSilently(targetHash);
+
+          // When the requested hash matches the URL hash (the common case from
+          // reorder flows where we re-assert the currently-selected record),
+          // no hashchange event fires and `_ignoreHashChange` would otherwise
+          // stay stuck at true. Clear it after the current microtask so the
+          // next user-initiated hashchange is processed normally.
+          queueMicrotask(() => {
+            this._ignoreHashChange = false;
+          });
         }
       );
 
