@@ -4,7 +4,8 @@ class AgentsController < ApplicationController
   set_access_control  'view_repository' => [:index, :show],
                       'update_agent_record' => [:new, :edit, :create, :update, :publish, :merge, :merge_selector, :merge_detail, :merge_preview],
                       'delete_agent_record' => [:delete],
-                      'manage_repository' => [:defaults, :update_defaults, :required, :update_required]
+                      'manage_repository' => [:defaults, :update_defaults, :required, :update_required],
+                      'manage_custom_report_templates' => [:complete]
 
   before_action :assign_types
   before_action :get_required, only: [:new, :create, :required]
@@ -299,6 +300,18 @@ class AgentsController < ApplicationController
         redirect_to(resolver.view_uri)
       end
     end
+  end
+
+  def complete
+    query = params[:query].strip
+    if !query.empty?
+      begin
+        return render :json => JSONModel::HTTP::get_json("/agents/people/complete", :query => params[:query])
+      rescue
+      end
+    end
+
+    render :json => []
   end
 
   private

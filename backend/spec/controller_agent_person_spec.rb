@@ -230,4 +230,31 @@ describe 'Person agent controller' do
       expect(json_response["agent_resources"].length).to eq(1)
     end
   end
+
+  describe 'complete action' do
+    it "returns matching agents for a name prefix query" do
+      unique_sort_name = "ANW-1620_#{SecureRandom.hex(6)}"
+      name = build(:json_name_person, :sort_name => unique_sort_name, :sort_name_auto_generate => false)
+      create(:json_agent_person, :names => [name])
+
+      url = URI("#{JSONModel::HTTP.backend_url}/agents/people/complete?query=#{URI.encode_www_form_component(unique_sort_name[0..10])}")
+      response = JSONModel::HTTP.get_response(url)
+
+      expect(response.code).to eq('200')
+      results = ASUtils.json_parse(response.body)
+      expect(results).to be_a(Array)
+      expect(results.first).to have_key('id')
+      expect(results.first).to have_key('label')
+      expect(results.first['label']).to eq(unique_sort_name)
+    end
+
+    it "returns an empty array when no agents match the query" do
+      url = URI("#{JSONModel::HTTP.backend_url}/agents/people/complete?query=ANW1620_nomatchpossible_#{SecureRandom.hex(8)}")
+      response = JSONModel::HTTP.get_response(url)
+
+      expect(response.code).to eq('200')
+      results = ASUtils.json_parse(response.body)
+      expect(results).to eq([])
+    end
+  end
 end

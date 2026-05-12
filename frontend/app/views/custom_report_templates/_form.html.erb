@@ -126,6 +126,25 @@
 									</div>
 								</div>
 							<% end %>
+
+							<% if field['data_type'] == "AgentPerson" %>
+								<div class="form-group d-flex">
+									<%= form.label 'values', :class => 'col-sm-2 control-label', :for => "custom_report_template_data_#{record_type}_fields_#{field_name}_values" %>
+									<div class="col-sm-9">
+										<%= text_field_tag(
+											"custom_report_template[data][#{record_type}][fields][#{field_name}][values]_control",
+											nil,
+											:class => 'agent-person-field form-control',
+											:"autocomplete" => "off",
+											:"aria-label" => I18n.t("custom_report_template._frontend.action.search_agent_persons"))
+										%>
+										<div class="mt-2 d-flex flex-column align-items-start gap-2">
+											<%= text_area_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", array_for_textarea(field_data["values"]), :readonly => true, :class => 'border border-gray--secondary rounded', :style => "height:100px" %>
+											<input type="button" class="btn btn-default d-block agent-person-field-clear-button" value="Clear">
+										</div>
+									</div>
+								</div>
+							<% end %>
 						</div>
 					</div>
 				<% end %>

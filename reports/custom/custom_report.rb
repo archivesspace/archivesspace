@@ -31,6 +31,7 @@ class CustomReport < AbstractReport
     @boolean_fields = []
     @enum_fields = []
     @decimal_fields = []
+    @agent_person_fields = []
 
     table = if @record_type == 'agent'
               'agent_person'.to_sym
@@ -89,6 +90,8 @@ class CustomReport < AbstractReport
         @enum_fields.push(field[:name].to_sym)
       when 'Decimal'
         @decimal_fields.push(field[:name].to_sym)
+      when 'AgentPerson'
+        @agent_person_fields.push(field[:name])
       end
     end
 
@@ -197,6 +200,7 @@ class CustomReport < AbstractReport
   def select_fields
     columns = {}
     @fields.each do |field|
+      next if field[:data_type] == 'AgentPerson'
       if field[:data_type] == 'Enum'
         columns["#{field[:name]}_id"] = field[:alias] || field[:name]
       elsif field[:name] == 'title'
@@ -225,6 +229,17 @@ class CustomReport < AbstractReport
     ReportUtils.local_times(row, [:create_time, :user_mtime])
     if @record_type == 'accession' || @record_type == 'resource'
       ReportUtils.fix_identifier_format(row) if row[:identifier]
+    end
+    @agent_person_fields.each do |field_name|
+      rlshp_table = "#{@record_type}_#{field_name}_rlshp"
+      names = db.fetch(
+        "SELECT np.sort_name
+         FROM #{rlshp_table} rlshp
+         JOIN name_person np ON np.agent_person_id = rlshp.agent_person_id
+         WHERE rlshp.#{@record_type}_id = #{db.literal(row[:id])}
+         AND np.is_display_name = 1"
+      ).map { |r| r[:sort_name] }
+      row[field_name.to_sym] = names.empty? ? nil : names.join(', ')
     end
     @subreports.each do |subreport_class|
       begin
@@ -325,5 +340,19 @@ class CustomReport < AbstractReport
     value_list = values.collect {|value| db.literal(value)}.join(', ')
     @conditions.push("#{field_name} in (#{value_list})")
     info[field_name] = values.join(', ')
+  end
+
+  def agent_person_narrow(template, field_name)
+    values = template['fields'][field_name]['values']
+    id_list = values.collect { |v| db.literal(v.to_i) }.join(', ')
+    rlshp_table = "#{@record_type}_#{field_name}_rlshp"
+    @conditions.push(
+      "#{@record_type}.id IN (SELECT #{@record_type}_id FROM #{rlshp_table} WHERE agent_person_id IN (#{id_list}))"
+    )
+    sort_names = db.fetch(
+      "SELECT sort_name FROM name_person
+       WHERE agent_person_id IN (#{id_list}) AND is_display_name = 1"
+    ).map { |r| r[:sort_name] }
+    info[field_name] = sort_names.join(', ')
   end
 end
