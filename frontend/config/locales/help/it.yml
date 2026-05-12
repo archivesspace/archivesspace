@@ -40,13 +40,15 @@ it:
       accession_subjects: Aiuto riguardo i soggetti
       accession_collection_management: Aiuto riguardo la gestione della collezione
       accession_user_defined: Aiuto riguardo il definito dall'utente
-      accession_metadata_rights_declarations: Aiuto riguardo le dichiarazioni dei diritti sui metadati
+      accession_metadata_rights_declarations: Aiuto riguardo le dichiarazioni dei diritti sui 
+        metadati
       resource: Aiuto riguardo le risorse
       resource_dates: Aiuto riguardo le date
       resource_external_documents: Aiuto riguardo i documenti esterni
       resource_rights_statements: Aiuto riguardo le dichiarazioni dei diritti
       resource_collection_management: Aiuto riguardo la gestione della collezione
-      resource_metadata_rights_declarations: Aiuto riguardo le dichiarazioni dei diritti sui metadati
+      resource_metadata_rights_declarations: Aiuto riguardo le dichiarazioni dei diritti sui 
+        metadati
       resource_classification: Aiuto riguardo le classificazioni
       resource_user_defined: Aiuto riguardo il definito dall'utente
       resource_load_via_spreadsheet: Aiuto riguardo carica tramite foglio di calcolo
@@ -66,7 +68,8 @@ it:
       accession_rights_statements: Aiuto riguardo le dichiarazioni dei diritti
       classification_term: Aiuto riguardo le classificazioni
       repository_groups: Aiuto riguardo la gestione dei gruppi
-      bulk_archival_object_updater_job: Aiuto riguardo l'aggiornamento in massa di oggetti d'archivio
+      bulk_archival_object_updater_job: Aiuto riguardo l'aggiornamento in massa di oggetti 
+        d'archivio
       agent_external_documents: Aiuto riguardo i documenti esterni
       digital_object_component_subjects: Aiuto riguardo i soggetti
       agent_family: Aiuto riguardo la famiglia (agent)
@@ -88,7 +91,8 @@ it:
       agent_family_names: Aiuto riguardo i nomi
       digital_object_component: Aiuto riguardo i componenti dell'oggetto digitale
       preference: Aiuto riguardo le preferenze
-      digital_object_metadata_rights_declarations: Aiuto riguardo le dichiarazioni dei diritti sui metadati
+      digital_object_metadata_rights_declarations: Aiuto riguardo le dichiarazioni dei diritti sui 
+        metadati
       classification: Aiuto riguardo le classificazioni
       digital_object_external_documents: Aiuto riguardo i documenti esterni
       digital_object_component_classification: Aiuto riguardo le classificazioni
@@ -122,5 +126,37 @@ it:
       accession_linked_agents: Aiuto riguardo i links agente
       resource_linked_agents: Aiuto riguardo i links agente
       digital_object_linked_agents: Aiuto riguardo i links agente
+      accession: Assistenza per le acquisizioni
+      accession_extents: Assistenza sulle estensioni
+      accession_instances: Assistenza sulle istanze
+      resource_extents: Assistenza sulle estensioni
+      resource_related_accessions: Assistenza per gli accessi correlati
+      resource_instances: Assistenza sulle istanze
+      archival_object_extents: Assistenza sulle estensioni
+      archival_object_related_accessions: Assistenza per gli accessi correlati
+      archival_object_instances: Assistenza sulle istanze
+      digital_object_extents: Assistenza sulle estensioni
+      digital_object_related_accessions: Assistenza per gli accessi correlati
+      digital_object_instances: Assistenza sulle istanze
+      digital_object_component_extents: Assistenza sulle estensioni
+      digital_object_component_related_accessions: Assistenza per gli accessi correlati
+      digital_object_component_instances: Assistenza sulle istanze
+      agent_person_related_agents: Guida sugli agenti correlati
+      agent_family_related_agents: Guida sugli agenti correlati
+      agent_corporate_entity: Assistenza per le entità aziendali (Agenti)
+      agent_corporate_entity_related_agents: Guida sugli agenti correlati
+      agent_software_related_agents: Guida sugli agenti correlati
+      agent_sources: Guida sulle fonti degli agenti
+      agent_record_identifiers: Guida sugli identificatori dei record degli agenti
+      agent_maintenance_histories: Guida alla cronologia di manutenzione degli agenti
+      agent_other_agency_codes: Assistenza su altri codici di agenzia
+      agent_conventions_declarations: Assistenza sulle dichiarazioni relative alle convenzioni degli
+        agenti
+      agent_alternate_sets: Guida sui set di agenti alternativi
+      agent_record_controls: Guida sui controlli dei record degli agenti
+      agent_related_agents: Guida sugli agenti correlati
+      agent_merge: Assistenza per la fusione degli agenti
+      repository_users: Guida all'assegnazione del gruppo utenti
+      custom_report_templates: Guida sui modelli di report personalizzati
     help_center: Centro di assistenza ArchivesSpace
     default_tooltip: Centro di assistenza ArchivesSpace
