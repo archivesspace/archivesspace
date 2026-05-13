@@ -139,6 +139,18 @@ def ensure_test_repository_exists
   end
 
   ensure_test_repository_selected
+end
+
+def ensure_test_repository_selected
+  click_on 'Select Repository'
+  within '.dropdown-menu' do
+    find('select').select 'repository_test'
+    click_on 'Select Repository'
+  end
+  expect(find('.alert.alert-success').text).to eq 'The Repository repository_test is now active'
+
+  click_on 'repository_test'
+  @repository_id = current_url.split('/').pop
 rescue Capybara::ElementNotFound
   visit STAFF_URL
   click_on 'System'
@@ -154,17 +166,6 @@ rescue Capybara::ElementNotFound
   expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Repository is Currently Selected')
 
   visit STAFF_URL
-  ensure_test_repository_selected
-end
-
-def ensure_test_repository_selected
-  click_on 'Select Repository'
-  within '.dropdown-menu' do
-    find('select').select 'repository_test'
-    click_on 'Select Repository'
-  end
-  expect(find('.alert.alert-success').text).to eq 'The Repository repository_test is now active'
-
   click_on 'repository_test'
   @repository_id = current_url.split('/').pop
 end

@@ -19,7 +19,7 @@ Given 'a Resource with a Top Container has been created' do
 
   fill_in 'top_container_indicator_', with: @uuid
   click_on 'Create and Link'
-  expect(page).to have_css('.top_container', wait: 10)
+  expect(page).to have_css('.top_container')
 
   click_on 'Add Language'
 
@@ -126,4 +126,8 @@ end
 
 Then 'the Resource view page is displayed' do
   expect(find('h2').text).to eq "Resource #{@uuid} Resource"
+end
+
+Then 'the user is still on the Resource view page' do
+  expect(current_url).to include "resources/#{@resource_id}"
 end

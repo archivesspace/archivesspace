@@ -1839,9 +1839,17 @@ describe 'Resources', js: true do
     before(:all) do
       @view_only_repo = create(:repo, repo_code: "view_only_resources_#{Time.now.to_i}", publish: true)
       set_repo(@view_only_repo)
-      @published_resource = create(:resource, title: "Published Resource #{Time.now.to_i}", publish: true)
+      @view_only_tc = create(:top_container, indicator: "View Only Box #{Time.now.to_i}")
+      @published_resource = create(:resource,
+        title: "Published Resource #{Time.now.to_i}",
+        publish: true,
+        instances: [build(:json_instance,
+          sub_container: build(:json_sub_container,
+            top_container: { ref: @view_only_tc.uri }))]
+      )
       @view_only_user = create_user(@view_only_repo => ['repository-viewers'])
-      run_index_round
+
+      run_periodic_index
     end
 
     before(:each) do
@@ -1880,7 +1888,7 @@ describe 'Resources', js: true do
 
     it 'can open the View Top Containers modal from the resource show page' do
       visit "/resources/#{@published_resource.id}"
-      wait_for_ajax
+      expect(page).to have_css('.access-top-containers-btn:not([disabled])')
 
       click_button 'View Top Containers'
 
@@ -1892,7 +1900,7 @@ describe 'Resources', js: true do
 
     it 'does not show Edit buttons in the View Top Containers modal' do
       visit "/resources/#{@published_resource.id}"
-      wait_for_ajax
+      expect(page).to have_css('.access-top-containers-btn:not([disabled])')
 
       click_button 'View Top Containers'
 

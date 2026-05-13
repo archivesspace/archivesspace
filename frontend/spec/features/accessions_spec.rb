@@ -950,9 +950,15 @@ describe 'Accessions (view-only permissions)', js: true do
   before(:all) do
     @view_only_repo = create(:repo, repo_code: "view_only_test_#{Time.now.to_i}", publish: true)
     set_repo(@view_only_repo)
-    @published_accession = create(:json_accession, publish: true)
+    @view_only_tc = create(:top_container, indicator: "View Only Box #{Time.now.to_i}")
+    @published_accession = create(:json_accession,
+      publish: true,
+      instances: [build(:json_instance,
+        sub_container: build(:json_sub_container,
+          top_container: { ref: @view_only_tc.uri }))]
+    )
     @view_only_user = create_user(@view_only_repo => ['repository-viewers'])
-    run_index_round
+    run_periodic_index
   end
 
   before(:each) do

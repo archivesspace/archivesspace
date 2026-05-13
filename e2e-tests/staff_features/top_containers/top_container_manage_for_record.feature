@@ -16,13 +16,13 @@ Feature: Manage Top Containers from a Resource or Accession Record
     Given the Resource is opened in edit mode
     When the user opens the top container management panel
     And the user views a top container's details
-    Then the top container information is displayed in full
+    Then the top container appears linked in the modal
 
   Scenario: An administrator can correct top container information from within the resource record
     Given the Resource is opened in edit mode
     When the user opens the top container management panel
     And the user updates the barcode of a top container
-    Then the user remains within the resource context
+    Then the user is still on the Resource view page
     And the updated barcode is reflected in the top container management view
 
   Scenario: An administrator can apply a bulk update to top containers for a resource

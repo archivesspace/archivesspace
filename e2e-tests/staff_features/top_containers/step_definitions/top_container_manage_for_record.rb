@@ -13,12 +13,6 @@ When "the user views a top container's details" do
   wait_for_ajax
 end
 
-Then 'the top container information is displayed in full' do
-  within '#accessTopContainerSubModal' do
-    expect(page).to have_text @uuid
-  end
-end
-
 When 'the user updates the barcode of a top container' do
   @new_barcode = SecureRandom.uuid
   within '#accessTopContainersModal' do
@@ -30,10 +24,6 @@ When 'the user updates the barcode of a top container' do
     click_on 'Save Top Container'
   end
   wait_for_ajax
-end
-
-Then 'the user remains within the resource context' do
-  expect(current_url).to include "/resources/#{@resource_id}"
 end
 
 Then 'the updated barcode is reflected in the top container management view' do
