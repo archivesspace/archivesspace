@@ -67,6 +67,7 @@
   --tree-reorder-row-hover-bg: var(--blue-100);
   --tree-multiselect-bg: var(--blue-150);
   --tree-multiselect-border: var(--blue-700);
+  --tree-implicit-multiselect-bg: var(--blue-100);
   --tree-reparent-highlight-bg: var(--green-300);
   --tree-reparent-highlight-border: var(--green-600);
   --tree-blockout-overlay: rgba(0, 0, 0, 0.2);
@@ -228,6 +229,35 @@
     border-color: var(--tree-multiselect-border);
   }
 
+  // Locked rows (ancestors/descendants of selected nodes) get dimmed appearance
+  // Implicitly selected nodes: descendants of explicitly selected parents.
+  // They move with their parent; the badge slot shows a checkmark, not a number.
+  // Lighter highlight than explicitly selected, no border.
+  &.implicitly-multiselected > .node-row > .node-body {
+    background-color: var(--tree-implicit-multiselect-bg);
+    cursor: not-allowed;
+
+    .node-indentation {
+      --indent-fill: var(--tree-implicit-multiselect-bg);
+      --indent-line: transparent;
+    }
+
+    .node-expand {
+      background-color: var(--tree-implicit-multiselect-bg);
+    }
+  }
+
+  // Locked ancestors: cannot be selected because a descendant is selected.
+  // Dimmed appearance with not-allowed cursor.
+  &.selection-locked > .node-row > .node-body {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.cut > .node-row > .node-body {
+    opacity: 0.55;
+  }
+  
   &.reparented-highlight > .node-row > .node-body,
   &.reparented > .node-row > .node-body {
     position: relative;
@@ -435,6 +465,21 @@
     font-size: 0.7rem;
     line-height: 1rem;
     text-align: center;
+  }
+
+  // Subtle corner mark; no pill so it does not compete with order numbers.
+  .selection-order-badge.implicit-mark:not(:empty) {
+    top: 0;
+    right: 0;
+    min-width: 0;
+    height: auto;
+    padding: 0;
+    border-radius: 0;
+    background-color: transparent;
+    color: var(--tree-multiselect-border);
+    font-size: 0.5rem;
+    font-weight: 700;
+    line-height: 1;
   }
 }
 
