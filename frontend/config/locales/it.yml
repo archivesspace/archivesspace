@@ -644,3 +644,16 @@ it:
     mlc_field: >-
       Il valore di questo campo può cambiare in base alla lingua di descrizione
       corrente.
+    _frontend:
+      action:
+        add: Aggiungi la lingua della descrizione
+        make_primary_tooltip: >
+          <p>Utilizzare per indicare quale set di lingua e script è primario.
+          È possibile designare solo una lingua come principale.</p>
+        make_primary: 
+  lang_material:
+    _plural: Linguaggi dei materiali
+    _frontend:
+      action:
+        add: Aggiungi la lingua dei materiali
+        add_note: Aggiungi nota linguistica

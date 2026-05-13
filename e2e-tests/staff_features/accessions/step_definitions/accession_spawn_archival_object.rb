@@ -57,7 +57,7 @@ Then 'the following Archival Object forms have the same values as the Accession'
       expect(page).to have_css('#archival_object_accession_links__0_ .token-input-token', text: "Accession #{@uuid}: Accession Title #{@uuid}")
     when 'Subjects'
       expect(page).to have_css('#archival_object_subjects__0_ .token-input-token', text: 'test_subject_term')
-    when 'Languages'
+    when 'Languages of Materials'
       within '#archival_object_lang_materials__0_' do
         expect(page).to have_field('archival_object_lang_materials__0__language_and_script__language_', with: 'English')
         expect(page).to have_select('archival_object_lang_materials__0__language_and_script__script__list', selected: 'Adlam', visible: false)

@@ -1100,8 +1100,8 @@ uk:
     _plural: Ступені
     _singular: Ступінь
   lang_material:
-    _plural: Мови
-    _singular: Мова
+    _plural: Мови матеріалів
+    _singular: Мова матеріалу
   language:
     _plural: Мови
     _singular: Мова
@@ -1444,7 +1444,7 @@ uk:
     dates: Дати
     dates_tooltip: "<p>УМОВНО НЕОБХІДНИЙ ПІДЗАПИС. Архівний об'єкт повинен мати підзапис назви або дати.</p>\n"
     extents: Ступені
-    lang_materials: Мови
+    lang_materials: Мови матеріалів
     ref_id_auto_generation_message: -- автоматично згенеровано після збереження --
     component_id: Унікальний ідентифікатор компонента
     component_id_tooltip: "<p>Виражає унікальний ідентифікатор, у контексті опису ресурсу, для складової
@@ -2685,3 +2685,10 @@ uk:
     new_title: Новий профіль контейнера
   location_profile:
     new_title: Новий профіль місцезнаходження
+  lang_description: &lang_description
+    _plural: Мови опису
+    is_primary: Основна мова
+    language: Мова
+    script: Сценарій
+  language_and_script_of_description:
+    <<: *lang_description

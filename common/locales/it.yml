@@ -438,6 +438,7 @@ it:
   archival_object:
     component_id: Identificatore unico del componente
     import_current_ark: Importa ARK corrente
+    lang_materials: Linguaggi dei materiali
   resource:
     id_0: Identificatore
     id_1: Identificatore 2
@@ -514,3 +515,13 @@ it:
     mixed_content_disallowed_tag: "Tag HTML non consentito rilevato. Per motivi di sicurezza, tag come
       &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; ed elementi di modulo non sono consentiti nei campi
       a contenuto misto."
+  lang_description: &lang_description
+    _plural: Linguaggi della descrizione
+    is_primary: Lingua principale
+    language: Lingua
+    script: Sceneggiatura
+  language_and_script_of_description:
+    <<: *lang_description
+  lang_material: &lang_material_attributes
+    _plural: Linguaggi dei materiali
+    _singular: Lingua del materiale

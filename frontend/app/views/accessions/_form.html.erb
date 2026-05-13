@@ -5,46 +5,50 @@
     <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
       <h3 class="flex-grow-1 d-flex align-items-center mb-0 border-0">
         <%= t "accession._frontend.section.basic_information" %>
+
         <% if edit_mode? %>
           <span class="ml-2 fs-12px label badge">ENG</span>
         <% end %>
       </h3>
+
       <%= link_to_help :topic => "accession_basic_information" %>
     </div>
+
     <fieldset>
       <%= render_plugin_partials("top_of_basic_information_accession",
                                  :form => form,
                                  :record => @accession) %>
 
-       <%= mlc_textarea_field(form, 
+      <%= mlc_textarea_field(form, 
                              "title",
                              :field_opts => {
                                     :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
                              }) %>
-       <%= form.label_and_fourpartid %>
 
-       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @accession} if AppConfig[:use_human_readable_urls] %>
+      <%= form.label_and_fourpartid %>
 
-       <%= form.label_and_date "accession_date" %>
-       <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
-       <%= mlc_textarea_field(form, "content_description") %>
-       <%= mlc_textarea_field(form, "condition_description") %>
-       <%= mlc_textarea_field(form, "disposition") %>
-       <%= mlc_textarea_field(form, "inventory") %>
-       <%= mlc_textarea_field(form, "provenance") %>
-       <%= form.label_and_textarea "retention_rule" %>
-       <%= mlc_textarea_field(form, "general_note") %>
-       <%= form.label_and_select "acquisition_type", form.possible_options_for("acquisition_type", true) %>
-       <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
-       <%= form.label_and_select("language", form.possible_options_for("language", true), {:label_opts => {:classes => 'mb-0'}}) %>
-       <%= form.label_and_select("script", form.possible_options_for("script", true), {:label_opts => {:classes => 'mb-0'}}) %>
-       <%= form.label_and_boolean "restrictions_apply", {}, form.default_for("restrictions_apply") %>
-       <%= form.label_and_boolean "access_restrictions", {}, form.default_for("access_restrictions") %>
-       <%= mlc_textarea_field(form, "access_restrictions_note") %>
-       <%= form.label_and_boolean "use_restrictions", {}, form.default_for("use_restrictions") %>
-       <%= mlc_textarea_field(form, "use_restrictions_note") %>
+      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @accession} if AppConfig[:use_human_readable_urls] %>
 
-       <%= render_plugin_partials("basic_information_accession",
+      <%= form.label_and_date "accession_date" %>
+      <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
+      <%= mlc_textarea_field(form, "content_description") %>
+      <%= mlc_textarea_field(form, "condition_description") %>
+      <%= mlc_textarea_field(form, "disposition") %>
+      <%= mlc_textarea_field(form, "inventory") %>
+      <%= mlc_textarea_field(form, "provenance") %>
+      <%= form.label_and_textarea "retention_rule" %>
+      <%= mlc_textarea_field(form, "general_note") %>
+      <%= form.label_and_select "acquisition_type", form.possible_options_for("acquisition_type", true) %>
+      <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
+      <%= form.label_and_select("language", form.possible_options_for("language", true), {:label_opts => {:classes => 'mb-0'}}) %>
+      <%= form.label_and_select("script", form.possible_options_for("script", true), {:label_opts => {:classes => 'mb-0'}}) %>
+      <%= form.label_and_boolean "restrictions_apply", {}, form.default_for("restrictions_apply") %>
+      <%= form.label_and_boolean "access_restrictions", {}, form.default_for("access_restrictions") %>
+      <%= mlc_textarea_field(form, "access_restrictions_note") %>
+      <%= form.label_and_boolean "use_restrictions", {}, form.default_for("use_restrictions") %>
+      <%= mlc_textarea_field(form, "use_restrictions_note") %>
+
+      <%= render_plugin_partials("basic_information_accession",
                                   :form => form,
                                   :record => @accession) %>
     </fieldset>
@@ -52,6 +56,10 @@
 <% end %>
 
 <% form.emit_template("accession") %>
+
+<% if AppConfig[:multilingual_content] %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_descriptions"} %>
+<% end %>
 
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_materials", :custom_action_template => "lang_materials/subrecord_form_action"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
@@ -77,8 +85,8 @@
 <%= form_plugins_for("accession", form) %>
 
 <% unless local_assigns[:inline] %>
-<div class="form-actions pl-0">
-  <button type="submit" class="btn btn-primary"><%= t("accession._frontend.action.save") %></button>
-  <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
-</div>
+  <div class="form-actions pl-0">
+    <button type="submit" class="btn btn-primary"><%= t("accession._frontend.action.save") %></button>
+    <%= link_to t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+  </div>
 <% end %>

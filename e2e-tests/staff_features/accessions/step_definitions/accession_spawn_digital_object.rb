@@ -41,7 +41,7 @@ Then 'the following Digital Object forms have the same values as the Accession' 
     expect(section[:id]).to_not eq nil
 
     case form_title
-    when 'Languages'
+    when 'Languages of Materials'
       within '#digital_object_lang_materials__0_' do
         expect(page).to have_field('digital_object_lang_materials__0__language_and_script__language_', with: 'English')
         expect(page).to have_select('digital_object_lang_materials__0__language_and_script__script__list', selected: 'Adlam', visible: false)

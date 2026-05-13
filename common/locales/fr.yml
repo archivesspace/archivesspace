@@ -1044,8 +1044,8 @@ fr:
     _singular: Importance matérielle
 
   lang_material: &lang_material_attributes
-    _plural: Langues
-    _singular: La langue
+    _plural: Langages des matériaux
+    _singular: Langue du document
 
   language_and_script:
     <<: *lang_material_attributes
@@ -1545,7 +1545,7 @@ fr:
     dates_tooltip: |
       <p>SOUS-NOTICE OBLIGATOIRE CONDITIONNELLE. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
     extents: Importance matérielle
-    lang_materials: Langues
+    lang_materials: Langages des matériaux
     ref_id_auto_generation_message: "-- auto-généré à la sauvegarde --"
     component_id: Identifiant unique de composant
     component_id_tooltip: |
@@ -3318,3 +3318,10 @@ fr:
       aux enregistrements de ressources, d'objets d'archives, d'objets numériques et de composants d'objets
       numériques. Cette tâche étant applicable à tous les dépôts, elle est réservée aux utilisateurs disposant
       des autorisations d'administrateur système.\n"
+  lang_description: &lang_description
+    _plural: Langages de description
+    is_primary: Langue principale
+    language: Langue
+    script: Scénario
+  language_and_script_of_description:
+    <<: *lang_description

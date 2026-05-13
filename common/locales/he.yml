@@ -1,4 +1,6 @@
 he:
+  archival_object: &archival_object_attributes
+    lang_materials: שפות של חומרים
   reports:
     formats:
       json: JSON
@@ -18,3 +20,13 @@ he:
   validation_errors:
     mixed_content_invalid_inline_ead: "סימון EAD לא חוקי: השתמש במירכאות ישרות (\" או ') עבור ערכי תכונות וודא שהתגים מעוצבים כהלכה."
     mixed_content_disallowed_tag: "התגלה תג HTML לא מורשה. מטעמי אבטחה, תגים כגון &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; ואלמנטי טפסים אינם מורשים בשדות תוכן מעורב."
+  lang_description: &lang_description
+    _plural: שפות תיאור
+    is_primary: שפה ראשית
+    language: שָׂפָה
+    script: תַסרִיט
+  language_and_script_of_description:
+    <<: *lang_description
+  lang_material: &lang_material_attributes
+    _plural: שפות של חומרים
+    _singular: שפת החומר

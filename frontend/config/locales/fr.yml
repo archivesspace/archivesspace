@@ -1242,9 +1242,9 @@ fr:
   lang_material:
     _frontend:
       action:
-        add: Ajouter une langue
+        add: Ajouter la langue des matériaux
         add_note: Ajouter une note de langue
-    _plural: Langues
+    _plural: Langages des matériaux
 
   linked_agent:
     is_primary: Primaire
@@ -3662,3 +3662,10 @@ fr:
     mlc_field: >-
       La valeur de ce champ peut changer en fonction de la langue actuelle de
       description.
+    _frontend:
+      action:
+        add: Ajouter une langue de description
+        make_primary_tooltip: >
+          <p>Utilisez pour indiquer quelle langue et quel jeu de scripts sont principaux.
+          Une seule langue peut être désignée comme langue principale.</p>
+        make_primary: Créer la langue principale

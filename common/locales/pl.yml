@@ -475,7 +475,7 @@ pl:
     dates_tooltip: |
       <p>WARUNKOWO WYMAGANY PODREKORD. Obiekt archiwalny musi posiadać albo podrekord tytułu, albo podrekord daty.</p>
     extents: Zakresy
-    lang_materials: Języki
+    lang_materials: Języki materiałów
     ref_id_auto_generation_message: -- generowane automatycznie po zapisaniu --
     component_id: Unikalny identyfikator komponentu
     component_id_tooltip: |
@@ -1500,7 +1500,8 @@ pl:
     _singular: Temat
     _plural: Tematy
   lang_material:
-    _plural: Języki
+    _plural: Języki materiałów
+    _singular: Język materiału
   agent_record_identifiers:
     identifier_type_tooltip: |
       <p>Wskazuje typ lub format identyfikatora rekordu autorytatywnego. Wartości na tej liście wartości kontrolowanych mogą być modyfikowane.</p>
@@ -1650,3 +1651,10 @@ pl:
     number_type: Typ numeru
     number: Numer
     ext: Rozszerzenie telefoniczne
+  lang_description: &lang_description
+    _plural: Języki opisu
+    is_primary: Język podstawowy
+    language: Język
+    script: Scenariusz
+  language_and_script_of_description:
+    <<: *lang_description

@@ -1341,10 +1341,10 @@ de:
       messages:
         select_a_type: Bitte wählen Sie einen Instanz-Typ
   lang_material:
-    _plural: Sprachen
+    _plural: Sprachen der Materialien
     _frontend:
       action:
-        add: Sprache hinzufügen
+        add: Sprache der Materialien hinzufügen
         add_note: Anmerkung zu Sprache hinzufügen
   location:
     _frontend:
@@ -2872,3 +2872,10 @@ de:
     mlc_field: >-
       Der Wert dieses Feldes kann sich je nach aktueller Beschreibungssprache
       ändern.
+    _frontend:
+      action:
+        add: Beschreibungssprache hinzufügen
+        make_primary_tooltip: >
+          <p>Verwenden Sie diese Option, um anzugeben, welche Sprache und welcher Skriptsatz primär sind.
+          Es kann nur eine Sprache als primär festgelegt werden.</p>
+        make_primary: Machen Sie eine Primärsprache

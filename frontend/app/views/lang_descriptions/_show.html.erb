@@ -1,0 +1,34 @@
+<% section_id = "lang_descriptions" if section_id.blank? %>
+
+<section id="<%= section_id %>" class="py-3">
+  <h3><%= I18n.t("lang_description._plural") %></h3>
+
+  <div class="details" id="<%= section_id %>_accordion">
+    <% lang_descriptions.each_with_index do | language_and_script_of_description, index | %>
+      <div class="card">
+        <div class="panel-heading card-header">
+          <div
+            class="row accordion-toggle collapsed"
+            data-toggle="collapse"
+            data-parent="#<%= section_id %>_accordion"
+            href="#<%= section_id %>_language_and_script_of_description_<%= index %>"
+          >
+            <div class="col-md-1">
+              <span class="glyphicon"></span>
+            </div>
+
+            <div class="col-md-4">
+              <%= t('enumerations.language_iso639_2.'+language_and_script_of_description['language'], :default => language_and_script_of_description['language']) %>
+
+              <%= "(" + t('enumerations.script_iso15924.'+language_and_script_of_description['script'], :default => language_and_script_of_description['script']) + " script)" %>
+            </div>
+          </div>
+        </div>
+
+        <div id="<%= section_id %>_language_and_script_of_description_<%= index %>" class="panel-collapse collapse">
+          <%= read_only_view(language_and_script_of_description) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
