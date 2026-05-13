@@ -213,7 +213,7 @@
     }
 
     /**
-     * Sets the metadata on non root node elements
+     * Sets the metadata on non root nodes
      * @param {Element} nodeElement - The node <li> element
      * @param {Object} data - The node data object
      * @param {number} level - Tree level of the node (0 for root)

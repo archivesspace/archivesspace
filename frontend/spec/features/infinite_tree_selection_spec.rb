@@ -139,7 +139,41 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
     find('.js-itree-toolbar-reorder-toggle').click
   end
 
-  before do
+  def find_badge(uri)
+    evaluate_js(<<~JS)
+      (function() {
+        var li = document.querySelector('li.node[data-uri="#{uri}"]');
+        if (!li) return null;
+        var badge = li.querySelector('.selection-order-badge');
+        return badge ? badge.textContent : null;
+      })();
+    JS
+  end
+
+  def has_locked_class(uri)
+    evaluate_js(<<~JS)
+      (function() {
+        var li = document.querySelector('li.node[data-uri="#{uri}"]');
+        return li ? li.classList.contains('selection-locked') : false;
+      })();
+    JS
+  end
+
+  def has_implicitly_selected_class(uri)
+    evaluate_js(<<~JS)
+      (function() {
+        var li = document.querySelector('li.node[data-uri="#{uri}"]');
+        return li ? li.classList.contains('implicitly-multiselected') : false;
+      })();
+    JS
+  end
+
+  before do |example|
+    # Nested `let!` hooks run after this hook, so the default visit would load the
+    # tree before ancestry fixture rows exist. Examples tagged :ancestry_multilevel_tree
+    # perform their own visit after those lets run (see nested before block).
+    next if example.metadata[:ancestry_multilevel_tree]
+
     visit "#{edit_path}#{root_hash}"
     wait_for_ajax
     install_selection_event_capture
@@ -166,7 +200,11 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
   end
 
   context 'when reorder mode is on' do
-    before { enable_reorder_mode }
+    before do |example|
+      next if example.metadata[:ancestry_multilevel_tree]
+
+      enable_reorder_mode
+    end
 
     it 'toggles .reorder-mode on the tree container' do
       expect(page).to have_css('#infinite-tree-container.reorder-mode')
@@ -201,15 +239,15 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
         expect(evt['detail']['anchorUri']).to eq(ao3.uri)
       end
 
-      it 'orders Cmd/Ctrl + click selection by visible DOM position regardless of click order' do
+      it 'preserves click order, not DOM order' do
         click_row(ao3.uri, meta: true)
         click_row(ao.uri, meta: true)
 
         uris = data_selection_uris.split(',')
-        expect(uris).to eq([ao.uri, ao3.uri])
+        expect(uris).to eq([ao3.uri, ao.uri])
 
         evt = last_changed_event
-        expect(evt['detail']['selectedUris']).to eq([ao.uri, ao3.uri])
+        expect(evt['detail']['selectedUris']).to eq([ao3.uri, ao.uri])
         expect(evt['detail']['anchorUri']).to eq(ao.uri)
       end
     end
@@ -229,7 +267,8 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
         click_row(ao3.uri, shift: true)
 
         uris = data_selection_uris.split(',')
-        expect(uris).to eq([ao.uri, ao2.uri, child_ao.uri, ao3.uri])
+        expect(uris).to eq([ao.uri, ao2.uri, ao3.uri])
+        expect(has_implicitly_selected_class(child_ao.uri)).to be true
       end
 
       it 'extends from a level-1 anchor to a level-2 endpoint inside an expanded parent' do
@@ -237,10 +276,11 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
         click_row(child_ao.uri, shift: true)
 
         uris = data_selection_uris.split(',')
-        expect(uris).to eq([ao.uri, ao2.uri, child_ao.uri])
+        expect(uris).to eq([ao.uri, child_ao.uri])
+        expect(has_locked_class(ao2.uri)).to be true
 
         evt = last_changed_event
-        expect(evt['detail']['selectedUris']).to eq([ao.uri, ao2.uri, child_ao.uri])
+        expect(evt['detail']['selectedUris']).to eq([ao.uri, child_ao.uri])
         expect(evt['detail']['anchorUri']).to eq(child_ao.uri)
       end
 
@@ -249,31 +289,207 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
         click_row(ao.uri, shift: true)
 
         uris = data_selection_uris.split(',')
-        expect(uris).to eq([ao.uri, ao2.uri, child_ao.uri])
+        # Click order: child_ao first, then only ao from range
+        # ao2 is SKIPPED because it's an ancestor of child_ao (locked)
+        expect(uris).to eq([child_ao.uri, ao.uri])
       end
     end
 
-    describe 'ancestor/descendant overlap is allowed in the explicit selection' do
+    describe 'selection order badges' do
+      it 'hides badge when only one row selected' do
+        click_row(ao.uri, meta: true)
+
+        badge = find_badge(ao.uri)
+        expect(badge).to eq('')
+      end
+
+      it 'shows badges when multiple rows selected' do
+        click_row(ao.uri, meta: true)
+        click_row(ao3.uri, meta: true)
+
+        expect(find_badge(ao.uri)).to eq('1')
+        expect(find_badge(ao3.uri)).to eq('2')
+      end
+
+      it 'renumbers badges when middle item deselected' do
+        click_row(ao.uri, meta: true)
+        click_row(ao2.uri, meta: true)
+        click_row(ao3.uri, meta: true)
+
+        expect(find_badge(ao.uri)).to eq('1')
+        expect(find_badge(ao2.uri)).to eq('2')
+        expect(find_badge(ao3.uri)).to eq('3')
+
+        # Deselect middle item
+        click_row(ao2.uri, meta: true)
+
+        expect(data_selection_uris).to eq("#{ao.uri},#{ao3.uri}")
+        expect(find_badge(ao.uri)).to eq('1')
+        expect(find_badge(ao3.uri)).to eq('2')
+      end
+    end
+
+    describe 'ancestry-based locking (multi-level)', :ancestry_multilevel_tree do
+      let!(:a_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, title: "A #{now}")
+      end
+
+      let!(:b_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, title: "B #{now}")
+      end
+
+      let!(:ba_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BA #{now}")
+      end
+
+      let!(:bb_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BB #{now}")
+      end
+
+      let!(:bba_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBA #{now}")
+      end
+
+      let!(:bbb_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBB #{now}")
+      end
+
+      let!(:bc_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BC #{now}")
+      end
+
+      let!(:c_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, title: "C #{now}")
+      end
+
+      let!(:d_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, title: "D #{now}")
+      end
+
       before do
-        expand_node(ao2.uri)
+        visit "#{edit_path}#{root_hash}"
         wait_for_ajax
-        expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
+        install_selection_event_capture
+        enable_reorder_mode
+
+        expect(page).to have_css("li.node[data-uri='#{b_ao.uri}']", wait: 10)
+        expand_node(b_ao.uri)
+        wait_for_ajax
+        expect(page).to have_css("li.node[data-uri='#{bb_ao.uri}']", wait: 10)
+        expand_node(bb_ao.uri)
+        wait_for_ajax
+        expect(page).to have_css("li.node[data-uri='#{bbb_ao.uri}']", wait: 10)
       end
 
-      it 'lets Cmd/Ctrl + click add a descendant after its ancestor is already selected' do
-        click_row(ao2.uri, meta: true)
-        click_row(child_ao.uri, meta: true)
+      it 'locks all ancestors when grandchild is selected' do
+        click_row(bbb_ao.uri, meta: true)
 
-        uris = data_selection_uris.split(',')
-        expect(uris).to eq([ao2.uri, child_ao.uri])
+        # BB (parent) and B (grandparent) should both be locked
+        expect(has_locked_class(bb_ao.uri)).to be true
+        expect(has_locked_class(b_ao.uri)).to be true
+
+        # Siblings are not locked
+        expect(has_locked_class(bba_ao.uri)).to be false
+
+        # Attempt to select BB should be ignored
+        click_row(bb_ao.uri, meta: true)
+        expect(data_selection_uris).to eq(bbb_ao.uri)
+
+        # Attempt to select B should be ignored
+        click_row(b_ao.uri, meta: true)
+        expect(data_selection_uris).to eq(bbb_ao.uri)
       end
 
-      it 'lets Cmd/Ctrl + click add an ancestor after its descendant is already selected' do
-        click_row(child_ao.uri, meta: true)
-        click_row(ao2.uri, meta: true)
+      it 'implicitly selects all descendants when grandparent is selected' do
+        click_row(b_ao.uri, meta: true)
 
-        uris = data_selection_uris.split(',')
-        expect(uris).to eq([ao2.uri, child_ao.uri])
+        # Direct children should be implicitly selected
+        expect(has_implicitly_selected_class(ba_ao.uri)).to be true
+        expect(has_implicitly_selected_class(bb_ao.uri)).to be true
+        expect(has_implicitly_selected_class(bc_ao.uri)).to be true
+
+        # Grandchildren should also be implicitly selected
+        expect(has_implicitly_selected_class(bba_ao.uri)).to be true
+        expect(has_implicitly_selected_class(bbb_ao.uri)).to be true
+
+        # Attempt to select grandchild should be ignored
+        click_row(bbb_ao.uri, meta: true)
+        expect(data_selection_uris).to eq(b_ao.uri)
+      end
+
+      it 'prevents selecting grandchild when grandparent already selected' do
+        click_row(b_ao.uri, meta: true)
+        click_row(bbb_ao.uri, meta: true)
+
+        # Only B should be selected (BBB is implicitly included)
+        expect(data_selection_uris).to eq(b_ao.uri)
+        expect(has_implicitly_selected_class(bbb_ao.uri)).to be true
+      end
+
+      it 'shows implicitly-multiselected on descendants and selection-locked on ancestors' do
+        click_row(bb_ao.uri, meta: true)
+
+        expect(has_implicitly_selected_class(bba_ao.uri)).to be true
+        expect(has_implicitly_selected_class(bbb_ao.uri)).to be true
+
+        expect(has_locked_class(b_ao.uri)).to be true
+
+        expect(has_locked_class(ba_ao.uri)).to be false
+        expect(has_implicitly_selected_class(ba_ao.uri)).to be false
+      end
+
+      it 'prevents selecting grandparent when grandchild already selected' do
+        click_row(bbb_ao.uri, meta: true)
+        click_row(b_ao.uri, meta: true)
+
+        # Only BBB should be selected (B was locked)
+        expect(data_selection_uris).to eq(bbb_ao.uri)
+      end
+
+      it 'creates visual holes in range selection across multiple levels' do
+        # Select BBB (grandchild), which locks BB (parent) and B (grandparent)
+        click_row(bbb_ao.uri, meta: true)
+
+        expect(has_locked_class(bb_ao.uri)).to be true
+        expect(has_locked_class(b_ao.uri)).to be true
+
+        # Shift backward to BA (stays under B; flat range BA..BBA skips locked BB only).
+        # Avoid shifting to A: many unrelated top-level rows sit between A and B in DOM order.
+        click_row(ba_ao.uri, shift: true)
+
+        expect(data_selection_uris).to eq("#{bbb_ao.uri},#{bba_ao.uri},#{ba_ao.uri}")
+
+        expect(has_locked_class(bb_ao.uri)).to be true
+        expect(has_locked_class(b_ao.uri)).to be true
+      end
+
+      it 'unlocks grandparent only when all descendants deselected' do
+        click_row(bba_ao.uri, meta: true)
+        click_row(bbb_ao.uri, meta: true)
+
+        # B and BB should both be locked
+        expect(has_locked_class(bb_ao.uri)).to be true
+        expect(has_locked_class(b_ao.uri)).to be true
+
+        # Deselect BBA - BB and B still locked (BBB still selected)
+        click_row(bba_ao.uri, meta: true)
+        expect(data_selection_uris).to eq(bbb_ao.uri)
+        expect(has_locked_class(bb_ao.uri)).to be true
+        expect(has_locked_class(b_ao.uri)).to be true
+
+        # Deselect BBB - now BB and B are unlocked
+        click_row(bbb_ao.uri, meta: true)
+        expect(data_selection_uris).to be_nil
+        expect(has_locked_class(bb_ao.uri)).to be false
+        expect(has_locked_class(b_ao.uri)).to be false
+      end
+
+      it 'allows selecting from multiple unrelated branches' do
+        click_row(a_ao.uri, meta: true)
+        click_row(bbb_ao.uri, meta: true)
+
+        # Both should be selected (no shared ancestry)
+        expect(data_selection_uris).to eq("#{a_ao.uri},#{bbb_ao.uri}")
       end
     end
 
