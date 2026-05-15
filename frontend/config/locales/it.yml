@@ -205,6 +205,10 @@ it:
       (documenti esterni, note, ecc.) e di tutti i componenti sottostanti a 
       questo record nella gerarchia.</p>
     run: Correre
+    expand_tree_mode_on: Espandi tutto automaticamente
+    expand_tree_mode_off: Disabilita l'espansione automatica
+    collapse_tree: Albero di compressione
+    reorder_successful: Repository riordinati con successo
   states:
     auto_generated: Generato automaticamente al salvataggio
   export_options:
@@ -214,6 +218,7 @@ it:
     ead3: Schema EAD3
     use_dc: Usa Dublin Core
     numbered_cs: Usa i tags numerati &lt;c&gt;
+    include_unpublished: Includi inedito
   pagination:
     last: Ultimo
     previous_label: Precedente
@@ -226,6 +231,7 @@ it:
     page_connector: di
     first: Primo
     previous: '&#171;'
+    summary_prefix: Mostrando
   search_results:
     context: Trovato in
     select_record: "Seleziona %{title}"
@@ -246,6 +252,7 @@ it:
       row_selection: Clicca una riga per selezionarla per le operazioni in 
         blocco. Tieni premuto ALT mentre clicchi una casella di spunta per 
         selezionare, o deselezionare, precedenti righe multiple.
+    clear_all: Cancella tutto
   search_sorting:
     sort_by: 'Ordina per:'
     asc: Ascendente
@@ -257,7 +264,7 @@ it:
       publish: Pubblicato
       score: Rilevanza
       acquisition_type: Tipo di acquisizione
-      accession_date: ''
+      accession_date: 'Data di accesso'
       resource_type: Tipo di risorsa
       restrictions_apply: Restrizioni applicate
       audit_info: Informazioni sull'audit
@@ -276,6 +283,7 @@ it:
       uri: URI
       representative_file_version: Immagine thumbnail
       use_restrictions: Restrizioni d'uso
+      access_restrictions: Restrizioni di accesso
     resource:
       score: Rilevanza
       title: Titolo
@@ -617,3 +625,10 @@ it:
     heading: Benvenuto in ArchivesSpace
   skipnav:
     main_content: Passa al contenuto principale
+  database_warning:
+    message: <p><strong>Avviso relativo al database:</strong> Attualmente stai 
+      utilizzando il database integrato (Apache Derby). Il database integrato è 
+      destinato esclusivamente a scopi di test/dimostrativi. Per tutti i dati 
+      destinati alla produzione, inclusi i dati presenti in un'istanza di test 
+      che intendi trasferire in un'istanza di produzione, dovresti utilizzare 
+      MySQL.</p>
