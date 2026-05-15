@@ -30,20 +30,6 @@ $(function () {
     });
   });
 
-  var agent_person_typeahead = AS.delayedTypeAhead(function (query, callback) {
-    $.ajax({
-      url: AS.app_prefix('agents/complete'),
-      data: { query: query },
-      type: 'GET',
-      success: function (agent_persons) {
-        callback(agent_persons);
-      },
-      error: function () {
-        callback([]);
-      },
-    });
-  });
-
   function extractor(query) {
     var result = /([^,]+)$/.exec(query);
     if (result && result[1]) return result[1].trim();
@@ -71,31 +57,6 @@ $(function () {
   });
 
   $('.user-field-clear-button').click(function (e) {
-    $(this).siblings('textarea').val('');
-  });
-
-  $('.agent-person-field').typeahead({
-    source: agent_person_typeahead.handle,
-    displayText: function (item) {
-      return item.label;
-    },
-    updater: function (item) {
-      var $text_area = $(
-        '#' + this.$element.attr('id').replace(/_control$/, '')
-      );
-      var values = $text_area.val().split('\n');
-      values.push(item.id.toString());
-      var set = new Set(values);
-      var deduped = [];
-      set.forEach(function (v) {
-        if (v.length > 0) deduped.push(v);
-      });
-      $text_area.val(deduped.join('\n'));
-      return '';
-    },
-  });
-
-  $('.agent-person-field-clear-button').click(function (e) {
     $(this).siblings('textarea').val('');
   });
 });

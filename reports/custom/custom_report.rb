@@ -344,7 +344,9 @@ class CustomReport < AbstractReport
 
   def agent_person_narrow(template, field_name)
     values = template['fields'][field_name]['values']
-    id_list = values.collect { |v| db.literal(v.to_i) }.join(', ')
+    return if values.nil? || values.empty?
+    agent_ids = db[:user].where(username: values).select_map(:agent_record_id).compact
+    id_list = agent_ids.map { |id| db.literal(id) }.join(', ')
     rlshp_table = "#{@record_type}_#{field_name}_rlshp"
     @conditions.push(
       "#{@record_type}.id IN (SELECT #{@record_type}_id FROM #{rlshp_table} WHERE agent_person_id IN (#{id_list}))"

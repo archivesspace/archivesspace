@@ -2065,7 +2065,6 @@ en:
         create: Create Template
         save: Save Template
         search_usernames: Search Usernames
-        search_agent_persons: Search Agent Persons
       messages:
         copied: Custom Report Template copied
         created: Custom Report Template created

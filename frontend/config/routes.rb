@@ -38,7 +38,6 @@ ArchivesSpace::Application.routes.draw do
     match 'users/:id/update_groups' => 'users#update_groups', :via => [:post]
     match 'users/new' => 'users#new', :via => [:get]
     match 'users/complete' => 'users#complete', :via => [:get]
-    match 'agents/complete' => 'agents#complete', :via => [:get]
     match 'users/:id' => 'users#show', :via => [:get]
     match 'users/:id' => 'users#update', :via => [:post]
     match 'users/:id/delete' => 'users#delete', :via => [:post]

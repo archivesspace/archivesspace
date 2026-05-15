@@ -44,25 +44,6 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/agents/people/complete')
-    .description("Get person agents matching a name prefix")
-    .params(["query", String, "A prefix to search for"])
-    .permissions([])
-    .returns([200, "A list of agent person matches"]) \
-  do
-    query = params[:query].gsub(/[%]/, '').downcase
-    results = DB.open do |db|
-      db[:name_person]
-        .filter(:is_display_name => 1)
-        .filter(Sequel.like(Sequel.function(:lower, :sort_name), "#{query}%"))
-        .select(:agent_person_id, :sort_name)
-        .limit(AppConfig[:max_usernames_per_source].to_i)
-        .map { |row| {id: row[:agent_person_id], label: row[:sort_name]} }
-    end
-    json_response(results)
-  end
-
-
   Endpoint.get('/agents/people/:id')
     .description("Get a person by ID")
     .params(["id", Integer, "ID of the person agent"],
