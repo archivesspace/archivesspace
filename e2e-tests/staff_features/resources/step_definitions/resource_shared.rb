@@ -3,8 +3,6 @@
 Given 'a Resource with a Top Container has been created' do
   visit "#{STAFF_URL}/resources/new"
 
-  visit "#{STAFF_URL}/resources/new"
-
   fill_in 'resource_title_', with: "Resource #{@uuid}"
   fill_in 'resource_id_0_', with: "Resource #{@uuid}"
   find('#resource_publish_').check
@@ -21,11 +19,11 @@ Given 'a Resource with a Top Container has been created' do
 
   fill_in 'top_container_indicator_', with: @uuid
   click_on 'Create and Link'
+  expect(page).to have_css('.top_container')
 
-  languages = all('#resource_lang_materials_ .subrecord-form-list li')
-  click_on 'Add Language' if languages.length == 0
+  click_on 'Add Language'
 
-  within '#resource_lang_materials_ li.sort-enabled.initialised' do
+  within('#resource_lang_materials_ li.sort-enabled.initialised', match: :first) do
     element = find('#resource_lang_materials__0__language_and_script__language_')
     element.send_keys(ORIGINAL_LANGUAGE)
     element.send_keys(:tab)
@@ -128,4 +126,8 @@ end
 
 Then 'the Resource view page is displayed' do
   expect(find('h2').text).to eq "Resource #{@uuid} Resource"
+end
+
+Then 'the user is still on the Resource view page' do
+  expect(current_url).to include "resources/#{@resource_id}"
 end
