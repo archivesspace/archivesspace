@@ -36,4 +36,20 @@ describe 'Top Container model' do
 
   end
 
+  it "notifies the realtime indexer when an existing top container is linked to a new resource" do
+    existing_top_container = create(:json_top_container)
+
+    RealtimeIndexing.reset!
+
+    resource = create(:json_resource,
+                      :instances => [build(:json_instance,
+                                           :sub_container => build(:json_sub_container,
+                                                                   :top_container => { :ref => existing_top_container.uri }))])
+
+    updated_uris = RealtimeIndexing.updates_since(0).map { |u| u[:uri] }
+
+    expect(updated_uris).to include(resource.uri)
+    expect(updated_uris).to include(existing_top_container.uri)
+  end
+
 end
