@@ -47,4 +47,3 @@ end
 Then 'the Resources page is displayed' do
   expect(find('h2').text).to have_text 'Resources'
 end
-
