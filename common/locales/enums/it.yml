@@ -1519,7 +1519,7 @@ it:
     source:
       local: Locale
       naf: NAF
-      snac: SPUNTINO
+      snac: Social Networks and Archival Context (SNAC)
     date_certainty:
       approximate: Approssimativa
       inferred: Desunta
@@ -1791,7 +1791,7 @@ it:
       nal: Soggetti della Biblioteca Nazionale di Agricoltura
       ram: Elenco delle autorità RAMEAU
       rvm: Elenco delle star del settore
-      snac: SPUNTINO
+      snac: Social Networks and Archival Context (SNAC)
       ulan: Elenco sindacale dei nomi degli artisti
     name_type:
       differentiated: Differenziato

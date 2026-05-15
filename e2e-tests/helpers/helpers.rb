@@ -138,10 +138,10 @@ def ensure_test_repository_exists
     visit STAFF_URL
   end
 
-  select_test_repository
+  ensure_test_repository_selected
 end
 
-def select_test_repository
+def ensure_test_repository_selected
   click_on 'Select Repository'
   within '.dropdown-menu' do
     find('select').select 'repository_test'
@@ -149,6 +149,23 @@ def select_test_repository
   end
   expect(find('.alert.alert-success').text).to eq 'The Repository repository_test is now active'
 
+  click_on 'repository_test'
+  @repository_id = current_url.split('/').pop
+rescue Capybara::ElementNotFound
+  visit STAFF_URL
+  click_on 'System'
+  click_on 'Manage Repositories'
+  click_on 'Create Repository'
+
+  fill_in 'repository_repository__repo_code_', with: 'repository_test'
+  fill_in 'repository_repository__name_', with: 'Repository Test'
+  find('#repository_repository__publish_').check
+  click_on 'Save'
+
+  expect(page).to have_css('.alert.alert-success.with-hide-alert', text: 'Repository Created')
+  expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'Repository is Currently Selected')
+
+  visit STAFF_URL
   click_on 'repository_test'
   @repository_id = current_url.split('/').pop
 end

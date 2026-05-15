@@ -54,7 +54,9 @@ it:
     transfer_confirm_title: Trasferire questo record?
     transfer_confirm_message: Il record '%{target}' sarà trasferito nella 
       repository da te selezionata
-    transfer_successful: Trasferimento andato a buon fine. ????
+    transfer_successful: Trasferimento completato con successo. Potrebbe essere 
+      necessario qualche istante prima che i record vengano visualizzati nel 
+      repository di destinazione, durante la fase di reindicizzazione.
     transfer_failed: Trasferimento fallito
     unsuppress_confirm_message: falso
     delete: Elimina
@@ -102,7 +104,7 @@ it:
     browse: Naviga
     cancel: Cancella
     date_picker_toggle: Attiva selettore data
-    drop_before: ''
+    drop_before: 'Caduta prima'
     download: Scarica
     duplicate_resource_confirm_message: Un lavoro sarà creato per duplicare 
       questa risorsa con tutti i suoi oggetti d'archivio. Questa operazione può 
@@ -115,7 +117,7 @@ it:
     merge_resource_confirm_message: I record selezionati saranno uniti 
       all'interno della risorsa '%{source}'. Tutti i record selezionati saranno 
       eliminati e ogni record linkato sarà linkato nuovamente a questa risorsa.
-    drop_after: ''
+    drop_after: 'Caduta dopo'
     edit_default_archival_object_values: Modifica componenti predefiniti
     refresh_page: Ricarica pagina
     merge_agent_confirm_message: I record selezionati saranno uniti all'interno 
@@ -162,6 +164,51 @@ it:
       componenti nella sua gerarchia.</p>
     view_published: Visualizza i pubblicati
     print_to_pdf: Genera PDF
+    drop_into: Abbandona come bambino
+    move_up_a_level: Salire di un livello
+    move_up: Su
+    move_down_into: Giù dentro...
+    suppress_confirm_message: Sebbene un record soppresso rimanga nel database, 
+      risulterà nascosto alla maggior parte degli utenti e non disponibile per 
+      la maggior parte delle funzioni.
+    transfer_failed_records_using_digital_objects: I seguenti record sono 
+      collegati a oggetti digitali che verrebbero trasferiti, ma tale operazione
+      interromperebbe i relativi collegamenti
+    transfer_failed_digital_objects_linked_to_records: Questo oggetto digitale è
+      collegato ad altri record presenti in questo archivio. Per procedere con 
+      il trasferimento, rimuovere i collegamenti nei seguenti record
+    transfer_failed_top_containers_in_use: I seguenti contenitori di livello 
+      superiore sono collegati ad altri record di livello superiore in questo 
+      repository e non possono essere trasferiti finché tali collegamenti non 
+      vengono interrotti
+    transfer_failed_barcodes_in_use: I seguenti contenitori principali 
+      utilizzano codici a barre impiegati nel repository di destinazione e non 
+      possono essere trasferiti finché non vengono risolti i conflitti
+    unset_default: Annulla impostazione predefinita
+    unsuppress: Smettere di sopprimere
+    unsuppress_confirm_title: Vuoi riattivare questo record?
+    move_ordering_problem_message: Problema di ordinamento dello spostamento dei
+      record
+    container_template: Scarica il modello del contenitore
+    digital_object_template: Scarica il modello di oggetto digitale
+    toolbar_disabled_message: 'Sono presenti modifiche non salvate: Salva o Annulla
+      per accedere alla barra degli strumenti e alla struttura ad albero dei record'
+    unpublish: Rimuovi tutto
+    unpublish_confirm_title: Rimuovere dalla pubblicazione?
+    unpublish_confirm_message: <p>L'esecuzione di questa azione annullerà la 
+      pubblicazione di questo record, di tutti i sotto-record (documenti 
+      esterni, note, ecc.) e di tutti i componenti nella gerarchia.</p>
+    unpublish_archival_object: Rimuovi tutto
+    unpublish_archival_object_confirm_title: Rimuovere dalla pubblicazione?
+    unpublish_archival_object_confirm_message: <p>L'esecuzione di questa azione 
+      annullerà la pubblicazione di questo record, di tutti i record secondari 
+      (documenti esterni, note, ecc.) e di tutti i componenti sottostanti a 
+      questo record nella gerarchia.</p>
+    run: Correre
+    expand_tree_mode_on: Espandi tutto automaticamente
+    expand_tree_mode_off: Disabilita l'espansione automatica
+    collapse_tree: Albero di compressione
+    reorder_successful: Repository riordinati con successo
   states:
     auto_generated: Generato automaticamente al salvataggio
   export_options:
@@ -171,6 +218,7 @@ it:
     ead3: Schema EAD3
     use_dc: Usa Dublin Core
     numbered_cs: Usa i tags numerati &lt;c&gt;
+    include_unpublished: Includi inedito
   pagination:
     last: Ultimo
     previous_label: Precedente
@@ -183,6 +231,7 @@ it:
     page_connector: di
     first: Primo
     previous: '&#171;'
+    summary_prefix: Mostrando
   search_results:
     context: Trovato in
     select_record: "Seleziona %{title}"
@@ -203,6 +252,7 @@ it:
       row_selection: Clicca una riga per selezionarla per le operazioni in 
         blocco. Tieni premuto ALT mentre clicchi una casella di spunta per 
         selezionare, o deselezionare, precedenti righe multiple.
+    clear_all: Cancella tutto
   search_sorting:
     sort_by: 'Ordina per:'
     asc: Ascendente
@@ -214,7 +264,7 @@ it:
       publish: Pubblicato
       score: Rilevanza
       acquisition_type: Tipo di acquisizione
-      accession_date: ''
+      accession_date: 'Data di accesso'
       resource_type: Tipo di risorsa
       restrictions_apply: Restrizioni applicate
       audit_info: Informazioni sull'audit
@@ -233,6 +283,7 @@ it:
       uri: URI
       representative_file_version: Immagine thumbnail
       use_restrictions: Restrizioni d'uso
+      access_restrictions: Restrizioni di accesso
     resource:
       score: Rilevanza
       title: Titolo
@@ -423,6 +474,12 @@ it:
   navbar:
     import_marcxml_subjects_and_agents: MARCXML (solo soggetti e agents)
     toggle_navigation: Attiva/disattiva navigazione
+    manage_top_containers: Gestisci Top Container
+    view_top_containers: Visualizza Top Container
+    top_containers_for: "Top Container per %{record_title}"
+    no_top_containers: Nessun top container collegato
+    edit_top_container: Modifica Top Container
+    view_top_container: Top Container
   footer:
     keyboard_shortcuts: Scorciatoie da tastiera
     archivesspace_home_html: Visita <a 
@@ -568,3 +625,10 @@ it:
     heading: Benvenuto in ArchivesSpace
   skipnav:
     main_content: Passa al contenuto principale
+  database_warning:
+    message: <p><strong>Avviso relativo al database:</strong> Attualmente stai 
+      utilizzando il database integrato (Apache Derby). Il database integrato è 
+      destinato esclusivamente a scopi di test/dimostrativi. Per tutti i dati 
+      destinati alla produzione, inclusi i dati presenti in un'istanza di test 
+      che intendi trasferire in un'istanza di produzione, dovresti utilizzare 
+      MySQL.</p>

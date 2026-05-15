@@ -1,12 +1,19 @@
 # This is intended as the simplest way to get a complete ArchivesSpace system up and running on a single instance using Docker.
 # See also: https://docs.archivesspace.org/administration/docker/
 
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-file: "5"
+    max-size: "10m"
+
 services:
   app:
     image: archivesspace/archivesspace:${ARCHIVESSPACE_DOCKER_TAG}
     platform: linux/x86_64
     container_name: archivesspace
     restart: unless-stopped
+    logging: *default-logging
     env_file:
       - .env
     depends_on:
@@ -26,6 +33,7 @@ services:
       - SYS_NICE
     container_name: mysql
     restart: unless-stopped
+    logging: *default-logging
     env_file:
       - .env
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb_buffer_pool_size=1G  --innodb_buffer_pool_instances=1 --log_bin_trust_function_creators=1
@@ -40,6 +48,7 @@ services:
     platform: linux/x86_64
     container_name: db-backup
     restart: unless-stopped
+    logging: *default-logging
     user: "0"
     env_file:
       - .env
@@ -60,6 +69,7 @@ services:
     platform: linux/x86_64
     container_name: solr
     restart: unless-stopped
+    logging: *default-logging
     env_file:
       - .env
     command:
@@ -76,6 +86,7 @@ services:
     platform: linux/x86_64
     container_name: proxy
     restart: unless-stopped
+    logging: *default-logging
     env_file:
       - .env
     depends_on:

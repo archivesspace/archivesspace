@@ -143,6 +143,19 @@
             <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
               <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %></li>
             <% end %>
+            <% if record_type == 'resource' %>
+              <li>
+                <%= render_aspace_partial :partial => "shared/access_top_containers_button",
+                                          :locals => {
+                                            :record_uri      => record.uri,
+                                            :record_type     => 'resource',
+                                            :record_title    => h(strip_tags(clean_mixed_content(record.title))),
+                                            :button_classes  => "btn rounded-0 dropdown-item",
+                                            :wrapper_classes => "d-block w-100",
+                                            :loading_state   => false
+                                          } %>
+              </li>
+            <% end %>
           </ul>
         </div>
       <% end %>
