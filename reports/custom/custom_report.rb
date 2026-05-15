@@ -346,6 +346,7 @@ class CustomReport < AbstractReport
     values = template['fields'][field_name]['values']
     return if values.nil? || values.empty?
     agent_ids = db[:user].where(username: values).select_map(:agent_record_id).compact
+    return if agent_ids.empty?
     id_list = agent_ids.map { |id| db.literal(id) }.join(', ')
     rlshp_table = "#{@record_type}_#{field_name}_rlshp"
     @conditions.push(

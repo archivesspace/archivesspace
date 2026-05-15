@@ -153,20 +153,20 @@ describe 'Custom Report Template model' do
     RequestContext.put(:repo_id, repo.id)
     JSONModel.set_repository(repo.id)
 
-    agent = create(:json_agent_person)
-    agent_id = AgentPerson.get_or_die(JSONModel(:agent_person).id_for(agent.uri)).id
+    user = create(:user)
+    agent_uri = JSONModel(:agent_person).uri_for(user.agent_record_id)
 
     resource = create(:json_resource)
     create(:json_assessment,
            :records => [{'ref' => resource.uri}],
-           :reviewer => [{'ref' => agent.uri}])
+           :reviewer => [{'ref' => agent_uri}])
 
     template_data = {
       "custom_record_type" => "assessment",
       "fields" => {
         "reviewer" => {
           "include" => "1",
-          "values" => [agent_id.to_s]
+          "values" => [user.username]
         }
       }
     }
