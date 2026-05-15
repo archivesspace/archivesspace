@@ -67,6 +67,7 @@ When 'the user opens the top container management panel' do
     if find('.access-top-containers-btn', visible: :all).disabled?
       retries += 1
       raise 'Top containers button never became enabled after multiple attempts' if retries >= 10
+
       sleep 3
       page.evaluate_script('window.location.reload()')
       sleep 0.5
