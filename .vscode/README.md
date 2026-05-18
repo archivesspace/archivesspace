@@ -48,15 +48,13 @@ It's important to note that since these extensions work in tandem with the [VS C
 
 The extensions should now work out of the box at this point providing error messages and autocorrecting fixable errors on file save!
 
-### Optional: Cucumber E2E extension
 
-If you use the [Cucumber](https://marketplace.visualstudio.com/items?itemName=CucumberOpen.cucumber-official) extension for Gherkin and step definitions, you can optionally use the example configs in this folder:
+### E2E test suite development
 
-- **example.settings.json** — Copy or merge these settings into your workspace `settings.json` to set feature/glue paths and Cucumber-specific editor options.
-- **example.tasks.json** — Copy or merge into your workspace `tasks.json` to get “Cucumber: Run e2e-test” and “Cucumber: Dry Run” tasks (they use `e2e-tests/` and the documented env vars).
+The configuration included in this directory should pop up a dialog on VSCode that recommends installing two extensions for working with the E2E test suite:
+- [Cucumber full support extension](https://marketplace.visualstudio.com/items?itemName=alexkrechik.cucumberautocomplete)
+- [Run On Save extension](https://marketplace.visualstudio.com/items?itemName=emeraldwalk.RunOnSave)
 
-“Workspace” here means the ArchivesSpace repository root you have open; its config lives in this `.vscode/` directory.
+These extensions offer autocompletion of step definitions and auto formatting of feature files on save. You will need to run `bundle` in the e2e-tests directory for the necessary libraries to be installed.
 
-These are optional; the main setup above does not require them.
-
-For full technical and development documentation (API, architecture, deployment, etc.), see the [ArchivesSpace TechDocs](https://docs.archivesspace.org/development/) site.
+Note that the included **tasks.json** gives “Cucumber: Run e2e-test” and “Cucumber: Dry Run” tasks (they use `e2e-tests/` and the documented env vars).
