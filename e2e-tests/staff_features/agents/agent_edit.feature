@@ -10,6 +10,11 @@ Feature: Agent Edit
     Given the Agent is opened in the view mode
      When the user clicks on 'Edit'
      Then the Agent is opened in the edit mode
+  Scenario: Agent cannot be edited by user with view-only permissions
+    Given a viewer user is logged in
+     When the user clicks on 'Browse'
+      And the user clicks on 'Agents'
+     Then the 'Edit' button is not present on the page 
   Scenario Outline: Agent is successfully updated
     Given the Agent is opened in edit mode
      When the user changes the '<Field>' field to '<NewValue>'

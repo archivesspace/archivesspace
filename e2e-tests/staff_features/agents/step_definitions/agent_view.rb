@@ -124,3 +124,20 @@ end
 Then 'the Agent view page is displayed' do
   expect(current_url).to eq "#{STAFF_URL}/agents/agent_person/#{@agent_id}"
 end
+
+Then 'a CSV file is downloaded with the two Agents' do
+  files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+
+  downloaded_file = nil
+  files.each do |file|
+    downloaded_file = file if file.include?('agents')
+  end
+
+  expect(downloaded_file).to_not eq nil
+
+  load_file = File.read(downloaded_file)
+  expect(load_file).to include @agent_a_uuid
+  expect(load_file).to include @agent_b_uuid
+  expect(load_file).to include "A #{@agent_a_uuid}"
+  expect(load_file).to include "B #{@agent_b_uuid}"
+end
