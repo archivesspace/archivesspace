@@ -58,28 +58,9 @@ Then 'the affected top containers reflect the updated barcode' do
 end
 
 When 'the user opens the top container management panel' do
-  retries = 0
-  loop do
-    expect(page).to have_selector('h2', visible: true, wait: 15)
-    expect(page).to have_css('.access-top-containers-btn[data-tc-initialized]', visible: :all, wait: 10)
-    wait_for_ajax
-
-    if find('.access-top-containers-btn', visible: :all).disabled?
-      retries += 1
-      raise 'Top containers button never became enabled after multiple attempts' if retries >= 10
-
-      sleep 3
-      page.evaluate_script('window.location.reload()')
-      sleep 0.5
-      next
-    end
-
-    within '#other-dropdown' do
-      find('.dropdown-toggle').click
-    end
-    sleep 0.3
-    find('.access-top-containers-btn').click
-    wait_for_ajax
-    break
+  within '#other-dropdown' do
+    find('.dropdown-toggle').click
   end
+
+  find('.access-top-containers-btn').click
 end
