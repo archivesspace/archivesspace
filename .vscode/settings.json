@@ -7,6 +7,10 @@
     "files.insertFinalNewline": true,
     "prettier.configPath": ".prettierrc",
     "ruby.rubocop.autocorrectOnSave": true,
+    "rubyLsp.rubyVersionManager": {
+        "identifier": "mise"
+    },
+    "rubyLsp.bundleGemfile": ".vscode/Gemfile-ruby-lsp",
     "stylelint.snippet": [
         "css",
         "less",
