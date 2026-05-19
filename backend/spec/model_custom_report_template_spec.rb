@@ -154,12 +154,6 @@ describe 'Custom Report Template model' do
     JSONModel.set_repository(repo.id)
 
     user = create(:user)
-    agent_uri = JSONModel(:agent_person).uri_for(user.agent_record_id)
-
-    resource = create(:json_resource)
-    create(:json_assessment,
-           :records => [{'ref' => resource.uri}],
-           :reviewer => [{'ref' => agent_uri}])
 
     template_data = {
       "custom_record_type" => "assessment",
@@ -189,44 +183,4 @@ describe 'Custom Report Template model' do
     expect(reviewer_filter).not_to be_empty
   end
 
-  it 'can include reviewer as a column in an assessment report' do
-    repo = create(:repo, repo_code: "test_reviewer_col_#{Time.now.to_i}")
-    RequestContext.put(:repo_id, repo.id)
-    JSONModel.set_repository(repo.id)
-
-    agent = create(:json_agent_person)
-    agent_id = AgentPerson.get_or_die(JSONModel(:agent_person).id_for(agent.uri)).id
-    expected_sort_name = NamePerson.filter(:agent_person_id => agent_id, :is_display_name => 1).first[:sort_name]
-
-    resource = create(:json_resource)
-    create(:json_assessment,
-           :records => [{'ref' => resource.uri}],
-           :reviewer => [{'ref' => agent.uri}])
-
-    template_data = {
-      "custom_record_type" => "assessment",
-      "fields" => {
-        "reviewer" => {"include" => "1"}
-      }
-    }
-
-    template = JSONModel(:custom_report_template).from_hash({
-      "name" => "Assessment Reviewer Column #{Time.now.to_i}",
-      "limit" => 10,
-      "data" => template_data.to_json
-    })
-
-    template_id = CustomReportTemplate.create_from_json(template).id
-
-    mock_job = double('Job')
-    allow(mock_job).to receive(:write_output)
-
-    report = CustomReport.new({'template' => template_id.to_s, :repo_id => repo.id}, mock_job, $testdb)
-    results = report.query.to_a
-    expect(results).not_to be_empty
-
-    row = results.first.to_hash
-    report.send(:fix_row, row)
-    expect(row[:reviewer]).to eq(expected_sort_name)
-  end
 end

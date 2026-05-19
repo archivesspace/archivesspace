@@ -31,7 +31,6 @@ class CustomReport < AbstractReport
     @boolean_fields = []
     @enum_fields = []
     @decimal_fields = []
-    @agent_person_fields = []
 
     table = if @record_type == 'agent'
               'agent_person'.to_sym
@@ -90,8 +89,6 @@ class CustomReport < AbstractReport
         @enum_fields.push(field[:name].to_sym)
       when 'Decimal'
         @decimal_fields.push(field[:name].to_sym)
-      when 'AgentPerson'
-        @agent_person_fields.push(field[:name])
       end
     end
 
@@ -200,7 +197,7 @@ class CustomReport < AbstractReport
   def select_fields
     columns = {}
     @fields.each do |field|
-      next if field[:data_type] == 'AgentPerson'
+      next if field[:name] == 'reviewer'
       if field[:data_type] == 'Enum'
         columns["#{field[:name]}_id"] = field[:alias] || field[:name]
       elsif field[:name] == 'title'
@@ -229,17 +226,6 @@ class CustomReport < AbstractReport
     ReportUtils.local_times(row, [:create_time, :user_mtime])
     if @record_type == 'accession' || @record_type == 'resource'
       ReportUtils.fix_identifier_format(row) if row[:identifier]
-    end
-    @agent_person_fields.each do |field_name|
-      rlshp_table = "#{@record_type}_#{field_name}_rlshp"
-      names = db.fetch(
-        "SELECT np.sort_name
-         FROM #{rlshp_table} rlshp
-         JOIN name_person np ON np.agent_person_id = rlshp.agent_person_id
-         WHERE rlshp.#{@record_type}_id = #{db.literal(row[:id])}
-         AND np.is_display_name = 1"
-      ).map { |r| r[:sort_name] }
-      row[field_name.to_sym] = names.empty? ? nil : names.join(', ')
     end
     @subreports.each do |subreport_class|
       begin
@@ -335,6 +321,7 @@ class CustomReport < AbstractReport
   end
 
   def user_narrow(template, field_name)
+    return reviewer_narrow(template, field_name) if field_name == 'reviewer'
     return unless @possible_fields.include? field_name
     values = template['fields'][field_name]['values']
     value_list = values.collect {|value| db.literal(value)}.join(', ')
@@ -342,7 +329,7 @@ class CustomReport < AbstractReport
     info[field_name] = values.join(', ')
   end
 
-  def agent_person_narrow(template, field_name)
+  def reviewer_narrow(template, field_name)
     values = template['fields'][field_name]['values']
     return if values.nil? || values.empty?
     agent_ids = db[:user].where(username: values).select_map(:agent_record_id).compact
