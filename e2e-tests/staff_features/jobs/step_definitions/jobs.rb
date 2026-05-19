@@ -49,10 +49,3 @@ end
 Then 'the record links do not display {string}' do |string|
   expect(all('span.badge.badge-warning').map(&:text)).not_to include(string)
 end
-
-Then 'the Subject is listed in the New & Modified Records form' do
-  visit current_url
-
-  element = find('#generated_uris .subrecord-form-fields')
-  expect(element.text).to eq 'Subject headings'
-end

@@ -596,3 +596,11 @@ end
 Then 'the {string} button is not present on the page' do |string|
   expect(page).to_not have_selector('button', text: string)
 end
+
+When 'the user checks {string} in the LCNAF Import form' do |string|
+  elements = all(:css, "div[class*='radio']")
+
+  elements.each do |element|
+    element.find('input').click if element.text == string
+  end
+end
