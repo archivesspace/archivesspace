@@ -42,11 +42,26 @@ Add the following extensions via the VS Code command palette or the Extensions p
 1. [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) (dbaeumer.vscode-eslint)
 2. [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) (esbenp.prettier-vscode)
 3. [Ruby Rubocop Revised](https://marketplace.visualstudio.com/items?itemName=LoranKloeze.ruby-rubocop-revived) (LoranKloeze.ruby-rubocop-revived)
-4. [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) (stylelint.vscode-stylelint)
+4. [Ruby LSP](https://marketplace.visualstudio.com/items?itemName=Shopify.ruby-lsp) (Shopify.ruby-lsp)
+5. [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) (stylelint.vscode-stylelint)
 
 It's important to note that since these extensions work in tandem with the [VS Code settings file](settings.json), these settings only impact your ArchivesSpace VS Code Workspace, not your global VS Code User settings.
 
 The extensions should now work out of the box at this point providing error messages and autocorrecting fixable errors on file save!
+
+### Ruby LSP (language intelligence)
+
+The [Ruby LSP](https://github.com/Shopify/ruby-lsp) extension provides go-to-definition, hover docs, completion and other language-server features for Ruby files.
+
+ArchivesSpace runs on **JRuby**, but `ruby-lsp` itself runs under MRI Ruby. The project's root `Gemfile` cannot be evaluated under MRI (it pulls in `backend/Gemfile`, which depends on JRuby-only gems such as `asutils`), so we ship a stub Gemfile that the LSP loads instead [Gemfile-ruby-lsp](Gemfile-ruby-lsp).
+
+Setup:
+
+1. Install an MRI Ruby,
+  - we recommend using [mise](https://mise.jdx.dev/).
+  - [settings.json](settings.json) already sets `rubyLsp.rubyVersionManager` to `mise`; change the `identifier` if you use a different manager (`asdf`, `chruby`, `rbenv`, `rvm`, `none`, etc.).
+
+2. Install the [Ruby LSP](https://marketplace.visualstudio.com/items?itemName=Shopify.ruby-lsp) extension as recommended when you open the project in VSCode.
 
 
 ### E2E test suite development

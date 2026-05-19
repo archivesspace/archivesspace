@@ -60,6 +60,7 @@ tech_docs
 solr/lib/*.jar
 plugins/*/Gemfile.lock
 plugins/*/gems/*
+.vscode/Gemfile-ruby-lsp.lock
 docker-compose.override.yml
 launcher/lib/*
 *~undo-tree~
