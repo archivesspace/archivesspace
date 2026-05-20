@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "Shopify.ruby-lsp",
     "alexkrechik.cucumberautocomplete",
     "emeraldwalk.runonsave"
   ]

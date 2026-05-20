@@ -42,21 +42,34 @@ Add the following extensions via the VS Code command palette or the Extensions p
 1. [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) (dbaeumer.vscode-eslint)
 2. [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) (esbenp.prettier-vscode)
 3. [Ruby Rubocop Revised](https://marketplace.visualstudio.com/items?itemName=LoranKloeze.ruby-rubocop-revived) (LoranKloeze.ruby-rubocop-revived)
-4. [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) (stylelint.vscode-stylelint)
+4. [Ruby LSP](https://marketplace.visualstudio.com/items?itemName=Shopify.ruby-lsp) (Shopify.ruby-lsp)
+5. [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) (stylelint.vscode-stylelint)
 
 It's important to note that since these extensions work in tandem with the [VS Code settings file](settings.json), these settings only impact your ArchivesSpace VS Code Workspace, not your global VS Code User settings.
 
 The extensions should now work out of the box at this point providing error messages and autocorrecting fixable errors on file save!
 
-### Optional: Cucumber E2E extension
+### Ruby LSP (language intelligence)
 
-If you use the [Cucumber](https://marketplace.visualstudio.com/items?itemName=CucumberOpen.cucumber-official) extension for Gherkin and step definitions, you can optionally use the example configs in this folder:
+The [Ruby LSP](https://github.com/Shopify/ruby-lsp) extension provides go-to-definition, hover docs, completion and other language-server features for Ruby files.
 
-- **example.settings.json** — Copy or merge these settings into your workspace `settings.json` to set feature/glue paths and Cucumber-specific editor options.
-- **example.tasks.json** — Copy or merge into your workspace `tasks.json` to get “Cucumber: Run e2e-test” and “Cucumber: Dry Run” tasks (they use `e2e-tests/` and the documented env vars).
+ArchivesSpace runs on **JRuby**, but `ruby-lsp` itself runs under MRI Ruby. The project's root `Gemfile` cannot be evaluated under MRI (it pulls in `backend/Gemfile`, which depends on JRuby-only gems such as `asutils`), so we ship a stub Gemfile that the LSP loads instead [Gemfile-ruby-lsp](Gemfile-ruby-lsp).
 
-“Workspace” here means the ArchivesSpace repository root you have open; its config lives in this `.vscode/` directory.
+Setup:
 
-These are optional; the main setup above does not require them.
+1. Install an MRI Ruby,
+  - we recommend using [mise](https://mise.jdx.dev/).
+  - [settings.json](settings.json) already sets `rubyLsp.rubyVersionManager` to `mise`; change the `identifier` if you use a different manager (`asdf`, `chruby`, `rbenv`, `rvm`, `none`, etc.).
 
-For full technical and development documentation (API, architecture, deployment, etc.), see the [ArchivesSpace TechDocs](https://docs.archivesspace.org/development/) site.
+2. Install the [Ruby LSP](https://marketplace.visualstudio.com/items?itemName=Shopify.ruby-lsp) extension as recommended when you open the project in VSCode.
+
+
+### E2E test suite development
+
+The configuration included in this directory should pop up a dialog on VSCode that recommends installing two extensions for working with the E2E test suite:
+- [Cucumber full support extension](https://marketplace.visualstudio.com/items?itemName=alexkrechik.cucumberautocomplete)
+- [Run On Save extension](https://marketplace.visualstudio.com/items?itemName=emeraldwalk.RunOnSave)
+
+These extensions offer autocompletion of step definitions and auto formatting of feature files on save. You will need to run `bundle` in the e2e-tests directory for the necessary libraries to be installed.
+
+Note that the included **tasks.json** gives “Cucumber: Run e2e-test” and “Cucumber: Dry Run” tasks (they use `e2e-tests/` and the documented env vars).

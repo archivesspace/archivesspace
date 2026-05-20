@@ -1,54 +1,68 @@
 {
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
-  },
-  "editor.defaultFormatter": null,
-  "editor.formatOnSave": true,
-  "files.insertFinalNewline": true,
-  "prettier.configPath": ".prettierrc",
-  "ruby.rubocop.autocorrectOnSave": true,
-  "stylelint.snippet": [
-    "css",
-    "less",
-    "postcss",
-    "scss"
-  ],
-  "stylelint.validate": [
-    "css",
-    "less",
-    "postcss",
-    "scss"
-  ],
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-  },
-  "[less]": {
-    "editor.defaultFormatter": "stylelint.vscode-stylelint"
-  },
-  "[ruby]": {
-    "editor.defaultFormatter": "LoranKloeze.ruby-rubocop-revived"
-  },
-  "[scss]": {
-    "editor.defaultFormatter": "stylelint.vscode-stylelint"
-  },
-  "[feature]": {
-    "editor.formatOnSave": false,
-    "editor.tabSize": 2,
-    "editor.insertSpaces": true
-  },
-  "emeraldwalk.runonsave": {
-    "commands": [
-      {
-        "match": "e2e-tests/.*\\.feature$",
-        "isAsync": false,
-        "cmd": "cd '${workspaceFolder}/e2e-tests' && FILES='${file}' rake format:features"
-      }
-    ]
-  }
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit"
+    },
+    "editor.defaultFormatter": null,
+    "editor.formatOnSave": true,
+    "files.insertFinalNewline": true,
+    "prettier.configPath": ".prettierrc",
+    "ruby.rubocop.autocorrectOnSave": true,
+    "rubyLsp.rubyVersionManager": {
+        "identifier": "mise"
+    },
+    "rubyLsp.bundleGemfile": ".vscode/Gemfile-ruby-lsp",
+    "stylelint.snippet": [
+        "css",
+        "less",
+        "postcss",
+        "scss"
+    ],
+    "stylelint.validate": [
+        "css",
+        "less",
+        "postcss",
+        "scss"
+    ],
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "[less]": {
+        "editor.defaultFormatter": "stylelint.vscode-stylelint"
+    },
+    "[ruby]": {
+        "editor.defaultFormatter": "LoranKloeze.ruby-rubocop-revived"
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "stylelint.vscode-stylelint"
+    },
+    "[feature]": {
+        "editor.formatOnSave": false,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true
+    },
+    "emeraldwalk.runonsave": {
+        "commands": [{
+            "match": "e2e-tests/.*\\.feature$",
+            "isAsync": false,
+            "cmd": "cd '${workspaceFolder}/e2e-tests' && FILES='${file}' rake format:features"
+        }]
+    },
+    "cucumberautocomplete.steps": [
+        "e2e-tests/**/*.feature",
+        "e2e-tests/staff_features/shared/step_definitions.rb",
+        "e2e-tests/**/step_definitions/**/*.rb"
+    ],
+
+    "cucumberautocomplete.onTypeFormat": true,
+    "editor.quickSuggestions": {
+        "comments": false,
+        "strings": true,
+        "other": true
+    }
 }
