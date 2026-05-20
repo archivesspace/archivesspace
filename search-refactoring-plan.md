@@ -43,7 +43,10 @@ The linked tickets cluster into themes the current architecture makes hard to fi
   - **Will be Fixed in P2.3** by switching the field type backing `*_tesim` dynamic fields to `ICUTokenizerFactory` + `ICUFoldingFilterFactory` (covers all Unicode scripts), adding a `string_punct_stop` field type to treat `& : ; [ ]` as query-side stopwords where appropriate, and setting `mm=4<90%` (1-4 terms: all required; 5+ terms: 90%) on every paramset so short queries require all terms and long queries require 90%; the seven MLC per-language analyzer chains (PR #4046) apply to per-language `*_<iso>_<script>_tesim` fields independently.
 
 - **Highlighting / display**: ANW-2315 (note hits not highlighted in summary). `summary` is derived from `notes` by picking one specific note at index time - first abstract, else first scopecontent. Everything else (bioghist, accessrestrict, processinfo, custodhist, …) is ignored. The chosen note is stored in doc['summary'] which is indexed="false" - the highlighter cannot run against it.
-  - **Will be Fixed in P2.5** by configuring Solr's highlighter against the per-note-type `*_tesim` search fields introduced in P2.1 (`abstract_tesim`, `scopecontent_tesim`, `bioghist_tesim`, etc.), scoped to published content via an `fq=publish:1` filter, and rewriting the PUI result template so the matched note snippet renders highlighted and attributed to its note type at the result-list summary position. The `notes` / `notes_published` catchall pair is already gone (removed in P2.1); the hand-picked `summary` field is kept only as the fallback shown when a result matched on something other than a note. Note *display* is unchanged: the PUI still renders full note bodies from the retained `json` blob.
+  - **Will be Fixed in P2.5**
+    - (a) The existing `summary` field is made highlightable: `IndexerCommon.add_summary` and its note-selection logic (first abstract, else first scopecontent) are unchanged, the displayed summary is unchanged, and the only schema change is flipping `summary` from `indexed="false"` to `indexed="true"` with a text analyzer aligned to the searchable fields so Solr's highlighter can run against it. `summary` is added to `hl.fl` but to no `qf` paramset - display-and-highlight only, never a search target.
+    - (b) The separate result-list found in block is driven by the **published** per-note-type `*_tesim` fields P2.1 emits, so it attributes a match to the exact note it came from ("Found in: Biographical/Historical Note: …"). Only the published `<type>_tesim` fields go into the PUI `hl.fl`; the `<type>_unpublished_tesim` companions never do, so unpublished note text cannot leak into a highlight.
+    - This means: a term highlights in the `summary` itself only when it occurs in the abstract/scopecontent the summary was built from; matches in any other published note appear in the per-note highlights block instead.
 
 - **Filter correctness**:
   - ANW-262 (PUI Creator filter includes unpublished creators),
@@ -135,7 +138,7 @@ Both projects land coordinated changes to `solr/schema.xml`, `indexer/app/lib/in
 | P2.2 (`identifier_match`) | Identifiers are not multilingual | No conflict |
 | P2.3 (ICU + `mm`) | The 7 per-language analyzer chains apply to per-language `*_<iso>_<script>_tesim` fields. ICU + folding applies to the field type backing the generic `*_tesim` dynamic field. The two are independent | Preserve the 7 `text_<iso>` `<fieldType>` definitions and the `solr/lang/` files when restructuring schema; the new ICU-based `*_tesim` type is for non-multilingual text and for languages without curated chains |
 | P2.4 (per-search-type `qf`) | MLC's per-locale boost work merges into this ticket | All relevance config (`qf` / `pf` / `mm` / `tie`) moves into named `<initParams>` paramsets in `solrconfig.xml`. Per-locale boosts become paramsets `qf_locale_<iso>_<script>` composed via `useParams=qf_default,qf_locale_<active>` |
-| P2.5 (highlighting) | Notes carry per-note `language` + `script` attributes (MCTF §9; not in `mlc_fields`) | No direct conflict; leave room for highlighting per-note-language once MLC §9 lands |
+| P2.5 (highlighting) | The `summary` may be built from a note in any language | Back the `summary` field with `text_icu` (ICU folding) so highlight tokenization works for non-Roman summaries; per-note-language analyzer refinement can come once MCTF §9 lands |
 | P2.6 (filter correctness) | No interaction | No conflict |
 | Out of scope X.1 (block-join) | Block-join's primary win is replacing `RecordInheritance.merge` and the ancestor-array denormalisation, not the multilingual collapse | Reframed: block-join is about ancestor inheritance, not languages |
 
@@ -190,7 +193,7 @@ Each maps to a linked ticket cluster with a direct Arclight precedent:
 - **Identifier search**: `identifier_match` field type + `qf_identifier` paramset enumerating identifier-bearing fields directly. Closes ANW-290, ANW-1556, ANW-2071, ANW-2075.
 - **Punctuation handling**: `string_punct_stop` field type. Closes ANW-1686, ANW-308.
 - **Non-Roman scripts**: `ICUTokenizerFactory` + `ICUFoldingFilterFactory`. Closes ANW-1178; helps ANW-859 (with `mm=4<90%`).
-- **Highlighting**: highlight against the per-note-type `*_tesim` fields (scoped via `fq=publish:1`) and render the snippet inline at the result-list summary position. Closes ANW-2315.
+- **Highlighting**: make the existing `summary` field highlightable (flip it to `indexed=true`, add it to `hl.fl`) without changing `add_summary`'s logic or the displayed summary; drive the per-note highlights block from the published per-note-type `*_tesim` fields. Closes ANW-2315.
 - **Per-search-type `qf` groups as `solrconfig.xml` paramsets**: `qf_default` / `qf_identifier` / `qf_title` / `qf_name` / `qf_subject` / `qf_place` / `qf_container` declared as `<initParams>` blocks; backend selects via `useParams=<name>` instead of building `qf` strings. Per-locale boosts are paramsets `qf_locale_<iso>_<script>` composed onto the request. Closes ANW-2656; addresses per-field PUI advanced-search bugs. Absorbs MCTF §5.5.5 per-locale `qf` boost.
 - **Filter correctness**: `published_creators`, consistent `level` field. Closes ANW-262, ANW-1580; ANW-1102, ANW-862, ANW-1628 reassessed after.
 
@@ -274,20 +277,23 @@ All new specs must pass against unchanged production code; they characterise exi
 - MLC: preserve the 7 `text_<iso>` `<fieldType>` definitions and the `solr/lang/` stopword / contraction / stemdict files from MLC PR #4046 unchanged. They apply to per-language `*_<iso>_<script>_tesim` fields, independent of the new `text_icu` type backing the generic `*_tesim` suffix. Records in non-curated languages fall through to `text_icu` and benefit from ICU folding without language-specific stemming.
 - Sprint fit: 1 sprint.
 
-**P2.5: Highlighting per note field**
+**P2.5: Highlight search terms in the result-list summary and per-note highlights**
 
-- Depends on: P2.1 (per-note-type `*_tesim` fields exist), P2.3 (ICU token offsets the unified highlighter uses).
+- Depends on: P2.1 (emits the per-note-type `*_tesim` fields the highlights block highlights); P2.3 (so `summary` and the note fields share the `text_icu` analyzer; can ship earlier against `text_general` if needed).
 - Scope:
-  - Configure Solr highlighting via `hl.fl=<enumerated per-note-type *_tesim list>` (set in `solrconfig.xml`, not per request); switch `hl.method` from `original` to `unified` (faster on stored fields and aware of WordDelimiterGraph + ICU token offsets).
-  - Highlighting targets the per-note-type `*_tesim` search fields from P2.1, scoped to published content via `fq=publish:1` (matching P2.1's publish-handling rework). The per-field `_unpublished` variants cover the staff-only case of an unpublished sub-note attached to a published record, scoped via paramset.
-  - Rewrite the highlighting blocks of `public/app/views/shared/_result.html.erb` (currently lines 24-34) so the matched note snippet renders highlighted and attributed to its note type at the result-list summary position; drop the `I18n.t("search_results.highlighting.#{key}")` translation-missing filter since every highlighted field is now a known per-note type with a known translation.
-  - The hand-picked `summary` field and `IndexerCommon.add_summary` are kept: `summary` is the fallback shown when a result matched on something other than a note. Note *display* on the full record page is unchanged - it reads the retained `json` blob.
+  - **Summary highlighting.** `IndexerCommon.add_summary` (`indexer_common.rb:311-324`) is unchanged: same note-selection logic (first `abstract`, else first `scopecontent`), same `doc['summary']` content, same displayed summary. Change the `summary` field (`solr/schema.xml:45`) from `indexed="false"` to `indexed="true"` (keep `stored="true" multiValued="false"`), backed by a text analyzer aligned to the searchable note fields (`text_icu` once P2.3 lands) so highlight tokenization matches search tokenization. `summary` is added to no `qf` paramset - display-and-highlight only, never a search target, so it does not affect matching or scoring and is not a search catchall. The result-list summary partial (`shared/_result_record_summary.html.erb`, rendered from `_result.html.erb`) renders the highlighted `summary` from Solr's `highlighting` response when present, falling back to the plain stored value. Summary content, note selection, and placement are unchanged; the only visible difference is `<span class="searchterm">` wrappers.
+  - **Per-note highlights section.** The separate highlights block in `public/app/views/shared/_result.html.erb` (lines 24-34) is driven by the per-note-type `*_tesim` search fields P2.1 emits, so it attributes a match to the exact note it came from ("Found in: Biographical/Historical Note: …"). **Only published notes are highlighted in the PUI**: the PUI `hl.fl` enumerates only the published per-note-type fields (`abstract_tesim`, `bioghist_tesim`, `scopecontent_tesim`, etc.); the `<type>_unpublished_tesim` companions are never placed in the PUI `hl.fl`, so unpublished note text cannot leak into a highlight snippet. (A staff search context may add the `_unpublished` fields to its own `hl.fl` if needed, consistent with P2.1's `_unpublished` design.)
+  - **Highlighting config (`solrconfig.xml`).** Replace the `hl.fl=*` wildcard with an explicit `hl.fl` listing `summary` plus the published per-note-type `*_tesim` fields. `hl.method` may move from `original` to `unified` for offset accuracy; optional.
+  - **Locales.** Add `search_results.highlighting.<note-type>` keys (`common/locales/en.yml`) so each per-note-type highlight renders a human-readable label; the `Translation missing` skip filter in `_result.html.erb` then no longer hides note-type highlights.
+- Known limitation: a search term is highlighted in the `summary` only when it occurs in the note the summary was derived from (abstract or scopecontent); a match in any other published note does not appear in the summary but is surfaced by the per-note highlights block below it.
 - Acceptance:
-  - Spec: for a fixture record where the query matches any indexed note field (not just abstract / scopecontent), the result-list summary contains the matched word wrapped in `<span class="searchterm">` and attributed to the originating note type.
-  - Spec: PUI search results never include matches from records with `publish=false` and never include text from notes with `publish=false` (unless invoked from a staff context that opts into the `_unpublished` paramset).
-  - Spec: `hl.fl=*` is no longer used; `hl.fl` enumerates the per-note-type `*_tesim` fields.
+  - Spec: a search whose term appears in a record's abstract / scopecontent returns a `summary` highlight with the term wrapped in `<span class="searchterm">`; the `summary` text is otherwise identical to today's.
+  - Spec: a search whose term appears in any published note returns a per-note highlight in the highlights section, attributed to that note type.
+  - Spec: a search term that appears only in an unpublished note produces no PUI highlight; the `<type>_unpublished_tesim` fields are absent from the PUI `hl.fl`.
+  - Spec: `IndexerCommon.add_summary` output is unchanged (the P1.1 characterization spec for it still passes).
+  - Spec: `summary` is `indexed="true"`, appears in `hl.fl`, and appears in no `qf` paramset.
 - Closes: ANW-2315.
-- Sprint fit: 1 sprint.
+- Sprint fit: 🟡 1 sprint (summary highlighting + per-note highlights + locales).
 
 **P2.6: Filter correctness: published creators + consistent level field**
 
@@ -323,7 +329,7 @@ All new specs must pass against unchanged production code; they characterise exi
 - `public/app/models/solr_results.rb:6-46`: wrapper handing raw Solr hits to `Record.new`.
 - `public/app/controllers/{agents,objects,repositories}_controller.rb`, plus PUI models `classification.rb`, `accession.rb`, `resource.rb`: secondary consumers.
 - `public/app/services/archives_space_client.rb:115`: reads `tree_json`.
-- `public/app/views/shared/_result.html.erb`: the highlighting blocks (lines 24-34) are rewritten in P2.5; the rest of the partial, including its blob reads, is untouched.
+- `public/app/views/shared/_result.html.erb` and `shared/_result_record_summary.html.erb`: P2.5 makes the summary partial render the highlighted `summary` and drives the highlights block (`_result.html.erb` lines 24-34) from the published per-note-type `*_tesim` fields; the partials' blob reads are untouched.
 - Frontend (staff) does not parse `doc['json']` directly.
 
 **Tests (current coverage is thin):**
