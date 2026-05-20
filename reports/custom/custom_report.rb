@@ -197,6 +197,7 @@ class CustomReport < AbstractReport
   def select_fields
     columns = {}
     @fields.each do |field|
+      next if field[:name] == 'reviewer'
       if field[:data_type] == 'Enum'
         columns["#{field[:name]}_id"] = field[:alias] || field[:name]
       elsif field[:name] == 'title'
@@ -320,10 +321,28 @@ class CustomReport < AbstractReport
   end
 
   def user_narrow(template, field_name)
+    return reviewer_narrow(template, field_name) if field_name == 'reviewer'
     return unless @possible_fields.include? field_name
     values = template['fields'][field_name]['values']
     value_list = values.collect {|value| db.literal(value)}.join(', ')
     @conditions.push("#{field_name} in (#{value_list})")
     info[field_name] = values.join(', ')
+  end
+
+  def reviewer_narrow(template, field_name)
+    values = template['fields'][field_name]['values']
+    return if values.nil? || values.empty?
+    agent_ids = db[:user].where(username: values).select_map(:agent_record_id).compact
+    return if agent_ids.empty?
+    id_list = agent_ids.map { |id| db.literal(id) }.join(', ')
+    rlshp_table = "#{@record_type}_#{field_name}_rlshp"
+    @conditions.push(
+      "#{@record_type}.id IN (SELECT #{@record_type}_id FROM #{rlshp_table} WHERE agent_person_id IN (#{id_list}))"
+    )
+    sort_names = db.fetch(
+      "SELECT sort_name FROM name_person
+       WHERE agent_person_id IN (#{id_list}) AND is_display_name = 1"
+    ).map { |r| r[:sort_name] }
+    info[field_name] = sort_names.join(', ')
   end
 end
