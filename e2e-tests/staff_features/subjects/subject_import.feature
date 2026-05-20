@@ -15,4 +15,4 @@ Feature: Subject Import with the LCNAF Import Plug-In
       And the job completes
       And the following message is displayed
         | The job has completed. |
-      And the Subject is listed in the New & Modified Records form
+      And the 'Subject headings' Subject is listed in the New & Modified Records form

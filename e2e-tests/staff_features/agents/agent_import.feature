@@ -14,5 +14,5 @@ Feature: Agent Import with the LCNAF Import Plug-In
       And the job completes
       And the following message is displayed
         | The job has completed. |
-      And the Agent Name is listed in the New & Modified Records form
-      And a Related Subject is listed in the New & Modified Records form
+      And the 'Hutson, Jean Blackwell' Agent Name is listed in the New & Modified Records form
+      And a 'Library science' Related Subject is listed in the New & Modified Records form
