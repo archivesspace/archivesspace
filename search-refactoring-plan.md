@@ -49,8 +49,9 @@ The linked tickets cluster into themes the current architecture makes hard to fi
 
 ### Structural framing
 
-- The schema **already has dedicated indexed fields** for most things (`title`, `identifier`, `notes`, `notes_published`, `agents`, `creators`, `subjects`, `dates`, `extents`, `langcode`, `level`: `solr/schema.xml:4-150`). The `json` blob (`schema.xml:44`) is **redundant for searching**: it exists almost entirely for **deserialization in the public UI** (`public/app/models/record.rb:19-25`).
-- `fullrecord` is built by a **type-blind tree walk** (`indexer_common.rb:140-207`) that grabs every string in the record, including URIs and internal IDs.
+- The schema **already has dedicated indexed fields** for most things (`title`, `identifier`, `notes`, `notes_published`, `agents`, `creators`, `subjects`, `dates`, `extents`, `langcode`, `level`: `solr/schema.xml:4-150`).
+- The `json` blob (`schema.xml:44`) is **redundant for searching**: it exists almost entirely for **deserialization in the public UI** (`public/app/models/record.rb:19-25`).
+- `fullrecord` and `fullrecord_published` are built by a **type-blind tree walk** (`indexer_common.rb:140-207`) that grabs every string in the record, including URIs and internal IDs.
 
 ### The serialize / deserialize pattern
 
@@ -68,41 +69,6 @@ A researcher types `45`, gets resource X, opens it, and sees no `45` anywhere in
 - **(B)** Replace the whole-record text-walker with a deliberate, per-field, per-record-type indexing strategy that fixes the unexplainable-match / analyzer / filter bugs.
 
 The ticket scopes (A) explicitly. (B) is the natural next step that the linked bug tickets require.
-
-## Critical files
-
-**Indexer (writes Solr):**
-
-- `solr/schema.xml`: current schema (220 lines). Lines 44, 78–79 are the JSON blob fields.
-- `indexer/app/lib/indexer_common.rb`
-  - `:140-207` `extract_string_values`: naive tree walker producing `fullrecord` content.
-  - `:210-214` `build_fullrecord`: caller.
-  - `:1235-1254` `sanitize_json`: strips agent contacts before serialising.
-  - `:1256-1321` `index_records`: main per-record loop. Line 1280 is the `doc['json'] = …` site.
-  - `:52-83`, `:1034`, `:1039`: `add_indexer_initialize_hook`, `add_document_prepare_hook`, `add_extra_documents_hook`: plugin extension API to preserve.
-- `indexer/app/lib/{periodic_indexer,pui_indexer,large_tree_doc_indexer}.rb`: callers/specialisations. PUI indexer at `:83-88` re-merges with `RecordInheritance` and re-stores `json`.
-
-**Search (reads Solr):**
-
-- `backend/app/model/solr.rb`: `Solr::Query` (98–387). `qf`/`pf`/edismax config at 345–350.
-- `backend/app/model/search.rb`: keyword/advanced/match-all entry points.
-- `backend/app/controllers/search.rb`: REST endpoints.
-
-**JSON-blob consumers (the breakable surface):**
-
-- `public/app/models/record.rb:19-25`: `@json = ASUtils.json_parse(solr_result['json'])`. Single biggest tight-coupling point.
-- `public/app/models/solr_results.rb:6-46`: wrapper handing raw Solr hits to `Record.new`.
-- `public/app/controllers/{agents,objects,repositories}_controller.rb`, plus PUI models `classification.rb`, `accession.rb`, `resource.rb`: secondary consumers.
-- `public/app/services/archives_space_client.rb:115`: reads `tree_json`.
-- Frontend (staff) does not parse `doc['json']` directly.
-
-**Tests (current coverage is thin):**
-
-- `indexer/spec/indexer_common_spec.rb` (≈81 lines): published/unpublished text separation only.
-- `indexer/spec/{periodic,pui}_indexer_spec.rb`: light integration coverage.
-- `indexer/spec/large_tree_doc_indexer_spec.rb`: stub bodies, no assertions.
-- `backend/spec/model_solr_spec.rb`: basic smoke tests.
-- No spec covers `record.rb`'s reliance on `solr_result['json']` or `extract_string_values` directly.
 
 ## Reference: how Arclight does it
 
@@ -362,6 +328,41 @@ All new specs must pass against unchanged production code; they characterise exi
 - Acceptance: PUI Creator filter excludes records whose only matching creator is unpublished; level facet matches displayed level.
 - Closes: ANW-262, ANW-1580.
 - Sprint fit: 1 sprint.
+
+## Critical files
+
+**Indexer (writes Solr):**
+
+- `solr/schema.xml`: current schema (220 lines). Lines 44, 78–79 are the JSON blob fields.
+- `indexer/app/lib/indexer_common.rb`
+  - `:140-207` `extract_string_values`: naive tree walker producing `fullrecord` content.
+  - `:210-214` `build_fullrecord`: caller.
+  - `:1235-1254` `sanitize_json`: strips agent contacts before serialising.
+  - `:1256-1321` `index_records`: main per-record loop. Line 1280 is the `doc['json'] = …` site.
+  - `:52-83`, `:1034`, `:1039`: `add_indexer_initialize_hook`, `add_document_prepare_hook`, `add_extra_documents_hook`: plugin extension API to preserve.
+- `indexer/app/lib/{periodic_indexer,pui_indexer,large_tree_doc_indexer}.rb`: callers/specialisations. PUI indexer at `:83-88` re-merges with `RecordInheritance` and re-stores `json`.
+
+**Search (reads Solr):**
+
+- `backend/app/model/solr.rb`: `Solr::Query` (98–387). `qf`/`pf`/edismax config at 345–350.
+- `backend/app/model/search.rb`: keyword/advanced/match-all entry points.
+- `backend/app/controllers/search.rb`: REST endpoints.
+
+**JSON-blob consumers (the breakable surface):**
+
+- `public/app/models/record.rb:19-25`: `@json = ASUtils.json_parse(solr_result['json'])`. Single biggest tight-coupling point.
+- `public/app/models/solr_results.rb:6-46`: wrapper handing raw Solr hits to `Record.new`.
+- `public/app/controllers/{agents,objects,repositories}_controller.rb`, plus PUI models `classification.rb`, `accession.rb`, `resource.rb`: secondary consumers.
+- `public/app/services/archives_space_client.rb:115`: reads `tree_json`.
+- Frontend (staff) does not parse `doc['json']` directly.
+
+**Tests (current coverage is thin):**
+
+- `indexer/spec/indexer_common_spec.rb` (≈81 lines): published/unpublished text separation only.
+- `indexer/spec/{periodic,pui}_indexer_spec.rb`: light integration coverage.
+- `indexer/spec/large_tree_doc_indexer_spec.rb`: stub bodies, no assertions.
+- `backend/spec/model_solr_spec.rb`: basic smoke tests.
+- No spec covers `record.rb`'s reliance on `solr_result['json']` or `extract_string_values` directly.
 
 ### Out of scope
 
