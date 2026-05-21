@@ -5,7 +5,7 @@
             <%= link_to t("breadcrumb.home"), :controller => :welcome, :action => :index %>
          </li>
          <% trail.each_with_index do |crumb, i| %>
-            <% if i < trail.length - 1%>         
+            <% if i < trail.length - 1%>
                <li class="breadcrumb-item">
                   <%= link_to strip_tags(crumb[0].to_s).gsub(/&amp;/,'&') , crumb[1] %>
                </li>

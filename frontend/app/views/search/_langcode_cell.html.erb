@@ -1,11 +1,11 @@
 <% if !record['langcode'].nil? && record['langcode'].length > 1 %>
-	<ul style="padding-left: 20px;">
-		<% record['langcode'].each do |langcode| %>
-			<li><%= "#{t("enumerations.language_iso639_2.#{langcode}", :default => langcode)}" %></li>
-		<% end %>
-	</ul>
+  <ul style="padding-left: 20px;">
+    <% record['langcode'].each do |langcode| %>
+      <li><%= "#{t("enumerations.language_iso639_2.#{langcode}", :default => langcode)}" %></li>
+    <% end %>
+  </ul>
 <% else %>
-	<% (record['langcode'] || []).each do |langcode| %>
-		<%= "#{t("enumerations.language_iso639_2.#{langcode}", :default => langcode)}" %>
-	<% end %>
+  <% (record['langcode'] || []).each do |langcode| %>
+    <%= "#{t("enumerations.language_iso639_2.#{langcode}", :default => langcode)}" %>
+  <% end %>
 <% end %>

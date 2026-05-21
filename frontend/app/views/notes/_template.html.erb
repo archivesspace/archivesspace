@@ -581,9 +581,9 @@
                 "show" => "Not set", 
                 "title" => "Not set",
                 "type" => "Not set" } %>
-  <% else %>            
+  <% else %>
     <% empty = {} %>
-  <% end %>            
+  <% end %>
 
   <% xlink_form.push "xlink", xlink_form["xlink"] || empty do | xlink_form | %>
     <%= xlink_form.label_and_textfield "actuate" %>
@@ -636,7 +636,7 @@
 
 <% define_template "note_outline_string" do |form, item| %>
   <% placeholder = t("note._frontend.note_outline.placeholder") %>
-  <div class="subrecord-form-inline"><%= form.textfield(nil, item, :placeholder => placeholder) %></div> 
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item, :placeholder => placeholder) %></div>
 <% end %>
 
 <% define_template "note_outline_level" do |form, level| %>

@@ -1,74 +1,74 @@
 <!DOCTYPE html>
 <html lang="<%= session[:locale] ? session[:locale] : AppConfig[:locale] %>">
 <head>
-	<%# mdc: new stuff, to address IE 10 and earlier issues with Bootstrap %>
-	<meta charset="utf-8"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<% if AppConfig[:pui_show_favicon] %><%= render "shared/favicon" %><% end %>
-	<title><%=  (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} | ") %><%= t('brand.title') %></title>
-	<%= csrf_meta_tags %>
+  <%# mdc: new stuff, to address IE 10 and earlier issues with Bootstrap %>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <% if AppConfig[:pui_show_favicon] %><%= render "shared/favicon" %><% end %>
+  <title><%=  (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} | ") %><%= t('brand.title') %></title>
+  <%= csrf_meta_tags %>
 
-	<%# block cross-origin refer per https://go-to-hellman.blogspot.com/2015/06/protect-reader-privacy-with-referrer.html %>
-	<% if AppConfig[:pui_block_referrer] %>
-		<meta name="referrer" content="origin-when-cross-origin" />
-	<% end %>
+  <%# block cross-origin refer per https://go-to-hellman.blogspot.com/2015/06/protect-reader-privacy-with-referrer.html %>
+  <% if AppConfig[:pui_block_referrer] %>
+    <meta name="referrer" content="origin-when-cross-origin" />
+  <% end %>
 
-	<script>
-	 var APP_PATH = '<%= PrefixHelper.app_prefix("") %>';
-	 var SHOW_IDENTIFIERS_IN_TREE = <%= AppConfig[:pui_display_identifiers_in_resource_tree] %>;
-	</script>
+  <script>
+   var APP_PATH = '<%= PrefixHelper.app_prefix("") %>';
+   var SHOW_IDENTIFIERS_IN_TREE = <%= AppConfig[:pui_display_identifiers_in_resource_tree] %>;
+  </script>
 
-	<%= stylesheet_link_tag    'application.css', media: 'all' %>
-	<%= javascript_include_tag 'application.js' %>
+  <%= stylesheet_link_tag    'application.css', media: 'all' %>
+  <%= javascript_include_tag 'application.js' %>
 
-	<%= render partial: 'shared/metadata' %>
+  <%= render partial: 'shared/metadata' %>
 
-	<% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |template| %>
-		<!-- Begin plugin layout -->
-		<%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
-		<!-- End plugin layout -->
-	<% end %>
+  <% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |template| %>
+    <!-- Begin plugin layout -->
+    <%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
+    <!-- End plugin layout -->
+  <% end %>
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
-	<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 
 <body class="min-h-screen d-flex flex-column">
 
-	<% ASUtils.find_local_directories('public/views/body_top.html.erb').each do |template| %>
-		<!-- Begin plugin layout -->
-		<%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
-		<!-- End plugin layout -->
-	<% end %>
+  <% ASUtils.find_local_directories('public/views/body_top.html.erb').each do |template| %>
+    <!-- Begin plugin layout -->
+    <%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
+    <!-- End plugin layout -->
+  <% end %>
 
-	<%= render partial: 'shared/skipnav' %>
+  <%= render partial: 'shared/skipnav' %>
 
-	<div class="container-fluid no-pad">
-		<%= render partial: 'shared/header' %>
-		<%= render partial: 'shared/navigation' %>
-	</div>
+  <div class="container-fluid no-pad">
+    <%= render partial: 'shared/header' %>
+    <%= render partial: 'shared/navigation' %>
+  </div>
 
-	<section id="content" class="container-fluid mt-2 pt-2 flex-grow-1">
-		<a id="maincontent" tabindex="-1"></a>
-		<%= flash_messages %>
-		<%= yield %>
-	</section>
+  <section id="content" class="container-fluid mt-2 pt-2 flex-grow-1">
+    <a id="maincontent" tabindex="-1"></a>
+    <%= flash_messages %>
+    <%= yield %>
+  </section>
 
-	<%= render partial: 'shared/footer' %>
+  <%= render partial: 'shared/footer' %>
 
-	<% if AppConfig[:pui_enable_staff_link] %>
-		<% if AppConfig.has_key?(:frontend_proxy_url) && defined?(@result) && @result.respond_to?(:uri) %>
-			<script>
-				FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
-				RECORD_URI = "<%= j(@result.uri) %>";
-			</script>
-		<% end %>
-	<% end %>
+  <% if AppConfig[:pui_enable_staff_link] %>
+    <% if AppConfig.has_key?(:frontend_proxy_url) && defined?(@result) && @result.respond_to?(:uri) %>
+      <script>
+        FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
+        RECORD_URI = "<%= j(@result.uri) %>";
+      </script>
+    <% end %>
+  <% end %>
 
 </body>
 </html>

@@ -3,7 +3,7 @@
 <% unless @result.finding_aid.blank? %>
   <% if @result.finding_aid.size > 1 || @result.finding_aid['revisions'].blank? %>
     <dl class="dl-horizontal-fa">
-      
+
       <% unless @result.finding_aid['title'].blank? %>
         <dt><%= t("resource._public.finding_aid.title") %></dt>
         <dd><%= @result.finding_aid['title'] %></dd>

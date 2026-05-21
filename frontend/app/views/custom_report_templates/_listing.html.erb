@@ -1,45 +1,45 @@
 <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
 <% if @search_data['results'].length %>
-	<table class="table table-striped table-bordered table-condensed">
-		<thead>
-			<tr>
-				<th>
-					<%= link_to t("custom_report_template._singular"), sort: :name, direction: sort_direction(:name, params, 'asc') %>
-					<%= sort_pointer(:name, params, '&#x25B2;').html_safe %>
-				</th>
-				<th><%= t("custom_report_template.description") %></th>
-				<th width="70px"><span class="sr-only"><%= t('search_results.actions') %></span></th>
-			</tr>
-		</thead>
-		<tbody>
-			<% @search_data['results'].each do |template| %>
-				<tr>
-					<td><%= template.name %></td>
-					<td><%= template.description %></td>
-					<td>
-						<div class="btn-group" style="float: right">
-							<%= link_to t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => template["uri"]}, :class => "btn btn-sm btn-default" %>
-							<%= link_to t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => template["uri"]}, :class => "btn btn-sm btn-primary" %>
-							<%= link_to t("actions.run"),
-								new_job_path(
-									:job_type => 'report_job',
-									:report_type => 'custom_report',
-									:template => template.name,
-								),
-								:class => "btn btn-sm btn-info"
-							%>
-							<%= link_to t("actions.copy"), {:controller => :custom_report_templates, :action => :copy, :id => template.id}, :class => "btn btn-sm btn-default" %>
-							<%= link_to t("actions.delete"), {:controller => :custom_report_templates, :action => :delete, :id => template.id}, :"data-confirmation" => true, :"data-title" => t("actions.delete_confirm_title", :title => template.name), :"data-message" => t("actions.delete_confirm_message"), :"data-confirm-btn-label" => "#{t("actions.delete")}", :"data-confirm-btn-class" => "btn-danger", :class => "btn btn-sm btn-danger", :"data-authenticity_token" => form_authenticity_token %>
-						</div>
-					</td>
-				</tr>
-			<% end %>
-		</tbody>
-	</table>
-	<%= render_aspace_partial :partial => "shared/pagination" %>
+  <table class="table table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>
+          <%= link_to t("custom_report_template._singular"), sort: :name, direction: sort_direction(:name, params, 'asc') %>
+          <%= sort_pointer(:name, params, '&#x25B2;').html_safe %>
+        </th>
+        <th><%= t("custom_report_template.description") %></th>
+        <th width="70px"><span class="sr-only"><%= t('search_results.actions') %></span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @search_data['results'].each do |template| %>
+        <tr>
+          <td><%= template.name %></td>
+          <td><%= template.description %></td>
+          <td>
+            <div class="btn-group" style="float: right">
+              <%= link_to t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => template["uri"]}, :class => "btn btn-sm btn-default" %>
+              <%= link_to t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => template["uri"]}, :class => "btn btn-sm btn-primary" %>
+              <%= link_to t("actions.run"),
+                new_job_path(
+                  :job_type => 'report_job',
+                  :report_type => 'custom_report',
+                  :template => template.name,
+                ),
+                :class => "btn btn-sm btn-info"
+              %>
+              <%= link_to t("actions.copy"), {:controller => :custom_report_templates, :action => :copy, :id => template.id}, :class => "btn btn-sm btn-default" %>
+              <%= link_to t("actions.delete"), {:controller => :custom_report_templates, :action => :delete, :id => template.id}, :"data-confirmation" => true, :"data-title" => t("actions.delete_confirm_title", :title => template.name), :"data-message" => t("actions.delete_confirm_message"), :"data-confirm-btn-label" => "#{t("actions.delete")}", :"data-confirm-btn-class" => "btn-danger", :class => "btn btn-sm btn-danger", :"data-authenticity_token" => form_authenticity_token %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= render_aspace_partial :partial => "shared/pagination" %>
 <% else %>
-	<p class="alert alert-info">
-		No Custom Report Templates.
-	</p>
+  <p class="alert alert-info">
+    No Custom Report Templates.
+  </p>
 <% end %>

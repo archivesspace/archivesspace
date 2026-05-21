@@ -21,7 +21,7 @@
     <%= form.label_and_merge_select("post_code", "", {:disable_replace => disable_replace}) %>
     <%= form.label_and_merge_select("email", "", {:disable_replace => disable_replace}) %>
     <%= form.label_and_merge_select("note", "", {:disable_replace => disable_replace}) %>
-    
+
     <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => { :form => form,  :name => "telephones", :template => "telephone_merge", :heading_size => "h5" } %>
 
     <%= form.notes_preview("notes", "contact_notes") %>

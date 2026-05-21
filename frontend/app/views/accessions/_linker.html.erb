@@ -10,12 +10,12 @@
 %>
 <div class="form-group required row">
     <% if form.obj.has_key?('_resolved') %>
-    
+
       <input type="text" 
         class='prelinker' 
         name="<%= form.path %>[_resolved]"
         value="<%= selected_json %>" />
-        
+
       <input type="text" 
         class='prelinker' 
         name="<%= form.path %>[ref]"
@@ -53,7 +53,7 @@
             data-types='["accession"]'
             data-exclude='<%= exclude_ids.to_json %>'
           />
-          
+
           <div class="input-group-append">
            <button type="button" class="btn btn-default d-flex align-items-center dropdown-toggle" data-toggle="dropdown" title="<%= t('accession.linker.link_title') %>" aria-label="<%= t('accession.linker.link_title') %>"></button>
            <ul class="dropdown-menu">
@@ -74,7 +74,7 @@
             class='prelinker' 
             name="<%= form.path %>[_resolved]"
             value="<%= selected_json %>" />
-            
+
           <input type="text" 
             class='prelinker' 
             name="<%= form.path %>[ref]"

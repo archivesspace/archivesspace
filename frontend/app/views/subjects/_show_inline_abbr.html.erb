@@ -2,10 +2,10 @@
   <button class="btn btn-sm btn-info token">
     <span class='icon-token <%= get_subject_icon_class(subject) %>'></span>
     <% if subject['_resolved'] %>
-    	<%= subject['_resolved']['title'] %>
-   	<% else %>
-  	  <p><%= subject.inspect %></p>
+      <%= subject['_resolved']['title'] %>
+     <% else %>
+      <p><%= subject.inspect %></p>
     <% end %>
-      
+
   </button>
 <% end %>

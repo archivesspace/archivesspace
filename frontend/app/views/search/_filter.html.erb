@@ -52,11 +52,11 @@
   <ul>
     <% facets.each do |facet, facet_map| %>
       <li class="facet">
-      	<% if facet_map.has_key?(:q) %>
-        	<% opts = {"q" => facet_map[:q]} %>
-      	<% else %>
-			<% opts = {"add_filter_term" => facet_map[:filter_term]} %>
-      	<% end %>
+        <% if facet_map.has_key?(:q) %>
+          <% opts = {"q" => facet_map[:q]} %>
+        <% else %>
+      <% opts = {"add_filter_term" => facet_map[:filter_term]} %>
+        <% end %>
         <% opts['facets'] = SearchResultData.facets_for(facet) if facet_group == 'primary_type' %>
         <%= link_to build_search_params(opts) do %><%= clean_mixed_content(facet_map[:label]) %> <span class="badge record-count"><%= facet_map[:count] %></span><% end %>
       </li>

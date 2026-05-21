@@ -2,20 +2,20 @@
 <div class="container-fluid p-0 clear">
     <nav aria-label="<%= I18n.t('navigation.hierarchical') %>">
       <ul class="breadcrumb">
-	<% @context.each do |bread| %>
-	<% if bread[:crumb]; crumb = bread[:crumb]; crumb += " (#{bread[:identifier]})" if bread[:identifier] %>
-	<li>
-	  <%= badge_for_type(bread[:type]) %>
-	  <% if bread[:uri].blank? %>
-	    <%= process_mixed_content(crumb).html_safe %>
-	  <% else %>
-	    <a href='<%=app_prefix(bread[:uri]) %>'>
-		<%= process_mixed_content(crumb).html_safe %>
-	    </a>
-	  <% end %>
-	</li>
-	<% end %>
-	<% end %>
+  <% @context.each do |bread| %>
+  <% if bread[:crumb]; crumb = bread[:crumb]; crumb += " (#{bread[:identifier]})" if bread[:identifier] %>
+  <li>
+    <%= badge_for_type(bread[:type]) %>
+    <% if bread[:uri].blank? %>
+      <%= process_mixed_content(crumb).html_safe %>
+    <% else %>
+      <a href='<%=app_prefix(bread[:uri]) %>'>
+    <%= process_mixed_content(crumb).html_safe %>
+      </a>
+    <% end %>
+  </li>
+  <% end %>
+  <% end %>
       </ul>
     </nav>
 </div>

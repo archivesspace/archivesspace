@@ -62,7 +62,7 @@
    <%= render "site/footer", layout_class: "mt-auto" %>
 
    <%= render "shared/templates" %>
-   
+
     <% ASUtils.order_plugins(ASUtils.find_local_directories('frontend/views/_shared_templates.html.erb')).each do |layout| %>
       <% if File.exist?(layout) %>
         <!-- Begin plugin layout -->
