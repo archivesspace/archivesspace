@@ -72,7 +72,7 @@ The linked tickets cluster into themes the current architecture makes hard to fi
 
 The indexer serializes each record to a JSON string at `indexer_common.rb:1280` (`doc['json'] = ASUtils.to_json(sanitize_json(values))`). On every search hit the public UI deserializes that string at `public/app/models/record.rb:19-25` (`@json = ASUtils.json_parse(solr_result['json'])`); ~480 lines of `record.rb` and per-type subclasses then read `@json[...]` directly.
 
-The blob is `indexed="false"`. Its sole purpose is letting **one** Solr request carry enough data to render result lists and show pages without N backend lookups. **Solr is the PUI's read database**: `public/app/services/archives_space_client.rb` reads record content exclusively through three Solr-backed endpoints (`/search`, `/search/records`, `/search/published_tree`). The only direct PUI→backend traffic that bypasses Solr is slug resolution and login.
+The blob is `indexed="false"`. Its sole purpose is letting **one** Solr request carry enough data to render result lists and show pages without N backend lookups. **Solr is the PUI's read database**: `public/app/services/archives_space_client.rb` reads record content exclusively through two Solr-backed endpoints (`/search` and `/search/records`). The only direct PUI→backend traffic that bypasses Solr is slug resolution and login.
 
 This pattern is **left in place**. An earlier draft of this plan proposed replacing the blob with explicit per-field stored display fields and rewriting `record.rb`; that work is now out of scope. This project adds searchable fields and relevance configuration; the blob continues to carry display data unchanged.
 
@@ -81,11 +81,12 @@ This pattern is **left in place**. An earlier draft of this plan proposed replac
 The PUI renders two tree-related views for a resource - the **Collection Overview** (the resource show page) and the **Collection Organization** (the hierarchical finding-aid tree). Both must keep working after every Phase 2 change. They do, because none of the tree-rendering path is in scope:
 
 - **Tree docs never use the walker.** `large_tree_doc_indexer.rb` builds the `tree_root` / `tree_waypoint` / `tree_node` / `tree_node_from_root` docs; each carries only `id`, `uri`, `pui_parent_id`, `publish`, `primary_type`, `types`, and a `json` payload. It never calls `extract_string_values` or `build_fullrecord`, so P2.1's walker removal is a no-op for tree docs. None of the fields tree docs use is dropped or re-analyzed by any P2.x ticket.
-- **The tree fetch is a match-all query, not a relevance query.** `/search/published_tree` (`backend/app/controllers/search.rb:125-152`) uses `Solr::Query.create_match_all_query` filtered by `record_types(['tree_view'])` and `node_uri`. It carries no edismax `qf`, so P2.4's paramset / `useParams` work (keyword / identifier / linker requests only) does not touch it.
-- **The PUI tree read path is out of scope.** `archives_space_client.rb#get_tree`, `get_raw_record(uri + '/tree/root')`, the `resources_controller.rb` `tree_root` actions, and the tree views read the retained `json` / `tree_json` blob fields; they are in the "JSON-blob consumers (retained as-is)" list.
+- **The tree fetch is a URI lookup, not a relevance query, and is out of scope.** The PUI fetches tree docs via `get_raw_record(uri + '/tree/root')` and the `resources_controller.rb` `tree_root` / `tree_waypoint` / `tree_node` actions, which call `/search/records` - a lookup by record URI carrying no edismax `qf`. P2.4's paramset / `useParams` work (keyword / identifier / linker requests only) does not touch it. The tree views read the retained `json` blob and are in the "JSON-blob consumers (retained as-is)" list.
 - **Collection Overview is the resource show page**, fed by `/search/records` reading the retained `json` blob via `record.rb` - also retained.
 
 P1.1 characterizes the tree-doc indexer (real assertions on `tree_root` / `tree_waypoint` / `tree_node`); each Phase 2 PR is additionally verified against a reindexed multi-level resource (see "Verification (Phase 2)").
+
+The obsolete pre-large-tree code path (the `/search/published_tree` endpoint, `ArchivesSpaceClient#get_tree`, the `Tree` model, and the unused `tree_json` / `whole_tree_json` / `node_uri` Solr fields) was dead and has been removed separately under ANW-2757 (PR #4094); it is unrelated to this refactor.
 
 ### What "unexplainable matches" means
 
@@ -181,7 +182,7 @@ Goal: Cover current behaviour with [characterization tests](https://lassala.net/
 **2. Public Record characterization specs**
 
 - New `public/spec/models/record_spec.rb` and per-subclass specs in `public/spec/models/{resource,archival_object,digital_object,accession,agent,subject,classification,top_container,location}_spec.rb`. For a stub `solr_result` per type, assert which `@json[...]` keys the Record reads and what each accessor returns. Locks current PUI read behaviour as a regression baseline (the blob is retained, so this is a safety net, not a contract for an upcoming rewrite).
-- Enumerate via `grep -n "@json\[\|json\[" public/app/models/*.rb public/app/controllers/*.rb` plus `archives_space_client.rb:115` (`tree_json`).
+- Enumerate via `grep -n "@json\[\|json\[" public/app/models/*.rb public/app/controllers/*.rb`.
 
 **3. Backend search query specs**
 
@@ -192,7 +193,7 @@ Goal: Cover current behaviour with [characterization tests](https://lassala.net/
 Commit `docs/search_refactor_inventory.md` (path TBD per project convention). Three tables:
 
 - **Solr field map**: every field in `solr/schema.xml`. Columns: name, type, indexed, stored, multivalued, writer file:line, readers file:line, Arclight equivalent, disposition (drop / keep / change-analyzer / new search field).
-- **JSON-blob consumer map**: every top-level key inside `doc['json']` and `tree_json` that any consumer reads, with file:line. Documents the blob read surface (retained, not modified by this project); supports the Public Record specs.
+- **JSON-blob consumer map**: every top-level key inside `doc['json']` that any consumer reads (for regular records and for the `tree_root` / `tree_waypoint` / `tree_node` tree docs), with file:line. Documents the blob read surface (retained, not modified by this project); supports the Public Record specs.
 - **Linked-ticket → code path map**: for each linked ticket: file(s), field(s), and resolving phase. Makes phase-2 ticket-cutting mechanical.
 
 ### Phase 2 (future tickets): relevance-query fixes
@@ -265,7 +266,7 @@ The tree path is retained by scope (see "Tree display (Collection Overview / Col
 **P2.4: Per-search-type `qf` groups as `solrconfig.xml` paramsets**
 
 - Depends on: Phase 1. **Foundation for P2.1, P2.2, P2.3**: those tickets all add to or modify the paramset enumeration.
-- Scope: relevance configuration moves from Ruby string-building (`backend/app/model/solr.rb:345-350`) into Solr server-side **named parameter sets** (`<initParams>`) declared in `solrconfig.xml`. **No catchall**: each paramset's `qf` enumerates its source fields directly, and fields not enumerated in any paramset are not searchable by default. Define paramsets `qf_default` / `qf_identifier` / `qf_title` / `qf_name` / `qf_subject` / `qf_place` / `qf_container`, each carrying its own `qf` / `pf` / `mm` / `tie` configuration. `qf_default` lists the cross-record-type defaults (titles, identifiers, repository, dates, agents, subjects, primary-language note text); per-context paramsets specialise. Backend per-request work shrinks to selecting which paramset(s) apply via `useParams=<name>[,<name>...]`; no per-request `qf`/`pf` strings are sent. `backend/app/model/solr.rb` is rewritten to emit `useParams` based on search context (default keyword / identifier / linker type / advanced-search field). `frontend/app/views/{resources,agents,subjects,…}/_linker.html.erb` and `linker.js` propagate the linker type so the backend picks the right paramset. Arclight's `solrconfig.xml` is the direct precedent. Match-all queries (`Solr::Query.create_match_all_query`, used by `/search/published_tree` and match-all browse) are **not** given `useParams` - paramset selection applies only to edismax keyword / identifier / linker requests, so tree fetching and match-all browse are unaffected.
+- Scope: relevance configuration moves from Ruby string-building (`backend/app/model/solr.rb:345-350`) into Solr server-side **named parameter sets** (`<initParams>`) declared in `solrconfig.xml`. **No catchall**: each paramset's `qf` enumerates its source fields directly, and fields not enumerated in any paramset are not searchable by default. Define paramsets `qf_default` / `qf_identifier` / `qf_title` / `qf_name` / `qf_subject` / `qf_place` / `qf_container`, each carrying its own `qf` / `pf` / `mm` / `tie` configuration. `qf_default` lists the cross-record-type defaults (titles, identifiers, repository, dates, agents, subjects, primary-language note text); per-context paramsets specialise. Backend per-request work shrinks to selecting which paramset(s) apply via `useParams=<name>[,<name>...]`; no per-request `qf`/`pf` strings are sent. `backend/app/model/solr.rb` is rewritten to emit `useParams` based on search context (default keyword / identifier / linker type / advanced-search field). `frontend/app/views/{resources,agents,subjects,…}/_linker.html.erb` and `linker.js` propagate the linker type so the backend picks the right paramset. Arclight's `solrconfig.xml` is the direct precedent. Match-all browse queries (`Solr::Query.create_match_all_query`) and URI-lookup requests (`/search/records`, used for record show pages and tree-doc fetches) are **not** given `useParams` - paramset selection applies only to edismax keyword / identifier / linker requests, so match-all browse and tree fetching are unaffected.
 - Acceptance: agent linker prioritises name hits; subject linker prioritises term hits; resource linker prioritises title + identifier; relevance changes ship by editing `solrconfig.xml` and reloading the core, no Ruby redeploy required; Solr response `params` echo confirms the merged paramset for each request.
 - Closes: ANW-2656.
 - MLC: per-locale boosts are additional paramsets named `qf_locale_<iso>_<script>` (e.g. `qf_locale_fre_Latn`) carrying the locale-specific field weights (`title_fre_Latn_tesim^3`, `finding_aid_title_fre_Latn_tesim^2`). The backend appends the locale paramset when the request carries an active locale matching one of the seven curated languages. `useParams=qf_default,qf_locale_fre_Latn` is the composed form. This absorbs the MCTF §5.5.5 per-locale `qf` boost work.
@@ -328,7 +329,7 @@ The tree path is retained by scope (see "Tree display (Collection Overview / Col
 
 **Indexer (writes Solr):**
 
-- `solr/schema.xml`: current schema (220 lines). Lines 44, 78–79 are the JSON blob fields (retained).
+- `solr/schema.xml`: current schema. Line 44 is the `json` display blob field (retained).
 - `indexer/app/lib/indexer_common.rb`
   - `:140-207` `extract_string_values`: naive tree walker producing `fullrecord` content (removed in P2.1).
   - `:210-214` `build_fullrecord`: caller (removed in P2.1).
@@ -349,7 +350,7 @@ The tree path is retained by scope (see "Tree display (Collection Overview / Col
 - `public/app/models/record.rb:19-25`: `@json = ASUtils.json_parse(solr_result['json'])`.
 - `public/app/models/solr_results.rb:6-46`: wrapper handing raw Solr hits to `Record.new`.
 - `public/app/controllers/{agents,objects,repositories}_controller.rb`, plus PUI models `classification.rb`, `accession.rb`, `resource.rb`: secondary consumers.
-- `public/app/services/archives_space_client.rb:115`: reads `tree_json`.
+- `public/app/services/archives_space_client.rb`: `get_raw_record` fetches records (including the `tree_root` / `tree_waypoint` / `tree_node` tree docs) by URI via `/search/records` and parses their `json` field.
 - `public/app/views/shared/_result.html.erb` and `shared/_result_record_summary.html.erb`: P2.5 makes the summary partial render the highlighted `summary` and drives the highlights block (`_result.html.erb` lines 24-34) from the published per-note-type `*_tesim` fields; the partials' blob reads are untouched.
 - Frontend (staff) does not parse `doc['json']` directly.
 
