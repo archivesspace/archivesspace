@@ -106,19 +106,6 @@ class ArchivesSpaceClient
     SolrResults.new(results, search_opts)
   end
 
-  # calls the '/search/published_tree' endpoint
-  def get_tree(node_uri)
-    tree = {}
-    url =  build_url('/search/published_tree', {:node_uri => node_uri})
-    begin
-      results = do_search(url, true)
-      tree = ASUtils.json_parse(results['tree_json'])
-    rescue RequestFailedException => error
-      Rails.logger.error("Tree search failed on #{node_uri} : #{error}")
-    end
-    tree
-  end
-
   def get_types_counts(record_type_list, repo_uri = nil)
     opts = {"record_types[]" => record_type_list}
     opts["repo_uri"] = repo_uri if repo_uri
