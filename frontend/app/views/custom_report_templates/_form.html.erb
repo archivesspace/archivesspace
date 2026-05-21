@@ -121,7 +121,7 @@
                     %>
                     <div class="mt-2 d-flex flex-column align-items-start gap-2">
                       <%= text_area_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", array_for_textarea(field_data["values"]), :value => field_data['values'], :readonly => true, :class => 'border border-gray--secondary rounded', :style => "height:100px" %>
-                      <input type="button" class="btn btn-default" value="Clear" class="d-block user-field-clear-button">
+                      <input type="button" class="btn btn-default d-block user-field-clear-button" value="Clear">
                     </div>
                   </div>
                 </div>
