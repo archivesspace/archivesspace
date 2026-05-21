@@ -15,7 +15,7 @@ The refactor adopts the inverse position: **every searchable field is a real sou
 
 Two deliverables:
 
-1. **Add spec coverage.**
+1. **Add spec coverage and a search-architecture inventory.**
 2. **Improve search relevance**: replace the catchall-field architecture (the `fullrecord` tree-walk dump and the `notes` catchall) with explicitly enumerated, per-field search configuration, and fix the linked search-defect tickets.
 
 Scope boundary:
@@ -32,9 +32,7 @@ Notes:
 
 The linked tickets cluster into themes the current architecture makes hard to fix correctly:
 
-- **Unexplainable matches**: ANW-2657 (subject/term URIs in PUI hits), ANW-201 (top-container info leaks), ANW-1672 (agent contacts/events appear).
-  - A researcher types `45`, gets resource X, opens it, and sees no `45` anywhere in title / notes / dates / agents. The match is real: `45` appeared in a subject URI like `/subjects/45`, a top-container barcode, or an internal event ID, all swept into the searchable text by `extract_string_values`. ANW-2657 / ANW-201 / ANW-1672 are three flavours of the same root cause. P2.2-P2.4 fix this by removing the walker and routing default keyword search to the `qf_default` paramset in `solrconfig.xml`, whose `qf` enumerates the searchable source fields explicitly; fields not listed (URIs, internal IDs, staff-only metadata) are excluded by omission rather than by mid-walk filtering.
-  - All caused by `IndexerCommon.extract_string_values` (`indexer/app/lib/indexer_common.rb:140-207`) walking the entire record JSON and concatenating every string into `fullrecord_published`/`fullrecord`. The walker is type-blind, so URIs (`/subjects/45`), internal IDs, staff-only metadata, top-container barcodes, and agent contacts all flow into the search index alongside genuine content; researchers get hits they can't account for from any visible field on the record.
+- **Unexplainable matches**: ANW-2657 (subject/term URIs in PUI hits), ANW-201 (top-container info leaks), ANW-1672 (agent contacts/events appear). All caused by `IndexerCommon.extract_string_values` (`indexer/app/lib/indexer_common.rb:140-207`) walking the entire record JSON and concatenating every string into `fullrecord_published` / `fullrecord`. The walker is type-blind, so URIs (`/subjects/45`), internal IDs, staff-only metadata, top-container barcodes, and agent contacts all flow into the search index alongside genuine content. The symptom: a researcher types `45`, gets resource X, opens it, and sees no `45` anywhere in title / notes / dates / agents - the real match was a subject URI like `/subjects/45`, a top-container barcode, or an internal event ID.
   - **Fixed in P2.2-P2.4** by removing the walker entirely (along with the `fullrecord` and `fullrecord_published` synthetic fields it produced) and routing default keyword search to a `qf_default` paramset in `solrconfig.xml` whose `qf` enumerates the source fields explicitly. Fields not listed in any paramset's `qf` are not searchable by default; URIs / internal IDs / staff-only fields are excluded by omission (a finite, reviewable allow-list instead of an unbounded deny-list).
 
 - **Identifier search**: ANW-290, ANW-1556, ANW-2071, ANW-2075. IDs reach the index only through the `fullrecord` catchall and a coarse single-valued `identifier` field; partial / multi-part / "contains" semantics are broken. Multi-part identifiers like `MS-2024-001` don't match `MS2024001` or `MS 2024 001`; advanced search "Identifier contains" misses obvious substring matches; users typing a known catalogue number don't always find the record.
@@ -107,7 +105,7 @@ The obsolete pre-large-tree code path (the `/search/published_tree` endpoint, `A
 Arclight (`projectblacklight/arclight`) is the closest active reference: Blacklight-based discovery for EAD-described archival material. This project borrows Arclight's **search-side** patterns; it does **not** adopt Arclight's display-field architecture.
 
 1. **Individual stored display fields (not adopted).** Arclight has no JSON blob: display fields are individual stored fields (`abstract_html_tesm`, `extent_ssm`, `creator_ssim`). ArchivesSpace retains its `json` blob as the PUI's display payload; the public UI is a Solr-read application and this project does not refactor that read path. We borrow the search-side patterns below, not the display-field model.
-2. **Blacklight dynamic-field suffix convention.** Each suffix encodes (type, stored, indexed, multivalued) so that we do not have to declare every single field in the solr schema, but use *_tesim etc suffixes for dynamic field declaration. Decoded left-to-right after the underscore:
+2. **Blacklight dynamic-field suffix convention.** Each suffix encodes (type, stored, indexed, multivalued), so a new field needs no per-field `<field>` declaration in the Solr schema: a single `<dynamicField>` pattern (`*_tesim` and the like) covers every field carrying that suffix. Decoded left-to-right after the underscore:
 
    | Position    | Letters                             | Meaning                                                                        |
    | ----------- | ----------------------------------- | ------------------------------------------------------------------------------ |
@@ -124,7 +122,7 @@ Arclight (`projectblacklight/arclight`) is the closest active reference: Blackli
    Arclight also uses display-only suffixes (`_ssm` string stored-not-indexed, `_html_tesm` HTML payload stored-not-indexed). This project does **not** need them: note and field display continue to read the retained `json` blob. Other suffixes you'll see in Arclight: `_si` (string indexed scalar), `_isi` (integer stored indexed scalar), `_isim` (integer stored indexed multivalued), `_dtsim` (date stored indexed multivalued).
 3. **No catchall, no tree walker; default search routes to a paramset enumerating its source fields directly.** Arclight does have a `text` catchall populated via `<copyField>` (Arclight `schema.xml:376-402`), but our plan goes one step further: instead of catchall + paramsets, we use paramsets only. The `qf_default` paramset's `qf` enumerates the source fields. Adding a field to default search means editing one paramset; URIs / internal IDs / staff fields are excluded by being absent from every paramset's `qf`. Direct fix for ANW-2657, ANW-201, ANW-1672 with the same allow-list semantics, no synthetic field, no copyField.
 4. **Specialized identifier field types via paramset.** `identifier_match` (Arclight `schema.xml:175-195`) uses `WordDelimiterGraphFilterFactory` with `catenateAll=1` so multi-part IDs match in any catenation. We adopt the field type and route identifier-context searches via a `qf_identifier` paramset that enumerates `id`, `ead_id`, `ref_id`, `component_id`, `digital_object_id`, `identifier_match`, `unitid_ssm` directly (no `identifier_search` copyField catchall, same logic as point 3). Direct fix for the Identifier-search cluster.
-5. **Per-field analyzer choices.** the stock `text_en` (stemming + synonyms) analyzer chain of solr, an ICU-based field type for `*_tesim` (ICU tokenizer + ICU folding), `string_punct_stop` (treats `& : ;` as query-side stopwords). Direct fix for the Analyzer-chain cluster.
+5. **Per-field analyzer choices.** Arclight assigns analyzers per field instead of one `text_general` everywhere - the stock Solr `text_en` (stemming + synonyms), an ICU-based field type for `*_tesim` (ICU tokenizer + ICU folding), `string_punct_stop` (treats `& : ;` as query-side stopwords). P2.6 adopts the per-field principle, using `text_icu` for `*_tesim` (ArchivesSpace is multilingual, so not the English-only `text_en`). Direct fix for the Analyzer-chain cluster.
 6. **Block-join nested docs for the collection/component hierarchy** (`_root_`, `_nest_parent_`, `_nest_path_`). Would let us drop `RecordInheritance.merge` and the `large_tree_doc_indexer` waypoint hack. Out of scope for this project (item X.1).
 7. **Field-specific search handlers via named paramsets.** `qf_identifier` / `pf_identifier` / `qf_name` / `qf_place` / `qf_subject` / `qf_title` / `qf_container` declared as `<initParams>` blocks in `solrconfig.xml`, invoked from the controller via the `useParams=<name>[,<name>...]` request parameter (composable for layered configurations like locale boosts on top of a default). ArchivesSpace currently builds a single `qf` string in Ruby and tacks it onto every request (`backend/app/model/solr.rb:345-350`); the proposed shape moves all relevance configuration into `solrconfig.xml` and the per-request work shrinks to picking paramset names. Cheaper to tune (no Ruby redeploy), easier to audit (one file), composable.
 8. **`mm=4<90%`**: minimum-should-match. ArchivesSpace's edismax has no `mm` set today. Affects ANW-859.
@@ -154,7 +152,7 @@ Both projects land coordinated changes to `solr/schema.xml`, `indexer/app/lib/in
 | ANW-2229 sub-ticket | MLC interaction | Adjustment to scope |
 |---|---|---|
 | P1.1 (indexer specs) | `mlc_fields`, per-language Solr fields, language-suffixed tree docs need fixtures with `lang_descriptions` to characterize | Add MLC-populated fixture variants for the 5 MLC-using record types (resource, accession, archival_object, digital_object, digital_object_component); assert `mlc_fields` shape, per-language emission, fan-out tree docs as currently shipped in PR #4046 |
-| P1.3 (inventory) | Solr field map must enumerate `*_<iso>_mlc` and the 7 `text_<iso>` types; blob-consumer map must include `mlc_fields` | Add MLC rows to both maps; flag the target search-field name (`*_<iso>_<script>_tesim`) in the disposition column |
+| P1.3 (inventory) | Solr field map must enumerate `*_<iso>_mlc` and the 7 `text_<iso>` types | Add the MLC dynamic fields and field types to the Solr field map; flag the target search-field name (`*_<iso>_<script>_tesim`) in the disposition column |
 | P2.1 (per-search-type `qf`) | MLC's per-locale boost work merges into this ticket | All relevance config (`qf` / `pf` / `mm` / `tie`) moves into named `<initParams>` paramsets in `solrconfig.xml`. Per-locale boosts become paramsets `qf_locale_<iso>_<script>` composed via `useParams=qf_default,qf_locale_<active>` |
 | P2.2-P2.4 (per-note fields, `qf_default`, walker removal) | Per-language search fields must appear explicitly in `qf_default` (or in the per-locale paramsets that compose with it). No copyField glob; the source-field list is the contract. Replaces MLC's `extract_string_values` reliance | `qf_default` lists multilingual fields with their primary suffix (`title_primary_tesim`, etc.); the per-locale paramsets `qf_locale_<iso>_<script>` enumerate the per-language variants with locale-specific boosts. Adding an 8th curated language means adding one paramset, not editing every existing one |
 | P2.5 (`identifier_match`) | Identifiers are not multilingual | No conflict |
@@ -179,7 +177,7 @@ ANW-2229 is too large for one PR. **This branch lands Phase 1: spec foundation +
 
 ### Phase 1: Spec foundation & inventory document (this PR)
 
-Goal: Cover current behaviour with [characterization tests](https://lassala.net/2026/02/09/characterization-tests-a-way-into-legacy-code/) so we can proceed confident in phase 2; produce an inventory document to guide phase-2 implementation.
+Goal: Cover current behaviour with [characterization tests](https://lassala.net/2026/02/09/characterization-tests-a-way-into-legacy-code/) so we can proceed confident into Phase 2; produce an inventory document to guide Phase 2 implementation.
 
 **1. Indexer characterization specs** (assert current behaviour, do not change it)
 
@@ -203,19 +201,11 @@ Goal: Cover current behaviour with [characterization tests](https://lassala.net/
 Commit `docs/search_refactor_inventory.md` (path TBD per project convention). Two tables:
 
 - **Solr field map**: every field in `solr/schema.xml`. Columns: name, type, indexed, stored, multivalued, writer file:line, readers file:line, Arclight equivalent, disposition (drop / keep / change-analyzer / new search field).
-- **Linked-ticket → code path map**: for each linked ticket: file(s), field(s), and resolving phase. Makes phase-2 ticket-cutting mechanical.
+- **Linked-ticket → code path map**: for each linked ticket: file(s), field(s), and resolving phase. Makes Phase 2 ticket-cutting mechanical.
 
 ### Phase 2 (future tickets): relevance-query fixes
 
-Each maps to a linked ticket cluster with a direct Arclight precedent:
-
-- **`extract_string_values` removal + per-note-type search fields + `qf_default` paramset**: walker and the `fullrecord` / `fullrecord_published` synthetic fields are removed; `add_notes` is rewritten to emit per-note-type `*_tesim` search fields; default keyword search routes to a `qf_default` `<initParams>` paramset that enumerates source fields directly. Closes ANW-2657, ANW-201, ANW-1672.
-- **Identifier search**: `identifier_match` field type + `qf_identifier` paramset enumerating identifier-bearing fields directly. Closes ANW-290, ANW-1556, ANW-2071, ANW-2075.
-- **Punctuation handling**: `string_punct_stop` field type. Closes ANW-1686, ANW-308.
-- **Non-Roman scripts**: `ICUTokenizerFactory` + `ICUFoldingFilterFactory`. Closes ANW-1178; helps ANW-859 (with `mm=4<90%`).
-- **Highlighting**: make the existing `summary` field highlightable (flip it to `indexed=true`, add it to `hl.fl`) without changing `add_summary`'s logic or the displayed summary; drive the per-note highlights block from the published per-note-type `*_tesim` fields. Closes ANW-2315.
-- **Per-search-type `qf` groups as `solrconfig.xml` paramsets**: `qf_default` / `qf_identifier` / `qf_title` / `qf_name` / `qf_subject` / `qf_place` / `qf_container` declared as `<initParams>` blocks; backend selects via `useParams=<name>` instead of building `qf` strings. Per-locale boosts are paramsets `qf_locale_<iso>_<script>` composed onto the request. Closes ANW-2656; addresses per-field PUI advanced-search bugs. Absorbs MCTF §5.5.5 per-locale `qf` boost.
-- **Filter correctness**: `published_creators`, consistent `level` field. Closes ANW-262, ANW-1580; ANW-1102, ANW-862, ANW-1628 reassessed after.
+Phase 2 is eight sub-tickets, P2.1 through P2.8, each fixing a linked-ticket cluster with a direct Arclight precedent. They are specified in full under "Jira ticket breakdown" below (scope, dependencies, acceptance, closes). In outline: P2.1 builds the `solrconfig.xml` paramset infrastructure; P2.2-P2.4 add per-note-type search fields, route default keyword search to `qf_default`, and remove the `fullrecord` catchall; P2.5 adds the `identifier_match` field type; P2.6 adds the ICU analyzer, punctuation handling, and `mm`; P2.7 fixes highlighting; P2.8 fixes Creator / Level filter correctness.
 
 ## Verification (Phase 1)
 
@@ -241,9 +231,9 @@ The tree path is retained by scope (see "Tree display (Collection Overview / Col
 
 ## Jira ticket breakdown
 
-**Epic structure.** ANW-2229 is the Epic (description, comments, attachments, ASRM-27 link preserved). Sub-tickets become children. Existing linked tickets stay in their current state and close individually as phase-2 children close.
+**Epic structure.** ANW-2229 is the Epic (description, comments, attachments, ASRM-27 link preserved). Sub-tickets become children. Existing linked tickets stay in their current state and close individually as the Phase 2 children that fix them land.
 
-**Sprint sizing.** Each sub-ticket scoped to fit in one 3-week sprint. 🟡 = tight;
+**Sprint sizing.** Each sub-ticket is scoped to fit within one 3-week sprint; 🟡 marks a tight fit.
 
 **Summary of sub-tickets** (11 total; create per "Pending Jira admin actions" below):
 
@@ -271,7 +261,7 @@ One developer works these tickets sequentially. The table above is in suggested 
 - Acceptance: all specs pass against unchanged code; rubocop clean.
 - Closes: part of ANW-2229 spec deliverable.
 - MLC: add fixture variants with `lang_descriptions` for the 5 MLC-using record types (resource, accession, archival_object, digital_object, digital_object_component); assert `mlc_fields` shape, `*_<iso>_mlc` per-language emission, and language-suffixed tree-doc fan-out as currently shipped in PR #4046 (see "MLC coordination" section).
-- Sprint fit: 🟡 1 sprint (split into 1.1a core + 1.1b agents/auxiliary if squeezed).
+- Sprint fit: 🟡 1 sprint.
 
 **P1.2: Public Record + backend Solr query characterization specs**
 
@@ -284,7 +274,7 @@ One developer works these tickets sequentially. The table above is in suggested 
 
 - Scope: Commit `docs/search_refactor_inventory.md` with two tables (Solr field map, linked-ticket → code-path map).
 - Acceptance: every Solr field has writer + reader columns; every linked ticket has a row.
-- Closes: phase 1 documentation deliverable.
+- Closes: the Phase 1 inventory document (part of deliverable 1).
 - MLC: Solr field map enumerates `*_<iso>_mlc` dynamic fields and the 7 `text_<iso>` field types; the disposition column flags the target search-field name `*_<iso>_<script>_tesim` (per MCTF §5.5.1).
 - Sprint fit: 1 sprint.
 
@@ -298,7 +288,7 @@ One developer works these tickets sequentially. The table above is in suggested 
 - Closes: ANW-2656.
 - MLC: per-locale boosts are additional paramsets named `qf_locale_<iso>_<script>` (e.g. `qf_locale_fre_Latn`) carrying the locale-specific field weights (`title_fre_Latn_tesim^3`, `finding_aid_title_fre_Latn_tesim^2`). The backend appends the locale paramset when the request carries an active locale matching one of the seven curated languages. `useParams=qf_default,qf_locale_fre_Latn` is the composed form. This absorbs the MCTF §5.5.5 per-locale `qf` boost work.
 - Touches: `solr/solrconfig.xml` (paramset declarations), `backend/app/model/solr.rb` (paramset selection logic), `backend/spec/model_solr_spec.rb` (P1.2 spec assertions update from per-request `qf` strings to per-request `useParams` selections), `frontend/app/views/.../linker.html.erb` + `linker.js` (linker-type propagation).
-- Sprint fit: 🟡 1 sprint (split into 2.1a `solrconfig.xml` paramsets + backend selection + 2.1b linker propagation if needed).
+- Sprint fit: 🟡 1 sprint.
 
 The walker removal / `qf_default` routing work is too large for one sprint, so it is split into three sub-tickets that each land in a self-consistent state: P2.2 adds the new fields (additive), P2.3 moves search onto them, P2.4 removes the now-unused catchall.
 
@@ -325,7 +315,7 @@ The walker removal / `qf_default` routing work is too large for one sprint, so i
 - Depends on: P2.3 (search no longer touches the catchall).
 - Scope: remove `IndexerCommon.extract_string_values` (`indexer/app/lib/indexer_common.rb:140-207`) and `IndexerCommon.build_fullrecord` (`:210-214`), and the PUI indexer's parallel `build_fullrecord` override (`indexer/app/lib/pui_indexer.rb:94-122`, which makes its own `extract_string_values` call). Drop the `fullrecord`, `fullrecord_published`, `notes`, and `notes_published` field declarations and the `notes_published`→`notes` `<copyField>` from `solr/schema.xml`. (`large_tree_doc_indexer.rb` needs no change - its `tree_root` / `tree_waypoint` / `tree_node` docs never call the walker.)
 - Acceptance: the walker and the catchall fields are absent; a full reindex succeeds; index size after reindex is measurably smaller (catchall storage gone); the P2.3 search specs still pass.
-- Closes: completes the ANW-2657 / ANW-201 / ANW-1672 cleanup.
+- Closes: nothing on its own - ANW-2657 / ANW-201 / ANW-1672 are closed by P2.3; this ticket is the catchall-field cleanup.
 - Sprint fit: 1 sprint (likely less).
 
 **P2.5: `identifier_match` field type + `qf_identifier` paramset**
@@ -413,11 +403,11 @@ The walker removal / `qf_default` routing work is too large for one sprint, so i
 
 - 🔴 **X.1: Block-join hierarchy migration.** `_root_` / `_nest_parent_` / `_nest_path_` to drop `RecordInheritance.merge` and the ancestor-array denormalisation on every component doc, with optional knock-on simplification of `large_tree_doc_indexer`'s waypoint hack. Multi-sprint; needs spike + design doc; reframe as its own Epic.
 - **X.2: ANW-902** (PUI indexer occasionally drops AOs from new EADs). Separate investigation; likely race / transaction-boundary bug.
-- **X.3: Minor PUI tickets to re-evaluate after phase 2**: ANW-1102, ANW-862, ANW-1628. Reassess against new schema before scoping.
+- **X.3: Minor PUI tickets to re-evaluate after Phase 2**: ANW-1102, ANW-862, ANW-1628. Reassess against new schema before scoping.
 - **X.4: Drop the JSON display blob.** Replacing the blob with explicit per-field stored display fields and rewriting `public/app/models/record.rb` was an earlier deliverable of this epic; it has been removed from scope. The blob is retained. If revisited, it is a separate effort.
 
 ### Pending Jira admin actions (run after plan approval, before sub-tickets are created)
 
 1. ~~**Convert ANW-2229 from Task → Epic.**~~ ✅ Done.
-2. ~~**Apply cluster-prefix titles** to all four linked-ticket clusters.~~ ✅ Done. 16 tickets renamed (ANW-2657, ANW-1672, ANW-201; ANW-290, ANW-1556, ANW-2071, ANW-2075; ANW-308, ANW-1686, ANW-859, ANW-1178; ANW-262, ANW-1580, ANW-1102, ANW-862, ANW-1628).
+2. ~~**Apply cluster-prefix titles** to the four multi-ticket clusters (Unexplainable matches, Identifier search, Analyzer chain, Filter correctness).~~ ✅ Done. 16 tickets renamed (ANW-2657, ANW-1672, ANW-201; ANW-290, ANW-1556, ANW-2071, ANW-2075; ANW-308, ANW-1686, ANW-859, ANW-1178; ANW-262, ANW-1580, ANW-1102, ANW-862, ANW-1628). The three single-ticket clusters (Highlighting / ANW-2315, Typeahead / ANW-2656, Indexer reliability / ANW-902) were not prefix-renamed.
 3. **Create the 11 sub-tickets** from the breakdown above (P1.1, P1.2, P1.3; P2.1, P2.2, P2.3, P2.4, P2.5, P2.6, P2.7, P2.8) with `Epic Link = ANW-2229`.
