@@ -210,14 +210,13 @@ All new specs must pass against unchanged production code; they characterise exi
 
 ## Verification (Phase 2)
 
-Each Phase 2 PR is verified on a freshly reindexed dataset, against a multi-level resource (a collection with series / sub-series / file / item):
+The Phase 2 regression checks are **automated as specs**, not run as a manual per-PR checklist. Three specs are written in Phase 1 (under P1.2, against current code, so they pass from the start) and then guard every Phase 2 PR in CI:
 
-- **Collection Overview** (the resource show page) renders: title, notes, dates, agents, extents.
-- **Collection Organization** (the hierarchical tree) renders: the tree expands, waypoints load, node levels display, and deep links to components resolve.
-- Keyword search still returns the resource and its components; the linked-ticket reproduction for the PR's cluster passes.
-- `./build/run public:test` feature specs covering the resource tree pass; add one if coverage is missing.
+- **Collection Overview feature spec** (`public/spec/features/`): on a reindexed fixture, load a resource show page and assert it renders title, notes, dates, agents, and extents. Locks the resource show page against search-field changes.
+- **Collection Organization tree feature spec** (`public/spec/features/`): load the hierarchical tree of a multi-level resource (a collection with series / sub-series / file / item) and assert the tree expands, waypoints load, node levels display, and a deep link to a component resolves. Extend the existing `collection_organization_infinite_tree_uri_fragment_spec.rb` rather than starting fresh.
+- **Keyword-search regression spec** (`backend/spec/model_solr_spec.rb`, plus a PUI search feature spec where browser-level coverage is needed): assert a keyword search returns a fixture resource and its components. This locks "the record stays findable"; the per-cluster behaviour *changes* (e.g. subject-URI fragments no longer matching after P2.2-P2.4) are covered by each P2.x ticket's own Acceptance criteria.
 
-The tree path is retained by scope (see "Tree display (Collection Overview / Collection Organization) is unaffected"), so these checks are a regression guard, not a migration step.
+Each Phase 2 PR runs against a freshly reindexed dataset; the pass/fail signal is the CI spec run, not manual inspection. The tree path is retained by scope (see "Tree display (Collection Overview / Collection Organization) is unaffected"), so these specs are regression guards, not migration steps.
 
 ## Jira ticket breakdown
 
@@ -230,7 +229,7 @@ The tree path is retained by scope (see "Tree display (Collection Overview / Col
 | Ticket | Title | Depends on | Closes | Sprint fit |
 | --- | --- | --- | --- | --- |
 | P1.1 | Indexer characterization specs | - | ANW-2229 spec deliverable | 🟡 1 |
-| P1.2 | Public Record + backend Solr query specs | - | ANW-2229 spec deliverable | 1 |
+| P1.2 | Public Record + backend Solr query specs + Phase 2 regression specs | - | ANW-2229 spec deliverable | 🟡 1 |
 | P1.3 | Search-refactor inventory document | - | ANW-2229 docs deliverable | 1 |
 | P2.1 | Per-search-type `qf` paramsets in `solrconfig.xml` | Phase 1 | ANW-2656 | 🟡 1 |
 | P2.2 | Emit per-note-type search fields (additive) | Phase 1 | (enabling step) | 1 |
@@ -255,16 +254,16 @@ One developer works these tickets sequentially. The table above is in suggested 
 
 **P1.2: Public Record + backend Solr query characterization specs**
 
-- Scope: New `public/spec/models/record_spec.rb` + per-subclass specs for 9 PUI record types. Stub `solr_result` fixtures, assert `@json[...]` reads + accessor outputs. Extend `backend/spec/model_solr_spec.rb` for `qf`/`pf`/`defType`/`fq`/facet shape on keyword + advanced + match-all entry points.
-- Acceptance: 9 PUI types covered; backend Solr specs lock current behaviour.
+- Scope: New `public/spec/models/record_spec.rb` + per-subclass specs for 9 PUI record types. Stub `solr_result` fixtures, assert `@json[...]` reads + accessor outputs. Extend `backend/spec/model_solr_spec.rb` for `qf`/`pf`/`defType`/`fq`/facet shape on keyword + advanced + match-all entry points. Add the three Phase 2 regression specs (see "Verification (Phase 2)"): a Collection Overview show-page feature spec, a Collection Organization tree feature spec (extending `collection_organization_infinite_tree_uri_fragment_spec.rb`), and a keyword-search-returns-resource-and-components spec - all written against current code so they pass from the start and then guard every Phase 2 PR in CI.
+- Acceptance: 9 PUI types covered; backend Solr specs lock current behaviour; the three Phase 2 regression specs pass against current code.
 - Closes: part of ANW-2229 spec deliverable; regression baseline for the PUI read path (retained through this project).
-- Sprint fit: 1 sprint.
+- Sprint fit: 🟡 1 sprint.
 
 **P1.3: Search-refactor inventory document**
 
 - Scope: Commit `docs/search_refactor_inventory.md` with two tables (Solr field map, linked-ticket → code-path map).
 - Acceptance: every Solr field has writer + reader columns; every linked ticket has a row.
-- Closes: the Phase 1 inventory document (part of deliverable 1).
+- Closes: produces the Phase 1 search-refactor inventory document.
 - MLC: Solr field map enumerates `*_<iso>_mlc` dynamic fields and the 7 `text_<iso>` field types; the disposition column flags the target search-field name `*_<iso>_<script>_tesim` (per MCTF §5.5.1).
 - Sprint fit: 1 sprint.
 
@@ -348,7 +347,10 @@ The walker removal / `qf_default` routing work is too large for one sprint, so i
 
 - Depends on: Phase 1.
 - Scope: Indexer adds `published_creators` (only published linked agents in creator role). `level` collapses its three writers (`indexer_common.rb:306, 529, 549`) into a single source of truth with consistent `otherlevel → other_level` substitution. Backend routes Creator + Level facet filters to the new fields.
-- Acceptance: PUI Creator filter excludes records whose only matching creator is unpublished; level facet matches displayed level.
+- Acceptance:
+  - Spec (`indexer/spec/indexer_common_spec.rb`): a record with one published and one unpublished linked agent in creator role emits `published_creators` containing only the published creator; the unpublished creator's sort name is absent from `published_creators` (but still present in `creators`).
+  - Spec (`indexer/spec/indexer_common_spec.rb`): a resource, an archival object, and a digital object each carrying `level='otherlevel'` with an `other_level` value all emit `doc['level']` equal to the resolved `other_level` string, written by the single consolidated writer - the previously divergent paths (`indexer_common.rb:306, 529, 549`) no longer disagree.
+  - Spec (`backend/spec/model_solr_spec.rb`): a Creator facet filter routes to `published_creators`, so filtering by an unpublished agent returns zero results; a Level facet filter routes to the consolidated `level` field, so facet bucket labels match the level shown on each record.
 - Closes: ANW-262, ANW-1580.
 - Sprint fit: 1 sprint.
 
