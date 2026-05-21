@@ -1,6 +1,6 @@
 <% define_template "name_corporate_entity", jsonmodel_definition(:name_corporate_entity) do |form| %>
   <div class="subrecord-form-fields">
-    
+
     <% disable_replace = false %>
 
     <%= form.record_level_merge_controls(form, "name_corporate_entity", true, !disable_replace) %>
@@ -26,7 +26,7 @@
     <hr/>
     <%= form.label_and_merge_select("qualifier", "", {:disable_replace => disable_replace}) %>
     <%= form.label_and_readonly "sort_name" %>
-    
+
     <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["use_dates"], :section_title => t("agent_name.use_dates"), :section_id => "merge_candidate_name_use_dates", :heading_size => "h4"} %>
 
     <%= render_aspace_partial :partial => "agent_parallel_names/show_inline", :locals => { :names => form.obj['parallel_names'], :section_id => "merge_candidate_parallel_names"} %>

@@ -2,11 +2,11 @@
     <div class="logo"><%= image_tag( record.resolved_repository['image_url'] || asset_path("ArchivesSpaceLogo_for_pdf.png") ) %></div>
     <div class="title-block">
 
-    <% if record.finding_aid['title'] %> 
+    <% if record.finding_aid['title'] %>
       <% title_string = record.finding_aid['title'] %>
     <% elsif record.finding_aid['filing_title'] %>
       <% title_string = record.finding_aid['filing_title'] %>
-    <% else %> 
+    <% else %>
       <% title_string = record.display_string %>
     <% end %>
 
@@ -38,7 +38,7 @@
 
     <p><%= record.finding_aid['edition_statement'] %></p>
     </div>
-    
+
     <% ASUtils.find_local_directories('public/views/_pdf_titlepage.html.erb').each do |template| %>
         <%= render(:template => ViewHelper.relative_plugin_view_path(template), :locals => {:record => record}) if File.exists?(template) %>
     <% end %>

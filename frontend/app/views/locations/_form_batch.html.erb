@@ -5,7 +5,7 @@
                                  :form => form,
                                  :record => @location) %>
 
-    <%= form.label_and_boolean "temporary_question", {}, false %> 
+    <%= form.label_and_boolean "temporary_question", {}, false %>
     <%= form.label_and_select "temporary", form.possible_options_for("temporary", true), :field_opts =>  { :disabled => true, :class => "location_temporary" } %>
       <hr/>
       <%= form.label_and_textfield "building", :required => !@is_batch_update %>
@@ -23,10 +23,10 @@
       <% form.push("owner_repo", form.obj["owner_repo"] || {}) do %>
     <%= render_aspace_partial :partial => "repositories/linker", :locals => {:form => form, :label => t("repository._singular")} %>
       <% end %>
-      <% if @is_batch_update %> 
-        <% @location_batch.record_uris.each do |uri| %> 
-          <%= form.hidden_input "record_uris[]", uri %> 
-        <% end %>    
+      <% if @is_batch_update %>
+        <% @location_batch.record_uris.each do |uri| %>
+          <%= form.hidden_input "record_uris[]", uri %>
+        <% end %>
       <% end %>
     </section>
   </fieldset>
