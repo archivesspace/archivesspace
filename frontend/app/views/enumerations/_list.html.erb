@@ -68,12 +68,12 @@
               <% else %>
                 <%= link_to t("actions.unset_default"), {:controller => :enumerations, :action => :set_default, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :value => nil}, :method => :post, :class=> "btn btn-sm btn-default" %>
               <% end %>
-              <% if enum_value['suppressed']  %>
+              <% if enum_value['suppressed'] %>
                 <%= link_to t("actions.unsuppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 0 }, :method => :post, :class=> "btn btn-sm btn-warning border-gray--secondary" %>
               <% elsif @enumeration['relationships'].length == 0 %>
                   <%= link_to t("actions.suppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 1 }, :method => :post, :class=> "btn btn-sm btn-warning border-gray--secondary" %>
               <% else %>
-                <%= link_to t("actions.suppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 1 }, :method => :post, :class=> "btn btn-sm btn-warning border-gray--secondary", :disabled => 'disabled'  %>
+                <%= link_to t("actions.suppress"), {:controller => :enumerations, :action => :update_value, :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], :suppressed => 1 }, :method => :post, :class=> "btn btn-sm btn-warning border-gray--secondary", :disabled => 'disabled' %>
               <% end %>
               <% if @enumeration['editable'] && !Array(@enumeration['readonly_values']).include?(enum_value['value']) %>
                 <% unless enum_value["suppressed"] %>

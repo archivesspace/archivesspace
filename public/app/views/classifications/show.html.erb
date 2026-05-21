@@ -28,7 +28,7 @@
         <% @results.records.each do |result| %>
           <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false, :heading_level => 3}} %>
         <% end %>
-        <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+        <%= render partial: 'shared/pagination', locals: {:pager  => @pager} %>
 
       <% end %>
     </div>

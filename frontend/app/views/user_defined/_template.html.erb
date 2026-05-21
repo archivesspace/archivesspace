@@ -14,14 +14,14 @@
       <%= form.label_and_date "date_3", {:label_opts => { :contextual => controller_name.singularize }, :field_opts => {:value => form.obj['date_3'].blank? ? "" : Date.strptime(form.obj['date_3'], "%Y-%m-%d")}} %>
       <%= form.label_and_textfield "string_1", {:label_opts => { :contextual => controller_name.singularize } } %>
       <%= form.label_and_textfield "string_2", {:label_opts => { :contextual => controller_name.singularize } } %>
-      <%= form.label_and_textfield "string_3", {:label_opts => { :contextual => controller_name.singularize } }  %>
-      <%= form.label_and_textfield "string_4", {:label_opts => { :contextual => controller_name.singularize } }  %>
-      <%= form.label_and_textarea "text_1", {:label_opts => { :contextual => controller_name.singularize } }  %>
-      <%= form.label_and_textarea "text_2", {:label_opts => { :contextual => controller_name.singularize } }  %>
-      <%= form.label_and_textarea "text_3", {:label_opts => { :contextual => controller_name.singularize } }  %>
-      <%= form.label_and_textarea "text_4", {:label_opts => { :contextual => controller_name.singularize } }  %>
-      <%= form.label_and_textarea "text_5", {:label_opts => { :contextual => controller_name.singularize } }  %>
-      <%= form.label_and_select "enum_1", form.possible_options_for("enum_1", true), {:label_opts => { :contextual => controller_name.singularize } }   %>
+      <%= form.label_and_textfield "string_3", {:label_opts => { :contextual => controller_name.singularize } } %>
+      <%= form.label_and_textfield "string_4", {:label_opts => { :contextual => controller_name.singularize } } %>
+      <%= form.label_and_textarea "text_1", {:label_opts => { :contextual => controller_name.singularize } } %>
+      <%= form.label_and_textarea "text_2", {:label_opts => { :contextual => controller_name.singularize } } %>
+      <%= form.label_and_textarea "text_3", {:label_opts => { :contextual => controller_name.singularize } } %>
+      <%= form.label_and_textarea "text_4", {:label_opts => { :contextual => controller_name.singularize } } %>
+      <%= form.label_and_textarea "text_5", {:label_opts => { :contextual => controller_name.singularize } } %>
+      <%= form.label_and_select "enum_1", form.possible_options_for("enum_1", true), {:label_opts => { :contextual => controller_name.singularize } } %>
       <%= form.label_and_select "enum_2", form.possible_options_for("enum_2", true) , {:label_opts => { :contextual => controller_name.singularize } } %>
       <%= form.label_and_select "enum_3", form.possible_options_for("enum_3", true) , {:label_opts => { :contextual => controller_name.singularize } } %>
       <%= form.label_and_select "enum_4", form.possible_options_for("enum_4", true) , {:label_opts => { :contextual => controller_name.singularize } } %>

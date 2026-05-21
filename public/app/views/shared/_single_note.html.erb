@@ -3,7 +3,7 @@
    sub_heading_size = 'h3' if sub_heading_size.blank?
 %>
 
-<%  if !note_struct['note_text'].blank? %>
+<% if !note_struct['note_text'].blank? %>
     <div class="<%= type %> single_note" >
      <% unless defined?(notitle) &&  notitle %>
      <<%= heading_size %>><%= note_struct['label'] %></<%= heading_size %>>

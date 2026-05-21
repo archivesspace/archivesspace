@@ -2,7 +2,7 @@
   <div class='col-md-3'>
     <div id='archivesSpaceSidebar' class="sidebar d-flex position-sticky top-1rem">
       <ul class='nav as-nav-list d-flex flex-column'>
-        <% @info.keys.each do |key|  %>
+        <% @info.keys.each do |key| %>
           <li><a class="nav-link" href="#<%= key %>"><%= key.upcase %></a></li>
         <% end %>
       </ul>

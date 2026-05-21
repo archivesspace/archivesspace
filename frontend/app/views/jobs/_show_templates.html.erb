@@ -73,7 +73,7 @@
 <% define_template "container_labels_job", jsonmodel_definition(:container_labels_job) do |form, job| %>
 
     <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("actions.container_labels")  %></label>
+      <label class="col-sm-3 control-label text-right"><%= t("actions.container_labels") %></label>
       <div class="col-sm-9 controls label-only"><%= job['source'] %></div>
     </div>
 
@@ -107,12 +107,12 @@
 <% define_template "print_to_pdf_job", jsonmodel_definition(:print_to_pdf_job) do |form, job| %>
 
     <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("actions.resource_to_pdf")  %></label>
+      <label class="col-sm-3 control-label text-right"><%= t("actions.resource_to_pdf") %></label>
       <div class="col-sm-9 controls label-only"><%= job['source'] %></div>
     </div>
 
     <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("print_to_pdf_job.include_unpublished")  %></label>
+      <label class="col-sm-3 control-label text-right"><%= t("print_to_pdf_job.include_unpublished") %></label>
       <div class="col-sm-9 controls label-only"><%= t("boolean.#{job['include_unpublished']}") %></div>
     </div>
 
@@ -121,17 +121,17 @@
 <% define_template "bulk_import_job", jsonmodel_definition(:bulk_import_job) do |form, job| %>
 
     <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("actions.bulk_import")  %></label>
+      <label class="col-sm-3 control-label text-right"><%= t("actions.bulk_import") %></label>
       <div class="col-sm-9 controls label-only"><%= job['filename'].html_safe %></div>
     </div>
 
     <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("bulk_import_job.load_type")  %></label>
+      <label class="col-sm-3 control-label text-right"><%= t("bulk_import_job.load_type") %></label>
       <div class="col-sm-9 controls label-only"><%= t("bulk_import_job.type.#{job['load_type']}") %></div>
     </div>
 
     <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("bulk_import_job.content_type")  %></label>
+      <label class="col-sm-3 control-label text-right"><%= t("bulk_import_job.content_type") %></label>
       <div class="col-sm-9 controls label-only"><%= t("bulk_import_job.type.#{job['content_type']}") %></div>
     </div>
 
@@ -140,9 +140,9 @@
 <% define_template "report_job", jsonmodel_definition(:report_job) do |form, job| %>
 
     <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("report_job.report_type")  %></label>
+      <label class="col-sm-3 control-label text-right"><%= t("report_job.report_type") %></label>
       <div class="col-sm-9 controls label-only"><%= t("reports.#{job['report_type']}.title", :default => job['report_type']) %></div>
-      <label class="col-sm-3 control-label"><%= t("report_job.format")  %></label>
+      <label class="col-sm-3 control-label"><%= t("report_job.format") %></label>
       <div class="col-sm-9 controls label-only"><%= t("reports.formats.#{job['format']}", :default => job['format']) %></div>
     </div>
 
@@ -151,17 +151,17 @@
 <% define_template "top_container_linker_job", jsonmodel_definition(:top_container_linker_job) do |form, job| %>
 
     <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("actions.bulk_import")  %></label>
+      <label class="col-sm-3 control-label text-right"><%= t("actions.bulk_import") %></label>
       <div class="col-sm-9 controls label-only"><%= job['filename'].html_safe %></div>
     </div>
 
     <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("top_container_linker_job.load_type")  %></label>
+      <label class="col-sm-3 control-label text-right"><%= t("top_container_linker_job.load_type") %></label>
       <div class="col-sm-9 controls label-only"><%= t("top_container_linker_job.type.#{job['load_type']}") %></div>
     </div>
 
     <div class="form-group d-flex">
-      <label class="col-sm-3 control-label text-right"><%= t("top_container_linker_job.content_type")  %></label>
+      <label class="col-sm-3 control-label text-right"><%= t("top_container_linker_job.content_type") %></label>
       <div class="col-sm-9 controls label-only"><%= t("bulk_import_job.type.#{job['content_type']}") %></div>
     </div>
 
