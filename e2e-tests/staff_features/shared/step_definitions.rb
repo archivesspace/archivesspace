@@ -613,5 +613,5 @@ end
 
 Then 'the {string} record is listed in the New & Modified Records form' do |record|
   visit current_url
-    expect(find('#generated_uris .subrecord-form-fields').text).to include record
+  expect(find('#generated_uris .subrecord-form-fields').text).to include record
 end
