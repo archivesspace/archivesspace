@@ -11,7 +11,7 @@ Jira: <https://archivesspace.atlassian.net/browse/ANW-2229>. Status: Ready for I
 - per-field analyzer choices become impossible (the "analyzer chain" cluster);
 - the highlighter cannot return field-attributed snippets (the "highlighting / display" cluster).
 
-The refactor adopts the inverse position: **every searchable field is a real source solr field with an explicit name; relevance configuration enumerates those names directly** via named `<initParams>` paramsets in `solrconfig.xml` (P2.4); **fields not enumerated in any paramset are not searchable by default**. This goes one step further than Arclight, which keeps a `text` catchall fed by `<copyField>` (see "Reference: how Arclight does it", point 3). The allow-list becomes finite and reviewable; defects become attributable to a single source field; per-field decisions (analyzer, highlighting, publish-scope, facet routing) become possible. The `creators` / `published_creators` split in P2.6 follows the same principle on the facet/filter side: one field per (scope, publish-state) combination, no audience-mixing field doing double duty.
+The refactor adopts the inverse position: **every searchable field is a real source solr field with an explicit name; relevance configuration enumerates those names directly** via named `<initParams>` paramsets in `solrconfig.xml` (P2.1); **fields not enumerated in any paramset are not searchable by default**. This goes one step further than Arclight, which keeps a `text` catchall fed by `<copyField>` (see "Reference: how Arclight does it", point 3). The allow-list becomes finite and reviewable; defects become attributable to a single source field; per-field decisions (analyzer, highlighting, publish-scope, facet routing) become possible. The `creators` / `published_creators` split in P2.8 follows the same principle on the facet/filter side: one field per (scope, publish-state) combination, no audience-mixing field doing double duty.
 
 Two deliverables:
 
@@ -33,34 +33,34 @@ Notes:
 The linked tickets cluster into themes the current architecture makes hard to fix correctly:
 
 - **Unexplainable matches**: ANW-2657 (subject/term URIs in PUI hits), ANW-201 (top-container info leaks), ANW-1672 (agent contacts/events appear).
-  - A researcher types `45`, gets resource X, opens it, and sees no `45` anywhere in title / notes / dates / agents. The match is real: `45` appeared in a subject URI like `/subjects/45`, a top-container barcode, or an internal event ID, all swept into the searchable text by `extract_string_values`. ANW-2657 / ANW-201 / ANW-1672 are three flavours of the same root cause. P2.1a-c fix this by removing the walker and routing default keyword search to the `qf_default` paramset in `solrconfig.xml`, whose `qf` enumerates the searchable source fields explicitly; fields not listed (URIs, internal IDs, staff-only metadata) are excluded by omission rather than by mid-walk filtering.
+  - A researcher types `45`, gets resource X, opens it, and sees no `45` anywhere in title / notes / dates / agents. The match is real: `45` appeared in a subject URI like `/subjects/45`, a top-container barcode, or an internal event ID, all swept into the searchable text by `extract_string_values`. ANW-2657 / ANW-201 / ANW-1672 are three flavours of the same root cause. P2.2-P2.4 fix this by removing the walker and routing default keyword search to the `qf_default` paramset in `solrconfig.xml`, whose `qf` enumerates the searchable source fields explicitly; fields not listed (URIs, internal IDs, staff-only metadata) are excluded by omission rather than by mid-walk filtering.
   - All caused by `IndexerCommon.extract_string_values` (`indexer/app/lib/indexer_common.rb:140-207`) walking the entire record JSON and concatenating every string into `fullrecord_published`/`fullrecord`. The walker is type-blind, so URIs (`/subjects/45`), internal IDs, staff-only metadata, top-container barcodes, and agent contacts all flow into the search index alongside genuine content; researchers get hits they can't account for from any visible field on the record.
-  - **Fixed in P2.1a-c** by removing the walker entirely (along with the `fullrecord` and `fullrecord_published` synthetic fields it produced) and routing default keyword search to a `qf_default` paramset in `solrconfig.xml` whose `qf` enumerates the source fields explicitly. Fields not listed in any paramset's `qf` are not searchable by default; URIs / internal IDs / staff-only fields are excluded by omission (a finite, reviewable allow-list instead of an unbounded deny-list).
+  - **Fixed in P2.2-P2.4** by removing the walker entirely (along with the `fullrecord` and `fullrecord_published` synthetic fields it produced) and routing default keyword search to a `qf_default` paramset in `solrconfig.xml` whose `qf` enumerates the source fields explicitly. Fields not listed in any paramset's `qf` are not searchable by default; URIs / internal IDs / staff-only fields are excluded by omission (a finite, reviewable allow-list instead of an unbounded deny-list).
 
 - **Identifier search**: ANW-290, ANW-1556, ANW-2071, ANW-2075. IDs reach the index only through the `fullrecord` catchall and a coarse single-valued `identifier` field; partial / multi-part / "contains" semantics are broken. Multi-part identifiers like `MS-2024-001` don't match `MS2024001` or `MS 2024 001`; advanced search "Identifier contains" misses obvious substring matches; users typing a known catalogue number don't always find the record.
-  - **Fixed in P2.2** by adopting Arclight's `identifier_match` field type (WordDelimiterGraphFilter with `catenateAll=1`, which generates concatenated token variants at index time so any catenation matches any other), and by defining a `qf_identifier` paramset in `solrconfig.xml` that enumerates every identifier-bearing field (`id`, `ead_id`, `ref_id`, `component_id`, `digital_object_id`, `identifier_match`, `unitid_ssm`) with appropriate boosts; the identifier-context paramset is invoked via `useParams=qf_identifier`.
+  - **Fixed in P2.5** by adopting Arclight's `identifier_match` field type (WordDelimiterGraphFilter with `catenateAll=1`, which generates concatenated token variants at index time so any catenation matches any other), and by defining a `qf_identifier` paramset in `solrconfig.xml` that enumerates every identifier-bearing field (`id`, `ead_id`, `ref_id`, `component_id`, `digital_object_id`, `identifier_match`, `unitid_ssm`) with appropriate boosts; the identifier-context paramset is invoked via `useParams=qf_identifier`.
 
 - **Analyzer chain**: ANW-308 (brackets), ANW-1686 (ampersands), ANW-859 (partial matches), ANW-1178 (non-Roman scripts). Driven by the `text_general` analyzer in `solr/schema.xml` and the lack of per-field tokenization choices. The stock analyzer silently drops bracket characters (so `[2024]` becomes searchable as `2024` with no way to query the literal brackets), breaks facet-filter URLs on ampersands, defaults to `mm=1` (minimum should match = any-term) so multi-term queries return weak partial matches, and has no Unicode folding for Cyrillic / Arabic / Hebrew / Greek / CJK scripts.
-  - **Fixed in P2.3** by switching the field type backing `*_tesim` dynamic fields to `ICUTokenizerFactory` + `ICUFoldingFilterFactory` (covers all Unicode scripts), adding a `string_punct_stop` field type to treat `& : ; [ ]` as query-side stopwords where appropriate, and setting `mm=4<90%` (1-4 terms: all required; 5+ terms: 90%) on every paramset so short queries require all terms and long queries require 90%; the seven MLC per-language analyzer chains (PR #4046) apply to per-language `*_<iso>_<script>_tesim` fields independently.
+  - **Fixed in P2.6** by switching the field type backing `*_tesim` dynamic fields to `ICUTokenizerFactory` + `ICUFoldingFilterFactory` (covers all Unicode scripts), adding a `string_punct_stop` field type to treat `& : ; [ ]` as query-side stopwords where appropriate, and setting `mm=4<90%` (1-4 terms: all required; 5+ terms: 90%) on every paramset so short queries require all terms and long queries require 90%; the seven MLC per-language analyzer chains (PR #4046) apply to per-language `*_<iso>_<script>_tesim` fields independently.
 
 - **Highlighting / display**: ANW-2315 (note hits not highlighted in summary). `summary` is derived from `notes` by picking one specific note at index time - first abstract, else first scopecontent. Everything else (bioghist, accessrestrict, processinfo, custodhist, …) is ignored. The chosen note is stored in doc['summary'] which is indexed="false" - the highlighter cannot run against it.
-  - **Fixed in P2.5**
+  - **Fixed in P2.7**
     - (a) The existing `summary` field is made highlightable: `IndexerCommon.add_summary` and its note-selection logic (first abstract, else first scopecontent) are unchanged, the displayed summary is unchanged, and the only schema change is flipping `summary` from `indexed="false"` to `indexed="true"` with a text analyzer aligned to the searchable fields so Solr's highlighter can run against it. `summary` is added to `hl.fl` but to no `qf` paramset - display-and-highlight only, never a search target.
-    - (b) The separate result-list found in block is driven by the **published** per-note-type `*_tesim` fields P2.1a emits, so it attributes a match to the exact note it came from ("Found in: Biographical/Historical Note: …"). Only the published `<type>_tesim` fields go into the PUI `hl.fl`; the `<type>_unpublished_tesim` companions never do, so unpublished note text cannot leak into a highlight.
+    - (b) The separate result-list found in block is driven by the **published** per-note-type `*_tesim` fields P2.2 emits, so it attributes a match to the exact note it came from ("Found in: Biographical/Historical Note: …"). Only the published `<type>_tesim` fields go into the PUI `hl.fl`; the `<type>_unpublished_tesim` companions never do, so unpublished note text cannot leak into a highlight.
     - This means: a term highlights in the `summary` itself only when it occurs in the abstract/scopecontent the summary was built from; matches in any other published note appear in the per-note highlights block instead.
 
 - **Filter correctness**:
   - ANW-262 (PUI Creator filter includes unpublished creators),
     - The `creator` field mixes published and unpublished agents so filtering by Creator returns records whose only matching creator is unpublished (a privacy-relevant defect, since a researcher should never see references to suppressed agents).
-    - **Fixed in P2.6** by adding `published_creators` as a separate stored field (only published linked agents in creator role)
+    - **Fixed in P2.8** by adding `published_creators` as a separate stored field (only published linked agents in creator role)
   - ANW-1580 (level facet inaccurate),
     - The `level` field is written by three separate code paths (`indexer_common.rb:306, 529, 549`) with inconsistent `otherlevel → other_level` substitution, so facet counts diverge from the level displayed on each record.
-    - **Fixed in P2.6** by collapsing the three level writers into one with consistent substitution across resource / archival_object / digital_object;
+    - **Fixed in P2.8** by collapsing the three level writers into one with consistent substitution across resource / archival_object / digital_object;
   - the backend routes Creator and Level facet filters to the new fields.
-  - ANW-1102 / ANW-862 / ANW-1628 are reassessed against the new schema after P2.6 lands; they may close trivially or need a small follow-up.
+  - ANW-1102 / ANW-862 / ANW-1628 are reassessed against the new schema after P2.8 lands; they may close trivially or need a small follow-up.
 
 - **Typeahead relevancy**: ANW-2656. Linker typeaheads (Agent picker, Subject picker, Resource picker) don't prioritise the right fields: searching for "Smith" in the Agent linker returns records where "Smith" appears in notes, biographies, or addresses *before* records where "Smith" is the actual agent name, because the global `qf` weights titles and identifiers but not name fields specifically.
-  - **Fixed in P2.4** by defining per-search-type `qf` paramsets in `solrconfig.xml` (`qf_name`, `qf_subject`, `qf_title`, etc.) and propagating the linker type through to the backend (`linker.html.erb` + `linker.js`) so the right paramset applies: the Agent linker uses `qf_name` (prioritises name fields over notes), the Subject linker uses `qf_subject`, the Resource linker uses `qf_title` plus identifier weighting.
+  - **Fixed in P2.1** by defining per-search-type `qf` paramsets in `solrconfig.xml` (`qf_name`, `qf_subject`, `qf_title`, etc.) and propagating the linker type through to the backend (`linker.html.erb` + `linker.js`) so the right paramset applies: the Agent linker uses `qf_name` (prioritises name fields over notes), the Subject linker uses `qf_subject`, the Resource linker uses `qf_title` plus identifier weighting.
 
 - **Indexer reliability**: ANW-902 (PUI indexer occasionally drops AOs from new EADs). Symptom: components from a freshly imported EAD don't appear in PUI search until the next periodic reindex, suggesting a race condition or transaction-boundary bug in the incremental-update path. Not driven by schema shape, so handled separately as out-of-scope item X.2 rather than within an ANW-2229 phase.
 
@@ -94,8 +94,8 @@ This pattern is **left in place**. An earlier draft of this plan proposed replac
 
 The PUI renders two tree-related views for a resource - the **Collection Overview** (the resource show page) and the **Collection Organization** (the hierarchical finding-aid tree). Both must keep working after every Phase 2 change. They do, because none of the tree-rendering path is in scope:
 
-- **Tree docs never use the walker.** `large_tree_doc_indexer.rb` builds the `tree_root` / `tree_waypoint` / `tree_node` / `tree_node_from_root` docs; each carries only `id`, `uri`, `pui_parent_id`, `publish`, `primary_type`, `types`, and a `json` payload. It never calls `extract_string_values` or `build_fullrecord`, so P2.1c's walker removal is a no-op for tree docs. None of the fields tree docs use is dropped or re-analyzed by any P2.x ticket.
-- **The tree fetch is a URI lookup, not a relevance query, and is out of scope.** The PUI fetches tree docs via `get_raw_record(uri + '/tree/root')` and the `resources_controller.rb` `tree_root` / `tree_waypoint` / `tree_node` actions, which call `/search/records` - a lookup by record URI carrying no edismax `qf`. P2.4's paramset / `useParams` work (keyword / identifier / linker requests only) does not touch it. The tree views read the retained `json` blob and are in the "JSON-blob consumers (retained as-is)" list.
+- **Tree docs never use the walker.** `large_tree_doc_indexer.rb` builds the `tree_root` / `tree_waypoint` / `tree_node` / `tree_node_from_root` docs; each carries only `id`, `uri`, `pui_parent_id`, `publish`, `primary_type`, `types`, and a `json` payload. It never calls `extract_string_values` or `build_fullrecord`, so P2.4's walker removal is a no-op for tree docs. None of the fields tree docs use is dropped or re-analyzed by any P2.x ticket.
+- **The tree fetch is a URI lookup, not a relevance query, and is out of scope.** The PUI fetches tree docs via `get_raw_record(uri + '/tree/root')` and the `resources_controller.rb` `tree_root` / `tree_waypoint` / `tree_node` actions, which call `/search/records` - a lookup by record URI carrying no edismax `qf`. P2.1's paramset / `useParams` work (keyword / identifier / linker requests only) does not touch it. The tree views read the retained `json` blob and are in the "JSON-blob consumers (retained as-is)" list.
 - **Collection Overview is the resource show page**, fed by `/search/records` reading the retained `json` blob via `record.rb` - also retained.
 
 P1.1 adds characterization specs for the tree-doc indexer (real assertions on `tree_root` / `tree_waypoint` / `tree_node`); each Phase 2 PR is additionally verified against a reindexed multi-level resource (see "Verification (Phase 2)").
@@ -143,11 +143,11 @@ Both projects land coordinated changes to `solr/schema.xml`, `indexer/app/lib/in
 ### Unified design summary
 
 1. **One field-naming convention for searchable multilingual fields.** Every multilingual field that should be searchable becomes `<field>_<iso>_<script>_tesim` (indexed and stored; stored for the highlighter), with a `<field>_primary_tesim` companion populated from the record's primary language. Non-multilingual search fields use plain Blacklight suffixes (`identifier_ssim`, etc.). The 7 curated `<fieldType>` definitions (`text_eng`, `text_spa`, `text_fre`, `text_jpn`, `text_ger`, `text_ukr`, `text_dut`) and the `solr/lang/` stopword / contraction / stemdict files from MLC PR #4046 are kept unchanged.
-2. **No catchall; default search via paramset enumeration.** `IndexerCommon.extract_string_values` and the synthetic `fullrecord` / `fullrecord_published` fields are removed (this refactor's P2.1c). Default keyword search routes to a `qf_default` paramset whose `qf` enumerates the source fields directly, including per-language variants per record type. Per-locale paramsets (`qf_locale_<iso>_<script>`) layer locale-aware boosts on top via `useParams=qf_default,qf_locale_<active>`. MLC's reliance on the walker to funnel `mlc_fields` into `fullrecord` (MCTF §5.3) goes away with the walker; per-language search fields enter the index directly via the indexer's `document_prepare_hook`.
+2. **No catchall; default search via paramset enumeration.** `IndexerCommon.extract_string_values` and the synthetic `fullrecord` / `fullrecord_published` fields are removed (this refactor's P2.4). Default keyword search routes to a `qf_default` paramset whose `qf` enumerates the source fields directly, including per-language variants per record type. Per-locale paramsets (`qf_locale_<iso>_<script>`) layer locale-aware boosts on top via `useParams=qf_default,qf_locale_<active>`. MLC's reliance on the walker to funnel `mlc_fields` into `fullrecord` (MCTF §5.3) goes away with the walker; per-language search fields enter the index directly via the indexer's `document_prepare_hook`.
 3. **JSON blob retained.** The `json` display blob stays. The `mlc_fields` JSON key (built by `MultilingualContent::ClassMethods.attach_mlc_fields_to_jsons!`) remains in the record JSON and in the blob, used for display exactly as today. Per-language *searchable* content is additionally emitted into named `*_<iso>_<script>_tesim` Solr fields for the relevance query. Search and display are two separate representations; this project owns the search one only.
-4. **Tree docs.** PR #4046 introduced per-language tree-doc fan-out. Whether to collapse that into one tree-doc set per tree carrying every-language fields is an MLC decision (MCTF §5.5.3); it is not an ANW-2229 deliverable. ANW-2229's only interaction is that the walker removal (P2.1c) eliminates MLC's `extract_string_values` dependency in tree docs as well as single-record docs.
+4. **Tree docs.** PR #4046 introduced per-language tree-doc fan-out. Whether to collapse that into one tree-doc set per tree carrying every-language fields is an MLC decision (MCTF §5.5.3); it is not an ANW-2229 deliverable. ANW-2229's only interaction is that the walker removal (P2.4) eliminates MLC's `extract_string_values` dependency in tree docs as well as single-record docs.
 5. **PUI read path unchanged by ANW-2229.** ANW-2229 does not touch `record.rb` or the PUI display read path; MLC's locale-projection / language-header handling is MLC's own concern. There is no shared read-path helper to build here.
-6. **Per-locale `qf` boost merges with P2.4 as named paramsets.** MLC's per-locale boost work (formerly MCTF §5.5 bullet 2) is folded into ANW-2229 P2.4. P2.4 moves all relevance configuration (`qf` / `pf` / `mm` / `tie`) out of Ruby and into Solr's named `<initParams>` parameter sets in `solrconfig.xml`. Per-locale boosts are paramsets named `qf_locale_<iso>_<script>` (e.g. `qf_locale_fre_Latn`); the backend appends them via `useParams=qf_default,qf_locale_fre_Latn` when the request carries a curated active locale. No per-request `qf`/`pf` strings.
+6. **Per-locale `qf` boost merges with P2.1 as named paramsets.** MLC's per-locale boost work (formerly MCTF §5.5 bullet 2) is folded into ANW-2229 P2.1. P2.1 moves all relevance configuration (`qf` / `pf` / `mm` / `tie`) out of Ruby and into Solr's named `<initParams>` parameter sets in `solrconfig.xml`. Per-locale boosts are paramsets named `qf_locale_<iso>_<script>` (e.g. `qf_locale_fre_Latn`); the backend appends them via `useParams=qf_default,qf_locale_fre_Latn` when the request carries a curated active locale. No per-request `qf`/`pf` strings.
 
 ### Sub-ticket impact
 
@@ -155,12 +155,12 @@ Both projects land coordinated changes to `solr/schema.xml`, `indexer/app/lib/in
 |---|---|---|
 | P1.1 (indexer specs) | `mlc_fields`, per-language Solr fields, language-suffixed tree docs need fixtures with `lang_descriptions` to characterize | Add MLC-populated fixture variants for the 5 MLC-using record types (resource, accession, archival_object, digital_object, digital_object_component); assert `mlc_fields` shape, per-language emission, fan-out tree docs as currently shipped in PR #4046 |
 | P1.3 (inventory) | Solr field map must enumerate `*_<iso>_mlc` and the 7 `text_<iso>` types; blob-consumer map must include `mlc_fields` | Add MLC rows to both maps; flag the target search-field name (`*_<iso>_<script>_tesim`) in the disposition column |
-| P2.1a-c (per-note fields, `qf_default`, walker removal) | Per-language search fields must appear explicitly in `qf_default` (or in the per-locale paramsets that compose with it). No copyField glob; the source-field list is the contract. Replaces MLC's `extract_string_values` reliance | `qf_default` lists multilingual fields with their primary suffix (`title_primary_tesim`, etc.); the per-locale paramsets `qf_locale_<iso>_<script>` enumerate the per-language variants with locale-specific boosts. Adding an 8th curated language means adding one paramset, not editing every existing one |
-| P2.2 (`identifier_match`) | Identifiers are not multilingual | No conflict |
-| P2.3 (ICU + `mm`) | The 7 per-language analyzer chains apply to per-language `*_<iso>_<script>_tesim` fields. ICU + folding applies to the field type backing the generic `*_tesim` dynamic field. The two are independent | Preserve the 7 `text_<iso>` `<fieldType>` definitions and the `solr/lang/` files when restructuring schema; the new ICU-based `*_tesim` type is for non-multilingual text and for languages without curated chains |
-| P2.4 (per-search-type `qf`) | MLC's per-locale boost work merges into this ticket | All relevance config (`qf` / `pf` / `mm` / `tie`) moves into named `<initParams>` paramsets in `solrconfig.xml`. Per-locale boosts become paramsets `qf_locale_<iso>_<script>` composed via `useParams=qf_default,qf_locale_<active>` |
-| P2.5 (highlighting) | The `summary` may be built from a note in any language | Back the `summary` field with `text_icu` (ICU folding) so highlight tokenization works for non-Roman summaries; per-note-language analyzer refinement can come once MCTF §9 lands |
-| P2.6 (filter correctness) | No interaction | No conflict |
+| P2.1 (per-search-type `qf`) | MLC's per-locale boost work merges into this ticket | All relevance config (`qf` / `pf` / `mm` / `tie`) moves into named `<initParams>` paramsets in `solrconfig.xml`. Per-locale boosts become paramsets `qf_locale_<iso>_<script>` composed via `useParams=qf_default,qf_locale_<active>` |
+| P2.2-P2.4 (per-note fields, `qf_default`, walker removal) | Per-language search fields must appear explicitly in `qf_default` (or in the per-locale paramsets that compose with it). No copyField glob; the source-field list is the contract. Replaces MLC's `extract_string_values` reliance | `qf_default` lists multilingual fields with their primary suffix (`title_primary_tesim`, etc.); the per-locale paramsets `qf_locale_<iso>_<script>` enumerate the per-language variants with locale-specific boosts. Adding an 8th curated language means adding one paramset, not editing every existing one |
+| P2.5 (`identifier_match`) | Identifiers are not multilingual | No conflict |
+| P2.6 (ICU + `mm`) | The 7 per-language analyzer chains apply to per-language `*_<iso>_<script>_tesim` fields. ICU + folding applies to the field type backing the generic `*_tesim` dynamic field. The two are independent | Preserve the 7 `text_<iso>` `<fieldType>` definitions and the `solr/lang/` files when restructuring schema; the new ICU-based `*_tesim` type is for non-multilingual text and for languages without curated chains |
+| P2.7 (highlighting) | The `summary` may be built from a note in any language | Back the `summary` field with `text_icu` (ICU folding) so highlight tokenization works for non-Roman summaries; per-note-language analyzer refinement can come once MCTF §9 lands |
+| P2.8 (filter correctness) | No interaction | No conflict |
 | Out of scope X.1 (block-join) | Block-join's primary win is replacing `RecordInheritance.merge` and the ancestor-array denormalisation, not the multilingual collapse | Reframed: block-join is about ancestor inheritance, not languages |
 
 ### Migration sequencing
@@ -169,7 +169,7 @@ Coordinated landing order:
 
 1. **ANW-2229 Phase 1** (P1.1 / P1.2 / P1.3) lands first. Characterization specs cover the as-merged PR #4046 state (`mlc_fields`, `*_<iso>_mlc` fields, per-language tree-doc fan-out). Inventory captures both projects' fields. Locks the contract for both.
 2. **MLC search-field work** (successor to PR #4046, tracked under MCTF §5.6) lands the per-language searchable fields (`*_<iso>_<script>_tesim`, stored=true) and `_primary_tesim` companions. It does not need to coordinate on the JSON blob (retained) or remove `extract_string_values` (still ANW-2229's job).
-3. **ANW-2229 Phase 2** (the relevance-query fixes) lands. P2.1b routes default keyword search to `qf_default` and P2.1c removes `extract_string_values` (no catchall). P2.4 enumerates the per-language fields and the per-locale boost paramsets in `solrconfig.xml`.
+3. **ANW-2229 Phase 2** (the relevance-query fixes) lands. P2.3 routes default keyword search to `qf_default` and P2.4 removes `extract_string_values` (no catchall). P2.1 enumerates the per-language fields and the per-locale boost paramsets in `solrconfig.xml`.
 
 Each step lands in a self-consistent state. The reindex window is shared (one full reindex on the upgrade that ships steps 2 + 3).
 
@@ -241,9 +241,9 @@ The tree path is retained by scope (see "Tree display (Collection Overview / Col
 
 ## Jira ticket breakdown
 
-**Epic structure.** ANW-2229 is the Epic (description, comments, attachments, ASRM-27 link preserved). Sub-tickets become children. Existing linked tickets stay in their current state and close individually as phase-2 children land.
+**Epic structure.** ANW-2229 is the Epic (description, comments, attachments, ASRM-27 link preserved). Sub-tickets become children. Existing linked tickets stay in their current state and close individually as phase-2 children close.
 
-**Sprint sizing.** Each sub-ticket scoped to fit in one 3-week sprint. 🟡 = tight; 🔴 = larger than one sprint, must be split before assignment.
+**Sprint sizing.** Each sub-ticket scoped to fit in one 3-week sprint. 🟡 = tight;
 
 **Summary of sub-tickets** (11 total; create per "Pending Jira admin actions" below):
 
@@ -252,18 +252,18 @@ The tree path is retained by scope (see "Tree display (Collection Overview / Col
 | P1.1 | Indexer characterization specs | - | ANW-2229 spec deliverable | 🟡 1 |
 | P1.2 | Public Record + backend Solr query specs | - | ANW-2229 spec deliverable | 1 |
 | P1.3 | Search-refactor inventory document | - | ANW-2229 docs deliverable | 1 |
-| P2.4 | Per-search-type `qf` paramsets in `solrconfig.xml` | Phase 1 | ANW-2656 | 🟡 1 |
-| P2.1a | Emit per-note-type search fields (additive) | Phase 1 | (enabling step) | 1 |
-| P2.1b | Route default search to `qf_default`; publish scoping | P2.1a, P2.4 | ANW-2657, ANW-201, ANW-1672 | 🟡 1 |
-| P2.1c | Remove `extract_string_values` + catchall fields | P2.1b | (catchall cleanup) | 1 |
-| P2.2 | `identifier_match` field type + `qf_identifier` | P2.4 | ANW-290, ANW-1556, ANW-2071, ANW-2075 | 1 |
-| P2.3 | ICU analyzer + punctuation stopwords + `mm` | P2.4 | ANW-1178, ANW-1686, ANW-308, ANW-859 | 1 |
-| P2.5 | Highlight result-list summary + per-note highlights | P2.1a, P2.3 | ANW-2315 | 🟡 1 |
-| P2.6 | Filter correctness: published creators + level | Phase 1 | ANW-262, ANW-1580 | 1 |
+| P2.1 | Per-search-type `qf` paramsets in `solrconfig.xml` | Phase 1 | ANW-2656 | 🟡 1 |
+| P2.2 | Emit per-note-type search fields (additive) | Phase 1 | (enabling step) | 1 |
+| P2.3 | Route default search to `qf_default`; publish scoping | P2.1, P2.2 | ANW-2657, ANW-201, ANW-1672 | 🟡 1 |
+| P2.4 | Remove `extract_string_values` + catchall fields | P2.3 | (catchall cleanup) | 1 |
+| P2.5 | `identifier_match` field type + `qf_identifier` | P2.1 | ANW-290, ANW-1556, ANW-2071, ANW-2075 | 1 |
+| P2.6 | ICU analyzer + punctuation stopwords + `mm` | P2.1 | ANW-1178, ANW-1686, ANW-308, ANW-859 | 1 |
+| P2.7 | Highlight result-list summary + per-note highlights | P2.2, P2.6 | ANW-2315 | 🟡 1 |
+| P2.8 | Filter correctness: published creators + level | Phase 1 | ANW-262, ANW-1580 | 1 |
 
-Phase 1 tickets run in parallel. In Phase 2, P2.1a / P2.4 / P2.6 have only Phase-1 dependencies and can start first; P2.2 and P2.3 follow P2.4; P2.1b follows P2.1a + P2.4, then P2.1c follows P2.1b; P2.5 lands last (needs P2.1a and P2.3).
+One developer works these tickets sequentially. The table above is in suggested implementation order: the three Phase 1 tickets (any order between them), then Phase 2 as listed - P2.1 (paramset infrastructure) first, then the P2.2 → P2.3 → P2.4 chain, then P2.5, P2.6, P2.7, P2.8. The Depends-on column records the hard constraints; the listed order satisfies them all.
 
-### Phase 1 sub-tickets (3: can run in parallel)
+### Phase 1 sub-tickets (3)
 
 **P1.1: Indexer characterization specs**
 
@@ -288,69 +288,69 @@ Phase 1 tickets run in parallel. In Phase 2, P2.1a / P2.4 / P2.6 have only Phase
 - MLC: Solr field map enumerates `*_<iso>_mlc` dynamic fields and the 7 `text_<iso>` field types; the disposition column flags the target search-field name `*_<iso>_<script>_tesim` (per MCTF §5.5.1).
 - Sprint fit: 1 sprint.
 
-### Phase 2 sub-tickets (8: P2.4 is the foundation, then mostly parallel)
+### Phase 2 sub-tickets (8: implement in order, P2.1 first)
 
-**P2.4: Per-search-type `qf` groups as `solrconfig.xml` paramsets**
+**P2.1: Per-search-type `qf` groups as `solrconfig.xml` paramsets**
 
-- Depends on: Phase 1. **Foundation for P2.1b, P2.2, P2.3**: those tickets all add to or modify the paramset enumeration.
+- Depends on: Phase 1. **Foundation for P2.3, P2.5, P2.6**: those tickets all add to or modify the paramset enumeration.
 - Scope: relevance configuration moves from Ruby string-building (`backend/app/model/solr.rb:345-350`) into Solr server-side **named parameter sets** (`<initParams>`) declared in `solrconfig.xml`. **No catchall**: each paramset's `qf` enumerates its source fields directly, and fields not enumerated in any paramset are not searchable by default. Define paramsets `qf_default` / `qf_identifier` / `qf_title` / `qf_name` / `qf_subject` / `qf_place` / `qf_container`, each carrying its own `qf` / `pf` / `mm` / `tie` configuration. `qf_default` lists the cross-record-type defaults (titles, identifiers, repository, dates, agents, subjects, primary-language note text); per-context paramsets specialise. Backend per-request work shrinks to selecting which paramset(s) apply via `useParams=<name>[,<name>...]`; no per-request `qf`/`pf` strings are sent. `backend/app/model/solr.rb` is rewritten to emit `useParams` based on search context (default keyword / identifier / linker type / advanced-search field). `frontend/app/views/{resources,agents,subjects,…}/_linker.html.erb` and `linker.js` propagate the linker type so the backend picks the right paramset. Arclight's `solrconfig.xml` is the direct precedent. Match-all browse queries (`Solr::Query.create_match_all_query`) and URI-lookup requests (`/search/records`, used for record show pages and tree-doc fetches) are **not** given `useParams` - paramset selection applies only to edismax keyword / identifier / linker requests, so match-all browse and tree fetching are unaffected.
 - Acceptance: agent linker prioritises name hits; subject linker prioritises term hits; resource linker prioritises title + identifier; relevance changes ship by editing `solrconfig.xml` and reloading the core, no Ruby redeploy required; Solr response `params` echo confirms the merged paramset for each request.
 - Closes: ANW-2656.
 - MLC: per-locale boosts are additional paramsets named `qf_locale_<iso>_<script>` (e.g. `qf_locale_fre_Latn`) carrying the locale-specific field weights (`title_fre_Latn_tesim^3`, `finding_aid_title_fre_Latn_tesim^2`). The backend appends the locale paramset when the request carries an active locale matching one of the seven curated languages. `useParams=qf_default,qf_locale_fre_Latn` is the composed form. This absorbs the MCTF §5.5.5 per-locale `qf` boost work.
 - Touches: `solr/solrconfig.xml` (paramset declarations), `backend/app/model/solr.rb` (paramset selection logic), `backend/spec/model_solr_spec.rb` (P1.2 spec assertions update from per-request `qf` strings to per-request `useParams` selections), `frontend/app/views/.../linker.html.erb` + `linker.js` (linker-type propagation).
-- Sprint fit: 🟡 1 sprint (split into 2.4a `solrconfig.xml` paramsets + backend selection + 2.4b linker propagation if needed).
+- Sprint fit: 🟡 1 sprint (split into 2.1a `solrconfig.xml` paramsets + backend selection + 2.1b linker propagation if needed).
 
-The walker removal / `qf_default` routing work is too large for one sprint, so it is split into three sub-tickets that each land in a self-consistent state: P2.1a adds the new fields (additive), P2.1b moves search onto them, P2.1c removes the now-unused catchall.
+The walker removal / `qf_default` routing work is too large for one sprint, so it is split into three sub-tickets that each land in a self-consistent state: P2.2 adds the new fields (additive), P2.3 moves search onto them, P2.4 removes the now-unused catchall.
 
-**P2.1a: Emit per-note-type search fields alongside the catchall**
+**P2.2: Emit per-note-type search fields alongside the catchall**
 
 - Depends on: Phase 1.
 - Scope: rewrite `IndexerCommon.add_notes` (`indexer/app/lib/indexer_common.rb:268-274`) to emit, for each note type, a `<type>_tesim` field (published notes, markup stripped, `indexed=true stored=true` so the highlighter can use it) and a `<type>_unpublished_tesim` companion for staff-only content. No `*_html_tesm` display fields - note display continues to read the retained `json` blob. **Additive only**: the legacy `notes` / `notes_published` and the `fullrecord` / `fullrecord_published` catchall are left in place and still written, so search behaviour is unchanged. The indexer now writes both representations.
 - Acceptance: spec asserts each note type emits a populated `<type>_tesim` (published) and `<type>_unpublished_tesim` (unpublished) field with markup stripped; the legacy `notes` / `notes_published` / `fullrecord` fields are still populated; default keyword search behaviour is unchanged.
-- Closes: enabling step for P2.1b and P2.5; no linked ticket on its own.
+- Closes: enabling step for P2.3 and P2.7; no linked ticket on its own.
 - MLC: per-language note content is emitted into the per-language `*_<iso>_<script>_tesim` variants by the same `document_prepare_hook` (MCTF §5.5.2).
 - Sprint fit: 1 sprint.
 
-**P2.1b: Route default keyword search to `qf_default`; move publish scoping off the parallel catchall**
+**P2.3: Route default keyword search to `qf_default`; move publish scoping off the parallel catchall**
 
-- Depends on: P2.1a (per-note-type fields exist), P2.4 (paramset infrastructure).
-- Scope: route default keyword search to the `qf_default` paramset (declared via `<initParams>` in `solrconfig.xml`, P2.4) whose `qf` enumerates the source fields explicitly, including the per-note-type `*_tesim` fields. `backend/app/model/solr.rb` selects `qf_default` and the per-context paramsets via `useParams` instead of building a `qf` over `fullrecord`. Publish-status handling is rebuilt without the parallel-field workaround: PUI search applies `fq=publish:1` for record-level scoping and its paramsets list only the published `<type>_tesim` fields; a staff search context opts into the `<type>_unpublished_tesim` variants. After this ticket nothing queries `fullrecord` / `fullrecord_published` / `notes` / `notes_published`, although those fields still exist in the index.
+- Depends on: P2.1 (paramset infrastructure), P2.2 (per-note-type fields exist).
+- Scope: route default keyword search to the `qf_default` paramset (declared via `<initParams>` in `solrconfig.xml`, P2.1) whose `qf` enumerates the source fields explicitly, including the per-note-type `*_tesim` fields. `backend/app/model/solr.rb` selects `qf_default` and the per-context paramsets via `useParams` instead of building a `qf` over `fullrecord`. Publish-status handling is rebuilt without the parallel-field workaround: PUI search applies `fq=publish:1` for record-level scoping and its paramsets list only the published `<type>_tesim` fields; a staff search context opts into the `<type>_unpublished_tesim` variants. After this ticket nothing queries `fullrecord` / `fullrecord_published` / `notes` / `notes_published`, although those fields still exist in the index.
 - Acceptance: spec asserts subject URIs / internal IDs / container labels / agent contacts / event-record IDs do NOT match a default keyword search; note text remains matchable via the per-note-type fields; PUI search returns no unpublished record or note content; manual reproduction of ANW-2657 / ANW-201 / ANW-1672 fails.
 - Closes: ANW-2657, ANW-201, ANW-1672.
 - MLC: per-language fields become searchable by appearing in `qf_default` (their primary-language counterpart) and in the `qf_locale_<iso>_<script>` paramsets. No copyField glob; the source-field list across paramsets is the contract.
 - Sprint fit: 🟡 1 sprint.
 
-**P2.1c: Remove `extract_string_values` and the catchall fields**
+**P2.4: Remove `extract_string_values` and the catchall fields**
 
-- Depends on: P2.1b (search no longer touches the catchall).
+- Depends on: P2.3 (search no longer touches the catchall).
 - Scope: remove `IndexerCommon.extract_string_values` (`indexer/app/lib/indexer_common.rb:140-207`) and `IndexerCommon.build_fullrecord` (`:210-214`), and the PUI indexer's parallel `build_fullrecord` override (`indexer/app/lib/pui_indexer.rb:94-122`, which makes its own `extract_string_values` call). Drop the `fullrecord`, `fullrecord_published`, `notes`, and `notes_published` field declarations and the `notes_published`→`notes` `<copyField>` from `solr/schema.xml`. (`large_tree_doc_indexer.rb` needs no change - its `tree_root` / `tree_waypoint` / `tree_node` docs never call the walker.)
-- Acceptance: the walker and the catchall fields are absent; a full reindex succeeds; index size after reindex is measurably smaller (catchall storage gone); the P2.1b search specs still pass.
+- Acceptance: the walker and the catchall fields are absent; a full reindex succeeds; index size after reindex is measurably smaller (catchall storage gone); the P2.3 search specs still pass.
 - Closes: completes the ANW-2657 / ANW-201 / ANW-1672 cleanup.
 - Sprint fit: 1 sprint (likely less).
 
-**P2.2: `identifier_match` field type + `qf_identifier` paramset**
+**P2.5: `identifier_match` field type + `qf_identifier` paramset**
 
-- Depends on: P2.4 (paramset infrastructure).
+- Depends on: P2.1 (paramset infrastructure).
 - Scope: new `identifier_match` field type in `solr/schema.xml` (WordDelimiterGraphFilter with `catenateWords=1 catenateNumbers=1 catenateAll=1`); the indexer emits identifier sub-parts into `identifier_match` for resources, archival objects, accessions, digital objects, and digital object components. New `qf_identifier` paramset (declared via `<initParams>` in `solrconfig.xml`) enumerates identifier-bearing fields directly with appropriate boosts: `id^4 ead_id^3 ref_id^3 component_id^3 digital_object_id^3 identifier_match^4 unitid_ssm^2`. No `identifier_search` catchall. `backend/app/model/solr.rb` routes identifier-context searches via `useParams=qf_identifier`.
 - Acceptance: spec asserts multi-part IDs (e.g. `MS-2024-001` ↔ `MS2024001`) match in either catenation; advanced search "Identifier contains" passes for all flagged variants.
 - Closes: ANW-290, ANW-1556, ANW-2071, ANW-2075.
 - Sprint fit: 1 sprint.
 
-**P2.3: ICU analyzer chain + punctuation stopwords + `mm`**
+**P2.6: ICU analyzer chain + punctuation stopwords + `mm`**
 
-- Depends on: P2.4 (paramsets carry `mm`).
+- Depends on: P2.1 (paramsets carry `mm`).
 - Scope: introduce a new `text_icu` field type in `solr/schema.xml` based on `ICUTokenizerFactory` + `ICUFoldingFilterFactory`; redirect the `*_tesim` dynamic field declaration to use `text_icu` instead of `text_general`. Add a `string_punct_stop` field type for fields where `& : ; [ ]` should be treated as query-side stopwords (apply selectively). Set `mm=4<90%` on every paramset that drives a default-style keyword search (`qf_default`, `qf_title`, `qf_name`, etc.) so short queries require all terms and long queries require 90%.
 - Acceptance: spec coverage for ASCII-folded + ICU-folded + non-Roman searches (Cyrillic, Arabic, Hebrew, Greek, CJK); punctuation queries no longer 500 or silently drop; `mm=4<90%` confirmed on every keyword-style paramset.
 - Closes: ANW-1178, ANW-1686, ANW-308, ANW-859.
 - MLC: preserve the 7 `text_<iso>` `<fieldType>` definitions and the `solr/lang/` stopword / contraction / stemdict files from MLC PR #4046 unchanged. They apply to per-language `*_<iso>_<script>_tesim` fields, independent of the new `text_icu` type backing the generic `*_tesim` suffix. Records in non-curated languages fall through to `text_icu` and benefit from ICU folding without language-specific stemming.
 - Sprint fit: 1 sprint.
 
-**P2.5: Highlight search terms in the result-list summary and per-note highlights**
+**P2.7: Highlight search terms in the result-list summary and per-note highlights**
 
-- Depends on: P2.1a (emits the per-note-type `*_tesim` fields the highlights block highlights); P2.3 (so `summary` and the note fields share the `text_icu` analyzer; can ship earlier against `text_general` if needed).
+- Depends on: P2.2 (emits the per-note-type `*_tesim` fields the highlights block highlights); P2.6 (so `summary` and the note fields share the `text_icu` analyzer; can ship earlier against `text_general` if needed).
 - Scope:
-  - **Summary highlighting.** `IndexerCommon.add_summary` (`indexer_common.rb:311-324`) is unchanged: same note-selection logic (first `abstract`, else first `scopecontent`), same `doc['summary']` content, same displayed summary. Change the `summary` field (`solr/schema.xml:45`) from `indexed="false"` to `indexed="true"` (keep `stored="true" multiValued="false"`), backed by a text analyzer aligned to the searchable note fields (`text_icu` once P2.3 lands) so highlight tokenization matches search tokenization. `summary` is added to no `qf` paramset - display-and-highlight only, never a search target, so it does not affect matching or scoring and is not a search catchall. The result-list summary partial (`shared/_result_record_summary.html.erb`, rendered from `_result.html.erb`) renders the highlighted `summary` from Solr's `highlighting` response when present, falling back to the plain stored value. Summary content, note selection, and placement are unchanged; the only visible difference is `<span class="searchterm">` wrappers.
-  - **Per-note highlights section.** The separate highlights block in `public/app/views/shared/_result.html.erb` (lines 24-34) is driven by the per-note-type `*_tesim` search fields P2.1a emits, so it attributes a match to the exact note it came from ("Found in: Biographical/Historical Note: …"). **Only published notes are highlighted in the PUI**: the PUI `hl.fl` enumerates only the published per-note-type fields (`abstract_tesim`, `bioghist_tesim`, `scopecontent_tesim`, etc.); the `<type>_unpublished_tesim` companions are never placed in the PUI `hl.fl`, so unpublished note text cannot leak into a highlight snippet. (A staff search context may add the `_unpublished` fields to its own `hl.fl` if needed, consistent with P2.1a's `_unpublished` design.)
+  - **Summary highlighting.** `IndexerCommon.add_summary` (`indexer_common.rb:311-324`) is unchanged: same note-selection logic (first `abstract`, else first `scopecontent`), same `doc['summary']` content, same displayed summary. Change the `summary` field (`solr/schema.xml:45`) from `indexed="false"` to `indexed="true"` (keep `stored="true" multiValued="false"`), backed by a text analyzer aligned to the searchable note fields (`text_icu` once P2.6 lands) so highlight tokenization matches search tokenization. `summary` is added to no `qf` paramset - display-and-highlight only, never a search target, so it does not affect matching or scoring and is not a search catchall. The result-list summary partial (`shared/_result_record_summary.html.erb`, rendered from `_result.html.erb`) renders the highlighted `summary` from Solr's `highlighting` response when present, falling back to the plain stored value. Summary content, note selection, and placement are unchanged; the only visible difference is `<span class="searchterm">` wrappers.
+  - **Per-note highlights section.** The separate highlights block in `public/app/views/shared/_result.html.erb` (lines 24-34) is driven by the per-note-type `*_tesim` search fields P2.2 emits, so it attributes a match to the exact note it came from ("Found in: Biographical/Historical Note: …"). **Only published notes are highlighted in the PUI**: the PUI `hl.fl` enumerates only the published per-note-type fields (`abstract_tesim`, `bioghist_tesim`, `scopecontent_tesim`, etc.); the `<type>_unpublished_tesim` companions are never placed in the PUI `hl.fl`, so unpublished note text cannot leak into a highlight snippet. (A staff search context may add the `_unpublished` fields to its own `hl.fl` if needed, consistent with P2.2's `_unpublished` design.)
   - **Highlighting config (`solrconfig.xml`).** Replace the `hl.fl=*` wildcard with an explicit `hl.fl` listing `summary` plus the published per-note-type `*_tesim` fields. `hl.method` may move from `original` to `unified` for offset accuracy; optional.
   - **Locales.** Add `search_results.highlighting.<note-type>` keys (`common/locales/en.yml`) so each per-note-type highlight renders a human-readable label; the `Translation missing` skip filter in `_result.html.erb` then no longer hides note-type highlights.
 - Known limitation: a search term is highlighted in the `summary` only when it occurs in the note the summary was derived from (abstract or scopecontent); a match in any other published note does not appear in the summary but is surfaced by the per-note highlights block below it.
@@ -364,7 +364,7 @@ The walker removal / `qf_default` routing work is too large for one sprint, so i
 - MLC: the `summary` may be built from a note in any language; backing it with `text_icu` (per the scope above) keeps highlight tokenization correct for non-Roman summaries. Per-note-language analyzer refinement can follow once MCTF §9 lands.
 - Sprint fit: 🟡 1 sprint (summary highlighting + per-note highlights + locales).
 
-**P2.6: Filter correctness: published creators + consistent level field**
+**P2.8: Filter correctness: published creators + consistent level field**
 
 - Depends on: Phase 1.
 - Scope: Indexer adds `published_creators` (only published linked agents in creator role). `level` collapses its three writers (`indexer_common.rb:306, 529, 549`) into a single source of truth with consistent `otherlevel → other_level` substitution. Backend routes Creator + Level facet filters to the new fields.
@@ -378,9 +378,9 @@ The walker removal / `qf_default` routing work is too large for one sprint, so i
 
 - `solr/schema.xml`: current schema. Line 44 is the `json` display blob field (retained).
 - `indexer/app/lib/indexer_common.rb`
-  - `:140-207` `extract_string_values`: naive tree walker producing `fullrecord` content (removed in P2.1c).
-  - `:210-214` `build_fullrecord`: caller (removed in P2.1c).
-  - `:268-274` `add_notes`: calls the walker; rewritten in P2.1a to emit per-note-type `*_tesim` fields.
+  - `:140-207` `extract_string_values`: naive tree walker producing `fullrecord` content (removed in P2.4).
+  - `:210-214` `build_fullrecord`: caller (removed in P2.4).
+  - `:268-274` `add_notes`: calls the walker; rewritten in P2.2 to emit per-note-type `*_tesim` fields.
   - `:1235-1254` `sanitize_json`: strips agent contacts before serialising the blob (unchanged).
   - `:1256-1321` `index_records`: main per-record loop. Line 1280 is the `doc['json'] = …` site (unchanged).
   - `:52-83`, `:1034`, `:1039`: `add_indexer_initialize_hook`, `add_document_prepare_hook`, `add_extra_documents_hook`: plugin extension API to preserve.
@@ -398,7 +398,7 @@ The walker removal / `qf_default` routing work is too large for one sprint, so i
 - `public/app/models/solr_results.rb:6-46`: wrapper handing raw Solr hits to `Record.new`.
 - `public/app/controllers/{agents,objects,repositories}_controller.rb`, plus PUI models `classification.rb`, `accession.rb`, `resource.rb`: secondary consumers.
 - `public/app/services/archives_space_client.rb`: `get_raw_record` fetches records (including the `tree_root` / `tree_waypoint` / `tree_node` tree docs) by URI via `/search/records` and parses their `json` field.
-- `public/app/views/shared/_result.html.erb` and `shared/_result_record_summary.html.erb`: P2.5 makes the summary partial render the highlighted `summary` and drives the highlights block (`_result.html.erb` lines 24-34) from the published per-note-type `*_tesim` fields; the partials' blob reads are untouched.
+- `public/app/views/shared/_result.html.erb` and `shared/_result_record_summary.html.erb`: P2.7 makes the summary partial render the highlighted `summary` and drives the highlights block (`_result.html.erb` lines 24-34) from the published per-note-type `*_tesim` fields; the partials' blob reads are untouched.
 - Frontend (staff) does not parse `doc['json']` directly.
 
 **Tests (current coverage is thin):**
@@ -420,4 +420,4 @@ The walker removal / `qf_default` routing work is too large for one sprint, so i
 
 1. ~~**Convert ANW-2229 from Task → Epic.**~~ ✅ Done.
 2. ~~**Apply cluster-prefix titles** to all four linked-ticket clusters.~~ ✅ Done. 16 tickets renamed (ANW-2657, ANW-1672, ANW-201; ANW-290, ANW-1556, ANW-2071, ANW-2075; ANW-308, ANW-1686, ANW-859, ANW-1178; ANW-262, ANW-1580, ANW-1102, ANW-862, ANW-1628).
-3. **Create the 11 sub-tickets** from the breakdown above (P1.1, P1.2, P1.3; P2.1a, P2.1b, P2.1c, P2.2, P2.3, P2.4, P2.5, P2.6) with `Epic Link = ANW-2229`.
+3. **Create the 11 sub-tickets** from the breakdown above (P1.1, P1.2, P1.3; P2.1, P2.2, P2.3, P2.4, P2.5, P2.6, P2.7, P2.8) with `Epic Link = ANW-2229`.
