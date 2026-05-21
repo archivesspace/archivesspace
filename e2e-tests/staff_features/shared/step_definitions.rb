@@ -608,10 +608,10 @@ end
 When 'the user selects the first LCNAF importer search result' do
   wait_for_ajax
 
-    find('#results div.lcnaf-result button', match: :first).click
+  find('#results div.lcnaf-result button', match: :first).click
 end
 
 Then 'the {string} record is listed in the New & Modified Records form' do |record|
-    visit current_url
+  visit current_url
     expect(find('#generated_uris .subrecord-form-fields').text).to include record
 end
