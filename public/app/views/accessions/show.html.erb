@@ -21,53 +21,57 @@
       <%= render partial: 'shared/digital', locals: {record: @result} %>
     <% end %>
 
-  <% if @result.content_description %>
-    <h2><%= t('accession._public.section.content_description') %></h2>
-    <p><%= @result.content_description %></p>
-  <% end %>
-
-  <% if @result.acquisition_type %>
-    <h2><%= t('accession._public.section.acquisition_type') %></h2>
-    <p><%= @result.acquisition_type %></p>
-  <% end %>
-
-  <% if @result.provenance %>
-    <h2><%= t('accession._public.section.provenance') %></h2>
-    <p><%= @result.provenance %></p>
-  <% end %>
-
-  <% if @result.language %>
-    <h2><%= t('accession._public.section.language') %></h2>
-    <p><%= @result.language %></p>
-  <% end %>
-
-  <% if @result.script %>
-    <h2><%= t('accession._public.section.script') %></h2>
-    <p><%= @result.script %></p>
-  <% end %>
-
-  <h2><%= t('accession._public.section.restrictions_apply') %></h2>
-  <p><%= I18n.t("boolean.#{@result.restrictions_apply?}") %></p>
-
-  <% if @result.access_restrictions_apply? %>
-    <h2><%= t('accession._public.section.access_restrictions') %></h2>
-    <% if @result.access_restrictions_note %>
-      <p><%= @result.access_restrictions_note %></p>
-    <% else %>
-      <p><%= t("accession._public.section.access_restrictions_apply") %></p>
+    <% if @result.content_description %>
+      <h2><%= t('accession._public.section.content_description') %></h2>
+      <p><%= @result.content_description %></p>
     <% end %>
-  <% end %>
 
-  <% if @result.use_restrictions_apply? %>
-    <h2><%= t('accession._public.section.use_restrictions') %></h2>
-    <% if @result.use_restrictions_note %>
-      <p><%= @result.use_restrictions_note %></p>
-    <% else %>
-      <p><%= t("accession._public.section.use_restrictions_apply") %></p>
+    <% if @result.acquisition_type %>
+      <h2><%= t('accession._public.section.acquisition_type') %></h2>
+      <p><%= @result.acquisition_type %></p>
     <% end %>
-  <% end %>
 
-  <%= render partial: 'shared/record_innards' %>
+    <% if @result.provenance %>
+      <h2><%= t('accession._public.section.provenance') %></h2>
+      <p><%= @result.provenance %></p>
+    <% end %>
+
+    <% if @result.language %>
+      <h2><%= t('accession._public.section.language') %></h2>
+      <p><%= @result.language %></p>
+    <% end %>
+
+    <% if @result.script %>
+      <h2><%= t('accession._public.section.script') %></h2>
+      <p><%= @result.script %></p>
+    <% end %>
+
+    <h2><%= t('accession._public.section.restrictions_apply') %></h2>
+    <p><%= I18n.t("boolean.#{@result.restrictions_apply?}") %></p>
+
+    <% if @result.access_restrictions_apply? %>
+      <h2><%= t('accession._public.section.access_restrictions') %></h2>
+      <p>
+        <% if @result.access_restrictions_note %>
+          <%= @result.access_restrictions_note %>
+        <% else %>
+          <%= t("accession._public.section.access_restrictions_apply") %>
+        <% end %>
+      </p>
+    <% end %>
+
+    <% if @result.use_restrictions_apply? %>
+      <h2><%= t('accession._public.section.use_restrictions') %></h2>
+      <p>
+        <% if @result.use_restrictions_note %>
+          <%= @result.use_restrictions_note %>
+        <% else %>
+          <%= t("accession._public.section.use_restrictions_apply") %>
+        <% end %>
+      </p>
+    <% end %>
+
+    <%= render partial: 'shared/record_innards' %>
 
   </div>
 </div>

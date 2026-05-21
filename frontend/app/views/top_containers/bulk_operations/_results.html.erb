@@ -43,10 +43,10 @@
         <tr>
           <td>
             <% if multiselect %>
-            <label>
-              <span class="sr-only"><%= t("search_results.selected") %></span>
-              <%= check_box_tag "uri", container_json['uri'], false, :"data-display-string" => doc['title'], :"data-container-profile-uri" => doc['container_profile_uri_u_sstr'] %>
-            </label>
+              <label>
+                <span class="sr-only"><%= t("search_results.selected") %></span>
+                <%= check_box_tag "uri", container_json['uri'], false, :"data-display-string" => doc['title'], :"data-container-profile-uri" => doc['container_profile_uri_u_sstr'] %>
+              </label>
             <% else %>
               <%= radio_button_tag "linker-item", container_json["uri"], false, :"data-object" => container_json.to_json %>
             <% end %>
@@ -122,37 +122,41 @@
                 <% end %>
               </td>
             <% elsif field == 'exported_to_ils' %>
-              <% if container_json['exported_to_ils'].blank? %>
-                <td><%= t('search.top_container_mgmt.not_exported_to_ils') %></td>
-              <% else %>
-                <td><%= t('search.top_container_mgmt.exported_to_ils') %></td>
-              <% end %>
+              <td>
+                <% if container_json['exported_to_ils'].blank? %>
+                  <%= t('search.top_container_mgmt.not_exported_to_ils') %>
+                <% else %>
+                  <%= t('search.top_container_mgmt.exported_to_ils') %>
+                <% end %>
+              </td>
             <% elsif field == 'restricted' %>
-              <% if container_json['restricted'] %>
-                <td><%= t('search.top_container_mgmt.restricted') %></td>
-              <% else %>
-                <td><%= t('search.top_container_mgmt.not_restricted') %></td>
-              <% end %>
+              <td>
+                <% if container_json['restricted'] %>
+                  <%= t('search.top_container_mgmt.restricted') %>
+                <% else %>
+                  <%= t('search.top_container_mgmt.not_restricted') %>
+                <% end %>
+              </td>
             <% else %>
-                <td class="top-container-<%= field %>"><%= container_json[field] %></td>
+              <td class="top-container-<%= field %>"><%= container_json[field] %></td>
             <% end %>
           <% end %>
 
           <% if show_edit_actions %>
-          <td>
-            <div class="btn-group">
-              <%= link_to I18n.t("actions.view"),
+            <td>
+              <div class="btn-group">
+                <%= link_to I18n.t("actions.view"),
                     {:controller => :resolver, :action => :resolve_readonly, :uri => container_json["uri"]},
                     :class => "btn btn-sm btn-default #{'inline-tc-view-btn' if inline_actions}",
                     :"data-tc-uri" => (inline_actions ? container_json["uri"] : nil) %>
-              <% if can_edit %>
-                <%= link_to I18n.t("actions.edit"),
+                <% if can_edit %>
+                  <%= link_to I18n.t("actions.edit"),
                       {:controller => :resolver, :action => :resolve_edit, :uri => container_json["uri"]},
                       :class => "btn btn-sm btn-primary #{'inline-tc-edit-btn' if inline_actions}",
                       :"data-tc-uri" => (inline_actions ? container_json["uri"] : nil) %>
-              <% end %>
-            </div>
-          </td>
+                <% end %>
+              </div>
+            </td>
           <% end %>
         </tr>
       <% end %>
