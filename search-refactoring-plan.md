@@ -4,19 +4,9 @@
 
 Jira: <https://archivesspace.atlassian.net/browse/ANW-2229>. Status: Ready for Implementation. Implements roadmap idea **ASRM-27**.
 
-**Guiding principle: no catchall fields.** A *catchall* is a synthetic Solr field that aggregates content from many distinct sources into one searchable bag: the `fullrecord` / `fullrecord_published` tree-walk dump (`indexer_common.rb:140-207`), the `notes` / `notes_published` pair (the walker's narrower sibling, merged via `<copyField>` in `solr/schema.xml:36`), and any future field of the same shape. Catchalls are convenient (one field for edismax `qf` to weight) but structurally hostile to every defect class this refactor needs to fix:
-
-- matches lose their source attribution, so researchers get hits they can't explain (the "unexplainable matches" cluster);
-- publish-state and audience can't be cleanly scoped (the "filter correctness" cluster's privacy leaks);
-- per-field analyzer choices become impossible (the "analyzer chain" cluster);
-- the highlighter cannot return field-attributed snippets (the "highlighting / display" cluster).
+**Guiding principle: no catchall fields.** A *catchall* is a synthetic Solr field that aggregates content from many distinct sources into one searchable bag: the `fullrecord` / `fullrecord_published` tree-walk dump (`indexer_common.rb:140-207`), the `notes` / `notes_published` pair (the walker's narrower sibling, merged via `<copyField>` in `solr/schema.xml:36`), and any future field of the same shape. Catchalls are convenient (one field for edismax `qf` to weight) but structurally hostile to every issue this refactoring needs to fix - see "Linked-ticket clusters (motivation)".
 
 The refactor adopts the inverse position: **every searchable field is a real source solr field with an explicit name; relevance configuration enumerates those names directly** via named `<initParams>` paramsets in `solrconfig.xml` (P2.1); **fields not enumerated in any paramset are not searchable by default**. This goes one step further than Arclight, which keeps a `text` catchall fed by `<copyField>` (see "Reference: how Arclight does it", point 3). The allow-list becomes finite and reviewable; defects become attributable to a single source field; per-field decisions (analyzer, highlighting, publish-scope, facet routing) become possible. The `creators` / `published_creators` split in P2.8 follows the same principle on the facet/filter side: one field per (scope, publish-state) combination, no audience-mixing field doing double duty.
-
-Two deliverables:
-
-1. **Add spec coverage and a search-architecture inventory.**
-2. **Improve search relevance**: replace the catchall-field architecture (the `fullrecord` tree-walk dump and the `notes` catchall) with explicitly enumerated, per-field search configuration, and fix the linked search-defect tickets.
 
 Scope boundary:
 
