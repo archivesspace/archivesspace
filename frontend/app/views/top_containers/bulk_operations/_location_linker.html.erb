@@ -26,7 +26,7 @@
          data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.LOCATION_FACETS %>"
          data-selected="<%= selected_json %>"
          data-multiplicity="one"
-         data-types='<%= linkable_types.to_json %>'
+         data-types="<%= linkable_types.to_json %>"
   />
   <div class="input-group-append">
     <button

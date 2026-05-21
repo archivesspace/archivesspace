@@ -7,7 +7,7 @@
 
 <fieldset>
   <section id="basic_information" class="subrecord-form-section">
-    <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+    <h3 class="subrecord-form-heading-label d-flex py-2 align-items-center">
       <%= wrap_with_tooltip(
         t("agent._frontend.section.basic_information"),
         "section_headings.basic_information_tooltip",
@@ -45,7 +45,7 @@
 
   <% unless @agent.agent_type.to_s == "agent_software" %>
     <section id="record_control_information" class="agents-subsection subrecord-form-section">
-      <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+      <h3 class="subrecord-form-heading-label d-flex py-2 align-items-center">
         <%= wrap_with_tooltip(
           t("agent._frontend.section.record_control_information"),
           "section_headings.record_control_information_tooltip",
@@ -72,7 +72,7 @@
   <% end %>
 
   <section id="identity_information" class="agents-subsection subrecord-form-section">
-    <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+    <h3 class="subrecord-form-heading-label d-flex py-2 align-items-center">
       <%= wrap_with_tooltip(
         t("agent._frontend.section.identity_information"),
         "section_headings.identity_information_tooltip",
@@ -86,7 +86,7 @@
   </section>
 
   <section id="description_information"  class="agents-subsection subrecord-form-section">
-    <h3 class='subrecord-form-heading-label d-flex py-2 align-items-center'>
+    <h3 class="subrecord-form-heading-label d-flex py-2 align-items-center">
       <%= wrap_with_tooltip(
         t("agent._frontend.section.description_information"),
         "section_headings.description_information_tooltip",
@@ -124,9 +124,9 @@
 
   <% unless @agent.agent_type.to_s == "agent_software" %>
     <section id="relation_information" class="agents-subsection subrecord-form-section">
-      <h3 class='subrecord-form-heading-label'>
+      <h3 class="subrecord-form-heading-label">
         <% tooltip = t("section_headings.relation_information_tooltip") %>
-        <span title="" data-placement='auto' data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title='<%= tooltip %>'>
+        <span title="" data-placement="auto" data-html="true" data-delay="500" data-trigger="manual" data-template="<div class=&quot;tooltip archivesspace-help&quot;><div class=&quot;arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>" class="has-tooltip subrecord-form-heading-label" data-original-title="<%= tooltip %>">
           <%= t("agent._frontend.section.relation_information") %>
         </span>
       </h3>

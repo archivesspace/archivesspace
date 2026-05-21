@@ -16,7 +16,7 @@
            <% elsif subnote['_title'] %>
              <<%= sub_heading_size %>><%= subnote['_title'] %></<%= sub_heading_size %>>
            <% elsif subnote['_inline_label'] %>
-             <span class='inline-label'><%= subnote['_inline_label'] %></span>
+             <span class="inline-label"><%= subnote['_inline_label'] %></span>
            <% end %>
            <%= render partial: 'shared/note_content', locals: { :content => subnote['_text'], :is_inherited => note_struct['is_inherited'], :type => type, :calling_partial => calling_partial } %>
          </div>

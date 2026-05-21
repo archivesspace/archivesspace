@@ -32,14 +32,14 @@
                     <%= link_to( { :controller => :repositories, :action => :reorder,
                         :id => JSONModel(:repository).id_for(repository["uri"]),
                         :position => @repositories[i-1]["position"] } , :method => :post , :class=> "btn btn-sm btn-default position-up") do %>
-                      <span class='glyphicon glyphicon-arrow-up' />
+                      <span class="glyphicon glyphicon-arrow-up" />
                     <% end %>
                   <% end %>
                   <% unless i  == @repositories.length - 1 %>
                     <%= link_to({ :controller => :repositories, :action => :reorder,
                         :id => JSONModel(:repository).id_for(repository["uri"]),
                         :position => @repositories[i+1]["position"] } , :method => :post, :class=> "btn btn-sm btn-default position-down") do %>
-                      <span class='glyphicon glyphicon-arrow-down' />
+                      <span class="glyphicon glyphicon-arrow-down" />
                     <% end %>
                   <% end %>
                 </td>

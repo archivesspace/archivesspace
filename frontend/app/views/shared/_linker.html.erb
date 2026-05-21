@@ -67,20 +67,20 @@
              data-selected="<%= selected_json %>"
              data-multiplicity="<%= multiplicity %>"
              <% if multiplicity === "many" %>data-sortable="true"<% end %>
-             data-types='<%= linkable_types.to_json %>'
-             data-exclude='<%= exclude_ids.to_json %>'
+             data-types="<%= linkable_types.to_json %>"
+             data-exclude="<%= exclude_ids.to_json %>"
              aria-label="<%= t("agent.linker.link_title") %>"
       />
 
       <% if form.obj.has_key?('_resolved') %>
 
             <input type="text"
-              class='prelinker'
+              class="prelinker"
               name="<%= form.path %>[_resolved]"
               value="<%= selected_json %>" />
 
             <input type="text"
-              class='prelinker'
+              class="prelinker"
               name="<%= form.path %>[ref]"
               value="<%= form.obj["ref"] %>" />
 

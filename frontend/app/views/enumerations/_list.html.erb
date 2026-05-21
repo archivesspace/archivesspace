@@ -33,14 +33,14 @@
                 <%= link_to( { :controller => :enumerations, :action => :update_value,
                   :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"],
                   :position => enum_value["position"] - 1} , :method => :post , :class=> "btn btn-sm btn-default position-up") do %>
-                    <span class='glyphicon glyphicon-arrow-up' />
+                    <span class="glyphicon glyphicon-arrow-up" />
                 <% end %>
               <% end %>
               <% unless i  == @enumeration["enumeration_values"].length - 1 %>
                 <%= link_to({ :controller => :enumerations, :action => :update_value,
                   :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"],
                   :position => enum_value["position"] + 1} , :method => :post, :class=> "btn btn-sm btn-default position-down") do %>
-                    <span class='glyphicon glyphicon-arrow-down' />
+                    <span class="glyphicon glyphicon-arrow-down" />
                 <% end %>
               <% end %>
             </div>
@@ -85,8 +85,8 @@
           </td>
           <td>
             <% if @enumeration['relationships'].length > 0 and @enumeration['name'] != 'job_type' %>
-              <div class='enum-value-search' data-url="<%= url_for({:controller => :search, :action => :do_search, :aq =>
-                enumeration_advanced_query(@enumeration['relationships'], enum_value['value'] ) }) %>"><i class='spinner'></i>
+              <div class="enum-value-search" data-url="<%= url_for({:controller => :search, :action => :do_search, :aq =>
+                enumeration_advanced_query(@enumeration['relationships'], enum_value['value'] ) }) %>"><i class="spinner"></i>
               </div>
             <% end %>
           </td>
