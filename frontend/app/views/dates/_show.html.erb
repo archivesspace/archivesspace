@@ -19,7 +19,7 @@
             <div class="col-md-6">
               <!--https://www.pivotaltracker.com/story/show/41527633 -->
               <% if date['expression'] %>
-                <%= date['expression']%>
+                <%= date['expression'] %>
               <% elsif date['date_type'] === "single" %>
                 <%= date['begin'] %>
               <% elsif date['date_type'] %>
@@ -27,7 +27,7 @@
               <% end %>
             </div>
             <div class="col-md-3">
-              <% if date['certainty']%><%= t("enumerations.date_certainty.#{date['certainty']}", :default => date['certainty']) %><% end %>
+              <% if date['certainty'] %><%= t("enumerations.date_certainty.#{date['certainty']}", :default => date['certainty']) %><% end %>
             </div>
           </div>
         </div>

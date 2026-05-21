@@ -9,7 +9,7 @@
     <% if bread[:uri].blank? %>
       <%= process_mixed_content(crumb).html_safe %>
     <% else %>
-      <a href='<%=app_prefix(bread[:uri]) %>'>
+      <a href='<%= app_prefix(bread[:uri]) %>'>
     <%= process_mixed_content(crumb).html_safe %>
       </a>
     <% end %>

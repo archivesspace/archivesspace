@@ -45,7 +45,7 @@
         <% @result.extents.each do |extent| %>
           <dd>
             <%= inheritance(extent['_inherited']).html_safe %>
-            <%= extent['display']%>
+            <%= extent['display'] %>
           </dd>
         <% end %>
       </div>
@@ -65,12 +65,12 @@
     <% if @result.lang_materials %>
       <% @result.lang_materials.reject { |lm| inherited?(lm) }.each do |lang_material| %>
         <div>
-          <dt><%= t('resource._public.lang')%></dt>
+          <dt><%= t('resource._public.lang') %></dt>
           <dd><%= t('enumerations.language_iso639_2.' + lang_material['language']) %></dd>
         </div>
         <% unless lang_material['script'].blank? %>
           <div>
-            <dt><%= t('resource._public.script')%></dt>
+            <dt><%= t('resource._public.script') %></dt>
             <dd><%= t('enumerations.script_iso15924.' + lang_material['script']) %></dd>
           </div>
         <% end %>
@@ -79,7 +79,7 @@
       <% langmaterial_note = @result.note('langmaterial') %>
       <% if langmaterial_note && !langmaterial_note['note_text'].blank? && !inherited?(langmaterial_note) %>
         <div>
-          <dt><%= t('resource._public.lang')%></dt>
+          <dt><%= t('resource._public.lang') %></dt>
           <dd>
             <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>
           </dd>

@@ -4,7 +4,7 @@
     <div class="form-group required">
       <%= label_tag(:user_name, "#{t('request.user_name')} #{t('request.required')}" ,  :class => 'sr-only') %>
       <div class="input-group">
-        <%= text_field_tag :user_name, nil, :placeholder => t('request.user_name'), :class => "form-control"%>
+        <%= text_field_tag :user_name, nil, :placeholder => t('request.user_name'), :class => "form-control" %>
         <div class="input-group-append">
           <span class="input-group-text required"><%= t('request.required') %></span>
         </div>
@@ -30,7 +30,7 @@
     <div class="form-group honeypot">
       <span class="aria-hidden">
         <%= label_tag :comment %>
-        <%= text_field_tag :comment, nil, tabindex: '-1', :class => 'form-control'%>
+        <%= text_field_tag :comment, nil, tabindex: '-1', :class => 'form-control' %>
       </span>
     </div>
     <button type="submit" class="btn btn-primary action-btn noscript"><%= t('request.submit') %></button>

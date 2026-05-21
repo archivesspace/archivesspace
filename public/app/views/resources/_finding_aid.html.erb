@@ -42,7 +42,7 @@
     <h3><%= t('resource._public.finding_aid.revision') %> </h3>
     <ul>
     <% @result.finding_aid['revision'].each do |rev| %>
-      <li><em><%= rev['date']%>:</em> <%= rev['desc'] %></li>
+      <li><em><%= rev['date'] %>:</em> <%= rev['desc'] %></li>
     <% end %>
     </ul>
   <% end %>
