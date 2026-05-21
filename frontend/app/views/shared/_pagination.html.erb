@@ -23,7 +23,7 @@
                                      {:page => @search_data['this_page'] - 1},
                                      {:title => t("pagination.previous_label"), :class => 'page-link'}) %>
         </li>
-      <% else  %>
+      <% else %>
         <li class="disabled page-item"><a href="#" class='page-link'><%= t("pagination.previous").html_safe %></a></li>
       <% end %>
 

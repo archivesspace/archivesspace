@@ -10,7 +10,7 @@
                   <%= link_to strip_tags(crumb[0].to_s).gsub(/&amp;/,'&') , crumb[1] %>
                </li>
             <% else %>
-               <li class="active breadcrumb-item"><%= strip_tags( crumb[0].to_s).gsub(/&amp;/,'&')  %></li>
+               <li class="active breadcrumb-item"><%= strip_tags( crumb[0].to_s).gsub(/&amp;/,'&') %></li>
             <% end %>
          <% end %>
         <% if flash.key? :spawned_from_accession %>

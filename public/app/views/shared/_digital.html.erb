@@ -70,7 +70,7 @@
       <% end %>
     <% elsif !d_file['thumb'].blank? %>
       <div class="objectimage">
-        <img src="<%= d_file['thumb'] %>" alt="<%=  strip_mixed_content(d_file['caption'] || t('digital_object._public.thumbnail')) %>" />
+        <img src="<%= d_file['thumb'] %>" alt="<%= strip_mixed_content(d_file['caption'] || t('digital_object._public.thumbnail')) %>" />
       </div>
     <% end %>
   <% end %>

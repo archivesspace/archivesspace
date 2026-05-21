@@ -1,5 +1,5 @@
 <dl>
-  <% terms.each do |term|  %>
+  <% terms.each do |term| %>
     <dt><%= t("enumerations.subject_term_type.#{term['term_type']}") %></dt>
     <dd><%== process_mixed_content(term['term']) %></dd>
   <% end %>
