@@ -1,25 +1,27 @@
 <ul>
   <% instances.each do |uri, record| %>
-    <% if record.primary_type == 'archival_object' %>
-      <li>
+    <li>
+      <% if record.primary_type == 'archival_object' %>
+
         <% record.breadcrumb.each do |crumb| %>
           <% next if crumb[:uri].blank? %>
           <%= badge_for_type(crumb[:type]) %>
           <%= render partial: 'shared/mixed_content_link', locals: { :content => crumb[:crumb], :uri => crumb[:uri] } %>
-            |
-          <% end %>
-          <%= badge_for_type(record.primary_type) %>
-          <strong>
-            <%= render partial: 'shared/mixed_content_link', locals: { :content => record.display_string, :uri => uri } %>
-          </strong>
-        </li>
-    <% else %>
-        <li>
-          <%= badge_for_type(record.primary_type) %>
-          <strong>
-            <%= render partial: 'shared/mixed_content_link', locals: { :content => record.display_string, :uri => uri } %>
-          </strong>
-        </li>
-    <% end %>
+          |
+        <% end %>
+        <%= badge_for_type(record.primary_type) %>
+        <strong>
+          <%= render partial: 'shared/mixed_content_link', locals: { :content => record.display_string, :uri => uri } %>
+        </strong>
+
+      <% else %>
+
+        <%= badge_for_type(record.primary_type) %>
+        <strong>
+          <%= render partial: 'shared/mixed_content_link', locals: { :content => record.display_string, :uri => uri } %>
+        </strong>
+
+      <% end %>
+    </li>
   <% end %>
 </ul>
