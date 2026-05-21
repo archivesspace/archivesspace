@@ -219,6 +219,75 @@ describe "Bulk Import Mixins" do
     expect(note).not_to have_key('rights_restriction')
   end
 
+  it "will import a single access restriction type from t_accessrestrict_1" do
+    ao = create(:json_archival_object)
+    ao.save
+    hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
+            "t_accessrestrict_1" => "RestrictedSpecColl"}
+    handle_notes(ao, hash, false)
+    note = ao['notes'][0]
+    expect(note['rights_restriction']['local_access_restriction_type'])
+      .to eq(['RestrictedSpecColl'])
+  end
+
+  it "will import multiple access restriction types from t_accessrestrict_1 and t_accessrestrict_2" do
+    ao = create(:json_archival_object)
+    ao.save
+    hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
+            "t_accessrestrict_1" => "RestrictedSpecColl",
+            "t_accessrestrict_2" => "RestrictedCurApprSpecColl"}
+    handle_notes(ao, hash, false)
+    note = ao['notes'][0]
+    expect(note['rights_restriction']['local_access_restriction_type'])
+      .to contain_exactly('RestrictedSpecColl', 'RestrictedCurApprSpecColl')
+  end
+
+  it "will not create a second note when t_accessrestrict_2 is provided" do
+    ao = create(:json_archival_object)
+    ao.save
+    hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
+            "t_accessrestrict_1" => "RestrictedSpecColl",
+            "t_accessrestrict_2" => "RestrictedSpecColl"}
+    handle_notes(ao, hash, false)
+    expect(ao['notes'].length).to eq(1)
+  end
+
+  it "will skip a blank t_accessrestrict_2" do
+    ao = create(:json_archival_object)
+    ao.save
+    hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
+            "t_accessrestrict_1" => "RestrictedSpecColl",
+            "t_accessrestrict_2" => nil}
+    handle_notes(ao, hash, false)
+    note = ao['notes'][0]
+    expect(note['rights_restriction']['local_access_restriction_type'])
+      .to eq(['RestrictedSpecColl'])
+  end
+
+  it "does not apply accessrestrict dates to a subsequent note in the same row" do
+    ao = create(:json_archival_object)
+    ao.save
+    hash = {
+      "n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
+      "b_accessrestrict" => "2021-01-01", "e_accessrestrict" => "2021-12-31",
+      "n_prefercite" => "Preferred citation", "p_prefercite" => "1",
+    }
+    handle_notes(ao, hash, false)
+    prefercite = ao['notes'].find { |n| n['type'] == 'prefercite' }
+    expect(prefercite).not_to have_key('rights_restriction')
+  end
+
+  it "will import a single access restriction type from the legacy t_accessrestrict column" do
+    ao = create(:json_archival_object)
+    ao.save
+    hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
+            "t_accessrestrict" => "RestrictedSpecColl"}
+    handle_notes(ao, hash, false)
+    note = ao['notes'][0]
+    expect(note['rights_restriction']['local_access_restriction_type'])
+      .to eq(['RestrictedSpecColl'])
+  end
+
   after(:each) do
     @no_ead_json.delete
     @resource_json.delete

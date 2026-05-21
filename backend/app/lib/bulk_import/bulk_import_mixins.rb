@@ -290,38 +290,37 @@ module BulkImportMixins
 
   def handle_notes(ao, hash, dig_obj = false)
     @nh = NotesHandler.new
-    publish = ao.publish
     errs = []
-    notes_keys = hash.keys.grep(/^n_/)
-    if notes_keys
-      notes_keys.each do |key|
-        unless hash[key].nil?
-          content = hash[key]
-          type = key.match(/n_(.+)$/)[1]
-          if type == 'accessrestrict'
-            b_date = hash['b_accessrestrict']
-            e_date = hash['e_accessrestrict']
-            local_restriction = hash['t_accessrestrict']
-          end
-
-          normalize_boolean_column(hash, "p_#{type}")
-
-          pubnote = hash["p_#{type}"]
-
-          # ΝΟΤE: Publish is inherited from the archival object if not provided
-          pubnote = publish if pubnote.nil?
-
-          note_label = hash["l_#{type}"]
-          begin
-            note = @nh.create_note(type, note_label, content, pubnote, dig_obj, b_date, e_date, local_restriction)
-            ao.notes.push(note) if !note.nil?
-          rescue BulkImportException => bei
-            errs.push([bei.message])
-          end
-        end
+    hash.keys.grep(/^n_/).each do |key|
+      next if hash[key].nil?
+      content = hash[key]
+      type = key.match(/n_(.+)$/)[1]
+      extras = type == 'accessrestrict' ? accessrestrict_note_params(hash) : {}
+      pubnote = resolve_publish(hash, "p_#{type}", ao.publish)
+      note_label = hash["l_#{type}"]
+      begin
+        note = @nh.create_note(type, note_label, content, pubnote, dig_obj,
+                                extras[:b_date], extras[:e_date], extras[:local_restrictions])
+        ao.notes.push(note) if note
+      rescue BulkImportException => bei
+        errs.push([bei.message])
       end
     end
     errs
+  end
+
+  def accessrestrict_note_params(hash)
+    restrictions = hash.keys.grep(/^t_accessrestrict(_\d+)?$/).sort.filter_map { |k| hash[k] }
+    {
+      b_date: hash['b_accessrestrict'],
+      e_date: hash['e_accessrestrict'],
+      local_restrictions: restrictions.empty? ? nil : restrictions,
+    }
+  end
+
+  def resolve_publish(hash, column, default_publish)
+    normalize_boolean_column(hash, column)
+    hash[column].nil? ? default_publish : hash[column]
   end
 
   def test_exceptions(obj, what = "")
