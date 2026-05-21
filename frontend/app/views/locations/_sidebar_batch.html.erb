@@ -9,7 +9,7 @@
 
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'location', :property => :none, :anchor => 'location') %>
     <% if @is_batch_update %>
-      <li class="sidebar-entry-location"><a href='#'>Locations to Update:</a>
+      <li class="sidebar-entry-location"><a href="#">Locations to Update:</a>
         <ul>
           <% @location_batch.record_uris.each do |uri| %>
             <% url = "#{AppConfig[:frontend_proxy_url]}#{uri}" %>

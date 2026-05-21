@@ -250,7 +250,7 @@
 <%= form_tag(url_for(:controller => :search, :action => :advanced_search), :method => :get, :class => "advanced-search") do %>
   <%= hidden_field_tag "advanced", true %>
 
-  <div class="advanced-search-row-container" data-queries='<%= advanced_search_queries.to_json %>'></div>
+  <div class="advanced-search-row-container" data-queries="<%= advanced_search_queries.to_json %>"></div>
 
   <div class="d-flex align-items-center p-3">
     <div class="flex-grow-1">
