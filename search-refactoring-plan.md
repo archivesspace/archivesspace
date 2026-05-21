@@ -68,7 +68,7 @@ The linked tickets cluster into themes the current architecture makes hard to fi
 - The `json` blob (`schema.xml:44`) is **redundant for searching** but **essential for display**: it exists to let one Solr request carry enough data to render result lists and show pages, via **deserialization in the public UI** (`public/app/models/record.rb:19-25`). It is retained.
 - `fullrecord` and `fullrecord_published` are built by a **type-blind tree walk** (`indexer_common.rb:140-207`) that grabs every string in the record, including URIs and internal IDs. These are search catchalls and are removed by this project.
 
-### The serialize / deserialize pattern (retained, out of scope)
+### The serialize / deserialize pattern (retained)
 
 The indexer serializes each record to a JSON string at `indexer_common.rb:1280` (`doc['json'] = ASUtils.to_json(sanitize_json(values))`). On every search hit the public UI deserializes that string at `public/app/models/record.rb:19-25` (`@json = ASUtils.json_parse(solr_result['json'])`); ~480 lines of `record.rb` and per-type subclasses then read `@json[...]` directly.
 
@@ -190,10 +190,9 @@ Goal: Cover current behaviour with [characterization tests](https://lassala.net/
 
 **4. Inventory document**
 
-Commit `docs/search_refactor_inventory.md` (path TBD per project convention). Three tables:
+Commit `docs/search_refactor_inventory.md` (path TBD per project convention). Two tables:
 
 - **Solr field map**: every field in `solr/schema.xml`. Columns: name, type, indexed, stored, multivalued, writer file:line, readers file:line, Arclight equivalent, disposition (drop / keep / change-analyzer / new search field).
-- **JSON-blob consumer map**: every top-level key inside `doc['json']` that any consumer reads (for regular records and for the `tree_root` / `tree_waypoint` / `tree_node` tree docs), with file:line. Documents the blob read surface (retained, not modified by this project); supports the Public Record specs.
 - **Linked-ticket → code path map**: for each linked ticket: file(s), field(s), and resolving phase. Makes phase-2 ticket-cutting mechanical.
 
 ### Phase 2 (future tickets): relevance-query fixes
@@ -217,7 +216,7 @@ All new specs must pass against unchanged production code; they characterise exi
 - `./build/run public:test -Dspec="models/record_spec.rb"` (and per-type specs).
 - `./build/run rubocop` clean.
 - Manual sanity: bring up Solr + backend + indexer, index a fixture resource, dump one Solr doc with `curl 'http://localhost:8090/solr/archivesspace/select?q=*:*&rows=1&wt=json'`, spot-check field set matches new spec assertions.
-- Inventory review: every Solr field has writer + reader columns; every blob top-level key has a reader file:line; every linked Jira ticket has a row.
+- Inventory review: every Solr field has writer + reader columns; every linked Jira ticket has a row.
 
 ## Verification (Phase 2)
 
@@ -255,10 +254,10 @@ The tree path is retained by scope (see "Tree display (Collection Overview / Col
 
 **P1.3: Search-refactor inventory document**
 
-- Scope: Commit `docs/search_refactor_inventory.md` with three tables (Solr field map, JSON-blob consumer map, linked-ticket → code-path map).
-- Acceptance: every Solr field has writer + reader columns; every blob key has a reader file:line; every linked ticket has a row.
+- Scope: Commit `docs/search_refactor_inventory.md` with two tables (Solr field map, linked-ticket → code-path map).
+- Acceptance: every Solr field has writer + reader columns; every linked ticket has a row.
 - Closes: phase 1 documentation deliverable.
-- MLC: Solr field map enumerates `*_<iso>_mlc` dynamic fields and the 7 `text_<iso>` field types; blob-consumer map includes `mlc_fields`; disposition column flags the target search-field name `*_<iso>_<script>_tesim` (per MCTF §5.5.1).
+- MLC: Solr field map enumerates `*_<iso>_mlc` dynamic fields and the 7 `text_<iso>` field types; the disposition column flags the target search-field name `*_<iso>_<script>_tesim` (per MCTF §5.5.1).
 - Sprint fit: 1 sprint.
 
 ### Phase 2 sub-tickets (6: P2.4 is the foundation, then mostly parallel)
