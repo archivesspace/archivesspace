@@ -9,7 +9,7 @@ Feature: Assessment Delete
       And the user filters by text with the Assessment record
       And the user checks the checkbox of the Assessment
       And the user clicks on 'Delete'
-      And the user clicks on 'Delete Records'
+      And the user clicks on 'Delete Records' in the modal
      Then the 'Assessments' deleted message is displayed
       And the Assessment is deleted
 

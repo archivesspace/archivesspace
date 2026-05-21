@@ -90,6 +90,7 @@ module RegisterCustomFields
     :sortable => true)
   register_field('assessment', 'monetary_value_note', String)
   register_field('assessment', 'conservation_note', String)
+  register_field('assessment', 'reviewer', 'User')
 
   register_field('classification', 'description', String)
   register_field('classification', 'identifier', String,

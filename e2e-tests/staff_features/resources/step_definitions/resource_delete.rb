@@ -47,7 +47,3 @@ end
 Then 'the Resources page is displayed' do
   expect(find('h2').text).to have_text 'Resources'
 end
-
-Then 'the user is still on the Resource view page' do
-  expect(current_url).to include "resources/#{@resource_id}"
-end

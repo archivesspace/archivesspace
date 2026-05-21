@@ -9,27 +9,28 @@ function BulkContainerSearch($search_form, $results_container, $toolbar) {
   this.$results_container = $results_container;
   this.$toolbar = $toolbar;
 
-  this.setup_form();
-  this.setup_results_list();
-  // If there is any stored search parameters and we're still looking at the same repository, reload them
-  // when navigating or refreshing. Else wipe the stored search params.
-  if (
-    $('.repo-container > div > a').attr('href') ===
-    sessionStorage.getItem('currentRepository')
-  ) {
-    var data = sessionStorage.getItem('top_container_search_data');
-    if (data != null && data != undefined) {
-      var parsed_data = JSON.parse(data);
-      $.each(parsed_data, function (key, value) {
-        $('#' + key).val(value);
-      });
-      this.perform_search(parsed_data);
-      this.update_export_button(parsed_data);
+  if ($search_form && $search_form.length) {
+    this.setup_form();
+    if (
+      $('.repo-container > div > a').attr('href') ===
+      sessionStorage.getItem('currentRepository')
+    ) {
+      var data = sessionStorage.getItem('top_container_search_data');
+      if (data != null && data != undefined) {
+        var parsed_data = JSON.parse(data);
+        $.each(parsed_data, function (key, value) {
+          $('#' + key).val(value);
+        });
+        this.perform_search(parsed_data);
+        this.update_export_button(parsed_data);
+      }
+    } else {
+      sessionStorage.setItem('top_container_search_data', null);
+      sessionStorage.setItem('currentRepository', null);
     }
-  } else {
-    sessionStorage.setItem('top_container_search_data', null);
-    sessionStorage.setItem('currentRepository', null);
   }
+
+  this.setup_results_list();
 }
 
 BulkContainerSearch.prototype.setup_form = function () {
@@ -931,12 +932,8 @@ function BulkActionDelete(bulkContainerSearch) {
  * Initialise all special features on this page
  *
  */
-$(function () {
-  var bulkContainerSearch = new BulkContainerSearch(
-    $('#bulk_operation_form'),
-    $('#bulk_operation_results'),
-    $('.record-toolbar.bulk-operation-toolbar')
-  );
+AS.initBulkContainerOperations = function ($form, $results, $toolbar) {
+  var bulkContainerSearch = new BulkContainerSearch($form, $results, $toolbar);
 
   new BulkActionBarcodeRapidEntry(bulkContainerSearch);
   new BulkActionIndicatorRapidEntry(bulkContainerSearch);
@@ -946,4 +943,12 @@ $(function () {
   new BulkActionMultipleLocationUpdate(bulkContainerSearch);
   new BulkActionMerge(bulkContainerSearch);
   new BulkActionDelete(bulkContainerSearch);
+};
+
+$(function () {
+  AS.initBulkContainerOperations(
+    $('#bulk_operation_form'),
+    $('#bulk_operation_results'),
+    $('.record-toolbar.bulk-operation-toolbar')
+  );
 });

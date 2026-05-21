@@ -41,10 +41,7 @@ end
 When 'the user selects the Subject B from the search results in the modal' do
   within '.modal-content' do
     within '#tabledSearchResults' do
-      rows = all('tr', text: "subject_term_B_#{@uuid}")
-      expect(rows.length).to eq 1
-
-      rows.first.click
+      find('tr', text: "subject_term_B_#{@uuid}").click
     end
   end
 end

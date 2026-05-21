@@ -836,6 +836,12 @@ module Relationships
 
           if referent_model.find_relationship(relationship_name, true) && !opts[:system_generated]
             DB.increase_lock_version_or_fail(referent)
+            # The raw SQL bump above touches system_mtime but bypasses
+            # update_from_json, so the realtime indexer would otherwise only
+            # learn about the change on the next periodic indexer cycle.
+            # Notify it directly so derived fields on the referent's Solr doc
+            # (e.g. TopContainer.collection_uri_u_sstr) refresh immediately.
+            referent_model.fire_update(nil, referent) if referent_model.respond_to?(:fire_update)
           end
         end
       end

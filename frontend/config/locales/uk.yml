@@ -276,6 +276,11 @@ uk:
     manage_container_profiles: Керування профілями контейнерів
     manage_location_profiles: Керування профілями місцезнаходження
     manage_top_containers: Керування головними контейнерами
+    view_top_containers: Перегляд головних контейнерів
+    top_containers_for: "Головні контейнери для %{record_title}"
+    no_top_containers: Немає пов'язаних головних контейнерів
+    edit_top_container: Редагувати головний контейнер
+    view_top_container: Головний контейнер
     manage_enumerations: Керування списками контрольованих значень
     global_preferences: Глобальні налаштування
     global_settings: Глобальні налаштування
@@ -2074,6 +2079,7 @@ uk:
         create: Створити шаблон
         save: Зберегти шаблон
         search_usernames: Пошук імен користувачів
+        search_agent_persons: Пошук агентів-осіб
       messages:
         copied: Шаблон спеціального звіту скопійовано
         created: Шаблон спеціального звіту створено

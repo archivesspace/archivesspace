@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+# Stub Gemfile used by the VS Code Ruby LSP extension. The project's real
+# Gemfile pulls in backend/Gemfile, which depends on JRuby-only gems
+# (e.g. asutils) that cannot be loaded under MRI Ruby; ruby-lsp runs under
+# MRI, so it needs something else to point Bundler at.
+#
+# Wired up via `rubyLsp.bundleGemfile` in .vscode/settings.json. The Ruby
+# LSP extension runs `bundle install` / `bundle exec ruby-lsp` against this
+# file, so any gem the LSP (or its addons) needs to load has to be listed
+# here, not just installed globally.
+
+source 'https://rubygems.org'
+
+gem 'ruby-lsp', require: false
+gem 'rubocop', require: false
+gem 'debug', require: false
