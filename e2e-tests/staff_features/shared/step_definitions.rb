@@ -605,13 +605,13 @@ When 'the user checks {string} in the LCNAF Import form' do |string|
   end
 end
 
-When 'the user selects the first LCNAF importer search result' do  
-wait_for_ajax  
+When 'the user selects the first LCNAF importer search result' do
+  wait_for_ajax
 
-  find('#results div.lcnaf-result button', match: :first).click  
-end  
+    find('#results div.lcnaf-result button', match: :first).click
+end
 
-Then 'the {string} record is listed in the New & Modified Records form' do |record|  
-    visit current_url  
-    expect(find('#generated_uris .subrecord-form-fields').text).to include record  
-  end  
+Then 'the {string} record is listed in the New & Modified Records form' do |record|
+    visit current_url
+    expect(find('#generated_uris .subrecord-form-fields').text).to include record
+end
