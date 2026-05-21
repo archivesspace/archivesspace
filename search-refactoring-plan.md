@@ -32,7 +32,9 @@ Notes:
 
 The linked tickets cluster into themes the current architecture makes hard to fix correctly:
 
-- **Unexplainable matches**: ANW-2657 (subject/term URIs in PUI hits), ANW-201 (top-container info leaks), ANW-1672 (agent contacts/events appear). All caused by `IndexerCommon.extract_string_values` (`indexer/app/lib/indexer_common.rb:140-207`) walking the entire record JSON and concatenating every string into `fullrecord_published`/`fullrecord`. The walker is type-blind, so URIs (`/subjects/45`), internal IDs, staff-only metadata, top-container barcodes, and agent contacts all flow into the search index alongside genuine content; researchers get hits they can't account for from any visible field on the record.
+- **Unexplainable matches**: ANW-2657 (subject/term URIs in PUI hits), ANW-201 (top-container info leaks), ANW-1672 (agent contacts/events appear).
+  - A researcher types `45`, gets resource X, opens it, and sees no `45` anywhere in title / notes / dates / agents. The match is real: `45` appeared in a subject URI like `/subjects/45`, a top-container barcode, or an internal event ID, all swept into the searchable text by `extract_string_values`. ANW-2657 / ANW-201 / ANW-1672 are three flavours of the same root cause. P2.1 fixes this by removing the walker and routing default keyword search to the `qf_default` paramset in `solrconfig.xml`, whose `qf` enumerates the searchable source fields explicitly; fields not listed (URIs, internal IDs, staff-only metadata) are excluded by omission rather than by mid-walk filtering.
+  - All caused by `IndexerCommon.extract_string_values` (`indexer/app/lib/indexer_common.rb:140-207`) walking the entire record JSON and concatenating every string into `fullrecord_published`/`fullrecord`. The walker is type-blind, so URIs (`/subjects/45`), internal IDs, staff-only metadata, top-container barcodes, and agent contacts all flow into the search index alongside genuine content; researchers get hits they can't account for from any visible field on the record.
   - **Fixed in P2.1** by removing the walker entirely (along with the `fullrecord` and `fullrecord_published` synthetic fields it produced) and routing default keyword search to a `qf_default` paramset in `solrconfig.xml` whose `qf` enumerates the source fields explicitly. Fields not listed in any paramset's `qf` are not searchable by default; URIs / internal IDs / staff-only fields are excluded by omission (a finite, reviewable allow-list instead of an unbounded deny-list).
 
 - **Identifier search**: ANW-290, ANW-1556, ANW-2071, ANW-2075. IDs reach the index only through the `fullrecord` catchall and a coarse single-valued `identifier` field; partial / multi-part / "contains" semantics are broken. Multi-part identifiers like `MS-2024-001` don't match `MS2024001` or `MS 2024 001`; advanced search "Identifier contains" misses obvious substring matches; users typing a known catalogue number don't always find the record.
@@ -68,6 +70,18 @@ The linked tickets cluster into themes the current architecture makes hard to fi
 - The `json` blob (`schema.xml:44`) is **redundant for searching** but **essential for display**: it exists to let one Solr request carry enough data to render result lists and show pages, via **deserialization in the public UI** (`public/app/models/record.rb:19-25`). It is retained.
 - `fullrecord` and `fullrecord_published` are built by a **type-blind tree walk** (`indexer_common.rb:140-207`) that grabs every string in the record, including URIs and internal IDs. These are search catchalls and are removed by this project.
 
+### Field naming: suffix new search fields, leave existing fields unchanged
+
+New search fields this project adds follow the Blacklight dynamic-field suffix convention (`*_tesim`, `*_ssim`; see "Reference: how Arclight does it", point 2). Existing Solr fields (`title`, `notes`, `creators`, `subjects`, `identifier`, `level`, `langcode`, `primary_type`, etc.) **keep their current plain names and are not renamed**. The post-refactor schema is therefore deliberately mixed-style: legacy plain-named fields alongside new suffixed fields.
+
+Renaming the existing fields to the convention was considered and rejected. For *existing* fields the cost is high and the benefit is small:
+
+- **It would break the public query API.** The `/search` endpoint accepts raw Solr field names from callers: Lucene `q` (`title:foo`), `sort`, `facet[]`, `filter_query`. The PUI embeds facet field names directly in query-string parameters, so every bookmarked or shared faceted-search URL contains Solr field names. Renaming `title` to `title_tesim` (and so on) breaks external API integrations, shared / bookmarked search URLs, and any saved searches.
+- **It would silently break plugins.** Core field names are an implicit contract for plugins that write fields via `add_document_prepare_hook` or run their own Solr queries. A rename produces no compile-time error: the plugin keeps writing the old name, the core queries the new one, and results silently go empty.
+- **It would not capture the convention's main benefit.** The primary payoff of the suffix convention is that `*_tesim` and friends are Solr `<dynamicField>` patterns, so emitting a new field needs no schema declaration. Existing fields are already declared; renaming them removes no future schema edits. Only the secondary benefit (self-documenting names) would apply, in exchange for all of the cost above.
+
+The accepted cost of this decision is the cosmetic inconsistency of a mixed-style schema. The P1.3 Solr field map records every field under its actual name, so the mixed state is documented rather than hidden. If a fully uniform schema is ever wanted, it belongs in its own breaking-change, major-version effort with a field-alias / deprecation plan, not in this epic.
+
 ### The serialize / deserialize pattern (retained)
 
 The indexer serializes each record to a JSON string at `indexer_common.rb:1280` (`doc['json'] = ASUtils.to_json(sanitize_json(values))`). On every search hit the public UI deserializes that string at `public/app/models/record.rb:19-25` (`@json = ASUtils.json_parse(solr_result['json'])`); ~480 lines of `record.rb` and per-type subclasses then read `@json[...]` directly.
@@ -88,16 +102,12 @@ P1.1 adds characterization specs for the tree-doc indexer (real assertions on `t
 
 The obsolete pre-large-tree code path (the `/search/published_tree` endpoint, `ArchivesSpaceClient#get_tree`, the `Tree` model, and the unused `tree_json` / `whole_tree_json` / `node_uri` Solr fields) was dead and has been removed separately under ANW-2757 (PR #4094); it is unrelated to this refactor.
 
-### What "unexplainable matches" means
-
-A researcher types `45`, gets resource X, opens it, and sees no `45` anywhere in title / notes / dates / agents. The match is real: `45` appeared in a subject URI like `/subjects/45`, a top-container barcode, or an internal event ID, all swept into the searchable text by `extract_string_values`. ANW-2657 / ANW-201 / ANW-1672 are three flavours of the same root cause. P2.1 fixes this by removing the walker and routing default keyword search to the `qf_default` paramset in `solrconfig.xml`, whose `qf` enumerates the searchable source fields explicitly; fields not listed (URIs, internal IDs, staff-only metadata) are excluded by omission rather than by mid-walk filtering.
-
 ## Reference: how Arclight does it
 
 Arclight (`projectblacklight/arclight`) is the closest active reference: Blacklight-based discovery for EAD-described archival material. This project borrows Arclight's **search-side** patterns; it does **not** adopt Arclight's display-field architecture.
 
 1. **Individual stored display fields (not adopted).** Arclight has no JSON blob: display fields are individual stored fields (`abstract_html_tesm`, `extent_ssm`, `creator_ssim`). ArchivesSpace retains its `json` blob as the PUI's display payload; the public UI is a Solr-read application and this project does not refactor that read path. We borrow the search-side patterns below, not the display-field model.
-2. **Blacklight dynamic-field suffix convention.** Each suffix encodes (type, stored, indexed, multivalued) so the schema becomes self-documenting. Decoded left-to-right after the underscore:
+2. **Blacklight dynamic-field suffix convention.** Each suffix encodes (type, stored, indexed, multivalued) so that we do not have to declare every single field in the solr schema, but use *_tesim etc suffixes for dynamic field declaration. Decoded left-to-right after the underscore:
 
    | Position    | Letters                             | Meaning                                                                        |
    | ----------- | ----------------------------------- | ------------------------------------------------------------------------------ |
