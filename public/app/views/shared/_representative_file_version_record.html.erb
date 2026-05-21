@@ -1,7 +1,7 @@
 <% add_figcaption = !caption.blank? || !dig_materials_link.blank? %>
 <figure class="mb-0" data-rep-file-version-wrapper>
   <% if a_uri %>
-    <a href="<%= a_uri %>" target="new" title="<%= t('digital_object._public.link')%>">
+    <a href="<%= a_uri %>" target="new" title="<%= t('digital_object._public.link')  %>">
   <% end %>
     <img
       class="<%= add_figcaption ? '' : 'rounded-bottom' %>"

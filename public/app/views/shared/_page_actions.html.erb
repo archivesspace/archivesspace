@@ -1,4 +1,4 @@
-<div title="<%= t('page_actions')%>" class="d-flex justify-content-end">
+<div title="<%= t('page_actions') %>" class="d-flex justify-content-end">
   <% ASUtils.wrap($RECORD_PAGE_ACTIONS[record.primary_type]).each do |page_action| %>
     <div class="large-badge text-center resource p-1">
       <% if page_action.has_key?('erb_partial') %>

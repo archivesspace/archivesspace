@@ -38,7 +38,7 @@
             class="external-digital-object__link record-type-badge digital_object"
             href="<%= d_file['out'] %>"
             target="new"
-            title="<%= t('digital_object._public.link')%>"
+            title="<%= t('digital_object._public.link') %>"
           >
             <div class="external-digital-object__content-container">
               <i class="fa <%= { '(moving_image)' => 'fa-file-video-o' ,
@@ -51,7 +51,7 @@
                 <%= d_file['caption'].blank? ? "#{t('enumerations.instance_instance_type.digital_object')} #{d_file['material']}" : d_file['caption'].html_safe %>
               </h2>
               <p class="external-digital-object__content-btn">
-                <%= t('digital_object._public.go')%> <i class="fa fa-external-link" aria-hidden="true"></i>
+                <%= t('digital_object._public.go') %> <i class="fa fa-external-link" aria-hidden="true"></i>
               </p>
             </div>
           </a>
@@ -59,7 +59,7 @@
       <% else %>
         <div class="objectimage">
           <div class="panel panel-default">
-            <a class="thumbnail" href="<%= d_file['out'] %>" target="new" title="<%= t('digital_object._public.link')%>">
+            <a class="thumbnail" href="<%= d_file['out'] %>" target="new" title="<%= t('digital_object._public.link') %>">
               <img src="<%= d_file['thumb'] %>" alt="<%= strip_mixed_content(d_file['caption'] || t('enumerations.instance_instance_type.digital_object')) %>" />
             </a>
                   <div class="panel-heading">

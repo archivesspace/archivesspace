@@ -45,7 +45,7 @@
       <h2><%= t('resource._public.lang') %></h2>
        <% @result.lang_materials.each do |lang_material| %>
         <p class="language"><%= inheritance(lang_material['_inherited']).html_safe %>
-    <%= t('enumerations.language_iso639_2.' + lang_material['language'])%>
+    <%= t('enumerations.language_iso639_2.' + lang_material['language']) %>
   </p>
       <% end %>
     <% end %>

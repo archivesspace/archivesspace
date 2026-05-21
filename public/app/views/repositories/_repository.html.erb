@@ -4,7 +4,7 @@
 
   <%= (full ? '<h1 class="text-center text-sm-left">' : '<h2 class="text-center text-sm-left">').html_safe %>
 
-  <% if !full %><a class="record-title" href="<%= app_prefix(repository_base_url(result)) %>"><% end %><%= result['name']%>
+  <% if !full %><a class="record-title" href="<%= app_prefix(repository_base_url(result)) %>"><% end %><%= result['name'] %>
   <% if !full %></a><% end %>
   <div class='d-none d-sm-block'>
     <% if result.has_key?('image_url') %>

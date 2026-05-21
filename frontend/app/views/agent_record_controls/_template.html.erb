@@ -12,10 +12,10 @@
         {:field_opts => {:size => 30, :class => "form-control"} } %>
 
       <%= form.label_and_textfield "agency_name",
-        {:field_opts => {:size => 30, :class => "form-control"} }%>
+        {:field_opts => {:size => 30, :class => "form-control"} } %>
 
       <%= form.label_and_textarea "maintenance_agency_note",
-        {:field_opts => {:size => 30, :class => "form-control"} }%>
+        {:field_opts => {:size => 30, :class => "form-control"} } %>
 
       <%= form.label_and_select "language",
         [""] + form.possible_options_for("language", false) %>
@@ -24,7 +24,7 @@
         [""] + form.possible_options_for("script", false) %>
 
       <%= form.label_and_textarea "language_note",
-        {:field_opts => {:size => 30, :class => "form-control"} }%>
+        {:field_opts => {:size => 30, :class => "form-control"} } %>
 
       <%= form.label_and_select "romanization",
         [""] + form.possible_options_for("romanization", false) %>
