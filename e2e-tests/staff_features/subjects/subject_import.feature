@@ -7,7 +7,7 @@ Feature: Subject Import with the LCNAF Import Plug-In
       And the user hovers on 'Plug-ins' in the dropdown menu
       And the user clicks on 'LCNAF Import' in the dropdown menu
       And the user checks 'LCSH - https://id.loc.gov/authorities/subjects' in the LCNAF Import form
-      And the user fills in 'Primary Name' with 'subject heading'
+      And the user fills in 'Name or Subject' with 'subject heading'
       And the user clicks on 'Search'
       And the user selects the first Subject from the search results
       And the user clicks on 'Import'
