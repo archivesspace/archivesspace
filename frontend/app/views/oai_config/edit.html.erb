@@ -86,7 +86,7 @@
               <tbody>
                 <% @repositories.each do |r| %>
                   <tr>
-                    <td><%= r[:name] %>
+                    <td><%= r[:name] %></td>
                     <td class="table-record-actions">
                       <div class="btn-group">
                         <a class="btn btn-sm btn-primary" href="<%= AppConfig[:frontend_proxy_url] + r[:uri] + "/edit#oai_settings" %>" ><%= I18n.t('actions.edit_oai') %></a>
