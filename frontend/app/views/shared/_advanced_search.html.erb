@@ -1,5 +1,4 @@
-<%
-  values_for_operator = jsonmodel_definition(:boolean_query).options_for(:unused, "op", false, :i18n_prefix => "advanced_search.operator")
+<% values_for_operator = jsonmodel_definition(:boolean_query).options_for(:unused, "op", false, :i18n_prefix => "advanced_search.operator")
   values_for_date_comparators = jsonmodel_definition(:date_field_query).options_for(:unused, "comparator", false, :i18n_prefix => "advanced_search.date_operator")
 
   values_for = {}
@@ -24,9 +23,7 @@
     else
       "<option value=\"#{op.field}\" {if query.field == \"#{op.field}\"}selected{/if}>#{op.label}</option>".html_safe
     end
-  end
-%>
-
+  end %>
 
 <script>
   var advanced_search_enum_values = <%= options_for_enums.to_json.html_safe %>;
@@ -127,6 +124,7 @@
   });
 </script>
 
+<%# herb:formatter ignore %>
 <div id="template_advanced_search_row"><!--
   <fieldset class="d-flex align-items-center p-3">
     <div class="col-md-1">
@@ -256,27 +254,66 @@
     <div class="flex-grow-1">
       <hr />
     </div>
+
     <div class="col-md-1">
       <div class="d-flex justify-content-center dropdown">
-        <button class="btn btn-success dropdown-toggle text-white advanced-search-add-row-dropdown" data-toggle="dropdown" title="<%= t("advanced_search.add_row") %>" aria-label="<%= t("advanced_search.add_row") %>">
+        <button
+          class="btn btn-success dropdown-toggle text-white advanced-search-add-row-dropdown"
+          data-toggle="dropdown"
+          title="<%= t("advanced_search.add_row") %>"
+          aria-label="<%= t("advanced_search.add_row") %>"
+        >
           <span class="glyphicon glyphicon-plus"></span>
         </button>
+
         <div class="dropdown-menu x-auto">
-          <button class="advanced-search-add-row advanced-search-add-text-row dropdown-item" type="button" data-type="text"><%= t("advanced_search.type.text") %></button>
-          <button class="advanced-search-add-row advanced-search-add-date-row dropdown-item" type="button" data-type="date"><%= t("advanced_search.type.date") %></button>
-          <button class="advanced-search-add-row advanced-search-add-bool-row dropdown-item" type="button" data-type="boolean"><%= t("advanced_search.type.boolean") %></button>
+          <button
+            class="advanced-search-add-row advanced-search-add-text-row dropdown-item"
+            type="button"
+            data-type="text"
+          >
+            <%= t("advanced_search.type.text") %>
+          </button>
+
+          <button
+            class="advanced-search-add-row advanced-search-add-date-row dropdown-item"
+            type="button"
+            data-type="date"
+          >
+            <%= t("advanced_search.type.date") %>
+          </button>
+
+          <button
+            class="advanced-search-add-row advanced-search-add-bool-row dropdown-item"
+            type="button"
+            data-type="boolean"
+          >
+            <%= t("advanced_search.type.boolean") %>
+          </button>
+
           <% if !values_for[:enum].empty? %>
-            <button class="advanced-search-add-row advanced-search-add-enum-row dropdown-item" type="button" data-type="enum"><%= t("advanced_search.type.controlled_value") %></button>
+            <button
+              class="advanced-search-add-row advanced-search-add-enum-row dropdown-item"
+              type="button"
+              data-type="enum"
+            >
+              <%= t("advanced_search.type.controlled_value") %>
+            </button>
           <% end %>
         </div>
       </div>
     </div>
   </div>
+
   <div class="p-3 d-flex align-items-center justify-content-end gap-x-2">
-    <button class="btn btn-link search-switcher-hide" type="button"><%= t("advanced_search.index_switcher.hide") %></button>
+    <button class="btn btn-link search-switcher-hide" type="button">
+      <%= t("advanced_search.index_switcher.hide") %>
+    </button>
+
     <% unless current_page?(root_url) %>
       <%= link_to t("advanced_search.reset"), {:controller => :search, :action => :do_search, :advanced => true}, :class => "btn btn-link reset-advanced-search" %>
     <% end %>
+
     <div class="col-md-1 d-flex justify-content-center">
       <!-- .col-md-1 wrapper to align button with +/- buttons above -->
       <button class="btn btn-primary" id="advanced-search-btn"><%= t("advanced_search.button_text") %></button>
