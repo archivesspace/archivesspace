@@ -1,23 +1,20 @@
 <% define_template("container_labels_job", jsonmodel_definition(:container_labels_job)) do |form| %>
-
   <%= form.hidden_input :source, :class => 'translation-placeholder' %>
-  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => t("actions.container_labels") }%>
-
+  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => t("actions.container_labels") } %>
 <% end %>
 
 <% define_template("find_and_replace_job", jsonmodel_definition(:find_and_replace_job)) do |form| %>
-    <p><%= t("job._frontend.messages.find_and_replace_instructions") %></p>
+  <p><%= t("job._frontend.messages.find_and_replace_instructions") %></p>
 
   <%= form.hidden_input :base_record_uri, :class => 'translation-placeholder' %>
 
-  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :record_types => "resource_and_archival_object" }%>
+  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :record_types => "resource_and_archival_object" } %>
 
   <%= form.label_and_select "record_type", [] %>
   <%= form.label_and_select "property", [] %>
 
   <%= form.label_and_textfield "find" %>
   <%= form.label_and_textfield "replace" %>
-
 <% end %>
 
 <% define_template("bulk_import_job", jsonmodel_definition(:bulk_import_job)) do |form| %>
@@ -25,20 +22,19 @@
 <% end %>
 
 <% define_template("print_to_pdf_job", jsonmodel_definition(:print_to_pdf_job)) do |form| %>
-
   <%= form.hidden_input :source, :class => 'translation-placeholder' %>
 
-  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => t("actions.resource_to_pdf") }%>
+  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => t("actions.resource_to_pdf") } %>
   <%= form.label_and_boolean "include_unpublished" %>
-
 <% end %>
 
 <% define_template("fileupload") do |form| %>
   <span class="btn btn-success btn-sm fileinput-button">
     <span class="glyphicon glyphicon-plus icon-white"></span>
     <span><%= t("job._frontend.actions.add_file") %></span>
-    <input type="file" name="files[]" multiple="multiple">
+    <input type="file" name="files[]" multiple>
   </span>
+
   <div id="files">
     <div class="hint"><span class="plus">+</span> <%= t("job._frontend.messages.drag_and_drop_hint") %></div>
   </div>
@@ -47,17 +43,20 @@
 <% define_template("import_job", jsonmodel_definition(:import_job)) do |form| %>
   <section>
     <fieldset>
-        <% sorted_types = @import_types.sort_by {|k, v| k} %>
-        <%= form.label_and_select("import_type", sorted_types, {:selected => sorted_types.first}) %>
+      <% sorted_types = @import_types.sort_by {|k, v| k} %>
+      <%= form.label_and_select("import_type", sorted_types, {:selected => sorted_types.first}) %>
     </fieldset>
-    <fieldset id='js-import-events'>
-        <%= form.label_and_boolean "import_events" %>
+
+    <fieldset id="js-import-events">
+      <%= form.label_and_boolean "import_events" %>
     </fieldset>
-    <fieldset id='js-import-subjects'>
-        <%= form.label_and_boolean("import_subjects", {}, false, true) %>
+
+    <fieldset id="js-import-subjects">
+      <%= form.label_and_boolean("import_subjects", {}, false, true) %>
     </fieldset>
-    <fieldset id='js-import-repository'>
-        <%= form.label_and_boolean("import_repository") %>
+
+    <fieldset id="js-import-repository">
+      <%= form.label_and_boolean("import_repository") %>
     </fieldset>
   </section>
 
@@ -65,42 +64,43 @@
     <% form.emit_template("fileupload") %>
     <% form.path("filenames") %>
   </section>
-
 <% end %>
 
 <% define_template("generate_slugs_job", jsonmodel_definition(:generate_slugs_job)) do |form| %>
-  <hr/>
-  <br/>
+  <hr />
+  <br />
 
-    <div class="alert alert-danger">
-      <p> <%= t("job._frontend.messages.slug_lost_warning") %>
-    </div>
-    <br/>
-    <p><%= t("job._frontend.messages.slug_generation") %></p>
-    <br/>
-    <p><%= t("job._frontend.messages.slug_config_msg") %></p>
-    <% if AppConfig[:auto_generate_slugs_with_id] %>
-      <p><%= t("job._frontend.messages.slug_config_id") %></p>
+  <div class="alert alert-danger">
+    <p><%= t("job._frontend.messages.slug_lost_warning") %></p>
+  </div>
 
-      <% if AppConfig[:generate_resource_slugs_with_eadid] %>
-        <p><%= t("job._frontend.messages.slug_config_eadid") %></p>
-      <% end %>
+  <br />
 
-      <% if AppConfig[:generate_archival_object_slugs_with_cuid] %>
-        <p><%= t("job._frontend.messages.slug_config_cuid") %></p>
-      <% end %>
-    <% else %>
-      <p><%= t("job._frontend.messages.slug_config_title") %></p>
+  <p><%= t("job._frontend.messages.slug_generation") %></p>
+  <br />
+
+  <p><%= t("job._frontend.messages.slug_config_msg") %></p>
+
+  <% if AppConfig[:auto_generate_slugs_with_id] %>
+    <p><%= t("job._frontend.messages.slug_config_id") %></p>
+    <% if AppConfig[:generate_resource_slugs_with_eadid] %>
+      <p><%= t("job._frontend.messages.slug_config_eadid") %></p>
     <% end %>
-
+    <% if AppConfig[:generate_archival_object_slugs_with_cuid] %>
+      <p><%= t("job._frontend.messages.slug_config_cuid") %></p>
+    <% end %>
+  <% else %>
+    <p><%= t("job._frontend.messages.slug_config_title") %></p>
+  <% end %>
 <% end %>
 
 <% define_template("generate_arks_job", jsonmodel_definition(:generate_arks_job)) do |form| %>
-  <hr/>
-  <br/>
-  <br/>
+  <hr />
+  <br />
+  <br />
+
   <p><%= t("job._frontend.messages.ark_generation") %></p>
-  <br/>
+  <br />
 <% end %>
 
 <% define_template("ns2_remover_job", jsonmodel_definition(:ns2_remover_job)) do |form| %>
@@ -109,28 +109,34 @@
   <div class="col-sm-9 checkbox">
     <%= form.label_and_boolean "dry_run" %>
   </div>
-  <br/>
-  <br/>
+
+  <br />
+  <br />
 <% end %>
 
 <% define_template("job", jsonmodel_definition(:job)) do |form| %>
+  <input
+    id="job_type"
+    name="job[job_type]"
+    type="hidden"
+    value="<%= params['job_type'] %>"
+  >
 
-  <input id="job_type" name="job[job_type]" type="hidden" value="<%= params['job_type'] %>">
-
-  <div id="job_form_messages">
-  </div>
+  <div id="job_form_messages"></div>
 
   <div id="job_type_fields"></div>
 <% end %>
 
 <% @report_data['reports'].each do |code, report| %>
   <% define_template(code, jsonmodel_definition(:report_job)) do |form| %>
-
     <% report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])} %>
 
     <% report_params.each do | param | %>
       <div class="form-group w-100 row">
-        <label class="col-sm-2 control-label text-md-right"><%= t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
+        <label class="col-sm-2 control-label text-md-right">
+          <%= t("reports.parameters.#{param[0]}", :default => param[0]) %>
+        </label>
+
         <div class="col-sm-9">
           <% if param[1] === "Date" %>
             <%= form.textfield param[0], nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :"data-label" => t("actions.date_picker_toggle") %>
@@ -143,17 +149,13 @@
         </div>
       </div>
     <% end %>
-
   <% end %>
 <% end %>
 
-
 <% define_template("report_job", jsonmodel_definition(:report_job)) do |form| %>
-
   <%= form.hidden_input :report_type %>
 
   <div class="report-list">
-
     <% @report_data['reports'].sort_by { |code, report| t("reports.#{code}.title") }.each do |code, report| %>
       <div class="report-listing" id="<%= code %>">
         <div class="heading d-flex">
@@ -164,23 +166,22 @@
           <button class="ml-auto btn btn-primary btn-sm select-report mt-0" for="<%= code %>" type="button">
             <%= I18n.t("reports.translation_defaults.select") %>
           </button>
+
           <div class="btn-group unselect-report-group">
             <% if code === "custom_report" && user_can?('manage_custom_report_templates') %>
               <%= link_to I18n.t("custom_report_template._frontend.action.create"), {:controller => :custom_report_templates, :action => :new}, :class => "btn btn-default create-report-template mt-0" %>
             <% end %>
+
             <button class="btn btn-primary unselect-report mt-0" for="<%= code %>" type="button">
-            <%= I18n.t("reports.translation_defaults.back") %>
+              <%= I18n.t("reports.translation_defaults.back") %>
             </button>
           </div>
-
         </div>
 
         <div class="report-description" for="<%= code %>">
           <%= t("reports.#{report["code"]}.description", :default => code) %>
         </div>
-
       </div>
-
     <% end %>
   </div>
 
@@ -191,14 +192,15 @@
   <div id="format">
     <% formats = @report_data["formats"] || %w{ json csv html pdf } %>
     <%= form.label_and_select :format, formats.collect{|format| [t("reports.formats.#{format}", :default => format), format]} %>
+
     <div class="form-group w-100 row csv_options">
       <label class="col-sm-2 control-label text-right"><%= t("reports.linked_records_in_json") %></label>
+
       <div class="col-sm-9 checkbox">
         <%= check_box_tag("job[job_params][csv_show_json]") %>
       </div>
     </div>
   </div>
-
 <% end %>
 
 <%# Now create a template for all job types not handled above - eg from plugins %>
@@ -206,28 +208,26 @@
   <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job', 'generate_slugs_job', 'generate_arks_job', 'ns2_remover_job', 'bulk_import_job'].include?(type) %>
 
   <% define_template(type, jsonmodel_definition(type.intern)) do |form| %>
-
     <% begin %>
       <%= render_aspace_partial :partial => "#{type}/form", :locals => {:object => @job, :form => form} %>
     <% rescue ActionView::MissingTemplate %>
       <%# don't require plugins to provide a form %>
       <p><%= t("#{type}.description", :default => '') %></p>
     <% end %>
-
   <% end %>
 <% end %>
-
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @job, :form => form} %>
 <% form.emit_template("job") %>
 
 <% form.emit_template(@job_type) %>
+
 <%= form.hidden_input :jsonmodel_type, @job_type %>
 
 <%= form_plugins_for("job", form) %>
 
 
-
+<%# herb:formatter ignore %>
 <div id="template_import_file"><!--
   <div class="import-file">
     <span class="import-filename">${filename}</span>
