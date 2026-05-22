@@ -284,6 +284,7 @@ it:
       representative_file_version: Immagine thumbnail
       use_restrictions: Restrizioni d'uso
       access_restrictions: Restrizioni di accesso
+      accession_date_year: Data di accesso
     resource:
       score: Rilevanza
       title: Titolo
@@ -306,6 +307,8 @@ it:
       create_time: Creato
       asc: Ascendente
       finding_aid_status: Stato degli strumenti di ricerca
+      extents: Estensione
+      processing_priority: Priorità di elaborazione
     archival_object:
       score: Rilevanza
       identifier: Identificativo componente
@@ -322,6 +325,8 @@ it:
       uri: URI
       title: Titolo
       representative_file_version: Immagine thumbnail
+      context: Risorsa per i genitori
+      extents: Estensione
     subject:
       score: Rilevanza
       asc: Ascendente
@@ -332,6 +337,8 @@ it:
       source: Fonte
       audit_info: Informazioni sull'audit
       user_mtime: Modificato
+      first_term_type: Tipo di termine (Primo)
+      title: Informazioni
     digital_object:
       score: Rilevanza
       title: Titolo
@@ -350,6 +357,7 @@ it:
       subjects: Soggetto
       uri: URI
       representative_file_version: Immagine thumbnail
+      extents: Estensione
     digital_object_component:
       publish: Pubblicato
       context: Trovato in
@@ -364,6 +372,7 @@ it:
       create_time: Creato
       asc: Ascendente
       representative_file_version: Immagine thumbnail
+      extents: Estensione
     agent:
       score: Rilevanza
       title: Nome
@@ -404,12 +413,27 @@ it:
       agents: Agent
       desc: Discendente
       uri: URI
+      event_type: Tipo
+      outcome: Risultato
+      linked_records: Collegamenti ai record
+      user_mtime: Modificato
+      create_time: Creata
     collection_management:
       score: Rilevanza
       audit_info: Informazioni sull'audit
       asc: Ascendente
       desc: Discendente
       uri: URI
+      name: Gestione delle collezioni
+      parent_title: Titolo
+      parent_type: Tipo di record
+      processing_priority: Priorità di elaborazione
+      processing_status: stato di elaborazione
+      processing_hours_total: Ore totali
+      processing_funding_source: Fonte di finanziamento per l'elaborazione
+      processors: Processori
+      user_mtime: Modificato
+      create_time: Creato
     classification:
       title: Titolo
       audit_info: Informazioni sull'audit
@@ -419,6 +443,9 @@ it:
       uri: URI
       publish: Pubblicato
       identifier: Identificativo
+      has_classification_terms: Contiene termini di classificazione?
+      user_mtime: Modificato
+      create_time: Creato
     assessment:
       asc: Ascendente
       desc: Discendente
@@ -426,6 +453,12 @@ it:
       audit_info: Informazioni sull'audit
       score: Rilevanza
       assessment_collections: Collezione
+      assessment_id: ID della valutazione
+      assessment_records: Documentazione
+      assessment_record_types: Tipo di record
+      assessment_surveyors: agrimensore
+      assessment_survey_begin: Inizio del sondaggio
+      assessment_review_required: Revisione necessaria
     repositories:
       score: Rilevanza
       asc: Ascendente
