@@ -459,6 +459,8 @@ it:
       assessment_surveyors: agrimensore
       assessment_survey_begin: Inizio del sondaggio
       assessment_review_required: Revisione necessaria
+      assessment_sensitive_material: Materiale sensibile
+      assessment_inactive: Inattivo
     repositories:
       score: Rilevanza
       asc: Ascendente
