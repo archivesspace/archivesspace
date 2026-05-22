@@ -47,3 +47,20 @@ Feature: Agent Create
       And the user clicks on 'Save'
      Then the following error messages are displayed
        | Software Name - Property is required but was missing |
+  Scenario: Agent cannot be created by user with view-only permissions from the Create menu
+    Given a viewer user is logged in
+     When the user clicks on 'Browse'
+      And the user clicks on 'Agents'
+     Then the 'Create' button is not present on the page 
+  Scenario: Agent cannot be created by user with view-only permissions from the Agents Browse page
+    Given a viewer user is logged in
+      And the user is on the Agents page
+     Then the 'Create Agent' button is not present on the page 
+  Scenario: Agent Person is created via the Agents Browse page
+    Given the user is on the Agents page
+      And the user clicks on 'Create Agent'
+     When the user clicks on 'Person'
+      And the user fills in 'Primary Part of Name' in the 'Name Forms' form
+      And the user clicks on 'Save'
+     Then the 'Agent' created message is displayed
+      And the 'Primary Part of Name' has a unique value

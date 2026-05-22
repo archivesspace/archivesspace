@@ -21,11 +21,11 @@ Feature: Agent Edit required fields
       And the user clicks on 'Save Family'
       And the user clicks on 'Create'
       And the user hovers on 'Agent' in the dropdown menu
-      And the user clicks on 'Person'
+      And the user clicks on 'Family'
       And the user clicks on 'Save'
      Then the following error messages are displayed
-       | Primary Part of Name - Property is required but was missing |
-       | Rest of Name - Property is required but was missing         |
+       | Family Name - Property is required but was missing |
+       | Rules - Property is required but was missing         |
   Scenario: Edit required fields for corporate entity
      When the user clicks on 'Edit Required Fields'
       And the user clicks on 'Corporate Entity' in the dropdown menu
