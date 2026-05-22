@@ -11,13 +11,13 @@
 <div class="form-group required row">
     <% if form.obj.has_key?('_resolved') %>
 
-      <input type="text" 
-        class="prelinker" 
+      <input type="text"
+        class="prelinker"
         name="<%= form.path %>[_resolved]"
         value="<%= selected_json %>" />
 
-      <input type="text" 
-        class="prelinker" 
+      <input type="text"
+        class="prelinker"
         name="<%= form.path %>[ref]"
         value="<%= form.obj["ref"] %>" />
 
@@ -33,7 +33,7 @@
             aria-expanded="false"
             aria-controls="<%= form.id_for("ref") %>_listbox"
             id="<%= form.id_for("ref") %>_combobox">
-          <input type="text" 
+          <input type="text"
             class="linker"
             id="<%= form.id_for("ref") %>"
             aria-autocomplete="both"
@@ -70,13 +70,13 @@
            </ul>
          </div>
          <% if form.obj.has_key?('_resolved') %>
-          <input type="text" 
-            class="prelinker" 
+          <input type="text"
+            class="prelinker"
             name="<%= form.path %>[_resolved]"
             value="<%= selected_json %>" />
 
-          <input type="text" 
-            class="prelinker" 
+          <input type="text"
+            class="prelinker"
             name="<%= form.path %>[ref]"
             value="<%= form.obj["ref"] %>" />
           <% end %>
