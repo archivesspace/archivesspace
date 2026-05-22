@@ -40,8 +40,8 @@
     <div class="date-container">
       <%= form.label_and_readonly "label" %>
       <%= form.label_and_readonly "expression" %>
-			<%= form.label_and_readonly "date_type" %>
-      <%form.emit_template("date_fields") %>
+      <%= form.label_and_readonly "date_type" %>
+      <% form.emit_template("date_fields") %>
     </div>
   </div>
 <% end %>
@@ -52,8 +52,8 @@
     <div class="date-container">
       <%= form.label_and_readonly "label" %>
       <%= form.label_and_readonly "expression" %>
-			<%= form.label_and_readonly "date_type" %>
-      <%form.emit_template("date_fields") %>
+      <%= form.label_and_readonly "date_type" %>
+      <% form.emit_template("date_fields") %>
     </div>
   </div>
 <% end %>
@@ -63,9 +63,9 @@
   <div class="subrecord-form-fields">
     <div class="date-container">
       <%= form.label_and_readonly "label" %>
-			<%= form.label_and_readonly "expression" %>
-			<%= form.label_and_readonly "date_type" %>
-      <%form.emit_template("date_fields") %>
+      <%= form.label_and_readonly "expression" %>
+      <%= form.label_and_readonly "date_type" %>
+      <% form.emit_template("date_fields") %>
     </div>
   </div>
 <% end %>
@@ -76,8 +76,8 @@
     <div class="date-container">
       <%= form.label_and_readonly "label" %>
       <%= form.label_and_readonly "expression" %>
-			<%= form.label_and_readonly "date_type" %>
-      <%form.emit_template("date_fields") %>
+      <%= form.label_and_readonly "date_type" %>
+      <% form.emit_template("date_fields") %>
     </div>
   </div>
 <% end %>
@@ -104,7 +104,6 @@
 
     <%= form.record_level_merge_controls(form, "dates_of_existence", true, !disable_replace) %>
     <% form.emit_template("structured_date_label_common_fields") %>
-    </div>
   </div>
 <% end %>
 
@@ -114,7 +113,6 @@
 
     <%= form.record_level_merge_controls(form, "usage", true, !disable_replace) %>
     <% form.emit_template("structured_date_label_common_fields") %>
-    </div>
   </div>
 <% end %>
 
@@ -139,6 +137,7 @@
         <% form.emit_template("structured_date_range_fields", item) %>
       <% end %>
     <% end %>
+  </div>
 <% end %>
 
 <% define_template "structured_date_single_fields", jsonmodel_definition(:structured_date_single) do |form| %>

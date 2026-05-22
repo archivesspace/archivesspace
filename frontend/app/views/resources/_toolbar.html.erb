@@ -12,7 +12,7 @@
           for export needs that this alt approach was easiest. %>
       <li class="dropdown-item p-0 dropdown-submenu" id="download-ead-dropdown" data-download-ead-url="<%= url_for(:controller => :exports,
         :action => :download_ead, :id => @resource.id, :include_unpublished => "${include_unpublished}",
-        :include_daos => "${include_daos}", :include_uris => "${include_uris}", :numbered_cs => "${numbered_cs}", :ead3 => "${ead3}" )%>">
+        :include_daos => "${include_daos}", :include_uris => "${include_uris}", :numbered_cs => "${numbered_cs}", :ead3 => "${ead3}" ) %>">
         <%# The following <a> triggers a download on click and shows the sub dropdown menu
             below it on hover; the sub dropdown menu repositions weirdly (via popper.js)
             after the download in the same page session, so `data-display="static"` is
@@ -20,17 +20,17 @@
         <a href="#" data-toggle="dropdown" data-display="static" class="py-1 px-4 d-block text-decoration-none menu-with-options download-ead-action" title="<%= t("actions.export_ead") %>"><%= t("actions.export_ead") %></a>
         <div class="dropdown-menu" id="form_download_ead">
           <fieldset class="d-flex flex-column">
-            <input type="hidden" name="id", value="<%= @resource.id %>" />
+            <input type="hidden" name="id" value="<%= @resource.id %>" />
             <label class="checkbox" for="include-unpublished">
               <input type="checkbox" id="include-unpublished" name="include_unpublished" <% if pref_include_unpublished %> checked="checked" <% end %>/>
               <%= t("export_options.include_unpublished") %>
             </label>
             <label class="checkbox" for="include-daos">
-              <input type="checkbox" id="include-daos" name="include_daos" checked="checked"/>
+              <input type="checkbox" id="include-daos" name="include_daos" checked/>
               <%= t("export_options.include_daos") %>
             </label>
             <label class="checkbox" for="include-uris">
-              <input type="checkbox" id="include-uris" name="include_uris" checked="checked"/>
+              <input type="checkbox" id="include-uris" name="include_uris" checked/>
               <%= t("export_options.include_uris") %>
             </label>
             <label class="checkbox" for="numbered-cs">
@@ -47,11 +47,11 @@
         </div>
       </li>
 
-      <li class="dropdown-item p-0 dropdown-submenu" id="download-marc-dropdown" data-download-marc-url="<%= url_for(:controller => :exports, :action => :download_marc, :id => @resource.id, :include_unpublished_marc => "${include_unpublished_marc}")%>">
+      <li class="dropdown-item p-0 dropdown-submenu" id="download-marc-dropdown" data-download-marc-url="<%= url_for(:controller => :exports, :action => :download_marc, :id => @resource.id, :include_unpublished_marc => "${include_unpublished_marc}") %>">
         <a href="#" data-toggle="dropdown" data-display="static" class="py-1 px-4 d-block text-decoration-none menu-with-options download-marc-action" title="<%= t("actions.export_marc") %>"><%= t("actions.export_marc") %></a>
         <div class="dropdown-menu" id="form_download_marc">
           <fieldset>
-            <input type="hidden" name="id", value="<%= @resource.id %>" />
+            <input type="hidden" name="id" value="<%= @resource.id %>" />
             <label class="checkbox" for="include-unpublished-marc">
               <input type="checkbox" id="include-unpublished-marc" name="include_unpublished_marc" <% if pref_include_unpublished %> checked="checked" <% end %>/>
               <%= t("export_options.include_unpublished") %>
@@ -67,7 +67,7 @@
       <% if user_can?('create_job') %>
         <% if job_types['print_to_pdf_job']['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
 
-          <li class="dropdown-item p-0 dropdown-submenu" id="print-to-pdf-dropdown" data-print-to-pdf-url="<%= url_for(:controller => :exports, :action => :print_to_pdf, :id => @resource.id, :include_unpublished => "${include_unpublished}", :include_uris => "${include_uris}")%>">
+          <li class="dropdown-item p-0 dropdown-submenu" id="print-to-pdf-dropdown" data-print-to-pdf-url="<%= url_for(:controller => :exports, :action => :print_to_pdf, :id => @resource.id, :include_unpublished => "${include_unpublished}", :include_uris => "${include_uris}") %>">
             <a href="#" data-toggle="dropdown" data-display="static" class="py-1 px-4 d-block text-decoration-none menu-with-options print-to-pdf-action" title="<%= t("actions.print_to_pdf") %>"><%= t("actions.print_to_pdf") %></a>
             <div class="dropdown-menu" id="form_print_to_pdf">
               <fieldset class="d-flex flex-column">

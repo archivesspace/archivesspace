@@ -247,11 +247,10 @@
           :field_opts => {:class => "note-type"}) %>
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
-      <% if form.readonly? && ["accessrestrict", "userestrict"].include?(form.obj["type"]) %>
-        <section id="notes_restriction">
-      <% else %>
-        <section id="notes_restriction" style="display: none">
-      <% end %>
+      <section id="notes_restriction"
+        <% if not form.readonly? || !["accessrestrict", "userestrict"].include?(form.obj["type"]) %>
+          style="display: none;"<% end %>
+      >
         <% form.push("rights_restriction", form.obj["rights_restriction"] || {}) do |form| %>
           <% form.emit_template("rights_restriction") %>
         <% end %>

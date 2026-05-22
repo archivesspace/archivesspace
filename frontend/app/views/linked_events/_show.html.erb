@@ -31,7 +31,7 @@
                   <div>
                     <%= t("enumerations.linked_event_archival_record_roles.#{link['role']}", :default => link['role']) %><% if link['_resolved'] %>:
                     <%= link['_resolved']['display_string'] || link['_resolved']['title'] %><% end %>
-                  <div>
+                  </div>
                 <% end %>
               </td>
               <td><%= display_audit_info(record, :format => 'compact') %></td>
