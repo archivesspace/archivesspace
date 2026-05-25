@@ -406,6 +406,10 @@ it:
       none: Nessuno
       audit_info: Informazioni sull'audit
       location_profile_display_string_u_ssort: Profilo di posizione
+      location_holdings: Detenzioni per il deposito corrente
+      location_no_holdings: Nessun deposito disponibile per questo archivio.
+      location_one_top_container: 1 contenitore superiore.
+      location_top_containers: ' contenitori superiori.'
     event:
       audit_info: Informazioni sull'audit
       asc: Ascendente
@@ -461,12 +465,24 @@ it:
       assessment_review_required: Revisione necessaria
       assessment_sensitive_material: Materiale sensibile
       assessment_inactive: Inattivo
+      assessment_survey_year: Anno di indagine
+      assessment_completed: Valutazione completata
+      assessment_formats: Formati
+      assessment_ratings: Valutazioni
+      assessment_conservation_issues: Questioni di conservazione
+      assessment_reviewers: Recensora
+      user_mtime: Modificato
+      create_time: Creata
     repositories:
       score: Rilevanza
       asc: Ascendente
       audit_info: Informazioni sull'audit
       desc: Discendente
       uri: URI
+      title: Titolo
+      publish: Pubblicata
+      user_mtime: Modificato
+      create_time: Creata
     top_container:
       asc: Ascendente
       desc: Discendente
@@ -475,6 +491,16 @@ it:
       score: Rilevanza
       location_display_string_u_sstr: Ubicazione
       collection_identifier_stored_u_sstr: Collezione
+      title: Titolo
+      publish: Pubblicata
+      container_profile_display_string_u_sstr: Profilo del contenitore
+      type: Tipo
+      indicator: Indicatore
+      barcode: Codice a barre
+      context: Risorsa/Accesso
+      user_mtime: Modificato
+      create_time: Creata
+      series_level_u_sstr: serie
     top_container_mgmt:
       desc: Discendente
       asc: Ascendente
