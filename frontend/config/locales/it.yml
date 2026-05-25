@@ -513,6 +513,9 @@ it:
       series: serie
       container_profile: Profilo del contenitore
       type: Tipa
+      indicator: Indicatore
+      barcode: Codice a barre
+      internal_note: Note interne
     container_profile:
       score: Rilevanza
       audit_info: Informazioni sull'audit
