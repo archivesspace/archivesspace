@@ -508,6 +508,11 @@ it:
       asc: Ascendente
       location: Ubicazione
       location_profile: Profilo di ubicazione
+      resource_accession: Risorsa/Accesso
+      resource_accession_id: ID risorsa/accesso
+      series: serie
+      container_profile: Profilo del contenitore
+      type: Tipa
     container_profile:
       score: Rilevanza
       audit_info: Informazioni sull'audit
