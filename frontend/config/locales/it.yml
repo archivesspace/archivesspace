@@ -501,6 +501,8 @@ it:
       user_mtime: Modificato
       create_time: Creata
       series_level_u_sstr: serie
+      ils_holding_id: ID della holding ILS
+      exported_to_ils: Esportato in ILS
     top_container_mgmt:
       desc: Discendente
       asc: Ascendente
