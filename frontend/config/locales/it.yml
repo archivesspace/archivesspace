@@ -512,6 +512,7 @@ it:
       resource_accession_id: ID risorsa/accesso
       series: serie
       container_profile: Profilo del contenitore
+      type: Tipa
     container_profile:
       score: Rilevanza
       audit_info: Informazioni sull'audit
