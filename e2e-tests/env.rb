@@ -7,6 +7,7 @@ require 'capybara-screenshot/cucumber'
 
 STAFF_URL = ENV.fetch('STAFF_URL', 'http://localhost:8080')
 PUBLIC_URL = ENV.fetch('PUBLIC_URL', 'http://localhost:8081')
+OAI_URL = ENV.fetch('OAI_URL', 'http://localhost:8082')
 
 HEADLESS = ENV.fetch('HEADLESS', '--headless')
 
