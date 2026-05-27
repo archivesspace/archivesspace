@@ -1,4 +1,4 @@
-Feature: Application Management OAI-PMH Settings
+Feature: OAI-PMH settings can be adjusted and OAI-PMH endpoint is available
   Background: 
     Given an administrator user is logged in
   Scenario: Update OAI-PMH Settings
