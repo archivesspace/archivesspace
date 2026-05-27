@@ -2331,6 +2331,7 @@ ja:
     _plural: グループ
   lang_description: &lang_description
     _plural: 記述の言語
+    _singular: 説明言語
     is_primary: 第一言語
     language: 言語
     script: スクリプト

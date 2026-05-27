@@ -517,6 +517,7 @@ it:
       a contenuto misto."
   lang_description: &lang_description
     _plural: Linguaggi della descrizione
+    _singular: Linguaggio della descrizione
     is_primary: Lingua principale
     language: Lingua
     script: Sceneggiatura

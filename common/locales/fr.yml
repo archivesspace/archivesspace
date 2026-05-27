@@ -3320,6 +3320,7 @@ fr:
       des autorisations d'administrateur système.\n"
   lang_description: &lang_description
     _plural: Langages de description
+    _singular: Langue de description
     is_primary: Langue principale
     language: Langue
     script: Scénario

@@ -1653,6 +1653,7 @@ pl:
     ext: Rozszerzenie telefoniczne
   lang_description: &lang_description
     _plural: Języki opisu
+    _singular: Język opisu
     is_primary: Język podstawowy
     language: Język
     script: Scenariusz

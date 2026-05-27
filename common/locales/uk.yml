@@ -2687,6 +2687,7 @@ uk:
     new_title: Новий профіль місцезнаходження
   lang_description: &lang_description
     _plural: Мови опису
+    _singular: Мова опису
     is_primary: Основна мова
     language: Мова
     script: Сценарій

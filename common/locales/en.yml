@@ -3125,6 +3125,7 @@ en:
     new_title: New Location Profile
   lang_description: &lang_description
     _plural: Languages of Description
+    _singular: Language of Description
     is_primary: Primary Language
     language: Language
     script: Script

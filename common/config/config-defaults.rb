@@ -868,6 +868,11 @@ AppConfig[:bulk_archival_object_updater_max_rows] = 1000
 # Options: 'all_record_types', 'collections_only'
 AppConfig[:search_default_scope] = 'all_record_types'
 
+# Sets whether multilingual content functionality is enabled.  When true, primary
+# record types (accessions, archival objects, digital objects, digital object
+# components, and resources) can have parallel descriptions in multiple languages.
+# When false, application behavior remains unchanged from what it was prior to the
+# introduction of MLC functionality. Multilingual content is false by default.
 AppConfig[:multilingual_content] = false
 
 # Default language and script used for Multilingual Content (MLC) when no

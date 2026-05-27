@@ -2976,6 +2976,7 @@ de:
     dry_run: Probelauf?
   lang_description: &lang_description
     _plural: Sprachen der Beschreibung
+    _singular: Sprache der Beschreibung
     is_primary: Muttersprache
     language: Sprache
     script: Skript

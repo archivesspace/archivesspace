@@ -461,35 +461,5 @@ describe 'Accession model' do
     end
   end
 
-  it "allows a single language of description to be flagged 'is_primary'" do
-    json = build(:json_accession, {
-                :lang_descriptions => [build(:json_language_and_script_of_description, {
-                                          :is_primary => true
-                                        }),
-                                    build(:json_language_and_script_of_description, {
-                                          :is_primary => false
-                                        }),
-                                  ]})
-
-    expect {
-      Accession.create_from_json(json)
-    }.not_to raise_error
-  end
-
-  it "won't allow more than one language of description to be flagged 'is_primary'" do
-    json = build(:json_accession, {
-                 :lang_descriptions => [build(:json_language_and_script_of_description, {
-                                          :is_primary => true
-                                        }),
-                                    build(:json_language_and_script_of_description, {
-                                          :is_primary => true
-                                        }),
-
-                                  ]})
-
-
-    expect {
-      Accession.create_from_json(json)
-    }.to raise_error(Sequel::ValidationFailed)
-  end
+  it_behaves_like "a record with valid languages of description subrecords", :json_accession, Accession
 end

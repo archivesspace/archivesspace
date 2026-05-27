@@ -3212,6 +3212,7 @@ es:
     title: "%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] extensión medida por %{extent_dimension}"
   lang_description: &lang_description
     _plural: Lenguajes de descripción
+    _singular: Idioma de descripción
     is_primary: Idioma principal
     language: Idioma
     script: Guion

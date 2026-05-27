@@ -3,6 +3,7 @@ pt:
     lang_materials: Linguagens dos Materiais
   lang_description: &lang_description
     _plural: Linguagens de Descrição
+    _singular: Linguagem de descrição
     is_primary: Idioma principal
     language: Linguagem
     script: Roteiro

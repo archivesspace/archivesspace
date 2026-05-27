@@ -255,35 +255,5 @@ describe 'Digital object model' do
     end
   end
 
-  it "allows a single language of description to be flagged 'is_primary'" do
-    json = build(:json_digital_object, {
-                :lang_descriptions => [build(:json_language_and_script_of_description, {
-                                          :is_primary => true
-                                        }),
-                                    build(:json_language_and_script_of_description, {
-                                          :is_primary => false
-                                        }),
-                                  ]})
-
-    expect {
-      DigitalObject.create_from_json(json)
-    }.not_to raise_error
-  end
-
-  it "won't allow more than one language of description to be flagged 'is_primary'" do
-    json = build(:json_digital_object, {
-                 :lang_descriptions => [build(:json_language_and_script_of_description, {
-                                          :is_primary => true
-                                        }),
-                                    build(:json_language_and_script_of_description, {
-                                          :is_primary => true
-                                        }),
-
-                                  ]})
-
-
-    expect {
-      DigitalObject.create_from_json(json)
-    }.to raise_error(Sequel::ValidationFailed)
-  end
+  it_behaves_like "a record with valid languages of description subrecords", :json_digital_object, DigitalObject
 end

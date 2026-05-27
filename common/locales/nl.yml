@@ -63,6 +63,7 @@ nl:
     ext: Doorkiesnummer
   lang_description: &lang_description
     _plural: Talen van beschrijving
+    _singular: Taal van beschrijving
     is_primary: Hoofdtaal
     language: Taal
     script: Script
