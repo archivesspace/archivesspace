@@ -53,3 +53,8 @@ Feature: Agent View
       And the user hovers on 'Modified' in the dropdown menu
       And the user clicks on 'Ascending' in the dropdown menu
      Then the two Agents are displayed sorted by ascending modified date
+  Scenario: Agents table download CSV
+    Given two Agents have been created with a common keyword in their name
+      And the two Agents are displayed sorted by ascending name
+     When the user clicks on 'Download CSV'
+     Then a CSV file is downloaded with the two Agents

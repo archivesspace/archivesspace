@@ -147,4 +147,40 @@ describe 'Custom Report Template model' do
       CustomReport.new({'template' => template_id.to_s, :repo_id => repo.id}, mock_job, $testdb)
     }.not_to raise_error
   end
+
+  it 'can filter assessments by reviewer and shows sort name in report info' do
+    repo = create(:repo, repo_code: "test_reviewer_filter_#{Time.now.to_i}")
+    RequestContext.put(:repo_id, repo.id)
+    JSONModel.set_repository(repo.id)
+
+    user = create(:user)
+
+    template_data = {
+      "custom_record_type" => "assessment",
+      "fields" => {
+        "reviewer" => {
+          "include" => "1",
+          "values" => [user.username]
+        }
+      }
+    }
+
+    template = JSONModel(:custom_report_template).from_hash({
+      "name" => "Assessment Reviewer Filter #{Time.now.to_i}",
+      "limit" => 10,
+      "data" => template_data.to_json
+    })
+
+    template_id = CustomReportTemplate.create_from_json(template).id
+
+    mock_job = double('Job')
+    allow(mock_job).to receive(:write_output)
+
+    report = CustomReport.new({'template' => template_id.to_s, :repo_id => repo.id}, mock_job, $testdb)
+
+    reviewer_filter = report.info["reviewer"]
+    expect(reviewer_filter).to be_a(String)
+    expect(reviewer_filter).not_to be_empty
+  end
+
 end

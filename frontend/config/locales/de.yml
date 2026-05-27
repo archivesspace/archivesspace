@@ -2602,6 +2602,7 @@ de:
         create: Vorlage erstellen
         save: Vorlage speichern
         search_usernames: Nach Benutzernamen suchen
+        search_agent_persons: Agentenpersonen suchen
       messages:
         copied: Benutzerdefinierte Berichtsvorlage kopiert
         created: Benutzerdefinierte Berichtsvorlage erstellt

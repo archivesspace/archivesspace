@@ -2318,6 +2318,7 @@ fr:
         create: Créer un modèle
         save: Enregistrer le modèle
         search_usernames: Recherche noms d'utilisateur
+        search_agent_persons: Rechercher des personnes agents
       messages:
         copied: Modèle de rapport personnalisé copié
         created: Modèle de rapport personnalisé créé

@@ -121,34 +121,4 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(Search.record_type_counts(params[:record_types], params[:repo_uri]))
   end
 
-
-  Endpoint.get('/search/published_tree')
-  .description("Find the tree view for a particular archival record")
-  .params(["node_uri", String, "The URI of the archival record to find the tree view for"])
-  .permissions([:view_all_records])
-  .returns([200, "OK"],
-           [404, "Not found"]) \
-  do
-
-    show_suppressed = !RequestContext.get(:enforce_suppression)
-
-    node_info = JSONModel.parse_reference(params[:node_uri])
-
-    raise RecordNotFound.new if node_info.nil?
-
-    query = Solr::Query.create_match_all_query.
-                        pagination(1, 1).
-                        set_repo_id(JSONModel(:repository).id_for(node_info[:repository])).
-                        set_record_types(['tree_view']).
-                        show_suppressed(show_suppressed).
-                        show_excluded_docs(true).
-                        set_filter(AdvancedQueryBuilder.new.and('node_uri', params[:node_uri]).build)
-
-    search_data = Solr.search(query)
-
-    raise RecordNotFound.new if search_data["total_hits"] === 0
-
-    json_response(search_data["results"][0])
-  end
-
 end

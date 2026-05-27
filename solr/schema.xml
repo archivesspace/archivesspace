@@ -74,9 +74,6 @@
     <field name="area" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="root_uri" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="exclude_by_default" type="boolean" indexed="true" stored="true" multiValued="false" />
-    <field name="node_uri" type="string" indexed="true" stored="true" multiValued="false" />
-    <field name="tree_json" type="string" indexed="false" stored="true" multiValued="false" />
-    <field name="whole_tree_json" type="string" indexed="false" stored="true" multiValued="false" />
     <field name="has_classification_terms" type="boolean" indexed="true" stored="true" multiValued="false" />
     <field name="classification" type="string" indexed="true" stored="true" multiValued="false" />
     <field name="classification_path" type="string" indexed="true" stored="true" multiValued="false" />

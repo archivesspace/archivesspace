@@ -284,6 +284,7 @@ it:
       representative_file_version: Immagine thumbnail
       use_restrictions: Restrizioni d'uso
       access_restrictions: Restrizioni di accesso
+      accession_date_year: Data di accesso
     resource:
       score: Rilevanza
       title: Titolo
@@ -306,6 +307,8 @@ it:
       create_time: Creato
       asc: Ascendente
       finding_aid_status: Stato degli strumenti di ricerca
+      extents: Estensione
+      processing_priority: Priorità di elaborazione
     archival_object:
       score: Rilevanza
       identifier: Identificativo componente
@@ -322,6 +325,8 @@ it:
       uri: URI
       title: Titolo
       representative_file_version: Immagine thumbnail
+      context: Risorsa per i genitori
+      extents: Estensione
     subject:
       score: Rilevanza
       asc: Ascendente
@@ -332,6 +337,8 @@ it:
       source: Fonte
       audit_info: Informazioni sull'audit
       user_mtime: Modificato
+      first_term_type: Tipo di termine (Primo)
+      title: Informazioni
     digital_object:
       score: Rilevanza
       title: Titolo
@@ -350,6 +357,7 @@ it:
       subjects: Soggetto
       uri: URI
       representative_file_version: Immagine thumbnail
+      extents: Estensione
     digital_object_component:
       publish: Pubblicato
       context: Trovato in
@@ -364,6 +372,7 @@ it:
       create_time: Creato
       asc: Ascendente
       representative_file_version: Immagine thumbnail
+      extents: Estensione
     agent:
       score: Rilevanza
       title: Nome
@@ -397,6 +406,10 @@ it:
       none: Nessuno
       audit_info: Informazioni sull'audit
       location_profile_display_string_u_ssort: Profilo di posizione
+      location_holdings: Detenzioni per il deposito corrente
+      location_no_holdings: Nessun deposito disponibile per questo archivio.
+      location_one_top_container: 1 contenitore superiore.
+      location_top_containers: ' contenitori superiori.'
     event:
       audit_info: Informazioni sull'audit
       asc: Ascendente
@@ -404,12 +417,27 @@ it:
       agents: Agent
       desc: Discendente
       uri: URI
+      event_type: Tipo
+      outcome: Risultato
+      linked_records: Collegamenti ai record
+      user_mtime: Modificato
+      create_time: Creata
     collection_management:
       score: Rilevanza
       audit_info: Informazioni sull'audit
       asc: Ascendente
       desc: Discendente
       uri: URI
+      name: Gestione delle collezioni
+      parent_title: Titolo
+      parent_type: Tipo di record
+      processing_priority: Priorità di elaborazione
+      processing_status: stato di elaborazione
+      processing_hours_total: Ore totali
+      processing_funding_source: Fonte di finanziamento per l'elaborazione
+      processors: Processori
+      user_mtime: Modificato
+      create_time: Creato
     classification:
       title: Titolo
       audit_info: Informazioni sull'audit
@@ -419,6 +447,9 @@ it:
       uri: URI
       publish: Pubblicato
       identifier: Identificativo
+      has_classification_terms: Contiene termini di classificazione?
+      user_mtime: Modificato
+      create_time: Creato
     assessment:
       asc: Ascendente
       desc: Discendente
@@ -426,12 +457,32 @@ it:
       audit_info: Informazioni sull'audit
       score: Rilevanza
       assessment_collections: Collezione
+      assessment_id: ID della valutazione
+      assessment_records: Documentazione
+      assessment_record_types: Tipo di record
+      assessment_surveyors: agrimensore
+      assessment_survey_begin: Inizio del sondaggio
+      assessment_review_required: Revisione necessaria
+      assessment_sensitive_material: Materiale sensibile
+      assessment_inactive: Inattivo
+      assessment_survey_year: Anno di indagine
+      assessment_completed: Valutazione completata
+      assessment_formats: Formati
+      assessment_ratings: Valutazioni
+      assessment_conservation_issues: Questioni di conservazione
+      assessment_reviewers: Recensora
+      user_mtime: Modificato
+      create_time: Creata
     repositories:
       score: Rilevanza
       asc: Ascendente
       audit_info: Informazioni sull'audit
       desc: Discendente
       uri: URI
+      title: Titolo
+      publish: Pubblicata
+      user_mtime: Modificato
+      create_time: Creata
     top_container:
       asc: Ascendente
       desc: Discendente
@@ -440,11 +491,31 @@ it:
       score: Rilevanza
       location_display_string_u_sstr: Ubicazione
       collection_identifier_stored_u_sstr: Collezione
+      title: Titolo
+      publish: Pubblicata
+      container_profile_display_string_u_sstr: Profilo del contenitore
+      type: Tipo
+      indicator: Indicatore
+      barcode: Codice a barre
+      context: Risorsa/Accesso
+      user_mtime: Modificato
+      create_time: Creata
+      series_level_u_sstr: serie
+      ils_holding_id: ID della holding ILS
+      exported_to_ils: Esportato in ILS
     top_container_mgmt:
       desc: Discendente
       asc: Ascendente
       location: Ubicazione
       location_profile: Profilo di ubicazione
+      resource_accession: Risorsa/Accesso
+      resource_accession_id: ID risorsa/accesso
+      series: serie
+      container_profile: Profilo del contenitore
+      type: Tipa
+      indicator: Indicatore
+      barcode: Codice a barre
+      internal_note: Note interne
     container_profile:
       score: Rilevanza
       audit_info: Informazioni sull'audit
