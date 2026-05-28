@@ -22,6 +22,7 @@ class InfiniteTreeToolbar {
     this.expandAllMode = false;
     this.cutActive = false;
 
+    this.#bindMoveMenuEvents();
     this.#bindEvents();
     this.#applyReorderState();
     this.#applySelectionState();
@@ -32,6 +33,46 @@ class InfiniteTreeToolbar {
         this.#onAutoExpandBusy.bind(this)
       );
     }
+  }
+
+  #bindMoveMenuEvents() {
+    if (!this.toolbarEl) return;
+
+    const moveMenu = this.toolbarEl.querySelector(
+      '.js-itree-toolbar-move-menu'
+    );
+    if (!moveMenu) return;
+
+    moveMenu.addEventListener('click', this.#onMoveMenuClick.bind(this));
+  }
+
+  /**
+   * @param {MouseEvent} event
+   */
+  #onMoveMenuClick(event) {
+    const option = event.target.closest('.js-itree-toolbar-move-option');
+    if (!option) return;
+
+    if (
+      option.hasAttribute('disabled') ||
+      option.getAttribute('aria-disabled') === 'true'
+    ) {
+      return;
+    }
+
+    const action = option.getAttribute('data-move-action') || '';
+    if (!action) return;
+
+    // Submenu opener shares the down-into action but has no concrete target row.
+    if (action === 'down-into' && !option.getAttribute('data-target-node-id')) {
+      return;
+    }
+
+    event.preventDefault();
+    this.#emitSimpleEvent('infiniteTreeToolbar:moveOptionSelected', {
+      action,
+      targetNodeId: option.getAttribute('data-target-node-id'),
+    });
   }
 
   #bindEvents() {
@@ -73,6 +114,10 @@ class InfiniteTreeToolbar {
         InfiniteTreeSelection.EVENT_CLEARED,
         this.#onSelectionCleared.bind(this)
       );
+      this.treeContainerEl.addEventListener(
+        'infiniteTree:redisplayAndReopenComplete',
+        this.#onRedisplayAndReopenComplete.bind(this)
+      );
     }
 
     this.toolbarEl.addEventListener('click', event => {
@@ -97,6 +142,9 @@ class InfiniteTreeToolbar {
 
           break;
         case 'move-menu':
+          if (this.reorderMode) {
+            this.#renderMoveMenu();
+          }
           this.#emitSimpleEvent('infiniteTreeToolbar:moveMenuRequested');
 
           break;
@@ -150,13 +198,13 @@ class InfiniteTreeToolbar {
     if (!this.toolbarEl) return;
 
     const isArchivalObjectSelected = this.#isArchivalObjectSelected();
-    const showMove = this.reorderMode && isArchivalObjectSelected;
+    const moveEnabled = this.reorderMode && this.#hasNonRootSelection();
     const moveToggle = this.toolbarEl.querySelector(
       '.js-itree-toolbar-move-toggle'
     );
 
     if (moveToggle) {
-      if (!showMove) {
+      if (!moveEnabled) {
         moveToggle.classList.add('disabled');
         moveToggle.setAttribute('aria-disabled', 'true');
       } else {
@@ -170,10 +218,10 @@ class InfiniteTreeToolbar {
     );
 
     if (moveGroup) {
-      moveGroup.style.display = showMove ? '' : 'none';
+      moveGroup.style.display = this.reorderMode ? '' : 'none';
     }
 
-    if (showMove) {
+    if (this.reorderMode) {
       this.#renderMoveMenu();
     }
 
@@ -263,11 +311,49 @@ class InfiniteTreeToolbar {
   }
 
   #onSelectionChanged() {
-    if (this.reorderMode || this.cutActive) this.#applyCutPasteState();
+    if (this.reorderMode) {
+      this.#syncCurrentNodeFromTree();
+      this.#applySelectionState();
+      this.#applyCutPasteState();
+    } else if (this.cutActive) {
+      this.#applyCutPasteState();
+    }
   }
 
   #onSelectionCleared() {
     if (this.reorderMode || this.cutActive) this.#applyCutPasteState();
+  }
+
+  #onRedisplayAndReopenComplete() {
+    if (!this.reorderMode) return;
+
+    this.#syncCurrentNodeFromTree();
+    this.#applySelectionState();
+    this.#applyCutPasteState();
+  }
+
+  /**
+   * Resolve the live tree row that Move menu options apply to. Move always
+   * targets the current `.selected` node. After reorder redisplay, cached
+   * `currentNode` can reference detached DOM, so read selection from the tree.
+   * @returns {HTMLElement|null}
+   */
+  #getMoveContextNode() {
+    if (!this.treeContainerEl) return null;
+
+    const selected = this.treeContainerEl.querySelector('li.node.selected');
+    if (selected && !selected.classList.contains('root')) {
+      return selected;
+    }
+
+    return null;
+  }
+
+  #syncCurrentNodeFromTree() {
+    const node = this.#getMoveContextNode();
+    if (node) {
+      this.currentNode = node;
+    }
   }
 
   #onCollapseTree(event) {
@@ -456,7 +542,9 @@ class InfiniteTreeToolbar {
   }
 
   #isArchivalObjectSelected() {
-    const node = this.currentNode || this.#getSelectedNode();
+    const node = this.reorderMode
+      ? this.#getMoveContextNode()
+      : this.currentNode || this.#getSelectedNode();
     if (!node) return false;
 
     if (node.classList.contains('root')) return false;
@@ -470,86 +558,162 @@ class InfiniteTreeToolbar {
     return this.treeContainerEl.querySelector('.node.selected');
   }
 
+  /**
+   * Whether the current tree selection is a non-root row.
+   * @returns {boolean}
+   */
+  #hasNonRootSelection() {
+    if (!this.treeContainerEl) return false;
+
+    return !!this.treeContainerEl.querySelector('li.node.selected:not(.root)');
+  }
+
+  /**
+   * @param {boolean} enabled
+   * @returns {string}
+   */
+  #moveOptionDisabledAttrs(enabled) {
+    if (enabled) return '';
+
+    return ' disabled aria-disabled="true"';
+  }
+
   #renderMoveMenu() {
     if (!this.toolbarEl) return;
 
     const menuEl = this.toolbarEl.querySelector('.js-itree-toolbar-move-menu');
     if (!menuEl) return;
 
-    const node = this.currentNode || this.#getSelectedNode();
-    if (!node) {
-      menuEl.innerHTML = '';
-      return;
-    }
+    const node = this.#getMoveContextNode();
+    const parentList = node ? node.parentElement : null;
+    const siblingsAtLevel =
+      node && parentList
+        ? Array.prototype.filter.call(parentList.children, function (child) {
+            return child.matches('li.node') && child !== node;
+          })
+        : [];
 
-    const parentList = node.parentElement;
-    const siblingsAtLevel = parentList
-      ? Array.prototype.filter.call(parentList.children, function (child) {
-          return child.matches('li.node') && child !== node;
-        })
-      : [];
-
-    const prevSibling = node.previousElementSibling;
-    const nextSibling = node.nextElementSibling;
-    const level = this.#getNodeLevel(node);
+    const prevSibling = node ? node.previousElementSibling : null;
+    const nextSibling = node ? node.nextElementSibling : null;
+    const level = node ? this.#getNodeLevel(node) : 0;
     const canMoveUp = !!(prevSibling && prevSibling.matches('li.node'));
     const canMoveDown = !!(nextSibling && nextSibling.matches('li.node'));
     const canMoveUpLevel = level > 1;
-    const siblingsMenuItems = siblingsAtLevel
-      .map(sibling => {
-        const titleEl = sibling.querySelector(
-          '.node-column[data-column="title"]'
-        );
-        const title = titleEl ? titleEl.textContent.trim() : sibling.id || '';
-        return (
-          '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down-into" data-target-node-id="' +
-          sibling.id +
-          '">' +
-          title +
-          '</button></li>'
-        );
-      })
-      .join('');
-    const menuParts = [];
-
-    if (canMoveUpLevel) {
-      menuParts.push(
-        '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="up-level">' +
-          this.#translate('actions.move_up_a_level', 'Up a Level') +
-          '</button></li>'
-      );
-    }
-
-    if (canMoveUp) {
-      menuParts.push(
-        '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="up">' +
-          this.#translate('actions.move_up', 'Up') +
-          '</button></li>'
-      );
-    }
-
-    if (canMoveDown) {
-      menuParts.push(
-        '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down">' +
-          this.#translate('actions.move_down', 'Down') +
-          '</button></li>'
-      );
-    }
-
-    if (siblingsAtLevel.length > 0) {
-      menuParts.push(
-        '<li class="dropdown-submenu dropdown-item p-0">' +
-          '<button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-toggle="dropdown" data-move-action="down-into">' +
-          this.#translate('actions.move_down_into', 'Down Into...') +
-          '</button>' +
-          '<ul class="dropdown-menu move-node-into-menu">' +
-          siblingsMenuItems +
-          '</ul>' +
-          '</li>'
-      );
-    }
+    const canMoveDownInto = siblingsAtLevel.length > 0;
+    const siblingsMenuItems = node
+      ? this.#siblingsForDownIntoMenu(node)
+          .map(sibling => {
+            const titleEl = sibling.querySelector(
+              '.node-column[data-column="title"]'
+            );
+            const title = titleEl
+              ? titleEl.textContent.trim()
+              : sibling.id || '';
+            return (
+              '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down-into" data-target-node-id="' +
+              sibling.id +
+              '">' +
+              title +
+              '</button></li>'
+            );
+          })
+          .join('')
+      : '';
+    const downIntoToggleAttrs = canMoveDownInto
+      ? ' data-toggle="dropdown"'
+      : '';
+    const menuParts = [
+      '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="up-level"' +
+        this.#moveOptionDisabledAttrs(canMoveUpLevel) +
+        '>' +
+        this.#translate('actions.move_up_a_level', 'Up a Level') +
+        '</button></li>',
+      '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="up"' +
+        this.#moveOptionDisabledAttrs(canMoveUp) +
+        '>' +
+        this.#translate('actions.move_up', 'Up') +
+        '</button></li>',
+      '<li><button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down"' +
+        this.#moveOptionDisabledAttrs(canMoveDown) +
+        '>' +
+        this.#translate('actions.move_down', 'Down') +
+        '</button></li>',
+      '<li class="dropdown-submenu dropdown-item p-0">' +
+        '<button type="button" class="btn btn-sm rounded-0 dropdown-item cursor-default js-itree-toolbar-move-option" data-move-action="down-into"' +
+        downIntoToggleAttrs +
+        this.#moveOptionDisabledAttrs(canMoveDownInto) +
+        '>' +
+        this.#translate('actions.move_down_into', 'Down Into...') +
+        '</button>' +
+        '<ul class="dropdown-menu move-node-into-menu">' +
+        siblingsMenuItems +
+        '</ul>' +
+        '</li>',
+    ];
 
     menuEl.innerHTML = menuParts.join('');
+  }
+
+  /**
+   * Show only a limited number of siblings near the selected row in the Down Into submenu,
+   * matching largetree behavior, likely for defense against large records.
+   * @param {HTMLElement} node
+   * @returns {HTMLElement[]}
+   */
+  #siblingsForDownIntoMenu(node) {
+    const maxSiblings = 20;
+    const half = Math.floor(maxSiblings / 2);
+    const siblingsAbove = [];
+    const siblingsBelow = [];
+
+    let previous = node.previousElementSibling;
+    while (previous) {
+      if (
+        previous.matches('li.node') &&
+        !previous.classList.contains('js-itree-synthetic-new')
+      ) {
+        siblingsAbove.push(previous);
+      }
+      previous = previous.previousElementSibling;
+    }
+
+    let next = node.nextElementSibling;
+    while (next) {
+      if (
+        next.matches('li.node') &&
+        !next.classList.contains('js-itree-synthetic-new')
+      ) {
+        siblingsBelow.push(next);
+      }
+      next = next.nextElementSibling;
+    }
+
+    let selectedAbove = [];
+    let selectedBelow = [];
+
+    // Prefer a 50/50 split (half above, half below), then let the side with more
+    // siblings fill any unused slots up to the max.
+    if (siblingsAbove.length > half && siblingsBelow.length > half) {
+      selectedAbove = siblingsAbove.slice(0, half);
+      selectedBelow = siblingsBelow.slice(0, half);
+    } else if (siblingsAbove.length > half) {
+      selectedAbove = siblingsAbove.slice(
+        0,
+        maxSiblings - siblingsBelow.length
+      );
+      selectedBelow = siblingsBelow;
+    } else if (siblingsBelow.length > half) {
+      selectedAbove = siblingsAbove;
+      selectedBelow = siblingsBelow.slice(
+        0,
+        maxSiblings - siblingsAbove.length
+      );
+    } else {
+      selectedAbove = siblingsAbove;
+      selectedBelow = siblingsBelow;
+    }
+
+    return selectedAbove.reverse().concat(selectedBelow);
   }
 
   #getNodeLevel(node) {
