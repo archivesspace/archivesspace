@@ -93,7 +93,8 @@ describe 'Infinite Tree Toolbar', js: true do
         expect(page).to have_css('.js-itree-toolbar-cut.disabled')
         expect(page).to have_css('.js-itree-toolbar-paste', text: I18n.t('actions.paste'))
         expect(page).to have_css('.js-itree-toolbar-paste.disabled')
-        expect(page).to have_no_css('.js-itree-toolbar-move-toggle', visible: true)
+        expect(page).to have_css('.js-itree-toolbar-move-toggle', visible: true)
+        expect(page).to have_css('.js-itree-toolbar-move-toggle.disabled')
         expect(page).to have_no_css('.js-itree-toolbar-expand-mode', visible: true)
         expect(page).to have_no_css('.js-itree-toolbar-collapse-tree', visible: true)
         expect(page).to have_no_css('.js-itree-toolbar-add-child', visible: true)
@@ -445,21 +446,39 @@ describe 'Infinite Tree Toolbar', js: true do
       find('.js-itree-toolbar-reorder-toggle').click
     end
 
-    it 'does not show Move when the resource root is selected' do
+    it 'shows Move disabled when the resource root is selected' do
       within '#infinite-tree-toolbar' do
-        expect(page).to have_no_css('.js-itree-toolbar-move-toggle', visible: true)
+        expect(page).to have_css('.js-itree-toolbar-move-toggle', visible: true)
+        expect(page).to have_css('.js-itree-toolbar-move-toggle.disabled')
       end
     end
 
-    it 'shows no Move actions when the only top-level AO has no siblings' do
+    it 'shows all Move actions disabled when the only top-level AO has no siblings' do
+      lone_resource = create(:resource, title: "Lone Resource #{now}")
+      lone_ao = create(
+        :archival_object,
+        resource: { 'ref' => lone_resource.uri },
+        title: "Only AO #{now}"
+      )
+      visit "/resources/#{lone_resource.id}/edit"
+      wait_for_ajax
+      find('.js-itree-toolbar-reorder-toggle').click
+
       within '#infinite-tree-container' do
-        click_link ao.title
+        click_link lone_ao.title
       end
       wait_for_ajax
 
       find('.js-itree-toolbar-move-toggle').click
       within '.js-itree-toolbar-move-menu' do
-        expect(page).to have_no_css('button.js-itree-toolbar-move-option')
+        aggregate_failures do
+          expect(page).to have_css('button[data-move-action="up-level"][disabled]')
+          expect(page).to have_css('button[data-move-action="up"][disabled]')
+          expect(page).to have_css('button[data-move-action="down"][disabled]')
+          expect(page).to have_css(
+            'button[data-move-action="down-into"][disabled]:not([data-target-node-id])'
+          )
+        end
       end
     end
   end
@@ -484,7 +503,7 @@ describe 'Infinite Tree Toolbar', js: true do
         find('.js-itree-toolbar-reorder-toggle').click
       end
 
-      it 'Move menu for the first sibling shows Down and Down Into... only' do
+      it 'Move menu for the first sibling enables Down and Down Into... only' do
         within '#infinite-tree-container' do
           click_link ao.title
         end
@@ -492,17 +511,22 @@ describe 'Infinite Tree Toolbar', js: true do
 
         find('.js-itree-toolbar-move-toggle').click
         within '.js-itree-toolbar-move-menu' do
-          expect(page).to have_css('button[data-move-action="down"]', text: I18n.t('actions.move_down'))
-          expect(page).to have_css(
-            'button[data-move-action="down-into"][data-toggle="dropdown"]',
-            text: I18n.t('actions.move_down_into')
-          )
-          expect(page).to have_no_css('button[data-move-action="up"]')
-          expect(page).to have_no_css('button[data-move-action="up-level"]')
+          aggregate_failures do
+            expect(page).to have_css(
+              'button[data-move-action="down"]:not([disabled])',
+              text: I18n.t('actions.move_down')
+            )
+            expect(page).to have_css(
+              'button[data-move-action="down-into"][data-toggle="dropdown"]:not([disabled])',
+              text: I18n.t('actions.move_down_into')
+            )
+            expect(page).to have_css('button[data-move-action="up"][disabled]')
+            expect(page).to have_css('button[data-move-action="up-level"][disabled]')
+          end
         end
       end
 
-      it 'Move menu for the second sibling shows Up and Down Into... only' do
+      it 'Move menu for the second sibling enables Up and Down Into... only' do
         within '#infinite-tree-container' do
           click_link ao2.title
         end
@@ -510,15 +534,96 @@ describe 'Infinite Tree Toolbar', js: true do
 
         find('.js-itree-toolbar-move-toggle').click
         within '.js-itree-toolbar-move-menu' do
-          expect(page).to have_css('button[data-move-action="up"]', text: I18n.t('actions.move_up'))
-          expect(page).to have_css(
-            'button[data-move-action="down-into"][data-toggle="dropdown"]',
-            text: I18n.t('actions.move_down_into')
-          )
-          # "Down" must not match the separate "Down Into..." control (substring ambiguity).
-          expect(page).to have_no_css('button[data-move-action="down"]')
-          expect(page).to have_no_css('button[data-move-action="up-level"]')
+          aggregate_failures do
+            expect(page).to have_css(
+              'button[data-move-action="up"]:not([disabled])',
+              text: I18n.t('actions.move_up')
+            )
+            expect(page).to have_css(
+              'button[data-move-action="down-into"][data-toggle="dropdown"]:not([disabled])',
+              text: I18n.t('actions.move_down_into')
+            )
+            # "Down" must not match the separate "Down Into..." control (substring ambiguity).
+            expect(page).to have_css('button[data-move-action="down"][disabled]')
+            expect(page).to have_css('button[data-move-action="up-level"][disabled]')
+          end
         end
+      end
+    end
+  end
+
+  context 'with many sibling archival objects' do
+    let!(:extra_siblings) do
+      Array.new(24) do |index|
+        create(
+          :archival_object,
+          resource: { 'ref' => resource.uri },
+          title: "Extra Sibling #{index} #{now}"
+        )
+      end
+    end
+
+    before do
+      extra_siblings
+      visit edit_path
+      wait_for_ajax
+    end
+
+    it 'limits Down Into submenu to 20 balanced siblings' do
+      find('.js-itree-toolbar-reorder-toggle').click
+
+      selected_uri = page.evaluate_script(<<~JS)
+        (function() {
+          var uris = Array.prototype.map.call(
+            document.querySelectorAll('#infinite-tree-container .root.node > .node-children > li.node'),
+            function(node) { return node.getAttribute('data-uri'); }
+          );
+          return uris[12];
+        })();
+      JS
+      selected_id = "archival_object_#{selected_uri.to_s.split('/').last}"
+
+      page.execute_script(<<~JS)
+        (function() {
+          var row = document.querySelector("#infinite-tree-container li.node[data-uri='#{selected_uri}'] .record-title");
+          if (!row) throw new Error('failed to find selected row');
+          row.click();
+        })();
+      JS
+      wait_for_ajax
+      find('.js-itree-toolbar-move-toggle').click
+
+      move_data = page.evaluate_script(<<~JS)
+        (function() {
+          var allUris = Array.prototype.map.call(
+            document.querySelectorAll('#infinite-tree-container .root.node > .node-children > li.node'),
+            function(node) { return node.getAttribute('data-uri'); }
+          );
+          var targetUris = Array.prototype.map.call(
+            document.querySelectorAll('.js-itree-toolbar-move-menu .move-node-into-menu [data-target-node-id]'),
+            function(btn) {
+              var targetId = btn.getAttribute('data-target-node-id');
+              var targetNode = document.getElementById(targetId);
+              return targetNode ? targetNode.getAttribute('data-uri') : null;
+            }
+          ).filter(Boolean);
+          return { allUris: allUris, targetUris: targetUris };
+        })();
+      JS
+
+      all_uris = move_data['allUris']
+      target_uris = move_data['targetUris']
+      selected_index = all_uris.index(selected_uri)
+      expected_target_uris =
+        all_uris[(selected_index - 10)...selected_index] +
+        all_uris[(selected_index + 1)..(selected_index + 10)]
+
+      aggregate_failures do
+        expect(selected_index).to be >= 10
+        expect(selected_index).to be <= (all_uris.length - 11)
+        expect(selected_id).to start_with('archival_object_')
+        expect(target_uris.length).to eq(20)
+        expect(target_uris).to eq(expected_target_uris)
       end
     end
   end
