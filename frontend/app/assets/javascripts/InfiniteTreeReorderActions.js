@@ -1,5 +1,4 @@
 //= require InfiniteTreeFetch
-//= require InfiniteTreeIds
 
 class InfiniteTreeReorderActions {
   static EVENT_MOVE_START = 'infiniteTreeReorder:moveStart';
@@ -33,6 +32,10 @@ class InfiniteTreeReorderActions {
     );
     this.containerEl.addEventListener(
       InfiniteTreeCutPaste.EVENT_PASTE_INTENT,
+      this.#onDropIntent.bind(this)
+    );
+    this.containerEl.addEventListener(
+      InfiniteTreeMove.EVENT_MOVE_INTENT,
       this.#onDropIntent.bind(this)
     );
 
