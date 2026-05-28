@@ -190,7 +190,6 @@ describe "Bulk Import Mixins" do
 
   it "will import a date begin and end for accessrestrict note" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_accessrestrict"=>"Access Restriction note", "p_accessrestrict"=>"1", "b_accessrestrict"=>"2021-10-01", "e_accessrestrict"=>"2021-10-31"}
     handle_notes(ao, hash, false)
     expect(ao['notes']).not_to be_nil
@@ -202,7 +201,6 @@ describe "Bulk Import Mixins" do
 
   it "will not import an accessrestrict note date begin that comes after a date end" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_accessrestrict"=>"Access Restriction note", "p_accessrestrict"=>"1", "b_accessrestrict"=>"2021-10-31", "e_accessrestrict"=>"2021-10-01"}
     expect {
       handle_notes(ao, hash, false)
@@ -211,7 +209,6 @@ describe "Bulk Import Mixins" do
 
   it "will not import a date begin and end for a non-accessrestrict note" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_prefercite"=>"Preferred Citation note", "p_prefercite"=>"1", "b_prefercite"=>"2021-10-01", "e_prefercite"=>"2021-10-31"}
     handle_notes(ao, hash, false)
     expect(ao['notes']).not_to be_nil
@@ -221,7 +218,6 @@ describe "Bulk Import Mixins" do
 
   it "will import a single access restriction type from t_accessrestrict_1" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
             "t_accessrestrict_1" => "RestrictedSpecColl"}
     handle_notes(ao, hash, false)
@@ -232,7 +228,6 @@ describe "Bulk Import Mixins" do
 
   it "will import multiple access restriction types from t_accessrestrict_1 and t_accessrestrict_2" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
             "t_accessrestrict_1" => "RestrictedSpecColl",
             "t_accessrestrict_2" => "RestrictedCurApprSpecColl"}
@@ -244,7 +239,6 @@ describe "Bulk Import Mixins" do
 
   it "will not create a second accessrestrict note when multiple restriction types are provided" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
             "t_accessrestrict_1" => "RestrictedSpecColl",
             "t_accessrestrict_2" => "RestrictedSpecColl"}
@@ -254,7 +248,6 @@ describe "Bulk Import Mixins" do
 
   it "will skip a blank t_accessrestrict_2" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
             "t_accessrestrict_1" => "RestrictedSpecColl",
             "t_accessrestrict_2" => nil}
@@ -266,7 +259,6 @@ describe "Bulk Import Mixins" do
 
   it "does not apply accessrestrict dates to a subsequent note in the same row" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {
       "n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
       "b_accessrestrict" => "2021-01-01", "e_accessrestrict" => "2021-12-31",
@@ -279,7 +271,6 @@ describe "Bulk Import Mixins" do
 
   it "will import a single access restriction type from the legacy t_accessrestrict column" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
             "t_accessrestrict" => "RestrictedSpecColl"}
     handle_notes(ao, hash, false)
@@ -290,7 +281,6 @@ describe "Bulk Import Mixins" do
 
   it "sorts restriction types numerically so t_accessrestrict_10 comes after t_accessrestrict_9" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
             "t_accessrestrict_9" => "RestrictedSpecColl",
             "t_accessrestrict_10" => "RestrictedCurApprSpecColl"}
@@ -302,7 +292,6 @@ describe "Bulk Import Mixins" do
 
   it "will skip a blank string t_accessrestrict value" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
             "t_accessrestrict_1" => "RestrictedSpecColl",
             "t_accessrestrict_2" => "  "}
