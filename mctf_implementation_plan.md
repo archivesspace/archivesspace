@@ -110,15 +110,15 @@ This document is based on the JIRA tickets on the [MCTF board](https://archivess
 Users must be able to record which languages a resource (or accession/digital object) is described
 in, and which one is primary, before entering language-specific field content. See also the latest requirements document describing the Staff UI forms: [March 2026 MLC UI expectations doc](https://docs.google.com/document/d/1mO06XUBUkXaoItLwKe9Heia0GcrN75nPGM3PdWylyLU/edit?usp=sharing)
 
-- [ ] Rename current "Languages" subrecord panel to "Languages of Materials".
-- [ ] Display `lang_descriptions` subrecord panel similar to the "Languages of Materials panel", in resource / accession / digital object edit form
+- [x] Rename current "Languages" subrecord panel to "Languages of Materials".
+- [x] Display `lang_descriptions` subrecord panel similar to the "Languages of Materials panel", in resource / accession / digital object edit form
   - Title it as: "Languages of Description"
     - Subrecord fields:
       - language dropdown (ISO 639-2),
       - script dropdown (ISO 15924),
       - "Primary" checkbox
     - Only one entry may be marked primary (enforce client-side)
-- [ ] Config flag `AppConfig[:multilingual_content]` gates all MLC UI; when disabled the subrecord panel is hidden and behaviour is identical to pre-MLC
+- [x] Config flag `AppConfig[:multilingual_content]` gates all MLC UI; when disabled the subrecord panel is hidden and behaviour is identical to pre-MLC
 
 ---
 

@@ -51,8 +51,8 @@ de:
       action:
         add: Datum hinzufügen
   lang_material: &lang_material_attributes
-    _plural: Sprachen
-    _singular: Sprache
+    _plural: Sprachen der Materialien
+    _singular: Sprache des Materials
   custom_report_template:
     name: Name
     limit: Grenze
@@ -1684,7 +1684,7 @@ de:
     dates_tooltip: "<p>BEDINGT ERFORDERLICHER TEILRECORD. Ein Archiv-Objekt muss entweder eine Titel-
       oder eine Datums-Teilaufzeichnung haben.</p>\n"
     extents: Umfänge
-    lang_materials: Sprachen
+    lang_materials: Sprachen der Materialien
     ref_id_auto_generation_message: -- wird beim Speichern automatisch erzeugt --
     component_id: Eindeutiger Bezeichner der Komponente
     component_id_tooltip: "<p>Gibt eine eindeutige ID im Kontext der Ressourcenbeschreibung für den Komponententeil
@@ -2974,3 +2974,11 @@ de:
       und digital_object_component-Aufzeichnungen angehängt sind. Da dieser Job über alle Aufbewahrungsorte
       hinweg funktioniert, ist er auf Benutzer mit <b>nur Systemadministratorrechten</b> beschränkt.\n"
     dry_run: Probelauf?
+  lang_description: &lang_description
+    _plural: Sprachen der Beschreibung
+    _singular: Sprache der Beschreibung
+    is_primary: Muttersprache
+    language: Sprache
+    script: Skript
+  language_and_script_of_description:
+    <<: *lang_description

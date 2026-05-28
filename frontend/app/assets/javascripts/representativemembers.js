@@ -21,11 +21,15 @@ $(function () {
         object_name === 'file_version' ||
         object_name === 'instance' ||
         object_name === 'agent_contact' ||
-        object_name === 'linked_agent'
+        object_name === 'linked_agent' ||
+        object_name === 'lang_description'
       ) {
         // ANW-504: for linked agents, the field that stores the switch denoting a representative number is 'is_primary'
         var rep_field_name;
-        if (object_name === 'linked_agent') {
+        if (
+          object_name === 'linked_agent' ||
+          object_name === 'lang_description'
+        ) {
           rep_field_name = 'is_primary';
         } else {
           rep_field_name = 'is_representative';

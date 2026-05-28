@@ -33,7 +33,7 @@ Given 'an Accession has been created' do
   fill_in 'accession_use_restrictions_note_', with: "Use Restrictions Note #{@uuid}"
 
   within '#accession_lang_materials_' do
-    click_on 'Add Language'
+    click_on 'Add Language of Materials'
 
     within 'li.sort-enabled.initialised' do
       fill_in 'Language', with: 'English'

@@ -21,7 +21,7 @@ Given 'a Resource with a Top Container has been created' do
   click_on 'Create and Link'
   expect(page).to have_css('.top_container')
 
-  click_on 'Add Language'
+  click_on 'Add Language of Materials'
 
   within('#resource_lang_materials_ li.sort-enabled.initialised', match: :first) do
     element = find('#resource_lang_materials__0__language_and_script__language_')

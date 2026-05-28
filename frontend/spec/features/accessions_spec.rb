@@ -944,6 +944,52 @@ describe 'Accessions', js: true do
       end
     end
   end
+
+  context 'when multilingual content enabled' do
+    before do
+      AppConfig[:multilingual_content] = true
+    end
+
+    after do
+      AppConfig[:multilingual_content] = false
+    end
+
+    it_behaves_like 'a multilingual parent record', 'accession'
+
+    it 'can create an accession, but lang_description is required' do
+      click_on('Create')
+      click_on('Accession')
+      fill_in('Title', with: 'MLC Accession')
+      fill_in("Identifier", with: "test_#{Time.now}")
+
+      click_on('Save')
+      expect(page).to have_text "Language - Property is required but was missing"
+      expect(page).to have_text "Script - Property is required but was missing"
+
+      element = find('#accession_lang_descriptions__0__language_')
+      element.click
+      element.send_keys('Eng')
+      element.send_keys(:tab)
+
+      element = find('#accession_lang_descriptions__0__script_')
+      element.click
+      element.send_keys('Lat')
+      element.send_keys(:tab)
+
+      click_on('Save')
+
+      expect(page).to have_text "Accession MLC Accession created"
+    end
+  end
+
+  context 'when multilingual content disabled' do
+    before do
+      AppConfig[:multilingual_content] = false
+    end
+
+    it_behaves_like 'a non-multilingual parent record', 'accession'
+
+  end
 end
 
 describe 'Accessions (view-only permissions)', js: true do

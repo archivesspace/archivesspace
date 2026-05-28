@@ -75,3 +75,16 @@ nl:
     mlc_field: >-
       De waarde van dit veld kan veranderen op basis van de huidige
       beschrijvingstaal.
+    _frontend:
+      action:
+        add: Taal van de beschrijving toevoegen
+        make_primary_tooltip: >
+          <p>Gebruik dit om aan te geven welke taal en welk schrift de primaire zijn. 
+          Slechts één taal kan als primair worden aangewezen.</p>
+        make_primary: Instellen als primaire taal
+  lang_material:
+    _plural: Talen van materialen
+    _frontend:
+      action:
+        add: Taal van materialen toevoegen
+        add_note: Taalnotitie toevoegen

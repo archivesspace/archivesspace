@@ -259,7 +259,7 @@ def create_resource(uuid)
   select 'Class', from: 'resource_level_'
 
   languages = all('#resource_lang_materials_ .subrecord-form-list li')
-  click_on 'Add Language' if languages.length == 0
+  click_on 'Add Language of Materials' if languages.length == 0
   element = find('#resource_lang_materials__0__language_and_script__language_')
   element.send_keys(ORIGINAL_LANGUAGE)
   element.send_keys(:tab)

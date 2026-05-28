@@ -607,4 +607,49 @@ describe 'Digital Objects', js: true do
       it_behaves_like 'not supporting is_primary on rights statement linked agents'
     end
   end
+
+  context 'when multilingual content enabled' do
+    before do
+      AppConfig[:multilingual_content] = true
+    end
+
+    after do
+      AppConfig[:multilingual_content] = false
+    end
+
+    it_behaves_like 'a multilingual parent record', 'digital_object'
+
+    it 'can create a digital object, but lang_description is required' do
+      click_on('Create')
+      click_on('Digital Object')
+      fill_in('Title', with: 'MLC Digital Object')
+      fill_in('Identifier', with: "test_#{Time.now}")
+
+      click_on('Save')
+      expect(page).to have_text "Language - Property is required but was missing"
+      expect(page).to have_text "Script - Property is required but was missing"
+
+      element = find('#digital_object_lang_descriptions__0__language_')
+      element.click
+      element.send_keys('Eng')
+      element.send_keys(:tab)
+
+      element = find('#digital_object_lang_descriptions__0__script_')
+      element.click
+      element.send_keys('Lat')
+      element.send_keys(:tab)
+
+      click_on('Save')
+
+      expect(page).to have_text "Digital Object MLC Digital Object created"
+    end
+  end
+
+  context 'when multilingual content disabled' do
+    before do
+      AppConfig[:multilingual_content] = false
+    end
+
+    it_behaves_like 'a non-multilingual parent record', 'digital_object'
+  end
 end

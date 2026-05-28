@@ -1,7 +1,6 @@
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
 <fieldset>
-
   <%= hidden_field_tag "uri", @digital_object.uri %>
 
   <% define_template "digital_object", jsonmodel_definition(:digital_object) do |form| %>
@@ -9,12 +8,15 @@
       <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
         <h3 class="flex-grow-1 d-flex align-items-center mb-0 border-0">
           <%= t("digital_object._frontend.section.basic_information") %>
+
           <% if edit_mode? %>
             <span class="ml-2 fs-12px label badge">ENG</span>
           <% end %>
         </h3>
+
         <%= link_to_help :topic => "digital_object_basic_information" %>
       </div>
+
       <%= render_plugin_partials("top_of_basic_information_digital_object",
                                  :form => form,
                                  :record => @digital_object) %>
@@ -36,13 +38,16 @@
       <%= render_plugin_partials("basic_information_digital_object",
                                  :form => form,
                                  :record => @digital_object) %>
-
     </section>
   <% end %>
 
   <% form.emit_template("digital_object") %>
 
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "file_versions"} %>
+
+  <% if AppConfig[:multilingual_content] %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_descriptions"} %>
+  <% end %>
 
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_materials", :custom_action_template => "lang_materials/subrecord_form_action"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
@@ -62,5 +67,4 @@
   <%= render_aspace_partial :partial => "external_ids/edit", :locals => {:form => form, :section_id => "external_ids"} %>
 
   <%= form_plugins_for("digital_object", form) %>
-
 </fieldset>

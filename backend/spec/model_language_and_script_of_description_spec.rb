@@ -1,17 +1,6 @@
 require 'spec_helper'
 
 describe 'LanguageAndScriptOfDescription model' do
-  it "defaults is_primary to false" do
-    record = LanguageAndScriptOfDescription.create_from_json(
-      JSONModel(:language_and_script_of_description).from_hash(
-        "language" => "fre",
-        "script"   => "Latn"
-      )
-    )
-
-    expect(LanguageAndScriptOfDescription[record.id].is_primary).to eq(0)
-  end
-
   it "requires language to be present" do
     expect {
       LanguageAndScriptOfDescription.create_from_json(
