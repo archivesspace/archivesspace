@@ -277,12 +277,13 @@
     display: none;
   }
 
+  // Reparent highlight/fade: row ::after carries the full border (not ::before).
+  // Green fill fades via ::before overlays; columns stay above overlays (z-index 2)
+  // so row text is never tinted during the animation.
   &.reparented-highlight > .node-row > .node-body,
   &.reparented > .node-row > .node-body {
     position: relative;
 
-    // Full-row green overlay. Fades during reparented, always visible during
-    // reparented-highlight. pointer-events: none so interactions pass through.
     &::before {
       content: '';
       position: absolute;
@@ -292,6 +293,18 @@
       right: 0;
       bottom: -1px;
       background-color: var(--tree-reparent-highlight-bg);
+      pointer-events: none;
+    }
+
+    // Above columns/indent (z-index 2) so the outline is continuous across the row.
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: 3;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: -1px;
       border: 1px solid var(--tree-reparent-highlight-border);
       pointer-events: none;
     }
@@ -301,18 +314,10 @@
       z-index: 2;
     }
 
-    // Kept at z-index: 2 in both states so the expand button icon is never
-    // hidden by the row-level ::before overlay.
     .node-indentation {
       z-index: 2;
     }
 
-    // Inner overlay that covers the gradient background and fades in sync with
-    // the row ::before. Sits at z-index: 1 inside the indentation stacking
-    // context — above the gradient (stacking-context background, effectively
-    // z-index: 0) but below .node-expand (z-index: 2) — so the button icon
-    // stays visible throughout the fade. border-top mirrors the row ::before
-    // border in the indentation zone.
     .node-indentation::before {
       content: '';
       position: absolute;
@@ -322,11 +327,9 @@
       right: 0;
       bottom: 0;
       background-color: var(--tree-reparent-highlight-bg);
-      border-top: 1px solid var(--tree-reparent-highlight-border);
       pointer-events: none;
     }
 
-    // Position above the inner indentation overlay so the icon stays visible.
     .node-indentation .node-expand {
       position: relative;
       z-index: 2;
@@ -337,9 +340,6 @@
     background-color: var(--tree-reparent-highlight-bg) !important;
     transition: background-color 0.5s linear;
 
-    // Transparent fill lets the solid green body show through the indentation
-    // zone uniformly. The inner .node-indentation::before provides the green
-    // coverage and its own border-top in the indentation zone.
     .node-indentation {
       --indent-fill: transparent;
       --indent-line: transparent;
@@ -349,20 +349,25 @@
       opacity: 1;
     }
 
+    .node-indentation .node-expand {
+      background-color: var(--tree-reparent-highlight-bg);
+    }
+
     &::before {
+      opacity: 1;
+    }
+
+    &::after {
       opacity: 1;
     }
   }
 
-  &.reparented > .node-row > .node-body::before {
+  &.reparented > .node-row > .node-body::before,
+  &.reparented > .node-row > .node-body::after {
     opacity: 0;
     transition: opacity 1.5s linear;
   }
 
-  // Fade the inner indentation overlay in sync with the row overlay so the
-  // gradient is revealed at the same rate as the rest of the row. Keep the
-  // button transparent so the inner overlay shows through it as it fades —
-  // avoiding any background snap when --indent-fill reverts to normal.
   &.reparented > .node-row > .node-body {
     .node-indentation::before {
       opacity: 0;
