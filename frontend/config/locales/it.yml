@@ -516,24 +516,56 @@ it:
       indicator: Indicatore
       barcode: Codice a barre
       internal_note: Note interne
+      restricted: Limitato
+      not_restricted: Nessuna restrizione
+      ils_holding_id: ID della holding ILS
+      exported_to_ils: Esportato in ILS
+      not_exported_to_ils: Non esportato
     container_profile:
       score: Rilevanza
       audit_info: Informazioni sull'audit
       asc: Ascendente
       desc: Discendente
       uri: URI
+      title: Titolo
+      publish: Pubblicata
+      container_profile_width_u_sstr: Larghezza
+      container_profile_height_u_sstr: Altezza
+      container_profile_depth_u_sstr: Profondità
+      container_profile_dimension_units_u_sstr: Unità di misura
+      user_mtime: Modificato
+      create_time: Creata
+      notes: Nota
     location_profile:
       score: Rilevanza
       audit_info: Informazioni sull'audit
       asc: Ascendente
       desc: Discendente
       uri: URI
+      title: Titolo
+      publish: Pubblicata
+      location_profile_width_u_sstr: Larghezza
+      location_profile_height_u_sstr: Altezza
+      location_profile_depth_u_sstr: Profondità
+      location_profile_dimension_units_u_sstr: Unità di misura
+      user_mtime: Modificato
+      create_time: Creata
     job:
       score: Rilevanza
       audit_info: Informazioni sull'audit
       asc: Ascendente
       uri: URI
       desc: Discendente
+      status: Stato
+      job_type: Tipo di lavoro
+      report_type: Tipo di report
+      job_report_type: Tipo di lavoro
+      time_started: Ora di inizio
+      time_finished: Tempo completato
+      time_submitted: Ora di invio
+      job_data: Informazioni sul lavoro
+      user_mtime: Modificato
+      create_time: Creata
     multi:
       score: Rilevanza
       relevance: Rilevanza
@@ -542,6 +574,20 @@ it:
       asc: Ascendente
       desc: Discendente
       uri: URI
+      primary_type: Tipo di record
+      creators: Creatrice
+      subjects: Soggetta
+      title: Titolo
+      context: Trovato in
+      identifier: Identificativo
+      query: Testo
+      user_mtime: Modificato
+      create_time: Creata
+      dates: Dati
+      extents: Estensione
+      langcode: Linguaggio dei materiali
+    blank_facet_query_fields:
+      owner_repo_display_string_u_ssort: Archivio
   navbar:
     import_marcxml_subjects_and_agents: MARCXML (solo soggetti e agents)
     toggle_navigation: Attiva/disattiva navigazione
@@ -668,6 +714,17 @@ it:
       NOT: Non
       AND: E
       OR: O
+      operator: Operatore
+    date_operator:
+      comparator: Comparatore
+      equal: uguale
+      greater_than: maggiore di
+      lesser_than: meno di
+      empty: non assegnato
+    boolean_field:
+      boolean: Booleano
+      true_value: Vera
+      false_value: Falso
   batch_delete:
     agents:
       error: 'Impossibile eliminare gli agents:'
