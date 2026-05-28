@@ -242,7 +242,7 @@ describe "Bulk Import Mixins" do
       .to contain_exactly('RestrictedSpecColl', 'RestrictedCurApprSpecColl')
   end
 
-  it "will not create a second note when t_accessrestrict_2 is provided" do
+  it "will not create a second accessrestrict note when multiple restriction types are provided" do
     ao = create(:json_archival_object)
     ao.save
     hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
