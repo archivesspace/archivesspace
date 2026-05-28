@@ -310,7 +310,7 @@ module BulkImportMixins
   end
 
   def accessrestrict_note_params(hash)
-    restrictions = hash.keys.grep(/^t_accessrestrict(_\d+)?$/).sort.filter_map { |k| hash[k] }
+    restrictions = hash.keys.grep(/^t_accessrestrict(_\d+)?$/).sort_by { |k| k[/\d+/].to_i }.filter_map { |k| hash[k] unless hash[k].to_s.strip.empty? }
     {
       b_date: hash['b_accessrestrict'],
       e_date: hash['e_accessrestrict'],

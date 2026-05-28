@@ -288,6 +288,30 @@ describe "Bulk Import Mixins" do
       .to eq(['RestrictedSpecColl'])
   end
 
+  it "sorts restriction types numerically so t_accessrestrict_10 comes after t_accessrestrict_9" do
+    ao = create(:json_archival_object)
+    ao.save
+    hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
+            "t_accessrestrict_9" => "RestrictedSpecColl",
+            "t_accessrestrict_10" => "RestrictedCurApprSpecColl"}
+    handle_notes(ao, hash, false)
+    note = ao['notes'][0]
+    expect(note['rights_restriction']['local_access_restriction_type'])
+      .to eq(['RestrictedSpecColl', 'RestrictedCurApprSpecColl'])
+  end
+
+  it "will skip a blank string t_accessrestrict value" do
+    ao = create(:json_archival_object)
+    ao.save
+    hash = {"n_accessrestrict" => "Restricted", "p_accessrestrict" => "1",
+            "t_accessrestrict_1" => "RestrictedSpecColl",
+            "t_accessrestrict_2" => "  "}
+    handle_notes(ao, hash, false)
+    note = ao['notes'][0]
+    expect(note['rights_restriction']['local_access_restriction_type'])
+      .to eq(['RestrictedSpecColl'])
+  end
+
   after(:each) do
     @no_ead_json.delete
     @resource_json.delete
