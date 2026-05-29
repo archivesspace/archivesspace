@@ -72,7 +72,7 @@ class NotesHandler < Handler
 
     unless local_restriction.nil?
       note.rights_restriction = {
-        'local_access_restriction_type' => [local_restriction].compact,
+        'local_access_restriction_type' => Array(local_restriction).compact,
       }
     end
 
