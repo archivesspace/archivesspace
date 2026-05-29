@@ -86,4 +86,12 @@ describe "Notes Handler" do
     expect(hsh["label"]).to eq("the label")
   end
 
+  it "creates an accessrestrict note with multiple restriction types as an array" do
+    note = @nh.create_note('accessrestrict', nil, 'Restricted', true, false,
+                            nil, nil, ['RestrictedSpecColl', 'RestrictedCurApprSpecColl'])
+    hsh = hash_it(note)
+    expect(hsh['rights_restriction']['local_access_restriction_type'])
+      .to eq(['RestrictedSpecColl', 'RestrictedCurApprSpecColl'])
+  end
+
 end
