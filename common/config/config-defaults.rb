@@ -867,3 +867,54 @@ AppConfig[:bulk_archival_object_updater_max_rows] = 1000
 # Default search scope setting
 # Options: 'all_record_types', 'collections_only'
 AppConfig[:search_default_scope] = 'all_record_types'
+
+# Extended CSV export changes the format used when exporting search
+# results. Each record in the search results appears as a row in the resulting
+# CSV, with additional columns added to capture the nested records (up to a
+# configurable maximum).
+#
+# For example, an export of a Resource record might include columns such as:
+#
+#   title
+#   finding_aid_title
+#   level
+#   ead_id
+#   dates::0::date_type
+#   dates::0::label
+#   dates::0::begin
+#   dates::0::end
+#   dates::0::expression
+#   dates::1::date_type
+#   dates::1::label
+#   dates::1::begin
+#   dates::1::end
+#   dates::1::expression
+#   extents::0::number
+#   extents::0::portion
+#   extents::0::extent_type
+#   ... many others!
+#
+# Extended CSV export is enabled with the following option
+AppConfig[:extended_csv_export_enabled] = false
+
+# By default, up to 10 instances of each nested record (dates, extents,
+# subjects, etc.) are included for each record. Increasing this number will
+# allow for more instances of nested records and produce CSVs exports with more columns.
+AppConfig[:extended_csv_export_max_nested_records] = 10
+
+# Extended CSV export automatically exports the major nested record types, but
+# you can add extras by including the appropriate property name from the
+# exported record's JSONModel schema.
+#
+# Example syntax: AppConfig[:extended_csv_export_extra_nested_records] = ['dates', 'extents']
+AppConfig[:extended_csv_export_extra_nested_records] = []
+
+# To suppress certain properties from being included in CSV exports, you can
+# specify them here.
+#
+# Example syntax: AppConfig[:extended_csv_export_extra_excluded_properties] = ['lock_version']
+AppConfig[:extended_csv_export_extra_excluded_properties] = []
+
+# Expert: If you want to customize the extended CSV export from a plugin, you
+# can replace the standard implementation with your own version here.
+AppConfig[:extended_csv_export_class] = 'ExtendedCSVExportStream'
