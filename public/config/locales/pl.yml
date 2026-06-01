@@ -33,6 +33,7 @@ pl:
     previous: Poprzedni
     cilpboard_cite_item_description: Skopiuj odnośnik do opisu przedmiotu do schowka.
     search_add_row: Dodaj wiersz wyszukiwania
+    authenticating: Weryfikacja dostępu
   agent_person:
     _singular: Osoba
     _plural: Ludzie
@@ -496,3 +497,9 @@ pl:
     additional_info:
       invalid_markup: Błąd ten może być spowodowany nieprawidłowym oznaczeniem w notatce lub 
         podrekordach.
+  login:
+    login: Zalogować się
+    logout: Wyloguj
+    username_placeholder: Nazwa użytkownika
+    password_placeholder: Hasło
+    required: wymagany

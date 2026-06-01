@@ -1,31 +1,34 @@
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
- <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
- <fieldset>
-   <%= form.label_and_textfield "username", { :field_opts => { :readonly => !!@user.id }, :required => true } %>
-   <%= form.label_and_textfield "name", {:field_opts => {:size => 30, :class => "form-control"}, :required => true} %>
+<fieldset>
+  <%= form.label_and_textfield "username", { :field_opts => { :readonly => !!@user.id }, :required => true } %>
+  <%= form.label_and_textfield "name", {:field_opts => {:size => 30, :class => "form-control"}, :required => true} %>
 
-   <%= form.label_and_textfield "email", {:field_opts => {:size => 30, :class => "form-control"}} %>
-   <%= form.label_and_textfield "first_name", {:field_opts => {:size => 30, :class => "form-control"}} %>
-   <%= form.label_and_textfield "last_name", {:field_opts => {:size => 30, :class => "form-control"}} %>
-   <%= form.label_and_textfield "telephone", {:field_opts => {:size => 30, :class => "form-control"}} %>
-   <%= form.label_and_textfield "title", {:field_opts => {:size => 30, :class => "form-control"}} %>
-   <%= form.label_and_textfield "department", {:field_opts => {:size => 30, :class => "form-control"}} %>
-   <%= form.label_and_textarea "additional_contact" %>
+  <%= form.label_and_textfield "email", {:field_opts => {:size => 30, :class => "form-control"}} %>
+  <%= form.label_and_textfield "first_name", {:field_opts => {:size => 30, :class => "form-control"}} %>
+  <%= form.label_and_textfield "last_name", {:field_opts => {:size => 30, :class => "form-control"}} %>
+  <%= form.label_and_textfield "telephone", {:field_opts => {:size => 30, :class => "form-control"}} %>
+  <%= form.label_and_textfield "title", {:field_opts => {:size => 30, :class => "form-control"}} %>
+  <%= form.label_and_textfield "department", {:field_opts => {:size => 30, :class => "form-control"}} %>
+  <%= form.label_and_textarea "additional_contact" %>
 
-   <hr/>
+  <hr />
 
-   <%= form.label_and_textfield "source", { :field_opts => { :readonly => true } } %>
-   <%= form.label_and_password "password", {:field_opts => {:size => 30, :class => "form-control"}, :required => @user.id ? :conditionally : true} %>
-   <%= form.label_and_password "confirm_password", {:field_opts => {:size => 30, :class => "form-control"}, :required => @user.id ? :conditionally : true} %>
+  <%= form.label_and_textfield "source", { :field_opts => { :readonly => true } } %>
+  <%= form.label_and_password "password", {:field_opts => {:size => 30, :class => "form-control"}, :required => @user.id ? :conditionally : true} %>
+  <%= form.label_and_password "confirm_password", {:field_opts => {:size => 30, :class => "form-control"}, :required => @user.id ? :conditionally : true} %>
 
-   <% if user_can?('administer_system') && form['username'] != session[:user] %>
-     <%= form.label_and_boolean "is_admin" %>
-   <% end %>
+  <% if user_can?('administer_system') && form['username'] != session[:user] %>
+    <%= form.label_and_boolean "is_admin" %>
+  <% end %>
 
-   <% if user_can?('manage_users') && !@self_edit %>
-     <%= form.label_and_boolean "is_active_user" %>
-   <% else %>
-     <%= form.hidden_input "is_active_user", 1 %>
-   <% end %>
+  <% if user_can?('manage_users') && !@self_edit %>
+    <%= form.label_and_boolean "is_active_user" %>
+  <% else %>
+    <%= form.hidden_input "is_active_user", 1 %>
+  <% end %>
 
+  <% if AppConfig[:pui_require_authentication] && user_can?('manage_users') && !@self_edit %>
+    <%= form.label_and_boolean "is_pui_viewer" %>
+  <% end %>
 </fieldset>

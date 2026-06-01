@@ -1635,6 +1635,8 @@ de:
         activate_user_confirm: Sind Sie sicher, dass Sie diesen Benutzer aktivieren möchten?
         update_self: Benutzerkonto verwalten
     source: Authentifizierung
+    is_pui_viewer: PUI-Viewer
+    none: Keine Benutzer.
   use_date:
     _frontend:
       action:

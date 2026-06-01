@@ -1,1 +1,4 @@
-states: {}
+pt:
+  group:
+    default_group_names:
+      pui_viewers: Visualizadores de PUI

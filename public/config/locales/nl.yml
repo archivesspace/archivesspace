@@ -34,6 +34,7 @@ nl:
     staff_link: Alleen voor medewerkers
     next: Volgende
     previous: Vorige
+    authenticating: Toegang verifiëren
   page_actions: Acties op deze pagina
   request:
     email_header: Dank u voor uw aanvraag
@@ -533,3 +534,9 @@ nl:
     additional_info:
       invalid_markup: Deze fout kan worden veroorzaakt door ongeldige opmaak in een annotatie of 
         subrecord.
+  login:
+    login: Inloggen
+    logout: Uitloggen
+    username_placeholder: Gebruikersnaam
+    password_placeholder: Wachtwoord
+    required: vereist
