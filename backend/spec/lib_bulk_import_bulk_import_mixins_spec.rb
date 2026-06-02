@@ -209,7 +209,6 @@ describe "Bulk Import Mixins" do
 
   it "will import a date begin and end for userestrict note" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_userestrict"=>"Use Restriction note", "p_userestrict"=>"1", "b_userestrict"=>"2021-10-01", "e_userestrict"=>"2021-10-31"}
     handle_notes(ao, hash, false)
     expect(ao['notes']).not_to be_nil
@@ -221,7 +220,6 @@ describe "Bulk Import Mixins" do
 
   it "will not import a userestrict note date begin that comes after a date end" do
     ao = create(:json_archival_object)
-    ao.save
     hash = {"n_userestrict"=>"Use Restriction note", "p_userestrict"=>"1", "b_userestrict"=>"2021-10-31", "e_userestrict"=>"2021-10-01"}
     expect {
       handle_notes(ao, hash, false)
