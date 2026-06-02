@@ -32,6 +32,23 @@ Given 'an Accession has been created' do
   find('#accession_use_restrictions_').check
   fill_in 'accession_use_restrictions_note_', with: "Use Restrictions Note #{@uuid}"
 
+  # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
+  if page.has_css?('#accession_lang_descriptions_')
+    within '#accession_lang_descriptions_' do
+      within 'li.sort-enabled.initialised' do
+        fill_in 'Language', with: 'English'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
+        expect(page).to have_css('#accession_lang_descriptions_ .dropdown-item.active[data-value="English"]', visible: false)
+
+        fill_in 'Script', with: 'Latin'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Latin', match: :first).click
+        expect(page).to have_css('#accession_lang_descriptions_ .dropdown-item.active[data-value="Latin"]', visible: false)
+      end
+    end
+  end
+
   within '#accession_lang_materials_' do
     click_on 'Add Language of Materials'
 

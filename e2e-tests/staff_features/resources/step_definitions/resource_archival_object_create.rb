@@ -5,6 +5,24 @@ Given 'a Resource with an Archival Object has been created' do
 
   fill_in 'resource_title_', with: "Resource #{@uuid}"
   fill_in 'resource_id_0_', with: "Resource #{@uuid}"
+
+  # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
+  if page.has_css?('#resource_lang_descriptions_')
+    within '#resource_lang_descriptions_' do
+      within 'li.sort-enabled.initialised' do
+        fill_in 'Language', with: 'English'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
+        expect(page).to have_css('#resource_lang_descriptions_ .dropdown-item.active[data-value="English"]', visible: false)
+
+        fill_in 'Script', with: 'Latin'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Latin', match: :first).click
+        expect(page).to have_css('#resource_lang_descriptions_ .dropdown-item.active[data-value="Latin"]', visible: false)
+      end
+    end
+  end
+
   select 'Class', from: 'resource_level_'
   element = find('#resource_lang_materials__0__language_and_script__language_')
   element.send_keys('AU')
@@ -43,6 +61,23 @@ Given 'a Resource with an Archival Object has been created' do
   check 'Publish?'
   check 'Restrictions Apply?'
   fill_in 'Repository Processing Note', with: "Repository Processing Note #{@uuid}"
+
+  # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
+  if page.has_css?('#archival_object_lang_descriptions_')
+    within '#archival_object_lang_descriptions_' do
+      within 'li.sort-enabled.initialised' do
+        fill_in 'Language', with: 'English'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
+        expect(page).to have_css('#archival_object_lang_descriptions_ .dropdown-item.active[data-value="English"]', visible: false)
+
+        fill_in 'Script', with: 'Latin'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Latin', match: :first).click
+        expect(page).to have_css('#archival_object_lang_descriptions_ .dropdown-item.active[data-value="Latin"]', visible: false)
+      end
+    end
+  end
 
   click_on 'Add Language of Materials'
   within 'li.sort-enabled.initialised' do

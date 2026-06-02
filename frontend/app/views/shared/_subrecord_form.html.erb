@@ -37,6 +37,7 @@
   <% unless hidden %>
   <<%= heading_size %> class="subrecord-form-heading d-flex py-2 align-items-center">
     <%= wrap_with_tooltip(heading_text, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
+    <%= primary_language_badge(form.obj) %>
 
     <% if !form.readonly? %>
      <% if custom_action_template %>

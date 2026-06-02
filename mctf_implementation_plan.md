@@ -142,7 +142,7 @@ The changes outlined here are prototyped in [PR #4000](https://github.com/archiv
 
 ### 3.2 Subform heading — current-language badge
 
-- [ ] Render a small badge next to each subform heading that contains language-dependent fields
+- [x] Render a small badge next to each subform heading that contains language-dependent fields
   - Shows the ISO 639-2 code of the currently-selected editing language
   - Only shown when MLC is enabled and the record has > 1 language of description
   - `frontend/app/helpers/aspace_form_helper.rb` — extend `subrecord_form_heading` helper

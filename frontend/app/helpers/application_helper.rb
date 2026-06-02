@@ -181,6 +181,17 @@ module ApplicationHelper
     { prefix_html: prefix }
   end
 
+  def primary_language_badge(record)
+    return unless AppConfig[:multilingual_content]
+    lang = record["lang_descriptions"]&.find { |ld| ld["is_primary"] }&.dig("language")
+    mlc_language_badge(lang) if lang
+  end
+
+  def mlc_language_badge(langcode)
+    return unless AppConfig[:multilingual_content] && langcode
+    content_tag(:span, langcode.upcase, class: 'ml-2 fs-12px label badge mlc-badge') if edit_mode?
+  end
+
   def edit_mode?
     ['edit', 'update'].include?(controller.action_name)
   end

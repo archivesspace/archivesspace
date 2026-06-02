@@ -6,6 +6,23 @@ Given 'a Digital Object has been created' do
   fill_in 'digital_object_digital_object_id_', with: "Digital Object Identifier #{@uuid}"
   fill_in 'digital_object_title_', with: "Digital Object Title #{@uuid}"
 
+  # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
+  if page.has_css?('#digital_object_lang_descriptions_')
+    within '#digital_object_lang_descriptions_' do
+      within 'li.sort-enabled.initialised' do
+        fill_in 'Language', with: 'English'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
+        expect(page).to have_css('#digital_object_lang_descriptions_ .dropdown-item.active[data-value="English"]', visible: false)
+
+        fill_in 'Script', with: 'Latin'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Latin', match: :first).click
+        expect(page).to have_css('#digital_object_lang_descriptions_ .dropdown-item.active[data-value="Latin"]', visible: false)
+      end
+    end
+  end
+
   click_on 'Add Date'
   select 'Single', from: 'digital_object_dates__0__date_type_'
   fill_in 'digital_object_dates__0__begin_', with: '2000-01-01'
@@ -194,6 +211,23 @@ Given 'a Digital Object with a Digital Object Component has been created' do
   fill_in 'digital_object_digital_object_id_', with: "Digital Object Identifier #{@uuid}"
   fill_in 'digital_object_title_', with: "Digital Object Title #{@uuid}"
 
+  # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
+  if page.has_css?('#digital_object_lang_descriptions_')
+    within '#digital_object_lang_descriptions_' do
+      within 'li.sort-enabled.initialised' do
+        fill_in 'Language', with: 'English'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
+        expect(page).to have_css('#digital_object_lang_descriptions_ .dropdown-item.active[data-value="English"]', visible: false)
+
+        fill_in 'Script', with: 'Latin'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Latin', match: :first).click
+        expect(page).to have_css('#digital_object_lang_descriptions_ .dropdown-item.active[data-value="Latin"]', visible: false)
+      end
+    end
+  end
+
   click_on 'Add Date'
   select 'Single', from: 'digital_object_dates__0__date_type_'
   fill_in 'digital_object_dates__0__begin_', with: '2000-01-01'
@@ -207,6 +241,24 @@ Given 'a Digital Object with a Digital Object Component has been created' do
   wait_for_ajax
 
   fill_in 'Label', with: "Digital Object Component Label #{@uuid}"
+
+  # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
+  if page.has_css?('#digital_object_component_lang_descriptions_')
+    within '#digital_object_component_lang_descriptions_' do
+      within 'li.sort-enabled.initialised' do
+        fill_in 'Language', with: 'English'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
+        expect(page).to have_css('#digital_object_component_lang_descriptions_ .dropdown-item.active[data-value="English"]', visible: false)
+
+        fill_in 'Script', with: 'Latin'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Latin', match: :first).click
+        expect(page).to have_css('digital_object_component_lang_descriptions_ .dropdown-item.active[data-value="Latin"]', visible: false)
+      end
+    end
+  end
+
   click_on 'Save'
   expect(page).to have_css('.alert.alert-success.with-hide-alert', text: "Digital Object Component created on Digital Object Digital Object Title #{@uuid}")
 end

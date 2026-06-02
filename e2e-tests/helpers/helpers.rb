@@ -258,6 +258,23 @@ def create_resource(uuid)
   find('#resource_publish_').check
   select 'Class', from: 'resource_level_'
 
+  # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
+  if page.has_css?('#resource_lang_descriptions_')
+    within '#resource_lang_descriptions_' do
+      within 'li.sort-enabled.initialised' do
+        fill_in 'Language', with: 'English'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
+        expect(page).to have_css('#resource_lang_descriptions_ .dropdown-item.active[data-value="English"]', visible: false)
+
+        fill_in 'Script', with: 'Latin'
+        wait_for_ajax
+        find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Latin', match: :first).click
+        expect(page).to have_css('#resource_lang_descriptions_ .dropdown-item.active[data-value="Latin"]', visible: false)
+      end
+    end
+  end
+
   languages = all('#resource_lang_materials_ .subrecord-form-list li')
   click_on 'Add Language of Materials' if languages.length == 0
   element = find('#resource_lang_materials__0__language_and_script__language_')

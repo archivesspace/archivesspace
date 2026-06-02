@@ -6,4 +6,14 @@ default: |
   --require env.rb
   --require helpers
   --require staff_features
-  --tags "not @skip"
+  --tags "not @skip and not @mlc_enabled"
+
+mlc: |
+  staff_features
+  --publish-quiet
+  --format pretty
+  --color
+  --require env.rb
+  --require helpers
+  --require staff_features
+  --tags "@mlc_enabled"
