@@ -3,10 +3,8 @@
              :record_type => 'accession',
              :record => @accession
            }) do |sidebar| %>
-  <% if AppConfig[:multilingual_content] %>
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'lang_description', :property => 'lang_descriptions') %>
-  <% end %>
 
+  <%= sidebar.render_for_view_and_edit(:subrecord_type => 'lang_description', :property => 'lang_descriptions') %>
   <%= sidebar.render_for_view_and_edit(:subrecord_type => 'lang_material', :property => 'lang_materials') %>
   <%= sidebar.render_for_view_and_edit(:subrecord_type => 'date', :property => 'dates') %>
   <%= sidebar.render_for_view_and_edit(:subrecord_type => 'extent', :property => 'extents') %>

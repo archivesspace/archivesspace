@@ -42,7 +42,7 @@
           <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object.file_versions, :section_id => "digital_object_file_versions_", :title => digital_object.title } %>
         <% end %>
 
-        <% if AppConfig[:multilingual_content] && digital_object.lang_descriptions.length > 0 %>
+        <% if digital_object.lang_descriptions.length > 0 %>
           <%= render_aspace_partial :partial => "lang_descriptions/show", :locals => { :lang_descriptions => digital_object.lang_descriptions, :section_id => "digital_object_lang_descriptions_" } %>
         <% end %>
 

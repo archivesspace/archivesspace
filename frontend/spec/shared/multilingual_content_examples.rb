@@ -26,12 +26,16 @@ RSpec.shared_examples 'a multilingual parent record' do |record_type|
 end
 
 RSpec.shared_examples 'a non-multilingual parent record' do |record_type|
-  it 'does not show Langauges of Description subrecord on create' do
+  it 'does not expand Langauges of Description subrecord on create' do
     click_on 'Create'
     click_on "#{record_type.split('_').map(&:capitalize).join(' ')}"
 
-    within "#form_#{record_type}" do
-      expect(page).not_to have_text 'Languages of Description'
+    expect(page).to have_text 'Languages of Description'
+
+    within "##{record_type}_lang_descriptions_" do
+      expect(page).not_to have_field('Language', type: 'text')
+      expect(page).not_to have_field('Script', type: 'text')
+      expect(page).not_to have_css('li.is-representative')
     end
   end
 end

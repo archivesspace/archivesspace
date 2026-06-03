@@ -118,7 +118,8 @@ in, and which one is primary, before entering language-specific field content. S
       - script dropdown (ISO 15924),
       - "Primary" checkbox
     - Only one entry may be marked primary (enforce client-side)
-- [x] Config flag `AppConfig[:multilingual_content]` gates all MLC UI; when disabled the subrecord panel is hidden and behaviour is identical to pre-MLC
+- [x] Config flag `AppConfig[:multilingual_content]` gates all MLC UI; ~~when disabled the subrecord panel is hidden and behaviour is identical to pre-MLC~~
+  - Amended in 5/28 check-in meeting: Subrecord panel should be present whether or not MLC is enabled
 
 ---
 

@@ -43,7 +43,7 @@
             </div>
           </section>
 
-          <% if AppConfig[:multilingual_content] && @resource.lang_descriptions.length > 0 %>
+          <% if @resource.lang_descriptions.length > 0 %>
             <%= render_aspace_partial :partial => "lang_descriptions/show", :locals => { :lang_descriptions => @resource.lang_descriptions, :section_id => "resource_lang_descriptions_" } %>
           <% end %>
 
