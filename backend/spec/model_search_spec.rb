@@ -117,4 +117,39 @@ describe Search do
       Search.search(params, repo.id)
     end
   end
+
+  context "Search result CSV export" do
+
+    let(:mock_search_results) {
+      {
+        "results" => [
+          {
+            "json" => build(:json_resource).to_json
+          }
+        ]
+      }
+    }
+
+    let(:mock_empty_results) {
+      {
+        "results" => []
+      }
+    }
+
+    it "uses the extended CSV export when enabled" do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:extended_csv_export_enabled).and_return(true)
+
+      allow(Search).to receive(:search).with(hash_including(:page => 1), repo.id).and_return(mock_search_results)
+      allow(Search).to receive(:search).with(hash_including(:page => 2), repo.id).and_return(mock_empty_results)
+
+      csv = ""
+      Search.search_csv({:page => 1, :page_size => 10}, repo.id).each do |chunk|
+        csv << chunk
+      end
+
+      expect(csv).to include("dates::0::")
+    end
+
+  end
 end
