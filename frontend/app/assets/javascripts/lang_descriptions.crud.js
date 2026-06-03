@@ -4,11 +4,24 @@ $(function () {
   $(document).bind('subrecordcreated.aspace', function (event, object_name) {
     if (object_name === 'lang_description') {
       // If this is the first lang_description subrecord, then make sure it's set as primary
-      const $langDescriptions = $(
+      const langDescriptions = document.querySelector(
         '#resource_lang_descriptions_, #accession_lang_descriptions_, #digital_object_lang_descriptions_'
       );
-      if ($langDescriptions.find('ul').children().length == 1) {
-        $langDescriptions.find('.is-representative-toggle').click();
+      const ul = langDescriptions?.querySelector('ul');
+      if (ul?.children.length === 1) {
+        const toggle = langDescriptions?.querySelector(
+          '.is-representative-toggle'
+        );
+        const label = langDescriptions?.querySelector(
+          '.is-representative-label'
+        );
+        const alreadyPrimary = label && label.offsetParent !== null;
+
+        if (toggle && !alreadyPrimary) {
+          toggle.parentElement.dataset.noChangeTracking = 'true';
+          toggle.click();
+          delete toggle.parentElement.dataset.noChangeTracking;
+        }
       }
     }
   });
