@@ -206,6 +206,10 @@ def ensure_test_accession_exists
   visit "#{STAFF_URL}/accessions/new"
   fill_in 'accession_id_0_', with: 'test_accession'
   fill_in 'accession_title_', with: 'test_accession'
+
+  # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
+  create_lang_descriptions('accession') if page.has_css?('#accession_lang_descriptions_')
+
   click_on 'Save'
 end
 
@@ -259,21 +263,7 @@ def create_resource(uuid)
   select 'Class', from: 'resource_level_'
 
   # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
-  if page.has_css?('#resource_lang_descriptions_')
-    within '#resource_lang_descriptions_' do
-      within 'li.sort-enabled.initialised' do
-        fill_in 'Language', with: 'English'
-        wait_for_ajax
-        find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
-        expect(page).to have_css('#resource_lang_descriptions_ .dropdown-item.active[data-value="English"]', visible: false)
-
-        fill_in 'Script', with: 'Latin'
-        wait_for_ajax
-        find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Latin', match: :first).click
-        expect(page).to have_css('#resource_lang_descriptions_ .dropdown-item.active[data-value="Latin"]', visible: false)
-      end
-    end
-  end
+  create_lang_descriptions('resource') if page.has_css?('#resource_lang_descriptions_')
 
   languages = all('#resource_lang_materials_ .subrecord-form-list li')
   click_on 'Add Language of Materials' if languages.length == 0
@@ -369,6 +359,22 @@ def expect_record_to_not_be_in_search_results(search_term)
 
   expect(search_result_rows.length).to eq 0
   expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'No records found')
+end
+
+def create_lang_descriptions(record_type)
+  within "##{record_type}_lang_descriptions_" do
+    within 'li.sort-enabled.initialised' do
+      fill_in 'Language', with: 'English'
+      wait_for_ajax
+      find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
+      expect(page).to have_css("##{record_type}_lang_descriptions_ .dropdown-item.active[data-value='English']", visible: false)
+
+      fill_in 'Script', with: 'Latin'
+      wait_for_ajax
+      find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Latin', match: :first).click
+      expect(page).to have_css("##{record_type}_lang_descriptions_ .dropdown-item.active[data-value='Latin']", visible: false)
+    end
+  end
 end
 
 def click_on_string(string)

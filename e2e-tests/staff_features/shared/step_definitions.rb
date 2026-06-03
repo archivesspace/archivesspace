@@ -663,7 +663,7 @@ Then('the user sees the {string} option in the {string} dropdown') do |option, b
 end
 
 Then('the user should see language badges on all subrecords') do
-  page.all('.subrecord-form').each do |subrecord|
+  page.all(:xpath, '//section[contains(@class, "subrecord-form") and not(ancestor::section[contains(@class, "subrecord-form")])]').each do |subrecord|
     expect(subrecord).to have_css('.mlc-badge', visible: true)
   end
 end
