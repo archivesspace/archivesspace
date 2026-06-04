@@ -7,20 +7,18 @@ $(function () {
       const langDescriptions = document.querySelector(
         '#resource_lang_descriptions_, #accession_lang_descriptions_, #digital_object_lang_descriptions_'
       );
-      const ul = langDescriptions?.querySelector('ul');
-      if (ul?.children.length === 1) {
-        const toggle = langDescriptions?.querySelector(
+      const ul = langDescriptions.querySelector('ul');
+      if (ul.children.length === 1) {
+        const toggle = langDescriptions.querySelector(
           '.is-representative-toggle'
         );
-        const label = langDescriptions?.querySelector(
-          '.is-representative-label'
+        const isPrimary = langDescriptions.querySelector(
+          'input[id$="_is_primary_"]'
         );
-        const alreadyPrimary = label && label.offsetParent !== null;
+        const alreadyPrimary = isPrimary?.value === '1';
 
         if (toggle && !alreadyPrimary) {
-          toggle.parentElement.dataset.noChangeTracking = 'true';
           toggle.click();
-          delete toggle.parentElement.dataset.noChangeTracking;
         }
       }
     }
