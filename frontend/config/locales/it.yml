@@ -597,12 +597,50 @@ it:
     no_top_containers: Nessun top container collegato
     edit_top_container: Modifica Top Container
     view_top_container: Top Container
+    become-user: Diventa utente
+    brand: Spazio archivi
+    create: Creare
+    import: Importare
+    import_eac: File EAC
+    import_ead: File EAD
+    import_marcxml: MARCXML
+    import_accession_csv: File CSV di accesso
+    import_digital_object_csv: File CSV di oggetti digitali
+    search_all: Tutti i record
+    search_placeholder: Cerca tutti i record
+    search_button_title: Cerca tutti i record
+    show_advanced_search_button_title: Mostra la ricerca avanzata
+    hide_advanced_search_button_title: Nascondi la ricerca avanzata
+    plugins: Plug-in
+    repositories_manage: Gestisci i repository
+    repository_settings: Impostazioni del repository
+    oai_config: Gestisci le impostazioni di OAI-PMH
+    manage_groups: Gestisci gruppi
+    manage_users: Gestisci utenti
+    manage_container_profiles: Gestire i profili dei container
+    manage_location_profiles: Gestisci i profili di localizzazione
+    manage_enumerations: Gestire gli elenchi di valori controllati
+    global_preferences: Preferenze globali
+    global_settings: Impostazioni globali
+    user_repo_preferences: Preferenze del repository
+    repo_preferences: Preferenze del repository predefinito
+    manage_user_access: Gestione degli accessi utente
+    logout: Disconnettiti
+    register: Registrati ora
+    register_prefix: Hai bisogno di un account?
+    list_reports: Rapporti
+    global_admin: Sistema
+    system_info: Informazioni di sistema
+    unpublished: Inedito
+    manage_assessment_attributes: Gestisci gli attributi della valutazione
   footer:
     keyboard_shortcuts: Scorciatoie da tastiera
     archivesspace_home_html: Visita <a 
       href='http://archivesspace.org'>ArchivesSpace.org</a>
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
       target='_blank'>Invia feedback o riferisci un problema</a>
+    public_interface_html: Visualizza <a href="%{public_url}">Interfaccia 
+      pubblica</a>
   import:
     marcxml_subjects_and_agents_title: Importa i soggetti e gli agents da un 
       file MARCXML
@@ -725,10 +763,43 @@ it:
       boolean: Booleano
       true_value: Vera
       false_value: Falso
+    button_text: Ricerca
+    reset: libero
+    nav_switcher:
+      show: Mostra avanzate
+      hide: Nascondi Avanzate
+    index_switcher:
+      show: Mostra la ricerca avanzata
+      hide: Nascondi la ricerca avanzata
+    text_operator:
+      comparator: Comparatore
+      contains: contengono
+      empty: è vuoto
+    enum_field:
+      empty: non assegnato
+      label: Enumerazioni di ricerca avanzata
+    search_field: Campo di ricerca
+    search_text: Testo di ricerca
+    search_date: Data
+    search_terms: Campi di ricerca avanzata %{number}
+    remove_row: Rimuovi i campi di ricerca avanzata %{number}
+    add_row: Aggiungi riga
   batch_delete:
     agents:
       error: 'Impossibile eliminare gli agents:'
       success: Agents eliminati
+    archival_records:
+      success: Record eliminati
+      error: 'Impossibile eliminare i record:'
+    subjects:
+      success: Soggetti cancellati
+      error: 'Impossibile eliminare gli argomenti:'
+    locations:
+      success: Posizioni eliminate
+      error: 'Impossibile eliminare le posizioni:'
+    assessments:
+      success: Valutazioni cancellate
+      error: 'Impossibile eliminare le valutazioni:'
   related_agent:
     _frontend:
       messages:
@@ -760,3 +831,53 @@ it:
       destinati alla produzione, inclusi i dati presenti in un'istanza di test 
       che intendi trasferire in un'istanza di produzione, dovresti utilizzare 
       MySQL.</p>
+  become-user:
+    become-user: Diventa utente
+    failed: Impossibile passare all'utente specificato
+    success: Cambio utente effettuato con successo
+    username: Nome utente
+  header:
+    staff_interface: Interfaccia per il personale di ArchivesSpace
+  session:
+    gone: La tua sessione backend non è stata trovata
+    expired: La sessione è scaduta per inattività.
+    inline_login_title: Sessione scaduta
+  login:
+    login: Registrazione
+    login_please: Effettua il login
+    login_expired_link: Per favore <a href ='%{link}'>accedi di nuovo</a>.
+    login_fail: Tentativo di accesso non riuscito
+    login_success: Accesso effettuato con successo. Reindirizzamento in corso...
+    username_placeholder: Nome utente
+    password_placeholder: Password
+    confirm_password: Conferma password
+    username_aria_label: Nome utente
+    password_aria_label: Password utente
+    lost_password: Ha dimenticato la password?
+    reset_password: Reimposta password
+    recover_password: Recupera password
+    email_placeholder: Indirizzo e-mail
+    reset_form_instructions: Inserisci l'indirizzo email associato al tuo 
+      account utente. Se esiste già un account con quell'indirizzo email, 
+      riceverai un link per reimpostare la password.
+    new_password: Nuova password
+    new_password_instructions: Crea una nuova password per %{user} utilizzando 
+      il modulo, quindi accedi di nuovo.
+    password_mismatch_error: Le password non corrispondono.
+    password_update_success: Password aggiornata con successo.
+    password_update_error: Impossibile aggiornare la password. Riprova o 
+      contatta un amministratore.
+    password_too_simple: Questa password è troppo facile da indovinare. Prova ad
+      aggiungere delle parole o usa un generatore di password casuali.
+  breadcrumb:
+    home: Casa
+  save_changes_modal:
+    body: Sono presenti alcune modifiche in sospeso. Salva o ignora queste 
+      modifiche per continuare.
+    save: Salva le modifiche
+    dismiss: Ignora modifiche
+  linker:
+    link: collegarsi
+    create_and_link: Crea e collega
+    hint_text: Digita per cercare i record disponibili.
+    placeholder: Digita per cercare i record disponibili.

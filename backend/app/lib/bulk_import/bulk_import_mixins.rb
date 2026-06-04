@@ -295,7 +295,7 @@ module BulkImportMixins
       next if hash[key].nil?
       content = hash[key]
       type = key.match(/n_(.+)$/)[1]
-      extras = type == 'accessrestrict' ? accessrestrict_note_params(hash) : {}
+      extras = handle_note_restriction_params(type, hash)
       pubnote = resolve_publish(hash, "p_#{type}", ao.publish)
       note_label = hash["l_#{type}"]
       begin
@@ -307,6 +307,17 @@ module BulkImportMixins
       end
     end
     errs
+  end
+
+  def handle_note_restriction_params(type, hash)
+    case type
+    when 'accessrestrict'
+      accessrestrict_note_params(hash)
+    when 'userestrict'
+      { b_date: hash['b_userestrict'], e_date: hash['e_userestrict'] }
+    else
+      {}
+    end
   end
 
   def accessrestrict_note_params(hash)
