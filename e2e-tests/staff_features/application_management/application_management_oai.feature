@@ -1,7 +1,7 @@
 Feature: OAI-PMH settings can be adjusted and OAI-PMH endpoint is available
   Background: 
     Given an administrator user is logged in
-  Scenario: Update OAI-PMH Settings
+  Scenario Outline: Update OAI-PMH Settings
      When the user clicks on 'System'
       And the user clicks on 'Manage OAI-PMH Settings'
       And the user changes the '<Field>' field to '<NewValue>'

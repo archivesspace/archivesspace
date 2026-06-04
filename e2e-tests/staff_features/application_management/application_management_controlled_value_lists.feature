@@ -6,7 +6,7 @@ Feature: User can modify and configure Controlled Value Lists appropriately
       And the user clicks on 'Manage Controlled Value Lists'
       And the user selects 'Subject Source (subject_source)' in the List Name dropdown menu
       And the user clicks on 'Create Value'
-      And the user fills in 'Value' with 'Homosaurus' in the Create Value modal
+      And the user fills in 'enumeration_value_' with 'Homosaurus' in the modal
       And the user clicks on 'Create Value' in the modal
      Then the 'Value' created message is displayed
       And the value 'Homosaurus' is added to the list

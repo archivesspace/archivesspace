@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-Given 'the user clicks on {string} in the User Menu Dropdown' do |string|
+When 'the user clicks on {string} in the User Menu Dropdown' do |string|
   find('#user-menu-dropdown').click
-  within '.dropdown-menu'
-  click_on string
+  within '.dropdown-menu' do
+    click_on string
+  end
 end
 
 Given 'the user updates the Accession Browse Column 6 to Acquisition Type' do
