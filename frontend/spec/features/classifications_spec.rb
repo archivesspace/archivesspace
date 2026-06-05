@@ -152,6 +152,43 @@ describe 'Classifications', js: true do
     expect(element).to have_text(classification.title)
   end
 
+  it "does not embed a classification's linked records in the link token" do
+    now = Time.now.to_i
+
+    linked_resource = create(:resource, title: "Linked resource #{now}")
+    classification = create(
+      :json_classification,
+      :title => "Classification Title #{now}",
+      :identifier => "Classification Identifier #{now}",
+      :linked_records => [{ ref: linked_resource.uri }]
+    )
+
+    run_all_indexers
+
+    click_on 'Create'
+    click_on 'Accession'
+
+    fill_in 'Title', with: "Accession Title #{now}"
+    fill_in 'Identifier', with: "Accession Identifier #{now}"
+
+    click_on 'Add Classification'
+
+    element = find('#token-input-accession_classifications__0__ref_')
+    element.fill_in with: classification.title
+    find('li.token-input-dropdown-item2', match: :first).click
+
+    resolved = find("input[name*='[_resolved]']", visible: :all).value
+    expect(resolved).not_to be_empty
+    expect(resolved).not_to include('linked_records')
+    expect(resolved).not_to include(linked_resource.uri)
+
+    find('button', text: 'Save Accession', match: :first).click
+    expect(page).to have_text "Accession Accession Title #{now} created"
+
+    element = find('#accession_classifications_')
+    expect(element).to have_text(classification.title)
+  end
+
   it 'has the linked records on the classifications view page' do
     resource = create(:resource)
     classification = create(:classification, linked_records: [{ ref: resource.uri }])
