@@ -8,26 +8,6 @@ $(function () {
     resource_edit_path_regex
   );
 
-  // ANW-2762: A token only needs a record's identity/display fields
-  var resolvedForToken = function (json) {
-    if (!json) {
-      return json;
-    }
-
-    var trimmed = $.extend({}, json);
-    delete trimmed.linked_records;
-
-    if (typeof trimmed.json === 'string') {
-      var inner = JSON.parse(trimmed.json);
-      if (inner) {
-        delete inner.linked_records;
-        trimmed.json = JSON.stringify(inner);
-      }
-    }
-
-    return trimmed;
-  };
-
   $.fn.linker = function () {
     $(this).each(function () {
       var $this = $(this);
@@ -536,7 +516,7 @@ $(function () {
               .children('.icon-token')
               .addClass(config.span_class);
             $('input[name*=resolved]', tokenEl).val(
-              JSON.stringify(resolvedForToken(item.json))
+              JSON.stringify(omitLinkedRecords(item.json))
             );
             return tokenEl;
           },
@@ -696,6 +676,26 @@ $(function () {
         ? `<code class="emph render-nonproport">${content}</code>`
         : `<span class="emph render-${render}">${content}</span>`;
     }
+  }
+
+  // ANW-2762: A token only needs a record's identity/display fields
+  function omitLinkedRecords(json) {
+    if (!json) {
+      return json;
+    }
+
+    const trimmed = { ...json };
+    delete trimmed.linked_records;
+
+    if (typeof trimmed.json === 'string') {
+      const inner = JSON.parse(trimmed.json);
+      if (inner) {
+        delete inner.linked_records;
+        trimmed.json = JSON.stringify(inner);
+      }
+    }
+
+    return trimmed;
   }
 });
 
