@@ -30,7 +30,10 @@ class ClassificationsController < ApplicationController
     flash.keep
 
     if params[:inline]
-      @classification = JSONModel(:classification).find(params[:id], find_opts)
+      @classification = JSONModel(:classification).find(
+        params[:id],
+        find_opts.tap { |opts| opts["resolve[]"] -= ["linked_records"] }
+      )
       return render_aspace_partial :partial => "classifications/show_inline"
     end
 
