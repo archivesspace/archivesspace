@@ -195,7 +195,8 @@ module TreeNodes
   end
 
 
-  def set_parent_and_position(parent_id, position)
+  # skip_side_effects is consumed by the TouchRecords and ReindexTopContainers overrides
+  def set_parent_and_position(parent_id, position, skip_side_effects: false)
     self.class.retry_db_update do
       attempt_set_parent_and_position(parent_id, position)
     end

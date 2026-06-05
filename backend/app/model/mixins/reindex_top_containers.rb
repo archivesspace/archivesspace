@@ -65,10 +65,13 @@ module ReindexTopContainers
     ).update(:top_container__system_mtime => Time.now)
   end
 
-  # not defined in accession or resource
-  def set_parent_and_position(*)
+  # When a batch of nodes is being repositioned (e.g. an accept_children
+  # reorder), reindexing is deferred and applied once for the whole batch
+  # rather than once per row. See ANW-2775.
+  def set_parent_and_position(*, skip_side_effects: false)
     super
-    reindex_top_containers
+
+    reindex_top_containers unless skip_side_effects
   end
 
   def set_root(*)
