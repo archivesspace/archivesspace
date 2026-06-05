@@ -302,10 +302,23 @@ class ArchivesSpaceService < Sinatra::Base
         ordered = params[:children].each_with_index
       end
 
-      last_child = nil
+      # Moving each child has expensive side effects: bumping the root
+      # record's mtime (TouchRecords) and reindexing every top container in the
+      # tree (ReindexTopContainers). These only apply on the root record, so
+      # reordering hundreds of rows repeats the same whole-tree work over and
+      # over and times the request out (ANW-2775). Defer them during the batch
+      # and apply them once per root record after every child has moved.
+      moved_by_root = {}
+
       ordered.each do |uri, i|
-        last_child = child_class.get_or_die(child_class.my_jsonmodel.id_for(uri))
-        last_child.set_parent_and_position(parent_id, position + i)
+        child = child_class.get_or_die(child_class.my_jsonmodel.id_for(uri))
+        child.set_parent_and_position(parent_id, position + i, skip_side_effects: true)
+        moved_by_root[child.root_record_id] = child # track the last child moved for each root record, so we can apply side effects once per root after the loop
+      end
+
+      moved_by_root.each_value do |child|
+        child_class.touch(child) if child_class.respond_to?(:touch)
+        child.reindex_top_containers if child.respond_to?(:reindex_top_containers)
       end
     end
 
