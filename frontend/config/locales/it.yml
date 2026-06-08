@@ -644,6 +644,23 @@ it:
   import:
     marcxml_subjects_and_agents_title: Importa i soggetti e gli agents da un 
       file MARCXML
+    eac_title: Importa un file EAC
+    ead_title: Importa un file EAD
+    marcxml_title: Importa un file MARCXML
+    accession_csv_title: Importa i record di accesso da un file CSV
+    digital_object_csv_title: Importare record di oggetti digitali da un file 
+      CSV
+    import_report: Rapporto di importazione
+    import_another: Importa un altro file
+    file_select: Seleziona il file da caricare
+    submit: Importare
+    submit_busy_message: Importazione...
+    messages:
+      missing_repo: È necessario selezionare un repository prima 
+        dell'importazione
+      missing_file: Seleziona un file EAD da caricare
+      error_prefix: Errore durante l'importazione del file
+      complete: R Complete
   errors:
     merge_restricted_contact_details: Questa unione non può essere completata 
       perché uno o più degli agents ha dettagli di contatto a cui non hai il 
@@ -658,6 +675,19 @@ it:
     merge_conflict: 'Non è stato possibile unire gli agent(s): %{message}'
     merge_too_many_merge_candidates: Solo un agent può essere selezionato per 
       questa unione.
+    sidebar_label: Errori e avvisi
+    error_403: Impossibile accedere alla pagina
+    error_403_message: La pagina a cui hai tentato di accedere potrebbe non 
+      esistere più oppure potresti non avere l'autorizzazione per visualizzarla.
+    error_404: Record non trovato
+    error_404_message: Il record a cui hai tentato di accedere potrebbe non 
+      esistere più oppure potresti non avere l'autorizzazione per visualizzarlo.
+    error_tree_pane_ajax: Si è verificato un errore durante il caricamento del 
+      modulo.
+    linked_to_assessment: Il record non può essere eliminato in quanto collegato
+      a una valutazione
+    linked_to_user: Il record non può essere eliminato perché è collegato a un 
+      utente
   agent:
     _frontend:
       messages:
@@ -881,3 +911,52 @@ it:
     create_and_link: Crea e collega
     hint_text: Digita per cercare i record disponibili.
     placeholder: Digita per cercare i record disponibili.
+    no_results: Nessun risultato corrispondente. Prova a usare la funzione 
+      "Esplora".
+    searching: Ricerca in corso...
+    delete: '&volte;'
+    components:
+      browse: Sfoglia i plugin
+  mixed_content:
+    wrap_prefix: 'Avvolgere con:'
+    help: Contenuto misto abilitato#160;x#160;--&#160;&#160;Digita '<' per gli 
+      elementi o evidenzia il testo da mandare a capo
+  default_values:
+    form_title:
+      archival_object: Valori predefiniti dei record dei componenti
+      resource: Impostazioni predefinite dei record di risorse
+      accession: Impostazioni predefinite del record di accesso
+      subject: Impostazioni predefinite del record soggetto
+      agent_person: Impostazioni predefinite del record dell'agente (persona)
+      agent_family: Impostazioni predefinite del record dell'agente (famiglia)
+      agent_corporate_entity: Impostazioni predefinite del record dell'agente 
+        (entità aziendale)
+      agent_software: Impostazioni predefinite del record dell'agente (software)
+      digital_object: Impostazioni predefinite degli oggetti digitali
+      digital_object_component: Impostazioni predefinite del componente oggetto 
+        digitale
+      location: Impostazioni predefinite del record di posizione
+      event: Impostazioni predefinite del record dell'evento
+      classification: Valori predefiniti dei record di classificazione
+      classification_term: Valori predefiniti del termine di classificazione
+      container_profile: Impostazioni predefinite del profilo del contenitore
+    messages:
+      defaults_updated: Impostazioni predefinite aggiornate
+  required_fields:
+    form_title:
+      agent_person: Campi obbligatori nella scheda dell'agente (persona)
+      agent_family: Campi obbligatori del record dell'agente (famiglia)
+      agent_corporate_entity: Campi obbligatori nella scheda agente (entità 
+        aziendale)
+      agent_software: Campi obbligatori nella scheda agente (software)
+    messages:
+      required_fields_updated: Campi obbligatori aggiornati
+  tree:
+    drag_and_drop_actions:
+      before: Aggiungi elementi prima
+      after: Aggiungi elementi dopo
+      as_child: Aggiungi elementi come figli
+    unexpected_failure: Ops! Stiamo riscontrando problemi nel recuperare questo 
+      albero. Per favore, prova ad aggiornare la pagina.
+    resize: Trascina per ridimensionare l'altezza dell'albero
+    maximize: Massimizzare/minimizzare l'altezza dell'albero
