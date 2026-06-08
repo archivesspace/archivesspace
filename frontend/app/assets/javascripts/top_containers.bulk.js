@@ -31,6 +31,15 @@ function BulkContainerSearch($search_form, $results_container, $toolbar) {
   }
 
   this.setup_results_list();
+
+  if (
+    !($search_form && $search_form.length) &&
+    this.$results_container.find('table').length
+  ) {
+    this.setup_table_sorter();
+  }
+
+  this.update_button_state();
 }
 
 BulkContainerSearch.prototype.setup_form = function () {

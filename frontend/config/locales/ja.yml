@@ -218,8 +218,8 @@ ja:
     clear_all: すべてクリア
     component_switch: コンポーネントを表示する
     help:
-      row_selection: 一括操作のために行をクリックして選択します。 
-        Altキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
+      row_selection: 一括操作のために行をクリックして選択します。
+        Alt/Optionキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
 
   search_sorting:
     sort_by: 並び替え：
@@ -576,7 +576,7 @@ ja:
     top_containers_for: "%{record_title}のトップコンテナ"
     no_top_containers: リンクされたトップコンテナがありません
     edit_top_container: トップコンテナを編集する
-    view_top_container: トップコンテナ
+    view_top_container: トップコンテナを表示する
     manage_enumerations: 管理された値リストの管理
     global_preferences: グローバル設定
     user_repo_preferences: ユーザー設定

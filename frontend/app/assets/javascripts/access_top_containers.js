@@ -19,11 +19,15 @@ $(document).on('hidden.bs.modal', '.modal', function () {
   }
 });
 
+let accessTopContainersChangesMade = false;
+
 $(document).on('click', '.access-top-containers-btn', function () {
   const $btn = $(this);
   const recordUri = $btn.data('record-uri');
   const recordType = $btn.data('record-type');
   const recordTitle = $btn.data('record-title');
+
+  accessTopContainersChangesMade = false;
 
   const $modal = AS.openCustomModal(
     'accessTopContainersModal',
@@ -31,6 +35,12 @@ $(document).on('click', '.access-top-containers-btn', function () {
     `<div class="modal-body"><div class="p-4"><p>${AS.locales.loading}</p></div></div>`,
     'full'
   );
+
+  $modal.one('hidden.bs.modal', function () {
+    if (accessTopContainersChangesMade) {
+      window.location.reload();
+    }
+  });
 
   $modal.data('record-uri', recordUri);
   $modal.data('record-type', recordType);
@@ -46,6 +56,9 @@ function loadAccessTopContainersModal(
   recordTitle,
   saved = false
 ) {
+  if (saved) {
+    accessTopContainersChangesMade = true;
+  }
   $.ajax({
     url: AS.app_prefix('top_containers/access_top_containers'),
     data: {
@@ -186,6 +199,65 @@ $(document).on(
       error: function (jqXHR) {
         $subModal
           .find('.modal-body')
+          .html(
+            '<div class="alert alert-danger m-3">' +
+              jqXHR.responseText +
+              '</div>'
+          );
+      },
+    });
+  }
+);
+
+function reloadAccessTopContainersModal() {
+  const $outerModal = $('#accessTopContainersModal');
+  const recordUri = $outerModal.data('record-uri');
+  const recordType = $outerModal.data('record-type');
+  const recordTitle = $outerModal.data('record-title');
+  $outerModal
+    .find('.modal-body')
+    .html(`<div class="p-4"><p>${AS.locales.loading}</p></div>`);
+  loadAccessTopContainersModal(
+    $outerModal,
+    recordUri,
+    recordType,
+    recordTitle,
+    true
+  );
+}
+
+const bulkActionModalsToClose = {
+  batch_merge_form: ['#bulkMergeConfirmModal', '#bulkMergeModal'],
+  batch_delete_form: ['#bulkActionModal'],
+};
+
+$(document).on(
+  'submit',
+  '#batch_merge_form, #batch_delete_form',
+  function (event) {
+    if (!$('#accessTopContainersModal').hasClass('show')) {
+      return;
+    }
+    event.preventDefault();
+    const $form = $(this);
+    $.ajax({
+      url: $form.attr('action'),
+      data: $form.serialize() + '&inline=true',
+      type: 'POST',
+      success: function (_response, _status, jqXHR) {
+        const contentType = jqXHR.getResponseHeader('Content-Type') || '';
+        if (contentType.indexOf('application/json') !== -1) {
+          (bulkActionModalsToClose[$form.attr('id')] || []).forEach(
+            function (sel) {
+              $(sel).modal('hide');
+            }
+          );
+          reloadAccessTopContainersModal();
+        }
+      },
+      error: function (jqXHR) {
+        $form
+          .closest('.modal-body')
           .html(
             '<div class="alert alert-danger m-3">' +
               jqXHR.responseText +

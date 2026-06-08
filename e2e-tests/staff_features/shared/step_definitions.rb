@@ -567,6 +567,12 @@ Then 'the {string} button is disabled' do |text|
   end
 end
 
+When 'the user selects a top container' do
+  within '#bulk_operation_results tbody' do
+    find('input[type="checkbox"]', match: :first).click
+  end
+end
+
 When 'the user clicks on {string} that opens in a new tab' do |text|
   @new_window = window_opened_by do
     click_on text
