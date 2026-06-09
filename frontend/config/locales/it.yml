@@ -985,18 +985,18 @@ it:
         created: Numero di accesso 
           <strong>%{stringa_di_visualizzazione_accesso}</strong> creato
         unsuppressed: Numero di accesso 
-          <strong>%{stringa_di_visualizzazione_accesso}</strong> non soppresso
+          <strong>%{accession_display_string}</strong> non soppresso
         updated: Numero di accesso 
           <strong>%{stringa_di_visualizzazione_accesso}</strong> aggiornato
         suppressed: Numero di accesso 
-          <strong>%{stringa_di_visualizzazione_accesso}</strong> soppresso
+          <strong>%{accession_display_string}</strong> soppresso
         suppressed_info: L'accesso è bloccato e non può essere modificato
         deleted: Numero di accesso 
           <strong>%{stringa_di_visualizzazione_accesso}</strong> eliminato
         transfer_description: Trasferire questo accessione a...
         transfer_target: Seleziona un repository in cui trasferire i dati
         spawned: Questo numero di accesso è stato generato dal numero di accesso
-          <strong>%{stringa_di_visualizzazione_accesso}</strong>. Questo record 
+          <strong>%{accession_display_string}</strong>. Questo record 
           non è stato salvato. È necessario fare clic su Salva affinché il 
           record venga creato nel sistema.
         delete_conflict: "Impossibile eliminare l'accesso: <pre>%{error}</pre>"
@@ -1064,7 +1064,7 @@ it:
           <strong>%{archival_object_display_string}</strong> trasferito con 
           successo alla risorsa <strong>%{resource_title}</strong>
         transfer_error: "Impossibile trasferire l'oggetto di archiviazione a causa
-          di un errore o di un conflitto: <pre>%{eccezione}</pre>"
+          di un errore o di un conflitto: <pre>%{exception}</pre>"
         deleted: Oggetto di archivio 
           <strong>%{archival_object_display_string}</strong> eliminato
         published: L'oggetto archivistico 
