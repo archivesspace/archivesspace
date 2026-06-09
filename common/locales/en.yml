@@ -1769,7 +1769,7 @@ en:
     agent_functions_tooltip: Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent.</p><p>See DACS 11.5, ISAAR (CPF) 5.2.5
     agent_topics_tooltip: A subject associated with the agent.
     agent_contacts_tooltip: |
-        <p>Contact information for the agent or a representative working on the behalf.</p>
+        <p>Contact information for the agent or a representative working on their behalf.</p>
     used_languages_tooltip: "The language(s) associated with the agent. Example: English."
     agent_resources_tooltip: Resources and other records associated with the agent.
     related_agent_tooltip: Used to link other agents with a relationship to the agent and indicate the nature of the relationship.
