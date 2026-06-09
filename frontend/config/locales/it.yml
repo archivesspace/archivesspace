@@ -699,8 +699,9 @@ it:
         delete_conflict: "Non è stato possibile eliminare l'agent: <pre>%{error}</pre>"
         merged: Agent(s) uniti
         please_select_a_agent_to_merge: Per favore seleziona un agent
+        merge_description: Seleziona l'agente in cui unire
       section:
-        description_information: ''
+        description_information: 'Informazioni descrittive'
         date_of_existence: Data di esistenza
         dates_of_existence: Date di esistenza
         basic_information: Informazioni di base
@@ -711,9 +712,12 @@ it:
         merge_destination_record: Questo record sarà aggiornato
         structured_date_single_fields: Singola data
         structured_date_range_fields: Range di data
-        identity_information: ''
+        identity_information: 'Informazioni sull''identità'
         merge_candidate_record: Questo record sarà eliminato
-        record_control_information: ''
+        record_control_information: 'Informazioni sul controllo dei record'
+        relation_information: Informazioni sulle relazioni
+        name: Moduli del nome
+        contacts: Informazioni di contatto
       action:
         preview: Preview unione
         create: Crea agente
@@ -723,6 +727,7 @@ it:
     _frontend:
       action:
         add: Aggiungi contatto
+        make_representative: Stabilire il contatto preferito
   linked_agent:
     _frontend:
       action:
@@ -960,3 +965,132 @@ it:
       albero. Per favore, prova ad aggiornare la pagina.
     resize: Trascina per ridimensionare l'altezza dell'albero
     maximize: Massimizzare/minimizzare l'altezza dell'albero
+  component_link:
+    _plural: Collegamenti dei componenti
+    _singular: Collegamento dei componenti
+    _frontend:
+      action:
+        add: Aggiungi collegamento componente
+  accession_link:
+    _plural: Collegamenti di accesso
+    _singular: Link di accesso
+    _frontend:
+      action:
+        add: Aggiungi il link di accesso
+  accession:
+    component_link: Componente collegato
+    component_links: Componenti collegati
+    _frontend:
+      messages:
+        created: Numero di accesso 
+          <strong>%{stringa_di_visualizzazione_accesso}</strong> creato
+        unsuppressed: Numero di accesso 
+          <strong>%{stringa_di_visualizzazione_accesso}</strong> non soppresso
+        updated: Numero di accesso 
+          <strong>%{stringa_di_visualizzazione_accesso}</strong> aggiornato
+        suppressed: Numero di accesso 
+          <strong>%{stringa_di_visualizzazione_accesso}</strong> soppresso
+        suppressed_info: L'accesso è bloccato e non può essere modificato
+        deleted: Numero di accesso 
+          <strong>%{stringa_di_visualizzazione_accesso}</strong> eliminato
+        transfer_description: Trasferire questo accessione a...
+        transfer_target: Seleziona un repository in cui trasferire i dati
+        spawned: Questo numero di accesso è stato generato dal numero di accesso
+          <strong>%{stringa_di_visualizzazione_accesso}</strong>. Questo record 
+          non è stato salvato. È necessario fare clic su Salva affinché il 
+          record venga creato nel sistema.
+        delete_conflict: "Impossibile eliminare l'accesso: <pre>%{error}</pre>"
+      section:
+        basic_information: Informazioni di base
+      action:
+        create: Crea accesso
+        save: Salva accesso
+  telephone:
+    _frontend:
+      action:
+        add: Aggiungi numero di telefono
+  agent_corporate_entity:
+    _frontend:
+      action:
+        save: Salva entità aziendale
+  agent_family:
+    _frontend:
+      action:
+        save: Salva la famiglia
+  agent_person:
+    _frontend:
+      action:
+        save: Salvare persona
+  agent_software:
+    _frontend:
+      action:
+        save: Software di salvataggio
+  structured_date_single:
+    _frontend:
+      action:
+        add: Aggiungi una singola data
+  structured_date_range:
+    _frontend:
+      action:
+        add: Aggiungi intervallo Data
+  archival_object:
+    external_ark_url: URL ARK esterno
+    external_ark_url_tooltip: Suggerimento per la visualizzazione dell'URL 
+      esterno di ARK
+    new_title: Nuovo oggetto d'archivio
+    _frontend:
+      messages:
+        created: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> sulla risorsa 
+          <strong>%{resource_title}</strong> creato
+        duplicated: Oggetto di archivio duplicato da 
+          <strong>%{archival_object_display_string}</strong>
+        created_with_parent: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> creato come figlio 
+          di <strong>%{parent_display_string}</strong> sulla risorsa 
+          <strong>%{resource_title}</strong>
+        updated: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> aggiornato
+        updated_with_parent: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> aggiornato
+        transfer_description: Seleziona una risorsa in cui trasferire questo 
+          oggetto di archivio
+        transfer_confirm_message: Il record '%{ao}' verrà trasferito alla 
+          risorsa selezionata
+        transfer_confirm_message_with_resource: Il record '%{ao}' verrà 
+          trasferito alla risorsa '%{resource}'
+        please_select_a_resource_for_transfer: Seleziona una risorsa
+        transfer_success: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> trasferito con 
+          successo alla risorsa <strong>%{resource_title}</strong>
+        transfer_error: "Impossibile trasferire l'oggetto di archiviazione a causa
+          di un errore o di un conflitto: <pre>%{eccezione}</pre>"
+        deleted: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> eliminato
+        published: L'oggetto archivistico 
+          <strong>%{archival_object_title}</strong>, i suoi figli, i sottorecord
+          e i componenti sono stati pubblicati
+        unpublished: L'oggetto di archivio 
+          <strong>%{archival_object_title}</strong>, i suoi elementi figli, i 
+          sottorecord e i componenti sono stati depubblicati
+        unsuppressed: Oggetto d'archivio 
+          <strong>%{archival_object_title}</strong> non soppresso
+        suppressed: Oggetto di archivio 
+          <strong>%{archival_object_title}</strong> soppresso
+        suppressed_info: L'oggetto di archivio è soppresso e non può essere 
+          modificato
+        has_unpublished_ancestor: Si prega di notare che questo documento ha un 
+          antenato inedito.
+        spawned: Questo oggetto di archivio è stato generato dall'Accession 
+          <strong>%{accession_display_string}</strong>. Questo record non è 
+          stato salvato. È necessario fare clic su Salva affinché il record 
+          venga creato nel sistema.
+        delete_conflict: "Impossibile eliminare l'oggetto di archivio: <pre>%{error}</pre>"
+        spawn_placeholder: <em>Il componente generato verrà inserito qui</em>
+        spawn_menu_before: Inserire il componente generato prima
+        spawn_menu_child: Inserisci il componente generato come figlio
+        spawn_menu_after: Inserisci il componente generato dopo
+      section:
+        basic_information: Informazioni di base
+      action:
+        add_child: Aggiungi bambino
