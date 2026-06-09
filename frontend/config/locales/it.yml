@@ -635,10 +635,10 @@ it:
     manage_assessment_attributes: Gestisci gli attributi della valutazione
   footer:
     keyboard_shortcuts: Scorciatoie da tastiera
-    archivesspace_home_html: Visita <a 
-      href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
-      target='_blank'>Invia feedback o riferisci un problema</a>
+    archivesspace_home_html: Basato su <a
+      href='http://archivesspace.org'>ArchivesSpace</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
+      target='_blank'>Feedback o domande</a>
     public_interface_html: Visualizza <a href="%{public_url}">Interfaccia 
       pubblica</a>
   import:
