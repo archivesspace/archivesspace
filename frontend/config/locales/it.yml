@@ -845,6 +845,8 @@ it:
     _frontend:
       action:
         add: Aggiungi data
+    _singular: Data di esistenza
+    _plural: Date di esistenza
   resource:
     _frontend:
       section:
@@ -996,9 +998,9 @@ it:
         transfer_description: Trasferire questo accessione a...
         transfer_target: Seleziona un repository in cui trasferire i dati
         spawned: Questo numero di accesso è stato generato dal numero di accesso
-          <strong>%{accession_display_string}</strong>. Questo record 
-          non è stato salvato. È necessario fare clic su Salva affinché il 
-          record venga creato nel sistema.
+          <strong>%{accession_display_string}</strong>. Questo record non è 
+          stato salvato. È necessario fare clic su Salva affinché il record 
+          venga creato nel sistema.
         delete_conflict: "Impossibile eliminare l'accesso: <pre>%{error}</pre>"
       section:
         basic_information: Informazioni di base
@@ -1096,3 +1098,147 @@ it:
         add_child: Aggiungi bambino
         add_sibling: Aggiungi fratello/sorella
         add_duplicate: Aggiungi duplicato
+        save: Salva oggetto di archivio
+        bulk_import: Carica tramite foglio di calcolo
+        select_resource: Seleziona la risorsa
+        select_parent_and_position: Selezionare la posizione del componente
+        leave_parent_empty: Chiudi / Non assegnare genitore
+      tree:
+        new_record_title: Nuovo oggetto d'archivio
+        duplicated_record_title: Crea un oggetto di archiviazione duplicato
+  classification:
+    _frontend:
+      messages:
+        created: Classificazione <strong>%{classification_title}</strong> creata
+        updated: Classificazione <strong>%{classification_title}</strong> 
+          aggiornata
+        deleted: Classificazione <strong>%{classification_title}</strong> 
+          eliminata
+      section:
+        basic_information: Informazioni di base
+        search_embedded: Record collegati
+      action:
+        add_child: Aggiungi bambino
+        create: Crea classificazione
+        save: Salva l'analisi
+        add: Aggiungi classificazione
+  classification_term:
+    _frontend:
+      messages:
+        created: Termine di classificazione 
+          <strong>%{classification_term_title}</strong> creato
+        created_with_parent: Termine di classificazione 
+          <strong>%{classification_term_title}</strong> creato
+        updated: Termine di classificazione 
+          <strong>%{classification_term_title}</strong> aggiornato
+        updated_with_parent: Termine di classificazione 
+          <strong>%{classification_term_title}</strong> aggiornato
+        deleted: Termine di classificazione 
+          <strong>%{classification_term_title}</strong> eliminato
+      section:
+        basic_information: Informazioni di base
+        search_embedded: Record collegati
+      action:
+        add_child: Aggiungi bambino
+        add_sibling: Aggiungi fratello/sorella
+        save: Salva termine di classificazione
+      tree:
+        new_record_title: Nuovo termine di classificazione
+  collection_management:
+    _frontend:
+      title_prefix: Elaborazione
+      action:
+        add: Aggiungi campi di gestione della raccolta
+  container:
+    _frontend:
+      action:
+        add: Aggiungi contenitore
+  container_location:
+    _frontend:
+      action:
+        add: Aggiungi posizione
+  date:
+    _frontend:
+      expression_placeholder: Descrivi la data o l'intervallo di date
+      action:
+        add: Aggiungi la data
+  structured_date_label_common_fields:
+    date_label: Etichetta
+    date_type_structured: Tipo di data
+    date_certainty: Certezza
+    date_era: Era
+    date_calendar: Calendario
+  structured_date_single_fields:
+    date_role: Ruolo della data
+    date_expression: Espressione della data
+    date_standardized: Data standardizzata
+    date_standardized_type: Tipo di data standardizzato
+  structured_date_range_fields:
+    begin_date_expression: Espressione della data di inizio
+    begin_date_standardized: Data standardizzata raccomandata
+    begin_date_standardized_type: Inizio Tipo di data standardizzato
+    end_date_expression: Espressione della data di fine
+    end_date_standardized: Data di fine standardizzata
+    end_date_standardized_type: Tipo di data standardizzato di fine
+  date_type_structured:
+    single: Singolo
+    range: Allineare
+  digital_object:
+    _frontend:
+      messages:
+        created: Oggetto digitale <strong>%{digital_object_title}</strong> 
+          creato
+        updated: Oggetto digitale <strong>%{digital_object_title}</strong> 
+          aggiornato
+        deleted: Oggetto digitale <strong>%{digital_object_title}</strong> 
+          eliminato
+        published: L'oggetto digitale <strong>%{digital_object_title}</strong>, 
+          i suoi sottorecord e componenti sono stati pubblicati
+        merge_description: Seleziona gli oggetti digitali qui sotto da unire
+        please_select_a_digital_object_to_merge: Seleziona un oggetto digitale
+        merged: Oggetto/i digitale/i unito/i
+        transfer_description: Trasferisci questo oggetto digitale a...
+        transfer_target: Seleziona un repository in cui trasferire i dati
+        unsuppressed: Oggetto digitale <strong>%{digital_object_title}</strong> 
+          non soppresso
+        suppressed: Oggetto digitale <strong>%{digital_object_title}</strong> 
+          soppresso
+        suppressed_info: L'oggetto digitale è soppresso e non può essere 
+          modificato
+        delete_conflict: "Impossibile eliminare l'oggetto digitale: <pre>%{error}</pre>"
+      section:
+        basic_information: Informazioni di base
+      action:
+        add_child: Aggiungi bambino
+        create: Crea oggetto digitale
+        save: Salva oggetto digitale
+  digital_object_component:
+    _frontend:
+      messages:
+        created_with_parent: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> creato 
+          come figlio di <strong>%{parent_display_string}</strong> sull'oggetto 
+          digitale <strong>%{digital_object_title}</strong>
+        created: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> creato 
+          sull'oggetto digitale <strong>%{digital_object_title}</strong>
+        updated_with_parent: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> aggiornato
+        updated: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> aggiornato
+        deleted: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> eliminato
+        unsuppressed: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> non 
+          soppresso
+        suppressed: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> soppresso
+        suppressed_info: Il componente oggetto digitale è soppresso e non può 
+          essere modificato
+        has_unpublished_ancestor: Si prega di notare che questo documento ha un 
+          antenato inedito.
+      section:
+        basic_information: Informazioni di base
+      action:
+        add_child: Aggiungi bambino
+        add_sibling: Aggiungi fratello/sorella
