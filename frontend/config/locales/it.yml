@@ -875,7 +875,7 @@ it:
     staff_interface: Interfaccia per il personale di ArchivesSpace
   session:
     gone: La tua sessione backend non è stata trovata
-    expired: La sessione è scaduta per inattività.
+    expired: La sessione è scaduta per inattività
     inline_login_title: Sessione scaduta
   login:
     login: Registrazione
@@ -1094,3 +1094,5 @@ it:
         basic_information: Informazioni di base
       action:
         add_child: Aggiungi bambino
+        add_sibling: Aggiungi fratello/sorella
+        add_duplicate: Aggiungi duplicato
