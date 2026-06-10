@@ -712,7 +712,7 @@ it:
         merge_destination_record: Questo record sarà aggiornato
         structured_date_single_fields: Singola data
         structured_date_range_fields: Range di data
-        identity_information: 'Informazioni sull''identità'
+        identity_information: 'Informazioni sull identità'
         merge_candidate_record: Questo record sarà eliminato
         record_control_information: 'Informazioni sul controllo dei record'
         relation_information: Informazioni sulle relazioni
