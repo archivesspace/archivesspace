@@ -1242,3 +1242,97 @@ it:
       action:
         add_child: Aggiungi bambino
         add_sibling: Aggiungi fratello/sorella
+        save: Salva componente oggetto digitale
+      tree:
+        new_record_title: Nuovo componente oggetto digitale
+  enumeration:
+    _frontend:
+      messages:
+        value_updated: Valore aggiornato
+        deleted: Valore eliminato
+        delete_error: Impossibile eliminare il valore
+        delete_conflict: Impossibile eliminare il valore poiché è attualmente 
+          referenziato da un record
+        default_set: Imposta il valore predefinito
+        created: Valore creato
+        create_error: Non è stato possibile creare valore
+        merged: Valore unito
+        merge_tip: Questo valore può essere unito ad un altro
+        merge_error: Impossibile unire il valore
+        no_selection: Selezionare un elenco di valori controllati
+        name_selector: Nome elenco
+        name_selector_tooltip: |
+          <p>L'elenco dei valori controllati da modificare.</p>
+        no_name_provided: Selezionare un elenco di valori prima di creare un 
+          nuovo valore
+        not_used: Non utilizzato.
+        one_related_item: 1 elemento correlato.
+        related_items: ' articoli correlati.'
+      action:
+        create_value: Creare valore
+        delete_value: Eliminare il valore
+        merge_value: Valore di fusione
+        download_csv: Scarica il file CSV
+  event:
+    _frontend:
+      messages:
+        created: Evento creato
+        updated: Evento salvato
+        deleted: Evento eliminato
+        suppressed_info: L'evento è stato soppresso e non può essere modificato
+      section:
+        basic_information: Informazioni di base
+        date: Data/Ora dell'evento
+      action:
+        save: Salva evento
+        create: Crea evento
+    linked_agents: Collegamenti degli agenti
+  extent:
+    _frontend:
+      action:
+        add: Aggiungi estensione
+  external_document:
+    _frontend:
+      action:
+        add: Aggiungi documento esterno
+  file_version:
+    _frontend:
+      action:
+        add: Aggiungi versione del file
+        make_representative: Rendere rappresentante
+        make_representative_tooltip: Utilizzare questa opzione per indicare che 
+          questa immagine deve essere visualizzata quando sono presenti più 
+          versioni del file associate al record.
+  group:
+    _frontend:
+      action:
+        create: Crea gruppo
+        save: Save Group
+  instance:
+    _frontend:
+      messages:
+        select_a_type: Seleziona un tipo di istanza
+      action:
+        add_digital_object: Aggiungi oggetto digitale
+        add: Aggiungi istanza
+  lang_material:
+    _plural: Lingue
+    _frontend:
+      action:
+        add: Aggiungi lingua
+        add_note: Aggiungi nota sulla lingua
+  linked_record:
+    _frontend:
+      action:
+        add: Aggiungi collegamento al record
+  location:
+    _frontend:
+      messages:
+        created: Posizione creata
+        updated: Posizione salvata
+        deleted: Posizione eliminata
+      section:
+        basic_information: Informazioni di base
+        search_embedded: Record collegati
+      action:
+        add_child: Aggiungi sottocomponente
