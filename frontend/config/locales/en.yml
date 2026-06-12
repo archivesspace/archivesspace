@@ -1709,7 +1709,7 @@ en:
         bulk_selection_sort_help: Click a column to set the sort ordering.  Hold shift to sort by multiple columns.
         merged: Top Container(s) Merged
         bulk_action_success: Top Containers successfully updated
-        bulk_action_success_info: Please be aware it may take a moment before changes are reflected in the search results.
+        bulk_action_success_info: Please be aware it may take a moment before changes are reflected in the search results or browse tables.
         no_active_restrictions: No Active Restrictions
       bulk_operations:
         title: Bulk Operations

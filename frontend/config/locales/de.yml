@@ -2106,8 +2106,8 @@ de:
         merged: Haupt-Behältnisse zusammengeführt
         bulk_action_success: Haupt-Behältnisse erfolgreich aktualisiert
         bulk_action_success_info: Bitte seien Sie sich bewusst, dass es einen 
-          Moment dauern kann, bevor die Änderungen in den Suchergebnissen 
-          aufscheinen.
+          Moment dauern kann, bevor die Änderungen in den Suchergebnissen
+          oder Übersichtstabellen aufscheinen.
       bulk_operations:
         empty_false: Nein
         collection_accession_plural: Eingänge
