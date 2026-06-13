@@ -1484,8 +1484,8 @@ ja:
       toggle_shortcuts: キーボードショートカットを有効/無効にする
       save_record: 編集中のレコードを保存する
       close_record: 編集中のレコードを閉じる
-      open_browse: ブラウズメニューを開く
-      open_create: 作成メニューを開く
+      open_browse: ブラウズメニューを切り替える
+      open_create: 作成メニューを切り替える
 
   instance_container:
     container: コンテナ

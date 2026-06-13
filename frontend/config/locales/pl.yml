@@ -1423,6 +1423,16 @@ pl:
         p_one: Wyróżnione kolumny są „przyklejone” i zostaną powielone po 
           dodaniu nowych wierszy. Funkcję „przyklejania” można włączyć lub 
           wyłączyć, klikając odpowiedni nagłówek tabeli.
+  shortcuts:
+    quick_reference_window: "Skrótowy przewodnik: skróty klawiaturowe"
+    actions:
+      this_reference: "Ten przewodnik skrótów"
+      close_modal: "Zamknij okno modalne (np. to)"
+      toggle_shortcuts: "Włącz / wyłącz skróty klawiaturowe"
+      save_record: "Zapisz edytowany rekord"
+      close_record: "Zamknij edytowany rekord"
+      open_browse: "Przełącz menu Przeglądaj"
+      open_create: "Przełącz menu Utwórz"
   structured_date_single_fields:
     date_expression: Wyrażenie daty
     date_standardized: Znormalizowana data

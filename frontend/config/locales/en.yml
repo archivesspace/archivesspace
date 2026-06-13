@@ -1592,9 +1592,9 @@ en:
       close_modal: "Close a modal window (e.g., this one)"
       toggle_shortcuts: "Enable / disable keyboard shortcuts"
       save_record: "Save the record being edited"
-      close_record: "Close a record being edited"
-      open_browse: "Open Browse menu"
-      open_create: "Open Create menu"
+      close_record: "Close the record being edited"
+      open_browse: "Toggle the Browse menu"
+      open_create: "Toggle the Create menu"
 
   instance_container:
     container: Container

@@ -430,12 +430,12 @@ de:
   shortcuts:
     actions:
       toggle_shortcuts: Tastenkürzel aktivieren / deaktivieren
-      open_create: Erstellen-Menü öffnen
+      open_create: Erstellen-Menü umschalten
       this_reference: Diese Tastenkürzel-Referenz
       close_modal: Ein Dialogfenster schließen (z.B. dieses hier)
       save_record: Die derzeit bearbeitete Aufzeichnung speichern
-      close_record: Eine gerade bearbeitete Aufzeichnung schließen
-      open_browse: Durchsuchen-Menu öffnen
+      close_record: Die bearbeitete Aufzeichnung schließen
+      open_browse: Durchsuchen-Menü umschalten
     quick_reference_window: 'Kurzanleitung: Tastenkürzel'
   states:
     auto_generated: Wird vom System beim Speichern erzeugt
