@@ -1781,8 +1781,8 @@ fr:
       toggle_shortcuts: "Activer / désactiver raccourcis clavier"
       save_record: "Sauvegarder la notice en cours d'édition"
       close_record: "Fermer une notice en cours d'édition"
-      open_browse: "Ouvrir menu parcourir"
-      open_create: "Ouvrir menu créer"
+      open_browse: "Basculer le menu parcourir"
+      open_create: "Basculer le menu créer"
 
   instance_container:
     container: Conditionnement

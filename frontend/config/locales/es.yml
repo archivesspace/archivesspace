@@ -1609,8 +1609,8 @@ es:
       toggle_shortcuts: "Activar / desactivar accesos directos del teclado"
       save_record: "Guardar el registro que se está editando"
       close_record: "Cerrar el registro que se está editando"
-      open_browse: "Abrir el menú de navegación"
-      open_create: "Abrir el menú de creación"
+      open_browse: "Alternar el menú de navegación"
+      open_create: "Alternar el menú de creación"
 
   instance_container:
     container: Container

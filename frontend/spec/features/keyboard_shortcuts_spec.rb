@@ -17,8 +17,8 @@ describe 'Keyboard Shortcuts', js: true do
       within '#ASModal' do
         expect(page).to have_content('Shift ?')
         expect(page).to have_content('ESC')
-        expect(page).to have_content('Ctrl S')
-        expect(page).to have_content('Ctrl X')
+        expect(page).to have_content('Shift Ctrl S')
+        expect(page).to have_content('Shift Ctrl X')
         expect(page).to have_content('Shift B')
         expect(page).to have_content('Shift C')
       end
@@ -62,14 +62,30 @@ describe 'Keyboard Shortcuts', js: true do
       expect(page).to have_field('accession_title_', with: accession.title)
 
       fill_in 'accession_title_', with: updated_text
-      page.driver.browser.action.key_down(:control).send_keys('s').key_up(:control).perform
+      page.driver.browser.action
+        .key_down(:control).key_down(:shift).send_keys('s')
+        .key_up(:shift).key_up(:control).perform
       expect(page).to have_content("Accession #{updated_text} updated")
       expect(page).to have_field('accession_title_', with: updated_text)
     end
 
+    it 'does not save the record with Ctrl S alone' do
+      fill_in 'accession_title_', with: updated_text
+      page.driver.browser.action.key_down(:control).send_keys('s').key_up(:control).perform
+      expect(page).not_to have_content("Accession #{updated_text} updated")
+      expect(page).to have_field('accession_title_', with: updated_text)
+    end
+
     it 'can close the record' do
-      page.driver.browser.action.key_down(:control).send_keys('x').key_up(:control).perform
+      page.driver.browser.action
+        .key_down(:control).key_down(:shift).send_keys('x')
+        .key_up(:shift).key_up(:control).perform
       expect(page).to have_current_path("/accessions/#{accession.id}")
+    end
+
+    it 'does not close the record with Ctrl X alone' do
+      page.driver.browser.action.key_down(:control).send_keys('x').key_up(:control).perform
+      expect(page).to have_current_path("/accessions/#{accession.id}/edit")
     end
   end
 end
