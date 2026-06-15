@@ -862,12 +862,7 @@ it:
   skipnav:
     main_content: Passa al contenuto principale
   database_warning:
-    message: <p><strong>Avviso relativo al database:</strong> Attualmente stai 
-      utilizzando il database integrato (Apache Derby). Il database integrato è 
-      destinato esclusivamente a scopi di test/dimostrativi. Per tutti i dati 
-      destinati alla produzione, inclusi i dati presenti in un'istanza di test 
-      che intendi trasferire in un'istanza di produzione, dovresti utilizzare 
-      MySQL.</p>
+    message: "<p><strong>Avviso relativo al database:</strong> Attualmente stai utilizzando il database integrato (Apache Derby). Il database integrato è destinato esclusivamente a scopi di test/dimostrativi e sarà deprecato nella prossima versione principale. Dovresti utilizzare MySQL per tutti i dati destinati alla produzione, inclusi i dati presenti in un'istanza di test che intendi trasferire in un'istanza di produzione.</p>"
   become-user:
     become-user: Diventa utente
     failed: Impossibile passare all'utente specificato

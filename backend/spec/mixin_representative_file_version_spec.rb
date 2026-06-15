@@ -427,6 +427,22 @@ describe 'Representative File Version mixin' do
       expect(resource.representative_file_version['file_uri']).to eq(file_version_5.file_uri)
     end
 
+    # The filter must use the integer `1` so the query runs on every supported database, see ANW-2717.
+    it "scans the resource tree without error when the resource has no representative file version" do
+      resource = create_resource
+
+      create_archival_object({
+                               resource: { ref: resource.uri },
+                               publish: true,
+                               position: 0
+                             })
+
+      expect {
+        resource = Resource.to_jsonmodel(resource.id)
+      }.not_to raise_error
+      expect(resource.representative_file_version).to be_nil
+    end
+
     it "ignores unpublished archival objects when searching a resource tree for a representative" do
 
       resource = create_resource

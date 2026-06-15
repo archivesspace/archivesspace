@@ -210,10 +210,7 @@ fr:
     expand_tree_mode_off: Désactiver développer tout automatiquement
     reorder_successful: Services d'archives réorganisé avec succès
   database_warning:
-    message: "<p><strong>Avertissement!</strong> Vous utilisez actuellement la base
-      de données Apache Derby, embarquée uniquement à des fins de tests/démonstrations.
-      Vous devriez utiliser MySQL en production, y compris pour les données en phase
-      de test susceptibles d'être mises en production.</p>"
+    message: "<p><strong>Avertissement concernant la base de données :</strong> Vous utilisez actuellement la base de données intégrée (Apache Derby). La base de données intégrée est uniquement destinée aux tests/démonstrations et sera supprimée dans la prochaine version majeure. Vous devriez utiliser MySQL pour toutes les données destinées à la production, y compris les données d'une instance de test que vous avez l'intention de transférer vers une instance de production.</p>"
 
   states:
     auto_generated: Généré automatiquement à la sauvegarde
