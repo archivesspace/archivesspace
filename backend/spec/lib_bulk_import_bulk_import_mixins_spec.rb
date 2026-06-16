@@ -107,8 +107,6 @@ describe "Bulk Import Mixins" do
 
   it "retrieves an archival object by REF ID" do
     ao = create(:json_archival_object, { :title => "archival object: Hi There" })
-    ao.resource = { :ref => @resource.uri }
-    ao.save
     new_ao = archival_object_from_ref_or_uri(ao.ref_id, nil)
     new_ao = new_ao[:ao]
     expect(new_ao.uri).to eq(ao.uri)
@@ -116,8 +114,6 @@ describe "Bulk Import Mixins" do
 
   it "retrieves an archival object by uri" do
     ao = create(:json_archival_object, { :title => "archival object: Hi There" })
-    ao.resource = { :ref => @resource.uri }
-    ao.save
     new_ao = archival_object_from_ref_or_uri(nil, ao.uri)
     new_ao = new_ao[:ao]
     expect(new_ao.title).to eq(ao.title)
@@ -186,6 +182,50 @@ describe "Bulk Import Mixins" do
     date = create_date(nil, '1900', '2000', 'single', nil, nil)
 
     expect(date['label']).to eq('creation')
+  end
+
+  it 'will set era on a date when a valid era value is provided' do
+    @date_types = CvList.new('date_type', @current_user)
+    @date_labels = CvList.new('date_label', @current_user)
+    @date_era = CvList.new('date_era', @current_user)
+    @date_calendar = CvList.new('date_calendar', @current_user)
+    date = create_date('creation', '1900', '2000', nil, nil, nil, 'ce', nil)
+
+    expect(date['era']).to eq('ce')
+    expect(@report.current_row.errors).to be_empty
+  end
+
+  it 'will set calendar on a date when a valid calendar value is provided' do
+    @date_types = CvList.new('date_type', @current_user)
+    @date_labels = CvList.new('date_label', @current_user)
+    @date_era = CvList.new('date_era', @current_user)
+    @date_calendar = CvList.new('date_calendar', @current_user)
+    date = create_date('creation', '1900', '2000', nil, nil, nil, nil, 'gregorian')
+
+    expect(date['calendar']).to eq('gregorian')
+    expect(@report.current_row.errors).to be_empty
+  end
+
+  it 'will log an error but still return the date when an invalid era is provided' do
+    @date_types = CvList.new('date_type', @current_user)
+    @date_labels = CvList.new('date_label', @current_user)
+    @date_era = CvList.new('date_era', @current_user)
+    @date_calendar = CvList.new('date_calendar', @current_user)
+    date = create_date('creation', '1900', '2000', nil, nil, nil, 'bad_era', nil)
+
+    expect(date).not_to be nil
+    expect(@report.current_row.errors[0]).to include("date era")
+  end
+
+  it 'will log an error but still return the date when an invalid calendar is provided' do
+    @date_types = CvList.new('date_type', @current_user)
+    @date_labels = CvList.new('date_label', @current_user)
+    @date_era = CvList.new('date_era', @current_user)
+    @date_calendar = CvList.new('date_calendar', @current_user)
+    date = create_date('creation', '1900', '2000', nil, nil, nil, nil, 'bad_calendar')
+
+    expect(date).not_to be nil
+    expect(@report.current_row.errors[0]).to include("date calendar")
   end
 
   it "will import a date begin and end for accessrestrict note" do

@@ -264,6 +264,30 @@ describe "Import Archival Objects" do
     end
   end
 
+  it 'imports date era and calendar values from CSV' do
+    opts = { :repo_id => @resource[:repo_id],
+             :rid => @resource[:id],
+             :type => "resource",
+             :filename => "bulk_import_date_era_calendar_test.csv",
+             :filepath => BULK_FIXTURES_DIR + "/bulk_import_date_era_calendar_test.csv",
+             :load_type => "archival_object",
+             :ref_id => "",
+             :aoid => "",
+             :position => "" }
+    importer = ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts)
+    report = importer.run
+
+    expect(report.terminal_error).to eq(nil)
+    expect(report.row_count).to eq(1)
+    expect(report.rows[0].errors).to eq([])
+
+    ao_json = JSONModel::HTTP.get_json(report.rows[0].archival_object_id)
+    date = ao_json['dates'].first
+
+    expect(date['era']).to eq('ce')
+    expect(date['calendar']).to eq('gregorian')
+  end
+
   it "adds new instance types to the instance type controlled values list if missing (ANW-1777, ANW-1778)" do
     2.times do
       resource = create(:json_resource, ead_id: "tyler_001")
