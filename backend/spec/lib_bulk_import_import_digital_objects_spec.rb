@@ -6,7 +6,8 @@ require 'rubyXL/convenience_methods/cell'
 
 describe "Import Digital Objects" do
   BULK_FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
-  TEMPLATES_DIR = File.join(File.dirname(__FILE__), "../", "../", "templates")
+  # Templates are canonical in frontend/public/bulk_import_templates/; pointing there directly so specs always use the current version
+  TEMPLATES_DIR = File.join(File.dirname(__FILE__), "../", "../", "frontend", "public", "bulk_import_templates")
   before(:each) do
     @now = Time.now.to_i
 

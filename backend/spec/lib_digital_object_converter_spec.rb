@@ -12,7 +12,7 @@ describe 'Digital Object converter' do
 
 
   before(:all) do
-    test_file = File.expand_path("../../templates/aspace_digital_object_import_template.csv",
+    test_file = File.expand_path("../../frontend/public/bulk_import_templates/aspace_digital_object_import_template.csv",
                                  File.dirname(__FILE__))
     @records = convert(test_file)
     @digital_objects = @records.select {|r| r['jsonmodel_type'] == 'digital_object' }

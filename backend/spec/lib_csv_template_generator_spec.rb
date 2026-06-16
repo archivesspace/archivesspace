@@ -1,7 +1,8 @@
 require_relative "spec_helper.rb"
 
 describe 'CsvTemplateGenerator::Template' do
-  TEMPLATES_DIR = File.join(ASUtils.find_base_directory, 'templates')
+  # Templates are canonical in frontend/public/bulk_import_templates/; pointing there directly so specs always use the current version
+  TEMPLATES_DIR = File.join(ASUtils.find_base_directory, 'frontend', 'public', 'bulk_import_templates')
 
   let(:now) { Time.now.to_i }
   let(:resource) { create(:json_resource) }
