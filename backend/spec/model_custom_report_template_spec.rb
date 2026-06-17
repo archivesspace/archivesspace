@@ -212,8 +212,7 @@ describe 'Custom Report Template model' do
     report = CustomReport.new({'template' => template_id.to_s, :repo_id => repo.id}, mock_job, $testdb)
 
     row = report.query.first
-    expect(row).not_to be_nil
-    expect(row[:reviewer]).to be_a(String)
+    expect(row[:reviewer]).to include(reviewer.names[0]['sort_name'])
   end
 
   it 'concatenates multiple reviewer names in assessment report results' do
