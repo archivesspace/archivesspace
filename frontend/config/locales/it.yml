@@ -762,6 +762,16 @@ it:
   job:
     _frontend:
       audit_data: Dati dell'audit
+  shortcuts:
+    quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
+    actions:
+      this_reference: "Questo riferimento alle scorciatoie"
+      close_modal: "Chiudi una finestra modale (ad es., questa)"
+      toggle_shortcuts: "Attiva / disattiva scorciatoie da tastiera"
+      save_record: "Salva il record in modifica"
+      close_record: "Chiudi il record in modifica"
+      open_browse: "Alterna il menu Naviga"
+      open_create: "Alterna il menu Crea"
   agent_identifier:
     identifier_type: Tipo di identificativo
   agent_gender:

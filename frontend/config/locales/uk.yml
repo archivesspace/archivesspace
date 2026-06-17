@@ -1751,9 +1751,9 @@ uk:
       close_modal: Закрити модальне вікно (наприклад, це)
       toggle_shortcuts: Увімкнути/вимкнути комбінації клавіш
       save_record: Збережіть запис, що редагується
-      close_record: Закриття запису, що редагується
-      open_browse: Відкрити меню «Огляд»
-      open_create: Відкрити меню «Створити»
+      close_record: Закрити запис, що редагується
+      open_browse: Перемкнути меню «Огляд»
+      open_create: Перемкнути меню «Створити»
   instance_container:
     container: Контейнер
   container_profile:
