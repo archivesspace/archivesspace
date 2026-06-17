@@ -6,7 +6,12 @@ permissions:
 on:
   workflow_call:
     inputs:
-      run-cmd:
+      shard:
+        description: Which shard this job runs
+        required: true
+        type: string
+      total:
+        description: Total number of shards the specs are split across
         required: true
         type: string
       name:
@@ -88,8 +93,32 @@ jobs:
       with:
         firefox-version: 'latest'
 
+    - name: Get spec files for this shard
+      id: shard-files
+      working-directory: frontend
+      run: |
+        TOTAL_SHARDS=${{ inputs.total }}
+        CURRENT_SHARD=${{ inputs.shard }}
+
+        ALL_FILES=($(ls spec/features/*_spec.rb spec/models/*_spec.rb spec/controllers/*_spec.rb | sort))
+        TOTAL_FILES=${#ALL_FILES[@]}
+
+        FILES_PER_SHARD=$(( (TOTAL_FILES + TOTAL_SHARDS - 1) / TOTAL_SHARDS ))
+        START_INDEX=$(( (CURRENT_SHARD - 1) * FILES_PER_SHARD ))
+
+        SHARD_FILES="${ALL_FILES[@]:$START_INDEX:$FILES_PER_SHARD}"
+
+        echo "Running specs for shard $CURRENT_SHARD of $TOTAL_SHARDS ($TOTAL_FILES specs total)"
+        echo "Files to test: $SHARD_FILES"
+        echo "files=$SHARD_FILES" >> $GITHUB_OUTPUT
+
     - name: Run Frontend tests
-      run: ${{ inputs.run-cmd }}
+      run: |
+        if [ -z "${{ steps.shard-files.outputs.files }}" ]; then
+          echo "No specs assigned to this shard; nothing to run."
+          exit 0
+        fi
+        ./build/run frontend:test -Dspecs="${{ steps.shard-files.outputs.files }}"
       env:
         SELENIUM_CHROME: ${{ inputs.browser == 'chrome' }}
         ARCHIVESSPACE_VERSION: ${{ github.ref }}
