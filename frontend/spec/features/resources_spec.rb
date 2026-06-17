@@ -880,6 +880,7 @@ describe 'Resources', js: true do
     resource = create(:resource, title: "Resource Title #{now}")
 
     visit "resources/#{resource.id}/edit"
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Add Related Accession'
 
@@ -914,6 +915,7 @@ describe 'Resources', js: true do
     resource = create(:resource, title: "Resource Title #{now}")
 
     visit "resources/#{resource.id}/edit"
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Add Related Accession'
 
