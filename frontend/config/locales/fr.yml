@@ -210,7 +210,12 @@ fr:
     expand_tree_mode_off: Désactiver développer tout automatiquement
     reorder_successful: Services d'archives réorganisé avec succès
   database_warning:
-    message: "<p><strong>Avertissement concernant la base de données :</strong> Vous utilisez actuellement la base de données intégrée (Apache Derby). La base de données intégrée est uniquement destinée aux tests/démonstrations et sera supprimée dans la prochaine version majeure. Vous devriez utiliser MySQL pour toutes les données destinées à la production, y compris les données d'une instance de test que vous avez l'intention de transférer vers une instance de production.</p>"
+    message: "<p><strong>Avertissement concernant la base de données :</strong> Vous
+      utilisez actuellement la base de données intégrée (Apache Derby). La base de
+      données intégrée est uniquement destinée aux tests/démonstrations et sera supprimée
+      dans la prochaine version majeure. Vous devriez utiliser MySQL pour toutes les
+      données destinées à la production, y compris les données d'une instance de test
+      que vous avez l'intention de transférer vers une instance de production.</p>"
 
   states:
     auto_generated: Généré automatiquement à la sauvegarde
@@ -975,8 +980,10 @@ fr:
         updated_with_parent: Document d'archives 
           <strong>%{archival_object_display_string}</strong> actualisé
         please_select_a_resource_for_transfer: Veuillez choisir une ressource
-        transfer_confirm_message: "La notice '%{ao}' sera transférée vers la ressource que vous avez sélectionnée"
-        transfer_confirm_message_with_resource: "La notice '%{ao}' sera transférée vers la ressource '%{resource}'"
+        transfer_confirm_message: "La notice '%{ao}' sera transférée vers la ressource
+          que vous avez sélectionnée"
+        transfer_confirm_message_with_resource: "La notice '%{ao}' sera transférée
+          vers la ressource '%{resource}'"
         transfer_success: Document d'archives 
           <strong>%{archival_object_display_string}</strong> transféré avec 
           succès vers la ressource <strong>%{resource_title}</strong>
@@ -1559,9 +1566,11 @@ fr:
         hide_inactive: Masquer les utilisateurs inactifs
         show_inactive: Afficher les utilisateurs inactifs
         deactivate_user: Désactiver
-        deactivate_user_confirm: Êtes-vous sûr de vouloir désactiver cet utilisateur ?
+        deactivate_user_confirm: Êtes-vous sûr de vouloir désactiver cet 
+          utilisateur ?
         activate_user: Activer
-        activate_user_confirm: Êtes-vous sûr de vouloir activer cet utilisateur ?
+        activate_user_confirm: Êtes-vous sûr de vouloir activer cet utilisateur 
+          ?
 
         show_active: Afficher les utilisateurs actifs
         edit: Editer l'utilisateur
@@ -2205,12 +2214,15 @@ fr:
     download_spreadsheet: Télécharger la feuille de calcul
     download_spreadsheet_modal_message: La génération de cette feuille de calcul
       peut prendre quelques instants.
-    too_many_rows_warning:
-      "Attention: Le nombre de lignes qui seront générées dans cette feuille de calcul dépasse le nombre de lignes pouvant être mises à jour.
-      via le travail en arrière-plan Bulk Archival Object Updater. Si vous envisagez d'exécuter le travail Bulk Archival Object Updater à l'aide de
-      cette feuille de calcul, vous devrez réduire le nombre de lignes de cette feuille à un niveau inférieur ou égal à 
-      <strong>%{max_row_count}lignes</strong> avant l'ingestion. Pensez à générer une feuille de calcul plus petite dès maintenant.  
-      Cet avertissement peut être ignoré en toute sécurité si vous n'avez pas l'intention d'exécuter une tâche de mise à jour d'objets d'archivage en masse avec ces données."
+    too_many_rows_warning: "Attention: Le nombre de lignes qui seront générées dans
+      cette feuille de calcul dépasse le nombre de lignes pouvant être mises à jour.
+      via le travail en arrière-plan Bulk Archival Object Updater. Si vous envisagez
+      d'exécuter le travail Bulk Archival Object Updater à l'aide de cette feuille
+      de calcul, vous devrez réduire le nombre de lignes de cette feuille à un niveau
+      inférieur ou égal à <strong>%{max_row_count}lignes</strong> avant l'ingestion.
+      Pensez à générer une feuille de calcul plus petite dès maintenant. Cet avertissement
+      peut être ignoré en toute sécurité si vous n'avez pas l'intention d'exécuter
+      une tâche de mise à jour d'objets d'archivage en masse avec ces données."
 
   assessment:
     _frontend:
@@ -3631,11 +3643,12 @@ fr:
       sujet eux-mêmes, et non à les lier à d'autres enregistrements.
   footer:
     keyboard_shortcuts: Raccourcis clavier
-    archivesspace_home_html: Visitez <a
+    archivesspace_home_html: Visitez <a 
       href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
       target='_blank'>Envoyer des commentaires ou signaler un problème</a>
-    public_interface_html: Afficher <a href="%{public_url}">Interface publique</a>
+    public_interface_html: Afficher <a href="%{public_url}">Interface 
+      publique</a>
   component_link:
     _plural: Liers des composants
     _singular: Lier de composant
