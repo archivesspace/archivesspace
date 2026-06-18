@@ -259,6 +259,12 @@ a img {
 
 #whats-in-container {
   border: 1px solid $border;
+
+  .btn:disabled,
+  .btn.disabled {
+    --bs-btn-disabled-border-color: transparent;
+  }
+
   > h3 {
     margin-top: 0;
     margin-left: rem-calc(-20);

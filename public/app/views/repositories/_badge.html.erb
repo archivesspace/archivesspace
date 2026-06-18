@@ -2,7 +2,7 @@
 
 <div class="large-badge align-center <%= type %> border p-2 my-2 mx-2 ms-sm-0 me-sm-3">
   <form action="<%= app_prefix(@sublist_action) %><%= type %>s" method="get">
-    <button type="submit" class="btn btn-secondary <%= type %>" <%= @counts[type] == 0 ? 'disabled="disabled"' : '' %>  >
+    <button type="submit" class="btn btn-secondary <%= type %>" <%= 'disabled' if @counts[type] == 0 %>>
       <% case type %>
       <% when 'resource' %>
         <i class="fa fa-archive fa-4x"></i>
