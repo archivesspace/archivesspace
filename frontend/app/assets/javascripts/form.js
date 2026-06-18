@@ -165,8 +165,12 @@ $(function () {
         if ($this.data('form_changed') === true) {
           event.stopPropagation();
         } else {
-          $(document).bind('keydown', 'ctrl+s', submitParentForm);
-          $(':input', event.target).bind('keydown', 'ctrl+s', submitParentForm);
+          $(document).bind('keydown', 'ctrl+shift+s', submitParentForm);
+          $(':input', event.target).bind(
+            'keydown',
+            'ctrl+shift+s',
+            submitParentForm
+          );
         }
         $this.data('form_changed', true);
         $('.record-toolbar', $this).addClass('formchanged');

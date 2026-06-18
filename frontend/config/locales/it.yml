@@ -762,6 +762,16 @@ it:
   job:
     _frontend:
       audit_data: Dati dell'audit
+  shortcuts:
+    quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
+    actions:
+      this_reference: "Questo riferimento alle scorciatoie"
+      close_modal: "Chiudi una finestra modale (ad es., questa)"
+      toggle_shortcuts: "Attiva / disattiva scorciatoie da tastiera"
+      save_record: "Salva il record in modifica"
+      close_record: "Chiudi il record in modifica"
+      open_browse: "Alterna il menu Naviga"
+      open_create: "Alterna il menu Crea"
   agent_identifier:
     identifier_type: Tipo di identificativo
   agent_gender:
@@ -862,7 +872,12 @@ it:
   skipnav:
     main_content: Passa al contenuto principale
   database_warning:
-    message: "<p><strong>Avviso relativo al database:</strong> Attualmente stai utilizzando il database integrato (Apache Derby). Il database integrato è destinato esclusivamente a scopi di test/dimostrativi e sarà deprecato nella prossima versione principale. Dovresti utilizzare MySQL per tutti i dati destinati alla produzione, inclusi i dati presenti in un'istanza di test che intendi trasferire in un'istanza di produzione.</p>"
+    message: "<p><strong>Avviso relativo al database:</strong> Attualmente stai utilizzando
+      il database integrato (Apache Derby). Il database integrato è destinato esclusivamente
+      a scopi di test/dimostrativi e sarà deprecato nella prossima versione principale.
+      Dovresti utilizzare MySQL per tutti i dati destinati alla produzione, inclusi
+      i dati presenti in un'istanza di test che intendi trasferire in un'istanza di
+      produzione.</p>"
   become-user:
     become-user: Diventa utente
     failed: Impossibile passare all'utente specificato
@@ -1331,3 +1346,22 @@ it:
         search_embedded: Record collegati
       action:
         add_child: Aggiungi sottocomponente
+        add_sibling: Aggiungi fratello/sorella
+        create: Crea posizione
+        batch: Crea posizioni batch
+        batch_edit: Modifica posizioni in blocco
+        save: Percorso di salvataggio
+        single: Sede singola
+        delete_confirm_message: <p>Si prega di notare che <strong>non è 
+          possibile annullare questa azione.</strong></p><p>Se questa posizione 
+          è attualmente collegata a una o più istanze, non può essere 
+          eliminata.</p>
+        show_space_calculator: Trova con il Calcolatore di spazio
+  location_batch:
+    _frontend:
+      section:
+        location: Sede principale
+        ranges: Intervalli di coordinate
+      messages:
+        created: <strong>%{number_created} sedi</strong> create
+        updated: <strong>%{number_created} sedi</strong> aggiornate

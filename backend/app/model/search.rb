@@ -169,11 +169,22 @@ class Search
   end
 
   def self.search_csv( params, repo_id )
-    if AppConfig[:extended_csv_export_enabled]
+    if use_extended_csv_export?(params)
       extended_csv_export(params, repo_id)
     else
       search_csv_solr(params, repo_id)
     end
+  end
+
+  # A request for specific fields (e.g. the top container browse column
+  # picker) expects Solr index field names as CSV headers so the frontend can
+  # map them back to columns, See ANW-2791.
+  def self.use_extended_csv_export?(params)
+    return false unless AppConfig[:extended_csv_export_enabled]
+
+    field_limited = !Array(params[:fields]).empty?
+
+    !field_limited
   end
 
   def self.extended_csv_export(params, repo_id)
