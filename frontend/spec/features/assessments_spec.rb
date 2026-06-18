@@ -330,29 +330,23 @@ describe 'Assessments', js: true do
 
     # Check for linked assessments on the accession page
     visit "accessions/#{accession.id}"
-    element = all('#linked_assessments #tabledSearchResults tbody tr')
-    expect(element.length).to eq(1)
-    within element[0] do
-      cells = all('td')
-      expect(cells[1]).to have_text(assessment.id)
+    within '#linked_assessments #tabledSearchResults' do
+      expect(page).to have_css('tbody tr', count: 1)
+      expect(page).to have_css('tbody tr td:nth-child(2)', text: assessment.id.to_s)
     end
 
     # Check for linked assessments on the archival object page
     visit "/resolve/readonly?uri=#{archival_object.uri}"
-    element = all('#linked_assessments #tabledSearchResults tbody tr')
-    expect(element.length).to eq(1)
-    within element[0] do
-      cells = all('td')
-      expect(cells[1]).to have_text(assessment.id)
+    within '#linked_assessments #tabledSearchResults' do
+      expect(page).to have_css('tbody tr', count: 1)
+      expect(page).to have_css('tbody tr td:nth-child(2)', text: assessment.id.to_s)
     end
 
     # Check for linked assessments on the digital object page
     visit "/resolve/readonly?uri=#{digital_object.uri}"
-    element = all('#linked_assessments #tabledSearchResults tbody tr')
-    expect(element.length).to eq(1)
-    within element[0] do
-      cells = all('td')
-      expect(cells[1]).to have_text(assessment.id)
+    within '#linked_assessments #tabledSearchResults' do
+      expect(page).to have_css('tbody tr', count: 1)
+      expect(page).to have_css('tbody tr td:nth-child(2)', text: assessment.id.to_s)
     end
 
     visit '/'
