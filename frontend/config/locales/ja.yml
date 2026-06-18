@@ -1583,7 +1583,7 @@ ja:
           Shiftキーを押しながら複数の列で並べ替えます。
         merged: 結合された上位コンテナ
         bulk_action_success: 上位のコンテナが正常に更新されました
-        bulk_action_success_info: 変更が検索結果に反映されるまでにはしばらく時間がかかることがありますのでご注意ください。
+        bulk_action_success_info: 変更が検索結果または閲覧テーブルに反映されるまでにはしばらく時間がかかることがありますのでご注意ください。
         no_active_restrictions: アクティブな制限はありません
       bulk_operations:
         title: バルク操作

@@ -1722,8 +1722,8 @@ es:
           por varias columnas.
         merged: Contenedor (es) superior (es) fusionados
         bulk_action_success: Contenedores Top actualizado
-        bulk_action_success_info: Tenga en cuenta que antes de que los cambios
-          se reflejen en los resultados de búsqueda puede pasar un rato.
+        bulk_action_success_info: Tenga en cuenta que antes de que los cambios 
+          se reflejen en los resultados de búsqueda o en las tablas de navegación puede pasar un rato.
         no_active_restrictions: Sin restricciones activas
       bulk_operations:
         title: Operaciones masivas
