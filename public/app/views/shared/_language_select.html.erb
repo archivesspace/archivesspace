@@ -1,20 +1,16 @@
 <% if AppConfig[:allow_pui_language_selection] %>
-  <div class="row">
-    <div class="col-sm-12">
-      <div id="language_select">
-        <% current_locale = session[:locale] ? session[:locale] : AppConfig[:locale].to_s %>
-        <% language_options = I18n.supported_locales.map{ |k, v| [k.to_s, t("enumerations.language_iso639_2.#{v}")] }.to_h %>
+  <div id="language_select">
+    <% current_locale = session[:locale] ? session[:locale] : AppConfig[:locale].to_s %>
+    <% language_options = I18n.supported_locales.map{ |k, v| [k.to_s, t("enumerations.language_iso639_2.#{v}")] }.to_h %>
 
-        <form action="/locale" method="post" id="language_select_form">
-          <label for="language_select_dropdown"><%= I18n.t('languages.select') %>:</label> 
-          <select name="locale" id="language_select_dropdown">
-            <% language_options.each do |code, name| %>
-              <% is_selected = (code == current_locale ? "selected" : "") %>
-              <option value='<%= code %>' <%= is_selected %>><%= name %></option>
-            <% end %>
-          </select>
-        </form>   
-      </div>
-    </div>
+    <form action="/locale" method="post" id="language_select_form" class="d-flex align-items-center gap-2">
+      <label class="form-label mb-0" for="language_select_dropdown"><%= I18n.t('languages.select') %>:</label> 
+      <select name="locale" id="language_select_dropdown" class="form-select w-auto">
+        <% language_options.each do |code, name| %>
+          <% is_selected = (code == current_locale ? "selected" : "") %>
+          <option value='<%= code %>' <%= is_selected %>><%= name %></option>
+        <% end %>
+      </select>
+    </form>   
   </div>
 <% end %>
