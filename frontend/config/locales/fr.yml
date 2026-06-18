@@ -1895,8 +1895,8 @@ fr:
         merged: Top conteneur (s) fusionné
         bulk_action_success: Top conditionnements actualisés avec succès
         bulk_action_success_info: Attention! Un certain temps peut s'écouler 
-          avant que les modifications ne soient répercutées dans les résultats 
-          de la recherche.
+          avant que les modifications ne soient répercutées dans les résultats
+          de la recherche ou les tableaux de navigation.
         no_active_restrictions: Pas de restrictions en vigueur
       bulk_operations:
         title: Opérations en masse
