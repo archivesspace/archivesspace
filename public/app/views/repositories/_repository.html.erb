@@ -17,25 +17,9 @@
 			<div class="record-type-badge repository col-12">
 				<i class="fa fa-home"></i>&#160;<%= t('repository._singular') %>
 			</div>
-			<div class="<%= (full ? 'clear' : 'recordsummary') %>">
-				<% if result['parent_institution_name'].present? %>
-					<div>
-						<strong><%= t('parent_inst') %>:</strong>
-						<%= result['parent_institution_name'] %>
-					</div>
-				<% end %>
-				<% if full %>
-					<%= render partial: 'repositories/full_repo', locals: {:info => result['repo_info'], :url => result['url']} %>
-				<% else %>
-					<div class="my-2">
-						<strong><%= t('resource._plural', :count => result['count']) %>:</strong> <%= result['count'] %>
-					</div>
-					<% if result.dig('repo_info', 'top', 'description').present? %>
-					<div class="repository-description d-flex flex-column m-0">
-						<strong><%= t('repositories._public.about', default: "About:") %></strong>
-						<%= simple_format(result.dig('repo_info', 'top', 'description')) %>
-					</div>
-					<% end %>
+			<div class="d-flex d-sm-none justify-content-center col-12">
+				<% if result.has_key?('image_url') %>
+					<%= link_to image_tag(result['image_url'], :alt => "#{t('repository._singular')}: #{result['name']}"), app_prefix(result['uri']), {:class => 'repository-logo'} %>
 				<% end %>
 			</div>
 		</div>
@@ -49,9 +33,15 @@
 			<% if full %>
 				<%= render partial: 'repositories/full_repo', locals: {:info => result['repo_info'], :url => result['url']} %>
 			<% else %>
-				<div>
-					<strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %>
+				<div class="my-2">
+					<strong><%= t('resource._plural', :count => result['count']) %>:</strong> <%= result['count'] %>
 				</div>
+				<% if result.dig('repo_info', 'top', 'description').present? %>
+				<div class="repository-description d-flex flex-column m-0">
+					<strong><%= t('repositories._public.about', default: "About:") %></strong>
+					<%= simple_format(result.dig('repo_info', 'top', 'description')) %>
+				</div>
+				<% end %>
 			<% end %>
 		</div>
 	</div>
