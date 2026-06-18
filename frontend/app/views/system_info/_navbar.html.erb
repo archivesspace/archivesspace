@@ -1,9 +1,9 @@
-<div class='p-2 d-flex bg-gray-200'>
+<div class="p-2 d-flex bg-gray-200">
   <div class="btn-group">
     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
       <%= I18n.t("system_info.frontend") %>
     </button>
-    <ul class='dropdown-menu'>
+    <ul class="dropdown-menu">
       <li class="dropdown-item"><%= link_to I18n.t("system_info.frontend_info"), {:controller => :system_info, :action => :show, :app_context => "frontend_info" } %></li>
       <li class="dropdown-item"><%= link_to I18n.t("system_info.frontend_log"), {:controller => :system_info, :action => :show_log, :app_context => "frontend_log" } %></li>
     </ul>
@@ -12,7 +12,7 @@
     <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
       <%= I18n.t("system_info.backend") %>
     </button>
-    <ul class='dropdown-menu'>
+    <ul class="dropdown-menu">
       <li class="dropdown-item"><%= link_to I18n.t("system_info.backend_info"), {:controller => :system_info, :action => :show, :app_context => "backend_info" } %></li>
       <li class="dropdown-item"><%= link_to I18n.t("system_info.backend_log"), {:controller => :system_info, :action => :show_log, :app_context => "backend_log" } %></li>
     </ul>

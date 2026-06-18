@@ -131,7 +131,7 @@
                           <% else %>
                             <% enum_name = "#{record_type}_#{field[0]}" %>
                           <% end %>
-                          <% enum = enums.find {|obj| obj.name == enum_name} if enum_name%>
+                          <% enum = enums.find {|obj| obj.name == enum_name} if enum_name %>
 
                           <div class="form-group">
                             <%= readonly.label "values", :class => "col-sm-2 control-label" %>

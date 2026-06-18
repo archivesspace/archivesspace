@@ -1,3 +1,4 @@
+<%# herb:formatter ignore %>
 <div id="modal_custom_template"><!--
    <div class="modal {if fill} ${fill}{/if}" id="${id}" role="dialog" aria-modal="true">
      <div class="modal-dialog {if dialogClass} ${dialogClass}{/if}">
@@ -196,7 +197,7 @@
     <div class="alert alert-info"><%= t("search_results.no_results") %></div>
   {/if}
 --></div>
-<div id ="linker_browse_row_template"><!--
+<div id="linker_browse_row_template"><!--
   <tr>
      <td class="col">
        <input type="radio" name="linker-item" value="${uri}" />
@@ -241,7 +242,6 @@
     no_top_containers: "<%= j(t("navbar.no_top_containers")) %>"
   }
 </script>
-
 
 
 <div id="subform_remove_confirmation_template"><!--
@@ -315,8 +315,8 @@
 
 <div id="template_subrecord_collapse_action"><!--
   <button class="btn btn-sm btn-default float-right mt-2 mr-0 collapse-subrecord-toggle">
-    <span class="expand"><%= t("note._frontend.action.expand")%></span>
-    <span class="collapse"><%= t("note._frontend.action.collapse")%></span>
+    <span class="expand"><%= t("note._frontend.action.expand") %></span>
+    <span class="collapse"><%= t("note._frontend.action.collapse") %></span>
   </button>
 --></div>
 
@@ -355,7 +355,7 @@
 --></div>
 
 <div id="template_load_via_spreadsheet_help_icon"><!--
-  <a target='_blank' class='btn btn-sm btn-default border-left-0 has-tooltip initialised' id='load_via_spreadsheet_help_icon' href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>" data-toggle="tooltip" data-placement="auto" title="<%= t("help.topics.resource_load_via_spreadsheet")%>" data-container="body">
+  <a target='_blank' class='btn btn-sm btn-default border-left-0 has-tooltip initialised' id='load_via_spreadsheet_help_icon' href="<%= ArchivesSpaceHelp.url_for_topic('resource_load_via_spreadsheet') %>" data-toggle="tooltip" data-placement="auto" title="<%= t("help.topics.resource_load_via_spreadsheet") %>" data-container="body">
     <span class='context-help-icon glyphicon glyphicon-question-sign'></span>
   </a>
 --></div>

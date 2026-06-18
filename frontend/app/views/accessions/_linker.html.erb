@@ -10,14 +10,14 @@
 %>
 <div class="form-group required row">
     <% if form.obj.has_key?('_resolved') %>
-    
-      <input type="text" 
-        class='prelinker' 
+
+      <input type="text"
+        class="prelinker"
         name="<%= form.path %>[_resolved]"
         value="<%= selected_json %>" />
-        
-      <input type="text" 
-        class='prelinker' 
+
+      <input type="text"
+        class="prelinker"
         name="<%= form.path %>[ref]"
         value="<%= form.obj["ref"] %>" />
 
@@ -33,7 +33,7 @@
             aria-expanded="false"
             aria-controls="<%= form.id_for("ref") %>_listbox"
             id="<%= form.id_for("ref") %>_combobox">
-          <input type="text" 
+          <input type="text"
             class="linker"
             id="<%= form.id_for("ref") %>"
             aria-autocomplete="both"
@@ -51,15 +51,15 @@
             data-format_property="display_string"
             data-multiplicity="one"
             data-types='["accession"]'
-            data-exclude='<%= exclude_ids.to_json %>'
+            data-exclude="<%= exclude_ids.to_json %>"
           />
-          
+
           <div class="input-group-append">
            <button type="button" class="btn btn-default d-flex align-items-center dropdown-toggle" data-toggle="dropdown" title="<%= t('accession.linker.link_title') %>" aria-label="<%= t('accession.linker.link_title') %>"></button>
            <ul class="dropdown-menu">
-             <li class='dropdown-toggle no-caret'><a href="javascript:void(0);" class="linker-browse-btn dropdown-item"><%= t("actions.browse") %></a></li>
+             <li class="dropdown-toggle no-caret"><a href="javascript:void(0);" class="linker-browse-btn dropdown-item"><%= t("actions.browse") %></a></li>
              <% if user_can?('update_accession_record') %>
-             <li class='dropdown-toggle no-caret'>
+             <li class="dropdown-toggle no-caret">
                <button type="button"
                        data-target="<%= url_for :controller => :accessions, :action => :new, :inline => true %>"
                        class="btn btn-sm rounded-0 dropdown-item linker-create-btn">
@@ -70,15 +70,15 @@
            </ul>
          </div>
          <% if form.obj.has_key?('_resolved') %>
-          <input type="text" 
-            class='prelinker' 
+          <input type="text"
+            class="prelinker"
             name="<%= form.path %>[_resolved]"
             value="<%= selected_json %>" />
-            
-          <input type="text" 
-            class='prelinker' 
+
+          <input type="text"
+            class="prelinker"
             name="<%= form.path %>[ref]"
-            value="<%= form.obj["ref"]  %>" />
+            value="<%= form.obj["ref"] %>" />
           <% end %>
        </div>
    </div>

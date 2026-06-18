@@ -5,10 +5,10 @@
       <%= form.label_and_select "license", [""] + form.possible_options_for("license", false) %>
 
       <%= form.label_and_textarea "descriptive_note",
-        {:field_opts => {:size => 30, :class => "form-control"} }%>
+        {:field_opts => {:size => 30, :class => "form-control"} } %>
 
       <%= form.label_and_textfield "file_uri",
-        {:field_opts => {:size => 30, :class => "form-control"} }%>
+        {:field_opts => {:size => 30, :class => "form-control"} } %>
 
       <%= form.label_and_select "file_version_xlink_actuate_attribute",
         [""] + form.possible_options_for("file_version_xlink_actuate_attribute", false) %>
@@ -17,13 +17,13 @@
         [""] + form.possible_options_for("file_version_xlink_show_attribute", false) %>
 
       <%= form.label_and_textfield "xlink_title_attribute",
-        {:field_opts => {:size => 30, :class => "form-control"} }%>
+        {:field_opts => {:size => 30, :class => "form-control"} } %>
 
       <%= form.label_and_textfield "xlink_role_attribute",
-        {:field_opts => {:size => 30, :class => "form-control"} }%>
+        {:field_opts => {:size => 30, :class => "form-control"} } %>
 
       <%= form.label_and_textfield "xlink_arcrole_attribute",
-        {:field_opts => {:size => 30, :class => "form-control"} }%>
+        {:field_opts => {:size => 30, :class => "form-control"} } %>
 
       <%= form.label_and_date "last_verified_date" %>
     </div>
@@ -46,7 +46,7 @@
 
   <%= form.record_level_merge_controls(form, "metadata_rights_declaration", true, !disable_replace) %>
 
-  <%= form.label_and_merge_select("license", "", {:disable_replace => disable_replace})%>
+  <%= form.label_and_merge_select("license", "", {:disable_replace => disable_replace}) %>
   <%= form.label_and_merge_select("descriptive_note", "", {:disable_replace => disable_replace}) %>
   <%= form.label_and_merge_select("file_uri", "", {:disable_replace => disable_replace}) %>
   <%= form.label_and_merge_select("file_version_xlink_actuate_attribute", "", {:disable_replace => disable_replace}) %>

@@ -77,3 +77,16 @@ jobs:
 
       - name: Run Prettier on front ends
         run: npm run prettier:ci
+
+  herb:
+    name: Herb_Java_v${{ inputs.java-version || 17 }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Herb Linter
+        run: npm run herb:ci

@@ -3,7 +3,7 @@
 <%# render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_agents", :section_id => "#{@agent.agent_type}_related_agents"} %>
 
 <% @agent_type = form['agent_type'] %>
-<% define_template "related_agents_#{@agent_type}", jsonmodel_definition(@agent_type.intern) do |form|  %>
+<% define_template "related_agents_#{@agent_type}", jsonmodel_definition(@agent_type.intern) do |form| %>
 
 <section id="related_agents" class="subrecord-form related-agents-form">
   <header class="d-flex py-2 px-3 align-items-center border-bottom bg-asFormHeadingBg">

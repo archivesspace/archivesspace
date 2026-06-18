@@ -14,7 +14,7 @@
     if !note_struct['note_text'].blank?
   %>
     <div class="abstract single_note">
-      <span class='inline-label'><%= note_struct['label'] %></span>
+      <span class="inline-label"><%= note_struct['label'] %></span>
       <% unless note_struct['is_inherited'].blank? %>
         <%= inheritance(note_struct['is_inherited']).html_safe %>
       <% end %>
@@ -54,7 +54,7 @@
 
   <div class="staff-hidden d-none">
     <% if result['json']['restricted'] %>
-      <p><h4 class='restricted'><%= I18n.t('top_container.restricted') %></h4></p>
+      <p><h4 class="restricted"><%= I18n.t('top_container.restricted') %></h4></p>
     <% end %>
   </div>
 

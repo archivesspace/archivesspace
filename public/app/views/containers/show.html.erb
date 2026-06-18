@@ -12,7 +12,7 @@
 
     <div class="staff-hidden d-none">
       <% if @result['json']['restricted'] %>
-        <p><h4 class='restricted'><%= I18n.t('top_container.restricted') %></h4></p>
+        <p><h4 class="restricted"><%= I18n.t('top_container.restricted') %></h4></p>
       <% end %>
     </div>
 
@@ -21,7 +21,7 @@
       <% @results.records.each do |result| %>
         <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
       <% end %>
-      <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+      <%= render partial: 'shared/pagination', locals: {:pager  => @pager} %>
     <% end %>
   </div>
 

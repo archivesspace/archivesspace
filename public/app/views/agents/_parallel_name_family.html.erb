@@ -11,7 +11,7 @@
 
     <dt><%= I18n.t('name_family.family_type') %></dt>
     <dd><%= r['family_type'] %></dd>
-    
+
     <dt><%= I18n.t('name_family.location') %></dt>
     <dd><%= r['location'] %></dd>
 
@@ -30,15 +30,14 @@
 
   <% if r['use_dates'].any? %>
 
-			<% ud = "" %>	  	
+      <% ud = "" %>
       <% r['use_dates'].each do |u| %>
-		  	<% ud += render partial: 'structured_date', locals: {:result => u} %>
-		  <% end %>
+        <% ud += render partial: 'structured_date', locals: {:result => u} %>
+      <% end %>
 
-    	<%= render partial: 'shared/accordion_panel', locals: 
-				{:p_title =>  I18n.t('use_date._plural'),
-		 		 :p_id => "parallel_use_dates_#{r['id']}",
-		 		 :p_body => ud.html_safe } %>
-	  <% end %>
+      <%= render partial: 'shared/accordion_panel', locals: 
+        {:p_title =>  I18n.t('use_date._plural'),
+          :p_id => "parallel_use_dates_#{r['id']}",
+          :p_body => ud.html_safe } %>
+    <% end %>
 <% end %>
-

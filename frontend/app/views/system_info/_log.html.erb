@@ -1,5 +1,5 @@
 <%= javascript_include_tag "jobs.show" %>
-<section id="job_status" data-current-status='running'></section>
+<section id="job_status" data-current-status="running"></section>
 <div>
   <section id="logs" class="subrecord-form-dummy" data-status-poll-interval="4000" data-poll-url="<%= url_for(:controller => :system_info, :action => :stream_log, :app_context => @app_context) %>">
     <div class="w-100 d-flex align-items-center border-bottom bg-asFormHeadingBg">

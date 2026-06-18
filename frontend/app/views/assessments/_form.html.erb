@@ -48,7 +48,7 @@
       <%= t "assessment._frontend.section.basic_information" %>
     </h3>
     <fieldset>
-      <legend class='sr-only'><%= t "assessment._frontend.section.basic_information" %></legend>
+      <legend class="sr-only"><%= t "assessment._frontend.section.basic_information" %></legend>
 
       <%= render_plugin_partials("top_of_basic_information_assessments",
                                  :form => form,
@@ -116,7 +116,7 @@
           <div class="control-label col-sm-2"><%= t("assessment._frontend.section.existing_description") %></div>
         <% end %>
         <div class="col-sm-10">
-          <% if form.readonly?  %>
+          <% if form.readonly? %>
             <ul>
               <% existing_descriptions.each do |existing_description| %>
                 <li>
@@ -229,7 +229,7 @@
       <%= t "assessment._frontend.section.rating_attributes" %>
     </h3>
     <fieldset>
-      <legend class='sr-only'><%= t "assessment._frontend.section.rating_attributes" %></legend>
+      <legend class="sr-only"><%= t "assessment._frontend.section.rating_attributes" %></legend>
       <div class="subrecord-form-container">
         <div class="subrecord-form-fields">
           <%= form.label_and_textarea 'general_assessment_note' %>
@@ -294,44 +294,44 @@
                                  data-placement="auto"
                                  title="<%= rating_values_tooltip %>"
                                  data-template='<div class="tooltip ratings-value-tooltip" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'>
-                                <span class='sr-only'><%= i18n_rating(rating.fetch('label')) %></span>
+                                <span class="sr-only"><%= i18n_rating(rating.fetch('label')) %></span>
                           </label>
                         <% end %>
                       </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', nil) %>
-                            <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_none') %></span>
+                            <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_none') %></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', '1') %>
-                            <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_1') %></span>
+                            <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_1') %></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', '2') %>
-                            <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_2') %></span>
+                            <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_2') %></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', '3') %>
-                            <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_3') %></span>
+                            <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_3') %></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', '4') %>
-                            <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_4') %></span>
+                            <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_4') %></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label>
                             <%= form.radio('value', '5') %>
-                            <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_5') %></span>
+                            <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_5') %></span>
                           </label>
                         </td>
                         <td>
@@ -404,44 +404,44 @@
                                    data-placement="auto"
                                    title="<%= rating_values_tooltip %>"
                                    data-template='<div class="tooltip ratings-value-tooltip" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'>
-                                   <span class='sr-only'><%= i18n_rating(rating.fetch('label')) %></span>
+                                   <span class="sr-only"><%= i18n_rating(rating.fetch('label')) %></span>
                             </label>
                           <% end %>
                         </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', nil) %>
-                              <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_none') %></span>
+                              <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_none') %></span>
                             </label>
                           </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', '1') %>
-                              <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_1') %></span>
+                              <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_1') %></span>
                             </label>
                           </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', '2') %>
-                              <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_2') %></span>
+                              <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_2') %></span>
                             </label>
                           </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', '3') %>
-                              <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_3') %></span>
+                              <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_3') %></span>
                             </label>
                           </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', '4') %>
-                              <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_4') %></span>
+                              <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_4') %></span>
                             </label>
                           </td>
                           <td class="text-center">
                             <label>
                               <%= form.radio('value', '5') %>
-                              <span class='sr-only'><%= t('assessment.rating_attributes_value.rating_5') %></span>
+                              <span class="sr-only"><%= t('assessment.rating_attributes_value.rating_5') %></span>
                             </label>
                           </td>
                           <td>
@@ -491,7 +491,7 @@
       <%= t "assessment._frontend.section.format_attributes" %>
     </h3>
     <fieldset>
-      <legend class='sr-only'><%= t "assessment._frontend.section.format_attributes" %></legend>
+      <legend class="sr-only"><%= t "assessment._frontend.section.format_attributes" %></legend>
       <div class="subrecord-form-container">
         <div class="subrecord-form-fields">
           <% if form.readonly? %>
@@ -601,7 +601,7 @@
       <%= t "assessment._frontend.section.conservation_issue_attributes" %>
     </h3>
     <fieldset>
-      <legend class='sr-only'><%= t "assessment._frontend.section.conservation_issue_attributes" %></legend>
+      <legend class="sr-only"><%= t "assessment._frontend.section.conservation_issue_attributes" %></legend>
       <div class="subrecord-form-container">
         <div class="subrecord-form-fields">
           <% if form.readonly? %>

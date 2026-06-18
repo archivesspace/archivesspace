@@ -1,4 +1,4 @@
 <% (record['extents'] || []).each do |extent| %>
-	<% number, type = extent.split(' --- ', 2) %>
-	<%= "#{number} #{t("enumerations.extent_extent_type.#{type}", :default => type)}" %>
+  <% number, type = extent.split(' --- ', 2) %>
+  <%= "#{number} #{t("enumerations.extent_extent_type.#{type}", :default => type)}" %>
 <% end %>

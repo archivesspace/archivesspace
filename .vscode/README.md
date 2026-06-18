@@ -43,7 +43,8 @@ Add the following extensions via the VS Code command palette or the Extensions p
 2. [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) (esbenp.prettier-vscode)
 3. [Ruby Rubocop Revised](https://marketplace.visualstudio.com/items?itemName=LoranKloeze.ruby-rubocop-revived) (LoranKloeze.ruby-rubocop-revived)
 4. [Ruby LSP](https://marketplace.visualstudio.com/items?itemName=Shopify.ruby-lsp) (Shopify.ruby-lsp)
-5. [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) (stylelint.vscode-stylelint)
+5. [Herb LSP - HTML+ERB Language Tools](https://marketplace.visualstudio.com/items?itemName=marcoroth.herb-lsp) (marcoroth.herb-lsp)
+6. [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) (stylelint.vscode-stylelint)
 
 It's important to note that since these extensions work in tandem with the [VS Code settings file](settings.json), these settings only impact your ArchivesSpace VS Code Workspace, not your global VS Code User settings.
 

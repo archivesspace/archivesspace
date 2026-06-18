@@ -84,7 +84,7 @@
       <div class="subrecord-form-fields subrecord-form-container">
         <div class="structured-date-container">
           <%= form.label_and_select "date_role", form.possible_options_for("date_role", false, required: true) %>
-          <%= form.label_and_textfield "date_expression",  {:field_opts => {:size => 30, :class => "form-control"} }%>
+          <%= form.label_and_textfield "date_expression",  {:field_opts => {:size => 30, :class => "form-control"} } %>
           <%= form.label_and_date "date_standardized", {:field_opts => {} } %>
           <%= form.label_and_select "date_standardized_type", form.possible_options_for("date_standardized_type", false) %>
 
@@ -101,11 +101,11 @@
     </h4>
     <div class="subrecord-form-fields subrecord-form-container">
       <div class="structured-date-container">
-        <%= form.label_and_textfield "begin_date_expression",  {:field_opts => {:size => 30, :class => "form-control"} }%>
+        <%= form.label_and_textfield "begin_date_expression",  {:field_opts => {:size => 30, :class => "form-control"} } %>
         <%= form.label_and_date "begin_date_standardized" %>
         <%= form.label_and_select "begin_date_standardized_type", form.possible_options_for("begin_date_standardized_type", false) %>
 
-        <%= form.label_and_textfield "end_date_expression",  {:field_opts => {:size => 30, :class => "form-control"} }%>
+        <%= form.label_and_textfield "end_date_expression",  {:field_opts => {:size => 30, :class => "form-control"} } %>
         <%= form.label_and_date "end_date_standardized" %>
         <%= form.label_and_select "end_date_standardized_type", form.possible_options_for("end_date_standardized_type", false) %>
 
@@ -121,7 +121,7 @@
       <%= form.label_and_select "label", form.possible_options_for("label", false, :include => ["usage"]) %>
       <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => t('date._frontend.expression_placeholder')}, :required => :conditionally} %>
                         <%= form.label_and_select "date_type", form.possible_options_for("date_type", true, :exclude => ["bulk", "inclusive"]), :required => true %>
-      <%form.emit_template("date_fields") %>
+      <% form.emit_template("date_fields") %>
     </div>
   </div>
 <% end %>
@@ -133,7 +133,7 @@
       <%= form.label_and_select "label", form.possible_options_for("label") %>
       <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => t('date._frontend.expression_placeholder')}, :required => :conditionally} %>
         <%= form.label_and_select "date_type", form.possible_options_for("date_type", true, :exclude => ["bulk", "inclusive"]), :required => true %>
-      <%form.emit_template("date_fields") %>
+      <% form.emit_template("date_fields") %>
     </div>
   </div>
 <% end %>
@@ -145,7 +145,7 @@
       <%= form.label_and_select "label", form.possible_options_for("label"), :field_opts => {:default => "creation"} %>
         <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => t('date._frontend.expression_placeholder')}, :required => :conditionally} %>
         <%= form.label_and_select "date_type", form.possible_options_for("date_type", true, :exclude => ["range"] ), :required => true %>
-      <%form.emit_template("date_fields") %>
+      <% form.emit_template("date_fields") %>
     </div>
   </div>
 <% end %>
@@ -157,7 +157,7 @@
       <%= form.label_and_select "label", form.possible_options_for("label") %>
       <%= form.label_and_textarea "expression", {:field_opts => {:placeholder => t('date._frontend.expression_placeholder')}, :required => :conditionally} %>
         <%= form.label_and_select "date_type", form.possible_options_for("date_type", true, :exclude => (exclude ||= [])), :required => true %>
-      <%form.emit_template("date_fields") %>
+      <% form.emit_template("date_fields") %>
     </div>
   </div>
 <% end %>

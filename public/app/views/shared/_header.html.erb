@@ -3,7 +3,7 @@
     <div class="col-sm-9">
       <div class="mb-2 site-title">
         <% unless request.original_fullpath == '/' %>
-          <a title="<%=t('brand.title_link_text') %>" href="<%= AppConfig[:public_proxy_url] %>">
+          <a title="<%= t('brand.title_link_text') %>" href="<%= AppConfig[:public_proxy_url] %>">
         <% end %>
         <%= t('brand.title') %>
         <% unless request.original_fullpath == '/' %>

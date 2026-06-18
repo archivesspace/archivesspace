@@ -28,13 +28,13 @@
          for="<%= form.id_for("ref") %>">
     <%= wrap_with_tooltip(linker_label, "related_agent.related_agent_tooltip", "control-label initialised") %>
   </label>
-  <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100'%>">
+  <div class="controls <%= layout != 'stacked' ? 'col-sm-9' : 'w-100' %>">
     <div class="input-group linker-wrapper"
          role="combobox"
          aria-expanded="false"
          aria-controls="<%= form.id_for("ref") %>_listbox"
          id="<%= form.id_for("ref") %>_combobox">
-      <input type="text" 
+      <input type="text"
              class="linker"
              id="<%= form.id_for("ref") %>"
              aria-autocomplete="both"
@@ -51,8 +51,8 @@
              data-selected="<%= selected_json %>"
              data-multiplicity="<%= multiplicity %>"
              <% if multiplicity === "many" %>data-sortable="true"<% end %>
-             data-types='<%= linkable_types.to_json %>'
-             data-exclude='<%= exclude_ids.to_json %>'
+             data-types="<%= linkable_types.to_json %>"
+             data-exclude="<%= exclude_ids.to_json %>"
              aria-label="<%= t('agent.linker.link_title') %>"
       />
 
@@ -60,12 +60,12 @@
       <% if form.obj.has_key?('_resolved') %>
 
         <input type="text"
-          class='prelinker'
+          class="prelinker"
           name="<%= form.path %>[_resolved]"
           value="<%= selected_json %>" />
 
         <input type="text"
-          class='prelinker'
+          class="prelinker"
           name="<%= form.path %>[ref]"
           value="<%= form.obj["ref"] %>" />
 

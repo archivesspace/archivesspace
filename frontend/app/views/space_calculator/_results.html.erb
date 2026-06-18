@@ -32,7 +32,7 @@
             disabled="disabled"
           <% end %>
         />
-        <%= t("space_calculator.summary.locations_with_space", :count => @results['locations_with_space'].length)%>
+        <%= t("space_calculator.summary.locations_with_space", :count => @results['locations_with_space'].length) %>
       </label>
       <label class="btn btn-sm btn-warning mb-0 flex-shrink-0 d-flex align-items-center gap-x-1">
         <input class="space-calculator-results-toggle"
@@ -42,7 +42,7 @@
             disabled="disabled"
           <% end %>
         />
-        <%= t("space_calculator.summary.locations_without_space", :count => @results['locations_without_space'].length)%>
+        <%= t("space_calculator.summary.locations_without_space", :count => @results['locations_without_space'].length) %>
       </label>
       <label class="btn btn-sm btn-danger mb-0 flex-shrink-0 d-flex align-items-center gap-x-1">
         <input class="space-calculator-results-toggle"
@@ -54,7 +54,7 @@
             disabled="disabled"
           <% end %>
         />
-        <%= t("space_calculator.summary.uncalculatable_locations", :count => @results['uncalculatable_locations'].length)%>
+        <%= t("space_calculator.summary.uncalculatable_locations", :count => @results['uncalculatable_locations'].length) %>
       </label>
       <input id="searchResultsFilter" class="form-control input-sm" type="text" placeholder="<%= t("space_calculator.result_filter") %>"/>
     </div>

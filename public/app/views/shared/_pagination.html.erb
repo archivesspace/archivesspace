@@ -14,7 +14,7 @@
     <% end %>
     <% if pager.need_last %>
        <li><a class="page-link" href="" style="pointer-events: none;">...</a></li>
-       <li><a class="page-link"  href="<%= app_prefix(pager.link) %>&page=<%= pager.last_page %>"><%=  pager.last_page %></a></li>
+       <li><a class="page-link"  href="<%= app_prefix(pager.link) %>&page=<%= pager.last_page %>"><%= pager.last_page %></a></li>
     <% end %>
     <% if pager.need_next %>
       <li class="next page-item"><a class="page-link"  href="<%= app_prefix(pager.link) %>&page=<%= pager.next %>"><%= t 'actions.next' %> <span aria-hidden="true">&rarr;</span></a></li>

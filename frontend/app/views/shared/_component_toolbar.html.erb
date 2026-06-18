@@ -85,7 +85,7 @@
               <li><%= link_to t('assessment._frontend.action.create_for_record'), {:controller => :assessments, :action => :new, :record_uri => record.uri}, :class => "dropdown-item" %></li>
             <% end %>
             <% if user_can?('administer_system') && AppConfig[:arks_enabled] && record['ark_name'] %>
-              <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %>
+              <li><%= render_aspace_partial :partial => "shared/ark_editor", :locals => {:record => record} %></li>
             <% end %>
           </ul>
         </div>
