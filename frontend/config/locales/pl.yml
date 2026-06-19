@@ -694,10 +694,10 @@ pl:
     keyboard_shortcuts: Skróty klawiaturowe
     public_interface_html: Zobacz <a href="%{public_url}">interfejs 
       publiczny</a>
-    archivesspace_home_html: Odwiedź stronę <a 
-      href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
-      target='_blank'>Prześlij opinię lub zgłoś problem</a>
+    archivesspace_home_html: Obsługiwane przez <a
+      href='http://archivesspace.org'>ArchivesSpace</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
+      target='_blank'>Opinie lub pytania</a>
   login:
     login: Zalogować się
     username_placeholder: Nazwa użytkownika

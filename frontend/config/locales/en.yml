@@ -636,8 +636,8 @@ en:
   footer:
     keyboard_shortcuts: Keyboard Shortcuts
     public_interface_html: View <a href="%{public_url}">Public Interface</a>
-    archivesspace_home_html: Visit <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Send Feedback or Report a Problem</a>
+    archivesspace_home_html: Powered by <a href='http://archivesspace.org'>ArchivesSpace</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Feedback or questions</a>
 
   session:
     gone: Your backend session was not found

@@ -607,9 +607,8 @@ fr:
     _singular: Déclaration des droits sur les métadonnées
     _plural: Déclarations de droits sur les métadonnées
   footer:
-    archivesspace_home_html: Visitez <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Envoyer des commentaires
-      ou signaler un problème</a>
+    archivesspace_home_html: Propulsé par <a href='http://archivesspace.org'>ArchivesSpace</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Commentaires ou questions</a>
     staff_interface_html: <a href="%{staff_url}">Interface personnel</a>
 
   languages:

@@ -2854,6 +2854,6 @@ de:
     keyboard_shortcuts: Tastaturkürzel
     public_interface_html: <a href="%{public_url}">Zum öffentlichen Katalog</a>
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
-      target='_blank'>Rückmeldung geben oder ein Problem melden</a>
-    archivesspace_home_html: Besuchen Sie <a
-      href='http://archivesspace.org'>ArchivesSpace.org</a>
+      target='_blank'>Rückmeldung oder Fragen</a>
+    archivesspace_home_html: Bereitgestellt von <a
+      href='http://archivesspace.org'>ArchivesSpace</a>
