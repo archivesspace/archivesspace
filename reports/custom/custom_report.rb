@@ -196,12 +196,14 @@ class CustomReport < AbstractReport
 
   def select_fields
     columns = {}
+    raw_expressions = []
     @fields.each do |field|
-      next if field[:name] == 'reviewer'
       if field[:data_type] == 'Enum'
         columns["#{field[:name]}_id"] = field[:alias] || field[:name]
       elsif field[:name] == 'title'
         columns['title'] = field[:alias] || 'record_title'
+      elsif field[:name] == 'reviewer'
+        raw_expressions << reviewer_column_select
       else
         columns[field[:name]] = field[:alias] || field[:name]
       end
@@ -215,7 +217,16 @@ class CustomReport < AbstractReport
         job.write_output(msg)
       end
     end
+    select_fields += raw_expressions.join
     select_fields
+  end
+
+  def reviewer_column_select
+    ", (SELECT GROUP_CONCAT(np.sort_name SEPARATOR ', ')" \
+    " FROM assessment_reviewer_rlshp rlshp" \
+    " JOIN name_person np ON np.agent_person_id = rlshp.agent_person_id" \
+    " AND np.is_display_name = 1" \
+    " WHERE rlshp.assessment_id = assessment.id) AS reviewer"
   end
 
   def fix_row(row)
