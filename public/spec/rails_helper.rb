@@ -7,6 +7,8 @@ require File.expand_path("../../../common/spec/support/file_runtime_formatter.rb
 # Load shared examples
 Dir[File.expand_path('../shared/**/*.rb', __FILE__)].sort.each { |f| require f }
 
+Dir[File.expand_path('../support/**/*.rb', __FILE__)].sort.each { |f| require f }
+
 DEFAULT_WINDOW_WIDTH = 1920
 DEFAULT_WINDOW_HEIGHT = 1080
 
