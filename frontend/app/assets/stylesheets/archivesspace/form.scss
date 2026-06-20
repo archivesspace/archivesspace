@@ -142,6 +142,12 @@ form .form-group {
   }
 }
 
+.lang-marker {
+  display: inline-block;
+  margin-right: 4px;
+  cursor: default;
+}
+
 .form-group.active {
   border-radius: 4px;
   background-color: #fafcff;
