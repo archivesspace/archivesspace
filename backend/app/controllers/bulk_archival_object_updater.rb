@@ -2,7 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/bulk_archival_object_updater/repositories/:repo_id/generate_spreadsheet')
     .description("Return XLSX")
     .params(["repo_id", :repo_id],
-            ["uri", [String], "The uris of the records to include in the report"],
+            ["uri", String, "A JSON-encoded array of the uris of the records to include in the report"],
             ["min_subrecords", Integer, "The minimum number of subrecords to include", :default => 0],
             ["extra_subrecords", Integer, "The number of extra subrecords to include", :default => 3],
             ["min_notes", Integer, "The minimum number of note subrecords to include", :default => 2],
@@ -12,8 +12,10 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "spreadsheet"]) \
   do
+    ao_uris = ASUtils.json_parse(params[:uri])
+
     builder = SpreadsheetBuilder.new(params[:resource_uri],
-                                     params[:uri],
+                                     ao_uris,
                                      params[:min_subrecords],
                                      params[:extra_subrecords],
                                      params[:min_notes],
