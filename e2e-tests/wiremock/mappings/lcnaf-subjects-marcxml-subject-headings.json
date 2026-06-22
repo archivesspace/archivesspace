@@ -1,0 +1,14 @@
+{
+  "name": "LCSH subjects MARCXML fetch",
+  "request": {
+    "method": "GET",
+    "urlPath": "/authorities/subjects/sh85129426.marcxml.xml"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/xml; charset=utf-8"
+    },
+    "bodyFileName": "sh85129426.marcxml.xml"
+  }
+}
