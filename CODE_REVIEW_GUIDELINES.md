@@ -1,15 +1,22 @@
 # Code Review Guidelines
 
-- [ ] Consider running the code
-- [ ] Are all locale changes for all languages included?
+- [ ] Consider running the code if it includes code that is not covered by automated testing
+  - [ ]  changes to the build system
+  - [ ]  database migrations
+  - [ ]  UI Style changes
+- [ ] Are translations at least for all "officially" supported languages (Dutch, English, French, German, Japanese, Spanish and Ukrainian) included?          
 - [ ] Does documentation need to be updated, if so what?
         - Add the "user documentation needed" tag on the JIRA ticket if User Manual changes are needed.
         - Add the "metadata documentation needed" tag on the JIRA ticket if Metadata Documentation changes are needed.
-        - Consider whether tech docs updates are needed.
+        - If tech docs updates are needed the PR creator should also create a corresponding PR on tech-docs
 - [ ] Code Style reviewing:
-        - keep methods smaller than ?? lines
-- [ ] Has accessibility been considered:
+        - descriptive and compact naming of methods, classes, files, etc.
+        - level of abstraction of the implementation
+              - should a bug fix be implemented in the frontend / public code or the backend?
+- [ ] Has accessibility been considered:        
         - Keyboard navigation
+          - focus management
+            - opening a modal should move the focus to the modal close button 
         - Screenreader access
         - color contrast
         - image alt text
