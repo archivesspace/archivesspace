@@ -40,7 +40,7 @@ Feature: Manage Top Containers from a Resource or Accession Record
   Scenario: An administrator can use the Bulk Operations button after selecting a top container
     Given the Resource is opened in edit mode
      When the user opens the top container management panel
-      And the user selects a top container
+      And the user selects the first top container
      Then the 'Bulk Operations' button is enabled
 
   Scenario: An administrator can manage top containers linked to an accession
