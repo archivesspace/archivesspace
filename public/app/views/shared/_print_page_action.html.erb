@@ -11,7 +11,7 @@
                 method: 'post', :id => 'print_form') do %>
       <%= hidden_field_tag(:base_token, SecureRandom.hex) %>
       <%= hidden_field_tag(:token, "") %>
-      <button id="print_button" class="btn btn-secondary page_action print">
+      <button id="print_button" class="btn page_action print">
         <i class="fa fa-file-pdf-o fa-3x"></i><br/>
         <span class="print-label"><%= t('actions.print') %></span><span class="generating-label" style="display: none"><%= t('actions.print-generating') %></span>
       </button>

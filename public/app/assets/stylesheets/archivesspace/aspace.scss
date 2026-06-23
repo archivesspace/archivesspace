@@ -117,6 +117,12 @@ a img {
   background-color: $accent-color;
   color: $white;
 }
+
+.tabbing.nav-pills > li > a:hover,
+.tabbing.nav-pills > li > a:focus {
+  text-decoration: none;
+}
+
 .tabbing-item li:first-child a {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
@@ -1081,36 +1087,5 @@ span.head {
       background: none;
       border: none;
     }
-  }
-}
-
-.btn-primary {
-  color: #fff;
-  &:hover {
-    color: #fff;
-  }
-}
-
-.btn-secondary {
-  color: #fff;
-  &:hover {
-    color: #fff;
-  }
-}
-
-.btn.page_action {
-  color: $darkest;
-  &:hover {
-    color: $black;
-  }
-}
-
-.modal-footer .btn-secondary {
-  color: #fff;
-  background-color: $darkshade;
-  border-color: $darkshade;
-  &:hover {
-    background-color: darken($darkshade, 10%);
-    border-color: darken($darkshade, 10%);
   }
 }
