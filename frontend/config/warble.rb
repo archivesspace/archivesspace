@@ -129,8 +129,6 @@ Warbler::Config.new do |config|
   # Files to be included in the root of the webapp.  Note that files in public
   # will have the leading 'public/' part of the path stripped during staging.
   # config.public_html = FileList["public/**/*", "doc/**/*"]
-  # exclude templates from WAR root; they're bundled under WEB-INF via config.includes
-  config.public_html = FileList["public/**/*"].exclude("public/bulk_import_templates", "public/bulk_import_templates/**/*")
 
   # Pathmaps for controlling how public HTML files are copied into the .war
   # config.pathmaps.public_html = ["%{public/,}p"]
