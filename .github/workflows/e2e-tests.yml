@@ -56,39 +56,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: ./.github/actions/setup-e2e
         with:
-          ruby-version: '3.2.0'
-          working-directory: e2e-tests
-      - name: Cache gems
-        uses: actions/cache@v3
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-      - name: Install gems
-        run: |
-          gem install parallel_tests
-          bundle config path vendor/bundle
-          bundle install --quiet --jobs 4 --retry 3
-      - uses: browser-actions/setup-geckodriver@latest
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Get geckodriver and firefox versions
-        run: |
-          geckodriver --version
-          firefox --version
-      - name: Set up Docker
-        env:
-          IMAGE_TAG: ${{ inputs.image_tag }}
-        run: |
-          docker compose -f docker-compose.yml up --quiet-pull --detach
-      - name: Wait until the web server is ready
-        run: |
-          echo "Waiting for ArchivesSpace to start..."
-          timeout 120 bash -c 'until curl -sf http://localhost:8080 > /dev/null; do sleep 2; done' || echo "Timeout waiting for ArchivesSpace"
+          image_tag: ${{ inputs.image_tag }}
+
       - name: Get feature files for this shard
         id: shard-files
         working-directory: e2e-tests
@@ -116,7 +87,7 @@ jobs:
       - name: Run Cucumber tests (Shard ${{ matrix.shard }}/${{ strategy.job-total }})
         working-directory: e2e-tests
         run: |
-          mkdir reports
+          mkdir -p reports
           bundle exec cucumber \
             --publish-quiet \
             --format pretty \
@@ -152,42 +123,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: ./.github/actions/setup-e2e
         with:
-          ruby-version: '3.2.0'
-          working-directory: e2e-tests
-      - name: Cache gems
-        uses: actions/cache@v3
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-      - name: Install gems
-        run: |
-          bundle config path vendor/bundle
-          bundle install --quiet --jobs 4 --retry 3
-      - uses: browser-actions/setup-geckodriver@latest
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Get geckodriver and firefox versions
-        run: |
-          geckodriver --version
-          firefox --version
-      - name: Set up Docker (MLC enabled)
-        env:
-          IMAGE_TAG: ${{ inputs.image_tag }}
-          APPCONFIG_MULTILINGUAL_CONTENT: "true"
-        run: |
-          docker compose -f docker-compose.yml up --quiet-pull --detach
-      - name: Wait until the web server is ready
-        run: |
-          echo "Waiting for ArchivesSpace to start..."
-          timeout 120 bash -c 'until curl -sf http://localhost:8080 > /dev/null; do sleep 2; done' || echo "Timeout waiting for ArchivesSpace"
+          image_tag: ${{ inputs.image_tag }}
+          multilingual_content: "true"
+
       - name: Run MLC Cucumber tests
         run: |
-          mkdir reports
+          mkdir -p reports
           bundle exec cucumber -p mlc \
             --publish-quiet \
             --format pretty \
