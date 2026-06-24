@@ -435,12 +435,12 @@ de:
   shortcuts:
     actions:
       toggle_shortcuts: Tastenkürzel aktivieren / deaktivieren
-      open_create: Erstellen-Menü öffnen
+      open_create: Erstellen-Menü umschalten
       this_reference: Diese Tastenkürzel-Referenz
       close_modal: Ein Dialogfenster schließen (z.B. dieses hier)
       save_record: Die derzeit bearbeitete Aufzeichnung speichern
-      close_record: Eine gerade bearbeitete Aufzeichnung schließen
-      open_browse: Durchsuchen-Menu öffnen
+      close_record: Die bearbeitete Aufzeichnung schließen
+      open_browse: Durchsuchen-Menü umschalten
     quick_reference_window: 'Kurzanleitung: Tastenkürzel'
   states:
     auto_generated: Wird vom System beim Speichern erzeugt
@@ -1999,11 +1999,7 @@ de:
   agent_resource_merge_destination:
     <<: *agent_resource_attributes
   database_warning:
-    message: <p><strong>Datenbank Warnung:</strong> Sie verwenden derzeit die 
-      eingebaute Datenbank (Apache Derby). Diese Datenbank ist nur für Tests und
-      Demos geeignet. Sie sollten MySQL für Daten in Produktion oder Daten einer
-      Testinstanz, die Sie auf eine Produktionsinstanz verschieben möchten, 
-      verwenden.</p>
+    message: "<p><strong>Datenbankwarnung:</strong> Sie verwenden derzeit die eingebettete Datenbank (Apache Derby). Die eingebettete Datenbank ist nur für Test-/Demozwecke vorgesehen und wird in der nächsten Hauptversion eingestellt. Sie sollten MySQL für alle Daten verwenden, die für den Produktiveinsatz bestimmt sind, einschließlich Daten in einer Testinstanz, die Sie in eine Produktionsinstanz übernehmen möchten.</p>"
   breadcrumb:
     home: Start
   structured_date_single:
@@ -2110,8 +2106,8 @@ de:
         merged: Haupt-Behältnisse zusammengeführt
         bulk_action_success: Haupt-Behältnisse erfolgreich aktualisiert
         bulk_action_success_info: Bitte seien Sie sich bewusst, dass es einen 
-          Moment dauern kann, bevor die Änderungen in den Suchergebnissen 
-          aufscheinen.
+          Moment dauern kann, bevor die Änderungen in den Suchergebnissen
+          oder Übersichtstabellen aufscheinen.
       bulk_operations:
         empty_false: Nein
         collection_accession_plural: Eingänge
@@ -2858,6 +2854,6 @@ de:
     keyboard_shortcuts: Tastaturkürzel
     public_interface_html: <a href="%{public_url}">Zum öffentlichen Katalog</a>
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
-      target='_blank'>Rückmeldung geben oder ein Problem melden</a>
-    archivesspace_home_html: Besuchen Sie <a
-      href='http://archivesspace.org'>ArchivesSpace.org</a>
+      target='_blank'>Rückmeldung oder Fragen</a>
+    archivesspace_home_html: Bereitgestellt von <a
+      href='http://archivesspace.org'>ArchivesSpace</a>

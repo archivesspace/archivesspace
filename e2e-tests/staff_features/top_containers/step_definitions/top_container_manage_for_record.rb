@@ -58,9 +58,27 @@ Then 'the affected top containers reflect the updated barcode' do
 end
 
 When 'the user opens the top container management panel' do
+  button = '.access-top-containers-btn'
+
+  10.times do
+    expect(page).to have_selector('h2', visible: true, wait: 15)
+    expect(page).to have_css("#{button}[data-tc-initialized]", visible: :all, wait: 10)
+    wait_for_ajax
+
+    # The button can only enable after a reload re-runs the indexed count query,
+    # so check the current page immediately (wait: 0) rather than blocking here.
+    break unless page.has_css?("#{button}:disabled", visible: :all)
+
+    sleep 4
+    page.refresh
+  end
+
+  raise 'Top containers button never became enabled after multiple attempts' if page.has_css?("#{button}:disabled", visible: :all)
+
   within '#other-dropdown' do
     find('.dropdown-toggle').click
   end
 
-  find('.access-top-containers-btn').click
+  find(button).click
+  wait_for_ajax
 end

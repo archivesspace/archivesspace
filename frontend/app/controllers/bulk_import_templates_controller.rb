@@ -46,8 +46,9 @@ class BulkImportTemplatesController < ApplicationController
   end
 
   def download
-    if TEMPLATE_FILES.any? { |template| template.fetch(:filename) == params['filename'] }
-      send_file "#{Rails.root}/docs/#{params['filename']}", status: 202
+    template = TEMPLATE_FILES.find { |t| t.fetch(:filename) == params['filename'] }
+    if template
+      send_file "#{Rails.root}/public/bulk_import_templates/#{template.fetch(:filename)}", status: 202
     else
       redirect_to(:controller => :bulk_import_templates, :action => :index)
     end

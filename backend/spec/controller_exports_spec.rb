@@ -210,7 +210,7 @@ describe 'Exports controller' do
     csv_output = CSV.parse(last_response.body)
 
     # Load Digital Object CSV template file to get columns
-    csv_template_path = File.join(ASUtils.find_base_directory, 'templates', 'bulk_import_DO_template.csv')
+    csv_template_path = File.join(ASUtils.find_base_directory, 'frontend', 'public', 'bulk_import_templates', 'bulk_import_DO_template.csv')
     csv_data = CSV.read(csv_template_path)
     expect(csv_data.count).to eq 2
     columns = csv_data[0] # CSV headers

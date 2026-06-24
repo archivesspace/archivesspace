@@ -880,6 +880,7 @@ describe 'Resources', js: true do
     resource = create(:resource, title: "Resource Title #{now}")
 
     visit "resources/#{resource.id}/edit"
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Add Related Accession'
 
@@ -914,6 +915,7 @@ describe 'Resources', js: true do
     resource = create(:resource, title: "Resource Title #{now}")
 
     visit "resources/#{resource.id}/edit"
+    expect(page).to have_selector('h2', visible: true, text: "#{resource.title} Resource")
 
     click_on 'Add Related Accession'
 
@@ -1361,7 +1363,7 @@ describe 'Resources', js: true do
         csv_generated = CSV.parse(file)
 
         # Load original CSV template
-        csv_template_path = File.join(ASUtils.find_base_directory, 'templates', 'bulk_import_DO_template.csv')
+        csv_template_path = File.join(ASUtils.find_base_directory, 'frontend', 'public', 'bulk_import_templates', 'bulk_import_DO_template.csv')
         csv_template = CSV.read(csv_template_path)
         csv_template_columns = csv_template[0]
         csv_template_column_explanations = csv_template[1]

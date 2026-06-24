@@ -240,12 +240,7 @@ pl:
     created: Stworzone przez
     actions: Działania
   database_warning:
-    message: <p><strong>Ostrzeżenie dotyczące bazy danych:</strong> Obecnie 
-      używasz wbudowanej bazy danych (Apache Derby). Wbudowana baza danych służy
-      wyłącznie do celów testowych/demonstracyjnych. Do danych przeznaczonych do
-      użytku produkcyjnego należy używać bazy danych MySQL, dotyczy to również 
-      danych w instancji testowej, które zamierzasz przenieść do instancji 
-      produkcyjnej.</p>
+    message: "<p><strong>Ostrzeżenie dotyczące bazy danych:</strong> Obecnie używasz wbudowanej bazy danych (Apache Derby). Wbudowana baza danych służy wyłącznie do celów testowych/demonstracyjnych i zostanie wycofana w najbliższym głównym wydaniu. Do danych przeznaczonych do użytku produkcyjnego należy używać bazy danych MySQL, dotyczy to również danych w instancji testowej, które zamierzasz przenieść do instancji produkcyjnej.</p>"
   export_options:
     include_unpublished: Uwzględnij niepublikowane materiały.
     include_uris: Dołącz identyfikatory URI
@@ -699,10 +694,10 @@ pl:
     keyboard_shortcuts: Skróty klawiaturowe
     public_interface_html: Zobacz <a href="%{public_url}">interfejs 
       publiczny</a>
-    archivesspace_home_html: Odwiedź stronę <a 
-      href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
-      target='_blank'>Prześlij opinię lub zgłoś problem</a>
+    archivesspace_home_html: Obsługiwane przez <a
+      href='http://archivesspace.org'>ArchivesSpace</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
+      target='_blank'>Opinie lub pytania</a>
   login:
     login: Zalogować się
     username_placeholder: Nazwa użytkownika
@@ -1436,6 +1431,16 @@ pl:
         p_one: Wyróżnione kolumny są „przyklejone” i zostaną powielone po 
           dodaniu nowych wierszy. Funkcję „przyklejania” można włączyć lub 
           wyłączyć, klikając odpowiedni nagłówek tabeli.
+  shortcuts:
+    quick_reference_window: "Skrótowy przewodnik: skróty klawiaturowe"
+    actions:
+      this_reference: "Ten przewodnik skrótów"
+      close_modal: "Zamknij okno modalne (np. to)"
+      toggle_shortcuts: "Włącz / wyłącz skróty klawiaturowe"
+      save_record: "Zapisz edytowany rekord"
+      close_record: "Zamknij edytowany rekord"
+      open_browse: "Przełącz menu Przeglądaj"
+      open_create: "Przełącz menu Utwórz"
   structured_date_single_fields:
     date_expression: Wyrażenie daty
     date_standardized: Znormalizowana data

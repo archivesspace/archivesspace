@@ -151,5 +151,15 @@ describe Search do
       expect(csv).to include("dates::0::")
     end
 
+    it "uses the Solr CSV writer for field-limited requests even when extended export is enabled (ANW-2791)" do
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:extended_csv_export_enabled).and_return(true)
+
+      expect(Search).to receive(:search_csv_solr).with(hash_including(:fields => ['barcode_u_sstr']), repo.id)
+      expect(Search).not_to receive(:extended_csv_export)
+
+      Search.search_csv({:fields => ['barcode_u_sstr'], :dt => 'csv'}, repo.id)
+    end
+
   end
 end

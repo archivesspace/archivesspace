@@ -1,0 +1,11 @@
+[
+  ["opensearch:totalResults", {}, "1"],
+  ["opensearch:startIndex",   {}, "1"],
+  ["opensearch:itemsPerPage", {}, "10"],
+  ["atom:entry", {},
+    ["atom:title", {}, "Subject headings"],
+    ["atom:id",    {}, "info:lc/authorities/subjects/sh85129426"],
+    ["atom:link",  {"href": "http://e2e-wiremock:8080/authorities/subjects/sh85129426"}, null],
+    ["atom:link",  {"href": "http://e2e-wiremock:8080/authorities/subjects/sh85129426.rdf", "type": "application/rdf+xml"}, null]
+  ]
+]

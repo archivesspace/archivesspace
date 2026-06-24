@@ -36,6 +36,7 @@ build/.cache
 build/dev/
 build/test/
 backend/tests/ladle-server*
+backend/app/lib/templates/
 webdriver-profile*
 common/ARCHIVESSPACE_VERSION
 .devcontainer/secrets

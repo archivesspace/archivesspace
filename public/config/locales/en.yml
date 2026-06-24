@@ -583,8 +583,8 @@ en:
 
   footer:
     staff_interface_html: <a href="%{staff_url}">Staff Interface</a>
-    archivesspace_home_html: Visit <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Send Feedback or Report a Problem</a>
+    archivesspace_home_html: Powered by <a href='http://archivesspace.org'>ArchivesSpace</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Feedback or questions</a>
 
   languages:
     select: Select Language

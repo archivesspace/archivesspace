@@ -154,7 +154,7 @@ en:
     reorder_successful: Repositories successfully reordered
 
   database_warning:
-    message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
+    message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only and will be deprecated in the upcoming major release. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
 
   states:
     auto_generated: System generates when saved
@@ -636,8 +636,8 @@ en:
   footer:
     keyboard_shortcuts: Keyboard Shortcuts
     public_interface_html: View <a href="%{public_url}">Public Interface</a>
-    archivesspace_home_html: Visit <a href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Send Feedback or Report a Problem</a>
+    archivesspace_home_html: Powered by <a href='http://archivesspace.org'>ArchivesSpace</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Feedback or questions</a>
 
   session:
     gone: Your backend session was not found
@@ -1601,9 +1601,9 @@ en:
       close_modal: "Close a modal window (e.g., this one)"
       toggle_shortcuts: "Enable / disable keyboard shortcuts"
       save_record: "Save the record being edited"
-      close_record: "Close a record being edited"
-      open_browse: "Open Browse menu"
-      open_create: "Open Create menu"
+      close_record: "Close the record being edited"
+      open_browse: "Toggle the Browse menu"
+      open_create: "Toggle the Create menu"
 
   instance_container:
     container: Container
@@ -1709,7 +1709,7 @@ en:
         bulk_selection_sort_help: Click a column to set the sort ordering.  Hold shift to sort by multiple columns.
         merged: Top Container(s) Merged
         bulk_action_success: Top Containers successfully updated
-        bulk_action_success_info: Please be aware it may take a moment before changes are reflected in the search results.
+        bulk_action_success_info: Please be aware it may take a moment before changes are reflected in the search results or browse tables.
         no_active_restrictions: No Active Restrictions
       bulk_operations:
         title: Bulk Operations
