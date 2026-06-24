@@ -138,16 +138,15 @@ a img {
 
 .tabbing.nav-pills > li.nav-item.disabled > a.nav-link:hover,
 .tabbing.nav-pills > li.nav-item.disabled > a.nav-link:focus {
-  color: $white;
+  color: #777;
   text-decoration: none;
-  background-color: $secondary-color;
+  background-color: transparent;
   cursor: not-allowed;
 }
 
 .tabbing.nav-pills > li > a.active:hover,
 .tabbing.nav-pills > li > a.active:focus {
-  background-color: $accent-color !important;
-  color: $white !important;
+  cursor: default;
 }
 
 /* this enables customization of the nav bar. h/t to zessx (http://stackoverflow.com/users/1238019/zessx)
@@ -1099,19 +1098,4 @@ span.head {
       border: none;
     }
   }
-}
-
-.acc_button,
-.acc_button:hover,
-.acc_button:focus,
-.acc_button:active,
-.acc_button:visited {
-  color: #fff !important;
-}
-
-.btn.btn-primary,
-.btn.btn-primary:hover,
-.btn.btn-primary:focus,
-.btn.btn-primary:active {
-  color: #fff !important;
 }
