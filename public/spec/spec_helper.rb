@@ -226,6 +226,36 @@ def setup_test_data
   )
 end
 
+def record_for_type(raw_solr_hash)
+    Class.new.extend(RecordHelper).record_for_type(raw_solr_hash)
+end
+
+def mock_solr_results(records, opts = {})
+  records = records.map {|record|
+    record.is_a?(Hash) ? record_for_type(record) : record
+  }
+  opts = {
+          total_hits: records.size,
+          facets: {},
+          results: records.map { |record|
+            {
+              '_resolved_repository' => { 'json' => {} }
+            }
+          },
+          this_page: 1,
+          last_page: 1,
+          offset_first: 1,
+          offset_last: 1
+        }.merge(opts)
+  solr_results = instance_double(SolrResults)
+  allow(solr_results).to receive(:records).and_return(records)
+  opts.each do |k, v|
+    allow(solr_results).to receive(:[]).with(k.to_s).and_return(v)
+  end
+
+  solr_results
+end
+
 RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
@@ -272,6 +302,10 @@ RSpec.configure do |config|
     rescue
       # we do not care about exceptions while shutting down puma at this point
     end
+  end
+
+  config.before(:each) do
+    allow(AppConfig).to receive(:[]).and_call_original
   end
 end
 
