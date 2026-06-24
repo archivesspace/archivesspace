@@ -25,7 +25,7 @@
 <div class="row mt-5 flex-column flex-lg-row" id="notes_row">
   <div
     id="sidebar"
-    class="h-max col-12 col-lg-3 sidebar sidebar-container resizable-sidebar <%= sidebar_position == 'left' ? 'resizable-sidebar-left' : 'order-1' %> infinite-tree-sidebar"
+    class="h-max col-12 col-lg-3 sidebar sidebar-container infinite-tree-sidebar<%= @has_children ? " resizable-sidebar #{sidebar_position == 'left' ? 'resizable-sidebar-left' : 'order-1'}" : '' %>"
     data-sidebar-position="<%= sidebar_position %>"
     <% unless @has_children %>style="display: none"<% end %>
   >
