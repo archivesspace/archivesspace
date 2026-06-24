@@ -1,0 +1,5 @@
+digital_object_id,digital_object_title,digital_object_publish,file_version_file_uri_1,file_version_publish_1,file_version_is_representative_1,file_version_caption_1,file_version_file_uri_2,file_version_publish_2,file_version_is_representative_2,file_version_caption_2
+do-multi-01,Multi Version DO,TRUE,http://example.com/file1.jpg,TRUE,TRUE,First file,http://example.com/file2.pdf,FALSE,FALSE,Second file
+do-multi-02,NULL URI DO,TRUE,http://example.com/only.jpg,TRUE,TRUE,Only file,NULL,,,
+do-multi-03,Blank URI DO,TRUE,http://example.com/blank.jpg,TRUE,TRUE,Blank test,,,,
+do-multi-04,Whitespace DO,TRUE,http://example.com/ws.jpg,TRUE,TRUE,"  Padded caption  ",,,,
