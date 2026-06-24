@@ -162,19 +162,6 @@ class DigitalObjectConverter < Converter
       'user_defined_enum_3' => 'user_defined.enum_3',
       'user_defined_enum_4' => 'user_defined.enum_4',
 
-      'file_version_file_uri' => 'file_version.file_uri',
-      'file_version_publish' => [normalize_boolean, 'file_version.publish'],
-      'file_version_use_statement' => 'file_version.use_statement',
-      'file_version_xlink_actuate_attribute' => 'file_version.xlink_actuate_attribute',
-      'file_version_xlink_show_attribute' => 'file_version.xlink_show_attribute',
-      'file_version_file_format_name' => 'file_version.file_format_name',
-      'file_version_file_format_version' => 'file_version.file_format_version',
-      'file_version_file_size_bytes' => 'file_version.file_size_bytes',
-      'file_version_checksum' => 'file_version.checksum',
-      'file_version_checksum_method' => 'file_version.checksum_method',
-      'file_version_is_representative' => [normalize_boolean, 'file_version.is_representative'],
-      'file_version_caption' => 'file_version.caption',
-
       # 2. Define data handlers
       #    :record_type of the schema (if other than the handler key)
       #    :defaults - hash which maps property keys to default values if nothing shows up in the source date
@@ -340,17 +327,70 @@ class DigitalObjectConverter < Converter
         }
       },
 
-      :file_version => {
-        :on_row_complete => Proc.new {|cache, this|
-          digital_object = cache.find {|obj| obj.class.record_type =~ /^digital_object/ }
-          digital_object.file_versions << this
-        }
-      },
     }
   end
 
 
+  def self.configure_cell_handlers(row)
+    @headers = row.map { |s| s ||= ""; s.strip }
+    cell_handlers, bad_headers = super
+    bad_headers.reject! { |h| h.match(/^file_version_[a-z_]+(_\d+)?$/) }
+    [cell_handlers, bad_headers]
+  end
+
+
+  def self.headers
+    @headers
+  end
+
+
   private
+
+  def parse_row(row)
+    row.each_with_index { |cell, i| parse_cell(@cell_handlers[i], cell) }
+    @batch.working_area.map! { |proxy| proxy.spawn }.compact!
+    @batch.working_area.each { |obj| @proxies.discharge_proxy(obj.key, obj) }
+
+    row_hash = Hash[self.class.headers.zip(row)]
+    digital_object = @batch.working_area.find { |obj| obj.class.record_type =~ /^digital_object/ }
+    append_file_versions(row_hash, digital_object) if digital_object
+
+    @batch.flush
+  end
+
+
+  def append_file_versions(row_hash, digital_object)
+    row_hash.keys
+      .grep(/^file_version_file_uri(_\d+)?$/)
+      .sort_by { |k| k[/\d+/].to_i }
+      .each do |uri_key|
+        suffix = uri_key[/_\d+$/] || ""
+        next if row_hash["file_version_file_uri#{suffix}"].to_s.strip.empty?
+
+        fv = ASpaceImport::JSONModel(:file_version).new
+        fv.file_uri                = row_hash["file_version_file_uri#{suffix}"]
+        fv.publish                 = normalize_fv_boolean(row_hash["file_version_publish#{suffix}"])
+        fv.use_statement           = row_hash["file_version_use_statement#{suffix}"]
+        fv.xlink_actuate_attribute = row_hash["file_version_xlink_actuate_attribute#{suffix}"]
+        fv.xlink_show_attribute    = row_hash["file_version_xlink_show_attribute#{suffix}"]
+        fv.file_format_name        = row_hash["file_version_file_format_name#{suffix}"]
+        fv.file_format_version     = row_hash["file_version_file_format_version#{suffix}"]
+        fv.file_size_bytes         = row_hash["file_version_file_size_bytes#{suffix}"]&.to_i
+        fv.checksum                = row_hash["file_version_checksum#{suffix}"]
+        fv.checksum_method         = row_hash["file_version_checksum_method#{suffix}"]
+        fv.is_representative       = normalize_fv_boolean(row_hash["file_version_is_representative#{suffix}"])
+        fv.caption                 = row_hash["file_version_caption#{suffix}"]
+
+        digital_object.file_versions << fv
+      end
+  end
+
+
+  def normalize_fv_boolean(val)
+    return nil if val.nil?
+    val.to_s.upcase.match(/\A(1|T|Y|YES|TRUE)\Z/) ? true : false
+  end
+
 
   def self.event_template(event_type)
     {
