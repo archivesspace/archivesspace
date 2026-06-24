@@ -7,7 +7,7 @@ Given 'a Digital Object has been created' do
   fill_in 'digital_object_title_', with: "Digital Object Title #{@uuid}"
 
   # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
-  create_lang_descriptions('digital_object') if page.has_css?('#digital_object_lang_descriptions_')
+  add_lang_description('digital_object', language: 'English', script: 'Latin') if page.has_css?('#digital_object_lang_descriptions_')
 
   click_on 'Add Date'
   select 'Single', from: 'digital_object_dates__0__date_type_'
@@ -99,6 +99,13 @@ end
 
 Given 'the Digital Object is opened in the view mode' do
   visit "#{STAFF_URL}/digital_objects/#{@digital_object_id}"
+end
+
+Given 'a second language of description has been added to the Digital Object' do
+  visit "#{STAFF_URL}/digital_objects/#{@digital_object_id}/edit"
+  add_lang_description('digital_object', language: 'German', script: 'Latin')
+  click_on 'Save'
+  expect(page).to have_css('.alert.alert-success', text: /Digital Object.*updated/i)
 end
 
 Given 'the Digital Object is opened in edit mode' do
@@ -198,7 +205,7 @@ Given 'a Digital Object with a Digital Object Component has been created' do
   fill_in 'digital_object_title_', with: "Digital Object Title #{@uuid}"
 
   # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
-  create_lang_descriptions('digital_object') if page.has_css?('#digital_object_lang_descriptions_')
+  add_lang_description('digital_object', language: 'English', script: 'Latin') if page.has_css?('#digital_object_lang_descriptions_')
 
   click_on 'Add Date'
   select 'Single', from: 'digital_object_dates__0__date_type_'

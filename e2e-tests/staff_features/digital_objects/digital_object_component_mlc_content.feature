@@ -30,7 +30,8 @@ Feature: MLC content display
 
   @mlc_enabled
   Scenario: Current language badge appears on all subrecords when mlc enabled
-    Given the Digital Object is opened in edit mode
+    Given a second language of description has been added to the Digital Object
+      And the Digital Object is opened in edit mode
      When the user selects the Digital Object Component
      Then the user should see language badges on all subrecords
 

@@ -208,7 +208,7 @@ def ensure_test_accession_exists
   fill_in 'accession_title_', with: 'test_accession'
 
   # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
-  create_lang_descriptions('accession') if page.has_css?('#accession_lang_descriptions_')
+  add_lang_description('accession', language: 'English', script: 'Latin') if page.has_css?('#accession_lang_descriptions_')
 
   click_on 'Save'
 end
@@ -263,7 +263,7 @@ def create_resource(uuid)
   select 'Class', from: 'resource_level_'
 
   # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
-  create_lang_descriptions('resource') if page.has_css?('#resource_lang_descriptions_')
+  add_lang_description('resource', language: 'English', script: 'Latin') if page.has_css?('#resource_lang_descriptions_')
 
   languages = all('#resource_lang_materials_ .subrecord-form-list li')
   click_on 'Add Language of Materials' if languages.length == 0
@@ -361,18 +361,21 @@ def expect_record_to_not_be_in_search_results(search_term)
   expect(page).to have_css('.alert.alert-info.with-hide-alert', text: 'No records found')
 end
 
-def create_lang_descriptions(record_type)
+def add_lang_description(record_type, language:, script:)
   within "##{record_type}_lang_descriptions_" do
-    within 'li.sort-enabled.initialised' do
-      fill_in 'Language', with: 'English'
-      wait_for_ajax
-      find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: 'English', match: :first).click
-      expect(page).to have_css("##{record_type}_lang_descriptions_ .dropdown-item.active[data-value='English']", visible: false)
+    existing = all('li.sort-enabled.initialised')
+    click_on 'Add Language of Description' if existing.empty? || !existing.last.find_field('Language').value.empty?
 
-      fill_in 'Script', with: 'Latin'
+    within all('li.sort-enabled.initialised').last do
+      fill_in 'Language', with: language
       wait_for_ajax
-      find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: 'Latin', match: :first).click
-      expect(page).to have_css("##{record_type}_lang_descriptions_ .dropdown-item.active[data-value='Latin']", visible: false)
+      find('.typeahead.typeahead-long.dropdown-menu li.dropdown-item', exact_text: language, match: :first).click
+      expect(page).to have_css("##{record_type}_lang_descriptions_ .dropdown-item.active[data-value='#{language}']", visible: false)
+
+      fill_in 'Script', with: script
+      wait_for_ajax
+      find('.typeahead.typeahead-long.dropdown-menu .dropdown-item', exact_text: script, match: :first).click
+      expect(page).to have_css("##{record_type}_lang_descriptions_ .dropdown-item.active[data-value='#{script}']", visible: false)
     end
   end
 end

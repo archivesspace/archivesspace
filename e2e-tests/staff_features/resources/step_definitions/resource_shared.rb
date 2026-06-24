@@ -73,6 +73,13 @@ Given 'the Resource is opened in edit mode' do
   wait_for_ajax # still needed for dropdown menus to become active
 end
 
+Given 'a second language of description has been added to the Resource' do
+  visit "#{STAFF_URL}/resources/#{@resource_id}/edit"
+  add_lang_description('resource', language: 'German', script: 'Latin')
+  find('button', text: 'Save Resource', match: :first).click
+  expect(page).to have_css('.alert.alert-success', text: /Resource.*updated/i)
+end
+
 Given 'the Resource is published' do
   expect(find('#resource_publish_').checked?).to eq true
 end

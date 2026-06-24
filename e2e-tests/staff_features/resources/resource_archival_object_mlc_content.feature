@@ -28,7 +28,8 @@ Feature: MLC content display
 
   @mlc_enabled
   Scenario: Current language badge appears on all subrecords when mlc enabled
-    Given the Resource is opened in edit mode
+    Given a second language of description has been added to the Resource
+      And the Resource is opened in edit mode
       And the user selects the Archival Object
      Then the user should see language badges on all subrecords
 
