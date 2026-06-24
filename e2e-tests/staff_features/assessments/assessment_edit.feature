@@ -9,7 +9,6 @@ Feature: Assessment Edit
       And the user clicks on 'Edit'
       And the user clicks on the Surveyed By dropdown
       And the user clicks on 'Browse' in the dropdown menu
-    #I can't tell why the three following steps take so long
       And the user filters by the text 'Administrator'
       And the user selects the Agent from the search results in the modal
       And the user clicks on 'Link' in the modal
