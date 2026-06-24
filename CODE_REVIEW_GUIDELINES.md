@@ -21,6 +21,11 @@
         - color contrast
         - image alt text
         - proper ARIA usage
+- [ ] Test coverage:
+      - if e2e tests are added that include new step definitions:
+        - could we reuse existing steps instead of intoducing new ones?
+          - maybe by refactoring existing steps to be more generic?
+        - if not, are the steps we added generic and re-usable enough?
 - [ ] Common pitfalls
         - proxy urls
         - mixed content
