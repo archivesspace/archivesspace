@@ -1,13 +1,13 @@
 <section id="navigation">
   <nav class="navbar navbar-expand-lg navbar-light navbar-default bg-light p-0" aria-label="<%= I18n.t("navigation.top_level") %>">
-      <button type="button" class="navbar-toggler m-2 ml-auto" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false" aria-controls="collapsemenu">
+      <button type="button" class="navbar-toggler m-2 ms-auto" data-bs-toggle="collapse" data-bs-target="#collapsemenu" aria-expanded="false" aria-controls="collapsemenu">
         <div class="container">
-          <span class="sr-only"><%= t('navigation.mobile_menu') %></span>
+          <span class="visually-hidden"><%= t('navigation.mobile_menu') %></span>
           <span class="navbar-toggler-icon"></span>
         </div>
       </button>
       <div class="collapse navbar-collapse top-bar ps-4" id="collapsemenu">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav me-auto">
           <%# TODO: add class="active" if we're on that page %>
           <% $MAIN_MENU.each do |link| %>
             <li class="nav-item p-2">
@@ -17,7 +17,7 @@
           <% unless AppConfig[:pui_hide][:search_tab] %>
             <li class="nav-item p-2"><a class="nav-link" href="<%= app_prefix('/search?reset=true') %>">
                 <span class="fa fa-search" aria-hidden="true"></span>
-                <span class="sr-only"><%= I18n.t('search_tab', :target => t('archive._plural')) %></span>
+                <span class="visually-hidden"><%= I18n.t('search_tab', :target => t('archive._plural')) %></span>
               </a>
             </li>
           <% end %>
