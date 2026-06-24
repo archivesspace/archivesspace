@@ -22,8 +22,8 @@ function setupRequest(modalId, text) {
 }
 
 function request_form() {
-  $('#request_modal').modal('show');
-
+  var modal = new bootstrap.Modal(document.getElementById('request_modal'));
+  modal.show();
   $('#user_name', this).closest('.form-group').removeClass('has-error');
   $('#user_email', this).closest('.form-group').removeClass('has-error');
 

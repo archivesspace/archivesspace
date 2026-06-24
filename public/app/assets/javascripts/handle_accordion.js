@@ -13,12 +13,12 @@ var collapse_text = '';
 function initialize_accordion(what, ex_text, col_text, expand_all) {
   expand_text = ex_text;
   collapse_text = col_text;
-  if ($(what).size() > 1 && $(what).parents('.acc_holder').size() === 1) {
-    if ($(what).parents('.acc_holder').children('.acc_button').size() == 0) {
+  if ($(what).length > 1 && $(what).parents('.acc_holder').length === 1) {
+    if ($(what).parents('.acc_holder').children('.acc_button').length === 0) {
       $(what)
         .parents('.acc_holder')
         .prepend(
-          "<a  class='btn btn-primary acc_button mb-2' role='button' ></a>"
+          "<a class='btn btn-primary acc_button mb-2' role='button' ></a>"
         );
     }
     expandAllByDefault(what, expand_all);
@@ -31,9 +31,35 @@ function initialize_accordion(what, ex_text, col_text, expand_all) {
  */
 function expandAllByDefault(what, expand) {
   $(what).each(function () {
-    $(this).collapse(expand ? 'show' : 'hide');
+    toggleCollapsePanel(this, expand);
   });
   set_button(what, !expand);
+}
+
+/**
+ * @param {HTMLElement} panel collapse panel element
+ * @param {boolean} expand to expand or not
+ */
+function toggleCollapsePanel(panel, expand) {
+  // Bootstrap 5 API
+  if (window.bootstrap && window.bootstrap.Collapse) {
+    const instance = window.bootstrap.Collapse.getOrCreateInstance(panel, {
+      toggle: false,
+    });
+
+    if (expand) {
+      instance.show();
+    } else {
+      instance.hide();
+    }
+
+    return;
+  }
+
+  // Bootstrap 4/jQuery plugin compatibility
+  if (typeof $(panel).collapse === 'function') {
+    $(panel).collapse(expand ? 'show' : 'hide');
+  }
 }
 
 /**
@@ -41,9 +67,9 @@ function expandAllByDefault(what, expand) {
  * @param {boolean} expand to expand or not
  */
 function set_button(what, expand) {
-  $holder = $(what).parents('.acc_holder');
-  $btn = $holder.children('.acc_button');
-  if ($btn.size() === 1) {
+  const $holder = $(what).parents('.acc_holder');
+  const $btn = $holder.children('.acc_button');
+  if ($btn.length === 1) {
     $btn.text(expand ? expand_text : collapse_text);
     $btn.attr(
       'href',
