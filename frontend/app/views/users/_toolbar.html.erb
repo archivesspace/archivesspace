@@ -18,10 +18,17 @@
     <% end %>
   </div>
   <% if ['edit', 'update'].include?(controller.action_name) %>
+    <div class="close-record">
+      <%= link_to t("actions.finish_editing"), {:controller => :users, :action => :show, :id => @user.id}, :class => "btn btn-primary btn-sm btn-success finish-editing" %>
+    </div>
     <div class="revert-changes order-2 order-sm-1 mx-sm-2 mb-1">
       <%= link_to t("actions.revert"), {:controller => :users, :action => :edit, :id => @user.id}, :class => "btn btn-sm border bg-white rounded mr-2" %>
-      <%= t("actions.toolbar_disabled_message") %>
     </div>
   <% end %>
 </div>
+<% if ['edit', 'update'].include?(controller.action_name) %>
+  <div id="record-toolbar-alert">
+    <p class="mb-0 pt-1 pb-2 px-2 fs-12px"><%= t("actions.toolbar_disabled_message") %></p>
+  </div>
+<% end %>
 

@@ -12,6 +12,9 @@
         </div>
       <% end %>
       <% if ['edit', 'update'].include?(controller.action_name) %>
+        <div class="close-record">
+          <%= link_to t("actions.finish_editing"), {:controller => :classifications, :action => :show, :id => @classification.id}, :class => "btn btn-primary btn-sm btn-success finish-editing" %>
+        </div>
         <div class="revert-changes">
           <%= link_to t("actions.revert"), {:controller => :classifications, :action => :edit, :id => @classification.id}, :class => "btn btn-sm btn-default" %>
         </div>
