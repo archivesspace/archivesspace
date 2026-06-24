@@ -484,6 +484,11 @@ h5,
 
 .navbar-toggler {
   border: 0;
+
+  &:focus {
+    box-shadow: 0 0 0 var(--bs-navbar-toggler-focus-width)
+      rgba($primary-color, 0.5);
+  }
 }
 
 .spacer {
