@@ -1,10 +1,9 @@
 Feature: Assessment Create
   Background:
     Given an administrator user is logged in
-      And a Digital Object has been created
-
   Scenario: Assessment is created
-    Given the user is on the New Assessment page
+    Given a Digital Object has been created
+      And the user is on the New Assessment page
      When the user clicks on the Records dropdown
       And the user clicks on 'Browse' in the dropdown menu
       And the user filters by text with the Digital Object title in the modal
@@ -17,7 +16,23 @@ Feature: Assessment Create
       And the user clicks on 'Link' in the modal
       And the user clicks on 'Save'
      Then the 'Assessment' created message is displayed
-
+  Scenario: Assessment is created and linked to multiple records
+    Given a Resource with an Archival Object has been created
+      And the user is on the New Assessment page
+     When the user clicks on the Records dropdown
+      And the user clicks on 'Browse' in the dropdown menu
+      And the user filters by text with the Resource title in the modal
+      And the user selects the Resource from the search results in the modal
+      And the user filters by text with the Archival Object title in the modal
+      And the user selects the Archival Object from the search results in the modal  
+      And the user clicks on 'Link' in the modal
+      And the user clicks on the Surveyed By dropdown
+      And the user clicks on 'Browse' in the dropdown menu
+      And the user filters by text with the Agent name in the modal
+      And the user selects the Agent from the search results in the modal
+      And the user clicks on 'Link' in the modal
+      And the user clicks on 'Save'
+     Then the 'Assessment' created message is displayed
   Scenario: Assessment is not created because required fields are missing
     Given the user is on the New Assessment page
      When the user clicks on 'Save'
