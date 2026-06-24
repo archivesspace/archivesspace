@@ -4,9 +4,24 @@
   border: var(--default-border);
 }
 
-.accordion > .card:first-of-type:last-of-type {
-  border-bottom: var(--default-border);
-  border-radius: 4px;
+.acc_holder > .accordion > .card {
+  margin-bottom: 0;
+  border-radius: 0;
+  border-bottom: 0;
+}
+
+.acc_holder > .accordion > .card:first-of-type {
+  border-top-left-radius: var(--bootstrap-rounded-border-radius);
+  border-top-right-radius: var(--bootstrap-rounded-border-radius);
+}
+
+.acc_holder > .accordion > .card + .card {
+  margin-top: -1px;
+}
+
+.acc_holder > .accordion > .card:last-of-type {
+  border-bottom-left-radius: var(--bootstrap-rounded-border-radius);
+  border-bottom-right-radius: var(--bootstrap-rounded-border-radius);
 }
 
 /* Bootstrap v4 removed .btn-default but they were not removed or patched in
@@ -43,13 +58,42 @@
   border-color: $primary-color;
 }
 
+.acc_button:hover,
+.acc_button:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
+.acc_holder .accordion .accordion-toggle:hover,
+.acc_holder .accordion .accordion-toggle:focus {
+  text-decoration: none;
+}
+
 .page-link {
   color: $primary-color;
 }
 
-.page-item.active .page-link {
-  background-color: $primary-color;
-  border-color: $primary-color;
+.page-item {
+  .page-link {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &.active {
+    .page-link {
+      background-color: $primary-color;
+      border-color: $primary-color;
+    }
+  }
+}
+
+// Bootstrap v5 removed breadcrumb padding/background/radius.
+// Restore v4-like visual treatment for public UI parity.
+.breadcrumb {
+  padding: 0.75rem 1rem;
+  background-color: var(--bs-tertiary-bg);
+  border-radius: var(--bootstrap-rounded-border-radius);
 }
 
 // Bootstrap v4 moved <blockquote> support to .blockquote
