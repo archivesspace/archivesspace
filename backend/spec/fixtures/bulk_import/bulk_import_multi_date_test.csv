@@ -1,0 +1,3 @@
+ArchivesSpace field code (please don't edit this row),ead,hierarchy,level,title,begin_1,end_1,date_type_1,expression_1,date_certainty_1,date_era_1,date_calendar_1,begin_2,end_2,date_type_2,expression_2,date_certainty_2,date_era_2,date_calendar_2
+Field name ,EAD ID (either this or URI is *REQUIRED*),Hierarchical Relationship *REQUIRED*,Description Level *REQUIRED*,Title (either or Date is *REQUIRED*),Date(1) Begin,Date(1) end,Date(1) Type *REQUIRED*,Date(1) expression,Date(1) Certainty,Date(1) Era,Date(1) Calendar,Date(2) Begin,Date(2) end,Date(2) Type *REQUIRED*,Date(2) expression,Date(2) Certainty,Date(2) Era,Date(2) Calendar
+,VFIRST01,1,Series,Multi Date Test,1800,1900,inclusive,,,ce,gregorian,,,single,circa 1950,,ce,gregorian
