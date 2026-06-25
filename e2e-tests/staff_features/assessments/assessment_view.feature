@@ -19,3 +19,8 @@ Feature: Assessment View
       And the two Assessments are displayed sorted by ascending record in the search results
      When the user clicks on 'Assessment ID'
      Then the two Assessments are displayed sorted by ascending ID
+  Scenario: Download Assessments CSV
+    Given two Assessments have been created with a common keyword in their record
+      And the two Assessments are displayed sorted by ascending record in the search results
+     When the user clicks on 'Download CSV'
+     Then a CSV file is downloaded with the two Assessments

@@ -36,7 +36,7 @@ Warbler::Config.new do |config|
   #
   # config.ru is needed here because Rails looks for it when trying to determine
   # its root directory.
-  config.includes = FileList["Gemfile", "Gemfile.lock", "config.ru"]
+  config.includes = FileList["Gemfile", "Gemfile.lock", "config.ru", "public/bulk_import_templates/*"]
 
   # Additional files/directories to exclude
   # config.excludes = FileList["lib/tasks/*"]

@@ -42,3 +42,27 @@ When('the user selects the Agent from the search results in the modal') do
     rows[0].click
   end
 end
+
+When 'the user selects the Resource from the search results in the modal' do
+  find('tr', text: "Resource #{@uuid}", match: :first).click
+end
+
+When('the user filters by text with the Resource title in the modal') do
+  within '.modal-content' do
+    find('.text-filter-field.form-control.rounded-left').fill_in with: "Resource #{@uuid}"
+
+    find('.search-filter button').click
+  end
+end
+
+When('the user filters by text with the Archival Object title in the modal') do
+  within '.modal-content' do
+    find('.text-filter-field.form-control.rounded-left').fill_in with: "Archival Object 1 #{@uuid}"
+
+    find('.search-filter button').click
+  end
+end
+
+When 'the user selects the Archival Object from the search results in the modal' do
+  find('tr', text: "Archival Object 1 #{@uuid}", match: :first).click
+end

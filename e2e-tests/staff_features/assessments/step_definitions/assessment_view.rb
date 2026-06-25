@@ -78,7 +78,7 @@ Given 'two Assessments have been created with a common keyword in their record' 
   @assessment_a_id = url_parts.pop
 
   visit "#{STAFF_URL}/assessments/new"
-  fill_in 'token-input-assessment_records_', with: "Accession A-#{@accession_a_uuid}-#{@shared_accession_uuid}"
+  fill_in 'token-input-assessment_records_', with: "Accession B-#{@accession_b_uuid}-#{@shared_accession_uuid}"
   dropdown_items = all('li.token-input-dropdown-item2')
   dropdown_items.first.click
 
@@ -118,4 +118,19 @@ end
 Then('the two Assessments are displayed sorted by ascending ID') do
   expect(page).to have_css('#tabledSearchResults tbody tr:first-child', text: @assessment_a_uuid)
   expect(page).to have_css('#tabledSearchResults tbody tr:last-child', text: @assessment_b_uuid)
+end
+
+Then 'a CSV file is downloaded with the two Assessments' do
+  files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
+
+  downloaded_file = nil
+  files.each do |file|
+    downloaded_file = file if file.include?('assessments')
+  end
+
+  expect(downloaded_file).to_not eq nil
+
+  load_file = File.read(downloaded_file)
+  expect(load_file).to include "Accession A-#{@accession_a_uuid}-#{@shared_accession_uuid}"
+  expect(load_file).to include "Accession B-#{@accession_b_uuid}-#{@shared_accession_uuid}"
 end

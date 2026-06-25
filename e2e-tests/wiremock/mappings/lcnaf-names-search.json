@@ -1,0 +1,14 @@
+{
+  "name": "LCNAF names OpenSearch - jean blackwell hutson",
+  "request": {
+    "method": "GET",
+    "urlPattern": "/search/\\?format=json&q=jean\\+blackwell\\+hutson.*"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "names-search-hutson.json"
+  }
+}
