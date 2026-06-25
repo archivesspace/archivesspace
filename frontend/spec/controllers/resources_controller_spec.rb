@@ -7,6 +7,8 @@ describe ResourcesController, type: :controller do
   render_views
 
   before(:each) do
+    allow(MemoryLeak::Resources).to receive(:get).and_call_original
+    allow(MemoryLeak::Resources).to receive(:get).with(:job_types).and_return({'print_to_pdf_job' => {'create_permissions' => []}})
     set_repo($repo)
   end
 
