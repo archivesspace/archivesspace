@@ -439,6 +439,17 @@ describe 'Resources controller' do
   end
 
 
+  it "allows a resource to be created with a linked agent carrying is_primary: false" do
+    agent = create(:json_agent_person)
+
+    expect {
+      create(:json_resource, :linked_agents => [
+        { :ref => agent.uri, :role => 'source', 'is_primary' => false }
+      ])
+    }.not_to raise_error
+  end
+
+
   it "publishes the resource, subrecords and components when /publish is POSTed" do
     resource = create(:json_resource, {
       :publish => false,
