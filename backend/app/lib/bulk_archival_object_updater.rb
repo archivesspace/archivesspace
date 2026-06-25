@@ -42,6 +42,7 @@ class BulkArchivalObjectUpdater
     @errors = []
     @info_messages = []
     @updated_uris = []
+    @attached_top_containers_have_been_reported = false
   end
 
   def run
@@ -83,6 +84,10 @@ class BulkArchivalObjectUpdater
 
       if errors.length > 0
         raise BulkUpdateFailed.new(errors)
+      end
+
+      if updated_uris.length
+        Resource[resource_id].reindex_top_containers
       end
     end
 
@@ -201,7 +206,7 @@ class BulkArchivalObjectUpdater
       # Apply changes to the Archival Object!
       if record_changed
         ao_json['position'] = nil
-        ao.update_from_json(ao_json)
+        ao.update_from_json(ao_json, skip_reindex_top_containers: true)
 
         info_messages.push("Updated archival object #{ao.id} - #{ao_json.display_string}")
 
@@ -1362,11 +1367,13 @@ class BulkArchivalObjectUpdater
 
     message += "Top container not found attached within resource: #{container.inspect}\n"
     message += "Set 'create_missing_top_containers' to true inside AppConfig, to create Top Containers that do not exist.\n"
-    message += "The following top containers are attached within this resource:\n"
-    message += available_top_containers.map do |tc|
-      "#{ tc.inspect }\n"
-    end.join("")
-
+    unless @attached_top_containers_have_been_reported
+      message += "The following top containers are attached within this resource:\n"
+      message += available_top_containers.map do |tc|
+        "#{ tc.inspect }\n"
+      end.join("")
+    end
+    @attached_top_containers_have_been_reported = true
     message
   end
 end
