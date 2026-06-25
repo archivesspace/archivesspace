@@ -159,12 +159,20 @@ class TopContainersController < ApplicationController
                                          )
 
     if response.code === '200'
-      flash[:success] = t('top_container.batch_delete.success')
-      deleted_uri_param = params[:record_uris].map {|uri| "deleted_uri[]=#{uri}"}.join('&')
-      redirect_to "#{request.referrer}?#{deleted_uri_param}"
+      if inline?
+        render json: { status: 'success' }
+      else
+        flash[:success] = t('top_container.batch_delete.success')
+        deleted_uri_param = params[:record_uris].map {|uri| "deleted_uri[]=#{uri}"}.join('&')
+        redirect_to "#{request.referrer}?#{deleted_uri_param}"
+      end
     else
-      flash[:error] = "#{t("top_container.batch_delete.error")}<br/> #{ASUtils.json_parse(response.body)["error"]["failures"].map {|err| "#{err["response"]} [#{err["uri"]}]"}.join("<br/>")}".html_safe
-      redirect_to request.referrer
+      if inline?
+        render json: { status: 'error' }, status: 500
+      else
+        flash[:error] = "#{t("top_container.batch_delete.error")}<br/> #{ASUtils.json_parse(response.body)["error"]["failures"].map {|err| "#{err["response"]} [#{err["uri"]}]"}.join("<br/>")}".html_safe
+        redirect_to request.referrer
+      end
     end
   end
 

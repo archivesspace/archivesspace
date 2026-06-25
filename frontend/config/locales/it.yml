@@ -249,8 +249,8 @@ it:
     text_placeholder: Filtrato per testo
     component_switch: Mostra componenti
     help:
-      row_selection: Clicca una riga per selezionarla per le operazioni in 
-        blocco. Tieni premuto ALT mentre clicchi una casella di spunta per 
+      row_selection: Clicca una riga per selezionarla per le operazioni in
+        blocco. Tieni premuto ALT/Opzione mentre clicchi una casella di spunta per
         selezionare, o deselezionare, precedenti righe multiple.
     clear_all: Cancella tutto
   search_sorting:
@@ -596,7 +596,7 @@ it:
     top_containers_for: "Top Container per %{record_title}"
     no_top_containers: Nessun top container collegato
     edit_top_container: Modifica Top Container
-    view_top_container: Top Container
+    view_top_container: Visualizza Top Container
     become-user: Diventa utente
     brand: Spazio archivi
     create: Creare

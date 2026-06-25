@@ -233,8 +233,8 @@ pl:
     clear_all: Wyczyść wszystko
     component_switch: Pokaż komponenty
     help:
-      row_selection: Kliknij wiersz, aby go zaznaczyć do operacji zbiorczych. 
-        Przytrzymaj klawisz Alt podczas klikania pola wyboru, aby zaznaczyć lub 
+      row_selection: Kliknij wiersz, aby go zaznaczyć do operacji zbiorczych.
+        Przytrzymaj klawisz Alt/Option podczas klikania pola wyboru, aby zaznaczyć lub
         odznaczyć wiele poprzednich wierszy.
     result_identifier: Identyfikator
     created: Stworzone przez
@@ -299,7 +299,7 @@ pl:
     top_containers_for: "Najlepsze kontenery dla %{record_title}"
     no_top_containers: Brak powiązanych najlepszych kontenerów
     edit_top_container: Edytuj najlepszy kontener
-    view_top_container: Najlepszy kontener
+    view_top_container: Przeglądaj najlepszy kontener
     manage_enumerations: Zarządzaj listami wartości kontrolowanych
     global_preferences: Preferencje globalne
     global_settings: Ustawienia globalne
