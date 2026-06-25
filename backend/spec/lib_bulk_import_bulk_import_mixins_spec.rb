@@ -69,6 +69,11 @@ describe "Bulk Import Mixins" do
 
     @report = BulkImportReport.new
     @report.new_row(1)
+
+    @date_types = CvList.new('date_type', @current_user)
+    @date_labels = CvList.new('date_label', @current_user)
+    @date_era = CvList.new('date_era', @current_user)
+    @date_calendar = CvList.new('date_calendar', @current_user)
   end
 
   it "handles missing EAD ID and URI" do
@@ -107,8 +112,6 @@ describe "Bulk Import Mixins" do
 
   it "retrieves an archival object by REF ID" do
     ao = create(:json_archival_object, { :title => "archival object: Hi There" })
-    ao.resource = { :ref => @resource.uri }
-    ao.save
     new_ao = archival_object_from_ref_or_uri(ao.ref_id, nil)
     new_ao = new_ao[:ao]
     expect(new_ao.uri).to eq(ao.uri)
@@ -116,8 +119,6 @@ describe "Bulk Import Mixins" do
 
   it "retrieves an archival object by uri" do
     ao = create(:json_archival_object, { :title => "archival object: Hi There" })
-    ao.resource = { :ref => @resource.uri }
-    ao.save
     new_ao = archival_object_from_ref_or_uri(nil, ao.uri)
     new_ao = new_ao[:ao]
     expect(new_ao.title).to eq(ao.title)
@@ -155,8 +156,6 @@ describe "Bulk Import Mixins" do
   end
 
   it 'will not create a date with an invalid date type' do
-    @date_types = CvList.new('date_type', @current_user)
-    @date_labels = CvList.new('date_label', @current_user)
     date = create_date('creation', '1900', '2000', 'bad_type', nil, nil)
 
     expect(date).to be nil
@@ -164,8 +163,6 @@ describe "Bulk Import Mixins" do
   end
 
   it 'will not create a date with an invalid date label' do
-    @date_types = CvList.new('date_type', @current_user)
-    @date_labels = CvList.new('date_label', @current_user)
     date = create_date('bad_label', '1900', '2000', nil, nil, nil)
 
     expect(date).to be nil
@@ -173,19 +170,43 @@ describe "Bulk Import Mixins" do
   end
 
   it 'will set date type to inclusive if date type blank' do
-    @date_types = CvList.new('date_type', @current_user)
-    @date_labels = CvList.new('date_label', @current_user)
     date = create_date('creation', '1900', '2000', nil, nil, nil)
 
     expect(date['date_type']).to eq('inclusive')
   end
 
   it 'will set date label to creation if date label blank' do
-    @date_types = CvList.new('date_type', @current_user)
-    @date_labels = CvList.new("date_label", @current_user)
     date = create_date(nil, '1900', '2000', 'single', nil, nil)
 
     expect(date['label']).to eq('creation')
+  end
+
+  it 'will set era on a date when a valid era value is provided' do
+    date = create_date('creation', '1900', '2000', nil, nil, nil, 'ce', nil)
+
+    expect(date['era']).to eq('ce')
+    expect(@report.current_row.errors).to be_empty
+  end
+
+  it 'will set calendar on a date when a valid calendar value is provided' do
+    date = create_date('creation', '1900', '2000', nil, nil, nil, nil, 'gregorian')
+
+    expect(date['calendar']).to eq('gregorian')
+    expect(@report.current_row.errors).to be_empty
+  end
+
+  it 'will log an error but still return the date when an invalid era is provided' do
+    date = create_date('creation', '1900', '2000', nil, nil, nil, 'bad_era', nil)
+
+    expect(date).not_to be nil
+    expect(@report.current_row.errors[0]).to include("date era")
+  end
+
+  it 'will log an error but still return the date when an invalid calendar is provided' do
+    date = create_date('creation', '1900', '2000', nil, nil, nil, nil, 'bad_calendar')
+
+    expect(date).not_to be nil
+    expect(@report.current_row.errors[0]).to include("date calendar")
   end
 
   it "will import a date begin and end for accessrestrict note" do
@@ -202,6 +223,25 @@ describe "Bulk Import Mixins" do
   it "will not import an accessrestrict note date begin that comes after a date end" do
     ao = create(:json_archival_object)
     hash = {"n_accessrestrict"=>"Access Restriction note", "p_accessrestrict"=>"1", "b_accessrestrict"=>"2021-10-31", "e_accessrestrict"=>"2021-10-01"}
+    expect {
+      handle_notes(ao, hash, false)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+  it "will import a date begin and end for userestrict note" do
+    ao = create(:json_archival_object)
+    hash = {"n_userestrict"=>"Use Restriction note", "p_userestrict"=>"1", "b_userestrict"=>"2021-10-01", "e_userestrict"=>"2021-10-31"}
+    handle_notes(ao, hash, false)
+    expect(ao['notes']).not_to be_nil
+    note = ao['notes'][0]
+    expect(note).to have_key('rights_restriction')
+    expect(note['rights_restriction']['begin']).to eq('2021-10-01')
+    expect(note['rights_restriction']['end']).to eq('2021-10-31')
+  end
+
+  it "will not import a userestrict note date begin that comes after a date end" do
+    ao = create(:json_archival_object)
+    hash = {"n_userestrict"=>"Use Restriction note", "p_userestrict"=>"1", "b_userestrict"=>"2021-10-31", "e_userestrict"=>"2021-10-01"}
     expect {
       handle_notes(ao, hash, false)
     }.to raise_error(JSONModel::ValidationException)

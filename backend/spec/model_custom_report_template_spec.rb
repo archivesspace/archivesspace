@@ -183,4 +183,101 @@ describe 'Custom Report Template model' do
     expect(reviewer_filter).not_to be_empty
   end
 
+  it 'includes reviewer names as a column in assessment report results when reviewer field is included' do
+    repo = create(:repo, repo_code: "test_reviewer_col_#{Time.now.to_i}")
+    RequestContext.put(:repo_id, repo.id)
+    JSONModel.set_repository(repo.id)
+
+    reviewer = create(:json_agent_person)
+    create(:json_assessment, 'reviewer' => [{'ref' => reviewer.uri}])
+
+    template_data = {
+      "custom_record_type" => "assessment",
+      "fields" => {
+        "reviewer" => { "include" => "1" }
+      }
+    }
+
+    template = JSONModel(:custom_report_template).from_hash({
+      "name" => "Reviewer Column Test #{Time.now.to_i}",
+      "limit" => 10,
+      "data" => template_data.to_json
+    })
+
+    template_id = CustomReportTemplate.create_from_json(template).id
+
+    mock_job = double('Job')
+    allow(mock_job).to receive(:write_output)
+
+    report = CustomReport.new({'template' => template_id.to_s, :repo_id => repo.id}, mock_job, $testdb)
+
+    row = report.query.first
+    expect(row[:reviewer]).to include(reviewer.names[0]['sort_name'])
+  end
+
+  it 'concatenates multiple reviewer names in assessment report results' do
+    repo = create(:repo, repo_code: "test_multi_reviewer_#{Time.now.to_i}")
+    RequestContext.put(:repo_id, repo.id)
+    JSONModel.set_repository(repo.id)
+
+    reviewer1 = create(:json_agent_person)
+    reviewer2 = create(:json_agent_person)
+    create(:json_assessment, 'reviewer' => [{'ref' => reviewer1.uri}, {'ref' => reviewer2.uri}])
+
+    template_data = {
+      "custom_record_type" => "assessment",
+      "fields" => {
+        "reviewer" => { "include" => "1" }
+      }
+    }
+
+    template = JSONModel(:custom_report_template).from_hash({
+      "name" => "Multi-Reviewer Column Test #{Time.now.to_i}",
+      "limit" => 10,
+      "data" => template_data.to_json
+    })
+
+    template_id = CustomReportTemplate.create_from_json(template).id
+
+    mock_job = double('Job')
+    allow(mock_job).to receive(:write_output)
+
+    report = CustomReport.new({'template' => template_id.to_s, :repo_id => repo.id}, mock_job, $testdb)
+
+    row = report.query.first
+    expect(row[:reviewer]).to include(reviewer1.names[0]['sort_name'])
+    expect(row[:reviewer]).to include(reviewer2.names[0]['sort_name'])
+  end
+
+  it 'returns nil reviewer column in assessment report results when assessment has no reviewer' do
+    repo = create(:repo, repo_code: "test_no_reviewer_#{Time.now.to_i}")
+    RequestContext.put(:repo_id, repo.id)
+    JSONModel.set_repository(repo.id)
+
+    create(:json_assessment, 'reviewer' => [])
+
+    template_data = {
+      "custom_record_type" => "assessment",
+      "fields" => {
+        "reviewer" => { "include" => "1" }
+      }
+    }
+
+    template = JSONModel(:custom_report_template).from_hash({
+      "name" => "No Reviewer Column Test #{Time.now.to_i}",
+      "limit" => 10,
+      "data" => template_data.to_json
+    })
+
+    template_id = CustomReportTemplate.create_from_json(template).id
+
+    mock_job = double('Job')
+    allow(mock_job).to receive(:write_output)
+
+    report = CustomReport.new({'template' => template_id.to_s, :repo_id => repo.id}, mock_job, $testdb)
+
+    row = report.query.first
+    expect(row[:reviewer]).to be_nil
+  end
+
 end

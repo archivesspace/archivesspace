@@ -1071,27 +1071,29 @@ $(function () {
   });
 
   $(window).bind('keydown', function (event) {
-    if (event.ctrlKey) {
-      switch (String.fromCharCode(event.which).toLowerCase()) {
-        case 's': {
-          event.preventDefault();
-          const $form = $('form.aspace-record-form');
-          if ($form.length) {
-            var input = $('<input>')
-              .attr('type', 'hidden')
-              .attr('name', 'ignorewarnings')
-              .val('true');
-            $form.append($(input));
-            $form.submit();
-          }
-          break;
+    if (!event.ctrlKey || !event.shiftKey) {
+      return;
+    }
+
+    switch (String.fromCharCode(event.which).toLowerCase()) {
+      case 's': {
+        event.preventDefault();
+        const $form = $('form.aspace-record-form');
+        if ($form.length) {
+          var input = $('<input>')
+            .attr('type', 'hidden')
+            .attr('name', 'ignorewarnings')
+            .val('true');
+          $form.append($(input));
+          $form.submit();
         }
-        case 'x': {
-          event.preventDefault();
-          const readonlyPath = location.pathname.replace(/\/edit$/, '');
-          window.location.href = readonlyPath + location.hash;
-          break;
-        }
+        break;
+      }
+      case 'x': {
+        event.preventDefault();
+        const readonlyPath = location.pathname.replace(/\/edit$/, '');
+        window.location.href = readonlyPath + location.hash;
+        break;
       }
     }
   });

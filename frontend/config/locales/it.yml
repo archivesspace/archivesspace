@@ -249,8 +249,8 @@ it:
     text_placeholder: Filtrato per testo
     component_switch: Mostra componenti
     help:
-      row_selection: Clicca una riga per selezionarla per le operazioni in 
-        blocco. Tieni premuto ALT mentre clicchi una casella di spunta per 
+      row_selection: Clicca una riga per selezionarla per le operazioni in
+        blocco. Tieni premuto ALT/Opzione mentre clicchi una casella di spunta per
         selezionare, o deselezionare, precedenti righe multiple.
     clear_all: Cancella tutto
   search_sorting:
@@ -596,7 +596,7 @@ it:
     top_containers_for: "Top Container per %{record_title}"
     no_top_containers: Nessun top container collegato
     edit_top_container: Modifica Top Container
-    view_top_container: Top Container
+    view_top_container: Visualizza Top Container
     become-user: Diventa utente
     brand: Spazio archivi
     create: Creare
@@ -635,15 +635,32 @@ it:
     manage_assessment_attributes: Gestisci gli attributi della valutazione
   footer:
     keyboard_shortcuts: Scorciatoie da tastiera
-    archivesspace_home_html: Visita <a 
-      href='http://archivesspace.org'>ArchivesSpace.org</a>
+    archivesspace_home_html: Basato su <a 
+      href='http://archivesspace.org'>ArchivesSpace</a>
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
-      target='_blank'>Invia feedback o riferisci un problema</a>
+      target='_blank'>Feedback o domande</a>
     public_interface_html: Visualizza <a href="%{public_url}">Interfaccia 
       pubblica</a>
   import:
     marcxml_subjects_and_agents_title: Importa i soggetti e gli agents da un 
       file MARCXML
+    eac_title: Importa un file EAC
+    ead_title: Importa un file EAD
+    marcxml_title: Importa un file MARCXML
+    accession_csv_title: Importa i record di accesso da un file CSV
+    digital_object_csv_title: Importare record di oggetti digitali da un file 
+      CSV
+    import_report: Rapporto di importazione
+    import_another: Importa un altro file
+    file_select: Seleziona il file da caricare
+    submit: Importare
+    submit_busy_message: Importazione...
+    messages:
+      missing_repo: È necessario selezionare un repository prima 
+        dell'importazione
+      missing_file: Seleziona un file EAD da caricare
+      error_prefix: Errore durante l'importazione del file
+      complete: R Complete
   errors:
     merge_restricted_contact_details: Questa unione non può essere completata 
       perché uno o più degli agents ha dettagli di contatto a cui non hai il 
@@ -658,6 +675,19 @@ it:
     merge_conflict: 'Non è stato possibile unire gli agent(s): %{message}'
     merge_too_many_merge_candidates: Solo un agent può essere selezionato per 
       questa unione.
+    sidebar_label: Errori e avvisi
+    error_403: Impossibile accedere alla pagina
+    error_403_message: La pagina a cui hai tentato di accedere potrebbe non 
+      esistere più oppure potresti non avere l'autorizzazione per visualizzarla.
+    error_404: Record non trovato
+    error_404_message: Il record a cui hai tentato di accedere potrebbe non 
+      esistere più oppure potresti non avere l'autorizzazione per visualizzarlo.
+    error_tree_pane_ajax: Si è verificato un errore durante il caricamento del 
+      modulo.
+    linked_to_assessment: Il record non può essere eliminato in quanto collegato
+      a una valutazione
+    linked_to_user: Il record non può essere eliminato perché è collegato a un 
+      utente
   agent:
     _frontend:
       messages:
@@ -669,8 +699,9 @@ it:
         delete_conflict: "Non è stato possibile eliminare l'agent: <pre>%{error}</pre>"
         merged: Agent(s) uniti
         please_select_a_agent_to_merge: Per favore seleziona un agent
+        merge_description: Seleziona l'agente in cui unire
       section:
-        description_information: ''
+        description_information: 'Informazioni descrittive'
         date_of_existence: Data di esistenza
         dates_of_existence: Date di esistenza
         basic_information: Informazioni di base
@@ -681,9 +712,12 @@ it:
         merge_destination_record: Questo record sarà aggiornato
         structured_date_single_fields: Singola data
         structured_date_range_fields: Range di data
-        identity_information: ''
+        identity_information: 'Informazioni sull identità'
         merge_candidate_record: Questo record sarà eliminato
-        record_control_information: ''
+        record_control_information: 'Informazioni sul controllo dei record'
+        relation_information: Informazioni sulle relazioni
+        name: Moduli del nome
+        contacts: Informazioni di contatto
       action:
         preview: Preview unione
         create: Crea agente
@@ -693,6 +727,7 @@ it:
     _frontend:
       action:
         add: Aggiungi contatto
+        make_representative: Stabilire il contatto preferito
   linked_agent:
     _frontend:
       action:
@@ -727,6 +762,16 @@ it:
   job:
     _frontend:
       audit_data: Dati dell'audit
+  shortcuts:
+    quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
+    actions:
+      this_reference: "Questo riferimento alle scorciatoie"
+      close_modal: "Chiudi una finestra modale (ad es., questa)"
+      toggle_shortcuts: "Attiva / disattiva scorciatoie da tastiera"
+      save_record: "Salva il record in modifica"
+      close_record: "Chiudi il record in modifica"
+      open_browse: "Alterna il menu Naviga"
+      open_create: "Alterna il menu Crea"
   agent_identifier:
     identifier_type: Tipo di identificativo
   agent_gender:
@@ -806,14 +851,56 @@ it:
         select_a_type: <em>Per favore seleziona un tipo di relazione</em>
       action:
         add: Aggiungi agent relativi
+    dates: Date di relazione
   dates_of_existence:
     _frontend:
       action:
         add: Aggiungi data
+    _singular: Data di esistenza
+    _plural: Date di esistenza
   resource:
     _frontend:
       section:
         finding_aid: Dati degli strumenti di ricerca
+        basic_information: Informazioni di base
+      messages:
+        created: Risorsa <strong>%{resource_title}</strong> creata
+        updated: Risorsa <strong>%{resource_title}</strong> aggiornata
+        spawned: È stata generata una nuova risorsa dall'accesso 
+          <strong>%{accession_display_string}</strong>. Questo record non è 
+          stato salvato. È necessario fare clic su Salva affinché il record 
+          venga creato nel sistema.
+        deleted: Risorsa <strong>%{resource_title}</strong> eliminata
+        published: La risorsa <strong>%{resource_title}</strong>, i suoi 
+          sottorecord e componenti sono stati pubblicati
+        unpublished: La risorsa <strong>%{resource_title}</strong>, i suoi 
+          elementi figli, i sottorecord e i componenti sono stati rimossi dalla 
+          pubblicazione
+        merge_description: Seleziona le risorse seguenti da unire
+        please_select_a_resource_to_merge: Seleziona una risorsa
+        merged: Risorse unite
+        transfer_description: Trasferisci questa risorsa a...
+        transfer_target: Seleziona un repository in cui trasferire i dati
+        unsuppressed: Risorsa <strong>%{resource_title}</strong> non soppressa
+        suppressed: Risorsa <strong>%{resource_title}</strong> soppressa
+        suppressed_info: La risorsa è nascosta e non può essere modificata
+        delete_conflict: 'Impossibile eliminare la risorsa: <pre>%{error}</pre>'
+      action:
+        add_child: Aggiungi bambino
+        create: Crea risorsa
+        load_bulk: Carica tramite foglio di calcolo
+        save: Salva risorsa
+        delete_multiple: Elimina risorse
+      remove_subrecord: Rimuovi il sottorecord
+    external_ark_url: URL ARK esterno
+    external_ark_url_tooltip: Identificatore persistente della chiave di risorsa
+      di archiviazione (ARK) generato al di fuori di ArchivesSpace. Se questo 
+      campo contiene un valore, ha la precedenza su un ARK generato all'interno 
+      di ArchivesSpace.
+    linker:
+      browse: Sfoglia le risorse
+      link_title: Sfoglia
+      link_to: Collegamento alla risorsa
   deaccession:
     _frontend:
       action:
@@ -825,12 +912,12 @@ it:
   skipnav:
     main_content: Passa al contenuto principale
   database_warning:
-    message: <p><strong>Avviso relativo al database:</strong> Attualmente stai 
-      utilizzando il database integrato (Apache Derby). Il database integrato è 
-      destinato esclusivamente a scopi di test/dimostrativi. Per tutti i dati 
-      destinati alla produzione, inclusi i dati presenti in un'istanza di test 
-      che intendi trasferire in un'istanza di produzione, dovresti utilizzare 
-      MySQL.</p>
+    message: "<p><strong>Avviso relativo al database:</strong> Attualmente stai utilizzando
+      il database integrato (Apache Derby). Il database integrato è destinato esclusivamente
+      a scopi di test/dimostrativi e sarà deprecato nella prossima versione principale.
+      Dovresti utilizzare MySQL per tutti i dati destinati alla produzione, inclusi
+      i dati presenti in un'istanza di test che intendi trasferire in un'istanza di
+      produzione.</p>"
   become-user:
     become-user: Diventa utente
     failed: Impossibile passare all'utente specificato
@@ -840,7 +927,7 @@ it:
     staff_interface: Interfaccia per il personale di ArchivesSpace
   session:
     gone: La tua sessione backend non è stata trovata
-    expired: La sessione è scaduta per inattività.
+    expired: La sessione è scaduta per inattività
     inline_login_title: Sessione scaduta
   login:
     login: Registrazione
@@ -881,6 +968,675 @@ it:
     create_and_link: Crea e collega
     hint_text: Digita per cercare i record disponibili.
     placeholder: Digita per cercare i record disponibili.
+    no_results: Nessun risultato corrispondente. Prova a usare la funzione 
+      "Esplora".
+    searching: Ricerca in corso...
+    delete: '&volte;'
+    components:
+      browse: Sfoglia i plugin
+  mixed_content:
+    wrap_prefix: 'Avvolgere con:'
+    help: Contenuto misto abilitato#160;x#160;--&#160;&#160;Digita '<' per gli 
+      elementi o evidenzia il testo da mandare a capo
+  default_values:
+    form_title:
+      archival_object: Valori predefiniti dei record dei componenti
+      resource: Impostazioni predefinite dei record di risorse
+      accession: Impostazioni predefinite del record di accesso
+      subject: Impostazioni predefinite del record soggetto
+      agent_person: Impostazioni predefinite del record dell'agente (persona)
+      agent_family: Impostazioni predefinite del record dell'agente (famiglia)
+      agent_corporate_entity: Impostazioni predefinite del record dell'agente 
+        (entità aziendale)
+      agent_software: Impostazioni predefinite del record dell'agente (software)
+      digital_object: Impostazioni predefinite degli oggetti digitali
+      digital_object_component: Impostazioni predefinite del componente oggetto 
+        digitale
+      location: Impostazioni predefinite del record di posizione
+      event: Impostazioni predefinite del record dell'evento
+      classification: Valori predefiniti dei record di classificazione
+      classification_term: Valori predefiniti del termine di classificazione
+      container_profile: Impostazioni predefinite del profilo del contenitore
+    messages:
+      defaults_updated: Impostazioni predefinite aggiornate
+  required_fields:
+    form_title:
+      agent_person: Campi obbligatori nella scheda dell'agente (persona)
+      agent_family: Campi obbligatori del record dell'agente (famiglia)
+      agent_corporate_entity: Campi obbligatori nella scheda agente (entità 
+        aziendale)
+      agent_software: Campi obbligatori nella scheda agente (software)
+    messages:
+      required_fields_updated: Campi obbligatori aggiornati
+  tree:
+    drag_and_drop_actions:
+      before: Aggiungi elementi prima
+      after: Aggiungi elementi dopo
+      as_child: Aggiungi elementi come figli
+    unexpected_failure: Ops! Stiamo riscontrando problemi nel recuperare questo 
+      albero. Per favore, prova ad aggiornare la pagina.
+    resize: Trascina per ridimensionare l'altezza dell'albero
+    maximize: Massimizzare/minimizzare l'altezza dell'albero
+  component_link:
+    _plural: Collegamenti dei componenti
+    _singular: Collegamento dei componenti
+    _frontend:
+      action:
+        add: Aggiungi collegamento componente
+  accession_link:
+    _plural: Collegamenti di accesso
+    _singular: Link di accesso
+    _frontend:
+      action:
+        add: Aggiungi il link di accesso
+  accession:
+    component_link: Componente collegato
+    component_links: Componenti collegati
+    _frontend:
+      messages:
+        created: Numero di accesso 
+          <strong>%{stringa_di_visualizzazione_accesso}</strong> creato
+        unsuppressed: Numero di accesso 
+          <strong>%{accession_display_string}</strong> non soppresso
+        updated: Numero di accesso 
+          <strong>%{stringa_di_visualizzazione_accesso}</strong> aggiornato
+        suppressed: Numero di accesso 
+          <strong>%{accession_display_string}</strong> soppresso
+        suppressed_info: L'accesso è bloccato e non può essere modificato
+        deleted: Numero di accesso 
+          <strong>%{stringa_di_visualizzazione_accesso}</strong> eliminato
+        transfer_description: Trasferire questo accessione a...
+        transfer_target: Seleziona un repository in cui trasferire i dati
+        spawned: Questo numero di accesso è stato generato dal numero di accesso
+          <strong>%{accession_display_string}</strong>. Questo record non è 
+          stato salvato. È necessario fare clic su Salva affinché il record 
+          venga creato nel sistema.
+        delete_conflict: "Impossibile eliminare l'accesso: <pre>%{error}</pre>"
+      section:
+        basic_information: Informazioni di base
+      action:
+        create: Crea accesso
+        save: Salva accesso
+  telephone:
+    _frontend:
+      action:
+        add: Aggiungi numero di telefono
+  agent_corporate_entity:
+    _frontend:
+      action:
+        save: Salva entità aziendale
+  agent_family:
+    _frontend:
+      action:
+        save: Salva la famiglia
+  agent_person:
+    _frontend:
+      action:
+        save: Salvare persona
+  agent_software:
+    _frontend:
+      action:
+        save: Software di salvataggio
+  structured_date_single:
+    _frontend:
+      action:
+        add: Aggiungi una singola data
+  structured_date_range:
+    _frontend:
+      action:
+        add: Aggiungi intervallo Data
+  archival_object:
+    external_ark_url: URL ARK esterno
+    external_ark_url_tooltip: Suggerimento per la visualizzazione dell'URL 
+      esterno di ARK
+    new_title: Nuovo oggetto d'archivio
+    _frontend:
+      messages:
+        created: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> sulla risorsa 
+          <strong>%{resource_title}</strong> creato
+        duplicated: Oggetto di archivio duplicato da 
+          <strong>%{archival_object_display_string}</strong>
+        created_with_parent: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> creato come figlio 
+          di <strong>%{parent_display_string}</strong> sulla risorsa 
+          <strong>%{resource_title}</strong>
+        updated: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> aggiornato
+        updated_with_parent: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> aggiornato
+        transfer_description: Seleziona una risorsa in cui trasferire questo 
+          oggetto di archivio
+        transfer_confirm_message: Il record '%{ao}' verrà trasferito alla 
+          risorsa selezionata
+        transfer_confirm_message_with_resource: Il record '%{ao}' verrà 
+          trasferito alla risorsa '%{resource}'
+        please_select_a_resource_for_transfer: Seleziona una risorsa
+        transfer_success: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> trasferito con 
+          successo alla risorsa <strong>%{resource_title}</strong>
+        transfer_error: "Impossibile trasferire l'oggetto di archiviazione a causa
+          di un errore o di un conflitto: <pre>%{exception}</pre>"
+        deleted: Oggetto di archivio 
+          <strong>%{archival_object_display_string}</strong> eliminato
+        published: L'oggetto archivistico 
+          <strong>%{archival_object_title}</strong>, i suoi figli, i sottorecord
+          e i componenti sono stati pubblicati
+        unpublished: L'oggetto di archivio 
+          <strong>%{archival_object_title}</strong>, i suoi elementi figli, i 
+          sottorecord e i componenti sono stati depubblicati
+        unsuppressed: Oggetto d'archivio 
+          <strong>%{archival_object_title}</strong> non soppresso
+        suppressed: Oggetto di archivio 
+          <strong>%{archival_object_title}</strong> soppresso
+        suppressed_info: L'oggetto di archivio è soppresso e non può essere 
+          modificato
+        has_unpublished_ancestor: Si prega di notare che questo documento ha un 
+          antenato inedito.
+        spawned: Questo oggetto di archivio è stato generato dall'Accession 
+          <strong>%{accession_display_string}</strong>. Questo record non è 
+          stato salvato. È necessario fare clic su Salva affinché il record 
+          venga creato nel sistema.
+        delete_conflict: "Impossibile eliminare l'oggetto di archivio: <pre>%{error}</pre>"
+        spawn_placeholder: <em>Il componente generato verrà inserito qui</em>
+        spawn_menu_before: Inserire il componente generato prima
+        spawn_menu_child: Inserisci il componente generato come figlio
+        spawn_menu_after: Inserisci il componente generato dopo
+      section:
+        basic_information: Informazioni di base
+      action:
+        add_child: Aggiungi bambino
+        add_sibling: Aggiungi fratello/sorella
+        add_duplicate: Aggiungi duplicato
+        save: Salva oggetto di archivio
+        bulk_import: Carica tramite foglio di calcolo
+        select_resource: Seleziona la risorsa
+        select_parent_and_position: Selezionare la posizione del componente
+        leave_parent_empty: Chiudi / Non assegnare genitore
+      tree:
+        new_record_title: Nuovo oggetto d'archivio
+        duplicated_record_title: Crea un oggetto di archiviazione duplicato
+  classification:
+    _frontend:
+      messages:
+        created: Classificazione <strong>%{classification_title}</strong> creata
+        updated: Classificazione <strong>%{classification_title}</strong> 
+          aggiornata
+        deleted: Classificazione <strong>%{classification_title}</strong> 
+          eliminata
+      section:
+        basic_information: Informazioni di base
+        search_embedded: Record collegati
+      action:
+        add_child: Aggiungi bambino
+        create: Crea classificazione
+        save: Salva l'analisi
+        add: Aggiungi classificazione
+  classification_term:
+    _frontend:
+      messages:
+        created: Termine di classificazione 
+          <strong>%{classification_term_title}</strong> creato
+        created_with_parent: Termine di classificazione 
+          <strong>%{classification_term_title}</strong> creato
+        updated: Termine di classificazione 
+          <strong>%{classification_term_title}</strong> aggiornato
+        updated_with_parent: Termine di classificazione 
+          <strong>%{classification_term_title}</strong> aggiornato
+        deleted: Termine di classificazione 
+          <strong>%{classification_term_title}</strong> eliminato
+      section:
+        basic_information: Informazioni di base
+        search_embedded: Record collegati
+      action:
+        add_child: Aggiungi bambino
+        add_sibling: Aggiungi fratello/sorella
+        save: Salva termine di classificazione
+      tree:
+        new_record_title: Nuovo termine di classificazione
+  collection_management:
+    _frontend:
+      title_prefix: Elaborazione
+      action:
+        add: Aggiungi campi di gestione della raccolta
+  container:
+    _frontend:
+      action:
+        add: Aggiungi contenitore
+  container_location:
+    _frontend:
+      action:
+        add: Aggiungi posizione
+  date:
+    _frontend:
+      expression_placeholder: Descrivi la data o l'intervallo di date
+      action:
+        add: Aggiungi la data
+  structured_date_label_common_fields:
+    date_label: Etichetta
+    date_type_structured: Tipo di data
+    date_certainty: Certezza
+    date_era: Era
+    date_calendar: Calendario
+  structured_date_single_fields:
+    date_role: Ruolo della data
+    date_expression: Espressione della data
+    date_standardized: Data standardizzata
+    date_standardized_type: Tipo di data standardizzato
+  structured_date_range_fields:
+    begin_date_expression: Espressione della data di inizio
+    begin_date_standardized: Data standardizzata raccomandata
+    begin_date_standardized_type: Inizio Tipo di data standardizzato
+    end_date_expression: Espressione della data di fine
+    end_date_standardized: Data di fine standardizzata
+    end_date_standardized_type: Tipo di data standardizzato di fine
+  date_type_structured:
+    single: Singolo
+    range: Allineare
+  digital_object:
+    _frontend:
+      messages:
+        created: Oggetto digitale <strong>%{digital_object_title}</strong> 
+          creato
+        updated: Oggetto digitale <strong>%{digital_object_title}</strong> 
+          aggiornato
+        deleted: Oggetto digitale <strong>%{digital_object_title}</strong> 
+          eliminato
+        published: L'oggetto digitale <strong>%{digital_object_title}</strong>, 
+          i suoi sottorecord e componenti sono stati pubblicati
+        merge_description: Seleziona gli oggetti digitali qui sotto da unire
+        please_select_a_digital_object_to_merge: Seleziona un oggetto digitale
+        merged: Oggetto/i digitale/i unito/i
+        transfer_description: Trasferisci questo oggetto digitale a...
+        transfer_target: Seleziona un repository in cui trasferire i dati
+        unsuppressed: Oggetto digitale <strong>%{digital_object_title}</strong> 
+          non soppresso
+        suppressed: Oggetto digitale <strong>%{digital_object_title}</strong> 
+          soppresso
+        suppressed_info: L'oggetto digitale è soppresso e non può essere 
+          modificato
+        delete_conflict: "Impossibile eliminare l'oggetto digitale: <pre>%{error}</pre>"
+      section:
+        basic_information: Informazioni di base
+      action:
+        add_child: Aggiungi bambino
+        create: Crea oggetto digitale
+        save: Salva oggetto digitale
+  digital_object_component:
+    _frontend:
+      messages:
+        created_with_parent: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> creato 
+          come figlio di <strong>%{parent_display_string}</strong> sull'oggetto 
+          digitale <strong>%{digital_object_title}</strong>
+        created: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> creato 
+          sull'oggetto digitale <strong>%{digital_object_title}</strong>
+        updated_with_parent: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> aggiornato
+        updated: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> aggiornato
+        deleted: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> eliminato
+        unsuppressed: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> non 
+          soppresso
+        suppressed: Componente oggetto digitale 
+          <strong>%{digital_object_component_display_string}</strong> soppresso
+        suppressed_info: Il componente oggetto digitale è soppresso e non può 
+          essere modificato
+        has_unpublished_ancestor: Si prega di notare che questo documento ha un 
+          antenato inedito.
+      section:
+        basic_information: Informazioni di base
+      action:
+        add_child: Aggiungi bambino
+        add_sibling: Aggiungi fratello/sorella
+        save: Salva componente oggetto digitale
+      tree:
+        new_record_title: Nuovo componente oggetto digitale
+  enumeration:
+    _frontend:
+      messages:
+        value_updated: Valore aggiornato
+        deleted: Valore eliminato
+        delete_error: Impossibile eliminare il valore
+        delete_conflict: Impossibile eliminare il valore poiché è attualmente 
+          referenziato da un record
+        default_set: Imposta il valore predefinito
+        created: Valore creato
+        create_error: Non è stato possibile creare valore
+        merged: Valore unito
+        merge_tip: Questo valore può essere unito ad un altro
+        merge_error: Impossibile unire il valore
+        no_selection: Selezionare un elenco di valori controllati
+        name_selector: Nome elenco
+        name_selector_tooltip: |
+          <p>L'elenco dei valori controllati da modificare.</p>
+        no_name_provided: Selezionare un elenco di valori prima di creare un 
+          nuovo valore
+        not_used: Non utilizzato.
+        one_related_item: 1 elemento correlato.
+        related_items: ' articoli correlati.'
+      action:
+        create_value: Creare valore
+        delete_value: Eliminare il valore
+        merge_value: Valore di fusione
+        download_csv: Scarica il file CSV
+  event:
+    _frontend:
+      messages:
+        created: Evento creato
+        updated: Evento salvato
+        deleted: Evento eliminato
+        suppressed_info: L'evento è stato soppresso e non può essere modificato
+      section:
+        basic_information: Informazioni di base
+        date: Data/Ora dell'evento
+      action:
+        save: Salva evento
+        create: Crea evento
+    linked_agents: Collegamenti degli agenti
+  extent:
+    _frontend:
+      action:
+        add: Aggiungi estensione
+  external_document:
+    _frontend:
+      action:
+        add: Aggiungi documento esterno
+  file_version:
+    _frontend:
+      action:
+        add: Aggiungi versione del file
+        make_representative: Rendere rappresentante
+        make_representative_tooltip: Utilizzare questa opzione per indicare che 
+          questa immagine deve essere visualizzata quando sono presenti più 
+          versioni del file associate al record.
+  group:
+    _frontend:
+      action:
+        create: Crea gruppo
+        save: Save Group
+  instance:
+    _frontend:
+      messages:
+        select_a_type: Seleziona un tipo di istanza
+      action:
+        add_digital_object: Aggiungi oggetto digitale
+        add: Aggiungi istanza
+  lang_material:
+    _plural: Lingue
+    _frontend:
+      action:
+        add: Aggiungi lingua
+        add_note: Aggiungi nota sulla lingua
+  linked_record:
+    _frontend:
+      action:
+        add: Aggiungi collegamento al record
+  location:
+    _frontend:
+      messages:
+        created: Posizione creata
+        updated: Posizione salvata
+        deleted: Posizione eliminata
+      section:
+        basic_information: Informazioni di base
+        search_embedded: Record collegati
+      action:
+        add_child: Aggiungi sottocomponente
+        add_sibling: Aggiungi fratello/sorella
+        create: Crea posizione
+        batch: Crea posizioni batch
+        batch_edit: Modifica posizioni in blocco
+        save: Percorso di salvataggio
+        single: Sede singola
+        delete_confirm_message: <p>Si prega di notare che <strong>non è 
+          possibile annullare questa azione.</strong></p><p>Se questa posizione 
+          è attualmente collegata a una o più istanze, non può essere 
+          eliminata.</p>
+        show_space_calculator: Trova con il Calcolatore di spazio
+  location_batch:
+    _frontend:
+      section:
+        location: Sede principale
+        ranges: Intervalli di coordinate
+      messages:
+        created: <strong>%{number_created} sedi</strong> create
+        updated: <strong>%{number_created} sedi</strong> aggiornate
+        location_batch_info: Definisci i valori di base che verranno applicati a
+          tutte le posizioni generate dagli <strong>intervalli di 
+          coordinate</strong> qui sotto.
+        location_batch_update_info: Inserisci i valori da applicare.
+        ranges_info: Si prega di notare che tutti i campi Coordinate inseriti 
+          nella <strong>Posizione base</strong> sopra verrà sostituito con i 
+          valori generati dagli intervalli sottostanti. Verrà creato un massimo 
+          di %{max_range} posizioni.
+        number_to_create: Numero di sedi
+        warning: A seconda delle dimensioni dei vostri campi da golf, questo 
+          processo potrebbe richiedere alcuni minuti per essere completato.
+      action:
+        create: Crea posizioni
+        update: Aggiorna le posizioni
+        preview: Luoghi delle anteprime
+        preview_short: Anteprima
+        creating: Lotto in fase di elaborazione...
+  name:
+    _frontend:
+      section:
+        use_date: Data/e di utilizzo del nome
+        dates: Date
+        parallel_names: Nomi paralleli
+        place_subject: Luogo Soggetto
+        topic_subject: Argomento Soggetto
+        name_subject: Nome Soggetto
+        function_subject: Soggetto funzionale
+        occupation_subject: Soggetto occupazionale
+      action:
+        add: Aggiungi modulo nome
+        make_authorized: Nome autorizzato
+        make_authorized_tooltip: Da utilizzare per indicare che la forma del 
+          nome è la versione autorizzata del nome da fonti autorevoli come 
+          LCNAF.
+        make_display_name: Nome visualizzato
+        make_display_name_tooltip: Da utilizzare per indicare che questa forma 
+          del nome deve essere utilizzata per la visualizzazione quando sono 
+          presenti più forme del nome associate al record dell'agente.
+        make_primary: Rendere primario
+        make_primary_tooltip: Crea tooltip principale
+  note:
+    _frontend:
+      preview:
+        raw: Cruda
+        raw_title: Il contenuto della nota grezza
+        parsed: Formattata
+        parsed_title: Come verrà visualizzata la nota nell'applicazione pubblica
+        content: Contenuto
+      messages:
+        select_a_note_type: <em>Seleziona un tipo di nota</em>
+      action:
+        add: Aggiungi nota
+        add_for_contact_note: Aggiungi nota di contatto
+        add_content_item: Aggiungi elemento di contenuto
+        add_note_orderedlist: Aggiungi elemento
+        add_sub_note: Aggiungi nota secondaria
+        add_note_index_item: Aggiungi elemento
+        add_note_chronology_item: Aggiungi evento
+        add_event: Aggiungi elemento evento
+        add_note_bibliography_item: Aggiungi elemento
+        add_note_outline_level_item: Aggiungi elemento
+        add_note_outline_level_level: Aggiungi livello
+        note_definedlist_item: Aggiungi elemento
+        expand: Espandere
+        collapse: Crollo
+        apply_note_order: Applicare l'ordine standard delle note
+      note_outline:
+        placeholder: Aggiungi testo alla nota
+        empty_level: 'Livello vuoto: usa i pulsanti qui sopra per aggiungere nuovi
+          elementi o sottolivelli'
+  related_accession:
+    _frontend:
+      action:
+        add: Aggiungi l'accesso correlato
+  related_resource:
+    _frontend:
+      action:
+        add: Aggiungi risorsa correlata
+  revision_statement:
+    _frontend:
+      action:
+        add: Aggiungi dichiarazione di revisione
+  repository_oai:
+    oai_is_disabled: Raccolta dati OAI disabilitata?
+    oai_sets_available: Insiemi inclusi in OAI
+  repository:
+    _frontend:
+      messages:
+        created: Repository creato
+        updated: Repository salvato
+        deleted: Repository eliminato
+        selected: Repository attualmente selezionato
+        selected_short: Selezionata
+        changed: Il repository <strong>%{repository_repo_code}</strong> è ora 
+          attivo
+        create_first_repository: Per creare il tuo primo Repository, fai clic 
+          sul menu <strong>Sistema</strong> in alto e poi su <strong>Gestisci 
+          Repository</strong>.
+        no_access_to_repositories: <p>Non hai accesso ad alcun 
+          repository.</p><p>Contatta il tuo amministratore di sistema per 
+          richiedere l'accesso.</p>
+        continue_with_transfer: Continuare con il trasferimento?
+        transfer_failed: Impossibile completare il trasferimento a causa dei 
+          seguenti errori
+        transfer_target: Seleziona un repository in cui trasferire i dati
+        transfer_warning: <strong>Attenzione:</strong> Il trasferimento di 
+          questo repository sposterà <strong>tutti</strong> i suoi record nel 
+          repository selezionato. <strong>Questa azione non può essere 
+          annullata.</strong>
+        cannot_delete_nonempty: 'Impossibile eliminare: il repository non è vuoto'
+      section:
+        all_fields: Campi del repository
+        oai_fields: Impostazioni di raccolta OAI
+        transfer: Archivio dei trasferimenti
+        oai_settings: Impostazioni OAI
+      action:
+        select: Seleziona il repository
+        save: Salva repository
+        create: Crea repository
+        order_for_pui: Stabilire l'ordine nell'interfaccia pubblica
+    _sidebar:
+      oai_settings:
+        _plural: Impostazioni di raccolta OAI
+  preference:
+    _frontend:
+      messages:
+        updated: Preferenze aggiornate
+        reset: Preferenze impostate sui valori predefiniti dell'applicazione
+        reset_error: 'Impossibile reimpostare le preferenze a causa di un errore:
+          %{exception}'
+        no_access_to_preferences: È necessario creare almeno un repository prima
+          di poter gestire le preferenze.
+      action:
+        save: Salva preferenze
+  rights_statement:
+    _frontend:
+      action:
+        add: Aggiungere la dichiarazione dei diritti
+  term:
+    _frontend:
+      messages:
+        preview_pending: Anteprima dell'argomento
+      action:
+        add: Aggiungi termine/suddivisione
+  transfer:
+    ref: Archivio delle destinazioni
+  subject:
+    _frontend:
+      messages:
+        created: Oggetto creato
+        updated: Soggetto salvato
+        deleted: Oggetto eliminato
+        merged: Oggetto/i unito/i
+        merge_description: Seleziona le materie seguenti da unire
+        please_select_a_subject_to_merge: Seleziona un argomento
+        delete_conflict: "Impossibile eliminare l'oggetto: <pre>%{error}</pre>"
+      section:
+        basic_information: Informazioni di base
+        terms: Termini e suddivisioni
+        search_embedded: Record collegati
+      action:
+        create: Crea oggetto
+        save: Salva soggetto
+        add: Aggiungi oggetto
+  user:
+    is_active_user: Attiva
+    active: vera
+    inactive: falsa
+    source: Autenticazione
+    _frontend:
+      messages:
+        access_denied: Accesso negato. Accedi come utente amministratore per 
+          eseguire questa operazione.
+        created: Creato dall'utente
+        updated: Salvato dall'utente
+        deleted: Utente eliminato
+        error_update: Utente non salvato
+        error_create: Utente non creato
+        group_not_required: L'utente è un amministratore o un utente di sistema,
+          la selezione del gruppo non è obbligatoria.
+        activated: Attivato dall'utente
+        deactivated: Utente disattivato
+        error_activate: Utente non attivato
+        error_deactivate: Utente non disattivato
+        password_reset_email_sent: Se esiste un account per %{email}, verrà 
+          inviata un'email con le istruzioni per reimpostare la password.
+        error_not_found: Impossibile trovare un account utente per %{email}. 
+          Contatta il tuo amministratore per assistenza.
+        password_reset_not_allowed: Il recupero della password non è consentito.
+          Contatta il tuo amministratore.
+        password_reset_fail: Recupero password non riuscito. Contatta 
+          l'amministratore.
+      section:
+        manage_access: Gestione degli accessi utente
+        account: Account
+        edit_account: Modifica account
+        edit_account_submit: Aggiorna l'account
+        new_account: Nuovo account
+      action:
+        create_account: Creare un account
+        update_account: Aggiorna l'account
+        create: Crea utente
+        edit: Modifica utente
+        show_active: Mostra gli utenti attivi
+        show_inactive: Mostra gli utenti inattivi
+        deactivate_user: Disattivare
+        deactivate_user_confirm: Sei sicuro di voler disattivare questo utente?
+        activate_user: Attivare
+        activate_user_confirm: Sei sicuro di voler attivare questo utente?
+        update_self: Gestisci l'account utente
+  user_defined:
+    _frontend:
+      action:
+        add: Aggiungi campi definiti dall'utente
+  use_date:
+    _frontend:
+      action:
+        add: Aggiungi la data di utilizzo
+  rde:
+    date_type: Tipo di data
+    instance_type: Tipo di istanza
+    column_label: Colonna
+    sections:
+      basic_information: Informazioni di base
+      language: Lingua
+      date: Data
+      extent: Estensione
+      instance: Esempio
+      notes: Note
+      file_version: Versione del file
+    actions:
+      add_row: Aggiungi riga
   lang_description:
     current_language: Lingua attuale
     default: Predefinito

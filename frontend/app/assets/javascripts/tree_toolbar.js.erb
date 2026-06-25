@@ -374,7 +374,8 @@ var EXPAND_MODE_ACTIONS = [
             cssClasses: 'btn-default btn-expand-tree-mode',
             onClick: function(event, btn, node, tree, toolbarRenderer) {
                 $(tree.large_tree.elt).toggleClass('expand-all');
-                $(event.target).toggleClass('btn-success');
+                $(btn).toggleClass('btn-success');
+                $(btn).toggleClass('btn-default');
 
                 if ($(tree.large_tree.elt).is('.expand-all')) {
                     $(btn).text('<%= I18n.t('actions.expand_tree_mode_off') %>');

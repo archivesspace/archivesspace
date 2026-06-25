@@ -59,10 +59,12 @@ nl:
     file_version_xlink_show_attribute: Xlink Show-attribuut
     last_verified_date: Laatst gecontroleerd op
   footer:
-    archivesspace_home_html: Bezoek <a 
-      href='http://archivesspace.org'>ArchivesSpace.org</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
-      target='_blank'>Stuur feedback of meld een probleem</a>
+    keyboard_shortcuts: Sneltoetsen
+    public_interface_html: Bekijk <a href="%{public_url}">Openbare interface</a>
+    archivesspace_home_html: Mogelijk gemaakt door <a
+      href='http://archivesspace.org'>ArchivesSpace</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
+      target='_blank'>Feedback of vragen</a>
   lang_description:
     current_language: Huidige taal
     default: Standaard

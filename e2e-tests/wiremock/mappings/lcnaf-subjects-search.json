@@ -1,0 +1,14 @@
+{
+  "name": "LCSH subjects OpenSearch - subject heading",
+  "request": {
+    "method": "GET",
+    "urlPattern": "/search/\\?format=json&q=subject\\+heading.*"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "bodyFileName": "subjects-search-subject-heading.json"
+  }
+}

@@ -1769,7 +1769,7 @@ en:
     agent_functions_tooltip: Terms used to identify the functions, processes, tasks, activities or transactions performed by the agent.</p><p>See DACS 11.5, ISAAR (CPF) 5.2.5
     agent_topics_tooltip: A subject associated with the agent.
     agent_contacts_tooltip: |
-        <p>Contact information for the agent or a representative working on the behalf.</p>
+        <p>Contact information for the agent or a representative working on their behalf.</p>
     used_languages_tooltip: "The language(s) associated with the agent. Example: English."
     agent_resources_tooltip: Resources and other records associated with the agent.
     related_agent_tooltip: Used to link other agents with a relationship to the agent and indicate the nature of the relationship.
@@ -2950,6 +2950,8 @@ en:
       date_type: "Date type [%{what}] invalid for %{date_str}. The date will not be processed."
       date_label: "Date label [%{what}] invalid for %{date_str}. The date will not be processed."
       certainty: "Invalid 'date certainty' ignored for %{date_str}: (%{what})"
+      era: "Invalid 'date era' ignored for %{date_str}: (%{what})"
+      calendar: "Invalid 'date calendar' ignored for %{date_str}: (%{what})"
       below_bad_ao: Cannot process because it is a child of the bad archival object
       enum: "INVALID: %{which}: '%{label}'. Must be one of: %{valid_values}"
       error: "ERROR: Error(s) detected: %{term}"

@@ -171,8 +171,8 @@ ja:
     uncheck_all: すべてチェックを外します
     download: ダウンロード
   database_warning:
-    message: "<p> <strong>データベース警告：</strong>現在組み込みデータベース（Apache Derby）を使用しています。組込みデータベースは、テスト/デモ目的のみのものです。実稼働環境に移行する予定のテストインスタンス内のデータを含む、実稼働用の任意のデータにMySQLを使用する必要があります。
-      </p>"
+    message: "<p><strong>データベース警告:</strong> 現在、組み込みデータベース（Apache Derby）を使用しています。組み込みデータベースはテスト/デモ目的専用であり、次のメジャーリリースで非推奨になります。本番環境向けのあらゆるデータ（本番環境へ移行する予定のテストインスタンス内のデータを含む）には、MySQL
+      を使用してください。</p>"
 
   states:
     auto_generated: 保存時にシステムが生成される
@@ -218,8 +218,8 @@ ja:
     clear_all: すべてクリア
     component_switch: コンポーネントを表示する
     help:
-      row_selection: 一括操作のために行をクリックして選択します。 
-        Altキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
+      row_selection: 一括操作のために行をクリックして選択します。
+        Alt/Optionキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
 
   search_sorting:
     sort_by: 並び替え：
@@ -576,7 +576,7 @@ ja:
     top_containers_for: "%{record_title}のトップコンテナ"
     no_top_containers: リンクされたトップコンテナがありません
     edit_top_container: トップコンテナを編集する
-    view_top_container: トップコンテナ
+    view_top_container: トップコンテナを表示する
     manage_enumerations: 管理された値リストの管理
     global_preferences: グローバル設定
     user_repo_preferences: ユーザー設定
@@ -832,7 +832,8 @@ ja:
           アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>更新されました
         please_select_a_resource_for_transfer: リソースを選択してください
         transfer_confirm_message: "レコード '%{ao}' は選択したリソースに転送されます"
-        transfer_confirm_message_with_resource: "レコード '%{ao}' はリソース '%{resource}' に転送されます"
+        transfer_confirm_message_with_resource: "レコード '%{ao}' はリソース '%{resource}'
+          に転送されます"
         transfer_success: 
           アーカイブオブジェクト<strong>%{archival_object_display_string}</strong>をリソース<strong>%{resource_title}</strong>転送しました<strong>%{resource_title}</strong>
         transfer_error: エラーまたは競合のためアーカイブオブジェクトを転送できません： <pre> %{exception} 
@@ -1492,8 +1493,8 @@ ja:
       toggle_shortcuts: キーボードショートカットを有効/無効にする
       save_record: 編集中のレコードを保存する
       close_record: 編集中のレコードを閉じる
-      open_browse: ブラウズメニューを開く
-      open_create: 作成メニューを開く
+      open_browse: ブラウズメニューを切り替える
+      open_create: 作成メニューを切り替える
 
   instance_container:
     container: コンテナ
@@ -1582,7 +1583,7 @@ ja:
           Shiftキーを押しながら複数の列で並べ替えます。
         merged: 結合された上位コンテナ
         bulk_action_success: 上位のコンテナが正常に更新されました
-        bulk_action_success_info: 変更が検索結果に反映されるまでにはしばらく時間がかかることがありますのでご注意ください。
+        bulk_action_success_info: 変更が検索結果または閲覧テーブルに反映されるまでにはしばらく時間がかかることがありますのでご注意ください。
         no_active_restrictions: アクティブな制限はありません
       bulk_operations:
         title: バルク操作
@@ -1815,11 +1816,9 @@ ja:
     minimum_notes_description: 含める各タイプの既存のメモ サブレコードの最小数。
     download_spreadsheet: スプレッドシートをダウンロード
     download_spreadsheet_modal_message: このスプレッドシートの生成には数分かかる場合があります。
-    too_many_rows_warning:
-      "警告: このスプレッドシートで生成される行数は、更新できる行数を超えています
-      Bulk Archival Object Updater バックグラウンド ジョブ経由。を使用して一括アーカイブ オブジェクト アップデーター ジョブを実行する予定の場合は、
-      このスプレッドシートでは、このシートの行数を以下に減らす必要があります。 
-      取り込む前に <strong>%{max_row_count} 行</strong>。今すぐ、より小さなスプレッドシートを生成することを検討してください。  
+    too_many_rows_warning: "警告: このスプレッドシートで生成される行数は、更新できる行数を超えています Bulk Archival Object
+      Updater バックグラウンド ジョブ経由。を使用して一括アーカイブ オブジェクト アップデーター ジョブを実行する予定の場合は、 このスプレッドシートでは、このシートの行数を以下に減らす必要があります。
+      取り込む前に <strong>%{max_row_count} 行</strong>。今すぐ、より小さなスプレッドシートを生成することを検討してください。
       このデータを使用して一括アーカイブ オブジェクト アップデーター ジョブを実行する予定がない場合、この警告は無視しても問題ありません。"
 
   assessment:

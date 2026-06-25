@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<marcxml:record xmlns:marcxml="http://www.loc.gov/MARC21/slim">
+  <marcxml:leader>00632nz  a2200193n  4500</marcxml:leader>
+  <marcxml:controlfield tag="001">nr94025962</marcxml:controlfield>
+  <marcxml:controlfield tag="003">DLC</marcxml:controlfield>
+  <marcxml:controlfield tag="005">20140614000000.0</marcxml:controlfield>
+  <marcxml:controlfield tag="008">790601n| acannaabn          |a aaa      </marcxml:controlfield>
+  <marcxml:datafield tag="010" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">n  79046557</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="040" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">DLC</marcxml:subfield>
+    <marcxml:subfield code="b">eng</marcxml:subfield>
+    <marcxml:subfield code="c">DLC</marcxml:subfield>
+    <marcxml:subfield code="e">rda</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="100" ind1="1" ind2=" ">
+    <marcxml:subfield code="a">Hutson, Jean Blackwell,</marcxml:subfield>
+    <marcxml:subfield code="d">1914-1998</marcxml:subfield>
+  </marcxml:datafield>
+  <marcxml:datafield tag="372" ind1=" " ind2=" ">
+    <marcxml:subfield code="a">Library science</marcxml:subfield>
+  </marcxml:datafield>
+</marcxml:record>

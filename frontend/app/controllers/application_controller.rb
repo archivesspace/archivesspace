@@ -156,11 +156,15 @@ class ApplicationController < ActionController::Base
     begin
       request.save(:record_type => merge_type)
 
-      flash[:success] = t("#{merge_type}._frontend.messages.merged")
-
       if merge_type == 'top_container'
-        redirect_to(:controller => :top_containers, :action => :index)
+        if inline?
+          render json: { status: 'success' }
+        else
+          flash[:success] = t("#{merge_type}._frontend.messages.merged")
+          redirect_to(:controller => :top_containers, :action => :index)
+        end
       else
+        flash[:success] = t("#{merge_type}._frontend.messages.merged")
         resolver = Resolver.new(merge_destination_uri)
         redirect_to(resolver.view_uri)
       end

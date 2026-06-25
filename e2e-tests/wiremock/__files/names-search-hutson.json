@@ -1,0 +1,11 @@
+[
+  ["opensearch:totalResults", {}, "1"],
+  ["opensearch:startIndex",   {}, "1"],
+  ["opensearch:itemsPerPage", {}, "10"],
+  ["atom:entry", {},
+    ["atom:title", {}, "Hutson, Jean Blackwell, 1914-1998"],
+    ["atom:id",    {}, "info:lc/authorities/names/nr94025962"],
+    ["atom:link",  {"href": "http://e2e-wiremock:8080/authorities/names/nr94025962"}, null],
+    ["atom:link",  {"href": "http://e2e-wiremock:8080/authorities/names/nr94025962.rdf", "type": "application/rdf+xml"}, null]
+  ]
+]
