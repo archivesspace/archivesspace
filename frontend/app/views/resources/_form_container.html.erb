@@ -16,10 +16,7 @@
     <div class="w-100 d-flex align-items-center border-bottom bg-asFormHeadingBg">
       <h3 class="flex-grow-1 d-flex align-items-center mb-0 border-0">
         <%= t("resource._frontend.section.basic_information") %>
-
-        <% if edit_mode? %>
-          <span class="ml-2 fs-12px label badge">ENG</span>
-        <% end %>
+        <%= primary_language_badge(@resource) %>
       </h3>
 
       <%= link_to_help :topic => "resource_basic_information" %>
@@ -69,6 +66,7 @@
     <div class="d-flex align-items-center border-bottom bg-asFormHeadingBg">
       <h3 class="flex-grow-1 mb-0 border-0">
         <%= t("resource._frontend.section.finding_aid") %>
+        <%= primary_language_badge(@resource) %>
       </h3>
 
       <%= link_to_help :topic => "resource_finding_aid" %>
@@ -80,7 +78,7 @@
           <%= form.label_and_textfield "ead_id" %>
           <%= form.label_and_textfield "ead_location" %>
 
-          <hr />
+          <hr>
 
           <%= mlc_textarea_field(form, "finding_aid_title", :field_opts => {:class => "mixed-content"} ) %>
           <%= mlc_textarea_field(form, "finding_aid_subtitle", :field_opts => {:class => "mixed-content"}) %>

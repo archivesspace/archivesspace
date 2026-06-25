@@ -661,3 +661,13 @@ Then('the user sees the {string} option in the {string} dropdown') do |option, b
   dropdown = find('button', text: button_text).ancestor('.btn-group', match: :first)
   expect(dropdown).to have_css('span', text: option)
 end
+
+Then('the user should see language badges on all subrecords') do
+  subrecords = page.all(:xpath, '//section[contains(@class, "subrecord-form") and not(ancestor::section[contains(@class, "subrecord-form")])]')
+  expect(subrecords).not_to be_empty
+  subrecords.each { |s| expect(s).to have_css('.mlc-badge', visible: true) }
+end
+
+Then('the user should not see a language badge') do
+  expect(page).to have_no_css('.mlc-badge', visible: true)
+end

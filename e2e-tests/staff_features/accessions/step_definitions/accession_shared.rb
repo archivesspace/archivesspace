@@ -32,6 +32,9 @@ Given 'an Accession has been created' do
   find('#accession_use_restrictions_').check
   fill_in 'accession_use_restrictions_note_', with: "Use Restrictions Note #{@uuid}"
 
+  # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
+  add_lang_description('accession', language: 'English', script: 'Latin') if page.has_css?('#accession_lang_descriptions_')
+
   within '#accession_lang_materials_' do
     click_on 'Add Language of Materials'
 
@@ -128,6 +131,13 @@ Given 'an Accession with a Top Container has been created' do
 
   click_on 'Save'
   expect(page).to have_text "Accession Accession Title #{@uuid} created"
+end
+
+Given 'a second language of description has been added to the Accession' do
+  visit "#{STAFF_URL}/accessions/#{@accession_id}/edit"
+  add_lang_description('accession', language: 'German', script: 'Latin')
+  click_on 'Save'
+  expect(page).to have_css('.alert.alert-success', text: /Accession.*updated/i)
 end
 
 Given 'the Accession is opened in edit mode' do

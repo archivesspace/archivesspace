@@ -181,6 +181,25 @@ module ApplicationHelper
     { prefix_html: prefix }
   end
 
+  def primary_language_badge(record)
+    return unless AppConfig[:multilingual_content]
+    inherits_lang_descs = %w[archival_object digital_object_component].include?(record["jsonmodel_type"])
+    if inherits_lang_descs
+      parent = record["resource"]&.dig("_resolved") || record["digital_object"]&.dig("_resolved")
+      lang_descs = parent ? parent["lang_descriptions"].to_a : []
+    else
+      lang_descs = record["lang_descriptions"].to_a
+    end
+    return unless lang_descs.many?
+    lang = lang_descs.find { |ld| ld["is_primary"] }&.dig("language")
+    mlc_language_badge(lang)
+  end
+
+  def mlc_language_badge(langcode)
+    return unless AppConfig[:multilingual_content] && langcode
+    content_tag(:span, langcode.upcase, class: 'ml-2 fs-12px label badge mlc-badge') if edit_mode?
+  end
+
   def edit_mode?
     ['edit', 'update'].include?(controller.action_name)
   end
