@@ -777,6 +777,7 @@ it:
       messages:
         status_changed_running: L'operazione è stata avviata. Aggiornamento 
           della pagina in corso...
+        status_changed_completed: Il lavoro è stato completato.
   shortcuts:
     quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
     actions:
