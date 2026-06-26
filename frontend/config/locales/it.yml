@@ -762,6 +762,21 @@ it:
   job:
     _frontend:
       audit_data: Dati dell'audit
+      actions:
+        add_file: Aggiungi file
+        follow_log: Segui il registro
+        following_log: Registro seguente
+      section:
+        basic_information: Informazioni di base
+        status: Stato occupazionale
+        logs: Tronco d'albero
+        generated_uris: Registri nuovi e modificati
+        active_jobs: Offerte di lavoro attive
+        archived_jobs: Offerte di lavoro archiviate
+        files: File
+      messages:
+        status_changed_running: L'operazione è stata avviata. Aggiornamento 
+          della pagina in corso...
   shortcuts:
     quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
     actions:
@@ -1655,3 +1670,39 @@ it:
       sequence: Sequenza
       fill_value: Valore di riempimento
       select_a_column: Seleziona una colonna
+      apply_basic_fill: Applicare il carico
+      apply_sequence_fill: Applica la sequenza
+      sequence_count_warning: Nella sequenza ci sono più righe che elementi.
+      preview_sequence: Anteprima dei valori della sequenza
+      sequence_summary: '%{count} elementi nella sequenza:'
+      sequence_summary_with_maxsize: 'Per le tue %{limit} righe, i valori della sequenza
+        %{count} sono:'
+      sequence_from_required: È richiesto il modulo
+      sequence_to_required: È richiesto
+    reorder_columns:
+      apply_order: Applica l'ordine delle colonne
+    save_template:
+      save_template: Salva modello
+      template_name: Nome del modello
+      confirm_removal: Conferma la rimozione
+    templates:
+      listing: Modelli
+      no_templates: Nessun modello definito
+    default_template: Modello predefinito
+    messages:
+      error_prefix: Riga
+      success: <div class='alert alert-success'>Figli creati. Aggiornamento 
+        della pagina...</div>
+      no_rows: Inserisci i valori per almeno una riga
+      rows_with_errors: '%{count} righe con errori: fai clic su un campo di riga per
+        visualizzare gli errori relativi a quella riga'
+      rows_no_errors: Tutte le righe sono valide
+      error_summary_header: 'Errori nella riga:'
+      select_prompt: Applicare un modello RDE
+    help:
+      keyboard_shortcuts:
+        title: Scorciatoie da tastiera
+        shift: SPOSTARE
+        arrow_keys: Tasti freccia
+        return: Ritorno
+        move_term: Salto da cellula a cellula
