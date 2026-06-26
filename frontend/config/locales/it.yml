@@ -785,6 +785,21 @@ it:
         uploading: Caricamento del lavoro in corso...
         upload_successful: Caricamento completato con successo. Reindirizzamento
           alla pagina delle offerte di lavoro...
+        import_type_missing: Seleziona un tipo di importazione
+        queue_position_next: Questo lavoro è il prossimo in lista.
+        queue_position: Questo lavoro è %{position} nella coda.
+        drag_and_drop_hint: Trascina e rilascia i file qui
+        find_and_replace_warning: Le operazioni di ricerca e sostituzione 
+          possono apportare e apporteranno modifiche sostanziali al database. Si
+          consiglia vivamente di eseguire un backup del database e di avviare 
+          l'operazione in un'istanza di test prima di procedere. Non è possibile
+          annullare l'operazione.
+        find_and_replace_instructions: Seleziona un record di base per definire 
+          l'ambito di questa operazione di ricerca e sostituzione. Quindi, 
+          scegli un tipo di record da utilizzare come destinazione e una 
+          proprietà di tale tipo. L'operazione verrà eseguita su ogni record di 
+          destinazione nell'albero del record di base, oppure sul record di base
+          stesso se il tipo di destinazione è "Risorsa".
   shortcuts:
     quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
     actions:
