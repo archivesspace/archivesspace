@@ -606,3 +606,6 @@ en:
       location_footer: "The error occurred while generating the footer."
     additional_info:
       invalid_markup: "This error can result from invalid markup present in a note or subrecord."
+
+  thumbnails:
+    access_help_text: Click here to access online

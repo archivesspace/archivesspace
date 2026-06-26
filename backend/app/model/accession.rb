@@ -26,8 +26,8 @@ class Accession < Sequel::Model(:accession)
   include Publishable
   include ReindexTopContainers
   include Assessments::LinkedRecord
-  include RepresentativeFileVersion
   include MixedContentValidatable
+  include Thumbnails
 
   agent_role_enum("linked_agent_role")
   agent_relator_enum("linked_agent_archival_record_relators")
