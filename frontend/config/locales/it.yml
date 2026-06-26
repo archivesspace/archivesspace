@@ -778,6 +778,13 @@ it:
         status_changed_running: L'operazione è stata avviata. Aggiornamento 
           della pagina in corso...
         status_changed_completed: Il lavoro è stato completato.
+        status_changed_failed: Il lavoro è fallito.
+        status_changed_canceled: L'incarico è stato annullato.
+        no_active_jobs: Non ci sono posizioni aperte.
+        no_archived_jobs: Non ci sono offerte di lavoro archiviate.
+        uploading: Caricamento del lavoro in corso...
+        upload_successful: Caricamento completato con successo. Reindirizzamento
+          alla pagina delle offerte di lavoro...
   shortcuts:
     quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
     actions:
