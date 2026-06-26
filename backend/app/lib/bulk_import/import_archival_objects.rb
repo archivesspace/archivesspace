@@ -11,6 +11,8 @@ class ImportArchivalObjects < BulkImportParser
     @date_types = CvList.new("date_type", @current_user)
     @date_labels = CvList.new("date_label", @current_user)
     @date_certainty = CvList.new("date_certainty", @current_user)
+    @date_era = CvList.new("date_era", @current_user)
+    @date_calendar = CvList.new("date_calendar", @current_user)
     @extent_types = CvList.new("extent_extent_type", @current_user)
     @extent_portions = CvList.new("extent_portion", @current_user)
     @instance_types ||= CvList.new("instance_instance_type", @current_user)
@@ -255,15 +257,13 @@ class ImportArchivalObjects < BulkImportParser
 
   def create_dates
     dates = []
-    cntr = 1
-    substr = ""
-    until [@row_hash["begin#{substr}"], @row_hash["end#{substr}"], @row_hash["expression#{substr}"]].reject(&:nil?).empty?
-      date = create_date(@row_hash["dates_label#{substr}"], @row_hash["begin#{substr}"], @row_hash["end#{substr}"], @row_hash["date_type#{substr}"], @row_hash["expression#{substr}"], @row_hash["date_certainty#{substr}"])
+    @row_hash.keys.grep(/^begin(_\d+)?$/).sort_by { |k| k[/\d+/].to_i }.each do |key|
+      substr = key.sub('begin', '')
+      next if [@row_hash["begin#{substr}"], @row_hash["end#{substr}"], @row_hash["expression#{substr}"]].all?(&:nil?)
+      date = create_date(@row_hash["dates_label#{substr}"], @row_hash["begin#{substr}"], @row_hash["end#{substr}"], @row_hash["date_type#{substr}"], @row_hash["expression#{substr}"], @row_hash["date_certainty#{substr}"], @row_hash["date_era#{substr}"], @row_hash["date_calendar#{substr}"])
       dates << date if date
-      cntr += 1
-      substr = "_#{cntr}"
     end
-    return dates
+    dates
   end
 
   def create_extent(substr)

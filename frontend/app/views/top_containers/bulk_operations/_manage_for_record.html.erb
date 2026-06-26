@@ -4,6 +4,7 @@
       <button type="button" class="close" data-dismiss="alert">&times;</button>
       <%= flash_message %>
     </div>
+    <p><strong><%= t("top_container._frontend.messages.bulk_action_success_info") %></strong></p>
   <% end %>
   <% if results.nil? %>
     <p><%= t("search.no_results") %></p>
