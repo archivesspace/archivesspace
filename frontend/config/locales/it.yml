@@ -762,6 +762,44 @@ it:
   job:
     _frontend:
       audit_data: Dati dell'audit
+      actions:
+        add_file: Aggiungi file
+        follow_log: Segui il registro
+        following_log: Registro seguente
+      section:
+        basic_information: Informazioni di base
+        status: Stato occupazionale
+        logs: Tronco d'albero
+        generated_uris: Registri nuovi e modificati
+        active_jobs: Offerte di lavoro attive
+        archived_jobs: Offerte di lavoro archiviate
+        files: File
+      messages:
+        status_changed_running: L'operazione è stata avviata. Aggiornamento 
+          della pagina in corso...
+        status_changed_completed: Il lavoro è stato completato.
+        status_changed_failed: Il lavoro è fallito.
+        status_changed_canceled: L'incarico è stato annullato.
+        no_active_jobs: Non ci sono posizioni aperte.
+        no_archived_jobs: Non ci sono offerte di lavoro archiviate.
+        uploading: Caricamento del lavoro in corso...
+        upload_successful: Caricamento completato con successo. Reindirizzamento
+          alla pagina delle offerte di lavoro...
+        import_type_missing: Seleziona un tipo di importazione
+        queue_position_next: Questo lavoro è il prossimo in lista.
+        queue_position: Questo lavoro è %{position} nella coda.
+        drag_and_drop_hint: Trascina e rilascia i file qui
+        find_and_replace_warning: Le operazioni di ricerca e sostituzione 
+          possono apportare e apporteranno modifiche sostanziali al database. Si
+          consiglia vivamente di eseguire un backup del database e di avviare 
+          l'operazione in un'istanza di test prima di procedere. Non è possibile
+          annullare l'operazione.
+        find_and_replace_instructions: Seleziona un record di base per definire 
+          l'ambito di questa operazione di ricerca e sostituzione. Quindi, 
+          scegli un tipo di record da utilizzare come destinazione e una 
+          proprietà di tale tipo. L'operazione verrà eseguita su ogni record di 
+          destinazione nell'albero del record di base, oppure sul record di base
+          stesso se il tipo di destinazione è "Risorsa".
   shortcuts:
     quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
     actions:
@@ -1655,3 +1693,39 @@ it:
       sequence: Sequenza
       fill_value: Valore di riempimento
       select_a_column: Seleziona una colonna
+      apply_basic_fill: Applicare il carico
+      apply_sequence_fill: Applica la sequenza
+      sequence_count_warning: Nella sequenza ci sono più righe che elementi.
+      preview_sequence: Anteprima dei valori della sequenza
+      sequence_summary: '%{count} elementi nella sequenza:'
+      sequence_summary_with_maxsize: 'Per le tue %{limit} righe, i valori della sequenza
+        %{count} sono:'
+      sequence_from_required: È richiesto il modulo
+      sequence_to_required: È richiesto
+    reorder_columns:
+      apply_order: Applica l'ordine delle colonne
+    save_template:
+      save_template: Salva modello
+      template_name: Nome del modello
+      confirm_removal: Conferma la rimozione
+    templates:
+      listing: Modelli
+      no_templates: Nessun modello definito
+    default_template: Modello predefinito
+    messages:
+      error_prefix: Riga
+      success: <div class='alert alert-success'>Figli creati. Aggiornamento 
+        della pagina...</div>
+      no_rows: Inserisci i valori per almeno una riga
+      rows_with_errors: '%{count} righe con errori: fai clic su un campo di riga per
+        visualizzare gli errori relativi a quella riga'
+      rows_no_errors: Tutte le righe sono valide
+      error_summary_header: 'Errori nella riga:'
+      select_prompt: Applicare un modello RDE
+    help:
+      keyboard_shortcuts:
+        title: Scorciatoie da tastiera
+        shift: SPOSTARE
+        arrow_keys: Tasti freccia
+        return: Ritorno
+        move_term: Salto da cellula a cellula
