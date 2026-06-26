@@ -89,7 +89,6 @@ jobs:
     secrets: inherit
     with:
       java-version: ${{ inputs.java-version || 17 }}
-      group-choice: 'all'
       browser: ${{ inputs.browser || 'firefox' }}
 
   common:
@@ -140,4 +139,4 @@ jobs:
         with:
           debug: false
           parallel-finished: true
-          carryforward: "backend,indexer,public,aa-af,ag-az,b-c,d-l,m-q,r,s-z,models_and_controllers"
+          carryforward: "backend,indexer,public,shard-1,shard-2,shard-3,shard-4,shard-5,shard-6,shard-7,shard-8,shard-9,shard-10"
