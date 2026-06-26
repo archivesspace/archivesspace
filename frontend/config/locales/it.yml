@@ -100,7 +100,7 @@ it:
     select_resource: Seleziona risorsa
     create: Crea
     cut: Taglia
-    date_picker: Apri selettore data
+    date_picker: Apri il selettore di date
     browse: Naviga
     cancel: Cancella
     date_picker_toggle: Attiva selettore data
@@ -1637,3 +1637,21 @@ it:
       file_version: Versione del file
     actions:
       add_row: Aggiungi riga
+      add_rows: Aggiungi righe
+      submit: Salva righe
+      reset: azzerare
+      showhide_prefix: 'Colonne:'
+      showhide_suffix: visibile
+      showhide_none: Tutte le colonne filtrate
+      fill_toggle: Riempire la colonna
+      reorder_toggle: Riordina le colonne
+      validate_rows: Convalida righe
+      inline_errors_toggle: Visualizza gli errori in linea
+      save_template: Salva come modello
+      select_template: Scegli il modello
+      manage_templates: Rimuovi modelli
+    fill_column:
+      basic: Di base
+      sequence: Sequenza
+      fill_value: Valore di riempimento
+      select_a_column: Seleziona una colonna
