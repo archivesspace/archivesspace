@@ -816,6 +816,17 @@ it:
           essere sostituito.</em>
         slug_config_msg: <b>In base alle impostazioni di configurazione presenti
           nel file config.rb:</b>
+        slug_config_id: Gli slug verranno generati utilizzando l'identificativo 
+          dell'entità, ove appropriato.
+        slug_config_title: Gli slug verranno generati utilizzando il nome o il 
+          titolo dell'entità.
+        slug_config_eadid: Gli slug per le <b>Risorse</b> verranno generati 
+          utilizzando l'ID EAD, ove appropriato.
+        slug_config_cuid: Gli slug per gli <b>oggetti di archivio</b> verranno 
+          generati utilizzando l'ID univoco del componente, ove appropriato.
+        ark_generation: Questo processo genererà ARK per tutte le <b>Risorse</b>
+          e gli <b>Oggetti di archivio</b> che non ne possiedono già uno. <br 
+          /><br /><em>Gli ARK esterni non verranno modificati.</em>
   shortcuts:
     quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
     actions:
@@ -1745,3 +1756,11 @@ it:
         arrow_keys: Tasti freccia
         return: Ritorno
         move_term: Salto da cellula a cellula
+  instance_container:
+    container: Contenitrice
+  sub_container:
+    top_container: Contenitore superiore
+    top_container_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Il contenitore di livello più alto in cui è alloggiato il materiale descritto.</p>
+      <p>Può essere selezionato da un elenco esistente di contenitori di livello superiore utilizzando le funzioni di completamento automatico o Sfoglia, oppure creato utilizzando la funzione Crea.</p>
+    type_2: Tipo di bambino
