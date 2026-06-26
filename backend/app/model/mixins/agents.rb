@@ -21,7 +21,7 @@ module Agents
                                  plugin :validation_helpers
 
                                  define_method(:validate) do
-                                   if self[:is_primary]
+                                   if self[:is_primary] == 1
                                      validates_unique(
                                        [:is_primary, id_field],
                                        message: "A #{type} can have only one primary linked agent")

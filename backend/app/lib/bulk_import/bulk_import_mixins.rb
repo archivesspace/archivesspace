@@ -239,7 +239,7 @@ module BulkImportMixins
   end
 
   # The following methods assume @report is defined, and is a BulkImportReport object
-  def create_date(dates_label, date_begin, date_end, date_type, expression, date_certainty)
+  def create_date(dates_label, date_begin, date_end, date_type, expression, date_certainty, date_era = nil, date_calendar = nil)
     date_str = "(Date: type:#{date_type}, label: #{dates_label}, begin: #{date_begin}, end: #{date_end}, expression: #{expression})"
     date = {}
 
@@ -262,13 +262,9 @@ module BulkImportMixins
       return nil
     end
 
-    if date_certainty
-      begin
-        date["certainty"] = @date_certainty.value(date_certainty)
-      rescue Exception => e
-        @report.add_errors(I18n.t("bulk_import.error.certainty", :what => e.message, :date_str => date_str))
-      end
-    end
+    apply_cv_field(date, "certainty", @date_certainty, date_certainty, date_str)
+    apply_cv_field(date, "era", @date_era, date_era, date_str)
+    apply_cv_field(date, "calendar", @date_calendar, date_calendar, date_str)
 
     date["begin"] = date_begin if date_begin
     date["end"] = date_end if date_end
@@ -388,6 +384,17 @@ module BulkImportMixins
     return if row_hash[column].nil?
     return if [TrueClass, FalseClass].include? row_hash[column].class
     row_hash[column] = ['t', '1', 'true'].include? row_hash[column].to_s.strip.downcase
+  end
+
+  private
+
+  def apply_cv_field(date, field_name, cv_list, value, date_str)
+    return unless value
+    begin
+      date[field_name] = cv_list.value(value)
+    rescue Exception => e
+      @report.add_errors(I18n.t("bulk_import.error.#{field_name}", :what => e.message, :date_str => date_str))
+    end
   end
 end
 

@@ -591,6 +591,7 @@ es:
       aiff: Audio Interchange File Format
       avi: Audio/vídeo entrelazado formato
       gif: Formato de intercambio de gráficos
+      iiif: Manifiesto IIIF
       jpeg: JPEG File Interchange Format
       mp3: MPEG Audio Layer 3
       pdf: Formato de documento portátil
@@ -611,6 +612,7 @@ es:
       text-data: Datos textuales
       text-data_definition: Definición de datos de texto
       text-georeference: Texto-georeferenciado
+      text-json: Texto-JSON
       text-ocr-edited: Texto-OCR-editado
       text-ocr-unedited: Texto-OCR-sin editar
       text-tei-transcripted: Texto-TEI-transcripción

@@ -9,7 +9,7 @@ class BulkArchivalObjectUpdaterController < ApplicationController
   def download
     uri = "/bulk_archival_object_updater/repositories/#{session[:repo_id]}/generate_spreadsheet"
     args = {
-      'uri[]' => JSON.parse(params[:selected]),
+      'uri' => params[:selected],
       'resource_uri' => params[:resource],
       'min_subrecords' => params[:min_subrecords],
       'extra_subrecords' => params[:extra_subrecords],
@@ -109,6 +109,7 @@ class BulkArchivalObjectUpdaterController < ApplicationController
     req['X-ArchivesSpace-Session'] = JSONModel::HTTP::current_backend_session
 
     Net::HTTP.start(uri.host, uri.port) do |http|
+      http.read_timeout = 1200
       http.request(req, nil) do |response|
         if response.code =~ /^4/
           #JSONModel::handle_error(ASUtils.json_parse(response.body))

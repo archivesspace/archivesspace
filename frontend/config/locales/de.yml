@@ -235,8 +235,8 @@ de:
     result_identifier: Signatur
     component_switch: Komponenten anzeigen
     help:
-      row_selection: Klicken Sie auf eine Zeile, um diese für Massen-Vorgänge 
-        auszuwählen. Halten Sie Alt während Sie auf ein Kontrollkästchen 
+      row_selection: Klicken Sie auf eine Zeile, um diese für Massen-Vorgänge
+        auszuwählen. Halten Sie Alt/Wahltaste während Sie auf ein Kontrollkästchen
         klicken, um mehrere vorherige Zeilen an- oder abzuwählen.
   advanced_search:
     operator:
@@ -323,7 +323,7 @@ de:
     top_containers_for: "Haupt-Behältnisse für %{record_title}"
     no_top_containers: Keine verknüpften Haupt-Behältnisse
     edit_top_container: Haupt-Behältnis bearbeiten
-    view_top_container: Haupt-Behältnis
+    view_top_container: Haupt-Behältnis anzeigen
     import_ead: EAD-Datei
     register_prefix: Benötigen Sie einen Zugang?
   job:

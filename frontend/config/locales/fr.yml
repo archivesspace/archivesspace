@@ -262,7 +262,7 @@ fr:
     component_switch: Montrer composants
     help:
       row_selection: Cliquez sur une rangée pour la sélectionner en vue
-        d'opérations en masse. Maintenir la touche alt pressée tout en cliquant
+        d'opérations en masse. Maintenir la touche alt/Option pressée tout en cliquant
         une case à cocher pour sélectionner ou déselectionner plusieurs rangées
         précédentes.
 
@@ -676,7 +676,7 @@ fr:
     top_containers_for: "Top conditionnements pour %{record_title}"
     no_top_containers: Aucun top conditionnement lié
     edit_top_container: Modifier le top conditionnement
-    view_top_container: Top conditionnement
+    view_top_container: Voir le top conditionnement
     manage_enumerations: Gérer listes de valeurs contrôlées
     global_preferences: Préférences globales
     user_repo_preferences: Préférences par défaut de service d'archives

@@ -31,6 +31,18 @@ Feature: Manage Top Containers from a Resource or Accession Record
       And the user applies a bulk barcode update to the selected top containers
       And the affected top containers reflect the updated barcode
 
+  Scenario: An administrator sees the Bulk Operations button disabled when no containers are selected
+    Given the Resource is opened in edit mode
+     When the user opens the top container management panel
+     Then the top container appears linked in the modal
+      And the 'Bulk Operations' button is disabled
+
+  Scenario: An administrator can use the Bulk Operations button after selecting a top container
+    Given the Resource is opened in edit mode
+     When the user opens the top container management panel
+      And the user selects the first top container
+     Then the 'Bulk Operations' button is enabled
+
   Scenario: An administrator can manage top containers linked to an accession
     Given an Accession with a Top Container has been created
       And the Accession is opened in edit mode

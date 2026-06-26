@@ -1097,6 +1097,7 @@ pl:
       sha-512: SHA-512
     file_version_file_format_name:
       gif: Format wymiany grafiki
+      iiif: Manifest IIIF
       jpeg: Format wymiany plików JPEG
       mp3: MPEG Audio Warstwa 3
       pdf: Przenośny format dokumentów
@@ -1118,6 +1119,7 @@ pl:
       text-codebook: Księga kodów tekstowych
       text-data: Dane tekstowe
       text-georeference: Georeferencja tekstu
+      text-json: Tekst-JSON
       text-ocr-edited: Tekst przetworzony za pomocą OCR.
       text-ocr-unedited: Tekst po przetworzeniu przez OCR (nieedytowany)
       text-tei-transcripted: Tekst przepisany za pomocą Text-Tei.
