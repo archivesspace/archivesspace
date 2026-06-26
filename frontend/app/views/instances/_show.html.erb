@@ -13,7 +13,7 @@
             <div class="col-md-1">
               <span class="glyphicon"></span>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <%= t("enumerations.instance_instance_type.#{instance['instance_type']}", :default => instance['instance_type']) %>
             </div>
             <div class="col-md-7">
@@ -23,24 +23,32 @@
                 <%= instance["sub_container"]["top_container"]["_resolved"]["display_string"] %>
               <% end %>
             </div>
+            <div class="col-md-2">
+              <% if instance['is_representative'] %><span class="badge badge-info pull-right" style="margin-left: 5px;">Representative</span><% end %>
+            </div>
           </div>
         </div>
         <div id="instance_<%= index %>" class="panel-collapse collapse">
           <div class="panel-body">
-            <%= read_only_view(instance) %>
             <% if instance["instance_type"] == "digital_object" %>
-              <div class="form-group d-flex">
-                <div class="control-label col-sm-2 text-right"><%= t("instance.digital_object") %></div>
-                <div class="controls token-list col-sm-8">
-                  <%= render_token :object => instance["digital_object"]["_resolved"],
-                  :label => instance["digital_object"]["_resolved"]["title"],
-                  :type => "digital_object",
-                  :uri => instance["digital_object"]["ref"],
-                  :placement => "top" %>
+              <%= render_aspace_partial :partial => "shared/content_and_thumbnail", :locals => {:record => instance["digital_object"]["_resolved"], content: capture { %>
+                <%= read_only_view(instance) %>
+                <div class="form-group d-flex">
+                  <div class="control-label col-sm-2 text-right"><%= t("instance.digital_object") %></div>
+                  <div class="controls token-list col-sm-8">
+                    <%= render_token :object => instance["digital_object"]["_resolved"],
+                                     :label => instance["digital_object"]["_resolved"]["title"],
+                                     :type => "digital_object",
+                                     :uri => instance["digital_object"]["ref"],
+                                     :placement => "top" %>
+                  </div>
                 </div>
-              </div>
-            <% elsif instance["sub_container"] and instance["sub_container"].length > 0 %>
-              <%= render_aspace_partial :partial => "sub_containers/show", :locals => { :sub_container => instance["sub_container"], :id => "instance_#{index}_sub_container" } %>
+              <% }} %>
+            <% else %>
+              <%= read_only_view(instance) %>
+              <% if instance["sub_container"] and instance["sub_container"].length > 0 %>
+                <%= render_aspace_partial :partial => "sub_containers/show", :locals => { :sub_container => instance["sub_container"], :id => "instance_#{index}_sub_container" } %>
+              <% end %>
             <% end %>
           </div>
         </div>

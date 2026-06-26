@@ -281,7 +281,6 @@ it:
       processors: Processori
       user_mtime: Modificato
       uri: URI
-      representative_file_version: Immagine thumbnail
       use_restrictions: Restrizioni d'uso
       access_restrictions: Restrizioni di accesso
       accession_date_year: Data di accesso
@@ -295,7 +294,6 @@ it:
       dates: Date
       processors: Processori
       desc: Discendente
-      representative_file_version: Immagine thumbnail
       uri: URI
       level: Livello
       identifier: Identificatore
@@ -324,7 +322,6 @@ it:
       desc: Discendente
       uri: URI
       title: Titolo
-      representative_file_version: Immagine thumbnail
       context: Risorsa per i genitori
       extents: Estensione
     subject:
@@ -356,7 +353,6 @@ it:
       asc: Ascendente
       subjects: Soggetto
       uri: URI
-      representative_file_version: Immagine thumbnail
       extents: Estensione
     digital_object_component:
       publish: Pubblicato
@@ -371,7 +367,6 @@ it:
       user_mtime: Modificato
       create_time: Creato
       asc: Ascendente
-      representative_file_version: Immagine thumbnail
       extents: Estensione
     agent:
       score: Rilevanza
@@ -569,7 +564,6 @@ it:
     multi:
       score: Rilevanza
       relevance: Rilevanza
-      representative_file_version: Immagine thumbnail
       audit_info: Informazioni sull'audit
       asc: Ascendente
       desc: Discendente

@@ -2,24 +2,17 @@
   <% if !props.fetch(:full,false) %>
    <div class="recordrow" style="clear:both" data-uri="<%= result.uri %>">
      <% end %>
-  <% if result['json']['representative_file_version'].present? %>
-    <div class="flex items-start">
-      <%= render partial: 'shared/representative_file_version_result', locals: {
-        :uri => result['json']['representative_file_version']['file_uri'],
-        :caption => result['json']['representative_file_version']['caption'],
-        :figure_class => 'result-repfv__figure',
-        :img_class => 'result-repfv__img',
-        :figcaption_class => 'result-repfv__figcaption'
-      } %>
-      <div>
-        <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
-        <%= render partial: 'shared/result_record_summary', locals: {:result => result, :props => props } %>
-      </div>
+
+    <%= render partial: 'shared/thumbnail', locals: {
+          result: result,
+          thumbnail_link: app_prefix(result.uri),
+          show_spacer: true,
+        }
+    %>
+    <div>
+      <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
+      <%= render partial: 'shared/result_record_summary', locals: {:result => result, :props => props } %>
     </div>
-  <% else %>
-    <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
-    <%= render partial: 'shared/result_record_summary', locals: {:result => result, :props => props } %>
-  <% end %>
 
   <% if result.highlights.present? %>
     <div>

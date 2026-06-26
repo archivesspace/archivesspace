@@ -199,6 +199,7 @@ en:
     text_placeholder: Filter by text
     clear_all: Clear All
     component_switch: Show Components
+    thumbnail: Thumbnail
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt/option while clicking a checkbox to select, or unselect, multiple previous rows.
 
@@ -235,7 +236,6 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
     resource:
       score: Relevance
       title: Title
@@ -259,7 +259,6 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
     archival_object:
       score: Relevance
       title: Title
@@ -277,7 +276,6 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
     subject:
       score: Relevance
       source: Source
@@ -308,7 +306,6 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
     digital_object_component:
       score: Relevance
       title: Title
@@ -323,7 +320,6 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
     agent:
       score: Relevance
       title: Name
@@ -536,7 +532,6 @@ en:
       asc: Ascending
       desc: Descending
       uri: URI
-      representative_file_version: Thumbnail Image
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Repository
 
@@ -1145,6 +1140,8 @@ en:
         add: Add File Version
         make_representative: Make Representative
         make_representative_tooltip: Use to indicate that this image should be displayed when there are multiple file versions associated with the record.
+        make_display_thumbnail: Make Display Thumbnail
+        make_display_thumbnail_tooltip: Use to indicate that this image should be displayed as a thumbnail
 
   group:
     _frontend:

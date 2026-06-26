@@ -97,6 +97,14 @@ class Record
     return process_mixed_content_title(json['display_string'] || json['title'])
   end
 
+  def has_thumbnail?
+    !!json['thumbnail']
+  end
+
+  def thumbnail
+    json['thumbnail']
+  end
+
   private
 
   def parse_identifier
