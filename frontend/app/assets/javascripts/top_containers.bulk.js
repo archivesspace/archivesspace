@@ -31,6 +31,15 @@ function BulkContainerSearch($search_form, $results_container, $toolbar) {
   }
 
   this.setup_results_list();
+
+  if (
+    !($search_form && $search_form.length) &&
+    this.$results_container.find('table').length
+  ) {
+    this.setup_table_sorter();
+  }
+
+  this.update_button_state();
 }
 
 BulkContainerSearch.prototype.setup_form = function () {
@@ -282,10 +291,10 @@ BulkContainerSearch.prototype.setup_table_sorter = function () {
   this.$results_container
     .find('table')
     .tablesorter(tablesorter_opts)
-    .bind('sortEnd', function (e) {
+    .bind('sortEnd', function () {
       //Store the sort in the session storage so it resorts the same way
       //when navigating and refreshing.
-      currentSort = e.mergeDestination.config.sortList;
+      currentSort = this.config.sortList;
       sessionStorage.setItem('top_container_sort', JSON.stringify(currentSort));
     });
 };

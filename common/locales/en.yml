@@ -2950,6 +2950,8 @@ en:
       date_type: "Date type [%{what}] invalid for %{date_str}. The date will not be processed."
       date_label: "Date label [%{what}] invalid for %{date_str}. The date will not be processed."
       certainty: "Invalid 'date certainty' ignored for %{date_str}: (%{what})"
+      era: "Invalid 'date era' ignored for %{date_str}: (%{what})"
+      calendar: "Invalid 'date calendar' ignored for %{date_str}: (%{what})"
       below_bad_ao: Cannot process because it is a child of the bad archival object
       enum: "INVALID: %{which}: '%{label}'. Must be one of: %{valid_values}"
       error: "ERROR: Error(s) detected: %{term}"

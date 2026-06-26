@@ -200,7 +200,7 @@ en:
     clear_all: Clear All
     component_switch: Show Components
     help:
-      row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multiple previous rows.
+      row_selection: Click a row to select it for bulk operations. Hold alt/option while clicking a checkbox to select, or unselect, multiple previous rows.
 
 
   search_sorting:
@@ -613,7 +613,7 @@ en:
     top_containers_for: "Top Containers for %{record_title}"
     no_top_containers: No linked top containers
     edit_top_container: Edit Top Container
-    view_top_container: Top Container
+    view_top_container: View Top Container
     manage_enumerations: Manage Controlled Value Lists
     global_preferences: Global Preferences
     global_settings: Global Settings
