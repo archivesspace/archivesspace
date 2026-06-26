@@ -117,7 +117,10 @@ it:
     digital_object_type: Tipo di oggetto digitale
     publish_tooltip: "<p>Determina se questo oggetto digitale o componente sarà pubblicato per l'interfaccia
       pubblica (visibile al pubblico).</p>\n"
-    digital_object_type_tooltip: ''
+    digital_object_type_tooltip: '<p>Termine generico che indica il tipo di contenuto di base dell''oggetto
+      digitale. Le opzioni predefinite corrispondono all''elemento MODS <typeOfResource>.</p>
+
+      '
     restrictions: Restrizioni?
     _singular: Oggetto digitale
     _plural: Oggetti digitali
@@ -236,8 +239,19 @@ it:
     metadata_rights_declarations_tooltip: "<p>Basato su DACS 8.2 e 13.11</p>\n"
     collection_management_tooltip: "<p>Informazioni aggiuntive (a uso puramente interno) riguardo a come
       i materiali descritti saranno o sono stati processati.</p>\n"
-    external_documents_tooltip: ''
-    extents_tooltip: ''
+    external_documents_tooltip: '<p>Collegamenti a informazioni presenti in altri sistemi di descrizione
+      o gestione, come ad esempio i fascicoli dei donatori, i piani di elaborazione, ecc.</p>
+
+      '
+    extents_tooltip: '<p>Indica l''estensione e la natura fisica dei materiali descritti.</p>
+
+      <p>Vedi DACS 2.5, ISAD(G) 3.1.5</p>
+
+      '
+    linked_agents_tooltip: |
+      <p>Associa gli agenti in quanto creatori, fonti o soggetti dei materiali descritti per fornire informazioni sul loro contesto.</p>
+    instances_tooltip: |
+      <p>Collega la descrizione alle informazioni relative alle istanze fisiche o digitali del materiale.</p>
   linked_agent:
     title_tooltip: "<p>Campo opzionale: registra qui il titolo ufficiale di un'opera per creare un nome
       / titolo come intestazione per un agent linkato come creatore o soggetto:</p>\n<p>Per esempio,</p>\n\
