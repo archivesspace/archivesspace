@@ -11,6 +11,8 @@ require_relative 'initializers/plugins'
 
 require 'aspace_logger'
 
+require 'iiif'
+
 # Maybe we won't need these?
 
 # DISABLED BY MST # require 'active_record/railtie'
