@@ -42,26 +42,30 @@ Add the following extensions via the VS Code command palette or the Extensions p
 1. [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) (dbaeumer.vscode-eslint)
 2. [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) (esbenp.prettier-vscode)
 3. [Ruby Rubocop Revised](https://marketplace.visualstudio.com/items?itemName=LoranKloeze.ruby-rubocop-revived) (LoranKloeze.ruby-rubocop-revived)
-4. [Ruby LSP](https://marketplace.visualstudio.com/items?itemName=Shopify.ruby-lsp) (Shopify.ruby-lsp)
+4. [Solargraph](https://marketplace.visualstudio.com/items?itemName=castwide.solargraph) (castwide.solargraph)
 5. [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) (stylelint.vscode-stylelint)
 
 It's important to note that since these extensions work in tandem with the [VS Code settings file](settings.json), these settings only impact your ArchivesSpace VS Code Workspace, not your global VS Code User settings.
 
 The extensions should now work out of the box at this point providing error messages and autocorrecting fixable errors on file save!
 
-### Ruby LSP (language intelligence)
+### Solargraph (language intelligence)
 
-The [Ruby LSP](https://github.com/Shopify/ruby-lsp) extension provides go-to-definition, hover docs, completion and other language-server features for Ruby files.
+The [Solargraph](https://solargraph.org/) extension provides go-to-definition, hover docs, completion and other language-server features for Ruby files.
 
-ArchivesSpace runs on **JRuby**, but `ruby-lsp` itself runs under MRI Ruby. The project's root `Gemfile` cannot be evaluated under MRI (it pulls in `backend/Gemfile`, which depends on JRuby-only gems such as `asutils`), so we ship a stub Gemfile that the LSP loads instead [Gemfile-ruby-lsp](Gemfile-ruby-lsp).
+ArchivesSpace runs on **JRuby**, but Solargraph runs under MRI Ruby. Solargraph parses the project Gemfile via `Bundler::Dsl` to discover dependencies, but the root `Gemfile` evaluates `backend/Gemfile`, which `require 'asutils'` at parse time - and asutils is JRuby-only. To work around that without modifying the project Gemfile, this directory ships:
+
+- [Gemfile-solargraph](Gemfile-solargraph) - a minimal stub Gemfile that lists only `solargraph` itself.
+- [solargraph](solargraph) - a wrapper script that exports `BUNDLE_GEMFILE` to the stub before exec'ing the real `solargraph` binary.
+
+`.vscode/settings.json` then sets `solargraph.commandPath` to that wrapper, and `solargraph.useBundler` to `false` so Solargraph runs from a global gem install instead of `bundle exec`.
 
 Setup:
 
-1. Install an MRI Ruby,
-  - we recommend using [mise](https://mise.jdx.dev/).
-  - [settings.json](settings.json) already sets `rubyLsp.rubyVersionManager` to `mise`; change the `identifier` if you use a different manager (`asdf`, `chruby`, `rbenv`, `rvm`, `none`, etc.).
+1. Install an MRI Ruby (we recommend [mise](https://mise.jdx.dev/)) and make sure its `bin/` directory is on the `PATH` of the shell that launches VS Code, so the wrapper can find `solargraph` via `exec`.
+2. Install the [Solargraph](https://marketplace.visualstudio.com/items?itemName=castwide.solargraph) extension when prompted by VS Code. If the `solargraph` gem isn't already installed, the extension will offer to run `gem install solargraph` for you.
 
-2. Install the [Ruby LSP](https://marketplace.visualstudio.com/items?itemName=Shopify.ruby-lsp) extension as recommended when you open the project in VSCode.
+The stub's lockfile (`Gemfile-solargraph.lock`) is committed alongside the Gemfile, so no `bundle install` is needed on first checkout. If you ever want to refresh it, run `BUNDLE_GEMFILE=.vscode/Gemfile-solargraph bundle update`.
 
 
 ### E2E test suite development
