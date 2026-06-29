@@ -1,5 +1,6 @@
 require 'git'
 require 'github_api'
+require_relative 'git_jruby_compat'
 
 module ReleaseNotes
 
@@ -24,17 +25,155 @@ module ReleaseNotes
     raise "Cannot find a previous tag for #{current_tag} in #{vtags.join(', ')}!"
   end
 
+  # Generate the release notes for the commit range previous_tag..current_tag
+  # and return them as a Markdown string.
+  def self.generate(current_tag:, previous_tag: nil, token: nil,
+                    gh_user: 'archivesspace', gh_repo: 'archivesspace')
+    previous_tag ||= find_previous_tag(current_tag)
+    github = github_client(token, gh_user, gh_repo)
+    git = Git.open('./')
+
+    log = parse_log(git.log.max_count(:all).between(previous_tag, current_tag))
+
+    # Drop merge commits, which don't represent distinct contributions and just add noise.
+    log.reject! { |log_entry| log_entry[:desc].match(/^Merge pull request/) }
+    puts "Found #{log.count} commit(s) between #{previous_tag} and #{current_tag} excluding merge commits."
+
+    default_branch = default_branch(github, gh_user, gh_repo)
+    original_commits = commits_by_identity(git, default_branch)
+    resolve_pull_requests(github, gh_user, gh_repo, log, default_branch, original_commits)
+
+    Generator.new(
+      current_tag: current_tag,
+      log: log,
+      previous_tag: previous_tag,
+      style: 'brief'
+    ).process.to_s
+  end
+
+  def self.github_client(token, gh_user, gh_repo)
+    Github.new do |config|
+      if token
+        config.connection_options = { headers: { 'authorization' => "Bearer #{token}" } }
+      end
+      config.user = gh_user
+      config.repo = gh_repo
+    end
+  end
+
+  # Resolve and attach the pull request for every commit
+  def self.resolve_pull_requests(github, gh_user, gh_repo, log, default_branch, original_commits)
+    log.each_with_index do |log_entry, index|
+      if ((index + 1) % 50).zero? || index + 1 == log.count
+        puts "Resolving pull requests: #{index + 1}/#{log.count}"
+      end
+      add_pull_request(github, gh_user, gh_repo, log_entry, default_branch, original_commits)
+    end
+  end
+
+
+  def self.default_branch(github, gh_user, gh_repo)
+    github.get_request("/repos/#{gh_user}/#{gh_repo}")['default_branch']
+  end
+
+  # Build a lookup from commit identity to SHA for every commit on a branch.
+  #
+  # A commit's identity here is its author name, author date, and subject - all
+  # of which `git cherry-pick` preserves on the copy it creates. This lets us
+  # trace a commit that reached a release branch through a cherry-pick back to
+  # the original commit it was copied from on the default branch.
+  def self.commits_by_identity(git, branch)
+    output = git.lib.send(:command, 'log', '--no-merges', '--format=%H%x1f%an%x1f%at%x1f%s', branch)
+    output.each_line.with_object({}) do |line, map|
+      sha, name, date, subject = line.chomp.split("\x1f", 4)
+      next unless sha
+
+      map[commit_identity(name, date, subject)] ||= sha
+    end
+  end
+
+  def self.commit_identity(name, date, subject)
+    "#{name}\x1f#{date}\x1f#{subject}"
+  end
+
+  # Associate a commit (a log entry produced by #parse_log) with the pull
+  # request targeting the default branch that introduced it, if any.
+  def self.add_pull_request(github, gh_user, gh_repo, log_entry, default_branch, original_commits)
+    pr = candidate_pull_request(github, gh_user, gh_repo, log_entry)
+
+    if pr.nil? || pr['base']['ref'] != default_branch
+      original_pr = original_pull_request(github, gh_user, gh_repo, log_entry, original_commits)
+      pr = original_pr if original_pr
+    end
+
+    return unless pr
+
+    log_entry[:pr_number] = pr['number']
+    log_entry[:pr_title] = pr['title']
+  end
+
+  # The pull request directly associated with a commit: the one named in a
+  # squash commit's "(#123)" subject, or the one GitHub reports for the SHA.
+  def self.candidate_pull_request(github, gh_user, gh_repo, log_entry)
+    if (match = log_entry[:desc].match(/\(#(\d+)\)$/))
+      pr = pull_request(github, gh_user, gh_repo, match[1])
+      return pr if pr
+    end
+
+    pull_request_for_commit(github, gh_user, gh_repo, log_entry[:sha])
+  end
+
+  # The pull request of the original commit a cherry-picked commit was copied
+  # from, or nil when no distinct original can be found on the default branch.
+  def self.original_pull_request(github, gh_user, gh_repo, log_entry, original_commits)
+    # Use the primary author name (:author_name), not :authors (which also
+    # includes Co-authored-by contributors), so it lines up with the `%an`
+    # keys built by .commits_by_identity.
+    identity = commit_identity(log_entry[:author_name], log_entry[:author_date], log_entry[:desc])
+    original_sha = original_commits[identity]
+    return if original_sha.nil? || original_sha == log_entry[:sha]
+
+    pull_request_for_commit(github, gh_user, gh_repo, original_sha)
+  end
+
+  # Fetch a single pull request by number
+  def self.pull_request(github, gh_user, gh_repo, number)
+    github.get_request("/repos/#{gh_user}/#{gh_repo}/pulls/#{number}")
+  rescue Github::Error::NotFound
+    nil
+  end
+
+  def self.pull_request_for_commit(github, gh_user, gh_repo, sha)
+    pulls = github.get_request("/repos/#{gh_user}/#{gh_repo}/commits/#{sha}/pulls")
+    pulls.find { |pull| pull['merged_at'] } || pulls.first
+  end
+
+  # Extract the display name from a "Name <email>" contact string, used to
+  # turn a Co-authored-by trailer into a plain author name.
+  CONTACT_PATTERN = /\A(.+?)\s*<[^>]+@[^>]+>\z/
+
+  def self.name_from_contact(contact)
+    match = contact.match(CONTACT_PATTERN)
+    match ? match[1] : contact
+  end
 
   def self.parse_log(gitlog)
     gitlog.map do |log_entry|
       authors = [log_entry.author.name]
       authors += log_entry.message.split(/\n+/)
-                   .select { |line| line =~ /^Co-authored-by/ }
-                   .map { |line| line.sub(/^.*by:\s+/, '').sub(/ <.*@.*>$/, '') }
+                    .select { |line| line =~ /^Co-authored-by/ }
+                    .map { |line| name_from_contact(line.split(':', 2).last.strip) }
       {
-        authors: authors,
+        authors: authors.uniq,
+        # Primary author name, used only for cherry-pick identity matching -
+        # see .original_pull_request. Display credit uses :authors instead.
+        author_name: log_entry.author.name,
         desc: log_entry.message.split("\n")[0],
-        sha: log_entry.sha
+        sha: log_entry.sha,
+        # Author date as a Unix timestamp, matching git's `%at`. Together with
+        # the author name and subject it identifies a commit across a
+        # cherry-pick, which preserves all three. See .commits_by_identity.
+        author_date: log_entry.author.date.to_i
       }
     end
   end
@@ -44,6 +183,9 @@ module ReleaseNotes
 
     ANW_URL = 'https://archivesspace.atlassian.net/browse'
     PR_URL  = 'https://github.com/archivesspace/archivesspace/pull'
+
+    # Names must match the spelling that appears in git commit metadata; a
+    # contributor whose commits use multiple display names may need multiple entries.
     EXCLUDE_AUTHORS = [
       'Christine Di Bella',
       'Jessica Crouch',
@@ -52,11 +194,14 @@ module ReleaseNotes
       'Brian Zelip',
       'Donald Smith',
       'dependabot[bot]',
+      'Martha Tenney',
       'Martha',
-      'Thimios',
       'Zeff Morgan',
       'Blake Carver',
-      'Anonymous'
+      'Weblate (bot)',
+      'Anonymous',
+      'archivesspace',
+      'aspace-ci-bot'
     ]
 
     def initialize(current_tag:, log:, previous_tag:, style:)
@@ -85,15 +230,19 @@ module ReleaseNotes
         next if data[:pr_title].nil? && data[:desc].nil?
         data[:authors].each do |author|
           next if EXCLUDE_AUTHORS.include?(author)
-          @contributions += 1
           contributors[author] ||= []
-          contributors[author] << (data[:pr_title] || data[:desc])
+          contributors[author] << data
         end
       end
 
-      contributors.each do |author, contributions|
-        contributions.uniq!
+      # Group each author's commits by contribution title, so a contribution
+      # spread across several pull requests (e.g. recurring translation
+      # updates) is listed on a single line.
+      contributors.transform_values! do |entries|
+        entries.group_by { |data| contribution_title(data) }.values
       end
+
+      @contributions = contributors.values.sum(&:size)
       make_doc
       self
     end
@@ -113,8 +262,8 @@ module ReleaseNotes
     end
 
     def add_jira_id(data)
-      if (data[:desc].match(/(ANW-\d+)/) || data[:pr_title]&.match(/(ANW-\d+)/))
-        data[:anw_number] = $1
+      if (data[:desc].match(/ANW[\s_-]*(\d+)/i) || data[:pr_title]&.match(/ANW[\s_-]*(\d+)/i))
+        data[:anw_number] = "ANW-#{$1}"
       end
     end
 
@@ -149,7 +298,7 @@ module ReleaseNotes
       links = [pr_link(data[:pr_number]), anw_link(data[:anw_number])]
       msg = ''
       if style == 'brief'
-        msg = "- PR: #{links.compact.join(' - ')}: #{data[:pr_title]}"
+        msg = "- #{contribution_line(data)}"
       elsif style == 'verbose'
         msg = "PR: #{links.compact.join(' - ')} "
         msg += "by #{data[:authors].join(', ')} accepted on #{data[:date]}\n"
@@ -158,6 +307,33 @@ module ReleaseNotes
         raise "Invalid style: #{style}"
       end
       msg
+    end
+
+    def contribution_title(data)
+      data[:pr_title] || data[:desc]
+    end
+
+    # An entry for the JIRA Tickets and Pull Requests Completed section: the
+    # pull request and Jira ticket links followed by the title.
+    def contribution_line(data)
+      links = [pr_link(data[:pr_number]), anw_link(data[:anw_number])].compact
+      return contribution_title(data) if links.empty?
+
+      prefix = data[:pr_number] ? 'PR: ' : ''
+      "#{prefix}#{links.join(' - ')}: #{contribution_title(data)}"
+    end
+
+    # An entry for the Community Contributions section: the contribution title
+    # followed by a parenthetical linking every pull request that carried it
+    # (as "#1234") and the Jira ticket when available. `group` is the commits
+    # that share one contribution title.
+    def community_contribution(group)
+      pr_numbers = group.map { |data| data[:pr_number] }.compact.uniq.sort.reverse
+      anw_numbers = group.map { |data| data[:anw_number] }.compact.uniq
+      refs = pr_numbers.map { |number| "[##{number}](#{PR_URL}/#{number})" }
+      refs += anw_numbers.map { |anw_number| anw_link(anw_number) }
+      title = contribution_title(group.first)
+      refs.empty? ? title : "#{title} (#{refs.join(', ')})"
     end
 
     def config_changes
@@ -214,8 +390,9 @@ module ReleaseNotes
       doc << "__TODO: add anything else to call out here__\n"
       doc << "## Community Contributions\n"
       doc << "Our thanks go out to these members of the community for their code contributions:\n"
-      doc.concat contributors.sort_by { |k, _| k }.map { |c|
-        "- #{c[0]}:\n#{c[1].map { |c| "  - #{c}\n" }.join}"
+      doc.concat contributors.sort_by { |name, _| name }.map { |name, groups|
+        items = groups.map { |group| "  - #{community_contribution(group)}\n" }.join
+        "- #{name}:\n#{items}"
       }
       doc << "Total community contributions accepted: #{contributions}\n"
       doc << "## JIRA Tickets and Pull Requests Completed\n"
