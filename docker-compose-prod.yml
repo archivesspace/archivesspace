@@ -82,7 +82,7 @@ services:
       - solr-data:/var/solr
 
   proxy:
-    image: nginx:1.21
+    image: nginx:stable
     platform: linux/x86_64
     container_name: proxy
     restart: unless-stopped
