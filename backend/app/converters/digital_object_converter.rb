@@ -369,7 +369,7 @@ class DigitalObjectConverter < Converter
 
         fv = ASpaceImport::JSONModel(:file_version).new
         fv.file_uri                = row_hash["file_version_file_uri#{suffix}"]
-        fv.publish                 = normalize_fv_boolean(row_hash["file_version_publish#{suffix}"])
+        fv.publish                 = self.class.normalize_boolean.call(row_hash["file_version_publish#{suffix}"])
         fv.use_statement           = row_hash["file_version_use_statement#{suffix}"]
         fv.xlink_actuate_attribute = row_hash["file_version_xlink_actuate_attribute#{suffix}"]
         fv.xlink_show_attribute    = row_hash["file_version_xlink_show_attribute#{suffix}"]
@@ -378,17 +378,11 @@ class DigitalObjectConverter < Converter
         fv.file_size_bytes         = row_hash["file_version_file_size_bytes#{suffix}"]&.to_i
         fv.checksum                = row_hash["file_version_checksum#{suffix}"]
         fv.checksum_method         = row_hash["file_version_checksum_method#{suffix}"]
-        fv.is_representative       = normalize_fv_boolean(row_hash["file_version_is_representative#{suffix}"])
+        fv.is_representative       = self.class.normalize_boolean.call(row_hash["file_version_is_representative#{suffix}"])
         fv.caption                 = row_hash["file_version_caption#{suffix}"]
 
         digital_object.file_versions << fv
       end
-  end
-
-
-  def normalize_fv_boolean(val)
-    return nil if val.nil?
-    val.to_s.upcase.match(/\A(1|T|Y|YES|TRUE)\Z/) ? true : false
   end
 
 
