@@ -59,7 +59,7 @@
 
         <% readonly.emit_template("accession") %>
 
-        <% if AppConfig[:multilingual_content] && @accession.lang_descriptions.length > 0 %>
+        <% if @accession.lang_descriptions.length > 0 %>
           <%= render_aspace_partial :partial => "lang_descriptions/show", :locals => { :lang_descriptions => @accession.lang_descriptions, :section_id => "accession_lang_descriptions_" } %>
         <% end %>
 
