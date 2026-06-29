@@ -38,6 +38,10 @@ describe "Print to PDF job model" do
 
   let(:user) { create_nobody_user }
 
+  it "is registered as an available job type" do
+    expect(JobRunner.registered_job_types).to have_key('print_to_pdf_job')
+  end
+
   it "can create a print to pdf job" do
     opts = {:title => generate(:generic_title)}
     resource = create_resource(opts)
