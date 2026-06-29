@@ -154,7 +154,7 @@ en:
     reorder_successful: Repositories successfully reordered
 
   database_warning:
-    message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
+    message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only and will be deprecated in the upcoming major release. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
 
   states:
     auto_generated: System generates when saved
@@ -1592,9 +1592,9 @@ en:
       close_modal: "Close a modal window (e.g., this one)"
       toggle_shortcuts: "Enable / disable keyboard shortcuts"
       save_record: "Save the record being edited"
-      close_record: "Close a record being edited"
-      open_browse: "Open Browse menu"
-      open_create: "Open Create menu"
+      close_record: "Close the record being edited"
+      open_browse: "Toggle the Browse menu"
+      open_create: "Toggle the Create menu"
 
   instance_container:
     container: Container

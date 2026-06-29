@@ -197,9 +197,7 @@ es:
     download: Descargar
     drop_before: Soltar antes
   database_warning:
-    message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la
-      base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar
-      MySQL para sistemas en producción.</p>"
+    message: "<p><strong>Advertencia de base de datos:</strong> Actualmente está utilizando la base de datos integrada (Apache Derby). La base de datos integrada es solo para pruebas/demostraciones y se eliminará en la próxima versión principal. Debe usar MySQL para cualquier dato destinado a producción, incluidos los datos de una instancia de prueba que tenga la intención de mover a una instancia de producción.</p>"
 
   states:
     auto_generated: Generado automáticamente
@@ -1602,8 +1600,8 @@ es:
       toggle_shortcuts: "Activar / desactivar accesos directos del teclado"
       save_record: "Guardar el registro que se está editando"
       close_record: "Cerrar el registro que se está editando"
-      open_browse: "Abrir el menú de navegación"
-      open_create: "Abrir el menú de creación"
+      open_browse: "Alternar el menú de navegación"
+      open_create: "Alternar el menú de creación"
 
   instance_container:
     container: Container

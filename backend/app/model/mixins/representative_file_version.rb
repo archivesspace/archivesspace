@@ -115,7 +115,7 @@ module RepresentativeFileVersion
                                   .left_join(:instance_do_link_rlshp, :instance_id => :instance__id)
                                   .left_join(:digital_object, :id => :instance_do_link_rlshp__digital_object_id)
                                   .filter(archival_object__root_record_id: json.id)
-                                  .filter(archival_object__publish: true)
+                                  .filter(archival_object__publish: 1)
                                   .select(Sequel.as(:archival_object__id, :archival_object_id),
                                           Sequel.as(:archival_object__position, :archival_object_position),
                                           Sequel.as(:archival_object__parent_id, :archival_object_parent_id),

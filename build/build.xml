@@ -518,6 +518,7 @@
       <zipfileset dir="../launcher" includes="archivesspace.sh" prefix="archivesspace" filemode="755" />
       <zipfileset dir="../launcher" includes="archivesspace.bat" prefix="archivesspace" filemode="644" />
       <zipfileset dir="../launcher/scripts" includes="find-base.sh" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/scripts" includes="initialize_plugin.rb" prefix="archivesspace/scripts/rb" filemode="755" />
       <zipfileset dir="../launcher/scripts" includes="setup-database.sh" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/scripts" includes="setup-database.bat" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/plugin_gems" includes="initialize-plugin.sh" prefix="archivesspace/scripts" filemode="755" />

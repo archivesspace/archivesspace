@@ -497,6 +497,16 @@ it:
   job:
     _frontend:
       audit_data: Dati dell'audit
+  shortcuts:
+    quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
+    actions:
+      this_reference: "Questo riferimento alle scorciatoie"
+      close_modal: "Chiudi una finestra modale (ad es., questa)"
+      toggle_shortcuts: "Attiva / disattiva scorciatoie da tastiera"
+      save_record: "Salva il record in modifica"
+      close_record: "Chiudi il record in modifica"
+      open_browse: "Alterna il menu Naviga"
+      open_create: "Alterna il menu Crea"
   agent_identifier:
     identifier_type: Tipo di identificativo
   agent_gender:
@@ -550,3 +560,104 @@ it:
     heading: Benvenuto in ArchivesSpace
   skipnav:
     main_content: Passa al contenuto principale
+  database_warning:
+    message: "<p><strong>Avviso relativo al database:</strong> Attualmente stai utilizzando il database integrato (Apache Derby). Il database integrato è destinato esclusivamente a scopi di test/dimostrativi e sarà deprecato nella prossima versione principale. Dovresti utilizzare MySQL per tutti i dati destinati alla produzione, inclusi i dati presenti in un'istanza di test che intendi trasferire in un'istanza di produzione.</p>"
+  become-user:
+    become-user: Diventa utente
+    failed: Impossibile passare all'utente specificato
+    success: Cambio utente effettuato con successo
+    username: Nome utente
+  header:
+    staff_interface: Interfaccia per il personale di ArchivesSpace
+  session:
+    gone: La tua sessione backend non è stata trovata
+    expired: La sessione è scaduta per inattività.
+    inline_login_title: Sessione scaduta
+  login:
+    login: Registrazione
+    login_please: Effettua il login
+    login_expired_link: Per favore <a href ='%{link}'>accedi di nuovo</a>.
+    login_fail: Tentativo di accesso non riuscito
+    login_success: Accesso effettuato con successo. Reindirizzamento in corso...
+    username_placeholder: Nome utente
+    password_placeholder: Password
+    confirm_password: Conferma password
+    username_aria_label: Nome utente
+    password_aria_label: Password utente
+    lost_password: Ha dimenticato la password?
+    reset_password: Reimposta password
+    recover_password: Recupera password
+    email_placeholder: Indirizzo e-mail
+    reset_form_instructions: Inserisci l'indirizzo email associato al tuo 
+      account utente. Se esiste già un account con quell'indirizzo email, 
+      riceverai un link per reimpostare la password.
+    new_password: Nuova password
+    new_password_instructions: Crea una nuova password per %{user} utilizzando 
+      il modulo, quindi accedi di nuovo.
+    password_mismatch_error: Le password non corrispondono.
+    password_update_success: Password aggiornata con successo.
+    password_update_error: Impossibile aggiornare la password. Riprova o 
+      contatta un amministratore.
+    password_too_simple: Questa password è troppo facile da indovinare. Prova ad
+      aggiungere delle parole o usa un generatore di password casuali.
+  breadcrumb:
+    home: Casa
+  save_changes_modal:
+    body: Sono presenti alcune modifiche in sospeso. Salva o ignora queste 
+      modifiche per continuare.
+    save: Salva le modifiche
+    dismiss: Ignora modifiche
+  linker:
+    link: collegarsi
+    create_and_link: Crea e collega
+    hint_text: Digita per cercare i record disponibili.
+    placeholder: Digita per cercare i record disponibili.
+    no_results: Nessun risultato corrispondente. Prova a usare la funzione 
+      "Esplora".
+    searching: Ricerca in corso...
+    delete: '&volte;'
+    components:
+      browse: Sfoglia i plugin
+  mixed_content:
+    wrap_prefix: 'Avvolgere con:'
+    help: Contenuto misto abilitato#160;x#160;--&#160;&#160;Digita '<' per gli 
+      elementi o evidenzia il testo da mandare a capo
+  default_values:
+    form_title:
+      archival_object: Valori predefiniti dei record dei componenti
+      resource: Impostazioni predefinite dei record di risorse
+      accession: Impostazioni predefinite del record di accesso
+      subject: Impostazioni predefinite del record soggetto
+      agent_person: Impostazioni predefinite del record dell'agente (persona)
+      agent_family: Impostazioni predefinite del record dell'agente (famiglia)
+      agent_corporate_entity: Impostazioni predefinite del record dell'agente 
+        (entità aziendale)
+      agent_software: Impostazioni predefinite del record dell'agente (software)
+      digital_object: Impostazioni predefinite degli oggetti digitali
+      digital_object_component: Impostazioni predefinite del componente oggetto 
+        digitale
+      location: Impostazioni predefinite del record di posizione
+      event: Impostazioni predefinite del record dell'evento
+      classification: Valori predefiniti dei record di classificazione
+      classification_term: Valori predefiniti del termine di classificazione
+      container_profile: Impostazioni predefinite del profilo del contenitore
+    messages:
+      defaults_updated: Impostazioni predefinite aggiornate
+  required_fields:
+    form_title:
+      agent_person: Campi obbligatori nella scheda dell'agente (persona)
+      agent_family: Campi obbligatori del record dell'agente (famiglia)
+      agent_corporate_entity: Campi obbligatori nella scheda agente (entità 
+        aziendale)
+      agent_software: Campi obbligatori nella scheda agente (software)
+    messages:
+      required_fields_updated: Campi obbligatori aggiornati
+  tree:
+    drag_and_drop_actions:
+      before: Aggiungi elementi prima
+      after: Aggiungi elementi dopo
+      as_child: Aggiungi elementi come figli
+    unexpected_failure: Ops! Stiamo riscontrando problemi nel recuperare questo 
+      albero. Per favore, prova ad aggiornare la pagina.
+    resize: Trascina per ridimensionare l'altezza dell'albero
+    maximize: Massimizzare/minimizzare l'altezza dell'albero
