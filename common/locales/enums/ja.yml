@@ -590,6 +590,7 @@ ja:
       aiff: オーディオインターチェンジファイル形式
       avi: オーディオ/ビデオインターリーブ形式
       gif: グラフィックスインターチェンジフォーマット
+      iiif: IIIFマニフェスト
       jpeg: JPEGファイル交換形式
       mp3: MPEGオーディオレイヤー3
       pdf: ポータブルドキュメントフォーマット
@@ -610,6 +611,7 @@ ja:
       text-data: テキストデータ
       text-data_definition: テキストデータ定義
       text-georeference: テキストジオリファレンス
+      text-json: テキスト-JSON
       text-ocr-edited: テキスト-Ocr編集
       text-ocr-unedited: テキスト-Ocr-編集なし
       text-tei-transcripted: テキスト転写されたテキスト

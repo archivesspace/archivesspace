@@ -65,7 +65,7 @@
       <li><%= link_to t("actions.container_template"), {:controller => :exports, :action => :container_template, :id => @resource.id}, :id => 'container-template-link', :target => "_self", :class => "dropdown-item" %></li>
       <li><%= link_to t("actions.digital_object_template"), {:controller => :exports, :action => :digital_object_template, :id => @resource.id}, :id => 'digital-object-template-link', :target => "_self", :class => "dropdown-item" %></li>
       <% if user_can?('create_job') %>
-        <% if job_types['print_to_pdf_job']['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
+        <% if job_types.dig('print_to_pdf_job', 'create_permissions')&.reject{|perm| user_can?(perm)}&.empty? %>
 
           <li class="dropdown-item p-0 dropdown-submenu" id="print-to-pdf-dropdown" data-print-to-pdf-url="<%= url_for(:controller => :exports, :action => :print_to_pdf, :id => @resource.id, :include_unpublished => "${include_unpublished}", :include_uris => "${include_uris}")%>">
             <a href="#" data-toggle="dropdown" data-display="static" class="py-1 px-4 d-block text-decoration-none menu-with-options print-to-pdf-action" title="<%= t("actions.print_to_pdf") %>"><%= t("actions.print_to_pdf") %></a>

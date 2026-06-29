@@ -23,6 +23,9 @@
               <% alt_text = file_version['caption'] ? file_version['caption'] : title %>
               <%= render_aspace_partial :partial => "file_versions/image", :locals => {:file => file_version, :alt_text => alt_text } %>
             <% end %>
+            <% if IIIF.manifest?(file_version) %>
+              <%= render_aspace_partial :partial => "file_versions/iiif_embed", :locals => {:manifest => file_version} %>
+            <% end %>
             <%= render_aspace_partial :partial => "file_versions/file_uri", :locals => {:file_uri => uri_or_string( file_version['file_uri'] ) } %>
           </div>
           <%= read_only_view(file_version) %>

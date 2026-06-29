@@ -1812,6 +1812,7 @@ de:
       image-thumbnail: Bild-Miniaturansicht
       text-codebook: Text-Codebuch
       text-georeference: Text-Georeferenz
+      text-json: Text-JSON
       text-ocr-edited: Text-OCR-bearbeitet
       text-ocr-unedited: Text-OCR-Unbearbeitet
       text-data: Text-Daten
@@ -1914,6 +1915,7 @@ de:
       aiff: Audio Interchange File Format
       avi: Audio/Video Interleaved Format
       gif: Graphics Interchange Format
+      iiif: IIIF-Manifest
       mp3: MPEG Audio Layer 3
       pdf: Portable Document Format
       tiff: Tagged Image File Format
