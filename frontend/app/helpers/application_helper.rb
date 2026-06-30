@@ -139,6 +139,67 @@ module ApplicationHelper
            )
   end
 
+  def mlc_textarea_field(form, name, opts = {})
+    if ["edit", "update"].include?(controller.action_name)
+      mlc_textarea do
+        form.label_and_textarea(name, opts.merge({label_opts: mlc_content_badge}))
+      end
+    else
+      form.label_and_textarea(name, opts.merge({label_opts: mlc_content_badge}))
+    end
+  end
+
+  def mlc_textarea(&block)
+    return unless edit_mode?
+
+    prepended_html = content_tag(:div, class: "w-100 row mt-1 mr-0 mb-0 ml-0") do
+                        content_tag(:div, "", class: "col-sm-2") +
+                        content_tag(:div, class: "col-sm-9") do
+                          content_tag(:details) do
+                            content_tag(:summary, "SPA", class: "fs-14px") +
+                            content_tag(:p, "Este recurso requiere revisión adicional antes de su publicación. Se recomienda verificar la integridad de los documentos adjuntos. Los materiales fueron digitalizados en enero de dos mil veinticinco. Toda corrección debe ser aprobada por el equipo de archivo.", class: "mt-1 mb-0 fs-14px text-muted")
+                          end
+                        end
+                      end
+
+    main_content = capture(&block)
+
+    concat(prepended_html)
+    concat(main_content)
+    nil
+  end
+
+  def mlc_content_badge
+    return unless edit_mode?
+
+    prefix = content_tag(:span, class: "lang-marker has-tooltip",
+                                title: I18n.t("lang_description.mlc_field"),
+                                aria: { hidden: true }) do
+      I18n.t("lang_description.icon").html_safe
+    end
+
+    { prefix_html: prefix }
+  end
+
+  def primary_language_badge(record)
+    return unless AppConfig[:multilingual_content]
+    inherits_lang_descs = %w[archival_object digital_object_component].include?(record["jsonmodel_type"])
+    if inherits_lang_descs
+      parent = record["resource"]&.dig("_resolved") || record["digital_object"]&.dig("_resolved")
+      lang_descs = parent ? parent["lang_descriptions"].to_a : []
+    else
+      lang_descs = record["lang_descriptions"].to_a
+    end
+    return unless lang_descs.many?
+    lang = lang_descs.find { |ld| ld["is_primary"] }&.dig("language")
+    mlc_language_badge(lang)
+  end
+
+  def mlc_language_badge(langcode)
+    return unless AppConfig[:multilingual_content] && langcode
+    content_tag(:span, langcode.upcase, class: 'ml-2 fs-12px label badge mlc-badge') if edit_mode?
+  end
+
   def edit_mode?
     ['edit', 'update'].include?(controller.action_name)
   end

@@ -25,13 +25,22 @@ Then 'a MARC 21 XML file is downloaded' do
 end
 
 Then 'the Container Template CSV file is downloaded' do
-  files = Dir.glob(File.join(Dir.tmpdir, '*.csv'))
-
   downloaded_file = nil
-  files.each do |file|
-    file_read = File.read(file)
+  tries = 0
 
-    downloaded_file = file if file_read.include?('Archival Object Top Container Generation Template')
+  while downloaded_file.nil? && tries < 30
+    csv_files = Dir.glob(File.join(Dir.tmpdir, '*.csv')) +
+                Dir.glob(File.join(Dir.tmpdir, '*.csv.part'))
+
+    csv_files.each do |file|
+      file_read = File.read(file)
+      downloaded_file = file if file_read.include?('Archival Object Top Container Generation Template')
+    rescue StandardError
+      # File may still be downloading
+    end
+
+    sleep 2 if downloaded_file.nil?
+    tries += 1
   end
 
   expect(downloaded_file).to_not eq nil

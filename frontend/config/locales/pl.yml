@@ -1228,10 +1228,10 @@ pl:
         add_digital_object: Dodaj obiekt cyfrowy
         add: Dodaj instancję
   lang_material:
-    _plural: Języki
+    _plural: Języki materiałów
     _frontend:
       action:
-        add: Dodaj język
+        add: Dodaj język materiałów
         add_note: Dodaj notatkę językową
   linked_agent:
     is_primary: Podstawowy
@@ -1563,3 +1563,22 @@ pl:
   date_type_structured:
     single: Pojedyncza data
     range: Zakres dat
+  lang_description:
+    current_language: Aktualny język
+    default: Domyślny
+    icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
+    languages:
+      eng: angielski
+      spa: hiszpański
+      fre: francuski
+      ger: niemiecki
+    mlc_field: >-
+      Wartość tego pola może się zmieniać w zależności od bieżącego języka
+      opisu.
+    _frontend:
+      action:
+        add: Dodaj język opisu
+        make_primary_tooltip: >
+          <p>Służy do wskazania, który język i zestaw skryptów są podstawowe. 
+          Tylko jeden język może zostać wyznaczony jako podstawowy.</p>
+        make_primary: Ustaw jako język podstawowy

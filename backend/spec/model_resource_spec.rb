@@ -321,4 +321,5 @@ describe 'Resource model' do
     end
   end
 
+  it_behaves_like "a record with valid languages of description subrecords", :json_resource, Resource
 end

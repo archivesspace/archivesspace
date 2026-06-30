@@ -63,6 +63,12 @@ class ResourcesController < ApplicationController
       end
     end
 
+    if AppConfig[:multilingual_content]
+      if !@resource.lang_descriptions || @resource.lang_descriptions.empty?
+        @resource.lang_descriptions = [JSONModel(:language_and_script_of_description).new._always_valid!]
+      end
+    end
+
     return render_aspace_partial :partial => "resources/new_inline" if params[:inline]
   end
 

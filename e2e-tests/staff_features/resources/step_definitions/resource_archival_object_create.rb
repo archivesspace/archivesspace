@@ -5,6 +5,10 @@ Given 'a Resource with an Archival Object has been created' do
 
   fill_in 'resource_title_', with: "Resource #{@uuid}"
   fill_in 'resource_id_0_', with: "Resource #{@uuid}"
+
+  # Temporary guard until ANW-2772 adds lang description subrecord under all configurations
+  add_lang_description('resource', language: 'English', script: 'Latin') if page.has_css?('#resource_lang_descriptions_')
+
   select 'Class', from: 'resource_level_'
   element = find('#resource_lang_materials__0__language_and_script__language_')
   element.send_keys('AU')
@@ -44,7 +48,7 @@ Given 'a Resource with an Archival Object has been created' do
   check 'Restrictions Apply?'
   fill_in 'Repository Processing Note', with: "Repository Processing Note #{@uuid}"
 
-  click_on 'Add Language'
+  click_on 'Add Language of Materials'
   within 'li.sort-enabled.initialised' do
     fill_in 'Language', with: 'English'
     dropdown_items = all('.typeahead.typeahead-long.dropdown-menu')
@@ -146,7 +150,7 @@ Then 'the following Archival Object forms have the same values as the Archival O
       expect(find('#archival_object_publish_').value).to eq '1'
       expect(find('#archival_object_restrictions_apply_').value).to eq '1'
       expect(find('#archival_object_repository_processing_note_').value).to eq "Repository Processing Note #{@uuid}"
-    when 'Languages'
+    when 'Languages of Materials'
       expect(find('#archival_object_lang_materials__0__language_and_script__language_').value).to eq 'English'
       expect(find('#archival_object_lang_materials__0__language_and_script__script_').value).to eq 'Adlam'
     when 'Dates'

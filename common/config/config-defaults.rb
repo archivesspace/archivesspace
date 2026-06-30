@@ -944,3 +944,15 @@ AppConfig[:extended_csv_export_class] = 'ExtendedCSVExportStream'
 # Additionally, to be a candidate for embedding in the PUI, the File Version
 # and any parent records must also be published.
 #
+
+# Sets whether multilingual content functionality is enabled.  When true, primary
+# record types (accessions, archival objects, digital objects, digital object
+# components, and resources) can have parallel descriptions in multiple languages.
+# When false, application behavior remains unchanged from what it was prior to the
+# introduction of MLC functionality. Multilingual content is false by default.
+AppConfig[:multilingual_content] = false
+
+# Default language and script used for Multilingual Content (MLC) when no
+# language context is set and the record has no primary language of description.
+AppConfig[:mlc_default_language] = 'eng'
+AppConfig[:mlc_default_script]   = 'Latn'
