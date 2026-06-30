@@ -31,6 +31,11 @@
 <%= javascript_include_tag "InfiniteTreeToolbar.js" %>
 <%= javascript_include_tag "InfiniteTreeToolbarActions.js" %>
 <%= javascript_include_tag "InfiniteTreeSelection.js" %>
+<%= javascript_include_tag "InfiniteTreeDropHitbox.js" %>
+<%= javascript_include_tag "InfiniteTreeDragDrop.js" %>
+<%= javascript_include_tag "InfiniteTreeCutPaste.js" %>
+<%= javascript_include_tag "InfiniteTreeMove.js" %>
+<%= javascript_include_tag "InfiniteTreeReorderActions.js" %>
 
 <div
   id="infinite-tree-component"
@@ -145,5 +150,9 @@ if (!<%= read_only %>) {
   new InfiniteTreeToolbar();
   new InfiniteTreeToolbarActions();
   new InfiniteTreeSelection(); // Should this be called MultiSelection?
+  new InfiniteTreeDragDrop();
+  new InfiniteTreeCutPaste();
+  new InfiniteTreeMove();
+  new InfiniteTreeReorderActions();
 }
 </script>
