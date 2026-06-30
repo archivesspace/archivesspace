@@ -1,6 +1,6 @@
-# docker build [--build-arg DEFAULT_CFG=default.conf] -t archivesspace/proxy:1.21 .
-# docker tag archivesspace/proxy:1.21 archivesspace/proxy:latest
-FROM nginx:1.21
+# docker build [--build-arg DEFAULT_CFG=default.conf] -t archivesspace/proxy:stable .
+# docker tag archivesspace/proxy:stable archivesspace/proxy:latest
+FROM nginx:stable
 LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 ARG DEFAULT_CFG=default.conf
