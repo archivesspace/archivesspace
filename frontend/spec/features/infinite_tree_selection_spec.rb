@@ -131,6 +131,17 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
     JS
   end
 
+  # Scroll the tree container so IntersectionObserver loads a child batch
+  # (same pattern as infinite_tree_base_shared_examples).
+  def scroll_to_load_child_batch(parent_uri, batch_offset)
+    tree_container = find('#infinite-tree-container')
+    parent_li = tree_container.find("li.node[data-uri='#{parent_uri}']")
+    child_list = parent_li.find(':scope > ol.node-children')
+    observer_node = child_list.find("[data-observe-offset='#{batch_offset}']", match: :first)
+    tree_container.scroll_to(observer_node, align: :center)
+    wait_for_ajax
+  end
+
   def collapse_node(uri)
     expand_node(uri)
   end
@@ -296,14 +307,13 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
     end
 
     describe 'selection order badges' do
-      it 'hides badge when only one row selected' do
+      it 'are shown with only one row selected' do
         click_row(ao.uri, meta: true)
 
-        badge = find_badge(ao.uri)
-        expect(badge).to eq('')
+        expect(find_badge(ao.uri)).to eq('1')
       end
 
-      it 'shows badges when multiple rows selected' do
+      it 'are shown with multiple rows selected' do
         click_row(ao.uri, meta: true)
         click_row(ao3.uri, meta: true)
 
@@ -311,7 +321,7 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
         expect(find_badge(ao3.uri)).to eq('2')
       end
 
-      it 'renumbers badges when middle item deselected' do
+      it 'are renumbered when a middle item is deselected' do
         click_row(ao.uri, meta: true)
         click_row(ao2.uri, meta: true)
         click_row(ao3.uri, meta: true)
@@ -587,6 +597,196 @@ describe 'Infinite Tree Selection (reorder-mode multi-select)', js: true do
         expect(page).to have_no_css('#infinite-tree-container.reorder-mode')
         expect(data_selection_uris).to be_nil
         expect(cleared_event_count).to be >= 1
+      end
+    end
+
+    describe 'implicit selection badges with single parent selected' do
+      before do
+        expand_node(ao2.uri)
+        wait_for_ajax
+        expect(page).to have_css("li.node[data-uri='#{child_ao.uri}']")
+      end
+
+      it 'shows checkmark badge on implicit descendants even with single parent selected' do
+        click_row(ao2.uri, meta: true)
+
+        # ao2 should be explicitly selected
+        expect(page).to have_css("li.node[data-uri='#{ao2.uri}'].multiselected")
+
+        # child_ao should be implicitly selected with checkmark badge
+        expect(has_implicitly_selected_class(child_ao.uri)).to be true
+
+        # Check that the checkmark badge is present
+        badge = find_badge(child_ao.uri)
+        expect(badge).to eq("\u2713") # Unicode checkmark
+      end
+
+      it 'shows numeric badge on single explicit selection' do
+        click_row(ao2.uri, meta: true)
+
+        expect(find_badge(ao2.uri)).to eq('1')
+      end
+    end
+
+    describe 'lazy-loaded implicit selection', :ancestry_multilevel_tree do
+      let(:tree_batch_size) { Rails.configuration.infinite_tree_batch_size }
+
+      let!(:a_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, title: "A #{now}")
+      end
+
+      let!(:b_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, title: "B #{now}")
+      end
+
+      let!(:ba_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BA #{now}")
+      end
+
+      let!(:bb_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BB #{now}")
+      end
+
+      let!(:bba_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBA #{now}")
+      end
+
+      let!(:bbb_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => bb_ao.uri }, title: "BBB #{now}")
+      end
+
+      let!(:bc_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BC #{now}")
+      end
+
+      let!(:bd_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, parent: { 'ref' => b_ao.uri }, title: "BD #{now}")
+      end
+
+      let!(:bd_batch_children) do
+        (tree_batch_size + 1).times.map do |i|
+          create(
+            :archival_object,
+            resource: { 'ref' => resource.uri },
+            parent: { 'ref' => bd_ao.uri },
+            title: "BD Child #{i + 1} #{now}"
+          )
+        end
+      end
+
+      let(:bd_first_batch_child) { bd_batch_children.first }
+      let(:bd_second_batch_child) { bd_batch_children.last }
+
+      let!(:c_ao) do
+        create(:archival_object, resource: { 'ref' => resource.uri }, title: "C #{now}")
+      end
+
+      before do
+        visit "#{edit_path}#{root_hash}"
+        wait_for_ajax
+        install_selection_event_capture
+        enable_reorder_mode
+
+        # Expand B to see its direct children (BA, BB, BC) but not grandchildren yet
+        expect(page).to have_css("li.node[data-uri='#{b_ao.uri}']", wait: 10)
+        expand_node(b_ao.uri)
+        wait_for_ajax
+        expect(page).to have_css("li.node[data-uri='#{bb_ao.uri}']", wait: 10)
+      end
+
+      it 'applies implicit selection to descendants when parent is expanded after selection' do
+        # Select B (its direct children BA, BB, BC are visible but BB is collapsed)
+        click_row(b_ao.uri, meta: true)
+        expect(data_selection_uris).to eq(b_ao.uri)
+
+        # Verify direct children are implicitly selected
+        expect(has_implicitly_selected_class(ba_ao.uri)).to be true
+        expect(has_implicitly_selected_class(bb_ao.uri)).to be true
+        expect(has_implicitly_selected_class(bc_ao.uri)).to be true
+
+        # Now expand BB to lazy-load grandchildren BBA and BBB
+        expand_node(bb_ao.uri)
+        wait_for_ajax
+        expect(page).to have_css("li.node[data-uri='#{bba_ao.uri}']", wait: 10)
+
+        # Grandchildren should now also have implicit selection styling
+        expect(has_implicitly_selected_class(bba_ao.uri)).to be true
+        expect(has_implicitly_selected_class(bbb_ao.uri)).to be true
+
+        # And they should have checkmark badges
+        expect(find_badge(bba_ao.uri)).to eq("\u2713")
+        expect(find_badge(bbb_ao.uri)).to eq("\u2713")
+      end
+
+      it 'applies implicit selection to children whose batches load on scroll after expansion' do
+        click_row(b_ao.uri, meta: true)
+        expect(data_selection_uris).to eq(b_ao.uri)
+
+        # Initial expansion of BD loads batch 0 only
+        expand_node(bd_ao.uri)
+        wait_for_ajax
+        expect(page).to have_css("li.node[data-uri='#{bd_first_batch_child.uri}']", wait: 10)
+        expect(page).to have_no_css("li.node[data-uri='#{bd_second_batch_child.uri}']")
+
+        expect(has_implicitly_selected_class(bd_first_batch_child.uri)).to be true
+        expect(find_badge(bd_first_batch_child.uri)).to eq("\u2713")
+
+        scroll_to_load_child_batch(bd_ao.uri, 1)
+
+        expect(page).to have_css("li.node[data-uri='#{bd_second_batch_child.uri}']", wait: 10)
+        expect(has_implicitly_selected_class(bd_second_batch_child.uri)).to be true
+        expect(find_badge(bd_second_batch_child.uri)).to eq("\u2713")
+        expect(has_implicitly_selected_class(bd_first_batch_child.uri)).to be true
+      end
+
+      it 'applies implicit selection to nested descendants expanded multiple levels deep' do
+        # Select B while it's expanded (children visible)
+        click_row(b_ao.uri, meta: true)
+
+        # BB is implicitly selected
+        expect(has_implicitly_selected_class(bb_ao.uri)).to be true
+
+        # Expand BB (which is implicitly selected, not explicitly)
+        expand_node(bb_ao.uri)
+        wait_for_ajax
+        expect(page).to have_css("li.node[data-uri='#{bba_ao.uri}']", wait: 10)
+
+        # BBA and BBB (grandchildren of B, children of BB) should be implicitly selected
+        expect(has_implicitly_selected_class(bba_ao.uri)).to be true
+        expect(has_implicitly_selected_class(bbb_ao.uri)).to be true
+
+        # Selection should still only contain B
+        expect(data_selection_uris).to eq(b_ao.uri)
+      end
+
+      it 'does not apply implicit selection when reorder mode is off' do
+        # Exit reorder mode
+        find('.js-itree-toolbar-reorder-toggle').click
+        expect(page).to have_no_css('#infinite-tree-container.reorder-mode')
+
+        # Expand BB (no selection active, reorder mode off)
+        expand_node(bb_ao.uri)
+        wait_for_ajax
+        expect(page).to have_css("li.node[data-uri='#{bba_ao.uri}']", wait: 10)
+
+        # No implicit selection classes should be present
+        expect(has_implicitly_selected_class(bba_ao.uri)).to be false
+        expect(has_implicitly_selected_class(bbb_ao.uri)).to be false
+      end
+
+      it 'does not apply implicit selection to unrelated branches when sibling is selected' do
+        # Select A (a sibling of B with no descendants loaded)
+        click_row(a_ao.uri, meta: true)
+        expect(data_selection_uris).to eq(a_ao.uri)
+
+        # Expand BB under B (which is not selected)
+        expand_node(bb_ao.uri)
+        wait_for_ajax
+        expect(page).to have_css("li.node[data-uri='#{bba_ao.uri}']", wait: 10)
+
+        # BBA and BBB should NOT be implicitly selected (they're not under A)
+        expect(has_implicitly_selected_class(bba_ao.uri)).to be false
+        expect(has_implicitly_selected_class(bbb_ao.uri)).to be false
       end
     end
 
