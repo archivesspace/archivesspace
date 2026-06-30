@@ -375,16 +375,22 @@ module Trees
         .each_with_object({}) { |row, h| h[row[:id]] = row[:display_string] }
     end
 
-    lang = RequestContext.description_language
-    return {} unless lang
+    mlc_fk  = :"#{self.class.node_type}_id"
+    results = {}
 
-    mlc_fk = :"#{self.class.node_type}_id"
-    node_model.db[node_model.mlc_table]
-      .filter(mlc_fk => node_ids,
-              :language_id => lang[:language_id],
-              :script_id   => lang[:script_id])
-      .select(mlc_fk, :display_string)
-      .each_with_object({}) { |row, h| h[row[mlc_fk]] = row[:display_string] }
+    [RequestContext.requested_description_language, primary_description_language, RequestContext.default_description_language].compact.uniq.each do |lang|
+      ids_without_lang = node_ids.reject { |id| results[id] }
+      break if ids_without_lang.empty?
+
+      node_model.db[node_model.mlc_table]
+        .filter(mlc_fk => ids_without_lang,
+                :language_id => lang[:language_id],
+                :script_id   => lang[:script_id])
+        .select(mlc_fk, :display_string)
+        .each { |row| results[row[mlc_fk]] = row[:display_string] }
+    end
+
+    results
   end
 
   def bulk_archival_object_updater_containers_ds

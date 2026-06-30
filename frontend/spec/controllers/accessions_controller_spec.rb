@@ -118,4 +118,54 @@ describe AccessionsController, type: :controller do
       end
     end
   end
+
+  describe 'language_of_description redirect' do
+    before(:each) do
+      set_repo($repo)
+      session = User.login('admin', 'admin')
+      User.establish_session(controller, session, 'admin')
+      controller.session[:repo_id] = JSONModel.repository
+    end
+
+    describe 'POST update' do
+      let!(:existing_accession) { create(:json_accession) }
+
+      def full_accession_params(accession)
+        json = JSONModel(:accession).find(accession.id)
+        json.to_hash.merge('lock_version' => json.lock_version)
+      end
+
+      context 'with a language_of_description param' do
+        it 'preserves the param in the redirect to edit' do
+          post :update, params: {
+            id:                      existing_accession.id,
+            language_of_description: 'fre_Latn',
+            accession:               full_accession_params(existing_accession)
+          }
+
+          expect(response).to redirect_to(
+            controller: :accessions,
+            action:     :edit,
+            id:         existing_accession.id,
+            language_of_description: 'fre_Latn'
+          )
+        end
+      end
+
+      context 'without a language_of_description param' do
+        it 'redirects to edit without a language param' do
+          post :update, params: {
+            id:       existing_accession.id,
+            accession: full_accession_params(existing_accession)
+          }
+
+          expect(response).to redirect_to(
+            controller: :accessions,
+            action:     :edit,
+            id:         existing_accession.id
+          )
+        end
+      end
+    end
+  end
 end

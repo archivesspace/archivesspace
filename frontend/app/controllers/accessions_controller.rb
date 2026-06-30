@@ -135,7 +135,8 @@ class AccessionsController < ApplicationController
                     end
                     redirect_to(:controller => :accessions,
                                 :action => :edit,
-                                :id => id)
+                                :id => id,
+                                :language_of_description => params[:language_of_description])
                   end
                 })
   end
@@ -157,7 +158,10 @@ class AccessionsController < ApplicationController
                     flash[:warning] = t("slug.autogen_disabled")
                   end
 
-                  redirect_to :controller => :accessions, :action => :edit, :id => id
+                  # Unlike other record types, accessions update redirects rather than using
+                  # render_aspace_partial, so the language param must be threaded through explicitly.
+                  redirect_to :controller => :accessions, :action => :edit, :id => id,
+                              :language_of_description => params[:language_of_description]
                 })
   end
 

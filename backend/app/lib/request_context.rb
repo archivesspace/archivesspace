@@ -46,21 +46,41 @@ class RequestContext
   end
 
 
+  # Returns the language/script pair set on the current request context, or
+  # +nil+ if none was set.  Does not fall back to AppConfig defaults.
+  #
+  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
+  def self.requested_description_language
+    get(:language_of_description)
+  end
+
+
   # Resolves the active language/script pair for MLC field lookups.
   #
   # Returns the language set on the current request context if present,
   # otherwise falls back to the enumeration IDs for
-  # +AppConfig[:mlc_default_language]+ / +AppConfig[:mlc_default_script]+.
+  # +AppConfig[:mlc_default_language]+ / +AppConfig[:mlc_default_script]+,
+  # caching the AppConfig result under a separate key so the request-language
+  # key remains unambiguous.
   #
-  # @return Hash{Symbol=>Integer} +{ language_id:, script_id: }+
+  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
   def self.description_language
-    lang = get(:language_of_description)
-    return lang if lang
+    get(:language_of_description) || default_description_language
+  end
 
-    resolved = resolve_language_pair(AppConfig[:mlc_default_language],
-                                     AppConfig[:mlc_default_script])
-    put(:language_of_description, resolved) if resolved && active?
-    resolved
+
+  # Resolves the AppConfig default language/script pair, regardless of any
+  # language set on the current request context.  Always the last-resort
+  # fallback in the MLC lookup chain.
+  #
+  # @return [Hash{Symbol=>Integer}, nil] +{ language_id:, script_id: }+, or +nil+
+  def self.default_description_language
+    get(:language_of_description_default) || begin
+      resolved = resolve_language_pair(AppConfig[:mlc_default_language],
+                                       AppConfig[:mlc_default_script])
+      put(:language_of_description_default, resolved) if resolved && active?
+      resolved
+    end
   end
 
 

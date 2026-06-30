@@ -2606,11 +2606,6 @@ uk:
     current_language: Поточна мова
     default: За замовчуванням
     icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
-    languages:
-      eng: англійська
-      spa: Іспанська
-      fre: французька
-      ger: Німецький
     mlc_field: Значення цього поля може змінюватися залежно від поточної мови опису.
     _frontend:
       action:

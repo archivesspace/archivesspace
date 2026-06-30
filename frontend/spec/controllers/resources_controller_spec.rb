@@ -84,6 +84,46 @@ describe ResourcesController, type: :controller do
     end
   end
 
+  describe '#set_description_language' do
+    before(:each) do
+      apply_session_to_controller(controller, 'admin', 'admin')
+    end
+
+    after(:each) do
+      JSONModel::HTTP.current_description_language = nil
+    end
+
+    context 'when a valid language_of_description param is present' do
+      it 'sets current_description_language' do
+        get :edit, params: { id: create(:json_resource).id, language_of_description: 'fre_Latn' }
+        expect(JSONModel::HTTP.current_description_language).to eq('fre_Latn')
+      end
+    end
+
+    context 'when no language_of_description param is present' do
+      it 'sets current_description_language to nil even when previously set' do
+        get :edit, params: { id: create(:json_resource).id }
+        expect(JSONModel::HTTP.current_description_language).to be_nil
+      end
+    end
+
+    context 'when the language_of_description param is invalid' do
+      context 'when the value is blank' do
+        it 'sets current_description_language to nil' do
+          get :edit, params: { id: create(:json_resource).id, language_of_description: '' }
+          expect(JSONModel::HTTP.current_description_language).to be_nil
+        end
+      end
+
+      context 'when the value is malformed' do
+        it 'sets current_description_language to nil' do
+          get :edit, params: { id: create(:json_resource).id, language_of_description: 'not-valid' }
+          expect(JSONModel::HTTP.current_description_language).to be_nil
+        end
+      end
+    end
+  end
+
   describe 'record title field' do
     before(:each) do
       session = User.login('admin', 'admin')

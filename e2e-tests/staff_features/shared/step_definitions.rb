@@ -677,3 +677,7 @@ end
 Then('the user should not see a language badge') do
   expect(page).to have_no_css('.mlc-badge', visible: true)
 end
+
+Then('the user should not see the {string} dropdown') do |button_text|
+  expect(page).to have_no_button(button_text)
+end

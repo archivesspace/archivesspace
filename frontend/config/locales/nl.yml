@@ -69,11 +69,6 @@ nl:
     current_language: Huidige taal
     default: Standaard
     icon: <span class="mlc-icon glyphicon glyphicon-globe"></span>
-    languages:
-      eng: Engels
-      spa: Spaans
-      fre: Frans
-      ger: Duits
     mlc_field: >-
       De waarde van dit veld kan veranderen op basis van de huidige
       beschrijvingstaal.

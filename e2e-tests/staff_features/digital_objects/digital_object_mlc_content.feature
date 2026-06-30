@@ -4,12 +4,12 @@ Feature: MLC content display
     Given an administrator user is logged in
       And a Digital Object has been created
 
+  @mlc_enabled
   Scenario: Current Language selector from edit mode resource toolbar
-    Given the Digital Object is opened in edit mode
+    Given a second language of description has been added to the Digital Object
+      And the Digital Object is opened in edit mode
      When the user clicks on "Current Language"
      Then the user sees the "English" option in the "Current Language" dropdown
-      And the user sees the "Spanish" option in the "Current Language" dropdown
-      And the user sees the "French" option in the "Current Language" dropdown
       And the user sees the "German" option in the "Current Language" dropdown
 
   Scenario Outline: MLC default language preview appears on mlc content fields
@@ -23,12 +23,12 @@ Feature: MLC content display
           | record_type    | field |
           | digital_object | title |
 
+  @mlc_enabled
   Scenario: Current Language selector from view mode resource toolbar
-    Given the Digital Object is opened in the view mode
+    Given a second language of description has been added to the Digital Object
+      And the Digital Object is opened in the view mode
      When the user clicks on "Current Language"
      Then the user sees the "English" option in the "Current Language" dropdown
-      And the user sees the "Spanish" option in the "Current Language" dropdown
-      And the user sees the "French" option in the "Current Language" dropdown
       And the user sees the "German" option in the "Current Language" dropdown
 
   Scenario Outline: MLC badge does not appear in read mode
@@ -45,6 +45,10 @@ Feature: MLC content display
     Given a second language of description has been added to the Digital Object
       And the Digital Object is opened in edit mode
      Then the user should see language badges on all subrecords
+
+  Scenario: Current Language selector does not appear when mlc disabled
+    Given the Digital Object is opened in edit mode
+     Then the user should not see the "Current Language" dropdown
 
   Scenario: Current language badge does not appear when mlc disabled
     Given the Digital Object is opened in edit mode

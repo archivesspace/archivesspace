@@ -132,14 +132,15 @@ The changes outlined here are prototyped in [PR #4000](https://github.com/archiv
 
 ### 3.1 Record toolbar — current-language selector
 
-- [ ] Add "Descriptions" dropdown button to the resource record toolbar
+- [x] Add "Descriptions" dropdown button to the resource record toolbar
   - `frontend/app/views/shared/_resource_toolbar.html.erb`
   - Lists all languages recorded in `lang_descriptions` using ISO 639-2 codes
     - Use the translations available in the current locale files for the language labels
   - Primary language entry carries a badge (reuse existing Bootstrap badge component)
   - Selecting a language sets a client-side state (JS) and triggers a form reload or in-place re-render for that language
-    - Switching from one language to the other while having unsaved changes should give a warning
-- [ ] Same toolbar addition for archival object, accession, digital object toolbars
+    - [ ] Switching from one language to the other while having unsaved changes should give a warning
+- [x] Same toolbar addition for archival object, accession, digital object toolbars
+- [ ] Component tree (archival objects / digital object components) reloads when the language is switched.
 
 ### 3.2 Subform heading — current-language badge
 
@@ -172,7 +173,7 @@ reads the `X-ArchivesSpace-Description-Language` header and puts the resolved pa
 is purely about sending that header from the frontend Rails controllers when they proxy to
 the backend.
 
-- [ ] Frontend Rails controllers forward the currently-selected language as
+- [x] Frontend Rails controllers forward the currently-selected language as
   `X-ArchivesSpace-Description-Language: <iso639_2>_<iso15924>` on every request that creates
   or updates an MLC-backed record
   - `frontend/app/controllers/resources_controller.rb` (and equivalent for archival object,
@@ -181,6 +182,11 @@ the backend.
     in 3.1; the form submit handler passes it through to the Rails controller via a hidden
     field (`language_of_description[language]` + `language_of_description[script]`) which the
     controller reads and sets on the outgoing backend HTTP request's headers
+    - Note: Actual implementation moved away from the hidden field approach
+    to solve the problem of how to have access to the language values on 
+    the initial page edit/load via GET where those hidden form fields
+    aren't available. Implemented instead as a URL-param with logic from
+    `language_selector.js`.  This also satisfied the read requirement below.
   - Read operations (record fetch for the edit form) must send the same header so the backend
     returns the matching `_mlc` row in the scalar field values
 
