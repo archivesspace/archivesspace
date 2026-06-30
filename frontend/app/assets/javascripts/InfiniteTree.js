@@ -389,6 +389,17 @@
           this.batchObserver.observe(observerNode);
         }
       }
+
+      // Notify listeners that a batch was inserted (for selection class updates)
+      const parentNode = list.closest('li.node');
+      if (parentNode) {
+        this.container.dispatchEvent(
+          new CustomEvent('infiniteTree:didInsertBatch', {
+            bubbles: true,
+            detail: { parentNode },
+          })
+        );
+      }
     }
 
     /**
@@ -994,6 +1005,14 @@
       const icon = node.querySelector('.node-expand-icon');
       if (icon) icon.classList.add('expanded');
       node.setAttribute('aria-expanded', 'true');
+
+      // Notify listeners that a node was expanded (for selection class updates)
+      this.container.dispatchEvent(
+        new CustomEvent('infiniteTree:didExpand', {
+          bubbles: true,
+          detail: { node },
+        })
+      );
     }
 
     /**
