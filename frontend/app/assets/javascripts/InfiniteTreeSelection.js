@@ -93,6 +93,17 @@ class InfiniteTreeSelection {
       'mousedown',
       this.#onDocumentMouseDown.bind(this)
     );
+
+    // Listen for lazy-load events to apply implicit selection classes to new descendants
+    this.containerEl.addEventListener(
+      'infiniteTree:didInsertBatch',
+      this.#onBatchInserted.bind(this)
+    );
+
+    this.containerEl.addEventListener(
+      'infiniteTree:didExpand',
+      this.#onNodeExpanded.bind(this)
+    );
   }
 
   #onReorderModeChanged(e) {
@@ -460,8 +471,8 @@ class InfiniteTreeSelection {
 
   /**
    * Render selection indicators in each row's .selection-order-badge span.
-   * Explicit rows get numeric order (1, 2, 3...); implicit rows get a checkmark.
-   * Only shown when selected.length > 1 (SCSS :not(:empty) gates visibility).
+   * Explicit rows get a number, implicit rows get a checkmark.
+   * Badge visibility is controlled by CSS.
    */
   #renderBadges() {
     this.containerEl
@@ -470,8 +481,6 @@ class InfiniteTreeSelection {
         badge.textContent = '';
         badge.classList.remove('implicit-mark');
       });
-
-    if (this.selected.length <= 1) return;
 
     this.selected.forEach((li, idx) => {
       const badge = li.querySelector('.selection-order-badge');
@@ -585,5 +594,65 @@ class InfiniteTreeSelection {
     }
 
     return implicit;
+  }
+
+  /**
+   * Handle batch insertion event from InfiniteTree.
+   * Applies implicit selection classes to newly-loaded descendants.
+   * @param {CustomEvent} e - Event with detail.parentNode
+   */
+  #onBatchInserted(e) {
+    const { parentNode } = e.detail || {};
+
+    if (parentNode) {
+      this.#applyImplicitClassesToNewDescendants(parentNode);
+    }
+  }
+
+  /**
+   * Handle node expansion event from InfiniteTree.
+   * Applies implicit selection classes to newly-loaded descendants.
+   * @param {CustomEvent} e - Event with detail.node
+   */
+  #onNodeExpanded(e) {
+    const { node } = e.detail || {};
+
+    if (node) {
+      this.#applyImplicitClassesToNewDescendants(node);
+    }
+  }
+
+  /**
+   * Apply implicit selection styling to newly-loaded descendants of a selected parent.
+   * Called when a batch is inserted or a node is expanded while a parent is selected.
+   * @param {HTMLElement} parentNode - The parent node whose descendants may need styling
+   */
+  #applyImplicitClassesToNewDescendants(parentNode) {
+    if (!this.reorderMode) return;
+    if (this.selected.length === 0) return;
+
+    // Check if parentNode or any of its ancestors is in the selection
+    let hasSelectedAncestor = false;
+    let current = parentNode;
+
+    while (current) {
+      if (this.selected.includes(current)) {
+        hasSelectedAncestor = true;
+        break;
+      }
+      current = this.#getDirectParent(current);
+    }
+
+    if (!hasSelectedAncestor) return;
+
+    // Apply implicit class to all descendants of parentNode
+    const newDescendants = parentNode.querySelectorAll(':scope li.node');
+
+    newDescendants.forEach(li => {
+      li.classList.add('implicitly-multiselected');
+    });
+
+    // Re-render badges so implicit rows get checkmarks
+    this.#renderBadges();
   }
 }
