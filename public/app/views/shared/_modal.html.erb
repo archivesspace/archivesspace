@@ -10,13 +10,13 @@
     <div class="modal-content">
       <header class="modal-header">
         <h2 class="modal-title h3" id="<%= modal_id %>Label"><%= title %></h2>
-        <button type="button" class="close" id="<%= modal_id %>_header_close" data-dismiss="modal" aria-label="<%= I18n.t("actions.close") %>">&times;</button>
+        <button type="button" class="btn-close" id="<%= modal_id %>_header_close" data-bs-dismiss="modal" aria-label="<%= I18n.t("actions.close") %>"></button>
       </header>
       <div class="modal-body">
         <%= modal_body %>
       </div>
       <footer class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="<%= modal_id %>_footer_close" data-dismiss="modal" aria-label="<%= I18n.t("actions.close") %>"><%= I18n.t("actions.close") %></button>
+        <button type="button" class="btn btn-secondary" id="<%= modal_id %>_footer_close" data-bs-dismiss="modal" aria-label="<%= I18n.t("actions.close") %>"><%= I18n.t("actions.close") %></button>
         <% if title != t('actions.cite') %>
           <button type="button" class="btn btn-primary action-btn"></button>
         <% end %>

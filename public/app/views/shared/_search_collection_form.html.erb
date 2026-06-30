@@ -7,7 +7,7 @@
       <%= label_tag('filter_q0',
                     "#{t('actions.search_in',
                     :type => t('resource._singular'))}",
-                    :class => 'sr-only') %>
+                    :class => 'visually-hidden') %>
       <%= text_field_tag('filter_q[]',
                          nil,
                          :id => 'filter_q0',
@@ -24,7 +24,7 @@
       <div class="year_from p-0 flex-grow-1">
         <%= label_tag('filter_from_year', 
                       "#{t('search_results.filter.from_year')}", 
-                      :class => 'sr-only') %>
+                      :class => 'visually-hidden') %>
         <%= text_field_tag(:filter_from_year,
                            nil,
                            :id => 'filter_from_year',
@@ -37,7 +37,7 @@
       <div class="year_to p-0 flex-grow-1">
         <%= label_tag('filter_to_year', 
                       "#{t('search_results.filter.to_year')}",
-                      :class=> 'sr-only') %>
+                      :class=> 'visually-hidden') %>
         <%= text_field_tag(:filter_to_year,
                            nil,
                            :id => 'filter_to_year',

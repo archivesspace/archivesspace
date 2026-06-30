@@ -33,16 +33,16 @@
 </div>
 
 <% if @search[:dates_within] || @search[:text_within] %>
-<h2 class=''><%= t('search_results.filter.head') %></h2>
+<h2><%= t('search_results.filter.head') %></h2>
  <div class="filter_more">
-   <%= form_tag(app_prefix("#{@base_search}"), method: 'get', :class=> "form-horizontal container mx-0 mt-4 mb-5") do %>
+   <%= form_tag(app_prefix("#{@base_search}"), method: 'get', :class=> "form-horizontal mx-0 mt-4 mb-5") do %>
         <%= render partial: 'shared/hidden_params', :locals => { :no_ids => true } %>
         <% if @search[:text_within] %>
-          <div class="form-group row">
+          <div class="mb-3">
             <%= hidden_field_tag('sort', "", :id => nil) %>
             <%= label_tag('filter_q',
                           t('actions.search_within'),
-                          :class => 'sr-only') %>
+                          :class => 'visually-hidden') %>
             <%= text_field_tag('filter_q[]',
                                nil,
                                :id => 'filter_q',
@@ -51,11 +51,11 @@
           </div>
         <% end %>
         <% if @search.search_dates_within? %>
-          <div class="form-group row">
-            <div class="col-md-6 year_from p-0 pr-md-1">
+          <div class="form-group d-flex gap-2 mb-3">
+            <div class="year_from p-0 flex-grow-1">
               <%= label_tag('filter_from_year',
                             t('search_results.filter.from_year'),
-                            :class => 'sr-only') %>
+                            :class => 'visually-hidden') %>
               <%= text_field_tag(:filter_from_year,
                                  nil,
                                  :size => 4,
@@ -64,10 +64,10 @@
                                  :placeholder => t('search_results.filter.from_year'),
                                  :id => 'filter_from_year') %>
             </div>
-            <div class="col-md-6 year_to p-0 pl-md-1 pt-3 pt-md-0">
+            <div class="year_to p-0 pt-3 pt-md-0 flex-grow-1">
               <%= label_tag('filter_to_year',
                             t('search_results.filter.to_year'),
-                            :class=> 'sr-only') %>
+                            :class=> 'visually-hidden') %>
               <%= text_field_tag(:filter_to_year,
                                  nil,
                                  :size => 4,
@@ -81,7 +81,7 @@
           <%= hidden_field_tag(:filter_from_year, @search[:filter_from_year], :id => nil) %>
           <%= hidden_field_tag(:filter_to_year, @search[:filter_to_year], :id => nil) %>
         <% end %>
-      <div class='row'>
+      <div>
         <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary', :id => nil) %>
       </div>
   <% end %>
