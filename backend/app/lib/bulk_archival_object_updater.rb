@@ -71,6 +71,8 @@ class BulkArchivalObjectUpdater
         @digital_object_id_to_uri_map = apply_digital_objects_changes(digital_objects_in_sheet, db)
       end
 
+      unlinked_top_container_ids = Set.new
+
       batch_rows(filename) do |batch|
         to_process = batch.map {|row| [Integer(row.fetch('id')), row]}.to_h
 
@@ -78,7 +80,19 @@ class BulkArchivalObjectUpdater
         ao_jsons = ArchivalObject.sequel_to_jsonmodel(ao_objs)
 
         ao_objs.zip(ao_jsons).each do |ao, ao_json|
+          tc_ids_before = ao_json.instances
+                            .select { |instance| instance['instance_type'] != 'digital_object' }
+                            .map { |instance|
+            JSONModel(:top_container).id_for(instance['sub_container']['top_container']['ref'])
+          }.compact
           process_row(to_process.fetch(ao.id), ao, ao_json, column_by_path, subrecord_columns)
+          tc_ids_after = ao_json.instances
+                           .select { |instance| instance['instance_type'] != 'digital_object' }
+                           .select { |instance| instance['sub_container'].has_key?('top_container') }
+                           .map { |instance|
+            JSONModel(:top_container).id_for(instance['sub_container']['top_container']['ref'])
+          }.compact
+          unlinked_top_container_ids += (tc_ids_before - tc_ids_after)
         end
       end
 
@@ -86,8 +100,8 @@ class BulkArchivalObjectUpdater
         raise BulkUpdateFailed.new(errors)
       end
 
-      if updated_uris.length
-        Resource[resource_id].reindex_top_containers
+      if updated_uris.any? || unlinked_top_container_ids.any?
+        Resource[resource_id].reindex_top_containers(unlinked_top_container_ids)
       end
     end
 

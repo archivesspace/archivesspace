@@ -409,7 +409,7 @@ describe 'Bulk Archival Object Updater' do
         expect(total_records_count_before).to eq total_records_count_after
       end
 
-      it 'only lists all the top container condidates one time' do
+      it 'only lists all the top container candidates one time' do
         expect(bulk_archival_object_updater.create_missing_top_containers?).to eq false
 
         # Change the title of achival objects in the downloaded excel.
@@ -443,6 +443,13 @@ describe 'Bulk Archival Object Updater' do
             :errors=> [
               "Top container not found attached within resource: #<BulkArchivalObjectUpdater::TopContainerCandidate {:top_container_type=>\"box\", :top_container_indicator=>\"Container to be created 0 Indicator\", :top_container_barcode=>\"Container to be created 0 Barcode\"}>\nSet 'create_missing_top_containers' to true inside AppConfig, to create Top Containers that do not exist.\nThe following top containers are attached within this resource:\n[#<BulkArchivalObjectUpdater::TopContainerCandidate {:top_container_type=>\"box\", :top_container_indicator=>\"#{top_container.indicator}\", :top_container_barcode=>\"#{top_container.barcode}\"}>, \"/repositories/#{resource_repository_id}/top_containers/#{top_container.id}\"]\n"
             ]
+          })
+
+          expect(bulk_update_failed.errors[1]).to eq({
+            :sheet => "Updates",
+            :json_property => "instances/2/sub_container/top_container",
+            :row => 3,
+            :errors => ["Property is required but was missing"]
           })
 
           expect(bulk_update_failed.errors[2]).to eq({
@@ -692,9 +699,6 @@ describe 'Bulk Archival Object Updater' do
     end
 
     it 'triggers a top container reindex for the resource and its children one time' do
-      tc_mtime_1 = TopContainer[top_container.id][:system_mtime]
-      tc_mtime_2 = TopContainer[top_container_2.id][:system_mtime]
-
       allow(Resource).to receive(:[]).with(resource.id).and_return(resource_obj)
       expect(resource_obj).to receive(:reindex_top_containers).once.and_call_original
       expect(resource_obj).to receive(:resource_instance_update).once.and_call_original
@@ -705,9 +709,73 @@ describe 'Bulk Archival Object Updater' do
       sheet[3][title_index].change_contents('Updated Archival Object Title 2')
       sheet[4][title_index].change_contents('Updated Archival Object Title 3')
       excel_file.write(excel_filename)
+
+      tc_mtime_1 = TopContainer[top_container.id][:system_mtime]
+      tc_mtime_2 = TopContainer[top_container_2.id][:system_mtime]
+
       bulk_archival_object_updater.run
+      sleep(0.1)
 
       expect(bulk_archival_object_updater.errors).to eq []
+      expect(TopContainer[top_container.id][:system_mtime] > tc_mtime_1).to be_truthy
+      expect(TopContainer[top_container_2.id][:system_mtime] > tc_mtime_2).to be_truthy
+    end
+
+    it 'does not reindex top containers if there are no changes' do
+      allow(Resource).to receive(:[]).with(resource.id).and_return(resource_obj)
+      expect(resource_obj).to_not receive(:reindex_top_containers)
+      expect(resource_obj).to_not receive(:resource_instance_update)
+      expect(resource_obj).to_not receive(:ao_instance_root_record_update)
+
+      excel_file.write(excel_filename)
+
+      tc_mtime_1 = TopContainer[top_container.id][:system_mtime]
+      tc_mtime_2 = TopContainer[top_container_2.id][:system_mtime]
+
+      bulk_archival_object_updater.run
+      sleep(0.1)
+
+      expect(bulk_archival_object_updater.errors).to eq []
+      expect(TopContainer[top_container.id][:system_mtime] > tc_mtime_1).to be_falsey
+      expect(TopContainer[top_container_2.id][:system_mtime] > tc_mtime_2).to be_falsey
+    end
+
+    it 'includes unlinked containers in the top container reindex' do
+      allow(Resource).to receive(:[]).with(resource.id).and_return(resource_obj)
+      allow(AppConfig).to receive(:[]).and_call_original
+      allow(AppConfig).to receive(:[]).with(:bulk_archival_object_updater_apply_deletes).and_return(true)
+      expect(resource_obj).to receive(:reindex_top_containers).once.and_call_original
+      expect(resource_obj).to receive(:resource_instance_update).once.and_call_original
+      expect(resource_obj).to receive(:ao_instance_root_record_update).once.and_call_original
+      # Change the title of achival objects in the downloaded excel.
+      title_index = column_names.find_index('title')
+      sheet[2][title_index].change_contents('Updated Archival Object Title 1')
+      sheet[3][title_index].change_contents('Updated Archival Object Title 2')
+      sheet[4][title_index].change_contents('Updated Archival Object Title 3')
+      [
+        'instances/0/instance_type',
+        'instances/0/top_container_type',
+        'instances/0/top_container_indicator',
+        'instances/0/top_container_barcode',
+        'instances/0/sub_container_type_2',
+        'instances/0/sub_container_indicator_2',
+        'instances/0/sub_container_barcode_2',
+        'instances/0/sub_container_type_3',
+        'instances/0/sub_container_indicator_3'
+      ].each do |instance_field|
+        index = column_names.find_index(instance_field)
+        sheet[4][index].change_contents(nil)
+      end
+      excel_file.write(excel_filename)
+
+      tc_mtime_1 = TopContainer[top_container.id][:system_mtime]
+      tc_mtime_2 = TopContainer[top_container_2.id][:system_mtime]
+
+      bulk_archival_object_updater.run
+      sleep(0.1)
+
+      expect(bulk_archival_object_updater.errors).to eq []
+      updated = ArchivalObject.to_jsonmodel(archival_object_3.id)
       expect(TopContainer[top_container.id][:system_mtime] > tc_mtime_1).to be_truthy
       expect(TopContainer[top_container_2.id][:system_mtime] > tc_mtime_2).to be_truthy
     end
