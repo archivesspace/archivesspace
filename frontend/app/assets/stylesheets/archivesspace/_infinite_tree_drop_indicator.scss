@@ -53,6 +53,23 @@
     );
   }
 
+  &[data-drop-edge='top'],
+  &[data-drop-edge='bottom'],
+  &[data-drop-edge='into'] {
+    > .node-body {
+      background-color: var(--tree-drop-hover-bg);
+
+      .node-indentation {
+        --indent-fill: var(--tree-drop-hover-bg);
+        --indent-line: transparent;
+      }
+
+      .node-expand {
+        background-color: var(--tree-drop-hover-bg);
+      }
+    }
+  }
+
   &[data-drop-edge='top'] {
     &::before,
     &::after {
