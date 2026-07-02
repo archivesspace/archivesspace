@@ -45,6 +45,7 @@
   --blue-950: #001f4d;
 
   // Greens from lightest to darkest
+  --green-100: #e8f5e8;
   --green-300: #93d093;
   --green-600: #5f9f5f;
 
@@ -70,6 +71,7 @@
   --tree-implicit-multiselect-bg: var(--blue-100);
   --tree-reparent-highlight-bg: var(--green-300);
   --tree-reparent-highlight-border: var(--green-600);
+  --tree-drop-hover-bg: var(--green-100);
   --tree-cut-bg: #eee;
   --tree-blockout-overlay: rgba(0, 0, 0, 0.2);
   --tree-resizer-bg: var(--gray-200);
@@ -384,7 +386,6 @@
   &.reparented-highlight > .node-row > .node-body:hover {
     background-color: var(--tree-reparent-highlight-bg);
   }
-
 }
 
 #infinite-tree-container.reorder-mode,
