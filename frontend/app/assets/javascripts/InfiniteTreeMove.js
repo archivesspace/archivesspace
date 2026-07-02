@@ -5,7 +5,9 @@ class InfiniteTreeMove {
     this.componentEl = document.getElementById('infinite-tree-component');
     if (!this.componentEl) return;
 
-    this.containerEl = this.componentEl.querySelector('#infinite-tree-container');
+    this.containerEl = this.componentEl.querySelector(
+      '#infinite-tree-container'
+    );
     if (!this.containerEl) return;
 
     this.rootUri = this.componentEl.getAttribute('data-root-uri') || '';
@@ -152,8 +154,9 @@ class InfiniteTreeMove {
     const list = node.querySelector(':scope > .node-children');
     if (!list) return 0;
 
-    return list.querySelectorAll(':scope > li.node:not(.js-itree-synthetic-new)')
-      .length;
+    return list.querySelectorAll(
+      ':scope > li.node:not(.js-itree-synthetic-new)'
+    ).length;
   }
 
   #positionForNode(node) {
