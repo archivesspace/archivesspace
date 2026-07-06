@@ -108,6 +108,18 @@ module BulkImportMixins
     ao
   end
 
+  def accession_from_uri(uri)
+    accession = nil
+    begin
+      uris = uri.split("/")
+      accid = uris.length == 1 ? uri : uris[4]
+      accession = Accession.to_jsonmodel(Integer(accid))
+    rescue
+      raise BulkImportException.new(I18n.t("bulk_import.error.bad_accession_uri", :uri => uri))
+    end
+    accession
+  end
+
   #Finds the top container using the hash values (AND clause only)
   def find_top_container(where_params)
     dataset = CrudHelpers.scoped_dataset(TopContainer, where_params)

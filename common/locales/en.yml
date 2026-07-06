@@ -3014,6 +3014,7 @@ en:
       script_code: "Cannot validate a language script (%{script})"
       process_error: "Error processing %{type} %{num}: %{why}"
       bad_ao_uri: " with uri %{uri}"
+      bad_accession_uri: "Accession not found with uri %{uri}"
       bad_ao_ref_id: " with Ref ID  %{ref_id}"
       bad_ao: "Cannot find archival object %{errs}"
       no_uri_or_ref: Neither an archival object URI nor a Ref ID was provided
