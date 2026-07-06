@@ -252,6 +252,7 @@ class ImportArchivalObjects < BulkImportParser
     subjs.each { |subj| ao.subjects.push({ "ref" => subj.uri }) } unless subjs.empty?
     links = process_agents
     ao.linked_agents = links
+    ao.accession_links = process_accession_links
     ao
   end
 
@@ -310,6 +311,23 @@ class ImportArchivalObjects < BulkImportParser
       end
     end
     agent_links
+  end
+
+  def process_accession_links
+    links = []
+    @headers.grep(/^accession_uri_/).each do |key|
+      uri = @row_hash[key]
+      next if uri.nil?
+
+      begin
+        accession = accession_from_uri(uri)
+        links.push({ "ref" => accession.uri })
+      rescue BulkImportException => e
+        @report.add_errors(I18n.t("bulk_import.error.process_error",
+                                  :type => "Accession", :num => key, :why => e.message))
+      end
+    end
+    links
   end
 
   def initialize_info
