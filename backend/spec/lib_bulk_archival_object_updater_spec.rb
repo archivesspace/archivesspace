@@ -713,8 +713,10 @@ describe 'Bulk Archival Object Updater' do
       tc_mtime_1 = TopContainer[top_container.id][:system_mtime]
       tc_mtime_2 = TopContainer[top_container_2.id][:system_mtime]
 
+      # if the updater runs too quickly, the top container mtimes
+      # will not have advanced a whole second, so sleep is needed.
+      sleep(1)
       bulk_archival_object_updater.run
-      sleep(0.1)
 
       expect(bulk_archival_object_updater.errors).to eq []
       expect(TopContainer[top_container.id][:system_mtime] > tc_mtime_1).to be_truthy
@@ -732,8 +734,10 @@ describe 'Bulk Archival Object Updater' do
       tc_mtime_1 = TopContainer[top_container.id][:system_mtime]
       tc_mtime_2 = TopContainer[top_container_2.id][:system_mtime]
 
+      # if the updater runs too quickly, the top container mtimes
+      # will not have advanced a whole second, so sleep is needed.
+      sleep(1)
       bulk_archival_object_updater.run
-      sleep(0.1)
 
       expect(bulk_archival_object_updater.errors).to eq []
       expect(TopContainer[top_container.id][:system_mtime] > tc_mtime_1).to be_falsey
@@ -771,8 +775,10 @@ describe 'Bulk Archival Object Updater' do
       tc_mtime_1 = TopContainer[top_container.id][:system_mtime]
       tc_mtime_2 = TopContainer[top_container_2.id][:system_mtime]
 
+      # if the updater runs too quickly, the top container mtimes
+      # will not have advanced a whole second, so sleep is needed.
+      sleep(1)
       bulk_archival_object_updater.run
-      sleep(0.1)
 
       expect(bulk_archival_object_updater.errors).to eq []
       updated = ArchivalObject.to_jsonmodel(archival_object_3.id)
