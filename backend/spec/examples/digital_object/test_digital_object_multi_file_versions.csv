@@ -3,3 +3,4 @@ do-multi-01,Multi Version DO,TRUE,http://example.com/file1.jpg,TRUE,TRUE,First f
 do-multi-02,NULL URI DO,TRUE,http://example.com/only.jpg,TRUE,TRUE,Only file,NULL,,,
 do-multi-03,Blank URI DO,TRUE,http://example.com/blank.jpg,TRUE,TRUE,Blank test,,,,
 do-multi-04,Whitespace DO,TRUE,http://example.com/ws.jpg,TRUE,TRUE,"  Padded caption  ",,,,
+do-multi-05,Null Field DO,TRUE,http://example.com/nullfield.jpg,TRUE,TRUE,NULL,,,,

@@ -346,45 +346,58 @@ class DigitalObjectConverter < Converter
 
   private
 
-  def parse_row(row)
-    row.each_with_index { |cell, i| parse_cell(@cell_handlers[i], cell) }
-    @batch.working_area.map! { |proxy| proxy.spawn }.compact!
-    @batch.working_area.each { |obj| @proxies.discharge_proxy(obj.key, obj) }
-
+  def after_row_parsed(row)
     row_hash = Hash[self.class.headers.zip(row)]
     digital_object = @batch.working_area.find { |obj| obj.class.record_type =~ /^digital_object/ }
     append_file_versions(row_hash, digital_object) if digital_object
-
-    @batch.flush
   end
 
 
   def append_file_versions(row_hash, digital_object)
-    to_bool = self.class.normalize_boolean
+    file_version_suffixes(row_hash).each do |suffix|
+      uri = normalized_file_version_value('file_uri', suffix, row_hash)
+      next if uri.nil? || uri.empty?
+
+      fv = ASpaceImport::JSONModel(:file_version).new
+      fv.file_uri = uri
+
+      file_version_properties.each do |property|
+        next if property == 'file_uri'
+
+        value = normalized_file_version_value(property, suffix, row_hash)
+        fv.send("#{property}=", value) unless value.nil?
+      end
+
+      digital_object.file_versions << fv
+    end
+  end
+
+
+  def normalized_file_version_value(property, suffix, row_hash)
+    raw = row_hash["file_version_#{property}#{suffix}"]
+    return nil if raw.nil? || raw == 'NULL'
+
+    property_def = ASpaceImport::JSONModel(:file_version).schema['properties'][property]
+    filter_type = ASpaceImport::Utils.get_property_type(property_def)[0]
+
+    raw = self.class.normalize_boolean.call(raw) if filter_type == :boolean
+
+    ASpaceImport::Utils.value_filter(filter_type).call(raw)
+  end
+
+
+  def file_version_suffixes(row_hash)
     row_hash.keys
       .grep(/^file_version_file_uri(_\d+)?$/)
-      .sort_by { |k| k[/\d+/].to_i }
-      .each do |uri_key|
-        suffix = uri_key[/_\d+$/] || ""
-        uri_val = row_hash["file_version_file_uri#{suffix}"].to_s.strip
-        next if uri_val.empty? || uri_val == 'NULL'
+      .sort_by { |key| key[/\d+/].to_i }
+      .map { |key| key[/_\d+$/] || "" }
+  end
 
-        fv = ASpaceImport::JSONModel(:file_version).new
-        fv.file_uri                = normalize_str(row_hash["file_version_file_uri#{suffix}"])
-        fv.publish                 = to_bool.call(row_hash["file_version_publish#{suffix}"])
-        fv.use_statement           = row_hash["file_version_use_statement#{suffix}"]
-        fv.xlink_actuate_attribute = row_hash["file_version_xlink_actuate_attribute#{suffix}"]
-        fv.xlink_show_attribute    = row_hash["file_version_xlink_show_attribute#{suffix}"]
-        fv.file_format_name        = row_hash["file_version_file_format_name#{suffix}"]
-        fv.file_format_version     = normalize_str(row_hash["file_version_file_format_version#{suffix}"])
-        fv.file_size_bytes         = row_hash["file_version_file_size_bytes#{suffix}"]&.to_i
-        fv.checksum                = normalize_str(row_hash["file_version_checksum#{suffix}"])
-        fv.checksum_method         = row_hash["file_version_checksum_method#{suffix}"]
-        fv.is_representative       = to_bool.call(row_hash["file_version_is_representative#{suffix}"])
-        fv.caption                 = normalize_str(row_hash["file_version_caption#{suffix}"])
 
-        digital_object.file_versions << fv
-      end
+  def file_version_properties
+    ASpaceImport::JSONModel(:file_version).schema['properties'].reject do |_name, defn|
+      defn['readonly']
+    end.keys
   end
 
 
@@ -431,13 +444,6 @@ class DigitalObjectConverter < Converter
   def self.normalize_boolean
     @normalize_boolean ||= Proc.new {|val| val.to_s.upcase.match(/\A(1|T|Y|YES|TRUE)\Z/) ? true : false }
     @normalize_boolean
-  end
-
-
-  # Replicates ASpaceImport::Utils.value_filter(:string) — append_file_versions bypasses
-  # RecordProxy#spawn, so string fields need explicit per-line whitespace stripping.
-  def normalize_str(val)
-    val && val.split("\n").map(&:strip).join("\n")
   end
 
 

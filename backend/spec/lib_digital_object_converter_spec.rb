@@ -98,6 +98,12 @@ describe 'Digital Object converter' do
     it "strips leading and trailing whitespace from string fields" do
       expect(@multi_dos[3]['file_versions'][0]['caption']).to eq('Padded caption')
     end
+
+    it "treats the literal string NULL in a non-URI field as unset" do
+      fv = @multi_dos[4]['file_versions'][0]
+      expect(fv['file_uri']).to eq('http://example.com/nullfield.jpg')
+      expect(fv['caption']).to be_nil
+    end
   end
 
 
