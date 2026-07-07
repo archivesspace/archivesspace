@@ -42,6 +42,7 @@ class BulkArchivalObjectUpdater
     @errors = []
     @info_messages = []
     @updated_uris = []
+    @attached_top_containers_have_been_reported = false
   end
 
   def run
@@ -70,6 +71,8 @@ class BulkArchivalObjectUpdater
         @digital_object_id_to_uri_map = apply_digital_objects_changes(digital_objects_in_sheet, db)
       end
 
+      unlinked_top_container_ids = Set.new
+
       batch_rows(filename) do |batch|
         to_process = batch.map {|row| [Integer(row.fetch('id')), row]}.to_h
 
@@ -77,12 +80,28 @@ class BulkArchivalObjectUpdater
         ao_jsons = ArchivalObject.sequel_to_jsonmodel(ao_objs)
 
         ao_objs.zip(ao_jsons).each do |ao, ao_json|
+          tc_ids_before = ao_json.instances
+                            .select { |instance| instance['instance_type'] != 'digital_object' }
+                            .map { |instance|
+            JSONModel(:top_container).id_for(instance['sub_container']['top_container']['ref'])
+          }.compact
           process_row(to_process.fetch(ao.id), ao, ao_json, column_by_path, subrecord_columns)
+          tc_ids_after = ao_json.instances
+                           .select { |instance| instance['instance_type'] != 'digital_object' }
+                           .select { |instance| instance['sub_container'].has_key?('top_container') }
+                           .map { |instance|
+            JSONModel(:top_container).id_for(instance['sub_container']['top_container']['ref'])
+          }.compact
+          unlinked_top_container_ids += (tc_ids_before - tc_ids_after)
         end
       end
 
       if errors.length > 0
         raise BulkUpdateFailed.new(errors)
+      end
+
+      if updated_uris.any? || unlinked_top_container_ids.any?
+        Resource[resource_id].reindex_top_containers(unlinked_top_container_ids)
       end
     end
 
@@ -201,7 +220,7 @@ class BulkArchivalObjectUpdater
       # Apply changes to the Archival Object!
       if record_changed
         ao_json['position'] = nil
-        ao.update_from_json(ao_json)
+        ao.update_from_json(ao_json, skip_reindex_top_containers: true)
 
         info_messages.push("Updated archival object #{ao.id} - #{ao_json.display_string}")
 
@@ -1362,11 +1381,13 @@ class BulkArchivalObjectUpdater
 
     message += "Top container not found attached within resource: #{container.inspect}\n"
     message += "Set 'create_missing_top_containers' to true inside AppConfig, to create Top Containers that do not exist.\n"
-    message += "The following top containers are attached within this resource:\n"
-    message += available_top_containers.map do |tc|
-      "#{ tc.inspect }\n"
-    end.join("")
-
+    unless @attached_top_containers_have_been_reported
+      message += "The following top containers are attached within this resource:\n"
+      message += available_top_containers.map do |tc|
+        "#{ tc.inspect }\n"
+      end.join("")
+    end
+    @attached_top_containers_have_been_reported = true
     message
   end
 end

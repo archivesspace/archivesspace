@@ -20,9 +20,6 @@ module ReindexTopContainers
     if root_record.is_a?(Resource)
       resource_instance_update(root_record.id)
       ao_instance_root_record_update(root_record.id)
-    elsif root_record.is_a?(ArchivalObject)
-      Log.warn("Invoking slow path for reindexing top containers")
-      reindex_top_containers_by_any_means_necessary(extra_ids)
     elsif root_record.is_a?(Accession)
       accession_instance_root_record_update(root_record.id)
     end
