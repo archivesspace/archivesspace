@@ -1996,6 +1996,10 @@ es:
       rbgenr: Términos de género
       rvm: Répertoire de vedettes-matière
       tgn: Thesaurus Getty de Nombres Geográficos
+      other: ''
+      sears: ''
+      not_specified: ''
+      not_applicable: ''
     subject_term_type:
       cultural_context: Contexto cultural
       function: Función
