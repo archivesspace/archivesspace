@@ -108,6 +108,10 @@ ja:
     _plural: デジタルオブジェクト
 
     new_title: 新しいデジタルオブジェクト
+    linker:
+      browse: ''
+      create: ''
+      link_title: ''
   digital_object_component:
     <<: *digital_object_attributes
     label: ラベル
@@ -164,6 +168,11 @@ ja:
     _singular: ロケーション
     _plural: 場所
 
+    linker:
+      create: ''
+      link_title: ''
+      browse: ''
+    new_title: ''
   location_batch:
     <<: *location_attributes
     label: ラベル
@@ -211,6 +220,10 @@ ja:
     _singular: レコードリンク
     _plural: レコードリンク
 
+    linker_ref:
+      link_title: ''
+      create: ''
+      browse: ''
   linked_agent: &linked_agent_attributes
     role: 役割
     role_tooltip: "<p>必要なフィールド。エージェントが特定の説明レコードへのリンクに関してどのような機能（作成者、ソース、またはサブジェクト）を持っているかを示す。</p><p>DACS
@@ -309,6 +322,7 @@ ja:
     _plural: イベント
 
     linked_agents_tooltip: "<p>必要なサブレコード：1人以上のエージェントをこのイベントの参加者として関連付けます。</p>\n"
+    new_title: ''
   linked_event:
     <<: *event
 
@@ -994,6 +1008,11 @@ ja:
     last_modified_by: 最終更新者
     create_time: 作成した
     user_mtime: 更新日
+    new_title: ''
+    linker:
+      link_title: ''
+      create: ''
+      browse: ''
   interrelated_accession:
     _plural: 関連するアクセス
     relationship_type: 関係タイプ
@@ -1064,6 +1083,15 @@ ja:
     _singular: エージェント
     _plural: エージェント
 
+    new_title:
+      agent_corporate_entity: ''
+      agent_person: ''
+      agent_software: ''
+      agent_family: ''
+    linker:
+      browse: ''
+      create: ''
+      link_title: ''
   related_agents_agent_person:
     related_agents: 関連エージェント
   related_agents_agent_family:
@@ -1164,6 +1192,13 @@ ja:
     _singular: グループ
     _plural: グループ
 
+    default_group_names:
+      repository_managers: ''
+      basic_data_entry: ''
+      repository_archivists: ''
+      advanced_data_entry: ''
+      repository_viewers: ''
+      project_managers: ''
   resource:
     <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
@@ -1238,6 +1273,9 @@ ja:
     last_modified_by: 最終更新者
     create_time: 作成した
     user_mtime: 更新日
+    new_title: ''
+    is_finding_aid_status_published: ''
+    is_finding_aid_status_published_tooltip: ''
   related_accession:
     _singular: 関連するアクセス権
     _plural: 関連するアクセス
@@ -1300,6 +1338,14 @@ ja:
     publish: 公開しますか？
     publish_tooltip: "<p>このリポジトリとそれに含まれるレコードがパブリック（パトロン）インターフェイスに公開されるかどうかを決定します。 </p>"
 
+    position: ''
+    linker:
+      browse: ''
+      create: ''
+      link_title: ''
+    ark_shoulder_tooltip: ''
+    new_title: ''
+    ark_shoulder: ''
   term:
     term: 期間
     term_tooltip: "<p>必要なフィールド。サブジェクト見出しの一部の記述子。件名の見出しには少なくとも1つの用語が関連付けられていなければなりません。 </p>"
@@ -1327,6 +1373,11 @@ ja:
     _singular: 件名
     _plural: 科目
 
+    linker:
+      link_title: ''
+      browse: ''
+      create: ''
+    new_title: ''
   user:
     username: ユーザー名
     username_tooltip: "<p>必要なフィールド。ユーザーがアプリケーションの認証に使用するアカウントのユーザー名。 許可される文字には、a〜z、A〜Z、@、数字、ハイフン、ダッシュ、およびドットが含まれます。</p>"
@@ -1358,6 +1409,7 @@ ja:
     _singular: ユーザー
     _plural: ユーザー
 
+    reset_password: ''
   collection_management:
     cataloged_note: カタログ化された注釈
     cataloged_note_tooltip: "<p>カタログレコード識別子の提供を含むアーカイブ単位（アクセス権、リソース、デジタルオブジェクト）のカタログ化に関する注記。 </p><p>例：
@@ -1412,6 +1464,7 @@ ja:
     _singular: 管理された値リスト
     _plural: 制御値リスト
 
+    default: ''
   classification:
     <<: *slug_attributes
     _singular: 分類
@@ -1422,6 +1475,11 @@ ja:
     creator: クリエイター
     id_separator: "/"
 
+    linker:
+      link_title: ''
+      create: ''
+      browse: ''
+    new_title: ''
   classification_term:
     <<: *slug_attributes
     _singular: 分類期間
@@ -1431,6 +1489,10 @@ ja:
     description: 説明
     creator: クリエイター
 
+    linker:
+      link_title: ''
+      browse: ''
+      create: ''
   preference:
     defaults: デフォルト
     global: グローバルプリファレンスのデフォルト
@@ -1487,6 +1549,9 @@ ja:
     _singular: デフォルト
     _plural: デフォルト
 
+    top_container_mgmt_browse_section: ''
+    rde_sort_alpha: ''
+    include_unpublished: ''
   reports:
     parameters:
       from: から
@@ -1495,6 +1560,8 @@ ja:
       locations: 場所
       scope_by_date: 日付範囲
       template: テンプレート
+      rating: ''
+      values: ''
     formats:
       json: JSON
       csv: CSV
@@ -1587,6 +1654,12 @@ ja:
     mixed_content_invalid_inline_ead: "無効な EAD マークアップです。属性値には直線の引用符（\" または '）を使用し、タグが正しく構成されていることを確認してください。"
     mixed_content_disallowed_tag: "許可されていない HTML タグが検出されました。セキュリティ上の理由から、&lt;script&gt;、&lt;style&gt;、&lt;iframe&gt;
       などのタグやフォーム要素は、混合コンテンツフィールドでは使用できません。"
+    missing_end_filter_date: ''
+    missing_required_subrecord: ''
+    ark_format_error: ''
+    ark_collision: ''
+    missing_start_filter_date: ''
+    external_ark_collision: ''
   job:
     _singular: バックグラウンドジョブ
     _plural: バックグラウンドジョブ
@@ -1606,6 +1679,7 @@ ja:
       bulk_import_job: スプレッドシートを介してロード
       top_container_linker_job: トップコンテナリンカー
       bulk_archival_object_updater_job: 一括アーカイブオブジェクトの更新
+      ns2_remover_job: ''
     status: 状態
     status_completed: 完了しました
     status_queued: 待機中
@@ -1620,6 +1694,8 @@ ja:
     input_file: 入力ファイル
     output_file: 出力ファイル
 
+    new_title: ''
+    queue_position: ''
   container_labels_job:
     source: ソース
     format: フォーマット
@@ -1645,6 +1721,14 @@ ja:
     import_type_marcxml_accession: MarcXML（アクセッション）
     import_type_marcxml_subjects_and_agents: MarcXML（主題と代理人のみ）
 
+    bulk_import_csv: ''
+    import_type_subject_csv: ''
+    bulk_import_DO_csv: ''
+    import_subjects: ''
+    bulk_import_DO_xlsx: ''
+    bulk_import_xlsx: ''
+    import_subject_csv: ''
+    import_repository: ''
   find_and_replace_job:
     _singular: ジョブの検索と置換
     find: 検索する文字列
@@ -1818,6 +1902,9 @@ ja:
     _singular: 評価
     _plural: アセスメント
 
+    linker:
+      link_title: ''
+    new_title: ''
   assessment_attribute:
     rating:
       Reformatting Readiness: 再フォーマットの準備
@@ -2056,6 +2143,10 @@ ja:
 
       find_tc: params：%{where}のトップコンテナが見つかりません。
       sc_barcode: この子バーコード%{barcode}のサブコンテナが見つかりません
+      calendar: ''
+      era: ''
+      utf8: ''
+    templates: ''
   dates_of_existence:
     _frontend:
       action:
@@ -2167,6 +2258,7 @@ ja:
     xlink_role_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
     xlink_arcrole_attribute_tooltip: "<p>関連するURIにリンクされているリモートリソースのタイプまたは性質。</p>"
     last_verified_date_tooltip: "<p>関連付けられたURIでリンクされたリンクされたリソースが検証された最後の日付または日時。</p>"
+    file_uri_tooltip: ''
   subrecord_subject_agent_place:
     subjects_tooltip: "<p>エージェントに関連付けられた地理的な場所。</p>"
   subrecord_subject_agent_occupation:
@@ -2329,3 +2421,30 @@ ja:
   user_mtime: 更新日
   groups:
     _plural: グループ
+  arks:
+    no_changes: ''
+    unsubmitted_input: ''
+    remove_ark: ''
+    set_current: ''
+    only_current_ark_can_be_external: ''
+    actions: ''
+    ark: ''
+    add_new: ''
+    current: ''
+    save: ''
+    edit: ''
+    ark_editor_errors:
+      ark_format_error: ''
+      ark_collision: ''
+    modal_title: ''
+  container_profile:
+    new_title: ''
+    title: ''
+  bulk_import_template:
+    _plural: ''
+    _singular: ''
+  ns2_remover_job:
+    dry_run: ''
+    description: ''
+  location_profile:
+    new_title: ''
