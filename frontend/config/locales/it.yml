@@ -596,7 +596,7 @@ it:
     top_containers_for: "Top Container per %{record_title}"
     no_top_containers: Nessun top container collegato
     edit_top_container: Modifica Top Container
-    view_top_container: Visualizza Top Container
+    view_top_container: Top Container
     become-user: Diventa utente
     brand: Spazio archivi
     create: Creare
@@ -740,17 +740,57 @@ it:
   used_language:
     _singular: Lingua usata
     _plural: Lingue usate
+    language: ''
+    script: ''
+    _frontend:
+      action:
+        add: ''
   agent_occupation:
     _singular: Occupazione
     _plural: Occupazioni
+    publish: ''
+    _frontend:
+      action:
+        add: ''
+    dates: ''
+    places: ''
+    text_note: ''
+    subjects: ''
+    section:
+      dates: ''
   agent_record_identifier:
     source: Fonte
     primary_identifier: Qual è l'identificativo primario?
     record_identifier: Identificatore del record
+    _plural: ''
+    primary: ''
+    _frontend:
+      action:
+        add: ''
+    identifier_type: ''
+    _singular: ''
   agent_resource:
     file_uri: File URI
     _singular: Risorsa esterna correlata
     _plural: Risorse esterne correlate
+    xlink_role_attribute: ''
+    xlink_arcrole_attribute: ''
+    section:
+      places: ''
+      dates: ''
+    places: ''
+    publish: ''
+    _frontend:
+      action:
+        add: ''
+    linked_resource_description: ''
+    linked_resource: ''
+    last_verified_date: ''
+    file_version_xlink_show_attribute: ''
+    dates: ''
+    linked_agent_role: ''
+    xlink_title_attribute: ''
+    file_version_xlink_actuate_attribute: ''
   metadata_rights_declaration:
     license: Licenza
     file_uri: File URI
@@ -759,6 +799,13 @@ it:
     _singular: Dichiarazione dei diritti sui metadati
     xlink_title_attribute: Attributo Titolo Xlink
     xlink_role_attribute: Attributo ruolo Xlink
+    file_version_xlink_show_attribute: ''
+    xlink_arcrole_attribute: ''
+    _frontend:
+      action:
+        add: ''
+    last_verified_date: ''
+    file_version_xlink_actuate_attribute: ''
   job:
     _frontend:
       audit_data: Dati dell'audit
@@ -766,6 +813,10 @@ it:
         add_file: Aggiungi file
         follow_log: Segui il registro
         following_log: Registro seguente
+        create: ''
+        cancel: ''
+        save: ''
+        new: ''
       section:
         basic_information: Informazioni di base
         status: Stato occupazionale
@@ -827,6 +878,9 @@ it:
           nel file config.rb:</b>
         slug_config_eadid: Gli slug per le <b>Risorse</b> verranno generati 
           utilizzando l'ID EAD, ove appropriato.
+      external_repo: ''
+      singular: ''
+      plural: ''
   shortcuts:
     quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
     actions:
@@ -839,24 +893,106 @@ it:
       open_create: "Alterna il menu Crea"
   agent_identifier:
     identifier_type: Tipo di identificativo
+    _plural: ''
+    _frontend:
+      action:
+        add: ''
+    entity_identifier: ''
+    _singular: ''
   agent_gender:
     _singular: Genere
     _plural: Generi
+    _frontend:
+      action:
+        add: ''
+    dates: ''
+    gender: ''
+    note: ''
   agent_function:
     _singular: Funzione
     _plural: Funzioni
+    dates: ''
+    places: ''
+    _frontend:
+      action:
+        add: ''
+    section:
+      dates: ''
+    text_note: ''
+    publish: ''
+    subjects: ''
   agent_place:
     _singular: Luogo
     _plural: Luoghi
+    publish: ''
+    _frontend:
+      action:
+        add: ''
+    subjects: ''
+    dates: ''
+    text_note: ''
+    section:
+      dates: ''
+    place_role: ''
   agent_topic:
     _singular: Argomento
     _plural: Argomenti
+    dates: ''
+    text_note: ''
+    _frontend:
+      action:
+        add: ''
+    section:
+      dates: ''
+    subjects: ''
+    places: ''
+    publish: ''
   agent_alternate_set:
     file_uri: File URI
+    file_version_xlink_show_attribute: ''
+    _frontend:
+      action:
+        add: ''
+    descriptive_note: ''
+    xlink_arcrole_attribute: ''
+    last_verified_date: ''
+    file_version_xlink_actuate_attribute: ''
+    _plural: ''
+    xlink_title_attribute: ''
+    _singular: ''
+    set_component: ''
+    xlink_role_attribute: ''
   agent_conventions_declaration:
     file_uri: File URI
+    last_verified_date: ''
+    descriptive_note: ''
+    name_rule: ''
+    _plural: ''
+    xlink_arcrole_attribute: ''
+    citation: ''
+    file_version_xlink_actuate_attribute: ''
+    file_version_xlink_show_attribute: ''
+    _singular: ''
+    xlink_title_attribute: ''
+    xlink_role_attribute: ''
+    _frontend:
+      action:
+        add: ''
   agent_source:
     file_uri: File URI
+    xlink_arcrole_attribute: ''
+    _frontend:
+      action:
+        add: ''
+    descriptive_note: ''
+    xlink_role_attribute: ''
+    last_verified_date: ''
+    source_entry: ''
+    file_version_xlink_actuate_attribute: ''
+    _singular: ''
+    _plural: ''
+    file_version_xlink_show_attribute: ''
+    xlink_title_attribute: ''
   advanced_search:
     operator:
       NOT: Non
@@ -1756,6 +1892,22 @@ it:
         arrow_keys: Tasti freccia
         return: Ritorno
         move_term: Salto da cellula a cellula
+        new_term: ''
+      reorder_columns:
+        title: ''
+        description: ''
+      reset:
+        title: ''
+        description: ''
+      sticky_columns:
+        p_one: ''
+        p_two: ''
+        title: ''
+      fill_column:
+        sequence_description: ''
+        basic_title: ''
+        basic_description: ''
+        sequence_title: ''
   instance_container:
     container: Contenitrice
   sub_container:
@@ -1764,3 +1916,535 @@ it:
       <p>CAMPO OBBLIGATORIO. Il contenitore di livello più alto in cui è alloggiato il materiale descritto.</p>
       <p>Può essere selezionato da un elenco esistente di contenitori di livello superiore utilizzando le funzioni di completamento automatico o Sfoglia, oppure creato utilizzando la funzione Crea.</p>
     top_container: Contenitore superiore
+    _plural: ''
+    barcode_2: ''
+    indicator_2: ''
+    barcode_2_tooltip: ''
+    type_3_tooltip: ''
+    _singular: ''
+    _frontend:
+      action:
+        add: ''
+    indicator_3_tooltip: ''
+    type_2_tooltip: ''
+    type_3: ''
+    indicator_3: ''
+    indicator_2_tooltip: ''
+  top_container:
+    _frontend:
+      messages:
+        max_results_limit_reached: ''
+        results_summary: ''
+        max_results_limit_details: ''
+        filter_required: ''
+        merged: ''
+        bulk_selection_sort_help: ''
+        no_active_restrictions: ''
+        updated: ''
+        created: ''
+        bulk_action_success: ''
+        bulk_action_success_info: ''
+      bulk_operations:
+        rapid_barcode_entry_new_barcode: ''
+        collection_accession_linker:
+          create: ''
+          browse: ''
+          link_title: ''
+        search: ''
+        batch_merge_instructions: ''
+        update_n_records: ''
+        batch_merge_confirm_merge_candidates: ''
+        collection_plural: ''
+        empty: ''
+        rapid_indicator_entry_help: ''
+        rapid_barcode_entry_existing_barcode: ''
+        collection_resource_singular: ''
+        collection_accession_singular: ''
+        merge_n_records: ''
+        collection_resource_linker:
+          link_title: ''
+          create: ''
+          browse: ''
+        update_locations_multiple: ''
+        update_locations_singular: ''
+        exported_to_ils_true: ''
+        collection_singular: ''
+        update_container_profiles: ''
+        keyword_criteria: ''
+        empty_false: ''
+        empty_true: ''
+        rapid_indicator_entry_new_indicator: ''
+        batch_merge_container_profile_mismatch_warning: ''
+        collection_resource_plural: ''
+        batch_merge_confirm: ''
+        series: ''
+        batch_merge: ''
+        update_locations_new_location: ''
+        rapid_indicator_entry: ''
+        barcodes_criteria: ''
+        batch_merge_confirm_merge_destination: ''
+        update_locations_current_location: ''
+        batch_delete_help: ''
+        update_ils_holding_ids_help: ''
+        update_container_profiles_help: ''
+        select_merge_destination: ''
+        rapid_barcode_entry: ''
+        update_ils_holding_ids: ''
+        collection_accession_plural: ''
+        delete_n_records: ''
+        current_location: ''
+        rapid_barcode_entry_help: ''
+        batch_merge_container_profile_too_many_warning: ''
+        batch_merge_confirm_question: ''
+        batch_delete: ''
+        exported_to_ils_false: ''
+        has_location_false: ''
+        title: ''
+        update_locations_singular_help: ''
+        update_locations_multiple_help: ''
+        has_location_true: ''
+      action:
+        add: ''
+        create: ''
+        save: ''
+      section:
+        basic_information: ''
+        active_restrictions: ''
+        linked_records: ''
+    container_profile: ''
+    linker:
+      browse: ''
+      link_title: ''
+      create: ''
+    managed_container_2_indicator: ''
+    barcode_length_for_this_repository: ''
+    managed_container_2_indicator_tooltip: ''
+    not_exported: ''
+    internal_note_tooltip: ''
+    ils_item_id: ''
+    ils_holding_id: ''
+    managed_container_3_type: ''
+    parent: ''
+    characters: ''
+    batch_delete:
+      success: ''
+      error: ''
+    _plural: ''
+    has_location: ''
+    indicator_tooltip: ''
+    ils_holding_id_tooltip: ''
+    managed_container_3_type_tooltip: ''
+    internal_note: ''
+    managed_container_2_type: ''
+    restricted: ''
+    barcode: ''
+    managed_container_2_type_tooltip: ''
+    ils_item_id_tooltip: ''
+    type: ''
+    indicator: ''
+    managed_container_3_indicator_tooltip: ''
+    _singular: ''
+    exported_to_ils: ''
+    container_profile_tooltip: ''
+    barcode_tooltip: ''
+    managed_container_3_indicator: ''
+    type_tooltip: ''
+  container_profile:
+    name: ''
+    linker:
+      create: ''
+      browse: ''
+      link_title: ''
+    _frontend:
+      action:
+        edit: ''
+        save: ''
+        space_calculator: ''
+        create: ''
+      bulk_operations:
+        confirm_merge_question: ''
+        merge_select_merge_destination: ''
+        merge: ''
+        merge_instructions: ''
+        confirm_merge_destination: ''
+        confirm_merge_candidates: ''
+        confirm_merge: ''
+      section:
+        basic_information: ''
+      messages:
+        merged: ''
+        updated: ''
+        created: ''
+    extent_dimension_depth_tooltip: ''
+    extent_dimension_depth: ''
+    depth_tooltip: ''
+    extent_dimension_width: ''
+    extent_dimension_tooltip: ''
+    notes_tooltip: ''
+    url_tooltip: ''
+    width_tooltip: ''
+    dimension_units_tooltip: ''
+    height_tooltip: ''
+    extent_dimension_width_tooltip: ''
+    height: ''
+    stacking_limit_tooltip: ''
+    notes: ''
+    extent_dimension_height_tooltip: ''
+    dimension_units: ''
+    name_tooltip: ''
+    width: ''
+    extent_dimension: ''
+    url: ''
+    _plural: ''
+    _singular: ''
+    extent_dimension_height: ''
+    depth: ''
+    stacking_limit: ''
+  bulk_import:
+    _frontend:
+      messages:
+        not_excel: ''
+        submitted: ''
+        error: ''
+        uncopied: ''
+        not_excel_csv: ''
+        missing_file: ''
+        copied: ''
+        processed: ''
+      actions:
+        only_validate: ''
+        add_file: ''
+        import: ''
+        add_archival_objects: ''
+        add_digital_objects: ''
+        link_top_containers: ''
+        clip_btn: ''
+        drag_drop: ''
+  extent_calculator:
+    waiting_for_report_message: ''
+    no_profile: ''
+    create_extent: ''
+    all_containers_label: ''
+    extent_record_header: ''
+    container_profile_header: ''
+    count_header: ''
+    no_object_message: ''
+    extent_header: ''
+    container_summary_type:
+      _singular: ''
+      _plural: ''
+    required_fields_alert_message: ''
+    timestamp_label: ''
+    create_extent_record_message: ''
+    report_title: ''
+    calculate_extent: ''
+  assessment:
+    _frontend:
+      messages:
+        manage_attributes_hint: ''
+        created: ''
+        attributes_hint: ''
+        updated: ''
+        deleted: ''
+      formats: ''
+      action:
+        remove_rating_note: ''
+        create_for_record: ''
+        save: ''
+        create: ''
+        add_rating_note: ''
+      browse_reviewers: ''
+      section:
+        format_attributes_additional: ''
+        conservation_issue_attributes_additional: ''
+        rating_attributes_empty: ''
+        existing_description: ''
+        conservation_issue_attributes: ''
+        rating_attributes_additional: ''
+        format_attributes_empty: ''
+        format_attributes: ''
+        basic_information: ''
+        conservation_issue_attributes_empty: ''
+        rating_attributes: ''
+      linked_records:
+        identifier: ''
+        heading: ''
+        loading: ''
+        linked_via_assessment_reviewer: ''
+        linked_via_assessment_surveyed_by: ''
+        record_type: ''
+        linked_via_assessment_records: ''
+        title: ''
+      assessment_completed:
+        false_value: ''
+        true_value: ''
+      ratings_list:
+        note: ''
+        rating: ''
+        score: ''
+      assessment_inactive:
+        false_value: ''
+        true_value: ''
+      ratings: ''
+      assessment_review_required:
+        false_value: ''
+        true_value: ''
+      form_header: ''
+      record_types: ''
+      assessment_sensitive_material:
+        true_value: ''
+        false_value: ''
+      conservation_issues: ''
+  assessment_attribute_definitions:
+    _frontend:
+      messages:
+        error: ''
+        conflict: ''
+        attribute_in_use: ''
+        updated: ''
+      global: ''
+      action:
+        find_rating: ''
+        remove_format: ''
+        find_issue: ''
+        add_type: ''
+        remove_rating: ''
+        remove_issue: ''
+        find_format: ''
+        save: ''
+      repository: ''
+      translation: ''
+      section:
+        formats: ''
+        conservation_issues: ''
+        ratings: ''
+      title: ''
+      database_value: ''
+  oai_config:
+    _frontend:
+      action:
+        updated: ''
+        create: ''
+      section:
+        basic_information: ''
+    oai_leave_repo_form: ''
+    repo_set_codes: ''
+    repo_set_desc: ''
+    repo_set_name: ''
+    title_repo_section: ''
+    oai_repository_name: ''
+    title: ''
+    repo_set_description: ''
+    _sidebar:
+      sponsor_set_section:
+        _plural: ''
+      repo_settings:
+        _plural: ''
+      repo_set_section:
+        _plural: ''
+    repo_set_section: ''
+    general_section: ''
+    sponsor_set_name: ''
+    sponsor_set_section: ''
+    sponsor_set_description: ''
+    sponsor_set_names: ''
+    sponsor_set_desc: ''
+    oai_admin_email: ''
+    oai_record_prefix: ''
+  custom_report_template:
+    _frontend:
+      messages:
+        created: ''
+        copied: ''
+        updated: ''
+      section:
+        basic_information_fields: ''
+        sort_by: ''
+        template_information: ''
+        linked_records: ''
+      action:
+        create: ''
+        save: ''
+        search_usernames: ''
+    new_title: ''
+  bulk_import_job:
+    filename: ''
+    active: ''
+    not_direct: ''
+    format: ''
+    resource_id: ''
+  space_calculator:
+    view_all_toggle: ''
+    by_building: ''
+    modal_loading: ''
+    message_no_locations_with_space: ''
+    reason:
+      container_at_location_lacks_profile: ''
+      container_is_bigger: ''
+      location_lacks_a_profile: ''
+      location_lacks_dimension_data: ''
+      containers_at_location_dont_fit: ''
+      location_cannot_fit_container: ''
+    message_loading: ''
+    summary:
+      locations_without_space: ''
+      uncalculatable_locations: ''
+      locations_with_space: ''
+    by_locations: ''
+    locations_without_space_details: ''
+    calculate_space: ''
+    message_select_locations: ''
+    message_container_profile_required: ''
+    message_total_spaces: ''
+    message_locations_required: ''
+    count: ''
+    message_total_containers: ''
+    modal_title: ''
+    result_filter: ''
+  agent_maintenance_history:
+    descriptive_note: ''
+    maintenance_agent_type: ''
+    _frontend:
+      action:
+        add: ''
+    event_date: ''
+    _plural: ''
+    _singular: ''
+    agent: ''
+    maintenance_event_type: ''
+  bulk_archival_object_update_spreadsheet:
+    title: ''
+    minimum_subrecords_description: ''
+    download_spreadsheet: ''
+    minimum_notes: ''
+    minimum_notes_description: ''
+    extra_subrecords_description: ''
+    selected: ''
+    description: ''
+    record_title: ''
+    too_many_rows_warning: ''
+    selected_records: ''
+    note_types: ''
+    download_spreadsheet_modal_message: ''
+    minimum_subrecords: ''
+    column_types_to_include_in_spreadsheet: ''
+    extra_subrecords: ''
+  section_headings:
+    basic_information_tooltip: ''
+    identity_information_tooltip: ''
+    description_information_tooltip: ''
+    record_control_information_tooltip: ''
+    relation_information_tooltip: ''
+  agent_record_control:
+    publication_status: ''
+    level_of_detail: ''
+    maintenance_agency_note: ''
+    agency_name: ''
+    maintenance_agency: ''
+    _singular: ''
+    _frontend:
+      action:
+        add: ''
+    modified_record: ''
+    reference_evaluation: ''
+    maintenance_status: ''
+    script: ''
+    language: ''
+    _plural: ''
+    government_agency_type: ''
+    romanization: ''
+    name_type: ''
+    language_note: ''
+    cataloging_source: ''
+  place:
+    _plural: ''
+    _frontend:
+      action:
+        add: ''
+  bulk_import_templates:
+    aspace_digital_object_import_template_csv: ''
+    aspace_assessment_import_template_csv: ''
+    bulk_import_template_csv: ''
+    overview: ''
+    aspace_accession_import_template_csv: ''
+    bulk_import_DO_template_xlsx: ''
+    bulk_import_DO_template_csv: ''
+    aspace_location_import_template_csv: ''
+    bulk_import_template_xlsx: ''
+    aspace_subject_import_template_csv: ''
+  rights_restriction:
+    begin: ''
+    begin_tooltip: ''
+    local_access_restriction_type_tooltip: ''
+    linked_records: ''
+    local_access_restriction_type: ''
+    end: ''
+    local_access_restriction_type_inline_help: ''
+    restriction_note_type: ''
+    end_tooltip: ''
+  location_profile:
+    _plural: ''
+    _frontend:
+      action:
+        create: ''
+        save: ''
+        edit: ''
+      messages:
+        fields_required_for_calculator: ''
+        created: ''
+        updated: ''
+      section:
+        basic_information: ''
+    linker:
+      link_title: ''
+      browse: ''
+      create: ''
+    dimension_units: ''
+    name: ''
+    _singular: ''
+    height: ''
+    width: ''
+    depth: ''
+  date_calculator:
+    no_dates_for_label: ''
+    toolbar_button: ''
+    all_labels: ''
+    calculate_button: ''
+    create_date_button: ''
+    create_success: ''
+    generic_create_error: ''
+    results_title: ''
+    no_dates: ''
+    modal_title: ''
+    no_object_message: ''
+  agent_other_agency_code:
+    _frontend:
+      action:
+        add: ''
+    _singular: ''
+    maintenance_agency: ''
+    agency_code_type: ''
+    _plural: ''
+  note_contact_note:
+    date_of_contact_tooltip: ''
+    contact_notes_tooltip: ''
+  bulk_archival_object_updater_job:
+    _singular: ''
+    create_missing_top_containers: ''
+  subsections:
+    notes: ''
+    dates: ''
+  agent_parallel_name:
+    _plural: ''
+    use_dates: ''
+  update_monitor:
+    repository_changed: ''
+    other_editors: ''
+    save_failed: ''
+    stale_record: ''
+  act:
+    _frontend:
+      action:
+        add: ''
+  agent_name:
+    use_dates: ''
