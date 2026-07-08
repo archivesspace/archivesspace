@@ -233,14 +233,19 @@ pl:
     clear_all: Wyczyść wszystko
     component_switch: Pokaż komponenty
     help:
-      row_selection: Kliknij wiersz, aby go zaznaczyć do operacji zbiorczych.
-        Przytrzymaj klawisz Alt/Option podczas klikania pola wyboru, aby zaznaczyć lub
+      row_selection: Kliknij wiersz, aby go zaznaczyć do operacji zbiorczych. 
+        Przytrzymaj klawisz Alt podczas klikania pola wyboru, aby zaznaczyć lub 
         odznaczyć wiele poprzednich wierszy.
     result_identifier: Identyfikator
     created: Stworzone przez
     actions: Działania
   database_warning:
-    message: "<p><strong>Ostrzeżenie dotyczące bazy danych:</strong> Obecnie używasz wbudowanej bazy danych (Apache Derby). Wbudowana baza danych służy wyłącznie do celów testowych/demonstracyjnych i zostanie wycofana w najbliższym głównym wydaniu. Do danych przeznaczonych do użytku produkcyjnego należy używać bazy danych MySQL, dotyczy to również danych w instancji testowej, które zamierzasz przenieść do instancji produkcyjnej.</p>"
+    message: "<p><strong>Ostrzeżenie dotyczące bazy danych:</strong> Obecnie używasz
+      wbudowanej bazy danych (Apache Derby). Wbudowana baza danych służy wyłącznie
+      do celów testowych/demonstracyjnych i zostanie wycofana w najbliższym głównym
+      wydaniu. Do danych przeznaczonych do użytku produkcyjnego należy używać bazy
+      danych MySQL, dotyczy to również danych w instancji testowej, które zamierzasz
+      przenieść do instancji produkcyjnej.</p>"
   export_options:
     include_unpublished: Uwzględnij niepublikowane materiały.
     include_uris: Dołącz identyfikatory URI
@@ -694,9 +699,9 @@ pl:
     keyboard_shortcuts: Skróty klawiaturowe
     public_interface_html: Zobacz <a href="%{public_url}">interfejs 
       publiczny</a>
-    archivesspace_home_html: Obsługiwane przez <a
+    archivesspace_home_html: Obsługiwane przez <a 
       href='http://archivesspace.org'>ArchivesSpace</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
       target='_blank'>Opinie lub pytania</a>
   login:
     login: Zalogować się
@@ -832,8 +837,10 @@ pl:
         transfer_description: Wybierz zasób, do którego chcesz przenieść ten 
           obiekt archiwalny
         please_select_a_resource_for_transfer: Wybierz zasób
-        transfer_confirm_message: "Rekord '%{ao}' zostanie przeniesiony do wybranego zasobu"
-        transfer_confirm_message_with_resource: "Rekord '%{ao}' zostanie przeniesiony do zasobu '%{resource}'"
+        transfer_confirm_message: "Rekord '%{ao}' zostanie przeniesiony do wybranego
+          zasobu"
+        transfer_confirm_message_with_resource: "Rekord '%{ao}' zostanie przeniesiony
+          do zasobu '%{resource}'"
         transfer_success: Pomyślnie przeniesiono obiekt archiwalny 
           <strong>%{archival_object_display_string}</strong> do zasobu 
           <strong>%{resource_title}</strong>
