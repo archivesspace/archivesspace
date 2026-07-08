@@ -49,7 +49,6 @@ describe 'IIIF viewer', js: true do
       expect(iiif_iframe['src']).to end_with("/uv/uv.html#?manifest=#{CGI.escape(@manifest_url)}")
       expect(iiif_iframe['allow']).to eq('fullscreen')
 
-      current_window.resize_to(1600, 1000)
       within_frame(iiif_iframe) do
         expect(page).to have_content('Simple Manifest - Book', wait: 30)
       end
