@@ -2784,6 +2784,8 @@ de:
         Zeilenanzahlgrenzen von %{limits}
       utf8: Diese Tabelle enthält ungültigen oder fehlerhaften Text, der nicht verarbeitet werden 
         kann.
+      calendar: ''
+      era: ''
     templates: Vorlagen für den Massenimport
     row: Zeile %{row}
     dig_assoc: Digitales Objekt zum Archiv-Objekt hinzugefügt
