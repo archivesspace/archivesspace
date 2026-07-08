@@ -330,6 +330,7 @@ pl:
       load_all: Załaduj wszystkie rekordy.
       all: Nagle
       scroll: Na przewijaniu
+      showing: ''
   digital_object:
     _public:
       additional: Dodatkowe wersje plików
@@ -373,6 +374,8 @@ pl:
         related_agent_description: Opis
         other_names: Formularze nazw
         related_agents: Powiązane nazwy
+    _singular: ''
+    _plural: ''
   agent_gender:
     _plural: Płeć
     _singular: Płeć
@@ -399,6 +402,7 @@ pl:
     userestrict: Warunki korzystania
     accruals: Accruals
     acqinfo: Bezpośrednie źródło nabycia
+    publication_statement: ''
   description: O
   readmore:
     see_more: Zobacz więcej
@@ -409,7 +413,8 @@ pl:
     search_results: Przejdź do wyników wyszukiwania
   footer:
     archivesspace_home_html: Obsługiwane przez <a href='http://archivesspace.org'>ArchivesSpace</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Opinie lub pytania</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Opinie lub 
+      pytania</a>
     staff_interface_html: <a href="%{staff_url}">Interfejs personelu</a>
   top_container:
     _singular: Pojemnik
@@ -420,6 +425,8 @@ pl:
     snac: Identyfikator sieci społecznościowych i kontekstu archiwalnego (SNAC)
     identifier_type: Typ identyfikatora
     primary_identifier: Czy jest to identyfikator podstawowy?
+    record_identifier: ''
+    source: ''
   agent_contact:
     address_1: Adres 1
     address_2: Adres 2
@@ -464,6 +471,13 @@ pl:
     note_bioghist: Biografia
     note_legal_status: Stan prawny
     note_structure_or_genealogy: Struktura lub genealogia
+    _plural: ''
+    note_mandate: ''
+    content: ''
+    _singular: ''
+    note_citation: ''
+    note_general_context: ''
+    note_text: ''
   metadata_rights_declaration:
     _plural: Deklaracje praw do metadanych
     _singular: Deklaracja praw do metadanych
@@ -473,6 +487,9 @@ pl:
     file_version_xlink_actuate_attribute: Atrybut Xlink Actuate
     file_version_xlink_show_attribute: Atrybut pokazu Xlink
     last_verified_date: Ostatnia zweryfikowana data
+    license: ''
+    descriptive_note: ''
+    file_uri: ''
   languages:
     select: Wybierz Język
   pdf_error:
@@ -495,3 +512,18 @@ pl:
     additional_info:
       invalid_markup: Błąd ten może być spowodowany nieprawidłowym oznaczeniem w notatce lub 
         podrekordach.
+  record:
+    _plural: ''
+    _singular: ''
+  date_label:
+    existence: ''
+    usage: ''
+  agent_topic:
+    _singular: ''
+    _plural: ''
+  structured_date_label:
+    date: ''
+  contact: ''
+  agent_place:
+    _singular: ''
+    _plural: ''
