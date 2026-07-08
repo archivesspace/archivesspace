@@ -2,7 +2,7 @@ Feature: Import Jobs
   Background:
     Given an administrator user is logged in
   Scenario: Import Location CSV job can be created
-    Given the user is on the Import Job page
+    Given the user is on the 'Import Data' background job page
      When the user selects 'Location CSV' from 'Import Type'
       And the user adds 'templates/aspace_location_import_template.csv' as a file
       And the user clicks on 'Start Job'

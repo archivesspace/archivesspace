@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-Given 'the user is on the Container Labels background job page' do
-  click_on 'Create'
-  click_on 'Background Job'
-  click_on 'Container Labels'
-end
-
 Given 'the user fills in and selects the Resource from the Download Container Labels field' do
   fill_in 'token-input-job_source_', with: @uuid
   dropdown_item = find('div.token-input-dropdown li', text: @uuid, wait: 5)
@@ -13,6 +7,7 @@ Given 'the user fills in and selects the Resource from the Download Container La
 end
 
 Given 'a Resource with an Archival Object and a Container Instances has been created' do
+  @uuid ||= SecureRandom.uuid
   visit "#{STAFF_URL}/resources/new"
 
   fill_in 'resource_title_', with: "Resource #{@uuid}"
@@ -84,5 +79,6 @@ Given 'a TSV file is downloaded with the container labels for the resource' do
   expect(downloaded_file).to_not eq nil
 
   load_file = File.read(downloaded_file)
+  File.delete(downloaded_file) if File.exist?(downloaded_file)
   expect(load_file).to include("Indicator A #{@uuid}")
 end
