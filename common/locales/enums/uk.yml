@@ -102,7 +102,6 @@ uk:
     user_defined_enum_2: Користувацький перелік 2
     user_defined_enum_3: Користувацький перелік 3
     user_defined_enum_4: Користувацький перелік 4
-    event_event_type: ''
   enumerations:
     accession_acquisition_type:
       deposit: Депозит
@@ -1960,10 +1959,6 @@ uk:
       Zxxx: Код для ненаписаних документів
       Zyyy: Код для невизначеного сценарію
       Zzzz: Код для незакодованого сценарію
-      Phag: ''
-      Phlv: ''
-      Phli: ''
-      Phlp: ''
     rights_statement_rights_type:
       copyright: Авторське право
       license: Ліцензія
