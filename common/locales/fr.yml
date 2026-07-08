@@ -2907,8 +2907,6 @@ fr:
       sc_barcode: Impossible de trouver un sous-conteneur avec ce code-barres enfant %{barcode}
       utf8: Cette feuille de calcul contient du texte non valide ou corrompu qui ne peut pas être 
         traité.
-      calendar: ''
-      era: ''
     templates: Modèles d'importation en bloc
   parallel_name_person:
     <<: *agent_name_attributes
