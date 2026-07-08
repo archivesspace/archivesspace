@@ -1,11 +1,11 @@
 <% if IIIF.enabled? %>
   <div class="iiif-embed">
     <%= content_tag(:iframe, nil, {
-      :src => IIIF.viewer_url(current_repo.repo_code, manifest.fetch('file_uri')),
+      :src => IIIF.viewer_url(current_repo.repo_code, manifest.fetch('file_uri'), AppConfig[:frontend_proxy_prefix]),
       :class => 'universal-viewer-iframe',
       :allow => 'fullscreen',
     }) %>
   </div>
 <% else %>
-  <div class="alert alert-warning">AppConfig[:iiif_viewer_url] = {:default => '...'} needs to be set to embed IIIF viewer</div>
+  <div class="alert alert-warning">No IIIF viewer is available. Enable the bundled viewer with AppConfig[:iiif_use_bundled_viewer] = true, or set AppConfig[:iiif_viewer_url] = {:default => '...'} to embed an IIIF viewer.</div>
 <% end %>

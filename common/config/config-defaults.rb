@@ -922,8 +922,17 @@ AppConfig[:extended_csv_export_class] = 'ExtendedCSVExportStream'
 
 ## IIIF Configuration
 #
-# To enable IIIF set the default viewer URL and any repository specific
-# viewer URLs keyed on the repo_code.
+# By default ArchivesSpace serves a bundled copy of the Universal Viewer as the IIIF viewer.
+# Set the following to false to disable the built-in viewer
+# entirely (only an explicitly configured :iiif_viewer_url will then be used).
+AppConfig[:iiif_use_bundled_viewer] = true
+
+#
+# To use your own viewer instead of (or alongside) the bundled one, set the
+# default viewer URL and any repository specific viewer URLs keyed on the
+# repo_code. A configured entry takes precedence over the bundled viewer; the
+# bundled viewer is used as the fallback when no entry matches a repository and
+# no :default is set.
 #
 # If the value is a `String`, we assume the manifest URI will be appended
 # to the end of the URL.  To support more complex URLs, please use a

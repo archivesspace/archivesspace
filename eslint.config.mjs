@@ -9,6 +9,8 @@ export default defineConfig([
     'frontend/vendor/',
     'public/app/assets/javascripts/bootstrap-accessibility/',
     'public/vendor/assets/javascripts/',
+    'frontend/public/uv/',
+    'public/public/uv/',
   ]),
   js.configs.recommended,
   prettier,
