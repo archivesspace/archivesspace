@@ -1272,6 +1272,7 @@ de:
     _singular: Verwandter Akteur
     related_agent_tooltip: <p>Die Person, Familie oder Körperschaft, die mit dem Hauptakteur 
       verwandt ist.</p><p>Siehe DACS 12.1-12.2, ISAAR (CPF) 5.3.1</p>
+    dates: ''
   related_agents:
     <<: *related_agent_attributes
   agent_relationship_earlierlater:
