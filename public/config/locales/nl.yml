@@ -506,8 +506,10 @@ nl:
     last_verified_date: Laatst gecontroleerd op
   footer:
     staff_interface_html: <a href="%{staff_url}">Stafinterface</a>
-    archivesspace_home_html: Mogelijk gemaakt door <a href='http://archivesspace.org'>ArchivesSpace</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Feedback of vragen</a>
+    archivesspace_home_html: Mogelijk gemaakt door <a 
+      href='http://archivesspace.org'>ArchivesSpace</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Feedback of 
+      vragen</a>
   languages:
     select: Taal kiezen
   pdf_error:
