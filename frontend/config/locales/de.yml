@@ -235,9 +235,10 @@ de:
     result_identifier: Signatur
     component_switch: Komponenten anzeigen
     help:
-      row_selection: Klicken Sie auf eine Zeile, um diese für Massen-Vorgänge
-        auszuwählen. Halten Sie Alt/Wahltaste während Sie auf ein Kontrollkästchen
-        klicken, um mehrere vorherige Zeilen an- oder abzuwählen.
+      row_selection: Klicken Sie auf eine Zeile, um diese für Massen-Vorgänge 
+        auszuwählen. Halten Sie Alt/Wahltaste während Sie auf ein 
+        Kontrollkästchen klicken, um mehrere vorherige Zeilen an- oder 
+        abzuwählen.
   advanced_search:
     operator:
       AND: Und
@@ -323,7 +324,7 @@ de:
     top_containers_for: "Haupt-Behältnisse für %{record_title}"
     no_top_containers: Keine verknüpften Haupt-Behältnisse
     edit_top_container: Haupt-Behältnis bearbeiten
-    view_top_container: Haupt-Behältnis anzeigen
+    view_top_container: Haupt-Behältnis
     import_ead: EAD-Datei
     register_prefix: Benötigen Sie einen Zugang?
   job:
@@ -793,6 +794,7 @@ de:
       location: Standort
       type: Typ
       resource_accession: Ressource/Eingang
+      resource_accession_id: ''
   become-user:
     success: Benutzer erfolgreich gewechselt
     become-user: Als Benutzer ausgeben
@@ -1083,8 +1085,10 @@ de:
           <strong>%{archival_object_display_string}</strong> aktualisiert
         transfer_error: 'Konnte das Archiv-Objekt wegen einem Fehler oder Konflikt
           nicht übertragen: <pre>%{exception}</pre>'
-        transfer_confirm_message: Die Aufzeichnung '%{ao}' wird zur von Ihnen ausgewählten Aufzeichnung übertragen
-        transfer_confirm_message_with_resource: Die Aufzeichnung '%{ao}' wird zu der Aufzeichnung '%{resource}' übertragen
+        transfer_confirm_message: Die Aufzeichnung '%{ao}' wird zur von Ihnen 
+          ausgewählten Aufzeichnung übertragen
+        transfer_confirm_message_with_resource: Die Aufzeichnung '%{ao}' wird zu
+          der Aufzeichnung '%{resource}' übertragen
         transfer_success: Archiv-Objekt 
           <strong>%{archival_object_display_string}</strong> erfolgreich zu 
           Aufzeichnung <strong>%{resource_title}</strong> übertragen
@@ -1627,12 +1631,14 @@ de:
         show_active: Aktive Benutzer anzeigen
         show_inactive: Inaktive Benutzer anzeigen
         deactivate_user: Deaktivieren
-        deactivate_user_confirm: Sind Sie sicher, dass Sie diesen Benutzer deaktivieren möchten?
+        deactivate_user_confirm: Sind Sie sicher, dass Sie diesen Benutzer 
+          deaktivieren möchten?
         edit: Benutzer bearbeiten
         update_account: Benutzerkonto aktualisieren
         create: Benutzer erstellen
         activate_user: Aktivieren
-        activate_user_confirm: Sind Sie sicher, dass Sie diesen Benutzer aktivieren möchten?
+        activate_user_confirm: Sind Sie sicher, dass Sie diesen Benutzer 
+          aktivieren möchten?
         update_self: Benutzerkonto verwalten
     source: Authentifizierung
   use_date:
@@ -1999,7 +2005,11 @@ de:
   agent_resource_merge_destination:
     <<: *agent_resource_attributes
   database_warning:
-    message: "<p><strong>Datenbankwarnung:</strong> Sie verwenden derzeit die eingebettete Datenbank (Apache Derby). Die eingebettete Datenbank ist nur für Test-/Demozwecke vorgesehen und wird in der nächsten Hauptversion eingestellt. Sie sollten MySQL für alle Daten verwenden, die für den Produktiveinsatz bestimmt sind, einschließlich Daten in einer Testinstanz, die Sie in eine Produktionsinstanz übernehmen möchten.</p>"
+    message: "<p><strong>Datenbankwarnung:</strong> Sie verwenden derzeit die eingebettete
+      Datenbank (Apache Derby). Die eingebettete Datenbank ist nur für Test-/Demozwecke
+      vorgesehen und wird in der nächsten Hauptversion eingestellt. Sie sollten MySQL
+      für alle Daten verwenden, die für den Produktiveinsatz bestimmt sind, einschließlich
+      Daten in einer Testinstanz, die Sie in eine Produktionsinstanz übernehmen möchten.</p>"
   breadcrumb:
     home: Start
   structured_date_single:
@@ -2106,8 +2116,8 @@ de:
         merged: Haupt-Behältnisse zusammengeführt
         bulk_action_success: Haupt-Behältnisse erfolgreich aktualisiert
         bulk_action_success_info: Bitte seien Sie sich bewusst, dass es einen 
-          Moment dauern kann, bevor die Änderungen in den Suchergebnissen
-          oder Übersichtstabellen aufscheinen.
+          Moment dauern kann, bevor die Änderungen in den Suchergebnissen oder 
+          Übersichtstabellen aufscheinen.
       bulk_operations:
         empty_false: Nein
         collection_accession_plural: Eingänge
@@ -2463,12 +2473,15 @@ de:
     download_spreadsheet: Tabelle herunterladen
     download_spreadsheet_modal_message: Das Erstellen dieser Tabelle kann einige
       Augenblicke dauern.
-    too_many_rows_warning:
-      "Warnung: Die Anzahl der Zeilen, die in dieser Tabelle generiert werden, übersteigt die Anzahl der Zeilen, die aktualisiert werden können
-      über den Hintergrundjob Bulk Archival Object Updater. Wenn Sie planen, den Bulk Archival Object Updater-Job mit auszuführen
-      Um diese Tabelle zu verwenden, müssen Sie die Anzahl der Zeilen in dieser Tabelle auf kleiner oder gleich reduzieren 
-      <strong>%{max_row_count} Zeilen</strong> vor der Aufnahme. Erwägen Sie jetzt die Erstellung einer kleineren Tabelle.  
-      Diese Warnung kann getrost ignoriert werden, wenn Sie nicht beabsichtigen, mit diesen Daten einen Bulk Archival Object Updater-Job auszuführen."
+    too_many_rows_warning: "Warnung: Die Anzahl der Zeilen, die in dieser Tabelle
+      generiert werden, übersteigt die Anzahl der Zeilen, die aktualisiert werden
+      können über den Hintergrundjob Bulk Archival Object Updater. Wenn Sie planen,
+      den Bulk Archival Object Updater-Job mit auszuführen Um diese Tabelle zu verwenden,
+      müssen Sie die Anzahl der Zeilen in dieser Tabelle auf kleiner oder gleich reduzieren
+      <strong>%{max_row_count} Zeilen</strong> vor der Aufnahme. Erwägen Sie jetzt
+      die Erstellung einer kleineren Tabelle. Diese Warnung kann getrost ignoriert
+      werden, wenn Sie nicht beabsichtigen, mit diesen Daten einen Bulk Archival Object
+      Updater-Job auszuführen."
   assessment:
     _frontend:
       record_types: Aufzeichnung-Typen
@@ -2853,7 +2866,7 @@ de:
   footer:
     keyboard_shortcuts: Tastaturkürzel
     public_interface_html: <a href="%{public_url}">Zum öffentlichen Katalog</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
       target='_blank'>Rückmeldung oder Fragen</a>
-    archivesspace_home_html: Bereitgestellt von <a
+    archivesspace_home_html: Bereitgestellt von <a 
       href='http://archivesspace.org'>ArchivesSpace</a>
