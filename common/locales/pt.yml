@@ -1935,6 +1935,7 @@ states:
   states:
     auto_generated: ''
     deleted: ''
+    suppressed: ''
   note_structure_or_genealogy:
     subnotes: ''
   location_profile:
