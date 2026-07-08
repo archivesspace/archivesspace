@@ -134,7 +134,6 @@ es:
     _singular: Objeto digital
     _plural: Objetos digitales
     new_title: Nuevo objeto digital
-    linker:
   digital_object_component:
     <<: *digital_object_attributes
     label: Etiqueta
@@ -210,7 +209,6 @@ es:
     _singular: Ubicación
     _plural: Ubicaciones
 
-    linker:
   location_batch:
     <<: *location_attributes
     label: Etiqueta
@@ -262,7 +260,6 @@ es:
     _singular: Registro enlazado
     _plural: Registros enlazados
 
-    linker_ref:
   linked_agent: &linked_agent_attributes
     role: Función
     role_tooltip: |
@@ -1348,7 +1345,6 @@ es:
     last_modified_by: Ultima modificacion por
     create_time: Creado
     user_mtime: Modificado
-    linker:
   interrelated_accession:
     _plural: Actas de ingreso relacionadas
     relationship_type: Tipo de relación
@@ -1439,8 +1435,6 @@ es:
     _singular: Autoridad
     _plural: Autoridades
 
-    new_title:
-    linker:
   agent_person:
     <<: *agent_attributes
     _singular: Persona
@@ -1616,7 +1610,6 @@ es:
     _singular: Grupo
     _plural: Los grupos
 
-    default_group_names:
   resource:
     <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
@@ -1828,7 +1821,6 @@ es:
 
     ark_shoulder_tooltip: Cadena por repositorio que se incluirá en las ARK generadas
     ark_shoulder: ARK Shoulder (espacio de nombres local)
-    linker:
   term:
     # tooltips not displaying:
     term: Término
@@ -1872,7 +1864,6 @@ es:
     _singular: Materia
     _plural: Materias
 
-    linker:
   user:
     username: Nombre de usuario
     username_tooltip: |
@@ -2009,7 +2000,6 @@ es:
     creator: Creador
     id_separator: /
 
-    linker:
   classification_term:
     <<: *slug_attributes
     _singular: Término de clasificación
@@ -2019,7 +2009,6 @@ es:
     description: Descripción
     creator: Creador
 
-    linker:
   preference:
     defaults: Valores predeterminados
     global: Valores predeterminados de preferencia global
@@ -2480,7 +2469,6 @@ es:
     _singular: Evaluación
     _plural: Valoraciones
 
-    linker:
   assessment_attribute:
     rating:
       "Reformatting Readiness": Reformateo de la preparación
@@ -3222,5 +3210,3 @@ es:
     edit: Editar ARK
   container_profile:
     title: "%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] extensión medida por %{extent_dimension}"
-  ns2_remover_job:
-  location_profile:
