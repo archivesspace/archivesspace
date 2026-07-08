@@ -170,6 +170,15 @@ ja:
     check_all: すべてチェック
     uncheck_all: すべてチェックを外します
     download: ダウンロード
+    drop_before: ''
+    collapse_tree: ''
+    select_resource: ''
+    expand_tree_mode_on: ''
+    drop_after: ''
+    drop_into: ''
+    require_subrecord: ''
+    expand_tree_mode_off: ''
+    reorder_successful: ''
   database_warning:
     message: "<p><strong>データベース警告:</strong> 現在、組み込みデータベース（Apache Derby）を使用しています。組み込みデータベースはテスト/デモ目的専用であり、次のメジャーリリースで非推奨になります。本番環境向けのあらゆるデータ（本番環境へ移行する予定のテストインスタンス内のデータを含む）には、MySQL
       を使用してください。</p>"
@@ -218,8 +227,8 @@ ja:
     clear_all: すべてクリア
     component_switch: コンポーネントを表示する
     help:
-      row_selection: 一括操作のために行をクリックして選択します。
-        Alt/Optionキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
+      row_selection: 一括操作のために行をクリックして選択します。 
+        Altキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
 
   search_sorting:
     sort_by: 並び替え：
@@ -252,6 +261,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
+      representative_file_version: ''
     resource:
       score: 関連性
       title: タイトル
@@ -274,6 +285,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      representative_file_version: ''
+      uri: ''
     archival_object:
       score: 関連性
       title: タイトル
@@ -290,6 +303,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
+      representative_file_version: ''
     subject:
       score: 関連性
       source: ソース
@@ -301,6 +316,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     digital_object:
       score: 関連性
       title: タイトル
@@ -318,6 +334,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
+      representative_file_version: ''
     digital_object_component:
       score: 関連性
       title: タイトル
@@ -331,6 +349,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      representative_file_version: ''
+      uri: ''
     agent:
       score: 関連性
       title: 名前フォーム
@@ -345,6 +365,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     location:
       score: 関連性
       title: ロケーション
@@ -363,6 +384,10 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      location_one_top_container: ''
+      location_top_containers: ''
+      location_no_holdings: ''
+      uri: ''
     event:
       score: 関連性
       agents: エージェント
@@ -374,6 +399,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     collection_management:
       score: 関連性
       parent_title: タイトル
@@ -388,6 +414,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      name: ''
+      uri: ''
     classification:
       score: 関連性
       title: タイトル
@@ -399,6 +427,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     assessment:
       score: 関連性
       assessment_id: ID
@@ -421,6 +450,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     repositories:
       score: 関連性
       title: タイトル
@@ -430,6 +460,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     top_container:
       score: 関連性
       title: タイトル
@@ -445,6 +476,11 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      exported_to_ils: ''
+      uri: ''
+      series_level_u_sstr: ''
+      ils_holding_id: ''
+      collection_identifier_stored_u_sstr: ''
     container_profile:
       score: 関連性
       title: タイトル
@@ -458,6 +494,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
+      notes: ''
     location_profile:
       score: 関連性
       title: タイトル
@@ -471,6 +509,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     job:
       score: 関連性
       status: 状態
@@ -486,6 +525,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     multi:
       score: 関連性
       primary_type: レコードタイプ
@@ -504,9 +544,29 @@ ja:
       langcode: 材料の言語
       asc: 上昇
       desc: 降順
+      uri: ''
+      representative_file_version: ''
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: リポジトリ
 
+    top_container_mgmt:
+      not_exported_to_ils: ''
+      restricted: ''
+      indicator: ''
+      series: ''
+      asc: ''
+      location_profile: ''
+      desc: ''
+      ils_holding_id: ''
+      not_restricted: ''
+      barcode: ''
+      resource_accession_id: ''
+      exported_to_ils: ''
+      container_profile: ''
+      internal_note: ''
+      location: ''
+      type: ''
+      resource_accession: ''
   advanced_search:
     operator:
       operator: オペレーター
@@ -537,17 +597,20 @@ ja:
       empty: 空です
     enum_field:
       empty: 割り当てられていない
+      label: ''
     search_field: 検索フィールド
     search_text: テキストを検索
     search_date: 日にち
     search_terms: 高度な検索フィールド %{number}
     remove_row: 高度な検索フィールドを削除する %{number}
 
+    add_row: ''
   become-user:
     become-user: ユーザーになる
     failed: 指定されたユーザーに切り替えることができませんでした
     success: ユーザーの切り替えが成功しました
 
+    username: ''
   navbar:
     become-user: ユーザーになる
     brand: アーカイブススペース
@@ -576,7 +639,7 @@ ja:
     top_containers_for: "%{record_title}のトップコンテナ"
     no_top_containers: リンクされたトップコンテナがありません
     edit_top_container: トップコンテナを編集する
-    view_top_container: トップコンテナを表示する
+    view_top_container: トップコンテナ
     manage_enumerations: 管理された値リストの管理
     global_preferences: グローバル設定
     user_repo_preferences: ユーザー設定
@@ -592,6 +655,8 @@ ja:
     manage_assessment_attributes: アセスメント属性の管理
     toggle_navigation: Toggle Navigation
 
+    global_settings: ''
+    repository_settings: ''
   header:
     staff_interface: ArchivesSpace Staff Interface
 
@@ -632,6 +697,22 @@ ja:
     login_fail: ログイン試行に失敗しました
     login_success: ログイン成功。リダイレクト中...
 
+    username_aria_label: ''
+    email_placeholder: ''
+    reset_password: ''
+    new_password_instructions: ''
+    confirm_password: ''
+    password_too_simple: ''
+    lost_password: ''
+    new_password: ''
+    password_placeholder: ''
+    password_aria_label: ''
+    recover_password: ''
+    username_placeholder: ''
+    password_update_success: ''
+    reset_form_instructions: ''
+    password_update_error: ''
+    password_mismatch_error: ''
   breadcrumb:
     home: ホーム
 
@@ -749,6 +830,8 @@ ja:
         create: 登録を作成する
         save: 登録を保存
 
+    component_link: ''
+    component_links: ''
   agent:
     _frontend:
       messages:
@@ -777,6 +860,7 @@ ja:
         linked_via_rights_statement: 権利声明によるリンクされたレコード
         merge_destination_record: このレコードは更新されます
         merge_candidate_record: このレコードは削除されます
+        events: ''
       action:
         create: エージェントを作成する
         preview: マージプレビュー
@@ -851,6 +935,12 @@ ja:
         suppressed_info: アーカイブオブジェクトは抑制されており、編集できません
         has_unpublished_ancestor: このレコードには未発表の祖先があることにご注意ください。
         delete_conflict: アーカイブオブジェクトを削除できませんでした： <pre> %{error} </pre>
+        spawn_menu_before: ''
+        spawned: ''
+        transfer_description: ''
+        spawn_menu_after: ''
+        spawn_menu_child: ''
+        spawn_placeholder: ''
       section:
         basic_information: 基本情報
       action:
@@ -859,10 +949,14 @@ ja:
         add_duplicate: 重複を追加
         save: アーカイブオブジェクトを保存する
         bulk_import: スプレッドシートを介して負荷
+        select_resource: ''
+        select_parent_and_position: ''
+        leave_parent_empty: ''
       tree:
         new_record_title: 新しいアーカイブオブジェクト
         duplicated_record_title: 重複したアーカイブ オブジェクトの作成
 
+    new_title: ''
   classification:
     _frontend:
       messages:
@@ -1004,6 +1098,9 @@ ja:
         name_selector: リスト名
         name_selector_tooltip: "<p>編集する制御値リスト。 </p>"
         no_name_provided: 新しい値を作成する前に値リストを選択する
+        related_items: ''
+        not_used: ''
+        one_related_item: ''
       action:
         create_value: 値を作成
         delete_value: 値の削除
@@ -1041,6 +1138,7 @@ ja:
         add: ファイルバージョンを追加
         make_representative: 代表者にする
 
+        make_representative_tooltip: ''
   group:
     _frontend:
       action:
@@ -1126,11 +1224,20 @@ ja:
         use_date: 名前使用の日付
         dates: 日付
         parallel_names: 並列名
+        function_subject: ''
+        topic_subject: ''
+        occupation_subject: ''
+        place_subject: ''
+        name_subject: ''
       action:
         add: 名前フォームを追加
         make_authorized: 権限のある名前を作る
         make_display_name: 表示名を作る
 
+        make_authorized_tooltip: ''
+        make_primary: ''
+        make_display_name_tooltip: ''
+        make_primary_tooltip: ''
   note:
     _frontend:
       preview:
@@ -1216,6 +1323,7 @@ ja:
         select: リポジトリを選択
         save: リポジトリを保存
         create: リポジトリ作成
+        order_for_pui: ''
     _sidebar:
       oai_settings:
         _plural: OAI収穫設定
@@ -1250,11 +1358,16 @@ ja:
         load_bulk: スプレッドシートを介して負荷
         save: リソースを保存
         delete_multiple: リソースを削除する
+      remove_subrecord: ''
     external_ark_url: External ARK URL
     external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier 
       generated outside of ArchivesSpace. If this field has a value it takes 
       precedence over an ARK generated within ArchivesSpace.
 
+    linker:
+      browse: ''
+      link_title: ''
+      link_to: ''
   preference:
     _frontend:
       messages:
@@ -1314,11 +1427,16 @@ ja:
         deactivated: ユーザーが非アクティブ化されました
         error_activate: アクティブ化されていないユーザー
         error_deactivate: ユーザーは非アクティブ化されていません
+        password_reset_email_sent: ''
+        error_not_found: ''
+        password_reset_fail: ''
+        password_reset_not_allowed: ''
       section:
         manage_access: ユーザーアクセスを管理する
         account: アカウント
         edit_account: アカウントの編集
         edit_account_submit: アカウントを更新する
+        new_account: ''
       action:
         create_account: アカウントを作成する
         update_account: アカウントを更新する
@@ -1332,8 +1450,10 @@ ja:
 
         edit: ユーザーを編集
         show_active: アクティブユーザーを表示
+        update_self: ''
     inactive: 偽
     active: 'true'
+    source: ''
   user_defined:
     _frontend:
       action:
@@ -1403,25 +1523,32 @@ ja:
       error_summary_header: 行内のエラー：
       select_prompt: RDEテンプレートを適用する
     help:
-      keyboard_shortcuts: <div> <strong>キーボードショートカット</strong> </div><div 
-        class="row"> <small><span class="span3">セルからセルへジャンプ：</span> SHIFT 
-        +矢印キー</small> </div><div class="row"> <small><span 
-        class="span3">最後の行から新しい行を作成する：</span> SHIFT + Return</small> </div>
-      sticky_columns: "<div> <strong>スティッキー列</strong> </div><div> <small>強調表示された列はスティッキーで、新しい行が追加されるとレプリケートされます。対応する表の見出しをクリックして、「スティッキー」を切り替えます。</small>
-        </div><div> <small>[ <strong>Add Row</strong> ] <strong>を</strong>クリックすると、最後の行から値がコピーされます。行の<strong>+</strong>ボタンは、現在フォーカスされている行の値をコピーします。</small>
-        </div>"
-      fill_column: "<div> <strong>行の塗りつぶし - 基本</strong> </div><div> <small>単一の値を持つ列を埋めるために、
-        <strong>列を塗りつぶし</strong>クリックし、[ <strong>基本</strong>設定]タブの下で、ターゲット<strong>列を</strong>選択し、目的の<strong>フィル値を</strong>入力して、
-        <strong>塗りつぶしを適用</strong> ] <strong>を</strong>クリックします。</small> </div><br/><div>
-        <strong>行の塗りつぶし - シーケンス</strong> </div><div> <small>シーケンスを列に適用するには、[ <strong>列</strong>を<strong>塗りつぶす</strong>
-        ]をクリックし、[ <strong>シーケンス</strong> ]タブで目的の<strong>列</strong>を選択し、[ <strong>塗りつぶし値]</strong>フィールドを入力して目的のシーケンスを生成します。生成されたシーケンスがフォームの行数を満たさない場合、警告が表示されます。</small>
-        </div>"
+      keyboard_shortcuts:
+        new_term: ''
+        title: ''
+        shift: ''
+        arrow_keys: ''
+        move_term: ''
+        return: ''
+      sticky_columns:
+        p_one: ''
+        p_two: ''
+        title: ''
+      fill_column:
+        sequence_description: ''
+        basic_title: ''
+        basic_description: ''
+        sequence_title: ''
       resize_and_reorder_columns: "<div> <strong>列の並べ替え</strong> </div><div> <small>[
         <strong>列の並べ替え]を</strong>クリックして、 <strong>並べ替え</strong>たい行を選択し、上下の矢印ボタンを使用してリスト内の位置を変更します。新しいオーダーに満足したら、「
         <strong>オーダーの適用</strong> 」をクリックします</small> </div>"
-      reset: "<div> <strong>フォームをリセット</strong> </div><div> <small>[ <strong>リセット]</strong>をクリックしてフォームを消去し、カラムのスティッキー、表示および順序をデフォルト値に戻します。</small>
-        </div>"
+      reset:
 
+        title: ''
+        description: ''
+      reorder_columns:
+        title: ''
+        description: ''
   update_monitor:
     save_failed: "<strong>変更を保存できませんでした</strong>"
     stale_record: このレコードは別のユーザーによって更新されました。最新バージョンにアクセスするには、ページを更新してください。
@@ -1485,6 +1612,9 @@ ja:
           このジョブは、ARKをまだ持っていないすべての<b>リソース</b>および<b>アーカイブオブジェクト</b>のARKを生成します。 
           <br/> <br/> <em>外部ARKは変更されません。</em>
 
+      external_repo: ''
+      singular: ''
+      plural: ''
   shortcuts:
     quick_reference_window: クイックリファレンス：キーボードショートカット
     actions:
@@ -1583,7 +1713,8 @@ ja:
           Shiftキーを押しながら複数の列で並べ替えます。
         merged: 結合された上位コンテナ
         bulk_action_success: 上位のコンテナが正常に更新されました
-        bulk_action_success_info: 変更が検索結果または閲覧テーブルに反映されるまでにはしばらく時間がかかることがありますのでご注意ください。
+        bulk_action_success_info: 
+          変更が検索結果または閲覧テーブルに反映されるまでにはしばらく時間がかかることがありますのでご注意ください。
         no_active_restrictions: アクティブな制限はありません
       bulk_operations:
         title: バルク操作
@@ -1645,6 +1776,23 @@ ja:
         has_location_true: はい
         has_location_false: 番号
 
+        collection_accession_linker:
+          create: ''
+          browse: ''
+          link_title: ''
+        rapid_indicator_entry_help: ''
+        collection_resource_linker:
+          link_title: ''
+          create: ''
+          browse: ''
+        rapid_indicator_entry_new_indicator: ''
+        rapid_indicator_entry: ''
+    linker:
+      browse: ''
+      link_title: ''
+      create: ''
+    internal_note_tooltip: ''
+    internal_note: ''
   container_profile:
     _singular: コンテナプロファイル
     _plural: コンテナプロファイル
@@ -1696,6 +1844,12 @@ ja:
     stacking_limit_tooltip: "<p>互いに積み重ねられるこれらの容器の数。制限がない場合は空白のままにします。正の整数でなければなりませんまたはゼロ。
       </p>"
 
+    linker:
+      create: ''
+      browse: ''
+      link_title: ''
+    notes_tooltip: ''
+    notes: ''
   rights_restriction:
     begin: 制限開始
     begin_tooltip: "<p>時間制限の場合は、アクセス制限の開始日。 YYYY-MM-DDの形式で単一の日付である必要があります。期限切れになったら容器から切り離されます。メモのテキストを使用して、精度の低い日付または日付スパンを指定します。
@@ -1752,6 +1906,10 @@ ja:
     height: 高さ
     width: 幅
 
+    linker:
+      link_title: ''
+      browse: ''
+      create: ''
   space_calculator:
     modal_title: スペース計算機
     modal_loading: 読み込んでいます...
@@ -1916,10 +2074,12 @@ ja:
       action:
         create: テンプレートを作成する
         save: テンプレートを保存
+        search_usernames: ''
       messages:
         copied: コピーされたカスタムレポートテンプレート
         created: 作成されたカスタムレポートテンプレート
         updated: カスタムレポートテンプレートが更新されました
+    new_title: ''
   oai_config:
     title: OAI-PMH設定
     title_repo_section: リポジトリごとのOAI-PMH設定
@@ -3055,3 +3215,31 @@ ja:
 
   metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes
+  accession_link:
+    _plural: ''
+    _singular: ''
+    _frontend:
+      action:
+        add: ''
+  bulk_import_templates:
+    aspace_digital_object_import_template_csv: ''
+    aspace_assessment_import_template_csv: ''
+    bulk_import_template_csv: ''
+    overview: ''
+    aspace_accession_import_template_csv: ''
+    bulk_import_DO_template_xlsx: ''
+    bulk_import_DO_template_csv: ''
+    aspace_location_import_template_csv: ''
+    bulk_import_template_xlsx: ''
+    aspace_subject_import_template_csv: ''
+  footer:
+    public_interface_html: ''
+    keyboard_shortcuts: ''
+    archivesspace_home_html: ''
+    feedback_html: ''
+  component_link:
+    _frontend:
+      action:
+        add: ''
+    _singular: ''
+    _plural: ''
