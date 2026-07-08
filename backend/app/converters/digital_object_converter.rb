@@ -333,6 +333,13 @@ class DigitalObjectConverter < Converter
 
   def self.configure_cell_handlers(row)
     @headers = row.map { |s| s ||= ""; s.strip }
+
+    dups = @headers.select { |h| h.match(/^file_version_/) }
+                   .tally
+                   .select { |_, count| count > 1 }
+                   .keys
+    raise ASpaceImport::CSVConvert::CSVSyntaxException.new(:duplicate_file_version_headers, dups) unless dups.empty?
+
     cell_handlers, bad_headers = super
     bad_headers.reject! { |h| h.match(/^file_version_[a-z_]+(_\d+)?$/) }
     [cell_handlers, bad_headers]

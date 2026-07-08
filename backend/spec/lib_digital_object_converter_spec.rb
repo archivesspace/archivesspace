@@ -107,6 +107,18 @@ describe 'Digital Object converter' do
   end
 
 
+  describe "duplicate file version headers" do
+    it "raises an error when file_version headers are duplicated" do
+      headers = ['digital_object_id', 'digital_object_title',
+                 'file_version_file_uri_1', 'file_version_publish_1',
+                 'file_version_file_uri_1', 'file_version_publish_1']
+      expect {
+        DigitalObjectConverter.configure_cell_handlers(headers)
+      }.to raise_error(ASpaceImport::CSVConvert::CSVSyntaxException)
+    end
+  end
+
+
   describe "file version backward compatibility" do
     before(:all) do
       test_file = File.expand_path('./examples/digital_object/test_digital_object_backward_compat.csv',
