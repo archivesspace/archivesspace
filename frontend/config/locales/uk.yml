@@ -280,7 +280,7 @@ uk:
     top_containers_for: "Головні контейнери для %{record_title}"
     no_top_containers: Немає пов'язаних головних контейнерів
     edit_top_container: Редагувати головний контейнер
-    view_top_container: Перегляд головного контейнера
+    view_top_container: Головний контейнер
     manage_enumerations: Керування списками контрольованих значень
     global_preferences: Глобальні налаштування
     global_settings: Глобальні налаштування
@@ -756,6 +756,7 @@ uk:
       not_exported_to_ils: Не експортовано
       asc: Зростаючий
       desc: Спадання
+      resource_accession_id: ''
     container_profile:
       score: Релевантність
       title: Назва
