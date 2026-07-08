@@ -236,9 +236,8 @@ de:
     component_switch: Komponenten anzeigen
     help:
       row_selection: Klicken Sie auf eine Zeile, um diese für Massen-Vorgänge 
-        auszuwählen. Halten Sie Alt/Wahltaste während Sie auf ein 
-        Kontrollkästchen klicken, um mehrere vorherige Zeilen an- oder 
-        abzuwählen.
+        auszuwählen. Halten Sie Alt während Sie auf ein Kontrollkästchen 
+        klicken, um mehrere vorherige Zeilen an- oder abzuwählen.
   advanced_search:
     operator:
       AND: Und
