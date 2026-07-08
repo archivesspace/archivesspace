@@ -1347,6 +1347,7 @@ enumerations:
     LS: ''
     KR: ''
     GA: ''
+    PR: ''
   maintenance_status:
     deleted: ''
     deleted_merged: ''
