@@ -250,8 +250,8 @@ it:
     component_switch: Mostra componenti
     help:
       row_selection: Clicca una riga per selezionarla per le operazioni in 
-        blocco. Tieni premuto ALT/Opzione mentre clicchi una casella di spunta 
-        per selezionare, o deselezionare, precedenti righe multiple.
+        blocco. Tieni premuto ALT mentre clicchi una casella di spunta per 
+        selezionare, o deselezionare, precedenti righe multiple.
     clear_all: Cancella tutto
   search_sorting:
     sort_by: 'Ordina per:'
