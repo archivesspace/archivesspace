@@ -176,3 +176,11 @@ pt:
     table_of_contents: Índice
     return_to_table_of_contents: Voltar ao índice
     publication_statement: Declaração de publicação
+  archival_object:
+    _public: {}
+  agent:
+    _public: {}
+  accession:
+    _public: {}
+  classification:
+    _public: {}
