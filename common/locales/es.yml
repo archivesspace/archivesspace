@@ -135,9 +135,6 @@ es:
     _plural: Objetos digitales
     new_title: Nuevo objeto digital
     linker:
-      browse: ''
-      create: ''
-      link_title: ''
   digital_object_component:
     <<: *digital_object_attributes
     label: Etiqueta
@@ -214,10 +211,6 @@ es:
     _plural: Ubicaciones
 
     linker:
-      create: ''
-      link_title: ''
-      browse: ''
-    new_title: ''
   location_batch:
     <<: *location_attributes
     label: Etiqueta
@@ -270,9 +263,6 @@ es:
     _plural: Registros enlazados
 
     linker_ref:
-      link_title: ''
-      create: ''
-      browse: ''
   linked_agent: &linked_agent_attributes
     role: Función
     role_tooltip: |
@@ -383,7 +373,6 @@ es:
     _singular: Evento
     _plural: Eventos
 
-    new_title: ''
   linked_event:
     <<: *event
 
@@ -1359,11 +1348,7 @@ es:
     last_modified_by: Ultima modificacion por
     create_time: Creado
     user_mtime: Modificado
-    new_title: ''
     linker:
-      link_title: ''
-      create: ''
-      browse: ''
   interrelated_accession:
     _plural: Actas de ingreso relacionadas
     relationship_type: Tipo de relación
@@ -1455,14 +1440,7 @@ es:
     _plural: Autoridades
 
     new_title:
-      agent_corporate_entity: ''
-      agent_person: ''
-      agent_software: ''
-      agent_family: ''
     linker:
-      browse: ''
-      create: ''
-      link_title: ''
   agent_person:
     <<: *agent_attributes
     _singular: Persona
@@ -1639,12 +1617,6 @@ es:
     _plural: Los grupos
 
     default_group_names:
-      repository_managers: ''
-      basic_data_entry: ''
-      repository_archivists: ''
-      advanced_data_entry: ''
-      repository_viewers: ''
-      project_managers: ''
   resource:
     <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
@@ -1764,9 +1736,6 @@ es:
     last_modified_by: Ultima modificacion por
     create_time: Creado
     user_mtime: Modificado
-    new_title: ''
-    is_finding_aid_status_published: ''
-    is_finding_aid_status_published_tooltip: ''
   related_accession:
     _singular: Acta de ingreso relacionada
     _plural: Actas de ingreso relacionadas
@@ -1859,12 +1828,7 @@ es:
 
     ark_shoulder_tooltip: Cadena por repositorio que se incluirá en las ARK generadas
     ark_shoulder: ARK Shoulder (espacio de nombres local)
-    position: ''
     linker:
-      browse: ''
-      create: ''
-      link_title: ''
-    new_title: ''
   term:
     # tooltips not displaying:
     term: Término
@@ -1909,10 +1873,6 @@ es:
     _plural: Materias
 
     linker:
-      link_title: ''
-      browse: ''
-      create: ''
-    new_title: ''
   user:
     username: Nombre de usuario
     username_tooltip: |
@@ -1956,7 +1916,6 @@ es:
     _singular: Usuario
     _plural: Usuarios
 
-    reset_password: ''
   collection_management:
     cataloged_note: Nota de catalogación
     cataloged_note_tooltip: |
@@ -2040,7 +1999,6 @@ es:
     _singular: Lista de valores controlados
     _plural: Listas de valor controladas
 
-    default: ''
   classification:
     <<: *slug_attributes
     _singular: Clasificación
@@ -2052,10 +2010,6 @@ es:
     id_separator: /
 
     linker:
-      link_title: ''
-      create: ''
-      browse: ''
-    new_title: ''
   classification_term:
     <<: *slug_attributes
     _singular: Término de clasificación
@@ -2066,9 +2020,6 @@ es:
     creator: Creador
 
     linker:
-      link_title: ''
-      browse: ''
-      create: ''
   preference:
     defaults: Valores predeterminados
     global: Valores predeterminados de preferencia global
@@ -2132,8 +2083,6 @@ es:
 
     include_unpublished: ¿Incluir registros no publicados en las exportaciones?
     rde_sort_alpha: ¿Mostrar plantillas RDE alfabéticamente?
-    digital_object_spawn: ''
-    top_container_mgmt_browse_section: ''
   reports:
     parameters:
       from: De
@@ -2141,8 +2090,6 @@ es:
       locations: Localizaciones
       scope_by_date: Alcance por fecha
       template: Modelo
-      rating: ''
-      values: ''
     formats:
       json: JSON
       csv: CSV
@@ -2269,7 +2216,6 @@ es:
     mixed_content_disallowed_tag: "Se detectó una etiqueta HTML no permitida. Por razones de seguridad,
       etiquetas como &lt;script&gt;, &lt;style&gt;, &lt;iframe&gt; y elementos de formulario no están
       permitidos en campos de contenido mixto."
-    missing_required_subrecord: ''
   job:
     _singular: Tarea en el background
     _plural: Tareas en el background
@@ -2289,7 +2235,6 @@ es:
       bulk_import_job: Cargar mediante hoja de cálculo
       top_container_linker_job: Vinculador de contenedor superior
       bulk_archival_object_updater_job: Actualización masiva de objetos archivados
-      ns2_remover_job: ''
     status: Estado
     status_completed: Completado
     status_queued: Cola
@@ -2305,7 +2250,6 @@ es:
     input_file: Archivo de entrada
     output_file: Archivo de salida
 
-    new_title: ''
   container_labels_job:
     source: Fuente
     format: Formato
@@ -2335,10 +2279,6 @@ es:
     bulk_import_DO_xlsx: Importación masiva DO XLSX
     bulk_import_xlsx: Importación masiva AO XLSX
     bulk_import_DO_csv: Importación masiva DO CSV
-    import_type_subject_csv: ''
-    import_subjects: ''
-    import_subject_csv: ''
-    import_repository: ''
   find_and_replace_job:
     _singular: Tarea de búsqueda y reemplazo
     find: Cadena de caracteres a encontrar
@@ -2541,8 +2481,6 @@ es:
     _plural: Valoraciones
 
     linker:
-      link_title: ''
-    new_title: ''
   assessment_attribute:
     rating:
       "Reformatting Readiness": Reformateo de la preparación
@@ -2878,9 +2816,6 @@ es:
       find_tc: "No se puede encontrar el contenedor superior con los parámetros: %{where}."
       sc_barcode: No se puede encontrar un contenedor secundario con este código de barras 
         secundario %{barcode}
-      calendar: ''
-      era: ''
-      utf8: ''
     templates: Plantillas de importación masiva
   dates_of_existence:
     _frontend:
@@ -3287,9 +3222,5 @@ es:
     edit: Editar ARK
   container_profile:
     title: "%{name} [%{depth}d, %{height}h, %{width}w %{dimension_units}] extensión medida por %{extent_dimension}"
-    new_title: ''
   ns2_remover_job:
-    dry_run: ''
-    description: ''
   location_profile:
-    new_title: ''
