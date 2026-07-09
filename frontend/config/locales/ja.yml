@@ -170,6 +170,15 @@ ja:
     check_all: すべてチェック
     uncheck_all: すべてチェックを外します
     download: ダウンロード
+    drop_before: ''
+    collapse_tree: ''
+    select_resource: ''
+    expand_tree_mode_on: ''
+    drop_after: ''
+    drop_into: ''
+    require_subrecord: ''
+    expand_tree_mode_off: ''
+    reorder_successful: ''
   database_warning:
     message: "<p><strong>データベース警告:</strong> 現在、組み込みデータベース（Apache Derby）を使用しています。組み込みデータベースはテスト/デモ目的専用であり、次のメジャーリリースで非推奨になります。本番環境向けのあらゆるデータ（本番環境へ移行する予定のテストインスタンス内のデータを含む）には、MySQL
       を使用してください。</p>"
@@ -252,6 +261,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
+      representative_file_version: ''
     resource:
       score: 関連性
       title: タイトル
@@ -274,6 +285,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      representative_file_version: ''
+      uri: ''
     archival_object:
       score: 関連性
       title: タイトル
@@ -290,6 +303,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
+      representative_file_version: ''
     subject:
       score: 関連性
       source: ソース
@@ -301,6 +316,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     digital_object:
       score: 関連性
       title: タイトル
@@ -318,6 +334,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
+      representative_file_version: ''
     digital_object_component:
       score: 関連性
       title: タイトル
@@ -331,6 +349,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      representative_file_version: ''
+      uri: ''
     agent:
       score: 関連性
       title: 名前フォーム
@@ -345,6 +365,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     location:
       score: 関連性
       title: ロケーション
@@ -363,6 +384,10 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      location_one_top_container: ''
+      location_top_containers: ''
+      location_no_holdings: ''
+      uri: ''
     event:
       score: 関連性
       agents: エージェント
@@ -374,6 +399,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     collection_management:
       score: 関連性
       parent_title: タイトル
@@ -388,6 +414,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      name: ''
+      uri: ''
     classification:
       score: 関連性
       title: タイトル
@@ -399,6 +427,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     assessment:
       score: 関連性
       assessment_id: ID
@@ -421,6 +450,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     repositories:
       score: 関連性
       title: タイトル
@@ -430,6 +460,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     top_container:
       score: 関連性
       title: タイトル
@@ -445,6 +476,11 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      exported_to_ils: ''
+      uri: ''
+      series_level_u_sstr: ''
+      ils_holding_id: ''
+      collection_identifier_stored_u_sstr: ''
     container_profile:
       score: 関連性
       title: タイトル
@@ -458,6 +494,8 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
+      notes: ''
     location_profile:
       score: 関連性
       title: タイトル
@@ -471,6 +509,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     job:
       score: 関連性
       status: 状態
@@ -486,6 +525,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
+      uri: ''
     multi:
       score: 関連性
       primary_type: レコードタイプ
@@ -504,9 +544,29 @@ ja:
       langcode: 材料の言語
       asc: 上昇
       desc: 降順
+      uri: ''
+      representative_file_version: ''
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: リポジトリ
 
+    top_container_mgmt:
+      not_exported_to_ils: ''
+      restricted: ''
+      indicator: ''
+      series: ''
+      asc: ''
+      location_profile: ''
+      desc: ''
+      ils_holding_id: ''
+      not_restricted: ''
+      barcode: ''
+      resource_accession_id: ''
+      exported_to_ils: ''
+      container_profile: ''
+      internal_note: ''
+      location: ''
+      type: ''
+      resource_accession: ''
   advanced_search:
     operator:
       operator: オペレーター
@@ -537,17 +597,20 @@ ja:
       empty: 空です
     enum_field:
       empty: 割り当てられていない
+      label: ''
     search_field: 検索フィールド
     search_text: テキストを検索
     search_date: 日にち
     search_terms: 高度な検索フィールド %{number}
     remove_row: 高度な検索フィールドを削除する %{number}
 
+    add_row: ''
   become-user:
     become-user: ユーザーになる
     failed: 指定されたユーザーに切り替えることができませんでした
     success: ユーザーの切り替えが成功しました
 
+    username: ''
   navbar:
     become-user: ユーザーになる
     brand: アーカイブススペース
@@ -592,6 +655,8 @@ ja:
     manage_assessment_attributes: アセスメント属性の管理
     toggle_navigation: Toggle Navigation
 
+    global_settings: ''
+    repository_settings: ''
   header:
     staff_interface: ArchivesSpace Staff Interface
 
@@ -632,6 +697,22 @@ ja:
     login_fail: ログイン試行に失敗しました
     login_success: ログイン成功。リダイレクト中...
 
+    username_aria_label: ''
+    email_placeholder: ''
+    reset_password: ''
+    new_password_instructions: ''
+    confirm_password: ''
+    password_too_simple: ''
+    lost_password: ''
+    new_password: ''
+    password_placeholder: ''
+    password_aria_label: ''
+    recover_password: ''
+    username_placeholder: ''
+    password_update_success: ''
+    reset_form_instructions: ''
+    password_update_error: ''
+    password_mismatch_error: ''
   breadcrumb:
     home: ホーム
 
@@ -749,6 +830,8 @@ ja:
         create: 登録を作成する
         save: 登録を保存
 
+    component_link: ''
+    component_links: ''
   agent:
     _frontend:
       messages:
@@ -777,6 +860,7 @@ ja:
         linked_via_rights_statement: 権利声明によるリンクされたレコード
         merge_destination_record: このレコードは更新されます
         merge_candidate_record: このレコードは削除されます
+        events: ''
       action:
         create: エージェントを作成する
         preview: マージプレビュー
@@ -851,6 +935,12 @@ ja:
         suppressed_info: アーカイブオブジェクトは抑制されており、編集できません
         has_unpublished_ancestor: このレコードには未発表の祖先があることにご注意ください。
         delete_conflict: アーカイブオブジェクトを削除できませんでした： <pre> %{error} </pre>
+        spawn_menu_before: ''
+        spawned: ''
+        transfer_description: ''
+        spawn_menu_after: ''
+        spawn_menu_child: ''
+        spawn_placeholder: ''
       section:
         basic_information: 基本情報
       action:
@@ -859,10 +949,14 @@ ja:
         add_duplicate: 重複を追加
         save: アーカイブオブジェクトを保存する
         bulk_import: スプレッドシートを介して負荷
+        select_resource: ''
+        select_parent_and_position: ''
+        leave_parent_empty: ''
       tree:
         new_record_title: 新しいアーカイブオブジェクト
         duplicated_record_title: 重複したアーカイブ オブジェクトの作成
 
+    new_title: ''
   classification:
     _frontend:
       messages:
@@ -1004,6 +1098,9 @@ ja:
         name_selector: リスト名
         name_selector_tooltip: "<p>編集する制御値リスト。 </p>"
         no_name_provided: 新しい値を作成する前に値リストを選択する
+        related_items: ''
+        not_used: ''
+        one_related_item: ''
       action:
         create_value: 値を作成
         delete_value: 値の削除
@@ -1041,6 +1138,7 @@ ja:
         add: ファイルバージョンを追加
         make_representative: 代表者にする
 
+        make_representative_tooltip: ''
   group:
     _frontend:
       action:
@@ -1126,11 +1224,20 @@ ja:
         use_date: 名前使用の日付
         dates: 日付
         parallel_names: 並列名
+        function_subject: ''
+        topic_subject: ''
+        occupation_subject: ''
+        place_subject: ''
+        name_subject: ''
       action:
         add: 名前フォームを追加
         make_authorized: 権限のある名前を作る
         make_display_name: 表示名を作る
 
+        make_authorized_tooltip: ''
+        make_primary: ''
+        make_display_name_tooltip: ''
+        make_primary_tooltip: ''
   note:
     _frontend:
       preview:
@@ -1216,6 +1323,7 @@ ja:
         select: リポジトリを選択
         save: リポジトリを保存
         create: リポジトリ作成
+        order_for_pui: ''
     _sidebar:
       oai_settings:
         _plural: OAI収穫設定
@@ -1250,11 +1358,16 @@ ja:
         load_bulk: スプレッドシートを介して負荷
         save: リソースを保存
         delete_multiple: リソースを削除する
+      remove_subrecord: ''
     external_ark_url: External ARK URL
     external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier 
       generated outside of ArchivesSpace. If this field has a value it takes 
       precedence over an ARK generated within ArchivesSpace.
 
+    linker:
+      browse: ''
+      link_title: ''
+      link_to: ''
   preference:
     _frontend:
       messages:
@@ -1314,16 +1427,20 @@ ja:
         deactivated: ユーザーが非アクティブ化されました
         error_activate: アクティブ化されていないユーザー
         error_deactivate: ユーザーは非アクティブ化されていません
+        password_reset_email_sent: ''
+        error_not_found: ''
+        password_reset_fail: ''
+        password_reset_not_allowed: ''
       section:
         manage_access: ユーザーアクセスを管理する
         account: アカウント
         edit_account: アカウントの編集
         edit_account_submit: アカウントを更新する
+        new_account: ''
       action:
         create_account: アカウントを作成する
         update_account: アカウントを更新する
         create: ユーザーを作成
-        hide_inactive: 非アクティブなユーザーを非表示
         show_inactive: 非アクティブなユーザーを表示
         deactivate_user: 無効化
         deactivate_user_confirm: このユーザーを無効化してもよろしいですか？
@@ -1332,8 +1449,10 @@ ja:
 
         edit: ユーザーを編集
         show_active: アクティブユーザーを表示
+        update_self: ''
     inactive: 偽
     active: 'true'
+    source: ''
   user_defined:
     _frontend:
       action:
@@ -1404,12 +1523,27 @@ ja:
       select_prompt: RDEテンプレートを適用する
     help:
       keyboard_shortcuts:
+        new_term: ''
+        title: ''
+        shift: ''
+        arrow_keys: ''
+        move_term: ''
+        return: ''
       sticky_columns:
+        p_one: ''
+        p_two: ''
+        title: ''
       fill_column:
-      resize_and_reorder_columns: "<div> <strong>列の並べ替え</strong> </div><div> <small>[
-        <strong>列の並べ替え]を</strong>クリックして、 <strong>並べ替え</strong>たい行を選択し、上下の矢印ボタンを使用してリスト内の位置を変更します。新しいオーダーに満足したら、「
-        <strong>オーダーの適用</strong> 」をクリックします</small> </div>"
+        sequence_description: ''
+        basic_title: ''
+        basic_description: ''
+        sequence_title: ''
       reset:
+        title: ''
+        description: ''
+      reorder_columns:
+        title: ''
+        description: ''
 
   update_monitor:
     save_failed: "<strong>変更を保存できませんでした</strong>"
@@ -1474,6 +1608,9 @@ ja:
           このジョブは、ARKをまだ持っていないすべての<b>リソース</b>および<b>アーカイブオブジェクト</b>のARKを生成します。 
           <br/> <br/> <em>外部ARKは変更されません。</em>
 
+      external_repo: ''
+      singular: ''
+      plural: ''
   shortcuts:
     quick_reference_window: クイックリファレンス：キーボードショートカット
     actions:
@@ -1635,6 +1772,23 @@ ja:
         has_location_true: はい
         has_location_false: 番号
 
+        collection_accession_linker:
+          create: ''
+          browse: ''
+          link_title: ''
+        rapid_indicator_entry_help: ''
+        collection_resource_linker:
+          link_title: ''
+          create: ''
+          browse: ''
+        rapid_indicator_entry_new_indicator: ''
+        rapid_indicator_entry: ''
+    linker:
+      browse: ''
+      link_title: ''
+      create: ''
+    internal_note_tooltip: ''
+    internal_note: ''
   container_profile:
     _singular: コンテナプロファイル
     _plural: コンテナプロファイル
@@ -1686,6 +1840,12 @@ ja:
     stacking_limit_tooltip: "<p>互いに積み重ねられるこれらの容器の数。制限がない場合は空白のままにします。正の整数でなければなりませんまたはゼロ。
       </p>"
 
+    linker:
+      create: ''
+      browse: ''
+      link_title: ''
+    notes_tooltip: ''
+    notes: ''
   rights_restriction:
     begin: 制限開始
     begin_tooltip: "<p>時間制限の場合は、アクセス制限の開始日。 YYYY-MM-DDの形式で単一の日付である必要があります。期限切れになったら容器から切り離されます。メモのテキストを使用して、精度の低い日付または日付スパンを指定します。
@@ -1742,6 +1902,10 @@ ja:
     height: 高さ
     width: 幅
 
+    linker:
+      link_title: ''
+      browse: ''
+      create: ''
   space_calculator:
     modal_title: スペース計算機
     modal_loading: 読み込んでいます...
@@ -1897,7 +2061,6 @@ ja:
 
   custom_report_template:
     _frontend:
-      new_title: 新しいカスタムレポートテンプレート
       section:
         template_information: テンプレート情報
         basic_information_fields: 基本情報
@@ -1906,10 +2069,12 @@ ja:
       action:
         create: テンプレートを作成する
         save: テンプレートを保存
+        search_usernames: ''
       messages:
         copied: コピーされたカスタムレポートテンプレート
         created: 作成されたカスタムレポートテンプレート
         updated: カスタムレポートテンプレートが更新されました
+    new_title: ''
   oai_config:
     title: OAI-PMH設定
     title_repo_section: リポジトリごとのOAI-PMH設定
@@ -1984,18 +2149,6 @@ ja:
     date_certainty: 確実
     date_era: 時代
     date_calendar: カレンダー
-  structured_date_label_existence:
-    date_label: ラベル
-    date_type_structured: 日付タイプ
-    date_certainty: 確実
-    date_era: 時代
-    date_calendar: カレンダー
-  structured_date_label_usage:
-    date_label: ラベル
-    date_type_structured: 日付タイプ
-    date_certainty: 確実
-    date_era: 時代
-    date_calendar: カレンダー
   structured_date_single_fields:
     date_role: 日付の役割
     date_expression: 日付式
@@ -2035,89 +2188,13 @@ ja:
     script: 脚本
     language_note: 言語ノート
   agent_record_controls:
-    _plural: 記録情報
-    _singular: 記録情報
-    _frontend:
-      action:
-        add: レコード情報を追加
-    maintenance_status: 制御保守ステータスの記録
-    publication_status: レコード管理の公開ステータス
-    romanization: ローマ字
-    government_agency_type: レコード管理政府機関タイプ
-    reference_evaluation: 記録管理参照評価
-    name_type: レコードコントロール名タイプ
-    level_of_detail: 記録管理の詳細レベル
-    modified_record: レコード制御変更タイプ
-    cataloging_source: レコード管理目録ソース
-    maintenance_agency: 整備庁
-    agency_name: 代理店名
-    maintenance_agency_note: メンテナンスエージェンシーノート
-    language: 言語
-    script: 脚本
-    language_note: 言語ノート
+    _frontend: {}
   agent_record_control_required:
-    _plural: 記録情報
-    _singular: 記録情報
-    _frontend:
-      action:
-        add: レコード情報を追加
-    maintenance_status: 制御保守ステータスの記録
-    publication_status: レコード管理の公開ステータス
-    romanization: ローマ字
-    government_agency_type: レコード管理政府機関タイプ
-    reference_evaluation: 記録管理参照評価
-    name_type: レコードコントロール名タイプ
-    level_of_detail: 記録管理の詳細レベル
-    modified_record: レコード制御変更タイプ
-    cataloging_source: レコード管理目録ソース
-    maintenance_agency: 整備庁
-    agency_name: 代理店名
-    maintenance_agency_note: メンテナンスエージェンシーノート
-    language: 言語
-    script: 脚本
-    language_note: 言語ノート
+    _frontend: {}
   agent_record_control_merge_destination:
-    _plural: 記録情報
-    _singular: 記録情報
-    _frontend:
-      action:
-        add: レコード情報を追加
-    maintenance_status: 制御保守ステータスの記録
-    publication_status: レコード管理の公開ステータス
-    romanization: ローマ字
-    government_agency_type: レコード管理政府機関タイプ
-    reference_evaluation: 記録管理参照評価
-    name_type: レコードコントロール名タイプ
-    level_of_detail: 記録管理の詳細レベル
-    modified_record: レコード制御変更タイプ
-    cataloging_source: レコード管理目録ソース
-    maintenance_agency: 整備庁
-    agency_name: 代理店名
-    maintenance_agency_note: メンテナンスエージェンシーノート
-    language: 言語
-    script: 脚本
-    language_note: 言語ノート
+    _frontend: {}
   agent_record_control_merge_candidate:
-    _plural: 記録情報
-    _singular: 記録情報
-    _frontend:
-      action:
-        add: レコード情報を追加
-    maintenance_status: 制御保守ステータスの記録
-    publication_status: レコード管理の公開ステータス
-    romanization: ローマ字
-    government_agency_type: レコード管理政府機関タイプ
-    reference_evaluation: 記録管理参照評価
-    name_type: レコードコントロール名タイプ
-    level_of_detail: 記録管理の詳細レベル
-    modified_record: レコード制御変更タイプ
-    cataloging_source: レコード管理目録ソース
-    maintenance_agency: 整備庁
-    agency_name: 代理店名
-    maintenance_agency_note: メンテナンスエージェンシーノート
-    language: 言語
-    script: 脚本
-    language_note: 言語ノート
+    _frontend: {}
   agent_gender:
     _plural: 性別
     _singular: 性別
@@ -2128,41 +2205,13 @@ ja:
     note: 注意
     dates: 日付
   agent_genders:
-    _plural: 性別
-    _singular: 性別
-    _frontend:
-      action:
-        add: 性別を追加
-    gender: 性別
-    note: 注意
-    dates: 日付
+    _frontend: {}
   agent_gender_required:
-    _plural: 性別
-    _singular: 性別
-    _frontend:
-      action:
-        add: 性別を追加
-    gender: 性別
-    note: 注意
-    dates: 日付
+    _frontend: {}
   agent_gender_merge_destination:
-    _plural: 性別
-    _singular: 性別
-    _frontend:
-      action:
-        add: 性別を追加
-    gender: 性別
-    note: 注意
-    dates: 日付
+    _frontend: {}
   agent_gender_merge_candidate:
-    _plural: 性別
-    _singular: 性別
-    _frontend:
-      action:
-        add: 性別を追加
-    gender: 性別
-    note: 注意
-    dates: 日付
+    _frontend: {}
   used_language:
     _plural: 使用される言語
     _singular: 使用言語
@@ -2172,37 +2221,13 @@ ja:
     language: 言語
     script: 脚本
   used_language_required:
-    _plural: 使用される言語
-    _singular: 使用言語
-    _frontend:
-      action:
-        add: 言語を追加する
-    language: 言語
-    script: 脚本
+    _frontend: {}
   used_languages:
-    _plural: 使用される言語
-    _singular: 使用言語
-    _frontend:
-      action:
-        add: 言語を追加する
-    language: 言語
-    script: 脚本
+    _frontend: {}
   used_language_merge_candidate:
-    _plural: 使用される言語
-    _singular: 使用言語
-    _frontend:
-      action:
-        add: 言語を追加する
-    language: 言語
-    script: 脚本
+    _frontend: {}
   used_language_merge_destination:
-    _plural: 使用される言語
-    _singular: 使用言語
-    _frontend:
-      action:
-        add: 言語を追加する
-    language: 言語
-    script: 脚本
+    _frontend: {}
   agent_identifier:
     _plural: エンティティID
     _singular: 識別子
@@ -2212,37 +2237,13 @@ ja:
     identifier_type: 識別子の種類
     entity_identifier: エンティティID
   agent_identifiers:
-    _plural: エンティティID
-    _singular: 識別子
-    _frontend:
-      action:
-        add: エンティティIDを追加します
-    identifier_type: 識別子の種類
-    entity_identifier: エンティティID
+    _frontend: {}
   agent_identifier_required:
-    _plural: エンティティID
-    _singular: 識別子
-    _frontend:
-      action:
-        add: エンティティIDを追加します
-    identifier_type: 識別子の種類
-    entity_identifier: エンティティID
+    _frontend: {}
   agent_identifier_merge_destination:
-    _plural: エンティティID
-    _singular: 識別子
-    _frontend:
-      action:
-        add: エンティティIDを追加します
-    identifier_type: 識別子の種類
-    entity_identifier: エンティティID
+    _frontend: {}
   agent_identifier_merge_candidate:
-    _plural: エンティティID
-    _singular: 識別子
-    _frontend:
-      action:
-        add: エンティティIDを追加します
-    identifier_type: 識別子の種類
-    entity_identifier: エンティティID
+    _frontend: {}
   agent_place:
     _frontend:
       action:
@@ -2257,57 +2258,13 @@ ja:
     subjects: 場所
     publish: 公開済み
   agent_place_required:
-    _frontend:
-      action:
-        add: 場所を追加
-    section:
-      dates: 日付
-    _plural: 場所
-    _singular: 場所
-    place_role: エージェントプレイスの役割
-    text_note: 注意
-    dates: 日付
-    subjects: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_places:
-    _frontend:
-      action:
-        add: 場所を追加
-    section:
-      dates: 日付
-    _plural: 場所
-    _singular: 場所
-    place_role: エージェントプレイスの役割
-    text_note: 注意
-    dates: 日付
-    subjects: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_place_merge_destination:
-    _frontend:
-      action:
-        add: 場所を追加
-    section:
-      dates: 日付
-    _plural: 場所
-    _singular: 場所
-    place_role: エージェントプレイスの役割
-    text_note: 注意
-    dates: 日付
-    subjects: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_place_merge_candidate:
-    _frontend:
-      action:
-        add: 場所を追加
-    section:
-      dates: 日付
-    _plural: 場所
-    _singular: 場所
-    place_role: エージェントプレイスの役割
-    text_note: 注意
-    dates: 日付
-    subjects: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_occupation:
     _frontend:
       action:
@@ -2322,57 +2279,13 @@ ja:
     places: 場所
     publish: 公開済み
   agent_occupation_required:
-    _frontend:
-      action:
-        add: 職業を追加する
-    section:
-      dates: 日付
-    _plural: 職業
-    _singular: 職業
-    text_note: 注意
-    dates: 日付
-    subjects: 職業
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_occupations:
-    _frontend:
-      action:
-        add: 職業を追加する
-    section:
-      dates: 日付
-    _plural: 職業
-    _singular: 職業
-    text_note: 注意
-    dates: 日付
-    subjects: 職業
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_occupation_merge_destination:
-    _frontend:
-      action:
-        add: 職業を追加する
-    section:
-      dates: 日付
-    _plural: 職業
-    _singular: 職業
-    text_note: 注意
-    dates: 日付
-    subjects: 職業
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_occupation_merge_candidate:
-    _frontend:
-      action:
-        add: 職業を追加する
-    section:
-      dates: 日付
-    _plural: 職業
-    _singular: 職業
-    text_note: 注意
-    dates: 日付
-    subjects: 職業
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_function:
     _frontend:
       action:
@@ -2387,57 +2300,13 @@ ja:
     places: 場所
     publish: 公開済み
   agent_function_required:
-    _frontend:
-      action:
-        add: 機能の追加
-    section:
-      dates: 日付
-    _plural: 機能
-    _singular: 関数
-    text_note: 注意
-    dates: 日付
-    subjects: 機能
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_functions:
-    _frontend:
-      action:
-        add: 機能の追加
-    section:
-      dates: 日付
-    _plural: 機能
-    _singular: 関数
-    text_note: 注意
-    dates: 日付
-    subjects: 機能
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_function_merge_destination:
-    _frontend:
-      action:
-        add: 機能の追加
-    section:
-      dates: 日付
-    _plural: 機能
-    _singular: 関数
-    text_note: 注意
-    dates: 日付
-    subjects: 機能
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_function_merge_candidate:
-    _frontend:
-      action:
-        add: 機能の追加
-    section:
-      dates: 日付
-    _plural: 機能
-    _singular: 関数
-    text_note: 注意
-    dates: 日付
-    subjects: 機能
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_topic:
     _frontend:
       action:
@@ -2452,57 +2321,13 @@ ja:
     places: 場所
     publish: 公開済み
   agent_topic_required:
-    _frontend:
-      action:
-        add: トピックを追加
-    section:
-      dates: 日付
-    _plural: トピック
-    _singular: トピック
-    text_note: 注意
-    dates: 日付
-    subjects: トピック
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_topics:
-    _frontend:
-      action:
-        add: トピックを追加
-    section:
-      dates: 日付
-    _plural: トピック
-    _singular: トピック
-    text_note: 注意
-    dates: 日付
-    subjects: トピック
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_topic_merge_destination:
-    _frontend:
-      action:
-        add: トピックを追加
-    section:
-      dates: 日付
-    _plural: トピック
-    _singular: トピック
-    text_note: 注意
-    dates: 日付
-    subjects: トピック
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_topic_merge_candidate:
-    _frontend:
-      action:
-        add: トピックを追加
-    section:
-      dates: 日付
-    _plural: トピック
-    _singular: トピック
-    text_note: 注意
-    dates: 日付
-    subjects: トピック
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   place:
     _plural: 場所
     _frontend:
@@ -2524,65 +2349,13 @@ ja:
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
   agent_alternate_sets:
-    _plural: 代替セット
-    _singular: 代替セット
-    _frontend:
-      action:
-        add: 代替セットを追加
-    set_component: コンポーネントの設定
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_alternate_set_required:
-    _plural: 代替セット
-    _singular: 代替セット
-    _frontend:
-      action:
-        add: 代替セットを追加
-    set_component: コンポーネントの設定
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_alternate_set_merge_destination:
-    _plural: 代替セット
-    _singular: 代替セット
-    _frontend:
-      action:
-        add: 代替セットを追加
-    set_component: コンポーネントの設定
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_alternate_set_merge_candidate:
-    _plural: 代替セット
-    _singular: 代替セット
-    _frontend:
-      action:
-        add: 代替セットを追加
-    set_component: コンポーネントの設定
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_conventions_declaration:
     _plural: 条約宣言
     _singular: 条約宣言
@@ -2600,69 +2373,13 @@ ja:
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
   agent_conventions_declarations:
-    _plural: 条約宣言
-    _singular: 条約宣言
-    _frontend:
-      action:
-        add: 条約宣言を追加する
-    name_rule: コンベンション
-    citation: 引用
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_conventions_declaration_required:
-    _plural: 条約宣言
-    _singular: 条約宣言
-    _frontend:
-      action:
-        add: 条約宣言を追加する
-    name_rule: コンベンション
-    citation: 引用
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_conventions_declaration_merge_destination:
-    _plural: 条約宣言
-    _singular: 条約宣言
-    _frontend:
-      action:
-        add: 条約宣言を追加する
-    name_rule: コンベンション
-    citation: 引用
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_conventions_declaration_merge_candidate:
-    _plural: 条約宣言
-    _singular: 条約宣言
-    _frontend:
-      action:
-        add: 条約宣言を追加する
-    name_rule: コンベンション
-    citation: 引用
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_other_agency_code:
     _plural: その他の機関コード
     _singular: その他の機関コード
@@ -2672,37 +2389,13 @@ ja:
     agency_code_type: レコード管理機関のコードタイプ
     maintenance_agency: 整備庁
   agent_other_agency_codes:
-    _plural: その他の機関コード
-    _singular: その他の機関コード
-    _frontend:
-      action:
-        add: 代理店コードを追加
-    agency_code_type: レコード管理機関のコードタイプ
-    maintenance_agency: 整備庁
+    _frontend: {}
   agent_other_agency_code_required:
-    _plural: その他の機関コード
-    _singular: その他の機関コード
-    _frontend:
-      action:
-        add: 代理店コードを追加
-    agency_code_type: レコード管理機関のコードタイプ
-    maintenance_agency: 整備庁
+    _frontend: {}
   agent_other_agency_code_merge_destination:
-    _plural: その他の機関コード
-    _singular: その他の機関コード
-    _frontend:
-      action:
-        add: 代理店コードを追加
-    agency_code_type: レコード管理機関のコードタイプ
-    maintenance_agency: 整備庁
+    _frontend: {}
   agent_other_agency_code_merge_candidate:
-    _plural: その他の機関コード
-    _singular: その他の機関コード
-    _frontend:
-      action:
-        add: 代理店コードを追加
-    agency_code_type: レコード管理機関のコードタイプ
-    maintenance_agency: 整備庁
+    _frontend: {}
   agent_maintenance_history:
     _plural: メンテナンス履歴
     _singular: エージェントのメンテナンス履歴
@@ -2715,49 +2408,13 @@ ja:
     descriptive_note: 注釈
     event_date: 開催日
   agent_maintenance_histories:
-    _plural: メンテナンス履歴
-    _singular: エージェントのメンテナンス履歴
-    _frontend:
-      action:
-        add: イベントを追加
-    maintenance_event_type: レコード制御保守イベントタイプ
-    maintenance_agent_type: レコード制御保守エージェントタイプ
-    agent: エージェント
-    descriptive_note: 注釈
-    event_date: 開催日
+    _frontend: {}
   agent_maintenance_history_required:
-    _plural: メンテナンス履歴
-    _singular: エージェントのメンテナンス履歴
-    _frontend:
-      action:
-        add: イベントを追加
-    maintenance_event_type: レコード制御保守イベントタイプ
-    maintenance_agent_type: レコード制御保守エージェントタイプ
-    agent: エージェント
-    descriptive_note: 注釈
-    event_date: 開催日
+    _frontend: {}
   agent_maintenance_history_merge_destination:
-    _plural: メンテナンス履歴
-    _singular: エージェントのメンテナンス履歴
-    _frontend:
-      action:
-        add: イベントを追加
-    maintenance_event_type: レコード制御保守イベントタイプ
-    maintenance_agent_type: レコード制御保守エージェントタイプ
-    agent: エージェント
-    descriptive_note: 注釈
-    event_date: 開催日
+    _frontend: {}
   agent_maintenance_history_merge_candidate:
-    _plural: メンテナンス履歴
-    _singular: エージェントのメンテナンス履歴
-    _frontend:
-      action:
-        add: イベントを追加
-    maintenance_event_type: レコード制御保守イベントタイプ
-    maintenance_agent_type: レコード制御保守エージェントタイプ
-    agent: エージェント
-    descriptive_note: 注釈
-    event_date: 開催日
+    _frontend: {}
   agent_record_identifier:
     _plural: レコードID
     _singular: レコードID
@@ -2770,49 +2427,13 @@ ja:
     primary: プライマリ
     record_identifier: レコード識別子
   agent_record_identifiers:
-    _plural: レコードID
-    _singular: レコードID
-    _frontend:
-      action:
-        add: レコードIDを追加
-    identifier_type: レコード制御識別子タイプ
-    source: ソース
-    primary_identifier: 一次識別子はありますか？
-    primary: プライマリ
-    record_identifier: レコード識別子
+    _frontend: {}
   agent_record_identifier_required:
-    _plural: レコードID
-    _singular: レコードID
-    _frontend:
-      action:
-        add: レコードIDを追加
-    identifier_type: レコード制御識別子タイプ
-    source: ソース
-    primary_identifier: 一次識別子はありますか？
-    primary: プライマリ
-    record_identifier: レコード識別子
+    _frontend: {}
   agent_record_identifier_merge_destination:
-    _plural: レコードID
-    _singular: レコードID
-    _frontend:
-      action:
-        add: レコードIDを追加
-    identifier_type: レコード制御識別子タイプ
-    source: ソース
-    primary_identifier: 一次識別子はありますか？
-    primary: プライマリ
-    record_identifier: レコード識別子
+    _frontend: {}
   agent_record_identifier_merge_candidate:
-    _plural: レコードID
-    _singular: レコードID
-    _frontend:
-      action:
-        add: レコードIDを追加
-    identifier_type: レコード制御識別子タイプ
-    source: ソース
-    primary_identifier: 一次識別子はありますか？
-    primary: プライマリ
-    record_identifier: レコード識別子
+    _frontend: {}
   agent_source:
     _plural: ソース
     _singular: エージェントソース
@@ -2829,65 +2450,13 @@ ja:
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
   agent_sources:
-    _plural: ソース
-    _singular: エージェントソース
-    _frontend:
-      action:
-        add: ソースを追加
-    source_entry: ソースエントリ
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_source_required:
-    _plural: ソース
-    _singular: エージェントソース
-    _frontend:
-      action:
-        add: ソースを追加
-    source_entry: ソースエントリ
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_source_merge_destination:
-    _plural: ソース
-    _singular: エージェントソース
-    _frontend:
-      action:
-        add: ソースを追加
-    source_entry: ソースエントリ
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_source_merge_candidate:
-    _plural: ソース
-    _singular: エージェントソース
-    _frontend:
-      action:
-        add: ソースを追加
-    source_entry: ソースエントリ
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_parallel_name:
     _plural: 並列名
     use_dates: 使用日
@@ -2916,93 +2485,13 @@ ja:
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
   agent_resources:
-    _frontend:
-      action:
-        add: 関連する外部リソースを追加する
-    section:
-      dates: 日付
-      places: 場所
-    _plural: 関連する外部リソース
-    _singular: 関連する外部リソース
-    dates: 日付
-    places: 場所
-    publish: 公開済み
-    linked_agent_role: リソース関係タイプ
-    linked_resource: 関連する外部リソース
-    linked_resource_description: 説明
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_resource_required:
-    _frontend:
-      action:
-        add: 関連する外部リソースを追加する
-    section:
-      dates: 日付
-      places: 場所
-    _plural: 関連する外部リソース
-    _singular: 関連する外部リソース
-    dates: 日付
-    places: 場所
-    publish: 公開済み
-    linked_agent_role: リソース関係タイプ
-    linked_resource: 関連する外部リソース
-    linked_resource_description: 説明
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_resource_merge_candidate:
-    _frontend:
-      action:
-        add: 関連する外部リソースを追加する
-    section:
-      dates: 日付
-      places: 場所
-    _plural: 関連する外部リソース
-    _singular: 関連する外部リソース
-    dates: 日付
-    places: 場所
-    publish: 公開済み
-    linked_agent_role: リソース関係タイプ
-    linked_resource: 関連する外部リソース
-    linked_resource_description: 説明
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_resource_merge_destination:
-    _frontend:
-      action:
-        add: 関連する外部リソースを追加する
-    section:
-      dates: 日付
-      places: 場所
-    _plural: 関連する外部リソース
-    _singular: 関連する外部リソース
-    dates: 日付
-    places: 場所
-    publish: 公開済み
-    linked_agent_role: リソース関係タイプ
-    linked_resource: 関連する外部リソース
-    linked_resource_description: 説明
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   subsections:
     notes: ノート
     dates: 日付
@@ -3045,3 +2534,31 @@ ja:
 
   metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes
+  accession_link:
+    _plural: ''
+    _singular: ''
+    _frontend:
+      action:
+        add: ''
+  bulk_import_templates:
+    aspace_digital_object_import_template_csv: ''
+    aspace_assessment_import_template_csv: ''
+    bulk_import_template_csv: ''
+    overview: ''
+    aspace_accession_import_template_csv: ''
+    bulk_import_DO_template_xlsx: ''
+    bulk_import_DO_template_csv: ''
+    aspace_location_import_template_csv: ''
+    bulk_import_template_xlsx: ''
+    aspace_subject_import_template_csv: ''
+  footer:
+    public_interface_html: ''
+    keyboard_shortcuts: ''
+    archivesspace_home_html: ''
+    feedback_html: ''
+  component_link:
+    _frontend:
+      action:
+        add: ''
+    _singular: ''
+    _plural: ''
