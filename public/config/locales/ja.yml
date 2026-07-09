@@ -33,8 +33,6 @@ ja:
     search_remove_row: 下の行を削除
     staff_link: 関係者以外立ち入り禁止
     digitized: デジタル資料を見る
-    next: ''
-    previous: ''
   page_actions: ページアクション
   request:
     email_header: ご依頼ありがとうございます
@@ -151,8 +149,6 @@ ja:
       instance_type_enum_s: インスタンスの種類
       langcode: 言語
 
-      digital_object_type_enum_s: ''
-      extent_type_enum_s: ''
   search_sorting:
     sort_by: 並び替え：
     sort: ソート
@@ -183,7 +179,6 @@ ja:
     backend_down: データベースに接続できません
     backend_down_message: ArchivesSpaceは現在技術的な問題を抱えています。ご迷惑をおかけしましたことをお詫び申し上げます。後でもう一度お試しください。
     unexpected_error: 予期しないエラーのためにリクエストを完了できませんでした
-    invalid_search_params: ''
   boolean:
     'true': はい
     'false': いいえ
@@ -255,7 +250,6 @@ ja:
         deaccessions: Deaccessionedマテリアル
         forms_part_of: 部品の関係
         sibling_of: 兄弟関係
-        has_part: ''
   archival_object:
     _public:
       section: {}
@@ -314,11 +308,6 @@ ja:
       related_accessions:
         accessions: 受付記録
         deaccessions: デアクセスレコード
-      uri: ''
-      ark_link_name: ''
-      lang_pdf: ''
-      identifier_pdf: ''
-      identifier_ark: ''
     load_records:
       alert: "このコレクションには%{count}件のレコードが含まれています。"
       showing: "表示中"
@@ -331,7 +320,6 @@ ja:
   top_container:
     _singular: コンテナ
     _plural: コンテナ
-    restricted: ''
   related_resource: {}
   digital_object:
     _singular: デジタルレコード
@@ -345,8 +333,6 @@ ja:
       messages: {}
       browse_number_digital_objects_in_collection:
         other: コレクションの%{num}つのディジタルオブジェクトを閲覧する
-      url_encoded_data: ''
-      additional: ''
   digital_object_component:
     _public:
       section: {}
@@ -424,10 +410,6 @@ ja:
     finding_aid_written_in: 書かれた援助を見つける
     your_finding_aid_pdf: "&quot; %{title} &quot;の検索援助PDF"
     your_finding_aid_is_attached: あなたが求めた援助が添付されています。
-    accessrestrict: ''
-    userestrict: ''
-    accruals: ''
-    acqinfo: ''
   readmore:
     see_more: 続きを見る
     see_less: もっと見る
@@ -532,22 +514,6 @@ ja:
 
   pdf_error:
     headings:
-      additional_info: ''
-      type: ''
-      message: ''
-      location: ''
     additional_info:
-      invalid_markup: ''
     location:
-      location_footer: ''
-      location_title_page: ''
-      location_resource: ''
-      location_header: ''
-      location_archival_object: ''
-      location_toc: ''
-    description: ''
-    title: ''
   footer:
-    archivesspace_home_html: ''
-    feedback_html: ''
-    staff_interface_html: ''
