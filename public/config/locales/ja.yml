@@ -332,7 +332,6 @@ ja:
       section: {}
       messages: {}
       browse_number_digital_objects_in_collection:
-        one: コレクションの%{num}つのディジタルオブジェクトを閲覧する
         other: コレクションの%{num}つのディジタルオブジェクトを閲覧する
   digital_object_component:
     _public:
@@ -512,4 +511,4 @@ ja:
 
   languages:
     select: 言語を選択する
-  
+

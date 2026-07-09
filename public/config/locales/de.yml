@@ -503,11 +503,12 @@ de:
   footer:
     staff_interface_html: <a href="%{staff_url}">Verwaltungsoberfläche</a>
     archivesspace_home_html: Bereitgestellt von <a href='http://archivesspace.org'>ArchivesSpace</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung oder Fragen</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Rückmeldung 
+      oder Fragen</a>
 
   languages:
     select: Sprache auswählen
-  
+
   pdf_error:
     title: Die Erzeugung der PDF Datei ist fehlgeschlagen.
     description: Es tut uns leid, aber es gab einen Fehler beim Erstellen dieses PDF-Findmittels. 

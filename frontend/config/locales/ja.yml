@@ -218,8 +218,8 @@ ja:
     clear_all: すべてクリア
     component_switch: コンポーネントを表示する
     help:
-      row_selection: 一括操作のために行をクリックして選択します。
-        Alt/Optionキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
+      row_selection: 一括操作のために行をクリックして選択します。 
+        Altキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
 
   search_sorting:
     sort_by: 並び替え：
@@ -576,7 +576,7 @@ ja:
     top_containers_for: "%{record_title}のトップコンテナ"
     no_top_containers: リンクされたトップコンテナがありません
     edit_top_container: トップコンテナを編集する
-    view_top_container: トップコンテナを表示する
+    view_top_container: トップコンテナ
     manage_enumerations: 管理された値リストの管理
     global_preferences: グローバル設定
     user_repo_preferences: ユーザー設定
@@ -1403,24 +1403,13 @@ ja:
       error_summary_header: 行内のエラー：
       select_prompt: RDEテンプレートを適用する
     help:
-      keyboard_shortcuts: <div> <strong>キーボードショートカット</strong> </div><div 
-        class="row"> <small><span class="span3">セルからセルへジャンプ：</span> SHIFT 
-        +矢印キー</small> </div><div class="row"> <small><span 
-        class="span3">最後の行から新しい行を作成する：</span> SHIFT + Return</small> </div>
-      sticky_columns: "<div> <strong>スティッキー列</strong> </div><div> <small>強調表示された列はスティッキーで、新しい行が追加されるとレプリケートされます。対応する表の見出しをクリックして、「スティッキー」を切り替えます。</small>
-        </div><div> <small>[ <strong>Add Row</strong> ] <strong>を</strong>クリックすると、最後の行から値がコピーされます。行の<strong>+</strong>ボタンは、現在フォーカスされている行の値をコピーします。</small>
-        </div>"
-      fill_column: "<div> <strong>行の塗りつぶし - 基本</strong> </div><div> <small>単一の値を持つ列を埋めるために、
-        <strong>列を塗りつぶし</strong>クリックし、[ <strong>基本</strong>設定]タブの下で、ターゲット<strong>列を</strong>選択し、目的の<strong>フィル値を</strong>入力して、
-        <strong>塗りつぶしを適用</strong> ] <strong>を</strong>クリックします。</small> </div><br/><div>
-        <strong>行の塗りつぶし - シーケンス</strong> </div><div> <small>シーケンスを列に適用するには、[ <strong>列</strong>を<strong>塗りつぶす</strong>
-        ]をクリックし、[ <strong>シーケンス</strong> ]タブで目的の<strong>列</strong>を選択し、[ <strong>塗りつぶし値]</strong>フィールドを入力して目的のシーケンスを生成します。生成されたシーケンスがフォームの行数を満たさない場合、警告が表示されます。</small>
-        </div>"
+      keyboard_shortcuts:
+      sticky_columns:
+      fill_column:
       resize_and_reorder_columns: "<div> <strong>列の並べ替え</strong> </div><div> <small>[
         <strong>列の並べ替え]を</strong>クリックして、 <strong>並べ替え</strong>たい行を選択し、上下の矢印ボタンを使用してリスト内の位置を変更します。新しいオーダーに満足したら、「
         <strong>オーダーの適用</strong> 」をクリックします</small> </div>"
-      reset: "<div> <strong>フォームをリセット</strong> </div><div> <small>[ <strong>リセット]</strong>をクリックしてフォームを消去し、カラムのスティッキー、表示および順序をデフォルト値に戻します。</small>
-        </div>"
+      reset:
 
   update_monitor:
     save_failed: "<strong>変更を保存できませんでした</strong>"
@@ -1583,7 +1572,8 @@ ja:
           Shiftキーを押しながら複数の列で並べ替えます。
         merged: 結合された上位コンテナ
         bulk_action_success: 上位のコンテナが正常に更新されました
-        bulk_action_success_info: 変更が検索結果または閲覧テーブルに反映されるまでにはしばらく時間がかかることがありますのでご注意ください。
+        bulk_action_success_info: 
+          変更が検索結果または閲覧テーブルに反映されるまでにはしばらく時間がかかることがありますのでご注意ください。
         no_active_restrictions: アクティブな制限はありません
       bulk_operations:
         title: バルク操作

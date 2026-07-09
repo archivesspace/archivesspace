@@ -51,7 +51,7 @@ services:
       - as_test_solr-data:/var/solr
 
   proxy:
-    image: nginx:1.21
+    image: nginx:stable
     container_name: as_proxy
     ports:
       - "80:80"

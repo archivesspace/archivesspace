@@ -50,8 +50,8 @@ es:
     note: Nota para el personal
     visit: "Envíe una solicitud para visitar %{repo_name} para ver <strong>%{archival_object}</strong>"
     submit: Enviar solicitud
-    submitted: Gracias, su solicitud ha sido enviada.  Pronto recibirá un correo electrónico con una copia
-      de su solicitud.
+    submitted: Gracias, su solicitud ha sido enviada.  Pronto recibirá un correo electrónico con una
+      copia de su solicitud.
     errors:
       name: por favor, escriba su nombre
       email: Por favor, introduce una dirección de correo electrónico válida
@@ -191,8 +191,8 @@ es:
     error_404_message: "El registro %{type} al que ha intentado acceder no existe o puede que se haya
       eliminado."
     backend_down: No se puede conectar a la base de datos
-    backend_down_message: ArchivesSpace está experimentando dificultades técnicas. Pedimos disculpas por
-      las molestias. Por favor, inténtelo de nuevo más tarde.
+    backend_down_message: ArchivesSpace está experimentando dificultades técnicas. Pedimos disculpas
+      por las molestias. Por favor, inténtelo de nuevo más tarde.
     unexpected_error: Su solicitud no se pudo completar debido a un error inesperado
 
   boolean:
@@ -371,7 +371,7 @@ es:
       browse_number_digital_objects_in_collection:
         one: Buscar %{num} objeto digital en la colección
         many: Buscar %{num} objetos digitales en la colección
-        other: ''
+        other:
   digital_object_component:
     _public:
       section: {}
@@ -581,7 +581,8 @@ es:
     _plural: Declaraciones de derechos de metadatos
   footer:
     archivesspace_home_html: Impulsado por <a href='http://archivesspace.org'>ArchivesSpace</a>
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Comentarios o preguntas</a>
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' target='_blank'>Comentarios o 
+      preguntas</a>
     staff_interface_html: <a href="%{staff_url}">Interfaz de personal</a>
 
   languages:

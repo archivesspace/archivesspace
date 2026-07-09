@@ -129,6 +129,10 @@ it:
       browse: Scorri gli oggetti digitali
       create: Crea oggetto digitale
       link_title: Link all'oggetto digitale
+    level_tooltip: |
+      <p>Utilizzato principalmente in record multilivello conformi a VRA Core per indicare che la descrizione riguarda una collezione, un'opera o un'immagine.</p>
+    file_versions_tooltip: |
+      <p>Collega un oggetto digitale o un componente di un oggetto digitale a un file di contenuto associato, indirizzabile tramite URI.</p>
   location:
     coordinate_2_label_tooltip: "<p>Usato per registrare una etichetta (ad es. \"scaffale\", \"zona\"\
       \ , \"cassetto\") per una specifica posizione.</p>\n"
@@ -172,7 +176,7 @@ it:
     coordinate_1_indicator: Indicatore di coordinata 1
     coordinate_2_indicator: Indicatore di coordinata 2
     coordinate_3_label: Etichetta della coordinata 3
-    display_string: ''
+    display_string: 'Visualizza stringa'
     coordinate_3_indicator: Indicatore di coordinata 3
     owner_repo: Riservato per
     _singular: Ubicazione
@@ -185,6 +189,9 @@ it:
     building_tooltip: "<p>CAMPO OBBLIGATORIO. Usato per indicare l'edificio ove esiste un'ubicazione.</p>\n"
     room_tooltip: "<p>Usato per indicare la stanza ove esiste un'ubicazione.</p>\n"
     barcode: Codice a barre
+    has_unpublished_ancestor: Ha un antenato sconosciuto?
+    holdings: Holding
+    owner_repo_tooltip: Un deposito che ha riservato questa posizione
   container_location:
     status_tooltip: "<p>CAMPO OBBLIGATORIO. Indica se la dichiarazione di posizione di questa unità archivistica
       è corrente o si riferisce a una precedente posizione della stessa.</p>\n"
@@ -198,6 +205,10 @@ it:
     ref: Ubicazione
     _singular: Ubicazione
     _plural: Ubicazioni
+    start_date_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Indica la data in cui l'istanza descritta è stata memorizzata in questa posizione, oppure una data nota a partire dalla quale i materiali sono stati conservati qui.</p>
+    end_date_tooltip: |
+      <p>Indica la data in cui l'istanza descritta è stata spostata da questa posizione.</p>
   linked_record:
     role: Ruolo
     role_tooltip: "<p>Il ruolo in cui l'unità archivistica linkata è in relazione con la corrente unità
@@ -260,6 +271,18 @@ it:
     role: Ruolo
     terms: Termini
     title: Titolo
+    role_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Indica la funzione (creatore, fonte o soggetto) dell'Agente in relazione al suo collegamento a un determinato record descrittivo.</p><p>Vedi DACS 14.3, ISAAR (CPF) 6.3</p>
+    relator: Agente immobiliare
+    relator_tooltip: |
+      <p>Un'indicazione del ruolo dell'Agente in relazione alla sua funzione, come indicato dal modo in cui è collegato (ad esempio, creatore, fonte o soggetto) a un determinato record descrittivo. Ad esempio, un Agente può essere collegato come creatore a un record, ma con il ruolo più specifico di "illustratore".</p>
+      <p>Vedi DACS 14.3, ISAAR (CPF) 6.3 e l'elenco dei codici MARC per i Relatori (https://www.loc.gov/marc/relators/).</p>
+    ref: Agente
+    ref_tooltip: |
+      <p>L'agente correlato al materiale descritto nel record.</p>
+      <p>È possibile cercare gli agenti tramite il completamento automatico, utilizzando la funzione di ricerca oppure crearli su richiesta.</p>
+    _singular: Collegamento agente
+    _plural: Collegamenti degli agenti
   digital_object_component:
     label_tooltip: "<p>Un termine usato per descrivere la parte e la posizione all'interno dell'oggetto
       digitale descritto. Più spesso usato per i componenti delle parti dell'Oggetto Digitale che il top-level
@@ -273,6 +296,7 @@ it:
     component_id_tooltip: "<p>Identificatore unico per il componente dell'oggetto digitale.</p>\n"
     _singular: Componente dell'oggetto digitale
     _plural: Componenti dell'oggetto digitale
+    has_unpublished_ancestor: Ha un antenato sconosciuto?
   content_items:
     content_tooltip: "<p>Il contenuto della nota.</p>\n"
     content: Contenuto
@@ -285,9 +309,12 @@ it:
     coordinate_3_range: Intervallo di coordinate 3
     end: Fine intervallo
     start: Inizio intervallo
+    _singular: Ubicazione dei lotti
+    _plural: Ubicazione dei lotti
   location_function:
     _singular: Funzione
     _plural: Funzioni
+    location_function_type: Tipo di funzione
   function:
     _singular: Funzione
     _plural: Funzioni
@@ -314,6 +341,7 @@ it:
     chronotype_label_tooltip: "<p>Indica quale tipo di data è associata con questo evento.</p>\n"
     chronotype:
       timestamp: Marca temporale UTC
+      subrecord: Sottorecord data
     timestamp_inline_help: AAAA-MM-GG HH:MM:SS
     timestamp_tooltip: "<p>Una specifica marca temporale, con informazioni complete sulla data e sull'ora,
       riguardo a quando è avvenuto l'evento. Per default l'applicazione presume che la marca temporale
@@ -326,7 +354,7 @@ it:
       agreement_sent: Accordo inviato
       agreement_signed: Accordo firmato
       appraisal: Valutazione
-      assessment: ''
+      assessment: 'Valutazione'
       cataloged: Catalogato
       collection: Collezione
       compression: Compressione
@@ -345,6 +373,16 @@ it:
       virus_check: Ispezione per i virus
       normalization: Normalizzazione
       replication: Riproduzione
+      accession: Accesso
+      accumulation: Accumulo
+      acknowledgement: Riconoscimento
+      acknowledgement_sent: Conferma di ricezione inviata
+      capture: Catturare
+      fixity_check: Controllo fisso
+      ingestion: Ingestione
+      message_digest_calculation: Calcolo del digest del messaggio
+      resource_merge: Unione delle risorse
+      resource_component_transfer: Trasferimento dei componenti delle risorse
     new_title: Nuovo evento
     outcome_tooltip: "<p>Una categorizzazione del risultato complessivo dell'evento in termini di successo,
       successo parziale, o fallimento. Si raccomanda di usare un vocabolario controllato tale che il sistema
@@ -354,6 +392,10 @@ it:
       essere modificati.</p>\n"
     _singular: Evento
     _plural: Eventi
+    linked_agents_tooltip: |
+      <p>RECORD OBBLIGATORIO: Associa uno o più agenti come partecipanti a questo evento.</p>
+    linked_records_tooltip: |
+      <p>SOTTORECORD OBBLIGATORIO: Associa acquisizioni, oggetti digitali o risorse a questo evento.</p>
   deaccession:
     description: Descrizione
     description_tooltip: "<p>CAMPO OBBLIGATORIO: descrizione dei materiali che sono stati deaccessionati.</p>\n\
@@ -372,6 +414,9 @@ it:
     disposition_tooltip: "<p>Una descrizione che indica cosa è stato fatto con i materiali deaccessionati.</p>\n\
       \ <p>Esempi:</p>\n<ul>\n<li>Rendiconto finanziario restituito alla famiglia.</li>\n<li>Trofei della
       mostra canina restituiti alla moglie del donatore.</li>\n</ul>\n"
+    scope: Porzione
+    scope_tooltip: |
+      <p>CAMPO OBBLIGATORIO: Utilizzato per specificare se un'istruzione di estensione si riferisce all'intero o a una parte di un'aggregazione o di un oggetto descritto.</p>
   agent_name:
     source: Fonte
     rules: Regole
@@ -429,8 +474,43 @@ it:
       descrittore adatto.</p>\n<p>Esempi:</p>\n<ul>\n<li>Fioristi <em>(per famiglia Bianchi (fioristi))</em>)</li>\n\
       \ <li>Santa Maria Novella, Firenze, Toscana <em>(per Chiesa di Santa Maria Novella (Santa Maria
       Novella, Firenze, Toscana))</em></li>\n</ul>\n"
+    authority_id: ID di autorizzazione
+    authority_id_tooltip: |
+      <p>L'identificativo univoco per il Nome di un Agente all'interno della fonte da cui è stato acquisito (ovvero, un identificativo di record MADS o un identificativo di record EAC). L'identificativo può essere rappresentato come un URI.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>nr92045078 <em>per un'intestazione di nome LCNAF</em></li>
+      <li>500115393 <em>per un'intestazione di nome ULAN</em></li>
+      <li>http://viaf.org/viaf/134138653 <em>per un'intestazione di nome VIAF</em>
+      </ul>
+    source_tooltip: |
+      <p>CAMPO OBBLIGATORIO CONDIZIONALMENTE, se non si utilizzano le Regole Nome. Indica la fonte autorevole da cui è stato tratto il nome.</p>
+      <p>I valori in questo Elenco di valori controllati possono essere modificati.</p>
+    rules_tooltip: |
+      <p>CAMPO OBBLIGATORIO CONDIZIONALMENTE, se non si utilizza l'origine del nome. Indica le regole utilizzate per formulare la voce del nome.</p>
+      <p>I valori in questo elenco di valori controllati possono essere modificati.</p>
+      <p>Vedere DACS 13.3, ISAAR (CPF) 5.4.3</p>
+    name_order: Ordine dei nomi
+    use_dates: Date di utilizzo
+    use_dates_tooltip: |
+      <p>Date in cui questo nome è stato utilizzato per l'agente.</p>
+    parallel_names_tooltip: |
+      <p>Può essere utilizzato per registrare una forma parallela del nome in diverse lingue e/o alfabeti o forme traslitterate del nome.</p>
+      <p>Vedi DACS 10.3.1, ISAAR (CPF) 5.1.3</p>
+    sort_name: Nome di ordinamento
+    sort_name_tooltip: |
+      <p>Una versione del nome che concatena tutte le parti del nome fornite in un determinato record dell'agente. Utilizzata a scopo di visualizzazione nell'applicazione e per alcune esportazioni.</p>
+      <p>Il nome di ordinamento può essere modificato deselezionando la casella di controllo "Genera automaticamente" e quindi inserendo il formato desiderato per il nome di ordinamento.</p>
+    _singular: Modulo Nome
+    _plural: Moduli del nome
   agent_record_identifiers:
     is_primary: Primario
+    identifier_type_tooltip: |
+      <p>Indica il tipo o il formato dell'identificativo del record di autorità. I valori in questo elenco di valori controllati possono essere modificati.</p>
+    source_tooltip: |
+      <p>Indica il file di autorità di origine di un identificatore associato. Esempio: NAF (per nr2003017069). I valori in questo elenco di valori controllati possono essere modificati.</p>
+    record_identifier_tooltip: |
+      <p>L'identificativo per il record dell'agente, solitamente costituito da una stringa alfanumerica univoca. L'identificativo può provenire da un file di autorità esterno o essere generato localmente.</p> <p>Vedi DACS 13.2, ISAAR (CPF) 5.4.1</p>
   agent_identifiers:
     entity_identifier_tooltip: "<p>Registra gli identificatori associati a un'entità, come un identificatore
       legale assegnato da un'agenzia autorevole.</p><p>Vedi DACS 10.4, ISAAR (CPF) 5.1.6</p>\n"
@@ -495,6 +575,11 @@ it:
     location_tooltip: "<p>Un'ubicazione usata come qualificativo per distinguere voci di nomi simili.
       Esempi: Mugello, Firenze. (per Medici (famiglia : 1169-1737 : Mugello, Firenze.)), Ambasciata canadese,
       Tokyo (per Canada-Giappone Twinning Conference (1991 : Ambasciata canadese, Tokyo))</p>\n"
+    jurisdiction_tooltip: |
+      <p>Indica se l'entità è una voce relativa a una giurisdizione legale.</p>
+    conference_meeting: Riunione di conferenza?
+    conference_meeting_tooltip: |
+      <p>Indica se l'entità è una persona giuridica standard oppure una conferenza, una riunione o un altro evento denominato.</p>
   external_document:
     location: Ubicazione
   assessment:
@@ -540,3 +625,66 @@ it:
   lang_material: &lang_material_attributes
     _plural: Linguaggi dei materiali
     _singular: Lingua del materiale
+  parallel_name:
+    _frontend:
+      action:
+        add: Aggiungi nome parallelo
+  parallel_name_person:
+    _singular: Nome parallelo
+    _plural: Nomi paralleli
+  name_software:
+    software_name: Nome del software
+    software_name_tooltip: |
+      <p>Il nome di un pacchetto software.</p>
+      <p>Esempi:</p>
+      <ul>
+      <li>Photoshop <em>(per Adobe Photoshop CS3)</em></li>
+      <li>Bagger <em>(per Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
+    version: Versione
+    version_tooltip: |
+      <p>Il numero di versione o altro indicatore per una versione specifica di un pacchetto software.</p>
+      <p>Esempi</p>
+      <ul>
+      <li>CS3 <em>(per Adobe Photoshop CS3)</em></li>
+      <li>2.1.2 <em>(per Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
+    manufacturer: Produttore
+    manufacturer_tooltip: |
+      <p>Il produttore, il creatore o altra parte responsabile della distribuzione, dello sviluppo o della manutenzione di un pacchetto software.</p>
+      <p>Esempi</p>
+      <ul>
+      <li>Adobe <em>(per Adobe Photoshop CS3)</em></li>
+      <li>Biblioteca del Congresso <em>(per Library of Congress Bagger 2.1.2)</em></li>
+      </ul>
+  agent_record_control:
+    maintenance_status_tooltip: |
+      <p>Indica lo stato attuale del record.</p><p>Vedi DACS 13.4, ISAAR (CPF) 5.4.4</p>
+    publication_status_tooltip: |
+      <p>Indica se un record di un agente deve essere reso pubblico.</p>
+    romanization_tooltip: |
+      <p>Indica se la forma autorizzata del nome è stata romanizzata da un alfabeto non latino e il tipo di schema di romanizzazione. Esempio: standard della biblioteca nazionale o dell'agenzia bibliografica (per la tabella di romanizzazione ALA-LC (ad esempio, Kasparov, G. K. (Garri Kimovich) per Каспаров, Г. К. (Гарри Кимович)).</p>
+    government_agency_type_tooltip: |
+      <p>Indica il tipo di ente o giurisdizione rappresentato dalla denominazione autorizzata.</p>
+    reference_evaluation_tooltip: |
+      <p>Indica il livello di coerenza tra la forma del nome autorizzato e le altre forme del nome presenti nel record dell'agente. In assenza di forme aggiuntive, il campo deve essere contrassegnato come "Non applicabile".</p>
+    name_type_tooltip: |
+      <p>Indica l'unicità del nome autorizzato all'interno del modulo Agenti. Le voci con nome univoco devono essere registrate come "Differenziate", mentre i record degli agenti utilizzati per raggruppare più agenti con nomi identici devono essere contrassegnati come "Non differenziati".</p>
+    level_of_detail_tooltip: |
+      <p>Indica la completezza del record dell'agente in conformità ai requisiti consortili o locali.</p><p>Vedi DACS 13.5, ISAAR (CPF) 5.4.5</p>
+    modified_record_tooltip: |
+      <p>Indica se un record di un agente è stato modificato e in che modo.</p>
+    cataloging_source_tooltip: |
+      <p>Indica la provenienza di un record dell'agente. I record prodotti localmente e non inviati a un programma di catalogazione cooperativa devono essere registrati come "Altro".</p>
+    maintenance_agency_tooltip: |
+      <p>Codice identificativo dell'agenzia o organizzazione responsabile della creazione o della gestione di un record Agente. Il codice deve essere ricavato da un registro e registrato secondo le convenzioni ISO 15511.</p><p>Vedere DACS 13.1, ISAAR (CPF) 5.4.2.</p><p>Esempio: US-UPB (per la Brigham Young University, utilizzando il codice organizzativo MARC della Biblioteca del Congresso).</p>
+    agency_name_tooltip: |
+      <p>Il nome dell'agenzia o dell'organizzazione responsabile della creazione o della gestione di un record dell'agente. Il nome registrato deve corrispondere alla forma del nome associata al valore del codice nel registro.</p><p>Vedere ISAAR (CPF) 5.4.2.</p><p>Esempio: Brigham Young University, Harold B. Lee Library (per il valore del codice UPB, utilizzando il codice organizzativo MARC della Biblioteca del Congresso).</p>
+    maintenance_agency_note_tooltip: |
+      <p>Il contenuto della nota, che fornisce dettagli sull'agenzia di manutenzione responsabile della descrizione dell'agente.</p>
+    language_tooltip: |
+      <p>La lingua utilizzata nella preparazione della descrizione dell'agente.</p><p>Vedi DACS 13.7, ISAAR (CPF) 5.4.7.</p><p>Esempio: inglese.</p>
+    script_tooltip: |
+      <p>Il testo utilizzato per la preparazione della descrizione dell'agente.</p><p>Vedi DACS 13.7, ISAAR (CPF) 5.4.7.</p><p>Esempio: latino.</p>
+    language_note_tooltip: |
+      <p>Il contenuto della nota, che fornisce dettagli sulla lingua e sugli script utilizzati nella preparazione della descrizione dell'agente.</p>
