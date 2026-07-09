@@ -4,7 +4,7 @@ pt:
     numeric: Inventário de Contentores
     clipboard: Copiar para área de transferência
     cilpboard_cite_item: Copiar citação do item para a área de transferência
-    cilpboard_cite_item_description: Copiar citação da descrição do item para a área de 
+    cilpboard_cite_item_description: Copiar citação da descrição do item para a área de
       transferência
     search_add_row: Adicionar uma linha de pesquisa
     search_remove_row: Remova a linha abaixo
@@ -92,7 +92,7 @@ pt:
     results: Resultados
     results_head: 'Mostrando %{type}: %{start} - %{end} de %{total}'
     result: Resultado
-    identifier_contain: o <strong>identificador</strong> contém <span 
+    identifier_contain: o <strong>identificador</strong> contém <span
       class='searchterm'>%{kw}</span>
     subjects_text_contain: o <strong>assunto</strong> contém <span class='searchterm'>%{kw}</span>
     search_for: Pesquisa %{type} onde %{conditions}
@@ -119,7 +119,7 @@ pt:
     note: Nota para o pessoal
     visit: Enviar um pedido para visitar %{repo_nome} para ver <strong>%{objeto_de_arquivo}</strong>
     submit: Enviar solicitação
-    submitted: Obrigado, seu solicitação foi apresentado. Em breve você receberá um e-mail com uma 
+    submitted: Obrigado, seu solicitação foi apresentado. Em breve você receberá um e-mail com uma
       cópia de sua solicitação.
     errors:
       name: Por favor introduza o seu nome
