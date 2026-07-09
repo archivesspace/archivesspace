@@ -604,7 +604,6 @@ fr:
       location_profile: Profil de localisation
       type: Type
       indicator: Indicateur
-      resource_accession_id: ''
   advanced_search:
     operator:
       operator: Opératrice

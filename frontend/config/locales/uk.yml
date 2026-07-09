@@ -756,7 +756,6 @@ uk:
       not_exported_to_ils: Не експортовано
       asc: Зростаючий
       desc: Спадання
-      resource_accession_id: ''
     container_profile:
       score: Релевантність
       title: Назва
@@ -2386,7 +2385,6 @@ uk:
           розблоковано
         published: Цифровий об'єкт <strong>%{digital_object_title</strong>, його
           підзаписи та компоненти опубліковано
-        transfer_description: ''
       section:
         basic_information: Основна інформація
       action:

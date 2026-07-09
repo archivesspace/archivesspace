@@ -793,7 +793,6 @@ de:
       location: Standort
       type: Typ
       resource_accession: Ressource/Eingang
-      resource_accession_id: ''
   become-user:
     success: Benutzer erfolgreich gewechselt
     become-user: Als Benutzer ausgeben
