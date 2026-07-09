@@ -1323,7 +1323,6 @@ ja:
         create_account: アカウントを作成する
         update_account: アカウントを更新する
         create: ユーザーを作成
-        hide_inactive: 非アクティブなユーザーを非表示
         show_inactive: 非アクティブなユーザーを表示
         deactivate_user: 無効化
         deactivate_user_confirm: このユーザーを無効化してもよろしいですか？
@@ -1402,10 +1401,6 @@ ja:
       rows_no_errors: すべての行が有効です
       error_summary_header: 行内のエラー：
       select_prompt: RDEテンプレートを適用する
-    help:
-      resize_and_reorder_columns: "<div> <strong>列の並べ替え</strong> </div><div> <small>[
-        <strong>列の並べ替え]を</strong>クリックして、 <strong>並べ替え</strong>たい行を選択し、上下の矢印ボタンを使用してリスト内の位置を変更します。新しいオーダーに満足したら、「
-        <strong>オーダーの適用</strong> 」をクリックします</small> </div>"
   update_monitor:
     save_failed: "<strong>変更を保存できませんでした</strong>"
     stale_record: このレコードは別のユーザーによって更新されました。最新バージョンにアクセスするには、ページを更新してください。
@@ -1892,7 +1887,6 @@ ja:
 
   custom_report_template:
     _frontend:
-      new_title: 新しいカスタムレポートテンプレート
       section:
         template_information: テンプレート情報
         basic_information_fields: 基本情報
@@ -1979,18 +1973,6 @@ ja:
     date_certainty: 確実
     date_era: 時代
     date_calendar: カレンダー
-  structured_date_label_existence:
-    date_label: ラベル
-    date_type_structured: 日付タイプ
-    date_certainty: 確実
-    date_era: 時代
-    date_calendar: カレンダー
-  structured_date_label_usage:
-    date_label: ラベル
-    date_type_structured: 日付タイプ
-    date_certainty: 確実
-    date_era: 時代
-    date_calendar: カレンダー
   structured_date_single_fields:
     date_role: 日付の役割
     date_expression: 日付式
@@ -2030,89 +2012,13 @@ ja:
     script: 脚本
     language_note: 言語ノート
   agent_record_controls:
-    _plural: 記録情報
-    _singular: 記録情報
-    _frontend:
-      action:
-        add: レコード情報を追加
-    maintenance_status: 制御保守ステータスの記録
-    publication_status: レコード管理の公開ステータス
-    romanization: ローマ字
-    government_agency_type: レコード管理政府機関タイプ
-    reference_evaluation: 記録管理参照評価
-    name_type: レコードコントロール名タイプ
-    level_of_detail: 記録管理の詳細レベル
-    modified_record: レコード制御変更タイプ
-    cataloging_source: レコード管理目録ソース
-    maintenance_agency: 整備庁
-    agency_name: 代理店名
-    maintenance_agency_note: メンテナンスエージェンシーノート
-    language: 言語
-    script: 脚本
-    language_note: 言語ノート
+    _frontend: {}
   agent_record_control_required:
-    _plural: 記録情報
-    _singular: 記録情報
-    _frontend:
-      action:
-        add: レコード情報を追加
-    maintenance_status: 制御保守ステータスの記録
-    publication_status: レコード管理の公開ステータス
-    romanization: ローマ字
-    government_agency_type: レコード管理政府機関タイプ
-    reference_evaluation: 記録管理参照評価
-    name_type: レコードコントロール名タイプ
-    level_of_detail: 記録管理の詳細レベル
-    modified_record: レコード制御変更タイプ
-    cataloging_source: レコード管理目録ソース
-    maintenance_agency: 整備庁
-    agency_name: 代理店名
-    maintenance_agency_note: メンテナンスエージェンシーノート
-    language: 言語
-    script: 脚本
-    language_note: 言語ノート
+    _frontend: {}
   agent_record_control_merge_destination:
-    _plural: 記録情報
-    _singular: 記録情報
-    _frontend:
-      action:
-        add: レコード情報を追加
-    maintenance_status: 制御保守ステータスの記録
-    publication_status: レコード管理の公開ステータス
-    romanization: ローマ字
-    government_agency_type: レコード管理政府機関タイプ
-    reference_evaluation: 記録管理参照評価
-    name_type: レコードコントロール名タイプ
-    level_of_detail: 記録管理の詳細レベル
-    modified_record: レコード制御変更タイプ
-    cataloging_source: レコード管理目録ソース
-    maintenance_agency: 整備庁
-    agency_name: 代理店名
-    maintenance_agency_note: メンテナンスエージェンシーノート
-    language: 言語
-    script: 脚本
-    language_note: 言語ノート
+    _frontend: {}
   agent_record_control_merge_candidate:
-    _plural: 記録情報
-    _singular: 記録情報
-    _frontend:
-      action:
-        add: レコード情報を追加
-    maintenance_status: 制御保守ステータスの記録
-    publication_status: レコード管理の公開ステータス
-    romanization: ローマ字
-    government_agency_type: レコード管理政府機関タイプ
-    reference_evaluation: 記録管理参照評価
-    name_type: レコードコントロール名タイプ
-    level_of_detail: 記録管理の詳細レベル
-    modified_record: レコード制御変更タイプ
-    cataloging_source: レコード管理目録ソース
-    maintenance_agency: 整備庁
-    agency_name: 代理店名
-    maintenance_agency_note: メンテナンスエージェンシーノート
-    language: 言語
-    script: 脚本
-    language_note: 言語ノート
+    _frontend: {}
   agent_gender:
     _plural: 性別
     _singular: 性別
@@ -2123,41 +2029,13 @@ ja:
     note: 注意
     dates: 日付
   agent_genders:
-    _plural: 性別
-    _singular: 性別
-    _frontend:
-      action:
-        add: 性別を追加
-    gender: 性別
-    note: 注意
-    dates: 日付
+    _frontend: {}
   agent_gender_required:
-    _plural: 性別
-    _singular: 性別
-    _frontend:
-      action:
-        add: 性別を追加
-    gender: 性別
-    note: 注意
-    dates: 日付
+    _frontend: {}
   agent_gender_merge_destination:
-    _plural: 性別
-    _singular: 性別
-    _frontend:
-      action:
-        add: 性別を追加
-    gender: 性別
-    note: 注意
-    dates: 日付
+    _frontend: {}
   agent_gender_merge_candidate:
-    _plural: 性別
-    _singular: 性別
-    _frontend:
-      action:
-        add: 性別を追加
-    gender: 性別
-    note: 注意
-    dates: 日付
+    _frontend: {}
   used_language:
     _plural: 使用される言語
     _singular: 使用言語
@@ -2167,37 +2045,13 @@ ja:
     language: 言語
     script: 脚本
   used_language_required:
-    _plural: 使用される言語
-    _singular: 使用言語
-    _frontend:
-      action:
-        add: 言語を追加する
-    language: 言語
-    script: 脚本
+    _frontend: {}
   used_languages:
-    _plural: 使用される言語
-    _singular: 使用言語
-    _frontend:
-      action:
-        add: 言語を追加する
-    language: 言語
-    script: 脚本
+    _frontend: {}
   used_language_merge_candidate:
-    _plural: 使用される言語
-    _singular: 使用言語
-    _frontend:
-      action:
-        add: 言語を追加する
-    language: 言語
-    script: 脚本
+    _frontend: {}
   used_language_merge_destination:
-    _plural: 使用される言語
-    _singular: 使用言語
-    _frontend:
-      action:
-        add: 言語を追加する
-    language: 言語
-    script: 脚本
+    _frontend: {}
   agent_identifier:
     _plural: エンティティID
     _singular: 識別子
@@ -2207,37 +2061,13 @@ ja:
     identifier_type: 識別子の種類
     entity_identifier: エンティティID
   agent_identifiers:
-    _plural: エンティティID
-    _singular: 識別子
-    _frontend:
-      action:
-        add: エンティティIDを追加します
-    identifier_type: 識別子の種類
-    entity_identifier: エンティティID
+    _frontend: {}
   agent_identifier_required:
-    _plural: エンティティID
-    _singular: 識別子
-    _frontend:
-      action:
-        add: エンティティIDを追加します
-    identifier_type: 識別子の種類
-    entity_identifier: エンティティID
+    _frontend: {}
   agent_identifier_merge_destination:
-    _plural: エンティティID
-    _singular: 識別子
-    _frontend:
-      action:
-        add: エンティティIDを追加します
-    identifier_type: 識別子の種類
-    entity_identifier: エンティティID
+    _frontend: {}
   agent_identifier_merge_candidate:
-    _plural: エンティティID
-    _singular: 識別子
-    _frontend:
-      action:
-        add: エンティティIDを追加します
-    identifier_type: 識別子の種類
-    entity_identifier: エンティティID
+    _frontend: {}
   agent_place:
     _frontend:
       action:
@@ -2252,57 +2082,13 @@ ja:
     subjects: 場所
     publish: 公開済み
   agent_place_required:
-    _frontend:
-      action:
-        add: 場所を追加
-    section:
-      dates: 日付
-    _plural: 場所
-    _singular: 場所
-    place_role: エージェントプレイスの役割
-    text_note: 注意
-    dates: 日付
-    subjects: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_places:
-    _frontend:
-      action:
-        add: 場所を追加
-    section:
-      dates: 日付
-    _plural: 場所
-    _singular: 場所
-    place_role: エージェントプレイスの役割
-    text_note: 注意
-    dates: 日付
-    subjects: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_place_merge_destination:
-    _frontend:
-      action:
-        add: 場所を追加
-    section:
-      dates: 日付
-    _plural: 場所
-    _singular: 場所
-    place_role: エージェントプレイスの役割
-    text_note: 注意
-    dates: 日付
-    subjects: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_place_merge_candidate:
-    _frontend:
-      action:
-        add: 場所を追加
-    section:
-      dates: 日付
-    _plural: 場所
-    _singular: 場所
-    place_role: エージェントプレイスの役割
-    text_note: 注意
-    dates: 日付
-    subjects: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_occupation:
     _frontend:
       action:
@@ -2317,57 +2103,13 @@ ja:
     places: 場所
     publish: 公開済み
   agent_occupation_required:
-    _frontend:
-      action:
-        add: 職業を追加する
-    section:
-      dates: 日付
-    _plural: 職業
-    _singular: 職業
-    text_note: 注意
-    dates: 日付
-    subjects: 職業
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_occupations:
-    _frontend:
-      action:
-        add: 職業を追加する
-    section:
-      dates: 日付
-    _plural: 職業
-    _singular: 職業
-    text_note: 注意
-    dates: 日付
-    subjects: 職業
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_occupation_merge_destination:
-    _frontend:
-      action:
-        add: 職業を追加する
-    section:
-      dates: 日付
-    _plural: 職業
-    _singular: 職業
-    text_note: 注意
-    dates: 日付
-    subjects: 職業
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_occupation_merge_candidate:
-    _frontend:
-      action:
-        add: 職業を追加する
-    section:
-      dates: 日付
-    _plural: 職業
-    _singular: 職業
-    text_note: 注意
-    dates: 日付
-    subjects: 職業
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_function:
     _frontend:
       action:
@@ -2382,57 +2124,13 @@ ja:
     places: 場所
     publish: 公開済み
   agent_function_required:
-    _frontend:
-      action:
-        add: 機能の追加
-    section:
-      dates: 日付
-    _plural: 機能
-    _singular: 関数
-    text_note: 注意
-    dates: 日付
-    subjects: 機能
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_functions:
-    _frontend:
-      action:
-        add: 機能の追加
-    section:
-      dates: 日付
-    _plural: 機能
-    _singular: 関数
-    text_note: 注意
-    dates: 日付
-    subjects: 機能
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_function_merge_destination:
-    _frontend:
-      action:
-        add: 機能の追加
-    section:
-      dates: 日付
-    _plural: 機能
-    _singular: 関数
-    text_note: 注意
-    dates: 日付
-    subjects: 機能
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_function_merge_candidate:
-    _frontend:
-      action:
-        add: 機能の追加
-    section:
-      dates: 日付
-    _plural: 機能
-    _singular: 関数
-    text_note: 注意
-    dates: 日付
-    subjects: 機能
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_topic:
     _frontend:
       action:
@@ -2447,57 +2145,13 @@ ja:
     places: 場所
     publish: 公開済み
   agent_topic_required:
-    _frontend:
-      action:
-        add: トピックを追加
-    section:
-      dates: 日付
-    _plural: トピック
-    _singular: トピック
-    text_note: 注意
-    dates: 日付
-    subjects: トピック
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_topics:
-    _frontend:
-      action:
-        add: トピックを追加
-    section:
-      dates: 日付
-    _plural: トピック
-    _singular: トピック
-    text_note: 注意
-    dates: 日付
-    subjects: トピック
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_topic_merge_destination:
-    _frontend:
-      action:
-        add: トピックを追加
-    section:
-      dates: 日付
-    _plural: トピック
-    _singular: トピック
-    text_note: 注意
-    dates: 日付
-    subjects: トピック
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   agent_topic_merge_candidate:
-    _frontend:
-      action:
-        add: トピックを追加
-    section:
-      dates: 日付
-    _plural: トピック
-    _singular: トピック
-    text_note: 注意
-    dates: 日付
-    subjects: トピック
-    places: 場所
-    publish: 公開済み
+    _frontend: {}
   place:
     _plural: 場所
     _frontend:
@@ -2519,65 +2173,13 @@ ja:
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
   agent_alternate_sets:
-    _plural: 代替セット
-    _singular: 代替セット
-    _frontend:
-      action:
-        add: 代替セットを追加
-    set_component: コンポーネントの設定
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_alternate_set_required:
-    _plural: 代替セット
-    _singular: 代替セット
-    _frontend:
-      action:
-        add: 代替セットを追加
-    set_component: コンポーネントの設定
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_alternate_set_merge_destination:
-    _plural: 代替セット
-    _singular: 代替セット
-    _frontend:
-      action:
-        add: 代替セットを追加
-    set_component: コンポーネントの設定
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_alternate_set_merge_candidate:
-    _plural: 代替セット
-    _singular: 代替セット
-    _frontend:
-      action:
-        add: 代替セットを追加
-    set_component: コンポーネントの設定
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_conventions_declaration:
     _plural: 条約宣言
     _singular: 条約宣言
@@ -2595,69 +2197,13 @@ ja:
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
   agent_conventions_declarations:
-    _plural: 条約宣言
-    _singular: 条約宣言
-    _frontend:
-      action:
-        add: 条約宣言を追加する
-    name_rule: コンベンション
-    citation: 引用
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_conventions_declaration_required:
-    _plural: 条約宣言
-    _singular: 条約宣言
-    _frontend:
-      action:
-        add: 条約宣言を追加する
-    name_rule: コンベンション
-    citation: 引用
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_conventions_declaration_merge_destination:
-    _plural: 条約宣言
-    _singular: 条約宣言
-    _frontend:
-      action:
-        add: 条約宣言を追加する
-    name_rule: コンベンション
-    citation: 引用
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_conventions_declaration_merge_candidate:
-    _plural: 条約宣言
-    _singular: 条約宣言
-    _frontend:
-      action:
-        add: 条約宣言を追加する
-    name_rule: コンベンション
-    citation: 引用
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_other_agency_code:
     _plural: その他の機関コード
     _singular: その他の機関コード
@@ -2667,37 +2213,13 @@ ja:
     agency_code_type: レコード管理機関のコードタイプ
     maintenance_agency: 整備庁
   agent_other_agency_codes:
-    _plural: その他の機関コード
-    _singular: その他の機関コード
-    _frontend:
-      action:
-        add: 代理店コードを追加
-    agency_code_type: レコード管理機関のコードタイプ
-    maintenance_agency: 整備庁
+    _frontend: {}
   agent_other_agency_code_required:
-    _plural: その他の機関コード
-    _singular: その他の機関コード
-    _frontend:
-      action:
-        add: 代理店コードを追加
-    agency_code_type: レコード管理機関のコードタイプ
-    maintenance_agency: 整備庁
+    _frontend: {}
   agent_other_agency_code_merge_destination:
-    _plural: その他の機関コード
-    _singular: その他の機関コード
-    _frontend:
-      action:
-        add: 代理店コードを追加
-    agency_code_type: レコード管理機関のコードタイプ
-    maintenance_agency: 整備庁
+    _frontend: {}
   agent_other_agency_code_merge_candidate:
-    _plural: その他の機関コード
-    _singular: その他の機関コード
-    _frontend:
-      action:
-        add: 代理店コードを追加
-    agency_code_type: レコード管理機関のコードタイプ
-    maintenance_agency: 整備庁
+    _frontend: {}
   agent_maintenance_history:
     _plural: メンテナンス履歴
     _singular: エージェントのメンテナンス履歴
@@ -2710,49 +2232,13 @@ ja:
     descriptive_note: 注釈
     event_date: 開催日
   agent_maintenance_histories:
-    _plural: メンテナンス履歴
-    _singular: エージェントのメンテナンス履歴
-    _frontend:
-      action:
-        add: イベントを追加
-    maintenance_event_type: レコード制御保守イベントタイプ
-    maintenance_agent_type: レコード制御保守エージェントタイプ
-    agent: エージェント
-    descriptive_note: 注釈
-    event_date: 開催日
+    _frontend: {}
   agent_maintenance_history_required:
-    _plural: メンテナンス履歴
-    _singular: エージェントのメンテナンス履歴
-    _frontend:
-      action:
-        add: イベントを追加
-    maintenance_event_type: レコード制御保守イベントタイプ
-    maintenance_agent_type: レコード制御保守エージェントタイプ
-    agent: エージェント
-    descriptive_note: 注釈
-    event_date: 開催日
+    _frontend: {}
   agent_maintenance_history_merge_destination:
-    _plural: メンテナンス履歴
-    _singular: エージェントのメンテナンス履歴
-    _frontend:
-      action:
-        add: イベントを追加
-    maintenance_event_type: レコード制御保守イベントタイプ
-    maintenance_agent_type: レコード制御保守エージェントタイプ
-    agent: エージェント
-    descriptive_note: 注釈
-    event_date: 開催日
+    _frontend: {}
   agent_maintenance_history_merge_candidate:
-    _plural: メンテナンス履歴
-    _singular: エージェントのメンテナンス履歴
-    _frontend:
-      action:
-        add: イベントを追加
-    maintenance_event_type: レコード制御保守イベントタイプ
-    maintenance_agent_type: レコード制御保守エージェントタイプ
-    agent: エージェント
-    descriptive_note: 注釈
-    event_date: 開催日
+    _frontend: {}
   agent_record_identifier:
     _plural: レコードID
     _singular: レコードID
@@ -2765,49 +2251,13 @@ ja:
     primary: プライマリ
     record_identifier: レコード識別子
   agent_record_identifiers:
-    _plural: レコードID
-    _singular: レコードID
-    _frontend:
-      action:
-        add: レコードIDを追加
-    identifier_type: レコード制御識別子タイプ
-    source: ソース
-    primary_identifier: 一次識別子はありますか？
-    primary: プライマリ
-    record_identifier: レコード識別子
+    _frontend: {}
   agent_record_identifier_required:
-    _plural: レコードID
-    _singular: レコードID
-    _frontend:
-      action:
-        add: レコードIDを追加
-    identifier_type: レコード制御識別子タイプ
-    source: ソース
-    primary_identifier: 一次識別子はありますか？
-    primary: プライマリ
-    record_identifier: レコード識別子
+    _frontend: {}
   agent_record_identifier_merge_destination:
-    _plural: レコードID
-    _singular: レコードID
-    _frontend:
-      action:
-        add: レコードIDを追加
-    identifier_type: レコード制御識別子タイプ
-    source: ソース
-    primary_identifier: 一次識別子はありますか？
-    primary: プライマリ
-    record_identifier: レコード識別子
+    _frontend: {}
   agent_record_identifier_merge_candidate:
-    _plural: レコードID
-    _singular: レコードID
-    _frontend:
-      action:
-        add: レコードIDを追加
-    identifier_type: レコード制御識別子タイプ
-    source: ソース
-    primary_identifier: 一次識別子はありますか？
-    primary: プライマリ
-    record_identifier: レコード識別子
+    _frontend: {}
   agent_source:
     _plural: ソース
     _singular: エージェントソース
@@ -2824,65 +2274,13 @@ ja:
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
   agent_sources:
-    _plural: ソース
-    _singular: エージェントソース
-    _frontend:
-      action:
-        add: ソースを追加
-    source_entry: ソースエントリ
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_source_required:
-    _plural: ソース
-    _singular: エージェントソース
-    _frontend:
-      action:
-        add: ソースを追加
-    source_entry: ソースエントリ
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_source_merge_destination:
-    _plural: ソース
-    _singular: エージェントソース
-    _frontend:
-      action:
-        add: ソースを追加
-    source_entry: ソースエントリ
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_source_merge_candidate:
-    _plural: ソース
-    _singular: エージェントソース
-    _frontend:
-      action:
-        add: ソースを追加
-    source_entry: ソースエントリ
-    descriptive_note: 注釈
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_parallel_name:
     _plural: 並列名
     use_dates: 使用日
@@ -2911,93 +2309,13 @@ ja:
     file_version_xlink_show_attribute: Xlinkの属性を表示
     last_verified_date: 最終確認日
   agent_resources:
-    _frontend:
-      action:
-        add: 関連する外部リソースを追加する
-    section:
-      dates: 日付
-      places: 場所
-    _plural: 関連する外部リソース
-    _singular: 関連する外部リソース
-    dates: 日付
-    places: 場所
-    publish: 公開済み
-    linked_agent_role: リソース関係タイプ
-    linked_resource: 関連する外部リソース
-    linked_resource_description: 説明
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_resource_required:
-    _frontend:
-      action:
-        add: 関連する外部リソースを追加する
-    section:
-      dates: 日付
-      places: 場所
-    _plural: 関連する外部リソース
-    _singular: 関連する外部リソース
-    dates: 日付
-    places: 場所
-    publish: 公開済み
-    linked_agent_role: リソース関係タイプ
-    linked_resource: 関連する外部リソース
-    linked_resource_description: 説明
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_resource_merge_candidate:
-    _frontend:
-      action:
-        add: 関連する外部リソースを追加する
-    section:
-      dates: 日付
-      places: 場所
-    _plural: 関連する外部リソース
-    _singular: 関連する外部リソース
-    dates: 日付
-    places: 場所
-    publish: 公開済み
-    linked_agent_role: リソース関係タイプ
-    linked_resource: 関連する外部リソース
-    linked_resource_description: 説明
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   agent_resource_merge_destination:
-    _frontend:
-      action:
-        add: 関連する外部リソースを追加する
-    section:
-      dates: 日付
-      places: 場所
-    _plural: 関連する外部リソース
-    _singular: 関連する外部リソース
-    dates: 日付
-    places: 場所
-    publish: 公開済み
-    linked_agent_role: リソース関係タイプ
-    linked_resource: 関連する外部リソース
-    linked_resource_description: 説明
-    file_uri: ファイルURI
-    xlink_title_attribute: Xlinkタイトル属性
-    xlink_role_attribute: Xlinkロール属性
-    xlink_arcrole_attribute: XlinkArcrole属性
-    file_version_xlink_actuate_attribute: XlinkActuate属性
-    file_version_xlink_show_attribute: Xlinkの属性を表示
-    last_verified_date: 最終確認日
+    _frontend: {}
   subsections:
     notes: ノート
     dates: 日付

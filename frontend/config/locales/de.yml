@@ -1712,11 +1712,6 @@ de:
         p_two: Klick auf <strong>Zeile hinzufügen</strong> kopiert Werte von der
           letzten Zeile. Die <strong>+</strong> Schaltfläche der Zeile kopiert 
           Werte von der aktuell hervorgehobenen Zeile.
-      resize_and_reorder_columns: "<div><strong>Spalten neu anordnen</strong></div>\n\
-        \ <div><small>Klicken Sie auf <strong>Spalten neu anordnen</strong>, wählen
-        Sie die Zeile(n), die Sie neu anordnen möchten und verwenden die Rauf/Runter-Pfeil-Schaltflächen,
-        um ihre Position in der Liste zu verändern. Wenn Sie mit Ihrer neuen Anordnung
-        zufrieden sind, klicken Sie <strong>Spalten-Reihenfolge anwenden</strong></small></div>\n"
       reset:
         title: Formular zurücksetzen
         description: Klicken Sie auf <strong>Zurücksetzen</strong>, um das 
@@ -2599,7 +2594,6 @@ de:
     <<: *agent_conventions_declaration_attributes
   custom_report_template:
     _frontend:
-      new_title: Neue benutzerdefinierte Berichtsvorlage
       section:
         basic_information_fields: Felder für Grundlegende Informationen
         template_information: Vorlagen Informationen
@@ -2609,7 +2603,6 @@ de:
         create: Vorlage erstellen
         save: Vorlage speichern
         search_usernames: Nach Benutzernamen suchen
-        search_agent_persons: Agentenpersonen suchen
       messages:
         copied: Benutzerdefinierte Berichtsvorlage kopiert
         created: Benutzerdefinierte Berichtsvorlage erstellt
