@@ -507,7 +507,6 @@ ja:
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: リポジトリ
 
-    top_container_mgmt:
   advanced_search:
     operator:
       operator: オペレーター
@@ -1256,7 +1255,6 @@ ja:
       generated outside of ArchivesSpace. If this field has a value it takes 
       precedence over an ARK generated within ArchivesSpace.
 
-    linker:
   preference:
     _frontend:
       messages:
@@ -1413,7 +1411,6 @@ ja:
         <strong>オーダーの適用</strong> 」をクリックします</small> </div>"
       reset:
 
-      reorder_columns:
   update_monitor:
     save_failed: "<strong>変更を保存できませんでした</strong>"
     stale_record: このレコードは別のユーザーによって更新されました。最新バージョンにアクセスするには、ページを更新してください。
@@ -1638,9 +1635,6 @@ ja:
         has_location_true: はい
         has_location_false: 番号
 
-        collection_accession_linker:
-        collection_resource_linker:
-    linker:
   container_profile:
     _singular: コンテナプロファイル
     _plural: コンテナプロファイル
@@ -1692,7 +1686,6 @@ ja:
     stacking_limit_tooltip: "<p>互いに積み重ねられるこれらの容器の数。制限がない場合は空白のままにします。正の整数でなければなりませんまたはゼロ。
       </p>"
 
-    linker:
   rights_restriction:
     begin: 制限開始
     begin_tooltip: "<p>時間制限の場合は、アクセス制限の開始日。 YYYY-MM-DDの形式で単一の日付である必要があります。期限切れになったら容器から切り離されます。メモのテキストを使用して、精度の低い日付または日付スパンを指定します。
@@ -1749,7 +1742,6 @@ ja:
     height: 高さ
     width: 幅
 
-    linker:
   space_calculator:
     modal_title: スペース計算機
     modal_loading: 読み込んでいます...
@@ -3053,11 +3045,3 @@ ja:
 
   metadata_rights_declaration_merge_candidate:
     <<: *metadata_rights_declaration_attributes
-  accession_link:
-    _frontend:
-      action:
-  bulk_import_templates:
-  footer:
-  component_link:
-    _frontend:
-      action:

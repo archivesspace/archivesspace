@@ -544,7 +544,6 @@ es:
       owner_repo_display_string_u_ssort: Repositorio
 
 
-    top_container_mgmt:
   advanced_search:
     operator:
       operator: Operadora
@@ -1351,7 +1350,6 @@ es:
     external_ark_url_tooltip: Identificador persistente de Archival Resource Key
       (ARK) generado fuera de ArchivesSpace. Si este campo tiene un valor, tiene
       prioridad sobre un ARK generado dentro de ArchivesSpace.
-    linker:
   preference:
     _frontend:
       messages:
@@ -1515,7 +1513,6 @@ es:
         <div><strong>Reordenar Columnas</strong></div>
         <div><small>Click <strong>Reordenar columnas </strong>, seleccione la fila (s) que desea reordenar y utilizar los / abajo botones de flecha arriba para cambiar su posición en la lista. Cuando feliz con su nuevo pedido, haga clic en <strong> Aplicar orden de las columnas</strong></small></div>
       reset:
-      reorder_columns:
   update_monitor:
     save_failed: <strong>Error al guardar los cambios</strong>
     stale_record: Este documento ha sido actualizado por otro usuario. Por 
@@ -1791,9 +1788,6 @@ es:
         has_location_true: "Si"
         has_location_false: "No"
 
-        collection_accession_linker:
-        collection_resource_linker:
-    linker:
   container_profile:
     _singular: Perfil de contenedor
     _plural: Perfiles de contenedores
@@ -1863,7 +1857,6 @@ es:
     stacking_limit_tooltip: |
       <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo o cero.</p>
 
-    linker:
   rights_restriction:
     begin: Comienzo de la restricción
     begin_tooltip: |
@@ -1923,7 +1916,6 @@ es:
     height: Altura
     width: Anchura
 
-    linker:
   space_calculator:
     modal_title: Calculadora de espacio
     modal_loading: Cargando...
@@ -3420,9 +3412,3 @@ es:
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
       target='_blank'>Comentarios o preguntas</a>
     public_interface_html: Vistar <a href="%{public_url}">Interfaz Pública</a>
-  accession_link:
-    _frontend:
-      action:
-  component_link:
-    _frontend:
-      action:

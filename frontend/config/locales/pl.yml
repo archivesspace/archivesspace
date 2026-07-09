@@ -685,14 +685,9 @@ pl:
       owner_repo_display_string_u_ssort: Repozytorium
   agent_gender:
     _singular: Płeć
-    _frontend:
-      action:
   agent_occupation:
     _singular: Zawód
     _plural: Zawody
-    _frontend:
-      action:
-    section:
   become-user:
     failed: Nie udało się przełączyć na wskazanego użytkownika.
     username: Nazwa użytkownika
@@ -1289,8 +1284,6 @@ pl:
       action:
         add_note_chronology_item: Dodaj wydarzenie
         add_event: Dodaj element wydarzenia
-      note_outline:
-      messages:
   repository:
     _frontend:
       messages:
@@ -1445,11 +1438,6 @@ pl:
         p_one: Wyróżnione kolumny są „przyklejone” i zostaną powielone po 
           dodaniu nowych wierszy. Funkcję „przyklejania” można włączyć lub 
           wyłączyć, klikając odpowiedni nagłówek tabeli.
-      reorder_columns:
-      reset:
-      fill_column:
-    templates:
-    reorder_columns:
   shortcuts:
     quick_reference_window: "Skrótowy przewodnik: skróty klawiaturowe"
     actions:
@@ -1504,30 +1492,18 @@ pl:
   agent_function:
     _singular: Funkcjonować
     _plural: Funkcje
-    _frontend:
-      action:
-    section:
   agent_resource:
     _singular: Powiązane zasoby zewnętrzne
     _plural: Powiązane zasoby zewnętrzne
-    section:
-    _frontend:
-      action:
   skipnav:
     main_content: Przejdź do treści głównej
   agent_record_identifier:
     primary_identifier: Czy jest to identyfikator podstawowy?
-    _frontend:
-      action:
   agent_identifier:
     identifier_type: Typ identyfikatora
-    _frontend:
-      action:
   used_language:
     _plural: Używane języki
     _singular: Używany język
-    _frontend:
-      action:
   metadata_rights_declaration:
     _plural: Deklaracje praw do metadanych
     _singular: Deklaracja praw do metadanych
@@ -1537,8 +1513,6 @@ pl:
     file_version_xlink_actuate_attribute: Atrybut Xlink Actuate
     file_version_xlink_show_attribute: Atrybut pokazu Xlink
     last_verified_date: Ostatnia zweryfikowana data
-    _frontend:
-      action:
   mixed_content:
     wrap_prefix: 'Owiń:'
     help: Włączono zawartość mieszaną&#160;&#160;--&#160;&#160;Wpisz '<' dla 
@@ -1596,135 +1570,3 @@ pl:
   date_type_structured:
     single: Pojedyncza data
     range: Zakres dat
-  top_container:
-    _frontend:
-      messages:
-      bulk_operations:
-        collection_accession_linker:
-        collection_resource_linker:
-      action:
-      section:
-    linker:
-    batch_delete:
-  container_profile:
-    linker:
-    _frontend:
-      action:
-      bulk_operations:
-      section:
-      messages:
-  bulk_import:
-    _frontend:
-      messages:
-      actions:
-  extent_calculator:
-    container_summary_type:
-  sub_container:
-    _frontend:
-      action:
-  assessment:
-    _frontend:
-      messages:
-      action:
-      section:
-      linked_records:
-      assessment_completed:
-      ratings_list:
-      assessment_inactive:
-      assessment_review_required:
-      assessment_sensitive_material:
-  agent_conventions_declaration:
-    _frontend:
-      action:
-  assessment_attribute_definitions:
-    _frontend:
-      messages:
-      action:
-      section:
-  agent_place:
-    _frontend:
-      action:
-    section:
-  agent_alternate_set:
-    _frontend:
-      action:
-  oai_config:
-    _frontend:
-      action:
-      section:
-    _sidebar:
-      sponsor_set_section:
-      repo_settings:
-      repo_set_section:
-  custom_report_template:
-    _frontend:
-      messages:
-      section:
-      action:
-  bulk_import_job:
-  space_calculator:
-    reason:
-    summary:
-  agent_maintenance_history:
-    _frontend:
-      action:
-  job:
-    _frontend:
-      actions:
-      messages:
-      section:
-  bulk_archival_object_update_spreadsheet:
-  section_headings:
-  agent_record_control:
-    _frontend:
-      action:
-  place:
-    _frontend:
-      action:
-  bulk_import_templates:
-  agent_source:
-    _frontend:
-      action:
-  rights_restriction:
-  location_profile:
-    _frontend:
-      action:
-      messages:
-      section:
-    linker:
-  instance_container:
-  date_calculator:
-  repository_oai:
-  use_date:
-    _frontend:
-      action:
-  agent_other_agency_code:
-    _frontend:
-      action:
-  note_contact_note:
-  agent_topic:
-    _frontend:
-      action:
-    section:
-  bulk_archival_object_updater_job:
-  subsections:
-  related_agent:
-    _frontend:
-      messages:
-      action:
-  agent_parallel_name:
-  related_resource:
-    _frontend:
-      action:
-  update_monitor:
-  transfer:
-  related_accession:
-    _frontend:
-      action:
-  act:
-    _frontend:
-      action:
-  agent_name:
-  revision_statement:
-    _frontend:
-      action:

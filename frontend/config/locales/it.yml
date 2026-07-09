@@ -740,27 +740,17 @@ it:
   used_language:
     _singular: Lingua usata
     _plural: Lingue usate
-    _frontend:
-      action:
   agent_occupation:
     _singular: Occupazione
     _plural: Occupazioni
-    _frontend:
-      action:
-    section:
   agent_record_identifier:
     source: Fonte
     primary_identifier: Qual è l'identificativo primario?
     record_identifier: Identificatore del record
-    _frontend:
-      action:
   agent_resource:
     file_uri: File URI
     _singular: Risorsa esterna correlata
     _plural: Risorse esterne correlate
-    section:
-    _frontend:
-      action:
   metadata_rights_declaration:
     license: Licenza
     file_uri: File URI
@@ -769,8 +759,6 @@ it:
     _singular: Dichiarazione dei diritti sui metadati
     xlink_title_attribute: Attributo Titolo Xlink
     xlink_role_attribute: Attributo ruolo Xlink
-    _frontend:
-      action:
   job:
     _frontend:
       audit_data: Dati dell'audit
@@ -851,43 +839,24 @@ it:
       open_create: "Alterna il menu Crea"
   agent_identifier:
     identifier_type: Tipo di identificativo
-    _frontend:
-      action:
   agent_gender:
     _singular: Genere
     _plural: Generi
-    _frontend:
-      action:
   agent_function:
     _singular: Funzione
     _plural: Funzioni
-    _frontend:
-      action:
-    section:
   agent_place:
     _singular: Luogo
     _plural: Luoghi
-    _frontend:
-      action:
-    section:
   agent_topic:
     _singular: Argomento
     _plural: Argomenti
-    _frontend:
-      action:
-    section:
   agent_alternate_set:
     file_uri: File URI
-    _frontend:
-      action:
   agent_conventions_declaration:
     file_uri: File URI
-    _frontend:
-      action:
   agent_source:
     file_uri: File URI
-    _frontend:
-      action:
   advanced_search:
     operator:
       NOT: Non
@@ -1787,10 +1756,6 @@ it:
         arrow_keys: Tasti freccia
         return: Ritorno
         move_term: Salto da cellula a cellula
-      reorder_columns:
-      reset:
-      sticky_columns:
-      fill_column:
   instance_container:
     container: Contenitrice
   sub_container:
@@ -1799,93 +1764,3 @@ it:
       <p>CAMPO OBBLIGATORIO. Il contenitore di livello più alto in cui è alloggiato il materiale descritto.</p>
       <p>Può essere selezionato da un elenco esistente di contenitori di livello superiore utilizzando le funzioni di completamento automatico o Sfoglia, oppure creato utilizzando la funzione Crea.</p>
     top_container: Contenitore superiore
-    _frontend:
-      action:
-  top_container:
-    _frontend:
-      messages:
-      bulk_operations:
-        collection_accession_linker:
-        collection_resource_linker:
-      action:
-      section:
-    linker:
-    batch_delete:
-  container_profile:
-    linker:
-    _frontend:
-      action:
-      bulk_operations:
-      section:
-      messages:
-  bulk_import:
-    _frontend:
-      messages:
-      actions:
-  extent_calculator:
-    container_summary_type:
-  assessment:
-    _frontend:
-      messages:
-      action:
-      section:
-      linked_records:
-      assessment_completed:
-      ratings_list:
-      assessment_inactive:
-      assessment_review_required:
-      assessment_sensitive_material:
-  assessment_attribute_definitions:
-    _frontend:
-      messages:
-      action:
-      section:
-  oai_config:
-    _frontend:
-      action:
-      section:
-    _sidebar:
-      sponsor_set_section:
-      repo_settings:
-      repo_set_section:
-  custom_report_template:
-    _frontend:
-      messages:
-      section:
-      action:
-  bulk_import_job:
-  space_calculator:
-    reason:
-    summary:
-  agent_maintenance_history:
-    _frontend:
-      action:
-  bulk_archival_object_update_spreadsheet:
-  section_headings:
-  agent_record_control:
-    _frontend:
-      action:
-  place:
-    _frontend:
-      action:
-  bulk_import_templates:
-  rights_restriction:
-  location_profile:
-    _frontend:
-      action:
-      messages:
-      section:
-    linker:
-  date_calculator:
-  agent_other_agency_code:
-    _frontend:
-      action:
-  note_contact_note:
-  bulk_archival_object_updater_job:
-  subsections:
-  agent_parallel_name:
-  update_monitor:
-  act:
-    _frontend:
-      action:
-  agent_name:
