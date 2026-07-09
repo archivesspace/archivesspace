@@ -156,6 +156,7 @@ pt:
       scroll: "Ao percorrer"
       all: "Todos de uma vez"
       loading: Carregando
+
   digital_object:
     _singular: Registro Digital
     _plural: Materiais Digitais
