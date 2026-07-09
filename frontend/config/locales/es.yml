@@ -196,6 +196,14 @@ es:
     uncheck_all: Desmarcar todos
     download: Descargar
     drop_before: Soltar antes
+    collapse_tree: ''
+    select_resource: ''
+    expand_tree_mode_on: ''
+    drop_after: ''
+    drop_into: ''
+    require_subrecord: ''
+    expand_tree_mode_off: ''
+    reorder_successful: ''
   database_warning:
     message: "<p><strong>Advertencia de base de datos:</strong> Actualmente está utilizando
       la base de datos integrada (Apache Derby). La base de datos integrada es solo
@@ -285,6 +293,8 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
+      representative_file_version: ''
     resource:
       score: Relevancia
       title: Título
@@ -307,6 +317,8 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      representative_file_version: ''
+      uri: ''
     archival_object:
       score: Relevancia
       title: Título
@@ -323,6 +335,8 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
+      representative_file_version: ''
     subject:
       score: Relevancia
       source: Fuente
@@ -334,6 +348,7 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
     digital_object:
       score: Relevancia
       title: Título
@@ -351,6 +366,8 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
+      representative_file_version: ''
     digital_object_component:
       score: Relevancia
       title: Título
@@ -364,6 +381,8 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      representative_file_version: ''
+      uri: ''
     agent:
       score: Relevancia
       title: Nombre
@@ -378,6 +397,7 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
     location:
       score: Relevancia
       title: Ubicación
@@ -399,6 +419,7 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
     event:
       score: Relevancia
       agents: Autoridades
@@ -410,6 +431,7 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
     collection_management:
       score: Relevancia
       parent_title: Título
@@ -424,6 +446,8 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      name: ''
+      uri: ''
     classification:
       score: Relevancia
       title: Título
@@ -435,6 +459,7 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
     assessment:
       score: Relevancia
       assessment_id: ID
@@ -457,6 +482,7 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
     repositories:
       score: Relevancia
       title: Título
@@ -466,6 +492,7 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
     top_container:
       score: Relevancia
       title: Título
@@ -481,6 +508,11 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      exported_to_ils: ''
+      uri: ''
+      series_level_u_sstr: ''
+      ils_holding_id: ''
+      collection_identifier_stored_u_sstr: ''
     container_profile:
       score: Relevancia
       title: Título
@@ -494,6 +526,8 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
+      notes: ''
     location_profile:
       score: Relevancia
       title: Título
@@ -507,6 +541,7 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
     job:
       score: Relevancia
       status: Estado
@@ -522,6 +557,7 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+      uri: ''
     multi:
       score: Relevancia
       primary_type: Tipo de registro
@@ -540,10 +576,30 @@ es:
       langcode: Lenguaje de materiales
       asc: Ascendente
       desc: Descendente
+      uri: ''
+      representative_file_version: ''
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Repositorio
 
 
+    top_container_mgmt:
+      not_exported_to_ils: ''
+      restricted: ''
+      indicator: ''
+      series: ''
+      asc: ''
+      location_profile: ''
+      desc: ''
+      ils_holding_id: ''
+      not_restricted: ''
+      barcode: ''
+      resource_accession_id: ''
+      exported_to_ils: ''
+      container_profile: ''
+      internal_note: ''
+      location: ''
+      type: ''
+      resource_accession: ''
   advanced_search:
     operator:
       operator: Operadora
@@ -574,6 +630,7 @@ es:
       empty: esta vacio
     enum_field:
       empty: sin asignar
+      label: ''
     search_field: Campo de búsqueda
     search_text: Buscar texto
     search_date: Fecha
@@ -678,6 +735,18 @@ es:
     password_placeholder: Contraseña
     username_aria_label: Nombre de usuario
     password_aria_label: Contraseña de usuario
+    email_placeholder: ''
+    reset_password: ''
+    new_password_instructions: ''
+    confirm_password: ''
+    password_too_simple: ''
+    lost_password: ''
+    new_password: ''
+    recover_password: ''
+    password_update_success: ''
+    reset_form_instructions: ''
+    password_update_error: ''
+    password_mismatch_error: ''
   breadcrumb:
     home: Página de inicio
 
@@ -814,6 +883,8 @@ es:
         create: Crear acta de ingreso
         save: Guardar el acta de ingreso
 
+    component_link: ''
+    component_links: ''
   agent:
     _frontend:
       messages:
@@ -923,6 +994,12 @@ es:
         has_unpublished_ancestor: Por favor tenga en cuenta que este registro 
           tiene un padre que es inédito.
         delete_conflict: "Objeto de archivo no pudo ser eliminado: <pre>%{error}</pre>"
+        spawn_menu_before: ''
+        spawned: ''
+        transfer_description: ''
+        spawn_menu_after: ''
+        spawn_menu_child: ''
+        spawn_placeholder: ''
       section:
         basic_information: Información básica
       action:
@@ -931,10 +1008,14 @@ es:
         add_duplicate: Agregar duplicado
         save: Guardar objeto de archivo
         bulk_import: Carga a través de la hoja de cálculo
+        select_resource: ''
+        select_parent_and_position: ''
+        leave_parent_empty: ''
       tree:
         new_record_title: Nuevo objeto de archivo
         duplicated_record_title: Crear objeto de archivo duplicado
 
+    new_title: ''
   classification:
     _frontend:
       messages:
@@ -1130,6 +1211,7 @@ es:
         add: Añadir la versión del archivo
         make_representative: Hacer representante
 
+        make_representative_tooltip: ''
   group:
     _frontend:
       action:
@@ -1221,11 +1303,20 @@ es:
         use_date: Fecha (s) del nombre de uso
         dates: fechas
         parallel_names: Nombres paralelos
+        function_subject: ''
+        topic_subject: ''
+        occupation_subject: ''
+        place_subject: ''
+        name_subject: ''
       action:
         add: Agregar un formulario de nombre
         make_authorized: Convertir en nombre autorizado
         make_display_name: Convertir en nombre a presentar en pantalla
 
+        make_authorized_tooltip: ''
+        make_primary: ''
+        make_display_name_tooltip: ''
+        make_primary_tooltip: ''
   note:
     _frontend:
       preview:
@@ -1313,6 +1404,7 @@ es:
         select: Seleccione repositorio
         save: Guardar repositorio
         create: Crear repositorios
+        order_for_pui: ''
     _sidebar:
       oai_settings:
         _plural: Ajustes de cosecha OAI
@@ -1346,10 +1438,15 @@ es:
         load_bulk: Carga a través de la hoja de cálculo
         save: Guardar fondos
         delete_multiple: Eliminar fondos
+      remove_subrecord: ''
     external_ark_url: External ARK URL
     external_ark_url_tooltip: Identificador persistente de Archival Resource Key
       (ARK) generado fuera de ArchivesSpace. Si este campo tiene un valor, tiene
       prioridad sobre un ARK generado dentro de ArchivesSpace.
+    linker:
+      browse: ''
+      link_title: ''
+      link_to: ''
   preference:
     _frontend:
       messages:
@@ -1414,16 +1511,20 @@ es:
         deactivated: Usuario desactivado
         error_activate: Usuario no activado
         error_deactivate: Usuario no desactivado
+        password_reset_email_sent: ''
+        error_not_found: ''
+        password_reset_fail: ''
+        password_reset_not_allowed: ''
       section:
         manage_access: Administrar el acceso de usuario
         account: Cuenta
         edit_account: Editar cuenta
         edit_account_submit: Actualizar la cuenta
+        new_account: ''
       action:
         create_account: Crear cuenta
         update_account: Actualizar la cuenta
         create: Crear usuario
-        hide_inactive: Ocultar usuarios inactivos
         show_inactive: Mostrar usuarios inactivos
         deactivate_user: Desactivar
         deactivate_user_confirm: ¿Está seguro de que desea desactivar este 
@@ -1433,8 +1534,10 @@ es:
 
         edit: Editar usuario
         show_active: Mostrar usuarios activos
+        update_self: ''
     active: 'true'
     inactive: falso
+    source: ''
   user_defined:
     _frontend:
       action:
@@ -1507,12 +1610,27 @@ es:
       select_prompt: Aplicar una plantilla RDE
     help:
       keyboard_shortcuts:
+        new_term: ''
+        title: ''
+        shift: ''
+        arrow_keys: ''
+        move_term: ''
+        return: ''
       sticky_columns:
+        p_one: ''
+        p_two: ''
+        title: ''
       fill_column:
-      resize_and_reorder_columns: |
-        <div><strong>Reordenar Columnas</strong></div>
-        <div><small>Click <strong>Reordenar columnas </strong>, seleccione la fila (s) que desea reordenar y utilizar los / abajo botones de flecha arriba para cambiar su posición en la lista. Cuando feliz con su nuevo pedido, haga clic en <strong> Aplicar orden de las columnas</strong></small></div>
+        sequence_description: ''
+        basic_title: ''
+        basic_description: ''
+        sequence_title: ''
       reset:
+        title: ''
+        description: ''
+      reorder_columns:
+        title: ''
+        description: ''
   update_monitor:
     save_failed: <strong>Error al guardar los cambios</strong>
     stale_record: Este documento ha sido actualizado por otro usuario. Por 
@@ -1594,6 +1712,9 @@ es:
           </b> y <b> Objetos de archivo </b> que aún no tienen un ARK. <br/> 
           <br/> <em> ARK externos no se cambiarán. </em>
 
+      external_repo: ''
+      singular: ''
+      plural: ''
   shortcuts:
     quick_reference_window: "Referencia: accesos directos del teclado "
     actions:
@@ -1788,6 +1909,23 @@ es:
         has_location_true: "Si"
         has_location_false: "No"
 
+        collection_accession_linker:
+          create: ''
+          browse: ''
+          link_title: ''
+        rapid_indicator_entry_help: ''
+        collection_resource_linker:
+          link_title: ''
+          create: ''
+          browse: ''
+        rapid_indicator_entry_new_indicator: ''
+        rapid_indicator_entry: ''
+    linker:
+      browse: ''
+      link_title: ''
+      create: ''
+    internal_note_tooltip: ''
+    internal_note: ''
   container_profile:
     _singular: Perfil de contenedor
     _plural: Perfiles de contenedores
@@ -1857,6 +1995,12 @@ es:
     stacking_limit_tooltip: |
       <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo o cero.</p>
 
+    linker:
+      create: ''
+      browse: ''
+      link_title: ''
+    notes_tooltip: ''
+    notes: ''
   rights_restriction:
     begin: Comienzo de la restricción
     begin_tooltip: |
@@ -1893,6 +2037,7 @@ es:
       _singular: contenedor
       _plural: contenedores
 
+    required_fields_alert_message: ''
   location_profile:
     _singular: Perfil de ubicación
     _plural: Perfiles de ubicación
@@ -1916,6 +2061,10 @@ es:
     height: Altura
     width: Anchura
 
+    linker:
+      link_title: ''
+      browse: ''
+      create: ''
   space_calculator:
     modal_title: Calculadora de espacio
     modal_loading: Cargando...
@@ -2100,7 +2249,6 @@ es:
 
   custom_report_template:
     _frontend:
-      new_title: Nueva plantilla de informe personalizado
       section:
         template_information: Información de plantilla
         basic_information_fields: Información básica
@@ -2109,10 +2257,12 @@ es:
       action:
         create: Crear plantilla
         save: Guardar plantilla
+        search_usernames: ''
       messages:
         created: Plantilla de informe personalizado creado
         updated: Plantilla de informe personalizado actualizada
         copied: Plantilla de informe personalizada copiada
+    new_title: ''
   oai_config:
     title: Configuraciones OAI-PMH
     title_repo_section: Configuraciones por repositorio OAI-PMH
@@ -2197,20 +2347,6 @@ es:
     date_era: Era
     date_calendar: Calendario
 
-  structured_date_label_existence:
-    date_label: Etiqueta
-    date_type_structured: Tipo de fecha
-    date_certainty: Certeza
-    date_era: Era
-    date_calendar: Calendario
-
-  structured_date_label_usage:
-    date_label: Etiqueta
-    date_type_structured: Tipo de fecha
-    date_certainty: Certeza
-    date_era: Era
-    date_calendar: Calendario
-
   structured_date_single_fields:
     date_role: Función de fecha
     date_expression: Expresión de fecha
@@ -2253,97 +2389,13 @@ es:
     language_note: Nota de idioma
 
   agent_record_controls:
-    _plural: Información de registro
-    _singular: Información de registro
-    _frontend:
-      action:
-        add: Agregar información de registro
-    maintenance_status: Estado de mantenimiento de control de registros
-    publication_status: Estado de publicación de control de registros
-    romanization: Romanización
-    government_agency_type: Tipo de agencia gubernamental de control de 
-      registros
-    reference_evaluation: Evaluación de referencia de control de registros
-    name_type: Tipo de nombre de control de registro
-    level_of_detail: Nivel de detalle de control de registros
-    modified_record: Tipo de control de registro modificado
-    cataloging_source: Fuente de catalogación de control de registros
-    maintenance_agency: Agencia de mantenimiento
-    agency_name: Nombre de agencia
-    maintenance_agency_note: Nota de la agencia de mantenimiento
-    language: Idioma
-    script: Texto
-    language_note: Nota de idioma
-
+    _frontend: {}
   agent_record_control_required:
-    _plural: Información de registro
-    _singular: Información de registro
-    _frontend:
-      action:
-        add: Agregar información de registro
-    maintenance_status: Estado de mantenimiento de control de registros
-    publication_status: Estado de publicación de control de registros
-    romanization: Romanización
-    government_agency_type: Tipo de agencia gubernamental de control de 
-      registros
-    reference_evaluation: Evaluación de referencia de control de registros
-    name_type: Tipo de nombre de control de registro
-    level_of_detail: Nivel de detalle de control de registros
-    modified_record: Tipo de control de registro modificado
-    cataloging_source: Fuente de catalogación de control de registros
-    maintenance_agency: Agencia de mantenimiento
-    agency_name: Nombre de agencia
-    maintenance_agency_note: Nota de la agencia de mantenimiento
-    language: Idioma
-    script: Texto
-    language_note: Nota de idioma
-
+    _frontend: {}
   agent_record_control_merge_destination:
-    _plural: Información de registro
-    _singular: Información de registro
-    _frontend:
-      action:
-        add: Agregar información de registro
-    maintenance_status: Estado de mantenimiento de control de registros
-    publication_status: Estado de publicación de control de registros
-    romanization: Romanización
-    government_agency_type: Tipo de agencia gubernamental de control de 
-      registros
-    reference_evaluation: Evaluación de referencia de control de registros
-    name_type: Tipo de nombre de control de registro
-    level_of_detail: Nivel de detalle de control de registros
-    modified_record: Tipo de control de registro modificado
-    cataloging_source: Fuente de catalogación de control de registros
-    maintenance_agency: Agencia de mantenimiento
-    agency_name: Nombre de agencia
-    maintenance_agency_note: Nota de la agencia de mantenimiento
-    language: Idioma
-    script: Texto
-    language_note: Nota de idioma
-
+    _frontend: {}
   agent_record_control_merge_candidate:
-    _plural: Información de registro
-    _singular: Información de registro
-    _frontend:
-      action:
-        add: Agregar información de registro
-    maintenance_status: Estado de mantenimiento de control de registros
-    publication_status: Estado de publicación de control de registros
-    romanization: Romanización
-    government_agency_type: Tipo de agencia gubernamental de control de 
-      registros
-    reference_evaluation: Evaluación de referencia de control de registros
-    name_type: Tipo de nombre de control de registro
-    level_of_detail: Nivel de detalle de control de registros
-    modified_record: Tipo de control de registro modificado
-    cataloging_source: Fuente de catalogación de control de registros
-    maintenance_agency: Agencia de mantenimiento
-    agency_name: Nombre de agencia
-    maintenance_agency_note: Nota de la agencia de mantenimiento
-    language: Idioma
-    script: Texto
-    language_note: Nota de idioma
-
+    _frontend: {}
   agent_gender:
     _plural: Géneros de agentes
     _singular: Género del agente
@@ -2355,35 +2407,11 @@ es:
     dates: fechas
 
   agent_genders:
-    _plural: Géneros de agentes
-    _singular: Género del agente
-    _frontend:
-      action:
-        add: Agregar información de género
-    gender: Género
-    note: Nota
-    dates: fechas
-
+    _frontend: {}
   agent_gender_required:
-    _plural: Géneros de agentes
-    _singular: Género del agente
-    _frontend:
-      action:
-        add: Agregar información de género
-    gender: Género
-    note: Nota
-    dates: fechas
-
+    _frontend: {}
   agent_gender_merge_destination:
-    _plural: Géneros de agentes
-    _singular: Género del agente
-    _frontend:
-      action:
-        add: Agregar información de género
-    gender: Género
-    note: Nota
-    dates: fechas
-
+    _frontend: {}
   used_language:
     _plural: Idiomas
     _singular: Idioma
@@ -2394,51 +2422,15 @@ es:
     script: Texto
 
   used_language_required:
-    _plural: Idiomas
-    _singular: Idioma
-    _frontend:
-      action:
-        add: Agregar idioma
-    language: Idioma
-    script: Texto
-
+    _frontend: {}
   used_languages:
-    _plural: Idiomas
-    _singular: Idioma
-    _frontend:
-      action:
-        add: Agregar idioma
-    language: Idioma
-    script: Texto
-
+    _frontend: {}
   used_language_merge_candidate:
-    _plural: Idiomas
-    _singular: Idioma
-    _frontend:
-      action:
-        add: Agregar idioma
-    language: Idioma
-    script: Texto
-
+    _frontend: {}
   used_language_merge_destination:
-    _plural: Idiomas
-    _singular: Idioma
-    _frontend:
-      action:
-        add: Agregar idioma
-    language: Idioma
-    script: Texto
-
+    _frontend: {}
   agent_gender_merge_candidate:
-    _plural: Géneros de agentes
-    _singular: Género del agente
-    _frontend:
-      action:
-        add: Agregar información de género
-    gender: Género
-    note: Nota
-    dates: fechas
-
+    _frontend: {}
   agent_identifier:
     _plural: ID de entidad
     _singular: Identificador
@@ -2449,41 +2441,13 @@ es:
     entity_identifier: ID de entidad
 
   agent_identifiers:
-    _plural: ID de entidad
-    _singular: Identificador
-    _frontend:
-      action:
-        add: Agregar ID de entidad
-    identifier_type: Tipo de identificador
-    entity_identifier: ID de entidad
-
+    _frontend: {}
   agent_identifier_required:
-    _plural: ID de entidad
-    _singular: Identificador
-    _frontend:
-      action:
-        add: Agregar ID de entidad
-    identifier_type: Tipo de identificador
-    entity_identifier: ID de entidad
-
+    _frontend: {}
   agent_identifier_merge_destination:
-    _plural: ID de entidad
-    _singular: Identificador
-    _frontend:
-      action:
-        add: Agregar ID de entidad
-    identifier_type: Tipo de identificador
-    entity_identifier: ID de entidad
-
+    _frontend: {}
   agent_identifier_merge_candidate:
-    _plural: ID de entidad
-    _singular: Identificador
-    _frontend:
-      action:
-        add: Agregar ID de entidad
-    identifier_type: Tipo de identificador
-    entity_identifier: ID de entidad
-
+    _frontend: {}
   agent_place:
     _frontend:
       action:
@@ -2499,61 +2463,13 @@ es:
     publish: Publicado
 
   agent_place_required:
-    _frontend:
-      action:
-        add: Añadir lugar
-    section:
-      dates: fechas
-    _plural: Lugares
-    _singular: Lugar
-    place_role: Función del lugar del agente
-    text_note: Nota
-    dates: fechas
-    subjects: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_places:
-    _frontend:
-      action:
-        add: Añadir lugar
-    section:
-      dates: fechas
-    _plural: Lugares
-    _singular: Lugar
-    place_role: Función del lugar del agente
-    text_note: Nota
-    dates: fechas
-    subjects: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_place_merge_destination:
-    _frontend:
-      action:
-        add: Añadir lugar
-    section:
-      dates: fechas
-    _plural: Lugares
-    _singular: Lugar
-    place_role: Función del lugar del agente
-    text_note: Nota
-    dates: fechas
-    subjects: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_place_merge_candidate:
-    _frontend:
-      action:
-        add: Añadir lugar
-    section:
-      dates: fechas
-    _plural: Lugares
-    _singular: Lugar
-    place_role: Función del lugar del agente
-    text_note: Nota
-    dates: fechas
-    subjects: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_occupation:
     _frontend:
       action:
@@ -2569,61 +2485,13 @@ es:
     publish: Publicado
 
   agent_occupation_required:
-    _frontend:
-      action:
-        add: Agregar ocupación
-    section:
-      dates: fechas
-    _plural: Ocupaciones
-    _singular: Ocupación
-    text_note: Nota
-    dates: fechas
-    subjects: Ocupaciones
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_occupations:
-    _frontend:
-      action:
-        add: Agregar ocupación
-    section:
-      dates: fechas
-    _plural: Ocupaciones
-    _singular: Ocupación
-    text_note: Nota
-    dates: fechas
-    subjects: Ocupaciones
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_occupation_merge_destination:
-    _frontend:
-      action:
-        add: Agregar ocupación
-    section:
-      dates: fechas
-    _plural: Ocupaciones
-    _singular: Ocupación
-    text_note: Nota
-    dates: fechas
-    subjects: Ocupaciones
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_occupation_merge_candidate:
-    _frontend:
-      action:
-        add: Agregar ocupación
-    section:
-      dates: fechas
-    _plural: Ocupaciones
-    _singular: Ocupación
-    text_note: Nota
-    dates: fechas
-    subjects: Ocupaciones
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_function:
     _frontend:
       action:
@@ -2639,61 +2507,13 @@ es:
     publish: Publicado
 
   agent_function_required:
-    _frontend:
-      action:
-        add: Agregar función
-    section:
-      dates: fechas
-    _plural: Funciones
-    _singular: Función
-    text_note: Nota
-    dates: fechas
-    subjects: Funciones
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_functions:
-    _frontend:
-      action:
-        add: Agregar función
-    section:
-      dates: fechas
-    _plural: Funciones
-    _singular: Función
-    text_note: Nota
-    dates: fechas
-    subjects: Funciones
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_function_merge_destination:
-    _frontend:
-      action:
-        add: Agregar función
-    section:
-      dates: fechas
-    _plural: Funciones
-    _singular: Función
-    text_note: Nota
-    dates: fechas
-    subjects: Funciones
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_function_merge_candidate:
-    _frontend:
-      action:
-        add: Agregar función
-    section:
-      dates: fechas
-    _plural: Funciones
-    _singular: Función
-    text_note: Nota
-    dates: fechas
-    subjects: Funciones
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_topic:
     _frontend:
       action:
@@ -2709,61 +2529,13 @@ es:
     publish: Publicado
 
   agent_topic_required:
-    _frontend:
-      action:
-        add: Agregar tema
-    section:
-      dates: fechas
-    _plural: Temas
-    _singular: Tema
-    text_note: Nota
-    dates: fechas
-    subjects: Temas
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_topics:
-    _frontend:
-      action:
-        add: Agregar tema
-    section:
-      dates: fechas
-    _plural: Temas
-    _singular: Tema
-    text_note: Nota
-    dates: fechas
-    subjects: Temas
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_topic_merge_destination:
-    _frontend:
-      action:
-        add: Agregar tema
-    section:
-      dates: fechas
-    _plural: Temas
-    _singular: Tema
-    text_note: Nota
-    dates: fechas
-    subjects: Temas
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   agent_topic_merge_candidate:
-    _frontend:
-      action:
-        add: Agregar tema
-    section:
-      dates: fechas
-    _plural: Temas
-    _singular: Tema
-    text_note: Nota
-    dates: fechas
-    subjects: Temas
-    places: Lugares
-    publish: Publicado
-
+    _frontend: {}
   place:
     _plural: Lugares
     _frontend:
@@ -2787,69 +2559,13 @@ es:
     last_verified_date: Última fecha de verificación
 
   agent_alternate_sets:
-    _plural: Conjuntos alternativos
-    _singular: Conjunto alternativo
-    _frontend:
-      action:
-        add: Agregar conjunto alternativo
-    set_component: Establecer componente
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_alternate_set_required:
-    _plural: Conjuntos alternativos
-    _singular: Conjunto alternativo
-    _frontend:
-      action:
-        add: Agregar conjunto alternativo
-    set_component: Establecer componente
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_alternate_set_merge_destination:
-    _plural: Conjuntos alternativos
-    _singular: Conjunto alternativo
-    _frontend:
-      action:
-        add: Agregar conjunto alternativo
-    set_component: Establecer componente
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_alternate_set_merge_candidate:
-    _plural: Conjuntos alternativos
-    _singular: Conjunto alternativo
-    _frontend:
-      action:
-        add: Agregar conjunto alternativo
-    set_component: Establecer componente
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_conventions_declaration:
     _plural: Declaraciones de la Convención
     _singular: Declaración de la Convención
@@ -2868,73 +2584,13 @@ es:
     last_verified_date: Última fecha de verificación
 
   agent_conventions_declarations:
-    _plural: Declaraciones de la Convención
-    _singular: Declaración de la Convención
-    _frontend:
-      action:
-        add: Agregar declaración de la Convención
-    name_rule: Convención
-    citation: Citación
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_conventions_declaration_required:
-    _plural: Declaraciones de la Convención
-    _singular: Declaración de la Convención
-    _frontend:
-      action:
-        add: Agregar declaración de la Convención
-    name_rule: Convención
-    citation: Citación
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_conventions_declaration_merge_destination:
-    _plural: Declaraciones de la Convención
-    _singular: Declaración de la Convención
-    _frontend:
-      action:
-        add: Agregar declaración de la Convención
-    name_rule: Convención
-    citation: Citación
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_conventions_declaration_merge_candidate:
-    _plural: Declaraciones de la Convención
-    _singular: Declaración de la Convención
-    _frontend:
-      action:
-        add: Agregar declaración de la Convención
-    name_rule: Convención
-    citation: Citación
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_other_agency_code:
     _plural: Otros códigos de agencia
     _singular: Otro código de agencia
@@ -2945,41 +2601,13 @@ es:
     maintenance_agency: Agencia de mantenimiento
 
   agent_other_agency_codes:
-    _plural: Otros códigos de agencia
-    _singular: Otro código de agencia
-    _frontend:
-      action:
-        add: Agregar código de agencia
-    agency_code_type: Tipo de código de la agencia de control de registros
-    maintenance_agency: Agencia de mantenimiento
-
+    _frontend: {}
   agent_other_agency_code_required:
-    _plural: Otros códigos de agencia
-    _singular: Otro código de agencia
-    _frontend:
-      action:
-        add: Agregar código de agencia
-    agency_code_type: Tipo de código de la agencia de control de registros
-    maintenance_agency: Agencia de mantenimiento
-
+    _frontend: {}
   agent_other_agency_code_merge_destination:
-    _plural: Otros códigos de agencia
-    _singular: Otro código de agencia
-    _frontend:
-      action:
-        add: Agregar código de agencia
-    agency_code_type: Tipo de código de la agencia de control de registros
-    maintenance_agency: Agencia de mantenimiento
-
+    _frontend: {}
   agent_other_agency_code_merge_candidate:
-    _plural: Otros códigos de agencia
-    _singular: Otro código de agencia
-    _frontend:
-      action:
-        add: Agregar código de agencia
-    agency_code_type: Tipo de código de la agencia de control de registros
-    maintenance_agency: Agencia de mantenimiento
-
+    _frontend: {}
   agent_maintenance_history:
     _plural: Historial de mantenimiento
     _singular: Historial de mantenimiento del agente
@@ -2995,61 +2623,13 @@ es:
     event_date: Fecha del evento
 
   agent_maintenance_histories:
-    _plural: Historial de mantenimiento
-    _singular: Historial de mantenimiento del agente
-    _frontend:
-      action:
-        add: Añadir evento
-    maintenance_event_type: Tipo de evento de mantenimiento de control de 
-      registros
-    maintenance_agent_type: Tipo de agente de mantenimiento de control de 
-      registros
-    agent: Agente
-    descriptive_note: Nota descriptiva
-    event_date: Fecha del evento
-
+    _frontend: {}
   agent_maintenance_history_required:
-    _plural: Historial de mantenimiento
-    _singular: Historial de mantenimiento del agente
-    _frontend:
-      action:
-        add: Añadir evento
-    maintenance_event_type: Tipo de evento de mantenimiento de control de 
-      registros
-    maintenance_agent_type: Tipo de agente de mantenimiento de control de 
-      registros
-    agent: Agente
-    descriptive_note: Nota descriptiva
-    event_date: Fecha del evento
-
+    _frontend: {}
   agent_maintenance_history_merge_destination:
-    _plural: Historial de mantenimiento
-    _singular: Historial de mantenimiento del agente
-    _frontend:
-      action:
-        add: Añadir evento
-    maintenance_event_type: Tipo de evento de mantenimiento de control de 
-      registros
-    maintenance_agent_type: Tipo de agente de mantenimiento de control de 
-      registros
-    agent: Agente
-    descriptive_note: Nota descriptiva
-    event_date: Fecha del evento
-
+    _frontend: {}
   agent_maintenance_history_merge_candidate:
-    _plural: Historial de mantenimiento
-    _singular: Historial de mantenimiento del agente
-    _frontend:
-      action:
-        add: Añadir evento
-    maintenance_event_type: Tipo de evento de mantenimiento de control de 
-      registros
-    maintenance_agent_type: Tipo de agente de mantenimiento de control de 
-      registros
-    agent: Agente
-    descriptive_note: Nota descriptiva
-    event_date: Fecha del evento
-
+    _frontend: {}
   agent_record_identifier:
     _plural: ID de registro
     _singular: ID de registro
@@ -3063,53 +2643,13 @@ es:
     record_identifier: Identificador de registro
 
   agent_record_identifiers:
-    _plural: ID de registro
-    _singular: ID de registro
-    _frontend:
-      action:
-        add: Agregar ID de registro
-    identifier_type: Tipo de identificador de control de registro
-    source: Fuente
-    primary_identifier: "¿Es el identificador principal?"
-    primary: Primario
-    record_identifier: Identificador de registro
-
+    _frontend: {}
   agent_record_identifier_required:
-    _plural: ID de registro
-    _singular: ID de registro
-    _frontend:
-      action:
-        add: Agregar ID de registro
-    identifier_type: Tipo de identificador de control de registro
-    source: Fuente
-    primary_identifier: "¿Es el identificador principal?"
-    primary: Primario
-    record_identifier: Identificador de registro
-
+    _frontend: {}
   agent_record_identifier_merge_destination:
-    _plural: ID de registro
-    _singular: ID de registro
-    _frontend:
-      action:
-        add: Agregar ID de registro
-    identifier_type: Tipo de identificador de control de registro
-    source: Fuente
-    primary_identifier: "¿Es el identificador principal?"
-    primary: Primario
-    record_identifier: Identificador de registro
-
+    _frontend: {}
   agent_record_identifier_merge_candidate:
-    _plural: ID de registro
-    _singular: ID de registro
-    _frontend:
-      action:
-        add: Agregar ID de registro
-    identifier_type: Tipo de identificador de control de registro
-    source: Fuente
-    primary_identifier: "¿Es el identificador principal?"
-    primary: Primario
-    record_identifier: Identificador de registro
-
+    _frontend: {}
   agent_source:
     _plural: Fuentes
     _singular: Fuente del agente
@@ -3127,69 +2667,13 @@ es:
     last_verified_date: Última fecha de verificación
 
   agent_sources:
-    _plural: Fuentes
-    _singular: Fuente del agente
-    _frontend:
-      action:
-        add: Agregue una fuente
-    source_entry: Entrada de fuente
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_source_required:
-    _plural: Fuentes
-    _singular: Fuente del agente
-    _frontend:
-      action:
-        add: Agregue una fuente
-    source_entry: Entrada de fuente
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_source_merge_destination:
-    _plural: Fuentes
-    _singular: Fuente del agente
-    _frontend:
-      action:
-        add: Agregue una fuente
-    source_entry: Entrada de fuente
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_source_merge_candidate:
-    _plural: Fuentes
-    _singular: Fuente del agente
-    _frontend:
-      action:
-        add: Agregue una fuente
-    source_entry: Entrada de fuente
-    descriptive_note: Nota descriptiva
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_parallel_name:
     _plural: Nombres paralelos
     use_dates: Usar fechas
@@ -3221,97 +2705,13 @@ es:
     last_verified_date: Última fecha de verificación
 
   agent_resources:
-    _frontend:
-      action:
-        add: Agregar recurso externo relacionado
-    section:
-      dates: fechas
-      places: Lugares
-    _plural: Recursos externos relacionados
-    _singular: Recurso externo relacionado
-    dates: fechas
-    places: Lugares
-    publish: Publicado
-    linked_agent_role: Tipo de relación de recursos
-    linked_resource: Recurso externo relacionado
-    linked_resource_description: Descripción
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_resource_required:
-    _frontend:
-      action:
-        add: Agregar recurso externo relacionado
-    section:
-      dates: fechas
-      places: Lugares
-    _plural: Recursos externos relacionados
-    _singular: Recurso externo relacionado
-    dates: fechas
-    places: Lugares
-    publish: Publicado
-    linked_agent_role: Tipo de relación de recursos
-    linked_resource: Recurso externo relacionado
-    linked_resource_description: Descripción
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_resource_merge_candidate:
-    _frontend:
-      action:
-        add: Agregar recurso externo relacionado
-    section:
-      dates: fechas
-      places: Lugares
-    _plural: Recursos externos relacionados
-    _singular: Recurso externo relacionado
-    dates: fechas
-    places: Lugares
-    publish: Publicado
-    linked_agent_role: Tipo de relación de recursos
-    linked_resource: Recurso externo relacionado
-    linked_resource_description: Descripción
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   agent_resource_merge_destination:
-    _frontend:
-      action:
-        add: Agregar recurso externo relacionado
-    section:
-      dates: fechas
-      places: Lugares
-    _plural: Recursos externos relacionados
-    _singular: Recurso externo relacionado
-    dates: fechas
-    places: Lugares
-    publish: Publicado
-    linked_agent_role: Tipo de relación de recursos
-    linked_resource: Recurso externo relacionado
-    linked_resource_description: Descripción
-    file_uri: URI de archivo
-    xlink_title_attribute: Atributo de título de Xlink
-    xlink_role_attribute: Atributo de rol de Xlink
-    xlink_arcrole_attribute: Atributo Xlink Arcrole
-    file_version_xlink_actuate_attribute: Atributo de activación de Xlink
-    file_version_xlink_show_attribute: Atributo de Xlink Show
-    last_verified_date: Última fecha de verificación
-
+    _frontend: {}
   subsections:
     notes: Notas
     dates: fechas
@@ -3405,6 +2805,7 @@ es:
       ubicación, no para vincular materiales a ubicaciones.
     aspace_assessment_import_template_csv: Cree y vincule evaluaciones a 
       accesiones, recursos, objetos de archivo u objetos digitales existentes.
+    aspace_subject_import_template_csv: ''
   footer:
     keyboard_shortcuts: Atajos de teclado
     archivesspace_home_html: Impulsado por <a 
@@ -3412,3 +2813,15 @@ es:
     feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
       target='_blank'>Comentarios o preguntas</a>
     public_interface_html: Vistar <a href="%{public_url}">Interfaz Pública</a>
+  accession_link:
+    _plural: ''
+    _singular: ''
+    _frontend:
+      action:
+        add: ''
+  component_link:
+    _frontend:
+      action:
+        add: ''
+    _singular: ''
+    _plural: ''
