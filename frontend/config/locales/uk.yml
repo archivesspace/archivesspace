@@ -280,7 +280,7 @@ uk:
     top_containers_for: "Головні контейнери для %{record_title}"
     no_top_containers: Немає пов'язаних головних контейнерів
     edit_top_container: Редагувати головний контейнер
-    view_top_container: Перегляд головного контейнера
+    view_top_container: Головний контейнер
     manage_enumerations: Керування списками контрольованих значень
     global_preferences: Глобальні налаштування
     global_settings: Глобальні налаштування
@@ -313,8 +313,8 @@ uk:
     clear_all: Очистити все
     component_switch: Показати компоненти
     help:
-      row_selection: Клацніть рядок, щоб вибрати його для масових операцій.
-        Утримуйте клавішу Alt/Option під час натискання прапорця, щоб вибрати або
+      row_selection: Клацніть рядок, щоб вибрати його для масових операцій. 
+        Утримуйте клавішу Alt під час натискання прапорця, щоб вибрати або 
         скасувати вибір кількох попередніх рядків.
   agent_gender:
     _singular: Стать
@@ -445,13 +445,15 @@ uk:
     _frontend:
       action:
         add: Додати дату
+    _plural: Дати існування
+    _singular: Дата існування
   states:
     auto_generated: Система генерує під час збереження
   footer:
     keyboard_shortcuts: Комбінації клавіш
-    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}'
+    feedback_html: <a id='aspaceFeedbackLink' href='%{feedback_url}' 
       target='_blank'>Відгук або запитання</a>
-    archivesspace_home_html: Працює на <a
+    archivesspace_home_html: Працює на <a 
       href='http://archivesspace.org'>ArchivesSpace</a>
     public_interface_html: Переглянути <a href="%{public_url}">Загальнодоступний
       інтерфейс</a>
@@ -461,8 +463,17 @@ uk:
       рамок взаємодії</p>\n"
   lang_material:
     _plural: Мови
+    _frontend:
+      action:
+        add: Додати мову
+        add_note: Додати примітку про мову
   database_warning:
-    message: "<p><strong>Попередження щодо бази даних:</strong> Ви зараз використовуєте вбудовану базу даних (Apache Derby). Вбудована база даних призначена лише для тестування/демонстрації і буде застарілою в наступному мажорному релізі. Вам слід використовувати MySQL для будь-яких даних, призначених для виробництва, включаючи дані в тестовому екземплярі, які ви маєте намір перенести до виробничого екземпляра.</p>"
+    message: "<p><strong>Попередження щодо бази даних:</strong> Ви зараз використовуєте
+      вбудовану базу даних (Apache Derby). Вбудована база даних призначена лише для
+      тестування/демонстрації і буде застарілою в наступному мажорному релізі. Вам
+      слід використовувати MySQL для будь-яких даних, призначених для виробництва,
+      включаючи дані в тестовому екземплярі, які ви маєте намір перенести до виробничого
+      екземпляра.</p>"
   export_options:
     include_unpublished: Включити неопубліковані
     include_daos: Включити теги &lt;dao&gt;
@@ -1032,6 +1043,22 @@ uk:
         basic_information: Основна інформація
         record_control_information: Інформація про контроль записів
         identity_information: Інформація про особу
+        contacts: Контактна інформація
+        structured_date_range_fields: Дата діапазону
+        name: Форми імен
+        search_embedded: Пов'язані записи
+        merge_destination_record: Цей запис буде оновлено
+        linked_via_rights_statement: Пов’язані записи через заяву про права
+        events: Події
+        date_of_existence: Дата існування
+        dates_of_existence: Дати існування
+        relation_information: Інформація про зв'язок
+        description_information: Опис інформації
+        structured_date_single_fields: Одне побачення
+        merge_candidate_record: Цей запис буде видалено
+      action:
+        preview: Попередній перегляд об'єднання
+        create: Створити агента
   archival_object:
     _frontend:
       messages:
@@ -1047,7 +1074,8 @@ uk:
           архівний об'єкт
         please_select_a_resource_for_transfer: Будь ласка, виберіть ресурс
         transfer_confirm_message: "Запис '%{ao}' буде перенесено до вибраного ресурсу"
-        transfer_confirm_message_with_resource: "Запис '%{ao}' буде перенесено до ресурсу '%{resource}'"
+        transfer_confirm_message_with_resource: "Запис '%{ao}' буде перенесено до
+          ресурсу '%{resource}'"
         transfer_success: Архівний об'єкт 
           <strong>%{archival_object_display_string</strong> успішно перенесено 
           до ресурсу <strong>%{resource_title</strong>
@@ -1074,16 +1102,57 @@ uk:
         spawn_placeholder: <em>Створений компонент буде вставлено сюди</em>
         spawn_menu_before: Вставити створений компонент перед
         spawn_menu_child: Вставити породжений компонент як дочірній
+        created: Архівний об'єкт 
+          <strong>%{archival_object_display_string}<strong> на ресурсі 
+          <strong>%{resource_title}<strong> створено
+        spawn_menu_after: Вставити створений компонент після
+        duplicated: Архівний об'єкт продубльовано з 
+          <strong>%{archival_object_display_string</strong>
+      action:
+        add_duplicate: Додати дублікат
+        select_resource: Виберіть ресурс
+        save: Зберегти архівний об'єкт
+        add_sibling: Додати брата/сестру
+        add_child: Додати дитину
+        bulk_import: Завантажити через електронну таблицю
+        select_parent_and_position: Виберіть положення компонента
+        leave_parent_empty: Закрити / Не призначати батьківський елемент
+      section:
+        basic_information: Основна інформація
+      tree:
+        new_record_title: Новий архівний об'єкт
+        duplicated_record_title: Створити дублікат архівного об'єкта
+    external_ark_url_tooltip: Підказка щодо зовнішньої URL-адреси ARK
+    external_ark_url: Зовнішня URL-адреса ARK
+    new_title: Новий архівний об'єкт
   classification_term:
     _frontend:
       messages:
         created_with_parent: Термін класифікації 
           <strong>%{classification_term_title}</strong> створено
+        updated_with_parent: Термін класифікації 
+          <strong>%{classification_term_title</strong> оновлено
+        updated: Термін класифікації 
+          <strong>%{classification_term_title</strong> оновлено
+        created: Термін класифікації 
+          <strong>%{classification_term_title}<strong> створено
+        deleted: Термін класифікації 
+          <strong>%{classification_term_title</strong> видалено
+      section:
+        search_embedded: Пов'язані записи
+        basic_information: Основна інформація
+      tree:
+        new_record_title: Новий класифікаційний термін
+      action:
+        save: Зберегти класифікаційний термін
+        add_child: Додати дитину
+        add_sibling: Додати брата/сестру
   location:
     _frontend:
       messages:
         updated: Розташування збережено
         deleted: Розташування видалено
+        created: Місце створення
       section:
         basic_information: Основна інформація
         search_embedded: Пов'язані записи
@@ -1350,9 +1419,11 @@ uk:
         show_active: Показати активних користувачів
         show_inactive: Показати неактивних користувачів
         deactivate_user: Деактивувати
-        deactivate_user_confirm: Ви впевнені, що хочете деактивувати цього користувача?
+        deactivate_user_confirm: Ви впевнені, що хочете деактивувати цього 
+          користувача?
         activate_user: Активувати
-        activate_user_confirm: Ви впевнені, що хочете активувати цього користувача?
+        activate_user_confirm: Ви впевнені, що хочете активувати цього 
+          користувача?
         update_self: Керування обліковим записом користувача
   user_defined:
     _frontend:
@@ -1656,7 +1727,8 @@ uk:
         merged: Верхні контейнери об'єднано
         bulk_action_success: Найпопулярніші контейнери успішно оновлено
         bulk_action_success_info: Зверніть увагу, що може знадобитися деякий 
-          час, перш ніж зміни відобразяться в результатах пошуку або таблицях перегляду.
+          час, перш ніж зміни відобразяться в результатах пошуку або таблицях 
+          перегляду.
         no_active_restrictions: Немає активних обмежень
       bulk_operations:
         title: Масові операції
@@ -1969,12 +2041,14 @@ uk:
     download_spreadsheet: Завантажити електронну таблицю
     download_spreadsheet_modal_message: Створення цієї електронної таблиці може 
       зайняти кілька хвилин.
-    too_many_rows_warning:
-      "Попередження: кількість рядків, які буде згенеровано в цій електронній таблиці, перевищує кількість рядків, які можна оновити
-      через фонове завдання Bulk Archival Object Updater. Якщо ви плануєте запустити завдання Bulk Archival Object Updater за допомогою
-      цієї електронної таблиці, вам потрібно буде зменшити кількість рядків у цьому аркуші до менше або дорівнює 
-      <strong>%{max_row_count} рядків</strong> до введення. Розгляньте можливість створити меншу електронну таблицю зараз.  
-      Це попередження можна безпечно проігнорувати, якщо ви не збираєтеся запускати завдання Bulk Archival Object Updater із цими даними."
+    too_many_rows_warning: "Попередження: кількість рядків, які буде згенеровано в
+      цій електронній таблиці, перевищує кількість рядків, які можна оновити через
+      фонове завдання Bulk Archival Object Updater. Якщо ви плануєте запустити завдання
+      Bulk Archival Object Updater за допомогою цієї електронної таблиці, вам потрібно
+      буде зменшити кількість рядків у цьому аркуші до менше або дорівнює <strong>%{max_row_count}
+      рядків</strong> до введення. Розгляньте можливість створити меншу електронну
+      таблицю зараз. Це попередження можна безпечно проігнорувати, якщо ви не збираєтеся
+      запускати завдання Bulk Archival Object Updater із цими даними."
   assessment:
     _frontend:
       form_header: Оцінка %{display_string}
@@ -2290,3 +2364,241 @@ uk:
     aspace_subject_import_template_csv: Створення нових записів тем. Зверніть 
       увагу, що цей шаблон призначений для створення самих записів тем, а не для
       їх зв’язування з іншими записами.
+  digital_object:
+    _frontend:
+      messages:
+        merged: Об'єднані цифрові об'єкти
+        merge_description: Виберіть цифрові об'єкти нижче для об'єднання
+        deleted: Цифровий об'єкт <strong>%{digital_object_title}<strong> 
+          видалено
+        please_select_a_digital_object_to_merge: Будь ласка, виберіть цифровий 
+          об'єкт
+        transfer_target: Виберіть репозиторій для перенесення
+        created: Цифровий об'єкт <strong>%{digital_object_title}<strong> 
+          створено
+        suppressed_info: Цифровий об'єкт приховано та не можна редагувати
+        delete_conflict: "Не вдалося видалити цифровий об'єкт: <pre>%{error}<pre>"
+        updated: Цифровий об'єкт <strong>%{digital_object_title}<strong> 
+          оновлено
+        suppressed: Цифровий об'єкт <strong>%{digital_object_title}<strong> 
+          приховано
+        unsuppressed: Цифровий об'єкт <strong>%{digital_object_title</strong> 
+          розблоковано
+        published: Цифровий об'єкт <strong>%{digital_object_title</strong>, його
+          підзаписи та компоненти опубліковано
+      section:
+        basic_information: Основна інформація
+      action:
+        save: Зберегти цифровий об'єкт
+        create: Створити цифровий об'єкт
+        add_child: Додати дитину
+  structured_date_label_common_fields:
+    date_certainty: Впевненість
+    date_era: Ера
+    date_type_structured: Тип дати
+    date_label: Мітка
+    date_calendar: Календар
+  event:
+    _frontend:
+      action:
+        create: Створити подію
+        save: Зберегти подію
+      messages:
+        suppressed_info: Подія видалена
+        deleted: Подія видалена
+        created: Подія створена
+        updated: Подія збережена
+      section:
+        date: Дата/час події
+        basic_information: Основна інформація
+    linked_agents: Посилання агентів
+  enumeration:
+    _frontend:
+      messages:
+        related_items: " пов'язані елементи."
+        merged: Об'єднане значення
+        merge_tip: Це значення може бути об'єднане з іншим
+        not_used: Не використовується.
+        no_name_provided: Виберіть список значень перед створенням нового 
+          значення
+        one_related_item: 1 пов'язаний товар.
+        create_error: Не вдалося створити значення
+        merge_error: Не вдалося об'єднати значення
+        default_set: Набір значень за замовчуванням
+        no_selection: Будь ласка, виберіть список контрольованих значень
+        delete_conflict: Неможливо видалити значення, оскільки на нього зараз 
+          посилається запис
+        value_updated: Значення оновлено
+        deleted: Значення видалено
+        name_selector_tooltip: |
+          <p>Список контрольованих значень для редагування.</p>
+        name_selector: Назва списку
+        created: Створена цінність
+        delete_error: Не вдалося видалити значення
+      action:
+        delete_value: Видалити значення
+        create_value: Створюйте цінність
+        download_csv: Завантажити CSV-файл
+        merge_value: Об'єднати значення
+  container:
+    _frontend:
+      action:
+        add: Додати контейнер
+  date_type_structured:
+    range: Діапазон
+    single: Тип стандартизованої дати завершення
+  classification:
+    _frontend:
+      messages:
+        created: Класифікацію <strong>%{classification_title</strong> створено
+        deleted: Класифікацію <strong>%{classification_title</strong> видалено
+        updated: Класифікацію <strong>%{classification_title</strong> оновлено
+      action:
+        add: Додати класифікацію
+        create: Створити класифікацію
+        save: Зберегти класифікацію
+        add_child: Додати дитину
+      section:
+        search_embedded: Пов'язані записи
+        basic_information: Основна інформація
+  telephone:
+    _frontend:
+      action:
+        add: Додати номер телефону
+  extent:
+    _frontend:
+      action:
+        add: Додати екстент
+  linked_agent:
+    _frontend:
+      action:
+        make_primary: Зробити основним
+        add: Додати посилання агента
+        make_primary_tooltip: |
+          <p>Використовуйте, щоб вказати, який агент, пов’язаний із записом, є основним агентом. Тільки один пов’язаний агент може бути призначений як основний.</p>
+          <p>В експорті MARCXML основним агентом буде значення 1XX.</p> 
+    is_primary: Первинний
+  date:
+    _frontend:
+      expression_placeholder: Опишіть дату або діапазон дат
+      action:
+        add: Додати дату
+  container_location:
+    _frontend:
+      action:
+        add: Додати місцезнаходження
+  structured_date_single_fields:
+    date_standardized_type: Стандартизований тип дати
+    date_expression: Вираз дати
+    date_standardized: Стандартизована дата
+    date_role: Дата Роль
+  structured_date_range_fields:
+    end_date_standardized_type: Тип стандартизованої дати завершення
+    begin_date_standardized_type: Тип стандартизованої дати початку
+    end_date_expression: Вираз кінцевої дати
+    end_date_standardized: Кінцева стандартизована дата
+    begin_date_expression: Вираз початкової дати
+    begin_date_standardized: Початок стандартизованої дати
+  digital_object_component:
+    _frontend:
+      action:
+        add_child: Додати дитину
+        save: Зберегти компонент цифрового об'єкта
+        add_sibling: Додати брата/сестру
+      messages:
+        has_unpublished_ancestor: Зверніть увагу, що цей запис має 
+          неопублікованого предка.
+        updated_with_parent: Компонент цифрового об'єкта 
+          <strong>%{digital_object_component_display_string}<strong> створено на
+          основі цифрового об'єкта <strong>%{digital_object_title}<strong>
+        suppressed: Компонент цифрового об'єкта 
+          <strong>%{digital_object_component_display_string}<strong> пригнічено
+        created_with_parent: Компонент цифрового об'єкта 
+          <strong>%{digital_object_component_display_string}<strong> створено як
+          дочірній компонент <strong>%{parent_display_string}<strong> на 
+          цифровому об'єкті <strong>%{digital_object_title}<strong>
+        deleted: Компонент цифрового об'єкта 
+          <strong>%{digital_object_component_display_string</strong> видалено
+        updated: Компонент цифрового об'єкта 
+          <strong>%{digital_object_component_display_string</strong> оновлено
+        created: Компонент цифрового об'єкта 
+          <strong>%{digital_object_component_display_string}<strong> створено на
+          основі цифрового об'єкта <strong>%{digital_object_title}<strong>
+        unsuppressed: Компонент цифрового об'єкта 
+          <strong>%{digital_object_component_display_string</strong> 
+          розблоковано
+        suppressed_info: Компонент цифрового об'єкта приховано та не можна 
+          редагувати
+      section:
+        basic_information: Основна інформація
+      tree:
+        new_record_title: Новий компонент цифрового об'єкта
+  file_version:
+    _frontend:
+      action:
+        make_representative_tooltip: Використовується для позначення того, що це
+          зображення має відображатися, коли із записом пов’язано кілька версій 
+          файлу.
+        make_representative: Зробити представником
+        add: Додати версію файлу
+  group:
+    _frontend:
+      action:
+        save: Зберегти групу
+        create: Створити групу
+  agent_corporate_entity:
+    _frontend:
+      action:
+        save: Зберегти юридичну особу
+  structured_date_single:
+    _frontend:
+      action:
+        add: Додати одну дату
+  deaccession:
+    _frontend:
+      action:
+        add: Додати вилучення
+  agent_family:
+    _frontend:
+      action:
+        save: Зберегти родину
+  agent_software:
+    _frontend:
+      action:
+        save: Зберегти програмне забезпечення
+  agent_contact:
+    notes_tooltip: |
+      <p>Додаткові примітки або інша інформація про контакт.</p>
+    _frontend:
+      action:
+        make_representative: Зробіть бажаний контакт
+        add: Додати контакт
+    is_representative: Бажаний
+  collection_management:
+    _frontend:
+      title_prefix: Обробка
+      action:
+        add: Додати поля керування колекцією
+  structured_date_range:
+    _frontend:
+      action:
+        add: Додати діапазон дат
+  linked_record:
+    _frontend:
+      action:
+        add: Додати посилання на запис
+  external_document:
+    _frontend:
+      action:
+        add: Додати зовнішній документ
+  instance:
+    _frontend:
+      action:
+        add: Додати екземпляр
+        add_digital_object: Додати цифровий об'єкт
+      messages:
+        select_a_type: Будь ласка, виберіть тип екземпляра
+  agent_person:
+    _frontend:
+      action:
+        save: Зберегти особу

@@ -249,8 +249,8 @@ it:
     text_placeholder: Filtrato per testo
     component_switch: Mostra componenti
     help:
-      row_selection: Clicca una riga per selezionarla per le operazioni in
-        blocco. Tieni premuto ALT/Opzione mentre clicchi una casella di spunta per
+      row_selection: Clicca una riga per selezionarla per le operazioni in 
+        blocco. Tieni premuto ALT mentre clicchi una casella di spunta per 
         selezionare, o deselezionare, precedenti righe multiple.
     clear_all: Cancella tutto
   search_sorting:
@@ -596,7 +596,7 @@ it:
     top_containers_for: "Top Container per %{record_title}"
     no_top_containers: Nessun top container collegato
     edit_top_container: Modifica Top Container
-    view_top_container: Visualizza Top Container
+    view_top_container: Top Container
     become-user: Diventa utente
     brand: Spazio archivi
     create: Creare
@@ -800,6 +800,33 @@ it:
           proprietà di tale tipo. L'operazione verrà eseguita su ogni record di 
           destinazione nell'albero del record di base, oppure sul record di base
           stesso se il tipo di destinazione è "Risorsa".
+        slug_generation: Questo processo genererà slug per tutte le 
+          <b>Risorse</b>, <b>Oggetti di archivio</b>, <b>Oggetti digitali</b>, 
+          <b>Componenti di oggetti digitali</b>, <b>Accensioni</b>, 
+          <b>Classificazioni</b>, <b>Agenti</b>, <b>Soggetti</b> e 
+          <b>Repository</b> che non dispongono già di uno slug aggiunto 
+          manualmente. <br /><br /><em>Gli slug aggiunti manualmente non 
+          verranno modificati, a meno che non sia stata selezionata la casella 
+          "Genera automaticamente slug" nel record per indicare che lo slug deve
+          essere sostituito.</em>
+        slug_lost_warning: ATTENZIONE! Tutti gli slug generati automaticamente 
+          verranno rigenerati! Questa operazione si applica a tutti i record in 
+          tutti i repository.
+        slug_config_cuid: Gli slug per gli <b>oggetti di archivio</b> verranno 
+          generati utilizzando l'ID univoco del componente, ove appropriato.
+        slug_config_id: Gli slug verranno generati utilizzando l'identificativo 
+          dell'entità, ove appropriato.
+        slug_config_title: Gli slug verranno generati utilizzando il nome o il 
+          titolo dell'entità.
+        report_instructions: Seleziona il report da eseguire utilizzando il 
+          pulsante <b>Seleziona</b>.
+        ark_generation: Questo processo genererà ARK per tutte le <b>Risorse</b>
+          e gli <b>Oggetti di archivio</b> che non ne possiedono già uno. <br 
+          /><br /><em>Gli ARK esterni non verranno modificati.</em>
+        slug_config_msg: <b>In base alle impostazioni di configurazione presenti
+          nel file config.rb:</b>
+        slug_config_eadid: Gli slug per le <b>Risorse</b> verranno generati 
+          utilizzando l'ID EAD, ove appropriato.
   shortcuts:
     quick_reference_window: "Riferimento rapido: scorciatoie da tastiera"
     actions:
@@ -1729,3 +1756,11 @@ it:
         arrow_keys: Tasti freccia
         return: Ritorno
         move_term: Salto da cellula a cellula
+  instance_container:
+    container: Contenitrice
+  sub_container:
+    type_2: Tipo di bambino
+    top_container_tooltip: |
+      <p>CAMPO OBBLIGATORIO. Il contenitore di livello più alto in cui è alloggiato il materiale descritto.</p>
+      <p>Può essere selezionato da un elenco esistente di contenitori di livello superiore utilizzando le funzioni di completamento automatico o Sfoglia, oppure creato utilizzando la funzione Crea.</p>
+    top_container: Contenitore superiore
