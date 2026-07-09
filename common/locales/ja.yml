@@ -108,7 +108,6 @@ ja:
     _plural: デジタルオブジェクト
 
     new_title: 新しいデジタルオブジェクト
-    linker:
   digital_object_component:
     <<: *digital_object_attributes
     label: ラベル
@@ -165,7 +164,6 @@ ja:
     _singular: ロケーション
     _plural: 場所
 
-    linker:
   location_batch:
     <<: *location_attributes
     label: ラベル
@@ -213,7 +211,6 @@ ja:
     _singular: レコードリンク
     _plural: レコードリンク
 
-    linker_ref:
   linked_agent: &linked_agent_attributes
     role: 役割
     role_tooltip: "<p>必要なフィールド。エージェントが特定の説明レコードへのリンクに関してどのような機能（作成者、ソース、またはサブジェクト）を持っているかを示す。</p><p>DACS
@@ -997,7 +994,6 @@ ja:
     last_modified_by: 最終更新者
     create_time: 作成した
     user_mtime: 更新日
-    linker:
   interrelated_accession:
     _plural: 関連するアクセス
     relationship_type: 関係タイプ
@@ -1068,8 +1064,6 @@ ja:
     _singular: エージェント
     _plural: エージェント
 
-    new_title:
-    linker:
   related_agents_agent_person:
     related_agents: 関連エージェント
   related_agents_agent_family:
@@ -1170,7 +1164,6 @@ ja:
     _singular: グループ
     _plural: グループ
 
-    default_group_names:
   resource:
     <<: [*archival_object_attributes, *section_tooltips]
     user_defined:
@@ -1307,7 +1300,6 @@ ja:
     publish: 公開しますか？
     publish_tooltip: "<p>このリポジトリとそれに含まれるレコードがパブリック（パトロン）インターフェイスに公開されるかどうかを決定します。 </p>"
 
-    linker:
   term:
     term: 期間
     term_tooltip: "<p>必要なフィールド。サブジェクト見出しの一部の記述子。件名の見出しには少なくとも1つの用語が関連付けられていなければなりません。 </p>"
@@ -1335,7 +1327,6 @@ ja:
     _singular: 件名
     _plural: 科目
 
-    linker:
   user:
     username: ユーザー名
     username_tooltip: "<p>必要なフィールド。ユーザーがアプリケーションの認証に使用するアカウントのユーザー名。 許可される文字には、a〜z、A〜Z、@、数字、ハイフン、ダッシュ、およびドットが含まれます。</p>"
@@ -1431,7 +1422,6 @@ ja:
     creator: クリエイター
     id_separator: "/"
 
-    linker:
   classification_term:
     <<: *slug_attributes
     _singular: 分類期間
@@ -1441,7 +1431,6 @@ ja:
     description: 説明
     creator: クリエイター
 
-    linker:
   preference:
     defaults: デフォルト
     global: グローバルプリファレンスのデフォルト
@@ -1829,7 +1818,6 @@ ja:
     _singular: 評価
     _plural: アセスメント
 
-    linker:
   assessment_attribute:
     rating:
       Reformatting Readiness: 再フォーマットの準備
@@ -2341,9 +2329,3 @@ ja:
   user_mtime: 更新日
   groups:
     _plural: グループ
-  arks:
-    ark_editor_errors:
-  container_profile:
-  bulk_import_template:
-  ns2_remover_job:
-  location_profile:
