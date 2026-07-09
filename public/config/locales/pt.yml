@@ -157,9 +157,6 @@ pt:
       all: "Todos de uma vez"
       loading: Carregando
 
-    _public:
-      finding_aid:
-      related_accessions:
   digital_object:
     _singular: Registro Digital
     _plural: Materiais Digitais
@@ -179,63 +176,3 @@ pt:
     table_of_contents: Índice
     return_to_table_of_contents: Voltar ao índice
     publication_statement: Declaração de publicação
-  agent_notes:
-  agent_person:
-  skipnav:
-  boolean:
-  record:
-  agent_occupation:
-  coll_obj:
-  archival_object:
-    _public:
-      header:
-  agent:
-    _public:
-      section:
-  accession:
-    _public:
-      section:
-      related_accessions:
-  use_date:
-  agent_contact:
-  pdf_error:
-    headings:
-    additional_info:
-    location:
-  languages:
-  errors:
-  readmore:
-  metadata_rights_declaration:
-  inherit:
-  repository:
-  search_sorting:
-  date_label:
-  agent_identifier:
-  agent_family:
-  advanced_search:
-    operator:
-  top_container:
-  accordion:
-  agent_record_identifier:
-  agent_gender:
-  pui_agent:
-  agent_topic:
-  bulk:
-  used_language:
-  internal_links:
-  agent_function:
-  classification:
-    _public:
-      actions:
-  agent_resource:
-  structured_date_label:
-  record_group:
-  classification_term:
-  archive:
-  agent_place:
-  telephone:
-  agent_software:
-  agent_corporate_entity:
-  subject:
-  navbar:
-  footer:

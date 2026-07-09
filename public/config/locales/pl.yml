@@ -496,8 +496,3 @@ pl:
     additional_info:
       invalid_markup: Błąd ten może być spowodowany nieprawidłowym oznaczeniem w notatce lub 
         podrekordach.
-  record:
-  date_label:
-  agent_topic:
-  structured_date_label:
-  agent_place:

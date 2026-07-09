@@ -587,7 +587,3 @@ es:
 
   languages:
     select: Seleccione el idioma
-  pdf_error:
-    headings:
-    additional_info:
-    location:
