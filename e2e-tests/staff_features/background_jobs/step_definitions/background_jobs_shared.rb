@@ -12,21 +12,6 @@ Given 'the user fills in and selects the Resource from the search field' do
   dropdown_item.click
 end
 
-Then 'the {string} page is displayed' do |string|
-  tries = 0
-
-  loop do
-    expect(find('h2').text).to start_with string
-
-    break
-  rescue RSpec::Expectations::ExpectationNotMetError => e
-    tries += 1
-    sleep 3
-
-    raise e if tries == 5
-  end
-end
-
 Then 'the job completes' do
   tries = 0
 

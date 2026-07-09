@@ -10,7 +10,7 @@ Feature: Subject Import with the LCNAF Import Plug-In
       And the user clicks on 'Search'
       And the user selects the first LCNAF importer search result
       And the user clicks on 'Import'
-     Then the Import Job page is displayed
+     Then the 'Import Job' page is displayed
       And the job completes
       And the following message is displayed
         | The job has completed. |
