@@ -196,14 +196,6 @@ es:
     uncheck_all: Desmarcar todos
     download: Descargar
     drop_before: Soltar antes
-    collapse_tree: ''
-    select_resource: ''
-    expand_tree_mode_on: ''
-    drop_after: ''
-    drop_into: ''
-    require_subrecord: ''
-    expand_tree_mode_off: ''
-    reorder_successful: ''
   database_warning:
     message: "<p><strong>Advertencia de base de datos:</strong> Actualmente está utilizando
       la base de datos integrada (Apache Derby). La base de datos integrada es solo
@@ -293,8 +285,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
-      representative_file_version: ''
     resource:
       score: Relevancia
       title: Título
@@ -317,8 +307,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      representative_file_version: ''
-      uri: ''
     archival_object:
       score: Relevancia
       title: Título
@@ -335,8 +323,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
-      representative_file_version: ''
     subject:
       score: Relevancia
       source: Fuente
@@ -348,7 +334,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
     digital_object:
       score: Relevancia
       title: Título
@@ -366,8 +351,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
-      representative_file_version: ''
     digital_object_component:
       score: Relevancia
       title: Título
@@ -381,8 +364,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      representative_file_version: ''
-      uri: ''
     agent:
       score: Relevancia
       title: Nombre
@@ -397,7 +378,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
     location:
       score: Relevancia
       title: Ubicación
@@ -419,7 +399,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
     event:
       score: Relevancia
       agents: Autoridades
@@ -431,7 +410,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
     collection_management:
       score: Relevancia
       parent_title: Título
@@ -446,8 +424,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      name: ''
-      uri: ''
     classification:
       score: Relevancia
       title: Título
@@ -459,7 +435,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
     assessment:
       score: Relevancia
       assessment_id: ID
@@ -482,7 +457,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
     repositories:
       score: Relevancia
       title: Título
@@ -492,7 +466,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
     top_container:
       score: Relevancia
       title: Título
@@ -508,11 +481,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      exported_to_ils: ''
-      uri: ''
-      series_level_u_sstr: ''
-      ils_holding_id: ''
-      collection_identifier_stored_u_sstr: ''
     container_profile:
       score: Relevancia
       title: Título
@@ -526,8 +494,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
-      notes: ''
     location_profile:
       score: Relevancia
       title: Título
@@ -541,7 +507,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
     job:
       score: Relevancia
       status: Estado
@@ -557,7 +522,6 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-      uri: ''
     multi:
       score: Relevancia
       primary_type: Tipo de registro
@@ -576,30 +540,10 @@ es:
       langcode: Lenguaje de materiales
       asc: Ascendente
       desc: Descendente
-      uri: ''
-      representative_file_version: ''
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Repositorio
 
 
-    top_container_mgmt:
-      not_exported_to_ils: ''
-      restricted: ''
-      indicator: ''
-      series: ''
-      asc: ''
-      location_profile: ''
-      desc: ''
-      ils_holding_id: ''
-      not_restricted: ''
-      barcode: ''
-      resource_accession_id: ''
-      exported_to_ils: ''
-      container_profile: ''
-      internal_note: ''
-      location: ''
-      type: ''
-      resource_accession: ''
   advanced_search:
     operator:
       operator: Operadora
@@ -630,7 +574,6 @@ es:
       empty: esta vacio
     enum_field:
       empty: sin asignar
-      label: ''
     search_field: Campo de búsqueda
     search_text: Buscar texto
     search_date: Fecha
@@ -735,18 +678,6 @@ es:
     password_placeholder: Contraseña
     username_aria_label: Nombre de usuario
     password_aria_label: Contraseña de usuario
-    email_placeholder: ''
-    reset_password: ''
-    new_password_instructions: ''
-    confirm_password: ''
-    password_too_simple: ''
-    lost_password: ''
-    new_password: ''
-    recover_password: ''
-    password_update_success: ''
-    reset_form_instructions: ''
-    password_update_error: ''
-    password_mismatch_error: ''
   breadcrumb:
     home: Página de inicio
 
@@ -883,8 +814,6 @@ es:
         create: Crear acta de ingreso
         save: Guardar el acta de ingreso
 
-    component_link: ''
-    component_links: ''
   agent:
     _frontend:
       messages:
@@ -994,12 +923,6 @@ es:
         has_unpublished_ancestor: Por favor tenga en cuenta que este registro 
           tiene un padre que es inédito.
         delete_conflict: "Objeto de archivo no pudo ser eliminado: <pre>%{error}</pre>"
-        spawn_menu_before: ''
-        spawned: ''
-        transfer_description: ''
-        spawn_menu_after: ''
-        spawn_menu_child: ''
-        spawn_placeholder: ''
       section:
         basic_information: Información básica
       action:
@@ -1008,14 +931,10 @@ es:
         add_duplicate: Agregar duplicado
         save: Guardar objeto de archivo
         bulk_import: Carga a través de la hoja de cálculo
-        select_resource: ''
-        select_parent_and_position: ''
-        leave_parent_empty: ''
       tree:
         new_record_title: Nuevo objeto de archivo
         duplicated_record_title: Crear objeto de archivo duplicado
 
-    new_title: ''
   classification:
     _frontend:
       messages:
@@ -1211,7 +1130,6 @@ es:
         add: Añadir la versión del archivo
         make_representative: Hacer representante
 
-        make_representative_tooltip: ''
   group:
     _frontend:
       action:
@@ -1303,20 +1221,11 @@ es:
         use_date: Fecha (s) del nombre de uso
         dates: fechas
         parallel_names: Nombres paralelos
-        function_subject: ''
-        topic_subject: ''
-        occupation_subject: ''
-        place_subject: ''
-        name_subject: ''
       action:
         add: Agregar un formulario de nombre
         make_authorized: Convertir en nombre autorizado
         make_display_name: Convertir en nombre a presentar en pantalla
 
-        make_authorized_tooltip: ''
-        make_primary: ''
-        make_display_name_tooltip: ''
-        make_primary_tooltip: ''
   note:
     _frontend:
       preview:
@@ -1404,7 +1313,6 @@ es:
         select: Seleccione repositorio
         save: Guardar repositorio
         create: Crear repositorios
-        order_for_pui: ''
     _sidebar:
       oai_settings:
         _plural: Ajustes de cosecha OAI
@@ -1438,15 +1346,10 @@ es:
         load_bulk: Carga a través de la hoja de cálculo
         save: Guardar fondos
         delete_multiple: Eliminar fondos
-      remove_subrecord: ''
     external_ark_url: External ARK URL
     external_ark_url_tooltip: Identificador persistente de Archival Resource Key
       (ARK) generado fuera de ArchivesSpace. Si este campo tiene un valor, tiene
       prioridad sobre un ARK generado dentro de ArchivesSpace.
-    linker:
-      browse: ''
-      link_title: ''
-      link_to: ''
   preference:
     _frontend:
       messages:
@@ -1511,16 +1414,11 @@ es:
         deactivated: Usuario desactivado
         error_activate: Usuario no activado
         error_deactivate: Usuario no desactivado
-        password_reset_email_sent: ''
-        error_not_found: ''
-        password_reset_fail: ''
-        password_reset_not_allowed: ''
       section:
         manage_access: Administrar el acceso de usuario
         account: Cuenta
         edit_account: Editar cuenta
         edit_account_submit: Actualizar la cuenta
-        new_account: ''
       action:
         create_account: Crear cuenta
         update_account: Actualizar la cuenta
@@ -1535,10 +1433,8 @@ es:
 
         edit: Editar usuario
         show_active: Mostrar usuarios activos
-        update_self: ''
     active: 'true'
     inactive: falso
-    source: ''
   user_defined:
     _frontend:
       action:
@@ -1610,31 +1506,9 @@ es:
       error_summary_header: "Errores en fila"
       select_prompt: Aplicar una plantilla RDE
     help:
-      keyboard_shortcuts:
-        new_term: ''
-        title: ''
-        shift: ''
-        arrow_keys: ''
-        move_term: ''
-        return: ''
-      sticky_columns:
-        p_one: ''
-        p_two: ''
-        title: ''
-      fill_column:
-        sequence_description: ''
-        basic_title: ''
-        basic_description: ''
-        sequence_title: ''
       resize_and_reorder_columns: |
         <div><strong>Reordenar Columnas</strong></div>
         <div><small>Click <strong>Reordenar columnas </strong>, seleccione la fila (s) que desea reordenar y utilizar los / abajo botones de flecha arriba para cambiar su posición en la lista. Cuando feliz con su nuevo pedido, haga clic en <strong> Aplicar orden de las columnas</strong></small></div>
-      reset:
-        title: ''
-        description: ''
-      reorder_columns:
-        title: ''
-        description: ''
   update_monitor:
     save_failed: <strong>Error al guardar los cambios</strong>
     stale_record: Este documento ha sido actualizado por otro usuario. Por 
@@ -1716,9 +1590,6 @@ es:
           </b> y <b> Objetos de archivo </b> que aún no tienen un ARK. <br/> 
           <br/> <em> ARK externos no se cambiarán. </em>
 
-      external_repo: ''
-      singular: ''
-      plural: ''
   shortcuts:
     quick_reference_window: "Referencia: accesos directos del teclado "
     actions:
@@ -1913,23 +1784,6 @@ es:
         has_location_true: "Si"
         has_location_false: "No"
 
-        collection_accession_linker:
-          create: ''
-          browse: ''
-          link_title: ''
-        rapid_indicator_entry_help: ''
-        collection_resource_linker:
-          link_title: ''
-          create: ''
-          browse: ''
-        rapid_indicator_entry_new_indicator: ''
-        rapid_indicator_entry: ''
-    linker:
-      browse: ''
-      link_title: ''
-      create: ''
-    internal_note_tooltip: ''
-    internal_note: ''
   container_profile:
     _singular: Perfil de contenedor
     _plural: Perfiles de contenedores
@@ -1999,12 +1853,6 @@ es:
     stacking_limit_tooltip: |
       <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo o cero.</p>
 
-    linker:
-      create: ''
-      browse: ''
-      link_title: ''
-    notes_tooltip: ''
-    notes: ''
   rights_restriction:
     begin: Comienzo de la restricción
     begin_tooltip: |
@@ -2041,7 +1889,6 @@ es:
       _singular: contenedor
       _plural: contenedores
 
-    required_fields_alert_message: ''
   location_profile:
     _singular: Perfil de ubicación
     _plural: Perfiles de ubicación
@@ -2065,10 +1912,6 @@ es:
     height: Altura
     width: Anchura
 
-    linker:
-      link_title: ''
-      browse: ''
-      create: ''
   space_calculator:
     modal_title: Calculadora de espacio
     modal_loading: Cargando...
@@ -2262,12 +2105,10 @@ es:
       action:
         create: Crear plantilla
         save: Guardar plantilla
-        search_usernames: ''
       messages:
         created: Plantilla de informe personalizado creado
         updated: Plantilla de informe personalizado actualizada
         copied: Plantilla de informe personalizada copiada
-    new_title: ''
   oai_config:
     title: Configuraciones OAI-PMH
     title_repo_section: Configuraciones por repositorio OAI-PMH
@@ -3560,7 +3401,6 @@ es:
       ubicación, no para vincular materiales a ubicaciones.
     aspace_assessment_import_template_csv: Cree y vincule evaluaciones a 
       accesiones, recursos, objetos de archivo u objetos digitales existentes.
-    aspace_subject_import_template_csv: ''
   footer:
     keyboard_shortcuts: Atajos de teclado
     archivesspace_home_html: Impulsado por <a 
@@ -3569,14 +3409,6 @@ es:
       target='_blank'>Comentarios o preguntas</a>
     public_interface_html: Vistar <a href="%{public_url}">Interfaz Pública</a>
   accession_link:
-    _plural: ''
-    _singular: ''
-    _frontend:
-      action:
-        add: ''
+    _frontend: {}
   component_link:
-    _frontend:
-      action:
-        add: ''
-    _singular: ''
-    _plural: ''
+    _frontend: {}
