@@ -6,6 +6,12 @@ Given 'the user is on the {string} background job page' do |string|
   click_on string
 end
 
+Given 'the user fills in and selects the Resource from the search field' do
+  fill_in 'token-input-job_source_', with: @uuid
+  dropdown_item = find('div.token-input-dropdown li', text: @uuid, wait: 5)
+  dropdown_item.click
+end
+
 Then 'the {string} page is displayed' do |string|
   tries = 0
 

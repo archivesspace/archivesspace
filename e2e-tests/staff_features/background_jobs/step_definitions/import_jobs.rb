@@ -10,21 +10,6 @@ When 'the user adds {string} as a file' do |file_path|
   attach_file('files[]', file_path, make_visible: true)
 end
 
-#Then 'the Import Job page is displayed' do
-#  tries = 0
-#
-#  loop do
-#    expect(find('h2').text).to start_with 'Import Job'
-#
-#    break
-#  rescue RSpec::Expectations::ExpectationNotMetError => e
-#    tries += 1
-#    sleep 3
-#
-#    raise e if tries == 5
-#  end
-#end
-
 Then 'the New & Modified Records section contains {int} links' do |number|
   links = all('#jobRecordsSpool > div.subrecord-form-fields > div > a')
   expect(links.count).to eq(number)

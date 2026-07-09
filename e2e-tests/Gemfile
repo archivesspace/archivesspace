@@ -11,3 +11,4 @@ gem 'rake'
 gem 'rspec-expectations'
 gem 'rubocop', require: false
 gem 'selenium-webdriver'
+gem 'pdf-reader'

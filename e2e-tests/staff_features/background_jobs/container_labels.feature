@@ -4,7 +4,7 @@ Feature: Container Labels
       And a Resource with an Archival Object and a Container Instances has been created
   Scenario: Run Container Labels background job
     Given the user is on the 'Container Labels' background job page
-      And the user fills in and selects the Resource from the Download Container Labels field
+      And the user fills in and selects the Resource from the search field
       And the user clicks on 'Start Job'
      Then the 'container_labels_job' page is displayed
       And the job completes
