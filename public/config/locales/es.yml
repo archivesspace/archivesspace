@@ -195,6 +195,7 @@ es:
       por las molestias. Por favor, inténtelo de nuevo más tarde.
     unexpected_error: Su solicitud no se pudo completar debido a un error inesperado
 
+    invalid_search_params: ''
   boolean:
     "true": "Si"
     "false": "No"
@@ -277,6 +278,7 @@ es:
         forms_part_of: Relación de parte
         sibling_of: Relación de hermanos
 
+        has_part: ''
   archival_object:
     _public:
       section: {}
@@ -342,6 +344,8 @@ es:
       identifier_ark: ID [ark]
       uri: ID [aspace_uri]
       identifier_pdf: ID
+      ark_link_name: ''
+      lang_pdf: ''
     load_records:
       alert: "Esta colección contiene %{count} registros."
       showing: "Mostrando"
@@ -372,6 +376,8 @@ es:
         one: Buscar %{num} objeto digital en la colección
         many: Buscar %{num} objetos digitales en la colección
         other:
+      url_encoded_data: ''
+      additional: ''
   digital_object_component:
     _public:
       section: {}
@@ -468,6 +474,8 @@ es:
     your_finding_aid_is_attached: The finding aid you requested is attached.
     accessrestrict: Nota de condiciones de acceso
     userestrict: Nota de restricciones de uso
+    accruals: ''
+    acqinfo: ''
   readmore:
     see_more: Ver más
     see_less: Ver menos
@@ -587,3 +595,20 @@ es:
 
   languages:
     select: Seleccione el idioma
+  pdf_error:
+    headings:
+      additional_info: ''
+      type: ''
+      message: ''
+      location: ''
+    additional_info:
+      invalid_markup: ''
+    location:
+      location_footer: ''
+      location_title_page: ''
+      location_resource: ''
+      location_header: ''
+      location_archival_object: ''
+      location_toc: ''
+    description: ''
+    title: ''
