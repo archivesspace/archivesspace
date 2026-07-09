@@ -756,7 +756,6 @@ uk:
       not_exported_to_ils: Не експортовано
       asc: Зростаючий
       desc: Спадання
-      resource_accession_id: ''
     container_profile:
       score: Релевантність
       title: Назва
@@ -2368,7 +2367,6 @@ uk:
   digital_object:
     _frontend:
       messages:
-        transfer_description: ''
         merged: Об'єднані цифрові об'єкти
         merge_description: Виберіть цифрові об'єкти нижче для об'єднання
         deleted: Цифровий об'єкт <strong>%{digital_object_title}<strong> 
